@@ -140,3 +140,30 @@ python -m scripts.pettripfinder.discovery.census_recandidacy   --prior-census <c
 PTF_IDENTITY_CENSUS_DIR=launch_packages/pettripfinder/identity_census_proposed python scripts/pettripfinder/market_factory_cli.py --market <id>   --contract launch_packages/pettripfinder/markets/<id>.json   --candidates <merged candidates> --discovery-cache <cache>   --prior-census <committed census> --prior-artifact "<prior reports glob>" ...
 python scripts/pettripfinder/discovery/prior_build_reconciliation.py   --prior-census <committed census> --new-census <proposed census>   --candidate-ledger <ledger> --absorptions <merged>_prior_absorptions.json   --policy-package launch_packages/pettripfinder/hotel_policy_facts_<id>.json --out <report>
 ```
+
+
+## Promoting a re-censused, registered market (PTF-INDIANAPOLIS-PROMOTION-AUTHORITY-PREP-003)
+
+After the founder review is CLOSED, promotion is prepared in a SHADOW, never in place:
+
+1. **Fix the store's capture time first.** `market_observation_store` derives `observed_at` from the
+   journal's `completed_at` (`capture_time.basis = acquisition_journal_completed_at`); a store built
+   before that fix carries a literal date and must be rebuilt from the same closeout (no refetch).
+2. **Plan as data.** `<market>_census_promotion_plan_<n>.json` (schema `ptf-census-promotion-plan/1.0`)
+   is derived from the closed ledger: renames, merges, retirements, address supersessions, phone/URL
+   corrections, fact corrections with the quotes they rest on, and the HOLD rulings.
+3. **`scripts/pettripfinder/census_promotion.py`** applies the plan to a COPY of the proposed census
+   (`identity_census_promotion/<market>.json`), re-keys renamed rows by `ptf_identity_key/1.0`,
+   validates against the census contract, and re-keys the merged closeout so the store joins the shadow
+   row for row. The pinned census is never written.
+4. **Founder rulings go through `markets/founder_overrides/<market>.json`**: `identity_overrides`
+   (adjudicate M10 on street + property code), `fact_overrides` (set/unset/unwithhold/withhold, every
+   assertion cited to a quote that must be contiguous in the persisted page), keyed by the
+   POST-promotion keys. The store is rebuilt from the re-keyed closeout + shadow census + overrides.
+5. **Signature view + proposed authority.** A ledger-shaped signature view (one signed row per surviving
+   identity, bound to the promotion store's snapshot hashes, HOLD resolutions carried by the work order
+   that made them) feeds `market_proposed_authority_cli.py`. The proposed authority is NOT a shard.
+6. **Prove, then stop.** The semantic-rebinding proof (packet vs packet under the key map) must explain
+   every moved row by a founder correction, rename or merge; the validation script must pass all eight
+   checks. Replacing the pinned census, the release contract, launch participation, publication and
+   deployment remain founder-authorised steps outside the preparation order.

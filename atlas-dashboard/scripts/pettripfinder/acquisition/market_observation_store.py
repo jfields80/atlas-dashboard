@@ -30,8 +30,10 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from collections import Counter, OrderedDict
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, List, Mapping, Optional, Sequence, Tuple
 
@@ -45,6 +47,8 @@ from scripts.pettripfinder.brightdata import marriott_surface as MS      # noqa:
 from scripts.pettripfinder.brightdata import policy_surface as PS        # noqa: E402
 from scripts.pettripfinder.brightdata import publication_grade as PG     # noqa: E402
 from scripts.pettripfinder.brightdata import unlocker_capture as UC      # noqa: E402
+from scripts.pettripfinder.contracts import enums                        # noqa: E402
+from scripts.pettripfinder.contracts import evidence as EV               # noqa: E402
 from scripts.pettripfinder.discovery.property_identity import street_identity  # noqa: E402
 from scripts.pettripfinder.policy import policy_membrane as MEMBRANE     # noqa: E402
 from scripts.pettripfinder.policy import policy_observation as PO        # noqa: E402
@@ -107,6 +111,49 @@ _BROWSER_PROVIDERS = frozenset({"brightdata_browser"})
 def _capture_method(result: Mapping) -> str:
     return ("browser_assisted" if result.get("provider") in _BROWSER_PROVIDERS
             else "deterministic_fetch")
+
+
+#: Where an observation's capture time came from. The journal is the durable
+#: record of the paid pass and is the only source that says WHEN a page was
+#: fetched; the artifact's mtime is a fallback for a result row that reached
+#: the store without one, and is named as such so nobody mistakes it for the
+#: journal.
+CAPTURE_TIME_FROM_JOURNAL = "acquisition_journal_completed_at"
+CAPTURE_TIME_FROM_ARTIFACT_MTIME = "artifact_mtime"
+
+_ISO_DATE_PREFIX_RE = re.compile(r"^(\d{4}-\d{2}-\d{2})")
+
+
+def _capture_time(result: Mapping, html_path: Path) -> "OrderedDict":
+    """When this page was actually fetched, and how that is known.
+
+    PTF-DEFECT-OBSERVATION-STORE-TIMESTAMP-001: this builder used to write the
+    literal date ``2026-08-23`` into ``observed_at`` and ``retrieved_at`` of
+    every observation it produced, regardless of when the capture happened.
+    The date travels into every authority row, so a wrong one is a wrong fact
+    about the source on a published page.
+
+    The paid pass journals each completed property with ``completed_at``
+    (ISO-8601 UTC), and the merged acquisition report carries that value on
+    the result row. That is the capture time. A result without one falls back
+    to the primary artifact's modification time, in UTC, and says so.
+    """
+    stamp = str(result.get("completed_at") or "")
+    match = _ISO_DATE_PREFIX_RE.match(stamp)
+    if match:
+        return OrderedDict((
+            ("observed_at", match.group(1)),
+            ("retrieved_at", match.group(1)),
+            ("captured_at_utc", stamp),
+            ("basis", CAPTURE_TIME_FROM_JOURNAL),
+        ))
+    modified = datetime.fromtimestamp(html_path.stat().st_mtime, tz=timezone.utc)
+    return OrderedDict((
+        ("observed_at", modified.strftime("%Y-%m-%d")),
+        ("retrieved_at", modified.strftime("%Y-%m-%d")),
+        ("captured_at_utc", modified.isoformat(timespec="seconds")),
+        ("basis", CAPTURE_TIME_FROM_ARTIFACT_MTIME),
+    ))
 
 
 def _hotel_ref(result: Mapping, *, market_id: str,
@@ -177,11 +224,111 @@ def _apply_allowance_override(observation: Dict, override: Mapping) -> None:
     )))
 
 
+class FactOverrideError(ValueError):
+    """A founder fact override that the persisted page cannot support."""
+
+
+def _page_haystacks(html_path: Path, text_path: Path) -> List[Tuple[str, str]]:
+    haystacks: List[Tuple[str, str]] = []
+    if text_path.is_file():
+        haystacks.append(("page-text.txt", _read(text_path)))
+    if html_path.is_file():
+        haystacks.append(("rendered.html", UC.html_to_text(_read(html_path))))
+    return haystacks
+
+
+def _apply_fact_override(*, extraction: Dict, withheld: Dict, evidence: List[Dict],
+                         override: Mapping, html_path: Path, text_path: Path,
+                         identity_key: str) -> "OrderedDict":
+    """Write a founder's FACT ruling onto an extraction, cited to the page.
+
+    PTF-INDIANAPOLIS-FOUNDER-REVIEW-002 decided 19 rows APPROVE_WITH_CHANGE:
+    a fee the locator dropped, a weight the static lane cut off, a species the
+    page states after the block, a deposit the reader spliced, an allowance
+    the parser missed, and two fields the founder WITHHELD because the page
+    contradicts itself. Each is a ruling a reader may not make for itself, and
+    each rests on words that are on the persisted page. So:
+
+      * every value SET or field UNWITHHELD must cite at least one quote, and
+        every cited quote must be contiguous in the persisted page text -- the
+        same bar ``publication_grade`` applies to the reader's own quotes. A
+        quote the page does not carry refuses the whole override.
+      * a WITHHELD field is removed from the extraction and recorded with the
+        founder's reason; the conflicting quotes stay on the ruling, not in
+        the evidence, because a withholding asserts nothing.
+      * only fields in the observation vocabulary may be touched, and a
+        withheld reason must be one the contract allows in withheld_fields.
+      * what was there before is recorded beside what is there now.
+    """
+    fields_set = dict(override.get("set") or {})
+    unset = list(override.get("unset") or ())
+    unwithhold = list(override.get("unwithhold") or ())
+    withhold = dict(override.get("withhold") or {})
+    quotes = [str(q) for q in (override.get("cited_quotes") or ())]
+    touched = set(fields_set) | set(unset) | set(unwithhold) | set(withhold)
+    unknown = sorted(touched - PO.EXTRACTION_FIELDS)
+    if unknown:
+        raise FactOverrideError("%s: fact override names fields outside the "
+                                "observation vocabulary: %s" % (identity_key, unknown))
+    for reason in withhold.values():
+        if reason not in enums.WITHHELD_FIELD_REASONS:
+            raise FactOverrideError("%s: withheld reason %r is not in the contract"
+                                    % (identity_key, reason))
+    if (fields_set or unwithhold) and not quotes:
+        raise FactOverrideError("%s: a fact override that asserts something must "
+                                "cite the page" % identity_key)
+    haystacks = _page_haystacks(html_path, text_path)
+    found_in: Dict[str, str] = {}
+    for quote in quotes:
+        where = next((name for name, text in haystacks
+                      if EV.quote_is_contiguous(quote, text)), "")
+        if not where:
+            raise FactOverrideError("%s: cited quote %r is not contiguous in the "
+                                    "persisted page" % (identity_key, quote))
+        found_in[quote] = where
+
+    before_facts = {k: extraction.get(k) for k in touched if k in extraction}
+    before_withheld = {k: withheld.get(k) for k in touched if k in withheld}
+    for name in unset:
+        extraction.pop(name, None)
+    for name in unwithhold:
+        withheld.pop(name, None)
+    for name, value in fields_set.items():
+        extraction[name] = value
+        withheld.pop(name, None)
+    for name, reason in withhold.items():
+        extraction.pop(name, None)
+        withheld[name] = reason
+    asserted = sorted(set(fields_set) | set(unwithhold))
+    if asserted:
+        for quote in quotes:
+            evidence.append(OrderedDict((
+                ("quote", quote),
+                ("location", "founder-cited quote from the persisted page "
+                             "(%s, ledger row %s)" % (override.get("work_order", ""),
+                                                      override.get("ledger_row", ""))),
+                ("field_refs", list(asserted)),
+            )))
+    return OrderedDict((
+        ("kind", "FACT"),
+        ("ledger_row", override.get("ledger_row", "")),
+        ("set", fields_set), ("unset", unset), ("unwithheld", unwithhold),
+        ("withheld", withhold),
+        ("was_facts", before_facts), ("was_withheld", before_withheld),
+        ("cited_quotes", quotes), ("quotes_found_in", found_in),
+        ("decided_by", override.get("decided_by", "")),
+        ("decided_at", override.get("decided_at", "")),
+        ("work_order", override.get("work_order", "")),
+        ("ruling", override.get("founder_ruling", "")),
+    ))
+
+
 def observation_for(result: Mapping, *, run_id: str, market_id: str,
                     census_row: Optional[Mapping] = None,
                     corrected_name: str = "",
                     allowance: Optional[Mapping] = None,
-                    identity_override: Optional[Mapping] = None
+                    identity_override: Optional[Mapping] = None,
+                    fact_overrides: Sequence[Mapping] = ()
                     ) -> Tuple[Optional[Dict], Optional[Dict], str]:
     """``(observation, publication_grade, refusal_reason)`` for one result."""
     attempt_dir = Path(result.get("artifact_dir") or "")
@@ -213,6 +360,16 @@ def observation_for(result: Mapping, *, run_id: str, market_id: str,
                  % (strategy, locator.get("selector") or "no path"))
 
     html_sha = BC.sha256_file(html_path)
+    capture_time = _capture_time(result, html_path)
+    extraction = dict(extraction_result.extraction)
+    withheld = dict(extraction_result.withheld)
+    evidence = [dict(item) for item in extraction_result.evidence]
+    fact_rulings = [
+        _apply_fact_override(extraction=extraction, withheld=withheld,
+                             evidence=evidence, override=override,
+                             html_path=html_path, text_path=text_path,
+                             identity_key=result["identity_key"])
+        for override in fact_overrides]
     observation = OrderedDict((
         ("obs_id", "%s::%s" % (run_id, result["identity_key"])),
         ("contract_version", PO.CONTRACT_VERSION),
@@ -223,11 +380,11 @@ def observation_for(result: Mapping, *, run_id: str, market_id: str,
         ("source_url", result.get("final_url") or result["source_url"]),
         ("source_type", "official_property_page"),
         ("authority_tier", PO.PT1_OFFICIAL_PROPERTY),
-        ("observed_at", "2026-08-23"),
-        ("retrieved_at", "2026-08-23"),
+        ("observed_at", capture_time["observed_at"]),
+        ("retrieved_at", capture_time["retrieved_at"]),
         ("capture_method", _capture_method(result)),
-        ("evidence", [dict(item) for item in extraction_result.evidence]),
-        ("extraction", dict(extraction_result.extraction)),
+        ("evidence", evidence),
+        ("extraction", extraction),
         ("extraction_confidence", "EXACT_QUOTE"),
         ("flags", [dict(flag) for flag in extraction_result.flags]),
         ("snapshot_hash", html_sha),
@@ -246,7 +403,7 @@ def observation_for(result: Mapping, *, run_id: str, market_id: str,
         evidence_items=observation["evidence"],
         extraction=observation["extraction"],
         source_url=observation["source_url"],
-        captured_at="2026-08-23",
+        captured_at=capture_time["observed_at"],
         ref_prefix="%s::%s" % (run_id, result["identity_key"]),
         artifact_path=html_path,
         recorded_sha256=html_sha,
@@ -272,6 +429,8 @@ def observation_for(result: Mapping, *, run_id: str, market_id: str,
         ))
     if allowance is not None:
         _apply_allowance_override(observation, allowance)
+    if fact_rulings:
+        observation.setdefault("founder_overrides", []).extend(fact_rulings)
     membrane = MEMBRANE.evaluate(observation)
     readiness = READINESS.derive([observation], blocked=False,
                                  all_surfaces_reached=True)
@@ -299,8 +458,13 @@ def observation_for(result: Mapping, *, run_id: str, market_id: str,
             ("document_sha256", html_sha),
         ))),
         ("observation", observation),
+        # The full journal timestamp and its basis live on the store row, not
+        # inside the observation: the observation contract fixes its own field
+        # set (policy_observation.ALLOWED_FIELDS), and the date it carries is
+        # the claim; this is the provenance of that date.
+        ("capture_time", capture_time),
         ("publication_grade", grade.to_dict()),
-        ("withheld_fields", dict(extraction_result.withheld)),
+        ("withheld_fields", withheld),
         ("non_inferences", list(extraction_result.non_inferences)),
         ("membrane", membrane.to_dict()),
         ("readiness", readiness.to_dict()),
@@ -340,6 +504,11 @@ def build(pilot: Mapping, *, run_id: str,
     identities = {r["identity_key"]: dict(r, **stamp,
                   founder_ruling=identity_block.get("founder_ruling", ""))
                   for r in identity_block.get("records") or ()}
+    fact_block = overrides.get("fact_overrides") or {}
+    facts: Dict[str, List[Dict]] = {}
+    for r in fact_block.get("records") or ():
+        facts.setdefault(r["identity_key"], []).append(
+            dict(r, **stamp, founder_ruling=fact_block.get("founder_ruling", "")))
     records: List[Dict] = []
     refusals: List[Dict] = []
     restated: List[Dict] = []
@@ -366,7 +535,8 @@ def build(pilot: Mapping, *, run_id: str,
             census_row=rows.get(result["identity_key"]),
             corrected_name=corrected.get(result["identity_key"], ""),
             allowance=allowances.get(result["identity_key"]),
-            identity_override=identities.get(result["identity_key"]))
+            identity_override=identities.get(result["identity_key"]),
+            fact_overrides=facts.get(result["identity_key"], ()))
         if record is None:
             refusals.append(OrderedDict((
                 ("identity_key", result["identity_key"]),

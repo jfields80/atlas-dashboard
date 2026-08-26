@@ -1,7 +1,7 @@
 # PTF-DEFECT-OBSERVATION-STORE-TIMESTAMP-001 — observed_at / retrieved_at are hard-coded
 
 **Opened:** 2026-08-25, during PTF-INDIANAPOLIS-FOUNDER-REVIEW-002 (batch 1), by founder instruction.
-**Status:** OPEN — gate on any Indianapolis authority build.
+**Status:** FIXED for the generic builder in PTF-INDIANAPOLIS-PROMOTION-AUTHORITY-PREP-003 (`market_observation_store.py` now derives `observed_at`/`retrieved_at` from the journal `completed_at` carried on the result row, records `capture_time` with its basis, and passes the true date into the publication-grade entries; regression `tests/pettripfinder/acquisition/test_observation_store_capture_time_p1.py`). Indianapolis stores were rebuilt (`003a`, `003`) — 51/51 and 49/49 rows carry the journal time. **Louisville (63 LIVE records, true dates 2026-08-24/25) and St. Louis (dates coincidentally right) remain as recorded and need their own correction order** — see `indianapolis_in_p1_blast_radius_003.json`.
 **Severity:** data-integrity (a false capture date is written into every authority row).
 
 ## Defect
