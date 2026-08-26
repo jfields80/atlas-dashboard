@@ -633,12 +633,13 @@ def discovery_gate(ctx: FactoryContext) -> Tuple[Optional[Dict], str]:
     if document["state"] == DS.EXHAUSTED:
         return (document, "")
     if document["state"] == DS.WAITING:
-        return (document, "%s: %d of %d Overpass cells cached, %d remaining, no "
-                          "approved endpoint available (earliest cooldown ends %s); "
-                          "paid fallback %s and NOT authorised"
+        return (document, "%s: %d of %d Overpass cells cached, %d remaining; %s "
+                          "(earliest cooldown ends %s); paid fallback %s and NOT "
+                          "authorised"
                 % (DS.WAITING, document["OVERPASS_CELLS_CACHED"],
                    document["OVERPASS_CELLS_TOTAL"],
                    document["OVERPASS_CELLS_REMAINING"],
+                   document.get("waiting_reason") or "no approved endpoint available",
                    document["earliest_cooldown_expiry"] or "unknown",
                    document["paid_discovery_fallback"]["state"]))
     return (document, "%s: %d of %d Overpass cells cached, %d remaining and an "

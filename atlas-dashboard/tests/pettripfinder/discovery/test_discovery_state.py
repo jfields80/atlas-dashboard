@@ -137,6 +137,59 @@ class TestExhaustion:
         assert document["state"] == DS.RUNNABLE
         assert document["available_endpoint_ids"] == ["a.example"]
 
+    def test_an_expired_cooldown_is_reported_half_open_not_available(self, tmp_path):
+        ledger = tmp_path / "health.json"
+        health_ledger(ledger, [OE.EndpointCircuit(endpoint_id="a.example", state=OE.OPEN,
+                                                  cooldown_until=(NOW - timedelta(minutes=1)).isoformat())])
+        document = DS.build("testville-xx", cache_root=tmp_path / "cache", registry=registry(),
+                            health_ledger_path=ledger, market=market(2), clock=lambda: NOW)
+        assert document["endpoint_health_states"]["a.example"]["availability"] == OE.HALF_OPEN
+        assert "a.example" in document["available_endpoint_ids"]   # one trial is owed
+
+    def test_stalled_forward_progress_is_waiting_even_with_an_endpoint_available(self, tmp_path):
+        # PTF-PITTSBURGH-HARDENED-RECENSUS-001 Q7: endpoints that look
+        # available but have answered nothing for N cycles are not runnable.
+        from scripts.pettripfinder.discovery import progress_gate as PG
+        progress = tmp_path / PG.FILENAME
+        for _ in range(PG.DEFAULT_STALL_CYCLES):
+            PG.record_cycle(progress, newly_completed=0, requests_made=0, remaining_after=6,
+                            clock=lambda: NOW)
+        document = DS.build("testville-xx", cache_root=tmp_path / "cache", registry=registry(),
+                            health_ledger_path=tmp_path / "health.json", market=market(3),
+                            clock=lambda: NOW)
+        assert document["OVERPASS_ENDPOINTS_AVAILABLE"] == 2
+        assert document["state"] == DS.WAITING
+        assert document["FORWARD_PROGRESS_STALLED"] is True
+        assert document["RESUME_CYCLES_WITHOUT_PROGRESS"] == PG.DEFAULT_STALL_CYCLES
+        assert "override-progress-gate" in document["waiting_reason"]
+        assert document["forward_progress"]["status"] == PG.STALLED
+        assert document["progress_ledger"] == progress.as_posix()
+
+    def test_failure_domains_are_counted_beside_endpoints(self, tmp_path):
+        doc = {
+            "schema": OE.REGISTRY_SCHEMA,
+            "defaults": {"health_check_path": "/api/status", "timeout_seconds": 5,
+                         "connect_timeout_seconds": 2, "min_request_spacing_seconds": 0,
+                         "cooldown_seconds": 600, "failure_threshold": 1, "concurrency": 1},
+            "endpoints": [{"endpoint_id": "a.example", "base_url": "https://a.example/api/interpreter"},
+                          {"endpoint_id": "b.example", "base_url": "https://b.example/api/interpreter",
+                           "failure_domain": "shared"},
+                          {"endpoint_id": "c.example", "base_url": "https://c.example/api/interpreter",
+                           "failure_domain": "shared"}],
+        }
+        reg = OE.EndpointRegistry.from_document(doc)
+        ledger = tmp_path / "health.json"
+        health_ledger(ledger, [OE.EndpointCircuit(endpoint_id="b.example", state=OE.OPEN,
+                                                  cooldown_until=(NOW + timedelta(hours=1)).isoformat())])
+        document = DS.build("testville-xx", cache_root=tmp_path / "cache", registry=reg,
+                            health_ledger_path=ledger, market=market(2), clock=lambda: NOW)
+        assert document["OVERPASS_ENDPOINTS_ENABLED"] == 3
+        assert document["OVERPASS_FAILURE_DOMAINS_ENABLED"] == 2
+        # c shares b's backend: suppressed with it, so one endpoint and one domain remain.
+        assert document["available_endpoint_ids"] == ["a.example"]
+        assert document["OVERPASS_FAILURE_DOMAINS_AVAILABLE"] == 1
+        assert document["endpoint_health_states"]["c.example"]["availability"] == "COOLING_DOWN_SIBLING"
+
     def test_legacy_cached_cells_count_and_carry_their_endpoint(self, tmp_path):
         cache = DiscoveryCache(tmp_path / "cache")
         queries = plan_queries(market(2), (C.PROVIDER_OPENSTREETMAP,), DS.LODGING_CATEGORIES)

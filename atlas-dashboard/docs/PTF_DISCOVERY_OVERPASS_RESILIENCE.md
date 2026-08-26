@@ -38,6 +38,52 @@ around a rate limit — a 429 opens the circuit immediately for the full cooldow
 Live query failures count toward the same circuit; when it opens mid-run the
 client selects again and the remaining cells go straight to the next endpoint.
 
+## What the first real outage taught the breaker
+
+**Authority:** PTF-PITTSBURGH-HARDENED-RECENSUS-001 (2026-08-26). Resuming
+Pittsburgh's 18 remaining cells ran into a multi-hour outage of every approved
+endpoint (overpass-api.de dead at the TCP layer; the one server behind both
+overpass.kumi.systems and overpass.private.coffee returning 500 to every
+query). Four hours of supervised retries gained one cell and left a health
+ledger with 158 consecutive failures on one endpoint, zero switches and a
+blank current endpoint. Seven generic defects, each fixed and pinned:
+
+1. **A healthy status page no longer clears the request-failure streak.**
+   kumi's `/api/status` answered 200 while its interpreter 500ed; the probe
+   before each `select()` reset `consecutive_failures`, so with the committed
+   threshold (3) above the per-query attempt bound (2) the circuit could never
+   open. Only a real request success clears the streak now.
+2. **HALF_OPEN.** An OPEN circuit past its cooldown gets ONE trial probe; a
+   failure re-arms the cooldown with a fresh expiry. Before, it stayed OPEN
+   with a stale `cooldown_until`, was re-probed on every run, and the waiting
+   report quoted an expiry hours in the past. `HALF_OPEN` is a reported
+   availability, not a persisted state.
+3. **The ledger carries `current_endpoint_id` and `endpoint_switches` across
+   processes.** A run that selects nothing keeps the last selected endpoint;
+   a switch is counted against the endpoint the previous run ended on. The
+   run's own switch figure mirrors the selector's and never runs ahead of it.
+4. **Failure domains.** `failure_domain` in the registry names endpoints that
+   share backend infrastructure (kumi and private.coffee: one DNS CNAME
+   target). When one opens its siblings open with it, a sibling is never
+   probed in the same walk, and the state document counts
+   `OVERPASS_FAILURE_DOMAINS_AVAILABLE` -- the number of distinct backends
+   that could still answer -- beside the endpoint count.
+5. **A dead registry costs one threshold of probes per cooldown**, not one
+   per run: with every circuit re-armed, a supervisor that re-runs discovery
+   every two minutes finds every endpoint cooling down and probes nothing.
+6. **The forward-progress gate** (`discovery/progress_gate.py`,
+   `discovery_progress.json` beside the cache). Every resume cycle that had
+   cells to ask for is recorded with the cells it newly completed. Three
+   consecutive cycles that complete nothing close the gate: the state document
+   reads `WAITING_FOR_FREE_DISCOVERY` with `FORWARD_PROGRESS_STALLED: true`
+   even if an endpoint looks available, and the runner serves cached cells but
+   makes no live request. `--override-progress-gate` opens it for ONE run, a
+   human decision; one cycle that completes a cell clears it. Cache-only and
+   local-extract runs never touch the gate.
+7. **The supervisor is not the pacer.** An outer loop that restarts discovery
+   cannot be paced by a breaker that lives inside one process; the ledgered
+   cooldowns (2, 5) and the gate (6) are what make a restart harmless.
+
 ## The cache key names the question, not the server
 
 The old fingerprint was `{endpoint, ql}`; the new one is `{ql, query_version}`.

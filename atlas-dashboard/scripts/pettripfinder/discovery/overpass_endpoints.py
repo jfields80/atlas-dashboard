@@ -65,9 +65,14 @@ HEALTH_STATES: Tuple[str, ...] = (HEALTHY, TIMEOUT, CONNECTION_REFUSED,
 #: endpoint is telling us to go away; we go away for the whole cooldown.
 OPEN_IMMEDIATELY = frozenset({HTTP_RATE_LIMITED})
 
-# Circuit states.
+# Circuit states. Only CLOSED and OPEN are persisted; HALF_OPEN is what an
+# OPEN circuit whose cooldown has expired is called in a report -- it gets one
+# trial probe, and a failure there re-arms the cooldown (PTF-PITTSBURGH-
+# HARDENED-RECENSUS-001: without the re-arm an expired circuit was re-probed on
+# every run and reported an expiry hours in the past).
 CLOSED = "CLOSED"
 OPEN = "OPEN"
+HALF_OPEN = "HALF_OPEN"
 
 
 class EndpointRegistryError(ValueError):
@@ -120,6 +125,14 @@ class EndpointRecord:
     cooldown_seconds: float
     failure_threshold: int
     notes: str = ""
+    #: Endpoints that share backend infrastructure share a failure domain: when
+    #: one opens, its siblings open with it, and they count as ONE available
+    #: endpoint. Empty means the endpoint is its own domain.
+    failure_domain: str = ""
+
+    @property
+    def domain(self) -> str:
+        return self.failure_domain or self.endpoint_id
 
     @property
     def health_check_url(self) -> str:
@@ -140,6 +153,7 @@ class EndpointRecord:
             ("min_request_spacing_seconds", self.min_request_spacing_seconds),
             ("cooldown_seconds", self.cooldown_seconds),
             ("failure_threshold", self.failure_threshold), ("notes", self.notes),
+            ("failure_domain", self.domain),
         ))
 
 
@@ -194,7 +208,8 @@ class EndpointRegistry:
                 min_request_spacing_seconds=pick("min_request_spacing_seconds", float),
                 cooldown_seconds=pick("cooldown_seconds", float),
                 failure_threshold=threshold,
-                notes=str(row.get("notes") or "")))
+                notes=str(row.get("notes") or ""),
+                failure_domain=str(row.get("failure_domain") or "").strip()))
         if not records:
             raise EndpointRegistryError("the registry names no endpoint")
         concurrency = int(defaults.get("concurrency", 1))
@@ -220,6 +235,19 @@ class EndpointRegistry:
 
     def enabled_endpoints(self) -> Tuple[EndpointRecord, ...]:
         return tuple(e for e in self.endpoints if e.enabled)
+
+    def enabled_failure_domains(self) -> Tuple[str, ...]:
+        """Distinct backends among the enabled endpoints, in registry order."""
+        out: List[str] = []
+        for endpoint in self.enabled_endpoints():
+            if endpoint.domain not in out:
+                out.append(endpoint.domain)
+        return tuple(out)
+
+    def siblings(self, endpoint: EndpointRecord) -> Tuple[EndpointRecord, ...]:
+        """The OTHER enabled endpoints in ``endpoint``'s failure domain."""
+        return tuple(e for e in self.enabled_endpoints()
+                     if e.domain == endpoint.domain and e.endpoint_id != endpoint.endpoint_id)
 
     def by_id(self, endpoint_id: str) -> EndpointRecord:
         for endpoint in self.endpoints:
@@ -318,6 +346,21 @@ class EndpointCircuit:
         until = _parse(self.cooldown_until)
         return self.state == OPEN and until is not None and now < until
 
+    def is_half_open(self, now: datetime) -> bool:
+        """OPEN, cooldown expired, awaiting one trial probe."""
+        return self.state == OPEN and not self.is_cooling_down(now)
+
+    def open_as_sibling(self, *, endpoint: EndpointRecord, now: datetime,
+                        because: str) -> None:
+        """Open alongside a failing endpoint in the same failure domain. The
+        counts are untouched: this endpoint was not asked, its backend was."""
+        if self.is_cooling_down(now):
+            return
+        self.state = OPEN
+        self.opened_at = _iso(now)
+        self.cooldown_until = _iso(now + timedelta(seconds=endpoint.cooldown_seconds))
+        self.opened_because = because
+
     def record(self, classification: str, *, endpoint: EndpointRecord,
                now: datetime, probe: bool = False) -> None:
         self.last_classification = classification
@@ -341,7 +384,11 @@ class EndpointCircuit:
         self.failures += 1
         self.consecutive_failures += 1
         threshold = 1 if classification in OPEN_IMMEDIATELY else endpoint.failure_threshold
-        if self.consecutive_failures >= threshold and self.state != OPEN:
+        # A HALF_OPEN circuit (OPEN, cooldown expired) is on its one trial: any
+        # failure re-arms the cooldown, whatever the count says -- a circuit
+        # opened as a domain sibling may carry no failures of its own.
+        half_open = self.is_half_open(now)
+        if half_open or (self.state != OPEN and self.consecutive_failures >= threshold):
             self.state = OPEN
             self.opened_at = _iso(now)
             self.cooldown_until = _iso(now + timedelta(seconds=endpoint.cooldown_seconds))
@@ -416,6 +463,13 @@ class EndpointSelector:
             circuit = EndpointCircuit.from_dict(row)
             if circuit.endpoint_id in self.circuits:
                 self.circuits[circuit.endpoint_id] = circuit
+        # The last endpoint actually selected, and the switch count, live
+        # across processes too: a resumed run that selects nothing must not
+        # blank the one and a run of one selection must not zero the other.
+        current = str(document.get("current_endpoint_id") or "")
+        if current in self.circuits:
+            self.current_id = current
+        self.switches = int(document.get("endpoint_switches") or 0)
 
     def save(self) -> Optional[str]:
         if self.ledger_path is None:
@@ -449,6 +503,10 @@ class EndpointSelector:
                 availability = "DISABLED"
             elif circuit.is_cooling_down(now):
                 availability = "COOLING_DOWN"
+            elif self._domain_cooling_down(endpoint, now):
+                availability = "COOLING_DOWN_SIBLING"
+            elif circuit.is_half_open(now):
+                availability = HALF_OPEN
             elif circuit.last_classification and circuit.last_classification != HEALTHY:
                 # Failed its last probe but the circuit has not tripped: still
                 # worth one more probe, and said so rather than called healthy.
@@ -461,12 +519,36 @@ class EndpointSelector:
             out[endpoint.endpoint_id] = row
         return out
 
+    def _domain_cooling_down(self, endpoint: EndpointRecord, now: datetime) -> bool:
+        """A sibling on the same backend is cooling down: so, in effect, is this."""
+        return any(self.circuits[s.endpoint_id].is_cooling_down(now)
+                   for s in self.registry.siblings(endpoint))
+
+    def _suppressed(self, endpoint: EndpointRecord, now: datetime) -> bool:
+        return (self.circuits[endpoint.endpoint_id].is_cooling_down(now)
+                or self._domain_cooling_down(endpoint, now))
+
     def available_endpoints(self) -> Tuple[EndpointRecord, ...]:
-        """Enabled endpoints whose circuit is not cooling down -- BEFORE any
-        probe. What free discovery could still try."""
+        """Enabled endpoints neither cooling down nor sharing a backend with
+        one that is -- BEFORE any probe. What free discovery could still try."""
         now = self.clock()
         return tuple(e for e in self.registry.enabled_endpoints()
-                     if not self.circuits[e.endpoint_id].is_cooling_down(now))
+                     if not self._suppressed(e, now))
+
+    def available_failure_domains(self) -> Tuple[str, ...]:
+        """Distinct backends free discovery could still try."""
+        out: List[str] = []
+        for endpoint in self.available_endpoints():
+            if endpoint.domain not in out:
+                out.append(endpoint.domain)
+        return tuple(out)
+
+    def _open_siblings(self, endpoint: EndpointRecord, now: datetime) -> None:
+        because = ("sibling %s opened: shared failure domain %s"
+                   % (endpoint.endpoint_id, endpoint.domain))
+        for sibling in self.registry.siblings(endpoint):
+            self.circuits[sibling.endpoint_id].open_as_sibling(
+                endpoint=sibling, now=now, because=because)
 
     def earliest_cooldown_expiry(self) -> str:
         expiries = [self.circuits[e.endpoint_id].cooldown_until
@@ -498,14 +580,22 @@ class EndpointSelector:
         ordered = list(self.registry.enabled_endpoints())
         if self.current_id:
             ordered.sort(key=lambda e: 0 if e.endpoint_id == self.current_id else 1)
+        failed_domains: List[str] = []
         for endpoint in ordered:
             circuit = self.circuits[endpoint.endpoint_id]
-            if circuit.is_cooling_down(now):
+            if self._suppressed(endpoint, now) or endpoint.domain in failed_domains:
+                # Cooling down, sharing a backend with one that is, or sharing
+                # a backend with one that just failed its probe in this walk:
+                # the same server is not asked twice.
                 continue
             outcome = self.probe(endpoint)
             classification = classify_probe(outcome)
             circuit.record(classification, endpoint=endpoint, now=now, probe=True)
             self._record_probe(endpoint, outcome, classification, now)
+            if classification != HEALTHY:
+                failed_domains.append(endpoint.domain)
+                if circuit.state == OPEN:
+                    self._open_siblings(endpoint, now)
             if classification == HEALTHY:
                 if self.current_id and self.current_id != endpoint.endpoint_id:
                     self.switches += 1
@@ -524,8 +614,11 @@ class EndpointSelector:
     def record_request_failure(self, endpoint: EndpointRecord, classification: str) -> bool:
         """A live query failed on ``endpoint``. Returns True when the circuit
         is now OPEN -- the caller must select again rather than retry here."""
+        now = self.clock()
         circuit = self.circuits[endpoint.endpoint_id]
-        circuit.record(classification, endpoint=endpoint, now=self.clock())
+        circuit.record(classification, endpoint=endpoint, now=now)
+        if circuit.state == OPEN:
+            self._open_siblings(endpoint, now)
         self.save()
         return circuit.state == OPEN
 
@@ -541,7 +634,7 @@ __all__ = [
     "REGISTRY_SCHEMA", "HEALTH_LEDGER_SCHEMA", "DEFAULT_REGISTRY_PATH",
     "HEALTH_LEDGER_FILENAME", "HEALTHY", "TIMEOUT", "CONNECTION_REFUSED",
     "HTTP_RATE_LIMITED", "HTTP_SERVER_ERROR", "OTHER_FAILURE", "HEALTH_STATES",
-    "CLOSED", "OPEN", "EndpointRegistryError", "NoHealthyEndpoint",
+    "CLOSED", "OPEN", "HALF_OPEN", "EndpointRegistryError", "NoHealthyEndpoint",
     "EndpointRecord", "EndpointRegistry", "ProbeOutcome", "classify_probe",
     "classify_request_error", "probe_with_requests", "EndpointCircuit",
     "EndpointSelector",

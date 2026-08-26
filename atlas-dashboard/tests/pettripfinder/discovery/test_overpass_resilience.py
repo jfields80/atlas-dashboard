@@ -253,6 +253,22 @@ class TestFailover:
         assert len([u for u, _ in session.posts if u == B_URL]) == 1
         assert c.run_stats()["endpoint_switches"] == 1
 
+    def test_the_switch_count_never_runs_ahead_of_the_selector(self, tmp_path):
+        # PTF-PITTSBURGH-HARDENED-RECENSUS-001 Q3: the run used to record
+        # "switches 1" the moment a circuit opened, before any other endpoint
+        # had been selected -- so a run that then found nothing healthy
+        # reported one switch and a blank current endpoint.
+        cache = DiscoveryCache(tmp_path)
+        session = Session(
+            probe={"a.example": FakeResp(200, {}), "b.example": FakeResp(503, {})},
+            post={"a.example": FakeResp(429, {})})
+        c = client(session)
+        result = c.search(query(1), cache=cache, budget=RequestBudget(10), observed_at="2026-08-25")
+        assert result.state == C.QUERY_STATE_FAILED
+        stats = c.run_stats()
+        assert stats["endpoint_switches"] == c.selector.switches == 0
+        assert stats["current_endpoint_id"] == "a.example"
+
     def test_the_budget_is_spent_once_per_query_not_per_attempt(self, tmp_path):
         cache = DiscoveryCache(tmp_path)
         session = Session(

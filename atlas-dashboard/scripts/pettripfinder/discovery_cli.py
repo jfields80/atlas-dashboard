@@ -38,6 +38,7 @@ if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
 from scripts.pettripfinder.discovery import constants as C
+from scripts.pettripfinder.discovery import progress_gate as PG
 from scripts.pettripfinder.discovery.coverage import build_coverage_summary, render_coverage_html, render_coverage_json
 from scripts.pettripfinder.discovery.google_places import api_key_present as google_key_present
 from scripts.pettripfinder.discovery.import_plan import (
@@ -127,6 +128,14 @@ def _add_common_run_args(p: argparse.ArgumentParser) -> None:
     p.add_argument("--osm-extract-index", default="",
                    help="a ptf-osm-extract-index document; Overpass cells are "
                         "answered from it locally and no public server is asked")
+    p.add_argument("--override-progress-gate", action="store_true",
+                   help="make live Overpass requests for THIS run even though the "
+                        "forward-progress gate is closed (N resume cycles completed "
+                        "no cell); a human decision, never a default")
+    p.add_argument("--progress-stall-cycles", type=int, default=PG.DEFAULT_STALL_CYCLES,
+                   help="consecutive attempting resume cycles with zero newly "
+                        "completed cells before the gate closes (default %d)"
+                        % PG.DEFAULT_STALL_CYCLES)
 
 
 def cmd_state(args) -> int:
@@ -152,6 +161,16 @@ def cmd_state(args) -> int:
              ", ".join(document["available_endpoint_ids"]) or "none"))
     if document["earliest_cooldown_expiry"]:
         print("earliest cooldown ends : %s" % document["earliest_cooldown_expiry"])
+    print("failure domains avail. : %d of %d (%s)"
+          % (document["OVERPASS_FAILURE_DOMAINS_AVAILABLE"],
+             document["OVERPASS_FAILURE_DOMAINS_ENABLED"],
+             ", ".join(document["available_failure_domains"]) or "none"))
+    progress = document["forward_progress"]
+    print("forward progress       : %s (%d consecutive zero-progress cycles; gate at %d)"
+          % (progress["status"], progress["consecutive_zero_progress_cycles"],
+             progress["stall_cycles"]))
+    if document["waiting_reason"]:
+        print("waiting because        : %s" % document["waiting_reason"])
     print("cached by endpoint     : %s" % dict(document["cached_cells_by_endpoint"]))
     print("paid fallback          : %s" % document["paid_discovery_fallback"]["state"])
     if args.out:
@@ -193,6 +212,8 @@ def cmd_run(args) -> int:
         cache_only=args.cache_only, resume=args.resume,
         overpass_registry_path=args.overpass_registry,
         osm_extract_index=args.osm_extract_index,
+        override_progress_gate=args.override_progress_gate,
+        progress_stall_cycles=args.progress_stall_cycles,
     )
 
     if args.dry_run:
@@ -269,6 +290,16 @@ def cmd_run(args) -> int:
                   "remaining cells were NOT attempted (earliest cooldown ends "
                   "%s). Run `discovery_cli.py state` for the waiting report."
                   % (stats.get("earliest_cooldown_expiry") or "unknown"))
+    progress = PG.summary(PG.load(Path(config.output_root) / PG.FILENAME),
+                          config.progress_stall_cycles)
+    print("forward progress        : %s (%d consecutive zero-progress cycles; gate at %d)"
+          % (progress["status"], progress["consecutive_zero_progress_cycles"],
+             progress["stall_cycles"]))
+    if any(PG.WARNING_PROGRESS_GATE in r.warnings for r in results):
+        print("WARNING: the forward-progress gate is CLOSED; no live Overpass request "
+              "was made. Free discovery is WAITING_FOR_FREE_DISCOVERY. A human may "
+              "override ONE run with --override-progress-gate, or answer the cells "
+              "from a local OSM extract (--osm-extract-index).")
     print("next : python scripts/pettripfinder/discovery_cli.py report "
           "--market %s --output-root %s" % (config.market_id, config.output_root))
     return 0
