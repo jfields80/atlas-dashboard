@@ -1,0 +1,2223 @@
+{
+ "schema": "ptf-market-paid-acquisition/1.0",
+ "what_this_is": "One paid acquisition pass over a market's remaining routed cohort, under a hard spend cap enforced on the larger of the vendor's measured cost and this run's own estimate. It changes no route.",
+ "market_id": "pittsburgh-pa",
+ "work_order": "PTF-PITTSBURGH-HARDENED-RECENSUS-001",
+ "run_id": "pittsburgh-pa-recensus_001-pass1",
+ "run_start": "2026-08-26T12:59:41.785432+00:00",
+ "dry_run": true,
+ "prior_report": "C:/Atlas-Grok-Pittsburgh-Revalidate/atlas-dashboard/launch_packages/pettripfinder/pittsburgh_pa_acquisition_merged_pass1_recensus_001.json",
+ "cost_policy": {
+  "hard_cap_usd_minor": 1000,
+  "plan_credit_cap": null,
+  "measured_from": "per-zone month-to-date cost summed over scraping_browser1, mcp_unlocker, cli_unlocker",
+  "enforced_on": "max(measured, estimated) -- the vendor's meter lags a session by minutes and a cap enforced on a lagging meter overshoots"
+ },
+ "url_overlay": {
+  "overlay": "C:/Atlas-Grok-Pittsburgh-Revalidate/atlas-dashboard/launch_packages/pettripfinder/pittsburgh_pa_url_recovery_recensus_001.json",
+  "contract": "ptf-census-url-recovery/1.0",
+  "offered": 6,
+  "applied": 6,
+  "unroutable_census_urls_displaced": 1,
+  "note": "layered for routing only; the census file is unchanged",
+  "rows": [
+   {
+    "identity_key": "courtyard by marriott pittsburgh airport",
+    "url": "https://www.marriott.com/en-us/hotels/pitca-courtyard-pittsburgh-airport/overview/",
+    "displaced_census_url": "",
+    "binding": "PHONE",
+    "evidence": {
+     "provider": "PRIOR_BUILD",
+     "source": "launch_packages/pettripfinder/markets/reports/pittsburgh_pass4_claude_capture_results.json",
+     "name": "courtyard by marriott pittsburgh airport",
+     "phone": "4122645000",
+     "postal_code": "15108",
+     "street_key": "450 cherrington pkwy|15108",
+     "url": "https://www.marriott.com/en-us/hotels/pitca-courtyard-pittsburgh-airport/overview/"
+    }
+   },
+   {
+    "identity_key": "even hotels",
+    "url": "https://www.ihg.com/evenhotels/hotels/us/en/pittsburgh/pitev/hoteldetail",
+    "displaced_census_url": "",
+    "binding": "PHONE",
+    "evidence": {
+     "provider": "PRIOR_BUILD",
+     "source": "pittsburgh-pa.json",
+     "name": "even hotel pittsburgh downtown",
+     "phone": "4123012277",
+     "postal_code": "15219",
+     "street_key": "425 forbes ave|15219",
+     "url": "https://www.ihg.com/evenhotels/hotels/us/en/pittsburgh/pitev/hoteldetail"
+    }
+   },
+   {
+    "identity_key": "hyatt regency pittsburgh international airport",
+    "url": "https://www.hyatt.com/en-us/hotel/pennsylvania/hyatt-regency-pittsburgh-international-airport/pitap",
+    "displaced_census_url": "https://pittsburghairport.hyatt.com",
+    "binding": "PHONE",
+    "evidence": {
+     "provider": "OPENSTREETMAP",
+     "source": "OPENSTREETMAP/pittsburgh-pa/OPENSTREETMAP__hotel__pittsburgh-pa__airport/838c90142ba734c0/page_1.json",
+     "name": "hyatt regency pittsburgh international airport",
+     "phone": "7248991234",
+     "postal_code": "15231",
+     "street_key": "1111 airport blvd|15231",
+     "url": "https://www.hyatt.com/en-us/hotel/pennsylvania/hyatt-regency-pittsburgh-international-airport/pitap"
+    }
+   },
+   {
+    "identity_key": "kimpton hotel monaco pittsburgh",
+    "url": "https://www.monaco-pittsburgh.com",
+    "displaced_census_url": "",
+    "binding": "NAME_AND_POSTAL_CODE",
+    "evidence": {
+     "provider": "PRIOR_BUILD",
+     "source": "pittsburgh-pa.json",
+     "name": "kimpton hotel monaco pittsburgh",
+     "phone": "4124711170",
+     "postal_code": "15219",
+     "street_key": "620 william penn pl|15219",
+     "url": "https://www.monaco-pittsburgh.com"
+    }
+   },
+   {
+    "identity_key": "residence inn pittsburgh cranberry township",
+    "url": "https://www.marriott.com/hotels/travel/pitcr-residence-inn-pittsburgh-cranberry-township/",
+    "displaced_census_url": "",
+    "binding": "NAME_AND_POSTAL_CODE",
+    "evidence": {
+     "provider": "PRIOR_BUILD",
+     "source": "pittsburgh-pa.json",
+     "name": "residence inn pittsburgh cranberry township",
+     "phone": "",
+     "postal_code": "16066",
+     "street_key": "",
+     "url": "https://www.marriott.com/hotels/travel/pitcr-residence-inn-pittsburgh-cranberry-township/"
+    }
+   },
+   {
+    "identity_key": "sonesta simply suites pittsburgh airport",
+    "url": "https://www.sonesta.com/sonesta-simply-suites/pa/pittsburgh/sonesta-simply-suites-pittsburgh-airport",
+    "displaced_census_url": "",
+    "binding": "NAME_AND_POSTAL_CODE",
+    "evidence": {
+     "provider": "PRIOR_BUILD",
+     "source": "launch_packages/pettripfinder/markets/reports/pittsburgh_pass4_claude_capture_results.json",
+     "name": "sonesta simply suites pittsburgh airport",
+     "phone": "4127877770",
+     "postal_code": "15275",
+     "street_key": "100 chauvet dr|15275",
+     "url": "https://www.sonesta.com/sonesta-simply-suites/pa/pittsburgh/sonesta-simply-suites-pittsburgh-airport"
+    }
+   }
+  ]
+ },
+ "routing_summary": {
+  "contract": "ptf-market-routing/1.0",
+  "count": 115,
+  "url_shapes": {
+   "NO_URL": 16,
+   "PROPERTY_PAGE": 99
+  },
+  "routing_states": {
+   "ROUTED": 92,
+   "ROUTE_BRAND_EXCLUDED": 7,
+   "ROUTE_NEEDS_OFFICIAL_URL": 16
+  },
+  "brands": {
+   "BEST_WESTERN": 1,
+   "CHOICE": 1,
+   "DRURY": 1,
+   "HILTON": 23,
+   "HYATT": 6,
+   "IHG": 8,
+   "INDEPENDENT": 22,
+   "MARRIOTT": 34,
+   "NO_URL": 16,
+   "RED_ROOF": 1,
+   "SONESTA": 1,
+   "WYNDHAM": 1
+  },
+  "providers": {
+   "brightdata_browser": 82,
+   "firecrawl": 10
+  },
+  "automatically_routed": 92,
+  "automatically_routed_pct": 80.0
+ },
+ "cohort_rule": {
+  "terminal_prior_outcomes": [
+   "VALID",
+   "POLICY_NOT_FOUND",
+   "IDENTITY_MISMATCH"
+  ],
+  "why": "a page that served and was read, was silent, or was about another hotel has already answered its question; a paid lane is for properties we could not REACH"
+ },
+ "cohort_size": 92,
+ "settled_size": 0,
+ "suppressed_size": 0,
+ "cohort_by_provider": {
+  "brightdata_browser": 82,
+  "firecrawl": 10
+ },
+ "cohort_by_family": {
+  "CHOICE": 1,
+  "DRURY": 1,
+  "HILTON": 23,
+  "IHG": 8,
+  "INDEPENDENT": 22,
+  "MARRIOTT": 34,
+  "RED_ROOF": 1,
+  "SONESTA": 1,
+  "WYNDHAM": 1
+ },
+ "settled_by_prior_outcome": {},
+ "queue_order": [
+  "MARRIOTT",
+  "HILTON",
+  "RED_ROOF",
+  "MOTEL6",
+  "SONESTA",
+  "DRURY",
+  "ESA",
+  "INDEPENDENT"
+ ],
+ "queue": [
+  "comfort suites",
+  "even hotels",
+  "holiday inn express and suites pittsburgh airport",
+  "holiday inn express and suites pittsburgh north shore",
+  "holiday inn express pittsburgh bridgeville",
+  "holiday inn express pittsburgh cranberry township",
+  "holiday inn express south side",
+  "la quinta inn and suites pittsburgh airport",
+  "mcknight hotel",
+  "staybridge suites pittsburgh airport",
+  "courtyard",
+  "courtyard by marriott pittsburgh airport",
+  "courtyard by marriott pittsburgh north cranberry woods",
+  "courtyard by marriott pittsburgh university center",
+  "courtyard by marriott pittsburgh west homestead waterfront",
+  "courtyard pittsburgh downtown",
+  "courtyard pittsburgh shadyside",
+  "courtyard pittsburgh university center",
+  "fairfield inn and suites",
+  "fairfield inn and suites pittsburgh neville island",
+  "marriott pittsburgh north cranberry woods",
+  "pittsburgh airport marriott",
+  "pittsburgh marriott city center",
+  "residence inn",
+  "residence inn pittsburgh airport",
+  "residence inn pittsburgh airport coraopolis",
+  "residence inn pittsburgh cranberry township",
+  "residence inn pittsburgh monroeville",
+  "residence inn pittsburgh north shore",
+  "residence inn pittsburgh university center",
+  "sheraton pittsburgh airport hotel",
+  "sheraton pittsburgh hotel at station square",
+  "springhill suites",
+  "springhill suites by marriott pittsburgh airport",
+  "springhill suites marriott",
+  "springhill suites north shore",
+  "springhill suites pittsburgh bakery square",
+  "springhill suites pittsburgh mills",
+  "springhill suites pittsburgh monroeville",
+  "springhill suites pittsburgh mt lebanon",
+  "springhill suites pittsburgh southside works",
+  "the atterbury hotel autograph collection",
+  "the industrialist hotel pittsburgh autograph collection",
+  "towneplace suites pittsburgh cranberry township",
+  "doubletree by hilton hotel and suites pittsburgh downtown",
+  "doubletree by hilton hotel pittsburgh airport",
+  "doubletree by hilton pittsburgh cranberry",
+  "doubletree by hilton pittsburgh monroeville",
+  "embassy suites by hilton pittsburgh downtown",
+  "hampton inn and suites",
+  "hampton inn and suites cranberry pittsburgh",
+  "hampton inn and suites pittsburgh downtown",
+  "hampton inn and suites pittsburgh waterfront",
+  "hampton inn pittsburgh airport moon",
+  "hampton inn pittsburgh bridgeville",
+  "hampton inn pittsburgh harmarville",
+  "hampton inn pittsburgh monroeville",
+  "hampton inn pittsburgh university medical center",
+  "hampton inn pittsburgh wexford sewickley",
+  "hampton inn university center",
+  "hilton garden inn",
+  "hilton garden inn pittsburgh airport",
+  "hilton garden inn pittsburgh university place",
+  "home2 suites by hilton pittsburgh",
+  "home2 suites by hilton pittsburgh cranberry pa",
+  "home2 suites pittsburgh cranberry township",
+  "homewood suites pittsburgh downtown",
+  "red roof inn pittsburgh east monroeville",
+  "sonesta simply suites pittsburgh airport",
+  "drury plaza hotel pittsburgh downtown",
+  "ace hotel pittsburgh",
+  "bridgestreet the encore on 7th",
+  "cambria hotel pittsburgh downtown",
+  "etage executive living downtown",
+  "fairmont pittsburgh",
+  "family house",
+  "hampton",
+  "hotel indigo",
+  "inn on negley",
+  "intown suites extended stay pittsburgh pa",
+  "joinery hotel pittsburgh curio collection by hilton",
+  "kimpton hotel monaco pittsburgh",
+  "omni william penn hotel",
+  "shadyside inn suites",
+  "sunnyledge boutique hotel",
+  "the landing hotel at rivers casino",
+  "the maverick by kasa",
+  "the oaklander hotel autograph collection",
+  "the priory hotel",
+  "the westin convention center pittsburgh",
+  "tryp hotel pittsburgh",
+  "wyndham grand pittsburgh downtown"
+ ],
+ "cohort_keys_sha256": "0b177a9a542a4e3256002f127689665e9f17e5a900ef6c160fb29574379ec9ff",
+ "retry_policy": {
+  "schema": "ptf-retry-policy/1.0",
+  "rule": "a prior access, navigation or unhydrated failure re-enters a paid cohort only on a different approved lane, a changed URL, a reader change that addresses the failure, or an explicit operator override; otherwise it is suppressed as RETRY_REQUIRES_ALTERNATE_LANE and never marked settled",
+  "eligible": 92,
+  "suppressed": 0,
+  "classification_counts": {
+   "FIRST_ATTEMPT": 92
+  },
+  "suppressed_rows": [],
+  "alternate_lane_rows": []
+ },
+ "lane_overrides": {},
+ "cohort": [
+  {
+   "identity_key": "ace hotel pittsburgh",
+   "canonical_name": "Ace Hotel Pittsburgh",
+   "brand": "INDEP:www.acehotel.com",
+   "family": "INDEPENDENT",
+   "corridor": "pittsburgh-pa__east-end",
+   "source_url": "https://www.acehotel.com/pittsburgh/",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "bridgestreet the encore on 7th",
+   "canonical_name": "Bridgestreet The Encore on 7th",
+   "brand": "INDEP:www.theencoreon7th.com",
+   "family": "INDEPENDENT",
+   "corridor": "pittsburgh-pa__downtown",
+   "source_url": "https://www.theencoreon7th.com",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "cambria hotel pittsburgh downtown",
+   "canonical_name": "Cambria Hotel Pittsburgh - Downtown",
+   "brand": "INDEP:www.cambriapgh.com",
+   "family": "INDEPENDENT",
+   "corridor": "pittsburgh-pa__downtown",
+   "source_url": "https://www.cambriapgh.com",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "comfort suites",
+   "canonical_name": "Comfort Suites",
+   "brand": "CHOICE",
+   "family": "CHOICE",
+   "corridor": "pittsburgh-pa__monroeville",
+   "source_url": "https://www.choicehotels.com/pennsylvania/monroeville/comfort-suites-hotels/pa392",
+   "provider": "firecrawl",
+   "reader": "choice_static",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "courtyard",
+   "canonical_name": "Courtyard",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "pittsburgh-pa__monroeville",
+   "source_url": "https://www.marriott.com/pitmr",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "courtyard by marriott pittsburgh airport",
+   "canonical_name": "Courtyard by Marriott Pittsburgh Airport",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "pittsburgh-pa__airport",
+   "source_url": "https://www.marriott.com/en-us/hotels/pitca-courtyard-pittsburgh-airport/overview/",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "courtyard by marriott pittsburgh north cranberry woods",
+   "canonical_name": "Courtyard by Marriott Pittsburgh North/Cranberry Woods",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "pittsburgh-pa__cranberry",
+   "source_url": "https://www.marriott.com/hotels/travel/pitct-courtyard-pittsburgh-north-cranberry-woods",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "courtyard by marriott pittsburgh university center",
+   "canonical_name": "Courtyard by Marriott Pittsburgh University Center",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "pittsburgh-pa__oakland",
+   "source_url": "https://www.marriott.com/en-us/hotels/pityu-courtyard-pittsburgh-university-center/overview/",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "courtyard by marriott pittsburgh west homestead waterfront",
+   "canonical_name": "Courtyard by Marriott Pittsburgh West Homestead/Waterfront",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "pittsburgh-pa__waterfront",
+   "source_url": "https://www.marriott.com/en-us/hotels/pithw-courtyard-pittsburgh-west-homestead-waterfront/overview",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "courtyard pittsburgh downtown",
+   "canonical_name": "Courtyard Pittsburgh Downtown",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "pittsburgh-pa__downtown",
+   "source_url": "https://www.marriott.com/pitcy",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "courtyard pittsburgh shadyside",
+   "canonical_name": "Courtyard Pittsburgh Shadyside",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "pittsburgh-pa__east-end",
+   "source_url": "https://www.marriott.com/hotels/travel/pitok-courtyard-pittsburgh-shadyside",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "courtyard pittsburgh university center",
+   "canonical_name": "Courtyard Pittsburgh University Center",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "pittsburgh-pa__oakland",
+   "source_url": "https://www.marriott.com/en-us/hotels/pityu-courtyard-pittsburgh-university-center/overview",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "doubletree by hilton hotel and suites pittsburgh downtown",
+   "canonical_name": "DoubleTree by Hilton Hotel & Suites Pittsburgh Downtown",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "pittsburgh-pa__downtown",
+   "source_url": "https://www.hilton.com/en/hotels/pitdtdt-doubletree-hotel-and-suites-pittsburgh-downtown/",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "doubletree by hilton hotel pittsburgh airport",
+   "canonical_name": "DoubleTree by Hilton Hotel Pittsburgh Airport",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "pittsburgh-pa__airport",
+   "source_url": "https://www.hilton.com/en/hotels/pitardt-doubletree-pittsburgh-airport",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "doubletree by hilton pittsburgh cranberry",
+   "canonical_name": "DoubleTree by Hilton Pittsburgh Cranberry",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "pittsburgh-pa__cranberry",
+   "source_url": "https://www.hilton.com/en/hotels/pitmadt-doubletree-pittsburgh-cranberry/",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "doubletree by hilton pittsburgh monroeville",
+   "canonical_name": "DoubleTree by Hilton Pittsburgh Monroeville",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "pittsburgh-pa__monroeville",
+   "source_url": "https://www.hilton.com/en/hotels/pitmrdt-doubletree-pittsburgh-monroeville-convention-center/",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "drury plaza hotel pittsburgh downtown",
+   "canonical_name": "Drury Plaza Hotel Pittsburgh Downtown",
+   "brand": "DRURY",
+   "family": "DRURY",
+   "corridor": "pittsburgh-pa__downtown",
+   "source_url": "https://www.druryhotels.com/locations/pittsburgh-pa/drury-plaza-hotel-pittsburgh-downtown",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "embassy suites by hilton pittsburgh downtown",
+   "canonical_name": "Embassy Suites by Hilton Pittsburgh Downtown",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "pittsburgh-pa__downtown",
+   "source_url": "https://www.hilton.com/en/hotels/pitsmes-embassy-suites-pittsburgh-downtown",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "etage executive living downtown",
+   "canonical_name": "Etage Executive Living Downtown",
+   "brand": "INDEP:www.stayetage.com",
+   "family": "INDEPENDENT",
+   "corridor": "pittsburgh-pa__downtown",
+   "source_url": "https://www.stayetage.com",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "even hotels",
+   "canonical_name": "EVEN Hotels",
+   "brand": "IHG",
+   "family": "IHG",
+   "corridor": "pittsburgh-pa__downtown",
+   "source_url": "https://www.ihg.com/evenhotels/hotels/us/en/pittsburgh/pitev/hoteldetail",
+   "provider": "firecrawl",
+   "reader": "ihg",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "fairfield inn and suites",
+   "canonical_name": "Fairfield Inn & Suites",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "pittsburgh-pa__downtown",
+   "source_url": "https://www.marriott.com/pitwf",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "fairfield inn and suites pittsburgh neville island",
+   "canonical_name": "Fairfield Inn & Suites Pittsburgh Neville Island",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "pittsburgh-pa__airport",
+   "source_url": "https://www.marriott.com/hotels/travel/pitnv-fairfield-inn-and-suites-pittsburgh-neville-island/",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "fairmont pittsburgh",
+   "canonical_name": "Fairmont Pittsburgh",
+   "brand": "INDEP:www.fairmont.com",
+   "family": "INDEPENDENT",
+   "corridor": "pittsburgh-pa__downtown",
+   "source_url": "https://www.fairmont.com/pittsburgh",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "family house",
+   "canonical_name": "Family House",
+   "brand": "INDEP:www.familyhouse.org",
+   "family": "INDEPENDENT",
+   "corridor": "pittsburgh-pa__east-end",
+   "source_url": "https://www.familyhouse.org/tour-homes-shadyside.php",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "hampton",
+   "canonical_name": "Hampton",
+   "brand": "INDEP:www.pittsburghhamptoninn.com",
+   "family": "INDEPENDENT",
+   "corridor": "pittsburgh-pa__monroeville",
+   "source_url": "http://www.pittsburghhamptoninn.com",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "hampton inn and suites",
+   "canonical_name": "Hampton Inn & Suites",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "pittsburgh-pa__waterfront",
+   "source_url": "https://www.hilton.com/en/hotels/pitwhhx-hampton-suites-pittsburgh-waterfront-west-homestead",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "hampton inn and suites cranberry pittsburgh",
+   "canonical_name": "Hampton Inn & Suites Cranberry Pittsburgh",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "pittsburgh-pa__cranberry",
+   "source_url": "https://www.hilton.com/en/hotels/pitcmhx-hampton-suites-cranberry-pittsburgh",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "hampton inn and suites pittsburgh downtown",
+   "canonical_name": "Hampton Inn & Suites Pittsburgh-Downtown",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "pittsburgh-pa__strip-lawrenceville",
+   "source_url": "https://www.hilton.com/en/hotels/pitdnhx-hampton-suites-pittsburgh-downtown",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "hampton inn and suites pittsburgh waterfront",
+   "canonical_name": "Hampton Inn & Suites Pittsburgh Waterfront",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "pittsburgh-pa__waterfront",
+   "source_url": "https://www.hilton.com/en/hotels/pitwhhx-hampton-suites-pittsburgh-waterfront-west-homestead/",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "hampton inn pittsburgh airport moon",
+   "canonical_name": "Hampton Inn Pittsburgh Airport Moon",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "pittsburgh-pa__airport",
+   "source_url": "https://www.hilton.com/en/hotels/pitaphx-hampton-pittsburgh-airport/",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "hampton inn pittsburgh bridgeville",
+   "canonical_name": "Hampton Inn Pittsburgh Bridgeville",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "pittsburgh-pa__south-hills",
+   "source_url": "https://www.hilton.com/en/hotels/pitbvhx-hampton-pittsburgh-bridgeville/",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "hampton inn pittsburgh harmarville",
+   "canonical_name": "Hampton Inn Pittsburgh Harmarville",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "pittsburgh-pa__allegheny-valley",
+   "source_url": "https://www.hilton.com/en/hotels/pithahx-hampton-suites-pittsburgh-harmarville/",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "hampton inn pittsburgh monroeville",
+   "canonical_name": "Hampton Inn Pittsburgh Monroeville",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "pittsburgh-pa__monroeville",
+   "source_url": "https://www.hilton.com/en/hotels/pitmvhx-hampton-pittsburgh-monroeville/",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "hampton inn pittsburgh university medical center",
+   "canonical_name": "Hampton Inn Pittsburgh University/Medical Center",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "pittsburgh-pa__oakland",
+   "source_url": "https://www.hilton.com/en/hotels/pitokhx-hampton-pittsburgh-university-medical-center",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "hampton inn pittsburgh wexford sewickley",
+   "canonical_name": "Hampton Inn Pittsburgh Wexford Sewickley",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "pittsburgh-pa__north-hills",
+   "source_url": "https://www.hilton.com/en/hotels/pitwshx-hampton-pittsburgh-wexford-sewickley/",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "hampton inn university center",
+   "canonical_name": "Hampton Inn University Center",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "pittsburgh-pa__oakland",
+   "source_url": "https://www.hilton.com/en/hotels/pitokhx-hampton-pittsburgh-university-medical-center/",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "hilton garden inn",
+   "canonical_name": "Hilton Garden Inn",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "pittsburgh-pa__downtown",
+   "source_url": "https://www.hilton.com/en/hotels/pitfagi-hilton-garden-inn-pittsburgh-downtown",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "hilton garden inn pittsburgh airport",
+   "canonical_name": "Hilton Garden Inn Pittsburgh Airport",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "pittsburgh-pa__airport",
+   "source_url": "https://www.hilton.com/en/hotels/pitmtgi-hilton-garden-inn-pittsburgh-airport/",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "hilton garden inn pittsburgh university place",
+   "canonical_name": "Hilton Garden Inn Pittsburgh University Place",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "pittsburgh-pa__oakland",
+   "source_url": "https://www.hilton.com/en/hotels/pitucgi-hilton-garden-inn-pittsburgh-university-place",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "holiday inn express and suites pittsburgh airport",
+   "canonical_name": "Holiday Inn Express & Suites Pittsburgh Airport",
+   "brand": "IHG",
+   "family": "IHG",
+   "corridor": "pittsburgh-pa__airport",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/pittsburgh/pitex/hoteldetail",
+   "provider": "firecrawl",
+   "reader": "ihg",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "holiday inn express and suites pittsburgh north shore",
+   "canonical_name": "Holiday Inn Express & Suites Pittsburgh North Shore",
+   "brand": "IHG",
+   "family": "IHG",
+   "corridor": "pittsburgh-pa__north-shore",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/pittsburgh/pitns/hoteldetail",
+   "provider": "firecrawl",
+   "reader": "ihg",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "holiday inn express pittsburgh bridgeville",
+   "canonical_name": "Holiday Inn Express Pittsburgh-Bridgeville",
+   "brand": "IHG",
+   "family": "IHG",
+   "corridor": "pittsburgh-pa__south-hills",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/bridgeville/pitbv/hoteldetail",
+   "provider": "firecrawl",
+   "reader": "ihg",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "holiday inn express pittsburgh cranberry township",
+   "canonical_name": "Holiday Inn Express Pittsburgh Cranberry Township",
+   "brand": "IHG",
+   "family": "IHG",
+   "corridor": "pittsburgh-pa__cranberry",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/cranberry/fklpa/hoteldetail",
+   "provider": "firecrawl",
+   "reader": "ihg",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "holiday inn express south side",
+   "canonical_name": "Holiday Inn Express South Side",
+   "brand": "IHG",
+   "family": "IHG",
+   "corridor": "pittsburgh-pa__south-side",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/pittsburgh/pitxs/hoteldetail",
+   "provider": "firecrawl",
+   "reader": "ihg",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "home2 suites by hilton pittsburgh",
+   "canonical_name": "Home2 Suites by Hilton Pittsburgh",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "pittsburgh-pa__north-hills",
+   "source_url": "https://www.hilton.com/en/hotels/pitmcht-home2-suites-pittsburgh-mccandless-pa",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "home2 suites by hilton pittsburgh cranberry pa",
+   "canonical_name": "Home2 Suites by Hilton Pittsburgh Cranberry, PA",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "pittsburgh-pa__cranberry",
+   "source_url": "https://www.hilton.com/en/hotels/pitltht-home2-suites-pittsburgh-cranberry-pa",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "home2 suites pittsburgh cranberry township",
+   "canonical_name": "Home2 Suites Pittsburgh Cranberry Township",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "pittsburgh-pa__cranberry",
+   "source_url": "https://www.hilton.com/en/hotels/pitltht-home2-suites-pittsburgh-cranberry-pa/",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "homewood suites pittsburgh downtown",
+   "canonical_name": "Homewood Suites Pittsburgh Downtown",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "pittsburgh-pa__strip-lawrenceville",
+   "source_url": "https://www.hilton.com/en/hotels/pitdohw-homewood-suites-pittsburgh-downtown/",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "hotel indigo",
+   "canonical_name": "Hotel Indigo",
+   "brand": "INDEP:www.hotelindigo.com",
+   "family": "INDEPENDENT",
+   "corridor": "pittsburgh-pa__east-end",
+   "source_url": "http://www.hotelindigo.com",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "inn on negley",
+   "canonical_name": "Inn on Negley",
+   "brand": "INDEP:www.innonnegley.com",
+   "family": "INDEPENDENT",
+   "corridor": "pittsburgh-pa__east-end",
+   "source_url": "https://www.innonnegley.com",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "intown suites extended stay pittsburgh pa",
+   "canonical_name": "InTown Suites Extended Stay Pittsburgh PA",
+   "brand": "INDEP:www.intownsuites.com",
+   "family": "INDEPENDENT",
+   "corridor": "pittsburgh-pa__north-hills",
+   "source_url": "https://www.intownsuites.com/extended-stay-locations/pennsylvania/pittsburgh/north-shore",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "joinery hotel pittsburgh curio collection by hilton",
+   "canonical_name": "Joinery Hotel Pittsburgh, Curio Collection by Hilton",
+   "brand": "INDEP:www.joineryhotel.com",
+   "family": "INDEPENDENT",
+   "corridor": "pittsburgh-pa__downtown",
+   "source_url": "https://www.joineryhotel.com",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "kimpton hotel monaco pittsburgh",
+   "canonical_name": "Kimpton Hotel Monaco Pittsburgh",
+   "brand": "INDEP:www.monaco-pittsburgh.com",
+   "family": "INDEPENDENT",
+   "corridor": "pittsburgh-pa__downtown",
+   "source_url": "https://www.monaco-pittsburgh.com",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "la quinta inn and suites pittsburgh airport",
+   "canonical_name": "La Quinta Inn & Suites Pittsburgh Airport",
+   "brand": "WYNDHAM",
+   "family": "WYNDHAM",
+   "corridor": "pittsburgh-pa__airport",
+   "source_url": "https://www.wyndhamhotels.com/laquinta/moon-township-pennsylvania/la-quinta-inn-pittsburgh-airport/overview",
+   "provider": "firecrawl",
+   "reader": "wyndham",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "marriott pittsburgh north cranberry woods",
+   "canonical_name": "Marriott Pittsburgh North Cranberry Woods",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "pittsburgh-pa__cranberry",
+   "source_url": "https://www.marriott.com/hotels/travel/pitno-pittsburgh-marriott-north/",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "mcknight hotel",
+   "canonical_name": "McKnight Hotel",
+   "brand": "IHG",
+   "family": "IHG",
+   "corridor": "pittsburgh-pa__north-hills",
+   "source_url": "https://www.ihg.com/spnd/hotels/us/en/pittsburgh/pitkn/hoteldetail",
+   "provider": "firecrawl",
+   "reader": "ihg",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "omni william penn hotel",
+   "canonical_name": "Omni William Penn Hotel",
+   "brand": "INDEP:www.omnihotels.com",
+   "family": "INDEPENDENT",
+   "corridor": "pittsburgh-pa__downtown",
+   "source_url": "https://www.omnihotels.com/hotels/pittsburgh-william-penn",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "pittsburgh airport marriott",
+   "canonical_name": "Pittsburgh Airport Marriott",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "pittsburgh-pa__airport",
+   "source_url": "https://www.marriott.com/en-us/hotels/pitmc-pittsburgh-airport-marriott/overview",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "pittsburgh marriott city center",
+   "canonical_name": "Pittsburgh Marriott City Center",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "pittsburgh-pa__downtown",
+   "source_url": "https://www.marriott.com/en-us/hotels/pitdt-pittsburgh-marriott-city-center/overview",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "red roof inn pittsburgh east monroeville",
+   "canonical_name": "Red Roof Inn Pittsburgh East Monroeville",
+   "brand": "RED_ROOF",
+   "family": "RED_ROOF",
+   "corridor": "pittsburgh-pa__monroeville",
+   "source_url": "https://www.redroof.com/property/Monroeville/PA/15146/Hotels-close-to-Kennywood-Amusement-Park-I-76/rri174",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "residence inn",
+   "canonical_name": "Residence Inn",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "pittsburgh-pa__oakland",
+   "source_url": "https://www.marriott.com/pitrd",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "residence inn pittsburgh airport",
+   "canonical_name": "Residence Inn Pittsburgh Airport",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "pittsburgh-pa__robinson",
+   "source_url": "https://www.marriott.com/hotels/travel/pitra-residence-inn-pittsburgh-airport",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "residence inn pittsburgh airport coraopolis",
+   "canonical_name": "Residence Inn Pittsburgh Airport Coraopolis",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "pittsburgh-pa__airport",
+   "source_url": "https://www.marriott.com/hotels/travel/pitra-residence-inn-pittsburgh-airport/",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "residence inn pittsburgh cranberry township",
+   "canonical_name": "Residence Inn Pittsburgh Cranberry Township",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "pittsburgh-pa__cranberry",
+   "source_url": "https://www.marriott.com/hotels/travel/pitcr-residence-inn-pittsburgh-cranberry-township/",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "residence inn pittsburgh monroeville",
+   "canonical_name": "Residence Inn Pittsburgh Monroeville",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "pittsburgh-pa__monroeville",
+   "source_url": "https://www.marriott.com/hotels/travel/pitpm-residence-inn-pittsburgh-monroeville-wilkins-township/",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "residence inn pittsburgh north shore",
+   "canonical_name": "Residence Inn Pittsburgh North Shore",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "pittsburgh-pa__north-shore",
+   "source_url": "https://www.marriott.com/pitrn",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "residence inn pittsburgh university center",
+   "canonical_name": "Residence Inn Pittsburgh University Center",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "pittsburgh-pa__oakland",
+   "source_url": "https://www.marriott.com/hotels/travel/pitro-residence-inn-pittsburgh-university-medical-center/",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "shadyside inn suites",
+   "canonical_name": "Shadyside Inn Suites",
+   "brand": "INDEP:shadysideinn.com",
+   "family": "INDEPENDENT",
+   "corridor": "pittsburgh-pa__east-end",
+   "source_url": "https://shadysideinn.com",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "sheraton pittsburgh airport hotel",
+   "canonical_name": "Sheraton Pittsburgh Airport Hotel",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "pittsburgh-pa__airport",
+   "source_url": "https://www.marriott.com/hotels/travel/pitsa-sheraton-pittsburgh-airport-hotel/",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "sheraton pittsburgh hotel at station square",
+   "canonical_name": "Sheraton Pittsburgh Hotel at Station Square",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "pittsburgh-pa__south-side",
+   "source_url": "https://www.marriott.com/en-us/hotels/pitps-sheraton-pittsburgh-hotel-at-station-square/overview/",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "sonesta simply suites pittsburgh airport",
+   "canonical_name": "Sonesta Simply Suites Pittsburgh Airport",
+   "brand": "SONESTA",
+   "family": "SONESTA",
+   "corridor": "pittsburgh-pa__robinson",
+   "source_url": "https://www.sonesta.com/sonesta-simply-suites/pa/pittsburgh/sonesta-simply-suites-pittsburgh-airport",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "springhill suites",
+   "canonical_name": "SpringHill Suites",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "pittsburgh-pa__monroeville",
+   "source_url": "https://www.marriott.com/hotels/travel/pitmv-springhill-suites-pittsburgh-monroeville",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "springhill suites by marriott pittsburgh airport",
+   "canonical_name": "Springhill Suites by Marriott Pittsburgh Airport",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "pittsburgh-pa__airport",
+   "source_url": "https://www.marriott.com/en-us/hotels/pitha-springhill-suites-pittsburgh-airport/overview",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "springhill suites marriott",
+   "canonical_name": "SpringHill Suites Marriott",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "pittsburgh-pa__south-hills",
+   "source_url": "https://www.marriott.com/pitle",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "springhill suites north shore",
+   "canonical_name": "SpringHill Suites North Shore",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "pittsburgh-pa__north-shore",
+   "source_url": "https://www.marriott.com/pitns",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "springhill suites pittsburgh bakery square",
+   "canonical_name": "SpringHill Suites Pittsburgh Bakery Square",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "pittsburgh-pa__east-end",
+   "source_url": "https://www.marriott.com/hotels/travel/pitel-springhill-suites-pittsburgh-bakery-square",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "springhill suites pittsburgh mills",
+   "canonical_name": "SpringHill Suites Pittsburgh Mills",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "pittsburgh-pa__allegheny-valley",
+   "source_url": "https://www.marriott.com/hotels/travel/pitml-springhill-suites-pittsburgh-mills/",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "springhill suites pittsburgh monroeville",
+   "canonical_name": "SpringHill Suites Pittsburgh Monroeville",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "pittsburgh-pa__monroeville",
+   "source_url": "https://www.marriott.com/hotels/travel/pitmv-springhill-suites-pittsburgh-monroeville/",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "springhill suites pittsburgh mt lebanon",
+   "canonical_name": "SpringHill Suites Pittsburgh Mt Lebanon",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "pittsburgh-pa__south-hills",
+   "source_url": "https://www.marriott.com/hotels/travel/pitle-springhill-suites-pittsburgh-mt-lebanon/",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "springhill suites pittsburgh southside works",
+   "canonical_name": "SpringHill Suites Pittsburgh Southside Works",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "pittsburgh-pa__south-side",
+   "source_url": "https://www.marriott.com/hotels/travel/pitss-springhill-suites-pittsburgh-southside-works/",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "staybridge suites pittsburgh airport",
+   "canonical_name": "Staybridge Suites Pittsburgh Airport",
+   "brand": "IHG",
+   "family": "IHG",
+   "corridor": "pittsburgh-pa__robinson",
+   "source_url": "https://www.ihg.com/staybridge/hotels/us/en/pittsburgh/pitsu/hoteldetail",
+   "provider": "firecrawl",
+   "reader": "ihg",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "sunnyledge boutique hotel",
+   "canonical_name": "Sunnyledge Boutique Hotel",
+   "brand": "INDEP:sunnyledge.com",
+   "family": "INDEPENDENT",
+   "corridor": "pittsburgh-pa__east-end",
+   "source_url": "https://sunnyledge.com",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "the atterbury hotel autograph collection",
+   "canonical_name": "The Atterbury Hotel Autograph Collection",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "pittsburgh-pa__downtown",
+   "source_url": "https://www.marriott.com/en-us/hotels/pitkd-the-atterbury-hotel-autograph-collection/overview/",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "the industrialist hotel pittsburgh autograph collection",
+   "canonical_name": "The Industrialist Hotel Pittsburgh Autograph Collection",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "pittsburgh-pa__downtown",
+   "source_url": "https://www.marriott.com/en-us/hotels/pitad-the-industrialist-hotel-pittsburgh-autograph-collection/overview/",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "the landing hotel at rivers casino",
+   "canonical_name": "The Landing Hotel at Rivers Casino",
+   "brand": "INDEP:thelandinghotelpgh.com",
+   "family": "INDEPENDENT",
+   "corridor": "pittsburgh-pa__north-shore",
+   "source_url": "https://thelandinghotelpgh.com",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "the maverick by kasa",
+   "canonical_name": "The Maverick by Kasa",
+   "brand": "INDEP:kasa.com",
+   "family": "INDEPENDENT",
+   "corridor": "pittsburgh-pa__east-end",
+   "source_url": "https://kasa.com/properties/kasa-the-maverick-pittsburgh",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "the oaklander hotel autograph collection",
+   "canonical_name": "The Oaklander Hotel Autograph Collection",
+   "brand": "INDEP:theoaklanderhotel.com",
+   "family": "INDEPENDENT",
+   "corridor": "pittsburgh-pa__oakland",
+   "source_url": "https://theoaklanderhotel.com",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "the priory hotel",
+   "canonical_name": "The Priory Hotel",
+   "brand": "INDEP:thepriory.com",
+   "family": "INDEPENDENT",
+   "corridor": "pittsburgh-pa__north-shore",
+   "source_url": "https://thepriory.com",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "the westin convention center pittsburgh",
+   "canonical_name": "The Westin Convention Center Pittsburgh",
+   "brand": "INDEP:www.westinpittsburgh.com",
+   "family": "INDEPENDENT",
+   "corridor": "pittsburgh-pa__downtown",
+   "source_url": "http://www.westinpittsburgh.com",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "towneplace suites pittsburgh cranberry township",
+   "canonical_name": "TownePlace Suites Pittsburgh Cranberry Township",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "pittsburgh-pa__cranberry",
+   "source_url": "https://www.marriott.com/pitrr",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "tryp hotel pittsburgh",
+   "canonical_name": "TRYP Hotel Pittsburgh",
+   "brand": "INDEP:www.tryppittsburgh.com",
+   "family": "INDEPENDENT",
+   "corridor": "pittsburgh-pa__downtown",
+   "source_url": "https://www.tryppittsburgh.com",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "wyndham grand pittsburgh downtown",
+   "canonical_name": "Wyndham Grand Pittsburgh Downtown",
+   "brand": "INDEP:www.wyndham.com",
+   "family": "INDEPENDENT",
+   "corridor": "pittsburgh-pa__downtown",
+   "source_url": "http://www.wyndham.com/hotels/pennsylvania/pittsburgh/wyndham-grand-pittsburgh-downtown/hotel-overview",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  }
+ ],
+ "settled": [],
+ "suppressed_same_lane": [],
+ "preflight": {
+  "ok": true,
+  "checks": [
+   {
+    "check": "cost_telemetry_live",
+    "ok": true,
+    "detail": "per-zone month-to-date cost readable across scraping_browser1, mcp_unlocker, cli_unlocker"
+   },
+   {
+    "check": "balance_covers_the_remaining_cap",
+    "ok": true,
+    "detail": "balance 1473 cents against a 1000 cent cap"
+   },
+   {
+    "check": "at_least_one_provider_available",
+    "ok": true,
+    "detail": "available: brightdata_browser, brightdata_web_unlocker, firecrawl"
+   }
+  ],
+  "providers": {
+   "brightdata_browser": {
+    "available": true,
+    "detail": "Browser API credential present; exit geography pinned to 'us'"
+   },
+   "brightdata_web_unlocker": {
+    "available": true,
+    "detail": "unlocker zones mcp_unlocker, cli_unlocker"
+   },
+   "direct_http": {
+    "available": false,
+    "detail": "reserved slot: PTF-owned acquisition for pages that need no vendor. Declared so the ladder can express cheapest-first, and unavailable so nothing routes to it by accident."
+   },
+   "firecrawl": {
+    "available": true,
+    "detail": "Firecrawl credential present; exit geography pinned to 'US'"
+   }
+  },
+  "already_spent_usd_minor": 0
+ },
+ "cost_plan_gate": {
+  "ok": true,
+  "checks": [],
+  "note": "not checked: --dry-run spends nothing"
+ },
+ "outcome": "DRY_RUN_ONLY",
+ "results": [],
+ "attempted": 0,
+ "spend": {
+  "measured_usd_minor": 0,
+  "estimated_usd_minor": 0.0,
+  "binding_usd_minor": 0,
+  "binding_source": "measured",
+  "telemetry_live": true,
+  "estimated_plan_credits": 0.0,
+  "seeded_usd_minor": 0.0,
+  "this_session_usd_minor": 0.0,
+  "vendor_reads": 1,
+  "lag_note": "the vendor's zone meter settles minutes after a session; until it does the estimate is the only number that exists, so the cap binds on the larger"
+ },
+ "cost_samples": [
+  {
+   "label": "pittsburgh-pa-recensus_001-pass1:preflight",
+   "at": "2026-08-26T12:59:55.888573+00:00",
+   "zone_costs_usd_minor": {
+    "scraping_browser1": 6126,
+    "mcp_unlocker": 23,
+    "cli_unlocker": 7
+   },
+   "measured_usd_minor": 0
+  },
+  {
+   "label": "pittsburgh-pa-recensus_001-pass1:final",
+   "at": "2026-08-26T13:00:03.320527+00:00",
+   "zone_costs_usd_minor": {
+    "scraping_browser1": 6126,
+    "mcp_unlocker": 23,
+    "cli_unlocker": 7
+   },
+   "measured_usd_minor": 0
+  }
+ ],
+ "journal_total": 0,
+ "run_end": "2026-08-26T13:00:03.320668+00:00",
+ "elapsed_seconds": 21.6,
+ "outcome_counts": {},
+ "publication_grade": 0
+}

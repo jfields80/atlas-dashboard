@@ -1,0 +1,195 @@
+{
+  "schema": "ptf-market-factory-ledger/1.0",
+  "what_this_is": "The durable record of which lifecycle phases have run for this market, with the artifacts each produced. A phase recorded here as COMPLETED or SKIPPED is not run again; a phase whose predecessor is not satisfied is not started.",
+  "market_id": "pittsburgh-pa",
+  "work_order": "PTF-PITTSBURGH-HARDENED-RECENSUS-001",
+  "suffix": "recensus_001",
+  "lifecycle": [
+    "census",
+    "routing",
+    "zero_cost_url_recovery",
+    "prior_build_reconciliation",
+    "reroute",
+    "acquisition",
+    "declined_evidence_recovery",
+    "reroute_recovered",
+    "acquire_newly_routable",
+    "alternate_lane_handling",
+    "coverage_exhaustion",
+    "closure",
+    "founder_review_packet",
+    "founder_review"
+  ],
+  "paid_phases": [
+    "acquire_newly_routable",
+    "acquisition",
+    "alternate_lane_handling"
+  ],
+  "passes": [],
+  "phases": {
+    "census": {
+      "status": "COMPLETED",
+      "ran_at": "2026-08-26T12:59:40.998160+00:00",
+      "note": "census built: 115 identities; free discovery exhausted over 30 Overpass cells",
+      "artifacts": {
+        "census": {
+          "path": "launch_packages/pettripfinder/identity_census/recensus/pittsburgh-pa.json",
+          "sha256": "39f5e090fc8d0b02ec6b11b8f6a2fa820b9923c30b9a203bc1afd46425f0ecdb"
+        },
+        "candidate_ledger": {
+          "path": "C:/Atlas-Grok-Pittsburgh-Revalidate/atlas-dashboard/launch_packages/pettripfinder/pittsburgh_pa_candidate_ledger_recensus_001.json",
+          "sha256": "a7b6b350006846d4fffb460b81a8b962523ab40f4a833e4407992480b406b6bc"
+        },
+        "prior_census_absorptions": {
+          "path": "C:/Atlas-Grok-Pittsburgh-Revalidate/atlas-dashboard/launch_packages/pettripfinder/pittsburgh_pa_prior_census_absorptions_recensus_001.json",
+          "sha256": "63176c1302001eab79682d6722cd2a60ae87a8c6d1773be4cb4a62dc3197b53f"
+        },
+        "discovery_state": {
+          "path": "C:/Atlas-Grok-Pittsburgh-Revalidate/atlas-dashboard/launch_packages/pettripfinder/pittsburgh_pa_discovery_state_recensus_001.json",
+          "sha256": "34e49f4f1ddc41101ea9bd07d638b44912bae9238ce3bb717ce84289c84a26e0"
+        }
+      },
+      "facts": {
+        "census": 115,
+        "prior_census": {
+          "prior_rows": 96,
+          "fresh_candidates": 136,
+          "absorbed_into_fresh_candidates": 36,
+          "prior_rows_surviving_as_candidates": 60,
+          "merged_candidates": 196
+        },
+        "discovery_state": "OVERPASS_FREE_DISCOVERY_EXHAUSTED",
+        "overpass_cells_total": 30
+      }
+    },
+    "routing": {
+      "status": "COMPLETED",
+      "ran_at": "2026-08-26T12:59:41.130784+00:00",
+      "note": "routing: ROUTED 87 of 115 (75.7%), overlay applied 0, shared URLs 0",
+      "artifacts": {
+        "routing": {
+          "path": "C:/Atlas-Grok-Pittsburgh-Revalidate/atlas-dashboard/launch_packages/pettripfinder/pittsburgh_pa_routing_recensus_001.json",
+          "sha256": "cf788bb3e6f309adf48e54e0b3fd6cadd85ecfc7c52d85ca91bce40c4f7ea015"
+        }
+      },
+      "facts": {
+        "routed": 87,
+        "census": 115,
+        "overlay_applied": 0,
+        "overlay_rows": [],
+        "shared_urls": 0
+      }
+    },
+    "zero_cost_url_recovery": {
+      "status": "COMPLETED",
+      "ran_at": "2026-08-26T12:59:41.192138+00:00",
+      "note": "cache recovery: 1 recovered, 21 still unknown",
+      "artifacts": {
+        "url_recovery": {
+          "path": "C:/Atlas-Grok-Pittsburgh-Revalidate/atlas-dashboard/launch_packages/pettripfinder/pittsburgh_pa_url_recovery_cache_recensus_001.json",
+          "sha256": "0199ea3dd037a8ee17c53baefe85bed67986ebb47f6604fbb432fe82d5823b7a"
+        }
+      },
+      "facts": {
+        "recovered": 1,
+        "still_unknown": 21
+      }
+    },
+    "prior_build_reconciliation": {
+      "status": "COMPLETED",
+      "ran_at": "2026-08-26T12:59:41.578325+00:00",
+      "note": "prior-build reconciliation: 6 recovered (families {'OPENSTREETMAP': 89, 'PRIOR_BUILD': 88}), 16 still unknown",
+      "artifacts": {
+        "url_recovery": {
+          "path": "C:/Atlas-Grok-Pittsburgh-Revalidate/atlas-dashboard/launch_packages/pettripfinder/pittsburgh_pa_url_recovery_recensus_001.json",
+          "sha256": "a6c997e39821ce5de2786ae71c1ab04bb737dddd8de7a10f83ce4caced2b89dd"
+        }
+      },
+      "facts": {
+        "recovered": 6,
+        "still_unknown": 16
+      }
+    },
+    "reroute": {
+      "status": "COMPLETED",
+      "ran_at": "2026-08-26T12:59:41.652770+00:00",
+      "note": "routing_overlay: ROUTED 92 of 115 (80.0%), overlay applied 6, shared URLs 0",
+      "artifacts": {
+        "routing_overlay": {
+          "path": "C:/Atlas-Grok-Pittsburgh-Revalidate/atlas-dashboard/launch_packages/pettripfinder/pittsburgh_pa_routing_overlay_recensus_001.json",
+          "sha256": "3ba825e09b2dfc8269e5256a39a5874b3f0b88d1da8a2f57589ce4fc69dbbba6"
+        }
+      },
+      "facts": {
+        "routed": 92,
+        "census": 115,
+        "overlay_applied": 6,
+        "overlay_rows": [
+          "courtyard by marriott pittsburgh airport",
+          "even hotels",
+          "hyatt regency pittsburgh international airport",
+          "kimpton hotel monaco pittsburgh",
+          "residence inn pittsburgh cranberry township",
+          "sonesta simply suites pittsburgh airport"
+        ],
+        "shared_urls": 0
+      }
+    },
+    "acquisition": {
+      "status": "AWAITING_AUTHORISATION",
+      "ran_at": "2026-08-26T13:00:03.353017+00:00",
+      "note": "cost plan written; re-run with --authorise-spend to run the paid pass under the plan's recommended cap (1000 cents)",
+      "artifacts": {
+        "dry_run": {
+          "path": "C:/Atlas-Grok-Pittsburgh-Revalidate/atlas-dashboard/launch_packages/pettripfinder/pittsburgh_pa_acquisition_dry_run_pass1_recensus_001.json",
+          "sha256": "8856b07b2445510a44aa5a4d5cb6d39f190f1cdb10bbbcbd45fad1b83dc3d88a"
+        },
+        "prior": {
+          "path": "C:/Atlas-Grok-Pittsburgh-Revalidate/atlas-dashboard/launch_packages/pettripfinder/pittsburgh_pa_acquisition_merged_pass1_recensus_001.json",
+          "sha256": "d337e9577d167b71ed46a6d0debd42ae251bf3ecd4c91609feb9192079546547"
+        },
+        "cost_plan": {
+          "path": "C:/Atlas-Grok-Pittsburgh-Revalidate/atlas-dashboard/launch_packages/pettripfinder/pittsburgh_pa_cohort_cost_plan_pass1_recensus_001.json",
+          "sha256": "9a3936ec0f73f3a931342443178f50cf2247c54eec018bb6e84a0b87bc380b7b"
+        }
+      },
+      "facts": {
+        "cohort": 92,
+        "suppressed_same_lane": 0,
+        "recommended_cap_usd_minor": 1000,
+        "predicted_attemptable": 72,
+        "no_property_is_bought_twice": true
+      }
+    },
+    "declined_evidence_recovery": {
+      "status": "NOT_RUN"
+    },
+    "reroute_recovered": {
+      "status": "NOT_RUN"
+    },
+    "acquire_newly_routable": {
+      "status": "NOT_RUN"
+    },
+    "alternate_lane_handling": {
+      "status": "NOT_RUN"
+    },
+    "coverage_exhaustion": {
+      "status": "NOT_RUN"
+    },
+    "closure": {
+      "status": "NOT_RUN"
+    },
+    "founder_review_packet": {
+      "status": "NOT_RUN"
+    },
+    "founder_review": {
+      "status": "NOT_RUN"
+    }
+  },
+  "last_invocation": {
+    "at": "2026-08-26T12:59:40.487219+00:00",
+    "through": "founder_review",
+    "only": "",
+    "spend_authorised": false
+  }
+}
