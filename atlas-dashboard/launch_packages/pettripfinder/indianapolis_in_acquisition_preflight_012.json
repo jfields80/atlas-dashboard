@@ -1,0 +1,120 @@
+{
+  "schema": "ptf-acquisition-preflight/1.0",
+  "market_id": "indianapolis-in",
+  "work_order": "PTF-INDIANAPOLIS-TARGETED-POLICY-ACQUISITION-012",
+  "outcome": "STOPPED_BEFORE_SPEND",
+  "usd_spent": 0.0,
+  "provider_calls": 0,
+  "why_it_stopped": "The authorisation names 51 identities and says the run must not become a market-wide pass. The committed acquisition runner derives its own cohort from the census, the routing overlay and the prior report, and that cohort is 74 identities -- the 51 authorised, minus one the ledger settles, plus 24 rows that already carried a census URL and were never attempted. Those 24 are legitimate work, but they are not this authorisation, and their cost does not fit the cap that was set for 51.",
+  "preflight_checks": {
+    "branch": "grok/ptf-indianapolis-revalidation-002",
+    "head": "4c9fc887d75ef1a2260dbce614fab0d0bb9fd5a1",
+    "tree_clean_at_start": true,
+    "paid_ledger_rebuilt_from_source_documents": true,
+    "indianapolis_rows_rebuilt": 105,
+    "indianapolis_rows_in_committed_ledger": 105,
+    "attempt_id_sets_identical": true,
+    "other_markets_preserved": 558,
+    "suppression_over_the_authorised_51": {
+      "payable": 51,
+      "suppressed": 0,
+      "partition_holds": true,
+      "lane_split": {
+        "firecrawl": 20,
+        "brightdata_browser": 31
+      }
+    }
+  },
+  "cohort_divergence": {
+    "authorised": 51,
+    "runner_derived": 74,
+    "in_both": 50,
+    "authorised_but_absent": [
+      "hyatt place indianapolis carmel"
+    ],
+    "derived_but_not_authorised": [
+      "bottleworks hotel",
+      "country inn and suites indianapolis south in",
+      "extended stay america indianapolis airport",
+      "hampton inn indianapolis south",
+      "hampton inn indianapolis sw plainfield",
+      "hampton inn westfield indianapolis",
+      "hilton garden inn indianapolis airport",
+      "hilton garden inn indianapolis carmel",
+      "hilton garden inn indianapolis downtown",
+      "hilton garden inn indianapolis northeast fishers",
+      "hilton garden inn indianapolis northwest",
+      "hilton indianapolis hotel and suites",
+      "home2 suites by hilton",
+      "home2 suites by hilton indianapolis downtown",
+      "home2 suites by hilton indianapolis northwest",
+      "hotel broad ripple",
+      "hotel indy indianapolis a tribute portfolio hotel",
+      "keystone inn and suites",
+      "omni severin hotel indianapolis",
+      "prairie guest house",
+      "red roof inn indianapolis east",
+      "residence inn by marriott indianapolis northwest",
+      "sonesta select",
+      "tru"
+    ],
+    "why_the_extras_exist": "they are census rows that already had a first-party URL and were never attempted for policy -- the pre-existing routed backlog, not anything this discovery work produced"
+  },
+  "cost_if_run_as_authorised_51": {
+    "cohort_size": 51,
+    "cohort_by_provider": {
+      "brightdata_browser": 31,
+      "firecrawl": 20
+    },
+    "firecrawl_credits": 20.0,
+    "dollar_billed_properties": 31,
+    "projection": {
+      "at_measured_rates_usd_minor": 415.71,
+      "at_registry_rates_usd_minor": 496.0,
+      "unlocker_fallback_exposure_usd_minor": 155.0,
+      "worst_case_usd_minor": 651.0,
+      "basis": "every dollar-billed property attempted once at the higher of the registry and measured unit price, plus a fallback attempt on every one of them"
+    },
+    "fits_the_700c_cap": true
+  },
+  "cost_if_run_as_the_runner_derives_it": {
+    "cohort_size": 73,
+    "cohort_by_provider": {
+      "brightdata_browser": 53,
+      "firecrawl": 20
+    },
+    "firecrawl_credits": 20.0,
+    "dollar_billed_properties": 53,
+    "projection": {
+      "at_measured_rates_usd_minor": 710.73,
+      "at_registry_rates_usd_minor": 848.0,
+      "unlocker_fallback_exposure_usd_minor": 265.0,
+      "worst_case_usd_minor": 1113.0,
+      "basis": "every dollar-billed property attempted once at the higher of the registry and measured unit price, plus a fallback attempt on every one of them"
+    },
+    "fits_the_700c_cap": false,
+    "under_the_cap": {
+      "attemptable": 63,
+      "deferred": 10,
+      "completes_cohort": false,
+      "stops_on": "dollar balance"
+    }
+  },
+  "why_the_gate_cannot_narrow_it": "cost_plan_gate VERIFIES that a plan was built over exactly the queue about to run -- it compares cohort_keys_sha256 against the queue fingerprint. It is a proof that the plan and the purchase agree, not a filter. A plan for 51 handed to a 74-row queue fails the gate; it does not shrink the queue.",
+  "meter_anchor": {
+    "written": true,
+    "path": "data/acquisition/indianapolis_in_012/market_cost_anchor.json",
+    "vendor_balance_usd_minor": 1160,
+    "note": "written once by the dry run and never rewritten; it is the baseline a later authorised run measures its spend from, so it stays valid for run-id indianapolis-in-012"
+  },
+  "nothing_changed": {
+    "paid_attempt_ledger_attempts": 663,
+    "policy_journals": {
+      "pass1": 79,
+      "pass2": 2
+    },
+    "authority_touched": false,
+    "published": false,
+    "deployed": false
+  }
+}
