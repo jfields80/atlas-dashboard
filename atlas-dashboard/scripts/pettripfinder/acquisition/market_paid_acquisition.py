@@ -90,6 +90,7 @@ _REPO_ROOT = Path(__file__).resolve().parents[3]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
+from scripts.pettripfinder.acquisition import authorized_cohort as AUTH  # noqa: E402
 from scripts.pettripfinder.acquisition import cohort_cost_plan as CP  # noqa: E402
 from scripts.pettripfinder.acquisition import journal as JOURNAL      # noqa: E402
 from scripts.pettripfinder.acquisition import market_routing as MR    # noqa: E402
@@ -1065,6 +1066,17 @@ def main(argv=None) -> int:
                         help="a ptf-retry-overrides document naming, with an "
                              "author and a reason, identities whose same-lane "
                              "retry an operator explicitly authorises")
+    parser.add_argument("--only-cohort", default="",
+                        help="a ptf-authorized-cohort document naming the "
+                             "EXACT identities this run may touch. The "
+                             "eligible queue is intersected with it, the "
+                             "cross-run paid ledger is re-run over the "
+                             "intersection, and anything eligible but "
+                             "unauthorised is reported rather than bought. "
+                             "Omit it and the run behaves exactly as before.")
+    parser.add_argument("--paid-ledger", default="",
+                        help="the cross-run paid-attempt ledger consulted by "
+                             "--only-cohort immediately before spending")
     parser.add_argument("--no-resume", action="store_true")
     parser.add_argument("--dry-run", action="store_true",
                         help="derive the cohort and run the gates; spend zero")
@@ -1097,6 +1109,27 @@ def main(argv=None) -> int:
     cohort, deduped = _apply_dedup_plan(cohort, args.dedup_plan)
     settled.extend(deduped)
     queue = order_queue(cohort, args.priority.split(","))
+
+    # PTF-GENERIC-EXACT-AUTHORIZED-COHORT-001. An authorisation names identities,
+    # not a count. Applied here -- after the queue is derived and before any
+    # limit or any spending -- so the run can only ever be a SUBSET of what the
+    # runner found eligible, and so the cost-plan fingerprint below is computed
+    # over exactly what will be bought.
+    authorized_report: Dict = OrderedDict((("only_cohort", ""),))
+    if args.only_cohort:
+        document = AUTH.load(args.only_cohort)
+        paid_ledger = (json.loads(Path(args.paid_ledger).read_text(encoding="utf-8"))
+                       if args.paid_ledger else None)
+        queue, authorized_report = AUTH.gate(
+            queue, document, market_id=args.market,
+            cap_usd_minor=int(round(args.cap_usd * 100)),
+            plan_credit_cap=args.credit_cap, ledger=paid_ledger)
+        authorized_report["only_cohort"] = str(Path(args.only_cohort).as_posix())
+        # The rows themselves are already in the queue and in the report's
+        # backlog listing; carrying the full row bodies twice only makes the
+        # artifact harder to read.
+        authorized_report.pop("payable_rows", None)
+
     if args.limit:
         queue = queue[:args.limit]
     # Alternate-lane rows start on the lane the prior attempt never tried. The
@@ -1134,6 +1167,7 @@ def main(argv=None) -> int:
                             "lagging meter overshoots"),
         ))),
         ("url_overlay", overlay),
+        ("authorized_cohort", authorized_report),
         ("routing_summary", routing_summary),
         ("cohort_rule", OrderedDict((
             ("terminal_prior_outcomes", args.terminal.split(",")),
