@@ -1,0 +1,34 @@
+{
+  "schema": "ptf-authorized-cohort/1.0",
+  "what_this_is": "The exact identity keys one paid run is authorised to touch, with the cap that was approved over them. An allowlist and a ceiling: a row that is no longer payable shrinks the run rather than being replaced, and an identity that became eligible afterwards is left for its own approval.",
+  "market_id": "indianapolis-in",
+  "work_order": "PTF-INDIANAPOLIS-BACKLOG-COST-PLAN-015",
+  "run_id": "",
+  "authorization": {
+    "cap_usd_minor": 0,
+    "plan_credit_cap": 0,
+    "means": "a ceiling and an allowlist: the run may spend less and may not spend more, and may touch these identities and no others"
+  },
+  "cost_plan": {
+    "path": "launch_packages/pettripfinder/indianapolis_in_backlog_cost_plan_015.json",
+    "cohort_keys_sha256": ""
+  },
+  "cohort_count": 9,
+  "identity_keys": [
+    "hampton inn indianapolis south",
+    "hampton inn indianapolis sw plainfield",
+    "hampton inn westfield indianapolis",
+    "hilton garden inn indianapolis airport",
+    "hilton garden inn indianapolis carmel",
+    "hilton garden inn indianapolis downtown",
+    "home2 suites by hilton",
+    "home2 suites by hilton indianapolis downtown",
+    "home2 suites by hilton indianapolis northwest"
+  ],
+  "cohort_keys_sha256": "94effc44e12424511e3303044fc83d2a180171f45bec40968b95efbd0ed9fe02",
+  "generated_at": "2026-08-27T18:07:48.872768+00:00",
+  "provenance": {
+    "derived_from": "PLAN B -- the minimum deterministic subset targeting the 6-profile gap",
+    "authorises_nothing": "cap_usd_minor is 0 and plan_credit_cap is 0 ON PURPOSE. This is a COST PLAN artifact, not an authorisation: a runner asked to spend against it fails the 'run_cap_within_the_authorised_cap' check and buys nothing. A person authorises by issuing a replacement with a real cap."
+  }
+}
