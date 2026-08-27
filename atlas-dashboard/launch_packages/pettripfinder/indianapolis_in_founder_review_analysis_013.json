@@ -1,0 +1,985 @@
+{
+  "schema": "ptf-founder-review-analysis/1.0",
+  "market_id": "indianapolis-in",
+  "work_order": "PTF-INDIANAPOLIS-TARGETED-FOUNDER-REVIEW-013",
+  "reviewer": "PTF-FOUNDER-001",
+  "nothing_is_published_by_this_file": "This is a review. It signs nothing on its own; the signature ledger beside it records what the founder approved.",
+  "accounting": {
+    "candidates": 31,
+    "reviewed": 31,
+    "valid_but_not_publication_grade": 1,
+    "each_candidate_once": true
+  },
+  "dispositions": {
+    "APPROVE_PET_FRIENDLY": 19,
+    "APPROVE_VERIFIED_NO_PETS": 10,
+    "HOLD": 2
+  },
+  "machine_vs_deeper_disagreements": {
+    "count": 7,
+    "identity_keys": [
+      "comfort inn avon indianapolis west",
+      "comfort inn fishers indianapolis",
+      "comfort suites west indianapolis brownsburg",
+      "extended stay america indianapolis airport w southern ave",
+      "home2 suites by hilton indianapolis keystone crossing",
+      "microtel inn and suites by wyndham indianapolis airport",
+      "quality inn and suites airport"
+    ],
+    "of_which_012_called_contradictory": [
+      "comfort inn avon indianapolis west",
+      "comfort inn fishers indianapolis",
+      "comfort suites west indianapolis brownsburg",
+      "microtel inn and suites by wyndham indianapolis airport",
+      "quality inn and suites airport"
+    ],
+    "of_which_are_the_two_holds": [
+      "extended stay america indianapolis airport w southern ave",
+      "home2 suites by hilton indianapolis keystone crossing"
+    ]
+  },
+  "the_contradiction_that_was_not_one": {
+    "count": 5,
+    "verdict": "not one of the five contradicts itself",
+    "cause": "012's INDICATIVE regex matched 'pets allowed' inside 'No Pets Allowed' and inside 'Pets Allowed: No'. The sources are plain refusals; the first-pass reader disagreed with the sentence it was reading.",
+    "ruling": "all five approved as VERIFIED_NO_PETS",
+    "identity_keys": [
+      "comfort inn avon indianapolis west",
+      "comfort inn fishers indianapolis",
+      "comfort suites west indianapolis brownsburg",
+      "microtel inn and suites by wyndham indianapolis airport",
+      "quality inn and suites airport"
+    ]
+  },
+  "auto_accepted": 29,
+  "auto_accept_rule": "accepted without a human only when the block states a permission or a refusal in its own words, identity is confirmed, the evidence is first-party and publication-grade, no service-animal sentence is doing the work of a permission, and no fee stands in for one",
+  "exceptions": [
+    {
+      "identity_key": "extended stay america indianapolis airport w southern ave",
+      "canonical_name": "Extended Stay America - Indianapolis - Airport - W. Southern Ave.",
+      "brand": "ESA",
+      "corridor": "indianapolis-in__airport",
+      "source_url": "https://www.extendedstayamerica.com/hotels/in/indianapolis/airport-w-southern-ave?channel=gmb-listing",
+      "policy_block": "Pet fees: Not to exceed a $25.00 per day cleaning fee plus tax, for the first six (6) nights, per pet. Each day thereafter there is a pet cleaning fee not to exceed a $15.00 per day plus tax, per pet. If your reservation is for six (6) days or less, the pet fees for your entire stay will be due at check-in. For reservations for seven (7) days or more, the first seven (7) nights\u2019 pet fees will be due at check-in and each seven (7) days thereafter until the end of your reservation.",
+      "identity_confirmed": true,
+      "locator_strategy": "generic_signal_walk",
+      "content_hash": "cfc31ddb6f9179c0187bb1ecb6072eddc52344c58d76f26859dec4033d3aefe3",
+      "block_sha256": "84ef325b40b525b741f0fba743102fd660a8536c3b57df79d60444ac26bb2483",
+      "completed_at": "2026-08-27T16:39:02.243736+00:00",
+      "machine_disposition": "READS_AS_PET_FRIENDLY",
+      "deeper_reading": {
+        "denying_language": [],
+        "allowing_language": [],
+        "service_animal_language": false,
+        "fee_language": true,
+        "question_only": false,
+        "amenity_run": false
+      },
+      "disposition": "HOLD",
+      "reason": "the block states pet FEES and never states that pets may come. A fee says a charge was MENTIONED, not that it APPLIES, and inferring permission from it is the exact mistake this review is instructed not to make.",
+      "machine_and_deeper_agree": false
+    },
+    {
+      "identity_key": "home2 suites by hilton indianapolis keystone crossing",
+      "canonical_name": "Home2 Suites by Hilton Indianapolis Keystone Crossing",
+      "brand": "HILTON",
+      "corridor": "indianapolis-in__keystone-castleton",
+      "source_url": "https://www.hilton.com/en/hotels/indenht-home2-suites-indianapolis-keystone-crossing/?SEO_id=GMB-AMER-HT-INDENHT",
+      "policy_block": "Are pets allowed at Home2 Suites by Hilton Indianapolis Keystone Crossing?",
+      "identity_confirmed": true,
+      "locator_strategy": "generic_signal_walk",
+      "content_hash": "8313f175b2a82f2be3b57dfe26f40f381b070b8cf276cd101306a33356476766",
+      "block_sha256": "43fff946c8f775f0e522ec0aa84b5f336b5e58c51d10769e8b8d12027bb586e1",
+      "completed_at": "2026-08-27T16:29:06.723006+00:00",
+      "machine_disposition": "READS_AS_PET_FRIENDLY",
+      "deeper_reading": {
+        "denying_language": [],
+        "allowing_language": [
+          "pets?\\s+(are\\s+)?allowed\\b(?!\\s*:\\s*no)"
+        ],
+        "service_animal_language": false,
+        "fee_language": false,
+        "question_only": true,
+        "amenity_run": false
+      },
+      "disposition": "HOLD",
+      "reason": "the locator captured the FAQ heading and stopped: the block is a question, not an answer. A question is not a policy.",
+      "machine_and_deeper_agree": false
+    }
+  ],
+  "valid_but_not_publication_grade": [
+    {
+      "identity_key": "motel 6 indianapolis airport",
+      "outcome": "VALID",
+      "final_state": "ACQUIRED_NONPUBLICATION_GRADE",
+      "policy_block": "Pets Allowed Elevator Restaurant Nearby Racing Wi-Fi Mass Transit",
+      "disposition": "HOLD",
+      "reason": "acquired but not publication-grade; it never entered review and is recorded so the 50 attempts still add up"
+    }
+  ],
+  "running_total": {
+    "current_promoted_pet_friendly": 24,
+    "new_signed_pet_friendly": 19,
+    "projected_total_after_review": 43,
+    "new_verified_no_pets": 10,
+    "approve_with_change": 0,
+    "holds": 2,
+    "unresolved": 2,
+    "target": 50,
+    "remaining_gap_to_50": 7
+  },
+  "reviewed": [
+    {
+      "identity_key": "candlewood suites indianapolis northwest",
+      "canonical_name": "Candlewood Suites Indianapolis Northwest",
+      "brand": "IHG",
+      "corridor": "indianapolis-in__northwest",
+      "source_url": "https://www.ihg.com/candlewood/hotels/us/en/indianapolis/indez/hoteldetail",
+      "policy_block": "Pet fee per night: 25 USD Pet damage deposit: 150 USD Pet weight limit: 80 2 pets allowed",
+      "identity_confirmed": true,
+      "locator_strategy": "static_html_walk",
+      "content_hash": "c6f99a3f3eb3bf43bdf3fe7e7e670c146556f85823be103aabc803550ff4a42e",
+      "block_sha256": "754e290fafccfbfc023d17ee66c258d075699601f23bed87e3aa200409dd7959",
+      "completed_at": "2026-08-27T15:45:29.145962+00:00",
+      "machine_disposition": "READS_AS_PET_FRIENDLY",
+      "deeper_reading": {
+        "denying_language": [],
+        "allowing_language": [
+          "pets?\\s+(are\\s+)?allowed\\b(?!\\s*:\\s*no)",
+          "\\d+\\s+pets?\\s+allowed"
+        ],
+        "service_animal_language": false,
+        "fee_language": true,
+        "question_only": false,
+        "amenity_run": false
+      },
+      "disposition": "APPROVE_PET_FRIENDLY",
+      "reason": "the source affirmatively permits pets in its own words",
+      "machine_and_deeper_agree": true
+    },
+    {
+      "identity_key": "comfort inn avon indianapolis west",
+      "canonical_name": "Comfort Inn Avon Indianapolis West",
+      "brand": "CHOICE",
+      "corridor": "indianapolis-in__hendricks-west",
+      "source_url": "https://www.choicehotels.com/indiana/avon/comfort-inn-hotels/in271?mc=llgoxxpx",
+      "policy_block": "No Pets Allowed Only service animals are permitted, free of charge.",
+      "identity_confirmed": true,
+      "locator_strategy": "static_html_walk",
+      "content_hash": "cd94d5e945b63625d63a886b6f78cd8681a3a5af50b8d8e2e5d90df672f9cc3d",
+      "block_sha256": "ca37ad218812fa036fa6a0cdc21a7efcdea0ae300af1455e73615de7914ed614",
+      "completed_at": "2026-08-27T15:46:00.386348+00:00",
+      "machine_disposition": "READS_BOTH_WAYS_NEEDS_A_RULING",
+      "deeper_reading": {
+        "denying_language": [
+          "no\\s+pets\\s+allowed",
+          "\\bno\\s+pets\\b"
+        ],
+        "allowing_language": [],
+        "service_animal_language": true,
+        "fee_language": false,
+        "question_only": false,
+        "amenity_run": false
+      },
+      "disposition": "APPROVE_VERIFIED_NO_PETS",
+      "reason": "the source refuses pets in its own words; the service-animal sentence beside it is a legal access category and neither softens nor contradicts the refusal",
+      "machine_and_deeper_agree": false
+    },
+    {
+      "identity_key": "comfort inn fishers indianapolis",
+      "canonical_name": "Comfort Inn Fishers Indianapolis",
+      "brand": "CHOICE",
+      "corridor": "indianapolis-in__fishers",
+      "source_url": "https://www.choicehotels.com/indiana/fishers/comfort-inn-hotels/in358?mc=llgoxxpx",
+      "policy_block": "No Pets Allowed Only service animals are permitted, free of charge.",
+      "identity_confirmed": true,
+      "locator_strategy": "static_html_walk",
+      "content_hash": "dc9b2da09990d137d0c9b34a77fa66a2e48ea9149bcecb5c8ed56b976c255ac7",
+      "block_sha256": "ca37ad218812fa036fa6a0cdc21a7efcdea0ae300af1455e73615de7914ed614",
+      "completed_at": "2026-08-27T15:46:40.790951+00:00",
+      "machine_disposition": "READS_BOTH_WAYS_NEEDS_A_RULING",
+      "deeper_reading": {
+        "denying_language": [
+          "no\\s+pets\\s+allowed",
+          "\\bno\\s+pets\\b"
+        ],
+        "allowing_language": [],
+        "service_animal_language": true,
+        "fee_language": false,
+        "question_only": false,
+        "amenity_run": false
+      },
+      "disposition": "APPROVE_VERIFIED_NO_PETS",
+      "reason": "the source refuses pets in its own words; the service-animal sentence beside it is a legal access category and neither softens nor contradicts the refusal",
+      "machine_and_deeper_agree": false
+    },
+    {
+      "identity_key": "comfort inn south",
+      "canonical_name": "Comfort Inn South",
+      "brand": "CHOICE",
+      "corridor": "indianapolis-in__south",
+      "source_url": "https://www.choicehotels.com/indiana/indianapolis/comfort-inn-hotels/in404?mc=llgoxxpx",
+      "policy_block": "Pets Allowed: Yes General: Pet accommodations: 20.00 USD per night per pet. Maximum of 2 pets per room.. Service animals are permitted, without charge.",
+      "identity_confirmed": true,
+      "locator_strategy": "static_html_walk",
+      "content_hash": "d57e9d045de7f6b27cc4373160ea9314ab51ed77e4a90799eefbed7acc492dc4",
+      "block_sha256": "19600c2331442036bd7b8d11bfd555cd156f452b80500fd4663821611562facf",
+      "completed_at": "2026-08-27T15:47:33.477742+00:00",
+      "machine_disposition": "READS_AS_PET_FRIENDLY",
+      "deeper_reading": {
+        "denying_language": [],
+        "allowing_language": [
+          "pets?\\s+(are\\s+)?allowed\\b(?!\\s*:\\s*no)",
+          "pets\\s+allowed\\s*:\\s*yes"
+        ],
+        "service_animal_language": true,
+        "fee_language": true,
+        "question_only": false,
+        "amenity_run": false
+      },
+      "disposition": "APPROVE_PET_FRIENDLY",
+      "reason": "the source affirmatively permits pets in its own words; its service-animal sentence is separate and was not read as the permission",
+      "machine_and_deeper_agree": true
+    },
+    {
+      "identity_key": "comfort suites west indianapolis brownsburg",
+      "canonical_name": "Comfort Suites West Indianapolis - Brownsburg",
+      "brand": "CHOICE",
+      "corridor": "indianapolis-in__hendricks-west",
+      "source_url": "https://www.choicehotels.com/indiana/brownsburg/comfort-suites-hotels/in098?mc=llgoxxpx",
+      "policy_block": "Pets Allowed: No General: Only service animals are permitted, free of charge.",
+      "identity_confirmed": true,
+      "locator_strategy": "static_html_walk",
+      "content_hash": "206d9a462e717978a504a747942512f1a39d8380a1f15d903170b8fe5c0d46d4",
+      "block_sha256": "8fad5376d7613884cb547498de7375c3dd00df99fe90a3e0d1b5cb339498b49a",
+      "completed_at": "2026-08-27T15:47:50.214806+00:00",
+      "machine_disposition": "READS_BOTH_WAYS_NEEDS_A_RULING",
+      "deeper_reading": {
+        "denying_language": [
+          "pets\\s+allowed\\s*:\\s*no\\b"
+        ],
+        "allowing_language": [],
+        "service_animal_language": true,
+        "fee_language": false,
+        "question_only": false,
+        "amenity_run": false
+      },
+      "disposition": "APPROVE_VERIFIED_NO_PETS",
+      "reason": "the source refuses pets in its own words; the service-animal sentence beside it is a legal access category and neither softens nor contradicts the refusal",
+      "machine_and_deeper_agree": false
+    },
+    {
+      "identity_key": "embassy suites by hilton noblesville indianapolis conference center",
+      "canonical_name": "Embassy Suites by Hilton Noblesville Indianapolis Conference Center",
+      "brand": "HILTON",
+      "corridor": "indianapolis-in__noblesville",
+      "source_url": "https://www.hilton.com/en/hotels/indnbes-embassy-suites-noblesville-indianapolis-conference-center/?SEO_id=GMB-AMER-ES-INDNBES",
+      "policy_block": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 75 lbs",
+      "identity_confirmed": true,
+      "locator_strategy": "generic_signal_walk",
+      "content_hash": "00a0107173256e89c25a5079be5e2b892cea8c64ce89b4da0965fd45b2146c77",
+      "block_sha256": "f7ce1e776aa335c4cb43ff88a196dd5ed639ef788747a8f212f98ac6b59ecb58",
+      "completed_at": "2026-08-27T16:08:27.937382+00:00",
+      "machine_disposition": "READS_AS_PET_FRIENDLY",
+      "deeper_reading": {
+        "denying_language": [],
+        "allowing_language": [
+          "pets?\\s+(are\\s+)?allowed\\b(?!\\s*:\\s*no)",
+          "pets\\s+allowed\\s+yes"
+        ],
+        "service_animal_language": false,
+        "fee_language": true,
+        "question_only": false,
+        "amenity_run": false
+      },
+      "disposition": "APPROVE_PET_FRIENDLY",
+      "reason": "the source affirmatively permits pets in its own words",
+      "machine_and_deeper_agree": true
+    },
+    {
+      "identity_key": "extended stay america indianapolis airport w southern ave",
+      "canonical_name": "Extended Stay America - Indianapolis - Airport - W. Southern Ave.",
+      "brand": "ESA",
+      "corridor": "indianapolis-in__airport",
+      "source_url": "https://www.extendedstayamerica.com/hotels/in/indianapolis/airport-w-southern-ave?channel=gmb-listing",
+      "policy_block": "Pet fees: Not to exceed a $25.00 per day cleaning fee plus tax, for the first six (6) nights, per pet. Each day thereafter there is a pet cleaning fee not to exceed a $15.00 per day plus tax, per pet. If your reservation is for six (6) days or less, the pet fees for your entire stay will be due at check-in. For reservations for seven (7) days or more, the first seven (7) nights\u2019 pet fees will be due at check-in and each seven (7) days thereafter until the end of your reservation.",
+      "identity_confirmed": true,
+      "locator_strategy": "generic_signal_walk",
+      "content_hash": "cfc31ddb6f9179c0187bb1ecb6072eddc52344c58d76f26859dec4033d3aefe3",
+      "block_sha256": "84ef325b40b525b741f0fba743102fd660a8536c3b57df79d60444ac26bb2483",
+      "completed_at": "2026-08-27T16:39:02.243736+00:00",
+      "machine_disposition": "READS_AS_PET_FRIENDLY",
+      "deeper_reading": {
+        "denying_language": [],
+        "allowing_language": [],
+        "service_animal_language": false,
+        "fee_language": true,
+        "question_only": false,
+        "amenity_run": false
+      },
+      "disposition": "HOLD",
+      "reason": "the block states pet FEES and never states that pets may come. A fee says a charge was MENTIONED, not that it APPLIES, and inferring permission from it is the exact mistake this review is instructed not to make.",
+      "machine_and_deeper_agree": false
+    },
+    {
+      "identity_key": "fairfield inn and suites indianapolis avon",
+      "canonical_name": "Fairfield Inn & Suites Indianapolis Avon",
+      "brand": "MARRIOTT",
+      "corridor": "indianapolis-in__hendricks-west",
+      "source_url": "https://www.marriott.com/en-us/hotels/indav-fairfield-inn-and-suites-indianapolis-avon/overview/?scid=f2ae0541-1279-4f24-b197-a979c79310b0",
+      "policy_block": "Pet Policy Pets Not Allowed",
+      "identity_confirmed": true,
+      "locator_strategy": "pet_policy_heading_parent",
+      "content_hash": "e34a6ce0d5b0dc3944b9b073cac12d70d1537226b345d7bdf5ff6f6f987a4224",
+      "block_sha256": "d2e629b2b96b75354f1b8dc2ccd4f002326c1cbbccd7f6eef999e62726371df7",
+      "completed_at": "2026-08-27T15:57:35.232277+00:00",
+      "machine_disposition": "READS_AS_NO_PETS",
+      "deeper_reading": {
+        "denying_language": [
+          "pets?\\s+(are\\s+)?not\\s+allowed"
+        ],
+        "allowing_language": [],
+        "service_animal_language": false,
+        "fee_language": false,
+        "question_only": false,
+        "amenity_run": false
+      },
+      "disposition": "APPROVE_VERIFIED_NO_PETS",
+      "reason": "the source refuses pets in its own words",
+      "machine_and_deeper_agree": true
+    },
+    {
+      "identity_key": "hampton inn and suites indianapolis fishers",
+      "canonical_name": "Hampton Inn & Suites Indianapolis Fishers",
+      "brand": "HILTON",
+      "corridor": "indianapolis-in__fishers",
+      "source_url": "https://www.hilton.com/en/hotels/indfshx-hampton-suites-indianapolis-fishers/?SEO_id=GMB-AMER-HX-INDFSHX",
+      "policy_block": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 100 lbs Max size Large Other pet information $75(1-5n), $125(5+n) 2 pets Max. Dog/Cat only",
+      "identity_confirmed": true,
+      "locator_strategy": "generic_signal_walk",
+      "content_hash": "ace2a06b8a06790d9065d32cbd4be011f0b8996ae7b8c6808d90aaf35b01d79a",
+      "block_sha256": "b3a282ac5e8c74bd0c2cc379f365441e7d7f5f335c53c987bf4a74e363b3b5fc",
+      "completed_at": "2026-08-27T16:14:10.728205+00:00",
+      "machine_disposition": "READS_AS_PET_FRIENDLY",
+      "deeper_reading": {
+        "denying_language": [],
+        "allowing_language": [
+          "pets?\\s+(are\\s+)?allowed\\b(?!\\s*:\\s*no)",
+          "pets\\s+allowed\\s+yes"
+        ],
+        "service_animal_language": false,
+        "fee_language": true,
+        "question_only": false,
+        "amenity_run": false
+      },
+      "disposition": "APPROVE_PET_FRIENDLY",
+      "reason": "the source affirmatively permits pets in its own words",
+      "machine_and_deeper_agree": true
+    },
+    {
+      "identity_key": "hampton inn indianapolis avon",
+      "canonical_name": "Hampton Inn Indianapolis Avon",
+      "brand": "HILTON",
+      "corridor": "indianapolis-in__hendricks-west",
+      "source_url": "https://www.hilton.com/en/hotels/indavhx-hampton-suites-avon-indianapolis/?SEO_id=GMB-AMER-HX-INDAVHX",
+      "policy_block": "Pets allowed Yes Deposit Yes. $152.70 Non-refundable Fee",
+      "identity_confirmed": true,
+      "locator_strategy": "generic_signal_walk",
+      "content_hash": "6b9ed71f6fa6c76a3a62f1619f92df40cbcf4fbc7727c6c268a0f4c1ee911a77",
+      "block_sha256": "35421372c7412ca547e518945ff7e19aaca1adecdcd1da73be7661060ba3ad1e",
+      "completed_at": "2026-08-27T16:17:12.942224+00:00",
+      "machine_disposition": "READS_AS_PET_FRIENDLY",
+      "deeper_reading": {
+        "denying_language": [],
+        "allowing_language": [
+          "pets?\\s+(are\\s+)?allowed\\b(?!\\s*:\\s*no)",
+          "pets\\s+allowed\\s+yes"
+        ],
+        "service_animal_language": false,
+        "fee_language": true,
+        "question_only": false,
+        "amenity_run": false
+      },
+      "disposition": "APPROVE_PET_FRIENDLY",
+      "reason": "the source affirmatively permits pets in its own words",
+      "machine_and_deeper_agree": true
+    },
+    {
+      "identity_key": "hampton inn indianapolis southwest plainfield",
+      "canonical_name": "Hampton Inn Indianapolis Southwest Plainfield",
+      "brand": "HILTON",
+      "corridor": "indianapolis-in__plainfield",
+      "source_url": "https://www.hilton.com/en/hotels/indpfhx-hampton-indianapolis-sw-plainfield/?SEO_id=GMB-AMER-HX-INDPFHX",
+      "policy_block": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 75 lbs Max size Medium Other pet information 1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
+      "identity_confirmed": true,
+      "locator_strategy": "generic_signal_walk",
+      "content_hash": "e64fdc5c86bc2d45e9dc6236684cf53ef812cee73f591fd57377ebe00b7d732b",
+      "block_sha256": "80207eac248e93efcb0eb5e71c02daeec57b69c667d471a4794aa4b378e0aafd",
+      "completed_at": "2026-08-27T16:21:26.460940+00:00",
+      "machine_disposition": "READS_AS_PET_FRIENDLY",
+      "deeper_reading": {
+        "denying_language": [],
+        "allowing_language": [
+          "pets?\\s+(are\\s+)?allowed\\b(?!\\s*:\\s*no)",
+          "pets\\s+allowed\\s+yes"
+        ],
+        "service_animal_language": false,
+        "fee_language": true,
+        "question_only": false,
+        "amenity_run": false
+      },
+      "disposition": "APPROVE_PET_FRIENDLY",
+      "reason": "the source affirmatively permits pets in its own words",
+      "machine_and_deeper_agree": true
+    },
+    {
+      "identity_key": "holiday inn express and suites indianapolis east",
+      "canonical_name": "Holiday Inn Express and Suites Indianapolis East",
+      "brand": "IHG",
+      "corridor": "indianapolis-in__east-i70",
+      "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/indianapolis/indee/hoteldetail",
+      "policy_block": "No, pets are not allowed at Holiday Inn Express & Suites Indianapolis - East.",
+      "identity_confirmed": true,
+      "locator_strategy": "static_html_walk",
+      "content_hash": "2ca3d263d45f446c883b949343d671d88200c2f2632d8bf00733e9da22354406",
+      "block_sha256": "367185385fdbf0ac2a6aa6b842da24dd565da81c523a50fa98f6bd07f720122f",
+      "completed_at": "2026-08-27T15:48:18.810929+00:00",
+      "machine_disposition": "READS_AS_NO_PETS",
+      "deeper_reading": {
+        "denying_language": [
+          "pets?\\s+(are\\s+)?not\\s+allowed"
+        ],
+        "allowing_language": [],
+        "service_animal_language": false,
+        "fee_language": false,
+        "question_only": false,
+        "amenity_run": false
+      },
+      "disposition": "APPROVE_VERIFIED_NO_PETS",
+      "reason": "the source refuses pets in its own words",
+      "machine_and_deeper_agree": true
+    },
+    {
+      "identity_key": "home2 suites by hilton brownsburg",
+      "canonical_name": "Home2 Suites by Hilton Brownsburg",
+      "brand": "HILTON",
+      "corridor": "indianapolis-in__hendricks-west",
+      "source_url": "https://www.hilton.com/en/hotels/indbbht-home2-suites-brownsburg/?SEO_id=GMB-AMER-HT-INDBBHT",
+      "policy_block": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 75 lbs Other pet information $75 up to 4 nights, $125 for 5+ nights. 2 pets max, dogs/cats only.",
+      "identity_confirmed": true,
+      "locator_strategy": "generic_signal_walk",
+      "content_hash": "c5c93720a7773355b3ced4699c370f013cc0451cbb041abecc22aff5bd6c8b75",
+      "block_sha256": "3a6a60cd83a86a79cee1c8a420fad5b78aef7f6ecdc10d705667785d8870a94b",
+      "completed_at": "2026-08-27T16:22:35.379759+00:00",
+      "machine_disposition": "READS_AS_PET_FRIENDLY",
+      "deeper_reading": {
+        "denying_language": [],
+        "allowing_language": [
+          "pets?\\s+(are\\s+)?allowed\\b(?!\\s*:\\s*no)",
+          "pets\\s+allowed\\s+yes"
+        ],
+        "service_animal_language": false,
+        "fee_language": true,
+        "question_only": false,
+        "amenity_run": false
+      },
+      "disposition": "APPROVE_PET_FRIENDLY",
+      "reason": "the source affirmatively permits pets in its own words",
+      "machine_and_deeper_agree": true
+    },
+    {
+      "identity_key": "home2 suites by hilton indianapolis keystone crossing",
+      "canonical_name": "Home2 Suites by Hilton Indianapolis Keystone Crossing",
+      "brand": "HILTON",
+      "corridor": "indianapolis-in__keystone-castleton",
+      "source_url": "https://www.hilton.com/en/hotels/indenht-home2-suites-indianapolis-keystone-crossing/?SEO_id=GMB-AMER-HT-INDENHT",
+      "policy_block": "Are pets allowed at Home2 Suites by Hilton Indianapolis Keystone Crossing?",
+      "identity_confirmed": true,
+      "locator_strategy": "generic_signal_walk",
+      "content_hash": "8313f175b2a82f2be3b57dfe26f40f381b070b8cf276cd101306a33356476766",
+      "block_sha256": "43fff946c8f775f0e522ec0aa84b5f336b5e58c51d10769e8b8d12027bb586e1",
+      "completed_at": "2026-08-27T16:29:06.723006+00:00",
+      "machine_disposition": "READS_AS_PET_FRIENDLY",
+      "deeper_reading": {
+        "denying_language": [],
+        "allowing_language": [
+          "pets?\\s+(are\\s+)?allowed\\b(?!\\s*:\\s*no)"
+        ],
+        "service_animal_language": false,
+        "fee_language": false,
+        "question_only": true,
+        "amenity_run": false
+      },
+      "disposition": "HOLD",
+      "reason": "the locator captured the FAQ heading and stopped: the block is a question, not an answer. A question is not a policy.",
+      "machine_and_deeper_agree": false
+    },
+    {
+      "identity_key": "homewood suites by hilton indianapolis airport plainfield",
+      "canonical_name": "Homewood Suites by Hilton Indianapolis-Airport/Plainfield",
+      "brand": "HILTON",
+      "corridor": "indianapolis-in__plainfield",
+      "source_url": "https://www.hilton.com/en/hotels/indpdhw-homewood-suites-indianapolis-airport-plainfield/?SEO_id=GMB-AMER-HG-INDPDHW",
+      "policy_block": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee",
+      "identity_confirmed": true,
+      "locator_strategy": "generic_signal_walk",
+      "content_hash": "f2699787ecf4a605b6cd06fd4e45540dd885fd69e49b58989fba521fc9686356",
+      "block_sha256": "8308fa3b0af60a7f74edab98c2a7ddff464ef58df8547fbfb6b5ba01a4abebfe",
+      "completed_at": "2026-08-27T16:30:42.931456+00:00",
+      "machine_disposition": "READS_AS_PET_FRIENDLY",
+      "deeper_reading": {
+        "denying_language": [],
+        "allowing_language": [
+          "pets?\\s+(are\\s+)?allowed\\b(?!\\s*:\\s*no)",
+          "pets\\s+allowed\\s+yes"
+        ],
+        "service_animal_language": false,
+        "fee_language": true,
+        "question_only": false,
+        "amenity_run": false
+      },
+      "disposition": "APPROVE_PET_FRIENDLY",
+      "reason": "the source affirmatively permits pets in its own words",
+      "machine_and_deeper_agree": true
+    },
+    {
+      "identity_key": "homewood suites by hilton indianapolis carmel",
+      "canonical_name": "Homewood Suites by Hilton Indianapolis Carmel",
+      "brand": "HILTON",
+      "corridor": "indianapolis-in__carmel",
+      "source_url": "https://www.hilton.com/en/hotels/indnmhw-homewood-suites-indianapolis-carmel/?SEO_id=GMB-AMER-HG-INDNMHW",
+      "policy_block": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Other pet information $75(1-4n),$125(5+n)2pet Max dog/cat only",
+      "identity_confirmed": true,
+      "locator_strategy": "generic_signal_walk",
+      "content_hash": "19f94f6b579715a96b765c963a1e6d760b04f903b971944073bb2ade3f65e67f",
+      "block_sha256": "cea97e990339b5dab4f7ebc3cb9a87afcaf8801445d39cc33b1981d1f8461baa",
+      "completed_at": "2026-08-27T16:31:59.352107+00:00",
+      "machine_disposition": "READS_AS_PET_FRIENDLY",
+      "deeper_reading": {
+        "denying_language": [],
+        "allowing_language": [
+          "pets?\\s+(are\\s+)?allowed\\b(?!\\s*:\\s*no)",
+          "pets\\s+allowed\\s+yes"
+        ],
+        "service_animal_language": false,
+        "fee_language": true,
+        "question_only": false,
+        "amenity_run": false
+      },
+      "disposition": "APPROVE_PET_FRIENDLY",
+      "reason": "the source affirmatively permits pets in its own words",
+      "machine_and_deeper_agree": true
+    },
+    {
+      "identity_key": "homewood suites by hilton indianapolis keystone crossing",
+      "canonical_name": "Homewood Suites by Hilton Indianapolis - Keystone Crossing",
+      "brand": "HILTON",
+      "corridor": "indianapolis-in__keystone-castleton",
+      "source_url": "https://www.hilton.com/en/hotels/indkchw-homewood-suites-indianapolis-keystone-crossing/?SEO_id=GMB-AMER-HG-INDKCHW",
+      "policy_block": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Other pet information $75(1-4n), $125(5+n) 2pets Max,dog/cat only",
+      "identity_confirmed": true,
+      "locator_strategy": "generic_signal_walk",
+      "content_hash": "fe31b57f03325aafe636e24e44d1d28dd0ef279a4a9c50782659952aa4f9c620",
+      "block_sha256": "ac5ef9b460aba69e4c61c131397dd0841920a7749944c25f541f5f8f4eb4bd25",
+      "completed_at": "2026-08-27T16:33:26.576621+00:00",
+      "machine_disposition": "READS_AS_PET_FRIENDLY",
+      "deeper_reading": {
+        "denying_language": [],
+        "allowing_language": [
+          "pets?\\s+(are\\s+)?allowed\\b(?!\\s*:\\s*no)",
+          "pets\\s+allowed\\s+yes"
+        ],
+        "service_animal_language": false,
+        "fee_language": true,
+        "question_only": false,
+        "amenity_run": false
+      },
+      "disposition": "APPROVE_PET_FRIENDLY",
+      "reason": "the source affirmatively permits pets in its own words",
+      "machine_and_deeper_agree": true
+    },
+    {
+      "identity_key": "indianapolis marriott downtown",
+      "canonical_name": "Indianapolis Marriott Downtown",
+      "brand": "MARRIOTT",
+      "corridor": "indianapolis-in__downtown",
+      "source_url": "https://www.marriott.com/en-us/hotels/indcc-indianapolis-marriott-downtown/overview/?scid=f2ae0541-1279-4f24-b197-a979c79310b0",
+      "policy_block": "Pet Policy Pets Not Allowed",
+      "identity_confirmed": true,
+      "locator_strategy": "pet_policy_accordion_panel",
+      "content_hash": "50dac3f64298555649857fe19a4775cc04d926bd7c7c0c95e386368b609345bf",
+      "block_sha256": "d2e629b2b96b75354f1b8dc2ccd4f002326c1cbbccd7f6eef999e62726371df7",
+      "completed_at": "2026-08-27T15:59:42.093814+00:00",
+      "machine_disposition": "READS_AS_NO_PETS",
+      "deeper_reading": {
+        "denying_language": [
+          "pets?\\s+(are\\s+)?not\\s+allowed"
+        ],
+        "allowing_language": [],
+        "service_animal_language": false,
+        "fee_language": false,
+        "question_only": false,
+        "amenity_run": false
+      },
+      "disposition": "APPROVE_VERIFIED_NO_PETS",
+      "reason": "the source refuses pets in its own words",
+      "machine_and_deeper_agree": true
+    },
+    {
+      "identity_key": "indianapolis marriott east",
+      "canonical_name": "Indianapolis Marriott East",
+      "brand": "MARRIOTT",
+      "corridor": "indianapolis-in__east-i70",
+      "source_url": "https://www.marriott.com/en-us/hotels/inddt-indianapolis-marriott-east/overview/?scid=f2ae0541-1279-4f24-b197-a979c79310b0",
+      "policy_block": "Does Indianapolis Marriott East allow pets? Yes, pets are welcome at Indianapolis Marriott East. Up to 2 pets are allowed per room. Each pet may weigh up to 60.0 lbs. A non-refundable pet fee of $100.00 per stay applies. What are the parking options at Indianapolis Marriott East? On-site self parking is available at Indianapolis Marriott East. Self parking is available at Indianapolis Marriott East, with rates of $0.00 per hour, $10.00 per day, $0.00 per week, and $0.00 perstay.",
+      "identity_confirmed": true,
+      "locator_strategy": "pet_policy_heading_parent",
+      "content_hash": "a5cbf5dbfe831074d6450d6fefaf5c8f2cda3d9358990f9d6bab31042aa822fa",
+      "block_sha256": "d825853eccbb5932158248d5bdb7d08355890d6d946934d168ab6eff1301937b",
+      "completed_at": "2026-08-27T16:00:32.199306+00:00",
+      "machine_disposition": "READS_AS_PET_FRIENDLY",
+      "deeper_reading": {
+        "denying_language": [],
+        "allowing_language": [
+          "pets?\\s+(are\\s+)?allowed\\b(?!\\s*:\\s*no)",
+          "pets?\\s+(are\\s+)?welcome"
+        ],
+        "service_animal_language": false,
+        "fee_language": true,
+        "question_only": false,
+        "amenity_run": false
+      },
+      "disposition": "APPROVE_PET_FRIENDLY",
+      "reason": "the source affirmatively permits pets in its own words",
+      "machine_and_deeper_agree": true
+    },
+    {
+      "identity_key": "la quinta inn and suites indianapolis south",
+      "canonical_name": "La Quinta Inn & Suites Indianapolis South",
+      "brand": "WYNDHAM",
+      "corridor": "indianapolis-in__south",
+      "source_url": "https://www.wyndhamhotels.com/laquinta/indianapolis-indiana/la-quinta-indianapolis-south/overview?CID=LC%3A6ysy27krtpcrqev%3A23574&iata=00093796",
+      "policy_block": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability.",
+      "identity_confirmed": true,
+      "locator_strategy": "static_html_walk",
+      "content_hash": "327907a023e5f480e07f9f0348365bfa43ebb8cfc959f4525918087aee506dce",
+      "block_sha256": "e3d60fd16d5e5a4aceca16beafad905f9abd9c9665cc98fdfe3367b1d3cc32a9",
+      "completed_at": "2026-08-27T15:48:29.749371+00:00",
+      "machine_disposition": "READS_AS_PET_FRIENDLY",
+      "deeper_reading": {
+        "denying_language": [],
+        "allowing_language": [
+          "pets?\\s+(are\\s+)?allowed\\b(?!\\s*:\\s*no)"
+        ],
+        "service_animal_language": true,
+        "fee_language": true,
+        "question_only": false,
+        "amenity_run": false
+      },
+      "disposition": "APPROVE_PET_FRIENDLY",
+      "reason": "the source affirmatively permits pets in its own words; its service-animal sentence is separate and was not read as the permission",
+      "machine_and_deeper_agree": true
+    },
+    {
+      "identity_key": "marriott indianapolis north",
+      "canonical_name": "Marriott Indianapolis North",
+      "brand": "MARRIOTT",
+      "corridor": "indianapolis-in__keystone-castleton",
+      "source_url": "https://www.marriott.com/en-us/hotels/indno-marriott-indianapolis-north/overview/?scid=f2ae0541-1279-4f24-b197-a979c79310b0",
+      "policy_block": "Pet Policy Pets Not Allowed Service Animals Only",
+      "identity_confirmed": true,
+      "locator_strategy": "pet_policy_heading_parent",
+      "content_hash": "eb841b7a9ae6cdf605894cf4ca9b9c8a7638bb5f7ae2d9588085db575690be7f",
+      "block_sha256": "ed84998d33957b1b3fca955798ff5fe0911eba318b1ee2caa132a22e76020b0b",
+      "completed_at": "2026-08-27T16:02:00.694858+00:00",
+      "machine_disposition": "READS_AS_NO_PETS",
+      "deeper_reading": {
+        "denying_language": [
+          "pets?\\s+(are\\s+)?not\\s+allowed"
+        ],
+        "allowing_language": [],
+        "service_animal_language": true,
+        "fee_language": false,
+        "question_only": false,
+        "amenity_run": false
+      },
+      "disposition": "APPROVE_VERIFIED_NO_PETS",
+      "reason": "the source refuses pets in its own words; the service-animal sentence beside it is a legal access category and neither softens nor contradicts the refusal",
+      "machine_and_deeper_agree": true
+    },
+    {
+      "identity_key": "microtel inn and suites by wyndham indianapolis airport",
+      "canonical_name": "Microtel Inn & Suites by Wyndham Indianapolis Airport",
+      "brand": "WYNDHAM",
+      "corridor": "indianapolis-in__speedway",
+      "source_url": "https://www.wyndhamhotels.com/microtel/indianapolis-indiana/microtel-inn-and-suites-indianapolis-airport/overview?CID=LC%3A5b3ss9kd80xe5ox%3A29813&iata=00093796",
+      "policy_block": "ADA defined service animals are welcome at this hotel. Sorry no other pets are allowed.",
+      "identity_confirmed": true,
+      "locator_strategy": "static_html_walk",
+      "content_hash": "d4858c501dfd081e7cda7f56c54396594bf91bb876529b2f5a175685cf54a32c",
+      "block_sha256": "689e327cf1683b74b7194c939c04e6edcdf379b1591ede3df681743871d85ace",
+      "completed_at": "2026-08-27T15:48:43.027197+00:00",
+      "machine_disposition": "READS_BOTH_WAYS_NEEDS_A_RULING",
+      "deeper_reading": {
+        "denying_language": [
+          "sorry\\s*,?\\s*no\\s+other\\s+pets"
+        ],
+        "allowing_language": [],
+        "service_animal_language": true,
+        "fee_language": false,
+        "question_only": false,
+        "amenity_run": false
+      },
+      "disposition": "APPROVE_VERIFIED_NO_PETS",
+      "reason": "the source refuses pets in its own words; the service-animal sentence beside it is a legal access category and neither softens nor contradicts the refusal",
+      "machine_and_deeper_agree": false
+    },
+    {
+      "identity_key": "quality inn and suites airport",
+      "canonical_name": "Quality Inn & Suites Airport",
+      "brand": "CHOICE",
+      "corridor": "indianapolis-in__airport",
+      "source_url": "https://www.choicehotels.com/indiana/indianapolis/quality-inn-hotels/in158?source=gglocalai",
+      "policy_block": "Pets Allowed: No General: Only service animals are permitted, free of charge.",
+      "identity_confirmed": true,
+      "locator_strategy": "static_html_walk",
+      "content_hash": "600d961a9570b9fe036c8c72302bb0d6c045dcbe21c726db50069698f2e8f3b4",
+      "block_sha256": "8fad5376d7613884cb547498de7375c3dd00df99fe90a3e0d1b5cb339498b49a",
+      "completed_at": "2026-08-27T15:49:15.333927+00:00",
+      "machine_disposition": "READS_BOTH_WAYS_NEEDS_A_RULING",
+      "deeper_reading": {
+        "denying_language": [
+          "pets\\s+allowed\\s*:\\s*no\\b"
+        ],
+        "allowing_language": [],
+        "service_animal_language": true,
+        "fee_language": false,
+        "question_only": false,
+        "amenity_run": false
+      },
+      "disposition": "APPROVE_VERIFIED_NO_PETS",
+      "reason": "the source refuses pets in its own words; the service-animal sentence beside it is a legal access category and neither softens nor contradicts the refusal",
+      "machine_and_deeper_agree": false
+    },
+    {
+      "identity_key": "quality inn and suites brownsburg indianapolis west",
+      "canonical_name": "Quality Inn & Suites Brownsburg - Indianapolis West",
+      "brand": "CHOICE",
+      "corridor": "indianapolis-in__hendricks-west",
+      "source_url": "https://www.choicehotels.com/indiana/brownsburg/quality-inn-hotels/in441?mc=llgoxxpx",
+      "policy_block": "Pets Are Allowed. The hotel allow cats and dogs. Pet fee is $45.00 USD per stay, per pet. $100.00 USD Refundable deposit is required. Maximum weight of 25 pounds, 1 pet per room. Service animals are permitted, without charge.",
+      "identity_confirmed": true,
+      "locator_strategy": "static_html_walk",
+      "content_hash": "e2b223263384ff040a7f0519cb554fbb1a59799c91b03a0d9fe01113273390cc",
+      "block_sha256": "16e0a900165d3a650e53b9333ea9f4ddec369e560b79fed66128497aa748b3c7",
+      "completed_at": "2026-08-27T15:49:34.457357+00:00",
+      "machine_disposition": "READS_AS_PET_FRIENDLY",
+      "deeper_reading": {
+        "denying_language": [],
+        "allowing_language": [
+          "pets?\\s+(are\\s+)?allowed\\b(?!\\s*:\\s*no)"
+        ],
+        "service_animal_language": true,
+        "fee_language": true,
+        "question_only": false,
+        "amenity_run": false
+      },
+      "disposition": "APPROVE_PET_FRIENDLY",
+      "reason": "the source affirmatively permits pets in its own words; its service-animal sentence is separate and was not read as the permission",
+      "machine_and_deeper_agree": true
+    },
+    {
+      "identity_key": "red roof inn indianapolis greenwood",
+      "canonical_name": "Red Roof Inn Indianapolis - Greenwood",
+      "brand": "RED_ROOF",
+      "corridor": "indianapolis-in__greenwood",
+      "source_url": "https://www.redroof.com/property/in/greenwood/RRI650",
+      "policy_block": "Up to 2 pets allowed per room. Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay. Pet not to exceed 80 pounds. Service and emotional support animals are always welcome. Read Full Pet Policy Check-in Age: &nbsp;18 years or older. Deposit Policy: This location requires a $75.00 refundable deposit for all guest at check-in.",
+      "identity_confirmed": true,
+      "locator_strategy": "generic_signal_walk",
+      "content_hash": "a74bb59226fc38df4362c7a2632e7d16e3fabaccae30c5533ed916008349279d",
+      "block_sha256": "d0605dabee55f444844922589855effe781308c7b2f9bed294a5a5bff1d561c8",
+      "completed_at": "2026-08-27T16:33:52.572507+00:00",
+      "machine_disposition": "READS_AS_PET_FRIENDLY",
+      "deeper_reading": {
+        "denying_language": [],
+        "allowing_language": [
+          "pets?\\s+(are\\s+)?allowed\\b(?!\\s*:\\s*no)",
+          "\\d+\\s+pets?\\s+allowed"
+        ],
+        "service_animal_language": true,
+        "fee_language": false,
+        "question_only": false,
+        "amenity_run": false
+      },
+      "disposition": "APPROVE_PET_FRIENDLY",
+      "reason": "the source affirmatively permits pets in its own words; its service-animal sentence is separate and was not read as the permission",
+      "machine_and_deeper_agree": true
+    },
+    {
+      "identity_key": "red roof inn indianapolis south",
+      "canonical_name": "Red Roof Inn Indianapolis South",
+      "brand": "RED_ROOF",
+      "corridor": "indianapolis-in__south",
+      "source_url": "https://www.redroof.com/property/in/indianapolis/RRI013",
+      "policy_block": "Up to 2 pets allowed per room. Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay. Pet not to exceed 80 pounds. Service and emotional support animals are always welcome. Read Full Pet Policy Special Policy: A $100 refundable deposit is required by valid debit/credit card or cash for all guests at check-in.",
+      "identity_confirmed": true,
+      "locator_strategy": "generic_signal_walk",
+      "content_hash": "c30aeae21967f82fbff49a2d18e0459ffaa9a7f2217e4ad34b56da743c3c1226",
+      "block_sha256": "5dfcbab6a17e1c8a60b415f2d707587fa3a1f160e10d763d0ac7d27b990e92e8",
+      "completed_at": "2026-08-27T16:34:19.925133+00:00",
+      "machine_disposition": "READS_AS_PET_FRIENDLY",
+      "deeper_reading": {
+        "denying_language": [],
+        "allowing_language": [
+          "pets?\\s+(are\\s+)?allowed\\b(?!\\s*:\\s*no)",
+          "\\d+\\s+pets?\\s+allowed"
+        ],
+        "service_animal_language": true,
+        "fee_language": false,
+        "question_only": false,
+        "amenity_run": false
+      },
+      "disposition": "APPROVE_PET_FRIENDLY",
+      "reason": "the source affirmatively permits pets in its own words; its service-animal sentence is separate and was not read as the permission",
+      "machine_and_deeper_agree": true
+    },
+    {
+      "identity_key": "residence inn by marriott indianapolis carmel",
+      "canonical_name": "Residence Inn by Marriott Indianapolis Carmel",
+      "brand": "MARRIOTT",
+      "corridor": "indianapolis-in__carmel",
+      "source_url": "https://www.marriott.com/en-us/hotels/indcr-residence-inn-indianapolis-carmel/overview/?scid=f2ae0541-1279-4f24-b197-a979c79310b0",
+      "policy_block": "Does Residence Inn by Marriott Indianapolis Carmel allow pets? Yes, pets are welcome at Residence Inn by Marriott Indianapolis Carmel. Up to 2 pets are allowed per room. Each pet may weigh up to 50.0 lbs. A non-refundable pet fee of $100.00 per stay applies.",
+      "identity_confirmed": true,
+      "locator_strategy": "pet_policy_heading_parent",
+      "content_hash": "2f80c699ebec12377be4a796b12cb378e966f1134fe036c1c9d474932003fae4",
+      "block_sha256": "767ccff2f0e1588444e482df165c1479441c7671ddcea37b1cb42a2d2f5d65c8",
+      "completed_at": "2026-08-27T16:03:23.653738+00:00",
+      "machine_disposition": "READS_AS_PET_FRIENDLY",
+      "deeper_reading": {
+        "denying_language": [],
+        "allowing_language": [
+          "pets?\\s+(are\\s+)?allowed\\b(?!\\s*:\\s*no)",
+          "pets?\\s+(are\\s+)?welcome"
+        ],
+        "service_animal_language": false,
+        "fee_language": true,
+        "question_only": false,
+        "amenity_run": false
+      },
+      "disposition": "APPROVE_PET_FRIENDLY",
+      "reason": "the source affirmatively permits pets in its own words",
+      "machine_and_deeper_agree": true
+    },
+    {
+      "identity_key": "residence inn by marriott indianapolis keystone",
+      "canonical_name": "Residence Inn by Marriott Indianapolis Keystone",
+      "brand": "MARRIOTT",
+      "corridor": "indianapolis-in__keystone-castleton",
+      "source_url": "https://www.marriott.com/en-us/hotels/indrn-residence-inn-indianapolis-keystone/overview/?scid=f2ae0541-1279-4f24-b197-a979c79310b0",
+      "policy_block": "Does Residence Inn by Marriott Indianapolis Keystone allow pets? Yes, pets are welcome at Residence Inn by Marriott Indianapolis Keystone. Up to 2 pets are allowed per room. Each pet may weigh up to 80.0 lbs. A non-refundable pet fee of $150.00 per stay applies.",
+      "identity_confirmed": true,
+      "locator_strategy": "pet_policy_heading_parent",
+      "content_hash": "415998bcb9f8df8f8d870786f0c4da8f93521a9b07a25f293247e0e0ab458301",
+      "block_sha256": "53d7768e61d22b7136e14d9bc9ecb916f3d9364bfdf1775d91f661648c228406",
+      "completed_at": "2026-08-27T16:04:16.151914+00:00",
+      "machine_disposition": "READS_AS_PET_FRIENDLY",
+      "deeper_reading": {
+        "denying_language": [],
+        "allowing_language": [
+          "pets?\\s+(are\\s+)?allowed\\b(?!\\s*:\\s*no)",
+          "pets?\\s+(are\\s+)?welcome"
+        ],
+        "service_animal_language": false,
+        "fee_language": true,
+        "question_only": false,
+        "amenity_run": false
+      },
+      "disposition": "APPROVE_PET_FRIENDLY",
+      "reason": "the source affirmatively permits pets in its own words",
+      "machine_and_deeper_agree": true
+    },
+    {
+      "identity_key": "sheraton indianapolis city centre hotel",
+      "canonical_name": "Sheraton Indianapolis City Centre Hotel",
+      "brand": "MARRIOTT",
+      "corridor": "indianapolis-in__downtown",
+      "source_url": "https://www.marriott.com/en-us/hotels/indsc-sheraton-indianapolis-city-centre-hotel/overview/?scid=f2ae0541-1279-4f24-b197-a979c79310b0",
+      "policy_block": "Pet Policy Pets Welcome Dog and cats, $75/stay, no weight restrictions, no number of pet restrictions Non-Refundable Pet Fee Per Stay: $75.00",
+      "identity_confirmed": true,
+      "locator_strategy": "pet_policy_heading_parent",
+      "content_hash": "d8e10a2a7be220b4adb76f7fac5ed7bd4a72b2e56e67b5fd7480315090036db9",
+      "block_sha256": "7a8560d5b0b8612496129c662c52d5ab1b1f55e7efb3bbb4f53535c4ddd504f6",
+      "completed_at": "2026-08-27T16:04:56.885847+00:00",
+      "machine_disposition": "READS_AS_PET_FRIENDLY",
+      "deeper_reading": {
+        "denying_language": [],
+        "allowing_language": [
+          "pets?\\s+(are\\s+)?welcome"
+        ],
+        "service_animal_language": false,
+        "fee_language": true,
+        "question_only": false,
+        "amenity_run": false
+      },
+      "disposition": "APPROVE_PET_FRIENDLY",
+      "reason": "the source affirmatively permits pets in its own words",
+      "machine_and_deeper_agree": true
+    },
+    {
+      "identity_key": "sheraton indianapolis hotel at keystone crossing",
+      "canonical_name": "Sheraton Indianapolis Hotel at Keystone Crossing",
+      "brand": "MARRIOTT",
+      "corridor": "indianapolis-in__keystone-castleton",
+      "source_url": "https://www.marriott.com/en-us/hotels/indsi-sheraton-indianapolis-hotel-at-keystone-crossing/overview/?scid=f2ae0541-1279-4f24-b197-a979c79310b0",
+      "policy_block": "Pet Policy Pets Not Allowed",
+      "identity_confirmed": true,
+      "locator_strategy": "pet_policy_heading_parent",
+      "content_hash": "75d05b5e537dfb2848d8ab84cec5058a27c7118332e6026ce2c27b7da9292650",
+      "block_sha256": "d2e629b2b96b75354f1b8dc2ccd4f002326c1cbbccd7f6eef999e62726371df7",
+      "completed_at": "2026-08-27T16:07:22.571535+00:00",
+      "machine_disposition": "READS_AS_NO_PETS",
+      "deeper_reading": {
+        "denying_language": [
+          "pets?\\s+(are\\s+)?not\\s+allowed"
+        ],
+        "allowing_language": [],
+        "service_animal_language": false,
+        "fee_language": false,
+        "question_only": false,
+        "amenity_run": false
+      },
+      "disposition": "APPROVE_VERIFIED_NO_PETS",
+      "reason": "the source refuses pets in its own words",
+      "machine_and_deeper_agree": true
+    },
+    {
+      "identity_key": "wingate by wyndham indianapolis airport rockville rd",
+      "canonical_name": "Wingate By Wyndham Indianapolis Airport-Rockville Rd.",
+      "brand": "WYNDHAM",
+      "corridor": "indianapolis-in__speedway",
+      "source_url": "https://www.wyndhamhotels.com/wingate/indianapolis-indiana/wingate-by-wyndham-indianapolis-airport-rockville-rd/overview?CID=LC%3A7hcm1fujuihd89e%3A12681&iata=00093796",
+      "policy_block": "Maximum 2 Pets are allowed for a non-refundable charge of 25.00 USD per stay. ADA-defined service animals are also welcome at this hotel.",
+      "identity_confirmed": true,
+      "locator_strategy": "static_html_walk",
+      "content_hash": "2987aea858d915013076dc7881c6342857b9820404d8ec88d1c38adc3580e14d",
+      "block_sha256": "a0b6a9a1b0d848df9b89af65fa72f4ddf0fb84bd516b275f1e1247a32a4f20e9",
+      "completed_at": "2026-08-27T15:52:09.389588+00:00",
+      "machine_disposition": "READS_AS_PET_FRIENDLY",
+      "deeper_reading": {
+        "denying_language": [],
+        "allowing_language": [
+          "pets?\\s+(are\\s+)?allowed\\b(?!\\s*:\\s*no)"
+        ],
+        "service_animal_language": true,
+        "fee_language": true,
+        "question_only": false,
+        "amenity_run": false
+      },
+      "disposition": "APPROVE_PET_FRIENDLY",
+      "reason": "the source affirmatively permits pets in its own words; its service-animal sentence is separate and was not read as the permission",
+      "machine_and_deeper_agree": true
+    }
+  ]
+}
