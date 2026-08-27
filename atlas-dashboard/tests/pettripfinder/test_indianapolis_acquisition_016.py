@@ -25,6 +25,7 @@ The number that matters is 56, and the number that nearly went wrong is 23.
 from __future__ import annotations
 
 import json
+from collections import Counter
 from pathlib import Path
 
 import pytest
@@ -349,3 +350,97 @@ class TestTheLedgerGrewAndLostNothing:
                          "grand-rapids-holland-mi-001-pass1"):
             assert expected in runs, expected
         assert len(ledger["attempts"]) >= 715
+
+
+class TestTheRunWasFedBackIntoTheLedger:
+    """The closing step, and the one most easily forgotten.
+
+    016 rebuilt the ledger BEFORE spending and was rewarded immediately. But a
+    run that does not write its own purchases back leaves the next caller --
+    including a re-sent copy of this very work order -- free to buy all 22
+    pages a second time. Suppression only works if every run both reads the
+    ledger and feeds it.
+    """
+
+    def test_the_ledger_now_knows_this_run(self):
+        ledger = _load("ptf_paid_attempt_ledger_001.json")
+        runs = Counter(a.get("run_id") for a in ledger["attempts"])
+        assert runs["indianapolis-in-016"] == 24
+        assert runs["indianapolis-in-012"] == 52
+        assert len(ledger["attempts"]) == 739
+
+    def test_the_earlier_markets_still_survive(self):
+        ledger = _load("ptf_paid_attempt_ledger_001.json")
+        runs = {a.get("run_id") for a in ledger["attempts"]}
+        for expected in ("st-louis-paid-002", "milwaukee-router-001",
+                         "marriott-milwaukee-020", "hilton-milwaukee-023",
+                         "pittsburgh-pa-recensus_001-pass1",
+                         "grand-rapids-holland-mi-001-pass1",
+                         "indianapolis-in-002-pass1"):
+            assert expected in runs, expected
+
+    def test_re_running_this_work_order_would_buy_nothing(self, run):
+        """Every page 016 paid for is refused on a second pass."""
+        from scripts.pettripfinder.acquisition import paid_attempt_ledger as PAL
+        index = PAL.LedgerIndex(_load("ptf_paid_attempt_ledger_001.json"))
+        cohort = {c["identity_key"]: c for c in run["cohort"]}
+        for result in run["results"]:
+            row = dict(cohort[result["identity_key"]])
+            verdict = PAL.decide(row, index,
+                                 available_lanes=("brightdata_browser",
+                                                  "brightdata_web_unlocker"))
+            assert verdict["decision"] != PAL.FIRST_PAID_ATTEMPT, (
+                result["identity_key"], verdict["decision"])
+
+    def test_a_page_this_run_bought_is_matched_on_its_own_url(self, run):
+        from scripts.pettripfinder.acquisition import paid_attempt_ledger as PAL
+        index = PAL.LedgerIndex(_load("ptf_paid_attempt_ledger_001.json"))
+        cohort = {c["identity_key"]: c for c in run["cohort"]}
+        valid = next(r for r in run["results"] if r["outcome"] == "VALID")
+        verdict = PAL.decide(dict(cohort[valid["identity_key"]]), index,
+                             available_lanes=("brightdata_browser",))
+        assert verdict["match_key"] in (PAL.MATCH_CANONICAL_URL,
+                                        PAL.MATCH_PROPERTY_CODE)
+
+    def test_the_merge_lost_nothing_and_repeats_cleanly(self):
+        """Additive, not regenerated: a rebuild from acquisition documents
+        alone would drop Milwaukee, which arrived via a provenance adapter."""
+        from scripts.pettripfinder.acquisition import paid_attempt_ledger as PAL
+        ledger = _load("ptf_paid_attempt_ledger_001.json")
+        again = PAL.merge(ledger, PAL.ingest_run(
+            _load("indianapolis_in_market_acquisition_016.json"),
+            census=_load("identity_census/indianapolis-in.json")["hotels"]))
+        assert len(again["attempts"]) == len(ledger["attempts"])
+
+
+class TestTheTwoRowsThatRemainGenuinelyOpen:
+    """A transport failure is not evidence. These two are not settled, and the
+    retry policy still refuses them -- because both approved lanes were already
+    tried, not because the question is answered."""
+
+    OPEN = ("country inn and suites indianapolis south in",
+            "keystone inn and suites")
+
+    def test_both_ended_in_a_transport_failure(self, run):
+        for key in self.OPEN:
+            result = next(r for r in run["results"] if r["identity_key"] == key)
+            assert result["outcome"] == "NAVIGATION_FAILED"
+
+    def test_neither_is_counted_as_answered(self, run, analysis):
+        """NAVIGATION_FAILED is not in the terminal set, so neither row is
+        pretending to be settled evidence."""
+        assert "NAVIGATION_FAILED" not in run["cohort_rule"]["terminal_prior_outcomes"]
+        reviewed = {r["identity_key"] for r in analysis["reviewed"]}
+        assert set(self.OPEN) & reviewed == set()
+
+    def test_a_blind_same_lane_retry_is_refused(self):
+        """The work order forbids one; the retry policy is what enforces it."""
+        from scripts.pettripfinder.acquisition import paid_attempt_ledger as PAL
+        index = PAL.LedgerIndex(_load("ptf_paid_attempt_ledger_001.json"))
+        run = _load("indianapolis_in_market_acquisition_016.json")
+        cohort = {c["identity_key"]: c for c in run["cohort"]}
+        for key in self.OPEN:
+            verdict = PAL.decide(dict(cohort[key]), index,
+                                 available_lanes=("brightdata_browser",
+                                                  "brightdata_web_unlocker"))
+            assert verdict["decision"] != PAL.FIRST_PAID_ATTEMPT, key

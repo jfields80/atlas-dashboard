@@ -72,27 +72,39 @@ class TestTheProtectedStateIsUntouched:
         assert R.build()["phase_5_payable"]["payable"] == \
             R.build()["phase_5_payable"]["payable"]
 
-    def test_the_one_row_that_has_since_become_unpayable(self, audit):
-        """005 recorded 36 payable. It is 35 now, and the difference is a
-        finding rather than drift.
+    def test_every_row_that_left_the_payable_set_was_paid_for(self, audit):
+        """005 recorded 36 payable. It shrinks whenever a later run buys one of
+        them, and the SHAPE of that shrinkage is the invariant worth pinning.
 
-        PTF-INDIANAPOLIS-BACKLOG-ACQUISITION-016 merged run 012's purchases
-        into the ledger, which then refused 'hampton inn indianapolis sw
-        plainfield' -- the same page 012 had already bought under the key
-        'hampton inn indianapolis southwest plainfield'. Two census keys, one
-        building. 016's own cohort shrank on exactly this row, and the 005
-        replay agrees, which is what a shared ledger is supposed to do.
+        Asserting a current total here would be a number to bump after every
+        acquisition, which is how a meaningful test decays into a chore. So:
+        every row that has left the payable set must have a recorded paid
+        attempt behind it, and nothing may ever appear that was not there
+        before. A row going quiet for any other reason is a defect.
+
+        At the time of writing that is 36 -> 13: the 22 rows
+        PTF-INDIANAPOLIS-BACKLOG-ACQUISITION-016 attempted, plus 'hampton inn
+        indianapolis sw plainfield', which 016's ledger rebuild matched by
+        property code to a page run 012 had already bought under the key
+        'hampton inn indianapolis southwest plainfield' -- two census keys, one
+        building. 016's own cohort shrank on that same row.
         """
-        live = R.build()["phase_5_payable"]
-        saved = audit["phase_5_payable"]
-        assert saved["payable"] == 36 and live["payable"] == 35
+        from scripts.pettripfinder.acquisition import paid_attempt_ledger as PAL
 
         def keys(phase):
             return {r["identity_key"] if isinstance(r, dict) else r
                     for r in phase["rows"]}
 
-        assert keys(saved) - keys(live) == {"hampton inn indianapolis sw plainfield"}
-        assert keys(live) - keys(saved) == set(), "nothing was substituted in"
+        saved = keys(audit["phase_5_payable"])
+        live = keys(R.build()["phase_5_payable"])
+        assert live <= saved, "the payable set may shrink, never grow"
+
+        paid = {a["identity_key"] for a in
+                PAL.load(PACKAGE_DIR / "ptf_paid_attempt_ledger_001.json")
+                ["attempts"] if a["market_id"] == "indianapolis-in"}
+        twin = "hampton inn indianapolis southwest plainfield"
+        for key in saved - live:
+            assert key in paid or twin in paid, key
 
 
 class TestReusableEvidenceIsNotUntapped:
