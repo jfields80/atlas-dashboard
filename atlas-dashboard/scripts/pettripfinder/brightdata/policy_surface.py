@@ -880,6 +880,81 @@ def _street_key(address: str) -> str:
     key = " ".join(_DIRECTIONALS.get(token, token) for token in key.split())
     return key if re.match(r"^\d", key) else ""
 
+
+#: Words that introduce a CROSS STREET after an address that is already
+#: complete: "7226 Woodland Drive at 71st Street". The house number and the
+#: street are stated in full first, and what follows locates the corner for a
+#: driver. Marriott writes several Indianapolis addresses this way.
+_CROSS_STREET_WORDS = frozenset({"at", "and", "corner", "cor", "near"})
+
+#: The folded directionals, as values, for the "silent on one side" rule.
+_DIRECTIONAL_TOKENS = frozenset(_DIRECTIONALS.values())
+
+
+def _without_directional(tokens: List[str]) -> Tuple[List[str], str]:
+    """``(tokens without the directional, the directional)``.
+
+    Only the token immediately after the house number is considered, which is
+    where a leading directional is written: "2245 E Perry Rd".
+    """
+    if len(tokens) > 2 and tokens[1] in _DIRECTIONAL_TOKENS:
+        return (tokens[:1] + tokens[2:], tokens[1])
+    return (tokens, "")
+
+
+def streets_agree(page_address: str, expected_street: str) -> Tuple[bool, str]:
+    """``(agree, why)`` for two written forms of one street.
+
+    PTF-INDIANAPOLIS-OFFICIAL-URL-RECOVERY-006. Two Indianapolis properties
+    were refused by the identity gate while being, demonstrably, the right
+    hotel: the page wrote "7226 Woodland Drive at 71st Street" where the census
+    holds "7226 Woodland Drive", and "2245 East Perry Road" where the census
+    holds "2245 Perry Road". Both are one building written two ways, and both
+    cost a paid fetch that answered nothing.
+
+    Exactly two widenings, and neither can merge two buildings:
+
+    CROSS STREET  one key is a whole prefix of the other and the remainder
+                  begins with a cross-street word. The house number and the
+                  street name must already be identical; only a trailing
+                  corner note is dropped.
+
+    SILENT DIRECTIONAL  the keys differ only in that ONE side states a
+                  directional the other omits. A side that says nothing is
+                  missing information, not a contradiction. Two DIFFERENT
+                  directionals still disagree, so "2245 E Perry Rd" and
+                  "2245 W Perry Rd" remain two places -- which is the whole
+                  reason this is not written as "drop all directionals".
+
+    A different house number is never reconciled here: "5224 West Southern
+    Avenue" and "5228 West Southern Avenue" stay a conflict, because deciding
+    which of the two is wrong is a founder's question about the census, not a
+    normalisation.
+    """
+    page = _street_key(page_address)
+    want = _street_key(expected_street)
+    if not page or not want:
+        return (False, "")
+    if page == want:
+        return (True, "exact")
+
+    page_tokens, want_tokens = page.split(), want.split()
+    for longer, shorter, side in ((page_tokens, want_tokens, "the page"),
+                                  (want_tokens, page_tokens, "the census")):
+        if (len(longer) > len(shorter)
+                and longer[:len(shorter)] == shorter
+                and longer[len(shorter)] in _CROSS_STREET_WORDS):
+            return (True, "%s adds the cross street %r after an address that is "
+                          "already complete"
+                          % (side, " ".join(longer[len(shorter):])))
+
+    page_bare, page_dir = _without_directional(page_tokens)
+    want_bare, want_dir = _without_directional(want_tokens)
+    if page_bare == want_bare and (page_dir or want_dir) and not (page_dir and want_dir):
+        return (True, "the directional %r is stated on one side and omitted on "
+                      "the other" % (page_dir or want_dir))
+    return (False, "")
+
 #: A telephone number as a human would see one written: separated, or behind a
 #: ``tel:`` link. An unseparated run of ten digits is an id, a timestamp or a
 #: tracking token far more often than it is a phone number, and admitting those
@@ -1054,8 +1129,12 @@ def assess_identity(signals: MS.IdentitySignals, *, expected_name: str,
     page_street = _street_key(signals.address_on_page)
     want_street = _street_key(expected_street)
     if page_street and want_street:
-        if page_street == want_street:
+        agree, why = streets_agree(signals.address_on_page, expected_street)
+        if agree:
             matched.append("street_identity")
+            if why != "exact":
+                reasons.append("page street %r and expected %r are one address: %s"
+                               % (signals.address_on_page, expected_street, why))
         else:
             conflicting.append("street_identity")
             reasons.append("page street %r does not agree with expected %r"
