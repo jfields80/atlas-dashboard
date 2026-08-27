@@ -30,10 +30,29 @@ def classify_lodging_scope(candidate: DiscoveryCandidate, market: MarketConfig) 
     """Pure, deterministic. Never fetches, never uses provider location
     bias as evidence -- only the candidate's own address/coordinate
     fields against the committed market configuration."""
-    city = normalize_business_name(candidate.city) if candidate.city else ""
-    state = (candidate.state or "").strip().upper()
-    lat, lng = candidate.latitude, candidate.longitude
+    return classify_scope_fields(
+        city=candidate.city, state=candidate.state,
+        latitude=candidate.latitude, longitude=candidate.longitude,
+        market=market)
+
+
+def classify_scope_fields(*, city, state, latitude, longitude,
+                          market: MarketConfig) -> str:
+    """``classify_lodging_scope`` over bare fields rather than a
+    ``DiscoveryCandidate``.
+
+    PTF-GENERIC-CENSUS-MEMBERSHIP-HARDENING-001 needs this ladder for census
+    membership, where a candidate is a plain mapping read off a persisted
+    candidate file and no ``DiscoveryCandidate`` exists to wrap it in. The two
+    entry points share ONE implementation on purpose: a market's geography
+    must not be able to answer differently depending on which caller asked.
+    """
+    city = normalize_business_name(city) if city else ""
+    state = (state or "").strip().upper()
+    lat, lng = latitude, longitude
     has_coords = lat is not None and lng is not None
+    if has_coords:
+        lat, lng = float(lat), float(lng)
 
     included_normalized = {normalize_business_name(m) for m in market.included_municipalities}
     municipality_match: Optional[bool] = (city in included_normalized) if city else None

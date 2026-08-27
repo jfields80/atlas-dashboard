@@ -53,6 +53,7 @@ if str(_REPO_ROOT) not in sys.path:
 
 from scripts.pettripfinder.acquisition import journal as JOURNAL  # noqa: E402
 from scripts.pettripfinder.acquisition import providers as PROVIDERS  # noqa: E402
+from scripts.pettripfinder.acquisition import paid_attempt_ledger as PAL  # noqa: E402
 
 SCHEMA = "ptf-cohort-cost-plan/1.0"
 
@@ -268,8 +269,29 @@ def build(plan: Mapping, prior: Mapping, *, authorised_cap_usd: float,
           previous: Optional[Mapping] = None,
           previous_passes: Sequence[Mapping] = (),
           credit_cap: Optional[int] = None,
-          fallback_provider: str = "brightdata_web_unlocker") -> Dict:
+          fallback_provider: str = "brightdata_web_unlocker",
+          paid_ledger: Optional[Mapping] = None,
+          material_changes: Optional[Mapping[str, Mapping[str, str]]] = None,
+          available_lanes: Sequence[str] = ()) -> Dict:
     cohort = list(plan.get("cohort") or ())
+
+    # PTF-GENERIC-CROSS-RUN-PAID-ATTEMPT-LEDGER-001. The cross-run paid history
+    # is consulted BEFORE anything is budgeted, because a budget computed over
+    # a cohort that still holds already-bought pages is a budget for the wrong
+    # cohort -- it would size the cap, the lane mix and the predicted
+    # completion around purchases that must not happen. ``double_buy_check``
+    # below still runs, and still compares against the named prior document by
+    # identity key; this is the guard that survives a rename, a re-census and a
+    # later work order, which is exactly what that check cannot see.
+    #
+    # Absent ledger means no filtering. The guard is additive: a market that
+    # has no paid history recorded buys exactly what it bought before.
+    ledger_suppressed: List[Dict] = []
+    if paid_ledger is not None:
+        cohort, ledger_suppressed = PAL.suppress(
+            cohort, paid_ledger, material_changes=material_changes,
+            available_lanes=available_lanes)
+
     by_provider = Counter(r["provider"] for r in cohort)
     if previous is None and previous_passes:
         previous = previous_passes[-1]
@@ -367,8 +389,13 @@ def build(plan: Mapping, prior: Mapping, *, authorised_cap_usd: float,
             ("prior", prior.get("work_order", "")),
         ))),
         ("cohort_size", len(cohort)),
+        # The fingerprint must describe the cohort THIS PLAN budgets. The paid
+        # pass checks it to prove the plan it was handed describes the queue it
+        # is about to run, so carrying the submitted plan's fingerprint forward
+        # after the paid-history gate removed rows would hand the pass a token
+        # that still validates the cohort the gate just rejected.
         ("cohort_keys_sha256",
-         plan.get("cohort_keys_sha256")
+         (plan.get("cohort_keys_sha256") if not ledger_suppressed else None)
          or cohort_fingerprint([r["identity_key"] for r in cohort])),
         ("cohort_by_provider", OrderedDict(sorted(by_provider.items()))),
         ("cohort_by_family", OrderedDict(
@@ -402,6 +429,27 @@ def build(plan: Mapping, prior: Mapping, *, authorised_cap_usd: float,
         ("predicted_completion_under_balance", completion),
         ("queue_order", plan.get("queue_order") or []),
         ("cohort_provenance", cohort_provenance(plan, previous)),
+        ("paid_history_suppressed", OrderedDict((
+            ("consulted", paid_ledger is not None),
+            ("count", len(ledger_suppressed)),
+            ("summary", PAL.summary(cohort, ledger_suppressed)
+             if paid_ledger is not None else None),
+            ("rows", [r["paid_history"] for r in ledger_suppressed]),
+            ("note", "already paid for on a prior run, under this identity "
+                     "key or another; still counted by coverage, because a "
+                     "property we already have the answer for is covered "
+                     "rather than missing"),
+        ))),
+        ("cohort_accounted_for", OrderedDict((
+            ("payable", len(cohort)),
+            ("paid_history_suppressed", len(ledger_suppressed)),
+            ("total", len(cohort) + len(ledger_suppressed)),
+            ("note", "the paid-history gate partitions the cohort it is given: "
+                     "every row it receives is either payable or suppressed, "
+                     "and it invents none. The pre-acquisition dedup gate has "
+                     "already run by this point and its merges are absent from "
+                     "both counts, so no identity is removed twice."),
+        ))),
         ("same_lane_retries_suppressed", OrderedDict((
             ("count", len(suppressed)),
             ("identity_keys", sorted(r.get("identity_key", "")

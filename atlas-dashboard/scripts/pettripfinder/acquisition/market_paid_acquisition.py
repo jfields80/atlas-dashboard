@@ -96,6 +96,7 @@ from scripts.pettripfinder.acquisition import market_routing as MR    # noqa: E4
 from scripts.pettripfinder.acquisition import providers as PROVIDERS  # noqa: E402
 from scripts.pettripfinder.acquisition import registry as REGISTRY    # noqa: E402
 from scripts.pettripfinder.acquisition import retry_policy as RP      # noqa: E402
+from scripts.pettripfinder.discovery import identity_dedup as DEDUP  # noqa: E402
 from scripts.pettripfinder.brightdata import browser_capture as BC    # noqa: E402
 from scripts.pettripfinder.brightdata import client as CLIENT         # noqa: E402
 from scripts.pettripfinder.brightdata import corpus as CORPUS         # noqa: E402
@@ -141,7 +142,8 @@ def family_of(brand: str) -> str:
 # --------------------------------------------------------------------------- #
 
 def derive_cohort(entries: Sequence[Mapping], prior: Mapping, *,
-                  terminal: Sequence[str] = DEFAULT_TERMINAL
+                  terminal: Sequence[str] = DEFAULT_TERMINAL,
+                  suppress_duplicate_pages: bool = False
                   ) -> Tuple[List[Dict], List[Dict]]:
     """``(cohort, settled)`` over the routed population.
 
@@ -182,7 +184,115 @@ def derive_cohort(entries: Sequence[Mapping], prior: Mapping, *,
             settled.append(row)
         else:
             cohort.append(row)
+    if suppress_duplicate_pages:
+        # OPT-IN, and deliberately so. St. Louis and Louisville are LIVE, and
+        # their committed coverage figures were derived by replaying this
+        # function over their committed artifacts. Both censuses really do hold
+        # duplicate pages -- three St. Louis identities share one Choice URL and
+        # four pairs share one Hilton property code -- so suppressing
+        # unconditionally would retroactively restate a published market's
+        # numbers (ALTERNATE_LANE_REQUIRED 52 -> 51) as a side effect of a fix
+        # aimed at the NEXT purchase. A market opts in by running the
+        # pre-acquisition dedup gate, which the factory now always does.
+        cohort, twins = _suppress_duplicate_pages(cohort)
+        settled.extend(twins)
     return (cohort, settled)
+
+
+def _apply_dedup_plan(cohort: Sequence[Mapping], plan_path: str
+                      ) -> Tuple[List[Dict], List[Dict]]:
+    """``(buyers, barred)`` -- honour the pre-acquisition dedup gate.
+
+    PTF-GENERIC-PRE-ACQUISITION-DEDUP-HARDENING-001. The page backstop in
+    ``derive_cohort`` catches two identities pointing at ONE url. It cannot
+    catch two identities the census gate decided are one property but which
+    carry two different URLs -- a bare OpenStreetMap sighting routed to the
+    brand's search page and its qualified twin routed to the property page.
+    Those are still one property and still one purchase, and the gate already
+    said so; this is where its decision is spent.
+
+    Absent plan means no filtering: the gate is additive, and a market that
+    has not run it buys exactly what it bought before.
+    """
+    if not plan_path:
+        return (list(cohort), [])
+    path = Path(plan_path)
+    if not path.is_file():
+        return (list(cohort), [])
+    plan = json.loads(path.read_text(encoding="utf-8"))
+    barred = {m["absorbed"]: ("merged into %r by %s %r"
+                              % (m["into"], m["signal"].lower(), m["value"]))
+              for m in plan.get("merges") or ()}
+    for key, why in (plan.get("withheld") or {}).items():
+        barred.setdefault(key, why)
+    buyers: List[Dict] = []
+    held: List[Dict] = []
+    for row in cohort:
+        why = barred.get(row["identity_key"])
+        if not why:
+            buyers.append(row)
+            continue
+        row = OrderedDict(row)
+        row["settled_because"] = (
+            "the pre-acquisition duplicate gate barred this identity from the "
+            "paid cohort: %s" % why)
+        held.append(row)
+    return (buyers, held)
+
+
+def _page_identity(row: Mapping) -> Tuple[str, str]:
+    """``(kind, value)`` naming the PAGE this row would buy, or ``("", "")``.
+
+    PTF-GENERIC-PRE-ACQUISITION-DEDUP-HARDENING-001. The double-buy question is
+    not "is this the same hotel?" but "would this fetch a page we are already
+    paying to fetch?". A brand property code answers it across URL spellings; a
+    canonical URL answers it for everything else.
+    """
+    code = DEDUP.property_code({"official_url": row.get("source_url") or ""})
+    if code:
+        return ("property_code", code)
+    url = DEDUP.canonical_url({"official_url": row.get("source_url") or ""})
+    return ("canonical_url", url) if url else ("", "")
+
+
+def _suppress_duplicate_pages(cohort: Sequence[Mapping]
+                              ) -> Tuple[List[Dict], List[Dict]]:
+    """``(buyers, twins)`` -- one purchase per page, whatever the identity key.
+
+    The pre-existing double-buy proof compares the cohort against PRIOR runs by
+    identity key, so two different keys in ONE cohort pointing at one page
+    passed it and were both bought. Grand Rapids-Holland's re-census produced
+    exactly that shape at scale: a bare OpenStreetMap name and a qualified
+    prior-census name for one building, each routed to the same official URL.
+
+    Deterministic: the best-evidenced row buys, by the same rank the census
+    dedup uses, and the rest are SETTLED with the reason -- never dropped, so
+    ``cohort + settled`` still accounts for every routed identity.
+    """
+    by_page: Dict[Tuple[str, str], List[Mapping]] = OrderedDict()
+    buyers: List[Dict] = []
+    for row in cohort:
+        page = _page_identity(row)
+        if not page[1]:
+            buyers.append(row)
+            continue
+        by_page.setdefault(page, []).append(row)
+    twins: List[Dict] = []
+    for (kind, value), rows in by_page.items():
+        ordered = sorted(rows, key=lambda r: (
+            len((r.get("canonical_name") or "").split()),
+            r.get("identity_key") or ""), reverse=True)
+        buyers.append(ordered[0])
+        for row in ordered[1:]:
+            row = OrderedDict(row)
+            row["settled_because"] = (
+                "another identity in this cohort (%r) already buys this exact "
+                "page (%s %r); one fetch answers both, so a second purchase "
+                "would pay twice for one answer"
+                % (ordered[0]["identity_key"], kind, value))
+            twins.append(row)
+    buyers.sort(key=lambda r: r.get("identity_key") or "")
+    return (buyers, twins)
 
 
 #: Layering recovered URLs over a census is a ROUTING concern, and closure and
@@ -194,7 +304,8 @@ apply_url_overlay = MR.apply_url_overlay
 
 def plan_cohort(entries: Sequence[Mapping], prior: Mapping, *,
                 terminal: Sequence[str] = DEFAULT_TERMINAL,
-                overrides: Optional[Mapping[str, Mapping]] = None
+                overrides: Optional[Mapping[str, Mapping]] = None,
+                suppress_duplicate_pages: bool = False
                 ) -> Tuple[List[Dict], List[Dict], List[Dict]]:
     """``(cohort, settled, suppressed)`` -- subtraction, then the retry policy.
 
@@ -205,7 +316,9 @@ def plan_cohort(entries: Sequence[Mapping], prior: Mapping, *,
     paid $1.20 to learn the answer is no. The three lists partition the routed
     population, and a test asserts it.
     """
-    cohort, settled = derive_cohort(entries, prior, terminal=terminal)
+    cohort, settled = derive_cohort(
+        entries, prior, terminal=terminal,
+        suppress_duplicate_pages=suppress_duplicate_pages)
     eligible, suppressed = RP.apply(cohort, prior, overrides=overrides,
                                     terminal=terminal)
     return (eligible, settled, suppressed)
@@ -959,12 +1072,19 @@ def main(argv=None) -> int:
                         help="build the report from the journal alone and "
                              "spend nothing; how a killed run still produces "
                              "its artifact")
+    parser.add_argument("--dedup-plan", default="",
+                        help="a ptf-pre-acquisition-dedup document; its merged and"
+                             " withheld identities may not enter the paid cohort")
+    parser.add_argument("--census", default="",
+                        help="the census to read; default identity_census/"
+                             "<market>.json. A re-census of a registered market "
+                             "is built beside its live census, never over it")
     args = parser.parse_args(argv)
 
     run_id = args.run_id or ("%s-paid" % args.market)
     started = time.monotonic()
-    census = json.loads((CENSUS_DIR / ("%s.json" % args.market))
-                        .read_text(encoding="utf-8"))
+    census_path = Path(args.census) if args.census else CENSUS_DIR / ("%s.json" % args.market)
+    census = json.loads(census_path.read_text(encoding="utf-8"))
     prior = json.loads(Path(args.prior).read_text(encoding="utf-8"))
     overlay = apply_url_overlay(census["hotels"], args.url_overlay)
     entries, routing_summary = MR.route_census(census["hotels"])
@@ -972,7 +1092,10 @@ def main(argv=None) -> int:
                  if args.retry_overrides else None)
     cohort, settled, suppressed = plan_cohort(
         entries, prior, terminal=[t for t in args.terminal.split(",") if t],
-        overrides=overrides)
+        overrides=overrides,
+        suppress_duplicate_pages=bool(args.dedup_plan))
+    cohort, deduped = _apply_dedup_plan(cohort, args.dedup_plan)
+    settled.extend(deduped)
     queue = order_queue(cohort, args.priority.split(","))
     if args.limit:
         queue = queue[:args.limit]
