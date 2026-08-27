@@ -136,6 +136,100 @@ def street_key(address: str, postal: str) -> str:
     return "%s|%s" % (" ".join(_STREET_WORDS.get(w, w) for w in words), postal)
 
 
+#: PTF-INDIANAPOLIS-PLACES-NAME-NORMALIZATION-009. The hotel OPERATORS whose
+#: name a brand page prints as a courtesy: "Candlewood Suites Indianapolis
+#: Northwest BY IHG", "Fairfield BY MARRIOTT Inn & Suites". The operator is
+#: presentation, not identity -- it says who runs the chain, never which
+#: building. Removed only as the exact two-token sequence ``by <operator>``, and
+#: from BOTH sides, so a name that never carried it is unaffected.
+#:
+#: Deliberately a CLOSED list of operator names. "by the airport" and "by the
+#: canal" are locations, and a rule that dropped any "by X" would delete them.
+_OPERATOR_TOKENS: Tuple[str, ...] = (
+    "marriott", "hilton", "ihg", "wyndham", "radisson", "hyatt", "choice",
+    "sonesta", "accor", "best western",
+)
+
+#: Chain names a brand has re-presented wholesale. The left form and the right
+#: form are the SAME chain, so neither can distinguish two of its hotels from
+#: one another -- Extended Stay America renamed every property to "Extended
+#: Stay America Suites", it did not open a second chain. Each entry needs that
+#: to be true of the whole chain, which is why this is a named table and not a
+#: pattern.
+_CHAIN_PRESENTATION: Tuple[Tuple[str, str], ...] = (
+    ("extended stay america suites", "extended stay america"),
+)
+
+
+def presentation_key(name: str, *, state_code: str = "") -> str:
+    """``normalise`` plus the presentation differences that name one building twice.
+
+    PTF-INDIANAPOLIS-PLACES-NAME-NORMALIZATION-009 measured this on 25 paid
+    Google Places lookups. Thirteen rows that bound on nothing still came back
+    with a real property page, and eleven of those were the intended hotel under
+    the brand's current marketing name. The rule was not wrong to refuse them --
+    it was comparing presentation, not identity.
+
+    THREE TRANSFORMATIONS, AND NOTHING ELSE:
+
+      by <operator>   dropped as an exact pair, both sides
+      <state code>    a bare "IN" inside "Motel 6 Indianapolis, IN - Airport"
+      chain re-present "extended stay america suites" -> "extended stay america"
+
+    WHAT IT WILL NOT TOUCH, BECAUSE THESE DISTINGUISH REAL BUILDINGS:
+    airport, downtown, the compass words, and every locality -- plainfield,
+    carmel, castleton, fishers, westfield, greenwood, and the city itself.
+    "Courtyard Indianapolis AIRPORT Plainfield" and "Courtyard Indianapolis
+    Plainfield" are two hotels and stay two hotels. Nor does it touch "inn" or
+    "suites": Comfort Inn and Comfort Suites are two brands.
+
+    There is no fuzzy matching here. Every output is a token sequence, compared
+    for equality, and every difference between input and output is one of the
+    three rules above.
+    """
+    tokens = normalise(name).split()
+    if not tokens:
+        return ""
+
+    out: List[str] = []
+    index = 0
+    while index < len(tokens):
+        if tokens[index] == "by":
+            for operator in _OPERATOR_TOKENS:
+                parts = operator.split()
+                if tokens[index + 1:index + 1 + len(parts)] == parts:
+                    index += 1 + len(parts)
+                    break
+            else:
+                out.append(tokens[index])
+                index += 1
+            continue
+        out.append(tokens[index])
+        index += 1
+
+    # "&" and "and" are one word written two ways. ``normalise`` already turns
+    # "&" into a space, so dropping the written form is what makes
+    # "Inn & Suites" and "Inn and Suites" the same name.
+    if len(out) > 2:
+        out = [t for t in out if t != "and"] or out
+
+    state = normalise(state_code)
+    if state and len(state) == 2:
+        # A bare state code is where the row already says it is. It cannot
+        # separate two hotels in one market, which is the only market this is
+        # ever compared inside.
+        trimmed = [t for t in out if t != state]
+        if len(trimmed) >= 2:
+            out = trimmed
+
+    joined = " ".join(out)
+    for written, canonical in _CHAIN_PRESENTATION:
+        if joined.startswith(written):
+            joined = canonical + joined[len(written):]
+            break
+    return joined.strip()
+
+
 def distinctive_name_tokens(name: str) -> List[str]:
     """The words in a hotel's name that could identify THIS building in a URL."""
     return [t for t in normalise(name).split()
@@ -379,7 +473,8 @@ def read_prior_artifacts(census_path: Path, artifact_paths: Sequence[Path]
 def bind(row: Mapping, observations: Sequence[Observation],
          *, unambiguous_streets: Optional[frozenset] = None,
          acceptable: Optional[Callable[[Observation], Tuple[bool, str]]] = None,
-         rejected: Optional[List[Dict]] = None
+         rejected: Optional[List[Dict]] = None,
+         presentation_variants: bool = False
          ) -> Tuple[Optional[Observation], str]:
     """``(observation, binding)`` -- the strongest usable match, or ``(None, "")``.
 
@@ -402,7 +497,13 @@ def bind(row: Mapping, observations: Sequence[Observation],
     first. Every rejection is appended to ``rejected`` -- what this module
     refuses is its whole value, and a silent refusal cannot be reviewed.
     """
-    name = normalise(row.get("canonical_name", ""))
+    # PTF-INDIANAPOLIS-PLACES-NAME-NORMALIZATION-009. Opt-in, and default OFF
+    # on purpose: every market that recovered its URLs under the old rule
+    # recovers exactly the same ones today, and a caller has to ask for the
+    # wider comparison before it applies.
+    key = ((lambda n: presentation_key(n, state_code=str(row.get("state") or "")))
+           if presentation_variants else normalise)
+    name = key(row.get("canonical_name", ""))
     postal = (row.get("postal_code") or "").strip()
     phone = digits(row.get("phone", ""))
     street = (street_key(row.get("address", ""), postal)
@@ -410,7 +511,7 @@ def bind(row: Mapping, observations: Sequence[Observation],
 
     levels = (
         (BIND_PHONE, (lambda o: bool(phone) and o.phone == phone)),
-        (BIND_NAME_POSTAL, (lambda o: bool(name and postal) and o.name == name
+        (BIND_NAME_POSTAL, (lambda o: bool(name and postal) and key(o.name) == name
                             and bool(o.postal) and o.postal == postal)),
         (BIND_STREET_POSTAL, (lambda o: bool(street)
                               and street in (unambiguous_streets or frozenset())
