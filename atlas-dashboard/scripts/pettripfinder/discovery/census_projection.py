@@ -14,7 +14,8 @@ four scripts, ~4,600 lines, doing the same four things).
 This module is those four things, once, generically:
 
     1. category      -- is this candidate lodging in our current category?
-    2. membership    -- is it in the market, by the corridor registry?
+    2. membership    -- is it in the market, on the basis the market's
+                        contract declares (see discovery.market_membership)?
     3. identity      -- is it a distinct property, or a second sighting of one
                         we already have?
     4. projection    -- emit a census row through the canonical constructors.
@@ -23,15 +24,25 @@ Nothing here fetches. It reads a persisted candidate file and a committed
 market contract and returns a census plus a ledger; the ledger is the point,
 because every candidate that does NOT become a census row has to say why.
 
-Why membership is decided by the corridor registry
---------------------------------------------------
+How membership is decided
+-------------------------
 A bounding box is a query fence: it decides which provider calls to make. It is
 a bad market boundary, because a name collision (there is a Belleville in
 Illinois, in Kansas and in Michigan) and a provider's location bias both put
-rows inside a box that no traveller would call this market. The corridor
-registry is a REVIEWED list of postal codes -- so a candidate is in the market
-when a corridor claims its ZIP, and every candidate a corridor does not claim
-is recorded with a reason rather than dropped.
+rows inside a box that no traveller would call this market. For a market whose
+corridors were reviewed as a postal-code partition, the corridor registry is a
+better boundary -- a candidate is in the market when a corridor claims its ZIP
+-- and that remains the default.
+
+It is not the only one, because it is not universally answerable.
+PTF-GENERIC-CENSUS-MEMBERSHIP-HARDENING-001: a market may declare corridors
+that classify by explicit hotel id or by city and claim no postal code at all,
+and asking a ZIP-keyed registry about such a market can only ever answer 'no'.
+So the basis is a field the market contract STATES
+(``census_membership_basis``), the decision itself lives in
+``discovery.market_membership``, and corridor assignment is a separate step
+that runs afterwards and cannot evict a row. Every candidate that does not
+become a census row is still recorded with a reason rather than dropped.
 
 Why under-named candidates are reconciled here and not in the deduplicator
 --------------------------------------------------------------------------
@@ -74,6 +85,8 @@ from typing import Dict, Iterable, List, Mapping, Optional, Sequence, Tuple
 from scripts.pettripfinder.contracts import enums
 from scripts.pettripfinder.contracts.identity_key import ptf_identity_key
 from scripts.pettripfinder.discovery import constants as C
+from scripts.pettripfinder.discovery import market_membership as MM
+from scripts.pettripfinder.discovery.census_recandidacy import (is_prior_census_candidate)
 from scripts.pettripfinder.markets.assignment import assign_hotels, assignment_basis
 from scripts.pettripfinder.markets.contract import MarketConfig as ContractMarket
 
@@ -119,11 +132,16 @@ PERMANENTLY_CLOSED = "PERMANENTLY_CLOSED"
 UNNAMED = "UNNAMED_CANDIDATE"
 IDENTITY_COLLISION = "IDENTITY_COLLISION_REQUIRES_REVIEW"
 NO_LOCALITY = "IDENTITY_NO_LOCALITY"
+#: PTF-GENERIC-CENSUS-MEMBERSHIP-HARDENING-001. The evidence cannot settle
+#: whether this candidate is in the market. An honest hold: the alternative
+#: was asserting it lay outside bounds nobody measured it against, which is
+#: how a re-census evicted 103 committed identities.
+MEMBERSHIP_UNRESOLVED = MM.UNRESOLVED
 
 LEDGER_DISPOSITIONS: Tuple[str, ...] = (
     ADMITTED, ABSORBED, NOT_LODGING, OUT_OF_MARKET_GEOGRAPHY,
     OUT_OF_MARKET_BOUNDARY_DECISION, PERMANENTLY_CLOSED, UNNAMED,
-    IDENTITY_COLLISION, NO_LOCALITY,
+    IDENTITY_COLLISION, NO_LOCALITY, MEMBERSHIP_UNRESOLVED,
 )
 
 _METERS_PER_DEGREE_LAT = 111_320.0
@@ -320,9 +338,14 @@ def _ledger_entry(candidate: Mapping, disposition: str, why: str,
 
 def project(candidates: Sequence[Mapping], market: ContractMarket, *,
             observed_at: str, work_order: str,
-            in_bounds: Optional[Mapping[str, bool]] = None,
+            in_bounds: Optional[Mapping[str, Optional[bool]]] = None,
+            geography=None,
             ) -> Tuple[List[Dict], List[Dict]]:
     """``(census_rows, ledger)`` -- every candidate appears in the ledger once.
+
+    ``geography`` is the committed discovery ``MarketConfig`` (bounds plus
+    included municipalities). It is REQUIRED for a market whose contract
+    declares MARKET_GEOGRAPHY membership and unused otherwise.
 
     ``in_bounds`` maps candidate_id -> whether the candidate's own coordinates
     fall inside the discovery bounding box. It separates two very different
@@ -331,6 +354,12 @@ def project(candidates: Sequence[Mapping], market: ContractMarket, *,
     corridor registry deliberately does not claim
     (OUT_OF_MARKET_BOUNDARY_DECISION). Omit it and everything unclaimed reads
     as a boundary decision, which is the safer of the two to have to review.
+
+    Its values are THREE-valued: ``None`` means the candidate stated no
+    coordinates, and that is not the same fact as coordinates measured outside
+    the box. Reading a missing value as False is what let a re-census stamp
+    "the candidate own coordinates fall outside the market geographic bounds"
+    on 103 committed identities, none of which carries a coordinate at all.
 
     Order matters and is fixed: name, closure, category, ABSORPTION, then
     membership. Absorption runs before membership because the candidates that
@@ -430,42 +459,81 @@ def project(candidates: Sequence[Mapping], market: ContractMarket, *,
     admitted: List[Dict] = []
     for candidate, lodging_state, why in survivors:
         candidate_id = candidate.get("candidate_id", "")
-        inside = True if in_bounds is None else bool(in_bounds.get(candidate_id, False))
+        # Three-valued on purpose. ``None`` means the candidate stated no
+        # coordinates, which is NOT the same as coordinates that were measured
+        # and fell outside; see market_membership. A market with no committed
+        # discovery geography supplies no map at all, and everything it holds
+        # is treated as inside the box exactly as it was before.
+        coords_in_bounds = True if in_bounds is None else in_bounds.get(candidate_id)
+        # A candidate that states NO coordinates was never measured against
+        # the box, so a verdict carried in ``in_bounds`` for it is not a
+        # measurement and must not become an assertion that it fell outside.
+        # Three-valued on purpose; see market_membership.
+        if in_bounds is not None and _coords(candidate)[0] is None:
+            coords_in_bounds = None
         zip5 = (candidate.get("postal_code") or "").strip()[:5]
-        corridor = zips.get(zip5, "")
         has_address = bool((candidate.get("address_line") or "").strip())
-        if not corridor and explicit_corridor:
+
+        outcome, membership_why, corridor = MM.decide(
+            candidate, basis=market.census_membership_basis,
+            corridor_of_zip=zips, coords_in_bounds=coords_in_bounds,
+            geography=geography,
+            is_prior_identity=is_prior_census_candidate(candidate))
+
+        # PTF-INDIANAPOLIS-HARDENED-RECENSUS-002, preserved across this
+        # commit's membership refactor. A corridor may name a hotel
+        # EXPLICITLY (``explicit_hotel_ids``) precisely because its ZIP is
+        # shared or unclaimed -- Indianapolis leaves 46202 to no corridor
+        # and places its five hotels by name. An explicit naming is a
+        # deliberate registry act, so it outranks the ZIP/bounds verdict
+        # exactly as it did before membership moved into market_membership;
+        # without this the five would return to OUT_OF_MARKET_BOUNDARY_DECISION.
+        #
+        # Scoped to CORRIDOR_REGISTRY markets on purpose. Where the registry IS
+        # the boundary, naming a hotel speaks to membership AND to display, so
+        # it settles both. Under MARKET_GEOGRAPHY the registry is only a display
+        # taxonomy -- geography already decided membership -- so classification
+        # stays where this commit put it, in assign_hotels.
+        if (not corridor and explicit_corridor
+                and market.census_membership_basis
+                == MM.MC.MEMBERSHIP_CORRIDOR_REGISTRY):
             named_keys = [ptf_identity_key(candidate.get("name") or "")]
             named_keys += [ptf_identity_key(alias) for alias
                            in candidate.get("prior_census_identity_keys") or ()]
-            corridor = next((explicit_corridor[k] for k in named_keys
-                             if k in explicit_corridor), "")
+            explicit_hit = next((explicit_corridor[k] for k in named_keys
+                                 if k in explicit_corridor), "")
+            if explicit_hit:
+                corridor = explicit_hit
+                outcome = MM.IN_MARKET
+                membership_why = ("named explicitly by corridor %r in the "
+                                  "market registry" % corridor)
+
+        if outcome == MM.OUT_OF_GEOGRAPHY:
+            ledger.append(_ledger_entry(
+                candidate, OUT_OF_MARKET_GEOGRAPHY, membership_why))
+            continue
+        if outcome == MM.BOUNDARY_DECISION:
+            ledger.append(_ledger_entry(
+                candidate, OUT_OF_MARKET_BOUNDARY_DECISION, membership_why))
+            continue
+        if outcome == MM.UNRESOLVED:
+            ledger.append(_ledger_entry(
+                candidate, MEMBERSHIP_UNRESOLVED, membership_why,
+                latitude=candidate.get("latitude"),
+                longitude=candidate.get("longitude"),
+                city_seen=(candidate.get("city") or ""),
+                state_seen=(candidate.get("state") or ""),
+                postal_code_seen=zip5))
+            continue
+
         if not corridor:
-            has_coordinates = _coords(candidate)[0] is not None
-            if not inside and has_coordinates:
-                ledger.append(_ledger_entry(
-                    candidate, OUT_OF_MARKET_GEOGRAPHY,
-                    "the candidate own coordinates fall outside the market "
-                    "geographic bounds (postal code %r)" % zip5))
-                continue
-            if zip5:
-                ledger.append(_ledger_entry(
-                    candidate, OUT_OF_MARKET_BOUNDARY_DECISION,
-                    ("postal code %r is inside the discovery bounding box and is "
-                     "claimed by no corridor in the market registry" % zip5)
-                    if has_coordinates else
-                    ("postal code %r is claimed by no corridor in the market "
-                     "registry and no corridor names this hotel explicitly; the "
-                     "candidate carries no coordinates, so the bounding box "
-                     "cannot place it either" % zip5)))
-                continue
-            # Inside the box with no postal code. The census contract requires
-            # a city and a state on every row, and there is nothing here to
-            # derive either from -- an OpenStreetMap node with a name and a
-            # coordinate. Held in the ledger with its coordinates rather than
-            # admitted as a row that cannot say where it is.
-            if not ((candidate.get("city") or "").strip()
-                    and (candidate.get("state") or "").strip()):
+            # In the market, displayed by no corridor. The census contract
+            # still requires a city and a state on every row, and an
+            # OpenStreetMap node with a name and a coordinate has neither.
+            # Held in the ledger with its coordinates rather than admitted as
+            # a row that cannot say where it is.
+            if not zip5 and not ((candidate.get("city") or "").strip()
+                                 and (candidate.get("state") or "").strip()):
                 ledger.append(_ledger_entry(
                     candidate, NO_LOCALITY,
                     "the candidate states no postal code, no city and no "
@@ -475,8 +543,7 @@ def project(candidates: Sequence[Mapping], market: ContractMarket, *,
                     latitude=candidate.get("latitude"),
                     longitude=candidate.get("longitude")))
                 continue
-            why = ("%s; admitted with no corridor because the candidate states "
-                   "no postal code" % why)
+            why = "%s; %s" % (why, membership_why)
         if not (candidate.get("city") or "").strip():
             # The census contract requires a city on every row, and a corridor's
             # display area is not one: it names a traveller area, not the
