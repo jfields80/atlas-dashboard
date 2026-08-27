@@ -148,16 +148,24 @@ class TestStrictnessCaughtTwoWrongHotels:
 
 
 class TestTheLedgerRecordedItAllAndWillNotPayTwice:
+    """Scoped to THIS run's rows. The ledger is cross-run and has since grown --
+    PTF-INDIANAPOLIS-PLACES-BROADER-RECOVERY-010 added the other 118 -- so a
+    whole-ledger total would pin a number that is supposed to move."""
+
+    @staticmethod
+    def _this_run(ledger):
+        return [a for a in ledger["attempts"]
+                if a["run_id"] == "indianapolis-in-places-008"]
 
     def test_twenty_five_rows_were_written(self, run, ledger):
         assert run["ledger_rows_written"] == 25
-        assert len(ledger["attempts"]) == 25
+        assert len(self._this_run(ledger)) == 25
 
     def test_the_recorded_request_count_matches_what_was_spent(self, ledger):
-        assert sum(a["paid_requests"] for a in ledger["attempts"]) == 25
+        assert sum(a["paid_requests"] for a in self._this_run(ledger)) == 25
 
     def test_every_bound_row_kept_its_place_id_and_url(self, ledger):
-        bound = [a for a in ledger["attempts"]
+        bound = [a for a in self._this_run(ledger)
                  if a["bind_state"] == DAL.BIND_BOUND]
         assert len(bound) == 9
         assert all(a["place_id"] and a["website_uri"] for a in bound)
@@ -182,7 +190,7 @@ class TestTheLedgerRecordedItAllAndWillNotPayTwice:
         assert len(suppressed) == 25
 
     def test_a_failed_lookup_is_remembered_as_a_finding(self, ledger):
-        failed = [a for a in ledger["attempts"]
+        failed = [a for a in self._this_run(ledger)
                   if a["bind_state"] in DAL.ANSWERED_NEGATIVE_STATES]
         assert len(failed) == 16
         assert all(a["answered"] is False for a in failed)
