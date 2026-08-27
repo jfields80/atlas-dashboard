@@ -48,7 +48,7 @@ PARTITION_FILES = {
     CINCINNATI: "cincinnati_final_partition_001.json",
     PITTSBURGH: "pittsburgh_final_partition_001.json",
     DETROIT: "detroit_ann_arbor_final_partition_001.json",
-    INDIANAPOLIS: "indianapolis_final_partition_001.json",
+    INDIANAPOLIS: "indianapolis_in_final_partition_004.json",   # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004
     MILWAUKEE: "milwaukee_final_partition_001.json",
 }
 
@@ -74,8 +74,13 @@ EXPECTED = {
                  "out_of_category": 3, "unresolved": 63},
     DETROIT: {"census": 143, "published": 0, "no_pets": 0,
               "out_of_category": 1, "unresolved": 142},
-    INDIANAPOLIS: {"census": 153, "published": 8, "no_pets": 4,
-                   "out_of_category": 0, "unresolved": 141},
+    # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: 257-identity promoted census. Its
+    # partition is a generic-path factory artifact (AWAITING_* states only), so
+    # the partition-derived counts are 0/0/257; the 24 + 24 authority is pinned
+    # by test_indianapolis_promoted_authority_is_24_and_24 from the package and
+    # the exclusion shard.
+    INDIANAPOLIS: {"census": 257, "published": 0, "no_pets": 0,
+                   "out_of_category": 0, "unresolved": 257},
     # PTF-MILWAUKEE-MARKET-FACTORY-001. Census-only: no policy authority
     # exists for this market, so published and no_pets are zero by
     # construction and every identity carries a blocker.
@@ -285,14 +290,16 @@ class TestNextActionInvariant:
 
 class TestTerminalDispositionsMatchAuthority:
 
-    @pytest.mark.parametrize("market_id", (COLUMBUS, CLEVELAND, DAYTON, INDIANAPOLIS))
+    # Indianapolis left this parametrization in PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004:
+    # its partition is a generic-path factory artifact with no terminal states.
+    @pytest.mark.parametrize("market_id", (COLUMBUS, CLEVELAND, DAYTON))
     def test_published_set_matches_the_policy_package(self, market_id):
         published = published_keys(POLICY_FILES[market_id])
         in_partition = {i["identity_key"] for i in partition_doc(market_id)["items"]
                         if i["final_state"] == enums.PUBLISHED_PET_FRIENDLY}
         assert in_partition == published
 
-    @pytest.mark.parametrize("market_id", (COLUMBUS, CLEVELAND, DAYTON, INDIANAPOLIS))
+    @pytest.mark.parametrize("market_id", (COLUMBUS, CLEVELAND, DAYTON))
     def test_terminal_sets_match_the_exclusion_registry(self, market_id):
         exclusions = load(PACKAGE_DIR / "hotel_exclusions.json")["exclusions"]
         for state in (enums.VERIFIED_NO_PETS, enums.OUT_OF_CURRENT_CATEGORY):
@@ -329,41 +336,31 @@ class TestTerminalDispositionsMatchAuthority:
         assert states[enums.OUT_OF_CURRENT_CATEGORY] == 6
         assert len(doc["items"]) == 256
 
-    def test_indianapolis_publishes_eight_and_has_four_verified_refusals(self):
-        """Live application reconciles the approved positives and negative evidence."""
-        no_pets = {
-            "crowne plaza indianapolis airport",
-            "courtyard by marriott indianapolis castleton",
-            "crowne plaza indianapolis downtown union station",
-            "fairfield inn and suites indianapolis airport",
-        }
-        confirmed = {
-            "holiday inn express plainfield",
-            "le meridien indianapolis",
-            "residence inn by marriott indianapolis airport",
-            "hampton inn and suites indianapolis airport",
-            "hampton inn and suites indianapolis keystone",
-            "hampton inn and suites indianapolis west speedway",
-            "hampton inn indianapolis northeast castleton",
-            "hilton garden inn indianapolis airport",
-        }
-        doc = partition_doc(INDIANAPOLIS)
-        states = {i["final_state"] for i in doc["items"]}
-        assert states & set(enums.TERMINAL_STATES) == {
-            enums.PUBLISHED_PET_FRIENDLY, enums.VERIFIED_NO_PETS}
-        assert len(doc["items"]) == 153
-        refused = [i for i in doc["items"]
-                   if i["final_state"] == enums.VERIFIED_NO_PETS]
-        assert {i["identity_key"] for i in refused} == no_pets
+    def test_indianapolis_promoted_authority_is_24_and_24(self):
+        """PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: the 257-identity census and the
+        founder-signed authority (24 profiles, 24 verified refusals, both
+        601 W Washington hotels preserved under the exclusion contract's
+        brand-scoped co-location rule)."""
+        published = published_keys(POLICY_FILES[INDIANAPOLIS])
+        assert len(published) == 24
+        exclusions = load(PACKAGE_DIR / "hotel_exclusions.json")["exclusions"]
+        refused = {ptf_identity_key(e["canonical_name"]) for e in exclusions
+                   if e["market_id"] == INDIANAPOLIS
+                   and e["exclusion_state"] == enums.VERIFIED_NO_PETS}
+        assert len(refused) == 24
+        assert {"courtyard by marriott indianapolis downtown",
+                "springhill suites indianapolis downtown"} <= refused
+        assert not (published & refused)
         census = census_doc(INDIANAPOLIS)
-        by_key = {r["identity_key"]: r["policy_state"] for r in census["hotels"]}
-        assert {key for key, state in by_key.items()
-                if state == enums.VERIFIED_NO_PETS} == no_pets
-        assert {key for key, state in by_key.items()
-                if state == enums.POLICY_CONFIRMED} == confirmed
-        assert all(state == enums.POLICY_NOT_VERIFIED
-                   for key, state in by_key.items()
-                   if key not in no_pets and key not in confirmed)
+        keys = {r["identity_key"] for r in census["hotels"]}
+        assert len(keys) == 257
+        assert (published | refused) <= keys
+        assert all(r["policy_state"] == enums.POLICY_NOT_VERIFIED for r in census["hotels"])
+        doc = partition_doc(INDIANAPOLIS)
+        assert len(doc["items"]) == 257
+        states = collections.Counter(i["final_state"] for i in doc["items"])
+        assert not (set(states) & set(enums.TERMINAL_STATES))
+        assert states["AWAITING_FOUNDER_DECISION"] == 48
 
 
 # --------------------------------------------------------------------------

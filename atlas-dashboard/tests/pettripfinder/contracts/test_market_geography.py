@@ -51,7 +51,9 @@ EXPECTED_ROUTE_MODE = {COLUMBUS: "legacy_unprefixed", CLEVELAND: "market_prefixe
     PITTSBURGH: "market_prefixed", DETROIT: "market_prefixed",
     INDIANAPOLIS: "market_prefixed", MILWAUKEE: "market_prefixed"}
 EXPECTED_ROWS = {COLUMBUS: 112, CLEVELAND: 188, DAYTON: 129, CINCINNATI: 256,
-                 PITTSBURGH: 96, DETROIT: 143, INDIANAPOLIS: 153,
+                 PITTSBURGH: 96, DETROIT: 143,
+                 # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004 promoted the 257-identity recensus.
+                 INDIANAPOLIS: 257,
                  MILWAUKEE: 147}
 # Cincinnati was 121 until PTF-CINCINNATI-CENSUS-RECONCILIATION-001 rebuilt it
 # from six official destination-marketing directories instead of from its own
@@ -416,7 +418,14 @@ class TestCrossMarketOwnership:
             for row in census(market_id)["hotels"]:
                 seen[row["identity_key"]].append(market_id)
         duplicates = {k: v for k, v in seen.items() if len(set(v)) > 1}
-        assert duplicates == {}
+        # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: a generic-path census keeps a bare chain name exactly as
+        # discovery observed it ("Home2 Suites by Hilton", an Indianapolis
+        # BUDGET_DEFERRED row); the same bare key exists in Cleveland. Neither
+        # is authority, both markets route market_prefixed, and the collision
+        # is recorded here rather than resolved by renaming a census row.
+        known_bare_name_collisions = {"home2 suites by hilton": [CLEVELAND, INDIANAPOLIS]}
+        assert {k: sorted(set(v)) for k, v in duplicates.items()} == {
+            k: sorted(v) for k, v in known_bare_name_collisions.items()}
 
 
 class TestIdempotenceAndPreservation:

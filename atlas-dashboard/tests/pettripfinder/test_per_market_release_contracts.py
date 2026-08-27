@@ -133,7 +133,12 @@ EXPECTED_RECONCILIATION = {
     # figures; resolved = 26 + 4 + 3 out_of_current_category = 33, unresolved
     # is COUNTED from the committed final partition (63).
     PITTSBURGH: (96, 26, 4, 33, 63),
-    INDIANAPOLIS: (153, 8, 4, 12, 141),
+    # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: 257 identities promoted from the hardened recensus;
+    # 24 founder-signed profiles and 24 verified-no-pets (both 601 W Washington
+    # hotels, distinct Marriott codes, under the exclusion contract's co-location
+    # rule); resolved 48; unresolved COUNTED as the exact remainder (209) because
+    # this market records no OUT_OF_CURRENT_CATEGORY identity (Louisville rule).
+    INDIANAPOLIS: (257, 24, 24, 48, 209),
     # PTF-MILWAUKEE-PUBLICATION-042. 147 confirmed identities; 73 published
     # pet-friendly and 27 verified-no-pets, both founder-approved across two
     # sittings (036 and 040); resolved = 73 + 27 = 100; unresolved is COUNTED
@@ -299,7 +304,7 @@ class TestContractAgreesWithItsOwnAuthority:
         """
         by_market = {mid: derive_authority(mid).verified_no_pets for mid in MARKETS}
         assert by_market == {COLUMBUS: 14, CLEVELAND: 40, DAYTON: 8,
-                             PITTSBURGH: 4, INDIANAPOLIS: 4, MILWAUKEE: 27,
+                             PITTSBURGH: 4, INDIANAPOLIS: 24, MILWAUKEE: 27,
                              ST_LOUIS: 37,
                              # PTF-LOUISVILLE-PUBLICATION-008. Every other
                              # market's number is unchanged, which is the half

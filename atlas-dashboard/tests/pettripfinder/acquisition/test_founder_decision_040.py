@@ -381,7 +381,7 @@ def test_no_other_market_changed():
     assert counts["cleveland-akron-canton-oh"] == 40
     assert counts["columbus-oh"] == 16
     assert counts["dayton-oh"] == 8
-    assert counts["indianapolis-in"] == 4
+    assert counts["indianapolis-in"] == 24  # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: 4 -> 24
     assert counts["pittsburgh-pa"] == 7
 
 

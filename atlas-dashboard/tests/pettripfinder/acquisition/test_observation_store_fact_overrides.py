@@ -114,6 +114,7 @@ def test_a_withholding_removes_the_fact_and_records_the_reason(tmp_path):
     record = _build(_attempt(tmp_path), _overrides({
         "identity_key": "fairfield testville", "ledger_row": 49,
         "withhold": {"weight_limit": enums.SOURCE_CONTRADICTORY}, "unset": ["weight_limit"],
+        "flag_codes": {"weight_limit": "FLAG_AMBIGUOUS_SCOPE"},
         "cited_quotes": ["Maximum Pet Weight: 75.0lbs", "Each pet may weigh up to 75.0 lbs."]}))
     assert "weight_limit" not in record["observation"]["extraction"]
     assert record["withheld_fields"]["weight_limit"] == enums.SOURCE_CONTRADICTORY
@@ -121,12 +122,25 @@ def test_a_withholding_removes_the_fact_and_records_the_reason(tmp_path):
     assert ruling["was_facts"] == {"weight_limit": {"value": 75.0, "unit": "lb"}}
     # a withholding asserts nothing, so the conflicting quotes are not evidence
     assert not any(e["quote"] == "Maximum Pet Weight: 75.0lbs" for e in record["observation"]["evidence"])
+    # ... but it must carry its sentence, which the policy package reads from the flags
+    flag = next(f for f in record["observation"]["flags"] if f["code"] == "FLAG_AMBIGUOUS_SCOPE")
+    assert record["membrane"]["verdict"] == "VALID"
+    assert "weight_limit withheld as SOURCE_CONTRADICTORY by founder ruling" in flag["detail"]
+    assert "Maximum Pet Weight: 75.0lbs" in flag["detail"]
 
 
 def test_a_withheld_reason_outside_the_contract_is_refused(tmp_path):
     with pytest.raises(MOS.FactOverrideError):
         _build(_attempt(tmp_path), _overrides({
-            "identity_key": "fairfield testville", "withhold": {"weight_limit": "SOURCE_CONFLICT"}}))
+            "identity_key": "fairfield testville", "withhold": {"weight_limit": "SOURCE_CONFLICT"},
+            "flag_codes": {"weight_limit": "FLAG_AMBIGUOUS_SCOPE"}}))
+
+
+def test_a_withholding_must_name_a_flag_from_the_observation_vocabulary(tmp_path):
+    with pytest.raises(MOS.FactOverrideError):
+        _build(_attempt(tmp_path), _overrides({
+            "identity_key": "fairfield testville", "withhold": {"weight_limit": enums.SOURCE_CONTRADICTORY},
+            "flag_codes": {"weight_limit": "FLAG_FOUNDER_WITHHELD"}}))
 
 
 def test_an_override_on_another_row_touches_nothing_here(tmp_path):

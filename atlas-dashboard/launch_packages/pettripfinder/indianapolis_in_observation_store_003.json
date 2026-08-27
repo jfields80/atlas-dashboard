@@ -13,8 +13,8 @@
   "PUBLICATION_GRADE_REJECTED": 1
  },
  "readiness_counts": {
-  "POLICY_CONFIRMED": 23,
-  "POLICY_CONFIRMED_WITH_AMBIGUITY": 1,
+  "POLICY_CONFIRMED": 21,
+  "POLICY_CONFIRMED_WITH_AMBIGUITY": 3,
   "POLICY_NEGATIVE_CONFIRMED": 24,
   "POLICY_NOT_FOUND": 1
  },
@@ -743,7 +743,12 @@
      ]
     },
     "extraction_confidence": "EXACT_QUOTE",
-    "flags": [],
+    "flags": [
+     {
+      "code": "FLAG_AMBIGUOUS_BASIS",
+      "detail": "fee_basis withheld as SOURCE_CONTRADICTORY by founder ruling (PTF-INDIANAPOLIS-PROMOTION-AUTHORITY-PREP-003, ledger row 3): the page states 'Pet fee per night: 75 USD' and 'Pet-friendly (75 USD / stay)'"
+     }
+    ],
     "snapshot_hash": "c3908e34a16291171ef432bb4e515ac82b055eae8f3c213c177ebad2ad0d33d7",
     "raw_pointer": "C:\\ptf-indy-v2\\atlas-dashboard\\data\\acquisition\\indianapolis_in_factory_002\\pass1\\candlewood-suites-indianapolis-medical-district\\attempt-01",
     "capture_artifacts": {
@@ -787,6 +792,9 @@
       "unwithheld": [],
       "withheld": {
        "fee_basis": "SOURCE_CONTRADICTORY"
+      },
+      "withheld_flag_codes": {
+       "fee_basis": "FLAG_AMBIGUOUS_BASIS"
       },
       "was_facts": {
        "fee_basis": "per_night"
@@ -956,13 +964,17 @@
     "detail": "",
     "hint_only": false,
     "stripped_fields": [],
-    "flags_raised": [],
+    "flags_raised": [
+     "FLAG_AMBIGUOUS_BASIS"
+    ],
     "rule_statement": ""
    },
    "readiness": {
-    "state": "POLICY_CONFIRMED",
+    "state": "POLICY_CONFIRMED_WITH_AMBIGUITY",
     "reasons": [],
-    "ambiguities": [],
+    "ambiguities": [
+     "FLAG_AMBIGUOUS_BASIS"
+    ],
     "conflicts": [],
     "establishing_observations": [
      "indianapolis-in-003::candlewood suites indianapolis medical district"
@@ -972,7 +984,7 @@
     "maps_to": {
      "routing": "READY",
      "capture_reason": "",
-     "authority": "hotel_policy_facts (via operator approval)"
+     "authority": "hotel_policy_facts (via operator approval); the ambiguity renders as the site's existing 'Not stated' doctrine"
     },
     "publishable_subject_to_existing_gates": true
    },
@@ -2043,6 +2055,7 @@
       "unset": [],
       "unwithheld": [],
       "withheld": {},
+      "withheld_flag_codes": {},
       "was_facts": {
        "service_animal_exception": "– service animals only"
       },
@@ -2267,6 +2280,7 @@
       "unset": [],
       "unwithheld": [],
       "withheld": {},
+      "withheld_flag_codes": {},
       "was_facts": {
        "service_animal_exception": "-service animals only"
       },
@@ -4360,6 +4374,7 @@
        "pet_fee"
       ],
       "withheld": {},
+      "withheld_flag_codes": {},
       "was_facts": {},
       "was_withheld": {
        "pet_fee": "SOURCE_SILENT"
@@ -5898,6 +5913,7 @@
        "fee_basis"
       ],
       "withheld": {},
+      "withheld_flag_codes": {},
       "was_facts": {
        "fee_currency": "USD",
        "pet_fee": 5000
@@ -6183,6 +6199,7 @@
       "unset": [],
       "unwithheld": [],
       "withheld": {},
+      "withheld_flag_codes": {},
       "was_facts": {},
       "was_withheld": {},
       "cited_quotes": [
@@ -6438,6 +6455,7 @@
       "unset": [],
       "unwithheld": [],
       "withheld": {},
+      "withheld_flag_codes": {},
       "was_facts": {},
       "was_withheld": {},
       "cited_quotes": [
@@ -7008,7 +7026,9 @@
      "fee_cap": {
       "amount_minor": 12500,
       "currency": "USD",
-      "basis": "per_stay"
+      "basis": "per_stay",
+      "scope": "per_pet",
+      "qualifier_stated": true
      },
      "species_allowed": [
       "cat",
@@ -7051,7 +7071,9 @@
        "fee_cap": {
         "amount_minor": 12500,
         "currency": "USD",
-        "basis": "per_stay"
+        "basis": "per_stay",
+        "scope": "per_pet",
+        "qualifier_stated": true
        },
        "species_allowed": [
         "cat",
@@ -7064,12 +7086,13 @@
        "fee_basis"
       ],
       "withheld": {},
+      "withheld_flag_codes": {},
       "was_facts": {
        "pet_deposit": 2500
       },
       "was_withheld": {
-       "fee_basis": "SCHEMA_CANNOT_REPRESENT",
-       "pet_fee": "SCHEMA_CANNOT_REPRESENT"
+       "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+       "fee_basis": "SCHEMA_CANNOT_REPRESENT"
       },
       "cited_quotes": [
        "75 dollar refundable deposit plus 25.00 dollar per pet, per night fee",
@@ -8095,6 +8118,7 @@
       "unset": [],
       "unwithheld": [],
       "withheld": {},
+      "withheld_flag_codes": {},
       "was_facts": {},
       "was_withheld": {},
       "cited_quotes": [
@@ -9351,6 +9375,7 @@
        "pet_fee"
       ],
       "withheld": {},
+      "withheld_flag_codes": {},
       "was_facts": {},
       "was_withheld": {
        "pet_fee": "SOURCE_SILENT"
@@ -10546,6 +10571,7 @@
        "pet_fee"
       ],
       "withheld": {},
+      "withheld_flag_codes": {},
       "was_facts": {},
       "was_withheld": {
        "pet_fee": "SOURCE_AMBIGUOUS"
@@ -10807,6 +10833,7 @@
        "pets_allowed"
       ],
       "withheld": {},
+      "withheld_flag_codes": {},
       "was_facts": {},
       "was_withheld": {
        "pets_allowed": "SOURCE_SILENT"
@@ -11076,7 +11103,12 @@
      "pet_count_scope": "per_room"
     },
     "extraction_confidence": "EXACT_QUOTE",
-    "flags": [],
+    "flags": [
+     {
+      "code": "FLAG_MULTI_POLICY_BLOCKS",
+      "detail": "pet_fee withheld as SOURCE_CONTRADICTORY by founder ruling (PTF-INDIANAPOLIS-PROMOTION-AUTHORITY-PREP-003, ledger row 49): the page states '75USD non-refundable fee per room per stay' and 'Non-Refundable Pet Fee Per Stay: $50.00'"
+     }
+    ],
     "snapshot_hash": "801386d54777300ec0b9ffab021327fbcbd6169556fd4cd5f0e0a4e2ed58feb9",
     "raw_pointer": "C:\\ptf-indy-v2\\atlas-dashboard\\data\\acquisition\\indianapolis_in_factory_002\\pass1\\the-alexander-autograph-collection\\attempt-02",
     "capture_artifacts": {
@@ -11097,6 +11129,9 @@
       "unwithheld": [],
       "withheld": {
        "pet_fee": "SOURCE_CONTRADICTORY"
+      },
+      "withheld_flag_codes": {
+       "pet_fee": "FLAG_MULTI_POLICY_BLOCKS"
       },
       "was_facts": {
        "fee_currency": "USD",
@@ -11242,13 +11277,17 @@
     "detail": "",
     "hint_only": false,
     "stripped_fields": [],
-    "flags_raised": [],
+    "flags_raised": [
+     "FLAG_MULTI_POLICY_BLOCKS"
+    ],
     "rule_statement": ""
    },
    "readiness": {
-    "state": "POLICY_CONFIRMED",
+    "state": "POLICY_CONFIRMED_WITH_AMBIGUITY",
     "reasons": [],
-    "ambiguities": [],
+    "ambiguities": [
+     "FLAG_MULTI_POLICY_BLOCKS"
+    ],
     "conflicts": [],
     "establishing_observations": [
      "indianapolis-in-003::the alexander autograph collection"
@@ -11258,7 +11297,7 @@
     "maps_to": {
      "routing": "READY",
      "capture_reason": "",
-     "authority": "hotel_policy_facts (via operator approval)"
+     "authority": "hotel_policy_facts (via operator approval); the ambiguity renders as the site's existing 'Not stated' doctrine"
     },
     "publishable_subject_to_existing_gates": true
    },

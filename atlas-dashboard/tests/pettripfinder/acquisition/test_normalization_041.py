@@ -189,8 +189,11 @@ def test_normalization_refuses_an_unapproved_semantic_change(monkeypatch):
 
 def test_the_037_package_is_registered_as_superseded():
     registry = RC.superseded_contracts()
-    assert len(registry) == 1
-    record = list(registry.values())[0]
+    # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004 added a second entry (Indianapolis);
+    # this test is about Milwaukee's, selected by market.
+    milwaukee = [r for r in registry.values() if r["market_id"] == "milwaukee-wi"]
+    assert len(milwaukee) == 1
+    record = milwaukee[0]
     assert record["superseded_by"] == N41.WORK_ORDER
     assert record["stale_assertions"]["expected_record_count"] == 70
     assert record["replacement"].endswith("prepared-041.json")
@@ -335,7 +338,7 @@ def test_no_other_market_moved():
     assert counts["cleveland-akron-canton-oh"] == 40
     assert counts["columbus-oh"] == 16
     assert counts["dayton-oh"] == 8
-    assert counts["indianapolis-in"] == 4
+    assert counts["indianapolis-in"] == 24  # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: 4 -> 24
     assert counts["pittsburgh-pa"] == 7
     assert MA.check_generated_artifacts() == []
 

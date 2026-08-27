@@ -773,20 +773,29 @@
         "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
         "species: this surface names a species it accepts and does not say the others are refused; species_allowed lists affirmations only, and an unnamed species stays unknown rather than prohibited"
       ],
-      "flags": [],
+      "flags": [
+        {
+          "code": "FLAG_AMBIGUOUS_BASIS",
+          "detail": "fee_basis withheld as SOURCE_CONTRADICTORY by founder ruling (PTF-INDIANAPOLIS-PROMOTION-AUTHORITY-PREP-003, ledger row 3): the page states 'Pet fee per night: 75 USD' and 'Pet-friendly (75 USD / stay)'"
+        }
+      ],
       "membrane": {
         "verdict": "VALID",
         "rule": "",
         "detail": "",
         "hint_only": false,
         "stripped_fields": [],
-        "flags_raised": [],
+        "flags_raised": [
+          "FLAG_AMBIGUOUS_BASIS"
+        ],
         "rule_statement": ""
       },
       "readiness": {
-        "state": "POLICY_CONFIRMED",
+        "state": "POLICY_CONFIRMED_WITH_AMBIGUITY",
         "reasons": [],
-        "ambiguities": [],
+        "ambiguities": [
+          "FLAG_AMBIGUOUS_BASIS"
+        ],
         "conflicts": [],
         "establishing_observations": [
           "indianapolis-in-003::candlewood suites indianapolis medical district"
@@ -796,7 +805,7 @@
         "maps_to": {
           "routing": "READY",
           "capture_reason": "",
-          "authority": "hotel_policy_facts (via operator approval)"
+          "authority": "hotel_policy_facts (via operator approval); the ambiguity renders as the site's existing 'Not stated' doctrine"
         },
         "publishable_subject_to_existing_gates": true
       },
@@ -7177,7 +7186,9 @@
         "fee_cap": {
           "amount_minor": 12500,
           "currency": "USD",
-          "basis": "per_stay"
+          "basis": "per_stay",
+          "scope": "per_pet",
+          "qualifier_stated": true
         },
         "species_allowed": [
           "cat",
@@ -7655,7 +7666,7 @@
       "founder_note": "",
       "semantic_approval": {
         "binding_contract": "semantic-approval/1.0",
-        "semantic_hash": "sha256:6e8ef925bfe64757953432a49165e290837431c9c5b66991f63463d9568f257f",
+        "semantic_hash": "sha256:993c9e204577cfacb6f0332397cef01f111807205453a26188b3ca26b7acfcda",
         "projection": {
           "identity_key": "holiday inn express and suites indianapolis northwest",
           "canonical_name": "Holiday Inn Express & Suites Indianapolis Northwest",
@@ -7673,7 +7684,9 @@
             "fee_cap": {
               "amount_minor": 12500,
               "currency": "USD",
-              "basis": "per_stay"
+              "basis": "per_stay",
+              "scope": "per_pet",
+              "qualifier_stated": true
             },
             "species_allowed": [
               "cat",
@@ -11445,20 +11458,29 @@
         "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
         "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
       ],
-      "flags": [],
+      "flags": [
+        {
+          "code": "FLAG_MULTI_POLICY_BLOCKS",
+          "detail": "pet_fee withheld as SOURCE_CONTRADICTORY by founder ruling (PTF-INDIANAPOLIS-PROMOTION-AUTHORITY-PREP-003, ledger row 49): the page states '75USD non-refundable fee per room per stay' and 'Non-Refundable Pet Fee Per Stay: $50.00'"
+        }
+      ],
       "membrane": {
         "verdict": "VALID",
         "rule": "",
         "detail": "",
         "hint_only": false,
         "stripped_fields": [],
-        "flags_raised": [],
+        "flags_raised": [
+          "FLAG_MULTI_POLICY_BLOCKS"
+        ],
         "rule_statement": ""
       },
       "readiness": {
-        "state": "POLICY_CONFIRMED",
+        "state": "POLICY_CONFIRMED_WITH_AMBIGUITY",
         "reasons": [],
-        "ambiguities": [],
+        "ambiguities": [
+          "FLAG_MULTI_POLICY_BLOCKS"
+        ],
         "conflicts": [],
         "establishing_observations": [
           "indianapolis-in-003::the alexander autograph collection"
@@ -11468,7 +11490,7 @@
         "maps_to": {
           "routing": "READY",
           "capture_reason": "",
-          "authority": "hotel_policy_facts (via operator approval)"
+          "authority": "hotel_policy_facts (via operator approval); the ambiguity renders as the site's existing 'Not stated' doctrine"
         },
         "publishable_subject_to_existing_gates": true
       },

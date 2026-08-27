@@ -71,6 +71,13 @@ def _slug(identity_key: str) -> str:
     return identity_key.replace(" ", "-")
 
 
+def _collision_still_present(item, surviving: set) -> bool:
+    """A recorded key collision survives only while the key it is about does."""
+    if isinstance(item, Mapping) and item.get("identity_key"):
+        return item["identity_key"] in surviving
+    return True
+
+
 def _require(rows: Mapping[str, Dict], key: str, what: str) -> Dict:
     if key not in rows:
         raise PromotionError("%s names identity key %r, which is not in the census" % (what, key))
@@ -208,6 +215,16 @@ def apply_plan(plan: Mapping, census: Mapping, *, prior_census: Optional[Mapping
     shadow = OrderedDict(census)
     shadow["hotels"] = hotels
     shadow["count"] = len(hotels)
+    # The census builder's roll-ups describe the rows; recompute every one the
+    # promotion can change rather than carrying the proposed census's numbers.
+    states: Dict[str, int] = {}
+    for row in hotels:
+        states[row.get("identity_state", "")] = states.get(row.get("identity_state", ""), 0) + 1
+    shadow["identity_state_counts"] = OrderedDict(sorted(states.items()))
+    surviving = set(rows)
+    shadow["identity_key_collisions"] = [
+        item for item in census.get("identity_key_collisions") or ()
+        if _collision_still_present(item, surviving)]
     shadow["work_order"] = plan.get("work_order", "")
     shadow["promotion"] = OrderedDict((
         ("what_this_is", "a SHADOW promotion census: the proposed census with the founder-approved "

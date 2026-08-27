@@ -324,7 +324,7 @@ def test_cincinnati_does_not_fail_the_global_selection(markets):
 
 def test_indianapolis_is_registered_above_threshold_and_source_ready(markets):
     row = market_eligibility(market_by_id(markets, INDIANAPOLIS))
-    assert row["published_count"] == 8
+    assert row["published_count"] == 24  # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004
     assert row["conditions"]["census_present"] is True
     assert row["conditions"]["meets_minimum_published"] is True
     assert row["assemblable"] is True
@@ -382,7 +382,10 @@ def test_current_live_inventory_preserves_all_assemblable_market_profiles(market
     counts = {m.market_id: len(published_hotels(m))
               for m in markets if market_eligibility(m)["assemblable"]}
     assert counts == {COLUMBUS: 88, CLEVELAND: 99, DAYTON: 47,
-                      "pittsburgh-pa": 26, INDIANAPOLIS: 8,
+                      "pittsburgh-pa": 26,
+                      # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: 8 -> 24 founder-signed profiles over the
+                      # promoted 257-identity census.
+                      INDIANAPOLIS: 24,
                       "milwaukee-wi": 73,
                       # PTF-ST-LOUIS-REGISTER-PUBLISH-011: 82 founder-signed
                       # profiles. Every other count above is unchanged, which
@@ -393,7 +396,10 @@ def test_current_live_inventory_preserves_all_assemblable_market_profiles(market
                       # profiles over a 166-identity census. Same half of the
                       # assertion, same conclusion -- nothing above moved.
                       "louisville-ky": 46}
-    assert sum(counts.values()) == 469   # 423 + Louisville (46)
+    # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: 469 + Indianapolis's 16 further
+    # founder-signed profiles (8 -> 24). Every other market's count above is
+    # unchanged, so the whole of this movement is Indianapolis's.
+    assert sum(counts.values()) == 485   # 423 + Louisville (46) + Indianapolis (+16)
 
 
 # --------------------------------------------------------------------------- #

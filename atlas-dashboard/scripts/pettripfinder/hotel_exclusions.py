@@ -118,6 +118,98 @@ def address_key(address: str, postal_code: str) -> str:
                          (postal_code or "").strip()[:5])
 
 
+# --------------------------------------------------------------------------- #
+# Co-located hotels (PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004, founder ruling A)
+# --------------------------------------------------------------------------- #
+#: Brand-family property codes, read from a record's OFFICIAL URL. A code is an
+#: identity only WITHIN its family -- Marriott's ``indsw`` and IHG's ``indsw``
+#: are two hotels -- so the family is part of every comparison and no raw code
+#: is ever compared across families. Mirrors brightdata.policy_surface's
+#: PROPERTY_CODE_PATTERNS; kept here so the contract has no dependency on the
+#: capture stack.
+BRAND_FAMILY_HOSTS = (
+    ("marriott.com", "MARRIOTT"), ("hilton.com", "HILTON"), ("ihg.com", "IHG"),
+    ("choicehotels.com", "CHOICE"), ("hyatt.com", "HYATT"),
+    ("bestwestern.com", "BEST_WESTERN"), ("wyndhamhotels.com", "WYNDHAM"),
+)
+BRAND_PROPERTY_CODE_PATTERNS = {
+    "MARRIOTT": (r"marriott\.com/(?:en-us/hotels/|hotels/travel/)?([a-z]{5})(?:[-/]|$)",),
+    "HILTON": (r"hilton\.com/en/hotels/([a-z0-9]{6,12})-",),
+    "IHG": (r"ihg\.com/[a-z]+/hotels/[a-z]{2}/[a-z]+/[a-z-]+/([a-z0-9]{5})/",),
+    "CHOICE": (r"choicehotels\.com/[a-z-]+/[a-z-]+/[a-z-]+/([a-z]{2}\d{3})(?:/|$)",),
+    "HYATT": (r"hyatt\.com/.*/([a-z0-9]{5})(?:/|$)",),
+    "BEST_WESTERN": (r"propertyCode\.(\d{4,6})\.",),
+}
+
+CO_LOCATED_DISTINCT = "DISTINCT"
+CO_LOCATED_DUPLICATE = "DUPLICATE"
+CO_LOCATED_INSUFFICIENT = "INSUFFICIENT"
+
+
+def canonical_url(url: str) -> str:
+    """One URL, one string: scheme, ``www.``, query and trailing slash removed."""
+    u = (url or "").strip().lower()
+    u = re.sub(r"^https?://", "", u)
+    u = re.sub(r"^www\.", "", u)
+    u = u.split("?")[0].split("#")[0]
+    return u.rstrip("/")
+
+
+def brand_scoped_property_identity(official_url: str) -> tuple:
+    """``(family, code)`` for a first-party URL, or ``("", "")`` when the URL
+    names no brand family or carries no code. Never returns a code without its
+    family, so a caller cannot compare codes across families by accident."""
+    host = re.sub(r"^https?://", "", (official_url or "").lower()).split("/")[0]
+    family = next((f for fragment, f in BRAND_FAMILY_HOSTS if fragment in host), "")
+    if not family:
+        return ("", "")
+    for pattern in BRAND_PROPERTY_CODE_PATTERNS.get(family, ()):
+        match = re.search(pattern, official_url or "", re.IGNORECASE)
+        if match:
+            return (family, match.group(1).lower())
+    return (family, "")
+
+
+def co_located_distinct(a: Dict, b: Dict) -> tuple:
+    """Whether two exclusion records at ONE street identity are two hotels.
+
+    Founder ruling (PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004, option A): the
+    street guard stands, and a shared address may coexist ONLY when strong,
+    brand-scoped, mechanically checked signals prove two properties:
+
+      * distinct identity keys (normalized names) -- already required;
+      * distinct canonical first-party URLs -- one URL is one property;
+      * a brand family AND a property code readable from BOTH official URLs,
+        the codes DISTINCT within the same family, or the families different
+        with both codes present. Property codes are family-scoped and are never
+        compared as raw strings across families.
+
+    Anything short of that is not "distinct": a missing code, a missing family
+    or a shared URL returns INSUFFICIENT or DUPLICATE and the guard fires. This
+    rule can only ever ADMIT a pair the old guard refused; it never refuses a
+    pair the old guard admitted, so duplicate protection is not weakened.
+    """
+    if normalize_name(a.get("canonical_name", "")) == normalize_name(b.get("canonical_name", "")):
+        return (CO_LOCATED_DUPLICATE, "same identity key")
+    url_a, url_b = canonical_url(a.get("official_url", "")), canonical_url(b.get("official_url", ""))
+    if not url_a or not url_b:
+        return (CO_LOCATED_INSUFFICIENT, "a record carries no official URL")
+    if url_a == url_b:
+        return (CO_LOCATED_DUPLICATE, "same canonical first-party URL %r" % url_a)
+    fam_a, code_a = brand_scoped_property_identity(a.get("official_url", ""))
+    fam_b, code_b = brand_scoped_property_identity(b.get("official_url", ""))
+    if not (fam_a and code_a and fam_b and code_b):
+        return (CO_LOCATED_INSUFFICIENT,
+                "no brand-scoped property code on both sides (%s:%s vs %s:%s); a shared "
+                "street without strong identity proof requires a founder ruling"
+                % (fam_a or "?", code_a or "?", fam_b or "?", code_b or "?"))
+    if fam_a == fam_b and code_a == code_b:
+        return (CO_LOCATED_DUPLICATE, "same %s property code %r" % (fam_a, code_a))
+    return (CO_LOCATED_DISTINCT,
+            "distinct brand-scoped property codes %s:%s vs %s:%s and distinct canonical URLs"
+            % (fam_a, code_a, fam_b, code_b))
+
+
 def record_hash(record: Dict) -> str:
     return _sha(json.dumps({k: record.get(k) for k in
                             ("canonical_name", "address", "postal_code",
@@ -181,8 +273,13 @@ def validate(document: Dict) -> List[Dict]:
         seen_norm[r["normalized_name"]] = r
         ak = address_key(r["address"], r["postal_code"])
         if ak.strip("|") and ak in seen_addr and seen_addr[ak] != r["normalized_name"]:
-            raise ExclusionContractError("two exclusions share one street identity: %r and %r"
-                                         % (seen_addr[ak], r["normalized_name"]))
+            # Two records, one street identity. The guard fires unless the pair
+            # is mechanically proven to be two hotels (co_located_distinct).
+            verdict, why = co_located_distinct(seen_ids[seen_norm[seen_addr[ak]]["exclusion_id"]], r)
+            if verdict != CO_LOCATED_DISTINCT:
+                raise ExclusionContractError(
+                    "two exclusions share one street identity: %r and %r (%s: %s)"
+                    % (seen_addr[ak], r["normalized_name"], verdict, why))
         seen_addr[ak] = r["normalized_name"]
     return records
 

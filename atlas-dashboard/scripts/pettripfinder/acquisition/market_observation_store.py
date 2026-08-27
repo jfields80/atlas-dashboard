@@ -238,8 +238,8 @@ def _page_haystacks(html_path: Path, text_path: Path) -> List[Tuple[str, str]]:
 
 
 def _apply_fact_override(*, extraction: Dict, withheld: Dict, evidence: List[Dict],
-                         override: Mapping, html_path: Path, text_path: Path,
-                         identity_key: str) -> "OrderedDict":
+                         flags: List[Dict], override: Mapping, html_path: Path,
+                         text_path: Path, identity_key: str) -> "OrderedDict":
     """Write a founder's FACT ruling onto an extraction, cited to the page.
 
     PTF-INDIANAPOLIS-FOUNDER-REVIEW-002 decided 19 rows APPROVE_WITH_CHANGE:
@@ -264,16 +264,26 @@ def _apply_fact_override(*, extraction: Dict, withheld: Dict, evidence: List[Dic
     unset = list(override.get("unset") or ())
     unwithhold = list(override.get("unwithhold") or ())
     withhold = dict(override.get("withhold") or {})
+    flag_codes = dict(override.get("flag_codes") or {})
     quotes = [str(q) for q in (override.get("cited_quotes") or ())]
     touched = set(fields_set) | set(unset) | set(unwithhold) | set(withhold)
     unknown = sorted(touched - PO.EXTRACTION_FIELDS)
     if unknown:
         raise FactOverrideError("%s: fact override names fields outside the "
                                 "observation vocabulary: %s" % (identity_key, unknown))
-    for reason in withhold.values():
+    for name, reason in withhold.items():
         if reason not in enums.WITHHELD_FIELD_REASONS:
             raise FactOverrideError("%s: withheld reason %r is not in the contract"
                                     % (identity_key, reason))
+        # The sentence behind a withholding travels as an observation FLAG, and
+        # the observation contract admits only its own flag vocabulary; the
+        # ruling must name which existing flag describes the source's problem
+        # (an ambiguous basis, competing policy blocks, ...). No new code is
+        # invented here, so the membrane never sees a malformed observation.
+        code = flag_codes.get(name)
+        if code not in PO.FLAG_CODES:
+            raise FactOverrideError("%s: withholding %s must name a flag code from the "
+                                    "observation vocabulary, got %r" % (identity_key, name, code))
     if (fields_set or unwithhold) and not quotes:
         raise FactOverrideError("%s: a fact override that asserts something must "
                                 "cite the page" % identity_key)
@@ -299,6 +309,18 @@ def _apply_fact_override(*, extraction: Dict, withheld: Dict, evidence: List[Dic
     for name, reason in withhold.items():
         extraction.pop(name, None)
         withheld[name] = reason
+        # A withholding decision must carry its sentence: the policy package
+        # composes a record's withholding reason from the observation's flags
+        # and refuses a bare reason code as unreviewable. The sentence names
+        # the founder's ruling and the conflicting words the page carries.
+        flags.append(OrderedDict((
+            ("code", flag_codes[name]),
+            ("detail", "%s withheld as %s by founder ruling (%s, ledger row %s): "
+                       "the page states %s" % (
+                           name, reason, override.get("work_order", ""),
+                           override.get("ledger_row", ""),
+                           " and ".join(repr(q) for q in quotes) or "conflicting terms")),
+        )))
     asserted = sorted(set(fields_set) | set(unwithhold))
     if asserted:
         for quote in quotes:
@@ -313,7 +335,7 @@ def _apply_fact_override(*, extraction: Dict, withheld: Dict, evidence: List[Dic
         ("kind", "FACT"),
         ("ledger_row", override.get("ledger_row", "")),
         ("set", fields_set), ("unset", unset), ("unwithheld", unwithhold),
-        ("withheld", withhold),
+        ("withheld", withhold), ("withheld_flag_codes", {k: flag_codes[k] for k in withhold}),
         ("was_facts", before_facts), ("was_withheld", before_withheld),
         ("cited_quotes", quotes), ("quotes_found_in", found_in),
         ("decided_by", override.get("decided_by", "")),
@@ -364,9 +386,10 @@ def observation_for(result: Mapping, *, run_id: str, market_id: str,
     extraction = dict(extraction_result.extraction)
     withheld = dict(extraction_result.withheld)
     evidence = [dict(item) for item in extraction_result.evidence]
+    flags = [dict(flag) for flag in extraction_result.flags]
     fact_rulings = [
         _apply_fact_override(extraction=extraction, withheld=withheld,
-                             evidence=evidence, override=override,
+                             evidence=evidence, flags=flags, override=override,
                              html_path=html_path, text_path=text_path,
                              identity_key=result["identity_key"])
         for override in fact_overrides]
@@ -386,7 +409,7 @@ def observation_for(result: Mapping, *, run_id: str, market_id: str,
         ("evidence", evidence),
         ("extraction", extraction),
         ("extraction_confidence", "EXACT_QUOTE"),
-        ("flags", [dict(flag) for flag in extraction_result.flags]),
+        ("flags", flags),
         ("snapshot_hash", html_sha),
         ("raw_pointer", str(attempt_dir)),
         ("capture_artifacts", OrderedDict((

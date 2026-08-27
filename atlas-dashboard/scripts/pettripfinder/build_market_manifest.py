@@ -72,7 +72,15 @@ _PARTITION_FILES = {
     # (PTF-LOUISVILLE-PUBLICATION-008).
     # PTF-PITTSBURGH-PASS1-DECISION-APPLICATION-001.
     "pittsburgh-pa": "pittsburgh_final_partition_001.json",
-    "indianapolis-in": "indianapolis_final_partition_001.json",
+    # indianapolis-in was mapped to indianapolis_final_partition_001.json, the
+    # partition of the 153-identity build whose non-terminal states sum to 141.
+    # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004 promoted the 257-identity census
+    # and a 48-record authority, and the stale mapping made the release
+    # contract disagree with itself (257 - 48 != 141). Removed rather than
+    # repointed, exactly as Louisville was: this market records no
+    # OUT_OF_CURRENT_CATEGORY identity, so the subtraction below is exact for
+    # it and needs no file to maintain. The 001 partition stays committed as
+    # the record of the earlier build.
 }
 
 

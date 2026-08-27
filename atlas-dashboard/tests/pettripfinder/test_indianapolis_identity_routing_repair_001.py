@@ -13,7 +13,7 @@ PACKAGE = ROOT / "launch_packages" / "pettripfinder"
 REPAIR = PACKAGE / "indianapolis_identity_routing_repair_001.json"
 QUEUE = PACKAGE / "indianapolis_capture_ready_queue_002.json"
 CENSUS = PACKAGE / "identity_census" / "indianapolis-in.json"
-PARTITION = PACKAGE / "indianapolis_final_partition_001.json"
+PARTITION = PACKAGE / "indianapolis_in_final_partition_004.json"  # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004
 
 
 def _json(path):
@@ -28,9 +28,12 @@ def test_crowne_airport_exclusion_remains_applied():
         census.identity_keys(_json(CENSUS)), _json(PARTITION),
         market_id="indianapolis-in")
     assert rec.agrees
-    assert rec.published == 8
-    assert rec.verified_no_pets == 4
-    assert rec.unresolved == 141
+    # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: the promoted census and its factory partition agree row for row;
+    # the repair's subject (Crowne Plaza Airport) is still a signed exclusion.
+    assert rec.census_count == rec.partition_count == 257
+    exclusions = _json(PACKAGE / "hotel_exclusions.json")["exclusions"]
+    assert "crowne plaza indianapolis airport" in {
+        e["normalized_name"] for e in exclusions if e["market_id"] == "indianapolis-in"}
 
 
 def test_eight_identity_rows_are_classified_without_policy_inference():

@@ -306,7 +306,10 @@
     "Pet fee per night: 75 USD",
     "Pet-friendly (75 USD / stay)"
    ],
-   "ledger_corrections": "HOLD resolved in PTF-INDIANAPOLIS-PROMOTION-AUTHORITY-PREP-003: fee_basis withheld (SOURCE_CONFLICT)"
+   "ledger_corrections": "HOLD resolved in PTF-INDIANAPOLIS-PROMOTION-AUTHORITY-PREP-003: fee_basis withheld (SOURCE_CONFLICT)",
+   "flag_codes": {
+    "fee_basis": "FLAG_AMBIGUOUS_BASIS"
+   }
   },
   {
    "ledger_row": 10,
@@ -549,7 +552,9 @@
     "fee_cap": {
      "amount_minor": 12500,
      "currency": "USD",
-     "basis": "per_stay"
+     "basis": "per_stay",
+     "scope": "per_pet",
+     "qualifier_stated": true
     },
     "species_allowed": [
      "cat",
@@ -621,6 +626,25 @@
      "from": "withheld: SOURCE_AMBIGUOUS",
      "to": "withheld: SOURCE_AMBIGUOUS",
      "evidence": "remains withheld because the source states 'Pet weight limit: 50' with no unit"
+    }
+   ],
+   "amendments": [
+    {
+     "work_order": "PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004",
+     "field": "fee_cap",
+     "from": {
+      "amount_minor": 12500,
+      "currency": "USD",
+      "basis": "per_stay"
+     },
+     "to": {
+      "amount_minor": 12500,
+      "currency": "USD",
+      "basis": "per_stay",
+      "scope": "per_pet",
+      "qualifier_stated": true
+     },
+     "why": "the founder's ledger decision states the cap as '$125 per pet per stay' ('Pet Fee will be capped at 125.00 per pet after staying for 5 nights'); the PREP-003 override omitted the stated scope, and schema 1.2 requires qualifier_stated, which for this source is TRUE (it states 'per pet' and 'after staying for 5 nights')"
     }
    ]
   },
@@ -838,7 +862,14 @@
      "to": "as extracted",
      "evidence": "pets_allowed TRUE ('Pets Welcome') and pet_count_limit 2 per room stand"
     }
-   ]
+   ],
+   "flag_codes": {
+    "pet_fee": "FLAG_MULTI_POLICY_BLOCKS"
+   }
   }
+ ],
+ "amended_in": [
+  "PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: row 31 fee_cap scope/qualifier_stated",
+  "PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: withholdings name their observation flag (row 3 FLAG_AMBIGUOUS_BASIS, row 49 FLAG_MULTI_POLICY_BLOCKS)"
  ]
 }

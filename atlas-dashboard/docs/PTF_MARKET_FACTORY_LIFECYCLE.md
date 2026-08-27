@@ -167,3 +167,45 @@ After the founder review is CLOSED, promotion is prepared in a SHADOW, never in 
    every moved row by a founder correction, rename or merge; the validation script must pass all eight
    checks. Replacing the pinned census, the release contract, launch participation, publication and
    deployment remain founder-authorised steps outside the preparation order.
+
+
+## Promoting the prepared authority (PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004)
+
+Executed from the PREP-003 artifacts only (no refetch, no spend), in this order, each step a
+separate command so a failure stops before the next write:
+
+0. **Collision gate first.** `indianapolis_in_promotion_collision_gate_004.json` classifies every
+   remaining shared street / URL / phone group in the shadow census. Groups outside the authority
+   that cannot create a duplicate live route, a duplicate authority identity or a conflicting
+   canonical identity are `NON_PUBLICATION_COHORT_UNRESOLVED` (they need a ruling only before
+   either row may enter authority). Two authority rows at one street are `KNOWN_MULTI_HOTEL_COMPLEX`
+   only when the exclusion contract's own co-location rule proves them distinct; otherwise STOP.
+1. **Census**: copy the shadow over the pinned file; register the old release contract's content
+   hash in `release_contracts_superseded.json` (contracts are superseded by content, never edited).
+2. **Package**: `market_policy_package_cli.py --normalize-weight --cap-qualifier-stated false
+   --publish <work order>` -- the named founder rulings (decision 1: an unqualified blanket
+   maximum publishes as `lte / per_pet`; decision 3: a cap whose source states no further
+   qualifier records `qualifier_stated: false`, as every prior market's La Quinta cap does).
+   A founder withholding reaches the package only through an observation FLAG from the existing
+   vocabulary (`fact_overrides[].flag_codes`); an invented code is a malformed observation.
+3. **Shard**: `market_registration_cli.py --write`, then **globals**:
+   `python -m scripts.pettripfinder.build_global_authority --write` and `--check`.
+4. **Release contract**: rewritten from `release_contracts.derive_authority` (never typed);
+   `verify_all()` must be clean for every market. A market rebuilt on the generic path has NO
+   partition mapping in `build_market_manifest._PARTITION_FILES` (Louisville precedent): its
+   partition is a factory artifact with no terminal states, so `unresolved` is the exact
+   subtraction. **Launch participation is NOT edited by a promotion**: the composed deployment
+   manifest pins that file's hash, so it is reissued only with a deployment authorization.
+5. **Pins move with the authority.** Tests that pinned the earlier build's live counts are updated
+   to the promoted truth and named for the work order; historical artifacts (`*_001.json`) stay
+   committed and keep their own tests.
+
+### Exclusion contract: co-located hotels (founder ruling A, this work order)
+
+`hotel_exclusions.validate` still refuses two exclusions at one street identity, unless
+`co_located_distinct` proves two properties: distinct identity keys, distinct canonical
+first-party URLs, and a brand family + property code readable from BOTH official URLs that differ
+within the same family (codes are never compared as raw strings across families -- Marriott
+`indsw` and IHG `indsw` are two hotels). A missing code, a missing family or a shared URL is
+INSUFFICIENT / DUPLICATE and the guard fires as before. Regression:
+`tests/pettripfinder/test_hotel_exclusions_co_located_004.py` (cases A-F).

@@ -168,9 +168,14 @@ class TestNothingMovedBetweenMarkets:
         # milwaukee-wi) is simply not something the snapshot can speak about,
         # and back-filling it into the snapshot would be inventing a fact.
         # The claim this test makes about the pre-split markets is unchanged.
+        # A market re-published after the baseline records its current totals
+        # beside it (post_baseline_republications) rather than rewriting the
+        # snapshot: PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004 promoted Indianapolis
+        # from 8 + 4 to 24 + 24. The claim about every other market is unchanged.
+        republished = baseline.get("post_baseline_republications") or {}
         for market_id in baseline["per_market_totals"]:
             assert market_id in market_ids, market_id
-            expected = baseline["per_market_totals"][market_id]
+            expected = republished.get(market_id) or baseline["per_market_totals"][market_id]
             assert len(MA.load_market_routes(market_id)) == expected["routing"], market_id
             assert len(MA.load_market_exclusions(market_id)) == expected["exclusions"], market_id
             assert len(MA.load_market_seed_rows(market_id)) == expected["seed"], market_id

@@ -170,12 +170,29 @@ def run_checks() -> Dict:
           and store_doc.get("network_calls") == 0 and store_doc.get("usd_spent") == 0.0,
           OrderedDict((("journals", journals), ("store_network_calls", store_doc.get("network_calls")), ("store_usd_spent", store_doc.get("usd_spent")))))
 
-    # 8 -- no production authority changed
+    # 8 -- production authority is in one of two legitimate states:
+    #   PRE_PROMOTION  -- untouched (PTF-INDIANAPOLIS-PROMOTION-AUTHORITY-PREP-003 stops here), or
+    #   PROMOTED       -- the pinned census IS the shadow census and the package/shard counts are
+    #                     the proposed authority's (PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004).
+    # Anything in between -- a half-applied promotion -- fails.
     diff = subprocess.run(["git", "status", "--porcelain", "--"] + list(PRODUCTION_PATHS),
                           cwd=str(_REPO_ROOT.parent), capture_output=True, text=True)
     changed = [line for line in diff.stdout.splitlines() if line.strip()]
-    check("no_production_authority_changed", diff.returncode == 0 and not changed,
-          OrderedDict((("paths", list(PRODUCTION_PATHS)), ("git_status", changed))))
+    pinned_bytes = (L / "identity_census" / "indianapolis-in.json").read_bytes()
+    shadow_bytes = (L / "identity_census_promotion" / "indianapolis-in.json").read_bytes()
+    package_doc = _load("hotel_policy_facts_indianapolis-in.json")
+    shard_exclusions = _load("markets/authority/indianapolis-in/hotel_exclusions.json")
+    promoted = (pinned_bytes == shadow_bytes
+                and package_doc.get("count", len(package_doc.get("hotels", []))) == authority["pet_friendly_count"]
+                and len(package_doc.get("hotels", [])) == authority["pet_friendly_count"]
+                and shard_exclusions.get("count") == authority["verified_no_pets_count"])
+    pre_promotion = diff.returncode == 0 and not changed and pinned_bytes != shadow_bytes
+    state = "PROMOTED" if promoted else ("PRE_PROMOTION" if pre_promotion else "INCONSISTENT")
+    check("production_authority_is_pre_promotion_or_fully_promoted", state != "INCONSISTENT",
+          OrderedDict((("state", state), ("paths", list(PRODUCTION_PATHS)), ("git_status", changed),
+                       ("pinned_census_is_shadow", pinned_bytes == shadow_bytes),
+                       ("package_records", len(package_doc.get("hotels", []))),
+                       ("shard_exclusions", shard_exclusions.get("count")))))
 
     # authority counts, as built
     summary = OrderedDict((

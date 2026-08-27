@@ -142,6 +142,17 @@ def test_the_pilot_is_rekeyed_and_the_merged_away_capture_is_superseded_not_drop
     assert report["results_in"] == 4 and report["results_out"] == 3
 
 
+def test_roll_ups_are_recomputed_for_the_shadow():
+    census = _census()
+    census["identity_state_counts"] = {"IDENTITY_CONFIRMED": 6}
+    census["identity_key_collisions"] = [{"identity_key": "courtyard by marriott testville fishers", "note": "prior twin"},
+                                         {"identity_key": "the westin testville", "note": "kept"}]
+    shadow, _, _ = CP.apply_plan(_plan(), census)
+    assert shadow["identity_state_counts"] == {"IDENTITY_CONFIRMED": 4}
+    assert [c["identity_key"] for c in shadow["identity_key_collisions"]] == [
+        "courtyard by marriott testville fishers", "the westin testville"]
+
+
 def test_the_cli_refuses_to_overwrite_its_input(tmp_path):
     import json
     census = tmp_path / "census.json"

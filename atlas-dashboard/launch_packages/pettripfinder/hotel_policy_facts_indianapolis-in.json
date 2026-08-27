@@ -1,787 +1,2729 @@
 {
-  "schema_version": "1.2",
-  "market_id": "indianapolis-in",
-  "published": true,
-  "work_order": "PTF-INDIANAPOLIS-DECISION-APPLICATION-001",
-  "hotels": [
+ "market": "Indianapolis, Indiana",
+ "schema_version": "1.3",
+ "market_id": "indianapolis-in",
+ "what_this_is": "The publishable pet-policy facts for this market, projected from its founder-signed authority. Every record's fact block passed contracts.policy_schema.validate_facts before this file was written.",
+ "published": true,
+ "publication_note": "published=true admits this market's records to live inventory: site_data.load_published_hotel_policy_facts returns them and the assembler builds a profile for each. The records themselves are unchanged from the day the founder approved them -- same facts, same approvals, same evidence -- and the publishing work order asserts that byte for byte. Publication is still not deployment: nothing is live until a bundle is deployed.",
+ "derived_from": {
+  "authority": "ptf-market-proposed-authority/1.0",
+  "source_ledgers": [
+   "PTF-INDIANAPOLIS-PROMOTION-AUTHORITY-PREP-003"
+  ],
+  "decided_by": "PTF-FOUNDER-001",
+  "decided_at": "2026-08-26"
+ },
+ "count": 24,
+ "refusals": [],
+ "hotels": [
+  {
+   "key": "baymont indianapolis south",
+   "identity_key": "baymont indianapolis south",
+   "schema_version": "1.3",
+   "name": "Baymont Indianapolis South",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted"
+    },
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "pet_fee": {
+     "amount_cents": 3000,
+     "currency": "USD",
+     "basis": "per_night",
+     "scope": "per_pet"
+    },
+    "pet_count_limit": 3
+   },
+   "evidence": [
     {
-      "identity_key": "holiday inn express plainfield",
-      "key": "holiday inn express plainfield",
-      "name": "Holiday Inn Express Plainfield",
-      "market_id": "indianapolis-in",
-      "schema_version": "1.2",
-      "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/plainfield/indsw/hoteldetail",
-      "source_type": "EXACT_ENTITY_DOMAIN",
-      "verification_state": "VERIFIED_PET_FRIENDLY",
-      "verification_date": "2026-08-16T23:40:10.365Z",
-      "verified_at": "2026-08-16T23:40:10.365Z",
-      "facts": {
-        "pets_allowed": true,
-        "species": {
-          "dogs": "accepted"
-        },
-        "pet_fee": {
-          "amount_cents": 2500,
-          "currency": "USD",
-          "basis": "per_night",
-          "refundable": false
-        },
-        "weight_limit_stated_none": true,
-        "pet_count_limit": 2
-      },
-      "evidence": [
-        {
-          "field": "pets_allowed",
-          "quote": "Pets are welcome at Holiday Inn Express Indianapolis Airport.",
-          "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/plainfield/indsw/hoteldetail",
-          "artifact_class": "rendered_html",
-          "artifact_sha256": "sha256:78724d7f36d53f35103bc99808ae47644ec9ebf7b715d8af65fc53878dad6e2d",
-          "value": true,
-          "evidence_ref": "ev:678838fc857d5591"
-        },
-        {
-          "field": "species",
-          "quote": "Pets allowed: Only dogs allowed",
-          "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/plainfield/indsw/hoteldetail",
-          "artifact_class": "rendered_html",
-          "artifact_sha256": "sha256:78724d7f36d53f35103bc99808ae47644ec9ebf7b715d8af65fc53878dad6e2d",
-          "evidence_ref": "ev:8cbe5814ac1a82eb"
-        },
-        {
-          "field": "pet_fee",
-          "quote": "Pet fee per night: 25 USD",
-          "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/plainfield/indsw/hoteldetail",
-          "artifact_class": "rendered_html",
-          "artifact_sha256": "sha256:78724d7f36d53f35103bc99808ae47644ec9ebf7b715d8af65fc53878dad6e2d",
-          "value": 2500,
-          "evidence_ref": "ev:6d54744d67aa3261"
-        },
-        {
-          "field": "refundable",
-          "quote": "Dogs permitted with a nominal nonrefundable fee each night.",
-          "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/plainfield/indsw/hoteldetail",
-          "artifact_class": "rendered_html",
-          "artifact_sha256": "sha256:78724d7f36d53f35103bc99808ae47644ec9ebf7b715d8af65fc53878dad6e2d",
-          "value": false,
-          "evidence_ref": "ev:3852cd4c27be46b9"
-        },
-        {
-          "field": "weight_limit_stated_none",
-          "quote": "Pet weight limit: No weight limit per pet",
-          "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/plainfield/indsw/hoteldetail",
-          "artifact_class": "rendered_html",
-          "artifact_sha256": "sha256:78724d7f36d53f35103bc99808ae47644ec9ebf7b715d8af65fc53878dad6e2d",
-          "value": true,
-          "evidence_ref": "ev:3412f28a201b18da"
-        },
-        {
-          "field": "pet_count_limit",
-          "quote": "2 pets allowed",
-          "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/plainfield/indsw/hoteldetail",
-          "artifact_class": "rendered_html",
-          "artifact_sha256": "sha256:78724d7f36d53f35103bc99808ae47644ec9ebf7b715d8af65fc53878dad6e2d",
-          "value": 2,
-          "evidence_ref": "ev:2c6c7a94c3388fcb"
-        }
-      ],
-      "evidence_count": 6,
-      "evidence_quote": "Pets are welcome at Holiday Inn Express Indianapolis Airport. Pets allowed: Only dogs allowed Pet fee per night: 25 USD Dogs permitted with a nominal nonrefundable fee each night. Pet weight limit: No weight limit per pet 2 pets allowed",
-      "published": true,
-      "approval": {
-        "decision": "APPROVED_AFTER_CURRENT_REVIEW",
-        "operator": "jfields80",
-        "approval_date": "2026-08-17",
-        "caveats": [
-          "INDY-P2-007. No pet_count_scope. Not Holiday Inn Airport."
-        ],
-        "work_order": "PTF-INDIANAPOLIS-DECISION-APPLICATION-001",
-        "artifact_sha256": "sha256:78724d7f36d53f35103bc99808ae47644ec9ebf7b715d8af65fc53878dad6e2d",
-        "founder_decision_id": "INDY-P2-007",
-        "founder_decision_source": "indianapolis_pass2_founder_decision_001.json",
-        "record_hash": "sha256:c448d886dbfd2a84bdded08dbf50b792902075a0a69a9f92d4a97c67d117e547",
-        "evidence_hash": "sha256:91324d9f7a8ca718ac75c650156d4e749ebe71f767634e67003a8390369d007a"
-      }
+     "field": "pets_allowed",
+     "quote": "pets allowed",
+     "source_url": "https://www.wyndhamhotels.com/baymont/indianapolis-indiana/baymont-inn-indianapolis-south/overview",
+     "evidence_ref": "indianapolis-in-003::baymont indianapolis south::pets_allowed::0",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:189a65a8cfd485a7cc53dcf0adcaaafbb3f0e97b7f34a17f43cb1b4db736d0fe",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
     },
     {
-      "identity_key": "le meridien indianapolis",
-      "key": "le meridien indianapolis",
-      "name": "Le Meridien Indianapolis",
-      "market_id": "indianapolis-in",
-      "schema_version": "1.2",
-      "source_url": "https://www.marriott.com/en-us/hotels/indmd-le-meridien-indianapolis/overview/",
-      "source_type": "EXACT_ENTITY_DOMAIN",
-      "verification_state": "VERIFIED_PET_FRIENDLY",
-      "verification_date": "2026-08-16T23:50:11.789Z",
-      "verified_at": "2026-08-16T23:50:11.789Z",
-      "facts": {
-        "pets_allowed": true,
-        "pet_fee": {
-          "amount_cents": 0,
-          "currency": "USD"
-        },
-        "weight_limit": {
-          "value": 40.0,
-          "unit": "lb",
-          "operator": "lte"
-        }
-      },
-      "evidence": [
-        {
-          "field": "pets_allowed",
-          "quote": "Pets are welcome. No pet fee.",
-          "source_url": "https://www.marriott.com/en-us/hotels/indmd-le-meridien-indianapolis/overview/",
-          "artifact_class": "rendered_html",
-          "artifact_sha256": "sha256:60dd50d47a9337aa7108e85765c8e79eb21ad165c07a7f1a044fe868530d3b28",
-          "value": true,
-          "evidence_ref": "ev:5ed41629773cf9b5"
-        },
-        {
-          "field": "pet_fee",
-          "quote": "Pets are welcome. No pet fee.",
-          "source_url": "https://www.marriott.com/en-us/hotels/indmd-le-meridien-indianapolis/overview/",
-          "artifact_class": "rendered_html",
-          "artifact_sha256": "sha256:60dd50d47a9337aa7108e85765c8e79eb21ad165c07a7f1a044fe868530d3b28",
-          "value": 0,
-          "evidence_ref": "ev:9cabb1538997d122"
-        },
-        {
-          "field": "weight_limit",
-          "quote": "Maximum Pet Weight: 40.0lbs",
-          "source_url": "https://www.marriott.com/en-us/hotels/indmd-le-meridien-indianapolis/overview/",
-          "artifact_class": "rendered_html",
-          "artifact_sha256": "sha256:60dd50d47a9337aa7108e85765c8e79eb21ad165c07a7f1a044fe868530d3b28",
-          "value": 40.0,
-          "evidence_ref": "ev:784937e19e681dcf"
-        }
-      ],
-      "evidence_count": 3,
-      "evidence_quote": "Pets are welcome. No pet fee. Pets are welcome. No pet fee. Maximum Pet Weight: 40.0lbs",
-      "published": true,
-      "approval": {
-        "decision": "APPROVED_AFTER_CURRENT_REVIEW",
-        "operator": "jfields80",
-        "approval_date": "2026-08-17",
-        "caveats": [
-          "INDY-P2-010. No fee basis/scope, no weight scope, no species."
-        ],
-        "work_order": "PTF-INDIANAPOLIS-DECISION-APPLICATION-001",
-        "artifact_sha256": "sha256:60dd50d47a9337aa7108e85765c8e79eb21ad165c07a7f1a044fe868530d3b28",
-        "founder_decision_id": "INDY-P2-010",
-        "founder_decision_source": "indianapolis_pass2_founder_decision_001.json",
-        "record_hash": "sha256:6dab9d28cbf423aa831a3d60a6b646b807ac9f49ccf662429979fa83d380a393",
-        "evidence_hash": "sha256:e756a07f1741beb54fe88099d01c35dda8d3b9204c8baa733dce901b4d828cd0"
-      }
+     "field": "pet_fee",
+     "quote": "30USD per pet per night",
+     "source_url": "https://www.wyndhamhotels.com/baymont/indianapolis-indiana/baymont-inn-indianapolis-south/overview",
+     "evidence_ref": "indianapolis-in-003::baymont indianapolis south::pet_fee::1",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:189a65a8cfd485a7cc53dcf0adcaaafbb3f0e97b7f34a17f43cb1b4db736d0fe",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
     },
     {
-      "identity_key": "residence inn by marriott indianapolis airport",
-      "key": "residence inn by marriott indianapolis airport",
-      "name": "Residence Inn by Marriott Indianapolis Airport",
-      "market_id": "indianapolis-in",
-      "schema_version": "1.2",
-      "source_url": "https://www.marriott.com/en-us/hotels/indap-residence-inn-indianapolis-airport/overview/",
-      "source_type": "EXACT_ENTITY_DOMAIN",
-      "verification_state": "VERIFIED_PET_FRIENDLY",
-      "verification_date": "2026-08-17T01:05:26.993Z",
-      "verified_at": "2026-08-17T01:05:26.993Z",
-      "facts": {
-        "pets_allowed": true,
-        "pet_fee": {
-          "amount_cents": 10000,
-          "currency": "USD",
-          "basis": "per_stay",
-          "refundable": false
-        },
-        "weight_limit": {
-          "value": 75.0,
-          "unit": "lb",
-          "operator": "lte"
-        },
-        "pet_count_limit": 2
-      },
-      "evidence": [
-        {
-          "field": "pets_allowed",
-          "quote": "Pets Welcome",
-          "source_url": "https://www.marriott.com/en-us/hotels/indap-residence-inn-indianapolis-airport/overview/",
-          "artifact_class": "rendered_html",
-          "artifact_sha256": "sha256:b5aeb913d0318c6edcaf2932bfd240c0455b3888cfae1aaf1ddf5620c4dce9ad",
-          "value": true,
-          "evidence_ref": "ev:f2d7195f58140e70"
-        },
-        {
-          "field": "pet_fee",
-          "quote": "Non-Refundable Pet Fee Per Stay: $100.00",
-          "source_url": "https://www.marriott.com/en-us/hotels/indap-residence-inn-indianapolis-airport/overview/",
-          "artifact_class": "rendered_html",
-          "artifact_sha256": "sha256:b5aeb913d0318c6edcaf2932bfd240c0455b3888cfae1aaf1ddf5620c4dce9ad",
-          "value": 10000,
-          "evidence_ref": "ev:ad470d922040fd24"
-        },
-        {
-          "field": "refundable",
-          "quote": "Nonrefundable pet fee of $100.00 due at check-in.",
-          "source_url": "https://www.marriott.com/en-us/hotels/indap-residence-inn-indianapolis-airport/overview/",
-          "artifact_class": "rendered_html",
-          "artifact_sha256": "sha256:b5aeb913d0318c6edcaf2932bfd240c0455b3888cfae1aaf1ddf5620c4dce9ad",
-          "value": false,
-          "evidence_ref": "ev:2027e6df9f6ab837"
-        },
-        {
-          "field": "weight_limit",
-          "quote": "Maximum Pet Weight: 75.0lbs",
-          "source_url": "https://www.marriott.com/en-us/hotels/indap-residence-inn-indianapolis-airport/overview/",
-          "artifact_class": "rendered_html",
-          "artifact_sha256": "sha256:b5aeb913d0318c6edcaf2932bfd240c0455b3888cfae1aaf1ddf5620c4dce9ad",
-          "value": 75.0,
-          "evidence_ref": "ev:7a3747a361183679"
-        },
-        {
-          "field": "pet_count_limit",
-          "quote": "Maximum Number of Pets in Room: 2",
-          "source_url": "https://www.marriott.com/en-us/hotels/indap-residence-inn-indianapolis-airport/overview/",
-          "artifact_class": "rendered_html",
-          "artifact_sha256": "sha256:b5aeb913d0318c6edcaf2932bfd240c0455b3888cfae1aaf1ddf5620c4dce9ad",
-          "value": 2,
-          "evidence_ref": "ev:c78ae7c77b1b704d"
-        }
-      ],
-      "evidence_count": 5,
-      "evidence_quote": "Pets Welcome Non-Refundable Pet Fee Per Stay: $100.00 Nonrefundable pet fee of $100.00 due at check-in. Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 2",
-      "published": true,
-      "approval": {
-        "decision": "APPROVED_AFTER_CURRENT_REVIEW",
-        "operator": "jfields80",
-        "approval_date": "2026-08-17",
-        "caveats": [
-          "INDY-P3A-001. due at check-in is payment timing. Not Fairfield 5220."
-        ],
-        "work_order": "PTF-INDIANAPOLIS-DECISION-APPLICATION-001",
-        "artifact_sha256": "sha256:b5aeb913d0318c6edcaf2932bfd240c0455b3888cfae1aaf1ddf5620c4dce9ad",
-        "founder_decision_id": "INDY-P3A-001",
-        "founder_decision_source": "indianapolis_pass3a_founder_decision_001.json",
-        "record_hash": "sha256:7c57bacc15be2facba1a89963aa862b16f8ca450b7238a7de1b3955a3e6d9543",
-        "evidence_hash": "sha256:6ab1c032bcc685156c3b59f2c4850f95e79741b9d251f7465588e68b80a23a98"
-      }
+     "field": "fee_basis",
+     "quote": "30USD per pet per night",
+     "source_url": "https://www.wyndhamhotels.com/baymont/indianapolis-indiana/baymont-inn-indianapolis-south/overview",
+     "evidence_ref": "indianapolis-in-003::baymont indianapolis south::fee_basis::2",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:189a65a8cfd485a7cc53dcf0adcaaafbb3f0e97b7f34a17f43cb1b4db736d0fe",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
     },
     {
-      "identity_key": "hampton inn and suites indianapolis airport",
-      "key": "hampton inn and suites indianapolis airport",
-      "name": "Hampton Inn & Suites Indianapolis Airport",
-      "market_id": "indianapolis-in",
-      "schema_version": "1.2",
-      "source_url": "https://www.hilton.com/en/hotels/indarhx-hampton-suites-indianapolis-airport/",
-      "source_type": "EXACT_ENTITY_DOMAIN",
-      "verification_state": "VERIFIED_PET_FRIENDLY",
-      "verification_date": "2026-08-17T01:18:47.690Z",
-      "verified_at": "2026-08-17T01:18:47.690Z",
-      "facts": {
-        "pets_allowed": true,
-        "pet_count_limit": 2,
-        "fee_tiers": [
-          {
-            "amount_cents": 7500,
-            "currency": "USD",
-            "role": "REPLACEMENT_PRICE",
-            "condition_type": "stay_length_range",
-            "boundary_unit": "nights",
-            "condition_min": 1,
-            "basis_stated": true,
-            "refundable": false,
-            "condition_max": 4
-          },
-          {
-            "amount_cents": 12500,
-            "currency": "USD",
-            "role": "REPLACEMENT_PRICE",
-            "condition_type": "stay_length_range",
-            "boundary_unit": "nights",
-            "condition_min": 5,
-            "basis_stated": true,
-            "refundable": false
-          }
-        ],
-        "species": {
-          "dogs": "accepted",
-          "cats": "accepted"
-        }
-      },
-      "evidence": [
-        {
-          "field": "pets_allowed",
-          "quote": "Pets allowed",
-          "source_url": "https://www.hilton.com/en/hotels/indarhx-hampton-suites-indianapolis-airport/",
-          "artifact_class": "rendered_html",
-          "artifact_sha256": "sha256:03f00e314f1fa726f23cc8f0da870ab823d475ef2e7b75a9c3708644b237a76d",
-          "value": true,
-          "evidence_ref": "ev:1a831cb1ec4a3ad1"
-        },
-        {
-          "field": "species",
-          "quote": "dog or cat only",
-          "source_url": "https://www.hilton.com/en/hotels/indarhx-hampton-suites-indianapolis-airport/",
-          "artifact_class": "rendered_html",
-          "artifact_sha256": "sha256:03f00e314f1fa726f23cc8f0da870ab823d475ef2e7b75a9c3708644b237a76d",
-          "evidence_ref": "ev:f1c14accac1678d7"
-        },
-        {
-          "field": "pet_count_limit",
-          "quote": "2 pets max",
-          "source_url": "https://www.hilton.com/en/hotels/indarhx-hampton-suites-indianapolis-airport/",
-          "artifact_class": "rendered_html",
-          "artifact_sha256": "sha256:03f00e314f1fa726f23cc8f0da870ab823d475ef2e7b75a9c3708644b237a76d",
-          "value": 2,
-          "evidence_ref": "ev:9148410e6b0443b2"
-        },
-        {
-          "field": "fee_tiers",
-          "quote": "1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
-          "source_url": "https://www.hilton.com/en/hotels/indarhx-hampton-suites-indianapolis-airport/",
-          "artifact_class": "rendered_html",
-          "artifact_sha256": "sha256:03f00e314f1fa726f23cc8f0da870ab823d475ef2e7b75a9c3708644b237a76d",
-          "evidence_ref": "ev:6cbab0a427966e71"
-        }
-      ],
-      "evidence_count": 4,
-      "evidence_quote": "Pets allowed dog or cat only 2 pets max 1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
-      "published": true,
-      "approval": {
-        "decision": "APPROVED_AFTER_CURRENT_REVIEW",
-        "operator": "jfields80",
-        "approval_date": "2026-08-17",
-        "caveats": [
-          "INDY-HFS-001",
-          "9020 Hatfield Drive.",
-          "Stay-length ladder not collapsed."
-        ],
-        "work_order": "PTF-INDIANAPOLIS-DECISION-APPLICATION-001",
-        "artifact_sha256": "sha256:03f00e314f1fa726f23cc8f0da870ab823d475ef2e7b75a9c3708644b237a76d",
-        "founder_decision_id": "INDY-HFS-001",
-        "founder_decision_source": "indianapolis_hilton_fresh_session_founder_decision_001.json",
-        "record_hash": "sha256:3d25e11b86b4861a21efe4515bc7161bd4fd944ddb0eae46e14053a0d54be955",
-        "evidence_hash": "sha256:06e39a6b3c441ec11a22aa1dbd553cec3db0ff417e492e41cc96c9f7f3a77a61"
-      }
+     "field": "fee_scope",
+     "quote": "30USD per pet per night",
+     "source_url": "https://www.wyndhamhotels.com/baymont/indianapolis-indiana/baymont-inn-indianapolis-south/overview",
+     "evidence_ref": "indianapolis-in-003::baymont indianapolis south::fee_scope::3",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:189a65a8cfd485a7cc53dcf0adcaaafbb3f0e97b7f34a17f43cb1b4db736d0fe",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
     },
     {
-      "identity_key": "hampton inn and suites indianapolis keystone",
-      "key": "hampton inn and suites indianapolis keystone",
-      "name": "Hampton Inn & Suites Indianapolis Keystone",
-      "market_id": "indianapolis-in",
-      "schema_version": "1.2",
-      "source_url": "https://www.hilton.com/en/hotels/indkehx-hampton-suites-indianapolis-keystone/",
-      "source_type": "EXACT_ENTITY_DOMAIN",
-      "verification_state": "VERIFIED_PET_FRIENDLY",
-      "verification_date": "2026-08-17T01:22:28.053Z",
-      "verified_at": "2026-08-17T01:22:28.053Z",
-      "facts": {
-        "pets_allowed": true,
-        "pet_count_limit": 2,
-        "fee_tiers": [
-          {
-            "amount_cents": 7500,
-            "currency": "USD",
-            "role": "REPLACEMENT_PRICE",
-            "condition_type": "stay_length_range",
-            "boundary_unit": "nights",
-            "condition_min": 1,
-            "basis_stated": true,
-            "refundable": false,
-            "condition_max": 4
-          },
-          {
-            "amount_cents": 12500,
-            "currency": "USD",
-            "role": "REPLACEMENT_PRICE",
-            "condition_type": "stay_length_range",
-            "boundary_unit": "nights",
-            "condition_min": 5,
-            "basis_stated": true,
-            "refundable": false
-          }
-        ],
-        "species": {
-          "dogs": "accepted",
-          "cats": "accepted"
-        },
-        "weight_limit": {
-          "value": 75.0,
-          "unit": "lb",
-          "operator": "lte"
-        }
-      },
-      "evidence": [
-        {
-          "field": "pets_allowed",
-          "quote": "Pets allowed",
-          "source_url": "https://www.hilton.com/en/hotels/indkehx-hampton-suites-indianapolis-keystone/",
-          "artifact_class": "rendered_html",
-          "artifact_sha256": "sha256:997311c6ba5fb44985d4ca821c59999d8fbbc0401ab005556739e4b110d60534",
-          "value": true,
-          "evidence_ref": "ev:3ee9cca959dfbf0c"
-        },
-        {
-          "field": "species",
-          "quote": "dog/cat only",
-          "source_url": "https://www.hilton.com/en/hotels/indkehx-hampton-suites-indianapolis-keystone/",
-          "artifact_class": "rendered_html",
-          "artifact_sha256": "sha256:997311c6ba5fb44985d4ca821c59999d8fbbc0401ab005556739e4b110d60534",
-          "evidence_ref": "ev:612c1ac003b0cfef"
-        },
-        {
-          "field": "pet_count_limit",
-          "quote": "2petsMax",
-          "source_url": "https://www.hilton.com/en/hotels/indkehx-hampton-suites-indianapolis-keystone/",
-          "artifact_class": "rendered_html",
-          "artifact_sha256": "sha256:997311c6ba5fb44985d4ca821c59999d8fbbc0401ab005556739e4b110d60534",
-          "value": 2,
-          "evidence_ref": "ev:db268733087205db"
-        },
-        {
-          "field": "weight_limit",
-          "quote": "75 lbs",
-          "source_url": "https://www.hilton.com/en/hotels/indkehx-hampton-suites-indianapolis-keystone/",
-          "artifact_class": "rendered_html",
-          "artifact_sha256": "sha256:997311c6ba5fb44985d4ca821c59999d8fbbc0401ab005556739e4b110d60534",
-          "value": 75.0,
-          "evidence_ref": "ev:8b63d51e319ee4ca"
-        },
-        {
-          "field": "fee_tiers",
-          "quote": "$75(1-4n),$125(5+n) 2petsMax,dog/cat only",
-          "source_url": "https://www.hilton.com/en/hotels/indkehx-hampton-suites-indianapolis-keystone/",
-          "artifact_class": "rendered_html",
-          "artifact_sha256": "sha256:997311c6ba5fb44985d4ca821c59999d8fbbc0401ab005556739e4b110d60534",
-          "evidence_ref": "ev:8a75505f8f6419b6"
-        }
-      ],
-      "evidence_count": 5,
-      "evidence_quote": "Pets allowed dog/cat only 2petsMax 75 lbs $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
-      "published": true,
-      "approval": {
-        "decision": "APPROVED_AFTER_CURRENT_REVIEW",
-        "operator": "jfields80",
-        "approval_date": "2026-08-17",
-        "caveats": [
-          "INDY-HFS-002",
-          "Own ladder; no other Hampton inherited.",
-          "Stay-length ladder not collapsed."
-        ],
-        "work_order": "PTF-INDIANAPOLIS-DECISION-APPLICATION-001",
-        "artifact_sha256": "sha256:997311c6ba5fb44985d4ca821c59999d8fbbc0401ab005556739e4b110d60534",
-        "founder_decision_id": "INDY-HFS-002",
-        "founder_decision_source": "indianapolis_hilton_fresh_session_founder_decision_001.json",
-        "record_hash": "sha256:684e859a0e6792c3d8ab5dc49ba8db922a62793e9002688eaf458e1b30df517b",
-        "evidence_hash": "sha256:663d03abeb45b80475afc926032dd949f35aaff3ab3804f33cbebe4fc2d6d9e8"
-      }
+     "field": "weight_limit",
+     "quote": "max. 50lbs",
+     "source_url": "https://www.wyndhamhotels.com/baymont/indianapolis-indiana/baymont-inn-indianapolis-south/overview",
+     "evidence_ref": "indianapolis-in-003::baymont indianapolis south::weight_limit::4",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:189a65a8cfd485a7cc53dcf0adcaaafbb3f0e97b7f34a17f43cb1b4db736d0fe",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
     },
     {
-      "identity_key": "hampton inn and suites indianapolis west speedway",
-      "key": "hampton inn and suites indianapolis west speedway",
-      "name": "Hampton Inn & Suites Indianapolis West Speedway",
-      "market_id": "indianapolis-in",
-      "schema_version": "1.2",
-      "source_url": "https://www.hilton.com/en/hotels/indswhx-hampton-suites-indianapolis-west-speedway/",
-      "source_type": "EXACT_ENTITY_DOMAIN",
-      "verification_state": "VERIFIED_PET_FRIENDLY",
-      "verification_date": "2026-08-17T01:24:57.392Z",
-      "verified_at": "2026-08-17T01:24:57.392Z",
-      "facts": {
-        "pets_allowed": true,
-        "pet_count_limit": 2,
-        "fee_tiers": [
-          {
-            "amount_cents": 9320,
-            "currency": "USD",
-            "role": "REPLACEMENT_PRICE",
-            "condition_type": "stay_length_range",
-            "boundary_unit": "nights",
-            "condition_min": 1,
-            "basis_stated": true,
-            "refundable": false,
-            "condition_max": 4
-          },
-          {
-            "amount_cents": 15530,
-            "currency": "USD",
-            "role": "REPLACEMENT_PRICE",
-            "condition_type": "stay_length_range",
-            "boundary_unit": "nights",
-            "condition_min": 5,
-            "basis_stated": true,
-            "refundable": false
-          }
-        ],
-        "species": {
-          "dogs": "accepted",
-          "cats": "accepted"
-        },
-        "weight_limit": {
-          "value": 75.0,
-          "unit": "lb",
-          "operator": "lte"
-        }
-      },
-      "evidence": [
-        {
-          "field": "pets_allowed",
-          "quote": "Pets allowed",
-          "source_url": "https://www.hilton.com/en/hotels/indswhx-hampton-suites-indianapolis-west-speedway/",
-          "artifact_class": "rendered_html",
-          "artifact_sha256": "sha256:bb0c4d98ee49d6fa7439165e32e9e6696d3816e83832a49a7933d9f5954bc8d0",
-          "value": true,
-          "evidence_ref": "ev:5a5824941a3dafee"
-        },
-        {
-          "field": "species",
-          "quote": "dog/cat only",
-          "source_url": "https://www.hilton.com/en/hotels/indswhx-hampton-suites-indianapolis-west-speedway/",
-          "artifact_class": "rendered_html",
-          "artifact_sha256": "sha256:bb0c4d98ee49d6fa7439165e32e9e6696d3816e83832a49a7933d9f5954bc8d0",
-          "evidence_ref": "ev:478f703fb79cd62c"
-        },
-        {
-          "field": "pet_count_limit",
-          "quote": "2petsMax",
-          "source_url": "https://www.hilton.com/en/hotels/indswhx-hampton-suites-indianapolis-west-speedway/",
-          "artifact_class": "rendered_html",
-          "artifact_sha256": "sha256:bb0c4d98ee49d6fa7439165e32e9e6696d3816e83832a49a7933d9f5954bc8d0",
-          "value": 2,
-          "evidence_ref": "ev:e52d3110d3f33d08"
-        },
-        {
-          "field": "weight_limit",
-          "quote": "75 lbs",
-          "source_url": "https://www.hilton.com/en/hotels/indswhx-hampton-suites-indianapolis-west-speedway/",
-          "artifact_class": "rendered_html",
-          "artifact_sha256": "sha256:bb0c4d98ee49d6fa7439165e32e9e6696d3816e83832a49a7933d9f5954bc8d0",
-          "value": 75.0,
-          "evidence_ref": "ev:bdbd2e28c054354a"
-        },
-        {
-          "field": "fee_tiers",
-          "quote": "$93.20(1-4n),$155.30(5+n) 2petsMax,dog/cat only",
-          "source_url": "https://www.hilton.com/en/hotels/indswhx-hampton-suites-indianapolis-west-speedway/",
-          "artifact_class": "rendered_html",
-          "artifact_sha256": "sha256:bb0c4d98ee49d6fa7439165e32e9e6696d3816e83832a49a7933d9f5954bc8d0",
-          "evidence_ref": "ev:ebe279b704caa0ab"
-        }
-      ],
-      "evidence_count": 5,
-      "evidence_quote": "Pets allowed dog/cat only 2petsMax 75 lbs $93.20(1-4n),$155.30(5+n) 2petsMax,dog/cat only",
-      "published": true,
-      "approval": {
-        "decision": "APPROVED_AFTER_CURRENT_REVIEW",
-        "operator": "jfields80",
-        "approval_date": "2026-08-17",
-        "caveats": [
-          "INDY-HFS-003",
-          "Preserve $93.20 and $155.30 exactly.",
-          "Stay-length ladder not collapsed."
-        ],
-        "work_order": "PTF-INDIANAPOLIS-DECISION-APPLICATION-001",
-        "artifact_sha256": "sha256:bb0c4d98ee49d6fa7439165e32e9e6696d3816e83832a49a7933d9f5954bc8d0",
-        "founder_decision_id": "INDY-HFS-003",
-        "founder_decision_source": "indianapolis_hilton_fresh_session_founder_decision_001.json",
-        "record_hash": "sha256:ec6c32846683d019545c988df94678e72b7666a1d7ae802d5e8ad74979be7786",
-        "evidence_hash": "sha256:cf0e9b0216762629772c94ea351820eb6140c40ee5215bc67f3e229c0b0e9a9e"
-      }
+     "field": "pet_count_limit",
+     "quote": "3 dogs max",
+     "source_url": "https://www.wyndhamhotels.com/baymont/indianapolis-indiana/baymont-inn-indianapolis-south/overview",
+     "evidence_ref": "indianapolis-in-003::baymont indianapolis south::pet_count_limit::5",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:189a65a8cfd485a7cc53dcf0adcaaafbb3f0e97b7f34a17f43cb1b4db736d0fe",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
     },
     {
-      "identity_key": "hampton inn indianapolis northeast castleton",
-      "key": "hampton inn indianapolis northeast castleton",
-      "name": "Hampton Inn Indianapolis Northeast Castleton",
-      "market_id": "indianapolis-in",
-      "schema_version": "1.2",
-      "source_url": "https://www.hilton.com/en/hotels/indnehx-hampton-indianapolis-ne-castleton/",
-      "source_type": "EXACT_ENTITY_DOMAIN",
-      "verification_state": "VERIFIED_PET_FRIENDLY",
-      "verification_date": "2026-08-17T01:27:21.822Z",
-      "verified_at": "2026-08-17T01:27:21.822Z",
-      "facts": {
-        "pets_allowed": true,
-        "pet_count_limit": 2,
-        "fee_tiers": [
-          {
-            "amount_cents": 5000,
-            "currency": "USD",
-            "role": "REPLACEMENT_PRICE",
-            "condition_type": "stay_length_range",
-            "boundary_unit": "nights",
-            "condition_min": 1,
-            "basis_stated": true,
-            "refundable": false,
-            "condition_max": 4
-          },
-          {
-            "amount_cents": 7500,
-            "currency": "USD",
-            "role": "REPLACEMENT_PRICE",
-            "condition_type": "stay_length_range",
-            "boundary_unit": "nights",
-            "condition_min": 5,
-            "basis_stated": true,
-            "refundable": false
-          }
-        ],
-        "species": {
-          "dogs": "accepted",
-          "cats": "accepted"
-        }
-      },
-      "evidence": [
-        {
-          "field": "pets_allowed",
-          "quote": "Pets allowed",
-          "source_url": "https://www.hilton.com/en/hotels/indnehx-hampton-indianapolis-ne-castleton/",
-          "artifact_class": "rendered_html",
-          "artifact_sha256": "sha256:9b9cb04c1871e8ad4c7206881bd64b62973f39abfa6bd91526cef60edc216aca",
-          "value": true,
-          "evidence_ref": "ev:083b0e46d38f766b"
-        },
-        {
-          "field": "species",
-          "quote": "dog or cat only",
-          "source_url": "https://www.hilton.com/en/hotels/indnehx-hampton-indianapolis-ne-castleton/",
-          "artifact_class": "rendered_html",
-          "artifact_sha256": "sha256:9b9cb04c1871e8ad4c7206881bd64b62973f39abfa6bd91526cef60edc216aca",
-          "evidence_ref": "ev:f6a07e7230520adb"
-        },
-        {
-          "field": "pet_count_limit",
-          "quote": "2 pets max",
-          "source_url": "https://www.hilton.com/en/hotels/indnehx-hampton-indianapolis-ne-castleton/",
-          "artifact_class": "rendered_html",
-          "artifact_sha256": "sha256:9b9cb04c1871e8ad4c7206881bd64b62973f39abfa6bd91526cef60edc216aca",
-          "value": 2,
-          "evidence_ref": "ev:e2337378c9e142d0"
-        },
-        {
-          "field": "fee_tiers",
-          "quote": "1-4 night stay $50; 5+ night stay $75; 2 pets max; dog or cat only",
-          "source_url": "https://www.hilton.com/en/hotels/indnehx-hampton-indianapolis-ne-castleton/",
-          "artifact_class": "rendered_html",
-          "artifact_sha256": "sha256:9b9cb04c1871e8ad4c7206881bd64b62973f39abfa6bd91526cef60edc216aca",
-          "evidence_ref": "ev:cbe396b8f4fda792"
-        }
-      ],
-      "evidence_count": 4,
-      "evidence_quote": "Pets allowed dog or cat only 2 pets max 1-4 night stay $50; 5+ night stay $75; 2 pets max; dog or cat only",
-      "published": true,
-      "approval": {
-        "decision": "APPROVED_AFTER_CURRENT_REVIEW",
-        "operator": "jfields80",
-        "approval_date": "2026-08-17",
-        "caveats": [
-          "INDY-HFS-004",
-          "No invented weight.",
-          "Stay-length ladder not collapsed."
-        ],
-        "work_order": "PTF-INDIANAPOLIS-DECISION-APPLICATION-001",
-        "artifact_sha256": "sha256:9b9cb04c1871e8ad4c7206881bd64b62973f39abfa6bd91526cef60edc216aca",
-        "founder_decision_id": "INDY-HFS-004",
-        "founder_decision_source": "indianapolis_hilton_fresh_session_founder_decision_001.json",
-        "record_hash": "sha256:ebb6d299f81da2fb51b2c984998a30a5bcc9690170f9b8ee71254a39e36003d4",
-        "evidence_hash": "sha256:542ba297a373ac25e005870abe7cdab02a1f5b31368360ab472568472b9a0184"
-      }
+     "field": "species_allowed",
+     "quote": "Dogs Allowed",
+     "source_url": "https://www.wyndhamhotels.com/baymont/indianapolis-indiana/baymont-inn-indianapolis-south/overview",
+     "evidence_ref": "indianapolis-in-003::baymont indianapolis south::species_allowed::6",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:189a65a8cfd485a7cc53dcf0adcaaafbb3f0e97b7f34a17f43cb1b4db736d0fe",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
     },
     {
-      "identity_key": "hilton garden inn indianapolis airport",
-      "key": "hilton garden inn indianapolis airport",
-      "name": "Hilton Garden Inn Indianapolis Airport",
-      "market_id": "indianapolis-in",
-      "schema_version": "1.2",
-      "source_url": "https://www.hilton.com/en/hotels/indaggi-hilton-garden-inn-indianapolis-airport/",
-      "source_type": "EXACT_ENTITY_DOMAIN",
-      "verification_state": "VERIFIED_PET_FRIENDLY",
-      "verification_date": "2026-08-17T01:29:58.873Z",
-      "verified_at": "2026-08-17T01:29:58.873Z",
-      "facts": {
-        "pets_allowed": true,
-        "pet_count_limit": 2,
-        "fee_tiers": [
-          {
-            "amount_cents": 7500,
-            "currency": "USD",
-            "role": "REPLACEMENT_PRICE",
-            "condition_type": "stay_length_range",
-            "boundary_unit": "nights",
-            "condition_min": 1,
-            "basis_stated": true,
-            "refundable": false,
-            "condition_max": 4
-          },
-          {
-            "amount_cents": 10000,
-            "currency": "USD",
-            "role": "REPLACEMENT_PRICE",
-            "condition_type": "stay_length_range",
-            "boundary_unit": "nights",
-            "condition_min": 5,
-            "basis_stated": true,
-            "refundable": false
-          }
-        ],
-        "weight_limit": {
-          "value": 75.0,
-          "unit": "lb",
-          "operator": "lte"
-        }
-      },
-      "evidence": [
-        {
-          "field": "pets_allowed",
-          "quote": "Pets allowed",
-          "source_url": "https://www.hilton.com/en/hotels/indaggi-hilton-garden-inn-indianapolis-airport/",
-          "artifact_class": "rendered_html",
-          "artifact_sha256": "sha256:69bb9e2c1ffcc4ecb546257653949d55b8dfa2fb29aabaac814ea28bdfbd5cac",
-          "value": true,
-          "evidence_ref": "ev:d3f7a16e84612585"
-        },
-        {
-          "field": "pet_count_limit",
-          "quote": "2 pets max",
-          "source_url": "https://www.hilton.com/en/hotels/indaggi-hilton-garden-inn-indianapolis-airport/",
-          "artifact_class": "rendered_html",
-          "artifact_sha256": "sha256:69bb9e2c1ffcc4ecb546257653949d55b8dfa2fb29aabaac814ea28bdfbd5cac",
-          "value": 2,
-          "evidence_ref": "ev:2fe050fa08178d20"
-        },
-        {
-          "field": "weight_limit",
-          "quote": "75 lbs",
-          "source_url": "https://www.hilton.com/en/hotels/indaggi-hilton-garden-inn-indianapolis-airport/",
-          "artifact_class": "rendered_html",
-          "artifact_sha256": "sha256:69bb9e2c1ffcc4ecb546257653949d55b8dfa2fb29aabaac814ea28bdfbd5cac",
-          "value": 75.0,
-          "evidence_ref": "ev:f599e04cd0640a61"
-        },
-        {
-          "field": "fee_tiers",
-          "quote": "$75(1-4 nights), $100(5+nights), 2 pets max",
-          "source_url": "https://www.hilton.com/en/hotels/indaggi-hilton-garden-inn-indianapolis-airport/",
-          "artifact_class": "rendered_html",
-          "artifact_sha256": "sha256:69bb9e2c1ffcc4ecb546257653949d55b8dfa2fb29aabaac814ea28bdfbd5cac",
-          "evidence_ref": "ev:c809e18b4bda52ca"
-        }
-      ],
-      "evidence_count": 4,
-      "evidence_quote": "Pets allowed 2 pets max 75 lbs $75(1-4 nights), $100(5+nights), 2 pets max",
-      "published": true,
-      "approval": {
-        "decision": "APPROVED_AFTER_CURRENT_REVIEW",
-        "operator": "jfields80",
-        "approval_date": "2026-08-17",
-        "caveats": [
-          "INDY-HFS-005",
-          "8910 Hatfield, not 9020. Species ABSENT.",
-          "Stay-length ladder not collapsed."
-        ],
-        "work_order": "PTF-INDIANAPOLIS-DECISION-APPLICATION-001",
-        "artifact_sha256": "sha256:69bb9e2c1ffcc4ecb546257653949d55b8dfa2fb29aabaac814ea28bdfbd5cac",
-        "founder_decision_id": "INDY-HFS-005",
-        "founder_decision_source": "indianapolis_hilton_fresh_session_founder_decision_001.json",
-        "record_hash": "sha256:022cc63d30933c23610612d8b88c49f26099edb24822e56c42bbe87a4467f652",
-        "evidence_hash": "sha256:4a9b23ce962acd283657cb0c3e2d9c4475ff2b27648d66ceebbf221161db4412"
-      }
+     "field": "service_animal_exception",
+     "quote": "Service Animals - ADA-defined service animals welcome.",
+     "source_url": "https://www.wyndhamhotels.com/baymont/indianapolis-indiana/baymont-inn-indianapolis-south/overview",
+     "evidence_ref": "indianapolis-in-003::baymont indianapolis south::service_animal_exception::7",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:189a65a8cfd485a7cc53dcf0adcaaafbb3f0e97b7f34a17f43cb1b4db736d0fe",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
     }
-  ]
+   ],
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: this surface names a species it accepts and does not say the others are refused; species_allowed lists affirmations only, and an unnamed species stays unknown rather than prohibited"
+   ],
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "Service Animals - ADA-defined service animals welcome."
+   },
+   "projection_notes": [
+    "weight_limit.operator=lte and scope=per_pet were FOUNDER-NORMALISED for publication under PTF-ST-LOUIS-PUBLICATION-SCHEMA-DECISIONS-010; the source states an unqualified blanket maximum and the reader records a value only. Source text preserved: max. 50lbs"
+   ]
+  },
+  {
+   "key": "baymont noblesville",
+   "identity_key": "baymont noblesville",
+   "schema_version": "1.3",
+   "name": "Baymont Noblesville",
+   "facts": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "pet_fee": {
+     "amount_cents": 3000,
+     "currency": "USD",
+     "basis": "per_night",
+     "scope": "per_pet"
+    },
+    "pet_count_limit": 3
+   },
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "pets are welcome",
+     "source_url": "https://www.wyndhamhotels.com/baymont/noblesville-indiana/baymont-inn-and-suites-noblesville/overview",
+     "evidence_ref": "indianapolis-in-003::baymont noblesville::pets_allowed::0",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:13edd2fb9e630544f925fb3718823d9e652fb1bd1a0619e16ce1eb34d1c85067",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "30 USD per pet per night",
+     "source_url": "https://www.wyndhamhotels.com/baymont/noblesville-indiana/baymont-inn-and-suites-noblesville/overview",
+     "evidence_ref": "indianapolis-in-003::baymont noblesville::pet_fee::1",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:13edd2fb9e630544f925fb3718823d9e652fb1bd1a0619e16ce1eb34d1c85067",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_basis",
+     "quote": "30 USD per pet per night",
+     "source_url": "https://www.wyndhamhotels.com/baymont/noblesville-indiana/baymont-inn-and-suites-noblesville/overview",
+     "evidence_ref": "indianapolis-in-003::baymont noblesville::fee_basis::2",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:13edd2fb9e630544f925fb3718823d9e652fb1bd1a0619e16ce1eb34d1c85067",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_scope",
+     "quote": "30 USD per pet per night",
+     "source_url": "https://www.wyndhamhotels.com/baymont/noblesville-indiana/baymont-inn-and-suites-noblesville/overview",
+     "evidence_ref": "indianapolis-in-003::baymont noblesville::fee_scope::3",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:13edd2fb9e630544f925fb3718823d9e652fb1bd1a0619e16ce1eb34d1c85067",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "weight_limit",
+     "quote": "maximum weight of 50 lbs",
+     "source_url": "https://www.wyndhamhotels.com/baymont/noblesville-indiana/baymont-inn-and-suites-noblesville/overview",
+     "evidence_ref": "indianapolis-in-003::baymont noblesville::weight_limit::4",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:13edd2fb9e630544f925fb3718823d9e652fb1bd1a0619e16ce1eb34d1c85067",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "Up to 3 pets",
+     "source_url": "https://www.wyndhamhotels.com/baymont/noblesville-indiana/baymont-inn-and-suites-noblesville/overview",
+     "evidence_ref": "indianapolis-in-003::baymont noblesville::pet_count_limit::5",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:13edd2fb9e630544f925fb3718823d9e652fb1bd1a0619e16ce1eb34d1c85067",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "service_animal_exception",
+     "quote": "ADA defined service animals are also welcomed at this hotel",
+     "source_url": "https://www.wyndhamhotels.com/baymont/noblesville-indiana/baymont-inn-and-suites-noblesville/overview",
+     "evidence_ref": "indianapolis-in-003::baymont noblesville::service_animal_exception::6",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:13edd2fb9e630544f925fb3718823d9e652fb1bd1a0619e16ce1eb34d1c85067",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    }
+   ],
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "ADA defined service animals are also welcomed at this hotel"
+   },
+   "projection_notes": [
+    "weight_limit.operator=lte and scope=per_pet were FOUNDER-NORMALISED for publication under PTF-ST-LOUIS-PUBLICATION-SCHEMA-DECISIONS-010; the source states an unqualified blanket maximum and the reader records a value only. Source text preserved: maximum weight of 50 lbs"
+   ]
+  },
+  {
+   "key": "candlewood suites indianapolis medical district",
+   "identity_key": "candlewood suites indianapolis medical district",
+   "schema_version": "1.3",
+   "name": "Candlewood Suites Indianapolis Medical District",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "cats": "accepted",
+     "dogs": "accepted"
+    },
+    "weight_limit": {
+     "value": 80.0,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "pet_fee": {
+     "amount_cents": 7500,
+     "currency": "USD"
+    },
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "pets allowed",
+     "source_url": "https://www.ihg.com/candlewood/hotels/us/en/indianapolis/indwp/hoteldetail",
+     "evidence_ref": "indianapolis-in-003::candlewood suites indianapolis medical district::pets_allowed::0",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:c3908e34a16291171ef432bb4e515ac82b055eae8f3c213c177ebad2ad0d33d7",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "Pet fee per night: 75 USD",
+     "source_url": "https://www.ihg.com/candlewood/hotels/us/en/indianapolis/indwp/hoteldetail",
+     "evidence_ref": "indianapolis-in-003::candlewood suites indianapolis medical district::pet_fee::1",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:c3908e34a16291171ef432bb4e515ac82b055eae8f3c213c177ebad2ad0d33d7",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_basis",
+     "quote": "Pet fee per night: 75 USD",
+     "source_url": "https://www.ihg.com/candlewood/hotels/us/en/indianapolis/indwp/hoteldetail",
+     "evidence_ref": "indianapolis-in-003::candlewood suites indianapolis medical district::fee_basis::2",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:c3908e34a16291171ef432bb4e515ac82b055eae8f3c213c177ebad2ad0d33d7",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "weight_limit",
+     "quote": "less than 80 lbs",
+     "source_url": "https://www.ihg.com/candlewood/hotels/us/en/indianapolis/indwp/hoteldetail",
+     "evidence_ref": "indianapolis-in-003::candlewood suites indianapolis medical district::weight_limit::3",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:c3908e34a16291171ef432bb4e515ac82b055eae8f3c213c177ebad2ad0d33d7",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "2 pets allowed",
+     "source_url": "https://www.ihg.com/candlewood/hotels/us/en/indianapolis/indwp/hoteldetail",
+     "evidence_ref": "indianapolis-in-003::candlewood suites indianapolis medical district::pet_count_limit::4",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:c3908e34a16291171ef432bb4e515ac82b055eae8f3c213c177ebad2ad0d33d7",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "species_allowed",
+     "quote": "Cats and dogs are allowed",
+     "source_url": "https://www.ihg.com/candlewood/hotels/us/en/indianapolis/indwp/hoteldetail",
+     "evidence_ref": "indianapolis-in-003::candlewood suites indianapolis medical district::species_allowed::5",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:c3908e34a16291171ef432bb4e515ac82b055eae8f3c213c177ebad2ad0d33d7",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    }
+   ],
+   "withheld_fields": {
+    "fee_basis": {
+     "reason_code": "SOURCE_CONTRADICTORY",
+     "reason": "fee_basis withheld as SOURCE_CONTRADICTORY by founder ruling (PTF-INDIANAPOLIS-PROMOTION-AUTHORITY-PREP-003, ledger row 3): the page states 'Pet fee per night: 75 USD' and 'Pet-friendly (75 USD / stay)'",
+     "evidence_refs": [
+      "indianapolis-in-003::candlewood suites indianapolis medical district::pets_allowed::0",
+      "indianapolis-in-003::candlewood suites indianapolis medical district::pet_fee::1",
+      "indianapolis-in-003::candlewood suites indianapolis medical district::fee_basis::2",
+      "indianapolis-in-003::candlewood suites indianapolis medical district::weight_limit::3",
+      "indianapolis-in-003::candlewood suites indianapolis medical district::pet_count_limit::4",
+      "indianapolis-in-003::candlewood suites indianapolis medical district::species_allowed::5"
+     ]
+    }
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
+    "species: this surface names a species it accepts and does not say the others are refused; species_allowed lists affirmations only, and an unnamed species stays unknown rather than prohibited"
+   ],
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-26",
+   "projection_notes": [
+    "weight_limit.operator=lte and scope=per_pet were FOUNDER-NORMALISED for publication under PTF-ST-LOUIS-PUBLICATION-SCHEMA-DECISIONS-010; the source states an unqualified blanket maximum and the reader records a value only. Source text preserved: less than 80 lbs"
+   ]
+  },
+  {
+   "key": "days inn and suites by wyndham indianapolis airport east",
+   "identity_key": "days inn and suites by wyndham indianapolis airport east",
+   "schema_version": "1.3",
+   "name": "Days Inn & Suites by Wyndham Indianapolis Airport East",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "cats": "accepted",
+     "dogs": "accepted"
+    },
+    "weight_limit": {
+     "value": 80.0,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "pet_fee": {
+     "amount_cents": 2000,
+     "currency": "USD",
+     "basis": "per_night",
+     "scope": "per_room"
+    },
+    "other_charges": [
+     {
+      "kind": "refundable_deposit",
+      "description": "pet deposit",
+      "amount_cents": 10000,
+      "currency": "USD",
+      "refundable": true,
+      "refundable_stated": true
+     }
+    ],
+    "pet_count_limit": 1
+   },
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pets Allowed",
+     "source_url": "https://www.wyndhamhotels.com/days-inn/indianapolis-indiana/days-inn-and-suites-indianapolis-airport-east/overview",
+     "evidence_ref": "indianapolis-in-003::days inn and suites by wyndham indianapolis airport east::pets_allowed::0",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:64ef2ef4a2f9ba6bfc6474b43ddb7475bb5eb0cab9e863c13a7e07c087743a5e",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_deposit",
+     "quote": "100.00USD refundable deposit",
+     "source_url": "https://www.wyndhamhotels.com/days-inn/indianapolis-indiana/days-inn-and-suites-indianapolis-airport-east/overview",
+     "evidence_ref": "indianapolis-in-003::days inn and suites by wyndham indianapolis airport east::pet_deposit::1",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:64ef2ef4a2f9ba6bfc6474b43ddb7475bb5eb0cab9e863c13a7e07c087743a5e",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "20USD per night per room",
+     "source_url": "https://www.wyndhamhotels.com/days-inn/indianapolis-indiana/days-inn-and-suites-indianapolis-airport-east/overview",
+     "evidence_ref": "indianapolis-in-003::days inn and suites by wyndham indianapolis airport east::pet_fee::2",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:64ef2ef4a2f9ba6bfc6474b43ddb7475bb5eb0cab9e863c13a7e07c087743a5e",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_basis",
+     "quote": "20USD per night per room",
+     "source_url": "https://www.wyndhamhotels.com/days-inn/indianapolis-indiana/days-inn-and-suites-indianapolis-airport-east/overview",
+     "evidence_ref": "indianapolis-in-003::days inn and suites by wyndham indianapolis airport east::fee_basis::3",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:64ef2ef4a2f9ba6bfc6474b43ddb7475bb5eb0cab9e863c13a7e07c087743a5e",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_scope",
+     "quote": "20USD per night per room",
+     "source_url": "https://www.wyndhamhotels.com/days-inn/indianapolis-indiana/days-inn-and-suites-indianapolis-airport-east/overview",
+     "evidence_ref": "indianapolis-in-003::days inn and suites by wyndham indianapolis airport east::fee_scope::4",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:64ef2ef4a2f9ba6bfc6474b43ddb7475bb5eb0cab9e863c13a7e07c087743a5e",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "weight_limit",
+     "quote": "80lbs or less",
+     "source_url": "https://www.wyndhamhotels.com/days-inn/indianapolis-indiana/days-inn-and-suites-indianapolis-airport-east/overview",
+     "evidence_ref": "indianapolis-in-003::days inn and suites by wyndham indianapolis airport east::weight_limit::5",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:64ef2ef4a2f9ba6bfc6474b43ddb7475bb5eb0cab9e863c13a7e07c087743a5e",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "1 pets max",
+     "source_url": "https://www.wyndhamhotels.com/days-inn/indianapolis-indiana/days-inn-and-suites-indianapolis-airport-east/overview",
+     "evidence_ref": "indianapolis-in-003::days inn and suites by wyndham indianapolis airport east::pet_count_limit::6",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:64ef2ef4a2f9ba6bfc6474b43ddb7475bb5eb0cab9e863c13a7e07c087743a5e",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "species_allowed",
+     "quote": "Dogs and cats only",
+     "source_url": "https://www.wyndhamhotels.com/days-inn/indianapolis-indiana/days-inn-and-suites-indianapolis-airport-east/overview",
+     "evidence_ref": "indianapolis-in-003::days inn and suites by wyndham indianapolis airport east::species_allowed::7",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:64ef2ef4a2f9ba6bfc6474b43ddb7475bb5eb0cab9e863c13a7e07c087743a5e",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "service_animal_exception",
+     "quote": "Service Animals - ADA-defined service animals welcome.",
+     "source_url": "https://www.wyndhamhotels.com/days-inn/indianapolis-indiana/days-inn-and-suites-indianapolis-airport-east/overview",
+     "evidence_ref": "indianapolis-in-003::days inn and suites by wyndham indianapolis airport east::service_animal_exception::8",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:64ef2ef4a2f9ba6bfc6474b43ddb7475bb5eb0cab9e863c13a7e07c087743a5e",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    }
+   ],
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it"
+   ],
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "Service Animals - ADA-defined service animals welcome."
+   },
+   "projection_notes": [
+    "weight_limit.operator=lte and scope=per_pet were FOUNDER-NORMALISED for publication under PTF-ST-LOUIS-PUBLICATION-SCHEMA-DECISIONS-010; the source states an unqualified blanket maximum and the reader records a value only. Source text preserved: 80lbs or less"
+   ]
+  },
+  {
+   "key": "embassy suites by hilton indianapolis downtown",
+   "identity_key": "embassy suites by hilton indianapolis downtown",
+   "schema_version": "1.3",
+   "name": "Embassy Suites by Hilton Indianapolis - Downtown",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "cats": "accepted",
+     "dogs": "accepted"
+    },
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 12500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pets allowed",
+     "source_url": "https://www.hilton.com/en/hotels/indwwes-embassy-suites-indianapolis-downtown/",
+     "evidence_ref": "indianapolis-in-003::embassy suites by hilton indianapolis downtown::pets_allowed::0",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:ecec6c311ed71ac0eeb230200d2d2770886ddab2b82d2f90fe6aab2f3d37fd86",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_tiers",
+     "quote": "1-4 night stay $75",
+     "source_url": "https://www.hilton.com/en/hotels/indwwes-embassy-suites-indianapolis-downtown/",
+     "evidence_ref": "indianapolis-in-003::embassy suites by hilton indianapolis downtown::fee_tiers::1",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:ecec6c311ed71ac0eeb230200d2d2770886ddab2b82d2f90fe6aab2f3d37fd86",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_tiers",
+     "quote": "5+ night stay $125",
+     "source_url": "https://www.hilton.com/en/hotels/indwwes-embassy-suites-indianapolis-downtown/",
+     "evidence_ref": "indianapolis-in-003::embassy suites by hilton indianapolis downtown::fee_tiers::2",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:ecec6c311ed71ac0eeb230200d2d2770886ddab2b82d2f90fe6aab2f3d37fd86",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_tiers",
+     "quote": "Non-refundable Fee",
+     "source_url": "https://www.hilton.com/en/hotels/indwwes-embassy-suites-indianapolis-downtown/",
+     "evidence_ref": "indianapolis-in-003::embassy suites by hilton indianapolis downtown::fee_tiers::3",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:ecec6c311ed71ac0eeb230200d2d2770886ddab2b82d2f90fe6aab2f3d37fd86",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "2 pets max",
+     "source_url": "https://www.hilton.com/en/hotels/indwwes-embassy-suites-indianapolis-downtown/",
+     "evidence_ref": "indianapolis-in-003::embassy suites by hilton indianapolis downtown::pet_count_limit::4",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:ecec6c311ed71ac0eeb230200d2d2770886ddab2b82d2f90fe6aab2f3d37fd86",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "species_allowed",
+     "quote": "dog or cat only",
+     "source_url": "https://www.hilton.com/en/hotels/indwwes-embassy-suites-indianapolis-downtown/",
+     "evidence_ref": "indianapolis-in-003::embassy suites by hilton indianapolis downtown::species_allowed::5",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:ecec6c311ed71ac0eeb230200d2d2770886ddab2b82d2f90fe6aab2f3d37fd86",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    }
+   ],
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_tiers[].refundable: the schema's tier carries no refundability field; the surface's own words ('Non-refundable Fee') are cited against the structure and nothing is inferred from them",
+    "pet_fee: the surface prices this pet by stay length; the whole ladder is carried in fee_tiers and no single amount is asserted",
+    "fee_tiers[].basis: this surface states amounts and stay lengths and never says whether a rung is charged per night or per stay; basis_stated records that it did not"
+   ],
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25"
+  },
+  {
+   "key": "embassy suites by hilton indianapolis north",
+   "identity_key": "embassy suites by hilton indianapolis north",
+   "schema_version": "1.3",
+   "name": "Embassy Suites by Hilton Indianapolis North",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "cats": "accepted",
+     "dogs": "accepted"
+    },
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 12500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pets allowed",
+     "source_url": "https://www.hilton.com/en/hotels/indnhes-embassy-suites-indianapolis-north/",
+     "evidence_ref": "indianapolis-in-003::embassy suites by hilton indianapolis north::pets_allowed::0",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:198e92d666ae78b3fa3b11fb22b24b90d2fe82574ed2daac9a49e13dc28367c6",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_tiers",
+     "quote": "1-4 night stay $75",
+     "source_url": "https://www.hilton.com/en/hotels/indnhes-embassy-suites-indianapolis-north/",
+     "evidence_ref": "indianapolis-in-003::embassy suites by hilton indianapolis north::fee_tiers::1",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:198e92d666ae78b3fa3b11fb22b24b90d2fe82574ed2daac9a49e13dc28367c6",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_tiers",
+     "quote": "5+ night stay $125",
+     "source_url": "https://www.hilton.com/en/hotels/indnhes-embassy-suites-indianapolis-north/",
+     "evidence_ref": "indianapolis-in-003::embassy suites by hilton indianapolis north::fee_tiers::2",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:198e92d666ae78b3fa3b11fb22b24b90d2fe82574ed2daac9a49e13dc28367c6",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_tiers",
+     "quote": "Non-refundable Fee",
+     "source_url": "https://www.hilton.com/en/hotels/indnhes-embassy-suites-indianapolis-north/",
+     "evidence_ref": "indianapolis-in-003::embassy suites by hilton indianapolis north::fee_tiers::3",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:198e92d666ae78b3fa3b11fb22b24b90d2fe82574ed2daac9a49e13dc28367c6",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "2 pets max",
+     "source_url": "https://www.hilton.com/en/hotels/indnhes-embassy-suites-indianapolis-north/",
+     "evidence_ref": "indianapolis-in-003::embassy suites by hilton indianapolis north::pet_count_limit::4",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:198e92d666ae78b3fa3b11fb22b24b90d2fe82574ed2daac9a49e13dc28367c6",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "species_allowed",
+     "quote": "dog or cat only",
+     "source_url": "https://www.hilton.com/en/hotels/indnhes-embassy-suites-indianapolis-north/",
+     "evidence_ref": "indianapolis-in-003::embassy suites by hilton indianapolis north::species_allowed::5",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:198e92d666ae78b3fa3b11fb22b24b90d2fe82574ed2daac9a49e13dc28367c6",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    }
+   ],
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_tiers[].refundable: the schema's tier carries no refundability field; the surface's own words ('Non-refundable Fee') are cited against the structure and nothing is inferred from them",
+    "pet_fee: the surface prices this pet by stay length; the whole ladder is carried in fee_tiers and no single amount is asserted",
+    "fee_tiers[].basis: this surface states amounts and stay lengths and never says whether a rung is charged per night or per stay; basis_stated records that it did not"
+   ],
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25"
+  },
+  {
+   "key": "fairfield inn and suites indianapolis northwest",
+   "identity_key": "fairfield inn and suites indianapolis northwest",
+   "schema_version": "1.3",
+   "name": "Fairfield Inn & Suites Indianapolis Northwest",
+   "facts": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "pet_fee": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_stay"
+    },
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "pets are welcome",
+     "source_url": "https://www.marriott.com/en-us/hotels/indfn-fairfield-inn-and-suites-indianapolis-northwest/overview/",
+     "evidence_ref": "indianapolis-in-003::fairfield inn and suites indianapolis northwest::pets_allowed::0",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:6104785a69be37a73bbbf49a3921c3c6fbf4baba2852088ba85c2e42f869c8b9",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "weight_limit",
+     "quote": "up to 75.0 lbs",
+     "source_url": "https://www.marriott.com/en-us/hotels/indfn-fairfield-inn-and-suites-indianapolis-northwest/overview/",
+     "evidence_ref": "indianapolis-in-003::fairfield inn and suites indianapolis northwest::weight_limit::1",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:6104785a69be37a73bbbf49a3921c3c6fbf4baba2852088ba85c2e42f869c8b9",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "Up to 2 pets",
+     "source_url": "https://www.marriott.com/en-us/hotels/indfn-fairfield-inn-and-suites-indianapolis-northwest/overview/",
+     "evidence_ref": "indianapolis-in-003::fairfield inn and suites indianapolis northwest::pet_count_limit::2",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:6104785a69be37a73bbbf49a3921c3c6fbf4baba2852088ba85c2e42f869c8b9",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_basis",
+     "quote": "Non-refundable fee: $75 USD Per Stay",
+     "source_url": "https://www.marriott.com/en-us/hotels/indfn-fairfield-inn-and-suites-indianapolis-northwest/overview/",
+     "evidence_ref": "indianapolis-in-003::fairfield inn and suites indianapolis northwest::fee_basis::3",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:6104785a69be37a73bbbf49a3921c3c6fbf4baba2852088ba85c2e42f869c8b9",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    }
+   ],
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "projection_notes": [
+    "weight_limit.operator=lte and scope=per_pet were FOUNDER-NORMALISED for publication under PTF-ST-LOUIS-PUBLICATION-SCHEMA-DECISIONS-010; the source states an unqualified blanket maximum and the reader records a value only. Source text preserved: up to 75.0 lbs"
+   ]
+  },
+  {
+   "key": "hampton inn and suites indianapolis airport",
+   "identity_key": "hampton inn and suites indianapolis airport",
+   "schema_version": "1.3",
+   "name": "Hampton Inn & Suites Indianapolis-Airport",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "cats": "accepted",
+     "dogs": "accepted"
+    },
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 12500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pets allowed",
+     "source_url": "https://www.hilton.com/en/hotels/indarhx-hampton-suites-indianapolis-airport/",
+     "evidence_ref": "indianapolis-in-003::hampton inn and suites indianapolis airport::pets_allowed::0",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:8258e9e48ea427fff4a573e5909ff4403f660f6c3447082cfa720f969eceb99e",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_tiers",
+     "quote": "1-4 night stay $75",
+     "source_url": "https://www.hilton.com/en/hotels/indarhx-hampton-suites-indianapolis-airport/",
+     "evidence_ref": "indianapolis-in-003::hampton inn and suites indianapolis airport::fee_tiers::1",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:8258e9e48ea427fff4a573e5909ff4403f660f6c3447082cfa720f969eceb99e",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_tiers",
+     "quote": "5+ night stay $125",
+     "source_url": "https://www.hilton.com/en/hotels/indarhx-hampton-suites-indianapolis-airport/",
+     "evidence_ref": "indianapolis-in-003::hampton inn and suites indianapolis airport::fee_tiers::2",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:8258e9e48ea427fff4a573e5909ff4403f660f6c3447082cfa720f969eceb99e",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_tiers",
+     "quote": "Non-refundable Fee",
+     "source_url": "https://www.hilton.com/en/hotels/indarhx-hampton-suites-indianapolis-airport/",
+     "evidence_ref": "indianapolis-in-003::hampton inn and suites indianapolis airport::fee_tiers::3",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:8258e9e48ea427fff4a573e5909ff4403f660f6c3447082cfa720f969eceb99e",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "2 pets max",
+     "source_url": "https://www.hilton.com/en/hotels/indarhx-hampton-suites-indianapolis-airport/",
+     "evidence_ref": "indianapolis-in-003::hampton inn and suites indianapolis airport::pet_count_limit::4",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:8258e9e48ea427fff4a573e5909ff4403f660f6c3447082cfa720f969eceb99e",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "species_allowed",
+     "quote": "dog or cat only",
+     "source_url": "https://www.hilton.com/en/hotels/indarhx-hampton-suites-indianapolis-airport/",
+     "evidence_ref": "indianapolis-in-003::hampton inn and suites indianapolis airport::species_allowed::5",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:8258e9e48ea427fff4a573e5909ff4403f660f6c3447082cfa720f969eceb99e",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    }
+   ],
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_tiers[].refundable: the schema's tier carries no refundability field; the surface's own words ('Non-refundable Fee') are cited against the structure and nothing is inferred from them",
+    "pet_fee: the surface prices this pet by stay length; the whole ladder is carried in fee_tiers and no single amount is asserted",
+    "fee_tiers[].basis: this surface states amounts and stay lengths and never says whether a rung is charged per night or per stay; basis_stated records that it did not"
+   ],
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25"
+  },
+  {
+   "key": "hampton inn and suites indianapolis keystone",
+   "identity_key": "hampton inn and suites indianapolis keystone",
+   "schema_version": "1.3",
+   "name": "Hampton Inn & Suites Indianapolis Keystone",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "cats": "accepted",
+     "dogs": "accepted"
+    },
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 12500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pets allowed",
+     "source_url": "https://www.hilton.com/en/hotels/indkehx-hampton-suites-indianapolis-keystone/",
+     "evidence_ref": "indianapolis-in-003::hampton inn and suites indianapolis keystone::pets_allowed::0",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:b831745e4a0b571059cf24e637ecb1d8a97636b4ab8519a3dc2ab15bb823301c",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_tiers",
+     "quote": "$75(1-4n",
+     "source_url": "https://www.hilton.com/en/hotels/indkehx-hampton-suites-indianapolis-keystone/",
+     "evidence_ref": "indianapolis-in-003::hampton inn and suites indianapolis keystone::fee_tiers::1",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:b831745e4a0b571059cf24e637ecb1d8a97636b4ab8519a3dc2ab15bb823301c",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_tiers",
+     "quote": "$125(5+n",
+     "source_url": "https://www.hilton.com/en/hotels/indkehx-hampton-suites-indianapolis-keystone/",
+     "evidence_ref": "indianapolis-in-003::hampton inn and suites indianapolis keystone::fee_tiers::2",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:b831745e4a0b571059cf24e637ecb1d8a97636b4ab8519a3dc2ab15bb823301c",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_tiers",
+     "quote": "Non-refundable Fee",
+     "source_url": "https://www.hilton.com/en/hotels/indkehx-hampton-suites-indianapolis-keystone/",
+     "evidence_ref": "indianapolis-in-003::hampton inn and suites indianapolis keystone::fee_tiers::3",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:b831745e4a0b571059cf24e637ecb1d8a97636b4ab8519a3dc2ab15bb823301c",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "weight_limit",
+     "quote": "Max weight 75 lbs",
+     "source_url": "https://www.hilton.com/en/hotels/indkehx-hampton-suites-indianapolis-keystone/",
+     "evidence_ref": "indianapolis-in-003::hampton inn and suites indianapolis keystone::weight_limit::4",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:b831745e4a0b571059cf24e637ecb1d8a97636b4ab8519a3dc2ab15bb823301c",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "2petsMax",
+     "source_url": "https://www.hilton.com/en/hotels/indkehx-hampton-suites-indianapolis-keystone/",
+     "evidence_ref": "indianapolis-in-003::hampton inn and suites indianapolis keystone::pet_count_limit::5",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:b831745e4a0b571059cf24e637ecb1d8a97636b4ab8519a3dc2ab15bb823301c",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "species_allowed",
+     "quote": "dog/cat only",
+     "source_url": "https://www.hilton.com/en/hotels/indkehx-hampton-suites-indianapolis-keystone/",
+     "evidence_ref": "indianapolis-in-003::hampton inn and suites indianapolis keystone::species_allowed::6",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:b831745e4a0b571059cf24e637ecb1d8a97636b4ab8519a3dc2ab15bb823301c",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    }
+   ],
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_tiers[].refundable: the schema's tier carries no refundability field; the surface's own words ('Non-refundable Fee') are cited against the structure and nothing is inferred from them",
+    "pet_fee: the surface prices this pet by stay length; the whole ladder is carried in fee_tiers and no single amount is asserted",
+    "fee_tiers[].basis: this surface states amounts and stay lengths and never says whether a rung is charged per night or per stay; basis_stated records that it did not"
+   ],
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "projection_notes": [
+    "weight_limit.operator=lte and scope=per_pet were FOUNDER-NORMALISED for publication under PTF-ST-LOUIS-PUBLICATION-SCHEMA-DECISIONS-010; the source states an unqualified blanket maximum and the reader records a value only. Source text preserved: Max weight 75 lbs"
+   ]
+  },
+  {
+   "key": "hampton inn and suites indianapolis west speedway",
+   "identity_key": "hampton inn and suites indianapolis west speedway",
+   "schema_version": "1.3",
+   "name": "Hampton Inn & Suites Indianapolis West Speedway",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "cats": "accepted",
+     "dogs": "accepted"
+    },
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "fee_tiers": [
+     {
+      "amount_cents": 9320,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 15530,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pets allowed",
+     "source_url": "https://www.hilton.com/en/hotels/indswhx-hampton-suites-indianapolis-west-speedway/",
+     "evidence_ref": "indianapolis-in-003::hampton inn and suites indianapolis west speedway::pets_allowed::0",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:52b08640188cd5a0fbd69bbc4a50f1abf457962baf69f88878d25d060d71f080",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_tiers",
+     "quote": "$93.20(1-4n",
+     "source_url": "https://www.hilton.com/en/hotels/indswhx-hampton-suites-indianapolis-west-speedway/",
+     "evidence_ref": "indianapolis-in-003::hampton inn and suites indianapolis west speedway::fee_tiers::1",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:52b08640188cd5a0fbd69bbc4a50f1abf457962baf69f88878d25d060d71f080",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_tiers",
+     "quote": "$155.30(5+n",
+     "source_url": "https://www.hilton.com/en/hotels/indswhx-hampton-suites-indianapolis-west-speedway/",
+     "evidence_ref": "indianapolis-in-003::hampton inn and suites indianapolis west speedway::fee_tiers::2",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:52b08640188cd5a0fbd69bbc4a50f1abf457962baf69f88878d25d060d71f080",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_tiers",
+     "quote": "Non-refundable Fee",
+     "source_url": "https://www.hilton.com/en/hotels/indswhx-hampton-suites-indianapolis-west-speedway/",
+     "evidence_ref": "indianapolis-in-003::hampton inn and suites indianapolis west speedway::fee_tiers::3",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:52b08640188cd5a0fbd69bbc4a50f1abf457962baf69f88878d25d060d71f080",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "weight_limit",
+     "quote": "Max weight 75 lbs",
+     "source_url": "https://www.hilton.com/en/hotels/indswhx-hampton-suites-indianapolis-west-speedway/",
+     "evidence_ref": "indianapolis-in-003::hampton inn and suites indianapolis west speedway::weight_limit::4",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:52b08640188cd5a0fbd69bbc4a50f1abf457962baf69f88878d25d060d71f080",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "2petsMax",
+     "source_url": "https://www.hilton.com/en/hotels/indswhx-hampton-suites-indianapolis-west-speedway/",
+     "evidence_ref": "indianapolis-in-003::hampton inn and suites indianapolis west speedway::pet_count_limit::5",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:52b08640188cd5a0fbd69bbc4a50f1abf457962baf69f88878d25d060d71f080",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "species_allowed",
+     "quote": "dog/cat only",
+     "source_url": "https://www.hilton.com/en/hotels/indswhx-hampton-suites-indianapolis-west-speedway/",
+     "evidence_ref": "indianapolis-in-003::hampton inn and suites indianapolis west speedway::species_allowed::6",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:52b08640188cd5a0fbd69bbc4a50f1abf457962baf69f88878d25d060d71f080",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    }
+   ],
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_tiers[].refundable: the schema's tier carries no refundability field; the surface's own words ('Non-refundable Fee') are cited against the structure and nothing is inferred from them",
+    "pet_fee: the surface prices this pet by stay length; the whole ladder is carried in fee_tiers and no single amount is asserted",
+    "fee_tiers[].basis: this surface states amounts and stay lengths and never says whether a rung is charged per night or per stay; basis_stated records that it did not"
+   ],
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "projection_notes": [
+    "weight_limit.operator=lte and scope=per_pet were FOUNDER-NORMALISED for publication under PTF-ST-LOUIS-PUBLICATION-SCHEMA-DECISIONS-010; the source states an unqualified blanket maximum and the reader records a value only. Source text preserved: Max weight 75 lbs"
+   ]
+  },
+  {
+   "key": "hampton inn indianapolis downtown across from circle centre",
+   "identity_key": "hampton inn indianapolis downtown across from circle centre",
+   "schema_version": "1.3",
+   "name": "Hampton Inn Indianapolis Downtown Across from Circle Centre",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "cats": "accepted",
+     "dogs": "accepted"
+    },
+    "fee_tiers": [
+     {
+      "amount_cents": 5000,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pets allowed",
+     "source_url": "https://www.hilton.com/en/hotels/inddthx-hampton-indianapolis-downtown-across-from-circle-centre/",
+     "evidence_ref": "indianapolis-in-003::hampton inn indianapolis downtown across from circle centre::pets_allowed::0",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:e867fe7e551f58eb13020e0fd508566e4915baf50107e87777aac7ba94a87cca",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_tiers",
+     "quote": "1-4 night stay $50",
+     "source_url": "https://www.hilton.com/en/hotels/inddthx-hampton-indianapolis-downtown-across-from-circle-centre/",
+     "evidence_ref": "indianapolis-in-003::hampton inn indianapolis downtown across from circle centre::fee_tiers::1",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:e867fe7e551f58eb13020e0fd508566e4915baf50107e87777aac7ba94a87cca",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_tiers",
+     "quote": "5+ night stay $75",
+     "source_url": "https://www.hilton.com/en/hotels/inddthx-hampton-indianapolis-downtown-across-from-circle-centre/",
+     "evidence_ref": "indianapolis-in-003::hampton inn indianapolis downtown across from circle centre::fee_tiers::2",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:e867fe7e551f58eb13020e0fd508566e4915baf50107e87777aac7ba94a87cca",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_tiers",
+     "quote": "Non-refundable Fee",
+     "source_url": "https://www.hilton.com/en/hotels/inddthx-hampton-indianapolis-downtown-across-from-circle-centre/",
+     "evidence_ref": "indianapolis-in-003::hampton inn indianapolis downtown across from circle centre::fee_tiers::3",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:e867fe7e551f58eb13020e0fd508566e4915baf50107e87777aac7ba94a87cca",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "2 pets max",
+     "source_url": "https://www.hilton.com/en/hotels/inddthx-hampton-indianapolis-downtown-across-from-circle-centre/",
+     "evidence_ref": "indianapolis-in-003::hampton inn indianapolis downtown across from circle centre::pet_count_limit::4",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:e867fe7e551f58eb13020e0fd508566e4915baf50107e87777aac7ba94a87cca",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "species_allowed",
+     "quote": "dog or cat only",
+     "source_url": "https://www.hilton.com/en/hotels/inddthx-hampton-indianapolis-downtown-across-from-circle-centre/",
+     "evidence_ref": "indianapolis-in-003::hampton inn indianapolis downtown across from circle centre::species_allowed::5",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:e867fe7e551f58eb13020e0fd508566e4915baf50107e87777aac7ba94a87cca",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    }
+   ],
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_tiers[].refundable: the schema's tier carries no refundability field; the surface's own words ('Non-refundable Fee') are cited against the structure and nothing is inferred from them",
+    "pet_fee: the surface prices this pet by stay length; the whole ladder is carried in fee_tiers and no single amount is asserted",
+    "fee_tiers[].basis: this surface states amounts and stay lengths and never says whether a rung is charged per night or per stay; basis_stated records that it did not"
+   ],
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25"
+  },
+  {
+   "key": "hampton inn indianapolis northeast castleton",
+   "identity_key": "hampton inn indianapolis northeast castleton",
+   "schema_version": "1.3",
+   "name": "Hampton Inn Indianapolis Northeast Castleton",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "cats": "accepted",
+     "dogs": "accepted"
+    },
+    "fee_tiers": [
+     {
+      "amount_cents": 5000,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "condition_max": 4,
+      "basis_stated": false,
+      "refundable": false
+     },
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false,
+      "refundable": false
+     }
+    ],
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pets allowed",
+     "source_url": "https://www.hilton.com/en/hotels/indnehx-hampton-indianapolis-ne-castleton/",
+     "evidence_ref": "indianapolis-in-003::hampton inn indianapolis northeast castleton::pets_allowed::0",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:ed294c4980a43aa7d388a5ab4bdd48ea160cb436352fed4cc1995ddb460d0433",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "$50.00 Non-refundable Fee",
+     "source_url": "https://www.hilton.com/en/hotels/indnehx-hampton-indianapolis-ne-castleton/",
+     "evidence_ref": "indianapolis-in-003::hampton inn indianapolis northeast castleton::pet_fee::1",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:ed294c4980a43aa7d388a5ab4bdd48ea160cb436352fed4cc1995ddb460d0433",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_basis",
+     "quote": "1-4 night stay $50; 5+ night stay $75; 2 pets max; dog or cat only",
+     "source_url": "https://www.hilton.com/en/hotels/indnehx-hampton-indianapolis-ne-castleton/",
+     "evidence_ref": "indianapolis-in-003::hampton inn indianapolis northeast castleton::fee_basis::2",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:ed294c4980a43aa7d388a5ab4bdd48ea160cb436352fed4cc1995ddb460d0433",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    }
+   ],
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-26"
+  },
+  {
+   "key": "hampton inn indianapolis northwest park 100",
+   "identity_key": "hampton inn indianapolis northwest park 100",
+   "schema_version": "1.3",
+   "name": "Hampton Inn Indianapolis Northwest - Park 100",
+   "facts": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 100.0,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "pet_fee": {
+     "amount_cents": 7500,
+     "currency": "USD"
+    }
+   },
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pets allowed",
+     "source_url": "https://www.hilton.com/en/hotels/indwdhx-hampton-indianapolis-northwest-park-100/",
+     "evidence_ref": "indianapolis-in-003::hampton inn indianapolis northwest park 100::pets_allowed::0",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:d2c7237c39e700f99e8adb457e6c4b4f9129b1d79e08d40f9b37858683ceaf92",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "$75.00 Non-refundable Fee",
+     "source_url": "https://www.hilton.com/en/hotels/indwdhx-hampton-indianapolis-northwest-park-100/",
+     "evidence_ref": "indianapolis-in-003::hampton inn indianapolis northwest park 100::pet_fee::1",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:d2c7237c39e700f99e8adb457e6c4b4f9129b1d79e08d40f9b37858683ceaf92",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "weight_limit",
+     "quote": "Max weight 100 lbs",
+     "source_url": "https://www.hilton.com/en/hotels/indwdhx-hampton-indianapolis-northwest-park-100/",
+     "evidence_ref": "indianapolis-in-003::hampton inn indianapolis northwest park 100::weight_limit::2",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:d2c7237c39e700f99e8adb457e6c4b4f9129b1d79e08d40f9b37858683ceaf92",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    }
+   ],
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "projection_notes": [
+    "weight_limit.operator=lte and scope=per_pet were FOUNDER-NORMALISED for publication under PTF-ST-LOUIS-PUBLICATION-SCHEMA-DECISIONS-010; the source states an unqualified blanket maximum and the reader records a value only. Source text preserved: Max weight 100 lbs",
+    "fee_basis: SOURCE_SILENT dropped from withheld_fields -- silence is the absence of a field, not a decision not to publish one"
+   ]
+  },
+  {
+   "key": "holiday inn express and suites carmel north westfield",
+   "identity_key": "holiday inn express and suites carmel north westfield",
+   "schema_version": "1.3",
+   "name": "Holiday Inn Express & Suites Carmel North - Westfield",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted"
+    },
+    "other_charges": [
+     {
+      "kind": "incidental_deposit",
+      "description": "pet deposit",
+      "amount_cents": 7500,
+      "currency": "USD",
+      "refundable_stated": false
+     }
+    ],
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pets are welcome",
+     "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/carmel/indcw/hoteldetail",
+     "evidence_ref": "indianapolis-in-003::holiday inn express and suites carmel north westfield::pets_allowed::0",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:bc07b1758d0a5c5fe5e73981c0c5635d33a008aa0d4218425711ea5a5dc874f5",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_deposit",
+     "quote": "deposit: 75 USD",
+     "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/carmel/indcw/hoteldetail",
+     "evidence_ref": "indianapolis-in-003::holiday inn express and suites carmel north westfield::pet_deposit::1",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:bc07b1758d0a5c5fe5e73981c0c5635d33a008aa0d4218425711ea5a5dc874f5",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "2 pets allowed",
+     "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/carmel/indcw/hoteldetail",
+     "evidence_ref": "indianapolis-in-003::holiday inn express and suites carmel north westfield::pet_count_limit::2",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:bc07b1758d0a5c5fe5e73981c0c5635d33a008aa0d4218425711ea5a5dc874f5",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "species_allowed",
+     "quote": "Pets allowed: Only dogs allowed",
+     "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/carmel/indcw/hoteldetail",
+     "evidence_ref": "indianapolis-in-003::holiday inn express and suites carmel north westfield::species_allowed::3",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:bc07b1758d0a5c5fe5e73981c0c5635d33a008aa0d4218425711ea5a5dc874f5",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    }
+   ],
+   "withheld_fields": {
+    "pet_fee": {
+     "reason_code": "SOURCE_AMBIGUOUS",
+     "reason": "the surface prices a pet ('Pet damage deposit: 75 USD') and no charge pattern could bind the amount to a fee; nothing is asserted and the silence is not claimed; the surface states 'Pet weight limit: 75' and names no unit; pounds and kilograms are different policies and neither is inferred",
+     "evidence_refs": [
+      "indianapolis-in-003::holiday inn express and suites carmel north westfield::pets_allowed::0",
+      "indianapolis-in-003::holiday inn express and suites carmel north westfield::pet_deposit::1",
+      "indianapolis-in-003::holiday inn express and suites carmel north westfield::pet_count_limit::2",
+      "indianapolis-in-003::holiday inn express and suites carmel north westfield::species_allowed::3"
+     ]
+    },
+    "weight_limit": {
+     "reason_code": "SOURCE_AMBIGUOUS",
+     "reason": "the surface prices a pet ('Pet damage deposit: 75 USD') and no charge pattern could bind the amount to a fee; nothing is asserted and the silence is not claimed; the surface states 'Pet weight limit: 75' and names no unit; pounds and kilograms are different policies and neither is inferred",
+     "evidence_refs": [
+      "indianapolis-in-003::holiday inn express and suites carmel north westfield::pets_allowed::0",
+      "indianapolis-in-003::holiday inn express and suites carmel north westfield::pet_deposit::1",
+      "indianapolis-in-003::holiday inn express and suites carmel north westfield::pet_count_limit::2",
+      "indianapolis-in-003::holiday inn express and suites carmel north westfield::species_allowed::3"
+     ]
+    }
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "projection_notes": [
+    "pet_deposit projected to other_charges with refundable_stated=false: the source states the deposit and does not state whether it is refundable. Schema 1.3 carries that as an explicit non-statement rather than forcing a writer to invent one."
+   ]
+  },
+  {
+   "key": "holiday inn express and suites indianapolis northwest",
+   "identity_key": "holiday inn express and suites indianapolis northwest",
+   "schema_version": "1.3",
+   "name": "Holiday Inn Express & Suites Indianapolis Northwest",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "cats": "accepted",
+     "dogs": "accepted"
+    },
+    "pet_fee": {
+     "amount_cents": 2500,
+     "currency": "USD",
+     "basis": "per_night",
+     "scope": "per_pet"
+    },
+    "fee_cap": {
+     "amount_cents": 12500,
+     "currency": "USD",
+     "basis": "per_stay",
+     "scope": "per_pet",
+     "qualifier_stated": true
+    },
+    "other_charges": [
+     {
+      "kind": "refundable_deposit",
+      "description": "pet deposit",
+      "amount_cents": 7500,
+      "currency": "USD",
+      "refundable": true,
+      "refundable_stated": true
+     }
+    ],
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "pets allowed",
+     "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/indianapolis/indic/hoteldetail",
+     "evidence_ref": "indianapolis-in-003::holiday inn express and suites indianapolis northwest::pets_allowed::0",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:ae193a8129aca434a2a2e443e8bba34d5c37386acb2b392c7ebaf3ba26f7580d",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_deposit",
+     "quote": "25 USD Pet damage deposit",
+     "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/indianapolis/indic/hoteldetail",
+     "evidence_ref": "indianapolis-in-003::holiday inn express and suites indianapolis northwest::pet_deposit::1",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:ae193a8129aca434a2a2e443e8bba34d5c37386acb2b392c7ebaf3ba26f7580d",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "2 pets allowed",
+     "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/indianapolis/indic/hoteldetail",
+     "evidence_ref": "indianapolis-in-003::holiday inn express and suites indianapolis northwest::pet_count_limit::2",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:ae193a8129aca434a2a2e443e8bba34d5c37386acb2b392c7ebaf3ba26f7580d",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_basis",
+     "quote": "75 dollar refundable deposit plus 25.00 dollar per pet, per night fee",
+     "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/indianapolis/indic/hoteldetail",
+     "evidence_ref": "indianapolis-in-003::holiday inn express and suites indianapolis northwest::fee_basis::3",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:ae193a8129aca434a2a2e443e8bba34d5c37386acb2b392c7ebaf3ba26f7580d",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_basis",
+     "quote": "Pet Fee will be capped at 125.00 per pet after staying for 5 nights",
+     "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/indianapolis/indic/hoteldetail",
+     "evidence_ref": "indianapolis-in-003::holiday inn express and suites indianapolis northwest::fee_basis::4",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:ae193a8129aca434a2a2e443e8bba34d5c37386acb2b392c7ebaf3ba26f7580d",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_basis",
+     "quote": "Pets allowed: Only dogs and cats allowed",
+     "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/indianapolis/indic/hoteldetail",
+     "evidence_ref": "indianapolis-in-003::holiday inn express and suites indianapolis northwest::fee_basis::5",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:ae193a8129aca434a2a2e443e8bba34d5c37386acb2b392c7ebaf3ba26f7580d",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    }
+   ],
+   "withheld_fields": {
+    "weight_limit": {
+     "reason_code": "SOURCE_AMBIGUOUS",
+     "reason": "the surface states charge components this vocabulary cannot carry together (75 USD); no single pet_fee is asserted; the surface prices a pet ('Pet fee per night: 25 USD') and no charge pattern could bind the amount to a fee; nothing is asserted and the silence is not claimed; the surface states 'Pet weight limit: 50' and names no unit; pounds and kilograms are different policies and neither is inferred",
+     "evidence_refs": [
+      "indianapolis-in-003::holiday inn express and suites indianapolis northwest::pets_allowed::0",
+      "indianapolis-in-003::holiday inn express and suites indianapolis northwest::pet_deposit::1",
+      "indianapolis-in-003::holiday inn express and suites indianapolis northwest::pet_count_limit::2",
+      "indianapolis-in-003::holiday inn express and suites indianapolis northwest::fee_basis::3",
+      "indianapolis-in-003::holiday inn express and suites indianapolis northwest::fee_basis::4",
+      "indianapolis-in-003::holiday inn express and suites indianapolis northwest::fee_basis::5"
+     ]
+    }
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25"
+  },
+  {
+   "key": "holiday inn express plainfield",
+   "identity_key": "holiday inn express plainfield",
+   "schema_version": "1.3",
+   "name": "Holiday Inn Express Plainfield",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted"
+    },
+    "pet_fee": {
+     "amount_cents": 2500,
+     "currency": "USD",
+     "basis": "per_night"
+    },
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "pets allowed",
+     "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/plainfield/indsw/hoteldetail",
+     "evidence_ref": "indianapolis-in-003::holiday inn express plainfield::pets_allowed::0",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:2e52c0ba9d3e97922cba24cc0dd4c81e455352568c52ffefcf31806962ca6456",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "Pet fee per night: 25 USD",
+     "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/plainfield/indsw/hoteldetail",
+     "evidence_ref": "indianapolis-in-003::holiday inn express plainfield::pet_fee::1",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:2e52c0ba9d3e97922cba24cc0dd4c81e455352568c52ffefcf31806962ca6456",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_basis",
+     "quote": "Pet fee per night: 25 USD",
+     "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/plainfield/indsw/hoteldetail",
+     "evidence_ref": "indianapolis-in-003::holiday inn express plainfield::fee_basis::2",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:2e52c0ba9d3e97922cba24cc0dd4c81e455352568c52ffefcf31806962ca6456",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "2 pets allowed",
+     "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/plainfield/indsw/hoteldetail",
+     "evidence_ref": "indianapolis-in-003::holiday inn express plainfield::pet_count_limit::3",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:2e52c0ba9d3e97922cba24cc0dd4c81e455352568c52ffefcf31806962ca6456",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "species_allowed",
+     "quote": "Dogs permitted",
+     "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/plainfield/indsw/hoteldetail",
+     "evidence_ref": "indianapolis-in-003::holiday inn express plainfield::species_allowed::4",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:2e52c0ba9d3e97922cba24cc0dd4c81e455352568c52ffefcf31806962ca6456",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "weight_limit_stated_none",
+     "quote": "Pet weight limit: No weight limit per pet",
+     "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/plainfield/indsw/hoteldetail",
+     "evidence_ref": "indianapolis-in-003::holiday inn express plainfield::weight_limit_stated_none::5",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:2e52c0ba9d3e97922cba24cc0dd4c81e455352568c52ffefcf31806962ca6456",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    }
+   ],
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
+    "species: this surface names a species it accepts and does not say the others are refused; species_allowed lists affirmations only, and an unnamed species stays unknown rather than prohibited"
+   ],
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-26"
+  },
+  {
+   "key": "la quinta inn and suites by wyndham indianapolis downtown",
+   "identity_key": "la quinta inn and suites by wyndham indianapolis downtown",
+   "schema_version": "1.3",
+   "name": "La Quinta Inn & Suites by Wyndham Indianapolis Downtown",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "cats": "accepted",
+     "dogs": "accepted"
+    },
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "pet_fee": {
+     "amount_cents": 2500,
+     "currency": "USD",
+     "basis": "per_night"
+    },
+    "fee_cap": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_stay",
+     "qualifier_stated": false
+    },
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pets Allowed",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/indianapolis-indiana/la-quinta-indianapolis-downtown/overview",
+     "evidence_ref": "indianapolis-in-003::la quinta inn and suites by wyndham indianapolis downtown::pets_allowed::0",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:ec30dc76b22a67abe05b5a3aeacca2fedd90001cc0dfb51e44ccef948e8c5313",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "25 USD nightly ",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/indianapolis-indiana/la-quinta-indianapolis-downtown/overview",
+     "evidence_ref": "indianapolis-in-003::la quinta inn and suites by wyndham indianapolis downtown::pet_fee::1",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:ec30dc76b22a67abe05b5a3aeacca2fedd90001cc0dfb51e44ccef948e8c5313",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_basis",
+     "quote": "25 USD nightly ",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/indianapolis-indiana/la-quinta-indianapolis-downtown/overview",
+     "evidence_ref": "indianapolis-in-003::la quinta inn and suites by wyndham indianapolis downtown::fee_basis::2",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:ec30dc76b22a67abe05b5a3aeacca2fedd90001cc0dfb51e44ccef948e8c5313",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_cap",
+     "quote": "Max 75 USD per stay",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/indianapolis-indiana/la-quinta-indianapolis-downtown/overview",
+     "evidence_ref": "indianapolis-in-003::la quinta inn and suites by wyndham indianapolis downtown::fee_cap::3",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:ec30dc76b22a67abe05b5a3aeacca2fedd90001cc0dfb51e44ccef948e8c5313",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "weight_limit",
+     "quote": "75lbs or less",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/indianapolis-indiana/la-quinta-indianapolis-downtown/overview",
+     "evidence_ref": "indianapolis-in-003::la quinta inn and suites by wyndham indianapolis downtown::weight_limit::4",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:ec30dc76b22a67abe05b5a3aeacca2fedd90001cc0dfb51e44ccef948e8c5313",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "up to 2 pets",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/indianapolis-indiana/la-quinta-indianapolis-downtown/overview",
+     "evidence_ref": "indianapolis-in-003::la quinta inn and suites by wyndham indianapolis downtown::pet_count_limit::5",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:ec30dc76b22a67abe05b5a3aeacca2fedd90001cc0dfb51e44ccef948e8c5313",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "species_allowed",
+     "quote": "Cats and dogs only",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/indianapolis-indiana/la-quinta-indianapolis-downtown/overview",
+     "evidence_ref": "indianapolis-in-003::la quinta inn and suites by wyndham indianapolis downtown::species_allowed::6",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:ec30dc76b22a67abe05b5a3aeacca2fedd90001cc0dfb51e44ccef948e8c5313",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "service_animal_exception",
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge.",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/indianapolis-indiana/la-quinta-indianapolis-downtown/overview",
+     "evidence_ref": "indianapolis-in-003::la quinta inn and suites by wyndham indianapolis downtown::service_animal_exception::7",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:ec30dc76b22a67abe05b5a3aeacca2fedd90001cc0dfb51e44ccef948e8c5313",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    }
+   ],
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence"
+   ],
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "no_charge",
+    "quote": "Service Animals - ADA-defined service animals are welcome free of charge."
+   },
+   "projection_notes": [
+    "weight_limit.operator=lte and scope=per_pet were FOUNDER-NORMALISED for publication under PTF-ST-LOUIS-PUBLICATION-SCHEMA-DECISIONS-010; the source states an unqualified blanket maximum and the reader records a value only. Source text preserved: 75lbs or less",
+    "fee_cap.qualifier_stated=False recorded under founder decision 3: the source states the cap and states no further qualifier. This asserts what the SOURCE said, never that no qualifier exists."
+   ]
+  },
+  {
+   "key": "la quinta inn indianapolis airport executive dr",
+   "identity_key": "la quinta inn indianapolis airport executive dr",
+   "schema_version": "1.3",
+   "name": "La Quinta Inn Indianapolis Airport Executive Dr",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "cats": "accepted",
+     "dogs": "accepted"
+    },
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "pet_fee": {
+     "amount_cents": 2500,
+     "currency": "USD",
+     "basis": "per_night"
+    },
+    "fee_cap": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_stay",
+     "qualifier_stated": false
+    },
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pets Allowed",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/indianapolis-indiana/la-quinta-inn-indianapolis-airport-executive-dr/overview",
+     "evidence_ref": "indianapolis-in-003::la quinta inn indianapolis airport executive dr::pets_allowed::0",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:3e27d305382bf742fcfd3d32973d00e6df048c1e3b639ea983b1b885828f55fd",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "25 USD nightly ",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/indianapolis-indiana/la-quinta-inn-indianapolis-airport-executive-dr/overview",
+     "evidence_ref": "indianapolis-in-003::la quinta inn indianapolis airport executive dr::pet_fee::1",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:3e27d305382bf742fcfd3d32973d00e6df048c1e3b639ea983b1b885828f55fd",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_basis",
+     "quote": "25 USD nightly ",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/indianapolis-indiana/la-quinta-inn-indianapolis-airport-executive-dr/overview",
+     "evidence_ref": "indianapolis-in-003::la quinta inn indianapolis airport executive dr::fee_basis::2",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:3e27d305382bf742fcfd3d32973d00e6df048c1e3b639ea983b1b885828f55fd",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_cap",
+     "quote": "Max 75 USD per stay",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/indianapolis-indiana/la-quinta-inn-indianapolis-airport-executive-dr/overview",
+     "evidence_ref": "indianapolis-in-003::la quinta inn indianapolis airport executive dr::fee_cap::3",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:3e27d305382bf742fcfd3d32973d00e6df048c1e3b639ea983b1b885828f55fd",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "weight_limit",
+     "quote": "75lbs or less",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/indianapolis-indiana/la-quinta-inn-indianapolis-airport-executive-dr/overview",
+     "evidence_ref": "indianapolis-in-003::la quinta inn indianapolis airport executive dr::weight_limit::4",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:3e27d305382bf742fcfd3d32973d00e6df048c1e3b639ea983b1b885828f55fd",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "up to 2 pets",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/indianapolis-indiana/la-quinta-inn-indianapolis-airport-executive-dr/overview",
+     "evidence_ref": "indianapolis-in-003::la quinta inn indianapolis airport executive dr::pet_count_limit::5",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:3e27d305382bf742fcfd3d32973d00e6df048c1e3b639ea983b1b885828f55fd",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "species_allowed",
+     "quote": "Cats and dogs only",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/indianapolis-indiana/la-quinta-inn-indianapolis-airport-executive-dr/overview",
+     "evidence_ref": "indianapolis-in-003::la quinta inn indianapolis airport executive dr::species_allowed::6",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:3e27d305382bf742fcfd3d32973d00e6df048c1e3b639ea983b1b885828f55fd",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "service_animal_exception",
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge.",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/indianapolis-indiana/la-quinta-inn-indianapolis-airport-executive-dr/overview",
+     "evidence_ref": "indianapolis-in-003::la quinta inn indianapolis airport executive dr::service_animal_exception::7",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:3e27d305382bf742fcfd3d32973d00e6df048c1e3b639ea983b1b885828f55fd",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    }
+   ],
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence"
+   ],
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "no_charge",
+    "quote": "Service Animals - ADA-defined service animals are welcome free of charge."
+   },
+   "projection_notes": [
+    "weight_limit.operator=lte and scope=per_pet were FOUNDER-NORMALISED for publication under PTF-ST-LOUIS-PUBLICATION-SCHEMA-DECISIONS-010; the source states an unqualified blanket maximum and the reader records a value only. Source text preserved: 75lbs or less",
+    "fee_cap.qualifier_stated=False recorded under founder decision 3: the source states the cap and states no further qualifier. This asserts what the SOURCE said, never that no qualifier exists."
+   ]
+  },
+  {
+   "key": "le meridien indianapolis",
+   "identity_key": "le meridien indianapolis",
+   "schema_version": "1.3",
+   "name": "Le Meridien Indianapolis",
+   "facts": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "pet_fee": {
+     "amount_cents": 2500,
+     "currency": "USD",
+     "basis": "per_stay",
+     "scope": "per_room"
+    },
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "pets are welcome",
+     "source_url": "https://www.marriott.com/en-us/hotels/indmd-le-meridien-indianapolis/overview/",
+     "evidence_ref": "indianapolis-in-003::le meridien indianapolis::pets_allowed::0",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:5caa36c0784c58a5dc37ec1d0a625201dc4e9cd5f6e77a7c9e4f500bdca9cafe",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "weight_limit",
+     "quote": "up to 50.0 lbs",
+     "source_url": "https://www.marriott.com/en-us/hotels/indmd-le-meridien-indianapolis/overview/",
+     "evidence_ref": "indianapolis-in-003::le meridien indianapolis::weight_limit::1",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:5caa36c0784c58a5dc37ec1d0a625201dc4e9cd5f6e77a7c9e4f500bdca9cafe",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "Up to 2 pets",
+     "source_url": "https://www.marriott.com/en-us/hotels/indmd-le-meridien-indianapolis/overview/",
+     "evidence_ref": "indianapolis-in-003::le meridien indianapolis::pet_count_limit::2",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:5caa36c0784c58a5dc37ec1d0a625201dc4e9cd5f6e77a7c9e4f500bdca9cafe",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_basis",
+     "quote": "$25 Per Room Per Stay",
+     "source_url": "https://www.marriott.com/en-us/hotels/indmd-le-meridien-indianapolis/overview/",
+     "evidence_ref": "indianapolis-in-003::le meridien indianapolis::fee_basis::3",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:5caa36c0784c58a5dc37ec1d0a625201dc4e9cd5f6e77a7c9e4f500bdca9cafe",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    }
+   ],
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "pet_deposit: the surface states $69.00 for a purpose it does not name as a pet's ('ailable at Le Méridien Indianapolis. The daily valet fee is $69.00 per day.'); it is not recorded as a pet charge and is reported here rather than dropped",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "projection_notes": [
+    "weight_limit.operator=lte and scope=per_pet were FOUNDER-NORMALISED for publication under PTF-ST-LOUIS-PUBLICATION-SCHEMA-DECISIONS-010; the source states an unqualified blanket maximum and the reader records a value only. Source text preserved: up to 50.0 lbs"
+   ]
+  },
+  {
+   "key": "residence inn by marriott indianapolis downtown on the canal",
+   "identity_key": "residence inn by marriott indianapolis downtown on the canal",
+   "schema_version": "1.3",
+   "name": "Residence Inn by Marriott Indianapolis Downtown on the Canal",
+   "facts": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 60.0,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "pet_fee": {
+     "amount_cents": 10000,
+     "currency": "USD",
+     "basis": "per_stay"
+    },
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "pets are welcome",
+     "source_url": "https://www.marriott.com/en-us/hotels/indri-residence-inn-indianapolis-downtown-on-the-canal/overview/",
+     "evidence_ref": "indianapolis-in-003::residence inn by marriott indianapolis downtown on the canal::pets_allowed::0",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:3572f413402e412e6c11ba191eb4a4640a05e5580dd5a7d641ab4e04a007408b",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "$100.00 per stay ",
+     "source_url": "https://www.marriott.com/en-us/hotels/indri-residence-inn-indianapolis-downtown-on-the-canal/overview/",
+     "evidence_ref": "indianapolis-in-003::residence inn by marriott indianapolis downtown on the canal::pet_fee::1",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:3572f413402e412e6c11ba191eb4a4640a05e5580dd5a7d641ab4e04a007408b",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_basis",
+     "quote": "$100.00 per stay ",
+     "source_url": "https://www.marriott.com/en-us/hotels/indri-residence-inn-indianapolis-downtown-on-the-canal/overview/",
+     "evidence_ref": "indianapolis-in-003::residence inn by marriott indianapolis downtown on the canal::fee_basis::2",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:3572f413402e412e6c11ba191eb4a4640a05e5580dd5a7d641ab4e04a007408b",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "weight_limit",
+     "quote": "up to 60.0 lbs",
+     "source_url": "https://www.marriott.com/en-us/hotels/indri-residence-inn-indianapolis-downtown-on-the-canal/overview/",
+     "evidence_ref": "indianapolis-in-003::residence inn by marriott indianapolis downtown on the canal::weight_limit::3",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:3572f413402e412e6c11ba191eb4a4640a05e5580dd5a7d641ab4e04a007408b",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "Up to 2 pets",
+     "source_url": "https://www.marriott.com/en-us/hotels/indri-residence-inn-indianapolis-downtown-on-the-canal/overview/",
+     "evidence_ref": "indianapolis-in-003::residence inn by marriott indianapolis downtown on the canal::pet_count_limit::4",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:3572f413402e412e6c11ba191eb4a4640a05e5580dd5a7d641ab4e04a007408b",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    }
+   ],
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
+    "pet_deposit: the surface states $33.00 for a purpose it does not name as a pet's ('apolis Downtown on the Canal. The daily self parking fee is $33.00 per day.'); it is not recorded as a pet charge and is reported here rather than dropped",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "projection_notes": [
+    "weight_limit.operator=lte and scope=per_pet were FOUNDER-NORMALISED for publication under PTF-ST-LOUIS-PUBLICATION-SCHEMA-DECISIONS-010; the source states an unqualified blanket maximum and the reader records a value only. Source text preserved: up to 60.0 lbs"
+   ]
+  },
+  {
+   "key": "staybridge suites indianapolis airport plainfield",
+   "identity_key": "staybridge suites indianapolis airport plainfield",
+   "schema_version": "1.3",
+   "name": "Staybridge Suites Indianapolis Airport Plainfield",
+   "facts": {
+    "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "condition_max": 6,
+      "basis_stated": false
+     },
+     {
+      "amount_cents": 15000,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 7,
+      "basis_stated": false
+     }
+    ]
+   },
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pets are welcome",
+     "source_url": "https://www.ihg.com/staybridge/hotels/us/en/plainfield/indpf/hoteldetail",
+     "evidence_ref": "indianapolis-in-003::staybridge suites indianapolis airport plainfield::pets_allowed::0",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:39f2a2c4f68e33e8cc96d987d616f020e50dda48f6151581e6b0b9914ccc8ab5",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_tiers",
+     "quote": "Guest staying 1 to 6 nights 75.00 pet fee. 7 nights or more 150.00 pet fee.",
+     "source_url": "https://www.ihg.com/staybridge/hotels/us/en/plainfield/indpf/hoteldetail",
+     "evidence_ref": "indianapolis-in-003::staybridge suites indianapolis airport plainfield::fee_tiers::1",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:39f2a2c4f68e33e8cc96d987d616f020e50dda48f6151581e6b0b9914ccc8ab5",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    }
+   ],
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25"
+  },
+  {
+   "key": "super 8 by wyndham indianapolis south",
+   "identity_key": "super 8 by wyndham indianapolis south",
+   "schema_version": "1.3",
+   "name": "Super 8 by Wyndham Indianapolis South",
+   "facts": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "pet_fee": {
+     "amount_cents": 1000,
+     "currency": "USD",
+     "basis": "per_night",
+     "scope": "per_pet"
+    },
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "field": "pet_fee",
+     "quote": "10.00 USD per pet per night",
+     "source_url": "https://www.wyndhamhotels.com/super-8/indianapolis-indiana/super-8-indianapolis-south/overview",
+     "evidence_ref": "indianapolis-in-003::super 8 by wyndham indianapolis south::pet_fee::0",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:54b77de97d568499022656ac727ab1ae7e98399e3e0820e31325f0ab1427ae48",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_basis",
+     "quote": "10.00 USD per pet per night",
+     "source_url": "https://www.wyndhamhotels.com/super-8/indianapolis-indiana/super-8-indianapolis-south/overview",
+     "evidence_ref": "indianapolis-in-003::super 8 by wyndham indianapolis south::fee_basis::1",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:54b77de97d568499022656ac727ab1ae7e98399e3e0820e31325f0ab1427ae48",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_scope",
+     "quote": "10.00 USD per pet per night",
+     "source_url": "https://www.wyndhamhotels.com/super-8/indianapolis-indiana/super-8-indianapolis-south/overview",
+     "evidence_ref": "indianapolis-in-003::super 8 by wyndham indianapolis south::fee_scope::2",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:54b77de97d568499022656ac727ab1ae7e98399e3e0820e31325f0ab1427ae48",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "weight_limit",
+     "quote": "maximum weight of 50lbs",
+     "source_url": "https://www.wyndhamhotels.com/super-8/indianapolis-indiana/super-8-indianapolis-south/overview",
+     "evidence_ref": "indianapolis-in-003::super 8 by wyndham indianapolis south::weight_limit::3",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:54b77de97d568499022656ac727ab1ae7e98399e3e0820e31325f0ab1427ae48",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "Up to 2 pets",
+     "source_url": "https://www.wyndhamhotels.com/super-8/indianapolis-indiana/super-8-indianapolis-south/overview",
+     "evidence_ref": "indianapolis-in-003::super 8 by wyndham indianapolis south::pet_count_limit::4",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:54b77de97d568499022656ac727ab1ae7e98399e3e0820e31325f0ab1427ae48",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "service_animal_exception",
+     "quote": "ADA defined service animals are welcome at this hotel.",
+     "source_url": "https://www.wyndhamhotels.com/super-8/indianapolis-indiana/super-8-indianapolis-south/overview",
+     "evidence_ref": "indianapolis-in-003::super 8 by wyndham indianapolis south::service_animal_exception::5",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:54b77de97d568499022656ac727ab1ae7e98399e3e0820e31325f0ab1427ae48",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pets_allowed",
+     "quote": "Up to 2 pets with a maximum weight of 50lbs are welcome",
+     "source_url": "https://www.wyndhamhotels.com/super-8/indianapolis-indiana/super-8-indianapolis-south/overview",
+     "evidence_ref": "indianapolis-in-003::super 8 by wyndham indianapolis south::pets_allowed::6",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:54b77de97d568499022656ac727ab1ae7e98399e3e0820e31325f0ab1427ae48",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    }
+   ],
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "ADA defined service animals are welcome at this hotel."
+   },
+   "projection_notes": [
+    "weight_limit.operator=lte and scope=per_pet were FOUNDER-NORMALISED for publication under PTF-ST-LOUIS-PUBLICATION-SCHEMA-DECISIONS-010; the source states an unqualified blanket maximum and the reader records a value only. Source text preserved: maximum weight of 50lbs"
+   ]
+  },
+  {
+   "key": "the alexander autograph collection",
+   "identity_key": "the alexander autograph collection",
+   "schema_version": "1.3",
+   "name": "The Alexander, Autograph Collection",
+   "facts": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room"
+   },
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pets Welcome",
+     "source_url": "https://www.marriott.com/en-us/hotels/indax-the-alexander/overview/",
+     "evidence_ref": "indianapolis-in-003::the alexander autograph collection::pets_allowed::0",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:801386d54777300ec0b9ffab021327fbcbd6169556fd4cd5f0e0a4e2ed58feb9",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "75USD non-refundable fee",
+     "source_url": "https://www.marriott.com/en-us/hotels/indax-the-alexander/overview/",
+     "evidence_ref": "indianapolis-in-003::the alexander autograph collection::pet_fee::1",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:801386d54777300ec0b9ffab021327fbcbd6169556fd4cd5f0e0a4e2ed58feb9",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "2 pets per room",
+     "source_url": "https://www.marriott.com/en-us/hotels/indax-the-alexander/overview/",
+     "evidence_ref": "indianapolis-in-003::the alexander autograph collection::pet_count_limit::2",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:801386d54777300ec0b9ffab021327fbcbd6169556fd4cd5f0e0a4e2ed58feb9",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    }
+   ],
+   "withheld_fields": {
+    "pet_fee": {
+     "reason_code": "SOURCE_CONTRADICTORY",
+     "reason": "pet_fee withheld as SOURCE_CONTRADICTORY by founder ruling (PTF-INDIANAPOLIS-PROMOTION-AUTHORITY-PREP-003, ledger row 49): the page states '75USD non-refundable fee per room per stay' and 'Non-Refundable Pet Fee Per Stay: $50.00'",
+     "evidence_refs": [
+      "indianapolis-in-003::the alexander autograph collection::pets_allowed::0",
+      "indianapolis-in-003::the alexander autograph collection::pet_fee::1",
+      "indianapolis-in-003::the alexander autograph collection::pet_count_limit::2"
+     ]
+    }
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "projection_notes": [
+    "fee_basis: SOURCE_SILENT dropped from withheld_fields -- silence is the absence of a field, not a decision not to publish one"
+   ]
+  },
+  {
+   "key": "the westin indianapolis",
+   "identity_key": "the westin indianapolis",
+   "schema_version": "1.3",
+   "name": "The Westin Indianapolis",
+   "facts": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 40.0,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "pet_count_limit": 1,
+    "pet_count_scope": "per_room"
+   },
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "pets are welcome",
+     "source_url": "https://www.marriott.com/en-us/hotels/indwi-the-westin-indianapolis/overview/",
+     "evidence_ref": "indianapolis-in-003::the westin indianapolis::pets_allowed::0",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:6df09a85bd7946e5cb2140a62e607719edd833f2e5ef9265eb48bdb4b7b64911",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "weight_limit",
+     "quote": "maximum weight of 40.0 lbs",
+     "source_url": "https://www.marriott.com/en-us/hotels/indwi-the-westin-indianapolis/overview/",
+     "evidence_ref": "indianapolis-in-003::the westin indianapolis::weight_limit::1",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:6df09a85bd7946e5cb2140a62e607719edd833f2e5ef9265eb48bdb4b7b64911",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "One pet is allowed per room",
+     "source_url": "https://www.marriott.com/en-us/hotels/indwi-the-westin-indianapolis/overview/",
+     "evidence_ref": "indianapolis-in-003::the westin indianapolis::pet_count_limit::2",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:6df09a85bd7946e5cb2140a62e607719edd833f2e5ef9265eb48bdb4b7b64911",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-25",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    }
+   ],
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "pet_deposit: the surface states $60.00 for a purpose it does not name as a pet's ('e at The Westin Indianapolis. Self parking is available for $60.00 per day. Valet park'); it is not recorded as a pet charge and is reported here rather than dropped",
+    "pet_deposit: the surface states $60.00 for a purpose it does not name as a pet's ('vailable for $60.00 per day. Valet parking is available for $60.00 per day.'); it is not recorded as a pet charge and is reported here rather than dropped",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "projection_notes": [
+    "weight_limit.operator=lte and scope=per_pet were FOUNDER-NORMALISED for publication under PTF-ST-LOUIS-PUBLICATION-SCHEMA-DECISIONS-010; the source states an unqualified blanket maximum and the reader records a value only. Source text preserved: maximum weight of 40.0 lbs",
+    "pet_fee: SOURCE_SILENT dropped from withheld_fields -- silence is the absence of a field, not a decision not to publish one"
+   ]
+  }
+ ],
+ "publication": {
+  "work_order": "PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004",
+  "published_for_decision_dated": "2026-08-26",
+  "decision_ledgers": [
+   "PTF-INDIANAPOLIS-PROMOTION-AUTHORITY-PREP-003"
+  ],
+  "deployed": false,
+  "note": "build-ready in source; no deployment performed"
+ }
 }

@@ -7,7 +7,6 @@ from pathlib import Path
 
 from scripts.pettripfinder.contracts import policy_schema
 from scripts.pettripfinder.hotel_exclusions import validate as validate_exclusions
-from scripts.pettripfinder.policy_migration import evidence_hash, record_hash
 from scripts.pettripfinder.site_data import load_published_hotel_policy_facts
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -19,51 +18,43 @@ def _json(path):
 
 
 def test_application_wrote_four_no_pets_and_eight_live_governed_facts():
+    """The 001 application record is unchanged; the LIVE package it once governed was
+    superseded by PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004 (24 founder-signed profiles, 24 exclusions)."""
     app = _json(PACKAGE / "indianapolis_decision_application_001.json")
     assert app["executed"] is True
     assert app["published"] is True
     assert app["status"] == "LIVE_PUBLISHED"
     facts = _json(PACKAGE / "hotel_policy_facts_indianapolis-in.json")
     assert facts["published"] is True
-    assert len(facts["hotels"]) == 8
+    assert len(facts["hotels"]) == 24
     keys = {h["identity_key"] for h in facts["hotels"]}
-    assert len(keys) == 8
-    assert "hilton garden inn indianapolis airport" in keys
-    hgi = next(h for h in facts["hotels"]
-               if h["identity_key"] == "hilton garden inn indianapolis airport")
-    assert "species" not in hgi["facts"]
+    assert len(keys) == 24
+    # retired for lack of fresh publication-grade evidence (BUDGET_DEFERRED / ALTERNATE_LANE)
+    assert "hilton garden inn indianapolis airport" not in keys
+    assert "residence inn by marriott indianapolis airport" not in keys
     west = next(h for h in facts["hotels"]
                 if h["identity_key"] == "hampton inn and suites indianapolis west speedway")
     cents = sorted(t["amount_cents"] for t in west["facts"]["fee_tiers"])
     assert cents == [9320, 15530]
     mer = next(h for h in facts["hotels"]
                if h["identity_key"] == "le meridien indianapolis")
-    assert "scope" not in mer["facts"]["weight_limit"]
-    assert mer["facts"]["pet_fee"]["amount_cents"] == 0
+    # founder decision 1: an unqualified blanket maximum publishes as lte / per_pet
+    assert mer["facts"]["weight_limit"] == {"value": 50.0, "unit": "lb", "operator": "lte", "scope": "per_pet"}
+    # the stale live facts (fee $0, 40 lb) were superseded by the fresh page
+    assert mer["facts"]["pet_fee"] == {"amount_cents": 2500, "currency": "USD", "basis": "per_stay", "scope": "per_room"}
     hie = next(h for h in facts["hotels"]
                if h["identity_key"] == "holiday inn express plainfield")
     assert hie["facts"]["species"] == {"dogs": "accepted"}
     assert "pet_count_scope" not in hie["facts"]
-    residence = next(h for h in facts["hotels"]
-                     if h["identity_key"] == "residence inn by marriott indianapolis airport")
-    assert "reservation_requirement" not in residence["facts"]
     for hotel in facts["hotels"]:
-        approval = hotel["approval"]
-        assert hotel["published"] is True
-        assert approval["decision"] == "APPROVED_AFTER_CURRENT_REVIEW"
-        assert approval["operator"] == "jfields80"
-        assert approval["founder_decision_id"]
-        assert approval["founder_decision_source"].endswith(".json")
-        signed = dict(hotel)
-        signed.pop("approval")
-        assert approval["record_hash"] == record_hash(signed)
-        assert approval["evidence_hash"] == evidence_hash(hotel["evidence"])
-    issues = [i for i in policy_schema.validate_package(facts)
-              if not (i.code == "MISSING_REQUIRED" and "weight_limit.scope" in i.path)]
-    assert issues == []
+        assert hotel["founder_decision"] == "APPROVED_AFTER_CURRENT_REVIEW"
+        assert hotel["founder_reviewer_id"] == "PTF-FOUNDER-001"
+        assert hotel["founder_reviewed_at"]
+    assert list(policy_schema.validate_package(facts)) == []
     excl = validate_exclusions(_json(PACKAGE / "hotel_exclusions.json"))
     indy = [e for e in excl if e.get("market_id") == "indianapolis-in"]
-    assert len(indy) == 4
-    downtown = next(e for e in indy if "downtown" in e["exclusion_id"])
+    assert len(indy) == 24
+    downtown = next(e for e in indy
+                    if e["exclusion_id"] == "ii-crowne-plaza-indianapolis-downtown-union-station")
     assert "Airport" not in downtown["evidence_quote"]
     assert set(load_published_hotel_policy_facts("indianapolis-in")) == keys

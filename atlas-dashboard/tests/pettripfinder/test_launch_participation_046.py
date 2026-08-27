@@ -193,7 +193,7 @@ def test_indianapolis_is_source_ready_in_every_condition():
     row = _row(WITHHELD)
     assert all(row["conditions"].values()), row["conditions"]
     assert row["assemblable"] is True
-    assert row["published_count"] == 8
+    assert row["published_count"] == 24  # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004
     assert row["inventory_error"] == ""
 
 
