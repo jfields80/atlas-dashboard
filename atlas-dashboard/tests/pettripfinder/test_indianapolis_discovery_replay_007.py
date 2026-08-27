@@ -39,17 +39,21 @@ def ledger():
     return _load("ptf_discovery_attempt_ledger_001.json")
 
 
-class TestTheLedgerExistsBeforeTheFirstSpend:
+class TestTheLedgerExistedBeforeTheFirstSpend:
+    """It was committed empty so the first run wrote into a store that already
+    existed. PTF-INDIANAPOLIS-PLACES-QUALIFICATION-008 has since filled it, so
+    what stays pinned here is that the replay was taken against an empty one --
+    which is why all 143 were counted as genuinely new."""
 
-    def test_it_is_committed_and_empty(self, ledger):
+    def test_the_store_exists_and_carries_the_right_schema(self, ledger):
         assert ledger["schema"] == DAL.SCHEMA
-        assert ledger["attempts"] == []
 
     def test_it_loads_through_the_module(self):
         loaded = DAL.load(PACKAGE_DIR / "ptf_discovery_attempt_ledger_001.json")
         assert loaded["schema"] == DAL.SCHEMA
 
-    def test_the_replay_says_why_it_is_empty(self, replay):
+    def test_the_replay_was_taken_against_an_empty_ledger(self, replay):
+        assert replay["ledger"]["recorded_attempts"] == 0
         why = replay["ledger"]["why_it_is_empty"]
         assert "no paid discovery lookup has ever been made" in why
 
