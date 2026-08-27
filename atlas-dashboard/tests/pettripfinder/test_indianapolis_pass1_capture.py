@@ -5,6 +5,9 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from pettripfinder.indianapolis_promoted_state import (
+    PROMOTED_PET_FRIENDLY, PROMOTED_SEED_ROWS, PROMOTED_VERIFIED_NO_PETS)
+
 from scripts.pettripfinder.contracts.identity_key import ptf_identity_key
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -51,7 +54,7 @@ def test_no_indianapolis_authority_was_written():
     # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: the promoted shard carries 24 exclusions under the generic ids.
     assert "ii-crowne-plaza-indianapolis-airport" in {
         e["exclusion_id"] for e in indy}
-    assert len(indy) == 24
+    assert len(indy) == PROMOTED_VERIFIED_NO_PETS
 
 
 def test_negative_candidate_is_crowne_airport_with_contiguous_quote():

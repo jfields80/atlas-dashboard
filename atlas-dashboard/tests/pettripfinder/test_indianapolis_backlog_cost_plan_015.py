@@ -28,6 +28,9 @@ from pathlib import Path
 
 import pytest
 
+from pettripfinder.indianapolis_promoted_state import (
+    PROMOTED_PET_FRIENDLY, PROMOTED_VERIFIED_NO_PETS)
+
 from scripts.pettripfinder import indianapolis_backlog_cost_plan_015 as M
 from scripts.pettripfinder.acquisition import registry as REGISTRY
 
@@ -387,11 +390,11 @@ class TestTheOtherWorkIsKeptSeparate:
 class TestNothingMoved:
 
     def test_the_package_is_still_twenty_four(self):
-        assert len(_load("hotel_policy_facts_indianapolis-in.json")["hotels"]) == 24
+        assert len(_load("hotel_policy_facts_indianapolis-in.json")["hotels"]) == PROMOTED_PET_FRIENDLY
 
     def test_the_exclusion_shard_is_still_twenty_four(self):
         assert _load(
-            "markets/authority/indianapolis-in/hotel_exclusions.json")["count"] == 24
+            "markets/authority/indianapolis-in/hotel_exclusions.json")["count"] == PROMOTED_VERIFIED_NO_PETS
 
     def test_the_census_is_still_257(self):
         assert _load("identity_census/indianapolis-in.json")["count"] == 257

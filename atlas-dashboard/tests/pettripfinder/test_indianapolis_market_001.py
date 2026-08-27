@@ -7,6 +7,10 @@ import json
 from collections import Counter
 from pathlib import Path
 
+from pettripfinder.indianapolis_promoted_state import (  # noqa: F401
+    EXCLUSION_IDS,
+    PROMOTED_PET_FRIENDLY, PROMOTED_SEED_ROWS, PROMOTED_VERIFIED_NO_PETS)
+
 from scripts.pettripfinder.assemble_production_site import (
     market_eligibility, select_markets,
 )
@@ -277,43 +281,18 @@ def test_live_production_authority_is_complete_and_holds_stay_non_public():
     doc = _json(facts)
     assert doc["published"] is True
     assert doc["market_id"] == MARKET
-    assert len(doc["hotels"]) == 24  # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004
+    assert len(doc["hotels"]) == PROMOTED_PET_FRIENDLY
     assert MARKET in available_market_ids()
     routing = json.loads((PACKAGE / "identity_routing.json").read_text(
         encoding="utf-8-sig"))
     assert not [r for r in routing["routes"] if r.get("market_id") == MARKET]
     seed = (PACKAGE / "seed_businesses.csv").read_text(encoding="utf-8")
-    assert seed.count(",indianapolis-in") == 24
+    assert seed.count(",indianapolis-in") == PROMOTED_SEED_ROWS
     exclusions = json.loads((PACKAGE / "hotel_exclusions.json").read_text(
         encoding="utf-8-sig"))
     records = exclusions["exclusions"] if isinstance(exclusions, dict) else exclusions
     indy_ex = [e for e in records if e.get("market_id") == MARKET]
-    assert {e["exclusion_id"] for e in indy_ex} == {
-        "ii-comfort-inn-indianapolis-airport-plainfield",
-        "ii-courtyard-by-marriott-indianapolis-airport",
-        "ii-courtyard-by-marriott-indianapolis-at-the-capitol",
-        "ii-courtyard-by-marriott-indianapolis-downtown",
-        "ii-courtyard-by-marriott-indianapolis-fishers",
-        "ii-courtyard-indianapolis-noblesville",
-        "ii-courtyard-indianapolis-plainfield",
-        "ii-courtyard-indianapolis-west-speedway",
-        "ii-crowne-plaza-indianapolis-airport",
-        "ii-crowne-plaza-indianapolis-downtown-union-station",
-        "ii-fairfield-inn-and-suites-indianapolis-carmel",
-        "ii-fairfield-inn-and-suites-indianapolis-downtown",
-        "ii-fairfield-inn-and-suites-indianapolis-east",
-        "ii-holiday-inn-express-and-suites-greenwood",
-        "ii-holiday-inn-express-and-suites-indianapolis-north-carmel",
-        "ii-holiday-inn-express-and-suites-indianapolis-w-airport-area",
-        "ii-holiday-inn-express-indianapolis-downtown",
-        "ii-holiday-inn-express-indianapolis-fishers-an-ihg-hotel",
-        "ii-holiday-inn-indianapolis-downtown",
-        "ii-jw-marriott-indianapolis",
-        "ii-springhill-suites-by-marriott-indianapolis-carmel",
-        "ii-springhill-suites-by-marriott-indianapolis-westfield",
-        "ii-springhill-suites-indianapolis-airport-plainfield",
-        "ii-springhill-suites-indianapolis-downtown",
-    }
+    assert {e["exclusion_id"] for e in indy_ex} == set(EXCLUSION_IDS)
     assert all(e["exclusion_state"] == enums.VERIFIED_NO_PETS for e in indy_ex)
     release = ROOT / "deploy" / "netlify" / "release_contracts" / "indianapolis-in.json"
     assert release.exists()

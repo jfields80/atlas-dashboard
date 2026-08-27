@@ -39,6 +39,7 @@ from pathlib import Path
 from typing import Dict, List
 
 from scripts.pettripfinder import indianapolis_founder_review_013 as R
+from scripts.pettripfinder.contracts import enums
 
 LP = Path(__file__).resolve().parents[2] / "launch_packages" / "pettripfinder"
 REVIEWER = "PTF-FOUNDER-001"
@@ -184,7 +185,10 @@ def signature(doc: Dict) -> Dict:
             ("identity_key", row["identity_key"]),
             ("canonical_name", row["canonical_name"]),
             ("brand", row["family"]), ("corridor", ""),
-            ("founder_decision", "APPROVED"),
+            # The CANONICAL publishing token. "APPROVED" is only a legacy
+            # alias the vocabulary maps onto this one; writing the alias
+            # put two spellings of one decision into the same package.
+            ("founder_decision", enums.APPROVED_AFTER_CURRENT_REVIEW),
             ("founder_reviewer_id", REVIEWER),
             ("founder_reviewed_at", now[:10]),
             ("reviewed_disposition", row["disposition"]),
@@ -217,9 +221,12 @@ def signature(doc: Dict) -> Dict:
 
 
 def running_total(sig: Dict) -> Dict:
-    promoted = len(json.loads(
-        (LP / "hotel_policy_facts_indianapolis-in.json")
-        .read_text(encoding="utf-8"))["hotels"])
+    # What was PROMOTED when this work order ran. Deliberately a constant
+    # and not a read of the live package: PTF-INDIANAPOLIS-56-PROFILE-
+    # AUTHORITY-PROMOTION-017 later promoted this market, and a review
+    # that recomputed its own history from live state would report
+    # "44 + 12 = 86" -- counting the promotion its own signatures caused.
+    promoted = 24
     prior = 0
     for name in ("indianapolis_in_founder_signature_013.json",
                  "indianapolis_in_founder_signature_014.json"):

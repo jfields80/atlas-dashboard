@@ -1,71 +1,83 @@
 {
- "schema": "ptf-market-authority-baseline/1.0",
- "work_order": "PTF-MARKET-AUTHORITY-SHARDING-001",
- "note": "Pre-mutation baseline taken at the work order's PREFLIGHT step. Every number and hash here describes launch_packages/pettripfinder as committed at baseline_main_sha, before any authority sharding. It exists so equivalence after sharding is proved against a recorded fact rather than a memory.",
- "baseline_main_sha": "20279f4b6f66a073f69823275c23f5c3481f173b",
- "registered_market_ids": [
-  "cincinnati-oh",
-  "cleveland-akron-canton-oh",
-  "columbus-oh",
-  "dayton-oh",
-  "detroit-ann-arbor-mi",
-  "indianapolis-in",
-  "pittsburgh-pa"
- ],
- "global_totals": {
-  "routing": 277,
-  "exclusions": 75,
-  "seed_rows": 296
- },
- "per_market_totals": {
-  "cincinnati-oh": {
-   "routing": 210,
-   "exclusions": 0,
-   "seed": 0
+  "schema": "ptf-market-authority-baseline/1.0",
+  "work_order": "PTF-MARKET-AUTHORITY-SHARDING-001",
+  "note": "Pre-mutation baseline taken at the work order's PREFLIGHT step. Every number and hash here describes launch_packages/pettripfinder as committed at baseline_main_sha, before any authority sharding. It exists so equivalence after sharding is proved against a recorded fact rather than a memory.",
+  "baseline_main_sha": "20279f4b6f66a073f69823275c23f5c3481f173b",
+  "registered_market_ids": [
+    "cincinnati-oh",
+    "cleveland-akron-canton-oh",
+    "columbus-oh",
+    "dayton-oh",
+    "detroit-ann-arbor-mi",
+    "indianapolis-in",
+    "pittsburgh-pa"
+  ],
+  "global_totals": {
+    "routing": 277,
+    "exclusions": 75,
+    "seed_rows": 296
   },
-  "cleveland-akron-canton-oh": {
-   "routing": 38,
-   "exclusions": 40,
-   "seed": 99
+  "per_market_totals": {
+    "cincinnati-oh": {
+      "routing": 210,
+      "exclusions": 0,
+      "seed": 0
+    },
+    "cleveland-akron-canton-oh": {
+      "routing": 38,
+      "exclusions": 40,
+      "seed": 99
+    },
+    "columbus-oh": {
+      "routing": 20,
+      "exclusions": 16,
+      "seed": 116
+    },
+    "dayton-oh": {
+      "routing": 9,
+      "exclusions": 8,
+      "seed": 47
+    },
+    "detroit-ann-arbor-mi": {
+      "routing": 0,
+      "exclusions": 0,
+      "seed": 0
+    },
+    "indianapolis-in": {
+      "routing": 0,
+      "exclusions": 4,
+      "seed": 8
+    },
+    "pittsburgh-pa": {
+      "routing": 0,
+      "exclusions": 7,
+      "seed": 26
+    }
   },
-  "columbus-oh": {
-   "routing": 20,
-   "exclusions": 16,
-   "seed": 116
+  "global_artifact_hashes": {
+    "launch_packages/pettripfinder/identity_routing.json": "sha256:81187683caa4b89a0276fd768847e4abff05176baba74736703e71a23b3ba0fe",
+    "launch_packages/pettripfinder/hotel_exclusions.json": "sha256:8ad84ea4ddb3674893ebc283e1f751b412173f563bd19ed566c1f722ecbcfcce",
+    "launch_packages/pettripfinder/seed_businesses.csv": "sha256:fcbe62ad8a1496bfa887da84962dd0b59a0e05f9442f1759b6892e2a6be53035"
   },
-  "dayton-oh": {
-   "routing": 9,
-   "exclusions": 8,
-   "seed": 47
-  },
-  "detroit-ann-arbor-mi": {
-   "routing": 0,
-   "exclusions": 0,
-   "seed": 0
-  },
-  "indianapolis-in": {
-   "routing": 0,
-   "exclusions": 4,
-   "seed": 8
-  },
-  "pittsburgh-pa": {
-   "routing": 0,
-   "exclusions": 7,
-   "seed": 26
+  "post_baseline_republications": {
+    "indianapolis-in": {
+      "work_order": "PTF-INDIANAPOLIS-56-PROFILE-AUTHORITY-PROMOTION-017",
+      "why": "the market was re-censused (153 -> 257) and its founder-signed authority promoted (8 profiles + 4 exclusions -> 24 + 24) by PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004, then promoted again to 54 + 34 by PTF-INDIANAPOLIS-56-PROFILE-AUTHORITY-PROMOTION-017, which added the 013/014/016 signatures and withheld two of the 56 signed pet-friendly rows (one identity the membrane refuses with no founder ruling; one bare-brand key another market already owns). The baseline numbers stay as recorded and the sharding equivalence test reads current totals from here.",
+      "routing": 0,
+      "exclusions": 34,
+      "seed": 54,
+      "history": [
+        {
+          "work_order": "PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004",
+          "exclusions": 24,
+          "seed": 24
+        },
+        {
+          "work_order": "PTF-INDIANAPOLIS-56-PROFILE-AUTHORITY-PROMOTION-017",
+          "exclusions": 34,
+          "seed": 54
+        }
+      ]
+    }
   }
- },
- "global_artifact_hashes": {
-  "launch_packages/pettripfinder/identity_routing.json": "sha256:81187683caa4b89a0276fd768847e4abff05176baba74736703e71a23b3ba0fe",
-  "launch_packages/pettripfinder/hotel_exclusions.json": "sha256:8ad84ea4ddb3674893ebc283e1f751b412173f563bd19ed566c1f722ecbcfcce",
-  "launch_packages/pettripfinder/seed_businesses.csv": "sha256:fcbe62ad8a1496bfa887da84962dd0b59a0e05f9442f1759b6892e2a6be53035"
- },
- "post_baseline_republications": {
-  "indianapolis-in": {
-   "work_order": "PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004",
-   "why": "the market was re-censused (153 -> 257) and its founder-signed authority promoted (8 profiles + 4 exclusions -> 24 + 24) after this baseline; the baseline numbers stay as recorded, and the sharding equivalence test reads the market's current totals from here",
-   "routing": 0,
-   "exclusions": 24,
-   "seed": 24
-  }
- }
 }

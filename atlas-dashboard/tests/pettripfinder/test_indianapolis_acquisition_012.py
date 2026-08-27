@@ -19,6 +19,9 @@ from pathlib import Path
 
 import pytest
 
+from pettripfinder.indianapolis_promoted_state import (
+    PROMOTED_PET_FRIENDLY, PROMOTED_VERIFIED_NO_PETS)
+
 PACKAGE_DIR = (Path(__file__).resolve().parents[2]
                / "launch_packages" / "pettripfinder")
 
@@ -155,11 +158,11 @@ class TestNothingWasPromoted:
 
     def test_the_promoted_package_is_untouched_at_24(self):
         package = _load("hotel_policy_facts_indianapolis-in.json")
-        assert len(package["hotels"]) == 24
+        assert len(package["hotels"]) == PROMOTED_PET_FRIENDLY
 
     def test_the_exclusion_shard_is_untouched_at_24(self):
         shard = _load("markets/authority/indianapolis-in/hotel_exclusions.json")
-        assert shard["count"] == 24
+        assert shard["count"] == PROMOTED_VERIFIED_NO_PETS
 
     def test_the_census_is_untouched_at_257(self):
         census = _load("identity_census/indianapolis-in.json")

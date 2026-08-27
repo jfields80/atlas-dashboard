@@ -172,9 +172,16 @@ def run_checks() -> Dict:
 
     # 8 -- production authority is in one of two legitimate states:
     #   PRE_PROMOTION  -- untouched (PTF-INDIANAPOLIS-PROMOTION-AUTHORITY-PREP-003 stops here), or
-    #   PROMOTED       -- the pinned census IS the shadow census and the package/shard counts are
-    #                     the proposed authority's (PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004).
+    #   PROMOTED       -- the pinned census IS the shadow census and the package/shard counts
+    #                     match the CURRENT proposed authority.
     # Anything in between -- a half-applied promotion -- fails.
+    #
+    # "Current" is deliberately the newest proposed-authority document rather
+    # than 003's. This check is the only thing standing between the repository
+    # and a half-applied promotion, and a later work order legitimately moves
+    # the counts: PTF-INDIANAPOLIS-56-PROFILE-AUTHORITY-PROMOTION-017 took the
+    # market to 54 + 34. Pinning it to 003 would have retired a live safety
+    # property into a historical footnote the first time the market grew.
     diff = subprocess.run(["git", "status", "--porcelain", "--"] + list(PRODUCTION_PATHS),
                           cwd=str(_REPO_ROOT.parent), capture_output=True, text=True)
     changed = [line for line in diff.stdout.splitlines() if line.strip()]
@@ -182,17 +189,25 @@ def run_checks() -> Dict:
     shadow_bytes = (L / "identity_census_promotion" / "indianapolis-in.json").read_bytes()
     package_doc = _load("hotel_policy_facts_indianapolis-in.json")
     shard_exclusions = _load("markets/authority/indianapolis-in/hotel_exclusions.json")
+    current = sorted(L.glob("indianapolis_in_proposed_authority_*.json"))[-1]
+    current_authority = json.loads(current.read_text(encoding="utf-8"))
+    expect_pf = current_authority["pet_friendly_count"]
+    expect_np = current_authority.get("verified_no_pets_count",
+                                      len(current_authority.get("verified_no_pets") or ()))
     promoted = (pinned_bytes == shadow_bytes
-                and package_doc.get("count", len(package_doc.get("hotels", []))) == authority["pet_friendly_count"]
-                and len(package_doc.get("hotels", [])) == authority["pet_friendly_count"]
-                and shard_exclusions.get("count") == authority["verified_no_pets_count"])
+                and package_doc.get("count", len(package_doc.get("hotels", []))) == expect_pf
+                and len(package_doc.get("hotels", [])) == expect_pf
+                and shard_exclusions.get("count") == expect_np)
     pre_promotion = diff.returncode == 0 and not changed and pinned_bytes != shadow_bytes
     state = "PROMOTED" if promoted else ("PRE_PROMOTION" if pre_promotion else "INCONSISTENT")
     check("production_authority_is_pre_promotion_or_fully_promoted", state != "INCONSISTENT",
           OrderedDict((("state", state), ("paths", list(PRODUCTION_PATHS)), ("git_status", changed),
                        ("pinned_census_is_shadow", pinned_bytes == shadow_bytes),
                        ("package_records", len(package_doc.get("hotels", []))),
-                       ("shard_exclusions", shard_exclusions.get("count")))))
+                       ("shard_exclusions", shard_exclusions.get("count")),
+                       ("compared_against", current.name),
+                       ("expected_pet_friendly", expect_pf),
+                       ("expected_verified_no_pets", expect_np))))
 
     # authority counts, as built
     summary = OrderedDict((

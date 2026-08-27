@@ -5,6 +5,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from pettripfinder.indianapolis_promoted_state import EXCLUSION_NAMES
+
 ROOT = Path(__file__).resolve().parents[2]
 PACKAGE = ROOT / "launch_packages" / "pettripfinder"
 HILTON = PACKAGE / "indianapolis_hilton_fresh_session_founder_decision_001.json"
@@ -77,29 +79,4 @@ def test_reconciliation_totals_and_application_live_published():
     indy = [e for e in _json(PACKAGE / "hotel_exclusions.json")["exclusions"]
             if e.get("market_id") == "indianapolis-in"]
     # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004 promoted the founder-signed authority: 24 verified-no-pets exclusions.
-    assert [e["normalized_name"] for e in indy] == [
-        "comfort inn indianapolis airport plainfield",
-        "courtyard by marriott indianapolis airport",
-        "courtyard by marriott indianapolis at the capitol",
-        "courtyard by marriott indianapolis downtown",
-        "courtyard by marriott indianapolis fishers",
-        "courtyard indianapolis noblesville",
-        "courtyard indianapolis plainfield",
-        "courtyard indianapolis west speedway",
-        "crowne plaza indianapolis airport",
-        "crowne plaza indianapolis downtown union station",
-        "fairfield inn and suites indianapolis carmel",
-        "fairfield inn and suites indianapolis downtown",
-        "fairfield inn and suites indianapolis east",
-        "holiday inn express and suites greenwood",
-        "holiday inn express and suites indianapolis north carmel",
-        "holiday inn express and suites indianapolis w airport area",
-        "holiday inn express indianapolis downtown",
-        "holiday inn express indianapolis fishers an ihg hotel",
-        "holiday inn indianapolis downtown",
-        "jw marriott indianapolis",
-        "springhill suites by marriott indianapolis carmel",
-        "springhill suites by marriott indianapolis westfield",
-        "springhill suites indianapolis airport plainfield",
-        "springhill suites indianapolis downtown",
-    ]
+    assert [e["normalized_name"] for e in indy] == EXCLUSION_NAMES

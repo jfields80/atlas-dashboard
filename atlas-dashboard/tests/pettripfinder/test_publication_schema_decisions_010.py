@@ -21,6 +21,8 @@ PREPARED_CONTRACT = ("launch_packages/pettripfinder/st_louis_publication_010/"
 
 import pytest
 
+from pettripfinder.indianapolis_promoted_state import PROMOTED_PET_FRIENDLY
+
 from scripts.pettripfinder import market_policy_package_cli as PP
 from scripts.pettripfinder.contracts import enums
 from scripts.pettripfinder.contracts import policy_schema as PS
@@ -118,7 +120,7 @@ class TestSchema13IsAdditive:
         failures = [(h["key"], PS.validate_facts(h["facts"]))
                     for h in package["hotels"] if PS.validate_facts(h["facts"])]
         assert failures == []
-        assert len(package["hotels"]) == 24
+        assert len(package["hotels"]) == PROMOTED_PET_FRIENDLY
 
     def test_absence_of_both_additions_remains_valid(self):
         assert PS.validate_facts({"pets_allowed": True}) == ()

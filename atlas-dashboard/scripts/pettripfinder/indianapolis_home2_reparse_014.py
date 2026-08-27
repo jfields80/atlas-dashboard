@@ -51,6 +51,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, List
 
+from scripts.pettripfinder.contracts import enums
+
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 LP = _REPO_ROOT / "launch_packages" / "pettripfinder"
 ARTIFACT = (_REPO_ROOT / "data" / "acquisition" / "indianapolis_in_012"
@@ -274,7 +276,16 @@ def signature(correction: Dict) -> Dict:
             ("identity_key", correction["identity_key"]),
             ("canonical_name", correction["canonical_name"]),
             ("brand", "HILTON"), ("corridor", ""),
-            ("founder_decision", "APPROVED_AFTER_CORRECTION"),
+            # The canonical publishing token from contracts.enums. An earlier
+            # draft of this file invented "APPROVED_AFTER_CORRECTION", which is
+            # not in the approval vocabulary and therefore does not publish --
+            # a decision expressed in a word the contract does not know is not
+            # a decision the contract can act on. The founder's ruling is
+            # unchanged; the fact that it followed a correction is carried by
+            # supersedes_disposition, supersedes_work_order and founder_note,
+            # which is where a caveat belongs.
+            ("founder_decision", enums.APPROVED_AFTER_CURRENT_REVIEW),
+            ("approved_after_correction", True),
             ("founder_reviewer_id", REVIEWER),
             ("founder_reviewed_at", now[:10]),
             ("founder_note",

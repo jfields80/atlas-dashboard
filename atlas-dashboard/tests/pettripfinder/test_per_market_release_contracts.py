@@ -133,12 +133,17 @@ EXPECTED_RECONCILIATION = {
     # figures; resolved = 26 + 4 + 3 out_of_current_category = 33, unresolved
     # is COUNTED from the committed final partition (63).
     PITTSBURGH: (96, 26, 4, 33, 63),
-    # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: 257 identities promoted from the hardened recensus;
-    # 24 founder-signed profiles and 24 verified-no-pets (both 601 W Washington
-    # hotels, distinct Marriott codes, under the exclusion contract's co-location
-    # rule); resolved 48; unresolved COUNTED as the exact remainder (209) because
-    # this market records no OUT_OF_CURRENT_CATEGORY identity (Louisville rule).
-    INDIANAPOLIS: (257, 24, 24, 48, 209),
+    # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004 promoted 257 identities from the
+    # hardened recensus with 24 founder-signed profiles and 24 verified-no-pets
+    # (both 601 W Washington hotels, distinct Marriott codes, under the exclusion
+    # contract's co-location rule). PTF-INDIANAPOLIS-56-PROFILE-AUTHORITY-
+    # PROMOTION-017 took it to 54 and 34: the 013/014/016 signatures, less two of
+    # the 56 signed pet-friendly rows -- one whose identity the membrane refuses
+    # with no founder ruling to cover it, one whose bare-brand key Cleveland
+    # already owns. Resolved 88; unresolved COUNTED as the exact remainder (169)
+    # because this market records no OUT_OF_CURRENT_CATEGORY identity
+    # (Louisville rule). The census is untouched at 257.
+    INDIANAPOLIS: (257, 54, 34, 88, 169),
     # PTF-MILWAUKEE-PUBLICATION-042. 147 confirmed identities; 73 published
     # pet-friendly and 27 verified-no-pets, both founder-approved across two
     # sittings (036 and 040); resolved = 73 + 27 = 100; unresolved is COUNTED
@@ -304,7 +309,7 @@ class TestContractAgreesWithItsOwnAuthority:
         """
         by_market = {mid: derive_authority(mid).verified_no_pets for mid in MARKETS}
         assert by_market == {COLUMBUS: 14, CLEVELAND: 40, DAYTON: 8,
-                             PITTSBURGH: 4, INDIANAPOLIS: 24, MILWAUKEE: 27,
+                             PITTSBURGH: 4, INDIANAPOLIS: 34, MILWAUKEE: 27,
                              ST_LOUIS: 37,
                              # PTF-LOUISVILLE-PUBLICATION-008. Every other
                              # market's number is unchanged, which is the half
@@ -647,4 +652,12 @@ class TestEveryMarketAssembles:
         inventory = json.loads((market_bundles[market_id]["root"]
                                 / "route_inventory.json").read_text(encoding="utf-8"))
         for slug in inventory["hotel_slugs"]:
-            assert slug not in raw, "%s restates identity %s" % (market_id, slug)
+            # Match the slug as a WHOLE TOKEN. A plain substring test
+            # false-positives on short slugs: Indianapolis publishes a Tru by
+            # Hilton whose slug is "tru", which occurs inside "structurally"
+            # and "true" in this very contract. A genuinely restated allow-list
+            # would still be caught, because it would carry whole slugs, so
+            # this is strictly more precise rather than more lenient.
+            restated = re.search(r"(?<![a-z0-9])%s(?![a-z0-9])" % re.escape(slug),
+                                 raw)
+            assert not restated, "%s restates identity %s" % (market_id, slug)

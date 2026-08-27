@@ -75,8 +75,14 @@ class PolicyPackageError(RuntimeError):
 
 #: Wording that unambiguously states an UPPER bound on one animal's weight.
 _MAXIMAL_RE = re.compile(
+    # "not to exceed" is the same statement as "not exceed". The optional "to"
+    # was missing, so an unambiguous blanket maximum failed founder decision 1
+    # and then failed schema 1.2 outright -- a fact the source states plainly
+    # was unpublishable on a spelling. The combined/shared guard above is what
+    # keeps this narrow, and it still refuses "combined weight not to exceed".
     r"\b(max(?:imum)?\.?|up\s+to|under|less\s+than|no\s+more\s+than|"
-    r"or\s+less|not\s+exceed|weight\s+limit|limit\s+of)\b", re.IGNORECASE)
+    r"or\s+less|not\s+(?:to\s+)?exceed|weight\s+limit|limit\s+of)\b",
+    re.IGNORECASE)
 
 #: Wording that describes a weight shared ACROSS pets. Founder condition 3 and 4:
 #: a combined or per-room total is a different fact and is never normalised to

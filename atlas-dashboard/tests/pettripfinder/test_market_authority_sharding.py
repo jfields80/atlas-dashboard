@@ -171,7 +171,9 @@ class TestNothingMovedBetweenMarkets:
         # A market re-published after the baseline records its current totals
         # beside it (post_baseline_republications) rather than rewriting the
         # snapshot: PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004 promoted Indianapolis
-        # from 8 + 4 to 24 + 24. The claim about every other market is unchanged.
+        # from 8 + 4 to 24 + 24, and PTF-INDIANAPOLIS-56-PROFILE-AUTHORITY-
+        # PROMOTION-017 took it to 54 + 34. The claim about every other market is
+        # unchanged, which is the half of this assertion that matters.
         republished = baseline.get("post_baseline_republications") or {}
         for market_id in baseline["per_market_totals"]:
             assert market_id in market_ids, market_id

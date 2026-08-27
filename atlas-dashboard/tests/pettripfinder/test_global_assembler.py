@@ -25,6 +25,9 @@ import tempfile
 
 import pytest
 
+from pettripfinder.indianapolis_promoted_state import (
+    PROMOTED_PET_FRIENDLY, PROMOTED_SEED_ROWS, PROMOTED_VERIFIED_NO_PETS)
+
 from scripts.pettripfinder import assemble_production_site as gasm
 from scripts.pettripfinder.assemble_production_site import (
     GLOBAL_FILES, GLOBAL_ROUTES, AssemblyError, anchor_market, build_global_llms,
@@ -324,7 +327,7 @@ def test_cincinnati_does_not_fail_the_global_selection(markets):
 
 def test_indianapolis_is_registered_above_threshold_and_source_ready(markets):
     row = market_eligibility(market_by_id(markets, INDIANAPOLIS))
-    assert row["published_count"] == 24  # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004
+    assert row["published_count"] == PROMOTED_PET_FRIENDLY
     assert row["conditions"]["census_present"] is True
     assert row["conditions"]["meets_minimum_published"] is True
     assert row["assemblable"] is True
@@ -383,9 +386,13 @@ def test_current_live_inventory_preserves_all_assemblable_market_profiles(market
               for m in markets if market_eligibility(m)["assemblable"]}
     assert counts == {COLUMBUS: 88, CLEVELAND: 99, DAYTON: 47,
                       "pittsburgh-pa": 26,
-                      # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: 8 -> 24 founder-signed profiles over the
-                      # promoted 257-identity census.
-                      INDIANAPOLIS: 24,
+                      # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: 8 -> 24 founder-signed profiles over
+                      # the promoted 257-identity census. 24 -> 54 at
+                      # PTF-INDIANAPOLIS-56-PROFILE-AUTHORITY-PROMOTION-017, which promoted the
+                      # 013/014/016 signatures and withheld two of the 56 signed rows: one whose
+                      # identity the membrane refuses without a founder ruling, and one whose
+                      # bare-brand key Cleveland already owns.
+                      INDIANAPOLIS: PROMOTED_PET_FRIENDLY,
                       "milwaukee-wi": 73,
                       # PTF-ST-LOUIS-REGISTER-PUBLISH-011: 82 founder-signed
                       # profiles. Every other count above is unchanged, which
@@ -399,7 +406,8 @@ def test_current_live_inventory_preserves_all_assemblable_market_profiles(market
     # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: 469 + Indianapolis's 16 further
     # founder-signed profiles (8 -> 24). Every other market's count above is
     # unchanged, so the whole of this movement is Indianapolis's.
-    assert sum(counts.values()) == 485   # 423 + Louisville (46) + Indianapolis (+16)
+    assert sum(counts.values()) == 515   # 485 + Indianapolis 24 -> 54 at
+    # PTF-INDIANAPOLIS-56-PROFILE-AUTHORITY-PROMOTION-017
 
 
 # --------------------------------------------------------------------------- #

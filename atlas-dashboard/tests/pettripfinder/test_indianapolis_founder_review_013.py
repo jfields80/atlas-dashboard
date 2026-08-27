@@ -22,6 +22,9 @@ from pathlib import Path
 
 import pytest
 
+from pettripfinder.indianapolis_promoted_state import (
+    PROMOTED_PET_FRIENDLY, PROMOTED_VERIFIED_NO_PETS)
+
 from scripts.pettripfinder import indianapolis_founder_review_013 as R
 
 PACKAGE_DIR = (Path(__file__).resolve().parents[2]
@@ -235,11 +238,11 @@ class TestTheRunningTotalAndTheGap:
 class TestNothingWasPromoted:
 
     def test_the_package_is_still_twenty_four(self):
-        assert len(_load("hotel_policy_facts_indianapolis-in.json")["hotels"]) == 24
+        assert len(_load("hotel_policy_facts_indianapolis-in.json")["hotels"]) == PROMOTED_PET_FRIENDLY
 
     def test_the_exclusion_shard_is_still_twenty_four(self):
         shard = _load("markets/authority/indianapolis-in/hotel_exclusions.json")
-        assert shard["count"] == 24
+        assert shard["count"] == PROMOTED_VERIFIED_NO_PETS
 
     def test_the_census_is_still_257(self):
         assert _load("identity_census/indianapolis-in.json")["count"] == 257

@@ -30,6 +30,9 @@ from pathlib import Path
 
 import pytest
 
+from pettripfinder.indianapolis_promoted_state import (
+    PROMOTED_BEFORE_017, PROMOTED_PET_FRIENDLY, PROMOTED_VERIFIED_NO_PETS)
+
 from scripts.pettripfinder import indianapolis_home2_reparse_014 as M
 
 PACKAGE_DIR = (Path(__file__).resolve().parents[2]
@@ -215,10 +218,27 @@ class TestTheSignature:
         assert row["proposes_authority"] == "PUBLISHED_PET_FRIENDLY"
 
     def test_the_row_records_what_it_supersedes(self, signature):
+        """The decision is the CANONICAL publishing token; the fact that it
+        followed a correction is a caveat beside it, not a new vocabulary word.
+
+        An earlier draft of 014 wrote "APPROVED_AFTER_CORRECTION" here. That
+        string is not in contracts.enums.APPROVAL_DECISIONS, so
+        founder_approval.is_publishable refused it and the row silently failed
+        to become authority in 017. A decision expressed in a word the contract
+        does not know is not a decision the contract can act on."""
+        from scripts.pettripfinder.contracts import enums
+        from scripts.pettripfinder.contracts import founder_approval as FA
         row, = signature["signed"]
-        assert row["founder_decision"] == "APPROVED_AFTER_CORRECTION"
+        assert row["founder_decision"] == enums.APPROVED_AFTER_CURRENT_REVIEW
+        assert FA.is_publishable(row["founder_decision"]) is True
+        assert row["approved_after_correction"] is True
         assert row["supersedes_disposition"] == "HOLD"
         assert row["supersedes_work_order"].endswith("FOUNDER-REVIEW-013")
+
+    def test_an_invented_approval_word_would_not_publish(self):
+        """Why the line above is worth a test at all."""
+        from scripts.pettripfinder.contracts import founder_approval as FA
+        assert FA.is_publishable("APPROVED_AFTER_CORRECTION") is False
 
     def test_the_row_binds_its_evidence(self, signature, correction):
         row, = signature["signed"]
@@ -251,25 +271,31 @@ class TestTheRunningTotal:
         assert old["signed_by_authority"]["PUBLISHED_PET_FRIENDLY"] == 19
         assert signature["signed_by_authority"]["PUBLISHED_PET_FRIENDLY"] == 1
 
-    def test_the_projected_total_is_forty_four_and_the_gap_is_six(self):
-        promoted = len(_load("hotel_policy_facts_indianapolis-in.json")["hotels"])
+    def test_the_projected_total_at_014_was_forty_four_and_the_gap_was_six(self):
+        """What 014 could claim ON THE DAY, from the ledgers that existed then.
+
+        This deliberately does NOT read the live package. The live count moves
+        whenever a later work order promotes -- 016 signed twelve more and 017
+        promoted the market to %d -- and a test that reads it would report an
+        intended promotion as a regression in a work order that promoted
+        nothing.""" % PROMOTED_PET_FRIENDLY
         signed = (_load("indianapolis_in_founder_signature_013.json")
                   ["signed_by_authority"]["PUBLISHED_PET_FRIENDLY"]
                   + _load("indianapolis_in_founder_signature_014.json")
                   ["signed_by_authority"]["PUBLISHED_PET_FRIENDLY"])
-        assert promoted == 24 and signed == 20
-        assert promoted + signed == 44
-        assert 50 - (promoted + signed) == 6
+        assert signed == 20
+        assert PROMOTED_BEFORE_017 + signed == 44
+        assert 50 - (PROMOTED_BEFORE_017 + signed) == 6
 
 
 class TestNothingWasPromoted:
 
     def test_the_package_is_still_twenty_four(self):
-        assert len(_load("hotel_policy_facts_indianapolis-in.json")["hotels"]) == 24
+        assert len(_load("hotel_policy_facts_indianapolis-in.json")["hotels"]) == PROMOTED_PET_FRIENDLY
 
     def test_the_exclusion_shard_is_still_twenty_four(self):
         assert _load(
-            "markets/authority/indianapolis-in/hotel_exclusions.json")["count"] == 24
+            "markets/authority/indianapolis-in/hotel_exclusions.json")["count"] == PROMOTED_VERIFIED_NO_PETS
 
     def test_the_census_is_still_257(self):
         assert _load("identity_census/indianapolis-in.json")["count"] == 257

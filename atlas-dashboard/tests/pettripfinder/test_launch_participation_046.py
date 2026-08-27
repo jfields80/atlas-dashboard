@@ -28,6 +28,8 @@ from pathlib import Path
 
 import pytest
 
+from pettripfinder.indianapolis_promoted_state import PROMOTED_PET_FRIENDLY
+
 REPO = Path(__file__).resolve().parents[2]
 if str(REPO) not in sys.path:
     sys.path.insert(0, str(REPO))
@@ -193,7 +195,7 @@ def test_indianapolis_is_source_ready_in_every_condition():
     row = _row(WITHHELD)
     assert all(row["conditions"].values()), row["conditions"]
     assert row["assemblable"] is True
-    assert row["published_count"] == 24  # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004
+    assert row["published_count"] == PROMOTED_PET_FRIENDLY
     assert row["inventory_error"] == ""
 
 

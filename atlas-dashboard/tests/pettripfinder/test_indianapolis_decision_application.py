@@ -5,6 +5,9 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from pettripfinder.indianapolis_promoted_state import (
+    PROMOTED_PET_FRIENDLY, PROMOTED_SEED_ROWS, PROMOTED_VERIFIED_NO_PETS)
+
 from scripts.pettripfinder.contracts import policy_schema
 from scripts.pettripfinder.hotel_exclusions import validate as validate_exclusions
 from scripts.pettripfinder.site_data import load_published_hotel_policy_facts
@@ -26,11 +29,14 @@ def test_application_wrote_four_no_pets_and_eight_live_governed_facts():
     assert app["status"] == "LIVE_PUBLISHED"
     facts = _json(PACKAGE / "hotel_policy_facts_indianapolis-in.json")
     assert facts["published"] is True
-    assert len(facts["hotels"]) == 24
+    assert len(facts["hotels"]) == PROMOTED_PET_FRIENDLY
     keys = {h["identity_key"] for h in facts["hotels"]}
-    assert len(keys) == 24
-    # retired for lack of fresh publication-grade evidence (BUDGET_DEFERRED / ALTERNATE_LANE)
-    assert "hilton garden inn indianapolis airport" not in keys
+    assert len(keys) == PROMOTED_PET_FRIENDLY
+    # Retired at 004 for lack of fresh publication-grade evidence
+    # (BUDGET_DEFERRED / ALTERNATE_LANE). Hilton Garden Inn Airport stopped
+    # being retired when PTF-INDIANAPOLIS-BACKLOG-ACQUISITION-016 bought its
+    # page and the founder signed it, so the guard now covers only the row
+    # that is still unevidenced.
     assert "residence inn by marriott indianapolis airport" not in keys
     west = next(h for h in facts["hotels"]
                 if h["identity_key"] == "hampton inn and suites indianapolis west speedway")
@@ -53,7 +59,7 @@ def test_application_wrote_four_no_pets_and_eight_live_governed_facts():
     assert list(policy_schema.validate_package(facts)) == []
     excl = validate_exclusions(_json(PACKAGE / "hotel_exclusions.json"))
     indy = [e for e in excl if e.get("market_id") == "indianapolis-in"]
-    assert len(indy) == 24
+    assert len(indy) == PROMOTED_VERIFIED_NO_PETS
     downtown = next(e for e in indy
                     if e["exclusion_id"] == "ii-crowne-plaza-indianapolis-downtown-union-station")
     assert "Airport" not in downtown["evidence_quote"]
