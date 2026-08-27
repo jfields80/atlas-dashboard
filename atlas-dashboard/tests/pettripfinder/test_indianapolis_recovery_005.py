@@ -61,10 +61,38 @@ class TestTheProtectedStateIsUntouched:
         assert audit["usd_spent"] == 0.0
         assert audit["network_calls"] == 0
 
-    def test_the_audit_is_reproducible_from_the_saved_documents(self, audit):
-        """It reads documents and derives; it does not remember."""
+    def test_the_audit_derives_rather_than_remembers(self):
+        """Two derivations from the same inputs agree.
+
+        This is the property worth pinning. It is NOT the same as "the live
+        derivation equals the saved artifact forever": the audit reads the
+        cross-run paid ledger, and a ledger that never grows is a ledger that
+        has stopped working.
+        """
         assert R.build()["phase_5_payable"]["payable"] == \
-            audit["phase_5_payable"]["payable"]
+            R.build()["phase_5_payable"]["payable"]
+
+    def test_the_one_row_that_has_since_become_unpayable(self, audit):
+        """005 recorded 36 payable. It is 35 now, and the difference is a
+        finding rather than drift.
+
+        PTF-INDIANAPOLIS-BACKLOG-ACQUISITION-016 merged run 012's purchases
+        into the ledger, which then refused 'hampton inn indianapolis sw
+        plainfield' -- the same page 012 had already bought under the key
+        'hampton inn indianapolis southwest plainfield'. Two census keys, one
+        building. 016's own cohort shrank on exactly this row, and the 005
+        replay agrees, which is what a shared ledger is supposed to do.
+        """
+        live = R.build()["phase_5_payable"]
+        saved = audit["phase_5_payable"]
+        assert saved["payable"] == 36 and live["payable"] == 35
+
+        def keys(phase):
+            return {r["identity_key"] if isinstance(r, dict) else r
+                    for r in phase["rows"]}
+
+        assert keys(saved) - keys(live) == {"hampton inn indianapolis sw plainfield"}
+        assert keys(live) - keys(saved) == set(), "nothing was substituted in"
 
 
 class TestReusableEvidenceIsNotUntapped:

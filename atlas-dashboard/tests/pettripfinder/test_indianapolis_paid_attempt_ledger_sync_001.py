@@ -24,6 +24,7 @@ have been tempting and wrong.
 from __future__ import annotations
 
 import json
+from collections import Counter
 from pathlib import Path
 
 import pytest
@@ -176,9 +177,24 @@ class TestCoLocatedHotelsAreNotOverSuppressed:
 class TestTheLedgerCarriesIndianapolisHistory:
 
     def test_the_committed_ledger_holds_the_market(self):
+        """105 when this work order wrote it, 157 since.
+
+        PTF-INDIANAPOLIS-BACKLOG-ACQUISITION-016 merged run 012's 52 paid
+        attempts in before spending, because a ledger that does not know a run
+        cannot suppress its purchases -- and on that rebuild it immediately
+        caught one, matching 'hampton inn indianapolis sw plainfield' by
+        property code to a page 012 had already bought.
+
+        The count is asserted by SOURCE rather than as a bare total, so the
+        next legitimate growth reads as evidence instead of as a broken pin.
+        """
         ledger = _load(LEDGER_DOC)
         indy = [a for a in ledger["attempts"] if a["market_id"] == MARKET_ID]
-        assert len(indy) == 105
+        by_run = Counter(a["run_id"] for a in indy)
+        assert by_run["indianapolis-in-002-pass1"] == 101
+        assert by_run["indianapolis-in-002-pass2"] == 4
+        assert by_run["indianapolis-in-012"] == 52
+        assert sum(by_run.values()) == len(indy) == 157
 
     def test_the_indnehx_page_was_in_fact_bought_twice(self):
         """The defect this work order exists to prevent, kept visible."""
