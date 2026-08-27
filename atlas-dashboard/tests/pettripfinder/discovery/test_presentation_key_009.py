@@ -165,8 +165,13 @@ class TestThereIsNoFuzzyMatching:
             key("Clarion Inn & Suites Indianapolis Northwest")
 
     def test_one_extra_word_is_still_a_different_name(self):
-        assert key("Country Hearth Inn Indianapolis") != \
-            key("Country Hearth Inn & Suites Indianapolis")
+        """The "Inn & Suites" pair that used to sit here became a deliberate
+        rule in PTF-INDIANAPOLIS-PLACES-SAVED-PAYLOAD-REBIND-011, derived from
+        three saved payloads where the brand's own URL confirms one hotel. The
+        invariant it demonstrates is unchanged, so it is shown on a pair no
+        rule touches."""
+        assert key("Comfort Inn North") != key("Comfort Inn North Airport")
+        assert key("Hampton Inn Carmel") != key("Hampton Inn Carmel West")
 
     def test_the_key_is_stable_and_idempotent(self):
         once = key("Fairfield by Marriott Inn & Suites Indianapolis, IN")

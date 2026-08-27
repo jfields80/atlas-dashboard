@@ -161,7 +161,46 @@ _CHAIN_PRESENTATION: Tuple[Tuple[str, str], ...] = (
 )
 
 
-def presentation_key(name: str, *, state_code: str = "") -> str:
+def _drop_an_operator_hotel(tokens: List[str]) -> List[str]:
+    """PTF-INDIANAPOLIS-PLACES-SAVED-PAYLOAD-REBIND-011.
+
+    IHG writes ", an IHG Hotel" where it elsewhere writes "by IHG". It is the
+    same courtesy, said the other way round, and it names an operator rather
+    than a building. Removed only as the exact three-token run.
+    """
+    out: List[str] = []
+    index = 0
+    while index < len(tokens):
+        if (tokens[index] == "an" and index + 2 < len(tokens)
+                and tokens[index + 1] in _OPERATOR_TOKENS
+                and tokens[index + 2] == "hotel"):
+            index += 3
+            continue
+        out.append(tokens[index])
+        index += 1
+    return out
+
+
+def _drop_inn_suites(tokens: List[str]) -> List[str]:
+    """"Comfort Inn & Suites Fishers" and "Comfort Inn Fishers" are one hotel.
+
+    PTF-INDIANAPOLIS-PLACES-SAVED-PAYLOAD-REBIND-011 read this off three saved
+    payloads where the brand's own URL confirms it -- Hilton serves
+    ``indavhx-hampton-suites-avon-indianapolis`` for a census row that still
+    says "Hampton Inn Indianapolis Avon". "& Suites" is a designation a chain
+    adds to a property, not a second property.
+
+    The token is dropped ONLY when it directly follows "inn", which is what
+    keeps the dangerous case dangerous: in "Comfort Suites South" the "suites"
+    follows "comfort", so it survives, and "Comfort Inn South" and "Comfort
+    Suites South" remain two different brands and two different buildings.
+    """
+    return [token for index, token in enumerate(tokens)
+            if not (token == "suites" and index > 0 and tokens[index - 1] == "inn")]
+
+
+def presentation_key(name: str, *, state_code: str = "",
+                     unordered: bool = False) -> str:
     """``normalise`` plus the presentation differences that name one building twice.
 
     PTF-INDIANAPOLIS-PLACES-NAME-NORMALIZATION-009 measured this on 25 paid
@@ -222,12 +261,23 @@ def presentation_key(name: str, *, state_code: str = "") -> str:
         if len(trimmed) >= 2:
             out = trimmed
 
+    out = _drop_an_operator_hotel(out)
+    out = _drop_inn_suites(out)
+
     joined = " ".join(out)
     for written, canonical in _CHAIN_PRESENTATION:
         if joined.startswith(written):
             joined = canonical + joined[len(written):]
             break
-    return joined.strip()
+    joined = joined.strip()
+    if unordered:
+        # Google writes "Avon Indianapolis" where the census writes
+        # "Indianapolis Avon". Comparing the SORTED tokens makes those one
+        # name. This is exact multiset equality, not overlap scoring: every
+        # word still has to be present on both sides, and one extra or one
+        # missing word is still two different hotels.
+        joined = " ".join(sorted(joined.split()))
+    return joined
 
 
 def distinctive_name_tokens(name: str) -> List[str]:
@@ -501,7 +551,8 @@ def bind(row: Mapping, observations: Sequence[Observation],
     # on purpose: every market that recovered its URLs under the old rule
     # recovers exactly the same ones today, and a caller has to ask for the
     # wider comparison before it applies.
-    key = ((lambda n: presentation_key(n, state_code=str(row.get("state") or "")))
+    key = ((lambda n: presentation_key(n, state_code=str(row.get("state") or ""),
+                                       unordered=True))
            if presentation_variants else normalise)
     name = key(row.get("canonical_name", ""))
     postal = (row.get("postal_code") or "").strip()

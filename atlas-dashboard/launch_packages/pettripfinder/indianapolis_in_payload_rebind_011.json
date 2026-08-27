@@ -1,0 +1,537 @@
+{
+  "schema": "ptf-market-payload-rebind/1.0",
+  "market_id": "indianapolis-in",
+  "work_order": "PTF-INDIANAPOLIS-PLACES-SAVED-PAYLOAD-REBIND-011",
+  "provider_calls": 0,
+  "usd_spent": 0.0,
+  "saved_payloads_reviewed": 143,
+  "identities_re_examined": 96,
+  "new_rules": {
+    "an_operator_hotel": "'..., an IHG Hotel' is the same courtesy as 'by IHG', said the other way round. Dropped as an exact three-token run.",
+    "inn_and_suites": "'Comfort Inn & Suites Fishers' and 'Comfort Inn Fishers' are one hotel. The token is dropped ONLY when it directly follows 'inn', so 'Comfort Suites South' keeps its 'suites' and stays a different brand from 'Comfort Inn South'.",
+    "token_order": "Google writes 'Avon Indianapolis' where the census writes 'Indianapolis Avon'. Compared as sorted tokens: exact multiset equality, so one extra or one missing word is still two hotels.",
+    "no_fuzzy_matching": "no edit distance, no similarity score, no overlap threshold"
+  },
+  "results": {
+    "already_bound_before": 47,
+    "new_binds": 5,
+    "total_bound_after": 52,
+    "still_unbound": 91,
+    "false_or_ambiguous_binds": [],
+    "place_id_collisions": {}
+  },
+  "controls": {
+    "protected": [
+      "aloft",
+      "ashley motel",
+      "cambria hotel westfield indianapolis north",
+      "hampton inn and suites indianapolis carmel",
+      "best western plus indianapolis north at broad ripple",
+      "courtyard by marriott indianapolis airport plainfield"
+    ],
+    "protected_bound": [],
+    "all_held": true
+  },
+  "routing": {
+    "routing_before": 161,
+    "newly_routable": 5,
+    "routing_after": 166,
+    "url_less_before": 96,
+    "url_less_after": 91
+  },
+  "acquisition_impact": {
+    "prepared_cohort_before": 46,
+    "newly_added_rows": 5,
+    "already_reusable_policy_evidence": 0,
+    "total_acquisition_cohort": 51,
+    "new_rows_firecrawl": 3,
+    "new_rows_brightdata": 2
+  },
+  "combined_cost_plan": {
+    "this_is_not_an_authorization": true,
+    "cohort_size": 51,
+    "cohort_by_provider": {
+      "brightdata_browser": 31,
+      "firecrawl": 20
+    },
+    "firecrawl_credits": 20.0,
+    "credit_billed_properties": 20,
+    "dollar_billed_properties": 31,
+    "expected_brightdata_usd_minor": {
+      "at_measured": 415.71,
+      "at_registry": 496.0,
+      "worst_case_with_fallback": 651.0
+    },
+    "projection": {
+      "at_measured_rates_usd_minor": 415.71,
+      "at_registry_rates_usd_minor": 496.0,
+      "unlocker_fallback_exposure_usd_minor": 155.0,
+      "worst_case_usd_minor": 651.0,
+      "basis": "every dollar-billed property attempted once at the higher of the registry and measured unit price, plus a fallback attempt on every one of them"
+    },
+    "safe_cap_usd_minor": 666
+  },
+  "target_50": {
+    "current_promoted_pet_friendly": 24,
+    "observed_pet_friendly_rate": 0.3038,
+    "expected_from_prepared_cohort": 14,
+    "expected_from_newly_rebound": 2,
+    "expected_total": 40,
+    "target": 50,
+    "remaining_gap": 10,
+    "this_is_an_estimate_not_an_approval": "the rate is this market's own history; no row here is approved, signed or publishable until a founder reviews the policy evidence an acquisition would produce"
+  },
+  "new_binds": [
+    {
+      "identity_key": "comfort inn fishers indianapolis",
+      "census_name": "Comfort Inn Fishers Indianapolis",
+      "places_name": "Comfort Inn & Suites Fishers - Indianapolis",
+      "places_address": "9780 N by NE Blvd, Fishers, IN 46037, USA",
+      "places_postal": "46037",
+      "census_postal": "46037",
+      "website_uri": "https://www.choicehotels.com/indiana/fishers/comfort-inn-hotels/in358?mc=llgoxxpx",
+      "url_shape": "PROPERTY_PAGE",
+      "place_id": "ChIJ2b3Yt5WzFIgRU8OcsIwc00M",
+      "old_refusal": "no returned place matched on a sanctioned key",
+      "new_census_key": "comfort fishers indianapolis inn",
+      "new_places_key": "comfort fishers indianapolis inn",
+      "rule": "'Inn & Suites' and 'Inn' are one designation",
+      "binding_evidence": "postal 46037 on both sides, the URL names the property, and the names agree once the presentation is removed",
+      "why_safe": "the postal codes match exactly, the page is a PROPERTY_PAGE the brand serves for this property, and nothing that distinguishes buildings -- locality, compass word, airport, downtown -- was normalised away"
+    },
+    {
+      "identity_key": "drury plaza hotel carmel indianapolis",
+      "census_name": "Drury Plaza Hotel Carmel Indianapolis",
+      "places_name": "Drury Plaza Hotel Indianapolis Carmel",
+      "places_address": "9625 N Meridian St, Indianapolis, IN 46290, USA",
+      "places_postal": "46290",
+      "census_postal": "46290",
+      "website_uri": "https://www.druryhotels.com/locations/indianapolis-in/Drury-Plaza-Hotel-Indianapolis-Carmel",
+      "url_shape": "PROPERTY_PAGE",
+      "place_id": "ChIJOWBlcbesFIgRtkt8Grab4ug",
+      "old_refusal": "no returned place matched on a sanctioned key",
+      "new_census_key": "carmel drury hotel indianapolis plaza",
+      "new_places_key": "carmel drury hotel indianapolis plaza",
+      "rule": "the same words in a different order",
+      "binding_evidence": "postal 46290 on both sides, the URL names the property, and the names agree once the presentation is removed",
+      "why_safe": "the postal codes match exactly, the page is a PROPERTY_PAGE the brand serves for this property, and nothing that distinguishes buildings -- locality, compass word, airport, downtown -- was normalised away"
+    },
+    {
+      "identity_key": "hampton inn indianapolis avon",
+      "census_name": "Hampton Inn Indianapolis Avon",
+      "places_name": "Hampton Inn & Suites Avon Indianapolis",
+      "places_address": "193 Angelina Way, Avon, IN 46123, USA",
+      "places_postal": "46123",
+      "census_postal": "46123",
+      "website_uri": "https://www.hilton.com/en/hotels/indavhx-hampton-suites-avon-indianapolis/?SEO_id=GMB-AMER-HX-INDAVHX",
+      "url_shape": "PROPERTY_PAGE",
+      "place_id": "ChIJIZytKmevbIgRQHXXiIKLfEE",
+      "old_refusal": "no returned place matched on a sanctioned key",
+      "new_census_key": "avon hampton indianapolis inn",
+      "new_places_key": "avon hampton indianapolis inn",
+      "rule": "'Inn & Suites' and 'Inn' are one designation; the same words in a different order",
+      "binding_evidence": "postal 46123 on both sides, the URL names the property, and the names agree once the presentation is removed",
+      "why_safe": "the postal codes match exactly, the page is a PROPERTY_PAGE the brand serves for this property, and nothing that distinguishes buildings -- locality, compass word, airport, downtown -- was normalised away"
+    },
+    {
+      "identity_key": "quality inn and suites noblesville indianapolis",
+      "census_name": "Quality Inn & Suites Noblesville Indianapolis",
+      "places_name": "Quality Inn Noblesville-Indianapolis",
+      "places_address": "17070 Dragonfly Dr, Noblesville, IN 46060, USA",
+      "places_postal": "46060",
+      "census_postal": "46060",
+      "website_uri": "https://www.choicehotels.com/indiana/noblesville/quality-inn-hotels/in338?mc=llgoxxpx",
+      "url_shape": "PROPERTY_PAGE",
+      "place_id": "ChIJew-IxyC3FIgREvlcnDn7KEI",
+      "old_refusal": "no returned place matched on a sanctioned key",
+      "new_census_key": "indianapolis inn noblesville quality",
+      "new_places_key": "indianapolis inn noblesville quality",
+      "rule": "'Inn & Suites' and 'Inn' are one designation",
+      "binding_evidence": "postal 46060 on both sides, the URL names the property, and the names agree once the presentation is removed",
+      "why_safe": "the postal codes match exactly, the page is a PROPERTY_PAGE the brand serves for this property, and nothing that distinguishes buildings -- locality, compass word, airport, downtown -- was normalised away"
+    },
+    {
+      "identity_key": "quality inn brownsburg indianapolis west",
+      "census_name": "Quality Inn Brownsburg Indianapolis West",
+      "places_name": "Quality Inn & Suites Brownsburg - Indianapolis West",
+      "places_address": "31 Maplehurst Dr, Brownsburg, IN 46112, USA",
+      "places_postal": "46112",
+      "census_postal": "46112",
+      "website_uri": "https://www.choicehotels.com/indiana/brownsburg/quality-inn-hotels/in441?mc=llgoxxpx",
+      "url_shape": "PROPERTY_PAGE",
+      "place_id": "ChIJxZJR-sCtbIgRwYKTVJza7_o",
+      "old_refusal": "no returned place matched on a sanctioned key",
+      "new_census_key": "brownsburg indianapolis inn quality west",
+      "new_places_key": "brownsburg indianapolis inn quality west",
+      "rule": "'Inn & Suites' and 'Inn' are one designation",
+      "binding_evidence": "postal 46112 on both sides, the URL names the property, and the names agree once the presentation is removed",
+      "why_safe": "the postal codes match exactly, the page is a PROPERTY_PAGE the brand serves for this property, and nothing that distinguishes buildings -- locality, compass word, airport, downtown -- was normalised away"
+    }
+  ],
+  "still_unbound": [
+    {
+      "identity_key": "aloft",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "ashley motel",
+      "why": "the place carries no website at all"
+    },
+    {
+      "identity_key": "atlas hotel",
+      "why": "the place carries no website at all"
+    },
+    {
+      "identity_key": "baymont inn and suites indianapolis east",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "best western plus indianapolis north at broad ripple",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "cambria hotel westfield indianapolis north",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "candlewood suites",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "candlewood suites indianapolis east",
+      "why": "no distinctive word of the property's name appears in the URL, so the URL cannot be read as being about this hotel"
+    },
+    {
+      "identity_key": "clarion indianapolis",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "clarion inn and suites northwest",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "comfort inn indianapolis castleton",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "comfort inn indianapolis north at the fairgrounds",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "comfort suites greenwood indianapolis south",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "comfort suites indianapolis downtown",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "comfort suites indianapolis east",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "comfort suites indianapolis south",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "country hearth inn indianapolis",
+      "why": "the place carries no website at all"
+    },
+    {
+      "identity_key": "country inn and suites indianapolis airport south",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "courtyard by marriott indianapolis airport plainfield",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "echo suites extended stay by wyndham",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "extended stay america indianapolis northwest",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "fairfield inn and suites indianapolis airport plainfield",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "fairfield inn and suites indianapolis castleton",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "fairfield inn and suites indianapolis fishers",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "fairfield inn and suites indianapolis south",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "fairfield inn and suites indianapolis south greenwood",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "hampton inn and suites indianapolis carmel",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "hampton inn and suites indianapolis downtown",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "hampton inn and suites noblesville",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "hampton inn and suites westfield",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "hampton inn indianapolis northeast",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "hampton inn indianapolis south greenwood",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "hilton garden inn indianapolis northeast castleton",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "hilton garden inn indianapolis south greenwood",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "holiday inn express and suites noblesville",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "holiday inn express indianapolis east",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "holiday inn express indianapolis northeast",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "holiday inn express indianapolis northwest",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "holiday inn express indianapolis south",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "holiday inn express indianapolis west avon",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "holiday inn express northwest park 100",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "holiday inn indianapolis carmel",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "home2 suites by hilton indianapolis greenwood",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "home2 suites by hilton westfield indianapolis",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "homewood suites by hilton indianapolis downtown",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "homewood suites by hilton indianapolis downtown iupui",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "homewood suites by hilton indianapolis fishers",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "hyatt place indianapolis fishers",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "indy lodge",
+      "why": "the place carries no website at all"
+    },
+    {
+      "identity_key": "intown suites extended stay",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "intown suites extended stay indianapolis in post drive",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "ironworks hotel indianapolis",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "la quinta inn",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "la quinta inn and suites indianapolis downtown",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "la quinta inn and suites indianapolis east",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "la quinta inn and suites indianapolis south greenwood",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "la quinta inn indianapolis east post drive",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "la quinta inn indianapolis north",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "mainstay suites",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "marblehead",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "marriott indianapolis downtown",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "microtel",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "motel 6",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "motel 6 indianapolis east",
+      "why": "the website is a BRAND_INDEX"
+    },
+    {
+      "identity_key": "motel 6 indianapolis speedway",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "my place hotel indianapolis airport plainfield in",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "oakwood at canal square",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "oakwood at rivercrossing",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "quality inn and suites",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "quality inn and suites indianapolis fairgrounds",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "quality inn and suites indianapolis speedway",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "quality inn castleton indianapolis",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "quality inn east indianapolis",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "quality inn greenwood indianapolis south",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "quality inn of indy castleton",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "quality inn plainfield",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "residence inn by marriott indianapolis fishers",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "shadeland inn",
+      "why": "the place carries no website at all"
+    },
+    {
+      "identity_key": "skyline motel",
+      "why": "the place carries no website at all"
+    },
+    {
+      "identity_key": "sleep inn and suites downtown indianapolis",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "springhill suites by marriott indianapolis fishers castleton",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "staybridge suites indianapolis castleton",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "staybridge suites indianapolis city centre",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "staybridge suites indianapolis fishers",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "super 8 by wyndham greenwood indianapolis south",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "super 8 by wyndham indianapolis speedway",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "super 8 plainfield indianapolis airport",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "the lodge at broad ripple",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "tru by hilton indianapolis downtown",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "woodspring suites indianapolis airport south",
+      "why": "no returned place matched on a sanctioned key"
+    },
+    {
+      "identity_key": "woodspring suites indianapolis plainfield",
+      "why": "no returned place matched on a sanctioned key"
+    }
+  ]
+}
