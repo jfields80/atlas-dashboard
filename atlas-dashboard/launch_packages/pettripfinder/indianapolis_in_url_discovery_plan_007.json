@@ -1,0 +1,1598 @@
+{
+  "schema": "ptf-market-url-discovery-plan/1.0",
+  "market_id": "indianapolis-in",
+  "work_order": "PTF-INDIANAPOLIS-PAID-OFFICIAL-URL-DISCOVERY-007",
+  "nothing_was_fetched": true,
+  "usd_spent": 0.0,
+  "provider_calls": 0,
+  "this_is_not_an_authorization": true,
+  "url_less_identities": 143,
+  "method": {
+    "provider": "GOOGLE_PLACES",
+    "product": "Google Places API (New) Text Search",
+    "endpoint": "https://places.googleapis.com/v1/places:searchText",
+    "implemented_in": "scripts/pettripfinder/discovery/google_places.py",
+    "credential_present": true,
+    "field_that_answers_this": "places.websiteUri",
+    "field_that_binds_it": "places.nationalPhoneNumber",
+    "field_mask": [
+      "places.id",
+      "places.displayName",
+      "places.formattedAddress",
+      "places.addressComponents",
+      "places.location",
+      "places.primaryType",
+      "places.types",
+      "places.nationalPhoneNumber",
+      "places.websiteUri",
+      "places.businessStatus"
+    ],
+    "requests_per_identity": 1,
+    "query_shape": "canonical name + street + city + state + postal code",
+    "why_this_one": "it is the only implemented provider in this repo that returns a first-party website for a named property. The three acquisition providers (brightdata_browser, brightdata_web_unlocker, firecrawl) all FETCH a page you already have a URL for; none of them can find one.",
+    "rejected_url_shapes": {
+      "third_party_booking": [
+        "agoda.com",
+        "booking.com",
+        "expedia.com",
+        "hotels.com",
+        "hotwire.com",
+        "kayak.com",
+        "orbitz.com",
+        "priceline.com",
+        "travelocity.com",
+        "trivago.com"
+      ],
+      "social_or_directory": [
+        "allstays.com",
+        "bbb.org",
+        "bringfido.com",
+        "doordash.com",
+        "facebook.com",
+        "foursquare.com",
+        "goo.gl",
+        "google.com",
+        "grubhub.com",
+        "instagram.com",
+        "linkedin.com",
+        "maps.google.com",
+        "nextdoor.com",
+        "opentable.com",
+        "petswelcome.com",
+        "reddit.com",
+        "tripadvisor.com",
+        "twitter.com",
+        "ubereats.com",
+        "x.com",
+        "yellowpages.com",
+        "yelp.com"
+      ]
+    }
+  },
+  "repeat_spend_guard": {
+    "paid_attempt_ledger_lanes": [
+      "brightdata_browser",
+      "brightdata_web_unlocker",
+      "firecrawl"
+    ],
+    "ledger_covers_discovery_lookups": false,
+    "already_paid_reusable_discovery_lookups": 0,
+    "true_new_paid_lookup_cohort": 143,
+    "discovery_cache_providers_present": [
+      "OPENSTREETMAP"
+    ],
+    "discovery_idempotency": "the discovery layer has its OWN guard: cache.py stores raw responses under a sha256 request fingerprint, so an identical query inside the retention window is served from disk and costs nothing.",
+    "google_cache_retention_days": 30,
+    "THE GAP": "the cross-run paid-attempt ledger records only brightdata_browser, brightdata_web_unlocker and firecrawl -- POLICY fetches. A discovery lookup is invisible to it. Buy these 143 today and a re-census in six weeks, past the 30-day cache retention, will buy them again under renamed keys, which is precisely the failure PTF-GENERIC-CROSS-RUN-PAID-ATTEMPT-LEDGER-001 was written to end. Extend the ledger with a discovery lane BEFORE authorising any spend."
+  },
+  "unit_cost": {
+    "denominated_in": "provider requests",
+    "usd_per_request": null,
+    "recorded_in_this_repo": false,
+    "why_unknown": "no USD rate for Google Places is recorded anywhere in this repository -- RequestBudget counts calls, not dollars. The field mask requests websiteUri and nationalPhoneNumber, which places the call in a higher-priced Google SKU than an id-only search, and the applicable rate depends on the operator's Google Cloud contract and monthly free allotment. This must be read from the billing console before authorising; it is not a number to estimate.",
+    "what_to_confirm": "the per-1000 price of Places API (New) Text Search at a field mask that includes websiteUri, and the remaining monthly allotment"
+  },
+  "binding_readiness": {
+    "identities": 143,
+    "can_bind_on_telephone": 5,
+    "must_bind_on_name_and_postal": 138,
+    "carry_a_bare_two_word_name": 14,
+    "sanctioned_keys": [
+      "PHONE",
+      "NAME_AND_POSTAL_CODE",
+      "STREET_AND_POSTAL_CODE (corroboration required)"
+    ],
+    "the_risk": "every URL St. Louis ever recovered from Google Places -- all 5 of them -- bound on TELEPHONE, and only 5 of these 143 rows state one. The other 138 must bind on name and postal code, which is untested for this provider, and 14 of them carry a bare two-word name like 'Comfort Suites' that names no building at all."
+  },
+  "expected_yield": {
+    "targeted_lookup_hit_rate": "UNKNOWN",
+    "targeted_lookup_bind_rate": "UNKNOWN",
+    "basis": "no market has ever run a TARGETED per-identity Places lookup, so there is no measurement to extrapolate from.",
+    "the_one_historical_datum": {
+      "market": "st-louis-mo",
+      "artifact": "st_louis_mo_url_recovery_002.json",
+      "url_less_rows": 60,
+      "recovered": 5,
+      "rate": 0.083,
+      "binding_counts": {
+        "PHONE": 5
+      },
+      "why_it_does_not_transfer": "that was MINING a cache built by broad area searches for a census pass, not asking the provider about one named hotel. The operations differ, so the rate does not carry across -- a targeted lookup should do better, and saying how much better without measuring it is the fabrication this work order rules out."
+    }
+  },
+  "options": {
+    "A_qualification_sample": {
+      "identities": 25,
+      "provider_requests": 25,
+      "purpose": "measure the hit rate and, more importantly, the BIND rate: how often a returned websiteUri can be attached to the census row on a sanctioned key rather than on a name that merely looks right",
+      "stratified_by_family": {
+        "choice": 6,
+        "esa": 1,
+        "g6": 1,
+        "hilton": 4,
+        "hyatt": 1,
+        "ihg": 3,
+        "independent": 3,
+        "marriott": 3,
+        "wyndham": 3
+      },
+      "carries_a_telephone": 2,
+      "decision_it_unlocks": "if the bind rate is high, Option C is worth authorising; if it is near zero, the 143 are not recoverable by this method at any price and the target has to be met another way"
+    },
+    "B_enough_to_unlock_about_30_candidates": {
+      "identities": null,
+      "provider_requests": null,
+      "why_it_cannot_be_sized_yet": "sizing this needs a bind rate, and no measurement of a TARGETED per-identity Places lookup exists for any market. Naming a number here would be a fabricated yield, which this work order forbids. Option A produces the rate that sizes Option B."
+    },
+    "C_full_cohort": {
+      "identities": 143,
+      "provider_requests": 143,
+      "note": "the whole unroutable pool in one pass; cheapest per row and the only option that can close the gap, but it buys 138 lookups whose binding key is unproven"
+    }
+  },
+  "worst_case": {
+    "full_cohort_requests": 143,
+    "worst_case_outcome": "143 requests billed and 0 usable URLs bound -- the provider answers, but the answers cannot be attached to a census row on a sanctioned key, or every answer is an OTA or directory page",
+    "what_bounds_it": "RequestBudget caps the run at a request count the operator sets, and every response is cached under its fingerprint, so a failed run is never paid for twice inside the retention window"
+  },
+  "rows": [
+    {
+      "identity_key": "aloft",
+      "canonical_name": "Aloft",
+      "family": "marriott",
+      "street": "136 East Market Street",
+      "city": "Indianapolis",
+      "postal_code": "46204",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "americinn by wyndham fishers indianapolis",
+      "canonical_name": "AmericInn by Wyndham Fishers Indianapolis",
+      "family": "wyndham",
+      "street": "9780 North by Northeast Boulevard",
+      "city": "Fishers",
+      "postal_code": "46037",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "ashley motel",
+      "canonical_name": "Ashley Motel",
+      "family": "independent",
+      "street": "2452 East Main Street",
+      "city": "Plainfield",
+      "postal_code": "46168",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "atlas hotel",
+      "canonical_name": "Atlas Hotel",
+      "family": "independent",
+      "street": "433 East Washington Street",
+      "city": "Indianapolis",
+      "postal_code": "46204",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "baymont inn and suites indianapolis east",
+      "canonical_name": "Baymont Inn & Suites Indianapolis East",
+      "family": "wyndham",
+      "street": "2311 North Shadeland Avenue",
+      "city": "Indianapolis",
+      "postal_code": "46219",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "best western plus indianapolis north at broad ripple",
+      "canonical_name": "Best Western Plus Indianapolis North at Broad Ripple",
+      "family": "bestwestern",
+      "street": "2141 Broad Ripple Avenue",
+      "city": "Indianapolis",
+      "postal_code": "46220",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "cambria hotel westfield indianapolis north",
+      "canonical_name": "Cambria Hotel Westfield Indianapolis North",
+      "family": "choice",
+      "street": "19190 Grand Park Boulevard",
+      "city": "Westfield",
+      "postal_code": "46074",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "candlewood suites",
+      "canonical_name": "Candlewood Suites",
+      "family": "ihg",
+      "street": "5250 West Bradbury Avenue",
+      "city": "Indianapolis",
+      "postal_code": "46241",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "candlewood suites indianapolis east",
+      "canonical_name": "Candlewood Suites Indianapolis East",
+      "family": "ihg",
+      "street": "7040 Shadeland Road",
+      "city": "Indianapolis",
+      "postal_code": "46219",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "candlewood suites indianapolis northwest",
+      "canonical_name": "Candlewood Suites Indianapolis Northwest",
+      "family": "ihg",
+      "street": "7455 Woodland Drive",
+      "city": "Indianapolis",
+      "postal_code": "46278",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "clarion indianapolis",
+      "canonical_name": "Clarion Indianapolis",
+      "family": "choice",
+      "street": "6990 East 21st Street",
+      "city": "Indianapolis",
+      "postal_code": "46219",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "clarion inn and suites northwest",
+      "canonical_name": "Clarion Inn & Suites Northwest",
+      "family": "choice",
+      "street": "7001 Corporate Drive",
+      "city": "Indianapolis",
+      "postal_code": "46278",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "comfort inn and suites n at pyramids",
+      "canonical_name": "Comfort Inn & Suites N at Pyramids",
+      "family": "choice",
+      "street": "9090 Wesleyan Road",
+      "city": "Indianapolis",
+      "postal_code": "46268",
+      "telephone": "3176622958",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "comfort inn avon indianapolis west",
+      "canonical_name": "Comfort Inn Avon Indianapolis West",
+      "family": "choice",
+      "street": "8229 East US Highway 36",
+      "city": "Avon",
+      "postal_code": "46123",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "comfort inn east indianapolis",
+      "canonical_name": "Comfort Inn East Indianapolis",
+      "family": "choice",
+      "street": "7015 Western Select Drive",
+      "city": "Indianapolis",
+      "postal_code": "46219",
+      "telephone": "3173599999",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "comfort inn fishers indianapolis",
+      "canonical_name": "Comfort Inn Fishers Indianapolis",
+      "family": "choice",
+      "street": "9780 North by Northeast Boulevard",
+      "city": "Fishers",
+      "postal_code": "46037",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "comfort inn indianapolis castleton",
+      "canonical_name": "Comfort Inn Indianapolis Castleton",
+      "family": "choice",
+      "street": "8330 Bash Street",
+      "city": "Indianapolis",
+      "postal_code": "46250",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "comfort inn indianapolis north at the fairgrounds",
+      "canonical_name": "Comfort Inn Indianapolis North at the Fairgrounds",
+      "family": "choice",
+      "street": "3880 West 92nd Street",
+      "city": "Indianapolis",
+      "postal_code": "46268",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "comfort inn south",
+      "canonical_name": "Comfort Inn South",
+      "family": "choice",
+      "street": "5040 South East Street",
+      "city": "Indianapolis",
+      "postal_code": "46227",
+      "telephone": "3177836711",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "comfort suites greenwood indianapolis south",
+      "canonical_name": "Comfort Suites Greenwood Indianapolis South",
+      "family": "choice",
+      "street": "1186 Wilson Drive",
+      "city": "Greenwood",
+      "postal_code": "46143",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "comfort suites indianapolis downtown",
+      "canonical_name": "Comfort Suites Indianapolis Downtown",
+      "family": "choice",
+      "street": "620 North Capitol Avenue",
+      "city": "Indianapolis",
+      "postal_code": "46204",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "comfort suites indianapolis east",
+      "canonical_name": "Comfort Suites Indianapolis East",
+      "family": "choice",
+      "street": "9150 East 21st Street",
+      "city": "Indianapolis",
+      "postal_code": "46229",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "comfort suites indianapolis south",
+      "canonical_name": "Comfort Suites Indianapolis South",
+      "family": "choice",
+      "street": "5040 Southport Crossing Place",
+      "city": "Indianapolis",
+      "postal_code": "46237",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "comfort suites west indianapolis brownsburg",
+      "canonical_name": "Comfort Suites West Indianapolis - Brownsburg",
+      "family": "choice",
+      "street": "500 West Northfield Drive",
+      "city": "Brownsburg",
+      "postal_code": "46112",
+      "telephone": "3178522000",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "country hearth inn indianapolis",
+      "canonical_name": "Country Hearth Inn Indianapolis",
+      "family": "independent",
+      "street": "8850 East 21st Street",
+      "city": "Indianapolis",
+      "postal_code": "46219",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "country inn and suites indianapolis airport south",
+      "canonical_name": "Country Inn & Suites Indianapolis Airport South",
+      "family": "independent",
+      "street": "3871 Ferndale Road",
+      "city": "Indianapolis",
+      "postal_code": "46241",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "courtyard by marriott indianapolis airport plainfield",
+      "canonical_name": "Courtyard by Marriott Indianapolis Airport Plainfield",
+      "family": "marriott",
+      "street": "6016 Gateway Drive",
+      "city": "Plainfield",
+      "postal_code": "46168",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "drury inn and suites indianapolis northeast",
+      "canonical_name": "Drury Inn & Suites Indianapolis Northeast",
+      "family": "independent",
+      "street": "8180 Shadeland Avenue",
+      "city": "Indianapolis",
+      "postal_code": "46250",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "drury plaza hotel carmel indianapolis",
+      "canonical_name": "Drury Plaza Hotel Carmel Indianapolis",
+      "family": "independent",
+      "street": "9625 North Meridian Street",
+      "city": "Indianapolis",
+      "postal_code": "46290",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "echo suites extended stay by wyndham",
+      "canonical_name": "Echo Suites Extended Stay by Wyndham",
+      "family": "wyndham",
+      "street": "5831",
+      "city": "Indianapolis",
+      "postal_code": "46241",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "echo suites extended stay by wyndham indianapolis ameriplex",
+      "canonical_name": "Echo Suites Extended Stay by Wyndham Indianapolis Ameriplex",
+      "family": "wyndham",
+      "street": "8805 Ameriplex Drive",
+      "city": "Indianapolis",
+      "postal_code": "46241",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "embassy suites by hilton noblesville indianapolis conference center",
+      "canonical_name": "Embassy Suites by Hilton Noblesville Indianapolis Conference Center",
+      "family": "hilton",
+      "street": "13700 Conference Center Drive South",
+      "city": "Noblesville",
+      "postal_code": "46060",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "extended stay america indianapolis airport w southern ave",
+      "canonical_name": "Extended Stay America - Indianapolis - Airport - W. Southern Ave.",
+      "family": "esa",
+      "street": "5350 West Southern Avenue",
+      "city": "Indianapolis",
+      "postal_code": "46241",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "extended stay america indianapolis castleton",
+      "canonical_name": "Extended Stay America Indianapolis Castleton",
+      "family": "esa",
+      "street": "8280 Bash Street",
+      "city": "Indianapolis",
+      "postal_code": "46250",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "extended stay america indianapolis northwest",
+      "canonical_name": "Extended Stay America Indianapolis Northwest",
+      "family": "esa",
+      "street": "9370 Waldemar Road",
+      "city": "Indianapolis",
+      "postal_code": "46268",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "extended stay america indianapolis west 86th st",
+      "canonical_name": "Extended Stay America - Indianapolis - West 86th St.",
+      "family": "esa",
+      "street": "8520 Northwest Boulevard",
+      "city": "Indianapolis",
+      "postal_code": "46278",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "fairfield inn and suites indianapolis airport plainfield",
+      "canonical_name": "Fairfield Inn & Suites Indianapolis Airport Plainfield",
+      "family": "marriott",
+      "street": "6155 Cambridge Way",
+      "city": "Plainfield",
+      "postal_code": "46168",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "fairfield inn and suites indianapolis avon",
+      "canonical_name": "Fairfield Inn & Suites Indianapolis Avon",
+      "family": "marriott",
+      "street": "119 Angelina Way",
+      "city": "Avon",
+      "postal_code": "46123",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "fairfield inn and suites indianapolis castleton",
+      "canonical_name": "Fairfield Inn & Suites Indianapolis Castleton",
+      "family": "marriott",
+      "street": "5905 Fortune Circle South",
+      "city": "Indianapolis",
+      "postal_code": "46250",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "fairfield inn and suites indianapolis fishers",
+      "canonical_name": "Fairfield Inn & Suites Indianapolis Fishers",
+      "family": "marriott",
+      "street": "9765 North by Northeast Boulevard",
+      "city": "Fishers",
+      "postal_code": "46037",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "fairfield inn and suites indianapolis south",
+      "canonical_name": "Fairfield Inn & Suites Indianapolis South",
+      "family": "marriott",
+      "street": "4504 Southport Crossing Drive",
+      "city": "Indianapolis",
+      "postal_code": "46237",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "fairfield inn and suites indianapolis south greenwood",
+      "canonical_name": "Fairfield Inn & Suites Indianapolis South Greenwood",
+      "family": "marriott",
+      "street": "1190 North State Road 135",
+      "city": "Greenwood",
+      "postal_code": "46142",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "hampton inn and suites indianapolis carmel",
+      "canonical_name": "Hampton Inn & Suites Indianapolis Carmel",
+      "family": "hilton",
+      "street": "12450 North Meridian Street",
+      "city": "Carmel",
+      "postal_code": "46032",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "hampton inn and suites indianapolis downtown",
+      "canonical_name": "Hampton Inn & Suites Indianapolis Downtown",
+      "family": "hilton",
+      "street": "414 West Maryland Street",
+      "city": "Indianapolis",
+      "postal_code": "46225",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "hampton inn and suites indianapolis fishers",
+      "canonical_name": "Hampton Inn & Suites Indianapolis Fishers",
+      "family": "hilton",
+      "street": "11575 Commercial Drive",
+      "city": "Fishers",
+      "postal_code": "46038",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "hampton inn and suites noblesville",
+      "canonical_name": "Hampton Inn & Suites Noblesville",
+      "family": "hilton",
+      "street": "16715 Clover Road",
+      "city": "Noblesville",
+      "postal_code": "46060",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "hampton inn and suites westfield",
+      "canonical_name": "Hampton Inn & Suites Westfield",
+      "family": "hilton",
+      "street": "19300 Promenade Parkway",
+      "city": "Westfield",
+      "postal_code": "46074",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "hampton inn indianapolis avon",
+      "canonical_name": "Hampton Inn Indianapolis Avon",
+      "family": "hilton",
+      "street": "110 South County Road 800 East",
+      "city": "Avon",
+      "postal_code": "46123",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "hampton inn indianapolis northeast",
+      "canonical_name": "Hampton Inn Indianapolis Northeast",
+      "family": "hilton",
+      "street": "2311 North Shadeland Avenue",
+      "city": "Indianapolis",
+      "postal_code": "46219",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "hampton inn indianapolis south greenwood",
+      "canonical_name": "Hampton Inn Indianapolis South Greenwood",
+      "family": "hilton",
+      "street": "400 Airport Parkway",
+      "city": "Greenwood",
+      "postal_code": "46143",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "hampton inn indianapolis southwest plainfield",
+      "canonical_name": "Hampton Inn Indianapolis Southwest Plainfield",
+      "family": "hilton",
+      "street": "2244 East Main Street",
+      "city": "Plainfield",
+      "postal_code": "46168",
+      "telephone": "3178399993",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "hilton garden inn indianapolis northeast castleton",
+      "canonical_name": "Hilton Garden Inn Indianapolis Northeast Castleton",
+      "family": "hilton",
+      "street": "7300 East 21st Street",
+      "city": "Indianapolis",
+      "postal_code": "46219",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "hilton garden inn indianapolis south greenwood",
+      "canonical_name": "Hilton Garden Inn Indianapolis South Greenwood",
+      "family": "hilton",
+      "street": "525 Airtech Parkway",
+      "city": "Greenwood",
+      "postal_code": "46143",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "holiday inn express and suites indianapolis east",
+      "canonical_name": "Holiday Inn Express and Suites Indianapolis East",
+      "family": "ihg",
+      "street": "7035 Western Select Drive",
+      "city": "Indianapolis",
+      "postal_code": "46219",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "holiday inn express and suites noblesville",
+      "canonical_name": "Holiday Inn Express & Suites Noblesville",
+      "family": "ihg",
+      "street": "16805 Clover Road",
+      "city": "Noblesville",
+      "postal_code": "46060",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "holiday inn express indianapolis east",
+      "canonical_name": "Holiday Inn Express Indianapolis East",
+      "family": "ihg",
+      "street": "3525 North Shadeland Avenue",
+      "city": "Indianapolis",
+      "postal_code": "46226",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "holiday inn express indianapolis northeast",
+      "canonical_name": "Holiday Inn Express Indianapolis Northeast",
+      "family": "ihg",
+      "street": "7150 East 21st Street",
+      "city": "Indianapolis",
+      "postal_code": "46219",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "holiday inn express indianapolis northwest",
+      "canonical_name": "Holiday Inn Express Indianapolis Northwest",
+      "family": "ihg",
+      "street": "7110 Arthurs Court",
+      "city": "Indianapolis",
+      "postal_code": "46278",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "holiday inn express indianapolis south",
+      "canonical_name": "Holiday Inn Express Indianapolis South",
+      "family": "ihg",
+      "street": "4505 Southport Crossing Drive",
+      "city": "Indianapolis",
+      "postal_code": "46237",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "holiday inn express indianapolis west avon",
+      "canonical_name": "Holiday Inn Express Indianapolis West Avon",
+      "family": "ihg",
+      "street": "8229 East US Highway 36",
+      "city": "Avon",
+      "postal_code": "46123",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "holiday inn express northwest park 100",
+      "canonical_name": "Holiday Inn Express Northwest-Park 100",
+      "family": "ihg",
+      "street": "7220 Woodland Drive",
+      "city": "Indianapolis",
+      "postal_code": "46278",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "holiday inn indianapolis carmel",
+      "canonical_name": "Holiday Inn Indianapolis Carmel",
+      "family": "ihg",
+      "street": "251 Pennsylvania Parkway",
+      "city": "Carmel",
+      "postal_code": "46032",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "home2 suites by hilton brownsburg",
+      "canonical_name": "Home2 Suites by Hilton Brownsburg",
+      "family": "hilton",
+      "street": "520 West Northfield Drive",
+      "city": "Brownsburg",
+      "postal_code": "46112",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "home2 suites by hilton indianapolis greenwood",
+      "canonical_name": "Home2 Suites by Hilton Indianapolis Greenwood",
+      "family": "hilton",
+      "street": "497 Airtech Parkway",
+      "city": "Greenwood",
+      "postal_code": "46143",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "home2 suites by hilton indianapolis keystone crossing",
+      "canonical_name": "Home2 Suites by Hilton Indianapolis Keystone Crossing",
+      "family": "hilton",
+      "street": "3980 East 82nd Street",
+      "city": "Indianapolis",
+      "postal_code": "46240",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "home2 suites by hilton westfield indianapolis",
+      "canonical_name": "Home2 Suites by Hilton Westfield Indianapolis",
+      "family": "hilton",
+      "street": "19366 Promenade Parkway",
+      "city": "Westfield",
+      "postal_code": "46074",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "homewood suites by hilton indianapolis airport plainfield",
+      "canonical_name": "Homewood Suites by Hilton Indianapolis-Airport/Plainfield",
+      "family": "hilton",
+      "street": "2264 Perry Road",
+      "city": "Plainfield",
+      "postal_code": "46168",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "homewood suites by hilton indianapolis carmel",
+      "canonical_name": "Homewood Suites by Hilton Indianapolis Carmel",
+      "family": "hilton",
+      "street": "12975 Palisade Boulevard",
+      "city": "Carmel",
+      "postal_code": "46032",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "homewood suites by hilton indianapolis downtown",
+      "canonical_name": "Homewood Suites by Hilton Indianapolis Downtown",
+      "family": "hilton",
+      "street": "211 South Meridian Street",
+      "city": "Indianapolis",
+      "postal_code": "46204",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "homewood suites by hilton indianapolis downtown iupui",
+      "canonical_name": "Homewood Suites by Hilton Indianapolis Downtown IUPUI",
+      "family": "hilton",
+      "street": "201 South Capitol Avenue",
+      "city": "Indianapolis",
+      "postal_code": "46225",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "homewood suites by hilton indianapolis fishers",
+      "canonical_name": "Homewood Suites by Hilton Indianapolis Fishers",
+      "family": "hilton",
+      "street": "11455 North Allisonville Road",
+      "city": "Fishers",
+      "postal_code": "46038",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "homewood suites by hilton indianapolis keystone crossing",
+      "canonical_name": "Homewood Suites by Hilton Indianapolis - Keystone Crossing",
+      "family": "hilton",
+      "street": "2501 East 86th Street",
+      "city": "Indianapolis",
+      "postal_code": "46240",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "hyatt place indianapolis carmel",
+      "canonical_name": "Hyatt Place Indianapolis / Carmel",
+      "family": "hyatt",
+      "street": "12045 Illinois Street",
+      "city": "Carmel",
+      "postal_code": "46032",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "hyatt place indianapolis fishers",
+      "canonical_name": "Hyatt Place Indianapolis Fishers",
+      "family": "hyatt",
+      "street": "11455 North Allisonville Road",
+      "city": "Fishers",
+      "postal_code": "46038",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "indianapolis marriott downtown",
+      "canonical_name": "Indianapolis Marriott Downtown",
+      "family": "marriott",
+      "street": "350 West Maryland Street",
+      "city": "Indianapolis",
+      "postal_code": "46225",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "indianapolis marriott east",
+      "canonical_name": "Indianapolis Marriott East",
+      "family": "marriott",
+      "street": "7202 East 21st Street",
+      "city": "Indianapolis",
+      "postal_code": "46219",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "indy lodge",
+      "canonical_name": "Indy Lodge",
+      "family": "independent",
+      "street": "602 East Thompson Road",
+      "city": "Indianapolis",
+      "postal_code": "46227",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "intown suites extended stay",
+      "canonical_name": "InTown Suites Extended Stay",
+      "family": "esa",
+      "street": "3650 West 86th Street",
+      "city": "Indianapolis",
+      "postal_code": "46268",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "intown suites extended stay indianapolis in greenwood",
+      "canonical_name": "InTown Suites Extended Stay Indianapolis IN - Greenwood",
+      "family": "esa",
+      "street": "887 East Main Street",
+      "city": "Greenwood",
+      "postal_code": "46143",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "intown suites extended stay indianapolis in post drive",
+      "canonical_name": "InTown Suites Extended Stay Indianapolis IN - Post Drive",
+      "family": "esa",
+      "street": "2301 Post Drive",
+      "city": "Indianapolis",
+      "postal_code": "46219",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "intown suites extended stay indianapolis in traders point",
+      "canonical_name": "InTown Suites Extended Stay Indianapolis IN - Traders Point",
+      "family": "esa",
+      "street": "5820 West 85th Street",
+      "city": "Indianapolis",
+      "postal_code": "46278",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "ironworks hotel indianapolis",
+      "canonical_name": "Ironworks Hotel Indianapolis",
+      "family": "independent",
+      "street": "2721 East 86th Street",
+      "city": "Indianapolis",
+      "postal_code": "46240",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "la quinta inn",
+      "canonical_name": "La Quinta Inn",
+      "family": "wyndham",
+      "street": "3871 West 92nd Street",
+      "city": "Indianapolis",
+      "postal_code": "46268",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "la quinta inn and suites indianapolis downtown",
+      "canonical_name": "La Quinta Inn & Suites Indianapolis Downtown",
+      "family": "wyndham",
+      "street": "731 North Senate Avenue",
+      "city": "Indianapolis",
+      "postal_code": "46202",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "la quinta inn and suites indianapolis east",
+      "canonical_name": "La Quinta Inn & Suites Indianapolis East",
+      "family": "wyndham",
+      "street": "2375 North Shadeland Avenue",
+      "city": "Indianapolis",
+      "postal_code": "46219",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "la quinta inn and suites indianapolis south",
+      "canonical_name": "La Quinta Inn & Suites Indianapolis South",
+      "family": "wyndham",
+      "street": "5120 Victory Drive",
+      "city": "Indianapolis",
+      "postal_code": "46203",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "la quinta inn and suites indianapolis south greenwood",
+      "canonical_name": "La Quinta Inn & Suites Indianapolis South Greenwood",
+      "family": "wyndham",
+      "street": "1281 South Park Drive",
+      "city": "Greenwood",
+      "postal_code": "46143",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "la quinta inn indianapolis east post drive",
+      "canonical_name": "La Quinta Inn Indianapolis East-Post Drive",
+      "family": "wyndham",
+      "street": "2349 Post Drive",
+      "city": "Indianapolis",
+      "postal_code": "46219",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "la quinta inn indianapolis north",
+      "canonical_name": "La Quinta Inn Indianapolis North",
+      "family": "wyndham",
+      "street": "7301 Woodland Drive",
+      "city": "Indianapolis",
+      "postal_code": "46278",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "mainstay suites",
+      "canonical_name": "MainStay Suites",
+      "family": "choice",
+      "street": "9030 Wesleyan Road",
+      "city": "Indianapolis",
+      "postal_code": "46268",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "marblehead",
+      "canonical_name": "Marblehead",
+      "family": "independent",
+      "street": "3310 North Meridian Street",
+      "city": "Indianapolis",
+      "postal_code": "46208",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "marriott indianapolis downtown",
+      "canonical_name": "Marriott Indianapolis Downtown",
+      "family": "marriott",
+      "street": "350 West Maryland Street",
+      "city": "Indianapolis",
+      "postal_code": "46204",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "marriott indianapolis north",
+      "canonical_name": "Marriott Indianapolis North",
+      "family": "marriott",
+      "street": "3645 River Crossing Parkway",
+      "city": "Indianapolis",
+      "postal_code": "46240",
+      "telephone": "",
+      "prior_census_aliases": [
+        "marriott indianapolis north"
+      ]
+    },
+    {
+      "identity_key": "microtel",
+      "canonical_name": "Microtel",
+      "family": "wyndham",
+      "street": "5815 Rockville Road",
+      "city": "Indianapolis",
+      "postal_code": "46224",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "microtel inn and suites by wyndham indianapolis airport",
+      "canonical_name": "Microtel Inn & Suites by Wyndham Indianapolis Airport",
+      "family": "wyndham",
+      "street": "5815 Rockville Road",
+      "city": "Indianapolis",
+      "postal_code": "46224",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "motel 6",
+      "canonical_name": "Motel 6",
+      "family": "g6",
+      "street": "9140 Michigan Road",
+      "city": "Indianapolis",
+      "postal_code": "46268",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "motel 6 indianapolis airport",
+      "canonical_name": "Motel 6 Indianapolis - Airport",
+      "family": "g6",
+      "street": "5845 Rockville Road",
+      "city": "Indianapolis",
+      "postal_code": "46224",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "motel 6 indianapolis east",
+      "canonical_name": "Motel 6 Indianapolis - East",
+      "family": "g6",
+      "street": "2851 North Shadeland Avenue",
+      "city": "Indianapolis",
+      "postal_code": "46219",
+      "telephone": "",
+      "prior_census_aliases": [
+        "motel 6 indianapolis east"
+      ]
+    },
+    {
+      "identity_key": "motel 6 indianapolis speedway",
+      "canonical_name": "Motel 6 Indianapolis Speedway",
+      "family": "g6",
+      "street": "2851 North High School Road",
+      "city": "Indianapolis",
+      "postal_code": "46224",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "my place hotel indianapolis airport plainfield in",
+      "canonical_name": "My Place Hotel- Indianapolis Airport/Plainfield, IN",
+      "family": "independent",
+      "street": "5065 Gateway Drive",
+      "city": "Plainfield",
+      "postal_code": "46168",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "oakwood at canal square",
+      "canonical_name": "Oakwood at Canal Square",
+      "family": "independent",
+      "street": "359 North West Street",
+      "city": "Indianapolis",
+      "postal_code": "46204",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "oakwood at rivercrossing",
+      "canonical_name": "Oakwood at Rivercrossing",
+      "family": "independent",
+      "street": "8720 Knickerbocker Way",
+      "city": "Indianapolis",
+      "postal_code": "46240",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "quality inn and suites",
+      "canonical_name": "Quality Inn & Suites",
+      "family": "choice",
+      "street": "5011 Lafayette Road",
+      "city": "Indianapolis",
+      "postal_code": "46254",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "quality inn and suites airport",
+      "canonical_name": "Quality Inn & Suites Airport",
+      "family": "choice",
+      "street": "2631 South Lynhurst Drive",
+      "city": "Indianapolis",
+      "postal_code": "46241",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "quality inn and suites brownsburg indianapolis west",
+      "canonical_name": "Quality Inn & Suites Brownsburg - Indianapolis West",
+      "family": "choice",
+      "street": "31 Maplehurst Drive",
+      "city": "Brownsburg",
+      "postal_code": "46112",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "quality inn and suites indianapolis fairgrounds",
+      "canonical_name": "Quality Inn & Suites Indianapolis Fairgrounds",
+      "family": "choice",
+      "street": "3880 West 92nd Street",
+      "city": "Indianapolis",
+      "postal_code": "46268",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "quality inn and suites indianapolis speedway",
+      "canonical_name": "Quality Inn & Suites Indianapolis Speedway",
+      "family": "choice",
+      "street": "2441 Production Drive",
+      "city": "Indianapolis",
+      "postal_code": "46241",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "quality inn and suites noblesville indianapolis",
+      "canonical_name": "Quality Inn & Suites Noblesville Indianapolis",
+      "family": "choice",
+      "street": "16025 Promise Road",
+      "city": "Noblesville",
+      "postal_code": "46060",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "quality inn brownsburg indianapolis west",
+      "canonical_name": "Quality Inn Brownsburg Indianapolis West",
+      "family": "choice",
+      "street": "31 Brownsburg Place",
+      "city": "Brownsburg",
+      "postal_code": "46112",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "quality inn castleton indianapolis",
+      "canonical_name": "Quality Inn Castleton Indianapolis",
+      "family": "choice",
+      "street": "8380 Bash Street",
+      "city": "Indianapolis",
+      "postal_code": "46250",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "quality inn east indianapolis",
+      "canonical_name": "Quality Inn East Indianapolis",
+      "family": "choice",
+      "street": "7050 East 21st Street",
+      "city": "Indianapolis",
+      "postal_code": "46219",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "quality inn greenwood indianapolis south",
+      "canonical_name": "Quality Inn Greenwood Indianapolis South",
+      "family": "choice",
+      "street": "1101 Ramblin Road",
+      "city": "Greenwood",
+      "postal_code": "46142",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "quality inn noblesville indianapolis",
+      "canonical_name": "Quality Inn Noblesville-Indianapolis",
+      "family": "choice",
+      "street": "17070 Dragonfly Drive",
+      "city": "Noblesville",
+      "postal_code": "46060",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "quality inn of indy castleton",
+      "canonical_name": "Quality Inn of Indy Castleton",
+      "family": "choice",
+      "street": "8380 Kelly Lane",
+      "city": "Indianapolis",
+      "postal_code": "46250",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "quality inn plainfield",
+      "canonical_name": "Quality Inn Plainfield",
+      "family": "choice",
+      "street": "6105 Cambridge Way",
+      "city": "Plainfield",
+      "postal_code": "46168",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "ramada indianapolis airport",
+      "canonical_name": "Ramada Indianapolis Airport",
+      "family": "wyndham",
+      "street": "5601 Fortune Circle West",
+      "city": "Indianapolis",
+      "postal_code": "46241",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "red roof inn indianapolis greenwood",
+      "canonical_name": "Red Roof Inn Indianapolis - Greenwood",
+      "family": "redroof",
+      "street": "110 Sheek Road",
+      "city": "Greenwood",
+      "postal_code": "46143",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "red roof inn indianapolis south",
+      "canonical_name": "Red Roof Inn Indianapolis South",
+      "family": "redroof",
+      "street": "5221 Victory Drive",
+      "city": "Indianapolis",
+      "postal_code": "46203",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "relax inn",
+      "canonical_name": "Relax Inn",
+      "family": "independent",
+      "street": "120 South Tibbs Avenue",
+      "city": "Indianapolis",
+      "postal_code": "46241",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "residence inn by marriott indianapolis carmel",
+      "canonical_name": "Residence Inn by Marriott Indianapolis Carmel",
+      "family": "marriott",
+      "street": "11898 North Meridian Street",
+      "city": "Carmel",
+      "postal_code": "46032",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "residence inn by marriott indianapolis fishers",
+      "canonical_name": "Residence Inn by Marriott Indianapolis Fishers",
+      "family": "marriott",
+      "street": "9765 North by Northeast Boulevard",
+      "city": "Fishers",
+      "postal_code": "46037",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "residence inn by marriott indianapolis keystone",
+      "canonical_name": "Residence Inn by Marriott Indianapolis Keystone",
+      "family": "marriott",
+      "street": "9450 Counselors Row",
+      "city": "Indianapolis",
+      "postal_code": "46240",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "residence inn by marriott indianapolis northwest",
+      "canonical_name": "Residence Inn by Marriott Indianapolis Northwest",
+      "family": "marriott",
+      "street": "5925 West 71st Street",
+      "city": "Indianapolis",
+      "postal_code": "46278",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "shadeland inn",
+      "canonical_name": "Shadeland Inn",
+      "family": "independent",
+      "street": "3525 North Shadeland Avenue",
+      "city": "Indianapolis",
+      "postal_code": "46226",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "sheraton indianapolis city centre hotel",
+      "canonical_name": "Sheraton Indianapolis City Centre Hotel",
+      "family": "independent",
+      "street": "31 West Ohio Street",
+      "city": "Indianapolis",
+      "postal_code": "46204",
+      "telephone": "",
+      "prior_census_aliases": [
+        "sheraton indianapolis city centre hotel"
+      ]
+    },
+    {
+      "identity_key": "sheraton indianapolis hotel at keystone crossing",
+      "canonical_name": "Sheraton Indianapolis Hotel at Keystone Crossing",
+      "family": "independent",
+      "street": "8787 Keystone Crossing",
+      "city": "Indianapolis",
+      "postal_code": "46240",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "skyline motel",
+      "canonical_name": "Skyline Motel",
+      "family": "independent",
+      "street": "6617 East Washington Street",
+      "city": "Indianapolis",
+      "postal_code": "46219",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "sleep inn and suites downtown indianapolis",
+      "canonical_name": "Sleep Inn & Suites Downtown Indianapolis",
+      "family": "choice",
+      "street": "1244 West 16th Street",
+      "city": "Indianapolis",
+      "postal_code": "46222",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "springhill suites by marriott indianapolis fishers castleton",
+      "canonical_name": "SpringHill Suites by Marriott Indianapolis Fishers/Castleton",
+      "family": "marriott",
+      "street": "11989 Fishers Crossing Drive",
+      "city": "Fishers",
+      "postal_code": "46038",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "staybridge suites indianapolis castleton",
+      "canonical_name": "Staybridge Suites Indianapolis Castleton",
+      "family": "ihg",
+      "street": "6789 East 82nd Street",
+      "city": "Indianapolis",
+      "postal_code": "46250",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "staybridge suites indianapolis city centre",
+      "canonical_name": "Staybridge Suites Indianapolis City Centre",
+      "family": "ihg",
+      "street": "535 South West Street",
+      "city": "Indianapolis",
+      "postal_code": "46225",
+      "telephone": "",
+      "prior_census_aliases": [
+        "staybridge suites indianapolis city centre"
+      ]
+    },
+    {
+      "identity_key": "staybridge suites indianapolis fishers",
+      "canonical_name": "Staybridge Suites Indianapolis Fishers",
+      "family": "ihg",
+      "street": "9780 North by Northeast Boulevard",
+      "city": "Fishers",
+      "postal_code": "46037",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "super 8 by wyndham greenwood indianapolis south",
+      "canonical_name": "Super 8 by Wyndham Greenwood Indianapolis South",
+      "family": "wyndham",
+      "street": "110 South State Road 135",
+      "city": "Greenwood",
+      "postal_code": "46142",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "super 8 by wyndham indianapolis speedway",
+      "canonical_name": "Super 8 by Wyndham Indianapolis Speedway",
+      "family": "wyndham",
+      "street": "4530 South Holt Road",
+      "city": "Indianapolis",
+      "postal_code": "46241",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "super 8 plainfield indianapolis airport",
+      "canonical_name": "Super 8 Plainfield/Indianapolis Airport",
+      "family": "wyndham",
+      "street": "6015 Gateway Drive",
+      "city": "Plainfield",
+      "postal_code": "46168",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "the lodge at broad ripple",
+      "canonical_name": "The Lodge at Broad Ripple",
+      "family": "independent",
+      "street": "6525 Ferguson Street",
+      "city": "Indianapolis",
+      "postal_code": "46220",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "travel inn",
+      "canonical_name": "Travel Inn",
+      "family": "independent",
+      "street": "4950 South East Street",
+      "city": "Indianapolis",
+      "postal_code": "46227",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "tru by hilton indianapolis downtown",
+      "canonical_name": "Tru by Hilton Indianapolis Downtown",
+      "family": "hilton",
+      "street": "601 Russell Avenue",
+      "city": "Indianapolis",
+      "postal_code": "46202",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "wingate by wyndham indianapolis airport plainfield",
+      "canonical_name": "Wingate by Wyndham Indianapolis Airport Plainfield",
+      "family": "wyndham",
+      "street": "6010 Gateway Drive",
+      "city": "Plainfield",
+      "postal_code": "46168",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "wingate by wyndham indianapolis airport rockville rd",
+      "canonical_name": "Wingate By Wyndham Indianapolis Airport-Rockville Rd.",
+      "family": "wyndham",
+      "street": "5797 Rockville Road",
+      "city": "Indianapolis",
+      "postal_code": "46224",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "woodspring suites indianapolis airport south",
+      "canonical_name": "WoodSpring Suites Indianapolis Airport South",
+      "family": "choice",
+      "street": "4402 West Morris Street",
+      "city": "Indianapolis",
+      "postal_code": "46241",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "woodspring suites indianapolis castleton",
+      "canonical_name": "WoodSpring Suites Indianapolis Castleton",
+      "family": "choice",
+      "street": "8255 Bash Street",
+      "city": "Indianapolis",
+      "postal_code": "46250",
+      "telephone": "",
+      "prior_census_aliases": []
+    },
+    {
+      "identity_key": "woodspring suites indianapolis plainfield",
+      "canonical_name": "WoodSpring Suites Indianapolis Plainfield",
+      "family": "choice",
+      "street": "6295 Gateway Drive",
+      "city": "Plainfield",
+      "postal_code": "46168",
+      "telephone": "",
+      "prior_census_aliases": []
+    }
+  ]
+}
