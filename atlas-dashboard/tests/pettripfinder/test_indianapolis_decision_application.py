@@ -63,4 +63,14 @@ def test_application_wrote_four_no_pets_and_eight_live_governed_facts():
     downtown = next(e for e in indy
                     if e["exclusion_id"] == "ii-crowne-plaza-indianapolis-downtown-union-station")
     assert "Airport" not in downtown["evidence_quote"]
-    assert set(load_published_hotel_policy_facts("indianapolis-in")) == keys
+    # load_published_hotel_policy_facts keys by the package's ROUTE key,
+    # which is derived from the canonical NAME; `keys` above is the set of
+    # census identity keys. The two diverge wherever a canonical-name
+    # correction has been applied -- Louisville carries eight such rows and
+    # St. Louis four, and PTF-INDIANAPOLIS-FINAL-ZERO-COST-CLEANUP-018 gave
+    # Indianapolis its first ("Tru" -> "Tru by Hilton Indianapolis
+    # Downtown"). Comparing the two fields only ever passed because this
+    # market had no corrections; compare like for like.
+    published = load_published_hotel_policy_facts("indianapolis-in")
+    assert set(published) == {h["key"] for h in facts["hotels"]}
+    assert {h["identity_key"] for h in facts["hotels"]} == keys

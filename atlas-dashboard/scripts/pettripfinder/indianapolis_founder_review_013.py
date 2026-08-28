@@ -75,6 +75,13 @@ _ALLOWS = (
     re.compile(r"pets\s+allowed\s*:\s*yes", re.I),
     re.compile(r"pets\s+allowed\s+yes", re.I),
     re.compile(r"\d+\s+pets?\s+allowed", re.I),
+    # "is a pet friendly hotel" -- an affirmative permission this list did not
+    # carry, found by PTF-INDIANAPOLIS-BACKLOG-ACQUISITION-016 on Omni Severin
+    # and deliberately left for its own work order rather than widened mid-
+    # review. Anchored on IS/ARE + the property being the pet-friendly thing,
+    # so a marketing list ("pet friendly rooms", "/pet-friendly-hotels") and a
+    # REFUSAL ("not a pet friendly hotel") are both excluded.
+    re.compile(r"\b(?:is|are)\s+(?:a\s+)?pet[\s-]friendly\b", re.I),
 )
 
 #: Language about a legal access category. Never a pet permission, and never a

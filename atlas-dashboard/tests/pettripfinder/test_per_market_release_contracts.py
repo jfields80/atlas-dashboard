@@ -143,7 +143,11 @@ EXPECTED_RECONCILIATION = {
     # already owns. Resolved 88; unresolved COUNTED as the exact remainder (169)
     # because this market records no OUT_OF_CURRENT_CATEGORY identity
     # (Louisville rule). The census is untouched at 257.
-    INDIANAPOLIS: (257, 54, 34, 88, 169),
+    # PTF-INDIANAPOLIS-FINAL-ZERO-COST-CLEANUP-018 then took it to 56 + 34:
+    # the Plainfield Hampton once its identity ruling was recorded, and Omni
+    # Severin once the reader gap that held it was closed. Resolved 90;
+    # unresolved COUNTED as the exact remainder (167).
+    INDIANAPOLIS: (257, 56, 34, 90, 167),
     # PTF-MILWAUKEE-PUBLICATION-042. 147 confirmed identities; 73 published
     # pet-friendly and 27 verified-no-pets, both founder-approved across two
     # sittings (036 and 040); resolved = 73 + 27 = 100; unresolved is COUNTED

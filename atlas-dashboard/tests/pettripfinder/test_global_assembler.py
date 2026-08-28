@@ -388,7 +388,8 @@ def test_current_live_inventory_preserves_all_assemblable_market_profiles(market
                       "pittsburgh-pa": 26,
                       # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: 8 -> 24 founder-signed profiles over
                       # the promoted 257-identity census. 24 -> 54 at
-                      # PTF-INDIANAPOLIS-56-PROFILE-AUTHORITY-PROMOTION-017, which promoted the
+                      # PTF-INDIANAPOLIS-56-PROFILE-AUTHORITY-PROMOTION-017 (54) and
+    # PTF-INDIANAPOLIS-FINAL-ZERO-COST-CLEANUP-018 (+2), which promoted the
                       # 013/014/016 signatures and withheld two of the 56 signed rows: one whose
                       # identity the membrane refuses without a founder ruling, and one whose
                       # bare-brand key Cleveland already owns.
@@ -406,8 +407,9 @@ def test_current_live_inventory_preserves_all_assemblable_market_profiles(market
     # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: 469 + Indianapolis's 16 further
     # founder-signed profiles (8 -> 24). Every other market's count above is
     # unchanged, so the whole of this movement is Indianapolis's.
-    assert sum(counts.values()) == 515   # 485 + Indianapolis 24 -> 54 at
-    # PTF-INDIANAPOLIS-56-PROFILE-AUTHORITY-PROMOTION-017
+    assert sum(counts.values()) == 517   # 485 + Indianapolis 24 -> 56 across
+    # PTF-INDIANAPOLIS-56-PROFILE-AUTHORITY-PROMOTION-017 (54) and
+    # PTF-INDIANAPOLIS-FINAL-ZERO-COST-CLEANUP-018 (+2)
 
 
 # --------------------------------------------------------------------------- #

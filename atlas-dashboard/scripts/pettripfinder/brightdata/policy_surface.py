@@ -953,7 +953,42 @@ def streets_agree(page_address: str, expected_street: str) -> Tuple[bool, str]:
     if page_bare == want_bare and (page_dir or want_dir) and not (page_dir and want_dir):
         return (True, "the directional %r is stated on one side and omitted on "
                       "the other" % (page_dir or want_dir))
+
+    # SPLIT DIRECTIONAL. "N.W." loses its full stops upstream and arrives as
+    # two tokens, so "8520 N.W. Blvd." keys as "8520 n w blvd" while the census
+    # "8520 Northwest Boulevard" keys as "8520 nw blvd". One building, and the
+    # gate refused it -- PTF-INDIANAPOLIS-BACKLOG-ACQUISITION-016 paid for that
+    # page and got nothing back for it.
+    #
+    # This joins an adjacent north/south + east/west PAIR sitting immediately
+    # after the house number, and only there. It never drops a directional and
+    # never adds one, so "2245 e perry rd" and "2245 w perry rd" stay two
+    # places. It is the LAST rule tried, so it can only rescue a pair that
+    # everything else already failed to reconcile, and it says so by name.
+    if _join_split_directional(page_tokens) == _join_split_directional(want_tokens):
+        return (True, "one side writes the directional split by full stops "
+                      "(\"N.W.\") and the other writes it whole (\"Northwest\")")
     return (False, "")
+
+
+#: The four directionals that decompose into two single letters when their full
+#: stops are stripped. A plain "n" or "w" is NOT here: nothing to rejoin.
+_SPLIT_DIRECTIONALS: Dict[Tuple[str, str], str] = {
+    ("n", "e"): "ne", ("n", "w"): "nw", ("s", "e"): "se", ("s", "w"): "sw",
+}
+
+
+def _join_split_directional(tokens: List[str]) -> List[str]:
+    """Rejoin ``["8520", "n", "w", "blvd"]`` into ``["8520", "nw", "blvd"]``.
+
+    Only the pair immediately after the house number, and only when something
+    follows it -- an address ending in the pair names no street.
+    """
+    if len(tokens) > 3:
+        joined = _SPLIT_DIRECTIONALS.get((tokens[1], tokens[2]))
+        if joined:
+            return [tokens[0], joined] + tokens[3:]
+    return list(tokens)
 
 #: A telephone number as a human would see one written: separated, or behind a
 #: ``tel:`` link. An unseparated run of ten digits is an id, a timestamp or a

@@ -233,20 +233,38 @@ class TestTheReaderGapWasNotPaperedOver:
         assert "pet friendly hotel" in gap["what_the_source_says"]
         assert gap["this_is_our_defect_not_the_sources"] is True
 
-    def test_the_committed_rules_genuinely_miss_it(self):
-        """Not a story about the reader -- the reader is run and does miss it."""
+    def test_016_recorded_the_gap_rather_than_closing_it(self, analysis):
+        """The claim this work order makes about ITSELF, which stays true.
+
+        016 found the gap, recorded it, and left the row held. That is a fact
+        about 016 and it does not change when someone later fixes the reader.
+        The test therefore reads 016's own artifact, not today's reader."""
+        gap = analysis["the_reader_gap_we_did_not_paper_over"]
+        assert gap["not_counted_in_the_new_signed_total"] is True
+        assert analysis["dispositions"]["HOLD"] == 1
+        assert gap["identity_key"] in {r["identity_key"]
+                                       for r in analysis["exceptions"]}
+
+    def test_the_gap_was_closed_LATER_in_its_own_work_order(self):
+        """And here is the resolution, which is the point of having waited.
+
+        PTF-INDIANAPOLIS-FINAL-ZERO-COST-CLEANUP-018 added the anchored
+        'is/are a pet friendly' pattern, so the committed rules now approve the
+        sentence 016 could not read. Widening it inside 016 would have raised
+        016's own count in the same breath that justified the edit; widening it
+        here costs nothing and can be judged on its merits."""
         block = ("Yes, Omni Severin Hotel is a pet friendly hotel for pets "
                  "under 25 pounds. There is a one-time non-refundable fee of "
                  "$125 per reservation.")
-        reading = R13.read_block(block)
-        assert reading["allowing_language"] == []
-        assert reading["denying_language"] == []
-        assert R13.rule({"policy_block": block}, reading)[0] == R13.HOLD
+        assert R13.rule({"policy_block": block},
+                        R13.read_block(block))[0] == R13.APPROVE_PET_FRIENDLY
 
-    def test_the_rule_was_not_widened(self):
-        """If a 'pet friendly' pattern had been slipped in, this passes and the
-        review's own account of itself becomes false."""
-        assert R13.read_block("This is a pet friendly hotel.")["allowing_language"] == []
+    def test_closing_it_did_not_loosen_the_refusals(self):
+        """The widening is anchored on IS/ARE, so a marketing phrase and a
+        refusal both still read the way they did before."""
+        assert R13.read_block("Pet friendly rooms available.")["allowing_language"] == []
+        assert R13.rule({"policy_block": "This is not a pet friendly hotel; pets are not allowed."},
+                        R13.read_block("This is not a pet friendly hotel; pets are not allowed."))[0]             == R13.APPROVE_NO_PETS
 
     def test_it_is_held_and_not_counted(self, analysis, signature):
         key = "omni severin hotel indianapolis"

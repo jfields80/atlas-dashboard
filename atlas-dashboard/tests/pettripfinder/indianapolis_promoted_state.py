@@ -22,13 +22,13 @@ work order legitimately promotes.
 from __future__ import annotations
 
 #: launch_packages/pettripfinder/hotel_policy_facts_indianapolis-in.json
-PROMOTED_PET_FRIENDLY = 54
+PROMOTED_PET_FRIENDLY = 56
 
 #: markets/authority/indianapolis-in/hotel_exclusions.json
 PROMOTED_VERIFIED_NO_PETS = 34
 
 #: markets/authority/indianapolis-in/seed_businesses.csv (one row per profile)
-PROMOTED_SEED_ROWS = 54
+PROMOTED_SEED_ROWS = 56
 
 #: identity_census/indianapolis-in.json -- unchanged by 017
 CENSUS = 257
