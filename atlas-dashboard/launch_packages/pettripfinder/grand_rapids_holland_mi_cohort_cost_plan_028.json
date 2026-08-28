@@ -1,0 +1,190 @@
+{
+ "schema": "ptf-cohort-cost-plan/1.0",
+ "what_this_is": "What one cohort is expected to cost, in each currency its lanes bill in, and the proof that it buys nothing a previous pass already answered. Zero network, zero spend.",
+ "market_id": "grand-rapids-holland-mi",
+ "work_order": "PTF-GRAND-RAPIDS-POLICY-ACQUISITION-028",
+ "derived_from": {
+  "plan": "grand-rapids-holland-mi-acquisition-028",
+  "prior": "PTF-GRAND-RAPIDS-HOLLAND-PAID-ACQUISITION-AUTHORIZATION-009"
+ },
+ "cohort_size": 20,
+ "cohort_keys_sha256": "921d5b037915dbc969a3b8682ce71271480cdc1923fd9a1772d8fddf39fc7908",
+ "cohort_by_provider": {
+  "brightdata_browser": 9,
+  "firecrawl": 11
+ },
+ "cohort_by_family": {
+  "CHOICE": 6,
+  "ESA": 2,
+  "HILTON": 2,
+  "IHG": 3,
+  "INDEPENDENT": 2,
+  "MARRIOTT": 2,
+  "RED_ROOF": 1,
+  "WYNDHAM": 2
+ },
+ "dollar_billed_properties": 9,
+ "credit_billed_properties": 11,
+ "measured_unit_usd_minor": null,
+ "lanes": [
+  {
+   "provider": "brightdata_browser",
+   "properties": 9,
+   "billing": "USD",
+   "registry_unit_usd_minor": 16.0,
+   "measured_unit_usd_minor": null,
+   "projected_usd_minor_at_measured": 144.0,
+   "projected_usd_minor_at_registry": 144.0
+  },
+  {
+   "provider": "firecrawl",
+   "properties": 11,
+   "billing": "PLAN_CREDITS",
+   "registry_unit_usd_minor": null,
+   "measured_unit_usd_minor": null,
+   "projected_usd_minor": 0,
+   "projected_plan_credits": 11.0,
+   "note": "this lane bills plan credits and draws nothing from the dollar cap"
+  }
+ ],
+ "expected_firecrawl_credits": 11.0,
+ "expected_brightdata_usd_minor": {
+  "at_measured": 144.0,
+  "at_registry": 144.0,
+  "worst_case_with_fallback": 189.0
+ },
+ "projection": {
+  "at_measured_rates_usd_minor": 144.0,
+  "at_registry_rates_usd_minor": 144.0,
+  "unlocker_fallback_exposure_usd_minor": 45.0,
+  "worst_case_usd_minor": 189.0,
+  "basis": "every dollar-billed property attempted once at the higher of the registry and measured unit price, plus a fallback attempt on every one of them"
+ },
+ "vendor_balance_usd_minor": 641,
+ "authorised_cap_usd_minor": 400,
+ "cumulative_prior_spend": {
+  "runs": [],
+  "usd_minor": 0,
+  "plan_credits": 0
+ },
+ "authorisation_remaining_usd_minor": 400,
+ "authorisation_exhausted": false,
+ "recommended_cap_usd_minor": 400,
+ "recommended_cap_why": "the authorised ceiling covers the projection with room for the fallback lane",
+ "predicted_completion_under_balance": {
+  "available_usd_minor": 400.0,
+  "attemptable": 20,
+  "deferred": 0,
+  "completes_cohort": true,
+  "stops_on": "",
+  "projected_spend_usd_minor": 144.0,
+  "projected_plan_credits": 11.0,
+  "attemptable_keys": [
+   "comfort inn airport",
+   "country inn and suites by radisson grandville grand rapids west",
+   "econo lodge and suites",
+   "holiday inn grand rapids airport",
+   "holiday inn grand rapids downtown",
+   "mainstay suites grand rapids",
+   "microtel inn and suites by wyndham holland",
+   "quality inn grand rapids south byron center",
+   "radisson hotel grand rapids riverfront",
+   "staybridge suites grand rapids airport",
+   "wyndham garden grand rapids airport",
+   "courtyard by marriott grand rapids airport",
+   "jw marriott grand rapids",
+   "homewood suites by hilton holland",
+   "tru by hilton comstock park grand rapids",
+   "red roof inn grand rapids airport",
+   "extended stay america select suites grand rapids kentwood",
+   "extended stay america select suites grand rapids wyoming",
+   "cityflatshotel grand rapids",
+   "woodspring suites grand rapids kentwood"
+  ],
+  "deferred_keys": [],
+  "basis": "walked in queue order at each lane's higher of registry and measured unit price; a credit-billed lane draws no dollars"
+ },
+ "queue_order": [
+  "MARRIOTT",
+  "HILTON",
+  "RED_ROOF",
+  "MOTEL6",
+  "SONESTA",
+  "DRURY",
+  "ESA",
+  "INDEPENDENT"
+ ],
+ "cohort_provenance": {
+  "newly_routed_by_url_recovery": [
+   "cityflatshotel grand rapids",
+   "comfort inn airport",
+   "country inn and suites by radisson grandville grand rapids west",
+   "courtyard by marriott grand rapids airport",
+   "econo lodge and suites",
+   "extended stay america select suites grand rapids kentwood",
+   "extended stay america select suites grand rapids wyoming",
+   "holiday inn grand rapids airport",
+   "holiday inn grand rapids downtown",
+   "homewood suites by hilton holland",
+   "jw marriott grand rapids",
+   "mainstay suites grand rapids",
+   "microtel inn and suites by wyndham holland",
+   "quality inn grand rapids south byron center",
+   "radisson hotel grand rapids riverfront",
+   "red roof inn grand rapids airport",
+   "staybridge suites grand rapids airport",
+   "tru by hilton comstock park grand rapids",
+   "woodspring suites grand rapids kentwood",
+   "wyndham garden grand rapids airport"
+  ],
+  "previously_deferred_by_the_cap": [],
+  "retried_after_an_attempt_that_answered_nothing": [],
+  "routed_before_and_never_attempted": [],
+  "counts": {
+   "newly_routed_by_url_recovery": 20,
+   "previously_deferred_by_the_cap": 0,
+   "retried_after_an_attempt_that_answered_nothing": 0,
+   "routed_before_and_never_attempted": 0
+  }
+ },
+ "paid_history_suppressed": {
+  "consulted": false,
+  "count": 0,
+  "summary": null,
+  "rows": [],
+  "note": "already paid for on a prior run, under this identity key or another; still counted by coverage, because a property we already have the answer for is covered rather than missing"
+ },
+ "cohort_accounted_for": {
+  "payable": 20,
+  "paid_history_suppressed": 0,
+  "total": 20,
+  "note": "the paid-history gate partitions the cohort it is given: every row it receives is either payable or suppressed, and it invents none. The pre-acquisition dedup gate has already run by this point and its merges are absent from both counts, so no identity is removed twice."
+ },
+ "same_lane_retries_suppressed": {
+  "count": 3,
+  "identity_keys": [
+   "best western",
+   "country inn and suites holland mi",
+   "motel 6 grand rapids northeast"
+  ],
+  "note": "excluded from this cohort by the retry policy; not settled, not bought"
+ },
+ "double_buy_check": {
+  "terminal_outcomes": [
+   "VALID",
+   "POLICY_NOT_FOUND",
+   "IDENTITY_MISMATCH"
+  ],
+  "prior_results_examined": 65,
+  "prior_results_that_answered": 62,
+  "journal_examined": "data/acquisition/gr_028/journal.jsonl",
+  "journalled_keys": 0,
+  "cohort_size": 20,
+  "already_answered_by_a_prior_pass": [],
+  "already_journalled_in_this_run_dir": [],
+  "pass_resumes_from_that_journal": true,
+  "resumed_from_journal_not_bought_again": [],
+  "retries_of_attempts_that_answered_nothing": {},
+  "no_property_is_bought_twice": true
+ }
+}
