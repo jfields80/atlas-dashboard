@@ -1,0 +1,331 @@
+{
+ "schema": "ptf-source-promotion/1.0",
+ "what_this_is": "Grand Rapids was NOT promoted in source. The founder's withdrawal ruling was applied and the authority rebuilt at 49 rows, and then the policy-package schema gate refused 25 of the 35 profiles. Promotion is all-or-nothing here: a market made visible with exclusions and no profiles is worse than one left alone.",
+ "market_id": "grand-rapids-holland-mi",
+ "work_order": "PTF-GRAND-RAPIDS-SOURCE-PROMOTION-022",
+ "provider_calls": 0,
+ "usd_spent": 0.0,
+ "plan_credits_spent": 0.0,
+ "source_promoted": false,
+ "assembled": false,
+ "deployed": false,
+ "founder_ruling_applied": {
+  "identity_key": "avid hotel zeeland",
+  "ruling": "WITHHELD_FROM_AUTHORITY_PENDING_POLICY_EVIDENCE",
+  "ruled_by": "PTF-FOUNDER-001",
+  "signature_preserved": true,
+  "identity_ruling_preserved": true,
+  "why": "Identity is confirmed and stays confirmed: the 020 ruling established WHICH HOTEL the capture belongs to. It did not establish a publishable pet-policy fact, and this row's readiness state is still POLICY_NOT_FOUND. A founder-confirmed identity is not a reason to read POLICY_NOT_FOUND as publishable, so the row is withheld from authority pending actual policy evidence. Its 021 signature and its 020 identity ruling are both preserved."
+ },
+ "authority_rebuilt": {
+  "pet_friendly": 35,
+  "verified_no_pets": 14,
+  "authority_total": 49,
+  "withdrawn": 1,
+  "matches_the_expected_counts": true
+ },
+ "blocker": {
+  "blocked": true,
+  "gate": "contracts.policy_schema.validate_facts, schema 1.2",
+  "rows_blocked": 25,
+  "pet_friendly_total": 35,
+  "issue": "facts.weight_limit states a number with no operator and no scope. The schema requires both before a limit publishes.",
+  "why_the_reader_did_not_supply_them": "its own non-inference: \"'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions\", and \"scope: not emitted unless the source states it\".",
+  "why_this_pass_will_not_supply_them": "market_policy_package_cli exposes --normalize-weight as \"founder decision 1\", made for another market. 020 established that a market-specific founder precedent is not inherited automatically, and applying one here would be inventing a founder decision.",
+  "comparison_the_sources_actually_state": {
+   "NONE_STATED": 1,
+   "lt": 1,
+   "lte": 23
+  },
+  "why_a_blanket_rule_is_not_obviously_right": "1 of the 25 quotes say 'under' or 'less than', which is lt and not lte: publishing those as lte would tell a guest with a dog at exactly the limit that it is welcome when the source says it is not. 1 state no ceiling word at all.",
+  "what_would_unblock_it": [
+   "a founder ruling that an unqualified blanket maximum publishes as lte / per_pet, applied market-wide -- rerun with --weight-limit-ruling LTE_PER_PET",
+   "or a per-comparison ruling honouring 'under' as lt, which this flag cannot express and which would need the projector extended",
+   "or a ruling that an unqualified limit is withheld, which drops a stated ceiling from the profile and is the guest-visible error in the other direction"
+  ],
+  "rows": [
+   {
+    "identity_key": "ac hotel grand rapids downtown",
+    "canonical_name": "AC Hotel Grand Rapids Downtown",
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "source_quote": "up to 75.0 lbs",
+    "comparison_the_source_states": "lte"
+   },
+   {
+    "identity_key": "baymont",
+    "canonical_name": "Baymont by Wyndham Grand Rapids Near Downtown",
+    "weight_limit": {
+     "value": 30.0,
+     "unit": "lb"
+    },
+    "source_quote": "maximum weight of 30 lbs",
+    "comparison_the_source_states": "lte"
+   },
+   {
+    "identity_key": "baymont by wyndham holland",
+    "canonical_name": "Baymont by Wyndham Holland",
+    "weight_limit": {
+     "value": 100.0,
+     "unit": "lb"
+    },
+    "source_quote": "must not weigh more than 100 lbs each",
+    "comparison_the_source_states": "lte"
+   },
+   {
+    "identity_key": "canopy by hilton grand rapids downtown",
+    "canonical_name": "Canopy by Hilton Grand Rapids Downtown",
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    },
+    "source_quote": "Max weight 50 lbs",
+    "comparison_the_source_states": "lte"
+   },
+   {
+    "identity_key": "days inn and suites by wyndham grand rapids near downtown",
+    "canonical_name": "Days Inn & Suites by Wyndham Grand Rapids Near Downtown",
+    "weight_limit": {
+     "value": 30.0,
+     "unit": "lb"
+    },
+    "source_quote": "max weight of 30 lbs",
+    "comparison_the_source_states": "lte"
+   },
+   {
+    "identity_key": "days inn by wyndham holland",
+    "canonical_name": "Days Inn by Wyndham Holland",
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "source_quote": "pets under 75 Lbs are allowed",
+    "comparison_the_source_states": "lt"
+   },
+   {
+    "identity_key": "embassy suites by hilton grand rapids downtown",
+    "canonical_name": "Embassy Suites by Hilton Grand Rapids Downtown",
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "source_quote": "Max weight 75 lbs",
+    "comparison_the_source_states": "lte"
+   },
+   {
+    "identity_key": "hampton inn and suites grand rapids airport 28th st",
+    "canonical_name": "Hampton Inn & Suites Grand Rapids-Airport 28th St",
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "source_quote": "Max weight 75 lbs",
+    "comparison_the_source_states": "lte"
+   },
+   {
+    "identity_key": "hampton inn holland",
+    "canonical_name": "Hampton Inn Holland",
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "source_quote": "Max weight 75 lbs",
+    "comparison_the_source_states": "lte"
+   },
+   {
+    "identity_key": "hilton garden inn grand rapids east",
+    "canonical_name": "Hilton Garden Inn Grand Rapids East",
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "source_quote": "Max weight 75 lbs",
+    "comparison_the_source_states": "lte"
+   },
+   {
+    "identity_key": "home2 suites by hilton grand rapids north",
+    "canonical_name": "Home2 Suites by Hilton Grand Rapids North",
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "source_quote": "Max weight 75 lbs",
+    "comparison_the_source_states": "lte"
+   },
+   {
+    "identity_key": "home2 suites by hilton grand rapids northeast",
+    "canonical_name": "Home2 Suites by Hilton Grand Rapids Northeast",
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "source_quote": "Max weight 75 lbs",
+    "comparison_the_source_states": "lte"
+   },
+   {
+    "identity_key": "homewood suites by hilton walker grand rapids north",
+    "canonical_name": "Homewood Suites by Hilton Walker Grand Rapids North",
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "source_quote": "Max weight 75 lbs",
+    "comparison_the_source_states": "lte"
+   },
+   {
+    "identity_key": "residence inn by marriott grand rapids downtown",
+    "canonical_name": "Residence Inn by Marriott Grand Rapids Downtown",
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    },
+    "source_quote": "up to 50.0 lbs",
+    "comparison_the_source_states": "lte"
+   },
+   {
+    "identity_key": "residence inn by marriott grand rapids west",
+    "canonical_name": "Residence Inn by Marriott Grand Rapids West",
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    },
+    "source_quote": "up to 50.0 lbs",
+    "comparison_the_source_states": "lte"
+   },
+   {
+    "identity_key": "residence inn by marriott holland",
+    "canonical_name": "Residence Inn by Marriott Holland",
+    "weight_limit": {
+     "value": 80.0,
+     "unit": "lb"
+    },
+    "source_quote": "up to 80.0 lbs",
+    "comparison_the_source_states": "lte"
+   },
+   {
+    "identity_key": "sheraton grand rapids airport hotel",
+    "canonical_name": "Sheraton Grand Rapids Airport Hotel",
+    "weight_limit": {
+     "value": 55.0,
+     "unit": "lb"
+    },
+    "source_quote": "maximum weight of 55.0 lbs",
+    "comparison_the_source_states": "lte"
+   },
+   {
+    "identity_key": "spark by hilton walker grand rapids north",
+    "canonical_name": "Spark by Hilton Walker Grand Rapids North",
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    },
+    "source_quote": "Max weight 50 lbs",
+    "comparison_the_source_states": "lte"
+   },
+   {
+    "identity_key": "springhill suites grand rapids west",
+    "canonical_name": "SpringHill Suites Grand Rapids West",
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "source_quote": "up to 75.0 lbs",
+    "comparison_the_source_states": "lte"
+   },
+   {
+    "identity_key": "the center hotel grand rapids airport",
+    "canonical_name": "The Center Hotel Grand Rapids Airport",
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    },
+    "source_quote": "Max 50 Pounds",
+    "comparison_the_source_states": "lte"
+   },
+   {
+    "identity_key": "towneplace suites grand rapids airport",
+    "canonical_name": "TownePlace Suites Grand Rapids Airport",
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "source_quote": "up to 75.0 lbs",
+    "comparison_the_source_states": "lte"
+   },
+   {
+    "identity_key": "towneplace suites grand rapids airport southeast",
+    "canonical_name": "TownePlace Suites Grand Rapids Airport Southeast",
+    "weight_limit": {
+     "value": 85.0,
+     "unit": "lb"
+    },
+    "source_quote": "up to 85.0 lbs",
+    "comparison_the_source_states": "lte"
+   },
+   {
+    "identity_key": "travelodge by wyndham grand rapids north",
+    "canonical_name": "Travelodge by Wyndham Grand Rapids North",
+    "weight_limit": {
+     "value": 25.0,
+     "unit": "lb"
+    },
+    "source_quote": "maximum weight of 25lbs",
+    "comparison_the_source_states": "lte"
+   },
+   {
+    "identity_key": "tru",
+    "canonical_name": "Tru by Hilton Grand Rapids Airport",
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "source_quote": "Max weight 75 lbs",
+    "comparison_the_source_states": "lte"
+   },
+   {
+    "identity_key": "woodspring suites holland grand rapids",
+    "canonical_name": "WoodSpring Suites Holland - Grand Rapids",
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    },
+    "source_quote": "Weight limit of 50 lbs",
+    "comparison_the_source_states": "NONE_STATED"
+   }
+  ],
+  "measured_both_readings": {
+   "strict_refused": 25,
+   "with_the_lte_per_pet_ruling_refused": 1,
+   "note": "both readings were projected into scratch and neither was written; the second is what the founder's ruling would actually buy, measured rather than asserted"
+  },
+  "residual_after_the_ruling": {
+   "identity_key": "baymont by wyndham holland",
+   "quote": "must not weigh more than 100 lbs each",
+   "why": "the projector's maximal-wording list does not recognise 'not weigh more than', so founder decision 1 declines the row even though the sentence is plainly a ceiling",
+   "not_fixed_here": "widening a reading rule inside the pass whose count it raises is how a measurement stops being one; the phrase list belongs to founder decision 1 and should be extended in its own work order"
+  },
+  "projector_output": [
+   "Traceback (most recent call last):",
+   "  File \"C:\\Atlas-Grok-GrandRapids\\atlas-dashboard\\scripts\\pettripfinder\\market_policy_package_cli.py\", line 663, in <module>",
+   "    raise SystemExit(main())",
+   "                     ~~~~^^",
+   "  File \"C:\\Atlas-Grok-GrandRapids\\atlas-dashboard\\scripts\\pettripfinder\\market_policy_package_cli.py\", line 632, in main",
+   "    raise PolicyPackageError("
+  ],
+  "summary": "BLOCKED: 25 of 35 pet-friendly rows carry a weight limit the schema will not publish without a comparison the source did not state. Measured, not asserted: the strict reading refuses 25 and the lte/per-pet ruling refuses 1. Nothing was written into source."
+ },
+ "nothing_was_written_into_source": [
+  "markets/authority/grand-rapids-holland-mi/hotel_exclusions.json is unchanged",
+  "hotel_policy_facts_grand-rapids-holland-mi.json was not created",
+  "markets/grand-rapids-holland-mi.json still describes a discovery-stage market",
+  "the three legacy globals were not regenerated",
+  "build_market_authorities was never run in --write mode"
+ ],
+ "what_is_ready_and_waiting": [
+  "the withdrawal ledger and the 49-row authority are committed",
+  "the 14 exclusions are derivable from that authority in one step",
+  "one rerun with the founder's weight-limit ruling completes the whole promotion, including the globals and the contract"
+ ]
+}
