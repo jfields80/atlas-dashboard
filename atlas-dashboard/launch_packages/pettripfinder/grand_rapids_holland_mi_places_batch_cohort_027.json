@@ -1,0 +1,781 @@
+{
+  "schema": "ptf-places-pilot-cohort/1.0",
+  "market_id": "grand-rapids-holland-mi",
+  "work_order": "PTF-GRAND-RAPIDS-PLACES-BATCH-027",
+  "nothing_was_fetched": true,
+  "provider_calls": 0,
+  "usd_spent": 0.0,
+  "this_is_not_an_authorization": "the work order authorises 20 requests; this document names WHICH 20 identities they may be spent on, and is committed before the first one is made",
+  "provider": "GOOGLE_PLACES",
+  "discovery_method": "searchText",
+  "field_mask": [
+    "places.id",
+    "places.displayName",
+    "places.formattedAddress",
+    "places.addressComponents",
+    "places.location",
+    "places.primaryType",
+    "places.types",
+    "places.nationalPhoneNumber",
+    "places.websiteUri",
+    "places.businessStatus"
+  ],
+  "population": {
+    "url_less_identities": 76,
+    "excluded": 27,
+    "deferred_to_a_later_batch": 5,
+    "eligible_after_exclusions": 49,
+    "sampleable_doorways": 44,
+    "remaining_after_this_pilot": 29
+  },
+  "excluded_rows": [
+    {
+      "identity_key": "amway grand plaza",
+      "rule": "DEDUP_SAFE_MERGE",
+      "why": "absorbed into 'amway grand plaza curio collection by hilton' by the pre-acquisition dedup gate on STREET_AND_POSTAL_CODE; not a second hotel"
+    },
+    {
+      "identity_key": "brikcrete motel",
+      "rule": "ALREADY_LOOKED_UP_BY_THIS_METHOD",
+      "why": "a prior paid lookup (run 'grand-rapids-holland-mi-places-026', method 'searchText') asked this exact question and could not answer it (UNBOUND_NO_SANCTIONED_KEY). Asking it again the same way buys the same nothing; what changes it is a different method, changed premises, or an operator override",
+      "ledger_decision": "SUPPRESSED_SAME_METHOD_ALREADY_FAILED"
+    },
+    {
+      "identity_key": "budgetel inn and suites hotel",
+      "rule": "IDENTITY_HOLD",
+      "why": "the third pair sharing an identical switchboard, recorded by 025 as having had no separate reading; the same shape as the two named holds"
+    },
+    {
+      "identity_key": "clarion inn and suites airport",
+      "rule": "ALREADY_LOOKED_UP_BY_THIS_METHOD",
+      "why": "a prior paid lookup (run 'grand-rapids-holland-mi-places-026', method 'searchText') asked this exact question and could not answer it (UNBOUND_NO_SANCTIONED_KEY). Asking it again the same way buys the same nothing; what changes it is a different method, changed premises, or an operator override",
+      "ledger_decision": "SUPPRESSED_SAME_METHOD_ALREADY_FAILED"
+    },
+    {
+      "identity_key": "comfort inn",
+      "rule": "IDENTITY_HOLD",
+      "why": "one half of an unresolved identity pair held open by 019 (comfort inn, comfort suites grandville grand rapids sw); a lookup cannot answer an identity question"
+    },
+    {
+      "identity_key": "econo lodge and suites",
+      "rule": "ALREADY_LOOKED_UP_BY_THIS_METHOD",
+      "why": "a prior paid lookup (query fingerprint, run 'grand-rapids-holland-mi-places-026') already resolved this property to https://www.choicehotels.com/michigan/grand-rapids/econo-lodge-hotels/mi294?mc=llgoxxpx; a second lookup would buy a URL we already own",
+      "ledger_decision": "SUPPRESSED_URL_ALREADY_KNOWN"
+    },
+    {
+      "identity_key": "extended stay america select suites grand rapids kentwood",
+      "rule": "ALREADY_LOOKED_UP_BY_THIS_METHOD",
+      "why": "a prior paid lookup (query fingerprint, run 'grand-rapids-holland-mi-places-026') already resolved this property to https://www.extendedstayamerica.com/hotels/mi/grand-rapids/kentwood?channel=gmb-listing; a second lookup would buy a URL we already own",
+      "ledger_decision": "SUPPRESSED_URL_ALREADY_KNOWN"
+    },
+    {
+      "identity_key": "grandmark lodging",
+      "rule": "ALREADY_LOOKED_UP_BY_THIS_METHOD",
+      "why": "a prior paid lookup (run 'grand-rapids-holland-mi-places-026', method 'searchText') asked this exact question and could not answer it (UNBOUND_NO_WEBSITE). Asking it again the same way buys the same nothing; what changes it is a different method, changed premises, or an operator override",
+      "ledger_decision": "SUPPRESSED_SAME_METHOD_ALREADY_FAILED"
+    },
+    {
+      "identity_key": "holiday inn express and suites grand rapids south wyoming",
+      "rule": "ALREADY_LOOKED_UP_BY_THIS_METHOD",
+      "why": "a prior paid lookup (run 'grand-rapids-holland-mi-places-026', method 'searchText') asked this exact question and could not answer it (UNBOUND_REJECTED_URL_SHAPE). Asking it again the same way buys the same nothing; what changes it is a different method, changed premises, or an operator override",
+      "ledger_decision": "SUPPRESSED_SAME_METHOD_ALREADY_FAILED"
+    },
+    {
+      "identity_key": "holiday inn grand rapids airport",
+      "rule": "ALREADY_LOOKED_UP_BY_THIS_METHOD",
+      "why": "a prior paid lookup (query fingerprint, run 'grand-rapids-holland-mi-places-026') already resolved this property to https://www.ihg.com/holidayinn/hotels/us/en/grand-rapids/grrpd/hoteldetail; a second lookup would buy a URL we already own",
+      "ledger_decision": "SUPPRESSED_URL_ALREADY_KNOWN"
+    },
+    {
+      "identity_key": "holiday inn grand rapids south",
+      "rule": "ALREADY_LOOKED_UP_BY_THIS_METHOD",
+      "why": "a prior paid lookup (run 'grand-rapids-holland-mi-places-026', method 'searchText') asked this exact question and could not answer it (UNBOUND_REJECTED_URL_SHAPE). Asking it again the same way buys the same nothing; what changes it is a different method, changed premises, or an operator override",
+      "ledger_decision": "SUPPRESSED_SAME_METHOD_ALREADY_FAILED"
+    },
+    {
+      "identity_key": "home2 suites by hilton grand rapids airport",
+      "rule": "ALREADY_LOOKED_UP_BY_THIS_METHOD",
+      "why": "a prior paid lookup (run 'grand-rapids-holland-mi-places-026', method 'searchText') asked this exact question and could not answer it (UNBOUND_NO_SANCTIONED_KEY). Asking it again the same way buys the same nothing; what changes it is a different method, changed premises, or an operator override",
+      "ledger_decision": "SUPPRESSED_SAME_METHOD_ALREADY_FAILED"
+    },
+    {
+      "identity_key": "homewood suites by hilton holland",
+      "rule": "ALREADY_LOOKED_UP_BY_THIS_METHOD",
+      "why": "a prior paid lookup (query fingerprint, run 'grand-rapids-holland-mi-places-026') already resolved this property to https://www.hilton.com/en/hotels/grrabhw-homewood-suites-holland/?SEO_id=GMB-AMER-HG-GRRABHW; a second lookup would buy a URL we already own",
+      "ledger_decision": "SUPPRESSED_URL_ALREADY_KNOWN"
+    },
+    {
+      "identity_key": "jw marriott grand rapids",
+      "rule": "ALREADY_LOOKED_UP_BY_THIS_METHOD",
+      "why": "a prior paid lookup (query fingerprint, run 'grand-rapids-holland-mi-places-026') already resolved this property to https://www.marriott.com/en-us/hotels/grrjw-jw-marriott-grand-rapids/overview/?scid=f2ae0541-1279-4f24-b197-a979c79310b0; a second lookup would buy a URL we already own",
+      "ledger_decision": "SUPPRESSED_URL_ALREADY_KNOWN"
+    },
+    {
+      "identity_key": "lazy t motel",
+      "rule": "ALREADY_LOOKED_UP_BY_THIS_METHOD",
+      "why": "a prior paid lookup (run 'grand-rapids-holland-mi-places-026', method 'searchText') asked this exact question and could not answer it (UNBOUND_NO_WEBSITE). Asking it again the same way buys the same nothing; what changes it is a different method, changed premises, or an operator override",
+      "ledger_decision": "SUPPRESSED_SAME_METHOD_ALREADY_FAILED"
+    },
+    {
+      "identity_key": "lincoln lawns motel",
+      "rule": "ALREADY_LOOKED_UP_BY_THIS_METHOD",
+      "why": "a prior paid lookup (run 'grand-rapids-holland-mi-places-026', method 'searchText') asked this exact question and could not answer it (UNBOUND_NO_WEBSITE). Asking it again the same way buys the same nothing; what changes it is a different method, changed premises, or an operator override",
+      "ledger_decision": "SUPPRESSED_SAME_METHOD_ALREADY_FAILED"
+    },
+    {
+      "identity_key": "microtel inn and suites by wyndham holland",
+      "rule": "ALREADY_LOOKED_UP_BY_THIS_METHOD",
+      "why": "a prior paid lookup (query fingerprint, run 'grand-rapids-holland-mi-places-026') already resolved this property to https://www.wyndhamhotels.com/microtel/holland-michigan/microtel-inn-and-suites-holland/overview?CID=LC%3A5b3ss9kd80xe5ox%3A29433&iata=00093796; a second lookup would buy a URL we already own",
+      "ledger_decision": "SUPPRESSED_URL_ALREADY_KNOWN"
+    },
+    {
+      "identity_key": "motel 6 grand rapids",
+      "rule": "ALREADY_LOOKED_UP_BY_THIS_METHOD",
+      "why": "a prior paid lookup (run 'grand-rapids-holland-mi-places-026', method 'searchText') asked this exact question and could not answer it (UNBOUND_NO_SANCTIONED_KEY). Asking it again the same way buys the same nothing; what changes it is a different method, changed premises, or an operator override",
+      "ledger_decision": "SUPPRESSED_SAME_METHOD_ALREADY_FAILED"
+    },
+    {
+      "identity_key": "quality inn",
+      "rule": "DEDUP_SAFE_MERGE",
+      "why": "absorbed into 'quality inn grand rapids north walker' by the pre-acquisition dedup gate on STREET_AND_POSTAL_CODE; not a second hotel"
+    },
+    {
+      "identity_key": "quality inn grand rapids south byron center",
+      "rule": "ALREADY_LOOKED_UP_BY_THIS_METHOD",
+      "why": "a prior paid lookup (query fingerprint, run 'grand-rapids-holland-mi-places-026') already resolved this property to https://www.choicehotels.com/michigan/grand-rapids/quality-inn-hotels/mi312?mc=llgoxxpx; a second lookup would buy a URL we already own",
+      "ledger_decision": "SUPPRESSED_URL_ALREADY_KNOWN"
+    },
+    {
+      "identity_key": "red roof inn",
+      "rule": "DEDUP_SAFE_MERGE",
+      "why": "absorbed into 'red roof inn grand rapids airport' by the pre-acquisition dedup gate on STREET_AND_POSTAL_CODE; not a second hotel"
+    },
+    {
+      "identity_key": "red roof inn grand rapids airport",
+      "rule": "ALREADY_LOOKED_UP_BY_THIS_METHOD",
+      "why": "a prior paid lookup (query fingerprint, run 'grand-rapids-holland-mi-places-026') already resolved this property to https://www.redroof.com/property/mi/grand-rapids/RRI011; a second lookup would buy a URL we already own",
+      "ledger_decision": "SUPPRESSED_URL_ALREADY_KNOWN"
+    },
+    {
+      "identity_key": "riviera motel",
+      "rule": "ALREADY_LOOKED_UP_BY_THIS_METHOD",
+      "why": "a prior paid lookup (run 'grand-rapids-holland-mi-places-026', method 'searchText') asked this exact question and could not answer it (UNBOUND_NO_WEBSITE). Asking it again the same way buys the same nothing; what changes it is a different method, changed premises, or an operator override",
+      "ledger_decision": "SUPPRESSED_SAME_METHOD_ALREADY_FAILED"
+    },
+    {
+      "identity_key": "sleep inn and suites",
+      "rule": "IDENTITY_HOLD",
+      "why": "one half of an unresolved identity pair held open by 019 (sleep inn and suites, spark by hilton grand rapids); a lookup cannot answer an identity question"
+    },
+    {
+      "identity_key": "spark by hilton grand rapids",
+      "rule": "IDENTITY_HOLD",
+      "why": "one half of an unresolved identity pair held open by 019 (sleep inn and suites, spark by hilton grand rapids); a lookup cannot answer an identity question"
+    },
+    {
+      "identity_key": "swan inn motel",
+      "rule": "ALREADY_LOOKED_UP_BY_THIS_METHOD",
+      "why": "a prior paid lookup (run 'grand-rapids-holland-mi-places-026', method 'searchText') asked this exact question and could not answer it (UNBOUND_REJECTED_URL_SHAPE). Asking it again the same way buys the same nothing; what changes it is a different method, changed premises, or an operator override",
+      "ledger_decision": "SUPPRESSED_SAME_METHOD_ALREADY_FAILED"
+    },
+    {
+      "identity_key": "wyndham garden grand rapids airport",
+      "rule": "ALREADY_LOOKED_UP_BY_THIS_METHOD",
+      "why": "a prior paid lookup (query fingerprint, run 'grand-rapids-holland-mi-places-026') already resolved this property to https://www.wyndhamhotels.com/wyndham-garden/grand-rapids-michigan/wyndham-garden-grand-rapids/overview?CID=LC%3A46q62bu8edfbx3y%3A47063&iata=00093796; a second lookup would buy a URL we already own",
+      "ledger_decision": "SUPPRESSED_URL_ALREADY_KNOWN"
+    }
+  ],
+  "deferred_rows": [
+    {
+      "identity_key": "cityflatshotel",
+      "rule": "DEFERRED_SHARED_DOORWAY",
+      "doorway_keys": [
+        "83|grand rapids"
+      ],
+      "sampled_instead": "cityflatshotel grand rapids",
+      "why": "stands in the same doorway as 'cityflatshotel grand rapids', which states more binding evidence; this defers it to a later batch and rules nothing about whether the two are one hotel"
+    },
+    {
+      "identity_key": "comfort inn grand rapids airport",
+      "rule": "DEFERRED_SHARED_DOORWAY",
+      "doorway_keys": [
+        "4155|49512",
+        "4155|kentwood"
+      ],
+      "sampled_instead": "comfort inn airport",
+      "why": "stands in the same doorway as 'comfort inn airport', which states more binding evidence; this defers it to a later batch and rules nothing about whether the two are one hotel"
+    },
+    {
+      "identity_key": "comfort suites grand rapids south",
+      "rule": "DEFERRED_SHARED_DOORWAY",
+      "doorway_keys": [
+        "7644|49548",
+        "7644|grand rapids"
+      ],
+      "sampled_instead": "comfort suites",
+      "why": "stands in the same doorway as 'comfort suites', which states more binding evidence; this defers it to a later batch and rules nothing about whether the two are one hotel"
+    },
+    {
+      "identity_key": "woodspring suites grand rapids south",
+      "rule": "DEFERRED_SHARED_DOORWAY",
+      "doorway_keys": [
+        "4500|49509",
+        "4500|wyoming"
+      ],
+      "sampled_instead": "extended stay america select suites grand rapids wyoming",
+      "why": "stands in the same doorway as 'extended stay america select suites grand rapids wyoming', which states more binding evidence; this defers it to a later batch and rules nothing about whether the two are one hotel"
+    },
+    {
+      "identity_key": "mainstay suites",
+      "rule": "DEFERRED_SHARED_DOORWAY",
+      "doorway_keys": [
+        "3920|49512",
+        "3920|grand rapids"
+      ],
+      "sampled_instead": "mainstay suites grand rapids",
+      "why": "stands in the same doorway as 'mainstay suites grand rapids', which states more binding evidence; this defers it to a later batch and rules nothing about whether the two are one hotel"
+    }
+  ],
+  "representativeness": {
+    "evidence": {
+      "pool": {
+        "POSTAL_AND_NAME_ONLY": 30,
+        "TELEPHONE_STATED": 14
+      },
+      "target": {
+        "POSTAL_AND_NAME_ONLY": 14,
+        "TELEPHONE_STATED": 6
+      },
+      "cohort": {
+        "POSTAL_AND_NAME_ONLY": 14,
+        "TELEPHONE_STATED": 6
+      }
+    },
+    "family": {
+      "pool": {
+        "choice": 8,
+        "esa": 1,
+        "hilton": 5,
+        "ihg": 9,
+        "independent": 15,
+        "marriott": 3,
+        "wyndham": 3
+      },
+      "target": {
+        "choice": 4,
+        "esa": 1,
+        "hilton": 2,
+        "ihg": 4,
+        "independent": 7,
+        "marriott": 1,
+        "wyndham": 1
+      },
+      "cohort": {
+        "choice": 4,
+        "esa": 1,
+        "hilton": 2,
+        "ihg": 4,
+        "independent": 7,
+        "marriott": 1,
+        "wyndham": 1
+      }
+    },
+    "municipality": {
+      "pool": {
+        "Comstock Park": 2,
+        "Grand Rapids": 21,
+        "Grandville": 2,
+        "Holland": 5,
+        "Kentwood": 8,
+        "Walker": 2,
+        "Wyoming": 4
+      },
+      "target": {
+        "Comstock Park": 1,
+        "Grand Rapids": 10,
+        "Grandville": 1,
+        "Holland": 2,
+        "Kentwood": 4,
+        "Walker": 1,
+        "Wyoming": 2
+      },
+      "cohort": {
+        "Comstock Park": 1,
+        "Grand Rapids": 9,
+        "Grandville": 1,
+        "Holland": 2,
+        "Kentwood": 4,
+        "Walker": 1,
+        "Wyoming": 2
+      }
+    },
+    "name_shape": {
+      "pool": {
+        "DISTINCT_IN_MARKET": 37,
+        "UNDERSPECIFIED_IN_MARKET": 7
+      },
+      "target": {
+        "DISTINCT_IN_MARKET": 17,
+        "UNDERSPECIFIED_IN_MARKET": 3
+      },
+      "cohort": {
+        "DISTINCT_IN_MARKET": 17,
+        "UNDERSPECIFIED_IN_MARKET": 3
+      }
+    }
+  },
+  "sample": {
+    "size": 20,
+    "provider_requests_if_authorised": 20,
+    "families_covered": 7,
+    "families_in_the_pool": 7,
+    "by_expected_binding_method": {
+      "NAME_AND_POSTAL_CODE": 12,
+      "NAME_AND_POSTAL_CODE_AT_RISK": 2,
+      "PHONE": 6
+    },
+    "not_executed": "no request has been made",
+    "rows": [
+      {
+        "identity_key": "comfort inn airport",
+        "canonical_name": "Comfort Inn Airport",
+        "family": "choice",
+        "query": "Comfort Inn Airport, 4155 28th Street, Grand Rapids, MI, 49512",
+        "binding_evidence_available": {
+          "telephone": "6162190991",
+          "street": "4155 28th Street",
+          "postal_code": "49512",
+          "city": "Grand Rapids",
+          "state": "MI"
+        },
+        "expected_binding_method": "PHONE",
+        "strata": {
+          "evidence": "TELEPHONE_STATED",
+          "family": "choice",
+          "municipality": "Grand Rapids",
+          "name_shape": "UNDERSPECIFIED_IN_MARKET"
+        },
+        "query_fingerprint": "f2affdbafcdfb94a",
+        "why_selected": "its name is a strict token subset of another property's name in this market, so a places provider may answer with the wrong building -- the case worth buying, not the case to avoid"
+      },
+      {
+        "identity_key": "extended stay america select suites grand rapids wyoming",
+        "canonical_name": "Extended Stay America Select Suites Grand Rapids Wyoming",
+        "family": "esa",
+        "query": "Extended Stay America Select Suites Grand Rapids Wyoming, 4500 Clyde Park Ave SW, Wyoming, MI, 49509",
+        "binding_evidence_available": {
+          "telephone": "",
+          "street": "4500 Clyde Park Ave SW",
+          "postal_code": "49509",
+          "city": "Wyoming",
+          "state": "MI"
+        },
+        "expected_binding_method": "NAME_AND_POSTAL_CODE",
+        "strata": {
+          "evidence": "POSTAL_AND_NAME_ONLY",
+          "family": "esa",
+          "municipality": "Wyoming",
+          "name_shape": "DISTINCT_IN_MARKET"
+        },
+        "query_fingerprint": "2124423cb3a3489b",
+        "why_selected": "carries a postal code and a name and nothing stronger, which is two thirds of the pool and the harder half of the measurement"
+      },
+      {
+        "identity_key": "tru by hilton comstock park grand rapids",
+        "canonical_name": "Tru by Hilton Comstock Park Grand Rapids",
+        "family": "hilton",
+        "query": "Tru by Hilton Comstock Park Grand Rapids, 340 Dodge St NE, Comstock Park, MI, 49321",
+        "binding_evidence_available": {
+          "telephone": "",
+          "street": "340 Dodge St NE",
+          "postal_code": "49321",
+          "city": "Comstock Park",
+          "state": "MI"
+        },
+        "expected_binding_method": "NAME_AND_POSTAL_CODE",
+        "strata": {
+          "evidence": "POSTAL_AND_NAME_ONLY",
+          "family": "hilton",
+          "municipality": "Comstock Park",
+          "name_shape": "DISTINCT_IN_MARKET"
+        },
+        "query_fingerprint": "28201c55a64af21d",
+        "why_selected": "carries a postal code and a name and nothing stronger, which is two thirds of the pool and the harder half of the measurement"
+      },
+      {
+        "identity_key": "holiday inn grand rapids north walker",
+        "canonical_name": "Holiday Inn Grand Rapids North - Walker",
+        "family": "ihg",
+        "query": "Holiday Inn Grand Rapids North - Walker, 2280 Northridge Dr NW, Walker, MI, 49544",
+        "binding_evidence_available": {
+          "telephone": "",
+          "street": "2280 Northridge Dr NW",
+          "postal_code": "49544",
+          "city": "Walker",
+          "state": "MI"
+        },
+        "expected_binding_method": "NAME_AND_POSTAL_CODE",
+        "strata": {
+          "evidence": "POSTAL_AND_NAME_ONLY",
+          "family": "ihg",
+          "municipality": "Walker",
+          "name_shape": "DISTINCT_IN_MARKET"
+        },
+        "query_fingerprint": "25d47925f95d860d",
+        "why_selected": "carries a postal code and a name and nothing stronger, which is two thirds of the pool and the harder half of the measurement"
+      },
+      {
+        "identity_key": "wooden shoe motel",
+        "canonical_name": "Wooden Shoe Motel",
+        "family": "independent",
+        "query": "Wooden Shoe Motel, 465 US Highway 31, Holland, MI, 49423",
+        "binding_evidence_available": {
+          "telephone": "6163928521",
+          "street": "465 US Highway 31",
+          "postal_code": "49423",
+          "city": "Holland",
+          "state": "MI"
+        },
+        "expected_binding_method": "PHONE",
+        "strata": {
+          "evidence": "TELEPHONE_STATED",
+          "family": "independent",
+          "municipality": "Holland",
+          "name_shape": "DISTINCT_IN_MARKET"
+        },
+        "query_fingerprint": "1f4bb90e7619122f",
+        "why_selected": "states a telephone, the strongest key the committed binder holds, and the pool's own share of such rows is 25 of 76"
+      },
+      {
+        "identity_key": "courtyard by marriott grand rapids airport",
+        "canonical_name": "Courtyard by Marriott Grand Rapids Airport",
+        "family": "marriott",
+        "query": "Courtyard by Marriott Grand Rapids Airport, 4741 28th St SE, Kentwood, MI, 49512",
+        "binding_evidence_available": {
+          "telephone": "",
+          "street": "4741 28th St SE",
+          "postal_code": "49512",
+          "city": "Kentwood",
+          "state": "MI"
+        },
+        "expected_binding_method": "NAME_AND_POSTAL_CODE",
+        "strata": {
+          "evidence": "POSTAL_AND_NAME_ONLY",
+          "family": "marriott",
+          "municipality": "Kentwood",
+          "name_shape": "DISTINCT_IN_MARKET"
+        },
+        "query_fingerprint": "5fa7cc9b0f631d64",
+        "why_selected": "carries a postal code and a name and nothing stronger, which is two thirds of the pool and the harder half of the measurement"
+      },
+      {
+        "identity_key": "travelodge by wyndham",
+        "canonical_name": "Travelodge by Wyndham",
+        "family": "wyndham",
+        "query": "Travelodge by Wyndham, 777 3 Mile Road Northwest, Grand Rapids, MI, 49544",
+        "binding_evidence_available": {
+          "telephone": "",
+          "street": "777 3 Mile Road Northwest",
+          "postal_code": "49544",
+          "city": "Grand Rapids",
+          "state": "MI"
+        },
+        "expected_binding_method": "NAME_AND_POSTAL_CODE_AT_RISK",
+        "strata": {
+          "evidence": "POSTAL_AND_NAME_ONLY",
+          "family": "wyndham",
+          "municipality": "Grand Rapids",
+          "name_shape": "UNDERSPECIFIED_IN_MARKET"
+        },
+        "query_fingerprint": "2e1b251eee3b471b",
+        "why_selected": "its name is a strict token subset of another property's name in this market, so a places provider may answer with the wrong building -- the case worth buying, not the case to avoid"
+      },
+      {
+        "identity_key": "country inn and suites by radisson grandville grand rapids west",
+        "canonical_name": "Country Inn & Suites by Radisson Grandville-Grand Rapids West",
+        "family": "independent",
+        "query": "Country Inn & Suites by Radisson Grandville-Grand Rapids West, 3825 28th St SW, Grandville, MI, 49418",
+        "binding_evidence_available": {
+          "telephone": "",
+          "street": "3825 28th St SW",
+          "postal_code": "49418",
+          "city": "Grandville",
+          "state": "MI"
+        },
+        "expected_binding_method": "NAME_AND_POSTAL_CODE",
+        "strata": {
+          "evidence": "POSTAL_AND_NAME_ONLY",
+          "family": "independent",
+          "municipality": "Grandville",
+          "name_shape": "DISTINCT_IN_MARKET"
+        },
+        "query_fingerprint": "065bd3ab780600b3",
+        "why_selected": "carries a postal code and a name and nothing stronger, which is two thirds of the pool and the harder half of the measurement"
+      },
+      {
+        "identity_key": "holiday inn grand rapids downtown",
+        "canonical_name": "Holiday Inn Grand Rapids Downtown",
+        "family": "ihg",
+        "query": "Holiday Inn Grand Rapids Downtown, 310 Pearl St NW, Grand Rapids, MI, 49504",
+        "binding_evidence_available": {
+          "telephone": "6162357611",
+          "street": "310 Pearl St NW",
+          "postal_code": "49504",
+          "city": "Grand Rapids",
+          "state": "MI"
+        },
+        "expected_binding_method": "PHONE",
+        "strata": {
+          "evidence": "TELEPHONE_STATED",
+          "family": "ihg",
+          "municipality": "Grand Rapids",
+          "name_shape": "DISTINCT_IN_MARKET"
+        },
+        "query_fingerprint": "6d766f4d02fae1ad",
+        "why_selected": "states a telephone, the strongest key the committed binder holds, and the pool's own share of such rows is 25 of 76"
+      },
+      {
+        "identity_key": "woodspring suites grand rapids kentwood",
+        "canonical_name": "WoodSpring Suites Grand Rapids Kentwood",
+        "family": "choice",
+        "query": "WoodSpring Suites Grand Rapids Kentwood, 3090 Lake Eastbrook Blvd SE, Kentwood, MI, 49512",
+        "binding_evidence_available": {
+          "telephone": "",
+          "street": "3090 Lake Eastbrook Blvd SE",
+          "postal_code": "49512",
+          "city": "Kentwood",
+          "state": "MI"
+        },
+        "expected_binding_method": "NAME_AND_POSTAL_CODE",
+        "strata": {
+          "evidence": "POSTAL_AND_NAME_ONLY",
+          "family": "choice",
+          "municipality": "Kentwood",
+          "name_shape": "DISTINCT_IN_MARKET"
+        },
+        "query_fingerprint": "9be974f7223761e1",
+        "why_selected": "carries a postal code and a name and nothing stronger, which is two thirds of the pool and the harder half of the measurement"
+      },
+      {
+        "identity_key": "cityflatshotel grand rapids",
+        "canonical_name": "CityFlatsHotel Grand Rapids",
+        "family": "independent",
+        "query": "CityFlatsHotel Grand Rapids, 83 Monroe Center NW, Grand Rapids, MI, 49503",
+        "binding_evidence_available": {
+          "telephone": "6166081720",
+          "street": "83 Monroe Center NW",
+          "postal_code": "49503",
+          "city": "Grand Rapids",
+          "state": "MI"
+        },
+        "expected_binding_method": "PHONE",
+        "strata": {
+          "evidence": "TELEPHONE_STATED",
+          "family": "independent",
+          "municipality": "Grand Rapids",
+          "name_shape": "DISTINCT_IN_MARKET"
+        },
+        "query_fingerprint": "4af027169bc71a8b",
+        "why_selected": "states a telephone, the strongest key the committed binder holds, and the pool's own share of such rows is 25 of 76"
+      },
+      {
+        "identity_key": "pleasant motel",
+        "canonical_name": "Pleasant Motel",
+        "family": "independent",
+        "query": "Pleasant Motel, 171 28th St SE, Grand Rapids, MI, 49508",
+        "binding_evidence_available": {
+          "telephone": "",
+          "street": "171 28th St SE",
+          "postal_code": "49508",
+          "city": "Grand Rapids",
+          "state": "MI"
+        },
+        "expected_binding_method": "NAME_AND_POSTAL_CODE",
+        "strata": {
+          "evidence": "POSTAL_AND_NAME_ONLY",
+          "family": "independent",
+          "municipality": "Grand Rapids",
+          "name_shape": "DISTINCT_IN_MARKET"
+        },
+        "query_fingerprint": "ea57763e30725072",
+        "why_selected": "carries a postal code and a name and nothing stronger, which is two thirds of the pool and the harder half of the measurement"
+      },
+      {
+        "identity_key": "candlewood suites grand rapids airport",
+        "canonical_name": "Candlewood Suites Grand Rapids Airport",
+        "family": "ihg",
+        "query": "Candlewood Suites Grand Rapids Airport, 5401 28th St Court SE, Grand Rapids, MI, 49546",
+        "binding_evidence_available": {
+          "telephone": "",
+          "street": "5401 28th St Court SE",
+          "postal_code": "49546",
+          "city": "Grand Rapids",
+          "state": "MI"
+        },
+        "expected_binding_method": "NAME_AND_POSTAL_CODE",
+        "strata": {
+          "evidence": "POSTAL_AND_NAME_ONLY",
+          "family": "ihg",
+          "municipality": "Grand Rapids",
+          "name_shape": "DISTINCT_IN_MARKET"
+        },
+        "query_fingerprint": "eccb95922e52e153",
+        "why_selected": "carries a postal code and a name and nothing stronger, which is two thirds of the pool and the harder half of the measurement"
+      },
+      {
+        "identity_key": "quality inn and suites",
+        "canonical_name": "Quality Inn & Suites",
+        "family": "choice",
+        "query": "Quality Inn & Suites, 422 East 32nd Street, Holland, MI, 49423",
+        "binding_evidence_available": {
+          "telephone": "",
+          "street": "422 East 32nd Street",
+          "postal_code": "49423",
+          "city": "Holland",
+          "state": "MI"
+        },
+        "expected_binding_method": "NAME_AND_POSTAL_CODE",
+        "strata": {
+          "evidence": "POSTAL_AND_NAME_ONLY",
+          "family": "choice",
+          "municipality": "Holland",
+          "name_shape": "DISTINCT_IN_MARKET"
+        },
+        "query_fingerprint": "6790518dfe570473",
+        "why_selected": "carries a postal code and a name and nothing stronger, which is two thirds of the pool and the harder half of the measurement"
+      },
+      {
+        "identity_key": "doubletree by hilton grand rapids airport",
+        "canonical_name": "DoubleTree by Hilton Grand Rapids Airport",
+        "family": "hilton",
+        "query": "DoubleTree by Hilton Grand Rapids Airport, 4747 28th St SE, Kentwood, MI, 49512",
+        "binding_evidence_available": {
+          "telephone": "",
+          "street": "4747 28th St SE",
+          "postal_code": "49512",
+          "city": "Kentwood",
+          "state": "MI"
+        },
+        "expected_binding_method": "NAME_AND_POSTAL_CODE_AT_RISK",
+        "strata": {
+          "evidence": "POSTAL_AND_NAME_ONLY",
+          "family": "hilton",
+          "municipality": "Kentwood",
+          "name_shape": "UNDERSPECIFIED_IN_MARKET"
+        },
+        "query_fingerprint": "485edbde63973611",
+        "why_selected": "its name is a strict token subset of another property's name in this market, so a places provider may answer with the wrong building -- the case worth buying, not the case to avoid"
+      },
+      {
+        "identity_key": "jim williams motel",
+        "canonical_name": "Jim Williams Motel",
+        "family": "independent",
+        "query": "Jim Williams Motel, 3821 South Division Ave, Wyoming, MI, 49548",
+        "binding_evidence_available": {
+          "telephone": "6162415461",
+          "street": "3821 South Division Ave",
+          "postal_code": "49548",
+          "city": "Wyoming",
+          "state": "MI"
+        },
+        "expected_binding_method": "PHONE",
+        "strata": {
+          "evidence": "TELEPHONE_STATED",
+          "family": "independent",
+          "municipality": "Wyoming",
+          "name_shape": "DISTINCT_IN_MARKET"
+        },
+        "query_fingerprint": "aaf0adcc6ef46ecb",
+        "why_selected": "states a telephone, the strongest key the committed binder holds, and the pool's own share of such rows is 25 of 76"
+      },
+      {
+        "identity_key": "radisson hotel grand rapids riverfront",
+        "canonical_name": "Radisson Hotel Grand Rapids Riverfront",
+        "family": "independent",
+        "query": "Radisson Hotel Grand Rapids Riverfront, 270 Ann St NW, Grand Rapids, MI, 49504",
+        "binding_evidence_available": {
+          "telephone": "",
+          "street": "270 Ann St NW",
+          "postal_code": "49504",
+          "city": "Grand Rapids",
+          "state": "MI"
+        },
+        "expected_binding_method": "NAME_AND_POSTAL_CODE",
+        "strata": {
+          "evidence": "POSTAL_AND_NAME_ONLY",
+          "family": "independent",
+          "municipality": "Grand Rapids",
+          "name_shape": "DISTINCT_IN_MARKET"
+        },
+        "query_fingerprint": "ebae7dbf481bb305",
+        "why_selected": "carries a postal code and a name and nothing stronger, which is two thirds of the pool and the harder half of the measurement"
+      },
+      {
+        "identity_key": "mainstay suites grand rapids",
+        "canonical_name": "MainStay Suites Grand Rapids",
+        "family": "choice",
+        "query": "MainStay Suites Grand Rapids, 3920 Stahl Dr SE, Grand Rapids, MI, 49546",
+        "binding_evidence_available": {
+          "telephone": "6162857100",
+          "street": "3920 Stahl Dr SE",
+          "postal_code": "49546",
+          "city": "Grand Rapids",
+          "state": "MI"
+        },
+        "expected_binding_method": "PHONE",
+        "strata": {
+          "evidence": "TELEPHONE_STATED",
+          "family": "choice",
+          "municipality": "Grand Rapids",
+          "name_shape": "DISTINCT_IN_MARKET"
+        },
+        "query_fingerprint": "f0723707353eb470",
+        "why_selected": "states a telephone, the strongest key the committed binder holds, and the pool's own share of such rows is 25 of 76"
+      },
+      {
+        "identity_key": "staybridge suites grand rapids airport",
+        "canonical_name": "Staybridge Suites Grand Rapids Airport",
+        "family": "ihg",
+        "query": "Staybridge Suites Grand Rapids Airport, 3000 Lake Eastbrook Blvd SE, Kentwood, MI, 49512",
+        "binding_evidence_available": {
+          "telephone": "",
+          "street": "3000 Lake Eastbrook Blvd SE",
+          "postal_code": "49512",
+          "city": "Kentwood",
+          "state": "MI"
+        },
+        "expected_binding_method": "NAME_AND_POSTAL_CODE",
+        "strata": {
+          "evidence": "POSTAL_AND_NAME_ONLY",
+          "family": "ihg",
+          "municipality": "Kentwood",
+          "name_shape": "DISTINCT_IN_MARKET"
+        },
+        "query_fingerprint": "3dad709be6d2d4e0",
+        "why_selected": "carries a postal code and a name and nothing stronger, which is two thirds of the pool and the harder half of the measurement"
+      },
+      {
+        "identity_key": "rainbow motel",
+        "canonical_name": "Rainbow Motel",
+        "family": "independent",
+        "query": "Rainbow Motel, 2360 South Division Ave, Grand Rapids, MI, 49507",
+        "binding_evidence_available": {
+          "telephone": "",
+          "street": "2360 South Division Ave",
+          "postal_code": "49507",
+          "city": "Grand Rapids",
+          "state": "MI"
+        },
+        "expected_binding_method": "NAME_AND_POSTAL_CODE",
+        "strata": {
+          "evidence": "POSTAL_AND_NAME_ONLY",
+          "family": "independent",
+          "municipality": "Grand Rapids",
+          "name_shape": "DISTINCT_IN_MARKET"
+        },
+        "query_fingerprint": "9908b749fc13419c",
+        "why_selected": "carries a postal code and a name and nothing stronger, which is two thirds of the pool and the harder half of the measurement"
+      }
+    ]
+  }
+}

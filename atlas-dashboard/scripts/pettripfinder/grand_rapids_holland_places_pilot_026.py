@@ -126,8 +126,8 @@ def _now() -> str:
 # The committed cohort
 # --------------------------------------------------------------------------- #
 
-def load_cohort() -> Dict:
-    document = json.loads(COHORT_PATH.read_text(encoding="utf-8-sig"))
+def load_cohort(path: Optional[Path] = None) -> Dict:
+    document = json.loads((path or COHORT_PATH).read_text(encoding="utf-8-sig"))
     rows = document["sample"]["rows"]
     if len(rows) != MAX_REQUESTS:
         raise SystemExit(
@@ -243,8 +243,15 @@ def premises_agreement(row: Mapping, record) -> Dict:
 # The run
 # --------------------------------------------------------------------------- #
 
-def run(*, live: bool) -> Dict:
-    document = load_cohort()
+def run(*, live: bool, cohort_path: Optional[Path] = None,
+        work_order: str = WORK_ORDER, run_id: str = RUN_ID,
+        cache_dir: Optional[Path] = None) -> Dict:
+    """Execute a cohort. The defaults are 026's, and the four parameters exist
+    so batch 027 runs THIS code rather than a copy of it -- the binding, the
+    ledger discipline, the early stop and the arithmetic are all the ones 026
+    proved, and nothing about them is re-derived per batch."""
+    cache = cache_dir or CACHE_DIR
+    document = load_cohort(cohort_path)
     entries = document["sample"]["rows"]
     provider, method = document["provider"], document["discovery_method"]
     field_mask = tuple(document["field_mask"])
@@ -252,7 +259,7 @@ def run(*, live: bool) -> Dict:
     ledger = DAL.load(LEDGER_PATH)
     index = DAL.DiscoveryIndex(ledger)
     budget = RequestBudget(max_requests=MAX_REQUESTS)
-    cache = DiscoveryCache(CACHE_DIR)
+    discovery_cache = DiscoveryCache(cache)
     client = GooglePlacesClient()
     observed_at = _now()[:10]
 
@@ -295,7 +302,7 @@ def run(*, live: bool) -> Dict:
             query_id=key.replace(" ", "-")[:80],
             provider=C.PROVIDER_GOOGLE_PLACES, canonical_category="lodging",
             query_text=entry["query"], market_id=MARKET, max_pages=1)
-        outcome = client.search(query, cache=cache, budget=budget,
+        outcome = client.search(query, cache=discovery_cache, budget=budget,
                                 observed_at=observed_at)
         records = list(outcome.records)
         observation, binding, rejections, matched = bind_one(row, records)
@@ -358,13 +365,13 @@ def run(*, live: bool) -> Dict:
         # lookup that found nothing is a lookup this project has already paid
         # for, and repeating it buys the same nothing twice.
         new_records.append(DAL.build_attempt(
-            row, market_id=MARKET, work_order=WORK_ORDER, run_id=RUN_ID,
+            row, market_id=MARKET, work_order=work_order, run_id=run_id,
             provider=provider, method=method, field_mask=field_mask,
             attempted_at=_now(), place_id=place_id, website_uri=website,
             national_phone_number=getattr(matched, "phone", "") if matched else "",
             bind_state=state, bind_method=binding,
             bind_result=results[-1]["reason"], outcome=state,
-            cache_pointer=CACHE_DIR.relative_to(_REPO_ROOT).as_posix(),
+            cache_pointer=cache.relative_to(_REPO_ROOT).as_posix(),
             paid_requests=outcome.requests_made, cost_usd_minor=None))
         DAL.save(LEDGER_PATH, DAL.merge(DAL.load(LEDGER_PATH), [new_records[-1]]))
 
@@ -388,7 +395,9 @@ def run(*, live: bool) -> Dict:
                 break
 
     return report(document, results, budget, aborted, abort_detail, suppressed,
-                  len(new_records), disagreements, live)
+                  len(new_records), disagreements, live,
+                  work_order=work_order, run_id=run_id,
+                  cohort_path=cohort_path or COHORT_PATH)
 
 
 # --------------------------------------------------------------------------- #
@@ -462,7 +471,9 @@ def why_it_missed(row: Mapping) -> Tuple[str, str]:
 
 def report(document: Mapping, results: Sequence[Dict], budget: RequestBudget,
            aborted: str, abort_detail: str, suppressed: int,
-           ledger_rows: int, disagreements: Sequence[str], live: bool) -> Dict:
+           ledger_rows: int, disagreements: Sequence[str], live: bool,
+           work_order: str = WORK_ORDER, run_id: str = RUN_ID,
+           cohort_path: Optional[Path] = None) -> Dict:
     executed = [r for r in results if r.get("requests_made")]
     bound = [r for r in executed if r.get("bound")]
 
@@ -539,9 +550,10 @@ def report(document: Mapping, results: Sequence[Dict], budget: RequestBudget,
     bound_families = Counter(r.get("family") for r in bound)
 
     return OrderedDict((
-        ("schema", SCHEMA), ("market_id", MARKET), ("work_order", WORK_ORDER),
-        ("run_id", RUN_ID), ("live", live),
-        ("cohort_document", COHORT_PATH.relative_to(_REPO_ROOT).as_posix()),
+        ("schema", SCHEMA), ("market_id", MARKET), ("work_order", work_order),
+        ("run_id", run_id), ("live", live),
+        ("cohort_document",
+         (cohort_path or COHORT_PATH).relative_to(_REPO_ROOT).as_posix()),
         ("authorised_request_cap", MAX_REQUESTS),
         ("requests_made", budget.used),
         ("cap_held", budget.used <= MAX_REQUESTS),
@@ -686,7 +698,7 @@ def report(document: Mapping, results: Sequence[Dict], budget: RequestBudget,
     ))
 
 
-def rebuild(path: Path) -> Dict:
+def rebuild(path: Path, cohort_path: Optional[Path] = None) -> Dict:
     """Re-derive the report's arithmetic from the rows already bought.
 
     The ledger now suppresses every row this pilot executed, which is the whole
@@ -696,7 +708,7 @@ def rebuild(path: Path) -> Dict:
     Nothing here can call a provider.
     """
     prior = json.loads(path.read_text(encoding="utf-8-sig"))
-    cohort = json.loads(COHORT_PATH.read_text(encoding="utf-8-sig"))
+    cohort = json.loads((cohort_path or COHORT_PATH).read_text(encoding="utf-8-sig"))
     rows = list(prior["rows"])
     budget = RequestBudget(max_requests=MAX_REQUESTS,
                            used=int(prior["requests_made"]))
@@ -704,7 +716,9 @@ def rebuild(path: Path) -> Dict:
                   int(prior["suppressed_duplicate_queries"]),
                   int(prior["ledger_rows_written"]),
                   list(prior["results"]["premises_disagreements"]),
-                  bool(prior["live"]))
+                  bool(prior["live"]),
+                  work_order=prior["work_order"], run_id=prior["run_id"],
+                  cohort_path=cohort_path or COHORT_PATH)
 
 
 def main(argv=None) -> int:

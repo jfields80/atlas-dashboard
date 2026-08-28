@@ -373,7 +373,14 @@ def expected_binding(row: Mapping, underspecified: Set[str], key: str) -> str:
     return "NAME_AND_POSTAL_CODE"
 
 
-def build() -> Dict:
+def build(*, work_order: str = WORK_ORDER) -> Dict:
+    """The next ``SAMPLE_SIZE`` rows this market may buy a lookup for.
+
+    ``work_order`` only labels the document. Everything else -- the exclusions,
+    the strata, the selection -- is unchanged, which is the point: batch 027
+    runs the SAME selector over a pool the ledger has already shrunk, rather
+    than a second selector nobody has qualified.
+    """
     census = census_rows()
     keys = url_less_keys()
     rows = [census[key] for key in keys]
@@ -469,7 +476,7 @@ def build() -> Dict:
             strata[axis] for _, strata in pool).items()))
 
     return OrderedDict((
-        ("schema", SCHEMA), ("market_id", MARKET), ("work_order", WORK_ORDER),
+        ("schema", SCHEMA), ("market_id", MARKET), ("work_order", work_order),
         ("nothing_was_fetched", True), ("provider_calls", 0), ("usd_spent", 0.0),
         ("this_is_not_an_authorization",
          "the work order authorises 20 requests; this document names WHICH 20 "
@@ -520,8 +527,11 @@ def _why(strata: Mapping[str, str], underspecified: bool) -> str:
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--out", default=str(COHORT_PATH))
+    parser.add_argument("--work-order", default=WORK_ORDER,
+                        help="the order this cohort is drawn for; it labels "
+                             "the document and changes nothing else")
     args = parser.parse_args(argv)
-    document = build()
+    document = build(work_order=args.work_order)
     Path(args.out).write_text(json.dumps(document, indent=2) + "\n",
                               encoding="utf-8")
     population = document["population"]
