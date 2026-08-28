@@ -115,13 +115,17 @@ class TestTheAuthorizationIsConsumed:
         assert consumed <= set(by_id)
         for authorization_id in consumed:
             assert by_id[authorization_id]["authorization_status"] == DA.DEPLOYED
-        # Nothing on file may deploy: every authorization is spent. The next
-        # deployment needs a new record and a new founder signature, which is
-        # what makes an authorization single-use rather than a standing
-        # permission.
-        deployable = [a["authorization_id"] for a in by_id.values()
-                      if not DA.deployability_problems(a)]
-        assert deployable == []
+        # No CONSUMED authorization may deploy again. The next deployment
+        # needs a new record and a new founder signature, which is what
+        # makes an authorization single-use rather than a standing
+        # permission -- and PTF-INDIANAPOLIS-DEPLOY-AUTHORIZATION-020 is
+        # exactly that new record. Its existence is the mechanism working,
+        # so the claim is narrowed to the one this test protects: nothing
+        # ALREADY SPENT was reopened.
+        reopened = [a["authorization_id"] for a in by_id.values()
+                    if a["authorization_id"] in consumed
+                    and not DA.deployability_problems(a)]
+        assert reopened == []
 
     def test_no_credential_is_recorded(self, auth, record):
         for doc in (auth, record):
@@ -259,9 +263,11 @@ class TestTheRepositoryMatchesProduction:
         put live, which is all this test ever asserted."""
         assert GD.verify_manifest() == []
         assert manifest["bundle_sha256"] != BUNDLE
-        # 019 stops before authorising, so the candidate carries no authorization.
-        assert manifest["deployment_authorized"] is False
-        assert manifest.get("deployment_authorization") is None
+        # 020 authorised this candidate, so the flag mirrors its record and
+        # points at a DIFFERENT bundle from the one 012 put live.
+        assert manifest["deployment_authorized"] is True
+        assert manifest["deployment_authorization"]["bundle_sha256"] == \
+            manifest["bundle_sha256"] != BUNDLE
 
     def test_this_record_is_untouched_by_the_deploy_that_replaced_it(self):
         """011's record still says exactly what 011 did. A later deployment
@@ -296,15 +302,20 @@ class TestTheRepositoryMatchesProduction:
             assert LP.launch_status(market_id) == LP.NOT_SOURCE_READY
 
     def test_the_deploy_lineage_reads_back_in_order(self):
-        """Four production deploys, each consuming its own authorization and
-        naming the one before it as its rollback target. The chain is what
-        makes a rollback target a fact rather than a hope."""
+        """Every production deploy consumes its own authorization and names
+        the one before it as its rollback target. The chain is what makes a
+        rollback target a fact rather than a hope.
+
+        PTF-INDIANAPOLIS-DEPLOY-AUTHORIZATION-020 added the fifth link,
+        rolling back to the Louisville deploy it replaced."""
         records = {r["deployment_record_id"]: r for r in DA.list_records()}
         chain = [
             ("ptf-deploy-047-6a8a2dada6e73cb0d819c9d0", "6a78dc1cdad05ac32bc58cec"),
             ("ptf-deploy-012-6a8c6de6fa99ff1f7bd5c7f5", "6a8a2dada6e73cb0d819c9d0"),
             (RECORD_ID, PREVIOUS_DEPLOY),
             ("ptf-deploy-010-6a8d91855b8993b899a3b68a", DEPLOY_ID),
+            ("ptf-deploy-020-6a9102c07ae3a341194c6f4c",
+             "6a8d91855b8993b899a3b68a"),
         ]
         assert set(records) == {rid for rid, _ in chain}
         for record_id, rollback in chain:

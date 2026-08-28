@@ -215,8 +215,13 @@ class TestTheCandidateIsLive:
             "st-louis-mo"]
         assert manifest["total_published_profiles"] == 517
         assert manifest["launch_participation"]["sha256"] == LP.participation_sha256()
-        assert manifest["deployment_authorized"] is False
-        assert manifest.get("deployment_authorization") is None
+        # 019 left this False; PTF-INDIANAPOLIS-DEPLOY-AUTHORIZATION-020
+        # authorised the same candidate, so the flag now mirrors a record.
+        assert manifest["deployment_authorized"] is True
+        assert manifest["deployment_authorization"]["authorization_id"] == \
+            "ptf-auth-020-e9998c51d135"
+        assert manifest["deployment_authorization"]["bundle_sha256"] == \
+            manifest["bundle_sha256"]
 
     def test_the_authorization_was_spent_and_may_never_deploy_again(self):
         """009 moved this record PREPARED -> AUTHORIZED; 010 spent it.
@@ -229,9 +234,13 @@ class TestTheCandidateIsLive:
         assert auth["authorization_status"] == DA.DEPLOYED
         assert DA.deployability_problems(auth), \
             "a consumed authorization must never be deployable again"
-        deployable = [a["authorization_id"] for a in DA.list_authorizations()
-                      if not DA.deployability_problems(a)]
-        assert deployable == []
+        # No CONSUMED authorization may be deployable. A live one may exist --
+        # PTF-INDIANAPOLIS-DEPLOY-AUTHORIZATION-020 issued one -- and that is
+        # not what this test guards against; reopening a spent record is.
+        spent = [a["authorization_id"] for a in DA.list_authorizations()
+                 if a["authorization_status"] == DA.DEPLOYED
+                 and not DA.deployability_problems(a)]
+        assert spent == []
         # It no longer re-verifies against the working tree either, and that is
         # the PTF-047 coupling doing its job rather than a defect: admitting a
         # market reissues the participation record and recomposes the bundle,
