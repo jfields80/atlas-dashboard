@@ -1,0 +1,331 @@
+{
+ "schema": "ptf-identity-hold-dossier/1.0",
+ "what_this_is": "The two identity questions this market has not answered, with the evidence that would settle each. Neither is merged, resolved or promoted here.",
+ "market_id": "grand-rapids-holland-mi",
+ "work_order": "PTF-GRAND-RAPIDS-FOUNDER-REVIEW-PROMOTION-PREP-019",
+ "provider_calls": 0,
+ "usd_spent": 0.0,
+ "plan_credits_spent": 0.0,
+ "inputs": {
+  "dedup": {
+   "path": "launch_packages/pettripfinder/grand_rapids_holland_mi_pre_acquisition_dedup_001.json",
+   "sha256": "83a8e27f7c5295d442b461acee6ca4ed111d99cabfbde50b70adf8704beb53e5"
+  },
+  "census": {
+   "path": "launch_packages/pettripfinder/identity_census/recensus/grand-rapids-holland-mi.json",
+   "sha256": "07198431435ac4a0f80166293183459d3a1e3e5976f1477625b6dd526ecda360"
+  },
+  "routing": {
+   "path": "launch_packages/pettripfinder/grand_rapids_holland_mi_routing_recovered_001.json",
+   "sha256": "1d1cfdf2a723fa5b63ebc5ed1037491b80d3019ea49b8146b1810975984332fb"
+  }
+ },
+ "count": 2,
+ "holds": [
+  {
+   "identity_keys": [
+    "comfort inn",
+    "comfort suites grandville grand rapids sw"
+   ],
+   "dedup_verdict": "DISTINCT_PROPERTIES",
+   "shared_signals": [
+    "STREET_AND_POSTAL_CODE",
+    "TELEPHONE"
+   ],
+   "resolved_by_this_pass": false,
+   "merged_by_this_pass": false,
+   "decided_on_shared_telephone": false,
+   "halves": [
+    {
+     "identity_key": "comfort inn",
+     "canonical_name": "Comfort Inn",
+     "address": "4520 Kenowa Avenue Southwest",
+     "postal_code": "49418",
+     "phone": "6166670733",
+     "official_url": "",
+     "routing_state": "ROUTE_NEEDS_OFFICIAL_URL",
+     "in_authority_candidates": false
+    },
+    {
+     "identity_key": "comfort suites grandville grand rapids sw",
+     "canonical_name": "Comfort Suites Grandville - Grand Rapids SW",
+     "address": "4520 Kenowa Ave SW",
+     "postal_code": "49418",
+     "phone": "6166670733",
+     "official_url": "https://www.choicehotels.com/en-ca/michigan/grandville/comfort-suites-hotels/mi169",
+     "routing_state": "ROUTED",
+     "in_authority_candidates": false
+    }
+   ],
+   "evidence_that_would_settle_it": [
+    "either property's own page naming its street address, so the two pages can be compared instead of the two census rows",
+    "a brand property code for each half; Choice publishes one that this project's URL patterns do not currently extract, and a code on each side settles the question outright",
+    "a state lodging-registry entry, or a county parcel record, showing one licence or two at the shared address"
+   ],
+   "why_it_is_still_open": "a shared street and a shared switchboard describe a BUILDING. Two hotels in one building share both, and so does a hotel and the brand it was renamed from. Neither this module nor the paid ledger may decide which; a person does."
+  },
+  {
+   "identity_keys": [
+    "sleep inn and suites",
+    "spark by hilton grand rapids"
+   ],
+   "dedup_verdict": "DISTINCT_PROPERTIES",
+   "shared_signals": [
+    "STREET_AND_POSTAL_CODE",
+    "TELEPHONE"
+   ],
+   "resolved_by_this_pass": false,
+   "merged_by_this_pass": false,
+   "decided_on_shared_telephone": false,
+   "halves": [
+    {
+     "identity_key": "sleep inn and suites",
+     "canonical_name": "Sleep Inn & Suites",
+     "address": "4284 29th Street Southeast",
+     "postal_code": "49512",
+     "phone": "6169759000",
+     "official_url": "",
+     "routing_state": "ROUTE_NEEDS_OFFICIAL_URL",
+     "in_authority_candidates": false
+    },
+    {
+     "identity_key": "spark by hilton grand rapids",
+     "canonical_name": "Spark by Hilton Grand Rapids",
+     "address": "4284 29th St SE",
+     "postal_code": "49512",
+     "phone": "6169759000",
+     "official_url": "",
+     "routing_state": "ROUTE_NEEDS_OFFICIAL_URL",
+     "in_authority_candidates": false
+    }
+   ],
+   "evidence_that_would_settle_it": [
+    "either property's own page naming its street address, so the two pages can be compared instead of the two census rows",
+    "a brand property code for each half; Choice publishes one that this project's URL patterns do not currently extract, and a code on each side settles the question outright",
+    "a state lodging-registry entry, or a county parcel record, showing one licence or two at the shared address"
+   ],
+   "why_it_is_still_open": "a shared street and a shared switchboard describe a BUILDING. Two hotels in one building share both, and so does a hotel and the brand it was renamed from. Neither this module nor the paid ledger may decide which; a person does."
+  }
+ ],
+ "surfaced_identity_questions": {
+  "what_this_is": "every pair the pre-acquisition dedup gate ruled DISTINCT_PROPERTIES on a shared street. The gate ANSWERED these; they are listed so a founder can see the class the two named holds belong to, and nothing here is promoted to a hold.",
+  "pairs_ruled_distinct": 10,
+  "of_those_sharing_an_identical_telephone": 3,
+  "named_by_the_work_order": 2,
+  "finding": "3 pairs share an identical switchboard AND were ruled distinct. Two are the holds this work order names; the one that remains is the same shape and has had no separate reading: budgetel grand rapids / budgetel inn and suites hotel",
+  "pairs": [
+   {
+    "identity_keys": [
+     "budgetel grand rapids",
+     "budgetel inn and suites hotel"
+    ],
+    "is_a_named_hold": false,
+    "shares_an_identical_telephone": true,
+    "telephones": [
+     "6164525141",
+     "6164525141"
+    ],
+    "addresses": [
+     "35 28th Street Southwest",
+     "35 28th St SW"
+    ],
+    "routing_states": [
+     "ROUTED",
+     "ROUTE_NEEDS_OFFICIAL_URL"
+    ],
+    "in_authority_candidates": []
+   },
+   {
+    "identity_keys": [
+     "comfort inn",
+     "comfort suites grandville grand rapids sw"
+    ],
+    "is_a_named_hold": true,
+    "shares_an_identical_telephone": true,
+    "telephones": [
+     "6166670733",
+     "6166670733"
+    ],
+    "addresses": [
+     "4520 Kenowa Avenue Southwest",
+     "4520 Kenowa Ave SW"
+    ],
+    "routing_states": [
+     "ROUTE_NEEDS_OFFICIAL_URL",
+     "ROUTED"
+    ],
+    "in_authority_candidates": []
+   },
+   {
+    "identity_keys": [
+     "sleep inn and suites",
+     "spark by hilton grand rapids"
+    ],
+    "is_a_named_hold": true,
+    "shares_an_identical_telephone": true,
+    "telephones": [
+     "6169759000",
+     "6169759000"
+    ],
+    "addresses": [
+     "4284 29th Street Southeast",
+     "4284 29th St SE"
+    ],
+    "routing_states": [
+     "ROUTE_NEEDS_OFFICIAL_URL",
+     "ROUTE_NEEDS_OFFICIAL_URL"
+    ],
+    "in_authority_candidates": []
+   },
+   {
+    "identity_keys": [
+     "americinn by wyndham grand rapids airport north",
+     "best western hospitality hotel and suites"
+    ],
+    "is_a_named_hold": false,
+    "shares_an_identical_telephone": false,
+    "telephones": [
+     "6163121992",
+     "6169498400"
+    ],
+    "addresses": [
+     "5500 28th St SE",
+     "5500 28th Street Southeast"
+    ],
+    "routing_states": [
+     "ROUTED",
+     "ROUTE_BRAND_EXCLUDED"
+    ],
+    "in_authority_candidates": [
+     "americinn by wyndham grand rapids airport north"
+    ]
+   },
+   {
+    "identity_keys": [
+     "baymont",
+     "days inn and suites"
+    ],
+    "is_a_named_hold": false,
+    "shares_an_identical_telephone": false,
+    "telephones": [
+     "6162268360",
+     "6164269721"
+    ],
+    "addresses": [
+     "255 28th Street Southwest",
+     "255 28th Street Southwest"
+    ],
+    "routing_states": [
+     "ROUTED",
+     "ROUTED"
+    ],
+    "in_authority_candidates": []
+   },
+   {
+    "identity_keys": [
+     "baymont by wyndham grand rapids airport",
+     "baymont inn and suites grand rapids airport"
+    ],
+    "is_a_named_hold": false,
+    "shares_an_identical_telephone": false,
+    "telephones": [
+     "6169563300",
+     "6164268095"
+    ],
+    "addresses": [
+     "2873 Kraft Ave SE",
+     "2873 Kraft Avenue Southeast"
+    ],
+    "routing_states": [
+     "ROUTE_NEEDS_OFFICIAL_URL",
+     "ROUTED"
+    ],
+    "in_authority_candidates": []
+   },
+   {
+    "identity_keys": [
+     "econo lodge and suites",
+     "econo lodge grand rapids airport"
+    ],
+    "is_a_named_hold": false,
+    "shares_an_identical_telephone": false,
+    "telephones": [
+     "6169401777",
+     ""
+    ],
+    "addresses": [
+     "2985 Kraft Avenue Southeast",
+     "2985 Kraft Ave SE"
+    ],
+    "routing_states": [
+     "ROUTE_NEEDS_OFFICIAL_URL",
+     "ROUTE_NEEDS_OFFICIAL_URL"
+    ],
+    "in_authority_candidates": []
+   },
+   {
+    "identity_keys": [
+     "extended stay america select suites grand rapids wyoming",
+     "woodspring suites grand rapids south"
+    ],
+    "is_a_named_hold": false,
+    "shares_an_identical_telephone": false,
+    "telephones": [
+     "",
+     ""
+    ],
+    "addresses": [
+     "4500 Clyde Park Ave SW",
+     "4500 Clyde Park Avenue Southwest"
+    ],
+    "routing_states": [
+     "ROUTE_NEEDS_OFFICIAL_URL",
+     "ROUTE_NEEDS_OFFICIAL_URL"
+    ],
+    "in_authority_candidates": []
+   },
+   {
+    "identity_keys": [
+     "the blue jay hotel and events",
+     "the bluejay hotel"
+    ],
+    "is_a_named_hold": false,
+    "shares_an_identical_telephone": false,
+    "telephones": [
+     "",
+     "6166222112"
+    ],
+    "addresses": [
+     "644 Bridge Street Northwest",
+     "644 Bridge St NW"
+    ],
+    "routing_states": [
+     "ROUTE_NEEDS_OFFICIAL_URL",
+     "ROUTED"
+    ],
+    "in_authority_candidates": []
+   },
+   {
+    "identity_keys": [
+     "tru",
+     "tru by hilton grand rapids airport"
+    ],
+    "is_a_named_hold": false,
+    "shares_an_identical_telephone": false,
+    "telephones": [
+     "6169740600",
+     ""
+    ],
+    "addresses": [
+     "4570 28th Street Southeast",
+     "4570 28th St SE"
+    ],
+    "routing_states": [
+     "ROUTED",
+     "ROUTE_NEEDS_OFFICIAL_URL"
+    ],
+    "in_authority_candidates": []
+   }
+  ]
+ }
+}

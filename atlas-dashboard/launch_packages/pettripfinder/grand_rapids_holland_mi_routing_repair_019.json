@@ -1,0 +1,315 @@
+{
+ "schema": "ptf-routing-repair-adjudication/1.0",
+ "what_this_is": "Every unresolved routed row, adjudicated from artifacts and saved captures alone. No provider was called and no route was rewritten.",
+ "market_id": "grand-rapids-holland-mi",
+ "work_order": "PTF-GRAND-RAPIDS-FOUNDER-REVIEW-PROMOTION-PREP-019",
+ "provider_calls": 0,
+ "usd_spent": 0.0,
+ "plan_credits_spent": 0.0,
+ "inputs": {
+  "replay": {
+   "path": "launch_packages/pettripfinder/grand_rapids_holland_mi_cross_run_ledger_replay_018.json",
+   "sha256": "dc5215871ba2a883c4f5081d89efebc41bbd17520216301763add48074433b08"
+  },
+  "closeout": {
+   "path": "launch_packages/pettripfinder/grand_rapids_holland_mi_acquisition_merged_closeout_001.json",
+   "sha256": "018b54a794c6a795e57e973fa384e5207d4a15a676726e97f20ab76250c58b68"
+  },
+  "routing": {
+   "path": "launch_packages/pettripfinder/grand_rapids_holland_mi_routing_recovered_001.json",
+   "sha256": "1d1cfdf2a723fa5b63ebc5ed1037491b80d3019ea49b8146b1810975984332fb"
+  },
+  "census": {
+   "path": "launch_packages/pettripfinder/identity_census/recensus/grand-rapids-holland-mi.json",
+   "sha256": "07198431435ac4a0f80166293183459d3a1e3e5976f1477625b6dd526ecda360"
+  },
+  "prior_partition": {
+   "path": "launch_packages/pettripfinder/grand_rapids_holland_final_partition_001.json",
+   "sha256": "ecdc4b5bc8b317ee52718dd6790a8846c1706f05cb84b1ae3b6a245463b7cd9a"
+  }
+ },
+ "rows_adjudicated": 11,
+ "routing_repair_required_in": 8,
+ "same_page_already_failed_in": 3,
+ "repairs_available_offline": 0,
+ "repairs_applied": 0,
+ "owned_alternative_urls_found": 1,
+ "why_no_repair_was_applied": "one row (fairfield inn and suites grand rapids wyoming) has a canonical URL saved by the earlier Grand Rapids build, and it is the stable form of the SAME page the truncated route already redirects to. market_routing.apply_url_overlay refuses to displace a URL a lane can fetch, which is correct, so swapping it would repair nothing. Every other unresolved row either already reaches its own property page or needs a URL no artifact on this branch names.",
+ "by_verdict": {
+  "ROUTE_IS_CORRECT_IDENTITY_UNCORROBORATED": 7,
+  "ROUTE_IS_DEAD": 1,
+  "ROUTE_NAMES_ANOTHER_BRAND": 1,
+  "ROUTE_REDIRECTED_OFF_THE_PROPERTY": 2
+ },
+ "saved_captures_still_on_disk": 11,
+ "brand_contradiction_scan": {
+  "routed_rows_scanned": 82,
+  "contradictions": 1,
+  "rows": [
+   {
+    "identity_key": "best western",
+    "canonical_name": "Best Western",
+    "name_brand": "BEST_WESTERN",
+    "url_brand": "WYNDHAM",
+    "source_url": "https://www.wyndhamhotels.com/baymont/grand-rapids-michigan/baymont-inn-and-suites-grand-rapids-sw-byron-center/overview"
+   }
+  ],
+  "why": "a row whose NAME is one chain and whose official_url is another chain's domain is refuted by the two brands' own authority. The check only ever refutes a route; it never chooses one."
+ },
+ "finding": "seven of the eight ROUTING_REPAIR_REQUIRED rows are not routing defects. Their URLs already resolve to the property's own page and the page title names the property; what failed is corroboration -- the page prints no telephone, or the census address is corrupt, or the property was rebranded. A purchase changes none of that, and every declined capture is still on disk, so a founder ruling on identity costs nothing to act on.",
+ "adjudications": [
+  {
+   "identity_key": "affordable suites",
+   "canonical_name": "Affordable Suites",
+   "prior_outcome": "IDENTITY_MISMATCH",
+   "source_url": "https://www.affordablesuites.com/hotels/affordable-suites-grand-rapids-mi/",
+   "final_url": "https://www.affordablesuites.com/hotels/affordable-suites-grand-rapids-mi/",
+   "page_title": "Page not found - Affordable Suites of America",
+   "verdict": "ROUTE_IS_DEAD",
+   "owned_alternative_url": {
+    "exists": false,
+    "url": "",
+    "would_change_the_route": false,
+    "why": "no prior build saved a different URL for this identity"
+   },
+   "repairable_offline": false,
+   "repaired_offline": false,
+   "why": "the URL resolves, and the page it resolves to is the site's own not-found page ('Page not found - Affordable Suites of America'); there is no property page behind this route to corroborate or to read",
+   "next_action": "paid URL discovery for 'affordable suites' in a future work order; no artifact on this branch names another URL for it",
+   "saved_capture": "data/acquisition/grand_rapids_holland_mi_factory_001/pass1/affordable-suites/declined-01",
+   "census_address": "2701 E Beltline Ave SE",
+   "census_phone": "6169578111",
+   "gate_detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+  },
+  {
+   "identity_key": "baymont inn and suites grand rapids airport",
+   "canonical_name": "Baymont Inn & Suites Grand Rapids Airport",
+   "prior_outcome": "IDENTITY_MISMATCH",
+   "source_url": "https://www.wyndhamhotels.com/baymont/grand-rapids-michigan/baymont-inn-and-suites-grand-rapids-airport/overview",
+   "final_url": "https://www.wyndhamhotels.com/baymont/grand-rapids-michigan/baymont-inn-and-suites-grand-rapids-airport/overview",
+   "page_title": "Baymont by Wyndham Grand Rapids Airport | Grand Rapids, MI Hotels",
+   "verdict": "ROUTE_IS_CORRECT_IDENTITY_UNCORROBORATED",
+   "owned_alternative_url": {
+    "exists": false,
+    "url": "",
+    "would_change_the_route": false,
+    "why": "no prior build saved a different URL for this identity"
+   },
+   "repairable_offline": false,
+   "repaired_offline": false,
+   "why": "the URL resolves to a property page whose title ('Baymont by Wyndham Grand Rapids Airport | Grand Rapids, MI Hotels') names this property; the identity gate refused on corroboration, not on the route -- page names 'Baymont by Wyndham Grand Rapids Airport', which does not agree with 'Baymont Inn & Suites Grand Rapids Airport'; the page declares telepho",
+   "next_action": "founder identity ruling: the page's name does not match the census name, which usually means a rebrand. a second census row 'baymont by wyndham grand rapids airport' shares this street, so the ruling must also say whether they are one building. the declined capture is saved, so acting on the ruling costs nothing",
+   "saved_capture": "data/acquisition/grand_rapids_holland_mi_factory_001/pass1/baymont-inn-suites-grand-rapids-airport/declined-01",
+   "census_address": "2873 Kraft Avenue Southeast",
+   "census_phone": "6164268095",
+   "gate_detail": "page names 'Baymont by Wyndham Grand Rapids Airport', which does not agree with 'Baymont Inn & Suites Grand Rapids Airport'; the page declares telephone '616-9563300' and also prints this property's '6164268095' -- one site, several properties"
+  },
+  {
+   "identity_key": "budgetel grand rapids",
+   "canonical_name": "Budgetel Grand Rapids",
+   "prior_outcome": "IDENTITY_MISMATCH",
+   "source_url": "https://www.budgetel.com/hotel-details/bi-grand-rapids-mi",
+   "final_url": "https://www.budgetel.com/hotel-details/bi-grand-rapids-mi",
+   "page_title": "Budgetel - Grand Rapids, MI",
+   "verdict": "ROUTE_IS_CORRECT_IDENTITY_UNCORROBORATED",
+   "owned_alternative_url": {
+    "exists": false,
+    "url": "",
+    "would_change_the_route": false,
+    "why": "no prior build saved a different URL for this identity"
+   },
+   "repairable_offline": false,
+   "repaired_offline": false,
+   "why": "the URL resolves to a property page whose title ('Budgetel - Grand Rapids, MI') names this property; the identity gate refused on corroboration, not on the route -- the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the",
+   "next_action": "founder identity ruling: the page prints no telephone of its own. a second census row 'budgetel inn and suites hotel' shares this street, so the ruling must also say whether they are one building. the declined capture is saved, so acting on the ruling costs nothing",
+   "saved_capture": "data/acquisition/grand_rapids_holland_mi_factory_001/pass1/budgetel-grand-rapids/declined-01",
+   "census_address": "35 28th Street Southwest",
+   "census_phone": "6164525141",
+   "gate_detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+  },
+  {
+   "identity_key": "fairfield inn and suites grand rapids wyoming",
+   "canonical_name": "Fairfield Inn & Suites Grand Rapids Wyoming",
+   "prior_outcome": "IDENTITY_MISMATCH",
+   "source_url": "https://www.marriott.com/grrfw",
+   "final_url": "https://www.marriott.com/en-us/hotels/grrfw-fairfield-inn-and-suites-grand-rapids-wyoming/overview/",
+   "page_title": "Fairfield Inn & Suites Grand Rapids Wyoming | Comfortable Hotel with Free Breakfast",
+   "verdict": "ROUTE_IS_CORRECT_IDENTITY_UNCORROBORATED",
+   "owned_alternative_url": {
+    "exists": true,
+    "url": "https://www.marriott.com/en-us/hotels/grrfw-fairfield-inn-and-suites-grand-rapids-wyoming/overview/",
+    "would_change_the_route": false,
+    "why": "the route this row already carries is a PROPERTY_PAGE that a lane can fetch, and the overlay contract refuses to displace one; the saved URL is the stable canonical form of the SAME page, not a different page"
+   },
+   "repairable_offline": false,
+   "repaired_offline": false,
+   "why": "the URL resolves to a property page whose title ('Fairfield Inn & Suites Grand Rapids Wyoming | Comfortable Hotel with Free Breakfast') names this property; the identity gate refused on corroboration, not on the route -- page street '5970 Metro Way S.W.' does not agree with expected '5970 Metro Way SouthW.'; nothing physical agreed: no street identity and no telephone ",
+   "next_action": "founder identity ruling: the page's street does not match the census address. the census address '5970 Metro Way SouthW.' half-expands a compound direction and cannot match any page; correcting that one field is an operator edit, not a ruling. the census row states no telephone either, so the strongest available signal is absent on BOTH sides. the declined capture is saved, so acting on the ruling costs nothing",
+   "saved_capture": "data/acquisition/grand_rapids_holland_mi_factory_001/pass1/fairfield-inn-suites-grand-rapids-wyoming/declined-01",
+   "census_address": "5970 Metro Way SouthW.",
+   "census_phone": "",
+   "gate_detail": "page street '5970 Metro Way S.W.' does not agree with expected '5970 Metro Way SouthW.'; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+  },
+  {
+   "identity_key": "haworth hotel",
+   "canonical_name": "Haworth Hotel",
+   "prior_outcome": "IDENTITY_MISMATCH",
+   "source_url": "https://haworthhotel.com",
+   "final_url": "https://haworthhotel.com/",
+   "page_title": "Haworth Hotel - Hotel in Downtown Holland, MI",
+   "verdict": "ROUTE_IS_CORRECT_IDENTITY_UNCORROBORATED",
+   "owned_alternative_url": {
+    "exists": false,
+    "url": "",
+    "would_change_the_route": false,
+    "why": "no prior build saved a different URL for this identity"
+   },
+   "repairable_offline": false,
+   "repaired_offline": false,
+   "why": "the URL resolves to a property page whose title ('Haworth Hotel - Hotel in Downtown Holland, MI') names this property; the identity gate refused on corroboration, not on the route -- the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the",
+   "next_action": "founder identity ruling: the page prints no telephone of its own. the declined capture is saved, so acting on the ruling costs nothing",
+   "saved_capture": "data/acquisition/grand_rapids_holland_mi_factory_001/pass1/haworth-hotel/declined-01",
+   "census_address": "225 College Avenue",
+   "census_phone": "6163957200",
+   "gate_detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+  },
+  {
+   "identity_key": "the ada hotel",
+   "canonical_name": "The Ada Hotel",
+   "prior_outcome": "IDENTITY_MISMATCH",
+   "source_url": "https://www.adahotel.com/",
+   "final_url": "https://www.adahotel.com/",
+   "page_title": "Crafted Hotel in Ada, Michigan - The Ada Hotel",
+   "verdict": "ROUTE_IS_CORRECT_IDENTITY_UNCORROBORATED",
+   "owned_alternative_url": {
+    "exists": false,
+    "url": "",
+    "would_change_the_route": false,
+    "why": "no prior build saved a different URL for this identity"
+   },
+   "repairable_offline": false,
+   "repaired_offline": false,
+   "why": "the URL resolves to a property page whose title ('Crafted Hotel in Ada, Michigan - The Ada Hotel') names this property; the identity gate refused on corroboration, not on the route -- the page declares no telephone number of its own; the names agree only on ada, hotel, the, which this market's hotels share; nothing physical agreed: ",
+   "next_action": "founder identity ruling: the page prints no telephone of its own; the names share only words this market's hotels all share, so the name proves nothing. a second census row 'ada hotel' shares this street, so the ruling must also say whether they are one building. the declined capture is saved, so acting on the ruling costs nothing",
+   "saved_capture": "data/acquisition/grand_rapids_holland_mi_factory_001/pass1/the-ada-hotel/declined-01",
+   "census_address": "7415 River St",
+   "census_phone": "6168038595",
+   "gate_detail": "the page declares no telephone number of its own; the names agree only on ada, hotel, the, which this market's hotels share; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+  },
+  {
+   "identity_key": "the bluejay hotel",
+   "canonical_name": "The BlueJay Hotel",
+   "prior_outcome": "IDENTITY_MISMATCH",
+   "source_url": "https://www.thebluejaygr.com/",
+   "final_url": "https://www.thebluejaygr.com/",
+   "page_title": "Boutique Hotel & Private Event Venue | The BlueJay GR",
+   "verdict": "ROUTE_IS_CORRECT_IDENTITY_UNCORROBORATED",
+   "owned_alternative_url": {
+    "exists": false,
+    "url": "",
+    "would_change_the_route": false,
+    "why": "no prior build saved a different URL for this identity"
+   },
+   "repairable_offline": false,
+   "repaired_offline": false,
+   "why": "the URL resolves to a property page whose title ('Boutique Hotel & Private Event Venue | The BlueJay GR') names this property; the identity gate refused on corroboration, not on the route -- page names 'The Blue Jay', which does not agree with 'The BlueJay Hotel'",
+   "next_action": "founder identity ruling: the page's name does not match the census name, which usually means a rebrand. a second census row 'the blue jay hotel and events' shares this street, so the ruling must also say whether they are one building. the declined capture is saved, so acting on the ruling costs nothing",
+   "saved_capture": "data/acquisition/grand_rapids_holland_mi_factory_001/pass1/the-bluejay-hotel/declined-01",
+   "census_address": "644 Bridge St NW",
+   "census_phone": "6166222112",
+   "gate_detail": "page names 'The Blue Jay', which does not agree with 'The BlueJay Hotel'"
+  },
+  {
+   "identity_key": "the finnley hotel",
+   "canonical_name": "The Finnley Hotel",
+   "prior_outcome": "IDENTITY_MISMATCH",
+   "source_url": "https://www.thefinnley.com/",
+   "final_url": "https://www.thefinnley.com/",
+   "page_title": "The Finnley | Boutique Hotel in Downtown Grand Rapids",
+   "verdict": "ROUTE_IS_CORRECT_IDENTITY_UNCORROBORATED",
+   "owned_alternative_url": {
+    "exists": false,
+    "url": "",
+    "would_change_the_route": false,
+    "why": "no prior build saved a different URL for this identity"
+   },
+   "repairable_offline": false,
+   "repaired_offline": false,
+   "why": "the URL resolves to a property page whose title ('The Finnley | Boutique Hotel in Downtown Grand Rapids') names this property; the identity gate refused on corroboration, not on the route -- the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the",
+   "next_action": "founder identity ruling: the page prints no telephone of its own. the declined capture is saved, so acting on the ruling costs nothing",
+   "saved_capture": "data/acquisition/grand_rapids_holland_mi_factory_001/pass1/the-finnley-hotel/declined-01",
+   "census_address": "65 Monroe Center St NW",
+   "census_phone": "6166222110",
+   "gate_detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+  },
+  {
+   "identity_key": "best western",
+   "canonical_name": "Best Western",
+   "prior_outcome": "NAVIGATION_FAILED",
+   "source_url": "https://www.wyndhamhotels.com/baymont/grand-rapids-michigan/baymont-inn-and-suites-grand-rapids-sw-byron-center/overview",
+   "final_url": "",
+   "page_title": "",
+   "verdict": "ROUTE_NAMES_ANOTHER_BRAND",
+   "owned_alternative_url": {
+    "exists": false,
+    "url": "",
+    "would_change_the_route": false,
+    "why": "no prior build saved a different URL for this identity"
+   },
+   "repairable_offline": false,
+   "repaired_offline": false,
+   "why": "the census row is named 'Best Western' and its official_url is a WYNDHAM page; the two chains contradict each other on their own authority, so this route cannot be right whatever the page says",
+   "next_action": "REVOKE the route: clear official_url for 'best western' and return it to ROUTE_NEEDS_OFFICIAL_URL, then decide whether the OSM name or the OSM url is the stale half. This is an operator edit to the census, so it is proposed here and not applied.",
+   "saved_capture": "data/acquisition/grand_rapids_holland_mi_factory_001/pass1/best-western/attempt-01",
+   "census_address": "8282 Pfeiffer Farms Drive",
+   "census_phone": "6165839535",
+   "gate_detail": "baymont/grand-rapids-michigan/baymont-inn-and-suites-grand-rapids-sw-byron-center/overview...\nError: Requested URL (https://www.wyndhamhotels.com/hotels/grand-rapids-michigan?brand_id=BU) is restricted in accordance with robots.txt. Ask your account manager to get full access for targeting this site"
+  },
+  {
+   "identity_key": "country inn and suites holland mi",
+   "canonical_name": "Country Inn & Suites, Holland, MI",
+   "prior_outcome": "UNEXPECTED_PAGE",
+   "source_url": "https://www.radissonhotels.com/en-us/hotels/country-inn-holland-mi",
+   "final_url": "https://www.radissonhotels.com/en-us/brand/country-inn",
+   "page_title": "Country Inn & Suites by Radisson | Hotel Brand Deals",
+   "verdict": "ROUTE_REDIRECTED_OFF_THE_PROPERTY",
+   "owned_alternative_url": {
+    "exists": false,
+    "url": "",
+    "would_change_the_route": false,
+    "why": "no prior build saved a different URL for this identity"
+   },
+   "repairable_offline": false,
+   "repaired_offline": false,
+   "why": "the property URL redirected to 'https://www.radissonhotels.com/en-us/brand/country-inn' ('Country Inn & Suites by Radisson | Hotel Brand Deals'), which is a brand page and nobody's official URL; the page-health gate rejected it",
+   "next_action": "paid URL discovery for 'country inn and suites holland mi', or a first-party URL recovered from a source family this branch has not searched",
+   "saved_capture": "data/acquisition/grand_rapids_holland_mi_factory_001/pass1/country-inn-suites-holland-mi/attempt-01",
+   "census_address": "12260 James Street",
+   "census_phone": "6163966677",
+   "gate_detail": "rejected by the page-health gate"
+  },
+  {
+   "identity_key": "motel 6 grand rapids northeast",
+   "canonical_name": "Motel 6 Grand Rapids Northeast",
+   "prior_outcome": "UNEXPECTED_PAGE",
+   "source_url": "https://www.motel6.com/content/g6/en/home/motels.mi.grand-rapids.8890.html",
+   "final_url": "https://www.motel6.com",
+   "page_title": "Motel 6 - Book Budget Motels Nationwide With Big Discounts",
+   "verdict": "ROUTE_REDIRECTED_OFF_THE_PROPERTY",
+   "owned_alternative_url": {
+    "exists": false,
+    "url": "",
+    "would_change_the_route": false,
+    "why": "no prior build saved a different URL for this identity"
+   },
+   "repairable_offline": false,
+   "repaired_offline": false,
+   "why": "the property URL redirected to 'https://www.motel6.com' ('Motel 6 - Book Budget Motels Nationwide With Big Discounts'), which is a brand page and nobody's official URL; the page-health gate rejected it",
+   "next_action": "paid URL discovery for 'motel 6 grand rapids northeast', or a first-party URL recovered from a source family this branch has not searched",
+   "saved_capture": "data/acquisition/grand_rapids_holland_mi_factory_001/pass1/motel-6-grand-rapids-northeast/attempt-01",
+   "census_address": "3221 Plainfield Avenue Northeast",
+   "census_phone": "6163630800",
+   "gate_detail": "rejected by the page-health gate"
+  }
+ ]
+}
