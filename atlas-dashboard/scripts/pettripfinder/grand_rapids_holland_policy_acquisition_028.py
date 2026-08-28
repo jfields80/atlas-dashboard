@@ -484,10 +484,284 @@ def write_documents(document: Mapping, rows: Sequence[Mapping]) -> Dict:
     return cohort
 
 
+# --------------------------------------------------------------------------- #
+# What the run came back with
+# --------------------------------------------------------------------------- #
+
+ACQUISITION_REPORT = LP / "grand_rapids_holland_mi_market_acquisition_028.json"
+STORE_028 = LP / "grand_rapids_holland_mi_observation_store_028.json"
+RESULT_PATH = LP / "grand_rapids_holland_mi_policy_acquisition_028.json"
+RUN_DIR = _REPO_ROOT / "data" / "acquisition" / "gr_028"
+
+PUBLISHED_TODAY = 35
+TARGET = 43
+OPERATING_CAP_USD_MINOR = 400
+
+PET_FRIENDLY = "PET_FRIENDLY"
+VERIFIED_NO_PETS = "VERIFIED_NO_PETS"
+POLICY_NOT_FOUND = "POLICY_NOT_FOUND"
+HOLD = "HOLD"
+IDENTITY_OR_ROUTING = "IDENTITY_OR_ROUTING_ISSUE"
+
+#: The readiness states that route themselves, and the one that needs a person.
+_PET = frozenset({"POLICY_CONFIRMED", "POLICY_CONFIRMED_WITH_AMBIGUITY"})
+_NO_PETS = frozenset({"POLICY_NEGATIVE_CONFIRMED"})
+_SELF_ROUTING = frozenset({"POLICY_CONFIRMED", "POLICY_NEGATIVE_CONFIRMED"})
+
+
+def classify(record: Mapping) -> Tuple[str, str]:
+    """One acquired row, in the vocabulary the work order asked for.
+
+    The class is read off the READINESS STATE and the ruled fact together.
+    Neither alone is enough: 020 published a VERIFIED_NO_PETS off a store the
+    ruling had not edited, and the guard against repeating that is to require
+    the state and the fact to agree before either is believed.
+    """
+    state = str((record.get("readiness") or {}).get("state") or "")
+    allowed = ((record.get("observation") or {})
+               .get("extraction", {}).get("pets_allowed"))
+    if state in _PET and allowed is True:
+        return (PET_FRIENDLY,
+                "readiness %s on a publication-grade block that states pets "
+                "are allowed" % state)
+    if state in _NO_PETS and allowed is False:
+        return (VERIFIED_NO_PETS,
+                "readiness %s on a publication-grade block that states pets "
+                "are not allowed" % state)
+    if state == "POLICY_NOT_FOUND":
+        return (POLICY_NOT_FOUND,
+                "the page was acquired and states no pet policy this reader "
+                "can locate")
+    return (HOLD,
+            "readiness %r with pets_allowed %r is not a combination that "
+            "routes itself" % (state, allowed))
+
+
+def declined_evidence(run_dir: Path = RUN_DIR) -> Dict[str, Dict]:
+    """What each REFUSED capture kept, and whether its bytes survive.
+
+    This is the difference between a finding worth acting on for nothing and
+    one that costs money to act on. A declined capture that kept its rendered
+    HTML can be re-read once its identity question is settled; one that kept
+    only hashes has to be bought again. Read from disk rather than assumed,
+    because both cases exist in this project's history.
+    """
+    out: Dict[str, Dict] = {}
+    if not run_dir.is_dir():
+        return out
+    for declined in sorted(run_dir.glob("*/declined-*/declined.json")):
+        document = json.loads(declined.read_text(encoding="utf-8-sig"))
+        folder = declined.parent
+        signals = (document.get("identity") or {}).get("signals") or {}
+        out[folder.parent.name] = OrderedDict((
+            ("outcome", document.get("outcome", "")),
+            ("detail", document.get("detail", "")),
+            ("title", document.get("title", "")),
+            ("name_on_page", signals.get("name_on_page", "")),
+            ("address_on_page", signals.get("address_on_page", "")),
+            ("rendered_html_on_disk", (folder / "rendered.html").is_file()),
+            ("page_text_on_disk", (folder / "page-text.txt").is_file()),
+            ("page_text_chars", document.get("page_text_chars", 0)),
+            ("directory", folder.relative_to(_REPO_ROOT).as_posix()),
+        ))
+    return out
+
+
+def result(run_dir: Path = RUN_DIR) -> Dict:
+    acquisition = _load(ACQUISITION_REPORT)
+    store = _load(STORE_028)
+    plan = _load(PREFLIGHT_PATH)
+    records = store.get("observations") or store.get("records") or []
+
+    classified: List[Dict] = []
+    for record in records:
+        verdict, why = classify(record)
+        classified.append(OrderedDict((
+            ("identity_key", record["identity_key"]),
+            ("canonical_name", record.get("canonical_name", "")),
+            ("brand", record.get("brand", "")),
+            ("classification", verdict), ("why", why),
+            ("readiness", (record.get("readiness") or {}).get("state", "")),
+            ("membrane", str((record.get("membrane") or {}).get("verdict", ""))),
+            ("pets_allowed", (record.get("observation") or {})
+             .get("extraction", {}).get("pets_allowed")),
+            ("publication_grade",
+             (record.get("publication_grade") or {}).get("verdict", "")),
+        )))
+
+    failures = [r for r in acquisition["results"] if r["outcome"] != "VALID"]
+    declined = declined_evidence(run_dir)
+    folder_of = {}
+    for row in failures:
+        raw = (row.get("declined_dir") or "").replace("\\", "/")
+        if raw:
+            folder_of[row["identity_key"]] = Path(raw).parent.name
+
+    unresolved: List[Dict] = []
+    rereadable = 0
+    for row in failures:
+        evidence = declined.get(folder_of.get(row["identity_key"], ""), {})
+        on_disk = bool(evidence.get("rendered_html_on_disk"))
+        rereadable += 1 if on_disk else 0
+        unresolved.append(OrderedDict((
+            ("identity_key", row["identity_key"]),
+            ("canonical_name", row.get("canonical_name", "")),
+            ("brand", row.get("family", "")),
+            ("classification", IDENTITY_OR_ROUTING),
+            ("outcome", row["outcome"]),
+            ("provider", row.get("provider", "")),
+            ("why", row.get("detail", "")),
+            ("page_title", evidence.get("title", row.get("title", ""))),
+            ("name_on_page", evidence.get("name_on_page", "")),
+            ("address_on_page", evidence.get("address_on_page", "")),
+            ("bytes_are_on_disk", on_disk),
+            ("declined_directory", evidence.get("directory", "")),
+        )))
+
+    counts = Counter(r["classification"] for r in classified)
+    pet_friendly = counts.get(PET_FRIENDLY, 0)
+    projected = PUBLISHED_TODAY + pet_friendly
+    exceptions = [r for r in classified if r["readiness"] not in _SELF_ROUTING]
+
+    spend = acquisition["spend"]
+    measured = float(spend.get("measured_usd_minor") or 0)
+    credits = float(spend.get("estimated_plan_credits") or 0)
+
+    return OrderedDict((
+        ("schema", "ptf-policy-acquisition-result/1.0"),
+        ("market_id", MARKET), ("work_order", WORK_ORDER), ("run_id", RUN_ID),
+        ("cohort", OrderedDict((
+            ("size_before_suppression",
+             plan["preflight"]["cohort_size_before_suppression"]),
+            ("payable", plan["preflight"]["payable_size"]),
+            ("reusable_or_suppressed", plan["preflight"]["withheld"]),
+            ("by_preflight_verdict", plan["preflight"]["by_verdict"]),
+            ("attempted", acquisition["attempted"]),
+            ("publication_grade", acquisition["publication_grade"]),
+            ("outcome_counts", acquisition["outcome_counts"]),
+        ))),
+        ("lanes", OrderedDict((
+            ("firecrawl_rows", plan["lane_plan"]["firecrawl_rows"]),
+            ("firecrawl_credits_used", credits),
+            ("brightdata_rows", plan["lane_plan"]["brightdata_browser_rows"]),
+            ("cohort_by_provider", acquisition["cohort_by_provider"]),
+            ("providers_actually_used", OrderedDict(sorted(Counter(
+                r.get("provider", "") for r in acquisition["results"]).items()))),
+        ))),
+        ("spend", OrderedDict((
+            ("measured_usd_minor", measured),
+            ("estimated_usd_minor", spend.get("estimated_usd_minor")),
+            ("binding_usd_minor", spend.get("binding_usd_minor")),
+            ("plan_credits", credits),
+            ("operating_cap_usd_minor", OPERATING_CAP_USD_MINOR),
+            ("founder_cap_usd_minor", CAP_USD_MINOR),
+            ("cap_held", measured <= OPERATING_CAP_USD_MINOR),
+            ("under_the_founder_cap", measured <= CAP_USD_MINOR),
+            ("why_the_operating_cap_is_lower",
+             "the runner's own preflight refuses to arm a cap the vendor "
+             "balance cannot cover, and the Bright Data balance read 641 cents "
+             "against the authorised 650. A cap is a maximum; spending under "
+             "it needs no permission."),
+            ("lag_note", spend.get("lag_note", "")),
+        ))),
+        ("classification", OrderedDict((
+            ("counts", OrderedDict(sorted(counts.items()))),
+            ("pet_friendly", pet_friendly),
+            ("verified_no_pets", counts.get(VERIFIED_NO_PETS, 0)),
+            ("policy_not_found", counts.get(POLICY_NOT_FOUND, 0)),
+            ("holds", counts.get(HOLD, 0)),
+            ("identity_or_routing_issues", len(unresolved)),
+            ("rows", classified),
+        ))),
+        ("founder_review", OrderedDict((
+            ("shape", "exception-only"),
+            ("clean_rows_that_route_themselves",
+             len(classified) - len(exceptions)),
+            ("exceptions_needing_a_reading", exceptions),
+            ("nothing_was_published",
+             "a FACT ruling is not a RECORD approval: these %d rows are "
+             "CANDIDATES and the published count stays at %d until the founder "
+             "signs them" % (len(classified), PUBLISHED_TODAY)),
+            ("founder_decision", ""), ("founder_reviewer_id", ""),
+            ("review_status", "MACHINE_REVIEWED_PENDING_OPERATOR"),
+        ))),
+        ("target_43", OrderedDict((
+            ("published_today", PUBLISHED_TODAY), ("target", TARGET),
+            ("new_pet_friendly_candidates", pet_friendly),
+            ("new_verified_no_pets", counts.get(VERIFIED_NO_PETS, 0)),
+            ("holds", counts.get(HOLD, 0)),
+            ("policy_not_found", counts.get(POLICY_NOT_FOUND, 0)),
+            ("projected_final_pet_friendly", projected),
+            ("target_reached", projected >= TARGET),
+            ("short_by", max(0, TARGET - projected)),
+        ))),
+        ("unresolved_rows", OrderedDict((
+            ("count", len(unresolved)),
+            ("bytes_on_disk", rereadable),
+            ("finding",
+             "every one of the %d refused rows came back from a page whose own "
+             "name is this property, and each was declined on a STREET "
+             "SUFFIX: '4155 28th St., S.E.' against '4155 28th Street', '3063 "
+             "Lake Eastbrook' against '3063 Lake Eastbrook Blvd SE'. The "
+             "rendered HTML is on disk for %d of them, so settling the "
+             "identity question costs nothing to READ -- but NO RULE IS "
+             "WIDENED HERE, because a rule widened during the run whose count "
+             "it raises is a rule nothing has qualified."
+             % (len(unresolved), rereadable)),
+            ("two_are_not_the_same_case",
+             "the two Extended Stay America pages are titled 'Explore Our "
+             "Nationwide Hotel Locations'. A policy read off an index that "
+             "lists many properties could belong to any of them, so those two "
+             "are a weaker case than the four single-property pages."),
+            ("rows", unresolved),
+        ))),
+        ("nothing_else_was_run", [
+            "no Google Places request: the 20 URLs were bought by 026 and 027",
+            "no expansion beyond the authorised cohort",
+            "no authority written, no market assembled, nothing deployed",
+            "no row published: the review is exception-only and signs nothing",
+        ]),
+    ))
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser()
+    parser.add_argument("--result", action="store_true",
+                        help="build the post-run result from the acquisition "
+                             "report and the observation store; reads only")
     parser.add_argument("--out", default=str(PREFLIGHT_PATH))
     args = parser.parse_args(argv)
+    if args.result:
+        document = result()
+        RESULT_PATH.write_text(json.dumps(document, indent=2) + "\n",
+                               encoding="utf-8")
+        cohort, spend = document["cohort"], document["spend"]
+        klass, target = document["classification"], document["target_43"]
+        print("cohort before suppression  %d" % cohort["size_before_suppression"])
+        print("payable / reusable         %d / %d"
+              % (cohort["payable"], cohort["reusable_or_suppressed"]))
+        print("attempted / pub-grade      %d / %d  %s"
+              % (cohort["attempted"], cohort["publication_grade"],
+                 dict(cohort["outcome_counts"])))
+        print("firecrawl rows / credits   %d / %s"
+              % (document["lanes"]["firecrawl_rows"],
+                 document["lanes"]["firecrawl_credits_used"]))
+        print("bright data rows           %d" % document["lanes"]["brightdata_rows"])
+        print("measured spend             %.0fc  operating cap %dc held=%s  "
+              "founder cap %dc"
+              % (spend["measured_usd_minor"], spend["operating_cap_usd_minor"],
+                 spend["cap_held"], spend["founder_cap_usd_minor"]))
+        print("pet-friendly               %d" % klass["pet_friendly"])
+        print("verified no-pets           %d" % klass["verified_no_pets"])
+        print("policy-not-found / holds   %d / %d"
+              % (klass["policy_not_found"], klass["holds"]))
+        print("identity/routing issues    %d  (bytes on disk: %d)"
+              % (klass["identity_or_routing_issues"],
+                 document["unresolved_rows"]["bytes_on_disk"]))
+        print("projected final            %d   target %d reached=%s short_by=%d"
+              % (target["projected_final_pet_friendly"], target["target"],
+                 target["target_reached"], target["short_by"]))
+        return 0
     rows = recovered_rows()
     document = build()
     Path(args.out).write_text(json.dumps(document, indent=2) + "\n",

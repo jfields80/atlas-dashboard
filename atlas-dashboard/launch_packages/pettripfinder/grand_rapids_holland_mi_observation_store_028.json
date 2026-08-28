@@ -1,0 +1,2940 @@
+{
+ "schema": "ptf-market-observation-store/1.0",
+ "what_this_is": "The current-state policy observation store for this market, derived offline from persisted capture artifacts. Every row carries its source, its capture, its locator, its evidence, its reader provenance, its current facts, its withheld fields and its review state. No row here is an authority; every row is AWAITING_FOUNDER_REVIEW until a human decides it.",
+ "market_id": "grand-rapids-holland-mi",
+ "work_order": "PTF-GRAND-RAPIDS-POLICY-ACQUISITION-028",
+ "run_id": "grand-rapids-holland-mi-acquisition-028",
+ "derived_from": "launch_packages/pettripfinder/grand_rapids_holland_mi_market_acquisition_028.json",
+ "network_calls": 0,
+ "usd_spent": 0.0,
+ "count": 13,
+ "publication_grade_counts": {
+  "PUBLICATION_GRADE_CONFIRMED": 13
+ },
+ "readiness_counts": {
+  "POLICY_CONFIRMED": 6,
+  "POLICY_CONFIRMED_WITH_AMBIGUITY": 1,
+  "POLICY_NEGATIVE_CONFIRMED": 6
+ },
+ "membrane_counts": {
+  "VALID": 13
+ },
+ "pets_allowed_counts": {
+  "False": 6,
+  "True": 7
+ },
+ "restated_prior_evidence_without_a_capture": [],
+ "refusals": [],
+ "records": [
+  {
+   "identity_key": "country inn and suites by radisson grandville grand rapids west",
+   "canonical_name": "Country Inn & Suites by Radisson Grandville-Grand Rapids West",
+   "census_canonical_name": "Country Inn & Suites by Radisson Grandville-Grand Rapids West",
+   "corridor": "grand-rapids-holland-mi__wyoming-grandville",
+   "brand": "CHOICE",
+   "provider": "firecrawl",
+   "reader": "choice_static",
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "static_text_walk",
+    "locator_strategy": "static_html_walk",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "8fad5376d7613884cb547498de7375c3dd00df99fe90a3e0d1b5cb339498b49a",
+    "document_sha256": "9551a9d2bfefd2835bd86023d011f24b6d3618642ab6d5a2fed07416c524a6f1"
+   },
+   "observation": {
+    "obs_id": "grand-rapids-holland-mi-acquisition-028::country inn and suites by radisson grandville grand rapids west",
+    "contract_version": "1.3.0",
+    "hotel_ref": {
+     "market_id": "grand-rapids-holland-mi",
+     "canonical_name": "Country Inn & Suites by Radisson Grandville-Grand Rapids West",
+     "normalized_name": "country inn and suites by radisson grandville grand rapids west",
+     "official_url": "https://www.choicehotels.com/michigan/grandville/country-inn-suites-hotels/mi612?mc=llgoxxpx",
+     "property_code": "",
+     "street_identity": "3825 28th st sw|49418"
+    },
+    "identity_check": {
+     "name_on_page": "Country Inn & Suites by Radisson, Grandville-Grand Rapids West, MI",
+     "address_on_page": "3825 28th Street SW",
+     "phone_on_page": "(616) 500-0881"
+    },
+    "source_url": "https://www.choicehotels.com/michigan/grandville/country-inn-suites-hotels/mi612",
+    "source_type": "official_property_page",
+    "authority_tier": "PT1",
+    "observed_at": "2026-08-23",
+    "retrieved_at": "2026-08-23",
+    "capture_method": "deterministic_fetch",
+    "evidence": [
+     {
+      "quote": "Pets Allowed: No",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "Pets Allowed: No General: Only service animals are permitted, free of charge.",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "service_animal_exception"
+      ]
+     }
+    ],
+    "extraction": {
+     "pets_allowed": false,
+     "service_animal_exception": "Pets Allowed: No General: Only service animals are permitted, free of charge."
+    },
+    "extraction_confidence": "EXACT_QUOTE",
+    "flags": [],
+    "snapshot_hash": "9551a9d2bfefd2835bd86023d011f24b6d3618642ab6d5a2fed07416c524a6f1",
+    "raw_pointer": "data\\acquisition\\gr_028\\country-inn-suites-by-radisson-grandville-grand-rapids-west\\attempt-01",
+    "capture_artifacts": {
+     "rendered.html": "data\\acquisition\\gr_028\\country-inn-suites-by-radisson-grandville-grand-rapids-west\\attempt-01\\rendered.html",
+     "page-text.txt": "data\\acquisition\\gr_028\\country-inn-suites-by-radisson-grandville-grand-rapids-west\\attempt-01\\page-text.txt",
+     "policy-block.txt": "data\\acquisition\\gr_028\\country-inn-suites-by-radisson-grandville-grand-rapids-west\\attempt-01\\policy-block.txt",
+     "locator.json": "data\\acquisition\\gr_028\\country-inn-suites-by-radisson-grandville-grand-rapids-west\\attempt-01\\locator.json"
+    }
+   },
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED",
+    "reasons": [
+     "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+    ],
+    "schema_issues": [],
+    "blockers": [],
+    "hash_rederived": true,
+    "quotes_contiguous": true,
+    "quote_sources": {
+     "pets_allowed": "page-text.txt",
+     "service_animal_exception": "page-text.txt"
+    },
+    "evidence_entries": [
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::country inn and suites by radisson grandville grand rapids west::pets_allowed::0",
+      "field": "pets_allowed",
+      "quote": "Pets Allowed: No",
+      "source_url": "https://www.choicehotels.com/michigan/grandville/country-inn-suites-hotels/mi612",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "9551a9d2bfefd2835bd86023d011f24b6d3618642ab6d5a2fed07416c524a6f1",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::country inn and suites by radisson grandville grand rapids west::service_animal_exception::1",
+      "field": "service_animal_exception",
+      "quote": "Pets Allowed: No General: Only service animals are permitted, free of charge.",
+      "source_url": "https://www.choicehotels.com/michigan/grandville/country-inn-suites-hotels/mi612",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "9551a9d2bfefd2835bd86023d011f24b6d3618642ab6d5a2fed07416c524a6f1",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     }
+    ],
+    "contract_integration_gaps": [
+     {
+      "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+      "summary": "a machine-captured screenshot has no lawful artifact_kind",
+      "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+      "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+      "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+      "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+      "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+      "summary": "an evidence entry does not record what fetched the page",
+      "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+      "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+      "blocks_publication": false
+     }
+    ]
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "membrane": {
+    "verdict": "VALID",
+    "rule": "",
+    "detail": "",
+    "hint_only": false,
+    "stripped_fields": [],
+    "flags_raised": [],
+    "rule_statement": ""
+   },
+   "readiness": {
+    "state": "POLICY_NEGATIVE_CONFIRMED",
+    "reasons": [
+     "official evidence states pets are not accepted; routes to the existing exclusion authority (VERIFIED_NO_PETS)"
+    ],
+    "ambiguities": [],
+    "conflicts": [],
+    "establishing_observations": [
+     "grand-rapids-holland-mi-acquisition-028::country inn and suites by radisson grandville grand rapids west"
+    ],
+    "hint_observations": [],
+    "rejected_observations": [],
+    "maps_to": {
+     "routing": "READY",
+     "capture_reason": "POLICY_ABSENT_CONFIRMED",
+     "authority": "hotel_exclusions (VERIFIED_NO_PETS)"
+    },
+    "publishable_subject_to_existing_gates": false
+   },
+   "review_state": "AWAITING_FOUNDER_REVIEW"
+  },
+  {
+   "identity_key": "courtyard by marriott grand rapids airport",
+   "canonical_name": "Courtyard by Marriott Grand Rapids Airport",
+   "census_canonical_name": "Courtyard by Marriott Grand Rapids Airport",
+   "corridor": "grand-rapids-holland-mi__grr-airport-kentwood",
+   "brand": "MARRIOTT",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "live_dom_walk",
+    "locator_strategy": "pet_policy_heading_parent",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "d2e629b2b96b75354f1b8dc2ccd4f002326c1cbbccd7f6eef999e62726371df7",
+    "document_sha256": "1662749215e099368640450c657067e05e8c97f4ed79989e45182f1a33629a33"
+   },
+   "observation": {
+    "obs_id": "grand-rapids-holland-mi-acquisition-028::courtyard by marriott grand rapids airport",
+    "contract_version": "1.3.0",
+    "hotel_ref": {
+     "market_id": "grand-rapids-holland-mi",
+     "canonical_name": "Courtyard by Marriott Grand Rapids Airport",
+     "normalized_name": "courtyard by marriott grand rapids airport",
+     "official_url": "https://www.marriott.com/en-us/hotels/grrcy-courtyard-grand-rapids-airport/overview/?scid=f2ae0541-1279-4f24-b197-a979c79310b0",
+     "property_code": "",
+     "street_identity": "4741 28th st se|49512"
+    },
+    "identity_check": {
+     "name_on_page": "Courtyard by Marriott Grand Rapids Airport",
+     "address_on_page": "4741 28th Street SE",
+     "property_code": "grrcy",
+     "phone_on_page": "+16169540500"
+    },
+    "source_url": "https://www.marriott.com/en-us/hotels/grrcy-courtyard-grand-rapids-airport/overview/?scid=f2ae0541-1279-4f24-b197-a979c79310b0",
+    "source_type": "official_property_page",
+    "authority_tier": "PT1",
+    "observed_at": "2026-08-23",
+    "retrieved_at": "2026-08-23",
+    "capture_method": "browser_assisted",
+    "evidence": [
+     {
+      "quote": "Pets Not Allowed",
+      "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     }
+    ],
+    "extraction": {
+     "pets_allowed": false
+    },
+    "extraction_confidence": "EXACT_QUOTE",
+    "flags": [],
+    "snapshot_hash": "1662749215e099368640450c657067e05e8c97f4ed79989e45182f1a33629a33",
+    "raw_pointer": "data\\acquisition\\gr_028\\courtyard-by-marriott-grand-rapids-airport\\attempt-01",
+    "capture_artifacts": {
+     "rendered.html": "data\\acquisition\\gr_028\\courtyard-by-marriott-grand-rapids-airport\\attempt-01\\rendered.html",
+     "page-text.txt": "data\\acquisition\\gr_028\\courtyard-by-marriott-grand-rapids-airport\\attempt-01\\page-text.txt",
+     "policy-block.txt": "data\\acquisition\\gr_028\\courtyard-by-marriott-grand-rapids-airport\\attempt-01\\policy-block.txt",
+     "locator.json": "data\\acquisition\\gr_028\\courtyard-by-marriott-grand-rapids-airport\\attempt-01\\locator.json"
+    }
+   },
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED",
+    "reasons": [
+     "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+    ],
+    "schema_issues": [],
+    "blockers": [],
+    "hash_rederived": true,
+    "quotes_contiguous": true,
+    "quote_sources": {
+     "pets_allowed": "page-text.txt"
+    },
+    "evidence_entries": [
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::courtyard by marriott grand rapids airport::pets_allowed::0",
+      "field": "pets_allowed",
+      "quote": "Pets Not Allowed",
+      "source_url": "https://www.marriott.com/en-us/hotels/grrcy-courtyard-grand-rapids-airport/overview/?scid=f2ae0541-1279-4f24-b197-a979c79310b0",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "1662749215e099368640450c657067e05e8c97f4ed79989e45182f1a33629a33",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     }
+    ],
+    "contract_integration_gaps": [
+     {
+      "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+      "summary": "a machine-captured screenshot has no lawful artifact_kind",
+      "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+      "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+      "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+      "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+      "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+      "summary": "an evidence entry does not record what fetched the page",
+      "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+      "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+      "blocks_publication": false
+     }
+    ]
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "membrane": {
+    "verdict": "VALID",
+    "rule": "",
+    "detail": "",
+    "hint_only": false,
+    "stripped_fields": [],
+    "flags_raised": [],
+    "rule_statement": ""
+   },
+   "readiness": {
+    "state": "POLICY_NEGATIVE_CONFIRMED",
+    "reasons": [
+     "official evidence states pets are not accepted; routes to the existing exclusion authority (VERIFIED_NO_PETS)"
+    ],
+    "ambiguities": [],
+    "conflicts": [],
+    "establishing_observations": [
+     "grand-rapids-holland-mi-acquisition-028::courtyard by marriott grand rapids airport"
+    ],
+    "hint_observations": [],
+    "rejected_observations": [],
+    "maps_to": {
+     "routing": "READY",
+     "capture_reason": "POLICY_ABSENT_CONFIRMED",
+     "authority": "hotel_exclusions (VERIFIED_NO_PETS)"
+    },
+    "publishable_subject_to_existing_gates": false
+   },
+   "review_state": "AWAITING_FOUNDER_REVIEW"
+  },
+  {
+   "identity_key": "econo lodge and suites",
+   "canonical_name": "Econo Lodge & Suites",
+   "census_canonical_name": "Econo Lodge & Suites",
+   "corridor": "",
+   "brand": "CHOICE",
+   "provider": "firecrawl",
+   "reader": "choice_static",
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "static_text_walk",
+    "locator_strategy": "static_html_walk",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "8fad5376d7613884cb547498de7375c3dd00df99fe90a3e0d1b5cb339498b49a",
+    "document_sha256": "cd58e90cf1f2f2af6597f9bb5f36838d7a61c7dd8544987c26e1fa8237f6565a"
+   },
+   "observation": {
+    "obs_id": "grand-rapids-holland-mi-acquisition-028::econo lodge and suites",
+    "contract_version": "1.3.0",
+    "hotel_ref": {
+     "market_id": "grand-rapids-holland-mi",
+     "canonical_name": "Econo Lodge & Suites",
+     "normalized_name": "econo lodge and suites",
+     "official_url": "https://www.choicehotels.com/michigan/grand-rapids/econo-lodge-hotels/mi294?mc=llgoxxpx",
+     "property_code": "",
+     "street_identity": "2985 kraft ave southeast|49512"
+    },
+    "identity_check": {
+     "name_on_page": "Econo Lodge & Suites Grand Rapids Airport",
+     "address_on_page": "2985 Kraft Avenue Southeast",
+     "phone_on_page": "(616) 940-1777"
+    },
+    "source_url": "https://www.choicehotels.com/michigan/grand-rapids/econo-lodge-hotels/mi294",
+    "source_type": "official_property_page",
+    "authority_tier": "PT1",
+    "observed_at": "2026-08-23",
+    "retrieved_at": "2026-08-23",
+    "capture_method": "deterministic_fetch",
+    "evidence": [
+     {
+      "quote": "Pets Allowed: No",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "Pets Allowed: No General: Only service animals are permitted, free of charge.",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "service_animal_exception"
+      ]
+     }
+    ],
+    "extraction": {
+     "pets_allowed": false,
+     "service_animal_exception": "Pets Allowed: No General: Only service animals are permitted, free of charge."
+    },
+    "extraction_confidence": "EXACT_QUOTE",
+    "flags": [],
+    "snapshot_hash": "cd58e90cf1f2f2af6597f9bb5f36838d7a61c7dd8544987c26e1fa8237f6565a",
+    "raw_pointer": "data\\acquisition\\gr_028\\econo-lodge-suites\\attempt-01",
+    "capture_artifacts": {
+     "rendered.html": "data\\acquisition\\gr_028\\econo-lodge-suites\\attempt-01\\rendered.html",
+     "page-text.txt": "data\\acquisition\\gr_028\\econo-lodge-suites\\attempt-01\\page-text.txt",
+     "policy-block.txt": "data\\acquisition\\gr_028\\econo-lodge-suites\\attempt-01\\policy-block.txt",
+     "locator.json": "data\\acquisition\\gr_028\\econo-lodge-suites\\attempt-01\\locator.json"
+    }
+   },
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED",
+    "reasons": [
+     "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+    ],
+    "schema_issues": [],
+    "blockers": [],
+    "hash_rederived": true,
+    "quotes_contiguous": true,
+    "quote_sources": {
+     "pets_allowed": "page-text.txt",
+     "service_animal_exception": "page-text.txt"
+    },
+    "evidence_entries": [
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::econo lodge and suites::pets_allowed::0",
+      "field": "pets_allowed",
+      "quote": "Pets Allowed: No",
+      "source_url": "https://www.choicehotels.com/michigan/grand-rapids/econo-lodge-hotels/mi294",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "cd58e90cf1f2f2af6597f9bb5f36838d7a61c7dd8544987c26e1fa8237f6565a",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::econo lodge and suites::service_animal_exception::1",
+      "field": "service_animal_exception",
+      "quote": "Pets Allowed: No General: Only service animals are permitted, free of charge.",
+      "source_url": "https://www.choicehotels.com/michigan/grand-rapids/econo-lodge-hotels/mi294",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "cd58e90cf1f2f2af6597f9bb5f36838d7a61c7dd8544987c26e1fa8237f6565a",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     }
+    ],
+    "contract_integration_gaps": [
+     {
+      "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+      "summary": "a machine-captured screenshot has no lawful artifact_kind",
+      "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+      "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+      "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+      "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+      "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+      "summary": "an evidence entry does not record what fetched the page",
+      "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+      "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+      "blocks_publication": false
+     }
+    ]
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "membrane": {
+    "verdict": "VALID",
+    "rule": "",
+    "detail": "",
+    "hint_only": false,
+    "stripped_fields": [],
+    "flags_raised": [],
+    "rule_statement": ""
+   },
+   "readiness": {
+    "state": "POLICY_NEGATIVE_CONFIRMED",
+    "reasons": [
+     "official evidence states pets are not accepted; routes to the existing exclusion authority (VERIFIED_NO_PETS)"
+    ],
+    "ambiguities": [],
+    "conflicts": [],
+    "establishing_observations": [
+     "grand-rapids-holland-mi-acquisition-028::econo lodge and suites"
+    ],
+    "hint_observations": [],
+    "rejected_observations": [],
+    "maps_to": {
+     "routing": "READY",
+     "capture_reason": "POLICY_ABSENT_CONFIRMED",
+     "authority": "hotel_exclusions (VERIFIED_NO_PETS)"
+    },
+    "publishable_subject_to_existing_gates": false
+   },
+   "review_state": "AWAITING_FOUNDER_REVIEW"
+  },
+  {
+   "identity_key": "holiday inn grand rapids downtown",
+   "canonical_name": "Holiday Inn Grand Rapids Downtown",
+   "census_canonical_name": "Holiday Inn Grand Rapids Downtown",
+   "corridor": "grand-rapids-holland-mi__downtown-grand-rapids",
+   "brand": "IHG",
+   "provider": "firecrawl",
+   "reader": "ihg",
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "static_text_walk",
+    "locator_strategy": "static_html_walk",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "c6cbd4c409385ee9f146b1baa636873538f65c7e50e75bd8659c7f7f31b427ee",
+    "document_sha256": "686386922ecf268d606a785cc07d1d55e667043f4f863086d4edde2527106681"
+   },
+   "observation": {
+    "obs_id": "grand-rapids-holland-mi-acquisition-028::holiday inn grand rapids downtown",
+    "contract_version": "1.3.0",
+    "hotel_ref": {
+     "market_id": "grand-rapids-holland-mi",
+     "canonical_name": "Holiday Inn Grand Rapids Downtown",
+     "normalized_name": "holiday inn grand rapids downtown",
+     "official_url": "https://www.ihg.com/holidayinn/hotels/us/en/grand-rapids/grrpe/hoteldetail",
+     "property_code": "",
+     "street_identity": "310 pearl st nw|49504"
+    },
+    "identity_check": {
+     "name_on_page": "Holiday Inn Grand Rapids Downtown",
+     "address_on_page": "310 Pearl Street NW",
+     "phone_on_page": "1-616-2357611"
+    },
+    "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/grand-rapids/grrpe/hoteldetail",
+    "source_type": "official_property_page",
+    "authority_tier": "PT1",
+    "observed_at": "2026-08-23",
+    "retrieved_at": "2026-08-23",
+    "capture_method": "deterministic_fetch",
+    "evidence": [
+     {
+      "quote": "Pets are welcome",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "Pet fee per night: 25 USD",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_fee",
+       "fee_currency"
+      ]
+     },
+     {
+      "quote": "maximum of 75 USD per stay",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "fee_cap"
+      ]
+     },
+     {
+      "quote": "under 120 pounds",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "weight_limit"
+      ]
+     },
+     {
+      "quote": "2 pets allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_count_limit"
+      ]
+     }
+    ],
+    "extraction": {
+     "pets_allowed": true,
+     "pet_fee": 2500,
+     "fee_currency": "USD",
+     "fee_cap": {
+      "amount_minor": 7500,
+      "currency": "USD",
+      "basis": "per_stay"
+     },
+     "weight_limit": {
+      "value": 120.0,
+      "unit": "lb"
+     },
+     "pet_count_limit": 2
+    },
+    "extraction_confidence": "EXACT_QUOTE",
+    "flags": [
+     {
+      "code": "FLAG_AMBIGUOUS_BASIS",
+      "detail": "the surface states this $25.00 charge on more than one basis (per_day, per_night); the amount stands and the basis is not chosen"
+     }
+    ],
+    "snapshot_hash": "686386922ecf268d606a785cc07d1d55e667043f4f863086d4edde2527106681",
+    "raw_pointer": "data\\acquisition\\gr_028\\holiday-inn-grand-rapids-downtown\\attempt-01",
+    "capture_artifacts": {
+     "rendered.html": "data\\acquisition\\gr_028\\holiday-inn-grand-rapids-downtown\\attempt-01\\rendered.html",
+     "page-text.txt": "data\\acquisition\\gr_028\\holiday-inn-grand-rapids-downtown\\attempt-01\\page-text.txt",
+     "policy-block.txt": "data\\acquisition\\gr_028\\holiday-inn-grand-rapids-downtown\\attempt-01\\policy-block.txt",
+     "locator.json": "data\\acquisition\\gr_028\\holiday-inn-grand-rapids-downtown\\attempt-01\\locator.json"
+    }
+   },
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED",
+    "reasons": [
+     "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+    ],
+    "schema_issues": [],
+    "blockers": [],
+    "hash_rederived": true,
+    "quotes_contiguous": true,
+    "quote_sources": {
+     "pets_allowed": "page-text.txt",
+     "pet_fee": "page-text.txt",
+     "fee_currency": "page-text.txt",
+     "fee_cap": "page-text.txt",
+     "weight_limit": "page-text.txt",
+     "pet_count_limit": "page-text.txt"
+    },
+    "evidence_entries": [
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::holiday inn grand rapids downtown::pets_allowed::0",
+      "field": "pets_allowed",
+      "quote": "Pets are welcome",
+      "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/grand-rapids/grrpe/hoteldetail",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "686386922ecf268d606a785cc07d1d55e667043f4f863086d4edde2527106681",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::holiday inn grand rapids downtown::pet_fee::1",
+      "field": "pet_fee",
+      "quote": "Pet fee per night: 25 USD",
+      "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/grand-rapids/grrpe/hoteldetail",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "686386922ecf268d606a785cc07d1d55e667043f4f863086d4edde2527106681",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::holiday inn grand rapids downtown::fee_currency::1",
+      "field": "fee_currency",
+      "quote": "Pet fee per night: 25 USD",
+      "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/grand-rapids/grrpe/hoteldetail",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "686386922ecf268d606a785cc07d1d55e667043f4f863086d4edde2527106681",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::holiday inn grand rapids downtown::fee_cap::2",
+      "field": "fee_cap",
+      "quote": "maximum of 75 USD per stay",
+      "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/grand-rapids/grrpe/hoteldetail",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "686386922ecf268d606a785cc07d1d55e667043f4f863086d4edde2527106681",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::holiday inn grand rapids downtown::weight_limit::3",
+      "field": "weight_limit",
+      "quote": "under 120 pounds",
+      "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/grand-rapids/grrpe/hoteldetail",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "686386922ecf268d606a785cc07d1d55e667043f4f863086d4edde2527106681",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::holiday inn grand rapids downtown::pet_count_limit::4",
+      "field": "pet_count_limit",
+      "quote": "2 pets allowed",
+      "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/grand-rapids/grrpe/hoteldetail",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "686386922ecf268d606a785cc07d1d55e667043f4f863086d4edde2527106681",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     }
+    ],
+    "contract_integration_gaps": [
+     {
+      "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+      "summary": "a machine-captured screenshot has no lawful artifact_kind",
+      "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+      "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+      "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+      "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+      "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+      "summary": "an evidence entry does not record what fetched the page",
+      "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+      "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+      "blocks_publication": false
+     }
+    ]
+   },
+   "withheld_fields": {
+    "fee_basis": "SOURCE_CONTRADICTORY"
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "membrane": {
+    "verdict": "VALID",
+    "rule": "",
+    "detail": "",
+    "hint_only": false,
+    "stripped_fields": [],
+    "flags_raised": [
+     "FLAG_AMBIGUOUS_BASIS"
+    ],
+    "rule_statement": ""
+   },
+   "readiness": {
+    "state": "POLICY_CONFIRMED_WITH_AMBIGUITY",
+    "reasons": [],
+    "ambiguities": [
+     "FLAG_AMBIGUOUS_BASIS"
+    ],
+    "conflicts": [],
+    "establishing_observations": [
+     "grand-rapids-holland-mi-acquisition-028::holiday inn grand rapids downtown"
+    ],
+    "hint_observations": [],
+    "rejected_observations": [],
+    "maps_to": {
+     "routing": "READY",
+     "capture_reason": "",
+     "authority": "hotel_policy_facts (via operator approval); the ambiguity renders as the site's existing 'Not stated' doctrine"
+    },
+    "publishable_subject_to_existing_gates": true
+   },
+   "review_state": "AWAITING_FOUNDER_REVIEW"
+  },
+  {
+   "identity_key": "homewood suites by hilton holland",
+   "canonical_name": "Homewood Suites by Hilton Holland",
+   "census_canonical_name": "Homewood Suites by Hilton Holland",
+   "corridor": "grand-rapids-holland-mi__holland-zeeland",
+   "brand": "HILTON",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "live_dom_walk",
+    "locator_strategy": "generic_signal_walk",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "fcef83c0f98fcee13504af1f20f1bc00db28779af8e8fd66a9d608a36910325b",
+    "document_sha256": "c924e2f4a066b1b14d6db53ee99ea0b60534ca9a8ba0d3262e4e9727f1544201"
+   },
+   "observation": {
+    "obs_id": "grand-rapids-holland-mi-acquisition-028::homewood suites by hilton holland",
+    "contract_version": "1.3.0",
+    "hotel_ref": {
+     "market_id": "grand-rapids-holland-mi",
+     "canonical_name": "Homewood Suites by Hilton Holland",
+     "normalized_name": "homewood suites by hilton holland",
+     "official_url": "https://www.hilton.com/en/hotels/grrabhw-homewood-suites-holland/?SEO_id=GMB-AMER-HG-GRRABHW",
+     "property_code": "",
+     "street_identity": "625 s point hotel dr|49423"
+    },
+    "identity_check": {
+     "name_on_page": "Homewood Suites by Hilton Holland",
+     "address_on_page": "625 South Point Hotel Dr.",
+     "property_code": "grrabhw",
+     "phone_on_page": "+1 616-795-0134"
+    },
+    "source_url": "https://www.hilton.com/en/hotels/grrabhw-homewood-suites-holland/?SEO_id=GMB-AMER-HG-GRRABHW",
+    "source_type": "official_property_page",
+    "authority_tier": "PT1",
+    "observed_at": "2026-08-23",
+    "retrieved_at": "2026-08-23",
+    "capture_method": "browser_assisted",
+    "evidence": [
+     {
+      "quote": "Pets allowed",
+      "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "$75.00 Non-refundable Fee",
+      "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+      "field_refs": [
+       "pet_fee",
+       "fee_currency"
+      ]
+     },
+     {
+      "quote": "Max weight 75 lbs",
+      "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+      "field_refs": [
+       "weight_limit"
+      ]
+     }
+    ],
+    "extraction": {
+     "pets_allowed": true,
+     "pet_fee": 7500,
+     "fee_currency": "USD",
+     "weight_limit": {
+      "value": 75.0,
+      "unit": "lb"
+     }
+    },
+    "extraction_confidence": "EXACT_QUOTE",
+    "flags": [],
+    "snapshot_hash": "c924e2f4a066b1b14d6db53ee99ea0b60534ca9a8ba0d3262e4e9727f1544201",
+    "raw_pointer": "data\\acquisition\\gr_028\\homewood-suites-by-hilton-holland\\attempt-02",
+    "capture_artifacts": {
+     "rendered.html": "data\\acquisition\\gr_028\\homewood-suites-by-hilton-holland\\attempt-02\\rendered.html",
+     "page-text.txt": "data\\acquisition\\gr_028\\homewood-suites-by-hilton-holland\\attempt-02\\page-text.txt",
+     "policy-block.txt": "data\\acquisition\\gr_028\\homewood-suites-by-hilton-holland\\attempt-02\\policy-block.txt",
+     "locator.json": "data\\acquisition\\gr_028\\homewood-suites-by-hilton-holland\\attempt-02\\locator.json"
+    }
+   },
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED",
+    "reasons": [
+     "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+    ],
+    "schema_issues": [],
+    "blockers": [],
+    "hash_rederived": true,
+    "quotes_contiguous": true,
+    "quote_sources": {
+     "pets_allowed": "page-text.txt",
+     "pet_fee": "page-text.txt",
+     "fee_currency": "page-text.txt",
+     "weight_limit": "page-text.txt"
+    },
+    "evidence_entries": [
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::homewood suites by hilton holland::pets_allowed::0",
+      "field": "pets_allowed",
+      "quote": "Pets allowed",
+      "source_url": "https://www.hilton.com/en/hotels/grrabhw-homewood-suites-holland/?SEO_id=GMB-AMER-HG-GRRABHW",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "c924e2f4a066b1b14d6db53ee99ea0b60534ca9a8ba0d3262e4e9727f1544201",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::homewood suites by hilton holland::pet_fee::1",
+      "field": "pet_fee",
+      "quote": "$75.00 Non-refundable Fee",
+      "source_url": "https://www.hilton.com/en/hotels/grrabhw-homewood-suites-holland/?SEO_id=GMB-AMER-HG-GRRABHW",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "c924e2f4a066b1b14d6db53ee99ea0b60534ca9a8ba0d3262e4e9727f1544201",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::homewood suites by hilton holland::fee_currency::1",
+      "field": "fee_currency",
+      "quote": "$75.00 Non-refundable Fee",
+      "source_url": "https://www.hilton.com/en/hotels/grrabhw-homewood-suites-holland/?SEO_id=GMB-AMER-HG-GRRABHW",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "c924e2f4a066b1b14d6db53ee99ea0b60534ca9a8ba0d3262e4e9727f1544201",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::homewood suites by hilton holland::weight_limit::2",
+      "field": "weight_limit",
+      "quote": "Max weight 75 lbs",
+      "source_url": "https://www.hilton.com/en/hotels/grrabhw-homewood-suites-holland/?SEO_id=GMB-AMER-HG-GRRABHW",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "c924e2f4a066b1b14d6db53ee99ea0b60534ca9a8ba0d3262e4e9727f1544201",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     }
+    ],
+    "contract_integration_gaps": [
+     {
+      "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+      "summary": "a machine-captured screenshot has no lawful artifact_kind",
+      "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+      "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+      "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+      "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+      "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+      "summary": "an evidence entry does not record what fetched the page",
+      "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+      "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+      "blocks_publication": false
+     }
+    ]
+   },
+   "withheld_fields": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "membrane": {
+    "verdict": "VALID",
+    "rule": "",
+    "detail": "",
+    "hint_only": false,
+    "stripped_fields": [],
+    "flags_raised": [],
+    "rule_statement": ""
+   },
+   "readiness": {
+    "state": "POLICY_CONFIRMED",
+    "reasons": [],
+    "ambiguities": [],
+    "conflicts": [],
+    "establishing_observations": [
+     "grand-rapids-holland-mi-acquisition-028::homewood suites by hilton holland"
+    ],
+    "hint_observations": [],
+    "rejected_observations": [],
+    "maps_to": {
+     "routing": "READY",
+     "capture_reason": "",
+     "authority": "hotel_policy_facts (via operator approval)"
+    },
+    "publishable_subject_to_existing_gates": true
+   },
+   "review_state": "AWAITING_FOUNDER_REVIEW"
+  },
+  {
+   "identity_key": "jw marriott grand rapids",
+   "canonical_name": "JW Marriott Grand Rapids",
+   "census_canonical_name": "JW Marriott Grand Rapids",
+   "corridor": "grand-rapids-holland-mi__downtown-grand-rapids",
+   "brand": "MARRIOTT",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "live_dom_walk",
+    "locator_strategy": "pet_policy_accordion_panel",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "3a4cc8df815b5d558c805e3c00e5ecbbdc79182ccd38fc145efbc1ce32e8f664",
+    "document_sha256": "f61f04e4a363f205c6e4451540430612bf43ac8bdfc5876a86d671868986ff58"
+   },
+   "observation": {
+    "obs_id": "grand-rapids-holland-mi-acquisition-028::jw marriott grand rapids",
+    "contract_version": "1.3.0",
+    "hotel_ref": {
+     "market_id": "grand-rapids-holland-mi",
+     "canonical_name": "JW Marriott Grand Rapids",
+     "normalized_name": "jw marriott grand rapids",
+     "official_url": "https://www.marriott.com/en-us/hotels/grrjw-jw-marriott-grand-rapids/overview/?scid=f2ae0541-1279-4f24-b197-a979c79310b0",
+     "property_code": "",
+     "street_identity": "235 louis st nw|49503"
+    },
+    "identity_check": {
+     "name_on_page": "JW Marriott Grand Rapids",
+     "address_on_page": "235 Louis Street NW",
+     "property_code": "grrjw",
+     "phone_on_page": "+16162421500"
+    },
+    "source_url": "https://www.marriott.com/en-us/hotels/grrjw-jw-marriott-grand-rapids/overview/?scid=f2ae0541-1279-4f24-b197-a979c79310b0",
+    "source_type": "official_property_page",
+    "authority_tier": "PT1",
+    "observed_at": "2026-08-23",
+    "retrieved_at": "2026-08-23",
+    "capture_method": "browser_assisted",
+    "evidence": [
+     {
+      "quote": "Pets Not Allowed",
+      "location": "bounded policy container (pet_policy_accordion_panel / xpath=//b[normalize-space(text())='Pet Policy']/parent::*)",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     }
+    ],
+    "extraction": {
+     "pets_allowed": false
+    },
+    "extraction_confidence": "EXACT_QUOTE",
+    "flags": [],
+    "snapshot_hash": "f61f04e4a363f205c6e4451540430612bf43ac8bdfc5876a86d671868986ff58",
+    "raw_pointer": "data\\acquisition\\gr_028\\jw-marriott-grand-rapids\\attempt-01",
+    "capture_artifacts": {
+     "rendered.html": "data\\acquisition\\gr_028\\jw-marriott-grand-rapids\\attempt-01\\rendered.html",
+     "page-text.txt": "data\\acquisition\\gr_028\\jw-marriott-grand-rapids\\attempt-01\\page-text.txt",
+     "policy-block.txt": "data\\acquisition\\gr_028\\jw-marriott-grand-rapids\\attempt-01\\policy-block.txt",
+     "locator.json": "data\\acquisition\\gr_028\\jw-marriott-grand-rapids\\attempt-01\\locator.json"
+    }
+   },
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED",
+    "reasons": [
+     "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+    ],
+    "schema_issues": [],
+    "blockers": [],
+    "hash_rederived": true,
+    "quotes_contiguous": true,
+    "quote_sources": {
+     "pets_allowed": "rendered.html"
+    },
+    "evidence_entries": [
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::jw marriott grand rapids::pets_allowed::0",
+      "field": "pets_allowed",
+      "quote": "Pets Not Allowed",
+      "source_url": "https://www.marriott.com/en-us/hotels/grrjw-jw-marriott-grand-rapids/overview/?scid=f2ae0541-1279-4f24-b197-a979c79310b0",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "f61f04e4a363f205c6e4451540430612bf43ac8bdfc5876a86d671868986ff58",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     }
+    ],
+    "contract_integration_gaps": [
+     {
+      "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+      "summary": "a machine-captured screenshot has no lawful artifact_kind",
+      "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+      "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+      "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+      "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+      "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+      "summary": "an evidence entry does not record what fetched the page",
+      "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+      "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+      "blocks_publication": false
+     }
+    ]
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "membrane": {
+    "verdict": "VALID",
+    "rule": "",
+    "detail": "",
+    "hint_only": false,
+    "stripped_fields": [],
+    "flags_raised": [],
+    "rule_statement": ""
+   },
+   "readiness": {
+    "state": "POLICY_NEGATIVE_CONFIRMED",
+    "reasons": [
+     "official evidence states pets are not accepted; routes to the existing exclusion authority (VERIFIED_NO_PETS)"
+    ],
+    "ambiguities": [],
+    "conflicts": [],
+    "establishing_observations": [
+     "grand-rapids-holland-mi-acquisition-028::jw marriott grand rapids"
+    ],
+    "hint_observations": [],
+    "rejected_observations": [],
+    "maps_to": {
+     "routing": "READY",
+     "capture_reason": "POLICY_ABSENT_CONFIRMED",
+     "authority": "hotel_exclusions (VERIFIED_NO_PETS)"
+    },
+    "publishable_subject_to_existing_gates": false
+   },
+   "review_state": "AWAITING_FOUNDER_REVIEW"
+  },
+  {
+   "identity_key": "mainstay suites grand rapids",
+   "canonical_name": "MainStay Suites Grand Rapids",
+   "census_canonical_name": "MainStay Suites Grand Rapids",
+   "corridor": "grand-rapids-holland-mi__grr-airport-kentwood",
+   "brand": "CHOICE",
+   "provider": "firecrawl",
+   "reader": "choice_static",
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "static_text_walk",
+    "locator_strategy": "static_html_walk",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "dcffbe728d10a48a4126932fa1c357d8421cdbf9a254bb503af4326bcf2f18dc",
+    "document_sha256": "dc43f2748e1558fcf1d45b7665e49c2042c2e3e03852286a915cd4ee5f1ef24a"
+   },
+   "observation": {
+    "obs_id": "grand-rapids-holland-mi-acquisition-028::mainstay suites grand rapids",
+    "contract_version": "1.3.0",
+    "hotel_ref": {
+     "market_id": "grand-rapids-holland-mi",
+     "canonical_name": "MainStay Suites Grand Rapids",
+     "normalized_name": "mainstay suites grand rapids",
+     "official_url": "https://www.choicehotels.com/michigan/grand-rapids/mainstay-hotels/mi668?mc=llgoxxpx",
+     "property_code": "",
+     "street_identity": "3920 stahl dr se|49546"
+    },
+    "identity_check": {
+     "name_on_page": "MainStay Suites Grand Rapids Southeast - Kentwood",
+     "address_on_page": "3920 Stahl Dr SE",
+     "phone_on_page": "(616) 285-7100"
+    },
+    "source_url": "https://www.choicehotels.com/michigan/grand-rapids/mainstay-hotels/mi668",
+    "source_type": "official_property_page",
+    "authority_tier": "PT1",
+    "observed_at": "2026-08-23",
+    "retrieved_at": "2026-08-23",
+    "capture_method": "deterministic_fetch",
+    "evidence": [
+     {
+      "quote": "Pets Allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "deposit of 100 USD",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_deposit"
+      ]
+     },
+     {
+      "quote": "25 USD per night, per dog",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_fee",
+       "fee_currency"
+      ]
+     },
+     {
+      "quote": "25 USD per night, per dog",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "fee_basis"
+      ]
+     },
+     {
+      "quote": "25 USD per night, per dog",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "fee_scope"
+      ]
+     },
+     {
+      "quote": "maximum of 2 dogs per room",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_count_limit",
+       "pet_count_scope"
+      ]
+     },
+     {
+      "quote": "dogs are allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "species_allowed"
+      ]
+     },
+     {
+      "quote": "Service animals are permitted, without charge.",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "service_animal_exception"
+      ]
+     }
+    ],
+    "extraction": {
+     "pets_allowed": true,
+     "pet_deposit": 10000,
+     "pet_fee": 2500,
+     "fee_currency": "USD",
+     "fee_basis": "per_night",
+     "fee_scope": "per_pet",
+     "pet_count_limit": 2,
+     "pet_count_scope": "per_room",
+     "species_allowed": [
+      "dog"
+     ],
+     "service_animal_exception": "Service animals are permitted, without charge."
+    },
+    "extraction_confidence": "EXACT_QUOTE",
+    "flags": [],
+    "snapshot_hash": "dc43f2748e1558fcf1d45b7665e49c2042c2e3e03852286a915cd4ee5f1ef24a",
+    "raw_pointer": "data\\acquisition\\gr_028\\mainstay-suites-grand-rapids\\attempt-01",
+    "capture_artifacts": {
+     "rendered.html": "data\\acquisition\\gr_028\\mainstay-suites-grand-rapids\\attempt-01\\rendered.html",
+     "page-text.txt": "data\\acquisition\\gr_028\\mainstay-suites-grand-rapids\\attempt-01\\page-text.txt",
+     "policy-block.txt": "data\\acquisition\\gr_028\\mainstay-suites-grand-rapids\\attempt-01\\policy-block.txt",
+     "locator.json": "data\\acquisition\\gr_028\\mainstay-suites-grand-rapids\\attempt-01\\locator.json"
+    }
+   },
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED",
+    "reasons": [
+     "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+    ],
+    "schema_issues": [],
+    "blockers": [],
+    "hash_rederived": true,
+    "quotes_contiguous": true,
+    "quote_sources": {
+     "pets_allowed": "page-text.txt",
+     "pet_deposit": "page-text.txt",
+     "pet_fee": "page-text.txt",
+     "fee_currency": "page-text.txt",
+     "fee_basis": "page-text.txt",
+     "fee_scope": "page-text.txt",
+     "pet_count_limit": "page-text.txt",
+     "pet_count_scope": "page-text.txt",
+     "species_allowed": "page-text.txt",
+     "service_animal_exception": "page-text.txt"
+    },
+    "evidence_entries": [
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::mainstay suites grand rapids::pets_allowed::0",
+      "field": "pets_allowed",
+      "quote": "Pets Allowed",
+      "source_url": "https://www.choicehotels.com/michigan/grand-rapids/mainstay-hotels/mi668",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "dc43f2748e1558fcf1d45b7665e49c2042c2e3e03852286a915cd4ee5f1ef24a",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::mainstay suites grand rapids::pet_deposit::1",
+      "field": "pet_deposit",
+      "quote": "deposit of 100 USD",
+      "source_url": "https://www.choicehotels.com/michigan/grand-rapids/mainstay-hotels/mi668",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "dc43f2748e1558fcf1d45b7665e49c2042c2e3e03852286a915cd4ee5f1ef24a",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::mainstay suites grand rapids::pet_fee::2",
+      "field": "pet_fee",
+      "quote": "25 USD per night, per dog",
+      "source_url": "https://www.choicehotels.com/michigan/grand-rapids/mainstay-hotels/mi668",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "dc43f2748e1558fcf1d45b7665e49c2042c2e3e03852286a915cd4ee5f1ef24a",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::mainstay suites grand rapids::fee_currency::2",
+      "field": "fee_currency",
+      "quote": "25 USD per night, per dog",
+      "source_url": "https://www.choicehotels.com/michigan/grand-rapids/mainstay-hotels/mi668",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "dc43f2748e1558fcf1d45b7665e49c2042c2e3e03852286a915cd4ee5f1ef24a",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::mainstay suites grand rapids::fee_basis::3",
+      "field": "fee_basis",
+      "quote": "25 USD per night, per dog",
+      "source_url": "https://www.choicehotels.com/michigan/grand-rapids/mainstay-hotels/mi668",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "dc43f2748e1558fcf1d45b7665e49c2042c2e3e03852286a915cd4ee5f1ef24a",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::mainstay suites grand rapids::fee_scope::4",
+      "field": "fee_scope",
+      "quote": "25 USD per night, per dog",
+      "source_url": "https://www.choicehotels.com/michigan/grand-rapids/mainstay-hotels/mi668",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "dc43f2748e1558fcf1d45b7665e49c2042c2e3e03852286a915cd4ee5f1ef24a",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::mainstay suites grand rapids::pet_count_limit::5",
+      "field": "pet_count_limit",
+      "quote": "maximum of 2 dogs per room",
+      "source_url": "https://www.choicehotels.com/michigan/grand-rapids/mainstay-hotels/mi668",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "dc43f2748e1558fcf1d45b7665e49c2042c2e3e03852286a915cd4ee5f1ef24a",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::mainstay suites grand rapids::pet_count_scope::5",
+      "field": "pet_count_scope",
+      "quote": "maximum of 2 dogs per room",
+      "source_url": "https://www.choicehotels.com/michigan/grand-rapids/mainstay-hotels/mi668",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "dc43f2748e1558fcf1d45b7665e49c2042c2e3e03852286a915cd4ee5f1ef24a",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::mainstay suites grand rapids::species_allowed::6",
+      "field": "species_allowed",
+      "quote": "dogs are allowed",
+      "source_url": "https://www.choicehotels.com/michigan/grand-rapids/mainstay-hotels/mi668",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "dc43f2748e1558fcf1d45b7665e49c2042c2e3e03852286a915cd4ee5f1ef24a",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::mainstay suites grand rapids::service_animal_exception::7",
+      "field": "service_animal_exception",
+      "quote": "Service animals are permitted, without charge.",
+      "source_url": "https://www.choicehotels.com/michigan/grand-rapids/mainstay-hotels/mi668",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "dc43f2748e1558fcf1d45b7665e49c2042c2e3e03852286a915cd4ee5f1ef24a",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     }
+    ],
+    "contract_integration_gaps": [
+     {
+      "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+      "summary": "a machine-captured screenshot has no lawful artifact_kind",
+      "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+      "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+      "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+      "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+      "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+      "summary": "an evidence entry does not record what fetched the page",
+      "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+      "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+      "blocks_publication": false
+     }
+    ]
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: this surface names a species it accepts and does not say the others are refused; species_allowed lists affirmations only, and an unnamed species stays unknown rather than prohibited"
+   ],
+   "membrane": {
+    "verdict": "VALID",
+    "rule": "",
+    "detail": "",
+    "hint_only": false,
+    "stripped_fields": [],
+    "flags_raised": [],
+    "rule_statement": ""
+   },
+   "readiness": {
+    "state": "POLICY_CONFIRMED",
+    "reasons": [],
+    "ambiguities": [],
+    "conflicts": [],
+    "establishing_observations": [
+     "grand-rapids-holland-mi-acquisition-028::mainstay suites grand rapids"
+    ],
+    "hint_observations": [],
+    "rejected_observations": [],
+    "maps_to": {
+     "routing": "READY",
+     "capture_reason": "",
+     "authority": "hotel_policy_facts (via operator approval)"
+    },
+    "publishable_subject_to_existing_gates": true
+   },
+   "review_state": "AWAITING_FOUNDER_REVIEW"
+  },
+  {
+   "identity_key": "microtel inn and suites by wyndham holland",
+   "canonical_name": "Microtel Inn & Suites by Wyndham Holland",
+   "census_canonical_name": "Microtel Inn & Suites by Wyndham Holland",
+   "corridor": "grand-rapids-holland-mi__holland-zeeland",
+   "brand": "WYNDHAM",
+   "provider": "firecrawl",
+   "reader": "wyndham",
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "static_text_walk",
+    "locator_strategy": "static_html_walk",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "c4fcb8a168b6363e4fa60cbe9469c8b1194662ebf4c96b0c7c0a9b3616df6ffe",
+    "document_sha256": "8323118e97b0ea06c6af35272991aa93b122d46381ea9c918da5bfb71c0e283c"
+   },
+   "observation": {
+    "obs_id": "grand-rapids-holland-mi-acquisition-028::microtel inn and suites by wyndham holland",
+    "contract_version": "1.3.0",
+    "hotel_ref": {
+     "market_id": "grand-rapids-holland-mi",
+     "canonical_name": "Microtel Inn & Suites by Wyndham Holland",
+     "normalized_name": "microtel inn and suites by wyndham holland",
+     "official_url": "https://www.wyndhamhotels.com/microtel/holland-michigan/microtel-inn-and-suites-holland/overview?CID=LC%3A5b3ss9kd80xe5ox%3A29433&iata=00093796",
+     "property_code": "",
+     "street_identity": "643 hastings ave|49423"
+    },
+    "identity_check": {
+     "name_on_page": "Microtel Inn & Suites by Wyndham Holland",
+     "address_on_page": "643 Hastings Avenue",
+     "phone_on_page": "1 616 392 3235"
+    },
+    "source_url": "https://www.wyndhamhotels.com/microtel/holland-michigan/microtel-inn-and-suites-holland/overview",
+    "source_type": "official_property_page",
+    "authority_tier": "PT1",
+    "observed_at": "2026-08-23",
+    "retrieved_at": "2026-08-23",
+    "capture_method": "deterministic_fetch",
+    "evidence": [
+     {
+      "quote": "Dogs allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "25.00 USD per dog per night",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_fee",
+       "fee_currency"
+      ]
+     },
+     {
+      "quote": "25.00 USD per dog per night",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "fee_basis"
+      ]
+     },
+     {
+      "quote": "25.00 USD per dog per night",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "fee_scope"
+      ]
+     },
+     {
+      "quote": "2 Dogs allowed per room",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_count_limit",
+       "pet_count_scope"
+      ]
+     },
+     {
+      "quote": "Dogs allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "species_allowed"
+      ]
+     },
+     {
+      "quote": "ADA defined service animals are welcome at this hotel.",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "service_animal_exception"
+      ]
+     }
+    ],
+    "extraction": {
+     "pets_allowed": true,
+     "pet_fee": 2500,
+     "fee_currency": "USD",
+     "fee_basis": "per_night",
+     "fee_scope": "per_pet",
+     "pet_count_limit": 2,
+     "pet_count_scope": "per_room",
+     "species_allowed": [
+      "dog"
+     ],
+     "service_animal_exception": "ADA defined service animals are welcome at this hotel."
+    },
+    "extraction_confidence": "EXACT_QUOTE",
+    "flags": [],
+    "snapshot_hash": "8323118e97b0ea06c6af35272991aa93b122d46381ea9c918da5bfb71c0e283c",
+    "raw_pointer": "data\\acquisition\\gr_028\\microtel-inn-suites-by-wyndham-holland\\attempt-01",
+    "capture_artifacts": {
+     "rendered.html": "data\\acquisition\\gr_028\\microtel-inn-suites-by-wyndham-holland\\attempt-01\\rendered.html",
+     "page-text.txt": "data\\acquisition\\gr_028\\microtel-inn-suites-by-wyndham-holland\\attempt-01\\page-text.txt",
+     "policy-block.txt": "data\\acquisition\\gr_028\\microtel-inn-suites-by-wyndham-holland\\attempt-01\\policy-block.txt",
+     "locator.json": "data\\acquisition\\gr_028\\microtel-inn-suites-by-wyndham-holland\\attempt-01\\locator.json"
+    },
+    "parser_warnings": [
+     "read 'no other pets' as a restriction to the species this surface names and not as a refusal of pets: the property states which animals it accepts before it says there are no others",
+     "ignored the acceptance 'pets allowed': a negation governs it"
+    ]
+   },
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED",
+    "reasons": [
+     "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+    ],
+    "schema_issues": [],
+    "blockers": [],
+    "hash_rederived": true,
+    "quotes_contiguous": true,
+    "quote_sources": {
+     "pets_allowed": "page-text.txt",
+     "pet_fee": "page-text.txt",
+     "fee_currency": "page-text.txt",
+     "fee_basis": "page-text.txt",
+     "fee_scope": "page-text.txt",
+     "pet_count_limit": "page-text.txt",
+     "pet_count_scope": "page-text.txt",
+     "species_allowed": "page-text.txt",
+     "service_animal_exception": "page-text.txt"
+    },
+    "evidence_entries": [
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::microtel inn and suites by wyndham holland::pets_allowed::0",
+      "field": "pets_allowed",
+      "quote": "Dogs allowed",
+      "source_url": "https://www.wyndhamhotels.com/microtel/holland-michigan/microtel-inn-and-suites-holland/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "8323118e97b0ea06c6af35272991aa93b122d46381ea9c918da5bfb71c0e283c",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::microtel inn and suites by wyndham holland::pet_fee::1",
+      "field": "pet_fee",
+      "quote": "25.00 USD per dog per night",
+      "source_url": "https://www.wyndhamhotels.com/microtel/holland-michigan/microtel-inn-and-suites-holland/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "8323118e97b0ea06c6af35272991aa93b122d46381ea9c918da5bfb71c0e283c",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::microtel inn and suites by wyndham holland::fee_currency::1",
+      "field": "fee_currency",
+      "quote": "25.00 USD per dog per night",
+      "source_url": "https://www.wyndhamhotels.com/microtel/holland-michigan/microtel-inn-and-suites-holland/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "8323118e97b0ea06c6af35272991aa93b122d46381ea9c918da5bfb71c0e283c",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::microtel inn and suites by wyndham holland::fee_basis::2",
+      "field": "fee_basis",
+      "quote": "25.00 USD per dog per night",
+      "source_url": "https://www.wyndhamhotels.com/microtel/holland-michigan/microtel-inn-and-suites-holland/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "8323118e97b0ea06c6af35272991aa93b122d46381ea9c918da5bfb71c0e283c",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::microtel inn and suites by wyndham holland::fee_scope::3",
+      "field": "fee_scope",
+      "quote": "25.00 USD per dog per night",
+      "source_url": "https://www.wyndhamhotels.com/microtel/holland-michigan/microtel-inn-and-suites-holland/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "8323118e97b0ea06c6af35272991aa93b122d46381ea9c918da5bfb71c0e283c",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::microtel inn and suites by wyndham holland::pet_count_limit::4",
+      "field": "pet_count_limit",
+      "quote": "2 Dogs allowed per room",
+      "source_url": "https://www.wyndhamhotels.com/microtel/holland-michigan/microtel-inn-and-suites-holland/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "8323118e97b0ea06c6af35272991aa93b122d46381ea9c918da5bfb71c0e283c",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::microtel inn and suites by wyndham holland::pet_count_scope::4",
+      "field": "pet_count_scope",
+      "quote": "2 Dogs allowed per room",
+      "source_url": "https://www.wyndhamhotels.com/microtel/holland-michigan/microtel-inn-and-suites-holland/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "8323118e97b0ea06c6af35272991aa93b122d46381ea9c918da5bfb71c0e283c",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::microtel inn and suites by wyndham holland::species_allowed::5",
+      "field": "species_allowed",
+      "quote": "Dogs allowed",
+      "source_url": "https://www.wyndhamhotels.com/microtel/holland-michigan/microtel-inn-and-suites-holland/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "8323118e97b0ea06c6af35272991aa93b122d46381ea9c918da5bfb71c0e283c",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::microtel inn and suites by wyndham holland::service_animal_exception::6",
+      "field": "service_animal_exception",
+      "quote": "ADA defined service animals are welcome at this hotel.",
+      "source_url": "https://www.wyndhamhotels.com/microtel/holland-michigan/microtel-inn-and-suites-holland/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "8323118e97b0ea06c6af35272991aa93b122d46381ea9c918da5bfb71c0e283c",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     }
+    ],
+    "contract_integration_gaps": [
+     {
+      "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+      "summary": "a machine-captured screenshot has no lawful artifact_kind",
+      "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+      "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+      "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+      "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+      "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+      "summary": "an evidence entry does not record what fetched the page",
+      "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+      "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+      "blocks_publication": false
+     }
+    ]
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: this surface names a species it accepts and does not say the others are refused; species_allowed lists affirmations only, and an unnamed species stays unknown rather than prohibited"
+   ],
+   "membrane": {
+    "verdict": "VALID",
+    "rule": "",
+    "detail": "",
+    "hint_only": false,
+    "stripped_fields": [],
+    "flags_raised": [],
+    "rule_statement": ""
+   },
+   "readiness": {
+    "state": "POLICY_CONFIRMED",
+    "reasons": [],
+    "ambiguities": [],
+    "conflicts": [],
+    "establishing_observations": [
+     "grand-rapids-holland-mi-acquisition-028::microtel inn and suites by wyndham holland"
+    ],
+    "hint_observations": [],
+    "rejected_observations": [],
+    "maps_to": {
+     "routing": "READY",
+     "capture_reason": "",
+     "authority": "hotel_policy_facts (via operator approval)"
+    },
+    "publishable_subject_to_existing_gates": true
+   },
+   "review_state": "AWAITING_FOUNDER_REVIEW"
+  },
+  {
+   "identity_key": "quality inn grand rapids south byron center",
+   "canonical_name": "Quality Inn Grand Rapids South-Byron Center",
+   "census_canonical_name": "Quality Inn Grand Rapids South-Byron Center",
+   "corridor": "grand-rapids-holland-mi__wyoming-grandville",
+   "brand": "CHOICE",
+   "provider": "firecrawl",
+   "reader": "choice_static",
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "static_text_walk",
+    "locator_strategy": "static_html_walk",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "8fad5376d7613884cb547498de7375c3dd00df99fe90a3e0d1b5cb339498b49a",
+    "document_sha256": "f755d0a5626285d3ed0c172a87c5aef8157f70b460ec24e2ea77e177f06f0aee"
+   },
+   "observation": {
+    "obs_id": "grand-rapids-holland-mi-acquisition-028::quality inn grand rapids south byron center",
+    "contract_version": "1.3.0",
+    "hotel_ref": {
+     "market_id": "grand-rapids-holland-mi",
+     "canonical_name": "Quality Inn Grand Rapids South-Byron Center",
+     "normalized_name": "quality inn grand rapids south byron center",
+     "official_url": "https://www.choicehotels.com/michigan/grand-rapids/quality-inn-hotels/mi312?mc=llgoxxpx",
+     "property_code": "",
+     "street_identity": "7625 caterpillar ct sw|49548"
+    },
+    "identity_check": {
+     "name_on_page": "Quality Inn Grand Rapids South-Byron Center",
+     "address_on_page": "7625 Caterpillar Court SW",
+     "phone_on_page": "(616) 226-3861"
+    },
+    "source_url": "https://www.choicehotels.com/michigan/grand-rapids/quality-inn-hotels/mi312",
+    "source_type": "official_property_page",
+    "authority_tier": "PT1",
+    "observed_at": "2026-08-23",
+    "retrieved_at": "2026-08-23",
+    "capture_method": "deterministic_fetch",
+    "evidence": [
+     {
+      "quote": "Pets Allowed: No",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "Pets Allowed: No General: Only service animals are permitted, free of charge.",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "service_animal_exception"
+      ]
+     }
+    ],
+    "extraction": {
+     "pets_allowed": false,
+     "service_animal_exception": "Pets Allowed: No General: Only service animals are permitted, free of charge."
+    },
+    "extraction_confidence": "EXACT_QUOTE",
+    "flags": [],
+    "snapshot_hash": "f755d0a5626285d3ed0c172a87c5aef8157f70b460ec24e2ea77e177f06f0aee",
+    "raw_pointer": "data\\acquisition\\gr_028\\quality-inn-grand-rapids-south-byron-center\\attempt-01",
+    "capture_artifacts": {
+     "rendered.html": "data\\acquisition\\gr_028\\quality-inn-grand-rapids-south-byron-center\\attempt-01\\rendered.html",
+     "page-text.txt": "data\\acquisition\\gr_028\\quality-inn-grand-rapids-south-byron-center\\attempt-01\\page-text.txt",
+     "policy-block.txt": "data\\acquisition\\gr_028\\quality-inn-grand-rapids-south-byron-center\\attempt-01\\policy-block.txt",
+     "locator.json": "data\\acquisition\\gr_028\\quality-inn-grand-rapids-south-byron-center\\attempt-01\\locator.json"
+    }
+   },
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED",
+    "reasons": [
+     "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+    ],
+    "schema_issues": [],
+    "blockers": [],
+    "hash_rederived": true,
+    "quotes_contiguous": true,
+    "quote_sources": {
+     "pets_allowed": "page-text.txt",
+     "service_animal_exception": "page-text.txt"
+    },
+    "evidence_entries": [
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::quality inn grand rapids south byron center::pets_allowed::0",
+      "field": "pets_allowed",
+      "quote": "Pets Allowed: No",
+      "source_url": "https://www.choicehotels.com/michigan/grand-rapids/quality-inn-hotels/mi312",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "f755d0a5626285d3ed0c172a87c5aef8157f70b460ec24e2ea77e177f06f0aee",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::quality inn grand rapids south byron center::service_animal_exception::1",
+      "field": "service_animal_exception",
+      "quote": "Pets Allowed: No General: Only service animals are permitted, free of charge.",
+      "source_url": "https://www.choicehotels.com/michigan/grand-rapids/quality-inn-hotels/mi312",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "f755d0a5626285d3ed0c172a87c5aef8157f70b460ec24e2ea77e177f06f0aee",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     }
+    ],
+    "contract_integration_gaps": [
+     {
+      "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+      "summary": "a machine-captured screenshot has no lawful artifact_kind",
+      "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+      "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+      "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+      "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+      "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+      "summary": "an evidence entry does not record what fetched the page",
+      "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+      "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+      "blocks_publication": false
+     }
+    ]
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "membrane": {
+    "verdict": "VALID",
+    "rule": "",
+    "detail": "",
+    "hint_only": false,
+    "stripped_fields": [],
+    "flags_raised": [],
+    "rule_statement": ""
+   },
+   "readiness": {
+    "state": "POLICY_NEGATIVE_CONFIRMED",
+    "reasons": [
+     "official evidence states pets are not accepted; routes to the existing exclusion authority (VERIFIED_NO_PETS)"
+    ],
+    "ambiguities": [],
+    "conflicts": [],
+    "establishing_observations": [
+     "grand-rapids-holland-mi-acquisition-028::quality inn grand rapids south byron center"
+    ],
+    "hint_observations": [],
+    "rejected_observations": [],
+    "maps_to": {
+     "routing": "READY",
+     "capture_reason": "POLICY_ABSENT_CONFIRMED",
+     "authority": "hotel_exclusions (VERIFIED_NO_PETS)"
+    },
+    "publishable_subject_to_existing_gates": false
+   },
+   "review_state": "AWAITING_FOUNDER_REVIEW"
+  },
+  {
+   "identity_key": "radisson hotel grand rapids riverfront",
+   "canonical_name": "Radisson Hotel Grand Rapids Riverfront",
+   "census_canonical_name": "Radisson Hotel Grand Rapids Riverfront",
+   "corridor": "grand-rapids-holland-mi__downtown-grand-rapids",
+   "brand": "CHOICE",
+   "provider": "firecrawl",
+   "reader": "choice_static",
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "static_text_walk",
+    "locator_strategy": "static_html_walk",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "8fad5376d7613884cb547498de7375c3dd00df99fe90a3e0d1b5cb339498b49a",
+    "document_sha256": "843a67e12375f4eefd6a00a9554ca03f6c1abdc6f1b9f9f4a7b5a7b8cd7e7fc1"
+   },
+   "observation": {
+    "obs_id": "grand-rapids-holland-mi-acquisition-028::radisson hotel grand rapids riverfront",
+    "contract_version": "1.3.0",
+    "hotel_ref": {
+     "market_id": "grand-rapids-holland-mi",
+     "canonical_name": "Radisson Hotel Grand Rapids Riverfront",
+     "normalized_name": "radisson hotel grand rapids riverfront",
+     "official_url": "https://www.choicehotels.com/michigan/grand-rapids/radisson-hotels/mi423?mc=llgoxxpx",
+     "property_code": "",
+     "street_identity": "270 ann st nw|49504"
+    },
+    "identity_check": {
+     "name_on_page": "Radisson Hotel Grand Rapids Riverfront",
+     "address_on_page": "270 Ann Street Northwest",
+     "phone_on_page": "(616) 317-6874"
+    },
+    "source_url": "https://www.choicehotels.com/michigan/grand-rapids/radisson-hotels/mi423",
+    "source_type": "official_property_page",
+    "authority_tier": "PT1",
+    "observed_at": "2026-08-23",
+    "retrieved_at": "2026-08-23",
+    "capture_method": "deterministic_fetch",
+    "evidence": [
+     {
+      "quote": "Pets Allowed: No",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "Pets Allowed: No General: Only service animals are permitted, free of charge.",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "service_animal_exception"
+      ]
+     }
+    ],
+    "extraction": {
+     "pets_allowed": false,
+     "service_animal_exception": "Pets Allowed: No General: Only service animals are permitted, free of charge."
+    },
+    "extraction_confidence": "EXACT_QUOTE",
+    "flags": [],
+    "snapshot_hash": "843a67e12375f4eefd6a00a9554ca03f6c1abdc6f1b9f9f4a7b5a7b8cd7e7fc1",
+    "raw_pointer": "data\\acquisition\\gr_028\\radisson-hotel-grand-rapids-riverfront\\attempt-01",
+    "capture_artifacts": {
+     "rendered.html": "data\\acquisition\\gr_028\\radisson-hotel-grand-rapids-riverfront\\attempt-01\\rendered.html",
+     "page-text.txt": "data\\acquisition\\gr_028\\radisson-hotel-grand-rapids-riverfront\\attempt-01\\page-text.txt",
+     "policy-block.txt": "data\\acquisition\\gr_028\\radisson-hotel-grand-rapids-riverfront\\attempt-01\\policy-block.txt",
+     "locator.json": "data\\acquisition\\gr_028\\radisson-hotel-grand-rapids-riverfront\\attempt-01\\locator.json"
+    }
+   },
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED",
+    "reasons": [
+     "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+    ],
+    "schema_issues": [],
+    "blockers": [],
+    "hash_rederived": true,
+    "quotes_contiguous": true,
+    "quote_sources": {
+     "pets_allowed": "page-text.txt",
+     "service_animal_exception": "page-text.txt"
+    },
+    "evidence_entries": [
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::radisson hotel grand rapids riverfront::pets_allowed::0",
+      "field": "pets_allowed",
+      "quote": "Pets Allowed: No",
+      "source_url": "https://www.choicehotels.com/michigan/grand-rapids/radisson-hotels/mi423",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "843a67e12375f4eefd6a00a9554ca03f6c1abdc6f1b9f9f4a7b5a7b8cd7e7fc1",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::radisson hotel grand rapids riverfront::service_animal_exception::1",
+      "field": "service_animal_exception",
+      "quote": "Pets Allowed: No General: Only service animals are permitted, free of charge.",
+      "source_url": "https://www.choicehotels.com/michigan/grand-rapids/radisson-hotels/mi423",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "843a67e12375f4eefd6a00a9554ca03f6c1abdc6f1b9f9f4a7b5a7b8cd7e7fc1",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     }
+    ],
+    "contract_integration_gaps": [
+     {
+      "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+      "summary": "a machine-captured screenshot has no lawful artifact_kind",
+      "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+      "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+      "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+      "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+      "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+      "summary": "an evidence entry does not record what fetched the page",
+      "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+      "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+      "blocks_publication": false
+     }
+    ]
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "membrane": {
+    "verdict": "VALID",
+    "rule": "",
+    "detail": "",
+    "hint_only": false,
+    "stripped_fields": [],
+    "flags_raised": [],
+    "rule_statement": ""
+   },
+   "readiness": {
+    "state": "POLICY_NEGATIVE_CONFIRMED",
+    "reasons": [
+     "official evidence states pets are not accepted; routes to the existing exclusion authority (VERIFIED_NO_PETS)"
+    ],
+    "ambiguities": [],
+    "conflicts": [],
+    "establishing_observations": [
+     "grand-rapids-holland-mi-acquisition-028::radisson hotel grand rapids riverfront"
+    ],
+    "hint_observations": [],
+    "rejected_observations": [],
+    "maps_to": {
+     "routing": "READY",
+     "capture_reason": "POLICY_ABSENT_CONFIRMED",
+     "authority": "hotel_exclusions (VERIFIED_NO_PETS)"
+    },
+    "publishable_subject_to_existing_gates": false
+   },
+   "review_state": "AWAITING_FOUNDER_REVIEW"
+  },
+  {
+   "identity_key": "red roof inn grand rapids airport",
+   "canonical_name": "Red Roof Inn Grand Rapids Airport",
+   "census_canonical_name": "Red Roof Inn Grand Rapids Airport",
+   "corridor": "grand-rapids-holland-mi__grr-airport-kentwood",
+   "brand": "RED_ROOF",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "live_dom_walk",
+    "locator_strategy": "generic_signal_walk",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "e996cde5a3f9422cabdc314f22ec0e40388c320e038810abee6334c18dc80dae",
+    "document_sha256": "0e1cd71deb3215014776c909ca546f9028386d29d6a4e193612d54f7feb79955"
+   },
+   "observation": {
+    "obs_id": "grand-rapids-holland-mi-acquisition-028::red roof inn grand rapids airport",
+    "contract_version": "1.3.0",
+    "hotel_ref": {
+     "market_id": "grand-rapids-holland-mi",
+     "canonical_name": "Red Roof Inn Grand Rapids Airport",
+     "normalized_name": "red roof inn grand rapids airport",
+     "official_url": "https://www.redroof.com/property/mi/grand-rapids/RRI011",
+     "property_code": "",
+     "street_identity": "5131 28th st se|49512"
+    },
+    "identity_check": {
+     "name_on_page": "Grand Rapids Airport",
+     "address_on_page": "5131 28th St SE",
+     "phone_on_page": "1-937-328-1401"
+    },
+    "source_url": "https://www.redroof.com/property/mi/grand-rapids/rri011",
+    "source_type": "official_property_page",
+    "authority_tier": "PT1",
+    "observed_at": "2026-08-23",
+    "retrieved_at": "2026-08-23",
+    "capture_method": "browser_assisted",
+    "evidence": [
+     {
+      "quote": "pets allowed",
+      "location": "bounded policy container (generic_signal_walk / div.property-accordions-section-accordion.property-accordions-section-order--1 > div.property-accordions-section-body.property-accordions-section-body--open-desktop > div.property-accordions-section-body-section.body-medium > ul.property-accordions-section-content-list > li.property-accordions-section-content-item)",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "not to exceed 7 nights or $105 per pet per stay",
+      "location": "bounded policy container (generic_signal_walk / div.property-accordions-section-accordion.property-accordions-section-order--1 > div.property-accordions-section-body.property-accordions-section-body--open-desktop > div.property-accordions-section-body-section.body-medium > ul.property-accordions-section-content-list > li.property-accordions-section-content-item)",
+      "field_refs": [
+       "fee_cap"
+      ]
+     },
+     {
+      "quote": "not to exceed 80 pounds",
+      "location": "bounded policy container (generic_signal_walk / div.property-accordions-section-accordion.property-accordions-section-order--1 > div.property-accordions-section-body.property-accordions-section-body--open-desktop > div.property-accordions-section-body-section.body-medium > ul.property-accordions-section-content-list > li.property-accordions-section-content-item)",
+      "field_refs": [
+       "weight_limit"
+      ]
+     },
+     {
+      "quote": "Up to 2 pets",
+      "location": "bounded policy container (generic_signal_walk / div.property-accordions-section-accordion.property-accordions-section-order--1 > div.property-accordions-section-body.property-accordions-section-body--open-desktop > div.property-accordions-section-body-section.body-medium > ul.property-accordions-section-content-list > li.property-accordions-section-content-item)",
+      "field_refs": [
+       "pet_count_limit"
+      ]
+     }
+    ],
+    "extraction": {
+     "pets_allowed": true,
+     "fee_cap": {
+      "amount_minor": 10500,
+      "currency": "USD",
+      "basis": "per_stay"
+     },
+     "weight_limit": {
+      "value": 80.0,
+      "unit": "lb"
+     },
+     "pet_count_limit": 2
+    },
+    "extraction_confidence": "EXACT_QUOTE",
+    "flags": [
+     {
+      "code": "FLAG_TIERED_FEE",
+      "detail": "the surface prices this pet differently by stay length or by pet count, and the published fee vocabulary holds a single amount; the tiers survive in the evidence quote and no single amount is asserted"
+     },
+     {
+      "code": "FLAG_PET_AMOUNT_NOT_BOUND",
+      "detail": "the surface prices a pet ('pet $15') and no charge pattern could bind the amount to a fee; nothing is asserted and the silence is not claimed"
+     }
+    ],
+    "snapshot_hash": "0e1cd71deb3215014776c909ca546f9028386d29d6a4e193612d54f7feb79955",
+    "raw_pointer": "data\\acquisition\\gr_028\\red-roof-inn-grand-rapids-airport\\attempt-01",
+    "capture_artifacts": {
+     "rendered.html": "data\\acquisition\\gr_028\\red-roof-inn-grand-rapids-airport\\attempt-01\\rendered.html",
+     "page-text.txt": "data\\acquisition\\gr_028\\red-roof-inn-grand-rapids-airport\\attempt-01\\page-text.txt",
+     "policy-block.txt": "data\\acquisition\\gr_028\\red-roof-inn-grand-rapids-airport\\attempt-01\\policy-block.txt",
+     "locator.json": "data\\acquisition\\gr_028\\red-roof-inn-grand-rapids-airport\\attempt-01\\locator.json"
+    }
+   },
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED",
+    "reasons": [
+     "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+    ],
+    "schema_issues": [],
+    "blockers": [],
+    "hash_rederived": true,
+    "quotes_contiguous": true,
+    "quote_sources": {
+     "pets_allowed": "rendered.html",
+     "fee_cap": "rendered.html",
+     "weight_limit": "rendered.html",
+     "pet_count_limit": "rendered.html"
+    },
+    "evidence_entries": [
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::red roof inn grand rapids airport::pets_allowed::0",
+      "field": "pets_allowed",
+      "quote": "pets allowed",
+      "source_url": "https://www.redroof.com/property/mi/grand-rapids/rri011",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "0e1cd71deb3215014776c909ca546f9028386d29d6a4e193612d54f7feb79955",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::red roof inn grand rapids airport::fee_cap::1",
+      "field": "fee_cap",
+      "quote": "not to exceed 7 nights or $105 per pet per stay",
+      "source_url": "https://www.redroof.com/property/mi/grand-rapids/rri011",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "0e1cd71deb3215014776c909ca546f9028386d29d6a4e193612d54f7feb79955",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::red roof inn grand rapids airport::weight_limit::2",
+      "field": "weight_limit",
+      "quote": "not to exceed 80 pounds",
+      "source_url": "https://www.redroof.com/property/mi/grand-rapids/rri011",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "0e1cd71deb3215014776c909ca546f9028386d29d6a4e193612d54f7feb79955",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::red roof inn grand rapids airport::pet_count_limit::3",
+      "field": "pet_count_limit",
+      "quote": "Up to 2 pets",
+      "source_url": "https://www.redroof.com/property/mi/grand-rapids/rri011",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "0e1cd71deb3215014776c909ca546f9028386d29d6a4e193612d54f7feb79955",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     }
+    ],
+    "contract_integration_gaps": [
+     {
+      "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+      "summary": "a machine-captured screenshot has no lawful artifact_kind",
+      "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+      "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+      "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+      "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+      "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+      "summary": "an evidence entry does not record what fetched the page",
+      "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+      "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+      "blocks_publication": false
+     }
+    ]
+   },
+   "withheld_fields": {
+    "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+    "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "membrane": {
+    "verdict": "VALID",
+    "rule": "",
+    "detail": "",
+    "hint_only": false,
+    "stripped_fields": [],
+    "flags_raised": [
+     "FLAG_TIERED_FEE",
+     "FLAG_PET_AMOUNT_NOT_BOUND"
+    ],
+    "rule_statement": ""
+   },
+   "readiness": {
+    "state": "POLICY_CONFIRMED",
+    "reasons": [],
+    "ambiguities": [],
+    "conflicts": [],
+    "establishing_observations": [
+     "grand-rapids-holland-mi-acquisition-028::red roof inn grand rapids airport"
+    ],
+    "hint_observations": [],
+    "rejected_observations": [],
+    "maps_to": {
+     "routing": "READY",
+     "capture_reason": "",
+     "authority": "hotel_policy_facts (via operator approval)"
+    },
+    "publishable_subject_to_existing_gates": true
+   },
+   "review_state": "AWAITING_FOUNDER_REVIEW"
+  },
+  {
+   "identity_key": "tru by hilton comstock park grand rapids",
+   "canonical_name": "Tru by Hilton Comstock Park Grand Rapids",
+   "census_canonical_name": "Tru by Hilton Comstock Park Grand Rapids",
+   "corridor": "grand-rapids-holland-mi__walker-northwest-grand-rapids",
+   "brand": "HILTON",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "live_dom_walk",
+    "locator_strategy": "generic_signal_walk",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "2b22aeb388f6c0e58c50a726715cda63d3fe41c5ec3fc1fccc997908639cef24",
+    "document_sha256": "25c68b8a7c495af9cd2ed867174eb8cbaa8ba1dfe83585e783f7b2c4d24be62e"
+   },
+   "observation": {
+    "obs_id": "grand-rapids-holland-mi-acquisition-028::tru by hilton comstock park grand rapids",
+    "contract_version": "1.3.0",
+    "hotel_ref": {
+     "market_id": "grand-rapids-holland-mi",
+     "canonical_name": "Tru by Hilton Comstock Park Grand Rapids",
+     "normalized_name": "tru by hilton comstock park grand rapids",
+     "official_url": "https://www.hilton.com/en/hotels/grrrrru-tru-comstock-park-grand-rapids/?SEO_id=GMB-AMER-RU-GRRRRRU",
+     "property_code": "",
+     "street_identity": "340 dodge st ne|49321"
+    },
+    "identity_check": {
+     "name_on_page": "Tru by Hilton Comstock Park Grand Rapids",
+     "address_on_page": "340 Dodge Rd NE",
+     "property_code": "grrrrru",
+     "phone_on_page": "+1 616-286-6555"
+    },
+    "source_url": "https://www.hilton.com/en/hotels/grrrrru-tru-comstock-park-grand-rapids/?SEO_id=GMB-AMER-RU-GRRRRRU",
+    "source_type": "official_property_page",
+    "authority_tier": "PT1",
+    "observed_at": "2026-08-23",
+    "retrieved_at": "2026-08-23",
+    "capture_method": "browser_assisted",
+    "evidence": [
+     {
+      "quote": "Pets allowed",
+      "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "$50 for 1-4 nights",
+      "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+      "field_refs": [
+       "fee_tiers"
+      ]
+     },
+     {
+      "quote": "$100 for 5+ nights",
+      "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+      "field_refs": [
+       "fee_tiers"
+      ]
+     },
+     {
+      "quote": "Non-refundable Fee",
+      "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+      "field_refs": [
+       "fee_tiers"
+      ]
+     },
+     {
+      "quote": "2 pets max",
+      "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+      "field_refs": [
+       "pet_count_limit"
+      ]
+     },
+     {
+      "quote": "dog/cat only",
+      "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+      "field_refs": [
+       "species_allowed"
+      ]
+     }
+    ],
+    "extraction": {
+     "pets_allowed": true,
+     "fee_tiers": [
+      {
+       "amount_cents": 5000,
+       "currency": "USD",
+       "role": "REPLACEMENT_PRICE",
+       "condition_type": "stay_length_range",
+       "boundary_unit": "nights",
+       "condition_min": 1,
+       "basis_stated": false,
+       "condition_max": 4
+      },
+      {
+       "amount_cents": 10000,
+       "currency": "USD",
+       "role": "REPLACEMENT_PRICE",
+       "condition_type": "stay_length_range",
+       "boundary_unit": "nights",
+       "condition_min": 5,
+       "basis_stated": false
+      }
+     ],
+     "pet_count_limit": 2,
+     "species_allowed": [
+      "cat",
+      "dog"
+     ]
+    },
+    "extraction_confidence": "EXACT_QUOTE",
+    "flags": [
+     {
+      "code": "FLAG_STRUCTURED_TIERS",
+      "detail": "the price is stated as 2 bands by stay length and is carried in fee_tiers"
+     }
+    ],
+    "snapshot_hash": "25c68b8a7c495af9cd2ed867174eb8cbaa8ba1dfe83585e783f7b2c4d24be62e",
+    "raw_pointer": "data\\acquisition\\gr_028\\tru-by-hilton-comstock-park-grand-rapids\\attempt-01",
+    "capture_artifacts": {
+     "rendered.html": "data\\acquisition\\gr_028\\tru-by-hilton-comstock-park-grand-rapids\\attempt-01\\rendered.html",
+     "page-text.txt": "data\\acquisition\\gr_028\\tru-by-hilton-comstock-park-grand-rapids\\attempt-01\\page-text.txt",
+     "policy-block.txt": "data\\acquisition\\gr_028\\tru-by-hilton-comstock-park-grand-rapids\\attempt-01\\policy-block.txt",
+     "locator.json": "data\\acquisition\\gr_028\\tru-by-hilton-comstock-park-grand-rapids\\attempt-01\\locator.json"
+    }
+   },
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED",
+    "reasons": [
+     "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+    ],
+    "schema_issues": [],
+    "blockers": [],
+    "hash_rederived": true,
+    "quotes_contiguous": true,
+    "quote_sources": {
+     "pets_allowed": "page-text.txt",
+     "fee_tiers": "page-text.txt",
+     "pet_count_limit": "page-text.txt",
+     "species_allowed": "page-text.txt"
+    },
+    "evidence_entries": [
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::tru by hilton comstock park grand rapids::pets_allowed::0",
+      "field": "pets_allowed",
+      "quote": "Pets allowed",
+      "source_url": "https://www.hilton.com/en/hotels/grrrrru-tru-comstock-park-grand-rapids/?SEO_id=GMB-AMER-RU-GRRRRRU",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "25c68b8a7c495af9cd2ed867174eb8cbaa8ba1dfe83585e783f7b2c4d24be62e",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::tru by hilton comstock park grand rapids::fee_tiers::1",
+      "field": "fee_tiers",
+      "quote": "$50 for 1-4 nights",
+      "source_url": "https://www.hilton.com/en/hotels/grrrrru-tru-comstock-park-grand-rapids/?SEO_id=GMB-AMER-RU-GRRRRRU",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "25c68b8a7c495af9cd2ed867174eb8cbaa8ba1dfe83585e783f7b2c4d24be62e",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::tru by hilton comstock park grand rapids::fee_tiers::2",
+      "field": "fee_tiers",
+      "quote": "$100 for 5+ nights",
+      "source_url": "https://www.hilton.com/en/hotels/grrrrru-tru-comstock-park-grand-rapids/?SEO_id=GMB-AMER-RU-GRRRRRU",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "25c68b8a7c495af9cd2ed867174eb8cbaa8ba1dfe83585e783f7b2c4d24be62e",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::tru by hilton comstock park grand rapids::fee_tiers::3",
+      "field": "fee_tiers",
+      "quote": "Non-refundable Fee",
+      "source_url": "https://www.hilton.com/en/hotels/grrrrru-tru-comstock-park-grand-rapids/?SEO_id=GMB-AMER-RU-GRRRRRU",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "25c68b8a7c495af9cd2ed867174eb8cbaa8ba1dfe83585e783f7b2c4d24be62e",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::tru by hilton comstock park grand rapids::pet_count_limit::4",
+      "field": "pet_count_limit",
+      "quote": "2 pets max",
+      "source_url": "https://www.hilton.com/en/hotels/grrrrru-tru-comstock-park-grand-rapids/?SEO_id=GMB-AMER-RU-GRRRRRU",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "25c68b8a7c495af9cd2ed867174eb8cbaa8ba1dfe83585e783f7b2c4d24be62e",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::tru by hilton comstock park grand rapids::species_allowed::5",
+      "field": "species_allowed",
+      "quote": "dog/cat only",
+      "source_url": "https://www.hilton.com/en/hotels/grrrrru-tru-comstock-park-grand-rapids/?SEO_id=GMB-AMER-RU-GRRRRRU",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "25c68b8a7c495af9cd2ed867174eb8cbaa8ba1dfe83585e783f7b2c4d24be62e",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     }
+    ],
+    "contract_integration_gaps": [
+     {
+      "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+      "summary": "a machine-captured screenshot has no lawful artifact_kind",
+      "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+      "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+      "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+      "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+      "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+      "summary": "an evidence entry does not record what fetched the page",
+      "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+      "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+      "blocks_publication": false
+     }
+    ]
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_tiers[].refundable: the schema's tier carries no refundability field; the surface's own words ('Non-refundable Fee') are cited against the structure and nothing is inferred from them",
+    "pet_fee: the surface prices this pet by stay length; the whole ladder is carried in fee_tiers and no single amount is asserted",
+    "fee_tiers[].basis: this surface states amounts and stay lengths and never says whether a rung is charged per night or per stay; basis_stated records that it did not"
+   ],
+   "membrane": {
+    "verdict": "VALID",
+    "rule": "",
+    "detail": "",
+    "hint_only": false,
+    "stripped_fields": [],
+    "flags_raised": [
+     "FLAG_STRUCTURED_TIERS"
+    ],
+    "rule_statement": ""
+   },
+   "readiness": {
+    "state": "POLICY_CONFIRMED",
+    "reasons": [],
+    "ambiguities": [],
+    "conflicts": [],
+    "establishing_observations": [
+     "grand-rapids-holland-mi-acquisition-028::tru by hilton comstock park grand rapids"
+    ],
+    "hint_observations": [],
+    "rejected_observations": [],
+    "maps_to": {
+     "routing": "READY",
+     "capture_reason": "",
+     "authority": "hotel_policy_facts (via operator approval)"
+    },
+    "publishable_subject_to_existing_gates": true
+   },
+   "review_state": "AWAITING_FOUNDER_REVIEW"
+  },
+  {
+   "identity_key": "wyndham garden grand rapids airport",
+   "canonical_name": "Wyndham Garden Grand Rapids Airport",
+   "census_canonical_name": "Wyndham Garden Grand Rapids Airport",
+   "corridor": "grand-rapids-holland-mi__grr-airport-kentwood",
+   "brand": "WYNDHAM",
+   "provider": "firecrawl",
+   "reader": "wyndham",
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "static_text_walk",
+    "locator_strategy": "static_html_walk",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "8672bfbd74644ec493d973088919058339ea5dc18c0464ac7653664594709cba",
+    "document_sha256": "779c7c00fd7fa998cf1e4d9445f2874038cf8ae40d049afc2249501f9da36d3a"
+   },
+   "observation": {
+    "obs_id": "grand-rapids-holland-mi-acquisition-028::wyndham garden grand rapids airport",
+    "contract_version": "1.3.0",
+    "hotel_ref": {
+     "market_id": "grand-rapids-holland-mi",
+     "canonical_name": "Wyndham Garden Grand Rapids Airport",
+     "normalized_name": "wyndham garden grand rapids airport",
+     "official_url": "https://www.wyndhamhotels.com/wyndham-garden/grand-rapids-michigan/wyndham-garden-grand-rapids/overview?CID=LC%3A46q62bu8edfbx3y%3A47063&iata=00093796",
+     "property_code": "",
+     "street_identity": "4495 28th st se|49512"
+    },
+    "identity_check": {
+     "name_on_page": "Wyndham Garden Grand Rapids Airport",
+     "address_on_page": "4495 28th Street SE",
+     "phone_on_page": "1-616-956-8080"
+    },
+    "source_url": "https://www.wyndhamhotels.com/wyndham-garden/grand-rapids-michigan/wyndham-garden-grand-rapids/overview",
+    "source_type": "official_property_page",
+    "authority_tier": "PT1",
+    "observed_at": "2026-08-23",
+    "retrieved_at": "2026-08-23",
+    "capture_method": "deterministic_fetch",
+    "evidence": [
+     {
+      "quote": "Pets Allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "25 USD nightly ",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_fee",
+       "fee_currency"
+      ]
+     },
+     {
+      "quote": "25 USD nightly ",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "fee_basis"
+      ]
+     },
+     {
+      "quote": "Max 75 USD per stay",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "fee_cap"
+      ]
+     },
+     {
+      "quote": "75lbs or less",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "weight_limit"
+      ]
+     },
+     {
+      "quote": "up to 2 pets",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_count_limit"
+      ]
+     },
+     {
+      "quote": "Cats and dogs only",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "species_allowed"
+      ]
+     },
+     {
+      "quote": "Service Animals - ADA-defined service animals are welcome free of charge./Pets Allowed - 2 pets max.",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "service_animal_exception"
+      ]
+     }
+    ],
+    "extraction": {
+     "pets_allowed": true,
+     "pet_fee": 2500,
+     "fee_currency": "USD",
+     "fee_basis": "per_night",
+     "fee_cap": {
+      "amount_minor": 7500,
+      "currency": "USD",
+      "basis": "per_stay"
+     },
+     "weight_limit": {
+      "value": 75.0,
+      "unit": "lb"
+     },
+     "pet_count_limit": 2,
+     "species_allowed": [
+      "cat",
+      "dog"
+     ],
+     "service_animal_exception": "Service Animals - ADA-defined service animals are welcome free of charge./Pets Allowed - 2 pets max."
+    },
+    "extraction_confidence": "EXACT_QUOTE",
+    "flags": [],
+    "snapshot_hash": "779c7c00fd7fa998cf1e4d9445f2874038cf8ae40d049afc2249501f9da36d3a",
+    "raw_pointer": "data\\acquisition\\gr_028\\wyndham-garden-grand-rapids-airport\\attempt-01",
+    "capture_artifacts": {
+     "rendered.html": "data\\acquisition\\gr_028\\wyndham-garden-grand-rapids-airport\\attempt-01\\rendered.html",
+     "page-text.txt": "data\\acquisition\\gr_028\\wyndham-garden-grand-rapids-airport\\attempt-01\\page-text.txt",
+     "policy-block.txt": "data\\acquisition\\gr_028\\wyndham-garden-grand-rapids-airport\\attempt-01\\policy-block.txt",
+     "locator.json": "data\\acquisition\\gr_028\\wyndham-garden-grand-rapids-airport\\attempt-01\\locator.json"
+    }
+   },
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED",
+    "reasons": [
+     "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+    ],
+    "schema_issues": [],
+    "blockers": [],
+    "hash_rederived": true,
+    "quotes_contiguous": true,
+    "quote_sources": {
+     "pets_allowed": "page-text.txt",
+     "pet_fee": "page-text.txt",
+     "fee_currency": "page-text.txt",
+     "fee_basis": "page-text.txt",
+     "fee_cap": "page-text.txt",
+     "weight_limit": "page-text.txt",
+     "pet_count_limit": "page-text.txt",
+     "species_allowed": "page-text.txt",
+     "service_animal_exception": "page-text.txt"
+    },
+    "evidence_entries": [
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::wyndham garden grand rapids airport::pets_allowed::0",
+      "field": "pets_allowed",
+      "quote": "Pets Allowed",
+      "source_url": "https://www.wyndhamhotels.com/wyndham-garden/grand-rapids-michigan/wyndham-garden-grand-rapids/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "779c7c00fd7fa998cf1e4d9445f2874038cf8ae40d049afc2249501f9da36d3a",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::wyndham garden grand rapids airport::pet_fee::1",
+      "field": "pet_fee",
+      "quote": "25 USD nightly ",
+      "source_url": "https://www.wyndhamhotels.com/wyndham-garden/grand-rapids-michigan/wyndham-garden-grand-rapids/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "779c7c00fd7fa998cf1e4d9445f2874038cf8ae40d049afc2249501f9da36d3a",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::wyndham garden grand rapids airport::fee_currency::1",
+      "field": "fee_currency",
+      "quote": "25 USD nightly ",
+      "source_url": "https://www.wyndhamhotels.com/wyndham-garden/grand-rapids-michigan/wyndham-garden-grand-rapids/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "779c7c00fd7fa998cf1e4d9445f2874038cf8ae40d049afc2249501f9da36d3a",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::wyndham garden grand rapids airport::fee_basis::2",
+      "field": "fee_basis",
+      "quote": "25 USD nightly ",
+      "source_url": "https://www.wyndhamhotels.com/wyndham-garden/grand-rapids-michigan/wyndham-garden-grand-rapids/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "779c7c00fd7fa998cf1e4d9445f2874038cf8ae40d049afc2249501f9da36d3a",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::wyndham garden grand rapids airport::fee_cap::3",
+      "field": "fee_cap",
+      "quote": "Max 75 USD per stay",
+      "source_url": "https://www.wyndhamhotels.com/wyndham-garden/grand-rapids-michigan/wyndham-garden-grand-rapids/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "779c7c00fd7fa998cf1e4d9445f2874038cf8ae40d049afc2249501f9da36d3a",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::wyndham garden grand rapids airport::weight_limit::4",
+      "field": "weight_limit",
+      "quote": "75lbs or less",
+      "source_url": "https://www.wyndhamhotels.com/wyndham-garden/grand-rapids-michigan/wyndham-garden-grand-rapids/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "779c7c00fd7fa998cf1e4d9445f2874038cf8ae40d049afc2249501f9da36d3a",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::wyndham garden grand rapids airport::pet_count_limit::5",
+      "field": "pet_count_limit",
+      "quote": "up to 2 pets",
+      "source_url": "https://www.wyndhamhotels.com/wyndham-garden/grand-rapids-michigan/wyndham-garden-grand-rapids/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "779c7c00fd7fa998cf1e4d9445f2874038cf8ae40d049afc2249501f9da36d3a",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::wyndham garden grand rapids airport::species_allowed::6",
+      "field": "species_allowed",
+      "quote": "Cats and dogs only",
+      "source_url": "https://www.wyndhamhotels.com/wyndham-garden/grand-rapids-michigan/wyndham-garden-grand-rapids/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "779c7c00fd7fa998cf1e4d9445f2874038cf8ae40d049afc2249501f9da36d3a",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "grand-rapids-holland-mi-acquisition-028::wyndham garden grand rapids airport::service_animal_exception::7",
+      "field": "service_animal_exception",
+      "quote": "Service Animals - ADA-defined service animals are welcome free of charge./Pets Allowed - 2 pets max.",
+      "source_url": "https://www.wyndhamhotels.com/wyndham-garden/grand-rapids-michigan/wyndham-garden-grand-rapids/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "779c7c00fd7fa998cf1e4d9445f2874038cf8ae40d049afc2249501f9da36d3a",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-08-23",
+      "capture_method": "browser_assisted"
+     }
+    ],
+    "contract_integration_gaps": [
+     {
+      "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+      "summary": "a machine-captured screenshot has no lawful artifact_kind",
+      "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+      "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+      "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+      "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+      "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+      "summary": "an evidence entry does not record what fetched the page",
+      "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+      "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+      "blocks_publication": false
+     }
+    ]
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence"
+   ],
+   "membrane": {
+    "verdict": "VALID",
+    "rule": "",
+    "detail": "",
+    "hint_only": false,
+    "stripped_fields": [],
+    "flags_raised": [],
+    "rule_statement": ""
+   },
+   "readiness": {
+    "state": "POLICY_CONFIRMED",
+    "reasons": [],
+    "ambiguities": [],
+    "conflicts": [],
+    "establishing_observations": [
+     "grand-rapids-holland-mi-acquisition-028::wyndham garden grand rapids airport"
+    ],
+    "hint_observations": [],
+    "rejected_observations": [],
+    "maps_to": {
+     "routing": "READY",
+     "capture_reason": "",
+     "authority": "hotel_policy_facts (via operator approval)"
+    },
+    "publishable_subject_to_existing_gates": true
+   },
+   "review_state": "AWAITING_FOUNDER_REVIEW"
+  }
+ ]
+}
