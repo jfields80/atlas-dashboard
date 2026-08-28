@@ -182,14 +182,39 @@ def test_final_closure_pass_is_exact_and_reconciles_the_last_leads():
     assert report["policy_capture"] == "NOT_PERFORMED"
 
 
-def test_market_has_no_collision_or_policy_authority():
+def test_market_has_no_identity_collision_and_publishes_only_its_own():
+    """The disjointness invariant is unchanged and is the half that mattered.
+
+    The other half of this test asserted that Grand Rapids published NOTHING --
+    true of a discovery-stage market and no longer true of one, since
+    PTF-GRAND-RAPIDS-SOURCE-PROMOTION-022 wrote 35 founder-signed profiles and
+    14 exclusions from a signed authority. Deleting the assertion would lose
+    the guard it was really carrying, so it is replaced by the statement that
+    survives the market growing up: whatever this market publishes is ITS OWN,
+    and it publishes nothing on another market's behalf.
+    """
     ours = census.identity_keys(census_doc())
     for other in ("columbus-oh", "cleveland-akron-canton-oh", "dayton-oh", "cincinnati-oh", "pittsburgh-pa", "detroit-ann-arbor-mi"):
         other_doc = _load(PACKAGE / "identity_census" / (other + ".json"))
         assert ours.isdisjoint(census.identity_keys(other_doc)), other
-    assert not (PACKAGE / ("hotel_policy_facts_" + MARKET + ".json")).exists()
-    exclusions = _load(PACKAGE / "hotel_exclusions.json")
-    assert not [x for x in exclusions["exclusions"] if x.get("market_id") == MARKET]
+
+    package_path = PACKAGE / ("hotel_policy_facts_" + MARKET + ".json")
+    if package_path.exists():
+        package = _load(package_path)
+        assert package["market_id"] == MARKET
+        assert package["count"] == len(package["hotels"])
+    exclusions = [x for x in _load(PACKAGE / "hotel_exclusions.json")["exclusions"]
+                  if x.get("market_id") == MARKET]
+    for row in exclusions:
+        assert row["market_id"] == MARKET
+    # And no other market gained a row carrying this market's id.
+    mine = {x["normalized_name"] for x in exclusions}
+    for other in ("columbus-oh", "cleveland-akron-canton-oh", "dayton-oh",
+                  "louisville-ky", "milwaukee-wi", "st-louis-mo"):
+        other_rows = {x["normalized_name"] for x
+                      in _load(PACKAGE / "hotel_exclusions.json")["exclusions"]
+                      if x.get("market_id") == other}
+        assert mine.isdisjoint(other_rows), other
 
 
 def test_routing_repair_reconciles_the_fixed_active_universe():
@@ -203,11 +228,30 @@ def test_routing_repair_reconciles_the_fixed_active_universe():
     assert progress["url_recovery"] == 0
     assert progress["census_review"] == 0
     assert progress["routing_unresolved"] == 9
+    # The progress report above is HISTORY and every number in it still holds.
+    # The SHARD is live authority, and PTF-GRAND-RAPIDS-SOURCE-PROMOTION-022
+    # withdrew the 31 routes that publication answered -- a route exists to
+    # find a hotel's page, and the seed row is the source of truth once we
+    # publish it. So the repair's 110 confirmations reconcile as 79 still
+    # asking a question plus 31 answered, and the withdrawn records are
+    # archived whole in that work order's report.
     routing = _load(PACKAGE / "markets" / "authority" / MARKET / "identity_routing.json")
     routes = routing["routes"]
-    assert len(routes) == 110
+    package_path = PACKAGE / ("hotel_policy_facts_" + MARKET + ".json")
+    published = ({row["identity_key"] for row in _load(package_path)["hotels"]}
+                 if package_path.exists() else set())
+    withdrawn = _load(PACKAGE / "grand_rapids_holland_mi_source_promotion_022.json"
+                      )["routes_withdrawn_by_publication"]
+    # 110 confirmations, minus the 31 the publication answered. Four of the 35
+    # published identities never carried a route, which is why the two counts
+    # do not simply sum.
+    assert len(routes) == withdrawn["routes_after"] == 79
+    assert withdrawn["routes_for_a_published_identity_in_the_end_state"] == 0
+    assert routing["count"] == len(routes)
     assert {row["hotel_ref"]["identity_key"] for row in routes} <= census.identity_keys(census_doc())
     assert len({row["official_property_url"] for row in routes}) == len(routes)
+    # No route survives for a hotel this market now publishes.
+    assert not ({row["hotel_ref"]["normalized_name"] for row in routes} & published)
     queue = _load(PACKAGE / "grand_rapids_holland_capture_ready_queue_002.json")
     assert queue["count"] == len(queue["items"]) == 110
     assert all(row["review_status"] == "NOT_STARTED" for row in queue["items"])

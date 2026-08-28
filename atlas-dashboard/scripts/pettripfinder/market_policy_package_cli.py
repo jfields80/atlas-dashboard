@@ -74,8 +74,33 @@ class PolicyPackageError(RuntimeError):
 
 
 #: Wording that unambiguously states an UPPER bound on one animal's weight.
+#: Founder decision 1 reads every one of these as ``lte``, the strict forms
+#: included, which is exactly what PTF-GRAND-RAPIDS-WEIGHT-SEMANTICS-RULING-023
+#: exists to correct -- see ``weight_comparison`` below. The list is left as it
+#: was so that decision's behaviour on the markets already published under it
+#: does not move; only "must not weigh more than" is added, and no committed
+#: package outside Grand Rapids contains that phrasing.
 _MAXIMAL_RE = re.compile(
     r"\b(max(?:imum)?\.?|up\s+to|under|less\s+than|no\s+more\s+than|"
+    r"not\s+weigh\s+more\s+than|"
+    r"or\s+less|not\s+exceed|weight\s+limit|limit\s+of)\b", re.IGNORECASE)
+
+#: RULING-023, and the two halves it splits _MAXIMAL_RE into.
+#:
+#: "under 75 lbs" and "up to 75 lbs" are different promises, and a guest
+#: arriving with a 75 lb dog is told the opposite thing by each. Founder
+#: decision 1 flattened both to ``lte`` because it only ever asked "is this a
+#: ceiling at all". This ruling asks the narrower question the schema actually
+#: needs -- WHICH comparison -- and answers it only from wording the source
+#: states. Where the source states none, the field is withheld rather than
+#: guessed at in either direction.
+_STRICT_LESS_RE = re.compile(r"\b(under|less\s+than)\b", re.IGNORECASE)
+
+#: Ceiling wording that INCLUDES the stated number. Deliberately NOT the same
+#: list as ``_MAXIMAL_RE``: the strict forms are absent here, and their absence
+#: is the whole distinction this ruling preserves.
+_CEILING_RE = re.compile(
+    r"\b(max(?:imum)?\.?|up\s+to|no\s+more\s+than|not\s+weigh\s+more\s+than|"
     r"or\s+less|not\s+exceed|weight\s+limit|limit\s+of)\b", re.IGNORECASE)
 
 #: Wording that describes a weight shared ACROSS pets. Founder condition 3 and 4:
@@ -114,6 +139,86 @@ def weight_normalisation_eligible(source: Mapping,
     return (True, "")
 
 
+def weight_comparison(source: Mapping,
+                      quotes: Sequence[str]) -> Tuple[str, str, str]:
+    """``(operator, scope, why)`` -- the comparison the SOURCE states.
+
+    PTF-GRAND-RAPIDS-WEIGHT-SEMANTICS-RULING-023. Four outcomes, and the fourth
+    is the point of the ruling:
+
+      "up to 75 lbs" / "maximum 75" / "must not weigh more than 100"  -> lte
+      "under 75 lbs" / "less than 75 lbs"                             -> lt
+      a combined or shared weight                                     -> withheld
+      a bare number with no comparison at all                         -> withheld
+
+    Nothing here is inferred. A number the source never qualified is not
+    published as ``lte``, which would tell a guest at exactly the limit they
+    are welcome, and not as ``lt``, which would tell them the opposite. It is
+    withheld, and the withholding says so.
+
+    ``scope`` is per-pet on the SAME safeguard founder decision 1 uses and no
+    weaker one: absent combined or shared-total wording, a weight stated in a
+    pet-policy block is a weight per animal. Combined wording is never
+    reinterpreted as per-pet -- it returns no operator at all, so the field is
+    withheld rather than published under a scope the source did not state.
+    """
+    if not quotes:
+        return ("", "", "no quote cites the weight limit, so nothing can be read")
+    joined = " || ".join(quotes)
+    if _COMBINED_RE.search(joined):
+        return ("", "", "the source describes a combined or shared weight, "
+                        "which is a different fact from a per-pet limit: %r"
+                        % joined[:120])
+    if source.get("combined_weight_limit") is not None:
+        return ("", "", "the record carries a separate combined_weight_limit")
+    strict = _STRICT_LESS_RE.search(joined)
+    ceiling = _CEILING_RE.search(joined)
+    if strict and ceiling:
+        return ("", "", "the source states both a strict and an inclusive "
+                        "comparison and this layer will not choose between "
+                        "them: %r" % joined[:120])
+    if strict:
+        return ("lt", enums.WEIGHT_SCOPE_PER_PET, "")
+    if ceiling:
+        return ("lte", enums.WEIGHT_SCOPE_PER_PET, "")
+    return ("", "", "the source states a number and no comparison, so whether "
+                    "the stated weight is itself allowed is unknown: %r"
+                    % joined[:120])
+
+
+def weight_withholding(source: Mapping, quotes: Sequence[str],
+                       evidence_refs: Sequence[str]) -> Optional[Dict]:
+    """The withholding decision for a weight this ruling will not publish.
+
+    Returned as a fully-formed decision rather than a bare code, because
+    ``project_withheld`` refuses a string it cannot attach a sentence and an
+    evidence reference to -- and rightly: a withholding nobody can
+    re-adjudicate is not a decision.
+    """
+    weight = source.get("weight_limit")
+    if not isinstance(weight, Mapping) or weight.get("value") is None:
+        return None
+    if weight.get("operator") and weight.get("scope"):
+        return None
+    operator, _scope, why = weight_comparison(source, quotes)
+    if operator:
+        return None
+    combined = (_COMBINED_RE.search(" || ".join(quotes))
+                or source.get("combined_weight_limit") is not None)
+    return OrderedDict((
+        ("reason_code", enums.SCHEMA_CANNOT_REPRESENT if combined
+         else enums.SOURCE_AMBIGUOUS),
+        ("reason",
+         "the source states %s %s and %s. Publishing it as a ceiling would "
+         "tell a guest at exactly that weight they are welcome; publishing it "
+         "as a strict limit would tell them the opposite. "
+         "PTF-GRAND-RAPIDS-WEIGHT-SEMANTICS-RULING-023 withholds the field "
+         "rather than choosing."
+         % (weight.get("value"), weight.get("unit", "lb"), why)),
+        ("evidence_refs", list(evidence_refs)),
+    ))
+
+
 def deposit_refundability(quotes: Sequence[str]) -> Optional[bool]:
     """``True`` / ``False`` / ``None`` -- and ``None`` means UNSTATED.
 
@@ -130,6 +235,7 @@ def deposit_refundability(quotes: Sequence[str]) -> Optional[bool]:
 
 def project_facts(source: Mapping, evidence: Sequence[Mapping] = (), *,
                   normalize_weight: bool = False,
+                  weight_comparison_from_source: bool = False,
                   cap_qualifier_stated: Optional[bool] = None
                   ) -> Tuple[Dict, List[str]]:
     """``(facts, notes)`` -- the publication fact block for one authority row.
@@ -171,7 +277,28 @@ def project_facts(source: Mapping, evidence: Sequence[Mapping] = (), *,
         for optional in ("operator", "scope"):
             if weight.get(optional):
                 node[optional] = weight[optional]
-        if ("operator" not in node or "scope" not in node) and normalize_weight:
+        incomplete = "operator" not in node or "scope" not in node
+        # RULING-023 first: it answers WHICH comparison, and where it cannot it
+        # withholds. Founder decision 1 answers only "is this a ceiling", so a
+        # caller naming both rulings gets the more specific one.
+        if incomplete and weight_comparison_from_source:
+            operator, scope, why = weight_comparison(source, quotes)
+            if operator:
+                node.setdefault("operator", operator)
+                node.setdefault("scope", scope)
+                notes.append(
+                    "weight_limit.operator=%s and scope=%s were read from the "
+                    "SOURCE WORDING under PTF-GRAND-RAPIDS-WEIGHT-SEMANTICS-"
+                    "RULING-023, which preserves the comparison the source "
+                    "states instead of flattening every ceiling to lte. Source "
+                    "text preserved: %s"
+                    % (operator, scope, " || ".join(quotes) or "(no weight quote)"))
+            else:
+                notes.append(
+                    "weight_limit WITHHELD under PTF-GRAND-RAPIDS-WEIGHT-"
+                    "SEMANTICS-RULING-023: %s" % why)
+                node = None
+        elif incomplete and normalize_weight:
             eligible, why = weight_normalisation_eligible(source, quotes)
             if eligible:
                 node.setdefault("operator", "lte")
@@ -184,7 +311,8 @@ def project_facts(source: Mapping, evidence: Sequence[Mapping] = (), *,
                     "value only. Source text preserved: %s" % (" || ".join(quotes) or "(no weight quote)"))
             else:
                 notes.append("weight_limit NOT normalised: %s" % why)
-        facts["weight_limit"] = node
+        if node is not None:
+            facts["weight_limit"] = node
 
     if source.get("fee_tiers"):
         facts["fee_tiers"] = [dict(t) for t in source["fee_tiers"]]
@@ -419,6 +547,7 @@ def corrected_names(overlay: Optional[Mapping]) -> Dict[str, str]:
 
 def build(authority: Mapping, *, market_name: str,
           normalize_weight: bool = False,
+          weight_comparison_from_source: bool = False,
           cap_qualifier_stated: Optional[bool] = None,
           name_corrections: Optional[Mapping] = None,
           observations: Optional[Mapping] = None) -> Dict:
@@ -433,6 +562,7 @@ def build(authority: Mapping, *, market_name: str,
         facts, notes = project_facts(
             row.get("facts") or {}, row.get("evidence") or (),
             normalize_weight=normalize_weight,
+            weight_comparison_from_source=weight_comparison_from_source,
             cap_qualifier_stated=cap_qualifier_stated)
         issues = PS.validate_facts(facts)
         if issues:
@@ -489,8 +619,21 @@ def build(authority: Mapping, *, market_name: str,
             ("founder_reviewed_at", row.get("founder_reviewed_at", "")),
         ))
         refs = [e["evidence_ref"] for e in record["evidence"] if e.get("evidence_ref")]
+        withheld_source = dict(row.get("withheld_fields") or {})
+        # A weight RULING-023 declined to publish is a decision, so it is
+        # recorded as one. Leaving the field merely absent would render as "Not
+        # stated" and lose the fact that the source DID state a number we chose
+        # not to publish a comparison for.
+        if weight_comparison_from_source:
+            decision = weight_withholding(
+                row.get("facts") or {},
+                [str(e.get("quote", "")) for e in (row.get("evidence") or ())
+                 if "weight_limit" in (e.get("field_refs") or ())],
+                refs)
+            if decision is not None:
+                withheld_source["weight_limit"] = decision
         withheld, withheld_notes, withheld_problems = project_withheld(
-            row.get("withheld_fields") or {}, observation, refs)
+            withheld_source, observation, refs)
         if withheld_problems:
             refusals.append(OrderedDict((
                 ("identity_key", row["normalized_name"]),
@@ -597,6 +740,16 @@ def main(argv=None) -> int:
                              "unqualified blanket maximum publishes as lte / "
                              "per_pet. Off by default; the strict reading is "
                              "the default and a caller must name the ruling.")
+    parser.add_argument("--weight-comparison-from-source", action="store_true",
+                        help="apply PTF-GRAND-RAPIDS-WEIGHT-SEMANTICS-RULING-"
+                             "023: publish the comparison the source states -- "
+                             "lte for 'max'/'up to'/'must not weigh more "
+                             "than', lt for 'under'/'less than' -- and WITHHOLD "
+                             "the field where the source states a number and no "
+                             "comparison. Off by default; a caller must name "
+                             "the ruling. It takes precedence over "
+                             "--normalize-weight, which answers only whether "
+                             "the wording is a ceiling at all.")
     parser.add_argument("--cap-qualifier-stated", choices=("true", "false"),
                         default=None,
                         help="apply founder decision 3 to caps whose source "
@@ -622,6 +775,8 @@ def main(argv=None) -> int:
              if args.observations else None)
     document = build(authority, market_name=args.market_name,
                      normalize_weight=args.normalize_weight,
+                     weight_comparison_from_source=(
+                         args.weight_comparison_from_source),
                      cap_qualifier_stated=(
                          None if args.cap_qualifier_stated is None
                          else args.cap_qualifier_stated == "true"),

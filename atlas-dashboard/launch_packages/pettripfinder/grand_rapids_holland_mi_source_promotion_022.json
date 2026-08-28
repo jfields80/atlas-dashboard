@@ -1,15 +1,15 @@
 {
  "schema": "ptf-source-promotion/1.0",
- "what_this_is": "Grand Rapids was NOT promoted in source. The founder's withdrawal ruling was applied and the authority rebuilt at 49 rows, and then the policy-package schema gate refused 25 of the 35 profiles. Promotion is all-or-nothing here: a market made visible with exclusions and no profiles is worse than one left alone.",
+ "what_this_is": "Grand Rapids promoted in source: 35 profiles published, 14 exclusions written to the shard, the market contract revealed, the three legacy globals regenerated. Nothing assembled, nothing deployed.",
  "market_id": "grand-rapids-holland-mi",
  "work_order": "PTF-GRAND-RAPIDS-SOURCE-PROMOTION-022",
  "provider_calls": 0,
  "usd_spent": 0.0,
  "plan_credits_spent": 0.0,
- "source_promoted": false,
- "assembled": false,
+ "source_promoted": true,
  "deployed": false,
- "founder_ruling_applied": {
+ "assembled": false,
+ "founder_ruling": {
   "identity_key": "avid hotel zeeland",
   "ruling": "WITHHELD_FROM_AUTHORITY_PENDING_POLICY_EVIDENCE",
   "ruled_by": "PTF-FOUNDER-001",
@@ -17,315 +17,1397 @@
   "identity_ruling_preserved": true,
   "why": "Identity is confirmed and stays confirmed: the 020 ruling established WHICH HOTEL the capture belongs to. It did not establish a publishable pet-policy fact, and this row's readiness state is still POLICY_NOT_FOUND. A founder-confirmed identity is not a reason to read POLICY_NOT_FOUND as publishable, so the row is withheld from authority pending actual policy evidence. Its 021 signature and its 020 identity ruling are both preserved."
  },
- "authority_rebuilt": {
+ "counts": {
   "pet_friendly": 35,
   "verified_no_pets": 14,
   "authority_total": 49,
-  "withdrawn": 1,
-  "matches_the_expected_counts": true
+  "profiles_published": 35,
+  "exclusions_written": 14,
+  "withdrawn": 1
  },
- "blocker": {
-  "blocked": true,
-  "gate": "contracts.policy_schema.validate_facts, schema 1.2",
-  "rows_blocked": 25,
-  "pet_friendly_total": 35,
-  "issue": "facts.weight_limit states a number with no operator and no scope. The schema requires both before a limit publishes.",
-  "why_the_reader_did_not_supply_them": "its own non-inference: \"'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions\", and \"scope: not emitted unless the source states it\".",
-  "why_this_pass_will_not_supply_them": "market_policy_package_cli exposes --normalize-weight as \"founder decision 1\", made for another market. 020 established that a market-specific founder precedent is not inherited automatically, and applying one here would be inventing a founder decision.",
-  "comparison_the_sources_actually_state": {
-   "NONE_STATED": 1,
-   "lt": 1,
-   "lte": 23
-  },
-  "why_a_blanket_rule_is_not_obviously_right": "1 of the 25 quotes say 'under' or 'less than', which is lt and not lte: publishing those as lte would tell a guest with a dog at exactly the limit that it is welcome when the source says it is not. 1 state no ceiling word at all.",
-  "what_would_unblock_it": [
-   "a founder ruling that an unqualified blanket maximum publishes as lte / per_pet, applied market-wide -- rerun with --weight-limit-ruling LTE_PER_PET",
-   "or a per-comparison ruling honouring 'under' as lt, which this flag cannot express and which would need the projector extended",
-   "or a ruling that an unqualified limit is withheld, which drops a stated ceiling from the profile and is the guest-visible error in the other direction"
-  ],
-  "rows": [
-   {
-    "identity_key": "ac hotel grand rapids downtown",
-    "canonical_name": "AC Hotel Grand Rapids Downtown",
-    "weight_limit": {
-     "value": 75.0,
-     "unit": "lb"
-    },
-    "source_quote": "up to 75.0 lbs",
-    "comparison_the_source_states": "lte"
-   },
-   {
-    "identity_key": "baymont",
-    "canonical_name": "Baymont by Wyndham Grand Rapids Near Downtown",
-    "weight_limit": {
-     "value": 30.0,
-     "unit": "lb"
-    },
-    "source_quote": "maximum weight of 30 lbs",
-    "comparison_the_source_states": "lte"
-   },
-   {
-    "identity_key": "baymont by wyndham holland",
-    "canonical_name": "Baymont by Wyndham Holland",
-    "weight_limit": {
-     "value": 100.0,
-     "unit": "lb"
-    },
-    "source_quote": "must not weigh more than 100 lbs each",
-    "comparison_the_source_states": "lte"
-   },
-   {
-    "identity_key": "canopy by hilton grand rapids downtown",
-    "canonical_name": "Canopy by Hilton Grand Rapids Downtown",
-    "weight_limit": {
-     "value": 50.0,
-     "unit": "lb"
-    },
-    "source_quote": "Max weight 50 lbs",
-    "comparison_the_source_states": "lte"
-   },
-   {
-    "identity_key": "days inn and suites by wyndham grand rapids near downtown",
-    "canonical_name": "Days Inn & Suites by Wyndham Grand Rapids Near Downtown",
-    "weight_limit": {
-     "value": 30.0,
-     "unit": "lb"
-    },
-    "source_quote": "max weight of 30 lbs",
-    "comparison_the_source_states": "lte"
-   },
-   {
-    "identity_key": "days inn by wyndham holland",
-    "canonical_name": "Days Inn by Wyndham Holland",
-    "weight_limit": {
-     "value": 75.0,
-     "unit": "lb"
-    },
-    "source_quote": "pets under 75 Lbs are allowed",
-    "comparison_the_source_states": "lt"
-   },
-   {
-    "identity_key": "embassy suites by hilton grand rapids downtown",
-    "canonical_name": "Embassy Suites by Hilton Grand Rapids Downtown",
-    "weight_limit": {
-     "value": 75.0,
-     "unit": "lb"
-    },
-    "source_quote": "Max weight 75 lbs",
-    "comparison_the_source_states": "lte"
-   },
-   {
-    "identity_key": "hampton inn and suites grand rapids airport 28th st",
-    "canonical_name": "Hampton Inn & Suites Grand Rapids-Airport 28th St",
-    "weight_limit": {
-     "value": 75.0,
-     "unit": "lb"
-    },
-    "source_quote": "Max weight 75 lbs",
-    "comparison_the_source_states": "lte"
-   },
-   {
-    "identity_key": "hampton inn holland",
-    "canonical_name": "Hampton Inn Holland",
-    "weight_limit": {
-     "value": 75.0,
-     "unit": "lb"
-    },
-    "source_quote": "Max weight 75 lbs",
-    "comparison_the_source_states": "lte"
-   },
-   {
-    "identity_key": "hilton garden inn grand rapids east",
-    "canonical_name": "Hilton Garden Inn Grand Rapids East",
-    "weight_limit": {
-     "value": 75.0,
-     "unit": "lb"
-    },
-    "source_quote": "Max weight 75 lbs",
-    "comparison_the_source_states": "lte"
-   },
-   {
-    "identity_key": "home2 suites by hilton grand rapids north",
-    "canonical_name": "Home2 Suites by Hilton Grand Rapids North",
-    "weight_limit": {
-     "value": 75.0,
-     "unit": "lb"
-    },
-    "source_quote": "Max weight 75 lbs",
-    "comparison_the_source_states": "lte"
-   },
-   {
-    "identity_key": "home2 suites by hilton grand rapids northeast",
-    "canonical_name": "Home2 Suites by Hilton Grand Rapids Northeast",
-    "weight_limit": {
-     "value": 75.0,
-     "unit": "lb"
-    },
-    "source_quote": "Max weight 75 lbs",
-    "comparison_the_source_states": "lte"
-   },
-   {
-    "identity_key": "homewood suites by hilton walker grand rapids north",
-    "canonical_name": "Homewood Suites by Hilton Walker Grand Rapids North",
-    "weight_limit": {
-     "value": 75.0,
-     "unit": "lb"
-    },
-    "source_quote": "Max weight 75 lbs",
-    "comparison_the_source_states": "lte"
-   },
-   {
-    "identity_key": "residence inn by marriott grand rapids downtown",
-    "canonical_name": "Residence Inn by Marriott Grand Rapids Downtown",
-    "weight_limit": {
-     "value": 50.0,
-     "unit": "lb"
-    },
-    "source_quote": "up to 50.0 lbs",
-    "comparison_the_source_states": "lte"
-   },
-   {
-    "identity_key": "residence inn by marriott grand rapids west",
-    "canonical_name": "Residence Inn by Marriott Grand Rapids West",
-    "weight_limit": {
-     "value": 50.0,
-     "unit": "lb"
-    },
-    "source_quote": "up to 50.0 lbs",
-    "comparison_the_source_states": "lte"
-   },
-   {
-    "identity_key": "residence inn by marriott holland",
-    "canonical_name": "Residence Inn by Marriott Holland",
-    "weight_limit": {
-     "value": 80.0,
-     "unit": "lb"
-    },
-    "source_quote": "up to 80.0 lbs",
-    "comparison_the_source_states": "lte"
-   },
-   {
-    "identity_key": "sheraton grand rapids airport hotel",
-    "canonical_name": "Sheraton Grand Rapids Airport Hotel",
-    "weight_limit": {
-     "value": 55.0,
-     "unit": "lb"
-    },
-    "source_quote": "maximum weight of 55.0 lbs",
-    "comparison_the_source_states": "lte"
-   },
-   {
-    "identity_key": "spark by hilton walker grand rapids north",
-    "canonical_name": "Spark by Hilton Walker Grand Rapids North",
-    "weight_limit": {
-     "value": 50.0,
-     "unit": "lb"
-    },
-    "source_quote": "Max weight 50 lbs",
-    "comparison_the_source_states": "lte"
-   },
-   {
-    "identity_key": "springhill suites grand rapids west",
-    "canonical_name": "SpringHill Suites Grand Rapids West",
-    "weight_limit": {
-     "value": 75.0,
-     "unit": "lb"
-    },
-    "source_quote": "up to 75.0 lbs",
-    "comparison_the_source_states": "lte"
-   },
-   {
-    "identity_key": "the center hotel grand rapids airport",
-    "canonical_name": "The Center Hotel Grand Rapids Airport",
-    "weight_limit": {
-     "value": 50.0,
-     "unit": "lb"
-    },
-    "source_quote": "Max 50 Pounds",
-    "comparison_the_source_states": "lte"
-   },
-   {
-    "identity_key": "towneplace suites grand rapids airport",
-    "canonical_name": "TownePlace Suites Grand Rapids Airport",
-    "weight_limit": {
-     "value": 75.0,
-     "unit": "lb"
-    },
-    "source_quote": "up to 75.0 lbs",
-    "comparison_the_source_states": "lte"
-   },
-   {
-    "identity_key": "towneplace suites grand rapids airport southeast",
-    "canonical_name": "TownePlace Suites Grand Rapids Airport Southeast",
-    "weight_limit": {
-     "value": 85.0,
-     "unit": "lb"
-    },
-    "source_quote": "up to 85.0 lbs",
-    "comparison_the_source_states": "lte"
-   },
-   {
-    "identity_key": "travelodge by wyndham grand rapids north",
-    "canonical_name": "Travelodge by Wyndham Grand Rapids North",
-    "weight_limit": {
-     "value": 25.0,
-     "unit": "lb"
-    },
-    "source_quote": "maximum weight of 25lbs",
-    "comparison_the_source_states": "lte"
-   },
-   {
-    "identity_key": "tru",
-    "canonical_name": "Tru by Hilton Grand Rapids Airport",
-    "weight_limit": {
-     "value": 75.0,
-     "unit": "lb"
-    },
-    "source_quote": "Max weight 75 lbs",
-    "comparison_the_source_states": "lte"
-   },
-   {
-    "identity_key": "woodspring suites holland grand rapids",
-    "canonical_name": "WoodSpring Suites Holland - Grand Rapids",
-    "weight_limit": {
-     "value": 50.0,
-     "unit": "lb"
-    },
-    "source_quote": "Weight limit of 50 lbs",
-    "comparison_the_source_states": "NONE_STATED"
-   }
-  ],
-  "measured_both_readings": {
-   "strict_refused": 25,
-   "with_the_lte_per_pet_ruling_refused": 1,
-   "note": "both readings were projected into scratch and neither was written; the second is what the founder's ruling would actually buy, measured rather than asserted"
-  },
-  "residual_after_the_ruling": {
-   "identity_key": "baymont by wyndham holland",
-   "quote": "must not weigh more than 100 lbs each",
-   "why": "the projector's maximal-wording list does not recognise 'not weigh more than', so founder decision 1 declines the row even though the sentence is plainly a ceiling",
-   "not_fixed_here": "widening a reading rule inside the pass whose count it raises is how a measurement stops being one; the phrase list belongs to founder decision 1 and should be extended in its own work order"
-  },
-  "projector_output": [
-   "Traceback (most recent call last):",
-   "  File \"C:\\Atlas-Grok-GrandRapids\\atlas-dashboard\\scripts\\pettripfinder\\market_policy_package_cli.py\", line 663, in <module>",
-   "    raise SystemExit(main())",
-   "                     ~~~~^^",
-   "  File \"C:\\Atlas-Grok-GrandRapids\\atlas-dashboard\\scripts\\pettripfinder\\market_policy_package_cli.py\", line 632, in main",
-   "    raise PolicyPackageError("
-  ],
-  "summary": "BLOCKED: 25 of 35 pet-friendly rows carry a weight limit the schema will not publish without a comparison the source did not state. Measured, not asserted: the strict reading refuses 25 and the lte/per-pet ruling refuses 1. Nothing was written into source."
- },
- "nothing_was_written_into_source": [
-  "markets/authority/grand-rapids-holland-mi/hotel_exclusions.json is unchanged",
-  "hotel_policy_facts_grand-rapids-holland-mi.json was not created",
-  "markets/grand-rapids-holland-mi.json still describes a discovery-stage market",
-  "the three legacy globals were not regenerated",
-  "build_market_authorities was never run in --write mode"
+ "written_by_this_pass": [
+  "launch_packages/pettripfinder/grand_rapids_holland_mi_founder_withdrawal_022.json",
+  "launch_packages/pettripfinder/grand_rapids_holland_mi_proposed_authority_022.json",
+  "launch_packages/pettripfinder/hotel_policy_facts_grand-rapids-holland-mi.json",
+  "launch_packages/pettripfinder/markets/authority/grand-rapids-holland-mi/hotel_exclusions.json",
+  "launch_packages/pettripfinder/markets/authority/grand-rapids-holland-mi/seed_businesses.csv",
+  "launch_packages/pettripfinder/markets/grand-rapids-holland-mi.json"
  ],
- "what_is_ready_and_waiting": [
-  "the withdrawal ledger and the 49-row authority are committed",
-  "the 14 exclusions are derivable from that authority in one step",
-  "one rerun with the founder's weight-limit ruling completes the whole promotion, including the globals and the contract"
- ]
+ "routes_withdrawn_by_publication": {
+  "withdrawn": 31,
+  "routes_before": 110,
+  "routes_after": 79,
+  "why": "publication answers a routing question; every other published market carries no route for a published identity, and a market asserting both would leave a stale pointer beside the seed row that supersedes it",
+  "not_retired_because": "ROUTING_RETIRED marks a binding that should never have been made. These bindings were correct -- they found the pages this market now publishes -- so marking them as problems would misdescribe them and would break both the pinned retired set and 'a held route is never used'.",
+  "routes_for_a_published_identity_in_the_end_state": 0
+ },
+ "withdrawn_route_records": [
+  {
+   "routing_id": "route-grand-rapids-holland-mi-ac-hotel-grand-rapids-downtown",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "grand-rapids-holland-mi",
+    "canonical_name": "AC Hotel Grand Rapids Downtown",
+    "normalized_name": "ac hotel grand rapids downtown",
+    "identity_key": "ac hotel grand rapids downtown"
+   },
+   "market_id": "grand-rapids-holland-mi",
+   "official_property_url": "https://www.marriott.com/en-us/hotels/grrar-ac-hotel-grand-rapids-downtown/overview/",
+   "official_domain": "marriott.com",
+   "property_code": "grrar",
+   "brand": "MARRIOTT",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "closed-census first-party URL provenance",
+    "routing repair census rebind"
+   ],
+   "identity_signals_matched": [
+    "canonical_name",
+    "street_address",
+    "postal_code"
+   ],
+   "identity_context": {
+    "address": "50 Monroe Ave NW",
+    "city": "Grand Rapids",
+    "state": "MI",
+    "postal_code": "49503",
+    "phone": "616-776-3200"
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "status": "ROUTING_CONFIRMED",
+   "category": "accommodation",
+   "notes": "Routing-only binding; no pet-policy content was observed."
+  },
+  {
+   "routing_id": "route-grand-rapids-holland-mi-baymont-by-wyndham-holland",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "grand-rapids-holland-mi",
+    "canonical_name": "Baymont by Wyndham Holland",
+    "normalized_name": "baymont by wyndham holland",
+    "identity_key": "baymont by wyndham holland"
+   },
+   "market_id": "grand-rapids-holland-mi",
+   "official_property_url": "https://www.wyndhamhotels.com/baymont/holland-michigan/baymont-inn-and-suites-holland/overview",
+   "official_domain": "wyndhamhotels.com",
+   "property_code": "",
+   "brand": "WYNDHAM",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "closed-census first-party URL provenance",
+    "routing repair census rebind"
+   ],
+   "identity_signals_matched": [
+    "canonical_name",
+    "street_address",
+    "postal_code"
+   ],
+   "identity_context": {
+    "address": "680 E 24th St",
+    "city": "Holland",
+    "state": "MI",
+    "postal_code": "49423",
+    "phone": "616-396-8822"
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "status": "ROUTING_CONFIRMED",
+   "category": "accommodation",
+   "notes": "Routing-only binding; no pet-policy content was observed."
+  },
+  {
+   "routing_id": "route-grand-rapids-holland-mi-canopy-by-hilton-grand-rapids-downtown",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "grand-rapids-holland-mi",
+    "canonical_name": "Canopy by Hilton Grand Rapids Downtown",
+    "normalized_name": "canopy by hilton grand rapids downtown",
+    "identity_key": "canopy by hilton grand rapids downtown"
+   },
+   "market_id": "grand-rapids-holland-mi",
+   "official_property_url": "https://www.hilton.com/en/hotels/grrgrpy-canopy-grand-rapids-downtown/",
+   "official_domain": "hilton.com",
+   "property_code": "grrgrpy",
+   "brand": "HILTON",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "closed-census first-party URL provenance",
+    "routing repair census rebind"
+   ],
+   "identity_signals_matched": [
+    "canonical_name",
+    "street_address",
+    "postal_code"
+   ],
+   "identity_context": {
+    "address": "131 Ionia Ave SW",
+    "city": "Grand Rapids",
+    "state": "MI",
+    "postal_code": "49503",
+    "phone": "616-456-6200"
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "status": "ROUTING_CONFIRMED",
+   "category": "accommodation",
+   "notes": "Routing-only binding; no pet-policy content was observed."
+  },
+  {
+   "routing_id": "route-grand-rapids-holland-mi-days-inn-and-suites-by-wyndham-grand-rapids-near-downtown",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "grand-rapids-holland-mi",
+    "canonical_name": "Days Inn & Suites by Wyndham Grand Rapids Near Downtown",
+    "normalized_name": "days inn and suites by wyndham grand rapids near downtown",
+    "identity_key": "days inn and suites by wyndham grand rapids near downtown"
+   },
+   "market_id": "grand-rapids-holland-mi",
+   "official_property_url": "https://www.wyndhamhotels.com/days-inn/grand-rapids-michigan/days-inn-and-suites-grand-rapids-near-downtown/overview",
+   "official_domain": "wyndhamhotels.com",
+   "property_code": "",
+   "brand": "WYNDHAM",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "closed-census first-party URL provenance",
+    "routing repair census rebind"
+   ],
+   "identity_signals_matched": [
+    "canonical_name",
+    "street_address",
+    "postal_code"
+   ],
+   "identity_context": {
+    "address": "255A 28th St SW",
+    "city": "Grand Rapids",
+    "state": "MI",
+    "postal_code": "49548",
+    "phone": "616-426-9721"
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "status": "ROUTING_CONFIRMED",
+   "category": "accommodation",
+   "notes": "Routing-only binding; no pet-policy content was observed."
+  },
+  {
+   "routing_id": "route-grand-rapids-holland-mi-days-inn-by-wyndham-holland",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "grand-rapids-holland-mi",
+    "canonical_name": "Days Inn by Wyndham Holland",
+    "normalized_name": "days inn by wyndham holland",
+    "identity_key": "days inn by wyndham holland"
+   },
+   "market_id": "grand-rapids-holland-mi",
+   "official_property_url": "https://www.wyndhamhotels.com/days-inn/holland-michigan/days-inn-holland/overview",
+   "official_domain": "wyndhamhotels.com",
+   "property_code": "",
+   "brand": "WYNDHAM",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "closed-census first-party URL provenance",
+    "routing repair census rebind"
+   ],
+   "identity_signals_matched": [
+    "canonical_name",
+    "street_address",
+    "postal_code"
+   ],
+   "identity_context": {
+    "address": "717 Hastings Ave",
+    "city": "Holland",
+    "state": "MI",
+    "postal_code": "49423",
+    "phone": "616-392-7001"
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "status": "ROUTING_CONFIRMED",
+   "category": "accommodation",
+   "notes": "Routing-only binding; no pet-policy content was observed."
+  },
+  {
+   "routing_id": "route-grand-rapids-holland-mi-embassy-suites-by-hilton-grand-rapids-downtown",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "grand-rapids-holland-mi",
+    "canonical_name": "Embassy Suites by Hilton Grand Rapids Downtown",
+    "normalized_name": "embassy suites by hilton grand rapids downtown",
+    "identity_key": "embassy suites by hilton grand rapids downtown"
+   },
+   "market_id": "grand-rapids-holland-mi",
+   "official_property_url": "https://www.hilton.com/en/hotels/grrmaes-embassy-suites-grand-rapids-downtown/",
+   "official_domain": "hilton.com",
+   "property_code": "grrmaes",
+   "brand": "HILTON",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "closed-census first-party URL provenance",
+    "routing repair census rebind"
+   ],
+   "identity_signals_matched": [
+    "canonical_name",
+    "street_address",
+    "postal_code"
+   ],
+   "identity_context": {
+    "address": "710 Monroe Ave NW",
+    "city": "Grand Rapids",
+    "state": "MI",
+    "postal_code": "49503",
+    "phone": "616-512-5700"
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "status": "ROUTING_CONFIRMED",
+   "category": "accommodation",
+   "notes": "Routing-only binding; no pet-policy content was observed."
+  },
+  {
+   "routing_id": "route-grand-rapids-holland-mi-hampton-inn-and-suites-grand-rapids-airport-28th-st",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "grand-rapids-holland-mi",
+    "canonical_name": "Hampton Inn & Suites Grand Rapids-Airport 28th St",
+    "normalized_name": "hampton inn and suites grand rapids airport 28th st",
+    "identity_key": "hampton inn and suites grand rapids airport 28th st"
+   },
+   "market_id": "grand-rapids-holland-mi",
+   "official_property_url": "https://www.hilton.com/en/hotels/grrhshx-hampton-suites-grand-rapids-airport-28th-st/",
+   "official_domain": "hilton.com",
+   "property_code": "grrhshx",
+   "brand": "HILTON",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "closed-census first-party URL provenance",
+    "routing repair census rebind"
+   ],
+   "identity_signals_matched": [
+    "canonical_name",
+    "street_address",
+    "postal_code"
+   ],
+   "identity_context": {
+    "address": "5200 28th St SE",
+    "city": "Grand Rapids",
+    "state": "MI",
+    "postal_code": "49512",
+    "phone": "616-575-9144"
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "status": "ROUTING_CONFIRMED",
+   "category": "accommodation",
+   "notes": "Routing-only binding; no pet-policy content was observed."
+  },
+  {
+   "routing_id": "route-grand-rapids-holland-mi-hampton-inn-and-suites-grand-rapids-downtown",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "grand-rapids-holland-mi",
+    "canonical_name": "Hampton Inn & Suites Grand Rapids Downtown",
+    "normalized_name": "hampton inn and suites grand rapids downtown",
+    "identity_key": "hampton inn and suites grand rapids downtown"
+   },
+   "market_id": "grand-rapids-holland-mi",
+   "official_property_url": "https://www.hilton.com/en/hotels/grrdthx-hampton-suites-grand-rapids-downtown/",
+   "official_domain": "hilton.com",
+   "property_code": "grrdthx",
+   "brand": "HILTON",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "closed-census first-party URL provenance",
+    "routing repair census rebind"
+   ],
+   "identity_signals_matched": [
+    "canonical_name",
+    "street_address",
+    "postal_code"
+   ],
+   "identity_context": {
+    "address": "433 Dudley Place NE",
+    "city": "Grand Rapids",
+    "state": "MI",
+    "postal_code": "49503",
+    "phone": ""
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "status": "ROUTING_CONFIRMED",
+   "category": "accommodation",
+   "notes": "Routing-only binding; no pet-policy content was observed."
+  },
+  {
+   "routing_id": "route-grand-rapids-holland-mi-hampton-inn-and-suites-grandville-grand-rapids-south",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "grand-rapids-holland-mi",
+    "canonical_name": "Hampton Inn & Suites Grandville Grand Rapids South",
+    "normalized_name": "hampton inn and suites grandville grand rapids south",
+    "identity_key": "hampton inn and suites grandville grand rapids south"
+   },
+   "market_id": "grand-rapids-holland-mi",
+   "official_property_url": "https://www.hilton.com/en/hotels/grradhx-hampton-suites-grandville-grand-rapids-south/",
+   "official_domain": "hilton.com",
+   "property_code": "grradhx",
+   "brand": "HILTON",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "closed-census first-party URL provenance",
+    "routing repair census rebind"
+   ],
+   "identity_signals_matched": [
+    "canonical_name",
+    "street_address",
+    "postal_code"
+   ],
+   "identity_context": {
+    "address": "4755 Wilson Ave SW",
+    "city": "Grandville",
+    "state": "MI",
+    "postal_code": "49418",
+    "phone": "616-752-7755"
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "status": "ROUTING_CONFIRMED",
+   "category": "accommodation",
+   "notes": "Routing-only binding; no pet-policy content was observed."
+  },
+  {
+   "routing_id": "route-grand-rapids-holland-mi-hampton-inn-grand-rapids-north",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "grand-rapids-holland-mi",
+    "canonical_name": "Hampton Inn Grand Rapids-North",
+    "normalized_name": "hampton inn grand rapids north",
+    "identity_key": "hampton inn grand rapids north"
+   },
+   "market_id": "grand-rapids-holland-mi",
+   "official_property_url": "https://www.hilton.com/en/hotels/grraphx-hampton-grand-rapids-north/",
+   "official_domain": "hilton.com",
+   "property_code": "grraphx",
+   "brand": "HILTON",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "closed-census first-party URL provenance",
+    "routing repair census rebind"
+   ],
+   "identity_signals_matched": [
+    "canonical_name",
+    "street_address",
+    "postal_code"
+   ],
+   "identity_context": {
+    "address": "500 Center Dr NW",
+    "city": "Grand Rapids",
+    "state": "MI",
+    "postal_code": "49544",
+    "phone": ""
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "status": "ROUTING_CONFIRMED",
+   "category": "accommodation",
+   "notes": "Routing-only binding; no pet-policy content was observed."
+  },
+  {
+   "routing_id": "route-grand-rapids-holland-mi-hampton-inn-grand-rapids-south",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "grand-rapids-holland-mi",
+    "canonical_name": "Hampton Inn Grand Rapids-South",
+    "normalized_name": "hampton inn grand rapids south",
+    "identity_key": "hampton inn grand rapids south"
+   },
+   "market_id": "grand-rapids-holland-mi",
+   "official_property_url": "https://www.hilton.com/en/hotels/grrsohx-hampton-grand-rapids-south/",
+   "official_domain": "hilton.com",
+   "property_code": "grrsohx",
+   "brand": "HILTON",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "closed-census first-party URL provenance",
+    "routing repair census rebind"
+   ],
+   "identity_signals_matched": [
+    "canonical_name",
+    "street_address",
+    "postal_code"
+   ],
+   "identity_context": {
+    "address": "755 54th St SW",
+    "city": "Wyoming",
+    "state": "MI",
+    "postal_code": "49509",
+    "phone": "616-261-5500"
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "status": "ROUTING_CONFIRMED",
+   "category": "accommodation",
+   "notes": "Routing-only binding; no pet-policy content was observed."
+  },
+  {
+   "routing_id": "route-grand-rapids-holland-mi-hampton-inn-holland",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "grand-rapids-holland-mi",
+    "canonical_name": "Hampton Inn Holland",
+    "normalized_name": "hampton inn holland",
+    "identity_key": "hampton inn holland"
+   },
+   "market_id": "grand-rapids-holland-mi",
+   "official_property_url": "https://www.hilton.com/en/hotels/hldmihx-hampton-holland/",
+   "official_domain": "hilton.com",
+   "property_code": "hldmihx",
+   "brand": "HILTON",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "closed-census first-party URL provenance",
+    "routing repair census rebind"
+   ],
+   "identity_signals_matched": [
+    "canonical_name",
+    "street_address",
+    "postal_code"
+   ],
+   "identity_context": {
+    "address": "12427 Felch St",
+    "city": "Holland",
+    "state": "MI",
+    "postal_code": "49424",
+    "phone": "616-399-8500"
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "status": "ROUTING_CONFIRMED",
+   "category": "accommodation",
+   "notes": "Routing-only binding; no pet-policy content was observed."
+  },
+  {
+   "routing_id": "route-grand-rapids-holland-mi-hilton-garden-inn-grand-rapids-east",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "grand-rapids-holland-mi",
+    "canonical_name": "Hilton Garden Inn Grand Rapids East",
+    "normalized_name": "hilton garden inn grand rapids east",
+    "identity_key": "hilton garden inn grand rapids east"
+   },
+   "market_id": "grand-rapids-holland-mi",
+   "official_property_url": "https://www.hilton.com/en/hotels/grrebgi-hilton-garden-inn-grand-rapids-east/",
+   "official_domain": "hilton.com",
+   "property_code": "grrebgi",
+   "brand": "HILTON",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "closed-census first-party URL provenance",
+    "routing repair census rebind"
+   ],
+   "identity_signals_matched": [
+    "canonical_name",
+    "street_address",
+    "postal_code"
+   ],
+   "identity_context": {
+    "address": "2321 East Beltline Ave SE",
+    "city": "Grand Rapids",
+    "state": "MI",
+    "postal_code": "49546",
+    "phone": ""
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "status": "ROUTING_CONFIRMED",
+   "category": "accommodation",
+   "notes": "Routing-only binding; no pet-policy content was observed."
+  },
+  {
+   "routing_id": "route-grand-rapids-holland-mi-holiday-inn-express-grand-rapids-sw",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "grand-rapids-holland-mi",
+    "canonical_name": "Holiday Inn Express Grand Rapids SW",
+    "normalized_name": "holiday inn express grand rapids sw",
+    "identity_key": "holiday inn express grand rapids sw"
+   },
+   "market_id": "grand-rapids-holland-mi",
+   "official_property_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/grandville/gdvmi/hoteldetail",
+   "official_domain": "ihg.com",
+   "property_code": "gdvmi",
+   "brand": "IHG",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "closed-census first-party URL provenance",
+    "routing repair census rebind"
+   ],
+   "identity_signals_matched": [
+    "canonical_name",
+    "street_address",
+    "postal_code"
+   ],
+   "identity_context": {
+    "address": "4651 36th St",
+    "city": "Grandville",
+    "state": "MI",
+    "postal_code": "49418",
+    "phone": ""
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "status": "ROUTING_CONFIRMED",
+   "category": "accommodation",
+   "notes": "Routing-only binding; no pet-policy content was observed."
+  },
+  {
+   "routing_id": "route-grand-rapids-holland-mi-home2-suites-by-hilton-grand-rapids-north",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "grand-rapids-holland-mi",
+    "canonical_name": "Home2 Suites by Hilton Grand Rapids North",
+    "normalized_name": "home2 suites by hilton grand rapids north",
+    "identity_key": "home2 suites by hilton grand rapids north"
+   },
+   "market_id": "grand-rapids-holland-mi",
+   "official_property_url": "https://www.hilton.com/en/hotels/grrnoht-home2-suites-grand-rapids-north/",
+   "official_domain": "hilton.com",
+   "property_code": "grrnoht",
+   "brand": "HILTON",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "closed-census first-party URL provenance",
+    "routing repair census rebind"
+   ],
+   "identity_signals_matched": [
+    "canonical_name",
+    "street_address",
+    "postal_code"
+   ],
+   "identity_context": {
+    "address": "330 River Ridge Dr NW",
+    "city": "Grand Rapids",
+    "state": "MI",
+    "postal_code": "49544",
+    "phone": ""
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "status": "ROUTING_CONFIRMED",
+   "category": "accommodation",
+   "notes": "Routing-only binding; no pet-policy content was observed."
+  },
+  {
+   "routing_id": "route-grand-rapids-holland-mi-home2-suites-by-hilton-grand-rapids-northeast",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "grand-rapids-holland-mi",
+    "canonical_name": "Home2 Suites by Hilton Grand Rapids Northeast",
+    "normalized_name": "home2 suites by hilton grand rapids northeast",
+    "identity_key": "home2 suites by hilton grand rapids northeast"
+   },
+   "market_id": "grand-rapids-holland-mi",
+   "official_property_url": "https://www.hilton.com/en/hotels/grrilht-home2-suites-grand-rapids-northeast/",
+   "official_domain": "hilton.com",
+   "property_code": "grrilht",
+   "brand": "HILTON",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "closed-census first-party URL provenance",
+    "routing repair census rebind"
+   ],
+   "identity_signals_matched": [
+    "canonical_name",
+    "street_address",
+    "postal_code"
+   ],
+   "identity_context": {
+    "address": "3082 Peregrine Dr NE",
+    "city": "Grand Rapids",
+    "state": "MI",
+    "postal_code": "49525",
+    "phone": "616-649-6800"
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "status": "ROUTING_CONFIRMED",
+   "category": "accommodation",
+   "notes": "Routing-only binding; no pet-policy content was observed."
+  },
+  {
+   "routing_id": "route-grand-rapids-holland-mi-home2-suites-by-hilton-holland",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "grand-rapids-holland-mi",
+    "canonical_name": "Home2 Suites by Hilton Holland",
+    "normalized_name": "home2 suites by hilton holland",
+    "identity_key": "home2 suites by hilton holland"
+   },
+   "market_id": "grand-rapids-holland-mi",
+   "official_property_url": "https://www.hilton.com/en/hotels/hlmhtht-home2-suites-holland/",
+   "official_domain": "hilton.com",
+   "property_code": "hlmhtht",
+   "brand": "HILTON",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "closed-census first-party URL provenance",
+    "routing repair census rebind"
+   ],
+   "identity_signals_matched": [
+    "canonical_name",
+    "street_address",
+    "postal_code"
+   ],
+   "identity_context": {
+    "address": "3140 West Shore Dr",
+    "city": "Holland",
+    "state": "MI",
+    "postal_code": "49424",
+    "phone": "616-377-7905"
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "status": "ROUTING_CONFIRMED",
+   "category": "accommodation",
+   "notes": "Routing-only binding; no pet-policy content was observed."
+  },
+  {
+   "routing_id": "route-grand-rapids-holland-mi-homewood-suites-by-hilton-walker-grand-rapids-north",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "grand-rapids-holland-mi",
+    "canonical_name": "Homewood Suites by Hilton Walker Grand Rapids North",
+    "normalized_name": "homewood suites by hilton walker grand rapids north",
+    "identity_key": "homewood suites by hilton walker grand rapids north"
+   },
+   "market_id": "grand-rapids-holland-mi",
+   "official_property_url": "https://www.hilton.com/en/hotels/grrinhw-homewood-suites-walker-grand-rapids-north/",
+   "official_domain": "hilton.com",
+   "property_code": "grrinhw",
+   "brand": "HILTON",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "closed-census first-party URL provenance",
+    "routing repair census rebind"
+   ],
+   "identity_signals_matched": [
+    "canonical_name",
+    "street_address",
+    "postal_code"
+   ],
+   "identity_context": {
+    "address": "3410 Walker Ave NW",
+    "city": "Walker",
+    "state": "MI",
+    "postal_code": "49544",
+    "phone": "616-805-8050"
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "status": "ROUTING_CONFIRMED",
+   "category": "accommodation",
+   "notes": "Routing-only binding; no pet-policy content was observed."
+  },
+  {
+   "routing_id": "route-grand-rapids-holland-mi-residence-inn-by-marriott-grand-rapids-downtown",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "grand-rapids-holland-mi",
+    "canonical_name": "Residence Inn by Marriott Grand Rapids Downtown",
+    "normalized_name": "residence inn by marriott grand rapids downtown",
+    "identity_key": "residence inn by marriott grand rapids downtown"
+   },
+   "market_id": "grand-rapids-holland-mi",
+   "official_property_url": "https://www.marriott.com/en-us/hotels/grrrd-residence-inn-grand-rapids-downtown/overview/",
+   "official_domain": "marriott.com",
+   "property_code": "grrrd",
+   "brand": "MARRIOTT",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "closed-census first-party URL provenance",
+    "routing repair census rebind"
+   ],
+   "identity_signals_matched": [
+    "canonical_name",
+    "street_address",
+    "postal_code"
+   ],
+   "identity_context": {
+    "address": "40 Louis St NW",
+    "city": "Grand Rapids",
+    "state": "MI",
+    "postal_code": "49503",
+    "phone": "616-776-5905"
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "status": "ROUTING_CONFIRMED",
+   "category": "accommodation",
+   "notes": "Routing-only binding; no pet-policy content was observed."
+  },
+  {
+   "routing_id": "route-grand-rapids-holland-mi-residence-inn-by-marriott-grand-rapids-west",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "grand-rapids-holland-mi",
+    "canonical_name": "Residence Inn by Marriott Grand Rapids West",
+    "normalized_name": "residence inn by marriott grand rapids west",
+    "identity_key": "residence inn by marriott grand rapids west"
+   },
+   "market_id": "grand-rapids-holland-mi",
+   "official_property_url": "https://www.marriott.com/en-us/hotels/grrrw-residence-inn-grand-rapids-west/overview/",
+   "official_domain": "marriott.com",
+   "property_code": "grrrw",
+   "brand": "MARRIOTT",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "closed-census first-party URL provenance",
+    "routing repair census rebind"
+   ],
+   "identity_signals_matched": [
+    "canonical_name",
+    "street_address",
+    "postal_code"
+   ],
+   "identity_context": {
+    "address": "3451 Rivertown Point Ct SW",
+    "city": "Grandville",
+    "state": "MI",
+    "postal_code": "49418",
+    "phone": "616-538-1100"
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "status": "ROUTING_CONFIRMED",
+   "category": "accommodation",
+   "notes": "Routing-only binding; no pet-policy content was observed."
+  },
+  {
+   "routing_id": "route-grand-rapids-holland-mi-residence-inn-by-marriott-holland",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "grand-rapids-holland-mi",
+    "canonical_name": "Residence Inn by Marriott Holland",
+    "normalized_name": "residence inn by marriott holland",
+    "identity_key": "residence inn by marriott holland"
+   },
+   "market_id": "grand-rapids-holland-mi",
+   "official_property_url": "https://www.marriott.com/en-us/hotels/grrho-residence-inn-holland/overview/",
+   "official_domain": "marriott.com",
+   "property_code": "grrho",
+   "brand": "MARRIOTT",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "closed-census first-party URL provenance",
+    "routing repair census rebind"
+   ],
+   "identity_signals_matched": [
+    "canonical_name",
+    "street_address",
+    "postal_code"
+   ],
+   "identity_context": {
+    "address": "631 South Pointe Ridge Rd",
+    "city": "Holland",
+    "state": "MI",
+    "postal_code": "49423",
+    "phone": "616-393-6900"
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "status": "ROUTING_CONFIRMED",
+   "category": "accommodation",
+   "notes": "Routing-only binding; no pet-policy content was observed."
+  },
+  {
+   "routing_id": "route-grand-rapids-holland-mi-residence-inn-grand-rapids-airport",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "grand-rapids-holland-mi",
+    "canonical_name": "Residence Inn Grand Rapids Airport",
+    "normalized_name": "residence inn grand rapids airport",
+    "identity_key": "residence inn grand rapids airport"
+   },
+   "market_id": "grand-rapids-holland-mi",
+   "official_property_url": "https://www.marriott.com/en-us/hotels/grrri-residence-inn-grand-rapids-airport/overview/",
+   "official_domain": "marriott.com",
+   "property_code": "grrri",
+   "brand": "MARRIOTT",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "closed-census first-party URL provenance",
+    "routing repair census rebind"
+   ],
+   "identity_signals_matched": [
+    "canonical_name",
+    "street_address",
+    "postal_code"
+   ],
+   "identity_context": {
+    "address": "4443 28th St SE",
+    "city": "Kentwood",
+    "state": "MI",
+    "postal_code": "49512",
+    "phone": ""
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "status": "ROUTING_CONFIRMED",
+   "category": "accommodation",
+   "notes": "Routing-only binding; no pet-policy content was observed."
+  },
+  {
+   "routing_id": "route-grand-rapids-holland-mi-sheraton-grand-rapids-airport-hotel",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "grand-rapids-holland-mi",
+    "canonical_name": "Sheraton Grand Rapids Airport Hotel",
+    "normalized_name": "sheraton grand rapids airport hotel",
+    "identity_key": "sheraton grand rapids airport hotel"
+   },
+   "market_id": "grand-rapids-holland-mi",
+   "official_property_url": "https://www.marriott.com/en-us/hotels/grris-sheraton-grand-rapids-airport-hotel/overview/",
+   "official_domain": "marriott.com",
+   "property_code": "grris",
+   "brand": "MARRIOTT",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "closed-census first-party URL provenance",
+    "routing repair census rebind"
+   ],
+   "identity_signals_matched": [
+    "canonical_name",
+    "street_address",
+    "postal_code"
+   ],
+   "identity_context": {
+    "address": "5700 28th St SE",
+    "city": "Grand Rapids",
+    "state": "MI",
+    "postal_code": "49546",
+    "phone": "616-957-1770"
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "status": "ROUTING_CONFIRMED",
+   "category": "accommodation",
+   "notes": "Routing-only binding; no pet-policy content was observed."
+  },
+  {
+   "routing_id": "route-grand-rapids-holland-mi-spark-by-hilton-walker-grand-rapids-north",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "grand-rapids-holland-mi",
+    "canonical_name": "Spark by Hilton Walker Grand Rapids North",
+    "normalized_name": "spark by hilton walker grand rapids north",
+    "identity_key": "spark by hilton walker grand rapids north"
+   },
+   "market_id": "grand-rapids-holland-mi",
+   "official_property_url": "https://www.hilton.com/en/hotels/grrwkpe-spark-walker-grand-rapids-north/",
+   "official_domain": "hilton.com",
+   "property_code": "grrwkpe",
+   "brand": "HILTON",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "closed-census first-party URL provenance",
+    "routing repair census rebind"
+   ],
+   "identity_signals_matched": [
+    "canonical_name",
+    "street_address",
+    "postal_code"
+   ],
+   "identity_context": {
+    "address": "2151 Holton Ct NW",
+    "city": "Walker",
+    "state": "MI",
+    "postal_code": "49544",
+    "phone": "616-735-9595"
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "status": "ROUTING_CONFIRMED",
+   "category": "accommodation",
+   "notes": "Routing-only binding; no pet-policy content was observed."
+  },
+  {
+   "routing_id": "route-grand-rapids-holland-mi-springhill-suites-by-marriott-grand-rapids-north",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "grand-rapids-holland-mi",
+    "canonical_name": "SpringHill Suites by Marriott Grand Rapids North",
+    "normalized_name": "springhill suites by marriott grand rapids north",
+    "identity_key": "springhill suites by marriott grand rapids north"
+   },
+   "market_id": "grand-rapids-holland-mi",
+   "official_property_url": "https://www.marriott.com/en-us/hotels/grrsh-springhill-suites-grand-rapids-north/overview/",
+   "official_domain": "marriott.com",
+   "property_code": "grrsh",
+   "brand": "MARRIOTT",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "closed-census first-party URL provenance",
+    "routing repair census rebind"
+   ],
+   "identity_signals_matched": [
+    "canonical_name",
+    "street_address",
+    "postal_code"
+   ],
+   "identity_context": {
+    "address": "450 Center Dr NW",
+    "city": "Grand Rapids",
+    "state": "MI",
+    "postal_code": "49544",
+    "phone": "616-785-1600"
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "status": "ROUTING_CONFIRMED",
+   "category": "accommodation",
+   "notes": "Routing-only binding; no pet-policy content was observed."
+  },
+  {
+   "routing_id": "route-grand-rapids-holland-mi-the-center-hotel-grand-rapids-airport",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "grand-rapids-holland-mi",
+    "canonical_name": "The Center Hotel Grand Rapids Airport",
+    "normalized_name": "the center hotel grand rapids airport",
+    "identity_key": "the center hotel grand rapids airport"
+   },
+   "market_id": "grand-rapids-holland-mi",
+   "official_property_url": "https://www.choicehotels.com/michigan/grand-rapids/choice-hotels/mi670",
+   "official_domain": "choicehotels.com",
+   "property_code": "mi670",
+   "brand": "CHOICE",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "closed-census first-party URL provenance",
+    "routing repair census rebind"
+   ],
+   "identity_signals_matched": [
+    "canonical_name",
+    "street_address",
+    "postal_code"
+   ],
+   "identity_context": {
+    "address": "3333 28th St SE",
+    "city": "Grand Rapids",
+    "state": "MI",
+    "postal_code": "49512",
+    "phone": ""
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "status": "ROUTING_CONFIRMED",
+   "category": "accommodation",
+   "notes": "Routing-only binding; no pet-policy content was observed."
+  },
+  {
+   "routing_id": "route-grand-rapids-holland-mi-towneplace-suites-grand-rapids-airport",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "grand-rapids-holland-mi",
+    "canonical_name": "TownePlace Suites Grand Rapids Airport",
+    "normalized_name": "towneplace suites grand rapids airport",
+    "identity_key": "towneplace suites grand rapids airport"
+   },
+   "market_id": "grand-rapids-holland-mi",
+   "official_property_url": "https://www.marriott.com/en-us/hotels/grrts-towneplace-suites-grand-rapids-airport/overview/",
+   "official_domain": "marriott.com",
+   "property_code": "grrts",
+   "brand": "MARRIOTT",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "closed-census first-party URL provenance",
+    "routing repair census rebind"
+   ],
+   "identity_signals_matched": [
+    "canonical_name",
+    "street_address",
+    "postal_code"
+   ],
+   "identity_context": {
+    "address": "5430 28th St Ct SE",
+    "city": "Grand Rapids",
+    "state": "MI",
+    "postal_code": "49512",
+    "phone": ""
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "status": "ROUTING_CONFIRMED",
+   "category": "accommodation",
+   "notes": "Routing-only binding; no pet-policy content was observed."
+  },
+  {
+   "routing_id": "route-grand-rapids-holland-mi-towneplace-suites-grand-rapids-airport-southeast",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "grand-rapids-holland-mi",
+    "canonical_name": "TownePlace Suites Grand Rapids Airport Southeast",
+    "normalized_name": "towneplace suites grand rapids airport southeast",
+    "identity_key": "towneplace suites grand rapids airport southeast"
+   },
+   "market_id": "grand-rapids-holland-mi",
+   "official_property_url": "https://www.marriott.com/en-us/hotels/grrte-towneplace-suites-grand-rapids-airport-southeast/overview/",
+   "official_domain": "marriott.com",
+   "property_code": "grrte",
+   "brand": "MARRIOTT",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "closed-census first-party URL provenance",
+    "routing repair census rebind"
+   ],
+   "identity_signals_matched": [
+    "canonical_name",
+    "street_address",
+    "postal_code"
+   ],
+   "identity_context": {
+    "address": "4850 Town Center Dr SE",
+    "city": "Grand Rapids",
+    "state": "MI",
+    "postal_code": "49512",
+    "phone": "616-512-8300"
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "status": "ROUTING_CONFIRMED",
+   "category": "accommodation",
+   "notes": "Routing-only binding; no pet-policy content was observed."
+  },
+  {
+   "routing_id": "route-grand-rapids-holland-mi-travelodge-by-wyndham-grand-rapids-north",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "grand-rapids-holland-mi",
+    "canonical_name": "Travelodge by Wyndham Grand Rapids North",
+    "normalized_name": "travelodge by wyndham grand rapids north",
+    "identity_key": "travelodge by wyndham grand rapids north"
+   },
+   "market_id": "grand-rapids-holland-mi",
+   "official_property_url": "https://www.wyndhamhotels.com/travelodge/grand-rapids-michigan/travelodge-grand-rapids-north/overview",
+   "official_domain": "wyndhamhotels.com",
+   "property_code": "",
+   "brand": "WYNDHAM",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "closed-census first-party URL provenance",
+    "routing repair census rebind"
+   ],
+   "identity_signals_matched": [
+    "canonical_name",
+    "street_address",
+    "postal_code"
+   ],
+   "identity_context": {
+    "address": "777 Three Mile Rd NW",
+    "city": "Grand Rapids",
+    "state": "MI",
+    "postal_code": "49544",
+    "phone": "616-784-2900"
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "status": "ROUTING_CONFIRMED",
+   "category": "accommodation",
+   "notes": "Routing-only binding; no pet-policy content was observed."
+  },
+  {
+   "routing_id": "route-grand-rapids-holland-mi-tru-by-hilton-grand-rapids-airport",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "grand-rapids-holland-mi",
+    "canonical_name": "Tru by Hilton Grand Rapids Airport",
+    "normalized_name": "tru by hilton grand rapids airport",
+    "identity_key": "tru by hilton grand rapids airport"
+   },
+   "market_id": "grand-rapids-holland-mi",
+   "official_property_url": "https://www.hilton.com/en/hotels/grrndru-tru-grand-rapids-airport/",
+   "official_domain": "hilton.com",
+   "property_code": "grrndru",
+   "brand": "HILTON",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "closed-census first-party URL provenance",
+    "routing repair census rebind"
+   ],
+   "identity_signals_matched": [
+    "canonical_name",
+    "street_address",
+    "postal_code"
+   ],
+   "identity_context": {
+    "address": "4570 28th St SE",
+    "city": "Kentwood",
+    "state": "MI",
+    "postal_code": "49512",
+    "phone": ""
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "status": "ROUTING_CONFIRMED",
+   "category": "accommodation",
+   "notes": "Routing-only binding; no pet-policy content was observed."
+  },
+  {
+   "routing_id": "route-grand-rapids-holland-mi-woodspring-suites-holland-grand-rapids",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "grand-rapids-holland-mi",
+    "canonical_name": "WoodSpring Suites Holland - Grand Rapids",
+    "normalized_name": "woodspring suites holland grand rapids",
+    "identity_key": "woodspring suites holland grand rapids"
+   },
+   "market_id": "grand-rapids-holland-mi",
+   "official_property_url": "https://www.woodspring.com/extended-stay-hotels/locations/michigan/grand-rapids/woodspring-suites-grand-rapids-holland",
+   "official_domain": "woodspring.com",
+   "property_code": "",
+   "brand": "WOODSPRING",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "closed-census first-party URL provenance",
+    "routing repair census rebind"
+   ],
+   "identity_signals_matched": [
+    "canonical_name",
+    "street_address",
+    "postal_code"
+   ],
+   "identity_context": {
+    "address": "2630 Van Ommen Dr",
+    "city": "Holland",
+    "state": "MI",
+    "postal_code": "49424",
+    "phone": "616-738-8200"
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "status": "ROUTING_CONFIRMED",
+   "category": "accommodation",
+   "notes": "Routing-only binding; no pet-policy content was observed."
+  }
+ ],
+ "routing_shard_not_wiped": {
+  "routes_before": 110,
+  "routes_after": 110,
+  "why": "market_registration_cli.write() would have rewritten it as empty, which is right for a market with no routes and destructive for this one"
+ },
+ "regenerated_by_build_global_authority": "the three legacy globals and the manifest beside them. This module never writes one: it edits this market's shard and lets their own assembler produce them.",
+ "contract_changes": [
+  {
+   "field": "show_in_navigation",
+   "from": false,
+   "to": true
+  },
+  {
+   "field": "show_in_sitemap",
+   "from": false,
+   "to": true
+  },
+  {
+   "field": "introductory_copy",
+   "from": "This market is a discovery-stage lodging census. No pet-policy claim is published from it.",
+   "to": "Pet policies for hotels across Grand Rapids, Holland and the surrounding lakeshore, each read from the property's own page and reviewed before publication."
+  },
+  {
+   "field": "meta_description",
+   "from": "A discovery-stage directory foundation for Grand Rapids and Holland, Michigan lodging. Pet policies have not yet been evaluated.",
+   "to": "Pet-friendly hotels in Grand Rapids and Holland, Michigan. Fees, weight limits and pet counts quoted from each hotel's own policy page."
+  }
+ ],
+ "contract_end_state": {
+  "show_in_navigation": true,
+  "show_in_sitemap": true,
+  "introductory_copy": "Pet policies for hotels across Grand Rapids, Holland and the surrounding lakeshore, each read from the property's own page and reviewed before publication.",
+  "meta_description": "Pet-friendly hotels in Grand Rapids and Holland, Michigan. Fees, weight limits and pet counts quoted from each hotel's own policy page."
+ },
+ "globals_regenerated_by": "build_global_authority --write, which assembles the three legacy files from the shards and touches nothing else",
+ "build_market_authorities_check": [
+  "dayton-oh                  census=129 partition=129  published= 47 no-pets= 8 out-of-cat= 0 unresolved= 74",
+  "cincinnati-oh              census=256 partition=256  published=  0 no-pets= 0 out-of-cat= 0 unresolved=256",
+  "    row states: {'OH': 170, 'KY': 77, 'IN': 9}"
+ ],
+ "not_done_here": [
+  "no release contract was written",
+  "no launch-participation row was added",
+  "no deployment manifest entry was made",
+  "no bundle was assembled",
+  "nothing was deployed",
+  "build_market_authorities --write was never run"
+ ],
+ "still_outside_the_authority": {
+  "avid_hotel_zeeland": "withheld pending policy evidence",
+  "policy_not_found": 3,
+  "identity_holds": 2,
+  "identity_hold_rows": 1,
+  "routing_unresolved": 11
+ },
+ "release_contract": {
+  "written": false,
+  "path": "deploy/netlify/release_contracts/grand-rapids-holland-mi.json",
+  "blocked_by": "the market's PINNED census does not contain every promoted identity",
+  "pinned_census": {
+   "path": "launch_packages/pettripfinder/identity_census/grand-rapids-holland-mi.json",
+   "count": 120
+  },
+  "recensus_every_pass_since_002_has_used": {
+   "path": "launch_packages/pettripfinder/identity_census/recensus/grand-rapids-holland-mi.json",
+   "count": 163
+  },
+  "promoted_identities": 49,
+  "promoted_identities_absent_from_the_pinned_census": [
+   "baymont",
+   "courtyard holland downtown",
+   "doubletree by hilton",
+   "fairfield inn and suites holland",
+   "springhill suites grand rapids west",
+   "springhill suites holland",
+   "super 8 by wyndham wyoming grand rapids area",
+   "towneplace suites holland",
+   "tru"
+  ],
+  "why_not_written": "a contract must state identity_census.expected_count and have it agree with the derivation. Stating 120 beside 49 resolved, when 9 of those 49 are not among the 120, would pass the gate by asserting something untrue.",
+  "what_would_unblock_it": "promote the 163-identity recensus into the pinned census in its own work order, then write the contract naming the new count. That is a contract-pinned number moving, which is a founder-visible act."
+ },
+ "next_step_for_production_assembly": [
+  "promote the 163-identity recensus into the pinned census, which is what a release contract's identity_census count must describe",
+  "then write deploy/netlify/release_contracts/grand-rapids-holland-mi.json -- this market has none, and every market with verified inventory has one",
+  "add the market's launch_participation row; the founder is the only one who may add it (PTF-046)",
+  "add the market to deploy/netlify/global_deployment_manifest.json, which invalidates the CURRENT deployment record (PTF-047) and so needs its own authorization",
+  "assemble with assemble_netlify_bundle --context production, then a founder deployment authorization naming the bundle"
+ ],
+ "validation": {
+  "promoted_pet_friendly_count": {
+   "ok": true,
+   "authority": 35,
+   "policy_package": 35
+  },
+  "verified_no_pets_count": {
+   "ok": true,
+   "authority": 14,
+   "shard": 14
+  },
+  "avid_hotel_zeeland_is_absent_from_authority": {
+   "ok": true,
+   "withdrawn_rows": [
+    "avid hotel zeeland"
+   ],
+   "identity_ruling_preserved": true,
+   "why": "identity confirmation says which hotel a capture belongs to; it does not make a POLICY_NOT_FOUND row publishable"
+  },
+  "all_unresolved_holds_absent": {
+   "ok": true,
+   "identity_keys": []
+  },
+  "all_policy_not_found_rows_absent": {
+   "ok": true,
+   "by_readiness_state": [],
+   "by_020_silence_ruling": [],
+   "why": "checked on the READINESS STATE as well as on the 020 ruling, which is the reading that withdrew avid"
+  },
+  "every_no_pets_row_carries_explicit_refusal_evidence": {
+   "ok": true,
+   "identity_keys": []
+  },
+  "every_promoted_row_has_a_signature_bound_to_current_facts": {
+   "ok": true,
+   "unsigned": [],
+   "unbound": [],
+   "decision": "APPROVED_AFTER_CURRENT_REVIEW"
+  },
+  "no_membrane_rejected_row_enters_without_a_valid_ruling": {
+   "ok": true,
+   "identity_keys": [],
+   "why": "the market's one membrane rejection was avid hotel Zeeland, and it has been withdrawn"
+  },
+  "no_duplicate_profile_identity": {
+   "ok": true,
+   "duplicates": []
+  },
+  "no_duplicate_exclusion_identity": {
+   "ok": true,
+   "duplicates": []
+  },
+  "no_row_is_both_a_profile_and_an_exclusion": {
+   "ok": true,
+   "identity_keys": []
+  },
+  "no_cross_market_collision": {
+   "ok": true,
+   "markets_scanned": 11,
+   "collisions": []
+  },
+  "no_other_market_shard_changes": {
+   "ok": true,
+   "files_checked": 50,
+   "changed": []
+  },
+  "globals_gained_only_grand_rapids_rows": {
+   "ok": true,
+   "by_artifact": {
+    "hotel_exclusions.json": {
+     "rows_before": 156,
+     "rows_after": 170,
+     "added": 14,
+     "removed": 0,
+     "added_from_another_market": [],
+     "changed_in_place": 0,
+     "changed_in_another_market": [],
+     "removed_from_another_market": [],
+     "ok": true,
+     "added_identity_keys": [
+      "americinn by wyndham grand rapids airport north",
+      "country inn and suites grand rapids east",
+      "courtyard by marriott grand rapids downtown",
+      "courtyard holland downtown",
+      "doubletree by hilton hotel holland",
+      "fairfield inn and suites grand rapids north",
+      "fairfield inn and suites holland",
+      "holiday inn express and suites grand rapids north",
+      "holiday inn express holland",
+      "quality inn grand rapids near downtown",
+      "rodeway inn and suites grand rapids southeast",
+      "rodeway inn grandville grand rapids",
+      "springhill suites grand rapids airport southeast",
+      "springhill suites holland"
+     ],
+     "rows_for_this_market_in_the_end_state": 14
+    },
+    "identity_routing.json": {
+     "rows_before": 387,
+     "rows_after": 356,
+     "added": 0,
+     "removed": 31,
+     "added_from_another_market": [],
+     "changed_in_place": 0,
+     "changed_in_another_market": [],
+     "removed_from_another_market": [],
+     "ok": true,
+     "added_identity_keys": [],
+     "rows_for_this_market_in_the_end_state": 79
+    }
+   }
+  },
+  "the_four_ohio_markets_are_unchanged": {
+   "ok": true,
+   "tool": "build_market_authorities --check",
+   "note": "--check only; --write is the path that wiped corridor assignments in PTF-DAYTON-RECERT"
+  },
+  "the_contract_no_longer_denies_publishing_a_policy": {
+   "ok": true,
+   "fields_still_denying": [],
+   "show_in_navigation": true,
+   "show_in_sitemap": true
+  },
+  "no_provider_calls_and_spend_is_zero": {
+   "ok": true,
+   "provider_calls": 0,
+   "usd": 0.0,
+   "plan_credits": 0.0
+  },
+  "all_pass": true
+ }
 }

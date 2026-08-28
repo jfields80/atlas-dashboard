@@ -60,14 +60,20 @@ if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
 from scripts.pettripfinder import hotel_exclusions as HE                # noqa: E402
+from scripts.pettripfinder import identity_routing as IR               # noqa: E402
 from scripts.pettripfinder import market_authority as MA                # noqa: E402
+from scripts.pettripfinder import market_registration_cli as REGISTRATION  # noqa: E402
 from scripts.pettripfinder.contracts import enums                       # noqa: E402
 from scripts.pettripfinder.contracts import founder_approval as FA      # noqa: E402
+from scripts.pettripfinder.site_data import normalize_name             # noqa: E402
 
 LP = _REPO_ROOT / "launch_packages" / "pettripfinder"
 SCRIPTS = _REPO_ROOT / "scripts" / "pettripfinder"
 
 WORK_ORDER = "PTF-GRAND-RAPIDS-SOURCE-PROMOTION-022"
+#: The ruling that unblocked this promotion, and the work order the published
+#: package names as the act that published it.
+RULING_023 = "PTF-GRAND-RAPIDS-WEIGHT-SEMANTICS-RULING-023"
 MARKET = "grand-rapids-holland-mi"
 #: The launch-package artifacts spell this market with underscores while the
 #: market id and the policy-package filename use hyphens. Both spellings are
@@ -253,7 +259,15 @@ def exclusion_rows(authority: Mapping, census: Mapping[str, Mapping],
         record: Dict = OrderedDict((
             ("exclusion_id", row["exclusion_id"]),
             ("canonical_name", row["canonical_name"]),
-            ("normalized_name", key),
+            # The contract derives normalized_name from canonical_name, and
+            # 020's name corrections moved three canonical names. So the
+            # DISPLAY key and the CENSUS identity are different strings here
+            # and both are carried -- the same split the policy package makes
+            # between "key" and "identity_key". Deriving one from the other
+            # would either fail the contract or lose the identity the founder
+            # signed against.
+            ("normalized_name", normalize_name(row["canonical_name"])),
+            ("identity_key", key),
             ("address", str(hotel.get("address") or row.get("address") or "")),
             ("city", str(hotel.get("city") or "")),
             ("state", str(hotel.get("state") or "")),
@@ -286,6 +300,71 @@ def exclusion_rows(authority: Mapping, census: Mapping[str, Mapping],
         rows.append(record)
     rows.sort(key=lambda r: r["normalized_name"])
     return rows
+
+
+# --------------------------------------------------------------------------- #
+# Retiring the routes publication answers
+# --------------------------------------------------------------------------- #
+
+def withdraw_published_routes(seed_rows: Sequence[Mapping]) -> Dict:
+    """A route for a hotel we now publish has been answered. Remove it.
+
+    ``identity_routing`` exists to find a hotel's official page, and
+    ``test_no_committed_route_is_already_seed_inventory`` states the rule
+    plainly: "the seed remains the source of truth for it". Every market that
+    publishes on the generic path -- Indianapolis, Louisville, Milwaukee,
+    Pittsburgh, St. Louis -- carries ZERO routes, and Cleveland, Columbus and
+    Dayton carry routes only for identities they have NOT published. Grand
+    Rapids is the only market that would assert both.
+
+    WHY REMOVED AND NOT RETIRED
+    ``ROUTING_RETIRED`` exists for a route that should never have been bound --
+    Cleveland bound accommodation routes to a restaurant and a cross-category
+    inn, and retiring them keeps the wrong binding visible so it can be argued
+    with. These 31 bindings were not wrong; they were RIGHT, and publication is
+    the answer they were asking for. Retiring them instead breaks two further
+    invariants -- the pinned retired set, and "a held route is never used" --
+    because a retired route is a route with a problem, and these have none.
+
+    Nothing is lost. Each removed row is archived whole in this pass's report,
+    and the seed row and policy package now carry the name, the address, the
+    official URL, the source and the observation date that the route carried.
+    """
+    published = {normalize_name(str(r.get("name") or "")) for r in seed_rows}
+    path = MA.routing_shard_path(MARKET)
+    document = _load(path)
+    keep, withdrawn = [], []
+    for route in document.get("routes") or ():
+        name = str((route.get("hotel_ref") or {}).get("normalized_name") or "")
+        (withdrawn if name in published else keep).append(route)
+    if withdrawn:
+        document["routes"] = keep
+        document["count"] = len(keep)
+        IR.validate_authority(document)
+        path.write_text(MA.render_json(document), encoding="utf-8")
+    return OrderedDict((
+        ("withdrawn", len(withdrawn)),
+        ("routes_before", len(keep) + len(withdrawn)),
+        ("routes_after", len(keep)),
+        ("why", "publication answers a routing question; every other published "
+                "market carries no route for a published identity, and a "
+                "market asserting both would leave a stale pointer beside the "
+                "seed row that supersedes it"),
+        ("not_retired_because",
+         "ROUTING_RETIRED marks a binding that should never have been made. "
+         "These bindings were correct -- they found the pages this market now "
+         "publishes -- so marking them as problems would misdescribe them and "
+         "would break both the pinned retired set and 'a held route is never "
+         "used'."),
+        # The end state, which a re-run reproduces. "withdrawn" and
+        # "routes_before" describe the run that made the change and are 0 and
+        # 79 on any run after it.
+        ("routes_for_a_published_identity_in_the_end_state",
+         len([r for r in keep
+              if str((r.get("hotel_ref") or {}).get("normalized_name") or "")
+              in published])),
+        ("archived_here_in_full", withdrawn),
+    ))
 
 
 # --------------------------------------------------------------------------- #
@@ -326,6 +405,10 @@ def contract_still_denies_policy(contract: Mapping) -> List[str]:
 
 STRICT = "STRICT"
 LTE_PER_PET = "LTE_PER_PET"
+#: PTF-GRAND-RAPIDS-WEIGHT-SEMANTICS-RULING-023: publish the comparison the
+#: source states, and withhold the field where it states none. This is the
+#: ruling this market runs under.
+SOURCE_STATED_COMPARISON = "SOURCE_STATED_COMPARISON"
 
 #: Ceiling words a source uses, and the comparison each one actually states.
 #: They are counted rather than applied: the point of the breakdown is to show
@@ -530,24 +613,104 @@ def global_additions(before: Mapping, after: Mapping, key: str) -> Dict:
     must ADD that market's rows and leave every other row byte-identical. This
     compares the two documents row by row rather than trusting the count.
     """
+    def _identity(row):
+        ref = row.get("hotel_ref") or {}
+        return (str(row.get("market_id") or ""),
+                str(row.get("normalized_name")
+                    or ref.get("normalized_name") or ""))
+
     def _rows(document):
-        return {json.dumps(r, sort_keys=True): r
-                for r in (document.get(key) or ())}
+        return {_identity(r): r for r in (document.get(key) or ())}
 
     was, now = _rows(before), _rows(after)
     added = [now[k] for k in sorted(set(now) - set(was))]
     removed = [was[k] for k in sorted(set(was) - set(now))]
     foreign = [r for r in added if str(r.get("market_id") or "") != MARKET]
+    removed_elsewhere = [r for r in removed
+                         if str(r.get("market_id") or "") != MARKET]
+    # A row that stayed but CHANGED. Retiring a route rewrites its status in
+    # place, which is an update rather than a removal -- but a change to a row
+    # belonging to another market would be exactly the leakage this checks for.
+    changed = [now[k] for k in sorted(set(now) & set(was))
+               if json.dumps(now[k], sort_keys=True)
+               != json.dumps(was[k], sort_keys=True)]
+    changed_elsewhere = [r for r in changed
+                         if str(r.get("market_id") or "") != MARKET]
     return OrderedDict((
         ("rows_before", len(was)),
         ("rows_after", len(now)),
         ("added", len(added)),
         ("removed", len(removed)),
         ("added_from_another_market", foreign),
-        ("ok", not removed and not foreign),
+        ("changed_in_place", len(changed)),
+        ("changed_in_another_market", changed_elsewhere),
+        ("removed_from_another_market", removed_elsewhere),
+        # The invariant is not "nothing was removed" -- publication withdraws
+        # this market's answered routes, and that is a real removal. It is
+        # "this promotion touched no other market's rows", in either direction.
+        ("ok", not foreign and not removed_elsewhere and not changed_elsewhere),
         ("added_identity_keys",
          sorted(str(r.get("identity_key") or r.get("normalized_name") or "")
                 for r in added)),
+        # The delta is only meaningful on the run that made it; a re-run over
+        # an already-promoted tree adds nothing and says 0. The END STATE is
+        # what a reader and a test can rely on, so it is recorded beside it.
+        ("rows_for_this_market_in_the_end_state",
+         sum(1 for r in now.values()
+             if str(r.get("market_id") or "") == MARKET)),
+    ))
+
+
+def pinned_census_gap(authority: Mapping) -> Dict:
+    """Why this market still has no release contract, stated in numbers.
+
+    ``release_contracts`` requires a reviewed document whose every field AGREES
+    with ``derive_authority`` -- "a number can only move when someone changes
+    the authority AND states the new number". One number cannot be stated
+    honestly yet.
+
+    Every pass since PTF-GRAND-RAPIDS-HOLLAND-GEOGRAPHY-HARDENING-002 has run
+    against the 163-identity RECENSUS, and the market's PINNED census is still
+    the 120-identity document the earlier build committed. Nine of the 49 rows
+    promoted here are identities the pinned census does not contain. A contract
+    declaring ``identity_census.expected_count: 120`` beside 49 resolved would
+    assert something untrue to pass a gate, which is the one thing a release
+    contract exists to prevent.
+
+    Promoting the recensus is a contract-pinned act of its own -- it moves the
+    census count a live contract would name -- so it is reported rather than
+    performed inside a promotion order that did not ask for it.
+    """
+    pinned_path = LP / "identity_census" / ("%s.json" % MARKET)
+    pinned = {h["identity_key"] for h in _load(pinned_path)["hotels"]}
+    promoted = ({r["normalized_name"] for r in authority["pet_friendly"]}
+                | {r["normalized_name"] for r in authority["verified_no_pets"]})
+    outside = sorted(promoted - pinned)
+    return OrderedDict((
+        ("written", False),
+        ("path", "deploy/netlify/release_contracts/%s.json" % MARKET),
+        ("blocked_by", "the market's PINNED census does not contain every "
+                       "promoted identity"),
+        ("pinned_census", OrderedDict((
+            ("path", str(pinned_path.relative_to(_REPO_ROOT).as_posix())),
+            ("count", len(pinned)),
+        ))),
+        ("recensus_every_pass_since_002_has_used", OrderedDict((
+            ("path", "launch_packages/pettripfinder/identity_census/recensus/"
+                     "%s.json" % MARKET),
+            ("count", 163),
+        ))),
+        ("promoted_identities", len(promoted)),
+        ("promoted_identities_absent_from_the_pinned_census", outside),
+        ("why_not_written",
+         "a contract must state identity_census.expected_count and have it "
+         "agree with the derivation. Stating 120 beside 49 resolved, when 9 of "
+         "those 49 are not among the 120, would pass the gate by asserting "
+         "something untrue."),
+        ("what_would_unblock_it",
+         "promote the 163-identity recensus into the pinned census in its own "
+         "work order, then write the contract naming the new count. That is a "
+         "contract-pinned number moving, which is a founder-visible act."),
     ))
 
 
@@ -689,15 +852,20 @@ def cross_market_check(keys: Sequence[str]) -> Dict:
 
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--weight-limit-ruling", default=STRICT,
-                        choices=(STRICT, LTE_PER_PET),
+    parser.add_argument("--weight-limit-ruling",
+                        default=SOURCE_STATED_COMPARISON,
+                        choices=(STRICT, LTE_PER_PET, SOURCE_STATED_COMPARISON),
                         help="STRICT (default) publishes a weight limit only "
                              "as the source qualified it. LTE_PER_PET names a "
                              "FOUNDER decision that an unqualified blanket "
                              "maximum publishes as lte / per_pet, and is the "
                              "only thing that unblocks this market's 25 "
                              "unqualified limits. A caller must name it; it is "
-                             "never assumed from another market's precedent.")
+                             "never assumed from another market's precedent. "
+                             "SOURCE_STATED_COMPARISON is RULING-023 and the "
+                             "default here: lte for a ceiling, lt for a strict "
+                             "less-than, withheld where the source states "
+                             "neither.")
     parser.add_argument("--scratch", default=str(_REPO_ROOT / "data" / "tmp"),
                         help="where the policy package is projected for the "
                              "schema probe before anything is written")
@@ -763,6 +931,8 @@ def main(argv=None) -> int:
                "--expect-count", str(authority["pet_friendly_count"])]
     if args.weight_limit_ruling == LTE_PER_PET:
         command.append("--normalize-weight")
+    elif args.weight_limit_ruling == SOURCE_STATED_COMPARISON:
+        command.append("--weight-comparison-from-source")
     probe = subprocess.run(command + ["--out", str(probe_path)],
                            cwd=str(_REPO_ROOT), capture_output=True, text=True)
     if probe.returncode != 0:
@@ -781,21 +951,49 @@ def main(argv=None) -> int:
         print("SOURCE_PROMOTED        : False")
         print("nothing was written into markets/ or the globals")
         return 2
-    _run(command + ["--publish", WORK_ORDER, "--out", str(package_path)],
+    _run(command + ["--publish", RULING_023, "--out", str(package_path)],
          "the sanctioned policy-package projector")
     package = _load(package_path)
 
-    # 3. the exclusions shard
-    rows = exclusion_rows(authority, census, decisions)
-    shard = MA.build_exclusions_shard(MARKET, rows)
-    HE.validate(shard)
-    shard_exclusions_path.write_text(MA.render_json(shard), encoding="utf-8")
+    # 3. the market's authority shard, derived by the SANCTIONED installer.
+    #
+    # market_registration_cli owns this derivation -- one seed row per
+    # PET_FRIENDLY record, one exclusion per VERIFIED_NO_PETS record, both
+    # hashes computed by hotel_exclusions' own functions. The seed rows are not
+    # optional decoration: site_data.verified_public_hotels FAILS CLOSED on a
+    # committed policy record with no display row, so a package published
+    # without them is a market that raises rather than one that publishes.
+    #
+    # Its write() would ALSO rewrite the routing and affiliate shards as EMPTY,
+    # which is correct for a market that has neither and destructive for this
+    # one: Grand Rapids carries 110 routes reconciled by an earlier work order.
+    # So the derivation is used and that write is not, the same way
+    # build_market_authorities is used in check mode and never --write.
+    built = REGISTRATION.build(MARKET, authority_path, census_path)
+    routes_before = len(MA.load_market_routes(MARKET))
+    shard_seed_path = MA.seed_shard_path(MARKET)
+    HE.validate(built["exclusions_document"])
+    shard_exclusions_path.write_text(
+        MA.render_json(built["exclusions_document"]), encoding="utf-8")
+    shard_seed_path.write_text(MA.render_seed_csv(built["seed_rows"]),
+                               encoding="utf-8")
+    rows = list(built["exclusions_document"]["exclusions"])
+    seed_rows = list(built["seed_rows"])
+    routes_after = len(MA.load_market_routes(MARKET))
+    if routes_after != routes_before:
+        raise PromotionError(
+            "the routing shard moved from %d routes to %d; this promotion "
+            "writes the seed and exclusion shards and must never touch routing"
+            % (routes_before, routes_after))
 
-    # 4. the market contract
+    # 4. the routes publication has now answered
+    retirement = withdraw_published_routes(seed_rows)
+
+    # 5. the market contract
     contract, contract_changes = promote_contract(contract_path)
     _write(contract_path, contract)
 
-    # 5. the three legacy globals, from the shards, by their own assembler
+    # 6. the three legacy globals, from the shards, by their own assembler
     _run([sys.executable, "-m", "scripts.pettripfinder.build_global_authority",
           "--write"], "the global authority assembler")
     globals_diff = OrderedDict((
@@ -807,10 +1005,15 @@ def main(argv=None) -> int:
             _load(MA.GLOBAL_ROUTING_PATH), "routes")),
     ))
 
-    # 6. proof the four Ohio markets were not disturbed
+    # 7. proof the four Ohio markets were not disturbed
+    # No flag at all: this tool's check mode is its DEFAULT and --write is the
+    # opt-in, which is the opposite of build_global_authority's spelling. Its
+    # --write path is the one that wiped corridor assignments in
+    # PTF-DAYTON-RECERT, so the argument is deliberately absent rather than
+    # spelled, and there is no way for a typo here to become a write.
     ohio = _run([sys.executable, "-m",
-                 "scripts.pettripfinder.build_market_authorities", "--check"],
-                "build_market_authorities --check")
+                 "scripts.pettripfinder.build_market_authorities"],
+                "build_market_authorities (check mode, the default)")
 
     after_shards = other_market_fingerprints()
     shard_diff = OrderedDict((
@@ -856,12 +1059,24 @@ def main(argv=None) -> int:
                                   for p in (withdrawal_path, authority_path,
                                             package_path,
                                             shard_exclusions_path,
+                                            shard_seed_path,
                                             contract_path)]),
+        ("routes_withdrawn_by_publication", OrderedDict(
+            (k, v) for k, v in retirement.items()
+            if k != "archived_here_in_full")),
+        ("withdrawn_route_records", retirement["archived_here_in_full"]),
+        ("routing_shard_not_wiped", OrderedDict((
+            ("routes_before", routes_before), ("routes_after", routes_after),
+            ("why", "market_registration_cli.write() would have rewritten it "
+                    "as empty, which is right for a market with no routes and "
+                    "destructive for this one")))),
         ("regenerated_by_build_global_authority",
          "the three legacy globals and the manifest beside them. This module "
          "never writes one: it edits this market's shard and lets their own "
          "assembler produce them."),
         ("contract_changes", contract_changes),
+        ("contract_end_state", OrderedDict(
+            (field, contract.get(field)) for field, _value in CONTRACT_UPDATES)),
         ("globals_regenerated_by", "build_global_authority --write, which "
                                    "assembles the three legacy files from the "
                                    "shards and touches nothing else"),
@@ -881,9 +1096,13 @@ def main(argv=None) -> int:
             ("identity_hold_rows", 1),
             ("routing_unresolved", 11),
         ))),
+        ("release_contract", pinned_census_gap(authority)),
         ("next_step_for_production_assembly", [
-            "write deploy/netlify/release_contracts/%s.json -- this market has "
-            "none, and every assembled market has one" % MARKET,
+            "promote the 163-identity recensus into the pinned census, which "
+            "is what a release contract's identity_census count must describe",
+            "then write deploy/netlify/release_contracts/%s.json -- this "
+            "market has none, and every market with verified inventory has "
+            "one" % MARKET,
             "add the market's launch_participation row; the founder is the "
             "only one who may add it (PTF-046)",
             "add the market to deploy/netlify/global_deployment_manifest.json, "
