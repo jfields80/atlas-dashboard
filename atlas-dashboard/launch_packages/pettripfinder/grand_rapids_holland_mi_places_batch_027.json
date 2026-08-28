@@ -1,0 +1,188 @@
+{
+  "schema": "ptf-places-batch-rollup/1.0",
+  "market_id": "grand-rapids-holland-mi",
+  "work_order": "PTF-GRAND-RAPIDS-PLACES-BATCH-027",
+  "run_id": "grand-rapids-holland-mi-places-027",
+  "batch_027": {
+    "requests_made": 20,
+    "authorised_cap": 20,
+    "cap_held": true,
+    "aborted": "",
+    "abort_detail": "",
+    "urls_recovered": 11,
+    "recovery_rate": 0.55,
+    "wrong_property_refusals": 0,
+    "ambiguous_or_unbound_with_a_page": 6,
+    "no_website_at_all": 3,
+    "no_result_at_all": 0,
+    "place_id_collisions": {},
+    "premises_disagreements": [],
+    "ledger_rows_written": 20,
+    "suppressed_duplicate_queries": 0,
+    "by_bind_method": {
+      "NAME_AND_POSTAL_CODE": 7,
+      "PHONE": 4
+    },
+    "families_attempted": {
+      "choice": 4,
+      "esa": 1,
+      "hilton": 2,
+      "ihg": 4,
+      "independent": 7,
+      "marriott": 1,
+      "wyndham": 1
+    },
+    "families_recovered": {
+      "choice": 3,
+      "esa": 1,
+      "hilton": 1,
+      "ihg": 2,
+      "independent": 3,
+      "marriott": 1
+    }
+  },
+  "cumulative": {
+    "requests": 40,
+    "urls_recovered": 20,
+    "recovery_rate": 0.5,
+    "no_page_exists_to_recover": 7,
+    "a_page_came_back_and_a_rule_refused_it": 13,
+    "place_id_collisions_across_both_batches": {}
+  },
+  "rates": {
+    "batch_026": {
+      "what": "URLs per lookup, batch 026 alone",
+      "successes": 9,
+      "trials": 20,
+      "point": 0.45,
+      "wilson_lower_95": 0.2582,
+      "wilson_upper_95": 0.6579
+    },
+    "batch_027": {
+      "what": "URLs per lookup, batch 027 alone",
+      "successes": 11,
+      "trials": 20,
+      "point": 0.55,
+      "wilson_lower_95": 0.3421,
+      "wilson_upper_95": 0.7418
+    },
+    "cumulative_40_requests": {
+      "what": "URLs per lookup, both batches -- the only rate with 40 attempts behind it",
+      "successes": 20,
+      "trials": 40,
+      "point": 0.5,
+      "wilson_lower_95": 0.352,
+      "wilson_upper_95": 0.648
+    },
+    "pet_friendly_per_property": {
+      "what": "publication-grade pet-friendly profiles per property attempted, this market's own paid acquisition run",
+      "successes": 34,
+      "trials": 65,
+      "point": 0.5231,
+      "wilson_lower_95": 0.4038,
+      "wilson_upper_95": 0.6398
+    },
+    "note": "the three URL rates are published separately and never averaged into one another; the cumulative one carries the recommendation because it is the one with 40 attempts behind it"
+  },
+  "projection_of_the_remaining_pool": {
+    "remaining_eligible_identities": 29,
+    "under_batch_026_rate": {
+      "rate_used": "batch 026 alone",
+      "urls_expected_low": 7,
+      "urls_expected_point": 13,
+      "urls_expected_high": 19,
+      "additional_profiles_low": 3,
+      "additional_profiles_point": 6,
+      "additional_profiles_high": 12
+    },
+    "under_batch_027_rate": {
+      "rate_used": "batch 027 alone",
+      "urls_expected_low": 9,
+      "urls_expected_point": 15,
+      "urls_expected_high": 21,
+      "additional_profiles_low": 4,
+      "additional_profiles_point": 8,
+      "additional_profiles_high": 13
+    },
+    "under_the_cumulative_rate": {
+      "rate_used": "both batches",
+      "urls_expected_low": 10,
+      "urls_expected_point": 14,
+      "urls_expected_high": 18,
+      "additional_profiles_low": 4,
+      "additional_profiles_point": 7,
+      "additional_profiles_high": 12
+    }
+  },
+  "target_43": {
+    "published_today": 35,
+    "target": 43,
+    "gap": 8,
+    "urls_in_hand_across_both_batches": 20,
+    "expected_additional_routable_hotels": 20,
+    "why_routable_equals_urls": "every recovered URL passed classify_url_shape against ROUTABLE_SHAPES and url_names_the_property, which is exactly what routable means; none needs further discovery to be fetchable",
+    "expected_additional_pet_friendly_profiles": {
+      "low": 8,
+      "point": 10,
+      "high": 12
+    },
+    "expected_final_published_total": {
+      "low": 43,
+      "point": 45,
+      "high": 47
+    },
+    "gap_covered_conservatively": true,
+    "gap_covered_at_the_point_estimate": true,
+    "caveat": "a recovered URL is not a published profile. Each one still has to be fetched by a paid acquisition lane, read, reviewed and signed by the founder, and none of that is authorised, priced or run here."
+  },
+  "minimum_policy_acquisition_cohort": {
+    "size": 20,
+    "drawn_from": "the 20 URLs recovered across 026 and 027",
+    "sized_on": "the Wilson LOWER bound of this market's own pet-friendly rate (0.4038), per 025's standing rule that yield is sized conservatively",
+    "properties_needed_at_that_rate": 20,
+    "capped_by_urls_that_exist": 20,
+    "covers_the_gap_conservatively": true,
+    "not_priced_here": "no acquisition lane is qualified for these families until each URL's host is known to the registry; 025 priced a comparable Bright Data cohort at 16.0c per property, and no cost is committed by this document",
+    "identity_keys": [
+      "extended stay america select suites grand rapids kentwood",
+      "homewood suites by hilton holland",
+      "jw marriott grand rapids",
+      "red roof inn grand rapids airport",
+      "wyndham garden grand rapids airport",
+      "holiday inn grand rapids airport",
+      "quality inn grand rapids south byron center",
+      "microtel inn and suites by wyndham holland",
+      "econo lodge and suites",
+      "comfort inn airport",
+      "extended stay america select suites grand rapids wyoming",
+      "tru by hilton comstock park grand rapids",
+      "courtyard by marriott grand rapids airport",
+      "country inn and suites by radisson grandville grand rapids west",
+      "holiday inn grand rapids downtown",
+      "woodspring suites grand rapids kentwood",
+      "cityflatshotel grand rapids",
+      "radisson hotel grand rapids riverfront",
+      "mainstay suites grand rapids",
+      "staybridge suites grand rapids airport"
+    ]
+  },
+  "recommendation": {
+    "decision": "READY_FOR_POLICY_ACQUISITION",
+    "why": "20 URLs are already in hand and at this market's own measured pet-friendly rate they are worth 10 profiles against a gap of 8. Buying more lookups before fetching the ones already paid for spends money to answer a question the evidence on disk can already answer.",
+    "next_places_batch_size": 0,
+    "this_is_not_an_authorization": "no Places request, no acquisition fetch and no deploy may follow from this document without a separate instruction"
+  },
+  "nothing_else_was_run": [
+    "Bright Data: not called",
+    "Firecrawl: not called",
+    "policy acquisition: not run",
+    "premium-domain acquisition: not run",
+    "no authority was written, no market assembled, nothing deployed"
+  ],
+  "billing": {
+    "usd_observable": false,
+    "measured_cost_usd": null,
+    "priced_in": "REQUESTS",
+    "why": "this repository commits no USD rate for Google Places searchText and the client exposes no billing meter, so the only honest unit is the request count. No dollar figure is invented here."
+  }
+}
