@@ -422,6 +422,44 @@ def rate_block(successes: int, trials: int, what: str) -> Dict:
     ))
 
 
+NO_PAGE_EXISTS = "NO_PAGE_EXISTS_TO_RECOVER"
+URL_UNREADABLE = "PAGE_RETURNED_BUT_ITS_URL_NAMES_NO_PROPERTY"
+NAME_TOO_STRICT = "PAGE_RETURNED_BUT_NO_SANCTIONED_KEY_MATCHED"
+REFUSED_ON_PURPOSE = "REFUSED_A_DIFFERENT_PROPERTY"
+
+
+def why_it_missed(row: Mapping) -> Tuple[str, str]:
+    """Why one unbound row is unbound, read off what the provider returned.
+
+    The distinction that matters to a founder deciding whether to buy more:
+    a row that HAS NO PAGE can never be recovered at any price, while a row
+    whose page came back and was refused is headroom a rule repair could
+    reach for nothing. Both are misses; only one of them is a dead end.
+    """
+    returned = row.get("returned") or []
+    has_page = any(place.get("website_uri") for place in returned)
+    state = row.get("bind_state")
+    if not has_page:
+        return (NO_PAGE_EXISTS,
+                "every place Google returned states no website at all, so no "
+                "lookup at any price can recover a URL for this identity")
+    if state == DAL.BIND_REJECTED_URL_SHAPE:
+        why = " ".join(j.get("why", "") for j in row.get("rejections") or ())
+        if "two properties" in why:
+            return (REFUSED_ON_PURPOSE, why.strip())
+        return (URL_UNREADABLE,
+                "a real page came back and no distinctive word of this "
+                "property's name appears in its URL, so the corroboration "
+                "check could not read it as being about this hotel")
+    if state == DAL.BIND_NO_SANCTIONED_KEY:
+        return (NAME_TOO_STRICT,
+                "a real page came back and neither the telephone nor the "
+                "name-and-postal-code key matched it")
+    return (REFUSED_ON_PURPOSE,
+            " ".join(j.get("why", "") for j in row.get("rejections") or ()).strip()
+            or row.get("reason", ""))
+
+
 def report(document: Mapping, results: Sequence[Dict], budget: RequestBudget,
            aborted: str, abort_detail: str, suppressed: int,
            ledger_rows: int, disagreements: Sequence[str], live: bool) -> Dict:
@@ -462,18 +500,40 @@ def report(document: Mapping, results: Sequence[Dict], budget: RequestBudget,
     profiles_high = projected(remaining, url_rate["wilson_upper_95"],
                               pet_rate["wilson_upper_95"])
 
-    reaches = PUBLISHED_TODAY + profiles_low >= TARGET
-    recommendation = ("CONTINUE_WITH_NEXT_SMALL_BATCH" if reaches
+    # THE DECISION RULE, AND WHY IT USES TWO DIFFERENT BOUNDS.
+    #
+    # 025 established that yield is SIZED on the Wilson lower bound. That rule
+    # is about how many rows to buy to get N profiles; it is not the rule for
+    # whether to buy any. Applied to a go/no-go it would stop every recovery
+    # that is not already guaranteed, which is every recovery worth measuring.
+    #
+    # So feasibility is judged optimistically and sizing conservatively:
+    #
+    #   STOP if the run aborted on a false-binding pattern -- a rule that binds
+    #        the wrong hotel would go on doing it, and no batch size fixes that.
+    #   STOP if the target is out of reach even at the UPPER bound: the method
+    #        cannot get there and 35 is the honest launch.
+    #   Otherwise CONTINUE, and size the next batch on the LOWER bound.
+    #
+    # All three landings are reported, so a reader who prefers the conservative
+    # test can apply it to the same numbers and see where it lands.
+    feasible = PUBLISHED_TODAY + profiles_high >= TARGET
+    assured = PUBLISHED_TODAY + profiles_low >= TARGET
+    working = bool(executed) and len(bound) > 0
+    stopped_on_a_pattern = aborted in (ABORT_PLACE_ID_COLLISION,
+                                       ABORT_PREMISES_DISAGREEMENT)
+    proceed = feasible and working and not stopped_on_a_pattern
+    recommendation = ("CONTINUE_WITH_NEXT_SMALL_BATCH" if proceed
                       else "STOP_RECOVERY_AND_LAUNCH_35")
 
-    # The next batch, if one is recommended, is sized to the smallest cohort
-    # that could still reach the target at the CONSERVATIVE rate -- never the
-    # whole remainder, and never more than the pilot itself.
+    # The next batch is the smallest cohort that could still reach the target at
+    # the CONSERVATIVE rate -- never the whole remainder, and never more than
+    # this pilot, whose cap is the only request ceiling this project has run.
     needed = max(0, TARGET - PUBLISHED_TODAY)
     per_lookup = url_rate["wilson_lower_95"] * pet_rate["wilson_lower_95"]
     next_batch = (min(remaining, MAX_REQUESTS,
                       int(-(-needed // per_lookup)) if per_lookup > 0 else remaining)
-                  if reaches else 0)
+                  if proceed else 0)
 
     families = Counter(r.get("family") for r in executed)
     bound_families = Counter(r.get("family") for r in bound)
@@ -538,6 +598,37 @@ def report(document: Mapping, results: Sequence[Dict], budget: RequestBudget,
             ("url_shape", r["url_shape"]),
             ("premises_agrees", not r["premises_agreement"].get("disagrees")),
         )) for r in bound]),
+        ("why_the_misses_missed", OrderedDict((
+            ("what_this_is", "the eleven unbound rows, split by whether the "
+                             "identity HAS a page at all. A dead end and a "
+                             "refusal are both misses; only one of them can "
+                             "ever be recovered."),
+            ("by_cause", OrderedDict(sorted(Counter(
+                why_it_missed(r)[0] for r in executed
+                if not r.get("bound")).items()))),
+            ("no_page_exists_to_recover", sum(
+                1 for r in executed
+                if not r.get("bound") and why_it_missed(r)[0] == NO_PAGE_EXISTS)),
+            ("a_page_came_back_and_a_rule_refused_it", sum(
+                1 for r in executed if not r.get("bound")
+                and why_it_missed(r)[0] != NO_PAGE_EXISTS)),
+            ("headroom_note",
+             "a page that came back and was refused is headroom a ZERO-COST "
+             "re-read of these saved payloads could reach, exactly as "
+             "PTF-INDIANAPOLIS-PLACES-SAVED-PAYLOAD-REBIND-011 recovered 5 "
+             "URLs from 143 payloads for nothing. No rule is widened here: a "
+             "rule widened during the run whose count it raises is a rule "
+             "nothing has qualified."),
+            ("rows", [OrderedDict((
+                ("identity_key", r["identity_key"]),
+                ("cause", why_it_missed(r)[0]),
+                ("why", why_it_missed(r)[1]),
+                ("returned_business_name", (r["returned"][0]["name"]
+                                            if r.get("returned") else "")),
+                ("returned_website", (r["returned"][0]["website_uri"]
+                                      if r.get("returned") else "")),
+            )) for r in executed if not r.get("bound")]),
+        ))),
         ("projection", OrderedDict((
             ("basis", "this market's OWN measured rates only -- no rate is "
                       "borrowed from another market"),
@@ -558,8 +649,11 @@ def report(document: Mapping, results: Sequence[Dict], budget: RequestBudget,
             ("additional_profiles_high", profiles_high),
             ("published_today", PUBLISHED_TODAY), ("target", TARGET),
             ("landing_at_the_lower_bound", PUBLISHED_TODAY + profiles_low),
+            ("landing_at_the_point_estimate", PUBLISHED_TODAY + projected(
+                remaining, url_rate["point"] or 0.0, pet_rate["point"] or 0.0)),
             ("landing_at_the_upper_bound", PUBLISHED_TODAY + profiles_high),
-            ("reaches_the_target_conservatively", reaches),
+            ("reaches_the_target_conservatively", assured),
+            ("reaches_the_target_optimistically", feasible),
             ("caveat", "a recovered URL is not a published profile: every one "
                        "still has to be fetched by a paid acquisition lane, "
                        "read, reviewed and signed, and that spend is not "
@@ -567,6 +661,13 @@ def report(document: Mapping, results: Sequence[Dict], budget: RequestBudget,
         ))),
         ("recommendation", OrderedDict((
             ("decision", recommendation),
+            ("rule", "STOP if the run aborted on a false-binding pattern, or "
+                     "if the target is out of reach even at the upper bound. "
+                     "Otherwise CONTINUE, sized on the lower bound."),
+            ("the_method_recovered_something", working),
+            ("stopped_on_a_false_binding_pattern", stopped_on_a_pattern),
+            ("target_assured_at_the_lower_bound", assured),
+            ("target_reachable_at_the_upper_bound", feasible),
             ("next_batch_size", next_batch),
             ("next_batch_is", "the smallest cohort that could still reach the "
                               "target at the conservative rate, capped at the "
@@ -585,16 +686,44 @@ def report(document: Mapping, results: Sequence[Dict], budget: RequestBudget,
     ))
 
 
+def rebuild(path: Path) -> Dict:
+    """Re-derive the report's arithmetic from the rows already bought.
+
+    The ledger now suppresses every row this pilot executed, which is the whole
+    point of it -- so re-running ``--live`` would make zero requests and produce
+    a report of an empty run. When the reasoning about the SAME evidence has to
+    change, the evidence is re-read from disk and the arithmetic re-run over it.
+    Nothing here can call a provider.
+    """
+    prior = json.loads(path.read_text(encoding="utf-8-sig"))
+    cohort = json.loads(COHORT_PATH.read_text(encoding="utf-8-sig"))
+    rows = list(prior["rows"])
+    budget = RequestBudget(max_requests=MAX_REQUESTS,
+                           used=int(prior["requests_made"]))
+    return report(cohort, rows, budget, prior["aborted"], prior["abort_detail"],
+                  int(prior["suppressed_duplicate_queries"]),
+                  int(prior["ledger_rows_written"]),
+                  list(prior["results"]["premises_disagreements"]),
+                  bool(prior["live"]))
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--live", action="store_true",
                         help="actually call Google; without it nothing is "
                              "fetched and no budget is spent")
+    parser.add_argument("--rebuild-report", action="store_true",
+                        help="re-derive the arithmetic from the rows already "
+                             "bought; makes no request and spends nothing")
     parser.add_argument("--out", default=str(REPORT_PATH))
     args = parser.parse_args(argv)
-    if args.live and not os.environ.get(C.GOOGLE_PLACES_API_KEY_ENV, "").strip():
-        raise SystemExit("no %s in the environment" % C.GOOGLE_PLACES_API_KEY_ENV)
-    document = run(live=args.live)
+    if args.rebuild_report:
+        document = rebuild(Path(args.out))
+    else:
+        if args.live and not os.environ.get(C.GOOGLE_PLACES_API_KEY_ENV, "").strip():
+            raise SystemExit("no %s in the environment"
+                             % C.GOOGLE_PLACES_API_KEY_ENV)
+        document = run(live=args.live)
     if args.out:
         Path(args.out).write_text(json.dumps(document, indent=2) + "\n",
                                   encoding="utf-8")

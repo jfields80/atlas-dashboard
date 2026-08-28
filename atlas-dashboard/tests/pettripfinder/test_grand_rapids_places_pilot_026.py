@@ -299,12 +299,29 @@ def test_the_doorway_keeper_is_the_better_evidenced_half(cohort):
 
 
 def test_the_cohort_is_deterministic():
-    """Re-running the builder on the same census produces the same twenty rows
-    in the same order, which is what makes it auditable before the run."""
+    """Same inputs, same twenty rows in the same order -- no randomness, no
+    seed, no shuffle. That is what made the committed cohort auditable BEFORE
+    the run rather than explicable after it."""
+    first, second = COHORT.build(), COHORT.build()
+    assert [r["identity_key"] for r in first["sample"]["rows"]] == \
+           [r["identity_key"] for r in second["sample"]["rows"]]
+    assert first == second
+
+
+def test_rebuilding_the_cohort_now_yields_the_NEXT_batch_not_this_one():
+    """The builder consults the discovery ledger, and the ledger now holds all
+    twenty attempts. So it cannot hand back the rows already bought -- which is
+    the whole point of a ledger that never expires, and is why the committed
+    cohort document, not a re-run, is the record of what this pilot asked."""
+    report_doc = _load(REPORT_DOC)
+    executed = {r["identity_key"] for r in report_doc["rows"]
+                if r.get("requests_made")}
     again = COHORT.build()
-    committed = _load(COHORT_DOC)
-    assert [r["identity_key"] for r in again["sample"]["rows"]] == \
-           [r["identity_key"] for r in committed["sample"]["rows"]]
+    assert executed
+    assert not (executed & {r["identity_key"] for r in again["sample"]["rows"]})
+    suppressed = {row["identity_key"] for row in again["excluded_rows"]
+                  if row["rule"] == COHORT.EXCLUDED_ALREADY_LOOKED_UP}
+    assert executed <= suppressed
 
 
 # --------------------------------------------------------------------------- #
@@ -407,6 +424,74 @@ def test_both_denominators_are_reported(report):
 
 def test_a_recovered_url_is_not_a_published_profile(report):
     assert "still has to be fetched" in report["projection"]["caveat"]
+
+
+def test_a_dead_end_and_a_refusal_are_counted_apart(report):
+    """Four of this market's independents have no website in existence. No
+    lookup at any price recovers those, and counting them with the rows a rule
+    refused would overstate what more requests can buy."""
+    misses = report["why_the_misses_missed"]
+    assert misses["no_page_exists_to_recover"] == 4
+    assert misses["a_page_came_back_and_a_rule_refused_it"] == 7
+    assert (misses["no_page_exists_to_recover"]
+            + misses["a_page_came_back_and_a_rule_refused_it"]
+            == report["results"]["executed"] - report["results"]["urls_recovered"])
+    for row in misses["rows"]:
+        assert row["cause"] and row["why"]
+        if row["cause"] == PILOT.NO_PAGE_EXISTS:
+            assert not row["returned_website"]
+        else:
+            assert row["returned_website"]
+
+
+def test_no_rule_was_widened_during_the_run(report):
+    """The standing lesson: a rule widened during the review whose count it
+    raises is a rule nothing has qualified. The headroom is reported, not
+    taken."""
+    assert "No rule is widened here" in \
+        report["why_the_misses_missed"]["headroom_note"]
+
+
+def test_the_at_risk_row_that_missed_missed_for_the_right_reason(report):
+    """"Motel 6 Grand Rapids" was sampled BECAUSE its name is a strict subset
+    of "Motel 6 Grand Rapids Northeast". Google answered with the sibling and
+    the rule refused it. That is the false-binding guard working, not a
+    failure."""
+    rows = {r["identity_key"]: r for r in report["rows"] if r.get("requests_made")}
+    row = rows["motel 6 grand rapids"]
+    assert row["bound"] is False
+    assert row["expected_binding_method"] == "NAME_AND_POSTAL_CODE_AT_RISK"
+    assert "Northeast" in row["returned"][0]["name"]
+
+
+def test_the_recommendation_states_the_rule_it_applied(report):
+    block = report["recommendation"]
+    assert "upper bound" in block["rule"] and "lower bound" in block["rule"]
+    assert block["stopped_on_a_false_binding_pattern"] is False
+    # Both tests are reported, so a reader may apply either to the same numbers.
+    assert block["target_assured_at_the_lower_bound"] is False
+    assert block["target_reachable_at_the_upper_bound"] is True
+    assert block["decision"] == "CONTINUE_WITH_NEXT_SMALL_BATCH"
+
+
+def test_all_three_landings_are_published(report):
+    projection = report["projection"]
+    assert (projection["landing_at_the_lower_bound"]
+            <= projection["landing_at_the_point_estimate"]
+            <= projection["landing_at_the_upper_bound"])
+
+
+def test_the_report_can_be_rederived_without_spending(tmp_path):
+    """The ledger suppresses every row this pilot bought, so a re-run would
+    make zero requests and report an empty run. Re-reading the saved evidence
+    is how the arithmetic changes without the evidence changing."""
+    again = PILOT.rebuild(REPORT_DOC)
+    committed = _load(REPORT_DOC)
+    assert again["requests_made"] == committed["requests_made"] == 20
+    assert again["results"]["urls_recovered"] == \
+        committed["results"]["urls_recovered"]
+    assert again["recommendation"]["decision"] == \
+        committed["recommendation"]["decision"]
 
 
 def test_exactly_one_recommendation_is_given(report):
