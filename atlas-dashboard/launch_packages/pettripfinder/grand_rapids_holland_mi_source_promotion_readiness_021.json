@@ -1,0 +1,173 @@
+{
+ "schema": "ptf-source-promotion-readiness/1.0",
+ "what_this_is": "Whether Grand Rapids may be promoted in source, and exactly what promotion would move. Nothing is promoted, published or deployed here.",
+ "market_id": "grand-rapids-holland-mi",
+ "work_order": "PTF-GRAND-RAPIDS-FOUNDER-SIGNATURE-PASS-021",
+ "provider_calls": 0,
+ "usd_spent": 0.0,
+ "plan_credits_spent": 0.0,
+ "inputs": {
+  "authority": {
+   "path": "launch_packages/pettripfinder/grand_rapids_holland_mi_proposed_authority_021.json",
+   "sha256": "9ee71a82f7325ea1a7143e45e9717649a31443c84663c6010fd851bc6a67a5b8"
+  },
+  "ledger": {
+   "path": "launch_packages/pettripfinder/grand_rapids_holland_mi_founder_decision_ledger_021.json",
+   "sha256": "3efd7bfbe1cbaae927b474d55761003b92409b29557a363386f5caeb0a1085d5"
+  }
+ },
+ "source_promotion_ready": true,
+ "blockers": [],
+ "market_is_already_registered": true,
+ "promotion_is_a_registration": false,
+ "why": "the market contract and the authority shard both exist; the shard holds zero exclusions and zero destinations and the contract hides the market, so promotion adds this market's first policy content rather than creating a market",
+ "authority_total": 50,
+ "pet_friendly": 36,
+ "verified_no_pets": 14,
+ "minimum_published_hotels": 5,
+ "clears_the_minimum": true,
+ "steps_promotion_would_take": [
+  {
+   "step": "write the 14 verified-no-pets rows into the market's hotel_exclusions shard",
+   "target": "launch_packages/pettripfinder/markets/authority/grand-rapids-holland-mi/hotel_exclusions.json",
+   "currently_holds": 0,
+   "would_hold": 14
+  },
+  {
+   "step": "promote the 36 pet-friendly rows into the market's published profile authority",
+   "target": "the market's profile authority, via the sanctioned promotion path used by PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004",
+   "currently_holds": 0,
+   "would_hold": 36
+  },
+  {
+   "step": "retire the discovery-stage copy and reveal the market",
+   "target": "launch_packages/pettripfinder/markets/grand-rapids-holland-mi.json",
+   "fields": {
+    "show_in_navigation": false,
+    "show_in_sitemap": false,
+    "introductory_copy": "This market is a discovery-stage lodging census. No pet-policy claim is published from it.",
+    "meta_description": "A discovery-stage directory foundation for Grand Rapids and Holland, Michigan lodging. Pet policies have not yet been evaluated."
+   },
+   "note": "all three still say this market publishes no pet-policy claim, which stops being true the moment the authority lands"
+  },
+  {
+   "step": "run build_market_authorities --check",
+   "target": "the three generated global compatibility files",
+   "note": "--check ONLY. --write wipes corridor assignments (PTF-DAYTON-RECERT), and market work edits its shard rather than the globals"
+  }
+ ],
+ "not_done_here": [
+  "nothing is written into markets/",
+  "no global compatibility file is regenerated",
+  "no bundle is assembled",
+  "no deployment record is touched"
+ ],
+ "still_outside_the_authority": {
+  "policy_not_found": 3,
+  "identity_holds": 2,
+  "identity_hold_rows": 1,
+  "routing_unresolved": 11
+ },
+ "validation": {
+  "every_authority_row_has_a_valid_founder_signature": {
+   "ok": true,
+   "rows": 50,
+   "unsigned": [],
+   "invalid_decision_fields": [],
+   "decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "vocabulary": "founder-approval-vocabulary/1.0"
+  },
+  "every_signature_hash_matches_the_current_semantic_facts": {
+   "ok": true,
+   "identity_keys": [],
+   "why": "recomputed from the derived store this authority was built from, not taken from the ledger that wrote it"
+  },
+  "no_hold_enters_authority": {
+   "ok": true,
+   "identity_keys": []
+  },
+  "no_policy_not_found_row_enters_authority": {
+   "ok": true,
+   "identity_keys": [],
+   "why": "the three rows the 020 silence doctrine left unresolved"
+  },
+  "no_unresolved_identity_row_enters_authority": {
+   "ok": true,
+   "identity_keys": [],
+   "why": "the Budgetel hold and both halves of every open pair"
+  },
+  "every_no_pets_row_carries_explicit_refusal_evidence": {
+   "ok": true,
+   "identity_keys": [],
+   "rows": 14
+  },
+  "no_membrane_rejected_row_enters_without_the_020_ruling": {
+   "ok": true,
+   "uncovered": [],
+   "covered_by_an_explicit_ruling": [
+    "avid hotel zeeland"
+   ]
+  },
+  "every_row_the_contract_defers_to_a_person_carries_a_020_ruling": {
+   "ok": true,
+   "deferred_rows": [
+    {
+     "identity_key": "avid hotel zeeland",
+     "readiness": "POLICY_NOT_FOUND",
+     "maps_to_authority": "none yet; eligible for operator attestation",
+     "covered_by_a_020_ruling": true
+    },
+    {
+     "identity_key": "baymont",
+     "readiness": "POLICY_PARTIAL",
+     "maps_to_authority": "held; operator rules whether the partial shape publishes",
+     "covered_by_a_020_ruling": true
+    },
+    {
+     "identity_key": "travelodge by wyndham grand rapids north",
+     "readiness": "POLICY_PARTIAL",
+     "maps_to_authority": "held; operator rules whether the partial shape publishes",
+     "covered_by_a_020_ruling": true
+    }
+   ],
+   "uncovered": [],
+   "no_pets_rows_not_mapped_to_hotel_exclusions": [],
+   "routed_states_needing_no_ruling": [
+    "POLICY_CONFIRMED",
+    "POLICY_CONFIRMED_WITH_AMBIGUITY",
+    "POLICY_NEGATIVE_CONFIRMED"
+   ],
+   "why": "three rows' readiness hands the decision to a person: two POLICY_PARTIAL rows whose maps_to says 'operator rules whether the partial shape publishes', and avid hotel Zeeland's POLICY_NOT_FOUND, whose maps_to says 'eligible for operator attestation'. Each is covered by an explicit 020 ruling, so the attestation is the path the contract names rather than a bypass of one -- and every membrane verdict is left visible on its row"
+  },
+  "no_shared_telephone_decides_identity": {
+   "ok": true,
+   "confirmations_resting_on_the_telephone_alone": 0,
+   "pairs_merged": 0
+  },
+  "no_duplicate_canonical_url": {
+   "ok": true,
+   "duplicates": []
+  },
+  "no_duplicate_property_identity": {
+   "ok": true,
+   "duplicates": [],
+   "why": "street identity, which is how two census names for one building would show up here"
+  },
+  "no_cross_market_collision": {
+   "ok": true,
+   "markets_scanned": 11,
+   "collisions": []
+  },
+  "no_other_market_authority_shard_changes": {
+   "ok": true,
+   "why": "this pass writes launch-package artifacts only; the test asserts markets/ is untouched from git status"
+  },
+  "spend_is_zero": {
+   "ok": true,
+   "usd": 0.0,
+   "plan_credits": 0.0,
+   "provider_calls": 0
+  },
+  "all_pass": true
+ }
+}
