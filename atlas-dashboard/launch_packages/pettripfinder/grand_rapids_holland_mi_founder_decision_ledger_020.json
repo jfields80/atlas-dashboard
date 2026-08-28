@@ -1,0 +1,555 @@
+{
+ "schema": "ptf-founder-decision-ledger/1.0",
+ "what_this_is": "Every ruling this work order made, and nothing else. A row the order did not name carries no decision.",
+ "market_id": "grand-rapids-holland-mi",
+ "work_order": "PTF-GRAND-RAPIDS-FOUNDER-RULINGS-020",
+ "provider_calls": 0,
+ "usd_spent": 0.0,
+ "plan_credits_spent": 0.0,
+ "inputs": {
+  "packet": {
+   "path": "launch_packages/pettripfinder/grand_rapids_holland_mi_exception_review_packet_019.json",
+   "sha256": "2c5bb27c2ee41d179a9f5a4438ace017a5f8c4b16735deacf57952d4faa509cf"
+  },
+  "store": {
+   "path": "launch_packages/pettripfinder/grand_rapids_holland_mi_observation_store_001.json",
+   "sha256": "b3cf3521e13d6988638a4a611f4f46a65c37c6827923bd32aeb83dd7ce38f602"
+  },
+  "census": {
+   "path": "launch_packages/pettripfinder/identity_census/recensus/grand-rapids-holland-mi.json",
+   "sha256": "07198431435ac4a0f80166293183459d3a1e3e5976f1477625b6dd526ecda360"
+  },
+  "dedup": {
+   "path": "launch_packages/pettripfinder/grand_rapids_holland_mi_pre_acquisition_dedup_001.json",
+   "sha256": "83a8e27f7c5295d442b461acee6ca4ed111d99cabfbde50b70adf8704beb53e5"
+  }
+ },
+ "founder_id": "PTF-FOUNDER-001",
+ "doctrines": [
+  {
+   "id": "FOUNDER-DOCTRINE-PET-PRICE-IMPLIES-ALLOWANCE",
+   "issued_by": "PTF-FOUNDER-001",
+   "issued_in": "PTF-GRAND-RAPIDS-FOUNDER-RULINGS-020",
+   "statement": "If an official property source explicitly publishes a pet fee or pet price that applies to the property, treat that as affirmative evidence that pets are permitted, unless the same source explicitly contradicts that interpretation.",
+   "bounds": [
+    "an explicit pet-SPECIFIC price or fee is required",
+    "the property identity must already be valid",
+    "no inference from a generic fee",
+    "no inference from service-animal language",
+    "no inference from an unrelated amenity"
+   ]
+  },
+  {
+   "id": "FOUNDER-DOCTRINE-SOURCE-SILENCE-IS-NOT-NO-PETS",
+   "issued_by": "PTF-FOUNDER-001",
+   "issued_in": "PTF-GRAND-RAPIDS-FOUNDER-RULINGS-020",
+   "statement": "A rendered official property page with a valid identity that states no pet policy, no allowance, no fee and no prohibition is POLICY_NOT_FOUND and unresolved. Source silence is never converted into verified no-pets, and another market's precedent is not inherited automatically.",
+   "bounds": [
+    "Pittsburgh's 'source silence is absence' ruling does NOT carry over",
+    "an amenity token such as 'Pet-friendly rooms' is not a policy",
+    "a policy-section heading with no body is silence, not a finding"
+   ]
+  }
+ ],
+ "authorship": {
+  "FOUNDER": "a doctrine the founder stated, or a correction the founder named",
+  "OPERATOR_UNDER_FOUNDER_DELEGATION": "a per-row identity verdict the founder delegated, decided under the founder's own constraint and re-derived from the saved capture"
+ },
+ "allowance_rulings": [
+  {
+   "identity_key": "baymont",
+   "canonical_name": "Baymont",
+   "ruling": "PETS_ALLOWED_TRUE",
+   "ruling_authority": "FOUNDER",
+   "ruled_by": "PTF-FOUNDER-001",
+   "doctrine": "FOUNDER-DOCTRINE-PET-PRICE-IMPLIES-ALLOWANCE",
+   "pet_specific_price_quote": "25.00 USD per pet per night",
+   "source_also_states_the_allowance_in_words": "Up to 2 Pets with a maximum weight of 30 lbs are allowed for a non-refundable charge of 25.",
+   "why": "the source publishes an explicit pet-specific price ('25.00 USD per pet per night'), which the founder's doctrine treats as affirmative evidence that pets are permitted; and the same block states the allowance outright ('Up to 2 Pets with a maximum weight of 30 lbs are allowed for a non-refundable charge of 25.'), so this ruling does not even rest on the inference",
+   "membrane_verdict": "VALID",
+   "fields_left_untouched": [],
+   "note": "the doctrine rules on the ALLOWANCE only. A fee the schema could not represent stays withheld."
+  },
+  {
+   "identity_key": "travelodge by wyndham grand rapids north",
+   "canonical_name": "Travelodge by Wyndham Grand Rapids North",
+   "ruling": "PETS_ALLOWED_TRUE",
+   "ruling_authority": "FOUNDER",
+   "ruled_by": "PTF-FOUNDER-001",
+   "doctrine": "FOUNDER-DOCTRINE-PET-PRICE-IMPLIES-ALLOWANCE",
+   "pet_specific_price_quote": "Up to 2 pets with a maximum weight of 25lbs each are welcome for a non-refundable charge of 10.",
+   "source_also_states_the_allowance_in_words": "Up to 2 pets with a maximum weight of 25lbs each are welcome for a non-refundable charge of 10.",
+   "why": "the source publishes an explicit pet-specific price ('Up to 2 pets with a maximum weight of 25lbs each are welcome for a non-refundable charge of 10.'), which the founder's doctrine treats as affirmative evidence that pets are permitted; and the same block states the allowance outright ('Up to 2 pets with a maximum weight of 25lbs each are welcome for a non-refundable charge of 10.'), so this ruling does not even rest on the inference",
+   "membrane_verdict": "VALID",
+   "fields_left_untouched": [
+    "fee_basis",
+    "pet_fee"
+   ],
+   "note": "the doctrine rules on the ALLOWANCE only. A fee the schema could not represent stays withheld."
+  }
+ ],
+ "silence_rulings": [
+  {
+   "identity_key": "doubletree by hilton hotel grand rapids airport",
+   "ruling": "POLICY_NOT_FOUND_UNRESOLVED",
+   "ruling_authority": "FOUNDER",
+   "ruled_by": "PTF-FOUNDER-001",
+   "doctrine": "FOUNDER-DOCTRINE-SOURCE-SILENCE-IS-NOT-NO-PETS",
+   "becomes_verified_no_pets": false,
+   "saved_page_mentions_a_pet_token": true,
+   "why": "the page rendered under a valid identity and states no pet policy. The pet tokens the saved text does carry are an amenity list item and an empty policy-section heading, and the founder's doctrine rules out inferring from either",
+   "next_action": "a re-capture with the policy accordion expanded would settle it; a re-read of the saved HTML would not, because the body was never in the page we saved"
+  },
+  {
+   "identity_key": "drury inn and suites grand rapids",
+   "ruling": "POLICY_NOT_FOUND_UNRESOLVED",
+   "ruling_authority": "FOUNDER",
+   "ruled_by": "PTF-FOUNDER-001",
+   "doctrine": "FOUNDER-DOCTRINE-SOURCE-SILENCE-IS-NOT-NO-PETS",
+   "becomes_verified_no_pets": false,
+   "saved_page_mentions_a_pet_token": false,
+   "why": "the page rendered under a valid identity and never mentions a pet at all",
+   "next_action": "a re-capture with the policy accordion expanded would settle it; a re-read of the saved HTML would not, because the body was never in the page we saved"
+  },
+  {
+   "identity_key": "tulyp",
+   "ruling": "POLICY_NOT_FOUND_UNRESOLVED",
+   "ruling_authority": "FOUNDER",
+   "ruled_by": "PTF-FOUNDER-001",
+   "doctrine": "FOUNDER-DOCTRINE-SOURCE-SILENCE-IS-NOT-NO-PETS",
+   "becomes_verified_no_pets": false,
+   "saved_page_mentions_a_pet_token": true,
+   "why": "the page rendered under a valid identity and states no pet policy. The pet tokens the saved text does carry are an amenity list item and an empty policy-section heading, and the founder's doctrine rules out inferring from either",
+   "next_action": "a re-capture with the policy accordion expanded would settle it; a re-read of the saved HTML would not, because the body was never in the page we saved"
+  }
+ ],
+ "corrections": [
+  {
+   "identity_key": "baymont",
+   "ruling": "CORRECTION_APPLIED",
+   "ruling_authority": "FOUNDER",
+   "ruled_by": "PTF-FOUNDER-001",
+   "field": "canonical_name",
+   "from": "Baymont",
+   "to": "Baymont by Wyndham Grand Rapids Near Downtown",
+   "evidence": "Baymont by Wyndham Grand Rapids Near Downtown",
+   "source": "identity_check.name_on_page",
+   "why": "the census name is a bare chain word that would publish a directory entry naming no building",
+   "changes_policy_meaning": false
+  },
+  {
+   "identity_key": "doubletree by hilton",
+   "ruling": "CORRECTION_APPLIED",
+   "ruling_authority": "FOUNDER",
+   "ruled_by": "PTF-FOUNDER-001",
+   "field": "canonical_name",
+   "from": "DoubleTree by Hilton",
+   "to": "DoubleTree by Hilton Hotel Holland",
+   "evidence": "DoubleTree by Hilton Hotel Holland",
+   "source": "identity_check.name_on_page",
+   "why": "the census name is a bare chain word and Holland is where the page says this hotel is",
+   "changes_policy_meaning": false
+  },
+  {
+   "identity_key": "tru",
+   "ruling": "CORRECTION_APPLIED",
+   "ruling_authority": "FOUNDER",
+   "ruled_by": "PTF-FOUNDER-001",
+   "field": "canonical_name",
+   "from": "Tru",
+   "to": "Tru by Hilton Grand Rapids Airport",
+   "evidence": "Tru by Hilton Grand Rapids Airport",
+   "source": "identity_check.name_on_page",
+   "why": "the census name is a bare chain word",
+   "changes_policy_meaning": false
+  },
+  {
+   "identity_key": "baymont by wyndham holland",
+   "ruling": "CORRECTION_APPLIED",
+   "ruling_authority": "FOUNDER",
+   "ruled_by": "PTF-FOUNDER-001",
+   "field": "weight_limit",
+   "from": null,
+   "to": {
+    "value": 100.0,
+    "unit": "lb"
+   },
+   "evidence": "must not weigh more than 100 lbs each",
+   "source": "policy_block",
+   "why": "the source states a weight limit and the record carries none, so the profile reads 'Not stated' where the hotel states a limit",
+   "changes_policy_meaning": false
+  }
+ ],
+ "identity_rulings": [
+  {
+   "identity_key": "avid hotel zeeland",
+   "canonical_name": "avid hotel Zeeland",
+   "ruling": "SAME_PROPERTY_CONFIRMED",
+   "ruling_authority": "OPERATOR_UNDER_FOUNDER_DELEGATION",
+   "ruled_by": "Claude (operator), under the founder's delegation in PTF-GRAND-RAPIDS-FOUNDER-RULINGS-020",
+   "founder_constraint": "a shared telephone alone may NEVER confirm identity",
+   "confirmation_rule": "at least two independent agreeing signals, of which at least one is not the telephone. The founder's constraint -- a shared telephone alone may NEVER confirm identity -- is expressed as arithmetic here, because a rule a run cannot fail is not a rule.",
+   "why": "the page states this row's exact street address and this row's exact telephone; the only disagreement is IHG's own naming convention, which writes 'avid hotels <city> - <metro>' where the census wrote 'avid hotel <city>'. Membrane rule M10 asks for property-code-plus-street or street-plus-owner-qualified-name and does not list street-plus-telephone, which is the gap this ruling fills",
+   "signals_agreed": {
+    "TELEPHONE": "6169533900",
+    "STREET_ADDRESS": "8225 Westpark Way",
+    "DISTINCTIVE_NAME": "avid zeeland"
+   },
+   "signals_agreed_count": 3,
+   "non_telephone_signals": [
+    "STREET_ADDRESS",
+    "DISTINCTIVE_NAME"
+   ],
+   "page_signals_conflicting": [],
+   "page_title": "avid hotel Zeeland",
+   "final_url": "https://www.ihg.com/avidhotels/hotels/us/en/zeeland/grrav/hoteldetail",
+   "capture": "data/acquisition/grand_rapids_holland_mi_factory_001/pass1/avid-hotel-zeeland/attempt-01",
+   "document_sha256": "782e79fe09bd4bcc45856245455733f8df13458111f95737c58ee0656b658e8b",
+   "yields_a_policy_observation_today": true,
+   "saved_page_mentions_pets": true
+  },
+  {
+   "identity_key": "baymont inn and suites grand rapids airport",
+   "canonical_name": "Baymont Inn & Suites Grand Rapids Airport",
+   "ruling": "SAME_PROPERTY_CONFIRMED",
+   "ruling_authority": "OPERATOR_UNDER_FOUNDER_DELEGATION",
+   "ruled_by": "Claude (operator), under the founder's delegation in PTF-GRAND-RAPIDS-FOUNDER-RULINGS-020",
+   "founder_constraint": "a shared telephone alone may NEVER confirm identity",
+   "confirmation_rule": "at least two independent agreeing signals, of which at least one is not the telephone. The founder's constraint -- a shared telephone alone may NEVER confirm identity -- is expressed as arithmetic here, because a rule a run cannot fail is not a rule.",
+   "why": "street, postal code and the census row's own official_url path all agree; the page's name is Wyndham's rebrand of 'Baymont Inn & Suites' to 'Baymont by Wyndham', and the URL slug the census carries still spells the old name",
+   "signals_agreed": {
+    "TELEPHONE": "6164268095",
+    "STREET_ADDRESS": "2873 Kraft Avenue Southeast",
+    "POSTAL_CODE": "49512",
+    "DISTINCTIVE_NAME": "baymont"
+   },
+   "signals_agreed_count": 4,
+   "non_telephone_signals": [
+    "STREET_ADDRESS",
+    "POSTAL_CODE",
+    "DISTINCTIVE_NAME"
+   ],
+   "page_signals_conflicting": [
+    "name"
+   ],
+   "page_title": "Baymont by Wyndham Grand Rapids Airport | Grand Rapids, MI Hotels",
+   "final_url": "https://www.wyndhamhotels.com/baymont/grand-rapids-michigan/baymont-inn-and-suites-grand-rapids-airport/overview",
+   "capture": "data/acquisition/grand_rapids_holland_mi_factory_001/pass1/baymont-inn-suites-grand-rapids-airport/declined-01",
+   "document_sha256": "ae299ba59802939904c632f9ce91df84bbac8117dc06a2992bbc99f00220c75c",
+   "yields_a_policy_observation_today": false,
+   "saved_page_mentions_pets": true
+  },
+  {
+   "identity_key": "fairfield inn and suites grand rapids wyoming",
+   "canonical_name": "Fairfield Inn & Suites Grand Rapids Wyoming",
+   "ruling": "SAME_PROPERTY_CONFIRMED",
+   "ruling_authority": "OPERATOR_UNDER_FOUNDER_DELEGATION",
+   "ruled_by": "Claude (operator), under the founder's delegation in PTF-GRAND-RAPIDS-FOUNDER-RULINGS-020",
+   "founder_constraint": "a shared telephone alone may NEVER confirm identity",
+   "confirmation_rule": "at least two independent agreeing signals, of which at least one is not the telephone. The founder's constraint -- a shared telephone alone may NEVER confirm identity -- is expressed as arithmetic here, because a rule a run cannot fail is not a rule.",
+   "why": "the page carries brand property code GRRFW, which is Marriott's own key for this building and is the code the census official_url names; postal code and name agree. The street 'disagreement' is the census's half-expanded '5970 Metro Way SouthW.' against the page's '5970 Metro Way S.W.' -- one address, two spellings",
+   "signals_agreed": {
+    "STREET_ADDRESS": "5970 Metro Way S.W.",
+    "POSTAL_CODE": "49519",
+    "BRAND_PROPERTY_CODE": "grrfw",
+    "DISTINCTIVE_NAME": "fairfield wyoming"
+   },
+   "signals_agreed_count": 4,
+   "non_telephone_signals": [
+    "STREET_ADDRESS",
+    "POSTAL_CODE",
+    "BRAND_PROPERTY_CODE",
+    "DISTINCTIVE_NAME"
+   ],
+   "page_signals_conflicting": [
+    "street_identity"
+   ],
+   "page_title": "Fairfield Inn & Suites Grand Rapids Wyoming | Comfortable Hotel with Free Breakfast",
+   "final_url": "https://www.marriott.com/en-us/hotels/grrfw-fairfield-inn-and-suites-grand-rapids-wyoming/overview/",
+   "capture": "data/acquisition/grand_rapids_holland_mi_factory_001/pass1/fairfield-inn-suites-grand-rapids-wyoming/declined-01",
+   "document_sha256": "7379c6f37b691897df439898033b6a55e11206aa11182a7aaadddca0d0d55d03",
+   "yields_a_policy_observation_today": false,
+   "saved_page_mentions_pets": true
+  },
+  {
+   "identity_key": "the bluejay hotel",
+   "canonical_name": "The BlueJay Hotel",
+   "ruling": "SAME_PROPERTY_CONFIRMED",
+   "ruling_authority": "OPERATOR_UNDER_FOUNDER_DELEGATION",
+   "ruled_by": "Claude (operator), under the founder's delegation in PTF-GRAND-RAPIDS-FOUNDER-RULINGS-020",
+   "founder_constraint": "a shared telephone alone may NEVER confirm identity",
+   "confirmation_rule": "at least two independent agreeing signals, of which at least one is not the telephone. The founder's constraint -- a shared telephone alone may NEVER confirm identity -- is expressed as arithmetic here, because a rule a run cannot fail is not a rule.",
+   "why": "street, postal code and telephone all agree; the page writes 'The Blue Jay' where the census wrote 'The BlueJay Hotel', which is a space",
+   "signals_agreed": {
+    "TELEPHONE": "6166222112",
+    "STREET_ADDRESS": "644 Bridge St NW",
+    "POSTAL_CODE": "49504",
+    "FIRST_PARTY_SOLE_PROPERTY_DOMAIN": "https://www.thebluejaygr.com/"
+   },
+   "signals_agreed_count": 4,
+   "non_telephone_signals": [
+    "STREET_ADDRESS",
+    "POSTAL_CODE",
+    "FIRST_PARTY_SOLE_PROPERTY_DOMAIN"
+   ],
+   "page_signals_conflicting": [
+    "name"
+   ],
+   "page_title": "Boutique Hotel & Private Event Venue | The BlueJay GR",
+   "final_url": "https://www.thebluejaygr.com/",
+   "capture": "data/acquisition/grand_rapids_holland_mi_factory_001/pass1/the-bluejay-hotel/declined-01",
+   "document_sha256": "7fc0d898b8e7ed7d20d4e05aaad4d450fc78bc5875f7bd978d3f49c3dd0ade81",
+   "yields_a_policy_observation_today": false,
+   "saved_page_mentions_pets": false
+  },
+  {
+   "identity_key": "haworth hotel",
+   "canonical_name": "Haworth Hotel",
+   "ruling": "SAME_PROPERTY_CONFIRMED",
+   "ruling_authority": "OPERATOR_UNDER_FOUNDER_DELEGATION",
+   "ruled_by": "Claude (operator), under the founder's delegation in PTF-GRAND-RAPIDS-FOUNDER-RULINGS-020",
+   "founder_constraint": "a shared telephone alone may NEVER confirm identity",
+   "confirmation_rule": "at least two independent agreeing signals, of which at least one is not the telephone. The founder's constraint -- a shared telephone alone may NEVER confirm identity -- is expressed as arithmetic here, because a rule a run cannot fail is not a rule.",
+   "why": "the page is the root of haworthhotel.com, an independent hotel's own single-property domain, it prints this row's telephone, and 'Haworth' is a distinctive name this market shares with nothing else",
+   "signals_agreed": {
+    "TELEPHONE": "6163957200",
+    "DISTINCTIVE_NAME": "haworth",
+    "FIRST_PARTY_SOLE_PROPERTY_DOMAIN": "https://haworthhotel.com/"
+   },
+   "signals_agreed_count": 3,
+   "non_telephone_signals": [
+    "DISTINCTIVE_NAME",
+    "FIRST_PARTY_SOLE_PROPERTY_DOMAIN"
+   ],
+   "page_signals_conflicting": [],
+   "page_title": "Haworth Hotel - Hotel in Downtown Holland, MI",
+   "final_url": "https://haworthhotel.com/",
+   "capture": "data/acquisition/grand_rapids_holland_mi_factory_001/pass1/haworth-hotel/declined-01",
+   "document_sha256": "8a209ae88040e82ded16f707c6d77ff7256fee453fa4997120df259aa2f60711",
+   "yields_a_policy_observation_today": false,
+   "saved_page_mentions_pets": false
+  },
+  {
+   "identity_key": "the ada hotel",
+   "canonical_name": "The Ada Hotel",
+   "ruling": "SAME_PROPERTY_CONFIRMED",
+   "ruling_authority": "OPERATOR_UNDER_FOUNDER_DELEGATION",
+   "ruled_by": "Claude (operator), under the founder's delegation in PTF-GRAND-RAPIDS-FOUNDER-RULINGS-020",
+   "founder_constraint": "a shared telephone alone may NEVER confirm identity",
+   "confirmation_rule": "at least two independent agreeing signals, of which at least one is not the telephone. The founder's constraint -- a shared telephone alone may NEVER confirm identity -- is expressed as arithmetic here, because a rule a run cannot fail is not a rule.",
+   "why": "the page is the root of adahotel.com and the ONLY telephone it prints is this row's. The membrane objected that the names agree only on 'ada, hotel, the' -- true, and it is why the domain and the telephone are what carry this one",
+   "signals_agreed": {
+    "TELEPHONE": "6168038595",
+    "DISTINCTIVE_NAME": "ada",
+    "FIRST_PARTY_SOLE_PROPERTY_DOMAIN": "https://adahotel.com/"
+   },
+   "signals_agreed_count": 3,
+   "non_telephone_signals": [
+    "DISTINCTIVE_NAME",
+    "FIRST_PARTY_SOLE_PROPERTY_DOMAIN"
+   ],
+   "page_signals_conflicting": [],
+   "page_title": "Crafted Hotel in Ada, Michigan - The Ada Hotel",
+   "final_url": "https://www.adahotel.com/",
+   "capture": "data/acquisition/grand_rapids_holland_mi_factory_001/pass1/the-ada-hotel/declined-01",
+   "document_sha256": "8f6a53e210ebf2244c4ce295a024f690ffbfbff9c81b6765c80008488b89aba9",
+   "yields_a_policy_observation_today": false,
+   "saved_page_mentions_pets": false
+  },
+  {
+   "identity_key": "the finnley hotel",
+   "canonical_name": "The Finnley Hotel",
+   "ruling": "SAME_PROPERTY_CONFIRMED",
+   "ruling_authority": "OPERATOR_UNDER_FOUNDER_DELEGATION",
+   "ruled_by": "Claude (operator), under the founder's delegation in PTF-GRAND-RAPIDS-FOUNDER-RULINGS-020",
+   "founder_constraint": "a shared telephone alone may NEVER confirm identity",
+   "confirmation_rule": "at least two independent agreeing signals, of which at least one is not the telephone. The founder's constraint -- a shared telephone alone may NEVER confirm identity -- is expressed as arithmetic here, because a rule a run cannot fail is not a rule.",
+   "why": "the page is the root of thefinnley.com, it prints this row's telephone, and 'Finnley' is distinctive",
+   "signals_agreed": {
+    "TELEPHONE": "6166222110",
+    "DISTINCTIVE_NAME": "finnley",
+    "FIRST_PARTY_SOLE_PROPERTY_DOMAIN": "https://www.thefinnley.com/"
+   },
+   "signals_agreed_count": 3,
+   "non_telephone_signals": [
+    "DISTINCTIVE_NAME",
+    "FIRST_PARTY_SOLE_PROPERTY_DOMAIN"
+   ],
+   "page_signals_conflicting": [],
+   "page_title": "The Finnley | Boutique Hotel in Downtown Grand Rapids",
+   "final_url": "https://www.thefinnley.com/",
+   "capture": "data/acquisition/grand_rapids_holland_mi_factory_001/pass1/the-finnley-hotel/declined-01",
+   "document_sha256": "fc1899877cd34dd5dc1e16573f366537aeb76a2bea21e4e031e378307f742f5e",
+   "yields_a_policy_observation_today": false,
+   "saved_page_mentions_pets": false
+  },
+  {
+   "identity_key": "budgetel grand rapids",
+   "canonical_name": "Budgetel Grand Rapids",
+   "ruling": "HOLD_IDENTITY",
+   "ruling_authority": "OPERATOR_UNDER_FOUNDER_DELEGATION",
+   "ruled_by": "Claude (operator), under the founder's delegation in PTF-GRAND-RAPIDS-FOUNDER-RULINGS-020",
+   "founder_constraint": "a shared telephone alone may NEVER confirm identity",
+   "confirmation_rule": "at least two independent agreeing signals, of which at least one is not the telephone. The founder's constraint -- a shared telephone alone may NEVER confirm identity -- is expressed as arithmetic here, because a rule a run cannot fail is not a rule.",
+   "why": "nothing agrees. The page states no address, no postal code and no telephone of its own, and this row's telephone is absent from the five numbers the page does print. A chain page for a city is not a property page, and there is no second signal to reach for",
+   "signals_agreed": {
+    "DISTINCTIVE_NAME": "budgetel"
+   },
+   "signals_agreed_count": 1,
+   "non_telephone_signals": [
+    "DISTINCTIVE_NAME"
+   ],
+   "page_signals_conflicting": [],
+   "page_title": "Budgetel - Grand Rapids, MI",
+   "final_url": "https://www.budgetel.com/hotel-details/bi-grand-rapids-mi",
+   "capture": "data/acquisition/grand_rapids_holland_mi_factory_001/pass1/budgetel-grand-rapids/declined-01",
+   "document_sha256": "23097cca29ab69a54576576f0a53d0e319960ad3e64ccfc8a43ae7479e67ec48",
+   "yields_a_policy_observation_today": false,
+   "saved_page_mentions_pets": false
+  }
+ ],
+ "pair_rulings": [
+  {
+   "identity_keys": [
+    "comfort inn",
+    "comfort suites grandville grand rapids sw"
+   ],
+   "ruling": "PRESERVE_INDEPENDENT_IDENTITIES",
+   "ruling_authority": "FOUNDER",
+   "ruled_by": "PTF-FOUNDER-001",
+   "merged": false,
+   "decided_on_shared_telephone_alone": false,
+   "shares_a_telephone": true,
+   "dedup_verdict": "DISTINCT_PROPERTIES",
+   "halves": [
+    {
+     "identity_key": "comfort inn",
+     "canonical_name": "Comfort Inn",
+     "address": "4520 Kenowa Avenue Southwest",
+     "phone": "6166670733"
+    },
+    {
+     "identity_key": "comfort suites grandville grand rapids sw",
+     "canonical_name": "Comfort Suites Grandville - Grand Rapids SW",
+     "address": "4520 Kenowa Ave SW",
+     "phone": "6166670733"
+    }
+   ],
+   "why": "shared street and shared switchboard, and nothing else. Comfort Inn carries no official URL at all, so there is no page to compare"
+  },
+  {
+   "identity_keys": [
+    "sleep inn and suites",
+    "spark by hilton grand rapids"
+   ],
+   "ruling": "PRESERVE_INDEPENDENT_IDENTITIES",
+   "ruling_authority": "FOUNDER",
+   "ruled_by": "PTF-FOUNDER-001",
+   "merged": false,
+   "decided_on_shared_telephone_alone": false,
+   "shares_a_telephone": true,
+   "dedup_verdict": "DISTINCT_PROPERTIES",
+   "halves": [
+    {
+     "identity_key": "sleep inn and suites",
+     "canonical_name": "Sleep Inn & Suites",
+     "address": "4284 29th Street Southeast",
+     "phone": "6169759000"
+    },
+    {
+     "identity_key": "spark by hilton grand rapids",
+     "canonical_name": "Spark by Hilton Grand Rapids",
+     "address": "4284 29th St SE",
+     "phone": "6169759000"
+    }
+   ],
+   "why": "shared street and shared switchboard. Neither half is routed, so a Choice-to-Hilton rebrand is a plausible reading with no page behind it"
+  },
+  {
+   "identity_keys": [
+    "budgetel grand rapids",
+    "budgetel inn and suites hotel"
+   ],
+   "ruling": "PRESERVE_INDEPENDENT_IDENTITIES",
+   "ruling_authority": "FOUNDER",
+   "ruled_by": "PTF-FOUNDER-001",
+   "merged": false,
+   "decided_on_shared_telephone_alone": false,
+   "shares_a_telephone": true,
+   "dedup_verdict": "DISTINCT_PROPERTIES",
+   "halves": [
+    {
+     "identity_key": "budgetel grand rapids",
+     "canonical_name": "Budgetel Grand Rapids",
+     "address": "35 28th Street Southwest",
+     "phone": "6164525141"
+    },
+    {
+     "identity_key": "budgetel inn and suites hotel",
+     "canonical_name": "Budgetel Inn & Suites Hotel",
+     "address": "35 28th St SW",
+     "phone": "6164525141"
+    }
+   ],
+   "why": "shared street and shared switchboard, and the Budgetel page agrees with neither half on any physical signal"
+  },
+  {
+   "identity_keys": [
+    "baymont inn and suites grand rapids airport",
+    "baymont by wyndham grand rapids airport"
+   ],
+   "ruling": "REBRAND_RECORDED_NOT_MERGED",
+   "ruling_authority": "OPERATOR_UNDER_FOUNDER_DELEGATION",
+   "ruled_by": "Claude (operator), under the founder's delegation in PTF-GRAND-RAPIDS-FOUNDER-RULINGS-020",
+   "merged": false,
+   "decided_on_shared_telephone_alone": false,
+   "shares_a_telephone": false,
+   "dedup_verdict": "DISTINCT_PROPERTIES",
+   "halves": [
+    {
+     "identity_key": "baymont inn and suites grand rapids airport",
+     "canonical_name": "Baymont Inn & Suites Grand Rapids Airport",
+     "address": "2873 Kraft Avenue Southeast",
+     "phone": "6164268095"
+    },
+    {
+     "identity_key": "baymont by wyndham grand rapids airport",
+     "canonical_name": "Baymont by Wyndham Grand Rapids Airport",
+     "address": "2873 Kraft Ave SE",
+     "phone": "6169563300"
+    }
+   ],
+   "why": "one building at 2873 Kraft Avenue SE, 49512. The saved page names the SECOND row and declares the second row's telephone, while its URL slug spells the FIRST row's name and it also prints the first row's telephone. That is a Wyndham rebrand carrying two census names and two numbers -- recorded, and deliberately not merged"
+  },
+  {
+   "identity_keys": [
+    "the bluejay hotel",
+    "the blue jay hotel and events"
+   ],
+   "ruling": "REBRAND_RECORDED_NOT_MERGED",
+   "ruling_authority": "OPERATOR_UNDER_FOUNDER_DELEGATION",
+   "ruled_by": "Claude (operator), under the founder's delegation in PTF-GRAND-RAPIDS-FOUNDER-RULINGS-020",
+   "merged": false,
+   "decided_on_shared_telephone_alone": false,
+   "shares_a_telephone": false,
+   "dedup_verdict": "DISTINCT_PROPERTIES",
+   "halves": [
+    {
+     "identity_key": "the bluejay hotel",
+     "canonical_name": "The BlueJay Hotel",
+     "address": "644 Bridge St NW",
+     "phone": "6166222112"
+    },
+    {
+     "identity_key": "the blue jay hotel and events",
+     "canonical_name": "The Blue Jay Hotel & Events",
+     "address": "644 Bridge Street Northwest",
+     "phone": ""
+    }
+   ],
+   "why": "one building at 644 Bridge Street NW. The saved page names itself 'The Blue Jay', which is the SECOND row's spelling, while the first row is the one that carries the URL and the telephone. Recorded, not merged"
+  }
+ ],
+ "rows_ruled": 16,
+ "rows_left_unsigned": 45
+}
