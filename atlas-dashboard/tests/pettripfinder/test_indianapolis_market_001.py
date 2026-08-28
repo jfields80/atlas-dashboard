@@ -298,21 +298,24 @@ def test_live_production_authority_is_complete_and_holds_stay_non_public():
     assert release.exists()
 
 
-def test_assembler_finds_indianapolis_source_ready_after_live_authority_application():
-    """Source readiness is unchanged by PTF-046: every assembly condition
-    holds. Whether the market JOINS the composed bundle is the founder's
-    separate launch decision (deploy/netlify/launch_participation.json),
-    which withheld Indianapolis from the first multi-market launch on
-    coverage, not correctness -- so it is source-ready and not selected."""
+def test_assembler_finds_indianapolis_source_ready_and_now_selected():
+    """Source readiness was never what PTF-046 withheld.
+
+    Every assembly condition held throughout: 046 withheld the market on
+    COVERAGE, and whether it joins the composed bundle has always been the
+    founder's separate launch decision in
+    deploy/netlify/launch_participation.json. PTF-INDIANAPOLIS-LAUNCH-
+    PARTICIPATION-019 reversed that decision, and not one byte of the market's
+    source had to change for the reversal to take effect -- which is the whole
+    point of keeping participation out of the authority."""
     markets = load_markets()
     row = market_eligibility(market_by_id(markets, MARKET))
     assert row["assemblable"] is True
     assert all(row["conditions"].values())
-    assert row["launch_status"] == \
-        "SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH"
-    assert row["participates"] is False
+    assert row["launch_status"] == "FOUNDER_AUTHORIZED_FOR_LAUNCH"
+    assert row["participates"] is True
     chosen, _rows = select_markets(markets)
-    assert MARKET not in [m.market_id for m in chosen]
+    assert MARKET in [m.market_id for m in chosen]
 
 
 def test_utilities_have_provenance_and_revalidation():

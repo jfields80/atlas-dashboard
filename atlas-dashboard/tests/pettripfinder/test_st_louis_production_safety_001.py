@@ -96,17 +96,22 @@ class TestStLouisIsNowRegistered:
 
 class TestParticipationIsTheSixMarketSet:
     def test_the_founder_authorized_set_still_holds_the_live_six(self):
-        """The six St. Louis joined are all still authorized, and the set has
-        grown by Louisville alone."""
+        """The six St. Louis joined are all still authorized. The set has since
+        grown by Louisville (PTF-LOUISVILLE-PUBLICATION-008) and Indianapolis
+        (PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019), and by nothing else -- the
+        half of this assertion that protects St. Louis is that its six are
+        still all there."""
         authorized = tuple(LP.authorized_market_ids())
         assert set(LIVE_SIX) <= set(authorized)
-        assert set(authorized) - set(LIVE_SIX) == {"louisville-ky"}
+        assert set(authorized) - set(LIVE_SIX) == {"louisville-ky",
+                                                   "indianapolis-in"}
 
     def test_no_other_registered_market_was_swept_in(self):
-        """Registration is not participation. Three registered markets are not
-        in the launch set and each must stay out for its own recorded reason."""
+        """Registration is not participation. The two registered markets that
+        are NOT source-ready must stay out, and no founder decision can admit
+        them. Indianapolis left this list by decision, not by drift."""
         assert (LP.launch_status("indianapolis-in")
-                == LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH)
+                == LP.FOUNDER_AUTHORIZED_FOR_LAUNCH)
         for market_id in ("cincinnati-oh", "detroit-ann-arbor-mi"):
             assert LP.launch_status(market_id) == LP.NOT_SOURCE_READY
 
@@ -122,10 +127,15 @@ class TestParticipationIsTheSixMarketSet:
     def test_the_record_names_what_it_supersedes(self):
         decision = json.loads((DEPLOY / "launch_participation.json")
                               .read_text(encoding="utf-8"))["decision"]
-        assert decision["work_order"] == "PTF-ST-LOUIS-REGISTER-PUBLISH-011"
+        assert decision["work_order"] == "PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019"
         superseded = decision["supersedes"]
-        assert superseded["founder_authorized"] == list(LIVE_FIVE)
-        assert superseded["sha256"] == (
+        assert superseded["work_order"] == "PTF-ST-LOUIS-REGISTER-PUBLISH-011"
+        # The five St. Louis inherited are still readable, one hop further back
+        # now that 019 has been issued. The lineage is what keeps them reachable.
+        lineage = decision["lineage"]["records"]
+        first = lineage[0]
+        assert first["founder_authorized"] == list(LIVE_FIVE)
+        assert first["sha256"] == (
             "e766944e49a6610b25eb9ab36deca363fdcf72bafce4bd82d933eb0b78f64eab")
 
 

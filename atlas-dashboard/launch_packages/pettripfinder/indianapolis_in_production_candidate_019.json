@@ -1,0 +1,91 @@
+{
+  "schema": "ptf-production-candidate/1.0",
+  "work_order": "PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019",
+  "status": "VERIFIED_CANDIDATE_NOT_AUTHORISED_FOR_DEPLOYMENT",
+  "what_this_is": "A production bundle assembled and verified against the live baseline. It grants no deployment: no Netlify call was made, no deployment authorisation was issued, and nothing was published.",
+  "source_commit": "653abcee8d13796a4c1dcb55c72fcd44df68187a",
+  "assembled_at": "2026-08-28T02:33:46.470606+00:00",
+  "rollback_baseline": {
+    "deployment_id": "6a8d91855b8993b899a3b68a",
+    "bundle_sha256": "38c811dfc22c185bf11a07e1c14cb7abc787c106cf7c6f119930b803bc4380df",
+    "sitemap_sha256": "307bd35c34e3abb990bd55536f0ecdc586e233ab2ab4396d43b401061d4a4d83",
+    "authorization_id": "ptf-auth-008-38c811dfc22c",
+    "deployed_at": "2026-08-25T12:58:53Z",
+    "its_own_rollback_target": "6a8cab48ead9d4293f477472"
+  },
+  "baseline_reproduction": {
+    "what_was_done": "The same source commit was assembled a second time with the OLD participation row, Indianapolis withheld.",
+    "baseline_bundle_sha256": "38c811dfc22c185bf11a07e1c14cb7abc787c106cf7c6f119930b803bc4380df",
+    "reproduces_the_live_bundle": true,
+    "why_it_matters": "The baseline hashes to the bundle that is live right now, so the comparison below is against production itself rather than a proxy, and it proves the source tree still produces the live bytes."
+  },
+  "candidate": {
+    "bundle_sha256": "e9998c51d13559333ef9bd63f287e8858b73eb0011401a9606a58871f6ba74cc",
+    "sitemap_sha256": "2fa8b15af2526e8b6865dd6ac8342edb0ab8783cacdad5cd549ab91af1b084f6",
+    "total_html_pages": 3249,
+    "total_files": 3269,
+    "sitemap_route_count": 638,
+    "markets": [
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "indianapolis-in",
+      "louisville-ky",
+      "milwaukee-wi",
+      "pittsburgh-pa",
+      "st-louis-mo"
+    ],
+    "published_profiles_by_market": {
+      "cleveland-akron-canton-oh": 99,
+      "columbus-oh": 88,
+      "dayton-oh": 47,
+      "indianapolis-in": 56,
+      "louisville-ky": 46,
+      "milwaukee-wi": 73,
+      "pittsburgh-pa": 26,
+      "st-louis-mo": 82
+    },
+    "total_published_profiles": 517
+  },
+  "indianapolis": {
+    "census": 257,
+    "pet_friendly_profile_routes": 56,
+    "verified_no_pets_exclusions": 34,
+    "sitemap_routes_added": 71,
+    "routes_added_breakdown": "56 profiles + 1 market hub + 13 corridors + 1 policy comparison",
+    "excluded_and_verified_absent": [
+      "extended stay america indianapolis airport w southern ave (HOLD)",
+      "home2 suites by hilton (identity owned by cleveland-akron-canton-oh)",
+      "13 identity-mismatch rows"
+    ]
+  },
+  "preserved_live_markets": {
+    "baseline_files": 2947,
+    "byte_identical": 2944,
+    "changed": [
+      "file_hash_manifest.json",
+      "global_bundle_manifest.json",
+      "site/sitemap.xml"
+    ],
+    "changed_are_global_surfaces_only": true,
+    "removed": [],
+    "no_existing_profile_disappeared": true,
+    "added": 322,
+    "added_all_attributable_to_indianapolis": true,
+    "previously_live_routes_lost": [],
+    "mojibake_only_regeneration_changes": "NONE -- no file changed for encoding reasons; the three changed files are the global surfaces a new market necessarily rewrites"
+  },
+  "gates": {
+    "route_collisions": 0,
+    "global_shadowing": 0,
+    "canonical_violations": 0,
+    "broken_internal_links": 0,
+    "duplicate_sitemap_routes": 0,
+    "indianapolis_inbound_hub_links": 71
+  },
+  "deployment": {
+    "authorized": false,
+    "netlify_called": false,
+    "note": "This work order ends at a verified candidate. Deployment requires its own authorisation record."
+  }
+}

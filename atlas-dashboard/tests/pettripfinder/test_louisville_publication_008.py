@@ -189,14 +189,34 @@ class TestRegistrationIsAtomicWithParticipation:
 
 
 class TestTheCandidateIsLive:
-    def test_the_manifest_carries_the_seven_market_candidate(self):
+    def test_the_seven_market_bundle_is_what_is_LIVE(self):
+        """Liveness lives in the deployment RECORD, not in the manifest.
+
+        The committed manifest is the current CANDIDATE, and
+        PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019 moved it on to an
+        eight-market one. That does not touch what is deployed: the record
+        below still names the seven-market bundle serving production."""
+        record = next(r for r in DA.list_records()
+                      if r["deployment_record_id"] == "ptf-deploy-010-6a8d91855b8993b899a3b68a")
+        assert record["bundle_sha256"] == \
+            "38c811dfc22c185bf11a07e1c14cb7abc787c106cf7c6f119930b803bc4380df"
+        assert record["total_profiles"] == 461
+        assert sorted(record["profile_counts"]) == [
+            "cleveland-akron-canton-oh", "columbus-oh", "dayton-oh",
+            "louisville-ky", "milwaukee-wi", "pittsburgh-pa", "st-louis-mo"]
+
+    def test_the_manifest_now_carries_the_eight_market_candidate(self):
+        """And it is NOT authorised, which is the state 019 stops in."""
         manifest = GD.load_manifest()
         assert GD.verify_manifest() == []
         assert [r["market_id"] for r in manifest["participating_markets"]] == [
             "cleveland-akron-canton-oh", "columbus-oh", "dayton-oh",
-            "louisville-ky", "milwaukee-wi", "pittsburgh-pa", "st-louis-mo"]
-        assert manifest["total_published_profiles"] == 461
+            "indianapolis-in", "louisville-ky", "milwaukee-wi", "pittsburgh-pa",
+            "st-louis-mo"]
+        assert manifest["total_published_profiles"] == 517
         assert manifest["launch_participation"]["sha256"] == LP.participation_sha256()
+        assert manifest["deployment_authorized"] is False
+        assert manifest.get("deployment_authorization") is None
 
     def test_the_authorization_was_spent_and_may_never_deploy_again(self):
         """009 moved this record PREPARED -> AUTHORIZED; 010 spent it.
@@ -207,12 +227,19 @@ class TestTheCandidateIsLive:
         """
         auth = DA.load_authorization("ptf-auth-008-38c811dfc22c")
         assert auth["authorization_status"] == DA.DEPLOYED
-        assert DA.verify_authorization(auth) == []
         assert DA.deployability_problems(auth), \
             "a consumed authorization must never be deployable again"
         deployable = [a["authorization_id"] for a in DA.list_authorizations()
                       if not DA.deployability_problems(a)]
         assert deployable == []
+        # It no longer re-verifies against the working tree either, and that is
+        # the PTF-047 coupling doing its job rather than a defect: admitting a
+        # market reissues the participation record and recomposes the bundle,
+        # so an authorization signed for the old ones cannot still match. A
+        # spent authorization that STILL verified would be the alarming result.
+        problems = DA.verify_authorization(auth)
+        assert problems, "a superseded authorization must stop verifying"
+        assert any("bundle_sha256" in p for p in problems)
 
     def test_the_whole_path_is_still_in_the_history(self):
         """A status history that loses its first steps cannot show that a human
@@ -226,28 +253,33 @@ class TestTheCandidateIsLive:
         assert final["deployment_record_id"] == \
             "ptf-deploy-010-6a8d91855b8993b899a3b68a"
 
-    def test_it_binds_the_bundle_the_named_commit_produces(self):
-        manifest = GD.load_manifest()
+    def test_it_binds_the_bundle_its_own_deployment_produced(self):
+        """Compared against the RECORD of what it deployed, which is fixed,
+        rather than against the manifest, which has since moved to the next
+        candidate."""
+        record = next(r for r in DA.list_records()
+                      if r["deployment_record_id"] == "ptf-deploy-010-6a8d91855b8993b899a3b68a")
         auth = next(a for a in DA.list_authorizations()
                     if a["work_order"] == "PTF-LOUISVILLE-PUBLICATION-008")
-        assert auth["bundle_sha256"] == manifest["bundle_sha256"]
-        assert auth["source_commit"] == manifest["source_commit"]
-        assert auth["launch_participation_sha256"] == LP.participation_sha256()
+        assert auth["bundle_sha256"] == record["bundle_sha256"]
+        assert auth["source_commit"] == record["source_commit"]
         assert auth["total_profiles"] == 461
         assert auth["global_gate_count"] == 27
+        # The participation it signed is an ANCESTOR of the current record.
+        import json as _json
+        current = _json.loads(
+            (REPO / auth["launch_participation_source"]).read_text(encoding="utf-8"))
+        assert auth["launch_participation_sha256"] != LP.participation_sha256()
+        assert auth["launch_participation_sha256"] in {
+            r["sha256"] for r in current["decision"]["lineage"]["records"]}
 
     def test_the_market_is_live_and_the_record_says_so(self):
         """PTF-LOUISVILLE-PRODUCTION-DEPLOY-010 deployed this bundle. What
         makes it live is a deployment record, not the manifest flag -- the flag
         only mirrors an authorization, and it read the same the day before the
         deploy."""
-        manifest = GD.load_manifest()
-        assert manifest["deployment_authorized"] is True
-        assert manifest["deployment_authorization"]["authorization_id"] == \
-            "ptf-auth-008-38c811dfc22c"
-        assert GD.verify_manifest() == []
         record = next(r for r in DA.list_records()
-                      if r["bundle_sha256"] == manifest["bundle_sha256"])
+                      if r["deployment_record_id"] == "ptf-deploy-010-6a8d91855b8993b899a3b68a")
         assert record["deployment_record_id"] == \
             "ptf-deploy-010-6a8d91855b8993b899a3b68a"
         assert record["authorization_id"] == "ptf-auth-008-38c811dfc22c"

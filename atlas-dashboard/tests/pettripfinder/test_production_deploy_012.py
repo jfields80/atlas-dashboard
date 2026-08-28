@@ -251,14 +251,17 @@ class TestLiveVerification:
 # --------------------------------------------------------------------------- #
 
 class TestTheRepositoryMatchesProduction:
-    def test_the_manifest_verifies_and_describes_what_went_live(self, manifest):
-        """The manifest describes the bundle the repository composes, which is
-        the seven-market one that PTF-LOUISVILLE-PRODUCTION-DEPLOY-010 shipped.
-        It is a DIFFERENT bundle from the one 012 put live."""
+    def test_the_manifest_verifies_and_is_a_later_bundle_than_this_one(self, manifest):
+        """The manifest describes the bundle the repository COMPOSES, which has
+        moved on twice since 012: to the seven-market bundle 010 shipped, and
+        then to the eight-market candidate PTF-INDIANAPOLIS-LAUNCH-
+        PARTICIPATION-019 prepared. It is a DIFFERENT bundle from the one 012
+        put live, which is all this test ever asserted."""
         assert GD.verify_manifest() == []
-        assert manifest["deployment_authorized"] is True
-        assert manifest["deployment_authorization"]["bundle_sha256"] == \
-            manifest["bundle_sha256"] != BUNDLE
+        assert manifest["bundle_sha256"] != BUNDLE
+        # 019 stops before authorising, so the candidate carries no authorization.
+        assert manifest["deployment_authorized"] is False
+        assert manifest.get("deployment_authorization") is None
 
     def test_this_record_is_untouched_by_the_deploy_that_replaced_it(self):
         """011's record still says exactly what 011 did. A later deployment
@@ -275,12 +278,20 @@ class TestTheRepositoryMatchesProduction:
         assert successor["rollback_target"] == DEPLOY_ID
         assert successor["previous_deployment_id"] == DEPLOY_ID
 
-    def test_the_founder_authorized_set_grew_by_exactly_louisville(self):
-        assert LP.authorized_market_ids() == sorted(SIX + ["louisville-ky"])
+    def test_the_founder_authorized_set_grew_by_louisville_then_indianapolis(self):
+        """012 admitted Louisville; PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019
+        admitted Indianapolis. The set only ever grows, and both steps are
+        still readable here."""
+        assert LP.authorized_market_ids() == \
+            sorted(SIX + ["louisville-ky", "indianapolis-in"])
+        assert LP.launch_status("louisville-ky") == LP.FOUNDER_AUTHORIZED_FOR_LAUNCH
 
-    def test_no_market_beyond_louisville_was_admitted(self):
+    def test_nothing_that_is_not_source_ready_was_ever_admitted(self):
+        """Indianapolis has left this test: it was withheld on COVERAGE, never
+        on readiness, and 019 admitted it. The two that remain are the two that
+        cannot be admitted at all."""
         assert (LP.launch_status("indianapolis-in")
-                == LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH)
+                == LP.FOUNDER_AUTHORIZED_FOR_LAUNCH)
         for market_id in ("cincinnati-oh", "detroit-ann-arbor-mi"):
             assert LP.launch_status(market_id) == LP.NOT_SOURCE_READY
 
