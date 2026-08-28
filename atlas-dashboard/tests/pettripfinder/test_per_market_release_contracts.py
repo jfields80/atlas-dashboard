@@ -69,14 +69,24 @@ ST_LOUIS = "st-louis-mo"
 #: PTF-LOUISVILLE-PUBLICATION-008 added the eighth contract.
 LOUISVILLE = "louisville-ky"
 
+GRAND_RAPIDS = "grand-rapids-holland-mi"
+
 MARKETS = (COLUMBUS, CLEVELAND, DAYTON, PITTSBURGH, INDIANAPOLIS, MILWAUKEE,
-           ST_LOUIS, LOUISVILLE)
+           ST_LOUIS, LOUISVILLE, GRAND_RAPIDS)
 
 #: The reconciliation each market's committed authority is expected to state, as
 #: (confirmed, published, verified_no_pets, resolved, unresolved). ``None`` means
 #: the market commits no identity census, so its confirmed universe is not a
 #: derivable fact -- absent is a fact, zero would be a claim.
 EXPECTED_RECONCILIATION = {
+    # 163 identities, 35 published, 14 verified-no-pets, 49 resolved and 114
+    # unresolved. The census is the 163-row recensus, promoted into the pinned
+    # path by PTF-GRAND-RAPIDS-CENSUS-PIN-AND-RELEASE-CONTRACT-024; the
+    # 120-identity document the 2025 build pinned is kept beside it, and the
+    # ten prior identities it no longer names were each absorbed into a fresh
+    # sighting of the same building. Like Louisville, this market records no
+    # OUT_OF_CURRENT_CATEGORY identity, so unresolved is the remainder.
+    "grand-rapids-holland-mi": (163, 35, 14, 49, 114),
     # 166 identities, 46 published, 17 verified-no-pets, 63 resolved and 103
     # unresolved -- and unresolved is COUNTED as the remainder because this
     # market records no OUT_OF_CURRENT_CATEGORY identity, exactly as Milwaukee
@@ -304,7 +314,12 @@ class TestContractAgreesWithItsOwnAuthority:
                              # PTF-LOUISVILLE-PUBLICATION-008. Every other
                              # market's number is unchanged, which is the half
                              # of this assertion that proves the scoping.
-                             LOUISVILLE: 17}
+                             LOUISVILLE: 17,
+                             # PTF-GRAND-RAPIDS-SOURCE-PROMOTION-022 wrote this
+                             # market's first 14. Every number above it is
+                             # unchanged, which is again the half that proves
+                             # the scoping.
+                             GRAND_RAPIDS: 14}
         registry = json.loads(
             (REPO_ROOT / "launch_packages" / "pettripfinder" / "hotel_exclusions.json")
             .read_text(encoding="utf-8-sig"))["exclusions"]

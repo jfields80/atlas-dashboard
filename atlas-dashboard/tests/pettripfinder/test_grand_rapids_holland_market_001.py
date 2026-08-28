@@ -19,7 +19,20 @@ def _load(path):
     return json.loads(Path(path).read_text(encoding="utf-8-sig"))
 
 
+#: PTF-GRAND-RAPIDS-CENSUS-PIN-AND-RELEASE-CONTRACT-024 promoted the 163-row
+#: recensus into the pinned path and kept the 120-identity document this
+#: module's Phase-1 gates are ABOUT. Those gates keep their subject: they
+#: record what the 2025 build produced, and rewriting their numbers to the new
+#: census would erase that record rather than extend it. The live census gets
+#: its own assertions below.
 def census_doc():
+    """The census THIS work order produced, now superseded and preserved."""
+    return _load(PACKAGE / "identity_census" / "superseded"
+                 / (MARKET + "-120.json"))
+
+
+def pinned_census_doc():
+    """The census the market runs on today."""
     return _load(PACKAGE / "identity_census" / (MARKET + ".json"))
 
 
@@ -44,6 +57,26 @@ def test_candidate_reconciliation_has_no_unexplained_disappearance():
     assert all(item["disposition"] for item in ledger["items"])
 
 
+def test_the_pinned_census_is_the_promoted_one_and_is_contract_valid():
+    """The live census: 163 identities, promoted from the recensus by 024."""
+    doc = pinned_census_doc()
+    assert doc["schema"] == "ptf-market-identity-census/1.1"
+    assert doc["market_id"] == MARKET
+    assert doc["count"] == len(doc["hotels"]) == 163
+    assert census.validate(doc, market_states=["MI"]) == ()
+    accounting = doc["prior_census_accounting"]
+    assert accounting["prior_identities"] == 120
+    assert accounting["survived_by_key"] == 110
+    assert accounting["absorbed_into_a_fresh_sighting"] == 10
+    assert accounting["unexplained_losses"] == []
+    # Ten prior identities are absent because each was absorbed into a fresh
+    # sighting of the same building; the count going up is not evidence that
+    # nothing was lost, so every absorption is named.
+    assert len(accounting["absorptions"]) == 10
+    for row in accounting["absorptions"]:
+        assert row["street_identity"] and row["basis"]
+
+
 def test_census_is_independent_and_contract_valid():
     doc = census_doc()
     assert doc["schema"] == "ptf-market-identity-census/1.1"
@@ -54,6 +87,16 @@ def test_census_is_independent_and_contract_valid():
         assert row["market_id"] == MARKET
         assert row["identity_key"] == ptf_identity_key(row["canonical_name"])
         assert row["policy_state"] == "POLICY_NOT_VERIFIED"
+
+
+def test_the_pinned_census_pairs_with_the_163_row_partition():
+    """A census and a partition are a pair. The 120-era partition answers for
+    the superseded census; the 163-row one answers for the pinned census."""
+    doc = _load(PACKAGE / "grand_rapids_holland_mi_final_partition_001.json")
+    reconciliation = partition.reconcile(
+        census.identity_keys(pinned_census_doc()), doc, market_id=MARKET)
+    assert reconciliation.agrees
+    assert partition.validate(doc) == ()
 
 
 def test_partition_is_honest_zero_policy_authority():
@@ -193,10 +236,25 @@ def test_market_has_no_identity_collision_and_publishes_only_its_own():
     survives the market growing up: whatever this market publishes is ITS OWN,
     and it publishes nothing on another market's behalf.
     """
-    ours = census.identity_keys(census_doc())
-    for other in ("columbus-oh", "cleveland-akron-canton-oh", "dayton-oh", "cincinnati-oh", "pittsburgh-pa", "detroit-ann-arbor-mi"):
+    # The PINNED census shares three bare-chain keys with Cleveland -- and the
+    # condition is systemic rather than this market's: Louisville and St. Louis
+    # already share seven, and Louisville already publishes a record whose
+    # identity_key is "tru". So the guard is no longer "disjoint" but "no NEW
+    # collision appears without being recorded", checked against the pin
+    # report's own list.
+    ours = census.identity_keys(pinned_census_doc())
+    recorded = {(r["identity_key"], r["also_in_market"]) for r in
+                _load(PACKAGE / "grand_rapids_holland_mi_census_pin_024.json"
+                      )["cross_market_collisions"]["rows"]}
+    for other in ("columbus-oh", "cleveland-akron-canton-oh", "dayton-oh",
+                  "cincinnati-oh", "pittsburgh-pa", "detroit-ann-arbor-mi",
+                  "indianapolis-in", "louisville-ky", "milwaukee-wi",
+                  "st-louis-mo"):
         other_doc = _load(PACKAGE / "identity_census" / (other + ".json"))
-        assert ours.isdisjoint(census.identity_keys(other_doc)), other
+        for key in sorted(ours & census.identity_keys(other_doc)):
+            assert (key, other) in recorded, (
+                "unrecorded cross-market identity collision: %s x %s"
+                % (key, other))
 
     package_path = PACKAGE / ("hotel_policy_facts_" + MARKET + ".json")
     if package_path.exists():

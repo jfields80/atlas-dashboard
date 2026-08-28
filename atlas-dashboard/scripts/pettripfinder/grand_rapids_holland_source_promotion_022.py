@@ -686,11 +686,20 @@ def pinned_census_gap(authority: Mapping) -> Dict:
     promoted = ({r["normalized_name"] for r in authority["pet_friendly"]}
                 | {r["normalized_name"] for r in authority["verified_no_pets"]})
     outside = sorted(promoted - pinned)
+    contract_path = (_REPO_ROOT / "deploy" / "netlify" / "release_contracts"
+                     / ("%s.json" % MARKET))
     return OrderedDict((
-        ("written", False),
+        # Read from disk rather than frozen: PTF-GRAND-RAPIDS-CENSUS-PIN-AND-
+        # RELEASE-CONTRACT-024 closed the census gap and wrote the contract, so
+        # a report that still said "blocked" would be describing a world that
+        # ended.
+        ("written", contract_path.is_file()),
+        ("blocked_when_this_pass_first_ran", True),
         ("path", "deploy/netlify/release_contracts/%s.json" % MARKET),
-        ("blocked_by", "the market's PINNED census does not contain every "
-                       "promoted identity"),
+        ("blocked_by", "" if not outside else
+         "the market's PINNED census does not contain every promoted identity"),
+        ("unblocked_by", "PTF-GRAND-RAPIDS-CENSUS-PIN-AND-RELEASE-CONTRACT-024"
+         if not outside else ""),
         ("pinned_census", OrderedDict((
             ("path", str(pinned_path.relative_to(_REPO_ROOT).as_posix())),
             ("count", len(pinned)),

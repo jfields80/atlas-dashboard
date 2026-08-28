@@ -279,7 +279,16 @@ class TestZipOwnershipMarketsAreUnchanged:
 
 
 # --------------------------------------------------------------------------- #
-# 7. The Grand Rapids fixture -- the real committed census and contract.
+# 7. The Grand Rapids fixture -- a real committed census and contract.
+#
+# The census here is the 120-identity document the 2025 build pinned, which
+# PTF-GRAND-RAPIDS-CENSUS-PIN-AND-RELEASE-CONTRACT-024 superseded and kept. It
+# stays the fixture on purpose: what this class regression-tests is the
+# MEMBERSHIP ENGINE against a census whose rows carry NO COORDINATE, which is
+# the precondition for defect 2, and that document is permanently that. The
+# live 163-row census carries coordinates from discovery -- as Louisville's and
+# St. Louis's committed censuses already do -- so pointing the fixture at it
+# would quietly retire the regression rather than extend it.
 # --------------------------------------------------------------------------- #
 
 class TestGrandRapidsFixture:
@@ -292,8 +301,8 @@ class TestGrandRapidsFixture:
 
     def _census_rows(self):
         return json.loads(
-            (CENSUS / "grand-rapids-holland-mi.json").read_text(
-                encoding="utf-8"))["hotels"]
+            (CENSUS / "superseded" / "grand-rapids-holland-mi-120.json"
+             ).read_text(encoding="utf-8"))["hotels"]
 
     def test_the_market_declares_geography_membership(self):
         assert (self._contract().census_membership_basis

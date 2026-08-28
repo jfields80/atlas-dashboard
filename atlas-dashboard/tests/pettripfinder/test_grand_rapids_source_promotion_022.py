@@ -296,18 +296,23 @@ def test_the_routing_shard_was_not_wiped_only_answered(report):
         "the archive must carry the whole record, not a list of names")
 
 
-def test_no_release_contract_was_written_and_the_reason_is_a_number(report):
-    """The release contract needs identity_census.expected_count to AGREE with
-    the derivation. Nine of the 49 promoted identities are absent from the
-    market's pinned 120-identity census, so stating 120 beside 49 resolved
-    would pass the gate by asserting something untrue."""
+def test_the_census_gap_that_blocked_the_release_contract_is_closed(report):
+    """This pass could not write a release contract: nine of the 49 promoted
+    identities were absent from the market's pinned 120-identity census, and
+    stating 120 beside 49 resolved would have passed the gate by asserting
+    something untrue. PTF-GRAND-RAPIDS-CENSUS-PIN-AND-RELEASE-CONTRACT-024
+    promoted the 163-row recensus and closed it, so the report now describes
+    the world it actually finds rather than the one it first ran in."""
     contract = report["release_contract"]
-    assert contract["written"] is False
-    assert contract["pinned_census"]["count"] == 120
+    assert contract["blocked_when_this_pass_first_ran"] is True
+    assert contract["pinned_census"]["count"] == 163
     assert contract["promoted_identities"] == 49
-    assert len(contract["promoted_identities_absent_from_the_pinned_census"]) == 9
-    assert not (REPO_ROOT / "deploy" / "netlify" / "release_contracts"
-                / ("%s.json" % MARKET)).exists()
+    assert contract["promoted_identities_absent_from_the_pinned_census"] == []
+    assert contract["unblocked_by"] == (
+        "PTF-GRAND-RAPIDS-CENSUS-PIN-AND-RELEASE-CONTRACT-024")
+    assert contract["written"] is True
+    assert (REPO_ROOT / "deploy" / "netlify" / "release_contracts"
+            / ("%s.json" % MARKET)).exists()
 
 
 def test_nothing_was_assembled_or_deployed(report):
