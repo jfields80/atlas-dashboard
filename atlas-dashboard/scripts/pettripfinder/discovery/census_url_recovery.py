@@ -136,6 +136,154 @@ def street_key(address: str, postal: str) -> str:
     return "%s|%s" % (" ".join(_STREET_WORDS.get(w, w) for w in words), postal)
 
 
+#: PTF-INDIANAPOLIS-PLACES-NAME-NORMALIZATION-009. The hotel OPERATORS whose
+#: name a brand page prints as a courtesy: "Candlewood Suites Indianapolis
+#: Northwest BY IHG", "Fairfield BY MARRIOTT Inn & Suites". The operator is
+#: presentation, not identity -- it says who runs the chain, never which
+#: building. Removed only as the exact two-token sequence ``by <operator>``, and
+#: from BOTH sides, so a name that never carried it is unaffected.
+#:
+#: Deliberately a CLOSED list of operator names. "by the airport" and "by the
+#: canal" are locations, and a rule that dropped any "by X" would delete them.
+_OPERATOR_TOKENS: Tuple[str, ...] = (
+    "marriott", "hilton", "ihg", "wyndham", "radisson", "hyatt", "choice",
+    "sonesta", "accor", "best western",
+)
+
+#: Chain names a brand has re-presented wholesale. The left form and the right
+#: form are the SAME chain, so neither can distinguish two of its hotels from
+#: one another -- Extended Stay America renamed every property to "Extended
+#: Stay America Suites", it did not open a second chain. Each entry needs that
+#: to be true of the whole chain, which is why this is a named table and not a
+#: pattern.
+_CHAIN_PRESENTATION: Tuple[Tuple[str, str], ...] = (
+    ("extended stay america suites", "extended stay america"),
+)
+
+
+def _drop_an_operator_hotel(tokens: List[str]) -> List[str]:
+    """PTF-INDIANAPOLIS-PLACES-SAVED-PAYLOAD-REBIND-011.
+
+    IHG writes ", an IHG Hotel" where it elsewhere writes "by IHG". It is the
+    same courtesy, said the other way round, and it names an operator rather
+    than a building. Removed only as the exact three-token run.
+    """
+    out: List[str] = []
+    index = 0
+    while index < len(tokens):
+        if (tokens[index] == "an" and index + 2 < len(tokens)
+                and tokens[index + 1] in _OPERATOR_TOKENS
+                and tokens[index + 2] == "hotel"):
+            index += 3
+            continue
+        out.append(tokens[index])
+        index += 1
+    return out
+
+
+def _drop_inn_suites(tokens: List[str]) -> List[str]:
+    """"Comfort Inn & Suites Fishers" and "Comfort Inn Fishers" are one hotel.
+
+    PTF-INDIANAPOLIS-PLACES-SAVED-PAYLOAD-REBIND-011 read this off three saved
+    payloads where the brand's own URL confirms it -- Hilton serves
+    ``indavhx-hampton-suites-avon-indianapolis`` for a census row that still
+    says "Hampton Inn Indianapolis Avon". "& Suites" is a designation a chain
+    adds to a property, not a second property.
+
+    The token is dropped ONLY when it directly follows "inn", which is what
+    keeps the dangerous case dangerous: in "Comfort Suites South" the "suites"
+    follows "comfort", so it survives, and "Comfort Inn South" and "Comfort
+    Suites South" remain two different brands and two different buildings.
+    """
+    return [token for index, token in enumerate(tokens)
+            if not (token == "suites" and index > 0 and tokens[index - 1] == "inn")]
+
+
+def presentation_key(name: str, *, state_code: str = "",
+                     unordered: bool = False) -> str:
+    """``normalise`` plus the presentation differences that name one building twice.
+
+    PTF-INDIANAPOLIS-PLACES-NAME-NORMALIZATION-009 measured this on 25 paid
+    Google Places lookups. Thirteen rows that bound on nothing still came back
+    with a real property page, and eleven of those were the intended hotel under
+    the brand's current marketing name. The rule was not wrong to refuse them --
+    it was comparing presentation, not identity.
+
+    THREE TRANSFORMATIONS, AND NOTHING ELSE:
+
+      by <operator>   dropped as an exact pair, both sides
+      <state code>    a bare "IN" inside "Motel 6 Indianapolis, IN - Airport"
+      chain re-present "extended stay america suites" -> "extended stay america"
+
+    WHAT IT WILL NOT TOUCH, BECAUSE THESE DISTINGUISH REAL BUILDINGS:
+    airport, downtown, the compass words, and every locality -- plainfield,
+    carmel, castleton, fishers, westfield, greenwood, and the city itself.
+    "Courtyard Indianapolis AIRPORT Plainfield" and "Courtyard Indianapolis
+    Plainfield" are two hotels and stay two hotels. Nor does it touch "inn" or
+    "suites": Comfort Inn and Comfort Suites are two brands.
+
+    There is no fuzzy matching here. Every output is a token sequence, compared
+    for equality, and every difference between input and output is one of the
+    three rules above.
+
+    IT DOES NOT REPLACE ``names_may_share_a_url``. This widens what counts as
+    THE SAME NAME; that function decides whether two DIFFERENT names may lend
+    each other a URL. Grand Rapids needs both, and both run.
+    """
+    tokens = normalise(name).split()
+    if not tokens:
+        return ""
+
+    out: List[str] = []
+    index = 0
+    while index < len(tokens):
+        if tokens[index] == "by":
+            for operator in _OPERATOR_TOKENS:
+                parts = operator.split()
+                if tokens[index + 1:index + 1 + len(parts)] == parts:
+                    index += 1 + len(parts)
+                    break
+            else:
+                out.append(tokens[index])
+                index += 1
+            continue
+        out.append(tokens[index])
+        index += 1
+
+    # "&" and "and" are one word written two ways. ``normalise`` already turns
+    # "&" into a space, so dropping the written form is what makes
+    # "Inn & Suites" and "Inn and Suites" the same name.
+    if len(out) > 2:
+        out = [t for t in out if t != "and"] or out
+
+    state = normalise(state_code)
+    if state and len(state) == 2:
+        # A bare state code is where the row already says it is. It cannot
+        # separate two hotels in one market, which is the only market this is
+        # ever compared inside.
+        trimmed = [t for t in out if t != state]
+        if len(trimmed) >= 2:
+            out = trimmed
+
+    out = _drop_an_operator_hotel(out)
+    out = _drop_inn_suites(out)
+
+    joined = " ".join(out)
+    for written, canonical in _CHAIN_PRESENTATION:
+        if joined.startswith(written):
+            joined = canonical + joined[len(written):]
+            break
+    joined = joined.strip()
+    if unordered:
+        # Google writes "Avon Indianapolis" where the census writes
+        # "Indianapolis Avon". Comparing the SORTED tokens makes those one
+        # name. This is exact multiset equality, not overlap scoring: every
+        # word still has to be present on both sides, and one extra or one
+        # missing word is still two different hotels.
+        joined = " ".join(sorted(joined.split()))
+    return joined
+
+
 def distinctive_name_tokens(name: str) -> List[str]:
     """The words in a hotel's name that could identify THIS building in a URL."""
     return [t for t in normalise(name).split()
@@ -369,7 +517,8 @@ def read_prior_artifacts(census_path: Path, artifact_paths: Sequence[Path]
 def bind(row: Mapping, observations: Sequence[Observation],
          *, unambiguous_streets: Optional[frozenset] = None,
          acceptable: Optional[Callable[[Observation], Tuple[bool, str]]] = None,
-         rejected: Optional[List[Dict]] = None
+         rejected: Optional[List[Dict]] = None,
+         presentation_variants: bool = False
          ) -> Tuple[Optional[Observation], str]:
     """``(observation, binding)`` -- the strongest usable match, or ``(None, "")``.
 
@@ -391,8 +540,23 @@ def bind(row: Mapping, observations: Sequence[Observation],
     that matched would throw the good page away because a bad one was found
     first. Every rejection is appended to ``rejected`` -- what this module
     refuses is its whole value, and a silent refusal cannot be reviewed.
+
+    ``presentation_variants`` opts a caller into ``presentation_key`` for the
+    name comparison -- PTF-INDIANAPOLIS-PLACES-NAME-NORMALIZATION-009 and
+    PTF-INDIANAPOLIS-PLACES-SAVED-PAYLOAD-REBIND-011. Default OFF on purpose:
+    every market that recovered its URLs under the old rule recovers exactly
+    the same ones today, and a caller has to ask for the wider comparison
+    before it applies. It widens only what counts as the SAME name; the
+    dual-brand refusal below runs either way, so "Comfort Inn" still may not
+    take a "Comfort Suites Grandville" page.
     """
-    name = normalise(row.get("canonical_name", ""))
+    # PTF-GRAND-RAPIDS-HOLLAND-PLACES-PILOT-026 wires the two hardenings
+    # together for the first time. They answer different questions and neither
+    # substitutes for the other.
+    key = ((lambda n: presentation_key(n, state_code=str(row.get("state") or ""),
+                                       unordered=True))
+           if presentation_variants else normalise)
+    name = key(row.get("canonical_name", ""))
     postal = (row.get("postal_code") or "").strip()
     phone = digits(row.get("phone", ""))
     street = (street_key(row.get("address", ""), postal)
@@ -400,7 +564,7 @@ def bind(row: Mapping, observations: Sequence[Observation],
 
     levels = (
         (BIND_PHONE, (lambda o: bool(phone) and o.phone == phone)),
-        (BIND_NAME_POSTAL, (lambda o: bool(name and postal) and o.name == name
+        (BIND_NAME_POSTAL, (lambda o: bool(name and postal) and key(o.name) == name
                             and bool(o.postal) and o.postal == postal)),
         (BIND_STREET_POSTAL, (lambda o: bool(street)
                               and street in (unambiguous_streets or frozenset())
