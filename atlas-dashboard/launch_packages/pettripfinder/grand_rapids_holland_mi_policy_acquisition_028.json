@@ -237,6 +237,20 @@
     "bytes_on_disk": 6,
     "finding": "every one of the 7 refused rows came back from a page whose own name is this property, and each was declined on a STREET SUFFIX: '4155 28th St., S.E.' against '4155 28th Street', '3063 Lake Eastbrook' against '3063 Lake Eastbrook Blvd SE'. The rendered HTML is on disk for 6 of them, so settling the identity question costs nothing to READ -- but NO RULE IS WIDENED HERE, because a rule widened during the run whose count it raises is a rule nothing has qualified.",
     "two_are_not_the_same_case": "the two Extended Stay America pages are titled 'Explore Our Nationwide Hotel Locations'. A policy read off an index that lists many properties could belong to any of them, so those two are a weaker case than the four single-property pages.",
+    "brand_generic_quotes_found": [
+      {
+        "shared_quote": "Pet-friendly room",
+        "identity_keys": [
+          "extended stay america select suites grand rapids kentwood",
+          "extended stay america select suites grand rapids wyoming"
+        ],
+        "why": "two different properties returning the same sentence are reading a brand page, not their own"
+      }
+    ],
+    "what_the_saved_bytes_would_read": {
+      "WOULD_READ_NO_PETS": 1,
+      "WOULD_READ_PET_FRIENDLY": 5
+    },
     "rows": [
       {
         "identity_key": "cityflatshotel grand rapids",
@@ -250,7 +264,10 @@
         "name_on_page": "",
         "address_on_page": "",
         "bytes_are_on_disk": false,
-        "declined_directory": ""
+        "declined_directory": "",
+        "pet_lines_in_the_saved_text": [],
+        "would_read": "NO_POLICY_IN_THE_SAVED_BYTES",
+        "would_read_quote": ""
       },
       {
         "identity_key": "comfort inn airport",
@@ -264,7 +281,15 @@
         "name_on_page": "Comfort Inn Grand Rapids Airport",
         "address_on_page": "4155 28th St., S.E.",
         "bytes_are_on_disk": true,
-        "declined_directory": "data/acquisition/gr_028/comfort-inn-airport/declined-01"
+        "declined_directory": "data/acquisition/gr_028/comfort-inn-airport/declined-01",
+        "pet_lines_in_the_saved_text": [
+          "Pet Friendly*",
+          "Conveniently located off Interstate 96 just 30 miles from Lake Michigan, our pet-friendly hotel is a great go-to destination for those who want to explore the beautiful Frederick Meijer Gardens or attend events at Millennium Park, Van Andel Arena or Patterson Ice Center. We are close to Aquinas College and Calvin College and sporting events at the MSA Fieldhouse. A visit to Grand Rapids is not complete without visiting the inspiring Gerald Ford Presidential Museum, honoring the 38th president of the United States who called Grand Rapids home.",
+          "Pets Allowed: Yes",
+          "General: Pets are allowed. Dogs Only. 25.00 USD Per Night Per Pet. Refundable Deposit of 100.00 USD. Limit size of the pet is 30 pounds.. Service animals are permitted, without charge."
+        ],
+        "would_read": "WOULD_READ_PET_FRIENDLY",
+        "would_read_quote": "Pet Friendly*"
       },
       {
         "identity_key": "extended stay america select suites grand rapids kentwood",
@@ -278,7 +303,15 @@
         "name_on_page": "Extended Stay America - Grand Rapids - Kentwood",
         "address_on_page": "3747 29th St. S.E.",
         "bytes_are_on_disk": true,
-        "declined_directory": "data/acquisition/gr_028/extended-stay-america-select-suites-grand-rapids-kentwood/declined-01"
+        "declined_directory": "data/acquisition/gr_028/extended-stay-america-select-suites-grand-rapids-kentwood/declined-01",
+        "pet_lines_in_the_saved_text": [
+          "Pet-friendly room",
+          "Additionally, during your stay you may engage in certain activities that are subject to the imposition of fees, including, but not limited to, phone call fees, smoking fees, pet fees, late payment fees (Select Suites locations only), early check-in fees, and late check out fees (collectively generally referred to as \u201cOther Fees\u201d).",
+          "Pet fees: Not to exceed a $25.00 per day cleaning fee plus tax, for the first six (6) nights, per pet. Each day thereafter there is a pet cleaning fee not to exceed a $15.00 per day plus tax, per pet. If your reservation is for six (6) days or less, the pet fees for your entire stay will be due at check-in. For reservations for seven (7) days or more, the first seven (7) nights\u2019 pet fees will be due at check-in and each seven (7) days thereafter until the end of your reservation. If you exercise your option to bring a pet to the hotel that meets the hotel requirements, you will incur fees related to that pet. Guest will be held responsible for any damage caused by or liability arising from his/her pet to any person, guest room or other area of the hotel. Payment of the pet cleaning fees does not relieve the guest of this responsibility.",
+          "A maximum of two pets are allowed in each suite. Height and length restrictions apply-- pets can be no longer than 36 inches and no taller than 36 inches. Larger animals or more than two pets requires property manager\u2019s approval. Please contact the property for questions."
+        ],
+        "would_read": "WOULD_READ_PET_FRIENDLY",
+        "would_read_quote": "Pet-friendly room"
       },
       {
         "identity_key": "extended stay america select suites grand rapids wyoming",
@@ -292,7 +325,15 @@
         "name_on_page": "Extended Stay America - Grand Rapids - Wyoming",
         "address_on_page": "4500 Clyde Park Ave",
         "bytes_are_on_disk": true,
-        "declined_directory": "data/acquisition/gr_028/extended-stay-america-select-suites-grand-rapids-wyoming/declined-01"
+        "declined_directory": "data/acquisition/gr_028/extended-stay-america-select-suites-grand-rapids-wyoming/declined-01",
+        "pet_lines_in_the_saved_text": [
+          "Pet-friendly room",
+          "Additionally, during your stay you may engage in certain activities that are subject to the imposition of fees, including, but not limited to, phone call fees, smoking fees, pet fees, late payment fees (Select Suites locations only), early check-in fees, and late check out fees (collectively generally referred to as \u201cOther Fees\u201d).",
+          "Pet fees: Not to exceed a $25.00 per day cleaning fee plus tax, for the first six (6) nights, per pet. Each day thereafter there is a pet cleaning fee not to exceed a $15.00 per day plus tax, per pet. If your reservation is for six (6) days or less, the pet fees for your entire stay will be due at check-in. For reservations for seven (7) days or more, the first seven (7) nights\u2019 pet fees will be due at check-in and each seven (7) days thereafter until the end of your reservation. If you exercise your option to bring a pet to the hotel that meets the hotel requirements, you will incur fees related to that pet. Guest will be held responsible for any damage caused by or liability arising from his/her pet to any person, guest room or other area of the hotel. Payment of the pet cleaning fees does not relieve the guest of this responsibility.",
+          "A maximum of two pets are allowed in each suite. Height and length restrictions apply-- pets can be no longer than 36 inches and no taller than 36 inches. Larger animals or more than two pets requires property manager\u2019s approval. Please contact the property for questions."
+        ],
+        "would_read": "WOULD_READ_PET_FRIENDLY",
+        "would_read_quote": "Pet-friendly room"
       },
       {
         "identity_key": "holiday inn grand rapids airport",
@@ -306,7 +347,13 @@
         "name_on_page": "Holiday Inn Grand Rapids - Airport",
         "address_on_page": "3063 Lake Eastbrook",
         "bytes_are_on_disk": true,
-        "declined_directory": "data/acquisition/gr_028/holiday-inn-grand-rapids-airport/declined-01"
+        "declined_directory": "data/acquisition/gr_028/holiday-inn-grand-rapids-airport/declined-01",
+        "pet_lines_in_the_saved_text": [
+          "Can I bring my pet to Holiday Inn Grand Rapids - Airport?",
+          "No, pets are not allowed at Holiday Inn Grand Rapids - Airport."
+        ],
+        "would_read": "WOULD_READ_NO_PETS",
+        "would_read_quote": "No, pets are not allowed at Holiday Inn Grand Rapids - Airport."
       },
       {
         "identity_key": "staybridge suites grand rapids airport",
@@ -320,7 +367,13 @@
         "name_on_page": "Staybridge Suites Grand Rapids - Airport",
         "address_on_page": "3000 Lake East Brook Blvd",
         "bytes_are_on_disk": true,
-        "declined_directory": "data/acquisition/gr_028/staybridge-suites-grand-rapids-airport/declined-01"
+        "declined_directory": "data/acquisition/gr_028/staybridge-suites-grand-rapids-airport/declined-01",
+        "pet_lines_in_the_saved_text": [
+          "Can I bring my pet to Staybridge Suites Grand Rapids - Airport?",
+          "Pets are welcome at Staybridge Suites Grand Rapids - Airport. Our Pet Policy: Pets are allowed. A nonrefundable pet fee of 75 USD for stays up to 6 nights, and 150 USD for stays up to 7 or more nights. Pets must be in a pet carrier while alone in the room."
+        ],
+        "would_read": "WOULD_READ_PET_FRIENDLY",
+        "would_read_quote": "Pets are welcome at Staybridge Suites Grand Rapids - Airport. Our Pet Policy: Pets are allowed. A nonrefundable pet fee of 75 USD for stays up to 6 nights, and 150 USD for stays up to 7 or more nights. Pets must be in a pet carrier while alone in the room."
       },
       {
         "identity_key": "woodspring suites grand rapids kentwood",
@@ -334,9 +387,49 @@
         "name_on_page": "WoodSpring Suites Grand Rapids Kentwood",
         "address_on_page": "3090 Lake Eastbrook Blvd.",
         "bytes_are_on_disk": true,
-        "declined_directory": "data/acquisition/gr_028/woodspring-suites-grand-rapids-kentwood/declined-01"
+        "declined_directory": "data/acquisition/gr_028/woodspring-suites-grand-rapids-kentwood/declined-01",
+        "pet_lines_in_the_saved_text": [
+          "Dogs Only. Pet Charge 10.00 USD Per Pet, Per Night. Pet limit 2 Pet Per Room. Max 75 Pounds.",
+          "WoodSpring Suites Grand Rapids Kentwood is an extended stay hotel with spacious rooms and friendly staff available to assist you 24 hours a day. Our 100% smoke-free hotel offers pet-friendly hotel suites, free parking, guest laundry facilities, vending machines and a fitness center. Daily, weekly and monthly rates are available.",
+          "Pet-friendly Hotel*",
+          "ARE PETS ALLOWED AT WOODSPRING SUITES GRAND RAPIDS KENTWOOD?"
+        ],
+        "would_read": "WOULD_READ_PET_FRIENDLY",
+        "would_read_quote": "Dogs Only. Pet Charge 10.00 USD Per Pet, Per Night. Pet limit 2 Pet Per Room. Max 75 Pounds."
       }
     ]
+  },
+  "if_the_identity_question_were_settled": {
+    "this_is_not_a_count": "NOTHING below is classified, published or added to any total. It is what bytes this project ALREADY OWNS would say if a separate work order settled the street-suffix identity question. The reported result of this run remains 7 pet-friendly and a projected 42.",
+    "rows_whose_page_names_the_property_and_states_its_own_policy": [
+      {
+        "identity_key": "comfort inn airport",
+        "would_read": "WOULD_READ_PET_FRIENDLY",
+        "quote": "Pet Friendly*"
+      },
+      {
+        "identity_key": "holiday inn grand rapids airport",
+        "would_read": "WOULD_READ_NO_PETS",
+        "quote": "No, pets are not allowed at Holiday Inn Grand Rapids - Airport."
+      },
+      {
+        "identity_key": "staybridge suites grand rapids airport",
+        "would_read": "WOULD_READ_PET_FRIENDLY",
+        "quote": "Pets are welcome at Staybridge Suites Grand Rapids - Airport. Our Pet Policy: Pets are allowed. A nonrefundable pet fee of 75 USD for stays up to 6 nights, and "
+      },
+      {
+        "identity_key": "woodspring suites grand rapids kentwood",
+        "would_read": "WOULD_READ_PET_FRIENDLY",
+        "quote": "Dogs Only. Pet Charge 10.00 USD Per Pet, Per Night. Pet limit 2 Pet Per Room. Max 75 Pounds."
+      }
+    ],
+    "rows_reading_brand_boilerplate_instead": [
+      "extended stay america select suites grand rapids kentwood",
+      "extended stay america select suites grand rapids wyoming"
+    ],
+    "potential_additional_pet_friendly": 3,
+    "potential_additional_verified_no_pets": 1,
+    "the_cost_of_finding_out": "zero: the bytes are already on disk. What is NOT free is the identity rule change that would let them be read, and that is a separate work order."
   },
   "nothing_else_was_run": [
     "no Google Places request: the 20 URLs were bought by 026 and 027",

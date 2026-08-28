@@ -65,6 +65,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from collections import Counter, OrderedDict
 from datetime import datetime, timezone
@@ -563,8 +564,78 @@ def declined_evidence(run_dir: Path = RUN_DIR) -> Dict[str, Dict]:
             ("page_text_on_disk", (folder / "page-text.txt").is_file()),
             ("page_text_chars", document.get("page_text_chars", 0)),
             ("directory", folder.relative_to(_REPO_ROOT).as_posix()),
+            ("pet_lines_in_the_saved_text", saved_pet_lines(folder)),
         ))
     return out
+
+
+def brand_generic_pairs(rows: Sequence[Mapping]) -> List[Dict]:
+    """Two different properties whose saved pages state the IDENTICAL policy.
+
+    That is the signature of brand boilerplate rather than a property's own
+    answer, and it is why a page can name the right hotel and still be unable
+    to speak for it. Recorded so the weaker cases are visible as weaker.
+    """
+    by_quote: Dict[str, List[str]] = {}
+    for row in rows:
+        quote = row.get("would_read_quote") or ""
+        if quote:
+            by_quote.setdefault(quote, []).append(row["identity_key"])
+    return [OrderedDict((("shared_quote", quote[:180]),
+                         ("identity_keys", sorted(keys)),
+                         ("why", "two different properties returning the same "
+                                 "sentence are reading a brand page, not their "
+                                 "own")))
+            for quote, keys in sorted(by_quote.items()) if len(keys) > 1]
+
+
+_PET_LINE = re.compile(r"[^\n]*\bpets?\b[^\n]*", re.IGNORECASE)
+_REFUSAL_LINE = re.compile(
+    r"\bno\b[^.\n]{0,40}\bpets?\s+are\s+not\s+allowed|"
+    r"\bpets?\s+are\s+not\s+allowed|\bpets?\s+not\s+allowed",
+    re.IGNORECASE)
+_ALLOWANCE_LINE = re.compile(
+    r"\bpets?\s+are\s+welcome\b|\bpets?\s+are\s+allowed\b|"
+    r"\bpet[- ]friendly\b|\bdogs\s+only\b|\bpet\s+charge\b|\bpet\s+fees?\b",
+    re.IGNORECASE)
+
+
+def saved_pet_lines(folder: Path, limit: int = 4) -> List[str]:
+    """Lines mentioning a pet in a capture's SAVED page text. Reads only.
+
+    This does not classify anything. It records what bytes this project
+    already owns say, so a founder deciding whether to authorise an identity
+    repair can see what the repair would be worth before paying for it.
+    """
+    text = folder / "page-text.txt"
+    if not text.is_file():
+        return []
+    body = text.read_text(encoding="utf-8", errors="replace")
+    out: List[str] = []
+    for line in _PET_LINE.findall(body):
+        line = " ".join(line.split())
+        if len(line) > 12 and line not in out:
+            out.append(line)
+        if len(out) >= limit:
+            break
+    return out
+
+
+def would_the_bytes_answer_it(lines: Sequence[str]) -> Tuple[str, str]:
+    """What the saved lines say, if the identity question were settled.
+
+    A refusal is tested BEFORE an allowance, because "no, pets are not allowed"
+    contains the substring an allowance pattern matches and reading it as a
+    permission would publish the opposite of what the hotel says. That defect
+    was driven out of the 025 reader and is not repeated here.
+    """
+    for line in lines:
+        if _REFUSAL_LINE.search(line):
+            return ("WOULD_READ_NO_PETS", line)
+    for line in lines:
+        if _ALLOWANCE_LINE.search(line):
+            return ("WOULD_READ_PET_FRIENDLY", line)
+    return ("NO_POLICY_IN_THE_SAVED_BYTES", "")
 
 
 def result(run_dir: Path = RUN_DIR) -> Dict:
@@ -616,7 +687,13 @@ def result(run_dir: Path = RUN_DIR) -> Dict:
             ("address_on_page", evidence.get("address_on_page", "")),
             ("bytes_are_on_disk", on_disk),
             ("declined_directory", evidence.get("directory", "")),
+            ("pet_lines_in_the_saved_text",
+             evidence.get("pet_lines_in_the_saved_text", [])),
         )))
+        reading, quote = would_the_bytes_answer_it(
+            evidence.get("pet_lines_in_the_saved_text", []))
+        unresolved[-1]["would_read"] = reading
+        unresolved[-1]["would_read_quote"] = quote
 
     counts = Counter(r["classification"] for r in classified)
     pet_friendly = counts.get(PET_FRIENDLY, 0)
@@ -713,7 +790,41 @@ def result(run_dir: Path = RUN_DIR) -> Dict:
              "Nationwide Hotel Locations'. A policy read off an index that "
              "lists many properties could belong to any of them, so those two "
              "are a weaker case than the four single-property pages."),
+            ("brand_generic_quotes_found", brand_generic_pairs(unresolved)),
+            ("what_the_saved_bytes_would_read", OrderedDict(sorted(Counter(
+                r.get("would_read", "") for r in unresolved
+                if r.get("bytes_are_on_disk")).items()))),
             ("rows", unresolved),
+        ))),
+        ("if_the_identity_question_were_settled", OrderedDict((
+            ("this_is_not_a_count",
+             "NOTHING below is classified, published or added to any total. "
+             "It is what bytes this project ALREADY OWNS would say if a "
+             "separate work order settled the street-suffix identity question. "
+             "The reported result of this run remains %d pet-friendly and a "
+             "projected %d." % (pet_friendly, projected)),
+            ("rows_whose_page_names_the_property_and_states_its_own_policy",
+             [OrderedDict((("identity_key", r["identity_key"]),
+                           ("would_read", r["would_read"]),
+                           ("quote", r["would_read_quote"][:160])))
+              for r in unresolved
+              if r.get("bytes_are_on_disk")
+              and r.get("would_read") != "NO_POLICY_IN_THE_SAVED_BYTES"
+              and r.get("brand") != "ESA"]),
+            ("rows_reading_brand_boilerplate_instead",
+             [r["identity_key"] for r in unresolved if r.get("brand") == "ESA"]),
+            ("potential_additional_pet_friendly", sum(
+                1 for r in unresolved
+                if r.get("bytes_are_on_disk") and r.get("brand") != "ESA"
+                and r.get("would_read") == "WOULD_READ_PET_FRIENDLY")),
+            ("potential_additional_verified_no_pets", sum(
+                1 for r in unresolved
+                if r.get("bytes_are_on_disk") and r.get("brand") != "ESA"
+                and r.get("would_read") == "WOULD_READ_NO_PETS")),
+            ("the_cost_of_finding_out", "zero: the bytes are already on disk. "
+                                        "What is NOT free is the identity rule "
+                                        "change that would let them be read, "
+                                        "and that is a separate work order."),
         ))),
         ("nothing_else_was_run", [
             "no Google Places request: the 20 URLs were bought by 026 and 027",
@@ -721,6 +832,87 @@ def result(run_dir: Path = RUN_DIR) -> Dict:
             "no authority written, no market assembled, nothing deployed",
             "no row published: the review is exception-only and signs nothing",
         ]),
+    ))
+
+
+PACKET_PATH = LP / "grand_rapids_holland_mi_founder_review_packet_028.json"
+
+
+def founder_packet(document: Mapping) -> Dict:
+    """Exception-only, and it signs nothing.
+
+    TWO LISTS, BECAUSE THEY ASK DIFFERENT THINGS OF A PERSON. The exceptions
+    need a READING: a human has to look at the evidence and say what it means.
+    The clean rows need only a RECORD APPROVAL -- 020's lesson is that a FACT
+    ruling is not a record approval, so a row whose facts route themselves
+    still needs a signature before it publishes, but it does not need anyone to
+    re-read its page.
+    """
+    klass = document["classification"]
+    review = document["founder_review"]
+    exceptions = list(review["exceptions_needing_a_reading"])
+    exception_keys = {r["identity_key"] for r in exceptions}
+    clean = [r for r in klass["rows"] if r["identity_key"] not in exception_keys]
+
+    return OrderedDict((
+        ("schema", "ptf-founder-review-packet/1.0"),
+        ("market_id", MARKET), ("work_order", WORK_ORDER),
+        ("what_this_is",
+         "the 13 rows PTF-GRAND-RAPIDS-POLICY-ACQUISITION-028 acquired at "
+         "publication grade, presented exception-only. Nothing here is signed, "
+         "published or promoted, and the published pet-friendly count stays at "
+         "%d until a founder rules." % PUBLISHED_TODAY),
+        ("provider_calls", 0), ("usd_spent", 0.0),
+        ("counts", OrderedDict((
+            ("acquired_at_publication_grade", len(klass["rows"])),
+            ("needing_a_reading", len(exceptions)),
+            ("needing_only_a_record_approval", len(clean)),
+            ("pet_friendly", klass["pet_friendly"]),
+            ("verified_no_pets", klass["verified_no_pets"]),
+            ("policy_not_found", klass["policy_not_found"]),
+            ("holds", klass["holds"]),
+        ))),
+        ("exceptions_needing_a_reading", [OrderedDict((
+            ("identity_key", r["identity_key"]),
+            ("canonical_name", r["canonical_name"]),
+            ("brand", r["brand"]),
+            ("proposed_class", r["classification"]),
+            ("readiness", r["readiness"]),
+            ("why_it_is_an_exception",
+             "readiness is %s: the page states a policy AND states something "
+             "the reader could not resolve without a person" % r["readiness"]),
+            ("founder_decision", ""), ("founder_note", ""),
+        )) for r in exceptions]),
+        ("clean_rows_for_record_approval", [OrderedDict((
+            ("identity_key", r["identity_key"]),
+            ("canonical_name", r["canonical_name"]),
+            ("brand", r["brand"]),
+            ("proposed_class", r["classification"]),
+            ("readiness", r["readiness"]),
+            ("founder_decision", ""),
+        )) for r in clean]),
+        ("for_information_not_for_decision", OrderedDict((
+            ("unresolved_identity_or_routing",
+             document["unresolved_rows"]["count"]),
+            ("note", "these 7 are NOT in this packet's counts and NOT "
+                     "publishable. They are listed so the packet is not "
+                     "silently narrower than the run."),
+            ("identity_keys", [r["identity_key"]
+                               for r in document["unresolved_rows"]["rows"]]),
+        ))),
+        ("target", OrderedDict((
+            ("published_today", PUBLISHED_TODAY), ("target", TARGET),
+            ("if_every_row_here_is_approved",
+             document["target_43"]["projected_final_pet_friendly"]),
+            ("target_reached", document["target_43"]["target_reached"]),
+            ("short_by", document["target_43"]["short_by"]),
+        ))),
+        ("founder_decision", ""), ("founder_reviewer_id", ""),
+        ("founder_reviewed_at", ""),
+        ("review_status", "MACHINE_REVIEWED_PENDING_OPERATOR"),
+        ("nothing_is_signed_here",
+         "never sign an approval in the operator's name: the reviewer id and "
+         "the decision are left empty for a human to fill"),
     ))
 
 
@@ -735,6 +927,9 @@ def main(argv=None) -> int:
         document = result()
         RESULT_PATH.write_text(json.dumps(document, indent=2) + "\n",
                                encoding="utf-8")
+        PACKET_PATH.write_text(
+            json.dumps(founder_packet(document), indent=2) + "\n",
+            encoding="utf-8")
         cohort, spend = document["cohort"], document["spend"]
         klass, target = document["classification"], document["target_43"]
         print("cohort before suppression  %d" % cohort["size_before_suppression"])
@@ -761,6 +956,16 @@ def main(argv=None) -> int:
         print("projected final            %d   target %d reached=%s short_by=%d"
               % (target["projected_final_pet_friendly"], target["target"],
                  target["target_reached"], target["short_by"]))
+        settled = document["if_the_identity_question_were_settled"]
+        print("POTENTIAL only, not counted: +%d pet-friendly / +%d no-pets "
+              "from bytes already on disk"
+              % (settled["potential_additional_pet_friendly"],
+                 settled["potential_additional_verified_no_pets"]))
+        packet = json.loads(PACKET_PATH.read_text(encoding="utf-8-sig"))
+        print("founder packet             %d needing a reading, %d for record "
+              "approval"
+              % (packet["counts"]["needing_a_reading"],
+                 packet["counts"]["needing_only_a_record_approval"]))
         return 0
     rows = recovered_rows()
     document = build()

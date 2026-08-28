@@ -304,6 +304,136 @@ def test_the_two_index_pages_are_called_out_as_a_weaker_case(result):
         assert "Nationwide Hotel Locations" in row["page_title"]
 
 
+def test_the_saved_bytes_are_read_but_never_counted(result):
+    """The closure pass read the six declined pages OFFLINE. What they say is
+    recorded as POTENTIAL and kept out of every total, because reading bytes
+    the identity gate refused is not the same as settling the identity."""
+    settled = result["if_the_identity_question_were_settled"]
+    assert "NOTHING below is classified, published or added to any total" in \
+        settled["this_is_not_a_count"]
+    assert settled["potential_additional_pet_friendly"] == 3
+    assert settled["potential_additional_verified_no_pets"] == 1
+    # The reported result is untouched by the potential.
+    assert result["classification"]["pet_friendly"] == 7
+    assert result["target_43"]["projected_final_pet_friendly"] == 42
+    assert settled["the_cost_of_finding_out"].startswith("zero")
+
+
+def test_a_refusal_beats_an_allowance_on_the_same_line():
+    """025 published "Sorry no other pets are allowed" as a permission. Two
+    guards stop that here and both are tested.
+
+    First, the allowance pattern requires "pets ARE ALLOWED" adjacent, so an
+    interposed "not" already breaks it. Second -- and this is the one that
+    matters, because a page can carry both a refusal and a stray marketing
+    token -- the refusal is tested across every line BEFORE any allowance is.
+    """
+    refusal = "No, pets are not allowed at Holiday Inn Grand Rapids - Airport."
+    assert not ACQ._ALLOWANCE_LINE.search(refusal), (
+        "adjacency alone defeats this one: 'are not allowed' is not "
+        "'are allowed'")
+    assert ACQ.would_the_bytes_answer_it([refusal])[0] == "WOULD_READ_NO_PETS"
+
+    # A line that genuinely trips BOTH patterns. Ordering is what decides it.
+    both = "Pets Not Allowed. Pet-friendly rooms are at our sister property."
+    assert ACQ._REFUSAL_LINE.search(both) and ACQ._ALLOWANCE_LINE.search(both)
+    assert ACQ.would_the_bytes_answer_it([both])[0] == "WOULD_READ_NO_PETS"
+
+    # And across lines, not just within one: a refusal anywhere outranks an
+    # allowance anywhere, which is why the two loops are separate.
+    assert ACQ.would_the_bytes_answer_it(
+        ["Pet-friendly Hotel*", "Pets Not Allowed"])[0] == "WOULD_READ_NO_PETS"
+
+
+@pytest.mark.parametrize("line,expected", [
+    ("Pets are welcome at Staybridge Suites Grand Rapids - Airport.",
+     "WOULD_READ_PET_FRIENDLY"),
+    ("Dogs Only. Pet Charge 10.00 USD Per Pet, Per Night.",
+     "WOULD_READ_PET_FRIENDLY"),
+    ("Pets Not Allowed", "WOULD_READ_NO_PETS"),
+    ("Rooms have a microwave and a fridge.", "NO_POLICY_IN_THE_SAVED_BYTES"),
+])
+def test_the_offline_reader_reads_only_what_the_line_says(line, expected):
+    assert ACQ.would_the_bytes_answer_it([line])[0] == expected
+
+
+def test_two_properties_sharing_one_sentence_are_reading_a_brand_page(result):
+    """The signature of boilerplate. Both Extended Stay America rows returned
+    the identical "Pet-friendly room", which is why they are excluded from the
+    potential even though their pages name the right hotels."""
+    pairs = result["unresolved_rows"]["brand_generic_quotes_found"]
+    assert len(pairs) == 1
+    assert set(pairs[0]["identity_keys"]) == {
+        "extended stay america select suites grand rapids kentwood",
+        "extended stay america select suites grand rapids wyoming"}
+    settled = result["if_the_identity_question_were_settled"]
+    assert set(settled["rows_reading_brand_boilerplate_instead"]) == \
+        set(pairs[0]["identity_keys"])
+    named = {r["identity_key"] for r in
+             settled["rows_whose_page_names_the_property_and_states_its_own_policy"]}
+    assert not (named & set(pairs[0]["identity_keys"]))
+
+
+def test_the_unexpected_page_row_is_not_the_same_case_as_the_six(result):
+    """CityFlats kept NO artifact: both lanes were tried and the property URL
+    redirected to the site root. It cannot be recovered by a rule change, and
+    counting it with the six would overstate what a free re-read is worth."""
+    rows = {r["identity_key"]: r for r in result["unresolved_rows"]["rows"]}
+    row = rows["cityflatshotel grand rapids"]
+    assert row["outcome"] == "UNEXPECTED_PAGE"
+    assert row["bytes_are_on_disk"] is False
+    assert result["unresolved_rows"]["bytes_on_disk"] == 6
+    assert result["unresolved_rows"]["count"] == 7
+
+
+# --------------------------------------------------------------------------- #
+# The founder packet
+# --------------------------------------------------------------------------- #
+
+def test_the_packet_is_exception_only_and_signs_nothing():
+    packet = _load(LP / "grand_rapids_holland_mi_founder_review_packet_028.json")
+    assert packet["counts"]["acquired_at_publication_grade"] == 13
+    assert packet["counts"]["needing_a_reading"] == 1
+    assert packet["counts"]["needing_only_a_record_approval"] == 12
+    assert packet["founder_decision"] == ""
+    assert packet["founder_reviewer_id"] == ""
+    assert packet["founder_reviewed_at"] == ""
+    assert packet["review_status"] == "MACHINE_REVIEWED_PENDING_OPERATOR"
+    assert "never sign an approval in the operator's name" in \
+        packet["nothing_is_signed_here"]
+    for row in (packet["exceptions_needing_a_reading"]
+                + packet["clean_rows_for_record_approval"]):
+        assert row["founder_decision"] == ""
+
+
+def test_a_clean_row_still_needs_a_record_approval():
+    """020's lesson: a FACT ruling is not a RECORD approval. Twelve rows route
+    themselves and still may not publish unsigned."""
+    packet = _load(LP / "grand_rapids_holland_mi_founder_review_packet_028.json")
+    assert len(packet["clean_rows_for_record_approval"]) == 12
+    for row in packet["clean_rows_for_record_approval"]:
+        assert row["readiness"] in ("POLICY_CONFIRMED",
+                                    "POLICY_NEGATIVE_CONFIRMED")
+        assert row["proposed_class"] in (ACQ.PET_FRIENDLY, ACQ.VERIFIED_NO_PETS)
+
+
+def test_the_packet_names_the_seven_it_does_not_cover():
+    """A packet that silently omitted them would be narrower than the run."""
+    packet = _load(LP / "grand_rapids_holland_mi_founder_review_packet_028.json")
+    info = packet["for_information_not_for_decision"]
+    assert info["unresolved_identity_or_routing"] == 7
+    assert len(info["identity_keys"]) == 7
+    assert "NOT in this packet's counts" in info["note"]
+
+
+def test_the_packet_says_the_target_is_not_reached():
+    packet = _load(LP / "grand_rapids_holland_mi_founder_review_packet_028.json")
+    target = packet["target"]
+    assert target["if_every_row_here_is_approved"] == 42
+    assert target["target_reached"] is False
+    assert target["short_by"] == 1
+
+
 # --------------------------------------------------------------------------- #
 # Nothing else moved
 # --------------------------------------------------------------------------- #
