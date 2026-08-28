@@ -1,0 +1,2199 @@
+{
+ "schema": "ptf-market-ledger-replay/1.0",
+ "what_this_is": "Every currently routed Grand Rapids / Holland acquisition candidate replayed through the cross-run paid-attempt ledger, offline. No provider was called and nothing was spent.",
+ "market_id": "grand-rapids-holland-mi",
+ "work_order": "PTF-GRAND-RAPIDS-CROSS-RUN-LEDGER-SYNC-018",
+ "inputs": {
+  "dry_run": {
+   "path": "launch_packages/pettripfinder/grand_rapids_holland_mi_acquisition_dry_run_replay_018.json",
+   "sha256": "4a2bf912200b533d8b118458326b7def203d6ea514492f6776053fa1c10d6fe0"
+  },
+  "routing": {
+   "path": "launch_packages/pettripfinder/grand_rapids_holland_mi_routing_recovered_001.json",
+   "sha256": "1d1cfdf2a723fa5b63ebc5ed1037491b80d3019ea49b8146b1810975984332fb"
+  },
+  "paid_attempt_ledger": {
+   "path": "launch_packages/pettripfinder/ptf_paid_attempt_ledger_001.json",
+   "sha256": "6341ca0cf86096b400bd69d4e38451511d237f6e0b9bec4fb09221de1af98744"
+  },
+  "lane_evidence": {
+   "path": "launch_packages/pettripfinder/grand_rapids_holland_mi_acquisition_merged_closeout_001.json",
+   "sha256": "018b54a794c6a795e57e973fa384e5207d4a15a676726e97f20ab76250c58b68"
+  },
+  "pre_acquisition_dedup": {
+   "path": "launch_packages/pettripfinder/grand_rapids_holland_mi_pre_acquisition_dedup_001.json",
+   "sha256": "83a8e27f7c5295d442b461acee6ca4ed111d99cabfbde50b70adf8704beb53e5"
+  },
+  "paid_run": {
+   "path": "launch_packages/pettripfinder/grand_rapids_holland_mi_market_acquisition_pass1_001.json",
+   "sha256": "697fbedc18261b810b6782335af2425265ba42e03e4a4aad32d551a815132f5a"
+  }
+ },
+ "prior_paid_run": {
+  "work_order": "PTF-GRAND-RAPIDS-HOLLAND-PAID-ACQUISITION-AUTHORIZATION-009",
+  "run_id": "grand-rapids-holland-mi-001-pass1",
+  "outcome": "BATCH_COMPLETE",
+  "attempted": 65,
+  "spend_usd_minor": 751.0,
+  "plan_credits": 19.0,
+  "note": "the work order was written as though this run had not happened; the artifact says it did, and that is what the ledger has to protect"
+ },
+ "ledger_completeness": {
+  "attempts_in_ledger": 739,
+  "grand_rapids_attempts": 68,
+  "rows_from_re_ingesting_the_paid_run": 68,
+  "new_rows_added": 0,
+  "ok": true,
+  "why": "the ledger already holds every attempt of the paid run, so a re-ingest is a no-op and the suppressions below rest on a complete record"
+ },
+ "counts": {
+  "routed_identities_before": 82,
+  "acquisition_cohort_before": 65,
+  "settled_before_the_ledger_by_the_dedup_gate": 17,
+  "suppressed_by_cross_run_ledger": 65,
+  "reusable_evidence": 54,
+  "prior_paid": 0,
+  "prior_failed": 3,
+  "routing_repair_required": 8,
+  "genuinely_payable_after_replay": 0
+ },
+ "by_classification": {
+  "REUSABLE_POLICY_EVIDENCE": 54,
+  "ALREADY_PAID": 0,
+  "SAME_PAGE_ALREADY_FAILED": 3,
+  "ROUTING_REPAIR_REQUIRED": 8,
+  "GENUINELY_PAYABLE": 0
+ },
+ "paid_history_summary": {
+  "schema": "ptf-paid-attempt-ledger/1.0",
+  "payable": 0,
+  "suppressed": 65,
+  "payable_by_decision": {},
+  "suppressed_by_decision": {
+   "SUPPRESSED_ESCALATION_EXHAUSTED": 3,
+   "SUPPRESSED_EVIDENCE_REUSABLE": 54,
+   "SUPPRESSED_ROUTING_REPAIR_REQUIRED": 8
+  },
+  "suppressed_by_match_key": {
+   "CANONICAL_URL": 65
+  },
+  "reusable_evidence": 54,
+  "routing_repair_required": 8,
+  "accounted_for": 65
+ },
+ "lane_plan": {
+  "schema": "ptf-lane-qualification/1.0",
+  "rows": 0,
+  "by_lane": {},
+  "firecrawl": 0,
+  "brightdata_browser": 0,
+  "brightdata_web_unlocker": 0,
+  "other": 0,
+  "evidence_used": "CROSS_RUN_LEDGER",
+  "qualified_pairs": [
+   "brightdata_browser/HILTON",
+   "brightdata_browser/MARRIOTT",
+   "firecrawl/CHOICE",
+   "firecrawl/IHG",
+   "firecrawl/WYNDHAM"
+  ],
+  "qualified_pairs_on_this_markets_evidence_alone": [],
+  "verdicts_cross_run": {
+   "brightdata_browser/BEST_WESTERN": {
+    "provider": "brightdata_browser",
+    "family": "BEST_WESTERN",
+    "qualified": false,
+    "why": "3 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 3,
+    "effective_attempts": 3,
+    "publication_grade": 3,
+    "publication_grade_rate": 1.0
+   },
+   "brightdata_browser/DRURY": {
+    "provider": "brightdata_browser",
+    "family": "DRURY",
+    "qualified": false,
+    "why": "5 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 5,
+    "effective_attempts": 5,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_browser/ESA": {
+    "provider": "brightdata_browser",
+    "family": "ESA",
+    "qualified": false,
+    "why": "3 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 6,
+    "effective_attempts": 3,
+    "publication_grade": 3,
+    "publication_grade_rate": 1.0
+   },
+   "brightdata_browser/HILTON": {
+    "provider": "brightdata_browser",
+    "family": "HILTON",
+    "qualified": true,
+    "why": "111 of 119 effective attempts publication-grade (93.3%), identity failures excluded as routing defects",
+    "attempts": 119,
+    "effective_attempts": 119,
+    "publication_grade": 111,
+    "publication_grade_rate": 0.9328
+   },
+   "brightdata_browser/IHG": {
+    "provider": "brightdata_browser",
+    "family": "IHG",
+    "qualified": false,
+    "why": "14 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 14,
+    "effective_attempts": 14,
+    "publication_grade": 14,
+    "publication_grade_rate": 1.0
+   },
+   "brightdata_browser/INDEP:HAWORTHHOTEL.COM": {
+    "provider": "brightdata_browser",
+    "family": "INDEP:HAWORTHHOTEL.COM",
+    "qualified": false,
+    "why": "0 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 0,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_browser/INDEP:HOTELBROADRIPPLE.COM": {
+    "provider": "brightdata_browser",
+    "family": "INDEP:HOTELBROADRIPPLE.COM",
+    "qualified": false,
+    "why": "0 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 0,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_browser/INDEP:HOTELSCOMPANY.NET": {
+    "provider": "brightdata_browser",
+    "family": "INDEP:HOTELSCOMPANY.NET",
+    "qualified": false,
+    "why": "0 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 0,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_browser/INDEP:KASA.COM": {
+    "provider": "brightdata_browser",
+    "family": "INDEP:KASA.COM",
+    "qualified": false,
+    "why": "1 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 1,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_browser/INDEP:RELAXINNINDIANAPOLIS.COM": {
+    "provider": "brightdata_browser",
+    "family": "INDEP:RELAXINNINDIANAPOLIS.COM",
+    "qualified": false,
+    "why": "0 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 0,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_browser/INDEP:SHADYSIDEINN.COM": {
+    "provider": "brightdata_browser",
+    "family": "INDEP:SHADYSIDEINN.COM",
+    "qualified": false,
+    "why": "0 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 0,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_browser/INDEP:STAYCOBBLESTONE.COM": {
+    "provider": "brightdata_browser",
+    "family": "INDEP:STAYCOBBLESTONE.COM",
+    "qualified": false,
+    "why": "1 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 1,
+    "publication_grade": 1,
+    "publication_grade_rate": 1.0
+   },
+   "brightdata_browser/INDEP:THELANDINGHOTELPGH.COM": {
+    "provider": "brightdata_browser",
+    "family": "INDEP:THELANDINGHOTELPGH.COM",
+    "qualified": false,
+    "why": "0 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 0,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_browser/INDEP:THEOAKLANDERHOTEL.COM": {
+    "provider": "brightdata_browser",
+    "family": "INDEP:THEOAKLANDERHOTEL.COM",
+    "qualified": false,
+    "why": "1 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 1,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_browser/INDEP:THEPRIORY.COM": {
+    "provider": "brightdata_browser",
+    "family": "INDEP:THEPRIORY.COM",
+    "qualified": false,
+    "why": "0 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 0,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_browser/INDEP:WWW.ACEHOTEL.COM": {
+    "provider": "brightdata_browser",
+    "family": "INDEP:WWW.ACEHOTEL.COM",
+    "qualified": false,
+    "why": "0 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 0,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_browser/INDEP:WWW.ADAHOTEL.COM": {
+    "provider": "brightdata_browser",
+    "family": "INDEP:WWW.ADAHOTEL.COM",
+    "qualified": false,
+    "why": "0 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 0,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_browser/INDEP:WWW.AFFORDABLESUITES.COM": {
+    "provider": "brightdata_browser",
+    "family": "INDEP:WWW.AFFORDABLESUITES.COM",
+    "qualified": false,
+    "why": "0 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 0,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_browser/INDEP:WWW.BUDGETEL.COM": {
+    "provider": "brightdata_browser",
+    "family": "INDEP:WWW.BUDGETEL.COM",
+    "qualified": false,
+    "why": "0 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 0,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_browser/INDEP:WWW.CAMBRIAPGH.COM": {
+    "provider": "brightdata_browser",
+    "family": "INDEP:WWW.CAMBRIAPGH.COM",
+    "qualified": false,
+    "why": "1 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 1,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_browser/INDEP:WWW.FAIRMONT.COM": {
+    "provider": "brightdata_browser",
+    "family": "INDEP:WWW.FAIRMONT.COM",
+    "qualified": false,
+    "why": "1 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 1,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_browser/INDEP:WWW.HOTELINDIGO.COM": {
+    "provider": "brightdata_browser",
+    "family": "INDEP:WWW.HOTELINDIGO.COM",
+    "qualified": false,
+    "why": "0 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 0,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_browser/INDEP:WWW.HOTELINDY.COM": {
+    "provider": "brightdata_browser",
+    "family": "INDEP:WWW.HOTELINDY.COM",
+    "qualified": false,
+    "why": "1 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 1,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_browser/INDEP:WWW.INNONNEGLEY.COM": {
+    "provider": "brightdata_browser",
+    "family": "INDEP:WWW.INNONNEGLEY.COM",
+    "qualified": false,
+    "why": "0 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 0,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_browser/INDEP:WWW.INTOWNSUITES.COM": {
+    "provider": "brightdata_browser",
+    "family": "INDEP:WWW.INTOWNSUITES.COM",
+    "qualified": false,
+    "why": "0 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 2,
+    "effective_attempts": 0,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_browser/INDEP:WWW.JOINERYHOTEL.COM": {
+    "provider": "brightdata_browser",
+    "family": "INDEP:WWW.JOINERYHOTEL.COM",
+    "qualified": false,
+    "why": "1 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 1,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_browser/INDEP:WWW.MARCHOTELMILWAUKEE.COM": {
+    "provider": "brightdata_browser",
+    "family": "INDEP:WWW.MARCHOTELMILWAUKEE.COM",
+    "qualified": false,
+    "why": "1 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 1,
+    "publication_grade": 1,
+    "publication_grade_rate": 1.0
+   },
+   "brightdata_browser/INDEP:WWW.MONACO-PITTSBURGH.COM": {
+    "provider": "brightdata_browser",
+    "family": "INDEP:WWW.MONACO-PITTSBURGH.COM",
+    "qualified": false,
+    "why": "1 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 1,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_browser/INDEP:WWW.OMNIHOTELS.COM": {
+    "provider": "brightdata_browser",
+    "family": "INDEP:WWW.OMNIHOTELS.COM",
+    "qualified": false,
+    "why": "2 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 2,
+    "effective_attempts": 2,
+    "publication_grade": 2,
+    "publication_grade_rate": 1.0
+   },
+   "brightdata_browser/INDEP:WWW.PRAIRIEGUESTHOUSE.COM": {
+    "provider": "brightdata_browser",
+    "family": "INDEP:WWW.PRAIRIEGUESTHOUSE.COM",
+    "qualified": false,
+    "why": "1 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 1,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_browser/INDEP:WWW.SAINTKATEARTS.COM": {
+    "provider": "brightdata_browser",
+    "family": "INDEP:WWW.SAINTKATEARTS.COM",
+    "qualified": false,
+    "why": "1 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 1,
+    "publication_grade": 1,
+    "publication_grade_rate": 1.0
+   },
+   "brightdata_browser/INDEP:WWW.STAYETAGE.COM": {
+    "provider": "brightdata_browser",
+    "family": "INDEP:WWW.STAYETAGE.COM",
+    "qualified": false,
+    "why": "1 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 1,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_browser/INDEP:WWW.THEBLUEJAYGR.COM": {
+    "provider": "brightdata_browser",
+    "family": "INDEP:WWW.THEBLUEJAYGR.COM",
+    "qualified": false,
+    "why": "0 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 0,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_browser/INDEP:WWW.THEFINNLEY.COM": {
+    "provider": "brightdata_browser",
+    "family": "INDEP:WWW.THEFINNLEY.COM",
+    "qualified": false,
+    "why": "0 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 0,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_browser/INDEP:WWW.THEINGLESIDEHOTEL.COM": {
+    "provider": "brightdata_browser",
+    "family": "INDEP:WWW.THEINGLESIDEHOTEL.COM",
+    "qualified": false,
+    "why": "1 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 1,
+    "publication_grade": 1,
+    "publication_grade_rate": 1.0
+   },
+   "brightdata_browser/INDEP:WWW.THEPFISTERHOTEL.COM": {
+    "provider": "brightdata_browser",
+    "family": "INDEP:WWW.THEPFISTERHOTEL.COM",
+    "qualified": false,
+    "why": "1 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 1,
+    "publication_grade": 1,
+    "publication_grade_rate": 1.0
+   },
+   "brightdata_browser/INDEP:WWW.TRYPPITTSBURGH.COM": {
+    "provider": "brightdata_browser",
+    "family": "INDEP:WWW.TRYPPITTSBURGH.COM",
+    "qualified": false,
+    "why": "0 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 0,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_browser/INDEP:WWW.VISITINDY.COM": {
+    "provider": "brightdata_browser",
+    "family": "INDEP:WWW.VISITINDY.COM",
+    "qualified": false,
+    "why": "0 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 0,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_browser/INDEP:WWW.WOODSPRING.COM": {
+    "provider": "brightdata_browser",
+    "family": "INDEP:WWW.WOODSPRING.COM",
+    "qualified": false,
+    "why": "2 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 3,
+    "effective_attempts": 2,
+    "publication_grade": 2,
+    "publication_grade_rate": 1.0
+   },
+   "brightdata_browser/MARRIOTT": {
+    "provider": "brightdata_browser",
+    "family": "MARRIOTT",
+    "qualified": true,
+    "why": "139 of 140 effective attempts publication-grade (99.3%), identity failures excluded as routing defects",
+    "attempts": 151,
+    "effective_attempts": 140,
+    "publication_grade": 139,
+    "publication_grade_rate": 0.9929
+   },
+   "brightdata_browser/MOTEL6": {
+    "provider": "brightdata_browser",
+    "family": "MOTEL6",
+    "qualified": false,
+    "why": "5 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 5,
+    "effective_attempts": 5,
+    "publication_grade": 4,
+    "publication_grade_rate": 0.8
+   },
+   "brightdata_browser/RED_ROOF": {
+    "provider": "brightdata_browser",
+    "family": "RED_ROOF",
+    "qualified": false,
+    "why": "4 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 4,
+    "effective_attempts": 4,
+    "publication_grade": 3,
+    "publication_grade_rate": 0.75
+   },
+   "brightdata_browser/SONESTA": {
+    "provider": "brightdata_browser",
+    "family": "SONESTA",
+    "qualified": false,
+    "why": "2 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 2,
+    "effective_attempts": 2,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_browser/WYNDHAM": {
+    "provider": "brightdata_browser",
+    "family": "WYNDHAM",
+    "qualified": false,
+    "why": "8 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 8,
+    "effective_attempts": 8,
+    "publication_grade": 8,
+    "publication_grade_rate": 1.0
+   },
+   "brightdata_web_unlocker/CHOICE": {
+    "provider": "brightdata_web_unlocker",
+    "family": "CHOICE",
+    "qualified": false,
+    "why": "13 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 13,
+    "effective_attempts": 13,
+    "publication_grade": 8,
+    "publication_grade_rate": 0.6154
+   },
+   "brightdata_web_unlocker/HILTON": {
+    "provider": "brightdata_web_unlocker",
+    "family": "HILTON",
+    "qualified": false,
+    "why": "15 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 15,
+    "effective_attempts": 15,
+    "publication_grade": 6,
+    "publication_grade_rate": 0.4
+   },
+   "brightdata_web_unlocker/HYATT": {
+    "provider": "brightdata_web_unlocker",
+    "family": "HYATT",
+    "qualified": false,
+    "why": "1 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 1,
+    "publication_grade": 1,
+    "publication_grade_rate": 1.0
+   },
+   "brightdata_web_unlocker/IHG": {
+    "provider": "brightdata_web_unlocker",
+    "family": "IHG",
+    "qualified": false,
+    "why": "6 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 6,
+    "effective_attempts": 6,
+    "publication_grade": 2,
+    "publication_grade_rate": 0.3333
+   },
+   "brightdata_web_unlocker/INDEP:SUNNYLEDGE.COM": {
+    "provider": "brightdata_web_unlocker",
+    "family": "INDEP:SUNNYLEDGE.COM",
+    "qualified": false,
+    "why": "1 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 1,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_web_unlocker/INDEP:WWW.FAMILYHOUSE.ORG": {
+    "provider": "brightdata_web_unlocker",
+    "family": "INDEP:WWW.FAMILYHOUSE.ORG",
+    "qualified": false,
+    "why": "0 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 0,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_web_unlocker/INDEP:WWW.INTOWNSUITES.COM": {
+    "provider": "brightdata_web_unlocker",
+    "family": "INDEP:WWW.INTOWNSUITES.COM",
+    "qualified": false,
+    "why": "1 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 1,
+    "publication_grade": 1,
+    "publication_grade_rate": 1.0
+   },
+   "brightdata_web_unlocker/INDEP:WWW.KEYSTONEINNSUITES.COM": {
+    "provider": "brightdata_web_unlocker",
+    "family": "INDEP:WWW.KEYSTONEINNSUITES.COM",
+    "qualified": false,
+    "why": "1 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 1,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_web_unlocker/INDEP:WWW.PITTSBURGHHAMPTONINN.COM": {
+    "provider": "brightdata_web_unlocker",
+    "family": "INDEP:WWW.PITTSBURGHHAMPTONINN.COM",
+    "qualified": false,
+    "why": "1 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 1,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_web_unlocker/INDEP:WWW.RADISSONHOTELS.COM": {
+    "provider": "brightdata_web_unlocker",
+    "family": "INDEP:WWW.RADISSONHOTELS.COM",
+    "qualified": false,
+    "why": "2 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 2,
+    "effective_attempts": 2,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_web_unlocker/INDEP:WWW.THEENCOREON7TH.COM": {
+    "provider": "brightdata_web_unlocker",
+    "family": "INDEP:WWW.THEENCOREON7TH.COM",
+    "qualified": false,
+    "why": "1 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 1,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_web_unlocker/INDEP:WWW.WESTINPITTSBURGH.COM": {
+    "provider": "brightdata_web_unlocker",
+    "family": "INDEP:WWW.WESTINPITTSBURGH.COM",
+    "qualified": false,
+    "why": "1 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 1,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_web_unlocker/INDEP:WWW.WYNDHAM.COM": {
+    "provider": "brightdata_web_unlocker",
+    "family": "INDEP:WWW.WYNDHAM.COM",
+    "qualified": false,
+    "why": "1 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 1,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_web_unlocker/MARRIOTT": {
+    "provider": "brightdata_web_unlocker",
+    "family": "MARRIOTT",
+    "qualified": false,
+    "why": "8.9% publication-grade over 45 effective attempts is below the 85% this policy requires",
+    "attempts": 45,
+    "effective_attempts": 45,
+    "publication_grade": 4,
+    "publication_grade_rate": 0.0889
+   },
+   "brightdata_web_unlocker/MOTEL6": {
+    "provider": "brightdata_web_unlocker",
+    "family": "MOTEL6",
+    "qualified": false,
+    "why": "1 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 1,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_web_unlocker/RED_ROOF": {
+    "provider": "brightdata_web_unlocker",
+    "family": "RED_ROOF",
+    "qualified": false,
+    "why": "1 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 1,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_web_unlocker/WYNDHAM": {
+    "provider": "brightdata_web_unlocker",
+    "family": "WYNDHAM",
+    "qualified": false,
+    "why": "11 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 11,
+    "effective_attempts": 11,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "firecrawl/CHOICE": {
+    "provider": "firecrawl",
+    "family": "CHOICE",
+    "qualified": true,
+    "why": "41 of 43 effective attempts publication-grade (95.3%), identity failures excluded as routing defects",
+    "attempts": 56,
+    "effective_attempts": 43,
+    "publication_grade": 41,
+    "publication_grade_rate": 0.9535
+   },
+   "firecrawl/IHG": {
+    "provider": "firecrawl",
+    "family": "IHG",
+    "qualified": true,
+    "why": "46 of 46 effective attempts publication-grade (100.0%), identity failures excluded as routing defects",
+    "attempts": 52,
+    "effective_attempts": 46,
+    "publication_grade": 46,
+    "publication_grade_rate": 1.0
+   },
+   "firecrawl/WYNDHAM": {
+    "provider": "firecrawl",
+    "family": "WYNDHAM",
+    "qualified": true,
+    "why": "49 of 52 effective attempts publication-grade (94.2%), identity failures excluded as routing defects",
+    "attempts": 61,
+    "effective_attempts": 52,
+    "publication_grade": 49,
+    "publication_grade_rate": 0.9423
+   }
+  },
+  "verdicts_this_market": {
+   "brightdata_browser/DRURY": {
+    "provider": "brightdata_browser",
+    "family": "DRURY",
+    "qualified": false,
+    "why": "1 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 1,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_browser/HILTON": {
+    "provider": "brightdata_browser",
+    "family": "HILTON",
+    "qualified": false,
+    "why": "18 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 18,
+    "effective_attempts": 18,
+    "publication_grade": 16,
+    "publication_grade_rate": 0.8889
+   },
+   "brightdata_browser/INDEPENDENT": {
+    "provider": "brightdata_browser",
+    "family": "INDEPENDENT",
+    "qualified": false,
+    "why": "1 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 7,
+    "effective_attempts": 1,
+    "publication_grade": 1,
+    "publication_grade_rate": 1.0
+   },
+   "brightdata_browser/MARRIOTT": {
+    "provider": "brightdata_browser",
+    "family": "MARRIOTT",
+    "qualified": false,
+    "why": "17 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 18,
+    "effective_attempts": 17,
+    "publication_grade": 17,
+    "publication_grade_rate": 1.0
+   },
+   "brightdata_web_unlocker/INDEPENDENT": {
+    "provider": "brightdata_web_unlocker",
+    "family": "INDEPENDENT",
+    "qualified": false,
+    "why": "1 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 1,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_web_unlocker/MOTEL6": {
+    "provider": "brightdata_web_unlocker",
+    "family": "MOTEL6",
+    "qualified": false,
+    "why": "1 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 1,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "brightdata_web_unlocker/WYNDHAM": {
+    "provider": "brightdata_web_unlocker",
+    "family": "WYNDHAM",
+    "qualified": false,
+    "why": "1 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 1,
+    "effective_attempts": 1,
+    "publication_grade": 0,
+    "publication_grade_rate": 0.0
+   },
+   "firecrawl/CHOICE": {
+    "provider": "firecrawl",
+    "family": "CHOICE",
+    "qualified": false,
+    "why": "6 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 6,
+    "effective_attempts": 6,
+    "publication_grade": 6,
+    "publication_grade_rate": 1.0
+   },
+   "firecrawl/IHG": {
+    "provider": "firecrawl",
+    "family": "IHG",
+    "qualified": false,
+    "why": "4 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 4,
+    "effective_attempts": 4,
+    "publication_grade": 4,
+    "publication_grade_rate": 1.0
+   },
+   "firecrawl/WYNDHAM": {
+    "provider": "firecrawl",
+    "family": "WYNDHAM",
+    "qualified": false,
+    "why": "7 effective attempts is below the 20 this policy requires; one lucky success is not a qualification",
+    "attempts": 8,
+    "effective_attempts": 7,
+    "publication_grade": 7,
+    "publication_grade_rate": 1.0
+   }
+  },
+  "lane_costs": {
+   "brightdata_browser": {
+    "usd_minor_per_property": 16.0,
+    "credit_billed": false,
+    "available": true
+   },
+   "brightdata_web_unlocker": {
+    "usd_minor_per_property": 5.0,
+    "credit_billed": false,
+    "available": true
+   },
+   "direct_http": {
+    "usd_minor_per_property": null,
+    "credit_billed": true,
+    "available": false
+   },
+   "firecrawl": {
+    "usd_minor_per_property": null,
+    "credit_billed": true,
+    "available": true
+   }
+  },
+  "plans": []
+ },
+ "cost_plan": {
+  "firecrawl_credits_required": 0,
+  "projected_brightdata_usd_minor": 0,
+  "fallback_exposure_usd_minor": 0,
+  "worst_case_usd_minor": 0,
+  "recommended_hard_cap_usd_minor": 0,
+  "current_spend_usd_minor": 0,
+  "why": "no row is payable, so there is nothing to authorise and the recommended cap is zero"
+ },
+ "identity_holds": {
+  "count": 2,
+  "holds": [
+   {
+    "identity_keys": [
+     "comfort inn",
+     "comfort suites grandville grand rapids sw"
+    ],
+    "question": "a Comfort Inn and a prior-census Comfort Suites share 4520 Kenowa Ave SW, 49418 and the switchboard 616-667-0733; the dedup gate ruled them DISTINCT_PROPERTIES because the names are not containment-compatible",
+    "dedup_verdict": "DISTINCT_PROPERTIES",
+    "still_two_identities": true,
+    "routing_state": {
+     "comfort inn": "ROUTE_NEEDS_OFFICIAL_URL",
+     "comfort suites grandville grand rapids sw": "ROUTED"
+    },
+    "in_cohort": [
+     "comfort suites grandville grand rapids sw"
+    ],
+    "in_payable_cohort": [],
+    "resolved_by_this_pass": false,
+    "note": "a replay reads history; it does not rule on identity. Both halves stay distinct and neither is promoted."
+   },
+   {
+    "identity_keys": [
+     "sleep inn and suites",
+     "spark by hilton grand rapids"
+    ],
+    "question": "a Sleep Inn and Suites and a Spark by Hilton share 4284 29th St SE, 49512 and the switchboard 616-975-9000; a Choice-to-Hilton rebrand and two distinct hotels look identical on those signals alone",
+    "dedup_verdict": "DISTINCT_PROPERTIES",
+    "still_two_identities": true,
+    "routing_state": {
+     "sleep inn and suites": "ROUTE_NEEDS_OFFICIAL_URL",
+     "spark by hilton grand rapids": "ROUTE_NEEDS_OFFICIAL_URL"
+    },
+    "in_cohort": [],
+    "in_payable_cohort": [],
+    "resolved_by_this_pass": false,
+    "note": "a replay reads history; it does not rule on identity. Both halves stay distinct and neither is promoted."
+   }
+  ]
+ },
+ "validation": {
+  "no_duplicate_page_in_payable_cohort": {
+   "ok": true,
+   "duplicate_canonical_urls": []
+  },
+  "no_duplicate_canonical_property_in_payable_cohort": {
+   "ok": true,
+   "duplicate_property_codes": []
+  },
+  "no_already_paid_page_is_purchased_again": {
+   "ok": true,
+   "identity_keys": []
+  },
+  "no_same_method_failure_retried_without_a_material_change": {
+   "ok": true,
+   "identity_keys": []
+  },
+  "current_spend_is_zero": {
+   "ok": true,
+   "usd_minor": 0,
+   "plan_credits": 0,
+   "why": "no provider is constructed and no lane is called; the cohort is derived by --dry-run and the ledger is read from disk"
+  },
+  "every_suppression_rests_on_a_page_key": {
+   "ok": true,
+   "suppressed_on_a_weak_key": [],
+   "by_match_key": {
+    "CANONICAL_URL": 65
+   },
+   "why": "CANONICAL_URL and PROPERTY_CODE name a PAGE and decide alone; the premises keys only ever propose"
+  },
+  "cohort_accounted_for": {
+   "ok": true,
+   "payable": 0,
+   "suppressed": 65,
+   "submitted": 65
+  },
+  "identity_holds_preserved": {
+   "ok": true,
+   "count": 2
+  },
+  "all_pass": true
+ },
+ "rows": [
+  {
+   "identity_key": "ac hotel grand rapids downtown",
+   "canonical_name": "AC Hotel Grand Rapids Downtown",
+   "family": "MARRIOTT",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.marriott.com/en-us/hotels/grrar-ac-hotel-grand-rapids-downtown/",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "americinn by wyndham grand rapids airport north",
+   "canonical_name": "AmericInn by Wyndham Grand Rapids Airport North",
+   "family": "WYNDHAM",
+   "routed_lane": "firecrawl",
+   "routed_ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.wyndhamhotels.com/americinn/grand-rapids-michigan/americinn-grand-rapids-airport-north/overview",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "firecrawl",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'firecrawl') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "avid hotel zeeland",
+   "canonical_name": "avid hotel Zeeland",
+   "family": "IHG",
+   "routed_lane": "firecrawl",
+   "routed_ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.ihg.com/avidhotels/hotels/us/en/zeeland/grrav/hoteldetail",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "firecrawl",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'firecrawl') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "baymont",
+   "canonical_name": "Baymont",
+   "family": "WYNDHAM",
+   "routed_lane": "firecrawl",
+   "routed_ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.wyndhamhotels.com/baymont/grand-rapids-michigan/baymont-inn-and-suites-grand-rapids-near-downtown/overview",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "firecrawl",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'firecrawl') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "baymont by wyndham holland",
+   "canonical_name": "Baymont by Wyndham Holland",
+   "family": "WYNDHAM",
+   "routed_lane": "firecrawl",
+   "routed_ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.wyndhamhotels.com/baymont/holland-michigan/baymont-inn-and-suites-holland/overview",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "firecrawl",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'firecrawl') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "canopy by hilton grand rapids downtown",
+   "canonical_name": "Canopy by Hilton Grand Rapids Downtown",
+   "family": "HILTON",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.hilton.com/en/hotels/grrgrpy-canopy-grand-rapids-downtown/",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "comfort suites grandville grand rapids sw",
+   "canonical_name": "Comfort Suites Grandville - Grand Rapids SW",
+   "family": "CHOICE",
+   "routed_lane": "firecrawl",
+   "routed_ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.choicehotels.com/en-ca/michigan/grandville/comfort-suites-hotels/mi169",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "firecrawl",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'firecrawl') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "country inn and suites grand rapids east",
+   "canonical_name": "Country Inn & Suites Grand Rapids East",
+   "family": "CHOICE",
+   "routed_lane": "firecrawl",
+   "routed_ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.choicehotels.com/michigan/grand-rapids/country-inn-suites-hotels/mi607",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "firecrawl",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'firecrawl') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "courtyard by marriott grand rapids downtown",
+   "canonical_name": "Courtyard by Marriott Grand Rapids Downtown",
+   "family": "MARRIOTT",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.marriott.com/en-us/hotels/grrdt-courtyard-grand-rapids-downtown/overview/",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "courtyard holland downtown",
+   "canonical_name": "Courtyard Holland Downtown",
+   "family": "MARRIOTT",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.marriott.com/grrch",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "days inn and suites by wyndham grand rapids near downtown",
+   "canonical_name": "Days Inn & Suites by Wyndham Grand Rapids Near Downtown",
+   "family": "WYNDHAM",
+   "routed_lane": "firecrawl",
+   "routed_ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.wyndhamhotels.com/days-inn/grand-rapids-michigan/days-inn-and-suites-grand-rapids-near-downtown/overview",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "firecrawl",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'firecrawl') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "days inn by wyndham holland",
+   "canonical_name": "Days Inn by Wyndham Holland",
+   "family": "WYNDHAM",
+   "routed_lane": "firecrawl",
+   "routed_ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.wyndhamhotels.com/days-inn/holland-michigan/days-inn-holland/overview",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "firecrawl",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'firecrawl') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "doubletree by hilton",
+   "canonical_name": "DoubleTree by Hilton",
+   "family": "HILTON",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.hilton.com/en/hotels/grrhldt-doubletree-holland",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "doubletree by hilton hotel grand rapids airport",
+   "canonical_name": "DoubleTree by Hilton Hotel Grand Rapids Airport",
+   "family": "HILTON",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.hilton.com/en/hotels/grraidt-doubletree-grand-rapids-airport",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "POLICY_NOT_FOUND",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') already answered this page with POLICY_NOT_FOUND; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "drury inn and suites grand rapids",
+   "canonical_name": "Drury Inn & Suites Grand Rapids",
+   "family": "DRURY",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.druryhotels.com/locations/grand-rapids-mi/drury-inn-and-suites-grand-rapids",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "POLICY_NOT_FOUND",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') already answered this page with POLICY_NOT_FOUND; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "embassy suites by hilton grand rapids downtown",
+   "canonical_name": "Embassy Suites by Hilton Grand Rapids Downtown",
+   "family": "HILTON",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.hilton.com/en/hotels/grrmaes-embassy-suites-grand-rapids-downtown/",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "fairfield inn and suites grand rapids north",
+   "canonical_name": "Fairfield Inn & Suites Grand Rapids North",
+   "family": "MARRIOTT",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.marriott.com/grrfn",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "fairfield inn and suites holland",
+   "canonical_name": "Fairfield Inn & Suites Holland",
+   "family": "MARRIOTT",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.marriott.com/grrfi",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "hampton inn and suites grand rapids airport 28th st",
+   "canonical_name": "Hampton Inn & Suites Grand Rapids-Airport 28th St",
+   "family": "HILTON",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.hilton.com/en/hotels/grrhshx-hampton-suites-grand-rapids-airport-28th-st/",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "hampton inn and suites grand rapids downtown",
+   "canonical_name": "Hampton Inn & Suites Grand Rapids Downtown",
+   "family": "HILTON",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.hilton.com/en/hotels/grrdthx-hampton-suites-grand-rapids-downtown/",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "hampton inn and suites grandville grand rapids south",
+   "canonical_name": "Hampton Inn & Suites Grandville Grand Rapids South",
+   "family": "HILTON",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.hilton.com/en/hotels/grradhx-hampton-suites-grandville-grand-rapids-south/",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "hampton inn grand rapids north",
+   "canonical_name": "Hampton Inn Grand Rapids-North",
+   "family": "HILTON",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.hilton.com/en/hotels/grraphx-hampton-grand-rapids-north/",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "hampton inn grand rapids south",
+   "canonical_name": "Hampton Inn Grand Rapids-South",
+   "family": "HILTON",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.hilton.com/en/hotels/grrsohx-hampton-grand-rapids-south/",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "hampton inn holland",
+   "canonical_name": "Hampton Inn Holland",
+   "family": "HILTON",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.hilton.com/en/hotels/hldmihx-hampton-holland",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "hilton garden inn grand rapids east",
+   "canonical_name": "Hilton Garden Inn Grand Rapids East",
+   "family": "HILTON",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.hilton.com/en/hotels/grrebgi-hilton-garden-inn-grand-rapids-east",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "holiday inn express and suites grand rapids north",
+   "canonical_name": "Holiday Inn Express & Suites Grand Rapids-North",
+   "family": "IHG",
+   "routed_lane": "firecrawl",
+   "routed_ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/walker/grrds/hoteldetail",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "firecrawl",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'firecrawl') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "holiday inn express grand rapids sw",
+   "canonical_name": "Holiday Inn Express Grand Rapids SW",
+   "family": "IHG",
+   "routed_lane": "firecrawl",
+   "routed_ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/grandville/gdvmi/hoteldetail",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "firecrawl",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'firecrawl') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "holiday inn express holland",
+   "canonical_name": "Holiday Inn Express Holland",
+   "family": "IHG",
+   "routed_lane": "firecrawl",
+   "routed_ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/holland/hldfe/hoteldetail",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "firecrawl",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'firecrawl') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "home2 suites by hilton grand rapids north",
+   "canonical_name": "Home2 Suites by Hilton Grand Rapids North",
+   "family": "HILTON",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.hilton.com/en/hotels/grrnoht-home2-suites-grand-rapids-north/",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "home2 suites by hilton grand rapids northeast",
+   "canonical_name": "Home2 Suites by Hilton Grand Rapids Northeast",
+   "family": "HILTON",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.hilton.com/en/hotels/grrilht-home2-suites-grand-rapids-northeast/",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "home2 suites by hilton holland",
+   "canonical_name": "Home2 Suites by Hilton Holland",
+   "family": "HILTON",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.hilton.com/en/hotels/hlmhtht-home2-suites-holland",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "homewood suites by hilton walker grand rapids north",
+   "canonical_name": "Homewood Suites by Hilton Walker Grand Rapids North",
+   "family": "HILTON",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.hilton.com/en/hotels/grrinhw-homewood-suites-walker-grand-rapids-north/",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "quality inn grand rapids near downtown",
+   "canonical_name": "Quality Inn Grand Rapids Near Downtown",
+   "family": "CHOICE",
+   "routed_lane": "firecrawl",
+   "routed_ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.choicehotels.com/michigan/grand-rapids/quality-inn-hotels/mi281?mc=llgoxxpx",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "firecrawl",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'firecrawl') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "residence inn by marriott grand rapids downtown",
+   "canonical_name": "Residence Inn by Marriott Grand Rapids Downtown",
+   "family": "MARRIOTT",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.marriott.com/grrrd",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "residence inn by marriott grand rapids west",
+   "canonical_name": "Residence Inn by Marriott Grand Rapids West",
+   "family": "MARRIOTT",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.marriott.com/en-us/hotels/grrrw-residence-inn-grand-rapids-west/overview/",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "residence inn by marriott holland",
+   "canonical_name": "Residence Inn by Marriott Holland",
+   "family": "MARRIOTT",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.marriott.com/en-us/hotels/grrho-residence-inn-holland/overview/",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "residence inn grand rapids airport",
+   "canonical_name": "Residence Inn Grand Rapids Airport",
+   "family": "MARRIOTT",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.marriott.com/grrri",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "rodeway inn and suites grand rapids southeast",
+   "canonical_name": "Rodeway Inn & Suites Grand Rapids Southeast",
+   "family": "CHOICE",
+   "routed_lane": "firecrawl",
+   "routed_ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.choicehotels.com/en-in/michigan/grand-rapids/rodeway-inn-hotels/mi534",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "firecrawl",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'firecrawl') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "rodeway inn grandville grand rapids",
+   "canonical_name": "Rodeway Inn Grandville - Grand Rapids",
+   "family": "CHOICE",
+   "routed_lane": "firecrawl",
+   "routed_ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.choicehotels.com/en-xl/michigan/grandville/rodeway-inn-hotels/mi437",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "firecrawl",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'firecrawl') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "sheraton grand rapids airport hotel",
+   "canonical_name": "Sheraton Grand Rapids Airport Hotel",
+   "family": "MARRIOTT",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.marriott.com/en-us/hotels/grris-sheraton-grand-rapids-airport-hotel/overview/",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "spark by hilton walker grand rapids north",
+   "canonical_name": "Spark by Hilton Walker Grand Rapids North",
+   "family": "HILTON",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.hilton.com/en/hotels/grrwkpe-spark-walker-grand-rapids-north/",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "springhill suites by marriott grand rapids north",
+   "canonical_name": "SpringHill Suites by Marriott Grand Rapids North",
+   "family": "MARRIOTT",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.marriott.com/en-us/hotels/grrsh-springhill-suites-grand-rapids-north/overview/",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "springhill suites grand rapids airport southeast",
+   "canonical_name": "SpringHill Suites Grand Rapids Airport Southeast",
+   "family": "MARRIOTT",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.marriott.com/en-us/hotels/grrse-springhill-suites-grand-rapids-airport-southeast/overview/",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "springhill suites grand rapids west",
+   "canonical_name": "SpringHill Suites Grand Rapids West",
+   "family": "MARRIOTT",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.marriott.com/grrgs",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "springhill suites holland",
+   "canonical_name": "SpringHill Suites Holland",
+   "family": "MARRIOTT",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.marriott.com/grrsl",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "super 8 by wyndham wyoming grand rapids area",
+   "canonical_name": "Super 8 by Wyndham Wyoming/Grand Rapids Area",
+   "family": "WYNDHAM",
+   "routed_lane": "firecrawl",
+   "routed_ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.wyndhamhotels.com/super-8/wyoming-michigan/super-8-grand-rapids-wyoming/overview",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "firecrawl",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'firecrawl') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "the center hotel grand rapids airport",
+   "canonical_name": "The Center Hotel Grand Rapids Airport",
+   "family": "CHOICE",
+   "routed_lane": "firecrawl",
+   "routed_ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.choicehotels.com/michigan/grand-rapids/choice-hotels/mi670",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "firecrawl",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'firecrawl') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "towneplace suites grand rapids airport",
+   "canonical_name": "TownePlace Suites Grand Rapids Airport",
+   "family": "MARRIOTT",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.marriott.com/grrts",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "towneplace suites grand rapids airport southeast",
+   "canonical_name": "TownePlace Suites Grand Rapids Airport Southeast",
+   "family": "MARRIOTT",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.marriott.com/en-us/hotels/grrte-towneplace-suites-grand-rapids-airport-southeast/overview/",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "towneplace suites holland",
+   "canonical_name": "TownePlace Suites Holland",
+   "family": "MARRIOTT",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.marriott.com/grrht",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "travelodge by wyndham grand rapids north",
+   "canonical_name": "Travelodge by Wyndham Grand Rapids North",
+   "family": "WYNDHAM",
+   "routed_lane": "firecrawl",
+   "routed_ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.wyndhamhotels.com/travelodge/grand-rapids-michigan/travelodge-grand-rapids-north/overview",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "firecrawl",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'firecrawl') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "tru",
+   "canonical_name": "Tru",
+   "family": "HILTON",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.hilton.com/en/hotels/grrndru-tru-grand-rapids-airport",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "tulyp",
+   "canonical_name": "Tulyp",
+   "family": "HILTON",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.hilton.com/en/hotels/grrcfup-tulyp",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "POLICY_NOT_FOUND",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') already answered this page with POLICY_NOT_FOUND; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "woodspring suites holland grand rapids",
+   "canonical_name": "WoodSpring Suites Holland - Grand Rapids",
+   "family": "INDEPENDENT",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/michigan/grand-rapids/woodspring-suites-grand-rapids-holland",
+   "classification": "REUSABLE_POLICY_EVIDENCE",
+   "ledger_decision": "SUPPRESSED_EVIDENCE_REUSABLE",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "VALID",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (canonical url, run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') already answered this page with VALID; the evidence is reusable, so a second purchase would buy an answer we already own"
+  },
+  {
+   "identity_key": "affordable suites",
+   "canonical_name": "Affordable Suites",
+   "family": "INDEPENDENT",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.affordablesuites.com/hotels/affordable-suites-grand-rapids-mi/",
+   "classification": "ROUTING_REPAIR_REQUIRED",
+   "ledger_decision": "SUPPRESSED_ROUTING_REPAIR_REQUIRED",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "IDENTITY_MISMATCH",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') fetched a DIFFERENT property from this URL; what changes that answer is a routing repair, not another purchase of the same wrong page"
+  },
+  {
+   "identity_key": "baymont inn and suites grand rapids airport",
+   "canonical_name": "Baymont Inn & Suites Grand Rapids Airport",
+   "family": "WYNDHAM",
+   "routed_lane": "firecrawl",
+   "routed_ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.wyndhamhotels.com/baymont/grand-rapids-michigan/baymont-inn-and-suites-grand-rapids-airport/overview",
+   "classification": "ROUTING_REPAIR_REQUIRED",
+   "ledger_decision": "SUPPRESSED_ROUTING_REPAIR_REQUIRED",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "firecrawl",
+   "prior_outcome": "IDENTITY_MISMATCH",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (run 'grand-rapids-holland-mi-001-pass1', lane 'firecrawl') fetched a DIFFERENT property from this URL; what changes that answer is a routing repair, not another purchase of the same wrong page"
+  },
+  {
+   "identity_key": "budgetel grand rapids",
+   "canonical_name": "Budgetel Grand Rapids",
+   "family": "INDEPENDENT",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.budgetel.com/hotel-details/bi-grand-rapids-mi",
+   "classification": "ROUTING_REPAIR_REQUIRED",
+   "ledger_decision": "SUPPRESSED_ROUTING_REPAIR_REQUIRED",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "IDENTITY_MISMATCH",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') fetched a DIFFERENT property from this URL; what changes that answer is a routing repair, not another purchase of the same wrong page"
+  },
+  {
+   "identity_key": "fairfield inn and suites grand rapids wyoming",
+   "canonical_name": "Fairfield Inn & Suites Grand Rapids Wyoming",
+   "family": "MARRIOTT",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.marriott.com/grrfw",
+   "classification": "ROUTING_REPAIR_REQUIRED",
+   "ledger_decision": "SUPPRESSED_ROUTING_REPAIR_REQUIRED",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "IDENTITY_MISMATCH",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') fetched a DIFFERENT property from this URL; what changes that answer is a routing repair, not another purchase of the same wrong page"
+  },
+  {
+   "identity_key": "haworth hotel",
+   "canonical_name": "Haworth Hotel",
+   "family": "INDEPENDENT",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://haworthhotel.com",
+   "classification": "ROUTING_REPAIR_REQUIRED",
+   "ledger_decision": "SUPPRESSED_ROUTING_REPAIR_REQUIRED",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "IDENTITY_MISMATCH",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') fetched a DIFFERENT property from this URL; what changes that answer is a routing repair, not another purchase of the same wrong page"
+  },
+  {
+   "identity_key": "the ada hotel",
+   "canonical_name": "The Ada Hotel",
+   "family": "INDEPENDENT",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.adahotel.com/",
+   "classification": "ROUTING_REPAIR_REQUIRED",
+   "ledger_decision": "SUPPRESSED_ROUTING_REPAIR_REQUIRED",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "IDENTITY_MISMATCH",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') fetched a DIFFERENT property from this URL; what changes that answer is a routing repair, not another purchase of the same wrong page"
+  },
+  {
+   "identity_key": "the bluejay hotel",
+   "canonical_name": "The BlueJay Hotel",
+   "family": "INDEPENDENT",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.thebluejaygr.com/",
+   "classification": "ROUTING_REPAIR_REQUIRED",
+   "ledger_decision": "SUPPRESSED_ROUTING_REPAIR_REQUIRED",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "IDENTITY_MISMATCH",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') fetched a DIFFERENT property from this URL; what changes that answer is a routing repair, not another purchase of the same wrong page"
+  },
+  {
+   "identity_key": "the finnley hotel",
+   "canonical_name": "The Finnley Hotel",
+   "family": "INDEPENDENT",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.thefinnley.com/",
+   "classification": "ROUTING_REPAIR_REQUIRED",
+   "ledger_decision": "SUPPRESSED_ROUTING_REPAIR_REQUIRED",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_browser",
+   "prior_outcome": "IDENTITY_MISMATCH",
+   "material_change_reason": "",
+   "why": "a prior paid attempt (run 'grand-rapids-holland-mi-001-pass1', lane 'brightdata_browser') fetched a DIFFERENT property from this URL; what changes that answer is a routing repair, not another purchase of the same wrong page"
+  },
+  {
+   "identity_key": "best western",
+   "canonical_name": "Best Western",
+   "family": "WYNDHAM",
+   "routed_lane": "firecrawl",
+   "routed_ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.wyndhamhotels.com/baymont/grand-rapids-michigan/baymont-inn-and-suites-grand-rapids-sw-byron-center/overview",
+   "classification": "SAME_PAGE_ALREADY_FAILED",
+   "ledger_decision": "SUPPRESSED_ESCALATION_EXHAUSTED",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_web_unlocker",
+   "prior_outcome": "NAVIGATION_FAILED",
+   "material_change_reason": "",
+   "why": "every permitted lane (firecrawl, brightdata_web_unlocker) has already been paid to fetch this page; a further purchase needs a new lane, a routing repair or a named override, not another attempt"
+  },
+  {
+   "identity_key": "country inn and suites holland mi",
+   "canonical_name": "Country Inn & Suites, Holland, MI",
+   "family": "INDEPENDENT",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.radissonhotels.com/en-us/hotels/country-inn-holland-mi",
+   "classification": "SAME_PAGE_ALREADY_FAILED",
+   "ledger_decision": "SUPPRESSED_ESCALATION_EXHAUSTED",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_web_unlocker",
+   "prior_outcome": "UNEXPECTED_PAGE",
+   "material_change_reason": "",
+   "why": "every permitted lane (brightdata_browser, brightdata_web_unlocker) has already been paid to fetch this page; a further purchase needs a new lane, a routing repair or a named override, not another attempt"
+  },
+  {
+   "identity_key": "motel 6 grand rapids northeast",
+   "canonical_name": "Motel 6 Grand Rapids Northeast",
+   "family": "MOTEL6",
+   "routed_lane": "brightdata_browser",
+   "routed_ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "source_url": "https://www.motel6.com/content/g6/en/home/motels.mi.grand-rapids.8890.html",
+   "classification": "SAME_PAGE_ALREADY_FAILED",
+   "ledger_decision": "SUPPRESSED_ESCALATION_EXHAUSTED",
+   "match_key": "CANONICAL_URL",
+   "prior_run_id": "grand-rapids-holland-mi-001-pass1",
+   "prior_lane": "brightdata_web_unlocker",
+   "prior_outcome": "UNEXPECTED_PAGE",
+   "material_change_reason": "",
+   "why": "every permitted lane (brightdata_browser, brightdata_web_unlocker) has already been paid to fetch this page; a further purchase needs a new lane, a routing repair or a named override, not another attempt"
+  }
+ ]
+}

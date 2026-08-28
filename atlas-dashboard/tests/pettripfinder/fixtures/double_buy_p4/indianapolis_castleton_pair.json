@@ -1,0 +1,129 @@
+{
+ "work_item": "PTF-DEFECT-URL-LEVEL-DOUBLE-BUY-001",
+ "market_id": "indianapolis-in",
+ "work_order": "PTF-INDIANAPOLIS-HARDENED-RECENSUS-002",
+ "what_happened": "pass 1 bought Hilton indnehx for the OSM identity 'hampton inn indianapolis ne castleton' (VALID); pass 2 bought the same page again for the prior-census identity 'hampton inn indianapolis northeast castleton' because double_buy_check keys on identity_key only; the duplicate scan had already flagged the shared SOURCE_URL and street",
+ "pass1_cohort_rows": [
+  {
+   "identity_key": "hampton inn indianapolis ne castleton",
+   "canonical_name": "Hampton Inn Indianapolis - NE / Castleton",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "indianapolis-in__keystone-castleton",
+   "source_url": "https://www.hilton.com/en/hotels/indnehx-hampton-indianapolis-ne-castleton",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "hampton inn indianapolis northeast castleton",
+   "canonical_name": "Hampton Inn Indianapolis Northeast Castleton",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "indianapolis-in__keystone-castleton",
+   "source_url": "https://www.hilton.com/en/hotels/indnehx-hampton-indianapolis-ne-castleton/",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  }
+ ],
+ "pass2_cohort_rows": [
+  {
+   "identity_key": "hampton inn indianapolis northeast castleton",
+   "canonical_name": "Hampton Inn Indianapolis Northeast Castleton",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "indianapolis-in__keystone-castleton",
+   "source_url": "https://www.hilton.com/en/hotels/indnehx-hampton-indianapolis-ne-castleton/",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  }
+ ],
+ "prior_results_before_pass2": [
+  {
+   "identity_key": "hampton inn indianapolis ne castleton",
+   "canonical_name": "Hampton Inn Indianapolis - NE / Castleton",
+   "source_url": "https://www.hilton.com/en/hotels/indnehx-hampton-indianapolis-ne-castleton",
+   "final_url": "https://www.hilton.com/en/hotels/indnehx-hampton-indianapolis-ne-castleton/",
+   "outcome": "VALID",
+   "final_state": "ACQUIRED_PUBLICATION_GRADE",
+   "content_hash": "ed294c4980a43aa7d388a5ab4bdd48ea160cb436352fed4cc1995ddb460d0433",
+   "acquisition_pass": "indianapolis_in_market_acquisition_pass1_002.json"
+  }
+ ],
+ "pass2_double_buy_check_as_recorded": {
+  "terminal_outcomes": [
+   "VALID",
+   "POLICY_NOT_FOUND",
+   "IDENTITY_MISMATCH"
+  ],
+  "prior_results_examined": 79,
+  "prior_results_that_answered": 62,
+  "journal_examined": "C:/ptf-indy-v2/atlas-dashboard/data/acquisition/indianapolis_in_factory_002/pass2/journal.jsonl",
+  "journalled_keys": 0,
+  "cohort_size": 28,
+  "already_answered_by_a_prior_pass": [],
+  "already_journalled_in_this_run_dir": [],
+  "pass_resumes_from_that_journal": true,
+  "resumed_from_journal_not_bought_again": [],
+  "retries_of_attempts_that_answered_nothing": {},
+  "no_property_is_bought_twice": true
+ },
+ "duplicate_scan_groups": [
+  {
+   "signal": "SOURCE_URL",
+   "value": "https://www.hilton.com/en/hotels/indnehx-hampton-indianapolis-ne-castleton",
+   "identity_keys": [
+    "hampton inn indianapolis ne castleton",
+    "hampton inn indianapolis northeast castleton"
+   ],
+   "size": 2,
+   "includes_a_review_candidate": true,
+   "why_it_matters": "two identities claiming one page: at least one of them will carry another building's policy"
+  },
+  {
+   "signal": "STREET_AND_POSTAL_CODE",
+   "value": "6817 e 82nd st|46250",
+   "identity_keys": [
+    "hampton inn indianapolis ne castleton",
+    "hampton inn indianapolis northeast castleton"
+   ],
+   "size": 2,
+   "includes_a_review_candidate": true,
+   "why_it_matters": "two identities at one street address: a dual-brand building, a tower of one hotel, or one hotel entered twice"
+  }
+ ],
+ "terminal_outcomes": [
+  "VALID",
+  "POLICY_NOT_FOUND",
+  "IDENTITY_MISMATCH"
+ ]
+}

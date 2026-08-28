@@ -90,6 +90,7 @@ _REPO_ROOT = Path(__file__).resolve().parents[3]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
+from scripts.pettripfinder.acquisition import authorized_cohort as AUTH  # noqa: E402
 from scripts.pettripfinder.acquisition import cohort_cost_plan as CP  # noqa: E402
 from scripts.pettripfinder.acquisition import journal as JOURNAL      # noqa: E402
 from scripts.pettripfinder.acquisition import market_routing as MR    # noqa: E402
@@ -366,6 +367,25 @@ def cost_plan_gate(plan: Optional[Mapping], queue: Sequence[Mapping]) -> Dict:
     ))
 
 
+def _fallback_credits(entry: Mapping) -> float:
+    """Plan credits this row's lane draws, or zero for a dollar-billed lane.
+
+    PTF-GENERIC-EXACT-AUTHORIZED-COHORT-001. The credit gate used to stop the
+    WHOLE run once credits were exhausted, including rows that draw no credits
+    at all. That made "spend up to $7.00 on these 50 properties" and "use no
+    more than 20 plan credits" mutually unsatisfiable: 20 Firecrawl rows
+    exhausted the credits and the 30 Bright Data rows -- which cost dollars and
+    no credits -- were stopped for want of a currency they never spend. The
+    dollar gate had always reserved per row; this is the same idea for the
+    other meter.
+    """
+    try:
+        cost = PROVIDERS.get(entry["provider"]).cost_metadata()
+    except (PROVIDERS.ProviderError, KeyError):
+        return 0.0
+    return float(cost.credits_per_property or 0.0)
+
+
 def _fallback_unit(entry: Mapping) -> float:
     """The registry's own price for this row's lane, used until a run has
     measured its own. Zero for a credit-billed lane, which draws no dollars."""
@@ -428,6 +448,8 @@ class SpendMeter:
     #: cumulative; reported separately so this session's own spend is still
     #: readable as ``estimated_usd_minor - seeded_usd_minor``.
     seeded_usd_minor: float = 0.0
+    #: The same idea for plan credits, which have no vendor meter at all.
+    seeded_plan_credits: float = 0.0
     #: Properties this session has priced, used to calibrate a real unit cost.
     priced_properties: int = 0
     #: How many properties may run between two vendor readings. The reservation
@@ -596,6 +618,7 @@ class SpendMeter:
             ("telemetry_live", measured is not None),
             ("estimated_plan_credits", round(self.estimated_credits, 2)),
             ("seeded_usd_minor", round(self.seeded_usd_minor, 2)),
+            ("seeded_plan_credits", round(self.seeded_plan_credits, 2)),
             ("this_session_usd_minor",
              round(estimated - self.seeded_usd_minor, 2)),
             ("vendor_reads", self.reads),
@@ -845,13 +868,22 @@ async def run(*, rows: Sequence[Mapping], queue: Sequence[Mapping],
                 if meter.calibrated_unit_usd_minor() else None)
             report["deferred"] = [e["identity_key"] for e in pending[index - 1:]]
             break
-        if credit_cap is not None and spend["estimated_plan_credits"] >= credit_cap:
-            report["outcome"] = "STOPPED_CREDIT_CAP"
+        credit_reserve = _fallback_credits(entry)
+        if (credit_cap is not None and credit_reserve
+                and spend["estimated_plan_credits"] + credit_reserve > credit_cap):
+            # Defer THIS row and keep going. A credit cap bounds the credit
+            # lanes; it says nothing about a property billed in dollars, and
+            # stopping those too would strand an authorised cohort mid-run.
+            report["deferred"].append(entry["identity_key"])
+            report["credit_capped"] = report.get("credit_capped", 0) + 1
             report["stop_reason"] = (
-                "plan-credit cap reached: %s of %d credits"
+                "plan-credit cap reached: %s of %d credits; credit-billed rows "
+                "are deferred from here, dollar-billed rows continue under the "
+                "dollar cap"
                 % (spend["estimated_plan_credits"], credit_cap))
-            report["deferred"] = [e["identity_key"] for e in pending[index - 1:]]
-            break
+            print("[%3d/%3d] %-22s %-12s DEFERRED (credit cap)"
+                  % (index, len(pending), "CREDIT_CAP", family), flush=True)
+            continue
         if breaker.is_open(family):
             report["deferred"].append(entry["identity_key"])
             print("[%3d/%3d] %-22s %-12s SKIPPED (family breaker open)"
@@ -931,7 +963,8 @@ async def run(*, rows: Sequence[Mapping], queue: Sequence[Mapping],
 # Gates
 # --------------------------------------------------------------------------- #
 
-def preflight(meter: SpendMeter, *, run_id: str, cap_usd_minor: int) -> Dict:
+def preflight(meter: SpendMeter, *, run_id: str, cap_usd_minor: int,
+              journal: Optional["JOURNAL.Journal"] = None) -> Dict:
     """Everything that must be true before one cent is spent.
 
     Also SEEDS the estimate, which matters only on a resume and matters a lot.
@@ -950,6 +983,30 @@ def preflight(meter: SpendMeter, *, run_id: str, cap_usd_minor: int) -> Dict:
     if measured:
         meter.estimated_usd_minor = float(measured)
         meter.seeded_usd_minor = float(measured)
+
+    # PTF-GENERIC-EXACT-AUTHORIZED-COHORT-001. The credit meter needed the same
+    # treatment and did not have it. The vendor's dollar meter is cumulative on
+    # its own because it grows from an anchor that outlives the process; plan
+    # credits have no such meter, so a fresh session started at zero and a
+    # resumed run could spend the WHOLE credit cap again on top of what earlier
+    # sessions had already drawn. The journal is the durable record of what was
+    # attempted, so the credits are re-counted from it.
+    if journal is not None:
+        seeded = 0.0
+        for entry in journal.read().values():
+            for provider in (entry.get("providers_tried")
+                             or [entry.get("provider")] or ()):
+                if not provider:
+                    continue
+                try:
+                    cost = PROVIDERS.get(str(provider)).cost_metadata()
+                except (PROVIDERS.ProviderError, KeyError):
+                    continue
+                if cost.credits_per_property:
+                    seeded += float(cost.credits_per_property)
+        if seeded:
+            meter.estimated_credits = seeded
+            meter.seeded_plan_credits = seeded
     snap = meter.latest
 
     checks.append(OrderedDict((
@@ -1065,6 +1122,17 @@ def main(argv=None) -> int:
                         help="a ptf-retry-overrides document naming, with an "
                              "author and a reason, identities whose same-lane "
                              "retry an operator explicitly authorises")
+    parser.add_argument("--only-cohort", default="",
+                        help="a ptf-authorized-cohort document naming the "
+                             "EXACT identities this run may touch. The "
+                             "eligible queue is intersected with it, the "
+                             "cross-run paid ledger is re-run over the "
+                             "intersection, and anything eligible but "
+                             "unauthorised is reported rather than bought. "
+                             "Omit it and the run behaves exactly as before.")
+    parser.add_argument("--paid-ledger", default="",
+                        help="the cross-run paid-attempt ledger consulted by "
+                             "--only-cohort immediately before spending")
     parser.add_argument("--no-resume", action="store_true")
     parser.add_argument("--dry-run", action="store_true",
                         help="derive the cohort and run the gates; spend zero")
@@ -1097,6 +1165,34 @@ def main(argv=None) -> int:
     cohort, deduped = _apply_dedup_plan(cohort, args.dedup_plan)
     settled.extend(deduped)
     queue = order_queue(cohort, args.priority.split(","))
+
+    # PTF-GENERIC-EXACT-AUTHORIZED-COHORT-001. An authorisation names identities,
+    # not a count. Applied here -- after the queue is derived and before any
+    # limit or any spending -- so the run can only ever be a SUBSET of what the
+    # runner found eligible, and so the cost-plan fingerprint below is computed
+    # over exactly what will be bought.
+    authorized_report: Dict = OrderedDict((("only_cohort", ""),))
+    if args.only_cohort:
+        document = AUTH.load(args.only_cohort)
+        paid_ledger = (json.loads(Path(args.paid_ledger).read_text(encoding="utf-8"))
+                       if args.paid_ledger else None)
+        queue, authorized_report = AUTH.gate(
+            queue, document, market_id=args.market,
+            cap_usd_minor=int(round(args.cap_usd * 100)),
+            plan_credit_cap=args.credit_cap, ledger=paid_ledger)
+        authorized_report["only_cohort"] = str(Path(args.only_cohort).as_posix())
+        # The reported cohort must be what this run will actually buy. Leaving
+        # the wider eligible list here would describe a purchase that is not
+        # being made, and the backlog is reported in its own section with an
+        # explicit NOT_AUTHORIZED_THIS_WORK_ORDER state.
+        allowed_keys = {str(r.get("identity_key") or "") for r in queue}
+        cohort = [r for r in cohort
+                  if str(r.get("identity_key") or "") in allowed_keys]
+        # The rows themselves are already in the queue and in the report's
+        # backlog listing; carrying the full row bodies twice only makes the
+        # artifact harder to read.
+        authorized_report.pop("payable_rows", None)
+
     if args.limit:
         queue = queue[:args.limit]
     # Alternate-lane rows start on the lane the prior attempt never tried. The
@@ -1134,6 +1230,7 @@ def main(argv=None) -> int:
                             "lagging meter overshoots"),
         ))),
         ("url_overlay", overlay),
+        ("authorized_cohort", authorized_report),
         ("routing_summary", routing_summary),
         ("cohort_rule", OrderedDict((
             ("terminal_prior_outcomes", args.terminal.split(",")),
@@ -1208,7 +1305,8 @@ def main(argv=None) -> int:
                   started=started, out=Path(args.out))
         return 0
 
-    pre = preflight(meter, run_id=run_id, cap_usd_minor=cap_usd_minor)
+    pre = preflight(meter, run_id=run_id, cap_usd_minor=cap_usd_minor,
+                    journal=journal)
     document["preflight"] = pre
     # The cost plan is a gate, not a courtesy. It is checked on a spending run
     # only: a dry run is how the plan's input is produced in the first place.

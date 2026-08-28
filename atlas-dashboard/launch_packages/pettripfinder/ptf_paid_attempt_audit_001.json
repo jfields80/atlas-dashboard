@@ -1,0 +1,648 @@
+{
+  "schema": "ptf-paid-attempt-audit/1.0",
+  "what_this_is": "An offline audit of every saved paid acquisition attempt, asking how often one page was bought more than once and which of those repeats the hardened retry policy would have permitted. No network calls; no historical artifact was modified.",
+  "markets": [
+    {
+      "market_id": "grand-rapids-holland-mi",
+      "total_paid_attempts": 68,
+      "attempts_without_a_page_key": 0,
+      "unique_identity_keys": 65,
+      "unique_page_entities": 65,
+      "entities_bought_more_than_once": 3,
+      "repeated_paid_attempts": 3,
+      "same_lane_repeats": 0,
+      "justified_cross_lane_escalations": 3,
+      "repeats_after_a_terminal_answer": 0,
+      "unjustified_repeats": 0,
+      "repeat_distribution": {
+        "1 attempt": 62,
+        "2 attempts": 3
+      },
+      "max_attempts_on_one_page": 2,
+      "estimated_wasted_usd_minor": 0.0,
+      "estimated_wasted_firecrawl_credits": 0.0,
+      "rows_the_ledger_would_have_suppressed": 0,
+      "pages_bought_three_or_more_times": []
+    },
+    {
+      "market_id": "indianapolis-in",
+      "total_paid_attempts": 105,
+      "attempts_without_a_page_key": 0,
+      "unique_identity_keys": 81,
+      "unique_page_entities": 78,
+      "entities_bought_more_than_once": 25,
+      "repeated_paid_attempts": 27,
+      "same_lane_repeats": 0,
+      "justified_cross_lane_escalations": 21,
+      "repeats_after_a_terminal_answer": 6,
+      "unjustified_repeats": 6,
+      "repeat_distribution": {
+        "1 attempt": 53,
+        "2 attempts": 24,
+        "4 attempts": 1
+      },
+      "max_attempts_on_one_page": 4,
+      "estimated_wasted_usd_minor": 87.97,
+      "estimated_wasted_firecrawl_credits": 0.83,
+      "rows_the_ledger_would_have_suppressed": 6,
+      "pages_bought_three_or_more_times": [
+        {
+          "entity": "PROPERTY_CODE:INDNEHX",
+          "attempts": 4,
+          "identity_keys": [
+            "hampton inn indianapolis ne castleton",
+            "hampton inn indianapolis northeast castleton"
+          ],
+          "names": [
+            "Hampton Inn Indianapolis - NE / Castleton",
+            "Hampton Inn Indianapolis Northeast Castleton"
+          ],
+          "runs": [
+            "indianapolis-in-002-pass1",
+            "indianapolis-in-002-pass1",
+            "indianapolis-in-002-pass2",
+            "indianapolis-in-002-pass2"
+          ],
+          "lanes": [
+            "brightdata_browser",
+            "brightdata_web_unlocker",
+            "brightdata_browser",
+            "brightdata_web_unlocker"
+          ],
+          "outcomes": [
+            "",
+            "VALID",
+            "",
+            "VALID"
+          ],
+          "verdicts": [
+            "FIRST_ATTEMPT",
+            "JUSTIFIED_ESCALATION",
+            "REPEAT_AFTER_TERMINAL",
+            "REPEAT_AFTER_TERMINAL"
+          ],
+          "why": [
+            "the first time this page was paid for",
+            "the previous attempt ended on an un-recorded ladder step -- a channel failure -- and brightdata_web_unlocker had never been paid for this page",
+            "this page had already been answered VALID; the answer was bought again",
+            "this page had already been answered VALID; the answer was bought again"
+          ]
+        }
+      ]
+    },
+    {
+      "market_id": "louisville-ky",
+      "total_paid_attempts": 103,
+      "attempts_without_a_page_key": 0,
+      "unique_identity_keys": 79,
+      "unique_page_entities": 79,
+      "entities_bought_more_than_once": 8,
+      "repeated_paid_attempts": 24,
+      "same_lane_repeats": 16,
+      "justified_cross_lane_escalations": 8,
+      "repeats_after_a_terminal_answer": 0,
+      "unjustified_repeats": 16,
+      "repeat_distribution": {
+        "1 attempt": 71,
+        "4 attempts": 8
+      },
+      "max_attempts_on_one_page": 4,
+      "estimated_wasted_usd_minor": 181.62,
+      "estimated_wasted_firecrawl_credits": 4.76,
+      "rows_the_ledger_would_have_suppressed": 16,
+      "pages_bought_three_or_more_times": [
+        {
+          "entity": "CANONICAL_URL:choicehotels.com/indiana/clarksville/suburban-hotels/in269",
+          "attempts": 4,
+          "identity_keys": [
+            "suburban studios louisville north"
+          ],
+          "names": [
+            "Suburban Studios Louisville North"
+          ],
+          "runs": [
+            "louisville-rebuild-002",
+            "louisville-rebuild-002",
+            "louisville-expansion-003",
+            "louisville-expansion-003"
+          ],
+          "lanes": [
+            "brightdata_web_unlocker",
+            "firecrawl",
+            "firecrawl",
+            "brightdata_web_unlocker"
+          ],
+          "outcomes": [
+            "UNEXPECTED_PAGE",
+            "",
+            "",
+            "UNHYDRATED"
+          ],
+          "verdicts": [
+            "FIRST_ATTEMPT",
+            "JUSTIFIED_ESCALATION",
+            "SAME_LANE_REPEAT",
+            "SAME_LANE_REPEAT"
+          ],
+          "why": [
+            "the first time this page was paid for",
+            "the previous attempt ended UNEXPECTED_PAGE -- a channel failure -- and firecrawl had never been paid for this page",
+            "lane 'firecrawl' had already been paid to fetch this page and was paid again",
+            "lane 'brightdata_web_unlocker' had already been paid to fetch this page and was paid again"
+          ]
+        },
+        {
+          "entity": "CANONICAL_URL:choicehotels.com/kentucky/louisville/sleep-inn-hotels/ky434",
+          "attempts": 4,
+          "identity_keys": [
+            "sleep inn louisville expo"
+          ],
+          "names": [
+            "Sleep Inn Louisville Expo"
+          ],
+          "runs": [
+            "louisville-rebuild-002",
+            "louisville-rebuild-002",
+            "louisville-expansion-003",
+            "louisville-expansion-003"
+          ],
+          "lanes": [
+            "firecrawl",
+            "brightdata_web_unlocker",
+            "brightdata_web_unlocker",
+            "firecrawl"
+          ],
+          "outcomes": [
+            "",
+            "UNHYDRATED",
+            "ACCESS_DENIED",
+            ""
+          ],
+          "verdicts": [
+            "FIRST_ATTEMPT",
+            "JUSTIFIED_ESCALATION",
+            "SAME_LANE_REPEAT",
+            "SAME_LANE_REPEAT"
+          ],
+          "why": [
+            "the first time this page was paid for",
+            "the previous attempt ended on an un-recorded ladder step -- a channel failure -- and brightdata_web_unlocker had never been paid for this page",
+            "lane 'brightdata_web_unlocker' had already been paid to fetch this page and was paid again",
+            "lane 'firecrawl' had already been paid to fetch this page and was paid again"
+          ]
+        },
+        {
+          "entity": "CANONICAL_URL:embassysuites3.hilton.com/en/hotels/kentucky/embassy-suites-louisville-downtown-sdfdnes/index.html",
+          "attempts": 4,
+          "identity_keys": [
+            "embassy suites louisville downtown"
+          ],
+          "names": [
+            "Embassy Suites - Louisville Downtown"
+          ],
+          "runs": [
+            "louisville-rebuild-002",
+            "louisville-rebuild-002",
+            "louisville-expansion-003",
+            "louisville-expansion-003"
+          ],
+          "lanes": [
+            "brightdata_web_unlocker",
+            "brightdata_browser",
+            "brightdata_web_unlocker",
+            "brightdata_browser"
+          ],
+          "outcomes": [
+            "ACCESS_DENIED",
+            "",
+            "UNEXPECTED_PAGE",
+            ""
+          ],
+          "verdicts": [
+            "FIRST_ATTEMPT",
+            "JUSTIFIED_ESCALATION",
+            "SAME_LANE_REPEAT",
+            "SAME_LANE_REPEAT"
+          ],
+          "why": [
+            "the first time this page was paid for",
+            "the previous attempt ended ACCESS_DENIED -- a channel failure -- and brightdata_browser had never been paid for this page",
+            "lane 'brightdata_web_unlocker' had already been paid to fetch this page and was paid again",
+            "lane 'brightdata_browser' had already been paid to fetch this page and was paid again"
+          ]
+        },
+        {
+          "entity": "CANONICAL_URL:ihg.com/crowneplaza/hotels/us/en/louisville/sdfap/hoteldetail",
+          "attempts": 4,
+          "identity_keys": [
+            "crowne plaza louisville airport expo center"
+          ],
+          "names": [
+            "Crowne Plaza Louisville Airport Expo Center"
+          ],
+          "runs": [
+            "louisville-rebuild-002",
+            "louisville-rebuild-002",
+            "louisville-expansion-003",
+            "louisville-expansion-003"
+          ],
+          "lanes": [
+            "firecrawl",
+            "brightdata_web_unlocker",
+            "brightdata_web_unlocker",
+            "firecrawl"
+          ],
+          "outcomes": [
+            "",
+            "UNEXPECTED_PAGE",
+            "UNEXPECTED_PAGE",
+            ""
+          ],
+          "verdicts": [
+            "FIRST_ATTEMPT",
+            "JUSTIFIED_ESCALATION",
+            "SAME_LANE_REPEAT",
+            "SAME_LANE_REPEAT"
+          ],
+          "why": [
+            "the first time this page was paid for",
+            "the previous attempt ended on an un-recorded ladder step -- a channel failure -- and brightdata_web_unlocker had never been paid for this page",
+            "lane 'brightdata_web_unlocker' had already been paid to fetch this page and was paid again",
+            "lane 'firecrawl' had already been paid to fetch this page and was paid again"
+          ]
+        },
+        {
+          "entity": "PROPERTY_CODE:SDFFY",
+          "attempts": 4,
+          "identity_keys": [
+            "fairfield inn and suites louisville new albany in"
+          ],
+          "names": [
+            "Fairfield Inn & Suites Louisville New Albany IN"
+          ],
+          "runs": [
+            "louisville-rebuild-002",
+            "louisville-rebuild-002",
+            "louisville-expansion-003",
+            "louisville-expansion-003"
+          ],
+          "lanes": [
+            "brightdata_browser",
+            "brightdata_web_unlocker",
+            "brightdata_browser",
+            "brightdata_web_unlocker"
+          ],
+          "outcomes": [
+            "",
+            "UNEXPECTED_PAGE",
+            "",
+            "UNEXPECTED_PAGE"
+          ],
+          "verdicts": [
+            "FIRST_ATTEMPT",
+            "JUSTIFIED_ESCALATION",
+            "SAME_LANE_REPEAT",
+            "SAME_LANE_REPEAT"
+          ],
+          "why": [
+            "the first time this page was paid for",
+            "the previous attempt ended on an un-recorded ladder step -- a channel failure -- and brightdata_web_unlocker had never been paid for this page",
+            "lane 'brightdata_browser' had already been paid to fetch this page and was paid again",
+            "lane 'brightdata_web_unlocker' had already been paid to fetch this page and was paid again"
+          ]
+        },
+        {
+          "entity": "PROPERTY_CODE:SDFGJ",
+          "attempts": 4,
+          "identity_keys": [
+            "residence inn louisville downtown"
+          ],
+          "names": [
+            "Residence Inn - Louisville Downtown"
+          ],
+          "runs": [
+            "louisville-rebuild-002",
+            "louisville-rebuild-002",
+            "louisville-expansion-003",
+            "louisville-expansion-003"
+          ],
+          "lanes": [
+            "brightdata_web_unlocker",
+            "brightdata_browser",
+            "brightdata_web_unlocker",
+            "brightdata_browser"
+          ],
+          "outcomes": [
+            "UNEXPECTED_PAGE",
+            "",
+            "UNEXPECTED_PAGE",
+            ""
+          ],
+          "verdicts": [
+            "FIRST_ATTEMPT",
+            "JUSTIFIED_ESCALATION",
+            "SAME_LANE_REPEAT",
+            "SAME_LANE_REPEAT"
+          ],
+          "why": [
+            "the first time this page was paid for",
+            "the previous attempt ended UNEXPECTED_PAGE -- a channel failure -- and brightdata_browser had never been paid for this page",
+            "lane 'brightdata_web_unlocker' had already been paid to fetch this page and was paid again",
+            "lane 'brightdata_browser' had already been paid to fetch this page and was paid again"
+          ]
+        },
+        {
+          "entity": "PROPERTY_CODE:SDFLM",
+          "attempts": 4,
+          "identity_keys": [
+            "louisville marriott downtown"
+          ],
+          "names": [
+            "Louisville Marriott Downtown"
+          ],
+          "runs": [
+            "louisville-rebuild-002",
+            "louisville-rebuild-002",
+            "louisville-expansion-003",
+            "louisville-expansion-003"
+          ],
+          "lanes": [
+            "brightdata_web_unlocker",
+            "brightdata_browser",
+            "brightdata_web_unlocker",
+            "brightdata_browser"
+          ],
+          "outcomes": [
+            "UNEXPECTED_PAGE",
+            "",
+            "ACCESS_DENIED",
+            ""
+          ],
+          "verdicts": [
+            "FIRST_ATTEMPT",
+            "JUSTIFIED_ESCALATION",
+            "SAME_LANE_REPEAT",
+            "SAME_LANE_REPEAT"
+          ],
+          "why": [
+            "the first time this page was paid for",
+            "the previous attempt ended UNEXPECTED_PAGE -- a channel failure -- and brightdata_browser had never been paid for this page",
+            "lane 'brightdata_web_unlocker' had already been paid to fetch this page and was paid again",
+            "lane 'brightdata_browser' had already been paid to fetch this page and was paid again"
+          ]
+        },
+        {
+          "entity": "PROPERTY_CODE:SDFSD",
+          "attempts": 4,
+          "identity_keys": [
+            "springhill suites louisville downtown"
+          ],
+          "names": [
+            "SpringHill Suites Louisville Downtown"
+          ],
+          "runs": [
+            "louisville-rebuild-002",
+            "louisville-rebuild-002",
+            "louisville-expansion-003",
+            "louisville-expansion-003"
+          ],
+          "lanes": [
+            "brightdata_browser",
+            "brightdata_web_unlocker",
+            "brightdata_browser",
+            "brightdata_web_unlocker"
+          ],
+          "outcomes": [
+            "",
+            "UNEXPECTED_PAGE",
+            "",
+            "UNEXPECTED_PAGE"
+          ],
+          "verdicts": [
+            "FIRST_ATTEMPT",
+            "JUSTIFIED_ESCALATION",
+            "SAME_LANE_REPEAT",
+            "SAME_LANE_REPEAT"
+          ],
+          "why": [
+            "the first time this page was paid for",
+            "the previous attempt ended on an un-recorded ladder step -- a channel failure -- and brightdata_web_unlocker had never been paid for this page",
+            "lane 'brightdata_browser' had already been paid to fetch this page and was paid again",
+            "lane 'brightdata_web_unlocker' had already been paid to fetch this page and was paid again"
+          ]
+        }
+      ]
+    },
+    {
+      "market_id": "milwaukee-wi",
+      "total_paid_attempts": 117,
+      "attempts_without_a_page_key": 0,
+      "unique_identity_keys": 117,
+      "unique_page_entities": 117,
+      "entities_bought_more_than_once": 0,
+      "repeated_paid_attempts": 0,
+      "same_lane_repeats": 0,
+      "justified_cross_lane_escalations": 0,
+      "repeats_after_a_terminal_answer": 0,
+      "unjustified_repeats": 0,
+      "repeat_distribution": {
+        "1 attempt": 117
+      },
+      "max_attempts_on_one_page": 1,
+      "estimated_wasted_usd_minor": 0.0,
+      "estimated_wasted_firecrawl_credits": 0.0,
+      "rows_the_ledger_would_have_suppressed": 0,
+      "pages_bought_three_or_more_times": []
+    },
+    {
+      "market_id": "pittsburgh-pa",
+      "total_paid_attempts": 120,
+      "attempts_without_a_page_key": 0,
+      "unique_identity_keys": 92,
+      "unique_page_entities": 86,
+      "entities_bought_more_than_once": 30,
+      "repeated_paid_attempts": 34,
+      "same_lane_repeats": 4,
+      "justified_cross_lane_escalations": 23,
+      "repeats_after_a_terminal_answer": 7,
+      "unjustified_repeats": 11,
+      "repeat_distribution": {
+        "1 attempt": 56,
+        "2 attempts": 28,
+        "4 attempts": 2
+      },
+      "max_attempts_on_one_page": 4,
+      "estimated_wasted_usd_minor": 151.98,
+      "estimated_wasted_firecrawl_credits": 0.92,
+      "rows_the_ledger_would_have_suppressed": 11,
+      "pages_bought_three_or_more_times": [
+        {
+          "entity": "PROPERTY_CODE:PITMV",
+          "attempts": 4,
+          "identity_keys": [
+            "springhill suites",
+            "springhill suites pittsburgh monroeville"
+          ],
+          "names": [
+            "SpringHill Suites",
+            "SpringHill Suites Pittsburgh Monroeville"
+          ],
+          "runs": [
+            "pittsburgh-pa-recensus_001-pass1",
+            "pittsburgh-pa-recensus_001-pass1",
+            "pittsburgh-pa-recensus_001-pass1",
+            "pittsburgh-pa-recensus_001-pass1"
+          ],
+          "lanes": [
+            "brightdata_web_unlocker",
+            "brightdata_browser",
+            "brightdata_browser",
+            "brightdata_web_unlocker"
+          ],
+          "outcomes": [
+            "UNEXPECTED_PAGE",
+            "",
+            "",
+            "ACCESS_DENIED"
+          ],
+          "verdicts": [
+            "FIRST_ATTEMPT",
+            "JUSTIFIED_ESCALATION",
+            "SAME_LANE_REPEAT",
+            "SAME_LANE_REPEAT"
+          ],
+          "why": [
+            "the first time this page was paid for",
+            "the previous attempt ended UNEXPECTED_PAGE -- a channel failure -- and brightdata_browser had never been paid for this page",
+            "lane 'brightdata_browser' had already been paid to fetch this page and was paid again",
+            "lane 'brightdata_web_unlocker' had already been paid to fetch this page and was paid again"
+          ]
+        },
+        {
+          "entity": "PROPERTY_CODE:PITRA",
+          "attempts": 4,
+          "identity_keys": [
+            "residence inn pittsburgh airport",
+            "residence inn pittsburgh airport coraopolis"
+          ],
+          "names": [
+            "Residence Inn Pittsburgh Airport",
+            "Residence Inn Pittsburgh Airport Coraopolis"
+          ],
+          "runs": [
+            "pittsburgh-pa-recensus_001-pass1",
+            "pittsburgh-pa-recensus_001-pass1",
+            "pittsburgh-pa-recensus_001-pass1",
+            "pittsburgh-pa-recensus_001-pass1"
+          ],
+          "lanes": [
+            "brightdata_web_unlocker",
+            "brightdata_browser",
+            "brightdata_web_unlocker",
+            "brightdata_browser"
+          ],
+          "outcomes": [
+            "ACCESS_DENIED",
+            "",
+            "NAVIGATION_FAILED",
+            ""
+          ],
+          "verdicts": [
+            "FIRST_ATTEMPT",
+            "JUSTIFIED_ESCALATION",
+            "SAME_LANE_REPEAT",
+            "SAME_LANE_REPEAT"
+          ],
+          "why": [
+            "the first time this page was paid for",
+            "the previous attempt ended ACCESS_DENIED -- a channel failure -- and brightdata_browser had never been paid for this page",
+            "lane 'brightdata_web_unlocker' had already been paid to fetch this page and was paid again",
+            "lane 'brightdata_browser' had already been paid to fetch this page and was paid again"
+          ]
+        }
+      ]
+    },
+    {
+      "market_id": "st-louis-mo",
+      "total_paid_attempts": 150,
+      "attempts_without_a_page_key": 0,
+      "unique_identity_keys": 132,
+      "unique_page_entities": 131,
+      "entities_bought_more_than_once": 19,
+      "repeated_paid_attempts": 19,
+      "same_lane_repeats": 0,
+      "justified_cross_lane_escalations": 15,
+      "repeats_after_a_terminal_answer": 4,
+      "unjustified_repeats": 4,
+      "repeat_distribution": {
+        "1 attempt": 112,
+        "2 attempts": 19
+      },
+      "max_attempts_on_one_page": 2,
+      "estimated_wasted_usd_minor": 28.85,
+      "estimated_wasted_firecrawl_credits": 2.16,
+      "rows_the_ledger_would_have_suppressed": 4,
+      "pages_bought_three_or_more_times": []
+    }
+  ],
+  "totals": {
+    "total_paid_attempts": 663,
+    "unique_page_entities": 556,
+    "repeated_paid_attempts": 107,
+    "same_lane_repeats": 20,
+    "justified_cross_lane_escalations": 70,
+    "repeats_after_a_terminal_answer": 17,
+    "unjustified_repeats": 37,
+    "rows_the_ledger_would_have_suppressed": 37,
+    "estimated_wasted_usd_minor": 450.42,
+    "estimated_wasted_firecrawl_credits": 8.67,
+    "max_attempts_on_one_page": 4
+  },
+  "provenance": {
+    "work_order": "PTF-GENERIC-CROSS-RUN-PAID-ATTEMPT-LEDGER-001",
+    "derived_at_commit": "9825d24",
+    "how_to_regenerate": "scripts/pettripfinder/acquisition/paid_attempt_audit.py --document <each saved ptf-market-paid-acquisition document> --ledger-out <path> --out <path>",
+    "read_from": {
+      "st-louis-mo": {
+        "source_commit": "9825d24 (this branch)",
+        "documents": [
+          "st_louis_mo_paid_acquisition_002.json"
+        ]
+      },
+      "louisville-ky": {
+        "source_commit": "9825d24 (this branch)",
+        "documents": [
+          "louisville_ky_market_acquisition_002.json",
+          "louisville_ky_market_acquisition_003.json"
+        ]
+      },
+      "indianapolis-in": {
+        "source_commit": "90953d5 grok/ptf-indianapolis-revalidation-002",
+        "documents": [
+          "indianapolis_in_market_acquisition_pass1_002.json",
+          "indianapolis_in_market_acquisition_pass2_002.json"
+        ]
+      },
+      "pittsburgh-pa": {
+        "source_commit": "9accf21 grok/ptf-pittsburgh-revalidation-001",
+        "documents": [
+          "pittsburgh_pa_market_acquisition_pass1_recensus_001.json"
+        ]
+      },
+      "grand-rapids-holland-mi": {
+        "source_commit": "12edbfc grok/ptf-grand-rapids-holland-market-001",
+        "documents": [
+          "grand_rapids_holland_mi_market_acquisition_pass1_001.json"
+        ]
+      },
+      "milwaukee-wi": {
+        "source_commit": "a6d26dd grok/ptf-milwaukee-market-001",
+        "documents": [
+          "markets/reports/milwaukee-wi_policy_proposals_001.json (provenance adapter)"
+        ]
+      }
+    },
+    "completeness": "POINT-IN-TIME, and partial by construction. Four of the six markets' artifacts live on branches that are not merged into this one, so this document is a snapshot of what those branches held at the commits named above. It is EVIDENCE, not authority: a market regenerates its own ledger at factory time from its own committed artifacts.",
+    "milwaukee_is_a_floor": "milwaukee-wi predates ptf-market-paid-acquisition/1.0 and has no per-attempt document. Its rows are recovered from a proposals document that records one row per SUCCESSFUL read, so its failures and its retries are invisible here. Every milwaukee-wi figure is a lower bound."
+  }
+}
