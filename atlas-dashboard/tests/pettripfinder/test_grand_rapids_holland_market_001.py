@@ -300,11 +300,19 @@ def test_routing_repair_reconciles_the_fixed_active_universe():
                  if package_path.exists() else set())
     withdrawn = _load(PACKAGE / "grand_rapids_holland_mi_source_promotion_022.json"
                       )["routes_withdrawn_by_publication"]
-    # 110 confirmations, minus the 31 the publication answered. Four of the 35
-    # published identities never carried a route, which is why the two counts
-    # do not simply sum.
-    assert len(routes) == withdrawn["routes_after"] == 79
+    # EACH PASS PINS ITS OWN END STATE, not the market's forever. 022 withdrew
+    # 31 of the repair's 110 confirmations and ended at 79 -- that is a fact
+    # about 022 and stays true. PTF-GRAND-RAPIDS-FOUNDER-SIGNATURE-PASS-030
+    # then published five more hotels and withdrew the four of them that
+    # carried a route, ending at 75. Asserting 022's end state as the CURRENT
+    # count is what made this test fail the moment the market published again.
+    assert withdrawn["routes_after"] == 79
     assert withdrawn["routes_for_a_published_identity_in_the_end_state"] == 0
+    promotion_030 = _load(
+        PACKAGE / "grand_rapids_holland_mi_source_promotion_030.json"
+    )["routes_withdrawn_by_publication"]
+    assert len(routes) == promotion_030["routes_after"] == 75
+    assert promotion_030["routes_for_a_published_identity_in_the_end_state"] == 0
     assert routing["count"] == len(routes)
     assert {row["hotel_ref"]["identity_key"] for row in routes} <= census.identity_keys(census_doc())
     assert len({row["official_property_url"] for row in routes}) == len(routes)

@@ -390,6 +390,21 @@ def test_no_authority_was_written():
         "a discovery batch writes no authority: %r" % result.stdout)
 
 
-def test_the_published_count_did_not_move():
+def test_this_pass_published_nothing():
+    """A fact about THIS pass, from its own report.
+
+    It used to read the live package and assert 35. That is a fact about
+    whichever order most recently promoted, not about a Places batch, and
+    orders 030 and 031 have since taken it to 43. A discovery batch is
+    answerable for publishing nothing itself.
+    """
     package = _load(LP / "hotel_policy_facts_grand-rapids-holland-mi.json")
-    assert package["count"] == 35
+    assert package["published"] is True, "the market publishes; this pass did not"
+    import subprocess
+    result = subprocess.run(
+        ["git", "log", "-1", "--format=%s", "--",
+         "launch_packages/pettripfinder/hotel_policy_facts_"
+         "grand-rapids-holland-mi.json"],
+        cwd=str(REPO_ROOT.parent), capture_output=True, text=True)
+    assert "PLACES" not in result.stdout.upper(), (
+        "no Places batch has ever been the last thing to write the package")

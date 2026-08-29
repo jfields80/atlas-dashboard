@@ -138,19 +138,28 @@ def test_source_promotion_completed(report):
 
 
 def test_the_policy_package_is_published_in_source():
+    """The PROPERTIES of a published package, not the count 022 left behind.
+
+    022 published 35 under 023's weight ruling. Later orders promoted more --
+    that is what promotion does -- so the count and the publishing work order
+    both move. What must always hold is that the package is published, refuses
+    nothing, is not marked deployed, and names whichever order last published
+    it. This market's own promotion tests own the counts.
+    """
     package = _load(PACKAGE)
     assert package["published"] is True
-    assert package["count"] == 35
     assert package["refusals"] == []
     assert package["publication"]["deployed"] is False
-    assert package["publication"]["work_order"] == (
-        "PTF-GRAND-RAPIDS-WEIGHT-SEMANTICS-RULING-023")
+    assert package["publication"]["work_order"].startswith("PTF-GRAND-RAPIDS-")
+    assert package["count"] == len(package["hotels"])
 
 
-def test_the_exclusions_shard_holds_the_fourteen():
+def test_every_exclusion_in_the_shard_is_shaped_like_022_wrote_it():
+    """022 wrote this market's first 14 and later orders added more. The COUNT
+    belongs to whichever order promoted last; the SHAPE of every row is what
+    022 established and what must never regress."""
     shard = _load(SHARD)
-    assert shard["count"] == 14
-    assert len(shard["exclusions"]) == 14
+    assert shard["count"] == len(shard["exclusions"]) >= 14
     for row in shard["exclusions"]:
         assert row["exclusion_state"] == enums.VERIFIED_NO_PETS
         assert row["evidence_quote"].strip()
@@ -167,8 +176,11 @@ def test_a_corrected_name_flows_through_to_the_exclusion():
                if r["canonical_name"] == "DoubleTree by Hilton Hotel Holland")
     assert row["normalized_name"] == "doubletree by hilton hotel holland"
     assert row["decision_source"]["decided_by"] == "PTF-FOUNDER-001"
-    assert row["decision_source"]["work_order"] == (
-        "PTF-GRAND-RAPIDS-FOUNDER-SIGNATURE-PASS-021")
+    # The row is re-derived by every later promotion, so it names whichever
+    # signature pass most recently attested it. What matters is that it names
+    # ONE, by a founder, and that the corrected name still flows through.
+    assert row["decision_source"]["work_order"].startswith(
+        "PTF-GRAND-RAPIDS-FOUNDER-SIGNATURE-PASS-")
 
 
 def test_the_market_contract_was_revealed(report):
@@ -265,7 +277,12 @@ def test_the_seed_inventory_was_written_by_the_sanctioned_installer():
     site_data.verified_public_hotels, so the display rows are not decoration --
     without them this market raises rather than publishes."""
     from scripts.pettripfinder import market_authority as MA
-    assert len(MA.load_market_seed_rows(MARKET)) == 35
+    from scripts.pettripfinder import release_contracts as RC
+    # ONE SEED ROW PER PUBLISHED RECORD is the invariant; the number is
+    # whatever the current authority publishes.
+    seeds = MA.load_market_seed_rows(MARKET)
+    package = _load(PACKAGE)
+    assert len(seeds) == package["count"] ==         RC.derive_authority(MARKET).published_hotel_profiles
 
 
 def test_the_routing_shard_was_not_wiped_only_answered(report):
@@ -281,16 +298,22 @@ def test_the_routing_shard_was_not_wiped_only_answered(report):
     route for a published identity. The withdrawn records are archived whole so
     nothing leaves the record."""
     from scripts.pettripfinder import market_authority as MA
-    assert len(MA.load_market_routes(MARKET)) == 79
     guard = report["routing_shard_not_wiped"]
     assert guard["routes_before"] == guard["routes_after"], (
         "the installer's empty-routing write must never have run")
     withdrawn = report["routes_withdrawn_by_publication"]
-    # The END state, which any re-run reproduces. "withdrawn" and
-    # "routes_before" describe the run that made the change.
+    # 022's OWN end state, which stays true of 022 forever.
     assert withdrawn["routes_after"] == 79
     assert withdrawn["routes_for_a_published_identity_in_the_end_state"] == 0
     assert len(report["withdrawn_route_records"]) in (0, 31)
+    # And the invariant that survives every later promotion: no route is left
+    # pointing at a hotel this market now publishes. 030 and 031 each withdrew
+    # their own, taking the live shard 79 -> 75 -> 72.
+    routes = MA.load_market_routes(MARKET)
+    published = {row["identity_key"] for row in _load(PACKAGE)["hotels"]}
+    assert len(routes) <= 79
+    assert not ({str((r.get("hotel_ref") or {}).get("normalized_name") or "")
+                 for r in routes} & published)
     assert all(r.get("official_property_url")
                for r in report["withdrawn_route_records"]), (
         "the archive must carry the whole record, not a list of names")

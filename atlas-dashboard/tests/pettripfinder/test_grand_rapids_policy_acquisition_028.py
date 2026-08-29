@@ -461,6 +461,17 @@ def test_no_authority_was_written():
         "an acquisition writes no authority: %r" % result_.stdout)
 
 
-def test_the_published_count_did_not_move():
-    package = _load(LP / "hotel_policy_facts_grand-rapids-holland-mi.json")
-    assert package["count"] == 35
+def test_this_pass_published_nothing():
+    """A fact about THIS pass, asserted from this pass's own report.
+
+    It used to read the live package and assert 35. That is not a fact about
+    028 -- it is a fact about whatever pass most recently promoted, and
+    PTF-GRAND-RAPIDS-FOUNDER-SIGNATURE-PASS-030 moved it to 40 by doing exactly
+    what it was authorised to do. What 028 must be held to is that IT published
+    nothing.
+    """
+    report = _load(RESULT)
+    assert report["founder_review"]["founder_decision"] == ""
+    assert report["founder_review"]["review_status"] ==         "MACHINE_REVIEWED_PENDING_OPERATOR"
+    assert "the published count stays at 35" in         report["founder_review"]["nothing_was_published"]
+    assert "no row published" in " ".join(report["nothing_else_was_run"])

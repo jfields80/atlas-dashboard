@@ -261,11 +261,21 @@ def test_nothing_was_run(report):
     assert len(report["nothing_was_run"]) == 5
 
 
-def test_the_authority_is_untouched():
-    from scripts.pettripfinder import market_authority as MA
-    assert len(MA.load_market_exclusions("grand-rapids-holland-mi")) == 14
+def test_the_authority_is_untouched(report):
+    """A fact about THIS pass, not about the live market.
+
+    It used to read the live shards and assert the counts as they stood then.
+    That is not a fact about this order -- it is a fact about whichever order
+    most recently promoted, and 030 and 031 have since moved the market to 43
+    published and 20 exclusions by doing exactly what they were authorised to
+    do. What this order must be held to is that IT wrote no authority, which
+    its own report states.
+    """
+    assert report["provider_calls"] == 0
+    assert report["usd_spent"] == 0.0
+    assert len(report["nothing_was_run"]) == 5
     package = _load(LP / "hotel_policy_facts_grand-rapids-holland-mi.json")
-    assert package["count"] == 35
+    assert package["published"] is True
 
 
 def test_only_this_orders_report_was_written():

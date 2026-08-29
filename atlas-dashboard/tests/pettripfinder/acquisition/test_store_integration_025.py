@@ -106,6 +106,10 @@ OTHER_MARKET_RUNS = {
     # same reason: it is another market's run, and the companion test below
     # proves the excuse does not let it reach Milwaukee's projection.
     "gr_028",
+    # PTF-GRAND-RAPIDS-FOUNDER-SIGNATURE-PASS-030: one capture RE-LOCATED out
+    # of gr_028's own declined bytes once 029 settled its identity. No provider
+    # was called to produce it. Also grand-rapids-holland-mi.
+    "gr_030_relocated",
 }
 
 

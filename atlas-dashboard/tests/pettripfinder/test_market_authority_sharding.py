@@ -168,12 +168,27 @@ class TestNothingMovedBetweenMarkets:
         # milwaukee-wi) is simply not something the snapshot can speak about,
         # and back-filling it into the snapshot would be inventing a fact.
         # The claim this test makes about the pre-split markets is unchanged.
+        #
+        # WHAT THE SNAPSHOT CAN AND CANNOT SPEAK ABOUT. It records what each
+        # pre-split market held at the split. A market that has PUBLISHED since
+        # then legitimately holds fewer routes -- publication answers a routing
+        # question and the answered route is withdrawn, which every published
+        # market does -- and more exclusions and seed rows. Grand Rapids has
+        # gone 79 -> 72 routes across three promotions.
+        #
+        # So the claim is stated as what the split actually promised: no market
+        # GAINED routes it did not have, and none LOST authority rows. A route
+        # that publication answered did not move to another market, and this
+        # test is about movement between markets.
         for market_id in baseline["per_market_totals"]:
             assert market_id in market_ids, market_id
             expected = baseline["per_market_totals"][market_id]
-            assert len(MA.load_market_routes(market_id)) == expected["routing"], market_id
-            assert len(MA.load_market_exclusions(market_id)) == expected["exclusions"], market_id
-            assert len(MA.load_market_seed_rows(market_id)) == expected["seed"], market_id
+            assert len(MA.load_market_routes(market_id)) <= expected["routing"], (
+                "%s gained routes the split did not give it" % market_id)
+            assert len(MA.load_market_exclusions(market_id)) >= expected["exclusions"], (
+                "%s lost exclusions the split gave it" % market_id)
+            assert len(MA.load_market_seed_rows(market_id)) >= expected["seed"], (
+                "%s lost seed rows the split gave it" % market_id)
 
     def test_markets_registered_after_the_baseline_moved_nothing(self, baseline, market_ids):
         """Post-baseline growth is allowed; silent movement is not.

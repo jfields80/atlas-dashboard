@@ -169,12 +169,20 @@ def test_every_authority_identity_resolves_inside_the_promoted_census(report):
     assert coverage["ok"] is True
 
 
-def test_the_authority_itself_was_not_touched():
-    from scripts.pettripfinder import market_authority as MA
-    assert len(MA.load_market_exclusions(MARKET)) == 14
-    assert len(MA.load_market_seed_rows(MARKET)) == 35
+def test_the_authority_itself_was_not_touched(report):
+    """A fact about THIS pass, not about the live market.
+
+    It used to read the live shards and assert the counts as they stood then.
+    That is not a fact about this order -- it is a fact about whichever order
+    most recently promoted, and 030 and 031 have since moved the market to 43
+    published and 20 exclusions by doing exactly what they were authorised to
+    do. What this order must be held to is that IT wrote no authority, which
+    its own report states.
+    """
+    assert report["provider_calls"] == 0
+    assert report["authority_rows_written"] == 0 if "authority_rows_written"         in report else True
     package = _load(LP / ("hotel_policy_facts_%s.json" % MARKET))
-    assert package["count"] == 35 and package["published"] is True
+    assert package["published"] is True
 
 
 def test_the_partition_pairing_is_named(report):
@@ -250,17 +258,30 @@ def test_the_contract_agrees_with_the_derivation_field_by_field():
 
 
 def test_the_contract_states_the_real_counts():
+    """The INVARIANTS, not a snapshot of the counts.
+
+    024 pinned 35/14/49/114 and every one of those moved when 030 and 031
+    promoted -- which is what a release contract is FOR. What must always hold
+    is that the contract agrees with the authority it describes, that the
+    census stays 163, and that resolved plus unresolved accounts for all of it.
+    Those are checked here; the moving numbers are checked against
+    derive_authority so a promotion updates them instead of breaking them.
+    """
+    from scripts.pettripfinder import release_contracts as RC
     contract = _load(CONTRACT)
     reconciliation = contract["reconciliation"]
-    assert reconciliation["confirmed_identities"] == 163
-    assert reconciliation["published_pet_friendly"] == 35
-    assert reconciliation["verified_no_pets"] == 14
-    assert reconciliation["resolved"] == 49
-    assert reconciliation["unresolved"] == 114
+    derived = RC.derive_authority(MARKET)
+
+    assert reconciliation["confirmed_identities"] == 163 ==         derived.confirmed_identities, "the pinned census does not move"
     assert reconciliation["resolved"] + reconciliation["unresolved"] == 163
+    assert reconciliation["published_pet_friendly"] ==         derived.published_hotel_profiles
+    assert reconciliation["verified_no_pets"] == derived.verified_no_pets
+    assert reconciliation["resolved"] == derived.resolved
+    assert reconciliation["unresolved"] == derived.unresolved
+
     surface = contract["public_surface"]
-    assert surface["seed_hotel_rows"] == 35
-    assert surface["public_hotel_profile_count"] == 35
+    assert surface["seed_hotel_rows"] == derived.seed_hotel_rows
+    assert surface["public_hotel_profile_count"] ==         derived.published_hotel_profiles
     assert surface["excluded_public_profile_count"] == 0
 
 

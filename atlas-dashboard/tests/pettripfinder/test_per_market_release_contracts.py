@@ -79,14 +79,22 @@ MARKETS = (COLUMBUS, CLEVELAND, DAYTON, PITTSBURGH, INDIANAPOLIS, MILWAUKEE,
 #: the market commits no identity census, so its confirmed universe is not a
 #: derivable fact -- absent is a fact, zero would be a claim.
 EXPECTED_RECONCILIATION = {
-    # 163 identities, 35 published, 14 verified-no-pets, 49 resolved and 114
+    # 163 identities, 40 published, 20 verified-no-pets, 60 resolved and 103
     # unresolved. The census is the 163-row recensus, promoted into the pinned
     # path by PTF-GRAND-RAPIDS-CENSUS-PIN-AND-RELEASE-CONTRACT-024; the
     # 120-identity document the 2025 build pinned is kept beside it, and the
     # ten prior identities it no longer names were each absorbed into a fresh
     # sighting of the same building. Like Louisville, this market records no
     # OUT_OF_CURRENT_CATEGORY identity, so unresolved is the remainder.
-    "grand-rapids-holland-mi": (163, 35, 14, 49, 114),
+    #
+    # 35 -> 40 and 14 -> 20 by PTF-GRAND-RAPIDS-FOUNDER-SIGNATURE-PASS-030,
+    # which signed 14 records and promoted 11 of them. THREE MORE ARE SIGNED
+    # AND NOT PUBLISHED: the publication schema requires
+    # fee_cap.qualifier_stated and never infers it, so holiday inn grand rapids
+    # downtown, red roof inn grand rapids airport and wyndham garden grand
+    # rapids airport wait on founder decision 3. Their signatures stand; only
+    # their publication waits, which is why published is 40 rather than 43.
+    "grand-rapids-holland-mi": (163, 40, 20, 60, 103),
     # 166 identities, 46 published, 17 verified-no-pets, 63 resolved and 103
     # unresolved -- and unresolved is COUNTED as the remainder because this
     # market records no OUT_OF_CURRENT_CATEGORY identity, exactly as Milwaukee
@@ -316,10 +324,12 @@ class TestContractAgreesWithItsOwnAuthority:
                              # of this assertion that proves the scoping.
                              LOUISVILLE: 17,
                              # PTF-GRAND-RAPIDS-SOURCE-PROMOTION-022 wrote this
-                             # market's first 14. Every number above it is
+                             # market's first 14 and
+                             # PTF-GRAND-RAPIDS-FOUNDER-SIGNATURE-PASS-030
+                             # added six more. Every number above it is
                              # unchanged, which is again the half that proves
                              # the scoping.
-                             GRAND_RAPIDS: 14}
+                             GRAND_RAPIDS: 20}
         registry = json.loads(
             (REPO_ROOT / "launch_packages" / "pettripfinder" / "hotel_exclusions.json")
             .read_text(encoding="utf-8-sig"))["exclusions"]

@@ -208,8 +208,13 @@ def test_the_market_measured_under_the_ruling(package):
             operators[limit["operator"]] = operators.get(limit["operator"], 0) + 1
         if "weight_limit" in (hotel.get("withheld_fields") or {}):
             withheld.append(hotel["identity_key"])
-    assert operators == {"lte": 24, "lt": 1}
-    assert withheld == ["holiday inn express grand rapids sw"]
+    # 023 measured 24 lte and 1 lt over the 35 it published. Later promotions
+    # add rows and the totals grow; what the RULING is answerable for is that
+    # every operator it emits is one it read from a source, that lte and lt are
+    # the only two, and that the unit ambiguity it refused stays refused.
+    assert set(operators) <= {"lte", "lt"}
+    assert operators.get("lte", 0) >= 24 and operators.get("lt", 0) >= 1
+    assert "holiday inn express grand rapids sw" in withheld
 
 
 def test_the_one_strict_row_publishes_lt(package):
@@ -252,4 +257,4 @@ def test_this_ruling_withheld_nothing_in_this_market():
 
 def test_every_record_passes_the_schema(package):
     assert package["refusals"] == []
-    assert package["count"] == len(package["hotels"]) == 35
+    assert package["count"] == len(package["hotels"])

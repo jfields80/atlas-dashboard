@@ -385,6 +385,12 @@ def test_no_authority_was_written():
         "a reconciliation writes no authority: %r" % result.stdout)
 
 
-def test_the_published_count_did_not_move():
-    package = _load(LP / "hotel_policy_facts_grand-rapids-holland-mi.json")
-    assert package["count"] == 35
+def test_this_pass_published_nothing():
+    """A fact about THIS pass, from this pass's own report -- not the live
+    package count, which a later promotion owns."""
+    report = _load(REPORT)
+    assert report["target"]["published_today"] == 35
+    assert "PROJECTED, not published" in report["target"]["caveat"]
+    packet = _load(PACKET)
+    assert packet["founder_decision"] == ""
+    assert packet["review_status"] == "MACHINE_REVIEWED_PENDING_OPERATOR"

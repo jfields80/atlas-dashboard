@@ -1,0 +1,81 @@
+{
+  "schema": "ptf-fee-cap-qualifier-ruling/1.0",
+  "market_id": "grand-rapids-holland-mi",
+  "work_order": "PTF-GRAND-RAPIDS-FEE-CAP-QUALIFIER-RULING-031",
+  "ruled_by": "PTF-FOUNDER-001",
+  "ruled_at": "2026-08-29",
+  "founder_ruling": "Where the official source explicitly states a fee cap -- 'maximum of $X per stay', 'max $X per stay', 'not to exceed $X per stay' or equivalent explicit cap wording -- fee_cap.qualifier_stated is true. That is a direct reading of the source and not an inference. It does not apply where only an amount is shown, where the text states no cap word, where the amount is a deposit rather than a fee cap, or where the cap is ambiguous.",
+  "provider_calls": 0,
+  "usd_spent": 0.0,
+  "the_switch_is_blanket_and_the_ruling_is_not": "market_policy_package_cli --cap-qualifier-stated sets the field on EVERY cap that lacks it. This pass enumerates that exact set and checks each row's own source wording, so the switch may only be used when its blanket scope and the ruling's conditional scope coincide.",
+  "caps_the_switch_would_set": 3,
+  "reached_by_the_ruling": 3,
+  "refused_by_the_ruling": 0,
+  "scopes_coincide": true,
+  "safe_to_use_the_committed_switch": true,
+  "rows_blocked_by_030": [
+    "holiday inn grand rapids downtown",
+    "red roof inn grand rapids airport",
+    "wyndham garden grand rapids airport"
+  ],
+  "every_blocked_row_is_reached": true,
+  "by_verdict": {
+    "EXPLICIT_CAP_STATED_IN_THE_SOURCE": 3
+  },
+  "rows": [
+    {
+      "identity_key": "holiday inn grand rapids downtown",
+      "canonical_name": "Holiday Inn Grand Rapids Downtown",
+      "fee_cap": {
+        "amount_minor": 7500,
+        "basis": "per_stay",
+        "currency": "USD"
+      },
+      "pet_deposit": null,
+      "evidence_quotes_for_the_cap": [
+        "maximum of 75 USD per stay"
+      ],
+      "verdict": "EXPLICIT_CAP_STATED_IN_THE_SOURCE",
+      "why": "the source states the cap in words: 'maximum of 75 USD per stay'",
+      "qualifier_stated_becomes": true
+    },
+    {
+      "identity_key": "red roof inn grand rapids airport",
+      "canonical_name": "Red Roof Inn Grand Rapids Airport",
+      "fee_cap": {
+        "amount_minor": 10500,
+        "basis": "per_stay",
+        "currency": "USD"
+      },
+      "pet_deposit": null,
+      "evidence_quotes_for_the_cap": [
+        "not to exceed 7 nights or $105 per pet per stay"
+      ],
+      "verdict": "EXPLICIT_CAP_STATED_IN_THE_SOURCE",
+      "why": "the source states the cap in words: 'not to exceed 7 nights or $105 per pet per stay'",
+      "qualifier_stated_becomes": true
+    },
+    {
+      "identity_key": "wyndham garden grand rapids airport",
+      "canonical_name": "Wyndham Garden Grand Rapids Airport",
+      "fee_cap": {
+        "amount_minor": 7500,
+        "basis": "per_stay",
+        "currency": "USD"
+      },
+      "pet_deposit": null,
+      "evidence_quotes_for_the_cap": [
+        "Max 75 USD per stay"
+      ],
+      "verdict": "EXPLICIT_CAP_STATED_IN_THE_SOURCE",
+      "why": "the source states the cap in words: 'Max 75 USD per stay'",
+      "qualifier_stated_becomes": true
+    }
+  ],
+  "what_the_ruling_does_not_reach": [
+    "an amount with no cap wording",
+    "a deposit (pet_deposit is its own field and is never read as a cap)",
+    "an ambiguous cap"
+  ],
+  "record_approvals_unchanged": "030's founder record approvals stand exactly as written. This ruling supplies a publication qualifier, not an approval."
+}

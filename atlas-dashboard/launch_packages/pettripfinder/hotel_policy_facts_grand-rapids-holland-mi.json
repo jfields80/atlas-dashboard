@@ -1,5 +1,5 @@
 {
- "market": "Grand Rapids-Holland, Michigan",
+ "market": "Grand Rapids / Holland",
  "schema_version": "1.3",
  "market_id": "grand-rapids-holland-mi",
  "what_this_is": "The publishable pet-policy facts for this market, projected from its founder-signed authority. Every record's fact block passed contracts.policy_schema.validate_facts before this file was written.",
@@ -8,12 +8,13 @@
  "derived_from": {
   "authority": "ptf-market-proposed-authority/1.0",
   "source_ledgers": [
-   "PTF-GRAND-RAPIDS-FOUNDER-SIGNATURE-PASS-021"
+   "PTF-GRAND-RAPIDS-FOUNDER-SIGNATURE-PASS-021",
+   "PTF-GRAND-RAPIDS-FOUNDER-SIGNATURE-PASS-030"
   ],
   "decided_by": "PTF-FOUNDER-001",
-  "decided_at": "2026-08-28"
+  "decided_at": "2026-08-29"
  },
- "count": 35,
+ "count": 43,
  "refusals": [],
  "hotels": [
   {
@@ -417,6 +418,135 @@
    "projection_notes": [
     "weight_limit.operator=lte and scope=per_pet were read from the SOURCE WORDING under PTF-GRAND-RAPIDS-WEIGHT-SEMANTICS-RULING-023, which preserves the comparison the source states instead of flattening every ceiling to lte. Source text preserved: Max weight 50 lbs",
     "fee_basis: SOURCE_SILENT dropped from withheld_fields -- silence is the absence of a field, not a decision not to publish one"
+   ]
+  },
+  {
+   "key": "comfort inn airport",
+   "identity_key": "comfort inn airport",
+   "schema_version": "1.3",
+   "name": "Comfort Inn Airport",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted"
+    },
+    "pet_fee": {
+     "amount_cents": 2500,
+     "currency": "USD",
+     "basis": "per_night",
+     "scope": "per_pet"
+    },
+    "other_charges": [
+     {
+      "kind": "incidental_deposit",
+      "description": "pet deposit",
+      "amount_cents": 10000,
+      "currency": "USD",
+      "refundable_stated": false
+     }
+    ]
+   },
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pets are allowed",
+     "source_url": "https://www.choicehotels.com/michigan/grand-rapids/comfort-inn-hotels/mi121",
+     "evidence_ref": "grand-rapids-holland-mi-signature-030::comfort inn airport::pets_allowed::0",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:b68fddf879678ff847f920f61b4d7f6aa8e298b04f4222aa320c129549281080",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_deposit",
+     "quote": "Deposit of 100.00 USD",
+     "source_url": "https://www.choicehotels.com/michigan/grand-rapids/comfort-inn-hotels/mi121",
+     "evidence_ref": "grand-rapids-holland-mi-signature-030::comfort inn airport::pet_deposit::1",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:b68fddf879678ff847f920f61b4d7f6aa8e298b04f4222aa320c129549281080",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "25.00 USD Per Night Per Pet",
+     "source_url": "https://www.choicehotels.com/michigan/grand-rapids/comfort-inn-hotels/mi121",
+     "evidence_ref": "grand-rapids-holland-mi-signature-030::comfort inn airport::pet_fee::2",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:b68fddf879678ff847f920f61b4d7f6aa8e298b04f4222aa320c129549281080",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_basis",
+     "quote": "25.00 USD Per Night Per Pet",
+     "source_url": "https://www.choicehotels.com/michigan/grand-rapids/comfort-inn-hotels/mi121",
+     "evidence_ref": "grand-rapids-holland-mi-signature-030::comfort inn airport::fee_basis::3",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:b68fddf879678ff847f920f61b4d7f6aa8e298b04f4222aa320c129549281080",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_scope",
+     "quote": "25.00 USD Per Night Per Pet",
+     "source_url": "https://www.choicehotels.com/michigan/grand-rapids/comfort-inn-hotels/mi121",
+     "evidence_ref": "grand-rapids-holland-mi-signature-030::comfort inn airport::fee_scope::4",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:b68fddf879678ff847f920f61b4d7f6aa8e298b04f4222aa320c129549281080",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "species_allowed",
+     "quote": "Dogs Only",
+     "source_url": "https://www.choicehotels.com/michigan/grand-rapids/comfort-inn-hotels/mi121",
+     "evidence_ref": "grand-rapids-holland-mi-signature-030::comfort inn airport::species_allowed::5",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:b68fddf879678ff847f920f61b4d7f6aa8e298b04f4222aa320c129549281080",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "service_animal_exception",
+     "quote": "Service animals are permitted, without charge.",
+     "source_url": "https://www.choicehotels.com/michigan/grand-rapids/comfort-inn-hotels/mi121",
+     "evidence_ref": "grand-rapids-holland-mi-signature-030::comfort inn airport::service_animal_exception::6",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:b68fddf879678ff847f920f61b4d7f6aa8e298b04f4222aa320c129549281080",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    }
+   ],
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it"
+   ],
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-29",
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "no_charge",
+    "quote": "Service animals are permitted, without charge."
+   },
+   "projection_notes": [
+    "pet_deposit projected to other_charges with refundable_stated=false: the source states the deposit and does not state whether it is refundable. Schema 1.3 carries that as an explicit non-statement rather than forcing a writer to invent one."
    ]
   },
   {
@@ -1725,6 +1855,120 @@
    "founder_reviewed_at": "2026-08-28"
   },
   {
+   "key": "holiday inn grand rapids downtown",
+   "identity_key": "holiday inn grand rapids downtown",
+   "schema_version": "1.3",
+   "name": "Holiday Inn Grand Rapids Downtown",
+   "facts": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 120.0,
+     "unit": "lb",
+     "operator": "lt",
+     "scope": "per_pet"
+    },
+    "pet_fee": {
+     "amount_cents": 2500,
+     "currency": "USD"
+    },
+    "fee_cap": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_stay",
+     "qualifier_stated": true
+    },
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pets are welcome",
+     "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/grand-rapids/grrpe/hoteldetail",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::holiday inn grand rapids downtown::pets_allowed::0",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:686386922ecf268d606a785cc07d1d55e667043f4f863086d4edde2527106681",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "Pet fee per night: 25 USD",
+     "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/grand-rapids/grrpe/hoteldetail",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::holiday inn grand rapids downtown::pet_fee::1",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:686386922ecf268d606a785cc07d1d55e667043f4f863086d4edde2527106681",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_cap",
+     "quote": "maximum of 75 USD per stay",
+     "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/grand-rapids/grrpe/hoteldetail",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::holiday inn grand rapids downtown::fee_cap::2",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:686386922ecf268d606a785cc07d1d55e667043f4f863086d4edde2527106681",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "weight_limit",
+     "quote": "under 120 pounds",
+     "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/grand-rapids/grrpe/hoteldetail",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::holiday inn grand rapids downtown::weight_limit::3",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:686386922ecf268d606a785cc07d1d55e667043f4f863086d4edde2527106681",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "2 pets allowed",
+     "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/grand-rapids/grrpe/hoteldetail",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::holiday inn grand rapids downtown::pet_count_limit::4",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:686386922ecf268d606a785cc07d1d55e667043f4f863086d4edde2527106681",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    }
+   ],
+   "withheld_fields": {
+    "fee_basis": {
+     "reason_code": "SOURCE_CONTRADICTORY",
+     "reason": "the surface states this $25.00 charge on more than one basis (per_day, per_night); the amount stands and the basis is not chosen",
+     "evidence_refs": [
+      "grand-rapids-holland-mi-acquisition-028::holiday inn grand rapids downtown::pets_allowed::0",
+      "grand-rapids-holland-mi-acquisition-028::holiday inn grand rapids downtown::pet_fee::1",
+      "grand-rapids-holland-mi-acquisition-028::holiday inn grand rapids downtown::fee_cap::2",
+      "grand-rapids-holland-mi-acquisition-028::holiday inn grand rapids downtown::weight_limit::3",
+      "grand-rapids-holland-mi-acquisition-028::holiday inn grand rapids downtown::pet_count_limit::4"
+     ]
+    }
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-29",
+   "projection_notes": [
+    "weight_limit.operator=lt and scope=per_pet were read from the SOURCE WORDING under PTF-GRAND-RAPIDS-WEIGHT-SEMANTICS-RULING-023, which preserves the comparison the source states instead of flattening every ceiling to lte. Source text preserved: under 120 pounds",
+    "fee_cap.qualifier_stated=True recorded under founder decision 3: the source states the cap and states no further qualifier. This asserts what the SOURCE said, never that no qualifier exists."
+   ]
+  },
+  {
    "key": "home2 suites by hilton grand rapids north",
    "identity_key": "home2 suites by hilton grand rapids north",
    "schema_version": "1.3",
@@ -2043,6 +2287,77 @@
    "founder_reviewed_at": "2026-08-28"
   },
   {
+   "key": "homewood suites by hilton holland",
+   "identity_key": "homewood suites by hilton holland",
+   "schema_version": "1.3",
+   "name": "Homewood Suites by Hilton Holland",
+   "facts": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "pet_fee": {
+     "amount_cents": 7500,
+     "currency": "USD"
+    }
+   },
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pets allowed",
+     "source_url": "https://www.hilton.com/en/hotels/grrabhw-homewood-suites-holland/?SEO_id=GMB-AMER-HG-GRRABHW",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::homewood suites by hilton holland::pets_allowed::0",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:c924e2f4a066b1b14d6db53ee99ea0b60534ca9a8ba0d3262e4e9727f1544201",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "$75.00 Non-refundable Fee",
+     "source_url": "https://www.hilton.com/en/hotels/grrabhw-homewood-suites-holland/?SEO_id=GMB-AMER-HG-GRRABHW",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::homewood suites by hilton holland::pet_fee::1",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:c924e2f4a066b1b14d6db53ee99ea0b60534ca9a8ba0d3262e4e9727f1544201",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "weight_limit",
+     "quote": "Max weight 75 lbs",
+     "source_url": "https://www.hilton.com/en/hotels/grrabhw-homewood-suites-holland/?SEO_id=GMB-AMER-HG-GRRABHW",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::homewood suites by hilton holland::weight_limit::2",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:c924e2f4a066b1b14d6db53ee99ea0b60534ca9a8ba0d3262e4e9727f1544201",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    }
+   ],
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-29",
+   "projection_notes": [
+    "weight_limit.operator=lte and scope=per_pet were read from the SOURCE WORDING under PTF-GRAND-RAPIDS-WEIGHT-SEMANTICS-RULING-023, which preserves the comparison the source states instead of flattening every ceiling to lte. Source text preserved: Max weight 75 lbs",
+    "fee_basis: SOURCE_SILENT dropped from withheld_fields -- silence is the absence of a field, not a decision not to publish one"
+   ]
+  },
+  {
    "key": "homewood suites by hilton walker grand rapids north",
    "identity_key": "homewood suites by hilton walker grand rapids north",
    "schema_version": "1.3",
@@ -2111,6 +2426,380 @@
    "projection_notes": [
     "weight_limit.operator=lte and scope=per_pet were read from the SOURCE WORDING under PTF-GRAND-RAPIDS-WEIGHT-SEMANTICS-RULING-023, which preserves the comparison the source states instead of flattening every ceiling to lte. Source text preserved: Max weight 75 lbs",
     "fee_basis: SOURCE_SILENT dropped from withheld_fields -- silence is the absence of a field, not a decision not to publish one"
+   ]
+  },
+  {
+   "key": "mainstay suites grand rapids",
+   "identity_key": "mainstay suites grand rapids",
+   "schema_version": "1.3",
+   "name": "MainStay Suites Grand Rapids",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted"
+    },
+    "pet_fee": {
+     "amount_cents": 2500,
+     "currency": "USD",
+     "basis": "per_night",
+     "scope": "per_pet"
+    },
+    "other_charges": [
+     {
+      "kind": "incidental_deposit",
+      "description": "pet deposit",
+      "amount_cents": 10000,
+      "currency": "USD",
+      "refundable_stated": false
+     }
+    ],
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room"
+   },
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pets Allowed",
+     "source_url": "https://www.choicehotels.com/michigan/grand-rapids/mainstay-hotels/mi668",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::mainstay suites grand rapids::pets_allowed::0",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:dc43f2748e1558fcf1d45b7665e49c2042c2e3e03852286a915cd4ee5f1ef24a",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_deposit",
+     "quote": "deposit of 100 USD",
+     "source_url": "https://www.choicehotels.com/michigan/grand-rapids/mainstay-hotels/mi668",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::mainstay suites grand rapids::pet_deposit::1",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:dc43f2748e1558fcf1d45b7665e49c2042c2e3e03852286a915cd4ee5f1ef24a",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "25 USD per night, per dog",
+     "source_url": "https://www.choicehotels.com/michigan/grand-rapids/mainstay-hotels/mi668",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::mainstay suites grand rapids::pet_fee::2",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:dc43f2748e1558fcf1d45b7665e49c2042c2e3e03852286a915cd4ee5f1ef24a",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_basis",
+     "quote": "25 USD per night, per dog",
+     "source_url": "https://www.choicehotels.com/michigan/grand-rapids/mainstay-hotels/mi668",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::mainstay suites grand rapids::fee_basis::3",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:dc43f2748e1558fcf1d45b7665e49c2042c2e3e03852286a915cd4ee5f1ef24a",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_scope",
+     "quote": "25 USD per night, per dog",
+     "source_url": "https://www.choicehotels.com/michigan/grand-rapids/mainstay-hotels/mi668",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::mainstay suites grand rapids::fee_scope::4",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:dc43f2748e1558fcf1d45b7665e49c2042c2e3e03852286a915cd4ee5f1ef24a",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "maximum of 2 dogs per room",
+     "source_url": "https://www.choicehotels.com/michigan/grand-rapids/mainstay-hotels/mi668",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::mainstay suites grand rapids::pet_count_limit::5",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:dc43f2748e1558fcf1d45b7665e49c2042c2e3e03852286a915cd4ee5f1ef24a",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "species_allowed",
+     "quote": "dogs are allowed",
+     "source_url": "https://www.choicehotels.com/michigan/grand-rapids/mainstay-hotels/mi668",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::mainstay suites grand rapids::species_allowed::6",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:dc43f2748e1558fcf1d45b7665e49c2042c2e3e03852286a915cd4ee5f1ef24a",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "service_animal_exception",
+     "quote": "Service animals are permitted, without charge.",
+     "source_url": "https://www.choicehotels.com/michigan/grand-rapids/mainstay-hotels/mi668",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::mainstay suites grand rapids::service_animal_exception::7",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:dc43f2748e1558fcf1d45b7665e49c2042c2e3e03852286a915cd4ee5f1ef24a",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    }
+   ],
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: this surface names a species it accepts and does not say the others are refused; species_allowed lists affirmations only, and an unnamed species stays unknown rather than prohibited"
+   ],
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-29",
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "no_charge",
+    "quote": "Service animals are permitted, without charge."
+   },
+   "projection_notes": [
+    "pet_deposit projected to other_charges with refundable_stated=false: the source states the deposit and does not state whether it is refundable. Schema 1.3 carries that as an explicit non-statement rather than forcing a writer to invent one."
+   ]
+  },
+  {
+   "key": "microtel inn and suites by wyndham holland",
+   "identity_key": "microtel inn and suites by wyndham holland",
+   "schema_version": "1.3",
+   "name": "Microtel Inn & Suites by Wyndham Holland",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted"
+    },
+    "pet_fee": {
+     "amount_cents": 2500,
+     "currency": "USD",
+     "basis": "per_night",
+     "scope": "per_pet"
+    },
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room"
+   },
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Dogs allowed",
+     "source_url": "https://www.wyndhamhotels.com/microtel/holland-michigan/microtel-inn-and-suites-holland/overview",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::microtel inn and suites by wyndham holland::pets_allowed::0",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:8323118e97b0ea06c6af35272991aa93b122d46381ea9c918da5bfb71c0e283c",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "25.00 USD per dog per night",
+     "source_url": "https://www.wyndhamhotels.com/microtel/holland-michigan/microtel-inn-and-suites-holland/overview",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::microtel inn and suites by wyndham holland::pet_fee::1",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:8323118e97b0ea06c6af35272991aa93b122d46381ea9c918da5bfb71c0e283c",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_basis",
+     "quote": "25.00 USD per dog per night",
+     "source_url": "https://www.wyndhamhotels.com/microtel/holland-michigan/microtel-inn-and-suites-holland/overview",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::microtel inn and suites by wyndham holland::fee_basis::2",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:8323118e97b0ea06c6af35272991aa93b122d46381ea9c918da5bfb71c0e283c",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_scope",
+     "quote": "25.00 USD per dog per night",
+     "source_url": "https://www.wyndhamhotels.com/microtel/holland-michigan/microtel-inn-and-suites-holland/overview",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::microtel inn and suites by wyndham holland::fee_scope::3",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:8323118e97b0ea06c6af35272991aa93b122d46381ea9c918da5bfb71c0e283c",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "2 Dogs allowed per room",
+     "source_url": "https://www.wyndhamhotels.com/microtel/holland-michigan/microtel-inn-and-suites-holland/overview",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::microtel inn and suites by wyndham holland::pet_count_limit::4",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:8323118e97b0ea06c6af35272991aa93b122d46381ea9c918da5bfb71c0e283c",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "species_allowed",
+     "quote": "Dogs allowed",
+     "source_url": "https://www.wyndhamhotels.com/microtel/holland-michigan/microtel-inn-and-suites-holland/overview",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::microtel inn and suites by wyndham holland::species_allowed::5",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:8323118e97b0ea06c6af35272991aa93b122d46381ea9c918da5bfb71c0e283c",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "service_animal_exception",
+     "quote": "ADA defined service animals are welcome at this hotel.",
+     "source_url": "https://www.wyndhamhotels.com/microtel/holland-michigan/microtel-inn-and-suites-holland/overview",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::microtel inn and suites by wyndham holland::service_animal_exception::6",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:8323118e97b0ea06c6af35272991aa93b122d46381ea9c918da5bfb71c0e283c",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    }
+   ],
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: this surface names a species it accepts and does not say the others are refused; species_allowed lists affirmations only, and an unnamed species stays unknown rather than prohibited"
+   ],
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-29",
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "ADA defined service animals are welcome at this hotel."
+   }
+  },
+  {
+   "key": "red roof inn grand rapids airport",
+   "identity_key": "red roof inn grand rapids airport",
+   "schema_version": "1.3",
+   "name": "Red Roof Inn Grand Rapids Airport",
+   "facts": {
+    "pets_allowed": true,
+    "fee_cap": {
+     "amount_cents": 10500,
+     "currency": "USD",
+     "basis": "per_stay",
+     "qualifier_stated": true
+    },
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "pets allowed",
+     "source_url": "https://www.redroof.com/property/mi/grand-rapids/rri011",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::red roof inn grand rapids airport::pets_allowed::0",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:0e1cd71deb3215014776c909ca546f9028386d29d6a4e193612d54f7feb79955",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_cap",
+     "quote": "not to exceed 7 nights or $105 per pet per stay",
+     "source_url": "https://www.redroof.com/property/mi/grand-rapids/rri011",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::red roof inn grand rapids airport::fee_cap::1",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:0e1cd71deb3215014776c909ca546f9028386d29d6a4e193612d54f7feb79955",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "weight_limit",
+     "quote": "not to exceed 80 pounds",
+     "source_url": "https://www.redroof.com/property/mi/grand-rapids/rri011",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::red roof inn grand rapids airport::weight_limit::2",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:0e1cd71deb3215014776c909ca546f9028386d29d6a4e193612d54f7feb79955",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "Up to 2 pets",
+     "source_url": "https://www.redroof.com/property/mi/grand-rapids/rri011",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::red roof inn grand rapids airport::pet_count_limit::3",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:0e1cd71deb3215014776c909ca546f9028386d29d6a4e193612d54f7feb79955",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    }
+   ],
+   "withheld_fields": {
+    "fee_basis": {
+     "reason_code": "SCHEMA_CANNOT_REPRESENT",
+     "reason": "the surface prices this pet differently by stay length or by pet count, and the published fee vocabulary holds a single amount; the tiers survive in the evidence quote and no single amount is asserted; the surface prices a pet ('pet $15') and no charge pattern could bind the amount to a fee; nothing is asserted and the silence is not claimed",
+     "evidence_refs": [
+      "grand-rapids-holland-mi-acquisition-028::red roof inn grand rapids airport::pets_allowed::0",
+      "grand-rapids-holland-mi-acquisition-028::red roof inn grand rapids airport::fee_cap::1",
+      "grand-rapids-holland-mi-acquisition-028::red roof inn grand rapids airport::weight_limit::2",
+      "grand-rapids-holland-mi-acquisition-028::red roof inn grand rapids airport::pet_count_limit::3"
+     ]
+    },
+    "pet_fee": {
+     "reason_code": "SCHEMA_CANNOT_REPRESENT",
+     "reason": "the surface prices this pet differently by stay length or by pet count, and the published fee vocabulary holds a single amount; the tiers survive in the evidence quote and no single amount is asserted; the surface prices a pet ('pet $15') and no charge pattern could bind the amount to a fee; nothing is asserted and the silence is not claimed",
+     "evidence_refs": [
+      "grand-rapids-holland-mi-acquisition-028::red roof inn grand rapids airport::pets_allowed::0",
+      "grand-rapids-holland-mi-acquisition-028::red roof inn grand rapids airport::fee_cap::1",
+      "grand-rapids-holland-mi-acquisition-028::red roof inn grand rapids airport::weight_limit::2",
+      "grand-rapids-holland-mi-acquisition-028::red roof inn grand rapids airport::pet_count_limit::3"
+     ]
+    },
+    "weight_limit": {
+     "reason_code": "SOURCE_AMBIGUOUS",
+     "reason": "the source states 80.0 lb and the source states a number and no comparison, so whether the stated weight is itself allowed is unknown: 'not to exceed 80 pounds'. Publishing it as a ceiling would tell a guest at exactly that weight they are welcome; publishing it as a strict limit would tell them the opposite. PTF-GRAND-RAPIDS-WEIGHT-SEMANTICS-RULING-023 withholds the field rather than choosing.",
+     "evidence_refs": [
+      "grand-rapids-holland-mi-acquisition-028::red roof inn grand rapids airport::pets_allowed::0",
+      "grand-rapids-holland-mi-acquisition-028::red roof inn grand rapids airport::fee_cap::1",
+      "grand-rapids-holland-mi-acquisition-028::red roof inn grand rapids airport::weight_limit::2",
+      "grand-rapids-holland-mi-acquisition-028::red roof inn grand rapids airport::pet_count_limit::3"
+     ]
+    }
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-29",
+   "projection_notes": [
+    "weight_limit WITHHELD under PTF-GRAND-RAPIDS-WEIGHT-SEMANTICS-RULING-023: the source states a number and no comparison, so whether the stated weight is itself allowed is unknown: 'not to exceed 80 pounds'",
+    "fee_cap.qualifier_stated=True recorded under founder decision 3: the source states the cap and states no further qualifier. This asserts what the SOURCE said, never that no qualifier exists."
    ]
   },
   {
@@ -3364,6 +4053,126 @@
    ]
   },
   {
+   "key": "tru by hilton comstock park grand rapids",
+   "identity_key": "tru by hilton comstock park grand rapids",
+   "schema_version": "1.3",
+   "name": "Tru by Hilton Comstock Park Grand Rapids",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "cats": "accepted",
+     "dogs": "accepted"
+    },
+    "fee_tiers": [
+     {
+      "amount_cents": 5000,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 10000,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pets allowed",
+     "source_url": "https://www.hilton.com/en/hotels/grrrrru-tru-comstock-park-grand-rapids/?SEO_id=GMB-AMER-RU-GRRRRRU",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::tru by hilton comstock park grand rapids::pets_allowed::0",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:25c68b8a7c495af9cd2ed867174eb8cbaa8ba1dfe83585e783f7b2c4d24be62e",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_tiers",
+     "quote": "$50 for 1-4 nights",
+     "source_url": "https://www.hilton.com/en/hotels/grrrrru-tru-comstock-park-grand-rapids/?SEO_id=GMB-AMER-RU-GRRRRRU",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::tru by hilton comstock park grand rapids::fee_tiers::1",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:25c68b8a7c495af9cd2ed867174eb8cbaa8ba1dfe83585e783f7b2c4d24be62e",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_tiers",
+     "quote": "$100 for 5+ nights",
+     "source_url": "https://www.hilton.com/en/hotels/grrrrru-tru-comstock-park-grand-rapids/?SEO_id=GMB-AMER-RU-GRRRRRU",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::tru by hilton comstock park grand rapids::fee_tiers::2",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:25c68b8a7c495af9cd2ed867174eb8cbaa8ba1dfe83585e783f7b2c4d24be62e",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_tiers",
+     "quote": "Non-refundable Fee",
+     "source_url": "https://www.hilton.com/en/hotels/grrrrru-tru-comstock-park-grand-rapids/?SEO_id=GMB-AMER-RU-GRRRRRU",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::tru by hilton comstock park grand rapids::fee_tiers::3",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:25c68b8a7c495af9cd2ed867174eb8cbaa8ba1dfe83585e783f7b2c4d24be62e",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "2 pets max",
+     "source_url": "https://www.hilton.com/en/hotels/grrrrru-tru-comstock-park-grand-rapids/?SEO_id=GMB-AMER-RU-GRRRRRU",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::tru by hilton comstock park grand rapids::pet_count_limit::4",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:25c68b8a7c495af9cd2ed867174eb8cbaa8ba1dfe83585e783f7b2c4d24be62e",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "species_allowed",
+     "quote": "dog/cat only",
+     "source_url": "https://www.hilton.com/en/hotels/grrrrru-tru-comstock-park-grand-rapids/?SEO_id=GMB-AMER-RU-GRRRRRU",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::tru by hilton comstock park grand rapids::species_allowed::5",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:25c68b8a7c495af9cd2ed867174eb8cbaa8ba1dfe83585e783f7b2c4d24be62e",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY"
+    }
+   ],
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_tiers[].refundable: the schema's tier carries no refundability field; the surface's own words ('Non-refundable Fee') are cited against the structure and nothing is inferred from them",
+    "pet_fee: the surface prices this pet by stay length; the whole ladder is carried in fee_tiers and no single amount is asserted",
+    "fee_tiers[].basis: this surface states amounts and stay lengths and never says whether a rung is charged per night or per stay; basis_stated records that it did not"
+   ],
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-29"
+  },
+  {
    "key": "tru by hilton grand rapids airport",
    "identity_key": "tru",
    "schema_version": "1.3",
@@ -3623,13 +4432,161 @@
    "projection_notes": [
     "weight_limit.operator=lte and scope=per_pet were read from the SOURCE WORDING under PTF-GRAND-RAPIDS-WEIGHT-SEMANTICS-RULING-023, which preserves the comparison the source states instead of flattening every ceiling to lte. Source text preserved: Weight limit of 50 lbs"
    ]
+  },
+  {
+   "key": "wyndham garden grand rapids airport",
+   "identity_key": "wyndham garden grand rapids airport",
+   "schema_version": "1.3",
+   "name": "Wyndham Garden Grand Rapids Airport",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "cats": "accepted",
+     "dogs": "accepted"
+    },
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "pet_fee": {
+     "amount_cents": 2500,
+     "currency": "USD",
+     "basis": "per_night"
+    },
+    "fee_cap": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_stay",
+     "qualifier_stated": true
+    },
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pets Allowed",
+     "source_url": "https://www.wyndhamhotels.com/wyndham-garden/grand-rapids-michigan/wyndham-garden-grand-rapids/overview",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::wyndham garden grand rapids airport::pets_allowed::0",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:779c7c00fd7fa998cf1e4d9445f2874038cf8ae40d049afc2249501f9da36d3a",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "25 USD nightly ",
+     "source_url": "https://www.wyndhamhotels.com/wyndham-garden/grand-rapids-michigan/wyndham-garden-grand-rapids/overview",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::wyndham garden grand rapids airport::pet_fee::1",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:779c7c00fd7fa998cf1e4d9445f2874038cf8ae40d049afc2249501f9da36d3a",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_basis",
+     "quote": "25 USD nightly ",
+     "source_url": "https://www.wyndhamhotels.com/wyndham-garden/grand-rapids-michigan/wyndham-garden-grand-rapids/overview",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::wyndham garden grand rapids airport::fee_basis::2",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:779c7c00fd7fa998cf1e4d9445f2874038cf8ae40d049afc2249501f9da36d3a",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "fee_cap",
+     "quote": "Max 75 USD per stay",
+     "source_url": "https://www.wyndhamhotels.com/wyndham-garden/grand-rapids-michigan/wyndham-garden-grand-rapids/overview",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::wyndham garden grand rapids airport::fee_cap::3",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:779c7c00fd7fa998cf1e4d9445f2874038cf8ae40d049afc2249501f9da36d3a",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "weight_limit",
+     "quote": "75lbs or less",
+     "source_url": "https://www.wyndhamhotels.com/wyndham-garden/grand-rapids-michigan/wyndham-garden-grand-rapids/overview",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::wyndham garden grand rapids airport::weight_limit::4",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:779c7c00fd7fa998cf1e4d9445f2874038cf8ae40d049afc2249501f9da36d3a",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "up to 2 pets",
+     "source_url": "https://www.wyndhamhotels.com/wyndham-garden/grand-rapids-michigan/wyndham-garden-grand-rapids/overview",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::wyndham garden grand rapids airport::pet_count_limit::5",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:779c7c00fd7fa998cf1e4d9445f2874038cf8ae40d049afc2249501f9da36d3a",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "species_allowed",
+     "quote": "Cats and dogs only",
+     "source_url": "https://www.wyndhamhotels.com/wyndham-garden/grand-rapids-michigan/wyndham-garden-grand-rapids/overview",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::wyndham garden grand rapids airport::species_allowed::6",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:779c7c00fd7fa998cf1e4d9445f2874038cf8ae40d049afc2249501f9da36d3a",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    },
+    {
+     "field": "service_animal_exception",
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge./Pets Allowed - 2 pets max.",
+     "source_url": "https://www.wyndhamhotels.com/wyndham-garden/grand-rapids-michigan/wyndham-garden-grand-rapids/overview",
+     "evidence_ref": "grand-rapids-holland-mi-acquisition-028::wyndham garden grand rapids airport::service_animal_exception::7",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:779c7c00fd7fa998cf1e4d9445f2874038cf8ae40d049afc2249501f9da36d3a",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "deterministic_fetch",
+     "source_grade": "PT1_FIRST_PARTY"
+    }
+   ],
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence"
+   ],
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-29",
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "no_charge",
+    "quote": "Service Animals - ADA-defined service animals are welcome free of charge./Pets Allowed - 2 pets max."
+   },
+   "projection_notes": [
+    "weight_limit.operator=lte and scope=per_pet were read from the SOURCE WORDING under PTF-GRAND-RAPIDS-WEIGHT-SEMANTICS-RULING-023, which preserves the comparison the source states instead of flattening every ceiling to lte. Source text preserved: 75lbs or less",
+    "fee_cap.qualifier_stated=True recorded under founder decision 3: the source states the cap and states no further qualifier. This asserts what the SOURCE said, never that no qualifier exists."
+   ]
   }
  ],
  "publication": {
-  "work_order": "PTF-GRAND-RAPIDS-WEIGHT-SEMANTICS-RULING-023",
-  "published_for_decision_dated": "2026-08-28",
+  "work_order": "PTF-GRAND-RAPIDS-FEE-CAP-QUALIFIER-RULING-031",
+  "published_for_decision_dated": "2026-08-29",
   "decision_ledgers": [
-   "PTF-GRAND-RAPIDS-FOUNDER-SIGNATURE-PASS-021"
+   "PTF-GRAND-RAPIDS-FOUNDER-SIGNATURE-PASS-021",
+   "PTF-GRAND-RAPIDS-FOUNDER-SIGNATURE-PASS-030"
   ],
   "deployed": false,
   "note": "build-ready in source; no deployment performed"
