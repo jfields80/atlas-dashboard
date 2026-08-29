@@ -178,16 +178,31 @@ def test_each_markets_profile_count_matches_its_own_contract(production):
 
 
 def test_a_contractless_market_is_excluded_and_says_why():
-    """Cincinnati and Detroit must not become public because their files
-    exist. Today inventory keeps them out; the gate makes the contract a
-    condition too, so gaining inventory is not enough."""
+    """A market must not become public because its files exist.
+
+    Cincinnati was one of the two examples until PTF-CINCINNATI-HARDENED-SYNC-002
+    replayed its stranded Capture Pass 1 authority: it now has 21 published
+    profiles AND a release contract, so it is assemblable and this rule can no
+    longer be shown on it. Detroit-Ann Arbor still commits a census and no
+    policy package, and is the market that demonstrates it.
+
+    Assemblable is still not public. Cincinnati's launch participation row says
+    NOT_SOURCE_READY, the sync work order explicitly does not touch that file,
+    and ``test_cincinnati_does_not_fail_the_global_selection`` holds the line:
+    admission is a founder decision, not a consequence of passing a gate.
+    """
     contracted = set(RC.available_market_ids())
-    for market_id in ("cincinnati-oh", "detroit-ann-arbor-mi"):
-        assert market_id not in contracted
-        row = market_eligibility(
-            next(m for m in load_markets() if m.market_id == market_id))
-        assert row["assemblable"] is False
-        assert [k for k, v in row["conditions"].items() if not v]
+    market_id = "detroit-ann-arbor-mi"
+    assert market_id not in contracted
+    row = market_eligibility(
+        next(m for m in load_markets() if m.market_id == market_id))
+    assert row["assemblable"] is False
+    assert [k for k, v in row["conditions"].items() if not v]
+
+    assert "cincinnati-oh" in contracted
+    cincinnati = market_eligibility(
+        next(m for m in load_markets() if m.market_id == "cincinnati-oh"))
+    assert cincinnati["assemblable"] is True
 
 
 def test_an_ineligible_market_cannot_be_forced_into_the_bundle(tmp_path):

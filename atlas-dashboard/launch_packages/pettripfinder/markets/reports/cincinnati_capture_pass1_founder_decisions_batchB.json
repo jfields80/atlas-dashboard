@@ -1,0 +1,243 @@
+{
+ "schema": "ptf-market-founder-decisions/1.0",
+ "work_order": "PTF-CINCINNATI-CAPTURE-PASS1-FOUNDER-DECISIONS",
+ "parent_work_order": "PTF-CINCINNATI-CAPTURE-PASS1-FOUNDER-REVIEW-001",
+ "market_id": "cincinnati-oh",
+ "batch": "B",
+ "as_of": "2026-08-17",
+ "note": "Founder decisions recorded, NOT applied. No policy authority file has been written by this pass.",
+ "authority_applied": false,
+ "count": 9,
+ "decision_counts": {
+  "APPROVE_PARTIAL_PUBLICATION": 2,
+  "APPROVE_WITH_CHANGE": 2,
+  "APPROVE_VERIFIED_NO_PETS": 1,
+  "APPROVE_PUBLISH_STRUCTURED": 4
+ },
+ "rows": [
+  {
+   "decision_id": "cincinnati-pass1-010-motel-6-sharonville",
+   "identity_key": "motel 6 sharonville",
+   "canonical_name": "Motel 6 Cincinnati, OH",
+   "founder_decision": "APPROVE_PARTIAL_PUBLICATION",
+   "approved_facts": {
+    "pets_allowed": true
+   },
+   "changes_from_proposed": [],
+   "restriction_notes": "No brand-wide fee/count/species policy imported.",
+   "remains_absent": [
+    "species",
+    "pet_count_max",
+    "weight_limit_lbs",
+    "fee_amount",
+    "fee_basis",
+    "fee_scope",
+    "deposit",
+    "refundability"
+   ]
+  },
+  {
+   "decision_id": "cincinnati-pass1-011-motel-6-walton-richwood",
+   "identity_key": "motel 6 walton richwood",
+   "canonical_name": "Motel 6 Walton, KY - Richwood - Cincinnati Airport South",
+   "founder_decision": "APPROVE_PARTIAL_PUBLICATION",
+   "approved_facts": {
+    "pets_allowed": true
+   },
+   "changes_from_proposed": [],
+   "restriction_notes": "Census ZIP discrepancy (census 41097 vs brand page 41094) remains a SEPARATE census-review issue; not silently corrected as part of this policy decision.",
+   "remains_absent": [
+    "species",
+    "pet_count_max",
+    "weight_limit_lbs",
+    "fee_amount",
+    "fee_basis",
+    "fee_scope",
+    "deposit",
+    "refundability"
+   ]
+  },
+  {
+   "decision_id": "cincinnati-pass1-012-doubletree-by-hilton-cincinnati-airport",
+   "identity_key": "doubletree by hilton cincinnati airport",
+   "canonical_name": "DoubleTree by Hilton Hotel Cincinnati Airport",
+   "founder_decision": "APPROVE_WITH_CHANGE",
+   "approved_facts": {
+    "pets_allowed": true,
+    "fee_amount": 25,
+    "refundable": false,
+    "weight_limit_lbs": 25,
+    "size_class": "medium"
+   },
+   "changes_from_proposed": [
+    "fee_basis explicitly kept ABSENT (was already withheld in the proposal) -- founder confirms: do not invent a basis merely because the dollar amount is explicit."
+   ],
+   "restriction_notes": "Species and pet count remain absent.",
+   "remains_absent": [
+    "fee_basis",
+    "species",
+    "pet_count_max",
+    "reservation_requirement"
+   ]
+  },
+  {
+   "decision_id": "cincinnati-pass1-013-doubletree-by-hilton-lawrenceburg",
+   "identity_key": "doubletree by hilton lawrenceburg",
+   "canonical_name": "DoubleTree by Hilton Hotel Lawrenceburg",
+   "founder_decision": "APPROVE_VERIFIED_NO_PETS",
+   "approved_facts": {
+    "pets_allowed": false
+   },
+   "changes_from_proposed": [],
+   "restriction_notes": "Direct first-party evidence; no negative inference needed.",
+   "remains_absent": []
+  },
+  {
+   "decision_id": "cincinnati-pass1-014-hometowne-studios-florence-cincinnati-airport",
+   "identity_key": "hometowne studios florence cincinnati airport",
+   "canonical_name": "HomeTowne Studios Florence Cincinnati Airport",
+   "founder_decision": "APPROVE_WITH_CHANGE",
+   "approved_facts": {
+    "pets_allowed": true,
+    "fee_amount": 10,
+    "fee_basis": "per_night",
+    "service_animal_statement": "Service animals and Emotional Support Animals are welcome and must be declared at check-in."
+   },
+   "changes_from_proposed": [
+    "monthly_fee_cap_amount REMOVED as a synthesized field; withheld instead as SCHEMA_CANNOT_REPRESENT -- the property is NOT dropped, the cap is not converted into a per-stay cap, and no 10-night limit is synthesized from $100/$10.",
+    "service_animals fact narrowed from the proposal's 'exempt, always welcome, not counted as pets' to only the source-supported statement that they are welcome and must be declared at check-in -- exemption from the pet fee is NOT inferred unless the source says so explicitly.",
+    "'must be declared at check-in' explicitly confirmed NOT to be a reservation_requirement."
+   ],
+   "restriction_notes": "SCHEMA_CANNOT_REPRESENT: add monthly-cap representation to the post-Cleveland lifecycle/schema backlog.",
+   "remains_absent": [
+    "species",
+    "pet_count_max",
+    "weight_limit_lbs",
+    "deposit",
+    "refundability",
+    "reservation_requirement",
+    "monthly_fee_cap (SCHEMA_CANNOT_REPRESENT -- backlog item)"
+   ]
+  },
+  {
+   "decision_id": "cincinnati-pass1-015-red-roof-inn-cincinnati-east-eastgate",
+   "identity_key": "red roof inn cincinnati east eastgate",
+   "canonical_name": "Red Roof Inn Cincinnati East - Eastgate",
+   "founder_decision": "APPROVE_PUBLISH_STRUCTURED",
+   "approved_facts": {
+    "pets_allowed": true,
+    "species": [
+     "cat",
+     "dog"
+    ],
+    "pet_count_max": 2,
+    "first_pet_fee_amount": 0,
+    "second_pet_fee_amount": 15,
+    "second_pet_fee_basis": "per_night",
+    "second_pet_fee_cap_amount": 105,
+    "second_pet_fee_cap_basis": "per_stay",
+    "second_pet_fee_cap_nights": 7,
+    "weight_limit_lbs": 80
+   },
+   "changes_from_proposed": [],
+   "restriction_notes": "The $105 cap applies ONLY to the second-pet charge, never the first (free) pet. weight_scope kept absent -- the source does not explicitly distinguish individual vs combined weight. Service/ESA statement preserved separately as source-supported text; their exclusion from the pet count is NOT inferred beyond what the source says. The '- Beechmont' current display-name difference is census hygiene/review only; identity is not changed here.",
+   "remains_absent": [
+    "weight_scope",
+    "deposit",
+    "refundability",
+    "reservation_requirement",
+    "service_animal_exemption_from_count (not explicitly stated by source)"
+   ]
+  },
+  {
+   "decision_id": "cincinnati-pass1-016-red-roof-inn-cincinnati-north-mason",
+   "identity_key": "red roof inn cincinnati north mason",
+   "canonical_name": "Red Roof Inn Cincinnati North - Mason",
+   "founder_decision": "APPROVE_PUBLISH_STRUCTURED",
+   "approved_facts": {
+    "pets_allowed": true,
+    "species": [
+     "cat",
+     "dog"
+    ],
+    "pet_count_max": 2,
+    "first_pet_fee_amount": 0,
+    "second_pet_fee_amount": 15,
+    "second_pet_fee_basis": "per_night",
+    "second_pet_fee_cap_amount": 105,
+    "second_pet_fee_cap_basis": "per_stay",
+    "second_pet_fee_cap_nights": 7,
+    "weight_limit_lbs": 80
+   },
+   "changes_from_proposed": [],
+   "restriction_notes": "The $105 cap applies ONLY to the second-pet charge, never the first (free) pet. weight_scope kept absent -- the source does not explicitly distinguish individual vs combined weight. Service/ESA statement preserved separately as source-supported text; their exclusion from the pet count is NOT inferred beyond what the source says. The '& Suites' current display-name difference is census hygiene only.",
+   "remains_absent": [
+    "weight_scope",
+    "deposit",
+    "refundability",
+    "reservation_requirement",
+    "service_animal_exemption_from_count (not explicitly stated by source)"
+   ]
+  },
+  {
+   "decision_id": "cincinnati-pass1-017-red-roof-inn-greendale",
+   "identity_key": "red roof inn greendale",
+   "canonical_name": "Red Roof Inn Greendale",
+   "founder_decision": "APPROVE_PUBLISH_STRUCTURED",
+   "approved_facts": {
+    "pets_allowed": true,
+    "species": [
+     "cat",
+     "dog"
+    ],
+    "pet_count_max": 2,
+    "first_pet_fee_amount": 0,
+    "second_pet_fee_amount": 15,
+    "second_pet_fee_basis": "per_night",
+    "second_pet_fee_cap_amount": 105,
+    "second_pet_fee_cap_basis": "per_stay",
+    "second_pet_fee_cap_nights": 7,
+    "weight_limit_lbs": 80
+   },
+   "changes_from_proposed": [],
+   "restriction_notes": "The $105 cap applies ONLY to the second-pet charge, never the first (free) pet. weight_scope kept absent -- the source does not explicitly distinguish individual vs combined weight. Service/ESA statement preserved separately as source-supported text; their exclusion from the pet count is NOT inferred beyond what the source says. 'Red Roof Inn Lawrenceburg' vs census 'Red Roof Inn Greendale' is a census-review/display-name issue; not silently renamed during policy publication.",
+   "remains_absent": [
+    "weight_scope",
+    "deposit",
+    "refundability",
+    "reservation_requirement",
+    "service_animal_exemption_from_count (not explicitly stated by source)"
+   ]
+  },
+  {
+   "decision_id": "cincinnati-pass1-018-red-roof-inn-richwood",
+   "identity_key": "red roof inn richwood",
+   "canonical_name": "Red Roof Inn Richwood",
+   "founder_decision": "APPROVE_PUBLISH_STRUCTURED",
+   "approved_facts": {
+    "pets_allowed": true,
+    "species": [
+     "cat",
+     "dog"
+    ],
+    "pet_count_max": 2,
+    "first_pet_fee_amount": 0,
+    "second_pet_fee_amount": 15,
+    "second_pet_fee_basis": "per_night",
+    "second_pet_fee_cap_amount": 105,
+    "second_pet_fee_cap_basis": "per_stay",
+    "second_pet_fee_cap_nights": 7,
+    "weight_limit_lbs": 80
+   },
+   "changes_from_proposed": [],
+   "restriction_notes": "The $105 cap applies ONLY to the second-pet charge, never the first (free) pet. weight_scope kept absent -- the source does not explicitly distinguish individual vs combined weight. Service/ESA statement preserved separately as source-supported text; their exclusion from the pet count is NOT inferred beyond what the source says. The page's 'Walton - Richwood' display wording does not block publication -- address/identity binding is otherwise clean.",
+   "remains_absent": [
+    "weight_scope",
+    "deposit",
+    "refundability",
+    "reservation_requirement",
+    "service_animal_exemption_from_count (not explicitly stated by source)"
+   ]
+  }
+ ]
+}

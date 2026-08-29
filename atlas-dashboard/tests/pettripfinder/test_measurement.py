@@ -304,7 +304,10 @@ class TestBuildId:
             load_contract("columbus-oh")["policy_package"]["expected_sha256"][:12]
 
     def test_build_id_is_empty_for_a_market_with_no_package(self):
-        assert M.build_id_for("cincinnati-oh") == ""
+        # Was cincinnati-oh until PTF-CINCINNATI-HARDENED-SYNC-002 gave it a
+        # policy package. Detroit-Ann Arbor is the configured market that still
+        # commits none, so it is the market this rule can be demonstrated on.
+        assert M.build_id_for("detroit-ann-arbor-mi") == ""
 
     def test_build_id_falls_back_to_the_package_file_without_a_contract(self, monkeypatch):
         from scripts.pettripfinder import release_contracts as RC

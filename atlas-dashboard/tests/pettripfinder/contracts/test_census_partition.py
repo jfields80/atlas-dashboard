@@ -324,8 +324,13 @@ class TestCommittedAuthority:
             market_id="cleveland-akron-canton-oh")
         assert violations == ()
 
+        # Scoped to Cleveland, which is what this test is about. It read the
+        # whole global registry until PTF-CINCINNATI-HARDENED-SYNC-002, when
+        # Cincinnati's six VERIFIED_NO_PETS retirements arrived and failed a
+        # Cleveland assertion for a Cleveland reason that did not exist.
         retired = {r["hotel_ref"]["canonical_name"] for r in self._routes()
-                   if r["status"] == enums.ROUTING_RETIRED}
+                   if r["status"] == enums.ROUTING_RETIRED
+                   and r["market_id"] == "cleveland-akron-canton-oh"}
         assert retired == {"Eastland Inn Restaurant", "The Welshfield Inn"}
         # The census was NOT expanded to 190 to house them.
         assert len(self._census_keys("cleveland-akron-canton-oh")) == 188

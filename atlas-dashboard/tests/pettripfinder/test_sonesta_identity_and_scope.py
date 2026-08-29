@@ -93,7 +93,33 @@ class TestSourceIdentity:
                     "launch_packages/pettripfinder/hotel_worker_approvals.json"):
             text = (_REPO / rel).read_text(encoding="utf-8-sig")
             assert LEGACY_ES_URL not in text, rel
-            assert "sonesta-es-suites/oh/" not in text, rel
+
+    def test_a_live_ohio_es_suites_property_keeps_its_own_brand_url(self):
+        """The Ohio half of the substring ban went the way the global one did.
+
+        ``sonesta-es-suites/oh/`` was banned outright because for a long time
+        every Ohio instance of it was the stale Dublin Columbus alias. PTF-
+        CINCINNATI-HARDENED-SYNC-002 brought two properties for which it is the
+        current, correct citation: Sonesta ES Suites Cincinnati - Sharonville
+        East and West, whose own pages -- captured attended from sonesta.com on
+        2026-08-17 -- name them "Sonesta ES Suites Cincinnati - Sharonville
+        East/West" in the very sentence the published fee is quoted from.
+
+        This is the St. Louis case in Ohio, and the docstring above already
+        gave the reason: the substring ban "would now delete a correct citation
+        to protect a different hotel". What must hold is what always meant
+        something -- no Simply Suites property may cite an ES Suites page --
+        and the test below is the one that says it. Cincinnati owns no Simply
+        Suites identity at all.
+        """
+        rows = [r for r in read_production_rows()
+                if "sonesta-es-suites/oh/" in (r.get("website_url") or "")]
+        assert {normalize_name(r["name"]) for r in rows} == {
+            "sonesta es suites cincinnati sharonville east",
+            "sonesta es suites cincinnati sharonville west"}
+        for row in rows:
+            assert "simply suites" not in normalize_name(row["name"])
+            assert "sonesta es suites" in normalize_name(row["name"])
 
     def test_a_simply_suites_property_never_cites_an_es_suites_page(self):
         for row in read_production_rows():

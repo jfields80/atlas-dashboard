@@ -1,0 +1,64 @@
+{
+  "work_order": "PTF-CINCINNATI-21C-RECAPTURE-001",
+  "scope": "exactly one property: 21c Museum Hotel Cincinnati",
+  "prior_hold": {
+    "decision_id": "cincinnati-pass1-026-21c-museum-hotel-cincinnati",
+    "founder_decision": "HOLD_FOR_RECAPTURE",
+    "withheld_fields_reason_codes": {
+      "all_fields": "ARTIFACT_INSUFFICIENT"
+    },
+    "next_action": "RECAPTURE_ARTIFACT_HASH -- re-render https://21cmuseumhotels.com/cincinnati/experience/ and capture its SHA256."
+  },
+  "recapture": {
+    "identity_key": "21c museum hotel cincinnati",
+    "canonical_name": "21c Museum Hotel Cincinnati",
+    "brand_lane": "independent",
+    "source_url": "https://21cmuseumhotels.com/cincinnati/experience/",
+    "final_url": "https://21cmuseumhotels.com/cincinnati/experience/",
+    "http_status": 200,
+    "identity_binding": {
+      "street": "609 Walnut Street",
+      "city": "Cincinnati",
+      "state": "OH",
+      "postal_code": "45202",
+      "phone": "(513) 578-6600"
+    },
+    "identity_verified": true,
+    "identity_verification_note": "Address, city, state, postal code, and phone on the re-rendered page match the identity_binding recorded in the original Pass-1 capture exactly.",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "artifact": {
+      "artifact_kind": "rendered_html",
+      "artifact_sha256": "19fc9579bc99b2ae437c9a697c9bfd04b8929ce9436d00d7120d04f7b31af00e",
+      "artifact_byte_length": 114921,
+      "captured_at": "2026-08-17",
+      "capture_method": "attended_first_party_fetch",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "persisted_path": "scratchpad/evidence/21c_cincinnati_experience.html",
+      "persistence_note": "Raw response bytes persisted to disk (not just a transient in-browser hash); artifact_sha256 above is computed directly from those persisted bytes, matching the pattern this repo's other market recapture scripts already use (raw artifacts held outside git, never committed -- only the sha256 and quote are recorded in tracked JSON).",
+      "exact_quote": "Pet-Friendly Rooms"
+    },
+    "proposed_facts_schema_1_2": {
+      "pets_allowed": true
+    },
+    "withheld_fields": [
+      "species",
+      "pet_count_max",
+      "weight_limit_lbs",
+      "fee_amount",
+      "fee_basis",
+      "deposit",
+      "refundability"
+    ],
+    "notes": "Full-page text scan of the re-rendered /experience/ page found exactly one pet-related mention on the entire page: the bare 'Pet-Friendly Rooms' line inside the room-amenities list. No fee, species, weight, count, deposit, or refundability language appears anywhere on the page. This matches the original Pass-1 capture's finding exactly -- the recapture exposes no new terms. Per the founder's own next_action note, this leaves APPROVE_PARTIAL_PUBLICATION (pets_allowed only) as the applicable decision path, pending founder review. No other property was browsed. Fidelity Hotel Cincinnati was not touched."
+  },
+  "authority_freeze": {
+    "published_before": 20,
+    "published_after": 20,
+    "verified_no_pets_before": 6,
+    "verified_no_pets_after": 6,
+    "out_of_category_before": 6,
+    "out_of_category_after": 6,
+    "authority_mutated": false
+  }
+}

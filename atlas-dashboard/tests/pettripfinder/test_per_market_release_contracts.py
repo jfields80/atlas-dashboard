@@ -70,15 +70,29 @@ ST_LOUIS = "st-louis-mo"
 LOUISVILLE = "louisville-ky"
 
 GRAND_RAPIDS = "grand-rapids-holland-mi"
+#: PTF-CINCINNATI-HARDENED-SYNC-002 brought Cincinnati's Capture Pass 1
+#: authority onto this lineage: 21 founder-signed pet-friendly profiles and 6
+#: verified-no-pets exclusions that had been stranded on a pre-hardening branch
+#: since 2026-08-17. It has verified inventory, so on the same rule as every
+#: market above it must have a contract. It publishes nothing new here -- the
+#: work order explicitly does not touch launch participation.
+CINCINNATI = "cincinnati-oh"
 
 MARKETS = (COLUMBUS, CLEVELAND, DAYTON, PITTSBURGH, INDIANAPOLIS, MILWAUKEE,
-           ST_LOUIS, LOUISVILLE, GRAND_RAPIDS)
+           ST_LOUIS, LOUISVILLE, GRAND_RAPIDS, CINCINNATI)
 
 #: The reconciliation each market's committed authority is expected to state, as
 #: (confirmed, published, verified_no_pets, resolved, unresolved). ``None`` means
 #: the market commits no identity census, so its confirmed universe is not a
 #: derivable fact -- absent is a fact, zero would be a claim.
 EXPECTED_RECONCILIATION = {
+    # 256 identities, 21 published, 6 verified-no-pets, 33 resolved and 223
+    # unresolved. Unlike Louisville and Grand Rapids, Cincinnati DOES record
+    # OUT_OF_CURRENT_CATEGORY identities -- six short-term rentals and
+    # guesthouses its source directories list beside hotels -- so resolved is
+    # 21 + 6 + 6 and unresolved is the remainder, the representation Columbus
+    # and Pittsburgh already use. 256 = 21 + 6 + 6 + 223.
+    CINCINNATI: (256, 21, 6, 33, 223),
     # 163 identities, 43 published, 20 verified-no-pets, 63 resolved and 100
     # unresolved. The census is the 163-row recensus, promoted into the pinned
     # path by PTF-GRAND-RAPIDS-CENSUS-PIN-AND-RELEASE-CONTRACT-024; the
@@ -225,8 +239,11 @@ class TestContractRegistry:
         one. That is the honest-zero state the freeze anticipated, not a gap.
 
         Indianapolis now has eight founder-approved live records and therefore
-        has its own release contract. Cincinnati remains the intentional
-        contractless zero-inventory market.
+        has its own release contract. Cincinnati was the intentional
+        contractless zero-inventory market until PTF-CINCINNATI-HARDENED-SYNC-002
+        replayed its stranded Capture Pass 1 authority onto this lineage;
+        Detroit-Ann Arbor holds that position now, with a configured market, a
+        census, and no policy package at all.
 
         The invariant that matters is unchanged: every market that CAN release
         has a contract, and no contract exists for a market that is not
@@ -251,9 +268,23 @@ class TestContractRegistry:
         assert set(available_market_ids()) <= configured
 
     def test_a_market_with_no_inventory_is_honestly_contractless(self):
+        """A configured market with nothing published states that by having no
+        contract, rather than by committing one full of zeros.
+
+        Cincinnati held this role until PTF-CINCINNATI-HARDENED-SYNC-002; it now
+        has 21 published profiles and a contract, and Detroit-Ann Arbor -- a
+        configured market with a committed census and no policy package -- is
+        the market the rule is demonstrated on.
+        """
         configured = {m.market_id for m in load_markets()}
+        assert "detroit-ann-arbor-mi" in configured
+        assert "detroit-ann-arbor-mi" not in set(available_market_ids())
+        package = (REPO_ROOT / "launch_packages" / "pettripfinder"
+                   / "hotel_policy_facts_detroit-ann-arbor-mi.json")
+        assert not package.is_file()
+
         assert "cincinnati-oh" in configured
-        assert "cincinnati-oh" not in set(available_market_ids())
+        assert "cincinnati-oh" in set(available_market_ids())
         assert "indianapolis-in" in configured
         assert "indianapolis-in" in set(available_market_ids())
 
@@ -342,7 +373,17 @@ class TestContractAgreesWithItsOwnAuthority:
                              # added six more. Every number above it is
                              # unchanged, which is again the half that proves
                              # the scoping.
-                             GRAND_RAPIDS: 20}
+                             GRAND_RAPIDS: 20,
+                             # PTF-CINCINNATI-HARDENED-SYNC-002. Cincinnati's
+                             # registry shard holds TWELVE rows, and only six
+                             # of them are verified-no-pets: the other six are
+                             # OUT_OF_CURRENT_CATEGORY, short-term rentals and
+                             # guesthouses its source directories listed
+                             # beside hotels. Counting the shard's length here
+                             # would report 12 and would be the exact defect
+                             # this test was written for. Every number above
+                             # is unchanged.
+                             CINCINNATI: 6}
         registry = json.loads(
             (REPO_ROOT / "launch_packages" / "pettripfinder" / "hotel_exclusions.json")
             .read_text(encoding="utf-8-sig"))["exclusions"]

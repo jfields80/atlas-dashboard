@@ -75,7 +75,20 @@ WITHHELD_BY_046 = "indianapolis-in"
 # assembler first ran on a branch carrying it and could not reach its final
 # partition. 032 added the table entry and rebuilt the partition from the
 # signed authority, so it LEFT this list and joined LIVE.
+#: Registered, and excluded from the bundle. The name is historical: both were
+#: NOT_SOURCE_READY when it was chosen, and they are now excluded for two
+#: DIFFERENT reasons, which is the distinction the tests below draw.
 NOT_READY = ("cincinnati-oh", "detroit-ann-arbor-mi")
+#: Genuinely cannot assemble: a configured market with no policy package.
+NOT_ASSEMBLABLE = ("detroit-ann-arbor-mi",)
+#: Assembles cleanly and is still not admitted, because no founder authorized
+#: it. PTF-CINCINNATI-HARDENED-SYNC-002 replayed Cincinnati stranded Capture
+#: Pass 1 authority -- 21 profiles, 6 refusals, a contract that verifies -- and
+#: corrected the row source-readiness observation from NOT_SOURCE_READY, which
+#: had become false, to SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH.
+#: That is a statement about the source, not an admission: the authorized set
+#: did not move.
+SOURCE_READY_UNAUTHORIZED = ("cincinnati-oh",)
 
 #: The five-market production candidate, reproduced twice in the work order
 #: and DEPLOYED by PTF-047. Superseded by
@@ -168,6 +181,17 @@ def test_the_record_is_committed_and_names_its_decision():
 
 
 def test_every_registered_market_has_an_explicit_status():
+    """Every market is listed, and no row claims a readiness the source denies.
+
+    ``source_disagreement`` caught a real one during
+    PTF-CINCINNATI-HARDENED-SYNC-002: replaying Cincinnati authority made it
+    assemblable while its row still read NOT_SOURCE_READY, and the assembler
+    refused to build ANY bundle until the two agreed. The row was corrected to
+    SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH -- the status that exists
+    precisely for "passes every assembly condition; withheld from this launch by
+    founder decision; nothing about the market is wrong". The authorized set did
+    not move, and ``test_only_the_live_set_is_founder_authorized`` says so.
+    """
     registered = [m.market_id for m in load_markets()]
     checks = LP.verify_participation(
         registered, {mid: _row(mid)["assemblable"] for mid in registered})
@@ -178,8 +202,11 @@ def test_every_registered_market_has_an_explicit_status():
 def test_only_the_live_set_is_founder_authorized():
     assert LP.authorized_market_ids() == sorted(LIVE)
     assert LP.launch_status(ADMITTED_AT_019) == LP.FOUNDER_AUTHORIZED_FOR_LAUNCH
-    for mid in NOT_READY:
+    for mid in NOT_ASSEMBLABLE:
         assert LP.launch_status(mid) == LP.NOT_SOURCE_READY
+    for mid in SOURCE_READY_UNAUTHORIZED:
+        assert LP.launch_status(mid) == (
+            LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH)
 
 
 def test_an_unlisted_market_reads_as_never_authorized():
@@ -295,10 +322,28 @@ def test_indianapolis_is_now_selected():
 def test_a_founder_authorization_cannot_admit_a_market_that_is_not_source_ready():
     """Participation is source-ready AND authorized: the record is a veto
     over readiness, never a substitute for it."""
-    for mid in NOT_READY:
+    for mid in NOT_ASSEMBLABLE:
         row = _row(mid)
         assert row["assemblable"] is False
         assert row["participates"] is False
+
+
+def test_the_record_still_vetoes_a_market_that_is_source_ready():
+    """The other half of the same rule, and the half Cincinnati now tests.
+
+    Readiness is necessary and not sufficient. Cincinnati assembles cleanly --
+    21 published profiles, a contract that verifies with zero disagreements --
+    and still does not participate, because no founder has authorized it. A
+    market cannot let itself into a launch by passing a gate, and correcting the
+    SOURCE half of its row did not touch the AUTHORIZATION half.
+    """
+    for mid in SOURCE_READY_UNAUTHORIZED:
+        row = _row(mid)
+        assert row["assemblable"] is True
+        assert row["participates"] is False
+        assert LP.launch_status(mid) == (
+            LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH)
+        assert mid not in LP.authorized_market_ids()
 
 
 # --------------------------------------------------------------------------- #
@@ -320,8 +365,12 @@ def test_the_bundle_excludes_only_the_two_that_are_not_source_ready(production):
                 for r in manifest["markets_registered_but_excluded"]}
     assert set(excluded) == set(NOT_READY)
     assert ADMITTED_AT_019 not in excluded
-    for mid in NOT_READY:
+    for mid in NOT_ASSEMBLABLE:
         assert excluded[mid]["assemblable"] is False
+    # Excluded for want of an authorization, not for want of readiness -- see
+    # test_the_record_still_vetoes_a_market_that_is_source_ready.
+    for mid in SOURCE_READY_UNAUTHORIZED:
+        assert excluded[mid]["assemblable"] is True
 
 
 def test_the_bundle_pins_the_participation_record(production):

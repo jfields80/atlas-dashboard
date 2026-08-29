@@ -287,8 +287,25 @@ def test_committed_authority_split(routes):
         expected = sum(1 for m in MA.sharded_market_ids()
                        for r in MA.load_market_routes(m) if r["status"] == status)
         assert len(bucket) == expected, status
+    # PTF-CINCINNATI-HARDENED-SYNC-002 adds six. Cincinnati's Pass 1 retired 27
+    # routes: 21 whose identity became seed inventory, and 6 whose identity
+    # became a VERIFIED_NO_PETS exclusion. The 21 are GONE -- retirement is
+    # removal here, and leaving them beside their seed rows is the double-source
+    # the test below refuses; they are preserved verbatim in
+    # cincinnati_route_retirement_002_ledger.json.
+    #
+    # The 6 stay, marked retired. There is no rule against routing an excluded
+    # identity -- Columbus keeps 13 and Grand Rapids 15, both ROUTING_CONFIRMED
+    # -- so an exclusion creates no second source of truth and nothing to
+    # remove. Cincinnati simply recorded the disposition on the route as well,
+    # which is a founder ruling and not this suite's to overwrite.
     assert {h["hotel_ref"]["normalized_name"] for h in retired} == {
-        "eastland inn restaurant", "the welshfield inn"}
+        "eastland inn restaurant", "the welshfield inn",
+        "baymont by wyndham monroe",
+        "best western plus hannaford inn and suites",
+        "best western premier mariemont inn",
+        "days inn batavia", "days inn cincinnati east",
+        "doubletree by hilton lawrenceburg"}
     assert {h["hotel_ref"]["normalized_name"] for h in held} == {
         "best western plus north canton inn and suites",
         "staybridge suites columbus worthington",
@@ -575,7 +592,12 @@ def test_routing_carries_more_than_one_market(queues, routing_delta_from_shards)
     # First-time Cincinnati routing: 223 targets adjudicated, 210 routed (12
     # ROUTING_UNRESOLVED and 1 PROPERTY_CLOSED_OR_CONVERTED-with-no-URL
     # excluded -- see PTF-CINCINNATI-URL-ROUTING-RECOVERY-001C).
-    assert len(by_market["cincinnati-oh"]) == 210
+    # 210 -> 189: PTF-CINCINNATI-HARDENED-SYNC-002 removed the 21 routes whose
+    # identity had become seed inventory. Pass 1 had marked them
+    # ROUTING_RETIRED and left them in place, which is not what retirement
+    # means here -- Cleveland's 23 took its own total from 288 to 265 -- and
+    # left Cincinnati as the only market with a route for a published hotel.
+    assert len(by_market["cincinnati-oh"]) == 189
 
     base, routed = queues
     base_ids = {h["hotel_id"] for h in base.selected}

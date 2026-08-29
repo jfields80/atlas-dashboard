@@ -161,15 +161,20 @@ class TestAuthorityUntouched:
             for row in targets["rows"]:
                 assert states[row["identity_key"]] == "AWAITING_OFFICIAL_URL"
             return
-        # Finalized: every routed identity moved to AWAITING_POLICY_OBSERVATION;
+        # Finalized: every routed identity moved to AWAITING_POLICY_OBSERVATION
+        # (or further, to PUBLISHED_PET_FRIENDLY/VERIFIED_NO_PETS once
+        # PTF-CINCINNATI-PASS1-AUTHORITY-APPLICATION-001 resolved 26 of them);
         # every ROUTING_UNRESOLVED/no-URL identity stays AWAITING_OFFICIAL_URL.
         routed = {r["identity_key"] for r in _load(RESULTS)["rows"]
                  if r["included_in_routing_authority"]}
+        routed_onward_states = {"AWAITING_POLICY_OBSERVATION",
+                                "PUBLISHED_PET_FRIENDLY", "VERIFIED_NO_PETS"}
         for row in targets["rows"]:
             key = row["identity_key"]
-            expected = "AWAITING_POLICY_OBSERVATION" if key in routed \
-                else "AWAITING_OFFICIAL_URL"
-            assert states[key] == expected, key
+            if key in routed:
+                assert states[key] in routed_onward_states, key
+            else:
+                assert states[key] == "AWAITING_OFFICIAL_URL", key
 
     def test_census_carries_no_new_official_url(self):
         # Routing authority is a SEPARATE file from the census; finalization

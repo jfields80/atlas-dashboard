@@ -304,12 +304,24 @@ def test_related_hotel_cards_use_the_market_route(markets):
 # Market selection and honest zero (sections 25, 27).
 # --------------------------------------------------------------------------- #
 
-def test_cincinnati_is_registered_below_threshold_and_not_assembled(markets):
+def test_cincinnati_is_assemblable_since_its_authority_was_replayed(markets):
+    """Cincinnati published nothing on this lineage until 2026-08-29.
+
+    Its 21 profiles and 6 exclusions were decided on 2026-08-17 and committed
+    to worker/ptf-cincinnati-hardened-readiness-001, which never reached the
+    lineage; the launch participation record therefore said "publishes no
+    hotel; no release contract", which was true here and false there.
+    PTF-CINCINNATI-HARDENED-SYNC-002 replayed them.
+
+    Assemblable means the package is structurally releasable. It is NOT a
+    launch decision: that lever is launch_participation.json, the sync work
+    order does not touch it, and Cincinnati's status there is unchanged.
+    """
     row = market_eligibility(market_by_id(markets, CINCINNATI))
-    assert row["published_count"] == 0
+    assert row["published_count"] == 21
     assert row["conditions"]["census_present"] is True
-    assert row["conditions"]["meets_minimum_published"] is False
-    assert row["assemblable"] is False
+    assert row["conditions"]["meets_minimum_published"] is True
+    assert row["assemblable"] is True
 
 
 def test_cincinnati_does_not_fail_the_global_selection(markets):
@@ -425,11 +437,21 @@ def test_current_live_inventory_preserves_all_assemblable_market_profiles(market
                       # founder-signed profiles over the pinned 163-identity
                       # census, signed across 021 and 030. Same half of the
                       # assertion, same conclusion -- nothing above moved.
-                      GRAND_RAPIDS: 43}
+                      GRAND_RAPIDS: 43,
+                      # PTF-CINCINNATI-HARDENED-SYNC-002: 21 founder-signed
+                      # profiles over a 256-identity census, decided
+                      # 2026-08-17 and stranded on a pre-hardening branch
+                      # until this sync replayed them. Same half of the
+                      # assertion, same conclusion -- nothing above moved.
+                      # Assemblable is not the same as launching: the work
+                      # order that brought these here explicitly does not
+                      # touch launch participation, where Cincinnati's status
+                      # is still the founder's to set.
+                      CINCINNATI: 21}
     # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: 469 + Indianapolis's 16 further
     # founder-signed profiles (8 -> 24). Every other market's count above is
     # unchanged, so the whole of this movement is Indianapolis's.
-    assert sum(counts.values()) == 560   # 517 + Grand Rapids 43
+    assert sum(counts.values()) == 581   # 560 + Cincinnati 21
 
 
 # --------------------------------------------------------------------------- #

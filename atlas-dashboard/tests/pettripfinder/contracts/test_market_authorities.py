@@ -68,8 +68,12 @@ EXPECTED = {
     # 121/0/0/0/121 until PTF-CINCINNATI-CENSUS-RECONCILIATION-001 rebuilt the
     # census from independent discovery. The six out-of-category rows are the
     # short-term rentals and guesthouses the directories list beside hotels.
-    CINCINNATI: {"census": 256, "published": 0, "no_pets": 0,
-                 "out_of_category": 6, "unresolved": 250},
+    # 0/0/250 until PTF-CINCINNATI-HARDENED-SYNC-002 replayed the Capture
+    # Pass 1 authority decided on 2026-08-17 -- 21 published and 6 refused --
+    # which had been committed to a pre-hardening branch that never reached
+    # this lineage. 256 = 21 + 6 + 6 + 223.
+    CINCINNATI: {"census": 256, "published": 21, "no_pets": 6,
+                 "out_of_category": 6, "unresolved": 223},
     PITTSBURGH: {"census": 96, "published": 26, "no_pets": 4,
                  "out_of_category": 3, "unresolved": 63},
     DETROIT: {"census": 143, "published": 0, "no_pets": 0,
@@ -321,20 +325,36 @@ class TestTerminalDispositionsMatchAuthority:
         assert rec.out_of_category == 2
         assert rec.verified_no_pets + rec.out_of_category == 16
 
-    def test_cincinnati_publishes_nothing_and_refuses_nothing(self):
-        """Silence is not a refusal, and no evidence is not a publication.
+    def test_cincinnati_terminal_states_come_from_capture_pass_one(self):
+        """Silence is still not a refusal; 223 identities remain unobserved.
 
-        Out-of-category IS a terminal state and Cincinnati now carries six of
-        them -- guesthouses and short-term rentals its directories list beside
-        hotels. That is a category ruling, not a pet-policy finding, so the two
-        states this test actually guards are the other two.
+        This test asserted 0 published and 0 refused until
+        PTF-CINCINNATI-HARDENED-SYNC-002. That was true of this lineage and
+        false of the market: the founder decided 27 identities on 2026-08-17 --
+        21 publications and 6 first-party refusals -- on a branch that never
+        merged. The sync replayed them.
+
+        What the test guards is unchanged. Each of the 6 refusals is an
+        affirmative, property-specific "pets are not accepted" in the hotel's
+        own words; not one of the 223 unresolved rows became a refusal for
+        want of evidence. Out-of-category stays 6, and is a category ruling
+        rather than a pet-policy finding.
         """
         doc = partition_doc(CINCINNATI)
         states = collections.Counter(i["final_state"] for i in doc["items"])
-        assert states[enums.PUBLISHED_PET_FRIENDLY] == 0
-        assert states[enums.VERIFIED_NO_PETS] == 0
+        assert states[enums.PUBLISHED_PET_FRIENDLY] == 21
+        assert states[enums.VERIFIED_NO_PETS] == 6
         assert states[enums.OUT_OF_CURRENT_CATEGORY] == 6
         assert len(doc["items"]) == 256
+
+        # The refusals are exactly the founder-approved exclusion records --
+        # never a partition state invented beside them.
+        refused = {i["identity_key"] for i in doc["items"]
+                   if i["final_state"] == enums.VERIFIED_NO_PETS}
+        registry = load(PACKAGE_DIR / "hotel_exclusions.json")["exclusions"]
+        assert refused == {e["normalized_name"] for e in registry
+                           if e["market_id"] == CINCINNATI
+                           and e["exclusion_state"] == "VERIFIED_NO_PETS"}
 
     def test_indianapolis_promoted_authority_is_24_and_24(self):
         """PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: the 257-identity census and the
@@ -437,9 +457,17 @@ class TestRoutingSubsetOfCensus:
             assert route["category"] in enums.ROUTING_CATEGORIES
 
     def test_the_two_cleveland_orphans_are_retired_not_deleted(self):
-        """History survives: the URL and its binding evidence stay on record."""
+        """History survives: the URL and its binding evidence stay on record.
+
+        Scoped to Cleveland, which is what the two orphans are. It read the
+        whole global registry until PTF-CINCINNATI-HARDENED-SYNC-002 brought
+        Cincinnati's six retained retirements -- routes to identities its
+        founder ruled VERIFIED_NO_PETS -- and failed a Cleveland assertion for
+        a reason that had nothing to do with Cleveland.
+        """
         retired = {r["hotel_ref"]["identity_key"]: r for r in routes()
-                   if r["status"] == enums.ROUTING_RETIRED}
+                   if r["status"] == enums.ROUTING_RETIRED
+                   and r["market_id"] == "cleveland-akron-canton-oh"}
         assert set(retired) == {"eastland inn restaurant", "the welshfield inn"}
         for route in retired.values():
             assert route["retired_at"] and route["retired_reason"]
