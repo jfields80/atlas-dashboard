@@ -1,0 +1,46 @@
+{
+  "schema": "ptf-osm-extracts/1.0",
+  "what_this_is": "The regional OSM extracts the discovery factory may answer Overpass cells from LOCALLY (PTF-PITTSBURGH-HARDENED-RECENSUS-001). A public Overpass server is somebody else's computer; when every approved one is down, a market's cells are answered from a committed-format index reduced from one of these extracts, with the same cache key, cell geometry and candidate contract as the Overpass path. Nothing in the code downloads an extract: an operator fetches it, verifies the checksum, and builds the index with osm_extract_cli.py. Adding a region is a row here.",
+  "provenance": "Geofabrik publishes per-state extracts of OpenStreetMap under the ODbL at https://download.geofabrik.de/north-america/us.html; each *.osm.pbf has a sibling *.osm.pbf.md5. Attribution: (c) OpenStreetMap contributors, ODbL 1.0.",
+  "extracts": [
+    {
+      "extract_id": "geofabrik-pennsylvania",
+      "region": "Pennsylvania, US",
+      "url": "https://download.geofabrik.de/north-america/us/pennsylvania-latest.osm.pbf",
+      "md5_url": "https://download.geofabrik.de/north-america/us/pennsylvania-latest.osm.pbf.md5",
+      "local_pbf": "data/osm_extracts/pennsylvania-latest.osm.pbf",
+      "index_path": "data/osm_extracts/geofabrik-pennsylvania.pittsburgh-pa.index.json",
+      "markets": [
+        "pittsburgh-pa"
+      ],
+      "license": "ODbL 1.0 (OpenStreetMap contributors)",
+      "notes": "Covers every Pittsburgh discovery cell (all fifteen lie inside Allegheny/Butler/Westmoreland counties). The index is built with the market's geographic_bounds as a bbox, so a state extract of a few hundred MB reduces to a few hundred lodging elements. data/ is gitignored: neither the extract nor the index is committed; the cells they answer are, through the discovery cache, with endpoint_id local_extract:geofabrik-pennsylvania in their provenance."
+    },
+    {
+      "extract_id": "geofabrik-michigan",
+      "region": "Michigan, US",
+      "url": "https://download.geofabrik.de/north-america/us/michigan-latest.osm.pbf",
+      "md5_url": "https://download.geofabrik.de/north-america/us/michigan-latest.osm.pbf.md5",
+      "local_pbf": "data/osm_extracts/michigan-latest.osm.pbf",
+      "index_path": "data/osm_extracts/geofabrik-michigan.grand-rapids-holland-mi.index.json",
+      "markets": [
+        "grand-rapids-holland-mi"
+      ],
+      "license": "ODbL 1.0 (OpenStreetMap contributors)",
+      "notes": "Covers every Grand Rapids-Holland discovery cell: all ten lie inside the market's geographic_bounds (42.75..43.15 N, -86.25..-85.45 W) -- Kent/Ottawa/Allegan county territory, well inside the Michigan extract. Registered by PTF-GRAND-RAPIDS-HOLLAND-LOCAL-OSM-FALLBACK-004 after public Overpass stopped making acceptable forward progress at 8 of 20 cells. The index is built with the market's geographic_bounds as a bbox, so a state extract of a few hundred MB reduces to a few hundred lodging elements. data/ is gitignored: neither the extract nor the index is committed; the cells they answer are, through the discovery cache, with endpoint_id local_extract:geofabrik-michigan in their provenance."
+    },
+    {
+      "extract_id": "geofabrik-michigan-detroit-ann-arbor",
+      "region": "Michigan, US",
+      "url": "https://download.geofabrik.de/north-america/us/michigan-latest.osm.pbf",
+      "md5_url": "https://download.geofabrik.de/north-america/us/michigan-latest.osm.pbf.md5",
+      "local_pbf": "data/osm_extracts/michigan-latest.osm.pbf",
+      "index_path": "data/osm_extracts/geofabrik-michigan.detroit-ann-arbor-mi.index.json",
+      "markets": [
+        "detroit-ann-arbor-mi"
+      ],
+      "license": "ODbL 1.0 (OpenStreetMap contributors)",
+      "notes": "PTF-DETROIT-ANN-ARBOR-HARDENED-MEMBERSHIP-AND-SHADOW-RECENSUS-002. THE SAME Michigan extract as geofabrik-michigan -- same url, same local_pbf, same bytes (md5 acd07ad12e3cf8237c8b44b3f105d173, verified at the Detroit path before this row was added; nothing was re-downloaded). It is a SEPARATE ROW because index_path is per record and an index is reduced to ONE market's bounds: appending 'detroit-ann-arbor-mi' to the geofabrik-michigan row would have resolved Detroit's cells against the Grand Rapids index (42.75..43.15 N, -86.25..-85.45 W), which holds no Detroit element, and every Detroit cell would have come back EMPTY -- indistinguishable from a market with no lodging. Bounds here are Detroit's own committed geographic_bounds (42.05..42.75 N, -83.95..-82.90 W) from discovery/config/detroit_ann_arbor_mi.json, unchanged by that order. Provenance on every cell this answers reads endpoint_id local_extract:geofabrik-michigan-detroit-ann-arbor, so which index answered is never in doubt. data/ is gitignored: neither the extract nor the index is committed."
+    }
+  ]
+}

@@ -1,0 +1,296 @@
+{
+  "schema": "ptf-detroit-ann-arbor-routing-corroboration-exceptions/1.0",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-HARDENED-MEMBERSHIP-AND-SHADOW-RECENSUS-002",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-28",
+  "base_commit": "db61f22701b398ee636ac070751b449f75cbac8e",
+  "note": "AUDIT ONLY. No route was edited, no official URL was removed, no authority shard was mutated and nothing was paid-acquired by this order. Scope: the 2 routes whose corroborating phone is shared between two properties, and the 11 census rows that carry no postal code. All 179 routes remain ROUTING_CONFIRMED and untouched. The Sheraton pair sits inside the no-postal set, so the union is 11 rows.",
+  "classification_vocabulary": {
+    "ROUTE_STRONG": "Two or more independent identity signals agree, at least one of them location-bearing (street, postal code, or a phone consistent with the row own geography).",
+    "ROUTE_NEEDS_CORROBORATION": "The doorway is plausible and is retained, but only the name agrees. No location-bearing signal is present.",
+    "ROUTE_CONTRADICTED": "A signal the route RECORDED as corroborating is demonstrably false for this property. Says nothing on its own about whether the URL is right.",
+    "IDENTITY_HOLD": "The identity itself is provisional or unresolved, so no policy evidence may bind to it."
+  },
+  "counts": {
+    "routes_total": 179,
+    "audited": 11,
+    "ROUTE_STRONG": 0,
+    "ROUTE_NEEDS_CORROBORATION": 10,
+    "ROUTE_CONTRADICTED": 1,
+    "IDENTITY_HOLD": 0,
+    "routes_unaudited_and_unchanged": 168
+  },
+  "separate_identity_holds_not_routes": [
+    {
+      "identity_key": "courtyard by marriott detroit novi",
+      "why": "IDENTITY_PROVISIONAL, no official_url, no route."
+    },
+    {
+      "identity_key": "holiday inn fairlane dearborn",
+      "why": "IDENTITY_PROVISIONAL, no official_url, no route."
+    },
+    {
+      "identity_key": "woodland direct",
+      "why": "NOT_LODGING, still disposition=canonical, no route."
+    },
+    {
+      "identity_key": "hotel indigo detroit north troy + even hotel detroit north troy",
+      "why": "SHARED_ADDRESS dual-brand pair at 575 w big beaver|48084, also sharing phone 248-720-6400. Both carry DISTINCT official URLs and distinct IHG property records, so the routes are not in question; the open collision flag is an identity matter, not a routing one."
+    }
+  ],
+  "count": 11,
+  "items": [
+    {
+      "identity_key": "sheraton ann arbor hotel",
+      "canonical_name": "Sheraton Ann Arbor Hotel",
+      "city": "Ann Arbor",
+      "state": "MI",
+      "postal_code": null,
+      "address": null,
+      "phone": "248-349-4000",
+      "routing_id": "detroit-ann-arbor-mi:sheraton-ann-arbor-hotel",
+      "official_property_url": "https://www.marriott.com/en-us/hotels/arbsi-sheraton-ann-arbor-hotel/overview/",
+      "official_domain": "marriott.com",
+      "property_code": "arbsi",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "identity_signals_recorded": [
+        "name",
+        "phone"
+      ],
+      "classification": "ROUTE_CONTRADICTED",
+      "why": "The route records identity_signals_matched ['name','phone'], but the phone it matched on -- 248-349-4000 -- is carried IDENTICALLY by 'Sheraton Detroit Novi Hotel' in the same census, and 248 is the Oakland County area code. Ann Arbor is Washtenaw County (734). The phone therefore corroborates nothing about this row and is positively inconsistent with the city the row itself states: one number cannot distinguish two properties, and this one names the wrong county. What is contradicted is the RECORDED SIGNAL, not the doorway -- the URL slug, the Marriott property code 'arbsi' (ARB is the Ann Arbor market code) and the canonical name all agree with each other and with the stated city.",
+      "remediation": "Strike 'phone' from identity_signals_matched, leaving ['name'], which reclassifies this route as ROUTE_NEEDS_CORROBORATION alongside the other nine. Separately, treat the census phone field as unverified for this row -- it is more likely Novi's number copied onto the Ann Arbor row than a real Ann Arbor number. Both edits mutate the authority shard and are NOT made by this order.",
+      "url_disposition": "RETAINED -- this order removes no official URL. A bad corroboration signal is not evidence that the doorway is wrong.",
+      "shared_phone_with": [
+        "sheraton detroit novi hotel"
+      ],
+      "area_code_home": "Oakland County (Novi / Troy / Southfield / Auburn Hills)",
+      "row_stated_county": "Washtenaw (expected area code 734)"
+    },
+    {
+      "identity_key": "sheraton detroit novi hotel",
+      "canonical_name": "Sheraton Detroit Novi Hotel",
+      "city": "Novi",
+      "state": "MI",
+      "postal_code": null,
+      "address": null,
+      "phone": "248-349-4000",
+      "routing_id": "detroit-ann-arbor-mi:sheraton-detroit-novi-hotel",
+      "official_property_url": "https://www.marriott.com/en-us/hotels/dtwos-sheraton-detroit-novi-hotel/overview/",
+      "official_domain": "marriott.com",
+      "property_code": "dtwos",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "identity_signals_recorded": [
+        "name",
+        "phone"
+      ],
+      "classification": "ROUTE_NEEDS_CORROBORATION",
+      "why": "The same shared phone, read the other way. 248-349-4000 IS consistent with Novi's own county, so this row's phone is not contradicted -- but a signal held by two candidates distinguishes neither, so it cannot count as corroboration here either. Stripped of the shared phone the binding rests on name plus the Marriott property code 'dtwos', with no address and no postal code anywhere in the record.",
+      "remediation": "Strike 'phone' from identity_signals_matched. Recover a street address and postal code -- the local-OSM shadow recensus is the $0 route -- then re-corroborate.",
+      "url_disposition": "RETAINED -- this order removes no official URL. A bad corroboration signal is not evidence that the doorway is wrong.",
+      "shared_phone_with": [
+        "sheraton ann arbor hotel"
+      ],
+      "area_code_home": "Oakland County (Novi / Troy / Southfield / Auburn Hills)",
+      "row_stated_county": "Oakland (area code 248 is consistent)"
+    },
+    {
+      "identity_key": "comfort suites auburn hills detroit",
+      "canonical_name": "Comfort Suites Auburn Hills Detroit",
+      "city": "Auburn Hills",
+      "state": "MI",
+      "postal_code": null,
+      "address": null,
+      "phone": null,
+      "routing_id": "detroit-ann-arbor-mi:comfort-suites-auburn-hills-detroit",
+      "official_property_url": "https://www.choicehotels.com/michigan/auburn-hills/comfort-suites-hotels/mi142",
+      "official_domain": "choicehotels.com",
+      "property_code": "mi142",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "identity_signals_recorded": [
+        "name"
+      ],
+      "classification": "ROUTE_NEEDS_CORROBORATION",
+      "why": "Bound on NAME ALONE. The census row states no street address, no postal code and no phone, so nothing in the record places this property anywhere except the city string, and nothing independent confirms that the doorway is this building. The doorway is a brand property page carrying property code 'mi142', which is consistent with the name but comes from the same brand index that supplied the name -- it is not an independent second source.",
+      "remediation": "Recover street address and postal code, then re-corroborate on name+street+zip. The local-OSM shadow recensus can supply addr:street / addr:postcode at $0; no paid lane is warranted for this.",
+      "url_disposition": "RETAINED -- this order removes no official URL. A bad corroboration signal is not evidence that the doorway is wrong.",
+      "first_party_domain": false
+    },
+    {
+      "identity_key": "courtyard by marriott ann arbor",
+      "canonical_name": "Courtyard by Marriott Ann Arbor",
+      "city": "Ann Arbor",
+      "state": "MI",
+      "postal_code": null,
+      "address": null,
+      "phone": null,
+      "routing_id": "detroit-ann-arbor-mi:courtyard-by-marriott-ann-arbor",
+      "official_property_url": "https://www.marriott.com/en-us/hotels/arbch-courtyard-ann-arbor/overview/",
+      "official_domain": "marriott.com",
+      "property_code": "arbch",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "identity_signals_recorded": [
+        "name"
+      ],
+      "classification": "ROUTE_NEEDS_CORROBORATION",
+      "why": "Bound on NAME ALONE. The census row states no street address, no postal code and no phone, so nothing in the record places this property anywhere except the city string, and nothing independent confirms that the doorway is this building. The doorway is a brand property page carrying property code 'arbch', which is consistent with the name but comes from the same brand index that supplied the name -- it is not an independent second source.",
+      "remediation": "Recover street address and postal code, then re-corroborate on name+street+zip. The local-OSM shadow recensus can supply addr:street / addr:postcode at $0; no paid lane is warranted for this.",
+      "url_disposition": "RETAINED -- this order removes no official URL. A bad corroboration signal is not evidence that the doorway is wrong.",
+      "first_party_domain": false
+    },
+    {
+      "identity_key": "detroit marriott at the renaissance center",
+      "canonical_name": "Detroit Marriott at the Renaissance Center",
+      "city": "Detroit",
+      "state": "MI",
+      "postal_code": null,
+      "address": null,
+      "phone": null,
+      "routing_id": "detroit-ann-arbor-mi:detroit-marriott-at-the-renaissance-center",
+      "official_property_url": "https://www.marriott.com/en-us/hotels/dtwdt-detroit-marriott-at-the-renaissance-center/overview/",
+      "official_domain": "marriott.com",
+      "property_code": "dtwdt",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "identity_signals_recorded": [
+        "name"
+      ],
+      "classification": "ROUTE_NEEDS_CORROBORATION",
+      "why": "Bound on NAME ALONE. The census row states no street address, no postal code and no phone, so nothing in the record places this property anywhere except the city string, and nothing independent confirms that the doorway is this building. The doorway is a brand property page carrying property code 'dtwdt', which is consistent with the name but comes from the same brand index that supplied the name -- it is not an independent second source.",
+      "remediation": "Recover street address and postal code, then re-corroborate on name+street+zip. The local-OSM shadow recensus can supply addr:street / addr:postcode at $0; no paid lane is warranted for this.",
+      "url_disposition": "RETAINED -- this order removes no official URL. A bad corroboration signal is not evidence that the doorway is wrong.",
+      "first_party_domain": false
+    },
+    {
+      "identity_key": "hotel david whitney autograph collection",
+      "canonical_name": "Hotel David Whitney, Autograph Collection",
+      "city": "Detroit",
+      "state": "MI",
+      "postal_code": null,
+      "address": null,
+      "phone": null,
+      "routing_id": "detroit-ann-arbor-mi:hotel-david-whitney-autograph-collection",
+      "official_property_url": "https://www.marriott.com/en-us/hotels/dtwkd-hotel-david-whitney-autograph-collection/overview/",
+      "official_domain": "marriott.com",
+      "property_code": "dtwkd",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "identity_signals_recorded": [
+        "name"
+      ],
+      "classification": "ROUTE_NEEDS_CORROBORATION",
+      "why": "Bound on NAME ALONE. The census row states no street address, no postal code and no phone, so nothing in the record places this property anywhere except the city string, and nothing independent confirms that the doorway is this building. The doorway is a brand property page carrying property code 'dtwkd', which is consistent with the name but comes from the same brand index that supplied the name -- it is not an independent second source.",
+      "remediation": "Recover street address and postal code, then re-corroborate on name+street+zip. The local-OSM shadow recensus can supply addr:street / addr:postcode at $0; no paid lane is warranted for this.",
+      "url_disposition": "RETAINED -- this order removes no official URL. A bad corroboration signal is not evidence that the doorway is wrong.",
+      "first_party_domain": false
+    },
+    {
+      "identity_key": "staybridge suites ann arbor university of michigan",
+      "canonical_name": "Staybridge Suites Ann Arbor University of Michigan",
+      "city": "Ann Arbor",
+      "state": "MI",
+      "postal_code": null,
+      "address": null,
+      "phone": null,
+      "routing_id": "detroit-ann-arbor-mi:staybridge-suites-ann-arbor-university-of-michigan",
+      "official_property_url": "https://www.ihg.com/staybridge/hotels/us/en/ann-arbor/arbsb/hoteldetail",
+      "official_domain": "ihg.com",
+      "property_code": "arbsb",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "identity_signals_recorded": [
+        "name"
+      ],
+      "classification": "ROUTE_NEEDS_CORROBORATION",
+      "why": "Bound on NAME ALONE. The census row states no street address, no postal code and no phone, so nothing in the record places this property anywhere except the city string, and nothing independent confirms that the doorway is this building. The doorway is a brand property page carrying property code 'arbsb', which is consistent with the name but comes from the same brand index that supplied the name -- it is not an independent second source.",
+      "remediation": "Recover street address and postal code, then re-corroborate on name+street+zip. The local-OSM shadow recensus can supply addr:street / addr:postcode at $0; no paid lane is warranted for this.",
+      "url_disposition": "RETAINED -- this order removes no official URL. A bad corroboration signal is not evidence that the doorway is wrong.",
+      "first_party_domain": false
+    },
+    {
+      "identity_key": "staybridge suites auburn hills",
+      "canonical_name": "Staybridge Suites Auburn Hills",
+      "city": "Auburn Hills",
+      "state": "MI",
+      "postal_code": null,
+      "address": null,
+      "phone": null,
+      "routing_id": "detroit-ann-arbor-mi:staybridge-suites-auburn-hills",
+      "official_property_url": "https://www.ihg.com/staybridge/hotels/us/en/auburn-hills/dttyz/hoteldetail",
+      "official_domain": "ihg.com",
+      "property_code": "dttyz",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "identity_signals_recorded": [
+        "name"
+      ],
+      "classification": "ROUTE_NEEDS_CORROBORATION",
+      "why": "Bound on NAME ALONE. The census row states no street address, no postal code and no phone, so nothing in the record places this property anywhere except the city string, and nothing independent confirms that the doorway is this building. The doorway is a brand property page carrying property code 'dttyz', which is consistent with the name but comes from the same brand index that supplied the name -- it is not an independent second source.",
+      "remediation": "Recover street address and postal code, then re-corroborate on name+street+zip. The local-OSM shadow recensus can supply addr:street / addr:postcode at $0; no paid lane is warranted for this.",
+      "url_disposition": "RETAINED -- this order removes no official URL. A bad corroboration signal is not evidence that the doorway is wrong.",
+      "first_party_domain": false
+    },
+    {
+      "identity_key": "the bell tower hotel",
+      "canonical_name": "The Bell Tower Hotel",
+      "city": "Ann Arbor",
+      "state": "MI",
+      "postal_code": null,
+      "address": null,
+      "phone": null,
+      "routing_id": "detroit-ann-arbor-mi:the-bell-tower-hotel",
+      "official_property_url": "https://belltowerhotel.com",
+      "official_domain": "belltowerhotel.com",
+      "property_code": null,
+      "binding_method": "PAGE_RENDERED",
+      "identity_signals_recorded": [
+        "name"
+      ],
+      "classification": "ROUTE_NEEDS_CORROBORATION",
+      "why": "Bound on NAME ALONE. The census row states no street address, no postal code and no phone, so nothing in the record places this property anywhere except the city string, and nothing independent confirms that the doorway is this building. The doorway is the property's OWN first-party domain, which names the property and is a stronger starting point than a brand index, but it is still a name agreeing with a name.",
+      "remediation": "Recover street address and postal code, then re-corroborate on name+street+zip. The local-OSM shadow recensus can supply addr:street / addr:postcode at $0; no paid lane is warranted for this.",
+      "url_disposition": "RETAINED -- this order removes no official URL. A bad corroboration signal is not evidence that the doorway is wrong.",
+      "first_party_domain": true
+    },
+    {
+      "identity_key": "the kensington hotel ann arbor",
+      "canonical_name": "The Kensington Hotel Ann Arbor",
+      "city": "Ann Arbor",
+      "state": "MI",
+      "postal_code": null,
+      "address": null,
+      "phone": null,
+      "routing_id": "detroit-ann-arbor-mi:the-kensington-hotel-ann-arbor",
+      "official_property_url": "https://www.kensingtonannarbor.com",
+      "official_domain": "kensingtonannarbor.com",
+      "property_code": null,
+      "binding_method": "PAGE_RENDERED",
+      "identity_signals_recorded": [
+        "name"
+      ],
+      "classification": "ROUTE_NEEDS_CORROBORATION",
+      "why": "Bound on NAME ALONE. The census row states no street address, no postal code and no phone, so nothing in the record places this property anywhere except the city string, and nothing independent confirms that the doorway is this building. The doorway is the property's OWN first-party domain, which names the property and is a stronger starting point than a brand index, but it is still a name agreeing with a name.",
+      "remediation": "Recover street address and postal code, then re-corroborate on name+street+zip. The local-OSM shadow recensus can supply addr:street / addr:postcode at $0; no paid lane is warranted for this.",
+      "url_disposition": "RETAINED -- this order removes no official URL. A bad corroboration signal is not evidence that the doorway is wrong.",
+      "first_party_domain": true
+    },
+    {
+      "identity_key": "the vanguard ann arbor autograph collection",
+      "canonical_name": "The Vanguard Ann Arbor, Autograph Collection",
+      "city": "Ann Arbor",
+      "state": "MI",
+      "postal_code": null,
+      "address": null,
+      "phone": null,
+      "routing_id": "detroit-ann-arbor-mi:the-vanguard-ann-arbor-autograph-collection",
+      "official_property_url": "https://www.marriott.com/en-us/hotels/dtwaa-the-vanguard-ann-arbor-autograph-collection/overview/",
+      "official_domain": "marriott.com",
+      "property_code": "dtwaa",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "identity_signals_recorded": [
+        "name"
+      ],
+      "classification": "ROUTE_NEEDS_CORROBORATION",
+      "why": "Bound on NAME ALONE. The census row states no street address, no postal code and no phone, so nothing in the record places this property anywhere except the city string, and nothing independent confirms that the doorway is this building. The doorway is a brand property page carrying property code 'dtwaa', which is consistent with the name but comes from the same brand index that supplied the name -- it is not an independent second source.",
+      "remediation": "Recover street address and postal code, then re-corroborate on name+street+zip. The local-OSM shadow recensus can supply addr:street / addr:postcode at $0; no paid lane is warranted for this.",
+      "url_disposition": "RETAINED -- this order removes no official URL. A bad corroboration signal is not evidence that the doorway is wrong.",
+      "first_party_domain": false
+    }
+  ]
+}

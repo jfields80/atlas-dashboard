@@ -77,8 +77,14 @@ EXPECTED = {
     # PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-002 raised the census 142 -> 161
     # after re-reading the market's own chamber and CVB sources -- Dearborn
     # alone was missing six real hotels.
-    DETROIT: {"census": 161, "published": 7, "no_pets": 7,
-              "out_of_category": 1, "unresolved": 146},
+    # ... then PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-003 and the
+    # ROUTING-EXPANSION-004 D001/D002 identity amendment took it 161 -> 182
+    # (two rows also moved to AWAITING_IDENTITY_RESOLUTION). Those passes did
+    # not update this pin, so it was red until PTF-DETROIT-ANN-ARBOR-HARDENED-
+    # MEMBERSHIP-AND-SHADOW-RECENSUS-002. published/no_pets are UNCHANGED at
+    # 7/7: that order captured no policy and made no founder decision.
+    DETROIT: {"census": 182, "published": 7, "no_pets": 7,
+              "out_of_category": 1, "unresolved": 167},
     INDIANAPOLIS: {"census": 153, "published": 8, "no_pets": 4,
                    "out_of_category": 0, "unresolved": 141},
 }

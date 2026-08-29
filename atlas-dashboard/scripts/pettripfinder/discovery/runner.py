@@ -14,6 +14,7 @@ from pathlib import Path
 from typing import List, Optional, Sequence, Tuple
 
 from scripts.pettripfinder.discovery import constants as C
+from scripts.pettripfinder.discovery import progress_gate as PG
 from scripts.pettripfinder.discovery.cache import DiscoveryCache
 from scripts.pettripfinder.discovery.deduplicate import deduplicate
 from scripts.pettripfinder.discovery.foursquare import FoursquareClient
@@ -42,9 +43,51 @@ class RunConfig:
     max_overpass_requests: int = C.DEFAULT_MAX_OVERPASS_REQUESTS
     cache_only: bool = False
     resume: bool = False
+    # PTF-DISCOVERY-OVERPASS-RESILIENCE-001. An approved-endpoint registry
+    # other than the committed default, and a local OSM extract index that
+    # answers Overpass cells without a public server at all.
+    overpass_registry_path: str = ""
+    osm_extract_index: str = ""
+    # PTF-PITTSBURGH-HARDENED-RECENSUS-001. After ``progress_stall_cycles``
+    # consecutive resume cycles that completed no cell, live free discovery
+    # is refused until a human overrides ONE run.
+    override_progress_gate: bool = False
+    progress_stall_cycles: int = PG.DEFAULT_STALL_CYCLES
 
 
 _LEDGER_FILENAME = "query_ledger.json"
+OVERPASS_RUN_STATS_FILENAME = "overpass_run_stats.json"
+
+
+def default_overpass_source(config: "RunConfig"):
+    """The OSM source a run uses when the caller injects none.
+
+    A local extract index, when configured, answers every cell for free and
+    touches no shared server. Otherwise the resilient client: the approved
+    registry, health-checked selection, a circuit per endpoint persisted in the
+    run's own health ledger, and gentle pacing. Never one hard-coded endpoint.
+    """
+    from scripts.pettripfinder.discovery import overpass_endpoints as OE
+    if config.osm_extract_index:
+        from scripts.pettripfinder.discovery.osm_extract import ExtractIndex, LocalOsmExtractSource
+        return LocalOsmExtractSource(ExtractIndex.load(Path(config.osm_extract_index)))
+    registry = (OE.EndpointRegistry.load(Path(config.overpass_registry_path))
+                if config.overpass_registry_path else OE.EndpointRegistry.load())
+    return OverpassClient.from_registry(
+        registry, ledger_path=Path(config.output_root) / OE.HEALTH_LEDGER_FILENAME)
+
+
+def _save_overpass_stats(output_root: str, source) -> Optional[str]:
+    """What the OSM source did this run -- requests, failures, switches,
+    waits -- beside the query ledger. Only sources that keep stats write one."""
+    stats_fn = getattr(source, "run_stats", None)
+    if stats_fn is None:
+        return None
+    import json
+    path = Path(output_root) / OVERPASS_RUN_STATS_FILENAME
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(stats_fn(), indent=1) + "\n", encoding="utf-8")
+    return path.as_posix()
 
 
 def _load_ledger(output_root: str) -> dict:
@@ -60,6 +103,41 @@ def _save_ledger(output_root: str, ledger: dict) -> None:
     path = Path(output_root) / _LEDGER_FILENAME
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(ledger, sort_keys=True, indent=2), encoding="utf-8")
+
+
+class _ProgressGatedSource:
+    """An OSM source behind a closed forward-progress gate: cached cells are
+    still served; an uncached cell is reported FAILED with the gate's warning
+    and no request is made. Wraps any source with the ``search`` shape."""
+
+    def __init__(self, inner):
+        self._inner = inner
+
+    def __getattr__(self, name):
+        return getattr(self._inner, name)
+
+    def search(self, query, *, cache, budget, observed_at, bounds=None):
+        result = self._inner.search(query, cache=cache, budget=RequestBudget(max_requests=0),
+                                    observed_at=observed_at, bounds=bounds)
+        if result.state != C.QUERY_STATE_SKIPPED_CAP_REACHED:
+            return result
+        return ProviderQueryResult(
+            query_id=result.query_id, provider=result.provider,
+            state=C.QUERY_STATE_FAILED, error=C.PROVIDER_ERROR_UNAVAILABLE,
+            requests_made=0, warnings=(PG.WARNING_PROGRESS_GATE,))
+
+
+def _overpass_cycle_outcome(results: Sequence[ProviderQueryResult]) -> Tuple[bool, int, int, int]:
+    """(attempted live discovery, newly completed cells, requests made,
+    cells still not completed) for the Overpass results of one run."""
+    osm = [r for r in results if r.provider == C.PROVIDER_OPENSTREETMAP
+           and r.state != C.QUERY_STATE_DISABLED]
+    uncached = [r for r in osm if r.cache_hits == 0]
+    attempted = any(r.requests_made > 0 for r in uncached)
+    newly = sum(1 for r in uncached if r.state == C.QUERY_STATE_COMPLETED)
+    requests_made = sum(r.requests_made for r in osm)
+    remaining = sum(1 for r in osm if r.state != C.QUERY_STATE_COMPLETED)
+    return attempted, newly, requests_made, remaining
 
 
 def build_plan(config: RunConfig, market: Optional[MarketConfig] = None):
@@ -107,11 +185,24 @@ def execute_run(
     market, queries = build_plan(config)
     cache = cache or DiscoveryCache(Path(config.output_root) / C.CACHE_SUBDIR)
     google_client = google_client or GooglePlacesClient()
-    overpass_client = overpass_client or OverpassClient()
+    overpass_client = overpass_client or default_overpass_source(config)
     foursquare_client = foursquare_client or FoursquareClient()
     if config.cache_only:
         google_client = _CacheOnlyClient(google_client)
         overpass_client = _CacheOnlyClient(overpass_client)
+
+    # The forward-progress gate: N attempting resume cycles that completed no
+    # cell close it, and this run makes no live Overpass request unless a
+    # human overrides it. Cache-only runs and local-extract runs never ask a
+    # public server, so the gate does not apply to them.
+    progress_path = Path(config.output_root) / PG.FILENAME
+    gate_applies = (C.PROVIDER_OPENSTREETMAP in config.providers
+                    and not config.cache_only and not config.osm_extract_index)
+    gated = (gate_applies and not config.override_progress_gate
+             and PG.is_stalled(PG.load(progress_path), config.progress_stall_cycles))
+    if gated:
+        overpass_client = _ProgressGatedSource(overpass_client)
+        PG.record_gated_run(progress_path)
 
     google_budget = RequestBudget(max_requests=config.max_google_requests)
     overpass_budget = RequestBudget(max_requests=config.max_overpass_requests)
@@ -153,6 +244,17 @@ def execute_run(
 
     ledger.update({r.query_id: r.state for r in results})
     _save_ledger(config.output_root, ledger)
+    inner = getattr(overpass_client, "_inner", overpass_client)
+    _save_overpass_stats(config.output_root, inner)
+    if gate_applies and not gated:
+        attempted, newly, requests_made, remaining = _overpass_cycle_outcome(results)
+        if attempted or remaining:
+            # A cycle that had cells to ask for counts, whether or not a
+            # request got out: an outage that refuses every probe is still
+            # a cycle without progress.
+            PG.record_cycle(progress_path, newly_completed=newly,
+                            requests_made=requests_made, remaining_after=remaining,
+                            override=config.override_progress_gate)
 
     all_records = [r for res in results for r in res.records]
     normalized = normalize_records(tuple(all_records))

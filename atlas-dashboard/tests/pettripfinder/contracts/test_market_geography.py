@@ -50,7 +50,7 @@ EXPECTED_ROUTE_MODE = {COLUMBUS: "legacy_unprefixed", CLEVELAND: "market_prefixe
     PITTSBURGH: "market_prefixed", DETROIT: "market_prefixed",
     INDIANAPOLIS: "market_prefixed"}
 EXPECTED_ROWS = {COLUMBUS: 112, CLEVELAND: 188, DAYTON: 129, CINCINNATI: 256,
-                 PITTSBURGH: 96, DETROIT: 161, INDIANAPOLIS: 153}
+                 PITTSBURGH: 96, DETROIT: 182, INDIANAPOLIS: 153}
 # Cincinnati was 121 until PTF-CINCINNATI-CENSUS-RECONCILIATION-001 rebuilt it
 # from six official destination-marketing directories instead of from its own
 # corridor registry.
@@ -59,6 +59,13 @@ EXPECTED_ROWS = {COLUMBUS: 112, CLEVELAND: 188, DAYTON: 129, CINCINNATI: 256,
 # first pass had missed -- six in Dearborn alone. Every added row assigns to a
 # corridor with no override, which is what test_stored_equals_recomputed above
 # checks and why this is a count change rather than a geography change.
+# 161 -> 182 by PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-003 and the
+# ROUTING-EXPANSION-004 D001/D002 identity amendment. The pin was left at 161
+# by those passes, so this file and test_market_authorities.py were RED on the
+# branch from that commit until PTF-DETROIT-ANN-ARBOR-HARDENED-MEMBERSHIP-AND-
+# SHADOW-RECENSUS-002 reconciled them with the committed census. The geography
+# itself never drifted: `changes == []` passed throughout -- only the count
+# constant was stale.
 
 
 def census(market_id):
