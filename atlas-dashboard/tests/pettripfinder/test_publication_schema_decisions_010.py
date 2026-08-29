@@ -21,6 +21,8 @@ PREPARED_CONTRACT = ("launch_packages/pettripfinder/st_louis_publication_010/"
 
 import pytest
 
+from pettripfinder.indianapolis_promoted_state import PROMOTED_PET_FRIENDLY
+
 from scripts.pettripfinder import market_policy_package_cli as PP
 from scripts.pettripfinder.contracts import enums
 from scripts.pettripfinder.contracts import policy_schema as PS
@@ -110,15 +112,15 @@ class TestSchema13IsAdditive:
         # next reader does not mistake it for fallout from the 1.3 amendment:
         # every failure names weight_limit, and 1.3 changed nothing about
         # weight.
+        # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004 re-projected the package through market_policy_package_cli
+        # with founder decision 1 applied, so the five weight_limit.scope gaps
+        # are gone: every record validates. Kept as the record that they were
+        # pre-existing and never fallout from the 1.3 amendment.
         package = _load("hotel_policy_facts_indianapolis-in.json")
         failures = [(h["key"], PS.validate_facts(h["facts"]))
                     for h in package["hotels"] if PS.validate_facts(h["facts"])]
-        assert len(failures) == 5
-        for _key, issues in failures:
-            for issue in issues:
-                assert issue.path.startswith("facts.weight_limit")
-                assert "service_animal" not in issue.path
-                assert "refundable" not in issue.path
+        assert failures == []
+        assert len(package["hotels"]) == PROMOTED_PET_FRIENDLY
 
     def test_absence_of_both_additions_remains_valid(self):
         assert PS.validate_facts({"pets_allowed": True}) == ()

@@ -1,0 +1,483 @@
+{
+  "schema": "ptf-market-factory-ledger/1.0",
+  "what_this_is": "The durable record of which lifecycle phases have run for this market, with the artifacts each produced. A phase recorded here as COMPLETED or SKIPPED is not run again; a phase whose predecessor is not satisfied is not started.",
+  "market_id": "indianapolis-in",
+  "work_order": "PTF-INDIANAPOLIS-HARDENED-RECENSUS-002",
+  "suffix": "002",
+  "lifecycle": [
+    "census",
+    "routing",
+    "zero_cost_url_recovery",
+    "prior_build_reconciliation",
+    "reroute",
+    "acquisition",
+    "declined_evidence_recovery",
+    "reroute_recovered",
+    "acquire_newly_routable",
+    "alternate_lane_handling",
+    "coverage_exhaustion",
+    "closure",
+    "founder_review_packet",
+    "founder_review"
+  ],
+  "paid_phases": [
+    "acquire_newly_routable",
+    "acquisition",
+    "alternate_lane_handling"
+  ],
+  "passes": [
+    {
+      "label": "pass1",
+      "report": "C:/ptf-indy-v2/atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_market_acquisition_pass1_002.json",
+      "run_dir": "C:/ptf-indy-v2/atlas-dashboard/data/acquisition/indianapolis_in_factory_002/pass1",
+      "run_id": "indianapolis-in-002-pass1",
+      "outcome": "STOPPED_HARD_CAP",
+      "attempted": 79
+    },
+    {
+      "label": "pass2",
+      "report": "C:/ptf-indy-v2/atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_market_acquisition_pass2_002.json",
+      "run_dir": "C:/ptf-indy-v2/atlas-dashboard/data/acquisition/indianapolis_in_factory_002/pass2",
+      "run_id": "indianapolis-in-002-pass2",
+      "outcome": "REPORT_FROM_JOURNAL",
+      "attempted": 2,
+      "note": "interrupted pass reported from its journal before the next plan was built"
+    }
+  ],
+  "phases": {
+    "census": {
+      "status": "COMPLETED",
+      "ran_at": "2026-08-25T18:33:35.698886+00:00",
+      "note": "census built: 265 identities",
+      "artifacts": {
+        "census": {
+          "path": "C:/ptf-indy-v2/atlas-dashboard/launch_packages/pettripfinder/identity_census_proposed/indianapolis-in.json",
+          "sha256": "124130ff92245d7c96c304be888f5bbe4c5120f4a357aea59b3e724797eda8fa"
+        },
+        "candidate_ledger": {
+          "path": "C:/ptf-indy-v2/atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_candidate_ledger_002.json",
+          "sha256": "0bbd475376b9de866665bf846ebb1aa6585fdec158225282c4fbb018567c93eb"
+        }
+      },
+      "facts": {
+        "census": 265
+      }
+    },
+    "routing": {
+      "status": "COMPLETED",
+      "ran_at": "2026-08-25T18:33:35.832433+00:00",
+      "note": "routing: ROUTED 94 of 265 (35.5%), overlay applied 0, shared URLs 2",
+      "artifacts": {
+        "routing": {
+          "path": "C:/ptf-indy-v2/atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_routing_002.json",
+          "sha256": "5c676bf9bfc256ff905c54a4301a236281bafc9f7d383628a4b4cc263471df3e"
+        }
+      },
+      "facts": {
+        "routed": 94,
+        "census": 265,
+        "overlay_applied": 0,
+        "overlay_rows": [],
+        "shared_urls": 2
+      }
+    },
+    "zero_cost_url_recovery": {
+      "status": "COMPLETED",
+      "ran_at": "2026-08-25T18:33:35.900467+00:00",
+      "note": "cache recovery: 1 recovered, 161 still unknown",
+      "artifacts": {
+        "url_recovery": {
+          "path": "C:/ptf-indy-v2/atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_url_recovery_cache_002.json",
+          "sha256": "0b73678fb843ad16790e31bb8fde73d7c57329fd276171309d3307a619b06974"
+        }
+      },
+      "facts": {
+        "recovered": 1,
+        "still_unknown": 161
+      }
+    },
+    "prior_build_reconciliation": {
+      "status": "COMPLETED",
+      "ran_at": "2026-08-25T18:33:36.039765+00:00",
+      "note": "prior-build reconciliation: 13 recovered (families {'OPENSTREETMAP': 107, 'PRIOR_BUILD': 68}), 149 still unknown",
+      "artifacts": {
+        "url_recovery": {
+          "path": "C:/ptf-indy-v2/atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_url_recovery_002.json",
+          "sha256": "b54a445b6dd558bb60021208e657ca30bbbd5953f00e194d094e2e2731b483b3"
+        }
+      },
+      "facts": {
+        "recovered": 13,
+        "still_unknown": 149
+      }
+    },
+    "reroute": {
+      "status": "COMPLETED",
+      "ran_at": "2026-08-25T18:33:36.170071+00:00",
+      "note": "routing_overlay: ROUTED 107 of 265 (40.4%), overlay applied 13, shared URLs 2",
+      "artifacts": {
+        "routing_overlay": {
+          "path": "C:/ptf-indy-v2/atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_routing_overlay_002.json",
+          "sha256": "2bdf5fef25288bd777ab00ccd7970e910d0ecaedc049a9370729574477611bf3"
+        }
+      },
+      "facts": {
+        "routed": 107,
+        "census": 265,
+        "overlay_applied": 13,
+        "overlay_rows": [
+          "candlewood suites indianapolis medical district",
+          "comfort inn indianapolis airport plainfield",
+          "conrad indianapolis",
+          "hampton inn indianapolis southwest plainfield",
+          "holiday inn express and suites indianapolis north carmel",
+          "holiday inn express indianapolis downtown",
+          "holiday inn indianapolis airport",
+          "holiday inn indianapolis downtown",
+          "home2 suites by hilton indianapolis airport",
+          "hotel carmichael autograph collection",
+          "jw marriott indianapolis",
+          "staybridge suites indianapolis airport plainfield",
+          "wyndham indianapolis west"
+        ],
+        "shared_urls": 2
+      }
+    },
+    "acquisition": {
+      "status": "COMPLETED",
+      "ran_at": "2026-08-25T20:51:58.222496+00:00",
+      "note": "paid pass pass1: STOPPED_HARD_CAP, attempted 79",
+      "artifacts": {
+        "dry_run": {
+          "path": "C:/ptf-indy-v2/atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_acquisition_dry_run_pass1_002.json",
+          "sha256": "1d7df34c59ec5c8f2e0c158011d8f687dbbd0e3afa44ae16ee50fecc6db29550"
+        },
+        "prior": {
+          "path": "C:/ptf-indy-v2/atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_acquisition_merged_pass1_002.json",
+          "sha256": "7590040cb5fb8d963eb86abff36fb93e9252851e5439ba8a76e7a37c4fb08b7a"
+        },
+        "cost_plan": {
+          "path": "C:/ptf-indy-v2/atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_cohort_cost_plan_pass1_002.json",
+          "sha256": "fb090665bcf53990475d6e1e5c387748cb165797c7115cd926bcd7f14bf1131a"
+        },
+        "report": {
+          "path": "C:/ptf-indy-v2/atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_market_acquisition_pass1_002.json",
+          "sha256": "05f4096d727df126eb1a5fe13e053a69ac6b5e7d14d1a2acaf7edfe5d777f1b2"
+        }
+      },
+      "facts": {
+        "cohort": 107,
+        "suppressed_same_lane": 0,
+        "recommended_cap_usd_minor": 1000,
+        "predicted_attemptable": 95,
+        "no_property_is_bought_twice": true,
+        "outcome": "STOPPED_HARD_CAP",
+        "attempted": 79,
+        "deferred": 28,
+        "spend_usd_minor": 992
+      }
+    },
+    "declined_evidence_recovery": {
+      "status": "COMPLETED",
+      "ran_at": "2026-08-25T21:13:15.583917+00:00",
+      "note": "declined evidence: 12 examined, {'DOCUMENT_NAMES_A_DIFFERENT_PROPERTY': 8, 'NO_RECOVERY_THE_DOCUMENT_IS_AS_SILENT_AS_THE_BLOCK': 4}",
+      "artifacts": {
+        "declined_recovery": {
+          "path": "C:/ptf-indy-v2/atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_zero_cost_recovery_002.json",
+          "sha256": "707bd1c509fe86e4c0d7ed7ba625a3bada8a1e35902c95db5d72acbd7557715a"
+        }
+      },
+      "facts": {
+        "examined": 12,
+        "verdicts": {
+          "DOCUMENT_NAMES_A_DIFFERENT_PROPERTY": 8,
+          "NO_RECOVERY_THE_DOCUMENT_IS_AS_SILENT_AS_THE_BLOCK": 4
+        }
+      }
+    },
+    "reroute_recovered": {
+      "status": "COMPLETED",
+      "ran_at": "2026-08-25T20:53:05.527436+00:00",
+      "note": "post-acquisition recovery: 0 newly recovered; routing_recovered: ROUTED 107 of 265 (40.4%), overlay applied 13, shared URLs 2",
+      "artifacts": {
+        "url_recovery": {
+          "path": "C:/ptf-indy-v2/atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_url_recovery_post_acquisition_002.json",
+          "sha256": "d2f73d00306053a8400009d049257665fbe1df2616a7c8348f1bbd98370312e5"
+        },
+        "routing_recovered": {
+          "path": "C:/ptf-indy-v2/atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_routing_recovered_002.json",
+          "sha256": "d111698b8a92a3c8f94274bba7f513a2980e4771aa785d72c3a3fcfe2d44c030"
+        }
+      },
+      "facts": {
+        "routed": 107,
+        "census": 265,
+        "overlay_applied": 13,
+        "overlay_rows": [
+          "candlewood suites indianapolis medical district",
+          "comfort inn indianapolis airport plainfield",
+          "conrad indianapolis",
+          "hampton inn indianapolis southwest plainfield",
+          "holiday inn express and suites indianapolis north carmel",
+          "holiday inn express indianapolis downtown",
+          "holiday inn indianapolis airport",
+          "holiday inn indianapolis downtown",
+          "home2 suites by hilton indianapolis airport",
+          "hotel carmichael autograph collection",
+          "jw marriott indianapolis",
+          "staybridge suites indianapolis airport plainfield",
+          "wyndham indianapolis west"
+        ],
+        "shared_urls": 2,
+        "newly_recovered_after_acquisition": []
+      }
+    },
+    "acquire_newly_routable": {
+      "status": "SKIPPED",
+      "ran_at": "2026-08-25T21:08:04.595194+00:00",
+      "note": "authorisation exhausted: 1070.0 of 1000 cents already spent by earlier passes; 26 cohort rows stay BUDGET_DEFERRED under the first pass's stop and nothing is bought",
+      "artifacts": {
+        "dry_run": {
+          "path": "C:/ptf-indy-v2/atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_acquisition_dry_run_pass2r_002.json",
+          "sha256": "e224e69ebe1a567686ec75aa2901934e30cc7023389caefc49a3d6e0a09d92d5"
+        },
+        "prior": {
+          "path": "C:/ptf-indy-v2/atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_acquisition_merged_pass2r_002.json",
+          "sha256": "cbfcadeff7a5b016449ee64ed678fe18f16573fa5007febbbdf52f8ea34c0142"
+        },
+        "cost_plan": {
+          "path": "C:/ptf-indy-v2/atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_cohort_cost_plan_pass2r_002.json",
+          "sha256": "8ac00d7040a7d89c753fcfb42ce37cc5bd6265b55e48ef8b58f1bdaef055bafd"
+        }
+      },
+      "facts": {
+        "cohort": 26,
+        "suppressed_same_lane": 17,
+        "recommended_cap_usd_minor": 0,
+        "predicted_attemptable": 0,
+        "no_property_is_bought_twice": true,
+        "budget_deferred": 26
+      }
+    },
+    "alternate_lane_handling": {
+      "status": "SKIPPED",
+      "ran_at": "2026-08-25T21:08:22.499368+00:00",
+      "note": "authorisation exhausted: 1070.0 of 1000 cents already spent by earlier passes; 26 cohort rows stay BUDGET_DEFERRED under the first pass's stop and nothing is bought",
+      "artifacts": {
+        "alternate_lane": {
+          "path": "C:/ptf-indy-v2/atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_alternate_lane_002.json",
+          "sha256": "f6a98300c30a838cbaac0e132f0c0c93ec03923d9bd1a3e509b73a0febc1fe2f"
+        },
+        "dry_run": {
+          "path": "C:/ptf-indy-v2/atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_acquisition_dry_run_pass3_002.json",
+          "sha256": "49346f7bbed87a4f311cba2563f08c1921aeda7221e570029779f53695c9f6a4"
+        },
+        "prior": {
+          "path": "C:/ptf-indy-v2/atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_acquisition_merged_pass3_002.json",
+          "sha256": "cbfcadeff7a5b016449ee64ed678fe18f16573fa5007febbbdf52f8ea34c0142"
+        },
+        "cost_plan": {
+          "path": "C:/ptf-indy-v2/atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_cohort_cost_plan_pass3_002.json",
+          "sha256": "740ecff919208daeee15d3df60fbd28dda8c3803cb5298a4fe68a04a796e544b"
+        }
+      },
+      "facts": {
+        "cohort": 26,
+        "suppressed_same_lane": 17,
+        "recommended_cap_usd_minor": 0,
+        "predicted_attemptable": 0,
+        "no_property_is_bought_twice": true,
+        "budget_deferred": 26,
+        "alternate_lane_eligible": 0,
+        "requires_alternate_lane": 17,
+        "eligible_total": 26
+      }
+    },
+    "coverage_exhaustion": {
+      "status": "COMPLETED",
+      "ran_at": "2026-08-25T21:13:15.740233+00:00",
+      "note": "coverage (coverage_exhaustion): census 265 routed 107 attempted 81 settled 64 candidates 50; READY_FOR_FOUNDER_REVIEW=True, movable=0",
+      "artifacts": {
+        "coverage": {
+          "path": "C:/ptf-indy-v2/atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_coverage_completion_002.json",
+          "sha256": "7951d986263ed9152abeede7393d0bded277448e23dd8b5cc0b08f35f8a91887"
+        }
+      },
+      "facts": {
+        "counts": {
+          "CENSUS": 265,
+          "ROUTED": 107,
+          "UNROUTED": 158,
+          "ATTEMPTED": 81,
+          "VALID": 51,
+          "SETTLED": 64,
+          "UNSETTLED": 17,
+          "NEEDS_OFFICIAL_URL": 144,
+          "NEEDS_PROPERTY_URL": 5,
+          "BRAND_EXCLUDED": 9,
+          "BUDGET_DEFERRED": 26,
+          "ALTERNATE_LANE_REQUIRED": 17,
+          "FOUNDER_CANDIDATES": 50
+        },
+        "booleans": {
+          "ZERO_COST_RECOVERY_EXHAUSTED": true,
+          "APPROVED_ROUTES_EXHAUSTED": true,
+          "NEWLY_ROUTABLE_COHORT_EXHAUSTED": true,
+          "SAME_LANE_RETRIES_SUPPRESSED": true,
+          "CLOSURE_RECONCILED": true,
+          "READY_FOR_FOUNDER_REVIEW": true
+        },
+        "benchmark": {
+          "routed_pct_of_census": 40.4,
+          "attempted_pct_of_census": 30.6,
+          "settled_pct_of_census": 24.2,
+          "publication_grade_pct_of_census": 18.9,
+          "founder_candidate_pct_of_census": 18.9,
+          "unresolved_pct_of_census": 75.8,
+          "unresolved_basis": "census minus identities a terminal capture outcome settled (VALID, POLICY_NOT_FOUND, IDENTITY_MISMATCH)"
+        }
+      }
+    },
+    "closure": {
+      "status": "COMPLETED",
+      "ran_at": "2026-08-25T21:13:24.999417+00:00",
+      "note": "closure 265/265 reconciled (missing 0 foreign 0 duplicate 0); coverage (closure): census 265 routed 107 attempted 81 settled 64 candidates 50; READY_FOR_FOUNDER_REVIEW=True, movable=0",
+      "artifacts": {
+        "merged": {
+          "path": "C:/ptf-indy-v2/atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_acquisition_merged_closeout_002.json",
+          "sha256": "cbfcadeff7a5b016449ee64ed678fe18f16573fa5007febbbdf52f8ea34c0142"
+        },
+        "observation_store": {
+          "path": "C:/ptf-indy-v2/atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_observation_store_002.json",
+          "sha256": "55780f3864861ebba49cfa42012460453932fc21524a6a5eedda7c7bd114053b"
+        },
+        "final_partition": {
+          "path": "C:/ptf-indy-v2/atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_final_partition_002.json",
+          "sha256": "a457a88bfd5a0ae9db95d137ea9912911b27b0e3ca0e5aed536803a1ab86105f"
+        },
+        "closure_ledger": {
+          "path": "C:/ptf-indy-v2/atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_closure_ledger_002.json",
+          "sha256": "e00b4fbbbf1b841b4ab031081a779eb798d452e89f6b234d2a0bd955f4295e93"
+        },
+        "coverage": {
+          "path": "C:/ptf-indy-v2/atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_coverage_completion_002.json",
+          "sha256": "8f861d6af417590e6f29f43a24ec7a69be4409fb595ddde6f33da1c07a0ed648"
+        }
+      },
+      "facts": {
+        "dispositions": {
+          "HELD_REVIEW": 50,
+          "ACCESS_UNRESOLVED": 60,
+          "POLICY_NOT_FOUND": 5,
+          "INSUFFICIENT_EVIDENCE": 150
+        },
+        "reconciliation": {
+          "active_count": 265,
+          "duplicate": [],
+          "foreign": [],
+          "ledger_count": 265,
+          "missing": []
+        },
+        "counts": {
+          "CENSUS": 265,
+          "ROUTED": 107,
+          "UNROUTED": 158,
+          "ATTEMPTED": 81,
+          "VALID": 51,
+          "SETTLED": 64,
+          "UNSETTLED": 17,
+          "NEEDS_OFFICIAL_URL": 144,
+          "NEEDS_PROPERTY_URL": 5,
+          "BRAND_EXCLUDED": 9,
+          "BUDGET_DEFERRED": 26,
+          "ALTERNATE_LANE_REQUIRED": 17,
+          "FOUNDER_CANDIDATES": 50
+        },
+        "booleans": {
+          "ZERO_COST_RECOVERY_EXHAUSTED": true,
+          "APPROVED_ROUTES_EXHAUSTED": true,
+          "NEWLY_ROUTABLE_COHORT_EXHAUSTED": true,
+          "SAME_LANE_RETRIES_SUPPRESSED": true,
+          "CLOSURE_RECONCILED": true,
+          "READY_FOR_FOUNDER_REVIEW": true
+        },
+        "benchmark": {
+          "routed_pct_of_census": 40.4,
+          "attempted_pct_of_census": 30.6,
+          "settled_pct_of_census": 24.2,
+          "publication_grade_pct_of_census": 18.9,
+          "founder_candidate_pct_of_census": 18.9,
+          "unresolved_pct_of_census": 75.8,
+          "unresolved_basis": "census minus identities a terminal capture outcome settled (VALID, POLICY_NOT_FOUND, IDENTITY_MISMATCH)"
+        }
+      }
+    },
+    "founder_review_packet": {
+      "status": "COMPLETED",
+      "ran_at": "2026-08-25T21:13:25.903580+00:00",
+      "note": "packet: 50 candidates {'RECOMMEND_AUTHORITY_PET_FRIENDLY': 25, 'RECOMMEND_AUTHORITY_VERIFIED_NO_PETS': 24, 'RECOMMEND_HOLD_EVIDENCE_INCOMPLETE': 1}; coverage (founder_review_packet): census 265 routed 107 attempted 81 settled 64 candidates 50; READY_FOR_FOUNDER_REVIEW=True, movable=0",
+      "artifacts": {
+        "packet": {
+          "path": "C:/ptf-indy-v2/atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_founder_review_packet_002.json",
+          "sha256": "c6ac038d00637691ac70d9184c54e019dfd58827221ec5ae326f247a0baf0512"
+        },
+        "analysis": {
+          "path": "C:/ptf-indy-v2/atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_founder_review_analysis_002.json",
+          "sha256": "cef8fbfaea2b2889451b3b87fe4429d1c6ab4a5147c966a1e6d9fbc5f4455742"
+        },
+        "duplicate_scan": {
+          "path": "C:/ptf-indy-v2/atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_identity_duplicate_scan_002.json",
+          "sha256": "5a56aada2ad7337ebba197cf3103b147e1c8264585ccd4d13760459155171888"
+        },
+        "coverage": {
+          "path": "C:/ptf-indy-v2/atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_coverage_completion_002.json",
+          "sha256": "eb9d31bb3b2eb0950be700ac629577094655f80825d30e5145d4512f5405c1c5"
+        }
+      },
+      "facts": {
+        "candidates": 50,
+        "counts": {
+          "CENSUS": 265,
+          "ROUTED": 107,
+          "UNROUTED": 158,
+          "ATTEMPTED": 81,
+          "VALID": 51,
+          "SETTLED": 64,
+          "UNSETTLED": 17,
+          "NEEDS_OFFICIAL_URL": 144,
+          "NEEDS_PROPERTY_URL": 5,
+          "BRAND_EXCLUDED": 9,
+          "BUDGET_DEFERRED": 26,
+          "ALTERNATE_LANE_REQUIRED": 17,
+          "FOUNDER_CANDIDATES": 50
+        },
+        "booleans": {
+          "ZERO_COST_RECOVERY_EXHAUSTED": true,
+          "APPROVED_ROUTES_EXHAUSTED": true,
+          "NEWLY_ROUTABLE_COHORT_EXHAUSTED": true,
+          "SAME_LANE_RETRIES_SUPPRESSED": true,
+          "CLOSURE_RECONCILED": true,
+          "READY_FOR_FOUNDER_REVIEW": true
+        },
+        "benchmark": {
+          "routed_pct_of_census": 40.4,
+          "attempted_pct_of_census": 30.6,
+          "settled_pct_of_census": 24.2,
+          "publication_grade_pct_of_census": 18.9,
+          "founder_candidate_pct_of_census": 18.9,
+          "unresolved_pct_of_census": 75.8,
+          "unresolved_basis": "census minus identities a terminal capture outcome settled (VALID, POLICY_NOT_FOUND, IDENTITY_MISMATCH)"
+        }
+      }
+    },
+    "founder_review": {
+      "status": "NOT_RUN"
+    }
+  },
+  "last_invocation": {
+    "at": "2026-08-25T21:13:25.550371+00:00",
+    "through": "founder_review",
+    "only": "founder_review_packet",
+    "spend_authorised": true
+  }
+}

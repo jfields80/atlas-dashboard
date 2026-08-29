@@ -181,13 +181,39 @@ def test_the_authorization_binds_the_hashes_it_did_not_move(auth):
 
 def test_the_participation_record_it_bound_is_the_one_it_named(auth):
     """The participation record was RE-ISSUED, not edited: 047's authorization
-    still names the sha it signed, and the record that superseded it says so."""
+    still names the sha it signed, and the current record can still prove it.
+
+    ``supersedes`` names only the IMMEDIATE predecessor, which was enough while
+    exactly one reissue stood between this authorization and the present. It no
+    longer is: 046 -> 011 -> 011(Louisville) -> 019. So the record now carries
+    its full lineage and the authorization is matched against that, which is
+    the property this test was always really asserting -- an authorization can
+    be traced to the participation it signed, however many reissues later."""
     import json as _json
     assert auth["launch_participation_sha256"] != LP.participation_sha256()
     current = _json.loads(
         (REPO / auth["launch_participation_source"]).read_text(encoding="utf-8"))
-    assert current["decision"]["supersedes"]["sha256"] ==         auth["launch_participation_sha256"]
-    assert current["decision"]["supersedes"]["founder_authorized"] ==         auth["founder_authorized_markets"]
+    lineage = current["decision"]["lineage"]["records"]
+    signed = [r for r in lineage
+              if r["sha256"] == auth["launch_participation_sha256"]]
+    assert len(signed) == 1, "the signed participation record is not in the lineage"
+    assert signed[0]["founder_authorized"] == auth["founder_authorized_markets"]
+    # ...and it is an ANCESTOR, never the current record: an authorization that
+    # still matched the present one would not have been superseded at all.
+    assert lineage[-1]["sha256"] != LP.participation_sha256()
+
+
+def test_the_lineage_is_ordered_and_ends_before_the_current_record(auth):
+    import json as _json
+    current = _json.loads(
+        (REPO / auth["launch_participation_source"]).read_text(encoding="utf-8"))
+    lineage = current["decision"]["lineage"]["records"]
+    shas = [r["sha256"] for r in lineage]
+    assert len(shas) == len(set(shas)), "a lineage may not repeat a record"
+    assert LP.participation_sha256() not in shas
+    assert current["decision"]["supersedes"]["sha256"] == shas[-1]
+    counts = [len(r["founder_authorized"]) for r in lineage]
+    assert counts == sorted(counts), "the authorized set only ever grew"
 
 
 def test_the_live_target_check_accepts_the_authorized_site(auth):

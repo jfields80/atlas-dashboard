@@ -48,15 +48,20 @@ SCRATCH = Path(chr(67) + ":/t/ptf045t")
 #: PTF-LOUISVILLE-PUBLICATION-008 admitted louisville-ky as the seventh with 46
 #: founder-signed profiles, on the same terms: its own namespace, nothing else
 #: touched.
+#: PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019 admitted Indianapolis as the
+#: eighth market on the founder decision that reversed the PTF-046
+#: withholding. Every other market's figure below is UNCHANGED, which is
+#: the half of these constants that says a new market disturbed nothing.
 EXPECTED_MARKETS = ("cleveland-akron-canton-oh", "columbus-oh", "dayton-oh",
-                    "louisville-ky", "milwaukee-wi", "pittsburgh-pa",
-                    "st-louis-mo")
+                    "indianapolis-in", "louisville-ky", "milwaukee-wi",
+                    "pittsburgh-pa", "st-louis-mo")
 EXPECTED_PROFILES = {"cleveland-akron-canton-oh": 99, "columbus-oh": 88,
-                     "dayton-oh": 47, "louisville-ky": 46, "milwaukee-wi": 73,
+                     "dayton-oh": 47, "indianapolis-in": 56,
+                     "louisville-ky": 46, "milwaukee-wi": 73,
                      "pittsburgh-pa": 26, "st-louis-mo": 82}
-EXPECTED_TOTAL = 461
-EXPECTED_HTML_PAGES = 2927
-EXPECTED_SITEMAP_ROUTES = 567
+EXPECTED_TOTAL = 517
+EXPECTED_HTML_PAGES = 3249
+EXPECTED_SITEMAP_ROUTES = 638
 
 
 @pytest.fixture(scope="module")
@@ -420,7 +425,7 @@ DEPLOYED_011_BUNDLE_SHA256 = (
     "2077ad2895c9273ddc9deed62295058f88915e20cb6fcd4072433d1c17dff741")
 #: The seven-market candidate composed by PTF-LOUISVILLE-PUBLICATION-008.
 DISABLED_FIVE_MARKET_BUNDLE_SHA256 = (
-    "38c811dfc22c185bf11a07e1c14cb7abc787c106cf7c6f119930b803bc4380df")
+    "e9998c51d13559333ef9bd63f287e8858b73eb0011401a9606a58871f6ba74cc")
 
 #: The only four routes PTF-011 was permitted to change.
 SERVICE_ANIMAL_CORRECTED_ROUTES = (

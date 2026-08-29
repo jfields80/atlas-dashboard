@@ -1,0 +1,3720 @@
+{
+ "schema": "ptf-market-proposed-authority/1.0",
+ "what_this_is": "A market's authority, built ONLY from founder-signed rows and held outside the authority registry. Creating a shard directory under markets/authority/ would register the market, and a registered market invalidates the live deployment record (PTF-047). This carries the same shape so promotion is a move, not a rewrite.",
+ "market_id": "indianapolis-in",
+ "work_order": "PTF-INDIANAPOLIS-PROMOTION-AUTHORITY-PREP-003",
+ "registered": false,
+ "published": false,
+ "deployed": false,
+ "built_from": {
+  "source_ledgers": [
+   "PTF-INDIANAPOLIS-PROMOTION-AUTHORITY-PREP-003"
+  ],
+  "decision_ledger": "ptf-founder-decision-ledger/1.0",
+  "decided_by": "PTF-FOUNDER-001",
+  "decided_at": "2026-08-26",
+  "approval_vocabulary": "founder-approval-vocabulary/1.0"
+ },
+ "gate": "only a row the founder SIGNED becomes authority; the review, the publication grade and the readiness state are statements the machine made and none of them is an approval",
+ "signed_rows_in": 48,
+ "superseded_count": 0,
+ "superseded_rows": [],
+ "identity_confirmations": [],
+ "pet_friendly_count": 24,
+ "verified_no_pets_count": 24,
+ "authority_total": 48,
+ "unresolved": [],
+ "pet_friendly": [
+  {
+   "canonical_name": "Baymont Indianapolis South",
+   "normalized_name": "baymont indianapolis south",
+   "address": "4402 Creek View Drive",
+   "city": "Indianapolis",
+   "state": "IN",
+   "postal_code": "46237",
+   "corridor": "indianapolis-in__south",
+   "official_url": "https://www.wyndhamhotels.com/baymont/indianapolis-indiana/baymont-inn-indianapolis-south/overview",
+   "source_url": "https://www.wyndhamhotels.com/baymont/indianapolis-indiana/baymont-inn-indianapolis-south/overview",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "189a65a8cfd485a7cc53dcf0adcaaafbb3f0e97b7f34a17f43cb1b4db736d0fe",
+   "observed_at": "2026-08-25",
+   "capture_method": "deterministic_fetch",
+   "evidence": [
+    {
+     "quote": "pets allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "30USD per pet per night",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "30USD per pet per night",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "fee_basis"
+     ]
+    },
+    {
+     "quote": "30USD per pet per night",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "fee_scope"
+     ]
+    },
+    {
+     "quote": "max. 50lbs",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "3 dogs max",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Dogs Allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals welcome.",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "static_text_walk",
+    "locator_strategy": "static_html_walk",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "bc73ce22e0411e5bb4ee41f0d49d4502b33b8baf511cddb91476f47e0331e467",
+    "document_sha256": "189a65a8cfd485a7cc53dcf0adcaaafbb3f0e97b7f34a17f43cb1b4db736d0fe"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: this surface names a species it accepts and does not say the others are refused; species_allowed lists affirmations only, and an unnamed species stays unknown rather than prohibited"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:59c3192d21b790b9b01ab055f44f53e376a2fa7d97a580318b3121653c10cb19",
+   "authority_state": "PUBLISHED_PET_FRIENDLY",
+   "facts": {
+    "pets_allowed": true,
+    "pet_fee": 3000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 3,
+    "species_allowed": [
+     "dog"
+    ],
+    "service_animal_exception": "Service Animals - ADA-defined service animals welcome."
+   }
+  },
+  {
+   "canonical_name": "Baymont Noblesville",
+   "normalized_name": "baymont noblesville",
+   "address": "16025 Prosperity Drive",
+   "city": "Noblesville",
+   "state": "IN",
+   "postal_code": "46060",
+   "corridor": "indianapolis-in__noblesville",
+   "official_url": "https://www.wyndhamhotels.com/baymont/noblesville-indiana/baymont-inn-and-suites-noblesville/overview",
+   "source_url": "https://www.wyndhamhotels.com/baymont/noblesville-indiana/baymont-inn-and-suites-noblesville/overview",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "13edd2fb9e630544f925fb3718823d9e652fb1bd1a0619e16ce1eb34d1c85067",
+   "observed_at": "2026-08-25",
+   "capture_method": "deterministic_fetch",
+   "evidence": [
+    {
+     "quote": "pets are welcome",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "30 USD per pet per night",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "30 USD per pet per night",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "fee_basis"
+     ]
+    },
+    {
+     "quote": "30 USD per pet per night",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "fee_scope"
+     ]
+    },
+    {
+     "quote": "maximum weight of 50 lbs",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Up to 3 pets",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "ADA defined service animals are also welcomed at this hotel",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "static_text_walk",
+    "locator_strategy": "static_html_walk",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "1b88fb3eb36ccfcdef5ab91cf1fac3a549b9c2bc3f647fd69b667e4e0cb18c66",
+    "document_sha256": "13edd2fb9e630544f925fb3718823d9e652fb1bd1a0619e16ce1eb34d1c85067"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:92d57f44a383a983b542734ad3936f282a63312682c9a43ef7c8220bbe24896b",
+   "authority_state": "PUBLISHED_PET_FRIENDLY",
+   "facts": {
+    "pets_allowed": true,
+    "pet_fee": 3000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 3,
+    "service_animal_exception": "ADA defined service animals are also welcomed at this hotel"
+   }
+  },
+  {
+   "canonical_name": "Candlewood Suites Indianapolis Medical District",
+   "normalized_name": "candlewood suites indianapolis medical district",
+   "address": "1152 North White River Parkway West Drive",
+   "city": "Indianapolis",
+   "state": "IN",
+   "postal_code": "46222",
+   "corridor": "indianapolis-in__downtown",
+   "official_url": "https://www.ihg.com/candlewood/hotels/us/en/indianapolis/indwp/hoteldetail",
+   "source_url": "https://www.ihg.com/candlewood/hotels/us/en/indianapolis/indwp/hoteldetail",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "c3908e34a16291171ef432bb4e515ac82b055eae8f3c213c177ebad2ad0d33d7",
+   "observed_at": "2026-08-25",
+   "capture_method": "deterministic_fetch",
+   "evidence": [
+    {
+     "quote": "pets allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet fee per night: 75 USD",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pet fee per night: 75 USD",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "fee_basis"
+     ]
+    },
+    {
+     "quote": "less than 80 lbs",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "2 pets allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Cats and dogs are allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "static_text_walk",
+    "locator_strategy": "static_html_walk",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "82399860490688f80b6f4dc921b2105bf89e7f6a8824f8e5bab1c705274af428",
+    "document_sha256": "c3908e34a16291171ef432bb4e515ac82b055eae8f3c213c177ebad2ad0d33d7"
+   },
+   "withheld_fields": {
+    "fee_basis": "SOURCE_CONTRADICTORY"
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
+    "species: this surface names a species it accepts and does not say the others are refused; species_allowed lists affirmations only, and an unnamed species stays unknown rather than prohibited"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_CONFIRMED_WITH_AMBIGUITY",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-26",
+   "bound_semantic_hash": "sha256:a5014643c221fa3ab60996511dc6373dcbd9b33d56bf5dd5bb8f91b5fd7f5b23",
+   "authority_state": "PUBLISHED_PET_FRIENDLY",
+   "facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": {
+     "value": 80.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   }
+  },
+  {
+   "canonical_name": "Days Inn & Suites by Wyndham Indianapolis Airport East",
+   "normalized_name": "days inn and suites by wyndham indianapolis airport east",
+   "address": "5241 West Bradbury Avenue",
+   "city": "Indianapolis",
+   "state": "IN",
+   "postal_code": "46241",
+   "corridor": "indianapolis-in__airport",
+   "official_url": "https://www.wyndhamhotels.com/days-inn/indianapolis-indiana/days-inn-and-suites-indianapolis-airport-east/overview",
+   "source_url": "https://www.wyndhamhotels.com/days-inn/indianapolis-indiana/days-inn-and-suites-indianapolis-airport-east/overview",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "64ef2ef4a2f9ba6bfc6474b43ddb7475bb5eb0cab9e863c13a7e07c087743a5e",
+   "observed_at": "2026-08-25",
+   "capture_method": "deterministic_fetch",
+   "evidence": [
+    {
+     "quote": "Pets Allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "100.00USD refundable deposit",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_deposit"
+     ]
+    },
+    {
+     "quote": "20USD per night per room",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "20USD per night per room",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "fee_basis"
+     ]
+    },
+    {
+     "quote": "20USD per night per room",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "fee_scope"
+     ]
+    },
+    {
+     "quote": "80lbs or less",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "1 pets max",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Dogs and cats only",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals welcome.",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "static_text_walk",
+    "locator_strategy": "static_html_walk",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "68faf5a16b1b8401175626771afe7a3e0be1d6370adab358eeb2286748556fe0",
+    "document_sha256": "64ef2ef4a2f9ba6bfc6474b43ddb7475bb5eb0cab9e863c13a7e07c087743a5e"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:22550f403a141eb5e136858942a08d0b611264c42e31b7e326cd48563899089f",
+   "authority_state": "PUBLISHED_PET_FRIENDLY",
+   "facts": {
+    "pets_allowed": true,
+    "pet_deposit": 10000,
+    "pet_fee": 2000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_room",
+    "weight_limit": {
+     "value": 80.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 1,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "service_animal_exception": "Service Animals - ADA-defined service animals welcome."
+   }
+  },
+  {
+   "canonical_name": "Embassy Suites by Hilton Indianapolis - Downtown",
+   "normalized_name": "embassy suites by hilton indianapolis downtown",
+   "address": "110 West Washington Street",
+   "city": "Indianapolis",
+   "state": "IN",
+   "postal_code": "46204",
+   "corridor": "indianapolis-in__downtown",
+   "official_url": "https://www.hilton.com/en/hotels/indwwes-embassy-suites-indianapolis-downtown/",
+   "source_url": "https://www.hilton.com/en/hotels/indwwes-embassy-suites-indianapolis-downtown/",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "ecec6c311ed71ac0eeb230200d2d2770886ddab2b82d2f90fe6aab2f3d37fd86",
+   "observed_at": "2026-08-25",
+   "capture_method": "browser_assisted",
+   "evidence": [
+    {
+     "quote": "Pets allowed",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "1-4 night stay $75",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "5+ night stay $125",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "Non-refundable Fee",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "2 pets max",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "dog or cat only",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "live_dom_walk",
+    "locator_strategy": "generic_signal_walk",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "bd997880dd854e380ffb0104c7bff722174bc743b05cff85078cbc18291a0e83",
+    "document_sha256": "ecec6c311ed71ac0eeb230200d2d2770886ddab2b82d2f90fe6aab2f3d37fd86"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_tiers[].refundable: the schema's tier carries no refundability field; the surface's own words ('Non-refundable Fee') are cited against the structure and nothing is inferred from them",
+    "pet_fee: the surface prices this pet by stay length; the whole ladder is carried in fee_tiers and no single amount is asserted",
+    "fee_tiers[].basis: this surface states amounts and stay lengths and never says whether a rung is charged per night or per stay; basis_stated records that it did not"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:fdfd393806cf6da11cce0b40aa98649062cefaf56f696772e1954c120118f574",
+   "authority_state": "PUBLISHED_PET_FRIENDLY",
+   "facts": {
+    "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 12500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   }
+  },
+  {
+   "canonical_name": "Embassy Suites by Hilton Indianapolis North",
+   "normalized_name": "embassy suites by hilton indianapolis north",
+   "address": "3912 Vincennes Road",
+   "city": "Indianapolis",
+   "state": "IN",
+   "postal_code": "46268",
+   "corridor": "indianapolis-in__northwest",
+   "official_url": "https://www.hilton.com/en/hotels/indnhes-embassy-suites-indianapolis-north/",
+   "source_url": "https://www.hilton.com/en/hotels/indnhes-embassy-suites-indianapolis-north/",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "198e92d666ae78b3fa3b11fb22b24b90d2fe82574ed2daac9a49e13dc28367c6",
+   "observed_at": "2026-08-25",
+   "capture_method": "browser_assisted",
+   "evidence": [
+    {
+     "quote": "Pets allowed",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "1-4 night stay $75",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "5+ night stay $125",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "Non-refundable Fee",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "2 pets max",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "dog or cat only",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "live_dom_walk",
+    "locator_strategy": "generic_signal_walk",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "bd997880dd854e380ffb0104c7bff722174bc743b05cff85078cbc18291a0e83",
+    "document_sha256": "198e92d666ae78b3fa3b11fb22b24b90d2fe82574ed2daac9a49e13dc28367c6"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_tiers[].refundable: the schema's tier carries no refundability field; the surface's own words ('Non-refundable Fee') are cited against the structure and nothing is inferred from them",
+    "pet_fee: the surface prices this pet by stay length; the whole ladder is carried in fee_tiers and no single amount is asserted",
+    "fee_tiers[].basis: this surface states amounts and stay lengths and never says whether a rung is charged per night or per stay; basis_stated records that it did not"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:fb6dccfd0ba11bfd42591498cdcdc9b3e4567f4051c6c43a508bbdd2f848c257",
+   "authority_state": "PUBLISHED_PET_FRIENDLY",
+   "facts": {
+    "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 12500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   }
+  },
+  {
+   "canonical_name": "Fairfield Inn & Suites Indianapolis Northwest",
+   "normalized_name": "fairfield inn and suites indianapolis northwest",
+   "address": "5905 West 86th Street",
+   "city": "Indianapolis",
+   "state": "IN",
+   "postal_code": "46278",
+   "corridor": "indianapolis-in__northwest",
+   "official_url": "https://www.marriott.com/en-us/hotels/indfn-fairfield-inn-and-suites-indianapolis-northwest/overview/",
+   "source_url": "https://www.marriott.com/en-us/hotels/indfn-fairfield-inn-and-suites-indianapolis-northwest/overview/",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "6104785a69be37a73bbbf49a3921c3c6fbf4baba2852088ba85c2e42f869c8b9",
+   "observed_at": "2026-08-25",
+   "capture_method": "browser_assisted",
+   "evidence": [
+    {
+     "quote": "pets are welcome",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "up to 75.0 lbs",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Up to 2 pets",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Non-refundable fee: $75 USD Per Stay",
+     "location": "founder-cited quote from the persisted page (PTF-INDIANAPOLIS-PROMOTION-AUTHORITY-PREP-003, ledger row 20)",
+     "field_refs": [
+      "fee_basis",
+      "fee_currency",
+      "pet_fee"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "live_dom_walk",
+    "locator_strategy": "pet_policy_heading_parent",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "9b6c06de647d5eeec862182c81700875d664521ca4e3e3f7a00f39b710bee0ec",
+    "document_sha256": "6104785a69be37a73bbbf49a3921c3c6fbf4baba2852088ba85c2e42f869c8b9"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:f4cc5a873245e7d4877126aa64c88d59f4092672ab02c8786fc9135225f0e9b0",
+   "authority_state": "PUBLISHED_PET_FRIENDLY",
+   "facts": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay"
+   }
+  },
+  {
+   "canonical_name": "Hampton Inn & Suites Indianapolis-Airport",
+   "normalized_name": "hampton inn and suites indianapolis airport",
+   "address": "9020 Hatfield Drive",
+   "city": "Indianapolis",
+   "state": "IN",
+   "postal_code": "46241",
+   "corridor": "indianapolis-in__airport",
+   "official_url": "https://www.hilton.com/en/hotels/indarhx-hampton-suites-indianapolis-airport/",
+   "source_url": "https://www.hilton.com/en/hotels/indarhx-hampton-suites-indianapolis-airport/",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "8258e9e48ea427fff4a573e5909ff4403f660f6c3447082cfa720f969eceb99e",
+   "observed_at": "2026-08-25",
+   "capture_method": "browser_assisted",
+   "evidence": [
+    {
+     "quote": "Pets allowed",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "1-4 night stay $75",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "5+ night stay $125",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "Non-refundable Fee",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "2 pets max",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "dog or cat only",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "live_dom_walk",
+    "locator_strategy": "generic_signal_walk",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "bd997880dd854e380ffb0104c7bff722174bc743b05cff85078cbc18291a0e83",
+    "document_sha256": "8258e9e48ea427fff4a573e5909ff4403f660f6c3447082cfa720f969eceb99e"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_tiers[].refundable: the schema's tier carries no refundability field; the surface's own words ('Non-refundable Fee') are cited against the structure and nothing is inferred from them",
+    "pet_fee: the surface prices this pet by stay length; the whole ladder is carried in fee_tiers and no single amount is asserted",
+    "fee_tiers[].basis: this surface states amounts and stay lengths and never says whether a rung is charged per night or per stay; basis_stated records that it did not"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:151098adb289be97b9dae3856304f2b2919cbc23078a93bc0ed9fb31d771b1c8",
+   "authority_state": "PUBLISHED_PET_FRIENDLY",
+   "facts": {
+    "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 12500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   }
+  },
+  {
+   "canonical_name": "Hampton Inn & Suites Indianapolis Keystone",
+   "normalized_name": "hampton inn and suites indianapolis keystone",
+   "address": "8980 River Crossing Boulevard",
+   "city": "Indianapolis",
+   "state": "IN",
+   "postal_code": "46240",
+   "corridor": "indianapolis-in__keystone-castleton",
+   "official_url": "https://www.hilton.com/en/hotels/indkehx-hampton-suites-indianapolis-keystone/",
+   "source_url": "https://www.hilton.com/en/hotels/indkehx-hampton-suites-indianapolis-keystone/",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "b831745e4a0b571059cf24e637ecb1d8a97636b4ab8519a3dc2ab15bb823301c",
+   "observed_at": "2026-08-25",
+   "capture_method": "browser_assisted",
+   "evidence": [
+    {
+     "quote": "Pets allowed",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "$75(1-4n",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "$125(5+n",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "Non-refundable Fee",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "Max weight 75 lbs",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "2petsMax",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "dog/cat only",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "live_dom_walk",
+    "locator_strategy": "generic_signal_walk",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "d85aea60717788125f9bfa42d74d9377aafc68b3cbf87e539643e81d9ee96d2a",
+    "document_sha256": "b831745e4a0b571059cf24e637ecb1d8a97636b4ab8519a3dc2ab15bb823301c"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_tiers[].refundable: the schema's tier carries no refundability field; the surface's own words ('Non-refundable Fee') are cited against the structure and nothing is inferred from them",
+    "pet_fee: the surface prices this pet by stay length; the whole ladder is carried in fee_tiers and no single amount is asserted",
+    "fee_tiers[].basis: this surface states amounts and stay lengths and never says whether a rung is charged per night or per stay; basis_stated records that it did not"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:9ea50e60a62747aebc1aa50af431de2b4ef15c65717ff76bd24e0dec6fb4b003",
+   "authority_state": "PUBLISHED_PET_FRIENDLY",
+   "facts": {
+    "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 12500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   }
+  },
+  {
+   "canonical_name": "Hampton Inn & Suites Indianapolis West Speedway",
+   "normalized_name": "hampton inn and suites indianapolis west speedway",
+   "address": "2608 Founders Square Drive",
+   "city": "Indianapolis",
+   "state": "IN",
+   "postal_code": "46224",
+   "corridor": "indianapolis-in__speedway",
+   "official_url": "https://www.hilton.com/en/hotels/indswhx-hampton-suites-indianapolis-west-speedway/",
+   "source_url": "https://www.hilton.com/en/hotels/indswhx-hampton-suites-indianapolis-west-speedway/",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "52b08640188cd5a0fbd69bbc4a50f1abf457962baf69f88878d25d060d71f080",
+   "observed_at": "2026-08-25",
+   "capture_method": "browser_assisted",
+   "evidence": [
+    {
+     "quote": "Pets allowed",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "$93.20(1-4n",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "$155.30(5+n",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "Non-refundable Fee",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "Max weight 75 lbs",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "2petsMax",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "dog/cat only",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "live_dom_walk",
+    "locator_strategy": "generic_signal_walk",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "4a49b245d67f417e5b94a6602f7c8c0e5c56d2d57beb4cf38d098b7570dc940e",
+    "document_sha256": "52b08640188cd5a0fbd69bbc4a50f1abf457962baf69f88878d25d060d71f080"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_tiers[].refundable: the schema's tier carries no refundability field; the surface's own words ('Non-refundable Fee') are cited against the structure and nothing is inferred from them",
+    "pet_fee: the surface prices this pet by stay length; the whole ladder is carried in fee_tiers and no single amount is asserted",
+    "fee_tiers[].basis: this surface states amounts and stay lengths and never says whether a rung is charged per night or per stay; basis_stated records that it did not"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:e6e2a7fe87ec1b4df89b81ad3d81dba720304cab7828879934e2b9afc5c611e9",
+   "authority_state": "PUBLISHED_PET_FRIENDLY",
+   "facts": {
+    "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 9320,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 15530,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   }
+  },
+  {
+   "canonical_name": "Hampton Inn Indianapolis Downtown Across from Circle Centre",
+   "normalized_name": "hampton inn indianapolis downtown across from circle centre",
+   "address": "105 South Meridian Street",
+   "city": "Indianapolis",
+   "state": "IN",
+   "postal_code": "46225",
+   "corridor": "indianapolis-in__downtown",
+   "official_url": "https://www.hilton.com/en/hotels/inddthx-hampton-indianapolis-downtown-across-from-circle-centre/",
+   "source_url": "https://www.hilton.com/en/hotels/inddthx-hampton-indianapolis-downtown-across-from-circle-centre/",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "e867fe7e551f58eb13020e0fd508566e4915baf50107e87777aac7ba94a87cca",
+   "observed_at": "2026-08-25",
+   "capture_method": "browser_assisted",
+   "evidence": [
+    {
+     "quote": "Pets allowed",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "1-4 night stay $50",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "5+ night stay $75",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "Non-refundable Fee",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "fee_tiers"
+     ]
+    },
+    {
+     "quote": "2 pets max",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "dog or cat only",
+     "location": "bounded policy container (generic_signal_walk / div#__next > div.surface-base > div.my-0.mt-4 > div.relative.container > div.surface-alternate)",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "live_dom_walk",
+    "locator_strategy": "generic_signal_walk",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "49d5092ef5214e04a1c1d86632794436499025c5a7edfa79377c5e88994c6975",
+    "document_sha256": "e867fe7e551f58eb13020e0fd508566e4915baf50107e87777aac7ba94a87cca"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_tiers[].refundable: the schema's tier carries no refundability field; the surface's own words ('Non-refundable Fee') are cited against the structure and nothing is inferred from them",
+    "pet_fee: the surface prices this pet by stay length; the whole ladder is carried in fee_tiers and no single amount is asserted",
+    "fee_tiers[].basis: this surface states amounts and stay lengths and never says whether a rung is charged per night or per stay; basis_stated records that it did not"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:74764089d1c04c1c52d7e9719dbe54c5839dd73fdd7e4df0fe762838e74ca1e4",
+   "authority_state": "PUBLISHED_PET_FRIENDLY",
+   "facts": {
+    "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 5000,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   }
+  },
+  {
+   "canonical_name": "Hampton Inn Indianapolis Northeast Castleton",
+   "normalized_name": "hampton inn indianapolis northeast castleton",
+   "address": "6817 East 82nd Street",
+   "city": "Indianapolis",
+   "state": "IN",
+   "postal_code": "46250",
+   "corridor": "indianapolis-in__keystone-castleton",
+   "official_url": "https://www.hilton.com/en/hotels/indnehx-hampton-indianapolis-ne-castleton/",
+   "source_url": "https://www.hilton.com/en/hotels/indnehx-hampton-indianapolis-ne-castleton/",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "ed294c4980a43aa7d388a5ab4bdd48ea160cb436352fed4cc1995ddb460d0433",
+   "observed_at": "2026-08-25",
+   "capture_method": "deterministic_fetch",
+   "evidence": [
+    {
+     "quote": "Pets allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "$50.00 Non-refundable Fee",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "1-4 night stay $50; 5+ night stay $75; 2 pets max; dog or cat only",
+     "location": "founder-cited quote from the persisted page (PTF-INDIANAPOLIS-PROMOTION-AUTHORITY-PREP-003, ledger row 25)",
+     "field_refs": [
+      "fee_basis",
+      "fee_tiers",
+      "pet_count_limit",
+      "species_allowed"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "static_text_walk",
+    "locator_strategy": "static_html_walk",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "28a5f3d3796f8397c17beb747edf5f4a2951183d16299678c69b4065839899a0",
+    "document_sha256": "ed294c4980a43aa7d388a5ab4bdd48ea160cb436352fed4cc1995ddb460d0433"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-26",
+   "bound_semantic_hash": "sha256:ad5438803b931d8b43eef849c89ccdd1e08f71ec34e5d4cd7c8ec1e8e5722302",
+   "authority_state": "PUBLISHED_PET_FRIENDLY",
+   "facts": {
+    "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 5000,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "condition_max": 4,
+      "basis_stated": false,
+      "refundable": false
+     },
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false,
+      "refundable": false
+     }
+    ],
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   }
+  },
+  {
+   "canonical_name": "Hampton Inn Indianapolis Northwest - Park 100",
+   "normalized_name": "hampton inn indianapolis northwest park 100",
+   "address": "5860 West 73rd Street",
+   "city": "Indianapolis",
+   "state": "IN",
+   "postal_code": "46278",
+   "corridor": "indianapolis-in__northwest",
+   "official_url": "https://www.hilton.com/en/hotels/indwdhx-hampton-indianapolis-northwest-park-100/",
+   "source_url": "https://www.hilton.com/en/hotels/indwdhx-hampton-indianapolis-northwest-park-100/",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "d2c7237c39e700f99e8adb457e6c4b4f9129b1d79e08d40f9b37858683ceaf92",
+   "observed_at": "2026-08-25",
+   "capture_method": "deterministic_fetch",
+   "evidence": [
+    {
+     "quote": "Pets allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "$75.00 Non-refundable Fee",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Max weight 100 lbs",
+     "location": "founder-cited quote from the persisted page (PTF-INDIANAPOLIS-PROMOTION-AUTHORITY-PREP-003, ledger row 27)",
+     "field_refs": [
+      "weight_limit"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "static_text_walk",
+    "locator_strategy": "static_html_walk",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "8308fa3b0af60a7f74edab98c2a7ddff464ef58df8547fbfb6b5ba01a4abebfe",
+    "document_sha256": "d2c7237c39e700f99e8adb457e6c4b4f9129b1d79e08d40f9b37858683ceaf92"
+   },
+   "withheld_fields": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:5375dc38d017f5298ec3b2b913b1022eb77efc96f378d7e259adc8fca7fd0353",
+   "authority_state": "PUBLISHED_PET_FRIENDLY",
+   "facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": {
+     "value": 100.0,
+     "unit": "lb"
+    }
+   }
+  },
+  {
+   "canonical_name": "Holiday Inn Express & Suites Carmel North - Westfield",
+   "normalized_name": "holiday inn express and suites carmel north westfield",
+   "address": "15131 Thatcher Lane",
+   "city": "Carmel",
+   "state": "IN",
+   "postal_code": "46033",
+   "corridor": "indianapolis-in__carmel",
+   "official_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/carmel/indcw/hoteldetail",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/carmel/indcw/hoteldetail",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "bc07b1758d0a5c5fe5e73981c0c5635d33a008aa0d4218425711ea5a5dc874f5",
+   "observed_at": "2026-08-25",
+   "capture_method": "deterministic_fetch",
+   "evidence": [
+    {
+     "quote": "Pets are welcome",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "deposit: 75 USD",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_deposit"
+     ]
+    },
+    {
+     "quote": "2 pets allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed: Only dogs allowed",
+     "location": "founder-cited quote from the persisted page (PTF-INDIANAPOLIS-PROMOTION-AUTHORITY-PREP-003, ledger row 28)",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "static_text_walk",
+    "locator_strategy": "static_html_walk",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "d98e3835d1ed6e1a05148e66757f43c1c01343aaf5c8097dcd8a8356660a78b0",
+    "document_sha256": "bc07b1758d0a5c5fe5e73981c0c5635d33a008aa0d4218425711ea5a5dc874f5"
+   },
+   "withheld_fields": {
+    "pet_fee": "SOURCE_AMBIGUOUS",
+    "weight_limit": "SOURCE_AMBIGUOUS"
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:bbb6697e4d7927159c45a6f84c209f31ee2e4b2f1fc91ff06461bd9aa1a5ae6f",
+   "authority_state": "PUBLISHED_PET_FRIENDLY",
+   "facts": {
+    "pets_allowed": true,
+    "pet_deposit": 7500,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ]
+   }
+  },
+  {
+   "canonical_name": "Holiday Inn Express & Suites Indianapolis Northwest",
+   "normalized_name": "holiday inn express and suites indianapolis northwest",
+   "address": "6240 Intech Commons Drive",
+   "city": "Indianapolis",
+   "state": "IN",
+   "postal_code": "46278",
+   "corridor": "indianapolis-in__northwest",
+   "official_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/indianapolis/indic/hoteldetail",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/indianapolis/indic/hoteldetail",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "ae193a8129aca434a2a2e443e8bba34d5c37386acb2b392c7ebaf3ba26f7580d",
+   "observed_at": "2026-08-25",
+   "capture_method": "deterministic_fetch",
+   "evidence": [
+    {
+     "quote": "pets allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "25 USD Pet damage deposit",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_deposit"
+     ]
+    },
+    {
+     "quote": "2 pets allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "75 dollar refundable deposit plus 25.00 dollar per pet, per night fee",
+     "location": "founder-cited quote from the persisted page (PTF-INDIANAPOLIS-PROMOTION-AUTHORITY-PREP-003, ledger row 31)",
+     "field_refs": [
+      "fee_basis",
+      "fee_cap",
+      "fee_currency",
+      "fee_scope",
+      "pet_deposit",
+      "pet_fee",
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Fee will be capped at 125.00 per pet after staying for 5 nights",
+     "location": "founder-cited quote from the persisted page (PTF-INDIANAPOLIS-PROMOTION-AUTHORITY-PREP-003, ledger row 31)",
+     "field_refs": [
+      "fee_basis",
+      "fee_cap",
+      "fee_currency",
+      "fee_scope",
+      "pet_deposit",
+      "pet_fee",
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed: Only dogs and cats allowed",
+     "location": "founder-cited quote from the persisted page (PTF-INDIANAPOLIS-PROMOTION-AUTHORITY-PREP-003, ledger row 31)",
+     "field_refs": [
+      "fee_basis",
+      "fee_cap",
+      "fee_currency",
+      "fee_scope",
+      "pet_deposit",
+      "pet_fee",
+      "species_allowed"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "static_text_walk",
+    "locator_strategy": "static_html_walk",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "5bf361c7ce3ae8087cd20c3738b0bff57cea32c9e77fba84cffa4777a7c935ad",
+    "document_sha256": "ae193a8129aca434a2a2e443e8bba34d5c37386acb2b392c7ebaf3ba26f7580d"
+   },
+   "withheld_fields": {
+    "weight_limit": "SOURCE_AMBIGUOUS"
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_CONFIRMED_WITH_AMBIGUITY",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:993c9e204577cfacb6f0332397cef01f111807205453a26188b3ca26b7acfcda",
+   "authority_state": "PUBLISHED_PET_FRIENDLY",
+   "facts": {
+    "pets_allowed": true,
+    "pet_deposit": 7500,
+    "pet_count_limit": 2,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "fee_cap": {
+     "amount_minor": 12500,
+     "currency": "USD",
+     "basis": "per_stay",
+     "scope": "per_pet",
+     "qualifier_stated": true
+    },
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   }
+  },
+  {
+   "canonical_name": "Holiday Inn Express Plainfield",
+   "normalized_name": "holiday inn express plainfield",
+   "address": "6296 Cambridge Way",
+   "city": "Plainfield",
+   "state": "IN",
+   "postal_code": "46168",
+   "corridor": "indianapolis-in__plainfield",
+   "official_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/plainfield/indsw/hoteldetail",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/plainfield/indsw/hoteldetail",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "2e52c0ba9d3e97922cba24cc0dd4c81e455352568c52ffefcf31806962ca6456",
+   "observed_at": "2026-08-25",
+   "capture_method": "deterministic_fetch",
+   "evidence": [
+    {
+     "quote": "pets allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet fee per night: 25 USD",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pet fee per night: 25 USD",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "fee_basis"
+     ]
+    },
+    {
+     "quote": "2 pets allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Dogs permitted",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Pet weight limit: No weight limit per pet",
+     "location": "founder-cited quote from the persisted page (PTF-INDIANAPOLIS-PROMOTION-AUTHORITY-PREP-003, ledger row 32)",
+     "field_refs": [
+      "weight_limit_stated_none"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "static_text_walk",
+    "locator_strategy": "static_html_walk",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "040bde5f74884131d3193ba1764bc2248e01bcaa3d47540b70d6e6eef5192a9e",
+    "document_sha256": "2e52c0ba9d3e97922cba24cc0dd4c81e455352568c52ffefcf31806962ca6456"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
+    "species: this surface names a species it accepts and does not say the others are refused; species_allowed lists affirmations only, and an unnamed species stays unknown rather than prohibited"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-26",
+   "bound_semantic_hash": "sha256:6931d098818c088104d5cc94f85d5ebdbf648920584274d168f0102ac502af4f",
+   "authority_state": "PUBLISHED_PET_FRIENDLY",
+   "facts": {
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ],
+    "weight_limit_stated_none": true
+   }
+  },
+  {
+   "canonical_name": "La Quinta Inn & Suites by Wyndham Indianapolis Downtown",
+   "normalized_name": "la quinta inn and suites by wyndham indianapolis downtown",
+   "address": "401 East Washington Street",
+   "city": "Indianapolis",
+   "state": "IN",
+   "postal_code": "46204",
+   "corridor": "indianapolis-in__downtown",
+   "official_url": "https://www.wyndhamhotels.com/laquinta/indianapolis-indiana/la-quinta-indianapolis-downtown/overview",
+   "source_url": "https://www.wyndhamhotels.com/laquinta/indianapolis-indiana/la-quinta-indianapolis-downtown/overview",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "ec30dc76b22a67abe05b5a3aeacca2fedd90001cc0dfb51e44ccef948e8c5313",
+   "observed_at": "2026-08-25",
+   "capture_method": "deterministic_fetch",
+   "evidence": [
+    {
+     "quote": "Pets Allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "25 USD nightly ",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "25 USD nightly ",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "fee_basis"
+     ]
+    },
+    {
+     "quote": "Max 75 USD per stay",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "fee_cap"
+     ]
+    },
+    {
+     "quote": "75lbs or less",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "up to 2 pets",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Cats and dogs only",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge.",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "static_text_walk",
+    "locator_strategy": "static_html_walk",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "e3d60fd16d5e5a4aceca16beafad905f9abd9c9665cc98fdfe3367b1d3cc32a9",
+    "document_sha256": "ec30dc76b22a67abe05b5a3aeacca2fedd90001cc0dfb51e44ccef948e8c5313"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:163762436b1d76bc8df72a2d5434a315160e2d0fb3adc0f6e16805c7fd46019a",
+   "authority_state": "PUBLISHED_PET_FRIENDLY",
+   "facts": {
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_cap": {
+     "amount_minor": 7500,
+     "currency": "USD",
+     "basis": "per_stay"
+    },
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "service_animal_exception": "Service Animals - ADA-defined service animals are welcome free of charge."
+   }
+  },
+  {
+   "canonical_name": "La Quinta Inn Indianapolis Airport Executive Dr",
+   "normalized_name": "la quinta inn indianapolis airport executive dr",
+   "address": "2650 Executive Drive",
+   "city": "Indianapolis",
+   "state": "IN",
+   "postal_code": "46241",
+   "corridor": "indianapolis-in__airport",
+   "official_url": "https://www.wyndhamhotels.com/laquinta/indianapolis-indiana/la-quinta-inn-indianapolis-airport-executive-dr/overview",
+   "source_url": "https://www.wyndhamhotels.com/laquinta/indianapolis-indiana/la-quinta-inn-indianapolis-airport-executive-dr/overview",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "3e27d305382bf742fcfd3d32973d00e6df048c1e3b639ea983b1b885828f55fd",
+   "observed_at": "2026-08-25",
+   "capture_method": "deterministic_fetch",
+   "evidence": [
+    {
+     "quote": "Pets Allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "25 USD nightly ",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "25 USD nightly ",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "fee_basis"
+     ]
+    },
+    {
+     "quote": "Max 75 USD per stay",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "fee_cap"
+     ]
+    },
+    {
+     "quote": "75lbs or less",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "up to 2 pets",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Cats and dogs only",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge.",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "static_text_walk",
+    "locator_strategy": "static_html_walk",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "e3d60fd16d5e5a4aceca16beafad905f9abd9c9665cc98fdfe3367b1d3cc32a9",
+    "document_sha256": "3e27d305382bf742fcfd3d32973d00e6df048c1e3b639ea983b1b885828f55fd"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:9b6347fe724eec3a46d6679764b634af1733d631e92379f89e1a19c2d679ea73",
+   "authority_state": "PUBLISHED_PET_FRIENDLY",
+   "facts": {
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_cap": {
+     "amount_minor": 7500,
+     "currency": "USD",
+     "basis": "per_stay"
+    },
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "service_animal_exception": "Service Animals - ADA-defined service animals are welcome free of charge."
+   }
+  },
+  {
+   "canonical_name": "Le Meridien Indianapolis",
+   "normalized_name": "le meridien indianapolis",
+   "address": "123 South Illinois Street",
+   "city": "Indianapolis",
+   "state": "IN",
+   "postal_code": "46225",
+   "corridor": "indianapolis-in__downtown",
+   "official_url": "https://www.marriott.com/en-us/hotels/indmd-le-meridien-indianapolis/overview/",
+   "source_url": "https://www.marriott.com/en-us/hotels/indmd-le-meridien-indianapolis/overview/",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "5caa36c0784c58a5dc37ec1d0a625201dc4e9cd5f6e77a7c9e4f500bdca9cafe",
+   "observed_at": "2026-08-25",
+   "capture_method": "browser_assisted",
+   "evidence": [
+    {
+     "quote": "pets are welcome",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "up to 50.0 lbs",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Up to 2 pets",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "$25 Per Room Per Stay",
+     "location": "founder-cited quote from the persisted page (PTF-INDIANAPOLIS-PROMOTION-AUTHORITY-PREP-003, ledger row 41)",
+     "field_refs": [
+      "fee_basis",
+      "fee_currency",
+      "fee_scope",
+      "pet_fee"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "live_dom_walk",
+    "locator_strategy": "pet_policy_heading_parent",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "a4651ff8d6ad25241b5f8574892dd7887fc3d4cae9ae4700c423851ebe3e6acb",
+    "document_sha256": "5caa36c0784c58a5dc37ec1d0a625201dc4e9cd5f6e77a7c9e4f500bdca9cafe"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "pet_deposit: the surface states $69.00 for a purpose it does not name as a pet's ('ailable at Le Méridien Indianapolis. The daily valet fee is $69.00 per day.'); it is not recorded as a pet charge and is reported here rather than dropped",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:876ff7c6d9f1cffaf6cb27d35a8bfc74ae73a31f850cec91947adffa6a47f449",
+   "authority_state": "PUBLISHED_PET_FRIENDLY",
+   "facts": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_scope": "per_room"
+   }
+  },
+  {
+   "canonical_name": "Residence Inn by Marriott Indianapolis Downtown on the Canal",
+   "normalized_name": "residence inn by marriott indianapolis downtown on the canal",
+   "address": "350 West New York Street",
+   "city": "Indianapolis",
+   "state": "IN",
+   "postal_code": "46202",
+   "corridor": "indianapolis-in__downtown",
+   "official_url": "https://www.marriott.com/en-us/hotels/indri-residence-inn-indianapolis-downtown-on-the-canal/overview/",
+   "source_url": "https://www.marriott.com/en-us/hotels/indri-residence-inn-indianapolis-downtown-on-the-canal/overview/",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "3572f413402e412e6c11ba191eb4a4640a05e5580dd5a7d641ab4e04a007408b",
+   "observed_at": "2026-08-25",
+   "capture_method": "browser_assisted",
+   "evidence": [
+    {
+     "quote": "pets are welcome",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "$100.00 per stay ",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "$100.00 per stay ",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "fee_basis"
+     ]
+    },
+    {
+     "quote": "up to 60.0 lbs",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Up to 2 pets",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "live_dom_walk",
+    "locator_strategy": "pet_policy_heading_parent",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "0de9482be4d912081bb7b2df038ab25d5b04c9085afb087ba0ab61c516568e3c",
+    "document_sha256": "3572f413402e412e6c11ba191eb4a4640a05e5580dd5a7d641ab4e04a007408b"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
+    "pet_deposit: the surface states $33.00 for a purpose it does not name as a pet's ('apolis Downtown on the Canal. The daily self parking fee is $33.00 per day.'); it is not recorded as a pet charge and is reported here rather than dropped",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:afd6dd89b7a8508fc387e14f9141d600c96b31fa384e98e542d2b4af64b913c4",
+   "authority_state": "PUBLISHED_PET_FRIENDLY",
+   "facts": {
+    "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "weight_limit": {
+     "value": 60.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2
+   }
+  },
+  {
+   "canonical_name": "Staybridge Suites Indianapolis Airport Plainfield",
+   "normalized_name": "staybridge suites indianapolis airport plainfield",
+   "address": "6295 Cambridge Way",
+   "city": "Plainfield",
+   "state": "IN",
+   "postal_code": "46168",
+   "corridor": "indianapolis-in__plainfield",
+   "official_url": "https://www.ihg.com/staybridge/hotels/us/en/plainfield/indpf/hoteldetail",
+   "source_url": "https://www.ihg.com/staybridge/hotels/us/en/plainfield/indpf/hoteldetail",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "39f2a2c4f68e33e8cc96d987d616f020e50dda48f6151581e6b0b9914ccc8ab5",
+   "observed_at": "2026-08-25",
+   "capture_method": "deterministic_fetch",
+   "evidence": [
+    {
+     "quote": "Pets are welcome",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Guest staying 1 to 6 nights 75.00 pet fee. 7 nights or more 150.00 pet fee.",
+     "location": "founder-cited quote from the persisted page (PTF-INDIANAPOLIS-PROMOTION-AUTHORITY-PREP-003, ledger row 47)",
+     "field_refs": [
+      "fee_tiers",
+      "pet_fee"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "static_text_walk",
+    "locator_strategy": "static_html_walk",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "a1895271a6b70975177ad446d5814444cf04117607cfd34006e6c837c2508de3",
+    "document_sha256": "39f2a2c4f68e33e8cc96d987d616f020e50dda48f6151581e6b0b9914ccc8ab5"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:88d12d2a0cfdf44daca378c6c52a6619e6a2fdf1a3d1bcdca717e00845229871",
+   "authority_state": "PUBLISHED_PET_FRIENDLY",
+   "facts": {
+    "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "condition_max": 6,
+      "basis_stated": false
+     },
+     {
+      "amount_cents": 15000,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 7,
+      "basis_stated": false
+     }
+    ]
+   }
+  },
+  {
+   "canonical_name": "Super 8 by Wyndham Indianapolis South",
+   "normalized_name": "super 8 by wyndham indianapolis south",
+   "address": "450 Bixler Road",
+   "city": "Indianapolis",
+   "state": "IN",
+   "postal_code": "46227",
+   "corridor": "indianapolis-in__south",
+   "official_url": "https://www.wyndhamhotels.com/super-8/indianapolis-indiana/super-8-indianapolis-south/overview",
+   "source_url": "https://www.wyndhamhotels.com/super-8/indianapolis-indiana/super-8-indianapolis-south/overview",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "54b77de97d568499022656ac727ab1ae7e98399e3e0820e31325f0ab1427ae48",
+   "observed_at": "2026-08-25",
+   "capture_method": "deterministic_fetch",
+   "evidence": [
+    {
+     "quote": "10.00 USD per pet per night",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "10.00 USD per pet per night",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "fee_basis"
+     ]
+    },
+    {
+     "quote": "10.00 USD per pet per night",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "fee_scope"
+     ]
+    },
+    {
+     "quote": "maximum weight of 50lbs",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Up to 2 pets",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "ADA defined service animals are welcome at this hotel.",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    },
+    {
+     "quote": "Up to 2 pets with a maximum weight of 50lbs are welcome",
+     "location": "founder-cited quote from the persisted page (PTF-INDIANAPOLIS-PROMOTION-AUTHORITY-PREP-003, ledger row 48)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "static_text_walk",
+    "locator_strategy": "static_html_walk",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "98c9a6da1aec08b13c1291d7f5181b2ff4bf0fbedb75e9a869c4fd47424c1ac2",
+    "document_sha256": "54b77de97d568499022656ac727ab1ae7e98399e3e0820e31325f0ab1427ae48"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:24a0e6ee9b63dca40d5f80230bd35a587f7816fd5fea393354bb1d6f7b754a8b",
+   "authority_state": "PUBLISHED_PET_FRIENDLY",
+   "facts": {
+    "pet_fee": 1000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "service_animal_exception": "ADA defined service animals are welcome at this hotel.",
+    "pets_allowed": true
+   }
+  },
+  {
+   "canonical_name": "The Alexander, Autograph Collection",
+   "normalized_name": "the alexander autograph collection",
+   "address": "333 South Delaware Street",
+   "city": "Indianapolis",
+   "state": "IN",
+   "postal_code": "46204",
+   "corridor": "indianapolis-in__downtown",
+   "official_url": "https://www.marriott.com/en-us/hotels/indax-the-alexander/overview/",
+   "source_url": "https://www.marriott.com/en-us/hotels/indax-the-alexander/overview/",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "801386d54777300ec0b9ffab021327fbcbd6169556fd4cd5f0e0a4e2ed58feb9",
+   "observed_at": "2026-08-25",
+   "capture_method": "deterministic_fetch",
+   "evidence": [
+    {
+     "quote": "Pets Welcome",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "75USD non-refundable fee",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "2 pets per room",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_count_limit",
+      "pet_count_scope"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "static_text_walk",
+    "locator_strategy": "static_html_walk",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "7bf71d938bdb73b4993ea15d778861053abeeecc334b5bb27e982a456445b631",
+    "document_sha256": "801386d54777300ec0b9ffab021327fbcbd6169556fd4cd5f0e0a4e2ed58feb9"
+   },
+   "withheld_fields": {
+    "fee_basis": "SOURCE_SILENT",
+    "pet_fee": "SOURCE_CONTRADICTORY"
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "fee_scope: this surface does not say whether the charge is per pet or per room; unknown is absence",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_CONFIRMED_WITH_AMBIGUITY",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:0a3084f07cae76a9d8d2af72f88ded1dc0c420c98362215295afee3f40f5035a",
+   "authority_state": "PUBLISHED_PET_FRIENDLY",
+   "facts": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room"
+   }
+  },
+  {
+   "canonical_name": "The Westin Indianapolis",
+   "normalized_name": "the westin indianapolis",
+   "address": "241 West Washington Street",
+   "city": "Indianapolis",
+   "state": "IN",
+   "postal_code": "46204",
+   "corridor": "indianapolis-in__downtown",
+   "official_url": "https://www.marriott.com/en-us/hotels/indwi-the-westin-indianapolis/overview/",
+   "source_url": "https://www.marriott.com/en-us/hotels/indwi-the-westin-indianapolis/overview/",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "6df09a85bd7946e5cb2140a62e607719edd833f2e5ef9265eb48bdb4b7b64911",
+   "observed_at": "2026-08-25",
+   "capture_method": "browser_assisted",
+   "evidence": [
+    {
+     "quote": "pets are welcome",
+     "location": "bounded policy container (pet_policy_accordion_panel / xpath=//b[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "maximum weight of 40.0 lbs",
+     "location": "bounded policy container (pet_policy_accordion_panel / xpath=//b[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "One pet is allowed per room",
+     "location": "bounded policy container (pet_policy_accordion_panel / xpath=//b[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pet_count_limit",
+      "pet_count_scope"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "live_dom_walk",
+    "locator_strategy": "pet_policy_accordion_panel",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "d2842979f27a83a15b704d11fcba3e8934f1ac251d6bedddd86167c00fa0f3d0",
+    "document_sha256": "6df09a85bd7946e5cb2140a62e607719edd833f2e5ef9265eb48bdb4b7b64911"
+   },
+   "withheld_fields": {
+    "pet_fee": "SOURCE_SILENT"
+   },
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "pet_deposit: the surface states $60.00 for a purpose it does not name as a pet's ('e at The Westin Indianapolis. Self parking is available for $60.00 per day. Valet park'); it is not recorded as a pet charge and is reported here rather than dropped",
+    "pet_deposit: the surface states $60.00 for a purpose it does not name as a pet's ('vailable for $60.00 per day. Valet parking is available for $60.00 per day.'); it is not recorded as a pet charge and is reported here rather than dropped",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:3f5896dc4db5dca7af6a74709afd9be14b5fb5eb03a07f6dc8687e0818aadf4c",
+   "authority_state": "PUBLISHED_PET_FRIENDLY",
+   "facts": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 40.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 1,
+    "pet_count_scope": "per_room"
+   }
+  }
+ ],
+ "verified_no_pets": [
+  {
+   "canonical_name": "Comfort Inn Indianapolis Airport Plainfield",
+   "normalized_name": "comfort inn indianapolis airport plainfield",
+   "address": "6107 Cambridge Way",
+   "city": "Plainfield",
+   "state": "IN",
+   "postal_code": "46168",
+   "corridor": "indianapolis-in__plainfield",
+   "official_url": "https://www.choicehotels.com/indiana/plainfield/comfort-inn-hotels/in082",
+   "source_url": "https://www.choicehotels.com/indiana/plainfield/comfort-inn-hotels/in082",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "19d7f0acd31fcac416ec8031cbc680bd349d93529aa0cee1f63697e838bd6c7b",
+   "observed_at": "2026-08-25",
+   "capture_method": "deterministic_fetch",
+   "evidence": [
+    {
+     "quote": "No Pets Allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Only service animals are permitted, free of charge.",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "static_text_walk",
+    "locator_strategy": "static_html_walk",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "ca37ad218812fa036fa6a0cdc21a7efcdea0ae300af1455e73615de7914ed614",
+    "document_sha256": "19d7f0acd31fcac416ec8031cbc680bd349d93529aa0cee1f63697e838bd6c7b"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_NEGATIVE_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:f8f58cc5876a1e1c3bd2cf69b601b729833c51d2f0a960af8883a0e53dd480f5",
+   "exclusion_id": "ii-comfort-inn-indianapolis-airport-plainfield",
+   "exclusion_state": "VERIFIED_NO_PETS",
+   "evidence_quote": "No Pets Allowed"
+  },
+  {
+   "canonical_name": "Courtyard by Marriott Indianapolis Airport",
+   "normalized_name": "courtyard by marriott indianapolis airport",
+   "address": "2602 Fortune Circle East",
+   "city": "Indianapolis",
+   "state": "IN",
+   "postal_code": "46241",
+   "corridor": "indianapolis-in__airport",
+   "official_url": "https://www.marriott.com/en-us/hotels/indca-courtyard-indianapolis-airport/overview/",
+   "source_url": "https://www.marriott.com/en-us/hotels/indca-courtyard-indianapolis-airport/overview/",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "2ea8e2a36c56e4b33c3b7fb927c3434943dedc86b46274becae0624d7470eec4",
+   "observed_at": "2026-08-25",
+   "capture_method": "browser_assisted",
+   "evidence": [
+    {
+     "quote": "Pets Not Allowed",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Service Animals Permitted",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "live_dom_walk",
+    "locator_strategy": "pet_policy_heading_parent",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "a10e30e30d9a6678df62d1046278a2872045f75b87de26957e8cd1af62c97df9",
+    "document_sha256": "2ea8e2a36c56e4b33c3b7fb927c3434943dedc86b46274becae0624d7470eec4"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_NEGATIVE_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:211023d213edc22d4d68e172aa6f8beae6a6aa46103b119fe9b9ed382e6ca319",
+   "exclusion_id": "ii-courtyard-by-marriott-indianapolis-airport",
+   "exclusion_state": "VERIFIED_NO_PETS",
+   "evidence_quote": "Pets Not Allowed"
+  },
+  {
+   "canonical_name": "Courtyard by Marriott Indianapolis at the Capitol",
+   "normalized_name": "courtyard by marriott indianapolis at the capitol",
+   "address": "320 North Senate Avenue",
+   "city": "Indianapolis",
+   "state": "IN",
+   "postal_code": "46204",
+   "corridor": "indianapolis-in__downtown",
+   "official_url": "https://www.marriott.com/en-us/hotels/indcd-courtyard-indianapolis-at-the-capitol/overview/",
+   "source_url": "https://www.marriott.com/en-us/hotels/indcd-courtyard-indianapolis-at-the-capitol/overview/",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "c7ebf874948b417afe85a4e510121c2902274382af1dcea439af44f2b8b85974",
+   "observed_at": "2026-08-25",
+   "capture_method": "browser_assisted",
+   "evidence": [
+    {
+     "quote": "Pets Not Allowed",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "live_dom_walk",
+    "locator_strategy": "pet_policy_heading_parent",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "d2e629b2b96b75354f1b8dc2ccd4f002326c1cbbccd7f6eef999e62726371df7",
+    "document_sha256": "c7ebf874948b417afe85a4e510121c2902274382af1dcea439af44f2b8b85974"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_NEGATIVE_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:7f28951604d6dbae06837ee6c3feefe8c28efdcaaaf336e464569bc22318f2b0",
+   "exclusion_id": "ii-courtyard-by-marriott-indianapolis-at-the-capitol",
+   "exclusion_state": "VERIFIED_NO_PETS",
+   "evidence_quote": "Pets Not Allowed"
+  },
+  {
+   "canonical_name": "Courtyard by Marriott Indianapolis Downtown",
+   "normalized_name": "courtyard by marriott indianapolis downtown",
+   "address": "601 West Washington Street",
+   "city": "Indianapolis",
+   "state": "IN",
+   "postal_code": "46204",
+   "corridor": "indianapolis-in__downtown",
+   "official_url": "https://www.marriott.com/en-us/hotels/indct-courtyard-indianapolis-downtown/overview/",
+   "source_url": "https://www.marriott.com/en-us/hotels/indct-courtyard-indianapolis-downtown/overview/",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "4b754be2de5726f49eb1fd7608184d17f6ac69eacbeed487a063703fd2677cd2",
+   "observed_at": "2026-08-25",
+   "capture_method": "browser_assisted",
+   "evidence": [
+    {
+     "quote": "Pets Not Allowed",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "live_dom_walk",
+    "locator_strategy": "pet_policy_heading_parent",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "d2e629b2b96b75354f1b8dc2ccd4f002326c1cbbccd7f6eef999e62726371df7",
+    "document_sha256": "4b754be2de5726f49eb1fd7608184d17f6ac69eacbeed487a063703fd2677cd2"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_NEGATIVE_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:cacb7bd78d2d27ca5b6e5a9f68f42b3742ff12c46ad45ac3a229957813d8240e",
+   "exclusion_id": "ii-courtyard-by-marriott-indianapolis-downtown",
+   "exclusion_state": "VERIFIED_NO_PETS",
+   "evidence_quote": "Pets Not Allowed"
+  },
+  {
+   "canonical_name": "Courtyard by Marriott Indianapolis Fishers",
+   "normalized_name": "courtyard by marriott indianapolis fishers",
+   "address": "11550 Whistle Drive",
+   "city": "Fishers",
+   "state": "IN",
+   "postal_code": "46037",
+   "corridor": "indianapolis-in__fishers",
+   "official_url": "https://www.marriott.com/en-us/hotels/indcf-courtyard-indianapolis-fishers/overview/",
+   "source_url": "https://www.marriott.com/en-us/hotels/indcf-courtyard-indianapolis-fishers/overview/",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "bb2dab0424409d710ea2438064fdcb69b9f146c24a97f7a6934cc2b92a3ec23d",
+   "observed_at": "2026-08-25",
+   "capture_method": "browser_assisted",
+   "evidence": [
+    {
+     "quote": "Pets Not Allowed",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "live_dom_walk",
+    "locator_strategy": "pet_policy_heading_parent",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "d2e629b2b96b75354f1b8dc2ccd4f002326c1cbbccd7f6eef999e62726371df7",
+    "document_sha256": "bb2dab0424409d710ea2438064fdcb69b9f146c24a97f7a6934cc2b92a3ec23d"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_NEGATIVE_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:2020ea1b2e2e043abe0e137dacc4b210a75f361dbc082f071b3a87bfdadea648",
+   "exclusion_id": "ii-courtyard-by-marriott-indianapolis-fishers",
+   "exclusion_state": "VERIFIED_NO_PETS",
+   "evidence_quote": "Pets Not Allowed"
+  },
+  {
+   "canonical_name": "Courtyard Indianapolis Noblesville",
+   "normalized_name": "courtyard indianapolis noblesville",
+   "address": "17863 Foundation Drive",
+   "city": "Noblesville",
+   "state": "IN",
+   "postal_code": "46060",
+   "corridor": "indianapolis-in__noblesville",
+   "official_url": "https://www.marriott.com/en-us/hotels/indin-courtyard-indianapolis-noblesville/overview/",
+   "source_url": "https://www.marriott.com/en-us/hotels/indin-courtyard-indianapolis-noblesville/overview/",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "39b3b8baaa93f172e56ca89f6ef5dc790b1e768d97272038d958302da43dc6db",
+   "observed_at": "2026-08-25",
+   "capture_method": "browser_assisted",
+   "evidence": [
+    {
+     "quote": "Pets Not Allowed",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "live_dom_walk",
+    "locator_strategy": "pet_policy_heading_parent",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "d2e629b2b96b75354f1b8dc2ccd4f002326c1cbbccd7f6eef999e62726371df7",
+    "document_sha256": "39b3b8baaa93f172e56ca89f6ef5dc790b1e768d97272038d958302da43dc6db"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_NEGATIVE_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:a854df2d7223f561a467d5accc022ecb9710b3ee3e6d27aa0eb39991bc481179",
+   "exclusion_id": "ii-courtyard-indianapolis-noblesville",
+   "exclusion_state": "VERIFIED_NO_PETS",
+   "evidence_quote": "Pets Not Allowed"
+  },
+  {
+   "canonical_name": "Courtyard Indianapolis Plainfield",
+   "normalized_name": "courtyard indianapolis plainfield",
+   "address": "450 Marketplace Mile",
+   "city": "Plainfield",
+   "state": "IN",
+   "postal_code": "46168",
+   "corridor": "indianapolis-in__plainfield",
+   "official_url": "https://www.marriott.com/en-us/hotels/indcu-courtyard-indianapolis-plainfield/overview/",
+   "source_url": "https://www.marriott.com/en-us/hotels/indcu-courtyard-indianapolis-plainfield/overview/",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "e3be3a421e932d64e7a5f3e3f61d113b154f6f669329c9469ac25ce6548c9194",
+   "observed_at": "2026-08-25",
+   "capture_method": "browser_assisted",
+   "evidence": [
+    {
+     "quote": "Pets Not Allowed",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "– service animals only",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    },
+    {
+     "quote": "No pets allowed – service animals only",
+     "location": "founder-cited quote from the persisted page (PTF-INDIANAPOLIS-PROMOTION-AUTHORITY-PREP-003, ledger row 10)",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "live_dom_walk",
+    "locator_strategy": "pet_policy_heading_parent",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "e5217e449a5a4f47097c7531dd4c4d55ff4e2c001e0c98069b68a07080fd0335",
+    "document_sha256": "e3be3a421e932d64e7a5f3e3f61d113b154f6f669329c9469ac25ce6548c9194"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_NEGATIVE_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:a6b47375b8242994b8c774cefea806e6d073b5c3892614bcae19c5a06f726d71",
+   "exclusion_id": "ii-courtyard-indianapolis-plainfield",
+   "exclusion_state": "VERIFIED_NO_PETS",
+   "evidence_quote": "Pets Not Allowed"
+  },
+  {
+   "canonical_name": "Courtyard Indianapolis West-Speedway",
+   "normalized_name": "courtyard indianapolis west speedway",
+   "address": "6315 Crawfordsville Road",
+   "city": "Speedway",
+   "state": "IN",
+   "postal_code": "46224",
+   "corridor": "indianapolis-in__speedway",
+   "official_url": "https://www.marriott.com/en-us/hotels/indcv-courtyard-indianapolis-west-speedway/overview/",
+   "source_url": "https://www.marriott.com/en-us/hotels/indcv-courtyard-indianapolis-west-speedway/overview/",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "23e74615cd2bd678d8886e812ae9039b3e1fd3ea24b2f95ee8496911d91bd828",
+   "observed_at": "2026-08-25",
+   "capture_method": "browser_assisted",
+   "evidence": [
+    {
+     "quote": "Pets Not Allowed",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "-service animals only",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    },
+    {
+     "quote": "No pets allowed-service animals only",
+     "location": "founder-cited quote from the persisted page (PTF-INDIANAPOLIS-PROMOTION-AUTHORITY-PREP-003, ledger row 11)",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "live_dom_walk",
+    "locator_strategy": "pet_policy_heading_parent",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "f0b8a0099c50912a51ad58e5539e2bacc73168630aa3bb7646604bd9c419450c",
+    "document_sha256": "23e74615cd2bd678d8886e812ae9039b3e1fd3ea24b2f95ee8496911d91bd828"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_NEGATIVE_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:c0f0852adaf6946eceee62d1c2abc0374f905f88799c40c266167e2394cba27c",
+   "exclusion_id": "ii-courtyard-indianapolis-west-speedway",
+   "exclusion_state": "VERIFIED_NO_PETS",
+   "evidence_quote": "Pets Not Allowed"
+  },
+  {
+   "canonical_name": "Crowne Plaza Indianapolis Airport",
+   "normalized_name": "crowne plaza indianapolis airport",
+   "address": "2501 South High School Road",
+   "city": "Indianapolis",
+   "state": "IN",
+   "postal_code": "46241",
+   "corridor": "indianapolis-in__airport",
+   "official_url": "https://www.ihg.com/crowneplaza/hotels/us/en/indianapolis/indap/hoteldetail",
+   "source_url": "https://www.ihg.com/crowneplaza/hotels/us/en/indianapolis/indap/hoteldetail",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "cf4dbabf403393ac363aacbd19408cffe6239b068058b0591d1a6754427599e0",
+   "observed_at": "2026-08-25",
+   "capture_method": "deterministic_fetch",
+   "evidence": [
+    {
+     "quote": "pets are not allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "static_text_walk",
+    "locator_strategy": "static_html_walk",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "f5c55c26a3ac1d08e3e1b755d3ebf7a887c3486c0e679c1b6ca50891520aa1ae",
+    "document_sha256": "cf4dbabf403393ac363aacbd19408cffe6239b068058b0591d1a6754427599e0"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_NEGATIVE_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:e856a54acfcb6055a99757a5e4ab735b8781b8abacc6292d3864ed8a473747d5",
+   "exclusion_id": "ii-crowne-plaza-indianapolis-airport",
+   "exclusion_state": "VERIFIED_NO_PETS",
+   "evidence_quote": "pets are not allowed"
+  },
+  {
+   "canonical_name": "Crowne Plaza Indianapolis Downtown Union Station",
+   "normalized_name": "crowne plaza indianapolis downtown union station",
+   "address": "123 West Louisiana Street",
+   "city": "Indianapolis",
+   "state": "IN",
+   "postal_code": "46225",
+   "corridor": "indianapolis-in__downtown",
+   "official_url": "https://www.ihg.com/crowneplaza/hotels/us/en/indianapolis/inddt/hoteldetail",
+   "source_url": "https://www.ihg.com/crowneplaza/hotels/us/en/indianapolis/inddt/hoteldetail",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "7ac275adc9c73e8a505c58f5a88a2d49851c72c35912749e8973f495078132a1",
+   "observed_at": "2026-08-25",
+   "capture_method": "deterministic_fetch",
+   "evidence": [
+    {
+     "quote": "pets are not allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "static_text_walk",
+    "locator_strategy": "static_html_walk",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "159fb50a00ae2a453373b9875bc9f9ac73a86c4e78e1f9f9d6cb0be47ad58cbf",
+    "document_sha256": "7ac275adc9c73e8a505c58f5a88a2d49851c72c35912749e8973f495078132a1"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_NEGATIVE_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-26",
+   "bound_semantic_hash": "sha256:bf00025961999f234daedcc0b93a3ada02b8f287e268656c9d704b77fbd68ff1",
+   "exclusion_id": "ii-crowne-plaza-indianapolis-downtown-union-station",
+   "exclusion_state": "VERIFIED_NO_PETS",
+   "evidence_quote": "pets are not allowed"
+  },
+  {
+   "canonical_name": "Fairfield Inn & Suites Indianapolis Carmel",
+   "normalized_name": "fairfield inn and suites indianapolis carmel",
+   "address": "1335 West Main Street",
+   "city": "Carmel",
+   "state": "IN",
+   "postal_code": "46032",
+   "corridor": "indianapolis-in__carmel",
+   "official_url": "https://www.marriott.com/en-us/hotels/indml-fairfield-inn-and-suites-indianapolis-carmel/overview/",
+   "source_url": "https://www.marriott.com/en-us/hotels/indml-fairfield-inn-and-suites-indianapolis-carmel/overview/",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "3e489d8e09575f14bba3b40385d8ab4c18f73bf1e19c3a65744d1cc77c946f56",
+   "observed_at": "2026-08-25",
+   "capture_method": "browser_assisted",
+   "evidence": [
+    {
+     "quote": "Pets Not Allowed",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "live_dom_walk",
+    "locator_strategy": "pet_policy_heading_parent",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "d2e629b2b96b75354f1b8dc2ccd4f002326c1cbbccd7f6eef999e62726371df7",
+    "document_sha256": "3e489d8e09575f14bba3b40385d8ab4c18f73bf1e19c3a65744d1cc77c946f56"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_NEGATIVE_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:3491ebc043c32ca2f106b9e67c7348d9a41ed970da1e769adbb6f044d7b3b43c",
+   "exclusion_id": "ii-fairfield-inn-and-suites-indianapolis-carmel",
+   "exclusion_state": "VERIFIED_NO_PETS",
+   "evidence_quote": "Pets Not Allowed"
+  },
+  {
+   "canonical_name": "Fairfield Inn & Suites Indianapolis Downtown",
+   "normalized_name": "fairfield inn and suites indianapolis downtown",
+   "address": "501 West Washington Street",
+   "city": "Indianapolis",
+   "state": "IN",
+   "postal_code": "46204",
+   "corridor": "indianapolis-in__downtown",
+   "official_url": "https://www.marriott.com/en-us/hotels/indfd-fairfield-inn-and-suites-indianapolis-downtown/overview/",
+   "source_url": "https://www.marriott.com/en-us/hotels/indfd-fairfield-inn-and-suites-indianapolis-downtown/overview/",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "4be30f841258d640f9ef1c4fa84db53f74285ae2c7480e4d7149af2be37fcb45",
+   "observed_at": "2026-08-25",
+   "capture_method": "browser_assisted",
+   "evidence": [
+    {
+     "quote": "Pets Not Allowed",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "live_dom_walk",
+    "locator_strategy": "pet_policy_heading_parent",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "d2e629b2b96b75354f1b8dc2ccd4f002326c1cbbccd7f6eef999e62726371df7",
+    "document_sha256": "4be30f841258d640f9ef1c4fa84db53f74285ae2c7480e4d7149af2be37fcb45"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_NEGATIVE_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:074832f5e5da0f9b44de92edb4258857a99f2ff6ee8b42ca8b2569df429d9945",
+   "exclusion_id": "ii-fairfield-inn-and-suites-indianapolis-downtown",
+   "exclusion_state": "VERIFIED_NO_PETS",
+   "evidence_quote": "Pets Not Allowed"
+  },
+  {
+   "canonical_name": "Fairfield Inn & Suites Indianapolis East",
+   "normalized_name": "fairfield inn and suites indianapolis east",
+   "address": "7110 East 21st Street",
+   "city": "Indianapolis",
+   "state": "IN",
+   "postal_code": "46219",
+   "corridor": "indianapolis-in__east-i70",
+   "official_url": "https://www.marriott.com/en-us/hotels/indes-fairfield-inn-and-suites-indianapolis-east/overview/",
+   "source_url": "https://www.marriott.com/en-us/hotels/indes-fairfield-inn-and-suites-indianapolis-east/overview/",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "027835c9ab1fa1e220003573e93b77c2d33af03c28f0047d17441b6739486805",
+   "observed_at": "2026-08-25",
+   "capture_method": "browser_assisted",
+   "evidence": [
+    {
+     "quote": "Pets Not Allowed",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "live_dom_walk",
+    "locator_strategy": "pet_policy_heading_parent",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "d2e629b2b96b75354f1b8dc2ccd4f002326c1cbbccd7f6eef999e62726371df7",
+    "document_sha256": "027835c9ab1fa1e220003573e93b77c2d33af03c28f0047d17441b6739486805"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_NEGATIVE_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:b703bf9de4da8696bcf7117e62deadfb0cea522fe03c824e1730009e9699763a",
+   "exclusion_id": "ii-fairfield-inn-and-suites-indianapolis-east",
+   "exclusion_state": "VERIFIED_NO_PETS",
+   "evidence_quote": "Pets Not Allowed"
+  },
+  {
+   "canonical_name": "Holiday Inn Express & Suites Greenwood",
+   "normalized_name": "holiday inn express and suites greenwood",
+   "address": "1180 Wilson Drive",
+   "city": "Greenwood",
+   "state": "IN",
+   "postal_code": "46143",
+   "corridor": "indianapolis-in__greenwood",
+   "official_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/greenwood/gnwin/hoteldetail",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/greenwood/gnwin/hoteldetail",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "18f48e439c9f882795ff5708b0963dd8569dae0c7bf961332615223b6ce22d82",
+   "observed_at": "2026-08-25",
+   "capture_method": "deterministic_fetch",
+   "evidence": [
+    {
+     "quote": "pets are not allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "static_text_walk",
+    "locator_strategy": "static_html_walk",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "149d56961999ff17eff5adc1d47cdca1f59341db1b67c72e53bd8cf520e8794b",
+    "document_sha256": "18f48e439c9f882795ff5708b0963dd8569dae0c7bf961332615223b6ce22d82"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_NEGATIVE_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:17b654d1b266829c63f733b27a96a4ba9f765e1799e73921816c34c6cf3b4e06",
+   "exclusion_id": "ii-holiday-inn-express-and-suites-greenwood",
+   "exclusion_state": "VERIFIED_NO_PETS",
+   "evidence_quote": "pets are not allowed"
+  },
+  {
+   "canonical_name": "Holiday Inn Express & Suites Indianapolis North Carmel",
+   "normalized_name": "holiday inn express and suites indianapolis north carmel",
+   "address": "9797 North Michigan Road",
+   "city": "Carmel",
+   "state": "IN",
+   "postal_code": "46032",
+   "corridor": "indianapolis-in__carmel",
+   "official_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/carmel/indnt/hoteldetail",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/carmel/indnt/hoteldetail",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "b30bfcf592eb54441df66054132090803eb0fe7fb5d472adbb51f7700c548a74",
+   "observed_at": "2026-08-25",
+   "capture_method": "deterministic_fetch",
+   "evidence": [
+    {
+     "quote": "pets are not allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "static_text_walk",
+    "locator_strategy": "static_html_walk",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "f05a5da5ef84cc345ccf58310d5770eb8d6feedb86fdda3a270f247ea956b588",
+    "document_sha256": "b30bfcf592eb54441df66054132090803eb0fe7fb5d472adbb51f7700c548a74"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_NEGATIVE_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:ae71bb7cb0518c75f5f0a373c7d0de9ff8b56d804d97fec2c4e612235f6e45b5",
+   "exclusion_id": "ii-holiday-inn-express-and-suites-indianapolis-north-carmel",
+   "exclusion_state": "VERIFIED_NO_PETS",
+   "evidence_quote": "pets are not allowed"
+  },
+  {
+   "canonical_name": "Holiday Inn Express & Suites Indianapolis W - Airport Area",
+   "normalized_name": "holiday inn express and suites indianapolis w airport area",
+   "address": "5855 Rockville Road",
+   "city": "Indianapolis",
+   "state": "IN",
+   "postal_code": "46224",
+   "corridor": "indianapolis-in__speedway",
+   "official_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/indianapolis/indew/hoteldetail",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/indianapolis/indew/hoteldetail",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "db4e630bea916aad8f6acfe6f8785f3ccd2fd299ec519c415a1e1870d421f698",
+   "observed_at": "2026-08-25",
+   "capture_method": "deterministic_fetch",
+   "evidence": [
+    {
+     "quote": "pets are not allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "static_text_walk",
+    "locator_strategy": "static_html_walk",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "c1dc297d13a373a0cefd22daa72dd37dd52788ba77d3163fac365fb08d67d3a6",
+    "document_sha256": "db4e630bea916aad8f6acfe6f8785f3ccd2fd299ec519c415a1e1870d421f698"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_NEGATIVE_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:681861ac0b96e7b043aafba16ff062b515174007e7d0fcd44126de9eb53fbbca",
+   "exclusion_id": "ii-holiday-inn-express-and-suites-indianapolis-w-airport-area",
+   "exclusion_state": "VERIFIED_NO_PETS",
+   "evidence_quote": "pets are not allowed"
+  },
+  {
+   "canonical_name": "Holiday Inn Express Indianapolis Downtown",
+   "normalized_name": "holiday inn express indianapolis downtown",
+   "address": "410 South Missouri Street",
+   "city": "Indianapolis",
+   "state": "IN",
+   "postal_code": "46225",
+   "corridor": "indianapolis-in__downtown",
+   "official_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/indianapolis/indms/hoteldetail",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/indianapolis/indms/hoteldetail",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "80e8d3fe9d55b61d5aa6ebc916342be02d871d7d69ab25bc60f35026e7932a7f",
+   "observed_at": "2026-08-25",
+   "capture_method": "deterministic_fetch",
+   "evidence": [
+    {
+     "quote": "pets are not allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "static_text_walk",
+    "locator_strategy": "static_html_walk",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "2d366c50bf38c3c770a86a10242af38a8631d890a84685e2b9e6613e942ae8b3",
+    "document_sha256": "80e8d3fe9d55b61d5aa6ebc916342be02d871d7d69ab25bc60f35026e7932a7f"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_NEGATIVE_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-26",
+   "bound_semantic_hash": "sha256:b85eddf923f0fdd83887ee9a7b14e4f561bbdc7fc9d7561c836f911d7351bfe5",
+   "exclusion_id": "ii-holiday-inn-express-indianapolis-downtown",
+   "exclusion_state": "VERIFIED_NO_PETS",
+   "evidence_quote": "pets are not allowed"
+  },
+  {
+   "canonical_name": "Holiday Inn Express Indianapolis - Fishers, an IHG Hotel",
+   "normalized_name": "holiday inn express indianapolis fishers an ihg hotel",
+   "address": "9791 North By Northeast Boulevard",
+   "city": "Fishers",
+   "state": "IN",
+   "postal_code": "46037",
+   "corridor": "indianapolis-in__fishers",
+   "official_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/fishers/indfi/hoteldetail",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/fishers/indfi/hoteldetail",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "cde1b89343b78cf9c105a341032a5b0f56aaa614542a42f5cdac821bd58f10f0",
+   "observed_at": "2026-08-25",
+   "capture_method": "deterministic_fetch",
+   "evidence": [
+    {
+     "quote": "pets are not allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "static_text_walk",
+    "locator_strategy": "static_html_walk",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "28c556bb7d05dbcab9a1f45da90a743cca6fa25eb368febd0bdc124be82e1404",
+    "document_sha256": "cde1b89343b78cf9c105a341032a5b0f56aaa614542a42f5cdac821bd58f10f0"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_NEGATIVE_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:34aa9861ed20843ef9c7db65ecf7c38edbc7c9c0c3fb6b6fa80d59ff9be7e7d6",
+   "exclusion_id": "ii-holiday-inn-express-indianapolis-fishers-an-ihg-hotel",
+   "exclusion_state": "VERIFIED_NO_PETS",
+   "evidence_quote": "pets are not allowed"
+  },
+  {
+   "canonical_name": "Holiday Inn Indianapolis Downtown",
+   "normalized_name": "holiday inn indianapolis downtown",
+   "address": "515 South West Street",
+   "city": "Indianapolis",
+   "state": "IN",
+   "postal_code": "46225",
+   "corridor": "indianapolis-in__downtown",
+   "official_url": "https://www.ihg.com/holidayinn/hotels/us/en/indianapolis/indwe/hoteldetail",
+   "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/indianapolis/indwe/hoteldetail",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "a1e63e9b9e9605b5b09ae6a310ce28d2522a62504b44f6e35afa17ab95ab0dd4",
+   "observed_at": "2026-08-25",
+   "capture_method": "deterministic_fetch",
+   "evidence": [
+    {
+     "quote": "pets are not allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "static_text_walk",
+    "locator_strategy": "static_html_walk",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "04ee0c425fe722c4445683ba16ff4ace158507533d2041d4053328cf71b84c29",
+    "document_sha256": "a1e63e9b9e9605b5b09ae6a310ce28d2522a62504b44f6e35afa17ab95ab0dd4"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_NEGATIVE_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:b94ad18ecbf4993e1ad6b1672810e4c547a0f843fac46d30c4c2145099306efb",
+   "exclusion_id": "ii-holiday-inn-indianapolis-downtown",
+   "exclusion_state": "VERIFIED_NO_PETS",
+   "evidence_quote": "pets are not allowed"
+  },
+  {
+   "canonical_name": "JW Marriott Indianapolis",
+   "normalized_name": "jw marriott indianapolis",
+   "address": "10 South West Street",
+   "city": "Indianapolis",
+   "state": "IN",
+   "postal_code": "46204",
+   "corridor": "indianapolis-in__downtown",
+   "official_url": "https://www.marriott.com/en-us/hotels/indjw-jw-marriott-indianapolis/overview/",
+   "source_url": "https://www.marriott.com/en-us/hotels/indjw-jw-marriott-indianapolis/overview/",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "891cf1e88b31ad8b9be784d6942f82043bb3fbfcf860beaf651a46f345ebec57",
+   "observed_at": "2026-08-25",
+   "capture_method": "browser_assisted",
+   "evidence": [
+    {
+     "quote": "Pets Not Allowed",
+     "location": "bounded policy container (pet_policy_accordion_panel / xpath=//b[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "live_dom_walk",
+    "locator_strategy": "pet_policy_accordion_panel",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "d2e629b2b96b75354f1b8dc2ccd4f002326c1cbbccd7f6eef999e62726371df7",
+    "document_sha256": "891cf1e88b31ad8b9be784d6942f82043bb3fbfcf860beaf651a46f345ebec57"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_NEGATIVE_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:c8451224acdaf8c738a3457a7d05035248429663f083b0d36bf7ea892442b426",
+   "exclusion_id": "ii-jw-marriott-indianapolis",
+   "exclusion_state": "VERIFIED_NO_PETS",
+   "evidence_quote": "Pets Not Allowed"
+  },
+  {
+   "canonical_name": "SpringHill Suites by Marriott Indianapolis Carmel",
+   "normalized_name": "springhill suites by marriott indianapolis carmel",
+   "address": "11855 North Meridian Street",
+   "city": "Carmel",
+   "state": "IN",
+   "postal_code": "46032",
+   "corridor": "indianapolis-in__carmel",
+   "official_url": "https://www.marriott.com/en-us/hotels/indsh-springhill-suites-indianapolis-carmel/overview/",
+   "source_url": "https://www.marriott.com/en-us/hotels/indsh-springhill-suites-indianapolis-carmel/overview/",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "2d3cc91c1cb884cc4d4a84f27c260429d39ded97bcc3416ff302af9bcaa065e4",
+   "observed_at": "2026-08-25",
+   "capture_method": "browser_assisted",
+   "evidence": [
+    {
+     "quote": "Pets Not Allowed",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "live_dom_walk",
+    "locator_strategy": "pet_policy_heading_parent",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "d2e629b2b96b75354f1b8dc2ccd4f002326c1cbbccd7f6eef999e62726371df7",
+    "document_sha256": "2d3cc91c1cb884cc4d4a84f27c260429d39ded97bcc3416ff302af9bcaa065e4"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_NEGATIVE_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:b6bed367157a727cb15c53f33afab6ad4817326cb54a7d2157eb004b0fe9460f",
+   "exclusion_id": "ii-springhill-suites-by-marriott-indianapolis-carmel",
+   "exclusion_state": "VERIFIED_NO_PETS",
+   "evidence_quote": "Pets Not Allowed"
+  },
+  {
+   "canonical_name": "SpringHill Suites by Marriott Indianapolis Westfield",
+   "normalized_name": "springhill suites by marriott indianapolis westfield",
+   "address": "19317 Westmore Lane",
+   "city": "Westfield",
+   "state": "IN",
+   "postal_code": "46074",
+   "corridor": "indianapolis-in__westfield",
+   "official_url": "https://www.marriott.com/en-us/hotels/indsw-springhill-suites-indianapolis-westfield/overview/",
+   "source_url": "https://www.marriott.com/en-us/hotels/indsw-springhill-suites-indianapolis-westfield/overview/",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "bab34e393edff9f017aa1a2bbe4b666bc9d0d5fefe5d9617dc40345e6208fc7a",
+   "observed_at": "2026-08-25",
+   "capture_method": "browser_assisted",
+   "evidence": [
+    {
+     "quote": "Pets Not Allowed",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "live_dom_walk",
+    "locator_strategy": "pet_policy_heading_parent",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "d2e629b2b96b75354f1b8dc2ccd4f002326c1cbbccd7f6eef999e62726371df7",
+    "document_sha256": "bab34e393edff9f017aa1a2bbe4b666bc9d0d5fefe5d9617dc40345e6208fc7a"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_NEGATIVE_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:fdbf0378a0b90c32ea5c1347fe2ecaed74b9e9b3b63a091cb77c0eefc5a8047b",
+   "exclusion_id": "ii-springhill-suites-by-marriott-indianapolis-westfield",
+   "exclusion_state": "VERIFIED_NO_PETS",
+   "evidence_quote": "Pets Not Allowed"
+  },
+  {
+   "canonical_name": "SpringHill Suites Indianapolis Airport/Plainfield",
+   "normalized_name": "springhill suites indianapolis airport plainfield",
+   "address": "6014 Gateway Drive",
+   "city": "Plainfield",
+   "state": "IN",
+   "postal_code": "46168",
+   "corridor": "indianapolis-in__plainfield",
+   "official_url": "https://www.marriott.com/en-us/hotels/indps-springhill-suites-indianapolis-airport-plainfield/overview/",
+   "source_url": "https://www.marriott.com/en-us/hotels/indps-springhill-suites-indianapolis-airport-plainfield/overview/",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "47a9b8f802898c740f1783744a85c336b8f3ab4d9b3da1a672c314d552f18ee4",
+   "observed_at": "2026-08-25",
+   "capture_method": "browser_assisted",
+   "evidence": [
+    {
+     "quote": "Pets Not Allowed",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "live_dom_walk",
+    "locator_strategy": "pet_policy_heading_parent",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "d2e629b2b96b75354f1b8dc2ccd4f002326c1cbbccd7f6eef999e62726371df7",
+    "document_sha256": "47a9b8f802898c740f1783744a85c336b8f3ab4d9b3da1a672c314d552f18ee4"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_NEGATIVE_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:159a617fec6185ffa16581c53c00b44deac3b3caaf64abbeb5081b07408d39df",
+   "exclusion_id": "ii-springhill-suites-indianapolis-airport-plainfield",
+   "exclusion_state": "VERIFIED_NO_PETS",
+   "evidence_quote": "Pets Not Allowed"
+  },
+  {
+   "canonical_name": "SpringHill Suites Indianapolis Downtown",
+   "normalized_name": "springhill suites indianapolis downtown",
+   "address": "601 West Washington Street",
+   "city": "Indianapolis",
+   "state": "IN",
+   "postal_code": "46204",
+   "corridor": "indianapolis-in__downtown",
+   "official_url": "https://www.marriott.com/en-us/hotels/indsd-springhill-suites-indianapolis-downtown/overview/",
+   "source_url": "https://www.marriott.com/en-us/hotels/indsd-springhill-suites-indianapolis-downtown/overview/",
+   "source_type": "official_property_page",
+   "authority_tier": "PT1",
+   "snapshot_hash": "56ebc74e9099a598b168b46787966c13773aa627597ea367ffd3d2581bb8d550",
+   "observed_at": "2026-08-25",
+   "capture_method": "browser_assisted",
+   "evidence": [
+    {
+     "quote": "Pets Not Allowed",
+     "location": "bounded policy container (pet_policy_heading_parent / xpath=//div[normalize-space(text())='Pet Policy']/parent::*)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "reader_provenance": {
+    "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+    "entrypoint": "parse -> to_extraction",
+    "locator_walk": "live_dom_walk",
+    "locator_strategy": "pet_policy_heading_parent",
+    "locator_contract": "ptf-policy-locator/1.0",
+    "block_sha256": "d2e629b2b96b75354f1b8dc2ccd4f002326c1cbbccd7f6eef999e62726371df7",
+    "document_sha256": "56ebc74e9099a598b168b46787966c13773aa627597ea367ffd3d2581bb8d550"
+   },
+   "withheld_fields": {},
+   "non_inferences": [
+    "weight_limit.operator: 'maximum' / 'up to' / 'under' are recorded as a value only; defaulting a comparison is a guest-visible error in both directions",
+    "weight_limit.scope: not emitted unless the source states it",
+    "species: a generic 'pets welcome' is not dogs+cats; the species map stays empty unless the surface names a species"
+   ],
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "membrane_verdict": "VALID",
+   "readiness_state": "POLICY_NEGATIVE_CONFIRMED",
+   "founder_decision": "APPROVED_AFTER_CURRENT_REVIEW",
+   "founder_reviewer_id": "PTF-FOUNDER-001",
+   "founder_reviewed_at": "2026-08-25",
+   "bound_semantic_hash": "sha256:a9a351792d988605ee9b344ab659347238f2950c21a7ea21d2b09007cf7be493",
+   "exclusion_id": "ii-springhill-suites-indianapolis-downtown",
+   "exclusion_state": "VERIFIED_NO_PETS",
+   "evidence_quote": "Pets Not Allowed"
+  }
+ ]
+}

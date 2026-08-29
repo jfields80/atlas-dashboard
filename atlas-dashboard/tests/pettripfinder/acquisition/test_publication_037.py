@@ -421,7 +421,7 @@ def test_the_other_markets_seed_inventory_is_untouched():
     assert by_market["cleveland-akron-canton-oh"] == 99
     assert by_market["dayton-oh"] == 47
     assert by_market["pittsburgh-pa"] == 26
-    assert by_market["indianapolis-in"] == 8
+    assert by_market["indianapolis-in"] == 24  # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: 8 -> 24
     # 042 published Milwaukee, so it owns inventory now. The claim this test is
     # about is that no OTHER market count moved because of it.
     assert by_market["milwaukee-wi"] == 73

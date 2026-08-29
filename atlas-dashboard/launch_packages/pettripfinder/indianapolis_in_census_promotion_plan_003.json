@@ -1,0 +1,875 @@
+{
+ "schema": "ptf-census-promotion-plan/1.0",
+ "what_this_is": "The founder-approved checklist for promoting the Indianapolis census, as data. Applied by scripts/pettripfinder/census_promotion.py to the 265-row proposed census to produce the SHADOW promotion census; the pinned 153-row census is never touched by this plan.",
+ "market_id": "indianapolis-in",
+ "work_order": "PTF-INDIANAPOLIS-PROMOTION-AUTHORITY-PREP-003",
+ "decided_by": "PTF-FOUNDER-001",
+ "decided_at": "2026-08-26",
+ "derived_from": {
+  "founder_ledger": "indianapolis_in_founder_decisions_002.json",
+  "ledger_status": "CLOSED_50_OF_50",
+  "proposed_census": "identity_census_proposed/indianapolis-in.json"
+ },
+ "renames": [
+  {
+   "ledger_row": 5,
+   "identity_key": "courtyard",
+   "from": "Courtyard",
+   "to": "Courtyard by Marriott Indianapolis Fishers",
+   "new_identity_key": "courtyard by marriott indianapolis fishers",
+   "evidence": "saved page title, identity_check.name_on_page, property code indcf, phone 317-558-7588 and street 11550 Whistle Drive all on the saved artifact"
+  },
+  {
+   "ledger_row": 14,
+   "identity_key": "days inn",
+   "from": "Days Inn",
+   "to": "Days Inn & Suites by Wyndham Indianapolis Airport East",
+   "new_identity_key": "days inn and suites by wyndham indianapolis airport east",
+   "evidence": "saved page title and identity_check.name_on_page; street 5241 W. Bradbury Ave and phone +1-463-276-7737 on the saved page match the census row"
+  },
+  {
+   "ledger_row": 18,
+   "identity_key": "fairfield inn and suites indianapolis downtown university area",
+   "from": "Fairfield Inn & Suites Indianapolis Downtown University Area",
+   "to": "Fairfield Inn & Suites Indianapolis Downtown",
+   "new_identity_key": "fairfield inn and suites indianapolis downtown",
+   "evidence": "page name 'Fairfield by Marriott Inn & Suites Indianapolis Downtown', street 501 W Washington Street and property code indfd on the saved artifact; the census name was a recandidacy 'fuller prior name' swap (name_before_recandidacy = 'Fairfield Inn & Suites Indianapolis Downtown')"
+  },
+  {
+   "ledger_row": 35,
+   "identity_key": "holiday inn express indianapolis west airport area",
+   "from": "Holiday Inn Express Indianapolis West - Airport Area",
+   "to": "Holiday Inn Express & Suites Indianapolis W - Airport Area",
+   "new_identity_key": "holiday inn express and suites indianapolis w airport area",
+   "evidence": "the property's own name on the saved page (sha256 db4e630bea916aad8f6acfe6f8785f3ccd2fd299ec519c415a1e1870d421f698); street 5855 Rockville Road and phone 317-554-0900 agree; new key 'holiday inn express and suites indianapolis w airport area' has no collision, so the M10 gate passes mechanically on re-derivation from the saved artifact"
+  },
+  {
+   "ledger_row": 39,
+   "identity_key": "la quinta inn and suites",
+   "from": "La Quinta Inn & Suites",
+   "to": "La Quinta Inn & Suites by Wyndham Indianapolis Downtown",
+   "new_identity_key": "la quinta inn and suites by wyndham indianapolis downtown",
+   "evidence": "the property's own name on the saved page (sha256 ec30dc76b22a67abe05b5a3aeacca2fedd90001cc0dfb51e44ccef948e8c5313); street 401 E. Washington Street and phone 463-259-0689 agree; new key has no collision"
+  },
+  {
+   "ledger_row": 40,
+   "identity_key": "la quinta inn indianapolis airport executive drive",
+   "from": "La Quinta Inn Indianapolis Airport Executive Drive",
+   "to": "La Quinta Inn Indianapolis Airport Executive Dr",
+   "new_identity_key": "la quinta inn indianapolis airport executive dr",
+   "evidence": "the property's own name on the saved page minus the chain suffix (sha256 3e27d305382bf742fcfd3d32973d00e6df048c1e3b639ea983b1b885828f55fd: 'La Quinta Inn by Wyndham Indianapolis Airport Executive Dr'); street 2650 Executive Dr and phone 317-244-8100 agree; new key has no collision, so the M10 gate passes exactly on re-derivation from the saved artifact"
+  },
+  {
+   "ledger_row": 43,
+   "identity_key": "springhill suites",
+   "from": "SpringHill Suites",
+   "to": "SpringHill Suites by Marriott Indianapolis Westfield",
+   "new_identity_key": "springhill suites by marriott indianapolis westfield",
+   "evidence": "the property's own name on the saved page (sha256 bab34e393edff9f017aa1a2bbe4b666bc9d0d5fefe5d9617dc40345e6208fc7a); street 19317 Westmore Ln, phone 317-763-2088 and code indsw agree; new key has no collision"
+  }
+ ],
+ "hold_resolutions": [
+  {
+   "ledger_row": 3,
+   "identity_key": "candlewood suites indianapolis medical district",
+   "ruling": "IDENTITY_BOUND",
+   "property_code": "indwp",
+   "street": "1152 North White River Parkway West Drive, Indianapolis IN 46222",
+   "page_name": "Candlewood Suites Indianapolis Dwtn Medical Dist",
+   "signals": [
+    "street exact",
+    "IHG property code indwp in the captured URL and page"
+   ],
+   "disposition_after": "APPROVE_PET_FRIENDLY",
+   "fact_change": "fee_basis withheld SOURCE_CONFLICT",
+   "re_derive_from_same_artifact": true
+  },
+  {
+   "ledger_row": 13,
+   "identity_key": "crowne plaza indianapolis downtown union station",
+   "ruling": "IDENTITY_BOUND",
+   "property_code": "inddt",
+   "street": "123 West Louisiana Street, Indianapolis IN 46225",
+   "page_name": "Crowne Plaza Indianapolis-Dwtn-Union Stn",
+   "signals": [
+    "street exact",
+    "IHG property code inddt in the captured URL and page",
+    "existing LIVE Indianapolis exclusion at this address"
+   ],
+   "disposition_after": "APPROVE_VERIFIED_NO_PETS",
+   "re_derive_from_same_artifact": true
+  },
+  {
+   "ledger_row": 26,
+   "identity_key": "hampton inn indianapolis northeast castleton",
+   "ruling": "MERGED_ONE_SURVIVING_IDENTITY",
+   "surviving_identity_key": "hampton inn indianapolis northeast castleton",
+   "retired_identity_key": "hampton inn indianapolis ne castleton",
+   "observation_from_identity_key": "hampton inn indianapolis ne castleton",
+   "why_this_survivor": "the existing LIVE route is preserved; no stronger canonical reason exists",
+   "property_code": "indnehx",
+   "street": "6817 East 82nd Street, Indianapolis IN 46250",
+   "page_name": "Hampton Inn Indianapolis-Ne/Castleton",
+   "disposition_after": "APPROVE_WITH_CHANGE (row 25's corrections carried)"
+  },
+  {
+   "ledger_row": 33,
+   "identity_key": "holiday inn express indianapolis downtown",
+   "ruling": "IDENTITY_BOUND_AND_TWIN_MERGED",
+   "property_code": "indms",
+   "street": "410 South Missouri Street, Indianapolis IN 46225",
+   "page_name": "Holiday Inn Express & Suites Indianapolis Dtn-Conv Ctr Area",
+   "merged_twin_identity_key": "holiday inn express and suites",
+   "twin_confirmation": "same street identity 410 s missouri st|46225 on both census rows and on the captured page",
+   "fields_taken_from_twin": {
+    "phone": "3178226400"
+   },
+   "disposition_after": "APPROVE_VERIFIED_NO_PETS",
+   "re_derive_from_same_artifact": true
+  },
+  {
+   "ledger_row": 36,
+   "identity_key": "holiday inn express plainfield",
+   "ruling": "MERGED_ONE_SURVIVING_IDENTITY",
+   "surviving_identity_key": "holiday inn express plainfield",
+   "retired_identity_key": "holiday inn express indianapolis airport",
+   "observation_from_identity_key": "holiday inn express indianapolis airport",
+   "why_this_survivor": "the existing LIVE route is preserved; no stronger canonical reason emerged during reconciliation",
+   "property_code": "indsw",
+   "street": "6296 Cambridge Way, Plainfield IN 46168",
+   "page_name": "Holiday Inn Express Indianapolis Airport",
+   "disposition_after": "APPROVE_WITH_CHANGE (row 32's weight_limit_stated_none carried)"
+  }
+ ],
+ "merges": [
+  {
+   "surviving_identity_key": "hampton inn indianapolis northeast castleton",
+   "retired_identity_key": "hampton inn indianapolis ne castleton",
+   "observation_from_identity_key": "hampton inn indianapolis ne castleton",
+   "ledger_rows": [
+    25,
+    26
+   ],
+   "census_fields_from_retired_row": [
+    "phone",
+    "official_url",
+    "latitude",
+    "longitude",
+    "discovery_cells",
+    "discovery_providers"
+   ]
+  },
+  {
+   "surviving_identity_key": "holiday inn express plainfield",
+   "retired_identity_key": "holiday inn express indianapolis airport",
+   "observation_from_identity_key": "holiday inn express indianapolis airport",
+   "ledger_rows": [
+    32,
+    36
+   ],
+   "census_fields_from_retired_row": [
+    "latitude",
+    "longitude",
+    "discovery_cells",
+    "discovery_providers"
+   ]
+  },
+  {
+   "surviving_identity_key": "holiday inn express indianapolis downtown",
+   "retired_identity_key": "holiday inn express and suites",
+   "observation_from_identity_key": "holiday inn express indianapolis downtown",
+   "ledger_rows": [
+    33
+   ],
+   "census_fields_from_retired_row": [
+    "phone",
+    "latitude",
+    "longitude",
+    "discovery_cells",
+    "discovery_providers"
+   ]
+  }
+ ],
+ "retirements": [
+  {
+   "retired_identity_key": "courtyard by marriott indianapolis fishers",
+   "in_favour_of": "courtyard by marriott indianapolis fishers",
+   "via_rename_of": "courtyard",
+   "ledger_row": 5,
+   "why": "prior-census twin at 9690 North by Northeast Boulevard; Marriott indcf sits at 11550 Whistle Drive; the renamed OSM row takes the key"
+  },
+  {
+   "retired_identity_key": "oyo hotel indianapolis international airport",
+   "in_favour_of": "days inn and suites by wyndham indianapolis airport east",
+   "ledger_row": 14,
+   "why": "same street identity 5241 w bradbury ave|46241; former brand of the building; reconciliation confirms by street"
+  },
+  {
+   "retired_identity_key": "fairfield inn and suites by marriott indianapolis downtown",
+   "in_favour_of": "fairfield inn and suites indianapolis downtown",
+   "ledger_row": 18,
+   "why": "prior-census twin at 601 W Washington; Marriott indfd sits at 501 W Washington"
+  },
+  {
+   "retired_identity_key": "holiday inn express indianapolis south greenwood",
+   "in_favour_of": "holiday inn express and suites greenwood",
+   "ledger_row": 29,
+   "why": "prior-census twin at the same 1180 Wilson Drive; no URL, no phone"
+  },
+  {
+   "retired_identity_key": "springhill suites by marriott indianapolis downtown",
+   "in_favour_of": "springhill suites indianapolis downtown",
+   "ledger_row": 46,
+   "why": "prior-census twin at the same 601 W Washington; no URL, no phone"
+  }
+ ],
+ "address_supersessions": [
+  {
+   "ledger_row": 19,
+   "identity_key": "fairfield inn and suites indianapolis east",
+   "prior_census_address": "9150 Andrew Circle, 46229",
+   "first_party_address": "7110 East 21st Street, 46219"
+  },
+  {
+   "ledger_row": 24,
+   "identity_key": "hampton inn indianapolis downtown across from circle centre",
+   "prior_census_address": "105 South Meridian Street, 46204",
+   "first_party_address": "105 South Meridian Street, 46225"
+  },
+  {
+   "ledger_row": 28,
+   "identity_key": "holiday inn express and suites carmel north westfield",
+   "prior_census_address": "19150 Promenade Boulevard, 46074",
+   "first_party_address": "15131 Thatcher Lane, 46033"
+  },
+  {
+   "ledger_row": 50,
+   "identity_key": "the westin indianapolis",
+   "prior_census_address": "50 South Capitol Avenue, 46204",
+   "first_party_address": "241 West Washington Street, 46204"
+  }
+ ],
+ "phone_corrections": [
+  {
+   "identity_key": "cambria hotel indianapolis airport plainfield",
+   "clear_phone": "3172792394",
+   "why": "the saved SpringHill Suites Indianapolis Airport/Plainfield page (row 45) prints 317-279-2394 as its own number; the Cambria row's copy is a census collision confirmed by the duplicate scan (TELEPHONE group)"
+  }
+ ],
+ "url_corrections": [
+  {
+   "identity_key": "comfort inn indianapolis airport plainfield",
+   "from": "https://www.choicehotels.com/indiana/whitestown/woodspring-hotels",
+   "to": "https://www.choicehotels.com/indiana/plainfield/comfort-inn-hotels/in082",
+   "why": "the URL the acquisition actually used (prior build, routing_recovered) and the saved page identity 3/3"
+  },
+  {
+   "identity_key": "comfort inn and suites n at pyramids",
+   "from": "https://www.choicehotels.com/indiana/whitestown/woodspring-hotels",
+   "to": "",
+   "why": "a WoodSpring Whitestown page cannot be this property's official URL; no first-party URL is known, so the row returns to NEEDS_OFFICIAL_URL rather than carrying a wrong one"
+  },
+  {
+   "identity_key": "comfort inn east indianapolis",
+   "from": "https://www.choicehotels.com/indiana/whitestown/woodspring-hotels",
+   "to": "",
+   "why": "a WoodSpring Whitestown page cannot be this property's official URL; no first-party URL is known, so the row returns to NEEDS_OFFICIAL_URL rather than carrying a wrong one"
+  },
+  {
+   "identity_key": "comfort inn south",
+   "from": "https://www.choicehotels.com/indiana/whitestown/woodspring-hotels",
+   "to": "",
+   "why": "a WoodSpring Whitestown page cannot be this property's official URL; no first-party URL is known, so the row returns to NEEDS_OFFICIAL_URL rather than carrying a wrong one"
+  },
+  {
+   "identity_key": "comfort suites west indianapolis brownsburg",
+   "from": "https://www.choicehotels.com/indiana/whitestown/woodspring-hotels",
+   "to": "",
+   "why": "a WoodSpring Whitestown page cannot be this property's official URL; no first-party URL is known, so the row returns to NEEDS_OFFICIAL_URL rather than carrying a wrong one"
+  }
+ ],
+ "fact_corrections": [
+  {
+   "ledger_row": 3,
+   "identity_key": "candlewood suites indianapolis medical district",
+   "canonical_name": "Candlewood Suites Indianapolis Medical District",
+   "founder_disposition": "HOLD",
+   "set": {},
+   "unset": [
+    "fee_basis"
+   ],
+   "unwithhold": [],
+   "withhold": {
+    "fee_basis": "SOURCE_CONFLICT"
+   },
+   "cited_quotes": [
+    "Pet fee per night: 75 USD",
+    "Pet-friendly (75 USD / stay)"
+   ],
+   "ledger_corrections": "HOLD resolved in PTF-INDIANAPOLIS-PROMOTION-AUTHORITY-PREP-003: fee_basis withheld (SOURCE_CONFLICT)",
+   "flag_codes": {
+    "fee_basis": "FLAG_AMBIGUOUS_BASIS"
+   }
+  },
+  {
+   "ledger_row": 10,
+   "identity_key": "courtyard indianapolis plainfield",
+   "canonical_name": "Courtyard Indianapolis Plainfield",
+   "founder_disposition": "APPROVE_WITH_CHANGE",
+   "set": {
+    "service_animal_exception": "No pets allowed – service animals only"
+   },
+   "unset": [],
+   "unwithhold": [],
+   "withhold": {},
+   "cited_quotes": [
+    "No pets allowed – service animals only"
+   ],
+   "ledger_corrections": [
+    {
+     "field": "service_animal_exception",
+     "from": "– service animals only",
+     "to": "No pets allowed – service animals only",
+     "evidence": "the contiguous sentence in policy-block.txt of the saved artifact (sha256 e3be3a421e932d64e7a5f3e3f61d113b154f6f669329c9469ac25ce6548c9194); the reader cut the sentence at the dash"
+    }
+   ]
+  },
+  {
+   "ledger_row": 11,
+   "identity_key": "courtyard indianapolis west speedway",
+   "canonical_name": "Courtyard Indianapolis West-Speedway",
+   "founder_disposition": "APPROVE_WITH_CHANGE",
+   "set": {
+    "service_animal_exception": "No pets allowed-service animals only"
+   },
+   "unset": [],
+   "unwithhold": [],
+   "withhold": {},
+   "cited_quotes": [
+    "No pets allowed-service animals only"
+   ],
+   "ledger_corrections": [
+    {
+     "field": "service_animal_exception",
+     "from": "-service animals only",
+     "to": "No pets allowed-service animals only",
+     "evidence": "the contiguous sentence in policy-block.txt of the saved artifact (sha256 23e74615cd2bd678d8886e812ae9039b3e1fd3ea24b2f95ee8496911d91bd828); the reader cut the sentence at the hyphen"
+    }
+   ]
+  },
+  {
+   "ledger_row": 20,
+   "identity_key": "fairfield inn and suites indianapolis northwest",
+   "canonical_name": "Fairfield Inn & Suites Indianapolis Northwest",
+   "founder_disposition": "APPROVE_WITH_CHANGE",
+   "set": {
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay"
+   },
+   "unset": [],
+   "unwithhold": [
+    "pet_fee"
+   ],
+   "withhold": {},
+   "cited_quotes": [
+    "Non-refundable fee: $75 USD Per Stay"
+   ],
+   "ledger_corrections": [
+    {
+     "field": "pet_fee",
+     "from": "withheld: SOURCE_SILENT",
+     "to": {
+      "pet_fee": 7500,
+      "fee_currency": "USD",
+      "fee_basis": "per_stay",
+      "non_refundable": true,
+      "fee_scope": "not stated"
+     },
+     "evidence": "saved first-party Pet Policy section in page-text.txt of the SAME artifact (sha256 6104785a69be37a73bbbf49a3921c3c6fbf4baba2852088ba85c2e42f869c8b9): 'Non-refundable fee: $75 USD Per Stay'; the locator's recovery step replaced this block with the FAQ block and dropped the fee (defect P3); re-parse the Pet Policy block, do not refetch"
+    }
+   ]
+  },
+  {
+   "ledger_row": 25,
+   "identity_key": "hampton inn indianapolis ne castleton",
+   "canonical_name": "Hampton Inn Indianapolis - NE / Castleton",
+   "founder_disposition": "APPROVE_WITH_CHANGE",
+   "set": {
+    "fee_tiers": [
+     {
+      "amount_cents": 5000,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "condition_max": 4,
+      "basis_stated": false,
+      "refundable": false
+     },
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false,
+      "refundable": false
+     }
+    ],
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "unset": [
+    "pet_fee",
+    "fee_currency"
+   ],
+   "unwithhold": [
+    "fee_basis"
+   ],
+   "withhold": {},
+   "cited_quotes": [
+    "1-4 night stay $50; 5+ night stay $75; 2 pets max; dog or cat only"
+   ],
+   "ledger_corrections": [
+    {
+     "field": "fee_tiers",
+     "from": "pet_fee 5000 USD with fee_basis withheld (SOURCE_SILENT)",
+     "to": [
+      {
+       "amount_cents": 5000,
+       "currency": "USD",
+       "role": "REPLACEMENT_PRICE",
+       "condition_type": "stay_length_range",
+       "boundary_unit": "nights",
+       "condition_min": 1,
+       "condition_max": 4,
+       "basis_stated": false,
+       "refundable": false
+      },
+      {
+       "amount_cents": 7500,
+       "currency": "USD",
+       "role": "REPLACEMENT_PRICE",
+       "condition_type": "stay_length_range",
+       "boundary_unit": "nights",
+       "condition_min": 5,
+       "basis_stated": false,
+       "refundable": false
+      }
+     ],
+     "evidence": "page-text.txt of the SAME saved artifact (sha256 ed294c4980a43aa7d388a5ab4bdd48ea160cb436352fed4cc1995ddb460d0433): 'Other pet information 1-4 night stay $50; 5+ night stay $75; 2 pets max; dog or cat only'; the static_html_walk block was cut at 'Non-refundable Fee' (defect P5); no refetch"
+    },
+    {
+     "field": "pet_count_limit",
+     "from": "absent",
+     "to": 2,
+     "evidence": "same sentence, same artifact: '2 pets max'"
+    },
+    {
+     "field": "species_allowed",
+     "from": "absent",
+     "to": [
+      "cat",
+      "dog"
+     ],
+     "evidence": "same sentence, same artifact: 'dog or cat only'"
+    }
+   ]
+  },
+  {
+   "ledger_row": 27,
+   "identity_key": "hampton inn indianapolis northwest park 100",
+   "canonical_name": "Hampton Inn Indianapolis Northwest - Park 100",
+   "founder_disposition": "APPROVE_WITH_CHANGE",
+   "set": {
+    "weight_limit": {
+     "value": 100.0,
+     "unit": "lb"
+    }
+   },
+   "unset": [],
+   "unwithhold": [],
+   "withhold": {},
+   "cited_quotes": [
+    "Max weight 100 lbs"
+   ],
+   "ledger_corrections": [
+    {
+     "field": "weight_limit",
+     "from": "absent",
+     "to": {
+      "value": 100.0,
+      "unit": "lb"
+     },
+     "evidence": "page-text.txt of the SAME saved artifact (sha256 d2c7237c39e700f99e8adb457e6c4b4f9129b1d79e08d40f9b37858683ceaf92): 'Max weight 100 lbs' immediately after '$75.00 Non-refundable Fee'; the static block was cut before it (P5); pet_fee $75 stands, fee_basis stays withheld (page states no basis)"
+    }
+   ]
+  },
+  {
+   "ledger_row": 28,
+   "identity_key": "holiday inn express and suites carmel north westfield",
+   "canonical_name": "Holiday Inn Express & Suites Carmel North - Westfield",
+   "founder_disposition": "APPROVE_WITH_CHANGE",
+   "set": {
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "unset": [],
+   "unwithhold": [],
+   "withhold": {},
+   "cited_quotes": [
+    "Pets allowed: Only dogs allowed"
+   ],
+   "ledger_corrections": [
+    {
+     "field": "species_allowed",
+     "from": "absent",
+     "to": [
+      "dog"
+     ],
+     "evidence": "same saved page (sha256 bc07b1758d0a5c5fe5e73981c0c5635d33a008aa0d4218425711ea5a5dc874f5): 'Pets allowed: Only dogs allowed'; the existing withholdings stand: pet_fee SOURCE_AMBIGUOUS (no fee amount stated; 'Pet damage deposit: 75 USD' is the deposit) and weight_limit SOURCE_AMBIGUOUS ('Pet weight limit: 75' names no unit)"
+    }
+   ]
+  },
+  {
+   "ledger_row": 31,
+   "identity_key": "holiday inn express and suites indianapolis northwest",
+   "canonical_name": "Holiday Inn Express & Suites Indianapolis Northwest",
+   "founder_disposition": "APPROVE_WITH_CHANGE",
+   "set": {
+    "pet_deposit": 7500,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "fee_cap": {
+     "amount_minor": 12500,
+     "currency": "USD",
+     "basis": "per_stay",
+     "scope": "per_pet",
+     "qualifier_stated": true
+    },
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "unset": [],
+   "unwithhold": [
+    "pet_fee",
+    "fee_basis"
+   ],
+   "withhold": {},
+   "cited_quotes": [
+    "75 dollar refundable deposit plus 25.00 dollar per pet, per night fee",
+    "Pet Fee will be capped at 125.00 per pet after staying for 5 nights",
+    "Pets allowed: Only dogs and cats allowed"
+   ],
+   "ledger_corrections": [
+    {
+     "field": "pet_deposit",
+     "from": 2500,
+     "to": {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "refundable": true
+     },
+     "evidence": "saved page (sha256 ae193a8129aca434a2a2e443e8bba34d5c37386acb2b392c7ebaf3ba26f7580d): '75 dollar refundable deposit plus 25.00 dollar per pet, per night fee' and 'Pet damage deposit: 75 USD'; the extracted quote '25 USD Pet damage deposit' spliced the fee amount onto the deposit label (defect P6)"
+    },
+    {
+     "field": "pet_fee",
+     "from": "withheld: SCHEMA_CANNOT_REPRESENT",
+     "to": {
+      "pet_fee": 2500,
+      "fee_currency": "USD",
+      "fee_basis": "per_night",
+      "fee_scope": "per_pet",
+      "refundable": false
+     },
+     "evidence": "same page: '25.00 dollar per pet, per night fee' and 'Pet fee per night: 25 USD'"
+    },
+    {
+     "field": "fee_cap",
+     "from": "absent",
+     "to": {
+      "amount_minor": 12500,
+      "currency": "USD",
+      "basis": "per_stay",
+      "scope": "per_pet"
+     },
+     "evidence": "same page: 'Pet Fee will be capped at 125.00 per pet after staying for 5 nights'"
+    },
+    {
+     "field": "species_allowed",
+     "from": "absent",
+     "to": [
+      "cat",
+      "dog"
+     ],
+     "evidence": "same page: 'Pets allowed: Only dogs and cats allowed'"
+    },
+    {
+     "field": "pet_count_limit",
+     "from": 2,
+     "to": 2,
+     "evidence": "same page: '2 pets allowed' (unchanged, confirmed by the founder)"
+    },
+    {
+     "field": "weight_limit",
+     "from": "withheld: SOURCE_AMBIGUOUS",
+     "to": "withheld: SOURCE_AMBIGUOUS",
+     "evidence": "remains withheld because the source states 'Pet weight limit: 50' with no unit"
+    }
+   ],
+   "amendments": [
+    {
+     "work_order": "PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004",
+     "field": "fee_cap",
+     "from": {
+      "amount_minor": 12500,
+      "currency": "USD",
+      "basis": "per_stay"
+     },
+     "to": {
+      "amount_minor": 12500,
+      "currency": "USD",
+      "basis": "per_stay",
+      "scope": "per_pet",
+      "qualifier_stated": true
+     },
+     "why": "the founder's ledger decision states the cap as '$125 per pet per stay' ('Pet Fee will be capped at 125.00 per pet after staying for 5 nights'); the PREP-003 override omitted the stated scope, and schema 1.2 requires qualifier_stated, which for this source is TRUE (it states 'per pet' and 'after staying for 5 nights')"
+    }
+   ]
+  },
+  {
+   "ledger_row": 32,
+   "identity_key": "holiday inn express indianapolis airport",
+   "canonical_name": "Holiday Inn Express Indianapolis Airport",
+   "founder_disposition": "APPROVE_WITH_CHANGE",
+   "set": {
+    "weight_limit_stated_none": true
+   },
+   "unset": [],
+   "unwithhold": [],
+   "withhold": {},
+   "cited_quotes": [
+    "Pet weight limit: No weight limit per pet"
+   ],
+   "ledger_corrections": [
+    {
+     "field": "weight_limit_stated_none",
+     "from": "absent",
+     "to": true,
+     "evidence": "saved page (sha256 2e52c0ba9d3e97922cba24cc0dd4c81e455352568c52ffefcf31806962ca6456): 'Pet weight limit: No weight limit per pet'; preserve the saved page evidence, do not refetch",
+     "consequence": "at census promotion reconcile with row 36 (same building, same IHG indsw page, same phone)"
+    }
+   ]
+  },
+  {
+   "ledger_row": 41,
+   "identity_key": "le meridien indianapolis",
+   "canonical_name": "Le Meridien Indianapolis",
+   "founder_disposition": "APPROVE_WITH_CHANGE",
+   "set": {
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_scope": "per_room"
+   },
+   "unset": [],
+   "unwithhold": [
+    "pet_fee"
+   ],
+   "withhold": {},
+   "cited_quotes": [
+    "$25 Per Room Per Stay"
+   ],
+   "ledger_corrections": [
+    {
+     "field": "pet_fee",
+     "from": "withheld: SOURCE_SILENT",
+     "to": {
+      "pet_fee": 2500,
+      "fee_currency": "USD",
+      "fee_basis": "per_stay",
+      "fee_scope": "per_room"
+     },
+     "evidence": "Pet Policy section of the SAME saved artifact (sha256 5caa36c0784c58a5dc37ec1d0a625201dc4e9cd5f6e77a7c9e4f500bdca9cafe): 'Pets Welcome $25 Per Room Per Stay.'; locator recovery had replaced this block with the FAQ block (defect P3); no refetch"
+    },
+    {
+     "field": "weight_limit",
+     "from": {
+      "value": 50.0,
+      "unit": "lb"
+     },
+     "to": {
+      "value": 50.0,
+      "unit": "lb"
+     },
+     "evidence": "'Maximum Pet Weight: 50.0lbs' / 'Each pet may weigh up to 50.0 lbs' (unchanged, confirmed by the founder)"
+    },
+    {
+     "field": "pet_count_limit",
+     "from": 2,
+     "to": 2,
+     "evidence": "'Maximum Number of Pets in Room: 2' / 'Up to 2 pets are allowed per room' (unchanged, confirmed by the founder)"
+    }
+   ]
+  },
+  {
+   "ledger_row": 47,
+   "identity_key": "staybridge suites indianapolis airport plainfield",
+   "canonical_name": "Staybridge Suites Indianapolis Airport Plainfield",
+   "founder_disposition": "APPROVE_WITH_CHANGE",
+   "set": {
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "condition_max": 6,
+      "basis_stated": false
+     },
+     {
+      "amount_cents": 15000,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 7,
+      "basis_stated": false
+     }
+    ]
+   },
+   "unset": [],
+   "unwithhold": [
+    "pet_fee"
+   ],
+   "withhold": {},
+   "cited_quotes": [
+    "Guest staying 1 to 6 nights 75.00 pet fee. 7 nights or more 150.00 pet fee."
+   ],
+   "ledger_corrections": [
+    {
+     "field": "fee_tiers",
+     "from": "pet_fee withheld: SOURCE_AMBIGUOUS",
+     "to": [
+      {
+       "amount_cents": 7500,
+       "currency": "USD",
+       "role": "REPLACEMENT_PRICE",
+       "condition_type": "stay_length_range",
+       "boundary_unit": "nights",
+       "condition_min": 1,
+       "condition_max": 6,
+       "basis_stated": false
+      },
+      {
+       "amount_cents": 15000,
+       "currency": "USD",
+       "role": "REPLACEMENT_PRICE",
+       "condition_type": "stay_length_range",
+       "boundary_unit": "nights",
+       "condition_min": 7,
+       "basis_stated": false
+      }
+     ],
+     "evidence": "saved page (sha256 39f2a2c4f68e33e8cc96d987d616f020e50dda48f6151581e6b0b9914ccc8ab5): 'Guest staying 1 to 6 nights 75.00 pet fee. 7 nights or more 150.00 pet fee.'; REPLACEMENT_PRICE stay-duration bands; non-refundable status remains not stated"
+    },
+    {
+     "field": "pet_deposit",
+     "from": "absent",
+     "to": "absent",
+     "evidence": "founder: do not create a pet deposit ('pet deposit per stay of 0 USD' is the absence of a deposit); the analysis's proposed $0 deposit is rejected"
+    },
+    {
+     "field": "pet_count_limit",
+     "from": "absent",
+     "to": "absent",
+     "evidence": "founder: do not create a pet_count_limit; the page states no count; the analysis's proposed count quote is rejected"
+    }
+   ]
+  },
+  {
+   "ledger_row": 48,
+   "identity_key": "super 8 by wyndham indianapolis south",
+   "canonical_name": "Super 8 by Wyndham Indianapolis South",
+   "founder_disposition": "APPROVE_WITH_CHANGE",
+   "set": {
+    "pets_allowed": true
+   },
+   "unset": [],
+   "unwithhold": [
+    "pets_allowed"
+   ],
+   "withhold": {},
+   "cited_quotes": [
+    "Up to 2 pets with a maximum weight of 50lbs are welcome"
+   ],
+   "ledger_corrections": [
+    {
+     "field": "pets_allowed",
+     "from": "withheld: SOURCE_SILENT",
+     "to": true,
+     "evidence": "saved page (sha256 54b77de97d568499022656ac727ab1ae7e98399e3e0820e31325f0ab1427ae48): 'Up to 2 pets with a maximum weight of 50lbs are welcome' (defect P7: the acceptance parser missed the modifier between 'pets' and 'are welcome')"
+    },
+    {
+     "field": "preserved",
+     "from": "as extracted",
+     "to": "as extracted",
+     "evidence": "$10 per pet per night, 50 lb, 2 pets, and the service-animal statement 'ADA defined service animals are welcome at this hotel.' stand"
+    }
+   ]
+  },
+  {
+   "ledger_row": 49,
+   "identity_key": "the alexander autograph collection",
+   "canonical_name": "The Alexander, Autograph Collection",
+   "founder_disposition": "APPROVE_WITH_CHANGE",
+   "set": {},
+   "unset": [
+    "pet_fee",
+    "fee_currency"
+   ],
+   "unwithhold": [],
+   "withhold": {
+    "pet_fee": "SOURCE_CONFLICT"
+   },
+   "cited_quotes": [
+    "75USD non-refundable fee per room per stay",
+    "Non-Refundable Pet Fee Per Stay: $50.00"
+   ],
+   "ledger_corrections": [
+    {
+     "field": "pet_fee",
+     "from": 7500,
+     "to": "withheld: SOURCE_CONFLICT",
+     "evidence": "the SAME saved first-party page (sha256 801386d54777300ec0b9ffab021327fbcbd6169556fd4cd5f0e0a4e2ed58feb9) states '2 pets per room with 75USD non-refundable fee per room per stay' AND 'Non-Refundable Pet Fee Per Stay: $50.00' AND (FAQ) 'A non-refundable pet fee of $50.00 per stay applies'; no fee amount is published while the page contradicts itself; fee_basis/fee_scope evidence (per stay, per room) may remain in provenance only; do not refetch"
+    },
+    {
+     "field": "preserved",
+     "from": "as extracted",
+     "to": "as extracted",
+     "evidence": "pets_allowed TRUE ('Pets Welcome') and pet_count_limit 2 per room stand"
+    }
+   ],
+   "flag_codes": {
+    "pet_fee": "FLAG_MULTI_POLICY_BLOCKS"
+   }
+  }
+ ],
+ "amended_in": [
+  "PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: row 31 fee_cap scope/qualifier_stated",
+  "PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: withholdings name their observation flag (row 3 FLAG_AMBIGUOUS_BASIS, row 49 FLAG_MULTI_POLICY_BLOCKS)"
+ ]
+}

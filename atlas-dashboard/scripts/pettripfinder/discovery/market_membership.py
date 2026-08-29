@@ -96,6 +96,15 @@ def decide_by_corridor_registry(candidate: Mapping, *,
                 "so the corridor registry cannot be asked whether this market "
                 "claims it", "")
     if zip5:
+        if coords_in_bounds is None:
+            # Inside no box we ever measured. Saying the coordinates fell
+            # outside would be a claim about a measurement that never
+            # happened, so the reason says what is actually true.
+            return (BOUNDARY_DECISION,
+                    "postal code %r is claimed by no corridor in the market "
+                    "registry and no corridor names this hotel explicitly; the "
+                    "candidate carries no coordinates, so the bounding box "
+                    "cannot place it either" % zip5, "")
         return (BOUNDARY_DECISION,
                 "postal code %r is inside the discovery bounding box and is "
                 "claimed by no corridor in the market registry" % zip5, "")

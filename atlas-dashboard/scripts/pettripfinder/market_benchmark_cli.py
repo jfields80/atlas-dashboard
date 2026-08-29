@@ -35,8 +35,8 @@ from scripts.pettripfinder.acquisition import market_routing as MR
 from scripts.pettripfinder.contracts import closure as CL
 
 PACKAGE_DIR = _REPO_ROOT / "launch_packages" / "pettripfinder"
-CENSUS_DIR = PACKAGE_DIR / "identity_census"
-
+from scripts.pettripfinder import census_location as CENSUS_LOCATION  # noqa: E402
+CENSUS_DIR = CENSUS_LOCATION.identity_census_dir()  # committed, or $PTF_IDENTITY_CENSUS_DIR during a rebuild
 SCHEMA = "ptf-market-benchmark/1.0"
 
 #: The bands the work order set. Recorded WITH the actuals so nobody has to

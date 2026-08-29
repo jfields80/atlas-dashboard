@@ -155,6 +155,38 @@ class CensusProjectionError(ValueError):
 # Small pure helpers.
 # --------------------------------------------------------------------------- #
 
+
+def shared_brand_index_urls(candidates: Sequence[Mapping]) -> Dict[str, int]:
+    """Brand-index URLs that two or more distinct candidates claim as their own.
+
+    PTF-GRAND-RAPIDS-HOLLAND-CHOICE-ROUTING-REPAIR-007. OpenStreetMap's
+    ``website`` tag is typed in by hand and is bulk-edited: ten Grand Rapids
+    candidates -- a Comfort Inn in Grandville, a Sleep Inn on 29th Street, an
+    Econo Lodge on Kraft Avenue and seven more, at seven different addresses
+    with seven different telephone numbers -- all carry
+    ``choicehotels.com/michigan/walker/quality-inn-hotels``, which is a brand
+    index for a Quality Inn none of them is.
+
+    Routing already refuses to send a paid lane to a brand index, so no money
+    was ever at risk. What the URL does do is make ten census rows claim an
+    official website they do not have, which is a false statement in the census
+    and the thing a later reviewer would have to unpick. One shared brand index
+    is the official URL of nobody, so it becomes nobody's.
+
+    A brand index claimed by ONE candidate is left alone: it is honest about
+    that row -- the row's own website really is the brand's page -- and routing
+    already says what it is worth.
+    """
+    # Local import: market_routing owns URL shape, and this module is imported
+    # by the acquisition side that also imports market_routing.
+    from scripts.pettripfinder.acquisition import market_routing as MR
+    counts: Dict[str, int] = {}
+    for candidate in candidates:
+        url = _official_url(candidate)
+        if url and MR.classify_url_shape(url) == MR.BRAND_INDEX:
+            counts[url] = counts.get(url, 0) + 1
+    return {url: n for url, n in counts.items() if n > 1}
+
 def haversine_meters(lat_a: float, lng_a: float, lat_b: float, lng_b: float) -> float:
     """Great-circle distance. Equirectangular would be accurate enough at this
     radius, but distance is the evidence an absorption is recorded on, so it is
@@ -281,38 +313,6 @@ def _official_url(candidate: Mapping) -> str:
     if candidate.get("website_state") == C.WEBSITE_STATE_OFFICIAL_PRESENT:
         return candidate.get("website_url") or ""
     return ""
-
-
-def shared_brand_index_urls(candidates: Sequence[Mapping]) -> Dict[str, int]:
-    """Brand-index URLs that two or more distinct candidates claim as their own.
-
-    PTF-GRAND-RAPIDS-HOLLAND-CHOICE-ROUTING-REPAIR-007. OpenStreetMap's
-    ``website`` tag is typed in by hand and is bulk-edited: ten Grand Rapids
-    candidates -- a Comfort Inn in Grandville, a Sleep Inn on 29th Street, an
-    Econo Lodge on Kraft Avenue and seven more, at seven different addresses
-    with seven different telephone numbers -- all carry
-    ``choicehotels.com/michigan/walker/quality-inn-hotels``, which is a brand
-    index for a Quality Inn none of them is.
-
-    Routing already refuses to send a paid lane to a brand index, so no money
-    was ever at risk. What the URL does do is make ten census rows claim an
-    official website they do not have, which is a false statement in the census
-    and the thing a later reviewer would have to unpick. One shared brand index
-    is the official URL of nobody, so it becomes nobody's.
-
-    A brand index claimed by ONE candidate is left alone: it is honest about
-    that row -- the row's own website really is the brand's page -- and routing
-    already says what it is worth.
-    """
-    # Local import: market_routing owns URL shape, and this module is imported
-    # by the acquisition side that also imports market_routing.
-    from scripts.pettripfinder.acquisition import market_routing as MR
-    counts: Dict[str, int] = {}
-    for candidate in candidates:
-        url = _official_url(candidate)
-        if url and MR.classify_url_shape(url) == MR.BRAND_INDEX:
-            counts[url] = counts.get(url, 0) + 1
-    return {url: n for url, n in counts.items() if n > 1}
 
 
 def _phone(candidate: Mapping) -> str:
@@ -477,6 +477,17 @@ def project(candidates: Sequence[Mapping], market: ContractMarket, *,
             distance_meters=round(distance, 1)))
 
     # Pass 3 -- membership, then rows.
+    #
+    # PTF-INDIANAPOLIS-HARDENED-RECENSUS-002: a corridor may name a hotel
+    # EXPLICITLY (``explicit_hotel_ids``) precisely because its ZIP is shared
+    # or unclaimed -- Indianapolis leaves 46202 to no corridor and places its
+    # five hotels by name. Membership used to be decided by ZIP alone, so
+    # every explicitly placed hotel was rejected as out of market, and the
+    # coordinate-less ones were rejected with a reason about coordinates.
+    explicit_corridor: Dict[str, str] = {}
+    for contract_corridor in market.corridors:
+        for explicit_key in contract_corridor.explicit_hotel_ids:
+            explicit_corridor.setdefault(explicit_key, contract_corridor.corridor_id)
     admitted: List[Dict] = []
     for candidate, lodging_state, why in survivors:
         candidate_id = candidate.get("candidate_id", "")
@@ -486,6 +497,12 @@ def project(candidates: Sequence[Mapping], market: ContractMarket, *,
         # discovery geography supplies no map at all, and everything it holds
         # is treated as inside the box exactly as it was before.
         coords_in_bounds = True if in_bounds is None else in_bounds.get(candidate_id)
+        # A candidate that states NO coordinates was never measured against
+        # the box, so a verdict carried in ``in_bounds`` for it is not a
+        # measurement and must not become an assertion that it fell outside.
+        # Three-valued on purpose; see market_membership.
+        if in_bounds is not None and _coords(candidate)[0] is None:
+            coords_in_bounds = None
         zip5 = (candidate.get("postal_code") or "").strip()[:5]
         has_address = bool((candidate.get("address_line") or "").strip())
 
@@ -494,6 +511,34 @@ def project(candidates: Sequence[Mapping], market: ContractMarket, *,
             corridor_of_zip=zips, coords_in_bounds=coords_in_bounds,
             geography=geography,
             is_prior_identity=is_prior_census_candidate(candidate))
+
+        # PTF-INDIANAPOLIS-HARDENED-RECENSUS-002, preserved across this
+        # commit's membership refactor. A corridor may name a hotel
+        # EXPLICITLY (``explicit_hotel_ids``) precisely because its ZIP is
+        # shared or unclaimed -- Indianapolis leaves 46202 to no corridor
+        # and places its five hotels by name. An explicit naming is a
+        # deliberate registry act, so it outranks the ZIP/bounds verdict
+        # exactly as it did before membership moved into market_membership;
+        # without this the five would return to OUT_OF_MARKET_BOUNDARY_DECISION.
+        #
+        # Scoped to CORRIDOR_REGISTRY markets on purpose. Where the registry IS
+        # the boundary, naming a hotel speaks to membership AND to display, so
+        # it settles both. Under MARKET_GEOGRAPHY the registry is only a display
+        # taxonomy -- geography already decided membership -- so classification
+        # stays where this commit put it, in assign_hotels.
+        if (not corridor and explicit_corridor
+                and market.census_membership_basis
+                == MM.MC.MEMBERSHIP_CORRIDOR_REGISTRY):
+            named_keys = [ptf_identity_key(candidate.get("name") or "")]
+            named_keys += [ptf_identity_key(alias) for alias
+                           in candidate.get("prior_census_identity_keys") or ()]
+            explicit_hit = next((explicit_corridor[k] for k in named_keys
+                                 if k in explicit_corridor), "")
+            if explicit_hit:
+                corridor = explicit_hit
+                outcome = MM.IN_MARKET
+                membership_why = ("named explicitly by corridor %r in the "
+                                  "market registry" % corridor)
 
         if outcome == MM.OUT_OF_GEOGRAPHY:
             ledger.append(_ledger_entry(

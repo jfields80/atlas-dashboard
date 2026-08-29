@@ -286,7 +286,7 @@ def test_every_other_market_still_verifies_and_is_untouched():
     assert counts["cleveland-akron-canton-oh"] == 40
     assert counts["columbus-oh"] == 16
     assert counts["dayton-oh"] == 8
-    assert counts["indianapolis-in"] == 4
+    assert counts["indianapolis-in"] == 24  # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: 4 -> 24
     assert counts["pittsburgh-pa"] == 7
     assert MA.check_generated_artifacts() == []
 

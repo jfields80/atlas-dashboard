@@ -1,0 +1,162 @@
+{
+ "schema": "ptf-deployment-authorization/1.0",
+ "what_this_is": "Founder authorization to write ONE exact composed artifact to ONE production target. Every field under bindings is copied from the verified global deployment manifest and re-checked against the repository by verify_authorization; any disagreement refuses the deploy. Used once: DEPLOYED consumes it.",
+ "authorization_id": "ptf-auth-020-e9998c51d135",
+ "authorized_by": "jfields80",
+ "authorization_source": "",
+ "authorized_at": "2026-08-28T03:23:49+00:00",
+ "work_order": "PTF-INDIANAPOLIS-DEPLOY-AUTHORIZATION-020",
+ "note": "Admits Indianapolis as the eighth market: 517 profiles, 638 sitemap routes. The seven live markets are byte-identical to the deployed 38c811df bundle; only the global surfaces a new market necessarily rewrites differ.",
+ "source_commit": "812e03ec3283d0508d7a32ad97ac3cbd8a391f0c",
+ "manifest_source_commit": "653abcee8d13796a4c1dcb55c72fcd44df68187a",
+ "binding_identity": "bundle_sha256",
+ "bundle_sha256": "e9998c51d13559333ef9bd63f287e8858b73eb0011401a9606a58871f6ba74cc",
+ "production_context": "production",
+ "participating_markets": [
+  "cleveland-akron-canton-oh",
+  "columbus-oh",
+  "dayton-oh",
+  "indianapolis-in",
+  "louisville-ky",
+  "milwaukee-wi",
+  "pittsburgh-pa",
+  "st-louis-mo"
+ ],
+ "profile_counts": {
+  "cleveland-akron-canton-oh": 99,
+  "columbus-oh": 88,
+  "dayton-oh": 47,
+  "indianapolis-in": 56,
+  "louisville-ky": 46,
+  "milwaukee-wi": 73,
+  "pittsburgh-pa": 26,
+  "st-louis-mo": 82
+ },
+ "total_profiles": 517,
+ "total_html_pages": 3249,
+ "total_files": 3267,
+ "sitemap_route_count": 638,
+ "sitemap_sha256": "2fa8b15af2526e8b6865dd6ac8342edb0ab8783cacdad5cd549ab91af1b084f6",
+ "headers_source": "deploy/netlify/headers.production",
+ "headers_sha256": "cc96c4373564958c8036100207649601547017457fad868cbbd995efef1a6af5",
+ "redirects_source": "deploy/netlify/redirects",
+ "redirects_sha256": "db33b892554509f8534667a1bf773cbce23b9b5371c17bf8da8d33a6ec331f8a",
+ "measurement_config_source": "deploy/netlify/measurement.json",
+ "measurement_config_sha256": "cec583ff9b0601063307fe612c758140e6343ded3fa15f7f578f0726c8a9d604",
+ "measurement": {
+  "enabled": false,
+  "provider_kind": "none"
+ },
+ "affiliate": {
+  "providers_enrolled": 0,
+  "destinations_active": 0
+ },
+ "launch_participation_source": "deploy/netlify/launch_participation.json",
+ "launch_participation_sha256": "5151af4235180e25ae3f6415babf7000da537d90253af02c984db118d04bdc8c",
+ "founder_authorized_markets": [
+  "cleveland-akron-canton-oh",
+  "columbus-oh",
+  "dayton-oh",
+  "indianapolis-in",
+  "louisville-ky",
+  "milwaukee-wi",
+  "pittsburgh-pa",
+  "st-louis-mo"
+ ],
+ "release_contracts": [
+  {
+   "market_id": "cleveland-akron-canton-oh",
+   "path": "deploy/netlify/release_contracts/cleveland-akron-canton-oh.json",
+   "sha256": "9856a22ec4f8b4a87c1ede20cb387899a2a31d945c4503ea57940f02c7ae2d17"
+  },
+  {
+   "market_id": "columbus-oh",
+   "path": "deploy/netlify/release_contracts/columbus-oh.json",
+   "sha256": "b14f9f21a94ac09f7d658a94de17d770d58b54b398b1ade650f90481708091c2"
+  },
+  {
+   "market_id": "dayton-oh",
+   "path": "deploy/netlify/release_contracts/dayton-oh.json",
+   "sha256": "7462a2772c8fe09cf5365c2ec420a87e14c5f99727357ffd68618f154c25332b"
+  },
+  {
+   "market_id": "indianapolis-in",
+   "path": "deploy/netlify/release_contracts/indianapolis-in.json",
+   "sha256": "5c962e7430b6506391a000785b703d54548c439378ac5a374ed633af759e5923"
+  },
+  {
+   "market_id": "louisville-ky",
+   "path": "deploy/netlify/release_contracts/louisville-ky.json",
+   "sha256": "886d1c7486b78116ef2da9fdf8b34866411df166587d6f0c58665eb5bc7027b8"
+  },
+  {
+   "market_id": "milwaukee-wi",
+   "path": "deploy/netlify/release_contracts/milwaukee-wi.json",
+   "sha256": "320a9b05348f7dc55e02d899b77a9efe0760284eadfd77a9ef1b25c8907e5d73"
+  },
+  {
+   "market_id": "pittsburgh-pa",
+   "path": "deploy/netlify/release_contracts/pittsburgh-pa.json",
+   "sha256": "074f99ee6c02618dbbfab88c88818a07428a54153b50b8833a260eae099d2eb9"
+  },
+  {
+   "market_id": "st-louis-mo",
+   "path": "deploy/netlify/release_contracts/st-louis-mo.json",
+   "sha256": "704801a45f58e06d0469341bc1c83917b0ed3377abaa40d05f35b1dc193bb031"
+  }
+ ],
+ "global_gate_count": 27,
+ "required_gates": [
+  "assembly.no_route_collisions",
+  "assembly.no_global_shadowing",
+  "assembly.anchor_supplies_global_shell",
+  "global.every_included_market_has_a_contract",
+  "global.every_included_market_contract_verifies",
+  "global.no_ineligible_market_included",
+  "global.market_profile_counts_match_contracts",
+  "global.live_routes_preserved",
+  "global.launch_participation_explicit",
+  "global.launch_participation_agrees_with_source",
+  "publish.control_files_present",
+  "publish.headers_match_tracked_source",
+  "publish.redirects_match_tracked_source",
+  "publish.no_forbidden_files",
+  "publish.no_build_reports_in_site",
+  "headers.context_noindex_preview_only",
+  "content.zero_broken_links",
+  "content.canonical_uniqueness",
+  "content.sitemap_is_the_site",
+  "content.sitemap_excludes_go",
+  "content.go_routes_unique",
+  "measurement.config_valid",
+  "measurement.snippet_once_per_content_page",
+  "measurement.no_external_script_when_disabled",
+  "affiliate.destinations_allowlisted",
+  "affiliate.identity_bound",
+  "affiliate.no_destination_without_enrolled_provider"
+ ],
+ "rollback_target": "6a8d91855b8993b899a3b68a",
+ "target_site": "pettripfinder-prod",
+ "target_domain": "https://pettripfinder.com",
+ "authorization_status": "DEPLOYED",
+ "status_history": [
+  {
+   "status": "PREPARED",
+   "at": "2026-08-28T03:23:49+00:00",
+   "note": "bound to the verified manifest"
+  },
+  {
+   "status": "AUTHORIZED",
+   "at": "2026-08-28T03:23:49+00:00",
+   "note": "Founder authorised deployment of the eight-market candidate in PTF-INDIANAPOLIS-DEPLOY-AUTHORIZATION-020.",
+   "authorized_by": "jfields80"
+  },
+  {
+   "status": "DEPLOYED",
+   "at": "2026-08-28T03:42:11+00:00",
+   "note": "Deployed to production and verified byte-for-byte against the live site.",
+   "deployment_id": "6a9102c07ae3a341194c6f4c",
+   "deployment_record_id": "ptf-deploy-020-6a9102c07ae3a341194c6f4c"
+  }
+ ]
+}

@@ -147,3 +147,132 @@ python scripts/pettripfinder/discovery_cli.py run --market <id> --providers over
 The cells the public servers already answered stay exactly as cached; the rest
 are answered from the index and carry `local_extract:<extract_id>` in their
 provenance. The discovery state then reads EXHAUSTED and the census phase runs.
+## Re-censusing a market that already has a census (PTF-INDIANAPOLIS-HARDENED-RECENSUS-002)
+
+Indianapolis was the first REGISTERED market rebuilt on the generic path, and a
+registered market has three bindings Louisville did not: `markets/<id>.json`, a
+release contract in `deploy/netlify/release_contracts/` that pins
+`identity_census/<id>.json` at an `expected_count`, and (for Indianapolis) a
+policy package `published: true` in source. The generic tools read and write the
+census by convention at `launch_packages/pettripfinder/identity_census/`, so a
+rebuild on the generic path would have overwritten the pinned file -- and a
+release contract that no longer matches its market makes `verify_all()` raise
+for every market. Four things make a re-census safe:
+
+1. **The census location is a run-level setting.** `census_location.py` resolves
+   every generic tool's `CENSUS_DIR`; set
+   `PTF_IDENTITY_CENSUS_DIR=launch_packages/pettripfinder/identity_census_proposed`
+   for the whole run and the committed census is never touched. Promoting the
+   proposed census over the committed one is a founder step, taken together with
+   the release contract and the registration row it invalidates.
+2. **Prior work is an INPUT.** `discovery/census_recandidacy` (now a command)
+   projects the committed census back into candidates and merges them with fresh
+   discovery, absorbing by street identity ONLY when the names are compatible --
+   a dual-brand building is two hotels, a rebrand is a finding -- and taking the
+   fuller prior name over a provider's bare brand, which is how identity keys
+   collide. The census row carries `prior_census_identity_keys`,
+   `name_before_recandidacy` and `street_shared_with`.
+3. **Every prior row is classified once.** `discovery/prior_build_reconciliation`
+   reports MATCHED_EXISTING / RENAMED_REBRANDED / DUPLICATE /
+   OUT_OF_CURRENT_GEOGRAPHY / UNRESOLVED_IDENTITY for every prior row, plus what
+   the prior build still offers (USEFUL_SOURCE_URL, USEFUL_POLICY_EVIDENCE,
+   PRIOR_AUTHORITY_MATCH). Prior authority is reported, never carried.
+4. **An interrupted paid pass resumes.** The cost plan now treats a key already
+   in the run directory's journal as RESUMED, not bought twice, unless the pass
+   runs with `--no-resume`; and a pass killed mid-run (journal, no report) is
+   reported from its journal and registered before the next plan is built.
+5. **The authorisation is for the work order.** The recommended cap can never
+   exceed what earlier passes left of it (`cumulative_prior_spend`); an
+   exhausted authorisation SKIPS the paid phase with its rows BUDGET_DEFERRED
+   instead of running a pass under a fresh ceiling. Before this, the plan for
+   pass 2 reported 8 cents remaining and recommended 1000.
+6. **A budget stop stands behind a continuation pass.** The coverage builder
+   reads EVERY pass report (`--pass-report`, oldest first): a STOPPED_* pass's
+   deferrals stay BUDGET_DEFERRED until a later pass attempts them, and the
+   factory re-runs declined-evidence recovery over every pass's run directory
+   before judging coverage.
+
+Also fixed on this work order, all generic: `census_projection` honours a
+corridor's `explicit_hotel_ids` (five explicitly placed downtown hotels had been
+rejected as out of market, with a reason about coordinates they did not have);
+`census_url_recovery` reads the routing-shard shape (`hotel_ref.identity_key` +
+`official_property_url`); `market_routing.classify_url_shape` calls a hotel
+search (`find-hotels`, `hotel-search`, `?city=`) a BRAND_INDEX whatever else the
+path carries; and `discovery_cli run --overpass-endpoint` (or
+`$ATLAS_OVERPASS_ENDPOINT`) names the Overpass mirror explicitly when the public
+default is down -- the client never falls back on its own.
+
+```
+python -m scripts.pettripfinder.discovery.census_recandidacy   --prior-census <committed census> --discovery-candidates <fresh candidates>   --observed-at <date> --work-order <wo> --out <merged candidates>
+PTF_IDENTITY_CENSUS_DIR=launch_packages/pettripfinder/identity_census_proposed python scripts/pettripfinder/market_factory_cli.py --market <id>   --contract launch_packages/pettripfinder/markets/<id>.json   --candidates <merged candidates> --discovery-cache <cache>   --prior-census <committed census> --prior-artifact "<prior reports glob>" ...
+python scripts/pettripfinder/discovery/prior_build_reconciliation.py   --prior-census <committed census> --new-census <proposed census>   --candidate-ledger <ledger> --absorptions <merged>_prior_absorptions.json   --policy-package launch_packages/pettripfinder/hotel_policy_facts_<id>.json --out <report>
+```
+
+
+## Promoting a re-censused, registered market (PTF-INDIANAPOLIS-PROMOTION-AUTHORITY-PREP-003)
+
+After the founder review is CLOSED, promotion is prepared in a SHADOW, never in place:
+
+1. **Fix the store's capture time first.** `market_observation_store` derives `observed_at` from the
+   journal's `completed_at` (`capture_time.basis = acquisition_journal_completed_at`); a store built
+   before that fix carries a literal date and must be rebuilt from the same closeout (no refetch).
+2. **Plan as data.** `<market>_census_promotion_plan_<n>.json` (schema `ptf-census-promotion-plan/1.0`)
+   is derived from the closed ledger: renames, merges, retirements, address supersessions, phone/URL
+   corrections, fact corrections with the quotes they rest on, and the HOLD rulings.
+3. **`scripts/pettripfinder/census_promotion.py`** applies the plan to a COPY of the proposed census
+   (`identity_census_promotion/<market>.json`), re-keys renamed rows by `ptf_identity_key/1.0`,
+   validates against the census contract, and re-keys the merged closeout so the store joins the shadow
+   row for row. The pinned census is never written.
+4. **Founder rulings go through `markets/founder_overrides/<market>.json`**: `identity_overrides`
+   (adjudicate M10 on street + property code), `fact_overrides` (set/unset/unwithhold/withhold, every
+   assertion cited to a quote that must be contiguous in the persisted page), keyed by the
+   POST-promotion keys. The store is rebuilt from the re-keyed closeout + shadow census + overrides.
+5. **Signature view + proposed authority.** A ledger-shaped signature view (one signed row per surviving
+   identity, bound to the promotion store's snapshot hashes, HOLD resolutions carried by the work order
+   that made them) feeds `market_proposed_authority_cli.py`. The proposed authority is NOT a shard.
+6. **Prove, then stop.** The semantic-rebinding proof (packet vs packet under the key map) must explain
+   every moved row by a founder correction, rename or merge; the validation script must pass all eight
+   checks. Replacing the pinned census, the release contract, launch participation, publication and
+   deployment remain founder-authorised steps outside the preparation order.
+
+
+## Promoting the prepared authority (PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004)
+
+Executed from the PREP-003 artifacts only (no refetch, no spend), in this order, each step a
+separate command so a failure stops before the next write:
+
+0. **Collision gate first.** `indianapolis_in_promotion_collision_gate_004.json` classifies every
+   remaining shared street / URL / phone group in the shadow census. Groups outside the authority
+   that cannot create a duplicate live route, a duplicate authority identity or a conflicting
+   canonical identity are `NON_PUBLICATION_COHORT_UNRESOLVED` (they need a ruling only before
+   either row may enter authority). Two authority rows at one street are `KNOWN_MULTI_HOTEL_COMPLEX`
+   only when the exclusion contract's own co-location rule proves them distinct; otherwise STOP.
+1. **Census**: copy the shadow over the pinned file; register the old release contract's content
+   hash in `release_contracts_superseded.json` (contracts are superseded by content, never edited).
+2. **Package**: `market_policy_package_cli.py --normalize-weight --cap-qualifier-stated false
+   --publish <work order>` -- the named founder rulings (decision 1: an unqualified blanket
+   maximum publishes as `lte / per_pet`; decision 3: a cap whose source states no further
+   qualifier records `qualifier_stated: false`, as every prior market's La Quinta cap does).
+   A founder withholding reaches the package only through an observation FLAG from the existing
+   vocabulary (`fact_overrides[].flag_codes`); an invented code is a malformed observation.
+3. **Shard**: `market_registration_cli.py --write`, then **globals**:
+   `python -m scripts.pettripfinder.build_global_authority --write` and `--check`.
+4. **Release contract**: rewritten from `release_contracts.derive_authority` (never typed);
+   `verify_all()` must be clean for every market. A market rebuilt on the generic path has NO
+   partition mapping in `build_market_manifest._PARTITION_FILES` (Louisville precedent): its
+   partition is a factory artifact with no terminal states, so `unresolved` is the exact
+   subtraction. **Launch participation is NOT edited by a promotion**: the composed deployment
+   manifest pins that file's hash, so it is reissued only with a deployment authorization.
+5. **Pins move with the authority.** Tests that pinned the earlier build's live counts are updated
+   to the promoted truth and named for the work order; historical artifacts (`*_001.json`) stay
+   committed and keep their own tests.
+
+### Exclusion contract: co-located hotels (founder ruling A, this work order)
+
+`hotel_exclusions.validate` still refuses two exclusions at one street identity, unless
+`co_located_distinct` proves two properties: distinct identity keys, distinct canonical
+first-party URLs, and a brand family + property code readable from BOTH official URLs that differ
+within the same family (codes are never compared as raw strings across families -- Marriott
+`indsw` and IHG `indsw` are two hotels). A missing code, a missing family or a shared URL is
+INSUFFICIENT / DUPLICATE and the guard fires as before. Regression:
+`tests/pettripfinder/test_hotel_exclusions_co_located_004.py` (cases A-F).

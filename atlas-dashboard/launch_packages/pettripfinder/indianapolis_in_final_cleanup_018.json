@@ -1,0 +1,302 @@
+{
+  "schema": "ptf-market-cleanup/1.0",
+  "market_id": "indianapolis-in",
+  "work_order": "PTF-INDIANAPOLIS-FINAL-ZERO-COST-CLEANUP-018",
+  "provider_calls": 0,
+  "usd_spent": 0.0,
+  "nothing_was_fetched": true,
+  "nothing_is_published_by_this_file": "This settles six named items from evidence already on disk. It assembles no bundle, issues no deployment authorisation, publishes no page and deploys nothing.",
+  "item_1_plainfield_hampton_identity_ruling": {
+    "identity_key": "hampton inn indianapolis southwest plainfield",
+    "canonical_name": "Hampton Inn Indianapolis Southwest Plainfield",
+    "census_name": "Hampton Inn Indianapolis Southwest Plainfield",
+    "page_name": "Hampton Inn Indianapolis-SW/Plainfield",
+    "founder_rule_applied": "A name difference may be overridden only when at least TWO strong independent property-specific identity signals agree (exact street identity plus the brand's property code carried by the captured page/URL, or an exact telephone). The five rulings below were given per row in PTF-INDIANAPOLIS-PROMOTION-AUTHORITY-PREP-003 over saved evidence only; no page was refetched.",
+    "signals": {
+      "exact_telephone": {
+        "census": "3178399993",
+        "page": "+1 317-839-9993",
+        "agrees": true
+      },
+      "brand_property_code": {
+        "page": "indpfhx",
+        "carried_by_the_url": true,
+        "agrees": true
+      },
+      "street_identity": {
+        "census": "2244 East Main Street",
+        "page": "2244 East Perry Road",
+        "agrees": false,
+        "why": ""
+      }
+    },
+    "signals_agreeing": [
+      "exact_telephone",
+      "brand_property_code"
+    ],
+    "rule_satisfied": true,
+    "why": "the founder's rule admits 'an exact telephone' on its own, and the census phone and the page phone are the same ten digits; the brand property code agrees as a second, independent signal",
+    "street_disagreement_is_not_reconciled": "the census address and the page address name different streets and this ruling does NOT decide which is right. It says the phone identifies the building; correcting the census address is a separate question.",
+    "decided_by": "the operator, in PTF-INDIANAPOLIS-FINAL-ZERO-COST-CLEANUP-018, which names this row as an item to work and directs promotion if it validates cleanly. The TEST applied is the founder's own rule recorded in PTF-INDIANAPOLIS-PROMOTION-AUTHORITY-PREP-003; this file records the application, not a new rule."
+  },
+  "item_2_and_3_canonical_name_corrections": {
+    "count": 2,
+    "records": [
+      {
+        "identity_key": "home2 suites by hilton",
+        "census_name": "Home2 Suites by Hilton",
+        "corrected_name": "Home2 Suites by Hilton Carmel Indianapolis",
+        "cited_to": "https://www.hilton.com/en/hotels/indcrht-home2-suites-carmel-indianapolis/",
+        "already_a_profile": false,
+        "rekeys_the_identity": false,
+        "effect": "the published name and the route slug change; the census identity key does not"
+      },
+      {
+        "identity_key": "tru",
+        "census_name": "Tru",
+        "corrected_name": "Tru by Hilton Indianapolis Downtown",
+        "cited_to": "https://www.hilton.com/en/hotels/inddwru-tru-indianapolis-downtown/",
+        "already_a_profile": true,
+        "rekeys_the_identity": false,
+        "effect": "the published name and the route slug change; the census identity key does not"
+      }
+    ]
+  },
+  "item_4_omni_severin": {
+    "identity_key": "omni severin hotel indianapolis",
+    "canonical_name": "Omni Severin Hotel Indianapolis",
+    "what_changed": "_ALLOWS gained an anchored 'is/are a pet friendly' pattern. Nothing else moved: the block is the one the locator already bounded, and no evidence was re-located or re-acquired.",
+    "policy_block": "Yes, Omni Severin Hotel is a pet friendly hotel for pets under 25 pounds. There is a one-time non-refundable fee of $125 per reservation. Service animals accompanying guests with disabilities are always welcome and will not be required to pay the one-time pet charge (no documentation necessary). Read more of our hotel policies.",
+    "reading": {
+      "denying_language": [],
+      "allowing_language": [
+        "\\b(?:is|are)\\s+(?:a\\s+)?pet[\\s-]friendly\\b"
+      ],
+      "service_animal_language": true,
+      "fee_language": true,
+      "question_only": false,
+      "amenity_run": false
+    },
+    "disposition": "APPROVE_PET_FRIENDLY",
+    "reason": "the source affirmatively permits pets in its own words; its service-animal sentence is separate and was not read as the permission",
+    "semantic_hash": "sha256:f01a5264136739c721be11e8064cd26a7c96d276719164340cf7914eb5701ba9",
+    "content_hash": "eadd1bf6820350988f248e3ffb246d87eea14dc450fd9175c025cdf254e79f1c",
+    "source_url": "https://www.omnihotels.com/hotels/indianapolis-severin",
+    "completed_at": "2026-08-27T19:11:59.974005+00:00",
+    "promotable": true
+  },
+  "item_5_esa_fee_only_hold": {
+    "identity_key": "extended stay america indianapolis airport w southern ave",
+    "canonical_name": "Extended Stay America - Indianapolis - Airport - W. Southern Ave.",
+    "state": "STILL HELD -- handed back to the founder",
+    "the_permission_is_in_the_capture": true,
+    "quote": "Pet Policy\n\nA maximum of two pets are allowed in each suite.",
+    "quote_location": "page-text.txt, under the heading 'Pet Policy'",
+    "committed_rules_would_approve_that_sentence": "APPROVE_PET_FRIENDLY",
+    "contradicting_refusals_in_the_whole_capture": "none",
+    "held_block": "Pet fees: Not to exceed a $25.00 per day cleaning fee plus tax, for the first six (6) nights, per pet. Each day thereafter there is a pet cleaning fee not to exceed a $15.00 per day plus tax, per pet. If your reservation is for six (6) days or less, the pet fees for your entire stay will be due at check-in. For reservations for seven (7) days or more, the first seven (7) nights\u2019 pet fees will be due at check-in and each seven (7) days thereafter until the end of your reservation.",
+    "why_it_is_not_resolved_here": {
+      "the_block_asserts_something": "unlike the Home2 block that 014 re-located off, this block is not empty: it states a full fee schedule. 014's own rule is that a HOLD on an EMPTY block is re-locatable and a HOLD on an ASSERTING block is not.",
+      "two_founder_acts_would_be_needed": "a re-locate off an asserting block, and a fact override to inject pets_allowed into the observation. Both belong to the founder.",
+      "what_is_NOT_in_doubt": "the capture contains no refusal anywhere, and the block's fee schedule agrees with the page's; the $250 figures are a smoking fee and an incidental deposit, not a second pet-fee basis."
+    },
+    "what_a_ruling_would_need_to_say": "that the quoted sentence may be read as this property's pet permission, and that its fee schedule publishes as stated"
+  },
+  "item_6_routing_repair": {
+    "examined": 14,
+    "repaired": 1,
+    "still_unresolved": 13,
+    "repaired_keys": [
+      "extended stay america indianapolis west 86th st"
+    ],
+    "no_policy_was_recovered": "A refused capture persisted no artifact -- 0 of the 14 kept a page. Repair here means the identity rule stops refusing a page wrongly; it does not recover a policy, and no row became a profile.",
+    "by_kind": {
+      "NAME": 5,
+      "STREET": 9
+    },
+    "rows": [
+      {
+        "identity_key": "comfort inn and suites n at pyramids",
+        "kind": "NAME",
+        "census_address": "9090 Wesleyan Road",
+        "page_address": null,
+        "page_name": "Comfort Inn & Suites Indianapolis Northwest - College Park",
+        "repaired": false,
+        "repair_rule": "",
+        "still_unresolved_because": "the page states a marketing or directory name that no deterministic rule maps to this identity; a person must say whether it is the same hotel",
+        "policy_recovered": false,
+        "saved_artifact": false
+      },
+      {
+        "identity_key": "comfort inn east indianapolis",
+        "kind": "STREET",
+        "census_address": "7015 Western Select Drive",
+        "page_address": "2295 N. Shadeland",
+        "page_name": null,
+        "repaired": false,
+        "repair_rule": "",
+        "still_unresolved_because": "the page names a different street or house number, which is a different building and not a notation difference",
+        "policy_recovered": false,
+        "saved_artifact": false
+      },
+      {
+        "identity_key": "echo suites extended stay by wyndham indianapolis ameriplex",
+        "kind": "STREET",
+        "census_address": "8805 Ameriplex Drive",
+        "page_address": "5831 Alta Lake Drive",
+        "page_name": null,
+        "repaired": false,
+        "repair_rule": "",
+        "still_unresolved_because": "the page names a different street or house number, which is a different building and not a notation difference",
+        "policy_recovered": false,
+        "saved_artifact": false
+      },
+      {
+        "identity_key": "extended stay america indianapolis castleton",
+        "kind": "STREET",
+        "census_address": "8280 Bash Street",
+        "page_address": "7940 N. Shadeland Ave.",
+        "page_name": null,
+        "repaired": false,
+        "repair_rule": "",
+        "still_unresolved_because": "the page names a different street or house number, which is a different building and not a notation difference",
+        "policy_recovered": false,
+        "saved_artifact": false
+      },
+      {
+        "identity_key": "extended stay america indianapolis west 86th st",
+        "kind": "STREET",
+        "census_address": "8520 Northwest Boulevard",
+        "page_address": "8520 N.W. Blvd.",
+        "page_name": null,
+        "repaired": true,
+        "repair_rule": "one side writes the directional split by full stops (\"N.W.\") and the other writes it whole (\"Northwest\")",
+        "still_unresolved_because": "",
+        "policy_recovered": false,
+        "saved_artifact": false
+      },
+      {
+        "identity_key": "intown suites extended stay indianapolis in greenwood",
+        "kind": "NAME",
+        "census_address": "887 East Main Street",
+        "page_address": null,
+        "page_name": "Indianapolis South, IN Extended Stay Hotel",
+        "repaired": false,
+        "repair_rule": "",
+        "still_unresolved_because": "the page states a marketing or directory name that no deterministic rule maps to this identity; a person must say whether it is the same hotel",
+        "policy_recovered": false,
+        "saved_artifact": false
+      },
+      {
+        "identity_key": "intown suites extended stay indianapolis in traders point",
+        "kind": "NAME",
+        "census_address": "5820 West 85th Street",
+        "page_address": null,
+        "page_name": "Indianapolis Northwest, IN Extended Stay Hotel",
+        "repaired": false,
+        "repair_rule": "",
+        "still_unresolved_because": "the page states a marketing or directory name that no deterministic rule maps to this identity; a person must say whether it is the same hotel",
+        "policy_recovered": false,
+        "saved_artifact": false
+      },
+      {
+        "identity_key": "quality inn and suites noblesville indianapolis",
+        "kind": "STREET",
+        "census_address": "16025 Promise Road",
+        "page_address": "17070 Dragonfly Lane",
+        "page_name": null,
+        "repaired": false,
+        "repair_rule": "",
+        "still_unresolved_because": "the page names a different street or house number, which is a different building and not a notation difference",
+        "policy_recovered": false,
+        "saved_artifact": false
+      },
+      {
+        "identity_key": "quality inn brownsburg indianapolis west",
+        "kind": "STREET",
+        "census_address": "31 Brownsburg Place",
+        "page_address": "31 Maplehurst Drive",
+        "page_name": null,
+        "repaired": false,
+        "repair_rule": "",
+        "still_unresolved_because": "the page names a different street or house number, which is a different building and not a notation difference",
+        "policy_recovered": false,
+        "saved_artifact": false
+      },
+      {
+        "identity_key": "quality inn noblesville indianapolis",
+        "kind": "STREET",
+        "census_address": "17070 Dragonfly Drive",
+        "page_address": "17070 Dragonfly Lane",
+        "page_name": null,
+        "repaired": false,
+        "repair_rule": "",
+        "still_unresolved_because": "the page names a different street or house number, which is a different building and not a notation difference",
+        "policy_recovered": false,
+        "saved_artifact": false
+      },
+      {
+        "identity_key": "relax inn",
+        "kind": "NAME",
+        "census_address": "120 South Tibbs Avenue",
+        "page_address": null,
+        "page_name": null,
+        "repaired": false,
+        "repair_rule": "",
+        "still_unresolved_because": "the page states a marketing or directory name that no deterministic rule maps to this identity; a person must say whether it is the same hotel",
+        "policy_recovered": false,
+        "saved_artifact": false
+      },
+      {
+        "identity_key": "travel inn",
+        "kind": "NAME",
+        "census_address": "4950 South East Street",
+        "page_address": null,
+        "page_name": "Business Directory - Find Great Local Businesses",
+        "repaired": false,
+        "repair_rule": "",
+        "still_unresolved_because": "the page states a marketing or directory name that no deterministic rule maps to this identity; a person must say whether it is the same hotel",
+        "policy_recovered": false,
+        "saved_artifact": false
+      },
+      {
+        "identity_key": "wingate by wyndham indianapolis airport plainfield",
+        "kind": "STREET",
+        "census_address": "6010 Gateway Drive",
+        "page_address": "6300 Gateway Drive",
+        "page_name": null,
+        "repaired": false,
+        "repair_rule": "",
+        "still_unresolved_because": "the page names a different street or house number, which is a different building and not a notation difference",
+        "policy_recovered": false,
+        "saved_artifact": false
+      },
+      {
+        "identity_key": "woodspring suites indianapolis castleton",
+        "kind": "STREET",
+        "census_address": "8255 Bash Street",
+        "page_address": "8301 Bash Street",
+        "page_name": null,
+        "repaired": false,
+        "repair_rule": "",
+        "still_unresolved_because": "the page names a different street or house number, which is a different building and not a notation difference",
+        "policy_recovered": false,
+        "saved_artifact": false
+      }
+    ]
+  },
+  "home2_is_still_refused": {
+    "identity_key": "home2 suites by hilton",
+    "name_corrected": true,
+    "promoted": false,
+    "why": "the overlay corrects the NAME and was verified not to rekey the census identity. The key still equals the one Cleveland routes to a hotel in Independence, OH, and promoting a row on a key another market owns is what 017 refused. A census rekey is the fix and needs its own authorisation."
+  },
+  "counts": {
+    "starting_pet_friendly": 54,
+    "newly_promotable": [
+      "hampton inn indianapolis southwest plainfield",
+      "omni severin hotel indianapolis"
+    ],
+    "ending_pet_friendly": 56
+  }
+}

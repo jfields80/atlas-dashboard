@@ -1,0 +1,75 @@
+{
+  "schema": "ptf-saved-artifact-reparse/1.0",
+  "market_id": "indianapolis-in",
+  "work_order": "PTF-INDIANAPOLIS-HOME2-KEYSTONE-REPARSE-014",
+  "identity_key": "home2 suites by hilton indianapolis keystone crossing",
+  "canonical_name": "Home2 Suites by Hilton Indianapolis Keystone Crossing",
+  "provider_calls": 0,
+  "usd_spent": 0.0,
+  "what_this_is": "One held record settled from the capture already on disk. No provider was called and no raw evidence was altered.",
+  "this_is_a_relocate_not_a_reparse": {
+    "doctrine": "PTF-MILWAUKEE-OBSERVATION-REDERIVATION-018 re-parses the BLOCK and calls re-locating from rendered.html a re-acquisition, because it changes WHICH text the record is about as well as how it is read.",
+    "why_it_is_safe_here": "the held block asserts nothing -- it is an interrogative with no predicate. There is no finding to move, no withheld contradiction to paper over and no second fee basis to accidentally prefer. This adds a finding where there was none.",
+    "authorised_by": "PTF-INDIANAPOLIS-HOME2-KEYSTONE-REPARSE-014",
+    "guard_carried": "the whole artifact is scanned for any contradicting pet sentence before the correction may stand"
+  },
+  "original_hold": {
+    "work_order": "PTF-INDIANAPOLIS-TARGETED-FOUNDER-REVIEW-013",
+    "disposition": "HOLD",
+    "reason": "the locator captured the FAQ heading and stopped: the block is a question, not an answer. A question is not a policy.",
+    "held_block": "Are pets allowed at Home2 Suites by Hilton Indianapolis Keystone Crossing?",
+    "held_block_sha256": "43fff946c8f775f0e522ec0aa84b5f336b5e58c51d10769e8b8d12027bb586e1",
+    "held_locator_strategy": "generic_signal_walk"
+  },
+  "correction": {
+    "reason": "the property's own answer to the very question the locator stopped at is present in the same capture, in three encodings, and says pets are allowed",
+    "recovered_statement": "Yes, pets are allowed at Home2 Suites by Hilton Indianapolis Keystone Crossing. There is a $75.00 non-refundable fee for pets up to 75 lbs. For stays of 1-4 nights, the fee is $75. For stays of 5 or more nights, the fee is $125.",
+    "occurrences_in_the_artifact": 3,
+    "source_url": "https://www.hilton.com/en/hotels/indenht-home2-suites-indianapolis-keystone-crossing/?SEO_id=GMB-AMER-HT-INDENHT",
+    "artifact_dir": "data/acquisition/indianapolis_in_012/home2-suites-by-hilton-indianapolis-keystone-crossing/attempt-02",
+    "rendered_html_sha256": "8313f175b2a82f2be3b57dfe26f40f381b070b8cf276cd101306a33356476766",
+    "raw_evidence_altered": false
+  },
+  "verification": {
+    "identity_confirmed_by_the_capture": true,
+    "source_is_first_party": true,
+    "exactly_one_pet_statement_in_the_artifact": true,
+    "no_contradicting_pet_text_anywhere": true,
+    "the_statement_names_this_building_not_the_brand": true,
+    "pets_allowed_is_stated_not_inferred": true,
+    "no_service_animal_sentence_is_doing_the_work": true
+  },
+  "all_checks_pass": true,
+  "corrected_facts": {
+    "pets_allowed": true,
+    "pets_allowed_evidence": "Yes, pets are allowed at Home2 Suites by Hilton Indianapolis Keystone Crossing.",
+    "max_weight_lbs": 75,
+    "fee_tiers": [
+      {
+        "amount_usd": 75.0,
+        "min_nights": 1,
+        "max_nights": 4
+      },
+      {
+        "amount_usd": 125.0,
+        "min_nights": 5,
+        "max_nights": null
+      }
+    ],
+    "fee_basis": "per stay",
+    "fee_refundable": false,
+    "fee_scope": null,
+    "max_pets": null,
+    "species": null,
+    "withheld_because_the_source_does_not_say": [
+      "fee_scope -- the sentence never says whether the fee is per pet or per room",
+      "max_pets -- no count is stated",
+      "species -- no species restriction is stated"
+    ],
+    "not_borrowed_from_siblings": "the other Home2 and Homewood properties in this market state '2 pets max, dogs/cats only'. That is THEIR evidence and it is not imported here; absence on this property stays absence."
+  },
+  "new_disposition": "APPROVE_PET_FRIENDLY",
+  "bound_semantic_hash": "sha256:26ba9f1dd3d70e350eb62b22988f2e47955d9979e12a94b45f9f20d85a70ac9a",
+  "bound_snapshot_hash": "8313f175b2a82f2be3b57dfe26f40f381b070b8cf276cd101306a33356476766",
+  "true_capture_completed_at": "2026-08-27T16:29:06.723006+00:00"
+}

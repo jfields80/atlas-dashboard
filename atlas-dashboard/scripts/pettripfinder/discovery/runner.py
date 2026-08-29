@@ -48,6 +48,13 @@ class RunConfig:
     # answers Overpass cells without a public server at all.
     overpass_registry_path: str = ""
     osm_extract_index: str = ""
+    #: PTF-INDIANAPOLIS-HARDENED-RECENSUS-002. One named mirror, recorded, with
+    #: no fallback -- for the case that order was written against: the default
+    #: public endpoint went dark while other mirrors answered in a second, and
+    #: an operator needs to say WHICH one this run may ask. It is checked before
+    #: the registry so naming a mirror means exactly that; leaving it empty is
+    #: how a run gets the resilient registry instead.
+    overpass_endpoint: str = ""
     # PTF-PITTSBURGH-HARDENED-RECENSUS-001. After ``progress_stall_cycles``
     # consecutive resume cycles that completed no cell, live free discovery
     # is refused until a human overrides ONE run.
@@ -68,6 +75,11 @@ def default_overpass_source(config: "RunConfig"):
     run's own health ledger, and gentle pacing. Never one hard-coded endpoint.
     """
     from scripts.pettripfinder.discovery import overpass_endpoints as OE
+    if config.overpass_endpoint:
+        # An operator naming ONE mirror is a deliberate act and outranks the
+        # registry, which is exactly the point of the flag: no hidden fallback
+        # to a second server.
+        return OverpassClient(endpoint=config.overpass_endpoint)
     if config.osm_extract_index:
         from scripts.pettripfinder.discovery.osm_extract import ExtractIndex, LocalOsmExtractSource
         return LocalOsmExtractSource(ExtractIndex.load(Path(config.osm_extract_index)))

@@ -1,0 +1,74 @@
+{
+  "schema": "ptf-market-recovery-cost-plan/1.0",
+  "market_id": "indianapolis-in",
+  "work_order": "PTF-INDIANAPOLIS-50-PLUS-PET-FRIENDLY-RECOVERY-005",
+  "this_is_not_an_authorization": true,
+  "authorised_cap_usd_minor": 0,
+  "cohort_size": 36,
+  "cohort_by_provider": {
+    "brightdata_browser": 35,
+    "firecrawl": 1
+  },
+  "cohort_by_family": {
+    "BEST_WESTERN": 4,
+    "CHOICE": 1,
+    "ESA": 1,
+    "HILTON": 14,
+    "HYATT": 5,
+    "INDEPENDENT": 8,
+    "MARRIOTT": 1,
+    "RED_ROOF": 1,
+    "SONESTA": 1
+  },
+  "dollar_billed_properties": 35,
+  "credit_billed_properties": 1,
+  "measured_unit_usd_minor": 13.41,
+  "lanes": [
+    {
+      "provider": "brightdata_browser",
+      "properties": 35,
+      "billing": "USD",
+      "registry_unit_usd_minor": 16.0,
+      "measured_unit_usd_minor": 13.41,
+      "projected_usd_minor_at_measured": 469.35,
+      "projected_usd_minor_at_registry": 560.0
+    },
+    {
+      "provider": "firecrawl",
+      "properties": 1,
+      "billing": "PLAN_CREDITS",
+      "registry_unit_usd_minor": null,
+      "measured_unit_usd_minor": null,
+      "projected_usd_minor": 0,
+      "projected_plan_credits": 1.0,
+      "note": "this lane bills plan credits and draws nothing from the dollar cap"
+    }
+  ],
+  "expected_firecrawl_credits": 1.0,
+  "expected_brightdata_usd_minor": {
+    "at_measured": 469.35,
+    "at_registry": 560.0,
+    "worst_case_with_fallback": 735.0
+  },
+  "projection": {
+    "at_measured_rates_usd_minor": 469.35,
+    "at_registry_rates_usd_minor": 560.0,
+    "unlocker_fallback_exposure_usd_minor": 175.0,
+    "worst_case_usd_minor": 735.0,
+    "basis": "every dollar-billed property attempted once at the higher of the registry and measured unit price, plus a fallback attempt on every one of them"
+  },
+  "safe_cap_usd_minor": 750,
+  "safe_cap_why": "the worst case with a fallback attempt on every dollar-billed property, rounded up; nothing is authorised here",
+  "yield_projection": {
+    "basis": "this market's own pass-1/pass-2 record: 79 identities attempted, 24 became promoted pet-friendly and 24 became signed no-pets",
+    "observed_pet_friendly_rate": 0.3038,
+    "observed_resolution_rate": 0.6076,
+    "payable_cohort": 36,
+    "expected_new_pet_friendly": 11,
+    "expected_total_pet_friendly": 35,
+    "target": 50,
+    "still_needed_after_spending_the_whole_cohort": 15,
+    "payable_properties_required_to_reach_target_at_this_rate": 86,
+    "verdict": "NOT_REACHABLE_FROM_THE_CURRENT_PAYABLE_POOL"
+  }
+}

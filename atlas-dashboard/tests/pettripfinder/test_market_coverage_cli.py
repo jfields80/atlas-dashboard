@@ -152,3 +152,68 @@ class TestStages:
         assert states.get(COV.SETTLED_FOUNDER_CANDIDATE, 0) == 0
         assert document["booleans"]["READY_FOR_FOUNDER_REVIEW"] is False
         assert document["booleans"]["CLOSURE_RECONCILED"] is False
+
+
+@pytest.fixture(scope="module")
+def indianapolis():
+    """The hardened re-census (002): two paid passes, the second an interrupted
+    continuation reported from its journal. Built with EVERY pass report."""
+    return MC.build_from_paths(
+        market_id="indianapolis-in",
+        url_overlay=(PKG / "indianapolis_in_url_recovery_post_acquisition_002.json").as_posix(),
+        acquisition=(PKG / "indianapolis_in_acquisition_merged_closeout_002.json").as_posix(),
+        last_pass=(PKG / "indianapolis_in_market_acquisition_pass2_002.json").as_posix(),
+        pass_reports=[(PKG / "indianapolis_in_market_acquisition_pass1_002.json").as_posix(),
+                      (PKG / "indianapolis_in_market_acquisition_pass2_002.json").as_posix()],
+        closure=(PKG / "indianapolis_in_closure_ledger_002.json").as_posix(),
+        packet=(PKG / "indianapolis_in_founder_review_packet_002.json").as_posix(),
+        url_recovery=(PKG / "indianapolis_in_url_recovery_post_acquisition_002.json").as_posix(),
+        declined_recovery=(PKG / "indianapolis_in_zero_cost_recovery_002.json").as_posix(),
+        recovery_after_last_pass=True,
+        stage=MC.STAGE_FOUNDER_REVIEW_PACKET,
+        work_order="TEST", as_of="2026-08-25",
+        census_path=PKG / "identity_census_proposed" / "indianapolis-in.json")
+
+
+class TestABudgetStopStandsBehindAContinuationPass:
+    """Pass 1 stopped on the hard cap with 28 deferred; a 2-row continuation
+    reported from its journal became the last pass. With only the last pass
+    read, the 26 rows it never reached were ROUTED_NEVER_ATTEMPTED -- a factory
+    phase -- and the market could never be READY. Every pass is read now."""
+
+    def test_the_26_standing_deferrals_need_a_budget_not_a_phase(self, indianapolis):
+        basis = indianapolis["boolean_basis"]["approved_routes"]
+        assert basis["last_pass_outcome"] == "REPORT_FROM_JOURNAL"
+        assert basis["last_pass_stopped_on_budget"] is False
+        assert basis["a_budget_stop_stands"] is True
+        stop = basis["budget_stops_with_standing_deferrals"][0]
+        assert (stop["outcome"], stop["deferred"], stop["attempted_by_a_later_pass"],
+                stop["deferrals_standing"]) == ("STOPPED_HARD_CAP", 28, 2, 26)
+        assert indianapolis["counts"]["BUDGET_DEFERRED"] == 26
+        assert indianapolis["coverage_state_counts"].get(COV.ROUTED_NEVER_ATTEMPTED, 0) == 0
+
+    def test_it_reconciles_the_whole_census_and_is_ready(self, indianapolis):
+        assert indianapolis["reconciliation"]["missing"] == []
+        assert indianapolis["reconciliation"]["foreign"] == []
+        assert indianapolis["counts"]["CENSUS"] == 265
+        assert indianapolis["counts"]["FOUNDER_CANDIDATES"] == 50
+        assert indianapolis["counts"]["ALTERNATE_LANE_REQUIRED"] == 17
+        assert all(indianapolis["booleans"].values()), indianapolis["booleans"]
+        assert indianapolis["factory_complete"] is True
+        assert indianapolis["identities_the_factory_can_still_move"] == []
+
+    def test_reading_only_the_last_pass_would_have_hidden_the_stop(self):
+        document = MC.build_from_paths(
+            market_id="indianapolis-in",
+            url_overlay=(PKG / "indianapolis_in_url_recovery_post_acquisition_002.json").as_posix(),
+            acquisition=(PKG / "indianapolis_in_acquisition_merged_closeout_002.json").as_posix(),
+            last_pass=(PKG / "indianapolis_in_market_acquisition_pass2_002.json").as_posix(),
+            closure=(PKG / "indianapolis_in_closure_ledger_002.json").as_posix(),
+            packet=(PKG / "indianapolis_in_founder_review_packet_002.json").as_posix(),
+            url_recovery=(PKG / "indianapolis_in_url_recovery_post_acquisition_002.json").as_posix(),
+            declined_recovery=(PKG / "indianapolis_in_zero_cost_recovery_002.json").as_posix(),
+            recovery_after_last_pass=True,
+            stage=MC.STAGE_FOUNDER_REVIEW_PACKET, work_order="TEST", as_of="2026-08-25",
+            census_path=PKG / "identity_census_proposed" / "indianapolis-in.json")
+        assert document["counts"]["BUDGET_DEFERRED"] == 0
+        assert document["booleans"]["READY_FOR_FOUNDER_REVIEW"] is False

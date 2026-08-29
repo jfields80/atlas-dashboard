@@ -1,0 +1,173 @@
+{
+ "schema": "ptf-promotion-validation/1.0",
+ "market_id": "indianapolis-in",
+ "work_order": "PTF-INDIANAPOLIS-PROMOTION-AUTHORITY-PREP-003",
+ "all_passed": true,
+ "summary": {
+  "pet_friendly": 24,
+  "verified_no_pets": 24,
+  "authority_total": 48,
+  "unresolved": 0,
+  "signed_rows": 48,
+  "remaining_holds": 0,
+  "registered": false,
+  "published": false,
+  "deployed": false
+ },
+ "checks": [
+  {
+   "check": "every_authority_row_has_a_true_observed_at",
+   "passed": true,
+   "evidence": {
+    "rows": 48,
+    "journal_dates": {
+     "2026-08-25": 81
+    },
+    "observed_at_counts": {
+     "2026-08-25": 48
+    },
+    "failures": []
+   }
+  },
+  {
+   "check": "every_authority_identity_resolves_uniquely_to_the_shadow_census",
+   "passed": true,
+   "evidence": {
+    "authority_rows": 48,
+    "shadow_rows": 257,
+    "missing": [],
+    "duplicate_keys": []
+   }
+  },
+  {
+   "check": "no_duplicate_live_routes_and_live_routes_preserved",
+   "passed": true,
+   "evidence": {
+    "routes": 48,
+    "duplicates": {},
+    "preserved_live_routes": {
+     "hampton inn indianapolis northeast castleton": {
+      "live_name": "Hampton Inn Indianapolis Northeast Castleton",
+      "authority_name": "Hampton Inn Indianapolis Northeast Castleton",
+      "route_preserved": true
+     },
+     "holiday inn express plainfield": {
+      "live_name": "Holiday Inn Express Plainfield",
+      "authority_name": "Holiday Inn Express Plainfield",
+      "route_preserved": true
+     }
+    }
+   }
+  },
+  {
+   "check": "no_stale_twin_survives",
+   "passed": true,
+   "evidence": {
+    "keys_removed_by_plan": [
+     "courtyard",
+     "courtyard by marriott indianapolis fishers",
+     "days inn",
+     "fairfield inn and suites by marriott indianapolis downtown",
+     "fairfield inn and suites indianapolis downtown university area",
+     "hampton inn indianapolis ne castleton",
+     "holiday inn express and suites",
+     "holiday inn express indianapolis airport",
+     "holiday inn express indianapolis south greenwood",
+     "holiday inn express indianapolis west airport area",
+     "la quinta inn and suites",
+     "la quinta inn indianapolis airport executive drive",
+     "oyo hotel indianapolis international airport",
+     "springhill suites",
+     "springhill suites by marriott indianapolis downtown"
+    ],
+    "still_in_shadow": [],
+    "still_in_authority": []
+   }
+  },
+  {
+   "check": "no_founder_approved_correction_is_lost",
+   "passed": true,
+   "evidence": {
+    "renames_checked": 7,
+    "fact_corrections_checked": 13,
+    "lost": []
+   }
+  },
+  {
+   "check": "no_source_conflict_withholding_was_invented",
+   "passed": true,
+   "evidence": {
+    "in_authority": [
+     [
+      "candlewood suites indianapolis medical district",
+      "fee_basis"
+     ],
+     [
+      "the alexander autograph collection",
+      "pet_fee"
+     ]
+    ],
+    "decided_by_founder": [
+     [
+      "candlewood suites indianapolis medical district",
+      "fee_basis"
+     ],
+     [
+      "the alexander autograph collection",
+      "pet_fee"
+     ]
+    ]
+   }
+  },
+  {
+   "check": "no_paid_acquisition_ran",
+   "passed": true,
+   "evidence": {
+    "journals": [
+     {
+      "journal": "data/acquisition/indianapolis_in_factory_002/pass1/journal.jsonl",
+      "rows": 79,
+      "expected": 79
+     },
+     {
+      "journal": "data/acquisition/indianapolis_in_factory_002/pass2/journal.jsonl",
+      "rows": 2,
+      "expected": 2
+     }
+    ],
+    "store_network_calls": 0,
+    "store_usd_spent": 0.0
+   }
+  },
+  {
+   "check": "production_authority_is_pre_promotion_or_fully_promoted",
+   "passed": true,
+   "evidence": {
+    "state": "PROMOTED",
+    "paths": [
+     "launch_packages/pettripfinder/identity_census/indianapolis-in.json",
+     "launch_packages/pettripfinder/hotel_policy_facts_indianapolis-in.json",
+     "launch_packages/pettripfinder/markets/authority",
+     "launch_packages/pettripfinder/markets/indianapolis-in.json",
+     "launch_packages/pettripfinder/hotel_exclusions.json",
+     "deploy/netlify/release_contracts",
+     "launch_packages/pettripfinder/launch_participation.json"
+    ],
+    "git_status": [],
+    "pinned_census_is_shadow": true,
+    "package_records": 54,
+    "shard_exclusions": 34,
+    "compared_against": "indianapolis_in_proposed_authority_017.json",
+    "expected_pet_friendly": 54,
+    "expected_verified_no_pets": 34
+   }
+  }
+ ],
+ "inputs": {
+  "indianapolis_in_proposed_authority_003.json": "8868dbb91749dd457b96f61fe77eeaf2f271c2a4cc6ba4ac5fb19612f1454567",
+  "indianapolis_in_observation_store_003.json": "e60f94bb9aca7b5b69f6853e9d445f8fed7212022419a1dd258dfd03df395446",
+  "identity_census_promotion/indianapolis-in.json": "8125ae52aef1ef06454f8cfb060218f0dafe05764fa3e1985596a1e5fd4a325c",
+  "indianapolis_in_census_promotion_plan_003.json": "0d8f8994666da9cd8ebb55d459710793392f193d2185715184737e03dca49089",
+  "indianapolis_in_founder_signature_003.json": "d8047268d16ee3a2fa0a97101de175815459832e8af77f3f6a76eed07d1adf2e"
+ }
+}

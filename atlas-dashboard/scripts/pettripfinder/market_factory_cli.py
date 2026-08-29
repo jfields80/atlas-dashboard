@@ -76,7 +76,8 @@ from scripts.pettripfinder.acquisition import retry_policy as RP
 from scripts.pettripfinder.contracts import coverage as COV
 
 PACKAGE_DIR = _REPO_ROOT / "launch_packages" / "pettripfinder"
-CENSUS_DIR = PACKAGE_DIR / "identity_census"
+from scripts.pettripfinder import census_location as CENSUS_LOCATION  # noqa: E402
+CENSUS_DIR = CENSUS_LOCATION.identity_census_dir()  # committed, or $PTF_IDENTITY_CENSUS_DIR during a rebuild
 MARKETS_DIR = PACKAGE_DIR / "markets"
 
 LEDGER_SCHEMA = "ptf-market-factory-ledger/1.0"
@@ -176,6 +177,17 @@ HARDENED_BASELINE: Tuple[Tuple[str, str, str], ...] = (
      "scripts.pettripfinder.acquisition.retry_policy", "apply"),
     ("coverage-completion contract",
      "scripts.pettripfinder.contracts.coverage", "document"),
+    # Hardened re-census work order (002): re-censusing a REGISTERED market.
+    ("run-level census location (a registered census is never rebuilt in place)",
+     "scripts.pettripfinder.census_location", "identity_census_dir"),
+    ("prior census recandidacy with name-compatible street absorption",
+     "scripts.pettripfinder.discovery.census_recandidacy", "names_compatible"),
+    ("prior-build reconciliation (authority reported, never carried)",
+     "scripts.pettripfinder.discovery.prior_build_reconciliation", "reconcile"),
+    ("cost plan bound to the work order's remaining authorisation",
+     "scripts.pettripfinder.acquisition.cohort_cost_plan", "cumulative_prior_spend"),
+    ("explicit Overpass endpoint (no silent mirror fallback)",
+     "scripts.pettripfinder.discovery.runner", "RunConfig"),
 )
 
 
@@ -450,9 +462,43 @@ def _paid_pass(ctx: FactoryContext, ledger: Dict, *, label: str,
     """Dry run -> cost plan -> gate -> (authorised) paid pass. Shared by every
     phase that can spend, so there is exactly one way money leaves."""
     from scripts.pettripfinder.acquisition import cohort_cost_plan as CP
-    prior = _merged_prior(ctx, ledger, "acquisition_merged_%s" % label)
     run_dir = Path(ctx.run_root) / label
     run_id = "%s-%s-%s" % (ctx.market_id, ctx.suffix, label)
+    report = ctx.artifact("market_acquisition_%s" % label)
+    journal_path = run_dir / "journal.jsonl"
+    already = {entry.get("label") for entry in ledger.get("passes") or ()}
+    if journal_path.is_file() and label not in already:
+        # Hardened re-census work order (002): a pass killed mid-run leaves
+        # a journal and no report. Its money is spent and its captures are on
+        # disk; the next plan must count both, so the report is built from
+        # the journal (REPORT_FROM_JOURNAL: what, never why) and registered
+        # as a pass before anything else is planned.
+        interrupted_prior = _merged_prior(ctx, ledger,
+                                          "acquisition_merged_%s" % label)
+        code, message = _call(PA.main, [
+            "--market", ctx.market_id, "--prior", interrupted_prior,
+            "--run-dir", run_dir.as_posix(), "--run-id", run_id,
+            "--work-order", ctx.work_order, "--url-overlay", overlay_path,
+            "--cap-usd", str(ctx.authorised_cap_usd), "--out",
+            report.as_posix(), "--report-only"])
+        if code != 0:
+            return PhaseResult(BLOCKED, "an interrupted %s left a journal that "
+                               "could not be reported: %s" % (label, message))
+        report_doc = _read(report.as_posix())
+        ledger.setdefault("passes", []).append(OrderedDict((
+            ("label", label), ("report", report.as_posix()),
+            ("run_dir", run_dir.as_posix()), ("run_id", run_id),
+            ("outcome", report_doc.get("outcome", "")),
+            ("attempted", report_doc.get("attempted", 0)),
+            ("note", "interrupted pass reported from its journal before the "
+                     "next plan was built"),
+        )))
+        save_ledger(ctx, ledger)
+        label = label + "r"
+        run_dir = Path(ctx.run_root) / label
+        run_id = "%s-%s-%s" % (ctx.market_id, ctx.suffix, label)
+        report = ctx.artifact("market_acquisition_%s" % label)
+    prior = _merged_prior(ctx, ledger, "acquisition_merged_%s" % label)
     dry = ctx.artifact("acquisition_dry_run_%s" % label)
     plan = ctx.artifact("cohort_cost_plan_%s" % label)
     base = ["--market", ctx.market_id, "--prior", prior,
@@ -512,6 +558,18 @@ def _paid_pass(ctx: FactoryContext, ledger: Dict, *, label: str,
         ("no_property_is_bought_twice",
          (plan_doc.get("double_buy_check") or {}).get("no_property_is_bought_twice")),
     ))
+    if plan_doc.get("authorisation_exhausted") or \
+            int(plan_doc.get("recommended_cap_usd_minor") or 0) <= 0:
+        completion = plan_doc.get("predicted_completion_under_balance") or {}
+        facts["budget_deferred"] = len(completion.get("deferred_keys") or ())
+        return PhaseResult(
+            SKIPPED, "authorisation exhausted: %s of %s cents already spent "
+            "by earlier passes; %d cohort rows stay BUDGET_DEFERRED under "
+            "the first pass's stop and nothing is bought"
+            % ((plan_doc.get("cumulative_prior_spend") or {}).get("usd_minor"),
+               plan_doc.get("authorised_cap_usd_minor"),
+               facts["budget_deferred"]),
+            artifacts=artifacts, facts=facts)
     if not ctx.spend_authorised:
         return PhaseResult(
             AWAITING_AUTHORISATION,
@@ -521,7 +579,6 @@ def _paid_pass(ctx: FactoryContext, ledger: Dict, *, label: str,
             artifacts=artifacts, facts=facts)
 
     cap_usd = float(plan_doc.get("recommended_cap_usd_minor") or 0) / 100.0
-    report = ctx.artifact("market_acquisition_%s" % label)
     code, message = _call(PA.main, base + ["--cap-usd", "%.2f" % cap_usd,
                                             "--cost-plan", plan.as_posix(),
                                             "--out", report.as_posix()])
@@ -555,6 +612,15 @@ def _paid_pass(ctx: FactoryContext, ledger: Dict, *, label: str,
 def _coverage(ctx: FactoryContext, ledger: Mapping, *, stage: str) -> PhaseResult:
     passes = _pass_reports(ledger)
     last = passes[-1]["report"] if passes else ""
+    if passes and not declined_recovery_covers_every_pass(ledger):
+        # A pass registered after phase 7 has declined evidence nobody has
+        # re-read. Zero network, zero spend: run it before judging coverage.
+        rerun = phase_declined_evidence_recovery(ctx, dict(ledger))
+        if rerun.status != COMPLETED:
+            return PhaseResult(BLOCKED, "declined-evidence recovery over every "
+                               "pass failed before coverage: %s" % rerun.note)
+        record(ledger, DECLINED_EVIDENCE_RECOVERY, rerun)  # type: ignore[arg-type]
+        save_ledger(ctx, ledger)
     merged = (phase_artifact(ledger, CLOSURE, "merged")
               or (ctx.artifact("acquisition_merged_closeout").as_posix()
                   if ctx.artifact("acquisition_merged_closeout").is_file() else "")
@@ -577,7 +643,8 @@ def _coverage(ctx: FactoryContext, ledger: Mapping, *, stage: str) -> PhaseResul
         retry_overrides=(Path(ctx.retry_overrides).as_posix()
                          if ctx.retry_overrides else ""),
         stage=stage, work_order=ctx.work_order, as_of=ctx.as_of,
-        census_path=ctx.census_path)
+        census_path=ctx.census_path,
+        pass_reports=[p["report"] for p in passes])
     _write(out, document)
     counts = document["counts"]
     booleans = document["booleans"]
@@ -810,6 +877,21 @@ def phase_pre_acquisition_dedup(ctx: FactoryContext, ledger: Dict) -> PhaseResul
 def phase_acquisition(ctx: FactoryContext, ledger: Dict) -> PhaseResult:
     overlay = phase_artifact(ledger, PRIOR_BUILD_RECONCILIATION, "url_recovery")
     return _paid_pass(ctx, ledger, label="pass1", overlay_path=overlay)
+
+
+def declined_recovery_covers_every_pass(ledger: Mapping) -> bool:
+    """Did the declined-evidence recovery on the ledger read EVERY pass's run
+    directory? A pass registered after phase 7 (an interrupted continuation,
+    phase 9, phase 10) is not covered until the recovery runs again."""
+    passes = _pass_reports(ledger)
+    if not passes:
+        return True
+    artifact = phase_artifact(ledger, DECLINED_EVIDENCE_RECOVERY, "declined_recovery")
+    if not artifact or not Path(artifact).is_file():
+        return False
+    covered = {Path(d).resolve().as_posix()
+               for d in (_read(artifact).get("run_dirs") or ())}
+    return all(Path(p["run_dir"]).resolve().as_posix() in covered for p in passes)
 
 
 def phase_declined_evidence_recovery(ctx: FactoryContext, ledger: Dict) -> PhaseResult:

@@ -42,8 +42,8 @@ from scripts.pettripfinder.contracts.identity_key import (
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 PACKAGE_DIR = REPO_ROOT / "launch_packages" / "pettripfinder"
-CENSUS_DIR = PACKAGE_DIR / "identity_census"
-
+from scripts.pettripfinder import census_location as CENSUS_LOCATION  # noqa: E402
+CENSUS_DIR = CENSUS_LOCATION.identity_census_dir()  # committed, or $PTF_IDENTITY_CENSUS_DIR during a rebuild
 WORK_ORDER = "PTF-CENSUS-PARTITION-NORMALIZATION-001"
 
 

@@ -65,6 +65,7 @@ if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
 from scripts.pettripfinder.brightdata import outcomes as O          # noqa: E402
+from scripts.pettripfinder.brightdata import policy_surface         # noqa: E402
 from scripts.pettripfinder.contracts import enums                   # noqa: E402
 from scripts.pettripfinder.discovery.property_identity import (     # noqa: E402
     street_identity,
@@ -376,9 +377,19 @@ def assess_identity(signals: IdentitySignals, *, expected_name: str,
                            % (signals.postal_code, expected_postal_code))
 
     if expected_street and signals.address_on_page:
-        if street_identity(signals.address_on_page, signals.postal_code) == \
-                street_identity(expected_street, expected_postal_code):
+        # PTF-INDIANAPOLIS-OFFICIAL-URL-RECOVERY-006. Shared with the generic
+        # surface so one address written two ways is one building on every
+        # lane. The ZIP is deliberately NOT folded into the street key -- it is
+        # compared on its own directly above, and a page that writes
+        # "46241-1234" against a census "46241" used to turn one address into
+        # two and invent a conflict on a property that agreed.
+        agree, why = policy_surface.streets_agree(signals.address_on_page,
+                                                  expected_street)
+        if agree:
             matched.append("street_identity")
+            if why != "exact":
+                reasons.append("page street %r and expected %r are one address: %s"
+                               % (signals.address_on_page, expected_street, why))
         else:
             conflicting.append("street_identity")
             reasons.append("page street %r does not agree with expected %r"

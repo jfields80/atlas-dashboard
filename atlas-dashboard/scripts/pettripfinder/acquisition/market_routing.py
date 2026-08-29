@@ -96,6 +96,23 @@ BRAND_INDEX_SEGMENTS = frozenset({
     "our-hotels", "hotel-search", "explore", "offers", "deals", "home",
 })
 
+#: Path segments under which NO brand hosts a single property's page: a hotel
+#: search or directory. Unlike ``BRAND_INDEX_SEGMENTS`` these veto the whole
+#: path wherever they appear -- ".../holidayinnexpress/hotels/us/en/find-hotels/
+#: hotel-search?city=indianapolis" carries a brand slug that reads as meaningful,
+#: and was a PROPERTY_PAGE until PTF-INDIANAPOLIS-HARDENED-RECENSUS-002. "locations"
+#: is deliberately NOT here: Drury nests its property pages under it.
+BRAND_SEARCH_SEGMENTS = frozenset({
+    "find-hotels", "find-a-hotel", "hotel-search", "search", "hotel-directory",
+    "hotels-near", "search-results",
+})
+
+#: Query parameters that make a URL a search for hotels rather than one hotel.
+BRAND_SEARCH_QUERY_KEYS = frozenset({
+    "city", "destination", "dest", "location", "q", "query", "searchterm",
+    "search", "keyword",
+})
+
 #: A LAST path segment that names a category of hotels rather than one hotel.
 #: Only the last segment is tested: "comfort-inn-hotels" is an index when the
 #: path stops there and a valid parent when a property code follows it.
@@ -143,6 +160,11 @@ def classify_url_shape(url: str) -> str:
         return BRAND_REDIRECT
     segments = [s for s in parts.path.split("/") if s]
     if not segments:
+        return BRAND_INDEX
+    if any(s.lower() in BRAND_SEARCH_SEGMENTS for s in segments):
+        return BRAND_INDEX
+    if any(k.lower() in BRAND_SEARCH_QUERY_KEYS
+           for k, _v in parse_qsl(parts.query, keep_blank_values=True)):
         return BRAND_INDEX
     # A path ENDING in a plural category segment is a listing of hotels, not
     # one hotel -- ".../missouri/saint-louis/quality-inn-hotels" lists every

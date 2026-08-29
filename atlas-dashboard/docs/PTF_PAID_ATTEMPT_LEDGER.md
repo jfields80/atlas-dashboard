@@ -78,6 +78,9 @@ The two cases a shared switchboard covers are a dual-brand building and a
 rebrand, and in both the answer is a person, not a purchase. Where a rename
 merely lengthened the name, `names_compatible` already confirms it. The
 telephone stays on the record as a signal and stops being a decider.
+compatible name (`identity_dedup.names_compatible`) or a shared telephone, and
+each is **refuted outright by two disagreeing brand property codes**. A key
+that fails to get its confirmation does not stop the walk — it falls through.
 
 ### Why keys 3 and 4 may not decide
 

@@ -108,8 +108,8 @@ from scripts.pettripfinder.discovery.property_identity import street_identity  #
 from scripts.pettripfinder.site_data import normalize_name            # noqa: E402
 
 SCHEMA = "ptf-market-paid-acquisition/1.0"
-CENSUS_DIR = _REPO_ROOT / "launch_packages" / "pettripfinder" / "identity_census"
-
+from scripts.pettripfinder import census_location as CENSUS_LOCATION  # noqa: E402
+CENSUS_DIR = CENSUS_LOCATION.identity_census_dir()  # committed, or $PTF_IDENTITY_CENSUS_DIR during a rebuild
 #: Prior capture outcomes that answer the question. See the module docstring.
 DEFAULT_TERMINAL: Tuple[str, ...] = (O.VALID, O.POLICY_NOT_FOUND,
                                      O.IDENTITY_MISMATCH)

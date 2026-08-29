@@ -66,8 +66,8 @@ if str(_REPO_ROOT) not in sys.path:
 from scripts.pettripfinder.acquisition import market_routing as MR  # noqa: E402
 
 SCHEMA = "ptf-census-url-recovery/1.0"
-CENSUS_DIR = _REPO_ROOT / "launch_packages" / "pettripfinder" / "identity_census"
-
+from scripts.pettripfinder import census_location as CENSUS_LOCATION  # noqa: E402
+CENSUS_DIR = CENSUS_LOCATION.identity_census_dir()  # committed, or $PTF_IDENTITY_CENSUS_DIR during a rebuild
 GOOGLE_PLACES = "GOOGLE_PLACES"
 OPENSTREETMAP = "OPENSTREETMAP"
 
@@ -409,7 +409,7 @@ def read_cache(cache_dir: Path) -> List[Observation]:
 #: Where a URL can be written in this corpus's own artifacts.
 _URL_FIELDS: Tuple[str, ...] = ("official_url", "policy_url", "source_url",
                                 "discovered_url", "final_url", "requested_url",
-                                "url")
+                                "official_property_url", "url")
 
 
 def read_prior_census(path: Path) -> List[Observation]:
@@ -455,11 +455,21 @@ def urls_in_artifacts(paths: Sequence[Path]) -> Dict[str, List[Dict]]:
             document = json.loads(path.read_text(encoding="utf-8-sig"))
         except (ValueError, OSError):
             continue
-        stack: List = [document]
+        # PTF-INDIANAPOLIS-HARDENED-RECENSUS-002: the identity routing shard --
+        # the canonical routing authority of every market -- keeps the key in
+        # ``hotel_ref.identity_key`` and the URL in ``official_property_url``
+        # one level up, so a walk that only pairs a URL with a key on the SAME
+        # node read 10 Indianapolis routes and bound none of them. The key is
+        # carried down from the nearest enclosing node that names one.
+        stack: List = [(document, "")]
         while stack:
-            node = stack.pop()
+            node, enclosing = stack.pop()
             if isinstance(node, dict):
-                key = str(node.get("identity_key") or "")
+                hotel_ref = node.get("hotel_ref")
+                key = str(node.get("identity_key")
+                          or (hotel_ref.get("identity_key")
+                              if isinstance(hotel_ref, dict) else "")
+                          or enclosing)
                 if key:
                     for field in _URL_FIELDS:
                         value = node.get(field)
@@ -469,9 +479,9 @@ def urls_in_artifacts(paths: Sequence[Path]) -> Dict[str, List[Dict]]:
                                 rows.append({"url": value,
                                              "source": path.as_posix(),
                                              "field": field})
-                stack.extend(node.values())
+                stack.extend((child, key) for child in node.values())
             elif isinstance(node, list):
-                stack.extend(node)
+                stack.extend((child, enclosing) for child in node)
     return out
 
 
@@ -550,6 +560,11 @@ def bind(row: Mapping, observations: Sequence[Observation],
     dual-brand refusal below runs either way, so "Comfort Inn" still may not
     take a "Comfort Suites Grandville" page.
     """
+    # PTF-INDIANAPOLIS-PLACES-NAME-NORMALIZATION-009. Opt-in, and default OFF
+    # on purpose: every market that recovered its URLs under the old rule
+    # recovers exactly the same ones today, and a caller has to ask for the
+    # wider comparison before it applies.
+    #
     # PTF-GRAND-RAPIDS-HOLLAND-PLACES-PILOT-026 wires the two hardenings
     # together for the first time. They answer different questions and neither
     # substitutes for the other.

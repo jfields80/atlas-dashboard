@@ -1,0 +1,62 @@
+{
+  "schema": "ptf-founder-review-packet/1.0",
+  "market_id": "indianapolis-in",
+  "work_order": "PTF-INDIANAPOLIS-50-PLUS-PET-FRIENDLY-RECOVERY-005",
+  "status": "EXCEPTIONS_ONLY",
+  "nothing_is_published_by_this_file": "This packet proposes. It registers no market, signs no row and publishes nothing.",
+  "auto_accepted": 0,
+  "auto_accept_rule": "a row is auto-accepted only on identity pass + first-party publication-grade evidence + no duplicate + no guest-visible fact loss + no correction required; no recovered row met it",
+  "new_pet_friendly_proposed": 0,
+  "new_verified_no_pets_proposed": 1,
+  "exceptions": 6,
+  "rows": [
+    {
+      "identity_key": "fairfield inn and suites indianapolis airport",
+      "kind": "RETIRED_ROW_WITH_SURVIVING_EVIDENCE",
+      "proposes": "VERIFIED_NO_PETS",
+      "evidence": "Pet Policy Pets Not Allowed Non Refundable Cleaning Fee of $100.00 due at check-in.",
+      "artifact": "C:\\ptf-indy-v2\\atlas-dashboard\\data\\acquisition\\indianapolis_in_factory_002\\pass1\\fairfield-inn-suites-indianapolis-airport\\attempt-01",
+      "why_it_is_an_exception": "PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004 retired this exclusion for lack of fresh evidence, and the saved pass-1 artifact contradicts that: the page's own FAQ states 'No, pets are not allowed'. The block also carries a $100 non-refundable cleaning fee beside the refusal, which is why the run recorded SOURCE_CONTRADICTORY. Re-instating a row the founder retired is the founder's call, never the machine's."
+    },
+    {
+      "identity_key": "baymont by wyndham plainfield indianapolis airport area",
+      "kind": "DUPLICATE_OR_IDENTITY_CONFLICT",
+      "proposes": "NO_CHANGE_WITHOUT_A_RULING",
+      "evidence": "page street '6010 Gateway Drive' does not agree with expected '2244 East Perry Road'",
+      "artifact": "",
+      "why_it_is_an_exception": "the page name matches THIS row exactly but the page street '6010 Gateway Drive' is the OTHER Baymont row's census address. Two census identities point at one Wyndham page."
+    },
+    {
+      "identity_key": "baymont inn and suites plainfield indianapolis airport",
+      "kind": "DUPLICATE_OR_IDENTITY_CONFLICT",
+      "proposes": "NO_CHANGE_WITHOUT_A_RULING",
+      "evidence": "page names 'Baymont by Wyndham Plainfield/ Indianapolis Arpt Area', which does not agree with 'Baymont Inn and Suites Plainfield/Indianapolis Airport'; the page declares telephone '1-317-8379000' and also prints this property's '3172039321' -- one site, several properties",
+      "artifact": "",
+      "why_it_is_an_exception": "the page names 'Baymont by Wyndham Plainfield/ Indianapolis Arpt Area', which is the other row's name, and prints both properties' telephones. These two rows are very likely one hotel carried under its old and new brand names -- but brand plus address may propose a match and never decide one, so this is the founder's call."
+    },
+    {
+      "identity_key": "comfort suites indianapolis airport",
+      "kind": "DUPLICATE_OR_IDENTITY_CONFLICT",
+      "proposes": "NO_CHANGE_WITHOUT_A_RULING",
+      "evidence": "page street '2750 Fortune Circle West' does not agree with expected '2181 West Southern Avenue'; page telephone '(317) 759-2371' is not the census number '3174810700'; one property commonly publishes several; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+      "artifact": "",
+      "why_it_is_an_exception": "the page at choicehotels in293 states '2750 Fortune Circle West'; the census kept '2181 West Southern Avenue' for this key AND records a held-for-review candidate at 2750 Fortune Circle West. Either the census kept the wrong address for this key, or Indianapolis has two Comfort Suites and this URL belongs to the held one. The census's own collision record is the evidence; the founder decides which."
+    },
+    {
+      "identity_key": "residence inn indianapolis airport",
+      "kind": "CENSUS_ADDRESS_DISPUTED",
+      "proposes": "NO_CHANGE_WITHOUT_A_RULING",
+      "evidence": "page street '5224 West Southern Avenue' does not agree with expected '5228 West Southern Avenue'",
+      "artifact": "",
+      "why_it_is_an_exception": "title and property code indap both agree; the page states '5224 West Southern Avenue' and the census holds '5228'. One of the two street numbers is wrong and the first-party page is the better authority, but correcting a census address is a founder-visible change, not a silent one."
+    },
+    {
+      "identity_key": "towneplace suites",
+      "kind": "DUPLICATE_OR_IDENTITY_CONFLICT",
+      "proposes": "NO_CHANGE_WITHOUT_A_RULING",
+      "evidence": "page street '629 Russell Avenue' does not agree with expected '708 South Meridian Street'",
+      "artifact": "",
+      "why_it_is_an_exception": "the census key is a bare brand name with no city, holding '708 South Meridian Street', while the indtd page states '629 Russell Avenue'. An under-named row cannot settle which building it means."
+    }
+  ]
+}

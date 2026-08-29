@@ -2,19 +2,91 @@
  "schema": "ptf-launch-participation/1.0",
  "what_this_is": "The founder's launch participation record for the composed PetTripFinder production bundle. Read by scripts/pettripfinder/launch_participation.py at assembly time. Every registered market must carry a row; only FOUNDER_AUTHORIZED_FOR_LAUNCH admits a market into the composed bundle. This record never states a market's facts: source readiness is derived by the assembler from the market's own census, partition, policy authority and release contract, and a status that disagrees with the source fails the build. Withdrawing a market here changes no byte of that market's authority and does not affect its own per-market assembly.",
  "decision": {
-  "work_order": "PTF-ST-LOUIS-REGISTER-PUBLISH-011",
+  "work_order": "PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019",
   "decided_by": "founder",
-  "decided_on": "2026-08-24",
-  "reason": "Founder deployment scope: St. Louis joins the live set as the sixth market, adding 82 founder-signed hotel profiles. Every other market's status is unchanged -- Indianapolis remains withheld on coverage (PTF-046), Cincinnati and Detroit-Ann Arbor remain not source-ready. Registering St. Louis makes it the ninth registered market, and a registered market with no row here fails the assembler gate, so this record had to be reissued whether or not it joined.",
+  "decided_on": "2026-08-27",
+  "reason": "Founder deployment scope: Indianapolis joins the live set as the seventh market, adding 56 founder-signed pet-friendly profiles and 34 verified-no-pets exclusions. It was withheld by PTF-046 on coverage and that withholding is now lifted. Every other market's status is unchanged; Cincinnati and Detroit-Ann Arbor remain NOT_SOURCE_READY.",
+  "lineage": {
+   "what_this_is": "Every participation record this one descends from, oldest first, so a deployment authorization can still be matched to the record it signed after more than one reissue. supersedes names only the immediate predecessor; with three reissues behind it that is no longer enough to walk the chain.",
+   "records": [
+    {
+     "work_order": "PTF-FIRST-MULTI-MARKET-PRODUCTION-DEPLOYMENT-046",
+     "sha256": "e766944e49a6610b25eb9ab36deca363fdcf72bafce4bd82d933eb0b78f64eab",
+     "founder_authorized": [
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "milwaukee-wi",
+      "pittsburgh-pa"
+     ]
+    },
+    {
+     "work_order": "PTF-ST-LOUIS-REGISTER-PUBLISH-011",
+     "sha256": "2ac7c804ba49eba80ad22f8ae7c8d77e02a3d39cb02ed475da763d7309282f30",
+     "founder_authorized": [
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "milwaukee-wi",
+      "pittsburgh-pa",
+      "st-louis-mo"
+     ]
+    },
+    {
+     "work_order": "PTF-ST-LOUIS-REGISTER-PUBLISH-011",
+     "sha256": "ff307b41a0316b6017db3ef439a0ef1822141bfc4ef68d3be1d600e72a86930c",
+     "founder_authorized": [
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "louisville-ky",
+      "milwaukee-wi",
+      "pittsburgh-pa",
+      "st-louis-mo"
+     ]
+    }
+   ]
+  },
+  "decision_basis": {
+   "what_this_is": "What the founder was shown when deciding. These are a RECORD of the basis, not an authority: the assembler derives every one of them from the market's own census, package, shard and release contract, and a status that disagrees with the source fails the build.",
+   "market_id": "indianapolis-in",
+   "source_commit": "653abcee8d13796a4c1dcb55c72fcd44df68187a",
+   "census_count": 257,
+   "pet_friendly_publication_count": 56,
+   "verified_no_pets_count": 34,
+   "policy_package": {
+    "path": "launch_packages/pettripfinder/hotel_policy_facts_indianapolis-in.json",
+    "sha256": "c47416c2d804acce271cd399a8aa5fc4327c27448caaebe9b747ba576bac84db"
+   },
+   "exclusion_shard": {
+    "path": "launch_packages/pettripfinder/markets/authority/indianapolis-in/hotel_exclusions.json",
+    "sha256": "262f8ce150a98324b6b5db0726a0c2d616fd865bcf440caa876923a609f6b903"
+   },
+   "release_contract": {
+    "path": "deploy/netlify/release_contracts/indianapolis-in.json",
+    "sha256": "5c962e7430b6506391a000785b703d54548c439378ac5a374ed633af759e5923"
+   },
+   "identity_census": {
+    "path": "launch_packages/pettripfinder/identity_census/indianapolis-in.json",
+    "sha256": "8125ae52aef1ef06454f8cfb060218f0dafe05764fa3e1985596a1e5fd4a325c"
+   },
+   "deliberately_excluded": {
+    "extended stay america indianapolis airport w southern ave": "HOLD; its permission needs a re-locate off an asserting block plus a founder fact override",
+    "home2 suites by hilton": "identity key is owned by cleveland-akron-canton-oh; needs a census rekey",
+    "identity_mismatch_rows": "13 rows whose captured page is a different building or a directory page; none carries a saved artifact"
+   }
+  },
   "supersedes": {
-   "work_order": "PTF-FIRST-MULTI-MARKET-PRODUCTION-DEPLOYMENT-046",
-   "sha256": "e766944e49a6610b25eb9ab36deca363fdcf72bafce4bd82d933eb0b78f64eab",
+   "work_order": "PTF-ST-LOUIS-REGISTER-PUBLISH-011",
+   "sha256": "ff307b41a0316b6017db3ef439a0ef1822141bfc4ef68d3be1d600e72a86930c",
    "founder_authorized": [
     "cleveland-akron-canton-oh",
     "columbus-oh",
     "dayton-oh",
+    "louisville-ky",
     "milwaukee-wi",
-    "pittsburgh-pa"
+    "pittsburgh-pa",
+    "st-louis-mo"
    ]
   }
  },
@@ -49,8 +121,13 @@
   },
   {
    "market_id": "indianapolis-in",
-   "launch_status": "SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH",
-   "note": "8 founder-approved profiles, contract verifies; withheld from the first multi-market launch on coverage, not correctness (founder decision, 2026-08-22)"
+   "launch_status": "FOUNDER_AUTHORIZED_FOR_LAUNCH",
+   "note": "56 founder-signed pet-friendly profiles and 34 verified-no-pets exclusions over a 257-identity census; contract verifies. Admitted by founder decision in PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019, which replaces the PTF-046 withholding.",
+   "replaces": {
+    "launch_status": "SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH",
+    "note": "8 founder-approved profiles, contract verifies; withheld from the first multi-market launch on coverage, not correctness (founder decision, 2026-08-22)",
+    "why": "the row on disk described the 8-profile market of PTF-046 and withheld it; reusing it would have carried a stale statement into the bundle record"
+   }
   },
   {
    "market_id": "louisville-ky",

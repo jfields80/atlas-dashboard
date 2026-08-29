@@ -42,9 +42,8 @@ from scripts.pettripfinder.discovery.census_url_recovery import (  # noqa: E402
 )
 
 SCHEMA = "ptf-census-duplicate-scan/1.0"
-CENSUS_DIR = _REPO_ROOT / "launch_packages" / "pettripfinder" / "identity_census"
-
-
+from scripts.pettripfinder import census_location as CENSUS_LOCATION  # noqa: E402
+CENSUS_DIR = CENSUS_LOCATION.identity_census_dir()  # committed, or $PTF_IDENTITY_CENSUS_DIR during a rebuild
 def _url(row: Mapping) -> str:
     return (row.get("official_url") or "").strip().rstrip("/").lower()
 

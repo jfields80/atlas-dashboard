@@ -51,8 +51,8 @@ from scripts.pettripfinder.contracts import closure as CL
 from scripts.pettripfinder.contracts import enums
 
 PACKAGE_DIR = _REPO_ROOT / "launch_packages" / "pettripfinder"
-CENSUS_DIR = PACKAGE_DIR / "identity_census"
-
+from scripts.pettripfinder import census_location as CENSUS_LOCATION  # noqa: E402
+CENSUS_DIR = CENSUS_LOCATION.identity_census_dir()  # committed, or $PTF_IDENTITY_CENSUS_DIR during a rebuild
 ACTIVE = "ACTIVE_ELIGIBLE"
 NOT_ACTIVE_IDENTITY = "NOT_ACTIVE_IDENTITY_UNRESOLVED"
 NOT_ACTIVE_CATEGORY = "NOT_ACTIVE_NOT_LODGING"
@@ -189,8 +189,7 @@ CLOSURE_FOR_BLOCKER: Dict[str, str] = {
 
 
 def build(market_id: str, census: Mapping, *, observations: Mapping,
-          pilot: Mapping, as_of: str, work_order: str,
-          census_source: str = ""):
+          pilot: Mapping, as_of: str, work_order: str):
     rows = census["hotels"]
     routing_entries, routing_summary = MR.route_census(rows)
     routing_by_key = {e["identity_key"]: e for e in routing_entries}
@@ -265,8 +264,7 @@ def build(market_id: str, census: Mapping, *, observations: Mapping,
               "capture outcome and its observation, in that order of "
               "specificity." % work_order),
         source_authorities=[
-            census_source
-            or "launch_packages/pettripfinder/identity_census/%s.json" % market_id,
+            CENSUS_LOCATION.relative_census_path(market_id),
             "scripts/pettripfinder/acquisition/market_routing.py over that census",
             observations.get("derived_from", ""),
         ])
@@ -295,13 +293,6 @@ def build(market_id: str, census: Mapping, *, observations: Mapping,
     return partition, ledger, candidates, eligible, not_active
 
 
-def _relative(path: Path) -> str:
-    try:
-        return path.resolve().relative_to(_REPO_ROOT).as_posix()
-    except ValueError:
-        return path.as_posix()
-
-
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--market", required=True)
@@ -316,22 +307,17 @@ def main(argv=None) -> int:
                              "that the run reached")
     parser.add_argument("--partition-out", default="")
     parser.add_argument("--closure-out", default="")
-    parser.add_argument("--census", default="",
-                        help="the census to read; default identity_census/"
-                             "<market>.json. A re-census of a registered market "
-                             "is built beside its live census, never over it")
     args = parser.parse_args(argv)
 
-    census_path = Path(args.census) if args.census else CENSUS_DIR / ("%s.json" % args.market)
-    census = json.loads(census_path.read_text(encoding="utf-8"))
+    census = json.loads((CENSUS_DIR / ("%s.json" % args.market))
+                        .read_text(encoding="utf-8"))
     overlay = MR.apply_url_overlay(census["hotels"], args.url_overlay)
     observations = json.loads(Path(args.observations).read_text(encoding="utf-8"))
     pilot = json.loads(Path(args.pilot).read_text(encoding="utf-8"))
 
     partition, ledger, candidates, eligible, not_active = build(
         args.market, census, observations=observations, pilot=pilot,
-        as_of=args.as_of, work_order=args.work_order,
-        census_source=_relative(census_path))
+        as_of=args.as_of, work_order=args.work_order)
 
     partition_path = Path(args.partition_out) if args.partition_out else (
         PACKAGE_DIR / ("%s_final_partition_001.json" % args.market.replace("-", "_")))

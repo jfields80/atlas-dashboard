@@ -1,0 +1,194 @@
+{
+ "schema": "ptf-cohort-cost-plan/1.0",
+ "what_this_is": "What one cohort is expected to cost, in each currency its lanes bill in, and the proof that it buys nothing a previous pass already answered. Zero network, zero spend.",
+ "market_id": "indianapolis-in",
+ "work_order": "PTF-INDIANAPOLIS-BACKLOG-ACQUISITION-016",
+ "derived_from": {
+  "plan": "indianapolis-in-016",
+  "prior": "PTF-INDIANAPOLIS-TARGETED-POLICY-ACQUISITION-012"
+ },
+ "cohort_size": 22,
+ "cohort_keys_sha256": "7f4d8a91c7ddbd5a36c4a7312dc9173569de37f454f4d358e561a2211be931e9",
+ "cohort_by_provider": {
+  "brightdata_browser": 22
+ },
+ "cohort_by_family": {
+  "ESA": 1,
+  "HILTON": 12,
+  "INDEPENDENT": 7,
+  "RED_ROOF": 1,
+  "SONESTA": 1
+ },
+ "dollar_billed_properties": 22,
+ "credit_billed_properties": 0,
+ "measured_unit_usd_minor": null,
+ "lanes": [
+  {
+   "provider": "brightdata_browser",
+   "properties": 22,
+   "billing": "USD",
+   "registry_unit_usd_minor": 16.0,
+   "measured_unit_usd_minor": null,
+   "projected_usd_minor_at_measured": 352.0,
+   "projected_usd_minor_at_registry": 352.0
+  }
+ ],
+ "expected_firecrawl_credits": 0.0,
+ "expected_brightdata_usd_minor": {
+  "at_measured": 352.0,
+  "at_registry": 352.0,
+  "worst_case_with_fallback": 462.0
+ },
+ "projection": {
+  "at_measured_rates_usd_minor": 352.0,
+  "at_registry_rates_usd_minor": 352.0,
+  "unlocker_fallback_exposure_usd_minor": 110.0,
+  "worst_case_usd_minor": 462.0,
+  "basis": "every dollar-billed property attempted once at the higher of the registry and measured unit price, plus a fallback attempt on every one of them"
+ },
+ "vendor_balance_usd_minor": 866,
+ "authorised_cap_usd_minor": 500,
+ "cumulative_prior_spend": {
+  "runs": [],
+  "usd_minor": 0,
+  "plan_credits": 0
+ },
+ "authorisation_remaining_usd_minor": 500,
+ "authorisation_exhausted": false,
+ "recommended_cap_usd_minor": 500,
+ "recommended_cap_why": "the authorised ceiling covers the projection with room for the fallback lane",
+ "predicted_completion_under_balance": {
+  "available_usd_minor": 500.0,
+  "attemptable": 22,
+  "deferred": 0,
+  "completes_cohort": true,
+  "stops_on": "",
+  "projected_spend_usd_minor": 352.0,
+  "projected_plan_credits": 0.0,
+  "attemptable_keys": [
+   "hampton inn indianapolis south",
+   "hampton inn westfield indianapolis",
+   "hilton garden inn indianapolis airport",
+   "hilton garden inn indianapolis carmel",
+   "hilton garden inn indianapolis downtown",
+   "hilton garden inn indianapolis northeast fishers",
+   "hilton garden inn indianapolis northwest",
+   "hilton indianapolis hotel and suites",
+   "home2 suites by hilton",
+   "home2 suites by hilton indianapolis downtown",
+   "home2 suites by hilton indianapolis northwest",
+   "tru",
+   "red roof inn indianapolis east",
+   "sonesta select",
+   "extended stay america indianapolis airport",
+   "bottleworks hotel",
+   "country inn and suites indianapolis south in",
+   "hotel broad ripple",
+   "hotel indy indianapolis a tribute portfolio hotel",
+   "keystone inn and suites",
+   "omni severin hotel indianapolis",
+   "prairie guest house"
+  ],
+  "deferred_keys": [],
+  "basis": "walked in queue order at each lane's higher of registry and measured unit price; a credit-billed lane draws no dollars"
+ },
+ "queue_order": [
+  "MARRIOTT",
+  "HILTON",
+  "RED_ROOF",
+  "MOTEL6",
+  "SONESTA",
+  "DRURY",
+  "ESA",
+  "INDEPENDENT"
+ ],
+ "cohort_provenance": {
+  "newly_routed_by_url_recovery": [],
+  "previously_deferred_by_the_cap": [],
+  "retried_after_an_attempt_that_answered_nothing": [],
+  "routed_before_and_never_attempted": [
+   "bottleworks hotel",
+   "country inn and suites indianapolis south in",
+   "extended stay america indianapolis airport",
+   "hampton inn indianapolis south",
+   "hampton inn westfield indianapolis",
+   "hilton garden inn indianapolis airport",
+   "hilton garden inn indianapolis carmel",
+   "hilton garden inn indianapolis downtown",
+   "hilton garden inn indianapolis northeast fishers",
+   "hilton garden inn indianapolis northwest",
+   "hilton indianapolis hotel and suites",
+   "home2 suites by hilton",
+   "home2 suites by hilton indianapolis downtown",
+   "home2 suites by hilton indianapolis northwest",
+   "hotel broad ripple",
+   "hotel indy indianapolis a tribute portfolio hotel",
+   "keystone inn and suites",
+   "omni severin hotel indianapolis",
+   "prairie guest house",
+   "red roof inn indianapolis east",
+   "sonesta select",
+   "tru"
+  ],
+  "counts": {
+   "newly_routed_by_url_recovery": 0,
+   "previously_deferred_by_the_cap": 0,
+   "retried_after_an_attempt_that_answered_nothing": 0,
+   "routed_before_and_never_attempted": 22
+  }
+ },
+ "paid_history_suppressed": {
+  "consulted": false,
+  "count": 0,
+  "summary": null,
+  "rows": [],
+  "note": "already paid for on a prior run, under this identity key or another; still counted by coverage, because a property we already have the answer for is covered rather than missing"
+ },
+ "cohort_accounted_for": {
+  "payable": 22,
+  "paid_history_suppressed": 0,
+  "total": 22,
+  "note": "the paid-history gate partitions the cohort it is given: every row it receives is either payable or suppressed, and it invents none. The pre-acquisition dedup gate has already run by this point and its merges are absent from both counts, so no identity is removed twice."
+ },
+ "same_lane_retries_suppressed": {
+  "count": 17,
+  "identity_keys": [
+   "americinn by wyndham fishers indianapolis",
+   "cambria hotel indianapolis airport plainfield",
+   "courtyard by marriott indianapolis castleton",
+   "courtyard indianapolis south",
+   "fairfield inn and suites",
+   "fairfield inn and suites indianapolis noblesville",
+   "fairfield inn indianapolis south",
+   "hampton by hilton",
+   "la quinta inn indianapolis airport lynhurst",
+   "ramada indianapolis airport",
+   "renaissance indianapolis north hotel",
+   "residence inn by marriott indianapolis airport",
+   "residence inn indianapolis fishers",
+   "residence inn indianapolis northwest",
+   "residence inn indianapolis south greenwood",
+   "super 8 by wyndham indianapolis castleton",
+   "towneplace suites indianapolis park 100"
+  ],
+  "note": "excluded from this cohort by the retry policy; not settled, not bought"
+ },
+ "double_buy_check": {
+  "terminal_outcomes": [
+   "VALID",
+   "POLICY_NOT_FOUND",
+   "IDENTITY_MISMATCH"
+  ],
+  "prior_results_examined": 129,
+  "prior_results_that_answered": 110,
+  "journal_examined": "",
+  "journalled_keys": 0,
+  "cohort_size": 22,
+  "already_answered_by_a_prior_pass": [],
+  "already_journalled_in_this_run_dir": [],
+  "pass_resumes_from_that_journal": true,
+  "resumed_from_journal_not_bought_again": [],
+  "retries_of_attempts_that_answered_nothing": {},
+  "no_property_is_bought_twice": true
+ }
+}

@@ -73,13 +73,10 @@ def test_the_corrected_profiles_render_the_corrected_sentence():
 #: Records that already failed schema validation before this work order ran,
 #: all in the market the founder withdrew from launch. Pinned by name so the
 #: assertion below is "nothing NEW broke" and not "nothing is broken".
-PREEXISTING_SCHEMA_FAILURES = {
-    ("indianapolis-in", "le meridien indianapolis"),
-    ("indianapolis-in", "residence inn by marriott indianapolis airport"),
-    ("indianapolis-in", "hampton inn and suites indianapolis keystone"),
-    ("indianapolis-in", "hampton inn and suites indianapolis west speedway"),
-    ("indianapolis-in", "hilton garden inn indianapolis airport"),
-}
+# The five Indianapolis records that failed 1.3 validation (weight_limit.scope)
+# were re-attested or retired by PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004, whose
+# package validates in full; nothing pre-existing remains.
+PREEXISTING_SCHEMA_FAILURES = set()
 
 
 def test_no_committed_record_newly_fails_schema_validation():

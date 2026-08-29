@@ -5,6 +5,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from pettripfinder.indianapolis_promoted_state import EXCLUSION_NAMES
+
 from scripts.pettripfinder.contracts.identity_key import ptf_identity_key
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -34,12 +36,8 @@ def test_decisions_are_recorded_and_not_applied():
     assert _json(PACKAGE / "hotel_policy_facts_indianapolis-in.json")["published"] is True
     indy = [e for e in _json(PACKAGE / "hotel_exclusions.json")["exclusions"]
             if e.get("market_id") == "indianapolis-in"]
-    assert [e["normalized_name"] for e in indy] == [
-        "crowne plaza indianapolis airport",
-        "courtyard by marriott indianapolis castleton",
-        "crowne plaza indianapolis downtown union station",
-        "fairfield inn and suites indianapolis airport",
-    ]
+    # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004 promoted the founder-signed authority: 24 verified-no-pets exclusions.
+    assert [e["normalized_name"] for e in indy] == EXCLUSION_NAMES
 
 
 def test_approved_fields_match_founder_limits():

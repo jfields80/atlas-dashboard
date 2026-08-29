@@ -458,3 +458,96 @@ class TestCensusGatesOnFreeDiscovery:
         ledger = MF.run_phases(ctx, through=MF.FOUNDER_REVIEW)
         assert MF.status_of(ledger, MF.CENSUS) == MF.BLOCKED
         assert all(MF.status_of(ledger, p) == MF.NOT_RUN for p in MF.PHASES[1:])
+class TestAnExhaustedAuthorisationAndAnInterruptedPass:
+    """PTF-INDIANAPOLIS-HARDENED-RECENSUS-002. Pass 1 stopped at 992 of 1000
+    cents. The plan for the next phase must not hand out the ceiling again, and
+    a pass killed mid-run must be reported from its journal before anything
+    else is planned."""
+
+    def _fakes(self, monkeypatch, calls, *, exhausted):
+        def fake_pa_main(argv):
+            calls.append(list(argv))
+            out = Path(argv[argv.index("--out") + 1])
+            if "--report-only" in argv:
+                _write(out, {"outcome": "REPORT_FROM_JOURNAL", "attempted": 2,
+                             "results": [{"identity_key": "inn", "outcome": "VALID"}],
+                             "spend": {"binding_usd_minor": 30}})
+                return 0
+            _write(out, {"cohort": [{"identity_key": "inn", "provider": "firecrawl",
+                                     "family": "INDEPENDENT"}],
+                         "cohort_size": 1, "settled_size": 0, "suppressed_size": 0,
+                         "queue": ["inn"], "cohort_rule": {"terminal_prior_outcomes": []},
+                         "preflight": {"checks": []}, "market_id": "testville-xx",
+                         "run_id": "r"})
+            return 0
+
+        def fake_cp_main(argv):
+            calls.append(list(argv))
+            out = Path(argv[argv.index("--out") + 1])
+            _write(out, {"schema": "ptf-cohort-cost-plan/1.0",
+                         "recommended_cap_usd_minor": 0 if exhausted else 300,
+                         "authorisation_exhausted": exhausted,
+                         "authorised_cap_usd_minor": 1000,
+                         "cumulative_prior_spend": {"usd_minor": 1000 if exhausted else 700},
+                         "predicted_completion_under_balance": {
+                             "attemptable": 0 if exhausted else 1,
+                             "deferred_keys": ["inn"] if exhausted else []},
+                         "double_buy_check": {"no_property_is_bought_twice": True}})
+            return 0
+
+        monkeypatch.setattr(MF.PA, "main", fake_pa_main)
+        from scripts.pettripfinder.acquisition import cohort_cost_plan as CP
+        monkeypatch.setattr(CP, "main", fake_cp_main)
+
+    def test_an_exhausted_authorisation_skips_the_phase_and_buys_nothing(self, ctx, monkeypatch):
+        calls = []
+        self._fakes(monkeypatch, calls, exhausted=True)
+        ctx.spend_authorised = True
+        ledger = MF.load_ledger(ctx)
+        result = MF._paid_pass(ctx, ledger, label="pass2", overlay_path="")
+        assert result.status == MF.SKIPPED
+        assert "authorisation exhausted" in result.note
+        assert result.facts["budget_deferred"] == 1
+        spending = [c for c in calls if "--cap-usd" in c and "--dry-run" not in c
+                    and "--report-only" not in c]
+        assert spending == [], "nothing may run under a zero cap"
+        assert ledger.get("passes", []) == []
+
+    def test_an_interrupted_pass_is_reported_from_its_journal_first(self, ctx, monkeypatch):
+        calls = []
+        self._fakes(monkeypatch, calls, exhausted=False)
+        run_dir = Path(ctx.run_root) / "pass2"
+        run_dir.mkdir(parents=True)
+        (run_dir / "journal.jsonl").write_text('{"identity_key": "inn", "outcome": "VALID"}\n',
+                                               encoding="utf-8")
+        ledger = MF.load_ledger(ctx)
+        result = MF._paid_pass(ctx, ledger, label="pass2", overlay_path="")
+        assert result.status == MF.AWAITING_AUTHORISATION
+        assert [c for c in calls if "--report-only" in c], "the journal was reported"
+        assert ledger["passes"][0]["label"] == "pass2"
+        assert ledger["passes"][0]["outcome"] == "REPORT_FROM_JOURNAL"
+        assert ledger["passes"][0]["attempted"] == 2
+        # the continuation plans under a NEW run directory so the journal that
+        # was just reported is not reported twice
+        dry = [c for c in calls if "--dry-run" in c][0]
+        assert dry[dry.index("--run-dir") + 1].endswith("pass2r")
+
+
+class TestDeclinedRecoveryCoversEveryPass:
+    def test_vacuous_before_any_pass(self, ctx):
+        assert MF.declined_recovery_covers_every_pass(MF.load_ledger(ctx)) is True
+
+    def test_a_pass_registered_after_phase_7_is_not_covered_until_recovery_reruns(self, ctx, tmp_path):
+        ledger = MF.load_ledger(ctx)
+        run1, run2 = tmp_path / "runs" / "pass1", tmp_path / "runs" / "pass2"
+        run1.mkdir(parents=True); run2.mkdir(parents=True)
+        artifact = tmp_path / "zcr.json"
+        _write(artifact, {"run_dirs": [run1.as_posix()], "examined": 0})
+        ledger["passes"] = [{"label": "pass1", "run_dir": run1.as_posix(), "report": "r1"}]
+        MF.record(ledger, MF.DECLINED_EVIDENCE_RECOVERY, MF.PhaseResult(
+            MF.COMPLETED, "ok", artifacts={"declined_recovery": artifact.as_posix()}))
+        assert MF.declined_recovery_covers_every_pass(ledger) is True
+        ledger["passes"].append({"label": "pass2", "run_dir": run2.as_posix(), "report": "r2"})
+        assert MF.declined_recovery_covers_every_pass(ledger) is False
+        _write(artifact, {"run_dirs": [run1.as_posix(), run2.as_posix()], "examined": 0})
+        assert MF.declined_recovery_covers_every_pass(ledger) is True

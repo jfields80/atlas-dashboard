@@ -122,6 +122,16 @@ def _add_common_run_args(p: argparse.ArgumentParser) -> None:
     p.add_argument("--cache-only", action="store_true")
     p.add_argument("--resume", action="store_true")
     p.add_argument("--dry-run", action="store_true")
+    p.add_argument("--overpass-endpoint",
+                   default=os.environ.get(C.OVERPASS_ENDPOINT_ENV, "").strip(),
+                   help="ask ONE named Overpass mirror and never fall back "
+                        "(PTF-INDIANAPOLIS-HARDENED-RECENSUS-002, written when "
+                        "the public default went dark). Defaults to $%s, and "
+                        "to EMPTY -- not to the public endpoint -- because an "
+                        "empty value is what selects the resilient registry "
+                        "added by PTF-DISCOVERY-OVERPASS-RESILIENCE-001. "
+                        "Defaulting it to one endpoint would silently disable "
+                        "that registry on every run." % C.OVERPASS_ENDPOINT_ENV)
     p.add_argument("--overpass-registry", default="",
                    help="an approved-endpoint registry other than the committed "
                         "default (discovery/config/overpass_endpoints.json)")
@@ -211,6 +221,7 @@ def cmd_run(args) -> int:
         max_overpass_requests=args.max_overpass_requests,
         cache_only=args.cache_only, resume=args.resume,
         overpass_registry_path=args.overpass_registry,
+        overpass_endpoint=args.overpass_endpoint,
         osm_extract_index=args.osm_extract_index,
         override_progress_gate=args.override_progress_gate,
         progress_stall_cycles=args.progress_stall_cycles,

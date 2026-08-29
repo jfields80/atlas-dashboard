@@ -355,7 +355,7 @@ def test_no_other_market_moved():
     assert counts["cleveland-akron-canton-oh"] == 40
     assert counts["columbus-oh"] == 16
     assert counts["dayton-oh"] == 8
-    assert counts["indianapolis-in"] == 4
+    assert counts["indianapolis-in"] == 24  # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: 4 -> 24
     assert counts["pittsburgh-pa"] == 7
     assert MA.check_generated_artifacts() == []
 
@@ -367,7 +367,7 @@ def test_other_markets_keep_their_inventory():
     assert by_market["cleveland-akron-canton-oh"] == 99
     assert by_market["dayton-oh"] == 47
     assert by_market["pittsburgh-pa"] == 26
-    assert by_market["indianapolis-in"] == 8
+    assert by_market["indianapolis-in"] == 24  # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: 8 -> 24
     assert by_market[MARKET] == 73
 
 

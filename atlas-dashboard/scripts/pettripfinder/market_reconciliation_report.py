@@ -25,8 +25,8 @@ from scripts.pettripfinder.census_partition_builder import PACKAGE_DIR, WORK_ORD
 from scripts.pettripfinder.contracts import census, enums, partition
 from scripts.pettripfinder.contracts.identity_key import ptf_identity_key
 
-CENSUS_DIR = PACKAGE_DIR / "identity_census"
-
+from scripts.pettripfinder import census_location as CENSUS_LOCATION  # noqa: E402
+CENSUS_DIR = CENSUS_LOCATION.identity_census_dir()  # committed, or $PTF_IDENTITY_CENSUS_DIR during a rebuild
 MARKETS = ("columbus-oh", "cleveland-akron-canton-oh", "dayton-oh",
            "cincinnati-oh", "louisville-ky")
 

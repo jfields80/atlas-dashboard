@@ -22,11 +22,14 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 import shutil
 import sys
 from pathlib import Path
 
 import pytest
+
+from pettripfinder.indianapolis_promoted_state import PROMOTED_PET_FRIENDLY
 
 REPO = Path(__file__).resolve().parents[2]
 if str(REPO) not in sys.path:
@@ -51,11 +54,16 @@ FIVE = ("cleveland-akron-canton-oh", "columbus-oh", "dayton-oh",
 #: PTF-LOUISVILLE-PUBLICATION-008 admitted a seventh by the same mechanism,
 #: and registration and the participation row were written in one step so the
 #: market never existed in the state 046 forbids.
-LIVE = tuple(sorted(FIVE + ("st-louis-mo", "louisville-ky")))
+LIVE = tuple(sorted(FIVE + ("st-louis-mo", "louisville-ky", "indianapolis-in")))
 PROFILES = {"cleveland-akron-canton-oh": 99, "columbus-oh": 88,
             "dayton-oh": 47, "milwaukee-wi": 73, "pittsburgh-pa": 26,
-            "st-louis-mo": 82, "louisville-ky": 46}
-WITHHELD = "indianapolis-in"
+            "st-louis-mo": 82, "louisville-ky": 46, "indianapolis-in": 56}
+#: 046 withheld Indianapolis and PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019
+#: admitted it on a founder decision. Both facts are asserted below: the
+#: withholding is still provable from the participation record's own
+#: supersedes block, which is where a reversed decision leaves its history.
+ADMITTED_AT_019 = "indianapolis-in"
+WITHHELD_BY_046 = "indianapolis-in"
 NOT_READY = ("cincinnati-oh", "detroit-ann-arbor-mi")
 
 #: The five-market production candidate, reproduced twice in the work order
@@ -74,12 +82,19 @@ DEPLOYED_012_BUNDLE_SHA256 = (
 #: it, which is why it is kept named rather than replaced.
 DEPLOYED_011_BUNDLE_SHA256 = (
     "2077ad2895c9273ddc9deed62295058f88915e20cb6fcd4072433d1c17dff741")
-#: The seven-market candidate composed by PTF-LOUISVILLE-PUBLICATION-008.
-EXPECTED_BUNDLE_SHA256 = (
+#: The seven-market bundle DEPLOYED by PTF-LOUISVILLE-PUBLICATION-008, live
+#: in production. Kept named on the same rule as the two above: the
+#: eight-market candidate must ADD to it and change nothing in it.
+DEPLOYED_008_BUNDLE_SHA256 = (
     "38c811dfc22c185bf11a07e1c14cb7abc787c106cf7c6f119930b803bc4380df")
-EXPECTED_HTML_PAGES = 2927
-EXPECTED_FILES = 2945
-EXPECTED_SITEMAP_ROUTES = 567
+#: The eight-market candidate composed by
+#: PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019. NOT deployed and NOT
+#: authorised; its manifest carries deployment_authorized=false.
+EXPECTED_BUNDLE_SHA256 = (
+    "e9998c51d13559333ef9bd63f287e8858b73eb0011401a9606a58871f6ba74cc")
+EXPECTED_HTML_PAGES = 3249
+EXPECTED_FILES = 3267
+EXPECTED_SITEMAP_ROUTES = 638
 #: The withdrawn six-market candidate. Kept so nobody authorizes it by habit.
 WITHDRAWN_SIX_MARKET_SHA256 = (
     "8ea6131e9fe8689fc23d3a362ae12ffaa2155c687737c6f5fcde03b5a22c42b8")
@@ -113,10 +128,12 @@ def test_the_record_is_committed_and_names_its_decision():
     # The current decision is 011's; 046's is preserved as what it
     # supersedes, so the lineage of a launch set stays readable from the
     # record itself.
-    assert decision["work_order"] == "PTF-ST-LOUIS-REGISTER-PUBLISH-011"
+    assert decision["work_order"] == "PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019"
     assert decision["supersedes"]["work_order"] == \
-        "PTF-FIRST-MULTI-MARKET-PRODUCTION-DEPLOYMENT-046"
-    assert decision["supersedes"]["founder_authorized"] == list(FIVE)
+        "PTF-ST-LOUIS-REGISTER-PUBLISH-011"
+    # The set 019 inherited: the seven that were live before Indianapolis.
+    assert decision["supersedes"]["founder_authorized"] == \
+        sorted(set(LIVE) - {ADMITTED_AT_019})
 
 
 def test_every_registered_market_has_an_explicit_status():
@@ -129,8 +146,7 @@ def test_every_registered_market_has_an_explicit_status():
 
 def test_only_the_live_set_is_founder_authorized():
     assert LP.authorized_market_ids() == sorted(LIVE)
-    assert LP.launch_status(WITHHELD) == \
-        LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH
+    assert LP.launch_status(ADMITTED_AT_019) == LP.FOUNDER_AUTHORIZED_FOR_LAUNCH
     for mid in NOT_READY:
         assert LP.launch_status(mid) == LP.NOT_SOURCE_READY
 
@@ -190,30 +206,41 @@ def test_a_record_without_a_decision_is_refused(tmp_path):
 # --------------------------------------------------------------------------- #
 
 def test_indianapolis_is_source_ready_in_every_condition():
-    row = _row(WITHHELD)
+    row = _row(ADMITTED_AT_019)
     assert all(row["conditions"].values()), row["conditions"]
     assert row["assemblable"] is True
-    assert row["published_count"] == 8
+    assert row["published_count"] == PROMOTED_PET_FRIENDLY
     assert row["inventory_error"] == ""
 
 
 def test_indianapolis_release_contract_still_verifies():
-    assert WITHHELD in set(RC.available_market_ids())
-    assert list(RC.verify_contract(WITHHELD)) == []
+    assert ADMITTED_AT_019 in set(RC.available_market_ids())
+    assert list(RC.verify_contract(ADMITTED_AT_019)) == []
 
 
-def test_indianapolis_is_withheld_not_failed():
-    row = _row(WITHHELD)
-    assert row["launch_status"] == \
+def test_046_withheld_indianapolis_and_that_history_survives():
+    """The reversal does not erase the decision it reversed."""
+    doc = LP.load_participation()
+    prior = doc["decision"]["supersedes"]
+    assert WITHHELD_BY_046 not in prior["founder_authorized"]
+    row = next(r for r in doc["markets"] if r["market_id"] == WITHHELD_BY_046)
+    assert row["replaces"]["launch_status"] == \
         LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH
-    assert row["founder_authorized_for_launch"] is False
-    assert row["participates"] is False
 
 
-def test_indianapolis_is_not_selected():
+def test_019_admitted_indianapolis_and_it_was_never_a_failure():
+    row = _row(ADMITTED_AT_019)
+    assert row["launch_status"] == LP.FOUNDER_AUTHORIZED_FOR_LAUNCH
+    assert row["founder_authorized_for_launch"] is True
+    assert row["participates"] is True
+    assert row["assemblable"] is True
+
+
+def test_indianapolis_is_now_selected():
     chosen, rows = select_markets()
     assert [m.market_id for m in chosen] == list(LIVE)
-    assert WITHHELD in [r["market_id"] for r in rows]
+    assert ADMITTED_AT_019 in [m.market_id for m in chosen]
+    assert ADMITTED_AT_019 in [r["market_id"] for r in rows]
 
 
 def test_a_founder_authorization_cannot_admit_a_market_that_is_not_source_ready():
@@ -234,17 +261,18 @@ def test_the_bundle_carries_exactly_the_live_set(production):
     assert manifest["market_fragments_included"] == list(LIVE)
     assert {r["market_id"]: r["published_profiles"]
             for r in manifest["participating_markets"]} == PROFILES
-    assert sum(PROFILES.values()) == 461
+    assert sum(PROFILES.values()) == 517
 
 
-def test_the_bundle_reports_indianapolis_as_withheld(production):
+def test_the_bundle_excludes_only_the_two_that_are_not_source_ready(production):
+    """Indianapolis has left this list. Nothing else joined it."""
     manifest, _site = production
     excluded = {r["market_id"]: r
                 for r in manifest["markets_registered_but_excluded"]}
-    assert set(excluded) == {WITHHELD, *NOT_READY}
-    assert excluded[WITHHELD]["assemblable"] is True
-    assert excluded[WITHHELD]["launch_status"] == \
-        LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH
+    assert set(excluded) == set(NOT_READY)
+    assert ADMITTED_AT_019 not in excluded
+    for mid in NOT_READY:
+        assert excluded[mid]["assemblable"] is False
 
 
 def test_the_bundle_pins_the_participation_record(production):
@@ -255,16 +283,39 @@ def test_the_bundle_pins_the_participation_record(production):
     assert pin["founder_authorized"] == sorted(LIVE)
 
 
-def test_no_indianapolis_route_or_sitemap_entry(production):
+def test_indianapolis_routes_are_present_and_correctly_counted(production):
+    """The mirror of the test 046 wrote. Its shape is deliberately kept: the
+    thing that had to be ABSENT is now the thing that has to be PRESENT, and in
+    exactly the quantity the package states."""
     _manifest, site = production
-    assert not (site / "pet-friendly-hotels" / "indianapolis-in").exists()
-    assert not (site / "go" / "indianapolis-in").exists()
-    pages = [p.relative_to(site).as_posix() for p in site.rglob("*.html")]
-    assert not [p for p in pages if "indianapolis" in p], pages[:5]
+    hub = site / "pet-friendly-hotels" / "indianapolis-in"
+    assert hub.is_dir()
+    package = json.loads(
+        (REPO / "launch_packages" / "pettripfinder"
+         / "hotel_policy_facts_indianapolis-in.json").read_text(encoding="utf-8"))
+    # The route is slugify(NAME) with "&" dropped -- PTF-LOUISVILLE-008.
+    # The package KEY spells "&" as "and" (AES-SEO-001), so keying off it
+    # produces "days-inn-and-suites-..." for a route that is
+    # "days-inn-suites-...".
+    slugs = {re.sub(r"-+", "-",
+                    re.sub(r"[^a-z0-9]+", "-",
+                           h["name"].lower().replace("&", " "))).strip("-")
+             for h in package["hotels"]}
+    assert len(slugs) == PROMOTED_PET_FRIENDLY == 56
+    present = {d.name for d in hub.iterdir() if d.is_dir()}
+    assert slugs <= present
+    assert all((hub / s / "index.html").is_file() for s in slugs)
     sitemap = (site / "sitemap.xml").read_text(encoding="utf-8")
-    assert "indianapolis" not in sitemap
-    assert "/pet-friendly-hotels/indianapolis-in/" not in \
-        (site / "index.html").read_text(encoding="utf-8")
+    assert sitemap.count("/pet-friendly-hotels/indianapolis-in/") == 71
+
+
+def test_no_held_or_refused_indianapolis_row_reached_the_bundle(production):
+    """The rows 018 deliberately did not promote must not appear."""
+    _manifest, site = production
+    sitemap = (site / "sitemap.xml").read_text(encoding="utf-8")
+    for slug in ("extended-stay-america-indianapolis-airport-w-southern-ave",
+                 "home2-suites-by-hilton/"):
+        assert slug not in sitemap, slug
 
 
 def test_every_required_gate_ran_and_passed(production):
@@ -322,14 +373,13 @@ def test_the_committed_manifest_verifies_and_pins_the_record():
     assert doc["schema"] == GD.MANIFEST_SCHEMA
     assert doc["launch_participation"]["sha256"] == LP.participation_sha256()
     assert [r["market_id"] for r in doc["participating_markets"]] == list(LIVE)
-    assert doc["total_published_profiles"] == 461
+    assert doc["total_published_profiles"] == 517
     assert doc["bundle_sha256"] == EXPECTED_BUNDLE_SHA256
     # PTF-047: the flag mirrors a verifying deployment authorization record.
     assert doc["deployment_authorized"] is (doc.get("deployment_authorization") is not None)
     excluded = {r["market_id"]: r for r in doc["excluded_markets"]}
-    assert excluded[WITHHELD]["launch_status"] == \
-        LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH
-    assert excluded[WITHHELD]["why"] == ["founder_authorized_for_launch"]
+    assert ADMITTED_AT_019 not in excluded
+    assert set(excluded) == set(NOT_READY)
 
 
 def test_a_changed_record_invalidates_the_manifest():

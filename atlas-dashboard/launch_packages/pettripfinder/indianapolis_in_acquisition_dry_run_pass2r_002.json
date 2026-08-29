@@ -1,0 +1,2758 @@
+{
+ "schema": "ptf-market-paid-acquisition/1.0",
+ "what_this_is": "One paid acquisition pass over a market's remaining routed cohort, under a hard spend cap enforced on the larger of the vendor's measured cost and this run's own estimate. It changes no route.",
+ "market_id": "indianapolis-in",
+ "work_order": "PTF-INDIANAPOLIS-HARDENED-RECENSUS-002",
+ "run_id": "indianapolis-in-002-pass2r",
+ "run_start": "2026-08-25T21:07:46.771516+00:00",
+ "dry_run": true,
+ "prior_report": "C:/ptf-indy-v2/atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_acquisition_merged_pass2r_002.json",
+ "cost_policy": {
+  "hard_cap_usd_minor": 1000,
+  "plan_credit_cap": 300,
+  "measured_from": "per-zone month-to-date cost summed over scraping_browser1, mcp_unlocker, cli_unlocker",
+  "enforced_on": "max(measured, estimated) -- the vendor's meter lags a session by minutes and a cap enforced on a lagging meter overshoots"
+ },
+ "url_overlay": {
+  "overlay": "C:/ptf-indy-v2/atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_url_recovery_post_acquisition_002.json",
+  "contract": "ptf-census-url-recovery/1.0",
+  "offered": 13,
+  "applied": 13,
+  "unroutable_census_urls_displaced": 1,
+  "note": "layered for routing only; the census file is unchanged",
+  "rows": [
+   {
+    "identity_key": "candlewood suites indianapolis medical district",
+    "url": "https://www.ihg.com/candlewood/hotels/us/en/indianapolis/indwp/hoteldetail",
+    "displaced_census_url": "",
+    "binding": "NAME_AND_POSTAL_CODE",
+    "evidence": {
+     "provider": "PRIOR_BUILD",
+     "source": "data/prior_evidence/indianapolis_001/git_cbb9863/launch_packages/pettripfinder/identity_routing.json",
+     "name": "candlewood suites indianapolis medical district",
+     "phone": "",
+     "postal_code": "46222",
+     "street_key": "1152 n white river pkwy w dr|46222",
+     "url": "https://www.ihg.com/candlewood/hotels/us/en/indianapolis/indwp/hoteldetail"
+    }
+   },
+   {
+    "identity_key": "comfort inn indianapolis airport plainfield",
+    "url": "https://www.choicehotels.com/indiana/plainfield/comfort-inn-hotels/in082",
+    "displaced_census_url": "https://www.choicehotels.com/indiana/whitestown/woodspring-hotels",
+    "binding": "PHONE",
+    "evidence": {
+     "provider": "PRIOR_BUILD",
+     "source": "indianapolis-in.json",
+     "name": "comfort inn indianapolis airport plainfield",
+     "phone": "3172043768",
+     "postal_code": "46168",
+     "street_key": "6107 cambridge way|46168",
+     "url": "https://www.choicehotels.com/indiana/plainfield/comfort-inn-hotels/in082"
+    }
+   },
+   {
+    "identity_key": "conrad indianapolis",
+    "url": "https://www.hilton.com/en/hotels/indcici-conrad-indianapolis/",
+    "displaced_census_url": "",
+    "binding": "NAME_AND_POSTAL_CODE",
+    "evidence": {
+     "provider": "PRIOR_BUILD",
+     "source": "data/prior_evidence/indianapolis_001/git_cbb9863/launch_packages/pettripfinder/identity_routing.json",
+     "name": "conrad indianapolis",
+     "phone": "",
+     "postal_code": "46204",
+     "street_key": "50 w washington st|46204",
+     "url": "https://www.hilton.com/en/hotels/indcici-conrad-indianapolis/"
+    }
+   },
+   {
+    "identity_key": "hampton inn indianapolis southwest plainfield",
+    "url": "https://www.hilton.com/en/hotels/indpfhx-hampton-indianapolis-sw-plainfield/",
+    "displaced_census_url": "",
+    "binding": "PHONE",
+    "evidence": {
+     "provider": "OPENSTREETMAP",
+     "source": "OPENSTREETMAP/indianapolis-in/OPENSTREETMAP__hotel__indianapolis-in__plainfield/64b510c915ca4a97/page_1.json",
+     "name": "hampton inn indianapolis sw plainfield",
+     "phone": "3178399993",
+     "postal_code": "46168",
+     "street_key": "2244 e hadley rd|46168",
+     "url": "https://www.hilton.com/en/hotels/indpfhx-hampton-indianapolis-sw-plainfield/"
+    }
+   },
+   {
+    "identity_key": "holiday inn express and suites indianapolis north carmel",
+    "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/carmel/indnt/hoteldetail",
+    "displaced_census_url": "",
+    "binding": "NAME_AND_POSTAL_CODE",
+    "evidence": {
+     "provider": "PRIOR_BUILD",
+     "source": "data/prior_evidence/indianapolis_001/git_cbb9863/launch_packages/pettripfinder/identity_routing.json",
+     "name": "holiday inn express suites indianapolis north carmel",
+     "phone": "",
+     "postal_code": "46032",
+     "street_key": "9797 n michigan rd|46032",
+     "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/carmel/indnt/hoteldetail"
+    }
+   },
+   {
+    "identity_key": "holiday inn express indianapolis downtown",
+    "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/indianapolis/indms/hoteldetail",
+    "displaced_census_url": "",
+    "binding": "NAME_AND_POSTAL_CODE",
+    "evidence": {
+     "provider": "PRIOR_BUILD",
+     "source": "data/prior_evidence/indianapolis_001/git_cbb9863/launch_packages/pettripfinder/identity_routing.json",
+     "name": "holiday inn express indianapolis downtown",
+     "phone": "",
+     "postal_code": "46225",
+     "street_key": "410 s missouri st|46225",
+     "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/indianapolis/indms/hoteldetail"
+    }
+   },
+   {
+    "identity_key": "holiday inn indianapolis airport",
+    "url": "https://www.ihg.com/holidayinn/hotels/us/en/indianapolis/indap/hoteldetail",
+    "displaced_census_url": "",
+    "binding": "NAME_AND_POSTAL_CODE",
+    "evidence": {
+     "provider": "PRIOR_BUILD",
+     "source": "indianapolis-in.json",
+     "name": "holiday inn indianapolis airport",
+     "phone": "3178566200",
+     "postal_code": "46241",
+     "street_key": "8555 stansted dr|46241",
+     "url": "https://www.ihg.com/holidayinn/hotels/us/en/indianapolis/indap/hoteldetail"
+    }
+   },
+   {
+    "identity_key": "holiday inn indianapolis downtown",
+    "url": "https://www.ihg.com/holidayinn/hotels/us/en/indianapolis/indwe/hoteldetail",
+    "displaced_census_url": "",
+    "binding": "NAME_AND_POSTAL_CODE",
+    "evidence": {
+     "provider": "PRIOR_BUILD",
+     "source": "data/prior_evidence/indianapolis_001/git_cbb9863/launch_packages/pettripfinder/identity_routing.json",
+     "name": "holiday inn indianapolis downtown",
+     "phone": "",
+     "postal_code": "46225",
+     "street_key": "515 s w st|46225",
+     "url": "https://www.ihg.com/holidayinn/hotels/us/en/indianapolis/indwe/hoteldetail"
+    }
+   },
+   {
+    "identity_key": "home2 suites by hilton indianapolis airport",
+    "url": "https://www.hilton.com/en/hotels/indcbht-home2-suites-indianapolis-airport/",
+    "displaced_census_url": "",
+    "binding": "NAME_AND_POSTAL_CODE",
+    "evidence": {
+     "provider": "PRIOR_BUILD",
+     "source": "indianapolis-in.json",
+     "name": "home2 suites by hilton indianapolis airport",
+     "phone": "3178569900",
+     "postal_code": "46241",
+     "street_key": "8345 belfast dr|46241",
+     "url": "https://www.hilton.com/en/hotels/indcbht-home2-suites-indianapolis-airport/"
+    }
+   },
+   {
+    "identity_key": "hotel carmichael autograph collection",
+    "url": "https://www.hotelcarmichael.com/",
+    "displaced_census_url": "",
+    "binding": "NAME_AND_POSTAL_CODE",
+    "evidence": {
+     "provider": "PRIOR_BUILD",
+     "source": "indianapolis-in.json",
+     "name": "hotel carmichael autograph collection",
+     "phone": "",
+     "postal_code": "46032",
+     "street_key": "1 carmichael sq|46032",
+     "url": "https://www.hotelcarmichael.com/"
+    }
+   },
+   {
+    "identity_key": "jw marriott indianapolis",
+    "url": "https://www.marriott.com/en-us/hotels/indjw-jw-marriott-indianapolis/overview/",
+    "displaced_census_url": "",
+    "binding": "NAME_AND_POSTAL_CODE",
+    "evidence": {
+     "provider": "PRIOR_BUILD",
+     "source": "indianapolis-in.json",
+     "name": "jw marriott indianapolis",
+     "phone": "",
+     "postal_code": "46204",
+     "street_key": "10 s w st|46204",
+     "url": "https://www.marriott.com/en-us/hotels/indjw-jw-marriott-indianapolis/overview/"
+    }
+   },
+   {
+    "identity_key": "staybridge suites indianapolis airport plainfield",
+    "url": "https://www.ihg.com/staybridge/hotels/us/en/plainfield/indpf/hoteldetail",
+    "displaced_census_url": "",
+    "binding": "NAME_AND_POSTAL_CODE",
+    "evidence": {
+     "provider": "PRIOR_BUILD",
+     "source": "indianapolis-in.json",
+     "name": "staybridge suites indianapolis airport plainfield",
+     "phone": "3178392700",
+     "postal_code": "46168",
+     "street_key": "6295 cambridge way|46168",
+     "url": "https://www.ihg.com/staybridge/hotels/us/en/plainfield/indpf/hoteldetail"
+    }
+   },
+   {
+    "identity_key": "wyndham indianapolis west",
+    "url": "https://www.wyndhamhotels.com/wyndham/indianapolis-indiana/wyndham-indianapolis-west/overview",
+    "displaced_census_url": "",
+    "binding": "NAME_AND_POSTAL_CODE",
+    "evidence": {
+     "provider": "PRIOR_BUILD",
+     "source": "indianapolis-in.json",
+     "name": "wyndham indianapolis west",
+     "phone": "3172482481",
+     "postal_code": "46241",
+     "street_key": "2544 executive dr|46241",
+     "url": "https://www.wyndhamhotels.com/wyndham/indianapolis-indiana/wyndham-indianapolis-west/overview"
+    }
+   }
+  ]
+ },
+ "routing_summary": {
+  "contract": "ptf-market-routing/1.0",
+  "count": 265,
+  "url_shapes": {
+   "BRAND_INDEX": 5,
+   "NO_URL": 144,
+   "PROPERTY_PAGE": 116
+  },
+  "routing_states": {
+   "ROUTED": 107,
+   "ROUTE_BRAND_EXCLUDED": 9,
+   "ROUTE_NEEDS_OFFICIAL_URL": 144,
+   "ROUTE_NEEDS_PROPERTY_URL": 5
+  },
+  "brands": {
+   "BEST_WESTERN": 4,
+   "CHOICE": 8,
+   "ESA": 1,
+   "HILTON": 27,
+   "HYATT": 5,
+   "IHG": 15,
+   "INDEPENDENT": 8,
+   "MARRIOTT": 36,
+   "NO_URL": 144,
+   "RED_ROOF": 1,
+   "SONESTA": 1,
+   "WYNDHAM": 15
+  },
+  "providers": {
+   "brightdata_browser": 74,
+   "firecrawl": 33
+  },
+  "automatically_routed": 107,
+  "automatically_routed_pct": 40.4
+ },
+ "cohort_rule": {
+  "terminal_prior_outcomes": [
+   "VALID",
+   "POLICY_NOT_FOUND",
+   "IDENTITY_MISMATCH"
+  ],
+  "why": "a page that served and was read, was silent, or was about another hotel has already answered its question; a paid lane is for properties we could not REACH"
+ },
+ "cohort_size": 26,
+ "settled_size": 64,
+ "suppressed_size": 17,
+ "cohort_by_provider": {
+  "brightdata_browser": 26
+ },
+ "cohort_by_family": {
+  "ESA": 1,
+  "HILTON": 15,
+  "INDEPENDENT": 8,
+  "RED_ROOF": 1,
+  "SONESTA": 1
+ },
+ "settled_by_prior_outcome": {
+  "IDENTITY_MISMATCH": 8,
+  "POLICY_NOT_FOUND": 5,
+  "VALID": 51
+ },
+ "queue_order": [
+  "MARRIOTT",
+  "HILTON",
+  "RED_ROOF",
+  "MOTEL6",
+  "SONESTA",
+  "DRURY",
+  "ESA",
+  "INDEPENDENT"
+ ],
+ "queue": [
+  "hampton inn indianapolis south",
+  "hampton inn indianapolis southwest plainfield",
+  "hampton inn indianapolis sw plainfield",
+  "hampton inn westfield indianapolis",
+  "hilton garden inn indianapolis airport",
+  "hilton garden inn indianapolis carmel",
+  "hilton garden inn indianapolis downtown",
+  "hilton garden inn indianapolis northeast fishers",
+  "hilton garden inn indianapolis northwest",
+  "hilton indianapolis hotel and suites",
+  "home2 suites by hilton",
+  "home2 suites by hilton indianapolis airport",
+  "home2 suites by hilton indianapolis downtown",
+  "home2 suites by hilton indianapolis northwest",
+  "tru",
+  "red roof inn indianapolis east",
+  "sonesta select",
+  "extended stay america indianapolis airport",
+  "bottleworks hotel",
+  "country inn and suites indianapolis south in",
+  "hotel broad ripple",
+  "hotel carmichael autograph collection",
+  "hotel indy indianapolis a tribute portfolio hotel",
+  "keystone inn and suites",
+  "omni severin hotel indianapolis",
+  "prairie guest house"
+ ],
+ "cohort_keys_sha256": "2d3503203200bf1b895dbacb6ff0fe372a9d77adbdca53550fbd7f5aaca8f68e",
+ "retry_policy": {
+  "schema": "ptf-retry-policy/1.0",
+  "rule": "a prior access, navigation or unhydrated failure re-enters a paid cohort only on a different approved lane, a changed URL, a reader change that addresses the failure, or an explicit operator override; otherwise it is suppressed as RETRY_REQUIRES_ALTERNATE_LANE and never marked settled",
+  "eligible": 26,
+  "suppressed": 17,
+  "classification_counts": {
+   "FIRST_ATTEMPT": 26,
+   "RETRY_REQUIRES_ALTERNATE_LANE": 17
+  },
+  "suppressed_rows": [
+   {
+    "identity_key": "cambria hotel indianapolis airport plainfield",
+    "prior_outcome": "UNHYDRATED",
+    "lanes_tried": [
+     "firecrawl",
+     "brightdata_web_unlocker"
+    ],
+    "suppressed_because": "EVERY_APPROVED_LANE_ALREADY_TRIED_ON_THIS_URL",
+    "next_state": "RETRY_REQUIRES_ALTERNATE_LANE"
+   },
+   {
+    "identity_key": "courtyard by marriott indianapolis castleton",
+    "prior_outcome": "UNEXPECTED_PAGE",
+    "lanes_tried": [
+     "brightdata_browser",
+     "brightdata_web_unlocker"
+    ],
+    "suppressed_because": "EVERY_APPROVED_LANE_ALREADY_TRIED_ON_THIS_URL",
+    "next_state": "RETRY_REQUIRES_ALTERNATE_LANE"
+   },
+   {
+    "identity_key": "courtyard indianapolis south",
+    "prior_outcome": "UNEXPECTED_PAGE",
+    "lanes_tried": [
+     "brightdata_browser",
+     "brightdata_web_unlocker"
+    ],
+    "suppressed_because": "EVERY_APPROVED_LANE_ALREADY_TRIED_ON_THIS_URL",
+    "next_state": "RETRY_REQUIRES_ALTERNATE_LANE"
+   },
+   {
+    "identity_key": "fairfield inn and suites",
+    "prior_outcome": "UNEXPECTED_PAGE",
+    "lanes_tried": [
+     "brightdata_browser",
+     "brightdata_web_unlocker"
+    ],
+    "suppressed_because": "EVERY_APPROVED_LANE_ALREADY_TRIED_ON_THIS_URL",
+    "next_state": "RETRY_REQUIRES_ALTERNATE_LANE"
+   },
+   {
+    "identity_key": "fairfield inn and suites indianapolis noblesville",
+    "prior_outcome": "ACCESS_DENIED",
+    "lanes_tried": [
+     "brightdata_browser",
+     "brightdata_web_unlocker"
+    ],
+    "suppressed_because": "EVERY_APPROVED_LANE_ALREADY_TRIED_ON_THIS_URL",
+    "next_state": "RETRY_REQUIRES_ALTERNATE_LANE"
+   },
+   {
+    "identity_key": "fairfield inn indianapolis south",
+    "prior_outcome": "NAVIGATION_FAILED",
+    "lanes_tried": [
+     "brightdata_browser",
+     "brightdata_web_unlocker"
+    ],
+    "suppressed_because": "EVERY_APPROVED_LANE_ALREADY_TRIED_ON_THIS_URL",
+    "next_state": "RETRY_REQUIRES_ALTERNATE_LANE"
+   },
+   {
+    "identity_key": "hampton by hilton",
+    "prior_outcome": "NAVIGATION_FAILED",
+    "lanes_tried": [
+     "brightdata_browser",
+     "brightdata_web_unlocker"
+    ],
+    "suppressed_because": "EVERY_APPROVED_LANE_ALREADY_TRIED_ON_THIS_URL",
+    "next_state": "RETRY_REQUIRES_ALTERNATE_LANE"
+   },
+   {
+    "identity_key": "holiday inn indianapolis airport",
+    "prior_outcome": "UNEXPECTED_PAGE",
+    "lanes_tried": [
+     "firecrawl",
+     "brightdata_web_unlocker"
+    ],
+    "suppressed_because": "EVERY_APPROVED_LANE_ALREADY_TRIED_ON_THIS_URL",
+    "next_state": "RETRY_REQUIRES_ALTERNATE_LANE"
+   },
+   {
+    "identity_key": "la quinta inn indianapolis airport lynhurst",
+    "prior_outcome": "NAVIGATION_FAILED",
+    "lanes_tried": [
+     "firecrawl",
+     "brightdata_web_unlocker"
+    ],
+    "suppressed_because": "EVERY_APPROVED_LANE_ALREADY_TRIED_ON_THIS_URL",
+    "next_state": "RETRY_REQUIRES_ALTERNATE_LANE"
+   },
+   {
+    "identity_key": "renaissance indianapolis north hotel",
+    "prior_outcome": "UNEXPECTED_PAGE",
+    "lanes_tried": [
+     "brightdata_browser",
+     "brightdata_web_unlocker"
+    ],
+    "suppressed_because": "EVERY_APPROVED_LANE_ALREADY_TRIED_ON_THIS_URL",
+    "next_state": "RETRY_REQUIRES_ALTERNATE_LANE"
+   },
+   {
+    "identity_key": "residence inn by marriott indianapolis airport",
+    "prior_outcome": "UNEXPECTED_PAGE",
+    "lanes_tried": [
+     "brightdata_browser",
+     "brightdata_web_unlocker"
+    ],
+    "suppressed_because": "EVERY_APPROVED_LANE_ALREADY_TRIED_ON_THIS_URL",
+    "next_state": "RETRY_REQUIRES_ALTERNATE_LANE"
+   },
+   {
+    "identity_key": "residence inn indianapolis fishers",
+    "prior_outcome": "ACCESS_DENIED",
+    "lanes_tried": [
+     "brightdata_browser",
+     "brightdata_web_unlocker"
+    ],
+    "suppressed_because": "EVERY_APPROVED_LANE_ALREADY_TRIED_ON_THIS_URL",
+    "next_state": "RETRY_REQUIRES_ALTERNATE_LANE"
+   },
+   {
+    "identity_key": "residence inn indianapolis northwest",
+    "prior_outcome": "UNEXPECTED_PAGE",
+    "lanes_tried": [
+     "brightdata_browser",
+     "brightdata_web_unlocker"
+    ],
+    "suppressed_because": "EVERY_APPROVED_LANE_ALREADY_TRIED_ON_THIS_URL",
+    "next_state": "RETRY_REQUIRES_ALTERNATE_LANE"
+   },
+   {
+    "identity_key": "residence inn indianapolis south greenwood",
+    "prior_outcome": "UNEXPECTED_PAGE",
+    "lanes_tried": [
+     "brightdata_browser",
+     "brightdata_web_unlocker"
+    ],
+    "suppressed_because": "EVERY_APPROVED_LANE_ALREADY_TRIED_ON_THIS_URL",
+    "next_state": "RETRY_REQUIRES_ALTERNATE_LANE"
+   },
+   {
+    "identity_key": "super 8 by wyndham indianapolis castleton",
+    "prior_outcome": "NAVIGATION_FAILED",
+    "lanes_tried": [
+     "firecrawl",
+     "brightdata_web_unlocker"
+    ],
+    "suppressed_because": "EVERY_APPROVED_LANE_ALREADY_TRIED_ON_THIS_URL",
+    "next_state": "RETRY_REQUIRES_ALTERNATE_LANE"
+   },
+   {
+    "identity_key": "towneplace suites indianapolis park 100",
+    "prior_outcome": "ACCESS_DENIED",
+    "lanes_tried": [
+     "brightdata_browser",
+     "brightdata_web_unlocker"
+    ],
+    "suppressed_because": "EVERY_APPROVED_LANE_ALREADY_TRIED_ON_THIS_URL",
+    "next_state": "RETRY_REQUIRES_ALTERNATE_LANE"
+   },
+   {
+    "identity_key": "wyndham indianapolis west",
+    "prior_outcome": "NAVIGATION_FAILED",
+    "lanes_tried": [
+     "firecrawl",
+     "brightdata_web_unlocker"
+    ],
+    "suppressed_because": "EVERY_APPROVED_LANE_ALREADY_TRIED_ON_THIS_URL",
+    "next_state": "RETRY_REQUIRES_ALTERNATE_LANE"
+   }
+  ],
+  "alternate_lane_rows": []
+ },
+ "lane_overrides": {},
+ "cohort": [
+  {
+   "identity_key": "bottleworks hotel",
+   "canonical_name": "Bottleworks Hotel",
+   "brand": "INDEP:www.visitindy.com",
+   "family": "INDEPENDENT",
+   "corridor": "indianapolis-in__mass-ave",
+   "source_url": "https://www.visitindy.com/directory/bottleworks-hotel/",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "country inn and suites indianapolis south in",
+   "canonical_name": "Country Inn & Suites, Indianapolis South, IN",
+   "brand": "INDEP:www.radissonhotels.com",
+   "family": "INDEPENDENT",
+   "corridor": "indianapolis-in__south",
+   "source_url": "https://www.radissonhotels.com/en-us/hotels/country-inn-indianapolis-southport-in",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "extended stay america indianapolis airport",
+   "canonical_name": "Extended Stay America Indianapolis Airport",
+   "brand": "ESA",
+   "family": "ESA",
+   "corridor": "indianapolis-in__airport",
+   "source_url": "https://www.extendedstayamerica.com/hotels/in/indianapolis/airport",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "hampton inn indianapolis south",
+   "canonical_name": "Hampton Inn Indianapolis-South",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "indianapolis-in__south",
+   "source_url": "https://www.hilton.com/en/hotels/indsthx-hampton-indianapolis-south",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "hampton inn indianapolis southwest plainfield",
+   "canonical_name": "Hampton Inn Indianapolis Southwest Plainfield",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "indianapolis-in__plainfield",
+   "source_url": "https://www.hilton.com/en/hotels/indpfhx-hampton-indianapolis-sw-plainfield/",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "hampton inn indianapolis sw plainfield",
+   "canonical_name": "Hampton Inn Indianapolis-SW/Plainfield",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "indianapolis-in__plainfield",
+   "source_url": "https://www.hilton.com/en/hotels/indpfhx-hampton-indianapolis-sw-plainfield",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "hampton inn westfield indianapolis",
+   "canonical_name": "Hampton Inn Westfield Indianapolis",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "indianapolis-in__westfield",
+   "source_url": "https://www.hilton.com/en/hotels/indwehx-hampton-westfield-indianapolis/?SEO_id=GMB-AMER-HX-INDWEHX",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "hilton garden inn indianapolis airport",
+   "canonical_name": "Hilton Garden Inn Indianapolis Airport",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "indianapolis-in__airport",
+   "source_url": "https://www.hilton.com/en/hotels/indaggi-hilton-garden-inn-indianapolis-airport",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "hilton garden inn indianapolis carmel",
+   "canonical_name": "Hilton Garden Inn Indianapolis/Carmel",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "indianapolis-in__carmel",
+   "source_url": "https://www.hilton.com/en/hotels/indcagi-hilton-garden-inn-indianapolis-carmel",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "hilton garden inn indianapolis downtown",
+   "canonical_name": "Hilton Garden Inn Indianapolis Downtown",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "indianapolis-in__downtown",
+   "source_url": "https://www.hilton.com/en/hotels/inddhgi-hilton-garden-inn-indianapolis-downtown",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "hilton garden inn indianapolis northeast fishers",
+   "canonical_name": "Hilton Garden Inn Indianapolis Northeast/Fishers",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "indianapolis-in__fishers",
+   "source_url": "https://www.hilton.com/en/hotels/indfhgi-hilton-garden-inn-indianapolis-northeast-fishers",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "hilton garden inn indianapolis northwest",
+   "canonical_name": "Hilton Garden Inn Indianapolis Northwest",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "indianapolis-in__northwest",
+   "source_url": "https://www.hilton.com/en/hotels/indnogi-hilton-garden-inn-indianapolis-northwest",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "hilton indianapolis hotel and suites",
+   "canonical_name": "Hilton Indianapolis Hotel & Suites",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "indianapolis-in__downtown",
+   "source_url": "https://www.hilton.com/en/hotels/inddnhf-hilton-indianapolis-hotel-and-suites",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "home2 suites by hilton",
+   "canonical_name": "Home2 Suites by Hilton",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "indianapolis-in__carmel",
+   "source_url": "https://www.hilton.com/en/hotels/indcrht-home2-suites-carmel-indianapolis",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "home2 suites by hilton indianapolis airport",
+   "canonical_name": "Home2 Suites by Hilton Indianapolis Airport",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "indianapolis-in__airport",
+   "source_url": "https://www.hilton.com/en/hotels/indcbht-home2-suites-indianapolis-airport/",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "home2 suites by hilton indianapolis downtown",
+   "canonical_name": "Home2 Suites by Hilton Indianapolis Downtown",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "indianapolis-in__downtown",
+   "source_url": "https://www.hilton.com/en/hotels/indhtht-home2-suites-indianapolis-downtown",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "home2 suites by hilton indianapolis northwest",
+   "canonical_name": "Home2 Suites by Hilton Indianapolis Northwest",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "indianapolis-in__northwest",
+   "source_url": "https://www.hilton.com/en/hotels/indwrht-home2-suites-indianapolis-northwest",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "hotel broad ripple",
+   "canonical_name": "Hotel Broad Ripple",
+   "brand": "INDEP:hotelbroadripple.com",
+   "family": "INDEPENDENT",
+   "corridor": "indianapolis-in__broad-ripple",
+   "source_url": "https://hotelbroadripple.com",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "hotel carmichael autograph collection",
+   "canonical_name": "Hotel Carmichael, Autograph Collection",
+   "brand": "INDEP:www.hotelcarmichael.com",
+   "family": "INDEPENDENT",
+   "corridor": "indianapolis-in__carmel",
+   "source_url": "https://www.hotelcarmichael.com/",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "hotel indy indianapolis a tribute portfolio hotel",
+   "canonical_name": "Hotel Indy, Indianapolis, A Tribute Portfolio Hotel",
+   "brand": "INDEP:www.hotelindy.com",
+   "family": "INDEPENDENT",
+   "corridor": "indianapolis-in__downtown",
+   "source_url": "https://www.hotelindy.com",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "keystone inn and suites",
+   "canonical_name": "Keystone Inn & Suites",
+   "brand": "INDEP:www.keystoneinnsuites.com",
+   "family": "INDEPENDENT",
+   "corridor": "indianapolis-in__keystone-castleton",
+   "source_url": "https://www.keystoneinnsuites.com/en",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "omni severin hotel indianapolis",
+   "canonical_name": "Omni Severin Hotel Indianapolis",
+   "brand": "INDEP:www.omnihotels.com",
+   "family": "INDEPENDENT",
+   "corridor": "indianapolis-in__downtown",
+   "source_url": "https://www.omnihotels.com/hotels/indianapolis-severin",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "prairie guest house",
+   "canonical_name": "Prairie Guest House",
+   "brand": "INDEP:www.prairieguesthouse.com",
+   "family": "INDEPENDENT",
+   "corridor": "indianapolis-in__fishers",
+   "source_url": "https://www.prairieguesthouse.com",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "red roof inn indianapolis east",
+   "canonical_name": "Red Roof Inn - Indianapolis East",
+   "brand": "RED_ROOF",
+   "family": "RED_ROOF",
+   "corridor": "indianapolis-in__east-i70",
+   "source_url": "https://www.redroof.com/property/in/indianapolis/RRI602",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "sonesta select",
+   "canonical_name": "Sonesta Select",
+   "brand": "SONESTA",
+   "family": "SONESTA",
+   "corridor": "indianapolis-in__carmel",
+   "source_url": "https://www.sonesta.com/sonesta-select/in/indianapolis/sonesta-select-indianapolis-carmel",
+   "provider": "brightdata_browser",
+   "reader": "generic",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  },
+  {
+   "identity_key": "tru",
+   "canonical_name": "Tru",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "indianapolis-in__downtown",
+   "source_url": "https://www.hilton.com/en/hotels/inddwru-tru-indianapolis-downtown",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NEVER_ATTEMPTED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "FIRST_ATTEMPT",
+   "retry_why": "no prior pass has attempted this property"
+  }
+ ],
+ "settled": [
+  {
+   "identity_key": "baymont by wyndham plainfield indianapolis airport area",
+   "canonical_name": "Baymont by Wyndham Plainfield Indianapolis Airport Area",
+   "brand": "WYNDHAM",
+   "family": "WYNDHAM",
+   "corridor": "indianapolis-in__plainfield",
+   "source_url": "https://www.wyndhamhotels.com/baymont/plainfield-indiana/baymont-inn-and-suites-plainfield-indianapolis-arpt-area/overview",
+   "provider": "firecrawl",
+   "reader": "wyndham",
+   "prior_outcome": "IDENTITY_MISMATCH",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (IDENTITY_MISMATCH); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "baymont indianapolis south",
+   "canonical_name": "Baymont Indianapolis South",
+   "brand": "WYNDHAM",
+   "family": "WYNDHAM",
+   "corridor": "indianapolis-in__south",
+   "source_url": "https://www.wyndhamhotels.com/baymont/indianapolis-indiana/baymont-inn-indianapolis-south/overview",
+   "provider": "firecrawl",
+   "reader": "wyndham",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "baymont inn and suites plainfield indianapolis airport",
+   "canonical_name": "Baymont Inn and Suites Plainfield/Indianapolis Airport",
+   "brand": "WYNDHAM",
+   "family": "WYNDHAM",
+   "corridor": "indianapolis-in__plainfield",
+   "source_url": "https://www.wyndhamhotels.com/baymont/plainfield-indiana/baymont-inn-and-suites-plainfield-indianapolis-arpt-area/overview",
+   "provider": "firecrawl",
+   "reader": "wyndham",
+   "prior_outcome": "IDENTITY_MISMATCH",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (IDENTITY_MISMATCH); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "baymont noblesville",
+   "canonical_name": "Baymont Noblesville",
+   "brand": "WYNDHAM",
+   "family": "WYNDHAM",
+   "corridor": "indianapolis-in__noblesville",
+   "source_url": "https://www.wyndhamhotels.com/baymont/noblesville-indiana/baymont-inn-and-suites-noblesville/overview",
+   "provider": "firecrawl",
+   "reader": "wyndham",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "candlewood suites indianapolis medical district",
+   "canonical_name": "Candlewood Suites Indianapolis Medical District",
+   "brand": "IHG",
+   "family": "IHG",
+   "corridor": "indianapolis-in__downtown",
+   "source_url": "https://www.ihg.com/candlewood/hotels/us/en/indianapolis/indwp/hoteldetail",
+   "provider": "firecrawl",
+   "reader": "ihg",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "comfort inn indianapolis airport plainfield",
+   "canonical_name": "Comfort Inn Indianapolis Airport Plainfield",
+   "brand": "CHOICE",
+   "family": "CHOICE",
+   "corridor": "indianapolis-in__plainfield",
+   "source_url": "https://www.choicehotels.com/indiana/plainfield/comfort-inn-hotels/in082",
+   "provider": "firecrawl",
+   "reader": "choice_static",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "comfort suites indianapolis airport",
+   "canonical_name": "Comfort Suites Indianapolis Airport",
+   "brand": "CHOICE",
+   "family": "CHOICE",
+   "corridor": "indianapolis-in__airport",
+   "source_url": "https://www.choicehotels.com/indiana/indianapolis/comfort-suites-hotels/in293",
+   "provider": "firecrawl",
+   "reader": "choice_static",
+   "prior_outcome": "IDENTITY_MISMATCH",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (IDENTITY_MISMATCH); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "conrad indianapolis",
+   "canonical_name": "Conrad Indianapolis",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "indianapolis-in__downtown",
+   "source_url": "https://www.hilton.com/en/hotels/indcici-conrad-indianapolis/",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "POLICY_NOT_FOUND",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (POLICY_NOT_FOUND); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "courtyard",
+   "canonical_name": "Courtyard",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "indianapolis-in__fishers",
+   "source_url": "https://www.marriott.com/indcf",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "courtyard by marriott indianapolis airport",
+   "canonical_name": "Courtyard by Marriott Indianapolis Airport",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "indianapolis-in__airport",
+   "source_url": "https://www.marriott.com/indca",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "courtyard by marriott indianapolis at the capitol",
+   "canonical_name": "Courtyard by Marriott Indianapolis at the Capitol",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "indianapolis-in__downtown",
+   "source_url": "https://www.marriott.com/indcd",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "courtyard by marriott indianapolis downtown",
+   "canonical_name": "Courtyard by Marriott Indianapolis Downtown",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "indianapolis-in__downtown",
+   "source_url": "https://www.marriott.com/indct",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "courtyard by marriott indianapolis northwest",
+   "canonical_name": "Courtyard by Marriott Indianapolis Northwest",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "indianapolis-in__northwest",
+   "source_url": "https://www.marriott.com/indnw",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "IDENTITY_MISMATCH",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (IDENTITY_MISMATCH); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "courtyard indianapolis noblesville",
+   "canonical_name": "Courtyard Indianapolis Noblesville",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "indianapolis-in__noblesville",
+   "source_url": "https://www.marriott.com/indin",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "courtyard indianapolis plainfield",
+   "canonical_name": "Courtyard Indianapolis Plainfield",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "indianapolis-in__plainfield",
+   "source_url": "https://www.marriott.com/indcu",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "courtyard indianapolis west speedway",
+   "canonical_name": "Courtyard Indianapolis West-Speedway",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "indianapolis-in__speedway",
+   "source_url": "https://www.marriott.com/indcv",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "crowne plaza indianapolis airport",
+   "canonical_name": "Crowne Plaza Indianapolis Airport",
+   "brand": "IHG",
+   "family": "IHG",
+   "corridor": "indianapolis-in__airport",
+   "source_url": "https://www.ihg.com/crowneplaza/hotels/us/en/indianapolis/indap/hoteldetail",
+   "provider": "firecrawl",
+   "reader": "ihg",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "crowne plaza indianapolis downtown union station",
+   "canonical_name": "Crowne Plaza Indianapolis Downtown Union Station",
+   "brand": "IHG",
+   "family": "IHG",
+   "corridor": "indianapolis-in__downtown",
+   "source_url": "https://www.ihg.com/crowneplaza/hotels/us/en/indianapolis/inddt/hoteldetail",
+   "provider": "firecrawl",
+   "reader": "ihg",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "days inn",
+   "canonical_name": "Days Inn",
+   "brand": "WYNDHAM",
+   "family": "WYNDHAM",
+   "corridor": "indianapolis-in__airport",
+   "source_url": "https://www.wyndhamhotels.com/days-inn/indianapolis-indiana/days-inn-and-suites-indianapolis-airport-east/overview",
+   "provider": "firecrawl",
+   "reader": "wyndham",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "days inn by wyndham indianapolis east post road",
+   "canonical_name": "Days Inn by Wyndham Indianapolis East Post Road",
+   "brand": "WYNDHAM",
+   "family": "WYNDHAM",
+   "corridor": "indianapolis-in__east-i70",
+   "source_url": "https://www.wyndhamhotels.com/days-inn/indianapolis-indiana/days-inn-indianapolis-east-post-road/overview",
+   "provider": "firecrawl",
+   "reader": "wyndham",
+   "prior_outcome": "POLICY_NOT_FOUND",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (POLICY_NOT_FOUND); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "days inn by wyndham plainfield",
+   "canonical_name": "Days Inn by Wyndham Plainfield",
+   "brand": "WYNDHAM",
+   "family": "WYNDHAM",
+   "corridor": "indianapolis-in__plainfield",
+   "source_url": "https://www.wyndhamhotels.com/days-inn/plainfield-indiana/days-inn-plainfield/overview",
+   "provider": "firecrawl",
+   "reader": "wyndham",
+   "prior_outcome": "IDENTITY_MISMATCH",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (IDENTITY_MISMATCH); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "delta hotels by marriott indianapolis airport",
+   "canonical_name": "Delta Hotels by Marriott Indianapolis Airport",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "indianapolis-in__airport",
+   "source_url": "https://www.marriott.com/hotels/travel/indde-delta-hotels-indianapolis-airport/?scid=bb1a189a-fec3-4d19-a255-54ba596febe2",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "IDENTITY_MISMATCH",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (IDENTITY_MISMATCH); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "embassy suites by hilton indianapolis downtown",
+   "canonical_name": "Embassy Suites by Hilton Indianapolis - Downtown",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "indianapolis-in__downtown",
+   "source_url": "https://www.hilton.com/en/hotels/indwwes-embassy-suites-indianapolis-downtown",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "embassy suites by hilton indianapolis north",
+   "canonical_name": "Embassy Suites by Hilton Indianapolis North",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "indianapolis-in__northwest",
+   "source_url": "https://www.hilton.com/en/hotels/indnhes-embassy-suites-indianapolis-north",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "embassy suites by hilton plainfield indianapolis airport",
+   "canonical_name": "Embassy Suites by Hilton Plainfield Indianapolis Airport",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "indianapolis-in__plainfield",
+   "source_url": "https://www.hilton.com/en/hotels/indples-embassy-suites-plainfield-indianapolis-airport",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "POLICY_NOT_FOUND",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (POLICY_NOT_FOUND); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "fairfield inn and suites indianapolis airport",
+   "canonical_name": "Fairfield Inn & Suites Indianapolis Airport",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "indianapolis-in__airport",
+   "source_url": "https://www.marriott.com/indfa",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "fairfield inn and suites indianapolis carmel",
+   "canonical_name": "Fairfield Inn & Suites Indianapolis Carmel",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "indianapolis-in__carmel",
+   "source_url": "https://www.marriott.com/indml",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "fairfield inn and suites indianapolis downtown university area",
+   "canonical_name": "Fairfield Inn & Suites Indianapolis Downtown University Area",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "indianapolis-in__downtown",
+   "source_url": "https://www.marriott.com/indfd",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "fairfield inn and suites indianapolis east",
+   "canonical_name": "Fairfield Inn & Suites Indianapolis East",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "indianapolis-in__east-i70",
+   "source_url": "https://www.marriott.com/indes",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "fairfield inn and suites indianapolis northwest",
+   "canonical_name": "Fairfield Inn & Suites Indianapolis Northwest",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "indianapolis-in__northwest",
+   "source_url": "https://www.marriott.com/indfn",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "hampton inn and suites indianapolis airport",
+   "canonical_name": "Hampton Inn & Suites Indianapolis-Airport",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "indianapolis-in__airport",
+   "source_url": "https://www.hilton.com/en/hotels/indarhx-hampton-suites-indianapolis-airport",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "hampton inn and suites indianapolis keystone",
+   "canonical_name": "Hampton Inn & Suites Indianapolis Keystone",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "indianapolis-in__keystone-castleton",
+   "source_url": "https://www.hilton.com/en/hotels/indkehx-hampton-suites-indianapolis-keystone",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "hampton inn and suites indianapolis west speedway",
+   "canonical_name": "Hampton Inn & Suites Indianapolis West Speedway",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "indianapolis-in__speedway",
+   "source_url": "https://www.hilton.com/en/hotels/indswhx-hampton-suites-indianapolis-west-speedway/",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "hampton inn indianapolis downtown across from circle centre",
+   "canonical_name": "Hampton Inn Indianapolis Downtown Across from Circle Centre",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "indianapolis-in__downtown",
+   "source_url": "https://www.hilton.com/en/hotels/inddthx-hampton-indianapolis-downtown-across-from-circle-centre",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "hampton inn indianapolis ne castleton",
+   "canonical_name": "Hampton Inn Indianapolis - NE / Castleton",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "indianapolis-in__keystone-castleton",
+   "source_url": "https://www.hilton.com/en/hotels/indnehx-hampton-indianapolis-ne-castleton",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "hampton inn indianapolis northeast castleton",
+   "canonical_name": "Hampton Inn Indianapolis Northeast Castleton",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "indianapolis-in__keystone-castleton",
+   "source_url": "https://www.hilton.com/en/hotels/indnehx-hampton-indianapolis-ne-castleton/",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "hampton inn indianapolis northwest park 100",
+   "canonical_name": "Hampton Inn Indianapolis Northwest - Park 100",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "indianapolis-in__northwest",
+   "source_url": "https://www.hilton.com/en/hotels/indwdhx-hampton-indianapolis-northwest-park-100",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "holiday inn express and suites carmel north westfield",
+   "canonical_name": "Holiday Inn Express & Suites Carmel North - Westfield",
+   "brand": "IHG",
+   "family": "IHG",
+   "corridor": "indianapolis-in__carmel",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/carmel/indcw/hoteldetail",
+   "provider": "firecrawl",
+   "reader": "ihg",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "holiday inn express and suites greenwood",
+   "canonical_name": "Holiday Inn Express & Suites Greenwood",
+   "brand": "IHG",
+   "family": "IHG",
+   "corridor": "indianapolis-in__greenwood",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/greenwood/gnwin/hoteldetail",
+   "provider": "firecrawl",
+   "reader": "ihg",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "holiday inn express and suites indianapolis north carmel",
+   "canonical_name": "Holiday Inn Express & Suites Indianapolis North Carmel",
+   "brand": "IHG",
+   "family": "IHG",
+   "corridor": "indianapolis-in__carmel",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/carmel/indnt/hoteldetail",
+   "provider": "firecrawl",
+   "reader": "ihg",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "holiday inn express and suites indianapolis northwest",
+   "canonical_name": "Holiday Inn Express & Suites Indianapolis Northwest",
+   "brand": "IHG",
+   "family": "IHG",
+   "corridor": "indianapolis-in__northwest",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/indianapolis/indic/hoteldetail",
+   "provider": "firecrawl",
+   "reader": "ihg",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "holiday inn express indianapolis airport",
+   "canonical_name": "Holiday Inn Express Indianapolis Airport",
+   "brand": "IHG",
+   "family": "IHG",
+   "corridor": "indianapolis-in__plainfield",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/plainfield/indsw/hoteldetail",
+   "provider": "firecrawl",
+   "reader": "ihg",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "holiday inn express indianapolis downtown",
+   "canonical_name": "Holiday Inn Express Indianapolis Downtown",
+   "brand": "IHG",
+   "family": "IHG",
+   "corridor": "indianapolis-in__downtown",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/indianapolis/indms/hoteldetail",
+   "provider": "firecrawl",
+   "reader": "ihg",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "holiday inn express indianapolis fishers an ihg hotel",
+   "canonical_name": "Holiday Inn Express Indianapolis - Fishers, an IHG Hotel",
+   "brand": "IHG",
+   "family": "IHG",
+   "corridor": "indianapolis-in__fishers",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/fishers/indfi/hoteldetail",
+   "provider": "firecrawl",
+   "reader": "ihg",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "holiday inn express indianapolis west airport area",
+   "canonical_name": "Holiday Inn Express Indianapolis West - Airport Area",
+   "brand": "IHG",
+   "family": "IHG",
+   "corridor": "indianapolis-in__speedway",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/indianapolis/indew/hoteldetail",
+   "provider": "firecrawl",
+   "reader": "ihg",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "holiday inn express plainfield",
+   "canonical_name": "Holiday Inn Express Plainfield",
+   "brand": "IHG",
+   "family": "IHG",
+   "corridor": "indianapolis-in__plainfield",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/plainfield/indsw/hoteldetail",
+   "provider": "firecrawl",
+   "reader": "ihg",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "holiday inn indianapolis downtown",
+   "canonical_name": "Holiday Inn Indianapolis Downtown",
+   "brand": "IHG",
+   "family": "IHG",
+   "corridor": "indianapolis-in__downtown",
+   "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/indianapolis/indwe/hoteldetail",
+   "provider": "firecrawl",
+   "reader": "ihg",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "jw marriott indianapolis",
+   "canonical_name": "JW Marriott Indianapolis",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "indianapolis-in__downtown",
+   "source_url": "https://www.marriott.com/en-us/hotels/indjw-jw-marriott-indianapolis/overview/",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "la quinta inn and suites",
+   "canonical_name": "La Quinta Inn & Suites",
+   "brand": "WYNDHAM",
+   "family": "WYNDHAM",
+   "corridor": "indianapolis-in__downtown",
+   "source_url": "https://www.wyndhamhotels.com/laquinta/indianapolis-indiana/la-quinta-indianapolis-downtown/overview",
+   "provider": "firecrawl",
+   "reader": "wyndham",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "la quinta inn indianapolis airport executive drive",
+   "canonical_name": "La Quinta Inn Indianapolis Airport Executive Drive",
+   "brand": "WYNDHAM",
+   "family": "WYNDHAM",
+   "corridor": "indianapolis-in__airport",
+   "source_url": "https://www.wyndhamhotels.com/laquinta/indianapolis-indiana/la-quinta-inn-indianapolis-airport-executive-dr/overview",
+   "provider": "firecrawl",
+   "reader": "wyndham",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "le meridien indianapolis",
+   "canonical_name": "Le Meridien Indianapolis",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "indianapolis-in__downtown",
+   "source_url": "https://www.marriott.com/en-us/hotels/indmd-le-meridien-indianapolis/overview/",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "residence inn by marriott indianapolis downtown on the canal",
+   "canonical_name": "Residence Inn by Marriott Indianapolis Downtown on the Canal",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "indianapolis-in__downtown",
+   "source_url": "https://www.marriott.com/indri",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "residence inn indianapolis airport",
+   "canonical_name": "Residence Inn Indianapolis Airport",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "indianapolis-in__airport",
+   "source_url": "https://www.marriott.com/indap",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "IDENTITY_MISMATCH",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (IDENTITY_MISMATCH); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "springhill suites",
+   "canonical_name": "SpringHill Suites",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "indianapolis-in__westfield",
+   "source_url": "https://www.marriott.com/indsw",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "springhill suites by marriott indianapolis carmel",
+   "canonical_name": "SpringHill Suites by Marriott Indianapolis Carmel",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "indianapolis-in__carmel",
+   "source_url": "https://www.marriott.com/indsh",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "springhill suites indianapolis airport plainfield",
+   "canonical_name": "SpringHill Suites Indianapolis Airport/Plainfield",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "indianapolis-in__plainfield",
+   "source_url": "https://www.marriott.com/indps",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "springhill suites indianapolis downtown",
+   "canonical_name": "SpringHill Suites Indianapolis Downtown",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "indianapolis-in__downtown",
+   "source_url": "https://www.marriott.com/indsd",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "staybridge suites indianapolis airport plainfield",
+   "canonical_name": "Staybridge Suites Indianapolis Airport Plainfield",
+   "brand": "IHG",
+   "family": "IHG",
+   "corridor": "indianapolis-in__plainfield",
+   "source_url": "https://www.ihg.com/staybridge/hotels/us/en/plainfield/indpf/hoteldetail",
+   "provider": "firecrawl",
+   "reader": "ihg",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "super 8 by wyndham brownsburg",
+   "canonical_name": "Super 8 by Wyndham Brownsburg",
+   "brand": "WYNDHAM",
+   "family": "WYNDHAM",
+   "corridor": "indianapolis-in__hendricks-west",
+   "source_url": "https://www.wyndhamhotels.com/super-8/brownsburg-indiana/super-8-brownsburg/overview",
+   "provider": "firecrawl",
+   "reader": "wyndham",
+   "prior_outcome": "POLICY_NOT_FOUND",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (POLICY_NOT_FOUND); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "super 8 by wyndham indianapolis",
+   "canonical_name": "Super 8 by Wyndham Indianapolis",
+   "brand": "WYNDHAM",
+   "family": "WYNDHAM",
+   "corridor": "indianapolis-in__south",
+   "source_url": "https://www.wyndhamhotels.com/super-8/indianapolis-indiana/super-8-indianapolis-southport-rd/overview",
+   "provider": "firecrawl",
+   "reader": "wyndham",
+   "prior_outcome": "POLICY_NOT_FOUND",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (POLICY_NOT_FOUND); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "super 8 by wyndham indianapolis south",
+   "canonical_name": "Super 8 by Wyndham Indianapolis South",
+   "brand": "WYNDHAM",
+   "family": "WYNDHAM",
+   "corridor": "indianapolis-in__south",
+   "source_url": "https://www.wyndhamhotels.com/super-8/indianapolis-indiana/super-8-indianapolis-south/overview",
+   "provider": "firecrawl",
+   "reader": "wyndham",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "the alexander autograph collection",
+   "canonical_name": "The Alexander, Autograph Collection",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "indianapolis-in__downtown",
+   "source_url": "https://www.marriott.com/en-us/hotels/indax-the-alexander/overview",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "the westin indianapolis",
+   "canonical_name": "The Westin Indianapolis",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "indianapolis-in__downtown",
+   "source_url": "https://www.marriott.com/en-us/hotels/indwi-the-westin-indianapolis/overview",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "VALID",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (VALID); a paid lane would buy nothing"
+  },
+  {
+   "identity_key": "towneplace suites",
+   "canonical_name": "TownePlace Suites",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "indianapolis-in__downtown",
+   "source_url": "https://www.marriott.com/indtd",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "IDENTITY_MISMATCH",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "settled_because": "a prior capture already answered this property's question (IDENTITY_MISMATCH); a paid lane would buy nothing"
+  }
+ ],
+ "suppressed_same_lane": [
+  {
+   "identity_key": "cambria hotel indianapolis airport plainfield",
+   "canonical_name": "Cambria Hotel Indianapolis Airport Plainfield",
+   "brand": "CHOICE",
+   "family": "CHOICE",
+   "corridor": "indianapolis-in__plainfield",
+   "source_url": "https://www.choicehotels.com/indiana/plainfield/cambria-hotels/in272",
+   "provider": "firecrawl",
+   "reader": "choice_static",
+   "prior_outcome": "UNHYDRATED",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "RETRY_REQUIRES_ALTERNATE_LANE",
+   "retry_why": "every approved lane ['firecrawl', 'brightdata_web_unlocker'] was already tried on this URL and answered nothing (UNHYDRATED); a same-lane retry does not convert -- it needs a lane the registry does not yet approve, an attended capture, or a routing repair",
+   "suppressed_because": "EVERY_APPROVED_LANE_ALREADY_TRIED_ON_THIS_URL",
+   "lanes_tried": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ]
+  },
+  {
+   "identity_key": "courtyard by marriott indianapolis castleton",
+   "canonical_name": "Courtyard by Marriott Indianapolis Castleton",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "indianapolis-in__keystone-castleton",
+   "source_url": "https://www.marriott.com/hotels/travel/indcs-courtyard-indianapolis-castleton",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "UNEXPECTED_PAGE",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "RETRY_REQUIRES_ALTERNATE_LANE",
+   "retry_why": "every approved lane ['brightdata_browser', 'brightdata_web_unlocker'] was already tried on this URL and answered nothing (UNEXPECTED_PAGE); a same-lane retry does not convert -- it needs a lane the registry does not yet approve, an attended capture, or a routing repair",
+   "suppressed_because": "EVERY_APPROVED_LANE_ALREADY_TRIED_ON_THIS_URL",
+   "lanes_tried": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ]
+  },
+  {
+   "identity_key": "courtyard indianapolis south",
+   "canonical_name": "Courtyard Indianapolis South",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "indianapolis-in__south",
+   "source_url": "https://www.marriott.com/hotels/travel/indsp-courtyard-indianapolis-south",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "UNEXPECTED_PAGE",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "RETRY_REQUIRES_ALTERNATE_LANE",
+   "retry_why": "every approved lane ['brightdata_browser', 'brightdata_web_unlocker'] was already tried on this URL and answered nothing (UNEXPECTED_PAGE); a same-lane retry does not convert -- it needs a lane the registry does not yet approve, an attended capture, or a routing repair",
+   "suppressed_because": "EVERY_APPROVED_LANE_ALREADY_TRIED_ON_THIS_URL",
+   "lanes_tried": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ]
+  },
+  {
+   "identity_key": "fairfield inn and suites",
+   "canonical_name": "Fairfield Inn & Suites",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "indianapolis-in__keystone-castleton",
+   "source_url": "https://www.marriott.com/hotels/travel/indif-fairfield-inn-and-suites-indianapolis-fishers",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "UNEXPECTED_PAGE",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "RETRY_REQUIRES_ALTERNATE_LANE",
+   "retry_why": "every approved lane ['brightdata_browser', 'brightdata_web_unlocker'] was already tried on this URL and answered nothing (UNEXPECTED_PAGE); a same-lane retry does not convert -- it needs a lane the registry does not yet approve, an attended capture, or a routing repair",
+   "suppressed_because": "EVERY_APPROVED_LANE_ALREADY_TRIED_ON_THIS_URL",
+   "lanes_tried": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ]
+  },
+  {
+   "identity_key": "fairfield inn and suites indianapolis noblesville",
+   "canonical_name": "Fairfield Inn & Suites Indianapolis Noblesville",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "indianapolis-in__noblesville",
+   "source_url": "https://www.marriott.com/hotels/travel/indnb-fairfield-inn-and-suites-indianapolis-noblesville",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "ACCESS_DENIED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "RETRY_REQUIRES_ALTERNATE_LANE",
+   "retry_why": "every approved lane ['brightdata_browser', 'brightdata_web_unlocker'] was already tried on this URL and answered nothing (ACCESS_DENIED); a same-lane retry does not convert -- it needs a lane the registry does not yet approve, an attended capture, or a routing repair",
+   "suppressed_because": "EVERY_APPROVED_LANE_ALREADY_TRIED_ON_THIS_URL",
+   "lanes_tried": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ]
+  },
+  {
+   "identity_key": "fairfield inn indianapolis south",
+   "canonical_name": "Fairfield Inn Indianapolis South",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "indianapolis-in__south",
+   "source_url": "https://www.marriott.com/hotels/travel/indfi-fairfield-inn-indianapolis-south",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "NAVIGATION_FAILED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "RETRY_REQUIRES_ALTERNATE_LANE",
+   "retry_why": "every approved lane ['brightdata_browser', 'brightdata_web_unlocker'] was already tried on this URL and answered nothing (NAVIGATION_FAILED); a same-lane retry does not convert -- it needs a lane the registry does not yet approve, an attended capture, or a routing repair",
+   "suppressed_because": "EVERY_APPROVED_LANE_ALREADY_TRIED_ON_THIS_URL",
+   "lanes_tried": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ]
+  },
+  {
+   "identity_key": "hampton by hilton",
+   "canonical_name": "Hampton by Hilton",
+   "brand": "HILTON",
+   "family": "HILTON",
+   "corridor": "indianapolis-in__fishers",
+   "source_url": "https://hamptoninn3.hilton.com/en/hotels/indiana/hampton-inn-and-suites-indianapolis-fishers-INDFSHX/index.html",
+   "provider": "brightdata_browser",
+   "reader": "hilton_competing",
+   "prior_outcome": "NAVIGATION_FAILED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "RETRY_REQUIRES_ALTERNATE_LANE",
+   "retry_why": "every approved lane ['brightdata_browser', 'brightdata_web_unlocker'] was already tried on this URL and answered nothing (NAVIGATION_FAILED); a same-lane retry does not convert -- it needs a lane the registry does not yet approve, an attended capture, or a routing repair",
+   "suppressed_because": "EVERY_APPROVED_LANE_ALREADY_TRIED_ON_THIS_URL",
+   "lanes_tried": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ]
+  },
+  {
+   "identity_key": "holiday inn indianapolis airport",
+   "canonical_name": "Holiday Inn Indianapolis Airport",
+   "brand": "IHG",
+   "family": "IHG",
+   "corridor": "indianapolis-in__airport",
+   "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/indianapolis/indap/hoteldetail",
+   "provider": "firecrawl",
+   "reader": "ihg",
+   "prior_outcome": "UNEXPECTED_PAGE",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "RETRY_REQUIRES_ALTERNATE_LANE",
+   "retry_why": "every approved lane ['firecrawl', 'brightdata_web_unlocker'] was already tried on this URL and answered nothing (UNEXPECTED_PAGE); a same-lane retry does not convert -- it needs a lane the registry does not yet approve, an attended capture, or a routing repair",
+   "suppressed_because": "EVERY_APPROVED_LANE_ALREADY_TRIED_ON_THIS_URL",
+   "lanes_tried": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ]
+  },
+  {
+   "identity_key": "la quinta inn indianapolis airport lynhurst",
+   "canonical_name": "La Quinta Inn Indianapolis Airport Lynhurst",
+   "brand": "WYNDHAM",
+   "family": "WYNDHAM",
+   "corridor": "indianapolis-in__airport",
+   "source_url": "https://www.wyndhamhotels.com/laquinta/indianapolis-indiana/la-quinta-inn-indianapolis-airport-lynhurst/overview",
+   "provider": "firecrawl",
+   "reader": "wyndham",
+   "prior_outcome": "NAVIGATION_FAILED",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "RETRY_REQUIRES_ALTERNATE_LANE",
+   "retry_why": "every approved lane ['firecrawl', 'brightdata_web_unlocker'] was already tried on this URL and answered nothing (NAVIGATION_FAILED); a same-lane retry does not convert -- it needs a lane the registry does not yet approve, an attended capture, or a routing repair",
+   "suppressed_because": "EVERY_APPROVED_LANE_ALREADY_TRIED_ON_THIS_URL",
+   "lanes_tried": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ]
+  },
+  {
+   "identity_key": "renaissance indianapolis north hotel",
+   "canonical_name": "Renaissance Indianapolis North Hotel",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "indianapolis-in__carmel",
+   "source_url": "https://www.marriott.com/hotels/travel/indbr-renaissance-indianapolis-north-hotel",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "UNEXPECTED_PAGE",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "RETRY_REQUIRES_ALTERNATE_LANE",
+   "retry_why": "every approved lane ['brightdata_browser', 'brightdata_web_unlocker'] was already tried on this URL and answered nothing (UNEXPECTED_PAGE); a same-lane retry does not convert -- it needs a lane the registry does not yet approve, an attended capture, or a routing repair",
+   "suppressed_because": "EVERY_APPROVED_LANE_ALREADY_TRIED_ON_THIS_URL",
+   "lanes_tried": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ]
+  },
+  {
+   "identity_key": "residence inn by marriott indianapolis airport",
+   "canonical_name": "Residence Inn by Marriott Indianapolis Airport",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "indianapolis-in__airport",
+   "source_url": "https://www.marriott.com/hotels/travel/indap-residence-inn-indianapolis-airport/",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "UNEXPECTED_PAGE",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "RETRY_REQUIRES_ALTERNATE_LANE",
+   "retry_why": "every approved lane ['brightdata_browser', 'brightdata_web_unlocker'] was already tried on this URL and answered nothing (UNEXPECTED_PAGE); a same-lane retry does not convert -- it needs a lane the registry does not yet approve, an attended capture, or a routing repair",
+   "suppressed_because": "EVERY_APPROVED_LANE_ALREADY_TRIED_ON_THIS_URL",
+   "lanes_tried": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ]
+  },
+  {
+   "identity_key": "residence inn indianapolis fishers",
+   "canonical_name": "Residence Inn Indianapolis Fishers",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "indianapolis-in__keystone-castleton",
+   "source_url": "https://www.marriott.com/hotels/travel/indfs-residence-inn-indianapolis-fishers",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "ACCESS_DENIED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "RETRY_REQUIRES_ALTERNATE_LANE",
+   "retry_why": "every approved lane ['brightdata_browser', 'brightdata_web_unlocker'] was already tried on this URL and answered nothing (ACCESS_DENIED); a same-lane retry does not convert -- it needs a lane the registry does not yet approve, an attended capture, or a routing repair",
+   "suppressed_because": "EVERY_APPROVED_LANE_ALREADY_TRIED_ON_THIS_URL",
+   "lanes_tried": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ]
+  },
+  {
+   "identity_key": "residence inn indianapolis northwest",
+   "canonical_name": "Residence Inn Indianapolis Northwest",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "indianapolis-in__northwest",
+   "source_url": "https://www.marriott.com/hotels/travel/indws-residence-inn-indianapolis-northwest",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "UNEXPECTED_PAGE",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "RETRY_REQUIRES_ALTERNATE_LANE",
+   "retry_why": "every approved lane ['brightdata_browser', 'brightdata_web_unlocker'] was already tried on this URL and answered nothing (UNEXPECTED_PAGE); a same-lane retry does not convert -- it needs a lane the registry does not yet approve, an attended capture, or a routing repair",
+   "suppressed_because": "EVERY_APPROVED_LANE_ALREADY_TRIED_ON_THIS_URL",
+   "lanes_tried": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ]
+  },
+  {
+   "identity_key": "residence inn indianapolis south greenwood",
+   "canonical_name": "Residence Inn Indianapolis South/Greenwood",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "indianapolis-in__south",
+   "source_url": "https://www.marriott.com/hotels/travel/indrw-residence-inn-indianapolis-south-greenwood",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "UNEXPECTED_PAGE",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "RETRY_REQUIRES_ALTERNATE_LANE",
+   "retry_why": "every approved lane ['brightdata_browser', 'brightdata_web_unlocker'] was already tried on this URL and answered nothing (UNEXPECTED_PAGE); a same-lane retry does not convert -- it needs a lane the registry does not yet approve, an attended capture, or a routing repair",
+   "suppressed_because": "EVERY_APPROVED_LANE_ALREADY_TRIED_ON_THIS_URL",
+   "lanes_tried": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ]
+  },
+  {
+   "identity_key": "super 8 by wyndham indianapolis castleton",
+   "canonical_name": "Super 8 by Wyndham Indianapolis Castleton",
+   "brand": "WYNDHAM",
+   "family": "WYNDHAM",
+   "corridor": "indianapolis-in__keystone-castleton",
+   "source_url": "https://www.wyndhamhotels.com/super-8/indianapolis-indiana/super-8-indianapolis-ne-castleton-area/overview",
+   "provider": "firecrawl",
+   "reader": "wyndham",
+   "prior_outcome": "NAVIGATION_FAILED",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "RETRY_REQUIRES_ALTERNATE_LANE",
+   "retry_why": "every approved lane ['firecrawl', 'brightdata_web_unlocker'] was already tried on this URL and answered nothing (NAVIGATION_FAILED); a same-lane retry does not convert -- it needs a lane the registry does not yet approve, an attended capture, or a routing repair",
+   "suppressed_because": "EVERY_APPROVED_LANE_ALREADY_TRIED_ON_THIS_URL",
+   "lanes_tried": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ]
+  },
+  {
+   "identity_key": "towneplace suites indianapolis park 100",
+   "canonical_name": "TownePlace Suites Indianapolis Park 100",
+   "brand": "MARRIOTT",
+   "family": "MARRIOTT",
+   "corridor": "indianapolis-in__northwest",
+   "source_url": "https://www.marriott.com/hotels/travel/indts-towneplace-suites-indianapolis-park-100",
+   "provider": "brightdata_browser",
+   "reader": "marriott",
+   "prior_outcome": "ACCESS_DENIED",
+   "ladder": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "RETRY_REQUIRES_ALTERNATE_LANE",
+   "retry_why": "every approved lane ['brightdata_browser', 'brightdata_web_unlocker'] was already tried on this URL and answered nothing (ACCESS_DENIED); a same-lane retry does not convert -- it needs a lane the registry does not yet approve, an attended capture, or a routing repair",
+   "suppressed_because": "EVERY_APPROVED_LANE_ALREADY_TRIED_ON_THIS_URL",
+   "lanes_tried": [
+    "brightdata_browser",
+    "brightdata_web_unlocker"
+   ]
+  },
+  {
+   "identity_key": "wyndham indianapolis west",
+   "canonical_name": "Wyndham Indianapolis West",
+   "brand": "WYNDHAM",
+   "family": "WYNDHAM",
+   "corridor": "indianapolis-in__airport",
+   "source_url": "https://www.wyndhamhotels.com/wyndham/indianapolis-indiana/wyndham-indianapolis-west/overview",
+   "provider": "firecrawl",
+   "reader": "wyndham",
+   "prior_outcome": "NAVIGATION_FAILED",
+   "ladder": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ],
+   "fallback_providers": [
+    "brightdata_web_unlocker"
+   ],
+   "retry_classification": "RETRY_REQUIRES_ALTERNATE_LANE",
+   "retry_why": "every approved lane ['firecrawl', 'brightdata_web_unlocker'] was already tried on this URL and answered nothing (NAVIGATION_FAILED); a same-lane retry does not convert -- it needs a lane the registry does not yet approve, an attended capture, or a routing repair",
+   "suppressed_because": "EVERY_APPROVED_LANE_ALREADY_TRIED_ON_THIS_URL",
+   "lanes_tried": [
+    "firecrawl",
+    "brightdata_web_unlocker"
+   ]
+  }
+ ],
+ "preflight": {
+  "ok": true,
+  "checks": [
+   {
+    "check": "cost_telemetry_live",
+    "ok": true,
+    "detail": "per-zone month-to-date cost readable across scraping_browser1, mcp_unlocker, cli_unlocker"
+   },
+   {
+    "check": "balance_covers_the_remaining_cap",
+    "ok": true,
+    "detail": "balance 1473 cents against a 1000 cent cap"
+   },
+   {
+    "check": "at_least_one_provider_available",
+    "ok": true,
+    "detail": "available: brightdata_browser, brightdata_web_unlocker, firecrawl"
+   }
+  ],
+  "providers": {
+   "brightdata_browser": {
+    "available": true,
+    "detail": "Browser API credential present; exit geography pinned to 'us'"
+   },
+   "brightdata_web_unlocker": {
+    "available": true,
+    "detail": "unlocker zones mcp_unlocker, cli_unlocker"
+   },
+   "direct_http": {
+    "available": false,
+    "detail": "reserved slot: PTF-owned acquisition for pages that need no vendor. Declared so the ladder can express cheapest-first, and unavailable so nothing routes to it by accident."
+   },
+   "firecrawl": {
+    "available": true,
+    "detail": "Firecrawl credential present; exit geography pinned to 'US'"
+   }
+  },
+  "already_spent_usd_minor": 0
+ },
+ "cost_plan_gate": {
+  "ok": true,
+  "checks": [],
+  "note": "not checked: --dry-run spends nothing"
+ },
+ "outcome": "DRY_RUN_ONLY",
+ "results": [],
+ "attempted": 0,
+ "spend": {
+  "measured_usd_minor": 0,
+  "estimated_usd_minor": 0.0,
+  "binding_usd_minor": 0,
+  "binding_source": "measured",
+  "telemetry_live": true,
+  "estimated_plan_credits": 0.0,
+  "seeded_usd_minor": 0.0,
+  "this_session_usd_minor": 0.0,
+  "vendor_reads": 1,
+  "lag_note": "the vendor's zone meter settles minutes after a session; until it does the estimate is the only number that exists, so the cap binds on the larger"
+ },
+ "cost_samples": [
+  {
+   "label": "indianapolis-in-002-pass2r:preflight",
+   "at": "2026-08-25T21:07:58.624592+00:00",
+   "zone_costs_usd_minor": {
+    "scraping_browser1": 6664,
+    "mcp_unlocker": 27,
+    "cli_unlocker": 8
+   },
+   "measured_usd_minor": 0
+  },
+  {
+   "label": "indianapolis-in-002-pass2r:final",
+   "at": "2026-08-25T21:08:04.557582+00:00",
+   "zone_costs_usd_minor": {
+    "scraping_browser1": 6664,
+    "mcp_unlocker": 27,
+    "cli_unlocker": 8
+   },
+   "measured_usd_minor": 0
+  }
+ ],
+ "journal_total": 0,
+ "run_end": "2026-08-25T21:08:04.557774+00:00",
+ "elapsed_seconds": 17.9,
+ "outcome_counts": {},
+ "publication_grade": 0
+}

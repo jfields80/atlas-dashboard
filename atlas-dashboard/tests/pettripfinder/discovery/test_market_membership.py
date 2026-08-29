@@ -279,64 +279,20 @@ class TestZipOwnershipMarketsAreUnchanged:
 
 
 # --------------------------------------------------------------------------- #
-# 7. The Grand Rapids fixture -- a real committed census and contract.
-#
-# The census here is the 120-identity document the 2025 build pinned, which
-# PTF-GRAND-RAPIDS-CENSUS-PIN-AND-RELEASE-CONTRACT-024 superseded and kept. It
-# stays the fixture on purpose: what this class regression-tests is the
-# MEMBERSHIP ENGINE against a census whose rows carry NO COORDINATE, which is
-# the precondition for defect 2, and that document is permanently that. The
-# live 163-row census carries coordinates from discovery -- as Louisville's and
-# St. Louis's committed censuses already do -- so pointing the fixture at it
-# would quietly retire the regression rather than extend it.
+# NOT SYNCED: the Grand Rapids market fixture                                  #
 # --------------------------------------------------------------------------- #
-
-class TestGrandRapidsFixture:
-
-    def _contract(self):
-        return MC.parse_market(
-            json.loads((MARKETS / "grand-rapids-holland-mi.json").read_text(
-                encoding="utf-8")),
-            source="grand-rapids-holland-mi.json")
-
-    def _census_rows(self):
-        return json.loads(
-            (CENSUS / "superseded" / "grand-rapids-holland-mi-120.json"
-             ).read_text(encoding="utf-8"))["hotels"]
-
-    def test_the_market_declares_geography_membership(self):
-        assert (self._contract().census_membership_basis
-                == MC.MEMBERSHIP_MARKET_GEOGRAPHY)
-
-    def test_its_corridors_still_claim_no_postal_code(self):
-        """The condition that made the ZIP gate unanswerable is unchanged --
-        the fix is in the engine, not in the market's corridors."""
-        contract = self._contract()
-        assert contract.corridors
-        assert sum(len(c.included_postal_codes) for c in contract.corridors) == 0
-        assert sum(len(c.explicit_hotel_ids) for c in contract.corridors) > 0
-
-    def test_no_committed_census_row_carries_a_coordinate(self):
-        """The precondition for defect 2, pinned so it cannot silently change
-        underneath the continuity rule."""
-        rows = self._census_rows()
-        assert rows
-        assert not any(r.get("latitude") or r.get("longitude") for r in rows)
-
-    def test_every_committed_identity_survives_membership_as_a_prior_row(self):
-        """The regression, end to end: all 120 committed rows, recandidated
-        with no coordinates, must remain in the market. Under the old gate
-        every one of them was OUT_OF_MARKET_GEOGRAPHY."""
-        from scripts.pettripfinder.discovery.market_config import load_market_config
-        geo = load_market_config("grand-rapids-holland-mi")
-        evicted = []
-        for row in self._census_rows():
-            outcome, _, _ = MM.decide(
-                {"city": row.get("city"), "state": row.get("state"),
-                 "postal_code": row.get("postal_code"),
-                 "latitude": None, "longitude": None},
-                basis=MC.MEMBERSHIP_MARKET_GEOGRAPHY, corridor_of_zip={},
-                coords_in_bounds=None, geography=geo, is_prior_identity=True)
-            if outcome != MM.IN_MARKET:
-                evicted.append((row.get("canonical_name"), row.get("city"), outcome))
-        assert evicted == [], "committed identities evicted by membership"
+#
+# The upstream file closed with a ``TestGrandRapidsFixture`` class that asserts
+# against grand-rapids-holland-mi's committed census, corridor registry and
+# market config. Those are that market's AUTHORITY, not generic code, and this
+# branch syncs the generic membership lane only -- importing a market's
+# production authority merely to obtain a library is how one market's numbers
+# start silently deciding another's. The four assertions it made are already
+# made generically above, against fixtures built in this file:
+#
+#   * geography membership is DECLARED    -> TestTheBasisIsDeclaredNeverInferred
+#   * a corridor claiming no postal code  -> TestIdentityCorridorMarket
+#   * a census row carrying no coordinate -> TestTheEvidenceLadder
+#   * a prior committed identity survives -> TestTheEvidenceLadder
+#
+# When grand-rapids-holland-mi merges, its branch restores its own fixture.

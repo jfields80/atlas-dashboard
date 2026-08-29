@@ -25,6 +25,9 @@ import tempfile
 
 import pytest
 
+from pettripfinder.indianapolis_promoted_state import (
+    PROMOTED_PET_FRIENDLY, PROMOTED_SEED_ROWS, PROMOTED_VERIFIED_NO_PETS)
+
 from scripts.pettripfinder import assemble_production_site as gasm
 from scripts.pettripfinder.assemble_production_site import (
     GLOBAL_FILES, GLOBAL_ROUTES, AssemblyError, anchor_market, build_global_llms,
@@ -313,39 +316,45 @@ def test_cincinnati_does_not_fail_the_global_selection(markets):
     assert CINCINNATI not in [m.market_id for m in chosen]
     assert CINCINNATI in [r["market_id"] for r in rows]
     # Pittsburgh is currently assemblable but remains hidden from navigation;
-    # Indianapolis is source-ready but withheld from the first multi-market
-    # launch by founder decision (PTF-046, deploy/netlify/launch_participation.json).
+    # Indianapolis was withheld by PTF-046 and admitted by
+    # PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019.
     assert sorted(m.market_id for m in chosen) == sorted(
         [CLEVELAND, COLUMBUS, DAYTON, "pittsburgh-pa", "milwaukee-wi",
          "st-louis-mo",
          # PTF-LOUISVILLE-PUBLICATION-008: the seventh, admitted the same way.
-         "louisville-ky"])
+         "louisville-ky",
+         # PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019: the eighth, likewise.
+         INDIANAPOLIS])
 
 
 def test_indianapolis_is_registered_above_threshold_and_source_ready(markets):
     row = market_eligibility(market_by_id(markets, INDIANAPOLIS))
-    assert row["published_count"] == 8
+    assert row["published_count"] == PROMOTED_PET_FRIENDLY
     assert row["conditions"]["census_present"] is True
     assert row["conditions"]["meets_minimum_published"] is True
     assert row["assemblable"] is True
 
 
-def test_indianapolis_is_source_ready_but_not_in_the_global_selection(markets):
-    """PTF-046: the founder withheld Indianapolis (8 profiles) from the first
-    multi-market launch on coverage. Its source is untouched and still
-    assemblable; participation is the separate, recorded decision."""
+def test_indianapolis_is_now_in_the_global_selection(markets):
+    """PTF-046 withheld Indianapolis (8 profiles) from the first multi-market
+    launch on coverage; PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019 admitted it
+    on a founder decision, at 56. Participation was always the separate,
+    recorded decision -- which is exactly why nothing about the source had to
+    change for the founder to reverse it."""
     chosen, rows = select_markets(markets)
-    assert INDIANAPOLIS not in [m.market_id for m in chosen]
+    assert INDIANAPOLIS in [m.market_id for m in chosen]
     row = next(r for r in rows if r["market_id"] == INDIANAPOLIS)
     assert row["assemblable"] is True
-    assert row["launch_status"] == \
-        "SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH"
-    assert row["participates"] is False
+    assert row["launch_status"] == "FOUNDER_AUTHORIZED_FOR_LAUNCH"
+    assert row["participates"] is True
+    assert row["published_count"] == PROMOTED_PET_FRIENDLY
     assert sorted(m.market_id for m in chosen) == sorted(
         [CLEVELAND, COLUMBUS, DAYTON, "pittsburgh-pa", "milwaukee-wi",
          "st-louis-mo",
          # PTF-LOUISVILLE-PUBLICATION-008: the seventh, admitted the same way.
-         "louisville-ky"])
+         "louisville-ky",
+         # PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019: the eighth, likewise.
+         INDIANAPOLIS])
 
 
 def test_participation_is_a_founder_decision_layered_on_source_readiness(markets):
@@ -382,7 +391,15 @@ def test_current_live_inventory_preserves_all_assemblable_market_profiles(market
     counts = {m.market_id: len(published_hotels(m))
               for m in markets if market_eligibility(m)["assemblable"]}
     assert counts == {COLUMBUS: 88, CLEVELAND: 99, DAYTON: 47,
-                      "pittsburgh-pa": 26, INDIANAPOLIS: 8,
+                      "pittsburgh-pa": 26,
+                      # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: 8 -> 24 founder-signed profiles over
+                      # the promoted 257-identity census. 24 -> 54 at
+                      # PTF-INDIANAPOLIS-56-PROFILE-AUTHORITY-PROMOTION-017 (54) and
+    # PTF-INDIANAPOLIS-FINAL-ZERO-COST-CLEANUP-018 (+2), which promoted the
+                      # 013/014/016 signatures and withheld two of the 56 signed rows: one whose
+                      # identity the membrane refuses without a founder ruling, and one whose
+                      # bare-brand key Cleveland already owns.
+                      INDIANAPOLIS: PROMOTED_PET_FRIENDLY,
                       "milwaukee-wi": 73,
                       # PTF-ST-LOUIS-REGISTER-PUBLISH-011: 82 founder-signed
                       # profiles. Every other count above is unchanged, which
@@ -393,7 +410,12 @@ def test_current_live_inventory_preserves_all_assemblable_market_profiles(market
                       # profiles over a 166-identity census. Same half of the
                       # assertion, same conclusion -- nothing above moved.
                       "louisville-ky": 46}
-    assert sum(counts.values()) == 469   # 423 + Louisville (46)
+    # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: 469 + Indianapolis's 16 further
+    # founder-signed profiles (8 -> 24). Every other market's count above is
+    # unchanged, so the whole of this movement is Indianapolis's.
+    assert sum(counts.values()) == 517   # 485 + Indianapolis 24 -> 56 across
+    # PTF-INDIANAPOLIS-56-PROFILE-AUTHORITY-PROMOTION-017 (54) and
+    # PTF-INDIANAPOLIS-FINAL-ZERO-COST-CLEANUP-018 (+2)
 
 
 # --------------------------------------------------------------------------- #

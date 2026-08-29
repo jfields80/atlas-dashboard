@@ -1,0 +1,536 @@
+{
+ "schema": "ptf-market-geography-reconciliation/1.0",
+ "market_id": "indianapolis-in",
+ "work_order": "PTF-INDIANAPOLIS-HARDENED-RECENSUS-002",
+ "as_of": "2026-08-25",
+ "what_this_is": "The intended Indianapolis visitor-market geography (the registered ptf-market/1.1 contract) reconciled against the discovery configuration that queries it and the hardened census that resulted. The registered contract was NOT edited: every gap is reported for the founder.",
+ "contract": {
+  "corridors": 17,
+  "postal_codes": 36,
+  "included_cities": [
+   "Avon",
+   "Brownsburg",
+   "Carmel",
+   "Fishers",
+   "Greenwood",
+   "Noblesville",
+   "Plainfield",
+   "Southport",
+   "Speedway",
+   "Westfield"
+  ],
+  "explicit_hotel_ids": 6,
+  "boundary_note": "PTF-INDIANAPOLIS-MARKET-BUILD-001. Indianapolis visitor market, not municipal limits and not the entire MSA. Primary core and urban lodging corridors follow Visit Indy neighborhoods and the official IND airport lodging geography. Outer-ring Carmel, Fishers, Noblesville and Westfield are included because Visit Indy lists Hamilton County Tourism as a partner and sells Hamilton County lodging as Indianapolis-north stays; Plainfield, Avon and Brownsburg are included because Visit Hendricks County and the Indianapolis Airport Authority sell them as Indianapolis Airport lodging. Greenwood is included as the I-65 Indianapolis-South commercial lodging cluster. Festival Country Indiana (Franklin, Whiteland, Bargersville) remains a separately sold destination and is excluded. Zionsville, Anderson, Muncie, Bloomington, Columbus IN, Lafayette, Terre Haute, Richmond, Kokomo, Shelbyville, Greenfield beyond the east I-70 corridor, and Cincinnati-owned southeastern Indiana (Lawrenceburg, Aurora, Greendale, Rising Sun, Brookville; ZIPs 47001/47025/47040/47012) are excluded. Fountain-Fletcher is a Visit Indy neighborhood but has no official hotel inventory after B&Bs are set aside, so it is not a corridor. Shared ZIP 46202 is not registered to any corridor; those properties are assigned explicitly. This factory publishes zero hotels."
+ },
+ "discovery_config": {
+  "cells_before": 16,
+  "cells_after": 17,
+  "cell_added": "indianapolis-in__north-central (46205/46208): the contract registers the corridor; no cell had ever queried it",
+  "bounding_box": {
+   "min_lat": 39.52,
+   "max_lat": 40.12,
+   "min_lng": -86.52,
+   "max_lng": -85.82,
+   "_disclosure": "Enclosing box over the approved Indianapolis visitor market: Marion County core, Hamilton County cities Carmel/Fishers/Noblesville/Westfield, Hendricks County Plainfield/Avon/Brownsburg, and Greenwood. Excludes Cincinnati-owned southeastern Indiana and Festival Country Indiana south of Greenwood. Padded approximately 0.05 degrees beyond the named municipalities."
+  },
+  "municipalities": [
+   "Indianapolis",
+   "Speedway",
+   "Southport",
+   "Beech Grove",
+   "Carmel",
+   "Fishers",
+   "Noblesville",
+   "Westfield",
+   "Plainfield",
+   "Avon",
+   "Brownsburg",
+   "Greenwood"
+  ],
+  "municipalities_in_discovery_not_in_contract_cities": [
+   "Beech Grove"
+  ]
+ },
+ "corridor_cell_parity": {
+  "corridors_without_a_cell": [],
+  "cells_without_a_corridor": []
+ },
+ "census": {
+  "identities": 265,
+  "raw_discovery_candidates": 219,
+  "prior_census_rows_recandidated": 153,
+  "merged_candidates": 332,
+  "dispositions": {
+   "ABSORBED_INTO_ANOTHER_IDENTITY": 3,
+   "ADMITTED_TO_CENSUS": 265,
+   "IDENTITY_COLLISION_REQUIRES_REVIEW": 19,
+   "IDENTITY_NO_LOCALITY": 31,
+   "NOT_LODGING_CATEGORY": 1,
+   "OUT_OF_MARKET_BOUNDARY_DECISION": 8,
+   "UNNAMED_CANDIDATE": 5
+  },
+  "reconciles": true,
+  "corridor_coverage": {
+   "indianapolis-in__downtown": 43,
+   "indianapolis-in__airport": 30,
+   "indianapolis-in__northwest": 27,
+   "indianapolis-in__plainfield": 23,
+   "indianapolis-in__keystone-castleton": 23,
+   "indianapolis-in__east-i70": 22,
+   "indianapolis-in__south": 17,
+   "indianapolis-in__fishers": 16,
+   "indianapolis-in__carmel": 15,
+   "indianapolis-in__greenwood": 13,
+   "indianapolis-in__hendricks-west": 9,
+   "indianapolis-in__noblesville": 8,
+   "indianapolis-in__speedway": 8,
+   "indianapolis-in__westfield": 5,
+   "indianapolis-in__broad-ripple": 3,
+   "indianapolis-in__north-central": 2,
+   "indianapolis-in__mass-ave": 1
+  },
+  "corridors_with_zero_identities": [],
+  "municipality_coverage": {
+   "Indianapolis": 177,
+   "Plainfield": 23,
+   "Fishers": 16,
+   "Greenwood": 13,
+   "Carmel": 13,
+   "Noblesville": 8,
+   "Westfield": 5,
+   "Brownsburg": 5,
+   "Avon": 4,
+   "Speedway": 1
+  },
+  "zip_coverage": {
+   "46032": 12,
+   "46033": 1,
+   "46037": 10,
+   "46038": 6,
+   "46060": 8,
+   "46074": 5,
+   "46112": 5,
+   "46123": 4,
+   "46142": 3,
+   "46143": 10,
+   "46168": 23,
+   "46202": 3,
+   "46203": 2,
+   "46204": 27,
+   "46208": 1,
+   "46219": 19,
+   "46220": 3,
+   "46222": 2,
+   "46224": 8,
+   "46225": 13,
+   "46226": 2,
+   "46227": 4,
+   "46229": 1,
+   "46237": 11,
+   "46240": 9,
+   "46241": 30,
+   "46250": 11,
+   "46254": 1,
+   "46256": 3,
+   "46268": 10,
+   "46278": 16,
+   "46290": 2
+  },
+  "contract_zips_with_zero_identities": [
+   "46062",
+   "46205",
+   "46214",
+   "46217",
+   "46235",
+   "46260"
+  ],
+  "census_zips_outside_contract": [
+   "46202",
+   "46222"
+  ],
+  "explicitly_assigned_rows": [
+   "bottleworks hotel",
+   "candlewood suites indianapolis medical district",
+   "la quinta inn and suites indianapolis downtown",
+   "residence inn by marriott indianapolis downtown on the canal",
+   "sleep inn and suites downtown indianapolis",
+   "tru by hilton indianapolis downtown"
+  ]
+ },
+ "out_of_geography": {
+  "coordinates_outside_bounding_box": [],
+  "boundary_decisions_unclaimed_zip": [
+   {
+    "name": "Candlewood Suites Indianapolis Downtown Medical Dist",
+    "postal_code": "46222",
+    "candidate_id": "dc_00af3fcb65c7f393",
+    "why": "postal code '46222' is inside the discovery bounding box and is claimed by no corridor in the market registry"
+   },
+   {
+    "name": "Baymont Indianapolis",
+    "postal_code": "46239",
+    "candidate_id": "dc_3f138c665c7c3070",
+    "why": "postal code '46239' is inside the discovery bounding box and is claimed by no corridor in the market registry"
+   },
+   {
+    "name": "Country Inn & Suites",
+    "postal_code": "46221",
+    "candidate_id": "dc_50bf7327b978de13",
+    "why": "postal code '46221' is inside the discovery bounding box and is claimed by no corridor in the market registry"
+   },
+   {
+    "name": "Hampton Inn Indianapolis Downtown IUPUI",
+    "postal_code": "46202",
+    "candidate_id": "dc_6931d55cbb0ceb8d",
+    "why": "postal code '46202' is inside the discovery bounding box and is claimed by no corridor in the market registry"
+   },
+   {
+    "name": "Clover West Motel",
+    "postal_code": "46231",
+    "candidate_id": "dc_8a3338b7b18a0b2f",
+    "why": "postal code '46231' is inside the discovery bounding box and is claimed by no corridor in the market registry"
+   },
+   {
+    "name": "WoodSpring Suites Indianapolis Airport South",
+    "postal_code": "46221",
+    "candidate_id": "dc_a11eec6d593c13fe",
+    "why": "postal code '46221' is inside the discovery bounding box and is claimed by no corridor in the market registry"
+   },
+   {
+    "name": "The Catalina Motel",
+    "postal_code": "46231",
+    "candidate_id": "dc_ae593e926df07deb",
+    "why": "postal code '46231' is inside the discovery bounding box and is claimed by no corridor in the market registry"
+   },
+   {
+    "name": "Homewood Suites by Hilton Indianapolis Downtown IUPUI",
+    "postal_code": "46202",
+    "candidate_id": "dc_d595e4b2137898f8",
+    "why": "postal code '46202' is inside the discovery bounding box and is claimed by no corridor in the market registry"
+   }
+  ],
+  "unclaimed_zips_seen": {
+   "46221": 2,
+   "46202": 2,
+   "46231": 2,
+   "46222": 1,
+   "46239": 1
+  }
+ },
+ "held": {
+  "identity_collisions": [
+   {
+    "name": "Extended Stay America - Indianapolis - Airport",
+    "candidate_id": "dc_0d8a7a56dea2349f",
+    "why": "identity key 'extended stay america indianapolis airport' is also the key of a different building at '5820 West Franklin Road'; a census cannot hold two rows under one key, so this row is held for a human to name"
+   },
+   {
+    "name": "SpringHill Suites",
+    "candidate_id": "dc_2b9f00ef2a25ee7f",
+    "why": "identity key 'springhill suites' is also the key of a different building at '19317 Westmore Lane'; a census cannot hold two rows under one key, so this row is held for a human to name"
+   },
+   {
+    "name": "Comfort Suites Indianapolis Airport",
+    "candidate_id": "dc_38bda8c5e06cb16b",
+    "why": "identity key 'comfort suites indianapolis airport' is also the key of a different building at '2181 West Southern Avenue'; a census cannot hold two rows under one key, so this row is held for a human to name"
+   },
+   {
+    "name": "Homewood Suites by Hilton Indianapolis Carmel",
+    "candidate_id": "dc_40325ce06ef24b4b",
+    "why": "identity key 'homewood suites by hilton indianapolis carmel' is also the key of a different building at '12975 Palisade Boulevard'; a census cannot hold two rows under one key, so this row is held for a human to name"
+   },
+   {
+    "name": "Wingate by Wyndham Indianapolis Airport Plainfield",
+    "candidate_id": "dc_471a3f27e0f70810",
+    "why": "identity key 'wingate by wyndham indianapolis airport plainfield' is also the key of a different building at '6010 Gateway Drive'; a census cannot hold two rows under one key, so this row is held for a human to name"
+   },
+   {
+    "name": "La Quinta Inn and Suites",
+    "candidate_id": "dc_4c683d7e4acaaebc",
+    "why": "identity key 'la quinta inn and suites' is also the key of a different building at '401 East Washington Street'; a census cannot hold two rows under one key, so this row is held for a human to name"
+   },
+   {
+    "name": "TownePlace Suites",
+    "candidate_id": "dc_5b8d1773f2f2071a",
+    "why": "identity key 'towneplace suites' is also the key of a different building at '708 South Meridian Street'; a census cannot hold two rows under one key, so this row is held for a human to name"
+   },
+   {
+    "name": "Homewood Suites by Hilton Indianapolis-Downtown",
+    "candidate_id": "dc_ae07a97cde610bcb",
+    "why": "identity key 'homewood suites by hilton indianapolis downtown' is also the key of a different building at '211 South Meridian Street'; a census cannot hold two rows under one key, so this row is held for a human to name"
+   },
+   {
+    "name": "Holiday Inn Express Indianapolis South",
+    "candidate_id": "dc_f6c829b724795ca7",
+    "why": "identity key 'holiday inn express indianapolis south' is also the key of a different building at '4505 Southport Crossing Drive'; a census cannot hold two rows under one key, so this row is held for a human to name"
+   },
+   {
+    "name": "Fairfield Inn & Suites Indianapolis East",
+    "candidate_id": "prior-census::fairfield inn and suites indianapolis east",
+    "why": "identity key 'fairfield inn and suites indianapolis east' is also the key of a different building at '7110 East 21st Street'; a census cannot hold two rows under one key, so this row is held for a human to name"
+   },
+   {
+    "name": "Hampton Inn Indianapolis Downtown Across from Circle Centre",
+    "candidate_id": "prior-census::hampton inn indianapolis downtown across from circle centre",
+    "why": "identity key 'hampton inn indianapolis downtown across from circle centre' is also the key of a different building at '105 South Meridian Street'; a census cannot hold two rows under one key, so this row is held for a human to name"
+   },
+   {
+    "name": "Hilton Garden Inn Indianapolis Carmel",
+    "candidate_id": "prior-census::hilton garden inn indianapolis carmel",
+    "why": "identity key 'hilton garden inn indianapolis carmel' is also the key of a different building at '13090 Pennsylvania Street'; a census cannot hold two rows under one key, so this row is held for a human to name"
+   },
+   {
+    "name": "Hilton Garden Inn Indianapolis Downtown",
+    "candidate_id": "prior-census::hilton garden inn indianapolis downtown",
+    "why": "identity key 'hilton garden inn indianapolis downtown' is also the key of a different building at '108 North Pennsylvania Street'; a census cannot hold two rows under one key, so this row is held for a human to name"
+   },
+   {
+    "name": "Holiday Inn Express & Suites Carmel North Westfield",
+    "candidate_id": "prior-census::holiday inn express and suites carmel north westfield",
+    "why": "identity key 'holiday inn express and suites carmel north westfield' is also the key of a different building at '15131 Thatcher Lane'; a census cannot hold two rows under one key, so this row is held for a human to name"
+   },
+   {
+    "name": "Hyatt House Indianapolis Downtown",
+    "candidate_id": "prior-census::hyatt house indianapolis downtown",
+    "why": "identity key 'hyatt house indianapolis downtown' is also the key of a different building at '130 South Pennsylvania Street'; a census cannot hold two rows under one key, so this row is held for a human to name"
+   },
+   {
+    "name": "Hyatt Regency Indianapolis",
+    "candidate_id": "prior-census::hyatt regency indianapolis",
+    "why": "identity key 'hyatt regency indianapolis' is also the key of a different building at '101 West Washington Street'; a census cannot hold two rows under one key, so this row is held for a human to name"
+   },
+   {
+    "name": "Red Roof Inn Indianapolis East",
+    "candidate_id": "prior-census::red roof inn indianapolis east",
+    "why": "identity key 'red roof inn indianapolis east' is also the key of a different building at '7314 East 21st Street'; a census cannot hold two rows under one key, so this row is held for a human to name"
+   },
+   {
+    "name": "Residence Inn Indianapolis South Greenwood",
+    "candidate_id": "prior-census::residence inn indianapolis south greenwood",
+    "why": "identity key 'residence inn indianapolis south greenwood' is also the key of a different building at '5250 Noggle Way'; a census cannot hold two rows under one key, so this row is held for a human to name"
+   },
+   {
+    "name": "The Westin Indianapolis",
+    "candidate_id": "prior-census::the westin indianapolis",
+    "why": "identity key 'the westin indianapolis' is also the key of a different building at '241 West Washington Street'; a census cannot hold two rows under one key, so this row is held for a human to name"
+   }
+  ],
+  "no_locality": [
+   {
+    "name": "Motel 6 Indianapolis North East",
+    "candidate_id": "dc_068c6beccdb6a54e",
+    "latitude": 39.9074494,
+    "longitude": -86.0478407
+   },
+   {
+    "name": "Quality Inn",
+    "candidate_id": "dc_3196c39045a07adb",
+    "latitude": 39.9312499,
+    "longitude": -86.0224983
+   },
+   {
+    "name": "Indianapolis Conference Center Hotel",
+    "candidate_id": "dc_33d9c84fc5b6dca9",
+    "latitude": 39.7970517,
+    "longitude": -86.0393753
+   },
+   {
+    "name": "Eagle Creek Retreat",
+    "candidate_id": "dc_3bc1e46eb681fca3",
+    "latitude": 39.8832494,
+    "longitude": -86.3144232
+   },
+   {
+    "name": "Capri Motel",
+    "candidate_id": "dc_4c02c04fbb6dc36d",
+    "latitude": 39.7364508,
+    "longitude": -86.3052356
+   },
+   {
+    "name": "Residence Inn North",
+    "candidate_id": "dc_50737984bf328834",
+    "latitude": 39.9130511,
+    "longitude": -86.2215279
+   },
+   {
+    "name": "Suburban Studios",
+    "candidate_id": "dc_54792ad0a9a879d2",
+    "latitude": 39.9313887,
+    "longitude": -86.022738
+   },
+   {
+    "name": "Lilly Lodge",
+    "candidate_id": "dc_57ce4f75c24f7f04",
+    "latitude": 39.8743776,
+    "longitude": -86.2964679
+   },
+   {
+    "name": "Drury Inn & Suites Indianapolis Northeast",
+    "candidate_id": "dc_5f55c0aad587b69a",
+    "latitude": 39.9041883,
+    "longitude": -86.04526
+   },
+   {
+    "name": "Residence Inn Indianapolis Carmel",
+    "candidate_id": "dc_64720559e3bd341c",
+    "latitude": 39.9616428,
+    "longitude": -86.1564748
+   },
+   {
+    "name": "Crowne Plaza Indianapolis Downtown (Union Station)",
+    "candidate_id": "dc_6763a7aaab6885b8",
+    "latitude": 39.7628749,
+    "longitude": -86.1609547
+   },
+   {
+    "name": "Indianapolis East Knights Inn",
+    "candidate_id": "dc_6f4ec6da50aa9104",
+    "latitude": 39.7960048,
+    "longitude": -86.0435274
+   },
+   {
+    "name": "Red Roof Inn Indianapolis",
+    "candidate_id": "dc_7c6c161940c96d02",
+    "latitude": 39.902865,
+    "longitude": -86.0466011
+   },
+   {
+    "name": "Bottleworks Hotel",
+    "candidate_id": "dc_81d73390f0bd08d1",
+    "latitude": 39.7791926,
+    "longitude": -86.1433118
+   },
+   {
+    "name": "Extended Stay America - Indianapolis - Castleton",
+    "candidate_id": "dc_840fdb041ffac008",
+    "latitude": 39.8990586,
+    "longitude": -86.0470523
+   },
+   {
+    "name": "Le Meridien Indianapolis",
+    "candidate_id": "dc_9033a78fc3325752",
+    "latitude": 39.7651362,
+    "longitude": -86.1596455
+   },
+   {
+    "name": "Candlewood Suites Indianapolis",
+    "candidate_id": "dc_9683f10682b84dd1",
+    "latitude": 39.9032584,
+    "longitude": -86.0490327
+   },
+   {
+    "name": "Extended Stay America",
+    "candidate_id": "dc_97460b1f87b8c378",
+    "latitude": 39.763446,
+    "longitude": -86.3038484
+   },
+   {
+    "name": "Hampton Inn & Suites",
+    "candidate_id": "dc_9b699536709324ca",
+    "latitude": 39.6396783,
+    "longitude": -86.0783802
+   },
+   {
+    "name": "Extended Stay America - Indianapolis - North - Carmel",
+    "candidate_id": "dc_a25ee504de187cf1",
+    "latitude": 39.92977,
+    "longitude": -86.1023944
+   },
+   {
+    "name": "Conrad Indianapolis",
+    "candidate_id": "dc_a3767833fb5bf435",
+    "latitude": 39.7675369,
+    "longitude": -86.1594358
+   },
+   {
+    "name": "Crowne Plaza Indianapolis Airport",
+    "candidate_id": "dc_b53ac345bfa081e6",
+    "latitude": 39.728922,
+    "longitude": -86.2688412
+   },
+   {
+    "name": "Mayfair Motel",
+    "candidate_id": "dc_c2aa7186a116944f",
+    "latitude": 39.7943624,
+    "longitude": -86.2055218
+   },
+   {
+    "name": "Hampton Inn & Suites",
+    "candidate_id": "dc_c4b1fc562bea39c1",
+    "latitude": 39.9068214,
+    "longitude": -86.0490839
+   },
+   {
+    "name": "Gateway Motel",
+    "candidate_id": "dc_d57af71744ea45a0",
+    "latitude": 39.7904043,
+    "longitude": -86.2017649
+   },
+   {
+    "name": "Kings Inn of Indianapolis",
+    "candidate_id": "dc_d78a56df7fa52ff9",
+    "latitude": 39.7970847,
+    "longitude": -86.0481515
+   },
+   {
+    "name": "Sybaris Indianapolis",
+    "candidate_id": "dc_dfe9462a203494b2",
+    "latitude": 39.9111046,
+    "longitude": -86.2573374
+   },
+   {
+    "name": "Candlewood Suites",
+    "candidate_id": "dc_e07f2846f42118e3",
+    "latitude": 39.6323988,
+    "longitude": -86.0643904
+   },
+   {
+    "name": "Travelodge Indianapolis Castleton",
+    "candidate_id": "dc_ea02b319c025e8d5",
+    "latitude": 39.9070638,
+    "longitude": -86.0515621
+   },
+   {
+    "name": "Ironworks Hotel",
+    "candidate_id": "dc_f54cc2d712c443e7",
+    "latitude": 39.9119815,
+    "longitude": -86.1180516
+   },
+   {
+    "name": "Always Inn",
+    "candidate_id": "dc_fa51da31e24fada4",
+    "latitude": 39.7967714,
+    "longitude": -86.0375085
+   }
+  ],
+  "unnamed": [
+   "dc_00b3b2d6c8d31710",
+   "dc_69a508289dabd6d2",
+   "dc_80d85d8806db56a1",
+   "dc_91b5ac44fd41e27a",
+   "dc_b3df6b5b4d72875d"
+  ],
+  "not_lodging": [
+   "Indy Hostel"
+  ],
+  "absorbed_duplicates": [
+   {
+    "name": "Super 8 Indianapolis Castleton",
+    "into": "Super 8 by Wyndham Indianapolis Castleton"
+   },
+   {
+    "name": "Skyline Motel",
+    "into": "Skyline Motel"
+   },
+   {
+    "name": "Skyline Motel",
+    "into": "Skyline Motel"
+   }
+  ]
+ },
+ "founder_geography_questions": [
+  "ZIPs 46202, 46221, 46222, 46231 and 46239 hold real hotels the contract claims by no corridor (8 boundary decisions). 46202/46222 are handled today by explicit_hotel_ids for five prior identities; the fresh OSM twins of three of them (Hampton Inn Downtown IUPUI, Homewood Suites Downtown IUPUI, Residence Inn on the Canal at 46202; Candlewood Medical District at 46222) and five others (Baymont 46239, Country Inn & Suites and WoodSpring Airport South at 46221, Clover West and Catalina motels at 46231) need either a corridor ZIP or an explicit id. The registered contract is a founder document; nothing was changed.",
+  "31 OpenStreetMap rows carry a name and coordinates but no address, city or ZIP (IDENTITY_NO_LOCALITY). Their coordinates are kept in the candidate ledger for a reverse-geocode or manual placement; several are named hotels the census would otherwise hold (Conrad Indianapolis, Le Meridien, Bottleworks Hotel, Ironworks Hotel, Crowne Plaza Union Station).",
+  "north-central (46205/46208) yields 1 identity even after its new cell: the corridor may be a display area more than a lodging cluster."
+ ]
+}

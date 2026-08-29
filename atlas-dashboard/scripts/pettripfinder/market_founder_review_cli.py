@@ -48,8 +48,8 @@ from scripts.pettripfinder import census_partition_builder as CPB
 from scripts.pettripfinder.contracts import enums
 
 PACKAGE_DIR = _REPO_ROOT / "launch_packages" / "pettripfinder"
-CENSUS_DIR = PACKAGE_DIR / "identity_census"
-
+from scripts.pettripfinder import census_location as CENSUS_LOCATION  # noqa: E402
+CENSUS_DIR = CENSUS_LOCATION.identity_census_dir()  # committed, or $PTF_IDENTITY_CENSUS_DIR during a rebuild
 SCHEMA = "ptf-founder-review-package/1.0"
 PUBLICATION_GRADE_CONFIRMED = "PUBLICATION_GRADE_CONFIRMED"
 
