@@ -177,13 +177,20 @@ class TestFeeContradictionHandled:
 
 class TestAuthorityApplied:
     def test_policy_authority_and_exclusions_gained_exactly_the_decided_rows(self):
+        # As with the census count above, the ABSOLUTE totals are not this
+        # pass's invariant: a later pass can legitimately add rows, and
+        # PTF-DETROIT-ANN-ARBOR-EVIDENCE-VOCABULARY-AND-PROMOTION-004 did
+        # (7 -> 17 published, 7 -> 25 verified-no-pets, from the Pass 3
+        # packet). test_detroit_ann_arbor_market_001.py owns those numbers.
+        # What THIS pass must still be able to show is that the three rows it
+        # decided are in authority and none of them was lost.
         facts = _load(FACTS_PATH)
-        assert len(facts["hotels"]) == 7
+        assert len(facts["hotels"]) >= 7
         assert any(h["identity_key"] == "hotel indigo detroit downtown"
                   for h in facts["hotels"])
         exclusions = _load(EXCLUSIONS_PATH)
         rows = [e for e in exclusions["exclusions"] if e.get("market_id") == MARKET]
-        assert len(rows) == 7
+        assert len(rows) >= 7
         excluded_keys = {e["normalized_name"] for e in rows}
         assert "courtyard detroit pontiac bloomfield" in excluded_keys
         assert "doubletree by hilton detroit novi" in excluded_keys
@@ -214,8 +221,10 @@ class TestAuthorityApplied:
         assert set(EXPECTED_KEYS.values()) <= census_keys
         partition = _load(PARTITION_PATH)
         counts = partition["final_state_counts"]
-        assert counts["PUBLISHED_PET_FRIENDLY"] == 7
-        assert counts["VERIFIED_NO_PETS"] == 7
+        # Same reasoning as the census count: a later pass may resolve more
+        # identities, and one has. The floor is what Pass 2 established.
+        assert counts["PUBLISHED_PET_FRIENDLY"] >= 7
+        assert counts["VERIFIED_NO_PETS"] >= 7
 
     def test_the_three_captured_rows_reached_their_decided_terminal_state(self):
         partition = {i["identity_key"]: i for i in _load(PARTITION_PATH)["items"]}

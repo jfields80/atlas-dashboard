@@ -83,8 +83,19 @@ EXPECTED = {
     # not update this pin, so it was red until PTF-DETROIT-ANN-ARBOR-HARDENED-
     # MEMBERSHIP-AND-SHADOW-RECENSUS-002. published/no_pets are UNCHANGED at
     # 7/7: that order captured no policy and made no founder decision.
-    DETROIT: {"census": 182, "published": 7, "no_pets": 7,
-              "out_of_category": 1, "unresolved": 167},
+    # ... then PTF-DETROIT-ANN-ARBOR-EVIDENCE-VOCABULARY-AND-PROMOTION-004:
+    # founder decision B-003-1 registered the text_extract artifact kind, which
+    # unblocked the 28-row Pass 3 packet (7 -> 17 published, 7 -> 25
+    # verified-no-pets), and founder ruling DTW-ID-003-NOVI-11-MILE superseded
+    # the stale Courtyard Detroit Novi identity with its Sonesta Select
+    # successor at one address (182 -> 181). out_of_category is 0 rather than 1
+    # because this market's single non-lodging identity claimed a TERMINAL
+    # category exit in the partition that the exclusion REGISTRY never carried
+    # -- it has no official_url and no artifact, so it cannot take an exclusion
+    # record -- and an unbacked terminal disposition was downgraded to
+    # AWAITING_CENSUS_REVIEW rather than invented or deleted.
+    DETROIT: {"census": 181, "published": 17, "no_pets": 25,
+              "out_of_category": 0, "unresolved": 139},
     INDIANAPOLIS: {"census": 153, "published": 8, "no_pets": 4,
                    "out_of_category": 0, "unresolved": 141},
 }

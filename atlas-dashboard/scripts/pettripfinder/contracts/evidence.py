@@ -48,6 +48,8 @@ citation of its own.
 
 from __future__ import annotations
 
+import re
+
 from dataclasses import dataclass
 from typing import Any, Dict, FrozenSet, List, Mapping, Sequence, Tuple
 
@@ -64,9 +66,15 @@ PUBLICATION_GRADE_REQUIRED: Tuple[str, ...] = (
     "source_grade",     # how much authority that source carries
     "artifact_class",   # what kind of artifact this is
     "artifact_sha256",  # hash of the PAGE, not of a row about the page
-    "artifact_kind",    # rendered page, operator screenshot, or PDF
+    "artifact_kind",    # rendered page, operator screenshot, PDF, text extract
     "captured_at",
 )
+
+#: PTF-DETROIT-ANN-ARBOR-EVIDENCE-VOCABULARY-AND-PROMOTION-004 (B-003-1).
+#: A sha256 and nothing else. The point of a text extract is that it can be
+#: RE-HASHED, so a placeholder, a truncation or a hash of something other than
+#: the artifact defeats the entire class.
+_SHA256_RE = re.compile(r"^(?:sha256:)?[0-9a-f]{64}$")
 
 #: Canonical fact key -> the evidence field names that may cite it.
 #:
@@ -198,6 +206,61 @@ def quote_is_contiguous(quote: str, artifact_text: str) -> bool:
     return needle in haystack
 
 
+def _text_extract_issues(entry: Mapping, path: str) -> List[Issue]:
+    """The machine-checkable half of founder decision B-003-1.
+
+    Conditions 3 and 4 (persisted, re-hashable, hash matches) reduce here to
+    one demand: the entry must carry a REAL sha256, because everything
+    downstream re-hashes the file and compares. Condition 8 reduces to one
+    demand as well, and it is the important one: PROVENANCE CANNOT BE READ OFF
+    THE BYTES. A verbatim extract of a hotel's pet policy and a model's summary
+    of that policy are both text, both hash cleanly, and both re-hash forever.
+    The only thing that separates them is how they were obtained, so the entry
+    has to SAY, and only the methods that put a real browser on the real page
+    may publish.
+    """
+    out: List[Issue] = []
+    sha = str(entry.get("artifact_sha256") or "")
+    if not _SHA256_RE.match(sha):
+        out.append(Issue(path + ".artifact_sha256", "NOT_REHASHABLE",
+                         "a text extract publishes only if it can be re-hashed; "
+                         "%r is not a sha256" % sha))
+    method = str(entry.get("capture_method") or "")
+    if not method:
+        out.append(Issue(path + ".capture_method", "MISSING_REQUIRED",
+                         "a text extract must state how it was captured; a "
+                         "snippet, a summary and a verbatim extract are "
+                         "indistinguishable as bytes"))
+    elif method not in enums.TEXT_EXTRACT_PUBLISHABLE_CAPTURE_METHODS:
+        out.append(Issue(path + ".capture_method", "NOT_PUBLICATION_CAPTURE",
+                         "%r may not carry publication-grade text; only %s put "
+                         "a real client on the real page"
+                         % (method,
+                            sorted(enums.TEXT_EXTRACT_PUBLISHABLE_CAPTURE_METHODS))))
+    if not str(entry.get("source_url") or "").strip():
+        out.append(Issue(path + ".source_url", "MISSING_REQUIRED",
+                         "a text extract must name the page it was taken from"))
+    return out
+
+
+def text_extract_publication_blockers(entry: Mapping, artifact_text: str
+                                      ) -> Tuple[str, ...]:
+    """Founder condition 6, checked where the artifact BYTES are in hand.
+
+    ``validate_entry`` cannot do this: it sees a record, not a file. An
+    approval builder does have the file, and it must not sign a quote the
+    artifact does not contain -- which is the one failure a hash can never
+    catch, because the hash proves the file is unaltered, not that the quote
+    came out of it.
+    """
+    blockers: List[str] = []
+    quote = str(entry.get("quote") or "")
+    if not quote_is_contiguous(quote, artifact_text):
+        blockers.append("the quoted policy language does not appear verbatim and "
+                        "contiguously in the artifact")
+    return tuple(blockers)
+
+
 def validate_entry(entry: Mapping, index: int) -> Tuple[Issue, ...]:
     """Validate one evidence entry."""
     out: List[Issue] = []
@@ -224,6 +287,15 @@ def validate_entry(entry: Mapping, index: int) -> Tuple[Issue, ...]:
 
     if cls != enums.PUBLICATION_GRADE_EVIDENCE:
         return tuple(out)
+
+    # PTF-DETROIT-ANN-ARBOR-EVIDENCE-VOCABULARY-AND-PROMOTION-004 (B-003-1).
+    # A text extract is publication-grade only under the founder's eight
+    # conditions. The two that plaintext fails silently -- "it can be re-hashed"
+    # and "it is not a snippet, summary, paraphrase or typed note" -- are
+    # checked HERE, because by the time a reader is looking at the words it is
+    # too late to ask where they came from.
+    if kind == enums.ARTIFACT_TEXT_EXTRACT:
+        out.extend(_text_extract_issues(entry, path))
 
     for required in PUBLICATION_GRADE_REQUIRED:
         if not entry.get(required):

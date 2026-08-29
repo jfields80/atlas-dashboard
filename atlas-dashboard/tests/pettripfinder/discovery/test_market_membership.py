@@ -289,12 +289,17 @@ class TestZipOwnershipMarketsAreUnchanged:
 #
 # Detroit is the more dangerous case of the two. Grand Rapids kept 4 of 120
 # rows under the broken gate because those 4 carried no postal code. Every one
-# of Detroit's 171 postal-code-bearing rows is rejected outright, so the
+# of Detroit's 170 postal-code-bearing rows is rejected outright, so the
 # CORRIDOR_REGISTRY default projects the market to ZERO.
 # --------------------------------------------------------------------------- #
 
 class TestDetroitFixture:
-    """The committed 182-row Detroit census, through the membership engine."""
+    """The committed Detroit census, through the membership engine.
+
+    182 rows until PTF-DETROIT-ANN-ARBOR-EVIDENCE-VOCABULARY-AND-PROMOTION-004
+    applied founder ruling DTW-ID-003-NOVI-11-MILE, retiring one stale identity
+    into its successor at the same address.
+    """
 
     MARKET_ID = "detroit-ann-arbor-mi"
 
@@ -351,23 +356,23 @@ class TestDetroitFixture:
         """The precondition for the missing-evidence rule, pinned so it cannot
         silently change underneath the continuity guarantee."""
         rows = self._census_rows()
-        assert len(rows) == 182
+        assert len(rows) == 181
         assert not any(r.get("latitude") or r.get("longitude") for r in rows)
 
     # -- the regression ----------------------------------------------------- #
 
     def test_every_committed_identity_survives_under_market_geography(self):
-        """The whole census, end to end: all 182 committed rows stay in the
+        """The whole census, end to end: all 181 committed rows stay in the
         market. This is the number the shadow recensus reconciles against."""
         counts = self._decide_all(MC.MEMBERSHIP_MARKET_GEOGRAPHY,
                                   is_prior_identity=True)
-        assert counts == {MM.IN_MARKET: 182}
+        assert counts == {MM.IN_MARKET: 181}
 
     def test_the_corridor_registry_default_would_be_catastrophic(self):
         """Why the declaration is a prerequisite and not an improvement.
 
-        Under the basis Detroit would inherit by default, NOT ONE of its 182
-        committed identities is admitted: the 171 rows that state a postal code
+        Under the basis Detroit would inherit by default, NOT ONE of its 181
+        committed identities is admitted: the 170 rows that state a postal code
         are rejected outright, because no corridor claims any postal code, and
         the 11 that state none are held UNRESOLVED. This assertion exists so
         that anyone who removes the declaration sees exactly what it was
@@ -375,9 +380,9 @@ class TestDetroitFixture:
         counts = self._decide_all(MC.MEMBERSHIP_CORRIDOR_REGISTRY,
                                   is_prior_identity=True)
         assert counts.get(MM.IN_MARKET, 0) == 0
-        assert counts[MM.BOUNDARY_DECISION] == 171
+        assert counts[MM.BOUNDARY_DECISION] == 170
         assert counts[MM.UNRESOLVED] == 11
-        assert sum(counts.values()) == 182
+        assert sum(counts.values()) == 181
 
     def test_a_fresh_candidate_is_held_not_evicted_where_geography_is_thin(self):
         """Prior-census continuity is doing real work here, and only for one
@@ -389,14 +394,14 @@ class TestDetroitFixture:
         is Phase 4's boundary packet, not a silent drop."""
         fresh = self._decide_all(MC.MEMBERSHIP_MARKET_GEOGRAPHY,
                                  is_prior_identity=False)
-        assert fresh[MM.IN_MARKET] == 181
+        assert fresh[MM.IN_MARKET] == 180
         assert fresh[MM.UNRESOLVED] == 1
         assert MM.OUT_OF_GEOGRAPHY not in fresh
 
     def test_membership_fails_closed_without_geography(self):
         """A MARKET_GEOGRAPHY market whose geography was not supplied must
         raise, never quietly fall back to the corridor registry -- that
-        fallback is the 182-to-0 path."""
+        fallback is the census-to-zero path."""
         with pytest.raises(ValueError):
             MM.decide({"city": "Detroit", "state": "MI", "postal_code": "48226"},
                       basis=MC.MEMBERSHIP_MARKET_GEOGRAPHY,

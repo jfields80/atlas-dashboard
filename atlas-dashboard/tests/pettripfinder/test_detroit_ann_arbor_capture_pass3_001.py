@@ -14,6 +14,7 @@ tests check against.
 from __future__ import annotations
 
 import hashlib
+import collections
 import json
 from pathlib import Path
 
@@ -214,27 +215,60 @@ class TestFeeAmbiguityHandled:
 
 
 class TestAuthorityFrozen:
-    """This is capture only: no founder decision, no authority write."""
+    """Pass 3 was capture only: it made no founder decision and wrote no
+    authority, and the assertions below used to pin that as a STANDING state --
+    census 182, published 7, verified-no-pets 7, and not one captured identity
+    in either authority file.
 
-    def test_census_unchanged(self):
-        census = _load(CENSUS_PATH)
-        assert census["count"] == 182
+    That state ended by design. PTF-DETROIT-ANN-ARBOR-EVIDENCE-VOCABULARY-AND-
+    PROMOTION-004 applied the founder's decisions on this very packet once
+    decision B-003-1 registered the text_extract artifact kind its evidence
+    needs. So what is pinned here now is the thing that is actually permanent:
+    Pass 3 itself decided nothing, and every row of it that later entered
+    authority did so under a NAMED later work order, never under this one.
+    """
 
-    def test_partition_terminal_counts_unchanged(self):
-        counts = _load(PARTITION_PATH)["final_state_counts"]
-        assert counts["PUBLISHED_PET_FRIENDLY"] == 7
-        assert counts["VERIFIED_NO_PETS"] == 7
+    def test_pass_3_recorded_no_founder_decision_of_its_own(self, packet):
+        assert packet["status"] == "AWAITING_FOUNDER_REVIEW"
+        for candidate in packet["candidates"]:
+            # A recommendation is not a decision. Pass 3 proposed; it never
+            # approved, and nothing in its own packet says otherwise.
+            assert "recommended_founder_decision" in candidate
+            assert "approval" not in candidate
 
-    def test_no_captured_identity_entered_policy_facts_or_exclusions(self, packet):
+    def test_every_captured_identity_that_published_names_a_later_authority(self, packet):
         keys = {c["identity_key"] for c in packet["candidates"]}
         facts = _load(FACTS_PATH)
-        assert not ({h["identity_key"] for h in facts["hotels"]} & keys)
-        assert len(facts["hotels"]) == 7
+        for hotel in facts["hotels"]:
+            if hotel["identity_key"] not in keys:
+                continue
+            approval = hotel["approval"]
+            # Pass 3 may not appear as the authorising instrument for anything.
+            instrument = approval["authorisation"]["instrument"]
+            assert "CLAUDE-CAPTURE-PASS3-001" not in instrument
+            assert "EVIDENCE-VOCABULARY-AND-PROMOTION-004" in instrument
+
+    def test_the_two_holds_never_entered_authority(self, packet):
+        """The rule that outlives every count in this file: source silence is
+        absence. The two POLICY_NOT_FOUND rows may never become no-pets."""
+        holds = {c["identity_key"] for c in packet["candidates"]
+                 if c["outcome"] == "POLICY_NOT_FOUND"}
+        assert len(holds) == 2
+        facts = _load(FACTS_PATH)
+        assert not ({h["identity_key"] for h in facts["hotels"]} & holds)
         exclusions = _load(EXCLUSIONS_PATH)
         excl_keys = {e["normalized_name"] for e in exclusions["exclusions"]
-                    if e.get("market_id") == MARKET}
-        assert not (excl_keys & keys)
-        assert len(excl_keys) == 7
+                     if e.get("market_id") == MARKET}
+        assert not (excl_keys & holds)
+
+    def test_the_packet_evidence_is_still_exactly_what_it_captured(self, packet):
+        """The packet is a historical record and must not drift, whatever later
+        orders do with it."""
+        assert packet["count"] == 30
+        outcomes = collections.Counter(c["outcome"] for c in packet["candidates"])
+        assert outcomes == {"PUBLICATION_CANDIDATE": 10,
+                            "VERIFIED_NO_PETS_CANDIDATE": 18,
+                            "POLICY_NOT_FOUND": 2}
 
     def test_routing_shard_unchanged(self):
         shard = _load(ROUTING_SHARD_PATH)

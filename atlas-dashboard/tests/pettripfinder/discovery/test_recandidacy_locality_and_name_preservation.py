@@ -283,3 +283,88 @@ class TestAnAbsorptionRecordSaysWhereTheRowLanded:
                           postal_code="48000")
         _, absorptions = CR.absorb_prior_by_street([host], [prior])
         assert absorptions[0]["into_name"] == "Daxton Hotel"
+
+
+# --------------------------------------------------------------------------- #
+# PTF-DETROIT-ANN-ARBOR-EVIDENCE-VOCABULARY-AND-PROMOTION-004
+# Same doorway, two hotels.
+# --------------------------------------------------------------------------- #
+
+class TestTwoHotelsAtOneDoorwayNeverMerge:
+    """Street identity answers "is this the same doorway". A rebuilt census
+    leaned on it to answer "is this the same hotel". Those are the same
+    question right up until a building is dual-branded, and then they are
+    opposites."""
+
+    def _pair(self):
+        even = committed("EVEN Hotel Detroit North Troy",
+                         address_line="575 W. Big Beaver", postal_code="48084",
+                         city="Troy", state="MI",
+                         website_url="https://www.ihg.com/evenhotels/hotels/us/en/troy/dttry/hoteldetail")
+        indigo = committed("Hotel Indigo Detroit North Troy",
+                           address_line="575 W. Big Beaver", postal_code="48084",
+                           city="Troy", state="MI",
+                           website_url="https://www.ihg.com/hotelindigo/hotels/us/en/troy/dttoy/hoteldetail")
+        host = osm("Hotel Indigo", address_line="575 W Big Beaver",
+                   postal_code="48084")
+        return even, indigo, host
+
+    def test_the_doorway_is_recognised_as_contested(self):
+        even, indigo, _ = self._pair()
+        contested = CR.contested_doorways([even, indigo])
+        assert len(contested) == 1
+        assert sorted(next(iter(contested.values()))) == [
+            "EVEN Hotel Detroit North Troy", "Hotel Indigo Detroit North Troy"]
+
+    def test_neither_hotel_is_absorbed(self):
+        even, indigo, host = self._pair()
+        survivors, absorptions = CR.absorb_prior_by_street([host], [even, indigo])
+        assert absorptions == []
+        assert sorted(s["name"] for s in survivors) == [
+            "EVEN Hotel Detroit North Troy", "Hotel Indigo Detroit North Troy"]
+
+    def test_each_survivor_records_why_it_was_not_absorbed(self):
+        even, indigo, host = self._pair()
+        survivors, _ = CR.absorb_prior_by_street([host], [even, indigo])
+        for s in survivors:
+            assert s["same_doorway_street_identity"] == "575|beaver big|48084"
+            assert len(s["same_doorway_distinct_properties"]) == 2
+
+    def test_the_refusal_does_not_depend_on_processing_order(self):
+        even, indigo, host_a = self._pair()
+        _, _, host_b = self._pair()
+        a, _ = CR.absorb_prior_by_street([host_a], [even, indigo])
+        b, _ = CR.absorb_prior_by_street([host_b], [indigo, even])
+        assert sorted(x["name"] for x in a) == sorted(x["name"] for x in b)
+
+    def test_a_successor_still_absorbs(self):
+        """The guard must separate DISTINCT properties without blocking a
+        rebrand. A stale identity has no official page of its own -- there is
+        nothing left to point at -- so only one URL is claimed at that doorway.
+        Distinct evidence separates; ABSENT evidence does not."""
+        old = committed("Courtyard by Marriott Detroit Novi",
+                        address_line="42700 W 11 Mile Rd", postal_code="48375")
+        new = committed("Sonesta Select Detroit Novi",
+                        address_line="42700 West 11 Mile Rd", postal_code="48375",
+                        website_url="https://www.sonesta.com/sonesta-select/mi/novi/x")
+        host = osm("Sonesta Select", address_line="42700 W 11 Mile Rd",
+                   postal_code="48375")
+        assert CR.contested_doorways([old, new]) == {}
+        survivors, absorptions = CR.absorb_prior_by_street([host], [old, new])
+        assert survivors == []
+        assert len(absorptions) == 2
+        assert host["name"] == "Sonesta Select Detroit Novi"
+
+    def test_one_hotel_at_a_doorway_is_never_contested(self):
+        solo = committed("Some Hotel", address_line="1 Main St", postal_code="48000",
+                         website_url="https://example.com/x")
+        assert CR.contested_doorways([solo]) == {}
+
+    def test_the_same_url_twice_is_a_duplicate_not_a_contest(self):
+        """Two census rows naming the SAME page are one hotel recorded twice --
+        exactly what absorption is for."""
+        a = committed("Homewood Suites by Hilton Novi", address_line="1 A St",
+                      postal_code="48000", website_url="https://hilton.com/x")
+        b = committed("Homewood Suites by Hilton Novi Detroit", address_line="1 A St",
+                      postal_code="48000", website_url="https://hilton.com/x/")
+        assert CR.contested_doorways([a, b]) == {}

@@ -65,16 +65,27 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 PACKAGE = REPO_ROOT / "launch_packages" / "pettripfinder"
 MARKET = "detroit-ann-arbor-mi"
 
+# PTF-DETROIT-ANN-ARBOR-EVIDENCE-VOCABULARY-AND-PROMOTION-004. Founder decision
+# B-003-1 registered the text_extract artifact kind, which unblocked the 28-row
+# Pass 3 packet: 7 -> 17 published and 7 -> 25 verified-no-pets. Founder ruling
+# DTW-ID-003-NOVI-11-MILE superseded the stale Courtyard Detroit Novi identity
+# with its Sonesta Select successor at one address, so the census is 181 and the
+# duplicate ledger carries a second entry. out_of_category went 1 -> 0: this
+# market's one non-lodging identity claimed a TERMINAL category exit that the
+# exclusion REGISTRY never carried -- it has no official_url and no artifact, so
+# it cannot take an exclusion record at all -- and an unbacked terminal
+# disposition was downgraded to AWAITING_CENSUS_REVIEW rather than invented or
+# deleted. It is unresolved now, which is what it honestly is.
 EXPECTED = {
     "candidates": 152,
-    "census": 182,
-    "published": 7,
-    "no_pets": 7,
-    "out_of_category": 1,
-    "unresolved": 167,
-    "queue": 167,
+    "census": 181,
+    "published": 17,
+    "no_pets": 25,
+    "out_of_category": 0,
+    "unresolved": 139,
+    "queue": 139,
     "boundary_excluded": 17,
-    "duplicates": 1,
+    "duplicates": 2,
 }
 
 

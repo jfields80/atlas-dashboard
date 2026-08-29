@@ -1,11 +1,11 @@
 {
   "schema": "ptf-detroit-ann-arbor-duplicate-ledger/1.0",
-  "work_order": "PTF-DETROIT-ANN-ARBOR-ROUTING-EXPANSION-004-IDENTITY-D001-D002",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-EVIDENCE-VOCABULARY-AND-PROMOTION-004",
   "market_id": "detroit-ann-arbor-mi",
   "as_of": "2026-08-17",
   "counts": {
-    "canonical": 182,
-    "duplicate": 1,
+    "canonical": 181,
+    "duplicate": 2,
     "boundary_excluded": 17,
     "closed": 2,
     "category_excluded_in_census": 1,
@@ -187,6 +187,14 @@
       "duplicate_of": "homewood suites by hilton novi",
       "notes": "PTF-DETROIT-ANN-ARBOR-ROUTING-EXPANSION-004-IDENTITY-D001-D002: founder-confirmed CONFIRMED_DUPLICATE. Identical hilton.com official_property_url and the same address/phone (modulo 'Dr' vs 'Drive', '248-...' vs '+1 248-...') as 'homewood suites by hilton novi', which was added earlier (IDENTITY-ROUTING-REPAIR-001) and already carries the market's routing record for this property; this row was added later (CENSUS-COMPLETENESS-003) without recognizing the existing identity. No second route was ever created for it.",
       "source": "chain_locator_003"
+    },
+    {
+      "identity_key": "courtyard by marriott detroit novi",
+      "canonical_name": "Courtyard by Marriott Detroit Novi",
+      "disposition": "duplicate",
+      "duplicate_of": "sonesta select detroit novi",
+      "notes": "PTF-DETROIT-ANN-ARBOR-EVIDENCE-VOCABULARY-AND-PROMOTION-004 applying founder ruling DTW-ID-003-NOVI-11-MILE. SUCCESSOR_IDENTITY_CONFIRMED: one building at 42700 W 11 Mile Rd, 48375. Both identities were committed in the same census with the same street number, street and ZIP ('42700 W 11 Mile Rd' and '42700 West 11 Mile Rd'), which normalise to one address_key. The repaired shadow recensus absorbed them into one row independently, on street identity, from a local OpenStreetMap extract that had seen neither census. The Courtyard row was IDENTITY_PROVISIONAL, carried NO official_url and had NO route; the Sonesta row is IDENTITY_CONFIRMED with a live first-party property page. A Courtyard that converted to a Sonesta Select. Not a pet-policy decision -- no exclusion was created. History preserved: the Courtyard name is now the former_name of the Sonesta Select row, the same mechanism this market used for Delta Hotels DTW -> Skyline Hotel and Best Western Premier Southfield -> Radisson Southfield.",
+      "source": "shadow_recensus_003 + committed census address agreement"
     }
   ]
 }

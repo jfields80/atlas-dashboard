@@ -213,6 +213,48 @@ def street_identity(candidate: Mapping) -> str:
     return key if key.strip("|") else ""
 
 
+def _doorway_url(candidate) -> str:
+    """The official property page a candidate claims, normalised for comparison."""
+    url = str(candidate.get("website_url") or "").strip().lower()
+    return url.rstrip("/")
+
+
+def contested_doorways(prior) -> Dict[str, List[str]]:
+    """Street identities where two committed identities are DIFFERENT hotels.
+
+    PTF-DETROIT-ANN-ARBOR-EVIDENCE-VOCABULARY-AND-PROMOTION-004.
+
+    Street identity answers "is this the same doorway", and a rebuilt census
+    leaned on it to answer "is this the same hotel". Those are the same question
+    right up until a building is dual-branded, and then they are opposites.
+    575 W Big Beaver, Troy holds an EVEN Hotel AND a Hotel Indigo: one address,
+    one street number, one ZIP, two hotels, two IHG property codes (dttry and
+    dttoy), two official property pages, and a committed census that already
+    flags the pair SHARED_ADDRESS. Absorbing either into the other destroys a
+    real hotel and reports it as a tidy merge.
+
+    So a doorway is CONTESTED when two or more committed identities there each
+    name a DIFFERENT official property page. Two distinct first-party pages is
+    the property operators' own statement that these are two properties, and it
+    outranks any inference the address could support.
+
+    What this deliberately does NOT catch, and must not: a SUCCESSOR. When a
+    Courtyard becomes a Sonesta Select, the stale identity has no official page
+    of its own -- there is nothing left to point at -- so only one URL is
+    claimed at that doorway and absorption stays available. Distinct evidence
+    separates; absent evidence does not.
+    """
+    urls: Dict[str, Dict[str, str]] = {}
+    for candidate in prior:
+        key = street_identity(candidate)
+        url = _doorway_url(candidate)
+        if not key or not url:
+            continue
+        urls.setdefault(key, {})[url] = str(candidate.get("name") or "")
+    return {key: sorted(seen.values())
+            for key, seen in urls.items() if len(seen) > 1}
+
+
 def absorb_prior_by_street(discovery: Sequence[Mapping],
                            prior: Sequence[Mapping]
                            ) -> Tuple[List[Dict], List[Dict]]:
@@ -265,6 +307,10 @@ def absorb_prior_by_street(discovery: Sequence[Mapping],
         key = street_identity(candidate)
         if key:
             by_street.setdefault(key, candidate)
+    # Decided BEFORE any absorption runs, not discovered halfway through it: a
+    # doorway is contested for every row at it, and which committed identity
+    # happened to be processed first must not decide who survives.
+    contested = contested_doorways(prior)
     survivors: List[Dict] = []
     absorptions: List[Dict] = []
     #: host candidate_id -> the committed names it absorbed, in absorption order.
@@ -275,6 +321,17 @@ def absorb_prior_by_street(discovery: Sequence[Mapping],
     for candidate in prior:
         key = street_identity(candidate)
         host = by_street.get(key) if key else None
+        if host is not None and key in contested:
+            # Two committed hotels share this doorway and each names its own
+            # official property page. Neither may absorb -- into the discovery
+            # sighting or into each other -- so both survive as themselves and
+            # the sighting is left unattributed for review. Refusing to merge
+            # is the only answer here that cannot destroy a real hotel.
+            row = dict(candidate)
+            row["same_doorway_distinct_properties"] = list(contested[key])
+            row["same_doorway_street_identity"] = key
+            survivors.append(row)
+            continue
         if host is None:
             survivors.append(dict(candidate))
             continue
@@ -376,4 +433,5 @@ def merge(discovery: Sequence[Mapping], prior: Sequence[Mapping]) -> List[Dict]:
 __all__ = ["PRIOR_CENSUS_PROVIDER", "CANDIDATE_ID_PREFIX", "candidate_id_for",
            "is_prior_census_candidate", "to_candidate", "from_census", "merge",
            "street_identity", "absorb_prior_by_street", "LOCALITY_FIELDS",
+           "contested_doorways",
            "choose_canonical_name"]

@@ -50,7 +50,7 @@ EXPECTED_ROUTE_MODE = {COLUMBUS: "legacy_unprefixed", CLEVELAND: "market_prefixe
     PITTSBURGH: "market_prefixed", DETROIT: "market_prefixed",
     INDIANAPOLIS: "market_prefixed"}
 EXPECTED_ROWS = {COLUMBUS: 112, CLEVELAND: 188, DAYTON: 129, CINCINNATI: 256,
-                 PITTSBURGH: 96, DETROIT: 182, INDIANAPOLIS: 153}
+                 PITTSBURGH: 96, DETROIT: 181, INDIANAPOLIS: 153}
 # Cincinnati was 121 until PTF-CINCINNATI-CENSUS-RECONCILIATION-001 rebuilt it
 # from six official destination-marketing directories instead of from its own
 # corridor registry.
@@ -65,7 +65,10 @@ EXPECTED_ROWS = {COLUMBUS: 112, CLEVELAND: 188, DAYTON: 129, CINCINNATI: 256,
 # branch from that commit until PTF-DETROIT-ANN-ARBOR-HARDENED-MEMBERSHIP-AND-
 # SHADOW-RECENSUS-002 reconciled them with the committed census. The geography
 # itself never drifted: `changes == []` passed throughout -- only the count
-# constant was stale.
+# constant was stale. 182 -> 181 by PTF-DETROIT-ANN-ARBOR-EVIDENCE-VOCABULARY-
+# AND-PROMOTION-004, applying founder ruling DTW-ID-003-NOVI-11-MILE: the stale
+# Courtyard Detroit Novi identity was superseded by its Sonesta Select
+# successor at one address, with the retired name preserved as former_name.
 
 
 def census(market_id):

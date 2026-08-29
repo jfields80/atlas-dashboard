@@ -273,11 +273,59 @@ MAY_CONFIRM_IDENTITY: FrozenSet[str] = frozenset({
 ARTIFACT_RENDERED_HTML = "rendered_html"
 ARTIFACT_OPERATOR_SCREENSHOT = "operator_screenshot"
 ARTIFACT_PDF = "pdf"
+#: PTF-DETROIT-ANN-ARBOR-EVIDENCE-VOCABULARY-AND-PROMOTION-004, founder
+#: decision B-003-1. A persisted, byte-verifiable extract of the policy-bearing
+#: TEXT of a first-party page.
+#:
+#: Why it exists. Detroit Capture Pass 3 needed publication-grade evidence for
+#: 28 properties while the browser screenshot subsystem was broken. It took the
+#: policy text itself, hashed it in the browser at capture time, persisted it,
+#: and cross-verified the committed hash against a second hash computed from
+#: the saved file. That is a stronger chain of custody than a screenshot -- a
+#: screenshot must be read by a human before anyone knows what it says, while
+#: this artifact IS the words the quote is drawn from -- but the class had
+#: never been registered, so none of it could publish.
+#:
+#: THE THING THIS IS NOT. Registering it does not make plaintext evidence.
+#: ``TEXT_EXTRACT_CONDITIONS`` below is the whole of what the founder approved,
+#: and ``evidence.validate`` enforces the machine-checkable part. A search
+#: snippet, a model summary, a paraphrase and a note somebody typed are all
+#: plaintext, and none of them is this: they are not the page, and re-hashing
+#: them proves only that nobody edited the note.
+ARTIFACT_TEXT_EXTRACT = "text_extract"
 
 #: What was hashed. An operator screenshot of the page is a lawful artifact of
 #: the page; a screenshot of a spreadsheet about the page is not.
 ARTIFACT_KINDS: Tuple[str, ...] = (ARTIFACT_RENDERED_HTML,
-                                   ARTIFACT_OPERATOR_SCREENSHOT, ARTIFACT_PDF)
+                                   ARTIFACT_OPERATOR_SCREENSHOT, ARTIFACT_PDF,
+                                   ARTIFACT_TEXT_EXTRACT)
+
+#: The eight conditions under which a text extract may carry publication-grade
+#: evidence (founder decision B-003-1). Conditions 1-4, 7 and 8 are checked by
+#: ``contracts.evidence``; 5 and 6 are checked where the corpus is available --
+#: identity by the routing authority, verbatim containment by the approval
+#: builder, which has the artifact bytes in hand.
+TEXT_EXTRACT_CONDITIONS: Tuple[str, ...] = (
+    "the source is first-party / official",
+    "the text extract was captured from that exact first-party source",
+    "the artifact is persisted and can be re-hashed",
+    "its current hash matches the committed evidence hash",
+    "the property identity is independently established",
+    "the quoted policy language appears verbatim and contiguously in the artifact",
+    "the evidence record names the source URL and the artifact",
+    "the text is not merely a search snippet, model summary, paraphrase, or "
+    "manually typed note",
+)
+
+#: How a text extract was obtained. Condition 8 is a statement about PROVENANCE,
+#: and provenance cannot be inferred from the bytes -- a paraphrase and a
+#: verbatim extract are both just text. So the capture method is declared, and
+#: only these two may carry publication grade. Everything else is the class of
+#: thing condition 8 excludes.
+TEXT_EXTRACT_PUBLISHABLE_CAPTURE_METHODS: FrozenSet[str] = frozenset({
+    "attended_browser",   # a human drove a real browser to the real page
+    "rendered_fetch",     # the page was fetched and its own DOM text taken
+})
 
 # --------------------------------------------------------------------------
 # Approval
