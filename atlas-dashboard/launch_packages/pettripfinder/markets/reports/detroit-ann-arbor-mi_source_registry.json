@@ -1,9 +1,9 @@
 {
   "schema": "ptf-detroit-ann-arbor-source-registry/1.0",
-  "work_order": "PTF-DETROIT-ANN-ARBOR-IDENTITY-ROUTING-REPAIR-001",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-FOUNDER-RULINGS-AND-SHADOW-PROMOTION-006",
   "market_id": "detroit-ann-arbor-mi",
   "as_of": "2026-08-17",
-  "count": 9,
+  "count": 10,
   "sources": [
     {
       "source_id": "visit_detroit",
@@ -148,6 +148,22 @@
       "status": "authority_for_identity",
       "limitations": "WebSearch was exhausted before this pass; every finding is sourced from the brand's own live location/property page via attended browser, not a search snippet.",
       "automated_access": "attended_browser"
+    },
+    {
+      "source_id": "discovery",
+      "name": "Local OpenStreetMap extract (geofabrik-michigan-detroit-ann-arbor)",
+      "organization": "OpenStreetMap contributors",
+      "source_type": "DISCOVERY",
+      "family": "OPEN_GEO",
+      "url": "https://download.geofabrik.de/north-america/us/michigan-latest.osm.pbf",
+      "geographic_coverage": "The market's own committed geographic_bounds (42.05..42.75 N, -83.95..-82.90 W), queried as the eleven discovery cells.",
+      "data_categories": [
+        "lodging"
+      ],
+      "access_date": "2026-08-29",
+      "status": "authority_for_identity",
+      "limitations": "A crowd-sourced gazetteer. It names a building well and describes it thinly: many nodes carry no addr:street or addr:postcode, some name only the BRAND -- 11 such rows were withheld from this census for that reason -- and at least one spells a registered municipality differently (Farmington Hill), which this market answers with a declared alias rather than a new boundary. Never used to decide policy.",
+      "automated_access": "local extract, md5 acd07ad12e3cf8237c8b44b3f105d173; 0 network requests, $0. Attribution: (c) OpenStreetMap contributors, ODbL 1.0."
     }
   ]
 }

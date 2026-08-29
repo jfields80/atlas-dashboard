@@ -123,6 +123,13 @@ CONCRETE_SOURCE_FAMILY: Dict[str, str] = {
     # of each brand's own location-search page (Hilton/IHG/Choice/Wyndham)
     # for the 5 remaining Pass 002 blockers.
     "chain_locator_003": FAMILY_CHAIN,
+    # PTF-DETROIT-ANN-ARBOR-FOUNDER-RULINGS-AND-SHADOW-PROMOTION-006. The
+    # source_id census_projection writes for a row a DISCOVERY provider found,
+    # rather than one transcribed from a directory. Detroit is the first market
+    # censused this way. OPEN_GEO because the provider is OpenStreetMap, and the
+    # family is what the coverage audit reads to decide whether two sources are
+    # independent witnesses -- a chamber directory and a gazetteer are.
+    "discovery": FAMILY_OPEN_GEO,
 }
 
 

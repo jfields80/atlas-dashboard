@@ -287,8 +287,14 @@ def test_committed_authority_split(routes):
         expected = sum(1 for m in MA.sharded_market_ids()
                        for r in MA.load_market_routes(m) if r["status"] == status)
         assert len(bucket) == expected, status
+    # PTF-DETROIT-ANN-ARBOR-FOUNDER-RULINGS-AND-SHADOW-PROMOTION-006 retired a third record on a
+    # founder closure ruling (motel 6 ann arbor). The substance this asserts is
+    # that the two Cleveland orphans are STILL retired and still on file, not
+    # that no other market may ever retire one.
+    assert {"eastland inn restaurant", "the welshfield inn"} <= {
+        h["hotel_ref"]["normalized_name"] for h in retired}
     assert {h["hotel_ref"]["normalized_name"] for h in retired} == {
-        "eastland inn restaurant", "the welshfield inn"}
+        "eastland inn restaurant", "the welshfield inn", "motel 6 ann arbor"}
     assert {h["hotel_ref"]["normalized_name"] for h in held} == {
         "best western plus north canton inn and suites",
         "staybridge suites columbus worthington",

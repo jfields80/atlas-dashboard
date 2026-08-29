@@ -4,7 +4,7 @@
   "market_id": "detroit-ann-arbor-mi",
   "as_of": "2026-08-29",
   "review_id": "DTW-ID-004-STATE-ST",
-  "status": "AWAITING_FOUNDER_IDENTITY_RULING",
+  "status": "FOUNDER_RULED",
   "question": "Two committed identities normalise to one street identity -- 3764|state|48108. Are they two hotels at one doorway, or one building whose Motel 6 identity is stale? NOTHING IS INFERRED HERE. The same-doorway guard added by this order keeps them SEPARATE by default, because each names a different official page, so no merge can happen while this sits unruled.",
   "why_it_was_never_flagged_before": "The committed census collision audit compares raw street_identity STRINGS -- '3764 s state st|48108' against '3764 south state street|48108' -- and they differ. address_key, which the exclusion authority and the publication guard both use, normalises them to the same key. The pair has been invisible to the audit since it was created.",
   "sides": [
@@ -84,7 +84,25 @@
     "same_doorway_guard_active": true,
     "effect": "3764|state|48108 is a CONTESTED doorway: both identities name a different official page, so neither may absorb the other and both survive any recensus untouched. The open question cannot silently resolve itself."
   },
-  "founder_decision": null,
-  "decided_by": null,
-  "decided_at": null
+  "founder_decision": "RETIRE_MOTEL_6_AS_CLOSED_OR_CONVERTED",
+  "decided_by": "jfields80",
+  "decided_at": "2026-08-29",
+  "decided_under": "PTF-DETROIT-ANN-ARBOR-FOUNDER-RULINGS-AND-SHADOW-PROMOTION-006",
+  "ruling_applied": {
+    "retired_identity": "motel 6 ann arbor",
+    "preserved_identity": "residence inn by marriott ann arbor south",
+    "census_before": 181,
+    "census_after": 180,
+    "duplicate_ledger_disposition": "closed",
+    "former_name_written": false,
+    "why_no_former_name": "A closure is not a succession. The evidence establishes that the Motel 6 is not there; it does not establish that the Residence Inn is what it became. Writing 'formerly Motel 6 Ann Arbor' onto the Residence Inn would assert the second.",
+    "evidence_used": [
+      "motel6.com own Ann Arbor locator, attended read 2026-08-29",
+      "the committed identity record for the Motel 6 row"
+    ],
+    "evidence_excluded": [
+      "the Marriott dtwrp page -- Akamai access failure, which is an access outcome and never evidence about the property"
+    ],
+    "history_preserved": true
+  }
 }

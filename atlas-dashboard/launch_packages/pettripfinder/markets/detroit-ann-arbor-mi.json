@@ -51,6 +51,7 @@
       "meta_description": "Verified pet-friendly hotels in Dearborn near The Henry Ford and Greenfield Village, with real pet fees and policies from each hotel's own website.",
       "description": "The Henry Ford / Greenfield Village visitor corridor.",
       "included_cities": [
+        "Allen Park",
         "Dearborn"
       ],
       "included_postal_codes": [],
@@ -75,8 +76,8 @@
       "meta_description": "Verified pet-friendly hotels near Detroit Metropolitan Wayne County Airport in Romulus and Belleville, with real pet fees and policies from each hotel's own website.",
       "description": "DTW terminal and immediate airport-oriented lodging along I-94, plus Belleville.",
       "included_cities": [
-        "Romulus",
-        "Belleville"
+        "Belleville",
+        "Romulus"
       ],
       "included_postal_codes": [],
       "explicit_hotel_ids": [],
@@ -120,9 +121,10 @@
       "meta_description": "Verified pet-friendly hotels in Troy and Auburn Hills, Michigan, with real pet fees and policies from each hotel's own website.",
       "description": "I-75 business corridor lodging, including Orion Township per the Auburn Hills Chamber of Commerce hotels directory (accessed 2026-08-16).",
       "included_cities": [
-        "Troy",
         "Auburn Hills",
-        "Orion Township"
+        "Clawson",
+        "Orion Township",
+        "Troy"
       ],
       "included_postal_codes": [],
       "explicit_hotel_ids": [],
@@ -145,10 +147,13 @@
       "description": "Northern Oakland County leisure and business lodging, sourced from the Auburn Hills Chamber of Commerce hotels directory (accessed 2026-08-16).",
       "included_cities": [
         "Birmingham",
-        "Royal Oak",
-        "Rochester",
+        "Bloomfield Hills",
+        "Ferndale",
+        "Madison Heights",
         "Pontiac",
-        "Bloomfield Hills"
+        "Rochester",
+        "Rochester Hills",
+        "Royal Oak"
       ],
       "included_postal_codes": [],
       "explicit_hotel_ids": [],
@@ -193,6 +198,9 @@
       "meta_description": "Verified pet-friendly hotels in Farmington Hills and West Bloomfield, with real pet fees and policies from each hotel's own website.",
       "description": "Western Oakland County business lodging cluster.",
       "included_cities": [
+        "Commerce Township",
+        "Farmington",
+        "Farmington Hill",
         "Farmington Hills",
         "West Bloomfield"
       ],
@@ -217,8 +225,9 @@
       "description": "Western Wayne County suburban lodging cluster.",
       "included_cities": [
         "Livonia",
+        "Northville",
         "Plymouth",
-        "Northville"
+        "Plymouth Township"
       ],
       "included_postal_codes": [],
       "explicit_hotel_ids": [],
@@ -278,5 +287,6 @@
   ],
   "route_mode": "market_prefixed",
   "census_membership_basis": "MARKET_GEOGRAPHY",
-  "_census_membership_note": "PTF-DETROIT-ANN-ARBOR-HARDENED-MEMBERSHIP-AND-SHADOW-RECENSUS-002. All eleven corridors classify by included_cities and register ZERO postal codes, so the corridor registry cannot answer whether a candidate is in this market -- a ZIP-keyed ownership test can only ever say no. Replaying the hardened discovery.market_membership.decide() over the committed 182-row census under the CORRIDOR_REGISTRY default returns IN_MARKET=0 (171 OUT_OF_MARKET_BOUNDARY_DECISION, 11 MARKET_MEMBERSHIP_UNRESOLVED); under MARKET_GEOGRAPHY it returns IN_MARKET=182. The market's own geography -- geographic_bounds plus included_municipalities in scripts/pettripfinder/discovery/config/detroit_ann_arbor_mi.json -- decides membership; corridors only classify what is already in. Bounds are UNCHANGED by this order. Pinned by tests/pettripfinder/discovery/test_market_membership.py::TestDetroitFixture."
+  "_census_membership_note": "PTF-DETROIT-ANN-ARBOR-HARDENED-MEMBERSHIP-AND-SHADOW-RECENSUS-002. All eleven corridors classify by included_cities and register ZERO postal codes, so the corridor registry cannot answer whether a candidate is in this market -- a ZIP-keyed ownership test can only ever say no. Replaying the hardened discovery.market_membership.decide() over the committed 182-row census under the CORRIDOR_REGISTRY default returns IN_MARKET=0 (171 OUT_OF_MARKET_BOUNDARY_DECISION, 11 MARKET_MEMBERSHIP_UNRESOLVED); under MARKET_GEOGRAPHY it returns IN_MARKET=182. The market's own geography -- geographic_bounds plus included_municipalities in scripts/pettripfinder/discovery/config/detroit_ann_arbor_mi.json -- decides membership; corridors only classify what is already in. Bounds are UNCHANGED by this order. Pinned by tests/pettripfinder/discovery/test_market_membership.py::TestDetroitFixture.",
+  "_boundary_rulings_note": "PTF-DETROIT-ANN-ARBOR-FOUNDER-RULINGS-AND-SHADOW-PROMOTION-006 applied the founder's boundary rulings: 8 municipalities ADMITTED and assigned to the nearest registered corridor the review packet named; 'Farmington Hill' added to farmington-hills as the SPELLING VARIANT it is (see municipality_aliases in the discovery config -- it is not a municipality and is not registered as one); Canton HELD. Corridors classify what is already in the market; they do not decide membership."
 }

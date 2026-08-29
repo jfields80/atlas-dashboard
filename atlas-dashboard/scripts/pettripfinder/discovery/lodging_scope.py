@@ -47,6 +47,11 @@ def classify_scope_fields(*, city, state, latitude, longitude,
     entry points share ONE implementation on purpose: a market's geography
     must not be able to answer differently depending on which caller asked.
     """
+    # PTF-DETROIT-ANN-ARBOR-FOUNDER-RULINGS-AND-SHADOW-PROMOTION-006: resolve a
+    # declared spelling to the municipality it names BEFORE asking whether the
+    # market contains it. A source spelling a registered place differently is
+    # not a source naming a different place.
+    city = market.canonical_municipality(city) if city else ""
     city = normalize_business_name(city) if city else ""
     state = (state or "").strip().upper()
     lat, lng = latitude, longitude

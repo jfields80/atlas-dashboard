@@ -324,8 +324,14 @@ class TestCommittedAuthority:
             market_id="cleveland-akron-canton-oh")
         assert violations == ()
 
+        # The route file is GLOBAL, so this set is scoped to the market this
+        # test is about. PTF-DETROIT-ANN-ARBOR-FOUNDER-RULINGS-AND-SHADOW-PROMOTION-006 retired a
+        # Detroit route for a different and equally valid reason -- the founder
+        # ruled that identity closed -- and a market-blind assertion here would
+        # have reported that as a Cleveland regression.
         retired = {r["hotel_ref"]["canonical_name"] for r in self._routes()
-                   if r["status"] == enums.ROUTING_RETIRED}
+                   if r["status"] == enums.ROUTING_RETIRED
+                   and r["market_id"] == "cleveland-akron-canton-oh"}
         assert retired == {"Eastland Inn Restaurant", "The Welshfield Inn"}
         # The census was NOT expanded to 190 to house them.
         assert len(self._census_keys("cleveland-akron-canton-oh")) == 188

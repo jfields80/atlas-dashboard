@@ -3,7 +3,7 @@
   "work_order": "PTF-DETROIT-ANN-ARBOR-HARDENED-MEMBERSHIP-AND-SHADOW-RECENSUS-002",
   "market_id": "detroit-ann-arbor-mi",
   "as_of": "2026-08-28",
-  "status": "AWAITING_FOUNDER_BOUNDARY_DECISION",
+  "status": "FOUNDER_RULED",
   "note": "NO RULING IS MADE HERE. Every founder_decision field is null and stays null until a human fills it. This packet exists because the market's boundary was, in seven places, decided by whether a municipality string happened to appear in a corridor's included_cities list -- which is a data-entry fact, not a geography ruling. 9 properties sit behind these seven names: 8 currently excluded and 1 already admitted. Under the market's declared MARKET_GEOGRAPHY basis a candidate in one of these municipalities whose coordinates fall inside the bounds is BORDERLINE and is held MARKET_MEMBERSHIP_UNRESOLVED for review -- it is not silently dropped, and it is not silently admitted either. Three further municipalities were surfaced by the shadow recensus and appended: Farmington Hill (an OSM spelling variant of the registered Farmington Hills), Farmington, and Plymouth Township. Together the ten names account for all 24 MARKET_MEMBERSHIP_UNRESOLVED candidates the shadow run produced.",
   "market_bounds_unchanged_by_this_order": {
     "min_lat": 42.05,
@@ -45,9 +45,9 @@
       "what_admitting_would_mean": "Add 'Allen Park' to included_municipalities in scripts/pettripfinder/discovery/config/detroit_ann_arbor_mi.json and to the included_cities of detroit-ann-arbor-mi__dearborn. Every affected row above becomes eligible for the census on its own geography; none is admitted automatically -- each still has to clear identity and routing.",
       "what_excluding_would_mean": "Record an explicit out-of-market ruling naming 'Allen Park', so that the next recensus reports these rows as a BOUNDARY DECISION rather than re-surfacing them as UNRESOLVED every pass. Silence is what produced the current ambiguity.",
       "preserve": "PRESERVE Best Western Greenfield Inn's existing history whichever way this is ruled. It is a committed IDENTITY_CONFIRMED census row, it holds ROUTING_CONFIRMED route detroit-ann-arbor-mi:best-western-greenfield-inn, and it is the market's only assignment_basis=explicit row. A ruling that ADMITS Allen Park should convert it from an explicit override to an ordinary city assignment WITHOUT changing its identity_key, its route or its evidence. A ruling that EXCLUDES Allen Park must SUPERSEDE this row with an explicit out-of-market ruling that names it -- it may never be dropped silently, and its route and history stay on the record.",
-      "founder_decision": null,
-      "decided_by": null,
-      "decided_at": null,
+      "founder_decision": "ADMIT",
+      "decided_by": "jfields80",
+      "decided_at": "2026-08-29",
       "shadow_recensus_unresolved_candidates": 2,
       "affected_identities_from_the_shadow_recensus": [
         {
@@ -78,7 +78,8 @@
         "reasoning": "The market already admits one Allen Park hotel (Best Western Greenfield Inn) by explicit corridor id while boundary-excluding another in the same city. That is not a boundary, it is an inconsistency. Allen Park adjoins Dearborn and sits inside the committed bounds. Admitting it makes the existing admission principled and settles the excluded row.",
         "binding": false,
         "note": "A RECOMMENDATION ONLY. No ruling is applied by PTF-DETROIT-ANN-ARBOR-RECANDIDACY-REPAIR-AND-FOUNDER-DECISIONS-003; that order explicitly withheld boundary authorisation."
-      }
+      },
+      "decided_under": "PTF-DETROIT-ANN-ARBOR-FOUNDER-RULINGS-AND-SHADOW-PROMOTION-006"
     },
     {
       "municipality": "Commerce Township",
@@ -105,9 +106,9 @@
       "what_admitting_would_mean": "Add 'Commerce Township' to included_municipalities in scripts/pettripfinder/discovery/config/detroit_ann_arbor_mi.json and to the included_cities of detroit-ann-arbor-mi__farmington-hills. Every affected row above becomes eligible for the census on its own geography; none is admitted automatically -- each still has to clear identity and routing.",
       "what_excluding_would_mean": "Record an explicit out-of-market ruling naming 'Commerce Township', so that the next recensus reports these rows as a BOUNDARY DECISION rather than re-surfacing them as UNRESOLVED every pass. Silence is what produced the current ambiguity.",
       "preserve": null,
-      "founder_decision": null,
-      "decided_by": null,
-      "decided_at": null,
+      "founder_decision": "ADMIT",
+      "decided_by": "jfields80",
+      "decided_at": "2026-08-29",
       "shadow_recensus_unresolved_candidates": 2,
       "affected_identities_from_the_shadow_recensus": [
         {
@@ -138,7 +139,8 @@
         "reasoning": "Two real chain properties within ~5 mi of the Farmington Hills corridor centre, both excluded only because the string is absent from included_cities. No founder has ever ruled on Commerce Township itself.",
         "binding": false,
         "note": "A RECOMMENDATION ONLY. No ruling is applied by PTF-DETROIT-ANN-ARBOR-RECANDIDACY-REPAIR-AND-FOUNDER-DECISIONS-003; that order explicitly withheld boundary authorisation."
-      }
+      },
+      "decided_under": "PTF-DETROIT-ANN-ARBOR-FOUNDER-RULINGS-AND-SHADOW-PROMOTION-006"
     },
     {
       "municipality": "Ferndale",
@@ -159,9 +161,9 @@
       "what_admitting_would_mean": "Add 'Ferndale' to included_municipalities in scripts/pettripfinder/discovery/config/detroit_ann_arbor_mi.json and to the included_cities of detroit-ann-arbor-mi__birmingham-royal-oak-rochester. Every affected row above becomes eligible for the census on its own geography; none is admitted automatically -- each still has to clear identity and routing.",
       "what_excluding_would_mean": "Record an explicit out-of-market ruling naming 'Ferndale', so that the next recensus reports these rows as a BOUNDARY DECISION rather than re-surfacing them as UNRESOLVED every pass. Silence is what produced the current ambiguity.",
       "preserve": null,
-      "founder_decision": null,
-      "decided_by": null,
-      "decided_at": null,
+      "founder_decision": "ADMIT",
+      "decided_by": "jfields80",
+      "decided_at": "2026-08-29",
       "shadow_recensus_unresolved_candidates": 1,
       "affected_identities_from_the_shadow_recensus": [
         {
@@ -184,7 +186,8 @@
         "reasoning": "Adjacent to Royal Oak, which IS registered; the property's own name carries both municipalities (Baymont Ferndale/Royal Oak).",
         "binding": false,
         "note": "A RECOMMENDATION ONLY. No ruling is applied by PTF-DETROIT-ANN-ARBOR-RECANDIDACY-REPAIR-AND-FOUNDER-DECISIONS-003; that order explicitly withheld boundary authorisation."
-      }
+      },
+      "decided_under": "PTF-DETROIT-ANN-ARBOR-FOUNDER-RULINGS-AND-SHADOW-PROMOTION-006"
     },
     {
       "municipality": "Clawson",
@@ -205,9 +208,9 @@
       "what_admitting_would_mean": "Add 'Clawson' to included_municipalities in scripts/pettripfinder/discovery/config/detroit_ann_arbor_mi.json and to the included_cities of detroit-ann-arbor-mi__troy-auburn-hills. Every affected row above becomes eligible for the census on its own geography; none is admitted automatically -- each still has to clear identity and routing.",
       "what_excluding_would_mean": "Record an explicit out-of-market ruling naming 'Clawson', so that the next recensus reports these rows as a BOUNDARY DECISION rather than re-surfacing them as UNRESOLVED every pass. Silence is what produced the current ambiguity.",
       "preserve": null,
-      "founder_decision": null,
-      "decided_by": null,
-      "decided_at": null,
+      "founder_decision": "ADMIT",
+      "decided_by": "jfields80",
+      "decided_at": "2026-08-29",
       "shadow_recensus_unresolved_candidates": 1,
       "affected_identities_from_the_shadow_recensus": [
         {
@@ -230,7 +233,8 @@
         "reasoning": "Enclosed by Troy and Royal Oak, both registered. Note the excluded row is NAMED for Troy but sits in Clawson -- refusing to place it by its brand string was correct; the open question is Clawson itself.",
         "binding": false,
         "note": "A RECOMMENDATION ONLY. No ruling is applied by PTF-DETROIT-ANN-ARBOR-RECANDIDACY-REPAIR-AND-FOUNDER-DECISIONS-003; that order explicitly withheld boundary authorisation."
-      }
+      },
+      "decided_under": "PTF-DETROIT-ANN-ARBOR-FOUNDER-RULINGS-AND-SHADOW-PROMOTION-006"
     },
     {
       "municipality": "Canton",
@@ -251,9 +255,9 @@
       "what_admitting_would_mean": "Add 'Canton' to included_municipalities in scripts/pettripfinder/discovery/config/detroit_ann_arbor_mi.json and to the included_cities of detroit-ann-arbor-mi__livonia-plymouth-northville. Every affected row above becomes eligible for the census on its own geography; none is admitted automatically -- each still has to clear identity and routing.",
       "what_excluding_would_mean": "Record an explicit out-of-market ruling naming 'Canton', so that the next recensus reports these rows as a BOUNDARY DECISION rather than re-surfacing them as UNRESOLVED every pass. Silence is what produced the current ambiguity.",
       "preserve": null,
-      "founder_decision": null,
-      "decided_by": null,
-      "decided_at": null,
+      "founder_decision": "HELD",
+      "decided_by": "jfields80",
+      "decided_at": "2026-08-29",
       "shadow_recensus_unresolved_candidates": 5,
       "affected_identities_from_the_shadow_recensus": [
         {
@@ -308,7 +312,9 @@
         "reasoning": "Canton adjoins Plymouth and Livonia, both registered, and lies between the market's two declared travel cores. It is also a large township that could pull the western boundary toward Ann Arbor. Genuinely a judgement about how wide this market should be.",
         "binding": false,
         "note": "A RECOMMENDATION ONLY. No ruling is applied by PTF-DETROIT-ANN-ARBOR-RECANDIDACY-REPAIR-AND-FOUNDER-DECISIONS-003; that order explicitly withheld boundary authorisation."
-      }
+      },
+      "held_reason": "FOUNDER_JUDGEMENT -- boundary decision HELD by this order. Not admitted and not excluded; its candidates continue to be reported MARKET_MEMBERSHIP_UNRESOLVED, which is the honest state of an undecided boundary.",
+      "decided_under": "PTF-DETROIT-ANN-ARBOR-FOUNDER-RULINGS-AND-SHADOW-PROMOTION-006"
     },
     {
       "municipality": "Madison Heights",
@@ -329,9 +335,9 @@
       "what_admitting_would_mean": "Add 'Madison Heights' to included_municipalities in scripts/pettripfinder/discovery/config/detroit_ann_arbor_mi.json and to the included_cities of detroit-ann-arbor-mi__birmingham-royal-oak-rochester. Every affected row above becomes eligible for the census on its own geography; none is admitted automatically -- each still has to clear identity and routing.",
       "what_excluding_would_mean": "Record an explicit out-of-market ruling naming 'Madison Heights', so that the next recensus reports these rows as a BOUNDARY DECISION rather than re-surfacing them as UNRESOLVED every pass. Silence is what produced the current ambiguity.",
       "preserve": null,
-      "founder_decision": null,
-      "decided_by": null,
-      "decided_at": null,
+      "founder_decision": "ADMIT",
+      "decided_by": "jfields80",
+      "decided_at": "2026-08-29",
       "shadow_recensus_unresolved_candidates": 6,
       "affected_identities_from_the_shadow_recensus": [
         {
@@ -394,7 +400,8 @@
         "reasoning": "On I-75 between Royal Oak and Troy, both registered, and registered on no corridor at all.",
         "binding": false,
         "note": "A RECOMMENDATION ONLY. No ruling is applied by PTF-DETROIT-ANN-ARBOR-RECANDIDACY-REPAIR-AND-FOUNDER-DECISIONS-003; that order explicitly withheld boundary authorisation."
-      }
+      },
+      "decided_under": "PTF-DETROIT-ANN-ARBOR-FOUNDER-RULINGS-AND-SHADOW-PROMOTION-006"
     },
     {
       "municipality": "Rochester Hills",
@@ -415,9 +422,9 @@
       "what_admitting_would_mean": "Add 'Rochester Hills' to included_municipalities in scripts/pettripfinder/discovery/config/detroit_ann_arbor_mi.json and to the included_cities of detroit-ann-arbor-mi__birmingham-royal-oak-rochester. Every affected row above becomes eligible for the census on its own geography; none is admitted automatically -- each still has to clear identity and routing.",
       "what_excluding_would_mean": "Record an explicit out-of-market ruling naming 'Rochester Hills', so that the next recensus reports these rows as a BOUNDARY DECISION rather than re-surfacing them as UNRESOLVED every pass. Silence is what produced the current ambiguity.",
       "preserve": null,
-      "founder_decision": null,
-      "decided_by": null,
-      "decided_at": null,
+      "founder_decision": "ADMIT",
+      "decided_by": "jfields80",
+      "decided_at": "2026-08-29",
       "shadow_recensus_unresolved_candidates": 4,
       "affected_identities_from_the_shadow_recensus": [
         {
@@ -464,7 +471,8 @@
         "reasoning": "'Rochester' IS registered on the birmingham-royal-oak-rochester corridor. Rochester Hills is the adjacent, larger municipality of the same name-family. Not assuming the two strings were the same was right; leaving the real one unanswered is the remaining gap.",
         "binding": false,
         "note": "A RECOMMENDATION ONLY. No ruling is applied by PTF-DETROIT-ANN-ARBOR-RECANDIDACY-REPAIR-AND-FOUNDER-DECISIONS-003; that order explicitly withheld boundary authorisation."
-      }
+      },
+      "decided_under": "PTF-DETROIT-ANN-ARBOR-FOUNDER-RULINGS-AND-SHADOW-PROMOTION-006"
     },
     {
       "municipality": "Farmington Hill",
@@ -480,9 +488,9 @@
       "what_admitting_would_mean": "Register the string so its candidates stop arriving as BORDERLINE.",
       "what_excluding_would_mean": "Record an explicit out-of-market ruling naming it.",
       "preserve": null,
-      "founder_decision": null,
-      "decided_by": null,
-      "decided_at": null,
+      "founder_decision": "ALIAS_NOT_BOUNDARY",
+      "decided_by": "jfields80",
+      "decided_at": "2026-08-29",
       "affected_identities_from_the_shadow_recensus": [
         {
           "name": "Delta Hotels by Marriott Detroit Novi",
@@ -504,7 +512,9 @@
         "reasoning": "This is not a municipality. OpenStreetMap spells the registered 'Farmington Hills' without its final s. Register it as an ALIAS of Farmington Hills. Do NOT silently rewrite the source string, and do NOT treat this as a boundary question -- it is a data-quality alias.",
         "binding": false,
         "note": "A RECOMMENDATION ONLY. No ruling is applied by PTF-DETROIT-ANN-ARBOR-RECANDIDACY-REPAIR-AND-FOUNDER-DECISIONS-003; that order explicitly withheld boundary authorisation."
-      }
+      },
+      "aliased_to": "Farmington Hills",
+      "decided_under": "PTF-DETROIT-ANN-ARBOR-FOUNDER-RULINGS-AND-SHADOW-PROMOTION-006"
     },
     {
       "municipality": "Plymouth Township",
@@ -520,9 +530,9 @@
       "what_admitting_would_mean": "Register the string so its candidates stop arriving as BORDERLINE.",
       "what_excluding_would_mean": "Record an explicit out-of-market ruling naming it.",
       "preserve": null,
-      "founder_decision": null,
-      "decided_by": null,
-      "decided_at": null,
+      "founder_decision": "ADMIT",
+      "decided_by": "jfields80",
+      "decided_at": "2026-08-29",
       "affected_identities_from_the_shadow_recensus": [
         {
           "name": "Saint John's Resort",
@@ -544,7 +554,8 @@
         "reasoning": "'Plymouth' IS registered on the livonia-plymouth-northville corridor. Plymouth Township surrounds Plymouth city. Either register it as an alias of Plymouth or admit it in its own right; both are defensible and the choice is the founder's.",
         "binding": false,
         "note": "A RECOMMENDATION ONLY. No ruling is applied by PTF-DETROIT-ANN-ARBOR-RECANDIDACY-REPAIR-AND-FOUNDER-DECISIONS-003; that order explicitly withheld boundary authorisation."
-      }
+      },
+      "decided_under": "PTF-DETROIT-ANN-ARBOR-FOUNDER-RULINGS-AND-SHADOW-PROMOTION-006"
     },
     {
       "municipality": "Farmington",
@@ -560,9 +571,9 @@
       "what_admitting_would_mean": "Register the string so its candidates stop arriving as BORDERLINE.",
       "what_excluding_would_mean": "Record an explicit out-of-market ruling naming it.",
       "preserve": null,
-      "founder_decision": null,
-      "decided_by": null,
-      "decided_at": null,
+      "founder_decision": "ADMIT",
+      "decided_by": "jfields80",
+      "decided_at": "2026-08-29",
       "affected_identities_from_the_shadow_recensus": [
         {
           "name": "Knights Inn Farmington Hill",
@@ -584,7 +595,8 @@
         "reasoning": "A distinct municipality from Farmington Hills, which IS registered, and enclosed by it.",
         "binding": false,
         "note": "A RECOMMENDATION ONLY. No ruling is applied by PTF-DETROIT-ANN-ARBOR-RECANDIDACY-REPAIR-AND-FOUNDER-DECISIONS-003; that order explicitly withheld boundary authorisation."
-      }
+      },
+      "decided_under": "PTF-DETROIT-ANN-ARBOR-FOUNDER-RULINGS-AND-SHADOW-PROMOTION-006"
     }
   ],
   "shadow_recensus_cross_reference": {
@@ -612,5 +624,6 @@
     "max_lng": -82.9,
     "_disclosure": "A loose enclosing box spanning the Detroit metro core, Oakland County suburbs, DTW airport, and the Ann Arbor / Washtenaw core, not an authoritative MSA boundary. Two distinct travel cores (Detroit and Ann Arbor) share this one box."
   },
-  "all_ten_municipalities_lie_inside_committed_bounds": true
+  "all_ten_municipalities_lie_inside_committed_bounds": true,
+  "ruling_note": "PTF-DETROIT-ANN-ARBOR-FOUNDER-RULINGS-AND-SHADOW-PROMOTION-006 applied every ruling. Historical inclusion and exclusion records are PRESERVED untouched: the rows_currently_excluded_on_this_municipality lists still name each boundary_excluded identity and its original reason, and the duplicate ledger that recorded them is unchanged. A ruling supersedes a disposition; it does not erase how the market got there."
 }

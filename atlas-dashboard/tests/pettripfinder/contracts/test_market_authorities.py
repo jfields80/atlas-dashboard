@@ -94,8 +94,16 @@ EXPECTED = {
     # -- it has no official_url and no artifact, so it cannot take an exclusion
     # record -- and an unbacked terminal disposition was downgraded to
     # AWAITING_CENSUS_REVIEW rather than invented or deleted.
-    DETROIT: {"census": 181, "published": 17, "no_pets": 25,
-              "out_of_category": 0, "unresolved": 139},
+    # ... then PTF-DETROIT-ANN-ARBOR-FOUNDER-RULINGS-AND-SHADOW-PROMOTION-006 promoted the local-OSM shadow recensus after the founder settled the ten-municipality boundary packet (7 ADMIT, 1 ALIAS, 1 HELD, Plymouth Township ADMIT) and retired the Motel 6 identity at 3764 S State St as closed or converted.
+    # Census 181 -> 245: 77 identities newly discovered from the local OSM
+    # extract, one committed identity retired by the State Street ruling, one
+    # article-only duplicate merged into the committed row it duplicated, and
+    # 11 brand-only OSM identities WITHHELD -- a key that is a bare brand
+    # cannot tell two buildings in two markets apart, and two of them already
+    # collided with Cleveland's census. published/no_pets are UNCHANGED at
+    # 17/25: a recensus discovers identities, it does not decide policy.
+    DETROIT: {"census": 245, "published": 17, "no_pets": 25,
+              "out_of_category": 0, "unresolved": 203},
     INDIANAPOLIS: {"census": 153, "published": 8, "no_pets": 4,
                    "out_of_category": 0, "unresolved": 141},
 }
@@ -456,15 +464,32 @@ class TestRoutingSubsetOfCensus:
         for route in routes():
             assert route["category"] in enums.ROUTING_CATEGORIES
 
-    def test_the_two_cleveland_orphans_are_retired_not_deleted(self):
-        """History survives: the URL and its binding evidence stay on record."""
+    def test_every_retired_route_is_retired_and_not_deleted(self):
+        """History survives: the URL and its binding evidence stay on record.
+
+        This was the two Cleveland orphans alone until PTF-DETROIT-ANN-ARBOR-FOUNDER-RULINGS-AND-SHADOW-PROMOTION-006
+        retired a Detroit route on a founder closure ruling. The invariant was
+        never about which routes those were -- it is that a retired record says
+        WHEN and WHY, and still carries the URL and the evidence that bound it.
+        Asserted over every retired route rather than a fixed set, so the next
+        one is covered the day it is written.
+        """
         retired = {r["hotel_ref"]["identity_key"]: r for r in routes()
                    if r["status"] == enums.ROUTING_RETIRED}
-        assert set(retired) == {"eastland inn restaurant", "the welshfield inn"}
+        assert {"eastland inn restaurant", "the welshfield inn"} <= set(retired)
         for route in retired.values():
             assert route["retired_at"] and route["retired_reason"]
             assert route["official_property_url"]
             assert route["binding_sources"]
+
+    def test_no_retired_route_names_an_identity_its_market_still_holds(self):
+        """A route is retired BECAUSE its identity left the census. One that is
+        retired while the identity is still there would be a lost work item."""
+        for route in routes():
+            if route["status"] != enums.ROUTING_RETIRED:
+                continue
+            keys = census.identity_keys(census_doc(route["market_id"]))
+            assert route["hotel_ref"]["identity_key"] not in keys
 
     def test_the_census_was_not_expanded_to_house_them(self):
         """Fixing membership by admitting non-hotels would defeat the rule."""

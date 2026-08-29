@@ -76,14 +76,21 @@ MARKET = "detroit-ann-arbor-mi"
 # it cannot take an exclusion record at all -- and an unbacked terminal
 # disposition was downgraded to AWAITING_CENSUS_REVIEW rather than invented or
 # deleted. It is unresolved now, which is what it honestly is.
+# PTF-DETROIT-ANN-ARBOR-FOUNDER-RULINGS-AND-SHADOW-PROMOTION-006 promoted the local-OSM shadow recensus after the founder settled the ten-municipality boundary packet (7 ADMIT, 1 ALIAS, 1 HELD, Plymouth Township ADMIT) and retired the Motel 6 identity at 3764 S State St as closed or converted.
+# The boundary rulings admitted 8 municipalities and aliased one spelling, so
+# candidates that had been held MARKET_MEMBERSHIP_UNRESOLVED became admissible;
+# only Canton's 5 remain held, by founder judgement. The duplicate ledger gains
+# no new `duplicate` row -- the Motel 6 retirement is a CLOSURE, recorded under
+# `closed`, because the evidence shows that hotel is gone and NOT that it and
+# the Residence Inn at the same address are one record.
 EXPECTED = {
     "candidates": 152,
-    "census": 181,
+    "census": 245,
     "published": 17,
     "no_pets": 25,
     "out_of_category": 0,
-    "unresolved": 139,
-    "queue": 139,
+    "unresolved": 203,
+    "queue": 203,
     "boundary_excluded": 17,
     "duplicates": 2,
 }
@@ -253,13 +260,27 @@ class TestRoutingAndDuplicateLedger:
         from scripts.pettripfinder import market_authority as MA
         routes = MA.load_market_routes(MARKET)
         assert routes
+        # PTF-DETROIT-ANN-ARBOR-FOUNDER-RULINGS-AND-SHADOW-PROMOTION-006 retired ONE record: the founder
+        # ruled the Motel 6 identity closed, and ROUTING_RETIRED is precisely a
+        # route to an identity this market's census no longer contains. It is
+        # kept rather than deleted, so how the URL was bound stays on file --
+        # which is why the census-membership assertion below deliberately
+        # exempts retired records instead of the record being removed.
         for r in routes:
             assert r["market_id"] == MARKET
-            assert r["status"] == IR.ROUTING_CONFIRMED
+            assert r["status"] in (IR.ROUTING_CONFIRMED, IR.ROUTING_RETIRED)
+        assert sum(1 for r in routes if r["status"] == IR.ROUTING_RETIRED) == 1
         keys = {r["identity_key"] for r in census_doc()["hotels"]}
         for r in routes:
             ref_key = r["hotel_ref"].get("identity_key")
-            assert ref_key and ref_key in keys
+            assert ref_key
+            if r["status"] == IR.ROUTING_RETIRED:
+                # A retired route is retired BECAUSE its identity left the
+                # census. Requiring it to still be there would make the record
+                # impossible to keep, and keeping it is the point.
+                assert ref_key not in keys
+                continue
+            assert ref_key in keys
         # The global assembled file carries the same records for this market.
         routing = _load(PACKAGE / "identity_routing.json")
         global_for_market = [r for r in routing.get("routes") or []

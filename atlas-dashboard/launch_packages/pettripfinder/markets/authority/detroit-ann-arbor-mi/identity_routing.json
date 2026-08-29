@@ -2,7 +2,7 @@
   "schema": "ptf-identity-routing/1.0",
   "contract": "ptf-identity-routing/1.0",
   "market_id": "detroit-ann-arbor-mi",
-  "note": "This market's slice of the identity-routing authority. The global launch_packages/pettripfinder/identity_routing.json is generated from every market's shard and must not be hand-edited. PTF-DETROIT-ANN-ARBOR-RECANDIDACY-REPAIR-AND-FOUNDER-DECISIONS-003 Phase 8 struck 'phone' from identity_signals_matched on the two Sheraton routes, which shared one telephone number. No official_property_url was changed and no route status was changed; all 179 routes remain ROUTING_CONFIRMED. PTF-DETROIT-ANN-ARBOR-DISPLAY-INVENTORY-AND-RELEASE-CONTRACT-005 WITHDREW 17 routes: publication answered them, and the seed inventory is now the source of truth for those properties. WITHDRAWN, not ROUTING_RETIRED -- retired means the binding should never have been made, and these bindings are the reason the hotels could be published. Every withdrawn record is archived in full at markets/reports/detroit-ann-arbor-mi_routing_withdrawals.json.",
+  "note": "This market's slice of the identity-routing authority. The global launch_packages/pettripfinder/identity_routing.json is generated from every market's shard and must not be hand-edited. PTF-DETROIT-ANN-ARBOR-RECANDIDACY-REPAIR-AND-FOUNDER-DECISIONS-003 Phase 8 struck 'phone' from identity_signals_matched on the two Sheraton routes, which shared one telephone number. No official_property_url was changed and no route status was changed; all 179 routes remain ROUTING_CONFIRMED. PTF-DETROIT-ANN-ARBOR-DISPLAY-INVENTORY-AND-RELEASE-CONTRACT-005 WITHDREW 17 routes: publication answered them, and the seed inventory is now the source of truth for those properties. WITHDRAWN, not ROUTING_RETIRED -- retired means the binding should never have been made, and these bindings are the reason the hotels could be published. Every withdrawn record is archived in full at markets/reports/detroit-ann-arbor-mi_routing_withdrawals.json. PTF-DETROIT-ANN-ARBOR-FOUNDER-RULINGS-AND-SHADOW-PROMOTION-006 RETIRED 1 route: founder ruling DTW-ID-004-STATE-ST retired the 'motel 6 ann arbor' identity as closed or converted, and ROUTING_RETIRED is precisely a route to an identity this market's census no longer contains. The record is kept, not deleted -- how the URL was bound stays on file.",
   "source_batches": [
     "PTF-DETROIT-ANN-ARBOR-ROUTING-EXPANSION-004",
     "PTF-DETROIT-ANN-ARBOR-IDENTITY-ROUTING-REPAIR-001",
@@ -3226,8 +3226,8 @@
         "motel6.com property page (PTF-DETROIT-ANN-ARBOR-MARKET-FACTORY-001:chain_locator)"
       ],
       "observed_at": "2026-08-16",
-      "verified_at": "2026-08-17",
-      "status": "ROUTING_CONFIRMED",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_RETIRED",
       "identity_signals_matched": [
         "name",
         "address"
@@ -3238,7 +3238,10 @@
         "city": "Ann Arbor",
         "state": "MI",
         "postal_code": "48108"
-      }
+      },
+      "retired_at": "2026-08-29",
+      "retired_by": "PTF-DETROIT-ANN-ARBOR-FOUNDER-RULINGS-AND-SHADOW-PROMOTION-006",
+      "retired_reason": "Founder ruling DTW-ID-004-STATE-ST retired this identity as closed or converted: Motel 6's own Ann Arbor locator lists six properties and not one is in Ann Arbor. The route was correct when it was made; it is retired because the identity it points at is no longer in this market's census, which is exactly what ROUTING_RETIRED means. The URL and its binding evidence stay on record."
     },
     {
       "routing_id": "detroit-ann-arbor-mi:motorcity-casino-hotel",

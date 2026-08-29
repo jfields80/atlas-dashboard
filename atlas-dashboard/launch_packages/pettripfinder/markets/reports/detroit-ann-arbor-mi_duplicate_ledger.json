@@ -1,13 +1,13 @@
 {
   "schema": "ptf-detroit-ann-arbor-duplicate-ledger/1.0",
-  "work_order": "PTF-DETROIT-ANN-ARBOR-EVIDENCE-VOCABULARY-AND-PROMOTION-004",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-FOUNDER-RULINGS-AND-SHADOW-PROMOTION-006",
   "market_id": "detroit-ann-arbor-mi",
   "as_of": "2026-08-17",
   "counts": {
-    "canonical": 181,
+    "canonical": 180,
     "duplicate": 2,
     "boundary_excluded": 17,
-    "closed": 2,
+    "closed": 3,
     "category_excluded_in_census": 1,
     "corrected": 2
   },
@@ -195,6 +195,14 @@
       "duplicate_of": "sonesta select detroit novi",
       "notes": "PTF-DETROIT-ANN-ARBOR-EVIDENCE-VOCABULARY-AND-PROMOTION-004 applying founder ruling DTW-ID-003-NOVI-11-MILE. SUCCESSOR_IDENTITY_CONFIRMED: one building at 42700 W 11 Mile Rd, 48375. Both identities were committed in the same census with the same street number, street and ZIP ('42700 W 11 Mile Rd' and '42700 West 11 Mile Rd'), which normalise to one address_key. The repaired shadow recensus absorbed them into one row independently, on street identity, from a local OpenStreetMap extract that had seen neither census. The Courtyard row was IDENTITY_PROVISIONAL, carried NO official_url and had NO route; the Sonesta row is IDENTITY_CONFIRMED with a live first-party property page. A Courtyard that converted to a Sonesta Select. Not a pet-policy decision -- no exclusion was created. History preserved: the Courtyard name is now the former_name of the Sonesta Select row, the same mechanism this market used for Delta Hotels DTW -> Skyline Hotel and Best Western Premier Southfield -> Radisson Southfield.",
       "source": "shadow_recensus_003 + committed census address agreement"
+    },
+    {
+      "identity_key": "motel 6 ann arbor",
+      "canonical_name": "Motel 6 Ann Arbor",
+      "disposition": "closed",
+      "duplicate_of": "",
+      "notes": "PTF-DETROIT-ANN-ARBOR-FOUNDER-RULINGS-AND-SHADOW-PROMOTION-006 applying founder ruling DTW-ID-004-STATE-ST: APPROVE_CLOSED_OR_CONVERTED. Evidence, first-party and single-sourced on purpose: Motel 6's own Ann Arbor locator at https://www.motel6.com/us/michigan/ann-arbor/ -- the exact URL this census row carried as its official_url -- states '6 motels in Ann Arbor MI' and lists six properties, every one of them in a DIFFERENT city (Farmington Hills, Southgate, Warren, Toledo, Rossford, Southgate). No Motel 6 in Ann Arbor at all, and none at 3764 S State St. Read in an attended browser 2026-08-29 at zero cost. The brand's own live inventory showing no property at a committed address is the same mechanism that retired Hawthorn Suites Southfield in Pass 2. Corroborating weakness of the record itself: a CITY-level brand URL with no property code, bound PAGE_RENDERED, and no phone. The Marriott page for the Residence Inn at the same address could NOT be read (Akamai) and is expressly NOT part of this ruling's evidence -- an access failure proves nothing about what is behind it. Not a pet-policy decision: no exclusion was created, and no succession to the Residence Inn is asserted.",
+      "source": "motel6.com first-party locator (attended read)"
     }
   ]
 }

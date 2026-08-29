@@ -87,7 +87,10 @@ EXPECTED_RECONCILIATION = {
     # partition that the exclusion REGISTRY never carried, and an unbacked
     # terminal disposition was downgraded to AWAITING_CENSUS_REVIEW rather than
     # invented, so it sits in the 139 unresolved.
-    DETROIT: (181, 17, 25, 42, 139),
+    # PTF-DETROIT-ANN-ARBOR-FOUNDER-RULINGS-AND-SHADOW-PROMOTION-006 promoted the local-OSM shadow recensus after the founder settled the ten-municipality boundary packet (7 ADMIT, 1 ALIAS, 1 HELD, Plymouth Township ADMIT) and retired the Motel 6 identity at 3764 S State St as closed or converted. -- census 181 -> 245, unresolved 139 -> 203. published and
+    # verified-no-pets are unchanged: a recensus discovers identities, it
+    # does not decide policy.
+    DETROIT: (245, 17, 25, 42, 203),
     # PTF-CLEVELAND-POLICY-CAPTURE-INTEGRATION-003 published the two Drury
     # properties worker 003 established on their own domain: 19 -> 21, and
     # unresolved 161 -> 159. The other four candidates it reviewed did NOT

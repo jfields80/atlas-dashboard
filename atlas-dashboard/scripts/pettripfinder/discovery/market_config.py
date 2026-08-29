@@ -9,9 +9,9 @@ caller (CLI ``--observed-at`` / test fixtures), per mission Task 2.
 from __future__ import annotations
 
 import json
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Tuple
+from typing import Mapping, Tuple
 
 _CONFIG_DIR = Path(__file__).resolve().parent / "config"
 
@@ -38,6 +38,14 @@ class MarketCell:
     radius_meters: int
 
 
+def _norm_municipality(name: str) -> str:
+    """Case, spacing and punctuation only. Nothing about MEANING --
+    two different places must never collapse here."""
+    return " ".join(
+        "".join(ch.lower() if (ch.isalnum() or ch.isspace()) else " "
+                for ch in str(name or "")).split())
+
+
 @dataclass(frozen=True)
 class MarketConfig:
     market_id: str
@@ -49,6 +57,29 @@ class MarketConfig:
     bounds: GeoBounds
     included_municipalities: Tuple[str, ...]
     cells: Tuple[MarketCell, ...]
+    #: PTF-DETROIT-ANN-ARBOR-FOUNDER-RULINGS-AND-SHADOW-PROMOTION-006. Spellings
+    #: that ARE a municipality this market already contains, mapped to it.
+    #:
+    #: A source is not obliged to spell a place the way a market registered it.
+    #: OpenStreetMap calls Farmington Hills "Farmington Hill" on at least one
+    #: node, and a market that cannot say "those are the same place" has only
+    #: two bad options: admit the misspelling as a 23rd municipality, which is a
+    #: boundary claim nobody made, or hold a real hotel in a registered city as
+    #: BORDERLINE forever. An alias is neither -- it is a statement about
+    #: SPELLING, and it is declared, never inferred from string similarity.
+    municipality_aliases: Mapping[str, str] = field(default_factory=dict)
+
+    def canonical_municipality(self, name: str) -> str:
+        """``name`` with any declared alias resolved. Unknown names pass
+        through unchanged: an alias map answers "is this a spelling of
+        something I contain", never "is this in the market"."""
+        if not name:
+            return ""
+        want = _norm_municipality(name)
+        for alias, canonical in self.municipality_aliases.items():
+            if _norm_municipality(alias) == want:
+                return canonical
+        return name
 
     def cell_by_id(self, cell_id: str):
         for cell in self.cells:
@@ -83,6 +114,8 @@ def load_market_config(market_id: str, config_dir: Path = None) -> MarketConfig:
             min_lng=float(bounds["min_lng"]), max_lng=float(bounds["max_lng"])),
         included_municipalities=tuple(data["included_municipalities"]),
         cells=cells,
+        # Optional: a market that declares none behaves exactly as before.
+        municipality_aliases=dict(data.get("municipality_aliases") or {}),
     )
 
 
