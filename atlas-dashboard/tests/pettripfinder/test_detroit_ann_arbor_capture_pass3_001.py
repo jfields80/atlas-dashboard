@@ -293,7 +293,13 @@ class TestAuthorityFrozen:
         withdrawn_keys = {r["hotel_ref"]["identity_key"]
                           for r in withdrawals["withdrawn"]}
         shard_keys = {r["hotel_ref"]["identity_key"] for r in shard["routes"]}
-        assert withdrawals["count"] == 17
+        # The archive is CUMULATIVE across orders: 17 withdrawn by
+        # DISPLAY-INVENTORY-005 and 16 by FOUNDER-REVIEW-AND-AUTHORITY-011,
+        # each record stamped with the order that withdrew it. Pass 3 still
+        # withdrew none of its own, which is what this test is about.
+        assert withdrawals["count"] == 33
+        assert not [r for r in withdrawals["withdrawn"]
+                    if "CAPTURE-PASS3" in (r.get("withdrawn_by_work_order") or "")]
         assert not (withdrawn_keys & shard_keys)
         assert shard["count"] >= 179 - withdrawals["count"]
         # And none of it was retired -- these were correct bindings.

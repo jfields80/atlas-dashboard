@@ -103,8 +103,17 @@ EXPECTED = {
     # collided with Cleveland's census. published/no_pets are UNCHANGED at
     # 17/25: a recensus discovers identities, it does not decide policy.
     # ... then PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007 named 5 brand-only identities from their own first-party pages, resolved 1 more to a committed identity, and merged 3 duplicates proven by a shared brand property code or a shared official URL -- all at $0.
-    DETROIT: {"census": 247, "published": 17, "no_pets": 25,
-              "out_of_category": 0, "unresolved": 205},
+    # ... then PTF-DETROIT-ANN-ARBOR-FOUNDER-REVIEW-AND-AUTHORITY-011 applied
+    # the founder's approval of the Firecrawl 008/009/010 candidates: 16 more
+    # published and 35 more verified-no-pets, so 51 identities left the
+    # unresolved set. The census is unchanged -- nothing was discovered here,
+    # only decided. Three candidates that passed the policy gates were still
+    # withheld: two the census cannot place (no street address, which listing
+    # readiness and the exclusion contract each require) and one sharing a
+    # street address with a second IHG brand, pending a reviewed same-campus
+    # resolution.
+    DETROIT: {"census": 247, "published": 33, "no_pets": 60,
+              "out_of_category": 0, "unresolved": 154},
     INDIANAPOLIS: {"census": 153, "published": 8, "no_pets": 4,
                    "out_of_category": 0, "unresolved": 141},
 }

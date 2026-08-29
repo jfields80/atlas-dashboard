@@ -83,14 +83,28 @@ MARKET = "detroit-ann-arbor-mi"
 # no new `duplicate` row -- the Motel 6 retirement is a CLOSURE, recorded under
 # `closed`, because the evidence shows that hotel is gone and NOT that it and
 # the Residence Inn at the same address are one record.
+# Updated by PTF-DETROIT-ANN-ARBOR-FOUNDER-REVIEW-AND-AUTHORITY-011, which
+# applied the founder's approval of the Firecrawl 008/009/010 candidates:
+# 16 more published and 35 more verified-no-pets, so 51 identities left the
+# unresolved set. The census is unchanged -- nothing was discovered here, only
+# decided. Two further candidates were withheld because the census carries no
+# street address for them, and a hotel the market cannot place can neither
+# render nor form an exclusion record.
+# PTF-DETROIT-ANN-ARBOR-FOUNDER-REVIEW-AND-AUTHORITY-011 applied the founder's
+# approval of the Firecrawl 008/009/010 candidates: +16 published and +35
+# verified-no-pets, so 51 identities left the unresolved set. The census is
+# unchanged -- nothing was discovered, only decided. Three further candidates
+# were withheld: two the census cannot place (no street address) and one
+# sharing an address with a second brand, pending a reviewed same-campus
+# resolution.
 EXPECTED = {
     "candidates": 152,
     "census": 247,
-    "published": 17,
-    "no_pets": 25,
+    "published": 33,
+    "no_pets": 60,
     "out_of_category": 0,
-    "unresolved": 205,
-    "queue": 205,
+    "unresolved": 154,
+    "queue": 154,
     "boundary_excluded": 17,
     "duplicates": 2,
 }

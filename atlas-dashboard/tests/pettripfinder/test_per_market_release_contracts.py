@@ -91,7 +91,10 @@ EXPECTED_RECONCILIATION = {
     # verified-no-pets are unchanged: a recensus discovers identities, it
     # does not decide policy.
     # PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007 named 5 brand-only identities from their own first-party pages, resolved 1 more to a committed identity, and merged 3 duplicates proven by a shared brand property code or a shared official URL -- all at $0.
-    DETROIT: (247, 17, 25, 42, 205),
+    # PTF-DETROIT-ANN-ARBOR-FOUNDER-REVIEW-AND-AUTHORITY-011 applied the
+    # founder's approval of the Firecrawl 008/009/010 candidates: +17
+    # published and +35 verified-no-pets. The census is unchanged.
+    DETROIT: (247, 33, 60, 93, 154),
     # PTF-CLEVELAND-POLICY-CAPTURE-INTEGRATION-003 published the two Drury
     # properties worker 003 established on their own domain: 19 -> 21, and
     # unresolved 161 -> 159. The other four candidates it reviewed did NOT
@@ -354,7 +357,7 @@ class TestContractAgreesWithItsOwnAuthority:
         """
         by_market = {mid: derive_authority(mid).verified_no_pets for mid in MARKETS}
         assert by_market == {COLUMBUS: 14, CLEVELAND: 40, DAYTON: 8,
-                             PITTSBURGH: 4, INDIANAPOLIS: 4, DETROIT: 25}
+                             PITTSBURGH: 4, INDIANAPOLIS: 4, DETROIT: 60}
         registry = json.loads(
             (REPO_ROOT / "launch_packages" / "pettripfinder" / "hotel_exclusions.json")
             .read_text(encoding="utf-8-sig"))["exclusions"]
