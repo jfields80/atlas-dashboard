@@ -58,7 +58,12 @@ CANDIDATE_BUNDLE = (
     "5fc4ae2c555d83a9986d3d071df1013cc1a9f2fcff5d509d26c49278c84defb6")
 CANDIDATE_SITEMAP = (
     "b48aab5fd46232fd03cbdd2e764d6362214938697e56a3d32b2a499b58432a0b")
-LIVE_BUNDLE = (
+#: The eight-market bundle live BEFORE this candidate deployed -- the one
+#: PTF-GRAND-RAPIDS-DEPLOY-AUTHORIZATION-034 named as its rollback target.
+#: It was called LIVE_BUNDLE while it was live; the candidate has since
+#: replaced it in production, and a constant that says "live" about a bundle
+#: that no longer is would mislead the next reader of this file.
+REPLACED_BUNDLE = (
     "e9998c51d13559333ef9bd63f287e8858b73eb0011401a9606a58871f6ba74cc")
 
 
@@ -271,15 +276,19 @@ def test_the_candidate_is_clean_on_every_content_measure(candidate):
 def test_the_candidate_pins_its_own_hashes_and_the_record_it_used(candidate):
     assert candidate["bundle_sha256"] == CANDIDATE_BUNDLE
     assert candidate["sitemap_sha256"] == CANDIDATE_SITEMAP
-    assert candidate["bundle_sha256"] != LIVE_BUNDLE
+    assert candidate["bundle_sha256"] != REPLACED_BUNDLE
     assert candidate["launch_participation"]["sha256"] == LP.participation_sha256()
     assert candidate["source_commit"]
 
 
-def test_the_rollback_target_is_the_deployment_now_live(candidate):
+def test_the_rollback_target_is_the_deployment_this_candidate_replaced(candidate):
+    """It WAS the live deploy when the candidate was composed, and it is what
+    a rollback returns to now that the candidate has been deployed. Both
+    readings are the same fact about the same deployment id, which is why
+    this test does not need to move when production does."""
     rollback = candidate["rollback_target"]
     assert rollback["deployment_id"] == "6a9102c07ae3a341194c6f4c"
-    assert rollback["bundle_sha256"] == LIVE_BUNDLE
+    assert rollback["bundle_sha256"] == REPLACED_BUNDLE
     assert rollback["markets"] == 8
     assert rollback["published_profiles"] == 517
     assert (REPO / rollback["record"]).is_file()
@@ -293,11 +302,24 @@ def test_the_candidate_authorizes_nothing(candidate):
     assert "ptf-auth-020" in note and "deliberately not reused" in note
 
 
-def test_the_live_manifest_was_not_edited():
-    """The candidate is a NEW file. A record of a deployment that already
-    happened is not rewritten to describe one that has not."""
+def test_the_candidate_never_edited_the_committed_manifest():
+    """The candidate was written as a NEW file: 032 did not rewrite the record
+    of a deployment that had already happened to describe one that had not.
+
+    The committed manifest has since been promoted to this same bundle, but by
+    the DEPLOY order and not by 032 -- and the two documents stay
+    distinguishable, because only the deployed one names the authorization
+    that put it live. That is the fact worth asserting; "the committed
+    manifest still describes the eight-market bundle" was only ever true
+    between composing the candidate and deploying it.
+    """
     live = _load(DEPLOY / "global_deployment_manifest.json")
-    assert live["bundle_sha256"] == LIVE_BUNDLE
-    assert len(live["participating_markets"]) == 8
-    assert live["total_published_profiles"] == 517
+    candidate = _load(CANDIDATE)
+    assert live is not candidate
+    assert "deployment_authorization" not in candidate
+    assert live.get("deployment_authorization")
+    assert live["deployment_authorized"] is True
+    # Both now describe the same nine-market bundle -- the candidate because it
+    # composed it, the committed manifest because it was deployed.
+    assert live["bundle_sha256"] == candidate["bundle_sha256"] == CANDIDATE_BUNDLE
     assert CANDIDATE.name != "global_deployment_manifest.json"
