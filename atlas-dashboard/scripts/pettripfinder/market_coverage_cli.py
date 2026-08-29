@@ -56,8 +56,8 @@ from scripts.pettripfinder.contracts import closure as CL
 from scripts.pettripfinder.contracts import coverage as COV
 
 PACKAGE_DIR = _REPO_ROOT / "launch_packages" / "pettripfinder"
-CENSUS_DIR = PACKAGE_DIR / "identity_census"
-
+from scripts.pettripfinder import census_location as CENSUS_LOCATION  # noqa: E402
+CENSUS_DIR = CENSUS_LOCATION.identity_census_dir()  # committed, or $PTF_IDENTITY_CENSUS_DIR during a rebuild
 STAGE_COVERAGE_EXHAUSTION = "coverage_exhaustion"
 STAGE_CLOSURE = "closure"
 STAGE_FOUNDER_REVIEW_PACKET = "founder_review_packet"
@@ -168,9 +168,10 @@ def build(market_id: str, census: Mapping, *, prior: Mapping,
           recovery_after_last_pass: bool = False,
           pass_run_dirs: Sequence[str] = (),
           overrides: Optional[Mapping[str, Mapping]] = None,
-          discovery_state: Optional[Mapping] = None,
           stage: str, work_order: str, as_of: str,
-          registry_doc: Optional[Mapping] = None) -> Dict:
+          registry_doc: Optional[Mapping] = None,
+          passes: Sequence[Mapping] = (),
+          discovery_state: Optional[Mapping] = None) -> Dict:
     """The coverage-completion document. ``census["hotels"]`` must already
     carry the overlay (``MR.apply_url_overlay`` mutates in place; ``overlay``
     is its report)."""
@@ -187,10 +188,37 @@ def build(market_id: str, census: Mapping, *, prior: Mapping,
     suppressed_keys = {r["identity_key"] for r in suppressed}
     family_by_key = {r["identity_key"]: r["family"] for r in cohort + settled}
 
-    budget_stopped = bool(last_pass and last_pass.get("outcome")
-                          in COV.BUDGET_STOP_OUTCOMES)
-    deferred = {(d if isinstance(d, str) else d.get("identity_key"))
-                for d in ((last_pass or {}).get("deferred") or ())}
+    # Hardened re-census work order (002): a budget stop is not undone by a
+    # later pass that did not reach the deferred rows. Pass 1 stopped on the
+    # hard cap with 28 rows deferred; a 2-row continuation reported from its
+    # journal became "the last pass", and the 26 rows it never reached read
+    # as ROUTED_NEVER_ATTEMPTED -- a factory phase -- instead of
+    # BUDGET_DEFERRED, which needs a new authorisation. Every pass is read,
+    # oldest first: a stop's deferrals stand until a later pass attempts them.
+    ordered_passes = list(passes) or ([last_pass] if last_pass else [])
+    budget_stops: List[Dict] = []
+    deferred: set = set()
+    for index, report in enumerate(ordered_passes):
+        if not report or report.get("outcome") not in COV.BUDGET_STOP_OUTCOMES:
+            continue
+        named = {(d if isinstance(d, str) else d.get("identity_key"))
+                 for d in (report.get("deferred") or ())}
+        later = {r.get("identity_key") for q in ordered_passes[index + 1:]
+                 for r in ((q or {}).get("results") or ())}
+        standing = named - later
+        deferred |= standing
+        budget_stops.append(OrderedDict((
+            ("run_id", report.get("run_id", "")),
+            ("outcome", report.get("outcome", "")),
+            ("deferred", len(named)),
+            ("attempted_by_a_later_pass", len(named & later)),
+            ("deferrals_standing", len(standing)),
+        )))
+    budget_stopped = bool(deferred) or bool(
+        last_pass and last_pass.get("outcome") in COV.BUDGET_STOP_OUTCOMES)
+    stopping_outcome = next((s["outcome"] for s in reversed(budget_stops)
+                             if s["deferrals_standing"]),
+                            (last_pass or {}).get("outcome", ""))
     tripped = {t.get("family") for t in
                ((last_pass or {}).get("family_breakers_tripped") or ())}
     newly_routable = {r["identity_key"] for r in (overlay.get("rows") or ())}
@@ -285,8 +313,8 @@ def build(market_id: str, census: Mapping, *, prior: Mapping,
         elif budget_stopped and key in deferred:
             cov, nxt, reason = (
                 COV.ROUTED_BUDGET_DEFERRED, COV.NEXT_BUDGET_AUTHORIZATION,
-                "routed and in the last cohort; the last pass stopped (%s) "
-                "before reaching it" % last_pass.get("outcome"))
+                "routed and in a paid cohort; a pass stopped (%s) before "
+                "reaching it and no later pass attempted it" % stopping_outcome)
         elif family_by_key.get(key) in tripped and key in deferred:
             cov, nxt, reason = (
                 COV.ROUTED_ALTERNATE_LANE_REQUIRED, COV.NEXT_ALTERNATE_LANE,
@@ -384,7 +412,10 @@ def build(market_id: str, census: Mapping, *, prior: Mapping,
             ("alternate_lane_available", by_next[COV.NEXT_RUN_ALTERNATE_LANE]),
             ("budget_deferred", by_state[COV.ROUTED_BUDGET_DEFERRED]),
             ("last_pass_outcome", (last_pass or {}).get("outcome", "")),
-            ("last_pass_stopped_on_budget", budget_stopped),
+            ("last_pass_stopped_on_budget", bool(
+                last_pass and last_pass.get("outcome") in COV.BUDGET_STOP_OUTCOMES)),
+            ("budget_stops_with_standing_deferrals", budget_stops),
+            ("a_budget_stop_stands", budget_stopped),
         ))),
         ("newly_routable_cohort", OrderedDict((
             ("newly_routable_identities", sorted(newly_routable)),
@@ -408,9 +439,10 @@ def build(market_id: str, census: Mapping, *, prior: Mapping,
                        "store" if store is not None else ""),
             ("packet_present", packet is not None),
         ))),
-        # PTF-DISCOVERY-OVERPASS-RESILIENCE-001. The census this coverage is
-        # over was built from free discovery; this says whether that discovery
-        # was finished, and if not, why not. Absent when no state was given.
+        # PTF-DISCOVERY-OVERPASS-RESILIENCE-001. The census this coverage
+        # is over was built from free discovery; this says whether that
+        # discovery was finished, and if not, why not. Absent when no
+        # state was given.
         ("free_discovery", discovery_section(discovery_state)),
         ("ready_requires", [
             "ZERO_COST_RECOVERY_EXHAUSTED", "APPROVED_ROUTES_EXHAUSTED",
@@ -440,9 +472,10 @@ def build_from_paths(*, market_id: str, url_overlay: str = "",
                      url_recovery: str = "", declined_recovery: str = "",
                      recovery_after_last_pass: bool = False,
                      pass_run_dirs: Sequence[str] = (), retry_overrides: str = "",
-                     discovery_state: str = "",
                      stage: str, work_order: str, as_of: str,
-                     census_path: Optional[Path] = None) -> Dict:
+                     census_path: Optional[Path] = None,
+                     pass_reports: Sequence[str] = (),
+                     discovery_state: str = "") -> Dict:
     census_file = census_path or (CENSUS_DIR / ("%s.json" % market_id))
     census = json.loads(census_file.read_text(encoding="utf-8-sig"))
     overlay = MR.apply_url_overlay(census["hotels"], url_overlay)
@@ -456,6 +489,7 @@ def build_from_paths(*, market_id: str, url_overlay: str = "",
         pass_run_dirs=pass_run_dirs,
         overrides=RP.load_overrides(Path(retry_overrides)) if retry_overrides
         else None,
+        passes=[_load(p) for p in pass_reports],
         discovery_state=_load(discovery_state),
         stage=stage, work_order=work_order, as_of=as_of)
 
@@ -472,6 +506,10 @@ def main(argv=None) -> int:
     parser.add_argument("--last-pass", default="",
                         help="the most recent paid-pass report; its deferred "
                              "list and outcome decide BUDGET_DEFERRED")
+    parser.add_argument("--pass-report", action="append", default=[],
+                        help="every paid-pass report, oldest first; a budget "
+                             "stop's deferrals stand until a later pass "
+                             "attempts them")
     parser.add_argument("--closure", default="")
     parser.add_argument("--packet", default="")
     parser.add_argument("--observations", default="")
@@ -483,10 +521,6 @@ def main(argv=None) -> int:
     parser.add_argument("--pass-run-dir", action="append", default=[],
                         help="repeatable; every acquisition run directory")
     parser.add_argument("--retry-overrides", default="")
-    parser.add_argument("--discovery-state", default="",
-                        help="a ptf-discovery-state document (discovery_cli.py "
-                             "state --out); reports whether free discovery was "
-                             "exhausted before the census was built")
     parser.add_argument("--stage", required=True, choices=STAGES)
     parser.add_argument("--work-order", required=True)
     parser.add_argument("--as-of", required=True)
@@ -501,7 +535,8 @@ def main(argv=None) -> int:
         recovery_after_last_pass=args.recovery_after_last_pass,
         pass_run_dirs=args.pass_run_dir, retry_overrides=args.retry_overrides,
         discovery_state=args.discovery_state,
-        stage=args.stage, work_order=args.work_order, as_of=args.as_of)
+        stage=args.stage, work_order=args.work_order, as_of=args.as_of,
+        pass_reports=args.pass_report)
     sha = CPB.write_json(Path(args.out), document)
     for name, value in document["counts"].items():
         print("%-26s: %d" % (name, value))

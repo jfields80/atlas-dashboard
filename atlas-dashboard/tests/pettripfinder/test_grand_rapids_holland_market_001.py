@@ -243,9 +243,18 @@ def test_market_has_no_identity_collision_and_publishes_only_its_own():
     # collision appears without being recorded", checked against the pin
     # report's own list.
     ours = census.identity_keys(pinned_census_doc())
+    # TWO RECORDS, UNIONED. 024 recorded 16 collisions against the markets on
+    # this branch at the time. PTF-GRAND-RAPIDS-INDIANAPOLIS-LINEAGE-MERGE-033
+    # brought Indianapolis's later recensus and five more became visible, and
+    # they are recorded in that order's own document rather than back-written
+    # into 024's -- 024's report is a dated statement of what that pass found
+    # and editing it would rewrite history to make a later fact look old.
     recorded = {(r["identity_key"], r["also_in_market"]) for r in
                 _load(PACKAGE / "grand_rapids_holland_mi_census_pin_024.json"
                       )["cross_market_collisions"]["rows"]}
+    recorded |= {(r["identity_key"], r["also_in_market"]) for r in
+                 _load(PACKAGE / "grand_rapids_holland_mi_cross_market_"
+                       "collisions_033.json")["rows"]}
     for other in ("columbus-oh", "cleveland-akron-canton-oh", "dayton-oh",
                   "cincinnati-oh", "pittsburgh-pa", "detroit-ann-arbor-mi",
                   "indianapolis-in", "louisville-ky", "milwaukee-wi",

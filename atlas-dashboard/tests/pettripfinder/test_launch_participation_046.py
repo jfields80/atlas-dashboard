@@ -64,7 +64,17 @@ PROFILES = {"cleveland-akron-canton-oh": 99, "columbus-oh": 88,
 #: supersedes block, which is where a reversed decision leaves its history.
 ADMITTED_AT_019 = "indianapolis-in"
 WITHHELD_BY_046 = "indianapolis-in"
-NOT_READY = ("cincinnati-oh", "detroit-ann-arbor-mi")
+# grand-rapids-holland-mi joined this list in
+# PTF-GRAND-RAPIDS-INDIANAPOLIS-LINEAGE-MERGE-033. Its AUTHORITY is
+# sound -- 43 founder-signed profiles, 20 exclusions, a clean release
+# contract -- but the assembler cannot reach its final partition
+# (_partition_path builds a hyphenated glob the underscore filenames do
+# not match, and it has no entry in the explicit table that exists for
+# louisville-ky and st-louis-mo for that same reason), and the
+# partition it would reach predates the founder signature. Both are
+# PTF-GRAND-RAPIDS-LAUNCH-PARTICIPATION-032's work.
+NOT_READY = ("cincinnati-oh", "detroit-ann-arbor-mi",
+             "grand-rapids-holland-mi")
 
 #: The five-market production candidate, reproduced twice in the work order
 #: and DEPLOYED by PTF-047. Superseded by
@@ -367,11 +377,31 @@ def test_the_candidate_is_the_pinned_artifact(production):
 # The committed manifest.
 # --------------------------------------------------------------------------- #
 
-def test_the_committed_manifest_verifies_and_pins_the_record():
-    assert GD.verify_manifest() == []
+def test_the_committed_manifest_describes_the_live_deploy_and_its_pin_has_lapsed():
+    """THE MANIFEST STILL DESCRIBES WHAT IS DEPLOYED. Its pin no longer matches.
+
+    PTF-GRAND-RAPIDS-INDIANAPOLIS-LINEAGE-MERGE-033 registered
+    grand-rapids-holland-mi in launch_participation.json -- it had to, because a
+    registered market with no row fails the assembler gate closed for EVERY
+    market -- and that changed the record's sha256. A signed deployment
+    authorization BINDS that sha, so ptf-auth-020 stopped verifying the moment
+    the eleventh market was listed.
+
+    That is the design working, not damage, and it is the same thing
+    PTF-ST-LOUIS-FRESH-MARKET-BENCHMARK-001 recorded: registering a market
+    invalidates the signed authorization, and the next deployment issues a new
+    one. The LIVE BUNDLE IS UNTOUCHED -- e9998c51 is still what is served, and
+    every fact this manifest states about it is still true. So this test now
+    asserts both halves: the description is intact, and the pin has lapsed for
+    a named and expected reason.
+    """
+    problems = GD.verify_manifest()
+    assert problems, "the pin lapsed when the eleventh market was registered"
+    assert all("launch_participation" in p for p in problems), problems
+    assert any("has changed since authorization" in p for p in problems)
     doc = GD.load_manifest()
+    assert doc["launch_participation"]["sha256"] != LP.participation_sha256()
     assert doc["schema"] == GD.MANIFEST_SCHEMA
-    assert doc["launch_participation"]["sha256"] == LP.participation_sha256()
     assert [r["market_id"] for r in doc["participating_markets"]] == list(LIVE)
     assert doc["total_published_profiles"] == 517
     assert doc["bundle_sha256"] == EXPECTED_BUNDLE_SHA256
@@ -379,7 +409,11 @@ def test_the_committed_manifest_verifies_and_pins_the_record():
     assert doc["deployment_authorized"] is (doc.get("deployment_authorization") is not None)
     excluded = {r["market_id"]: r for r in doc["excluded_markets"]}
     assert ADMITTED_AT_019 not in excluded
-    assert set(excluded) == set(NOT_READY)
+    # The manifest records the deploy AS IT WAS. grand-rapids-holland-mi did
+    # not exist on this branch when it was written, so its excluded set is the
+    # two that were not source-ready then -- not today's NOT_READY, which has
+    # since gained a third. A record of a past deploy does not learn.
+    assert set(excluded) == {"cincinnati-oh", "detroit-ann-arbor-mi"}
 
 
 def test_a_changed_record_invalidates_the_manifest():
@@ -391,10 +425,24 @@ def test_a_changed_record_invalidates_the_manifest():
 
 
 def test_a_manifest_whose_set_disagrees_with_the_record_is_refused():
+    """Dropping an authorized market must be refused for THAT reason.
+
+    Since 033 the record also carries a lapsed pin, so this filters to the
+    disagreement it is actually testing rather than accepting any complaint.
+    """
     doc = dict(GD.load_manifest())
     doc["participating_markets"] = [
         r for r in doc["participating_markets"] if r["market_id"] != "dayton-oh"]
-    assert any("founder authorizes" in p for p in GD.verify_manifest(doc))
+    problems = GD.verify_manifest(doc)
+    # WHICH check catches it changed, and the invariant did not. "founder
+    # authorizes" is raised in a branch reached only when the participation pin
+    # still matches, and since 033 registered the eleventh market it does not.
+    # The drop is still refused -- by the authorization, which binds the exact
+    # participating set -- so this asserts the REFUSAL and that it names the
+    # market removed, rather than one message's wording.
+    assert any("dayton-oh" in p for p in problems), problems
+    assert len(problems) > len(GD.verify_manifest()), (
+        "dropping an authorized market must add a complaint of its own")
 
 
 def test_the_withdrawn_candidate_is_not_the_committed_one():

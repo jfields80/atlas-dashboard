@@ -120,6 +120,11 @@
    "note": "no final partition; publishes no hotel; no release contract"
   },
   {
+   "market_id": "grand-rapids-holland-mi",
+   "launch_status": "NOT_SOURCE_READY",
+   "note": "43 founder-signed pet-friendly profiles, 20 verified-no-pets, release contract clean -- its AUTHORITY is sound. It is not source-ready for ASSEMBLY for two reasons, both found by PTF-GRAND-RAPIDS-INDIANAPOLIS-LINEAGE-MERGE-033 when the assembler first ran on a branch that carries this market. (1) assemble_production_site._partition_path cannot reach its final partition: the glob builds 'grand-rapids-holland_final_partition_*' from the market id while the files are named with underscores, and there is no entry in the explicit table that already exists for louisville-ky and st-louis-mo for exactly this reason. (2) The 163-row partition it would reach is STALE -- 42 rows still AWAITING_FOUNDER_DECISION, written before 030 signed and 031 promoted. Adding the table entry alone would make this market claim a readiness it does not have. Both are PTF-GRAND-RAPIDS-LAUNCH-PARTICIPATION-032's work."
+  },
+  {
    "market_id": "indianapolis-in",
    "launch_status": "FOUNDER_AUTHORIZED_FOR_LAUNCH",
    "note": "56 founder-signed pet-friendly profiles and 34 verified-no-pets exclusions over a 257-identity census; contract verifies. Admitted by founder decision in PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019, which replaces the PTF-046 withholding.",
@@ -147,5 +152,6 @@
    "launch_status": "FOUNDER_AUTHORIZED_FOR_LAUNCH",
    "note": "82 founder-signed profiles and 37 verified-no-pets exclusions over a 357-identity census; contract verifies. Registered and admitted by PTF-ST-LOUIS-REGISTER-PUBLISH-011."
   }
- ]
+ ],
+ "registration_note": "PTF-GRAND-RAPIDS-INDIANAPOLIS-LINEAGE-MERGE-033 added the grand-rapids-holland-mi row. A registered market with no row fails the assembler gate closed for EVERY market, so the row had to exist; it is recorded NOT_SOURCE_READY, which is what the assembler finds, and it admits nothing. The founder's launch decision above is untouched and no market's authorization changed."
 }
