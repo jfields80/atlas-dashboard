@@ -283,8 +283,18 @@ class TestRoutingAndDuplicateLedger:
         assert len(rows) == EXPECTED["no_pets"]
         for row in rows:
             assert row["reviewer_id"] == "jfields80"
-        from scripts.pettripfinder.release_contracts import available_market_ids
-        assert MARKET not in set(available_market_ids())
+        # PTF-DETROIT-ANN-ARBOR-DISPLAY-INVENTORY-AND-RELEASE-CONTRACT-005
+        # seeded this market's display inventory, which is what makes a release
+        # contract both possible and required of it. It carries one now -- and
+        # that contract grants NO deployment, which is the property worth
+        # asserting here in place of its former absence.
+        from scripts.pettripfinder.release_contracts import (
+            available_market_ids, load_contract)
+        assert MARKET in set(available_market_ids())
+        contract = load_contract(MARKET)
+        assert contract["deployment_authorization"]["grants_deployment"] is False
+        assert contract["deployment_authorization"]["asserts_market_complete"] is False
+        assert contract["market_visibility"]["launch_participation"] is False
 
     def test_duplicate_ledger_matches_boundary_exclusion_count(self):
         doc = duplicate_ledger_doc()

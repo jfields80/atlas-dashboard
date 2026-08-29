@@ -59,7 +59,8 @@ CLEVELAND = "cleveland-akron-canton-oh"
 DAYTON = "dayton-oh"
 INDIANAPOLIS = "indianapolis-in"
 PITTSBURGH = "pittsburgh-pa"
-MARKETS = (COLUMBUS, CLEVELAND, DAYTON, PITTSBURGH, INDIANAPOLIS)
+DETROIT = "detroit-ann-arbor-mi"
+MARKETS = (COLUMBUS, CLEVELAND, DAYTON, PITTSBURGH, INDIANAPOLIS, DETROIT)
 
 #: The reconciliation each market's committed authority is expected to state, as
 #: (confirmed, published, verified_no_pets, resolved, unresolved). ``None`` means
@@ -73,6 +74,20 @@ EXPECTED_RECONCILIATION = {
     # 104 rather than 102 because it includes the two OUT_OF_CURRENT_CATEGORY
     # rulings -- a category exit settles an identity as finally as a refusal.
     COLUMBUS: (112, 88, 14, 104, 8),
+    # PTF-DETROIT-ANN-ARBOR-DISPLAY-INVENTORY-AND-RELEASE-CONTRACT-005 seeded
+    # this market's display inventory for the first time, which is what makes a
+    # contract both possible and required of it. Its authority arrived earlier:
+    # founder decision B-003-1 registered the text_extract artifact kind and
+    # unblocked the 28-row Capture Pass 3 packet (7 -> 17 published, 7 -> 25
+    # verified-no-pets), and founder ruling DTW-ID-003-NOVI-11-MILE superseded a
+    # stale Courtyard identity with its Sonesta Select successor at one address,
+    # so the census is 181 rather than 182. `resolved` is 42 -- published plus
+    # verified-no-pets -- and this market states NO out-of-current-category
+    # exit: its one non-lodging identity claimed a terminal category exit in the
+    # partition that the exclusion REGISTRY never carried, and an unbacked
+    # terminal disposition was downgraded to AWAITING_CENSUS_REVIEW rather than
+    # invented, so it sits in the 139 unresolved.
+    DETROIT: (181, 17, 25, 42, 139),
     # PTF-CLEVELAND-POLICY-CAPTURE-INTEGRATION-003 published the two Drury
     # properties worker 003 established on their own domain: 19 -> 21, and
     # unresolved 161 -> 159. The other four candidates it reviewed did NOT
@@ -217,18 +232,45 @@ class TestContractRegistry:
         assert "indianapolis-in" in configured
         assert "indianapolis-in" in set(available_market_ids())
 
-    def test_a_market_with_policy_authority_but_no_seed_rows_is_honestly_contractless(self):
-        """Detroit-Ann Arbor has real policy facts (7 published hotels) but has
-        never been seeded into the shared production CSV, so it fails closed
-        rather than deriving a contract from a join against zero rows."""
-        configured = {m.market_id for m in load_markets()}
-        assert "detroit-ann-arbor-mi" in configured
-        facts_path = (REPO_ROOT / "launch_packages" / "pettripfinder"
-                      / "hotel_policy_facts_detroit-ann-arbor-mi.json")
-        assert facts_path.exists()
-        assert "detroit-ann-arbor-mi" not in set(available_market_ids())
-        with pytest.raises(ValueError):
-            derive_authority("detroit-ann-arbor-mi")
+    def test_no_configured_market_holds_policy_authority_without_inventory(self):
+        """A market that commits a policy package but has seeded no display rows
+        can only produce a contract by joining against nothing, so it must not
+        appear in the registry at all.
+
+        Detroit-Ann Arbor used to be this file's standing example of that state:
+        it held 7 published hotels and had never been seeded, and
+        ``derive_authority`` failed closed on it. PTF-DETROIT-ANN-ARBOR-DISPLAY-
+        INVENTORY-AND-RELEASE-CONTRACT-005 seeded it, so the example is gone and
+        the RULE is asserted directly instead -- against every configured market
+        rather than one name, which is what keeps the guard alive for whichever
+        market lands in that state next.
+        """
+        seeded = {row.get("market_id") for row in read_production_rows()}
+        available = set(available_market_ids())
+        checked = 0
+        for market in load_markets():
+            mid = market.market_id
+            facts = (REPO_ROOT / "launch_packages" / "pettripfinder"
+                     / ("hotel_policy_facts_%s.json" % mid))
+            if not facts.is_file() or mid == COLUMBUS:
+                continue
+            checked += 1
+            if mid not in seeded:
+                assert mid not in available, (
+                    "%s commits policy authority but has seeded no display rows, "
+                    "so it must not carry a release contract" % mid)
+        assert checked, "the rule was asserted against no market at all"
+
+    def test_the_seeded_market_derives_the_contract_it_was_once_refused(self):
+        """The other half of the same rule: once a market DOES have inventory,
+        the join succeeds and its contract describes real rows."""
+        derived = derive_authority(DETROIT)
+        assert derived.seed_hotel_rows == derived.published_hotel_profiles > 0
+        # Held rows are derived, never declared. This market's display inventory
+        # was seeded FROM its published package, one row per approved record, so
+        # nothing is held back.
+        assert derived.excluded_public_profiles == 0
+        assert DETROIT in set(available_market_ids())
 
     def test_contract_filename_matches_declared_market(self):
         for mid in MARKETS:
@@ -296,14 +338,19 @@ class TestContractAgreesWithItsOwnAuthority:
 
         Dayton is 8 as of PTF-DAYTON-WORK-BROWSER-INTEGRATION-001, which added
         Best Western Celina to the seven PTF-DAYTON-CANDIDATE-PROMOTION-001 left.
+        Detroit is 25 as of PTF-DETROIT-ANN-ARBOR-EVIDENCE-VOCABULARY-AND-
+        PROMOTION-004, which applied 18 first-party refusals from the Capture
+        Pass 3 packet on top of the 7 it already held.
+
         The market-scoping property is what this defends, so the number moving
         with a market's own authority is correct; the number moving because
-        another market grew would not be -- and Columbus and Cleveland are
-        unchanged here, which is the half of the assertion that says so.
+        another market grew would not be -- and Columbus, Cleveland, Dayton,
+        Pittsburgh and Indianapolis are all unchanged here, which is the half
+        of the assertion that says so.
         """
         by_market = {mid: derive_authority(mid).verified_no_pets for mid in MARKETS}
         assert by_market == {COLUMBUS: 14, CLEVELAND: 40, DAYTON: 8,
-                             PITTSBURGH: 4, INDIANAPOLIS: 4}
+                             PITTSBURGH: 4, INDIANAPOLIS: 4, DETROIT: 25}
         registry = json.loads(
             (REPO_ROOT / "launch_packages" / "pettripfinder" / "hotel_exclusions.json")
             .read_text(encoding="utf-8-sig"))["exclusions"]

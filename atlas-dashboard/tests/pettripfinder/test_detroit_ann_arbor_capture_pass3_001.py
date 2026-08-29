@@ -270,7 +270,23 @@ class TestAuthorityFrozen:
                             "VERIFIED_NO_PETS_CANDIDATE": 18,
                             "POLICY_NOT_FOUND": 2}
 
-    def test_routing_shard_unchanged(self):
+    def test_pass_3_withdrew_no_route_of_its_own(self, packet):
+        """Pass 3 held 179 routes and touched none of them.
+
+        That total is no longer 179 and should not be: PTF-DETROIT-ANN-ARBOR-
+        DISPLAY-INVENTORY-AND-RELEASE-CONTRACT-005 WITHDREW the 17 routes that
+        publication answered, because a seeded hotel's display inventory is the
+        source of truth for it. What stays true of Pass 3 is that it withdrew
+        nothing itself -- and every route it did hold is either still in the
+        shard or archived in the withdrawals report, never simply gone.
+        """
         shard = _load(ROUTING_SHARD_PATH)
-        assert shard["count"] == 179
-        assert len(shard["routes"]) == 179
+        assert shard["count"] == len(shard["routes"])
+        withdrawals = _load(LP / "markets" / "reports"
+                            / ("%s_routing_withdrawals.json" % MARKET))
+        assert withdrawals["disposition"] == "WITHDRAWN_ANSWERED_BY_PUBLICATION"
+        # Nothing was lost between the two.
+        assert shard["count"] + withdrawals["count"] == 179
+        # And none of it was retired -- these were correct bindings.
+        for route in withdrawals["withdrawn"]:
+            assert route["status"] != "ROUTING_RETIRED"
