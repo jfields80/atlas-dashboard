@@ -50,7 +50,7 @@ EXPECTED_ROUTE_MODE = {COLUMBUS: "legacy_unprefixed", CLEVELAND: "market_prefixe
     PITTSBURGH: "market_prefixed", DETROIT: "market_prefixed",
     INDIANAPOLIS: "market_prefixed"}
 EXPECTED_ROWS = {COLUMBUS: 112, CLEVELAND: 188, DAYTON: 129, CINCINNATI: 256,
-                 PITTSBURGH: 96, DETROIT: 245, INDIANAPOLIS: 153}
+                 PITTSBURGH: 96, DETROIT: 247, INDIANAPOLIS: 153}
 # Cincinnati was 121 until PTF-CINCINNATI-CENSUS-RECONCILIATION-001 rebuilt it
 # from six official destination-marketing directories instead of from its own
 # corridor registry.

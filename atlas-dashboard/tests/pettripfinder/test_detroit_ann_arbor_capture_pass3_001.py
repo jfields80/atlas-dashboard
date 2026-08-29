@@ -285,8 +285,17 @@ class TestAuthorityFrozen:
         withdrawals = _load(LP / "markets" / "reports"
                             / ("%s_routing_withdrawals.json" % MARKET))
         assert withdrawals["disposition"] == "WITHDRAWN_ANSWERED_BY_PUBLICATION"
-        # Nothing was lost between the two.
-        assert shard["count"] + withdrawals["count"] == 179
+        # Nothing was LOST between the two. The shard also GREW -- PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007
+        # confirmed 41 further routes at zero cost -- so the two no longer sum
+        # to Pass 3's 179, and asserting that they do would just pin this file
+        # to a moment. What must hold is that every route Pass 3 held is still
+        # somewhere: none was deleted, and none is in both places at once.
+        withdrawn_keys = {r["hotel_ref"]["identity_key"]
+                          for r in withdrawals["withdrawn"]}
+        shard_keys = {r["hotel_ref"]["identity_key"] for r in shard["routes"]}
+        assert withdrawals["count"] == 17
+        assert not (withdrawn_keys & shard_keys)
+        assert shard["count"] >= 179 - withdrawals["count"]
         # And none of it was retired -- these were correct bindings.
         for route in withdrawals["withdrawn"]:
             assert route["status"] != "ROUTING_RETIRED"

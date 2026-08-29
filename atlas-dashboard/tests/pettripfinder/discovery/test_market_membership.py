@@ -289,7 +289,7 @@ class TestZipOwnershipMarketsAreUnchanged:
 #
 # Detroit is the more dangerous case of the two. Grand Rapids kept 4 of 120
 # rows under the broken gate because those 4 carried no postal code. Every one
-# of Detroit's 237 postal-code-bearing rows is rejected outright, so the
+# of Detroit's 242 postal-code-bearing rows is rejected outright, so the
 # CORRIDOR_REGISTRY default projects the market to ZERO.
 # --------------------------------------------------------------------------- #
 
@@ -367,7 +367,7 @@ class TestDetroitFixture:
         directly here, against however many such rows there are.
         """
         rows = self._census_rows()
-        assert len(rows) == 245
+        assert len(rows) == 247
         no_coords = [r for r in rows
                      if r.get("latitude") is None and r.get("longitude") is None]
         assert no_coords, "the rule this class defends would have nothing to defend"
@@ -385,13 +385,13 @@ class TestDetroitFixture:
         market. This is the number the shadow recensus reconciles against."""
         counts = self._decide_all(MC.MEMBERSHIP_MARKET_GEOGRAPHY,
                                   is_prior_identity=True)
-        assert counts == {MM.IN_MARKET: 245}
+        assert counts == {MM.IN_MARKET: 247}
 
     def test_the_corridor_registry_default_would_be_catastrophic(self):
         """Why the declaration is a prerequisite and not an improvement.
 
         Under the basis Detroit would inherit by default, NOT ONE of its 181
-        committed identities is admitted: the 237 rows that state a postal code
+        committed identities is admitted: the 242 rows that state a postal code
         are rejected outright, because no corridor claims any postal code, and
         the 11 that state none are held UNRESOLVED. This assertion exists so
         that anyone who removes the declaration sees exactly what it was
@@ -399,9 +399,9 @@ class TestDetroitFixture:
         counts = self._decide_all(MC.MEMBERSHIP_CORRIDOR_REGISTRY,
                                   is_prior_identity=True)
         assert counts.get(MM.IN_MARKET, 0) == 0
-        assert counts[MM.BOUNDARY_DECISION] == 237
-        assert counts[MM.UNRESOLVED] == 8
-        assert sum(counts.values()) == 245
+        assert counts[MM.BOUNDARY_DECISION] == 242
+        assert counts[MM.UNRESOLVED] == 5
+        assert sum(counts.values()) == 247
 
     def test_a_fresh_candidate_is_held_not_evicted_where_geography_is_thin(self):
         """Prior-census continuity is doing real work here, and only for one
@@ -413,7 +413,7 @@ class TestDetroitFixture:
         is Phase 4's boundary packet, not a silent drop."""
         fresh = self._decide_all(MC.MEMBERSHIP_MARKET_GEOGRAPHY,
                                  is_prior_identity=False)
-        assert fresh[MM.IN_MARKET] == 245
+        assert fresh[MM.IN_MARKET] == 247
         assert fresh.get(MM.UNRESOLVED, 0) == 0
         assert MM.OUT_OF_GEOGRAPHY not in fresh
 

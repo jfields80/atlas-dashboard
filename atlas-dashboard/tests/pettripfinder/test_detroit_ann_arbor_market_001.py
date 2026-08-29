@@ -85,12 +85,12 @@ MARKET = "detroit-ann-arbor-mi"
 # the Residence Inn at the same address are one record.
 EXPECTED = {
     "candidates": 152,
-    "census": 245,
+    "census": 247,
     "published": 17,
     "no_pets": 25,
     "out_of_category": 0,
-    "unresolved": 203,
-    "queue": 203,
+    "unresolved": 205,
+    "queue": 205,
     "boundary_excluded": 17,
     "duplicates": 2,
 }

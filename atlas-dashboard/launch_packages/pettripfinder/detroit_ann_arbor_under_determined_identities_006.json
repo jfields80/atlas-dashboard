@@ -3,7 +3,7 @@
   "work_order": "PTF-DETROIT-ANN-ARBOR-FOUNDER-RULINGS-AND-SHADOW-PROMOTION-006",
   "market_id": "detroit-ann-arbor-mi",
   "as_of": "2026-08-29",
-  "status": "AWAITING_NAME_RECOVERY",
+  "status": "PARTIALLY_RESOLVED",
   "note": "Real hotels whose only discovered NAME is a brand. Withheld from the census rather than admitted, because an identity key that is a brand cannot tell two buildings apart -- 'home2 suites by hilton' and 'holiday inn express and suites' already name rows in BOTH this market and Cleveland's. Nothing here is lost, nothing is inferred, and none is a committed, published or excluded identity: all eleven are new.",
   "recovery_at_zero_cost": "Ten of the eleven carry a first-party property page, and eight of those carry the brand's own property code in the URL. An attended read of each page for the name the property gives itself resolves this at $0 -- no provider, no acquisition. The eleventh (staybridge suites) has no URL and needs routing first.",
   "count": 11,
@@ -166,5 +166,157 @@
       "collides_with": [],
       "next_action": "Read the property's own page for the name it gives itself, then admit it under that name."
     }
-  ]
+  ],
+  "resolved_by": "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007",
+  "resolution": {
+    "admitted_under_their_own_name": [
+      {
+        "prior_thin_identity": "holiday inn express and suites",
+        "official_page_name": "Holiday Inn Express & Suites Ann Arbor - University South",
+        "property_code": "arbrp",
+        "address": "3853 Research Park Drive",
+        "postal_code": "48108",
+        "new_canonical_identity": "holiday inn express and suites ann arbor university south",
+        "confidence": "HIGH -- the page states this row's own street address, so the page is this building's page and not another property of the brand.",
+        "cross_market_uniqueness_restored": true,
+        "collided_before": [
+          "cleveland-akron-canton-oh"
+        ]
+      },
+      {
+        "prior_thin_identity": "home2 suites by hilton",
+        "official_page_name": "Home2 Suites by Hilton Ann Arbor South",
+        "property_code": "dtwarht",
+        "address": "361 West Eisenhower Parkway",
+        "postal_code": "48103",
+        "new_canonical_identity": "home2 suites by hilton ann arbor south",
+        "confidence": "HIGH -- the page states this row's own street address, so the page is this building's page and not another property of the brand.",
+        "cross_market_uniqueness_restored": true,
+        "collided_before": [
+          "cleveland-akron-canton-oh"
+        ]
+      },
+      {
+        "prior_thin_identity": "baymont",
+        "official_page_name": "Baymont by Wyndham Madison Heights Detroit Area",
+        "property_code": null,
+        "address": "32800 Stephenson Highway",
+        "postal_code": "48071",
+        "new_canonical_identity": "baymont by wyndham madison heights detroit area",
+        "confidence": "HIGH -- the page states this row's own street address, so the page is this building's page and not another property of the brand.",
+        "cross_market_uniqueness_restored": true,
+        "collided_before": []
+      },
+      {
+        "prior_thin_identity": "days inn",
+        "official_page_name": "Days Inn by Wyndham Ann Arbor",
+        "property_code": null,
+        "address": "Carpenter Road",
+        "postal_code": "48108",
+        "new_canonical_identity": "days inn by wyndham ann arbor",
+        "confidence": "HIGH -- the page states this row's own street address, so the page is this building's page and not another property of the brand.",
+        "cross_market_uniqueness_restored": true,
+        "collided_before": []
+      },
+      {
+        "prior_thin_identity": "extended stay america",
+        "official_page_name": "Extended Stay America Select Suites Detroit - Farmington Hills",
+        "property_code": null,
+        "address": "27775 Stansbury Boulevard",
+        "postal_code": "48334",
+        "new_canonical_identity": "extended stay america select suites detroit farmington hills",
+        "confidence": "HIGH -- the page states this row's own street address, so the page is this building's page and not another property of the brand.",
+        "cross_market_uniqueness_restored": true,
+        "collided_before": []
+      }
+    ],
+    "resolved_to_a_committed_identity": [
+      {
+        "prior_thin_identity": "staybridge suites",
+        "official_page_name": "Staybridge Suites Ann Arbor - Univ of Michigan",
+        "property_code": "arbsb",
+        "resolved_to_committed_identity": "staybridge suites ann arbor university of michigan",
+        "page_address": "3850 Research Park Drive Ann Arbor, MI 48108 United States",
+        "fields_filled_on_the_committed_row": [
+          "address",
+          "postal_code",
+          "latitude",
+          "longitude"
+        ],
+        "confidence": "HIGH -- the committed row's OWN official_url is the page that states this address, so the withheld row and the committed row are one building.",
+        "new_identity_created": false
+      }
+    ],
+    "still_withheld": [
+      {
+        "thin_identity_key": "comfort inn",
+        "discovered_name": "Comfort Inn",
+        "address": "1145 West Maple Road",
+        "postal_code": "48017",
+        "city": "Clawson",
+        "official_url": "https://www.choicehotels.com/michigan/clawson/comfort-inn-hotels/mi537",
+        "blocked_domain": "choicehotels.com",
+        "why_still_held": "The property's own page could not be read in this session: the browser extension refuses navigation to choicehotels.com. This is an access outcome and says nothing about the property. The row keeps its address, coordinates and first-party URL and stays withheld until a session that can reach that domain reads the name it gives itself.",
+        "next_action": "Read https://www.choicehotels.com/michigan/clawson/comfort-inn-hotels/mi537 in a session permitted to reach choicehotels.com and admit the property under the name that page gives itself.",
+        "cost_to_resolve_usd": 0.0
+      },
+      {
+        "thin_identity_key": "courtyard",
+        "discovered_name": "Courtyard",
+        "address": "17200 North Laurel Park Drive",
+        "postal_code": "48152",
+        "city": "Livonia",
+        "official_url": "https://www.marriott.com/detlv",
+        "blocked_domain": "marriott.com",
+        "why_still_held": "The property's own page could not be read in this session: the browser extension refuses navigation to marriott.com. This is an access outcome and says nothing about the property. The row keeps its address, coordinates and first-party URL and stays withheld until a session that can reach that domain reads the name it gives itself.",
+        "next_action": "Read https://www.marriott.com/detlv in a session permitted to reach marriott.com and admit the property under the name that page gives itself.",
+        "cost_to_resolve_usd": 0.0
+      },
+      {
+        "thin_identity_key": "residence inn",
+        "discovered_name": "Residence Inn",
+        "address": "17250 Fox Drive",
+        "postal_code": "48152",
+        "city": "Livonia",
+        "official_url": "https://www.marriott.com/dtwlv",
+        "blocked_domain": "marriott.com",
+        "why_still_held": "The property's own page could not be read in this session: the browser extension refuses navigation to marriott.com. This is an access outcome and says nothing about the property. The row keeps its address, coordinates and first-party URL and stays withheld until a session that can reach that domain reads the name it gives itself.",
+        "next_action": "Read https://www.marriott.com/dtwlv in a session permitted to reach marriott.com and admit the property under the name that page gives itself.",
+        "cost_to_resolve_usd": 0.0
+      },
+      {
+        "thin_identity_key": "rodeway inn",
+        "discovered_name": "Rodeway Inn",
+        "address": "32703 Stephenson Highway",
+        "postal_code": "48071",
+        "city": "Madison Heights",
+        "official_url": "https://www.choicehotels.com/michigan/madison-heights/rodeway-inn-hotels/mi222?mc=llgoxxpx",
+        "blocked_domain": "choicehotels.com",
+        "why_still_held": "The property's own page could not be read in this session: the browser extension refuses navigation to choicehotels.com. This is an access outcome and says nothing about the property. The row keeps its address, coordinates and first-party URL and stays withheld until a session that can reach that domain reads the name it gives itself.",
+        "next_action": "Read https://www.choicehotels.com/michigan/madison-heights/rodeway-inn-hotels/mi222?mc=llgoxxpx in a session permitted to reach choicehotels.com and admit the property under the name that page gives itself.",
+        "cost_to_resolve_usd": 0.0
+      },
+      {
+        "thin_identity_key": "towneplace suites",
+        "discovered_name": "TownePlace Suites",
+        "address": "17450 Fox Drive",
+        "postal_code": "48152",
+        "city": "Livonia",
+        "official_url": "https://www.marriott.com/dtwtl",
+        "blocked_domain": "marriott.com",
+        "why_still_held": "The property's own page could not be read in this session: the browser extension refuses navigation to marriott.com. This is an access outcome and says nothing about the property. The row keeps its address, coordinates and first-party URL and stays withheld until a session that can reach that domain reads the name it gives itself.",
+        "next_action": "Read https://www.marriott.com/dtwtl in a session permitted to reach marriott.com and admit the property under the name that page gives itself.",
+        "cost_to_resolve_usd": 0.0
+      }
+    ],
+    "counts": {
+      "resolved": 5,
+      "merged": 1,
+      "still_held": 5,
+      "total": 11
+    },
+    "method": "attended browser, operator Chrome, read-only",
+    "cost_usd": 0.0,
+    "provider_calls": 0
+  }
 }

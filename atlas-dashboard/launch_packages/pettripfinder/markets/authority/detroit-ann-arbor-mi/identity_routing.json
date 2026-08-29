@@ -2,14 +2,14 @@
   "schema": "ptf-identity-routing/1.0",
   "contract": "ptf-identity-routing/1.0",
   "market_id": "detroit-ann-arbor-mi",
-  "note": "This market's slice of the identity-routing authority. The global launch_packages/pettripfinder/identity_routing.json is generated from every market's shard and must not be hand-edited. PTF-DETROIT-ANN-ARBOR-RECANDIDACY-REPAIR-AND-FOUNDER-DECISIONS-003 Phase 8 struck 'phone' from identity_signals_matched on the two Sheraton routes, which shared one telephone number. No official_property_url was changed and no route status was changed; all 179 routes remain ROUTING_CONFIRMED. PTF-DETROIT-ANN-ARBOR-DISPLAY-INVENTORY-AND-RELEASE-CONTRACT-005 WITHDREW 17 routes: publication answered them, and the seed inventory is now the source of truth for those properties. WITHDRAWN, not ROUTING_RETIRED -- retired means the binding should never have been made, and these bindings are the reason the hotels could be published. Every withdrawn record is archived in full at markets/reports/detroit-ann-arbor-mi_routing_withdrawals.json. PTF-DETROIT-ANN-ARBOR-FOUNDER-RULINGS-AND-SHADOW-PROMOTION-006 RETIRED 1 route: founder ruling DTW-ID-004-STATE-ST retired the 'motel 6 ann arbor' identity as closed or converted, and ROUTING_RETIRED is precisely a route to an identity this market's census no longer contains. The record is kept, not deleted -- how the URL was bound stays on file.",
+  "note": "This market's slice of the identity-routing authority. The global launch_packages/pettripfinder/identity_routing.json is generated from every market's shard and must not be hand-edited. PTF-DETROIT-ANN-ARBOR-RECANDIDACY-REPAIR-AND-FOUNDER-DECISIONS-003 Phase 8 struck 'phone' from identity_signals_matched on the two Sheraton routes, which shared one telephone number. No official_property_url was changed and no route status was changed; all 179 routes remain ROUTING_CONFIRMED. PTF-DETROIT-ANN-ARBOR-DISPLAY-INVENTORY-AND-RELEASE-CONTRACT-005 WITHDREW 17 routes: publication answered them, and the seed inventory is now the source of truth for those properties. WITHDRAWN, not ROUTING_RETIRED -- retired means the binding should never have been made, and these bindings are the reason the hotels could be published. Every withdrawn record is archived in full at markets/reports/detroit-ann-arbor-mi_routing_withdrawals.json. PTF-DETROIT-ANN-ARBOR-FOUNDER-RULINGS-AND-SHADOW-PROMOTION-006 RETIRED 1 route: founder ruling DTW-ID-004-STATE-ST retired the 'motel 6 ann arbor' identity as closed or converted, and ROUTING_RETIRED is precisely a route to an identity this market's census no longer contains. The record is kept, not deleted -- how the URL was bound stays on file. PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007 CONFIRMED 41 further routes at ZERO COST: each binds a local OpenStreetMap premises record -- street, postal code, coordinates -- to the property's own first-party page, identified either by that brand's own property code or by the property's own domain. No page was fetched, no provider was called, and no telephone was counted as corroboration where two identities share it.",
   "source_batches": [
     "PTF-DETROIT-ANN-ARBOR-ROUTING-EXPANSION-004",
     "PTF-DETROIT-ANN-ARBOR-IDENTITY-ROUTING-REPAIR-001",
     "PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-002",
     "PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-003"
   ],
-  "count": 162,
+  "count": 203,
   "routes": [
     {
       "routing_id": "detroit-ann-arbor-mi:americas-best-value-inn-livonia-detroit",
@@ -184,6 +184,74 @@
         "state": "MI",
         "postal_code": "48341",
         "phone": "248-253-9800"
+      }
+    },
+    {
+      "routing_id": "detroit-ann-arbor-mi:baymont-by-wyndham-madison-heights-detroit-area",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "Baymont by Wyndham Madison Heights Detroit Area",
+        "normalized_name": "baymont by wyndham madison heights detroit area",
+        "identity_key": "baymont by wyndham madison heights detroit area",
+        "street_identity": "32800|highway stephenson|48071"
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://www.wyndhamhotels.com/baymont/madison-heights-michigan/baymont-inn-and-suites-madison-heights-detroit-area/overview",
+      "official_domain": "wyndhamhotels.com",
+      "brand": "Wyndham",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page on its own domain. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "32800 Stephenson Highway",
+        "city": "Madison Heights",
+        "state": "MI",
+        "postal_code": "48071"
+      }
+    },
+    {
+      "routing_id": "detroit-ann-arbor-mi:baymont-downtown-detroit",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "Baymont Downtown Detroit",
+        "normalized_name": "baymont downtown detroit",
+        "identity_key": "baymont downtown detroit",
+        "street_identity": ""
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://www.wyndhamhotels.com/baymont/detroit-michigan/baymont-inn-and-suites-downtown-detroit/overview",
+      "official_domain": "wyndhamhotels.com",
+      "brand": "Wyndham",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page on its own domain. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "3250 East Jefferson Avenue",
+        "city": "Detroit",
+        "state": "MI",
+        "postal_code": "48207"
       }
     },
     {
@@ -701,6 +769,75 @@
       }
     },
     {
+      "routing_id": "detroit-ann-arbor-mi:courtyard-detroit-farmington-hills",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "Courtyard Detroit Farmington Hills",
+        "normalized_name": "courtyard detroit farmington hills",
+        "identity_key": "courtyard detroit farmington hills",
+        "street_identity": ""
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://www.marriott.com/dtwcf",
+      "official_domain": "marriott.com",
+      "brand": "Marriott",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page carrying property code 'dtwcf'. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "33043 Hamilton Court West",
+        "city": "Farmington Hills",
+        "state": "MI",
+        "postal_code": "48334"
+      },
+      "property_code": "dtwcf"
+    },
+    {
+      "routing_id": "detroit-ann-arbor-mi:courtyard-detroit-metro-airport-romulus",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "Courtyard Detroit Metro Airport Romulus",
+        "normalized_name": "courtyard detroit metro airport romulus",
+        "identity_key": "courtyard detroit metro airport romulus",
+        "street_identity": ""
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://www.marriott.com/hotels/travel/dtwca-courtyard-detroit-metro-airport-romulus",
+      "official_domain": "marriott.com",
+      "brand": "Marriott",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page on its own domain. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "30653 Flynn Drive",
+        "city": "Romulus",
+        "state": "MI",
+        "postal_code": "48174"
+      }
+    },
+    {
       "routing_id": "detroit-ann-arbor-mi:courtyard-detroit-pontiac-bloomfield",
       "schema_version": "1.0.0",
       "hotel_ref": {
@@ -844,6 +981,108 @@
       }
     },
     {
+      "routing_id": "detroit-ann-arbor-mi:days-inn-and-suites-by-wyndham-madison-heights-mi",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "Days Inn & Suites by Wyndham Madison Heights MI",
+        "normalized_name": "days inn and suites by wyndham madison heights mi",
+        "identity_key": "days inn and suites by wyndham madison heights mi",
+        "street_identity": ""
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://www.wyndhamhotels.com/days-inn/madison-heights-michigan/days-inn-and-suites-madison-heights-mi/overview",
+      "official_domain": "wyndhamhotels.com",
+      "brand": "Wyndham",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page on its own domain. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "1331 West 14 Mile Road",
+        "city": "Madison Heights",
+        "state": "MI",
+        "postal_code": "48071"
+      }
+    },
+    {
+      "routing_id": "detroit-ann-arbor-mi:days-inn-by-wyndham-ann-arbor",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "Days Inn by Wyndham Ann Arbor",
+        "normalized_name": "days inn by wyndham ann arbor",
+        "identity_key": "days inn by wyndham ann arbor",
+        "street_identity": "|carpenter|48108"
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://www.wyndhamhotels.com/days-inn/ann-arbor-michigan/days-inn-ann-arbor/overview",
+      "official_domain": "wyndhamhotels.com",
+      "brand": "Wyndham",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page on its own domain. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "Carpenter Road",
+        "city": "Ann Arbor",
+        "state": "MI",
+        "postal_code": "48108"
+      }
+    },
+    {
+      "routing_id": "detroit-ann-arbor-mi:days-inn-by-wyndham-livonia-detroit",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "Days Inn by Wyndham Livonia - Detroit",
+        "normalized_name": "days inn by wyndham livonia detroit",
+        "identity_key": "days inn by wyndham livonia detroit",
+        "street_identity": ""
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://www.wyndhamhotels.com/days-inn/livonia-michigan/days-inn-livonia-canton-detroit/overview",
+      "official_domain": "wyndhamhotels.com",
+      "brand": "Wyndham",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page on its own domain. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "36655 Plymouth Road",
+        "city": "Livonia",
+        "state": "MI",
+        "postal_code": "48150"
+      }
+    },
+    {
       "routing_id": "detroit-ann-arbor-mi:dearborn-inn-autograph-collection",
       "schema_version": "1.0.0",
       "hotel_ref": {
@@ -980,6 +1219,41 @@
       }
     },
     {
+      "routing_id": "detroit-ann-arbor-mi:doubletree-by-hilton-ann-arbor-north",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "DoubleTree by Hilton Ann Arbor North",
+        "normalized_name": "doubletree by hilton ann arbor north",
+        "identity_key": "doubletree by hilton ann arbor north",
+        "street_identity": ""
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://www.hilton.com/en/hotels/arbaadt-doubletree-ann-arbor-north",
+      "official_domain": "hilton.com",
+      "brand": "Hilton",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page carrying property code 'arbaadt'. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "3600 Plymouth Road",
+        "city": "Ann Arbor",
+        "state": "MI",
+        "postal_code": "48105"
+      },
+      "property_code": "arbaadt"
+    },
+    {
       "routing_id": "detroit-ann-arbor-mi:doubletree-by-hilton-detroit-dearborn",
       "schema_version": "1.0.0",
       "hotel_ref": {
@@ -1088,6 +1362,40 @@
       }
     },
     {
+      "routing_id": "detroit-ann-arbor-mi:drury-inn-and-suites",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "Drury Inn & Suites",
+        "normalized_name": "drury inn and suites",
+        "identity_key": "drury inn and suites",
+        "street_identity": ""
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://wwws.druryhotels.com/PropertyHotelServices.aspx?Property=0029",
+      "official_domain": "druryhotels.com",
+      "brand": "",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page on its own domain. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "575 West Big Beaver Road",
+        "city": "Troy",
+        "state": "MI",
+        "postal_code": "48084"
+      }
+    },
+    {
       "routing_id": "detroit-ann-arbor-mi:el-moore-lodge",
       "schema_version": "1.0.0",
       "hotel_ref": {
@@ -1120,6 +1428,40 @@
         "state": "MI",
         "postal_code": "48201",
         "phone": "313-924-4374"
+      }
+    },
+    {
+      "routing_id": "detroit-ann-arbor-mi:embassy-hotel",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "Embassy Hotel",
+        "normalized_name": "embassy hotel",
+        "identity_key": "embassy hotel",
+        "street_identity": ""
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://www.annarborembassyhotel.com",
+      "official_domain": "annarborembassyhotel.com",
+      "brand": "",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page on its own domain. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "200 East Huron Street",
+        "city": "Ann Arbor",
+        "state": "MI",
+        "postal_code": "48104"
       }
     },
     {
@@ -1267,6 +1609,40 @@
       }
     },
     {
+      "routing_id": "detroit-ann-arbor-mi:extended-stay-america-select-suites-detroit-farmington-hills",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "Extended Stay America Select Suites Detroit - Farmington Hills",
+        "normalized_name": "extended stay america select suites detroit farmington hills",
+        "identity_key": "extended stay america select suites detroit farmington hills",
+        "street_identity": "27775|stansbury|48334"
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://www.extendedstayamerica.com/hotels/mi/detroit/farmington-hills",
+      "official_domain": "extendedstayamerica.com",
+      "brand": "Extended Stay America",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page on its own domain. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "27775 Stansbury Boulevard",
+        "city": "Farmington Hills",
+        "state": "MI",
+        "postal_code": "48334"
+      }
+    },
+    {
       "routing_id": "detroit-ann-arbor-mi:fairfield-inn-and-suites-ann-arbor-ypsilanti",
       "schema_version": "1.0.0",
       "hotel_ref": {
@@ -1337,6 +1713,41 @@
       }
     },
     {
+      "routing_id": "detroit-ann-arbor-mi:fairfield-inn-and-suites-detroit-metro-airport-romulus",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "Fairfield Inn & Suites Detroit Metro Airport Romulus",
+        "normalized_name": "fairfield inn and suites detroit metro airport romulus",
+        "identity_key": "fairfield inn and suites detroit metro airport romulus",
+        "street_identity": ""
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://www.marriott.com/en-us/hotels/dtwfr-fairfield-inn-and-suites-detroit-metro-airport-romulus/overview",
+      "official_domain": "marriott.com",
+      "brand": "Marriott",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page carrying property code 'dtwfr'. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "7800 Merriman Road",
+        "city": "Romulus",
+        "state": "MI",
+        "postal_code": "48174"
+      },
+      "property_code": "dtwfr"
+    },
+    {
       "routing_id": "detroit-ann-arbor-mi:fairfield-inn-and-suites-detroit-troy",
       "schema_version": "1.0.0",
       "hotel_ref": {
@@ -1371,6 +1782,41 @@
         "postal_code": "48083",
         "phone": "855-816-6193"
       }
+    },
+    {
+      "routing_id": "detroit-ann-arbor-mi:fairfield-inn-and-suites-rochester-hills",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "Fairfield Inn & Suites Rochester Hills",
+        "normalized_name": "fairfield inn and suites rochester hills",
+        "identity_key": "fairfield inn and suites rochester hills",
+        "street_identity": ""
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://www.marriott.com/en-us/hotels/dtwdr-fairfield-inn-and-suites-rochester-hills/overview",
+      "official_domain": "marriott.com",
+      "brand": "Marriott",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page carrying property code 'dtwdr'. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "3900 South Rochester Road",
+        "city": "Rochester Hills",
+        "state": "MI",
+        "postal_code": "48307"
+      },
+      "property_code": "dtwdr"
     },
     {
       "routing_id": "detroit-ann-arbor-mi:fairfield-inn-ann-arbor",
@@ -1478,6 +1924,111 @@
       }
     },
     {
+      "routing_id": "detroit-ann-arbor-mi:hampton",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "Hampton",
+        "normalized_name": "hampton",
+        "identity_key": "hampton",
+        "street_identity": ""
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://www.hilton.com/en/hotels/dttauhx-hampton-detroit-auburn-hills-south",
+      "official_domain": "hilton.com",
+      "brand": "Hilton",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page carrying property code 'dttauhx'. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "2200 Featherstone Road",
+        "city": "Auburn Hills",
+        "state": "MI",
+        "postal_code": "48326"
+      },
+      "property_code": "dttauhx"
+    },
+    {
+      "routing_id": "detroit-ann-arbor-mi:hampton-inn-and-suites",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "Hampton Inn & Suites",
+        "normalized_name": "hampton inn and suites",
+        "identity_key": "hampton inn and suites",
+        "street_identity": ""
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://www.hilton.com/en/hotels/arbwehx-hampton-suites-ann-arbor-west",
+      "official_domain": "hilton.com",
+      "brand": "Hilton",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page carrying property code 'arbwehx'. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "2910 Jackson Avenue",
+        "city": "Ann Arbor",
+        "state": "MI",
+        "postal_code": "48103"
+      },
+      "property_code": "arbwehx"
+    },
+    {
+      "routing_id": "detroit-ann-arbor-mi:hampton-inn-and-suites-detroit-troy",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "Hampton Inn & Suites Detroit/Troy",
+        "normalized_name": "hampton inn and suites detroit troy",
+        "identity_key": "hampton inn and suites detroit troy",
+        "street_identity": ""
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://www.hilton.com/en/hotels/dettrhx-hampton-suites-detroit-troy",
+      "official_domain": "hilton.com",
+      "brand": "Hilton",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page carrying property code 'dettrhx'. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "100 Wilshire Drive",
+        "city": "Troy",
+        "state": "MI",
+        "postal_code": "48084"
+      },
+      "property_code": "dettrhx"
+    },
+    {
       "routing_id": "detroit-ann-arbor-mi:hampton-inn-and-suites-wixom",
       "schema_version": "1.0.0",
       "hotel_ref": {
@@ -1548,6 +2099,76 @@
         "postal_code": "48197",
         "phone": "734-879-9565"
       }
+    },
+    {
+      "routing_id": "detroit-ann-arbor-mi:hampton-inn-ann-arbor-north",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "Hampton Inn Ann Arbor-North",
+        "normalized_name": "hampton inn ann arbor north",
+        "identity_key": "hampton inn ann arbor north",
+        "street_identity": ""
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://www.hilton.com/en/hotels/arbgrhx-hampton-ann-arbor-north",
+      "official_domain": "hilton.com",
+      "brand": "Hilton",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page carrying property code 'arbgrhx'. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "2300 Green Road",
+        "city": "Ann Arbor",
+        "state": "MI",
+        "postal_code": "48105"
+      },
+      "property_code": "arbgrhx"
+    },
+    {
+      "routing_id": "detroit-ann-arbor-mi:hampton-inn-ann-arbor-south",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "Hampton Inn Ann Arbor, South",
+        "normalized_name": "hampton inn ann arbor south",
+        "identity_key": "hampton inn ann arbor south",
+        "street_identity": ""
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://www.hilton.com/en/hotels/arbvwhx-hampton-ann-arbor-south",
+      "official_domain": "hilton.com",
+      "brand": "Hilton",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page carrying property code 'arbvwhx'. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "925 Victors Way",
+        "city": "Ann Arbor",
+        "state": "MI",
+        "postal_code": "48108"
+      },
+      "property_code": "arbvwhx"
     },
     {
       "routing_id": "detroit-ann-arbor-mi:hampton-inn-by-hilton-detroit-dearborn",
@@ -1690,6 +2311,41 @@
       }
     },
     {
+      "routing_id": "detroit-ann-arbor-mi:hampton-inn-detroit-madison-heights-south-troy",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "Hampton Inn Detroit/Madison Heights/South Troy",
+        "normalized_name": "hampton inn detroit madison heights south troy",
+        "identity_key": "hampton inn detroit madison heights south troy",
+        "street_identity": ""
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://www.hilton.com/en/hotels/dttmhhx-hampton-detroit-madison-heights-south-troy",
+      "official_domain": "hilton.com",
+      "brand": "Hilton",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page carrying property code 'dttmhhx'. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "32420 Stephenson Highway",
+        "city": "Madison Heights",
+        "state": "MI",
+        "postal_code": "48071"
+      },
+      "property_code": "dttmhhx"
+    },
+    {
       "routing_id": "detroit-ann-arbor-mi:hampton-inn-detroit-northville",
       "schema_version": "1.0.0",
       "hotel_ref": {
@@ -1723,6 +2379,40 @@
         "state": "MI",
         "postal_code": "48167",
         "phone": "+1 734-462-1119"
+      }
+    },
+    {
+      "routing_id": "detroit-ann-arbor-mi:hampton-inn-detroit-novi",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "Hampton Inn Detroit-Novi",
+        "normalized_name": "hampton inn detroit novi",
+        "identity_key": "hampton inn detroit novi",
+        "street_identity": ""
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://hamptoninn3.hilton.com/en/hotels/michigan/hampton-inn-detroit-novi-at-14-mile-road-DTTNIHX/index.html",
+      "official_domain": "hilton.com",
+      "brand": "Hilton",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page on its own domain. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "169 Loop Road",
+        "city": "Commerce Township",
+        "state": "MI",
+        "postal_code": "48390"
       }
     },
     {
@@ -1796,6 +2486,41 @@
         "postal_code": "48108",
         "phone": "734-327-6400"
       }
+    },
+    {
+      "routing_id": "detroit-ann-arbor-mi:hilton-garden-inn-detroit-downtown",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "Hilton Garden Inn Detroit Downtown",
+        "normalized_name": "hilton garden inn detroit downtown",
+        "identity_key": "hilton garden inn detroit downtown",
+        "street_identity": ""
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://www.hilton.com/en/hotels/detdhgi-hilton-garden-inn-detroit-downtown",
+      "official_domain": "hilton.com",
+      "brand": "Hilton",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page carrying property code 'detdhgi'. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "351 Gratiot Avenue",
+        "city": "Detroit",
+        "state": "MI",
+        "postal_code": "48226"
+      },
+      "property_code": "detdhgi"
     },
     {
       "routing_id": "detroit-ann-arbor-mi:hilton-garden-inn-detroit-novi",
@@ -2014,6 +2739,41 @@
       }
     },
     {
+      "routing_id": "detroit-ann-arbor-mi:holiday-inn-detroit-metro-airport-an-ihg-hotel",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "Holiday Inn Detroit Metro Airport, an IHG Hotel",
+        "normalized_name": "holiday inn detroit metro airport an ihg hotel",
+        "identity_key": "holiday inn detroit metro airport an ihg hotel",
+        "street_identity": ""
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://www.ihg.com/holidayinn/hotels/us/en/romulus/dttms/hoteldetail",
+      "official_domain": "ihg.com",
+      "brand": "IHG",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page carrying property code 'dttms'. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "8400 Merriman Road",
+        "city": "Romulus",
+        "state": "MI",
+        "postal_code": "48174"
+      },
+      "property_code": "dttms"
+    },
+    {
       "routing_id": "detroit-ann-arbor-mi:holiday-inn-detroit-northwest-livonia",
       "schema_version": "1.0.0",
       "hotel_ref": {
@@ -2048,6 +2808,41 @@
         "postal_code": "48152",
         "phone": "(734) 245-4700"
       }
+    },
+    {
+      "routing_id": "detroit-ann-arbor-mi:holiday-inn-express-and-suites-ann-arbor-university-south",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "Holiday Inn Express & Suites Ann Arbor - University South",
+        "normalized_name": "holiday inn express and suites ann arbor university south",
+        "identity_key": "holiday inn express and suites ann arbor university south",
+        "street_identity": "3853|park research|48108"
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/ann-arbor/arbrp/hoteldetail",
+      "official_domain": "ihg.com",
+      "brand": "IHG",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page carrying property code 'arbrp'. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "3853 Research Park Drive",
+        "city": "Ann Arbor",
+        "state": "MI",
+        "postal_code": "48108"
+      },
+      "property_code": "arbrp"
     },
     {
       "routing_id": "detroit-ann-arbor-mi:holiday-inn-express-and-suites-ann-arbor-west",
@@ -2230,6 +3025,76 @@
       }
     },
     {
+      "routing_id": "detroit-ann-arbor-mi:holiday-inn-express-and-suites-rochester-hills",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "Holiday Inn Express & Suites Rochester Hills",
+        "normalized_name": "holiday inn express and suites rochester hills",
+        "identity_key": "holiday inn express and suites rochester hills",
+        "street_identity": ""
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/rochester-hills/dttes/hoteldetail",
+      "official_domain": "ihg.com",
+      "brand": "IHG",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page carrying property code 'dttes'. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "3544 Marketplace Circle",
+        "city": "Rochester Hills",
+        "state": "MI",
+        "postal_code": "48309"
+      },
+      "property_code": "dttes"
+    },
+    {
+      "routing_id": "detroit-ann-arbor-mi:holiday-inn-express-and-suites-southfield",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "Holiday Inn Express & Suites Southfield",
+        "normalized_name": "holiday inn express and suites southfield",
+        "identity_key": "holiday inn express and suites southfield",
+        "street_identity": ""
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/southfield/dttvr/hoteldetail",
+      "official_domain": "ihg.com",
+      "brand": "IHG",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page carrying property code 'dttvr'. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "25100 Northwestern Highway",
+        "city": "Southfield",
+        "state": "MI",
+        "postal_code": "48075"
+      },
+      "property_code": "dttvr"
+    },
+    {
       "routing_id": "detroit-ann-arbor-mi:holiday-inn-express-and-suites-southfield-detroit",
       "schema_version": "1.0.0",
       "hotel_ref": {
@@ -2264,6 +3129,41 @@
         "postal_code": "48075",
         "phone": "248-350-2400"
       }
+    },
+    {
+      "routing_id": "detroit-ann-arbor-mi:holiday-inn-express-detroit-birmingham",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "Holiday Inn Express Detroit-Birmingham",
+        "normalized_name": "holiday inn express detroit birmingham",
+        "identity_key": "holiday inn express detroit birmingham",
+        "street_identity": ""
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/birmingham/dttbh/hoteldetail?cm_mmc=GoogleMaps-_-EX-_-US-_-DTTBH",
+      "official_domain": "ihg.com",
+      "brand": "IHG",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page carrying property code 'dttbh'. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "35270 Woodward Avenue",
+        "city": "Birmingham",
+        "state": "MI",
+        "postal_code": "48009"
+      },
+      "property_code": "dttbh"
     },
     {
       "routing_id": "detroit-ann-arbor-mi:holiday-inn-express-detroit-northwest-livonia",
@@ -2408,6 +3308,41 @@
       }
     },
     {
+      "routing_id": "detroit-ann-arbor-mi:holiday-inn-express-romulus-detroit-airport",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "Holiday Inn Express Romulus / Detroit Airport",
+        "normalized_name": "holiday inn express romulus detroit airport",
+        "identity_key": "holiday inn express romulus detroit airport",
+        "street_identity": ""
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/romulus/dttrm/hoteldetail",
+      "official_domain": "ihg.com",
+      "brand": "IHG",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page carrying property code 'dttrm'. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "7680 Merriman Road",
+        "city": "Romulus",
+        "state": "MI",
+        "postal_code": "48174"
+      },
+      "property_code": "dttrm"
+    },
+    {
       "routing_id": "detroit-ann-arbor-mi:holiday-inn-express-wixom",
       "schema_version": "1.0.0",
       "hotel_ref": {
@@ -2477,6 +3412,41 @@
         "postal_code": "48226",
         "phone": "313-223-2999"
       }
+    },
+    {
+      "routing_id": "detroit-ann-arbor-mi:home2-suites-by-hilton-ann-arbor-south",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "Home2 Suites by Hilton Ann Arbor South",
+        "normalized_name": "home2 suites by hilton ann arbor south",
+        "identity_key": "home2 suites by hilton ann arbor south",
+        "street_identity": "361|eisenhower|48103"
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://www.hilton.com/en/hotels/dtwarht-home2-suites-ann-arbor-south",
+      "official_domain": "hilton.com",
+      "brand": "Hilton",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page carrying property code 'dtwarht'. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "361 West Eisenhower Parkway",
+        "city": "Ann Arbor",
+        "state": "MI",
+        "postal_code": "48103"
+      },
+      "property_code": "dtwarht"
     },
     {
       "routing_id": "detroit-ann-arbor-mi:home2-suites-by-hilton-northville-detroit",
@@ -3071,6 +4041,40 @@
       }
     },
     {
+      "routing_id": "detroit-ann-arbor-mi:la-quinta-inn-and-suites",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "La Quinta Inn & Suites",
+        "normalized_name": "la quinta inn and suites",
+        "identity_key": "la quinta inn and suites",
+        "street_identity": ""
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://www.wyndhamhotels.com/laquinta/romulus-michigan/la-quinta-detroit-metro-airport/overview",
+      "official_domain": "wyndhamhotels.com",
+      "brand": "Wyndham",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page on its own domain. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "30847 Flynn Drive",
+        "city": "Romulus",
+        "state": "MI",
+        "postal_code": "48174"
+      }
+    },
+    {
       "routing_id": "detroit-ann-arbor-mi:mainstay-suites-detroit-auburn-hills",
       "schema_version": "1.0.0",
       "hotel_ref": {
@@ -3205,6 +4209,40 @@
         "state": "MI",
         "postal_code": "48226",
         "phone": "313-465-1777"
+      }
+    },
+    {
+      "routing_id": "detroit-ann-arbor-mi:microtel-inn-and-suites-by-wyndham-ann-arbor",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "Microtel Inn & Suites by Wyndham Ann Arbor",
+        "normalized_name": "microtel inn and suites by wyndham ann arbor",
+        "identity_key": "microtel inn and suites by wyndham ann arbor",
+        "street_identity": ""
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://www.wyndhamhotels.com/microtel/ann-arbor-michigan/microtel-inn-and-suites-ann-arbor-plymouth-rd-/overview",
+      "official_domain": "wyndhamhotels.com",
+      "brand": "Wyndham",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page on its own domain. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "3610 Plymouth Road",
+        "city": "Ann Arbor",
+        "state": "MI",
+        "postal_code": "48105"
       }
     },
     {
@@ -3520,6 +4558,40 @@
         "city": "Southfield",
         "state": "MI",
         "postal_code": "48034"
+      }
+    },
+    {
+      "routing_id": "detroit-ann-arbor-mi:radisson-hotel-detroit-farmington-hills",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "Radisson Hotel Detroit-Farmington Hills",
+        "normalized_name": "radisson hotel detroit farmington hills",
+        "identity_key": "radisson hotel detroit farmington hills",
+        "street_identity": ""
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://www.radissonhotels.com/en-us/hotels/radisson-farmington-hills",
+      "official_domain": "radissonhotels.com",
+      "brand": "",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page on its own domain. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "31525 W 12 Mile Road",
+        "city": "Farmington Hills",
+        "state": "MI",
+        "postal_code": "48334"
       }
     },
     {
@@ -3984,6 +5056,75 @@
       }
     },
     {
+      "routing_id": "detroit-ann-arbor-mi:residence-inn-detroit-pontiac-auburn-hills",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "Residence Inn Detroit Pontiac/Auburn Hills",
+        "normalized_name": "residence inn detroit pontiac auburn hills",
+        "identity_key": "residence inn detroit pontiac auburn hills",
+        "street_identity": ""
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://www.marriott.com/dtwpt",
+      "official_domain": "marriott.com",
+      "brand": "Marriott",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page carrying property code 'dtwpt'. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "3333 Centerpoint Parkway",
+        "city": "Pontiac",
+        "state": "MI",
+        "postal_code": "48341"
+      },
+      "property_code": "dtwpt"
+    },
+    {
+      "routing_id": "detroit-ann-arbor-mi:roberts-riverwalk-hotel",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "Roberts Riverwalk Hotel",
+        "normalized_name": "roberts riverwalk hotel",
+        "identity_key": "roberts riverwalk hotel",
+        "street_identity": ""
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://www.detroitriverwalkhotel.com",
+      "official_domain": "detroitriverwalkhotel.com",
+      "brand": "",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page on its own domain. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "1000 River Place Drive",
+        "city": "Detroit",
+        "state": "MI",
+        "postal_code": "48207"
+      }
+    },
+    {
       "routing_id": "detroit-ann-arbor-mi:rodeway-inn-auburn-hills-detroit",
       "schema_version": "1.0.0",
       "hotel_ref": {
@@ -4394,6 +5535,40 @@
       }
     },
     {
+      "routing_id": "detroit-ann-arbor-mi:sonesta-simply-suites",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "Sonesta Simply Suites",
+        "normalized_name": "sonesta simply suites",
+        "identity_key": "sonesta simply suites",
+        "street_identity": ""
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://www.sonesta.com/sonesta-simply-suites/mi/ann-arbor/sonesta-simply-suites-detroit-ann-arbor",
+      "official_domain": "sonesta.com",
+      "brand": "Sonesta",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page on its own domain. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "701 Waymarket Drive",
+        "city": "Ann Arbor",
+        "state": "MI",
+        "postal_code": "48103"
+      }
+    },
+    {
       "routing_id": "detroit-ann-arbor-mi:sonesta-simply-suites-detroit-troy",
       "schema_version": "1.0.0",
       "hotel_ref": {
@@ -4535,6 +5710,41 @@
       }
     },
     {
+      "routing_id": "detroit-ann-arbor-mi:springhill-suites-by-marriott-detroit-metro-airport-romulus",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "SpringHill Suites by Marriott Detroit Metro Airport Romulus",
+        "normalized_name": "springhill suites by marriott detroit metro airport romulus",
+        "identity_key": "springhill suites by marriott detroit metro airport romulus",
+        "street_identity": ""
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://www.marriott.com/en-us/hotels/dtwas-springhill-suites-detroit-metro-airport-romulus/overview",
+      "official_domain": "marriott.com",
+      "brand": "Marriott",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page carrying property code 'dtwas'. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "8280 Merriman Road",
+        "city": "Romulus",
+        "state": "MI",
+        "postal_code": "48174"
+      },
+      "property_code": "dtwas"
+    },
+    {
       "routing_id": "detroit-ann-arbor-mi:springhill-suites-detroit-southfield",
       "schema_version": "1.0.0",
       "hotel_ref": {
@@ -4569,6 +5779,41 @@
         "postal_code": "48034",
         "phone": "248-352-6100"
       }
+    },
+    {
+      "routing_id": "detroit-ann-arbor-mi:springhill-suites-detroit-wixom",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "SpringHill Suites Detroit Wixom",
+        "normalized_name": "springhill suites detroit wixom",
+        "identity_key": "springhill suites detroit wixom",
+        "street_identity": ""
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://www.marriott.com/dtwsw",
+      "official_domain": "marriott.com",
+      "brand": "Marriott",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page carrying property code 'dtwsw'. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "49097 Alpha Drive",
+        "city": "Wixom",
+        "state": "MI",
+        "postal_code": "48393"
+      },
+      "property_code": "dtwsw"
     },
     {
       "routing_id": "detroit-ann-arbor-mi:staybridge-suites-ann-arbor-university-of-michigan",
@@ -4869,6 +6114,40 @@
       "identity_context": {
         "city": "Ann Arbor",
         "state": "MI"
+      }
+    },
+    {
+      "routing_id": "detroit-ann-arbor-mi:the-dtw-suites",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "The DTW Suites",
+        "normalized_name": "the dtw suites",
+        "identity_key": "the dtw suites",
+        "street_identity": ""
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://dtwsuites.com",
+      "official_domain": "dtwsuites.com",
+      "brand": "",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page on its own domain. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "31350 Smith Road",
+        "city": "Romulus",
+        "state": "MI",
+        "postal_code": "48174"
       }
     },
     {
@@ -5353,6 +6632,40 @@
       }
     },
     {
+      "routing_id": "detroit-ann-arbor-mi:towneplace-suites-detroit-commerce",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "TownePlace Suites Detroit Commerce",
+        "normalized_name": "towneplace suites detroit commerce",
+        "identity_key": "towneplace suites detroit commerce",
+        "street_identity": ""
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://www.marriott.com/hotels/travel/dtwtc-towneplace-suites-detroit-commerce",
+      "official_domain": "marriott.com",
+      "brand": "Marriott",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page on its own domain. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "199 Loop Road",
+        "city": "Commerce Township",
+        "state": "MI",
+        "postal_code": "48390"
+      }
+    },
+    {
       "routing_id": "detroit-ann-arbor-mi:travelodge-by-wyndham-romulus-detroit-airport",
       "schema_version": "1.0.0",
       "hotel_ref": {
@@ -5629,6 +6942,108 @@
         "state": "MI",
         "postal_code": "48083",
         "phone": "248-689-7500"
+      }
+    },
+    {
+      "routing_id": "detroit-ann-arbor-mi:woodspring-suites",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "Woodspring Suites",
+        "normalized_name": "woodspring suites",
+        "identity_key": "woodspring suites",
+        "street_identity": ""
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://www.woodspring.com/extended-stay-hotels/locations/michigan/detroit/woodspring-suites-farmington-hills",
+      "official_domain": "woodspring.com",
+      "brand": "",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page on its own domain. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "22100 Haggerty Road",
+        "city": "Farmington Hills",
+        "state": "MI",
+        "postal_code": "48335"
+      }
+    },
+    {
+      "routing_id": "detroit-ann-arbor-mi:woodspring-suites-dearborn-detroit",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "WoodSpring Suites Dearborn - Detroit",
+        "normalized_name": "woodspring suites dearborn detroit",
+        "identity_key": "woodspring suites dearborn detroit",
+        "street_identity": ""
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://www.woodspring.com/extended-stay-hotels/locations/michigan/dearborn/woodspring-suites-dearborn-detroit",
+      "official_domain": "woodspring.com",
+      "brand": "",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page on its own domain. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "240 Town Center Drive",
+        "city": "Dearborn",
+        "state": "MI",
+        "postal_code": "48126"
+      }
+    },
+    {
+      "routing_id": "detroit-ann-arbor-mi:wyndham-garden-ann-arbor",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "Wyndham Garden Ann Arbor",
+        "normalized_name": "wyndham garden ann arbor",
+        "identity_key": "wyndham garden ann arbor",
+        "street_identity": ""
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://www.wyndhamhotels.com/wyndham-garden/ann-arbor-michigan/wyndham-garden-ann-arbor/overview",
+      "official_domain": "wyndhamhotels.com",
+      "brand": "Wyndham",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page on its own domain. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "2900 Jackson Avenue",
+        "city": "Ann Arbor",
+        "state": "MI",
+        "postal_code": "48103"
       }
     },
     {

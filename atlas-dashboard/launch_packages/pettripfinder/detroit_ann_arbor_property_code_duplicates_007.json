@@ -1,0 +1,52 @@
+{
+  "schema": "ptf-detroit-ann-arbor-identity-duplicates/1.1",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-29",
+  "note": "A shared brand property code is proof of a duplicate that street identity can miss: one row may state no address at all, and two rows may spell the same street differently. Recorded so the detector is on the record, not just its result. In each pair the COMMITTED, already-routed identity survives; the discovery row contributes only fields the committed row was missing, and nothing is renamed. A shared official URL proves the same thing a shared property code does, and is included here for the same reason.",
+  "count": 3,
+  "merges": [
+    {
+      "property_code": "dtwsf",
+      "surviving_identity": "courtyard by marriott detroit southfield",
+      "merged_identity": "courtyard detroit southfield",
+      "basis": "both rows resolve to marriott.com property code 'dtwsf', and one brand property code is one building by the brand's own definition",
+      "why_street_identity_missed_it": "the two rows spell the same street differently ('Hwy' vs 'Highway')",
+      "fields_filled_on_the_surviving_row": [
+        "latitude",
+        "longitude"
+      ],
+      "surviving_row_was_already_routed": true
+    },
+    {
+      "property_code": "dtwaa",
+      "surviving_identity": "the vanguard ann arbor autograph collection",
+      "merged_identity": "the vanguard ann arbor",
+      "basis": "both rows resolve to marriott.com property code 'dtwaa', and one brand property code is one building by the brand's own definition",
+      "why_street_identity_missed_it": "the two rows spell the same street differently ('Hwy' vs 'Highway')",
+      "fields_filled_on_the_surviving_row": [
+        "address",
+        "postal_code",
+        "phone",
+        "latitude",
+        "longitude"
+      ],
+      "surviving_row_was_already_routed": true
+    },
+    {
+      "property_code": null,
+      "surviving_identity": "the kensington hotel ann arbor",
+      "merged_identity": "the kensington hotel",
+      "basis": "both rows name the SAME official page (kensingtonannarbor.com); one endpoint cannot be the official page of two properties",
+      "why_street_identity_missed_it": "the committed row states no address",
+      "fields_filled_on_the_surviving_row": [
+        "address",
+        "postal_code",
+        "phone",
+        "latitude",
+        "longitude"
+      ],
+      "surviving_row_was_already_routed": true
+    }
+  ]
+}

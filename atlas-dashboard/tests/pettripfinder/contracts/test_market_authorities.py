@@ -102,8 +102,9 @@ EXPECTED = {
     # cannot tell two buildings in two markets apart, and two of them already
     # collided with Cleveland's census. published/no_pets are UNCHANGED at
     # 17/25: a recensus discovers identities, it does not decide policy.
-    DETROIT: {"census": 245, "published": 17, "no_pets": 25,
-              "out_of_category": 0, "unresolved": 203},
+    # ... then PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007 named 5 brand-only identities from their own first-party pages, resolved 1 more to a committed identity, and merged 3 duplicates proven by a shared brand property code or a shared official URL -- all at $0.
+    DETROIT: {"census": 247, "published": 17, "no_pets": 25,
+              "out_of_category": 0, "unresolved": 205},
     INDIANAPOLIS: {"census": 153, "published": 8, "no_pets": 4,
                    "out_of_category": 0, "unresolved": 141},
 }

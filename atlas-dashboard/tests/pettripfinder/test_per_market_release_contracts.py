@@ -90,7 +90,8 @@ EXPECTED_RECONCILIATION = {
     # PTF-DETROIT-ANN-ARBOR-FOUNDER-RULINGS-AND-SHADOW-PROMOTION-006 promoted the local-OSM shadow recensus after the founder settled the ten-municipality boundary packet (7 ADMIT, 1 ALIAS, 1 HELD, Plymouth Township ADMIT) and retired the Motel 6 identity at 3764 S State St as closed or converted. -- census 181 -> 245, unresolved 139 -> 203. published and
     # verified-no-pets are unchanged: a recensus discovers identities, it
     # does not decide policy.
-    DETROIT: (245, 17, 25, 42, 203),
+    # PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007 named 5 brand-only identities from their own first-party pages, resolved 1 more to a committed identity, and merged 3 duplicates proven by a shared brand property code or a shared official URL -- all at $0.
+    DETROIT: (247, 17, 25, 42, 205),
     # PTF-CLEVELAND-POLICY-CAPTURE-INTEGRATION-003 published the two Drury
     # properties worker 003 established on their own domain: 19 -> 21, and
     # unresolved 161 -> 159. The other four candidates it reviewed did NOT
