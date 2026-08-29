@@ -1,0 +1,40 @@
+{
+  "schema": "ptf-regression-classification/1.0",
+  "work_order": "PTF-GRAND-RAPIDS-INDIANAPOLIS-LINEAGE-MERGE-033",
+  "what_this_is": "every failure the merge changed, classified. A merged branch inherits BOTH lineages' baselines, so the honest question is not 'did the count go up' but 'is any failure caused by this merge'.",
+  "our_pre_merge_baseline": {
+    "commit": "e06b211",
+    "failed": 145,
+    "errors": 38
+  },
+  "post_merge": {
+    "failed": 158,
+    "errors": 0
+  },
+  "resolved_by_the_merge": {
+    "count": 42,
+    "cause": "grand-rapids-holland-mi was registered with no participation row, and a registered market with no row fails the assembler gate CLOSED FOR EVERY MARKET. Nothing could assemble at all: 30 errors in test_global_deployment_architecture_045 and 8 in test_launch_participation_046 were one cause."
+  },
+  "new_and_fixed_here": {
+    "cross_run_ledger_totals": {
+      "count": 3,
+      "why": "assertions pinned the ledger's SIZE (143 discovery, 739 paid, 100 negatives) and grew when the union preserved Grand Rapids' history -- the union this order required",
+      "fix": "each asserts its own market's contribution instead"
+    },
+    "lapsed_participation_pin": {
+      "count": 9,
+      "why": "a signed authorization binds launch_participation_sha256, and listing the eleventh market lapsed it; the founder was asked and accepted the lapse",
+      "fix": "a narrow conftest helper answers 'nothing disagrees EXCEPT the lapsed pin' -- it drops only complaints about the participation record, so a dropped market, a changed contract or a moved control file still fails"
+    }
+  },
+  "inherited_indianapolis_baseline": {
+    "count": 17,
+    "proof": "every one of the 17 was RUN on grok/ptf-indianapolis-revalidation-002 at d3d9a8c -- the commit that deployed Indianapolis to production -- and every one fails there. That branch fails 18; one of those passes here. Executed, not argued from provenance.",
+    "two_causes": [
+      "13 assert indianapolis-in holds 24 exclusions; its own later work (PTF-INDIANAPOLIS-AUTHORITY-PROMOTION-017) took it to 34 and the tests were never updated",
+      "4 need capture artifacts under data/acquisition/indianapolis_in_012 which are gitignored and exist only in that market's worktree"
+    ],
+    "not_silenced": "left failing and named, never adopted into a new baseline"
+  },
+  "new_regressions_caused_by_this_merge": 0
+}
