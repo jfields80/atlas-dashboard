@@ -100,6 +100,12 @@ OTHER_MARKET_RUNS = {
     # properties under a $9.66 cap, settled $7.25. Belongs to
     # grand-rapids-holland-mi and must never reach Milwaukee's projection.
     "grand_rapids_holland_mi_factory_001",
+    # PTF-GRAND-RAPIDS-POLICY-ACQUISITION-028: the 20 URLs Google Places
+    # batches 026 and 027 recovered, fetched under a $4.00 operating cap and
+    # settled at $1.70. Also grand-rapids-holland-mi, and excused here for the
+    # same reason: it is another market's run, and the companion test below
+    # proves the excuse does not let it reach Milwaukee's projection.
+    "gr_028",
 }
 
 

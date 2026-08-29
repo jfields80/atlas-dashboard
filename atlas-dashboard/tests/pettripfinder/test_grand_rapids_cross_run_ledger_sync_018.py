@@ -25,6 +25,7 @@ from __future__ import annotations
 
 import json
 import sys
+from collections import Counter
 from pathlib import Path
 
 import pytest
@@ -53,13 +54,32 @@ def replay():
 # --------------------------------------------------------------------------- #
 
 def test_the_generic_ledger_is_present_and_holds_the_grand_rapids_run():
-    """A ledger that does not know about this market's own paid run protects
-    nothing, and every suppression in the replay would be an accident."""
+    """A ledger that does not know about this market's own paid runs protects
+    nothing, and every suppression in the replay would be an accident.
+
+    PINNED PER RUN, NOT AS A TOTAL. This assertion once read ``== 68`` and
+    broke the moment a second paid run touched the market, which is the shape
+    of a test that pins a moment instead of a fact. What 018 actually
+    established is that ITS run contributes 68 lane attempts over 65
+    properties, and that stays true forever; a later run adds its own row and
+    takes nothing away.
+    """
     ledger = PAL.load(LEDGER)
     grand_rapids = [a for a in ledger["attempts"] if a["market_id"] == MARKET]
-    assert len(grand_rapids) == 68, "68 lane attempts over 65 properties"
-    assert {a["run_id"] for a in grand_rapids} == {
-        "grand-rapids-holland-mi-001-pass1"}
+    by_run = Counter(a["run_id"] for a in grand_rapids)
+
+    # 018's own fact, unchanged and unchangeable.
+    assert by_run["grand-rapids-holland-mi-001-pass1"] == 68, (
+        "68 lane attempts over 65 properties, from the run 018 synced")
+
+    # PTF-GRAND-RAPIDS-POLICY-ACQUISITION-028 fetched the 20 URLs Places
+    # batches 026 and 027 recovered: 21 lane attempts over 20 properties,
+    # because one row was tried on two lanes.
+    assert by_run["grand-rapids-holland-mi-acquisition-028"] == 21
+
+    assert set(by_run) == {"grand-rapids-holland-mi-001-pass1",
+                           "grand-rapids-holland-mi-acquisition-028"}
+    assert len(grand_rapids) == sum(by_run.values()) == 89
 
 
 def test_re_ingesting_the_paid_run_adds_nothing(replay):
