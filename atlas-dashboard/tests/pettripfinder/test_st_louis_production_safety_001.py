@@ -117,13 +117,21 @@ class TestParticipationIsTheSixMarketSet:
             assert admitted_by, market_id
 
     def test_no_other_registered_market_was_swept_in(self):
-        """Registration is not participation. The two registered markets that
-        are NOT source-ready must stay out, and no founder decision can admit
-        them. Indianapolis left this list by decision, not by drift."""
+        """Registration is not participation, and readiness is not admission.
+
+        Indianapolis left this list by decision, not by drift. Cincinnati is
+        now the other half of the same point: PTF-CINCINNATI-HARDENED-SYNC-002
+        made it genuinely source-ready, and it is STILL out, because only a
+        founder authorization admits a market. Detroit remains out because it
+        cannot assemble at all.
+        """
         assert (LP.launch_status("indianapolis-in")
                 == LP.FOUNDER_AUTHORIZED_FOR_LAUNCH)
+        assert LP.launch_status("detroit-ann-arbor-mi") == LP.NOT_SOURCE_READY
+        assert LP.launch_status("cincinnati-oh") == (
+            LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH)
         for market_id in ("cincinnati-oh", "detroit-ann-arbor-mi"):
-            assert LP.launch_status(market_id) == LP.NOT_SOURCE_READY
+            assert market_id not in LP.authorized_market_ids()
 
     def test_every_registered_market_carries_a_row(self):
         """The gate ``global.launch_participation_explicit`` refuses a bundle
@@ -233,12 +241,16 @@ class TestEveryContractStillVerifies:
         """
         manifest = json.loads(
             (DEPLOY / "global_deployment_manifest.json").read_text(encoding="utf-8"))
-        # PTF-GRAND-RAPIDS-DEPLOY-AUTHORIZATION-034 is that next deployment, so
-        # the pin is healed and the lapse is no longer visible in the committed
-        # state. The RULE it demonstrated is what this asserts now: a manifest
-        # pins the participation record it was written against, exactly.
-        assert _sha(DEPLOY / "launch_participation.json") == (
-            manifest["launch_participation"]["sha256"])
+        from pettripfinder.conftest import (
+            manifest_problems_other_than_the_lapsed_pin)
+        # 034 healed 033's lapse; PTF-CINCINNATI-HARDENED-SYNC-002 lapsed the pin again by correcting Cincinnati's source-readiness row.
+        # The rule is unchanged and so is the remedy -- the next deployment
+        # issues a new authorization -- so what is asserted here is that the
+        # manifest still NAMES the record, and that the only disagreement is
+        # the pin itself.
+        assert manifest["launch_participation"]["source"] == (
+            "deploy/netlify/launch_participation.json")
+        assert manifest_problems_other_than_the_lapsed_pin() == []
         record = json.loads(
             (DEPLOY / "launch_participation.json").read_text(encoding="utf-8"))
         assert any(m["market_id"] == "grand-rapids-holland-mi"

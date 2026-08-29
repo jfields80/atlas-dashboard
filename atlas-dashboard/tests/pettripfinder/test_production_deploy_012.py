@@ -300,12 +300,21 @@ class TestTheRepositoryMatchesProduction:
 
     def test_nothing_that_is_not_source_ready_was_ever_admitted(self):
         """Indianapolis has left this test: it was withheld on COVERAGE, never
-        on readiness, and 019 admitted it. The two that remain are the two that
-        cannot be admitted at all."""
+        on readiness, and 019 admitted it.
+
+        Cincinnati has half-left it. PTF-CINCINNATI-HARDENED-SYNC-002 made it
+        source-ready, so it is no longer a market that CANNOT be admitted -- it
+        is one that has not BEEN admitted, which is a different sentence and
+        the one the title of this test is really about. It is still absent from
+        every deployed bundle.
+        """
         assert (LP.launch_status("indianapolis-in")
                 == LP.FOUNDER_AUTHORIZED_FOR_LAUNCH)
+        assert LP.launch_status("detroit-ann-arbor-mi") == LP.NOT_SOURCE_READY
+        assert LP.launch_status("cincinnati-oh") == (
+            LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH)
         for market_id in ("cincinnati-oh", "detroit-ann-arbor-mi"):
-            assert LP.launch_status(market_id) == LP.NOT_SOURCE_READY
+            assert market_id not in LP.authorized_market_ids()
 
     def test_the_deploy_lineage_reads_back_in_order(self):
         """Every production deploy consumes its own authorization and names

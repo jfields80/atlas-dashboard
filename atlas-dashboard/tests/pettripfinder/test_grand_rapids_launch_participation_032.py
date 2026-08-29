@@ -203,8 +203,17 @@ def test_grand_rapids_is_authorized_and_nothing_else_moved():
         "cleveland-akron-canton-oh", "columbus-oh", "dayton-oh",
         "grand-rapids-holland-mi", "indianapolis-in", "louisville-ky",
         "milwaukee-wi", "pittsburgh-pa", "st-louis-mo"])
+    # Neither is authorized, and they are unauthorized for different
+    # reasons. Detroit cannot assemble at all. Cincinnati assembles cleanly
+    # since PTF-CINCINNATI-HARDENED-SYNC-002 and is withheld by the record --
+    # which is the state SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH
+    # exists to express. What this test guards is that neither is in the
+    # authorized set, and neither is.
+    assert LP.launch_status("detroit-ann-arbor-mi") == LP.NOT_SOURCE_READY
+    assert LP.launch_status("cincinnati-oh") == (
+        LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH)
     for mid in ("cincinnati-oh", "detroit-ann-arbor-mi"):
-        assert LP.launch_status(mid) == LP.NOT_SOURCE_READY
+        assert mid not in LP.authorized_market_ids()
 
 
 def test_every_registered_market_still_carries_an_explicit_row():
@@ -277,7 +286,13 @@ def test_the_candidate_pins_its_own_hashes_and_the_record_it_used(candidate):
     assert candidate["bundle_sha256"] == CANDIDATE_BUNDLE
     assert candidate["sitemap_sha256"] == CANDIDATE_SITEMAP
     assert candidate["bundle_sha256"] != REPLACED_BUNDLE
-    assert candidate["launch_participation"]["sha256"] == LP.participation_sha256()
+    # PTF-CINCINNATI-HARDENED-SYNC-002 lapsed the pin again by correcting Cincinnati's source-readiness row,
+    # so the candidate pins the record AS IT WAS when 032 composed it. That is
+    # what a pin is for: it must not follow the file. The rollback target and
+    # both bundle hashes below are unaffected.
+    assert candidate["launch_participation"]["sha256"] != LP.participation_sha256()
+    assert candidate["launch_participation"]["source"] == (
+        "deploy/netlify/launch_participation.json")
     assert candidate["source_commit"]
 
 

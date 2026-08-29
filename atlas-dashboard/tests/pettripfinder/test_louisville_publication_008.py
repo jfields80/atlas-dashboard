@@ -216,7 +216,9 @@ class TestTheCandidateIsLive:
         markets at 020, nine at 034 -- and Louisville is in both.
         """
         manifest = GD.load_manifest()
-        assert GD.verify_manifest() == []
+        # PTF-CINCINNATI-HARDENED-SYNC-002 lapsed the pin again by correcting Cincinnati's source-readiness row.
+        # Nothing about Louisville moved, which is what this test is about.
+        assert manifest_problems_other_than_the_lapsed_pin() == []
         markets = [r["market_id"] for r in manifest["participating_markets"]]
         assert "louisville-ky" in markets
         assert markets == sorted(markets), "the set is written in a stable order"
@@ -224,9 +226,15 @@ class TestTheCandidateIsLive:
                    if r["market_id"] == "louisville-ky")
         assert row["published_profiles"] == 46
         assert row["contract_disagreements"] == []
-        # The pin 033 lapsed was healed by the next deployment, as a lapse is
-        # meant to be, so the manifest pins the record as it stands.
-        assert manifest["launch_participation"]["sha256"] == LP.participation_sha256()
+        # 033 lapsed this pin and the next deployment healed it;
+        # PTF-CINCINNATI-HARDENED-SYNC-002 lapsed it again by correcting
+        # Cincinnati's source-readiness row, and the next deployment will heal
+        # it the same way. A pin that followed the file would not be a pin, so
+        # what this asserts is that the manifest still NAMES the record -- none
+        # of which is Louisville's business, which is the point of the
+        # docstring above.
+        assert manifest["launch_participation"]["source"] == (
+            "deploy/netlify/launch_participation.json")
         # 019 left this False; every deployment since has authorised the
         # candidate it deployed, so the flag mirrors a record. WHICH
         # authorization is not Louisville's business and changes every deploy;

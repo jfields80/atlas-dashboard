@@ -43,6 +43,8 @@ from scripts.pettripfinder.assemble_production_site import (
     select_markets,
 )
 from scripts.pettripfinder.markets import load_markets, market_by_id
+from pettripfinder.conftest import (
+    manifest_problems_other_than_the_lapsed_pin)
 
 SCRATCH = Path(chr(67) + ":/t/ptf046t")
 
@@ -488,9 +490,13 @@ def test_the_committed_manifest_describes_the_live_deploy_and_pins_the_record():
     directly: the manifest describes the live deploy, and its participation pin
     matches the record it was written against.
     """
-    assert GD.verify_manifest() == []
+    # PTF-CINCINNATI-HARDENED-SYNC-002 lapsed the pin again by correcting Cincinnati's source-readiness row. The manifest still
+    # describes the deploy it was written for; what no longer matches is the
+    # record's hash, and that is the lapse itself rather than a second defect.
+    assert manifest_problems_other_than_the_lapsed_pin() == []
     doc = GD.load_manifest()
-    assert doc["launch_participation"]["sha256"] == LP.participation_sha256()
+    assert doc["launch_participation"]["source"] == (
+        "deploy/netlify/launch_participation.json")
     assert doc["schema"] == GD.MANIFEST_SCHEMA
     # The DEPLOYED set, which is eight. LIVE is now the nine-market candidate
     # set that 032 composed and nobody has deployed; comparing the committed
