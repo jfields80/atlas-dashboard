@@ -129,8 +129,16 @@ class TestTheMeasuredResult:
 
     def test_the_ledger_recorded_all_118(self, run, ledger):
         assert run["ledger_rows_written"] == 118
-        assert len(ledger["attempts"]) == 143
-        assert sum(a["paid_requests"] for a in ledger["attempts"]) == 143
+        # SCOPED TO THIS MARKET, not to the ledger's total. The ledger is a
+        # CROSS-RUN memory and PTF-GRAND-RAPIDS-INDIANAPOLIS-LINEAGE-MERGE-033
+        # unioned Grand Rapids' 40 Places lookups into it, which is what a
+        # cross-run ledger is FOR. What 010 established is that ITS 143
+        # attempts are all there, and that stays true however many markets
+        # later share the file.
+        mine = [a for a in ledger["attempts"]
+                if a["market_id"] == "indianapolis-in"]
+        assert len(mine) == 143
+        assert sum(a["paid_requests"] for a in mine) == 143
 
 
 class TestTheWholeUniverseIsNowProtected:
@@ -146,11 +154,17 @@ class TestTheWholeUniverseIsNowProtected:
             rows, ledger, provider="GOOGLE_PLACES", method="searchText",
             field_mask=tuple(C.GOOGLE_FIELD_MASK.split(",")))
         assert payable == []
-        assert len(suppressed) == 143
+        assert len([r for r in suppressed
+                    if r.get("market_id", "indianapolis-in") == "indianapolis-in"]) == 143
 
     def test_failures_are_remembered_as_findings(self, ledger):
+        # This market's failures. The ledger is shared across markets since
+        # PTF-GRAND-RAPIDS-INDIANAPOLIS-LINEAGE-MERGE-033 unioned Grand Rapids
+        # into it, and counting every market's negatives would measure the
+        # file rather than this run.
         failed = [a for a in ledger["attempts"]
-                  if a["bind_state"] in DAL.ANSWERED_NEGATIVE_STATES]
+                  if a["market_id"] == "indianapolis-in"
+                  and a["bind_state"] in DAL.ANSWERED_NEGATIVE_STATES]
         assert len(failed) == 100
 
 

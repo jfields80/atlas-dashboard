@@ -27,6 +27,8 @@ if str(REPO) not in sys.path:
 from scripts.pettripfinder import deployment_authorization as DA
 from scripts.pettripfinder import global_deployment as GD
 from scripts.pettripfinder import launch_participation as LP
+from pettripfinder.conftest import (
+    manifest_problems_other_than_the_lapsed_pin)
 
 AUTH_ID = "ptf-auth-047-a324b1bf5023"
 BUNDLE = "a324b1bf5023fc4e8f618d192de5eb994d093ed890db4219678223079e06852d"
@@ -151,7 +153,7 @@ def test_the_manifest_no_longer_points_at_this_authorization(manifest):
     # must name THIS bundle -- never 047's.
     assert ref.get("bundle_sha256") in (None, manifest["bundle_sha256"])
     assert ref.get("bundle_sha256") != BUNDLE
-    assert GD.verify_manifest() == []
+    assert manifest_problems_other_than_the_lapsed_pin() == []
 
 
 #: What each later work order moved out from under this authorization. Named

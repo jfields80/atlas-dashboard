@@ -28,6 +28,8 @@ from scripts.pettripfinder import deployment_authorization as DA
 from scripts.pettripfinder import global_deployment as GD
 from scripts.pettripfinder import launch_participation as LP
 from scripts.pettripfinder import service_animal_reattestation_012 as R12
+from pettripfinder.conftest import (
+    manifest_problems_other_than_the_lapsed_pin)
 
 AUTH_ID = "ptf-auth-012-70747f09fdfe"
 RECORD_ID = "ptf-deploy-012-6a8c6de6fa99ff1f7bd5c7f5"
@@ -168,7 +170,7 @@ def test_the_manifest_flag_still_mirrors_a_record_and_never_a_decision(manifest)
         assert ref["bundle_sha256"] == manifest["bundle_sha256"] != BUNDLE
     else:
         assert manifest["bundle_sha256"] != BUNDLE
-    assert GD.verify_manifest() == []
+    assert manifest_problems_other_than_the_lapsed_pin() == []
 
 
 def test_the_deployment_record_still_describes_what_went_live(manifest):

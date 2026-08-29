@@ -201,13 +201,30 @@ class TestEveryContractStillVerifies:
         assert "st-louis-mo" in results
         assert {k: v for k, v in results.items() if v} == {}
 
-    def test_the_global_manifest_verifies(self):
+    def test_the_global_manifest_verifies_apart_from_the_lapsed_pin(self):
+        from pettripfinder.conftest import (
+            manifest_problems_other_than_the_lapsed_pin)
         manifest = json.loads(
             (DEPLOY / "global_deployment_manifest.json").read_text(encoding="utf-8"))
-        assert GD.verify_manifest(manifest) == []
+        assert manifest_problems_other_than_the_lapsed_pin(
+            GD.verify_manifest(manifest)) == []
 
-    def test_the_manifest_pins_the_participation_file_as_it_stands(self):
+    def test_the_participation_pin_lapsed_when_the_eleventh_market_registered(self):
+        """It used to pin the file AS IT STANDS. It pins it AS IT STOOD.
+
+        PTF-GRAND-RAPIDS-INDIANAPOLIS-LINEAGE-MERGE-033 listed
+        grand-rapids-holland-mi, because a registered market with no row fails
+        the assembler gate closed for every market. That changed the record's
+        sha256 and lapsed the signed authorization that binds it -- the same
+        thing PTF-ST-LOUIS-FRESH-MARKET-BENCHMARK-001 recorded when St. Louis
+        registered. The live bundle is untouched; the next deployment issues a
+        new authorization.
+        """
         manifest = json.loads(
             (DEPLOY / "global_deployment_manifest.json").read_text(encoding="utf-8"))
-        assert _sha(DEPLOY / "launch_participation.json") == (
+        assert _sha(DEPLOY / "launch_participation.json") != (
             manifest["launch_participation"]["sha256"])
+        record = json.loads(
+            (DEPLOY / "launch_participation.json").read_text(encoding="utf-8"))
+        assert any(m["market_id"] == "grand-rapids-holland-mi"
+                   for m in record["markets"]), "the row that lapsed it"

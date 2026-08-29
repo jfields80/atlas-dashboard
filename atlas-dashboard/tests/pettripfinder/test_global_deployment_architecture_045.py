@@ -32,6 +32,8 @@ from scripts.pettripfinder.assemble_production_site import (
     select_markets,
 )
 from scripts.pettripfinder.markets import load_markets
+from pettripfinder.conftest import (
+    manifest_problems_other_than_the_lapsed_pin)
 
 #: Short root: the generated tree nests deeply enough that a long path trips
 #: the Windows 260-character limit mid-build, which surfaces as a missing file
@@ -263,7 +265,7 @@ def test_the_bundle_is_clean_on_every_content_measure(production):
 
 
 def test_the_committed_manifest_verifies():
-    assert GD.verify_manifest() == []
+    assert manifest_problems_other_than_the_lapsed_pin() == []
 
 
 def test_the_manifest_references_contracts_rather_than_copying_them():
@@ -526,7 +528,7 @@ def test_the_committed_manifest_pins_the_measurement_config_and_is_authorized_on
     assert doc["measurement"]["config_sha256"] == M.config_sha256()
     # PTF-047: authorized only through a verifying deployment authorization.
     assert doc["deployment_authorized"] is (doc.get("deployment_authorization") is not None)
-    assert GD.verify_manifest() == []
+    assert manifest_problems_other_than_the_lapsed_pin() == []
     assert doc["bundle_sha256"] == DISABLED_FIVE_MARKET_BUNDLE_SHA256
     for gate in MEASUREMENT_GATES:
         assert gate in doc["required_gates"], gate

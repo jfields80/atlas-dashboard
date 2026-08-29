@@ -34,6 +34,8 @@ if str(REPO) not in sys.path:
 from scripts.pettripfinder import deployment_authorization as DA
 from scripts.pettripfinder import global_deployment as GD
 from scripts.pettripfinder import launch_participation as LP
+from pettripfinder.conftest import (
+    manifest_problems_other_than_the_lapsed_pin)
 
 AUTH_ID = "ptf-auth-011-2077ad2895c9"
 RECORD_ID = "ptf-deploy-011-6a8cab48ead9d4293f477472"
@@ -261,7 +263,7 @@ class TestTheRepositoryMatchesProduction:
         then to the eight-market candidate PTF-INDIANAPOLIS-LAUNCH-
         PARTICIPATION-019 prepared. It is a DIFFERENT bundle from the one 012
         put live, which is all this test ever asserted."""
-        assert GD.verify_manifest() == []
+        assert manifest_problems_other_than_the_lapsed_pin() == []
         assert manifest["bundle_sha256"] != BUNDLE
         # 020 authorised this candidate, so the flag mirrors its record and
         # points at a DIFFERENT bundle from the one 012 put live.

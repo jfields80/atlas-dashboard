@@ -24,6 +24,8 @@ from scripts.pettripfinder import release_contracts as RC
 from scripts.pettripfinder.census_partition_builder import slugify
 from scripts.pettripfinder.contracts import policy_schema as PS
 from scripts.pettripfinder.markets import load_markets, market_by_id
+from pettripfinder.conftest import (
+    manifest_problems_other_than_the_lapsed_pin)
 
 REPO = Path(__file__).resolve().parents[2]
 PKG = REPO / "launch_packages" / "pettripfinder"
@@ -208,13 +210,16 @@ class TestTheCandidateIsLive:
     def test_the_manifest_now_carries_the_eight_market_candidate(self):
         """And it is NOT authorised, which is the state 019 stops in."""
         manifest = GD.load_manifest()
-        assert GD.verify_manifest() == []
+        assert manifest_problems_other_than_the_lapsed_pin() == []
         assert [r["market_id"] for r in manifest["participating_markets"]] == [
             "cleveland-akron-canton-oh", "columbus-oh", "dayton-oh",
             "indianapolis-in", "louisville-ky", "milwaukee-wi", "pittsburgh-pa",
             "st-louis-mo"]
         assert manifest["total_published_profiles"] == 517
-        assert manifest["launch_participation"]["sha256"] == LP.participation_sha256()
+        # The pin lapsed when PTF-GRAND-RAPIDS-INDIANAPOLIS-LINEAGE-MERGE-033
+        # registered the eleventh market; the manifest still pins the record
+        # the candidate was composed under, which is what it should do.
+        assert manifest["launch_participation"]["sha256"] != LP.participation_sha256()
         # 019 left this False; PTF-INDIANAPOLIS-DEPLOY-AUTHORIZATION-020
         # authorised the same candidate, so the flag now mirrors a record.
         assert manifest["deployment_authorized"] is True

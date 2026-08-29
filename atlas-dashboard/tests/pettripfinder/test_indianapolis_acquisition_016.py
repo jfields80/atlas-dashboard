@@ -388,7 +388,13 @@ class TestTheRunWasFedBackIntoTheLedger:
         runs = Counter(a.get("run_id") for a in ledger["attempts"])
         assert runs["indianapolis-in-016"] == 24
         assert runs["indianapolis-in-012"] == 52
-        assert len(ledger["attempts"]) == 739
+        # 739 was the ledger's TOTAL when 016 ran. It is a cross-run memory:
+        # PTF-GRAND-RAPIDS-INDIANAPOLIS-LINEAGE-MERGE-033 unioned Grand
+        # Rapids' 21 acquisition attempts into it and the total is now 760.
+        # 016's own fact is that its market's attempts are all present.
+        assert len(ledger["attempts"]) >= 739
+        assert len([a for a in ledger["attempts"]
+                    if a["market_id"] == "indianapolis-in"]) == 181
 
     def test_the_earlier_markets_still_survive(self):
         ledger = _load("ptf_paid_attempt_ledger_001.json")
