@@ -1,0 +1,50 @@
+{
+  "schema": "ptf-detroit-ann-arbor-decision-point/1.0",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-FIRECRAWL-RATE-LIMIT-RECOVERY-010",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-29",
+  "note": "Detroit's position after the rate-limit recovery. NOTHING IS APPLIED TO AUTHORITY by this order: every candidate is awaiting founder approval, and the pilot below is a recommendation that was not run.",
+  "cumulative_firecrawl": {
+    "attempts": 143,
+    "credits": 111.0,
+    "usd": 14.83
+  },
+  "position": {
+    "existing_approved_pet_friendly": 17,
+    "new_pet_friendly_candidates": 18,
+    "existing_verified_no_pets": 25,
+    "new_verified_no_pets_candidates": 36,
+    "candidates_by_pass": {
+      "008": 8,
+      "009": 18,
+      "010": 28
+    },
+    "counted_by": "DISTINCT IDENTITY, not attempt: Pass 008 bought two pages twice and counting those twice would report inventory Detroit does not have",
+    "total_resolved_if_founder_approves": 96,
+    "projected_pet_friendly": 35,
+    "projected_verified_no_pets": 61,
+    "holds_awaiting_founder": 2,
+    "unresolved": {
+      "brightdata_class": 112,
+      "routing_repair": 2,
+      "policy_not_found_source_silence": 2,
+      "census_without_a_route": 45
+    }
+  },
+  "decision": {
+    "question": "does the resulting Detroit inventory justify proceeding to a Bright Data pilot?",
+    "answer": "YES",
+    "why": "Detroit clears the threshold on its own numbers. Approving the clean candidates takes pet-friendly from 17 to 35 -- the listings a pet-travel directory exists to show -- and total resolved inventory to 96. A market at that size is worth extending; the question was open while Detroit looked like a no-pets market, and the recovery cohort answered it: 18 of the 54 rows it read are pet-friendly.",
+    "what_changed_the_picture": "Pass 009 read 18 properties and found ZERO pet-friendly, which pointed at a no-pets market. That cohort was Holiday Inn Express and Comfort Inn -- limited-service brands. This cohort reached the extended-stay and boutique names (Staybridge, EVEN, Hotel Indigo, Suburban Studios) and 18 of 54 are pet-friendly. The market is not uniform, and a rate measured on one brand mix does not describe another.",
+    "what_this_does_NOT_license": "extrapolating the Firecrawl rate to Marriott and Hilton. Those are a different family population reached through a different provider past different defences, and the 69 brand-wall rows have never been attempted at all. The pilot exists BECAUSE that rate is unknown.",
+    "recommended_pilot": {
+      "run": false,
+      "status": "RECOMMENDATION ONLY -- NOT EXECUTED, NOT AUTHORISED",
+      "rows": 12,
+      "why_12": "inside the 10-15 the order allows, and enough that a Wilson interval on the result is narrow enough to size the remaining 112 rows without another pilot",
+      "composition": "stratified, not the first 12 by name: 6 Marriott and 6 Hilton, since they are the two brand walls and may behave differently from each other",
+      "what_it_measures": "whether the managed browser reaches these two brands at all, and at what cost per attempt -- the access question first, the pet-friendly rate second",
+      "do_not_size_the_full_cohort_from_it_until": "the pilot's own Wilson LOWER bound is known; sizing 112 rows on a 12-row point estimate is the mistake this project has already made once"
+    }
+  }
+}
