@@ -286,12 +286,16 @@ class TestTheRepositoryMatchesProduction:
         assert successor["rollback_target"] == DEPLOY_ID
         assert successor["previous_deployment_id"] == DEPLOY_ID
 
-    def test_the_founder_authorized_set_grew_by_louisville_then_indianapolis(self):
-        """012 admitted Louisville; PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019
-        admitted Indianapolis. The set only ever grows, and both steps are
-        still readable here."""
-        assert LP.authorized_market_ids() == \
-            sorted(SIX + ["louisville-ky", "indianapolis-in"])
+    def test_the_founder_authorized_set_grew_by_louisville_and_only_grows(self):
+        """012 admitted Louisville, and the set has only ever grown since.
+
+        This used to spell out every market admitted after Louisville, so each
+        later launch had to edit a St. Louis deploy test to say something that
+        was not about that deploy. 012's own fact is that the six it deployed
+        plus Louisville are all still authorized and none was demoted.
+        """
+        authorized = set(LP.authorized_market_ids())
+        assert set(SIX) | {"louisville-ky"} <= authorized
         assert LP.launch_status("louisville-ky") == LP.FOUNDER_AUTHORIZED_FOR_LAUNCH
 
     def test_nothing_that_is_not_source_ready_was_ever_admitted(self):

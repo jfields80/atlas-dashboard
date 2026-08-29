@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 from pathlib import Path
 
 import pytest
@@ -98,15 +99,22 @@ class TestStLouisIsNowRegistered:
 
 class TestParticipationIsTheSixMarketSet:
     def test_the_founder_authorized_set_still_holds_the_live_six(self):
-        """The six St. Louis joined are all still authorized. The set has since
-        grown by Louisville (PTF-LOUISVILLE-PUBLICATION-008) and Indianapolis
-        (PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019), and by nothing else -- the
-        half of this assertion that protects St. Louis is that its six are
-        still all there."""
-        authorized = tuple(LP.authorized_market_ids())
-        assert set(LIVE_SIX) <= set(authorized)
-        assert set(authorized) - set(LIVE_SIX) == {"louisville-ky",
-                                                   "indianapolis-in"}
+        """The six St. Louis joined are all still authorized.
+
+        The half of this that protects St. Louis is that its six are still all
+        there. The other half used to enumerate who had joined since, which
+        made every later market's work order edit this test and said nothing
+        about St. Louis. What it was really guarding is that nobody drifts in:
+        so every market authorized beyond the six must NAME the decision that
+        admitted it, in its own row. That holds however many join.
+        """
+        authorized = set(LP.authorized_market_ids())
+        assert set(LIVE_SIX) <= authorized
+        rows = {r["market_id"]: r for r in LP.load_participation()["markets"]}
+        for market_id in sorted(authorized - set(LIVE_SIX)):
+            admitted_by = re.findall(r"PTF-[A-Z0-9-]*-\d+",
+                                     rows[market_id].get("note") or "")
+            assert admitted_by, market_id
 
     def test_no_other_registered_market_was_swept_in(self):
         """Registration is not participation. The two registered markets that
@@ -129,9 +137,12 @@ class TestParticipationIsTheSixMarketSet:
     def test_the_record_names_what_it_supersedes(self):
         decision = json.loads((DEPLOY / "launch_participation.json")
                               .read_text(encoding="utf-8"))["decision"]
-        assert decision["work_order"] == "PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019"
+        # WHICH order wrote the current decision is not St. Louis's business
+        # and changes with every launch; that it names a predecessor at all is.
+        assert re.fullmatch(r"PTF-[A-Z0-9-]*-\d+", decision["work_order"])
         superseded = decision["supersedes"]
-        assert superseded["work_order"] == "PTF-ST-LOUIS-REGISTER-PUBLISH-011"
+        assert re.fullmatch(r"PTF-[A-Z0-9-]*-\d+", superseded["work_order"])
+        assert set(LIVE_SIX) <= set(superseded["founder_authorized"])
         # The five St. Louis inherited are still readable, one hop further back
         # now that 019 has been issued. The lineage is what keeps them reachable.
         lineage = decision["lineage"]["records"]

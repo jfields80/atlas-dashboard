@@ -165,6 +165,22 @@ def _partition_path(market_id: str) -> Optional[Path]:
         # and the glob takes the first match in sorted order -- which would have
         # silently pinned 001, the partition from before any founder signed.
         "st-louis-mo": "st_louis_mo_final_partition_007.json",
+        # Grand Rapids needs the table for the SAME reason and one more.
+        # The glob strips the last segment and hyphenates:
+        # "grand-rapids-holland-mi" -> "grand-rapids-holland_final_partition_*",
+        # which no file matches because the filenames use underscores. It never
+        # matched, so this market silently read as "no final partition" and was
+        # not assemblable at all until PTF-GRAND-RAPIDS-LAUNCH-PARTICIPATION-032
+        # went looking for why.
+        #
+        # And like St. Louis it commits more than one, so the entry names the
+        # partition rather than letting sorted-order pick: 001 is the
+        # PAID-ACQUISITION-AUTHORIZATION-009 partition from before any founder
+        # signed, still carrying 42 rows as AWAITING_FOUNDER_DECISION. 002 is
+        # rebuilt from the signed authority -- 43 published, 20 verified-no-pets.
+        # Pinning 001 would assemble a market whose published hotels its own
+        # partition says are waiting to be looked at.
+        "grand-rapids-holland-mi": "grand_rapids_holland_mi_final_partition_002.json",
     }
     name = table.get(market_id)
     path = PACKAGE_DIR / name if name else None

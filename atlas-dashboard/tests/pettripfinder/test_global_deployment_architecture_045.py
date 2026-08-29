@@ -54,16 +54,21 @@ SCRATCH = Path(chr(67) + ":/t/ptf045t")
 #: eighth market on the founder decision that reversed the PTF-046
 #: withholding. Every other market's figure below is UNCHANGED, which is
 #: the half of these constants that says a new market disturbed nothing.
+#: What the participation record composes RIGHT NOW. These grow with each
+#: founder launch decision and only with one; the constants moved last for
+#: PTF-GRAND-RAPIDS-LAUNCH-PARTICIPATION-032, which admitted the ninth market.
 EXPECTED_MARKETS = ("cleveland-akron-canton-oh", "columbus-oh", "dayton-oh",
-                    "indianapolis-in", "louisville-ky", "milwaukee-wi",
-                    "pittsburgh-pa", "st-louis-mo")
+                    "grand-rapids-holland-mi", "indianapolis-in",
+                    "louisville-ky", "milwaukee-wi", "pittsburgh-pa",
+                    "st-louis-mo")
 EXPECTED_PROFILES = {"cleveland-akron-canton-oh": 99, "columbus-oh": 88,
-                     "dayton-oh": 47, "indianapolis-in": 56,
-                     "louisville-ky": 46, "milwaukee-wi": 73,
-                     "pittsburgh-pa": 26, "st-louis-mo": 82}
-EXPECTED_TOTAL = 517
-EXPECTED_HTML_PAGES = 3249
-EXPECTED_SITEMAP_ROUTES = 638
+                     "dayton-oh": 47, "grand-rapids-holland-mi": 43,
+                     "indianapolis-in": 56, "louisville-ky": 46,
+                     "milwaukee-wi": 73, "pittsburgh-pa": 26,
+                     "st-louis-mo": 82}
+EXPECTED_TOTAL = 560
+EXPECTED_HTML_PAGES = 3503
+EXPECTED_SITEMAP_ROUTES = 688
 
 
 @pytest.fixture(scope="module")
@@ -425,9 +430,21 @@ DEPLOYED_012_BUNDLE_SHA256 = (
 #: change a byte inside it.
 DEPLOYED_011_BUNDLE_SHA256 = (
     "2077ad2895c9273ddc9deed62295058f88915e20cb6fcd4072433d1c17dff741")
-#: The seven-market candidate composed by PTF-LOUISVILLE-PUBLICATION-008.
-DISABLED_FIVE_MARKET_BUNDLE_SHA256 = (
+#: The bundle DEPLOYED by PTF-INDIANAPOLIS-DEPLOY-AUTHORIZATION-020 and live in
+#: production; it is what the COMMITTED manifest pins.
+DEPLOYED_020_BUNDLE_SHA256 = (
     "e9998c51d13559333ef9bd63f287e8858b73eb0011401a9606a58871f6ba74cc")
+#: What assembling RIGHT NOW produces: the nine-market candidate composed by
+#: PTF-GRAND-RAPIDS-LAUNCH-PARTICIPATION-032, measurement disabled. Not
+#: deployed and not authorized.
+#:
+#: This was one constant named DISABLED_FIVE_MARKET_BUNDLE_SHA256 until 032.
+#: The fresh assembly and the committed manifest happened to name the same
+#: bundle for as long as no market joined between deployments, so a single
+#: constant served both -- and it kept the word FIVE through four more
+#: markets. They are two different facts and now hold two different values.
+DISABLED_BUILD_BUNDLE_SHA256 = (
+    "5fc4ae2c555d83a9986d3d071df1013cc1a9f2fcff5d509d26c49278c84defb6")
 
 #: The only four routes PTF-011 was permitted to change.
 SERVICE_ANIMAL_CORRECTED_ROUTES = (
@@ -465,9 +482,12 @@ def test_the_disabled_bundle_is_the_pinned_candidate_byte_for_byte(production):
     leaked into a disabled build or the participation set changed; neither
     is accepted by editing the hash here without its own work order."""
     manifest, _site = production
-    assert manifest["bundle_sha256"] == DISABLED_FIVE_MARKET_BUNDLE_SHA256
+    assert manifest["bundle_sha256"] == DISABLED_BUILD_BUNDLE_SHA256
     assert manifest["bundle_sha256"] != WITHDRAWN_SIX_MARKET_BUNDLE_SHA256
     assert manifest["bundle_sha256"] != DEPLOYED_047_BUNDLE_SHA256
+    # And it is not the live bundle either: a candidate that silently fell back
+    # to the deployed set would otherwise pass every count above.
+    assert manifest["bundle_sha256"] != DEPLOYED_020_BUNDLE_SHA256
 
 
 def test_the_correction_moved_only_four_profiles(production):
@@ -529,7 +549,7 @@ def test_the_committed_manifest_pins_the_measurement_config_and_is_authorized_on
     # PTF-047: authorized only through a verifying deployment authorization.
     assert doc["deployment_authorized"] is (doc.get("deployment_authorization") is not None)
     assert manifest_problems_other_than_the_lapsed_pin() == []
-    assert doc["bundle_sha256"] == DISABLED_FIVE_MARKET_BUNDLE_SHA256
+    assert doc["bundle_sha256"] == DEPLOYED_020_BUNDLE_SHA256
     for gate in MEASUREMENT_GATES:
         assert gate in doc["required_gates"], gate
 

@@ -47,6 +47,7 @@ CLEVELAND = "cleveland-akron-canton-oh"
 DAYTON = "dayton-oh"
 CINCINNATI = "cincinnati-oh"
 INDIANAPOLIS = "indianapolis-in"
+GRAND_RAPIDS = "grand-rapids-holland-mi"
 
 FULL_BUILD = os.environ.get("PTF_ASSEMBLER_FULL_BUILD") == "1"
 needs_build = pytest.mark.skipif(
@@ -324,7 +325,12 @@ def test_cincinnati_does_not_fail_the_global_selection(markets):
          # PTF-LOUISVILLE-PUBLICATION-008: the seventh, admitted the same way.
          "louisville-ky",
          # PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019: the eighth, likewise.
-         INDIANAPOLIS])
+         INDIANAPOLIS,
+         # PTF-GRAND-RAPIDS-LAUNCH-PARTICIPATION-032: the ninth. It became
+         # assemblable in that order, which fixed a partition lookup that
+         # could not reach its artifact and rebuilt the artifact itself from
+         # the founder-signed authority.
+         GRAND_RAPIDS])
 
 
 def test_indianapolis_is_registered_above_threshold_and_source_ready(markets):
@@ -354,7 +360,12 @@ def test_indianapolis_is_now_in_the_global_selection(markets):
          # PTF-LOUISVILLE-PUBLICATION-008: the seventh, admitted the same way.
          "louisville-ky",
          # PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019: the eighth, likewise.
-         INDIANAPOLIS])
+         INDIANAPOLIS,
+         # PTF-GRAND-RAPIDS-LAUNCH-PARTICIPATION-032: the ninth. It became
+         # assemblable in that order, which fixed a partition lookup that
+         # could not reach its artifact and rebuilt the artifact itself from
+         # the founder-signed authority.
+         GRAND_RAPIDS])
 
 
 def test_participation_is_a_founder_decision_layered_on_source_readiness(markets):
@@ -409,13 +420,16 @@ def test_current_live_inventory_preserves_all_assemblable_market_profiles(market
                       # PTF-LOUISVILLE-PUBLICATION-008: 46 founder-signed
                       # profiles over a 166-identity census. Same half of the
                       # assertion, same conclusion -- nothing above moved.
-                      "louisville-ky": 46}
+                      "louisville-ky": 46,
+                      # PTF-GRAND-RAPIDS-LAUNCH-PARTICIPATION-032: 43
+                      # founder-signed profiles over the pinned 163-identity
+                      # census, signed across 021 and 030. Same half of the
+                      # assertion, same conclusion -- nothing above moved.
+                      GRAND_RAPIDS: 43}
     # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: 469 + Indianapolis's 16 further
     # founder-signed profiles (8 -> 24). Every other market's count above is
     # unchanged, so the whole of this movement is Indianapolis's.
-    assert sum(counts.values()) == 517   # 485 + Indianapolis 24 -> 56 across
-    # PTF-INDIANAPOLIS-56-PROFILE-AUTHORITY-PROMOTION-017 (54) and
-    # PTF-INDIANAPOLIS-FINAL-ZERO-COST-CLEANUP-018 (+2)
+    assert sum(counts.values()) == 560   # 517 + Grand Rapids 43
 
 
 # --------------------------------------------------------------------------- #

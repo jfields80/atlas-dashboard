@@ -54,27 +54,28 @@ FIVE = ("cleveland-akron-canton-oh", "columbus-oh", "dayton-oh",
 #: PTF-LOUISVILLE-PUBLICATION-008 admitted a seventh by the same mechanism,
 #: and registration and the participation row were written in one step so the
 #: market never existed in the state 046 forbids.
-LIVE = tuple(sorted(FIVE + ("st-louis-mo", "louisville-ky", "indianapolis-in")))
+#: PTF-GRAND-RAPIDS-LAUNCH-PARTICIPATION-032 admitted a ninth by the same
+#: mechanism, once two things that had silently blocked it were fixed: the
+#: partition lookup could not reach its artifact at all, and the artifact it
+#: would have reached predated every founder signature.
+LIVE = tuple(sorted(FIVE + ("st-louis-mo", "louisville-ky", "indianapolis-in",
+                            "grand-rapids-holland-mi")))
 PROFILES = {"cleveland-akron-canton-oh": 99, "columbus-oh": 88,
             "dayton-oh": 47, "milwaukee-wi": 73, "pittsburgh-pa": 26,
-            "st-louis-mo": 82, "louisville-ky": 46, "indianapolis-in": 56}
+            "st-louis-mo": 82, "louisville-ky": 46, "indianapolis-in": 56,
+            "grand-rapids-holland-mi": 43}
 #: 046 withheld Indianapolis and PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019
 #: admitted it on a founder decision. Both facts are asserted below: the
 #: withholding is still provable from the participation record's own
 #: supersedes block, which is where a reversed decision leaves its history.
 ADMITTED_AT_019 = "indianapolis-in"
+ADMITTED_AT_032 = "grand-rapids-holland-mi"
 WITHHELD_BY_046 = "indianapolis-in"
-# grand-rapids-holland-mi joined this list in
-# PTF-GRAND-RAPIDS-INDIANAPOLIS-LINEAGE-MERGE-033. Its AUTHORITY is
-# sound -- 43 founder-signed profiles, 20 exclusions, a clean release
-# contract -- but the assembler cannot reach its final partition
-# (_partition_path builds a hyphenated glob the underscore filenames do
-# not match, and it has no entry in the explicit table that exists for
-# louisville-ky and st-louis-mo for that same reason), and the
-# partition it would reach predates the founder signature. Both are
-# PTF-GRAND-RAPIDS-LAUNCH-PARTICIPATION-032's work.
-NOT_READY = ("cincinnati-oh", "detroit-ann-arbor-mi",
-             "grand-rapids-holland-mi")
+# grand-rapids-holland-mi joined this list in the lineage merge, when the
+# assembler first ran on a branch carrying it and could not reach its final
+# partition. 032 added the table entry and rebuilt the partition from the
+# signed authority, so it LEFT this list and joined LIVE.
+NOT_READY = ("cincinnati-oh", "detroit-ann-arbor-mi")
 
 #: The five-market production candidate, reproduced twice in the work order
 #: and DEPLOYED by PTF-047. Superseded by
@@ -97,14 +98,20 @@ DEPLOYED_011_BUNDLE_SHA256 = (
 #: eight-market candidate must ADD to it and change nothing in it.
 DEPLOYED_008_BUNDLE_SHA256 = (
     "38c811dfc22c185bf11a07e1c14cb7abc787c106cf7c6f119930b803bc4380df")
-#: The eight-market candidate composed by
-#: PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019. NOT deployed and NOT
-#: authorised; its manifest carries deployment_authorized=false.
-EXPECTED_BUNDLE_SHA256 = (
+#: The eight-market bundle, composed by
+#: PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019 and DEPLOYED by
+#: PTF-INDIANAPOLIS-DEPLOY-AUTHORIZATION-020
+#: and live in production. Kept named on the same rule as the ones above: the
+#: nine-market candidate must ADD to it and change nothing in it.
+DEPLOYED_020_BUNDLE_SHA256 = (
     "e9998c51d13559333ef9bd63f287e8858b73eb0011401a9606a58871f6ba74cc")
-EXPECTED_HTML_PAGES = 3249
-EXPECTED_FILES = 3267
-EXPECTED_SITEMAP_ROUTES = 638
+#: The nine-market candidate composed by
+#: PTF-GRAND-RAPIDS-LAUNCH-PARTICIPATION-032. NOT deployed and NOT authorised.
+EXPECTED_BUNDLE_SHA256 = (
+    "5fc4ae2c555d83a9986d3d071df1013cc1a9f2fcff5d509d26c49278c84defb6")
+EXPECTED_HTML_PAGES = 3503
+EXPECTED_FILES = 3521
+EXPECTED_SITEMAP_ROUTES = 688
 #: The withdrawn six-market candidate. Kept so nobody authorizes it by habit.
 WITHDRAWN_SIX_MARKET_SHA256 = (
     "8ea6131e9fe8689fc23d3a362ae12ffaa2155c687737c6f5fcde03b5a22c42b8")
@@ -135,15 +142,29 @@ def test_the_record_is_committed_and_names_its_decision():
     decision = doc["decision"]
     assert decision["decided_by"] == "founder"
     assert "Indianapolis" in decision["reason"]
-    # The current decision is 011's; 046's is preserved as what it
-    # supersedes, so the lineage of a launch set stays readable from the
-    # record itself.
-    assert decision["work_order"] == "PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019"
-    assert decision["supersedes"]["work_order"] == \
-        "PTF-ST-LOUIS-REGISTER-PUBLISH-011"
-    # The set 019 inherited: the seven that were live before Indianapolis.
-    assert decision["supersedes"]["founder_authorized"] == \
-        sorted(set(LIVE) - {ADMITTED_AT_019})
+    # supersedes names the IMMEDIATE predecessor, and the flat lineage list
+    # carries every ancestor with its sha256. Both are needed: an authorization
+    # signed two reissues back can only be matched through the lineage, which
+    # is what that block's own what_this_is says it is for.
+    assert decision["work_order"] == "PTF-GRAND-RAPIDS-LAUNCH-PARTICIPATION-032"
+    assert decision["supersedes"]["work_order"] ==         "PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019"
+    # The set 032 inherited: the eight that were live before Grand Rapids.
+    assert decision["supersedes"]["founder_authorized"] ==         sorted(set(LIVE) - {ADMITTED_AT_032})
+
+    records = decision["lineage"]["records"]
+    # 046 is still the oldest ancestor and its withholding is still walkable
+    # from here, which is the whole point of keeping the chain in the record.
+    assert records[0]["work_order"] ==         "PTF-FIRST-MULTI-MARKET-PRODUCTION-DEPLOYMENT-046"
+    assert WITHHELD_BY_046 not in records[0]["founder_authorized"]
+    # Each ancestor is pinned, and the newest is the one supersedes names.
+    assert all(re.fullmatch(r"[0-9a-f]{64}", r["sha256"]) for r in records)
+    assert records[-1]["work_order"] == decision["supersedes"]["work_order"]
+    assert records[-1]["sha256"] == decision["supersedes"]["sha256"]
+    # A launch set only ever grew, and every ancestor is a subset of the set
+    # live today.
+    seen = [set(r["founder_authorized"]) for r in records]
+    assert all(a < b for a, b in zip(seen, seen[1:]))
+    assert seen[-1] < set(LIVE)
 
 
 def test_every_registered_market_has_an_explicit_status():
@@ -229,10 +250,28 @@ def test_indianapolis_release_contract_still_verifies():
 
 
 def test_046_withheld_indianapolis_and_that_history_survives():
-    """The reversal does not erase the decision it reversed."""
+    """The reversal does not erase the decision it reversed.
+
+    WHERE that history lives moved as the chain grew. 019 admitted Indianapolis
+    and 032 admitted Grand Rapids, so the immediate ``supersedes`` set now names
+    the eight live before Grand Rapids -- Indianapolis among them. 046's
+    withholding survives in the two places that outlast any number of later
+    decisions: the pinned lineage list, where every record written before 019
+    still excludes it, and Indianapolis's own market row.
+
+    The lineage is asserted by CONTENT, not by position. Reaching two levels
+    back by index says nothing once a fifth decision is written; "the records
+    older than the one that admitted it" stays true however long the chain gets.
+    """
     doc = LP.load_participation()
-    prior = doc["decision"]["supersedes"]
-    assert WITHHELD_BY_046 not in prior["founder_authorized"]
+    records = doc["decision"]["lineage"]["records"]
+    admitting = next(i for i, r in enumerate(records)
+                     if WITHHELD_BY_046 in r["founder_authorized"])
+    assert records[admitting]["work_order"] ==         "PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019"
+    older = records[:admitting]
+    assert older, "the record that admitted Indianapolis has no ancestors"
+    assert older[0]["work_order"] ==         "PTF-FIRST-MULTI-MARKET-PRODUCTION-DEPLOYMENT-046"
+    assert all(WITHHELD_BY_046 not in r["founder_authorized"] for r in older)
     row = next(r for r in doc["markets"] if r["market_id"] == WITHHELD_BY_046)
     assert row["replaces"]["launch_status"] == \
         LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH
@@ -271,7 +310,7 @@ def test_the_bundle_carries_exactly_the_live_set(production):
     assert manifest["market_fragments_included"] == list(LIVE)
     assert {r["market_id"]: r["published_profiles"]
             for r in manifest["participating_markets"]} == PROFILES
-    assert sum(PROFILES.values()) == 517
+    assert sum(PROFILES.values()) == 560
 
 
 def test_the_bundle_excludes_only_the_two_that_are_not_source_ready(production):
@@ -402,9 +441,16 @@ def test_the_committed_manifest_describes_the_live_deploy_and_its_pin_has_lapsed
     doc = GD.load_manifest()
     assert doc["launch_participation"]["sha256"] != LP.participation_sha256()
     assert doc["schema"] == GD.MANIFEST_SCHEMA
-    assert [r["market_id"] for r in doc["participating_markets"]] == list(LIVE)
+    # The DEPLOYED set, which is eight. LIVE is now the nine-market candidate
+    # set that 032 composed and nobody has deployed; comparing the committed
+    # manifest against it would ask a record of a past deployment to describe a
+    # future one.
+    assert [r["market_id"] for r in doc["participating_markets"]] == \
+        sorted(set(LIVE) - {ADMITTED_AT_032})
     assert doc["total_published_profiles"] == 517
-    assert doc["bundle_sha256"] == EXPECTED_BUNDLE_SHA256
+    # The DEPLOYED bundle. EXPECTED_BUNDLE_SHA256 is now the nine-market
+    # candidate 032 composed, which has never been deployed.
+    assert doc["bundle_sha256"] == DEPLOYED_020_BUNDLE_SHA256
     # PTF-047: the flag mirrors a verifying deployment authorization record.
     assert doc["deployment_authorized"] is (doc.get("deployment_authorization") is not None)
     excluded = {r["market_id"]: r for r in doc["excluded_markets"]}
