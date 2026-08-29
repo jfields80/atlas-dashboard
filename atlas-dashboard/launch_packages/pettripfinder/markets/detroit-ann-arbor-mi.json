@@ -224,6 +224,7 @@
       "meta_description": "Verified pet-friendly hotels in Livonia, Plymouth, and Northville, with real pet fees and policies from each hotel's own website.",
       "description": "Western Wayne County suburban lodging cluster.",
       "included_cities": [
+        "Canton",
         "Livonia",
         "Northville",
         "Plymouth",
@@ -288,5 +289,5 @@
   "route_mode": "market_prefixed",
   "census_membership_basis": "MARKET_GEOGRAPHY",
   "_census_membership_note": "PTF-DETROIT-ANN-ARBOR-HARDENED-MEMBERSHIP-AND-SHADOW-RECENSUS-002. All eleven corridors classify by included_cities and register ZERO postal codes, so the corridor registry cannot answer whether a candidate is in this market -- a ZIP-keyed ownership test can only ever say no. Replaying the hardened discovery.market_membership.decide() over the committed 182-row census under the CORRIDOR_REGISTRY default returns IN_MARKET=0 (171 OUT_OF_MARKET_BOUNDARY_DECISION, 11 MARKET_MEMBERSHIP_UNRESOLVED); under MARKET_GEOGRAPHY it returns IN_MARKET=182. The market's own geography -- geographic_bounds plus included_municipalities in scripts/pettripfinder/discovery/config/detroit_ann_arbor_mi.json -- decides membership; corridors only classify what is already in. Bounds are UNCHANGED by this order. Pinned by tests/pettripfinder/discovery/test_market_membership.py::TestDetroitFixture.",
-  "_boundary_rulings_note": "PTF-DETROIT-ANN-ARBOR-FOUNDER-RULINGS-AND-SHADOW-PROMOTION-006 applied the founder's boundary rulings: 8 municipalities ADMITTED and assigned to the nearest registered corridor the review packet named; 'Farmington Hill' added to farmington-hills as the SPELLING VARIANT it is (see municipality_aliases in the discovery config -- it is not a municipality and is not registered as one); Canton HELD. Corridors classify what is already in the market; they do not decide membership."
+  "_boundary_rulings_note": "PTF-DETROIT-ANN-ARBOR-FOUNDER-RULINGS-AND-SHADOW-PROMOTION-006 applied the founder's boundary rulings: 8 municipalities ADMITTED and assigned to the nearest registered corridor the review packet named; 'Farmington Hill' added to farmington-hills as the SPELLING VARIANT it is (see municipality_aliases in the discovery config -- it is not a municipality and is not registered as one); Canton HELD. Corridors classify what is already in the market; they do not decide membership. PTF-DETROIT-ANN-ARBOR-FIRECRAWL-PASS-008 applied the LAST open boundary ruling: Canton ADMITTED and registered on livonia-plymouth-northville, the corridor whose registered cities (Plymouth, Plymouth Township, Livonia, Northville) it adjoins. No other municipality changed and the bounds are unchanged."
 }
