@@ -174,8 +174,13 @@ def test_an_unadjudicated_census_url_is_its_own_lane(rows):
     assert len(unverified) == 12
     for key in unverified:
         assert rows[key]["official_url"]
-        assert rows[key]["capture_lane"] in ("ROUTING_VERIFICATION_REQUIRED",
-                                             "IDENTITY_REVIEW")
+        # PTF-CINCINNATI-ZERO-COST-CAPTURE-003 then adjudicated four of these
+        # for free and observed them, which moves their lane forward. The
+        # grade stays UNVERIFIED_CENSUS_URL until a routing pass writes the
+        # binding into the shard -- being read is not being routed.
+        assert rows[key]["capture_lane"] in (
+            "ROUTING_VERIFICATION_REQUIRED", "IDENTITY_REVIEW",
+            "FOUNDER_REVIEW_REQUIRED", "POLICY_RE_OBSERVATION_REQUIRED")
 
 
 def test_the_lane_totals_account_for_every_row(queue):

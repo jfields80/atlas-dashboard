@@ -1,0 +1,278 @@
+{
+ "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+ "market_id": "cincinnati-oh",
+ "as_of": "2026-08-29",
+ "provider_calls": 0,
+ "paid_spend_usd": 0.0,
+ "capture_method": "attended_chrome_render",
+ "schema": "ptf-market-founder-exception-packet/1.0",
+ "note": "ONLY the rows where the SOURCE leaves something unsettled, plus the one identity question. The clean rows are not here, which is the point: this packet is what actually needs a person. Every row states the question it is asking.",
+ "count": 8,
+ "rows": [
+  {
+   "identity_key": "extended stay america cincinnati fairfield",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.motel6.com/property/motel-fairfield-ohio-us-351462/",
+   "sha256": "e10fdd00e367d9e704c9e29e30705380ab97e7f4957940e85a69d1722da979ee",
+   "quote": "Studio 6 Extended stay Fairfield, OH - Cincinnati",
+   "proposed_facts": null,
+   "withheld": null,
+   "service_animal_statement": null,
+   "question_for_the_founder": "CONFIRMS the census-review candidate PROPERTY_CONVERTED_OR_REBRANDED. The census identity is 'Extended Stay America Cincinnati Fairfield'; the page's own h1 is 'Studio 6 Extended stay Fairfield, OH - Cincinnati' (G6, not ESA). Same building, different brand and name. Publishing an ESA-named profile from a Studio 6 page would cite a name the current page does not make. The page does state 'Pets welcome throughout your stay' / 'Pets Stay Free' -- capturable ONLY after a founder identity ruling on the rename. Not merged with 'studio 6 cincinnati springdale', a different census identity in a different city.",
+   "founder_decision": "",
+   "founder_reviewer_id": "",
+   "founder_reviewed_at": ""
+  },
+  {
+   "identity_key": "great wolf lodge cincinnati mason",
+   "outcome": "VERIFIED_NO_PETS",
+   "final_url": "https://www.greatwolf.com/mason",
+   "sha256": "b7ad4de57c7fb833ceed3037659018e8500691c17b693c69d22f049643cda212",
+   "quote": "\"petsAllowed\":\"false\"",
+   "proposed_facts": {
+    "pets_allowed": false
+   },
+   "withheld": null,
+   "service_animal_statement": null,
+   "question_for_the_founder": "EXCEPTION, not a clean refusal. The only pet statement on the page is a structured-data field, with no prose anywhere. It also sits adjacent to a 'Great Wolf Resorts, Inc' organization node, so which node it attaches to -- the corporate parent or the Mason property -- is not unambiguous from the serialisation. Every VERIFIED_NO_PETS this market has published so far rests on an affirmative refusal in the property's own prose. Whether a bare structured-data false clears that bar is a founder call, so it goes to the packet rather than to the clean lane.",
+   "founder_decision": "",
+   "founder_reviewer_id": "",
+   "founder_reviewed_at": ""
+  },
+  {
+   "identity_key": "hampton inn and suites cincinnati kenwood",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "final_url": "https://www.hilton.com/en/hotels/cvgckhx-hampton-suites-cincinnati-kenwood/hotel-info/",
+   "sha256": "59b2f3643e0e7a04ea78089741f6c35780672d3d4fa7942f3a194d36ba71c595",
+   "quote": "PETS\nNon-refundable fee: $75.00\nPet policy: $75(1-4n),$125(5+n) 2petsMax,dog/cat onl",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_fee": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_stay",
+     "refundable_stated": false
+    }
+   },
+   "withheld": [
+    "species",
+    "pet_count_limit",
+    "weight_limit",
+    "fee_tiers"
+   ],
+   "service_animal_statement": null,
+   "question_for_the_founder": "EXCEPTION. The property own policy string is TRUNCATED mid-word at source: dog/cat onl. The $75 non-refundable fee stated above it is clean and is carried. The tier, count and species are legible but sit inside the truncated string, so they are withheld rather than reconstructed -- completing a source truncated sentence is exactly the inference this corpus refuses. Union Centre carries the same compressed wording INTACT, which is what shows this is truncation and not a different policy.",
+   "founder_decision": "",
+   "founder_reviewer_id": "",
+   "founder_reviewed_at": ""
+  },
+  {
+   "identity_key": "hampton inn and suites newport cincinnati",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "final_url": "https://www.hilton.com/en/hotels/cvgpohx-hampton-suites-newport-cincinnati/hotel-info/",
+   "sha256": "917bf32a6b76e6a0bc30430ef730a3115f352a43075baf620fae642b53018edb",
+   "quote": "PETS\nNon-refundable fee: $75.00\nPet policy: Non-Refundable Fee: $75/1-3nts, $125/4-7nts. 2 Pets Max, *No Cats. Fee Exempts: ADA Service Animals Only. Addl charge for damages may apply",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "prohibited"
+    },
+    "pet_count_limit": 2,
+    "pet_fee": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_stay",
+     "refundable_stated": false
+    },
+    "fee_tiers": [
+     {
+      "nights_from": 1,
+      "nights_to": 3,
+      "amount_cents": 7500,
+      "basis": "per_stay"
+     },
+     {
+      "nights_from": 4,
+      "nights_to": 7,
+      "amount_cents": 12500,
+      "basis": "per_stay"
+     }
+    ]
+   },
+   "withheld": [
+    "weight_limit",
+    "pet_count_scope"
+   ],
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "Fee Exempts: ADA Service Animals Only.",
+    "classifier_note": "contracts.service_animal reads this sentence as ALLOWED / not_addressed: it names neither an acceptance nor a charge in a form the classifier will interpret. This pass initially read 'Fee Exempts: ADA Service Animals Only' as an exemption (no_charge) and deferred to the contract instead. Whether that wording states an exemption is a founder question and is raised in the exception packet."
+   },
+   "question_for_the_founder": "EXCEPTION. *No Cats is an affirmative species REFUSAL, the only one in this cohort -- cats prohibited is stated, not inferred. The tiers are 1-3 and 4-7 nights, unlike every other Hampton here, and the source states NO rate beyond 7 nights, so the schedule is incomplete on its own terms and a guest staying 8 nights is not priced. Service animals are exempted from the charge in the property own words. SERVICE-ANIMAL DIVERGENCE: the page says 'Fee Exempts: ADA Service Animals Only', which reads to a person like a fee exemption, but contracts.service_animal declines to interpret it and returns not_addressed. The conservative value is committed. If the founder rules that this wording states an exemption, the classifier's exemption patterns should learn it rather than this row being special-cased.",
+   "founder_decision": "",
+   "founder_reviewer_id": "",
+   "founder_reviewed_at": ""
+  },
+  {
+   "identity_key": "hilton cincinnati netherland plaza",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "final_url": "https://www.hilton.com/en/hotels/cvgnphf-hilton-cincinnati-netherland-plaza/hotel-info/",
+   "sha256": "98ebc1d62aae1b31e412587f5c8f5eed0a54335c5f3d2ad2641222f92f5592ed",
+   "quote": "Pets\nNon-refundable fee: $50.00\nMax weight: 25 lbs\nPet policy: 50.00 Non Refundable Pet Deposit",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 25,
+     "unit": "lb",
+     "operator": "lte"
+    }
+   },
+   "withheld": [
+    "pet_fee",
+    "deposit",
+    "species",
+    "pet_count_limit",
+    "weight_scope"
+   ],
+   "service_animal_statement": null,
+   "question_for_the_founder": "EXCEPTION -- fee or deposit, on the same $50. The structured field says Non-refundable fee: $50.00; the prose beside it says 50.00 Non Refundable Pet Deposit. A fee and a deposit are two different charges (PTF-LOUISVILLE-SIGNED-AUTHORITY-006), and this property calls one $50 both. Publishing it as a fee, as a deposit, or as both would each assert something the page does not settle, so BOTH are withheld and the weight limit -- which is unambiguous -- is all that is carried. Founder to rule.",
+   "founder_decision": "",
+   "founder_reviewer_id": "",
+   "founder_reviewed_at": ""
+  },
+  {
+   "identity_key": "homewood suites by hilton cincinnati mason",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "final_url": "https://www.hilton.com/en/hotels/cvgmahw-homewood-suites-cincinnati-mason-oh/hotel-info/",
+   "sha256": "1632864ce1fd51878b94c47a5738eb5a1466a521f11a6f152cf1d8070edd93bd",
+   "quote": "Pets\nNon-refundable fee: $125.00\nMax weight: 75 lbs\nPet policy: $75(1-4n),$125(5+n) dog/cat only",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "weight_limit": {
+     "value": 75,
+     "unit": "lb",
+     "operator": "lte"
+    },
+    "fee_tiers": [
+     {
+      "nights_from": 1,
+      "nights_to": 4,
+      "amount_cents": 7500,
+      "basis": "per_stay"
+     },
+     {
+      "nights_from": 5,
+      "amount_cents": 12500,
+      "basis": "per_stay"
+     }
+    ]
+   },
+   "withheld": [
+    "pet_fee",
+    "pet_count_limit",
+    "pet_count_scope",
+    "weight_scope"
+   ],
+   "service_animal_statement": null,
+   "question_for_the_founder": "EXCEPTION -- the page states two different headline fees. The structured field says Non-refundable fee: $125.00 while the prose beside it says $75 for 1-4 nights. The tier schedule is internally coherent and is carried; the single headline pet_fee is WITHHELD, because publishing $125 would overcharge a one-night guest by $50 and publishing $75 would contradict the field directly above it. Founder to rule on which the property means.",
+   "founder_decision": "",
+   "founder_reviewer_id": "",
+   "founder_reviewed_at": ""
+  },
+  {
+   "identity_key": "days inn florence",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "final_url": "https://www.wyndhamhotels.com/days-inn/florence-kentucky/days-inn-florence-cincinnati-area/overview",
+   "sha256": "4f763b91b93baf99eb3071b4e8f0477cb58c3e353a58460e332a34fe8d9b224a",
+   "quote": "Pet & Service Animal Policy Service Animals - ADA-defined service animals welcome. Pets Allowed for max of 5 day stay - 2 pets max. Fees - 25USD per pet per night. Pet Sanitation Fee 200USD if required. Other Information - Limited pet rooms contact front desk for availability.",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "pet_fee": {
+     "amount_cents": 2500,
+     "currency": "USD",
+     "basis": "per_night",
+     "scope": "per_pet",
+     "refundable_stated": false
+    },
+    "general_restrictions": "Pets Allowed for max of 5 day stay. Limited pet rooms contact front desk for availability."
+   },
+   "withheld": [
+    "species",
+    "weight_limit",
+    "deposit",
+    "reservation_requirement"
+   ],
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "ADA-defined service animals welcome."
+   },
+   "question_for_the_founder": "EXCEPTION on two counts. First, a MAXIMUM STAY LENGTH for pets (5 days) -- no schema field expresses that, so it is carried verbatim in general_restrictions rather than dropped, and a guest booking six nights with a dog needs to see it. Second, a 200 USD Pet Sanitation Fee 'if required' is a CONDITIONAL charge, not a pet fee: it is withheld from pet_fee and from other_charges because the condition that triggers it is not stated. 50 Cavalier Blvd is next door to Extended Stay America at 40 Cavalier Blvd; different buildings, different identities.",
+   "founder_decision": "",
+   "founder_reviewer_id": "",
+   "founder_reviewed_at": ""
+  },
+  {
+   "identity_key": "woodspring suites cincinnati fairfield",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "final_url": "https://www.woodspring.com/extended-stay-hotels/locations/ohio/cincinnati/woodspring-suites-cincinnati-fairfield",
+   "sha256": "b66d6437ef4c57bf09bc676f6f61c493b963dba2b5dfb30a0a2b4390fcb528ce",
+   "quote": "Limit 2 dogs, under 75lbs. per room. No cats. Non-refundable pet cleaning fee of 100USD per pet and daily charge of 25USD for first 6 nights and 10USD per pet per night charge for the duration of the stay.",
+   "proposed_facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "prohibited"
+    },
+    "pet_count_limit": 2,
+    "pet_count_scope": "room",
+    "weight_limit": {
+     "value": 75,
+     "unit": "lb",
+     "operator": "lt",
+     "scope": "per_pet"
+    },
+    "other_charges": [
+     {
+      "kind": "cleaning",
+      "amount_cents": 10000,
+      "currency": "USD",
+      "scope": "per_pet",
+      "refundable_stated": false
+     }
+    ],
+    "fee_tiers": [
+     {
+      "nights_from": 1,
+      "nights_to": 6,
+      "amount_cents": 2500,
+      "basis": "per_night"
+     },
+     {
+      "nights_from": 7,
+      "amount_cents": 1000,
+      "basis": "per_night",
+      "scope": "per_pet"
+     }
+    ]
+   },
+   "withheld": [
+    "pet_fee",
+    "deposit",
+    "reservation_requirement"
+   ],
+   "service_animal_statement": null,
+   "question_for_the_founder": "EXCEPTION -- the most structurally awkward fee in the cohort, and it does something none of the others do: the rate goes DOWN with length of stay (25USD/night for the first 6, then 10USD per pet per night). It also mixes scopes across bands -- the first band states no scope, the second says per pet -- so no single headline pet_fee is written. 'under 75lbs' is a strict bound (lt), and 'No cats' is an affirmative species refusal. The 100USD cleaning charge is a separate per-pet charge, not part of the nightly fee, and is carried in other_charges where the schema keeps it distinct from a pet fee.",
+   "founder_decision": "",
+   "founder_reviewer_id": "",
+   "founder_reviewed_at": ""
+  }
+ ]
+}

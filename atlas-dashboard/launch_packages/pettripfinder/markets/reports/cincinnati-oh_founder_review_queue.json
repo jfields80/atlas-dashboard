@@ -1,6 +1,6 @@
 {
  "schema": "ptf-market-founder-review-queue/1.1",
- "work_order": "PTF-CINCINNATI-HARDENED-SYNC-002",
+ "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
  "market_id": "cincinnati-oh",
  "generated_at": "2026-08-29",
  "supersedes": {
@@ -9,7 +9,7 @@
   "count": 250,
   "why": "Generated the day before 210 routes were bound and 27 identities were resolved. It graded 238 rows MISSING_URL and marked all 250 NOT_STARTED, including the 21 that are published."
  },
- "note": "Derived from the committed authority: the final partition for state, the routing shard for URLs, the policy package and exclusion registry for what is resolved and by whom, and the three decision batches plus the 21c review for the founder's rulings. No review outcome is inferred from the prior 121-row discovery queue, which carried no field able to record one.",
+ "note": "Derived from the committed authority: the final partition for state, the routing shard for URLs, the policy package and exclusion registry for what is resolved and by whom, and the three decision batches plus the 21c review for the founder's rulings. No review outcome is inferred from the prior 121-row discovery queue, which carried no field able to record one. PTF-CINCINNATI-ZERO-COST-CAPTURE-003 then observed 93 of these rows by attended browser at zero cost and recorded the outcome on each. final_state is deliberately UNCHANGED: this pass wrote no authority, so no row became published or refused by being looked at.",
  "sources": [
   "launch_packages/pettripfinder/cincinnati_final_partition_001.json",
   "launch_packages/pettripfinder/identity_census/cincinnati-oh.json",
@@ -26,31 +26,40 @@
  "review_status_counts": {
   "DECIDED": 33,
   "HELD": 4,
-  "NOT_STARTED": 219
+  "NOT_STARTED": 126,
+  "OBSERVED_ACCESS_BLOCKED": 9,
+  "OBSERVED_AWAITING_FOUNDER": 64,
+  "OBSERVED_IDENTITY_MISMATCH": 1,
+  "OBSERVED_POLICY_NOT_FOUND": 16,
+  "OBSERVED_ROUTE_INVALID": 3
  },
  "lane_counts": {
-  "RESOLVED_PUBLISHED": 21,
+  "FOUNDER_REVIEW_REQUIRED": 64,
+  "HOLD_ACCESS_BLOCKED": 10,
+  "HOLD_PRE_OPENING": 3,
+  "IDENTITY_REVIEW": 18,
+  "POLICY_OBSERVATION_REQUIRED": 91,
+  "POLICY_RE_OBSERVATION_REQUIRED": 17,
+  "PROPERTY_LEVEL_URL_RECOVERY": 11,
   "RESOLVED_NO_PETS": 6,
   "RESOLVED_OUT_OF_CATEGORY": 6,
-  "HOLD_PRE_OPENING": 3,
-  "HOLD_ACCESS_BLOCKED": 1,
-  "POLICY_OBSERVATION_REQUIRED": 180,
-  "POLICY_RE_OBSERVATION_REQUIRED": 1,
-  "ROUTING_VERIFICATION_REQUIRED": 10,
-  "IDENTITY_REVIEW": 17,
-  "PROPERTY_LEVEL_URL_RECOVERY": 11
+  "RESOLVED_PUBLISHED": 21,
+  "ROUTING_REPAIR_REQUIRED": 3,
+  "ROUTING_VERIFICATION_REQUIRED": 6
  },
  "lane_meanings": {
-  "RESOLVED_PUBLISHED": "Published pet-friendly. No action.",
-  "RESOLVED_NO_PETS": "Verified no-pets, in the exclusion registry. No action.",
-  "RESOLVED_OUT_OF_CATEGORY": "Not lodging in the current category. No action.",
-  "HOLD_PRE_OPENING": "The property does not operate yet. Do not capture, do not classify as no-pets, do not read silence as a refusal. Revisit after it opens.",
+  "FOUNDER_REVIEW_REQUIRED": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
   "HOLD_ACCESS_BLOCKED": "The property's own page failed on the server's side. Retry the page; a failure to reach it says nothing about its pet policy.",
+  "HOLD_PRE_OPENING": "The property does not operate yet. Do not capture, do not classify as no-pets, do not read silence as a refusal. Revisit after it opens.",
+  "IDENTITY_REVIEW": "Identity is provisional or unresolved; policy work cannot safely bind to this record.",
   "POLICY_OBSERVATION_REQUIRED": "The route is verified and the page serves. Observe the pet policy on it.",
   "POLICY_RE_OBSERVATION_REQUIRED": "The page served and was silent on pets. A richer render may still surface a policy; silence is not a refusal.",
-  "ROUTING_VERIFICATION_REQUIRED": "The census carries a URL that the routing pass never adjudicated. Verify the binding before capturing.",
-  "IDENTITY_REVIEW": "Identity is provisional or unresolved; policy work cannot safely bind to this record.",
-  "PROPERTY_LEVEL_URL_RECOVERY": "No official URL is known. Recover a first-party or brand property URL."
+  "PROPERTY_LEVEL_URL_RECOVERY": "No official URL is known. Recover a first-party or brand property URL.",
+  "RESOLVED_NO_PETS": "Verified no-pets, in the exclusion registry. No action.",
+  "RESOLVED_OUT_OF_CATEGORY": "Not lodging in the current category. No action.",
+  "RESOLVED_PUBLISHED": "Published pet-friendly. No action.",
+  "ROUTING_REPAIR_REQUIRED": "The committed URL no longer belongs to this property. Retire the route; do not re-observe the page.",
+  "ROUTING_VERIFICATION_REQUIRED": "The census carries a URL that the routing pass never adjudicated. Verify the binding before capturing."
  },
  "url_grade_counts": {
   "BRAND_PROPERTY_PAGE": 192,
@@ -167,9 +176,20 @@
    "official_url": "https://www.ashleyquartershotel.com/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.ashleyquartershotel.com/pet-policy/",
+    "sha256": "7e72e3aa9e86244671dd3bd266eee5cd35905b851d42804d86d211375d5e3706",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-008",
@@ -299,9 +319,20 @@
    "official_url": "https://www.bestwestern.com/en_US/book/hotels-in-mason/best-western-mason-inn/propertyCode.36151.html",
    "url_grade": "UNVERIFIED_CENSUS_URL",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "ROUTING_VERIFICATION_REQUIRED",
-   "next_action": "The census carries a URL that the routing pass never adjudicated. Verify the binding before capturing.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "VERIFIED_NO_PETS",
+    "triage": "CLEAN_VERIFIED_NO_PETS_CANDIDATE",
+    "final_url": "https://www.bestwestern.com/en_US/book/hotels-in-mason/best-western-mason-inn/propertyCode.36151.html",
+    "sha256": "73f639a427d05a73861480b54d27affbb3c8eeddd14c0cfbf42f3c79257793c3",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-015",
@@ -378,9 +409,20 @@
    "official_url": "https://www.bestwestern.com/en_US/book/hotels-in-oxford/best-western-sycamore-inn/propertyCode.36123.html",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "VERIFIED_NO_PETS",
+    "triage": "CLEAN_VERIFIED_NO_PETS_CANDIDATE",
+    "final_url": "https://www.bestwestern.com/en_US/book/hotels-in-oxford/best-western-sycamore-inn/propertyCode.36123.html",
+    "sha256": "dd3839ad49fed2eefadbd09cb47943e3bd7e83927ceadb694c97fb7390763884",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-019",
@@ -767,9 +809,20 @@
    "official_url": "https://countrysideinnandsuites.net/",
    "url_grade": "UNVERIFIED_CENSUS_URL",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "ROUTING_VERIFICATION_REQUIRED",
-   "next_action": "The census carries a URL that the routing pass never adjudicated. Verify the binding before capturing.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://countrysideinnandsuites.net/",
+    "sha256": "9902c854ae7a7922ad2d519f79624dbfb300fd9634fa2df0678867686c6f6818",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-044",
@@ -966,9 +1019,20 @@
    "official_url": "https://www.wyndhamhotels.com/days-inn/florence-kentucky/days-inn-florence-cincinnati-area/overview",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "FOUNDER_EXCEPTION",
+    "final_url": "https://www.wyndhamhotels.com/days-inn/florence-kentucky/days-inn-florence-cincinnati-area/overview",
+    "sha256": "4f763b91b93baf99eb3071b4e8f0477cb58c3e353a58460e332a34fe8d9b224a",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-056",
@@ -981,9 +1045,20 @@
    "official_url": "https://www.wyndhamhotels.com/days-inn/sharonville-ohio/days-inn-sharonville/overview",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "VERIFIED_NO_PETS",
+    "triage": "CLEAN_VERIFIED_NO_PETS_CANDIDATE",
+    "final_url": "https://www.wyndhamhotels.com/days-inn/sharonville-ohio/days-inn-sharonville/overview",
+    "sha256": "ad279d1a668130563ad46c78905c300bd7daffee0ba1163615120604b8c18b37",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-057",
@@ -1054,9 +1129,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvgkrdt-doubletree-suites-cincinnati-blue-ash/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.hilton.com/en/hotels/cvgkrdt-doubletree-suites-cincinnati-blue-ash/hotel-info/",
+    "sha256": "94b3b1c8ffe6fa22381d6f9a968367fe066f619423e691dd8c89b99fdb999b32",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-061",
@@ -1069,9 +1155,20 @@
    "official_url": "https://www.druryhotels.com/locations/cincinnati-oh/drury-inn-and-suites-cincinnati-northeast-mason",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
+   "capture_lane": "POLICY_RE_OBSERVATION_REQUIRED",
    "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "review_status": "OBSERVED_POLICY_NOT_FOUND",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "POLICY_NOT_FOUND",
+    "triage": "NO_FOUNDER_ACTION",
+    "final_url": "https://www.druryhotels.com/locations/cincinnati-oh/drury-inn-and-suites-cincinnati-northeast-mason",
+    "sha256": "d587d1b69432e4af83fd2468868086e35a43e6859c86bd2c685111deebe4e9fc",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-062",
@@ -1084,9 +1181,20 @@
    "official_url": "https://www.druryhotels.com/locations/cincinnati-oh/drury-inn-and-suites-cincinnati-sharonville",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
+   "capture_lane": "POLICY_RE_OBSERVATION_REQUIRED",
    "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "review_status": "OBSERVED_POLICY_NOT_FOUND",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "POLICY_NOT_FOUND",
+    "triage": "NO_FOUNDER_ACTION",
+    "final_url": "https://www.druryhotels.com/locations/cincinnati-oh/drury-inn-and-suites-cincinnati-sharonville",
+    "sha256": "12e150928dfbb6a55682a51b76f28e724c3f3379bd9894cf9e719c0a0f0d50fb",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-063",
@@ -1099,9 +1207,20 @@
    "official_url": "https://www.druryhotels.com/locations/middletown-oh/drury-inn-and-suites-middletown-franklin",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
+   "capture_lane": "POLICY_RE_OBSERVATION_REQUIRED",
    "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "review_status": "OBSERVED_POLICY_NOT_FOUND",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "POLICY_NOT_FOUND",
+    "triage": "NO_FOUNDER_ACTION",
+    "final_url": "https://www.druryhotels.com/locations/middletown-oh/drury-inn-and-suites-middletown-franklin",
+    "sha256": "233dd27277ad1ded8c51669ff4009232704cdfaa49d97455f3fd127736e78400",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-064",
@@ -1114,9 +1233,20 @@
    "official_url": "https://www.druryhotels.com/locations/cincinnati-oh/drury-plaza-hotel-cincinnati-florence",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
+   "capture_lane": "POLICY_RE_OBSERVATION_REQUIRED",
    "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "review_status": "OBSERVED_POLICY_NOT_FOUND",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "POLICY_NOT_FOUND",
+    "triage": "NO_FOUNDER_ACTION",
+    "final_url": "https://www.druryhotels.com/locations/cincinnati-oh/drury-plaza-hotel-cincinnati-florence",
+    "sha256": "e7de9557117534dce09c7e269b84ea7220284ce49526c3ac62e1873e86b7953a",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-065",
@@ -1144,9 +1274,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvgcves-embassy-suites-cincinnati-rivercenter/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.hilton.com/en/hotels/cvgcves-embassy-suites-cincinnati-rivercenter/hotel-info/",
+    "sha256": "e2546f38e07084cc0703b613d8de30433b59025613f7db6a4451635bf5d8689f",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-067",
@@ -1159,9 +1300,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvgbaes-embassy-suites-cincinnati-northeast-blue-ash/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.hilton.com/en/hotels/cvgbaes-embassy-suites-cincinnati-northeast-blue-ash/hotel-info/",
+    "sha256": "12599654e44bff192c68c5cf489ea528b8a0ed64002157be204454f1ab26bea5",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-068",
@@ -1189,9 +1341,20 @@
    "official_url": "https://www.motel6.com/property/motel-fairfield-ohio-us-351462/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
+   "capture_lane": "IDENTITY_REVIEW",
    "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "review_status": "OBSERVED_IDENTITY_MISMATCH",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "IDENTITY_MISMATCH",
+    "triage": "FOUNDER_EXCEPTION",
+    "final_url": "https://www.motel6.com/property/motel-fairfield-ohio-us-351462/",
+    "sha256": "e10fdd00e367d9e704c9e29e30705380ab97e7f4957940e85a69d1722da979ee",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-070",
@@ -1300,9 +1463,20 @@
    "official_url": "https://www.extendedstayamerica.com/hotels/oh/cincinnati/florence-airport",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.extendedstayamerica.com/hotels/oh/cincinnati/florence-airport",
+    "sha256": "1c4c73252db7557693789c7cd0831c38db5add58d441cecfaead1ea9c8382c5b",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-076",
@@ -1438,9 +1612,20 @@
    "official_url": "https://www.goldenlamb.com/",
    "url_grade": "EXACT_PROPERTY_FIRST_PARTY",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
+   "capture_lane": "POLICY_RE_OBSERVATION_REQUIRED",
    "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "review_status": "OBSERVED_POLICY_NOT_FOUND",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "POLICY_NOT_FOUND",
+    "triage": "NO_FOUNDER_ACTION",
+    "final_url": "https://www.goldenlamb.com/about-us/faqs/",
+    "sha256": "af3942e42cd2c3bc1441031c148b81d14fd4d79260cb85c47020c2ad75d4b688",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-085",
@@ -1453,9 +1638,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvggcgu-graduate-cincinnati/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.hilton.com/en/hotels/cvggcgu-graduate-cincinnati/hotel-info/",
+    "sha256": "fbe89fb7bc164a46776f2d37db66b07ba481392d202c4039f49e1ace05d294a7",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-086",
@@ -1468,9 +1664,20 @@
    "official_url": "https://www.greatwolf.com/mason",
    "url_grade": "EXACT_PROPERTY_FIRST_PARTY",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "VERIFIED_NO_PETS",
+    "triage": "FOUNDER_EXCEPTION",
+    "final_url": "https://www.greatwolf.com/mason",
+    "sha256": "b7ad4de57c7fb833ceed3037659018e8500691c17b693c69d22f049643cda212",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-087",
@@ -1483,9 +1690,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvglthx-hampton-suites-cincinnati-liberty-township/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.hilton.com/en/hotels/cvglthx-hampton-suites-cincinnati-liberty-township/hotel-info/",
+    "sha256": "5237a534853a6491ef54068e35cd96668c7ec1660c44a6a063c8e5dd6b7d59e3",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-088",
@@ -1498,9 +1716,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvgbrhx-hampton-suites-cincinnati-mason/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.hilton.com/en/hotels/cvgbrhx-hampton-suites-cincinnati-mason/hotel-info/",
+    "sha256": "29057af4e337bf7550e480d3fb4b934201f5075bc38343d4028ab67b2e0b7f2a",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-089",
@@ -1513,9 +1742,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvgvihx-hampton-suites-cincinnati-downtown/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.hilton.com/en/hotels/cvgvihx-hampton-suites-cincinnati-downtown/hotel-info/",
+    "sha256": "ae42486fba72bda1f0db183bb7d25c8e1720805271a76aa4728ceeb35ea705aa",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-090",
@@ -1528,9 +1768,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvgeghx-hampton-cincinnati-eastgate/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.hilton.com/en/hotels/cvgeghx-hampton-cincinnati-eastgate/hotel-info/",
+    "sha256": "0cdaeb1befdb99ca2d0dcdcd9a6658956fa8295b852609e09c0a4f66b617f304",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-091",
@@ -1543,9 +1794,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvgckhx-hampton-suites-cincinnati-kenwood/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "FOUNDER_EXCEPTION",
+    "final_url": "https://www.hilton.com/en/hotels/cvgckhx-hampton-suites-cincinnati-kenwood/hotel-info/",
+    "sha256": "59b2f3643e0e7a04ea78089741f6c35780672d3d4fa7942f3a194d36ba71c595",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-092",
@@ -1558,9 +1820,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvghshx-hampton-suites-cincinnati-union-centre/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.hilton.com/en/hotels/cvghshx-hampton-suites-cincinnati-union-centre/hotel-info/",
+    "sha256": "c80455092f63d0a4989d184ee7a2fcc5084ccc48de5f64beea292b9b05aac6b8",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-093",
@@ -1573,9 +1846,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvgpohx-hampton-suites-newport-cincinnati/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "FOUNDER_EXCEPTION",
+    "final_url": "https://www.hilton.com/en/hotels/cvgpohx-hampton-suites-newport-cincinnati/hotel-info/",
+    "sha256": "917bf32a6b76e6a0bc30430ef730a3115f352a43075baf620fae642b53018edb",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-094",
@@ -1588,9 +1872,20 @@
    "official_url": "https://www.hilton.com/en/hotels/sgoohhx-hampton-suites-springboro-dayton-area-south/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.hilton.com/en/hotels/sgoohhx-hampton-suites-springboro-dayton-area-south/hotel-info/",
+    "sha256": "ce31d986e3661bc64ad7d1df5bc2f38cebe661f6a16b07355c2d539c2b662cc4",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-095",
@@ -1603,9 +1898,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvguphx-hampton-suites-cincinnati-uptown-university-area/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.hilton.com/en/hotels/cvguphx-hampton-suites-cincinnati-uptown-university-area/hotel-info/",
+    "sha256": "b685907680bff6e177741e00d7128af2f4c50b8f26777f337a9a0e3790d8907e",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-096",
@@ -1618,9 +1924,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvgwihx-hampton-suites-wilder/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.hilton.com/en/hotels/cvgwihx-hampton-suites-wilder/hotel-info/",
+    "sha256": "bebf7f6fcf8672a3fd4b22e493535b620f92b6a48c84882c7f1e5e0d7ad62760",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-097",
@@ -1633,9 +1950,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvgcrhx-hampton-blue-ash-cincinnati/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.hilton.com/en/hotels/cvgcrhx-hampton-blue-ash-cincinnati/hotel-info/",
+    "sha256": "d29474df2bc4af773db3810880025a56f3868cecdc77405f442c050a94d0f809",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-098",
@@ -1648,9 +1976,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvgflhx-hampton-cincinnati-airport-north/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.hilton.com/en/hotels/cvgflhx-hampton-cincinnati-airport-north/hotel-info/",
+    "sha256": "c403ae9db82788b8a5ee65736734d0a9261d3e6f8ea0cbba5af5dd984c67417b",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-099",
@@ -1663,9 +2002,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvgsfhx-hampton-cincinnati-airport-south/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.hilton.com/en/hotels/cvgsfhx-hampton-cincinnati-airport-south/hotel-info/",
+    "sha256": "88c87d7fb2dc12e405404a46558cd96feacc94b806dc627ade0b6be6ff71ae42",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-100",
@@ -1678,9 +2028,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvgfdhx-hampton-cincinnati-northwest-fairfield/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.hilton.com/en/hotels/cvgfdhx-hampton-cincinnati-northwest-fairfield/hotel-info/",
+    "sha256": "ea32ba165fead5ceea09915651746a0dbcfc75a10e0dcd83cdece98d7125f6ad",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-101",
@@ -1693,9 +2054,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvgkihx-hampton-cincinnati-kings-island/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.hilton.com/en/hotels/cvgkihx-hampton-cincinnati-kings-island/hotel-info/",
+    "sha256": "e2cf976d1936602ea73cc9b46c4122ef38b0548845909696cb3098d2df740451",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-102",
@@ -1708,9 +2080,20 @@
    "official_url": "https://www.hilton.com/en/hotels/mwomdhx-hampton-middletown/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.hilton.com/en/hotels/mwomdhx-hampton-middletown/hotel-info/",
+    "sha256": "af6671600f2f34f999181d5a2a4e23ad9d98dff1022a5b5b0336a993eb4692ee",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-103",
@@ -1723,9 +2106,20 @@
    "official_url": "https://www.hilton.com/en/hotels/oxfuvhx-hampton-oxford-miami-university-area/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.hilton.com/en/hotels/oxfuvhx-hampton-oxford-miami-university-area/hotel-info/",
+    "sha256": "b51a555ab40f94fee5a062e97b2cf68f80baaec01b8b6cc27719552f7d628280",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-104",
@@ -1738,9 +2132,20 @@
    "official_url": "https://www.wyndhamhotels.com/hawthorn-extended-stay/cincinnati-ohio/hawthorn-extended-stay-cincinnati-sharonville/overview",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "VERIFIED_NO_PETS",
+    "triage": "CLEAN_VERIFIED_NO_PETS_CANDIDATE",
+    "final_url": "https://www.wyndhamhotels.com/hawthorn-extended-stay/cincinnati-ohio/hawthorn-extended-stay-cincinnati-sharonville/overview",
+    "sha256": "3a2cde96d79949ba5801084bb0272de413445adec924d78735142d7269eda4ab",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-105",
@@ -1753,9 +2158,20 @@
    "official_url": "https://www.wyndhamhotels.com/hawthorn-extended-stay/mason-ohio/hawthorn-extended-stay-cincinnati-ne-mason/overview",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "VERIFIED_NO_PETS",
+    "triage": "CLEAN_VERIFIED_NO_PETS_CANDIDATE",
+    "final_url": "https://www.wyndhamhotels.com/hawthorn-extended-stay/cincinnati-ohio/hawthorn-extended-stay-cincinnati-ne-mason/overview",
+    "sha256": "e1a4e7a846b1882ef92c0eeb644e727be964ec978a3e4171917ef9b477704425",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-106",
@@ -1768,9 +2184,20 @@
    "official_url": "https://www.hillcrestmotelaurora.com/",
    "url_grade": "EXACT_PROPERTY_FIRST_PARTY",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
+   "capture_lane": "POLICY_RE_OBSERVATION_REQUIRED",
    "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "review_status": "OBSERVED_POLICY_NOT_FOUND",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "POLICY_NOT_FOUND",
+    "triage": "NO_FOUNDER_ACTION",
+    "final_url": "https://www.hillcrestmotelaurora.com/",
+    "sha256": "ed74b0f955248e9bf7c4521116aaa40c3713cfedb1de29a6be748e051831063a",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-107",
@@ -1783,9 +2210,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvgchhf-hilton-cincinnati-airport/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "VERIFIED_NO_PETS",
+    "triage": "CLEAN_VERIFIED_NO_PETS_CANDIDATE",
+    "final_url": "https://www.hilton.com/en/hotels/cvgchhf-hilton-cincinnati-airport/hotel-info/",
+    "sha256": "56573d2ea88134944fbe66426d5b655415bb918529d5b0fdabd4ef9b780106fa",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-108",
@@ -1798,9 +2236,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvgnphf-hilton-cincinnati-netherland-plaza/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "FOUNDER_EXCEPTION",
+    "final_url": "https://www.hilton.com/en/hotels/cvgnphf-hilton-cincinnati-netherland-plaza/hotel-info/",
+    "sha256": "98ebc1d62aae1b31e412587f5c8f5eed0a54335c5f3d2ad2641222f92f5592ed",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-109",
@@ -1813,9 +2262,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvgbogi-hilton-garden-inn-cincinnati-blue-ash/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.hilton.com/en/hotels/cvgbogi-hilton-garden-inn-cincinnati-blue-ash/hotel-info/",
+    "sha256": "85ce5dcd4b108acc994406dc2c841d8750e2cab2da268f29367d3e71ee4f83a4",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-110",
@@ -1828,9 +2288,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvgnegi-hilton-garden-inn-cincinnati-northeast/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.hilton.com/en/hotels/cvgnegi-hilton-garden-inn-cincinnati-northeast/hotel-info/",
+    "sha256": "843f97b32d6c68384e5a3e3aa0519b98f82dd4b69bd110d7f6777992e830ca3c",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-111",
@@ -1843,9 +2314,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvgshgi-hilton-garden-inn-cincinnati-sharonville/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.hilton.com/en/hotels/cvgshgi-hilton-garden-inn-cincinnati-sharonville/hotel-info/",
+    "sha256": "5af2ace55810acb89ea9db292222338b33b1f6bff8cd41fb7fcceb280bd854d7",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-112",
@@ -1858,9 +2340,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvgmsgi-hilton-garden-inn-cincinnati-west-chester/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.hilton.com/en/hotels/cvgmsgi-hilton-garden-inn-cincinnati-west-chester/hotel-info/",
+    "sha256": "c98a0ade174977d0a63fe327ceb8d6c85f62857617f454cae5d66c07a7812c05",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-113",
@@ -1873,9 +2366,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvgkegi-hilton-garden-inn-florence-cincinnati-airport-south/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.hilton.com/en/hotels/cvgkegi-hilton-garden-inn-florence-cincinnati-airport-south/hotel-info/",
+    "sha256": "d4d05685ad35086fda5f8f43d85ae41f9a52164908c1552d5bee661e5ec0f3f6",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-114",
@@ -1888,9 +2392,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvgcmgi-hilton-garden-inn-cincinnati-mason/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.hilton.com/en/hotels/cvgcmgi-hilton-garden-inn-cincinnati-mason/hotel-info/",
+    "sha256": "ec68ae5b26730e49c2b528753dbbbeb30030d2340d9052b5ae4e6f8ef61f8ae7",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-115",
@@ -1903,9 +2418,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvgmdgi-hilton-garden-inn-cincinnati-midtown/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.hilton.com/en/hotels/cvgmdgi-hilton-garden-inn-cincinnati-midtown/hotel-info/",
+    "sha256": "af2b853b7e6f9a4a066dc44e83aa461bf6b5e17bafcfebe31e7372e5edb48ec2",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-116",
@@ -2218,9 +2744,20 @@
    "official_url": "https://www.hollywoodindiana.com/hotel",
    "url_grade": "EXACT_PROPERTY_FIRST_PARTY",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
+   "capture_lane": "POLICY_RE_OBSERVATION_REQUIRED",
    "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "review_status": "OBSERVED_POLICY_NOT_FOUND",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "POLICY_NOT_FOUND",
+    "triage": "NO_FOUNDER_ACTION",
+    "final_url": "https://www.pennentertainment.com/hollywood-lawrenceburg/hotel",
+    "sha256": "7c546a7fc8f7f990ca56156ad9a00b420f29ce061c0f8dae3b5e5afeb3658c90",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-137",
@@ -2233,9 +2770,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvgasht-home2-suites-blue-ash-cincinnati/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.hilton.com/en/hotels/cvgasht-home2-suites-blue-ash-cincinnati/hotel-info/",
+    "sha256": "c5f96bf26dbab2c10da60942479d22768fd6ad6647d0b5f61e6eb186cc7b4b51",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-138",
@@ -2248,9 +2796,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvgeaht-home2-suites-cincinnati-eastgate/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.hilton.com/en/hotels/cvgeaht-home2-suites-cincinnati-eastgate/hotel-info/",
+    "sha256": "953ecac8e75041473f6736c3fb9401816bcd09eb1ea82bcf6b64639104c1a3e5",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-139",
@@ -2263,9 +2822,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvglcht-home2-suites-cincinnati-liberty-township/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.hilton.com/en/hotels/cvglcht-home2-suites-cincinnati-liberty-township/hotel-info/",
+    "sha256": "c886a4e6c7542d690620910c56a579cc5abbc2c8569de03f4dd548441350d5b1",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-140",
@@ -2278,9 +2848,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvgfcht-home2-suites-florence-cincinnati-airport-south/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.hilton.com/en/hotels/cvgfcht-home2-suites-florence-cincinnati-airport-south/hotel-info/",
+    "sha256": "b96158fac623203f8d0b7a9ec67b921d586e06d7d6f18a03d2c843932dbc8d0d",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-141",
@@ -2308,9 +2889,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvgceht-home2-suites-west-chester-cincinnati/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.hilton.com/en/hotels/cvgceht-home2-suites-west-chester-cincinnati/hotel-info/",
+    "sha256": "2fbaf8d258de429ddbe505e006ea9220da0a8e61843610c1b73c70f67cc45d8f",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-143",
@@ -2345,9 +2937,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvgvshw-homewood-suites-cincinnati-downtown/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.hilton.com/en/hotels/cvgvshw-homewood-suites-cincinnati-downtown/hotel-info/",
+    "sha256": "ecaa8afa6fdce1c5286e5c7548555d7643d8eb0d10ac226747d2741f51d83a6d",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-145",
@@ -2360,9 +2963,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvgmahw-homewood-suites-cincinnati-mason-oh/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "FOUNDER_EXCEPTION",
+    "final_url": "https://www.hilton.com/en/hotels/cvgmahw-homewood-suites-cincinnati-mason-oh/hotel-info/",
+    "sha256": "1632864ce1fd51878b94c47a5738eb5a1466a521f11a6f152cf1d8070edd93bd",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-146",
@@ -2375,9 +2989,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvgmlhw-homewood-suites-cincinnati-milford/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.hilton.com/en/hotels/cvgmlhw-homewood-suites-cincinnati-milford/hotel-info/",
+    "sha256": "f4d332c4af81b547e4c5cef0de987528b9cc428b577e97937f9446a699bf1d0e",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-147",
@@ -2390,9 +3015,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvgsdhw-homewood-suites-cincinnati-west-chester/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.hilton.com/en/hotels/cvgsdhw-homewood-suites-cincinnati-west-chester/hotel-info/",
+    "sha256": "5e46b092016420c2d3279cd951d03d9332499cca3ffe4cce0d8bdc8d6db8498a",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-148",
@@ -2405,9 +3041,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvgfohw-homewood-suites-cincinnati-airport-south-florence/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "VERIFIED_NO_PETS",
+    "triage": "CLEAN_VERIFIED_NO_PETS_CANDIDATE",
+    "final_url": "https://www.hilton.com/en/hotels/cvgfohw-homewood-suites-cincinnati-airport-south-florence/hotel-info/",
+    "sha256": "1397587ba1a6c2012d297c5b2ae4424ed0bd3319b6e4a93cb5223c7fe53b688e",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-149",
@@ -2420,9 +3067,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvgmthw-homewood-suites-cincinnati-midtown/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
+   "capture_lane": "HOLD_ACCESS_BLOCKED",
    "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "review_status": "OBSERVED_ACCESS_BLOCKED",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "ACCESS_BLOCKED",
+    "triage": "NO_FOUNDER_ACTION",
+    "final_url": "https://www.hilton.com/en/hotels/cvgmthw-homewood-suites-cincinnati-midtown/hotel-info/",
+    "sha256": "93fc990b2ce03f9ec1f662f3e309db502eb9bb5faef98c38ae189a518384da9a",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-150",
@@ -2558,9 +3216,20 @@
    "official_url": "https://indigopasshotel.com/",
    "url_grade": "EXACT_PROPERTY_FIRST_PARTY",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
+   "capture_lane": "POLICY_RE_OBSERVATION_REQUIRED",
    "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "review_status": "OBSERVED_POLICY_NOT_FOUND",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "POLICY_NOT_FOUND",
+    "triage": "NO_FOUNDER_ACTION",
+    "final_url": "https://indigopasshotel.com/",
+    "sha256": "df9b383cf2baa57510680a6b19cf741b9fcc8b96b357a50f943f67ae93081d16",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-159",
@@ -2573,9 +3242,20 @@
    "official_url": "https://www.intownsuites.com/extended-stay-hotels/ohio/fairfield/north-4/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
+   "capture_lane": "POLICY_RE_OBSERVATION_REQUIRED",
    "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "review_status": "OBSERVED_POLICY_NOT_FOUND",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "POLICY_NOT_FOUND",
+    "triage": "NO_FOUNDER_ACTION",
+    "final_url": "https://www.intownsuites.com/extended-stay-hotels/ohio/fairfield/north-4/",
+    "sha256": "7aa99e53e2e1930a055fa99afbf9d57eb3f1c3301d4f77ad4ba4d8a189ca3bbf",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-160",
@@ -2618,9 +3298,20 @@
    "official_url": "https://www.wyndhamhotels.com/laquinta/mason-ohio/la-quinta-cincinnati-ne-mason/overview",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.wyndhamhotels.com/laquinta/mason-ohio/la-quinta-cincinnati-ne-mason/overview",
+    "sha256": "cbab09f37ebc970ddf548bf6ade8e3ef2391af43592d78b496e2bc614f0100c3",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-163",
@@ -2633,9 +3324,20 @@
    "official_url": "https://www.wyndhamhotels.com/laquinta/cincinnati-ohio/la-quinta-cincinnati-sharonville/overview",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.wyndhamhotels.com/laquinta/cincinnati-ohio/la-quinta-cincinnati-sharonville/overview",
+    "sha256": "3762dd58d99687a0e5d30dc9dc76f8974d32bc3991623ea3be83d168dc8725d3",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-164",
@@ -2648,9 +3350,20 @@
    "official_url": "https://www.wyndhamhotels.com/laquinta/florence-kentucky/la-quinta-cincinnati-airport-florence/overview",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.wyndhamhotels.com/laquinta/florence-kentucky/la-quinta-cincinnati-airport-florence/overview",
+    "sha256": "3344974f84dc414230ded0f63dc4f0640f5721f577d5e287f9bf9bab60ad98e4",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-165",
@@ -2681,9 +3394,20 @@
    "official_url": "https://www.livinnsharonville.com/",
    "url_grade": "EXACT_PROPERTY_FIRST_PARTY",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.livinnsharonville.com/",
+    "sha256": "d6b1eec3c9f161b188a527a81c1847ee32799c002e2145341a71a0df282d5f22",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-167",
@@ -2729,9 +3453,20 @@
    "official_url": "https://miamioh.edu/the-marcum/",
    "url_grade": "EXACT_PROPERTY_FIRST_PARTY",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
+   "capture_lane": "POLICY_RE_OBSERVATION_REQUIRED",
    "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "review_status": "OBSERVED_POLICY_NOT_FOUND",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "POLICY_NOT_FOUND",
+    "triage": "NO_FOUNDER_ACTION",
+    "final_url": "https://miamioh.edu/the-marcum/",
+    "sha256": "f9950c0d388bd16410c354670fdf6373321062947cd682108a31046e02042f53",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-170",
@@ -2762,9 +3497,20 @@
    "official_url": "https://masoninncincinnati.com/",
    "url_grade": "UNVERIFIED_CENSUS_URL",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "ROUTING_VERIFICATION_REQUIRED",
+   "capture_lane": "POLICY_RE_OBSERVATION_REQUIRED",
    "next_action": "The census carries a URL that the routing pass never adjudicated. Verify the binding before capturing.",
-   "review_status": "NOT_STARTED"
+   "review_status": "OBSERVED_POLICY_NOT_FOUND",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "POLICY_NOT_FOUND",
+    "triage": "NO_FOUNDER_ACTION",
+    "final_url": "https://masoninncincinnati.com/",
+    "sha256": "8a41fbec9beb4b745e455698d95e73352afad206e3176b0552c2a143b9fe112f",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-172",
@@ -2792,9 +3538,20 @@
    "official_url": "https://www.wyndhamhotels.com/microtel/florence-kentucky/microtel-inn-and-suites-cincinnati-airport-florence/overview",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "VERIFIED_NO_PETS",
+    "triage": "CLEAN_VERIFIED_NO_PETS_CANDIDATE",
+    "final_url": "https://www.wyndhamhotels.com/microtel/florence-kentucky/microtel-inn-and-suites-cincinnati-airport-florence/overview",
+    "sha256": "6790776cd65beca7144f91b47bd691fe8994ca1d6af3140469ddb4f27d2d5f5f",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-174",
@@ -2888,9 +3645,20 @@
    "official_url": "https://www.motelbeechmont.com/",
    "url_grade": "EXACT_PROPERTY_FIRST_PARTY",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.motelbeechmont.com/",
+    "sha256": "c04a7fce5db8802a8720a592b1ba87505420078bdd0de5a440c046ad3fc76ed2",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-179",
@@ -3083,9 +3851,20 @@
    "official_url": "https://www.redroof.com/property/ky/erlanger/rri782",
    "url_grade": "UNVERIFIED_CENSUS_URL",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "ROUTING_VERIFICATION_REQUIRED",
-   "next_action": "The census carries a URL that the routing pass never adjudicated. Verify the binding before capturing.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.redroof.com/property/ky/erlanger/rri782",
+    "sha256": "122ac3c3496e50b33643e967c50a9926b6db9c0ef9cfbdca57ac16fab5ecdf4d",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-192",
@@ -3201,9 +3980,20 @@
    "official_url": "https://www.redroof.com/property/oh/sharonville/rri171",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.redroof.com/property/oh/sharonville/rri171",
+    "sha256": "4eda8465d5b33ff7c1eab9aa32f9a201bcb88007cdd506afe1d673ce1c938eef",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-198",
@@ -3306,9 +4096,20 @@
    "official_url": "https://www.iresteasy.com/",
    "url_grade": "EXACT_PROPERTY_FIRST_PARTY",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "ROUTING_REPAIR_REQUIRED",
+   "next_action": "The committed URL no longer belongs to this property. Retire the route; do not re-observe the page.",
+   "review_status": "OBSERVED_ROUTE_INVALID",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "ROUTING_REPAIR_REQUIRED",
+    "triage": "NO_FOUNDER_ACTION",
+    "final_url": "https://www.iresteasy.com/",
+    "sha256": "254f0aa7dc0ba82178ff34a74db1d382490015e5068e93b2c9a597d36e727fe6",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-205",
@@ -3458,9 +4259,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvgfrpe-spark-cincinnati-airport-south/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
+   "capture_lane": "HOLD_ACCESS_BLOCKED",
    "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "review_status": "OBSERVED_ACCESS_BLOCKED",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "ACCESS_BLOCKED",
+    "triage": "NO_FOUNDER_ACTION",
+    "final_url": "https://www.hilton.com/en/hotels/cvgfrpe-spark-cincinnati-airport-south/hotel-info/",
+    "sha256": "fd3af00aa160c9c8e94a9d9d74b08ccf24baec7cbe77f499a8cad29deee93060",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-214",
@@ -3638,9 +4450,20 @@
    "official_url": "https://www.wyndhamhotels.com/super-8/florence-kentucky/super-8-florence-ky/overview",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.wyndhamhotels.com/super-8/florence-kentucky/super-8-florence-ky/overview",
+    "sha256": "fe3ec0989de69df845081534ea42890621e0155ef0ededa7ab5ef644d7018287",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-226",
@@ -3653,9 +4476,20 @@
    "official_url": "https://www.wyndhamhotels.com/super-8/fort-mitchell-kentucky/super-8-fort-mitchell-cinci-oh-downtown/overview",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.wyndhamhotels.com/super-8/fort-mitchell-kentucky/super-8-fort-mitchell-cinci-oh-downtown/overview",
+    "sha256": "50904a9a654567f389bb3fcd61e5f44c626b2a5dc8c7f3a9a05116bb299dd1e3",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-227",
@@ -3668,9 +4502,20 @@
    "official_url": "https://www.wyndhamhotels.com/super-8/harrison-ohio/super-8-harrison-oh/overview",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+    "final_url": "https://www.wyndhamhotels.com/super-8/harrison-ohio/super-8-harrison-oh/overview",
+    "sha256": "4635c771627fc1a1ec7c41ce75b1a0d73cf33b02a7b88b33ebad4936433009c0",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-228",
@@ -3683,9 +4528,20 @@
    "official_url": "https://www.bestwestern.com/en_US/book/hotels-in-florence/surestay-by-best-western-florence/propertyCode.55078.html",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "ROUTING_REPAIR_REQUIRED",
+   "next_action": "The committed URL no longer belongs to this property. Retire the route; do not re-observe the page.",
+   "review_status": "OBSERVED_ROUTE_INVALID",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "ROUTING_REPAIR_REQUIRED",
+    "triage": "NO_FOUNDER_ACTION",
+    "final_url": "https://www.bestwestern.com/en_US/book/hotel-search.55078.html?propertyCity=Florence&propertyCountry=United+States&propertyState=Kentucky",
+    "sha256": null,
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-229",
@@ -3698,9 +4554,20 @@
    "official_url": "https://www.symphonyhotel.com/",
    "url_grade": "EXACT_PROPERTY_FIRST_PARTY",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
+   "capture_lane": "POLICY_RE_OBSERVATION_REQUIRED",
    "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "review_status": "OBSERVED_POLICY_NOT_FOUND",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "POLICY_NOT_FOUND",
+    "triage": "NO_FOUNDER_ACTION",
+    "final_url": "https://www.symphonyhotel.com/",
+    "sha256": "0f52b8d36d9016bb58cd615e745f70c960378b4837b3358f6ca5b3de8553b440",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-230",
@@ -3728,9 +4595,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvgccqq-the-cincinnatian-hotel/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
+   "capture_lane": "HOLD_ACCESS_BLOCKED",
    "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "review_status": "OBSERVED_ACCESS_BLOCKED",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "ACCESS_BLOCKED",
+    "triage": "NO_FOUNDER_ACTION",
+    "final_url": "https://www.hilton.com/en/hotels/cvgccqq-the-cincinnatian-hotel/hotel-info/",
+    "sha256": "035aed515a36925cadfaddea7e075a35e5d3eaf1604411ee0681ab6d64fe0deb",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-232",
@@ -3758,9 +4636,20 @@
    "official_url": "https://www.theelmsoxford.com/",
    "url_grade": "EXACT_PROPERTY_FIRST_PARTY",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
+   "capture_lane": "POLICY_RE_OBSERVATION_REQUIRED",
    "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "review_status": "OBSERVED_POLICY_NOT_FOUND",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "POLICY_NOT_FOUND",
+    "triage": "NO_FOUNDER_ACTION",
+    "final_url": "https://www.theelmsoxford.com/",
+    "sha256": "3d758d979f5ff47b06bd0afd1a0712207338cadf93ca7a3a87d7b76a58891cce",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-234",
@@ -3773,9 +4662,20 @@
    "official_url": "https://www.theglendalia.com/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "ROUTING_REPAIR_REQUIRED",
+   "next_action": "The committed URL no longer belongs to this property. Retire the route; do not re-observe the page.",
+   "review_status": "OBSERVED_ROUTE_INVALID",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "ROUTING_REPAIR_REQUIRED",
+    "triage": "NO_FOUNDER_ACTION",
+    "final_url": "https://www.theglendalia.com/",
+    "sha256": "094f8c1059adbeed9c0162a8cd88f0932ac3b292bb300fe53b6ce27cda8a9530",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-235",
@@ -3821,9 +4721,20 @@
    "official_url": "https://www.thesummithotel.com/",
    "url_grade": "EXACT_PROPERTY_FIRST_PARTY",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
+   "capture_lane": "POLICY_RE_OBSERVATION_REQUIRED",
    "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "review_status": "OBSERVED_POLICY_NOT_FOUND",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "POLICY_NOT_FOUND",
+    "triage": "NO_FOUNDER_ACTION",
+    "final_url": "https://www.thesummithotel.com/",
+    "sha256": "d3c2bc3cc354384785bcb75ca0604330eee304df0ca91751458b741ae60e30df",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-238",
@@ -3836,9 +4747,20 @@
    "official_url": "https://www.warehousehotel.com/hamilton/stay",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
+   "capture_lane": "POLICY_RE_OBSERVATION_REQUIRED",
    "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "review_status": "OBSERVED_POLICY_NOT_FOUND",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "POLICY_NOT_FOUND",
+    "triage": "NO_FOUNDER_ACTION",
+    "final_url": "https://www.warehousehotel.com/hamilton/stay",
+    "sha256": "d8a6fb56b7add36d37aa7b7df635fbf289f8966efcfa0d735a916745418ac0b1",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-239",
@@ -3851,9 +4773,20 @@
    "official_url": "https://www.hilton.com/en/hotels/lukmaup-the-well-house-hamilton/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
+   "capture_lane": "HOLD_ACCESS_BLOCKED",
    "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "review_status": "OBSERVED_ACCESS_BLOCKED",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "ACCESS_BLOCKED",
+    "triage": "NO_FOUNDER_ACTION",
+    "final_url": "https://www.hilton.com/en/hotels/lukmaup-the-well-house-hamilton/hotel-info/",
+    "sha256": null,
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-240",
@@ -3959,9 +4892,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvgafru-tru-cincinnati-airport-south-florence/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
+   "capture_lane": "HOLD_ACCESS_BLOCKED",
    "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "review_status": "OBSERVED_ACCESS_BLOCKED",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "ACCESS_BLOCKED",
+    "triage": "NO_FOUNDER_ACTION",
+    "final_url": "https://www.hilton.com/en/hotels/cvgafru-tru-cincinnati-airport-south-florence/hotel-info/",
+    "sha256": null,
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-247",
@@ -3974,9 +4918,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvgmkru-tru-mason-kings-island/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
+   "capture_lane": "HOLD_ACCESS_BLOCKED",
    "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "review_status": "OBSERVED_ACCESS_BLOCKED",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "ACCESS_BLOCKED",
+    "triage": "NO_FOUNDER_ACTION",
+    "final_url": "https://www.hilton.com/en/hotels/cvgmkru-tru-mason-kings-island/hotel-info/",
+    "sha256": null,
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-248",
@@ -3989,9 +4944,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvgmfru-tru-milford-cincinnati/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
+   "capture_lane": "HOLD_ACCESS_BLOCKED",
    "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "review_status": "OBSERVED_ACCESS_BLOCKED",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "ACCESS_BLOCKED",
+    "triage": "NO_FOUNDER_ACTION",
+    "final_url": "https://www.hilton.com/en/hotels/cvgmfru-tru-milford-cincinnati/hotel-info/",
+    "sha256": null,
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-249",
@@ -4004,9 +4970,20 @@
    "official_url": "https://www.hilton.com/en/hotels/cvgjpru-tru-monroe-oh/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
+   "capture_lane": "HOLD_ACCESS_BLOCKED",
    "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "review_status": "OBSERVED_ACCESS_BLOCKED",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "ACCESS_BLOCKED",
+    "triage": "NO_FOUNDER_ACTION",
+    "final_url": "https://www.hilton.com/en/hotels/cvgjpru-tru-monroe-oh/hotel-info/",
+    "sha256": null,
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-250",
@@ -4019,9 +4996,20 @@
    "official_url": "https://www.hilton.com/en/hotels/lkushru-tru-sharonville-cincinnati/",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
+   "capture_lane": "HOLD_ACCESS_BLOCKED",
    "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "review_status": "OBSERVED_ACCESS_BLOCKED",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "ACCESS_BLOCKED",
+    "triage": "NO_FOUNDER_ACTION",
+    "final_url": "https://www.hilton.com/en/hotels/lkushru-tru-sharonville-cincinnati/hotel-info/",
+    "sha256": null,
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-251",
@@ -4064,9 +5052,20 @@
    "official_url": "https://wildwoodinnky.com/",
    "url_grade": "EXACT_PROPERTY_FIRST_PARTY",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
+   "capture_lane": "POLICY_RE_OBSERVATION_REQUIRED",
    "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "review_status": "OBSERVED_POLICY_NOT_FOUND",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "POLICY_NOT_FOUND",
+    "triage": "NO_FOUNDER_ACTION",
+    "final_url": "https://wildwoodinnky.com/",
+    "sha256": "710767bba13a739347ba35cb98a9fe0ad9632ce7e9e24c9a489cb7ddaa01a627",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-254",
@@ -4079,9 +5078,20 @@
    "official_url": "https://www.wyndhamhotels.com/wingate/cincinnati-ohio/wingate-by-wyndham-cincinnati-blue-ash/overview",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "VERIFIED_NO_PETS",
+    "triage": "CLEAN_VERIFIED_NO_PETS_CANDIDATE",
+    "final_url": "https://www.wyndhamhotels.com/wingate/cincinnati-ohio/wingate-by-wyndham-cincinnati-blue-ash/overview",
+    "sha256": "0fa25bb2d6851950ba8c5e83cf1cbd053c9f0c7bd71f3ea2f403122f36eb673f",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-255",
@@ -4094,9 +5104,20 @@
    "official_url": "https://www.wyndhamhotels.com/wingate/erlanger-kentucky/wingate-erlanger-florence-cincinnati-south/overview",
    "url_grade": "BRAND_PROPERTY_PAGE",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "VERIFIED_NO_PETS",
+    "triage": "CLEAN_VERIFIED_NO_PETS_CANDIDATE",
+    "final_url": "https://www.wyndhamhotels.com/wingate/erlanger-kentucky/wingate-erlanger-florence-cincinnati-south/overview",
+    "sha256": "add783b60332c353f0afb3586f7f9dd121c6b54e5de14dc9e664def5eaf8f152",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   },
   {
    "row_id": "CIN-Q2-256",
@@ -4109,9 +5130,20 @@
    "official_url": "https://www.woodspring.com/extended-stay-hotels/locations/ohio/cincinnati/woodspring-suites-cincinnati-fairfield",
    "url_grade": "EXACT_PROPERTY_FIRST_PARTY",
    "final_state": "AWAITING_POLICY_OBSERVATION",
-   "capture_lane": "POLICY_OBSERVATION_REQUIRED",
-   "next_action": "The route is verified and the page serves. Observe the pet policy on it.",
-   "review_status": "NOT_STARTED"
+   "capture_lane": "FOUNDER_REVIEW_REQUIRED",
+   "next_action": "Observed with evidence. Awaiting a founder decision; see the clean candidate files or the exception packet.",
+   "review_status": "OBSERVED_AWAITING_FOUNDER",
+   "last_observation": {
+    "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+    "observed_at": "2026-08-29",
+    "method": "attended_chrome_render",
+    "outcome": "PUBLICATION_CANDIDATE",
+    "triage": "FOUNDER_EXCEPTION",
+    "final_url": "https://www.woodspring.com/extended-stay-hotels/locations/ohio/cincinnati/woodspring-suites-cincinnati-fairfield",
+    "sha256": "b66d6437ef4c57bf09bc676f6f61c493b963dba2b5dfb30a0a2b4390fcb528ce",
+    "provider_calls": 0,
+    "cost_usd": 0.0
+   }
   }
  ]
 }

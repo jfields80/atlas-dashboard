@@ -1,0 +1,3308 @@
+{
+ "work_order": "PTF-CINCINNATI-ZERO-COST-CAPTURE-003",
+ "market_id": "cincinnati-oh",
+ "as_of": "2026-08-29",
+ "provider_calls": 0,
+ "paid_spend_usd": 0.0,
+ "capture_method": "attended_chrome_render",
+ "schema": "ptf-market-capture-pass-results/1.1",
+ "note": "Every row in the Phase 2 cohort, processed exactly once by attended browser. Outcome counts are the seven terminal states the work order defines; triage is a routing of reviewer attention and is never a decision.",
+ "cohort_size": 93,
+ "processed": 93,
+ "outcome_counts": {
+  "ACCESS_BLOCKED": 9,
+  "IDENTITY_MISMATCH": 1,
+  "POLICY_NOT_FOUND": 16,
+  "PUBLICATION_CANDIDATE": 53,
+  "ROUTING_REPAIR_REQUIRED": 3,
+  "VERIFIED_NO_PETS": 11
+ },
+ "triage_counts": {
+  "CLEAN_PET_FRIENDLY_CANDIDATE": 47,
+  "CLEAN_VERIFIED_NO_PETS_CANDIDATE": 10,
+  "FOUNDER_EXCEPTION": 8,
+  "NO_FOUNDER_ACTION": 28
+ },
+ "rows": [
+  {
+   "identity_key": "best western mason inn",
+   "outcome": "VERIFIED_NO_PETS",
+   "brand": "bestwestern",
+   "final_url": "https://www.bestwestern.com/en_US/book/hotels-in-mason/best-western-mason-inn/propertyCode.36151.html",
+   "binding": {
+    "street": "9665 S Mason Montgomery Road",
+    "city": "Mason",
+    "state": "OH",
+    "postal_code": "45040"
+   },
+   "sha256": "73f639a427d05a73861480b54d27affbb3c8eeddd14c0cfbf42f3c79257793c3",
+   "bytes": 637096,
+   "locator": "PET POLICY block",
+   "quote": "PET POLICY\nPets are not accepted.",
+   "notes": "Affirmative property-specific refusal, corroborated by the page's own FAQ ('Q. Is the Best Western Mason Inn Pet Friendly? Pets are not accepted.').",
+   "facts": {
+    "pets_allowed": false
+   },
+   "triage": "CLEAN_VERIFIED_NO_PETS_CANDIDATE"
+  },
+  {
+   "identity_key": "best western sycamore inn",
+   "outcome": "VERIFIED_NO_PETS",
+   "brand": "bestwestern",
+   "final_url": "https://www.bestwestern.com/en_US/book/hotels-in-oxford/best-western-sycamore-inn/propertyCode.36123.html",
+   "binding": {
+    "street": "6 E Sycamore Street",
+    "city": "Oxford",
+    "state": "OH",
+    "postal_code": "45056"
+   },
+   "sha256": "dd3839ad49fed2eefadbd09cb47943e3bd7e83927ceadb694c97fb7390763884",
+   "bytes": 653686,
+   "locator": "PET POLICY block",
+   "quote": "PET POLICY\nPets are not accepted.",
+   "notes": "Affirmative property-specific refusal, corroborated by the page's own FAQ.",
+   "facts": {
+    "pets_allowed": false
+   },
+   "triage": "CLEAN_VERIFIED_NO_PETS_CANDIDATE"
+  },
+  {
+   "identity_key": "surestay hotel by best western florence",
+   "outcome": "ROUTING_REPAIR_REQUIRED",
+   "brand": "bestwestern",
+   "final_url": "https://www.bestwestern.com/en_US/book/hotel-search.55078.html?propertyCity=Florence&propertyCountry=United+States&propertyState=Kentucky",
+   "binding": null,
+   "sha256": null,
+   "bytes": 655313,
+   "locator": null,
+   "quote": null,
+   "notes": "propertyCode.55078 REDIRECTS to a brand hotel-search page titled 'Search Best Western Hotels & Resorts'. A brand index is not the property's own page and its content is not this property's claim. No policy read. Possible deflag/conversion -- needs a routing pass, not a capture.",
+   "triage": "NO_FOUNDER_ACTION"
+  },
+  {
+   "identity_key": "countryside inn and suites mount orab",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "independent",
+   "final_url": "https://countrysideinnandsuites.net/",
+   "binding": {
+    "city": "Mount Orab",
+    "state": "OH",
+    "postal_code": "45154"
+   },
+   "sha256": "9902c854ae7a7922ad2d519f79624dbfb300fd9634fa2df0678867686c6f6818",
+   "bytes": 40453,
+   "locator": "amenities/welcome copy",
+   "quote": "We are pet-friendly, but only dogs are allowed as pets.",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted"
+    }
+   },
+   "withheld": [
+    "pet_fee",
+    "pet_count_limit",
+    "weight_limit",
+    "deposit",
+    "reservation_requirement"
+   ],
+   "notes": "Species is an affirmative-mention list: the source names dogs and EXCLUDES other pets in the same sentence. 'only dogs are allowed as pets' is a stated restriction, not an inference. No fee, count or weight stated anywhere on the page.",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "mason inn",
+   "outcome": "POLICY_NOT_FOUND",
+   "brand": "independent",
+   "final_url": "https://masoninncincinnati.com/",
+   "binding": {
+    "street": "9735 Mason-Montgomery Rd",
+    "city": "Mason",
+    "state": "OH",
+    "postal_code": "45040"
+   },
+   "sha256": "8a41fbec9beb4b745e455698d95e73352afad206e3176b0552c2a143b9fe112f",
+   "bytes": 14669,
+   "locator": null,
+   "quote": null,
+   "notes": "Single-page first-party site, 4.3k of text, zero occurrences of pet/animal/dog/cat. Silence, never a refusal.",
+   "triage": "NO_FOUNDER_ACTION"
+  },
+  {
+   "identity_key": "red roof inn cincinnati airport florence erlanger",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "redroof",
+   "final_url": "https://www.redroof.com/property/ky/erlanger/rri782",
+   "binding": {
+    "city": "Erlanger",
+    "state": "KY",
+    "postal_code": "41018"
+   },
+   "sha256": "122ac3c3496e50b33643e967c50a9926b6db9c0ef9cfbdca57ac16fab5ecdf4d",
+   "bytes": 393989,
+   "locator": "Pet Policy block",
+   "quote": "Pet Policy: One, well-behaved domestic pet (cat or dog) Stays Free! Pets must be declared at check-in. Up to 2 pets allowed per room. Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay. Pet not to exceed 80 pounds. Service and emotional support animals are always welcome.",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "pet_count_limit": 2,
+    "pet_count_scope": "room",
+    "first_pet_fee": 0,
+    "second_pet_fee_amount": 1500,
+    "second_pet_fee_basis": "per_night",
+    "second_pet_fee_cap_amount": 10500,
+    "second_pet_fee_cap_basis": "per_stay",
+    "second_pet_fee_cap_nights": 7,
+    "weight_limit_lbs": 80
+   },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "Service and emotional support animals are always welcome."
+   },
+   "withheld": [
+    "weight_scope",
+    "deposit",
+    "refundability",
+    "reservation_requirement"
+   ],
+   "notes": "Same Red Roof template as the four already published in this market. The $105 cap applies ONLY to the second-pet charge, never the first (free) pet. weight_scope kept absent -- the source does not distinguish individual from combined.",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "drury inn and suites cincinnati northeast mason",
+   "outcome": "POLICY_NOT_FOUND",
+   "brand": "drury",
+   "final_url": "https://www.druryhotels.com/locations/cincinnati-oh/drury-inn-and-suites-cincinnati-northeast-mason",
+   "binding": {
+    "city": "Mason",
+    "state": "OH",
+    "postal_code": "45040"
+   },
+   "sha256": "d587d1b69432e4af83fd2468868086e35a43e6859c86bd2c685111deebe4e9fc",
+   "bytes": 500731,
+   "locator": null,
+   "quote": null,
+   "notes": "Property page states no pet term. Every accordion expanded and 'SHOW MORE HOTEL INFO' clicked: the collapsibles are rate types, not policies. Drury states pets only on a BRAND FAQ (/content/faqs), which is not this property's own claim. Corroborated by the cross-run paid ledger: Drury is 0 publication-grade of 5 brightdata_browser attempts.",
+   "triage": "NO_FOUNDER_ACTION"
+  },
+  {
+   "identity_key": "drury inn and suites cincinnati sharonville",
+   "outcome": "POLICY_NOT_FOUND",
+   "brand": "drury",
+   "final_url": "https://www.druryhotels.com/locations/cincinnati-oh/drury-inn-and-suites-cincinnati-sharonville",
+   "binding": {
+    "city": "Cincinnati",
+    "state": "OH",
+    "postal_code": "45241"
+   },
+   "sha256": "12e150928dfbb6a55682a51b76f28e724c3f3379bd9894cf9e719c0a0f0d50fb",
+   "bytes": 422927,
+   "notes": "Property page states no pet term with every collapsible expanded. Drury publishes pets only on a brand FAQ.",
+   "triage": "NO_FOUNDER_ACTION"
+  },
+  {
+   "identity_key": "drury inn and suites middletown franklin",
+   "outcome": "POLICY_NOT_FOUND",
+   "brand": "drury",
+   "final_url": "https://www.druryhotels.com/locations/middletown-oh/drury-inn-and-suites-middletown-franklin",
+   "binding": {
+    "city": "Middletown",
+    "state": "OH",
+    "postal_code": "45005"
+   },
+   "sha256": "233dd27277ad1ded8c51669ff4009232704cdfaa49d97455f3fd127736e78400",
+   "bytes": 440565,
+   "notes": "Same as the other three Drury properties: no property-level pet term.",
+   "triage": "NO_FOUNDER_ACTION"
+  },
+  {
+   "identity_key": "drury plaza hotel cincinnati florence",
+   "outcome": "POLICY_NOT_FOUND",
+   "brand": "drury",
+   "final_url": "https://www.druryhotels.com/locations/cincinnati-oh/drury-plaza-hotel-cincinnati-florence",
+   "binding": {
+    "city": "Florence",
+    "state": "KY",
+    "postal_code": "41042"
+   },
+   "sha256": "e7de9557117534dce09c7e269b84ea7220284ce49526c3ac62e1873e86b7953a",
+   "bytes": 488819,
+   "notes": "No property-level pet term. Page states Florence KY 41042, agreeing with the ZIP corrected by SYNC-002.",
+   "triage": "NO_FOUNDER_ACTION"
+  },
+  {
+   "identity_key": "extended stay americas select suites cincinnati florence airport",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "esa",
+   "final_url": "https://www.extendedstayamerica.com/hotels/oh/cincinnati/florence-airport",
+   "binding": {
+    "street": "40 Cavalier Blvd",
+    "city": "Florence",
+    "state": "KY",
+    "postal_code": "41042"
+   },
+   "sha256": "1c4c73252db7557693789c7cd0831c38db5add58d441cecfaead1ea9c8382c5b",
+   "bytes": 820151,
+   "locator": "FAQPage JSON-LD, acceptedAnswer for 'Is ... pet friendly?'",
+   "quote": "Yes. Extended Stay America Cincinnati - Florence - Airport offers pet-friendly rooms, so you can bring your furry companion along for your stay.",
+   "facts": {
+    "pets_allowed": true
+   },
+   "withheld": [
+    "species",
+    "pet_count_limit",
+    "weight_limit",
+    "pet_fee",
+    "deposit",
+    "refundability",
+    "reservation_requirement"
+   ],
+   "notes": "Same wording as the three ESA properties already published in this market, and the same withholding: the page states the allowance and no term. Answer read from the page's own FAQPage structured data because the visible accordion does not expand without interaction; it is page content, not a third party.",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "extended stay america cincinnati fairfield",
+   "outcome": "IDENTITY_MISMATCH",
+   "brand": "g6",
+   "final_url": "https://www.motel6.com/property/motel-fairfield-ohio-us-351462/",
+   "binding": {
+    "city": "Fairfield",
+    "state": "OH"
+   },
+   "sha256": "e10fdd00e367d9e704c9e29e30705380ab97e7f4957940e85a69d1722da979ee",
+   "bytes": 523868,
+   "locator": "h1",
+   "quote": "Studio 6 Extended stay Fairfield, OH - Cincinnati",
+   "notes": "CONFIRMS the census-review candidate PROPERTY_CONVERTED_OR_REBRANDED. The census identity is 'Extended Stay America Cincinnati Fairfield'; the page's own h1 is 'Studio 6 Extended stay Fairfield, OH - Cincinnati' (G6, not ESA). Same building, different brand and name. Publishing an ESA-named profile from a Studio 6 page would cite a name the current page does not make. The page does state 'Pets welcome throughout your stay' / 'Pets Stay Free' -- capturable ONLY after a founder identity ruling on the rename. Not merged with 'studio 6 cincinnati springdale', a different census identity in a different city.",
+   "triage": "FOUNDER_EXCEPTION"
+  },
+  {
+   "identity_key": "great wolf lodge cincinnati mason",
+   "outcome": "VERIFIED_NO_PETS",
+   "brand": "greatwolf",
+   "final_url": "https://www.greatwolf.com/mason",
+   "binding": {
+    "city": "Mason",
+    "state": "OH",
+    "postal_code": "45040"
+   },
+   "sha256": "b7ad4de57c7fb833ceed3037659018e8500691c17b693c69d22f049643cda212",
+   "bytes": 441013,
+   "locator": "schema.org JSON-LD on the property page",
+   "quote": "\"petsAllowed\":\"false\"",
+   "triage_override": "FOUNDER_EXCEPTION",
+   "notes": "EXCEPTION, not a clean refusal. The only pet statement on the page is a structured-data field, with no prose anywhere. It also sits adjacent to a 'Great Wolf Resorts, Inc' organization node, so which node it attaches to -- the corporate parent or the Mason property -- is not unambiguous from the serialisation. Every VERIFIED_NO_PETS this market has published so far rests on an affirmative refusal in the property's own prose. Whether a bare structured-data false clears that bar is a founder call, so it goes to the packet rather than to the clean lane.",
+   "facts": {
+    "pets_allowed": false
+   },
+   "triage": "FOUNDER_EXCEPTION"
+  },
+  {
+   "identity_key": "doubletree suites by hilton hotel cincinnati blue ash",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvgkrdt-doubletree-suites-cincinnati-blue-ash/hotel-info/",
+   "binding": {
+    "street": "6300 E. Kemper Road",
+    "city": "Sharonville",
+    "state": "OH",
+    "postal_code": "45241"
+   },
+   "sha256": "94b3b1c8ffe6fa22381d6f9a968367fe066f619423e691dd8c89b99fdb999b32",
+   "bytes": 200303,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "Pets\nNon-refundable fee: $75.00\nPet policy: 1-4 nights, $75 per stay. 5+ nights, $125 per stay.",
+   "facts": {
+    "pets_allowed": true,
+    "pet_fee": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_stay",
+     "refundable_stated": false
+    },
+    "fee_tiers": [
+     {
+      "nights_from": 1,
+      "nights_to": 4,
+      "amount_cents": 7500,
+      "basis": "per_stay"
+     },
+     {
+      "nights_from": 5,
+      "amount_cents": 12500,
+      "basis": "per_stay"
+     }
+    ]
+   },
+   "withheld": [
+    "species",
+    "pet_count_limit",
+    "weight_limit"
+   ],
+   "notes": "Two-tier stay fee. Species, count and weight are not stated on this property page.",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "embassy suites by hilton cincinnati rivercenter",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvgcves-embassy-suites-cincinnati-rivercenter/hotel-info/",
+   "binding": {
+    "street": "10 East Rivercenter Boulevard",
+    "city": "Covington",
+    "state": "KY",
+    "postal_code": "41011"
+   },
+   "sha256": "e2546f38e07084cc0703b613d8de30433b59025613f7db6a4451635bf5d8689f",
+   "bytes": 209317,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "Pets\nNon-refundable fee: $75.00\nPet policy: 1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "pet_count_limit": 2,
+    "pet_fee": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_stay",
+     "refundable_stated": false
+    },
+    "fee_tiers": [
+     {
+      "nights_from": 1,
+      "nights_to": 4,
+      "amount_cents": 7500,
+      "basis": "per_stay"
+     },
+     {
+      "nights_from": 5,
+      "amount_cents": 12500,
+      "basis": "per_stay"
+     }
+    ]
+   },
+   "withheld": [
+    "weight_limit",
+    "pet_count_scope"
+   ],
+   "notes": "dog or cat only names both species and excludes others in the same clause.",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "embassy suites cincinnati northeast",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvgbaes-embassy-suites-cincinnati-northeast-blue-ash/hotel-info/",
+   "binding": {
+    "street": "4554 Lake Forest Drive",
+    "city": "Blue Ash",
+    "state": "OH",
+    "postal_code": "45242"
+   },
+   "sha256": "12599654e44bff192c68c5cf489ea528b8a0ed64002157be204454f1ab26bea5",
+   "bytes": 221624,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "Pets\nNon-refundable fee: $75.00\nPet policy: 1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "pet_count_limit": 2,
+    "pet_fee": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_stay",
+     "refundable_stated": false
+    },
+    "fee_tiers": [
+     {
+      "nights_from": 1,
+      "nights_to": 4,
+      "amount_cents": 7500,
+      "basis": "per_stay"
+     },
+     {
+      "nights_from": 5,
+      "amount_cents": 12500,
+      "basis": "per_stay"
+     }
+    ]
+   },
+   "withheld": [
+    "weight_limit",
+    "pet_count_scope"
+   ],
+   "notes": "",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "graduate cincinnati",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvggcgu-graduate-cincinnati/hotel-info/",
+   "binding": {
+    "street": "151 Goodman Street",
+    "city": "Cincinnati",
+    "state": "OH",
+    "postal_code": "45219"
+   },
+   "sha256": "fbe89fb7bc164a46776f2d37db66b07ba481392d202c4039f49e1ace05d294a7",
+   "bytes": 231512,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "Pet policy: Dogs only. Two pet maximum. A One-time, non-refundable pet fee of $75 per stay per pet will be charged to the guest folio upon check- in.",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted"
+    },
+    "pet_count_limit": 2,
+    "pet_fee": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_stay",
+     "scope": "per_pet",
+     "refundable_stated": false
+    }
+   },
+   "withheld": [
+    "weight_limit",
+    "pet_count_scope"
+   ],
+   "notes": "States BOTH basis and scope explicitly (per stay per pet), so both are carried. Dogs only is an affirmative species list that excludes cats. No PETS summary block here; the policy is prose, which is why a search for the heading alone missed it.",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "hampton inn and suites by hilton cincinnati liberty township",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvglthx-hampton-suites-cincinnati-liberty-township/hotel-info/",
+   "binding": {
+    "street": "7320 Tylers Place Blvd",
+    "city": "West Chester",
+    "state": "OH",
+    "postal_code": "45069"
+   },
+   "sha256": "5237a534853a6491ef54068e35cd96668c7ec1660c44a6a063c8e5dd6b7d59e3",
+   "bytes": 208232,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "PETS\nNon-refundable fee: $50.00\nPet policy: 1-4 night stay $50; 5+ night stay $75; 2 pets max; dog or cat only",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "pet_count_limit": 2,
+    "pet_fee": {
+     "amount_cents": 5000,
+     "currency": "USD",
+     "basis": "per_stay",
+     "refundable_stated": false
+    },
+    "fee_tiers": [
+     {
+      "nights_from": 1,
+      "nights_to": 4,
+      "amount_cents": 5000,
+      "basis": "per_stay"
+     },
+     {
+      "nights_from": 5,
+      "amount_cents": 7500,
+      "basis": "per_stay"
+     }
+    ]
+   },
+   "withheld": [
+    "weight_limit",
+    "pet_count_scope"
+   ],
+   "notes": "",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "hampton inn and suites by hilton mason",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvgbrhx-hampton-suites-cincinnati-mason/hotel-info/",
+   "binding": {
+    "street": "5232 Bardes Road",
+    "city": "Mason",
+    "state": "OH",
+    "postal_code": "45040"
+   },
+   "sha256": "29057af4e337bf7550e480d3fb4b934201f5075bc38343d4028ab67b2e0b7f2a",
+   "bytes": 194446,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "PETS\nNon-refundable fee: $75.00\nMax weight: 75 lbs\nPet policy: 1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "pet_count_limit": 2,
+    "weight_limit": {
+     "value": 75,
+     "unit": "lb",
+     "operator": "lte"
+    },
+    "pet_fee": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_stay",
+     "refundable_stated": false
+    },
+    "fee_tiers": [
+     {
+      "nights_from": 1,
+      "nights_to": 4,
+      "amount_cents": 7500,
+      "basis": "per_stay"
+     },
+     {
+      "nights_from": 5,
+      "amount_cents": 12500,
+      "basis": "per_stay"
+     }
+    ]
+   },
+   "withheld": [
+    "pet_count_scope",
+    "weight_scope"
+   ],
+   "notes": "weight_scope withheld: Max weight: 75 lbs does not distinguish per-pet from combined.",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "hampton inn and suites cincinnati downtown",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvgvihx-hampton-suites-cincinnati-downtown/hotel-info/",
+   "binding": {
+    "street": "617 Vine Street, Suite A",
+    "city": "Cincinnati",
+    "state": "OH",
+    "postal_code": "45202"
+   },
+   "sha256": "ae42486fba72bda1f0db183bb7d25c8e1720805271a76aa4728ceeb35ea705aa",
+   "bytes": 190572,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "PETS\nNon-refundable fee: $50.00\nPet policy: 1-4 night stay $50; 5+ night stay $75; 2 pets max; dog or cat only",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "pet_count_limit": 2,
+    "pet_fee": {
+     "amount_cents": 5000,
+     "currency": "USD",
+     "basis": "per_stay",
+     "refundable_stated": false
+    },
+    "fee_tiers": [
+     {
+      "nights_from": 1,
+      "nights_to": 4,
+      "amount_cents": 5000,
+      "basis": "per_stay"
+     },
+     {
+      "nights_from": 5,
+      "amount_cents": 7500,
+      "basis": "per_stay"
+     }
+    ]
+   },
+   "withheld": [
+    "weight_limit",
+    "pet_count_scope"
+   ],
+   "notes": "617 Vine Street is the same doorway as Homewood Suites Cincinnati Downtown; this page states Suite A. Two brands, two identities, kept separate.",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "hampton inn and suites cincinnati eastgate",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvgeghx-hampton-cincinnati-eastgate/hotel-info/",
+   "binding": {
+    "street": "858 Eastgate North Drive",
+    "city": "Cincinnati",
+    "state": "OH",
+    "postal_code": "45245"
+   },
+   "sha256": "0cdaeb1befdb99ca2d0dcdcd9a6658956fa8295b852609e09c0a4f66b617f304",
+   "bytes": 177243,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "PETS\nNon-refundable fee: $50.00\nPet policy: 1-4 night stay $50; 5+ night stay $75; 2 pets max; dog or cat only",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "pet_count_limit": 2,
+    "pet_fee": {
+     "amount_cents": 5000,
+     "currency": "USD",
+     "basis": "per_stay",
+     "refundable_stated": false
+    },
+    "fee_tiers": [
+     {
+      "nights_from": 1,
+      "nights_to": 4,
+      "amount_cents": 5000,
+      "basis": "per_stay"
+     },
+     {
+      "nights_from": 5,
+      "amount_cents": 7500,
+      "basis": "per_stay"
+     }
+    ]
+   },
+   "withheld": [
+    "weight_limit",
+    "pet_count_scope"
+   ],
+   "notes": "",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "hampton inn and suites cincinnati kenwood",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvgckhx-hampton-suites-cincinnati-kenwood/hotel-info/",
+   "binding": {
+    "street": "2000 Ronald Reagan Drive",
+    "city": "Cincinnati",
+    "state": "OH",
+    "postal_code": "45236"
+   },
+   "sha256": "59b2f3643e0e7a04ea78089741f6c35780672d3d4fa7942f3a194d36ba71c595",
+   "bytes": 198547,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "PETS\nNon-refundable fee: $75.00\nPet policy: $75(1-4n),$125(5+n) 2petsMax,dog/cat onl",
+   "facts": {
+    "pets_allowed": true,
+    "pet_fee": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_stay",
+     "refundable_stated": false
+    }
+   },
+   "withheld": [
+    "species",
+    "pet_count_limit",
+    "weight_limit",
+    "fee_tiers"
+   ],
+   "notes": "EXCEPTION. The property own policy string is TRUNCATED mid-word at source: dog/cat onl. The $75 non-refundable fee stated above it is clean and is carried. The tier, count and species are legible but sit inside the truncated string, so they are withheld rather than reconstructed -- completing a source truncated sentence is exactly the inference this corpus refuses. Union Centre carries the same compressed wording INTACT, which is what shows this is truncation and not a different policy.",
+   "triage_override": "FOUNDER_EXCEPTION",
+   "triage": "FOUNDER_EXCEPTION"
+  },
+  {
+   "identity_key": "hampton inn and suites cincinnati union centre",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvghshx-hampton-suites-cincinnati-union-centre/hotel-info/",
+   "binding": {
+    "street": "9266 Schulze Drive",
+    "city": "West Chester",
+    "state": "OH",
+    "postal_code": "45069"
+   },
+   "sha256": "c80455092f63d0a4989d184ee7a2fcc5084ccc48de5f64beea292b9b05aac6b8",
+   "bytes": 249396,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "PETS\nNon-refundable fee: $75.00\nPet policy: $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "pet_count_limit": 2,
+    "pet_fee": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_stay",
+     "refundable_stated": false
+    },
+    "fee_tiers": [
+     {
+      "nights_from": 1,
+      "nights_to": 4,
+      "amount_cents": 7500,
+      "basis": "per_stay"
+     },
+     {
+      "nights_from": 5,
+      "amount_cents": 12500,
+      "basis": "per_stay"
+     }
+    ]
+   },
+   "withheld": [
+    "weight_limit",
+    "pet_count_scope"
+   ],
+   "notes": "Same compressed wording as Kenwood but NOT truncated -- dog/cat only is complete here, so the terms are carried.",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "hampton inn and suites newport cincinnati",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvgpohx-hampton-suites-newport-cincinnati/hotel-info/",
+   "binding": {
+    "street": "275 Columbia Street",
+    "city": "Newport",
+    "state": "KY",
+    "postal_code": "41071"
+   },
+   "sha256": "917bf32a6b76e6a0bc30430ef730a3115f352a43075baf620fae642b53018edb",
+   "bytes": 201267,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "PETS\nNon-refundable fee: $75.00\nPet policy: Non-Refundable Fee: $75/1-3nts, $125/4-7nts. 2 Pets Max, *No Cats. Fee Exempts: ADA Service Animals Only. Addl charge for damages may apply",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "prohibited"
+    },
+    "pet_count_limit": 2,
+    "pet_fee": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_stay",
+     "refundable_stated": false
+    },
+    "fee_tiers": [
+     {
+      "nights_from": 1,
+      "nights_to": 3,
+      "amount_cents": 7500,
+      "basis": "per_stay"
+     },
+     {
+      "nights_from": 4,
+      "nights_to": 7,
+      "amount_cents": 12500,
+      "basis": "per_stay"
+     }
+    ]
+   },
+   "withheld": [
+    "weight_limit",
+    "pet_count_scope"
+   ],
+   "notes": "EXCEPTION. *No Cats is an affirmative species REFUSAL, the only one in this cohort -- cats prohibited is stated, not inferred. The tiers are 1-3 and 4-7 nights, unlike every other Hampton here, and the source states NO rate beyond 7 nights, so the schedule is incomplete on its own terms and a guest staying 8 nights is not priced. Service animals are exempted from the charge in the property own words. SERVICE-ANIMAL DIVERGENCE: the page says 'Fee Exempts: ADA Service Animals Only', which reads to a person like a fee exemption, but contracts.service_animal declines to interpret it and returns not_addressed. The conservative value is committed. If the founder rules that this wording states an exemption, the classifier's exemption patterns should learn it rather than this row being special-cased.",
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "Fee Exempts: ADA Service Animals Only.",
+    "classifier_note": "contracts.service_animal reads this sentence as ALLOWED / not_addressed: it names neither an acceptance nor a charge in a form the classifier will interpret. This pass initially read 'Fee Exempts: ADA Service Animals Only' as an exemption (no_charge) and deferred to the contract instead. Whether that wording states an exemption is a founder question and is raised in the exception packet."
+   },
+   "triage_override": "FOUNDER_EXCEPTION",
+   "triage": "FOUNDER_EXCEPTION"
+  },
+  {
+   "identity_key": "hampton inn and suites springboro",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/sgoohhx-hampton-suites-springboro-dayton-area-south/hotel-info/",
+   "binding": {
+    "street": "25 Greenwood Lane",
+    "city": "Springboro",
+    "state": "OH",
+    "postal_code": "45066"
+   },
+   "sha256": "ce31d986e3661bc64ad7d1df5bc2f38cebe661f6a16b07355c2d539c2b662cc4",
+   "bytes": 198890,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "PETS\nNon-refundable fee: $75.00\nMax weight: 75 lbs\nMax size: Large\nPet policy: 1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "pet_count_limit": 2,
+    "weight_limit": {
+     "value": 75,
+     "unit": "lb",
+     "operator": "lte"
+    },
+    "pet_fee": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_stay",
+     "refundable_stated": false
+    },
+    "fee_tiers": [
+     {
+      "nights_from": 1,
+      "nights_to": 4,
+      "amount_cents": 7500,
+      "basis": "per_stay"
+     },
+     {
+      "nights_from": 5,
+      "amount_cents": 12500,
+      "basis": "per_stay"
+     }
+    ]
+   },
+   "withheld": [
+    "pet_count_scope",
+    "weight_scope"
+   ],
+   "notes": "Max size: Large is a brand size band with no schema field; not published.",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "hampton inn and suites uptown university area",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvguphx-hampton-suites-cincinnati-uptown-university-area/hotel-info/",
+   "binding": {
+    "street": "3024 Short Vine Street",
+    "city": "Cincinnati",
+    "state": "OH",
+    "postal_code": "45219"
+   },
+   "sha256": "b685907680bff6e177741e00d7128af2f4c50b8f26777f337a9a0e3790d8907e",
+   "bytes": 201328,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "PETS\nNon-refundable fee: $50.00\nPet policy: $50(1-4 nights), $100(5+ nights) 2 pets max, dog or cat only",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "pet_count_limit": 2,
+    "pet_fee": {
+     "amount_cents": 5000,
+     "currency": "USD",
+     "basis": "per_stay",
+     "refundable_stated": false
+    },
+    "fee_tiers": [
+     {
+      "nights_from": 1,
+      "nights_to": 4,
+      "amount_cents": 5000,
+      "basis": "per_stay"
+     },
+     {
+      "nights_from": 5,
+      "amount_cents": 10000,
+      "basis": "per_stay"
+     }
+    ]
+   },
+   "withheld": [
+    "weight_limit",
+    "pet_count_scope"
+   ],
+   "notes": "",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "hampton inn and suites wilder",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvgwihx-hampton-suites-wilder/hotel-info/",
+   "binding": {
+    "street": "10 Hampton Lane",
+    "city": "Wilder",
+    "state": "KY",
+    "postal_code": "41076"
+   },
+   "sha256": "bebf7f6fcf8672a3fd4b22e493535b620f92b6a48c84882c7f1e5e0d7ad62760",
+   "bytes": 188724,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "PETS\nNon-refundable fee: $50.00\nMax weight: 80 lbs\nPet policy: 1-4 night stay $50; 5+ night stay $75; 2 pets max; dog or cat only",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "pet_count_limit": 2,
+    "weight_limit": {
+     "value": 80,
+     "unit": "lb",
+     "operator": "lte"
+    },
+    "pet_fee": {
+     "amount_cents": 5000,
+     "currency": "USD",
+     "basis": "per_stay",
+     "refundable_stated": false
+    },
+    "fee_tiers": [
+     {
+      "nights_from": 1,
+      "nights_to": 4,
+      "amount_cents": 5000,
+      "basis": "per_stay"
+     },
+     {
+      "nights_from": 5,
+      "amount_cents": 7500,
+      "basis": "per_stay"
+     }
+    ]
+   },
+   "withheld": [
+    "pet_count_scope",
+    "weight_scope"
+   ],
+   "notes": "",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "hampton inn blue ash cincinnati",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvgcrhx-hampton-blue-ash-cincinnati/hotel-info/",
+   "binding": {
+    "street": "4761 Creek Road",
+    "city": "Blue Ash",
+    "state": "OH",
+    "postal_code": "45242"
+   },
+   "sha256": "d29474df2bc4af773db3810880025a56f3868cecdc77405f442c050a94d0f809",
+   "bytes": 191502,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "PETS\nNon-refundable fee: $75.00\nMax weight: 75 lbs\nMax size: Large\nPet policy: 1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "pet_count_limit": 2,
+    "weight_limit": {
+     "value": 75,
+     "unit": "lb",
+     "operator": "lte"
+    },
+    "pet_fee": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_stay",
+     "refundable_stated": false
+    },
+    "fee_tiers": [
+     {
+      "nights_from": 1,
+      "nights_to": 4,
+      "amount_cents": 7500,
+      "basis": "per_stay"
+     },
+     {
+      "nights_from": 5,
+      "amount_cents": 12500,
+      "basis": "per_stay"
+     }
+    ]
+   },
+   "withheld": [
+    "pet_count_scope",
+    "weight_scope"
+   ],
+   "notes": "",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "hampton inn cincinnati airport north",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvgflhx-hampton-cincinnati-airport-north/hotel-info/",
+   "binding": {
+    "street": "755 Petersburg Road",
+    "city": "Hebron",
+    "state": "KY",
+    "postal_code": "41048"
+   },
+   "sha256": "c403ae9db82788b8a5ee65736734d0a9261d3e6f8ea0cbba5af5dd984c67417b",
+   "bytes": 177565,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "PETS\nNon-refundable fee: $75.00\nMax weight: 50 lbs\nMax size: Medium\nPet policy: Pets allowed, $75.00 non-refundable fee, $75/1-4nts, $125/5+ nts. 2 Dogs Max, Total Combined Weight 50lbs. No Cats.",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "prohibited"
+    },
+    "pet_count_limit": 2,
+    "combined_weight_limit": {
+     "value": 50,
+     "unit": "lb",
+     "operator": "lte"
+    },
+    "pet_fee": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_stay",
+     "refundable_stated": false
+    },
+    "fee_tiers": [
+     {
+      "nights_from": 1,
+      "nights_to": 4,
+      "amount_cents": 7500,
+      "basis": "per_stay"
+     },
+     {
+      "nights_from": 5,
+      "amount_cents": 12500,
+      "basis": "per_stay"
+     }
+    ]
+   },
+   "withheld": [
+    "pet_count_scope",
+    "weight_limit"
+   ],
+   "notes": "The combined-vs-per-pet case, and the source settles it in its own words: Total Combined Weight 50lbs. So combined_weight_limit is written and per-pet weight_limit is WITHHELD -- the 50 lbs is a ceiling on both dogs together, and publishing it as a per-pet limit would tell a guest with two 40lb dogs they qualify when the property says they do not. No Cats is an affirmative species refusal.",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "hampton inn cincinnati airport south",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvgsfhx-hampton-cincinnati-airport-south/hotel-info/",
+   "binding": {
+    "street": "7393 Turfway Rd.",
+    "city": "Florence",
+    "state": "KY",
+    "postal_code": "41042"
+   },
+   "sha256": "88c87d7fb2dc12e405404a46558cd96feacc94b806dc627ade0b6be6ff71ae42",
+   "bytes": 188014,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "PETS\nNon-refundable fee: $75.00\nMax weight: 75 lbs\nMax size: Medium\nPet policy: 1-4 nights fee is $75 per stay 5+ nights is $125 per stay",
+   "facts": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 75,
+     "unit": "lb",
+     "operator": "lte"
+    },
+    "pet_fee": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_stay",
+     "refundable_stated": false
+    },
+    "fee_tiers": [
+     {
+      "nights_from": 1,
+      "nights_to": 4,
+      "amount_cents": 7500,
+      "basis": "per_stay"
+     },
+     {
+      "nights_from": 5,
+      "amount_cents": 12500,
+      "basis": "per_stay"
+     }
+    ]
+   },
+   "withheld": [
+    "species",
+    "pet_count_limit",
+    "pet_count_scope",
+    "weight_scope"
+   ],
+   "notes": "This property states the fee schedule but NOT species or count, unlike its Hampton neighbours. Both stay withheld rather than borrowed from the sibling properties template.",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "hampton inn cincinnati northwest fairfield",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvgfdhx-hampton-cincinnati-northwest-fairfield/hotel-info/",
+   "binding": {
+    "street": "430 Kolb Drive",
+    "city": "Fairfield",
+    "state": "OH",
+    "postal_code": "45014"
+   },
+   "sha256": "ea32ba165fead5ceea09915651746a0dbcfc75a10e0dcd83cdece98d7125f6ad",
+   "bytes": 191072,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "PETS\nNon-refundable fee: $75.00\nPet policy: $75(1-4n),$75(5+n) 2petsMax,dog/cat only",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "pet_count_limit": 2,
+    "pet_fee": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_stay",
+     "refundable_stated": false
+    }
+   },
+   "withheld": [
+    "weight_limit",
+    "pet_count_scope",
+    "fee_tiers"
+   ],
+   "notes": "Both bands are $75 -- the source states $75(1-4n) AND $75(5+n). That is a flat per-stay fee, so no fee_tiers block is written: a two-tier structure whose tiers are equal would imply a step that the property does not charge.",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "hampton inn kings island",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvgkihx-hampton-cincinnati-kings-island/hotel-info/",
+   "binding": {
+    "street": "5323 Beach Blvd.",
+    "city": "Mason",
+    "state": "OH",
+    "postal_code": "45040"
+   },
+   "sha256": "e2cf976d1936602ea73cc9b46c4122ef38b0548845909696cb3098d2df740451",
+   "bytes": 188647,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "PETS\nNon-refundable fee: $75.00\nMax weight: 75 lbs\nPet policy: $75(1-4n),$125(5+n) 2pets Max, dog/cat only",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "pet_count_limit": 2,
+    "weight_limit": {
+     "value": 75,
+     "unit": "lb",
+     "operator": "lte"
+    },
+    "pet_fee": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_stay",
+     "refundable_stated": false
+    },
+    "fee_tiers": [
+     {
+      "nights_from": 1,
+      "nights_to": 4,
+      "amount_cents": 7500,
+      "basis": "per_stay"
+     },
+     {
+      "nights_from": 5,
+      "amount_cents": 12500,
+      "basis": "per_stay"
+     }
+    ]
+   },
+   "withheld": [
+    "pet_count_scope",
+    "weight_scope"
+   ],
+   "notes": "",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "hampton inn middletown",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/mwomdhx-hampton-middletown/hotel-info/",
+   "binding": {
+    "street": "2880 Towne Boulevard",
+    "city": "Middletown",
+    "state": "OH",
+    "postal_code": "45044"
+   },
+   "sha256": "af6671600f2f34f999181d5a2a4e23ad9d98dff1022a5b5b0336a993eb4692ee",
+   "bytes": 194851,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "PETS\nNon-refundable fee: $75.00\nMax weight: 75 lbs\nMax size: Large\nPet policy: $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "pet_count_limit": 2,
+    "weight_limit": {
+     "value": 75,
+     "unit": "lb",
+     "operator": "lte"
+    },
+    "pet_fee": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_stay",
+     "refundable_stated": false
+    },
+    "fee_tiers": [
+     {
+      "nights_from": 1,
+      "nights_to": 4,
+      "amount_cents": 7500,
+      "basis": "per_stay"
+     },
+     {
+      "nights_from": 5,
+      "amount_cents": 12500,
+      "basis": "per_stay"
+     }
+    ]
+   },
+   "withheld": [
+    "pet_count_scope",
+    "weight_scope"
+   ],
+   "notes": "",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "hampton inn oxford miami university area",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/oxfuvhx-hampton-oxford-miami-university-area/hotel-info/",
+   "binding": {
+    "street": "375 S. College Avenue",
+    "city": "Oxford",
+    "state": "OH",
+    "postal_code": "45056"
+   },
+   "sha256": "b51a555ab40f94fee5a062e97b2cf68f80baaec01b8b6cc27719552f7d628280",
+   "bytes": 183678,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "PETS\nNon-refundable fee: $50.00\nPet policy: 1-4 night stay $50; 5+ night stay $75; 2 pets max; dog or cat only",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "pet_count_limit": 2,
+    "pet_fee": {
+     "amount_cents": 5000,
+     "currency": "USD",
+     "basis": "per_stay",
+     "refundable_stated": false
+    },
+    "fee_tiers": [
+     {
+      "nights_from": 1,
+      "nights_to": 4,
+      "amount_cents": 5000,
+      "basis": "per_stay"
+     },
+     {
+      "nights_from": 5,
+      "amount_cents": 7500,
+      "basis": "per_stay"
+     }
+    ]
+   },
+   "withheld": [
+    "weight_limit",
+    "pet_count_scope"
+   ],
+   "notes": "",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "hilton cincinnati airport",
+   "outcome": "VERIFIED_NO_PETS",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvgchhf-hilton-cincinnati-airport/hotel-info/",
+   "binding": {
+    "street": "7373 Turfway Road",
+    "city": "Florence",
+    "state": "KY",
+    "postal_code": "41042"
+   },
+   "sha256": "56573d2ea88134944fbe66426d5b655415bb918529d5b0fdabd4ef9b780106fa",
+   "bytes": 193701,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "Pets\nPets allowed: No",
+   "facts": {
+    "pets_allowed": false
+   },
+   "withheld": [],
+   "notes": "Affirmative refusal in the SAME structured PETS field that carries the fee on every pet-friendly Hilton in this cohort, on the property own Hotel Info page. Not silence: the field is present and its value is No.",
+   "triage": "CLEAN_VERIFIED_NO_PETS_CANDIDATE"
+  },
+  {
+   "identity_key": "hilton cincinnati netherland plaza",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvgnphf-hilton-cincinnati-netherland-plaza/hotel-info/",
+   "binding": {
+    "street": "35 West Fifth Street",
+    "city": "Cincinnati",
+    "state": "OH",
+    "postal_code": "45202"
+   },
+   "sha256": "98ebc1d62aae1b31e412587f5c8f5eed0a54335c5f3d2ad2641222f92f5592ed",
+   "bytes": 232627,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "Pets\nNon-refundable fee: $50.00\nMax weight: 25 lbs\nPet policy: 50.00 Non Refundable Pet Deposit",
+   "facts": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 25,
+     "unit": "lb",
+     "operator": "lte"
+    }
+   },
+   "withheld": [
+    "pet_fee",
+    "deposit",
+    "species",
+    "pet_count_limit",
+    "weight_scope"
+   ],
+   "notes": "EXCEPTION -- fee or deposit, on the same $50. The structured field says Non-refundable fee: $50.00; the prose beside it says 50.00 Non Refundable Pet Deposit. A fee and a deposit are two different charges (PTF-LOUISVILLE-SIGNED-AUTHORITY-006), and this property calls one $50 both. Publishing it as a fee, as a deposit, or as both would each assert something the page does not settle, so BOTH are withheld and the weight limit -- which is unambiguous -- is all that is carried. Founder to rule.",
+   "triage_override": "FOUNDER_EXCEPTION",
+   "triage": "FOUNDER_EXCEPTION"
+  },
+  {
+   "identity_key": "hilton garden inn blue ash",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvgbogi-hilton-garden-inn-cincinnati-blue-ash/hotel-info/",
+   "binding": {
+    "street": "5300 Cornell Road",
+    "city": "Blue Ash",
+    "state": "OH",
+    "postal_code": "45242"
+   },
+   "sha256": "85ce5dcd4b108acc994406dc2c841d8750e2cab2da268f29367d3e71ee4f83a4",
+   "bytes": 196646,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "Pets\nNon-refundable fee: $75.00\nMax weight: 20 lbs",
+   "facts": {
+    "pets_allowed": true,
+    "pet_fee": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_stay",
+     "refundable_stated": false
+    },
+    "weight_limit": {
+     "value": 20,
+     "unit": "lb",
+     "operator": "lte"
+    }
+   },
+   "withheld": [
+    "species",
+    "pet_count_limit",
+    "fee_tiers",
+    "weight_scope"
+   ],
+   "notes": "No Pet policy prose line at all -- only the two structured fields. Species, count and any tier stay withheld. 20 lbs is the tightest weight limit in this cohort and is carried as stated.",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "hilton garden inn cincinnati northeast",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvgnegi-hilton-garden-inn-cincinnati-northeast/hotel-info/",
+   "binding": {
+    "street": "6288 Tri Ridge Blvd",
+    "city": "Loveland",
+    "state": "OH",
+    "postal_code": "45140"
+   },
+   "sha256": "843f97b32d6c68384e5a3e3aa0519b98f82dd4b69bd110d7f6777992e830ca3c",
+   "bytes": 185893,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "Pets\nNon-refundable fee: $75.00",
+   "facts": {
+    "pets_allowed": true,
+    "pet_fee": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_stay",
+     "refundable_stated": false
+    }
+   },
+   "withheld": [
+    "species",
+    "pet_count_limit",
+    "weight_limit",
+    "fee_tiers"
+   ],
+   "notes": "The thinnest pet-friendly record in the cohort: the property states an allowance and a fee and nothing else. Everything else is silence and stays absent.",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "hilton garden inn cincinnati sharonville",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvgshgi-hilton-garden-inn-cincinnati-sharonville/hotel-info/",
+   "binding": {
+    "street": "11149 Dowlin Drive",
+    "city": "Sharonville",
+    "state": "OH",
+    "postal_code": "45241"
+   },
+   "sha256": "5af2ace55810acb89ea9db292222338b33b1f6bff8cd41fb7fcceb280bd854d7",
+   "bytes": 196838,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "Pets\nNon-refundable fee: $75.00\nMax weight: 75 lbs\nMax size: Medium\nPet policy: 1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "pet_count_limit": 2,
+    "weight_limit": {
+     "value": 75,
+     "unit": "lb",
+     "operator": "lte"
+    },
+    "pet_fee": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_stay",
+     "refundable_stated": false
+    },
+    "fee_tiers": [
+     {
+      "nights_from": 1,
+      "nights_to": 4,
+      "amount_cents": 7500,
+      "basis": "per_stay"
+     },
+     {
+      "nights_from": 5,
+      "amount_cents": 12500,
+      "basis": "per_stay"
+     }
+    ]
+   },
+   "withheld": [
+    "pet_count_scope",
+    "weight_scope"
+   ],
+   "notes": "",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "hilton garden inn cincinnati west chester",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvgmsgi-hilton-garden-inn-cincinnati-west-chester/hotel-info/",
+   "binding": {
+    "street": "9306 Schulze Drive",
+    "city": "West Chester",
+    "state": "OH",
+    "postal_code": "45069"
+   },
+   "sha256": "c98a0ade174977d0a63fe327ceb8d6c85f62857617f454cae5d66c07a7812c05",
+   "bytes": 207860,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "Pets\nNon-refundable fee: $75.00\nMax weight: 40 lbs\nMax size: Medium\nPet policy: 2 Pet Maximum, Cats and Dogs only.",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "pet_count_limit": 2,
+    "weight_limit": {
+     "value": 40,
+     "unit": "lb",
+     "operator": "lte"
+    },
+    "pet_fee": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_stay",
+     "refundable_stated": false
+    }
+   },
+   "withheld": [
+    "pet_count_scope",
+    "weight_scope",
+    "fee_tiers"
+   ],
+   "notes": "States species and count but NO tier, unlike its Hilton Garden Inn neighbours. No tier is written.",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "hilton garden inn florence cincinnati airport south",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvgkegi-hilton-garden-inn-florence-cincinnati-airport-south/hotel-info/",
+   "binding": {
+    "street": "205 Meijer Drive",
+    "city": "Florence",
+    "state": "KY",
+    "postal_code": "41042"
+   },
+   "sha256": "d4d05685ad35086fda5f8f43d85ae41f9a52164908c1552d5bee661e5ec0f3f6",
+   "bytes": 200717,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "Pets\nNon-refundable fee: $75.00\nMax weight: 50 lbs\nMax size: Medium\nPet policy: $75 (1-4nts), $125 (5+nts), 2 pets max",
+   "facts": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "weight_limit": {
+     "value": 50,
+     "unit": "lb",
+     "operator": "lte"
+    },
+    "pet_fee": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_stay",
+     "refundable_stated": false
+    },
+    "fee_tiers": [
+     {
+      "nights_from": 1,
+      "nights_to": 4,
+      "amount_cents": 7500,
+      "basis": "per_stay"
+     },
+     {
+      "nights_from": 5,
+      "amount_cents": 12500,
+      "basis": "per_stay"
+     }
+    ]
+   },
+   "withheld": [
+    "species",
+    "pet_count_scope",
+    "weight_scope"
+   ],
+   "notes": "205 Meijer Drive, Florence KY 41042 -- the third property this market holds on Meijer Drive, alongside the two whose ZIPs SYNC-002 corrected. This one always stated 41042. Species is not stated here and is not borrowed from the sibling properties.",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "hilton garden inn mason",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvgcmgi-hilton-garden-inn-cincinnati-mason/hotel-info/",
+   "binding": {
+    "street": "5200 Natorp Blvd",
+    "city": "Mason",
+    "state": "OH",
+    "postal_code": "45040"
+   },
+   "sha256": "ec68ae5b26730e49c2b528753dbbbeb30030d2340d9052b5ae4e6f8ef61f8ae7",
+   "bytes": 200936,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "Pets\nNon-refundable fee: $75.00\nPet policy: Dogs and cats are welcome, with a maximum of two pets per room. A $125 non-refundable pet fee applies to stays of five nights or longer.",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "pet_count_limit": 2,
+    "pet_count_scope": "room",
+    "pet_fee": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_stay",
+     "refundable_stated": false
+    },
+    "fee_tiers": [
+     {
+      "nights_from": 1,
+      "nights_to": 4,
+      "amount_cents": 7500,
+      "basis": "per_stay"
+     },
+     {
+      "nights_from": 5,
+      "amount_cents": 12500,
+      "basis": "per_stay"
+     }
+    ]
+   },
+   "withheld": [
+    "weight_limit"
+   ],
+   "notes": "One of the few properties that states the count SCOPE in words -- two pets per room -- so pet_count_scope is carried rather than withheld. 5200 Natorp Blvd is a different building from the 5070 Natorp Blvd pair the census records as a shared address.",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "hilton garden inn midtown",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvgmdgi-hilton-garden-inn-cincinnati-midtown/hotel-info/",
+   "binding": {
+    "street": "2145 Dana Avenue",
+    "city": "Cincinnati",
+    "state": "OH",
+    "postal_code": "45207"
+   },
+   "sha256": "af2b853b7e6f9a4a066dc44e83aa461bf6b5e17bafcfebe31e7372e5edb48ec2",
+   "bytes": 225075,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "Pets\nNon-refundable fee: $75.00\nPet policy: $75 2 pets Max, dog/cat only",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "pet_count_limit": 2,
+    "pet_fee": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_stay",
+     "refundable_stated": false
+    }
+   },
+   "withheld": [
+    "weight_limit",
+    "pet_count_scope",
+    "fee_tiers"
+   ],
+   "notes": "States a single $75 with no night bands, so no tier is written.",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "home2 suites by hilton blue ash",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvgasht-home2-suites-blue-ash-cincinnati/hotel-info/",
+   "binding": {
+    "street": "11235 Cornell Park Dr.",
+    "city": "Blue Ash",
+    "state": "OH",
+    "postal_code": "45242"
+   },
+   "sha256": "c5f96bf26dbab2c10da60942479d22768fd6ad6647d0b5f61e6eb186cc7b4b51",
+   "bytes": 188466,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "Pets\nNon-refundable fee: $75.00\nMax weight: 75 lbs\nMax size: Large\nPet policy: $75(1-4n),$125(5+n)2petmax,dog/cat only",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "pet_count_limit": 2,
+    "weight_limit": {
+     "value": 75,
+     "unit": "lb",
+     "operator": "lte"
+    },
+    "pet_fee": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_stay",
+     "refundable_stated": false
+    },
+    "fee_tiers": [
+     {
+      "nights_from": 1,
+      "nights_to": 4,
+      "amount_cents": 7500,
+      "basis": "per_stay"
+     },
+     {
+      "nights_from": 5,
+      "amount_cents": 12500,
+      "basis": "per_stay"
+     }
+    ]
+   },
+   "withheld": [
+    "pet_count_scope",
+    "weight_scope"
+   ],
+   "notes": "",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "home2 suites by hilton cincinnati eastgate",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvgeaht-home2-suites-cincinnati-eastgate/hotel-info/",
+   "binding": {
+    "street": "856 Eastgate North Drive",
+    "city": "Cincinnati",
+    "state": "OH",
+    "postal_code": "45245"
+   },
+   "sha256": "953ecac8e75041473f6736c3fb9401816bcd09eb1ea82bcf6b64639104c1a3e5",
+   "bytes": 193503,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "Pets\nNon-refundable fee: $50.00\nPet policy: 1-4 night stay $50; 5+ night stay $75; 2 pets max; dog or cat only",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "pet_count_limit": 2,
+    "pet_fee": {
+     "amount_cents": 5000,
+     "currency": "USD",
+     "basis": "per_stay",
+     "refundable_stated": false
+    },
+    "fee_tiers": [
+     {
+      "nights_from": 1,
+      "nights_to": 4,
+      "amount_cents": 5000,
+      "basis": "per_stay"
+     },
+     {
+      "nights_from": 5,
+      "amount_cents": 7500,
+      "basis": "per_stay"
+     }
+    ]
+   },
+   "withheld": [
+    "weight_limit",
+    "pet_count_scope"
+   ],
+   "notes": "856 Eastgate North Drive sits beside Hampton Inn Cincinnati-Eastgate at 858. Adjacent addresses, two separate buildings and two identities.",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "home2 suites by hilton cincinnati liberty township",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvglcht-home2-suites-cincinnati-liberty-township/hotel-info/",
+   "binding": {
+    "street": "7145 Liberty Centre Drive",
+    "city": "Liberty Township",
+    "state": "OH",
+    "postal_code": "45069"
+   },
+   "sha256": "c886a4e6c7542d690620910c56a579cc5abbc2c8569de03f4dd548441350d5b1",
+   "bytes": 189292,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "Pets\nNon-refundable fee: $75.00\nPet policy: $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "pet_count_limit": 2,
+    "pet_fee": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_stay",
+     "refundable_stated": false
+    },
+    "fee_tiers": [
+     {
+      "nights_from": 1,
+      "nights_to": 4,
+      "amount_cents": 7500,
+      "basis": "per_stay"
+     },
+     {
+      "nights_from": 5,
+      "amount_cents": 12500,
+      "basis": "per_stay"
+     }
+    ]
+   },
+   "withheld": [
+    "weight_limit",
+    "pet_count_scope"
+   ],
+   "notes": "",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "home2 suites by hilton florence cincinnati airport south",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvgfcht-home2-suites-florence-cincinnati-airport-south/hotel-info/",
+   "binding": {
+    "street": "7570 Woodspoint Drive",
+    "city": "Florence",
+    "state": "KY",
+    "postal_code": "41042"
+   },
+   "sha256": "b96158fac623203f8d0b7a9ec67b921d586e06d7d6f18a03d2c843932dbc8d0d",
+   "bytes": 191943,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "Pets\nNon-refundable fee: $75.00\nMax weight: 75 lbs\nMax size: Medium\nPet policy: $75 (1-4 nights), $125 (5+ nights) 2 pets Max, dog/cat only",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "pet_count_limit": 2,
+    "weight_limit": {
+     "value": 75,
+     "unit": "lb",
+     "operator": "lte"
+    },
+    "pet_fee": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_stay",
+     "refundable_stated": false
+    },
+    "fee_tiers": [
+     {
+      "nights_from": 1,
+      "nights_to": 4,
+      "amount_cents": 7500,
+      "basis": "per_stay"
+     },
+     {
+      "nights_from": 5,
+      "amount_cents": 12500,
+      "basis": "per_stay"
+     }
+    ]
+   },
+   "withheld": [
+    "pet_count_scope",
+    "weight_scope"
+   ],
+   "notes": "",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "home2 suites by hilton west chester",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvgceht-home2-suites-west-chester-cincinnati/hotel-info/",
+   "binding": {
+    "street": "9246 Schulze Drive",
+    "city": "West Chester",
+    "state": "OH",
+    "postal_code": "45069"
+   },
+   "sha256": "2fbaf8d258de429ddbe505e006ea9220da0a8e61843610c1b73c70f67cc45d8f",
+   "bytes": 191828,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "Pets\nNon-refundable fee: $75.00\nMax weight: 20 lbs\nMax size: Medium",
+   "facts": {
+    "pets_allowed": true,
+    "pet_fee": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_stay",
+     "refundable_stated": false
+    },
+    "weight_limit": {
+     "value": 20,
+     "unit": "lb",
+     "operator": "lte"
+    }
+   },
+   "withheld": [
+    "species",
+    "pet_count_limit",
+    "fee_tiers",
+    "weight_scope"
+   ],
+   "notes": "No Pet policy prose line; only the structured fields. Its two Schulze Drive neighbours (9266 Hampton, 9306 Hilton Garden Inn) each state more, and none of that is borrowed here.",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "homewood suites by hilton cincinnati downtown",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvgvshw-homewood-suites-cincinnati-downtown/hotel-info/",
+   "binding": {
+    "street": "617 Vine Street, Suite B",
+    "city": "Cincinnati",
+    "state": "OH",
+    "postal_code": "45202"
+   },
+   "sha256": "ecaa8afa6fdce1c5286e5c7548555d7643d8eb0d10ac226747d2741f51d83a6d",
+   "bytes": 189317,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "Pets\nNon-refundable fee: $50.00\nPet policy: 1-4 night stay $50; 5+ night stay $75; 2 pets max; dog or cat only",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "pet_count_limit": 2,
+    "pet_fee": {
+     "amount_cents": 5000,
+     "currency": "USD",
+     "basis": "per_stay",
+     "refundable_stated": false
+    },
+    "fee_tiers": [
+     {
+      "nights_from": 1,
+      "nights_to": 4,
+      "amount_cents": 5000,
+      "basis": "per_stay"
+     },
+     {
+      "nights_from": 5,
+      "amount_cents": 7500,
+      "basis": "per_stay"
+     }
+    ]
+   },
+   "withheld": [
+    "weight_limit",
+    "pet_count_scope"
+   ],
+   "notes": "The other half of the 617 Vine Street doorway, and the two pages settle it in their own words: Hampton states Suite A, this one states Suite B. Two brands, two suites, two identities -- the census shared-address record is correct and neither row is a duplicate of the other.",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "homewood suites by hilton cincinnati mason",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvgmahw-homewood-suites-cincinnati-mason-oh/hotel-info/",
+   "binding": {
+    "street": "5325 Natorp Boulevard",
+    "city": "Mason",
+    "state": "OH",
+    "postal_code": "45040"
+   },
+   "sha256": "1632864ce1fd51878b94c47a5738eb5a1466a521f11a6f152cf1d8070edd93bd",
+   "bytes": 199252,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "Pets\nNon-refundable fee: $125.00\nMax weight: 75 lbs\nPet policy: $75(1-4n),$125(5+n) dog/cat only",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "weight_limit": {
+     "value": 75,
+     "unit": "lb",
+     "operator": "lte"
+    },
+    "fee_tiers": [
+     {
+      "nights_from": 1,
+      "nights_to": 4,
+      "amount_cents": 7500,
+      "basis": "per_stay"
+     },
+     {
+      "nights_from": 5,
+      "amount_cents": 12500,
+      "basis": "per_stay"
+     }
+    ]
+   },
+   "withheld": [
+    "pet_fee",
+    "pet_count_limit",
+    "pet_count_scope",
+    "weight_scope"
+   ],
+   "notes": "EXCEPTION -- the page states two different headline fees. The structured field says Non-refundable fee: $125.00 while the prose beside it says $75 for 1-4 nights. The tier schedule is internally coherent and is carried; the single headline pet_fee is WITHHELD, because publishing $125 would overcharge a one-night guest by $50 and publishing $75 would contradict the field directly above it. Founder to rule on which the property means.",
+   "triage_override": "FOUNDER_EXCEPTION",
+   "triage": "FOUNDER_EXCEPTION"
+  },
+  {
+   "identity_key": "homewood suites by hilton cincinnati milford",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvgmlhw-homewood-suites-cincinnati-milford/hotel-info/",
+   "binding": {
+    "street": "600 Chamber Drive",
+    "city": "Milford",
+    "state": "OH",
+    "postal_code": "45150"
+   },
+   "sha256": "f4d332c4af81b547e4c5cef0de987528b9cc428b577e97937f9446a699bf1d0e",
+   "bytes": 199933,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "Pets\nNon-refundable fee: $75.00\nPet policy: 1-4 nights, $75. 5+ nights, $125. Per stay, per room. Covers additional cleaning/maintenance. Please inform the hotel in advance if bringing a pet.",
+   "facts": {
+    "pets_allowed": true,
+    "pet_fee": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_stay",
+     "scope": "room",
+     "refundable_stated": false
+    },
+    "fee_tiers": [
+     {
+      "nights_from": 1,
+      "nights_to": 4,
+      "amount_cents": 7500,
+      "basis": "per_stay"
+     },
+     {
+      "nights_from": 5,
+      "amount_cents": 12500,
+      "basis": "per_stay"
+     }
+    ],
+    "general_restrictions": "Please inform the hotel in advance if bringing a pet."
+   },
+   "withheld": [
+    "species",
+    "pet_count_limit",
+    "weight_limit",
+    "reservation_requirement"
+   ],
+   "notes": "The most completely stated fee in the cohort: it names the basis AND the scope in words -- Per stay, per room -- so both are carried. The advance-notice sentence goes to general_restrictions verbatim, NOT to reservation_requirement: Cincinnati's founder already drew that line in Batch A (declaring a pet is not a reservation requirement) and flagged general_restrictions as the field for this class of note, to be confirmed at application.",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "homewood suites by hilton cincinnati west chester",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvgsdhw-homewood-suites-cincinnati-west-chester/hotel-info/",
+   "binding": {
+    "street": "9226 Schulze Drive",
+    "city": "West Chester",
+    "state": "OH",
+    "postal_code": "45069"
+   },
+   "sha256": "5e46b092016420c2d3279cd951d03d9332499cca3ffe4cce0d8bdc8d6db8498a",
+   "bytes": 201706,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "Pets\nNon-refundable fee: $75.00\nMax weight: 75 lbs\nPet policy: $125(5+ nights)2 pet max,dogs/cats only",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "pet_count_limit": 2,
+    "weight_limit": {
+     "value": 75,
+     "unit": "lb",
+     "operator": "lte"
+    },
+    "pet_fee": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_stay",
+     "refundable_stated": false
+    },
+    "fee_tiers": [
+     {
+      "nights_from": 5,
+      "amount_cents": 12500,
+      "basis": "per_stay"
+     }
+    ]
+   },
+   "withheld": [
+    "pet_count_scope",
+    "weight_scope"
+   ],
+   "notes": "The prose states ONLY the 5+ night rate; the 1-4 night rate is the $75 structured fee above it. The tier list therefore carries one band, not two -- inventing a 1-4 band would put a number in the schedule that the prose never states.",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "homewood suites by hilton florence",
+   "outcome": "VERIFIED_NO_PETS",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvgfohw-homewood-suites-cincinnati-airport-south-florence/hotel-info/",
+   "binding": {
+    "street": "1090 Vandercar Way",
+    "city": "Florence",
+    "state": "KY",
+    "postal_code": "41042"
+   },
+   "sha256": "1397587ba1a6c2012d297c5b2ae4424ed0bd3319b6e4a93cb5223c7fe53b688e",
+   "bytes": 229973,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "Pets\nPets allowed: No",
+   "facts": {
+    "pets_allowed": false
+   },
+   "withheld": [],
+   "notes": "Affirmative refusal in the same structured PETS field that carries the fee on the pet-friendly Hiltons. The second verified-no-pets Hilton in this cohort.",
+   "triage": "CLEAN_VERIFIED_NO_PETS_CANDIDATE"
+  },
+  {
+   "identity_key": "homewood suites cincinnati midtown",
+   "outcome": "ACCESS_BLOCKED",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvgmthw-homewood-suites-cincinnati-midtown/hotel-info/",
+   "binding": {
+    "street": null,
+    "city": null,
+    "state": null,
+    "postal_code": null
+   },
+   "sha256": "93fc990b2ce03f9ec1f662f3e309db502eb9bb5faef98c38ae189a518384da9a",
+   "bytes": 293235,
+   "locator": "PETS block on the property Hotel Info page",
+   "quote": "SOMETHING WENT WRONG\n\nMaybe it is us, maybe it is you.\n(It is probably us).\n\nReference No. 27.49643717.1788035107.2e114305",
+   "facts": {},
+   "withheld": [],
+   "notes": "Hilton served its own error page for this property, twice, on a fresh navigation. That is a fact about Hilton's server and says nothing whatever about the hotel's pet policy. Not POLICY_NOT_FOUND -- the page never rendered, so there was no policy surface to be silent. Retry in the next pass.",
+   "triage": "NO_FOUNDER_ACTION"
+  },
+  {
+   "identity_key": "days inn florence",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "wyndham",
+   "final_url": "https://www.wyndhamhotels.com/days-inn/florence-kentucky/days-inn-florence-cincinnati-area/overview",
+   "binding": {
+    "street": "50 Cavalier Blvd.",
+    "city": "Florence",
+    "state": "KY",
+    "postal_code": "41042"
+   },
+   "sha256": "4f763b91b93baf99eb3071b4e8f0477cb58c3e353a58460e332a34fe8d9b224a",
+   "bytes": 576902,
+   "locator": "Pet & Service Animal Policy block on the property overview page",
+   "quote": "Pet & Service Animal Policy Service Animals - ADA-defined service animals welcome. Pets Allowed for max of 5 day stay - 2 pets max. Fees - 25USD per pet per night. Pet Sanitation Fee 200USD if required. Other Information - Limited pet rooms contact front desk for availability.",
+   "facts": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "pet_fee": {
+     "amount_cents": 2500,
+     "currency": "USD",
+     "basis": "per_night",
+     "scope": "per_pet",
+     "refundable_stated": false
+    },
+    "general_restrictions": "Pets Allowed for max of 5 day stay. Limited pet rooms contact front desk for availability."
+   },
+   "withheld": [
+    "species",
+    "weight_limit",
+    "deposit",
+    "reservation_requirement"
+   ],
+   "notes": "EXCEPTION on two counts. First, a MAXIMUM STAY LENGTH for pets (5 days) -- no schema field expresses that, so it is carried verbatim in general_restrictions rather than dropped, and a guest booking six nights with a dog needs to see it. Second, a 200 USD Pet Sanitation Fee 'if required' is a CONDITIONAL charge, not a pet fee: it is withheld from pet_fee and from other_charges because the condition that triggers it is not stated. 50 Cavalier Blvd is next door to Extended Stay America at 40 Cavalier Blvd; different buildings, different identities.",
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "ADA-defined service animals welcome."
+   },
+   "triage_override": "FOUNDER_EXCEPTION",
+   "triage": "FOUNDER_EXCEPTION"
+  },
+  {
+   "identity_key": "days inn sharonville",
+   "outcome": "VERIFIED_NO_PETS",
+   "brand": "wyndham",
+   "final_url": "https://www.wyndhamhotels.com/days-inn/sharonville-ohio/days-inn-sharonville/overview",
+   "binding": {
+    "street": "11775 Lebanon Road",
+    "city": "Sharonville",
+    "state": "OH",
+    "postal_code": "45241"
+   },
+   "sha256": "ad279d1a668130563ad46c78905c300bd7daffee0ba1163615120604b8c18b37",
+   "bytes": 584787,
+   "locator": "Pet & Service Animal Policy block on the property overview page",
+   "quote": "Pet & Service Animal Policy Service Animals - ADA defined service animals are welcome free of charge. Sorry no other pets are allowed.",
+   "facts": {
+    "pets_allowed": false
+   },
+   "withheld": [],
+   "notes": "Affirmative property-specific refusal: 'Sorry no other pets are allowed.' The service-animal sentence is an EXEMPTION, not a charge -- free of charge is stated outright -- and the two facts sit in one sentence pair, which is exactly the adjacency PTF-MILWAUKEE-SERVICE-ANIMAL-CORRECTION-011 exists to read correctly.",
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "no_charge",
+    "quote": "ADA defined service animals are welcome free of charge."
+   },
+   "triage": "CLEAN_VERIFIED_NO_PETS_CANDIDATE"
+  },
+  {
+   "identity_key": "hawthorn extended stay by wyndham",
+   "outcome": "VERIFIED_NO_PETS",
+   "brand": "wyndham",
+   "final_url": "https://www.wyndhamhotels.com/hawthorn-extended-stay/cincinnati-ohio/hawthorn-extended-stay-cincinnati-sharonville/overview",
+   "binding": {
+    "street": "11180 Dowlin Drive",
+    "city": "Cincinnati",
+    "state": "OH",
+    "postal_code": "45241"
+   },
+   "sha256": "3a2cde96d79949ba5801084bb0272de413445adec924d78735142d7269eda4ab",
+   "bytes": 596091,
+   "locator": "Pet & Service Animal Policy block on the property overview page",
+   "quote": "Pet & Service Animal Policy ADA defined service animals are welcome at this hotel. Sorry no other pets are allowed.",
+   "facts": {
+    "pets_allowed": false
+   },
+   "withheld": [],
+   "notes": "Affirmative refusal. The 100 USD refundable security deposit this page also states is PROPERTY-WIDE and is not recorded as a pet deposit -- the same distinction Cincinnati's founder drew for Baymont Lawrenceburg. Unlike Days Inn Sharonville, this page does NOT say free of charge, so the service-animal charge state is not_addressed rather than no_charge.",
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "ADA defined service animals are welcome at this hotel."
+   },
+   "triage": "CLEAN_VERIFIED_NO_PETS_CANDIDATE"
+  },
+  {
+   "identity_key": "hawthorn suites by wyndham mason",
+   "outcome": "VERIFIED_NO_PETS",
+   "brand": "wyndham",
+   "final_url": "https://www.wyndhamhotels.com/hawthorn-extended-stay/cincinnati-ohio/hawthorn-extended-stay-cincinnati-ne-mason/overview",
+   "binding": {
+    "street": "9369 Waterstone Blvd",
+    "city": "Cincinnati",
+    "state": "OH",
+    "postal_code": "45249"
+   },
+   "sha256": "e1a4e7a846b1882ef92c0eeb644e727be964ec978a3e4171917ef9b477704425",
+   "bytes": 572028,
+   "locator": "Pet & Service Animal Policy block on the property overview page",
+   "quote": "Pet & Service Animal Policy Service Animals - ADA defined service animals are welcome free of charge. Sorry no other pets are allowed.",
+   "facts": {
+    "pets_allowed": false
+   },
+   "withheld": [],
+   "notes": "Affirmative refusal. The census carries this identity in Mason; the property's own page states Cincinnati OH 45249 (Waterstone Blvd, Deerfield Township). Mailing city differs from brand name, which is ordinary; the street and ZIP are what bind, and 45249 is claimed by a Cincinnati corridor. The 100 USD refundable incidental deposit is property-wide, not pet-related.",
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "no_charge",
+    "quote": "ADA defined service animals are welcome free of charge."
+   },
+   "triage": "CLEAN_VERIFIED_NO_PETS_CANDIDATE"
+  },
+  {
+   "identity_key": "la quinta inn and suites by wyndham cincinnati ne mason",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "wyndham",
+   "final_url": "https://www.wyndhamhotels.com/laquinta/mason-ohio/la-quinta-cincinnati-ne-mason/overview",
+   "binding": {
+    "street": "9918 Escort Drive",
+    "city": "Mason",
+    "state": "OH",
+    "postal_code": "45040"
+   },
+   "sha256": "cbab09f37ebc970ddf548bf6ade8e3ef2391af43592d78b496e2bc614f0100c3",
+   "bytes": 622075,
+   "locator": "Pet & Service Animal Policy block on the property overview page",
+   "quote": "Pet & Service Animal Policy Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability.",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "pet_count_limit": 2,
+    "pet_count_scope": "room",
+    "weight_limit": {
+     "value": 75,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "pet_fee": {
+     "amount_cents": 2500,
+     "currency": "USD",
+     "basis": "per_night",
+     "scope": "room",
+     "refundable_stated": false
+    },
+    "fee_cap": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_stay"
+    }
+   },
+   "withheld": [
+    "deposit",
+    "reservation_requirement"
+   ],
+   "notes": "The most completely specified pet policy in the cohort, and every scope is STATED rather than inferred: 75lbs or less PER PET fixes the weight scope, and 25 USD nightly FOR UP TO 2 PETS fixes the fee scope as per-room rather than per-pet -- a second dog does not double it. The 75 USD per stay maximum is a cap on that nightly charge. 'Contact hotel for additional details' is not a reservation requirement, exactly as Cincinnati's founder ruled for Baymont Lawrenceburg in Batch C.",
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "no_charge",
+    "quote": "ADA-defined service animals are welcome free of charge."
+   },
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "laquinta inn and suites florence",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "wyndham",
+   "final_url": "https://www.wyndhamhotels.com/laquinta/florence-kentucky/la-quinta-cincinnati-airport-florence/overview",
+   "binding": {
+    "street": "350 Meijer Drive",
+    "city": "Florence",
+    "state": "KY",
+    "postal_code": "41042"
+   },
+   "sha256": "3344974f84dc414230ded0f63dc4f0640f5721f577d5e287f9bf9bab60ad98e4",
+   "bytes": 633708,
+   "locator": "Pet & Service Animal Policy block on the property overview page",
+   "quote": "Pet & Service Animal Policy Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability.",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "pet_count_limit": 2,
+    "pet_count_scope": "room",
+    "weight_limit": {
+     "value": 75,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "pet_fee": {
+     "amount_cents": 2500,
+     "currency": "USD",
+     "basis": "per_night",
+     "scope": "room",
+     "refundable_stated": false
+    },
+    "fee_cap": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_stay"
+    }
+   },
+   "withheld": [
+    "deposit",
+    "reservation_requirement"
+   ],
+   "notes": "The most completely specified pet policy in the cohort, and every scope is STATED rather than inferred: 75lbs or less PER PET fixes the weight scope, and 25 USD nightly FOR UP TO 2 PETS fixes the fee scope as per-room rather than per-pet -- a second dog does not double it. The 75 USD per stay maximum is a cap on that nightly charge. 'Contact hotel for additional details' is not a reservation requirement, exactly as Cincinnati's founder ruled for Baymont Lawrenceburg in Batch C. INDEPENDENT CONFIRMATION OF A PRIOR REPAIR: this property's own page states 350 Meijer Drive, Florence, Kentucky 41042. The census carried 41242 -- a postal code that does not exist in Kentucky -- until PTF-CINCINNATI-HARDENED-SYNC-002 corrected it on the strength of the brand page. This capture is first-party corroboration of that correction, from the property itself, obtained after the fact and independently.",
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "no_charge",
+    "quote": "ADA-defined service animals are welcome free of charge."
+   },
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "la quinta inn and suites sharonville",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "wyndham",
+   "final_url": "https://www.wyndhamhotels.com/laquinta/cincinnati-ohio/la-quinta-cincinnati-sharonville/overview",
+   "binding": {
+    "street": "11029 Dowlin Dr",
+    "city": "Cincinnati",
+    "state": "OH",
+    "postal_code": "45241"
+   },
+   "sha256": "3762dd58d99687a0e5d30dc9dc76f8974d32bc3991623ea3be83d168dc8725d3",
+   "bytes": 687473,
+   "locator": "Pet & Service Animal Policy block on the property overview page",
+   "quote": "Pet & Service Animal Policy Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability.",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "pet_count_limit": 2,
+    "pet_count_scope": "room",
+    "weight_limit": {
+     "value": 75,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "pet_fee": {
+     "amount_cents": 2500,
+     "currency": "USD",
+     "basis": "per_night",
+     "scope": "room",
+     "refundable_stated": false
+    },
+    "fee_cap": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_stay"
+    }
+   },
+   "withheld": [
+    "deposit",
+    "reservation_requirement"
+   ],
+   "notes": "Identical La Quinta terms to the Mason and Florence properties, and read from this property's own page rather than carried across. 11029 Dowlin Dr sits beside Hawthorn at 11180 Dowlin Drive -- same street, different buildings, and the two state opposite pet policies, which is why neither may be inferred from the other.",
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "no_charge",
+    "quote": "ADA-defined service animals are welcome free of charge."
+   },
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "microtel inn and suites florence",
+   "outcome": "VERIFIED_NO_PETS",
+   "brand": "wyndham",
+   "final_url": "https://www.wyndhamhotels.com/microtel/florence-kentucky/microtel-inn-and-suites-cincinnati-airport-florence/overview",
+   "binding": {
+    "street": "7490 Woodspoint Dr",
+    "city": "Florence",
+    "state": "KY",
+    "postal_code": "41042"
+   },
+   "sha256": "6790776cd65beca7144f91b47bd691fe8994ca1d6af3140469ddb4f27d2d5f5f",
+   "bytes": 629966,
+   "locator": "Pet & Service Animal Policy block on the property overview page",
+   "quote": "Pet & Service Animal Policy Service Animals - ADA defined service animals are welcome free of charge. Sorry no other pets are allowed.",
+   "facts": {
+    "pets_allowed": false
+   },
+   "withheld": [],
+   "notes": "Affirmative refusal. The 100 USD cash incidentals deposit is property-wide, not pet-related. 7490 Woodspoint Dr is next to Home2 Suites at 7570 Woodspoint Drive, which IS pet-friendly -- again two neighbours with opposite policies.",
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "no_charge",
+    "quote": "ADA defined service animals are welcome free of charge."
+   },
+   "triage": "CLEAN_VERIFIED_NO_PETS_CANDIDATE"
+  },
+  {
+   "identity_key": "super 8 florence",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "wyndham",
+   "final_url": "https://www.wyndhamhotels.com/super-8/florence-kentucky/super-8-florence-ky/overview",
+   "binding": {
+    "street": "7937 Dream Street",
+    "city": "Florence",
+    "state": "KY",
+    "postal_code": "41042"
+   },
+   "sha256": "fe3ec0989de69df845081534ea42890621e0155ef0ededa7ab5ef644d7018287",
+   "bytes": 605734,
+   "locator": "Pet & Service Animal Policy block on the property overview page",
+   "quote": "Pet & Service Animal Policy Maximum 1 pets with a max weight of 25 lbs are allowed for a non-refundable charge of 15.00 USD per night. Pet Sanitation Fee is 100.00 USD if applicable. Pets must be declared during check-in. ADA Defined service animals are welcome at this hotel.",
+   "facts": {
+    "pets_allowed": true,
+    "pet_count_limit": 1,
+    "weight_limit": {
+     "value": 25,
+     "unit": "lb",
+     "operator": "lte"
+    },
+    "pet_fee": {
+     "amount_cents": 1500,
+     "currency": "USD",
+     "basis": "per_night",
+     "refundable_stated": false
+    }
+   },
+   "withheld": [
+    "species",
+    "pet_count_scope",
+    "weight_scope",
+    "deposit",
+    "reservation_requirement"
+   ],
+   "notes": "The tightest allowance in the cohort: ONE pet, 25 lbs. 'Pets must be declared during check-in' is NOT a reservation requirement -- Cincinnati's founder ruled exactly that wording in Batch B for HomeTowne Studios. The 100 USD Pet Sanitation Fee 'if applicable' is conditional and its trigger is unstated, so it is withheld rather than published as a charge a guest would always pay.",
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "ADA Defined service animals are welcome at this hotel."
+   },
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "super 8 fort mitchell",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "wyndham",
+   "final_url": "https://www.wyndhamhotels.com/super-8/fort-mitchell-kentucky/super-8-fort-mitchell-cinci-oh-downtown/overview",
+   "binding": {
+    "street": "2350 Royal Drive",
+    "city": "Fort Mitchell",
+    "state": "KY",
+    "postal_code": "41017"
+   },
+   "sha256": "50904a9a654567f389bb3fcd61e5f44c626b2a5dc8c7f3a9a05116bb299dd1e3",
+   "bytes": 598889,
+   "locator": "Pet & Service Animal Policy block on the property overview page",
+   "quote": "Pet & Service Animal Policy Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pet max. / Fees - Non-refundable 15USD per pet per night. Pet Sanitation Fee is 100USD if applicable. / Other Information -Please note reservation if guest is travelling with a pet.",
+   "facts": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "pet_fee": {
+     "amount_cents": 1500,
+     "currency": "USD",
+     "basis": "per_night",
+     "scope": "per_pet",
+     "refundable_stated": false
+    },
+    "general_restrictions": "Please note reservation if guest is travelling with a pet."
+   },
+   "withheld": [
+    "species",
+    "weight_limit",
+    "pet_count_scope",
+    "deposit",
+    "reservation_requirement"
+   ],
+   "notes": "'Please note reservation if guest is travelling with a pet' is advance notice on the BOOKING, not a declaration at check-in, so it goes to general_restrictions verbatim and reservation_requirement stays withheld pending the founder's ruling on that boundary. Conditional sanitation fee withheld as elsewhere.",
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "no_charge",
+    "quote": "ADA-defined service animals are welcome free of charge."
+   },
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "super 8 harrison",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "wyndham",
+   "final_url": "https://www.wyndhamhotels.com/super-8/harrison-ohio/super-8-harrison-oh/overview",
+   "binding": {
+    "street": "10900 New Haven Road",
+    "city": "Harrison",
+    "state": "OH",
+    "postal_code": "45030"
+   },
+   "sha256": "4635c771627fc1a1ec7c41ce75b1a0d73cf33b02a7b88b33ebad4936433009c0",
+   "bytes": 594950,
+   "locator": "Pet & Service Animal Policy block on the property overview page",
+   "quote": "Pet & Service Animal Policy Service Animals - ADA-defined service animals welcome. / Dogs Allowed. 2 dogs max. 15lbs or less per pet. / Fees - 25USD per pet per night. / Other Information - Hotel only allows dogs in terms of guest pets allowed on property. Contact hotel for additional details and availability.",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted"
+    },
+    "pet_count_limit": 2,
+    "weight_limit": {
+     "value": 15,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "pet_fee": {
+     "amount_cents": 2500,
+     "currency": "USD",
+     "basis": "per_night",
+     "scope": "per_pet"
+    }
+   },
+   "withheld": [
+    "pet_count_scope",
+    "deposit",
+    "refundability",
+    "reservation_requirement"
+   ],
+   "notes": "Dogs only, and the page says so TWICE -- '2 dogs max' and 'Hotel only allows dogs in terms of guest pets allowed on property'. 15 lbs per pet is the tightest weight limit in the whole cohort. Refundability is NOT stated here, unlike the other Super 8s, so refundable_stated is omitted rather than assumed non-refundable from a sibling property.",
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "ADA-defined service animals welcome."
+   },
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "wingate by wyndham cincinnati blue ash",
+   "outcome": "VERIFIED_NO_PETS",
+   "brand": "wyndham",
+   "final_url": "https://www.wyndhamhotels.com/wingate/cincinnati-ohio/wingate-by-wyndham-cincinnati-blue-ash/overview",
+   "binding": {
+    "street": "4320 Glendale Milford Rd",
+    "city": "Cincinnati",
+    "state": "OH",
+    "postal_code": "45242"
+   },
+   "sha256": "0fa25bb2d6851950ba8c5e83cf1cbd053c9f0c7bd71f3ea2f403122f36eb673f",
+   "bytes": 622888,
+   "locator": "Pet & Service Animal Policy block on the property overview page",
+   "quote": "Pet & Service Animal Policy ADA defined service animals are welcome at this hotel. Sorry no other pets are allowed.",
+   "facts": {
+    "pets_allowed": false
+   },
+   "withheld": [],
+   "notes": "Affirmative refusal. Refundable 100 USD incidentals deposit is property-wide, not pet-related.",
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "ADA defined service animals are welcome at this hotel."
+   },
+   "triage": "CLEAN_VERIFIED_NO_PETS_CANDIDATE"
+  },
+  {
+   "identity_key": "wingate by wyndham erlanger florence cincinnati south",
+   "outcome": "VERIFIED_NO_PETS",
+   "brand": "wyndham",
+   "final_url": "https://www.wyndhamhotels.com/wingate/erlanger-kentucky/wingate-erlanger-florence-cincinnati-south/overview",
+   "binding": {
+    "street": "605 Atlas Air Way",
+    "city": "Erlanger",
+    "state": "KY",
+    "postal_code": "41018"
+   },
+   "sha256": "add783b60332c353f0afb3586f7f9dd121c6b54e5de14dc9e664def5eaf8f152",
+   "bytes": 593539,
+   "locator": "Pet & Service Animal Policy block on the property overview page",
+   "quote": "Pet & Service Animal Policy ADA defined service animals are welcome at this hotel. Sorry no other pets are allowed.",
+   "facts": {
+    "pets_allowed": false
+   },
+   "withheld": [],
+   "notes": "Affirmative refusal. The 50 USD refundable incidental fee and the 250 USD in-room smoking penalty are property-wide charges, neither pet-related.",
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "ADA defined service animals are welcome at this hotel."
+   },
+   "triage": "CLEAN_VERIFIED_NO_PETS_CANDIDATE"
+  },
+  {
+   "identity_key": "ashley quarters hotel cincinnati airport",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "independent",
+   "final_url": "https://www.ashleyquartershotel.com/pet-policy/",
+   "binding": {
+    "street": null,
+    "city": "Florence",
+    "state": "KY",
+    "postal_code": "41042"
+   },
+   "sha256": "7e72e3aa9e86244671dd3bd266eee5cd35905b851d42804d86d211375d5e3706",
+   "bytes": 89674,
+   "locator": "dedicated Pet Policy and Fees page on the property's own site",
+   "quote": "PET POLICY AND FEES $20 per night per pet, $90 per week, 2 Pets Max per room Cats need Manager Approval",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "conditional"
+    },
+    "pet_count_limit": 2,
+    "pet_count_scope": "room",
+    "pet_fee": {
+     "amount_cents": 2000,
+     "currency": "USD",
+     "basis": "per_night",
+     "scope": "per_pet"
+    },
+    "fee_tiers": [
+     {
+      "amount_cents": 9000,
+      "basis": "per_week"
+     }
+    ]
+   },
+   "withheld": [
+    "weight_limit",
+    "deposit",
+    "refundability",
+    "reservation_requirement"
+   ],
+   "notes": "'Cats need Manager Approval' is CONDITIONAL, not a blanket allowance -- the same reading Cincinnati's founder already applied to Best Western Clermont in Batch A, where cats 'upon the hotel's approval' were withheld from the species allowance rather than merged with dogs. The page also states that pet fees apply to emotional support animals, which are distinguished from ADA service animals; that is a service-animal-adjacent statement and is left to the founder rather than published.",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "golden lamb",
+   "outcome": "POLICY_NOT_FOUND",
+   "brand": "independent",
+   "final_url": "https://www.goldenlamb.com/about-us/faqs/",
+   "binding": {
+    "street": null,
+    "city": "Lebanon",
+    "state": "OH",
+    "postal_code": "45036"
+   },
+   "sha256": "af3942e42cd2c3bc1441031c148b81d14fd4d79260cb85c47020c2ad75d4b688",
+   "bytes": 45979,
+   "locator": "pet policy statement on the property page",
+   "quote": null,
+   "facts": {},
+   "withheld": [],
+   "notes": "No pet term on the property's home page or on its FAQ page, the two places this site would state one. Silence, not a refusal.",
+   "triage": "NO_FOUNDER_ACTION"
+  },
+  {
+   "identity_key": "hillcrest motel",
+   "outcome": "POLICY_NOT_FOUND",
+   "brand": "independent",
+   "final_url": "https://www.hillcrestmotelaurora.com/",
+   "binding": {
+    "street": "7535 US-50",
+    "city": "Aurora",
+    "state": "IN",
+    "postal_code": "47001"
+   },
+   "sha256": "ed74b0f955248e9bf7c4521116aaa40c3713cfedb1de29a6be748e051831063a",
+   "bytes": 74621,
+   "locator": "pet policy statement on the property page",
+   "quote": null,
+   "facts": {},
+   "withheld": [],
+   "notes": "5.4k of text on a single-page first-party site, zero occurrences of pet, animal or dog. Silence.",
+   "triage": "NO_FOUNDER_ACTION"
+  },
+  {
+   "identity_key": "hollywood casino lawrenceburg",
+   "outcome": "POLICY_NOT_FOUND",
+   "brand": "independent",
+   "final_url": "https://www.pennentertainment.com/hollywood-lawrenceburg/hotel",
+   "binding": {
+    "street": null,
+    "city": "Lawrenceburg",
+    "state": "IN",
+    "postal_code": "47025"
+   },
+   "sha256": "7c546a7fc8f7f990ca56156ad9a00b420f29ce061c0f8dae3b5e5afeb3658c90",
+   "bytes": 1561001,
+   "locator": "pet policy statement on the property page",
+   "quote": null,
+   "facts": {},
+   "withheld": [],
+   "notes": "ROUTING NOTE: hollywoodindiana.com now redirects to pennentertainment.com/hollywood-lawrenceburg/hotel. That is the operator's own consolidated domain, not a reseller, and the page is still this property's -- title and address both bind -- so the route is valid but its URL has moved and the shard should be updated. No pet term on the page.",
+   "triage": "NO_FOUNDER_ACTION"
+  },
+  {
+   "identity_key": "indigo pass",
+   "outcome": "POLICY_NOT_FOUND",
+   "brand": "independent",
+   "final_url": "https://indigopasshotel.com/",
+   "binding": {
+    "street": "1131 Central Ave. 3rd Floor",
+    "city": "Middletown",
+    "state": "OH",
+    "postal_code": "45044"
+   },
+   "sha256": "df9b383cf2baa57510680a6b19cf741b9fcc8b96b357a50f943f67ae93081d16",
+   "bytes": 94757,
+   "locator": "pet policy statement on the property page",
+   "quote": null,
+   "facts": {},
+   "withheld": [],
+   "notes": "447 characters of body text -- effectively a splash page. No pet term, and no policies section exists to be silent in.",
+   "triage": "NO_FOUNDER_ACTION"
+  },
+  {
+   "identity_key": "livinn hotel cincinnati sharonville convention center",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "independent",
+   "final_url": "https://www.livinnsharonville.com/",
+   "binding": {
+    "street": "11385 Chester Rd",
+    "city": "Sharonville",
+    "state": "OH",
+    "postal_code": "45246"
+   },
+   "sha256": "d6b1eec3c9f161b188a527a81c1847ee32799c002e2145341a71a0df282d5f22",
+   "bytes": 84680,
+   "locator": "pet-friendly FAQ answer on the property page",
+   "quote": "Yes. We are a pet-friendly hotel located near Downtown Cincinnati. Furry friends are welcome, we look forward to welcoming the entire family. Pet fee is $50 per day.",
+   "facts": {
+    "pets_allowed": true,
+    "pet_fee": {
+     "amount_cents": 5000,
+     "currency": "USD",
+     "basis": "per_day"
+    }
+   },
+   "withheld": [
+    "species",
+    "pet_count_limit",
+    "weight_limit",
+    "deposit",
+    "refundability",
+    "reservation_requirement"
+   ],
+   "notes": "Basis is carried as the source words it -- per day -- not silently normalised to per_night. Nothing else is stated.",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "motel beechmont",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "independent",
+   "final_url": "https://www.motelbeechmont.com/",
+   "binding": {
+    "street": null,
+    "city": "Cincinnati",
+    "state": "OH",
+    "postal_code": "45255"
+   },
+   "sha256": "c04a7fce5db8802a8720a592b1ba87505420078bdd0de5a440c046ad3fc76ed2",
+   "bytes": 44932,
+   "locator": "pet policy statement on the property page",
+   "quote": "We are a Pet Friendly hotel. Pets under 25 lbs are allowed with a $10 USD non-refundable pet fee per day. Rooms are limited. Please contact hotel directly for available Pet Friendly rooms.",
+   "facts": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 25,
+     "unit": "lb",
+     "operator": "lt"
+    },
+    "pet_fee": {
+     "amount_cents": 1000,
+     "currency": "USD",
+     "basis": "per_day",
+     "refundable_stated": false
+    },
+    "general_restrictions": "Rooms are limited. Please contact hotel directly for available Pet Friendly rooms."
+   },
+   "withheld": [
+    "species",
+    "pet_count_limit",
+    "pet_count_scope",
+    "weight_scope",
+    "deposit",
+    "reservation_requirement"
+   ],
+   "notes": "The operator is 'lt', not 'lte': the source says pets UNDER 25 lbs, which excludes a pet weighing exactly 25. Every other weight limit in this cohort is worded as a maximum and carries lte; this one is worded as a strict bound and carries lt.",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "symphony hotel and restaurant",
+   "outcome": "POLICY_NOT_FOUND",
+   "brand": "independent",
+   "final_url": "https://www.symphonyhotel.com/",
+   "binding": {
+    "street": null,
+    "city": "Cincinnati",
+    "state": "OH",
+    "postal_code": "45202"
+   },
+   "sha256": "0f52b8d36d9016bb58cd615e745f70c960378b4837b3358f6ca5b3de8553b440",
+   "bytes": 35938,
+   "locator": "pet policy statement on the property page",
+   "quote": null,
+   "facts": {},
+   "withheld": [],
+   "notes": "No pet term anywhere on the property's own site. Silence.",
+   "triage": "NO_FOUNDER_ACTION"
+  },
+  {
+   "identity_key": "marcum hotel and conference center at miami university",
+   "outcome": "POLICY_NOT_FOUND",
+   "brand": "independent",
+   "final_url": "https://miamioh.edu/the-marcum/",
+   "binding": {
+    "street": "951 E. Withrow St.",
+    "city": "Oxford",
+    "state": "OH",
+    "postal_code": "45056"
+   },
+   "sha256": "f9950c0d388bd16410c354670fdf6373321062947cd682108a31046e02042f53",
+   "bytes": 964427,
+   "locator": "pet policy statement on the property page",
+   "quote": null,
+   "facts": {},
+   "withheld": [],
+   "notes": "University-operated hotel page on miamioh.edu. No pet term.",
+   "triage": "NO_FOUNDER_ACTION"
+  },
+  {
+   "identity_key": "the elms hotel",
+   "outcome": "POLICY_NOT_FOUND",
+   "brand": "independent",
+   "final_url": "https://www.theelmsoxford.com/",
+   "binding": {
+    "street": "75 South Main Street",
+    "city": "Oxford",
+    "state": "OH",
+    "postal_code": "45056"
+   },
+   "sha256": "3d758d979f5ff47b06bd0afd1a0712207338cadf93ca7a3a87d7b76a58891cce",
+   "bytes": 103702,
+   "locator": "pet policy statement on the property page",
+   "quote": null,
+   "facts": {},
+   "withheld": [],
+   "notes": "No pet term on the property's own site. Silence.",
+   "triage": "NO_FOUNDER_ACTION"
+  },
+  {
+   "identity_key": "the summit hotel",
+   "outcome": "POLICY_NOT_FOUND",
+   "brand": "independent",
+   "final_url": "https://www.thesummithotel.com/",
+   "binding": {
+    "street": null,
+    "city": "Cincinnati",
+    "state": "OH",
+    "postal_code": "45227"
+   },
+   "sha256": "d3c2bc3cc354384785bcb75ca0604330eee304df0ca91751458b741ae60e30df",
+   "bytes": 128016,
+   "locator": "pet policy statement on the property page",
+   "quote": null,
+   "facts": {},
+   "withheld": [],
+   "notes": "No pet term. Note the page states 45227 (Madisonville), not a downtown ZIP, despite the Downtown Cincinnati title -- that is marketing copy, and the stated postal code is what binds.",
+   "triage": "NO_FOUNDER_ACTION"
+  },
+  {
+   "identity_key": "the warehouse hotel at champion mill",
+   "outcome": "POLICY_NOT_FOUND",
+   "brand": "independent",
+   "final_url": "https://www.warehousehotel.com/hamilton/stay",
+   "binding": {
+    "street": null,
+    "city": "Hamilton",
+    "state": "OH",
+    "postal_code": "45013"
+   },
+   "sha256": "d8a6fb56b7add36d37aa7b7df635fbf289f8966efcfa0d735a916745418ac0b1",
+   "bytes": 333095,
+   "locator": "pet policy statement on the property page",
+   "quote": null,
+   "facts": {},
+   "withheld": [],
+   "notes": "No pet term on the property's Stay page.",
+   "triage": "NO_FOUNDER_ACTION"
+  },
+  {
+   "identity_key": "wildwood inn",
+   "outcome": "POLICY_NOT_FOUND",
+   "brand": "independent",
+   "final_url": "https://wildwoodinnky.com/",
+   "binding": {
+    "street": "7809 US 42",
+    "city": "Florence",
+    "state": "KY",
+    "postal_code": "41042"
+   },
+   "sha256": "710767bba13a739347ba35cb98a9fe0ad9632ce7e9e24c9a489cb7ddaa01a627",
+   "bytes": 43526,
+   "locator": "pet policy statement on the property page",
+   "quote": null,
+   "facts": {},
+   "withheld": [],
+   "notes": "No pet term. Another Florence KY 41042 property, agreeing with the corrected corridor ZIP.",
+   "triage": "NO_FOUNDER_ACTION"
+  },
+  {
+   "identity_key": "the glendalia",
+   "outcome": "ROUTING_REPAIR_REQUIRED",
+   "brand": "independent",
+   "final_url": "https://www.theglendalia.com/",
+   "binding": {
+    "street": null,
+    "city": null,
+    "state": null,
+    "postal_code": null
+   },
+   "sha256": "094f8c1059adbeed9c0162a8cd88f0932ac3b292bb300fe53b6ce27cda8a9530",
+   "bytes": 295068,
+   "locator": "pet policy statement on the property page",
+   "quote": null,
+   "facts": {},
+   "withheld": [],
+   "notes": "DOMAIN LAPSED AND RESOLD -- a live data-integrity hazard, not a policy question. theglendalia.com, the URL committed in this market's routing shard, now serves 'BASKET168 - Situs Slot Pragmatic Gacor', an Indonesian gambling/e-commerce page. Zero occurrences of Glendalia, Glendale, Ohio or any Cincinnati postal code anywhere in its text. Nothing on it may be read as this hotel's policy and the route must be RETIRED, not re-observed. Same class as the Stay Lodge of Florence lapse the routing recovery already recorded.",
+   "triage": "NO_FOUNDER_ACTION"
+  },
+  {
+   "identity_key": "rest",
+   "outcome": "ROUTING_REPAIR_REQUIRED",
+   "brand": "independent",
+   "final_url": "https://www.iresteasy.com/",
+   "binding": {
+    "street": null,
+    "city": null,
+    "state": null,
+    "postal_code": null
+   },
+   "sha256": "254f0aa7dc0ba82178ff34a74db1d382490015e5068e93b2c9a597d36e727fe6",
+   "bytes": 38683,
+   "locator": "pet policy statement on the property page",
+   "quote": null,
+   "facts": {},
+   "withheld": [],
+   "notes": "DOMAIN LAPSED AND RESOLD -- the second in this cohort. iresteasy.com now serves a Japanese article about beef-bowl ingredients (lang=ja), with no mention of a hotel, Cincinnati, Ohio or any 45xxx postal code. Route must be RETIRED. Two lapsed domains in one 93-row cohort is a rate worth acting on: this market's routes were bound on 2026-08-17 and are already decaying.",
+   "triage": "NO_FOUNDER_ACTION"
+  },
+  {
+   "identity_key": "red roof inn sharonville",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "redroof",
+   "final_url": "https://www.redroof.com/property/oh/sharonville/rri171",
+   "binding": {
+    "street": null,
+    "city": "Sharonville",
+    "state": "OH",
+    "postal_code": "45241"
+   },
+   "sha256": "4eda8465d5b33ff7c1eab9aa32f9a201bcb88007cdd506afe1d673ce1c938eef",
+   "bytes": 375869,
+   "locator": "Pet Policy block on the property page",
+   "quote": "Pet Policy: One, well-behaved domestic pet (cat or dog) Stays Free! Pets must be declared at check-in. Up to 2 pets allowed per room. Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay. Pet not to exceed 80 pounds. Service and emotional support animals are always welcome.",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "pet_count_limit": 2,
+    "pet_count_scope": "room",
+    "weight_limit": {
+     "value": 80,
+     "unit": "lb",
+     "operator": "lte"
+    },
+    "fee_tiers": [
+     {
+      "pet_index": 1,
+      "amount_cents": 0,
+      "basis": "per_stay"
+     },
+     {
+      "pet_index": 2,
+      "amount_cents": 1500,
+      "basis": "per_night"
+     }
+    ],
+    "fee_cap": {
+     "amount_cents": 10500,
+     "currency": "USD",
+     "basis": "per_stay",
+     "scope": "per_pet",
+     "qualifier_stated": "not to exceed 7 nights"
+    }
+   },
+   "withheld": [
+    "weight_scope",
+    "deposit",
+    "refundability",
+    "reservation_requirement"
+   ],
+   "notes": "The same Red Roof template as the five already published or captured in this market. The $105 cap applies ONLY to the second pet, never the first, which stays free -- collapsing the two into one pet_fee is the error this structure exists to avoid.",
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "Service and emotional support animals are always welcome."
+   },
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "identity_key": "intown suites cincinnati north",
+   "outcome": "POLICY_NOT_FOUND",
+   "brand": "intownsuites",
+   "final_url": "https://www.intownsuites.com/extended-stay-hotels/ohio/fairfield/north-4/",
+   "binding": {
+    "street": null,
+    "city": "Fairfield",
+    "state": "OH",
+    "postal_code": null
+   },
+   "sha256": "7aa99e53e2e1930a055fa99afbf9d57eb3f1c3301d4f77ad4ba4d8a189ca3bbf",
+   "bytes": 170063,
+   "locator": "pet policy statement on the property page",
+   "quote": null,
+   "facts": {},
+   "withheld": [],
+   "notes": "No pet term on the property page. Corroborated by the cross-run paid ledger, where InTown Suites is 1 publication-grade of 4 paid attempts across other markets.",
+   "triage": "NO_FOUNDER_ACTION"
+  },
+  {
+   "identity_key": "woodspring suites cincinnati fairfield",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "brand": "woodspring",
+   "final_url": "https://www.woodspring.com/extended-stay-hotels/locations/ohio/cincinnati/woodspring-suites-cincinnati-fairfield",
+   "binding": {
+    "street": "6725 Fairfield Business Ctr.",
+    "city": "Fairfield",
+    "state": "OH",
+    "postal_code": "45014"
+   },
+   "sha256": "b66d6437ef4c57bf09bc676f6f61c493b963dba2b5dfb30a0a2b4390fcb528ce",
+   "bytes": 400460,
+   "locator": "pet policy statement on the property page",
+   "quote": "Limit 2 dogs, under 75lbs. per room. No cats. Non-refundable pet cleaning fee of 100USD per pet and daily charge of 25USD for first 6 nights and 10USD per pet per night charge for the duration of the stay.",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "prohibited"
+    },
+    "pet_count_limit": 2,
+    "pet_count_scope": "room",
+    "weight_limit": {
+     "value": 75,
+     "unit": "lb",
+     "operator": "lt",
+     "scope": "per_pet"
+    },
+    "other_charges": [
+     {
+      "kind": "cleaning",
+      "amount_cents": 10000,
+      "currency": "USD",
+      "scope": "per_pet",
+      "refundable_stated": false
+     }
+    ],
+    "fee_tiers": [
+     {
+      "nights_from": 1,
+      "nights_to": 6,
+      "amount_cents": 2500,
+      "basis": "per_night"
+     },
+     {
+      "nights_from": 7,
+      "amount_cents": 1000,
+      "basis": "per_night",
+      "scope": "per_pet"
+     }
+    ]
+   },
+   "withheld": [
+    "pet_fee",
+    "deposit",
+    "reservation_requirement"
+   ],
+   "notes": "EXCEPTION -- the most structurally awkward fee in the cohort, and it does something none of the others do: the rate goes DOWN with length of stay (25USD/night for the first 6, then 10USD per pet per night). It also mixes scopes across bands -- the first band states no scope, the second says per pet -- so no single headline pet_fee is written. 'under 75lbs' is a strict bound (lt), and 'No cats' is an affirmative species refusal. The 100USD cleaning charge is a separate per-pet charge, not part of the nightly fee, and is carried in other_charges where the schema keeps it distinct from a pet fee.",
+   "triage_override": "FOUNDER_EXCEPTION",
+   "triage": "FOUNDER_EXCEPTION"
+  },
+  {
+   "identity_key": "spark by hilton cincinnati airport south",
+   "outcome": "ACCESS_BLOCKED",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvgfrpe-spark-cincinnati-airport-south/hotel-info/",
+   "binding": null,
+   "sha256": "fd3af00aa160c9c8e94a9d9d74b08ccf24baec7cbe77f499a8cad29deee93060",
+   "bytes": 294593,
+   "locator": null,
+   "quote": null,
+   "facts": {},
+   "withheld": [],
+   "attempted": true,
+   "notes": "Hilton served its own 'SOMETHING WENT WRONG / Hilton Page Reference Code' page instead of the property. This is a RATE LIMIT, not a property fact and not a bot wall on this hotel: 41 of this market's 49 Hilton properties were captured successfully from the identical /hotel-info/ locator earlier in this same pass, and the refusals began only after roughly forty requests in quick succession. Retried on a fresh navigation after a ten-second pause and again after roughly twenty minutes of unrelated work; both retries returned the same page. Not POLICY_NOT_FOUND -- the policy surface never rendered, so there was nothing to be silent. Recapture in the next pass, paced.",
+   "triage": "NO_FOUNDER_ACTION"
+  },
+  {
+   "identity_key": "the cincinnatian hotel",
+   "outcome": "ACCESS_BLOCKED",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvgccqq-the-cincinnatian-hotel/hotel-info/",
+   "binding": null,
+   "sha256": "035aed515a36925cadfaddea7e075a35e5d3eaf1604411ee0681ab6d64fe0deb",
+   "bytes": 294592,
+   "locator": null,
+   "quote": null,
+   "facts": {},
+   "withheld": [],
+   "attempted": true,
+   "notes": "Hilton served its own 'SOMETHING WENT WRONG / Hilton Page Reference Code' page instead of the property. This is a RATE LIMIT, not a property fact and not a bot wall on this hotel: 41 of this market's 49 Hilton properties were captured successfully from the identical /hotel-info/ locator earlier in this same pass, and the refusals began only after roughly forty requests in quick succession. Retried on a fresh navigation after a ten-second pause and again after roughly twenty minutes of unrelated work; both retries returned the same page. Not POLICY_NOT_FOUND -- the policy surface never rendered, so there was nothing to be silent. Recapture in the next pass, paced.",
+   "triage": "NO_FOUNDER_ACTION"
+  },
+  {
+   "identity_key": "the well house hotel",
+   "outcome": "ACCESS_BLOCKED",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/lukmaup-the-well-house-hamilton/hotel-info/",
+   "binding": null,
+   "sha256": null,
+   "bytes": null,
+   "locator": null,
+   "quote": null,
+   "facts": {},
+   "withheld": [],
+   "attempted": false,
+   "notes": "Hilton served its own 'SOMETHING WENT WRONG / Hilton Page Reference Code' page instead of the property. This is a RATE LIMIT, not a property fact and not a bot wall on this hotel: 41 of this market's 49 Hilton properties were captured successfully from the identical /hotel-info/ locator earlier in this same pass, and the refusals began only after roughly forty requests in quick succession. Retried on a fresh navigation after a ten-second pause and again after roughly twenty minutes of unrelated work; both retries returned the same page. Not POLICY_NOT_FOUND -- the policy surface never rendered, so there was nothing to be silent. Recapture in the next pass, paced. This property was not navigated to: the block was already established on three sibling properties and two retries, and hammering a throttle that is actively refusing is how a soft rate limit becomes a hard one for the next pass.",
+   "triage": "NO_FOUNDER_ACTION"
+  },
+  {
+   "identity_key": "tru by hilton florence",
+   "outcome": "ACCESS_BLOCKED",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvgafru-tru-cincinnati-airport-south-florence/hotel-info/",
+   "binding": null,
+   "sha256": null,
+   "bytes": null,
+   "locator": null,
+   "quote": null,
+   "facts": {},
+   "withheld": [],
+   "attempted": false,
+   "notes": "Hilton served its own 'SOMETHING WENT WRONG / Hilton Page Reference Code' page instead of the property. This is a RATE LIMIT, not a property fact and not a bot wall on this hotel: 41 of this market's 49 Hilton properties were captured successfully from the identical /hotel-info/ locator earlier in this same pass, and the refusals began only after roughly forty requests in quick succession. Retried on a fresh navigation after a ten-second pause and again after roughly twenty minutes of unrelated work; both retries returned the same page. Not POLICY_NOT_FOUND -- the policy surface never rendered, so there was nothing to be silent. Recapture in the next pass, paced. This property was not navigated to: the block was already established on three sibling properties and two retries, and hammering a throttle that is actively refusing is how a soft rate limit becomes a hard one for the next pass.",
+   "triage": "NO_FOUNDER_ACTION"
+  },
+  {
+   "identity_key": "tru by hilton mason kings island",
+   "outcome": "ACCESS_BLOCKED",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvgmkru-tru-mason-kings-island/hotel-info/",
+   "binding": null,
+   "sha256": null,
+   "bytes": null,
+   "locator": null,
+   "quote": null,
+   "facts": {},
+   "withheld": [],
+   "attempted": false,
+   "notes": "Hilton served its own 'SOMETHING WENT WRONG / Hilton Page Reference Code' page instead of the property. This is a RATE LIMIT, not a property fact and not a bot wall on this hotel: 41 of this market's 49 Hilton properties were captured successfully from the identical /hotel-info/ locator earlier in this same pass, and the refusals began only after roughly forty requests in quick succession. Retried on a fresh navigation after a ten-second pause and again after roughly twenty minutes of unrelated work; both retries returned the same page. Not POLICY_NOT_FOUND -- the policy surface never rendered, so there was nothing to be silent. Recapture in the next pass, paced. This property was not navigated to: the block was already established on three sibling properties and two retries, and hammering a throttle that is actively refusing is how a soft rate limit becomes a hard one for the next pass.",
+   "triage": "NO_FOUNDER_ACTION"
+  },
+  {
+   "identity_key": "tru by hilton milford",
+   "outcome": "ACCESS_BLOCKED",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvgmfru-tru-milford-cincinnati/hotel-info/",
+   "binding": null,
+   "sha256": null,
+   "bytes": null,
+   "locator": null,
+   "quote": null,
+   "facts": {},
+   "withheld": [],
+   "attempted": false,
+   "notes": "Hilton served its own 'SOMETHING WENT WRONG / Hilton Page Reference Code' page instead of the property. This is a RATE LIMIT, not a property fact and not a bot wall on this hotel: 41 of this market's 49 Hilton properties were captured successfully from the identical /hotel-info/ locator earlier in this same pass, and the refusals began only after roughly forty requests in quick succession. Retried on a fresh navigation after a ten-second pause and again after roughly twenty minutes of unrelated work; both retries returned the same page. Not POLICY_NOT_FOUND -- the policy surface never rendered, so there was nothing to be silent. Recapture in the next pass, paced. This property was not navigated to: the block was already established on three sibling properties and two retries, and hammering a throttle that is actively refusing is how a soft rate limit becomes a hard one for the next pass.",
+   "triage": "NO_FOUNDER_ACTION"
+  },
+  {
+   "identity_key": "tru by hilton monroe",
+   "outcome": "ACCESS_BLOCKED",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/cvgjpru-tru-monroe-oh/hotel-info/",
+   "binding": null,
+   "sha256": null,
+   "bytes": null,
+   "locator": null,
+   "quote": null,
+   "facts": {},
+   "withheld": [],
+   "attempted": false,
+   "notes": "Hilton served its own 'SOMETHING WENT WRONG / Hilton Page Reference Code' page instead of the property. This is a RATE LIMIT, not a property fact and not a bot wall on this hotel: 41 of this market's 49 Hilton properties were captured successfully from the identical /hotel-info/ locator earlier in this same pass, and the refusals began only after roughly forty requests in quick succession. Retried on a fresh navigation after a ten-second pause and again after roughly twenty minutes of unrelated work; both retries returned the same page. Not POLICY_NOT_FOUND -- the policy surface never rendered, so there was nothing to be silent. Recapture in the next pass, paced. This property was not navigated to: the block was already established on three sibling properties and two retries, and hammering a throttle that is actively refusing is how a soft rate limit becomes a hard one for the next pass.",
+   "triage": "NO_FOUNDER_ACTION"
+  },
+  {
+   "identity_key": "tru by hilton sharonville",
+   "outcome": "ACCESS_BLOCKED",
+   "brand": "hilton",
+   "final_url": "https://www.hilton.com/en/hotels/lkushru-tru-sharonville-cincinnati/hotel-info/",
+   "binding": null,
+   "sha256": null,
+   "bytes": null,
+   "locator": null,
+   "quote": null,
+   "facts": {},
+   "withheld": [],
+   "attempted": false,
+   "notes": "Hilton served its own 'SOMETHING WENT WRONG / Hilton Page Reference Code' page instead of the property. This is a RATE LIMIT, not a property fact and not a bot wall on this hotel: 41 of this market's 49 Hilton properties were captured successfully from the identical /hotel-info/ locator earlier in this same pass, and the refusals began only after roughly forty requests in quick succession. Retried on a fresh navigation after a ten-second pause and again after roughly twenty minutes of unrelated work; both retries returned the same page. Not POLICY_NOT_FOUND -- the policy surface never rendered, so there was nothing to be silent. Recapture in the next pass, paced. This property was not navigated to: the block was already established on three sibling properties and two retries, and hammering a throttle that is actively refusing is how a soft rate limit becomes a hard one for the next pass.",
+   "triage": "NO_FOUNDER_ACTION"
+  }
+ ]
+}
