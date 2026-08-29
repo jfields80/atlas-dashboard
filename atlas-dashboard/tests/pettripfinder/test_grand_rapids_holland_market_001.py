@@ -311,8 +311,16 @@ def test_routing_repair_reconciles_the_fixed_active_universe():
     promotion_030 = _load(
         PACKAGE / "grand_rapids_holland_mi_source_promotion_030.json"
     )["routes_withdrawn_by_publication"]
-    assert len(routes) == promotion_030["routes_after"] == 75
+    assert promotion_030["routes_after"] == 75
     assert promotion_030["routes_for_a_published_identity_in_the_end_state"] == 0
+    # 031 cleared 030's three fee-cap holds, published them, and withdrew the
+    # routes they answered: 75 -> 72. Each pass pins its own end state and the
+    # LIVE shard is whatever the newest promotion left.
+    promotion_031 = _load(
+        PACKAGE / "grand_rapids_holland_mi_source_promotion_031.json"
+    )["routes_withdrawn_by_publication"]
+    assert len(routes) == promotion_031["routes_after"] == 72
+    assert promotion_031["routes_for_a_published_identity_in_the_end_state"] == 0
     assert routing["count"] == len(routes)
     assert {row["hotel_ref"]["identity_key"] for row in routes} <= census.identity_keys(census_doc())
     assert len({row["official_property_url"] for row in routes}) == len(routes)

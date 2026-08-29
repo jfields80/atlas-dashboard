@@ -79,7 +79,7 @@ MARKETS = (COLUMBUS, CLEVELAND, DAYTON, PITTSBURGH, INDIANAPOLIS, MILWAUKEE,
 #: the market commits no identity census, so its confirmed universe is not a
 #: derivable fact -- absent is a fact, zero would be a claim.
 EXPECTED_RECONCILIATION = {
-    # 163 identities, 40 published, 20 verified-no-pets, 60 resolved and 103
+    # 163 identities, 43 published, 20 verified-no-pets, 63 resolved and 100
     # unresolved. The census is the 163-row recensus, promoted into the pinned
     # path by PTF-GRAND-RAPIDS-CENSUS-PIN-AND-RELEASE-CONTRACT-024; the
     # 120-identity document the 2025 build pinned is kept beside it, and the
@@ -87,14 +87,13 @@ EXPECTED_RECONCILIATION = {
     # sighting of the same building. Like Louisville, this market records no
     # OUT_OF_CURRENT_CATEGORY identity, so unresolved is the remainder.
     #
-    # 35 -> 40 and 14 -> 20 by PTF-GRAND-RAPIDS-FOUNDER-SIGNATURE-PASS-030,
-    # which signed 14 records and promoted 11 of them. THREE MORE ARE SIGNED
-    # AND NOT PUBLISHED: the publication schema requires
-    # fee_cap.qualifier_stated and never infers it, so holiday inn grand rapids
-    # downtown, red roof inn grand rapids airport and wyndham garden grand
-    # rapids airport wait on founder decision 3. Their signatures stand; only
-    # their publication waits, which is why published is 40 rather than 43.
-    "grand-rapids-holland-mi": (163, 40, 20, 60, 103),
+    # 35 -> 40 by PTF-GRAND-RAPIDS-FOUNDER-SIGNATURE-PASS-030, which signed 14
+    # records and promoted 11, holding three on a fee cap whose
+    # qualifier_stated the schema requires and never infers. 40 -> 43 by
+    # PTF-GRAND-RAPIDS-FEE-CAP-QUALIFIER-RULING-031, where the founder ruled
+    # that "maximum of $X per stay" and its equivalents STATE that qualifier.
+    # All 14 signed records are now published.
+    "grand-rapids-holland-mi": (163, 43, 20, 63, 100),
     # 166 identities, 46 published, 17 verified-no-pets, 63 resolved and 103
     # unresolved -- and unresolved is COUNTED as the remainder because this
     # market records no OUT_OF_CURRENT_CATEGORY identity, exactly as Milwaukee

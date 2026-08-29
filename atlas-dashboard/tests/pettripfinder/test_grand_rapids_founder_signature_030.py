@@ -240,16 +240,22 @@ def test_the_refusal_parser_cannot_report_zero_by_accident():
 # The promotion
 # --------------------------------------------------------------------------- #
 
-def test_the_market_promotes_to_forty_not_forty_three(authority, package,
-                                                      promotion):
-    assert authority["pet_friendly_count"] == 40
-    assert authority["verified_no_pets_count"] == 20
-    assert authority["authority_total"] == 60
-    assert package["count"] == 40
+def test_030_promoted_forty_of_the_forty_three_it_signed(promotion):
+    """030's OWN end state, which stays true of 030 forever.
+
+    It signed 43 pet-friendly and promoted 40, holding three on the fee-cap
+    qualifier. PTF-GRAND-RAPIDS-FEE-CAP-QUALIFIER-RULING-031 then cleared those
+    three, so the LIVE package is 43 -- asserting 40 against the live files
+    would be pinning a moment 031 was authorised to move. What 030 is
+    answerable for is the gap it reported between signed and promoted.
+    """
     assert promotion["signed_authority"] == {"pet_friendly": 43,
                                              "verified_no_pets": 20,
                                              "total": 63}
     assert promotion["promoted"]["pet_friendly"] == 40
+    assert promotion["promoted"]["verified_no_pets"] == 20
+    assert promotion["publication_holds"]["count"] == 3
+    assert promotion["signed_authority"]["pet_friendly"] -         promotion["promoted"]["pet_friendly"] == 3
 
 
 def test_every_published_row_carries_a_founder_signature(package):
@@ -287,13 +293,15 @@ def test_the_promotion_preserved_what_it_must(promotion):
 
 
 def test_the_release_contract_agrees_with_the_authority():
+    """The AGREEMENT is the invariant; the counts belong to whichever order
+    promoted last. 031 cleared 030's three holds and took this to 43/20/63."""
     from scripts.pettripfinder import release_contracts as RC
     assert RC.verify_contract("grand-rapids-holland-mi") == []
     derived = RC.derive_authority("grand-rapids-holland-mi")
-    assert derived.published_hotel_profiles == 40
-    assert derived.verified_no_pets == 20
-    assert derived.resolved == 60
     assert derived.confirmed_identities == 163
+    assert derived.published_hotel_profiles >= 40
+    assert derived.verified_no_pets == 20
+    assert derived.resolved == derived.published_hotel_profiles +         derived.verified_no_pets
 
 
 def test_nothing_was_spent(ledger, promotion):
