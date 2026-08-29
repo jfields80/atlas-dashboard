@@ -390,17 +390,23 @@ class TestDetroitFixture:
     def test_the_corridor_registry_default_would_be_catastrophic(self):
         """Why the declaration is a prerequisite and not an improvement.
 
-        Under the basis Detroit would inherit by default, NOT ONE of its 181
-        committed identities is admitted: the 242 rows that state a postal code
+        Under the basis Detroit would inherit by default, NOT ONE of its
+        committed identities is admitted: the 244 rows that state a postal code
         are rejected outright, because no corridor claims any postal code, and
-        the 11 that state none are held UNRESOLVED. This assertion exists so
+        the 3 that state none are held UNRESOLVED. This assertion exists so
         that anyone who removes the declaration sees exactly what it was
-        holding back."""
+        holding back.
+
+        The split moved 242/5 -> 244/3 under PTF-DETROIT-ANN-ARBOR-FOUNDER-
+        EXCEPTIONS-AND-DISPLAY-REPAIR-012, which recovered two postal codes
+        from the properties' own first-party pages. The TOTAL is unchanged:
+        nothing was discovered, two rows the market simply could not place
+        became placeable."""
         counts = self._decide_all(MC.MEMBERSHIP_CORRIDOR_REGISTRY,
                                   is_prior_identity=True)
         assert counts.get(MM.IN_MARKET, 0) == 0
-        assert counts[MM.BOUNDARY_DECISION] == 242
-        assert counts[MM.UNRESOLVED] == 5
+        assert counts[MM.BOUNDARY_DECISION] == 244
+        assert counts[MM.UNRESOLVED] == 3
         assert sum(counts.values()) == 247
 
     def test_a_fresh_candidate_is_held_not_evicted_where_geography_is_thin(self):

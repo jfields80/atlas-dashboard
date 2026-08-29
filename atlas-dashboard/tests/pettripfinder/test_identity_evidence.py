@@ -186,7 +186,8 @@ class TestColumbusUnchanged:
         # "Columbus unchanged" means Columbus's slice is unchanged.
         assert len([e for e in load_exclusions()
                     if e.get("market_id") == "columbus-oh"]) == 16
-        assert [r["resolution_id"] for r in load_resolutions()] == ["res-brewdog-gender-rd"]
+        assert [r["resolution_id"] for r in load_resolutions()] == ["res-brewdog-gender-rd",
+                "res-ihg-dual-brand-575-big-beaver-troy"]  # the Detroit dual-brand resolution is not Columbus's and does not touch it
 
     def test_a_blocked_columbus_hold_can_be_identity_confirmed_without_a_policy(self):
         """SpringHill Gahanna: Marriott refuses us, so its policy is unknown and

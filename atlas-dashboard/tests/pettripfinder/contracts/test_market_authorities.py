@@ -112,8 +112,8 @@ EXPECTED = {
     # readiness and the exclusion contract each require) and one sharing a
     # street address with a second IHG brand, pending a reviewed same-campus
     # resolution.
-    DETROIT: {"census": 247, "published": 33, "no_pets": 60,
-              "out_of_category": 0, "unresolved": 154},
+    DETROIT: {"census": 247, "published": 35, "no_pets": 63,
+              "out_of_category": 0, "unresolved": 149},
     INDIANAPOLIS: {"census": 153, "published": 8, "no_pets": 4,
                    "out_of_category": 0, "unresolved": 141},
 }

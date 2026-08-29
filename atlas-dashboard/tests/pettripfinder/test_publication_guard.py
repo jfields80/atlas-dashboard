@@ -400,7 +400,8 @@ class TestSameCampusDistinctEntities:
 
         assert RESOLUTIONS_PATH.exists()
         tracked = load_resolutions()
-        assert [r["resolution_id"] for r in tracked] == ["res-brewdog-gender-rd"]
+        assert [r["resolution_id"] for r in tracked] == ["res-brewdog-gender-rd",
+                "res-ihg-dual-brand-575-big-beaver-troy"]  # the registry is global; Detroit recorded a second reviewed exception
         assert publication_blocks(hotel, published=seed, exclusions=[],
                                   resolutions=tracked) == []
         # Without it, the very same seed is refused.

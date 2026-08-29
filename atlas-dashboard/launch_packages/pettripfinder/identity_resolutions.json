@@ -1,33 +1,63 @@
 {
- "schema": "ptf-identity-resolutions/1.0",
- "contract": "ptf-identity-resolutions/1.0",
- "market": "columbus-oh",
- "note": "Reviewed decisions that two identities sharing one street address are distinct businesses. Without a record here an address collision blocks publication: the guard treats a shared address as UNREVIEWED, never as an automatic duplicate and never as an automatic pass. A resolution asserts nothing about either property's policy.",
- "resolutions": [
-  {
-   "resolution_id": "res-brewdog-gender-rd",
-   "resolution_type": "same_campus_distinct_entity",
-   "address_key": "96|gender|43110",
-   "identities": [
+  "schema": "ptf-identity-resolutions/1.0",
+  "contract": "ptf-identity-resolutions/1.0",
+  "note": "Reviewed decisions that two identities sharing one street address are distinct businesses. Without a record here an address collision blocks publication: the guard treats a shared address as UNREVIEWED, never as an automatic duplicate and never as an automatic pass. A resolution asserts nothing about either property's policy.",
+  "resolutions": [
     {
-     "canonical_name": "BrewDog DogHouse Columbus",
-     "category": "pet-friendly-hotels",
-     "slug": "brewdog-doghouse-columbus",
-     "official_url": "https://usa.brewdog.com/pages/hotels-doghouse-columbus",
-     "booking_destination": "https://usa.brewdog.com/pages/hotels-doghouse-columbus"
+      "resolution_id": "res-brewdog-gender-rd",
+      "resolution_type": "same_campus_distinct_entity",
+      "address_key": "96|gender|43110",
+      "identities": [
+        {
+          "canonical_name": "BrewDog DogHouse Columbus",
+          "category": "pet-friendly-hotels",
+          "slug": "brewdog-doghouse-columbus",
+          "official_url": "https://usa.brewdog.com/pages/hotels-doghouse-columbus",
+          "booking_destination": "https://usa.brewdog.com/pages/hotels-doghouse-columbus"
+        },
+        {
+          "canonical_name": "BrewDog DogTap Columbus",
+          "category": "pet-friendly-restaurants",
+          "slug": "brewdog-dogtap-columbus",
+          "official_url": "https://usa.brewdog.com/pages/bars/dog-tap-columbus",
+          "booking_destination": "https://usa.brewdog.com/pages/bars/dog-tap-columbus"
+        }
+      ],
+      "evidence": "The operator's own site publishes the two venues on separate pages: the DogHouse hotel at /pages/hotels-doghouse-columbus and the DogTap taproom at /pages/bars/dog-tap-columbus. The taproom has been published as a pet-friendly-restaurant since 2026-07-15 under source_type OFFICIAL_BREWERY; the hotel is promoted here as a separate lodging identity. One address, two businesses -- neither is a duplicate of the other and neither is merged or suppressed.",
+      "reviewer_id": "jfields80",
+      "reviewed_at": "2026-08-06T12:00:00-04:00",
+      "resolution_hash": "sha256:e064c13aef1a419f3b2f796584414fbdc659da09226bcc3afbdbc925ecd8a5e3"
     },
     {
-     "canonical_name": "BrewDog DogTap Columbus",
-     "category": "pet-friendly-restaurants",
-     "slug": "brewdog-dogtap-columbus",
-     "official_url": "https://usa.brewdog.com/pages/bars/dog-tap-columbus",
-     "booking_destination": "https://usa.brewdog.com/pages/bars/dog-tap-columbus"
+      "resolution_id": "res-ihg-dual-brand-575-big-beaver-troy",
+      "resolution_type": "same_campus_distinct_entity",
+      "address_key": "575|beaver big|48084",
+      "identities": [
+        {
+          "canonical_name": "EVEN Hotel Detroit North Troy",
+          "category": "pet-friendly-hotels",
+          "slug": "even-hotel-detroit-north-troy",
+          "official_url": "ihg.com/evenhotels/hotels/us/en/troy/dttry/hoteldetail",
+          "booking_destination": "ihg.com/evenhotels/hotels/us/en/troy/dttry/hoteldetail"
+        },
+        {
+          "canonical_name": "Hotel Indigo Detroit North Troy",
+          "category": "pet-friendly-hotels",
+          "slug": "hotel-indigo-detroit-north-troy",
+          "official_url": "ihg.com/hotelindigo/hotels/us/en/troy/dttoy/hoteldetail",
+          "booking_destination": "ihg.com/hotelindigo/hotels/us/en/troy/dttoy/hoteldetail"
+        }
+      ],
+      "distinct_reason": "A dual-brand IHG building at 575 W Big Beaver Rd. Each property's own page states a different hotelCode (dttoy, dttry), a different marketed name and a different telephone number; one brand property code is one hotel by the brand's own definition. Same category, so the reason is stated explicitly: these are two marketed hotels sharing a building, not one hotel listed twice.",
+      "evidence": "first-party rendered pages persisted by this market and re-hashed at review time: Hotel Indigo Detroit North Troy -> 11e313a4cf787b40 (hotelCode dttoy, tel 1-248-7206400); EVEN Hotel Detroit North Troy -> a5c56fda9f21b08f (hotelCode dttry, tel 1-248-5095700)",
+      "reviewer_id": "jfields80",
+      "reviewed_at": "2026-08-29",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-FOUNDER-EXCEPTIONS-AND-DISPLAY-REPAIR-012",
+      "resolution_hash": "sha256:94fff241e6b26fd8d1054dfe8c27e0d5406b6a302de14441d3158bde8c5fc708"
     }
-   ],
-   "evidence": "The operator's own site publishes the two venues on separate pages: the DogHouse hotel at /pages/hotels-doghouse-columbus and the DogTap taproom at /pages/bars/dog-tap-columbus. The taproom has been published as a pet-friendly-restaurant since 2026-07-15 under source_type OFFICIAL_BREWERY; the hotel is promoted here as a separate lodging identity. One address, two businesses -- neither is a duplicate of the other and neither is merged or suppressed.",
-   "reviewer_id": "jfields80",
-   "reviewed_at": "2026-08-06T12:00:00-04:00",
-   "resolution_hash": "sha256:e064c13aef1a419f3b2f796584414fbdc659da09226bcc3afbdbc925ecd8a5e3"
-  }
- ]
+  ],
+  "markets": [
+    "columbus-oh",
+    "detroit-ann-arbor-mi"
+  ]
 }
