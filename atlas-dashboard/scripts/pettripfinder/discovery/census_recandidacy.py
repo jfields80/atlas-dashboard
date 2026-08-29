@@ -97,6 +97,14 @@ def to_candidate(row: Mapping, *, market_id: str, observed_at: str,
         "normalized_name": row.get("normalized_name") or identity,
         "address_line": row.get("address") or "",
         "city": row.get("city") or "",
+        # PTF-DETROIT-ANN-ARBOR-RECANDIDACY-REPAIR-003 (D-002-A). The census
+        # contract requires a ZIP, or a city AND a state, before a row may be
+        # admitted. This field was absent here, so every committed row that
+        # carried a city but no postal code arrived at projection missing half
+        # of the only other locality it could have been admitted on, and was
+        # held IDENTITY_NO_LOCALITY -- about a property whose committed row
+        # names its state plainly.
+        "state": row.get("state") or "",
         "postal_code": row.get("postal_code") or "",
         "latitude": row.get("latitude"),
         "longitude": row.get("longitude"),
@@ -118,6 +126,76 @@ def from_census(census: Mapping, *, observed_at: str) -> List[Dict]:
     return [to_candidate(row, market_id=market_id, observed_at=observed_at,
                          source_work_order=work_order)
             for row in census.get("hotels") or ()]
+
+
+#: PTF-DETROIT-ANN-ARBOR-RECANDIDACY-REPAIR-003 (D-002-A). The premises facts a
+#: committed census row states about a building. When a live discovery sighting
+#: is SILENT on one of these, its silence is not evidence that the committed
+#: value is wrong, so the committed value is carried onto the surviving row.
+#: When both records state a value and they DISAGREE, nothing is overwritten:
+#: the disagreement is surfaced for review, because a rebuild is not entitled to
+#: pick a winner between two witnesses on its own.
+LOCALITY_FIELDS: Tuple[str, ...] = (
+    "address_line", "city", "state", "postal_code", "phone",
+    "latitude", "longitude", "website_url",
+)
+
+#: Fields where a difference in spelling is not a difference in fact, so a
+#: mismatch is only reported when the values differ after normalising.
+_CASE_INSENSITIVE = frozenset({"address_line", "city", "state", "website_url"})
+
+
+def _stated(value) -> bool:
+    """A field is STATED when it carries something other than blank."""
+    if value is None:
+        return False
+    if isinstance(value, str):
+        return bool(value.strip())
+    return True
+
+
+def _same(field: str, a, b) -> bool:
+    if field in _CASE_INSENSITIVE:
+        return str(a).strip().lower().rstrip("/") == str(b).strip().lower().rstrip("/")
+    if field == "phone":
+        digits = lambda v: "".join(ch for ch in str(v) if ch.isdigit())[-10:]
+        return digits(a) == digits(b)
+    return str(a).strip() == str(b).strip()
+
+
+def _name_tokens(value: str) -> set:
+    return {t for t in "".join(
+        ch.lower() if (ch.isalnum() or ch.isspace()) else " " for ch in str(value or "")
+    ).split() if t}
+
+
+def choose_canonical_name(host_name: str, prior_names: Sequence[str]) -> str:
+    """Which name the surviving row should carry.
+
+    PTF-DETROIT-ANN-ARBOR-RECANDIDACY-REPAIR-003 (D-002-B). A COMMITTED
+    canonical name always outranks a discovery sighting's label. OpenStreetMap
+    calls the Best Western Greenfield Inn "Best Western" and misspells the
+    Daxton "Daxon Hotel"; neither is authority to rename a reviewed hotel.
+    Renaming a committed identity is a FOUNDER RULING about a rebrand, and no
+    string comparison can produce one, so this function never promotes the
+    discovery name over a committed one.
+
+    When ONE prior row is absorbed, its name wins outright. When SEVERAL are --
+    which happens where a building has been rebranded and both the old and new
+    identities are committed -- the discovery sighting's own label is the
+    evidence of which identity is currently at that address, so the committed
+    name sharing the most tokens with it wins. Ties break toward the more
+    specific (longer) name, then lexicographically, so the result never depends
+    on dict ordering.
+    """
+    names = [n for n in prior_names if str(n or "").strip()]
+    if not names:
+        return host_name
+    if len(names) == 1:
+        return names[0]
+    host_tokens = _name_tokens(host_name)
+    return sorted(names, key=lambda n: (-len(_name_tokens(n) & host_tokens),
+                                        -len(n), n))[0]
 
 
 def street_identity(candidate: Mapping) -> str:
@@ -159,6 +237,28 @@ def absorb_prior_by_street(discovery: Sequence[Mapping],
     absorbed -- the first version of this copied the row first, so the alias was
     written to a discarded copy and the trace back to the earlier build's name
     was silently lost. A test asserts the caller's own dict carries it.
+
+    WHAT THE SURVIVING ROW KEEPS FROM THE ROW IT ABSORBED
+    ----------------------------------------------------
+    PTF-DETROIT-ANN-ARBOR-RECANDIDACY-REPAIR-003. Absorption used to keep the
+    fresh row and discard everything the committed row knew except its identity
+    key. That is right for a CONTRADICTION and wrong for a SILENCE, and an OSM
+    node is silent about almost everything:
+
+    * D-002-A -- Crowne Plaza Auburn Hills is committed with a city, a state and
+      a ZIP. It was absorbed into an OSM sighting carrying none of them, the
+      merged row kept the sighting's blanks, and projection then held it with
+      "the candidate states no city" about a property whose committed row names
+      its city plainly. Ten Detroit rows were stranded exactly this way.
+    * D-002-B -- the same discard renamed 70 committed identities to whatever
+      OSM happened to call the building, including "Daxton Hotel" -> "Daxon
+      Hotel" and "Best Western Greenfield Inn" -> "Best Western".
+
+    So a stated committed fact now fills a blank on the survivor, the committed
+    canonical name is kept over the sighting's label, and where both records
+    state a value and they disagree the survivor is left alone and the conflict
+    is recorded on it and in the absorption. Backfilling is not deciding: it
+    only ever writes where the live sighting said nothing at all.
     """
     by_street: Dict[str, Dict] = {}
     for candidate in discovery:
@@ -167,27 +267,89 @@ def absorb_prior_by_street(discovery: Sequence[Mapping],
             by_street.setdefault(key, candidate)
     survivors: List[Dict] = []
     absorptions: List[Dict] = []
+    #: host candidate_id -> the committed names it absorbed, in absorption order.
+    absorbed_names: Dict[str, List[str]] = {}
+    #: host candidate_id -> the host's own observed label, before any rename.
+    observed_names: Dict[str, str] = {}
+
     for candidate in prior:
         key = street_identity(candidate)
         host = by_street.get(key) if key else None
         if host is None:
             survivors.append(dict(candidate))
             continue
+
+        host_id = str(host.get("candidate_id") or "")
+        observed_names.setdefault(host_id, str(host.get("name") or ""))
+
+        # -- D-002-A: a silence never overwrites a stated committed fact ----- #
+        backfilled: List[str] = []
+        conflicts: List[Dict] = []
+        for field in LOCALITY_FIELDS:
+            mine, theirs = host.get(field), candidate.get(field)
+            if not _stated(theirs):
+                continue
+            if not _stated(mine):
+                host[field] = theirs
+                backfilled.append(field)
+            elif not _same(field, mine, theirs):
+                conflicts.append({"field": field,
+                                  "discovery_states": mine,
+                                  "prior_census_states": theirs})
+        if backfilled and host.get("website_url") and not host.get("website_state"):
+            host["website_state"] = C.WEBSITE_STATE_OFFICIAL_PRESENT
+
+        # -- D-002-B: the committed canonical name outranks the sighting ----- #
+        names = absorbed_names.setdefault(host_id, [])
+        prior_name = str(candidate.get("name") or "").strip()
+        if prior_name and prior_name not in names:
+            names.append(prior_name)
+        chosen = choose_canonical_name(observed_names[host_id], names)
+        if chosen and chosen != host.get("name"):
+            host["name"] = chosen
+        host["discovery_observed_name"] = observed_names[host_id]
+        if len(names) > 1:
+            host["absorbed_committed_names"] = list(names)
+
+        if conflicts:
+            existing = list(host.get("recandidacy_conflicts") or ())
+            existing.extend(conflicts)
+            host["recandidacy_conflicts"] = existing
+
         absorptions.append({
             "absorbed_candidate_id": candidate.get("candidate_id"),
             "absorbed_name": candidate.get("name"),
             "into_candidate_id": host.get("candidate_id"),
             "into_name": host.get("name"),
+            "discovery_observed_name": observed_names[host_id],
             "street_identity": key,
             "basis": "same street identity (number + street words + ZIP); the "
                      "prior census carries no coordinates, so this is the only "
                      "identity both records hold",
+            "locality_backfilled_from_prior_census": backfilled,
+            "locality_conflicts": conflicts,
         })
+
         aliases = list(host.get("prior_census_identity_keys") or ())
         prior_key = str(candidate.get("normalized_name") or "")
         if prior_key and prior_key not in aliases:
             aliases.append(prior_key)
         host["prior_census_identity_keys"] = aliases
+
+    # ``into_name`` is written while the loop runs, so where a SECOND committed
+    # row later absorbs into the same host and renames it -- a rebranded
+    # building whose old and new identities are both committed -- the first
+    # record would otherwise still name the host as it was called mid-pass. An
+    # absorption record has to say where the row actually LANDED, or a
+    # reconciliation that follows it walks to a name that exists nowhere and
+    # reports a live identity as lost. Settle every record against the host's
+    # final name once the pass is complete.
+    final_names = {str(c.get("candidate_id") or ""): str(c.get("name") or "")
+                   for c in discovery}
+    for record in absorptions:
+        landed = final_names.get(str(record.get("into_candidate_id") or ""))
+        if landed:
+            record["into_name"] = landed
     return survivors, absorptions
 
 
@@ -213,4 +375,5 @@ def merge(discovery: Sequence[Mapping], prior: Sequence[Mapping]) -> List[Dict]:
 
 __all__ = ["PRIOR_CENSUS_PROVIDER", "CANDIDATE_ID_PREFIX", "candidate_id_for",
            "is_prior_census_candidate", "to_candidate", "from_census", "merge",
-           "street_identity", "absorb_prior_by_street"]
+           "street_identity", "absorb_prior_by_street", "LOCALITY_FIELDS",
+           "choose_canonical_name"]
