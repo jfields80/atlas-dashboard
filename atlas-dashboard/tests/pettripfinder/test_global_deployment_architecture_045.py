@@ -548,8 +548,15 @@ def test_the_committed_manifest_pins_the_measurement_config_and_is_authorized_on
     assert doc["measurement"]["config_sha256"] == M.config_sha256()
     # PTF-047: authorized only through a verifying deployment authorization.
     assert doc["deployment_authorized"] is (doc.get("deployment_authorization") is not None)
+    # The pin 033 lapsed was healed by PTF-GRAND-RAPIDS-DEPLOY-AUTHORIZATION-034,
+    # exactly as the lapse was expected to be: the next deployment issued a new
+    # authorization. So the unfiltered check must pass now.
+    assert GD.verify_manifest() == []
     assert manifest_problems_other_than_the_lapsed_pin() == []
-    assert doc["bundle_sha256"] == DEPLOYED_020_BUNDLE_SHA256
+    # The committed manifest describes the DEPLOYED bundle, which since 034 is
+    # the nine-market one a fresh assembly also produces.
+    assert doc["bundle_sha256"] == DISABLED_BUILD_BUNDLE_SHA256
+    assert doc["bundle_sha256"] != DEPLOYED_020_BUNDLE_SHA256
     for gate in MEASUREMENT_GATES:
         assert gate in doc["required_gates"], gate
 

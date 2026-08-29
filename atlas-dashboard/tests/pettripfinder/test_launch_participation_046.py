@@ -416,7 +416,7 @@ def test_the_candidate_is_the_pinned_artifact(production):
 # The committed manifest.
 # --------------------------------------------------------------------------- #
 
-def test_the_committed_manifest_describes_the_live_deploy_and_its_pin_has_lapsed():
+def test_the_committed_manifest_describes_the_live_deploy_and_pins_the_record():
     """THE MANIFEST STILL DESCRIBES WHAT IS DEPLOYED. Its pin no longer matches.
 
     PTF-GRAND-RAPIDS-INDIANAPOLIS-LINEAGE-MERGE-033 registered
@@ -426,31 +426,33 @@ def test_the_committed_manifest_describes_the_live_deploy_and_its_pin_has_lapsed
     authorization BINDS that sha, so ptf-auth-020 stopped verifying the moment
     the eleventh market was listed.
 
-    That is the design working, not damage, and it is the same thing
+    That was the design working, not damage, and it is the same thing
     PTF-ST-LOUIS-FRESH-MARKET-BENCHMARK-001 recorded: registering a market
-    invalidates the signed authorization, and the next deployment issues a new
-    one. The LIVE BUNDLE IS UNTOUCHED -- e9998c51 is still what is served, and
-    every fact this manifest states about it is still true. So this test now
-    asserts both halves: the description is intact, and the pin has lapsed for
-    a named and expected reason.
+    invalidates the signed authorization, and THE NEXT DEPLOYMENT ISSUES A NEW
+    ONE. That next deployment has now happened --
+    PTF-GRAND-RAPIDS-DEPLOY-AUTHORIZATION-034 -- so the lapse is healed and the
+    manifest pins the record as it stands.
+
+    The lapse is therefore no longer assertable from the committed state, and
+    pretending otherwise would freeze this test at a window that has closed.
+    What survives is the rule the lapse demonstrated, which this asserts
+    directly: the manifest describes the live deploy, and its participation pin
+    matches the record it was written against.
     """
-    problems = GD.verify_manifest()
-    assert problems, "the pin lapsed when the eleventh market was registered"
-    assert all("launch_participation" in p for p in problems), problems
-    assert any("has changed since authorization" in p for p in problems)
+    assert GD.verify_manifest() == []
     doc = GD.load_manifest()
-    assert doc["launch_participation"]["sha256"] != LP.participation_sha256()
+    assert doc["launch_participation"]["sha256"] == LP.participation_sha256()
     assert doc["schema"] == GD.MANIFEST_SCHEMA
     # The DEPLOYED set, which is eight. LIVE is now the nine-market candidate
     # set that 032 composed and nobody has deployed; comparing the committed
     # manifest against it would ask a record of a past deployment to describe a
-    # future one.
-    assert [r["market_id"] for r in doc["participating_markets"]] == \
-        sorted(set(LIVE) - {ADMITTED_AT_032})
-    assert doc["total_published_profiles"] == 517
-    # The DEPLOYED bundle. EXPECTED_BUNDLE_SHA256 is now the nine-market
-    # candidate 032 composed, which has never been deployed.
-    assert doc["bundle_sha256"] == DEPLOYED_020_BUNDLE_SHA256
+    # future one -- until 034 DEPLOYED it, which is where that reasoning ends.
+    assert [r["market_id"] for r in doc["participating_markets"]] == sorted(LIVE)
+    assert doc["total_published_profiles"] == sum(PROFILES.values())
+    # 034 deployed the bundle 032 composed, so the committed manifest and a
+    # fresh assembly name the same artifact again.
+    assert doc["bundle_sha256"] == EXPECTED_BUNDLE_SHA256
+    assert doc["bundle_sha256"] != DEPLOYED_020_BUNDLE_SHA256
     # PTF-047: the flag mirrors a verifying deployment authorization record.
     assert doc["deployment_authorized"] is (doc.get("deployment_authorization") is not None)
     excluded = {r["market_id"]: r for r in doc["excluded_markets"]}

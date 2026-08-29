@@ -220,7 +220,7 @@ class TestEveryContractStillVerifies:
         assert manifest_problems_other_than_the_lapsed_pin(
             GD.verify_manifest(manifest)) == []
 
-    def test_the_participation_pin_lapsed_when_the_eleventh_market_registered(self):
+    def test_the_manifest_pins_the_participation_record_it_was_written_against(self):
         """It used to pin the file AS IT STANDS. It pins it AS IT STOOD.
 
         PTF-GRAND-RAPIDS-INDIANAPOLIS-LINEAGE-MERGE-033 listed
@@ -233,7 +233,11 @@ class TestEveryContractStillVerifies:
         """
         manifest = json.loads(
             (DEPLOY / "global_deployment_manifest.json").read_text(encoding="utf-8"))
-        assert _sha(DEPLOY / "launch_participation.json") != (
+        # PTF-GRAND-RAPIDS-DEPLOY-AUTHORIZATION-034 is that next deployment, so
+        # the pin is healed and the lapse is no longer visible in the committed
+        # state. The RULE it demonstrated is what this asserts now: a manifest
+        # pins the participation record it was written against, exactly.
+        assert _sha(DEPLOY / "launch_participation.json") == (
             manifest["launch_participation"]["sha256"])
         record = json.loads(
             (DEPLOY / "launch_participation.json").read_text(encoding="utf-8"))

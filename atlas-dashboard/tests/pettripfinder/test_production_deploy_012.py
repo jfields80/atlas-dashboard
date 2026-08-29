@@ -323,9 +323,19 @@ class TestTheRepositoryMatchesProduction:
             ("ptf-deploy-020-6a9102c07ae3a341194c6f4c",
              "6a8d91855b8993b899a3b68a"),
         ]
-        assert set(records) == {rid for rid, _ in chain}
+        # Every deploy in 012's own lineage is still on disk and still names
+        # the deploy it replaced. The set is a SUPERSET check, not equality:
+        # each later deployment adds a record, and requiring the exact set here
+        # made every future deploy edit a St. Louis test.
+        assert {rid for rid, _ in chain} <= set(records)
         for record_id, rollback in chain:
             assert records[record_id]["rollback_target"] == rollback
+        # And the chain is unbroken: every record's rollback target is either
+        # another record's deployment or the pre-record deploy 047 replaced.
+        deploys = {r["deployment_id"] for r in records.values()}
+        roots = [rid for rid, r in records.items()
+                 if r["rollback_target"] not in deploys]
+        assert len(roots) == 1, roots
         assert records[RECORD_ID]["bundle_sha256"] == BUNDLE
         assert (records["ptf-deploy-012-6a8c6de6fa99ff1f7bd5c7f5"]["bundle_sha256"]
                 == PREVIOUS_BUNDLE)

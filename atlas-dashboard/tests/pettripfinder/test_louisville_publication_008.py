@@ -207,26 +207,34 @@ class TestTheCandidateIsLive:
             "cleveland-akron-canton-oh", "columbus-oh", "dayton-oh",
             "louisville-ky", "milwaukee-wi", "pittsburgh-pa", "st-louis-mo"]
 
-    def test_the_manifest_now_carries_the_eight_market_candidate(self):
-        """And it is NOT authorised, which is the state 019 stops in."""
+    def test_the_manifest_still_carries_louisville_in_the_live_set(self):
+        """008's fact is that Louisville reached production and stayed there.
+
+        This used to name the whole participating set, so every later market
+        edited a Louisville test to restate something that was not about
+        Louisville. The committed manifest has since moved twice -- eight
+        markets at 020, nine at 034 -- and Louisville is in both.
+        """
         manifest = GD.load_manifest()
-        assert manifest_problems_other_than_the_lapsed_pin() == []
-        assert [r["market_id"] for r in manifest["participating_markets"]] == [
-            "cleveland-akron-canton-oh", "columbus-oh", "dayton-oh",
-            "indianapolis-in", "louisville-ky", "milwaukee-wi", "pittsburgh-pa",
-            "st-louis-mo"]
-        assert manifest["total_published_profiles"] == 517
-        # The pin lapsed when PTF-GRAND-RAPIDS-INDIANAPOLIS-LINEAGE-MERGE-033
-        # registered the eleventh market; the manifest still pins the record
-        # the candidate was composed under, which is what it should do.
-        assert manifest["launch_participation"]["sha256"] != LP.participation_sha256()
-        # 019 left this False; PTF-INDIANAPOLIS-DEPLOY-AUTHORIZATION-020
-        # authorised the same candidate, so the flag now mirrors a record.
+        assert GD.verify_manifest() == []
+        markets = [r["market_id"] for r in manifest["participating_markets"]]
+        assert "louisville-ky" in markets
+        assert markets == sorted(markets), "the set is written in a stable order"
+        row = next(r for r in manifest["participating_markets"]
+                   if r["market_id"] == "louisville-ky")
+        assert row["published_profiles"] == 46
+        assert row["contract_disagreements"] == []
+        # The pin 033 lapsed was healed by the next deployment, as a lapse is
+        # meant to be, so the manifest pins the record as it stands.
+        assert manifest["launch_participation"]["sha256"] == LP.participation_sha256()
+        # 019 left this False; every deployment since has authorised the
+        # candidate it deployed, so the flag mirrors a record. WHICH
+        # authorization is not Louisville's business and changes every deploy;
+        # that the manifest names one, and that it names THIS bundle, is.
         assert manifest["deployment_authorized"] is True
-        assert manifest["deployment_authorization"]["authorization_id"] == \
-            "ptf-auth-020-e9998c51d135"
-        assert manifest["deployment_authorization"]["bundle_sha256"] == \
-            manifest["bundle_sha256"]
+        auth = manifest["deployment_authorization"]
+        assert auth["authorization_id"]
+        assert auth["bundle_sha256"] == manifest["bundle_sha256"]
 
     def test_the_authorization_was_spent_and_may_never_deploy_again(self):
         """009 moved this record PREPARED -> AUTHORIZED; 010 spent it.
