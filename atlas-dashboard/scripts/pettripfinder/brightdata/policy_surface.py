@@ -778,8 +778,29 @@ _TITLE_RE = re.compile(r"<title[^>]*>(.*?)</title>", re.IGNORECASE | re.DOTALL)
 PROPERTY_CODE_PATTERNS: Dict[str, str] = {
     "MARRIOTT": r"/hotels/([a-z0-9]{4,7})-",
     "HILTON": r"/en/hotels/([a-z0-9]{6,12})-",
-    "IHG": r"/hotels/[a-z]{2}/[a-z]+/([a-z0-9]{5})/",
-    "CHOICE": r"/[a-z]{2}/[a-z-]+/[a-z-]+-hotel/([a-z0-9]{4,8})",
+    # Repaired by PTF-DETROIT-ANN-ARBOR-PROPERTY-CODE-PARSER-REPAIR-AND-RETRY-009
+    # after PASS-008 spent 49 paid attempts on pages ``page_health`` then
+    # refused. Both patterns were written against URL shapes these brands do
+    # not use, so ``property_code`` returned "" and the gate compared an empty
+    # string against a real expected code -- a check that could never succeed.
+    #
+    # IHG puts a LANGUAGE segment between country and city that the old pattern
+    # had no room for:
+    #     /holidayinnexpress/hotels/us/en/wixom/dttal/hoteldetail
+    #                               ^^ ^^ ^^^^^ ^^^^^
+    #                          country la  city  code
+    # Without it, ``[a-z]+`` ate "en" and the capture group was offered the
+    # city. That is not merely a miss: on a five-character city it CAPTURED THE
+    # CITY, returning "wixom" where the property is "dttal". Anchoring the
+    # segment count is what keeps the code in the code's position.
+    "IHG": r"/hotels/[a-z]{2}/[a-z]{2}/[a-z0-9-]+/([a-z0-9]{5})/",
+    # Choice spells the state out and pluralises the brand segment:
+    #     /michigan/romulus/clarion-hotels/mi190
+    # The old pattern wanted a two-letter state and a singular "-hotel", so it
+    # matched nothing anywhere in this corpus. ``-hotels?`` accepts both
+    # spellings; the state and city stay hyphen-only segments so that a deeper
+    # marketing path cannot slide into the code's position.
+    "CHOICE": r"/[a-z-]+/[a-z-]+/[a-z-]+-hotels?/([a-z0-9]{4,8})",
     # Added by PTF-HYATT-BEST-WESTERN-PREMIUM-RESOLUTION-028. Both brands put a
     # code in every property URL and the identity census already holds it, so
     # binding on the code is available and is strictly stronger than the

@@ -1,0 +1,132 @@
+{
+  "schema": "ptf-detroit-ann-arbor-true-firecrawl-yield/1.0",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-PROPERTY-CODE-PARSER-REPAIR-AND-RETRY-009",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-29",
+  "note": "Pass 008 and the 009 retry combined. The cost of the broken-parser attempts is not erased: it is carried in full in the raw denominator and excluded only from the capability rate, which asks a different question.",
+  "raw_paid_attempt_yield": {
+    "what_it_is": "every paid attempt across both passes, including the 49 the parser defect wasted, the 2 pages Pass 008 bought twice, and the 29 quota refusals that billed nothing. This is what Detroit's Firecrawl evidence cost.",
+    "attempts": 114,
+    "attempts_pass_008": 65,
+    "attempts_pass_009_retry": 49,
+    "counts": {
+      "ACQUISITION_FAILURE": 33,
+      "HOLD": 1,
+      "PET_FRIENDLY": 4,
+      "UNEXPECTED_PAGE": 52,
+      "VERIFIED_NO_PETS": 24
+    },
+    "credits_spent": 82.0,
+    "usd_spent": 10.95,
+    "pet_friendly": {
+      "measures": "paid attempts that ended pet-friendly",
+      "successes": 4,
+      "denominator": 114,
+      "point": 0.0351,
+      "wilson_lower_95": 0.0137,
+      "wilson_upper_95": 0.0868
+    },
+    "publication_grade": {
+      "measures": "paid attempts that ended in a publication-grade answer either way",
+      "successes": 28,
+      "denominator": 114,
+      "point": 0.2456,
+      "wilson_lower_95": 0.1757,
+      "wilson_upper_95": 0.3321
+    }
+  },
+  "post_parser_corrected_capability": {
+    "what_it_is": "UNIQUE PROPERTIES that reached the corrected identity gate. Counted once each: a page bought twice is one property. Quota refusals are excluded from both numerator and denominator -- they never reached a property, and counting them as lane failures would blame the lane for this run's own rate limiting.",
+    "unique_properties": 33,
+    "counts": {
+      "ACQUISITION_FAILURE": 4,
+      "HOLD": 1,
+      "PET_FRIENDLY": 4,
+      "UNEXPECTED_PAGE": 2,
+      "VERIFIED_NO_PETS": 22
+    },
+    "publication_grade_properties": 26,
+    "pet_friendly": {
+      "measures": "unique properties whose own page states pets are accepted",
+      "successes": 4,
+      "denominator": 33,
+      "point": 0.1212,
+      "wilson_lower_95": 0.0482,
+      "wilson_upper_95": 0.2733
+    },
+    "publication_grade": {
+      "measures": "unique properties that yielded a publication-grade answer either way",
+      "successes": 26,
+      "denominator": 33,
+      "point": 0.7879,
+      "wilson_lower_95": 0.6225,
+      "wilson_upper_95": 0.8932
+    },
+    "policy_not_found": 0,
+    "identity_mismatch": 0,
+    "unexpected_page": 2,
+    "holds": 1,
+    "failures": 4
+  },
+  "spend": {
+    "pass_008_credits": 62.0,
+    "pass_009_credits": 20.0,
+    "cumulative_credits": 82.0,
+    "cumulative_usd": 10.95,
+    "pass_008_cap_usd": 20.0,
+    "pass_009_cap_usd": 7.0
+  },
+  "remaining_detroit_need": {
+    "firecrawl_rerunnable_now": {
+      "rows": 29,
+      "why": "hit this plan's request limit, never reached the property, billed nothing",
+      "cost_to_retry_credits": 29.0,
+      "cost_to_retry_usd": 3.87,
+      "basis": "1.00 credits per BILLED attempt, measured exactly in this run: 19 billed attempts consumed 19 credits",
+      "expected_publication_grade_at_wilson_lower": 18.1,
+      "expected_pet_friendly_at_wilson_lower": 1.4,
+      "note": "this order forbids a second retry of a row, so these are left for a future one -- run at a slower pace"
+    },
+    "brightdata_required": {
+      "rows": 112,
+      "status": "NOT AUTHORISED AND NOT RUN",
+      "two_disjoint_populations": {
+        "registry_deferred": {
+          "rows": 43,
+          "why": "the committed routing registry routes these families to the managed browser"
+        },
+        "brand_wall": {
+          "rows": 69,
+          "why": "Marriott and Hilton, excluded from the Firecrawl cohort by host before the registry was even consulted"
+        }
+      },
+      "correction": "the PASS 008 report gave this population as 43. That was the registry-deferred subset only, because it was read off the lane qualification artifact, which had already had the 69 Marriott and Hilton rows removed by host. The two sets are disjoint and the full Bright-Data-required population is 112."
+    },
+    "policy_not_found_holds": {
+      "rows": 2,
+      "why": "every page on each site was checked and states nothing about pets. SOURCE SILENCE IS ABSENCE, so these are not a negative claim and no lane can resolve them"
+    },
+    "url_missing": {
+      "rows": 0,
+      "why": "every confirmed route carries an official property URL; ZERO-COST-RECOVERY-007 closed this category"
+    },
+    "routing_repair_required": {
+      "rows": 2,
+      "why": "reached the corrected identity gate and were still refused, so the routed URL -- not the parser -- is what is wrong for these two"
+    },
+    "census_without_a_route": {
+      "rows": 45,
+      "why": "in the census but never routed; a discovery question, not an acquisition one"
+    }
+  },
+  "recommendation": {
+    "question": "are the Bright Data rows still worth buying, given the corrected Firecrawl measurement?",
+    "what_the_measurement_says": "the corrected lane is excellent at ANSWERING (79% publication grade, Wilson lower 62%) and poor at finding PET-FRIENDLY ones: 4 of 33 unique properties, point 12%, Wilson lower 5%. Detroit's chain inventory is overwhelmingly no-pets -- every one of the 18 retry reads was an explicit first-party refusal naming the property.",
+    "recommendation": "DEFER the Bright Data cohort; run the 29 free re-runnable Firecrawl rows first",
+    "reasoning": "the 112 Bright Data rows are the dearer lane, and the corrected measurement prices what they would most likely return: 5.4 pet-friendly at the Wilson lower bound, 13.6 at the point estimate. The 29 rate-limited Firecrawl rows are the same market at a fraction of the price and are already qualified, so they should be exhausted before a managed-browser cohort is priced at all. Buying Bright Data now would pay the most for the least-known return.",
+    "recommended_next_hard_cap_usd": 5.0,
+    "what_that_buys": "the 29 re-runnable Firecrawl rows at 1.00 credit each ($3.87) with margin for retries, at a slower request pace",
+    "not_authorised_here": "this is a recommendation only; no cohort is authorised and Bright Data was not run"
+  },
+  "prior_yield_artifact_superseded_by_this_one": "ptf-detroit-ann-arbor-firecrawl-yield/1.0"
+}
