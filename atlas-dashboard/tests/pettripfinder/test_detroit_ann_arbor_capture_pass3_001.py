@@ -295,10 +295,11 @@ class TestAuthorityFrozen:
         shard_keys = {r["hotel_ref"]["identity_key"] for r in shard["routes"]}
         # The archive is CUMULATIVE across orders: 17 withdrawn by
         # DISPLAY-INVENTORY-005, 16 by FOUNDER-REVIEW-AND-AUTHORITY-011 and
-        # 2 by FOUNDER-EXCEPTIONS-AND-DISPLAY-REPAIR-012,
+        # 2 by FOUNDER-EXCEPTIONS-AND-DISPLAY-REPAIR-012 and 49 by
+        # BRIGHTDATA-AUTHORITY-APPLICATION-019,
         # each record stamped with the order that withdrew it. Pass 3 still
         # withdrew none of its own, which is what this test is about.
-        assert withdrawals["count"] == 35
+        assert withdrawals["count"] == 84
         assert not [r for r in withdrawals["withdrawn"]
                     if "CAPTURE-PASS3" in (r.get("withdrawn_by_work_order") or "")]
         assert not (withdrawn_keys & shard_keys)

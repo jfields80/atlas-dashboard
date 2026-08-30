@@ -391,22 +391,23 @@ class TestDetroitFixture:
         """Why the declaration is a prerequisite and not an improvement.
 
         Under the basis Detroit would inherit by default, NOT ONE of its
-        committed identities is admitted: the 244 rows that state a postal code
+        committed identities is admitted: the 245 rows that state a postal code
         are rejected outright, because no corridor claims any postal code, and
-        the 3 that state none are held UNRESOLVED. This assertion exists so
+        the 2 that state none are held UNRESOLVED. This assertion exists so
         that anyone who removes the declaration sees exactly what it was
         holding back.
 
         The split moved 242/5 -> 244/3 under PTF-DETROIT-ANN-ARBOR-FOUNDER-
-        EXCEPTIONS-AND-DISPLAY-REPAIR-012, which recovered two postal codes
-        from the properties' own first-party pages. The TOTAL is unchanged:
-        nothing was discovered, two rows the market simply could not place
-        became placeable."""
+        EXCEPTIONS-AND-DISPLAY-REPAIR-012 and 244/3 -> 245/2 under
+        PTF-DETROIT-ANN-ARBOR-BRIGHTDATA-AUTHORITY-APPLICATION-019, each
+        recovering a postal code from the property's own first-party page. The
+        TOTAL is unchanged every time: nothing is discovered, a row the market
+        simply could not place becomes placeable."""
         counts = self._decide_all(MC.MEMBERSHIP_CORRIDOR_REGISTRY,
                                   is_prior_identity=True)
         assert counts.get(MM.IN_MARKET, 0) == 0
-        assert counts[MM.BOUNDARY_DECISION] == 244
-        assert counts[MM.UNRESOLVED] == 3
+        assert counts[MM.BOUNDARY_DECISION] == 245
+        assert counts[MM.UNRESOLVED] == 2
         assert sum(counts.values()) == 247
 
     def test_a_fresh_candidate_is_held_not_evicted_where_geography_is_thin(self):

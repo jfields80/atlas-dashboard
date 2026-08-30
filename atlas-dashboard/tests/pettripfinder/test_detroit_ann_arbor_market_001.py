@@ -97,14 +97,18 @@ MARKET = "detroit-ann-arbor-mi"
 # were withheld: two the census cannot place (no street address) and one
 # sharing an address with a second brand, pending a reviewed same-campus
 # resolution.
+# ... then PTF-DETROIT-ANN-ARBOR-BRIGHTDATA-AUTHORITY-APPLICATION-019 applied
+# the 58 clean Bright Data candidates acquired across orders 013-018: +49
+# published and +9 verified-no-pets. The census is unchanged -- these rows
+# were decided, not discovered.
 EXPECTED = {
     "candidates": 152,
     "census": 247,
-    "published": 35,
-    "no_pets": 63,
+    "published": 84,
+    "no_pets": 72,
     "out_of_category": 0,
-    "unresolved": 149,
-    "queue": 149,
+    "unresolved": 91,
+    "queue": 91,
     "boundary_excluded": 17,
     "duplicates": 2,
 }
