@@ -138,11 +138,26 @@ class TestScope:
         for row in progress["adjudicated"]:
             assert row["identity_key"] in census, row["identity_key"]
 
-    def test_no_identity_review_row_was_pulled_into_the_queue(self, progress):
-        blocked = {i["identity_key"] for i in _load(PARTITION)["items"]
+    def test_no_identity_review_row_was_knowingly_pulled_into_the_queue(
+            self, progress):
+        """A row blocked on identity must not be worked for URLs.
+
+        This asserted the two sets never overlap, which held until
+        PTF-CINCINNATI-MAINSTAY-IDENTITY-012 found that a row this pass had
+        already adjudicated denotes TWO hotels. A row can be routed and only
+        LATER be found to be an identity conflation, so the invariant is not
+        "no overlap" -- it is that every overlapping row was blocked by a
+        later order than this pass, never worked while known to be blocked.
+        """
+        items = {i["identity_key"]: i for i in _load(PARTITION)["items"]}
+        blocked = {k for k, i in items.items()
                    if i["final_state"] == "AWAITING_IDENTITY_RESOLUTION"}
         touched = {r["identity_key"] for r in progress["adjudicated"]}
-        assert not (touched & blocked)
+        for key in touched & blocked:
+            determined = items[key]["determined_by"]
+            assert determined, key
+            assert "URL-ROUTING-RECOVERY-001" not in determined, key
+            assert "IDENTITY" in determined or "APPLICATION" in determined, key
 
     def test_the_pass_does_not_misstate_its_own_completeness(self, progress):
         # A partial pass must own up to what is still outstanding; a
@@ -191,9 +206,16 @@ class TestAuthorityUntouched:
         # stopped resolving to the hotel (two domains resold to unrelated
         # sites, one property page that became a brand search page), which
         # correctly returns those identities to URL recovery.
+        # AWAITING_IDENTITY_RESOLUTION joins them for the same kind of reason:
+        # PTF-CINCINNATI-MAINSTAY-IDENTITY-012 found that a routed row denotes
+        # TWO Choice properties in two buildings at one street number, so the
+        # route is real and points at one of them while the identity behind it
+        # is not settled. Being routed was never a promise that the identity
+        # would hold.
         routed_onward_states = {"AWAITING_POLICY_OBSERVATION",
                                 "PUBLISHED_PET_FRIENDLY", "VERIFIED_NO_PETS",
-                                "AWAITING_OFFICIAL_URL"}
+                                "AWAITING_OFFICIAL_URL",
+                                "AWAITING_IDENTITY_RESOLUTION"}
         current = _census_keys_with_history()
         for row in targets["rows"]:
             key = current.get(row["identity_key"], row["identity_key"])
