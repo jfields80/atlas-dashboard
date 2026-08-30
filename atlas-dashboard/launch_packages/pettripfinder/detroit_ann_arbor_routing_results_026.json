@@ -1,0 +1,226 @@
+{
+  "schema": "ptf-detroit-routing-results-026/1.0",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-FREE-CAPTURE-AND-ROUTING-026",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-30",
+  "provider_calls": 0,
+  "spend_usd": 0.0,
+  "authority_mutated": false,
+  "cohort": 22,
+  "counts": {
+    "ROUTE_NOT_FOUND": 21,
+    "ROUTING_CONFIRMED": 1
+  },
+  "routes_repaired": 1,
+  "attempts_by_domain": [
+    {
+      "domain": "redroof.com",
+      "rows": 1,
+      "outcome": "SUCCESS",
+      "detail": "sitemap.xml (994 URLs) yielded the property directly; route was already confirmed in order 025 and the property was captured this order"
+    },
+    {
+      "domain": "extendedstayamerica.com",
+      "rows": 2,
+      "outcome": "SUCCESS",
+      "detail": "brand's own Detroit directory; both routes confirmed in order 025 and both properties captured this order"
+    },
+    {
+      "domain": "ihg.com",
+      "rows": 2,
+      "outcome": "PARTIAL",
+      "detail": "robots.txt -> sitemap-index.xml (21 maps, uncompressed) -> city directories. Ann Arbor resolved to a confirmed route. Dearborn's listing contains no full Holiday Inn, which is recorded as a LEAD rather than a closure."
+    },
+    {
+      "domain": "choicehotels.com",
+      "rows": 2,
+      "outcome": "BLOCKED",
+      "detail": "robots.txt -> sitemapindex.xml lists 12 children, ALL gzipped (.xml.gz) and not decompressable in-page; the state/city directory pages render client-side and expose no property links to the DOM. Three attempts, then rotated rather than persisting."
+    },
+    {
+      "domain": "wyndhamhotels.com",
+      "rows": 4,
+      "outcome": "BLOCKED",
+      "detail": "robots.txt -> sitemap.xml is an index of 695 per-brand children; 10 property maps totalling 11,548 URLs were fetched and none matched the target cities. The relevant brand maps were not among those sampled. Three attempts, then rotated."
+    },
+    {
+      "domain": "not attempted",
+      "rows": 13,
+      "outcome": "NOT_REACHED",
+      "detail": "hyatt.com (1), marriott.com (1), myplacehotels.com (1), motorcitycasino.com (1) and nine independent properties with no brand directory to search -- Cranbrook Inn, Crest Motel, Hotel Yorba, King's Arms, Med Inn, Sagano Motel, Viking Motel, The Cochrane House and the three Winder Street inns. The independents need a search capability this order does not have at $0."
+    }
+  ],
+  "coverage_note": "PARTIAL AND ITEMISED. One route confirmed; four brand domains worked with their outcomes recorded; 13 rows not reached, nine of them independents with no brand directory to search. 'Not found' and 'not attempted' are recorded as different facts.",
+  "rows": [
+    {
+      "identity_key": "baymont ferndale royal oak",
+      "canonical_name": "Baymont Ferndale/Royal Oak",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "no first-party route established at $0 in this pass",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-FREE-CAPTURE-AND-ROUTING-026"
+    },
+    {
+      "identity_key": "comfort inn and suites allen park dearborn",
+      "canonical_name": "Comfort Inn & Suites Allen Park - Dearborn",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "no first-party route established at $0 in this pass",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-FREE-CAPTURE-AND-ROUTING-026"
+    },
+    {
+      "identity_key": "comfort inn and suites ann arbor",
+      "canonical_name": "Comfort Inn & Suites Ann Arbor",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "no first-party route established at $0 in this pass",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-FREE-CAPTURE-AND-ROUTING-026"
+    },
+    {
+      "identity_key": "cranbrook inn",
+      "canonical_name": "Cranbrook Inn",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "no first-party route established at $0 in this pass",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-FREE-CAPTURE-AND-ROUTING-026"
+    },
+    {
+      "identity_key": "crest motel",
+      "canonical_name": "Crest Motel",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "no first-party route established at $0 in this pass",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-FREE-CAPTURE-AND-ROUTING-026"
+    },
+    {
+      "identity_key": "fort pontchartrain detroit a wyndham hotel",
+      "canonical_name": "Fort Pontchartrain Detroit a Wyndham Hotel",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "no first-party route established at $0 in this pass",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-FREE-CAPTURE-AND-ROUTING-026"
+    },
+    {
+      "identity_key": "hawthorn suites by wyndham dearborn",
+      "canonical_name": "Hawthorn Suites By Wyndham Dearborn",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "no first-party route established at $0 in this pass",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-FREE-CAPTURE-AND-ROUTING-026"
+    },
+    {
+      "identity_key": "holiday inn and suites ann arbor",
+      "canonical_name": "Holiday Inn & Suites Ann Arbor",
+      "classification": "ROUTING_CONFIRMED",
+      "canonical_url": "https://www.ihg.com/holidayinn/hotels/us/en/ann-arbor/arbep/hoteldetail",
+      "discovery_method": "BRAND_CITY_DIRECTORY",
+      "how_found": "ihg.com/robots.txt -> services/sitemaps/sitemap-index.xml -> the brand's own Ann Arbor city page, which lists property URLs with their IHG property codes. arbep is the only full Holiday Inn in Ann Arbor on that listing.",
+      "route_evidence": "JSON-LD name 'Holiday Inn & Suites Ann Arbor Univ. Michigan Area'; address 3155 Boardwalk Drive, Ann Arbor, MI, 48108, matching the census street exactly; property code arbep present in the document",
+      "identity_binding_signals": [
+        "name",
+        "street",
+        "city",
+        "postal_code",
+        "property_code"
+      ],
+      "prior_route": "",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-FREE-CAPTURE-AND-ROUTING-026"
+    },
+    {
+      "identity_key": "holiday inn fairlane dearborn",
+      "canonical_name": "Holiday Inn Fairlane Dearborn",
+      "classification": "ROUTE_NOT_FOUND",
+      "lead": {
+        "observation": "IHG's own Dearborn city directory lists five properties -- Holiday Inn Express Dearborn (dttbo), Allen Park (dttap), Dearborn (dttde), Staybridge Dearborn (dttjj) and Hotel Indigo Detroit (dttwb) -- and the document contains neither '5801' nor 'Fairlane'. There is no full Holiday Inn in the listing.",
+        "strength": "SUGGESTIVE, NOT CONCLUSIVE",
+        "why_not_conclusive": "a city listing can be partial or paginated, and the property may be filed under Detroit rather than Dearborn. Concluding a closure from one directory page would be the same overreach this market has already refused for Radisson.",
+        "recommended": "identity review, or one further $0 check of IHG's Detroit listing"
+      },
+      "work_order": "PTF-DETROIT-ANN-ARBOR-FREE-CAPTURE-AND-ROUTING-026"
+    },
+    {
+      "identity_key": "hotel yorba",
+      "canonical_name": "Hotel Yorba",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "no first-party route established at $0 in this pass",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-FREE-CAPTURE-AND-ROUTING-026"
+    },
+    {
+      "identity_key": "hyatt place ann arbor",
+      "canonical_name": "Hyatt Place Ann Arbor",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "no first-party route established at $0 in this pass",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-FREE-CAPTURE-AND-ROUTING-026"
+    },
+    {
+      "identity_key": "king s arms hotel",
+      "canonical_name": "King's Arms Hotel",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "no first-party route established at $0 in this pass",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-FREE-CAPTURE-AND-ROUTING-026"
+    },
+    {
+      "identity_key": "knights inn farmington hill",
+      "canonical_name": "Knights Inn Farmington Hill",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "no first-party route established at $0 in this pass",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-FREE-CAPTURE-AND-ROUTING-026"
+    },
+    {
+      "identity_key": "med inn",
+      "canonical_name": "Med Inn",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "no first-party route established at $0 in this pass",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-FREE-CAPTURE-AND-ROUTING-026"
+    },
+    {
+      "identity_key": "motor city casino hotel",
+      "canonical_name": "Motor City Casino Hotel",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "no first-party route established at $0 in this pass",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-FREE-CAPTURE-AND-ROUTING-026"
+    },
+    {
+      "identity_key": "my place hotel wixom mi",
+      "canonical_name": "My Place Hotel-Wixom, MI",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "no first-party route established at $0 in this pass",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-FREE-CAPTURE-AND-ROUTING-026"
+    },
+    {
+      "identity_key": "residence inn detroit troy madison heights",
+      "canonical_name": "Residence Inn Detroit Troy/Madison Heights",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "no first-party route established at $0 in this pass",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-FREE-CAPTURE-AND-ROUTING-026"
+    },
+    {
+      "identity_key": "sagano motel",
+      "canonical_name": "Sagano Motel",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "no first-party route established at $0 in this pass",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-FREE-CAPTURE-AND-ROUTING-026"
+    },
+    {
+      "identity_key": "the cochrane house",
+      "canonical_name": "The Cochrane House",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "no first-party route established at $0 in this pass",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-FREE-CAPTURE-AND-ROUTING-026"
+    },
+    {
+      "identity_key": "the inn at 97 winder",
+      "canonical_name": "The Inn at 97 Winder",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "no first-party route established at $0 in this pass",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-FREE-CAPTURE-AND-ROUTING-026"
+    },
+    {
+      "identity_key": "the winder street inn",
+      "canonical_name": "The Winder Street Inn",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "no first-party route established at $0 in this pass",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-FREE-CAPTURE-AND-ROUTING-026"
+    },
+    {
+      "identity_key": "viking motel",
+      "canonical_name": "Viking Motel",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "no first-party route established at $0 in this pass",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-FREE-CAPTURE-AND-ROUTING-026"
+    }
+  ]
+}

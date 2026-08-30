@@ -286,10 +286,21 @@ class TestRoutingAndDuplicateLedger:
         # kept rather than deleted, so how the URL was bound stays on file --
         # which is why the census-membership assertion below deliberately
         # exempts retired records instead of the record being removed.
+        # PTF-DETROIT-ANN-ARBOR-FREE-CAPTURE-AND-ROUTING-026 gave this market
+        # its first HELD record. Roberts Riverwalk's domain lapsed and now
+        # redirects to an online-gambling site, and the record was still sitting
+        # at ROUTING_CONFIRMED -- the only status a capture queue may act on, so
+        # every cohort builder keying on it would send someone to open that
+        # page. HELD is the right status and not RETIRED: the binding was
+        # correct when it was made, its identity is still in the census, and
+        # keeping the URL on file is how the hijack stays documented.
         for r in routes:
             assert r["market_id"] == MARKET
-            assert r["status"] in (IR.ROUTING_CONFIRMED, IR.ROUTING_RETIRED)
+            assert r["status"] in (IR.ROUTING_CONFIRMED, IR.ROUTING_HELD,
+                                   IR.ROUTING_RETIRED)
         assert sum(1 for r in routes if r["status"] == IR.ROUTING_RETIRED) == 1
+        assert {r["hotel_ref"]["identity_key"] for r in routes
+                if r["status"] == IR.ROUTING_HELD} == {"roberts riverwalk hotel"}
         keys = {r["identity_key"] for r in census_doc()["hotels"]}
         for r in routes:
             ref_key = r["hotel_ref"].get("identity_key")

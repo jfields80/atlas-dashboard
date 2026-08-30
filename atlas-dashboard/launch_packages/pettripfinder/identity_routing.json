@@ -15,7 +15,7 @@
   "PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-002",
   "PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-003"
  ],
- "count": 388,
+ "count": 389,
  "routes": [
   {
    "routing_id": "route-cincinnati-oh-21c-museum-hotel-cincinnati",
@@ -13441,11 +13441,12 @@
    "brand": "",
    "binding_method": "BRAND_INDEX_BINDING",
    "binding_sources": [
-    "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page on its own domain. No page was fetched and no provider was called."
+    "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page on its own domain. No page was fetched and no provider was called.",
+    "PTF-DETROIT-ANN-ARBOR-FREE-CAPTURE-AND-ROUTING-026: the routed domain LAPSED and now redirects to an online-gambling site. The binding is preserved as the historical record of how this URL was bound, but the status is HELD so no capture queue may act on it. A new first-party route must be established before this identity is worked."
    ],
    "observed_at": "2026-08-29",
-   "verified_at": "2026-08-29",
-   "status": "ROUTING_CONFIRMED",
+   "verified_at": "2026-08-30",
+   "status": "ROUTING_HELD",
    "identity_signals_matched": [
     "name",
     "address",
@@ -14332,6 +14333,43 @@
     "city": "Troy",
     "state": "MI",
     "postal_code": "48083",
+    "phone": ""
+   }
+  },
+  {
+   "routing_id": "detroit-ann-arbor-mi:holiday-inn-and-suites-ann-arbor",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "detroit-ann-arbor-mi",
+    "canonical_name": "Holiday Inn & Suites Ann Arbor",
+    "normalized_name": "holiday inn and suites ann arbor",
+    "identity_key": "holiday inn and suites ann arbor",
+    "street_identity": "3155 boardwalk drive|48108"
+   },
+   "market_id": "detroit-ann-arbor-mi",
+   "official_property_url": "https://www.ihg.com/holidayinn/hotels/us/en/ann-arbor/arbep/hoteldetail",
+   "official_domain": "ihg.com",
+   "brand": "",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "BRAND_CITY_DIRECTORY (PTF-DETROIT-ANN-ARBOR-FREE-CAPTURE-AND-ROUTING-026): JSON-LD name 'Holiday Inn & Suites Ann Arbor Univ. Michigan Area'; address 3155 Boardwalk Drive, Ann Arbor, MI, 48108, matching the census street exactly; property code arbep present in the document"
+   ],
+   "observed_at": "2026-08-30",
+   "verified_at": "2026-08-30",
+   "status": "ROUTING_CONFIRMED",
+   "identity_signals_matched": [
+    "name",
+    "street",
+    "city",
+    "postal_code",
+    "property_code"
+   ],
+   "category": "accommodation",
+   "identity_context": {
+    "address": "3155 Boardwalk Drive",
+    "city": "Ann Arbor",
+    "state": "MI",
+    "postal_code": "48108",
     "phone": ""
    }
   }

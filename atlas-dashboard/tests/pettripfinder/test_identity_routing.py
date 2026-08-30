@@ -305,7 +305,15 @@ def test_committed_authority_split(routes):
         "red roof inn dayton fairborn nutter center",
         "red roof inn dayton north airport",
         "red roof inn dayton south miamisburg",
-        "red roof inn springfield"}
+        "red roof inn springfield",
+        # PTF-DETROIT-ANN-ARBOR-FREE-CAPTURE-AND-ROUTING-026. This one is not
+        # an undecided binding like the others -- it is a POISONED one.
+        # detroitriverwalkhotel.com lapsed and now redirects to an
+        # online-gambling site, and the record sat at ROUTING_CONFIRMED, which
+        # is the only status a capture queue may act on. It is HELD rather than
+        # RETIRED because the binding was correct when it was made and records
+        # how the URL was bound; the URL and its history are preserved.
+        "roberts riverwalk hotel"}
 
 
 def test_every_committed_record_preserves_index_binding(routes):
