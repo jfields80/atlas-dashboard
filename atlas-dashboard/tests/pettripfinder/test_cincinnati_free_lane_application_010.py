@@ -366,13 +366,18 @@ def test_the_decisions_record_the_block_and_the_rulings():
     assert held[0]["route_withdrawn"] is False
 
 
-def test_the_species_key_defect_and_mainstay_remain_deferred(package):
+def test_this_order_left_the_species_defect_and_mainstay_alone(package):
+    """The species defect was deferred when this order ran and has since been
+    repaired by PTF-CINCINNATI-SPECIES-KEY-REBIND-011. What holds permanently
+    is that no record carries a singular key, and that MainStay is still held.
+    """
     from scripts.pettripfinder import canonical_view as CV
-    singular = [h for h in package["hotels"]
-                if set(h["facts"].get("species") or {}) & {"dog", "cat"}]
-    assert len(singular) == 8
-    for record in singular:
-        assert CV.build(record, market_id="cincinnati-oh").dogs_state == ""
+    for record in package["hotels"]:
+        species = (record.get("facts") or {}).get("species") or {}
+        assert not (set(species) & {"dog", "cat"}), record["identity_key"]
+        if species:
+            view = CV.build(record, market_id="cincinnati-oh")
+            assert view.dogs_state or view.cats_state, record["identity_key"]
 
     item = next(i for i in _load(PARTITION)["items"]
                 if i["identity_key"] == "comfort suites mainstay hotel")

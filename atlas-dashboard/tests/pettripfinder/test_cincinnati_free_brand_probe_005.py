@@ -397,40 +397,39 @@ def test_the_reprice_authorizes_nothing():
 
 # ------------------------------------------ Phase 7: the deferred display defect
 
-def test_the_species_key_defect_is_display_only_and_still_eight_rows():
-    """Report-only. The eight founder-approved records are NOT rewritten here.
+def test_the_species_key_defect_this_probe_diagnosed_has_been_repaired():
+    """Report-only when written; PTF-CINCINNATI-SPECIES-KEY-REBIND-011 fixed it.
 
-    The authority value is intact and correct in every one of them -- what
-    fails is the projection, which reads ``species["dogs"]`` while these say
-    ``species["dog"]``. Renaming the key would move ``record_hash`` and break
-    the founder's binding, which is why it needs its own work order rather
-    than a line in a probe.
+    The diagnosis this test recorded was right -- the authority value was
+    always intact and only the projection was wrong -- and the repair it
+    argued for has since been made. So it now pins the FIX, and reconstructs
+    the defect to show the diagnosis was correct in the first place.
     """
     from scripts.pettripfinder import canonical_view as CV
     package = _load(PKG / "hotel_policy_facts_cincinnati-oh.json")
 
-    singular = [h for h in package["hotels"]
-                if set((h["facts"].get("species") or {})) & {"dog", "cat"}]
-    assert len(singular) == 8
-    assert {h["approval"]["approval_date"] for h in singular} == {"2026-08-17"}
+    assert [h for h in package["hotels"]
+            if set(h["facts"].get("species") or {}) & {"dog", "cat"}] == []
 
-    for record in singular:
+    rebound = [h for h in package["hotels"]
+               if (h.get("approval") or {}).get("rebinding", {}).get("reason")
+               == "SPECIES_KEY_CANONICALIZATION"]
+    assert len(rebound) == 8
+    assert {h["approval"]["approval_date"] for h in rebound} == {"2026-08-17"}
+    for record in rebound:
         view = CV.build(record, market_id="cincinnati-oh")
-        assert view.dogs_state == ""
-        assert view.cats_state == ""
-        # ...while the authority itself is present and well-formed.
+        assert view.dogs_state or view.cats_state
         assert record["facts"]["species"]
 
-    # The control: the same record with the keys spelled plural projects fine,
-    # which isolates the cause to the key spelling and nothing else.
+    # The defect, reconstructed: spell one record's keys the old way again and
+    # the projection goes empty. That is what made this a real finding rather
+    # than a guess, and it is why the repair had to move record_hash.
     import copy
-    probe = copy.deepcopy(singular[0])
+    probe = copy.deepcopy(rebound[0])
     probe["facts"]["species"] = {
-        {"dog": "dogs", "cat": "cats"}.get(k, k): v
+        {"dogs": "dog", "cats": "cat"}.get(k, k): v
         for k, v in probe["facts"]["species"].items()}
-    assert CV.build(probe, market_id="cincinnati-oh").dogs_state == "accepted"
-
-
+    assert CV.build(probe, market_id="cincinnati-oh").dogs_state == ""
 def test_the_records_applied_since_use_the_form_that_renders():
     from scripts.pettripfinder import canonical_view as CV
     package = _load(PKG / "hotel_policy_facts_cincinnati-oh.json")
