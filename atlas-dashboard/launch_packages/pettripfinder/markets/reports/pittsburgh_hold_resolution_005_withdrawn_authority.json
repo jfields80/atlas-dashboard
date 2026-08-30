@@ -1,0 +1,91 @@
+{
+ "schema": "ptf-market-authority-withdrawal/1.0",
+ "work_order": "PTF-PITTSBURGH-FOUNDER-HOLD-RESOLUTION-005",
+ "market_id": "pittsburgh-pa",
+ "as_of": "2026-08-30",
+ "why": "The published record asserted pets_allowed=true from the quote 'Pets Welcome' captured 2026-08-17. The owned 2026-08-23 capture of the same property page states 'Pets are not allowed. Only service animals are welcome.' beside the same $150 fee line. The current reader withholds pets_allowed as SOURCE_CONTRADICTORY. Founder ruling: WITHDRAW pending re-capture -- we stop asserting pet-friendly on a page that denies it, and do not assert the opposite from a self-contradictory surface.",
+ "what_is_preserved": "The withdrawn record verbatim, including its founder approval, its evidence array and both hashes. This is the artifact a later reader consults on finding no profile for this identity.",
+ "count": 1,
+ "withdrawn_records": [
+  {
+   "key": "springhill suites pittsburgh airport",
+   "name": "SpringHill Suites Pittsburgh Airport",
+   "facts": {
+    "pets_allowed": true,
+    "pet_fee": {
+     "amount_cents": 15000,
+     "currency": "USD",
+     "basis": "per_stay",
+     "refundable": false
+    }
+   },
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pets Welcome",
+     "source_url": "https://www.marriott.com/en-us/hotels/pitha-springhill-suites-pittsburgh-airport/overview/",
+     "value": "true",
+     "evidence_ref": "ev:6c79746b8b86b09a",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:0e1721bd495f05484bb8b2421dac5c0d692c01c744f1822db82fab2e8f8e8188",
+     "artifact_kind": "official_page_rendered_text",
+     "captured_at": "2026-08-17",
+     "capture_method": "attended_claude_browser",
+     "source_grade": "OFFICIAL_PROPERTY"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "Non-Refundable Pet Fee Per Stay: $150.00",
+     "source_url": "https://www.marriott.com/en-us/hotels/pitha-springhill-suites-pittsburgh-airport/overview/",
+     "value": "{\"amount_cents\": 15000, \"basis\": \"per_stay\", \"currency\": \"USD\", \"refundable\": false}",
+     "evidence_ref": "ev:0eb6bcee0de16563",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:0e1721bd495f05484bb8b2421dac5c0d692c01c744f1822db82fab2e8f8e8188",
+     "artifact_kind": "official_page_rendered_text",
+     "captured_at": "2026-08-17",
+     "capture_method": "attended_claude_browser",
+     "source_grade": "OFFICIAL_PROPERTY"
+    }
+   ],
+   "evidence_count": 2,
+   "evidence_quote": "Pets Welcome […] Non-Refundable Pet Fee Per Stay: $150.00",
+   "source_url": "https://www.marriott.com/en-us/hotels/pitha-springhill-suites-pittsburgh-airport/overview/",
+   "source_type": "EXACT_ENTITY_DOMAIN",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "verification_date": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "worker_model_id": "",
+   "worker_prompt_version": "",
+   "worker_result_hash": "sha256:0e1721bd495f05484bb8b2421dac5c0d692c01c744f1822db82fab2e8f8e8188",
+   "worker_routing_version": "",
+   "worker_validator_version": "",
+   "schema_version": "1.3",
+   "identity_key": "springhill suites pittsburgh airport",
+   "market_id": "pittsburgh-pa",
+   "computation_class": "COMPUTATION_SAFE_ONE_PET_ONLY",
+   "approval": {
+    "decision": "APPROVED_AFTER_CURRENT_REVIEW",
+    "operator": "jfields80",
+    "approval_date": "2026-08-17",
+    "caveats": [
+     "Founder decision PGH-P4-C005 in pittsburgh_pass4_claude_founder_review_packet.json was bound after construction of this final record and its evidence array.",
+     "Every quote was revalidated contiguous in the retained hash-bound official property artifact. Identity binding: SpringHill Suites Pittsburgh Airport | 2500 Market Place Boulevard, Coraopolis, PA 15108 | Marriott property code PITHA.",
+     "No species, count, scope, weight, or reservation requirement was added."
+    ],
+    "record_hash": "sha256:62b6bffa362fe7e5774f0594387fa90df13ba754528536104caa1a8816daf6f7",
+    "evidence_hash": "sha256:4c7e55f391dafaff0d549349763df6fdbdd8fcecd6e58fcda560e7c9facd4992",
+    "rebinding": {
+     "work_order": "PTF-PITTSBURGH-HARDENED-SYNC-004",
+     "from_schema": "1.2",
+     "to_schema": "1.3",
+     "changed": [
+      "schema_version"
+     ],
+     "prior_record_hash": "sha256:b7d9c96dfd694aac09eb81013067bea3bfc320a0671a0b6b36a7da0e22f59382",
+     "evidence_hash_unchanged": true,
+     "note": "The founder's decision, its evidence and every published fact are unchanged. Only the schema version stamp moved, which moves the hash the approval binds, so the binding is restated rather than re-asked."
+    }
+   }
+  }
+ ]
+}

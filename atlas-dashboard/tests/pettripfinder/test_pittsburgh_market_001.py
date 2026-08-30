@@ -35,12 +35,27 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 PACKAGE = REPO_ROOT / "launch_packages" / "pettripfinder"
 MARKET = "pittsburgh-pa"
 
-#: The census size is the one figure held as a CONSTANT, because it is a pin
-#: rather than a measurement: the release contract binds this market by
-#: expected_count, and a census that silently grew or shrank is the failure
-#: worth catching. PTF-PITTSBURGH-HARDENED-SYNC-004 kept it at 96 by refusing
-#: to promote the 115-row shadow recensus.
-CENSUS_SIZE = 96
+#: The census size is read from the RELEASE CONTRACT, which is the artifact
+#: that actually pins it (identity_census.expected_count). That is the
+#: invariant worth testing -- "the census is exactly what this market's
+#: contract binds it to" -- and it stays true across a legitimate promotion,
+#: where a bare literal would only record that somebody edited two files.
+#:
+#: 96 through PTF-PITTSBURGH-HARDENED-SYNC-004, which refused to promote the
+#: 115-row shadow recensus; 102 after PTF-PITTSBURGH-FOUNDER-HOLD-RESOLUTION-005
+#: added six identities that each carried a founder signature the sync could not
+#: apply while the identity did not exist. ADD-ONLY: all 96 preserved.
+def _load(path):
+    return json.loads(Path(path).read_text(encoding="utf-8-sig"))
+
+
+def _census_size():
+    contract = _load(REPO_ROOT / "deploy" / "netlify" / "release_contracts"
+                     / ("%s.json" % MARKET))
+    return contract["identity_census"]["expected_count"]
+
+
+CENSUS_SIZE = _census_size()
 
 
 def _expected():
@@ -73,10 +88,6 @@ def _expected():
         "unresolved": unresolved,
         "queue": unresolved,
     }
-
-
-def _load(path):
-    return json.loads(Path(path).read_text(encoding="utf-8-sig"))
 
 
 EXPECTED = _expected()

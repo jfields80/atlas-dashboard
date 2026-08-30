@@ -419,7 +419,11 @@ def test_current_live_inventory_preserves_all_assemblable_market_profiles(market
                       # the 32 founder decisions signed 2026-08-26 on a branch
                       # that never merged, onto the REGISTERED 96-identity
                       # census; the 115-row shadow recensus was not promoted.
-                      "pittsburgh-pa": 46,
+                      # PTF-PITTSBURGH-FOUNDER-HOLD-RESOLUTION-005: 46 -> 51.
+                      # Four census adds plus two founder-ruled holds published,
+                      # less SpringHill Suites Pittsburgh Airport WITHDRAWN --
+                      # its page states pets are not allowed.
+                      "pittsburgh-pa": 51,
                       # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: 8 -> 24 founder-signed profiles over
                       # the promoted 257-identity census. 24 -> 54 at
                       # PTF-INDIANAPOLIS-56-PROFILE-AUTHORITY-PROMOTION-017 (54) and
@@ -457,9 +461,10 @@ def test_current_live_inventory_preserves_all_assemblable_market_profiles(market
     # founder-signed profiles (8 -> 24). Every other market's count above is
     # unchanged, so the whole of this movement is Indianapolis's.
     # PTF-PITTSBURGH-HARDENED-SYNC-004: 659 + Pittsburgh's 20 further profiles
-    # (26 -> 46). Every other market's count above is unchanged, so the whole
-    # of this movement is Pittsburgh's.
-    assert sum(counts.values()) == 679   # 560 + Cincinnati 99 + Pittsburgh 20
+    # (26 -> 46), then PTF-PITTSBURGH-FOUNDER-HOLD-RESOLUTION-005 added five
+    # net (46 -> 51: six published, one withdrawn). Every other market's count
+    # above is unchanged, so the whole of this movement is Pittsburgh's.
+    assert sum(counts.values()) == 684   # 560 + Cincinnati 99 + Pittsburgh 25
 
 
 # --------------------------------------------------------------------------- #

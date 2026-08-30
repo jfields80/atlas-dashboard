@@ -51,11 +51,14 @@ if str(_REPO_ROOT) not in sys.path:
 
 from scripts.pettripfinder import market_authority as MA               # noqa: E402
 from scripts.pettripfinder.contracts import partition as PARTITION_CONTRACT  # noqa: E402
+from scripts.pettripfinder.site_data import normalize_name           # noqa: E402
 from scripts.pettripfinder.pittsburgh_hardened_sync_004 import (       # noqa: E402
     AS_OF, CENSUS, MARKET_ID, PACKAGE, PACKAGE_DIR, WORK_ORDER, _load, _write)
 
 PARTITION = PACKAGE_DIR / "pittsburgh_final_partition_001.json"
 QUEUE = PACKAGE_DIR / "markets" / "reports" / ("%s_founder_review_queue.json" % MARKET_ID)
+WITHDRAWALS = PACKAGE_DIR / "markets" / "reports" / (
+    "pittsburgh_hold_resolution_005_withdrawn_authority.json")
 SEED_COLUMNS = MA.SEED_COLUMNS
 RESOLVED_STATES = ("PUBLISHED_PET_FRIENDLY", "VERIFIED_NO_PETS",
                    "OUT_OF_CURRENT_CATEGORY")
@@ -88,6 +91,21 @@ def _seed_row(record: Dict, census_row: Dict) -> Dict:
 
 def rebuild_seed(package: Dict, census: Dict) -> Tuple[List[Dict], int]:
     existing = MA.load_market_seed_rows(MARKET_ID)
+    published = {h["identity_key"] for h in package["hotels"]}
+    # The seed shard is INVENTORY: it must carry exactly the published set. A
+    # builder that only ever appends leaves a row behind when authority is
+    # WITHDRAWN, and site_data would then publish a profile for a record that no
+    # longer exists. Rows are matched to identities the way site_data joins
+    # them -- on normalize_name -- and dropped when the identity is gone.
+    kept, dropped = [], []
+    for row in existing:
+        if normalize_name(row.get("name", "")) in published:
+            kept.append(row)
+        else:
+            dropped.append(row.get("name"))
+    if dropped:
+        print("   seed rows dropped (authority withdrawn): %s" % dropped)
+    existing = kept
     have = {row["name"] for row in existing}
     rows = [OrderedDict((c, row.get(c, "")) for c in SEED_COLUMNS)
             for row in existing]
@@ -107,12 +125,32 @@ def rebuild_seed(package: Dict, census: Dict) -> Tuple[List[Dict], int]:
     return rows, added
 
 
+def _withdrawn_next_actions() -> Dict[str, Tuple[str, str]]:
+    """``identity_key -> (next_action, source)`` for authority we removed.
+
+    A row this order moved OUT of a resolved state carries no next_action from
+    the prior partition -- it did not need one while it was answered. Leaving it
+    blank fails the partition contract, and rightly: an unresolved identity
+    nobody has given a next step to is a row that silently stops being worked.
+    """
+    if not WITHDRAWALS.is_file():
+        return {}
+    doc = _load(WITHDRAWALS)
+    return {r["identity_key"]: (
+        "Re-capture the property page and re-adjudicate: the withdrawn record "
+        "asserted pets_allowed from an earlier capture, and the page this "
+        "market owns states the opposite beside the same fee line. Neither "
+        "direction may be published from the contradictory surface.",
+        doc["work_order"]) for r in doc["withdrawn_records"]}
+
+
 def rebuild_partition(package: Dict, census: Dict, exclusions, routes
                       ) -> Tuple[Dict, Counter]:
     published = {h["identity_key"]: h for h in package["hotels"]}
     excluded = {e["normalized_name"]: e for e in exclusions}
     routed = {r["hotel_ref"]["identity_key"]: r for r in routes}
     prior = {i["identity_key"]: i for i in _load(PARTITION)["items"]}
+    withdrawn = _withdrawn_next_actions()
 
     items = []
     for key, row in sorted(census.items()):
@@ -123,6 +161,8 @@ def rebuild_partition(package: Dict, census: Dict, exclusions, routes
             state, resolved = excluded[key]["exclusion_state"], True
         elif was and was["final_state"] == "OUT_OF_CURRENT_CATEGORY":
             state, resolved = "OUT_OF_CURRENT_CATEGORY", True
+        elif key in withdrawn:
+            state, resolved = "AWAITING_POLICY_OBSERVATION", False
         elif was and not was["resolved"]:
             state, resolved = was["final_state"], False
         else:
@@ -144,9 +184,12 @@ def rebuild_partition(package: Dict, census: Dict, exclusions, routes
             ("postal_code", row.get("postal_code", "")),
             ("final_state", state),
             ("resolved", resolved),
-            ("next_action", "" if resolved else (was or {}).get("next_action", "")),
-            ("next_action_source", "" if resolved
-             else (was or {}).get("next_action_source", "")),
+            ("next_action", "" if resolved else (
+                withdrawn[key][0] if key in withdrawn
+                else (was or {}).get("next_action", ""))),
+            ("next_action_source", "" if resolved else (
+                withdrawn[key][1] if key in withdrawn
+                else (was or {}).get("next_action_source", ""))),
             ("determined_by", WORK_ORDER if moved
              else (was or {}).get("determined_by", WORK_ORDER)),
             ("updated_at", AS_OF if (was or {}).get("final_state") != state

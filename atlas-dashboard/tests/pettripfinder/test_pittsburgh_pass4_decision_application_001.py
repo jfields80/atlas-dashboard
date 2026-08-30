@@ -23,13 +23,25 @@ def load(path: Path) -> dict:
 PASS4_PUBLISHED = (
     "motel 6 pittsburgh",
     "sonesta simply suites pittsburgh airport",
-    "springhill suites pittsburgh airport",
     "towneplace suites pittsburgh airport robinson township",
     "hyatt house pittsburgh bloomfield shadyside",
     "hyatt place pittsburgh airport",
     "hyatt place pittsburgh north shore",
     "joinery hotel pittsburgh",
 )
+
+#: Pass 4 published this, and PTF-PITTSBURGH-FOUNDER-HOLD-RESOLUTION-005
+#: WITHDREW it on a founder ruling. The Pass 4 record asserted pets_allowed
+#: from the quote "Pets Welcome" captured 2026-08-17; the page this market owns
+#: from 2026-08-23 states "Pets are not allowed. Only service animals are
+#: welcome." beside the same $150 fee line, and the current reader withholds
+#: pets_allowed as SOURCE_CONTRADICTORY.
+#:
+#: Asserted as ABSENT rather than quietly dropped from the list above: a later
+#: order silently un-publishing one of Pass 4's rows is exactly what this gate
+#: should catch, so the withdrawal is named and its ledger is required to
+#: explain it.
+PASS4_WITHDRAWN = "springhill suites pittsburgh airport"
 PASS4_REFUSED = (
     "courtyard by marriott pittsburgh airport",
     "courtyard by marriott pittsburgh airport settlers ridge",
@@ -43,16 +55,25 @@ PASS4_HELD = (
 
 def test_final_partition_derives_the_ten_decision_transitions():
     partition = load(LP / "pittsburgh_final_partition_001.json")
-    assert partition["count"] == 96
+    # The partition tracks the census, which a later ADD-ONLY promotion may
+    # legitimately grow (96 -> 102 at PTF-PITTSBURGH-FOUNDER-HOLD-RESOLUTION-005).
+    # What must hold is that it accounts for every identity exactly once.
+    assert partition["count"] == len(partition["items"])
+    assert len({i["identity_key"] for i in partition["items"]}) == partition["count"]
     # This gate protects PASS 4's OWN ten transitions, not the market's running
     # totals: later application orders move those legitimately, and freezing a
     # global snapshot here would make every one of them look like a regression.
     # (PTF-PITTSBURGH-HARDENED-SYNC-004 Phase 14.)
-    assert sum(partition["final_state_counts"].values()) == partition["count"] == 96
+    assert sum(partition["final_state_counts"].values()) == partition["count"]
     states = {item["identity_key"]: item for item in partition["items"]}
     for key in PASS4_PUBLISHED:
         assert states[key]["final_state"] == "PUBLISHED_PET_FRIENDLY"
         assert states[key]["resolved"] is True
+    # The withdrawn row must be unresolved AND must carry a next action -- an
+    # identity that stops being published and is given no next step is a row
+    # that silently stops being worked.
+    assert states[PASS4_WITHDRAWN]["resolved"] is False
+    assert states[PASS4_WITHDRAWN]["next_action"].strip()
     for key in PASS4_REFUSED:
         assert states[key]["final_state"] == "VERIFIED_NO_PETS"
         assert states[key]["resolved"] is True
@@ -72,6 +93,13 @@ def test_final_records_preserve_the_special_founder_semantics_and_governance():
     # A SUBSET check, not a size check: this gate exists to prove Pass 4's rows
     # were not evicted, and the package legitimately grows with later orders.
     assert set(PASS4_PUBLISHED) <= set(facts)
+    # ... and the one row a later founder ruling removed is genuinely gone,
+    # with a withdrawal ledger that says why.
+    assert PASS4_WITHDRAWN not in facts
+    ledger = load(LP / "markets" / "reports"
+                  / "pittsburgh_hold_resolution_005_withdrawn_authority.json")
+    assert [r["identity_key"] for r in ledger["withdrawn_records"]] == [PASS4_WITHDRAWN]
+    assert ledger["why"].strip()
     sonesta = facts["sonesta simply suites pittsburgh airport"]
     assert sonesta["facts"]["weight_limit_stated_none"] is True
     assert sonesta["facts"]["breed_restrictions_stated_none"] is True
@@ -93,10 +121,7 @@ def test_final_records_preserve_the_special_founder_semantics_and_governance():
     joinery = facts["joinery hotel pittsburgh"]
     assert "pet_fee" not in joinery["facts"]
     assert joinery["withheld_fields"]["pet_fee"]["reason_code"] == "SOURCE_CONTRADICTORY"
-    for key in ("motel 6 pittsburgh", "sonesta simply suites pittsburgh airport",
-                "springhill suites pittsburgh airport", "towneplace suites pittsburgh airport robinson township",
-                "hyatt house pittsburgh bloomfield shadyside", "hyatt place pittsburgh airport",
-                "hyatt place pittsburgh north shore", "joinery hotel pittsburgh"):
+    for key in PASS4_PUBLISHED:
         approval = facts[key]["approval"]
         assert approval["operator"] == "jfields80"
         assert approval["decision"] == "APPROVED_AFTER_CURRENT_REVIEW"

@@ -133,20 +133,22 @@ def reauthor() -> Dict:
          ("confirmed_identities", "published_pet_friendly", "verified_no_pets",
           "out_of_current_category", "resolved", "unresolved")]
         + [("note",
-            "%s moved Pittsburgh onto the hardened lineage and applied the 32 "
-            "already-signed founder decisions to the REGISTERED %d-identity "
-            "census. Eleven were net new (%d publications, %d refusals); "
-            "fourteen were already held by this market's authority; seven name "
-            "identities the registered census does not contain and were NOT "
-            "applied, because adding them is a census promotion this order "
-            "reserves for a separate SUPERSEDE / ADD-NEVER-DOWNGRADE work "
-            "order. The 115-row shadow recensus was not promoted. resolved = "
-            "%d + %d + %d; unresolved is COUNTED from the committed final "
-            "partition, never derived by subtraction."
+            "%s resolved the founder holds carried out of "
+            "PTF-PITTSBURGH-HARDENED-SYNC-004 and added six identities that "
+            "each carried a founder signature the sync could not apply while "
+            "the identity did not exist, taking the REGISTERED census to %d by "
+            "ADD-ONLY promotion -- all 96 prior identities preserved, the "
+            "115-row shadow recensus NOT promoted. Authority now stands at %d "
+            "published and %d verified-no-pets, after WITHDRAWING SpringHill "
+            "Suites Pittsburgh Airport: it published as pet-friendly from a "
+            "2026-08-17 capture, and the page this market owns from six days "
+            "later states pets are not allowed beside the same fee line. "
+            "resolved = %d + %d + %d; unresolved is COUNTED from the committed "
+            "final partition, never derived by subtraction."
             % (WORK_ORDER, recon["confirmed_identities"],
-               recon["published_pet_friendly"] - 37,
-               recon["verified_no_pets"] - 8, recon["published_pet_friendly"],
-               recon["verified_no_pets"], recon["out_of_current_category"]))])
+               recon["published_pet_friendly"], recon["verified_no_pets"],
+               recon["published_pet_friendly"], recon["verified_no_pets"],
+               recon["out_of_current_category"]))])
 
     contract["identity_census"]["expected_count"] = derived.confirmed_identities
     return contract

@@ -1,0 +1,106 @@
+{
+ "schema": "ptf-market-founder-decisions/1.0",
+ "work_order": "PTF-PITTSBURGH-FOUNDER-HOLD-RESOLUTION-005",
+ "market_id": "pittsburgh-pa",
+ "as_of": "2026-08-30",
+ "operator": "jfields80",
+ "provider_calls": 0,
+ "usd_spent": 0.0,
+ "census_adds_applied": 6,
+ "holds_ruled_publishable": 3,
+ "holds_closed_records_only": 4,
+ "records_added": 6,
+ "exclusions_added": 3,
+ "records_withdrawn": 1,
+ "records_corrected": 1,
+ "applied": [
+  {
+   "identity_key": "holiday inn express pittsburgh bridgeville",
+   "outcome": "APPLIED_CENSUS_ADD",
+   "disposition": "VERIFIED_NO_PETS",
+   "authority": "PTF-PITTSBURGH-FOUNDER-REVIEW-RECENSUS-001"
+  },
+  {
+   "identity_key": "hampton inn and suites cranberry pittsburgh",
+   "outcome": "APPLIED_CENSUS_ADD",
+   "disposition": "PUBLISHED_PET_FRIENDLY",
+   "authority": "PTF-PITTSBURGH-FOUNDER-EXCEPTION-RULINGS-002"
+  },
+  {
+   "identity_key": "home2 suites by hilton pittsburgh",
+   "outcome": "APPLIED_CENSUS_ADD",
+   "disposition": "PUBLISHED_PET_FRIENDLY",
+   "authority": "PTF-PITTSBURGH-FOUNDER-EXCEPTION-RULINGS-002"
+  },
+  {
+   "identity_key": "staybridge suites pittsburgh airport",
+   "outcome": "APPLIED_CENSUS_ADD",
+   "disposition": "PUBLISHED_PET_FRIENDLY",
+   "authority": "PTF-PITTSBURGH-FOUNDER-EXCEPTION-RULINGS-002"
+  },
+  {
+   "identity_key": "towneplace suites pittsburgh cranberry township",
+   "outcome": "APPLIED_CENSUS_ADD",
+   "disposition": "PUBLISHED_PET_FRIENDLY",
+   "authority": "PTF-PITTSBURGH-FOUNDER-EXCEPTION-RULINGS-002"
+  },
+  {
+   "identity_key": "comfort suites",
+   "outcome": "APPLIED_CENSUS_ADD",
+   "disposition": "VERIFIED_NO_PETS",
+   "authority": "PTF-PITTSBURGH-FOUNDER-CANONICAL-NAME-CORRECTIONS-003"
+  },
+  {
+   "identity_key": "la quinta inn and suites pittsburgh airport",
+   "from_held_row": "la quinta inn and suites pittsburgh airport",
+   "outcome": "APPLIED_FOUNDER_HOLD_RULING",
+   "disposition": "PUBLISHED_PET_FRIENDLY",
+   "basis": "OFFICIAL_URL",
+   "authority": "PTF-PITTSBURGH-FOUNDER-HOLD-RESOLUTION-005"
+  },
+  {
+   "identity_key": "hampton inn and suites pittsburgh waterfront",
+   "from_held_row": "hampton inn and suites pittsburgh waterfront",
+   "outcome": "APPLIED_FOUNDER_HOLD_RULING",
+   "disposition": "PUBLISHED_PET_FRIENDLY",
+   "basis": "DIRECT",
+   "authority": "PTF-PITTSBURGH-FOUNDER-HOLD-RESOLUTION-005"
+  },
+  {
+   "identity_key": "courtyard by marriott pittsburgh monroeville",
+   "from_held_row": "courtyard",
+   "outcome": "APPLIED_FOUNDER_HOLD_RULING",
+   "disposition": "VERIFIED_NO_PETS",
+   "basis": "EXACT_CANONICAL_NAME+POSTAL",
+   "authority": "PTF-PITTSBURGH-FOUNDER-HOLD-RESOLUTION-005"
+  }
+ ],
+ "records_only": [
+  {
+   "identity_key": "hilton garden inn",
+   "why": "SAFE_MERGE confirmed by hard proof: the held page IS pitfagi, the same official URL the published Hilton Garden Inn Pittsburgh Downtown record already cites. The merge target is already published with the same facts, so this retires a degraded recensus alias and changes no profile."
+  },
+  {
+   "identity_key": "courtyard by marriott pittsburgh university center",
+   "why": "RETIRED_STALE_TWIN, already superseded: the registered identity of this name was published by PTF-PITTSBURGH-HARDENED-SYNC-004 via its qualified successor. Records only; it matters at the next census promotion."
+  },
+  {
+   "identity_key": "hampton inn university center",
+   "why": "RETIRED_STALE_TWIN, already superseded by 'hampton inn pittsburgh university medical center', applied by Sync 004. Records only."
+  },
+  {
+   "identity_key": "intown suites extended stay pittsburgh pa",
+   "why": "DEFERRED by founder ruling. The identity re-located cleanly -- the policy block itself states 'No pets allowed at InTown Suites Pittsburgh PA', so the generic page title that tripped M10 is not the property's own name -- but it carries no prior founder signature on a Pittsburgh identity, so adding it would be a new candidate rather than signed work."
+  }
+ ],
+ "band_correction": {
+  "identity_key": "hilton garden inn pittsburgh university place",
+  "from_condition_min": 4,
+  "to_condition_min": 5,
+  "prior_record_hash": "sha256:2897ff4faafe6020b293eae61a133facba2f5e8006f9dae12db80ca27cdb0d20"
+ },
+ "withdrawal": {
+  "identity_key": "springhill suites pittsburgh airport",
+  "why": "The published record asserted pets_allowed=true from the quote 'Pets Welcome' captured 2026-08-17. The owned 2026-08-23 capture of the same property page states 'Pets are not allowed. Only service animals are welcome.' beside the same $150 fee line. The current reader withholds pets_allowed as SOURCE_CONTRADICTORY. Founder ruling: WITHDRAW pending re-capture -- we stop asserting pet-friendly on a page that denies it, and do not assert the opposite from a self-contradictory surface."
+ }
+}

@@ -85,10 +85,15 @@ EXPECTED = {
     CINCINNATI: {"census": 256, "published": 99, "no_pets": 47,
                  "out_of_category": 6, "unresolved": 104},
     # 26/4/3/63 -> 46/10/3/37 at PTF-PITTSBURGH-HARDENED-SYNC-004, which
-    # applied the 32 founder decisions signed on 2026-08-26. The census stays
-    # 96: the 115-row shadow recensus was NOT promoted.
-    PITTSBURGH: {"census": 96, "published": 46, "no_pets": 10,
-                 "out_of_category": 3, "unresolved": 37},
+    # applied the 32 founder decisions signed on 2026-08-26 and kept the census
+    # at 96 by refusing to promote the 115-row shadow recensus.
+    # -> 51/13/3/35 over a 102-row census at
+    # PTF-PITTSBURGH-FOUNDER-HOLD-RESOLUTION-005: six identities ADDED (each
+    # carrying a signature the sync could not apply while the identity did not
+    # exist, all 96 prior identities preserved), three founder holds ruled
+    # publishable, and one published record WITHDRAWN.
+    PITTSBURGH: {"census": 102, "published": 51, "no_pets": 13,
+                 "out_of_category": 3, "unresolved": 35},
     DETROIT: {"census": 143, "published": 0, "no_pets": 0,
               "out_of_category": 1, "unresolved": 142},
     # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: 257-identity promoted census. Its

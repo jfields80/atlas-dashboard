@@ -2871,7 +2871,7 @@
       "role": "REPLACEMENT_PRICE",
       "condition_type": "stay_length_range",
       "boundary_unit": "nights",
-      "condition_min": 4,
+      "condition_min": 5,
       "basis": "per_stay",
       "basis_stated": true
      }
@@ -2960,7 +2960,7 @@
    "schema_version": "1.3",
    "identity_key": "hilton garden inn pittsburgh university place",
    "market_id": "pittsburgh-pa",
-   "computation_class": "NOT_COMPUTABLE",
+   "computation_class": "COMPUTATION_SAFE_ONE_PET_ONLY",
    "approval": {
     "decision": "APPROVED_AFTER_CURRENT_REVIEW",
     "operator": "jfields80",
@@ -2970,18 +2970,21 @@
      "Founder global rule applied: SOURCE SILENCE IS ABSENCE -- unstated optional facts are absent, never withheld.",
      "Founder: this property's own page states its second tier as '4+ nights' -- that exact boundary is preserved and NOT normalized to '5+' to match sibling Hilton properties. Hilton renders the non-refundable fee under a 'Deposit' heading; per schema doctrine only the body wording ('Non-refundable Fee') is true, so no deposit is recorded."
     ],
-    "record_hash": "sha256:2897ff4faafe6020b293eae61a133facba2f5e8006f9dae12db80ca27cdb0d20",
+    "record_hash": "sha256:eafebdcedac6f618c875021b6a2214f7cd297dd6caf362f7ac8dd905e08a109c",
     "evidence_hash": "sha256:86571228df1807e8ce2a2c98f42e14e8c9c86ef9c5f8c00e8aece230cc9ec650",
     "rebinding": {
-     "work_order": "PTF-PITTSBURGH-HARDENED-SYNC-004",
-     "from_schema": "1.2",
-     "to_schema": "1.3",
+     "work_order": "PTF-PITTSBURGH-FOUNDER-HOLD-RESOLUTION-005",
      "changed": [
-      "schema_version"
+      "facts.fee_tiers[1].condition_min",
+      "computation_class"
      ],
-     "prior_record_hash": "sha256:2c6f8298f94f220a5f7d71795a495e7622cdb38823fa8c1817ef6900b5bec72c",
+     "from_computation_class": "NOT_COMPUTABLE",
+     "to_computation_class": "COMPUTATION_SAFE_ONE_PET_ONLY",
+     "from_condition_min": 4,
+     "to_condition_min": 5,
+     "prior_record_hash": "sha256:2897ff4faafe6020b293eae61a133facba2f5e8006f9dae12db80ca27cdb0d20",
      "evidence_hash_unchanged": true,
-     "note": "The founder's decision, its evidence and every published fact are unchanged. Only the schema version stamp moved, which moves the hash the approval binds, so the binding is restated rather than re-asked."
+     "note": "The published tiers were 1..4 nights at $75 and 4..inf at $125, so a four-night stay carried two different published prices -- the only overlapping bands among the published records. The owned 2026-08-23 capture of the same page reads the second band as starting at 5 nights. Only condition_min moves; both amounts, both bases and the first band are untouched."
     }
    }
   },
@@ -4252,86 +4255,6 @@
       "schema_version"
      ],
      "prior_record_hash": "sha256:4f1c0c03960e9dc4a1c52b9186fac5e0bb37d613d9928b6cc18babd32b0b891f",
-     "evidence_hash_unchanged": true,
-     "note": "The founder's decision, its evidence and every published fact are unchanged. Only the schema version stamp moved, which moves the hash the approval binds, so the binding is restated rather than re-asked."
-    }
-   }
-  },
-  {
-   "key": "springhill suites pittsburgh airport",
-   "name": "SpringHill Suites Pittsburgh Airport",
-   "facts": {
-    "pets_allowed": true,
-    "pet_fee": {
-     "amount_cents": 15000,
-     "currency": "USD",
-     "basis": "per_stay",
-     "refundable": false
-    }
-   },
-   "evidence": [
-    {
-     "field": "pets_allowed",
-     "quote": "Pets Welcome",
-     "source_url": "https://www.marriott.com/en-us/hotels/pitha-springhill-suites-pittsburgh-airport/overview/",
-     "value": "true",
-     "evidence_ref": "ev:6c79746b8b86b09a",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:0e1721bd495f05484bb8b2421dac5c0d692c01c744f1822db82fab2e8f8e8188",
-     "artifact_kind": "official_page_rendered_text",
-     "captured_at": "2026-08-17",
-     "capture_method": "attended_claude_browser",
-     "source_grade": "OFFICIAL_PROPERTY"
-    },
-    {
-     "field": "pet_fee",
-     "quote": "Non-Refundable Pet Fee Per Stay: $150.00",
-     "source_url": "https://www.marriott.com/en-us/hotels/pitha-springhill-suites-pittsburgh-airport/overview/",
-     "value": "{\"amount_cents\": 15000, \"basis\": \"per_stay\", \"currency\": \"USD\", \"refundable\": false}",
-     "evidence_ref": "ev:0eb6bcee0de16563",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:0e1721bd495f05484bb8b2421dac5c0d692c01c744f1822db82fab2e8f8e8188",
-     "artifact_kind": "official_page_rendered_text",
-     "captured_at": "2026-08-17",
-     "capture_method": "attended_claude_browser",
-     "source_grade": "OFFICIAL_PROPERTY"
-    }
-   ],
-   "evidence_count": 2,
-   "evidence_quote": "Pets Welcome […] Non-Refundable Pet Fee Per Stay: $150.00",
-   "source_url": "https://www.marriott.com/en-us/hotels/pitha-springhill-suites-pittsburgh-airport/overview/",
-   "source_type": "EXACT_ENTITY_DOMAIN",
-   "verification_state": "VERIFIED_PET_FRIENDLY",
-   "verification_date": "2026-08-17",
-   "verified_at": "2026-08-17",
-   "worker_model_id": "",
-   "worker_prompt_version": "",
-   "worker_result_hash": "sha256:0e1721bd495f05484bb8b2421dac5c0d692c01c744f1822db82fab2e8f8e8188",
-   "worker_routing_version": "",
-   "worker_validator_version": "",
-   "schema_version": "1.3",
-   "identity_key": "springhill suites pittsburgh airport",
-   "market_id": "pittsburgh-pa",
-   "computation_class": "COMPUTATION_SAFE_ONE_PET_ONLY",
-   "approval": {
-    "decision": "APPROVED_AFTER_CURRENT_REVIEW",
-    "operator": "jfields80",
-    "approval_date": "2026-08-17",
-    "caveats": [
-     "Founder decision PGH-P4-C005 in pittsburgh_pass4_claude_founder_review_packet.json was bound after construction of this final record and its evidence array.",
-     "Every quote was revalidated contiguous in the retained hash-bound official property artifact. Identity binding: SpringHill Suites Pittsburgh Airport | 2500 Market Place Boulevard, Coraopolis, PA 15108 | Marriott property code PITHA.",
-     "No species, count, scope, weight, or reservation requirement was added."
-    ],
-    "record_hash": "sha256:62b6bffa362fe7e5774f0594387fa90df13ba754528536104caa1a8816daf6f7",
-    "evidence_hash": "sha256:4c7e55f391dafaff0d549349763df6fdbdd8fcecd6e58fcda560e7c9facd4992",
-    "rebinding": {
-     "work_order": "PTF-PITTSBURGH-HARDENED-SYNC-004",
-     "from_schema": "1.2",
-     "to_schema": "1.3",
-     "changed": [
-      "schema_version"
-     ],
-     "prior_record_hash": "sha256:b7d9c96dfd694aac09eb81013067bea3bfc320a0671a0b6b36a7da0e22f59382",
      "evidence_hash_unchanged": true,
      "note": "The founder's decision, its evidence and every published fact are unchanged. Only the schema version stamp moved, which moves the hash the approval binds, so the binding is restated rather than re-asked."
     }
@@ -6293,6 +6216,596 @@
     ],
     "record_hash": "sha256:f63a32c7df0c161abb8eec82f01f6e2f96a4b8268de57c899b5b03b0a21537b5",
     "evidence_hash": "sha256:3f9763fb1bf20aeb1e4ec458e13e947f1a1ad18b02ab7f121dc07446406ea25d"
+   }
+  },
+  {
+   "key": "hampton inn and suites cranberry pittsburgh",
+   "name": "Hampton Inn & Suites Cranberry Pittsburgh",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "cats": "accepted",
+     "dogs": "accepted"
+    },
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 12500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pets allowed",
+     "source_url": "https://www.hilton.com/en/hotels/pitcmhx-hampton-suites-cranberry-pittsburgh/",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:08f199f806428f66aacbc36268db9a234ce66aa58e41fc8ed00368438d6a0679",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY",
+     "evidence_ref": "ev:a2325628d7a7e9e0"
+    },
+    {
+     "field": "fee_tiers",
+     "quote": "$75 (1-4 nights",
+     "source_url": "https://www.hilton.com/en/hotels/pitcmhx-hampton-suites-cranberry-pittsburgh/",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:08f199f806428f66aacbc36268db9a234ce66aa58e41fc8ed00368438d6a0679",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY",
+     "evidence_ref": "ev:ebae20285b29012b"
+    },
+    {
+     "field": "fee_tiers",
+     "quote": "$125(5+ nights",
+     "source_url": "https://www.hilton.com/en/hotels/pitcmhx-hampton-suites-cranberry-pittsburgh/",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:08f199f806428f66aacbc36268db9a234ce66aa58e41fc8ed00368438d6a0679",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY",
+     "evidence_ref": "ev:4e6356e77b404ce0"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "2 pets max",
+     "source_url": "https://www.hilton.com/en/hotels/pitcmhx-hampton-suites-cranberry-pittsburgh/",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:08f199f806428f66aacbc36268db9a234ce66aa58e41fc8ed00368438d6a0679",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY",
+     "evidence_ref": "ev:4fe34528a2d0ee6d"
+    }
+   ],
+   "evidence_count": 4,
+   "evidence_quote": "Pets allowed [.] $75 (1-4 nights [.] $125(5+ nights [.] 2 pets max",
+   "source_url": "https://www.hilton.com/en/hotels/pitcmhx-hampton-suites-cranberry-pittsburgh/",
+   "source_type": "EXACT_ENTITY_DOMAIN",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "verification_date": "2026-08-23",
+   "verified_at": "2026-08-23",
+   "worker_model_id": "",
+   "worker_prompt_version": "",
+   "worker_result_hash": "08f199f806428f66aacbc36268db9a234ce66aa58e41fc8ed00368438d6a0679",
+   "worker_routing_version": "",
+   "worker_validator_version": "",
+   "schema_version": "1.3",
+   "identity_key": "hampton inn and suites cranberry pittsburgh",
+   "market_id": "pittsburgh-pa",
+   "computation_class": "CONDITIONALLY_SAFE",
+   "approval": {
+    "decision": "APPROVED_AFTER_CURRENT_REVIEW",
+    "operator": "jfields80",
+    "approval_date": "2026-08-26",
+    "caveats": [
+     "FOUNDER DECISION (APPROVE_PET_FRIENDLY): APPROVED_AFTER_CURRENT_REVIEW. Signed by PTF-FOUNDER-001 on 2026-08-26 under PTF-PITTSBURGH-FOUNDER-EXCEPTION-RULINGS-002, against the bound page 08f199f806428f66aacbc36268db9a234ce66aa58e41fc8ed00368438d6a0679.",
+     "PTF-PITTSBURGH-HARDENED-SYNC-004 applied this already-signed decision to the REGISTERED census identity 'hampton inn and suites cranberry pittsburgh' on DIRECT. The 115-row shadow recensus was not promoted, the signature is not re-asked, and its evidence is unchanged.",
+     "Zero-cost sync: provider calls 0, spend $0.00. The evidence is the page this market already owned from PTF-PITTSBURGH-PAID-ACQUISITION-AUTHORIZATION-003, read offline."
+    ],
+    "record_hash": "sha256:92057f6fe5c7bf02f23bb0067e0e4a4814c9d86236811a2a2f3c6a103bf1d8af",
+    "evidence_hash": "sha256:05f5703d89abb0e030840c85f513bfd7cd8f1b2308fab61b226dfa79a40f5cbc"
+   }
+  },
+  {
+   "key": "home2 suites by hilton pittsburgh",
+   "name": "Home2 Suites by Hilton Pittsburgh",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "cats": "accepted",
+     "dogs": "accepted"
+    },
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 12500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pets allowed",
+     "source_url": "https://www.hilton.com/en/hotels/pitmcht-home2-suites-pittsburgh-mccandless-pa/",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:f29c03148c832d1d23467ba5bde0229508769204d09306988ffa7687be8fa4c5",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY",
+     "evidence_ref": "ev:e631eaa9ded9be3c"
+    },
+    {
+     "field": "fee_tiers",
+     "quote": "$75(1-4n",
+     "source_url": "https://www.hilton.com/en/hotels/pitmcht-home2-suites-pittsburgh-mccandless-pa/",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:f29c03148c832d1d23467ba5bde0229508769204d09306988ffa7687be8fa4c5",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY",
+     "evidence_ref": "ev:e882c74e8ddc2a00"
+    },
+    {
+     "field": "fee_tiers",
+     "quote": "$125(5+n",
+     "source_url": "https://www.hilton.com/en/hotels/pitmcht-home2-suites-pittsburgh-mccandless-pa/",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:f29c03148c832d1d23467ba5bde0229508769204d09306988ffa7687be8fa4c5",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY",
+     "evidence_ref": "ev:1110ee1971a42adb"
+    },
+    {
+     "field": "fee_tiers",
+     "quote": "Non-refundable Fee",
+     "source_url": "https://www.hilton.com/en/hotels/pitmcht-home2-suites-pittsburgh-mccandless-pa/",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:f29c03148c832d1d23467ba5bde0229508769204d09306988ffa7687be8fa4c5",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY",
+     "evidence_ref": "ev:3389b98d3cdc4938"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "2pets Max",
+     "source_url": "https://www.hilton.com/en/hotels/pitmcht-home2-suites-pittsburgh-mccandless-pa/",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:f29c03148c832d1d23467ba5bde0229508769204d09306988ffa7687be8fa4c5",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY",
+     "evidence_ref": "ev:c75dadd69f37a356"
+    }
+   ],
+   "evidence_count": 5,
+   "evidence_quote": "Pets allowed [.] $75(1-4n [.] $125(5+n [.] Non-refundable Fee [.] 2pets Max",
+   "source_url": "https://www.hilton.com/en/hotels/pitmcht-home2-suites-pittsburgh-mccandless-pa/",
+   "source_type": "EXACT_ENTITY_DOMAIN",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "verification_date": "2026-08-23",
+   "verified_at": "2026-08-23",
+   "worker_model_id": "",
+   "worker_prompt_version": "",
+   "worker_result_hash": "f29c03148c832d1d23467ba5bde0229508769204d09306988ffa7687be8fa4c5",
+   "worker_routing_version": "",
+   "worker_validator_version": "",
+   "schema_version": "1.3",
+   "identity_key": "home2 suites by hilton pittsburgh",
+   "market_id": "pittsburgh-pa",
+   "computation_class": "CONDITIONALLY_SAFE",
+   "approval": {
+    "decision": "APPROVED_AFTER_CURRENT_REVIEW",
+    "operator": "jfields80",
+    "approval_date": "2026-08-26",
+    "caveats": [
+     "FOUNDER DECISION (APPROVE_PET_FRIENDLY): APPROVED_AFTER_CURRENT_REVIEW. Signed by PTF-FOUNDER-001 on 2026-08-26 under PTF-PITTSBURGH-FOUNDER-EXCEPTION-RULINGS-002, against the bound page f29c03148c832d1d23467ba5bde0229508769204d09306988ffa7687be8fa4c5.",
+     "PTF-PITTSBURGH-HARDENED-SYNC-004 applied this already-signed decision to the REGISTERED census identity 'home2 suites by hilton pittsburgh' on DIRECT. The 115-row shadow recensus was not promoted, the signature is not re-asked, and its evidence is unchanged.",
+     "Zero-cost sync: provider calls 0, spend $0.00. The evidence is the page this market already owned from PTF-PITTSBURGH-PAID-ACQUISITION-AUTHORIZATION-003, read offline."
+    ],
+    "record_hash": "sha256:d14e545431a30caca89ea54c8afbe73550ac642b7025f89eaf5b178a31a9a82e",
+    "evidence_hash": "sha256:d8619c5d4ae6c3251dc28455753ac3af74e1f80f02deb2e0b2f3ff5f11df2189"
+   }
+  },
+  {
+   "key": "staybridge suites pittsburgh airport",
+   "name": "Staybridge Suites Pittsburgh Airport",
+   "facts": {
+    "pets_allowed": true,
+    "other_charges": [
+     {
+      "kind": "incidental_deposit",
+      "description": "pet deposit",
+      "amount_cents": 7500,
+      "currency": "USD",
+      "refundable": false,
+      "refundable_stated": true
+     }
+    ]
+   },
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pets are welcome",
+     "source_url": "https://www.ihg.com/staybridge/hotels/us/en/pittsburgh/pitsu/hoteldetail",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:7a7da5a144bc79ff5961f881ee865120863424ef72dd8653527994da9d54849b",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY",
+     "evidence_ref": "ev:64acf7957ba802b1"
+    }
+   ],
+   "evidence_count": 1,
+   "evidence_quote": "Pets are welcome",
+   "source_url": "https://www.ihg.com/staybridge/hotels/us/en/pittsburgh/pitsu/hoteldetail",
+   "source_type": "EXACT_ENTITY_DOMAIN",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "verification_date": "2026-08-23",
+   "verified_at": "2026-08-23",
+   "worker_model_id": "",
+   "worker_prompt_version": "",
+   "worker_result_hash": "7a7da5a144bc79ff5961f881ee865120863424ef72dd8653527994da9d54849b",
+   "worker_routing_version": "",
+   "worker_validator_version": "",
+   "schema_version": "1.3",
+   "identity_key": "staybridge suites pittsburgh airport",
+   "market_id": "pittsburgh-pa",
+   "computation_class": "NOT_COMPUTABLE",
+   "approval": {
+    "decision": "APPROVED_AFTER_CURRENT_REVIEW",
+    "operator": "jfields80",
+    "approval_date": "2026-08-26",
+    "caveats": [
+     "FOUNDER DECISION (APPROVE_PET_FRIENDLY): APPROVED_AFTER_CURRENT_REVIEW. Signed by PTF-FOUNDER-001 on 2026-08-26 under PTF-PITTSBURGH-FOUNDER-EXCEPTION-RULINGS-002, against the bound page 7a7da5a144bc79ff5961f881ee865120863424ef72dd8653527994da9d54849b.",
+     "PTF-PITTSBURGH-HARDENED-SYNC-004 applied this already-signed decision to the REGISTERED census identity 'staybridge suites pittsburgh airport' on DIRECT. The 115-row shadow recensus was not promoted, the signature is not re-asked, and its evidence is unchanged.",
+     "Zero-cost sync: provider calls 0, spend $0.00. The evidence is the page this market already owned from PTF-PITTSBURGH-PAID-ACQUISITION-AUTHORIZATION-003, read offline."
+    ],
+    "record_hash": "sha256:fc5d952dcf2d5e7dfb2d6af46e247c1c7f0f4a13d78ec6024824057ea5a5bddc",
+    "evidence_hash": "sha256:78532615406d73b9986823fb321e33c75514ec29a04c3f64b417a27d6ca73507"
+   }
+  },
+  {
+   "key": "towneplace suites pittsburgh cranberry township",
+   "name": "TownePlace Suites Pittsburgh Cranberry Township",
+   "facts": {
+    "pets_allowed": true,
+    "pet_fee": {
+     "amount_cents": 10000,
+     "currency": "USD",
+     "basis": "per_stay"
+    },
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room"
+   },
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pets Welcome",
+     "source_url": "https://www.marriott.com/en-us/hotels/pitrr-towneplace-suites-pittsburgh-cranberry-township/overview/",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:b6e6336e38af124035775edd26564dbfea0bfe0e7de236adc35ee91808cb0679",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY",
+     "evidence_ref": "ev:bae0c74283c616e0"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "Non-Refundable Pet Fee Per Stay: $100.00",
+     "source_url": "https://www.marriott.com/en-us/hotels/pitrr-towneplace-suites-pittsburgh-cranberry-township/overview/",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:b6e6336e38af124035775edd26564dbfea0bfe0e7de236adc35ee91808cb0679",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY",
+     "evidence_ref": "ev:edfd4338415c813a"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "Maximum Number of Pets in Room: 2",
+     "source_url": "https://www.marriott.com/en-us/hotels/pitrr-towneplace-suites-pittsburgh-cranberry-township/overview/",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:b6e6336e38af124035775edd26564dbfea0bfe0e7de236adc35ee91808cb0679",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY",
+     "evidence_ref": "ev:0e2b4520b103b5d4"
+    },
+    {
+     "field": "pet_count_scope",
+     "quote": "Maximum Number of Pets in Room: 2",
+     "source_url": "https://www.marriott.com/en-us/hotels/pitrr-towneplace-suites-pittsburgh-cranberry-township/overview/",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:b6e6336e38af124035775edd26564dbfea0bfe0e7de236adc35ee91808cb0679",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY",
+     "evidence_ref": "ev:59ba2f7f408e73eb"
+    }
+   ],
+   "evidence_count": 4,
+   "evidence_quote": "Pets Welcome [.] Non-Refundable Pet Fee Per Stay: $100.00 [.] Maximum Number of Pets in Room: 2 [.] Maximum Number of Pets in Room: 2",
+   "source_url": "https://www.marriott.com/en-us/hotels/pitrr-towneplace-suites-pittsburgh-cranberry-township/overview/",
+   "source_type": "EXACT_ENTITY_DOMAIN",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "verification_date": "2026-08-23",
+   "verified_at": "2026-08-23",
+   "worker_model_id": "",
+   "worker_prompt_version": "",
+   "worker_result_hash": "b6e6336e38af124035775edd26564dbfea0bfe0e7de236adc35ee91808cb0679",
+   "worker_routing_version": "",
+   "worker_validator_version": "",
+   "schema_version": "1.3",
+   "identity_key": "towneplace suites pittsburgh cranberry township",
+   "market_id": "pittsburgh-pa",
+   "computation_class": "COMPUTATION_SAFE_ONE_PET_ONLY",
+   "approval": {
+    "decision": "APPROVED_AFTER_CURRENT_REVIEW",
+    "operator": "jfields80",
+    "approval_date": "2026-08-26",
+    "caveats": [
+     "FOUNDER DECISION (APPROVE_PET_FRIENDLY): APPROVED_AFTER_CURRENT_REVIEW. Signed by PTF-FOUNDER-001 on 2026-08-26 under PTF-PITTSBURGH-FOUNDER-EXCEPTION-RULINGS-002, against the bound page b6e6336e38af124035775edd26564dbfea0bfe0e7de236adc35ee91808cb0679.",
+     "PTF-PITTSBURGH-HARDENED-SYNC-004 applied this already-signed decision to the REGISTERED census identity 'towneplace suites pittsburgh cranberry township' on DIRECT. The 115-row shadow recensus was not promoted, the signature is not re-asked, and its evidence is unchanged.",
+     "Zero-cost sync: provider calls 0, spend $0.00. The evidence is the page this market already owned from PTF-PITTSBURGH-PAID-ACQUISITION-AUTHORIZATION-003, read offline."
+    ],
+    "record_hash": "sha256:c015bc8908d356611869fa7c912ba13e98e2fbbb98402dbe81834165ef8de493",
+    "evidence_hash": "sha256:1d42b9bfa4d9fd721b4540c5d6a9dd8860b408c31e8ae85d7478e6d2d4410da7"
+   }
+  },
+  {
+   "key": "la quinta inn and suites pittsburgh airport",
+   "name": "La Quinta Inn & Suites Pittsburgh Airport",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "cats": "accepted",
+     "dogs": "accepted"
+    },
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "pet_fee": {
+     "amount_cents": 2500,
+     "currency": "USD",
+     "basis": "per_night"
+    },
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pets Allowed",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/moon-township-pennsylvania/la-quinta-inn-pittsburgh-airport/overview",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:d31e0e97a7004686f04f03aa83cb9ae4fbeee6200ab943a46d2d4c4f1a310ea7",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY",
+     "evidence_ref": "ev:feb6b6c90bd337fc"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "25 USD nightly ",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/moon-township-pennsylvania/la-quinta-inn-pittsburgh-airport/overview",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:d31e0e97a7004686f04f03aa83cb9ae4fbeee6200ab943a46d2d4c4f1a310ea7",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY",
+     "evidence_ref": "ev:b45fa1cf1ff8fcf8"
+    },
+    {
+     "field": "fee_cap",
+     "quote": "Max 75 USD per stay",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/moon-township-pennsylvania/la-quinta-inn-pittsburgh-airport/overview",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:d31e0e97a7004686f04f03aa83cb9ae4fbeee6200ab943a46d2d4c4f1a310ea7",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY",
+     "evidence_ref": "ev:7305a2c68c29f7a0"
+    },
+    {
+     "field": "weight_limit",
+     "quote": "75lbs or less",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/moon-township-pennsylvania/la-quinta-inn-pittsburgh-airport/overview",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:d31e0e97a7004686f04f03aa83cb9ae4fbeee6200ab943a46d2d4c4f1a310ea7",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY",
+     "evidence_ref": "ev:39946d68cf1b70a1"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "up to 2 pets",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/moon-township-pennsylvania/la-quinta-inn-pittsburgh-airport/overview",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:d31e0e97a7004686f04f03aa83cb9ae4fbeee6200ab943a46d2d4c4f1a310ea7",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY",
+     "evidence_ref": "ev:4c04515ae5e1f22e"
+    }
+   ],
+   "evidence_count": 5,
+   "evidence_quote": "Pets Allowed [.] 25 USD nightly [.] Max 75 USD per stay [.] 75lbs or less [.] up to 2 pets",
+   "source_url": "https://www.wyndhamhotels.com/laquinta/moon-township-pennsylvania/la-quinta-inn-pittsburgh-airport/overview",
+   "source_type": "EXACT_ENTITY_DOMAIN",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "verification_date": "2026-08-23",
+   "verified_at": "2026-08-23",
+   "worker_model_id": "",
+   "worker_prompt_version": "",
+   "worker_result_hash": "d31e0e97a7004686f04f03aa83cb9ae4fbeee6200ab943a46d2d4c4f1a310ea7",
+   "worker_routing_version": "",
+   "worker_validator_version": "",
+   "schema_version": "1.3",
+   "identity_key": "la quinta inn and suites pittsburgh airport",
+   "market_id": "pittsburgh-pa",
+   "computation_class": "COMPUTATION_SAFE_ONE_PET_ONLY",
+   "withheld_fields": {
+    "fee_cap": {
+     "reason_code": "SCHEMA_CANNOT_REPRESENT",
+     "reason": "The page states 'Max 75 USD per stay' beside a nightly rate quoted 'for up to 2 pets'. fee_cap requires an explicit qualifier_stated boolean that is never inferred, and whether the pet count qualifies the cap as well as the rate is not settled by the source. The cap is withheld rather than published with an invented flag; the nightly fee publishes unchanged.",
+     "evidence_refs": [
+      "ev:b45fa1cf1ff8fcf8"
+     ]
+    }
+   },
+   "approval": {
+    "decision": "APPROVED_AFTER_CURRENT_REVIEW",
+    "operator": "jfields80",
+    "approval_date": "2026-08-30",
+    "caveats": [
+     "FOUNDER DECISION (APPROVE_PET_FRIENDLY): APPROVED_AFTER_CURRENT_REVIEW. Signed by PTF-FOUNDER-001 on 2026-08-30 under PTF-PITTSBURGH-FOUNDER-HOLD-RESOLUTION-005, against the bound page d31e0e97a7004686f04f03aa83cb9ae4fbeee6200ab943a46d2d4c4f1a310ea7.",
+     "PTF-PITTSBURGH-HARDENED-SYNC-004 applied this already-signed decision to the REGISTERED census identity 'la quinta inn and suites pittsburgh airport' on OFFICIAL_URL. The 115-row shadow recensus was not promoted, the signature is not re-asked, and its evidence is unchanged.",
+     "Zero-cost sync: provider calls 0, spend $0.00. The evidence is the page this market already owned from PTF-PITTSBURGH-PAID-ACQUISITION-AUTHORIZATION-003, read offline.",
+     "PROJECTION: weight_limit.operator=lte and scope=per_pet were read from the SOURCE WORDING under PTF-GRAND-RAPIDS-WEIGHT-SEMANTICS-RULING-023, which preserves the comparison the source states instead of flattening every ceiling to lte. Source text preserved: 75lbs or less",
+     "FEE CAP WITHHELD: the $75 per-stay ceiling this page states is not published, because fee_cap.qualifier_stated is required and never inferred. A guest therefore sees the $25 nightly rate without the ceiling, which reads HIGHER than the true cost. Raised for founder ruling in PTF-PITTSBURGH-FOUNDER-HOLD-RESOLUTION-005."
+    ],
+    "record_hash": "sha256:e9e4d1f04c21c432df14376370e2d9443b29a79ad57bf4d91793655133038c54",
+    "evidence_hash": "sha256:f019fe5b343c9366ce14ffe2b6fc0642c42bad15fdfd1a0b194d810cac7351af"
+   }
+  },
+  {
+   "key": "hampton inn and suites pittsburgh waterfront",
+   "name": "Hampton Inn & Suites Pittsburgh Waterfront",
+   "facts": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 40.0,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pets allowed",
+     "source_url": "https://www.hilton.com/en/hotels/pitwhhx-hampton-suites-pittsburgh-waterfront-west-homestead/",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:a49e1ffd69094fd98db6941416ecd8195c0d9b58e8e894d2dfdb29b50fe1723e",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY",
+     "evidence_ref": "ev:625655c1fbab4784"
+    },
+    {
+     "field": "weight_limit",
+     "quote": "Max weight 40 lbs",
+     "source_url": "https://www.hilton.com/en/hotels/pitwhhx-hampton-suites-pittsburgh-waterfront-west-homestead/",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:a49e1ffd69094fd98db6941416ecd8195c0d9b58e8e894d2dfdb29b50fe1723e",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY",
+     "evidence_ref": "ev:2d044c6e19950a00"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "max 2 pets",
+     "source_url": "https://www.hilton.com/en/hotels/pitwhhx-hampton-suites-pittsburgh-waterfront-west-homestead/",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:a49e1ffd69094fd98db6941416ecd8195c0d9b58e8e894d2dfdb29b50fe1723e",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-08-23",
+     "capture_method": "browser_assisted",
+     "source_grade": "PT1_FIRST_PARTY",
+     "evidence_ref": "ev:acf89b82d909ed99"
+    }
+   ],
+   "evidence_count": 3,
+   "evidence_quote": "Pets allowed [.] Max weight 40 lbs [.] max 2 pets",
+   "source_url": "https://www.hilton.com/en/hotels/pitwhhx-hampton-suites-pittsburgh-waterfront-west-homestead/",
+   "source_type": "EXACT_ENTITY_DOMAIN",
+   "verification_state": "VERIFIED_PET_FRIENDLY",
+   "verification_date": "2026-08-23",
+   "verified_at": "2026-08-23",
+   "worker_model_id": "",
+   "worker_prompt_version": "",
+   "worker_result_hash": "a49e1ffd69094fd98db6941416ecd8195c0d9b58e8e894d2dfdb29b50fe1723e",
+   "worker_routing_version": "",
+   "worker_validator_version": "",
+   "schema_version": "1.3",
+   "identity_key": "hampton inn and suites pittsburgh waterfront",
+   "market_id": "pittsburgh-pa",
+   "computation_class": "NOT_COMPUTABLE",
+   "approval": {
+    "decision": "APPROVED_AFTER_CURRENT_REVIEW",
+    "operator": "jfields80",
+    "approval_date": "2026-08-30",
+    "caveats": [
+     "FOUNDER DECISION (APPROVE_PET_FRIENDLY): APPROVED_AFTER_CURRENT_REVIEW. Signed by PTF-FOUNDER-001 on 2026-08-30 under PTF-PITTSBURGH-FOUNDER-HOLD-RESOLUTION-005, against the bound page a49e1ffd69094fd98db6941416ecd8195c0d9b58e8e894d2dfdb29b50fe1723e.",
+     "PTF-PITTSBURGH-HARDENED-SYNC-004 applied this already-signed decision to the REGISTERED census identity 'hampton inn and suites pittsburgh waterfront' on DIRECT. The 115-row shadow recensus was not promoted, the signature is not re-asked, and its evidence is unchanged.",
+     "Zero-cost sync: provider calls 0, spend $0.00. The evidence is the page this market already owned from PTF-PITTSBURGH-PAID-ACQUISITION-AUTHORIZATION-003, read offline.",
+     "PROJECTION: weight_limit.operator=lte and scope=per_pet were read from the SOURCE WORDING under PTF-GRAND-RAPIDS-WEIGHT-SEMANTICS-RULING-023, which preserves the comparison the source states instead of flattening every ceiling to lte. Source text preserved: Max weight 40 lbs"
+    ],
+    "record_hash": "sha256:ff26b9f949b46c181817f50acc0e393082f6634e94fab22860d0d0d4fa3423af",
+    "evidence_hash": "sha256:190761b63c0ae50ecfd91dc137af51572efd3e80be618da387f3fc5078d97aeb"
    }
   }
  ]

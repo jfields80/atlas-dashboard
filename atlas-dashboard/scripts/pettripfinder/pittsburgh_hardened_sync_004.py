@@ -468,7 +468,17 @@ def build_exclusion(row: Mapping, signed: Mapping, observation: Mapping,
     entries = _evidence(observation, ("pets_allowed",))
     if not entries:
         raise SyncError("%s: a refusal needs the sentence that refuses" % key)
-    name = corrected.get(signed["identity_key"]) or census_row["canonical_name"]
+    # An exclusion's canonical_name MUST be the one its normalized_name derives
+    # from -- hotel_exclusions.validate refuses otherwise. So the CENSUS name is
+    # used here even when the name-correction overlay has a better one: that
+    # overlay is explicitly a display layer ("the census is not edited: it
+    # remains the record of what discovery OBSERVED, and this overlay is what a
+    # reader should be shown instead"), and a reader still gets the corrected
+    # name from the overlay at render time. Taking the corrected name here
+    # instead would make "comfort suites" fail to derive from "Comfort Suites
+    # Monroeville - Pittsburgh East".
+    name = census_row["canonical_name"]
+    display = corrected.get(signed["identity_key"])
     for field in ("address", "city", "state", "postal_code"):
         if not str(census_row.get(field) or "").strip():
             raise SyncError("%s: the census row has no %s, and an exclusion "
@@ -489,7 +499,10 @@ def build_exclusion(row: Mapping, signed: Mapping, observation: Mapping,
         ("source_hash", _artifact_sha(source.get("snapshot_hash"))),
         ("reviewer_id", OPERATOR),
         ("reviewed_at", signed.get("founder_reviewed_at") or AS_OF),
-        ("notes", " ".join(_caveats(signed, row, ()))),
+        ("notes", " ".join(_caveats(signed, row, ()) + (
+            ["DISPLAY NAME: the name-correction overlay shows this property as "
+             "%r; the census name is kept here because normalized_name must "
+             "derive from it." % display] if display else []))),
         ("market_id", MARKET_ID),
     ))
     record["record_hash"] = HE.record_hash(record)
