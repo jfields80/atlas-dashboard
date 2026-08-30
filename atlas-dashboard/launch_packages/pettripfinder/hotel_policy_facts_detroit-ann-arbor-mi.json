@@ -10543,6 +10543,115 @@
         "record_hash": "sha256:c8e5d0984daa02002ee154afe08e86fafaf006c604003972f84ee2eb79d902c6",
         "evidence_hash": "sha256:3a4bd87ac2233d96eff861480373ed5f5201af4473a78226289c0c501e3333b1"
       }
+    },
+    {
+      "key": "towneplace suites by marriott detroit dearborn",
+      "name": "TownePlace Suites by Marriott Detroit Dearborn",
+      "facts": {
+        "pets_allowed": true,
+        "pet_fee": {
+          "amount_cents": 10000,
+          "currency": "USD",
+          "basis": "per_stay",
+          "refundable": false
+        },
+        "pet_count_limit": 2
+      },
+      "evidence": [
+        {
+          "field": "pets_allowed",
+          "quote": "Non-Refundable Pet Fee Per Stay: $100.00",
+          "source_url": "https://www.marriott.com/en-us/hotels/dtwtd-towneplace-suites-detroit-dearborn/overview/",
+          "value": "",
+          "evidence_ref": "ev:036fe0fb3e1a5ca0",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:aecfe5eb08113ef5d57845c64da6626834d98b6cd0b19385195a2957c672ad23",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-29",
+          "capture_method": "rendered_fetch",
+          "source_grade": "PT2_BRAND"
+        },
+        {
+          "field": "pet_fee",
+          "quote": "Non-Refundable Pet Fee Per Stay: $100.00",
+          "source_url": "https://www.marriott.com/en-us/hotels/dtwtd-towneplace-suites-detroit-dearborn/overview/",
+          "value": "",
+          "evidence_ref": "ev:6cf84c806ee0f44f",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:aecfe5eb08113ef5d57845c64da6626834d98b6cd0b19385195a2957c672ad23",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-29",
+          "capture_method": "rendered_fetch",
+          "source_grade": "PT2_BRAND"
+        },
+        {
+          "field": "pet_count_limit",
+          "quote": "Maximum Number of Pets in Room: 2",
+          "source_url": "https://www.marriott.com/en-us/hotels/dtwtd-towneplace-suites-detroit-dearborn/overview/",
+          "value": "",
+          "evidence_ref": "ev:356a08529dbe8df2",
+          "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+          "artifact_sha256": "sha256:aecfe5eb08113ef5d57845c64da6626834d98b6cd0b19385195a2957c672ad23",
+          "artifact_kind": "rendered_html",
+          "captured_at": "2026-08-29",
+          "capture_method": "rendered_fetch",
+          "source_grade": "PT2_BRAND"
+        }
+      ],
+      "evidence_count": 3,
+      "evidence_quote": "Non-Refundable Pet Fee Per Stay: $100.00 […] Maximum Number of Pets in Room: 2",
+      "source_url": "https://www.marriott.com/en-us/hotels/dtwtd-towneplace-suites-detroit-dearborn/overview/",
+      "source_type": "EXACT_ENTITY_DOMAIN",
+      "verification_state": "VERIFIED_PET_FRIENDLY",
+      "verification_date": "2026-08-30",
+      "verified_at": "2026-08-30",
+      "worker_model_id": "",
+      "worker_prompt_version": "",
+      "worker_result_hash": "aecfe5eb08113ef5d57845c64da6626834d98b6cd0b19385195a2957c672ad23",
+      "worker_routing_version": "",
+      "worker_validator_version": "",
+      "schema_version": "1.2",
+      "identity_key": "towneplace suites by marriott detroit dearborn",
+      "market_id": "detroit-ann-arbor-mi",
+      "computation_class": "COMPUTATION_SAFE_ONE_PET_ONLY",
+      "approval": {
+        "decision": "APPROVED_AFTER_CURRENT_REVIEW",
+        "operator": "jfields80",
+        "approval_date": "2026-08-30",
+        "authorisation": {
+          "instrument": "PTF-DETROIT-ANN-ARBOR-BRIGHTDATA-AUTHORITY-APPLICATION-019",
+          "clause": "APPROVE PET_FRIENDLY, IDENTITY-SPECIFIC. Approve pets_allowed, pet_fee $100, fee_basis per_stay, non_refundable true, pet_count_limit 2. WITHHOLD weight_limit.",
+          "scope": "THIS IDENTITY ONLY, bound to this exact evidence.",
+          "acquired_by_order": "015",
+          "attempt_id": "25b8e39191db9235"
+        },
+        "caveats": [
+          "FOUNDER DISPOSITION on one property's wording. The page states pet TERMS -- a $100.00 non-refundable per-stay fee, a 50lb ceiling and a 2-pet room maximum -- but never says in words that pets are accepted, so the committed reader withheld pets_allowed as SOURCE_SILENT and the fee as SCHEMA_CANNOT_REPRESENT. The founder ruled those terms are affirmative acceptance. THE SHARED READER IS UNCHANGED: its judgement stands everywhere else.",
+          "WITHHELD BY THE FOUNDER: weight_limit -- the surface states 50.0lbs but not the operator and scope the schema requires, so the ceiling is not published.",
+          "NOT PUBLISHED because it is not on the approved list: pet_count_scope (the projection reads 'per_room' from the same sentence). An approval binds to the fields it names.",
+          "Evidence re-verified at approval time: the document sha256 reproduces from disk (aecfe5eb08113ef5d57845c) and every cited quote appears verbatim and contiguously in the persisted block."
+        ],
+        "founder_disposition": {
+          "fields_authorised": [
+            "pets_allowed",
+            "pet_fee",
+            "fee_basis",
+            "non_refundable",
+            "pet_count_limit"
+          ],
+          "fields_withheld_by_founder": {
+            "weight_limit": "the captured surface does not establish the operator and scope the schema requires"
+          },
+          "fields_available_but_not_authorised": {
+            "pet_count_scope": "per_room"
+          },
+          "pets_allowed_source": "FOUNDER_DISPOSITION",
+          "shared_reader_modified": false
+        },
+        "record_hash": "sha256:ec5406d4b0823512d536725f08afc63cc1592b40ee5830bc67f97484ccb428b3",
+        "evidence_hash": "sha256:55cb59fe4375b1740a582da56e3ac3692c43a81672a5dc3e5c01af21ec28f3cf",
+        "decision_hash": "sha256:6e5eb0e5684202cd85dc0120ecdb9fe9b2d8fd782146ed9fff86167184d01fb0"
+      }
     }
   ],
   "work_order": "PTF-DETROIT-ANN-ARBOR-EVIDENCE-VOCABULARY-AND-PROMOTION-004"

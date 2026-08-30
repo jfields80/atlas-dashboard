@@ -99,16 +99,18 @@ MARKET = "detroit-ann-arbor-mi"
 # resolution.
 # ... then PTF-DETROIT-ANN-ARBOR-BRIGHTDATA-AUTHORITY-APPLICATION-019 applied
 # the 58 clean Bright Data candidates acquired across orders 013-018: +49
-# published and +9 verified-no-pets. The census is unchanged -- these rows
-# were decided, not discovered.
+# published and +9 verified-no-pets, then a founder ruling approved one more
+# (TownePlace Dearborn) and HELD another (Embassy Suites Livonia Novi) for
+# re-capture. The census is unchanged -- these rows were decided, not
+# discovered.
 EXPECTED = {
     "candidates": 152,
     "census": 247,
-    "published": 84,
+    "published": 85,
     "no_pets": 72,
     "out_of_category": 0,
-    "unresolved": 91,
-    "queue": 91,
+    "unresolved": 90,
+    "queue": 90,
     "boundary_excluded": 17,
     "duplicates": 2,
 }

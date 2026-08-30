@@ -114,8 +114,8 @@ EXPECTED = {
     # resolution.
     # ... then PTF-DETROIT-ANN-ARBOR-BRIGHTDATA-AUTHORITY-APPLICATION-019
     # applied the 58 clean Bright Data candidates from orders 013-018.
-    DETROIT: {"census": 247, "published": 84, "no_pets": 72,
-              "out_of_category": 0, "unresolved": 91},
+    DETROIT: {"census": 247, "published": 85, "no_pets": 72,
+              "out_of_category": 0, "unresolved": 90},
     INDIANAPOLIS: {"census": 153, "published": 8, "no_pets": 4,
                    "out_of_category": 0, "unresolved": 141},
 }
