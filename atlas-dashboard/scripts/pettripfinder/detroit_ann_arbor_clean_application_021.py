@@ -31,14 +31,15 @@ from scripts.pettripfinder import (                                # noqa: E402
     detroit_ann_arbor_candidate_reconciliation_011 as R11)
 
 MARKET = "detroit-ann-arbor-mi"
-WORK_ORDER = "PTF-DETROIT-ANN-ARBOR-CLEAN-APPLICATION-021"
+WORK_ORDER = "PTF-DETROIT-ANN-ARBOR-ATTENDED-COMPLETION-ADOPTION-022"
 AS_OF = "2026-08-30"
-EXPECTED = 7
+EXPECTED_PF = 27
+EXPECTED_NP = 6
 
 LP = R11.LP if hasattr(R11, "LP") else (
     _REPO_ROOT / "launch_packages" / "pettripfinder")
 TRIAGE = LP / "detroit_ann_arbor_attended_triage_020.json"
-OUT = LP / "detroit_ann_arbor_clean_precheck_021.json"
+OUT = LP / "detroit_ann_arbor_clean_precheck_022.json"
 
 
 def run():
@@ -69,8 +70,9 @@ def run():
         route = routes.get(key)
         url = (route or {}).get("official_property_url") or ""
         checks = OrderedDict([
-            ("clean_pet_friendly_classification",
-             row.get("triage") == "CLEAN_PET_FRIENDLY_CANDIDATE"),
+            ("clean_classification",
+             row.get("triage") in ("CLEAN_PET_FRIENDLY_CANDIDATE",
+                                   "CLEAN_VERIFIED_NO_PETS_CANDIDATE")),
             ("detroit_census_identity", crow is not None),
             ("currently_unresolved",
              key not in published and key not in excluded),
@@ -94,10 +96,13 @@ def run():
             ("block_sha256", row.get("block_sha256") or ""),
             ("block_text", row.get("block") or ""),
             ("reader", row.get("reader") or {}),
+            ("verdict_class",
+             "PET_FRIENDLY" if row.get("triage")
+             == "CLEAN_PET_FRIENDLY_CANDIDATE" else "VERIFIED_NO_PETS"),
             ("checks", checks),
         ])
         if not all(checks.values()):
-            if checks["clean_pet_friendly_classification"]:
+            if checks["clean_classification"]:
                 entry["suppressed_because"] = [n for n, ok in checks.items()
                                                if not ok]
                 suppressed.append(entry)
@@ -119,11 +124,15 @@ def run():
     for row in suppressed:
         print("     %-34s %s" % (row["canonical_name"][:34],
                                  row["suppressed_because"]))
-    if len(admitted) != EXPECTED:
+    got_pf = sum(1 for r in admitted if r["verdict_class"] == "PET_FRIENDLY")
+    got_np = len(admitted) - got_pf
+    print("     clean PET_FRIENDLY   :", got_pf)
+    print("     clean VERIFIED_NO_PETS:", got_np)
+    if (got_pf, got_np) != (EXPECTED_PF, EXPECTED_NP):
         raise SystemExit(
-            "STOP: rebuilt %d clean candidates, the order expects %d. The "
-            "order's own list is not authority; resolve the difference before "
-            "any authority is written." % (len(admitted), EXPECTED))
+            "STOP: rebuilt %d/%d, the order expects %d/%d. The order's own "
+            "numbers are not authority; resolve the difference first."
+            % (got_pf, got_np, EXPECTED_PF, EXPECTED_NP))
 
     # ---- Phase 2: the publication gates, unloosened -------------------- #
     passed, rejected = [], []
@@ -131,7 +140,7 @@ def run():
         candidate = OrderedDict([
             ("identity_key", entry["identity_key"]),
             ("canonical_name", entry["canonical_name"]),
-            ("class", "PET_FRIENDLY"),
+            ("class", entry["verdict_class"]),
             ("canonical_url", entry["canonical_url"]),
             ("reading", OrderedDict([
                 ("block_text", entry["block_text"]),

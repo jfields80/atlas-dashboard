@@ -1,0 +1,106 @@
+{
+  "schema": "ptf-detroit-ann-arbor-founder-rulings/1.2",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-ATTENDED-COMPLETION-ADOPTION-022",
+  "instrument": "FOUNDER RULINGS -- ATTENDED-COMPLETION-ADOPTION-022",
+  "market_id": "detroit-ann-arbor-mi",
+  "decided_at": "2026-08-30",
+  "decided_by": "jfields80",
+  "provider_calls": 0,
+  "spend_usd": 0.0,
+  "shared_reader_modified": false,
+  "authority_added": 1,
+  "rulings": [
+    {
+      "identity_key": "the bell tower hotel",
+      "canonical_name": "The Bell Tower Hotel",
+      "decision": "VERIFIED_NO_PETS",
+      "published": true,
+      "basis": "FOUNDER_SEMANTIC_RULING",
+      "run_recommendation": "RULE ON THE SEMANTICS -- not decided by me",
+      "shared_classifier_modified": false
+    },
+    {
+      "identity_key": "hyatt place detroit livonia",
+      "canonical_name": "Hyatt Place Detroit/Livonia",
+      "decision": "HOLD",
+      "founder_disposition": "HOLD_SOURCE_POLICY_ATTRIBUTION",
+      "published": false,
+      "fields_published": [],
+      "decided_by": "jfields80",
+      "decided_at": "2026-08-30",
+      "authorisation": "FOUNDER RULINGS -- ATTENDED-COMPLETION-ADOPTION-022",
+      "identity_state": "RETAINED, UNRESOLVED",
+      "route_state": "RETAINED AND VALID. Expressly NOT a routing defect: the route reached the correct page; the page itself carries the wrong hotel's policy.",
+      "evidence_ruled_on": "Pets Are Welcome. Hyatt Place Detroit / Auburn Hills is pet-friendly! All pets must be housetrained. *We welcome guests with disabilities traveling with their service animals. Service animals are not pets and are not subject to this Pet Policy. Pet Fees 1-6 nights: $100 / STAY 7-30 nights + additional cleaning fee: $200 / STAY Weight Limits Individual pet weight limit: 50 Pounds Combined pets weight limit: 75 Pounds Maximum number of pets is 2.",
+      "founder_reasoning": "The property identity and route are valid, but the pet-policy block names Hyatt Place Detroit / Auburn Hills rather than Livonia. That is not evidence for the Livonia property.",
+      "shared_reader_modified": false
+    },
+    {
+      "identity_key": "drury inn and suites",
+      "canonical_name": "Drury Inn & Suites",
+      "decision": "ROUTING_REPAIR_REQUIRED",
+      "founder_disposition": "ROUTING_REPAIR_REQUIRED",
+      "published": false,
+      "fields_published": [],
+      "decided_by": "jfields80",
+      "decided_at": "2026-08-30",
+      "authorisation": "FOUNDER RULINGS -- ATTENDED-COMPLETION-ADOPTION-022",
+      "identity_state": "RETAINED, UNRESOLVED",
+      "route_state": "STALE/DEAD for acquisition purposes; a new first-party property route is required before policy acquisition. Zero-cost rediscovery is the next action.",
+      "evidence_ruled_on": "(no property surface was reached)",
+      "founder_reasoning": "The legacy first-party route does not return hotel content. Do not infer policy from a failed route.",
+      "shared_reader_modified": false
+    },
+    {
+      "identity_key": "radisson hotel detroit farmington hills",
+      "canonical_name": "Radisson Hotel Detroit-Farmington Hills",
+      "decision": "ROUTING_REPAIR_REQUIRED",
+      "founder_disposition": "ROUTING_REPAIR_REQUIRED",
+      "published": false,
+      "fields_published": [],
+      "decided_by": "jfields80",
+      "decided_at": "2026-08-30",
+      "authorisation": "FOUNDER RULINGS -- ATTENDED-COMPLETION-ADOPTION-022",
+      "identity_state": "RETAINED, UNRESOLVED",
+      "route_state": "STALE for acquisition purposes; property-specific first-party route recovery is required before policy acquisition.",
+      "evidence_ruled_on": "(no property surface was reached)",
+      "founder_reasoning": "The committed URL now collapses to a Radisson brand index rather than a property page.",
+      "shared_reader_modified": false
+    }
+  ],
+  "guard_issues_deferred_by_founder": [
+    {
+      "issue": "AFFIRMATIVE_PET_RES vocabulary-coverage defect",
+      "rows_blocked": 7,
+      "properties": [
+        "Shinola",
+        "Inn on Ferry Street",
+        "Hyatt House Royal Oak",
+        "Roost Detroit",
+        "Extended Stay America Select Suites",
+        "Royal Park Hotel",
+        "The Siren Hotel"
+      ],
+      "founder_instruction": "Do NOT widen AFFIRMATIVE_PET_RES during Order 022. Preserve all seven as CLEAN EVIDENCE blocked by a known vocabulary-coverage defect. Do not downgrade them to weak evidence merely because the current regex does not understand the wording.",
+      "evidence_status": "PRESERVED, unmodified, still on disk"
+    },
+    {
+      "issue": "Pass-3 freeze guard scope",
+      "rows_blocked": 1,
+      "properties": [
+        "Daxton Hotel"
+      ],
+      "founder_instruction": "Leave Daxton withheld. Do not edit the freeze guard during the application it blocks. The new first-party FAQ evidence is a valid recapture that may qualify Daxton after a separate guard-scope review.",
+      "evidence_status": "PRESERVED, unmodified, still on disk"
+    },
+    {
+      "issue": "Sonesta legacy-alias test scope",
+      "rows_blocked": 1,
+      "properties": [
+        "Sonesta ES Suites Auburn Hills"
+      ],
+      "founder_instruction": "Leave Sonesta withheld. Do not narrow the committed test during this application. Preserve the Detroit first-party evidence and URL for a separate guard-scope repair.",
+      "evidence_status": "PRESERVED, unmodified, still on disk"
+    }
+  ]
+}

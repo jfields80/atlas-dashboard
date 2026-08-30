@@ -300,7 +300,8 @@ class TestAuthorityFrozen:
         # each record stamped with the order that withdrew it. Pass 3 still
         # withdrew none of its own, which is what this test is about.
         # ... and 2 more by the FREE-ATTENDED-PASS-020 founder rulings.
-        assert withdrawals["count"] == 87
+        # ... and 20 more by ATTENDED-COMPLETION-ADOPTION-022.
+        assert withdrawals["count"] == 105
         assert not [r for r in withdrawals["withdrawn"]
                     if "CAPTURE-PASS3" in (r.get("withdrawn_by_work_order") or "")]
         assert not (withdrawn_keys & shard_keys)

@@ -96,7 +96,9 @@ EXPECTED_RECONCILIATION = {
     # published and +35 verified-no-pets. The census is unchanged.
     # The FREE-ATTENDED-PASS-020 founder rulings then added two more at
     # $0: 85 -> 87 published, 157 -> 159 resolved.
-    DETROIT: (247, 87, 72, 159, 88),
+    # ATTENDED-COMPLETION-ADOPTION-022 then applied the adopted attended
+    # clean block: 87 -> 107 published, 72 -> 76 no-pets, 183 resolved.
+    DETROIT: (247, 105, 77, 182, 65),
     # PTF-CLEVELAND-POLICY-CAPTURE-INTEGRATION-003 published the two Drury
     # properties worker 003 established on their own domain: 19 -> 21, and
     # unresolved 161 -> 159. The other four candidates it reviewed did NOT
@@ -351,6 +353,11 @@ class TestContractAgreesWithItsOwnAuthority:
         PROMOTION-004, which applied 18 first-party refusals from the Capture
         Pass 3 packet on top of the 7 it already held.
 
+        Detroit is 77 as of PTF-DETROIT-ANN-ARBOR-ATTENDED-COMPLETION-
+        ADOPTION-022: the adopted attended cohort supplied 4 first-party
+        refusals that passed the gates, and a founder semantic ruling added
+        The Bell Tower Hotel on its "we only allow service animals" wording.
+
         The market-scoping property is what this defends, so the number moving
         with a market's own authority is correct; the number moving because
         another market grew would not be -- and Columbus, Cleveland, Dayton,
@@ -359,7 +366,7 @@ class TestContractAgreesWithItsOwnAuthority:
         """
         by_market = {mid: derive_authority(mid).verified_no_pets for mid in MARKETS}
         assert by_market == {COLUMBUS: 14, CLEVELAND: 40, DAYTON: 8,
-                             PITTSBURGH: 4, INDIANAPOLIS: 4, DETROIT: 72}
+                             PITTSBURGH: 4, INDIANAPOLIS: 4, DETROIT: 77}
         registry = json.loads(
             (REPO_ROOT / "launch_packages" / "pettripfinder" / "hotel_exclusions.json")
             .read_text(encoding="utf-8-sig"))["exclusions"]

@@ -1,0 +1,1747 @@
+{
+  "schema": "ptf-detroit-ann-arbor-clean-precheck/1.0",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-ATTENDED-COMPLETION-ADOPTION-022",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-30",
+  "provider_calls": 0,
+  "spend_usd": 0.0,
+  "rebuilt_from": "detroit_ann_arbor_attended_triage_020.json",
+  "note": "The clean block was re-derived from the persisted order-020 triage and the bytes on disk, not from the order's list of names. The document artifact is the attended capture's own persisted policy block: the attended lane extracts and persists the property's policy text directly, so the block IS the captured document, and both hashes reproduce from the same file.",
+  "rebuilt": 33,
+  "suppressed": [],
+  "gates": {
+    "passed": 24,
+    "rejected": 9
+  },
+  "passed_rows": [
+    {
+      "identity_key": "daxton hotel",
+      "canonical_name": "Daxton Hotel",
+      "host": "daxtonhotel.com",
+      "canonical_url": "https://daxtonhotel.com/",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/daxton-hotel/attempt-01/policy-block.txt",
+      "block_sha256": "974442435a704553d1e03d5b28bde12325eccbcd3eb57c02933443f3f89ec9f2",
+      "block_text": "PETS Accordion Item Are pets allowed at Daxton? The Daxton Hotel welcomes all service animals trained to assist their owners during their time at the hotel. Daxton complies with all ADA regulations regarding service animals and Daxton associates are happy to assist our guests with service animals in any way. Per ADA guidance, Daxton's operations policy and Michigan Public Health Code, Daxton associates will inquire as to the animal's status and their specific training. No animals of any kind, other than identified and confirmed service animals, are allowed in the public spaces of the hotel, per the Michigan Modified Food Code. Unfortunately, \"emotional support\" animals are not considered service animals. Only dogs are permitted and they must be 50 lbs. or less. The max number of dogs a guest may have per room is two (2). Daxton Hotel reserves the right to modify its policies at any time.",
+      "reader": {
+        "pets_allowed": true,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": true,
+          "species_allowed": [
+            "dog"
+          ],
+          "service_animal_exception": "PETS Accordion Item Are pets allowed at Daxton? The Daxton Hotel welcomes all service animals trained to assist their owners during their time at the hotel."
+        },
+        "withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "flags": []
+      },
+      "verdict_class": "PET_FRIENDLY",
+      "gate_candidate": {
+        "identity_key": "daxton hotel",
+        "canonical_name": "Daxton Hotel",
+        "class": "PET_FRIENDLY",
+        "canonical_url": "https://daxtonhotel.com/",
+        "reading": {
+          "block_text": "PETS Accordion Item Are pets allowed at Daxton? The Daxton Hotel welcomes all service animals trained to assist their owners during their time at the hotel. Daxton complies with all ADA regulations regarding service animals and Daxton associates are happy to assist our guests with service animals in any way. Per ADA guidance, Daxton's operations policy and Michigan Public Health Code, Daxton associates will inquire as to the animal's status and their specific training. No animals of any kind, other than identified and confirmed service animals, are allowed in the public spaces of the hotel, per the Michigan Modified Food Code. Unfortunately, \"emotional support\" animals are not considered service animals. Only dogs are permitted and they must be 50 lbs. or less. The max number of dogs a guest may have per room is two (2). Daxton Hotel reserves the right to modify its policies at any time.",
+          "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/daxton-hotel/attempt-01/policy-block.txt",
+          "block_sha256": "974442435a704553d1e03d5b28bde12325eccbcd3eb57c02933443f3f89ec9f2",
+          "document_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/daxton-hotel/attempt-01/policy-block.txt",
+          "document_sha256": "974442435a704553d1e03d5b28bde12325eccbcd3eb57c02933443f3f89ec9f2",
+          "brand_generic": false,
+          "pets_allowed": true
+        }
+      }
+    },
+    {
+      "identity_key": "graduate ann arbor",
+      "canonical_name": "Graduate Ann Arbor",
+      "host": "graduatehotels.com",
+      "canonical_url": "https://www.graduatehotels.com/ann-arbor/",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/graduate-ann-arbor/attempt-01/policy-block.txt",
+      "block_sha256": "e00810a79a74ffc94bfd692b5e51fe3b90d47fca245c9f5ec9ff273cf0ea97ec",
+      "block_text": "PETS Non-refundable fee: $150.00 Max weight: 75 lbs Max size: Large Pet policy: A maximum of two pets are allowed.",
+      "reader": {
+        "pets_allowed": true,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": true,
+          "pet_count_limit": 2,
+          "weight_limit": {
+            "value": 75,
+            "unit": "lb",
+            "operator": "lte",
+            "scope": "per_pet"
+          },
+          "fee": {
+            "amount_cents": 15000,
+            "currency": "USD",
+            "role": "NON_REFUNDABLE_FEE",
+            "basis_stated": false
+          }
+        },
+        "withheld": {
+          "fee_basis": "SOURCE_SILENT -- the panel states an amount and 'Non-refundable fee' but no per-stay/per-night basis",
+          "max_size_large": "NOT_A_SCHEMA_FIELD"
+        },
+        "flags": [
+          "FEE_BASIS_WITHHELD",
+          "DOMAIN_REDIRECTS_TO_BRAND"
+        ]
+      },
+      "verdict_class": "PET_FRIENDLY",
+      "gate_candidate": {
+        "identity_key": "graduate ann arbor",
+        "canonical_name": "Graduate Ann Arbor",
+        "class": "PET_FRIENDLY",
+        "canonical_url": "https://www.graduatehotels.com/ann-arbor/",
+        "reading": {
+          "block_text": "PETS Non-refundable fee: $150.00 Max weight: 75 lbs Max size: Large Pet policy: A maximum of two pets are allowed.",
+          "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/graduate-ann-arbor/attempt-01/policy-block.txt",
+          "block_sha256": "e00810a79a74ffc94bfd692b5e51fe3b90d47fca245c9f5ec9ff273cf0ea97ec",
+          "document_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/graduate-ann-arbor/attempt-01/policy-block.txt",
+          "document_sha256": "e00810a79a74ffc94bfd692b5e51fe3b90d47fca245c9f5ec9ff273cf0ea97ec",
+          "brand_generic": false,
+          "pets_allowed": true
+        }
+      }
+    },
+    {
+      "identity_key": "hollywood casino at greektown",
+      "canonical_name": "Hollywood Casino at Greektown",
+      "host": "hollywoodgreektown.com",
+      "canonical_url": "https://www.hollywoodgreektown.com/hotel",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/hollywood-casino-at-greektown/attempt-01/policy-block.txt",
+      "block_sha256": "4fe48b35b0a69d33756159afd9d7721c9cc42c40ddd4405064088459f14715ad",
+      "block_text": "No pets are allowed except for service animals as defined by the Americans with Disabilities Act.",
+      "reader": {
+        "pets_allowed": false,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": false,
+          "service_animal_exception": "No pets are allowed except for service animals as defined by the Americans with Disabilities Act."
+        },
+        "withheld": {},
+        "flags": [
+          "AFFIRMATIVE_REFUSAL_NOT_SILENCE",
+          "RECOVERED_BY_EXPANDING_A_COLLAPSED_ACCORDION",
+          "SERVICE_ANIMALS_SEPARATE_LEGAL_CATEGORY"
+        ]
+      },
+      "verdict_class": "VERIFIED_NO_PETS",
+      "gate_candidate": {
+        "identity_key": "hollywood casino at greektown",
+        "canonical_name": "Hollywood Casino at Greektown",
+        "class": "VERIFIED_NO_PETS",
+        "canonical_url": "https://www.hollywoodgreektown.com/hotel",
+        "reading": {
+          "block_text": "No pets are allowed except for service animals as defined by the Americans with Disabilities Act.",
+          "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/hollywood-casino-at-greektown/attempt-01/policy-block.txt",
+          "block_sha256": "4fe48b35b0a69d33756159afd9d7721c9cc42c40ddd4405064088459f14715ad",
+          "document_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/hollywood-casino-at-greektown/attempt-01/policy-block.txt",
+          "document_sha256": "4fe48b35b0a69d33756159afd9d7721c9cc42c40ddd4405064088459f14715ad",
+          "brand_generic": false,
+          "pets_allowed": false
+        }
+      }
+    },
+    {
+      "identity_key": "hometowne studios by red roof detroit livonia",
+      "canonical_name": "HomeTowne Studios by Red Roof Detroit - Livonia",
+      "host": "redroof.com",
+      "canonical_url": "https://www.redroof.com/extendedstay/hometownestudios/property/mi/livonia/hts1022",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/hometowne-studios-by-red-roof-detroit-livonia/attempt-01/policy-block.txt",
+      "block_sha256": "50a054916648b7118216fc38cd27a0d1b7da3b7d8873067cc91f242ca50b8603",
+      "block_text": "Sorry, no pets allowed. | Pet Policy: This location does not accept pets. Service and emotional support animals are always welcome.",
+      "reader": {
+        "pets_allowed": false,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": false,
+          "service_animal_exception": "Service and emotional support animals are always welcome."
+        },
+        "withheld": {},
+        "flags": [
+          "AFFIRMATIVE_REFUSAL_NOT_SILENCE",
+          "SERVICE_AND_ESA_SEPARATE_LEGAL_CATEGORY"
+        ]
+      },
+      "verdict_class": "VERIFIED_NO_PETS",
+      "gate_candidate": {
+        "identity_key": "hometowne studios by red roof detroit livonia",
+        "canonical_name": "HomeTowne Studios by Red Roof Detroit - Livonia",
+        "class": "VERIFIED_NO_PETS",
+        "canonical_url": "https://www.redroof.com/extendedstay/hometownestudios/property/mi/livonia/hts1022",
+        "reading": {
+          "block_text": "Sorry, no pets allowed. | Pet Policy: This location does not accept pets. Service and emotional support animals are always welcome.",
+          "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/hometowne-studios-by-red-roof-detroit-livonia/attempt-01/policy-block.txt",
+          "block_sha256": "50a054916648b7118216fc38cd27a0d1b7da3b7d8873067cc91f242ca50b8603",
+          "document_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/hometowne-studios-by-red-roof-detroit-livonia/attempt-01/policy-block.txt",
+          "document_sha256": "50a054916648b7118216fc38cd27a0d1b7da3b7d8873067cc91f242ca50b8603",
+          "brand_generic": false,
+          "pets_allowed": false
+        }
+      }
+    },
+    {
+      "identity_key": "hotel royal oak",
+      "canonical_name": "Hotel Royal Oak",
+      "host": "hotelroyaloak.com",
+      "canonical_url": "https://hotelroyaloak.com/",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/hotel-royal-oak/attempt-01/policy-block.txt",
+      "block_sha256": "54f8f2f6bfcc5de28c49435af368556509b1934134db84596de398695f9e8f61",
+      "block_text": "Is the Penthouse Executive King pet-friendly? Yes - the entire property is pet-friendly. There is a daily pet fee. Mention pets at booking so we can have everything ready when you arrive. | Pets Welcome: Pet-friendly stays. Pet-friendly (daily pet fee). Amplify members enjoy a complimentary daily pet fee.",
+      "reader": {
+        "pets_allowed": true,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": true
+        },
+        "withheld": {
+          "pet_fee": "SOURCE_AMBIGUOUS -- 'There is a daily pet fee' names no amount anywhere on the surface (FLAG_PET_AMOUNT_NOT_BOUND, the Shinola precedent in this same pass)",
+          "fee_basis": "the surface says DAILY; it is recorded as stated and never converted to nights",
+          "species": "SOURCE_SILENT",
+          "weight_limit": "SOURCE_SILENT",
+          "pet_count_limit": "SOURCE_SILENT"
+        },
+        "flags": [
+          "FLAG_PET_AMOUNT_NOT_BOUND",
+          "BASIS_PER_DAY_NOT_NIGHT",
+          "LOYALTY_WAIVER_IS_NOT_THE_PUBLIC_PRICE"
+        ]
+      },
+      "verdict_class": "PET_FRIENDLY",
+      "gate_candidate": {
+        "identity_key": "hotel royal oak",
+        "canonical_name": "Hotel Royal Oak",
+        "class": "PET_FRIENDLY",
+        "canonical_url": "https://hotelroyaloak.com/",
+        "reading": {
+          "block_text": "Is the Penthouse Executive King pet-friendly? Yes - the entire property is pet-friendly. There is a daily pet fee. Mention pets at booking so we can have everything ready when you arrive. | Pets Welcome: Pet-friendly stays. Pet-friendly (daily pet fee). Amplify members enjoy a complimentary daily pet fee.",
+          "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/hotel-royal-oak/attempt-01/policy-block.txt",
+          "block_sha256": "54f8f2f6bfcc5de28c49435af368556509b1934134db84596de398695f9e8f61",
+          "document_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/hotel-royal-oak/attempt-01/policy-block.txt",
+          "document_sha256": "54f8f2f6bfcc5de28c49435af368556509b1934134db84596de398695f9e8f61",
+          "brand_generic": false,
+          "pets_allowed": true
+        }
+      }
+    },
+    {
+      "identity_key": "hyatt place detroit auburn hills",
+      "canonical_name": "Hyatt Place Detroit Auburn Hills",
+      "host": "hyatt.com",
+      "canonical_url": "https://www.hyatt.com/hyatt-place/en-US/detza-hyatt-place-detroit-auburn-hills",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/hyatt-place-detroit-auburn-hills/attempt-01/policy-block.txt",
+      "block_sha256": "5ffc3eabb671ecfcac898846443de0a5ef9c6a8177d2f5a4e9a7e4ff9edf0584",
+      "block_text": "Pets Are Welcome. We welcome your canine companions to Auburn Hills. All dogs must be housebroken. *We welcome guests with disabilities traveling with their service animals. Service animals are not pets and are not subject to this Pet Policy. Pet Fees 1-6 nights: $100 / STAY 7-30 nights (Additional cleaning fee): $200 / STAY Weight Limits Individual pet weight limit: 50 Pounds Combined pets weight limit: 75 Pounds Maximum number of pets is 2.",
+      "reader": {
+        "pets_allowed": true,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": true,
+          "species": {
+            "dogs": "accepted"
+          },
+          "pet_count_limit": 2,
+          "weight_limit": {
+            "value": 50,
+            "unit": "lb",
+            "operator": "lte",
+            "scope": "per_pet"
+          },
+          "combined_weight_limit": {
+            "value": 75,
+            "unit": "lb",
+            "operator": "lte"
+          },
+          "service_animal_exception": "Service animals are not pets and are not subject to this Pet Policy."
+        },
+        "withheld": {
+          "fee_tiers": "AMBIGUOUS_ROLE -- policy_reading._BAND_ADDITIVE_RE refuses this exact ladder: '7-30 nights (Additional cleaning fee): $200 / STAY' is either the long-stay price or a separate charge and the page does not say which. The committed classifier names Hyatt Place as the case.",
+          "cats": "SOURCE_SILENT -- only canine companions are named"
+        },
+        "flags": [
+          "FEE_LADDER_AMBIGUOUS_ROLE",
+          "SPECIES_DOGS_ONLY_AFFIRMED",
+          "COMBINED_WEIGHT_IS_ITS_OWN_FIELD",
+          "SERVICE_ANIMALS_SEPARATE_LEGAL_CATEGORY"
+        ]
+      },
+      "verdict_class": "PET_FRIENDLY",
+      "gate_candidate": {
+        "identity_key": "hyatt place detroit auburn hills",
+        "canonical_name": "Hyatt Place Detroit Auburn Hills",
+        "class": "PET_FRIENDLY",
+        "canonical_url": "https://www.hyatt.com/hyatt-place/en-US/detza-hyatt-place-detroit-auburn-hills",
+        "reading": {
+          "block_text": "Pets Are Welcome. We welcome your canine companions to Auburn Hills. All dogs must be housebroken. *We welcome guests with disabilities traveling with their service animals. Service animals are not pets and are not subject to this Pet Policy. Pet Fees 1-6 nights: $100 / STAY 7-30 nights (Additional cleaning fee): $200 / STAY Weight Limits Individual pet weight limit: 50 Pounds Combined pets weight limit: 75 Pounds Maximum number of pets is 2.",
+          "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/hyatt-place-detroit-auburn-hills/attempt-01/policy-block.txt",
+          "block_sha256": "5ffc3eabb671ecfcac898846443de0a5ef9c6a8177d2f5a4e9a7e4ff9edf0584",
+          "document_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/hyatt-place-detroit-auburn-hills/attempt-01/policy-block.txt",
+          "document_sha256": "5ffc3eabb671ecfcac898846443de0a5ef9c6a8177d2f5a4e9a7e4ff9edf0584",
+          "brand_generic": false,
+          "pets_allowed": true
+        }
+      }
+    },
+    {
+      "identity_key": "hyatt place detroit novi",
+      "canonical_name": "Hyatt Place Detroit Novi",
+      "host": "hyatt.com",
+      "canonical_url": "https://www.hyatt.com/hyatt-place/en-US/dttzh-hyatt-place-detroit-novi",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/hyatt-place-detroit-novi/attempt-01/policy-block.txt",
+      "block_sha256": "40c70c68d5b203bcb310f6b7ef86f1d65560d7bcde570ae94fd5667a0394146f",
+      "block_text": "Pets Are Welcome. We welcome your canine companions. Please call our hotel at +1 248 513 4111 prior to your arrival to let us know you'll be bringing your dog(s). All dogs must be housebroken. For stays exceeding 30 nights, any additional cleaning fee is at the hotel's discretion. Pet Fees 1-6 nights: $100 / STAY 7-30 nights (Additional cleaning fee): $200 / STAY Weight Limits Individual pet weight limit: 50 Pounds Combined pets weight limit: 75 Pounds Maximum number of pets is 2.",
+      "reader": {
+        "pets_allowed": true,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": true,
+          "species": {
+            "dogs": "accepted"
+          },
+          "pet_count_limit": 2,
+          "weight_limit": {
+            "value": 50,
+            "unit": "lb",
+            "operator": "lte",
+            "scope": "per_pet"
+          },
+          "combined_weight_limit": {
+            "value": 75,
+            "unit": "lb",
+            "operator": "lte"
+          }
+        },
+        "withheld": {
+          "fee_tiers": "AMBIGUOUS_ROLE -- policy_reading._BAND_ADDITIVE_RE refuses this ladder: the 7-30 night rung is written as an additional cleaning fee, so it is either the long-stay price or a separate charge and the page does not say which. The committed classifier names Hyatt Place as the case.",
+          "cats": "SOURCE_SILENT -- only canine companions are named"
+        },
+        "flags": [
+          "BLOCK_QUOTES_THE_PROPERTY_OWN_TELEPHONE",
+          "FEE_LADDER_AMBIGUOUS_ROLE",
+          "SPECIES_DOGS_ONLY_AFFIRMED",
+          "COMBINED_WEIGHT_IS_ITS_OWN_FIELD"
+        ]
+      },
+      "verdict_class": "PET_FRIENDLY",
+      "gate_candidate": {
+        "identity_key": "hyatt place detroit novi",
+        "canonical_name": "Hyatt Place Detroit Novi",
+        "class": "PET_FRIENDLY",
+        "canonical_url": "https://www.hyatt.com/hyatt-place/en-US/dttzh-hyatt-place-detroit-novi",
+        "reading": {
+          "block_text": "Pets Are Welcome. We welcome your canine companions. Please call our hotel at +1 248 513 4111 prior to your arrival to let us know you'll be bringing your dog(s). All dogs must be housebroken. For stays exceeding 30 nights, any additional cleaning fee is at the hotel's discretion. Pet Fees 1-6 nights: $100 / STAY 7-30 nights (Additional cleaning fee): $200 / STAY Weight Limits Individual pet weight limit: 50 Pounds Combined pets weight limit: 75 Pounds Maximum number of pets is 2.",
+          "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/hyatt-place-detroit-novi/attempt-01/policy-block.txt",
+          "block_sha256": "40c70c68d5b203bcb310f6b7ef86f1d65560d7bcde570ae94fd5667a0394146f",
+          "document_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/hyatt-place-detroit-novi/attempt-01/policy-block.txt",
+          "document_sha256": "40c70c68d5b203bcb310f6b7ef86f1d65560d7bcde570ae94fd5667a0394146f",
+          "brand_generic": false,
+          "pets_allowed": true
+        }
+      }
+    },
+    {
+      "identity_key": "hyatt place detroit royal oak",
+      "canonical_name": "Hyatt Place Detroit Royal Oak",
+      "host": "hyatt.com",
+      "canonical_url": "https://www.hyatt.com/hyatt-place/en-US/dtwzr-hyatt-place-detroit-royal-oak",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/hyatt-place-detroit-royal-oak/attempt-01/policy-block.txt",
+      "block_sha256": "2ec583f89053d420c80cc36dc968590d6f2ed05bec83c8e9f3382c2c38ef122b",
+      "block_text": "Pets Are Welcome. Hyatt Place Detroit / Royal Oak welcomes your canine companion. Pet Fees 1-6 Nights: $100 / STAY 7-30 Nights + additional cleaning fee: $200 / STAY Weight Limits Individual pet weight limit: 50 Pounds Combined pets weight limit: 75 Pounds Maximum number of pets is 2.",
+      "reader": {
+        "pets_allowed": true,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": true,
+          "species": {
+            "dogs": "accepted"
+          },
+          "pet_count_limit": 2,
+          "weight_limit": {
+            "value": 50,
+            "unit": "lb",
+            "operator": "lte",
+            "scope": "per_pet"
+          },
+          "combined_weight_limit": {
+            "value": 75,
+            "unit": "lb",
+            "operator": "lte"
+          }
+        },
+        "withheld": {
+          "fee_tiers": "AMBIGUOUS_ROLE -- policy_reading._BAND_ADDITIVE_RE refuses this ladder: the 7-30 night rung is written as an additional cleaning fee, so it is either the long-stay price or a separate charge and the page does not say which. The committed classifier names Hyatt Place as the case.",
+          "cats": "SOURCE_SILENT -- only canine companions are named"
+        },
+        "flags": [
+          "BLOCK_NAMES_THIS_PROPERTY",
+          "FEE_LADDER_AMBIGUOUS_ROLE",
+          "SPECIES_DOGS_ONLY_AFFIRMED",
+          "COMBINED_WEIGHT_IS_ITS_OWN_FIELD"
+        ]
+      },
+      "verdict_class": "PET_FRIENDLY",
+      "gate_candidate": {
+        "identity_key": "hyatt place detroit royal oak",
+        "canonical_name": "Hyatt Place Detroit Royal Oak",
+        "class": "PET_FRIENDLY",
+        "canonical_url": "https://www.hyatt.com/hyatt-place/en-US/dtwzr-hyatt-place-detroit-royal-oak",
+        "reading": {
+          "block_text": "Pets Are Welcome. Hyatt Place Detroit / Royal Oak welcomes your canine companion. Pet Fees 1-6 Nights: $100 / STAY 7-30 Nights + additional cleaning fee: $200 / STAY Weight Limits Individual pet weight limit: 50 Pounds Combined pets weight limit: 75 Pounds Maximum number of pets is 2.",
+          "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/hyatt-place-detroit-royal-oak/attempt-01/policy-block.txt",
+          "block_sha256": "2ec583f89053d420c80cc36dc968590d6f2ed05bec83c8e9f3382c2c38ef122b",
+          "document_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/hyatt-place-detroit-royal-oak/attempt-01/policy-block.txt",
+          "document_sha256": "2ec583f89053d420c80cc36dc968590d6f2ed05bec83c8e9f3382c2c38ef122b",
+          "brand_generic": false,
+          "pets_allowed": true
+        }
+      }
+    },
+    {
+      "identity_key": "mgm grand detroit",
+      "canonical_name": "MGM Grand Detroit",
+      "host": "mgmgranddetroit.com",
+      "canonical_url": "https://www.mgmgranddetroit.com",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/mgm-grand-detroit/attempt-01/policy-block.txt",
+      "block_sha256": "a3069ae716aff36c50bdde45defa923df9eff89522f090a213908921c51e429c",
+      "block_text": "MGM Grand Detroit gladly offers dog friendly rooms. Guidelines: Up to two dogs are allowed, with a maximum combined weight of less than 100 pounds. A second dog fee will be charged at check-in if bringing two dogs. A charge of $100 per night, per dog plus tax for rooms and $150 per night, per dog plus tax for suites will be applied to your account. Due to health code regulations, we regret that dogs, except for service dogs, are not allowed in public areas. Dogs must be fully house trained.",
+      "reader": {
+        "pets_allowed": true,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": true,
+          "species": {
+            "dogs": "accepted"
+          },
+          "pet_count_limit": 2,
+          "combined_weight_limit": {
+            "value": 100,
+            "unit": "lb",
+            "operator": "lt"
+          }
+        },
+        "withheld": {
+          "fee": "ROOM_TYPE_CONDITION and BAND_STATED_PLUS_TAX -- two independent committed disqualifiers. The price is conditioned on room type ($100/night/dog for rooms vs $150/night/dog for suites) and policy_reading records that schema 1.2 has no condition_type for a room-type band, which makes the ladder unrepresentable rather than merely incomplete; and both rungs are stated 'plus tax', which _BAND_TAX_RE refuses because a tier carries no tax_relationship.",
+          "second_dog_fee": "SOURCE_AMBIGUOUS -- 'a second dog fee will be charged at check-in' names no amount",
+          "cats": "SOURCE_SILENT -- only dogs are named"
+        },
+        "flags": [
+          "ROOM_TYPE_CONDITIONED_PRICE",
+          "BAND_STATED_PLUS_TAX",
+          "COMBINED_WEIGHT_OPERATOR_IS_LT_NOT_LTE",
+          "SPECIES_DOGS_ONLY_AFFIRMED",
+          "ALLOWANCE_AFFIRMED_FEE_UNPUBLISHABLE"
+        ]
+      },
+      "verdict_class": "PET_FRIENDLY",
+      "gate_candidate": {
+        "identity_key": "mgm grand detroit",
+        "canonical_name": "MGM Grand Detroit",
+        "class": "PET_FRIENDLY",
+        "canonical_url": "https://www.mgmgranddetroit.com",
+        "reading": {
+          "block_text": "MGM Grand Detroit gladly offers dog friendly rooms. Guidelines: Up to two dogs are allowed, with a maximum combined weight of less than 100 pounds. A second dog fee will be charged at check-in if bringing two dogs. A charge of $100 per night, per dog plus tax for rooms and $150 per night, per dog plus tax for suites will be applied to your account. Due to health code regulations, we regret that dogs, except for service dogs, are not allowed in public areas. Dogs must be fully house trained.",
+          "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/mgm-grand-detroit/attempt-01/policy-block.txt",
+          "block_sha256": "a3069ae716aff36c50bdde45defa923df9eff89522f090a213908921c51e429c",
+          "document_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/mgm-grand-detroit/attempt-01/policy-block.txt",
+          "document_sha256": "a3069ae716aff36c50bdde45defa923df9eff89522f090a213908921c51e429c",
+          "brand_generic": false,
+          "pets_allowed": true
+        }
+      }
+    },
+    {
+      "identity_key": "red roof inn ann arbor university of michigan south",
+      "canonical_name": "Red Roof Inn Ann Arbor University of Michigan South",
+      "host": "redroof.com",
+      "canonical_url": "https://www.redroof.com/property/mi/ann-arbor/rri693",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/red-roof-inn-ann-arbor-university-of-michigan-south/attempt-01/policy-block.txt",
+      "block_sha256": "62798b94547fd7cae57d765bd23a4fb2c0a136d06e5f09e3607cc96229b0592e",
+      "block_text": "Pet Policy: One, well-behaved domestic pet (cat or dog) Stays Free! Pets must be declared at check-in. Up to 2 pets allowed per room. Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay. Pet not to exceed 80 pounds. Service and emotional support animals are always welcome.",
+      "reader": {
+        "pets_allowed": true,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": true,
+          "species": {
+            "dogs": "accepted",
+            "cats": "accepted"
+          },
+          "pet_count_limit": 2,
+          "pet_count_scope": "room",
+          "weight_limit": {
+            "value": 80,
+            "unit": "lb",
+            "operator": "lte",
+            "scope": "per_pet"
+          },
+          "fee_tiers": [
+            {
+              "amount_cents": 0,
+              "currency": "USD",
+              "role": "FEE",
+              "condition_type": "pet_count_range",
+              "condition_min": 1,
+              "condition_max": 1,
+              "scope": "per_pet",
+              "basis_stated": false
+            },
+            {
+              "amount_cents": 1500,
+              "currency": "USD",
+              "role": "FEE",
+              "condition_type": "pet_count_range",
+              "condition_min": 2,
+              "condition_max": 2,
+              "scope": "per_pet",
+              "basis": "per_night",
+              "basis_stated": true
+            }
+          ],
+          "fee_cap": {
+            "amount_cents": 10500,
+            "currency": "USD",
+            "basis": "stay"
+          }
+        },
+        "withheld": {
+          "max_nights_ceiling": "NO_SCHEMA_FIELD -- 'not to exceed 7 nights' is a length ceiling; the committed vocabulary has fee_cap (money) and no maximum-nights field, per policy_reading._FEE_CAP_RE"
+        },
+        "flags": [
+          "CEILING_IS_NOT_PRICE",
+          "CHAIN_UNIFORM_POLICY_TEXT_ON_PROPERTY_PAGE",
+          "SERVICE_AND_ESA_SEPARATE_LEGAL_CATEGORY"
+        ]
+      },
+      "verdict_class": "PET_FRIENDLY",
+      "gate_candidate": {
+        "identity_key": "red roof inn ann arbor university of michigan south",
+        "canonical_name": "Red Roof Inn Ann Arbor University of Michigan South",
+        "class": "PET_FRIENDLY",
+        "canonical_url": "https://www.redroof.com/property/mi/ann-arbor/rri693",
+        "reading": {
+          "block_text": "Pet Policy: One, well-behaved domestic pet (cat or dog) Stays Free! Pets must be declared at check-in. Up to 2 pets allowed per room. Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay. Pet not to exceed 80 pounds. Service and emotional support animals are always welcome.",
+          "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/red-roof-inn-ann-arbor-university-of-michigan-south/attempt-01/policy-block.txt",
+          "block_sha256": "62798b94547fd7cae57d765bd23a4fb2c0a136d06e5f09e3607cc96229b0592e",
+          "document_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/red-roof-inn-ann-arbor-university-of-michigan-south/attempt-01/policy-block.txt",
+          "document_sha256": "62798b94547fd7cae57d765bd23a4fb2c0a136d06e5f09e3607cc96229b0592e",
+          "brand_generic": false,
+          "pets_allowed": true
+        }
+      }
+    },
+    {
+      "identity_key": "red roof inn auburn hills",
+      "canonical_name": "Red Roof Inn Auburn Hills",
+      "host": "redroof.com",
+      "canonical_url": "https://www.redroof.com/property/mi/auburn-hills/rri1419",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/red-roof-inn-auburn-hills/attempt-01/policy-block.txt",
+      "block_sha256": "62798b94547fd7cae57d765bd23a4fb2c0a136d06e5f09e3607cc96229b0592e",
+      "block_text": "Pet Policy: One, well-behaved domestic pet (cat or dog) Stays Free! Pets must be declared at check-in. Up to 2 pets allowed per room. Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay. Pet not to exceed 80 pounds. Service and emotional support animals are always welcome.",
+      "reader": {
+        "pets_allowed": true,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": true,
+          "species": {
+            "dogs": "accepted",
+            "cats": "accepted"
+          },
+          "pet_count_limit": 2,
+          "pet_count_scope": "room",
+          "weight_limit": {
+            "value": 80,
+            "unit": "lb",
+            "operator": "lte",
+            "scope": "per_pet"
+          },
+          "fee_tiers": [
+            {
+              "amount_cents": 0,
+              "currency": "USD",
+              "role": "FEE",
+              "condition_type": "pet_count_range",
+              "condition_min": 1,
+              "condition_max": 1,
+              "scope": "per_pet",
+              "basis_stated": false
+            },
+            {
+              "amount_cents": 1500,
+              "currency": "USD",
+              "role": "FEE",
+              "condition_type": "pet_count_range",
+              "condition_min": 2,
+              "condition_max": 2,
+              "scope": "per_pet",
+              "basis": "per_night",
+              "basis_stated": true
+            }
+          ],
+          "fee_cap": {
+            "amount_cents": 10500,
+            "currency": "USD",
+            "basis": "stay"
+          }
+        },
+        "withheld": {
+          "max_nights_ceiling": "NO_SCHEMA_FIELD -- 'not to exceed 7 nights' is a length ceiling; the committed vocabulary has fee_cap (money) and no maximum-nights field, per policy_reading._FEE_CAP_RE"
+        },
+        "flags": [
+          "CEILING_IS_NOT_PRICE",
+          "CHAIN_UNIFORM_POLICY_TEXT_ON_PROPERTY_PAGE",
+          "SERVICE_AND_ESA_SEPARATE_LEGAL_CATEGORY"
+        ]
+      },
+      "verdict_class": "PET_FRIENDLY",
+      "gate_candidate": {
+        "identity_key": "red roof inn auburn hills",
+        "canonical_name": "Red Roof Inn Auburn Hills",
+        "class": "PET_FRIENDLY",
+        "canonical_url": "https://www.redroof.com/property/mi/auburn-hills/rri1419",
+        "reading": {
+          "block_text": "Pet Policy: One, well-behaved domestic pet (cat or dog) Stays Free! Pets must be declared at check-in. Up to 2 pets allowed per room. Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay. Pet not to exceed 80 pounds. Service and emotional support animals are always welcome.",
+          "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/red-roof-inn-auburn-hills/attempt-01/policy-block.txt",
+          "block_sha256": "62798b94547fd7cae57d765bd23a4fb2c0a136d06e5f09e3607cc96229b0592e",
+          "document_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/red-roof-inn-auburn-hills/attempt-01/policy-block.txt",
+          "document_sha256": "62798b94547fd7cae57d765bd23a4fb2c0a136d06e5f09e3607cc96229b0592e",
+          "brand_generic": false,
+          "pets_allowed": true
+        }
+      }
+    },
+    {
+      "identity_key": "red roof inn dearborn",
+      "canonical_name": "Red Roof Inn Dearborn",
+      "host": "redroof.com",
+      "canonical_url": "https://www.redroof.com/property/mi/dearborn/rri182",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/red-roof-inn-dearborn/attempt-01/policy-block.txt",
+      "block_sha256": "62798b94547fd7cae57d765bd23a4fb2c0a136d06e5f09e3607cc96229b0592e",
+      "block_text": "Pet Policy: One, well-behaved domestic pet (cat or dog) Stays Free! Pets must be declared at check-in. Up to 2 pets allowed per room. Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay. Pet not to exceed 80 pounds. Service and emotional support animals are always welcome.",
+      "reader": {
+        "pets_allowed": true,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": true,
+          "species": {
+            "dogs": "accepted",
+            "cats": "accepted"
+          },
+          "pet_count_limit": 2,
+          "pet_count_scope": "room",
+          "weight_limit": {
+            "value": 80,
+            "unit": "lb",
+            "operator": "lte",
+            "scope": "per_pet"
+          },
+          "fee_tiers": [
+            {
+              "amount_cents": 0,
+              "currency": "USD",
+              "role": "FEE",
+              "condition_type": "pet_count_range",
+              "condition_min": 1,
+              "condition_max": 1,
+              "scope": "per_pet",
+              "basis_stated": false
+            },
+            {
+              "amount_cents": 1500,
+              "currency": "USD",
+              "role": "FEE",
+              "condition_type": "pet_count_range",
+              "condition_min": 2,
+              "condition_max": 2,
+              "scope": "per_pet",
+              "basis": "per_night",
+              "basis_stated": true
+            }
+          ],
+          "fee_cap": {
+            "amount_cents": 10500,
+            "currency": "USD",
+            "basis": "stay"
+          }
+        },
+        "withheld": {
+          "max_nights_ceiling": "NO_SCHEMA_FIELD -- per policy_reading._FEE_CAP_RE the money ceiling is the fee_cap and the 7-night clause has no field"
+        },
+        "flags": [
+          "CEILING_IS_NOT_PRICE",
+          "SERVICE_AND_ESA_SEPARATE_LEGAL_CATEGORY"
+        ]
+      },
+      "verdict_class": "PET_FRIENDLY",
+      "gate_candidate": {
+        "identity_key": "red roof inn dearborn",
+        "canonical_name": "Red Roof Inn Dearborn",
+        "class": "PET_FRIENDLY",
+        "canonical_url": "https://www.redroof.com/property/mi/dearborn/rri182",
+        "reading": {
+          "block_text": "Pet Policy: One, well-behaved domestic pet (cat or dog) Stays Free! Pets must be declared at check-in. Up to 2 pets allowed per room. Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay. Pet not to exceed 80 pounds. Service and emotional support animals are always welcome.",
+          "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/red-roof-inn-dearborn/attempt-01/policy-block.txt",
+          "block_sha256": "62798b94547fd7cae57d765bd23a4fb2c0a136d06e5f09e3607cc96229b0592e",
+          "document_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/red-roof-inn-dearborn/attempt-01/policy-block.txt",
+          "document_sha256": "62798b94547fd7cae57d765bd23a4fb2c0a136d06e5f09e3607cc96229b0592e",
+          "brand_generic": false,
+          "pets_allowed": true
+        }
+      }
+    },
+    {
+      "identity_key": "red roof plus ann arbor university of michigan north",
+      "canonical_name": "Red Roof PLUS+ Ann Arbor University of Michigan North",
+      "host": "redroof.com",
+      "canonical_url": "https://www.redroof.com/property/mi/ann-arbor/rri045",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/red-roof-plus-ann-arbor-university-of-michigan-north/attempt-01/policy-block.txt",
+      "block_sha256": "62798b94547fd7cae57d765bd23a4fb2c0a136d06e5f09e3607cc96229b0592e",
+      "block_text": "Pet Policy: One, well-behaved domestic pet (cat or dog) Stays Free! Pets must be declared at check-in. Up to 2 pets allowed per room. Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay. Pet not to exceed 80 pounds. Service and emotional support animals are always welcome.",
+      "reader": {
+        "pets_allowed": true,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": true,
+          "species": {
+            "dogs": "accepted",
+            "cats": "accepted"
+          },
+          "pet_count_limit": 2,
+          "pet_count_scope": "room",
+          "weight_limit": {
+            "value": 80,
+            "unit": "lb",
+            "operator": "lte",
+            "scope": "per_pet"
+          },
+          "fee_tiers": [
+            {
+              "amount_cents": 0,
+              "currency": "USD",
+              "role": "FEE",
+              "condition_type": "pet_count_range",
+              "condition_min": 1,
+              "condition_max": 1,
+              "scope": "per_pet",
+              "basis_stated": false
+            },
+            {
+              "amount_cents": 1500,
+              "currency": "USD",
+              "role": "FEE",
+              "condition_type": "pet_count_range",
+              "condition_min": 2,
+              "condition_max": 2,
+              "scope": "per_pet",
+              "basis": "per_night",
+              "basis_stated": true
+            }
+          ],
+          "fee_cap": {
+            "amount_cents": 10500,
+            "currency": "USD",
+            "basis": "stay"
+          }
+        },
+        "withheld": {
+          "max_nights_ceiling": "NO_SCHEMA_FIELD -- per policy_reading._FEE_CAP_RE the money ceiling is the fee_cap and the 7-night clause has no field"
+        },
+        "flags": [
+          "CEILING_IS_NOT_PRICE",
+          "SERVICE_AND_ESA_SEPARATE_LEGAL_CATEGORY"
+        ]
+      },
+      "verdict_class": "PET_FRIENDLY",
+      "gate_candidate": {
+        "identity_key": "red roof plus ann arbor university of michigan north",
+        "canonical_name": "Red Roof PLUS+ Ann Arbor University of Michigan North",
+        "class": "PET_FRIENDLY",
+        "canonical_url": "https://www.redroof.com/property/mi/ann-arbor/rri045",
+        "reading": {
+          "block_text": "Pet Policy: One, well-behaved domestic pet (cat or dog) Stays Free! Pets must be declared at check-in. Up to 2 pets allowed per room. Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay. Pet not to exceed 80 pounds. Service and emotional support animals are always welcome.",
+          "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/red-roof-plus-ann-arbor-university-of-michigan-north/attempt-01/policy-block.txt",
+          "block_sha256": "62798b94547fd7cae57d765bd23a4fb2c0a136d06e5f09e3607cc96229b0592e",
+          "document_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/red-roof-plus-ann-arbor-university-of-michigan-north/attempt-01/policy-block.txt",
+          "document_sha256": "62798b94547fd7cae57d765bd23a4fb2c0a136d06e5f09e3607cc96229b0592e",
+          "brand_generic": false,
+          "pets_allowed": true
+        }
+      }
+    },
+    {
+      "identity_key": "skyline hotel detroit airport surestay collection by bw",
+      "canonical_name": "Skyline Hotel Detroit Airport, SureStay Collection by BW",
+      "host": "bestwestern.com",
+      "canonical_url": "https://www.bestwestern.com/en_US/book/hotels-in-romulus/skyline-hotel-detroit-airport-surestay-collection-by-bw/propertyCode.54306.html",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/skyline-hotel-detroit-airport-surestay-collection-by-bw/attempt-01/policy-block.txt",
+      "block_sha256": "1e0c4eded0107d30dfee9b444d317a18a67a60f47c9545b83db90263e79b6471",
+      "block_text": "Q. Is the Skyline Hotel Detroit Airport, SureStay Collection by BW Pet Friendly? Pets are not accepted. | Pet Policy: Pets are not accepted. | Service animals are welcome. Any pet policy, if the hotel is pet friendly, does not apply to service animals.",
+      "reader": {
+        "pets_allowed": false,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": false,
+          "service_animal_exception": "Service animals are welcome. Any pet policy, if the hotel is pet friendly, does not apply to service animals."
+        },
+        "withheld": {},
+        "flags": [
+          "AFFIRMATIVE_REFUSAL_NOT_SILENCE",
+          "SERVICE_ANIMALS_SEPARATE_LEGAL_CATEGORY"
+        ]
+      },
+      "verdict_class": "VERIFIED_NO_PETS",
+      "gate_candidate": {
+        "identity_key": "skyline hotel detroit airport surestay collection by bw",
+        "canonical_name": "Skyline Hotel Detroit Airport, SureStay Collection by BW",
+        "class": "VERIFIED_NO_PETS",
+        "canonical_url": "https://www.bestwestern.com/en_US/book/hotels-in-romulus/skyline-hotel-detroit-airport-surestay-collection-by-bw/propertyCode.54306.html",
+        "reading": {
+          "block_text": "Q. Is the Skyline Hotel Detroit Airport, SureStay Collection by BW Pet Friendly? Pets are not accepted. | Pet Policy: Pets are not accepted. | Service animals are welcome. Any pet policy, if the hotel is pet friendly, does not apply to service animals.",
+          "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/skyline-hotel-detroit-airport-surestay-collection-by-bw/attempt-01/policy-block.txt",
+          "block_sha256": "1e0c4eded0107d30dfee9b444d317a18a67a60f47c9545b83db90263e79b6471",
+          "document_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/skyline-hotel-detroit-airport-surestay-collection-by-bw/attempt-01/policy-block.txt",
+          "document_sha256": "1e0c4eded0107d30dfee9b444d317a18a67a60f47c9545b83db90263e79b6471",
+          "brand_generic": false,
+          "pets_allowed": false
+        }
+      }
+    },
+    {
+      "identity_key": "somerset inn",
+      "canonical_name": "Somerset Inn",
+      "host": "somersetinn.com",
+      "canonical_url": "https://www.somersetinn.com/",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/somerset-inn/attempt-01/policy-block.txt",
+      "block_sha256": "c7a7b8cf99de252da3a512126bfcf3dba5a3c78f7b7486b93eb4969b3ae3a9cc",
+      "block_text": "What is the pet policy? We love your fury friends. Unfortunately for the safety, health and hygiene of all guests, pets are not allowed. | (Accommodations page) While we love your pets... Sorry, this is a NO PET zone.",
+      "reader": {
+        "pets_allowed": false,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": false
+        },
+        "withheld": {
+          "service_animal_exception": "SOURCE_SILENT -- the site states no service-animal carve-out; service-animal access is a legal category and is never inferred from a pet refusal"
+        },
+        "flags": [
+          "AFFIRMATIVE_REFUSAL_NOT_SILENCE",
+          "TWO_INDEPENDENT_FIRST_PARTY_REFUSALS",
+          "CENSUS_CITY_DISAGREES_WITH_THE_PROPERTY"
+        ]
+      },
+      "verdict_class": "VERIFIED_NO_PETS",
+      "gate_candidate": {
+        "identity_key": "somerset inn",
+        "canonical_name": "Somerset Inn",
+        "class": "VERIFIED_NO_PETS",
+        "canonical_url": "https://www.somersetinn.com/",
+        "reading": {
+          "block_text": "What is the pet policy? We love your fury friends. Unfortunately for the safety, health and hygiene of all guests, pets are not allowed. | (Accommodations page) While we love your pets... Sorry, this is a NO PET zone.",
+          "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/somerset-inn/attempt-01/policy-block.txt",
+          "block_sha256": "c7a7b8cf99de252da3a512126bfcf3dba5a3c78f7b7486b93eb4969b3ae3a9cc",
+          "document_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/somerset-inn/attempt-01/policy-block.txt",
+          "document_sha256": "c7a7b8cf99de252da3a512126bfcf3dba5a3c78f7b7486b93eb4969b3ae3a9cc",
+          "brand_generic": false,
+          "pets_allowed": false
+        }
+      }
+    },
+    {
+      "identity_key": "sonesta es suites auburn hills",
+      "canonical_name": "Sonesta ES Suites Auburn Hills",
+      "host": "sonesta.com",
+      "canonical_url": "https://www.sonesta.com/sonesta-es-suites/mi/auburn-hills/sonesta-es-suites-auburn-hills-detroit",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/sonesta-es-suites-auburn-hills/attempt-01/policy-block.txt",
+      "block_sha256": "9fccba8df35b0dfee4f91b7f76091fd023b74efb4564e7aaf2962e0517d8586e",
+      "block_text": "Sonesta ES Suites Auburn Hills Detroit is pet-friendly and welcomes well-mannered pets, with no breed or weight restrictions. Up to two pets are permitted per suite. $75 fee applies for stays up to 7 nights; $150 for all longer stays.",
+      "reader": {
+        "pets_allowed": true,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": true,
+          "pet_count_limit": 2,
+          "pet_count_scope": "suite",
+          "weight_limit": null,
+          "fee_tiers": [
+            {
+              "amount_cents": 7500,
+              "currency": "USD",
+              "role": "FEE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_max": 7,
+              "basis_stated": false
+            },
+            {
+              "amount_cents": 15000,
+              "currency": "USD",
+              "role": "FEE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 8,
+              "basis_stated": false
+            }
+          ]
+        },
+        "withheld": {
+          "fee_scope": "SOURCE_SILENT -- per-pet vs per-stay is not stated",
+          "species": "SOURCE_SILENT -- 'pets' only, no species named"
+        },
+        "flags": [
+          "WEIGHT_RESTRICTION_EXPLICITLY_NONE",
+          "FEE_SCOPE_WITHHELD",
+          "SERVICE_ANIMALS_SEPARATE_LEGAL_CATEGORY"
+        ]
+      },
+      "verdict_class": "PET_FRIENDLY",
+      "gate_candidate": {
+        "identity_key": "sonesta es suites auburn hills",
+        "canonical_name": "Sonesta ES Suites Auburn Hills",
+        "class": "PET_FRIENDLY",
+        "canonical_url": "https://www.sonesta.com/sonesta-es-suites/mi/auburn-hills/sonesta-es-suites-auburn-hills-detroit",
+        "reading": {
+          "block_text": "Sonesta ES Suites Auburn Hills Detroit is pet-friendly and welcomes well-mannered pets, with no breed or weight restrictions. Up to two pets are permitted per suite. $75 fee applies for stays up to 7 nights; $150 for all longer stays.",
+          "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/sonesta-es-suites-auburn-hills/attempt-01/policy-block.txt",
+          "block_sha256": "9fccba8df35b0dfee4f91b7f76091fd023b74efb4564e7aaf2962e0517d8586e",
+          "document_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/sonesta-es-suites-auburn-hills/attempt-01/policy-block.txt",
+          "document_sha256": "9fccba8df35b0dfee4f91b7f76091fd023b74efb4564e7aaf2962e0517d8586e",
+          "brand_generic": false,
+          "pets_allowed": true
+        }
+      }
+    },
+    {
+      "identity_key": "sonesta select detroit auburn hills",
+      "canonical_name": "Sonesta Select Detroit Auburn Hills",
+      "host": "sonesta.com",
+      "canonical_url": "https://www.sonesta.com/sonesta-select/mi/auburn-hills/sonesta-select-detroit-auburn-hills",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/sonesta-select-detroit-auburn-hills/attempt-01/policy-block.txt",
+      "block_sha256": "a84186d21f702905cddd669273635c1c6df2d3b418497f74426f9d4e33e1e5f9",
+      "block_text": "Sonesta Select Detroit Auburn Hills is pet-friendly and welcomes well-mannered pets, with no breed or weight restrictions. Up to two pets are permitted per suite. $75 fee per stay applies.",
+      "reader": {
+        "pets_allowed": true,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": true,
+          "pet_count_limit": 2,
+          "pet_count_scope": "suite",
+          "weight_limit": null,
+          "fee": {
+            "amount_cents": 7500,
+            "currency": "USD",
+            "role": "FEE",
+            "basis": "per_stay",
+            "basis_stated": true
+          }
+        },
+        "withheld": {
+          "fee_scope": "SOURCE_SILENT -- per-pet vs per-room not stated",
+          "species": "SOURCE_SILENT"
+        },
+        "flags": [
+          "WEIGHT_RESTRICTION_EXPLICITLY_NONE",
+          "SERVICE_ANIMALS_SEPARATE_LEGAL_CATEGORY"
+        ]
+      },
+      "verdict_class": "PET_FRIENDLY",
+      "gate_candidate": {
+        "identity_key": "sonesta select detroit auburn hills",
+        "canonical_name": "Sonesta Select Detroit Auburn Hills",
+        "class": "PET_FRIENDLY",
+        "canonical_url": "https://www.sonesta.com/sonesta-select/mi/auburn-hills/sonesta-select-detroit-auburn-hills",
+        "reading": {
+          "block_text": "Sonesta Select Detroit Auburn Hills is pet-friendly and welcomes well-mannered pets, with no breed or weight restrictions. Up to two pets are permitted per suite. $75 fee per stay applies.",
+          "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/sonesta-select-detroit-auburn-hills/attempt-01/policy-block.txt",
+          "block_sha256": "a84186d21f702905cddd669273635c1c6df2d3b418497f74426f9d4e33e1e5f9",
+          "document_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/sonesta-select-detroit-auburn-hills/attempt-01/policy-block.txt",
+          "document_sha256": "a84186d21f702905cddd669273635c1c6df2d3b418497f74426f9d4e33e1e5f9",
+          "brand_generic": false,
+          "pets_allowed": true
+        }
+      }
+    },
+    {
+      "identity_key": "sonesta select detroit novi",
+      "canonical_name": "Sonesta Select Detroit Novi",
+      "host": "sonesta.com",
+      "canonical_url": "https://www.sonesta.com/sonesta-select/mi/novi/sonesta-select-detroit-novi",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/sonesta-select-detroit-novi/attempt-01/policy-block.txt",
+      "block_sha256": "3d172c8fb93e59887eb9436e66f3366e1ef4cc126e10d3da1802e9f8c476ed5c",
+      "block_text": "Sonesta Select Detroit Novi is pet friendly and welcomes well-mannered pets, with no breed or weight restrictions. Up to two pets are permitted per suite. $75 fee per stay applies.",
+      "reader": {
+        "pets_allowed": true,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": true,
+          "pet_count_limit": 2,
+          "pet_count_scope": "suite",
+          "weight_limit": null,
+          "fee": {
+            "amount_cents": 7500,
+            "currency": "USD",
+            "role": "FEE",
+            "basis": "per_stay",
+            "basis_stated": true
+          }
+        },
+        "withheld": {
+          "fee_scope": "SOURCE_SILENT",
+          "species": "SOURCE_SILENT"
+        },
+        "flags": [
+          "WEIGHT_RESTRICTION_EXPLICITLY_NONE",
+          "SERVICE_ANIMALS_SEPARATE_LEGAL_CATEGORY"
+        ]
+      },
+      "verdict_class": "PET_FRIENDLY",
+      "gate_candidate": {
+        "identity_key": "sonesta select detroit novi",
+        "canonical_name": "Sonesta Select Detroit Novi",
+        "class": "PET_FRIENDLY",
+        "canonical_url": "https://www.sonesta.com/sonesta-select/mi/novi/sonesta-select-detroit-novi",
+        "reading": {
+          "block_text": "Sonesta Select Detroit Novi is pet friendly and welcomes well-mannered pets, with no breed or weight restrictions. Up to two pets are permitted per suite. $75 fee per stay applies.",
+          "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/sonesta-select-detroit-novi/attempt-01/policy-block.txt",
+          "block_sha256": "3d172c8fb93e59887eb9436e66f3366e1ef4cc126e10d3da1802e9f8c476ed5c",
+          "document_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/sonesta-select-detroit-novi/attempt-01/policy-block.txt",
+          "document_sha256": "3d172c8fb93e59887eb9436e66f3366e1ef4cc126e10d3da1802e9f8c476ed5c",
+          "brand_generic": false,
+          "pets_allowed": true
+        }
+      }
+    },
+    {
+      "identity_key": "sonesta simply suites",
+      "canonical_name": "Sonesta Simply Suites",
+      "host": "sonesta.com",
+      "canonical_url": "https://www.sonesta.com/sonesta-simply-suites/mi/ann-arbor/sonesta-simply-suites-detroit-ann-arbor",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/sonesta-simply-suites/attempt-01/policy-block.txt",
+      "block_sha256": "a6f0c7a96d52fe578b0b99191bf74c464f770208ac07b9e82c0077646431dccf",
+      "block_text": "Sonesta Simply Suites Ann Arbor University is pet-friendly and welcomes well-mannered pets, with no breed or weight restrictions. Up to two pets are permitted per suite. $75 fee applies for stays up to 7 nights; $150 for all longer stays.",
+      "reader": {
+        "pets_allowed": true,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": true,
+          "pet_count_limit": 2,
+          "pet_count_scope": "suite",
+          "weight_limit": null,
+          "fee_tiers": [
+            {
+              "amount_cents": 7500,
+              "currency": "USD",
+              "role": "FEE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_max": 7,
+              "basis_stated": false
+            },
+            {
+              "amount_cents": 15000,
+              "currency": "USD",
+              "role": "FEE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 8,
+              "basis_stated": false
+            }
+          ]
+        },
+        "withheld": {
+          "fee_scope": "SOURCE_SILENT",
+          "species": "SOURCE_SILENT"
+        },
+        "flags": [
+          "WEIGHT_RESTRICTION_EXPLICITLY_NONE",
+          "FEE_SCOPE_WITHHELD",
+          "CANONICAL_NAME_IS_A_BARE_CHAIN_WORD"
+        ]
+      },
+      "verdict_class": "PET_FRIENDLY",
+      "gate_candidate": {
+        "identity_key": "sonesta simply suites",
+        "canonical_name": "Sonesta Simply Suites",
+        "class": "PET_FRIENDLY",
+        "canonical_url": "https://www.sonesta.com/sonesta-simply-suites/mi/ann-arbor/sonesta-simply-suites-detroit-ann-arbor",
+        "reading": {
+          "block_text": "Sonesta Simply Suites Ann Arbor University is pet-friendly and welcomes well-mannered pets, with no breed or weight restrictions. Up to two pets are permitted per suite. $75 fee applies for stays up to 7 nights; $150 for all longer stays.",
+          "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/sonesta-simply-suites/attempt-01/policy-block.txt",
+          "block_sha256": "a6f0c7a96d52fe578b0b99191bf74c464f770208ac07b9e82c0077646431dccf",
+          "document_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/sonesta-simply-suites/attempt-01/policy-block.txt",
+          "document_sha256": "a6f0c7a96d52fe578b0b99191bf74c464f770208ac07b9e82c0077646431dccf",
+          "brand_generic": false,
+          "pets_allowed": true
+        }
+      }
+    },
+    {
+      "identity_key": "sonesta simply suites detroit troy",
+      "canonical_name": "Sonesta Simply Suites Detroit Troy",
+      "host": "sonesta.com",
+      "canonical_url": "https://www.sonesta.com/sonesta-simply-suites/mi/troy/sonesta-simply-suites-detroit-troy",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/sonesta-simply-suites-detroit-troy/attempt-01/policy-block.txt",
+      "block_sha256": "8a3cb6357f35f06acc3fb9f2e7a87df30614b094a5399e17c0563134c0a7a9d9",
+      "block_text": "Sonesta Simply Suites Detroit Troy is pet-friendly and welcomes well-mannered pets, with no breed or weight restrictions. Up to two pets are permitted per suite. $75 fee applies for stays up to 7 nights; $150 for all longer stays.",
+      "reader": {
+        "pets_allowed": true,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": true,
+          "pet_count_limit": 2,
+          "pet_count_scope": "suite",
+          "weight_limit": null,
+          "fee_tiers": [
+            {
+              "amount_cents": 7500,
+              "currency": "USD",
+              "role": "FEE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_max": 7,
+              "basis_stated": false
+            },
+            {
+              "amount_cents": 15000,
+              "currency": "USD",
+              "role": "FEE",
+              "condition_type": "stay_length_range",
+              "boundary_unit": "nights",
+              "condition_min": 8,
+              "basis_stated": false
+            }
+          ]
+        },
+        "withheld": {
+          "fee_scope": "SOURCE_SILENT",
+          "species": "SOURCE_SILENT"
+        },
+        "flags": [
+          "WEIGHT_RESTRICTION_EXPLICITLY_NONE",
+          "FEE_SCOPE_WITHHELD"
+        ]
+      },
+      "verdict_class": "PET_FRIENDLY",
+      "gate_candidate": {
+        "identity_key": "sonesta simply suites detroit troy",
+        "canonical_name": "Sonesta Simply Suites Detroit Troy",
+        "class": "PET_FRIENDLY",
+        "canonical_url": "https://www.sonesta.com/sonesta-simply-suites/mi/troy/sonesta-simply-suites-detroit-troy",
+        "reading": {
+          "block_text": "Sonesta Simply Suites Detroit Troy is pet-friendly and welcomes well-mannered pets, with no breed or weight restrictions. Up to two pets are permitted per suite. $75 fee applies for stays up to 7 nights; $150 for all longer stays.",
+          "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/sonesta-simply-suites-detroit-troy/attempt-01/policy-block.txt",
+          "block_sha256": "8a3cb6357f35f06acc3fb9f2e7a87df30614b094a5399e17c0563134c0a7a9d9",
+          "document_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/sonesta-simply-suites-detroit-troy/attempt-01/policy-block.txt",
+          "document_sha256": "8a3cb6357f35f06acc3fb9f2e7a87df30614b094a5399e17c0563134c0a7a9d9",
+          "brand_generic": false,
+          "pets_allowed": true
+        }
+      }
+    },
+    {
+      "identity_key": "the townsend hotel",
+      "canonical_name": "The Townsend Hotel",
+      "host": "townsendhotel.com",
+      "canonical_url": "https://www.townsendhotel.com/",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/the-townsend-hotel/attempt-01/policy-block.txt",
+      "block_sha256": "3249967a9650b868ae12221b5781290bd06a75ebf1bb3dd71831b3d509abf9de",
+      "block_text": "ARE PETS WELCOME? Yes, The Townsend Hotel welcomes dogs. The hotel does not allow cats or any other pets. There is a $159.00 non-refundable pet deposit and a $5.30 daily cleaning fee.",
+      "reader": {
+        "pets_allowed": true,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": true,
+          "pet_deposit": 15900
+        },
+        "withheld": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "flags": [
+          "FLAG_MULTI_POLICY_BLOCKS",
+          "FLAG_RECURRING_CHARGE_NOT_READ"
+        ]
+      },
+      "verdict_class": "PET_FRIENDLY",
+      "gate_candidate": {
+        "identity_key": "the townsend hotel",
+        "canonical_name": "The Townsend Hotel",
+        "class": "PET_FRIENDLY",
+        "canonical_url": "https://www.townsendhotel.com/",
+        "reading": {
+          "block_text": "ARE PETS WELCOME? Yes, The Townsend Hotel welcomes dogs. The hotel does not allow cats or any other pets. There is a $159.00 non-refundable pet deposit and a $5.30 daily cleaning fee.",
+          "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/the-townsend-hotel/attempt-01/policy-block.txt",
+          "block_sha256": "3249967a9650b868ae12221b5781290bd06a75ebf1bb3dd71831b3d509abf9de",
+          "document_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/the-townsend-hotel/attempt-01/policy-block.txt",
+          "document_sha256": "3249967a9650b868ae12221b5781290bd06a75ebf1bb3dd71831b3d509abf9de",
+          "brand_generic": false,
+          "pets_allowed": true
+        }
+      }
+    },
+    {
+      "identity_key": "trumbull and porter hotel",
+      "canonical_name": "Trumbull and Porter Hotel",
+      "host": "trumbullandporterhotel.com",
+      "canonical_url": "https://www.trumbullandporterhotel.com/",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/trumbull-and-porter-hotel/attempt-01/policy-block.txt",
+      "block_sha256": "60a08aed9c06b9f5db18861eb2b2f4800a653287af5214792ee6c18abb822a6d",
+      "block_text": "Q. Are pets allowed? Are there restrictions for weight, height or types? Yes, we are a pet-friendly hotel and pets are welcomed at the hotel for a $50 PER NIGHT and 50 pound maximum. Pets cannot be left unattended at the hotel. You must stay with your pet at all times. Pets must be leashed or in a carrier at all times while outside of your room. A signed pet agreement will be required upon check-in.",
+      "reader": {
+        "pets_allowed": true,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": true,
+          "pet_fee": 5000,
+          "fee_currency": "USD",
+          "fee_basis": "per_night",
+          "weight_limit": {
+            "value": 50.0,
+            "unit": "lb"
+          }
+        },
+        "withheld": {},
+        "flags": []
+      },
+      "verdict_class": "PET_FRIENDLY",
+      "gate_candidate": {
+        "identity_key": "trumbull and porter hotel",
+        "canonical_name": "Trumbull and Porter Hotel",
+        "class": "PET_FRIENDLY",
+        "canonical_url": "https://www.trumbullandporterhotel.com/",
+        "reading": {
+          "block_text": "Q. Are pets allowed? Are there restrictions for weight, height or types? Yes, we are a pet-friendly hotel and pets are welcomed at the hotel for a $50 PER NIGHT and 50 pound maximum. Pets cannot be left unattended at the hotel. You must stay with your pet at all times. Pets must be leashed or in a carrier at all times while outside of your room. A signed pet agreement will be required upon check-in.",
+          "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/trumbull-and-porter-hotel/attempt-01/policy-block.txt",
+          "block_sha256": "60a08aed9c06b9f5db18861eb2b2f4800a653287af5214792ee6c18abb822a6d",
+          "document_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/trumbull-and-porter-hotel/attempt-01/policy-block.txt",
+          "document_sha256": "60a08aed9c06b9f5db18861eb2b2f4800a653287af5214792ee6c18abb822a6d",
+          "brand_generic": false,
+          "pets_allowed": true
+        }
+      }
+    },
+    {
+      "identity_key": "woodspring suites",
+      "canonical_name": "Woodspring Suites",
+      "host": "woodspring.com",
+      "canonical_url": "https://www.woodspring.com/extended-stay-hotels/locations/michigan/detroit/woodspring-suites-farmington-hills",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/woodspring-suites/attempt-01/policy-block.txt",
+      "block_sha256": "1b2456eb8b29c0ffe7b42f6688750d5da4b1b39351cd70c7528f984d6cc3cbad",
+      "block_text": "Are pets allowed at WoodSpring Suites Novi Farmington? Dog Friendly. Dogs allowed. $10 USD per pet per night. Max 75 lbs. Max 2 dogs per room.",
+      "reader": {
+        "pets_allowed": true,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": true,
+          "species": {
+            "dogs": "accepted"
+          },
+          "pet_count_limit": 2,
+          "pet_count_scope": "room",
+          "weight_limit": {
+            "value": 75,
+            "unit": "lb",
+            "operator": "lte",
+            "scope": "per_pet"
+          },
+          "fee": {
+            "amount_cents": 1000,
+            "currency": "USD",
+            "role": "FEE",
+            "scope": "per_pet",
+            "basis": "per_night",
+            "basis_stated": true
+          }
+        },
+        "withheld": {
+          "cats": "SOURCE_SILENT -- the block says dogs only, which is a restriction on the accepted species, not an affirmative statement about cats"
+        },
+        "flags": [
+          "SPECIES_DOGS_ONLY_AFFIRMED",
+          "FEE_BASIS_AND_SCOPE_BOTH_STATED",
+          "CANONICAL_NAME_IS_A_BARE_CHAIN_WORD"
+        ]
+      },
+      "verdict_class": "PET_FRIENDLY",
+      "gate_candidate": {
+        "identity_key": "woodspring suites",
+        "canonical_name": "Woodspring Suites",
+        "class": "PET_FRIENDLY",
+        "canonical_url": "https://www.woodspring.com/extended-stay-hotels/locations/michigan/detroit/woodspring-suites-farmington-hills",
+        "reading": {
+          "block_text": "Are pets allowed at WoodSpring Suites Novi Farmington? Dog Friendly. Dogs allowed. $10 USD per pet per night. Max 75 lbs. Max 2 dogs per room.",
+          "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/woodspring-suites/attempt-01/policy-block.txt",
+          "block_sha256": "1b2456eb8b29c0ffe7b42f6688750d5da4b1b39351cd70c7528f984d6cc3cbad",
+          "document_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/woodspring-suites/attempt-01/policy-block.txt",
+          "document_sha256": "1b2456eb8b29c0ffe7b42f6688750d5da4b1b39351cd70c7528f984d6cc3cbad",
+          "brand_generic": false,
+          "pets_allowed": true
+        }
+      }
+    },
+    {
+      "identity_key": "woodspring suites dearborn detroit",
+      "canonical_name": "WoodSpring Suites Dearborn - Detroit",
+      "host": "woodspring.com",
+      "canonical_url": "https://www.woodspring.com/extended-stay-hotels/locations/michigan/dearborn/woodspring-suites-dearborn-detroit",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/woodspring-suites-dearborn-detroit/attempt-01/policy-block.txt",
+      "block_sha256": "5470f800ac0b81fc3b46f3d27fc709491d9f1dab7833220447e8609761fa0b86",
+      "block_text": "Are pets allowed at WoodSpring Suites Dearborn - Detroit? Dogs only Allowed. Pet Charge 10.00 USD Per Pet, Per Night. Pet limit 2 Pet Per Room. Max 75 Pounds.",
+      "reader": {
+        "pets_allowed": true,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": true,
+          "species": {
+            "dogs": "accepted"
+          },
+          "pet_count_limit": 2,
+          "pet_count_scope": "room",
+          "weight_limit": {
+            "value": 75,
+            "unit": "lb",
+            "operator": "lte",
+            "scope": "per_pet"
+          },
+          "fee": {
+            "amount_cents": 1000,
+            "currency": "USD",
+            "role": "FEE",
+            "scope": "per_pet",
+            "basis": "per_night",
+            "basis_stated": true
+          }
+        },
+        "withheld": {
+          "cats": "SOURCE_SILENT -- the block says dogs only, which is a restriction on the accepted species, not an affirmative statement about cats"
+        },
+        "flags": [
+          "SPECIES_DOGS_ONLY_AFFIRMED",
+          "FEE_BASIS_AND_SCOPE_BOTH_STATED"
+        ]
+      },
+      "verdict_class": "PET_FRIENDLY",
+      "gate_candidate": {
+        "identity_key": "woodspring suites dearborn detroit",
+        "canonical_name": "WoodSpring Suites Dearborn - Detroit",
+        "class": "PET_FRIENDLY",
+        "canonical_url": "https://www.woodspring.com/extended-stay-hotels/locations/michigan/dearborn/woodspring-suites-dearborn-detroit",
+        "reading": {
+          "block_text": "Are pets allowed at WoodSpring Suites Dearborn - Detroit? Dogs only Allowed. Pet Charge 10.00 USD Per Pet, Per Night. Pet limit 2 Pet Per Room. Max 75 Pounds.",
+          "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/woodspring-suites-dearborn-detroit/attempt-01/policy-block.txt",
+          "block_sha256": "5470f800ac0b81fc3b46f3d27fc709491d9f1dab7833220447e8609761fa0b86",
+          "document_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/woodspring-suites-dearborn-detroit/attempt-01/policy-block.txt",
+          "document_sha256": "5470f800ac0b81fc3b46f3d27fc709491d9f1dab7833220447e8609761fa0b86",
+          "brand_generic": false,
+          "pets_allowed": true
+        }
+      }
+    }
+  ],
+  "rejected_rows": [
+    {
+      "identity_key": "embassy hotel",
+      "canonical_name": "Embassy Hotel",
+      "host": "annarborembassyhotel.com",
+      "canonical_url": "https://www.annarborembassyhotel.com",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/embassy-hotel/attempt-01/policy-block.txt",
+      "block_sha256": "b3213dd429cc035f22db0aa28ca6810d679d301b6acc16860fb06ae0bd373119",
+      "block_text": "Not Pet Friendly",
+      "reader": {
+        "pets_allowed": false,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": false
+        },
+        "withheld": {},
+        "flags": []
+      },
+      "verdict_class": "VERIFIED_NO_PETS",
+      "gate_candidate": {
+        "identity_key": "embassy hotel",
+        "canonical_name": "Embassy Hotel",
+        "class": "VERIFIED_NO_PETS",
+        "canonical_url": "https://www.annarborembassyhotel.com",
+        "reading": {
+          "block_text": "Not Pet Friendly",
+          "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/embassy-hotel/attempt-01/policy-block.txt",
+          "block_sha256": "b3213dd429cc035f22db0aa28ca6810d679d301b6acc16860fb06ae0bd373119",
+          "document_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/embassy-hotel/attempt-01/policy-block.txt",
+          "document_sha256": "b3213dd429cc035f22db0aa28ca6810d679d301b6acc16860fb06ae0bd373119",
+          "brand_generic": false,
+          "pets_allowed": false
+        }
+      },
+      "gate_failures": [
+        "no affirmative property-specific refusal; SILENCE IS NEVER NO-PETS"
+      ]
+    },
+    {
+      "identity_key": "extended stay america select suites detroit farmington hills",
+      "canonical_name": "Extended Stay America Select Suites Detroit - Farmington Hills",
+      "host": "extendedstayamerica.com",
+      "canonical_url": "https://www.extendedstayamerica.com/hotels/mi/detroit/farmington-hills",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/extended-stay-america-select-suites-detroit-farmington-hills/attempt-01/policy-block.txt",
+      "block_sha256": "333f19086dfab659c2f0645248bcfc2bdac24f8cc344ea435d3b864e5f14f66d",
+      "block_text": "Is Extended Stay America Detroit - Farmington Hills pet friendly? Yes. Extended Stay America Detroit - Farmington Hills offers pet-friendly rooms, so you can bring your furry companion along for your stay. | Pet fees: Not to exceed a $25.00 per day cleaning fee plus tax, for the first six (6) nights, per pet. Each day thereafter there is a pet cleaning fee not to exceed a $15.00 per day plus tax, per pet.",
+      "reader": {
+        "pets_allowed": true,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": true
+        },
+        "withheld": {
+          "fee": "CEILING_IS_NOT_PRICE -- 'not to exceed a $25.00 per day cleaning fee' states a ceiling; per policy_reading._FEE_CAP_RE a ceiling is recorded as fee_cap and never as the price, and no price is stated anywhere on the surface",
+          "fee_basis": "BASIS_IS_PER_DAY -- the surface prices in DAYS ('per day') while bounding in NIGHTS ('the first six (6) nights'); converting days to nights is forbidden",
+          "fee_tax": "BAND_STATED_PLUS_TAX -- 'plus tax' on both rungs; per policy_reading._BAND_TAX_RE a tier carries no tax_relationship, so publishing the number would publish an amount the guest does not pay",
+          "species": "SOURCE_SILENT -- 'furry companion', no species named",
+          "weight_limit": "SOURCE_SILENT",
+          "pet_count_limit": "SOURCE_SILENT"
+        },
+        "flags": [
+          "CEILING_IS_NOT_PRICE",
+          "BASIS_PER_DAY_NOT_NIGHT",
+          "BAND_STATED_PLUS_TAX",
+          "ALLOWANCE_AFFIRMED_FEE_UNPUBLISHABLE"
+        ]
+      },
+      "verdict_class": "PET_FRIENDLY",
+      "gate_candidate": {
+        "identity_key": "extended stay america select suites detroit farmington hills",
+        "canonical_name": "Extended Stay America Select Suites Detroit - Farmington Hills",
+        "class": "PET_FRIENDLY",
+        "canonical_url": "https://www.extendedstayamerica.com/hotels/mi/detroit/farmington-hills",
+        "reading": {
+          "block_text": "Is Extended Stay America Detroit - Farmington Hills pet friendly? Yes. Extended Stay America Detroit - Farmington Hills offers pet-friendly rooms, so you can bring your furry companion along for your stay. | Pet fees: Not to exceed a $25.00 per day cleaning fee plus tax, for the first six (6) nights, per pet. Each day thereafter there is a pet cleaning fee not to exceed a $15.00 per day plus tax, per pet.",
+          "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/extended-stay-america-select-suites-detroit-farmington-hills/attempt-01/policy-block.txt",
+          "block_sha256": "333f19086dfab659c2f0645248bcfc2bdac24f8cc344ea435d3b864e5f14f66d",
+          "document_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/extended-stay-america-select-suites-detroit-farmington-hills/attempt-01/policy-block.txt",
+          "document_sha256": "333f19086dfab659c2f0645248bcfc2bdac24f8cc344ea435d3b864e5f14f66d",
+          "brand_generic": false,
+          "pets_allowed": true
+        }
+      },
+      "gate_failures": [
+        "no affirmative ORDINARY-pet evidence once service-animal clauses are removed"
+      ]
+    },
+    {
+      "identity_key": "hyatt house royal oak birmingham",
+      "canonical_name": "Hyatt House Royal Oak/Birmingham",
+      "host": "hyatt.com",
+      "canonical_url": "https://www.hyatt.com/hyatt-house/en-US/dtwxr-hyatt-house-royal-oak-birmingham",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/hyatt-house-royal-oak-birmingham/attempt-01/policy-block.txt",
+      "block_sha256": "23217eb264159fd134210bb4772a821b9305fd5c62473e3e060bbbad3e927e61",
+      "block_text": "We Are Pet Friendly. We are happy to welcome your traveling canine companions at our dog-friendly hotel. Your dog must be house trained and the weight limit is 25 pounds each. Pets are limited to two per room. Pets must be kept on-leash when entering public spaces and are not allowed in the breakfast and H Bar areas. For stays exceeding 30 nights, please contact the hotel. Pet Fees 1-6 nights: $100 / STAY 7-30 nights + additional cleaning fee: $200 / STAY Weight Limits Individual pet weight limit: 25 Pounds Maximum number of pets is 2.",
+      "reader": {
+        "pets_allowed": true,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": true,
+          "species": {
+            "dogs": "accepted"
+          },
+          "pet_count_limit": 2,
+          "pet_count_scope": "room",
+          "weight_limit": {
+            "value": 25,
+            "unit": "lb",
+            "operator": "lte",
+            "scope": "per_pet"
+          }
+        },
+        "withheld": {
+          "fee_tiers": "AMBIGUOUS_ROLE -- policy_reading._BAND_ADDITIVE_RE refuses this ladder: '7-30 nights + additional cleaning fee: $200 / STAY' is either the long-stay price or a separate charge and the page does not say which. The committed classifier names Hyatt Place as the case.",
+          "cats": "SOURCE_SILENT -- only canine companions are named",
+          "combined_weight_limit": "SOURCE_SILENT for this property"
+        },
+        "flags": [
+          "FEE_LADDER_AMBIGUOUS_ROLE",
+          "SPECIES_DOGS_ONLY_AFFIRMED"
+        ]
+      },
+      "verdict_class": "PET_FRIENDLY",
+      "gate_candidate": {
+        "identity_key": "hyatt house royal oak birmingham",
+        "canonical_name": "Hyatt House Royal Oak/Birmingham",
+        "class": "PET_FRIENDLY",
+        "canonical_url": "https://www.hyatt.com/hyatt-house/en-US/dtwxr-hyatt-house-royal-oak-birmingham",
+        "reading": {
+          "block_text": "We Are Pet Friendly. We are happy to welcome your traveling canine companions at our dog-friendly hotel. Your dog must be house trained and the weight limit is 25 pounds each. Pets are limited to two per room. Pets must be kept on-leash when entering public spaces and are not allowed in the breakfast and H Bar areas. For stays exceeding 30 nights, please contact the hotel. Pet Fees 1-6 nights: $100 / STAY 7-30 nights + additional cleaning fee: $200 / STAY Weight Limits Individual pet weight limit: 25 Pounds Maximum number of pets is 2.",
+          "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/hyatt-house-royal-oak-birmingham/attempt-01/policy-block.txt",
+          "block_sha256": "23217eb264159fd134210bb4772a821b9305fd5c62473e3e060bbbad3e927e61",
+          "document_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/hyatt-house-royal-oak-birmingham/attempt-01/policy-block.txt",
+          "document_sha256": "23217eb264159fd134210bb4772a821b9305fd5c62473e3e060bbbad3e927e61",
+          "brand_generic": false,
+          "pets_allowed": true
+        }
+      },
+      "gate_failures": [
+        "no affirmative ORDINARY-pet evidence once service-animal clauses are removed"
+      ]
+    },
+    {
+      "identity_key": "roost detroit",
+      "canonical_name": "Roost Detroit",
+      "host": "myroost.com",
+      "canonical_url": "https://www.myroost.com/extended-stay-hotel-detroit-michigan",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/roost-detroit/attempt-01/policy-block.txt",
+      "block_sha256": "39f444ea9a0454403a32545bb2a1e829c7752f3643855ef6e82e4016ee02ee64",
+      "block_text": "Is Roost pet friendly? We love pets! In the interest of security and safety for all our guests, we do not allow pets over 40 lbs. We only allow dogs. We charge a cleaning fee up to $350 per pet (depending on length of stay).",
+      "reader": {
+        "pets_allowed": true,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": true,
+          "species": {
+            "dogs": "accepted",
+            "cats": "not_accepted"
+          },
+          "weight_limit": {
+            "value": 40,
+            "unit": "lb",
+            "operator": "lte",
+            "scope": "per_pet"
+          }
+        },
+        "withheld": {
+          "fee": "CEILING_IS_NOT_PRICE and NO_BANDS -- 'a cleaning fee up to $350 per pet (depending on length of stay)' states a ceiling with no price and names no stay-length bands, so neither a fee nor a fee_cap can be bound. The committed rule is CEILING != PRICE.",
+          "pet_count_limit": "SOURCE_SILENT"
+        },
+        "flags": [
+          "CEILING_IS_NOT_PRICE",
+          "SPECIES_EXCLUSION_IS_AFFIRMATIVE_ONLY_DOGS",
+          "FAQ_IS_PROPERTY_PATHED_BUT_BRAND_VOICED",
+          "ALLOWANCE_AFFIRMED_FEE_UNPUBLISHABLE"
+        ]
+      },
+      "verdict_class": "PET_FRIENDLY",
+      "gate_candidate": {
+        "identity_key": "roost detroit",
+        "canonical_name": "Roost Detroit",
+        "class": "PET_FRIENDLY",
+        "canonical_url": "https://www.myroost.com/extended-stay-hotel-detroit-michigan",
+        "reading": {
+          "block_text": "Is Roost pet friendly? We love pets! In the interest of security and safety for all our guests, we do not allow pets over 40 lbs. We only allow dogs. We charge a cleaning fee up to $350 per pet (depending on length of stay).",
+          "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/roost-detroit/attempt-01/policy-block.txt",
+          "block_sha256": "39f444ea9a0454403a32545bb2a1e829c7752f3643855ef6e82e4016ee02ee64",
+          "document_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/roost-detroit/attempt-01/policy-block.txt",
+          "document_sha256": "39f444ea9a0454403a32545bb2a1e829c7752f3643855ef6e82e4016ee02ee64",
+          "brand_generic": false,
+          "pets_allowed": true
+        }
+      },
+      "gate_failures": [
+        "no affirmative ORDINARY-pet evidence once service-animal clauses are removed"
+      ]
+    },
+    {
+      "identity_key": "royal park hotel",
+      "canonical_name": "Royal Park Hotel",
+      "host": "royalparkhotelmi.com",
+      "canonical_url": "https://www.royalparkhotelmi.com/",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/royal-park-hotel/attempt-01/policy-block.txt",
+      "block_sha256": "bc355725de0664e69570cf14f0d602ca99a73bde8dd5c64a92e3172b01f387a9",
+      "block_text": "Pet-Friendly Hotel in Rochester Four-Legged Friends Welcome Royal Park Hotel invites you to bring along your canine companion for a playful dog day afternoon.",
+      "reader": {
+        "pets_allowed": true,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": true
+        },
+        "withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "flags": []
+      },
+      "verdict_class": "PET_FRIENDLY",
+      "gate_candidate": {
+        "identity_key": "royal park hotel",
+        "canonical_name": "Royal Park Hotel",
+        "class": "PET_FRIENDLY",
+        "canonical_url": "https://www.royalparkhotelmi.com/",
+        "reading": {
+          "block_text": "Pet-Friendly Hotel in Rochester Four-Legged Friends Welcome Royal Park Hotel invites you to bring along your canine companion for a playful dog day afternoon.",
+          "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/royal-park-hotel/attempt-01/policy-block.txt",
+          "block_sha256": "bc355725de0664e69570cf14f0d602ca99a73bde8dd5c64a92e3172b01f387a9",
+          "document_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/royal-park-hotel/attempt-01/policy-block.txt",
+          "document_sha256": "bc355725de0664e69570cf14f0d602ca99a73bde8dd5c64a92e3172b01f387a9",
+          "brand_generic": false,
+          "pets_allowed": true
+        }
+      },
+      "gate_failures": [
+        "no affirmative ORDINARY-pet evidence once service-animal clauses are removed"
+      ]
+    },
+    {
+      "identity_key": "saint john s resort",
+      "canonical_name": "Saint John's Resort",
+      "host": "saintjohnsresort.com",
+      "canonical_url": "https://www.saintjohnsresort.com/",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/saint-john-s-resort/attempt-01/policy-block.txt",
+      "block_sha256": "cfe1585e3117d1260893a47a5c4b564c9ee50d18c214c901f0b6d9a616c534e9",
+      "block_text": "Is the hotel dog-friendly? No, we are not a pet-friendly property. However, service animals are always welcome in accordance with ADA regulations.",
+      "reader": {
+        "pets_allowed": false,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": false,
+          "service_animal_exception": "However, service animals are always welcome in accordance with ADA regulations."
+        },
+        "withheld": {},
+        "flags": [
+          "AFFIRMATIVE_REFUSAL_NOT_SILENCE",
+          "SERVICE_ANIMALS_SEPARATE_LEGAL_CATEGORY"
+        ]
+      },
+      "verdict_class": "VERIFIED_NO_PETS",
+      "gate_candidate": {
+        "identity_key": "saint john s resort",
+        "canonical_name": "Saint John's Resort",
+        "class": "VERIFIED_NO_PETS",
+        "canonical_url": "https://www.saintjohnsresort.com/",
+        "reading": {
+          "block_text": "Is the hotel dog-friendly? No, we are not a pet-friendly property. However, service animals are always welcome in accordance with ADA regulations.",
+          "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/saint-john-s-resort/attempt-01/policy-block.txt",
+          "block_sha256": "cfe1585e3117d1260893a47a5c4b564c9ee50d18c214c901f0b6d9a616c534e9",
+          "document_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/saint-john-s-resort/attempt-01/policy-block.txt",
+          "document_sha256": "cfe1585e3117d1260893a47a5c4b564c9ee50d18c214c901f0b6d9a616c534e9",
+          "brand_generic": false,
+          "pets_allowed": false
+        }
+      },
+      "gate_failures": [
+        "no affirmative property-specific refusal; SILENCE IS NEVER NO-PETS"
+      ]
+    },
+    {
+      "identity_key": "shinola hotel",
+      "canonical_name": "Shinola Hotel",
+      "host": "shinolahotel.com",
+      "canonical_url": "https://www.shinolahotel.com",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/shinola-hotel/attempt-01/policy-block.txt",
+      "block_sha256": "7e81b23d489082df2d14d80c72f0badc45484d59843300161c5fa08369af0b47",
+      "block_text": "For your furry family members, we offer dog-friendly accommodations for up to two dogs with no weight or breed restrictions for a $125 + tax pet fee.",
+      "reader": {
+        "pets_allowed": true,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": true,
+          "pet_count_limit": 2
+        },
+        "withheld": {
+          "pet_fee": "SOURCE_AMBIGUOUS"
+        },
+        "flags": [
+          "FLAG_PET_AMOUNT_NOT_BOUND"
+        ]
+      },
+      "verdict_class": "PET_FRIENDLY",
+      "gate_candidate": {
+        "identity_key": "shinola hotel",
+        "canonical_name": "Shinola Hotel",
+        "class": "PET_FRIENDLY",
+        "canonical_url": "https://www.shinolahotel.com",
+        "reading": {
+          "block_text": "For your furry family members, we offer dog-friendly accommodations for up to two dogs with no weight or breed restrictions for a $125 + tax pet fee.",
+          "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/shinola-hotel/attempt-01/policy-block.txt",
+          "block_sha256": "7e81b23d489082df2d14d80c72f0badc45484d59843300161c5fa08369af0b47",
+          "document_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/shinola-hotel/attempt-01/policy-block.txt",
+          "document_sha256": "7e81b23d489082df2d14d80c72f0badc45484d59843300161c5fa08369af0b47",
+          "brand_generic": false,
+          "pets_allowed": true
+        }
+      },
+      "gate_failures": [
+        "no affirmative ORDINARY-pet evidence once service-animal clauses are removed"
+      ]
+    },
+    {
+      "identity_key": "the inn on ferry street",
+      "canonical_name": "The Inn on Ferry Street",
+      "host": "innonferrystreet.com",
+      "canonical_url": "https://www.innonferrystreet.com/",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/the-inn-on-ferry-street/attempt-01/policy-block.txt",
+      "block_sha256": "f607197a61ebde1fec1ce6c4bbc6eed14a94b9aca33f88e99f7f7391942c0ea2",
+      "block_text": "We are a pet-friendly hotel and welcome pets up to 75 lbs. for an additional fee of $50.",
+      "reader": {
+        "pets_allowed": true,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": true,
+          "pet_fee": 5000,
+          "fee_currency": "USD",
+          "weight_limit": {
+            "value": 75.0,
+            "unit": "lb"
+          }
+        },
+        "withheld": {
+          "fee_basis": "SOURCE_SILENT"
+        },
+        "flags": []
+      },
+      "verdict_class": "PET_FRIENDLY",
+      "gate_candidate": {
+        "identity_key": "the inn on ferry street",
+        "canonical_name": "The Inn on Ferry Street",
+        "class": "PET_FRIENDLY",
+        "canonical_url": "https://www.innonferrystreet.com/",
+        "reading": {
+          "block_text": "We are a pet-friendly hotel and welcome pets up to 75 lbs. for an additional fee of $50.",
+          "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/the-inn-on-ferry-street/attempt-01/policy-block.txt",
+          "block_sha256": "f607197a61ebde1fec1ce6c4bbc6eed14a94b9aca33f88e99f7f7391942c0ea2",
+          "document_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/the-inn-on-ferry-street/attempt-01/policy-block.txt",
+          "document_sha256": "f607197a61ebde1fec1ce6c4bbc6eed14a94b9aca33f88e99f7f7391942c0ea2",
+          "brand_generic": false,
+          "pets_allowed": true
+        }
+      },
+      "gate_failures": [
+        "no affirmative ORDINARY-pet evidence once service-animal clauses are removed"
+      ]
+    },
+    {
+      "identity_key": "the siren hotel",
+      "canonical_name": "The Siren Hotel",
+      "host": "ash.world",
+      "canonical_url": "https://ash.world/hotels/the-siren/",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/the-siren-hotel/attempt-01/policy-block.txt",
+      "block_sha256": "c3adfd5c42798304da2e422c9621b319de7e313ba24d4442c96fee50760dabb0",
+      "block_text": "Pet Friendly Hotel The Siren welcomes four-legged companions to stay alongside you in Downtown Detroit. Our pet-friendly hotel accommodations make it easy to explore the city with your dog, whether you're here for a weekend getaway, extended stay, or road trip through the Motor City.",
+      "reader": {
+        "pets_allowed": true,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": true
+        },
+        "withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "flags": []
+      },
+      "verdict_class": "PET_FRIENDLY",
+      "gate_candidate": {
+        "identity_key": "the siren hotel",
+        "canonical_name": "The Siren Hotel",
+        "class": "PET_FRIENDLY",
+        "canonical_url": "https://ash.world/hotels/the-siren/",
+        "reading": {
+          "block_text": "Pet Friendly Hotel The Siren welcomes four-legged companions to stay alongside you in Downtown Detroit. Our pet-friendly hotel accommodations make it easy to explore the city with your dog, whether you're here for a weekend getaway, extended stay, or road trip through the Motor City.",
+          "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/the-siren-hotel/attempt-01/policy-block.txt",
+          "block_sha256": "c3adfd5c42798304da2e422c9621b319de7e313ba24d4442c96fee50760dabb0",
+          "document_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/the-siren-hotel/attempt-01/policy-block.txt",
+          "document_sha256": "c3adfd5c42798304da2e422c9621b319de7e313ba24d4442c96fee50760dabb0",
+          "brand_generic": false,
+          "pets_allowed": true
+        }
+      },
+      "gate_failures": [
+        "no affirmative ORDINARY-pet evidence once service-animal clauses are removed"
+      ]
+    }
+  ]
+}

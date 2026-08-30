@@ -117,8 +117,10 @@ EXPECTED = {
     # ... then the FREE-ATTENDED-PASS-020 founder rulings published two
     # more at $0: Kensington (APPROVE_PARTIAL) and Embassy Suites Livonia
     # Novi, whose order-019 hold a zero-cost re-capture cleared.
-    DETROIT: {"census": 247, "published": 87, "no_pets": 72,
-              "out_of_category": 0, "unresolved": 88},
+    # ... then ATTENDED-COMPLETION-ADOPTION-022 applied the clean block of
+    # the adopted 45-row attended cohort: +20 published, +4 no-pets, $0.
+    DETROIT: {"census": 247, "published": 105, "no_pets": 77,
+              "out_of_category": 0, "unresolved": 65},
     INDIANAPOLIS: {"census": 153, "published": 8, "no_pets": 4,
                    "out_of_category": 0, "unresolved": 141},
 }
