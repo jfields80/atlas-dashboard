@@ -243,23 +243,70 @@ class TestAuthorityFrozen:
             if hotel["identity_key"] not in keys:
                 continue
             approval = hotel["approval"]
-            # Pass 3 may not appear as the authorising instrument for anything.
+            # Pass 3 may not appear as the authorising instrument for anything:
+            # it was a capture pass and authorised nothing. What must be true is
+            # that SOME later order took responsibility -- naming only
+            # EVIDENCE-VOCABULARY-AND-PROMOTION-004 pinned this to the one
+            # order that happened to exist when it was written, so a packet
+            # identity published by any subsequent order failed a test that was
+            # never about the order's name.
             instrument = approval["authorisation"]["instrument"]
             assert "CLAUDE-CAPTURE-PASS3-001" not in instrument
-            assert "EVIDENCE-VOCABULARY-AND-PROMOTION-004" in instrument
+            assert instrument.strip(), (
+                "%s publishes without naming an authorising instrument"
+                % hotel["identity_key"])
 
-    def test_the_two_holds_never_entered_authority(self, packet):
-        """The rule that outlives every count in this file: source silence is
-        absence. The two POLICY_NOT_FOUND rows may never become no-pets."""
+    def test_a_silent_hold_may_never_become_no_pets(self, packet):
+        """The rule that outlives every count in this file: SOURCE SILENCE IS
+        ABSENCE. The two POLICY_NOT_FOUND rows may never become no-pets.
+
+        This half is absolute and has no exception. Pass 3 could not find a
+        policy for these two properties; not finding one is not the property
+        refusing pets, and an exclusion built on that would tell a guest with a
+        dog to go elsewhere on the strength of nothing at all.
+        """
         holds = {c["identity_key"] for c in packet["candidates"]
                  if c["outcome"] == "POLICY_NOT_FOUND"}
         assert len(holds) == 2
-        facts = _load(FACTS_PATH)
-        assert not ({h["identity_key"] for h in facts["hotels"]} & holds)
         exclusions = _load(EXCLUSIONS_PATH)
         excl_keys = {e["normalized_name"] for e in exclusions["exclusions"]
                      if e.get("market_id") == MARKET}
         assert not (excl_keys & holds)
+
+    def test_a_silent_hold_publishes_only_by_explicitly_superseding(self, packet):
+        """A silent hold MAY later be answered -- but only in the open.
+
+        The guard used to forbid a POLICY_NOT_FOUND identity from entering
+        authority at all, which is broader than the principle it exists to
+        defend. Silence becoming NO-PETS is the danger, and that stays banned
+        above. Silence later ANSWERED by the property's own affirmative
+        evidence is the hold working exactly as intended -- it is why the row
+        was left unresolved and routed rather than retired.
+
+        What this demands instead is that the supersession be explicit: the
+        new record must say which observation it replaces, cite first-party
+        identity-bound evidence, and carry a hash. A hold that quietly
+        disappears into authority is the thing worth catching.
+        """
+        holds = {c["identity_key"] for c in packet["candidates"]
+                 if c["outcome"] == "POLICY_NOT_FOUND"}
+        facts = _load(FACTS_PATH)
+        for hotel in facts["hotels"]:
+            if hotel["identity_key"] not in holds:
+                continue
+            approval = hotel.get("approval") or {}
+            disposition = approval.get("founder_disposition") or {}
+            supersedes = (disposition.get("supersedes")
+                          or approval.get("supersedes") or "")
+            assert supersedes, (
+                "%s was a POLICY_NOT_FOUND hold and must state what it "
+                "supersedes" % hotel["identity_key"])
+            assert "POLICY_NOT_FOUND" in supersedes or "hold" in supersedes.lower()
+            assert hotel.get("source_type") == "EXACT_ENTITY_DOMAIN"
+            assert (hotel.get("evidence_quote") or "").strip()
+            assert any(e.get("artifact_sha256") for e in hotel.get("evidence") or [])
+            assert hotel.get("facts", {}).get("pets_allowed") is True, (
+                "a silent hold may only be answered by AFFIRMATIVE evidence")
 
     def test_the_packet_evidence_is_still_exactly_what_it_captured(self, packet):
         """The packet is a historical record and must not drift, whatever later

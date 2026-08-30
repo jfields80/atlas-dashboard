@@ -94,6 +94,55 @@ AFFIRMATIVE_PET_RES = (
     re.compile(r"\bpets?\s+(?:per\s+)?(?:night|stay)\s*[:\-]?\s*\$?\s*\d", re.I),
 )
 
+#: ADJECTIVAL and VERB-FIRST acceptance -- how an independent hotel usually
+#: says it. "We are a pet-friendly hotel", "dog-friendly accommodations", "we
+#: welcome pets", "we love pets". The original set was tuned on brand pages
+#: that write "Pets Allowed" and could see none of these forms, so seven
+#: Detroit properties stating fees, weights and counts read as no evidence.
+#:
+#: THEY ARE DELIBERATELY NOT SUFFICIENT ALONE. "Four-Legged Friends Welcome"
+#: over a photograph is marketing, not a policy, and this market has already
+#: held a property (Kensington) on exactly that ground. A soft affirmative
+#: counts only when the page also states an OPERATIONAL TERM below.
+AFFIRMATIVE_PET_SOFT_RES = (
+    re.compile(r"\b(?:pet|dog|cat|canine)[\s-]friendly\b", re.I),
+    re.compile(r"\bwe\s+(?:are\s+)?(?:happy\s+to\s+)?(?:love|welcome)\s+"
+               r"(?:your\s+)?(?:pets?|dogs?|cats?|furry|four[\s-]legged)", re.I),
+    re.compile(r"\bwelcome[sd]?\s+(?:your\s+)?(?:pets?|dogs?|cats?)\b", re.I),
+    re.compile(r"\b(?:four[\s-]legged|furry)\s+(?:friends?|companions?|"
+               r"family\s+members?)\b", re.I),
+    re.compile(r"\bbring\s+(?:your|along)\b.{0,40}?"
+               r"\b(?:pets?|dogs?|cats?|canine)", re.I | re.S),
+)
+
+#: An OPERATIONAL TERM: something a hotel writes only once it has actually
+#: decided to accept pets and needs to govern them. One of these alongside a
+#: soft affirmative is what separates a policy from a slogan.
+OPERATIONAL_TERM_RES = (
+    re.compile(r"\$\s*\d", re.I),
+    re.compile(r"\b\d+\s*(?:lbs?|pounds?|kg)\b", re.I),
+    re.compile(r"\bweight\s+limit\b", re.I),
+    re.compile(r"\b(?:pet|cleaning)\s+(?:fee|deposit|charge)\b", re.I),
+    re.compile(r"\b(?:up\s+to|maximum|max)\s+(?:\w+\s+){0,2}?"
+               r"(?:pets?|dogs?|cats?)\b", re.I),
+    re.compile(r"\b(?:pets?|dogs?|cats?)\s+(?:are\s+)?limited\s+to\b", re.I),
+    re.compile(r"\bwe\s+only\s+allow\s+(?:dogs?|cats?)\b", re.I),
+    re.compile(r"\b(?:house\s?broken|housetrained|house\s?trained|on[\s-]leash|"
+               r"crate|kennel)\b", re.I),
+    re.compile(r"\bbreed\s+restrictions?\b", re.I),
+)
+
+#: A NEGATED acceptance phrase. Its matches are REMOVED from the text before
+#: any affirmative test runs, so "we are not a pet-friendly property" can never
+#: satisfy a pattern that is merely hunting the token "pet-friendly". Getting
+#: this backwards is not a near miss: it publishes a hotel that refuses pets as
+#: one that takes them.
+NEGATED_ACCEPTANCE_RE = re.compile(
+    r"\b(?:not|non|never|aren't|isn't|do\s+not|does\s+not|don't|doesn't|"
+    r"cannot|can't|no)\b[\s\w,'-]{0,24}?"
+    r"\b(?:pet|dog|cat|canine)[\s-]friendly\b", re.I)
+
+
 #: An affirmative refusal, again in the property's own words.
 REFUSAL_RES = (
     re.compile(r"\bno\s+other\s+pets?\s+(?:are\s+)?(?:allowed|permitted)", re.I),
@@ -102,6 +151,17 @@ REFUSAL_RES = (
     re.compile(r"\bpets?\s+allowed\s*[:\-]?\s*no\b", re.I),
     re.compile(r"\bonly\s+service\s+animals?\s+(?:are\s+)?(?:permitted|allowed)", re.I),
     re.compile(r"\bsorry,?\s+no(?:t)?\s+other\s+pets?", re.I),
+    # Explicit NEGATED acceptance. A property answering "Is the hotel
+    # dog-friendly?" with "No, we are not a pet-friendly property" has refused
+    # in its own words as plainly as one writing "no pets allowed". The
+    # original set could see neither this nor a bare "Not Pet Friendly".
+    re.compile(r"\b(?:not|non)[\s-]?(?:a\s+|an\s+)?"
+               r"(?:pet|dog|cat|canine)[\s-]friendly\b", re.I),
+    re.compile(r"\b(?:pets?|dogs?|cats?)\s+(?:are\s+)?not\s+"
+               r"(?:accepted|welcome)\b", re.I),
+    re.compile(r"\bthis\s+(?:location|hotel|property)\s+does\s+not\s+"
+               r"(?:accept|allow)\s+pets?\b", re.I),
+    re.compile(r"\bno\s+pets?\s+zone\b", re.I),
 )
 
 #: Service-animal language, which is never on its own a pet policy.
@@ -120,6 +180,67 @@ def write_lf(path: Path, doc) -> None:
 
 def sha256_file(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+#: An interrogative clause. FAQ surfaces open with the question itself -- "Are
+#: pets allowed at ...?" -- and the substring "pets allowed" sitting inside it
+#: is not the hotel answering. This market has already held a property whose
+#: ONLY captured evidence was that question, on the founder's own words: a
+#: question is not an answer. Questions are removed before affirmative
+#: matching; the ANSWER that follows them is what is read.
+INTERROGATIVE_RE = re.compile(r"[^.!?|]*\?", re.S)
+
+
+def strip_interrogatives(text: str) -> str:
+    """The text with question clauses removed, leaving any answer behind."""
+    return INTERROGATIVE_RE.sub(" ", text or "")
+
+
+def neutralize_negated_acceptance(text: str) -> str:
+    """The text with NEGATED acceptance phrases removed.
+
+    Run before any affirmative test. "We are not a pet-friendly property"
+    contains the token "pet-friendly", and an affirmative pattern hunting that
+    token would otherwise publish a refusal as an acceptance.
+    """
+    return NEGATED_ACCEPTANCE_RE.sub(" ", text or "")
+
+
+def has_refusal(block: str) -> bool:
+    """An affirmative, property-specific refusal of ORDINARY pets."""
+    return any(p.search(block or "") for p in REFUSAL_RES)
+
+
+def has_affirmative_pets(block: str) -> Tuple[bool, str]:
+    """(affirmative, grade) for ORDINARY pets, refusal taking precedence.
+
+    THE ORDER IS THE WHOLE POINT:
+
+      1. service-animal clauses are stripped -- an ordinary-pet claim must
+         survive without them;
+      2. a REFUSAL anywhere short-circuits to False. A page that refuses pets
+         is not made pet-friendly by also using a welcoming word;
+      3. NEGATED acceptance is deleted, so no affirmative pattern can match
+         inside "not pet-friendly";
+      4. a STRONG affirmative stands alone;
+      5. a SOFT affirmative -- adjectival or verb-first -- counts only with an
+         OPERATIONAL TERM beside it, so marketing prose stays marketing prose.
+    """
+    ordinary = strip_service_animal_clauses(block or "")
+    if has_refusal(ordinary):
+        return (False, "REFUSED")
+    ordinary = neutralize_negated_acceptance(ordinary)
+    ordinary = strip_interrogatives(ordinary)
+    if not ordinary.strip():
+        return (False, "QUESTION_ONLY")
+    if any(p.search(ordinary) for p in AFFIRMATIVE_PET_RES):
+        return (True, "STRONG")
+    soft = any(p.search(ordinary) for p in AFFIRMATIVE_PET_SOFT_RES)
+    if not soft:
+        return (False, "NONE")
+    if any(p.search(ordinary) for p in OPERATIONAL_TERM_RES):
+        return (True, "SOFT_WITH_TERMS")
+    return (False, "MARKETING_ONLY")
 
 
 def strip_service_animal_clauses(text: str) -> str:
@@ -213,12 +334,18 @@ def gate(candidate: Dict, census: Dict, routes: Dict) -> Tuple[bool, List[str]]:
     if verdict == PET_FRIENDLY:
         if pets_allowed is not True:
             failures.append("pets_allowed is not affirmatively true")
-        ordinary = strip_service_animal_clauses(block)
-        if not any(pattern.search(ordinary) for pattern in AFFIRMATIVE_PET_RES):
-            failures.append("no affirmative ORDINARY-pet evidence once "
-                            "service-animal clauses are removed")
-        if any(pattern.search(ordinary) for pattern in REFUSAL_RES):
-            failures.append("the block also carries a refusal; contradictory")
+        affirmative, grade = has_affirmative_pets(block)
+        if not affirmative:
+            if grade == "MARKETING_ONLY":
+                failures.append("welcoming MARKETING prose with no operational "
+                                "term (no fee, weight, count, species or "
+                                "acceptance rule); a slogan is not a policy")
+            elif grade == "REFUSED":
+                failures.append("the block also carries a refusal; "
+                                "contradictory")
+            else:
+                failures.append("no affirmative ORDINARY-pet evidence once "
+                                "service-animal clauses are removed")
         # A published hotel has to RENDER. Listing readiness treats a missing
         # street address as a missing REQUIRED field, so a record without one
         # is NOT_READY and takes the whole site build down with it -- the

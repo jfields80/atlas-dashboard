@@ -76,12 +76,40 @@ class TestSourceIdentity:
         assert r["source_type"] == "OFFICIAL_PROPERTY"
 
     def test_no_legacy_es_suites_url_remains_in_any_tracked_artifact(self):
-        """The alias must not survive anywhere a citation could be read from."""
+        """THIS PROPERTY'S legacy alias must not survive anywhere a citation
+        could be read from.
+
+        The check used to be the bare substring "sonesta-es-suites", which was
+        safe only for as long as this was the only ES Suites property in the
+        product. It is not any more: Detroit has a legitimate Sonesta ES Suites
+        Auburn Hills whose CURRENT first-party page genuinely lives on an
+        /sonesta-es-suites/ path. A guard that fires on a real property's real
+        URL stops protecting anything and starts blocking correct work, so it
+        is bound to the one legacy URL it was written for.
+        """
         for rel in ("launch_packages/pettripfinder/seed_businesses.csv",
                     "launch_packages/pettripfinder/hotel_policy_facts.json",
                     "launch_packages/pettripfinder/hotel_worker_approvals.json"):
             text = (_REPO / rel).read_text(encoding="utf-8-sig")
-            assert "sonesta-es-suites" not in text, rel
+            assert LEGACY_ES_URL not in text, rel
+            # The Dublin/Columbus property specifically must never be cited on
+            # an ES-Suites path under any spelling.
+            assert "sonesta-es-suites-dublin-columbus" not in text, rel
+
+    def test_the_legacy_guard_does_not_block_other_markets_es_suites(self):
+        """A different ES Suites property is not this property's legacy alias.
+
+        Detroit's Sonesta ES Suites Auburn Hills is a real hotel on a real
+        first-party page. Nothing about the Dublin correction says anything
+        about it, and the guard must not treat a shared brand slug as a
+        forbidden citation.
+        """
+        detroit_url = ("https://www.sonesta.com/sonesta-es-suites/mi/"
+                       "auburn-hills/sonesta-es-suites-auburn-hills-detroit")
+        assert LEGACY_ES_URL not in detroit_url
+        assert "sonesta-es-suites-dublin-columbus" not in detroit_url
+        # ... and the legacy alias is still caught wherever it appears.
+        assert LEGACY_ES_URL in ("%s and more" % LEGACY_ES_URL)
 
     def test_the_separate_sonesta_property_is_untouched(self):
         """Sonesta Columbus Downtown is a different hotel on a different URL
