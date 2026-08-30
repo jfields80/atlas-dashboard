@@ -101,7 +101,13 @@ def test_the_partition_still_reconciles_to_the_census(package):
     """
     partition = _load(PARTITION)
     counts = partition["final_state_counts"]
-    assert sum(counts.values()) == 256 == len(partition["items"])
+    # 256 -> 257 at PTF-CINCINNATI-MAINSTAY-CENSUS-SPLIT-013, the first order in this lineage to change the census
+    # size: one conflated identity was replaced by the two hotels it denoted.
+    # The invariant is that the partition matches the census, not that either
+    # is a particular number.
+    census = _load(PKG / "identity_census" / "cincinnati-oh.json")
+    assert sum(counts.values()) == len(partition["items"]) == \
+        len(census["hotels"]) == 257
     keys = [i["identity_key"] for i in partition["items"]]
     assert len(set(keys)) == len(keys)
     assert counts["OUT_OF_CURRENT_CATEGORY"] == 6

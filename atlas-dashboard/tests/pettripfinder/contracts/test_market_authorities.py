@@ -82,8 +82,13 @@ EXPECTED = {
     # which applied the zero-cost independent probes: a clean block of 1 + 7
     # plus four Drury properties and three partial approvals the founder ruled
     # individually. 256 = 99 + 47 + 6 + 104.
-    CINCINNATI: {"census": 256, "published": 99, "no_pets": 47,
-                 "out_of_category": 6, "unresolved": 104},
+    # 256/99/47/104 -> 257/99/49/103 at
+    # PTF-CINCINNATI-MAINSTAY-CENSUS-SPLIT-013. The census GREW, which no
+    # earlier Cincinnati order did: one conflated identity was replaced by the
+    # two real hotels it denoted, and each brought its own refusal.
+    # 257 = 99 + 49 + 6 + 103.
+    CINCINNATI: {"census": 257, "published": 99, "no_pets": 49,
+                 "out_of_category": 6, "unresolved": 103},
     PITTSBURGH: {"census": 96, "published": 26, "no_pets": 4,
                  "out_of_category": 3, "unresolved": 63},
     DETROIT: {"census": 143, "published": 0, "no_pets": 0,
@@ -353,9 +358,9 @@ class TestTerminalDispositionsMatchAuthority:
         doc = partition_doc(CINCINNATI)
         states = collections.Counter(i["final_state"] for i in doc["items"])
         assert states[enums.PUBLISHED_PET_FRIENDLY] == 99
-        assert states[enums.VERIFIED_NO_PETS] == 47
+        assert states[enums.VERIFIED_NO_PETS] == 49
         assert states[enums.OUT_OF_CURRENT_CATEGORY] == 6
-        assert len(doc["items"]) == 256
+        assert len(doc["items"]) == 257
 
         # The refusals are exactly the founder-approved exclusion records --
         # never a partition state invented beside them.

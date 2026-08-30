@@ -6,7 +6,7 @@
  "source_batches": [
   "cincinnati-url-routing-recovery-001c"
  ],
- "count": 79,
+ "count": 80,
  "routes": [
   {
    "routing_id": "route-cincinnati-oh-ac-hotel-by-marriott-cincinnati-at-the-banks",
@@ -582,44 +582,6 @@
    "verified_at": "2026-08-17",
    "status": "ROUTING_CONFIRMED",
    "notes": "street+ZIP+phone agree; shares address_key 210|45202 with Symphony Hotel & Restaurant (different street name, same house number) -- disambiguated by distinctive name tokens",
-   "category": "accommodation"
-  },
-  {
-   "routing_id": "route-cincinnati-oh-comfort-suites-mainstay-hotel",
-   "schema_version": "1.0.0",
-   "hotel_ref": {
-    "market_id": "cincinnati-oh",
-    "canonical_name": "Comfort Suites Mainstay Hotel",
-    "normalized_name": "comfort suites mainstay hotel",
-    "identity_key": "comfort suites mainstay hotel"
-   },
-   "market_id": "cincinnati-oh",
-   "official_property_url": "https://www.choicehotels.com/ohio/cincinnati/mainstay-hotels/oh721",
-   "official_domain": "choicehotels.com",
-   "property_code": "oh721",
-   "brand": "CHOICE",
-   "binding_method": "BRAND_INDEX_BINDING",
-   "binding_sources": [
-    "BRAND_PROPERTY_PAGE"
-   ],
-   "identity_signals_matched": [
-    "binding:street_number",
-    "binding:street_name",
-    "binding:city",
-    "binding:state",
-    "binding:property_code"
-   ],
-   "identity_context": {
-    "address": "2347 Reading Rd.",
-    "city": "Cincinnati",
-    "state": "OH",
-    "postal_code": "45219",
-    "phone": "5133946073"
-   },
-   "observed_at": "2026-08-17",
-   "verified_at": "2026-08-31",
-   "status": "ROUTING_CONFIRMED",
-   "notes": "PTF-CINCINNATI-MAINSTAY-IDENTITY-012: IDENTITY CONFLATION. Choice's own listing shows TWO properties at 2347 Reading Road -- oh720 Comfort Suites Cincinnati University - Downtown in Building A ((513) 743-7508) and oh721 MainStay Suites Cincinnati University - Uptown in Building B ((513) 202-3971). This census row's name pairs both Choice brands and its phone (513) 394-6073 matches neither, while its postal code 45219 matches neither page (both state 45202). The route points at oh721 only, so it binds ONE of the two hotels this identity denotes. identity_signals_matched previously claimed binding:postal_code and binding:phone; neither holds and both are removed. The route stays ACTIVE because the row is unresolved and still needs working. Resolution requires splitting the census row into oh720 and oh721, which is a census-add order and is NOT done here.",
    "category": "accommodation"
   },
   {
@@ -3006,6 +2968,86 @@
    "verified_at": "2026-08-17",
    "status": "ROUTING_CONFIRMED",
    "notes": "street+ZIP+phone agree",
+   "category": "accommodation"
+  },
+  {
+   "routing_id": "route-cincinnati-oh-comfort-suites-cincinnati-university-downtown",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "cincinnati-oh",
+    "canonical_name": "Comfort Suites Cincinnati University - Downtown",
+    "normalized_name": "comfort suites cincinnati university downtown",
+    "identity_key": "comfort suites cincinnati university downtown"
+   },
+   "market_id": "cincinnati-oh",
+   "official_property_url": "https://www.choicehotels.com/ohio/cincinnati/comfort-suites-hotels/oh720",
+   "official_domain": "choicehotels.com",
+   "property_code": "oh720",
+   "brand": "CHOICE",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "BRAND_PROPERTY_PAGE"
+   ],
+   "identity_signals_matched": [
+    "binding:street",
+    "binding:building",
+    "binding:postal_code",
+    "binding:phone",
+    "binding:property_code",
+    "binding:city",
+    "binding:state"
+   ],
+   "identity_context": {
+    "address": "2347 Reading Road, Building A",
+    "city": "Cincinnati",
+    "state": "OH",
+    "postal_code": "45202",
+    "phone": "5137437508"
+   },
+   "observed_at": "2026-08-31",
+   "verified_at": "2026-08-31",
+   "status": "ROUTING_CONFIRMED",
+   "notes": "PTF-CINCINNATI-MAINSTAY-CENSUS-SPLIT-013: created by the census split of 'Comfort Suites Mainstay Hotel'. This route binds ONE property -- oh720 in Building A -- and shares no URL, phone or evidence with its sibling mainstay suites cincinnati university uptown. Every signal here was read from this property's own page; the retired route claimed postal_code and phone against a census row that matched neither hotel.",
+   "category": "accommodation"
+  },
+  {
+   "routing_id": "route-cincinnati-oh-mainstay-suites-cincinnati-university-uptown",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "cincinnati-oh",
+    "canonical_name": "MainStay Suites Cincinnati University - Uptown",
+    "normalized_name": "mainstay suites cincinnati university uptown",
+    "identity_key": "mainstay suites cincinnati university uptown"
+   },
+   "market_id": "cincinnati-oh",
+   "official_property_url": "https://www.choicehotels.com/ohio/cincinnati/mainstay-hotels/oh721",
+   "official_domain": "choicehotels.com",
+   "property_code": "oh721",
+   "brand": "CHOICE",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "BRAND_PROPERTY_PAGE"
+   ],
+   "identity_signals_matched": [
+    "binding:street",
+    "binding:building",
+    "binding:postal_code",
+    "binding:phone",
+    "binding:property_code",
+    "binding:city",
+    "binding:state"
+   ],
+   "identity_context": {
+    "address": "2347 Reading Road, Building B",
+    "city": "Cincinnati",
+    "state": "OH",
+    "postal_code": "45202",
+    "phone": "5132023971"
+   },
+   "observed_at": "2026-08-31",
+   "verified_at": "2026-08-31",
+   "status": "ROUTING_CONFIRMED",
+   "notes": "PTF-CINCINNATI-MAINSTAY-CENSUS-SPLIT-013: created by the census split of 'Comfort Suites Mainstay Hotel'. This route binds ONE property -- oh721 in Building B -- and shares no URL, phone or evidence with its sibling comfort suites cincinnati university downtown. Every signal here was read from this property's own page; the retired route claimed postal_code and phone against a census row that matched neither hotel.",
    "category": "accommodation"
   }
  ]

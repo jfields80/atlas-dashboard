@@ -271,24 +271,20 @@ def test_the_package_still_validates(package):
 
 def test_no_count_moved(package):
     assert len(package["hotels"]) == 99
+    # The rebind moved no count, which is what this test is about. The market
+    # totals have since moved for an unrelated reason -- PTF-CINCINNATI-MAINSTAY-CENSUS-SPLIT-013 split one identity
+    # into two -- so what is pinned is the package this order touched.
     counts = _load(PARTITION)["final_state_counts"]
-    assert counts["PUBLISHED_PET_FRIENDLY"] == 99
-    assert counts["VERIFIED_NO_PETS"] == 47
+    assert counts["PUBLISHED_PET_FRIENDLY"] == 99 == len(package["hotels"])
     assert counts["OUT_OF_CURRENT_CATEGORY"] == 6
-    assert sum(counts.values()) == 256
-    resolved = sum(counts[s] for s in ("PUBLISHED_PET_FRIENDLY",
-                                       "VERIFIED_NO_PETS",
-                                       "OUT_OF_CURRENT_CATEGORY"))
-    assert resolved == 152
-    assert sum(counts.values()) - resolved == 104
 
 
 def test_the_shards_were_not_rebuilt():
     """Only the package hash moved, so only the contract pin needed to."""
-    assert _load(AUTH / "identity_routing.json")["count"] == 79
+    assert _load(AUTH / "identity_routing.json")["count"] == 80
     exclusions = _load(AUTH / "hotel_exclusions.json")["exclusions"]
     assert sum(1 for e in exclusions
-               if e["exclusion_state"] == "VERIFIED_NO_PETS") == 47
+               if e["exclusion_state"] == "VERIFIED_NO_PETS") == 49
 
 
 def test_the_contract_agrees_and_says_why_its_pin_moved():
@@ -298,7 +294,7 @@ def test_the_contract_agrees_and_says_why_its_pin_moved():
     assert contract["policy_package"]["expected_record_count"] == 99
     assert "REBIND-011" in contract["policy_package"]["rebind_note"]
     assert contract["reconciliation"]["published_pet_friendly"] == 99
-    assert contract["reconciliation"]["unresolved"] == 104
+    assert contract["reconciliation"]["unresolved"] == 103
 
 
 def test_this_order_cost_nothing(report):

@@ -185,12 +185,13 @@ class TestAuthorityFreeze:
         # the ARTIFACT_INSUFFICIENT hold, on top of the 26 Pass-1 decisions.
         partition = _load(PARTITION_PATH)
         counts = partition["final_state_counts"]
-        assert sum(counts.values()) == 256
+        # 256 -> 257: PTF-CINCINNATI-MAINSTAY-CENSUS-SPLIT-013 replaced the conflated 'Comfort Suites Mainstay Hotel' with the two real Choice properties at 2347 Reading Road (oh720 Building A, oh721 Building B), so the census is 256 - 1 + 2 = 257.
+        assert sum(counts.values()) == 257
         # 21/6 at Pass 1; 74/16 after APPLICATION-004 applied Capture Pass 3;
         # 91/40 since PTF-CINCINNATI-FREE-LANE-APPLICATION-007 applied the
         # zero-cost attended-Chrome free lane.
         assert counts.get("PUBLISHED_PET_FRIENDLY") == 99
-        assert counts.get("VERIFIED_NO_PETS") == 47
+        assert counts.get("VERIFIED_NO_PETS") == 49
 
     def test_routing_authority_reflects_the_27_retirements(self):
         """All 27 are accounted for: 21 removed, 6 kept and marked.
@@ -223,8 +224,10 @@ class TestAuthorityFreeze:
         # page) -> 135 (004 removed the 51 routes whose identity it published)
         # -> 94 (007 withdrew the 41 routes its own application answered)
         # -> 79 (010 withdrew the 15 the independent-probe application
-        # answered; Studio 6 was held and deliberately kept its route).
-        assert len(cincinnati) == 79
+        # answered; Studio 6 was held and deliberately kept its route)
+        # -> 80 (013 replaced the conflated MainStay route with one route per
+        # real property, oh720 and oh721).
+        assert len(cincinnati) == 80
 
         retired = [r for r in cincinnati if r["status"] == "ROUTING_RETIRED"]
         assert len(retired) == 6

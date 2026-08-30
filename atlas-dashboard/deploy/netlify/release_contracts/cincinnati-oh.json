@@ -19,17 +19,18 @@
  "identity_census": {
   "path": "launch_packages/pettripfinder/identity_census/cincinnati-oh.json",
   "schema": "ptf-market-identity-census/1.1",
-  "expected_count": 256,
-  "note": "The committed census is the Cincinnati Tri-State identity universe (OH/KY/IN). 74 founder-approved pet-friendly profiles and 16 verified-no-pets exclusions are published; 6 identities are ruled out of the current lodging category; 160 remain unresolved."
+  "expected_count": 257,
+  "note": "The committed census is the Cincinnati Tri-State identity universe (OH/KY/IN). 74 founder-approved pet-friendly profiles and 16 verified-no-pets exclusions are published; 6 identities are ruled out of the current lodging category; 160 remain unresolved.",
+  "split_note": "256 - 1 conflated legacy identity + 2 real identities = 257. The census carries no retired state and partition.reconcile requires its keys to equal the partition's, so the superseded row was removed rather than flagged; its lineage lives on both successors as prior_identity_key and a split block, and the row itself is preserved verbatim in the split ledger."
  },
  "reconciliation": {
-  "confirmed_identities": 256,
+  "confirmed_identities": 257,
   "published_pet_friendly": 99,
-  "verified_no_pets": 47,
+  "verified_no_pets": 49,
   "out_of_current_category": 6,
-  "resolved": 152,
-  "unresolved": 104,
-  "note": "Counts are derived from the committed policy package and exclusion registry via derive_authority(); unresolved is not negative pet evidence. 256 = 99 + 47 + 6 + 104."
+  "resolved": 154,
+  "unresolved": 103,
+  "note": "Counts are derived from the committed policy package and exclusion registry via derive_authority(); unresolved is not negative pet evidence. 257 = 99 + 49 + 6 + 103. The census grew from 256 to 257 at PTF-CINCINNATI-MAINSTAY-CENSUS-SPLIT-013, which replaced the conflated identity 'Comfort Suites Mainstay Hotel' with the two real Choice properties at 2347 Reading Road -- oh720 in Building A and oh721 in Building B. Unresolved is derived as census minus resolved, never carried forward."
  },
  "reconciliation_cross_checks": [],
  "policy_package": {

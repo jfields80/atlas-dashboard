@@ -75,27 +75,32 @@ def test_this_order_published_eight_and_refused_seven(package, applied,
                                                       exclusions):
     assert len(applied) == 8            # 1 clean + 7 publishing rulings
     assert len(package["hotels"]) == 99
-    fresh = [e for e in exclusions if e.get("reviewed_at") == APPLIED_ON]
+    # Scoped by WORK ORDER, not by date: PTF-CINCINNATI-MAINSTAY-CENSUS-
+    # SPLIT-013 registered two more refusals on the same day, and a date is
+    # not an identifier.
+    fresh = [e for e in exclusions if A.WORK_ORDER in e.get("notes", "")]
     assert len(fresh) == 7
     assert all(e["exclusion_state"] == "VERIFIED_NO_PETS" for e in fresh)
     assert sum(1 for e in exclusions
-               if e["exclusion_state"] == "VERIFIED_NO_PETS") == 47
+               if e["exclusion_state"] == "VERIFIED_NO_PETS") == 49
 
 
 def test_the_partition_reconciles(package):
     partition = _load(PARTITION)
     counts = partition["final_state_counts"]
-    assert sum(counts.values()) == 256 == len(partition["items"])
+    assert sum(counts.values()) == 257 == len(partition["items"])
     keys = [i["identity_key"] for i in partition["items"]]
     assert len(set(keys)) == len(keys)
     assert counts["PUBLISHED_PET_FRIENDLY"] == 99 == len(package["hotels"])
-    assert counts["VERIFIED_NO_PETS"] == 47
+    # 47 -> 49 and 152/104 -> 154/103 at PTF-CINCINNATI-MAINSTAY-CENSUS-SPLIT-013, which registered a refusal for
+    # each of the two hotels the conflated MainStay row denoted.
+    assert counts["VERIFIED_NO_PETS"] == 49
     assert counts["OUT_OF_CURRENT_CATEGORY"] == 6
     resolved = sum(counts[s] for s in ("PUBLISHED_PET_FRIENDLY",
                                        "VERIFIED_NO_PETS",
                                        "OUT_OF_CURRENT_CATEGORY"))
-    assert resolved == 152
-    assert sum(counts.values()) - resolved == 104
+    assert resolved == 154
+    assert sum(counts.values()) - resolved == 103
 
 
 def test_nothing_is_both_published_and_refused(package, exclusions):
@@ -288,7 +293,7 @@ def test_great_wolf_was_registered_on_its_own_prose(exclusions):
 
 
 def test_no_refusal_rests_on_silence(exclusions):
-    fresh = [e for e in exclusions if e.get("reviewed_at") == APPLIED_ON]
+    fresh = [e for e in exclusions if A.WORK_ORDER in e.get("notes", "")]
     for record in fresh:
         assert record["evidence_quote"], record["normalized_name"]
         assert record["source_hash"].startswith("sha256:")
@@ -331,9 +336,11 @@ def test_the_withdrawals_match_what_entered_authority(package, exclusions):
     entered = ({h["identity_key"] for h in package["hotels"]
                 if h["approval"]["approval_date"] == APPLIED_ON}
                | {e["normalized_name"] for e in exclusions
-                  if e.get("reviewed_at") == APPLIED_ON})
+                  if A.WORK_ORDER in e.get("notes", "")})
     assert removed == entered
-    assert _load(AUTH / "identity_routing.json")["count"] == 79
+    # 79 after this order; 80 once SPLIT-013 replaced one conflated route
+    # with one route per real property.
+    assert _load(AUTH / "identity_routing.json")["count"] == 80
     for route in withdrawals["removed_routes"]:
         assert route["withdrawn_by"] == A.WORK_ORDER
         assert route["hotel_ref"]["identity_key"]
@@ -379,9 +386,9 @@ def test_this_order_left_the_species_defect_and_mainstay_alone(package):
             view = CV.build(record, market_id="cincinnati-oh")
             assert view.dogs_state or view.cats_state, record["identity_key"]
 
-    item = next(i for i in _load(PARTITION)["items"]
-                if i["identity_key"] == "comfort suites mainstay hotel")
-    assert item["resolved"] is False
-    routes = {r["hotel_ref"]["identity_key"]
-              for r in _load(AUTH / "identity_routing.json")["routes"]}
-    assert "comfort suites mainstay hotel" in routes
+    # The MainStay hold this order left standing was settled by
+    # PTF-CINCINNATI-MAINSTAY-IDENTITY-012 and PTF-CINCINNATI-MAINSTAY-CENSUS-SPLIT-013. What holds permanently is
+    # that THIS order neither published nor excluded it.
+    applied = {h["identity_key"] for h in package["hotels"]
+               if h["approval"]["approval_date"] == APPLIED_ON}
+    assert "comfort suites mainstay hotel" not in applied

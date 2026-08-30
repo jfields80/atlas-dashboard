@@ -499,13 +499,17 @@ def test_the_species_key_defect_was_not_touched_by_this_order():
         if species:
             view = CV.build(record, market_id="cincinnati-oh")
             assert view.dogs_state or view.cats_state, record["identity_key"]
-def test_the_mainstay_identity_hold_was_not_resolved(rows):
-    partition = _load(PKG / "cincinnati_final_partition_001.json")
-    item = next(i for i in partition["items"]
-                if i["identity_key"] == "comfort suites mainstay hotel")
-    assert item["resolved"] is False
-    routes = {r["hotel_ref"]["identity_key"]
-              for r in _load(AUTH / "identity_routing.json")["routes"]}
-    assert "comfort suites mainstay hotel" in routes
+def test_this_probe_did_not_touch_the_mainstay_hold(rows):
+    """It asserted the row was still held, and it no longer exists.
+
+    PTF-CINCINNATI-MAINSTAY-IDENTITY-012 found the row denoted two hotels and
+    PTF-CINCINNATI-MAINSTAY-CENSUS-SPLIT-013 replaced it with both. What THIS order can claim permanently is that it
+    never observed the row -- the hold was not its to touch.
+    """
     assert "comfort suites mainstay hotel" not in {r["identity_key"]
                                                    for r in rows}
+    keys = {i["identity_key"] for i in
+            _load(PKG / "cincinnati_final_partition_001.json")["items"]}
+    assert "comfort suites mainstay hotel" not in keys
+    assert "comfort suites cincinnati university downtown" in keys
+    assert "mainstay suites cincinnati university uptown" in keys

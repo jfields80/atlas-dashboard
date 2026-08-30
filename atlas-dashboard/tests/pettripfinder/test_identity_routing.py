@@ -610,7 +610,9 @@ def test_routing_carries_more_than_one_market(queues, routing_delta_from_shards)
     # 94 -> 79 at PTF-CINCINNATI-FREE-LANE-APPLICATION-010, which withdrew
     # the 15 routes its own application answered. Studio 6 was ruled
     # HOLD_FOR_IDENTITY_ADDRESS_CLARIFICATION and deliberately kept its route.
-    assert len(by_market["cincinnati-oh"]) == 79
+    # -> 80 at PTF-CINCINNATI-MAINSTAY-CENSUS-SPLIT-013, which replaced the conflated MainStay route with one
+    # route per real property.
+    assert len(by_market["cincinnati-oh"]) == 80
 
     base, routed = queues
     base_ids = {h["hotel_id"] for h in base.selected}
