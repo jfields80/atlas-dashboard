@@ -1,0 +1,307 @@
+{
+  "schema": "ptf-detroit-ann-arbor-attended-results/1.0",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-FREE-ATTENDED-PASS-020",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-30",
+  "lane": "attended_chrome",
+  "provider_calls": 0,
+  "spend_usd": 0.0,
+  "results": [
+    {
+      "identity_key": "atheneum suite hotel",
+      "canonical_name": "Atheneum Suite Hotel",
+      "host": "atheneumsuites.com",
+      "stratum": "INDEPENDENT_DOMAIN",
+      "pages_checked": 11,
+      "outcome": "POLICY_NOT_FOUND",
+      "block": "",
+      "note": "11 first-party pages swept; zero pet mentions anywhere. Confirms the Pass 3 finding. SOURCE SILENCE IS ABSENCE."
+    },
+    {
+      "identity_key": "shinola hotel",
+      "canonical_name": "Shinola Hotel",
+      "host": "shinolahotel.com",
+      "stratum": "INDEPENDENT_DOMAIN",
+      "pages_checked": 13,
+      "outcome": "PUBLICATION_CANDIDATE",
+      "block": "For your furry family members, we offer dog-friendly accommodations for up to two dogs with no weight or breed restrictions for a $125 + tax pet fee.",
+      "source_path": "/stay/pet-friendly",
+      "note": "dedicated first-party pet page",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/shinola-hotel/attempt-01/policy-block.txt",
+      "block_sha256": "7e81b23d489082df2d14d80c72f0badc45484d59843300161c5fa08369af0b47",
+      "reader": {
+        "pets_allowed": true,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": true,
+          "pet_count_limit": 2
+        },
+        "withheld": {
+          "pet_fee": "SOURCE_AMBIGUOUS"
+        },
+        "flags": [
+          "FLAG_PET_AMOUNT_NOT_BOUND"
+        ]
+      }
+    },
+    {
+      "identity_key": "daxton hotel",
+      "canonical_name": "Daxton Hotel",
+      "host": "daxtonhotel.com",
+      "stratum": "INDEPENDENT_DOMAIN",
+      "pages_checked": 11,
+      "outcome": "PUBLICATION_CANDIDATE",
+      "block": "PETS Accordion Item Are pets allowed at Daxton? The Daxton Hotel welcomes all service animals trained to assist their owners during their time at the hotel. Daxton complies with all ADA regulations regarding service animals and Daxton associates are happy to assist our guests with service animals in any way. Per ADA guidance, Daxton's operations policy and Michigan Public Health Code, Daxton associates will inquire as to the animal's status and their specific training. No animals of any kind, other than identified and confirmed service animals, are allowed in the public spaces of the hotel, per the Michigan Modified Food Code. Unfortunately, \"emotional support\" animals are not considered service animals. Only dogs are permitted and they must be 50 lbs. or less. The max number of dogs a guest may have per room is two (2). Daxton Hotel reserves the right to modify its policies at any time.",
+      "source_path": "/faq",
+      "block_sha256": "974442435a704553d1e03d5b28bde12325eccbcd3eb57c02933443f3f89ec9f2",
+      "note": "CORRECTS Pass 3, which concluded POLICY_NOT_FOUND after checking every page. The policy is on /faq behind accordions. The 'no animals other than service animals' clause is scoped to PUBLIC SPACES; the next sentence permits dogs. A separate FAQ item states a $75.00 fee at check-in.",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/daxton-hotel/attempt-01/policy-block.txt",
+      "reader": {
+        "pets_allowed": true,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": true,
+          "species_allowed": [
+            "dog"
+          ],
+          "service_animal_exception": "PETS Accordion Item Are pets allowed at Daxton? The Daxton Hotel welcomes all service animals trained to assist their owners during their time at the hotel."
+        },
+        "withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "flags": []
+      }
+    },
+    {
+      "identity_key": "the siren hotel",
+      "canonical_name": "The Siren Hotel",
+      "host": "ash.world",
+      "stratum": "INDEPENDENT_DOMAIN",
+      "pages_checked": 15,
+      "outcome": "PUBLICATION_CANDIDATE",
+      "block": "Pet Friendly Hotel The Siren welcomes four-legged companions to stay alongside you in Downtown Detroit. Our pet-friendly hotel accommodations make it easy to explore the city with your dog, whether you're here for a weekend getaway, extended stay, or road trip through the Motor City.",
+      "source_path": "/hotels/the-siren",
+      "note": "client-rendered SPA; subpage fetches return the app shell, so the rendered property page is the evidence. Affirmative acceptance, no fee/count/weight terms stated.",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/the-siren-hotel/attempt-01/policy-block.txt",
+      "block_sha256": "c3adfd5c42798304da2e422c9621b319de7e313ba24d4442c96fee50760dabb0",
+      "reader": {
+        "pets_allowed": true,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": true
+        },
+        "withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "flags": []
+      }
+    },
+    {
+      "identity_key": "the townsend hotel",
+      "canonical_name": "The Townsend Hotel",
+      "host": "townsendhotel.com",
+      "stratum": "INDEPENDENT_DOMAIN",
+      "pages_checked": 15,
+      "outcome": "PUBLICATION_CANDIDATE",
+      "block": "ARE PETS WELCOME? Yes, The Townsend Hotel welcomes dogs. The hotel does not allow cats or any other pets. There is a $159.00 non-refundable pet deposit and a $5.30 daily cleaning fee.",
+      "source_path": "/faqs",
+      "note": "explicit species exclusion (cats prohibited); a NON-REFUNDABLE DEPOSIT and a RECURRING daily cleaning charge -- both need the committed reader's judgement.",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/the-townsend-hotel/attempt-01/policy-block.txt",
+      "block_sha256": "3249967a9650b868ae12221b5781290bd06a75ebf1bb3dd71831b3d509abf9de",
+      "reader": {
+        "pets_allowed": true,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": true,
+          "pet_deposit": 15900
+        },
+        "withheld": {
+          "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+          "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+        },
+        "flags": [
+          "FLAG_MULTI_POLICY_BLOCKS",
+          "FLAG_RECURRING_CHARGE_NOT_READ"
+        ]
+      }
+    },
+    {
+      "identity_key": "trumbull and porter hotel",
+      "canonical_name": "Trumbull and Porter Hotel",
+      "host": "trumbullandporterhotel.com",
+      "stratum": "INDEPENDENT_DOMAIN",
+      "pages_checked": 15,
+      "outcome": "PUBLICATION_CANDIDATE",
+      "block": "Q. Are pets allowed? Are there restrictions for weight, height or types? Yes, we are a pet-friendly hotel and pets are welcomed at the hotel for a $50 PER NIGHT and 50 pound maximum. Pets cannot be left unattended at the hotel. You must stay with your pet at all times. Pets must be leashed or in a carrier at all times while outside of your room. A signed pet agreement will be required upon check-in.",
+      "source_path": "/faq",
+      "note": "question PLUS answer -- affirmative",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/trumbull-and-porter-hotel/attempt-01/policy-block.txt",
+      "block_sha256": "60a08aed9c06b9f5db18861eb2b2f4800a653287af5214792ee6c18abb822a6d",
+      "reader": {
+        "pets_allowed": true,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": true,
+          "pet_fee": 5000,
+          "fee_currency": "USD",
+          "fee_basis": "per_night",
+          "weight_limit": {
+            "value": 50.0,
+            "unit": "lb"
+          }
+        },
+        "withheld": {},
+        "flags": []
+      }
+    },
+    {
+      "identity_key": "the godfrey hotel detroit",
+      "canonical_name": "The Godfrey Hotel Detroit",
+      "host": "godfreyhoteldetroit.com",
+      "stratum": "INDEPENDENT_DOMAIN",
+      "pages_checked": 15,
+      "outcome": "POLICY_NOT_FOUND",
+      "block": "",
+      "note": "15 first-party pages swept; zero pet mentions."
+    },
+    {
+      "identity_key": "weber s inn",
+      "canonical_name": "Weber's Inn",
+      "host": "webersannarbor.com",
+      "stratum": "INDEPENDENT_DOMAIN",
+      "pages_checked": 13,
+      "outcome": "POLICY_NOT_FOUND",
+      "block": "",
+      "note": "13 first-party pages swept; zero pet mentions."
+    },
+    {
+      "identity_key": "the kensington hotel ann arbor",
+      "canonical_name": "The Kensington Hotel Ann Arbor",
+      "host": "kensingtonannarbor.com",
+      "stratum": "INDEPENDENT_DOMAIN",
+      "pages_checked": 15,
+      "outcome": "HOLD",
+      "block": "We offer accommodations for large groups, such as wedding parties and company events, and cater to a variety of travelers with our selection of guest rooms, suites and pet-friendly rooms.",
+      "source_path": "/",
+      "note": "an amenity mention inside marketing prose -- 'pet-friendly rooms' as a room type, with no policy terms anywhere on 15 swept pages. Affirmative-sounding but not a policy statement.",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/the-kensington-hotel-ann-arbor/attempt-01/policy-block.txt",
+      "block_sha256": "6c1a9572a3320dfed4b05e8c2acf1ad20ece011cfd248bb208cb94e19e0bd56c",
+      "reader": {
+        "pets_allowed": true,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": true
+        },
+        "withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "flags": []
+      }
+    },
+    {
+      "identity_key": "the inn on ferry street",
+      "canonical_name": "The Inn on Ferry Street",
+      "host": "innonferrystreet.com",
+      "stratum": "INDEPENDENT_DOMAIN",
+      "pages_checked": 14,
+      "outcome": "PUBLICATION_CANDIDATE",
+      "block": "We are a pet-friendly hotel and welcome pets up to 75 lbs. for an additional fee of $50.",
+      "source_path": "/",
+      "note": "fee stated with NO basis word -- expect the reader to withhold pet_fee",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/the-inn-on-ferry-street/attempt-01/policy-block.txt",
+      "block_sha256": "f607197a61ebde1fec1ce6c4bbc6eed14a94b9aca33f88e99f7f7391942c0ea2",
+      "reader": {
+        "pets_allowed": true,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": true,
+          "pet_fee": 5000,
+          "fee_currency": "USD",
+          "weight_limit": {
+            "value": 75.0,
+            "unit": "lb"
+          }
+        },
+        "withheld": {
+          "fee_basis": "SOURCE_SILENT"
+        },
+        "flags": []
+      }
+    },
+    {
+      "identity_key": "roberts riverwalk hotel",
+      "canonical_name": "Roberts Riverwalk Hotel",
+      "host": "detroitriverwalkhotel.com",
+      "stratum": "INDEPENDENT_DOMAIN",
+      "pages_checked": 14,
+      "outcome": "IDENTITY_MISMATCH",
+      "block": "",
+      "source_path": "/",
+      "severity": "HIGH",
+      "note": "THE ROUTED DOMAIN IS HIJACKED. detroitriverwalkhotel.com now 301s to bonanza88jpresmi.com, an Indonesian online-gambling site titled 'BONANZA88JP ... Bandar Slot Mahjong'. The domain has lapsed and been re-registered. No hotel content exists at the committed route. Not silently repaired: recorded as IDENTITY_MISMATCH with the exact discrepancy."
+    },
+    {
+      "identity_key": "royal park hotel",
+      "canonical_name": "Royal Park Hotel",
+      "host": "royalparkhotelmi.com",
+      "stratum": "INDEPENDENT_DOMAIN",
+      "pages_checked": 16,
+      "outcome": "PUBLICATION_CANDIDATE",
+      "block": "Pet-Friendly Hotel in Rochester Four-Legged Friends Welcome Royal Park Hotel invites you to bring along your canine companion for a playful dog day afternoon.",
+      "source_path": "/pet-friendly.htm",
+      "note": "dedicated first-party pet page; affirmative for dogs. The page links a separate 'Pet Policy' document whose terms are not in the page text, so no fee/weight/count is claimed.",
+      "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/royal-park-hotel/attempt-01/policy-block.txt",
+      "block_sha256": "bc355725de0664e69570cf14f0d602ca99a73bde8dd5c64a92e3172b01f387a9",
+      "reader": {
+        "pets_allowed": true,
+        "brand_generic": false,
+        "facts": {
+          "pets_allowed": true
+        },
+        "withheld": {
+          "pet_fee": "SOURCE_SILENT"
+        },
+        "flags": []
+      }
+    }
+  ],
+  "recapture": {
+    "identity_key": "embassy suites by hilton detroit livonia novi",
+    "canonical_name": "Embassy Suites by Hilton Detroit Livonia Novi",
+    "lane": "attended_chrome",
+    "counted_in_independent_lane": false,
+    "surface_reached": "https://www.hilton.com/en/hotels/dttlies-embassy-suites-detroit-livonia-novi/hotel-info/",
+    "surfaces_tried": [
+      "/ (property home) -- footer nav only, no property policy",
+      "/hotel-info/ -- the policy surface, answered"
+    ],
+    "actual_answer_found": true,
+    "hold_cleared": true,
+    "policy_block": "Pets Non-refundable fee: $75.00 Pet policy: 1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
+    "block_sha256": "3c39b22067e1ba53237cb5078bcc1d2871fe8dc51e26d347cc54b895fb90048b",
+    "hash_cross_verified": "in-page crypto.subtle digest equals the sha256 re-computed from the persisted file",
+    "artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/embassy-suites-by-hilton-detroit-livonia-novi/attempt-01/policy-block.txt",
+    "identity_binding": {
+      "jsonld_name": "Embassy Suites by Hilton Detroit Livonia Novi",
+      "page_address": "19525 Victor Parkway, Livonia, Michigan, 48152, USA",
+      "routed_property_code": "dttlies",
+      "basis": "the page's own JSON-LD name plus the stated street address, on the routed property URL"
+    },
+    "committed_reader": {
+      "pets_allowed": null,
+      "withheld": "SOURCE_SILENT",
+      "fee_tiers": "$75.00 for a 1-4 night stay; $125.00 for 5+ nights (stay_length_range, nights)",
+      "pet_count_limit": 2,
+      "species_allowed": [
+        "cat",
+        "dog"
+      ],
+      "flags": [
+        "FLAG_STRUCTURED_TIERS"
+      ]
+    },
+    "classification": "FOUNDER_EXCEPTION",
+    "why": "the prior block was a bare question; this is a real, property-specific ANSWER, so the HOLD FOR RE-CAPTURE is cleared. But the page states TERMS without ever saying in words that pets are accepted, so the committed reader withholds pets_allowed as SOURCE_SILENT -- the identical pattern the founder ruled on for TownePlace Dearborn. That ruling was expressly IDENTITY-SPECIFIC, so it is not applied here by me.",
+    "recommended_disposition": "APPROVE PET_FRIENDLY on the same reasoning the founder applied to TownePlace Dearborn, if the founder so decides"
+  }
+}

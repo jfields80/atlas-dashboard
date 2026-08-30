@@ -1,0 +1,57 @@
+{
+  "schema": "ptf-detroit-ann-arbor-founder-packet/1.0",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-FREE-ATTENDED-PASS-020",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-30",
+  "status": "AWAITING_FOUNDER_RULING",
+  "note": "ONE packet, built after the processed cohort. Clean candidates need no individual review and are not here.",
+  "count": 3,
+  "exceptions": [
+    {
+      "property": "The Kensington Hotel Ann Arbor",
+      "issue": "an amenity mention inside marketing prose, with no policy terms anywhere on the site",
+      "evidence": "We offer accommodations for large groups, such as wedding parties and company events, and cater to a variety of travelers with our selection of guest rooms, suites and pet-friendly rooms.",
+      "safe_fields": [],
+      "withheld_fields": [
+        "pets_allowed and every fact -- the committed reader does resolve the boolean from this phrase, but a room-type list is not a policy statement"
+      ],
+      "recommended_disposition": "HOLD: treat a marketing room-type mention as insufficient, and re-capture if the hotel later publishes terms",
+      "reason": "order 011's gate deliberately excludes marketing prose. The reader returns True here, which is precisely why this goes to a founder rather than to publication.",
+      "decision": "",
+      "decided_by": "",
+      "decided_at": ""
+    },
+    {
+      "property": "Roberts Riverwalk Hotel",
+      "issue": "the committed route points at a HIJACKED DOMAIN",
+      "evidence": "THE ROUTED DOMAIN IS HIJACKED. detroitriverwalkhotel.com now 301s to bonanza88jpresmi.com, an Indonesian online-gambling site titled 'BONANZA88JP ... Bandar Slot Mahjong'. The domain has lapsed and been re-registered. No hotel content exists at the committed route. Not silently repaired: recorded as IDENTITY_MISMATCH with the exact discrepancy.",
+      "safe_fields": [],
+      "withheld_fields": [
+        "everything -- no hotel content exists at this route"
+      ],
+      "recommended_disposition": "ROUTING_REPAIR_REQUIRED: withdraw the route and re-discover the property's current official domain at $0 before any lane touches it",
+      "reason": "publishing anything from this route would send a guest to an online-gambling site. It is also the strongest argument in this market for re-validating routes that have sat unused.",
+      "decision": "",
+      "decided_by": "",
+      "decided_at": ""
+    },
+    {
+      "property": "Embassy Suites by Hilton Detroit Livonia Novi",
+      "issue": "the HOLD is CLEARED -- a real answer now exists -- but the page states TERMS without ever saying in words that pets are accepted, so the committed reader withholds pets_allowed as SOURCE_SILENT",
+      "evidence": "Pets Non-refundable fee: $75.00 Pet policy: 1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
+      "safe_fields": [
+        "fee_tiers: $75.00 for a 1-4 night stay, $125.00 for 5+ nights (stay_length_range, nights)",
+        "pet_count_limit: 2",
+        "species_allowed: cat, dog"
+      ],
+      "withheld_fields": [
+        "pets_allowed -- never stated in words"
+      ],
+      "recommended_disposition": "APPROVE PET_FRIENDLY on the same reasoning the founder applied to TownePlace Suites Dearborn under order 019",
+      "reason": "this is the IDENTICAL pattern the founder has already ruled on: a property publishing a tiered pet fee, a pet maximum and a species list is stating terms of acceptance. That ruling was expressly IDENTITY-SPECIFIC, so it is not applied here by me. Either way the re-capture succeeded: the question-only block is superseded by a genuine property-specific answer.",
+      "decision": "",
+      "decided_by": "",
+      "decided_at": ""
+    }
+  ]
+}
