@@ -97,13 +97,14 @@ def test_nothing_was_applied_and_no_approval_was_written(results):
         assert "record_hash" not in blob, path.name
 
 
-def test_the_committed_authority_did_not_move():
-    package = _load(PKG / "hotel_policy_facts_cincinnati-oh.json")
-    assert len(package["hotels"]) == 91
-    exclusions = _load(AUTH / "hotel_exclusions.json")["exclusions"]
-    assert sum(1 for e in exclusions
-               if e["exclusion_state"] == "VERIFIED_NO_PETS") == 40
-    assert _load(AUTH / "identity_routing.json")["count"] == 94
+def test_the_probe_itself_wrote_no_authority(results):
+    """Same correction as PROBE-008's: the claim is about the ORDER.
+
+    APPLICATION-010 has since applied these findings, so a totals assertion
+    here would fail on this probe's own success.
+    """
+    assert results["authority_mutated"] is False
+    assert results["approvals_written"] == 0
 
 
 # ------------------------------------------------- the cohort, rebuilt not trusted
@@ -254,11 +255,12 @@ def test_the_great_wolf_hold_condition_is_reported_as_met_not_applied(rows):
     assert row["policy_surface"] == "PROPERTY_FAQ_ACCORDION"
     assert "we do not allow any pets into the lodge" in row["quote"]
     assert "ruling" in row["satisfies_hold"] and "#2" in row["satisfies_hold"]
-    # Still unresolved in authority; this pass changed nothing.
-    partition = _load(PKG / "cincinnati_final_partition_001.json")
-    item = next(i for i in partition["items"]
-                if i["identity_key"] == "great wolf lodge cincinnati mason")
-    assert item["resolved"] is False
+    # This pass reported; PTF-CINCINNATI-FREE-LANE-APPLICATION-010 applied the
+    # row as VERIFIED_NO_PETS on exactly this evidence. Asserting it was still
+    # unresolved would make this test fail on its own finding being acted on,
+    # so what is pinned is that the probe's own artifact claims no authority.
+    results = _load(P.RESULTS)
+    assert results["authority_mutated"] is False
 
 
 def test_the_great_wolf_corporate_json_ld_was_not_used(rows):

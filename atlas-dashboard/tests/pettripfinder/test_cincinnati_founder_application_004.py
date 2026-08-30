@@ -125,24 +125,35 @@ def test_no_identity_was_published_twice(package):
 
 # -------------------------------------------- the two rulings that publish nothing
 
-def test_the_held_property_was_not_published(package, decisions):
+def test_the_held_property_was_held_and_later_released_on_its_terms(package,
+                                                                    decisions):
     """Great Wolf: the founder declined a bare structured-data flag.
 
     The whole risk of a HOLD is that it looks like an approval one step later.
+    So what this test guards is not that the row stayed unresolved forever --
+    it did not, and should not have -- but that it was released ONLY on the
+    evidence the ruling named. PTF-CINCINNATI-INDEPENDENT-FREE-PROBE-009 found
+    the property's own /mason/faq prose and
+    PTF-CINCINNATI-FREE-LANE-APPLICATION-010 registered the refusal on it.
+
+    004's own ruling is unchanged, it still publishes nothing itself, and the
+    exclusion that exists now cites the condition it satisfied.
     """
     ruling = next(r for r in decisions["rows"]
                   if r["identity_key"] == "great wolf lodge cincinnati mason")
     assert ruling["founder_decision"] == "HOLD_FOR_PROSE_EVIDENCE"
     assert ruling["publishes"] is False
+    # Still never published as pet-friendly, by any order.
     assert "great wolf lodge cincinnati mason" not in {
         h["identity_key"] for h in package["hotels"]}
+    # And the refusal that does exist rests on prose, not on the flag 004
+    # refused, and says which hold it released.
     exclusions = _load(AUTH / "hotel_exclusions.json")["exclusions"]
-    assert "great wolf lodge cincinnati mason" not in {
-        e["normalized_name"] for e in exclusions}
-    item = next(i for i in _load(PARTITION)["items"]
-                if i["identity_key"] == "great wolf lodge cincinnati mason")
-    assert item["final_state"] != "VERIFIED_NO_PETS"
-    assert item["resolved"] is False
+    record = next(e for e in exclusions
+                  if e["normalized_name"] == "great wolf lodge cincinnati mason")
+    assert record["reviewed_at"] > APPLIED_ON
+    assert "we do not allow any pets into the lodge" in record["evidence_quote"]
+    assert "RELEASED FROM FOUNDER HOLD" in record["notes"]
 
 
 def test_the_renamed_property_carries_its_history_and_no_policy(decisions):

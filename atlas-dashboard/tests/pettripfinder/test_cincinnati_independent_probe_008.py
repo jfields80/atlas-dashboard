@@ -93,13 +93,16 @@ def test_nothing_was_applied_and_no_approval_was_written(results):
         assert "record_hash" not in blob, path.name
 
 
-def test_the_committed_authority_did_not_move():
-    package = _load(PKG / "hotel_policy_facts_cincinnati-oh.json")
-    assert len(package["hotels"]) == 91
-    exclusions = _load(AUTH / "hotel_exclusions.json")["exclusions"]
-    assert sum(1 for e in exclusions
-               if e["exclusion_state"] == "VERIFIED_NO_PETS") == 40
-    assert _load(AUTH / "identity_routing.json")["count"] == 94
+def test_the_probe_itself_wrote_no_authority(results):
+    """This asserted 91/40/94 while that was the live state.
+
+    PTF-CINCINNATI-FREE-LANE-APPLICATION-010 has since applied this probe's
+    findings, which is the probe succeeding. The claim worth keeping is that a
+    MEASUREMENT order writes nothing, and that is about the order, not the
+    totals.
+    """
+    assert results["authority_mutated"] is False
+    assert results["approvals_written"] == 0
 
 
 # --------------------------------------------------------------- the correction

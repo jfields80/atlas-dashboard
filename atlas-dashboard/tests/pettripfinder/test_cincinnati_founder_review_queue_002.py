@@ -84,14 +84,14 @@ def test_it_records_what_it_supersedes(queue):
 # ------------------------------------------------- decisions are not re-asked
 
 def test_every_resolved_identity_is_marked_decided(queue, rows):
-    # 33 -> 96 at APPLICATION-004 -> 137 at FREE-LANE-APPLICATION-007.
+    # 33 -> 96 (004) -> 137 (007) -> 152 (010).
     decided = [r for r in queue["rows"] if r["review_status"] == "DECIDED"]
-    assert len(decided) == 137
+    assert len(decided) == 152
     by_lane = {}
     for row in decided:
         by_lane.setdefault(row["capture_lane"], []).append(row)
-    assert len(by_lane["RESOLVED_PUBLISHED"]) == 91
-    assert len(by_lane["RESOLVED_NO_PETS"]) == 40
+    assert len(by_lane["RESOLVED_PUBLISHED"]) == 99
+    assert len(by_lane["RESOLVED_NO_PETS"]) == 47
     assert len(by_lane["RESOLVED_OUT_OF_CATEGORY"]) == 6
 
 
@@ -118,7 +118,7 @@ def test_the_twenty_seven_capture_pass_one_rulings_survive(queue):
     # their authorization on the policy record's approval block rather than a
     # Pass 1 decision id, so they are decided without being among these 27.
     decided = [r for r in queue["rows"] if r["review_status"] == "DECIDED"]
-    assert len(decided) - len(ruled) == 110
+    assert len(decided) - len(ruled) == 125
 
 
 def test_published_rows_carry_the_hash_their_approval_binds(rows):

@@ -607,7 +607,10 @@ def test_routing_carries_more_than_one_market(queues, routing_delta_from_shards)
     # withdrawn was deliberately kept: Comfort Suites MainStay was ruled
     # HOLD_FOR_IDENTITY_REVIEW, and a withdrawn route is how a row stops being
     # worked.
-    assert len(by_market["cincinnati-oh"]) == 94
+    # 94 -> 79 at PTF-CINCINNATI-FREE-LANE-APPLICATION-010, which withdrew
+    # the 15 routes its own application answered. Studio 6 was ruled
+    # HOLD_FOR_IDENTITY_ADDRESS_CLARIFICATION and deliberately kept its route.
+    assert len(by_market["cincinnati-oh"]) == 79
 
     base, routed = queues
     base_ids = {h["hotel_id"] for h in base.selected}

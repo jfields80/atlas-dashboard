@@ -78,8 +78,12 @@ EXPECTED = {
     # which applied the reconciled 32-row clean block from the zero-cost
     # attended-Chrome free lane (PROBE-005 + SCALE-006) plus nine of ten
     # founder exception rulings. Out-of-category is unchanged at 6.
-    CINCINNATI: {"census": 256, "published": 91, "no_pets": 40,
-                 "out_of_category": 6, "unresolved": 119},
+    # 91/40/119 -> 99/47/104 at PTF-CINCINNATI-FREE-LANE-APPLICATION-010,
+    # which applied the zero-cost independent probes: a clean block of 1 + 7
+    # plus four Drury properties and three partial approvals the founder ruled
+    # individually. 256 = 99 + 47 + 6 + 104.
+    CINCINNATI: {"census": 256, "published": 99, "no_pets": 47,
+                 "out_of_category": 6, "unresolved": 104},
     PITTSBURGH: {"census": 96, "published": 26, "no_pets": 4,
                  "out_of_category": 3, "unresolved": 63},
     DETROIT: {"census": 143, "published": 0, "no_pets": 0,
@@ -348,8 +352,8 @@ class TestTerminalDispositionsMatchAuthority:
         """
         doc = partition_doc(CINCINNATI)
         states = collections.Counter(i["final_state"] for i in doc["items"])
-        assert states[enums.PUBLISHED_PET_FRIENDLY] == 91
-        assert states[enums.VERIFIED_NO_PETS] == 40
+        assert states[enums.PUBLISHED_PET_FRIENDLY] == 99
+        assert states[enums.VERIFIED_NO_PETS] == 47
         assert states[enums.OUT_OF_CURRENT_CATEGORY] == 6
         assert len(doc["items"]) == 256
 
