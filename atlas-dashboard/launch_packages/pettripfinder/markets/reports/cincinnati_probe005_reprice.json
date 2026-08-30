@@ -1,0 +1,104 @@
+{
+ "work_order": "PTF-CINCINNATI-FREE-BRAND-PROBE-005",
+ "basis": "the 135-route shard and the 256-row partition at 800e74f",
+ "unresolved_total": 160,
+ "unresolved_routed": 120,
+ "unresolved_unrouted": 40,
+ "by_family": {
+  "CHOICE": 18,
+  "ESA": 1,
+  "HILTON": 8,
+  "HYATT": 4,
+  "IHG": 24,
+  "INDEPENDENT": 23,
+  "MARRIOTT": 42
+ },
+ "lanes": {
+  "attended_chrome_free": {
+   "families": {
+    "CHOICE": 18,
+    "IHG": 24
+   },
+   "rows": 42,
+   "usd": 0.0
+  },
+  "bright_data": {
+   "families": {
+    "HILTON": 8,
+    "MARRIOTT": 42
+   },
+   "rows": 50,
+   "usd_per_attempt": 0.197,
+   "usd": 9.85
+  },
+  "firecrawl": {
+   "families": {},
+   "rows": 0,
+   "usd": 0.0,
+   "why": "Firecrawl's Cincinnati case was IHG and Choice. This probe moved both to the free lane, and Firecrawl cannot reach Marriott or Hilton (PTF-FIRECRAWL-HARD-LANES-003), so no row in the current unresolved set genuinely requires it."
+  },
+  "blocked": {
+   "families": {
+    "HYATT": 4
+   },
+   "rows": 4,
+   "why": "ADR-forbidden; not costable"
+  },
+  "unproven": {
+   "families": {
+    "ESA": 1,
+    "INDEPENDENT": 23
+   },
+   "rows": 24,
+   "why": "needs its own free probe before any lane is costed"
+  }
+ },
+ "lane_evidence": {
+  "BESTWESTERN": {
+   "lane": "UNPROVEN",
+   "because": "no routed unresolved rows remain."
+  },
+  "CHOICE": {
+   "lane": "ATTENDED_CHROME_FREE",
+   "because": "this work order: 5/5 rendered, 5/5 identity-confirmed, 5/5 publication-grade."
+  },
+  "ESA": {
+   "lane": "UNPROVEN",
+   "because": "single row; too few to constitute a lane."
+  },
+  "HILTON": {
+   "lane": "BRIGHT_DATA",
+   "because": "PTF-DETROIT-HILTON-DIAGNOSTIC-016 returned 10/10 clean and closed the family at SCALE; Firecrawl cannot reach Hilton, and Hilton throttles attended Chrome after roughly 40 hits (PTF-CINCINNATI-ZERO-COST-CAPTURE-003)."
+  },
+  "HYATT": {
+   "lane": "BLOCKED_BY_ADR",
+   "because": "Hyatt is ADR-forbidden (PTF-COLUMBUS-UNRESOLVED-CAPTURE-003). No lane may be costed for these rows."
+  },
+  "IHG": {
+   "lane": "ATTENDED_CHROME_FREE",
+   "because": "this work order: 5/5 rendered, 5/5 identity-confirmed, 5/5 publication-grade."
+  },
+  "INDEPENDENT": {
+   "lane": "UNPROVEN",
+   "because": "no family-level probe exists for Cincinnati independents. They are not costed here; sizing them needs its own free probe first."
+  },
+  "MARRIOTT": {
+   "lane": "BRIGHT_DATA",
+   "because": "PTF-DETROIT-MARRIOTT-SCALE-015 closed Marriott at 26/30 publication-grade on the current /en-us/hotels/ template; PTF-FIRECRAWL-HARD-LANES-003 could not reach Marriott."
+  },
+  "WYNDHAM": {
+   "lane": "UNPROVEN",
+   "because": "Wyndham's policy lives in the markup rather than innerText (PTF-CINCINNATI-ZERO-COST-CAPTURE-003); no routed unresolved rows remain."
+  }
+ },
+ "spend_before_this_probe": {
+  "ihg_and_choice_rows": 42,
+  "usd_if_bought": 8.27
+ },
+ "spend_after_this_probe": {
+  "rows": 50,
+  "usd": 9.85
+ },
+ "avoided_usd": 8.27,
+ "note": "An estimate, not an authorization. Nothing here spends."
+}
