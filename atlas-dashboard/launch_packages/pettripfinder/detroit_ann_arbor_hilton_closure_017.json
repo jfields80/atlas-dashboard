@@ -1,0 +1,126 @@
+{
+  "schema": "ptf-detroit-ann-arbor-hilton-closure/1.0",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-HILTON-SCALE-017",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-30",
+  "basis": "orders 013, 014, 016 and 017. UNIQUE properties in every denominator; order 013's duplicate billed attempts are cost only.",
+  "two_denominators_never_blended": {
+    "all_attempts": {
+      "scope": "all_attempts",
+      "unique_properties": 37,
+      "counts": {
+        "ACQUISITION_FAILURE": 11,
+        "HOLD": 1,
+        "PET_FRIENDLY": 24,
+        "POLICY_NOT_FOUND": 1
+      },
+      "access": {
+        "measures": "properties reached",
+        "successes": 26,
+        "denominator": 37,
+        "point": 0.7027,
+        "wilson_lower_95": 0.5422,
+        "wilson_upper_95": 0.8251
+      },
+      "publication_grade": {
+        "measures": "properties answered",
+        "successes": 24,
+        "denominator": 37,
+        "point": 0.6486,
+        "wilson_lower_95": 0.4876,
+        "wilson_upper_95": 0.7817
+      },
+      "pet_friendly": {
+        "measures": "properties accepting pets",
+        "successes": 24,
+        "denominator": 37,
+        "point": 0.6486,
+        "wilson_lower_95": 0.4876,
+        "wilson_upper_95": 0.7817
+      },
+      "verified_no_pets": 0,
+      "policy_not_found": 1,
+      "holds": 1,
+      "failures": 11,
+      "what_it_is": "every Hilton property this project paid to attempt, including the nine whose sessions failed in order 017. The honest cost-side rate."
+    },
+    "reached_a_page": {
+      "scope": "reached_a_page",
+      "unique_properties": 26,
+      "counts": {
+        "HOLD": 1,
+        "PET_FRIENDLY": 24,
+        "POLICY_NOT_FOUND": 1
+      },
+      "access": {
+        "measures": "properties reached",
+        "successes": 26,
+        "denominator": 26,
+        "point": 1.0,
+        "wilson_lower_95": 0.8713,
+        "wilson_upper_95": 1.0
+      },
+      "publication_grade": {
+        "measures": "properties answered",
+        "successes": 24,
+        "denominator": 26,
+        "point": 0.9231,
+        "wilson_lower_95": 0.7586,
+        "wilson_upper_95": 0.9786
+      },
+      "pet_friendly": {
+        "measures": "properties accepting pets",
+        "successes": 24,
+        "denominator": 26,
+        "point": 0.9231,
+        "wilson_lower_95": 0.7586,
+        "wilson_upper_95": 0.9786
+      },
+      "verified_no_pets": 0,
+      "policy_not_found": 1,
+      "holds": 1,
+      "failures": 0,
+      "what_it_is": "Hilton properties whose page actually arrived. The capability-side rate, and the only one that says what Hilton's pages contain."
+    }
+  },
+  "order_017_degraded": {
+    "publication_grade": "4 of 13",
+    "infrastructure_failures": 9,
+    "signatures": [
+      "Page.goto: Timeout 120000ms exceeded",
+      "TargetClosedError -- the browser session died",
+      "UNHYDRATED -- the page arrived unrendered"
+    ],
+    "why_this_is_not_hilton_evidence": "order 016 read ten properties on the SAME host and the same sub-brands with zero failures, minutes earlier. A session that never delivered a page has judged no hotel.",
+    "cause": "NOT ESTABLISHED. Two candidates, neither proven: vendor or network degradation in that window; or this order's own live balance guard, which shells out to the Bright Data CLI before every attempt and took the cycle from 72s to 127s. The guard runs BETWEEN attempts and cannot close a live session, which argues against it -- but it changed run conditions materially.",
+    "recommended_next_step": "re-run the nine unanswered rows WITHOUT the per-attempt CLI guard, enforcing the cap on a periodic balance read instead. That separates the two candidates at the cost of one small cohort. NOT a new Hilton pilot -- Hilton's PAGES are measured; what is unresolved is session reliability."
+  },
+  "cost": {
+    "order_017_usd_by_balance": 0.69,
+    "all_brightdata_usd_by_balance": 6.01,
+    "billed_attempts": 71,
+    "usd_per_billed_attempt": 0.0846,
+    "cost_per_publication_grade_result": 0.112,
+    "cost_note": "at the Wilson lower bound of the reached-a-page rate"
+  },
+  "hilton_unresolved_remaining": {
+    "never_attempted": 0,
+    "attempted_but_unanswered": 13,
+    "identity_keys_unanswered": [
+      "doubletree by hilton ann arbor north",
+      "embassy suites by hilton detroit livonia novi",
+      "doubletree suites by hilton downtown detroit",
+      "hampton inn detroit novi",
+      "hampton inn by hilton detroit dearborn",
+      "hilton garden inn detroit troy",
+      "hampton inn livonia detroit",
+      "hampton inn detroit madison heights south troy",
+      "hampton inn by hilton west bloomfield novi",
+      "hampton inn and suites wixom",
+      "hampton inn and suites ypsilanti",
+      "hampton inn ann arbor north",
+      "hampton inn by hilton detroit southfield"
+    ]
+  },
+  "acquisition_status": "CLOSED for Hilton PAGE EVIDENCE -- no new page- or template-level defect appeared and no further pilot is recommended. What order 017 surfaced is an ACQUISITION-SESSION reliability question, which is not a property question."
+}
