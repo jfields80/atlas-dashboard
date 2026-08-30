@@ -6,7 +6,10 @@ VERIFIED_NO_PETS, the D003 Distrikt -> Joinery identity rename) and then
 PTF-PITTSBURGH-PASS2-DECISION-APPLICATION-001 (9 more publications, 2 more
 VERIFIED_NO_PETS, and two AWAITING_CENSUS_REVIEW workflow findings for
 Courtyard Pittsburgh Shadyside and Shadyside Inn Suites -- findings, never
-policy or closure decisions). The census policy_state column stays
+policy or closure decisions), then PTF-PITTSBURGH-PASS3-DECISION-APPLICATION-001A
+(3 more publications and 2 more VERIFIED_NO_PETS), then
+PTF-PITTSBURGH-PASS4-DECISION-APPLICATION-001 (8 more publications and 2
+more VERIFIED_NO_PETS). The census policy_state column stays
 legacy-frozen at POLICY_NOT_VERIFIED (the Cleveland precedent); the partition
 and the policy/exclusion authorities are the publication truth.
 """
@@ -14,6 +17,7 @@ and the policy/exclusion authorities are the publication truth.
 from __future__ import annotations
 
 import json
+from collections import Counter
 from pathlib import Path
 
 from scripts.pettripfinder.assemble_production_site import market_eligibility
@@ -31,18 +35,51 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 PACKAGE = REPO_ROOT / "launch_packages" / "pettripfinder"
 MARKET = "pittsburgh-pa"
 
-EXPECTED = {
-    "census": 96,
-    "published": 26,
-    "no_pets": 4,
-    "out_of_category": 3,
-    "unresolved": 63,
-    "queue": 63,
-}
+#: The census size is the one figure held as a CONSTANT, because it is a pin
+#: rather than a measurement: the release contract binds this market by
+#: expected_count, and a census that silently grew or shrank is the failure
+#: worth catching. PTF-PITTSBURGH-HARDENED-SYNC-004 kept it at 96 by refusing
+#: to promote the 115-row shadow recensus.
+CENSUS_SIZE = 96
+
+
+def _expected():
+    """The counts these gates protect, DERIVED from the primary authorities.
+
+    Written this way deliberately (PTF-PITTSBURGH-HARDENED-SYNC-004 Phase 14).
+    These tests exist to prove that the partition, the founder review queue and
+    the assembler all AGREE with the policy package and the exclusion registry
+    -- not to remember a number. Restating a literal every time authority moves
+    tests the transcription instead of the invariant, and a stale literal has
+    to be edited by whoever changed the thing it was meant to police.
+
+    So published comes from the policy package and the two closure counts from
+    the exclusion REGISTRY (the no-pets authority, never a census annotation),
+    and everything downstream is asserted against them.
+    """
+    package = _load(PACKAGE / ("hotel_policy_facts_%s.json" % MARKET))
+    exclusions = _load(PACKAGE / "markets" / "authority" / MARKET
+                       / "hotel_exclusions.json")["exclusions"]
+    states = Counter(row["exclusion_state"] for row in exclusions)
+    published = len(package["hotels"])
+    no_pets = states["VERIFIED_NO_PETS"]
+    out_of_category = states["OUT_OF_CURRENT_CATEGORY"]
+    unresolved = CENSUS_SIZE - (published + no_pets + out_of_category)
+    return {
+        "census": CENSUS_SIZE,
+        "published": published,
+        "no_pets": no_pets,
+        "out_of_category": out_of_category,
+        "unresolved": unresolved,
+        "queue": unresolved,
+    }
 
 
 def _load(path):
     return json.loads(Path(path).read_text(encoding="utf-8-sig"))
+
+
+EXPECTED = _expected()
 
 
 def census_doc():
@@ -67,6 +104,14 @@ def utilities_doc():
 
 def routing_doc():
     return _load(PACKAGE / "markets" / "reports" / "pittsburgh-pa_routing_assessments.json")
+
+
+def pass4_report_doc():
+    return _load(PACKAGE / "markets" / "reports" / "pittsburgh_pass4_routing_recap_prep_001.json")
+
+
+def pass4_capture_queue_doc():
+    return _load(PACKAGE / "markets" / "reports" / "pittsburgh_pass4_claude_capture_queue.json")
 
 
 class TestCensus:
@@ -175,8 +220,38 @@ class TestRoutingAndAuthorityIsolation:
         for item in routing_doc()["items"]:
             assert item["assessment_status"] == "ASSESSMENT_ONLY"
             assert item["not_routing_authority"] is True
+        # The GLOBAL routing file is generated from the market shards, so the
+        # two must agree exactly; a global that has drifted from its shard is
+        # the failure this catches, not any particular route count.
         routing = _load(PACKAGE / "identity_routing.json")
-        assert not any(r.get("market_id") == MARKET for r in routing.get("routes") or [])
+        pittsburgh_routes = [r for r in routing.get("routes") or []
+                            if r.get("market_id") == MARKET]
+        shard = _load(PACKAGE / "markets" / "authority" / MARKET
+                      / "identity_routing.json")
+        assert len(pittsburgh_routes) == shard["count"] == len(shard["routes"])
+        assert ({r["hotel_ref"]["identity_key"] for r in pittsburgh_routes}
+                == {r["hotel_ref"]["identity_key"] for r in shard["routes"]})
+
+        # A route is a standing instruction to GO AND FIND this property's
+        # policy, so no route may survive beside an answer. Defect D2 of the
+        # PTF-PITTSBURGH-HARDENED-SYNC-004 readiness audit was exactly this:
+        # six identities held authority and kept their routes anyway. Asserting
+        # the invariant rather than a count means the gate keeps working as the
+        # market resolves, instead of needing a new literal each time.
+        answered = {h["identity_key"] for h in
+                    _load(PACKAGE / ("hotel_policy_facts_%s.json" % MARKET))["hotels"]}
+        answered |= {e["normalized_name"] for e in
+                     _load(PACKAGE / "markets" / "authority" / MARKET
+                           / "hotel_exclusions.json")["exclusions"]}
+        assert not (answered & {r["hotel_ref"]["identity_key"]
+                                for r in pittsburgh_routes})
+
+        # Routing bindings are conservative endpoint recoveries, never policy
+        # authority: they retain no page bytes and record no policy content.
+        for route in pittsburgh_routes:
+            assert route["binding_method"] == "BRAND_INDEX_BINDING"
+            assert route["status"] == "ROUTING_CONFIRMED"
+
 
     def test_policy_authority_is_founder_bound_and_no_release_contract(self):
         from scripts.pettripfinder.policy_migration import (
@@ -214,11 +289,24 @@ class TestRoutingAndAuthorityIsolation:
         assert len(no_pets) == EXPECTED["no_pets"]
         assert len(category) == EXPECTED["out_of_category"]
         assert len(rows) == len(no_pets) + len(category)
-        assert {e["normalized_name"] for e in no_pets} == {
+        # The eight refusals committed before PTF-PITTSBURGH-HARDENED-SYNC-004
+        # are asserted as a SUBSET, not as the whole set: this gate protects
+        # against a refusal being silently EVICTED, which is the direction that
+        # loses founder work. Growth is what an application order is for, and
+        # the total is checked against derived authority above.
+        assert {e["normalized_name"] for e in no_pets} >= {
             "cambria hotel pittsburgh downtown",
+            "courtyard by marriott pittsburgh airport",
+            "courtyard by marriott pittsburgh airport settlers ridge",
             "courtyard by marriott pittsburgh downtown",
             "doubletree by hilton pittsburgh airport",
-            "fairfield inn and suites pittsburgh neville island"}
+            "fairfield inn and suites pittsburgh neville island",
+            "springhill suites pittsburgh bakery square",
+            "springhill suites pittsburgh north shore"}
+        # No identity may be both published and refused.
+        published_keys = {h["identity_key"] for h in
+                          _load(PACKAGE / ("hotel_policy_facts_%s.json" % MARKET))["hotels"]}
+        assert not (published_keys & {e["normalized_name"] for e in rows})
         assert {e["normalized_name"] for e in category} == {
             "inn on negley", "choderwood", "the maverick by kasa"}
         for entry in rows:
@@ -226,7 +314,7 @@ class TestRoutingAndAuthorityIsolation:
             assert entry["source_hash"].startswith("sha256:")
             assert entry["reviewer_id"] == "jfields80"
 
-    def test_joinery_rename_applied_and_unresolved(self):
+    def test_joinery_rename_applied_and_published_with_fee_withheld(self):
         rows = {r["identity_key"]: r for r in census_doc()["hotels"]}
         assert "distrikt hotel pittsburgh" not in rows
         joinery = rows["joinery hotel pittsburgh"]
@@ -236,10 +324,8 @@ class TestRoutingAndAuthorityIsolation:
         assert joinery["official_url"] == "https://www.joineryhotel.com"
         item = {i["identity_key"]: i for i in partition_doc()["items"]}[
             "joinery hotel pittsburgh"]
-        assert item["final_state"] == "AWAITING_POLICY_OBSERVATION"
-        assert item["resolved"] is False
-        queued = {q["identity_key"] for q in queue_doc()["items"]}
-        assert "joinery hotel pittsburgh" in queued
+        assert item["final_state"] == "PUBLISHED_PET_FRIENDLY"
+        assert item["resolved"] is True
 
     def test_pass2_census_review_findings_carry_no_policy_authority(self):
         # PGH-P2-D... census-review findings: workflow projections, never
@@ -279,6 +365,32 @@ class TestRoutingAndAuthorityIsolation:
             other_doc = PACKAGE / "identity_census" / ("%s.json" % other)
             if other_doc.is_file():
                 assert pitt_keys.isdisjoint(census.identity_keys(_load(other_doc)))
+
+
+class TestPass4RoutingAndRecapturePreparation:
+    def test_authority_is_frozen_and_sunnyledge_is_not_policy_authority(self):
+        report = pass4_report_doc()
+        assert report["authority_freeze"] == {
+            "published": 29, "verified_no_pets": 6, "out_of_category": 3}
+        assert report["unresolved_before"] == 58
+        assert report["sunnyledge_recapture"]["outcome"] == "SOURCE_AMBIGUOUS"
+        assert report["sunnyledge_recapture"]["publication_grade"] is False
+        assert report["sunnyledge_recapture"]["next_action"] == "RECAPTURE_REQUIRED"
+        assert report["sunnyledge_recapture"]["artifact_sha256"].startswith("sha256:")
+
+    def test_safe_capture_queue_remains_a_historical_capture_cohort(self):
+        report = pass4_report_doc()
+        queue = pass4_capture_queue_doc()
+        queued = [item["identity_key"] for item in queue["items"]]
+        assert queue["count"] == len(queued) == 12
+        assert len(queued) == len(set(queued))
+        assert "sunnyledge boutique hotel" not in queued
+        assert set(report["routing_confirmed"]) <= set(queued)
+        assert report["capture_readiness_counts"] == {
+            "FRESH_SESSION_REQUIRED": 6,
+            "SPECIAL_SURFACE_REQUIRED": 4,
+            "ATTENDED_REQUIRED": 2,
+        }
 
 
 class TestUtilities:

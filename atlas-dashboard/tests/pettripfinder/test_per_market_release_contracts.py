@@ -174,7 +174,16 @@ EXPECTED_RECONCILIATION = {
     # (17 -> 26) and 2 more verified-no-pets (2 -> 4) on top of the Pass 1
     # figures; resolved = 26 + 4 + 3 out_of_current_category = 33, unresolved
     # is COUNTED from the committed final partition (63).
-    PITTSBURGH: (96, 26, 4, 33, 63),
+    # 26/4/33/63 -> 46/10/59/37 at PTF-PITTSBURGH-HARDENED-SYNC-004, which
+    # moved Pittsburgh onto the hardened lineage and applied the 32 founder
+    # decisions signed on 2026-08-26 on a branch that never merged. Eleven
+    # were net new (9 publications, 2 refusals); fourteen this market's
+    # authority already held; seven name identities the REGISTERED census does
+    # not contain and were deliberately NOT applied -- adding them is a census
+    # promotion reserved for a separate SUPERSEDE / ADD-NEVER-DOWNGRADE order.
+    # The 115-row shadow recensus was NOT promoted, so the census stays 96 and
+    # 96 = 46 + 10 + 3 out_of_current_category + 37.
+    PITTSBURGH: (96, 46, 10, 59, 37),
     # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004 promoted 257 identities from the
     # hardened recensus with 24 founder-signed profiles and 24 verified-no-pets
     # (both 601 W Washington hotels, distinct Marriott codes, under the exclusion
@@ -372,7 +381,7 @@ class TestContractAgreesWithItsOwnAuthority:
         """
         by_market = {mid: derive_authority(mid).verified_no_pets for mid in MARKETS}
         assert by_market == {COLUMBUS: 14, CLEVELAND: 40, DAYTON: 8,
-                             PITTSBURGH: 4, INDIANAPOLIS: 34, MILWAUKEE: 27,
+                             PITTSBURGH: 10, INDIANAPOLIS: 34, MILWAUKEE: 27,
                              ST_LOUIS: 37,
                              # PTF-LOUISVILLE-PUBLICATION-008. Every other
                              # market's number is unchanged, which is the half

@@ -180,15 +180,37 @@ def test_pittsburgh_8_of_30_cached_primary_dead_secondary_healthy(tmp_path):
     assert stats["all_endpoints_unhealthy"] is False
 
 
-def test_pittsburgh_replay_touches_no_market_authority():
-    # The replay runs entirely under tmp_path; the committed Pittsburgh
-    # authority, census and deploy records are left exactly as git has them.
+#: The paths the replay must never write to.
+_AUTHORITY_PATHS = (
+    "launch_packages/pettripfinder/markets/authority/pittsburgh-pa",
+    "launch_packages/pettripfinder/identity_census/pittsburgh-pa.json",
+    "launch_packages/pettripfinder/markets/pittsburgh-pa.json",
+    "deploy/netlify",
+)
+
+
+def _authority_status():
     import subprocess
-    dirty = subprocess.run(
-        ["git", "status", "--porcelain", "--",
-         "launch_packages/pettripfinder/markets/authority/pittsburgh-pa",
-         "launch_packages/pettripfinder/identity_census/pittsburgh-pa.json",
-         "launch_packages/pettripfinder/markets/pittsburgh-pa.json",
-         "deploy/netlify"],
-        capture_output=True, text=True, check=False).stdout.strip()
-    assert dirty == ""
+    out = subprocess.run(["git", "status", "--porcelain", "--", *_AUTHORITY_PATHS],
+                         capture_output=True, text=True, check=False).stdout
+    return {line[3:].strip() for line in out.splitlines() if line.strip()}
+
+
+def test_pittsburgh_replay_touches_no_market_authority(tmp_path):
+    """The replay runs under tmp_path and writes no committed authority.
+
+    Asserted as a DELTA, not as a clean working tree. An equality-to-empty
+    check conflates "the replay wrote to authority" -- the thing this guard
+    exists to catch -- with "this checkout has uncommitted work", which is the
+    normal state of the market order that is running the suite, and which no
+    amount of correctness in the replay can fix (PTF-INDIANAPOLIS-FOUNDER-
+    PROMOTION-004 lost time to exactly that conflation).
+    """
+    before = _authority_status()
+    root = tmp_path / "replay"
+    market, _queries = build_plan(_config(root))
+    DS.build("pittsburgh-pa", cache_root=root / C.CACHE_SUBDIR,
+             registry=registry(), health_ledger_path=root / "ledger.json",
+             market=market,
+             clock=lambda: datetime(2026, 8, 25, 13, 0, tzinfo=timezone.utc))
+    assert _authority_status() - before == set()

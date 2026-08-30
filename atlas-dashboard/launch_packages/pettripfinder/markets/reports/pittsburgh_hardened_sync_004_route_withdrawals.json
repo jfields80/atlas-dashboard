@@ -1,0 +1,283 @@
+{
+ "schema": "ptf-market-route-retirement-ledger/1.0",
+ "work_order": "PTF-PITTSBURGH-HARDENED-SYNC-004",
+ "market_id": "pittsburgh-pa",
+ "as_of": "2026-08-30",
+ "defect": "D2 -- already-answered Pittsburgh identities still carried active acquisition routes",
+ "why": "Every identity listed here is held by Pittsburgh authority -- as a published policy record or as a registered exclusion -- so its acquisition route is answered. In this repository retirement is REMOVAL, not a status flip: a published identity's seed row is the source of truth for its URL, and a route beside it is a second copy of the same fact.",
+ "what_is_preserved": "These records verbatim, including each route's binding evidence and identity context. Published identities keep their URL on their seed row; excluded identities keep theirs on the exclusion record's official_url.",
+ "shared_archive_untouched": "This ledger is written fresh and is scoped to this work order. No cumulative cross-market withdrawals archive was opened or rewritten (PTF-DETROIT-FOUNDER-REVIEW-AUTHORITY-011: withdraw_answered_routes OVERWRITES that file, so it is not used here).",
+ "routes_before": 6,
+ "routes_after": 0,
+ "count": 6,
+ "removed_routes": [
+  {
+   "routing_id": "route-pittsburgh-pa-courtyard-by-marriott-pittsburgh-airport",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "identity_key": "courtyard by marriott pittsburgh airport",
+    "market_id": "pittsburgh-pa",
+    "canonical_name": "Courtyard by Marriott Pittsburgh Airport",
+    "normalized_name": "courtyard by marriott pittsburgh airport"
+   },
+   "market_id": "pittsburgh-pa",
+   "official_property_url": "https://www.marriott.com/en-us/hotels/pitca-courtyard-pittsburgh-airport/overview/",
+   "official_domain": "marriott.com",
+   "brand": "MARRIOTT",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "Official brand/property locator endpoint recovered during PTF-PITTSBURGH-PASS4-ROUTING-AND-RECAPTURE-PREP-001",
+    "https://www.marriott.com/en-us/hotels/pitca-courtyard-pittsburgh-airport/overview/"
+   ],
+   "identity_signals_matched": [
+    "name=Courtyard by Marriott Pittsburgh Airport",
+    "street=450 Cherrington Parkway",
+    "city=Coraopolis",
+    "zip=15108",
+    "phone=412-264-5000"
+   ],
+   "identity_context": {
+    "address": "450 Cherrington Parkway",
+    "city": "Coraopolis",
+    "state": "PA",
+    "postal_code": "15108",
+    "phone": "412-264-5000"
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "property_identity_check": "PASS",
+   "status": "ROUTING_CONFIRMED",
+   "category": "accommodation",
+   "notes": "URL and property identity recovered without reading or recording pet-policy content.",
+   "property_code": "PITCA",
+   "withdrawn_at": "2026-08-30",
+   "withdrawn_by": "PTF-PITTSBURGH-HARDENED-SYNC-004",
+   "withdrawn_market_id": "pittsburgh-pa",
+   "withdrawn_answered_by": "VERIFIED_NO_PETS",
+   "withdrawn_reason": "Pittsburgh authority holds this identity as VERIFIED_NO_PETS, so the acquisition instruction this route carries is answered. Defect D2 of the hardened-readiness audit: the route outlived the answer."
+  },
+  {
+   "routing_id": "route-pittsburgh-pa-courtyard-by-marriott-pittsburgh-airport-settlers-ridge",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "identity_key": "courtyard by marriott pittsburgh airport settlers ridge",
+    "market_id": "pittsburgh-pa",
+    "canonical_name": "Courtyard by Marriott Pittsburgh Airport Settlers Ridge",
+    "normalized_name": "courtyard by marriott pittsburgh airport settlers ridge"
+   },
+   "market_id": "pittsburgh-pa",
+   "official_property_url": "https://www.marriott.com/en-us/hotels/pitsr-courtyard-pittsburgh-airport-settlers-ridge/overview/",
+   "official_domain": "marriott.com",
+   "brand": "MARRIOTT",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "Official brand/property locator endpoint recovered during PTF-PITTSBURGH-PASS4-ROUTING-AND-RECAPTURE-PREP-001",
+    "https://www.marriott.com/en-us/hotels/pitsr-courtyard-pittsburgh-airport-settlers-ridge/overview/"
+   ],
+   "identity_signals_matched": [
+    "name=Courtyard by Marriott Pittsburgh Airport Settlers Ridge",
+    "street=5100 Campbells Run Road",
+    "city=Pittsburgh",
+    "zip=15205",
+    "phone=412-788-4404"
+   ],
+   "identity_context": {
+    "address": "5100 Campbells Run Road",
+    "city": "Pittsburgh",
+    "state": "PA",
+    "postal_code": "15205",
+    "phone": "412-788-4404"
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "property_identity_check": "PASS",
+   "status": "ROUTING_CONFIRMED",
+   "category": "accommodation",
+   "notes": "URL and property identity recovered without reading or recording pet-policy content.",
+   "property_code": "PITSR",
+   "withdrawn_at": "2026-08-30",
+   "withdrawn_by": "PTF-PITTSBURGH-HARDENED-SYNC-004",
+   "withdrawn_market_id": "pittsburgh-pa",
+   "withdrawn_answered_by": "VERIFIED_NO_PETS",
+   "withdrawn_reason": "Pittsburgh authority holds this identity as VERIFIED_NO_PETS, so the acquisition instruction this route carries is answered. Defect D2 of the hardened-readiness audit: the route outlived the answer."
+  },
+  {
+   "routing_id": "route-pittsburgh-pa-motel-6-pittsburgh",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "identity_key": "motel 6 pittsburgh",
+    "market_id": "pittsburgh-pa",
+    "canonical_name": "Motel 6 Pittsburgh",
+    "normalized_name": "motel 6 pittsburgh"
+   },
+   "market_id": "pittsburgh-pa",
+   "official_property_url": "https://www.motel6.com/property/motel-pittsburgh-pa-pennsylvania-us-294550/",
+   "official_domain": "motel6.com",
+   "brand": "MOTEL_6",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "Official brand/property locator endpoint recovered during PTF-PITTSBURGH-PASS4-ROUTING-AND-RECAPTURE-PREP-001",
+    "https://www.motel6.com/property/motel-pittsburgh-pa-pennsylvania-us-294550/"
+   ],
+   "identity_signals_matched": [
+    "name=Motel 6 Pittsburgh",
+    "street=211 Beecham Drive",
+    "city=Pittsburgh",
+    "zip=15205",
+    "phone=412-922-9400"
+   ],
+   "identity_context": {
+    "address": "211 Beecham Drive",
+    "city": "Pittsburgh",
+    "state": "PA",
+    "postal_code": "15205",
+    "phone": "412-922-9400"
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "property_identity_check": "PASS",
+   "status": "ROUTING_CONFIRMED",
+   "category": "accommodation",
+   "notes": "URL and property identity recovered without reading or recording pet-policy content.",
+   "withdrawn_at": "2026-08-30",
+   "withdrawn_by": "PTF-PITTSBURGH-HARDENED-SYNC-004",
+   "withdrawn_market_id": "pittsburgh-pa",
+   "withdrawn_answered_by": "PUBLISHED_PET_FRIENDLY",
+   "withdrawn_reason": "Pittsburgh authority holds this identity as PUBLISHED_PET_FRIENDLY, so the acquisition instruction this route carries is answered. Defect D2 of the hardened-readiness audit: the route outlived the answer."
+  },
+  {
+   "routing_id": "route-pittsburgh-pa-sonesta-simply-suites-pittsburgh-airport",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "identity_key": "sonesta simply suites pittsburgh airport",
+    "market_id": "pittsburgh-pa",
+    "canonical_name": "Sonesta Simply Suites Pittsburgh Airport",
+    "normalized_name": "sonesta simply suites pittsburgh airport"
+   },
+   "market_id": "pittsburgh-pa",
+   "official_property_url": "https://www.sonesta.com/sonesta-simply-suites/pa/pittsburgh/sonesta-simply-suites-pittsburgh-airport",
+   "official_domain": "sonesta.com",
+   "brand": "SONESTA",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "Official brand/property locator endpoint recovered during PTF-PITTSBURGH-PASS4-ROUTING-AND-RECAPTURE-PREP-001",
+    "https://www.sonesta.com/sonesta-simply-suites/pa/pittsburgh/sonesta-simply-suites-pittsburgh-airport"
+   ],
+   "identity_signals_matched": [
+    "name=Sonesta Simply Suites Pittsburgh Airport",
+    "street=100 Chauvet Drive",
+    "city=Pittsburgh",
+    "zip=15275",
+    "phone=412-787-7770"
+   ],
+   "identity_context": {
+    "address": "100 Chauvet Drive",
+    "city": "Pittsburgh",
+    "state": "PA",
+    "postal_code": "15275",
+    "phone": "412-787-7770"
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "property_identity_check": "PASS",
+   "status": "ROUTING_CONFIRMED",
+   "category": "accommodation",
+   "notes": "URL and property identity recovered without reading or recording pet-policy content.",
+   "withdrawn_at": "2026-08-30",
+   "withdrawn_by": "PTF-PITTSBURGH-HARDENED-SYNC-004",
+   "withdrawn_market_id": "pittsburgh-pa",
+   "withdrawn_answered_by": "PUBLISHED_PET_FRIENDLY",
+   "withdrawn_reason": "Pittsburgh authority holds this identity as PUBLISHED_PET_FRIENDLY, so the acquisition instruction this route carries is answered. Defect D2 of the hardened-readiness audit: the route outlived the answer."
+  },
+  {
+   "routing_id": "route-pittsburgh-pa-springhill-suites-pittsburgh-airport",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "identity_key": "springhill suites pittsburgh airport",
+    "market_id": "pittsburgh-pa",
+    "canonical_name": "SpringHill Suites Pittsburgh Airport",
+    "normalized_name": "springhill suites pittsburgh airport"
+   },
+   "market_id": "pittsburgh-pa",
+   "official_property_url": "https://www.marriott.com/en-us/hotels/pitha-springhill-suites-pittsburgh-airport/overview/",
+   "official_domain": "marriott.com",
+   "brand": "MARRIOTT",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "Official brand/property locator endpoint recovered during PTF-PITTSBURGH-PASS4-ROUTING-AND-RECAPTURE-PREP-001",
+    "https://www.marriott.com/en-us/hotels/pitha-springhill-suites-pittsburgh-airport/overview/"
+   ],
+   "identity_signals_matched": [
+    "name=SpringHill Suites Pittsburgh Airport",
+    "street=2500 Market Place Boulevard",
+    "city=Coraopolis",
+    "zip=15108",
+    "phone=412-729-2554"
+   ],
+   "identity_context": {
+    "address": "2500 Market Place Boulevard",
+    "city": "Coraopolis",
+    "state": "PA",
+    "postal_code": "15108",
+    "phone": "412-729-2554"
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "property_identity_check": "PASS",
+   "status": "ROUTING_CONFIRMED",
+   "category": "accommodation",
+   "notes": "URL and property identity recovered without reading or recording pet-policy content.",
+   "property_code": "PITHA",
+   "withdrawn_at": "2026-08-30",
+   "withdrawn_by": "PTF-PITTSBURGH-HARDENED-SYNC-004",
+   "withdrawn_market_id": "pittsburgh-pa",
+   "withdrawn_answered_by": "PUBLISHED_PET_FRIENDLY",
+   "withdrawn_reason": "Pittsburgh authority holds this identity as PUBLISHED_PET_FRIENDLY, so the acquisition instruction this route carries is answered. Defect D2 of the hardened-readiness audit: the route outlived the answer."
+  },
+  {
+   "routing_id": "route-pittsburgh-pa-towneplace-suites-pittsburgh-airport-robinson-township",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "identity_key": "towneplace suites pittsburgh airport robinson township",
+    "market_id": "pittsburgh-pa",
+    "canonical_name": "TownePlace Suites Pittsburgh Airport Robinson Township",
+    "normalized_name": "towneplace suites pittsburgh airport robinson township"
+   },
+   "market_id": "pittsburgh-pa",
+   "official_property_url": "https://www.marriott.com/en-us/hotels/pittw-towneplace-suites-pittsburgh-airport-robinson-township/overview/",
+   "official_domain": "marriott.com",
+   "brand": "MARRIOTT",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "Official brand/property locator endpoint recovered during PTF-PITTSBURGH-PASS4-ROUTING-AND-RECAPTURE-PREP-001",
+    "https://www.marriott.com/en-us/hotels/pittw-towneplace-suites-pittsburgh-airport-robinson-township/overview/"
+   ],
+   "identity_signals_matched": [
+    "name=TownePlace Suites Pittsburgh Airport Robinson Township",
+    "street=1006 Sutherland Drive",
+    "city=Pittsburgh",
+    "zip=15205",
+    "phone=412-494-4000"
+   ],
+   "identity_context": {
+    "address": "1006 Sutherland Drive",
+    "city": "Pittsburgh",
+    "state": "PA",
+    "postal_code": "15205",
+    "phone": "412-494-4000"
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "property_identity_check": "PASS",
+   "status": "ROUTING_CONFIRMED",
+   "category": "accommodation",
+   "notes": "URL and property identity recovered without reading or recording pet-policy content.",
+   "property_code": "PITTW",
+   "withdrawn_at": "2026-08-30",
+   "withdrawn_by": "PTF-PITTSBURGH-HARDENED-SYNC-004",
+   "withdrawn_market_id": "pittsburgh-pa",
+   "withdrawn_answered_by": "PUBLISHED_PET_FRIENDLY",
+   "withdrawn_reason": "Pittsburgh authority holds this identity as PUBLISHED_PET_FRIENDLY, so the acquisition instruction this route carries is answered. Defect D2 of the hardened-readiness audit: the route outlived the answer."
+  }
+ ]
+}

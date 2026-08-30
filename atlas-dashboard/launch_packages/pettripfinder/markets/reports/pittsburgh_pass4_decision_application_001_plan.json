@@ -1,0 +1,312 @@
+{
+ "schema": "ptf-pittsburgh-pass4-decision-application-plan/1.0",
+ "work_order": "PTF-PITTSBURGH-PASS4-DECISION-APPLICATION-001",
+ "market_id": "pittsburgh-pa",
+ "status": "PREPARED_NOT_EXECUTED",
+ "authority_before": {
+  "census": 96,
+  "published": 29,
+  "verified_no_pets": 6,
+  "out_of_category": 3,
+  "unresolved": 58,
+  "policy_facts_sha256": "sha256:e77c8507298cc8dac2c6a0d360bb7a96b70fd792b3b13e7b645456567e18710a",
+  "exclusions_sha256": "sha256:2962f63013a77ec7e162caa36417f14628fa495072b470f74e9ab0290680bc3a",
+  "partition_sha256": "sha256:e4e98f489e5950f27498ba8f49c0814c0115d7432a110bfe58b6ad300f7fc887"
+ },
+ "expected_authority_after": {
+  "census": 96,
+  "published": 37,
+  "verified_no_pets": 8,
+  "out_of_category": 3,
+  "unresolved": 48
+ },
+ "publication_decisions": [
+  {
+   "capture_id": "PGH-P4-C003",
+   "hotel": "Motel 6 Pittsburgh",
+   "identity_key": "motel 6 pittsburgh",
+   "founder_decision": "APPROVE_PARTIAL_PUBLICATION",
+   "target": "published_pet_friendly",
+   "approved_facts": [
+    "pets_allowed=true"
+   ],
+   "withheld_fields": [],
+   "other_charges": [],
+   "artifact_binding": {
+    "capture_id": "PGH-P4-C003",
+    "identity_key": "motel 6 pittsburgh",
+    "artifact_sha256": "sha256:b564be168c79ed7a312da3689c9cfb945f0af8d5ca78ba0557fa3f01ebc4ce2c",
+    "identity_binding": "Motel 6 Pittsburgh, PA - Crafton | 211 Beecham Drive, Pittsburgh, PA 15205 | 4129229400",
+    "quotes_contiguous_in_artifact": true
+   },
+   "application_status": "NOT_EXECUTED"
+  },
+  {
+   "capture_id": "PGH-P4-C004",
+   "hotel": "Sonesta Simply Suites Pittsburgh Airport",
+   "identity_key": "sonesta simply suites pittsburgh airport",
+   "founder_decision": "APPROVE_WITH_CHANGE",
+   "target": "published_pet_friendly",
+   "approved_facts": [
+    "pets_allowed=true",
+    "pet_count_limit=2",
+    "weight_limit=explicit stated-none",
+    "breed_restrictions=explicit stated-none only if the canonical field supports it",
+    "$75 through 7 nights and $150 after 7 nights, with fee basis absent"
+   ],
+   "withheld_fields": [
+    {
+     "field": "fee_basis",
+     "reason_code": "SOURCE_AMBIGUOUS"
+    },
+    {
+     "field": "pet_count_scope",
+     "reason_code": "SCHEMA_CANNOT_REPRESENT"
+    }
+   ],
+   "other_charges": [],
+   "artifact_binding": {
+    "capture_id": "PGH-P4-C004",
+    "identity_key": "sonesta simply suites pittsburgh airport",
+    "artifact_sha256": "sha256:208e710bd0f4eb6ec2f1680a865c0d8192f01f3e99e59e7ff4ff3619a41c20a9",
+    "identity_binding": "Sonesta Simply Suites Pittsburgh Airport | 100 Chauvet Drive, Pittsburgh, PA 15275 | +1 412-787-7770",
+    "quotes_contiguous_in_artifact": true
+   },
+   "application_status": "NOT_EXECUTED"
+  },
+  {
+   "capture_id": "PGH-P4-C005",
+   "hotel": "SpringHill Suites Pittsburgh Airport",
+   "identity_key": "springhill suites pittsburgh airport",
+   "founder_decision": "APPROVE_PUBLISH_STRUCTURED",
+   "target": "published_pet_friendly",
+   "approved_facts": [
+    "pets_allowed=true",
+    "pet_fee=$150 per_stay non_refundable"
+   ],
+   "withheld_fields": [],
+   "other_charges": [],
+   "artifact_binding": {
+    "capture_id": "PGH-P4-C005",
+    "identity_key": "springhill suites pittsburgh airport",
+    "artifact_sha256": "sha256:0e1721bd495f05484bb8b2421dac5c0d692c01c744f1822db82fab2e8f8e8188",
+    "identity_binding": "SpringHill Suites Pittsburgh Airport | 2500 Market Place Boulevard, Coraopolis, PA 15108 | Marriott property code PITHA",
+    "quotes_contiguous_in_artifact": true
+   },
+   "application_status": "NOT_EXECUTED"
+  },
+  {
+   "capture_id": "PGH-P4-C006",
+   "hotel": "TownePlace Suites Pittsburgh Airport Robinson Township",
+   "identity_key": "towneplace suites pittsburgh airport robinson township",
+   "founder_decision": "APPROVE_PUBLISH_STRUCTURED",
+   "target": "published_pet_friendly",
+   "approved_facts": [
+    "pets_allowed=true",
+    "pet_fee=$75 per_stay per_pet non_refundable",
+    "pet_count_limit=2 per room",
+    "weight_limit<=75 lb per pet"
+   ],
+   "withheld_fields": [],
+   "other_charges": [],
+   "artifact_binding": {
+    "capture_id": "PGH-P4-C006",
+    "identity_key": "towneplace suites pittsburgh airport robinson township",
+    "artifact_sha256": "sha256:23b2c2ecf091e74d97aee57f8d70258089ff4893e0aa888171b4eaf5fd2d6ba9",
+    "identity_binding": "TownePlace Suites Pittsburgh Airport/Robinson Township | 1006 Sutherland Drive, Robinson Township, PA 15205 | +1 412-494-4000 | Marriott property code PITTW",
+    "quotes_contiguous_in_artifact": true
+   },
+   "application_status": "NOT_EXECUTED"
+  },
+  {
+   "capture_id": "PGH-P4-C007",
+   "hotel": "Hyatt House Pittsburgh Bloomfield Shadyside",
+   "identity_key": "hyatt house pittsburgh bloomfield shadyside",
+   "founder_decision": "APPROVE_WITH_CHANGE",
+   "target": "published_pet_friendly",
+   "approved_facts": [
+    "pets_allowed=true",
+    "pet_count_limit=2",
+    "individual weight_limit<=25 lb",
+    "combined weight_limit<=50 lb",
+    "$75 for stays 1-6 nights and $275 for stays 7-30 nights, with fee basis absent"
+   ],
+   "withheld_fields": [
+    {
+     "field": "fee_basis",
+     "reason_code": "SOURCE_AMBIGUOUS"
+    }
+   ],
+   "other_charges": [],
+   "artifact_binding": {
+    "capture_id": "PGH-P4-C007",
+    "identity_key": "hyatt house pittsburgh bloomfield shadyside",
+    "artifact_sha256": "sha256:6b7ffd7ca3d8501b28eb267a79873e02a792131ebda29c572cdaf72df2e29f5c",
+    "identity_binding": "Hyatt House Pittsburgh/Bloomfield/Shadyside | 5335 Baum Boulevard, Pittsburgh, PA 15224 | +1 412 621 9900 | Hyatt property code PITXP",
+    "quotes_contiguous_in_artifact": true
+   },
+   "application_status": "NOT_EXECUTED"
+  },
+  {
+   "capture_id": "PGH-P4-C008",
+   "hotel": "Hyatt Place Pittsburgh Airport",
+   "identity_key": "hyatt place pittsburgh airport",
+   "founder_decision": "APPROVE_WITH_CHANGE",
+   "target": "published_pet_friendly",
+   "approved_facts": [
+    "pets_allowed=true",
+    "species=dogs only",
+    "pet_count_limit=2",
+    "individual weight_limit<=50 lb",
+    "combined weight_limit<=75 lb",
+    "advance notice only if the canonical field directly represents 'Please call ahead'"
+   ],
+   "withheld_fields": [
+    {
+     "field": "pet_fee",
+     "reason_code": "SOURCE_AMBIGUOUS"
+    }
+   ],
+   "other_charges": [],
+   "artifact_binding": {
+    "capture_id": "PGH-P4-C008",
+    "identity_key": "hyatt place pittsburgh airport",
+    "artifact_sha256": "sha256:db75c7e86283719b616053c2fdb3670f3bccbf264661d9d3c7d905c2c3ac231a",
+    "identity_binding": "Hyatt Place Pittsburgh Airport / Robinson Mall | 6011 Campbells Run Road, Pittsburgh, PA 15205 | +1 412 494 0202 | Hyatt property code PITZA",
+    "quotes_contiguous_in_artifact": true
+   },
+   "application_status": "NOT_EXECUTED"
+  },
+  {
+   "capture_id": "PGH-P4-C009",
+   "hotel": "Hyatt Place Pittsburgh North Shore",
+   "identity_key": "hyatt place pittsburgh north shore",
+   "founder_decision": "APPROVE_WITH_CHANGE",
+   "target": "published_pet_friendly",
+   "approved_facts": [
+    "pets_allowed=true",
+    "species=dogs only",
+    "pet_count_limit=2",
+    "individual weight_limit<=50 lb",
+    "combined weight_limit<=75 lb",
+    "$75 tiers for stays 1-6 and 7-30 nights, with fee basis absent",
+    "$100 conditional cleaning charge for the 7-30-night tier"
+   ],
+   "withheld_fields": [
+    {
+     "field": "fee_basis",
+     "reason_code": "SOURCE_AMBIGUOUS"
+    }
+   ],
+   "other_charges": [
+    {
+     "kind": "cleaning_fee",
+     "amount_cents": 10000,
+     "currency": "USD",
+     "conditional": true,
+     "trigger": "7 - 30 nights"
+    }
+   ],
+   "artifact_binding": {
+    "capture_id": "PGH-P4-C009",
+    "identity_key": "hyatt place pittsburgh north shore",
+    "artifact_sha256": "sha256:86a0300385abd780d509952c69ce8fc4cbb93d15302291305d6b3d8131cd0b8b",
+    "identity_binding": "Hyatt Place Pittsburgh-North Shore | 260 North Shore Drive, Pittsburgh, PA 15212 | +1 412 321 3000 | Hyatt property code PITZN",
+    "quotes_contiguous_in_artifact": true
+   },
+   "application_status": "NOT_EXECUTED"
+  },
+  {
+   "capture_id": "PGH-P4-C011",
+   "hotel": "Joinery Hotel Pittsburgh",
+   "identity_key": "joinery hotel pittsburgh",
+   "founder_decision": "APPROVE_WITH_CHANGE",
+   "target": "published_pet_friendly",
+   "approved_facts": [
+    "pets_allowed=true",
+    "pet_count_limit=2"
+   ],
+   "withheld_fields": [
+    {
+     "field": "pet_fee",
+     "reason_code": "SOURCE_CONTRADICTORY"
+    }
+   ],
+   "other_charges": [],
+   "artifact_binding": {
+    "capture_id": "PGH-P4-C011",
+    "identity_key": "joinery hotel pittsburgh",
+    "artifact_sha256": "sha256:7b098de04ea54d15129cf769c817a24d73085af1dd390155bccb25b270e8768a",
+    "identity_binding": "Joinery Hotel Pittsburgh | 453 Boulevard of the Allies, Pittsburgh, PA 15219 | 412-339-1870",
+    "quotes_contiguous_in_artifact": true
+   },
+   "application_status": "NOT_EXECUTED"
+  }
+ ],
+ "verified_no_pets_decisions": [
+  {
+   "capture_id": "PGH-P4-C001",
+   "hotel": "Courtyard by Marriott Pittsburgh Airport",
+   "identity_key": "courtyard by marriott pittsburgh airport",
+   "founder_decision": "APPROVE_VERIFIED_NO_PETS",
+   "target": "verified_no_pets",
+   "approved_facts": [],
+   "withheld_fields": [],
+   "other_charges": [],
+   "artifact_binding": {
+    "capture_id": "PGH-P4-C001",
+    "identity_key": "courtyard by marriott pittsburgh airport",
+    "artifact_sha256": "sha256:edbcf6cf34afec817a1b81be9af949f017eb2947812fb60ecb7165393dc67eda",
+    "identity_binding": "Courtyard by Marriott Pittsburgh Airport | 450 Cherrington Parkway, Coraopolis, PA 15108 | +1 412-264-5000 | Marriott property code PITCA",
+    "quotes_contiguous_in_artifact": true
+   },
+   "application_status": "NOT_EXECUTED"
+  },
+  {
+   "capture_id": "PGH-P4-C002",
+   "hotel": "Courtyard by Marriott Pittsburgh Airport Settlers Ridge",
+   "identity_key": "courtyard by marriott pittsburgh airport settlers ridge",
+   "founder_decision": "APPROVE_VERIFIED_NO_PETS",
+   "target": "verified_no_pets",
+   "approved_facts": [],
+   "withheld_fields": [],
+   "other_charges": [],
+   "artifact_binding": {
+    "capture_id": "PGH-P4-C002",
+    "identity_key": "courtyard by marriott pittsburgh airport settlers ridge",
+    "artifact_sha256": "sha256:7ac22ad1977301a0b3db62e3dce5f8e1fda0f908c408909ab4285386575c427f",
+    "identity_binding": "Courtyard by Marriott Pittsburgh Airport Settlers Ridge | 5100 Campbells Run Road, Pittsburgh, PA 15205 | +1 412-788-4404 | Marriott property code PITSR",
+    "quotes_contiguous_in_artifact": true
+   },
+   "application_status": "NOT_EXECUTED"
+  }
+ ],
+ "excluded_from_application": [
+  {
+   "hotel": "Hyatt Regency Pittsburgh International Airport",
+   "state": "IDENTITY_UNCERTAIN"
+  },
+  {
+   "hotel": "Mansions on Fifth",
+   "state": "POLICY_NOT_FOUND"
+  },
+  {
+   "hotel": "Sunnyledge Boutique Hotel",
+   "state": "SOURCE_AMBIGUOUS"
+  }
+ ],
+ "semantic_constraints": {
+  "sonesta": "Weight and breed restrictions are explicitly stated none; species and suite-to-room scope remain absent; duration tiers have no inferred fee basis.",
+  "hyatt_house": "Duration-tier amounts remain basis-absent; the included cleaning fee is not split into a synthetic charge.",
+  "hyatt_place_airport": "Pet fee remains SOURCE_AMBIGUOUS; advance-notice wording may be applied only if the canonical contract directly represents it.",
+  "hyatt_place_north_shore": "Both duration tier amounts remain basis-absent; $100 cleaning fee is conditional with its exact 7–30-night trigger and refundability absent.",
+  "joinery": "Pet fee remains SOURCE_CONTRADICTORY; no fee structure is selected."
+ },
+ "approval_requirements": [
+  "Construct each final authority record before any founder approval binding.",
+  "Bind final record_hash and evidence_hash after construction; require operator jfields80 and APPROVED_AFTER_CURRENT_REVIEW.",
+  "Bind final evidence and founder-decision hashes for verified-no-pets exclusions.",
+  "Reject stale approvals, agent-attributed human approvals, and post-signature mutation."
+ ],
+ "authority_changes_executed": false
+}

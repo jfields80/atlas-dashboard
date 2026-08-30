@@ -1,0 +1,1200 @@
+{
+ "schema": "ptf-market-reader-replay/1.0",
+ "work_order": "PTF-PITTSBURGH-HARDENED-SYNC-004",
+ "market_id": "pittsburgh-pa",
+ "as_of": "2026-08-30",
+ "what_this_is": "The 67 pages Pittsburgh already owns, re-read offline through the CURRENT hardened reader and compared with the readings committed on 2026-08-23.",
+ "provider_calls": 0,
+ "usd_spent": 0.0,
+ "corpus_path": "C:/Atlas-Pittsburgh-Hardened-Sync/atlas-dashboard/data/acquisition/pittsburgh_pa_factory_recensus_001/pass1",
+ "corpus_source_of_record": "C:\\Atlas-Grok-Pittsburgh-Revalidate\\atlas-dashboard\\data\\acquisition\\pittsburgh_pa_factory_recensus_001",
+ "journal_rows": 92,
+ "pages_replayed": 66,
+ "counts": {
+  "NEW_PET_FRIENDLY_CANDIDATE": 5,
+  "NEW_VERIFIED_NO_PETS_CANDIDATE": 3,
+  "POLICY_NOT_FOUND": 14,
+  "READ": 52,
+  "READER_RECOVERED_A_BLOCK_THE_OLD_READER_MISSED": 2,
+  "SAME_VERDICT_RICHER_READING": 22,
+  "STILL_UNREAD": 15,
+  "UNCHANGED": 19,
+  "no_owned_page": 26,
+  "unhashed_declined_capture": 23
+ },
+ "nothing_is_applied_here": "Phase 10 of PTF-PITTSBURGH-HARDENED-SYNC-004 forbids applying any reader-derived authority that does not correspond to one of the 32 already-signed founder decisions. Every row below is a candidate for a future founder packet, not authority.",
+ "count": 32,
+ "findings": [
+  {
+   "identity_key": "even hotels",
+   "canonical_name": "EVEN Hotels",
+   "brand": "IHG",
+   "state": "NEW_PET_FRIENDLY_CANDIDATE",
+   "already_published": false,
+   "corpus_drift": false,
+   "journal_stated_a_hash": false,
+   "committed_outcome": "IDENTITY_MISMATCH",
+   "pets_allowed_before": null,
+   "pets_allowed_now": true,
+   "extraction_before": null,
+   "extraction_now": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "weight_limit": {
+     "value": 70.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2
+   },
+   "withheld_now": {
+    "fee_basis": "SOURCE_CONTRADICTORY"
+   },
+   "flags_now": [
+    {
+     "code": "FLAG_AMBIGUOUS_BASIS",
+     "detail": "the surface states this $50.00 charge on more than one basis (per_night, per_stay); the amount stands and the basis is not chosen"
+    }
+   ],
+   "locator_strategy": "static_html_walk",
+   "source_url": "https://www.ihg.com/evenhotels/hotels/us/en/pittsburgh/pitev/hoteldetail",
+   "artifact_sha256": "5127ced10b72e4189486643e0bf4db6c9602490baf5c69b153b335fa2af4ccc5"
+  },
+  {
+   "identity_key": "holiday inn express and suites pittsburgh airport",
+   "canonical_name": "Holiday Inn Express & Suites Pittsburgh Airport",
+   "brand": "IHG",
+   "state": "NEW_VERIFIED_NO_PETS_CANDIDATE",
+   "already_published": false,
+   "corpus_drift": false,
+   "journal_stated_a_hash": false,
+   "committed_outcome": "IDENTITY_MISMATCH",
+   "pets_allowed_before": null,
+   "pets_allowed_now": false,
+   "extraction_before": null,
+   "extraction_now": {
+    "pets_allowed": false
+   },
+   "withheld_now": {},
+   "flags_now": [],
+   "locator_strategy": "static_html_walk",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/pittsburgh/pitex/hoteldetail",
+   "artifact_sha256": "7e15d9497c2058386d925764230314040afdd946a21f549e0202df6277113cb4"
+  },
+  {
+   "identity_key": "holiday inn express pittsburgh cranberry township",
+   "canonical_name": "Holiday Inn Express Pittsburgh Cranberry Township",
+   "brand": "IHG",
+   "state": "NEW_VERIFIED_NO_PETS_CANDIDATE",
+   "already_published": false,
+   "corpus_drift": false,
+   "journal_stated_a_hash": false,
+   "committed_outcome": "IDENTITY_MISMATCH",
+   "pets_allowed_before": null,
+   "pets_allowed_now": false,
+   "extraction_before": null,
+   "extraction_now": {
+    "pets_allowed": false
+   },
+   "withheld_now": {},
+   "flags_now": [],
+   "locator_strategy": "static_html_walk",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/cranberry/fklpa/hoteldetail",
+   "artifact_sha256": "b9cd21f992a09b501943933039b2bd490b9739311dcdc3711e188e68ad41b125"
+  },
+  {
+   "identity_key": "courtyard by marriott pittsburgh university center",
+   "canonical_name": "Courtyard by Marriott Pittsburgh University Center",
+   "brand": "MARRIOTT",
+   "state": "SAME_VERDICT_RICHER_READING",
+   "already_published": true,
+   "corpus_drift": false,
+   "journal_stated_a_hash": true,
+   "committed_outcome": "VALID",
+   "pets_allowed_before": true,
+   "pets_allowed_now": true,
+   "extraction_before": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    }
+   },
+   "extraction_now": {
+    "pets_allowed": true,
+    "pet_fee": 2000,
+    "fee_currency": "USD",
+    "fee_basis": "per_day"
+   },
+   "withheld_now": {},
+   "flags_now": [],
+   "locator_strategy": "static_html_walk",
+   "source_url": "https://www.marriott.com/en-us/hotels/pityu-courtyard-pittsburgh-university-center/overview/",
+   "artifact_sha256": "f1eb335dc4d19874a6359abb84f2ca13188b2065a8f4f19071ac1738335fbf94"
+  },
+  {
+   "identity_key": "courtyard pittsburgh university center",
+   "canonical_name": "Courtyard Pittsburgh University Center",
+   "brand": "MARRIOTT",
+   "state": "SAME_VERDICT_RICHER_READING",
+   "already_published": false,
+   "corpus_drift": false,
+   "journal_stated_a_hash": true,
+   "committed_outcome": "VALID",
+   "pets_allowed_before": true,
+   "pets_allowed_now": true,
+   "extraction_before": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    }
+   },
+   "extraction_now": {
+    "pets_allowed": true,
+    "pet_fee": 2000,
+    "fee_currency": "USD",
+    "fee_basis": "per_day"
+   },
+   "withheld_now": {},
+   "flags_now": [],
+   "locator_strategy": "static_html_walk",
+   "source_url": "https://www.marriott.com/en-us/hotels/pityu-courtyard-pittsburgh-university-center/overview",
+   "artifact_sha256": "1cd7d599cb46c498225bb850c1b4e68323cd12a68e59458360716ee5c9906bf4"
+  },
+  {
+   "identity_key": "fairfield inn and suites",
+   "canonical_name": "Fairfield Inn & Suites",
+   "brand": "MARRIOTT",
+   "state": "NEW_PET_FRIENDLY_CANDIDATE",
+   "already_published": false,
+   "corpus_drift": false,
+   "journal_stated_a_hash": false,
+   "committed_outcome": "IDENTITY_MISMATCH",
+   "pets_allowed_before": null,
+   "pets_allowed_now": true,
+   "extraction_before": null,
+   "extraction_now": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "withheld_now": {
+    "pet_fee": "SOURCE_SILENT"
+   },
+   "flags_now": [],
+   "locator_strategy": "static_html_walk",
+   "source_url": "https://www.marriott.com/pitwf",
+   "artifact_sha256": "b8a8b16351ecef6302f567234dc85f626b1a5c83df194c66294af31ba7b95346"
+  },
+  {
+   "identity_key": "pittsburgh airport marriott",
+   "canonical_name": "Pittsburgh Airport Marriott",
+   "brand": "MARRIOTT",
+   "state": "SAME_VERDICT_RICHER_READING",
+   "already_published": true,
+   "corpus_drift": false,
+   "journal_stated_a_hash": true,
+   "committed_outcome": "VALID",
+   "pets_allowed_before": true,
+   "pets_allowed_now": true,
+   "extraction_before": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2
+   },
+   "extraction_now": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay"
+   },
+   "withheld_now": {},
+   "flags_now": [],
+   "locator_strategy": "static_html_walk",
+   "source_url": "https://www.marriott.com/en-us/hotels/pitmc-pittsburgh-airport-marriott/overview",
+   "artifact_sha256": "2973869ca7e3c050d96445ed1a252256e454048a6264709b1001eb099c1f7144"
+  },
+  {
+   "identity_key": "pittsburgh marriott city center",
+   "canonical_name": "Pittsburgh Marriott City Center",
+   "brand": "MARRIOTT",
+   "state": "SAME_VERDICT_RICHER_READING",
+   "already_published": true,
+   "corpus_drift": false,
+   "journal_stated_a_hash": true,
+   "committed_outcome": "VALID",
+   "pets_allowed_before": true,
+   "pets_allowed_now": true,
+   "extraction_before": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room"
+   },
+   "extraction_now": {
+    "pets_allowed": true,
+    "pet_count_limit": 2
+   },
+   "withheld_now": {
+    "pet_fee": "SOURCE_SILENT"
+   },
+   "flags_now": [],
+   "locator_strategy": "static_html_walk",
+   "source_url": "https://www.marriott.com/en-us/hotels/pitdt-pittsburgh-marriott-city-center/overview",
+   "artifact_sha256": "19f4ef54871ccd89dad1249aca05d3445f7faa5973d47f1f3de0d3ed6103943f"
+  },
+  {
+   "identity_key": "sheraton pittsburgh hotel at station square",
+   "canonical_name": "Sheraton Pittsburgh Hotel at Station Square",
+   "brand": "MARRIOTT",
+   "state": "SAME_VERDICT_RICHER_READING",
+   "already_published": true,
+   "corpus_drift": false,
+   "journal_stated_a_hash": true,
+   "committed_outcome": "VALID",
+   "pets_allowed_before": true,
+   "pets_allowed_now": true,
+   "extraction_before": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 1,
+    "pet_count_scope": "per_room"
+   },
+   "extraction_now": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    },
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "withheld_now": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "flags_now": [],
+   "locator_strategy": "static_html_walk",
+   "source_url": "https://www.marriott.com/en-us/hotels/pitps-sheraton-pittsburgh-hotel-at-station-square/overview/",
+   "artifact_sha256": "54a1175aa057255a657e9b8a05354ca88e9475fc3e766747ecad7f849509b811"
+  },
+  {
+   "identity_key": "springhill suites by marriott pittsburgh airport",
+   "canonical_name": "Springhill Suites by Marriott Pittsburgh Airport",
+   "brand": "MARRIOTT",
+   "state": "SAME_VERDICT_RICHER_READING",
+   "already_published": false,
+   "corpus_drift": false,
+   "journal_stated_a_hash": true,
+   "committed_outcome": "VALID",
+   "pets_allowed_before": null,
+   "pets_allowed_now": null,
+   "extraction_before": {
+    "pet_fee": 15000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "service_animal_exception": "Only service animals are welcome"
+   },
+   "extraction_now": {
+    "service_animal_exception": "Only service animals are welcome"
+   },
+   "withheld_now": {
+    "pets_allowed": "SOURCE_CONTRADICTORY"
+   },
+   "flags_now": [
+    {
+     "code": "FLAG_CONTRADICTS_OFFICIAL",
+     "detail": "the surface denies pet acceptance and states pet terms that only apply if pets are accepted"
+    }
+   ],
+   "locator_strategy": "static_html_walk",
+   "source_url": "https://www.marriott.com/en-us/hotels/pitha-springhill-suites-pittsburgh-airport/overview",
+   "artifact_sha256": "5b9afd6ebd35bfe723fd70880364a15d551a93e915df36e33e952f44a77b3f35"
+  },
+  {
+   "identity_key": "springhill suites marriott",
+   "canonical_name": "SpringHill Suites Marriott",
+   "brand": "MARRIOTT",
+   "state": "SAME_VERDICT_RICHER_READING",
+   "already_published": false,
+   "corpus_drift": false,
+   "journal_stated_a_hash": true,
+   "committed_outcome": "VALID",
+   "pets_allowed_before": true,
+   "pets_allowed_now": true,
+   "extraction_before": {
+    "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "weight_limit": {
+     "value": 30.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2
+   },
+   "extraction_now": {
+    "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay"
+   },
+   "withheld_now": {},
+   "flags_now": [],
+   "locator_strategy": "static_html_walk",
+   "source_url": "https://www.marriott.com/pitle",
+   "artifact_sha256": "7478b997c4c5a241f842124950b4a7581f1aa4824ea1c22e4b8bebc9f0f9c800"
+  },
+  {
+   "identity_key": "the atterbury hotel autograph collection",
+   "canonical_name": "The Atterbury Hotel Autograph Collection",
+   "brand": "MARRIOTT",
+   "state": "SAME_VERDICT_RICHER_READING",
+   "already_published": true,
+   "corpus_drift": false,
+   "journal_stated_a_hash": true,
+   "committed_outcome": "VALID",
+   "pets_allowed_before": true,
+   "pets_allowed_now": true,
+   "extraction_before": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room"
+   },
+   "extraction_now": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "pet_count_limit": 2
+   },
+   "withheld_now": {},
+   "flags_now": [],
+   "locator_strategy": "static_html_walk",
+   "source_url": "https://www.marriott.com/en-us/hotels/pitkd-the-atterbury-hotel-autograph-collection/overview/",
+   "artifact_sha256": "bf5697fddcb7b722cd0f65be9ccf369fbf1830dffbd65958b4a13a033d272922"
+  },
+  {
+   "identity_key": "the industrialist hotel pittsburgh autograph collection",
+   "canonical_name": "The Industrialist Hotel Pittsburgh Autograph Collection",
+   "brand": "MARRIOTT",
+   "state": "SAME_VERDICT_RICHER_READING",
+   "already_published": true,
+   "corpus_drift": false,
+   "journal_stated_a_hash": true,
+   "committed_outcome": "VALID",
+   "pets_allowed_before": true,
+   "pets_allowed_now": true,
+   "extraction_before": {
+    "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD",
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "pet_count_scope": "per_room"
+   },
+   "extraction_now": {
+    "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2
+   },
+   "withheld_now": {},
+   "flags_now": [],
+   "locator_strategy": "static_html_walk",
+   "source_url": "https://www.marriott.com/en-us/hotels/pitad-the-industrialist-hotel-pittsburgh-autograph-collection/overview/",
+   "artifact_sha256": "e6711a8e2c8b27837dda4d368c5d246319f39349be6ab337fa1121a4630c38fa"
+  },
+  {
+   "identity_key": "doubletree by hilton hotel and suites pittsburgh downtown",
+   "canonical_name": "DoubleTree by Hilton Hotel & Suites Pittsburgh Downtown",
+   "brand": "HILTON",
+   "state": "READER_RECOVERED_A_BLOCK_THE_OLD_READER_MISSED",
+   "already_published": true,
+   "corpus_drift": false,
+   "journal_stated_a_hash": true,
+   "committed_outcome": "VALID",
+   "pets_allowed_before": null,
+   "pets_allowed_now": true,
+   "extraction_before": {},
+   "extraction_now": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD"
+   },
+   "withheld_now": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "flags_now": [],
+   "locator_strategy": "static_html_walk",
+   "source_url": "https://www.hilton.com/en/hotels/pitdtdt-doubletree-hotel-and-suites-pittsburgh-downtown/",
+   "artifact_sha256": "70a3384d23b74398acd07e3cebc0936078e358818d53b103f708fc5a218d93a7"
+  },
+  {
+   "identity_key": "doubletree by hilton pittsburgh cranberry",
+   "canonical_name": "DoubleTree by Hilton Pittsburgh Cranberry",
+   "brand": "HILTON",
+   "state": "SAME_VERDICT_RICHER_READING",
+   "already_published": true,
+   "corpus_drift": false,
+   "journal_stated_a_hash": true,
+   "committed_outcome": "VALID",
+   "pets_allowed_before": true,
+   "pets_allowed_now": true,
+   "extraction_before": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb"
+    }
+   },
+   "extraction_now": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD"
+   },
+   "withheld_now": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "flags_now": [],
+   "locator_strategy": "static_html_walk",
+   "source_url": "https://www.hilton.com/en/hotels/pitmadt-doubletree-pittsburgh-cranberry/",
+   "artifact_sha256": "e5810a831c7244a9e6213fdbb6480db0a87c7b2ff873dffb06c76003791474ba"
+  },
+  {
+   "identity_key": "embassy suites by hilton pittsburgh downtown",
+   "canonical_name": "Embassy Suites by Hilton Pittsburgh Downtown",
+   "brand": "HILTON",
+   "state": "NEW_PET_FRIENDLY_CANDIDATE",
+   "already_published": false,
+   "corpus_drift": false,
+   "journal_stated_a_hash": false,
+   "committed_outcome": "POLICY_NOT_FOUND",
+   "pets_allowed_before": null,
+   "pets_allowed_now": true,
+   "extraction_before": null,
+   "extraction_now": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD"
+   },
+   "withheld_now": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "flags_now": [],
+   "locator_strategy": "static_html_walk",
+   "source_url": "https://www.hilton.com/en/hotels/pitsmes-embassy-suites-pittsburgh-downtown",
+   "artifact_sha256": "4a042430baa2566f241bc74cd3f737604647e920dbeb1a2e6aba39ffe132b4c4"
+  },
+  {
+   "identity_key": "hampton inn and suites",
+   "canonical_name": "Hampton Inn & Suites",
+   "brand": "HILTON",
+   "state": "NEW_PET_FRIENDLY_CANDIDATE",
+   "already_published": false,
+   "corpus_drift": false,
+   "journal_stated_a_hash": false,
+   "committed_outcome": "POLICY_NOT_FOUND",
+   "pets_allowed_before": null,
+   "pets_allowed_now": true,
+   "extraction_before": null,
+   "extraction_now": {
+    "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD"
+   },
+   "withheld_now": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "flags_now": [],
+   "locator_strategy": "static_html_walk",
+   "source_url": "https://www.hilton.com/en/hotels/pitwhhx-hampton-suites-pittsburgh-waterfront-west-homestead",
+   "artifact_sha256": "13f63765426da8580838b68da5c330a4483723c243924f80ac48f069b7b84fc3"
+  },
+  {
+   "identity_key": "hampton inn and suites pittsburgh downtown",
+   "canonical_name": "Hampton Inn & Suites Pittsburgh-Downtown",
+   "brand": "HILTON",
+   "state": "SAME_VERDICT_RICHER_READING",
+   "already_published": true,
+   "corpus_drift": false,
+   "journal_stated_a_hash": true,
+   "committed_outcome": "VALID",
+   "pets_allowed_before": true,
+   "pets_allowed_now": true,
+   "extraction_before": {
+    "pets_allowed": true
+   },
+   "extraction_now": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD"
+   },
+   "withheld_now": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "flags_now": [],
+   "locator_strategy": "static_html_walk",
+   "source_url": "https://www.hilton.com/en/hotels/pitdnhx-hampton-suites-pittsburgh-downtown",
+   "artifact_sha256": "0c9d8fc3f6ec054c093cfd854530b52fe66cb545073dbb8ec30e91fc2c74f535"
+  },
+  {
+   "identity_key": "hampton inn and suites pittsburgh waterfront",
+   "canonical_name": "Hampton Inn & Suites Pittsburgh Waterfront",
+   "brand": "HILTON",
+   "state": "SAME_VERDICT_RICHER_READING",
+   "already_published": false,
+   "corpus_drift": false,
+   "journal_stated_a_hash": true,
+   "committed_outcome": "VALID",
+   "pets_allowed_before": true,
+   "pets_allowed_now": true,
+   "extraction_before": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 40.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2
+   },
+   "extraction_now": {
+    "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD"
+   },
+   "withheld_now": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "flags_now": [],
+   "locator_strategy": "static_html_walk",
+   "source_url": "https://www.hilton.com/en/hotels/pitwhhx-hampton-suites-pittsburgh-waterfront-west-homestead/",
+   "artifact_sha256": "a49e1ffd69094fd98db6941416ecd8195c0d9b58e8e894d2dfdb29b50fe1723e"
+  },
+  {
+   "identity_key": "hampton inn pittsburgh harmarville",
+   "canonical_name": "Hampton Inn Pittsburgh Harmarville",
+   "brand": "HILTON",
+   "state": "SAME_VERDICT_RICHER_READING",
+   "already_published": true,
+   "corpus_drift": false,
+   "journal_stated_a_hash": true,
+   "committed_outcome": "VALID",
+   "pets_allowed_before": true,
+   "pets_allowed_now": true,
+   "extraction_before": {
+    "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 5000,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "extraction_now": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD"
+   },
+   "withheld_now": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "flags_now": [],
+   "locator_strategy": "static_html_walk",
+   "source_url": "https://www.hilton.com/en/hotels/pithahx-hampton-suites-pittsburgh-harmarville/",
+   "artifact_sha256": "59cf3edb014305bd6e9592ff1bea7cfe08ac7c9fa455ab7f3ea2b6b280c14a2f"
+  },
+  {
+   "identity_key": "hampton inn pittsburgh monroeville",
+   "canonical_name": "Hampton Inn Pittsburgh Monroeville",
+   "brand": "HILTON",
+   "state": "SAME_VERDICT_RICHER_READING",
+   "already_published": true,
+   "corpus_drift": false,
+   "journal_stated_a_hash": true,
+   "committed_outcome": "VALID",
+   "pets_allowed_before": true,
+   "pets_allowed_now": true,
+   "extraction_before": {
+    "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 12500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
+    "weight_limit": {
+     "value": 40.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "extraction_now": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD"
+   },
+   "withheld_now": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "flags_now": [],
+   "locator_strategy": "static_html_walk",
+   "source_url": "https://www.hilton.com/en/hotels/pitmvhx-hampton-pittsburgh-monroeville/",
+   "artifact_sha256": "9fd4b242cf19c3d09413016f074d939383dbdb7633e0627cdba9f8c6703f344a"
+  },
+  {
+   "identity_key": "hampton inn pittsburgh university medical center",
+   "canonical_name": "Hampton Inn Pittsburgh University/Medical Center",
+   "brand": "HILTON",
+   "state": "SAME_VERDICT_RICHER_READING",
+   "already_published": false,
+   "corpus_drift": false,
+   "journal_stated_a_hash": true,
+   "committed_outcome": "VALID",
+   "pets_allowed_before": true,
+   "pets_allowed_now": true,
+   "extraction_before": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "extraction_now": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD"
+   },
+   "withheld_now": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "flags_now": [],
+   "locator_strategy": "static_html_walk",
+   "source_url": "https://www.hilton.com/en/hotels/pitokhx-hampton-pittsburgh-university-medical-center",
+   "artifact_sha256": "dbd3b160b640d5714a6c71c20e7f11cf5c2d9294f561e9c703176937fb5e54aa"
+  },
+  {
+   "identity_key": "hampton inn pittsburgh wexford sewickley",
+   "canonical_name": "Hampton Inn Pittsburgh Wexford Sewickley",
+   "brand": "HILTON",
+   "state": "SAME_VERDICT_RICHER_READING",
+   "already_published": true,
+   "corpus_drift": false,
+   "journal_stated_a_hash": true,
+   "committed_outcome": "VALID",
+   "pets_allowed_before": true,
+   "pets_allowed_now": true,
+   "extraction_before": {
+    "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 12500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "extraction_now": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD"
+   },
+   "withheld_now": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "flags_now": [],
+   "locator_strategy": "static_html_walk",
+   "source_url": "https://www.hilton.com/en/hotels/pitwshx-hampton-pittsburgh-wexford-sewickley/",
+   "artifact_sha256": "a94b2c8dfe4a6aac9d0ca50333f2ca2fd280336f2874d3336fda0db1e3109f7f"
+  },
+  {
+   "identity_key": "hampton inn university center",
+   "canonical_name": "Hampton Inn University Center",
+   "brand": "HILTON",
+   "state": "SAME_VERDICT_RICHER_READING",
+   "already_published": true,
+   "corpus_drift": false,
+   "journal_stated_a_hash": true,
+   "committed_outcome": "VALID",
+   "pets_allowed_before": true,
+   "pets_allowed_now": true,
+   "extraction_before": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "extraction_now": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD"
+   },
+   "withheld_now": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "flags_now": [],
+   "locator_strategy": "static_html_walk",
+   "source_url": "https://www.hilton.com/en/hotels/pitokhx-hampton-pittsburgh-university-medical-center/",
+   "artifact_sha256": "f54bbbe571f5c18e0f9221d55bf4b034aa54232c54d6a1aaca558b1a270e8eb1"
+  },
+  {
+   "identity_key": "hilton garden inn",
+   "canonical_name": "Hilton Garden Inn",
+   "brand": "HILTON",
+   "state": "SAME_VERDICT_RICHER_READING",
+   "already_published": false,
+   "corpus_drift": false,
+   "journal_stated_a_hash": true,
+   "committed_outcome": "VALID",
+   "pets_allowed_before": true,
+   "pets_allowed_now": true,
+   "extraction_before": {
+    "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": true,
+      "condition_max": 4,
+      "basis": "per_stay"
+     },
+     {
+      "amount_cents": 12500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": true,
+      "basis": "per_stay"
+     }
+    ],
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "extraction_now": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD"
+   },
+   "withheld_now": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "flags_now": [],
+   "locator_strategy": "static_html_walk",
+   "source_url": "https://www.hilton.com/en/hotels/pitfagi-hilton-garden-inn-pittsburgh-downtown",
+   "artifact_sha256": "3c1392279272d3c14b3cd1af3bdca1bb166350e757519175a070fedb9454bace"
+  },
+  {
+   "identity_key": "hilton garden inn pittsburgh airport",
+   "canonical_name": "Hilton Garden Inn Pittsburgh Airport",
+   "brand": "HILTON",
+   "state": "SAME_VERDICT_RICHER_READING",
+   "already_published": true,
+   "corpus_drift": false,
+   "journal_stated_a_hash": true,
+   "committed_outcome": "VALID",
+   "pets_allowed_before": true,
+   "pets_allowed_now": true,
+   "extraction_before": {
+    "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 12500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    }
+   },
+   "extraction_now": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD"
+   },
+   "withheld_now": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "flags_now": [],
+   "locator_strategy": "static_html_walk",
+   "source_url": "https://www.hilton.com/en/hotels/pitmtgi-hilton-garden-inn-pittsburgh-airport/",
+   "artifact_sha256": "c68a80811c41ea354a87bf137a8238d2969c33ba1c2633271177f0536689a8f5"
+  },
+  {
+   "identity_key": "hilton garden inn pittsburgh university place",
+   "canonical_name": "Hilton Garden Inn Pittsburgh University Place",
+   "brand": "HILTON",
+   "state": "SAME_VERDICT_RICHER_READING",
+   "already_published": true,
+   "corpus_drift": false,
+   "journal_stated_a_hash": true,
+   "committed_outcome": "VALID",
+   "pets_allowed_before": true,
+   "pets_allowed_now": true,
+   "extraction_before": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "extraction_now": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD"
+   },
+   "withheld_now": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "flags_now": [],
+   "locator_strategy": "static_html_walk",
+   "source_url": "https://www.hilton.com/en/hotels/pitucgi-hilton-garden-inn-pittsburgh-university-place",
+   "artifact_sha256": "9335792589a976da5ce4179c6dbf8a428f73a8162de92c4a3cf787d25416aebb"
+  },
+  {
+   "identity_key": "home2 suites by hilton pittsburgh",
+   "canonical_name": "Home2 Suites by Hilton Pittsburgh",
+   "brand": "HILTON",
+   "state": "SAME_VERDICT_RICHER_READING",
+   "already_published": false,
+   "corpus_drift": false,
+   "journal_stated_a_hash": true,
+   "committed_outcome": "VALID",
+   "pets_allowed_before": true,
+   "pets_allowed_now": true,
+   "extraction_before": {
+    "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 12500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "extraction_now": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD"
+   },
+   "withheld_now": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "flags_now": [],
+   "locator_strategy": "static_html_walk",
+   "source_url": "https://www.hilton.com/en/hotels/pitmcht-home2-suites-pittsburgh-mccandless-pa",
+   "artifact_sha256": "f29c03148c832d1d23467ba5bde0229508769204d09306988ffa7687be8fa4c5"
+  },
+  {
+   "identity_key": "home2 suites by hilton pittsburgh cranberry pa",
+   "canonical_name": "Home2 Suites by Hilton Pittsburgh Cranberry, PA",
+   "brand": "HILTON",
+   "state": "SAME_VERDICT_RICHER_READING",
+   "already_published": false,
+   "corpus_drift": false,
+   "journal_stated_a_hash": true,
+   "committed_outcome": "VALID",
+   "pets_allowed_before": true,
+   "pets_allowed_now": true,
+   "extraction_before": {
+    "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 5000,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "extraction_now": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD"
+   },
+   "withheld_now": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "flags_now": [],
+   "locator_strategy": "static_html_walk",
+   "source_url": "https://www.hilton.com/en/hotels/pitltht-home2-suites-pittsburgh-cranberry-pa",
+   "artifact_sha256": "81686cfe07b54ddf08f1a866172fde394f264914c277871a10c2f1d100e07b98"
+  },
+  {
+   "identity_key": "home2 suites pittsburgh cranberry township",
+   "canonical_name": "Home2 Suites Pittsburgh Cranberry Township",
+   "brand": "HILTON",
+   "state": "NEW_PET_FRIENDLY_CANDIDATE",
+   "already_published": true,
+   "corpus_drift": false,
+   "journal_stated_a_hash": false,
+   "committed_outcome": "POLICY_NOT_FOUND",
+   "pets_allowed_before": null,
+   "pets_allowed_now": true,
+   "extraction_before": null,
+   "extraction_now": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD"
+   },
+   "withheld_now": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "flags_now": [],
+   "locator_strategy": "static_html_walk",
+   "source_url": "https://www.hilton.com/en/hotels/pitltht-home2-suites-pittsburgh-cranberry-pa/",
+   "artifact_sha256": "2d5582b299fd58e7518c2b95b62ecff69426da949cf8c30a1615a764c3b6782c"
+  },
+  {
+   "identity_key": "homewood suites pittsburgh downtown",
+   "canonical_name": "Homewood Suites Pittsburgh Downtown",
+   "brand": "HILTON",
+   "state": "READER_RECOVERED_A_BLOCK_THE_OLD_READER_MISSED",
+   "already_published": true,
+   "corpus_drift": false,
+   "journal_stated_a_hash": true,
+   "committed_outcome": "VALID",
+   "pets_allowed_before": null,
+   "pets_allowed_now": true,
+   "extraction_before": {},
+   "extraction_now": {
+    "pets_allowed": true,
+    "fee_tiers": [
+     {
+      "amount_cents": 7500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 1,
+      "basis_stated": false,
+      "condition_max": 4
+     },
+     {
+      "amount_cents": 12500,
+      "currency": "USD",
+      "role": "REPLACEMENT_PRICE",
+      "condition_type": "stay_length_range",
+      "boundary_unit": "nights",
+      "condition_min": 5,
+      "basis_stated": false
+     }
+    ],
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "withheld_now": {},
+   "flags_now": [
+    {
+     "code": "FLAG_STRUCTURED_TIERS",
+     "detail": "the price is stated as 2 bands by stay length and is carried in fee_tiers"
+    }
+   ],
+   "locator_strategy": "static_html_walk",
+   "source_url": "https://www.hilton.com/en/hotels/pitdohw-homewood-suites-pittsburgh-downtown/",
+   "artifact_sha256": "76a84452af9e8b2e40ab6f56f37322aa791c90067d223d35f4bcf1f12026d0b1"
+  },
+  {
+   "identity_key": "cambria hotel pittsburgh downtown",
+   "canonical_name": "Cambria Hotel Pittsburgh - Downtown",
+   "brand": "INDEP:www.cambriapgh.com",
+   "state": "NEW_VERIFIED_NO_PETS_CANDIDATE",
+   "already_published": false,
+   "corpus_drift": false,
+   "journal_stated_a_hash": false,
+   "committed_outcome": "POLICY_NOT_FOUND",
+   "pets_allowed_before": null,
+   "pets_allowed_now": false,
+   "extraction_before": null,
+   "extraction_now": {
+    "pets_allowed": false
+   },
+   "withheld_now": {},
+   "flags_now": [],
+   "locator_strategy": "static_html_walk",
+   "source_url": "https://www.cambriapgh.com",
+   "artifact_sha256": "83f8d87bd595a641d5559d7a919b8ceb68baa5f29621e3c4290c895594f3f0fe"
+  }
+ ]
+}

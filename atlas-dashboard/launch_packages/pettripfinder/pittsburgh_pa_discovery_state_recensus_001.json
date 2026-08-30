@@ -1,0 +1,645 @@
+{
+ "schema": "ptf-discovery-state/1.0",
+ "what_this_is": "Whether a market's free (Overpass) discovery is exhausted, runnable or waiting on endpoint health -- derived offline from the plan, the cache and the approved-endpoint health ledger. Free discovery is never called exhausted while a healthy approved endpoint exists and uncached cells remain.",
+ "market_id": "pittsburgh-pa",
+ "categories": [
+  "hotel",
+  "motel"
+ ],
+ "state": "OVERPASS_FREE_DISCOVERY_EXHAUSTED",
+ "OVERPASS_ENDPOINTS_TOTAL": 5,
+ "OVERPASS_ENDPOINTS_ENABLED": 3,
+ "OVERPASS_ENDPOINTS_AVAILABLE": 3,
+ "OVERPASS_FAILURE_DOMAINS_ENABLED": 2,
+ "OVERPASS_FAILURE_DOMAINS_AVAILABLE": 2,
+ "OVERPASS_CELLS_TOTAL": 30,
+ "OVERPASS_CELLS_CACHED": 30,
+ "OVERPASS_CELLS_REMAINING": 0,
+ "OVERPASS_FREE_DISCOVERY_EXHAUSTED": true,
+ "WAITING_FOR_FREE_DISCOVERY": false,
+ "FORWARD_PROGRESS_STALLED": false,
+ "RESUME_CYCLES_WITHOUT_PROGRESS": 0,
+ "waiting_reason": "",
+ "forward_progress": {
+  "status": "NO_CYCLES",
+  "stall_cycles": 3,
+  "attempting_cycles": 0,
+  "consecutive_zero_progress_cycles": 0,
+  "gated_runs": 0,
+  "last_progress_at": "",
+  "last_cycle_at": ""
+ },
+ "earliest_cooldown_expiry": "",
+ "available_endpoint_ids": [
+  "overpass-api.de",
+  "overpass.kumi.systems",
+  "overpass.private.coffee"
+ ],
+ "available_failure_domains": [
+  "overpass-api.de",
+  "flanders.servers.private.coffee"
+ ],
+ "endpoint_health_states": {
+  "overpass-api.de": {
+   "endpoint_id": "overpass-api.de",
+   "state": "OPEN",
+   "consecutive_failures": 158,
+   "cooldown_until": "2026-08-26T04:27:03.409796+00:00",
+   "last_classification": "TIMEOUT",
+   "last_checked_at": "2026-08-26T04:12:03.409796+00:00",
+   "opened_at": "2026-08-26T04:12:03.409796+00:00",
+   "opened_because": "TIMEOUT (158 consecutive failures; threshold 3)",
+   "successes": 0,
+   "failures": 158,
+   "enabled": true,
+   "availability": "HALF_OPEN"
+  },
+  "overpass.kumi.systems": {
+   "endpoint_id": "overpass.kumi.systems",
+   "state": "OPEN",
+   "consecutive_failures": 36,
+   "cooldown_until": "2026-08-26T04:18:00.740746+00:00",
+   "last_classification": "HTTP_SERVER_ERROR",
+   "last_checked_at": "2026-08-26T04:03:00.740746+00:00",
+   "opened_at": "2026-08-26T04:03:00.740746+00:00",
+   "opened_because": "HTTP_SERVER_ERROR (36 consecutive failures; threshold 3)",
+   "successes": 45,
+   "failures": 72,
+   "enabled": true,
+   "availability": "HALF_OPEN"
+  },
+  "overpass.private.coffee": {
+   "endpoint_id": "overpass.private.coffee",
+   "state": "OPEN",
+   "consecutive_failures": 32,
+   "cooldown_until": "2026-08-26T04:18:21.557765+00:00",
+   "last_classification": "HTTP_SERVER_ERROR",
+   "last_checked_at": "2026-08-26T04:03:21.557765+00:00",
+   "opened_at": "2026-08-26T04:03:21.557765+00:00",
+   "opened_because": "HTTP_SERVER_ERROR (32 consecutive failures; threshold 3)",
+   "successes": 13,
+   "failures": 37,
+   "enabled": true,
+   "availability": "HALF_OPEN"
+  },
+  "overpass.osm.ch": {
+   "endpoint_id": "overpass.osm.ch",
+   "state": "CLOSED",
+   "consecutive_failures": 0,
+   "cooldown_until": "",
+   "last_classification": "",
+   "last_checked_at": "",
+   "opened_at": "",
+   "opened_because": "",
+   "successes": 0,
+   "failures": 0,
+   "enabled": false,
+   "availability": "DISABLED"
+  },
+  "maps.mail.ru": {
+   "endpoint_id": "maps.mail.ru",
+   "state": "CLOSED",
+   "consecutive_failures": 0,
+   "cooldown_until": "",
+   "last_classification": "",
+   "last_checked_at": "",
+   "opened_at": "",
+   "opened_because": "",
+   "successes": 0,
+   "failures": 0,
+   "enabled": false,
+   "availability": "DISABLED"
+  }
+ },
+ "cached_cells_by_endpoint": {
+  "local_extract:geofabrik-pennsylvania": 17,
+  "overpass-api.de": 12,
+  "overpass.private.coffee": 1
+ },
+ "cached_cells": [
+  {
+   "query_id": "OPENSTREETMAP__hotel__pittsburgh-pa__downtown",
+   "cell_id": "pittsburgh-pa__downtown",
+   "category": "hotel",
+   "cache_key_kind": "legacy",
+   "provenance": {
+    "endpoint_id": "overpass-api.de",
+    "endpoint_url": "https://overpass-api.de/api/interpreter",
+    "requested_at": "2026-08-25",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__hotel__pittsburgh-pa__downtown",
+    "cell_id": "",
+    "query_hash": "72aef570be7bb47d",
+    "query_version": "legacy",
+    "key_kind": "legacy"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__hotel__pittsburgh-pa__north-shore",
+   "cell_id": "pittsburgh-pa__north-shore",
+   "category": "hotel",
+   "cache_key_kind": "legacy",
+   "provenance": {
+    "endpoint_id": "overpass-api.de",
+    "endpoint_url": "https://overpass-api.de/api/interpreter",
+    "requested_at": "2026-08-25",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__hotel__pittsburgh-pa__north-shore",
+    "cell_id": "",
+    "query_hash": "95217570cef1d634",
+    "query_version": "legacy",
+    "key_kind": "legacy"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__hotel__pittsburgh-pa__oakland",
+   "cell_id": "pittsburgh-pa__oakland",
+   "category": "hotel",
+   "cache_key_kind": "current",
+   "provenance": {
+    "endpoint_id": "overpass.private.coffee",
+    "endpoint_url": "https://overpass.private.coffee/api/interpreter",
+    "requested_at": "2026-08-26T02:18:50.680449+00:00",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__hotel__pittsburgh-pa__oakland",
+    "cell_id": "pittsburgh-pa__oakland",
+    "query_hash": "7a49c60b0e373b8b",
+    "query_version": "overpass-ql/1",
+    "key_kind": "current"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__hotel__pittsburgh-pa__east-end",
+   "cell_id": "pittsburgh-pa__east-end",
+   "category": "hotel",
+   "cache_key_kind": "legacy",
+   "provenance": {
+    "endpoint_id": "overpass-api.de",
+    "endpoint_url": "https://overpass-api.de/api/interpreter",
+    "requested_at": "2026-08-25",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__hotel__pittsburgh-pa__east-end",
+    "cell_id": "",
+    "query_hash": "ac2b7fbf9efd5e68",
+    "query_version": "legacy",
+    "key_kind": "legacy"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__hotel__pittsburgh-pa__strip-lawrenceville",
+   "cell_id": "pittsburgh-pa__strip-lawrenceville",
+   "category": "hotel",
+   "cache_key_kind": "legacy",
+   "provenance": {
+    "endpoint_id": "overpass-api.de",
+    "endpoint_url": "https://overpass-api.de/api/interpreter",
+    "requested_at": "2026-08-25",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__hotel__pittsburgh-pa__strip-lawrenceville",
+    "cell_id": "",
+    "query_hash": "113d7a7a02331813",
+    "query_version": "legacy",
+    "key_kind": "legacy"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__hotel__pittsburgh-pa__south-side",
+   "cell_id": "pittsburgh-pa__south-side",
+   "category": "hotel",
+   "cache_key_kind": "legacy",
+   "provenance": {
+    "endpoint_id": "overpass-api.de",
+    "endpoint_url": "https://overpass-api.de/api/interpreter",
+    "requested_at": "2026-08-25",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__hotel__pittsburgh-pa__south-side",
+    "cell_id": "",
+    "query_hash": "f0b8a70102b99c85",
+    "query_version": "legacy",
+    "key_kind": "legacy"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__hotel__pittsburgh-pa__airport",
+   "cell_id": "pittsburgh-pa__airport",
+   "category": "hotel",
+   "cache_key_kind": "legacy",
+   "provenance": {
+    "endpoint_id": "overpass-api.de",
+    "endpoint_url": "https://overpass-api.de/api/interpreter",
+    "requested_at": "2026-08-25",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__hotel__pittsburgh-pa__airport",
+    "cell_id": "",
+    "query_hash": "838c90142ba734c0",
+    "query_version": "legacy",
+    "key_kind": "legacy"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__hotel__pittsburgh-pa__robinson",
+   "cell_id": "pittsburgh-pa__robinson",
+   "category": "hotel",
+   "cache_key_kind": "legacy",
+   "provenance": {
+    "endpoint_id": "overpass-api.de",
+    "endpoint_url": "https://overpass-api.de/api/interpreter",
+    "requested_at": "2026-08-25",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__hotel__pittsburgh-pa__robinson",
+    "cell_id": "",
+    "query_hash": "b405ed339775b0bb",
+    "query_version": "legacy",
+    "key_kind": "legacy"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__hotel__pittsburgh-pa__green-tree",
+   "cell_id": "pittsburgh-pa__green-tree",
+   "category": "hotel",
+   "cache_key_kind": "legacy",
+   "provenance": {
+    "endpoint_id": "overpass-api.de",
+    "endpoint_url": "https://overpass-api.de/api/interpreter",
+    "requested_at": "2026-08-25",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__hotel__pittsburgh-pa__green-tree",
+    "cell_id": "",
+    "query_hash": "bf776f434a5efbb7",
+    "query_version": "legacy",
+    "key_kind": "legacy"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__hotel__pittsburgh-pa__monroeville",
+   "cell_id": "pittsburgh-pa__monroeville",
+   "category": "hotel",
+   "cache_key_kind": "legacy",
+   "provenance": {
+    "endpoint_id": "overpass-api.de",
+    "endpoint_url": "https://overpass-api.de/api/interpreter",
+    "requested_at": "2026-08-25",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__hotel__pittsburgh-pa__monroeville",
+    "cell_id": "",
+    "query_hash": "3f5f56fa98d532dc",
+    "query_version": "legacy",
+    "key_kind": "legacy"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__hotel__pittsburgh-pa__waterfront",
+   "cell_id": "pittsburgh-pa__waterfront",
+   "category": "hotel",
+   "cache_key_kind": "current",
+   "provenance": {
+    "endpoint_id": "local_extract:geofabrik-pennsylvania",
+    "endpoint_url": "https://download.geofabrik.de/north-america/us/pennsylvania-latest.osm.pbf",
+    "requested_at": "2026-08-26T12:58:30.280601+00:00",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__hotel__pittsburgh-pa__waterfront",
+    "cell_id": "pittsburgh-pa__waterfront",
+    "query_hash": "31d049b92a5db809",
+    "query_version": "overpass-ql/1",
+    "key_kind": "current"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__hotel__pittsburgh-pa__north-hills",
+   "cell_id": "pittsburgh-pa__north-hills",
+   "category": "hotel",
+   "cache_key_kind": "legacy",
+   "provenance": {
+    "endpoint_id": "overpass-api.de",
+    "endpoint_url": "https://overpass-api.de/api/interpreter",
+    "requested_at": "2026-08-25",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__hotel__pittsburgh-pa__north-hills",
+    "cell_id": "",
+    "query_hash": "e683cf437fd9d0ca",
+    "query_version": "legacy",
+    "key_kind": "legacy"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__hotel__pittsburgh-pa__cranberry",
+   "cell_id": "pittsburgh-pa__cranberry",
+   "category": "hotel",
+   "cache_key_kind": "current",
+   "provenance": {
+    "endpoint_id": "local_extract:geofabrik-pennsylvania",
+    "endpoint_url": "https://download.geofabrik.de/north-america/us/pennsylvania-latest.osm.pbf",
+    "requested_at": "2026-08-26T12:58:30.310435+00:00",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__hotel__pittsburgh-pa__cranberry",
+    "cell_id": "pittsburgh-pa__cranberry",
+    "query_hash": "393acf92f9e277f8",
+    "query_version": "overpass-ql/1",
+    "key_kind": "current"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__hotel__pittsburgh-pa__south-hills",
+   "cell_id": "pittsburgh-pa__south-hills",
+   "category": "hotel",
+   "cache_key_kind": "legacy",
+   "provenance": {
+    "endpoint_id": "overpass-api.de",
+    "endpoint_url": "https://overpass-api.de/api/interpreter",
+    "requested_at": "2026-08-25",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__hotel__pittsburgh-pa__south-hills",
+    "cell_id": "",
+    "query_hash": "232950611b224f0a",
+    "query_version": "legacy",
+    "key_kind": "legacy"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__hotel__pittsburgh-pa__allegheny-valley",
+   "cell_id": "pittsburgh-pa__allegheny-valley",
+   "category": "hotel",
+   "cache_key_kind": "legacy",
+   "provenance": {
+    "endpoint_id": "overpass-api.de",
+    "endpoint_url": "https://overpass-api.de/api/interpreter",
+    "requested_at": "2026-08-25",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__hotel__pittsburgh-pa__allegheny-valley",
+    "cell_id": "",
+    "query_hash": "ac59ce270eaab66b",
+    "query_version": "legacy",
+    "key_kind": "legacy"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__motel__pittsburgh-pa__downtown",
+   "cell_id": "pittsburgh-pa__downtown",
+   "category": "motel",
+   "cache_key_kind": "current",
+   "provenance": {
+    "endpoint_id": "local_extract:geofabrik-pennsylvania",
+    "endpoint_url": "https://download.geofabrik.de/north-america/us/pennsylvania-latest.osm.pbf",
+    "requested_at": "2026-08-26T12:58:30.341201+00:00",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__motel__pittsburgh-pa__downtown",
+    "cell_id": "pittsburgh-pa__downtown",
+    "query_hash": "0490207c854f9364",
+    "query_version": "overpass-ql/1",
+    "key_kind": "current"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__motel__pittsburgh-pa__north-shore",
+   "cell_id": "pittsburgh-pa__north-shore",
+   "category": "motel",
+   "cache_key_kind": "current",
+   "provenance": {
+    "endpoint_id": "local_extract:geofabrik-pennsylvania",
+    "endpoint_url": "https://download.geofabrik.de/north-america/us/pennsylvania-latest.osm.pbf",
+    "requested_at": "2026-08-26T12:58:30.374890+00:00",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__motel__pittsburgh-pa__north-shore",
+    "cell_id": "pittsburgh-pa__north-shore",
+    "query_hash": "33450de3e70df960",
+    "query_version": "overpass-ql/1",
+    "key_kind": "current"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__motel__pittsburgh-pa__oakland",
+   "cell_id": "pittsburgh-pa__oakland",
+   "category": "motel",
+   "cache_key_kind": "current",
+   "provenance": {
+    "endpoint_id": "local_extract:geofabrik-pennsylvania",
+    "endpoint_url": "https://download.geofabrik.de/north-america/us/pennsylvania-latest.osm.pbf",
+    "requested_at": "2026-08-26T12:58:30.400145+00:00",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__motel__pittsburgh-pa__oakland",
+    "cell_id": "pittsburgh-pa__oakland",
+    "query_hash": "f18312642974f3bc",
+    "query_version": "overpass-ql/1",
+    "key_kind": "current"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__motel__pittsburgh-pa__east-end",
+   "cell_id": "pittsburgh-pa__east-end",
+   "category": "motel",
+   "cache_key_kind": "current",
+   "provenance": {
+    "endpoint_id": "local_extract:geofabrik-pennsylvania",
+    "endpoint_url": "https://download.geofabrik.de/north-america/us/pennsylvania-latest.osm.pbf",
+    "requested_at": "2026-08-26T12:58:30.425739+00:00",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__motel__pittsburgh-pa__east-end",
+    "cell_id": "pittsburgh-pa__east-end",
+    "query_hash": "62e21794f79ed1b3",
+    "query_version": "overpass-ql/1",
+    "key_kind": "current"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__motel__pittsburgh-pa__strip-lawrenceville",
+   "cell_id": "pittsburgh-pa__strip-lawrenceville",
+   "category": "motel",
+   "cache_key_kind": "current",
+   "provenance": {
+    "endpoint_id": "local_extract:geofabrik-pennsylvania",
+    "endpoint_url": "https://download.geofabrik.de/north-america/us/pennsylvania-latest.osm.pbf",
+    "requested_at": "2026-08-26T12:58:30.451742+00:00",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__motel__pittsburgh-pa__strip-lawrenceville",
+    "cell_id": "pittsburgh-pa__strip-lawrenceville",
+    "query_hash": "18e85334944a5991",
+    "query_version": "overpass-ql/1",
+    "key_kind": "current"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__motel__pittsburgh-pa__south-side",
+   "cell_id": "pittsburgh-pa__south-side",
+   "category": "motel",
+   "cache_key_kind": "current",
+   "provenance": {
+    "endpoint_id": "local_extract:geofabrik-pennsylvania",
+    "endpoint_url": "https://download.geofabrik.de/north-america/us/pennsylvania-latest.osm.pbf",
+    "requested_at": "2026-08-26T12:58:30.478049+00:00",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__motel__pittsburgh-pa__south-side",
+    "cell_id": "pittsburgh-pa__south-side",
+    "query_hash": "e62c766d55c99395",
+    "query_version": "overpass-ql/1",
+    "key_kind": "current"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__motel__pittsburgh-pa__airport",
+   "cell_id": "pittsburgh-pa__airport",
+   "category": "motel",
+   "cache_key_kind": "current",
+   "provenance": {
+    "endpoint_id": "local_extract:geofabrik-pennsylvania",
+    "endpoint_url": "https://download.geofabrik.de/north-america/us/pennsylvania-latest.osm.pbf",
+    "requested_at": "2026-08-26T12:58:30.501645+00:00",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__motel__pittsburgh-pa__airport",
+    "cell_id": "pittsburgh-pa__airport",
+    "query_hash": "25038e01ce5eb340",
+    "query_version": "overpass-ql/1",
+    "key_kind": "current"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__motel__pittsburgh-pa__robinson",
+   "cell_id": "pittsburgh-pa__robinson",
+   "category": "motel",
+   "cache_key_kind": "current",
+   "provenance": {
+    "endpoint_id": "local_extract:geofabrik-pennsylvania",
+    "endpoint_url": "https://download.geofabrik.de/north-america/us/pennsylvania-latest.osm.pbf",
+    "requested_at": "2026-08-26T12:58:30.531675+00:00",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__motel__pittsburgh-pa__robinson",
+    "cell_id": "pittsburgh-pa__robinson",
+    "query_hash": "b8ec6e8ff4d01419",
+    "query_version": "overpass-ql/1",
+    "key_kind": "current"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__motel__pittsburgh-pa__green-tree",
+   "cell_id": "pittsburgh-pa__green-tree",
+   "category": "motel",
+   "cache_key_kind": "current",
+   "provenance": {
+    "endpoint_id": "local_extract:geofabrik-pennsylvania",
+    "endpoint_url": "https://download.geofabrik.de/north-america/us/pennsylvania-latest.osm.pbf",
+    "requested_at": "2026-08-26T12:58:30.562310+00:00",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__motel__pittsburgh-pa__green-tree",
+    "cell_id": "pittsburgh-pa__green-tree",
+    "query_hash": "b62f22677950c3ab",
+    "query_version": "overpass-ql/1",
+    "key_kind": "current"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__motel__pittsburgh-pa__monroeville",
+   "cell_id": "pittsburgh-pa__monroeville",
+   "category": "motel",
+   "cache_key_kind": "current",
+   "provenance": {
+    "endpoint_id": "local_extract:geofabrik-pennsylvania",
+    "endpoint_url": "https://download.geofabrik.de/north-america/us/pennsylvania-latest.osm.pbf",
+    "requested_at": "2026-08-26T12:58:30.590079+00:00",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__motel__pittsburgh-pa__monroeville",
+    "cell_id": "pittsburgh-pa__monroeville",
+    "query_hash": "d188deeb2e2f7b3a",
+    "query_version": "overpass-ql/1",
+    "key_kind": "current"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__motel__pittsburgh-pa__waterfront",
+   "cell_id": "pittsburgh-pa__waterfront",
+   "category": "motel",
+   "cache_key_kind": "current",
+   "provenance": {
+    "endpoint_id": "local_extract:geofabrik-pennsylvania",
+    "endpoint_url": "https://download.geofabrik.de/north-america/us/pennsylvania-latest.osm.pbf",
+    "requested_at": "2026-08-26T12:58:30.619722+00:00",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__motel__pittsburgh-pa__waterfront",
+    "cell_id": "pittsburgh-pa__waterfront",
+    "query_hash": "64f099a06b0692a6",
+    "query_version": "overpass-ql/1",
+    "key_kind": "current"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__motel__pittsburgh-pa__north-hills",
+   "cell_id": "pittsburgh-pa__north-hills",
+   "category": "motel",
+   "cache_key_kind": "current",
+   "provenance": {
+    "endpoint_id": "local_extract:geofabrik-pennsylvania",
+    "endpoint_url": "https://download.geofabrik.de/north-america/us/pennsylvania-latest.osm.pbf",
+    "requested_at": "2026-08-26T12:58:30.643271+00:00",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__motel__pittsburgh-pa__north-hills",
+    "cell_id": "pittsburgh-pa__north-hills",
+    "query_hash": "3581994e2784f196",
+    "query_version": "overpass-ql/1",
+    "key_kind": "current"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__motel__pittsburgh-pa__cranberry",
+   "cell_id": "pittsburgh-pa__cranberry",
+   "category": "motel",
+   "cache_key_kind": "current",
+   "provenance": {
+    "endpoint_id": "local_extract:geofabrik-pennsylvania",
+    "endpoint_url": "https://download.geofabrik.de/north-america/us/pennsylvania-latest.osm.pbf",
+    "requested_at": "2026-08-26T12:58:30.675728+00:00",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__motel__pittsburgh-pa__cranberry",
+    "cell_id": "pittsburgh-pa__cranberry",
+    "query_hash": "7d3a40d20463b86b",
+    "query_version": "overpass-ql/1",
+    "key_kind": "current"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__motel__pittsburgh-pa__south-hills",
+   "cell_id": "pittsburgh-pa__south-hills",
+   "category": "motel",
+   "cache_key_kind": "current",
+   "provenance": {
+    "endpoint_id": "local_extract:geofabrik-pennsylvania",
+    "endpoint_url": "https://download.geofabrik.de/north-america/us/pennsylvania-latest.osm.pbf",
+    "requested_at": "2026-08-26T12:58:30.699101+00:00",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__motel__pittsburgh-pa__south-hills",
+    "cell_id": "pittsburgh-pa__south-hills",
+    "query_hash": "315e684172cdb279",
+    "query_version": "overpass-ql/1",
+    "key_kind": "current"
+   }
+  },
+  {
+   "query_id": "OPENSTREETMAP__motel__pittsburgh-pa__allegheny-valley",
+   "cell_id": "pittsburgh-pa__allegheny-valley",
+   "category": "motel",
+   "cache_key_kind": "current",
+   "provenance": {
+    "endpoint_id": "local_extract:geofabrik-pennsylvania",
+    "endpoint_url": "https://download.geofabrik.de/north-america/us/pennsylvania-latest.osm.pbf",
+    "requested_at": "2026-08-26T12:58:30.726076+00:00",
+    "http_status": 200,
+    "query_id": "OPENSTREETMAP__motel__pittsburgh-pa__allegheny-valley",
+    "cell_id": "pittsburgh-pa__allegheny-valley",
+    "query_hash": "16af3fe55f195be9",
+    "query_version": "overpass-ql/1",
+    "key_kind": "current"
+   }
+  }
+ ],
+ "remaining_cells": [],
+ "paid_discovery_fallback": {
+  "state": "PAID_DISCOVERY_FALLBACK_UNAVAILABLE",
+  "google_key_present": false,
+  "remaining_cells": 0,
+  "requires": "an explicit ptf-paid-discovery-authorization/1.0 document naming the market, an author, a reason, a Google request cap and a cost plan; never runs because public Overpass is unavailable"
+ },
+ "paid_discovery_authorization": {
+  "authorised": false,
+  "error": ""
+ },
+ "health_ledger": "data/discovery/pittsburgh_recensus_001/overpass_endpoint_health.json",
+ "progress_ledger": "data/discovery/pittsburgh_recensus_001/discovery_progress.json",
+ "registry": "C:/Atlas-Grok-Pittsburgh-Revalidate/atlas-dashboard/scripts/pettripfinder/discovery/config/overpass_endpoints.json"
+}
