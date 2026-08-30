@@ -1,0 +1,511 @@
+{
+ "work_order": "PTF-CINCINNATI-INDEPENDENT-FREE-PROBE-009",
+ "market_id": "cincinnati-oh",
+ "observed_at": "2026-08-30",
+ "capture_method": "attended_chrome_render",
+ "provider_calls": 0,
+ "paid_spend_usd": 0.0,
+ "authority_mutated": false,
+ "approvals_written": 0,
+ "cohort_size": 14,
+ "processed": 14,
+ "method_defect_found": "Every prior Cincinnati sweep read innerText. The Warehouse Hotel's policy is in the DOM and not in innerText (149,578 characters against 2,419 visible), so this order re-read every row it had just called silent using textContent. Four more policies appeared, including on a template PROBE-008 declared settled. Substring matching on 'pet' also hits 'competition' and 'appetite'; every scan here uses word boundaries.",
+ "locators_by_domain": {
+  "druryhotels.com": "Embedded JSON payload in the page body -- and its own JSON-LD contradicts it",
+  "greatwolf.com": "Property FAQ accordion at /<property>/faq, readable from the DOM without clicking",
+  "pennentertainment.com": "Hotel Policies block on the property page",
+  "miamioh.edu": "Property amenities list, present in DOM only",
+  "theelmsoxford.com": "A separate /amenities page the routing URL misses",
+  "warehousehotel.com": "A separate /stay-faq page, present in DOM only",
+  "wildwoodinnky.com": "Homepage prose, present in DOM only",
+  "budgethost.com": "Nothing",
+  "chesterinnandsuites.com": "Nothing",
+  "fidelityhotelcin.com": "Nothing -- the hotel has not opened",
+  "hillcrestmotelaurora.com": "Nothing",
+  "indigopasshotel.com": "Nothing",
+  "hilton.com": "Not an independent; belongs to the Hilton lane"
+ },
+ "probe_008_corrections": {
+  "drury inn and suites cincinnati northeast mason": {
+   "was": "POLICY_NOT_FOUND",
+   "now": "PUBLICATION_CANDIDATE",
+   "triage": "FOUNDER_EXCEPTION",
+   "why": "PROBE-008 read innerText and found no prose, then recorded the bare JSON-LD petsAllowed flag and stopped. The full policy is in an embedded JSON payload in the same page, readable via textContent. PROBE-008's commit claimed this 'settles the shape for all four' Cincinnati Drury properties; it did, but in the opposite direction -- all four are pet-friendly.",
+   "quote": "Pet Policy: Dogs and cats accepted. Rooms with pets will be charged a daily fee of $50 per room plus tax. Service animals are free of charge. Limit of two pets per room with a combined weight of 80 pounds.",
+   "sha256_page": "48b3cbd2-3afafab5-4bc9ea1d-8bd2d1c0-a61a9661-c3ee4bbd-5e3bd155-e5ae4322",
+   "sha256_policy_surface": "77b1317c-65011726-dd48162d-e9e58ce5-9ded8c0e-31a9c698-00828c42-e6dadc5e",
+   "facts": {
+    "pets_allowed": true,
+    "pet_fee": {
+     "amount_cents": 5000,
+     "basis": "per_night",
+     "scope": "per_room",
+     "tax_relationship": "plus_tax"
+    },
+    "pet_count_limit": 2,
+    "combined_weight_limit": {
+     "value": 80,
+     "unit": "lb",
+     "operator": "lte"
+    },
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    }
+   }
+  },
+  "wildwood inn": {
+   "was": "POLICY_NOT_FOUND",
+   "now": "PUBLICATION_CANDIDATE",
+   "triage": "FOUNDER_EXCEPTION",
+   "why": "Same method defect. The statement is in the DOM and not in innerText -- 2,832 characters against 694 visible.",
+   "quote": "Explore the world at the Wildwood Inn! With African Safari style huts, 13 uniquely themed suites (including the Grand Canyon, Treehouse, Rome, and our Vintage Cars suites), 14 family style suites and an assortment of pet friendly rooms, you can experience something new every time.",
+   "sha256_page": "5c56e00d-169407ec-5133a1ad-cbd76e5c-4d1c3aaf-0e1d95e1-76290bc4-b842857b",
+   "sha256_policy_surface": "206982d5-3af004f9-e0cff69e-615f57b9-267a4087-8fb77934-8fa872fd-7aa0a082",
+   "facts": {
+    "pets_allowed": true
+   },
+   "question_for_the_founder": "'an assortment of pet friendly rooms' states that pets are accepted and that only SOME rooms take them. It carries no fee, count, weight or species, and the room-type limit is the same thing the schema cannot express for The Summit and The Warehouse. Publish pets_allowed alone, or hold until the property states terms?"
+  },
+  "golden lamb": {
+   "was": "POLICY_NOT_FOUND",
+   "now": "POLICY_NOT_FOUND",
+   "why": "Re-read via textContent: 3,509 characters, still nothing. PROBE-008's answer was right, and is now right for a better reason."
+  },
+  "symphony hotel and restaurant": {
+   "was": "POLICY_NOT_FOUND",
+   "now": "POLICY_NOT_FOUND",
+   "why": "Re-read via textContent: 5,416 characters, still nothing."
+  }
+ },
+ "rows": [
+  {
+   "identity_key": "budget host town center motel",
+   "canonical_name": "Budget Host Town Center Motel",
+   "census_family": "INDEPENDENT",
+   "platform": "INDEPENDENT",
+   "official_property_url": "https://budgethost.com/hotels/Budget_Host_Town_Center_Motel_Cincinnati_OH.aspx",
+   "official_domain": "budgethost.com",
+   "observed_at": "2026-08-30",
+   "capture_method": "attended_chrome_render",
+   "provider_calls": 0,
+   "cost_usd": 0.0,
+   "page_rendered": true,
+   "identity_confirmed": true,
+   "policy_surface_found": false,
+   "policy_surface": "",
+   "outcome": "POLICY_NOT_FOUND",
+   "triage": "NO_FOUNDER_ACTION",
+   "quote": "",
+   "sha256_policy_surface": "",
+   "sha256_page": "f0a6adee-527c686a-f1980bce-0eb674c7-1baac641-efba781c-92296b11-88c13e82",
+   "facts": {},
+   "notes": "Re-read with textContent: 3,961 characters of DOM, zero pet terms under word-boundary matching. The only policy links are corporate About/Privacy/Franchise pages the property page never binds. Pass 1 had recorded ACCESS_BLOCKED; the page renders fine now, so the constraint is absent content, not access."
+  },
+  {
+   "identity_key": "chester inn and suites",
+   "canonical_name": "Chester Inn and Suites",
+   "census_family": "INDEPENDENT",
+   "platform": "INDEPENDENT",
+   "official_property_url": "https://chesterinnandsuites.com/",
+   "official_domain": "chesterinnandsuites.com",
+   "observed_at": "2026-08-30",
+   "capture_method": "attended_chrome_render",
+   "provider_calls": 0,
+   "cost_usd": 0.0,
+   "page_rendered": true,
+   "identity_confirmed": true,
+   "policy_surface_found": false,
+   "policy_surface": "",
+   "outcome": "POLICY_NOT_FOUND",
+   "triage": "NO_FOUNDER_ACTION",
+   "quote": "",
+   "sha256_policy_surface": "",
+   "sha256_page": "4c7c19a2-be30db1e-de7d28ab-19269a64-64f55ca0-f309b4c5-b6ddbb81-86dcdd20",
+   "facts": {},
+   "notes": "Re-read with textContent: 4,305 characters of DOM, zero pet terms, and the site carries no policy or terms navigation at all."
+  },
+  {
+   "identity_key": "cincinnati s fidelity hotel",
+   "canonical_name": "Cincinnati's Fidelity Hotel",
+   "census_family": "INDEPENDENT",
+   "platform": "INDEPENDENT",
+   "official_property_url": "https://www.fidelityhotelcin.com/",
+   "official_domain": "fidelityhotelcin.com",
+   "observed_at": "2026-08-30",
+   "capture_method": "attended_chrome_render",
+   "provider_calls": 0,
+   "cost_usd": 0.0,
+   "page_rendered": true,
+   "identity_confirmed": true,
+   "policy_surface_found": false,
+   "policy_surface": "",
+   "outcome": "HOLD",
+   "triage": "NO_FOUNDER_ACTION",
+   "quote": "OPENING SUMMER 2026",
+   "sha256_policy_surface": "",
+   "sha256_page": "b0fd89ed-f3b8a445-d38528cf-dc3e7c26-599bb5b7-b05a4d63-d1d6551d-6bdcf877",
+   "facts": {},
+   "notes": "The property has not opened -- its own site says 'OPENING SUMMER 2026'. A hotel with no guests has no pet policy to publish, so this is not a capture failure and should not sit in an acquisition queue as though it were one. 10,083 characters of DOM, zero pet terms.",
+   "hold_reason": "PRE_OPENING"
+  },
+  {
+   "identity_key": "drury inn and suites cincinnati sharonville",
+   "canonical_name": "Drury Inn & Suites Cincinnati Sharonville",
+   "census_family": "INDEPENDENT",
+   "platform": "INDEPENDENT",
+   "official_property_url": "https://www.druryhotels.com/locations/cincinnati-oh/drury-inn-and-suites-cincinnati-sharonville",
+   "official_domain": "druryhotels.com",
+   "observed_at": "2026-08-30",
+   "capture_method": "attended_chrome_render",
+   "provider_calls": 0,
+   "cost_usd": 0.0,
+   "page_rendered": true,
+   "identity_confirmed": true,
+   "policy_surface_found": true,
+   "policy_surface": "EMBEDDED_JSON_PAYLOAD",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "triage": "FOUNDER_EXCEPTION",
+   "quote": "Pet Policy: Dogs and cats accepted. Rooms with pets will be charged a daily fee of $50 per room plus tax. Service animals are free of charge. Limit of two pets per room with a combined weight of 80 pounds.",
+   "sha256_policy_surface": "",
+   "sha256_page": "9c1408c5-2fab2673-c6915014-03d3187e-d50190c0-970e8bbb-ba98f23e-79f1f57d",
+   "facts": {
+    "pets_allowed": true,
+    "pet_fee": {
+     "amount_cents": 5000,
+     "basis": "per_night",
+     "scope": "per_room",
+     "tax_relationship": "plus_tax"
+    },
+    "pet_count_limit": 2,
+    "combined_weight_limit": {
+     "value": 80,
+     "unit": "lb",
+     "operator": "lte"
+    },
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    }
+   },
+   "notes": "Found only by reading textContent; innerText shows none of it. 'a daily fee of $50 per room' is per_night and per_room -- not per pet -- and 'combined weight of 80 pounds' is an explicit COMBINED limit, so it publishes as combined_weight_limit and never as a per-pet weight_limit.",
+   "structured_flag": "petsAllowed: http://schema.org/False",
+   "service_animal_statement": {
+    "quote": "Service animals are free of charge."
+   },
+   "question_for_the_founder": "The property page states a complete pet policy in an embedded JSON payload -- dogs and cats, $50 per room per night plus tax, two pets, 80 pounds combined -- while the SAME page's JSON-LD states petsAllowed: false. One of the two is wrong and the page does not say which. The prose is specific and the flag is a boolean, and APPLICATION-004's Great Wolf ruling already held that a bare flag is not evidence in this market, which argues for the prose. Publish on the prose and record the flag as SOURCE_CONTRADICTORY? This one ruling settles all four Cincinnati Drury properties."
+  },
+  {
+   "identity_key": "drury inn and suites middletown franklin",
+   "canonical_name": "Drury Inn & Suites Middletown Franklin",
+   "census_family": "INDEPENDENT",
+   "platform": "INDEPENDENT",
+   "official_property_url": "https://www.druryhotels.com/locations/middletown-oh/drury-inn-and-suites-middletown-franklin",
+   "official_domain": "druryhotels.com",
+   "observed_at": "2026-08-30",
+   "capture_method": "attended_chrome_render",
+   "provider_calls": 0,
+   "cost_usd": 0.0,
+   "page_rendered": true,
+   "identity_confirmed": true,
+   "policy_surface_found": true,
+   "policy_surface": "EMBEDDED_JSON_PAYLOAD",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "triage": "FOUNDER_EXCEPTION",
+   "quote": "Pet Policy: Dogs and cats accepted. Rooms with pets will be charged a daily fee of $50 per room plus tax. Service animals are free of charge. Limit of two pets per room with a combined weight of 80 pounds.",
+   "sha256_policy_surface": "",
+   "sha256_page": "d655dae2-d7f3083e-52522e23-8000d429-df7da68f-d2165857-3d7e379e-f61187c1",
+   "facts": {
+    "pets_allowed": true,
+    "pet_fee": {
+     "amount_cents": 5000,
+     "basis": "per_night",
+     "scope": "per_room",
+     "tax_relationship": "plus_tax"
+    },
+    "pet_count_limit": 2,
+    "combined_weight_limit": {
+     "value": 80,
+     "unit": "lb",
+     "operator": "lte"
+    },
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    }
+   },
+   "notes": "Found only by reading textContent; innerText shows none of it. 'a daily fee of $50 per room' is per_night and per_room -- not per pet -- and 'combined weight of 80 pounds' is an explicit COMBINED limit, so it publishes as combined_weight_limit and never as a per-pet weight_limit.",
+   "structured_flag": "petsAllowed: http://schema.org/False",
+   "service_animal_statement": {
+    "quote": "Service animals are free of charge."
+   },
+   "question_for_the_founder": "The property page states a complete pet policy in an embedded JSON payload -- dogs and cats, $50 per room per night plus tax, two pets, 80 pounds combined -- while the SAME page's JSON-LD states petsAllowed: false. One of the two is wrong and the page does not say which. The prose is specific and the flag is a boolean, and APPLICATION-004's Great Wolf ruling already held that a bare flag is not evidence in this market, which argues for the prose. Publish on the prose and record the flag as SOURCE_CONTRADICTORY? This one ruling settles all four Cincinnati Drury properties."
+  },
+  {
+   "identity_key": "drury plaza hotel cincinnati florence",
+   "canonical_name": "Drury Plaza Hotel Cincinnati Florence",
+   "census_family": "INDEPENDENT",
+   "platform": "INDEPENDENT",
+   "official_property_url": "https://www.druryhotels.com/locations/cincinnati-oh/drury-plaza-hotel-cincinnati-florence",
+   "official_domain": "druryhotels.com",
+   "observed_at": "2026-08-30",
+   "capture_method": "attended_chrome_render",
+   "provider_calls": 0,
+   "cost_usd": 0.0,
+   "page_rendered": true,
+   "identity_confirmed": true,
+   "policy_surface_found": true,
+   "policy_surface": "EMBEDDED_JSON_PAYLOAD",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "triage": "FOUNDER_EXCEPTION",
+   "quote": "Pet Policy: Dogs and cats accepted. Rooms with pets will be charged a daily fee of $50 per room plus tax. Service animals are free of charge. Limit of two pets per room with a combined weight of 80 pounds.",
+   "sha256_policy_surface": "",
+   "sha256_page": "c594db29-47301cc0-798b2639-c8b11eb1-06977504-8d680a27-4aa05b38-7c246450",
+   "facts": {
+    "pets_allowed": true,
+    "pet_fee": {
+     "amount_cents": 5000,
+     "basis": "per_night",
+     "scope": "per_room",
+     "tax_relationship": "plus_tax"
+    },
+    "pet_count_limit": 2,
+    "combined_weight_limit": {
+     "value": 80,
+     "unit": "lb",
+     "operator": "lte"
+    },
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    }
+   },
+   "notes": "Found only by reading textContent; innerText shows none of it. 'a daily fee of $50 per room' is per_night and per_room -- not per pet -- and 'combined weight of 80 pounds' is an explicit COMBINED limit, so it publishes as combined_weight_limit and never as a per-pet weight_limit.",
+   "structured_flag": "petsAllowed: http://schema.org/False",
+   "service_animal_statement": {
+    "quote": "Service animals are free of charge."
+   },
+   "question_for_the_founder": "The property page states a complete pet policy in an embedded JSON payload -- dogs and cats, $50 per room per night plus tax, two pets, 80 pounds combined -- while the SAME page's JSON-LD states petsAllowed: false. One of the two is wrong and the page does not say which. The prose is specific and the flag is a boolean, and APPLICATION-004's Great Wolf ruling already held that a bare flag is not evidence in this market, which argues for the prose. Publish on the prose and record the flag as SOURCE_CONTRADICTORY? This one ruling settles all four Cincinnati Drury properties."
+  },
+  {
+   "identity_key": "great wolf lodge cincinnati mason",
+   "canonical_name": "Great Wolf Lodge Cincinnati/Mason",
+   "census_family": "INDEPENDENT",
+   "platform": "INDEPENDENT",
+   "official_property_url": "https://www.greatwolf.com/mason",
+   "official_domain": "greatwolf.com",
+   "observed_at": "2026-08-30",
+   "capture_method": "attended_chrome_render",
+   "provider_calls": 0,
+   "cost_usd": 0.0,
+   "page_rendered": true,
+   "identity_confirmed": true,
+   "policy_surface_found": true,
+   "policy_surface": "PROPERTY_FAQ_ACCORDION",
+   "outcome": "VERIFIED_NO_PETS",
+   "triage": "CLEAN_VERIFIED_NO_PETS_CANDIDATE",
+   "quote": "Are pets allowed? Service animals? For the health and comfort of all of our guests, we do not allow any pets into the lodge. If you would like information on a full service kennel in the Mason area, select the links below. Service animals as defined by the ADA are allowed in all areas of the resort. For the health and safety of our guests, service animals are not allowed in the pools and attractions of the water park.",
+   "sha256_policy_surface": "afbef24c-8848bb71-bae2a1ca-5d1d7b14-4ad1e20a-d867b10f-5f5197b5-cae27d48",
+   "sha256_page": "71ff1c18-53b0ee43-cdd6773d-e95f47c1-a30c82d5-ba584d2b-ab942663-1924aa43",
+   "facts": {
+    "pets_allowed": false
+   },
+   "notes": "The founder declined a bare JSON-LD flag here and named the condition that would lift the hold. The condition is now met: the property's own /mason/faq answers the question in prose and refers guests to kennels in the Mason area, which binds it to this property. The page's JSON-LD, by contrast, carries a CORPORATE address in Chicago -- weaker than what was already refused, and not what this rests on. Applying it is a later order's decision; this pass only reports that the stated condition is satisfied.",
+   "satisfies_hold": "PTF-CINCINNATI-FOUNDER-REVIEW-AND-APPLICATION-004 ruling #2 HELD this row pending 'a property-specific prose statement or equivalently clear first-party policy surface'. This is that statement.",
+   "service_animal_statement": {
+    "quote": "Service animals as defined by the ADA are allowed in all areas of the resort. For the health and safety of our guests, service animals are not allowed in the pools and attractions of the water park."
+   }
+  },
+  {
+   "identity_key": "hillcrest motel",
+   "canonical_name": "Hillcrest Motel",
+   "census_family": "INDEPENDENT",
+   "platform": "INDEPENDENT",
+   "official_property_url": "https://www.hillcrestmotelaurora.com/",
+   "official_domain": "hillcrestmotelaurora.com",
+   "observed_at": "2026-08-30",
+   "capture_method": "attended_chrome_render",
+   "provider_calls": 0,
+   "cost_usd": 0.0,
+   "page_rendered": true,
+   "identity_confirmed": true,
+   "policy_surface_found": false,
+   "policy_surface": "",
+   "outcome": "POLICY_NOT_FOUND",
+   "triage": "NO_FOUNDER_ACTION",
+   "quote": "",
+   "sha256_policy_surface": "",
+   "sha256_page": "53d87124-5df8715c-3d04301c-50a162ca-cab53a52-c681ca38-1dd8dc12-f4b194d7",
+   "facts": {},
+   "notes": "Homepage and /aboutus.php both read via textContent, 5,646 characters, zero pet terms. An earlier substring scan appeared to hit 'pet' here -- inside 'Com-pet-ition Racing Indoor Karting'. Word-boundary matching removes it."
+  },
+  {
+   "identity_key": "hollywood casino lawrenceburg",
+   "canonical_name": "Hollywood Casino Lawrenceburg",
+   "census_family": "INDEPENDENT",
+   "platform": "INDEPENDENT",
+   "official_property_url": "https://www.pennentertainment.com/hollywood-lawrenceburg/hotel",
+   "official_domain": "pennentertainment.com",
+   "observed_at": "2026-08-30",
+   "capture_method": "attended_chrome_render",
+   "provider_calls": 0,
+   "cost_usd": 0.0,
+   "page_rendered": true,
+   "identity_confirmed": true,
+   "policy_surface_found": true,
+   "policy_surface": "HOUSE_RULES",
+   "outcome": "VERIFIED_NO_PETS",
+   "triage": "CLEAN_VERIFIED_NO_PETS_CANDIDATE",
+   "quote": "No pets are allowed except for service animals as defined by the Americans with Disabilities Act.",
+   "sha256_policy_surface": "7db4965e-900bad28-b07530b2-9d24b536-170e4084-0ea3473c-02603e5b-9b9dca69",
+   "sha256_page": "3ed62c28-8548e90e-5c1be38a-d6053856-f06ef570-384354d5-52689bb4-d319bd88",
+   "facts": {
+    "pets_allowed": false
+   },
+   "notes": "In the hotel's own Hotel Policies block on its property page. This row is capturable only because APPLICATION-004 repointed its route to pennentertainment.com -- the earlier URL no longer resolved to the property.",
+   "service_animal_statement": {
+    "quote": "No pets are allowed except for service animals as defined by the Americans with Disabilities Act."
+   }
+  },
+  {
+   "identity_key": "indigo pass",
+   "canonical_name": "Indigo Pass",
+   "census_family": "INDEPENDENT",
+   "platform": "INDEPENDENT",
+   "official_property_url": "https://indigopasshotel.com/",
+   "official_domain": "indigopasshotel.com",
+   "observed_at": "2026-08-30",
+   "capture_method": "attended_chrome_render",
+   "provider_calls": 0,
+   "cost_usd": 0.0,
+   "page_rendered": true,
+   "identity_confirmed": true,
+   "policy_surface_found": false,
+   "policy_surface": "",
+   "outcome": "POLICY_NOT_FOUND",
+   "triage": "NO_FOUNDER_ACTION",
+   "quote": "",
+   "sha256_policy_surface": "",
+   "sha256_page": "bea2e0a5-e5bb7226-b26fdffc-d28056e9-2bf5c24d-8c043bdd-7ec4956b-571b76c8",
+   "facts": {},
+   "notes": "Homepage, /amenities/ and /about/ all read via textContent -- 9,187 characters at the deepest -- and none mentions pets."
+  },
+  {
+   "identity_key": "marcum hotel and conference center at miami university",
+   "canonical_name": "Marcum Hotel and Conference Center at Miami University",
+   "census_family": "INDEPENDENT",
+   "platform": "INDEPENDENT",
+   "official_property_url": "https://miamioh.edu/the-marcum/",
+   "official_domain": "miamioh.edu",
+   "observed_at": "2026-08-30",
+   "capture_method": "attended_chrome_render",
+   "provider_calls": 0,
+   "cost_usd": 0.0,
+   "page_rendered": true,
+   "identity_confirmed": true,
+   "policy_surface_found": true,
+   "policy_surface": "AMENITIES_LIST_HIDDEN_IN_DOM",
+   "outcome": "VERIFIED_NO_PETS",
+   "triage": "CLEAN_VERIFIED_NO_PETS_CANDIDATE",
+   "quote": "Only service animals as defined by the ADA are permitted, all other animals are prohibited",
+   "sha256_policy_surface": "0cf7835a-592d0266-135972c6-b2a3c78f-0268b51d-e1ef353d-aca41098-d50d5962",
+   "sha256_page": "0128f4dc-f8d596fe-e836722d-b7e5f32a-3f21a599-47671a5d-e5c0ed49-c6eb785e",
+   "facts": {
+    "pets_allowed": false
+   },
+   "notes": "In the property's own amenities list, present in the DOM but not in innerText -- 17,964 characters against 3,105 visible. The university's policy-library links in the footer are INSTITUTIONAL and were not read as this hotel's policy.",
+   "service_animal_statement": {
+    "quote": "Only service animals as defined by the ADA are permitted, all other animals are prohibited"
+   }
+  },
+  {
+   "identity_key": "the elms hotel",
+   "canonical_name": "The Elms Hotel",
+   "census_family": "INDEPENDENT",
+   "platform": "INDEPENDENT",
+   "official_property_url": "https://www.theelmsoxford.com/",
+   "official_domain": "theelmsoxford.com",
+   "observed_at": "2026-08-30",
+   "capture_method": "attended_chrome_render",
+   "provider_calls": 0,
+   "cost_usd": 0.0,
+   "page_rendered": true,
+   "identity_confirmed": true,
+   "policy_surface_found": true,
+   "policy_surface": "AMENITIES_PAGE_MORE_INFO",
+   "outcome": "VERIFIED_NO_PETS",
+   "triage": "CLEAN_VERIFIED_NO_PETS_CANDIDATE",
+   "quote": "No pets allowed except for service animals.",
+   "sha256_policy_surface": "a79133e4-b2914f2a-222d181b-42e17d2c-db9f0550-554469a0-637ffc90-b782ece6",
+   "sha256_page": "70436920-39a38064-70afa22b-74a58572-83e16b7f-058fc1d0-262b4cd9-2644845e",
+   "facts": {
+    "pets_allowed": false
+   },
+   "notes": "On /amenities-oxford-ohio-elms-hotel, a page the routing URL does not point at -- the homepage says nothing about pets. Same locator shape as The Summit in PROBE-008.",
+   "service_animal_statement": {
+    "quote": "No pets allowed except for service animals."
+   }
+  },
+  {
+   "identity_key": "the warehouse hotel at champion mill",
+   "canonical_name": "The Warehouse Hotel at Champion Mill",
+   "census_family": "INDEPENDENT",
+   "platform": "INDEPENDENT",
+   "official_property_url": "https://www.warehousehotel.com/hamilton/stay",
+   "official_domain": "warehousehotel.com",
+   "observed_at": "2026-08-30",
+   "capture_method": "attended_chrome_render",
+   "provider_calls": 0,
+   "cost_usd": 0.0,
+   "page_rendered": true,
+   "identity_confirmed": true,
+   "policy_surface_found": true,
+   "policy_surface": "STAY_FAQ_HIDDEN_IN_DOM",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "triage": "FOUNDER_EXCEPTION",
+   "quote": "DO YOU HAVE ANY PET-FRIENDLY ROOMS? Yes, we are now a pet-friendly hotel! A huge thank you to our sponsor at PetSuites for helping us stay a pet-friendly hotel. Cats & Dogs ONLY - 2 pets max, 60 lb weight limit. Limited to Standard Room types (King Sofa & 2 Queen Bed) There will be a fee of $50 per stay, any stay longer than 3 nights will require an additional $10/night.",
+   "sha256_policy_surface": "58da38ef-2bcbf4a1-06c80004-25a05241-5d844ff1-4633f3f2-b560860f-de254ecd",
+   "sha256_page": "6cc257a6-83d090db-41519454-a9617fa3-9bb671fb-e4f57d3b-b36ba789-fd70478f",
+   "facts": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    }
+   },
+   "notes": "The row that exposed the method defect: this policy is in the DOM and not in innerText -- 149,578 characters against 2,419 visible.",
+   "question_for_the_founder": "Three things need a ruling. (1) The base charge is $50 per STAY and a further $10 per NIGHT applies beyond three nights -- two charges with different bases, which APPLICATION-004 ruling 8 forbids collapsing. (2) Pets are 'Limited to Standard Room types (King Sofa & 2 Queen Bed)', and the schema's tier conditions are stay_length_range and pet_count_range only, so a room-type limit has nowhere to live -- the same problem as The Summit in PROBE-008. (3) '2 pets max, 60 lb weight limit' does not say whether 60 lb is per pet or combined, so the weight is withheld under the APPLICATION-004 unstated-scope rule. Species and pet count are unambiguous whatever you decide."
+  },
+  {
+   "identity_key": "the well house hotel",
+   "canonical_name": "The Well House Hotel",
+   "census_family": "INDEPENDENT",
+   "platform": "HILTON_PLATFORM",
+   "official_property_url": "https://www.hilton.com/en/hotels/lukmaup-the-well-house-hamilton/",
+   "official_domain": "hilton.com",
+   "observed_at": "2026-08-30",
+   "capture_method": "attended_chrome_render",
+   "provider_calls": 0,
+   "cost_usd": 0.0,
+   "page_rendered": true,
+   "identity_confirmed": true,
+   "policy_surface_found": false,
+   "policy_surface": "",
+   "outcome": "BRAND_CLASSIFICATION_STALE",
+   "triage": "NO_FOUNDER_ACTION",
+   "quote": "",
+   "sha256_policy_surface": "",
+   "sha256_page": "22355d8c-6fe6f488-91a8f3a1-34308ca4-5f9e0230-e35de930-012a2c14-7b6c9522",
+   "facts": {},
+   "notes": "Belongs to the Hilton lane and its Bright Data pricing, not to the independent measurement. The routing URL also redirected from -the-well-house-hotel/ to -the-well-house-hamilton/. The only pet text on the page is a corporate 'Pet-Friendly Stays' footer link.",
+   "brand_correction": {
+    "census_family": "INDEPENDENT",
+    "observed_family": "HILTON",
+    "first_party_evidence": "The property page's own h1 reads 'THE WELL HOUSE HAMILTON, TAPESTRY COLLECTION BY HILTON' and the page is served from hilton.com.",
+    "canonical_property_url": "https://www.hilton.com/en/hotels/lukmaup-the-well-house-hamilton/",
+    "not_rewritten_here": "The family label is reported, not changed. A capture order does not edit identity authority."
+   }
+  }
+ ]
+}
