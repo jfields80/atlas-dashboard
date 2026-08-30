@@ -1,0 +1,47 @@
+{
+  "schema": "ptf-detroit-ann-arbor-hilton-cost-plan/1.0",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-HILTON-DIAGNOSTIC-016",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-30",
+  "authorisation": {
+    "lane": "brightdata_browser",
+    "family": "HILTON",
+    "hard_cap_usd": 1.5,
+    "max_rows": 10,
+    "firecrawl": "FORBIDDEN",
+    "google_places": "FORBIDDEN",
+    "web_unlocker": "FORBIDDEN",
+    "marriott": "OUT OF SCOPE -- CLOSED",
+    "other_families": "OUT OF SCOPE"
+  },
+  "unit_cost": {
+    "usd_per_attempt": 0.0892,
+    "basis": "BALANCE-DERIVED, per order 015: $4.28 of prepaid balance consumed over 48 billed attempts. The vendor's month-to-date zone meter restated DOWNWARD during 015 while bandwidth rose, so it is not used for planning."
+  },
+  "cohort": {
+    "admitted": 10,
+    "rows_this_run": 10,
+    "truncated_before_spending": false
+  },
+  "projected": {
+    "attempts": 10,
+    "expected_usd": 0.89,
+    "margin_under_cap": 0.61
+  },
+  "balance_safety": {
+    "balance_usd": 11.14,
+    "required_usd": 0.89,
+    "safety_multiple_applied": 2.0,
+    "sufficient_to_complete_the_whole_cohort": true,
+    "rule": "the order requires STOPPING BEFORE SPENDING if the balance cannot safely carry the entire admitted cohort. A balance exhausted mid-run does not merely halt a diagnostic -- it fills the remainder with authentication failures that would read as Hilton misses, which is precisely the question this order exists to answer."
+  },
+  "cap_enforcement": {
+    "method": "ACTUAL BALANCE MOVEMENT, checked before each attempt",
+    "why": "a per-attempt rate is an assumption; the balance is a measurement. The run stops before an attempt that could carry cumulative spend past the cap."
+  },
+  "concurrency": {
+    "exclusive_lock": "REQUIRED before the first paid call",
+    "one_runner_only": true,
+    "if_stdout_goes_quiet": "DO NOT RELAUNCH -- watch the process, the lock and the ledger. That misreading cost order 013 its cap."
+  }
+}

@@ -59,6 +59,11 @@ RUN_DIR = (_REPO_ROOT / "data" / "worker_runs" / "pettripfinder"
 #: sessions keeps the run from stacking managed browsers on top of each other.
 PAUSE_SECONDS = 3.0
 
+#: Opt-in. When set, the cap is additionally enforced against actual prepaid
+#: balance movement, re-read before every attempt. Off by default so the
+#: orders that already ran are not retroactively changed.
+ENFORCE_CAP_AGAINST_BALANCE = False
+
 
 def jsonable(obj):
     if obj is None or isinstance(obj, (str, int, float, bool)):
@@ -145,12 +150,26 @@ async def main() -> None:
         key = row["identity_key"]
         crow = census.get(key) or {}
 
-        # The cap, enforced BEFORE the call and against the CEILING -- the
-        # conservative figure, because the meter lags and cannot be trusted
-        # mid-run to say what has already been spent.
+        # The cap, enforced BEFORE the call. Two ways, because a rate is an
+        # assumption and money leaving the account is a measurement.
         if (len(results) + 1) * CEILING > CAP_USD + 1e-9:
             print("STOP: the next attempt would exceed the $%.2f cap" % CAP_USD)
             break
+        if ENFORCE_CAP_AGAINST_BALANCE and before.balance_usd_minor is not None:
+            # ACTUAL BALANCE MOVEMENT. Order 015 found the vendor's
+            # month-to-date cost meter restating DOWNWARD while bandwidth rose,
+            # so a per-attempt rate derived from it cannot be trusted to say
+            # what a run has already spent. The prepaid balance decrements as
+            # money leaves, and that is what the cap is held against here.
+            live = client.read_usage("cap-check-%s" % RUN_ID)
+            if live.balance_usd_minor is not None:
+                spent = (before.balance_usd_minor
+                         - live.balance_usd_minor) / 100.0
+                if spent + CEILING > CAP_USD + 1e-9:
+                    print("STOP: $%.2f already spent by the balance; the next "
+                          "attempt could carry it past the $%.2f cap"
+                          % (spent, CAP_USD))
+                    break
 
         target = BC.CaptureTarget(
             slug=crow.get("slug") or "", hotel=crow.get("canonical_name") or "",
