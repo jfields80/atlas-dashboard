@@ -106,11 +106,11 @@ MARKET = "detroit-ann-arbor-mi"
 EXPECTED = {
     "candidates": 152,
     "census": 247,
-    "published": 85,
+    "published": 87,
     "no_pets": 72,
     "out_of_category": 0,
-    "unresolved": 90,
-    "queue": 90,
+    "unresolved": 88,
+    "queue": 88,
     "boundary_excluded": 17,
     "duplicates": 2,
 }

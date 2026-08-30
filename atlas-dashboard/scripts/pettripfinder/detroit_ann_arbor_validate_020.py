@@ -21,8 +21,12 @@ if str(_REPO_ROOT) not in sys.path:
 MARKET = "detroit-ann-arbor-mi"
 LP = _REPO_ROOT / "launch_packages" / "pettripfinder"
 
+#: Where the capture phase left the market, before the founder ruled.
 BASELINE_PET_FRIENDLY = 85
 BASELINE_NO_PETS = 72
+#: The founder approved exactly two identities: Kensington (APPROVE_PARTIAL)
+#: and Embassy Suites Livonia Novi. Roberts Riverwalk publishes nothing.
+FOUNDER_APPROVED = 2
 
 
 def load(path):
@@ -49,10 +53,35 @@ def main():
           triage["provider_calls"] == 0 and triage["spend_usd"] == 0.0,
           "calls=%s spend=%s" % (triage["provider_calls"], triage["spend_usd"]))
 
-    check("authority pet-friendly unchanged at %d" % BASELINE_PET_FRIENDLY,
-          len(published) == BASELINE_PET_FRIENDLY, "now %d" % len(published))
-    check("authority verified-no-pets unchanged at %d" % BASELINE_NO_PETS,
+    check("pet-friendly moved %d -> %d, exactly the founder's approvals"
+          % (BASELINE_PET_FRIENDLY, BASELINE_PET_FRIENDLY + FOUNDER_APPROVED),
+          len(published) == BASELINE_PET_FRIENDLY + FOUNDER_APPROVED,
+          "now %d" % len(published))
+    check("verified-no-pets unchanged at %d" % BASELINE_NO_PETS,
           len(excluded) == BASELINE_NO_PETS, "now %d" % len(excluded))
+
+    ruled = load(LP / "detroit_ann_arbor_founder_rulings_020.json")["rulings"]
+    keys = {row["identity_key"] for row in published}
+    roberts = [r for r in ruled if r["decision"] == "ROUTING_REPAIR_REQUIRED"]
+    check("the routing-repair identity publishes nothing",
+          len(roberts) == 1 and roberts[0]["identity_key"] not in keys)
+    routes = load(LP / "markets" / "authority" / MARKET
+                  / "identity_routing.json")["routes"]
+    check("the routing-repair identity is RETAINED, not withdrawn",
+          any(r["hotel_ref"]["identity_key"] == roberts[0]["identity_key"]
+              for r in routes))
+    kens = [r for r in published
+            if r["identity_key"] == "the kensington hotel ann arbor"]
+    check("the partial approval published ONLY the approved fields",
+          len(kens) == 1
+          and set(kens[0]["facts"]) == {"pets_allowed", "general_restrictions"},
+          str(sorted(kens[0]["facts"])) if kens else "missing")
+    emb = [r for r in published if r["identity_key"]
+           == "embassy suites by hilton detroit livonia novi"]
+    check("the Embassy approval published ONLY the approved fields",
+          len(emb) == 1 and set(emb[0]["facts"]) == {
+              "pets_allowed", "fee_tiers", "pet_count_limit", "species"},
+          str(sorted(emb[0]["facts"])) if emb else "missing")
 
     keys = [row["identity_key"] for row in rows]
     dupes = [k for k, n in Counter(keys).items() if n > 1]
@@ -75,10 +104,16 @@ def main():
               - sum(1 for r in rows if r["stratum"] == "INDEPENDENT_DOMAIN"),
               cohort["independent_cohort"]["by_stratum"]["SMALL_CHAIN_DOMAIN"]))
 
+    # The recapture row names its file "artifact", the swept rows name it
+    # "block_artifact". An earlier version of this check read only the latter
+    # and so SILENTLY SKIPPED the one property a founder ruled on. A hash check
+    # that quietly covers nothing passes just as loudly as one that works.
     bad_hash = []
     for row in list(rows) + [recap]:
-        artifact = row.get("block_artifact")
+        artifact = row.get("block_artifact") or row.get("artifact")
         if not artifact:
+            if row.get("block") or row.get("policy_block"):
+                bad_hash.append((row["identity_key"], "block with no artifact"))
             continue
         path = _REPO_ROOT / artifact
         if not path.exists():

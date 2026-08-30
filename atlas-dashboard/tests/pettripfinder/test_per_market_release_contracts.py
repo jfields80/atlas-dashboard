@@ -94,7 +94,9 @@ EXPECTED_RECONCILIATION = {
     # PTF-DETROIT-ANN-ARBOR-FOUNDER-REVIEW-AND-AUTHORITY-011 applied the
     # founder's approval of the Firecrawl 008/009/010 candidates: +17
     # published and +35 verified-no-pets. The census is unchanged.
-    DETROIT: (247, 85, 72, 157, 90),
+    # The FREE-ATTENDED-PASS-020 founder rulings then added two more at
+    # $0: 85 -> 87 published, 157 -> 159 resolved.
+    DETROIT: (247, 87, 72, 159, 88),
     # PTF-CLEVELAND-POLICY-CAPTURE-INTEGRATION-003 published the two Drury
     # properties worker 003 established on their own domain: 19 -> 21, and
     # unresolved 161 -> 159. The other four candidates it reviewed did NOT

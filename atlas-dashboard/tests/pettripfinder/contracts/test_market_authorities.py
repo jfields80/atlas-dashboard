@@ -114,8 +114,11 @@ EXPECTED = {
     # resolution.
     # ... then PTF-DETROIT-ANN-ARBOR-BRIGHTDATA-AUTHORITY-APPLICATION-019
     # applied the 58 clean Bright Data candidates from orders 013-018.
-    DETROIT: {"census": 247, "published": 85, "no_pets": 72,
-              "out_of_category": 0, "unresolved": 90},
+    # ... then the FREE-ATTENDED-PASS-020 founder rulings published two
+    # more at $0: Kensington (APPROVE_PARTIAL) and Embassy Suites Livonia
+    # Novi, whose order-019 hold a zero-cost re-capture cleared.
+    DETROIT: {"census": 247, "published": 87, "no_pets": 72,
+              "out_of_category": 0, "unresolved": 88},
     INDIANAPOLIS: {"census": 153, "published": 8, "no_pets": 4,
                    "out_of_category": 0, "unresolved": 141},
 }
