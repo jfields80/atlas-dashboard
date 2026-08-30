@@ -1,0 +1,504 @@
+{
+ "work_order": "PTF-CINCINNATI-INDEPENDENT-FREE-PROBE-008",
+ "market_id": "cincinnati-oh",
+ "observed_at": "2026-08-30",
+ "capture_method": "attended_chrome_render",
+ "provider_calls": 0,
+ "paid_spend_usd": 0.0,
+ "authority_mutated": false,
+ "approvals_written": 0,
+ "cohort_size": 10,
+ "processed": 10,
+ "locators_by_domain": {
+  "choicehotels.com": "Pets block inside Essential details -- the locator PTF-CINCINNATI-FREE-LANE-SCALE-006 already closed",
+  "motel6.com": "Amenity tile on the property page; the fee claim is a corporate footer link and was NOT read as property policy",
+  "druryhotels.com": "Nothing. Bare JSON-LD petsAllowed flag only, which this market does not accept as evidence",
+  "goldenlamb.com": "Nothing across homepage, /about-us/faqs/ and /stay/hotel-and-room-information/",
+  "intownsuites.com": "Property FAQ behind a <label>-driven accordion -- opens to neither aria-expanded nor <details>",
+  "symphonyhotel.com": "Nothing; the site carries no terms surface",
+  "thesummithotel.com": "A dedicated /about-us/hotel-policies page the routing shard does not point at",
+  "wildwoodinnky.com": "Nothing; a legacy site under 1,500 characters"
+ },
+ "no_shared_independent_reader_is_proposed": "Six independent domains produced five different answers. A reader built from two successes would be a reader built from two websites; this probe measures capturability, not reader design.",
+ "rows": [
+  {
+   "identity_key": "country inn and suites airport",
+   "canonical_name": "Country Inn & Suites Airport",
+   "family": "INDEPENDENT",
+   "stratum": "A_FRESH",
+   "platform": "CHOICE_PLATFORM",
+   "official_property_url": "https://www.choicehotels.com/kentucky/hebron/country-inn-suites-hotels/ky423",
+   "official_domain": "choicehotels.com",
+   "observed_at": "2026-08-30",
+   "capture_method": "attended_chrome_render",
+   "provider_calls": 0,
+   "cost_usd": 0.0,
+   "page_rendered": true,
+   "identity_confirmed": true,
+   "policy_surface_found": true,
+   "policy_surface": "ESSENTIAL_DETAILS_PETS_BLOCK",
+   "outcome": "VERIFIED_NO_PETS",
+   "triage": "CLEAN_VERIFIED_NO_PETS_CANDIDATE",
+   "page_identity": {
+    "name": "Country Inn & Suites by Radisson, Cincinnati Airport, KY",
+    "street": "759 Petersburg Rd",
+    "city": "Hebron",
+    "state": "KY",
+    "postal_code": "41048",
+    "phone": "8596812558"
+   },
+   "census_identity": {
+    "name": "Country Inn & Suites Airport",
+    "street": "759 Petersburg Rd.",
+    "city": "Hebron",
+    "state": "",
+    "postal_code": "41048",
+    "phone": "8596890700"
+   },
+   "identity_disagreements": [],
+   "quote": "Pets Allowed: No General: Only service animals are permitted, free of charge.",
+   "sha256_policy_surface": "ede4ede9-fbe37a4f-b8cf273b-37215e88-baee23af-ce1fe2f7-ec52e303-3ce07b81",
+   "sha256_page": "10c032c9-dafd40fe-aadaf0ef-92532d0e-1cfd5b48-385f4244-8ee70a52-d7c00490",
+   "facts": {
+    "pets_allowed": false
+   },
+   "notes": "Routed as INDEPENDENT but served from choicehotels.com -- Country Inn & Suites is a Choice brand, so the shard's family label is stale. Street, postal and phone bind exactly.",
+   "service_animal_statement": {
+    "quote": "Only service animals are permitted, free of charge."
+   },
+   "corroboration": "The property's own hotel alert repeats the refusal in its own words: 'No pets allowed.'"
+  },
+  {
+   "identity_key": "country inn and suites erlanger",
+   "canonical_name": "Country Inn & Suites Erlanger",
+   "family": "INDEPENDENT",
+   "stratum": "A_FRESH",
+   "platform": "CHOICE_PLATFORM",
+   "official_property_url": "https://www.choicehotels.com/kentucky/erlanger/country-inn-suites-hotels/ky069",
+   "official_domain": "choicehotels.com",
+   "observed_at": "2026-08-30",
+   "capture_method": "attended_chrome_render",
+   "provider_calls": 0,
+   "cost_usd": 0.0,
+   "page_rendered": true,
+   "identity_confirmed": true,
+   "policy_surface_found": true,
+   "policy_surface": "ESSENTIAL_DETAILS_PETS_BLOCK",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "triage": "CLEAN_PET_FRIENDLY_CANDIDATE",
+   "page_identity": {
+    "name": "Country Inn & Suites by Radisson, Erlanger - Cincinnati South",
+    "street": "630 Donaldson Highway",
+    "city": "Erlanger",
+    "state": "KY",
+    "postal_code": "41018",
+    "phone": "8597393002"
+   },
+   "census_identity": {
+    "name": "Country Inn & Suites Erlanger",
+    "street": "630 Donaldson Ave.",
+    "city": "Erlanger",
+    "state": "",
+    "postal_code": "41018",
+    "phone": "8597273400"
+   },
+   "identity_disagreements": [],
+   "quote": "Pets Allowed: Yes General: Pets Allowed. Pet Charge 25.00 USD Per Pet, Per Night. Refundable deposit of 100.00 USD is required Per Stay. Pet limit 2 Pet Per Room. No Pets in Suites and the pet should not be unattended at any time.. Service animals are permitted, without charge.",
+   "sha256_policy_surface": "dc7ebe6b-d75c494f-8ee5c81a-4187b329-5ed2e3bf-419a9ecf-c1c483c1-71437be1",
+   "sha256_page": "49055320-6c6dc99a-fe236a30-d3f420eb-e3bc929d-3c8203b7-e3437f75-674fe2ae",
+   "facts": {
+    "pets_allowed": true,
+    "pet_fee": {
+     "amount_cents": 2500,
+     "basis": "per_night",
+     "scope": "per_pet"
+    },
+    "pet_count_limit": 2,
+    "other_charges": [
+     {
+      "kind": "refundable_deposit",
+      "amount_cents": 10000,
+      "basis": "per_stay"
+     }
+    ],
+    "unattended_policy": "The pet should not be left unattended at any time.",
+    "general_restrictions": "No pets in suites."
+   },
+   "notes": "A fee and a deposit, and the source labels them as such -- the charge is per pet per night and the 100 USD is explicitly REFUNDABLE and per stay. They publish as two charges, not one headline: PTF-LOUISVILLE-SIGNED-AUTHORITY-006 is the precedent that a fee and a deposit are two different things. Nothing here is contradictory, so this is clean rather than an exception.",
+   "service_animal_statement": {
+    "quote": "Service animals are permitted, without charge."
+   }
+  },
+  {
+   "identity_key": "radisson hotel cincinnati riverfront",
+   "canonical_name": "Radisson Hotel Cincinnati Riverfront",
+   "family": "INDEPENDENT",
+   "stratum": "A_FRESH",
+   "platform": "CHOICE_PLATFORM",
+   "official_property_url": "https://www.choicehotels.com/kentucky/covington/radisson-hotels/ky029",
+   "official_domain": "choicehotels.com",
+   "observed_at": "2026-08-30",
+   "capture_method": "attended_chrome_render",
+   "provider_calls": 0,
+   "cost_usd": 0.0,
+   "page_rendered": true,
+   "identity_confirmed": true,
+   "policy_surface_found": true,
+   "policy_surface": "ESSENTIAL_DETAILS_PETS_BLOCK",
+   "outcome": "VERIFIED_NO_PETS",
+   "triage": "CLEAN_VERIFIED_NO_PETS_CANDIDATE",
+   "page_identity": {
+    "name": "Radisson Hotel Cincinnati Riverfront",
+    "street": "668 W. 5th St.",
+    "city": "Covington",
+    "state": "KY",
+    "postal_code": "41011",
+    "phone": "8597770008"
+   },
+   "census_identity": {
+    "name": "Radisson Hotel Cincinnati Riverfront",
+    "street": "668 W. Fifth St.",
+    "city": "Covington",
+    "state": "",
+    "postal_code": "41011",
+    "phone": "8594911200"
+   },
+   "identity_disagreements": [],
+   "quote": "Pets Allowed: No General: Only service animals are permitted, free of charge.",
+   "sha256_policy_surface": "ede4ede9-fbe37a4f-b8cf273b-37215e88-baee23af-ce1fe2f7-ec52e303-3ce07b81",
+   "sha256_page": "8e56be7f-bf93e814-104478b6-72c09596-4ce97577-efa5fc60-106c4d4f-658ebc5e",
+   "facts": {
+    "pets_allowed": false
+   },
+   "notes": "Also a Choice-platform page despite the INDEPENDENT label. Street, postal and phone bind exactly.",
+   "service_animal_statement": {
+    "quote": "Only service animals are permitted, free of charge."
+   }
+  },
+  {
+   "identity_key": "studio 6 extended stay fairfield oh cincinnati",
+   "canonical_name": "Studio 6 Extended Stay Fairfield, OH - Cincinnati",
+   "family": "ESA",
+   "stratum": "A_FRESH",
+   "platform": "MOTEL6_PLATFORM",
+   "official_property_url": "https://www.motel6.com/property/motel-fairfield-ohio-us-351462/",
+   "official_domain": "motel6.com",
+   "observed_at": "2026-08-30",
+   "capture_method": "attended_chrome_render",
+   "provider_calls": 0,
+   "cost_usd": 0.0,
+   "page_rendered": true,
+   "identity_confirmed": true,
+   "policy_surface_found": true,
+   "policy_surface": "AMENITY_TILE",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "triage": "FOUNDER_EXCEPTION",
+   "page_identity": {
+    "name": "Studio 6 Extended stay Fairfield, OH - Cincinnati",
+    "street": "Seward Road",
+    "city": "Fairfield",
+    "state": "OH",
+    "postal_code": "",
+    "phone": "5132689128"
+   },
+   "census_identity": {
+    "name": "Studio 6 Extended Stay Fairfield, OH - Cincinnati",
+    "street": "9651 Seward Rd.",
+    "city": "Fairfield",
+    "state": "",
+    "postal_code": "45014",
+    "phone": ""
+   },
+   "identity_disagreements": [
+    "street: the page contradicts ITSELF -- JSON-LD and the header state 'Seward Road', matching the census, while the About prose states 'Located at 3010 Lakeview Dr'"
+   ],
+   "quote": "Pet-Friendly Accommodation. Pets welcome throughout your stay.",
+   "sha256_policy_surface": "aeb545c1-68420a7e-8cfba929-1fde92f6-7c7dc405-54e09810-b38c9e6a-38d4ecce",
+   "sha256_page": "2916f2b9-4949e595-dc3b5fe7-b0ca27db-a100696c-886f6850-268d2c81-5f708e10",
+   "facts": {
+    "pets_allowed": true
+   },
+   "notes": "The pet evidence is a property-page amenity tile in prose, not a bare structured flag, so it is stronger than the shape ruling #2 of APPLICATION-004 refused -- but it carries no fee, count, weight or species. The corporate 'Pets Stay Free' claim was NOT read as this property's policy.",
+   "question_for_the_founder": "This is the identity APPLICATION-004 renamed, whose policy that order deliberately deferred to 'the next clean recapture'. Two problems remain. (1) The page states two different street addresses -- JSON-LD and the header say Seward Road, which matches the census; the About paragraph says 3010 Lakeview Dr. (2) The only fee-relevant statement is a footer link, 'Pets Stay Free Details', pointing at motel6.com/pages/policies/reservation-policies/ -- a chain-wide page this property page never binds to itself. Publish pets_allowed alone on the amenity statement, or hold the row until the property states its own terms?"
+  },
+  {
+   "identity_key": "drury inn and suites cincinnati northeast mason",
+   "canonical_name": "Drury Inn & Suites Cincinnati Northeast Mason",
+   "family": "INDEPENDENT",
+   "stratum": "B_RE_EXAMINE",
+   "platform": "INDEPENDENT_CHAIN",
+   "official_property_url": "https://www.druryhotels.com/locations/cincinnati-oh/drury-inn-and-suites-cincinnati-northeast-mason",
+   "official_domain": "druryhotels.com",
+   "observed_at": "2026-08-30",
+   "capture_method": "attended_chrome_render",
+   "provider_calls": 0,
+   "cost_usd": 0.0,
+   "page_rendered": true,
+   "identity_confirmed": true,
+   "policy_surface_found": false,
+   "policy_surface": "",
+   "outcome": "POLICY_NOT_FOUND",
+   "triage": "NO_FOUNDER_ACTION",
+   "page_identity": {
+    "name": "Drury Inn & Suites Cincinnati Northeast Mason",
+    "street": "9956 Escort Drive",
+    "city": "Mason",
+    "state": "OH",
+    "postal_code": "45040",
+    "phone": "15133360108"
+   },
+   "census_identity": {
+    "name": "Drury Inn & Suites Cincinnati Northeast Mason",
+    "street": "9956 Escort Dr",
+    "city": "Mason",
+    "state": "",
+    "postal_code": "45040",
+    "phone": ""
+   },
+   "identity_disagreements": [],
+   "quote": "",
+   "sha256_policy_surface": "",
+   "sha256_page": "9021885a-a4c0d043-315277fe-4429ddd4-01e54136-33f2075d-ed5feb7d-5a932af5",
+   "facts": {},
+   "notes": "Every accordion expanded, taking the page from 4,112 to 10,045 characters, and the word 'pet' appears ZERO times in the prose. The only pet datum on the page is a bare JSON-LD petsAllowed flag -- precisely the shape ruling #2 of APPLICATION-004 refused for Great Wolf Lodge, where the founder declined to lower this market's no-pets evidentiary standard. So the flag is recorded and the row stays POLICY_NOT_FOUND. The site's /content/faqs is a CORPORATE page and the property page never binds it, so it was not read as this hotel's policy. Four Cincinnati Drury properties share this template; this settles the shape for all four.",
+   "prior_outcome": "POLICY_NOT_FOUND",
+   "structured_flag_recorded_not_published": "petsAllowed: http://schema.org/False (JSON-LD)"
+  },
+  {
+   "identity_key": "golden lamb",
+   "canonical_name": "Golden Lamb",
+   "family": "INDEPENDENT",
+   "stratum": "B_RE_EXAMINE",
+   "platform": "INDEPENDENT_BESPOKE",
+   "official_property_url": "https://www.goldenlamb.com/",
+   "official_domain": "goldenlamb.com",
+   "observed_at": "2026-08-30",
+   "capture_method": "attended_chrome_render",
+   "provider_calls": 0,
+   "cost_usd": 0.0,
+   "page_rendered": true,
+   "identity_confirmed": true,
+   "policy_surface_found": false,
+   "policy_surface": "",
+   "outcome": "POLICY_NOT_FOUND",
+   "triage": "NO_FOUNDER_ACTION",
+   "page_identity": {
+    "name": "Golden Lamb",
+    "street": "",
+    "city": "Lebanon",
+    "state": "OH",
+    "postal_code": "",
+    "phone": ""
+   },
+   "census_identity": {
+    "name": "Golden Lamb",
+    "street": "27 S. Broadway",
+    "city": "Lebanon",
+    "state": "",
+    "postal_code": "45036",
+    "phone": "5139325065"
+   },
+   "identity_disagreements": [],
+   "quote": "",
+   "sha256_policy_surface": "",
+   "sha256_page": "ea982cc8-1e4ee307-f9c0e347-6af0b008-6de23638-6d21939a-c98ea576-4d653711",
+   "facts": {},
+   "notes": "Three first-party surfaces read: the homepage, /about-us/faqs/ and /stay/hotel-and-room-information/. Zero pet mentions on any of them. A genuine silence, not a locator miss.",
+   "prior_outcome": "POLICY_NOT_FOUND"
+  },
+  {
+   "identity_key": "intown suites cincinnati north",
+   "canonical_name": "InTown Suites Cincinnati North",
+   "family": "INDEPENDENT",
+   "stratum": "B_RE_EXAMINE",
+   "platform": "INDEPENDENT_CHAIN",
+   "official_property_url": "https://www.intownsuites.com/extended-stay-hotels/ohio/fairfield/north-4/",
+   "official_domain": "intownsuites.com",
+   "observed_at": "2026-08-30",
+   "capture_method": "attended_chrome_render",
+   "provider_calls": 0,
+   "cost_usd": 0.0,
+   "page_rendered": true,
+   "identity_confirmed": true,
+   "policy_surface_found": true,
+   "policy_surface": "PROPERTY_FAQ_ACCORDION_LABEL",
+   "outcome": "VERIFIED_NO_PETS",
+   "triage": "CLEAN_VERIFIED_NO_PETS_CANDIDATE",
+   "page_identity": {
+    "name": "InTown Suites Extended Stay Cincinnati OH - Fairfield",
+    "street": "",
+    "city": "Fairfield",
+    "state": "OH",
+    "postal_code": "",
+    "phone": ""
+   },
+   "census_identity": {
+    "name": "InTown Suites Cincinnati North",
+    "street": "6785 Fairfield Business Dr.",
+    "city": "Fairfield",
+    "state": "",
+    "postal_code": "45014",
+    "phone": ""
+   },
+   "identity_disagreements": [],
+   "quote": "ARE PETS ALLOWED AT INTOWN SUITES CINCINNATI OH - FAIRFIELD? NO PETS ALLOWED AT INTOWN SUITES CINCINNATI OH - FAIRFIELD",
+   "sha256_policy_surface": "271c4b0b-565d97a1-16f19960-8565c80c-04f6ee26-be129eef-939ad797-1b47b1d0",
+   "sha256_page": "81274d2a-a751c028-4bf4a9d2-1215aeed-7253199d-c348fdb4-6842ff38-79c4f71a",
+   "facts": {
+    "pets_allowed": false
+   },
+   "notes": "RECOVERED. The answer sits inside a <label>-driven accordion that responds to neither aria-expanded nor <details>, so a generic expander misses it and Pass 3 recorded POLICY_NOT_FOUND. Both question and answer name this hotel, so the refusal is property-bound in its own words. The page's only phone number is a corporate reservations line, so identity rests on the page's own property name and its URL slug rather than on a phone match.",
+   "prior_outcome": "POLICY_NOT_FOUND",
+   "recovered_from": "POLICY_NOT_FOUND (Capture Pass 3)"
+  },
+  {
+   "identity_key": "symphony hotel and restaurant",
+   "canonical_name": "Symphony Hotel & Restaurant",
+   "family": "INDEPENDENT",
+   "stratum": "B_RE_EXAMINE",
+   "platform": "INDEPENDENT_BESPOKE",
+   "official_property_url": "https://www.symphonyhotel.com/",
+   "official_domain": "symphonyhotel.com",
+   "observed_at": "2026-08-30",
+   "capture_method": "attended_chrome_render",
+   "provider_calls": 0,
+   "cost_usd": 0.0,
+   "page_rendered": true,
+   "identity_confirmed": true,
+   "policy_surface_found": false,
+   "policy_surface": "",
+   "outcome": "POLICY_NOT_FOUND",
+   "triage": "NO_FOUNDER_ACTION",
+   "page_identity": {
+    "name": "The Symphony Hotel",
+    "street": "",
+    "city": "Cincinnati",
+    "state": "OH",
+    "postal_code": "",
+    "phone": ""
+   },
+   "census_identity": {
+    "name": "Symphony Hotel & Restaurant",
+    "street": "210 West 14th St.",
+    "city": "Cincinnati",
+    "state": "",
+    "postal_code": "45202",
+    "phone": "5137213353"
+   },
+   "identity_disagreements": [],
+   "quote": "",
+   "sha256_policy_surface": "",
+   "sha256_page": "a98e39bf-4c0698e2-858bd6e8-7f28c0ca-06a61865-a882a157-c2907805-9d6dd97f",
+   "facts": {},
+   "notes": "Homepage and /rooms both read. No pet mention and no policy language of any kind -- the site carries no terms surface at all. A nine-room boutique that simply does not publish policy.",
+   "prior_outcome": "POLICY_NOT_FOUND"
+  },
+  {
+   "identity_key": "the summit hotel",
+   "canonical_name": "The Summit Hotel",
+   "family": "INDEPENDENT",
+   "stratum": "B_RE_EXAMINE",
+   "platform": "INDEPENDENT_CMS",
+   "official_property_url": "https://www.thesummithotel.com/",
+   "official_domain": "thesummithotel.com",
+   "observed_at": "2026-08-30",
+   "capture_method": "attended_chrome_render",
+   "provider_calls": 0,
+   "cost_usd": 0.0,
+   "page_rendered": true,
+   "identity_confirmed": true,
+   "policy_surface_found": true,
+   "policy_surface": "HOTEL_POLICIES_PAGE",
+   "outcome": "PUBLICATION_CANDIDATE",
+   "triage": "FOUNDER_EXCEPTION",
+   "page_identity": {
+    "name": "The Summit Hotel",
+    "street": "5345 Medpace Way",
+    "city": "Cincinnati",
+    "state": "OH",
+    "postal_code": "45227",
+    "phone": "5135279900"
+   },
+   "census_identity": {
+    "name": "The Summit Hotel",
+    "street": "5345 Medpace Way",
+    "city": "Cincinnati",
+    "state": "",
+    "postal_code": "45227",
+    "phone": "5135279900"
+   },
+   "identity_disagreements": [],
+   "quote": "DOG-FRIENDLY The Summit welcomes dogs under 50 pounds. Pets must be declared upon check-in. Maximum (2) dogs per room. A non-refundable $50 fee applies. An additional $50 fee applies for One Bedroom Suites and the Presidential Suite. Fees do not apply for ADA service animals. Please note we do not accept pets other than dogs.",
+   "sha256_policy_surface": "2eebcd0c-b6d081d2-254d6535-3cf39822-b4481782-30315839-44831cd8-34876dbe",
+   "sha256_page": "004a01ae-ccdf8e92-387d7627-5c504e79-79397ac3-193a92b3-7da05c85-00ede1a2",
+   "facts": {
+    "pets_allowed": true,
+    "pet_fee": {
+     "amount_cents": 5000,
+     "basis": "per_stay",
+     "refundable_stated": false
+    },
+    "pet_count_limit": 2,
+    "weight_limit": {
+     "value": 50,
+     "unit": "lb",
+     "operator": "lt",
+     "scope": "per_pet"
+    },
+    "species": {
+     "dogs": "accepted",
+     "cats": "prohibited"
+    }
+   },
+   "notes": "The policy lives at /about-us/hotel-policies, which the routing shard does not point at -- the route is the homepage, and the homepage says nothing about pets. That is a locator depth finding, not a routing repair: same property, same domain.",
+   "prior_outcome": "POLICY_NOT_FOUND",
+   "recovered_from": "POLICY_NOT_FOUND (Capture Pass 3)",
+   "service_animal_statement": {
+    "quote": "Fees do not apply for ADA service animals."
+   },
+   "question_for_the_founder": "RECOVERED, and one clause needs a ruling. The headline is clean: dogs UNDER 50 pounds (operator lt), maximum 2 per room, a non-refundable $50 fee, no species but dogs, and no charge for ADA service animals. But 'An additional $50 fee applies for One Bedroom Suites and the Presidential Suite' is conditional on ROOM TYPE, and the schema's tier condition types are stay_length_range and pet_count_range only. Publish the $50 headline and withhold the room-type surcharge, or withhold the fee entirely until the schema can express a room-type condition?"
+  },
+  {
+   "identity_key": "wildwood inn",
+   "canonical_name": "Wildwood Inn",
+   "family": "INDEPENDENT",
+   "stratum": "B_RE_EXAMINE",
+   "platform": "INDEPENDENT_LEGACY",
+   "official_property_url": "https://wildwoodinnky.com/",
+   "official_domain": "wildwoodinnky.com",
+   "observed_at": "2026-08-30",
+   "capture_method": "attended_chrome_render",
+   "provider_calls": 0,
+   "cost_usd": 0.0,
+   "page_rendered": true,
+   "identity_confirmed": true,
+   "policy_surface_found": false,
+   "policy_surface": "",
+   "outcome": "POLICY_NOT_FOUND",
+   "triage": "NO_FOUNDER_ACTION",
+   "page_identity": {
+    "name": "Wildwood Inn",
+    "street": "",
+    "city": "Florence",
+    "state": "KY",
+    "postal_code": "",
+    "phone": ""
+   },
+   "census_identity": {
+    "name": "Wildwood Inn",
+    "street": "7809 U. S. 42",
+    "city": "Florence",
+    "state": "",
+    "postal_code": "41042",
+    "phone": "8593716300"
+   },
+   "identity_disagreements": [],
+   "quote": "",
+   "sha256_policy_surface": "",
+   "sha256_page": "edf5a496-5c588cfb-2fedb3ed-9aff5d48-49879ea3-80587824-943cf0e8-5094f86d",
+   "facts": {},
+   "notes": "Homepage and rooms page total under 1,500 characters between them. No pet mention, no policy language. A hand-built legacy site with no terms surface to find.",
+   "prior_outcome": "POLICY_NOT_FOUND"
+  }
+ ]
+}

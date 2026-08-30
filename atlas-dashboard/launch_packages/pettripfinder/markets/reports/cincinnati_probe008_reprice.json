@@ -1,0 +1,76 @@
+{
+ "work_order": "PTF-CINCINNATI-INDEPENDENT-FREE-PROBE-008",
+ "basis": "the routing shard and partition at b0fa3e2; no authority was applied by this order",
+ "unresolved_total": 119,
+ "unresolved_routed": 79,
+ "unresolved_unrouted": 40,
+ "unrouted_by_state": {
+  "AWAITING_IDENTITY_RESOLUTION": 17,
+  "AWAITING_OFFICIAL_URL": 16,
+  "AWAITING_POLICY_OBSERVATION": 7
+ },
+ "by_family": {
+  "CHOICE": 1,
+  "ESA": 1,
+  "HILTON": 8,
+  "HYATT": 4,
+  "INDEPENDENT": 23,
+  "MARRIOTT": 42
+ },
+ "lanes": {
+  "ATTENDED_CHROME_FREE_CLOSED": {
+   "families": {
+    "CHOICE": 1
+   },
+   "rows": 1,
+   "answered_pending_review": 0,
+   "observed_silent": 0
+  },
+  "FREE_LANE_PARTIAL": {
+   "families": {
+    "ESA": 1,
+    "INDEPENDENT": 23
+   },
+   "rows": 24,
+   "answered_pending_review": 3,
+   "observed_silent": 4
+  },
+  "BRIGHT_DATA": {
+   "families": {
+    "HILTON": 8,
+    "MARRIOTT": 42
+   },
+   "rows": 50,
+   "answered_pending_review": 0,
+   "observed_silent": 0
+  },
+  "BLOCKED_BY_ADR": {
+   "families": {
+    "HYATT": 4
+   },
+   "rows": 4,
+   "answered_pending_review": 0,
+   "observed_silent": 0
+  }
+ },
+ "independent_and_esa": {
+  "total_unresolved_routed": 24,
+  "observed_by_this_probe": 7,
+  "observed_and_yielding": 3,
+  "observed_silent": 4,
+  "still_unobserved": 17,
+  "what_changed": "The family moves from FREE_LANE_UNPROVEN to FREE_LANE_PARTIAL. Attended Chrome reached every page and bound every identity, so access is not the constraint. Roughly a third publish a policy at all. The rest are silent, and silence is not something a paid provider can buy -- the same fetch would return the same absent policy."
+ },
+ "firecrawl": {
+  "rows": 0,
+  "usd": 0.0,
+  "why": "Nothing in current state produces a qualified need. IHG and Choice are closed free; Marriott and Hilton are unreachable to Firecrawl (PTF-FIRECRAWL-HARD-LANES-003); and the independents' problem is unpublished policy, which no provider fixes."
+ },
+ "bright_data": {
+  "rows": 50,
+  "usd_per_attempt": 0.197,
+  "projected_usd": 9.85
+ },
+ "spend_this_order_usd": 0.0,
+ "note": "An estimate, not an authorization. Nothing here spends."
+}
