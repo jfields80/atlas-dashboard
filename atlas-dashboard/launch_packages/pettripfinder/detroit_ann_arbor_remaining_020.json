@@ -1,32 +1,55 @@
 {
-  "schema": "ptf-detroit-ann-arbor-remaining/1.0",
-  "work_order": "PTF-DETROIT-ANN-ARBOR-FREE-ATTENDED-PASS-020",
+  "schema": "ptf-detroit-ann-arbor-remaining/1.1",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-FREE-ATTENDED-PASS-020-COMPLETION",
   "market_id": "detroit-ann-arbor-mi",
   "as_of": "2026-08-30",
   "authority_now_unchanged": {
-    "pet_friendly": 85,
+    "pet_friendly": 87,
     "verified_no_pets": 72,
-    "total_resolved": 157
+    "total_resolved": 159,
+    "counted_from": "the committed policy package and exclusion registry, at run time",
+    "the_order_said": {
+      "pet_friendly": 85,
+      "verified_no_pets": 72,
+      "total_resolved": 157,
+      "why_it_differs": "commit f5828db applied the Kensington and Embassy founder rulings after the completion order was written. Both hotels are live authority now. Projecting from the order's prose would have counted them twice."
+    }
   },
-  "projection_if_clean_candidates_were_approved": {
-    "new_clean_pet_friendly": 7,
-    "new_clean_verified_no_pets": 0,
-    "projected_pet_friendly": 92,
-    "projected_verified_no_pets": 72,
-    "projected_total_resolved": 164,
-    "embassy_note": "the Embassy Suites re-capture is NOT in this projection: its boolean is unresolved and it sits in the founder packet. If approved it is +1 pet-friendly, and it is a recovery FROM THE FOUNDER HOLD rather than a new find.",
-    "note": "PROJECTION ONLY. Nothing is applied and each candidate must still clear the publication gates."
+  "projection_if_every_clean_candidate_passes_the_publication_gates": {
+    "new_clean_pet_friendly": 27,
+    "founder_approved_pet_friendly_already_applied": [
+      "the kensington hotel ann arbor",
+      "embassy suites by hilton detroit livonia novi"
+    ],
+    "new_clean_verified_no_pets": 6,
+    "projected_pet_friendly": 114,
+    "projected_verified_no_pets": 78,
+    "projected_total_resolved": 192,
+    "deliberately_not_counted": {
+      "roberts_riverwalk": "ruled ROUTING_REPAIR_REQUIRED; it resolves nothing until the route is repaired",
+      "open_founder_exceptions": [
+        "hyatt place detroit livonia",
+        "the bell tower hotel"
+      ],
+      "routing_repairs": [
+        "drury inn and suites",
+        "radisson hotel detroit farmington hills",
+        "roberts riverwalk hotel"
+      ],
+      "source_silent_rows": "a site that publishes no pet policy resolves to UNKNOWN, never to a refusal"
+    },
+    "note": "PROJECTION ONLY. Nothing is applied and every candidate must still clear the publication gates."
   },
   "free_lane_still_to_process": {
-    "independents": 12,
-    "small_chain": 21,
-    "total": 33,
-    "cost_to_finish": "$0 -- the same attended lane"
+    "independents": 0,
+    "small_chain": 0,
+    "total": 0,
+    "note": "the admitted free cohort is finished, 45 of 45."
   },
-  "paid_cohort_untouched": "written by Phase 10 -- see detroit_ann_arbor_remaining_classification_020.json",
+  "paid_cohort_untouched": "rebuilt from current state in detroit_ann_arbor_remaining_classification_020.json",
   "cost": {
     "provider_calls_this_order": 0,
     "spend_this_order_usd": 0.0,
-    "note": "the paid remainder is counted in Phase 10, from current state, not from a carried-forward constant"
+    "note": "33 properties opened on attended Chrome; no paid provider was called and no balance moved."
   }
 }

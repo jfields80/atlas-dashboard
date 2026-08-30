@@ -81,7 +81,12 @@ def run():
     free_worked, free_succeeded = {}, {}
     for row in triage["results"]:
         free_worked[row["identity_key"]] = row["outcome"]
-        if row["outcome"] != "IDENTITY_MISMATCH":
+        # A host only counts as PROVEN_FREE if attended Chrome actually
+        # got the property's page out of it. A route that redirects to a
+        # brand index, or a legacy host that never answered, proves the
+        # opposite and must not vouch for its own domain.
+        if row["outcome"] not in ("IDENTITY_MISMATCH",
+                                  "ROUTING_REPAIR_REQUIRED"):
             PROVEN_FREE.add(row["host"])
         if row["triage"].startswith("CLEAN_"):
             free_succeeded[row["identity_key"]] = row["host"]
@@ -107,6 +112,11 @@ def run():
         elif free_worked.get(key) == "IDENTITY_MISMATCH":
             cls, why = ("ROUTING_REPAIR_FIRST",
                         "the routed domain no longer serves this hotel")
+        elif free_worked.get(key) == "ROUTING_REPAIR_REQUIRED":
+            cls, why = ("ROUTING_REPAIR_FIRST",
+                        "the committed route no longer resolves to a "
+                        "property page; re-discover it at $0 before any "
+                        "lane touches this row")
         elif free_worked.get(key) == "POLICY_NOT_FOUND":
             cls, why = ("SOURCE_SILENT",
                         "reached and swept at $0; the site publishes no pet "
