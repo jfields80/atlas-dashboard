@@ -1,0 +1,237 @@
+{
+ "work_order": "PTF-CINCINNATI-FREE-LANE-SCALE-006",
+ "market_id": "cincinnati-oh",
+ "sources": [
+  "PTF-CINCINNATI-FREE-BRAND-PROBE-005",
+  "PTF-CINCINNATI-FREE-LANE-SCALE-006"
+ ],
+ "note": "Genuine exceptions only. Clean rows need no review, and no decision field is pre-filled.",
+ "count": 10,
+ "rows": [
+  {
+   "property": "Candlewood Suites Cincinnati Northeast-Mason",
+   "identity_key": "candlewood suites cincinnati northeast mason",
+   "family": "IHG",
+   "observed_by": "PTF-CINCINNATI-FREE-BRAND-PROBE-005",
+   "official_property_url": "https://www.ihg.com/candlewood/hotels/us/en/mason/cvgsn/hoteldetail",
+   "issue": "This page states three distinct charges -- a 75 USD nonrefundable fee for 1-6 nights, an additional 100 USD cleaning fee for 7-30 nights, and a 75 USD pet damage deposit. Which is the headline pet_fee, and should the damage deposit publish beside it? PTF-...-APPLICATION-004 ruling 8 forbade collapsing a cleaning charge and a nightly charge into one headline fee, so this row is not applied without a ruling.",
+   "evidence_quote": "Pets are welcome at Candlewood Suites Cincinnati Northeast - Mason. Pet policy description. Max 2 dogs per room; must not be left unattended. Each dog must be 50 lbs or less; if two dogs, combined weight must not exceed 75 lbs. 75 USD nonrefundable fee applies for 1 to 6 nights; stays of 7 to 30 nights incur an additional 100 USD cleaning fee. Pet damage deposit: 75 USD Pet weight limit: 50 2 pets allowed Pets allowed: Only dogs allowed",
+   "evidence_sha256_policy_surface": "8296148f-d5c47462-e25076ef-fc627856-08eff23f-86b7c22b-f06f81d3-a4a9cea6",
+   "evidence_sha256_page": "ecdd3a33-7763d1eb-95353f40-1d3d6f63-1248422f-40b46917-43479bce-24c8b994",
+   "safe_fields": [
+    "pets_allowed"
+   ],
+   "withheld_fields": [
+    "pet_fee -- three distinct charges stated (SOURCE_AMBIGUOUS)",
+    "other_charges -- cleaning fee and damage deposit await a ruling"
+   ],
+   "recommended_disposition": "APPROVE_PARTIAL",
+   "reason": "Publish the two stay-length tiers with distinct roles and hold the damage deposit separately; do not let one headline absorb three charges.",
+   "founder_decision": "",
+   "founder_reviewer_id": "",
+   "founder_note": ""
+  },
+  {
+   "property": "Holiday Inn Express & Suites Bellevue",
+   "identity_key": "holiday inn express and suites bellevue",
+   "family": "IHG",
+   "observed_by": "PTF-CINCINNATI-FREE-BRAND-PROBE-005",
+   "official_property_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/bellevue/cvgbv/hoteldetail",
+   "issue": "Street, postal code and phone all bind exactly, so this is the same building under a new brand string: census 'Holiday Inn Express & Suites Bellevue' vs page 'Holiday Inn Express & Suites Cincinnati SE Newport'. Do you RENAME the census identity before this refusal is registered? Registering it under the old name would put a public refusal on a name the operator no longer uses.",
+   "evidence_quote": "No, pets are not allowed at Holiday Inn Express & Suites Cincinnati SE Newport.",
+   "evidence_sha256_policy_surface": "5f15e608-a866b813-4d08cad0-ffda724d-bb274fc5-52037291-6e928123-62af3a6f",
+   "evidence_sha256_page": "1fce93c7-07174551-7671b8e0-e4c8a41e-608ca5fa-d752239d-9ffd580e-fd46f958",
+   "safe_fields": [
+    "pets_allowed"
+   ],
+   "withheld_fields": [
+    "identity -- the property name has changed (IDENTITY_NOT_CONFIRMED)"
+   ],
+   "recommended_disposition": "RENAME",
+   "reason": "Street, postal and phone bind exactly; only the brand string moved. A rename supersedes and never merges.",
+   "founder_decision": "",
+   "founder_reviewer_id": "",
+   "founder_note": ""
+  },
+  {
+   "property": "Staybridge Suites Cincinnati North",
+   "identity_key": "staybridge suites cincinnati north",
+   "family": "IHG",
+   "observed_by": "PTF-CINCINNATI-FREE-BRAND-PROBE-005",
+   "official_property_url": "https://www.ihg.com/staybridge/hotels/us/en/west-chester/cvgnw/hoteldetail",
+   "issue": "The fee is stated unambiguously as 50 USD per WEEK. The schema's fee basis vocabulary is per_night / per_day / per_stay -- there is no per_week. Do you want the amount withheld as SCHEMA_CANNOT_REPRESENT with pets_allowed published, or the basis vocabulary extended in its own work order? I did not convert it to a nightly rate: 50/7 is a number this hotel never stated.",
+   "evidence_quote": "Pets are welcome at Staybridge Suites Cincinnati North. Our Pet Policy: Pets allowed. We have a non refundable pet fee of 50 dollars per week. Pet agreement must be signed at check in. Call hotel for details. Record of complete and up to date vaccinations required.",
+   "evidence_sha256_policy_surface": "e24d123f-3bee66c3-7e142129-e2640036-20e65fd5-df46ff5f-57235906-a138f1a2",
+   "evidence_sha256_page": "a7bc50bf-d512192b-e0402f7f-595a0445-f9d1ab9b-a3bbb317-8bc196d6-9db9bf95",
+   "safe_fields": [
+    "pets_allowed"
+   ],
+   "withheld_fields": [
+    "pet_fee -- stated per week (SCHEMA_CANNOT_REPRESENT)"
+   ],
+   "recommended_disposition": "APPROVE_PARTIAL",
+   "reason": "Publish pets_allowed and withhold the amount as SCHEMA_CANNOT_REPRESENT until a per_week basis exists.",
+   "founder_decision": "",
+   "founder_reviewer_id": "",
+   "founder_note": ""
+  },
+  {
+   "property": "Comfort Suites Mainstay Hotel",
+   "identity_key": "comfort suites mainstay hotel",
+   "family": "CHOICE",
+   "observed_by": "PTF-CINCINNATI-FREE-LANE-SCALE-006",
+   "official_property_url": "https://www.choicehotels.com/ohio/cincinnati/mainstay-hotels/oh721",
+   "issue": "Three of four identity signals disagree: the name, the postal code (45202 vs 45219) and the phone. Only the street number matches, and the page qualifies it as 'Building B'. Reading Road runs through both ZIPs, so this is either one property that was rebranded and re-addressed, or two buildings on the same road. Is this the same identity? A refusal registered against the wrong building is a public statement about a hotel that never made it.",
+   "evidence_quote": "Pets Allowed: No General: Only service animals are permitted, free of charge.",
+   "evidence_sha256_policy_surface": "ede4ede9-fbe37a4f-b8cf273b-37215e88-baee23af-ce1fe2f7-ec52e303-3ce07b81",
+   "evidence_sha256_page": "17ca81a9-f25db4aa-7564470c-050203c6-aac976bd-47c74bdc-9b550706-6009d257",
+   "safe_fields": [
+    "pets_allowed"
+   ],
+   "withheld_fields": [
+    "everything -- the identity is unresolved (IDENTITY_NOT_CONFIRMED)"
+   ],
+   "recommended_disposition": "HOLD_FOR_IDENTITY_REVIEW",
+   "reason": "Three of four identity signals disagree. Registering a refusal against the wrong building is a public statement about a hotel that never made it.",
+   "founder_decision": "",
+   "founder_reviewer_id": "",
+   "founder_note": ""
+  },
+  {
+   "property": "Candlewood Suites Erlanger - South Cincinnati",
+   "identity_key": "candlewood suites erlanger south cincinnati",
+   "family": "IHG",
+   "observed_by": "PTF-CINCINNATI-FREE-LANE-SCALE-006",
+   "official_property_url": "https://www.ihg.com/candlewood/hotels/us/en/erlanger/cvger/hoteldetail",
+   "issue": "The prose states stay-length tiers -- 75 USD for one to six nights, 150 USD for seven or more -- while the structured field on the same panel reports 'Pet fee per night: 75 USD'. Publish 75 as a stay-length tier headline with the 150 tier beside it, and withhold the nightly reading? On the Homewood Mason precedent a page that says two things publishes neither until you rule.",
+   "evidence_quote": "Pets are welcome at Candlewood Suites Erlanger - South Cincinnati. Pet policy description. A nonrefundable pet fee applies. 75 USD for one to six nights, 150 USD for seven or more nights. Up to two pets no more than 80 pounds. A pet agreement must be signed at check in. Pets allowed are dogs only. Pet fee per night: 75 USD Pet weight limit: 80 2 pets allowed Pets allowed: Only dogs allowed",
+   "evidence_sha256_policy_surface": "081bf818-c287cc9b-b91257ca-405bfe17-d058fd33-3aa63bfc-2e66f947-2b1877ab",
+   "evidence_sha256_page": "08a6c23d-96620806-b2303fd9-7b1e8375-c4512173-219e920f-d1b02f7b-fe8553f1",
+   "safe_fields": [
+    "pets_allowed"
+   ],
+   "withheld_fields": [
+    "pet_fee -- prose tiers contradict the structured nightly field (SOURCE_CONTRADICTORY)",
+    "fee_tiers -- await the headline ruling"
+   ],
+   "recommended_disposition": "APPROVE_PARTIAL",
+   "reason": "Take the prose tiers and withhold the structured nightly reading; the field's basis label is template boilerplate across this brand.",
+   "founder_decision": "",
+   "founder_reviewer_id": "",
+   "founder_note": ""
+  },
+  {
+   "property": "Holiday Inn Cincinnati Airport",
+   "identity_key": "holiday inn cincinnati airport",
+   "family": "IHG",
+   "observed_by": "PTF-CINCINNATI-FREE-LANE-SCALE-006",
+   "official_property_url": "https://www.ihg.com/holidayinn/hotels/us/en/erlanger/cvgap/hoteldetail",
+   "issue": "The sharpest instance of the template defect: the prose says '75.00 USD per STAY' and the structured field on the same panel says 'Pet fee per NIGHT: 75 USD'. Same amount, opposite basis. For a seven-night stay these differ by 450 USD. Publish 75 USD per stay on the prose, or withhold the fee entirely?",
+   "evidence_quote": "Pets are welcome at Holiday Inn Cincinnati Airport. Pet policy description. Pets are welcome at our hotel for a 75.00 USD per stay in addition to the regular guest room rate. Only 2 total pets are allowed per room. Pet fee per night: 75 USD Pet weight limit: 75 2 pets allowed Pets allowed: Only dogs and cats allowed",
+   "evidence_sha256_policy_surface": "369ae58a-7ffdb541-d5fdc232-43ca6407-df129575-4979d654-d29d3ad4-1b654115",
+   "evidence_sha256_page": "a02edf74-9f0bc756-7d175293-7572a4dc-a4131564-81fad421-8e55bd81-59f45fd8",
+   "safe_fields": [
+    "pets_allowed"
+   ],
+   "withheld_fields": [
+    "pet_fee -- prose says per stay, structured field says per night (SOURCE_CONTRADICTORY)"
+   ],
+   "recommended_disposition": "APPROVE_PARTIAL",
+   "reason": "Take 75 USD per STAY from the prose and withhold the nightly reading. Over seven nights the two readings differ by 450 USD.",
+   "founder_decision": "",
+   "founder_reviewer_id": "",
+   "founder_note": ""
+  },
+  {
+   "property": "Holiday Inn Express Cincinnati West",
+   "identity_key": "holiday inn express cincinnati west",
+   "family": "IHG",
+   "observed_by": "PTF-CINCINNATI-FREE-LANE-SCALE-006",
+   "official_property_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/cincinnati/cvgrr/hoteldetail",
+   "issue": "Three problems in one panel. (1) The prose gives two stay-length tiers -- 75 USD for 1-3 nights, 125 USD for 4-7 -- plus a 500 USD requirement at 8+ nights. (2) It calls the 500 a DEPOSIT and then says 'Pet deposit is nonrefundable', which is a fee wearing a deposit's name. (3) The structured field reports a separate 'Pet damage deposit: 75 USD' that duplicates the tier-1 amount. Which of these three numbers, if any, is the headline, and does the 500 publish as a fee or a deposit?",
+   "evidence_quote": "Pets are welcome at Holiday Inn Express Cincinnati West. Pet policy description. Pets under 40 pounds are permitted. 1 to 3 nights 75 USD, 4 to 7 nights 125 USD. 8 plus nights requires a 500 USD deposit. Pet deposit is nonrefundable. Please contact hotel directly for further information. Pet damage deposit: 75 USD Pet weight limit: 40 2 pets allowed Pets allowed: Only dogs and cats allowed",
+   "evidence_sha256_policy_surface": "1253e586-0a1c184f-3109d986-46e564db-a7a01b57-3dfe4517-af520e9c-17316b2b",
+   "evidence_sha256_page": "60aa1621-8ecc5643-f4accf4c-1ecb0696-f2f1ba74-b5884cba-87228301-7a7cd63d",
+   "safe_fields": [
+    "pets_allowed"
+   ],
+   "withheld_fields": [
+    "pet_fee -- two tiers plus a nonrefundable 'deposit' (SOURCE_AMBIGUOUS)",
+    "other_charges -- the 500 USD charge and the 75 USD structured deposit"
+   ],
+   "recommended_disposition": "APPROVE_PARTIAL",
+   "reason": "Publish the 1-3 and 4-7 night tiers and pets_allowed; withhold the 500 USD charge until it is settled whether it is a fee or a deposit.",
+   "founder_decision": "",
+   "founder_reviewer_id": "",
+   "founder_note": ""
+  },
+  {
+   "property": "Holiday Inn Express Hotel & Suites - Mason",
+   "identity_key": "holiday inn express hotel and suites mason",
+   "family": "IHG",
+   "observed_by": "PTF-CINCINNATI-FREE-LANE-SCALE-006",
+   "official_property_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/mason/cvgma/hoteldetail",
+   "issue": "The prose gives stay-length tiers of 75 (1-4 nights) and 125 (5+ nights). The structured field then reports 125 as the PER NIGHT rate and 75 as a PET DAMAGE DEPOSIT -- reusing both tier amounts as different kinds of charge. Publish the two tiers and withhold both structured readings?",
+   "evidence_quote": "Pets are welcome at Holiday Inn Express & Suites Cincinnati - Mason. Pet policy description. Both pets and service animals are welcome. 75 Pet Fee: 1 to 4 Nights 125 Pet Fee: 5 or more Nights Pet fee per night: 125 USD Pet damage deposit: 75 USD Pet weight limit: No weight limit per pet 2 pets allowed Pets allowed: Only dogs and cats allowed",
+   "evidence_sha256_policy_surface": "89af4f5b-f8e8ebc6-81c6cb15-27bbcd41-a74cda76-976388ca-c640ab02-481fb943",
+   "evidence_sha256_page": "ef73f18d-f6d30ec5-f408a1b4-103b2a62-0ffd6ce7-22d9567b-9a1f1627-9e6d0b0e",
+   "safe_fields": [
+    "pets_allowed"
+   ],
+   "withheld_fields": [
+    "pet_fee -- both tier amounts reused as other charge kinds (SOURCE_CONTRADICTORY)",
+    "fee_tiers -- await the headline ruling"
+   ],
+   "recommended_disposition": "APPROVE_PARTIAL",
+   "reason": "Publish the 75/125 stay-length tiers and withhold both structured readings, which reuse the tier amounts as other charge kinds.",
+   "founder_decision": "",
+   "founder_reviewer_id": "",
+   "founder_note": ""
+  },
+  {
+   "property": "Staybridge Suites Florence",
+   "identity_key": "staybridge suites florence",
+   "family": "IHG",
+   "observed_by": "PTF-CINCINNATI-FREE-LANE-SCALE-006",
+   "official_property_url": "https://www.ihg.com/staybridge/hotels/us/en/florence/cvgfo/hoteldetail",
+   "issue": "Three stay-length tiers -- 75 for 1-6, 150 for 7-29, 250 at 30 -- but the boundaries are stated in DAYS, and the schema's tier boundary units are nights or pets. Reading days as nights is an inference, not a reading. Also, the third clause is garbled in the source itself ('and 250 of 30 days'). Publish the tiers reading days as nights, or withhold the fee and publish the species, count and weight limit only?",
+   "evidence_quote": "Pets are welcome at Staybridge Suites Florence - Cincinnati South. Our Pet Policy: Max 1 dog permitted up to 40lbs with a nonrefundable fee of 75 for stays between 1 to 6 days, 150 between 7 to 29 days, and 250 of 30 days. Pet Policy must be signed upon arrival. No fee for service animals. Emotion support animals do not qualify.No cats.",
+   "evidence_sha256_policy_surface": "2f7fad4f-f485108d-2766554a-c60e9984-3c6eb0e3-7b37210d-8688d5e9-6e7627f3",
+   "evidence_sha256_page": "afac2653-949bdf19-716b4c05-bee95149-31d4dc6e-7621581c-67a3e4eb-7f062245",
+   "safe_fields": [
+    "pets_allowed"
+   ],
+   "withheld_fields": [
+    "pet_fee -- tier boundaries stated in days (SCHEMA_CANNOT_REPRESENT)",
+    "fee_tiers -- same"
+   ],
+   "recommended_disposition": "APPROVE_PARTIAL",
+   "reason": "Publish species, pet count and weight limit, which are unambiguous; withhold the fee while the boundaries are stated in days.",
+   "founder_decision": "",
+   "founder_reviewer_id": "",
+   "founder_note": ""
+  },
+  {
+   "property": "Staybridge Suites - Milford",
+   "identity_key": "staybridge suites milford",
+   "family": "IHG",
+   "observed_by": "PTF-CINCINNATI-FREE-LANE-SCALE-006",
+   "official_property_url": "https://www.ihg.com/staybridge/hotels/us/en/milford/cvgml/hoteldetail",
+   "issue": "The SECOND per-week fee in this market -- Staybridge Suites Cincinnati North in PROBE-005 was the first, at the same 50 USD per week. The schema's fee bases are per_night, per_day and per_stay; there is no per_week. One ruling can settle both rows: withhold the amount as SCHEMA_CANNOT_REPRESENT and publish pets_allowed, or extend the basis vocabulary in its own order?",
+   "evidence_quote": "Pets are welcome at Staybridge Suites Cincinnati East - Milford. Our Pet Policy: Guests must have a crate to put their animal in when leaving the premises. All pets must be up to date on mandatory vaccinations. We have a nonrefundable pet fee of 50 dollars per week. Minimum Fee is 50 dollars. Pet agreement must be signed at check in.",
+   "evidence_sha256_policy_surface": "ec7797d4-1e19092c-efa4e2e1-9fe033d5-93882436-1223b378-bd565ec0-c2d51973",
+   "evidence_sha256_page": "8d3857ab-75c42edb-63b53af6-d70f3e5b-f0dac43c-925cbd57-97ce55f8-3fcc3aba",
+   "safe_fields": [
+    "pets_allowed"
+   ],
+   "withheld_fields": [
+    "pet_fee -- stated per week (SCHEMA_CANNOT_REPRESENT)"
+   ],
+   "recommended_disposition": "APPROVE_PARTIAL",
+   "reason": "Same disposition as Staybridge North -- one ruling can settle both.",
+   "founder_decision": "",
+   "founder_reviewer_id": "",
+   "founder_note": ""
+  }
+ ]
+}
