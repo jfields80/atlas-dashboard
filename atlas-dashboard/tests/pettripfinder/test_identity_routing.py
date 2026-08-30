@@ -602,7 +602,12 @@ def test_routing_carries_more_than_one_market(queues, routing_delta_from_shards)
     # lapsed domains resold to unrelated sites, one property page that became a
     # brand search page), and 51 removed on the same seed-inventory rule when
     # the founder's Capture Pass 3 block published their identities.
-    assert len(by_market["cincinnati-oh"]) == 135
+    # 135 -> 94 at PTF-CINCINNATI-FREE-LANE-APPLICATION-007, which withdrew
+    # the 41 routes its own application answered. One route it could have
+    # withdrawn was deliberately kept: Comfort Suites MainStay was ruled
+    # HOLD_FOR_IDENTITY_REVIEW, and a withdrawn route is how a row stops being
+    # worked.
+    assert len(by_market["cincinnati-oh"]) == 94
 
     base, routed = queues
     base_ids = {h["hotel_id"] for h in base.selected}

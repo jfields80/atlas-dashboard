@@ -84,14 +84,14 @@ def test_it_records_what_it_supersedes(queue):
 # ------------------------------------------------- decisions are not re-asked
 
 def test_every_resolved_identity_is_marked_decided(queue, rows):
-    # 33 -> 96 at PTF-CINCINNATI-FOUNDER-REVIEW-AND-APPLICATION-004.
+    # 33 -> 96 at APPLICATION-004 -> 137 at FREE-LANE-APPLICATION-007.
     decided = [r for r in queue["rows"] if r["review_status"] == "DECIDED"]
-    assert len(decided) == 96
+    assert len(decided) == 137
     by_lane = {}
     for row in decided:
         by_lane.setdefault(row["capture_lane"], []).append(row)
-    assert len(by_lane["RESOLVED_PUBLISHED"]) == 74
-    assert len(by_lane["RESOLVED_NO_PETS"]) == 16
+    assert len(by_lane["RESOLVED_PUBLISHED"]) == 91
+    assert len(by_lane["RESOLVED_NO_PETS"]) == 40
     assert len(by_lane["RESOLVED_OUT_OF_CATEGORY"]) == 6
 
 
@@ -114,11 +114,11 @@ def test_the_twenty_seven_capture_pass_one_rulings_survive(queue):
     lanes = {r["capture_lane"] for r in ruled}
     assert lanes == {"RESOLVED_PUBLISHED", "RESOLVED_NO_PETS"}
     assert all(r["founder_decision"].startswith("APPROVE") for r in ruled)
-    # The 53 records APPLICATION-004 added carry their authorization on the
-    # policy record's approval block rather than a Pass 1 decision id, so they
-    # are decided without being among these 27.
+    # The records APPLICATION-004 and FREE-LANE-APPLICATION-007 added carry
+    # their authorization on the policy record's approval block rather than a
+    # Pass 1 decision id, so they are decided without being among these 27.
     decided = [r for r in queue["rows"] if r["review_status"] == "DECIDED"]
-    assert len(decided) - len(ruled) == 69
+    assert len(decided) - len(ruled) == 110
 
 
 def test_published_rows_carry_the_hash_their_approval_binds(rows):

@@ -74,8 +74,12 @@ EXPECTED = {
     # which applied the founder's block authorization of 47 clean pet-friendly
     # and 10 clean verified-no-pets candidates from the zero-cost Capture Pass
     # 3, plus six of its eight exception rulings. 256 = 74 + 16 + 6 + 160.
-    CINCINNATI: {"census": 256, "published": 74, "no_pets": 16,
-                 "out_of_category": 6, "unresolved": 160},
+    # 74/16/160 -> 91/40/119 at PTF-CINCINNATI-FREE-LANE-APPLICATION-007,
+    # which applied the reconciled 32-row clean block from the zero-cost
+    # attended-Chrome free lane (PROBE-005 + SCALE-006) plus nine of ten
+    # founder exception rulings. Out-of-category is unchanged at 6.
+    CINCINNATI: {"census": 256, "published": 91, "no_pets": 40,
+                 "out_of_category": 6, "unresolved": 119},
     PITTSBURGH: {"census": 96, "published": 26, "no_pets": 4,
                  "out_of_category": 3, "unresolved": 63},
     DETROIT: {"census": 143, "published": 0, "no_pets": 0,
@@ -327,25 +331,25 @@ class TestTerminalDispositionsMatchAuthority:
         assert rec.out_of_category == 2
         assert rec.verified_no_pets + rec.out_of_category == 16
 
-    def test_cincinnati_terminal_states_come_from_capture_pass_one(self):
-        """Silence is still not a refusal; 223 identities remain unobserved.
+    def test_cincinnati_terminal_states_match_the_exclusion_registry(self):
+        """Silence is still not a refusal; 119 identities remain unobserved.
 
-        This test asserted 0 published and 0 refused until
-        PTF-CINCINNATI-HARDENED-SYNC-002. That was true of this lineage and
-        false of the market: the founder decided 27 identities on 2026-08-17 --
-        21 publications and 6 first-party refusals -- on a branch that never
-        merged. The sync replayed them.
+        The counts here have moved three times -- 0/0 before
+        PTF-CINCINNATI-HARDENED-SYNC-002 replayed the founder's 2026-08-17
+        decisions, 74/16 after APPLICATION-004, and 91/40 after
+        FREE-LANE-APPLICATION-007 applied the zero-cost attended-Chrome lane.
 
-        What the test guards is unchanged. Each of the 6 refusals is an
-        affirmative, property-specific "pets are not accepted" in the hotel's
-        own words; not one of the 223 unresolved rows became a refusal for
-        want of evidence. Out-of-category stays 6, and is a category ruling
-        rather than a pet-policy finding.
+        What the test guards has not moved. Every refusal is an affirmative,
+        property-specific "pets are not allowed" in the hotel's own words, and
+        the partition's refusals are EXACTLY the founder-approved exclusion
+        records -- never a partition state invented beside them. Not one of the
+        unresolved rows became a refusal for want of evidence. Out-of-category
+        stays 6, and is a category ruling rather than a pet-policy finding.
         """
         doc = partition_doc(CINCINNATI)
         states = collections.Counter(i["final_state"] for i in doc["items"])
-        assert states[enums.PUBLISHED_PET_FRIENDLY] == 74
-        assert states[enums.VERIFIED_NO_PETS] == 16
+        assert states[enums.PUBLISHED_PET_FRIENDLY] == 91
+        assert states[enums.VERIFIED_NO_PETS] == 40
         assert states[enums.OUT_OF_CURRENT_CATEGORY] == 6
         assert len(doc["items"]) == 256
 

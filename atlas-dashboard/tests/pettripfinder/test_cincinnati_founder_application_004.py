@@ -64,27 +64,52 @@ def decisions():
 
 # ----------------------------------------------------------------- the totals
 
-def test_the_market_now_publishes_seventy_four(package, applied):
-    assert len(package["hotels"]) == 74
+def test_this_order_published_fifty_three(package, applied):
+    """74 was the total when 004 ran; PTF-...-APPLICATION-007 took it to 91.
+
+    What 004 is entitled to assert permanently is what IT applied, not what the
+    market totalled afterwards. A count of everything is a fact about the last
+    order to touch the market, and stating it here made this test expire on a
+    later order's success.
+    """
     assert len(applied) == 53          # 47 clean + 6 exception approvals
+    assert len(package["hotels"]) >= 74
 
 
-def test_the_exclusion_registry_holds_sixteen_refusals_and_six_exits():
+def test_this_order_registered_ten_refusals_and_left_six_exits():
+    """Same correction: 004 added ten refusals to the six already registered.
+
+    The six category exits are a closed set nothing since has touched, so that
+    number IS 004's to hold. The refusal total is not.
+    """
     exclusions = _load(AUTH / "hotel_exclusions.json")["exclusions"]
     states = [e["exclusion_state"] for e in exclusions]
-    assert states.count("VERIFIED_NO_PETS") == 16
     assert states.count("OUT_OF_CURRENT_CATEGORY") == 6
-    assert len(exclusions) == 22
+    applied = [e for e in exclusions if e.get("reviewed_at") == APPLIED_ON]
+    assert len(applied) == 10
+    assert all(e["exclusion_state"] == "VERIFIED_NO_PETS" for e in applied)
+    assert states.count("VERIFIED_NO_PETS") >= 16
 
 
-def test_the_partition_reconciles_to_the_census(package):
-    counts = _load(PARTITION)["final_state_counts"]
-    assert sum(counts.values()) == 256
-    assert counts["PUBLISHED_PET_FRIENDLY"] == 74
-    assert counts["VERIFIED_NO_PETS"] == 16
+def test_the_partition_still_reconciles_to_the_census(package):
+    """The invariant 004 really established: the partition partitions.
+
+    Every census identity holds exactly one final state and the states sum to
+    the census. That survives every later order; the specific 74/16/160 did
+    not, and pinning it here would make this test fail whenever the market
+    made progress.
+    """
+    partition = _load(PARTITION)
+    counts = partition["final_state_counts"]
+    assert sum(counts.values()) == 256 == len(partition["items"])
+    keys = [i["identity_key"] for i in partition["items"]]
+    assert len(set(keys)) == len(keys)
     assert counts["OUT_OF_CURRENT_CATEGORY"] == 6
-    resolved = 74 + 16 + 6
-    assert sum(counts.values()) - resolved == 160
+    assert counts["PUBLISHED_PET_FRIENDLY"] == len(package["hotels"])
+    resolved = sum(counts[s] for s in ("PUBLISHED_PET_FRIENDLY",
+                                       "VERIFIED_NO_PETS",
+                                       "OUT_OF_CURRENT_CATEGORY"))
+    assert resolved == sum(1 for i in partition["items"] if i["resolved"])
 
 
 def test_nothing_is_both_published_and_refused(package):

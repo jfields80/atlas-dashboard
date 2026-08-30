@@ -96,7 +96,11 @@ EXPECTED_RECONCILIATION = {
     # applied the founder's block authorization of 47 clean pet-friendly and
     # 10 clean verified-no-pets candidates from the zero-cost Capture Pass 3,
     # plus six of eight exception rulings. 256 = 74 + 16 + 6 + 160.
-    CINCINNATI: (256, 74, 16, 96, 160),
+    # 74/16/96/160 -> 91/40/137/119 at PTF-CINCINNATI-FREE-LANE-
+    # APPLICATION-007, which applied the reconciled 32-row clean block
+    # from the zero-cost attended-Chrome free lane plus nine of ten
+    # founder exception rulings. 256 = 91 + 40 + 6 + 119.
+    CINCINNATI: (256, 91, 40, 137, 119),
     # 163 identities, 43 published, 20 verified-no-pets, 63 resolved and 100
     # unresolved. The census is the 163-row recensus, promoted into the pinned
     # path by PTF-GRAND-RAPIDS-CENSUS-PIN-AND-RELEASE-CONTRACT-024; the
@@ -393,7 +397,11 @@ class TestContractAgreesWithItsOwnAuthority:
                              # verified-no-pets; the other 6 remain
                              # OUT_OF_CURRENT_CATEGORY, which is the
                              # distinction this test exists to keep.
-                             CINCINNATI: 16}
+                             # 16 -> 40 at PTF-CINCINNATI-FREE-LANE-
+                             # APPLICATION-007: 23 clean first-party refusals
+                             # from the free lane plus the renamed Bellevue
+                             # property's own refusal.
+                             CINCINNATI: 40}
         registry = json.loads(
             (REPO_ROOT / "launch_packages" / "pettripfinder" / "hotel_exclusions.json")
             .read_text(encoding="utf-8-sig"))["exclusions"]

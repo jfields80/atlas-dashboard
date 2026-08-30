@@ -86,12 +86,21 @@ def test_every_row_was_processed_exactly_once(rows):
 
 # ------------------------------------------------------------- the sample is fresh
 
-def test_no_probed_row_was_already_resolved(rows):
-    """A probe of already-answered rows measures the previous pass, not the lane."""
+def test_no_probed_row_had_been_resolved_before_the_probe(rows):
+    """A probe of already-answered rows measures the previous pass, not the lane.
+
+    Checked against authority AS IT WAS -- every record and exclusion approved
+    before this probe ran. PTF-...-APPLICATION-007 has since published or
+    excluded most of these rows, which is the probe succeeding, not a
+    violation, and comparing against live authority would read that success as
+    a failure.
+    """
     published = {h["identity_key"] for h in
-                 _load(PKG / "hotel_policy_facts_cincinnati-oh.json")["hotels"]}
+                 _load(PKG / "hotel_policy_facts_cincinnati-oh.json")["hotels"]
+                 if h["approval"]["approval_date"] < "2026-08-30"}
     excluded = {e["normalized_name"] for e in
-                _load(AUTH / "hotel_exclusions.json")["exclusions"]}
+                _load(AUTH / "hotel_exclusions.json")["exclusions"]
+                if e.get("reviewed_at", "") < "2026-08-30"}
     probed = {r["identity_key"] for r in rows}
     assert probed.isdisjoint(published)
     assert probed.isdisjoint(excluded)
@@ -141,14 +150,17 @@ def test_the_probe_wrote_no_authority_and_no_approval(results):
     assert "record_hash" not in blob
 
 
-def test_the_committed_totals_did_not_move(results):
-    """Cincinnati is exactly where PTF-...-APPLICATION-004 left it."""
-    package = _load(PKG / "hotel_policy_facts_cincinnati-oh.json")
-    assert len(package["hotels"]) == 74
-    exclusions = _load(AUTH / "hotel_exclusions.json")["exclusions"]
-    assert sum(1 for e in exclusions
-               if e["exclusion_state"] == "VERIFIED_NO_PETS") == 16
-    assert _load(AUTH / "identity_routing.json")["count"] == 135
+def test_the_probe_itself_wrote_no_authority(results):
+    """This asserted 74/16/135 while that was the live state.
+
+    The claim it was making -- that a MEASUREMENT order writes no authority --
+    is not about the totals, and stating it as totals made it expire the moment
+    the founder ruled. What holds permanently is that nothing in the probe's
+    own artifacts is an approval, which
+    ``test_the_probe_wrote_no_authority_and_no_approval`` pins.
+    """
+    assert results["authority_mutated"] is False
+    assert results["approvals_written"] == 0
 
 
 # ------------------------------------------------------------- the readings are honest

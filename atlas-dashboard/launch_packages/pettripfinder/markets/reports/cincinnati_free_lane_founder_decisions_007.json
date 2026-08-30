@@ -1,0 +1,107 @@
+{
+ "schema": "ptf-market-founder-decisions/1.0",
+ "work_order": "PTF-CINCINNATI-FREE-LANE-APPLICATION-007",
+ "parent_work_orders": [
+  "PTF-CINCINNATI-FREE-BRAND-PROBE-005",
+  "PTF-CINCINNATI-FREE-LANE-SCALE-006"
+ ],
+ "market_id": "cincinnati-oh",
+ "as_of": "2026-08-30",
+ "operator": "jfields80",
+ "note": "The founder's ten rulings, verbatim, plus the block authorization of the reconciled 32-row clean block. The original order carried a stale 5 + 20; Phase 1 showed PROBE-005's seven clean rows had never been applied and the founder replaced the count with the reconciled figure.",
+ "block_authorization": {
+  "clean_pet_friendly": 9,
+  "clean_verified_no_pets": 23,
+  "verified_before_application": true,
+  "candidates_removed_from_block": 0,
+  "supersedes_stale_count": "5 + 20"
+ },
+ "count": 10,
+ "decision_counts": {
+  "APPROVE_PARTIAL": 8,
+  "HOLD_FOR_IDENTITY_REVIEW": 1,
+  "RENAME_THEN_VERIFIED_NO_PETS": 1
+ },
+ "rows": [
+  {
+   "identity_key": "comfort suites mainstay hotel",
+   "founder_decision": "HOLD_FOR_IDENTITY_REVIEW",
+   "ruling": "Do not publish or exclude. The evidence is not strong enough to determine that the census row and the MainStay Suites Cincinnati University - Uptown page are the same hotel. Three of four identity signals disagree: name, ZIP, phone. Only the street number overlaps, and the page identifies Building B. Keep the row unresolved until identity is mechanically settled. Do not withdraw its route.",
+   "publishes": false,
+   "excludes": false,
+   "route_withdrawn": false
+  },
+  {
+   "identity_key": "holiday inn express and suites bellevue",
+   "founder_decision": "RENAME_THEN_VERIFIED_NO_PETS",
+   "ruling": "Rename the census identity to Holiday Inn Express & Suites Cincinnati SE Newport. Preserve prior identity key, rename provenance and founder disposition. Do not merge it with another identity. After the rename, approve the property's explicit refusal: pets_allowed = false. Register as VERIFIED_NO_PETS.",
+   "publishes": false,
+   "excludes": true,
+   "route_withdrawn": true
+  },
+  {
+   "identity_key": "holiday inn cincinnati airport",
+   "founder_decision": "APPROVE_PARTIAL",
+   "ruling": "Approve the property's prose as authoritative for the fee basis: pets_allowed true, pet count 2, weight limit 75 lb, dogs and cats, $75 per stay. Do NOT publish the structured 'per night' basis. Preserve the conflicting structured field as SOURCE_CONTRADICTORY evidence.",
+   "publishes": true,
+   "excludes": false,
+   "route_withdrawn": true
+  },
+  {
+   "identity_key": "candlewood suites erlanger south cincinnati",
+   "founder_decision": "APPROVE_PARTIAL",
+   "ruling": "Approve: pets_allowed true, dogs only, pet count 2, weight limit 80 lb, fee tier $75 for stays 1-6 nights, fee tier $150 for stays 7+ nights. Do NOT publish the structured 'Pet fee per night' interpretation. Use the property's prose tiers.",
+   "publishes": true,
+   "excludes": false,
+   "route_withdrawn": true
+  },
+  {
+   "identity_key": "holiday inn express hotel and suites mason",
+   "founder_decision": "APPROVE_PARTIAL",
+   "ruling": "Approve: pets_allowed true, pet count 2, dogs and cats, fee tier $75 for 1-4 nights, fee tier $125 for 5+ nights. Do NOT publish 'Pet fee per night: 125 USD' or 'Pet damage deposit: 75 USD'. Preserve those structured readings as contradictory evidence.",
+   "publishes": true,
+   "excludes": false,
+   "route_withdrawn": true
+  },
+  {
+   "identity_key": "candlewood suites cincinnati northeast mason",
+   "founder_decision": "APPROVE_PARTIAL",
+   "ruling": "Preserve the charges as separate concepts. Approve: pets_allowed true, dogs only, pet count 2, 50 lb per pet, 75 lb combined cap. Represent only charge components the existing schema can express without collapsing meanings. Do NOT collapse the $75 nonrefundable charge, the $100 cleaning charge and the $75 damage deposit into one headline pet fee. If any individual charge cannot be represented safely by the current schema, withhold that charge and preserve the exact source wording.",
+   "publishes": true,
+   "excludes": false,
+   "route_withdrawn": true
+  },
+  {
+   "identity_key": "holiday inn express cincinnati west",
+   "founder_decision": "APPROVE_PARTIAL",
+   "ruling": "Approve: pets_allowed true, pet count 2, dogs and cats, weight operator LT, weight limit 40 lb, $75 tier for 1-3 nights, $125 tier for 4-7 nights. DO NOT PUBLISH THE $500 CHARGE. The source itself creates an unresolved semantic conflict by calling it a 'deposit' and also saying it is nonrefundable. Do not classify it as either a fee or a deposit until the source or schema can resolve that contradiction. Also do not publish the duplicate structured $75 damage-deposit field. Preserve all source wording in evidence.",
+   "publishes": true,
+   "excludes": false,
+   "route_withdrawn": true
+  },
+  {
+   "identity_key": "staybridge suites cincinnati north",
+   "founder_decision": "APPROVE_PARTIAL",
+   "ruling": "Approve: pets_allowed true. WITHHOLD the $50 per-week fee because the schema cannot represent per_week. Do not divide by seven. Do not convert it to per-night or per-stay. Preserve '$50 per week' verbatim in evidence/general restrictions where supported.",
+   "publishes": true,
+   "excludes": false,
+   "route_withdrawn": true
+  },
+  {
+   "identity_key": "staybridge suites milford",
+   "founder_decision": "APPROVE_PARTIAL",
+   "ruling": "Same ruling as Staybridge Suites Cincinnati North. Approve: pets_allowed true. WITHHOLD the $50 per-week fee. Do not convert the unit. Preserve the exact weekly wording.",
+   "publishes": true,
+   "excludes": false,
+   "route_withdrawn": true
+  },
+  {
+   "identity_key": "staybridge suites florence",
+   "founder_decision": "APPROVE_PARTIAL",
+   "ruling": "Approve: pets_allowed true, maximum 1 dog, weight limit 40 lb, cats prohibited, supported service-animal facts only through the committed classifier. WITHHOLD pet_fee and fee_tiers. Do not convert tier boundaries stated in DAYS into nights. Do not try to repair or infer the garbled third tier.",
+   "publishes": true,
+   "excludes": false,
+   "route_withdrawn": true
+  }
+ ]
+}

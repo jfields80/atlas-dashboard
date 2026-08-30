@@ -116,11 +116,18 @@ def test_the_cohort_is_exactly_what_remained(cohort):
         assert audit[family]["suppressed_answered_by_probe_005"] == 5
 
 
-def test_no_row_was_admitted_that_authority_already_answered(rows):
+def test_no_row_was_admitted_that_authority_had_already_answered(rows):
+    """Against authority AS IT WAS when the scale run drew its cohort.
+
+    PTF-...-APPLICATION-007 has since applied most of these rows. Comparing
+    against live authority would report that application as a cohort defect.
+    """
     published = {h["identity_key"] for h in
-                 _load(PKG / "hotel_policy_facts_cincinnati-oh.json")["hotels"]}
+                 _load(PKG / "hotel_policy_facts_cincinnati-oh.json")["hotels"]
+                 if h["approval"]["approval_date"] < "2026-08-30"}
     excluded = {e["normalized_name"] for e in
-                _load(AUTH / "hotel_exclusions.json")["exclusions"]}
+                _load(AUTH / "hotel_exclusions.json")["exclusions"]
+                if e.get("reviewed_at", "") < "2026-08-30"}
     probed = {r["identity_key"] for r in rows}
     assert probed.isdisjoint(published) and probed.isdisjoint(excluded)
     assert probed.isdisjoint(S._previously_captured())
@@ -138,13 +145,11 @@ def test_nothing_was_applied_and_no_approval_was_written(results):
         assert "record_hash" not in blob, path.name
 
 
-def test_the_committed_totals_did_not_move():
-    package = _load(PKG / "hotel_policy_facts_cincinnati-oh.json")
-    assert len(package["hotels"]) == 74
-    exclusions = _load(AUTH / "hotel_exclusions.json")["exclusions"]
-    assert sum(1 for e in exclusions
-               if e["exclusion_state"] == "VERIFIED_NO_PETS") == 16
-    assert _load(AUTH / "identity_routing.json")["count"] == 135
+def test_the_scale_run_itself_wrote_no_authority(results):
+    """Same correction as PROBE-005's: the claim is about the ORDER, not the
+    totals, and the totals moved the moment the founder ruled."""
+    assert results["authority_mutated"] is False
+    assert results["approvals_written"] == 0
 
 
 def test_the_reprice_does_not_deduct_rows_a_founder_has_not_ruled_on():

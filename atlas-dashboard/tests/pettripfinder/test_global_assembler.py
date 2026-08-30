@@ -318,8 +318,8 @@ def test_cincinnati_is_assemblable_since_its_authority_was_replayed(markets):
     order does not touch it, and Cincinnati's status there is unchanged.
     """
     row = market_eligibility(market_by_id(markets, CINCINNATI))
-    # 21 -> 74 at PTF-CINCINNATI-FOUNDER-REVIEW-AND-APPLICATION-004.
-    assert row["published_count"] == 74
+    # 21 -> 74 at APPLICATION-004 -> 91 at FREE-LANE-APPLICATION-007.
+    assert row["published_count"] == 91
     assert row["conditions"]["census_present"] is True
     assert row["conditions"]["meets_minimum_published"] is True
     assert row["assemblable"] is True
@@ -448,11 +448,11 @@ def test_current_live_inventory_preserves_all_assemblable_market_profiles(market
                       # order that brought these here explicitly does not
                       # touch launch participation, where Cincinnati's status
                       # is still the founder's to set.
-                      CINCINNATI: 74}
+                      CINCINNATI: 91}
     # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: 469 + Indianapolis's 16 further
     # founder-signed profiles (8 -> 24). Every other market's count above is
     # unchanged, so the whole of this movement is Indianapolis's.
-    assert sum(counts.values()) == 634   # 560 + Cincinnati 74
+    assert sum(counts.values()) == 651   # 560 + Cincinnati 91
 
 
 # --------------------------------------------------------------------------- #

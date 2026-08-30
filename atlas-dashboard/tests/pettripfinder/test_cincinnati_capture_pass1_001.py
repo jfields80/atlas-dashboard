@@ -186,10 +186,11 @@ class TestAuthorityFreeze:
         partition = _load(PARTITION_PATH)
         counts = partition["final_state_counts"]
         assert sum(counts.values()) == 256
-        # 21/6 at Pass 1; 74/16 since PTF-CINCINNATI-FOUNDER-REVIEW-AND-
-        # APPLICATION-004 applied the zero-cost Capture Pass 3 block.
-        assert counts.get("PUBLISHED_PET_FRIENDLY") == 74
-        assert counts.get("VERIFIED_NO_PETS") == 16
+        # 21/6 at Pass 1; 74/16 after APPLICATION-004 applied Capture Pass 3;
+        # 91/40 since PTF-CINCINNATI-FREE-LANE-APPLICATION-007 applied the
+        # zero-cost attended-Chrome free lane.
+        assert counts.get("PUBLISHED_PET_FRIENDLY") == 91
+        assert counts.get("VERIFIED_NO_PETS") == 40
 
     def test_routing_authority_reflects_the_27_retirements(self):
         """All 27 are accounted for: 21 removed, 6 kept and marked.
@@ -219,8 +220,9 @@ class TestAuthorityFreeze:
                       if r["market_id"] == "cincinnati-oh"]
         # 210 -> 189 (SYNC-002 removed the first 21 seed-inventory routes)
         # -> 186 (004 retired two lapsed domains and one vanished property
-        # page) -> 135 (004 removed the 51 routes whose identity it published).
-        assert len(cincinnati) == 135
+        # page) -> 135 (004 removed the 51 routes whose identity it published)
+        # -> 94 (007 withdrew the 41 routes its own application answered).
+        assert len(cincinnati) == 94
 
         retired = [r for r in cincinnati if r["status"] == "ROUTING_RETIRED"]
         assert len(retired) == 6
@@ -258,11 +260,11 @@ class TestAuthorityFreeze:
         facts_path = LP / "hotel_policy_facts_cincinnati-oh.json"
         assert facts_path.exists()
         facts = _load(facts_path)
-        # 21 at Pass 1; 74 since PTF-CINCINNATI-FOUNDER-REVIEW-AND-
-        # APPLICATION-004 applied Capture Pass 3. What this test is about is
-        # unchanged: every record in the package, whichever pass wrote it,
-        # carries a named operator and an explicit approval decision.
-        assert len(facts["hotels"]) == 74
+        # 21 at Pass 1, 74 after APPLICATION-004, 91 after
+        # FREE-LANE-APPLICATION-007. What this test is about is unchanged:
+        # every record in the package, whichever pass wrote it, carries a
+        # named operator and an explicit approval decision.
+        assert len(facts["hotels"]) == 91
         pass1 = [h for h in facts["hotels"]
                  if h["approval"]["approval_date"] == "2026-08-17"]
         assert len(pass1) == 21
