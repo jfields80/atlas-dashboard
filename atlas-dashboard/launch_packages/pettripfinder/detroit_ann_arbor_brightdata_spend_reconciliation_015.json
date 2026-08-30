@@ -1,0 +1,36 @@
+{
+  "schema": "ptf-detroit-ann-arbor-brightdata-spend-reconciliation/1.0",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-MARRIOTT-SCALE-015",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-29",
+  "problem": "Bright Data's month-to-date zone cost FELL during order 015 -- $77.70 before the run, $75.58 after -- while bandwidth rose from 8.3 to 8.4 GB. A month-to-date figure that falls while usage rises is a vendor-side restatement, not a refund, so it cannot be this run's spend.",
+  "what_this_order_uses": "the PREPAID BALANCE, which decrements as money leaves the account and is the most direct signal available.",
+  "balance_readings": {
+    "pre_013": 5.42,
+    "post_013": 4.0,
+    "post_014": 2.8,
+    "pre_015": 2.69,
+    "post_015": 1.14
+  },
+  "zone_month_to_date_readings": {
+    "pre_013": 72.63,
+    "post_013": 75.27,
+    "post_014": 77.5,
+    "pre_015": 77.7,
+    "post_015": 75.58
+  },
+  "billed_attempts": {
+    "013": 16,
+    "014": 16,
+    "015": 16
+  },
+  "spend_by_balance": {
+    "order_013_usd": 1.42,
+    "order_014_usd": 1.2,
+    "order_015_usd": 1.55,
+    "total_usd": 4.28,
+    "usd_per_billed_attempt": 0.0892
+  },
+  "disagreement_with_earlier_orders": "orders 013 and 014 reported $2.64 and $2.23 from the month-to-date meter; the balance says $1.42 and $1.20 for the same runs. Both readings are published here rather than silently reconciled. The conclusion those orders drew is unaffected -- every figure is well inside every cap -- but the per-attempt cost this project plans against should be the balance-derived one.",
+  "caps_held_under_either_reading": true
+}

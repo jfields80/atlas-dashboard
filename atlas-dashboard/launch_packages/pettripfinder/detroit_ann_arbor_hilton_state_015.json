@@ -1,0 +1,60 @@
+{
+  "schema": "ptf-detroit-ann-arbor-hilton-state/1.0",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-MARRIOTT-SCALE-015",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-29",
+  "status": "REPORT ONLY -- NOT ACQUIRED IN THIS ORDER",
+  "unresolved_remaining": 23,
+  "measured_in_pilots_013_014": {
+    "family": "HILTON",
+    "unique_properties_measured": 14,
+    "counts": {
+      "ACQUISITION_FAILURE": 2,
+      "HOLD": 1,
+      "PET_FRIENDLY": 10,
+      "POLICY_NOT_FOUND": 1
+    },
+    "access": {
+      "measures": "unique properties reached",
+      "successes": 12,
+      "denominator": 14,
+      "point": 0.8571,
+      "wilson_lower_95": 0.6006,
+      "wilson_upper_95": 0.9599
+    },
+    "publication_grade": {
+      "measures": "unique properties answered",
+      "successes": 10,
+      "denominator": 14,
+      "point": 0.7143,
+      "wilson_lower_95": 0.4535,
+      "wilson_upper_95": 0.8828
+    },
+    "pet_friendly": {
+      "measures": "unique properties stating pets are accepted",
+      "successes": 10,
+      "denominator": 14,
+      "point": 0.7143,
+      "wilson_lower_95": 0.4535,
+      "wilson_upper_95": 0.8828
+    },
+    "verified_no_pets": 0,
+    "policy_not_found": 1,
+    "holds": 1,
+    "failures": 2
+  },
+  "why_second_diagnostic_needed": "access is strong and equal to Marriott's -- the managed browser reaches Hilton. What is unresolved is what the pages YIELD: publication-grade lower bound 0.454 on 14 properties, and the four non-acquisitions share no pattern (two NAVIGATION_FAILED, one POLICY_NOT_FOUND, one HOLD). Nothing says the lane is wrong; nothing yet justifies buying the rest.",
+  "recommended_diagnostic": {
+    "rows": 10,
+    "why": "ten more takes Hilton to 24 measured, which roughly halves the publication-grade interval -- enough to separate 'reliable' from 'not' without buying the family",
+    "stratify_on": [
+      "sub-brand",
+      "city",
+      "URL shape",
+      "per-brand hosts such as hamptoninn3.hilton.com, where one of the two NAVIGATION_FAILED rows sat"
+    ],
+    "recommended_hard_cap_usd": 1.5,
+    "cap_basis": "10 attempts at the balance-derived $0.089, with margin",
+    "run": false
+  }
+}

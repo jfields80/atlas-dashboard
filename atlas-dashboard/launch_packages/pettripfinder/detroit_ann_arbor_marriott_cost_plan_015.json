@@ -1,0 +1,48 @@
+{
+  "schema": "ptf-detroit-ann-arbor-marriott-cost-plan/1.0",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-MARRIOTT-SCALE-015",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-29",
+  "authorisation": {
+    "lane": "brightdata_browser",
+    "family": "MARRIOTT",
+    "hard_cap_usd": 3.25,
+    "max_rows": 18,
+    "firecrawl": "FORBIDDEN",
+    "google_places": "FORBIDDEN",
+    "web_unlocker": "FORBIDDEN -- no escalation",
+    "hilton": "OUT OF SCOPE",
+    "other_deferred": "OUT OF SCOPE"
+  },
+  "unit_cost": {
+    "usd_per_attempt": 0.165,
+    "basis": "MEASURED across pilots 013 and 014: $4.87 over 32 billed attempts is $0.152. The upper end of the order's range, $0.165, is used to SIZE, so the cap binds against the least favourable measurement."
+  },
+  "cohort": {
+    "admitted": 17,
+    "affordable_under_cap": 20,
+    "rows_this_run": 16,
+    "truncated_before_spending": true,
+    "affordable_under_balance": 16,
+    "binding_constraint": "the vendor balance"
+  },
+  "projected": {
+    "attempts": 16,
+    "worst_case_usd": 2.64,
+    "margin_under_cap": 0.61,
+    "margin_under_balance": 0.05,
+    "at_the_measured_rate": 2.43
+  },
+  "account": {
+    "zone": "scraping_browser1",
+    "month_to_date_cost_usd": 77.7,
+    "balance_usd": 2.69,
+    "sufficient": true,
+    "caveat": "zone cost is MONTH-TO-DATE and settles upward; a balance is not a cost meter"
+  },
+  "concurrency": {
+    "exclusive_run_lock": "REQUIRED before the first paid call",
+    "one_runner_only": true,
+    "if_stdout_goes_quiet": "DO NOT RELAUNCH. Watch the process, the lock and the ledger's growth. A running process is never stalled merely because it is quiet -- that reading cost order 013 its cap."
+  }
+}

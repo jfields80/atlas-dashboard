@@ -1,0 +1,21 @@
+{
+  "schema": "ptf-detroit-ann-arbor-marriott-route-repair/1.0",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-MARRIOTT-SCALE-015",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-29",
+  "provider_calls": 0,
+  "spend_usd": 0.0,
+  "defect": "pilots 013 and 014 measured Marriott at 0/2 on the legacy /hotels/travel/ template and 11/11 on /en-us/hotels/. A row still routed to the legacy shape is a stale ROUTE, not an unreachable hotel.",
+  "rule": "rewrite ONLY when the legacy URL already states the committed property code and the rewrite preserves it. Otherwise leave ROUTING_REPAIR_REQUIRED -- a URL is an identity claim and this order will not compose one.",
+  "repaired": 0,
+  "left_for_repair": 1,
+  "repairs": [],
+  "left_for_repair_rows": [
+    {
+      "identity_key": "towneplace suites detroit commerce",
+      "canonical_name": "TownePlace Suites Detroit Commerce",
+      "routed_url": "https://www.marriott.com/hotels/travel/dtwtc-towneplace-suites-detroit-commerce",
+      "why": "the routed URL uses the legacy /hotels/travel/ template, which pilots 013 and 014 measured at 0/2, and it cannot be rewritten from the committed property code alone. Left ROUTING_REPAIR_REQUIRED and NOT paid for: buying a known-bad route is buying a failure."
+    }
+  ]
+}
