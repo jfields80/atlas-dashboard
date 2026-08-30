@@ -68,11 +68,26 @@ class TestSchema13IsAdditive:
         """
         import json as _json
         from scripts.pettripfinder import canonical_view as _CV
-        for market in ("milwaukee-wi", "pittsburgh-pa", "dayton-oh",
-                       "cleveland-akron-canton-oh"):
+        # The cohort is DERIVED, not listed. What this proves is that a package
+        # left at 1.2 still publishes -- so it must follow the markets that are
+        # actually still at 1.2, not a list that has to be edited every time one
+        # of them legitimately migrates (PTF-PITTSBURGH-HARDENED-SYNC-004 moved
+        # pittsburgh-pa to 1.3 to reach other_charges[].refundable_stated).
+        # Editing the list would have been the one change that silently drops
+        # the market this guard was still covering.
+        candidates = ("milwaukee-wi", "pittsburgh-pa", "dayton-oh",
+                      "cleveland-akron-canton-oh")
+        packages = {}
+        for market in candidates:
             with open(PKG + "hotel_policy_facts_%s.json" % market,
                       encoding="utf-8") as handle:
-                package = _json.load(handle)
+                packages[market] = _json.load(handle)
+        still_1_2 = [m for m, p in packages.items()
+                     if p["schema_version"] == "1.2"]
+        assert still_1_2, ("no market is on 1.2 any more, so this guard is no "
+                           "longer proving that a 1.2 package stays publishable")
+        for market in still_1_2:
+            package = packages[market]
             assert package["schema_version"] == "1.2"
             assert enums.is_canonical_policy_schema(package["schema_version"])
             priced = [h for h in package["hotels"] if "pet_fee" in h["facts"]]

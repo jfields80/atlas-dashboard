@@ -415,7 +415,11 @@ def test_current_live_inventory_preserves_all_assemblable_market_profiles(market
     counts = {m.market_id: len(published_hotels(m))
               for m in markets if market_eligibility(m)["assemblable"]}
     assert counts == {COLUMBUS: 88, CLEVELAND: 99, DAYTON: 47,
-                      "pittsburgh-pa": 26,
+                      # PTF-PITTSBURGH-HARDENED-SYNC-004: 26 -> 46. Applied
+                      # the 32 founder decisions signed 2026-08-26 on a branch
+                      # that never merged, onto the REGISTERED 96-identity
+                      # census; the 115-row shadow recensus was not promoted.
+                      "pittsburgh-pa": 46,
                       # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: 8 -> 24 founder-signed profiles over
                       # the promoted 257-identity census. 24 -> 54 at
                       # PTF-INDIANAPOLIS-56-PROFILE-AUTHORITY-PROMOTION-017 (54) and
@@ -452,7 +456,10 @@ def test_current_live_inventory_preserves_all_assemblable_market_profiles(market
     # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: 469 + Indianapolis's 16 further
     # founder-signed profiles (8 -> 24). Every other market's count above is
     # unchanged, so the whole of this movement is Indianapolis's.
-    assert sum(counts.values()) == 659   # 560 + Cincinnati 99
+    # PTF-PITTSBURGH-HARDENED-SYNC-004: 659 + Pittsburgh's 20 further profiles
+    # (26 -> 46). Every other market's count above is unchanged, so the whole
+    # of this movement is Pittsburgh's.
+    assert sum(counts.values()) == 679   # 560 + Cincinnati 99 + Pittsburgh 20
 
 
 # --------------------------------------------------------------------------- #

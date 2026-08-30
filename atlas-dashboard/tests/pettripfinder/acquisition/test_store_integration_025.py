@@ -110,6 +110,12 @@ OTHER_MARKET_RUNS = {
     # of gr_028's own declined bytes once 029 settled its identity. No provider
     # was called to produce it. Also grand-rapids-holland-mi.
     "gr_030_relocated",
+    # PTF-PITTSBURGH-PAID-ACQUISITION-AUTHORIZATION-003: 92 attempted under a
+    # $17.50 cap, settled $17.08, 43 VALID. Materialised into this checkout by
+    # PTF-PITTSBURGH-HARDENED-SYNC-004 Phase 3 so the 67 owned pages could be
+    # replayed offline through the current reader at $0. Belongs to
+    # pittsburgh-pa and must never reach Milwaukee's projection.
+    "pittsburgh_pa_factory_recensus_001",
 }
 
 
