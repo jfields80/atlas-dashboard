@@ -59,9 +59,26 @@ RUN_DIR = (_REPO_ROOT / "data" / "worker_runs" / "pettripfinder"
 #: sessions keeps the run from stacking managed browsers on top of each other.
 PAUSE_SECONDS = 3.0
 
-#: Opt-in. When set, the cap is additionally enforced against actual prepaid
-#: balance movement, re-read before every attempt. Off by default so the
-#: orders that already ran are not retroactively changed.
+#: DO NOT ENABLE THIS PER-ATTEMPT. It is kept only for the record.
+#:
+#: Order 016 added it to hold a cap against real money rather than an assumed
+#: rate, which was sound reasoning. Order 017 ran with it and lost nine of
+#: thirteen sessions to navigation timeouts, closed browser targets and
+#: unhydrated pages. Order 018 re-ran THOSE SAME NINE ROWS with it off and
+#: recovered eight:
+#:
+#:     016  guard off   median cycle  72s   10/10 publication-grade
+#:     017  guard ON    median cycle 127s    4/13
+#:     018  guard off   median cycle  76s    8/9   (the 017 failures)
+#:
+#: A shell-out to the vendor CLI before every managed-browser session roughly
+#: doubles the cycle and appears to destabilise the sessions themselves. The
+#: evidence is strong rather than conclusive -- time is confounded -- but the
+#: re-run used the identical rows, which is as close to a controlled comparison
+#: as a paid lane allows.
+#:
+#: Enforce a cap on a PERIODIC balance read instead: once before the cohort,
+#: once after, and the per-attempt ceiling in between.
 ENFORCE_CAP_AGAINST_BALANCE = False
 
 

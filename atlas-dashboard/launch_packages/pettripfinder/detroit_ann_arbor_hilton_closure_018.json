@@ -1,0 +1,82 @@
+{
+  "schema": "ptf-detroit-ann-arbor-hilton-closure/1.1",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-HILTON-INFRA-RECOVERY-018",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-30",
+  "basis": "orders 013, 014, 016, 017 and 018. One verdict per unique identity; a recovery supersedes the 017 failure it replaces. Order 013's duplicate billed attempts stay cost-only.",
+  "total_unique_hilton_identities_attempted": 37,
+  "reliable_page_evidence": 34,
+  "counts": {
+    "ACQUISITION_FAILURE": 3,
+    "HOLD": 1,
+    "PET_FRIENDLY": 32,
+    "POLICY_NOT_FOUND": 1
+  },
+  "publication_grade": {
+    "measures": "unique Hilton identities that yielded a publication-grade answer",
+    "successes": 32,
+    "denominator": 37,
+    "point": 0.8649,
+    "wilson_lower_95": 0.7202,
+    "wilson_upper_95": 0.9409
+  },
+  "pet_friendly": {
+    "measures": "identities whose page accepts pets",
+    "successes": 32,
+    "denominator": 37,
+    "point": 0.8649,
+    "wilson_lower_95": 0.7202,
+    "wilson_upper_95": 0.9409
+  },
+  "of_those_that_delivered_a_page": {
+    "measures": "identities that delivered a page and were answered",
+    "successes": 32,
+    "denominator": 34,
+    "point": 0.9412,
+    "wilson_lower_95": 0.8091,
+    "wilson_upper_95": 0.9837
+  },
+  "verified_no_pets": 0,
+  "policy_not_found": 1,
+  "holds": 1,
+  "true_acquisition_failures": {
+    "count": 3,
+    "identity_keys": [
+      "doubletree suites by hilton downtown detroit",
+      "hampton inn detroit novi",
+      "hampton inn ann arbor north"
+    ],
+    "note": "still session-class, not page-class. Never answered, and not re-bought by this order: one recovery attempt per row was authorised and one was made."
+  },
+  "unresolved_hilton_remaining": {
+    "never_attempted": 0,
+    "attempted_but_unanswered": 3
+  },
+  "infrastructure_finding": {
+    "conclusion": "the per-attempt Bright Data CLI balance query is the leading explanation for order 017's session failures.",
+    "evidence": {
+      "016_guard_off": {
+        "median_cycle_seconds": 72.3,
+        "result": "10/10"
+      },
+      "017_guard_on": {
+        "median_cycle_seconds": 127.1,
+        "result": "4/13"
+      },
+      "018_guard_off": {
+        "median_cycle_seconds": 75.6,
+        "result": "8/9 on the identical 017 failures"
+      }
+    },
+    "strength": "STRONG, NOT CONCLUSIVE. Time is confounded and vendor conditions could have improved on their own. What raises it above a guess is that order 018 re-ran the IDENTICAL nine rows with the guard removed and nothing else changed, and eight came back.",
+    "action_taken": "the guard stays off by default and the runner now carries this comparison where the next operator will read it. A cap should be held on a PERIODIC balance read -- once before a cohort, once after -- not on a shell-out before every session."
+  },
+  "cost": {
+    "order_018_usd_by_balance": 0.96,
+    "all_brightdata_usd_by_balance": 6.97,
+    "billed_attempts": 80,
+    "usd_per_billed_attempt": 0.0871,
+    "cost_per_publication_grade_result": 0.121
+  },
+  "acquisition_status": "CLOSED. No further Hilton pilot or scale order is recommended."
+}
