@@ -92,7 +92,11 @@ EXPECTED_RECONCILIATION = {
     # guesthouses its source directories list beside hotels -- so resolved is
     # 21 + 6 + 6 and unresolved is the remainder, the representation Columbus
     # and Pittsburgh already use. 256 = 21 + 6 + 6 + 223.
-    CINCINNATI: (256, 21, 6, 33, 223),
+    # 21/6/33/223 until PTF-CINCINNATI-FOUNDER-REVIEW-AND-APPLICATION-004
+    # applied the founder's block authorization of 47 clean pet-friendly and
+    # 10 clean verified-no-pets candidates from the zero-cost Capture Pass 3,
+    # plus six of eight exception rulings. 256 = 74 + 16 + 6 + 160.
+    CINCINNATI: (256, 74, 16, 96, 160),
     # 163 identities, 43 published, 20 verified-no-pets, 63 resolved and 100
     # unresolved. The census is the 163-row recensus, promoted into the pinned
     # path by PTF-GRAND-RAPIDS-CENSUS-PIN-AND-RELEASE-CONTRACT-024; the
@@ -383,7 +387,13 @@ class TestContractAgreesWithItsOwnAuthority:
                              # would report 12 and would be the exact defect
                              # this test was written for. Every number above
                              # is unchanged.
-                             CINCINNATI: 6}
+                             # 6 -> 16 at PTF-CINCINNATI-FOUNDER-REVIEW-
+                             # AND-APPLICATION-004. Cincinnati's registry
+                             # shard now holds 22 rows and only 16 are
+                             # verified-no-pets; the other 6 remain
+                             # OUT_OF_CURRENT_CATEGORY, which is the
+                             # distinction this test exists to keep.
+                             CINCINNATI: 16}
         registry = json.loads(
             (REPO_ROOT / "launch_packages" / "pettripfinder" / "hotel_exclusions.json")
             .read_text(encoding="utf-8-sig"))["exclusions"]

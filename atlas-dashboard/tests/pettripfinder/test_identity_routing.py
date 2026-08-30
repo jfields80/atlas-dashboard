@@ -597,7 +597,12 @@ def test_routing_carries_more_than_one_market(queues, routing_delta_from_shards)
     # ROUTING_RETIRED and left them in place, which is not what retirement
     # means here -- Cleveland's 23 took its own total from 288 to 265 -- and
     # left Cincinnati as the only market with a route for a published hotel.
-    assert len(by_market["cincinnati-oh"]) == 189
+    # 189 -> 135 at PTF-CINCINNATI-FOUNDER-REVIEW-AND-APPLICATION-004: three
+    # routes retired because their URL no longer resolves to the hotel (two
+    # lapsed domains resold to unrelated sites, one property page that became a
+    # brand search page), and 51 removed on the same seed-inventory rule when
+    # the founder's Capture Pass 3 block published their identities.
+    assert len(by_market["cincinnati-oh"]) == 135
 
     base, routed = queues
     base_ids = {h["hotel_id"] for h in base.selected}

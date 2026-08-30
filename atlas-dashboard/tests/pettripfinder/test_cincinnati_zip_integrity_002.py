@@ -56,8 +56,13 @@ SEED = (PACKAGE_DIR / "markets" / "authority" / "cincinnati-oh"
 PARTITION = PACKAGE_DIR / "cincinnati_final_partition_001.json"
 CAPTURE = (PACKAGE_DIR / "markets" / "reports"
            / "cincinnati_capture_pass1_001_results.json")
-RETIREMENT_LEDGER = (PACKAGE_DIR / "markets" / "reports"
-                     / "cincinnati_route_retirement_002_ledger.json")
+#: A repaired identity's route can live in the shard or in any ledger that
+#: removed it. Both of these identities are now published, so both routes have
+#: left the shard -- which is the point of the seed-inventory rule, not a loss.
+LEDGERS = [PACKAGE_DIR / "markets" / "reports" / name for name in (
+    "cincinnati_route_retirement_002_ledger.json",
+    "cincinnati_route_retirement_004_ledger.json",
+    "cincinnati_route_retirement_004_seed_ledger.json")]
 
 MARKET_ID = "cincinnati-oh"
 FLORENCE = "41042"
@@ -102,12 +107,11 @@ def test_the_routing_record_states_the_same_postal_code(identity_key):
     to carry the repair too -- a ledger that still said 40142 would be a
     corrected fact and its uncorrected archive disagreeing about one hotel.
     """
-    routed = {r["hotel_ref"]["identity_key"]: r for r in _load(ROUTING)["routes"]}
-    retired = {r["hotel_ref"]["identity_key"]: r
-               for r in _load(RETIREMENT_LEDGER)["removed_routes"]}
-    record = routed.get(identity_key) or retired[identity_key]
-    assert record["identity_context"]["postal_code"] == FLORENCE
-    assert (identity_key in routed) ^ (identity_key in retired)
+    records = {r["hotel_ref"]["identity_key"]: r for r in _load(ROUTING)["routes"]}
+    for ledger in LEDGERS:
+        for r in _load(ledger)["removed_routes"]:
+            records.setdefault(r["hotel_ref"]["identity_key"], r)
+    assert records[identity_key]["identity_context"]["postal_code"] == FLORENCE
 
 
 @pytest.mark.parametrize("identity_key", sorted(REPAIRED))
@@ -191,8 +195,8 @@ def test_the_diagnosis_prose_is_preserved_verbatim():
     everywhere and no record of why must not conclude nothing happened, and a
     tidy-up that rewrote the prose would erase exactly that.
     """
-    text = ROUTING.read_text(encoding="utf-8") \
-        + RETIREMENT_LEDGER.read_text(encoding="utf-8")
+    text = ROUTING.read_text(encoding="utf-8") + "".join(
+        p.read_text(encoding="utf-8") for p in LEDGERS)
     for bad in REPAIRED.values():
         assert bad in text, "the %s diagnosis was rewritten away" % bad
     assert '"postal_code": "40142"' not in text

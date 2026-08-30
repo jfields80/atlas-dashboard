@@ -109,13 +109,32 @@ class TestEvidence:
         assert evidence["count"] == progress["adjudicated_count"]
 
 
+def _census_keys_with_history():
+    """Census keys plus the keys they SUPERSEDED.
+
+    A rename moves an identity key, and a historical report necessarily names
+    the identity as it stood when the report was written. Resolving through
+    ``prior_identity_key`` is what lets an old checkpoint keep validating
+    without either rewriting history or losing the row. PTF-CINCINNATI-FOUNDER-
+    REVIEW-AND-APPLICATION-004 renamed Extended Stay America Cincinnati
+    Fairfield to Studio 6 Extended Stay Fairfield on the founder's ruling.
+    """
+    out = {}
+    for h in _load(CENSUS)["hotels"]:
+        out[h["identity_key"]] = h["identity_key"]
+        prior = h.get("prior_identity_key")
+        if prior:
+            out[prior] = h["identity_key"]
+    return out
+
+
 class TestScope:
 
     def test_checkpoint_is_not_routing_authority(self, progress):
         assert progress["is_routing_authority"] is False
 
     def test_routing_candidates_are_a_subset_of_the_census(self, progress):
-        census = {h["identity_key"] for h in _load(CENSUS)["hotels"]}
+        census = _census_keys_with_history()
         for row in progress["adjudicated"]:
             assert row["identity_key"] in census, row["identity_key"]
 
@@ -167,11 +186,18 @@ class TestAuthorityUntouched:
         # every ROUTING_UNRESOLVED/no-URL identity stays AWAITING_OFFICIAL_URL.
         routed = {r["identity_key"] for r in _load(RESULTS)["rows"]
                  if r["included_in_routing_authority"]}
+        # AWAITING_OFFICIAL_URL joins the onward states because a route can be
+        # RETIRED after the fact: APPLICATION-004 retired three whose URL had
+        # stopped resolving to the hotel (two domains resold to unrelated
+        # sites, one property page that became a brand search page), which
+        # correctly returns those identities to URL recovery.
         routed_onward_states = {"AWAITING_POLICY_OBSERVATION",
-                                "PUBLISHED_PET_FRIENDLY", "VERIFIED_NO_PETS"}
+                                "PUBLISHED_PET_FRIENDLY", "VERIFIED_NO_PETS",
+                                "AWAITING_OFFICIAL_URL"}
+        current = _census_keys_with_history()
         for row in targets["rows"]:
-            key = row["identity_key"]
-            if key in routed:
+            key = current.get(row["identity_key"], row["identity_key"])
+            if row["identity_key"] in routed:
                 assert states[key] in routed_onward_states, key
             else:
                 assert states[key] == "AWAITING_OFFICIAL_URL", key

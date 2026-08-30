@@ -8,7 +8,7 @@
   "deployment_authorization": {
     "grants_deployment": false,
     "asserts_market_complete": false,
-    "means": "A passing contract means this market's assembled package is structurally deployable: its authority files agree, its routes match its reviewed inventory, no held identity leaks, and every publish/tech gate holds. It is not a deployment authorization and it makes no claim that the market's identity universe is fully resolved -- 223 of this market's 256 confirmed identities are still unresolved. PTF-CINCINNATI-21C-FOUNDER-DECISION-APPLICATION-001 resolved 21c Museum Hotel Cincinnati (APPROVE_PARTIAL_PUBLICATION, pets_allowed only) after PTF-CINCINNATI-21C-RECAPTURE-001 supplied the artifact hash the original pass was missing. Cincinnati's Fidelity Hotel (pre-opening hold) remains untouched, and this contract makes no claim about it."
+    "means": "A passing contract means this market's assembled package is structurally deployable: its authority files agree, its routes match its reviewed inventory, no held identity leaks, and every publish/tech gate holds. It is NOT a deployment authorization and makes no claim that the market's identity universe is fully resolved -- 160 of this market's 256 confirmed identities are still unresolved."
   },
   "canonical": {
     "base_url": "https://pettripfinder.com",
@@ -20,38 +20,38 @@
     "path": "launch_packages/pettripfinder/identity_census/cincinnati-oh.json",
     "schema": "ptf-market-identity-census/1.1",
     "expected_count": 256,
-    "note": "The committed census is the Cincinnati Tri-State identity universe (OH/KY/IN). Policy publication is restricted to the 21 founder-approved PUBLICATION_CANDIDATE facts (20 from PTF-CINCINNATI-CAPTURE-PASS1-FOUNDER-DECISIONS plus 21c Museum Hotel Cincinnati from PTF-CINCINNATI-21C-FOUNDER-DECISION-APPLICATION-001) and 6 founder-approved VERIFIED_NO_PETS exclusions; 17 identity holds, 13 routing-unresolved identities, and 193 identities still awaiting policy observation remain unresolved. 6 identities are ruled out of the current lodging category (short-term rentals and guesthouses the source directories list beside hotels)."
+    "note": "The committed census is the Cincinnati Tri-State identity universe (OH/KY/IN). 74 founder-approved pet-friendly profiles and 16 verified-no-pets exclusions are published; 6 identities are ruled out of the current lodging category; 160 remain unresolved."
   },
   "reconciliation": {
     "confirmed_identities": 256,
-    "published_pet_friendly": 21,
-    "verified_no_pets": 6,
+    "published_pet_friendly": 74,
+    "verified_no_pets": 16,
     "out_of_current_category": 6,
-    "resolved": 33,
-    "unresolved": 223,
-    "note": "Counts are derived from the committed policy package and exclusion registry via derive_authority(), the same machinery every other market's contract uses; unresolved is not negative pet evidence. 'resolved' counts published + verified-no-pets + the 6 OUT_OF_CURRENT_CATEGORY exclusion-registry records this market owns (PTF-CINCINNATI-CATEGORY-EXIT-REGISTRY-REPAIR-001 mechanically registered these -- a disposition already made by PTF-CINCINNATI-CENSUS-RECONCILIATION-001, not a new decision -- matching the representation Columbus and Pittsburgh already use for the same disposition class). 256 = 21 + 6 + 6 + 223."
+    "resolved": 96,
+    "unresolved": 160,
+    "note": "Counts are derived from the committed policy package and exclusion registry via derive_authority(); unresolved is not negative pet evidence. 256 = 74 + 16 + 6 + 160."
   },
   "reconciliation_cross_checks": [],
   "policy_package": {
     "path": "launch_packages/pettripfinder/hotel_policy_facts_cincinnati-oh.json",
-    "expected_sha256": "5ba886794d11b74c6f2f21ba2bf14f5615e61b86b6c0d8aa8b8e72fd8a734b6b",
+    "expected_sha256": "5bea71192c37a4a0a59e2dcdb65f8be95a19256da60cac1b5873a1ba0c060a5b",
     "expected_schema_version": "1.3",
-    "expected_record_count": 21,
+    "expected_record_count": 74,
     "identity_authority": true,
-    "note": "The live Cincinnati policy package is the sole identity authority for its twenty-one verified profiles; no hard-coded allow-list is repeated here. The first twenty were written by PTF-CINCINNATI-PASS1-AUTHORITY-APPLICATION-001 from the founder's 26 ready Capture Pass 1 decisions; the 21st (21c Museum Hotel Cincinnati) was added by PTF-CINCINNATI-21C-FOUNDER-DECISION-APPLICATION-001 once its artifact hash was recaptured.",
+    "note": "The live Cincinnati policy package is the sole identity authority for its 74 verified profiles. 21 were written by the Capture Pass 1 applications; PTF-CINCINNATI-FOUNDER-REVIEW-AND-APPLICATION-004 added 53 -- the founder's block authorization of 47 clean pet-friendly candidates from Capture Pass 3, plus six of eight exception rulings. No hard-coded allow-list is repeated here.",
     "schema_note": "Schema 1.3. PTF-CINCINNATI-HARDENED-SYNC-002 stamped the package from 1.2 to 1.3 -- an additive amendment (enums.CANONICAL_POLICY_SCHEMA_VERSIONS holds both) that added the service_animal_statement.quote field the founder's Capture Pass 1 statements had nowhere to live in. Seven records gained that quote; no fact, evidence entry, withholding or founder decision changed. record_hash is taken over the whole record, so stamping the version moved it on all twenty-one: each approval carries a 'rebinding' block naming the prior hash and what moved, evidence_hash is unchanged throughout, and no decision was re-asked or re-signed."
   },
   "public_surface": {
-    "seed_hotel_rows": 21,
-    "public_hotel_profile_count": 21,
+    "seed_hotel_rows": 74,
+    "public_hotel_profile_count": 74,
     "excluded_public_profile_count": 0,
     "held_hotel_exclusion": "Every other unresolved or category-excluded census identity has no seed row and no public route. This market currently holds none -- every seed row it owns is published."
   },
   "routes": {
     "market_slug": "cincinnati-oh",
     "route_mode": "market_prefixed",
-    "hotel_route_count": 21,
-    "published_corridor_route_count": 6,
+    "hotel_route_count": 74,
+    "published_corridor_route_count": 14,
     "note": "route_mode market_prefixed: this market's hub, corridor, and policy-comparison pages live under /pet-friendly-hotels/cincinnati-oh/. 6 of this market's 22 configured corridors are above their publication minimum and claim a route, derived from the twenty-one published hotels' own corridor assignments; the market is registered assemblable but not yet enabled in primary navigation (show_in_navigation is a separate, unrelated market-config setting)."
   },
   "minimum_release_gates": [

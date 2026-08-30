@@ -1,0 +1,130 @@
+{
+ "schema": "ptf-market-route-retirement-ledger/1.0",
+ "work_order": "PTF-CINCINNATI-FOUNDER-REVIEW-AND-APPLICATION-004",
+ "market_id": "cincinnati-oh",
+ "as_of": "2026-08-29",
+ "why": "Phase 4 of the founder review. Two domains had lapsed and been resold and one property page had become a brand search page. A route that resolves to somebody else's website is worse than no route: it is a URL the next pass spends a fetch on and then reads the wrong page from.",
+ "count": 3,
+ "removed_routes": [
+  {
+   "routing_id": "route-cincinnati-oh-rest",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "cincinnati-oh",
+    "canonical_name": "REST",
+    "normalized_name": "rest",
+    "identity_key": "rest"
+   },
+   "market_id": "cincinnati-oh",
+   "official_property_url": "https://www.iresteasy.com/",
+   "official_domain": "iresteasy.com",
+   "property_code": "",
+   "brand": "INDEPENDENT",
+   "binding_method": "PAGE_RENDERED",
+   "binding_sources": [
+    "EXACT_PROPERTY_FIRST_PARTY"
+   ],
+   "identity_signals_matched": [
+    "binding:street",
+    "binding:postal_code",
+    "binding:phone",
+    "binding:city",
+    "binding:state"
+   ],
+   "identity_context": {
+    "address": "333 e 8th st.",
+    "city": "Cincinnati",
+    "state": "OH",
+    "postal_code": "45202",
+    "phone": "5132644241"
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "status": "ROUTING_CONFIRMED",
+   "notes": "street+ZIP+phone agree; operates as a curated short-term-rental/boutique hospitality concept (BWB Hospitality) rather than a traditional hotel, but is the named lodging operator the census identity records at this address",
+   "category": "accommodation",
+   "retired_at": "2026-08-29",
+   "retired_by": "PTF-CINCINNATI-FOUNDER-REVIEW-AND-APPLICATION-004",
+   "retired_reason": "DOMAIN LAPSED AND RESOLD. iresteasy.com now serves a Japanese article about beef-bowl ingredients (lang=ja) with no mention of a hotel, Cincinnati, Ohio or any 45xxx postal code. Observed by attended browser 2026-08-29 under PTF-CINCINNATI-ZERO-COST-CAPTURE-003."
+  },
+  {
+   "routing_id": "route-cincinnati-oh-surestay-hotel-by-best-western-florence",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "cincinnati-oh",
+    "canonical_name": "SureStay Hotel by Best Western Florence",
+    "normalized_name": "surestay hotel by best western florence",
+    "identity_key": "surestay hotel by best western florence"
+   },
+   "market_id": "cincinnati-oh",
+   "official_property_url": "https://www.bestwestern.com/en_US/book/hotels-in-florence/surestay-by-best-western-florence/propertyCode.55078.html",
+   "official_domain": "bestwestern.com",
+   "property_code": "55078",
+   "brand": "BESTWESTERN",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "BRAND_PROPERTY_PAGE"
+   ],
+   "identity_signals_matched": [
+    "binding:property_code",
+    "binding:city",
+    "binding:state"
+   ],
+   "identity_context": {
+    "address": "8075 Steiler Dr.",
+    "city": "Florence",
+    "state": "KY",
+    "postal_code": "41042",
+    "phone": "8598179180"
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "status": "ROUTING_CONFIRMED",
+   "notes": "Page is client-rendered so no address in raw HTML, and the property is absent from hotels-details.xml. Route is strongly property-specific (unique propertyCode 55078) and the brand+property name+city match. Census street \"8075 Steiler Dr\" is a transcription defect: the street is Steilen Dr. Street number 8075 and ZIP 41042 both agree. DISPLAY_NAME_HYGIENE / street-spelling correction flagged for census review; NOT corrected here.",
+   "category": "accommodation",
+   "retired_at": "2026-08-29",
+   "retired_by": "PTF-CINCINNATI-FOUNDER-REVIEW-AND-APPLICATION-004",
+   "retired_reason": "PROPERTY PAGE GONE. propertyCode.55078 redirects to a Best Western hotel-search page titled 'Search Best Western Hotels & Resorts'. A brand index is not a property page and its content is not this property's claim. No free first-party evidence of a successor URL exists, so this identity returns to PROPERTY_LEVEL_URL_RECOVERY rather than being bound to a guess."
+  },
+  {
+   "routing_id": "route-cincinnati-oh-the-glendalia",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "cincinnati-oh",
+    "canonical_name": "The Glendalia",
+    "normalized_name": "the glendalia",
+    "identity_key": "the glendalia"
+   },
+   "market_id": "cincinnati-oh",
+   "official_property_url": "https://www.theglendalia.com/",
+   "official_domain": "theglendalia.com",
+   "property_code": "",
+   "brand": "INDEPENDENT",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "EXACT_PROPERTY_FIRST_PARTY"
+   ],
+   "identity_signals_matched": [
+    "binding:street",
+    "binding:postal_code",
+    "binding:city",
+    "binding:state"
+   ],
+   "identity_context": {
+    "address": "11 Village Square",
+    "city": "Glendale",
+    "state": "OH",
+    "postal_code": "45246",
+    "phone": "5133769645"
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-17",
+   "status": "ROUTING_CONFIRMED",
+   "notes": "street+ZIP agree via the property's own domain; phone sourced from a directory rather than the first-party page itself this pass",
+   "category": "accommodation",
+   "retired_at": "2026-08-29",
+   "retired_by": "PTF-CINCINNATI-FOUNDER-REVIEW-AND-APPLICATION-004",
+   "retired_reason": "DOMAIN LAPSED AND RESOLD. theglendalia.com now serves 'BASKET168 - Situs Slot Pragmatic Gacor', an Indonesian gambling/e-commerce page with zero occurrences of Glendalia, Glendale, Ohio or any Cincinnati postal code. Observed by attended browser 2026-08-29 under PTF-CINCINNATI-ZERO-COST-CAPTURE-003."
+  }
+ ]
+}

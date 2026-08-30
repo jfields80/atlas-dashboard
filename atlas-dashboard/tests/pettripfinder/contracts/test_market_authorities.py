@@ -69,11 +69,13 @@ EXPECTED = {
     # census from independent discovery. The six out-of-category rows are the
     # short-term rentals and guesthouses the directories list beside hotels.
     # 0/0/250 until PTF-CINCINNATI-HARDENED-SYNC-002 replayed the Capture
-    # Pass 1 authority decided on 2026-08-17 -- 21 published and 6 refused --
-    # which had been committed to a pre-hardening branch that never reached
-    # this lineage. 256 = 21 + 6 + 6 + 223.
-    CINCINNATI: {"census": 256, "published": 21, "no_pets": 6,
-                 "out_of_category": 6, "unresolved": 223},
+    # Pass 1 authority (21 published, 6 refused) from a pre-hardening branch.
+    # 21/6 -> 74/16 at PTF-CINCINNATI-FOUNDER-REVIEW-AND-APPLICATION-004,
+    # which applied the founder's block authorization of 47 clean pet-friendly
+    # and 10 clean verified-no-pets candidates from the zero-cost Capture Pass
+    # 3, plus six of its eight exception rulings. 256 = 74 + 16 + 6 + 160.
+    CINCINNATI: {"census": 256, "published": 74, "no_pets": 16,
+                 "out_of_category": 6, "unresolved": 160},
     PITTSBURGH: {"census": 96, "published": 26, "no_pets": 4,
                  "out_of_category": 3, "unresolved": 63},
     DETROIT: {"census": 143, "published": 0, "no_pets": 0,
@@ -342,8 +344,8 @@ class TestTerminalDispositionsMatchAuthority:
         """
         doc = partition_doc(CINCINNATI)
         states = collections.Counter(i["final_state"] for i in doc["items"])
-        assert states[enums.PUBLISHED_PET_FRIENDLY] == 21
-        assert states[enums.VERIFIED_NO_PETS] == 6
+        assert states[enums.PUBLISHED_PET_FRIENDLY] == 74
+        assert states[enums.VERIFIED_NO_PETS] == 16
         assert states[enums.OUT_OF_CURRENT_CATEGORY] == 6
         assert len(doc["items"]) == 256
 

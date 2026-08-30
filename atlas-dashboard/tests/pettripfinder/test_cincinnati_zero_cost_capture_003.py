@@ -78,19 +78,24 @@ def test_every_row_ends_in_exactly_one_of_the_seven_states(rows):
 
 # --------------------------------------------- it did not become authority
 
-def test_the_committed_authority_did_not_move(rows):
-    """The pass proposes. 21/6/6 is what it was before it ran."""
+def test_the_pass_itself_wrote_no_authority(rows):
+    """Pass 3 proposed; PTF-...-APPLICATION-004 disposed.
+
+    This asserted 21/6/6 while that was the live state. The claim it was
+    really making -- that a CAPTURE pass writes no authority -- is not about
+    the totals, and stating it as totals made it expire the moment a founder
+    ruled. What holds permanently is that nothing in Pass 3's own artifacts is
+    an approval, which ``test_no_candidate_file_carries_an_approval`` pins, and
+    that Pass 3 never captured a row that was already published.
+    """
     package = _load(PKG / "hotel_policy_facts_cincinnati-oh.json")
-    assert len(package["hotels"]) == 21
-    exclusions = _load(PKG / "markets" / "authority" / "cincinnati-oh"
-                       / "hotel_exclusions.json")["exclusions"]
-    assert sum(1 for e in exclusions
-               if e["exclusion_state"] == "VERIFIED_NO_PETS") == 6
-    assert sum(1 for e in exclusions
-               if e["exclusion_state"] == "OUT_OF_CURRENT_CATEGORY") == 6
-    published = {h["identity_key"] for h in package["hotels"]}
-    assert published.isdisjoint({r["identity_key"] for r in rows}), \
-        "a cohort row is already published; it should never have been captured"
+    pass3 = [h for h in package["hotels"]
+             if h["approval"]["approval_date"] == "2026-08-29"]
+    assert len(pass3) == 53
+    already = {h["identity_key"] for h in package["hotels"]
+               if h["approval"]["approval_date"] == "2026-08-17"}
+    assert already.isdisjoint({r["identity_key"] for r in rows}), \
+        "a cohort row was already published; it should never have been captured"
 
 
 def test_no_candidate_file_carries_an_approval():
@@ -107,14 +112,17 @@ def test_no_candidate_file_carries_an_approval():
 def test_the_queue_records_observation_without_claiming_resolution():
     """A row that was looked at says so, and still is not published."""
     queue = _load(QUEUE)
-    observed = [r for r in queue["rows"] if r.get("last_observation")]
-    assert len(observed) == 93
-    for row in observed:
-        assert row["last_observation"]["provider_calls"] == 0
-        # final_state is authority-derived and must not have moved.
-        assert row["final_state"] in (
-            "AWAITING_POLICY_OBSERVATION", "AWAITING_OFFICIAL_URL",
-            "AWAITING_IDENTITY_RESOLUTION")
+    # The queue was rebuilt from authority by
+    # PTF-CINCINNATI-FOUNDER-REVIEW-AND-APPLICATION-004, so the per-row
+    # observation stamps Pass 3 wrote have been superseded by the states the
+    # founder's rulings produced. What Pass 3 observed is preserved in its own
+    # results artifact, which is the durable record.
+    results = _load(RESULTS)
+    assert results["processed"] == 93
+    for row in results["rows"]:
+        obs = row.get("last_observation")
+        if obs:
+            assert obs["provider_calls"] == 0
 
 
 # ------------------------------------------- it did not flatten an outcome

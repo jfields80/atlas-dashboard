@@ -186,8 +186,10 @@ class TestAuthorityFreeze:
         partition = _load(PARTITION_PATH)
         counts = partition["final_state_counts"]
         assert sum(counts.values()) == 256
-        assert counts.get("PUBLISHED_PET_FRIENDLY") == 21
-        assert counts.get("VERIFIED_NO_PETS") == 6
+        # 21/6 at Pass 1; 74/16 since PTF-CINCINNATI-FOUNDER-REVIEW-AND-
+        # APPLICATION-004 applied the zero-cost Capture Pass 3 block.
+        assert counts.get("PUBLISHED_PET_FRIENDLY") == 74
+        assert counts.get("VERIFIED_NO_PETS") == 16
 
     def test_routing_authority_reflects_the_27_retirements(self):
         """All 27 are accounted for: 21 removed, 6 kept and marked.
@@ -215,7 +217,10 @@ class TestAuthorityFreeze:
         assert routing["count"] == len(routing["routes"])
         cincinnati = [r for r in routing["routes"]
                       if r["market_id"] == "cincinnati-oh"]
-        assert len(cincinnati) == 189
+        # 210 -> 189 (SYNC-002 removed the first 21 seed-inventory routes)
+        # -> 186 (004 retired two lapsed domains and one vanished property
+        # page) -> 135 (004 removed the 51 routes whose identity it published).
+        assert len(cincinnati) == 135
 
         retired = [r for r in cincinnati if r["status"] == "ROUTING_RETIRED"]
         assert len(retired) == 6
@@ -224,6 +229,12 @@ class TestAuthorityFreeze:
         assert ledger["count"] == len(ledger["removed_routes"]) == 21
         assert len(retired) + ledger["count"] == 27
 
+        # Every route 004 removed is preserved too, in its own ledgers.
+        seed_ledger = _load(
+            REPORTS / "cincinnati_route_retirement_004_seed_ledger.json")
+        dead = _load(REPORTS / "cincinnati_route_retirement_004_ledger.json")
+        assert seed_ledger["count"] == 51 and dead["count"] == 3
+
         # The removed rows are gone from the shard and nowhere else.
         removed = {r["hotel_ref"]["normalized_name"]
                    for r in ledger["removed_routes"]}
@@ -231,13 +242,30 @@ class TestAuthorityFreeze:
                           for r in cincinnati} == set()
         published = {h["identity_key"] for h in
                      _load(LP / "hotel_policy_facts_cincinnati-oh.json")["hotels"]}
-        assert removed == published
+        # SYNC-002's 21 were the whole published set at the time; 004 published
+        # 53 more and removed their routes into its own ledger. The invariant
+        # that matters is unchanged and is asserted directly: every route this
+        # market removed for being seed inventory IS seed inventory, and no
+        # published identity still holds a route.
+        assert removed <= published
+        seed_removed = {r["hotel_ref"]["normalized_name"]
+                        for r in seed_ledger["removed_routes"]}
+        assert seed_removed <= published
+        assert published.isdisjoint({r["hotel_ref"]["normalized_name"]
+                                     for r in cincinnati})
 
     def test_hotel_policy_facts_file_exists_with_twentyone_records(self):
         facts_path = LP / "hotel_policy_facts_cincinnati-oh.json"
         assert facts_path.exists()
         facts = _load(facts_path)
-        assert len(facts["hotels"]) == 21
+        # 21 at Pass 1; 74 since PTF-CINCINNATI-FOUNDER-REVIEW-AND-
+        # APPLICATION-004 applied Capture Pass 3. What this test is about is
+        # unchanged: every record in the package, whichever pass wrote it,
+        # carries a named operator and an explicit approval decision.
+        assert len(facts["hotels"]) == 74
+        pass1 = [h for h in facts["hotels"]
+                 if h["approval"]["approval_date"] == "2026-08-17"]
+        assert len(pass1) == 21
         for hotel in facts["hotels"]:
             assert hotel["approval"]["operator"] == "jfields80"
             assert hotel["approval"]["decision"] == "APPROVED_AFTER_CURRENT_REVIEW"

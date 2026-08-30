@@ -84,13 +84,14 @@ def test_it_records_what_it_supersedes(queue):
 # ------------------------------------------------- decisions are not re-asked
 
 def test_every_resolved_identity_is_marked_decided(queue, rows):
+    # 33 -> 96 at PTF-CINCINNATI-FOUNDER-REVIEW-AND-APPLICATION-004.
     decided = [r for r in queue["rows"] if r["review_status"] == "DECIDED"]
-    assert len(decided) == 33
+    assert len(decided) == 96
     by_lane = {}
     for row in decided:
         by_lane.setdefault(row["capture_lane"], []).append(row)
-    assert len(by_lane["RESOLVED_PUBLISHED"]) == 21
-    assert len(by_lane["RESOLVED_NO_PETS"]) == 6
+    assert len(by_lane["RESOLVED_PUBLISHED"]) == 74
+    assert len(by_lane["RESOLVED_NO_PETS"]) == 16
     assert len(by_lane["RESOLVED_OUT_OF_CATEGORY"]) == 6
 
 
@@ -113,6 +114,11 @@ def test_the_twenty_seven_capture_pass_one_rulings_survive(queue):
     lanes = {r["capture_lane"] for r in ruled}
     assert lanes == {"RESOLVED_PUBLISHED", "RESOLVED_NO_PETS"}
     assert all(r["founder_decision"].startswith("APPROVE") for r in ruled)
+    # The 53 records APPLICATION-004 added carry their authorization on the
+    # policy record's approval block rather than a Pass 1 decision id, so they
+    # are decided without being among these 27.
+    decided = [r for r in queue["rows"] if r["review_status"] == "DECIDED"]
+    assert len(decided) - len(ruled) == 69
 
 
 def test_published_rows_carry_the_hash_their_approval_binds(rows):
@@ -174,13 +180,16 @@ def test_an_unadjudicated_census_url_is_its_own_lane(rows):
     assert len(unverified) == 12
     for key in unverified:
         assert rows[key]["official_url"]
-        # PTF-CINCINNATI-ZERO-COST-CAPTURE-003 then adjudicated four of these
-        # for free and observed them, which moves their lane forward. The
-        # grade stays UNVERIFIED_CENSUS_URL until a routing pass writes the
-        # binding into the shard -- being read is not being routed.
+        # Still 12, and still UNVERIFIED, even though Capture Pass 3
+        # adjudicated four of them for free and APPLICATION-004 published
+        # three. The grade is about ROUTING, not about knowledge: a URL is
+        # verified when a routing pass writes the binding into the shard, and
+        # publishing an identity actually REMOVES its route, because the seed
+        # row becomes the source of truth. Being read is not being routed, and
+        # a published row keeps this grade until a routing pass says otherwise.
         assert rows[key]["capture_lane"] in (
             "ROUTING_VERIFICATION_REQUIRED", "IDENTITY_REVIEW",
-            "FOUNDER_REVIEW_REQUIRED", "POLICY_RE_OBSERVATION_REQUIRED")
+            "RESOLVED_PUBLISHED", "RESOLVED_NO_PETS")
 
 
 def test_the_lane_totals_account_for_every_row(queue):
@@ -198,5 +207,5 @@ def test_no_review_outcome_was_inferred_from_the_old_discovery_queue(queue):
     """
     for row in queue["rows"]:
         if row["review_status"] == "DECIDED":
-            assert row.get("decision_source") or row.get("exclusion_state"), \
-                row["identity_key"]
+            assert (row.get("decision_source") or row.get("exclusion_state")
+                    or row.get("record_hash")), row["identity_key"]
