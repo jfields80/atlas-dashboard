@@ -1,0 +1,58 @@
+{
+  "schema": "ptf-detroit-ann-arbor-hilton-failure-analysis/1.0",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-HILTON-DIAGNOSTIC-016",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-30",
+  "question": "were Hilton's misses random or systemic?",
+  "answer": "the diagnostic returned 10 of 10 publication-grade with zero failures, across 6 sub-brands and 6 cities on the modern host. That is the strongest evidence available that the prior misses were transient.",
+  "what_could_not_be_tested": "the legacy per-brand host hamptoninn3.hilton.com, which carried one of the two prior NAVIGATION_FAILED results. NO unresolved Hilton row uses that host any more, so the shape could not be re-sampled. Its cause remains a hypothesis rather than a finding.",
+  "no_retries_were_run": "a failure was never retried to improve the measurement; the diagnostic sampled NEW properties instead.",
+  "count": 4,
+  "by_cause": {
+    "POLICY_SILENCE": 1,
+    "AMBIGUOUS_POLICY": 1,
+    "TRANSIENT_NAVIGATION": 2
+  },
+  "failures": [
+    {
+      "identity_key": "doubletree by hilton ann arbor north",
+      "canonical_name": "DoubleTree by Hilton Ann Arbor North",
+      "class": "POLICY_NOT_FOUND",
+      "adapter_outcome": "POLICY_NOT_FOUND",
+      "hostname": "",
+      "legacy_per_brand_host": false,
+      "cause": "POLICY_SILENCE",
+      "detail": "the page rendered and stated nothing about pets. SOURCE SILENCE IS ABSENCE -- this is not a lane failure and not a no-pets claim."
+    },
+    {
+      "identity_key": "embassy suites by hilton detroit livonia novi",
+      "canonical_name": "Embassy Suites by Hilton Detroit Livonia Novi",
+      "class": "HOLD",
+      "adapter_outcome": "VALID",
+      "hostname": "",
+      "legacy_per_brand_host": false,
+      "cause": "AMBIGUOUS_POLICY",
+      "detail": "the located block was a question with no answer on the page. A founder exception, not an acquisition failure: the lane delivered the document it was asked for."
+    },
+    {
+      "identity_key": "doubletree suites by hilton downtown detroit",
+      "canonical_name": "DoubleTree Suites by Hilton Downtown Detroit",
+      "class": "ACQUISITION_FAILURE",
+      "adapter_outcome": "NAVIGATION_FAILED",
+      "hostname": "",
+      "legacy_per_brand_host": false,
+      "cause": "TRANSIENT_NAVIGATION",
+      "detail": "a navigation failure on the modern host. The diagnostic ran ten fresh properties on that same host and template with zero failures, so the lane reaches it reliably and this reads as transient rather than structural."
+    },
+    {
+      "identity_key": "hampton inn detroit novi",
+      "canonical_name": "Hampton Inn Detroit-Novi",
+      "class": "ACQUISITION_FAILURE",
+      "adapter_outcome": "NAVIGATION_FAILED",
+      "hostname": "",
+      "legacy_per_brand_host": false,
+      "cause": "TRANSIENT_NAVIGATION",
+      "detail": "a navigation failure on the modern host. The diagnostic ran ten fresh properties on that same host and template with zero failures, so the lane reaches it reliably and this reads as transient rather than structural."
+    }
+  ]
+}

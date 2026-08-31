@@ -121,6 +121,19 @@ CONCRETE_SOURCE_FAMILY: Dict[str, str] = {
     "vibe_showplace": FAMILY_DIRECTORY,
     "chain_locator": FAMILY_CHAIN,
     "chain_aggregate": FAMILY_CHAIN,
+    # Carried onto this lineage by PTF-DETROIT-ANN-ARBOR-HARDENED-SYNC-029.
+    # PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-002: brand-locator discovery
+    # sweep confirming real property-level pages before adding a candidate.
+    "chain_locator_002": FAMILY_CHAIN,
+    # PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-003: attended-browser sweep
+    # of each brand's own location-search page for the last 5 blockers.
+    "chain_locator_003": FAMILY_CHAIN,
+    # PTF-DETROIT-ANN-ARBOR-FOUNDER-RULINGS-AND-SHADOW-PROMOTION-006. The
+    # source_id census_projection writes for a row a DISCOVERY provider
+    # found rather than one transcribed from a directory. OPEN_GEO because
+    # the provider is OpenStreetMap, and the family is what the coverage
+    # audit reads to decide whether two sources are independent witnesses.
+    "discovery": FAMILY_OPEN_GEO,
     # PTF-GRAND-RAPIDS-HOLLAND-MARKET-FACTORY-001: official destination
     # organizations only.  Each is CVB provenance; no policy claim is implied.
     "experience_gr_kentwood": FAMILY_CVB,

@@ -778,8 +778,29 @@ _TITLE_RE = re.compile(r"<title[^>]*>(.*?)</title>", re.IGNORECASE | re.DOTALL)
 PROPERTY_CODE_PATTERNS: Dict[str, str] = {
     "MARRIOTT": r"/hotels/([a-z0-9]{4,7})-",
     "HILTON": r"/en/hotels/([a-z0-9]{6,12})-",
-    "IHG": r"/hotels/[a-z]{2}/[a-z]+/([a-z0-9]{5})/",
-    "CHOICE": r"/[a-z]{2}/[a-z-]+/[a-z-]+-hotel/([a-z0-9]{4,8})",
+    # PTF-DETROIT-ANN-ARBOR-PROPERTY-CODE-PARSER-REPAIR-AND-RETRY-009 found
+    # both of these written against URL shapes the brands do not use: 49 paid
+    # attempts reached a real page and were then refused because
+    # ``property_code`` returned "" and the gate compared an empty string
+    # against a real expected code -- a check that could never succeed.
+    #
+    # IHG puts a LANGUAGE segment between country and city that the old
+    # pattern had no room for:
+    #     /holidayinnexpress/hotels/us/en/wixom/dttal/hoteldetail
+    # Carried onto this lineage by PTF-DETROIT-ANN-ARBOR-HARDENED-SYNC-029.
+    # It REPLACES the older country/city pattern rather than alternating
+    # with it, because all 39 IHG routes on this lineage use the
+    # country/LANGUAGE/city/code shape and the older pattern matched none
+    # of them. An alternation was tried first and was worse than useless:
+    # its permissive branch let the LANGUAGE segment stand in for the city
+    # and parsed the city name itself as a property code, so
+    # /hotels/us/en/wixom/ yielded "wixom". A code parsed from a city name
+    # is not a near miss -- it is an identity check comparing garbage.
+    "IHG": r"/hotels/[a-z]{2}/[a-z]{2}/[a-z0-9-]+/([a-z0-9]{5})/",
+    # Choice's repaired pattern is a strict SUPERSET of the one it replaces:
+    # a wider first segment and an optional plural, so every URL the old
+    # pattern matched still matches.
+    "CHOICE": r"/[a-z-]+/[a-z-]+/[a-z-]+-hotels?/([a-z0-9]{4,8})",
     # Added by PTF-HYATT-BEST-WESTERN-PREMIUM-RESOLUTION-028. Both brands put a
     # code in every property URL and the identity census already holds it, so
     # binding on the code is available and is strictly stronger than the

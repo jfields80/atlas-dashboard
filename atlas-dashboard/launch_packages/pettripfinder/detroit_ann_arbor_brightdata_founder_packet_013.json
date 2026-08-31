@@ -1,0 +1,81 @@
+{
+  "schema": "ptf-detroit-ann-arbor-brightdata-founder-packet/1.0",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-BRIGHTDATA-PILOT-013",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-29",
+  "status": "AWAITING_FOUNDER_REVIEW",
+  "note": "Exceptions only. Nothing from this pilot is applied to authority by this order.",
+  "count": 3,
+  "counts": {
+    "HOLD": 1,
+    "POLICY_NOT_FOUND": 1,
+    "UNEXPECTED_PAGE": 1
+  },
+  "exceptions": [
+    {
+      "attempt_id": "557d3fec09ef2a15",
+      "identity_key": "courtyard detroit metro airport romulus",
+      "canonical_name": "Courtyard Detroit Metro Airport Romulus",
+      "brand": "MARRIOTT",
+      "sub_brand": "courtyard",
+      "city": "Romulus",
+      "canonical_url": "marriott.com/hotels/travel/dtwca-courtyard-detroit-metro-airport-romulus",
+      "lane": "brightdata_browser",
+      "reader": "marriott",
+      "adapter_outcome": "UNEXPECTED_PAGE",
+      "reached_the_property_page": false,
+      "class": "UNEXPECTED_PAGE",
+      "why": "the adapter returned UNEXPECTED_PAGE; the class follows the adapter's own outcome and is not re-derived here",
+      "artifact_path": "",
+      "artifact_hash": "",
+      "reading": null
+    },
+    {
+      "attempt_id": "f827d242b126fe5d",
+      "identity_key": "doubletree by hilton ann arbor north",
+      "canonical_name": "DoubleTree by Hilton Ann Arbor North",
+      "brand": "HILTON",
+      "sub_brand": "doubletree",
+      "city": "Ann Arbor",
+      "canonical_url": "hilton.com/en/hotels/arbaadt-doubletree-ann-arbor-north",
+      "lane": "brightdata_browser",
+      "reader": "hilton_competing",
+      "adapter_outcome": "POLICY_NOT_FOUND",
+      "reached_the_property_page": true,
+      "class": "POLICY_NOT_FOUND",
+      "why": "the adapter returned POLICY_NOT_FOUND; the class follows the adapter's own outcome and is not re-derived here",
+      "artifact_path": "",
+      "artifact_hash": "",
+      "reading": null
+    },
+    {
+      "attempt_id": "970e2870c62ccd31",
+      "identity_key": "embassy suites by hilton detroit livonia novi",
+      "canonical_name": "Embassy Suites by Hilton Detroit Livonia Novi",
+      "brand": "HILTON",
+      "sub_brand": "embassy-suites",
+      "city": "Livonia",
+      "canonical_url": "hilton.com/en/hotels/dttlies-embassy-suites-detroit-livonia-novi",
+      "lane": "brightdata_browser",
+      "reader": "hilton_competing",
+      "adapter_outcome": "VALID",
+      "reached_the_property_page": true,
+      "class": "HOLD",
+      "why": "the located block is a QUESTION and nothing else ('Are pets allowed at Embassy Suites by Hilton Detroit Livonia Novi?'). It contains the words 'pets allowed', which is why the reader resolved it affirmatively, but the page states no answer here. A pet-friendly claim cannot rest on an FAQ heading.",
+      "artifact_path": "C:\\ptf-detroit\\atlas-dashboard\\data\\worker_runs\\pettripfinder\\detroit-ann-arbor-brightdata-013\\embassy-suites-by-hilton-detroit-livonia-novi\\attempt-01\\rendered.html",
+      "artifact_hash": "a4b412b0a1abfc09397f13a26b928162fc4a6cfbd97386e2c06cf331f336591d",
+      "reading": {
+        "pets_allowed": true,
+        "block_text": "Are pets allowed at Embassy Suites by Hilton Detroit Livonia Novi?",
+        "block_sha256": "72466fc917a01082bd7bc3f65f979a3e0253481e542883bbefc4ce897a234eea",
+        "document_sha256": "a4b412b0a1abfc09397f13a26b928162fc4a6cfbd97386e2c06cf331f336591d",
+        "brand_generic": false,
+        "charges": [],
+        "service_animal_quote": "",
+        "dogs_only_quote": "",
+        "block_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-brightdata-013/embassy-suites-by-hilton-detroit-livonia-novi/attempt-01/policy-block.txt",
+        "document_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-brightdata-013/embassy-suites-by-hilton-detroit-livonia-novi/attempt-01/rendered.html"
+      }
+    }
+  ]
+}

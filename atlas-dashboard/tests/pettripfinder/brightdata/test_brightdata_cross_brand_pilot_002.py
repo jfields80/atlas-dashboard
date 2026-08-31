@@ -563,7 +563,15 @@ def test_hashes_rederive_from_bytes(tmp_path):
 
 
 def test_the_evidence_contract_is_used_not_changed():
-    assert enums.ARTIFACT_KINDS == ("rendered_html", "operator_screenshot", "pdf")
+    # PTF-DETROIT-ANN-ARBOR-HARDENED-SYNC-029 carried Detroit onto this
+    # lineage, and with it the text_extract artifact kind that founder
+    # decision B-003-1 registered in Detroit order 004. 161 of Detroit's
+    # committed evidence entries cite it, so the vocabulary GROWS here as
+    # a committed change. What this test is actually about -- that
+    # IMPORTING a capture package must not mutate a frozen vocabulary at
+    # runtime -- is unchanged and still asserted.
+    assert enums.ARTIFACT_KINDS == ("rendered_html", "operator_screenshot",
+                                    "pdf", "text_extract")
     assert PO.CAPTURE_METHODS == ("deterministic_fetch", "browser_assisted",
                                   "human_manual", "phone_contact")
     assert EV.PUBLICATION_GRADE_REQUIRED == (

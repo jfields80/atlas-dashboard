@@ -1,0 +1,164 @@
+{
+  "schema": "ptf-detroit-ann-arbor-brightdata-pilot/1.0",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-FOUNDER-REVIEW-AND-AUTHORITY-011",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-29",
+  "status": "PREPARED, NOT RUN, NOT AUTHORISED",
+  "lane": "brightdata_browser",
+  "rows": 12,
+  "composition": {
+    "marriott": 6,
+    "hilton": 6,
+    "marriott_sub_brands": [
+      "autograph",
+      "courtyard",
+      "fairfield",
+      "marriott-collection",
+      "renaissance",
+      "residence-inn"
+    ],
+    "hilton_sub_brands": [
+      "doubletree",
+      "embassy-suites",
+      "hampton",
+      "hilton-collection",
+      "hilton-garden-inn",
+      "home2"
+    ],
+    "cities": [
+      "Ann Arbor",
+      "Auburn Hills",
+      "Bloomfield Hills",
+      "Dearborn",
+      "Detroit",
+      "Livonia",
+      "Northville",
+      "Rochester Hills",
+      "Romulus"
+    ]
+  },
+  "available_pool": {
+    "marriott": 32,
+    "hilton": 37
+  },
+  "stratification": "walked round-robin across sub-brands, preferring an unused city at each step. Twelve rows drawn alphabetically would measure one sub-brand's CDN in one suburb, not a market.",
+  "what_the_pilot_measures": [
+    "ACCESS SUCCESS -- whether the managed browser reaches these two brands at all. This is the open question and it comes first",
+    "PUBLICATION-GRADE SUCCESS -- of the pages reached, how many yield a located, property-specific policy block",
+    "ACTUAL PAID COST -- the measured spend per attempt on this lane, which this project has never measured for Detroit",
+    "PET-FRIENDLY YIELD -- last, because it is meaningless until the first three are known"
+  ],
+  "projected_maximum_spend_usd": 2.28,
+  "spend_basis": "12 attempts at $0.19, the managed browser's committed per-attempt figure. A CEILING, not a forecast: every attempt bills whether or not it returns a page.",
+  "do_not_extrapolate": "Firecrawl's Detroit rates say nothing about these rows. Different family population, different provider, different defences -- and these 112 brand-wall rows have never been attempted at all. Size the remaining cohort from the PILOT's own Wilson lower bound, never from its point estimate and never from Firecrawl.",
+  "cohort": [
+    {
+      "identity_key": "the vanguard ann arbor autograph collection",
+      "canonical_name": "The Vanguard Ann Arbor, Autograph Collection",
+      "brand": "MARRIOTT",
+      "sub_brand": "autograph",
+      "city": "Ann Arbor",
+      "official_property_url": "https://www.marriott.com/en-us/hotels/dtwaa-the-vanguard-ann-arbor-autograph-collection/overview/",
+      "property_code": "dtwaa"
+    },
+    {
+      "identity_key": "courtyard detroit metro airport romulus",
+      "canonical_name": "Courtyard Detroit Metro Airport Romulus",
+      "brand": "MARRIOTT",
+      "sub_brand": "courtyard",
+      "city": "Romulus",
+      "official_property_url": "https://www.marriott.com/hotels/travel/dtwca-courtyard-detroit-metro-airport-romulus",
+      "property_code": ""
+    },
+    {
+      "identity_key": "fairfield inn and suites rochester hills",
+      "canonical_name": "Fairfield Inn & Suites Rochester Hills",
+      "brand": "MARRIOTT",
+      "sub_brand": "fairfield",
+      "city": "Rochester Hills",
+      "official_property_url": "https://www.marriott.com/en-us/hotels/dtwdr-fairfield-inn-and-suites-rochester-hills/overview",
+      "property_code": "dtwdr"
+    },
+    {
+      "identity_key": "hotel auburn hills",
+      "canonical_name": "Hotel Auburn Hills",
+      "brand": "MARRIOTT",
+      "sub_brand": "marriott-collection",
+      "city": "Auburn Hills",
+      "official_property_url": "https://www.marriott.com/en-us/hotels/fntah-hotel-auburn-hills/overview/",
+      "property_code": "fntah"
+    },
+    {
+      "identity_key": "detroit marriott at the renaissance center",
+      "canonical_name": "Detroit Marriott at the Renaissance Center",
+      "brand": "MARRIOTT",
+      "sub_brand": "renaissance",
+      "city": "Detroit",
+      "official_property_url": "https://www.marriott.com/en-us/hotels/dtwdt-detroit-marriott-at-the-renaissance-center/overview/",
+      "property_code": "dtwdt"
+    },
+    {
+      "identity_key": "residence inn by marriott detroit dearborn",
+      "canonical_name": "Residence Inn by Marriott Detroit Dearborn",
+      "brand": "MARRIOTT",
+      "sub_brand": "residence-inn",
+      "city": "Dearborn",
+      "official_property_url": "https://www.marriott.com/en-us/hotels/dtwrr-residence-inn-detroit-dearborn/overview/",
+      "property_code": "dtwrr"
+    },
+    {
+      "identity_key": "doubletree by hilton ann arbor north",
+      "canonical_name": "DoubleTree by Hilton Ann Arbor North",
+      "brand": "HILTON",
+      "sub_brand": "doubletree",
+      "city": "Ann Arbor",
+      "official_property_url": "https://www.hilton.com/en/hotels/arbaadt-doubletree-ann-arbor-north",
+      "property_code": "arbaadt"
+    },
+    {
+      "identity_key": "embassy suites by hilton detroit livonia novi",
+      "canonical_name": "Embassy Suites by Hilton Detroit Livonia Novi",
+      "brand": "HILTON",
+      "sub_brand": "embassy-suites",
+      "city": "Livonia",
+      "official_property_url": "https://www.hilton.com/en/hotels/dttlies-embassy-suites-detroit-livonia-novi/",
+      "property_code": "dttlies"
+    },
+    {
+      "identity_key": "hampton",
+      "canonical_name": "Hampton",
+      "brand": "HILTON",
+      "sub_brand": "hampton",
+      "city": "Auburn Hills",
+      "official_property_url": "https://www.hilton.com/en/hotels/dttauhx-hampton-detroit-auburn-hills-south",
+      "property_code": "dttauhx"
+    },
+    {
+      "identity_key": "the kingsley bloomfield hills",
+      "canonical_name": "The Kingsley Bloomfield Hills",
+      "brand": "HILTON",
+      "sub_brand": "hilton-collection",
+      "city": "Bloomfield Hills",
+      "official_property_url": "https://www.hilton.com/en/hotels/dtwbhdt-the-kingsley-bloomfield-hills/",
+      "property_code": "dtwbhdt"
+    },
+    {
+      "identity_key": "hilton garden inn detroit downtown",
+      "canonical_name": "Hilton Garden Inn Detroit Downtown",
+      "brand": "HILTON",
+      "sub_brand": "hilton-garden-inn",
+      "city": "Detroit",
+      "official_property_url": "https://www.hilton.com/en/hotels/detdhgi-hilton-garden-inn-detroit-downtown",
+      "property_code": "detdhgi"
+    },
+    {
+      "identity_key": "home2 suites by hilton northville detroit",
+      "canonical_name": "Home2 Suites by Hilton Northville Detroit",
+      "brand": "HILTON",
+      "sub_brand": "home2",
+      "city": "Northville",
+      "official_property_url": "https://www.hilton.com/en/hotels/deththt-home2-suites-northville-detroit/",
+      "property_code": "deththt"
+    }
+  ]
+}

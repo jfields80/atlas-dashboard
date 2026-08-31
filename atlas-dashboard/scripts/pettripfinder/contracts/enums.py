@@ -274,11 +274,19 @@ MAY_CONFIRM_IDENTITY: FrozenSet[str] = frozenset({
 ARTIFACT_RENDERED_HTML = "rendered_html"
 ARTIFACT_OPERATOR_SCREENSHOT = "operator_screenshot"
 ARTIFACT_PDF = "pdf"
+#: PTF-DETROIT-ANN-ARBOR-EVIDENCE-VOCABULARY-AND-PROMOTION-004,
+#: founder decision B-003-1, carried onto this lineage by
+#: PTF-DETROIT-ANN-ARBOR-HARDENED-SYNC-029. A persisted, byte-verifiable extract of the
+#: policy-bearing TEXT of a first-party page, hashed in the browser at
+#: capture time and cross-verified against the saved file.
+ARTIFACT_TEXT_EXTRACT = "text_extract"
 
 #: What was hashed. An operator screenshot of the page is a lawful artifact of
 #: the page; a screenshot of a spreadsheet about the page is not.
 ARTIFACT_KINDS: Tuple[str, ...] = (ARTIFACT_RENDERED_HTML,
-                                   ARTIFACT_OPERATOR_SCREENSHOT, ARTIFACT_PDF)
+                                   ARTIFACT_OPERATOR_SCREENSHOT,
+                                   ARTIFACT_PDF,
+                                   ARTIFACT_TEXT_EXTRACT)
 
 # --------------------------------------------------------------------------
 # Approval

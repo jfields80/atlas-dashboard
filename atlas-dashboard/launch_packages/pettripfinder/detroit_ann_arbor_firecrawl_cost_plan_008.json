@@ -1,0 +1,38 @@
+{
+  "schema": "ptf-detroit-ann-arbor-firecrawl-cost-plan/1.0",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-FIRECRAWL-PASS-008",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-29",
+  "authorisation": {
+    "lane": "firecrawl",
+    "hard_cap_usd": 20.0,
+    "authorised_rows": 105,
+    "bright_data": "FORBIDDEN",
+    "web_unlocker": "FORBIDDEN",
+    "google_places": "FORBIDDEN"
+  },
+  "unit_cost": {
+    "usd_per_attempt": 0.0721333333333333,
+    "credits_per_attempt": 0.54,
+    "basis": "MEASURED, not estimated: the committed cross-run paid ledger records 203 firecrawl attempts, every one at cost_usd_minor 7.2133 and firecrawl_credits 0.54. Orders 006 and 007 projected $0.19/attempt, which was my own figure and was 2.6x too high.",
+    "note": "Firecrawl bills in plan CREDITS and reports no per-request dollar cost; the USD figure is the repo's own recorded equivalent, and the CREDIT delta measured across this run is the authoritative spend."
+  },
+  "cohort": {
+    "firecrawl_qualified": 63,
+    "rows_this_run": 63,
+    "truncated_before_spending": false,
+    "why": "the whole qualified cohort fits: 63 rows is under both the 105-row authorisation and the $20.00 cap"
+  },
+  "projected": {
+    "attempts": 63,
+    "credits_required": 34.02,
+    "worst_case_usd": 4.54,
+    "remaining_margin_under_cap": 15.46,
+    "worst_case_is_every_attempt_failing": "Yes. Cost is denominated in ATTEMPTS: a refusal costs the same as a good page, so this figure is the ceiling regardless of yield."
+  },
+  "account": {
+    "firecrawl_credits_before": 631,
+    "credits_required": 34.02,
+    "sufficient": true
+  }
+}

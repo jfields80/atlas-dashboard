@@ -82,7 +82,16 @@ WITHHELD_BY_046 = "indianapolis-in"
 #: DIFFERENT reasons, which is the distinction the tests below draw.
 NOT_READY = ("cincinnati-oh", "detroit-ann-arbor-mi")
 #: Genuinely cannot assemble: a configured market with no policy package.
-NOT_ASSEMBLABLE = ("detroit-ann-arbor-mi",)
+#: EMPTY as of PTF-DETROIT-ANN-ARBOR-TROY-IDENTITY-AND-BUNDLE-030. Detroit
+#: left this list the way Grand Rapids did: not by gaining data, but
+#: because the assembler could finally SEE the data it already had. Its
+#: partition file is named with underscores and _partition_path globbed
+#: for hyphens, so final_partition_present read False and the market was
+#: not assemblable -- while its own bundle assembled with every gate
+#: passing. No market currently demonstrates this state, and the loops
+#: below iterate the tuple rather than naming a market, so they simply
+#: assert nothing until one does.
+NOT_ASSEMBLABLE = ()
 #: Assembles cleanly and is still not admitted, because no founder authorized
 #: it. PTF-CINCINNATI-HARDENED-SYNC-002 replayed Cincinnati stranded Capture
 #: Pass 1 authority -- 21 profiles, 6 refusals, a contract that verifies -- and
@@ -90,7 +99,12 @@ NOT_ASSEMBLABLE = ("detroit-ann-arbor-mi",)
 #: had become false, to SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH.
 #: That is a statement about the source, not an admission: the authorized set
 #: did not move.
-SOURCE_READY_UNAUTHORIZED = ("cincinnati-oh",)
+#: Detroit joins at PTF-DETROIT-ANN-ARBOR-TROY-IDENTITY-AND-BUNDLE-030 for
+#: precisely Cincinnati's reason: its row said NOT_SOURCE_READY, which had
+#: become false -- 121 profiles, 81 refusals, a contract that verifies and
+#: a bundle with zero broken links. Correcting the observation moved no
+#: authorization; the authorized set is unchanged.
+SOURCE_READY_UNAUTHORIZED = ("cincinnati-oh", "detroit-ann-arbor-mi")
 
 #: The five-market production candidate, reproduced twice in the work order
 #: and DEPLOYED by PTF-047. Superseded by

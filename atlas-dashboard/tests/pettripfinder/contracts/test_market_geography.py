@@ -56,7 +56,11 @@ EXPECTED_ROWS = {COLUMBUS: 112, CLEVELAND: 188, DAYTON: 129, CINCINNATI: 257,
                  # carried a founder signature the sync could not apply
                  # while the identity did not exist. All 96 preserved.
                  # 101 -> 103 at PTF-PITTSBURGH-IDENTITY-CLOSE-007 (two adds).
-                 PITTSBURGH: 103, DETROIT: 143,
+                 # 143 -> 247 at PTF-DETROIT-ANN-ARBOR-HARDENED-SYNC-029.
+                 # This lineage carried only Detroit's pre-recensus
+                 # scaffold; the hardened market's promoted census is
+                 # 247 identities, transplanted whole.
+                 PITTSBURGH: 103, DETROIT: 247,
                  # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004 promoted the 257-identity recensus.
                  INDIANAPOLIS: 257,
                  MILWAUKEE: 147}
@@ -434,7 +438,21 @@ class TestCrossMarketOwnership:
         # BUDGET_DEFERRED row); the same bare key exists in Cleveland. Neither
         # is authority, both markets route market_prefixed, and the collision
         # is recorded here rather than resolved by renaming a census row.
-        known_bare_name_collisions = {"home2 suites by hilton": [CLEVELAND, INDIANAPOLIS]}
+        # PTF-DETROIT-ANN-ARBOR-HARDENED-SYNC-029 brought Detroit onto this
+        # lineage carrying a second bare chain name: a census row recorded
+        # as plain "Comfort Suites" (1565 North Opdyke Road, Auburn Hills)
+        # where Indianapolis already holds the same bare key. Detroit's
+        # own identity screen in order 025 had ALREADY flagged that row as
+        # a probable duplicate of the published "Comfort Suites Auburn
+        # Hills Detroit", and PTF-PITTSBURGH-FOUNDER-HOLD-RESOLUTION-005
+        # refused the same key for the same reason. It is UNRESOLVED and
+        # in NEITHER market's authority -- not published, not excluded --
+        # so it is recorded here exactly as the Home2 collision is,
+        # rather than resolved by renaming a census row inside a sync.
+        known_bare_name_collisions = {
+            "home2 suites by hilton": [CLEVELAND, INDIANAPOLIS],
+            "comfort suites": [DETROIT, INDIANAPOLIS],
+        }
         assert {k: sorted(set(v)) for k, v in duplicates.items()} == {
             k: sorted(v) for k, v in known_bare_name_collisions.items()}
 

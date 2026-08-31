@@ -1,0 +1,157 @@
+{
+ "schema": "ptf-market-release-contract/1.0",
+ "contract_id": "pettripfinder-detroit-ann-arbor-mi-release/1.0",
+ "market_id": "detroit-ann-arbor-mi",
+ "product": "pettripfinder-detroit-ann-arbor-mi",
+ "release_name_prefix": "prod-006-detroit-ann-arbor",
+ "description": "Deterministic release-gate contract for the PetTripFinder Detroit-Ann Arbor market (PTF-DETROIT-ANN-ARBOR-DISPLAY-INVENTORY-AND-RELEASE-CONTRACT-005). Consumed by scripts/pettripfinder/assemble_netlify_bundle.py. Every count below is DERIVED from this market's own committed authority by release_contracts.derive_authority; none is hand-calculated and none is inherited from or comparable to another market's contract. It exists because this order seeded the market's display inventory for the first time -- Detroit has held real policy authority since Pass 1 but had nothing to release until now. Contains NO credentials and NO remote project identifiers. The committed hotel-policy package is the single identity authority for the verified hotels; this contract deliberately does NOT duplicate a hard-coded allow-list.",
+ "deployment_authorization": {
+  "grants_deployment": false,
+  "asserts_market_complete": false,
+  "means": "A passing contract means this market's assembled package is STRUCTURALLY deployable: its authority files agree, its display inventory matches its reviewed publications, no held identity leaks, and every publish/tech gate holds. It is NOT a deployment authorization and it makes no claim that this market's identity universe is resolved. 23 of its 247 identities are still awaiting policy observation; a 238-row shadow recensus is staged and UNPROMOTED; ten municipalities and one same-address identity pair await founder rulings; the market is hidden from navigation and the sitemap; it holds no launch participation; and NO founder deployment decision exists for Detroit."
+ },
+ "canonical": {
+  "base_url": "https://pettripfinder.com",
+  "canonical_host": "pettripfinder.com",
+  "robots_sitemap_host": "pettripfinder.com",
+  "sitemap_host": "pettripfinder.com"
+ },
+ "identity_census": {
+  "path": "launch_packages/pettripfinder/identity_census/detroit-ann-arbor-mi.json",
+  "schema": "ptf-market-identity-census/1.1",
+  "expected_count": 247,
+  "note": "247 canonical identities. 182 until founder ruling DTW-ID-003-NOVI-11-MILE superseded the stale Courtyard Detroit Novi identity with its Sonesta Select successor at one address; the retired name is preserved as that row's former_name and in the duplicate ledger."
+ },
+ "reconciliation": {
+  "confirmed_identities": 247,
+  "published_pet_friendly": 121,
+  "verified_no_pets": 81,
+  "out_of_current_category": 0,
+  "resolved": 202,
+  "unresolved": 45,
+  "note": "7/7 until founder decision B-003-1 registered the text_extract artifact kind, which unblocked the 28-row Capture Pass 3 packet: 10 publications and 18 first-party refusals, each re-hashed from disk and quote-checked verbatim against the artifact bytes at approval time. Two POLICY_NOT_FOUND rows were NOT converted -- source silence is absence, not a refusal -- and remain held, outside both authority and this market's display inventory."
+ },
+ "reconciliation_cross_checks": [
+  {
+   "path": "launch_packages/pettripfinder/detroit_ann_arbor_final_partition_001.json",
+   "key_map": {
+    "confirmed_identities": "count"
+   },
+   "note": "The committed final partition is the disposition authority; its count is the same 247-identity universe the census commits."
+  }
+ ],
+ "policy_package": {
+  "path": "launch_packages/pettripfinder/hotel_policy_facts_detroit-ann-arbor-mi.json",
+  "expected_sha256": "e6024ceae82b0ab635d7ebb5e8a5cb496aaa30cd8e1344e6d8696b87ae43951c",
+  "expected_schema_version": "1.2",
+  "expected_record_count": 121,
+  "identity_authority": true,
+  "note": "The verified hotel identities are DERIVED from this package at assembly time via release_contracts.derive_authority, never from a list duplicated here."
+ },
+ "public_surface": {
+  "seed_hotel_rows": 121,
+  "public_hotel_profile_count": 121,
+  "excluded_public_profile_count": 0,
+  "held_hotel_exclusion": "Every seed hotel this market owns that is absent from the committed package must not render a public profile. This market's display inventory IS its published set -- it was seeded from that package, one row per approved record -- so the difference is zero by construction rather than by luck, and a future publication that forgets to seed will show up here as a mismatch rather than as a missing page."
+ },
+ "routes": {
+  "market_slug": "detroit-ann-arbor-mi",
+  "route_mode": "market_prefixed",
+  "hotel_route_count": 121,
+  "published_corridor_route_count": 10,
+  "note": "route_mode market_prefixed: this market's hub, corridor and policy-comparison pages live under its own prefix. 10 corridor route(s) meet this market's minimum_hotel_count of 5 and therefore render; the other corridors hold published hotels but not yet enough of them. The identity-ROUTING authority is a different thing entirely and now holds 162 records: seeding WITHDREW the 17 routes publication answered, because the display inventory is the source of truth for a published hotel."
+ },
+ "minimum_release_gates": [
+  "authority.contract_is_for_this_market",
+  "authority.reconciliation_matches_market_authority",
+  "authority.package_exists",
+  "authority.package_sha256",
+  "authority.package_schema_version",
+  "authority.package_count",
+  "identity.verified_from_package",
+  "identity.held_derived",
+  "route.profile_count_matches_contract",
+  "route.all_committed_profiles_present",
+  "route.all_held_absent",
+  "route.no_excluded_reference_on_any_surface",
+  "publish.control_files_present",
+  "publish.headers_match_tracked_source",
+  "publish.redirects_match_tracked_source",
+  "publish.no_forbidden_files",
+  "publish.no_build_reports_in_site",
+  "headers.context_noindex_preview_only",
+  "content.zero_broken_links",
+  "content.quality_report_clean",
+  "content.build_report_hotel_count_matches_contract",
+  "tech.go_pages_noindex",
+  "tech.sitemap_public_canonical_only",
+  "tech.robots_sitemap_host_apex",
+  "tech.no_credentials",
+  "tech.no_windows_local_paths",
+  "tech.no_runtime_paths"
+ ],
+ "forbidden_output_tokens": [
+  "C:\\Atlas",
+  "C:/Atlas",
+  "NETLIFY_AUTH_TOKEN",
+  "NETLIFY_SITE_ID",
+  "nfp_",
+  "AppData",
+  "/Users/",
+  "\\Users\\"
+ ],
+ "publish": {
+  "publishable_root": "site/",
+  "control_files": [
+   "_headers",
+   "_redirects"
+  ],
+  "control_file_sources": {
+   "_headers": {
+    "preview": "deploy/netlify/headers.preview",
+    "production": "deploy/netlify/headers.production"
+   },
+   "_redirects": "deploy/netlify/redirects"
+  },
+  "forbidden_basenames": [
+   "_build_report.json",
+   "_broken_link_report.json",
+   "_quality_report.json",
+   "bundle_manifest.json",
+   ".env"
+  ],
+  "forbidden_extensions": [
+   ".py",
+   ".pyc",
+   ".pyo",
+   ".patch",
+   ".map",
+   ".json",
+   ".env"
+  ],
+  "forbidden_path_segments": [
+   ".git",
+   ".github",
+   ".claude",
+   ".netlify",
+   "__pycache__",
+   "data",
+   "docs",
+   "tests",
+   "scripts",
+   "services",
+   "launch_packages",
+   "engines",
+   "repositories"
+  ],
+  "note": "The publish root must contain ONLY the static website plus the two Netlify control files. Build-internal reports the generator emits (_build_report.json, _broken_link_report.json, _quality_report.json, bundle_manifest.json) are read for gating but are excluded from site/ and must never ship."
+ },
+ "market_visibility": {
+  "show_in_navigation": false,
+  "show_in_sitemap": false,
+  "minimum_published_hotels": 5,
+  "launch_participation": false,
+  "readiness_state": "CANDIDATE_MARKET",
+  "note": "Hidden on purpose. This market assembles as a CANDIDATE: its authority is internally consistent and its display inventory is real, but it carries no launch participation and no founder deployment decision, and it is reachable only by direct URL until it does."
+ }
+}

@@ -1,0 +1,79 @@
+{
+  "schema": "ptf-detroit-ann-arbor-acquisition-readiness/1.0",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-29",
+  "status": "PLAN_ONLY_NOTHING_RUN",
+  "note": "A cost PLAN against the promoted 245-row census. No provider was called, no cohort was authorised, no ledger row was written. Every unit price below is an OBSERVED rate from a completed run in another market, never a vendor list price.",
+  "census_identities": 247,
+  "classification": {
+    "ALREADY_ANSWERED": 42,
+    "REUSABLE_POLICY_EVIDENCE": 0,
+    "SAME_METHOD_ALREADY_FAILED": 2,
+    "ROUTING_REPAIR_REQUIRED": 2,
+    "URL_KNOWN_POLICY_NOT_ACQUIRED": 175,
+    "URL_MISSING": 24,
+    "GENUINELY_NEW": 2
+  },
+  "classification_meanings": {
+    "ALREADY_ANSWERED": "Published or verified-no-pets. Never re-bought.",
+    "REUSABLE_POLICY_EVIDENCE": "Evidence on file awaiting a decision. Detroit has none outstanding: the Pass 3 packet was fully applied, so its rows are ALREADY_ANSWERED or holds.",
+    "SAME_METHOD_ALREADY_FAILED": "The two source-silent holds. Their own site states no policy anywhere, so the same lane cannot answer them and buying it again would be a same-method retry.",
+    "ROUTING_REPAIR_REQUIRED": "Identity is not confirmed; nothing may bind to it yet.",
+    "URL_KNOWN_POLICY_NOT_ACQUIRED": "A confirmed identity with a ROUTING_CONFIRMED page and no policy yet. The cohort.",
+    "URL_MISSING": "A confirmed identity with no official page. Not an acquisition problem -- there is nothing to buy. Discovery/routing first, at $0 from the local extract.",
+    "GENUINELY_NEW": "A confirmed identity carrying a URL that routing has not yet confirmed. Payable only once routing confirms it."
+  },
+  "cross_run_ledger": {
+    "paid_attempt_rows_seen": 0,
+    "detroit_rows_in_the_paid_ledger": 0,
+    "meaning": "Detroit has never bought a page. Nothing in this cohort is a re-buy."
+  },
+  "payable_cohort": {
+    "size": 177,
+    "firecrawl_eligible": 108,
+    "bright_data_required": 69,
+    "lane_basis": "Marriott and Hilton refuse the cheap lane and need the managed browser; every other brand is Firecrawl-reachable. Established by the acquisition pilots, not re-derived here."
+  },
+  "discovery_needed": {
+    "places_or_discovery_needed": 24,
+    "recommended_lane": "the local OSM extract and attended reads, at $0",
+    "why_not_places": "Google Places is a paid discovery lane and this market has a committed local extract that has never been exhausted. Places is not warranted until a $0 pass has been run and reported."
+  },
+  "projected_spend": {
+    "firecrawl_unit_usd": 0.19,
+    "bright_data_unit_usd": 0.4,
+    "projected_usd": 48.12,
+    "basis": "Observed per-attempt rates from Indianapolis (Firecrawl) and Pittsburgh (Bright Data), denominated in ATTEMPTS rather than successes -- a failed fetch costs the same as a good one."
+  },
+  "recommended_next_hard_cap": {
+    "usd": 20.0,
+    "lane": "FIRECRAWL ONLY",
+    "rows_covered_by_this_cap": 105,
+    "cost_at_that_size": 19.95,
+    "why_firecrawl_first": "Firecrawl is a fifth the price of the managed browser and 108 of the 177 payable rows are already qualified for it. Buying the cheap lane first also measures this market's real yield before any expensive attempt is made -- and if Firecrawl's yield here matches Indianapolis, the Bright Data cohort can be sized on evidence instead of on this projection.",
+    "what_is_deliberately_NOT_in_this_cap": "The 69 Bright-Data-required rows (Marriott and Hilton refuse the cheap lane). They stay unbought until the Firecrawl pass reports an observed yield.",
+    "spend_before_this_cap_is_authorised": 0.0,
+    "authorised": false
+  },
+  "nothing_was_run": [
+    "provider calls: 0",
+    "spend: $0.00",
+    "paid-attempt ledger rows created: 0",
+    "discovery-attempt ledger rows created: 0",
+    "no cohort authorised, no cap approved"
+  ],
+  "withheld_from_this_plan": {
+    "brand_only_identities": 11,
+    "why": "Not in the census, so not payable. They need a NAME first, which an attended read of their own property page supplies at $0."
+  },
+  "zero_cost_recovery_applied": {
+    "work_order": "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007",
+    "brand_only_identities_named": 5,
+    "brand_only_resolved_to_a_committed_identity": 1,
+    "brand_only_still_held": 5,
+    "routes_confirmed_at_zero_cost": 41,
+    "duplicates_merged_on_property_code_or_shared_url": 3,
+    "effect_on_the_payable_cohort": "Routing 41 identities MOVED them from GENUINELY_NEW to URL_KNOWN_POLICY_NOT_ACQUIRED. That does not change what a page costs -- it changes whether the row can be bought at all, which is the point of doing it before authorising a cap."
+  }
+}

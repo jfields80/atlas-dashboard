@@ -1,0 +1,1822 @@
+{
+  "schema": "ptf-detroit-ann-arbor-shadow-reconciliation/1.1",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-HARDENED-MEMBERSHIP-AND-SHADOW-RECENSUS-002",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-28",
+  "status": "SHADOW_ONLY_NOT_PROMOTED",
+  "note": "The committed census at launch_packages/pettripfinder/identity_census/detroit-ann-arbor-mi.json is UNCHANGED and remains the market's authority. This reconciles it against a shadow projection built from a local OSM extract at zero cost. Every one of the 182 committed identities is accounted for by name: carried forward, carried through an explicit absorption, or HELD with a stated reason. None disappeared.",
+  "committed_census": {
+    "path": "launch_packages/pettripfinder/identity_census/detroit-ann-arbor-mi.json",
+    "identities": 182,
+    "unchanged": true
+  },
+  "shadow_census": {
+    "path": "data/shadow_recensus_002_lodging/census/detroit-ann-arbor-mi.SHADOW.json",
+    "identities": 219,
+    "source": "local_extract:geofabrik-michigan-detroit-ann-arbor",
+    "network_requests": 0,
+    "spend_usd": 0.0,
+    "categories": [
+      "hotel",
+      "motel"
+    ],
+    "promoted": false
+  },
+  "committed_identity_accounting": {
+    "CARRIED_FORWARD_BY_IDENTITY": 102,
+    "CARRIED_FORWARD_THROUGH_EXPLICIT_ABSORPTION": 70,
+    "ABSORBED_THEN_HELD_FOR_REVIEW": 3,
+    "HELD_FOR_REVIEW_AS_ITS_OWN_CANDIDATE": 7,
+    "TOTAL": 182
+  },
+  "shadow_only_identities": {
+    "count": 117,
+    "with_official_url": 83,
+    "with_postal_code": 115
+  },
+  "review_queues": {
+    "ADMITTED_TO_CENSUS": 219,
+    "MARKET_MEMBERSHIP_UNRESOLVED": 24,
+    "IDENTITY_COLLISION_REQUIRES_REVIEW": 19,
+    "IDENTITY_NO_LOCALITY": 68,
+    "UNNAMED_CANDIDATE": 5,
+    "ABSORBED_INTO_ANOTHER_IDENTITY": 2,
+    "OUT_OF_MARKET_GEOGRAPHY": 0,
+    "OUT_OF_MARKET_BOUNDARY_DECISION": 0,
+    "NOT_LODGING_CATEGORY": 0,
+    "PERMANENTLY_CLOSED": 0
+  },
+  "unresolved_by_city": {
+    "Madison Heights": 6,
+    "Canton": 5,
+    "Rochester Hills": 4,
+    "Allen Park": 2,
+    "Commerce Township": 2,
+    "Farmington Hill": 1,
+    "Clawson": 1,
+    "Plymouth Township": 1,
+    "Ferndale": 1,
+    "Farmington": 1
+  },
+  "defects_found_in_the_generic_pipeline": [
+    {
+      "id": "D-002-A",
+      "severity": "HIGH",
+      "module": "scripts/pettripfinder/discovery/census_recandidacy.py",
+      "summary": "Absorption lets a THINNER discovery record overwrite a committed row's populated locality fields -- state, and city.",
+      "evidence": "'The Bell Tower Hotel' is committed with city='Ann Arbor', state='MI'; its recandidated row reads state=None. 'Crowne Plaza Auburn Hills' is committed with city='Auburn Hills', state='MI', postal='48326'; it was absorbed into an OSM sighting whose city is empty, and the merged candidate kept the EMPTY city, so it was held IDENTITY_NO_LOCALITY -- 'the candidate states no city' -- about a property whose committed row names its city plainly.",
+      "consequence": "7 committed identities were held IDENTITY_NO_LOCALITY and 3 more were absorbed into targets that were then held. None was lost, because the pipeline holds rather than drops -- but a promotion built on this shadow would strand 10 good committed rows. This is generic and would affect every market's recensus, not only Detroit.",
+      "not_fixed_here": "Out of scope for this order, which syncs generic modules unchanged rather than editing them. Fixing it is the first item of the next order."
+    },
+    {
+      "id": "D-002-B",
+      "severity": "HIGH",
+      "module": "scripts/pettripfinder/discovery/census_recandidacy.py",
+      "summary": "Absorption lets a thin discovery name OVERWRITE a committed canonical name.",
+      "evidence": "'Best Western Greenfield Inn' -- IDENTITY_CONFIRMED, routed, the market's only explicit corridor assignment -- was absorbed by street identity into an OSM row named merely 'Best Western'. 70 of the 103 absorptions renamed a committed identity this way, including 'Daxton Hotel' -> 'Daxon Hotel' (an OSM misspelling) and 'Comfort Inn Metro Airport' -> 'Comfort Inn Hotel'.",
+      "consequence": "A promotion built on this shadow would silently downgrade committed canonical names to whatever OSM happens to call the building. A census promotion must SUPERSEDE a prior identity, never overwrite it.",
+      "not_fixed_here": "Reported, not fixed. Blocks promotion of this shadow census."
+    },
+    {
+      "id": "D-002-C",
+      "severity": "LOW",
+      "module": "OpenStreetMap source data",
+      "summary": "OSM spells one municipality 'Farmington Hill' (singular), which is not the registered 'Farmington Hills'.",
+      "evidence": "The absorption target for 'Delta Hotels by Marriott Detroit Novi' carries city='Farmington Hill', postal 48335, and was held MARKET_MEMBERSHIP_UNRESOLVED as BORDERLINE.",
+      "consequence": "A false UNRESOLVED caused by upstream spelling, not by a real boundary question. Worth an alias, never a silent string fix.",
+      "not_fixed_here": "Reported. Belongs in the boundary packet as an alias question."
+    },
+    {
+      "id": "D-002-D",
+      "severity": "INFORMATIONAL -- a finding, not a defect",
+      "module": "shadow recensus result",
+      "summary": "The shadow run independently RESOLVED one of Detroit's two IDENTITY_PROVISIONAL holds.",
+      "evidence": "'Courtyard by Marriott Detroit Novi' (IDENTITY_PROVISIONAL, no official_url, no route, 42700 W 11 Mile Rd 48375) was absorbed by street identity into the OSM sighting behind 'Sonesta Select Detroit Novi' (committed separately at 42700 West 11 Mile Rd 48375, with a live sonesta.com property URL). Same building, same ZIP, same street.",
+      "consequence": "The Courtyard row is a stale pre-rebrand identity of the Sonesta Select row, not a missing hotel. That is a founder identity ruling -- CONFIRMED_DUPLICATE / renamed in place -- and it is NOT made here. It would take Detroit's open identity holds from 2 to 1 at zero cost.",
+      "not_fixed_here": "Reported for founder ruling in the next order."
+    }
+  ],
+  "committed_identity_detail": {
+    "CARRIED_FORWARD_BY_IDENTITY": [
+      {
+        "identity_key": "ac hotel ann arbor downtown",
+        "canonical_name": "AC Hotel Ann Arbor Downtown",
+        "city": "Ann Arbor",
+        "state": "MI",
+        "postal_code": "48104",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "americas best value inn livonia detroit",
+        "canonical_name": "Americas Best Value Inn Livonia Detroit",
+        "city": "Livonia",
+        "state": "MI",
+        "postal_code": "48150",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "ann arbor marriott ypsilanti at eagle crest",
+        "canonical_name": "Ann Arbor Marriott Ypsilanti at Eagle Crest",
+        "city": "Ypsilanti",
+        "state": "MI",
+        "postal_code": "48197",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "ann arbor regent hotel and suites",
+        "canonical_name": "Ann Arbor Regent Hotel & Suites",
+        "city": "Ann Arbor",
+        "state": "MI",
+        "postal_code": "48108",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "atheneum suite hotel",
+        "canonical_name": "Atheneum Suite Hotel",
+        "city": "Detroit",
+        "state": "MI",
+        "postal_code": "48226",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "auburn hills marriott pontiac",
+        "canonical_name": "Auburn Hills Marriott Pontiac",
+        "city": "Pontiac",
+        "state": "MI",
+        "postal_code": "48341",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "cambria hotel detroit downtown",
+        "canonical_name": "Cambria Hotel Detroit Downtown",
+        "city": "Detroit",
+        "state": "MI",
+        "postal_code": "48226",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "courtyard by marriott ann arbor",
+        "canonical_name": "Courtyard by Marriott Ann Arbor",
+        "city": "Ann Arbor",
+        "state": "MI",
+        "postal_code": null,
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "courtyard by marriott detroit southfield",
+        "canonical_name": "Courtyard by Marriott Detroit Southfield",
+        "city": "Southfield",
+        "state": "MI",
+        "postal_code": "48033",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "crowne plaza detroit downtown riverfront",
+        "canonical_name": "Crowne Plaza Detroit Downtown Riverfront",
+        "city": "Detroit",
+        "state": "MI",
+        "postal_code": "48226",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "dearborn inn autograph collection",
+        "canonical_name": "Dearborn Inn, Autograph Collection",
+        "city": "Dearborn",
+        "state": "MI",
+        "postal_code": "48124",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "skyline hotel detroit airport surestay collection by bw",
+        "canonical_name": "Skyline Hotel Detroit Airport, SureStay Collection by BW",
+        "city": "Romulus",
+        "state": "MI",
+        "postal_code": "48174",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "detroit foundation hotel",
+        "canonical_name": "Detroit Foundation Hotel",
+        "city": "Detroit",
+        "state": "MI",
+        "postal_code": "48226",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "detroit marriott at the renaissance center",
+        "canonical_name": "Detroit Marriott at the Renaissance Center",
+        "city": "Detroit",
+        "state": "MI",
+        "postal_code": null,
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "detroit marriott livonia",
+        "canonical_name": "Detroit Marriott Livonia",
+        "city": "Livonia",
+        "state": "MI",
+        "postal_code": "48152",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "detroit marriott southfield",
+        "canonical_name": "Detroit Marriott Southfield",
+        "city": "Southfield",
+        "state": "MI",
+        "postal_code": "48034",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "detroit marriott troy",
+        "canonical_name": "Detroit Marriott Troy",
+        "city": "Troy",
+        "state": "MI",
+        "postal_code": "48084",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "el moore lodge",
+        "canonical_name": "El Moore Lodge",
+        "city": "Detroit",
+        "state": "MI",
+        "postal_code": "48201",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "element detroit at the metropolitan",
+        "canonical_name": "Element Detroit at the Metropolitan",
+        "city": "Detroit",
+        "state": "MI",
+        "postal_code": "48226",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "fairfield inn and suites ann arbor ypsilanti",
+        "canonical_name": "Fairfield Inn & Suites Ann Arbor Ypsilanti",
+        "city": "Ypsilanti",
+        "state": "MI",
+        "postal_code": "48197",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "fairfield inn and suites detroit farmington hills",
+        "canonical_name": "Fairfield Inn & Suites Detroit Farmington Hills",
+        "city": "Farmington Hills",
+        "state": "MI",
+        "postal_code": "48334",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "fairfield inn and suites detroit troy",
+        "canonical_name": "Fairfield Inn & Suites Detroit Troy",
+        "city": "Troy",
+        "state": "MI",
+        "postal_code": "48083",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "fairfield inn ann arbor",
+        "canonical_name": "Fairfield Inn Ann Arbor",
+        "city": "Ann Arbor",
+        "state": "MI",
+        "postal_code": "48108",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "four points by sheraton detroit novi",
+        "canonical_name": "Four Points by Sheraton Detroit Novi",
+        "city": "Novi",
+        "state": "MI",
+        "postal_code": "48377",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "hampton inn and suites wixom",
+        "canonical_name": "Hampton Inn & Suites Wixom",
+        "city": "Wixom",
+        "state": "MI",
+        "postal_code": "48393",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "hampton inn and suites ypsilanti",
+        "canonical_name": "Hampton Inn & Suites Ypsilanti",
+        "city": "Ypsilanti",
+        "state": "MI",
+        "postal_code": "48197",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "hampton inn by hilton west bloomfield novi",
+        "canonical_name": "Hampton Inn by Hilton West Bloomfield Novi",
+        "city": "West Bloomfield",
+        "state": "MI",
+        "postal_code": "48322",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "hampton inn detroit auburn hills north",
+        "canonical_name": "Hampton Inn Detroit Auburn Hills North",
+        "city": "Auburn Hills",
+        "state": "MI",
+        "postal_code": "48326",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "hilton garden inn detroit troy",
+        "canonical_name": "Hilton Garden Inn Detroit Troy",
+        "city": "Troy",
+        "state": "MI",
+        "postal_code": "48084",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "hilton garden inn plymouth",
+        "canonical_name": "Hilton Garden Inn Plymouth",
+        "city": "Plymouth",
+        "state": "MI",
+        "postal_code": "48170",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "holiday inn and suites detroit troy",
+        "canonical_name": "Holiday Inn & Suites Detroit Troy",
+        "city": "Troy",
+        "state": "MI",
+        "postal_code": "48098",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "holiday inn and suites farmington hills detroit nw",
+        "canonical_name": "Holiday Inn & Suites Farmington Hills Detroit NW",
+        "city": "Farmington Hills",
+        "state": "MI",
+        "postal_code": "48334",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "holiday inn express and suites ann arbor west",
+        "canonical_name": "Holiday Inn Express & Suites Ann Arbor West",
+        "city": "Ann Arbor",
+        "state": "MI",
+        "postal_code": "48103",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "holiday inn express and suites detroit north troy",
+        "canonical_name": "Holiday Inn Express & Suites Detroit North Troy",
+        "city": "Troy",
+        "state": "MI",
+        "postal_code": "48083",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "holiday inn express and suites farmington hills detroit",
+        "canonical_name": "Holiday Inn Express & Suites Farmington Hills Detroit",
+        "city": "Farmington Hills",
+        "state": "MI",
+        "postal_code": "48334",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "holiday inn express and suites southfield detroit",
+        "canonical_name": "Holiday Inn Express & Suites Southfield Detroit",
+        "city": "Southfield",
+        "state": "MI",
+        "postal_code": "48075",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "holiday inn express detroit northwest livonia",
+        "canonical_name": "Holiday Inn Express Detroit Northwest Livonia",
+        "city": "Livonia",
+        "state": "MI",
+        "postal_code": "48150",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "holiday inn express hotel and suites auburn hills",
+        "canonical_name": "Holiday Inn Express Hotel & Suites Auburn Hills",
+        "city": "Auburn Hills",
+        "state": "MI",
+        "postal_code": "48326",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "holiday inn express plymouth ann arbor",
+        "canonical_name": "Holiday Inn Express Plymouth Ann Arbor",
+        "city": "Plymouth",
+        "state": "MI",
+        "postal_code": "48170",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "holiday inn fairlane dearborn",
+        "canonical_name": "Holiday Inn Fairlane Dearborn",
+        "city": "Dearborn",
+        "state": "MI",
+        "postal_code": "48228",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "hollywood casino at greektown",
+        "canonical_name": "Hollywood Casino at Greektown",
+        "city": "Detroit",
+        "state": "MI",
+        "postal_code": "48226",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "home2 suites by hilton northville detroit",
+        "canonical_name": "Home2 Suites by Hilton Northville Detroit",
+        "city": "Northville",
+        "state": "MI",
+        "postal_code": "48168",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "hotel auburn hills",
+        "canonical_name": "Hotel Auburn Hills",
+        "city": "Auburn Hills",
+        "state": "MI",
+        "postal_code": "48326",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "hotel david whitney autograph collection",
+        "canonical_name": "Hotel David Whitney, Autograph Collection",
+        "city": "Detroit",
+        "state": "MI",
+        "postal_code": null,
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "hotel royal oak",
+        "canonical_name": "Hotel Royal Oak",
+        "city": "Royal Oak",
+        "state": "MI",
+        "postal_code": "48067",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "howard johnson by wyndham romulus detroit metro airport",
+        "canonical_name": "Howard Johnson by Wyndham Romulus Detroit Metro Airport",
+        "city": "Romulus",
+        "state": "MI",
+        "postal_code": "48174",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "hyatt place detroit novi",
+        "canonical_name": "Hyatt Place Detroit Novi",
+        "city": "Novi",
+        "state": "MI",
+        "postal_code": "48374",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "mgm grand detroit",
+        "canonical_name": "MGM Grand Detroit",
+        "city": "Detroit",
+        "state": "MI",
+        "postal_code": "48226",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "motorcity casino hotel",
+        "canonical_name": "MotorCity Casino Hotel",
+        "city": "Detroit",
+        "state": "MI",
+        "postal_code": "48201",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "quality inn and suites ann arbor",
+        "canonical_name": "Quality Inn & Suites Ann Arbor",
+        "city": "Ann Arbor",
+        "state": "MI",
+        "postal_code": "48108",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "quality inn auburn hills",
+        "canonical_name": "Quality Inn Auburn Hills",
+        "city": "Auburn Hills",
+        "state": "MI",
+        "postal_code": "48326",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "red roof inn ann arbor university of michigan south",
+        "canonical_name": "Red Roof Inn Ann Arbor University of Michigan South",
+        "city": "Ann Arbor",
+        "state": "MI",
+        "postal_code": "48108",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "red roof inn dearborn",
+        "canonical_name": "Red Roof Inn Dearborn",
+        "city": "Dearborn",
+        "state": "MI",
+        "postal_code": "48124",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "royal park hotel",
+        "canonical_name": "Royal Park Hotel",
+        "city": "Rochester",
+        "state": "MI",
+        "postal_code": "48307",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "saint john s resort",
+        "canonical_name": "Saint John's Resort",
+        "city": "Plymouth",
+        "state": "MI",
+        "postal_code": "48170",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "sheraton ann arbor hotel",
+        "canonical_name": "Sheraton Ann Arbor Hotel",
+        "city": "Ann Arbor",
+        "state": "MI",
+        "postal_code": null,
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "shinola hotel",
+        "canonical_name": "Shinola Hotel",
+        "city": "Detroit",
+        "state": "MI",
+        "postal_code": "48226",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "somerset inn",
+        "canonical_name": "Somerset Inn",
+        "city": "Troy",
+        "state": "MI",
+        "postal_code": "48084",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "sonesta es suites auburn hills",
+        "canonical_name": "Sonesta ES Suites Auburn Hills",
+        "city": "Auburn Hills",
+        "state": "MI",
+        "postal_code": "48326",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "spark by hilton plymouth",
+        "canonical_name": "Spark by Hilton Plymouth",
+        "city": "Plymouth",
+        "state": "MI",
+        "postal_code": "48170",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "springhill suites auburn hills",
+        "canonical_name": "SpringHill Suites Auburn Hills",
+        "city": "Orion Township",
+        "state": "MI",
+        "postal_code": "48359",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "springhill suites detroit southfield",
+        "canonical_name": "SpringHill Suites Detroit Southfield",
+        "city": "Southfield",
+        "state": "MI",
+        "postal_code": "48034",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "staybridge suites dearborn",
+        "canonical_name": "Staybridge Suites Dearborn",
+        "city": "Dearborn",
+        "state": "MI",
+        "postal_code": "48124",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "staybridge suites detroit novi",
+        "canonical_name": "Staybridge Suites Detroit Novi",
+        "city": "Novi",
+        "state": "MI",
+        "postal_code": "48374",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "staybridge suites detroit southfield",
+        "canonical_name": "Staybridge Suites Detroit Southfield",
+        "city": "Southfield",
+        "state": "MI",
+        "postal_code": "48076",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "the baronette renaissance detroit novi",
+        "canonical_name": "The Baronette Renaissance Detroit Novi",
+        "city": "Novi",
+        "state": "MI",
+        "postal_code": "48377",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "the henry autograph collection",
+        "canonical_name": "The Henry, Autograph Collection",
+        "city": "Dearborn",
+        "state": "MI",
+        "postal_code": "48126",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "the inn at the michigan league",
+        "canonical_name": "The Inn at the Michigan League",
+        "city": "Ann Arbor",
+        "state": "MI",
+        "postal_code": "48104",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "the inn on ferry street",
+        "canonical_name": "The Inn on Ferry Street",
+        "city": "Detroit",
+        "state": "MI",
+        "postal_code": "48202",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "the siren hotel",
+        "canonical_name": "The Siren Hotel",
+        "city": "Detroit",
+        "state": "MI",
+        "postal_code": "48226",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "the townsend hotel",
+        "canonical_name": "The Townsend Hotel",
+        "city": "Birmingham",
+        "state": "MI",
+        "postal_code": "48009",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "the westin detroit metropolitan airport",
+        "canonical_name": "The Westin Detroit Metropolitan Airport",
+        "city": "Detroit",
+        "state": "MI",
+        "postal_code": "48242",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "the westin southfield detroit",
+        "canonical_name": "The Westin Southfield Detroit",
+        "city": "Southfield",
+        "state": "MI",
+        "postal_code": "48075",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "towneplace suites by marriott detroit belleville",
+        "canonical_name": "TownePlace Suites by Marriott Detroit Belleville",
+        "city": "Belleville",
+        "state": "MI",
+        "postal_code": "48111",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "towneplace suites detroit auburn hills",
+        "canonical_name": "TownePlace Suites Detroit Auburn Hills",
+        "city": "Auburn Hills",
+        "state": "MI",
+        "postal_code": "48326",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "tru by hilton troy detroit",
+        "canonical_name": "Tru by Hilton Troy Detroit",
+        "city": "Troy",
+        "state": "MI",
+        "postal_code": "48083",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "trumbull and porter hotel",
+        "canonical_name": "Trumbull and Porter Hotel",
+        "city": "Detroit",
+        "state": "MI",
+        "postal_code": "48216",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "woodland direct",
+        "canonical_name": "Woodland Direct",
+        "city": "Auburn Hills",
+        "state": "MI",
+        "postal_code": "48326",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "wyndham garden detroit metro airport romulus",
+        "canonical_name": "Wyndham Garden Detroit Metro Airport Romulus",
+        "city": "Romulus",
+        "state": "MI",
+        "postal_code": "48174",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "radisson hotel southfield detroit",
+        "canonical_name": "Radisson Hotel Southfield-Detroit",
+        "city": "Southfield",
+        "state": "MI",
+        "postal_code": "48033",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "detroit metro airport marriott",
+        "canonical_name": "Detroit Metro Airport Marriott",
+        "city": "Romulus",
+        "state": "MI",
+        "postal_code": "48174",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "residence inn by marriott detroit dearborn",
+        "canonical_name": "Residence Inn by Marriott Detroit Dearborn",
+        "city": "Dearborn",
+        "state": "MI",
+        "postal_code": "48126",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "hampton inn by hilton detroit dearborn",
+        "canonical_name": "Hampton Inn by Hilton Detroit Dearborn",
+        "city": "Dearborn",
+        "state": "MI",
+        "postal_code": "48124",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "holiday inn express and suites dearborn sw detroit area",
+        "canonical_name": "Holiday Inn Express & Suites Dearborn SW - Detroit Area",
+        "city": "Dearborn",
+        "state": "MI",
+        "postal_code": "48124",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "hyatt house royal oak birmingham",
+        "canonical_name": "Hyatt House Royal Oak/Birmingham",
+        "city": "Royal Oak",
+        "state": "MI",
+        "postal_code": "48073",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "staybridge suites detroit north royal oak",
+        "canonical_name": "Staybridge Suites Detroit North - Royal Oak",
+        "city": "Royal Oak",
+        "state": "MI",
+        "postal_code": "48073",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "hometowne studios by red roof detroit livonia",
+        "canonical_name": "HomeTowne Studios by Red Roof Detroit - Livonia",
+        "city": "Livonia",
+        "state": "MI",
+        "postal_code": "48150",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "mainstay suites southfield detroit",
+        "canonical_name": "MainStay Suites Southfield-Detroit",
+        "city": "Southfield",
+        "state": "MI",
+        "postal_code": "48076",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "home2 suites by hilton west bloomfield detroit",
+        "canonical_name": "Home2 Suites by Hilton West Bloomfield Detroit",
+        "city": "West Bloomfield",
+        "state": "MI",
+        "postal_code": "48322",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "tru by hilton novi detroit",
+        "canonical_name": "Tru by Hilton Novi Detroit",
+        "city": "Novi",
+        "state": "MI",
+        "postal_code": "48377",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "hilton garden inn detroit novi",
+        "canonical_name": "Hilton Garden Inn Detroit/Novi",
+        "city": "Novi",
+        "state": "MI",
+        "postal_code": "48377",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "hampton inn livonia detroit",
+        "canonical_name": "Hampton Inn Livonia Detroit",
+        "city": "Livonia",
+        "state": "MI",
+        "postal_code": "48150",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "mainstay suites detroit farmington hills",
+        "canonical_name": "MainStay Suites Detroit Farmington Hills",
+        "city": "Farmington Hills",
+        "state": "MI",
+        "postal_code": "48331",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "quality inn southfield detroit",
+        "canonical_name": "Quality Inn Southfield - Detroit",
+        "city": "Southfield",
+        "state": "MI",
+        "postal_code": "48034",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "country inn and suites by radisson dearborn mi",
+        "canonical_name": "Country Inn & Suites by Radisson, Dearborn, MI",
+        "city": "Dearborn",
+        "state": "MI",
+        "postal_code": "48124",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "suburban studios auburn hills detroit",
+        "canonical_name": "Suburban Studios Auburn Hills - Detroit",
+        "city": "Auburn Hills",
+        "state": "MI",
+        "postal_code": "48326",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "mainstay suites detroit auburn hills",
+        "canonical_name": "MainStay Suites Detroit Auburn Hills",
+        "city": "Auburn Hills",
+        "state": "MI",
+        "postal_code": "48326",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "clarion hotel detroit metro airport",
+        "canonical_name": "Clarion Hotel Detroit Metro Airport",
+        "city": "Romulus",
+        "state": "MI",
+        "postal_code": "48174",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "quality inn and suites detroit metro airport",
+        "canonical_name": "Quality Inn & Suites Detroit Metro Airport",
+        "city": "Romulus",
+        "state": "MI",
+        "postal_code": "48174",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "park inn by radisson detroit metro airport",
+        "canonical_name": "Park Inn by Radisson, Detroit Metro Airport",
+        "city": "Romulus",
+        "state": "MI",
+        "postal_code": "48174",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "radisson hotel detroit metro airport",
+        "canonical_name": "Radisson Hotel Detroit Metro Airport",
+        "city": "Romulus",
+        "state": "MI",
+        "postal_code": "48174",
+        "why": "the shadow census contains this identity_key unchanged"
+      },
+      {
+        "identity_key": "holiday inn express and suites detroit dearborn",
+        "canonical_name": "Holiday Inn Express & Suites Detroit - Dearborn",
+        "city": "Dearborn",
+        "state": "MI",
+        "postal_code": "48126",
+        "why": "the shadow census contains this identity_key unchanged"
+      }
+    ],
+    "CARRIED_FORWARD_THROUGH_EXPLICIT_ABSORPTION": [
+      {
+        "identity_key": "baymont by wyndham detroit airport romulus",
+        "canonical_name": "Baymont by Wyndham Detroit Airport Romulus",
+        "city": "Romulus",
+        "state": "MI",
+        "postal_code": "48174",
+        "why": "absorbed into fresh sighting 'Baymont Detroit Airport/Romulus' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'baymont detroit airport romulus'",
+        "absorbed_into": "Baymont Detroit Airport/Romulus",
+        "shadow_identity_key": "baymont detroit airport romulus",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "comfort inn at greenfield village",
+        "canonical_name": "Comfort Inn at Greenfield Village",
+        "city": "Dearborn",
+        "state": "MI",
+        "postal_code": "48124",
+        "why": "absorbed into fresh sighting 'Comfort Inn Dearborn' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'comfort inn dearborn'",
+        "absorbed_into": "Comfort Inn Dearborn",
+        "shadow_identity_key": "comfort inn dearborn",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "comfort inn metro airport",
+        "canonical_name": "Comfort Inn Metro Airport",
+        "city": "Romulus",
+        "state": "MI",
+        "postal_code": "48174",
+        "why": "absorbed into fresh sighting 'Comfort Inn Hotel' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'comfort inn hotel'",
+        "absorbed_into": "Comfort Inn Hotel",
+        "shadow_identity_key": "comfort inn hotel",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "courtyard by marriott detroit downtown",
+        "canonical_name": "Courtyard by Marriott Detroit Downtown",
+        "city": "Detroit",
+        "state": "MI",
+        "postal_code": "48226",
+        "why": "absorbed into fresh sighting 'Courtyard Detroit Downtown' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'courtyard detroit downtown'",
+        "absorbed_into": "Courtyard Detroit Downtown",
+        "shadow_identity_key": "courtyard detroit downtown",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "courtyard by marriott detroit novi",
+        "canonical_name": "Courtyard by Marriott Detroit Novi",
+        "city": "Novi",
+        "state": "MI",
+        "postal_code": "48375",
+        "why": "absorbed into fresh sighting 'Sonesta Select' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'sonesta select'",
+        "absorbed_into": "Sonesta Select",
+        "shadow_identity_key": "sonesta select",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "courtyard by marriott detroit troy",
+        "canonical_name": "Courtyard by Marriott Detroit Troy",
+        "city": "Troy",
+        "state": "MI",
+        "postal_code": "48083",
+        "why": "absorbed into fresh sighting 'Courtyard Detroit Troy' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'courtyard detroit troy'",
+        "absorbed_into": "Courtyard Detroit Troy",
+        "shadow_identity_key": "courtyard detroit troy",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "courtyard detroit pontiac bloomfield",
+        "canonical_name": "Courtyard Detroit Pontiac Bloomfield",
+        "city": "Pontiac",
+        "state": "MI",
+        "postal_code": "48341",
+        "why": "absorbed into fresh sighting 'Courtyard Detroit Pontiac/Auburn Hills' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'courtyard detroit pontiac auburn hills'",
+        "absorbed_into": "Courtyard Detroit Pontiac/Auburn Hills",
+        "shadow_identity_key": "courtyard detroit pontiac auburn hills",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "daxton hotel",
+        "canonical_name": "Daxton Hotel",
+        "city": "Birmingham",
+        "state": "MI",
+        "postal_code": "48009",
+        "why": "absorbed into fresh sighting 'Daxon Hotel' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'daxon hotel'",
+        "absorbed_into": "Daxon Hotel",
+        "shadow_identity_key": "daxon hotel",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "doubletree by hilton detroit dearborn",
+        "canonical_name": "DoubleTree by Hilton Detroit Dearborn",
+        "city": "Dearborn",
+        "state": "MI",
+        "postal_code": "48228",
+        "why": "absorbed into fresh sighting 'Doubletree by Hilton Hotel Detroit-Dearborn' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'doubletree by hilton hotel detroit dearborn'",
+        "absorbed_into": "Doubletree by Hilton Hotel Detroit-Dearborn",
+        "shadow_identity_key": "doubletree by hilton hotel detroit dearborn",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "doubletree by hilton detroit novi",
+        "canonical_name": "DoubleTree by Hilton Detroit Novi",
+        "city": "Novi",
+        "state": "MI",
+        "postal_code": "48375",
+        "why": "absorbed into fresh sighting 'DoubleTree by Hilton Hotel Detroit - Novi' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'doubletree by hilton hotel detroit novi'",
+        "absorbed_into": "DoubleTree by Hilton Hotel Detroit - Novi",
+        "shadow_identity_key": "doubletree by hilton hotel detroit novi",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "doubletree suites by hilton downtown detroit",
+        "canonical_name": "DoubleTree Suites by Hilton Downtown Detroit",
+        "city": "Detroit",
+        "state": "MI",
+        "postal_code": "48226",
+        "why": "absorbed into fresh sighting 'DoubleTree Suites by Hilton Hotel Detroit Downtown - Fort Shelby' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'doubletree suites by hilton hotel detroit downtown fort shelby'",
+        "absorbed_into": "DoubleTree Suites by Hilton Hotel Detroit Downtown - Fort Shelby",
+        "shadow_identity_key": "doubletree suites by hilton hotel detroit downtown fort shelby",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "embassy suites by hilton detroit livonia novi",
+        "canonical_name": "Embassy Suites by Hilton Detroit Livonia Novi",
+        "city": "Livonia",
+        "state": "MI",
+        "postal_code": "48152",
+        "why": "absorbed into fresh sighting 'Embassy Suites' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'embassy suites'",
+        "absorbed_into": "Embassy Suites",
+        "shadow_identity_key": "embassy suites",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "embassy suites by hilton detroit metro airport",
+        "canonical_name": "Embassy Suites by Hilton Detroit Metro Airport",
+        "city": "Romulus",
+        "state": "MI",
+        "postal_code": "48174",
+        "why": "absorbed into fresh sighting 'Embassy Suites' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'embassy suites'",
+        "absorbed_into": "Embassy Suites",
+        "shadow_identity_key": "embassy suites",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "embassy suites by hilton detroit troy auburn hills",
+        "canonical_name": "Embassy Suites by Hilton Detroit Troy Auburn Hills",
+        "city": "Troy",
+        "state": "MI",
+        "postal_code": "48098",
+        "why": "absorbed into fresh sighting 'Embassy Suites Hotel' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'embassy suites hotel'",
+        "absorbed_into": "Embassy Suites Hotel",
+        "shadow_identity_key": "embassy suites hotel",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "even hotel ann arbor",
+        "canonical_name": "EVEN Hotel Ann Arbor",
+        "city": "Ann Arbor",
+        "state": "MI",
+        "postal_code": "48108",
+        "why": "absorbed into fresh sighting 'EVEN Hotel' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'even hotel'",
+        "absorbed_into": "EVEN Hotel",
+        "shadow_identity_key": "even hotel",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "even hotel detroit north troy",
+        "canonical_name": "EVEN Hotel Detroit North Troy",
+        "city": "Troy",
+        "state": "MI",
+        "postal_code": "48084",
+        "why": "absorbed into fresh sighting 'Drury Inn & Suites' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'drury inn and suites'",
+        "absorbed_into": "Drury Inn & Suites",
+        "shadow_identity_key": "drury inn and suites",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "extended stay america detroit ann arbor university south",
+        "canonical_name": "Extended Stay America Detroit Ann Arbor University South",
+        "city": "Ann Arbor",
+        "state": "MI",
+        "postal_code": "48108",
+        "why": "absorbed into fresh sighting 'Extended Stay America Ann Arbor' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'extended stay america ann arbor'",
+        "absorbed_into": "Extended Stay America Ann Arbor",
+        "shadow_identity_key": "extended stay america ann arbor",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "fairfield inn and suites by marriott detroit livonia",
+        "canonical_name": "Fairfield Inn & Suites by Marriott Detroit Livonia",
+        "city": "Livonia",
+        "state": "MI",
+        "postal_code": "48152",
+        "why": "absorbed into fresh sighting 'Fairfield Inn & Suites Detroit Livonia' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'fairfield inn and suites detroit livonia'",
+        "absorbed_into": "Fairfield Inn & Suites Detroit Livonia",
+        "shadow_identity_key": "fairfield inn and suites detroit livonia",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "graduate ann arbor",
+        "canonical_name": "Graduate Ann Arbor",
+        "city": "Ann Arbor",
+        "state": "MI",
+        "postal_code": "48104",
+        "why": "absorbed into fresh sighting 'Graduate by Hilton Ann Arbor' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'graduate by hilton ann arbor'",
+        "absorbed_into": "Graduate by Hilton Ann Arbor",
+        "shadow_identity_key": "graduate by hilton ann arbor",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "hampton inn and suites detroit airport romulus",
+        "canonical_name": "Hampton Inn & Suites Detroit Airport Romulus",
+        "city": "Romulus",
+        "state": "MI",
+        "postal_code": "48174",
+        "why": "absorbed into fresh sighting 'Hampton Inn & Suites' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'hampton inn and suites'",
+        "absorbed_into": "Hampton Inn & Suites",
+        "shadow_identity_key": "hampton inn and suites",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "hampton inn by hilton detroit southfield",
+        "canonical_name": "Hampton Inn by Hilton Detroit Southfield",
+        "city": "Southfield",
+        "state": "MI",
+        "postal_code": "48076",
+        "why": "absorbed into fresh sighting 'Hampton Inn Detroit Southfield' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'hampton inn detroit southfield'",
+        "absorbed_into": "Hampton Inn Detroit Southfield",
+        "shadow_identity_key": "hampton inn detroit southfield",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "hilton garden inn ann arbor",
+        "canonical_name": "Hilton Garden Inn Ann Arbor",
+        "city": "Ann Arbor",
+        "state": "MI",
+        "postal_code": "48108",
+        "why": "absorbed into fresh sighting 'Hilton Garden Inn' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'hilton garden inn'",
+        "absorbed_into": "Hilton Garden Inn",
+        "shadow_identity_key": "hilton garden inn",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "hilton garden inn detroit metro airport",
+        "canonical_name": "Hilton Garden Inn Detroit Metro Airport",
+        "city": "Romulus",
+        "state": "MI",
+        "postal_code": "48174",
+        "why": "absorbed into fresh sighting 'Hilton Garden Inn' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'hilton garden inn'",
+        "absorbed_into": "Hilton Garden Inn",
+        "shadow_identity_key": "hilton garden inn",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "hilton garden inn detroit southfield",
+        "canonical_name": "Hilton Garden Inn Detroit Southfield",
+        "city": "Southfield",
+        "state": "MI",
+        "postal_code": "48034",
+        "why": "absorbed into fresh sighting 'Hilton Garden Inn' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'hilton garden inn'",
+        "absorbed_into": "Hilton Garden Inn",
+        "shadow_identity_key": "hilton garden inn",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "holiday inn express novi",
+        "canonical_name": "Holiday Inn Express Novi",
+        "city": "Novi",
+        "state": "MI",
+        "postal_code": "48377",
+        "why": "absorbed into fresh sighting 'Holiday Inn Express & Suites' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'holiday inn express and suites'",
+        "absorbed_into": "Holiday Inn Express & Suites",
+        "shadow_identity_key": "holiday inn express and suites",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "holiday inn express wixom",
+        "canonical_name": "Holiday Inn Express Wixom",
+        "city": "Wixom",
+        "state": "MI",
+        "postal_code": "48393",
+        "why": "absorbed into fresh sighting 'Holiday Inn Express' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'holiday inn express'",
+        "absorbed_into": "Holiday Inn Express",
+        "shadow_identity_key": "holiday inn express",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "home2 suites by hilton troy",
+        "canonical_name": "Home2 Suites by Hilton Troy",
+        "city": "Troy",
+        "state": "MI",
+        "postal_code": "48084",
+        "why": "absorbed into fresh sighting 'Home2 Suites' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'home2 suites'",
+        "absorbed_into": "Home2 Suites",
+        "shadow_identity_key": "home2 suites",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "homewood suites by hilton ann arbor",
+        "canonical_name": "Homewood Suites by Hilton Ann Arbor",
+        "city": "Ann Arbor",
+        "state": "MI",
+        "postal_code": "48104",
+        "why": "absorbed into fresh sighting 'Homewood Suites by Hilton' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'homewood suites by hilton'",
+        "absorbed_into": "Homewood Suites by Hilton",
+        "shadow_identity_key": "homewood suites by hilton",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "homewood suites by hilton detroit troy",
+        "canonical_name": "Homewood Suites by Hilton Detroit Troy",
+        "city": "Troy",
+        "state": "MI",
+        "postal_code": "48084",
+        "why": "absorbed into fresh sighting 'Homewood Suites' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'homewood suites'",
+        "absorbed_into": "Homewood Suites",
+        "shadow_identity_key": "homewood suites",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "homewood suites by hilton novi",
+        "canonical_name": "Homewood Suites by Hilton Novi",
+        "city": "Novi",
+        "state": "MI",
+        "postal_code": "48375",
+        "why": "absorbed into fresh sighting 'Homewood Suites by Hilton Novi Detroit' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'homewood suites by hilton novi detroit'",
+        "absorbed_into": "Homewood Suites by Hilton Novi Detroit",
+        "shadow_identity_key": "homewood suites by hilton novi detroit",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "hotel indigo detroit downtown",
+        "canonical_name": "Hotel Indigo Detroit Downtown",
+        "city": "Detroit",
+        "state": "MI",
+        "postal_code": "48226",
+        "why": "absorbed into fresh sighting 'Hotel Indigo' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'hotel indigo'",
+        "absorbed_into": "Hotel Indigo",
+        "shadow_identity_key": "hotel indigo",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "hotel indigo detroit north troy",
+        "canonical_name": "Hotel Indigo Detroit North Troy",
+        "city": "Troy",
+        "state": "MI",
+        "postal_code": "48084",
+        "why": "absorbed into fresh sighting 'Drury Inn & Suites' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'drury inn and suites'",
+        "absorbed_into": "Drury Inn & Suites",
+        "shadow_identity_key": "drury inn and suites",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "hyatt place detroit auburn hills",
+        "canonical_name": "Hyatt Place Detroit Auburn Hills",
+        "city": "Auburn Hills",
+        "state": "MI",
+        "postal_code": "48326",
+        "why": "absorbed into fresh sighting 'Hyatt Place' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'hyatt place'",
+        "absorbed_into": "Hyatt Place",
+        "shadow_identity_key": "hyatt place",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "hyatt place detroit royal oak",
+        "canonical_name": "Hyatt Place Detroit Royal Oak",
+        "city": "Royal Oak",
+        "state": "MI",
+        "postal_code": "48067",
+        "why": "absorbed into fresh sighting 'Hyatt Place' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'hyatt place'",
+        "absorbed_into": "Hyatt Place",
+        "shadow_identity_key": "hyatt place",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "motel 6 ann arbor",
+        "canonical_name": "Motel 6 Ann Arbor",
+        "city": "Ann Arbor",
+        "state": "MI",
+        "postal_code": "48108",
+        "why": "absorbed into fresh sighting 'Residence Inn' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'residence inn'",
+        "absorbed_into": "Residence Inn",
+        "shadow_identity_key": "residence inn",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "quality inn and suites banquet center livonia",
+        "canonical_name": "Quality Inn & Suites Banquet Center Livonia",
+        "city": "Livonia",
+        "state": "MI",
+        "postal_code": "48150",
+        "why": "absorbed into fresh sighting 'Quality Inn & Suites' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'quality inn and suites'",
+        "absorbed_into": "Quality Inn & Suites",
+        "shadow_identity_key": "quality inn and suites",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "ramada by wyndham southfield",
+        "canonical_name": "Ramada by Wyndham Southfield",
+        "city": "Southfield",
+        "state": "MI",
+        "postal_code": "48034",
+        "why": "absorbed into fresh sighting 'Ramada Southfield' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'ramada southfield'",
+        "absorbed_into": "Ramada Southfield",
+        "shadow_identity_key": "ramada southfield",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "red roof inn auburn hills",
+        "canonical_name": "Red Roof Inn Auburn Hills",
+        "city": "Auburn Hills",
+        "state": "MI",
+        "postal_code": "48326",
+        "why": "absorbed into fresh sighting 'Baymont' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'baymont'",
+        "absorbed_into": "Baymont",
+        "shadow_identity_key": "baymont",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "red roof plus ann arbor university of michigan north",
+        "canonical_name": "Red Roof PLUS+ Ann Arbor University of Michigan North",
+        "city": "Ann Arbor",
+        "state": "MI",
+        "postal_code": "48105",
+        "why": "absorbed into fresh sighting 'Red Roof PLUS+ Ann Arbor' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'red roof plus ann arbor'",
+        "absorbed_into": "Red Roof PLUS+ Ann Arbor",
+        "shadow_identity_key": "red roof plus ann arbor",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "residence inn by marriott ann arbor downtown",
+        "canonical_name": "Residence Inn by Marriott Ann Arbor Downtown",
+        "city": "Ann Arbor",
+        "state": "MI",
+        "postal_code": "48104",
+        "why": "absorbed into fresh sighting 'Residence Inn Ann Arbor Downtown' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'residence inn ann arbor downtown'",
+        "absorbed_into": "Residence Inn Ann Arbor Downtown",
+        "shadow_identity_key": "residence inn ann arbor downtown",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "residence inn by marriott detroit farmington hills",
+        "canonical_name": "Residence Inn by Marriott Detroit Farmington Hills",
+        "city": "Farmington Hills",
+        "state": "MI",
+        "postal_code": "48334",
+        "why": "absorbed into fresh sighting 'Residence Inn Detroit Farmington Hills' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'residence inn detroit farmington hills'",
+        "absorbed_into": "Residence Inn Detroit Farmington Hills",
+        "shadow_identity_key": "residence inn detroit farmington hills",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "residence inn by marriott detroit novi",
+        "canonical_name": "Residence Inn by Marriott Detroit Novi",
+        "city": "Novi",
+        "state": "MI",
+        "postal_code": "48377",
+        "why": "absorbed into fresh sighting 'Residence Inn Detroit Novi' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'residence inn detroit novi'",
+        "absorbed_into": "Residence Inn Detroit Novi",
+        "shadow_identity_key": "residence inn detroit novi",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "roost detroit",
+        "canonical_name": "Roost Detroit",
+        "city": "Detroit",
+        "state": "MI",
+        "postal_code": "48226",
+        "why": "absorbed into fresh sighting 'Roost' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'roost'",
+        "absorbed_into": "Roost",
+        "shadow_identity_key": "roost",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "sonesta select detroit auburn hills",
+        "canonical_name": "Sonesta Select Detroit Auburn Hills",
+        "city": "Auburn Hills",
+        "state": "MI",
+        "postal_code": "48326",
+        "why": "absorbed into fresh sighting 'Sonesta Select' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'sonesta select'",
+        "absorbed_into": "Sonesta Select",
+        "shadow_identity_key": "sonesta select",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "sonesta select detroit novi",
+        "canonical_name": "Sonesta Select Detroit Novi",
+        "city": "Novi",
+        "state": "MI",
+        "postal_code": "48375",
+        "why": "absorbed into fresh sighting 'Sonesta Select' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'sonesta select'",
+        "absorbed_into": "Sonesta Select",
+        "shadow_identity_key": "sonesta select",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "the godfrey hotel detroit",
+        "canonical_name": "The Godfrey Hotel Detroit",
+        "city": "Detroit",
+        "state": "MI",
+        "postal_code": "48216",
+        "why": "absorbed into fresh sighting 'The Godfrey Detroit' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'the godfrey detroit'",
+        "absorbed_into": "The Godfrey Detroit",
+        "shadow_identity_key": "the godfrey detroit",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "the kingsley bloomfield hills",
+        "canonical_name": "The Kingsley Bloomfield Hills",
+        "city": "Bloomfield Hills",
+        "state": "MI",
+        "postal_code": "48304",
+        "why": "absorbed into fresh sighting 'The Kingsley Bloomfield Hills - a DoubleTree by Hilton' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'the kingsley bloomfield hills a doubletree by hilton'",
+        "absorbed_into": "The Kingsley Bloomfield Hills - a DoubleTree by Hilton",
+        "shadow_identity_key": "the kingsley bloomfield hills a doubletree by hilton",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "towneplace suites by marriott ann arbor",
+        "canonical_name": "TownePlace Suites by Marriott Ann Arbor",
+        "city": "Ann Arbor",
+        "state": "MI",
+        "postal_code": "48108",
+        "why": "absorbed into fresh sighting 'TownePlace Suites Ann Arbor' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'towneplace suites ann arbor'",
+        "absorbed_into": "TownePlace Suites Ann Arbor",
+        "shadow_identity_key": "towneplace suites ann arbor",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "towneplace suites by marriott detroit troy",
+        "canonical_name": "TownePlace Suites by Marriott Detroit Troy",
+        "city": "Troy",
+        "state": "MI",
+        "postal_code": "48083",
+        "why": "absorbed into fresh sighting 'TownePlace Suites Detroit Troy' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'towneplace suites detroit troy'",
+        "absorbed_into": "TownePlace Suites Detroit Troy",
+        "shadow_identity_key": "towneplace suites detroit troy",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "travelodge by wyndham romulus detroit airport",
+        "canonical_name": "Travelodge by Wyndham Romulus Detroit Airport",
+        "city": "Romulus",
+        "state": "MI",
+        "postal_code": "48174",
+        "why": "absorbed into fresh sighting 'Travelodge Romulus Detroit Airport' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'travelodge romulus detroit airport'",
+        "absorbed_into": "Travelodge Romulus Detroit Airport",
+        "shadow_identity_key": "travelodge romulus detroit airport",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "weber s inn",
+        "canonical_name": "Weber's Inn",
+        "city": "Ann Arbor",
+        "state": "MI",
+        "postal_code": "48103",
+        "why": "absorbed into fresh sighting \"Weber's Boutique Hotel\" on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'weber s boutique hotel'",
+        "absorbed_into": "Weber's Boutique Hotel",
+        "shadow_identity_key": "weber s boutique hotel",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "westin book cadillac detroit",
+        "canonical_name": "Westin Book Cadillac Detroit",
+        "city": "Detroit",
+        "state": "MI",
+        "postal_code": "48226",
+        "why": "absorbed into fresh sighting 'The Westin Book Cadillac Detroit' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'the westin book cadillac detroit'",
+        "absorbed_into": "The Westin Book Cadillac Detroit",
+        "shadow_identity_key": "the westin book cadillac detroit",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "wingate by wyndham detroit metro airport",
+        "canonical_name": "Wingate by Wyndham Detroit Metro Airport",
+        "city": "Romulus",
+        "state": "MI",
+        "postal_code": "48174",
+        "why": "absorbed into fresh sighting 'Wingate' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'wingate'",
+        "absorbed_into": "Wingate",
+        "shadow_identity_key": "wingate",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "wingate by wyndham troy",
+        "canonical_name": "Wingate by Wyndham Troy",
+        "city": "Troy",
+        "state": "MI",
+        "postal_code": "48083",
+        "why": "absorbed into fresh sighting 'Holiday Inn Detroit-Troy' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'holiday inn detroit troy'",
+        "absorbed_into": "Holiday Inn Detroit-Troy",
+        "shadow_identity_key": "holiday inn detroit troy",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "residence inn by marriott ann arbor north",
+        "canonical_name": "Residence Inn by Marriott Ann Arbor North",
+        "city": "Ann Arbor",
+        "state": "MI",
+        "postal_code": "48105",
+        "why": "absorbed into fresh sighting 'Residence Inn Ann Arbor North' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'residence inn ann arbor north'",
+        "absorbed_into": "Residence Inn Ann Arbor North",
+        "shadow_identity_key": "residence inn ann arbor north",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "residence inn by marriott ann arbor south",
+        "canonical_name": "Residence Inn by Marriott Ann Arbor South",
+        "city": "Ann Arbor",
+        "state": "MI",
+        "postal_code": "48108",
+        "why": "absorbed into fresh sighting 'Residence Inn' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'residence inn'",
+        "absorbed_into": "Residence Inn",
+        "shadow_identity_key": "residence inn",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "towneplace suites by marriott detroit dearborn",
+        "canonical_name": "TownePlace Suites by Marriott Detroit Dearborn",
+        "city": "Dearborn",
+        "state": "MI",
+        "postal_code": "48126",
+        "why": "absorbed into fresh sighting 'TownePlace Suites Detroit Dearborn' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'towneplace suites detroit dearborn'",
+        "absorbed_into": "TownePlace Suites Detroit Dearborn",
+        "shadow_identity_key": "towneplace suites detroit dearborn",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "springhill suites by marriott detroit dearborn",
+        "canonical_name": "SpringHill Suites by Marriott Detroit Dearborn",
+        "city": "Dearborn",
+        "state": "MI",
+        "postal_code": "48126",
+        "why": "absorbed into fresh sighting 'SpringHill Suites Detroit Dearborn' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'springhill suites detroit dearborn'",
+        "absorbed_into": "SpringHill Suites Detroit Dearborn",
+        "shadow_identity_key": "springhill suites detroit dearborn",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "courtyard by marriott detroit dearborn",
+        "canonical_name": "Courtyard by Marriott Detroit Dearborn",
+        "city": "Dearborn",
+        "state": "MI",
+        "postal_code": "48126",
+        "why": "absorbed into fresh sighting 'Courtyard Detroit Dearborn' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'courtyard detroit dearborn'",
+        "absorbed_into": "Courtyard Detroit Dearborn",
+        "shadow_identity_key": "courtyard detroit dearborn",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "best western detroit livonia",
+        "canonical_name": "Best Western Detroit Livonia",
+        "city": "Livonia",
+        "state": "MI",
+        "postal_code": "48154",
+        "why": "absorbed into fresh sighting 'Best Western Livonia' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'best western livonia'",
+        "absorbed_into": "Best Western Livonia",
+        "shadow_identity_key": "best western livonia",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "hyatt place detroit livonia",
+        "canonical_name": "Hyatt Place Detroit/Livonia",
+        "city": "Livonia",
+        "state": "MI",
+        "postal_code": "48152",
+        "why": "absorbed into fresh sighting 'Hyatt Place' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'hyatt place'",
+        "absorbed_into": "Hyatt Place",
+        "shadow_identity_key": "hyatt place",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "holiday inn detroit northwest livonia",
+        "canonical_name": "Holiday Inn Detroit Northwest - Livonia",
+        "city": "Livonia",
+        "state": "MI",
+        "postal_code": "48152",
+        "why": "absorbed into fresh sighting 'Holiday Inn Detroit Northwest - Livonia, an IHG Hotel' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'holiday inn detroit northwest livonia an ihg hotel'",
+        "absorbed_into": "Holiday Inn Detroit Northwest - Livonia, an IHG Hotel",
+        "shadow_identity_key": "holiday inn detroit northwest livonia an ihg hotel",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "sonesta simply suites detroit troy",
+        "canonical_name": "Sonesta Simply Suites Detroit Troy",
+        "city": "Troy",
+        "state": "MI",
+        "postal_code": "48084",
+        "why": "absorbed into fresh sighting 'Sonesta Simply Suites' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'sonesta simply suites'",
+        "absorbed_into": "Sonesta Simply Suites",
+        "shadow_identity_key": "sonesta simply suites",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "hampton inn detroit northville",
+        "canonical_name": "Hampton Inn Detroit/Northville",
+        "city": "Northville",
+        "state": "MI",
+        "postal_code": "48167",
+        "why": "absorbed into fresh sighting 'Hampton' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'hampton'",
+        "absorbed_into": "Hampton",
+        "shadow_identity_key": "hampton",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "comfort inn farmington hills detroit northwest",
+        "canonical_name": "Comfort Inn Farmington Hills - Detroit Northwest",
+        "city": "Farmington Hills",
+        "state": "MI",
+        "postal_code": "48334",
+        "why": "absorbed into fresh sighting 'Comfort Inn' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'comfort inn'",
+        "absorbed_into": "Comfort Inn",
+        "shadow_identity_key": "comfort inn",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "country inn and suites by radisson novi mi",
+        "canonical_name": "Country Inn & Suites by Radisson, Novi, MI",
+        "city": "Novi",
+        "state": "MI",
+        "postal_code": "48375",
+        "why": "absorbed into fresh sighting 'Radisson' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'radisson'",
+        "absorbed_into": "Radisson",
+        "shadow_identity_key": "radisson",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "comfort suites wixom novi",
+        "canonical_name": "Comfort Suites Wixom - Novi",
+        "city": "Wixom",
+        "state": "MI",
+        "postal_code": "48393",
+        "why": "absorbed into fresh sighting 'Comfort Suites Wixom' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'comfort suites wixom'",
+        "absorbed_into": "Comfort Suites Wixom",
+        "shadow_identity_key": "comfort suites wixom",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "rodeway inn auburn hills detroit",
+        "canonical_name": "Rodeway Inn Auburn Hills - Detroit",
+        "city": "Auburn Hills",
+        "state": "MI",
+        "postal_code": "48326",
+        "why": "absorbed into fresh sighting 'Rodeway Inn' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'rodeway inn'",
+        "absorbed_into": "Rodeway Inn",
+        "shadow_identity_key": "rodeway inn",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "quality inn detroit downtown",
+        "canonical_name": "Quality Inn Detroit Downtown",
+        "city": "Detroit",
+        "state": "MI",
+        "postal_code": "48207",
+        "why": "absorbed into fresh sighting 'Quality Inn' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'quality inn'",
+        "absorbed_into": "Quality Inn",
+        "shadow_identity_key": "quality inn",
+        "name_downgraded": true
+      },
+      {
+        "identity_key": "comfort inn detroit downtown",
+        "canonical_name": "Comfort Inn Detroit Downtown",
+        "city": "Detroit",
+        "state": "MI",
+        "postal_code": "48207",
+        "why": "absorbed into fresh sighting 'Comfort Inn' on basis 'same street identity (number + street words + ZIP); the prior census carries no coordinates, so this is the only identity both records hold', and that identity IS in the shadow census as 'comfort inn'",
+        "absorbed_into": "Comfort Inn",
+        "shadow_identity_key": "comfort inn",
+        "name_downgraded": true
+      }
+    ],
+    "ABSORBED_THEN_HELD_FOR_REVIEW": [
+      {
+        "identity_key": "best western greenfield inn",
+        "canonical_name": "Best Western Greenfield Inn",
+        "city": "Allen Park",
+        "state": "MI",
+        "postal_code": "48101",
+        "why": "absorbed into fresh sighting 'Best Western', and THAT candidate was dispositioned 'MARKET_MEMBERSHIP_UNRESOLVED': the candidate geography cannot settle market membership either way (scope BORDERLINE_SCOPE); held for review rather than asserted to be outside bounds it was never measur",
+        "absorbed_into": "Best Western",
+        "target_disposition": "MARKET_MEMBERSHIP_UNRESOLVED",
+        "target_city": "Allen Park",
+        "target_postal_code": "48101"
+      },
+      {
+        "identity_key": "crowne plaza auburn hills",
+        "canonical_name": "Crowne Plaza Auburn Hills",
+        "city": "Auburn Hills",
+        "state": "MI",
+        "postal_code": "48326",
+        "why": "absorbed into fresh sighting 'Crowne Plaza Auburn Hills', and THAT candidate was dispositioned 'IDENTITY_NO_LOCALITY': the candidate states no city; a census row that cannot name its municipality cannot be joined or published, and a corridor display area is not a municipality",
+        "absorbed_into": "Crowne Plaza Auburn Hills",
+        "target_disposition": "IDENTITY_NO_LOCALITY",
+        "target_city": "",
+        "target_postal_code": "48326"
+      },
+      {
+        "identity_key": "delta hotels by marriott detroit novi",
+        "canonical_name": "Delta Hotels by Marriott Detroit Novi",
+        "city": "Farmington Hills",
+        "state": "MI",
+        "postal_code": "48335",
+        "why": "absorbed into fresh sighting 'Delta Hotels Detroit Novi', and THAT candidate was dispositioned 'MARKET_MEMBERSHIP_UNRESOLVED': the candidate geography cannot settle market membership either way (scope BORDERLINE_SCOPE); held for review rather than asserted to be outside bounds it was never measur",
+        "absorbed_into": "Delta Hotels Detroit Novi",
+        "target_disposition": "MARKET_MEMBERSHIP_UNRESOLVED",
+        "target_city": "Farmington Hill",
+        "target_postal_code": "48335"
+      }
+    ],
+    "HELD_FOR_REVIEW_AS_ITS_OWN_CANDIDATE": [
+      {
+        "identity_key": "comfort suites auburn hills detroit",
+        "canonical_name": "Comfort Suites Auburn Hills Detroit",
+        "city": "Auburn Hills",
+        "state": "MI",
+        "postal_code": null,
+        "why": "the prior-census candidate for this identity was dispositioned 'IDENTITY_NO_LOCALITY': the candidate states no postal code, no city and no state; a census row that cannot say where it is cannot be assigned, joined or published. Its coordinates are kept here",
+        "ledger_disposition": "IDENTITY_NO_LOCALITY",
+        "candidate_city": "Auburn Hills",
+        "candidate_state": "",
+        "candidate_postal_code": "",
+        "ledger_rows_with_this_name": 1
+      },
+      {
+        "identity_key": "sheraton detroit novi hotel",
+        "canonical_name": "Sheraton Detroit Novi Hotel",
+        "city": "Novi",
+        "state": "MI",
+        "postal_code": null,
+        "why": "the prior-census candidate for this identity was dispositioned 'IDENTITY_NO_LOCALITY': the candidate states no postal code, no city and no state; a census row that cannot say where it is cannot be assigned, joined or published. Its coordinates are kept here",
+        "ledger_disposition": "IDENTITY_NO_LOCALITY",
+        "candidate_city": "Novi",
+        "candidate_state": "",
+        "candidate_postal_code": "",
+        "ledger_rows_with_this_name": 2
+      },
+      {
+        "identity_key": "staybridge suites ann arbor university of michigan",
+        "canonical_name": "Staybridge Suites Ann Arbor University of Michigan",
+        "city": "Ann Arbor",
+        "state": "MI",
+        "postal_code": null,
+        "why": "the prior-census candidate for this identity was dispositioned 'IDENTITY_NO_LOCALITY': the candidate states no postal code, no city and no state; a census row that cannot say where it is cannot be assigned, joined or published. Its coordinates are kept here",
+        "ledger_disposition": "IDENTITY_NO_LOCALITY",
+        "candidate_city": "Ann Arbor",
+        "candidate_state": "",
+        "candidate_postal_code": "",
+        "ledger_rows_with_this_name": 1
+      },
+      {
+        "identity_key": "staybridge suites auburn hills",
+        "canonical_name": "Staybridge Suites Auburn Hills",
+        "city": "Auburn Hills",
+        "state": "MI",
+        "postal_code": null,
+        "why": "the prior-census candidate for this identity was dispositioned 'IDENTITY_NO_LOCALITY': the candidate states no postal code, no city and no state; a census row that cannot say where it is cannot be assigned, joined or published. Its coordinates are kept here",
+        "ledger_disposition": "IDENTITY_NO_LOCALITY",
+        "candidate_city": "Auburn Hills",
+        "candidate_state": "",
+        "candidate_postal_code": "",
+        "ledger_rows_with_this_name": 2
+      },
+      {
+        "identity_key": "the bell tower hotel",
+        "canonical_name": "The Bell Tower Hotel",
+        "city": "Ann Arbor",
+        "state": "MI",
+        "postal_code": null,
+        "why": "the prior-census candidate for this identity was dispositioned 'IDENTITY_NO_LOCALITY': the candidate states no postal code, no city and no state; a census row that cannot say where it is cannot be assigned, joined or published. Its coordinates are kept here",
+        "ledger_disposition": "IDENTITY_NO_LOCALITY",
+        "candidate_city": "Ann Arbor",
+        "candidate_state": "",
+        "candidate_postal_code": "",
+        "ledger_rows_with_this_name": 1
+      },
+      {
+        "identity_key": "the kensington hotel ann arbor",
+        "canonical_name": "The Kensington Hotel Ann Arbor",
+        "city": "Ann Arbor",
+        "state": "MI",
+        "postal_code": null,
+        "why": "the prior-census candidate for this identity was dispositioned 'IDENTITY_NO_LOCALITY': the candidate states no postal code, no city and no state; a census row that cannot say where it is cannot be assigned, joined or published. Its coordinates are kept here",
+        "ledger_disposition": "IDENTITY_NO_LOCALITY",
+        "candidate_city": "Ann Arbor",
+        "candidate_state": "",
+        "candidate_postal_code": "",
+        "ledger_rows_with_this_name": 1
+      },
+      {
+        "identity_key": "the vanguard ann arbor autograph collection",
+        "canonical_name": "The Vanguard Ann Arbor, Autograph Collection",
+        "city": "Ann Arbor",
+        "state": "MI",
+        "postal_code": null,
+        "why": "the prior-census candidate for this identity was dispositioned 'IDENTITY_NO_LOCALITY': the candidate states no postal code, no city and no state; a census row that cannot say where it is cannot be assigned, joined or published. Its coordinates are kept here",
+        "ledger_disposition": "IDENTITY_NO_LOCALITY",
+        "candidate_city": "Ann Arbor",
+        "candidate_state": "",
+        "candidate_postal_code": "",
+        "ledger_rows_with_this_name": 1
+      }
+    ]
+  }
+}

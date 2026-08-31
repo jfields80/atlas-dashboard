@@ -1,0 +1,146 @@
+{
+  "schema": "ptf-detroit-ann-arbor-founder-packet/1.1",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-FREE-ATTENDED-PASS-020-COMPLETION",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-30",
+  "status": "AWAITING_FOUNDER_RULING",
+  "note": "ONE consolidated packet over the whole 45-row cohort plus the Embassy re-capture. Clean candidates need no individual review and are not here. The three rulings the completion order supplied are recorded, not re-asked.",
+  "count": 7,
+  "already_ruled": 3,
+  "awaiting_ruling": 4,
+  "exceptions": [
+    {
+      "property": "Drury Inn & Suites",
+      "identity_key": "drury inn and suites",
+      "stratum": "SMALL_CHAIN_DOMAIN",
+      "issue": "the committed route is a legacy host that no longer serves: https://wwws.druryhotels.com/PropertyHotelServices.aspx?Property=0029 fails at the network layer (chrome-error, zero bytes of hotel content). Two first-party attempts on the current druryhotels.com property-slug pattern both 302 to the brand locations index, which names no building. No pet policy was read and none may be inferred. Repair note: the census canonical_name 'Drury Inn & Suites' is a bare chain word carrying no city, which is why the current slug cannot be derived; the property is at 575 West Big Beaver Road, Troy 48084 and the repair should re-discover its live druryhotels.com slug at $0.",
+      "evidence": "",
+      "evidence_artifact": "",
+      "evidence_sha256": "",
+      "safe_fields": [],
+      "withheld_fields": {
+        "everything": "no property surface was reached"
+      },
+      "recommended_disposition": "ROUTING_REPAIR_REQUIRED -- withdraw the route and re-discover at $0",
+      "reason": "the committed route is a legacy host (wwws.druryhotels.com) that fails at the network layer, and the current property slug cannot be derived because the census canonical_name is the bare chain word 'Drury Inn & Suites' with no city. druryhotels.com itself serves normally, so this is a slug to find, not a wall to buy through.",
+      "founder_ruling_already_given": "",
+      "decision": "",
+      "decided_by": "",
+      "decided_at": ""
+    },
+    {
+      "property": "Hyatt Place Detroit/Livonia",
+      "identity_key": "hyatt place detroit livonia",
+      "stratum": "SMALL_CHAIN_DOMAIN",
+      "issue": "POLICY ATTRIBUTION DEFECT. The page is unambiguously Livonia -- title, breadcrumb and schema.org payload all say Hyatt Place Detroit/Livonia at 19300 Haggerty Road, and all three census signals agree. But the pet block on that page states 'Hyatt Place Detroit / Auburn Hills is pet-friendly!' -- it names a DIFFERENT property. Hyatt has copied the sister hotel's block onto this page. The evidence is first-party and on the correct route, and the words still do not name this building, so nothing here may be bound to this identity. Not IDENTITY_MISMATCH: the route is right and the property is right; the POLICY TEXT is mis-attributed.",
+      "evidence": "Pets Are Welcome. Hyatt Place Detroit / Auburn Hills is pet-friendly! All pets must be housetrained. *We welcome guests with disabilities traveling with their service animals. Service animals are not pets and are not subject to this Pet Policy. Pet Fees 1-6 nights: $100 / STAY 7-30 nights + additional cleaning fee: $200 / STAY Weight Limits Individual pet weight limit: 50 Pounds Combined pets weight limit: 75 Pounds Maximum number of pets is 2.",
+      "evidence_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/hyatt-place-detroit-livonia/attempt-01/policy-block.txt",
+      "evidence_sha256": "231ae1cf479b85f874656c874c45826c89b84a8737c013d3f7dbde2aab3a9060",
+      "safe_fields": [],
+      "withheld_fields": {
+        "everything": "the only pet block on this property's own page affirmatively names another hotel"
+      },
+      "recommended_disposition": "HOLD -- do not publish; the page must be corrected at source",
+      "reason": "the route, the schema.org payload and all three census signals say Livonia, but the only pet block on the page says 'Hyatt Place Detroit / Auburn Hills is pet-friendly!'. Publishing it would bind the sister hotel's terms to this building. Nothing else on the surface states this property's own policy.",
+      "founder_ruling_already_given": "",
+      "decision": "",
+      "decided_by": "",
+      "decided_at": ""
+    },
+    {
+      "property": "Radisson Hotel Detroit-Farmington Hills",
+      "identity_key": "radisson hotel detroit farmington hills",
+      "stratum": "SMALL_CHAIN_DOMAIN",
+      "issue": "the committed route no longer resolves to a property page: https://www.radissonhotels.com/en-us/hotels/radisson-farmington-hills 302s to the Radisson BRAND INDEX /en-us/brand/radisson, which names no building and carries no property policy. A second first-party attempt at the Farmington Hills destination page returned Radisson's own 404. No pet policy was read and none may be inferred -- this is a dead route, NOT source silence. Stopped after two attempts per the no-rabbit-hole rule; re-discovering this property's current official domain is $0 routing work for a later order (Radisson Americas properties have been migrating to Choice-managed domains).",
+      "evidence": "",
+      "evidence_artifact": "",
+      "evidence_sha256": "",
+      "safe_fields": [],
+      "withheld_fields": {
+        "everything": "no property surface was reached"
+      },
+      "recommended_disposition": "ROUTING_REPAIR_REQUIRED -- withdraw the route and re-discover at $0",
+      "reason": "the committed route 302s to the Radisson brand index and the destination page 404s. Radisson Americas properties have been migrating to Choice-managed domains, so the property very likely still exists at a new first-party URL. No lane should touch it until the route is repaired.",
+      "founder_ruling_already_given": "",
+      "decision": "",
+      "decided_by": "",
+      "decided_at": ""
+    },
+    {
+      "property": "Roberts Riverwalk Hotel",
+      "identity_key": "roberts riverwalk hotel",
+      "stratum": "INDEPENDENT_DOMAIN",
+      "issue": "THE ROUTED DOMAIN IS HIJACKED. detroitriverwalkhotel.com now 301s to bonanza88jpresmi.com, an Indonesian online-gambling site titled 'BONANZA88JP ... Bandar Slot Mahjong'. The domain has lapsed and been re-registered. No hotel content exists at the committed route. Not silently repaired: recorded as IDENTITY_MISMATCH with the exact discrepancy.",
+      "evidence": "",
+      "evidence_artifact": "",
+      "evidence_sha256": "",
+      "safe_fields": [],
+      "withheld_fields": {},
+      "recommended_disposition": "ROUTING_REPAIR_REQUIRED (founder has ruled)",
+      "reason": "carried from the completion order; not re-asked",
+      "founder_ruling_already_given": "ROUTING_REPAIR_REQUIRED",
+      "decision": "",
+      "decided_by": "",
+      "decided_at": ""
+    },
+    {
+      "property": "The Bell Tower Hotel",
+      "identity_key": "the bell tower hotel",
+      "stratum": "INDEPENDENT_DOMAIN",
+      "issue": "31 first-party pages swept. The property answers its own question 'Are pets allowed?' with an EXCLUSIVE permission covering only a category that is definitionally not a pet. Reading that as a refusal is a defensible inference, but it IS an inference: I checked policy_reading and the committed classifier records a service_animal_exception QUOTE and derives no pets_allowed value from a service-animals-only statement. Phase 5 forbids inferring service-animal semantics beyond the committed classifier, so this is held for a founder ruling rather than asserted. This is not source silence -- the surface speaks, and the question of what it says is the founder's.",
+      "evidence": "Are pets allowed? We only allow service animals, not emotional support animals.",
+      "evidence_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/the-bell-tower-hotel/attempt-01/policy-block.txt",
+      "evidence_sha256": "414c04c747d9d6b51c276683aab73226d37b090fbea248b6e2729483daadefaa",
+      "safe_fields": [
+        "service_animal_exception"
+      ],
+      "withheld_fields": {
+        "pets_allowed": "AWAITING_FOUNDER_RULING -- 'we only allow service animals' in answer to 'Are pets allowed?' is an exclusive permission, not an explicit refusal, and no committed rule converts one to the other"
+      },
+      "recommended_disposition": "RULE ON THE SEMANTICS -- is 'we only allow service animals' a refusal?",
+      "reason": "the property answers its own question 'Are pets allowed?' with an exclusive permission over a category that is definitionally not a pet. Reading that as VERIFIED_NO_PETS is defensible and is also an inference: policy_reading records a service_animal_exception quote and derives no pets_allowed value from it. A ruling here sets the precedent for every 'service animals only' surface in every market.",
+      "founder_ruling_already_given": "",
+      "decision": "",
+      "decided_by": "",
+      "decided_at": ""
+    },
+    {
+      "property": "The Kensington Hotel Ann Arbor",
+      "identity_key": "the kensington hotel ann arbor",
+      "stratum": "INDEPENDENT_DOMAIN",
+      "issue": "an amenity mention inside marketing prose -- 'pet-friendly rooms' as a room type, with no policy terms anywhere on 15 swept pages. Affirmative-sounding but not a policy statement.",
+      "evidence": "We offer accommodations for large groups, such as wedding parties and company events, and cater to a variety of travelers with our selection of guest rooms, suites and pet-friendly rooms.",
+      "evidence_artifact": "data/worker_runs/pettripfinder/detroit-ann-arbor-attended-020/the-kensington-hotel-ann-arbor/attempt-01/policy-block.txt",
+      "evidence_sha256": "6c1a9572a3320dfed4b05e8c2acf1ad20ece011cfd248bb208cb94e19e0bd56c",
+      "safe_fields": [
+        "pets_allowed"
+      ],
+      "withheld_fields": {
+        "pet_fee": "SOURCE_SILENT"
+      },
+      "recommended_disposition": "APPROVE_PARTIAL (founder has ruled)",
+      "reason": "carried from the completion order; not re-asked",
+      "founder_ruling_already_given": "APPROVE_PARTIAL",
+      "decision": "",
+      "decided_by": "",
+      "decided_at": ""
+    },
+    {
+      "property": "Embassy Suites by Hilton Detroit Livonia Novi",
+      "identity_key": "embassy suites by hilton detroit livonia novi",
+      "stratum": "",
+      "issue": "",
+      "evidence": "",
+      "evidence_artifact": "",
+      "evidence_sha256": "3c39b22067e1ba53237cb5078bcc1d2871fe8dc51e26d347cc54b895fb90048b",
+      "safe_fields": [],
+      "withheld_fields": {},
+      "recommended_disposition": "APPROVE_PET_FRIENDLY, identity-specific (founder has ruled)",
+      "reason": "carried from the completion order; not re-asked. Counted in the application inventory and NOT in the 45-row lane measurement.",
+      "founder_ruling_already_given": "APPROVE_PET_FRIENDLY_IDENTITY_SPECIFIC",
+      "decision": "",
+      "decided_by": "",
+      "decided_at": ""
+    }
+  ]
+}

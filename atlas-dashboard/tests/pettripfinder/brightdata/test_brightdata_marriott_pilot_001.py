@@ -600,7 +600,15 @@ def test_unmoved_billing_is_pending_never_free():
 
 def test_existing_contract_vocabularies_are_untouched():
     """Importing this package must not mutate a frozen vocabulary."""
-    assert enums.ARTIFACT_KINDS == ("rendered_html", "operator_screenshot", "pdf")
+    # PTF-DETROIT-ANN-ARBOR-HARDENED-SYNC-029 carried Detroit onto this
+    # lineage, and with it the text_extract artifact kind that founder
+    # decision B-003-1 registered in Detroit order 004. 161 of Detroit's
+    # committed evidence entries cite it, so the vocabulary GROWS here as
+    # a committed change. What this test is actually about -- that
+    # IMPORTING a capture package must not mutate a frozen vocabulary at
+    # runtime -- is unchanged and still asserted.
+    assert enums.ARTIFACT_KINDS == ("rendered_html", "operator_screenshot",
+                                    "pdf", "text_extract")
     assert enums.FEE_BASES == ("per_night", "per_day", "per_stay")
     assert enums.BASIS_PER_DAY != enums.BASIS_PER_NIGHT
     assert PO.CAPTURE_METHODS == ("deterministic_fetch", "browser_assisted",

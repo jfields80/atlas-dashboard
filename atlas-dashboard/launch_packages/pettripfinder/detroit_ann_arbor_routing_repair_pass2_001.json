@@ -1,0 +1,121 @@
+{
+  "schema": "ptf-detroit-ann-arbor-routing-repair-pass2/1.0",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-ROUTING-REPAIR-PASS2-001",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-17",
+  "prior_commit": "e7e8a37",
+  "note": "Routing-only repair for the 5 properties left short of AWAITING_POLICY_OBSERVATION after PTF-DETROIT-ANN-ARBOR-PASS1-DECISION-APPLICATION-001. No pet-policy facts were browsed, read, or recorded. No policy authority, exclusion, or approval was touched.",
+  "count": 5,
+  "verdict_counts": {
+    "CENSUS_REVIEW": 1,
+    "ROUTING_REPLACED": 3,
+    "PROPERTY_CLOSED_OR_CONVERTED": 1
+  },
+  "items": [
+    {
+      "identity_key": "delta hotels by marriott detroit metro airport",
+      "canonical_name": "Delta Hotels by Marriott Detroit Metro Airport",
+      "current_url": "https://www.marriott.com/hotels/travel/dtwd",
+      "candidate_urls_tried": [
+        "https://www.marriott.com/en-us/hotels/dtwde-delta-hotels-detroit-metro-airport/overview/",
+        "https://www.marriott.com/en-us/hotels/dtwrm-detroit-metro-airport-marriott/overview/"
+      ],
+      "final_url": "https://www.bestwestern.com/en_US/book/hotels-in-romulus/skyline-hotel-detroit-airport-surestay-collection-by-bw/propertyCode.54306.html",
+      "source_relationship": "EXACT_PROPERTY_FIRST_PARTY (Best Western property page)",
+      "property_code": "54306",
+      "identity_signals": {
+        "address_match": true,
+        "zip_match": true,
+        "phone_match": true,
+        "name_match": false,
+        "note": "31500 Wick Road, Romulus, MI 48174, +1 (734) 721-3315 -- identical to the committed record on all 3 non-name signals."
+      },
+      "final_verdict": "CENSUS_REVIEW",
+      "reason": "Both the committed URL (dtwd) and a guessed current-format Marriott code (dtwde) 404. Marriott's own live find-hotels search for the DTW/Romulus area (92 results, sorted by distance) returns ZERO Delta-branded properties at any distance -- the nearest Marriott-family property at this address does not exist under any Marriott code. Independent corroboration (commercial real-estate listings, OTA history) shows this building's brand lineage: Radisson Hotel Detroit Metro Airport (closed) -> Delta Hotels by Marriott Detroit Metro Airport -> Skyline Hotel Detroit Airport, SureStay Collection by BW. Best Western's own first-party property page for the SureStay Collection property confirms the identical street address AND identical phone number (+1 734-721-3315) as the committed Delta Hotels record. This is almost certainly the same physical property under a new brand flag, not a closure -- but a brand/identity change this large is a founder decision, not something this script may apply silently.",
+      "next_action": "Founder review: replace the identity \"Delta Hotels by Marriott Detroit Metro Airport\" with \"Skyline Hotel Detroit Airport, SureStay Collection by BW\" (same address/phone, new brand family) via a proper identity-rename work order, or confirm/retire it as a closure if further evidence contradicts the conversion reading.",
+      "capture_readiness": "N/A (identity pending census review; not policy-observable under either name until resolved)"
+    },
+    {
+      "identity_key": "courtyard detroit pontiac bloomfield",
+      "canonical_name": "Courtyard Detroit Pontiac Bloomfield",
+      "current_url": "https://visitdetroit.com/directory/courtyard-by-marriott-detroit-pontiac-auburn-hills/",
+      "candidate_urls_tried": [],
+      "final_url": "https://www.marriott.com/en-us/hotels/dtwcp-courtyard-detroit-pontiac-auburn-hills/overview/",
+      "source_relationship": "EXACT_PROPERTY_FIRST_PARTY (Marriott.com destination search + property page)",
+      "property_code": "dtwcp",
+      "identity_signals": {
+        "address_match": true,
+        "zip_match": true,
+        "phone_match": true,
+        "name_match": true,
+        "note": "Marriott's own address-search autosuggest for 3555 Centerpoint Pkwy, Pontiac, MI resolved directly to \"Courtyard by Marriott Detroit Pontiac/Auburn Hills\"; the resulting property page's JSON-LD confirms street, city, region, ZIP, and phone all exact."
+      },
+      "final_verdict": "ROUTING_REPLACED",
+      "reason": "The committed URL was a third-party Visit Detroit directory page, never a Marriott property-level route. Marriott's own destination search resolves the exact committed address directly to this property with an identical phone number.",
+      "next_action": "",
+      "capture_readiness": "EVIDENCE_READY"
+    },
+    {
+      "identity_key": "doubletree by hilton detroit novi",
+      "canonical_name": "DoubleTree by Hilton Detroit Novi",
+      "current_url": "https://doubletree.hilton.com/",
+      "candidate_urls_tried": [],
+      "final_url": "https://www.hilton.com/en/hotels/dtwnvdt-doubletree-detroit-novi/",
+      "source_relationship": "EXACT_PROPERTY_FIRST_PARTY (Hilton.com property page)",
+      "property_code": "dtwnvdt",
+      "identity_signals": {
+        "address_match": true,
+        "zip_match": true,
+        "phone_match": true,
+        "name_match": true,
+        "note": "42100 Crescent Blvd, Novi, Michigan, 48375, USA and +1 248-344-8800 both exact matches to the committed record, read directly off the live property page."
+      },
+      "final_verdict": "ROUTING_REPLACED",
+      "reason": "The committed URL was the generic DoubleTree brand landing page (doubletree.hilton.com), not a property-level route. The exact property page was located and verified directly.",
+      "next_action": "",
+      "capture_readiness": "EVIDENCE_READY"
+    },
+    {
+      "identity_key": "hawthorn suites by wyndham southfield detroit",
+      "canonical_name": "Hawthorn Suites by Wyndham Southfield Detroit",
+      "current_url": "",
+      "candidate_urls_tried": [
+        "https://www.wyndhamhotels.com/hawthorn-suites/southfield-michigan/hawthorn-suites-detroit-southfield/overview"
+      ],
+      "final_url": "",
+      "source_relationship": "ABSENCE confirmed via Wyndham's own live property search (no first-party route exists)",
+      "property_code": "",
+      "identity_signals": {
+        "address_match": null,
+        "zip_match": null,
+        "phone_match": null,
+        "name_match": null,
+        "note": "No first-party page exists to check signals against. Wyndham's own destination search centered on 26700 Central Park Blvd, Southfield, MI returns 35 hotels market-wide; the nearest is 7.1 miles away -- zero Wyndham-flagged properties exist at or near this address today."
+      },
+      "final_verdict": "PROPERTY_CLOSED_OR_CONVERTED",
+      "reason": "A guessed current-format Wyndham URL 404s. Wyndham's own live find-hotels search near the exact committed address returns no Wyndham property within 7+ miles. Convergent third-party evidence (not itself authoritative but corroborating the first-party absence) shows the property converted from Hawthorn Suites by Wyndham to an independent \"Springwood Suites\" brand at the same address, which is itself marked CLOSED on the review aggregator that tracked it (updated August 2025); no independent official website was found for Springwood Suites at all. No evidence of a still-operating hotel at this address was found anywhere.",
+      "next_action": "Census review: confirm closure (or find a surviving first-party page this search missed) before retiring the identity; do not route policy capture here.",
+      "capture_readiness": "N/A (closed)"
+    },
+    {
+      "identity_key": "hotel indigo detroit downtown",
+      "canonical_name": "Hotel Indigo Detroit Downtown",
+      "current_url": "https://www.ihg.com/hotelindigo/hotels/us/en/detroit/dttid/hoteldetail",
+      "candidate_urls_tried": [],
+      "final_url": "https://www.ihg.com/hotelindigo/hotels/us/en/detroit/dttwb/hoteldetail",
+      "source_relationship": "EXACT_PROPERTY_FIRST_PARTY (IHG.com destination search + property page)",
+      "property_code": "dttwb",
+      "identity_signals": {
+        "address_match": true,
+        "zip_match": true,
+        "phone_match": false,
+        "name_match": true,
+        "note": "IHG's own destination search for \"Hotel Indigo Detroit Downtown\" geocoded to 1020 Washington Blvd, Detroit, MI 48226 and returned this exact property 0.04 mi from that point, same name, same street/city/ZIP. Phone shown (1-888-233-0353) is IHG's central reservations line, not the committed direct line (313-887-7000) -- an expected variance, not a conflict."
+      },
+      "final_verdict": "ROUTING_REPLACED",
+      "reason": "The previously committed property code (dttid) no longer resolves on ihg.com. IHG's own destination search for this exact address and hotel name resolves to the SAME property -- identical name, street, city, ZIP -- under a new property code (dttwb). This is a property-code migration, not an identity change; the prior pass's ROUTING_UNRESOLVED flag was correct to withhold the old code rather than trust it.",
+      "next_action": "",
+      "capture_readiness": "EVIDENCE_READY (IHG hoteldetail pages have a known CDP-freeze on full outerHTML reads in this corpus; query `[class*=\"faq\"]` innerHTML instead when this property is captured)"
+    }
+  ]
+}

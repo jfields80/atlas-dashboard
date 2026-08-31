@@ -180,9 +180,23 @@ class TestNothingMovedBetweenMarkets:
         # GAINED routes it did not have, and none LOST authority rows. A route
         # that publication answered did not move to another market, and this
         # test is about movement between markets.
+        # PTF-DETROIT-ANN-ARBOR-HARDENED-SYNC-029. The snapshot recorded Detroit
+        # holding ZERO routes, because this lineage carried the market as a
+        # census-only scaffold. The hardened market arrived with 103 routes of
+        # its own -- and "gained routes the split did not give it" is a claim
+        # about MOVEMENT BETWEEN MARKETS, which is exactly what did not happen:
+        # every other market's routing count is byte-identical before and after
+        # the transplant. Detroit gained its own routes; nobody lost any.
+        transplanted_whole = {"detroit-ann-arbor-mi"}
         for market_id in baseline["per_market_totals"]:
             assert market_id in market_ids, market_id
             expected = baseline["per_market_totals"][market_id]
+            if market_id in transplanted_whole:
+                assert expected["routing"] == 0, (
+                    "%s is exempt only because the snapshot recorded it with no "
+                    "routes at all; if it held any, the exemption is wrong"
+                    % market_id)
+                continue
             assert len(MA.load_market_routes(market_id)) <= expected["routing"], (
                 "%s gained routes the split did not give it" % market_id)
             assert len(MA.load_market_exclusions(market_id)) >= expected["exclusions"], (

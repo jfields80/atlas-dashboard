@@ -48,6 +48,7 @@ DAYTON = "dayton-oh"
 CINCINNATI = "cincinnati-oh"
 INDIANAPOLIS = "indianapolis-in"
 GRAND_RAPIDS = "grand-rapids-holland-mi"
+DETROIT = "detroit-ann-arbor-mi"
 
 FULL_BUILD = os.environ.get("PTF_ASSEMBLER_FULL_BUILD") == "1"
 needs_build = pytest.mark.skipif(
@@ -458,7 +459,22 @@ def test_current_live_inventory_preserves_all_assemblable_market_profiles(market
                       # order that brought these here explicitly does not
                       # touch launch participation, where Cincinnati's status
                       # is still the founder's to set.
-                      CINCINNATI: 99}
+                      CINCINNATI: 99,
+                      # PTF-DETROIT-ANN-ARBOR-TROY-IDENTITY-AND-BUNDLE-030:
+                      # Detroit becomes ASSEMBLABLE, and this assertion is
+                      # what noticed. It gained no data here: 121 profiles
+                      # were already published and its own bundle already
+                      # assembled with every gate passing. _partition_path
+                      # globbed for a HYPHENATED name that the UNDERSCORED
+                      # partition file could never match, so
+                      # final_partition_present read False. Registering the
+                      # path let the assembler see what was already there.
+                      # Like Cincinnati above, appearing here is a statement
+                      # about the SOURCE, not an admission: Detroit is still
+                      # not founder-authorized and does not enter the bundle.
+                      # Every other count is unchanged -- the half of this
+                      # assertion saying a new market disturbed no old one.
+                      DETROIT: 121}
     # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: 469 + Indianapolis's 16 further
     # founder-signed profiles (8 -> 24). Every other market's count above is
     # unchanged, so the whole of this movement is Indianapolis's.
@@ -466,7 +482,13 @@ def test_current_live_inventory_preserves_all_assemblable_market_profiles(market
     # (26 -> 46), then PTF-PITTSBURGH-FOUNDER-HOLD-RESOLUTION-005 added five
     # net (46 -> 51: six published, one withdrawn). Every other market's count
     # above is unchanged, so the whole of this movement is Pittsburgh's.
-    assert sum(counts.values()) == 686   # 560 + Cincinnati 99 + Pittsburgh 27
+    # PTF-DETROIT-ANN-ARBOR-TROY-IDENTITY-AND-BUNDLE-030: + Detroit's 121,
+    # none of it newly published. This is the ASSEMBLABLE total, not the
+    # live one; the bundle still carries nine markets.
+    # PTF-LINEAGE-CONSOLIDATION-008: 807 = 560 live + Pittsburgh's further
+    # 27 (26 -> 53) + Cincinnati 99 + Detroit 121, consolidated onto one
+    # lineage.
+    assert sum(counts.values()) == 807
 
 
 # --------------------------------------------------------------------------- #

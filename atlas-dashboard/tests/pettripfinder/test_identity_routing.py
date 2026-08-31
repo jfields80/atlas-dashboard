@@ -305,7 +305,12 @@ def test_committed_authority_split(routes):
         "best western plus hannaford inn and suites",
         "best western premier mariemont inn",
         "days inn batavia", "days inn cincinnati east",
-        "doubletree by hilton lawrenceburg"}
+        "doubletree by hilton lawrenceburg",
+        # PTF-DETROIT-ANN-ARBOR-HARDENED-SYNC-029. Detroit arrived carrying one
+        # retired route: a founder ruled the Motel 6 identity at 3764 S State St
+        # closed or converted, and ROUTING_RETIRED is precisely a route to an
+        # identity this market's census no longer contains.
+        "motel 6 ann arbor"}
     assert {h["hotel_ref"]["normalized_name"] for h in held} == {
         "best western plus north canton inn and suites",
         "staybridge suites columbus worthington",
@@ -316,7 +321,16 @@ def test_committed_authority_split(routes):
         "red roof inn dayton fairborn nutter center",
         "red roof inn dayton north airport",
         "red roof inn dayton south miamisburg",
-        "red roof inn springfield"}
+        "red roof inn springfield",
+        # PTF-DETROIT-ANN-ARBOR-HARDENED-SYNC-029. Not an undecided
+        # binding like the others -- a POISONED one.
+        # detroitriverwalkhotel.com lapsed and now redirects to an
+        # online-gambling site, and the record sat at ROUTING_CONFIRMED,
+        # the only status a capture queue may act on. HELD rather than
+        # RETIRED: the binding was correct when made, its identity is
+        # still in the census, and keeping the URL on file is how the
+        # hijack stays documented.
+        "roberts riverwalk hotel"}
 
 
 def test_every_committed_record_preserves_index_binding(routes):

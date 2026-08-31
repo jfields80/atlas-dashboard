@@ -1,0 +1,85 @@
+{
+  "schema": "ptf-detroit-ann-arbor-brightdata-scale-decision/1.0",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-BRIGHTDATA-PILOT-014",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-29",
+  "basis": "pilots 013 and 014 only. No Firecrawl rate enters this.",
+  "decisions": {
+    "MARRIOTT": {
+      "recommendation": "SCALE",
+      "unique_properties_measured": 14,
+      "criteria": {
+        "access_operationally_strong": true,
+        "publication_grade_reliable": true,
+        "no_UNEXPLAINED_identity_or_template_defect": true,
+        "wilson_lower_bound_supports_buying_the_rest": true,
+        "cost_per_usable_result_reasonable": true
+      },
+      "cost_per_publication_grade_result_at_wilson_lower": 0.253,
+      "pages_that_failed_identity_or_template": [
+        "Courtyard Detroit Metro Airport Romulus",
+        "The Henry, Autograph Collection"
+      ],
+      "failure_attributed_to_a_page_template": {
+        "failing_templates": [
+          "marriott:/hotels/travel/"
+        ],
+        "explained_failures": [
+          "Courtyard Detroit Metro Airport Romulus",
+          "The Henry, Autograph Collection"
+        ],
+        "unexplained_failures": [],
+        "remaining_rows_on_a_failing_template": 1,
+        "repair": "re-point the stale routed URL at the brand's current template. A ROUTING repair at $0, not more acquisition."
+      },
+      "why": "access lower bound 0.60, publication-grade lower bound 0.60, pet-friendly lower bound 0.21 on 14 unique properties."
+    },
+    "HILTON": {
+      "recommendation": "SECOND_DIAGNOSTIC_NEEDED",
+      "unique_properties_measured": 14,
+      "criteria": {
+        "access_operationally_strong": true,
+        "publication_grade_reliable": false,
+        "no_UNEXPLAINED_identity_or_template_defect": true,
+        "wilson_lower_bound_supports_buying_the_rest": false,
+        "cost_per_usable_result_reasonable": true
+      },
+      "cost_per_publication_grade_result_at_wilson_lower": 0.336,
+      "pages_that_failed_identity_or_template": [],
+      "failure_attributed_to_a_page_template": {
+        "failing_templates": [],
+        "explained_failures": [],
+        "unexplained_failures": [],
+        "remaining_rows_on_a_failing_template": 0,
+        "repair": "none needed"
+      },
+      "why": "access lower bound 0.60, publication-grade lower bound 0.45, pet-friendly lower bound 0.45 on 14 unique properties."
+    }
+  },
+  "remaining": {
+    "MARRIOTT": {
+      "pool_before_pilots": 32,
+      "measured_across_both_pilots": 14,
+      "remaining": 18,
+      "expected_publication_grade_at_wilson_lower": 10.8,
+      "expected_pet_friendly_at_wilson_lower": 3.8,
+      "projected_spend_usd": 2.74,
+      "conservative_cost_per_publication_grade_usd": 0.253
+    },
+    "HILTON": {
+      "pool_before_pilots": 37,
+      "measured_across_both_pilots": 14,
+      "remaining": 23,
+      "expected_publication_grade_at_wilson_lower": 10.4,
+      "expected_pet_friendly_at_wilson_lower": 10.4,
+      "projected_spend_usd": 3.5,
+      "conservative_cost_per_publication_grade_usd": 0.336
+    },
+    "OTHER_DEFERRED": {
+      "rows": 43,
+      "sized": false,
+      "why_not": "these are the registry-deferred families, not Marriott or Hilton. Both pilots measured two brand walls; sizing a different population from them is the extrapolation this whole sequence has refused in both directions. They remain a separate future cohort."
+    }
+  },
+  "not_executed": "no scale-up was run"
+}

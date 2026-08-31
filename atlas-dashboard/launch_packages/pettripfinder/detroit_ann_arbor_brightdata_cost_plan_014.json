@@ -1,0 +1,41 @@
+{
+  "schema": "ptf-detroit-ann-arbor-brightdata-cost-plan/1.1",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-BRIGHTDATA-PILOT-014",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-29",
+  "authorisation": {
+    "lane": "brightdata_browser",
+    "hard_cap_usd": 3.0,
+    "max_rows": 16,
+    "firecrawl": "FORBIDDEN",
+    "google_places": "FORBIDDEN",
+    "web_unlocker": "FORBIDDEN -- no escalation"
+  },
+  "unit_cost": {
+    "usd_per_attempt": 0.165,
+    "basis": "MEASURED in pilot 013: $2.64 of zone cost over 16 billed attempts. Not a vendor list price."
+  },
+  "cohort": {
+    "admitted": 16,
+    "affordable_under_cap": 18,
+    "rows_this_run": 16,
+    "truncated_before_spending": false
+  },
+  "projected": {
+    "attempts": 16,
+    "worst_case_usd": 2.64,
+    "margin_under_cap": 0.36
+  },
+  "account": {
+    "zone": "scraping_browser1",
+    "month_to_date_cost_usd": 75.27,
+    "balance_usd": 4.0,
+    "sufficient": true,
+    "caveat": "zone cost is MONTH-TO-DATE and settles upward; a balance is not a cost meter"
+  },
+  "concurrency": {
+    "exclusive_run_lock": "REQUIRED. The runner takes it before its first paid call and refuses to start if one exists.",
+    "why": "pilot 013 spent $2.64 against a $2.28 cap because a second runner was launched while the first was still alive, and the already-bought guard reads the ledger only at startup.",
+    "do_not": "infer a stalled run from buffered stdout. Check the process, the ledger's growth, or the vendor meter."
+  }
+}

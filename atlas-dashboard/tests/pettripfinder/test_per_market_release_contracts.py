@@ -77,9 +77,14 @@ GRAND_RAPIDS = "grand-rapids-holland-mi"
 #: market above it must have a contract. It publishes nothing new here -- the
 #: work order explicitly does not touch launch participation.
 CINCINNATI = "cincinnati-oh"
+DETROIT = "detroit-ann-arbor-mi"
 
+# DETROIT joins at PTF-DETROIT-ANN-ARBOR-HARDENED-SYNC-029, which brought its
+# hardened market onto this lineage: 121 published, 81 verified no-pets, a
+# release contract verifying with zero disagreements. It is releasable and
+# NOT launch-authorized -- two different facts, and this tuple is the first.
 MARKETS = (COLUMBUS, CLEVELAND, DAYTON, PITTSBURGH, INDIANAPOLIS, MILWAUKEE,
-           ST_LOUIS, LOUISVILLE, GRAND_RAPIDS, CINCINNATI)
+           ST_LOUIS, LOUISVILLE, GRAND_RAPIDS, CINCINNATI, DETROIT)
 
 #: The reconciliation each market's committed authority is expected to state, as
 #: (confirmed, published, verified_no_pets, resolved, unresolved). ``None`` means
@@ -108,6 +113,11 @@ EXPECTED_RECONCILIATION = {
     # was replaced by the two real hotels it denoted, each bringing its own
     # refusal. 257 = 99 + 49 + 6 + 103.
     CINCINNATI: (257, 99, 49, 154, 103),
+    # PTF-DETROIT-ANN-ARBOR-HARDENED-SYNC-029: the hardened Detroit market
+    # transplanted onto this lineage -- 247-identity promoted census, 121
+    # founder-signed pet-friendly profiles, 81 verified no-pets, 45 still
+    # unresolved and held in an expansion backlog.
+    DETROIT: (247, 121, 81, 202, 45),
     # 163 identities, 43 published, 20 verified-no-pets, 63 resolved and 100
     # unresolved. The census is the 163-row recensus, promoted into the pinned
     # path by PTF-GRAND-RAPIDS-CENSUS-PIN-AND-RELEASE-CONTRACT-024; the
@@ -306,17 +316,27 @@ class TestContractRegistry:
         """A configured market with nothing published states that by having no
         contract, rather than by committing one full of zeros.
 
-        Cincinnati held this role until PTF-CINCINNATI-HARDENED-SYNC-002; it now
-        has 21 published profiles and a contract, and Detroit-Ann Arbor -- a
-        configured market with a committed census and no policy package -- is
-        the market the rule is demonstrated on.
+        Cincinnati held this role until PTF-CINCINNATI-HARDENED-SYNC-002, then
+        Detroit-Ann Arbor held it until PTF-DETROIT-ANN-ARBOR-HARDENED-SYNC-029
+        brought its hardened market onto this lineage: 121 published profiles,
+        81 exclusions and a contract that verifies with zero disagreements.
+
+        NO MARKET DEMONSTRATES THIS RULE ANY MORE, and that is worth stating
+        rather than deleting the test. Every configured market now publishes
+        something. The rule still holds -- a market with nothing published must
+        have no contract -- and the assertion below enforces it over whatever
+        the registry actually contains, so it starts working again the moment a
+        new configured market appears before its first publication.
         """
         configured = {m.market_id for m in load_markets()}
-        assert "detroit-ann-arbor-mi" in configured
-        assert "detroit-ann-arbor-mi" not in set(available_market_ids())
-        package = (REPO_ROOT / "launch_packages" / "pettripfinder"
-                   / "hotel_policy_facts_detroit-ann-arbor-mi.json")
-        assert not package.is_file()
+        available = set(available_market_ids())
+        for market_id in sorted(configured - available):
+            package = (REPO_ROOT / "launch_packages" / "pettripfinder"
+                       / ("hotel_policy_facts_%s.json" % market_id))
+            assert not package.is_file(), market_id
+            contract = (REPO_ROOT / "deploy" / "netlify" / "release_contracts"
+                        / ("%s.json" % market_id))
+            assert not contract.is_file(), market_id
 
         assert "cincinnati-oh" in configured
         assert "cincinnati-oh" in set(available_market_ids())
@@ -433,7 +453,15 @@ class TestContractAgreesWithItsOwnAuthority:
                              # refusals from the independent probes,
                              # including Great Wolf released from its
                              # APPLICATION-004 hold.
-                             CINCINNATI: 49}
+                             CINCINNATI: 49,
+                             # PTF-DETROIT-ANN-ARBOR-HARDENED-SYNC-029.
+                             # Detroit arrives with 81 verified-no-pets
+                             # exclusions, every one resting on an
+                             # affirmative property-specific refusal --
+                             # silence is never an exclusion in this
+                             # market. Every number above is unchanged,
+                             # which is the half that proves the scoping.
+                             DETROIT: 81}
         registry = json.loads(
             (REPO_ROOT / "launch_packages" / "pettripfinder" / "hotel_exclusions.json")
             .read_text(encoding="utf-8-sig"))["exclusions"]

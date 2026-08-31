@@ -1,0 +1,289 @@
+{
+  "schema": "ptf-detroit-ann-arbor-routing-expansion-004/1.0",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-ROUTING-EXPANSION-004",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-17",
+  "census_fill": [
+    "best western greenfield inn",
+    "clarion hotel detroit metro airport",
+    "comfort inn detroit downtown",
+    "comfort inn farmington hills detroit northwest",
+    "comfort suites wixom novi",
+    "country inn and suites by radisson dearborn mi",
+    "country inn and suites by radisson novi mi",
+    "holiday inn express and suites detroit dearborn",
+    "mainstay suites detroit auburn hills",
+    "mainstay suites detroit farmington hills",
+    "park inn by radisson detroit metro airport",
+    "quality inn and suites detroit metro airport",
+    "quality inn detroit downtown",
+    "quality inn southfield detroit",
+    "radisson hotel detroit metro airport",
+    "residence inn by marriott ann arbor north",
+    "residence inn by marriott ann arbor south",
+    "residence inn by marriott detroit dearborn",
+    "rodeway inn auburn hills detroit",
+    "suburban studios auburn hills detroit",
+    "towneplace suites by marriott detroit dearborn"
+  ],
+  "unresolved": {
+    "courtyard by marriott detroit novi": "No 'Courtyard' property returned by marriott.com's own Novi, MI search (only Courtyard Detroit Farmington Hills is nearby); identity_state is already LODGING_BY_NAME (weakest tier), so this may be a stale or misnamed candidate rather than a real distinct property. Not merged, not deleted -- flagged for CENSUS_REVIEW.",
+    "holiday inn fairlane dearborn": "IHG's Dearborn-area hotel-search results render inside a cross-origin iframe this session could not read; no 'Holiday Inn Fairlane' or 'Fairlane' match found via IHG's own search UI or a direct property-code guess. identity_state is already LODGING_BY_NAME (weakest tier). Not merged, not deleted -- flagged for CENSUS_REVIEW."
+  },
+  "city_discrepancy_note": "best western greenfield inn: census city='Dearborn' but bestwestern.com's own property page places it in Allen Park, MI (same address/postal/phone already on file: 3000 Enterprise Dr, 48101, 313-271-1600). Not corrected in this routing-only pass -- flagged for CENSUS_REVIEW.",
+  "duplicate_suspected": {
+    "homewood suites by hilton novi detroit": {
+      "duplicate_of": "homewood suites by hilton novi",
+      "note": "Identical official_url and address/phone (modulo 'Dr' vs 'Drive', '248-...' vs '+1 248-...') as 'homewood suites by hilton novi' -- added under a second name by CENSUS-COMPLETENESS-003 (chain_locator_003) without recognizing the existing ROUTING-REPAIR-001 row. Only 'homewood suites by hilton novi' is routed this pass."
+    }
+  },
+  "routing_after": 179,
+  "readiness_counts": {
+    "EVIDENCE_READY": 84,
+    "FRESH_SESSION_REQUIRED": 22,
+    "POLICY_SURFACE_UNKNOWN": 18,
+    "ATTENDED_REQUIRED": 55
+  },
+  "capture_batch": [
+    {
+      "identity_key": "ac hotel ann arbor downtown",
+      "canonical_name": "AC Hotel Ann Arbor Downtown",
+      "official_url": "https://www.marriott.com/en-us/hotels/dtwad-ac-hotel-ann-arbor-downtown/overview/",
+      "readiness": "EVIDENCE_READY",
+      "has_queue_fields": true,
+      "domain": "marriott.com"
+    },
+    {
+      "identity_key": "americas best value inn livonia detroit",
+      "canonical_name": "Americas Best Value Inn Livonia Detroit",
+      "official_url": "https://www.sonesta.com/americas-best-value-inn/mi/livonia/americas-best-value-inn-livonia-detroit",
+      "readiness": "EVIDENCE_READY",
+      "has_queue_fields": true,
+      "domain": "sonesta.com"
+    },
+    {
+      "identity_key": "ann arbor marriott ypsilanti at eagle crest",
+      "canonical_name": "Ann Arbor Marriott Ypsilanti at Eagle Crest",
+      "official_url": "https://www.marriott.com/en-us/hotels/dtwys-ann-arbor-marriott-ypsilanti-at-eagle-crest/overview/",
+      "readiness": "EVIDENCE_READY",
+      "has_queue_fields": true,
+      "domain": "marriott.com"
+    },
+    {
+      "identity_key": "ann arbor regent hotel and suites",
+      "canonical_name": "Ann Arbor Regent Hotel & Suites",
+      "official_url": "https://annarborregent.com/",
+      "readiness": "EVIDENCE_READY",
+      "has_queue_fields": true,
+      "domain": "annarborregent.com"
+    },
+    {
+      "identity_key": "atheneum suite hotel",
+      "canonical_name": "Atheneum Suite Hotel",
+      "official_url": "https://www.atheneumsuites.com",
+      "readiness": "EVIDENCE_READY",
+      "has_queue_fields": true,
+      "domain": "atheneumsuites.com"
+    },
+    {
+      "identity_key": "auburn hills marriott pontiac",
+      "canonical_name": "Auburn Hills Marriott Pontiac",
+      "official_url": "https://www.marriott.com/en-us/hotels/dtwpo-auburn-hills-marriott-pontiac/overview/",
+      "readiness": "EVIDENCE_READY",
+      "has_queue_fields": true,
+      "domain": "marriott.com"
+    },
+    {
+      "identity_key": "best western detroit livonia",
+      "canonical_name": "Best Western Detroit Livonia",
+      "official_url": "https://www.bestwestern.com/en_US/book/hotel-details.23120.html",
+      "readiness": "EVIDENCE_READY",
+      "has_queue_fields": true,
+      "domain": "bestwestern.com"
+    },
+    {
+      "identity_key": "best western greenfield inn",
+      "canonical_name": "Best Western Greenfield Inn",
+      "official_url": "https://www.bestwestern.com/en_US/book/hotels-in-allen-park/best-western-greenfield-inn/propertyCode.23089.html",
+      "readiness": "EVIDENCE_READY",
+      "has_queue_fields": true,
+      "domain": "bestwestern.com"
+    },
+    {
+      "identity_key": "cambria hotel detroit downtown",
+      "canonical_name": "Cambria Hotel Detroit Downtown",
+      "official_url": "https://cambriadetroit.com/",
+      "readiness": "EVIDENCE_READY",
+      "has_queue_fields": true,
+      "domain": "cambriadetroit.com"
+    },
+    {
+      "identity_key": "courtyard by marriott detroit dearborn",
+      "canonical_name": "Courtyard by Marriott Detroit Dearborn",
+      "official_url": "https://www.marriott.com/en-us/hotels/dttdb-courtyard-detroit-dearborn/overview/",
+      "readiness": "EVIDENCE_READY",
+      "has_queue_fields": true,
+      "domain": "marriott.com"
+    },
+    {
+      "identity_key": "courtyard by marriott detroit downtown",
+      "canonical_name": "Courtyard by Marriott Detroit Downtown",
+      "official_url": "https://www.marriott.com/en-us/hotels/dtwdc-courtyard-detroit-downtown/overview/",
+      "readiness": "EVIDENCE_READY",
+      "has_queue_fields": true,
+      "domain": "marriott.com"
+    },
+    {
+      "identity_key": "courtyard by marriott detroit southfield",
+      "canonical_name": "Courtyard by Marriott Detroit Southfield",
+      "official_url": "https://www.marriott.com/en-us/hotels/dtwsf-courtyard-detroit-southfield/overview/",
+      "readiness": "EVIDENCE_READY",
+      "has_queue_fields": true,
+      "domain": "marriott.com"
+    },
+    {
+      "identity_key": "courtyard by marriott detroit troy",
+      "canonical_name": "Courtyard by Marriott Detroit Troy",
+      "official_url": "https://www.marriott.com/en-us/hotels/dtttr-courtyard-detroit-troy/overview/",
+      "readiness": "EVIDENCE_READY",
+      "has_queue_fields": true,
+      "domain": "marriott.com"
+    },
+    {
+      "identity_key": "daxton hotel",
+      "canonical_name": "Daxton Hotel",
+      "official_url": "https://daxtonhotel.com/",
+      "readiness": "EVIDENCE_READY",
+      "has_queue_fields": true,
+      "domain": "daxtonhotel.com"
+    },
+    {
+      "identity_key": "dearborn inn autograph collection",
+      "canonical_name": "Dearborn Inn, Autograph Collection",
+      "official_url": "https://www.marriott.com/en-us/hotels/dtwdk-dearborn-inn-autograph-collection/overview/",
+      "readiness": "EVIDENCE_READY",
+      "has_queue_fields": true,
+      "domain": "marriott.com"
+    },
+    {
+      "identity_key": "delta hotels by marriott detroit novi",
+      "canonical_name": "Delta Hotels by Marriott Detroit Novi",
+      "official_url": "https://www.marriott.com/en-us/hotels/dtwdf-delta-hotels-detroit-novi/overview/",
+      "readiness": "EVIDENCE_READY",
+      "has_queue_fields": true,
+      "domain": "marriott.com"
+    },
+    {
+      "identity_key": "detroit foundation hotel",
+      "canonical_name": "Detroit Foundation Hotel",
+      "official_url": "https://detroitfoundationhotel.com/",
+      "readiness": "EVIDENCE_READY",
+      "has_queue_fields": true,
+      "domain": "detroitfoundationhotel.com"
+    },
+    {
+      "identity_key": "detroit marriott livonia",
+      "canonical_name": "Detroit Marriott Livonia",
+      "official_url": "https://www.marriott.com/en-us/hotels/dtwli-detroit-marriott-livonia/overview/",
+      "readiness": "EVIDENCE_READY",
+      "has_queue_fields": true,
+      "domain": "marriott.com"
+    },
+    {
+      "identity_key": "detroit marriott southfield",
+      "canonical_name": "Detroit Marriott Southfield",
+      "official_url": "https://www.marriott.com/en-us/hotels/dtwsl-detroit-marriott-southfield/overview/",
+      "readiness": "EVIDENCE_READY",
+      "has_queue_fields": true,
+      "domain": "marriott.com"
+    },
+    {
+      "identity_key": "detroit marriott troy",
+      "canonical_name": "Detroit Marriott Troy",
+      "official_url": "https://www.marriott.com/en-us/hotels/dtttt-detroit-marriott-troy/overview/",
+      "readiness": "EVIDENCE_READY",
+      "has_queue_fields": true,
+      "domain": "marriott.com"
+    },
+    {
+      "identity_key": "detroit metro airport marriott",
+      "canonical_name": "Detroit Metro Airport Marriott",
+      "official_url": "https://www.marriott.com/en-us/hotels/dtwrm-detroit-metro-airport-marriott/overview/",
+      "readiness": "EVIDENCE_READY",
+      "has_queue_fields": true,
+      "domain": "marriott.com"
+    },
+    {
+      "identity_key": "el moore lodge",
+      "canonical_name": "El Moore Lodge",
+      "official_url": "https://elmoore.com/lodge/",
+      "readiness": "EVIDENCE_READY",
+      "has_queue_fields": true,
+      "domain": "elmoore.com"
+    },
+    {
+      "identity_key": "element detroit at the metropolitan",
+      "canonical_name": "Element Detroit at the Metropolitan",
+      "official_url": "https://www.marriott.com/en-us/hotels/dtwel-element-detroit-at-the-metropolitan/overview/",
+      "readiness": "EVIDENCE_READY",
+      "has_queue_fields": true,
+      "domain": "marriott.com"
+    },
+    {
+      "identity_key": "extended stay america detroit ann arbor university south",
+      "canonical_name": "Extended Stay America Detroit Ann Arbor University South",
+      "official_url": "https://www.extendedstayamerica.com/hotels/mi/detroit/ann-arbor-university-south",
+      "readiness": "EVIDENCE_READY",
+      "has_queue_fields": true,
+      "domain": "extendedstayamerica.com"
+    },
+    {
+      "identity_key": "fairfield inn and suites ann arbor ypsilanti",
+      "canonical_name": "Fairfield Inn & Suites Ann Arbor Ypsilanti",
+      "official_url": "https://www.marriott.com/en-us/hotels/arbfy-fairfield-inn-and-suites-ann-arbor-ypsilanti/overview/",
+      "readiness": "EVIDENCE_READY",
+      "has_queue_fields": true,
+      "domain": "marriott.com"
+    },
+    {
+      "identity_key": "fairfield inn and suites detroit farmington hills",
+      "canonical_name": "Fairfield Inn & Suites Detroit Farmington Hills",
+      "official_url": "https://www.marriott.com/en-us/hotels/dtwfh-fairfield-inn-and-suites-detroit-farmington-hills/overview/",
+      "readiness": "EVIDENCE_READY",
+      "has_queue_fields": true,
+      "domain": "marriott.com"
+    },
+    {
+      "identity_key": "fairfield inn and suites detroit troy",
+      "canonical_name": "Fairfield Inn & Suites Detroit Troy",
+      "official_url": "https://www.marriott.com/en-us/hotels/dtwft-fairfield-inn-and-suites-detroit-troy/overview/",
+      "readiness": "EVIDENCE_READY",
+      "has_queue_fields": true,
+      "domain": "marriott.com"
+    },
+    {
+      "identity_key": "fairfield inn and suites by marriott detroit livonia",
+      "canonical_name": "Fairfield Inn & Suites by Marriott Detroit Livonia",
+      "official_url": "https://www.marriott.com/en-us/hotels/dtwfl-fairfield-inn-and-suites-detroit-livonia/overview/",
+      "readiness": "EVIDENCE_READY",
+      "has_queue_fields": true,
+      "domain": "marriott.com"
+    },
+    {
+      "identity_key": "fairfield inn ann arbor",
+      "canonical_name": "Fairfield Inn Ann Arbor",
+      "official_url": "https://www.marriott.com/en-us/hotels/arbfi-fairfield-inn-ann-arbor/overview/",
+      "readiness": "EVIDENCE_READY",
+      "has_queue_fields": true,
+      "domain": "marriott.com"
+    },
+    {
+      "identity_key": "four points by sheraton detroit novi",
+      "canonical_name": "Four Points by Sheraton Detroit Novi",
+      "official_url": "https://www.marriott.com/en-us/hotels/dtwfn-four-points-detroit-novi/overview/",
+      "readiness": "EVIDENCE_READY",
+      "has_queue_fields": true,
+      "domain": "marriott.com"
+    }
+  ]
+}

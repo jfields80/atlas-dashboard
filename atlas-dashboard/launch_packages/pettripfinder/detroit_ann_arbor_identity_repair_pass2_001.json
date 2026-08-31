@@ -1,0 +1,49 @@
+{
+  "schema": "ptf-detroit-ann-arbor-identity-repair-pass2/1.0",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-IDENTITY-REPAIR-PASS2-001",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-17",
+  "founder": "jfields80",
+  "prior_commit": "699a553",
+  "note": "Founder identity/census review of the 2 rows held AWAITING_CENSUS_REVIEW after Pass 2 routing repair. No pet-policy fact was read, inferred, or recorded.",
+  "decisions": [
+    {
+      "row": "A",
+      "old_identity_key": "delta hotels by marriott detroit metro airport",
+      "old_canonical_name": "Delta Hotels by Marriott Detroit Metro Airport",
+      "founder_decision": "APPROVE_IDENTITY_CONVERSION",
+      "new_identity_key": "skyline hotel detroit airport surestay collection by bw",
+      "new_canonical_name": "Skyline Hotel Detroit Airport, SureStay Collection by BW",
+      "new_official_url": "https://www.bestwestern.com/en_US/book/hotels-in-romulus/skyline-hotel-detroit-airport-surestay-collection-by-bw/propertyCode.54306.html",
+      "revalidation_immediately_before_mutation": {
+        "street_address_match": true,
+        "zip_match": true,
+        "phone_match": true,
+        "best_western_page_live": true,
+        "old_marriott_delta_identity_absent": true
+      },
+      "disposition": "CURRENT_IDENTITY_RESOLVED",
+      "new_final_state": "AWAITING_POLICY_OBSERVATION"
+    },
+    {
+      "row": "B",
+      "identity_key": "hawthorn suites by wyndham southfield detroit",
+      "canonical_name": "Hawthorn Suites by Wyndham Southfield Detroit",
+      "founder_decision": "APPROVE_CLOSED_OR_CONVERTED_OUT_OF_ACTIVE_CENSUS",
+      "revalidation_immediately_before_mutation": {
+        "wyndham_property_still_absent": true,
+        "no_current_first_party_lodging_identity_found": true,
+        "springwood_successor_evidence_still_points_to_closure": true,
+        "no_newer_active_hotel_flag_found": true
+      },
+      "disposition": "PROPERTY_CLOSED_OR_CONVERTED",
+      "mechanism": "Retired via the candidate-ledger 'closed' disposition (build_pittsburgh_market_001.py precedent) -- removed from the canonical census/partition/queue, preserved in detroit-ann-arbor-mi_duplicate_ledger.json. NOT set to VERIFIED_NO_PETS; no exclusion record created; not counted as policy-resolved.",
+      "schema_gap_note": "contracts/enums.py has no terminal 'closed hotel' partition final_state (only PUBLISHED_PET_FRIENDLY, VERIFIED_NO_PETS, OUT_OF_CURRENT_CATEGORY are terminal, and the latter means lodging_state=NOT_LODGING / 'never was a hotel', which would misrepresent this property's real history). The census-level 'closed' disposition is the faithful existing mechanism; a dedicated terminal-state addition to the shared partition vocabulary is out of scope for this single-market work order."
+    }
+  ],
+  "census_before": 143,
+  "census_after": 142,
+  "published": 6,
+  "verified_no_pets": 5,
+  "unresolved_after": 130
+}
