@@ -100,8 +100,11 @@ EXPECTED = {
     # Marriott UI label, not a property statement), plus two replay exceptions
     # ruled from owned pages. Census unchanged at 101 -- the three identity
     # rulings in that packet were not authorised.
-    PITTSBURGH: {"census": 101, "published": 52, "no_pets": 14,
-                 "out_of_category": 3, "unresolved": 32},
+    # -> 53/17/3/30 over a 103-row census at PTF-PITTSBURGH-IDENTITY-CLOSE-007:
+    # three authorised identity rulings (a supersession, an authorised
+    # identity-key correction, and a census add) plus one free attended capture.
+    PITTSBURGH: {"census": 103, "published": 53, "no_pets": 17,
+                 "out_of_category": 3, "unresolved": 30},
     DETROIT: {"census": 143, "published": 0, "no_pets": 0,
               "out_of_category": 1, "unresolved": 142},
     # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: 257-identity promoted census. Its

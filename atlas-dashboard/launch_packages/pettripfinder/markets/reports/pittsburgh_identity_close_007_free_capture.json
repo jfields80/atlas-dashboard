@@ -1,0 +1,70 @@
+{
+ "schema": "ptf-market-free-capture/1.0",
+ "work_order": "PTF-PITTSBURGH-IDENTITY-CLOSE-007",
+ "market_id": "pittsburgh-pa",
+ "as_of": "2026-08-31",
+ "provider_calls": 0,
+ "usd_spent": 0.0,
+ "rows_attempted": 3,
+ "published_pet_friendly": 1,
+ "verified_no_pets": 0,
+ "policy_not_found": 1,
+ "routes_retired": 2,
+ "policy_not_found_detail": {
+  "identity_key": "mansions on fifth",
+  "classification": "POLICY_NOT_FOUND",
+  "surfaces_checked": [
+   {
+    "url": "https://mansionsonfifth.com/",
+    "artifact_sha256": "sha256:3996c408856d2305a34fa0a65a83b2de9ef38b3312e70b9aa80ff9d9724bdb8a",
+    "bytes": 75470,
+    "pet_word_present": false
+   },
+   {
+    "url": "https://mansionsonfifth.com/info.php",
+    "artifact_sha256": "sha256:51bcd08ec653e624d3afb2d58eb246468ab7c54782880266beea11c2e70617aa",
+    "bytes": 25427,
+    "pet_word_present": false
+   },
+   {
+    "url": "https://mansionsonfifth.com/amenities-services.php",
+    "artifact_sha256": "sha256:5cacb876b99d826aa007b5ef16dc5047cb82e7970058e2dd843d202eb47ee6e9",
+    "bytes": 19447,
+    "pet_word_present": false
+   }
+  ],
+  "note": "Three first-party surfaces, none containing the word 'pet'. Recorded with the exact pages checked and their digests so the claim is FALSIFIABLE -- PTF-MILWAUKEE-CLOSURE-ASSESSMENT-031 found POLICY_NOT_FOUND unfalsifiable when nobody recorded where they looked. This asserts silence on these surfaces, not that the property has no policy."
+ },
+ "published": {
+  "identity_key": "hyatt regency pittsburgh international airport",
+  "artifact_sha256": "sha256:0dd5a773f59963d7e5c1c8fdd147af19b5f184db04810d1c4662ab900c4b82d2",
+  "facts": {
+   "pets_allowed": true,
+   "reservation_requirement": "Please inform the hotel at least three days in advance of your arrival if a pet is staying with you."
+  }
+ },
+ "retired_routes": [
+  {
+   "identity_key": "sunnyledge boutique hotel",
+   "canonical_name": "Sunnyledge Boutique Hotel",
+   "retired_official_url": "https://sunnyledge.com",
+   "why": "The committed official_url https://sunnyledge.com now redirects to a domain reseller's sale page titled 'SunnyLedge.com is for sale | HugeDomains'. The route would teach a later run that a marketing page is this hotel.",
+   "evidence_sha256": "sha256:8bfdad746643789831113db0dbd88d52645e4fbb083bdf86b8c33363aaa54b0e",
+   "next_action": "Recover a current first-party route for Sunnyledge before any capture. The domain lapsing is NOT evidence the property closed; confirm the identity before ruling on the category.",
+   "retired_at": "2026-08-31",
+   "retired_by": "PTF-PITTSBURGH-IDENTITY-CLOSE-007",
+   "asserts_closure": false
+  },
+  {
+   "identity_key": "holiday inn express pittsburgh cranberry township",
+   "canonical_name": "Holiday Inn Express Pittsburgh Cranberry Township",
+   "retired_official_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/cranberry/fklpa/hoteldetail",
+   "why": "The committed official_url ends /cranberry/fklpa/, which is Holiday Inn Express & Suites Franklin - Oil City at 225 Singh Drive, Cranberry PA 16319 in Venango county -- roughly seventy miles from the Butler-county Cranberry Township (16066) this census row means. Pennsylvania has two Cranberrys and the route bound the wrong one.",
+   "evidence_sha256": "sha256:2a9b27f04ae399c2b7492e571641461be9e20bd0a962b1ce3e3b76bdd260efd1",
+   "next_action": "IHG's own Cranberry Township directory lists 21 properties including Candlewood Suites in 16066, and contains no Holiday Inn Express in that ZIP. Settle whether this identity exists at all before re-routing it; do not infer closure from the directory alone.",
+   "retired_at": "2026-08-31",
+   "retired_by": "PTF-PITTSBURGH-IDENTITY-CLOSE-007",
+   "asserts_closure": false
+  }
+ ]
+}

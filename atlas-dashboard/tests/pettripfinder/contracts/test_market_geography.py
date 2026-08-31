@@ -55,7 +55,8 @@ EXPECTED_ROWS = {COLUMBUS: 112, CLEVELAND: 188, DAYTON: 129, CINCINNATI: 256,
                  # an ADD-ONLY promotion of five identities that each
                  # carried a founder signature the sync could not apply
                  # while the identity did not exist. All 96 preserved.
-                 PITTSBURGH: 101, DETROIT: 143,
+                 # 101 -> 103 at PTF-PITTSBURGH-IDENTITY-CLOSE-007 (two adds).
+                 PITTSBURGH: 103, DETROIT: 143,
                  # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004 promoted the 257-identity recensus.
                  INDIANAPOLIS: 257,
                  MILWAUKEE: 147}

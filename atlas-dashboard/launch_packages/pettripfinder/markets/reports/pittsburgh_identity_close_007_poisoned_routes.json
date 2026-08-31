@@ -1,0 +1,33 @@
+{
+ "schema": "ptf-market-route-retirement-ledger/1.0",
+ "work_order": "PTF-PITTSBURGH-IDENTITY-CLOSE-007",
+ "market_id": "pittsburgh-pa",
+ "as_of": "2026-08-31",
+ "why": "Each route below now points at something that would teach a later run something false. The URL is cleared from the census row and preserved here.",
+ "asserts_no_closure": "No row here is ruled closed. A lapsed domain and an absence from a brand directory are both evidence about a ROUTE, not about whether a building operates.",
+ "count": 2,
+ "retired_routes": [
+  {
+   "identity_key": "sunnyledge boutique hotel",
+   "canonical_name": "Sunnyledge Boutique Hotel",
+   "retired_official_url": "https://sunnyledge.com",
+   "why": "The committed official_url https://sunnyledge.com now redirects to a domain reseller's sale page titled 'SunnyLedge.com is for sale | HugeDomains'. The route would teach a later run that a marketing page is this hotel.",
+   "evidence_sha256": "sha256:8bfdad746643789831113db0dbd88d52645e4fbb083bdf86b8c33363aaa54b0e",
+   "next_action": "Recover a current first-party route for Sunnyledge before any capture. The domain lapsing is NOT evidence the property closed; confirm the identity before ruling on the category.",
+   "retired_at": "2026-08-31",
+   "retired_by": "PTF-PITTSBURGH-IDENTITY-CLOSE-007",
+   "asserts_closure": false
+  },
+  {
+   "identity_key": "holiday inn express pittsburgh cranberry township",
+   "canonical_name": "Holiday Inn Express Pittsburgh Cranberry Township",
+   "retired_official_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/cranberry/fklpa/hoteldetail",
+   "why": "The committed official_url ends /cranberry/fklpa/, which is Holiday Inn Express & Suites Franklin - Oil City at 225 Singh Drive, Cranberry PA 16319 in Venango county -- roughly seventy miles from the Butler-county Cranberry Township (16066) this census row means. Pennsylvania has two Cranberrys and the route bound the wrong one.",
+   "evidence_sha256": "sha256:2a9b27f04ae399c2b7492e571641461be9e20bd0a962b1ce3e3b76bdd260efd1",
+   "next_action": "IHG's own Cranberry Township directory lists 21 properties including Candlewood Suites in 16066, and contains no Holiday Inn Express in that ZIP. Settle whether this identity exists at all before re-routing it; do not infer closure from the directory alone.",
+   "retired_at": "2026-08-31",
+   "retired_by": "PTF-PITTSBURGH-IDENTITY-CLOSE-007",
+   "asserts_closure": false
+  }
+ ]
+}

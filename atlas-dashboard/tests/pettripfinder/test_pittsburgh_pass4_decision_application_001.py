@@ -20,6 +20,9 @@ def load(path: Path) -> dict:
 #: The ten identities PTF-PITTSBURGH-PASS4-DECISION-APPLICATION-001 decided,
 #: and the three it explicitly left unresolved. These are what this module's
 #: gates are about; the market's running totals are not.
+#: The order these gates are about.
+WORK_ORDER = "PTF-PITTSBURGH-PASS4-DECISION-APPLICATION-001"
+
 PASS4_PUBLISHED = (
     "motel 6 pittsburgh",
     "sonesta simply suites pittsburgh airport",
@@ -89,15 +92,22 @@ def test_final_partition_derives_the_ten_decision_transitions():
     for key in PASS4_REFUSED:
         assert states[key]["final_state"] == "VERIFIED_NO_PETS"
         assert states[key]["resolved"] is True
-    # The three rows Pass 4 explicitly did NOT resolve stay unresolved.
+    # The three rows Pass 4 explicitly did NOT resolve are not attributed to it.
+    # A LATER order may legitimately settle one -- PTF-PITTSBURGH-IDENTITY-
+    # CLOSE-007 published Hyatt Regency Airport from a free attended capture --
+    # and asserting they stay unresolved forever would make that progress look
+    # like a regression. What must hold is that Pass 4 never claims credit for
+    # a row it left open.
     for key in PASS4_HELD:
-        assert states[key]["resolved"] is False
+        if states[key]["resolved"]:
+            assert states[key]["determined_by"] != WORK_ORDER, key
     states = {row["identity_key"]: row for row in partition["items"]}
     assert states["courtyard by marriott pittsburgh airport"]["final_state"] == "VERIFIED_NO_PETS"
     assert states["courtyard by marriott pittsburgh airport settlers ridge"]["final_state"] == "VERIFIED_NO_PETS"
-    assert all(not states[key]["resolved"] for key in (
-        "hyatt regency pittsburgh international airport", "mansions on fifth",
-        "sunnyledge boutique hotel"))
+    for key in ("hyatt regency pittsburgh international airport",
+                "mansions on fifth", "sunnyledge boutique hotel"):
+        if states[key]["resolved"]:
+            assert states[key]["determined_by"] != WORK_ORDER, key
 
 
 def test_final_records_preserve_the_special_founder_semantics_and_governance():

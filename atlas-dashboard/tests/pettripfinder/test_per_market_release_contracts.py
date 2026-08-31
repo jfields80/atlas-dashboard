@@ -193,7 +193,8 @@ EXPECTED_RECONCILIATION = {
     # on the key collision alone whatever the street evidence said.
     # 101 = 51 + 12 + 3 out_of_current_category + 35.
     # -> 52/14/69/32 at PTF-PITTSBURGH-IDENTITY-AND-RECAPTURE-006.
-    PITTSBURGH: (101, 52, 14, 69, 32),
+    # -> 53/17/73/30 over 103 at PTF-PITTSBURGH-IDENTITY-CLOSE-007.
+    PITTSBURGH: (103, 53, 17, 73, 30),
     # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004 promoted 257 identities from the
     # hardened recensus with 24 founder-signed profiles and 24 verified-no-pets
     # (both 601 W Washington hotels, distinct Marriott codes, under the exclusion
@@ -391,7 +392,7 @@ class TestContractAgreesWithItsOwnAuthority:
         """
         by_market = {mid: derive_authority(mid).verified_no_pets for mid in MARKETS}
         assert by_market == {COLUMBUS: 14, CLEVELAND: 40, DAYTON: 8,
-                             PITTSBURGH: 14, INDIANAPOLIS: 34, MILWAUKEE: 27,
+                             PITTSBURGH: 17, INDIANAPOLIS: 34, MILWAUKEE: 27,
                              ST_LOUIS: 37,
                              # PTF-LOUISVILLE-PUBLICATION-008. Every other
                              # market's number is unchanged, which is the half
