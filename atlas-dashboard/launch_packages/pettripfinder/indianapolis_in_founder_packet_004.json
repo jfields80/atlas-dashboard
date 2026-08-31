@@ -1,0 +1,208 @@
+{
+ "schema": "ptf-founder-review-packet/1.0",
+ "work_order": "PTF-INDIANAPOLIS-CORRIDOR-AND-IDENTITY-RULINGS-004",
+ "market_id": "indianapolis-in",
+ "generated_at": "2026-08-31",
+ "prepared_by": "claude-opus-5 (agent)",
+ "cost": {"paid_provider_calls": 0, "usd_spent": 0.0, "free_http_requests": 12,
+          "note": "All evidence is either first-party HTTP fetched free, or already-owned artifacts in this repository (the discovery-attempt ledger)."},
+ "nothing_applied": "This packet RECOMMENDS. No identity was merged, retired, renamed or routed; no corridor was changed; no census was promoted; nothing was deployed.",
+ "decisions_requested": [
+  {
+   "id": "IDR-002-001",
+   "title": "WoodSpring Plainfield / Extended Stay America Plainfield",
+   "current_identity": {
+    "identity_key": "woodspring suites indianapolis plainfield",
+    "canonical_name": "WoodSpring Suites Indianapolis Plainfield",
+    "address": "6295 Gateway Drive",
+    "postal_code": "46168",
+    "official_url": "",
+    "routing_state": "NO_OFFICIAL_URL",
+    "census_provenance": "PTF-INDIANAPOLIS-HARDENED-RECENSUS-002:OPENSTREETMAP (dc_d1d3d2142a5d3f9e)"
+   },
+   "proposed_action": {
+    "verdict": "A. SAME_IDENTITY_REBRAND_SUCCESSOR",
+    "action": "RENAME_AND_ROUTE (supersession, not a new row)",
+    "new_canonical_name": "Extended Stay America Indianapolis - Plainfield",
+    "new_official_url": "https://www.extendedstayamerica.com/hotels/in/indianapolis/plainfield",
+    "address_unchanged": "6295 Gateway Drive, 46168",
+    "telephone_to_record": "3178372950",
+    "lineage": "preserve 'woodspring suites indianapolis plainfield' as the superseded former identity; do not delete it from lineage"
+   },
+   "first_party_evidence": [
+    "ESA property page names 6295 Gateway Dr, 46168 — the census address exactly (read 2026-08-31, free).",
+    "ESA page telephone 317-837-2950; page title 'Indianapolis - Plainfield'.",
+    "WoodSpring's OWN Indiana directory (woodspring.com) lists exactly THREE Indianapolis properties — Castleton, Airport South, Zionsville. Plainfield is NOT among them.",
+    "That directory is demonstrably current and complete: it correctly lists the two WoodSpring properties our census also holds, so the omission is an absence, not a directory failure.",
+    "ALREADY-OWNED evidence: the discovery-attempt ledger records a Google Places lookup for 'WoodSpring Suites Indianapolis Plainfield, 6295 Gateway Drive' (PTF-INDIANAPOLIS-PLACES-BROADER-RECOVERY-010, 2026-08-27) which returned UNBOUND_NO_SANCTIONED_KEY — no place matched that brand at that address."
+   ],
+   "hard_matching_signals": [
+    "exact street agreement (6295 Gateway Dr)",
+    "exact postal agreement (46168)",
+    "the former brand no longer claims the building, on the brand's own inventory",
+    "a second, independent source (Places, already paid for) also could not find the former brand there"
+   ],
+   "conflicting_signals": [
+    "brand name differs — which is exactly what a rebrand produces, and is the reason this was held rather than auto-merged",
+    "no telephone or property code comparison was possible: the census row carries NEITHER a phone nor a URL, so the strongest per-property signal is unavailable on our side",
+    "the census row came from OpenStreetMap, which lags rebrands by design; that explains the stale name but is not itself proof"
+   ],
+   "recommendation": "APPROVE as a rebrand successor. Three independent sources agree the building at 6295 Gateway Dr is now ESA and is no longer WoodSpring. Treating it as two identities would publish a hotel that does not exist.",
+   "census_impact": "count UNCHANGED. One row is renamed and routed in place; nothing is added or retired.",
+   "route_impact": "+1 route at $0. The row leaves the 118-row unrouted cohort's IDENTITY_REVIEW_FIRST segment and becomes acquisition-ready with a first-party URL already in hand.",
+   "publication_impact": "NONE today. The row still has no policy evidence and publishes nothing until a policy is acquired and founder-approved.",
+   "reversible": true,
+   "reversibility_note": "Fully reversible: the superseded name is preserved in lineage and the route can be withdrawn. No published profile depends on it."
+  },
+  {
+   "id": "IDR-002-002",
+   "title": "Extended Stay America Castleton — address discrepancy",
+   "current_identity": {
+    "identity_key": "extended stay america indianapolis castleton",
+    "canonical_name": "Extended Stay America Indianapolis Castleton",
+    "address": "8280 Bash Street",
+    "postal_code": "46250",
+    "official_url": "",
+    "routing_state": "NO_OFFICIAL_URL",
+    "census_provenance": "PTF-INDIANAPOLIS-HARDENED-RECENSUS-002:PRIOR_CENSUS"
+   },
+   "proposed_action": {
+    "verdict": "A. the census identity is correct but its ADDRESS IS STALE",
+    "action": "ADDRESS_SUPERSESSION",
+    "new_address": "7940 N. Shadeland Ave., Indianapolis, IN 46250",
+    "new_official_url": "https://www.extendedstayamerica.com/hotels/in/indianapolis/castleton",
+    "telephone_to_record": "3175961288",
+    "lineage": "record 8280 Bash Street as the superseded historical address with its provenance; do NOT erase it"
+   },
+   "first_party_evidence": [
+    "ESA's own Indianapolis directory lists exactly ONE Castleton property, and its page names 7940 N. Shadeland Ave., 46250 (read 2026-08-31, free).",
+    "ALREADY-OWNED evidence: the discovery ledger records a Places lookup for 'Extended Stay America Indianapolis Castleton, 8280 Bash Street' (PTF-INDIANAPOLIS-PLACES-QUALIFICATION-008, 2026-08-27) returning UNBOUND_NO_SANCTIONED_KEY — nothing was findable under that name at that address.",
+    "The census row carries no URL and no telephone, and its provenance is PRIOR_CENSUS — the weakest source class in this market.",
+    "Bash Street is a genuine hotel cluster (the census holds Comfort Inn 8330, Quality Inn 8380, WoodSpring 8255), so this is NOT a case of one street with one building; the specific claim that an ESA sits at 8280 is what no source supports.",
+    "7940 N. Shadeland Ave appears nowhere in the census, so nothing else already holds the real address."
+   ],
+   "hard_matching_signals": [
+    "brand agrees (ESA)",
+    "postal agrees (46250)",
+    "ESA operates exactly one property in Castleton, so 'the ESA in Castleton' denotes one building and only one"
+   ],
+   "conflicting_signals": [
+    "street does NOT agree (8280 Bash St vs 7940 N. Shadeland Ave), and the two are about half a mile apart",
+    "we cannot prove from free sources that an ESA ever stood at 8280 Bash Street; the alternative reading — an ESA that closed there, plus a separate current one on Shadeland — is not excluded by the evidence we have",
+    "no telephone or property code exists on our side to bind with"
+   ],
+   "recommendation": "APPROVE the address supersession, and note the residual doubt. This is the reading that cannot create a phantom: superseding corrects one row to the only ESA Castleton that demonstrably exists. Admitting 7940 N. Shadeland as a SECOND row would assert two ESA Castletons, which ESA's own inventory contradicts. If you prefer maximum caution, the alternative is to leave the row unrouted and admit nothing — that costs one route and one likely pet-friendly profile.",
+   "census_impact": "count UNCHANGED. One row's address and URL are corrected in place.",
+   "route_impact": "+1 route at $0; the row leaves IDENTITY_REVIEW_FIRST.",
+   "publication_impact": "NONE today. No policy evidence exists for it yet.",
+   "reversible": true,
+   "reversibility_note": "Reversible: the old address is preserved in lineage and can be restored. Nothing published depends on it."
+  },
+  {
+   "id": "IDR-002-003",
+   "title": "ZIPs 46236 and 46239 — three approved identities with no corridor",
+   "current_state": "Three identities you approved under COVERAGE-001 are withheld from the census because their ZIPs belong to no declared Indianapolis corridor, and this market requires every census row to resolve to exactly one corridor.",
+   "candidates": [
+    {"page_name": "Extended Stay America - Indianapolis - Lawrence",
+     "address": "9515 Pendleton Pike", "city": "Indianapolis", "postal_code": "46236",
+     "telephone": "3178900909", "area": "Lawrence / Oaklandon, north-east Marion County",
+     "url": "https://www.extendedstayamerica.com/hotels/in/indianapolis/lawrence"},
+    {"page_name": "Baymont by Wyndham Indianapolis Northeast",
+     "address": "5755 North German Church Road", "city": "Indianapolis", "postal_code": "46236",
+     "telephone": "3177235090", "area": "Geist / German Church Road, north-east Marion County",
+     "url": "https://www.wyndhamhotels.com/baymont/indianapolis-indiana/baymont-inn-and-suites-indianapolis-northeast/overview"},
+    {"page_name": "Baymont by Wyndham Indianapolis",
+     "address": "1540 Brookville Crossing Way", "city": "Indianapolis", "postal_code": "46239",
+     "telephone": "3176639863", "area": "Brookville Crossing, south-east Marion County",
+     "url": "https://www.wyndhamhotels.com/baymont/indianapolis-indiana/baymont-inn-and-suites-indianapolis/overview"}
+   ],
+   "geography_findings": {
+    "verdict_46236": "A. CLEARLY_WITHIN_EXISTING_MARKET_INTENT",
+    "verdict_46239": "A. CLEARLY_WITHIN_EXISTING_MARKET_INTENT",
+    "why": [
+     "All three properties state their own city as Indianapolis on their own brand pages.",
+     "The market contract defines this market as 'the Indianapolis visitor market, not municipal limits and not the entire MSA', and enumerates its exclusions explicitly: Zionsville, Anderson, Muncie, Bloomington, Columbus IN, Lafayette, Terre Haute, Richmond, Kokomo, Shelbyville, Greenfield beyond the east I-70 corridor, and the Cincinnati-owned south-east. Neither 46236 nor 46239 is excluded, and neither is a named outer destination.",
+     "Both ZIPs are interior to the existing footprint rather than beyond it: 46236 sits between declared 46256 (keystone-castleton) and declared 46235 (east-i70); 46239 sits between declared 46229 (east-i70) and declared 46237 (south).",
+     "These are therefore corridor GAPS inside the market, not an expansion of it. Neither creates an isolated island."
+    ],
+    "not_a_count_argument": "This is not recommended in order to raise the hotel count. Three hotels is immaterial to the 56 published; the reason to resolve it is that the market currently has holes its own boundary note does not intend."
+   },
+   "options": [
+    {
+     "option": "1. EXPLICIT ASSIGNMENT (recommended)",
+     "mechanism": "add the three identity keys to explicit_hotel_ids on the nearest corridor — 46236 to indianapolis-in__keystone-castleton, 46239 to indianapolis-in__east-i70",
+     "precedent": "this is exactly how five existing census rows in ZIPs 46202 and 46222 are already assigned; the market contract's boundary note documents the pattern ('Shared ZIP 46202 is not registered to any corridor; those properties are assigned explicitly')",
+     "admits": "exactly these three and nothing else",
+     "risk": "none of the ZIP is swept in, so a future hotel in 46236/46239 returns to you rather than being auto-admitted",
+     "corridor_pages_changed": "none created; two existing corridors each gain hotels"
+    },
+    {
+     "option": "2. WIDEN ZIP COVERAGE",
+     "mechanism": "add 46236 to keystone-castleton and 46239 to east-i70 included_postal_codes",
+     "admits": "these three AND every future hotel discovered in those ZIPs, automatically",
+     "risk": "a standing geography decision made once, applied silently thereafter; also a thematic stretch — Pendleton Pike is not Keystone, and Brookville Crossing is not I-70"
+    },
+    {
+     "option": "3. NEW CORRIDOR(S)",
+     "mechanism": "declare indianapolis-in__northeast (46236, 46235, 46256-adjacent) and/or indianapolis-in__southeast (46239)",
+     "admits": "these three, with navigable neighbourhood pages",
+     "risk": "creates corridor pages carrying 1-2 hotels each; the market's smallest existing corridor (mass-ave) carries 1, so this is permitted but thin"
+    },
+    {
+     "option": "4. DECLINE",
+     "mechanism": "leave the registry unchanged",
+     "admits": "nothing; the three approved identities stay out of the census permanently"
+    }
+   ],
+   "recommendation": "Option 1, explicit assignment. It admits exactly what you already approved, uses a mechanism this market already relies on, changes no published page structure, and leaves the ZIP-level geography decision open rather than settling it silently for every future hotel.",
+   "census_impact": "+3 identities (shadow 265 -> 268). Pinned census unchanged either way.",
+   "route_impact": "+3 rows to the unrouted cohort (118 -> 121). All three arrive with a first-party URL already known, so they are routing-cheap.",
+   "publication_impact": "NONE today — no policy evidence. If later published they would appear under the assigned corridor.",
+   "reversible": true,
+   "reversibility_note": "Reversible. Explicit assignment is a list entry that can be removed; no published profile depends on it."
+  }
+ ],
+ "findings_reported_not_asked": [
+  {
+   "id": "F-004-1",
+   "finding": "The census address for 'woodspring suites indianapolis castleton' is 8255 Bash Street; WoodSpring's own property page names 8301 Bash Street, 46250.",
+   "why_it_survived": "the Places bind for this row succeeded on NAME_AND_POSTAL_CODE, which never compares the street — so a wrong street passes a successful bind.",
+   "recommended": "register as a further ADDRESS_SUPERSESSION_REVIEW; do not correct silently.",
+   "acted_on": false
+  },
+  {
+   "id": "F-004-2",
+   "finding": "The census address for 'woodspring suites indianapolis airport south' is 4402 West Morris Street, 46241; WoodSpring's own page names 4545 Kentucky Ave, 46221 — a different street AND a different ZIP, and 46221 belongs to no Indianapolis corridor.",
+   "supporting": "already-owned Places evidence for this row returned UNBOUND_NO_SANCTIONED_KEY.",
+   "recommended": "register as ADDRESS_SUPERSESSION_REVIEW; note it may also raise the same corridor question as IDR-002-003.",
+   "acted_on": false
+  },
+  {
+   "id": "F-004-3",
+   "finding": "WoodSpring Suites Indianapolis Zionsville (6007 Perry Worth Road, 46075, Whitestown) exists and is absent from our census. It is CORRECTLY absent: the market contract excludes Zionsville by name.",
+   "recommended": "no action. Recorded so a later coverage pass does not 'discover' it and re-open a settled boundary.",
+   "acted_on": false
+  },
+  {
+   "id": "F-004-4",
+   "finding": "Census rows sourced from PRIOR_CENSUS bind to Google Places at 19 of 82 (23%), against 24 of 61 (39%) for rows from other sources. All three address discrepancies found in this work order are PRIOR_CENSUS rows.",
+   "caveat": "an UNBOUND result does not by itself prove a wrong address — the bind requires a sanctioned key and can fail on the name alone. This is a correlation worth investigating, not a proven defect count.",
+   "recommended": "a separate zero-cost work order to re-verify PRIOR_CENSUS addresses against brand first-party pages. Explicitly NOT actioned here.",
+   "acted_on": false
+  }
+ ],
+ "guarantees": {
+  "identities_merged": 0,
+  "identities_retired": 0,
+  "identities_renamed": 0,
+  "routes_bound": 0,
+  "corridor_registry_modified": false,
+  "census_promoted": false,
+  "pinned_census_identities": 257,
+  "published_pet_friendly": 56,
+  "paid_provider_calls": 0,
+  "usd_spent": 0.0,
+  "deployment": "NONE",
+  "launch_authorization": "NONE"
+ }
+}

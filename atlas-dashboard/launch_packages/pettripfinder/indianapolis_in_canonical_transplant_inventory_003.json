@@ -14,8 +14,8 @@
   "merge_base_subject": "feat(ptf): Indianapolis is LIVE; deploy 6a9102c0 serves 8 markets / 517 profiles (PTF-INDIANAPOLIS-DEPLOY-AUTHORIZATION-020)",
   "canonical_already_contains_indianapolis_through": "PTF-INDIANAPOLIS-DEPLOY-AUTHORIZATION-020",
   "canonical_ahead_by_commits": 80,
-  "commits_to_transplant": 2,
-  "why_this_is_small": "Canonical already carries every Indianapolis commit through the live deploy. Only the coverage audit and the founder rulings that followed it are unique to this branch."
+  "commits_to_transplant": 3,
+  "why_this_is_small": "Canonical already carries every Indianapolis commit through the live deploy. Only the coverage audit, the founder rulings that followed it, and the 004 investigation are unique to this branch."
  },
  "commits": [
   {
@@ -23,10 +23,22 @@
    "work_order": "PTF-INDIANAPOLIS-HARDENED-COVERAGE-AUDIT-001",
    "subject": "Indianapolis coverage audit -- the gap is policy coverage, not census; 12 true-missing identities proven as a floor, 2 free routes, $0 spent",
    "files": [
-    {"status": "A", "path": "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_coverage_audit_001.json"},
-    {"status": "A", "path": "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_coverage_audit_founder_packet_001.json"},
-    {"status": "A", "path": "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_shadow_additive_inventory_001.json"},
-    {"status": "A", "path": "atlas-dashboard/scripts/pettripfinder/indianapolis_coverage_audit_001.py"}
+    {
+     "status": "A",
+     "path": "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_coverage_audit_001.json"
+    },
+    {
+     "status": "A",
+     "path": "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_coverage_audit_founder_packet_001.json"
+    },
+    {
+     "status": "A",
+     "path": "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_shadow_additive_inventory_001.json"
+    },
+    {
+     "status": "A",
+     "path": "atlas-dashboard/scripts/pettripfinder/indianapolis_coverage_audit_001.py"
+    }
    ]
   },
   {
@@ -34,22 +46,65 @@
    "work_order": "PTF-INDIANAPOLIS-CENSUS-ADMISSION-002 / PTF-INDIANAPOLIS-ROUTING-COST-PLAN-003",
    "subject": "Indianapolis founder rulings -- 8 identities admitted to a shadow census, 3 holds registered, the 118-row routing cohort priced at $0 spend",
    "files": [
-    {"status": "A", "path": "atlas-dashboard/launch_packages/pettripfinder/identity_census_admission/indianapolis-in.json"},
-    {"status": "A", "path": "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_identity_review_register_002.json"},
-    {"status": "A", "path": "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_routing_cost_plan_003.json"},
-    {"status": "A", "path": "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_unrouted_cohort_003.json"},
-    {"status": "A", "path": "atlas-dashboard/scripts/pettripfinder/indianapolis_census_admission_002.py"},
-    {"status": "A", "path": "atlas-dashboard/scripts/pettripfinder/indianapolis_routing_cost_plan_003.py"}
+    {
+     "status": "A",
+     "path": "atlas-dashboard/launch_packages/pettripfinder/identity_census_admission/indianapolis-in.json"
+    },
+    {
+     "status": "A",
+     "path": "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_identity_review_register_002.json"
+    },
+    {
+     "status": "A",
+     "path": "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_routing_cost_plan_003.json"
+    },
+    {
+     "status": "A",
+     "path": "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_unrouted_cohort_003.json"
+    },
+    {
+     "status": "A",
+     "path": "atlas-dashboard/scripts/pettripfinder/indianapolis_census_admission_002.py"
+    },
+    {
+     "status": "A",
+     "path": "atlas-dashboard/scripts/pettripfinder/indianapolis_routing_cost_plan_003.py"
+    }
+   ]
+  },
+  {
+   "sha": "PENDING -- this work order's commit",
+   "work_order": "PTF-INDIANAPOLIS-CORRIDOR-AND-IDENTITY-RULINGS-004",
+   "subject": "Indianapolis identity/geography reviews investigated at $0; one founder packet, nothing applied",
+   "files": [
+    {
+     "status": "A",
+     "path": "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_founder_packet_004.json",
+     "class": "SAFE_CHERRY_PICK"
+    },
+    {
+     "status": "M",
+     "path": "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_identity_review_register_002.json",
+     "class": "SAFE_CHERRY_PICK",
+     "note": "modified by this order; it is created by commit 111b0dd in the same series, so the two must be picked in order"
+    },
+    {
+     "status": "M",
+     "path": "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_canonical_transplant_inventory_003.json",
+     "class": "SAFE_CHERRY_PICK"
+    }
    ]
   }
  ],
  "conflict_risk": {
-  "files_total": 10,
-  "files_that_are_pure_additions": 10,
-  "files_modified_on_this_branch": 0,
-  "files_that_already_exist_on_canonical": 0,
+  "files_total": 13,
+  "distinct_paths": 11,
+  "pure_additions": 11,
+  "paths_modified_by_a_LATER_commit_in_this_same_series": 2,
+  "paths_that_already_exist_on_canonical": 0,
   "shared_or_generated_globals_touched": 0,
-  "assessment": "NONE. Every path is new to canonical and no tracked file was modified on this branch, so a cherry-pick of the two commits applies without conflict.",
+  "pinned_artifacts_touched": 0,
+  "assessment": "NONE, provided the three commits are picked IN ORDER. Every path is new to canonical. Two paths show as modified only because a later commit in this same series edits a file an earlier one created (the review register and this inventory); picked in order they apply cleanly.",
   "why_no_shared_files_moved": "The admission was deliberately written to a SHADOW census. Promoting it into the pinned census would move the release contract, which would invalidate the global deployment manifest -- a deployment step. That is why this branch touches no pinned artifact."
  },
  "procedure": {
@@ -58,7 +113,8 @@
    "git checkout worker/ptf-hardened-lineage-consolidation-008",
    "git cherry-pick 35ff374ed90b",
    "git cherry-pick 111b0dd6d6fb",
-   "re-derive the cost plan (see must_be_re_derived below) and commit the regenerated file",
+   "git cherry-pick <the 004 commit>   # must follow 111b0dd: it edits files 111b0dd creates",
+   "re-derive indianapolis_in_routing_cost_plan_003.json on canonical and commit it",
    "prove the transplant by FAILURE-SET IDENTITY against canonical's own baseline, not by test counts"
   ]
  },
@@ -85,9 +141,53 @@
   "launch_authorization_issued": false
  },
  "open_founder_decisions_carried_forward": [
-  "IDR-002-001 SUCCESSOR_IDENTITY_REVIEW -- WoodSpring vs ESA Plainfield at 6295 Gateway Dr",
-  "IDR-002-002 ADDRESS_SUPERSESSION_REVIEW -- is 'extended stay america indianapolis castleton' at the wrong address?",
-  "IDR-002-003 CORRIDOR_REGISTRY_REVIEW -- widen the registry to ZIPs 46236 / 46239, admitting 3 more approved identities",
-  "PROMOTION -- move the 8 admitted identities from the shadow census into the pinned census. This is deployment-bearing: it moves the release contract and the deployment manifest, so it must be bundled with the next assembly and authorization."
- ]
+  "IDR-002-001 -- INVESTIGATED, recommendation SAME_IDENTITY_REBRAND_SUCCESSOR (rename + route)",
+  "IDR-002-002 -- INVESTIGATED, recommendation ADDRESS_SUPERSESSION to 7940 N. Shadeland Ave",
+  "IDR-002-003 -- INVESTIGATED, recommendation EXPLICIT ASSIGNMENT of the three keys",
+  "F-004-1 / F-004-2 -- two further WoodSpring address discrepancies registered, not acted on",
+  "PROMOTION -- moving the shadow census into the pinned census remains deployment-bearing"
+ ],
+ "updated_by": "PTF-INDIANAPOLIS-CORRIDOR-AND-IDENTITY-RULINGS-004",
+ "updated_at": "2026-08-31",
+ "transplant_classification": {
+  "SAFE_CHERRY_PICK": [
+   "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_coverage_audit_001.json",
+   "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_coverage_audit_founder_packet_001.json",
+   "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_shadow_additive_inventory_001.json",
+   "atlas-dashboard/launch_packages/pettripfinder/identity_census_admission/indianapolis-in.json",
+   "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_identity_review_register_002.json",
+   "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_unrouted_cohort_003.json",
+   "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_founder_packet_004.json",
+   "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_canonical_transplant_inventory_003.json",
+   "atlas-dashboard/scripts/pettripfinder/indianapolis_coverage_audit_001.py",
+   "atlas-dashboard/scripts/pettripfinder/indianapolis_census_admission_002.py",
+   "atlas-dashboard/scripts/pettripfinder/indianapolis_routing_cost_plan_003.py"
+  ],
+  "REGENERATE_ON_CANONICAL": [
+   {
+    "path": "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_routing_cost_plan_003.json",
+    "why": "every rate in it is derived at run time from the two cross-run ledgers, and those have DIVERGED: canonical carries 799 paid attempts / $75.96 and 183 discovery attempts; this branch 739 / $68.02 and 143. The committed plan therefore quotes rates measured on a stale ledger.",
+    "how": "re-run scripts/pettripfinder/indianapolis_routing_cost_plan_003.py on canonical after the cherry-picks and commit the regenerated JSON",
+    "cost": "$0 -- it reads committed files and makes no provider call"
+   }
+  ],
+  "DO_NOT_TRANSPLANT": [
+   {
+    "paths": [
+     "atlas-dashboard/launch_packages/pettripfinder/ptf_paid_attempt_ledger_001.json",
+     "atlas-dashboard/launch_packages/pettripfinder/ptf_discovery_attempt_ledger_001.json"
+    ],
+    "why": "READ but never written by any of this work. Canonical copies are NEWER. Overwriting them from this branch would destroy Grand Rapids spend history and re-open paid attempts already settled."
+   },
+   {
+    "paths": [
+     "atlas-dashboard/launch_packages/pettripfinder/identity_census/indianapolis-in.json",
+     "atlas-dashboard/deploy/netlify/release_contracts/indianapolis-in.json",
+     "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_final_partition_004.json",
+     "atlas-dashboard/deploy/netlify/global_deployment_manifest.json"
+    ],
+    "why": "UNCHANGED on this branch by design. The shadow-census pattern exists precisely so these pinned artifacts never move outside a deployment-bearing order."
+   }
+  ]
+ }
 }
