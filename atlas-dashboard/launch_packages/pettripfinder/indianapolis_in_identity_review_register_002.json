@@ -1,0 +1,157 @@
+{
+ "schema": "ptf-identity-review-register/1.0",
+ "what_this_is": "Identity questions the founder has explicitly refused to let a machine gate settle. Each entry names the two identities in tension, the evidence that exists TODAY, and the evidence that would be required to bind them. Nothing here merges, retires, routes or publishes anything. An entry leaves this register only by a founder ruling recorded in the override register.",
+ "market_id": "indianapolis-in",
+ "work_order": "PTF-INDIANAPOLIS-CENSUS-ADMISSION-002",
+ "founder_decision_source": "PTF-INDIANAPOLIS-HARDENED-COVERAGE-AUDIT-001 COVERAGE-002",
+ "decided_by": "PTF-FOUNDER-001",
+ "decided_at": "2026-08-31",
+ "recorded_by": "claude-opus-5 (agent) -- transcription of the founder's COVERAGE-002 ruling plus one further review raised by the COVERAGE-001 admission; no ruling was inferred or generalised",
+ "scope_rule": "Each entry names ONE pair. Nothing here generalises: another pair in the same shape returns to the founder rather than inheriting a decision made about a different building.",
+ "standing_instruction": "DO NOT MERGE AUTOMATICALLY. No downstream tool may bind a route, retire an identity, or supersede an address on the strength of an entry in this register.",
+ "reviews": [
+  {
+   "review_id": "IDR-002-001",
+   "review_state": "SUCCESSOR_IDENTITY_REVIEW",
+   "raised_by": "founder ruling COVERAGE-002",
+   "question": "Is 'woodspring suites indianapolis plainfield' the same building now trading as Extended Stay America Plainfield?",
+   "identities_in_tension": [
+    {
+     "role": "REGISTERED_CENSUS_ROW",
+     "identity_key": "woodspring suites indianapolis plainfield",
+     "address": "6295 Gateway Drive",
+     "postal_code": "46168",
+     "brand_family": "WOODSPRING",
+     "routing_state": "NO_OFFICIAL_URL"
+    },
+    {
+     "role": "FIRST_PARTY_PAGE",
+     "url": "https://www.extendedstayamerica.com/hotels/in/indianapolis/plainfield",
+     "page_address": "6295 Gateway Dr",
+     "postal_code": "46168",
+     "brand_family": "ESA"
+    }
+   ],
+   "evidence_today": {
+    "street_agrees": true,
+    "postal_agrees": true,
+    "brand_agrees": false,
+    "telephone_compared": false,
+    "property_code_compared": false,
+    "read_at": "2026-08-31",
+    "cost": "$0 -- free first-party HTTP"
+   },
+   "why_this_is_not_enough": "Street and postal agreeing across DIFFERENT brands is exactly the shape a rebrand and a co-located pair both produce. The founder identity rule for this market requires at least TWO strong independent property-specific signals, and brand disagreement is a reason to look harder, not a second signal.",
+   "evidence_required_to_bind": [
+    "an exact telephone match between the ESA page and the census row, OR",
+    "a property code carried by the ESA page or URL that the WoodSpring record also carries, OR",
+    "a first-party statement of the rebrand from either brand naming both flags at this address"
+   ],
+   "forbidden_until_ruled": [
+    "binding the ESA URL as the census row's official_url",
+    "retiring either identity",
+    "publishing any policy read from the ESA page against the WoodSpring row"
+   ],
+   "default_if_never_ruled": "the WoodSpring row stays unrouted and unpublished; the ESA Plainfield page is not admitted as a separate identity"
+  },
+  {
+   "review_id": "IDR-002-002",
+   "review_state": "ADDRESS_SUPERSESSION_REVIEW",
+   "raised_by": "PTF-INDIANAPOLIS-CENSUS-ADMISSION-002 -- withheld from the COVERAGE-001 admission to keep the founder's no-duplicate condition",
+   "question": "Does the registered 'extended stay america indianapolis castleton' row carry a stale or wrong address?",
+   "identities_in_tension": [
+    {
+     "role": "REGISTERED_CENSUS_ROW",
+     "identity_key": "extended stay america indianapolis castleton",
+     "address": "8280 Bash Street",
+     "postal_code": "46250",
+     "brand_family": "ESA",
+     "routing_state": "NO_OFFICIAL_URL"
+    },
+    {
+     "role": "FIRST_PARTY_PAGE",
+     "url": "https://www.extendedstayamerica.com/hotels/in/indianapolis/castleton",
+     "page_address": "7940 N. Shadeland Ave.",
+     "postal_code": "46250",
+     "brand_family": "ESA"
+    }
+   ],
+   "evidence_today": {
+    "brand_agrees": true,
+    "postal_agrees": true,
+    "street_agrees": false,
+    "esa_castleton_pages_listed_on_esas_own_directory": 1,
+    "census_rows_on_bash_street_46250": [
+     "extended stay america indianapolis castleton -- 8280 Bash Street",
+     "woodspring suites indianapolis castleton -- 8255 Bash Street"
+    ],
+    "read_at": "2026-08-31",
+    "cost": "$0 -- free first-party HTTP"
+   },
+   "why_this_is_not_enough": "ESA's own directory lists exactly ONE Castleton property and it names 7940 N. Shadeland Ave. Both addresses cannot be the ESA Castleton. Either the census row's address is wrong or stale -- in which case the correct action is an address supersession on the row we already hold -- or the Bash Street property closed. Admitting the Shadeland page as a new identity would manufacture a duplicate, so it was withheld rather than admitted.",
+   "evidence_required_to_bind": [
+    "a telephone or property code shared between the ESA Castleton page and the registered row, OR",
+    "first-party confirmation that 8280 Bash Street is closed or was never ESA-branded",
+    "note: 8255 Bash Street is a SEPARATE registered WoodSpring identity and must not be disturbed by whatever is decided here"
+   ],
+   "forbidden_until_ruled": [
+    "admitting 7940 N. Shadeland Ave as a new census identity",
+    "editing the registered row's address",
+    "binding the ESA Castleton URL to either Bash Street row"
+   ],
+   "default_if_never_ruled": "the registered row keeps its address and stays unrouted; the Shadeland page is admitted to nothing"
+  },
+  {
+   "review_id": "IDR-002-003",
+   "review_state": "CORRIDOR_REGISTRY_REVIEW",
+   "raised_by": "PTF-INDIANAPOLIS-CENSUS-ADMISSION-002 -- withheld from the COVERAGE-001 admission to keep the market corridor invariant",
+   "question": "Should the Indianapolis corridor registry be widened to cover ZIPs 46236 and 46239, admitting these three founder-approved identities?",
+   "why_this_is_not_a_census_question": "This market holds every census row to exactly one registry corridor, and the corridor decides which neighbourhood PAGE a hotel is published on. Widening the registry is therefore a market-contract and publishing decision, not the census addition COVERAGE-001 authorised. Admitting these rows corridor-less would have broken the invariant; guessing a corridor would have published a hotel into a neighbourhood nobody chose.",
+   "identities_awaiting_a_corridor": [
+    {
+     "page_name": "Extended Stay America - Indianapolis - Lawrence",
+     "address": "9515 Pendleton Pike",
+     "postal_code": "46236",
+     "url": "https://www.extendedstayamerica.com/hotels/in/indianapolis/lawrence"
+    },
+    {
+     "page_name": "Baymont by Wyndham Indianapolis Northeast",
+     "address": "5755 North German Church Road",
+     "postal_code": "46236",
+     "url": "https://www.wyndhamhotels.com/baymont/indianapolis-indiana/baymont-inn-and-suites-indianapolis-northeast/overview"
+    },
+    {
+     "page_name": "Baymont by Wyndham Indianapolis",
+     "address": "1540 Brookville Crossing Way",
+     "postal_code": "46239",
+     "url": "https://www.wyndhamhotels.com/baymont/indianapolis-indiana/baymont-inn-and-suites-indianapolis/overview"
+    }
+   ],
+   "evidence_today": {
+    "identity_evidence": "each page named its own address, and no census row holds any of the three addresses",
+    "both_zips_are_marion_county": true,
+    "covered_by_a_declared_corridor": false,
+    "cost": "$0 -- free first-party HTTP"
+   },
+   "options": [
+    "extend an adjacent corridor (46236 sits beside keystone-castleton and east-i70; 46239 sits beside east-i70 and south)",
+    "declare a new corridor for the northeast/southeast doughnut",
+    "leave the registry as it is and keep these three out of the census"
+   ],
+   "forbidden_until_ruled": [
+    "admitting these three identities to the census",
+    "assigning any of them a corridor",
+    "editing the market contract corridor registry"
+   ],
+   "default_if_never_ruled": "the three stay out of the census and publish nothing"
+  }
+ ],
+ "guarantees": {
+  "identities_merged_by_this_document": 0,
+  "identities_retired_by_this_document": 0,
+  "routes_bound_by_this_document": 0,
+  "policies_published_by_this_document": 0,
+  "paid_provider_calls": 0,
+  "usd_spent": 0.0
+ }
+}
