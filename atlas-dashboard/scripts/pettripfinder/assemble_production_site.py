@@ -157,6 +157,17 @@ def _partition_path(market_id: str) -> Optional[Path]:
         # "louisville-ky" strips to "louisville-ky" -> "louisville" only by
         # luck of the suffix, and the market commits exactly one partition.
         "louisville-ky": "louisville_final_partition_001.json",
+        # PTF-DETROIT-ANN-ARBOR-TROY-IDENTITY-AND-BUNDLE-030. Detroit needs
+        # the table for exactly the reason Grand Rapids did, and it failed
+        # exactly as silently: the glob strips the last segment and keeps
+        # hyphens, looking for "detroit-ann-arbor_final_partition_*", while
+        # the committed file is "detroit_ann_arbor_final_partition_001.json"
+        # with underscores. Nothing matched, so final_partition_present read
+        # False and the market was NOT ASSEMBLABLE -- while its own bundle
+        # assembled cleanly with every gate passing. That gap is what makes
+        # this worth an explicit entry: a market can be perfectly buildable
+        # on its own and still be invisible to the composed build.
+        "detroit-ann-arbor-mi": "detroit_ann_arbor_final_partition_001.json",
         # St. Louis names its partitions with the FULL market id
         # (``st_louis_mo_final_partition_007``), which the prefix glob above
         # cannot reach: it strips the trailing segment and looks for
