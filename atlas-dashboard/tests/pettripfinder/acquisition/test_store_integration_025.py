@@ -116,6 +116,12 @@ OTHER_MARKET_RUNS = {
     # replayed offline through the current reader at $0. Belongs to
     # pittsburgh-pa and must never reach Milwaukee's projection.
     "pittsburgh_pa_factory_recensus_001",
+    # PTF-PITTSBURGH-IDENTITY-AND-RECAPTURE-006: one attended-Chrome re-capture
+    # of SpringHill Suites Pittsburgh Airport, taken for $0.00 to settle a
+    # contradiction between a published record and the property's own page.
+    # Also pittsburgh-pa, and it holds no rendered bytes at all -- only the
+    # atomic hash+quote record the attended-capture contract defines.
+    "pittsburgh_pa_free_recapture_006",
 }
 
 
