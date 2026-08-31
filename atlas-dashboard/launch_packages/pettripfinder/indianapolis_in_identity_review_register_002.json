@@ -12,7 +12,7 @@
  "reviews": [
   {
    "review_id": "IDR-002-001",
-   "review_state": "SUCCESSOR_IDENTITY_REVIEW_INVESTIGATED",
+   "review_state": "RULED_AND_APPLIED",
    "raised_by": "founder ruling COVERAGE-002",
    "question": "Is 'woodspring suites indianapolis plainfield' the same building now trading as Extended Stay America Plainfield?",
    "identities_in_tension": [
@@ -64,11 +64,16 @@
     "applied": false,
     "applied_note": "RECOMMENDED ONLY. Nothing merged, renamed, routed, retired or assigned. Awaiting the founder ruling in indianapolis_in_founder_packet_004.json.",
     "cost": "$0 -- free first-party HTTP plus already-owned ledger evidence"
-   }
+   },
+   "founder_ruling": "FOUNDER RULING 1 -- SAME_IDENTITY_REBRAND_SUCCESSOR approved",
+   "applied_005": "applied to the SHADOW admission census by PTF-INDIANAPOLIS-APPLY-RULINGS-005: renamed to Extended Stay America Indianapolis - Plainfield, routed to the ESA first-party page, phone recorded, and the WoodSpring identity preserved in the supersession block on the row. No second identity created. Policy NOT published.",
+   "applied": true,
+   "applied_by": "PTF-INDIANAPOLIS-APPLY-RULINGS-005",
+   "applied_to": "SHADOW admission census only; the pinned production census is untouched"
   },
   {
    "review_id": "IDR-002-002",
-   "review_state": "ADDRESS_SUPERSESSION_REVIEW_INVESTIGATED",
+   "review_state": "RULED_AND_APPLIED",
    "raised_by": "PTF-INDIANAPOLIS-CENSUS-ADMISSION-002 -- withheld from the COVERAGE-001 admission to keep the founder's no-duplicate condition",
    "question": "Does the registered 'extended stay america indianapolis castleton' row carry a stale or wrong address?",
    "identities_in_tension": [
@@ -124,11 +129,16 @@
     "applied": false,
     "applied_note": "RECOMMENDED ONLY. Nothing merged, renamed, routed, retired or assigned. Awaiting the founder ruling in indianapolis_in_founder_packet_004.json.",
     "cost": "$0 -- free first-party HTTP plus already-owned ledger evidence"
-   }
+   },
+   "founder_ruling": "FOUNDER RULING 2 -- ADDRESS_SUPERSESSION approved",
+   "applied_005": "applied to the SHADOW admission census by PTF-INDIANAPOLIS-APPLY-RULINGS-005: address superseded 8280 Bash Street to 7940 N. Shadeland Ave, routed and phoned, with 8280 Bash Street preserved in the supersession block. The founder required it be recorded that free evidence CANNOT prove an ESA never operated at Bash Street; that caveat is carried on the row itself. Policy NOT published.",
+   "applied": true,
+   "applied_by": "PTF-INDIANAPOLIS-APPLY-RULINGS-005",
+   "applied_to": "SHADOW admission census only; the pinned production census is untouched"
   },
   {
    "review_id": "IDR-002-003",
-   "review_state": "CORRIDOR_REGISTRY_REVIEW_INVESTIGATED",
+   "review_state": "RULED_AND_APPLIED",
    "raised_by": "PTF-INDIANAPOLIS-CENSUS-ADMISSION-002 -- withheld from the COVERAGE-001 admission to keep the market corridor invariant",
    "question": "Should the Indianapolis corridor registry be widened to cover ZIPs 46236 and 46239, admitting these three founder-approved identities?",
    "why_this_is_not_a_census_question": "This market holds every census row to exactly one registry corridor, and the corridor decides which neighbourhood PAGE a hotel is published on. Widening the registry is therefore a market-contract and publishing decision, not the census addition COVERAGE-001 authorised. Admitting these rows corridor-less would have broken the invariant; guessing a corridor would have published a hotel into a neighbourhood nobody chose.",
@@ -181,7 +191,85 @@
     "applied": false,
     "applied_note": "RECOMMENDED ONLY. Nothing merged, renamed, routed, retired or assigned. Awaiting the founder ruling in indianapolis_in_founder_packet_004.json.",
     "cost": "$0 -- free first-party HTTP plus already-owned ledger evidence"
-   }
+   },
+   "founder_ruling": "FOUNDER RULING 3 -- EXPLICIT_HOTEL_ASSIGNMENT approved",
+   "applied_005": "applied by PTF-INDIANAPOLIS-APPLY-RULINGS-005: the three identities were added to the shadow census and assigned by explicit_hotel_ids (46236 to keystone-castleton, 46239 to east-i70). ZIP coverage was NOT widened and no corridor was created. The ruling covers ONLY these three identities.",
+   "applied": true,
+   "applied_by": "PTF-INDIANAPOLIS-APPLY-RULINGS-005",
+   "applied_to": "SHADOW admission census only; the pinned production census is untouched"
+  },
+  {
+   "review_id": "IDR-005-001",
+   "review_state": "ADDRESS_SUPERSESSION_REVIEW",
+   "raised_by": "finding F-004-1 of PTF-INDIANAPOLIS-CORRIDOR-AND-IDENTITY-RULINGS-004; registered by the founder in PTF-INDIANAPOLIS-APPLY-RULINGS-005",
+   "question": "Does the registered WoodSpring Castleton row carry a stale street address?",
+   "identity_key": "woodspring suites indianapolis castleton",
+   "census_value": {
+    "address": "8255 Bash Street",
+    "postal_code": "46250"
+   },
+   "first_party_value": {
+    "address": "8301 Bash Street",
+    "postal_code": "46250",
+    "source": "https://www.woodspring.com/extended-stay-hotels/locations/indiana/indianapolis/woodSpring-suites-indianapolis-castleton",
+    "read_at": "2026-08-31"
+   },
+   "existing_places_evidence": {
+    "work_order": "PTF-INDIANAPOLIS-PLACES-BROADER-RECOVERY-010",
+    "outcome": "BOUND",
+    "bind_method": "NAME_AND_POSTAL_CODE",
+    "place_id": "ChIJr7XSWptNa4gReNFAvOGxZZs",
+    "national_phone_number": "(317) 854-3327"
+   },
+   "why_the_previous_binding_did_not_validate_the_street": "the bind succeeded on NAME_AND_POSTAL_CODE. That key compares the name and the five-digit postal code and NEVER compares the street, so a row carrying a wrong street passes a successful bind. A green bind is not an address check.",
+   "evidence_required_to_settle": [
+    "the telephone on the WoodSpring property page compared against (317) 854-3327",
+    "or a property code shared between that page and the census row",
+    "or a second first-party source naming 8301 Bash Street for this property"
+   ],
+   "forbidden_until_ruled": [
+    "editing the census address",
+    "binding a route on the strength of the name",
+    "retiring or merging either Bash Street identity"
+   ],
+   "default_if_never_ruled": "the row keeps 8255 Bash Street and stays unrouted",
+   "acted_on": false
+  },
+  {
+   "review_id": "IDR-005-002",
+   "review_state": "ADDRESS_AND_GEOGRAPHY_REVIEW",
+   "raised_by": "finding F-004-2 of PTF-INDIANAPOLIS-CORRIDOR-AND-IDENTITY-RULINGS-004; registered by the founder in PTF-INDIANAPOLIS-APPLY-RULINGS-005",
+   "question": "Is the registered WoodSpring Airport South row at the wrong address, and if so does its real address even fall inside a declared corridor?",
+   "identity_key": "woodspring suites indianapolis airport south",
+   "census_value": {
+    "address": "4402 West Morris Street",
+    "postal_code": "46241"
+   },
+   "first_party_value": {
+    "address": "4545 Kentucky Ave",
+    "postal_code": "46221",
+    "source": "https://www.woodspring.com/extended-stay-hotels/locations/indiana/indianapolis/woodspring-suites-indianapolis-airport-south",
+    "read_at": "2026-08-31"
+   },
+   "why_this_is_two_questions_not_one": "the street AND the ZIP both differ. 46241 is the airport corridor; 46221 belongs to NO declared Indianapolis corridor. Correcting the address would therefore move the row out of its corridor and raise the same geography question IDR-002-003 raised, which is why this is registered as ADDRESS_AND_GEOGRAPHY and not a plain address fix.",
+   "existing_places_evidence": {
+    "work_order": "PTF-INDIANAPOLIS-PLACES-BROADER-RECOVERY-010",
+    "outcome": "UNBOUND_NO_SANCTIONED_KEY",
+    "meaning": "no returned place matched this name at 4402 West Morris Street"
+   },
+   "evidence_required_to_settle": [
+    "a telephone or property code tying the census row to the 4545 Kentucky Ave page",
+    "confirmation of whether 4402 West Morris Street holds a different lodging property",
+    "a founder geography decision for 46221 if the address correction is approved"
+   ],
+   "forbidden_until_ruled": [
+    "editing the census address",
+    "changing the corridor",
+    "widening ZIP coverage to 46221",
+    "binding a route"
+   ],
+   "default_if_never_ruled": "the row keeps its address and corridor and stays unrouted",
+   "acted_on": false
   }
  ],
  "guarantees": {
@@ -220,6 +308,20 @@
    "subject": "WoodSpring Suites Indianapolis Zionsville, 6007 Perry Worth Road 46075",
    "note": "exists and is absent from our census, correctly: the market contract excludes Zionsville by name. Recorded so a later coverage pass does not re-open a settled boundary.",
    "acted_on": false
+  }
+ ],
+ "settled_do_not_reopen": [
+  {
+   "id": "F-004-3",
+   "subject": "WoodSpring Suites Indianapolis Zionsville, 6007 Perry Worth Road 46075",
+   "status": "OUTSIDE / EXCLUDED BY MARKET DOCTRINE",
+   "ruling": "settled by the founder in PTF-INDIANAPOLIS-APPLY-RULINGS-005: the market contract excludes Zionsville by name. Do not reopen."
+  },
+  {
+   "id": "F-004-4",
+   "subject": "PRIOR_CENSUS rows bind to Places at 23% against 39% for other sources",
+   "status": "ANALYTICAL OBSERVATION ONLY",
+   "ruling": "the founder ruled this is NOT evidence of bad addresses and NOT grounds for a generic repair campaign. A correlation is not a defect count."
   }
  ]
 }

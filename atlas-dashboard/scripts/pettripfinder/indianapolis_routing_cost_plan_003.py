@@ -191,8 +191,12 @@ def cohort(package_dir):
     # the empty-URL rows are blocked on something else (transport, identity
     # mismatch, brand exclusion) and pricing them here would quote a purchase
     # that a different defect is holding shut.
-    pinned = set(_read(os.path.join(
-        package_dir, 'indianapolis_in_unrouted_cohort_003.json'))['identity_keys'])
+    # PTF-INDIANAPOLIS-APPLY-RULINGS-005 superseded the 003 cohort: two rows were
+    # routed by the identity rulings and three were admitted. Prefer the newer
+    # cohort when it exists so the plan prices the CURRENT unrouted set.
+    _c5 = os.path.join(package_dir, 'indianapolis_in_unrouted_cohort_005.json')
+    _c3 = os.path.join(package_dir, 'indianapolis_in_unrouted_cohort_003.json')
+    pinned = set(_read(_c5 if os.path.isfile(_c5) else _c3)['identity_keys'])
 
     rows, admitted = [], []
     for h in census['hotels']:
@@ -291,8 +295,8 @@ def build(package_dir):
              'to do'),
         ))
 
-    primary = stage(base, 'the 118 named by COVERAGE-003')
-    extended = stage(everything, 'including the 8 admitted COVERAGE-001 identities')
+    primary = stage(base, 'the audit-measured cohort, post-rulings')
+    extended = stage(everything, 'every unrouted identity in the shadow census')
 
     pilot = collections.OrderedDict((
         ('recommended_first_batch_rows', 20),
@@ -383,7 +387,8 @@ def main(argv=None):
     print('  Places bind     %.1f%% (Wilson %.1f%%), unit price %s'
           % (100 * d['bind_rate'], 100 * d['bind_rate_wilson_lower'],
              d['unit_price_state']))
-    for label, c in (('PRIMARY  (the 118)', p), ('EXTENDED (+8 admitted)', e)):
+    for label, c in (('PRIMARY  (audit cohort, post-rulings)', p),
+                     ('EXTENDED (all unrouted in shadow)', e)):
         print()
         print('=== %s -- %d rows ===' % (label, c['rows']))
         for k, v in c['segments'].items():
