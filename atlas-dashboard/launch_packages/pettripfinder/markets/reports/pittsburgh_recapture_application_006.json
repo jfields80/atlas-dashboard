@@ -1,0 +1,65 @@
+{
+ "schema": "ptf-market-founder-decisions/1.0",
+ "work_order": "PTF-PITTSBURGH-IDENTITY-AND-RECAPTURE-006",
+ "market_id": "pittsburgh-pa",
+ "as_of": "2026-08-30",
+ "operator": "jfields80",
+ "provider_calls": 0,
+ "usd_spent": 0.0,
+ "bright_data_authorised_but_unused": true,
+ "why_unused": "The one row this order could buy -- SpringHill Suites Pittsburgh Airport -- rendered in full on attended Chrome, so the $0.25 allowance was never drawn on.",
+ "records_added": 1,
+ "exclusions_added": 2,
+ "census_addresses_filled": 2,
+ "not_authorised_and_not_applied": [
+  "courtyard by marriott pittsburgh west homestead waterfront (SAME_IDENTITY_SUPERSESSION proposed)",
+  "comfort suites (canonical-name adoption proposed)",
+  "intown suites extended stay pittsburgh pa (TRUE_CENSUS_ADD proposed)"
+ ],
+ "census_unchanged_at": 101,
+ "applied": [
+  {
+   "identity_key": "springhill suites pittsburgh airport",
+   "disposition": "VERIFIED_NO_PETS",
+   "lane": "FREE_ATTENDED_CHROME",
+   "artifact_sha256": "sha256:863ca5b8de188bdf3f73fd336be4d0a40adde7723bb58dfbd3460ec7e6ece874",
+   "quote": "Pets are not allowed. Only service animals are welcome"
+  },
+  {
+   "identity_key": "holiday inn express and suites pittsburgh airport",
+   "disposition": "VERIFIED_NO_PETS",
+   "lane": "OWNED_DECLINED_CAPTURE",
+   "artifact_sha256": "sha256:7e15d9497c2058386d925764230314040afdd946a21f549e0202df6277113cb4",
+   "quote": "No, pets are not allowed at Holiday Inn Express & Suites Pittsburgh Airport."
+  },
+  {
+   "identity_key": "embassy suites by hilton pittsburgh downtown",
+   "disposition": "PUBLISHED_PET_FRIENDLY",
+   "lane": "OWNED_DECLINED_CAPTURE",
+   "artifact_sha256": "sha256:4a042430baa2566f241bc74cd3f737604647e920dbeb1a2e6aba39ffe132b4c4",
+   "quote": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee"
+  }
+ ],
+ "rulings": {
+  "springhill suites pittsburgh airport": {
+   "disposition": "VERIFIED_NO_PETS",
+   "lane": "FREE_ATTENDED_CHROME",
+   "quote": "Pets are not allowed. Only service animals are welcome",
+   "ruling": "VERIFIED_NO_PETS. The only property-authored sentence on the live page is a refusal. The two affirmative signals are proven Marriott templates: 'Pets Welcome' is the value of the UI translation key hws.petsAllowed (a header rendered for every property, and the exact string Pass 4 cited as evidence for pets_allowed=true), and the FAQ answer is generated from the populated fee field -- Marriott ships a negative FAQ template too. The $150 line is template residue beside a refusal, not a price for a permission this property grants."
+  },
+  "holiday inn express and suites pittsburgh airport": {
+   "disposition": "VERIFIED_NO_PETS",
+   "lane": "OWNED_DECLINED_CAPTURE",
+   "slug": "holiday-inn-express-suites-pittsburgh-airport",
+   "quote": "No, pets are not allowed at Holiday Inn Express & Suites Pittsburgh Airport.",
+   "ruling": "VERIFIED_NO_PETS. The page names the property exactly, carries its property code pitex, and states the refusal in its own words. The census row's official_url is this page."
+  },
+  "embassy suites by hilton pittsburgh downtown": {
+   "disposition": "PUBLISHED_PET_FRIENDLY",
+   "lane": "OWNED_DECLINED_CAPTURE",
+   "slug": "embassy-suites-by-hilton-pittsburgh-downtown",
+   "quote": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee",
+   "ruling": "PUBLISHED_PET_FRIENDLY. The page states the permission and a $75 non-refundable fee but never says whether it is per night or per stay, so the amount publishes and the basis is simply ABSENT -- silence is absence, not a withholding."
+  }
+ }
+}

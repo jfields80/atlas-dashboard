@@ -95,8 +95,13 @@ EXPECTED = {
     # added, not six: 'comfort suites' is a bare chain word Indianapolis
     # already holds as an identity key, and two hotels under one key is the
     # state in which no directory can list both.
-    PITTSBURGH: {"census": 101, "published": 51, "no_pets": 12,
-                 "out_of_category": 3, "unresolved": 35},
+    # -> 52/14/3/32 at PTF-PITTSBURGH-IDENTITY-AND-RECAPTURE-006: SpringHill
+    # Airport registered as a refusal (its "Pets Welcome" evidence was a
+    # Marriott UI label, not a property statement), plus two replay exceptions
+    # ruled from owned pages. Census unchanged at 101 -- the three identity
+    # rulings in that packet were not authorised.
+    PITTSBURGH: {"census": 101, "published": 52, "no_pets": 14,
+                 "out_of_category": 3, "unresolved": 32},
     DETROIT: {"census": 143, "published": 0, "no_pets": 0,
               "out_of_category": 1, "unresolved": 142},
     # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: 257-identity promoted census. Its

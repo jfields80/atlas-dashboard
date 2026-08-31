@@ -69,11 +69,23 @@ def test_final_partition_derives_the_ten_decision_transitions():
     for key in PASS4_PUBLISHED:
         assert states[key]["final_state"] == "PUBLISHED_PET_FRIENDLY"
         assert states[key]["resolved"] is True
-    # The withdrawn row must be unresolved AND must carry a next action -- an
-    # identity that stops being published and is given no next step is a row
-    # that silently stops being worked.
-    assert states[PASS4_WITHDRAWN]["resolved"] is False
-    assert states[PASS4_WITHDRAWN]["next_action"].strip()
+    # The withdrawn row's full history, which is the point of naming it:
+    # Pass 4 published it as pet-friendly; PTF-PITTSBURGH-FOUNDER-HOLD-
+    # RESOLUTION-005 WITHDREW it once the owned page was found to contradict
+    # the record; PTF-PITTSBURGH-IDENTITY-AND-RECAPTURE-006 settled it as a
+    # REFUSAL after a free attended re-capture proved the "Pets Welcome"
+    # evidence Pass 4 cited was a Marriott UI label (hws.petsAllowed), not a
+    # statement by the property.
+    #
+    # So it must NOT be published, and it must be resolved-as-refused or else
+    # unresolved-with-a-next-action. What is forbidden is the state in between:
+    # unpublished, unresolved, and with nobody told what to do about it.
+    withdrawn = states[PASS4_WITHDRAWN]
+    assert withdrawn["final_state"] != "PUBLISHED_PET_FRIENDLY"
+    if withdrawn["resolved"]:
+        assert withdrawn["final_state"] == "VERIFIED_NO_PETS"
+    else:
+        assert withdrawn["next_action"].strip()
     for key in PASS4_REFUSED:
         assert states[key]["final_state"] == "VERIFIED_NO_PETS"
         assert states[key]["resolved"] is True
@@ -100,6 +112,12 @@ def test_final_records_preserve_the_special_founder_semantics_and_governance():
                   / "pittsburgh_hold_resolution_005_withdrawn_authority.json")
     assert [r["identity_key"] for r in ledger["withdrawn_records"]] == [PASS4_WITHDRAWN]
     assert ledger["why"].strip()
+    # It is now a registered REFUSAL, so it must never reappear as a profile.
+    exclusions = load(LP / "markets" / "authority" / "pittsburgh-pa"
+                      / "hotel_exclusions.json")["exclusions"]
+    refused = {e["normalized_name"] for e in exclusions
+               if e["exclusion_state"] == "VERIFIED_NO_PETS"}
+    assert PASS4_WITHDRAWN in refused
     sonesta = facts["sonesta simply suites pittsburgh airport"]
     assert sonesta["facts"]["weight_limit_stated_none"] is True
     assert sonesta["facts"]["breed_restrictions_stated_none"] is True

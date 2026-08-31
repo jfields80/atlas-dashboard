@@ -3,7 +3,7 @@
  "contract": "ptf-hotel-exclusions/1.0",
  "market_id": "pittsburgh-pa",
  "note": "This market's slice of the hotel-exclusions authority. The global launch_packages/pettripfinder/hotel_exclusions.json is generated from every market's shard and must not be hand-edited.",
- "count": 15,
+ "count": 17,
  "exclusions": [
   {
    "exclusion_id": "pgh-cambria-hotel-pittsburgh-downtown",
@@ -331,6 +331,48 @@
    "market_id": "pittsburgh-pa",
    "record_hash": "sha256:a359152534af68fbedcd9a1f15a8fdf8a52300ffdc81c6225f773e5505dedf33",
    "approval_hash": "sha256:b72dd1bb31884dc07f641d2325576e2fe5793f04154dfcf29a9546aa2d671e8a"
+  },
+  {
+   "exclusion_id": "pgh-springhill-suites-pittsburgh-airport",
+   "canonical_name": "SpringHill Suites Pittsburgh Airport",
+   "normalized_name": "springhill suites pittsburgh airport",
+   "address": "2500 Market Place Boulevard",
+   "city": "Coraopolis",
+   "state": "PA",
+   "postal_code": "15108",
+   "official_url": "https://www.marriott.com/en-us/hotels/pitha-springhill-suites-pittsburgh-airport/overview/",
+   "exclusion_state": "VERIFIED_NO_PETS",
+   "evidence_quote": "Pets are not allowed. Only service animals are welcome",
+   "source_url": "https://www.marriott.com/en-us/hotels/pitha-springhill-suites-pittsburgh-airport/overview/",
+   "observed_at": "2026-08-30",
+   "source_hash": "sha256:863ca5b8de188bdf3f73fd336be4d0a40adde7723bb58dfbd3460ec7e6ece874",
+   "reviewer_id": "jfields80",
+   "reviewed_at": "2026-08-30",
+   "notes": "FOUNDER RULING (VERIFIED_NO_PETS): VERIFIED_NO_PETS. The only property-authored sentence on the live page is a refusal. The two affirmative signals are proven Marriott templates: 'Pets Welcome' is the value of the UI translation key hws.petsAllowed (a header rendered for every property, and the exact string Pass 4 cited as evidence for pets_allowed=true), and the FAQ answer is generated from the populated fee field -- Marriott ships a negative FAQ template too. The $150 line is template residue beside a refusal, not a price for a permission this property grants. Ruled by PTF-FOUNDER-001 on 2026-08-30 under PTF-PITTSBURGH-IDENTITY-AND-RECAPTURE-006. Zero-cost: provider calls 0, spend $0.00, lane FREE_ATTENDED_CHROME. EVIDENCE GRADE: SHA-256 over the page's rendered outerHTML, taken in the SAME JavaScript call as every quote below. Raw bytes are not retained: the live page mutates between calls (905028 vs 904330 bytes one call apart), so bytes fetched separately would not match the digest. The atomic hash+quote pair is the artifact, per the attended-capture contract.",
+   "market_id": "pittsburgh-pa",
+   "record_hash": "sha256:e628d60cb2b9c05bb1987a9ed124cb8ab684f73dfadbacd463ab17336d0631b4",
+   "approval_hash": "sha256:e40b3f7b30783ac59c2edf09a66350c3abd8b3a7ad205b71ec63813997304d8d"
+  },
+  {
+   "exclusion_id": "pgh-holiday-inn-express-and-suites-pittsburgh-airport",
+   "canonical_name": "Holiday Inn Express & Suites Pittsburgh Airport",
+   "normalized_name": "holiday inn express and suites pittsburgh airport",
+   "address": "5311 Campbells Run Road",
+   "city": "Coraopolis",
+   "state": "PA",
+   "postal_code": "15108",
+   "official_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/pittsburgh/pitex/hoteldetail",
+   "exclusion_state": "VERIFIED_NO_PETS",
+   "evidence_quote": "No, pets are not allowed at Holiday Inn Express & Suites Pittsburgh Airport.",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/pittsburgh/pitex/hoteldetail",
+   "observed_at": "2026-08-23",
+   "source_hash": "sha256:7e15d9497c2058386d925764230314040afdd946a21f549e0202df6277113cb4",
+   "reviewer_id": "jfields80",
+   "reviewed_at": "2026-08-30",
+   "notes": "FOUNDER RULING (VERIFIED_NO_PETS): VERIFIED_NO_PETS. The page names the property exactly, carries its property code pitex, and states the refusal in its own words. The census row's official_url is this page. Ruled by PTF-FOUNDER-001 on 2026-08-30 under PTF-PITTSBURGH-IDENTITY-AND-RECAPTURE-006. Zero-cost: provider calls 0, spend $0.00, lane OWNED_DECLINED_CAPTURE. EVIDENCE GRADE: This artifact came from a DECLINED capture directory: the bytes were retained but the acquisition journal recorded no content_hash at capture time. The digest above is computed here from those retained bytes. The founder approved publishing on this evidence with that limitation stated.",
+   "market_id": "pittsburgh-pa",
+   "record_hash": "sha256:979ed951270874232d7e7f73573949814a8032a75e672adcf92605650ab35ca2",
+   "approval_hash": "sha256:88eb24896aa1258289e1dba4b50a8eb269e4d87f8efa091dc907d67e982f41c8"
   }
  ]
 }

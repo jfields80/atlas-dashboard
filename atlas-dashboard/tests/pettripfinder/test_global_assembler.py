@@ -423,7 +423,8 @@ def test_current_live_inventory_preserves_all_assemblable_market_profiles(market
                       # Four census adds plus two founder-ruled holds published,
                       # less SpringHill Suites Pittsburgh Airport WITHDRAWN --
                       # its page states pets are not allowed.
-                      "pittsburgh-pa": 51,
+                      # PTF-PITTSBURGH-IDENTITY-AND-RECAPTURE-006: 51 -> 52.
+                      "pittsburgh-pa": 52,
                       # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: 8 -> 24 founder-signed profiles over
                       # the promoted 257-identity census. 24 -> 54 at
                       # PTF-INDIANAPOLIS-56-PROFILE-AUTHORITY-PROMOTION-017 (54) and
@@ -464,7 +465,7 @@ def test_current_live_inventory_preserves_all_assemblable_market_profiles(market
     # (26 -> 46), then PTF-PITTSBURGH-FOUNDER-HOLD-RESOLUTION-005 added five
     # net (46 -> 51: six published, one withdrawn). Every other market's count
     # above is unchanged, so the whole of this movement is Pittsburgh's.
-    assert sum(counts.values()) == 684   # 560 + Cincinnati 99 + Pittsburgh 25
+    assert sum(counts.values()) == 685   # 560 + Cincinnati 99 + Pittsburgh 26
 
 
 # --------------------------------------------------------------------------- #
