@@ -242,13 +242,23 @@ def test_the_first_attempt_was_preserved_not_overwritten(cincinnati_attempts):
     per_key = {}
     for attempt in cincinnati_attempts:
         per_key.setdefault(attempt["identity_key"], []).append(attempt)
-    retried = {k: v for k, v in per_key.items() if len(v) > 1}
+    # Scoped to THIS order's retry pass by run_id. The market totals have since
+    # moved -- PTF-CINCINNATI-MARRIOTT-SCALE-BATCH-016 added 18 attempts across
+    # 14 more identities -- and pinning them here would make this test fail on
+    # a successor doing its job. What this order can claim permanently is that
+    # its own five retries each sit on top of a preserved ACCESS_DENIED.
+    mine = {a["identity_key"] for a in cincinnati_attempts
+            if a.get("run_id") == "cincinnati-oh-015"}
+    retried = {k: v for k, v in per_key.items()
+               if len(v) > 1 and k in mine}
     assert len(retried) == 5
     for key, attempts in retried.items():
         outcomes = [a.get("outcome") for a in attempts]
         assert "ACCESS_DENIED" in outcomes, key
-    assert len(cincinnati_attempts) == 21
-    assert len(per_key) == 16
+        assert len(attempts) == 2, key
+    # This order bought nine attempts: four Hilton firsts and five retries.
+    assert len([a for a in cincinnati_attempts
+                if a.get("run_id") == "cincinnati-oh-015"]) == 9
 
 
 def test_the_validation_block_records_the_lane_constraints(report):

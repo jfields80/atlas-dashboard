@@ -1,0 +1,306 @@
+{
+ "schema": "ptf-paid-scale-batch/1.0",
+ "what_this_is": "Cincinnati's first Marriott scale batch under the policy Order 015 measured: one first attempt, then at most one same-lane retry for a row that came back with no usable page. Run as two explicit passes so the two-attempt ceiling is a property of the run, not a hope about the router.",
+ "work_order": "PTF-CINCINNATI-MARRIOTT-SCALE-BATCH-016",
+ "market_id": "cincinnati-oh",
+ "generated_at": "2026-08-31T12:37:11.187849+00:00",
+ "authorization": {
+  "properties_max": 17,
+  "properties_admitted": 14,
+  "cap_usd": 5.44,
+  "effective_cap_usd": 4.48,
+  "lane": "brightdata_browser",
+  "escalation": "FORBIDDEN",
+  "max_attempts_per_property": 2,
+  "why_fewer_than_authorised": "17 rows at two attempts and the settled $0.16 is a worst case of $5.44 -- exactly the cap -- which would have left the prepaid balance at $0.21. Phase 3 required reducing the cohort rather than doing that, so 14 rows were admitted, worst case $4.48, floor preserved at $1.17.",
+  "stratification": "all 13 Marriott sub-brands in the 34-row pool are represented, and 9 of 11 cities. URL template and property-code shape could NOT be stratified: every pool row is /en-us/hotels/<code>-<slug>/overview with a 5-character code, so those axes have exactly one stratum each."
+ },
+ "first_attempt_pass": {
+  "attempts": 14,
+  "reached": 10,
+  "publication_grade": 10,
+  "challenge_failures": 2,
+  "transport_failures": 2,
+  "policy_silence": 0,
+  "identity_failures": 0,
+  "access": {
+   "point": 0.7143,
+   "low": 0.4535,
+   "high": 0.8828,
+   "successes": 10,
+   "trials": 14
+  }
+ },
+ "retry_pass": {
+  "eligible": 4,
+  "attempted": 4,
+  "recovered_access": 4,
+  "recovered_publication_grade": 4,
+  "repeated_challenges": 0,
+  "repeated_transport_failures": 0,
+  "other_failures": 0,
+  "challenge_rows_retried": 2,
+  "repeat_challenge_rate": {
+   "point": 0.0,
+   "low": 0.0,
+   "high": 0.6576,
+   "successes": 0,
+   "trials": 2
+  },
+  "recovery_over_attempts": {
+   "point": 1.0,
+   "low": 0.5101,
+   "high": 1.0,
+   "successes": 4,
+   "trials": 4
+  }
+ },
+ "combined": {
+  "unique_identities": 14,
+  "publication_grade": 14,
+  "failures": 0,
+  "two_attempt_access": {
+   "point": 1.0,
+   "low": 0.7847,
+   "high": 1.0,
+   "successes": 14,
+   "trials": 14
+  }
+ },
+ "comparison": {
+  "order_014_first_attempt_access": "3/8 = 0.375",
+  "order_016_first_attempt_access": "10/14 = 0.714",
+  "do_these_differ": "NOT established. The Wilson intervals overlap ([0.137, 0.694] against [0.454, 0.883]). The honest reading is that first-attempt access is VARIABLE between runs, which is an argument FOR keeping the retry rather than evidence the wall has weakened.",
+  "order_015_retry_recovery": "4/5 reached, 0 of 5 challenges repeated",
+  "order_016_retry_recovery": "4/4 reached, 0 of 2 challenges repeated",
+  "two_attempt_access_014_015": "7/8 = 0.875",
+  "two_attempt_access_016": "14/14 = 1.000",
+  "pooled_repeat_challenge_rate": {
+   "point": 0.0,
+   "low": 0.0,
+   "high": 0.3543,
+   "successes": 0,
+   "trials": 7
+  },
+  "pooled_caveat": "this batch alone retried only TWO challenge rows, so its 0/2 has a Wilson upper bound of 0.66 and settles nothing by itself. Pooled with Order 015's five, the rate is 0 of 7 and the upper bound is still 0.35. Zero repeats seven times running is the best evidence available; it is not proof, and the next batch must measure it again."
+ },
+ "marriott_recommendation": {
+  "recommendation": "CONTINUE_SINGLE_RETRY_SCALE",
+  "policy": "first attempt plus at most one same-lane retry",
+  "why": "0 of 2 retried challenge rows repeated, and the batch finished 14 of 14 publication grade",
+  "what_would_retire_it": "a repeat-challenge rate at or above 25% in any later batch. The rate must be measured again each time; a policy that stops checking the number it depends on is an assumption wearing a measurement's clothes."
+ },
+ "evidence_binding": {
+  "rule": "approvals bind document_sha256, never block_sha256 alone",
+  "distinct_block_digests": 10,
+  "distinct_document_digests": 14,
+  "evidence_rows": 14,
+  "why": "Order 015 found two unrelated properties sharing the identical block 'Pet Policy Pets Not Allowed'. This batch reproduces the problem at larger scale: 14 rows yield only 10 distinct block digests, because several properties refuse in exactly the same words. All 14 DOCUMENT digests are distinct, so identity-specific binding is available for every row.",
+  "all_rows_have_document_hash": true
+ },
+ "batch_inventory": {
+  "counts": {
+   "CLEAN_PET_FRIENDLY": 6,
+   "CLEAN_VERIFIED_NO_PETS": 8,
+   "FOUNDER_EXCEPTION": 0,
+   "NO_AUTHORITY_ACTION": 0
+  },
+  "items": {
+   "CLEAN_PET_FRIENDLY": [
+    {
+     "identity_key": "aloft newport on the levee",
+     "classification": "CLEAN_PET_FRIENDLY",
+     "policy_block": "Pet Policy Pets Welcome ARF! Pets stay for free! Maximum Number of Pets in Room: 2",
+     "document_sha256": "b298bc5a649190762e915f85c40400e44e316838dc258c7737781a02a3878eaa",
+     "block_sha256": "4dd43ec66a2e495ddbcb7c0988ac5b219660851d188448eb31fecd328669fa6f",
+     "source_url": "https://www.marriott.com/en-us/hotels/cvgpl-aloft-newport-on-the-levee/overview/",
+     "note": "Pets stay for free -- an explicit zero, which is a different fact from a missing fee sentence.",
+     "fee_status": "free"
+    },
+    {
+     "identity_key": "courtyard by marriott cincinnati blue ash",
+     "classification": "CLEAN_PET_FRIENDLY",
+     "policy_block": "Does Courtyard by Marriott Cincinnati Blue Ash allow pets? Yes, pets are welcome at Courtyard by Marriott Cincinnati Blue Ash. One pet is allowed per room, with a maximum weight of 50.0 lbs. A non-refundable pet fee of $100.00 per stay applies. What are the parking options at Courtyard by Marriott Cincinnati Blue Ash? On-site self parking is available at Courtyard by Marriott Cincinnati Blue Ash. Self parking is available at Courtyard by Marriott Cincinnati Blue Ash, with rates of $0.00 per hour, $10.00 per day, and $0.00 perstay.",
+     "document_sha256": "a6830ef92ca53ae0b95d8b6e66639e615449ba80e350a5e9e8b5b9b3b79f5c7d",
+     "block_sha256": "bc8c80ccc7053612ce5a8a604c2d20a64186395529e23a1775307d7678cb89a2",
+     "source_url": "https://www.marriott.com/en-us/hotels/cvgba-courtyard-cincinnati-blue-ash/overview/",
+     "note": "1 pet, 50 lbs, $100 non-refundable per stay.",
+     "fee_status": "stated"
+    },
+    {
+     "identity_key": "hotel celare a marriott tribute portfolio hotel",
+     "classification": "CLEAN_PET_FRIENDLY",
+     "policy_block": "Does Hotel Celare, Cincinnati Midtown, a Tribute Portfolio Hotel allow pets? Yes, pets are welcome at Hotel Celare, Cincinnati Midtown, a Tribute Portfolio Hotel. One pet is allowed per room, with a maximum weight of 75.0 lbs. A non-refundable pet fee of $100.00 per stay applies. What are the parking options at Hotel Celare, Cincinnati Midtown, a Tribute Portfolio Hotel? On-site valet parking is available at Hotel Celare, Cincinnati Midtown, a Tribute Portfolio Hotel. The daily valet fee is $40.00 per day.",
+     "document_sha256": "ea42d140b8151698dfc1c6b13a459e10b6d20fc7fe2dc42c63af959b6e91b352",
+     "block_sha256": "83aa618ac56917359249dda77a3e502d38ec1d73427a678f9697dda8c5f6004b",
+     "source_url": "https://www.marriott.com/en-us/hotels/cvgmb-hotel-celare-cincinnati-midtown-a-tribute-portfolio-hotel/overview/",
+     "note": "1 pet, 75 lbs, $100 non-refundable per stay. Recovered on retry.",
+     "fee_status": "stated"
+    },
+    {
+     "identity_key": "residence inn by marriott cincinnati airport",
+     "classification": "CLEAN_PET_FRIENDLY",
+     "policy_block": "Does Residence Inn by Marriott Cincinnati Airport allow pets? Yes, pets are welcome at Residence Inn by Marriott Cincinnati Airport. One pet is allowed per room, with a maximum weight of 50.0 lbs. A non-refundable pet fee of $100.00 per stay applies.",
+     "document_sha256": "ca68e25d42cb46c022fcb87b0a9f222a817bd350edfa53a75e5d230edb4742ef",
+     "block_sha256": "ccde86517369865e6d4e9bba783bcbdfa9ff11fe74ca9439b529a98632b96af9",
+     "source_url": "https://www.marriott.com/en-us/hotels/cvgap-residence-inn-cincinnati-airport/overview/",
+     "note": "1 pet, 50 lbs, $100 non-refundable per stay. Recovered on retry.",
+     "fee_status": "stated"
+    },
+    {
+     "identity_key": "the westin cincinnati",
+     "classification": "CLEAN_PET_FRIENDLY",
+     "policy_block": "Does The Westin Cincinnati allow pets? Yes, pets are welcome at The Westin Cincinnati. One pet is allowed per room, with a maximum weight of 40.0 lbs. What are the parking options at The Westin Cincinnati? On-site self parking is available at The Westin Cincinnati. Self parking is available for $21.00 per day. Off-site parking is also available near The Westin Cincinnati. The daily valet fee is $48.00 per day.",
+     "document_sha256": "83ff56d1afe3bf2fc5fdf3b15f2252670c33103aa0c478fa9612585d7aa1603f",
+     "block_sha256": "6ec07697c9db4db14526021fc5ee4a20af3ca46063ba3089984eab1f058e6805",
+     "source_url": "https://www.marriott.com/en-us/hotels/cvgwi-the-westin-cincinnati/overview/",
+     "note": "1 pet, 40 lbs, and no fee sentence. Absence is not $0; how it publishes is the founder's call.",
+     "fee_status": "not_stated"
+    },
+    {
+     "identity_key": "towneplace suites by marriott cincinnati fairfield",
+     "classification": "CLEAN_PET_FRIENDLY",
+     "policy_block": "Pet Policy Pets Welcome Max of 2 pets per room Non-Refundable Pet Fee Per Stay: $100.00 Maximum Number of Pets in Room: 2",
+     "document_sha256": "5fb0ee755988c8b2eeca7476fb3ec6438b17db7eefd72dbc53492727c59d5ebe",
+     "block_sha256": "4e7ba140b9e2b3198468bb8e5b79ef79b4c26226b712175f0fda97d5bf7900f6",
+     "source_url": "https://www.marriott.com/en-us/hotels/cvgti-towneplace-suites-cincinnati-fairfield/overview/",
+     "note": "2 pets, $100 non-refundable per stay. Recovered on retry.",
+     "fee_status": "stated"
+    }
+   ],
+   "CLEAN_VERIFIED_NO_PETS": [
+    {
+     "identity_key": "ac hotel cincinnati at liberty center",
+     "classification": "CLEAN_VERIFIED_NO_PETS",
+     "policy_block": "Pet Policy Pets Not Allowed No pets allowed-service animals only",
+     "document_sha256": "b51d9902da579b908febd2dcf11deff4e5614ec56f688b36ac39a3039e595483",
+     "block_sha256": "f0b8a0099c50912a51ad58e5539e2bacc73168630aa3bb7646604bd9c419450c",
+     "source_url": "https://www.marriott.com/en-us/hotels/cvgci-ac-hotel-cincinnati-at-liberty-center/overview/",
+     "note": "Pets Not Allowed; no pets allowed, service animals only. A service animal is not a pet, so this is a refusal and not an allowance."
+    },
+    {
+     "identity_key": "cincinnati marriott at rivercenter",
+     "classification": "CLEAN_VERIFIED_NO_PETS",
+     "policy_block": "Pet Policy Pets Not Allowed Service animals only",
+     "document_sha256": "e2cf98d34581c207bc08109f679fd31d78251020a01026ce89f6ceff1fb34acb",
+     "block_sha256": "6acbd9ca84ddc20601898b0739c7c8c1df39e810936845aa187a5457dd192ab2",
+     "source_url": "https://www.marriott.com/en-us/hotels/cvgdr-cincinnati-marriott-at-rivercenter/overview/",
+     "note": "Pets Not Allowed; service animals only."
+    },
+    {
+     "identity_key": "courtyard by marriott mason",
+     "classification": "CLEAN_VERIFIED_NO_PETS",
+     "policy_block": "Pet Policy Pets Not Allowed",
+     "document_sha256": "aa2775f92fe7ea0e2cff7ef1aa75dc43ccfea0d4c397277c3680e7d2fb5a7418",
+     "block_sha256": "d2e629b2b96b75354f1b8dc2ccd4f002326c1cbbccd7f6eef999e62726371df7",
+     "source_url": "https://www.marriott.com/en-us/hotels/cvgcm-courtyard-cincinnati-mason/overview/",
+     "note": "Pets Not Allowed."
+    },
+    {
+     "identity_key": "delta hotels by marriott cincinnati sharonville",
+     "classification": "CLEAN_VERIFIED_NO_PETS",
+     "policy_block": "Pet Policy Pets Not Allowed",
+     "document_sha256": "99c93123e2bba3d51b3408192dfd00f0082a9a818fee71e15dad37e9834a23b1",
+     "block_sha256": "d2e629b2b96b75354f1b8dc2ccd4f002326c1cbbccd7f6eef999e62726371df7",
+     "source_url": "https://www.marriott.com/en-us/hotels/cvgde-delta-hotels-marriott-cincinnati-sharonville/overview/",
+     "note": "Pets Not Allowed."
+    },
+    {
+     "identity_key": "fairfield inn and suites by marriott cincinnati north west chester",
+     "classification": "CLEAN_VERIFIED_NO_PETS",
+     "policy_block": "Pet Policy Pets Not Allowed",
+     "document_sha256": "9747a57dfbf6f055336d8a2d504d6cfdb0c186fec1650fb0818885f92d422ffb",
+     "block_sha256": "d2e629b2b96b75354f1b8dc2ccd4f002326c1cbbccd7f6eef999e62726371df7",
+     "source_url": "https://www.marriott.com/en-us/hotels/cvgfw-fairfield-inn-and-suites-cincinnati-north-west-chester/overview/",
+     "note": "Pets Not Allowed."
+    },
+    {
+     "identity_key": "moxy cincinnati downtown",
+     "classification": "CLEAN_VERIFIED_NO_PETS",
+     "policy_block": "Pet Policy Pets Not Allowed",
+     "document_sha256": "19e50532ed50c3c39f387e430384bc4b6b17f1ced118d6af33fb953f2345367c",
+     "block_sha256": "d2e629b2b96b75354f1b8dc2ccd4f002326c1cbbccd7f6eef999e62726371df7",
+     "source_url": "https://www.marriott.com/en-us/hotels/cvgdx-moxy-cincinnati-downtown/overview/",
+     "note": "Pets Not Allowed."
+    },
+    {
+     "identity_key": "renaissance cincinnati downtown hotel",
+     "classification": "CLEAN_VERIFIED_NO_PETS",
+     "policy_block": "Pet Policy Pets Not Allowed",
+     "document_sha256": "98bcbe12b28d68408039affb4450b5b40fa2f40096d4c4c24c8c084495d4e971",
+     "block_sha256": "d2e629b2b96b75354f1b8dc2ccd4f002326c1cbbccd7f6eef999e62726371df7",
+     "source_url": "https://www.marriott.com/en-us/hotels/cvgbr-renaissance-cincinnati-downtown-hotel/overview/",
+     "note": "Pets Not Allowed."
+    },
+    {
+     "identity_key": "springhill suites cincinnati airport south",
+     "classification": "CLEAN_VERIFIED_NO_PETS",
+     "policy_block": "Pet Policy Pets Not Allowed A USD 250 fee will be charged for pets in hotel without our knowledge",
+     "document_sha256": "65500c1be7f627ff1ff9c16f07c31ea860962abf83d22dcfe482cd26f20d9cf0",
+     "block_sha256": "26d55451496b5c45ac65fc663dfb72759d7d7ffad734f8e48cd0453857cef3c9",
+     "source_url": "https://www.marriott.com/en-us/hotels/cvgsf-springhill-suites-cincinnati-airport-south/overview/",
+     "note": "Pets Not Allowed, plus a USD 250 charge for pets in the hotel without the hotel's knowledge.",
+     "caution": "the USD 250 is a PENALTY for an undisclosed pet, not a pet fee. It must never be encoded as a fee tier: the row refuses pets, and a reader that picks up the dollar amount would publish a price for something the hotel does not sell."
+    }
+   ],
+   "FOUNDER_EXCEPTION": [],
+   "NO_AUTHORITY_ACTION": []
+  }
+ },
+ "cost": {
+  "starting_balance_usd": 5.65,
+  "ending_balance_usd": 4.27,
+  "actual_spend_usd": 1.38,
+  "ledger_reserved_usd": 2.05,
+  "zone_meter_delta_usd": 2.39,
+  "attempts": 18,
+  "actual_usd_per_attempt": 0.0767,
+  "zone_usd_per_attempt": 0.1328,
+  "actual_usd_per_publication_grade": 0.0986,
+  "cap_usd": 4.48,
+  "breached": false,
+  "note": "the balance delta is the operative meter and is the smallest of the three; the ledger's reserved figure is a ceiling the runner enforces against, never a bill. Both are reported because using the reserved figure as actual spend would overstate cost by nearly 50%."
+ },
+ "settled_rate": {
+  "cincinnati_aggregate_attempts": 39,
+  "balance_derived_usd_per_attempt": 0.1044,
+  "zone_derived_usd_per_attempt": 0.1654,
+  "recommended_planning_rate": 0.17,
+  "why_the_higher": "the two meters disagree by roughly 60%. Planning on the cheaper one is how a batch discovers mid-run that it cannot finish."
+ },
+ "remaining_marriott": {
+  "derivation": "rebuilt from the routing shard, the partition and the paid ledger after this batch",
+  "never_attempted": 20,
+  "projection": {
+   "rows": 20,
+   "attempts_expected": 26,
+   "attempts_hard_ceiling": 40,
+   "usd_per_attempt": 0.17,
+   "cost_expected_usd": 4.42,
+   "cost_hard_ceiling_usd": 6.8,
+   "recommended_hard_cap_usd": 6.8,
+   "prepaid_balance_usd": 4.27,
+   "operational_floor_usd": 1.0,
+   "rows_the_balance_can_fund": 9,
+   "balance_sufficient_for_all": false
+  },
+  "balance_constraint": "the remaining 20 rows need a $6.60 cap at two attempts each and the balance is $4.27. Keeping a $1.00 operational floor, the account funds 9 of the 20. The next batch is balance-limited to 9 rows unless the account is topped up."
+ },
+ "authority_mutation": "NONE",
+ "validation": {
+  "unique_properties": 14,
+  "within_seventeen": true,
+  "max_attempts_per_property": 2,
+  "unintended_duplicate_attempts": 0,
+  "spend_usd": 1.38,
+  "within_cap": true,
+  "one_runner_only": true,
+  "brightdata_browser_only": true,
+  "web_unlocker_calls": 0,
+  "firecrawl_calls": 0,
+  "places_calls": 0,
+  "authority_mutation": false,
+  "other_market_mutation": false,
+  "document_sha256_present_for_every_publication_grade_row": true
+ }
+}
