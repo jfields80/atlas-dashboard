@@ -1,0 +1,96 @@
+{
+  "schema": "ptf-detroit-launch-readiness/1.0",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-FINAL-REVIEW-AND-DEPLOY-PREP-028",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-30",
+  "provider_calls": 0,
+  "spend_usd": 0.0,
+  "acquisition_status": "CLOSED",
+  "coverage": {
+    "census": 247,
+    "pet_friendly": 118,
+    "verified_no_pets": 81,
+    "resolved": 199,
+    "unresolved": 48,
+    "seed_rows": 118,
+    "active_routes": 106,
+    "unresolved_by_reason": {
+      "SOURCE_SILENT": 6,
+      "ROUTING_REPAIR_FIRST": 27,
+      "BRIGHTDATA_QUALIFIED": 10
+    }
+  },
+  "gates": {
+    "release_contract_disagreements": 0,
+    "grants_deployment": false,
+    "seed_rows_render": true,
+    "seed_matches_published": true,
+    "policy_exclusion_overlap": 0,
+    "duplicate_authority": 0,
+    "open_founder_policy_questions": 4,
+    "lineage_contains_live_deploy": false
+  },
+  "status": "BLOCKED_BY_LINEAGE",
+  "blockers": [
+    "LINEAGE"
+  ],
+  "production_delta": {
+    "detroit_currently_live": false,
+    "live_detroit_profile_count": 0,
+    "hardened_detroit_profile_count": 118,
+    "routes_that_would_be_added": 118,
+    "live_detroit_census": 143,
+    "hardened_detroit_census": 247,
+    "live_deploy_id": "6a92d01a",
+    "live_deploy_commit": "a0243ad",
+    "markets_live": [
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "grand-rapids-holland-mi",
+      "indianapolis-in",
+      "louisville-ky",
+      "milwaukee-wi",
+      "pittsburgh-pa",
+      "st-louis-mo"
+    ],
+    "markets_on_this_branch": [
+      "cincinnati-oh",
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "detroit-ann-arbor-mi",
+      "indianapolis-in",
+      "pittsburgh-pa"
+    ],
+    "markets_this_branch_would_REMOVE": [
+      "grand-rapids-holland-mi",
+      "louisville-ky",
+      "milwaukee-wi",
+      "st-louis-mo"
+    ],
+    "fork_point": "c236f52",
+    "verdict": "Detroit is NOT live and publishes nothing today: the live lineage carries its census (143 identities) and no policy facts, no exclusions, no routes and no seed rows. This branch would add 118 profiles -- but it forks at c236f52, before four live markets existed, so assembling from it would REMOVE grand-rapids-holland-mi, louisville-ky, milwaukee-wi, st-louis-mo."
+  },
+  "deployment_authorization_packet": {
+    "market_id": "detroit-ann-arbor-mi",
+    "policy_package": "launch_packages/pettripfinder/hotel_policy_facts_detroit-ann-arbor-mi.json",
+    "policy_package_sha256": "af1f10ae14849b8ca3510b3f5af9af45ac8113fd3712d9308e427782fba3b5e4",
+    "schema_version": "1.2",
+    "record_count": 118,
+    "seed_profile_count": 118,
+    "census_count": 247,
+    "verified_no_pets": 81,
+    "resolved": 199,
+    "unresolved": 48,
+    "exclusion_shard_sha256": "945531b904f611b53e284d64704f75aedf29efc482d600480d98f162fa26b23b",
+    "routing_shard_sha256": "6b55566259002f21d27b07e8f0f3596e1ce5a8aa32fbdbaf2243e4de6e538826",
+    "seed_shard_sha256": "538eee130a25b6d9849a5b9ac44f4dead091dfc31ef1d215324ab3ee05c671d5",
+    "release_contract_sha256": "eb539776a1b0d9fcd410adc0069fc01b605ff21513b23d04924cfe1f814e792c",
+    "candidate_bundle_sha256": "",
+    "candidate_bundle_note": "DELIBERATELY NOT BUILT. A bundle assembled from this branch would carry seven markets where production runs nine; it is a preview of a regression, not of the intended deployment, and producing one invites someone to ship it.",
+    "production_baseline_deploy_id": "6a92d01a",
+    "rollback_deploy_id": "6a9102c0",
+    "exact_founder_authorization_needed": "NONE YET. Authorization cannot be given against this lineage. Detroit's hardened authority must first be synced onto the live 9-market lineage -- the same operation Cincinnati and Pittsburgh already performed -- and the bundle re-assembled there. Only then is there a candidate a deployment authorization could name."
+  }
+}

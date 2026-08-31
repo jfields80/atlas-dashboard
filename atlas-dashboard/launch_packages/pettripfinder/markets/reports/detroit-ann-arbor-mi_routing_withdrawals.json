@@ -1,14 +1,14 @@
 {
   "schema": "ptf-detroit-ann-arbor-routing-withdrawals/1.0",
-  "work_order": "PTF-DETROIT-ANN-ARBOR-APPLY-AND-PAID-CLOSE-027",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-FINAL-REVIEW-AND-DEPLOY-PREP-028",
   "market_id": "detroit-ann-arbor-mi",
   "as_of": "2026-08-29",
   "disposition": "WITHDRAWN_ANSWERED_BY_PUBLICATION",
   "note": "CUMULATIVE. Every route this market has ever withdrawn because publication answered it, across all orders -- each record stamped with the order that withdrew it. Routes withdrawn from the routing authority because publication answered them. The binding is preserved here in full -- how the URL was bound, on what identity signals, by which prior work order, and at what status -- so nothing about how this market reached its published set is lost. NONE of these is ROUTING_RETIRED: every one was a correct binding that did its job.",
-  "routes_before": 109,
+  "routes_before": 106,
   "routes_withdrawn": 3,
-  "routes_after": 106,
-  "count": 118,
+  "routes_after": 103,
+  "count": 121,
   "withdrawn": [
     {
       "routing_id": "detroit-ann-arbor-mi:ac-hotel-ann-arbor-downtown",
@@ -4264,6 +4264,114 @@
         "postal_code": "48390"
       },
       "withdrawn_by_work_order": "PTF-DETROIT-ANN-ARBOR-APPLY-AND-PAID-CLOSE-027"
+    },
+    {
+      "routing_id": "detroit-ann-arbor-mi:doubletree-by-hilton-ann-arbor-north",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "DoubleTree by Hilton Ann Arbor North",
+        "normalized_name": "doubletree by hilton ann arbor north",
+        "identity_key": "doubletree by hilton ann arbor north",
+        "street_identity": ""
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://www.hilton.com/en/hotels/arbaadt-doubletree-ann-arbor-north",
+      "official_domain": "hilton.com",
+      "brand": "Hilton",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "binding_sources": [
+        "PTF-DETROIT-ANN-ARBOR-ZERO-COST-RECOVERY-007: local OpenStreetMap premises record (street, postal code, coordinates) bound to the property's own first-party page carrying property code 'arbaadt'. No page was fetched and no provider was called."
+      ],
+      "observed_at": "2026-08-29",
+      "verified_at": "2026-08-29",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "postal_code"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "3600 Plymouth Road",
+        "city": "Ann Arbor",
+        "state": "MI",
+        "postal_code": "48105"
+      },
+      "property_code": "arbaadt",
+      "withdrawn_by_work_order": "PTF-DETROIT-ANN-ARBOR-FINAL-REVIEW-AND-DEPLOY-PREP-028"
+    },
+    {
+      "routing_id": "detroit-ann-arbor-mi:royal-park-hotel",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "Royal Park Hotel",
+        "normalized_name": "royal park hotel",
+        "identity_key": "royal park hotel",
+        "street_identity": "600 e university drive|48307"
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://www.royalparkhotelmi.com/",
+      "official_domain": "royalparkhotelmi.com",
+      "brand": "Independent",
+      "binding_method": "PAGE_RENDERED",
+      "binding_sources": [
+        "royalparkhotelmi.com property page (PTF-DETROIT-ANN-ARBOR-IDENTITY-ROUTING-REPAIR-001:auburn_hills_chamber)"
+      ],
+      "observed_at": "2026-08-17",
+      "verified_at": "2026-08-17",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "phone"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "600 E University Drive",
+        "city": "Rochester",
+        "state": "MI",
+        "postal_code": "48307",
+        "phone": "248-652-2600"
+      },
+      "withdrawn_by_work_order": "PTF-DETROIT-ANN-ARBOR-FINAL-REVIEW-AND-DEPLOY-PREP-028"
+    },
+    {
+      "routing_id": "detroit-ann-arbor-mi:the-siren-hotel",
+      "schema_version": "1.0.0",
+      "hotel_ref": {
+        "market_id": "detroit-ann-arbor-mi",
+        "canonical_name": "The Siren Hotel",
+        "normalized_name": "the siren hotel",
+        "identity_key": "the siren hotel",
+        "street_identity": "1509 broadway|48226"
+      },
+      "market_id": "detroit-ann-arbor-mi",
+      "official_property_url": "https://ash.world/hotels/the-siren/",
+      "official_domain": "ash.world",
+      "brand": "Independent",
+      "binding_method": "PAGE_RENDERED",
+      "binding_sources": [
+        "ash.world property page (PTF-DETROIT-ANN-ARBOR-IDENTITY-ROUTING-REPAIR-001:visit_detroit)"
+      ],
+      "observed_at": "2026-08-17",
+      "verified_at": "2026-08-17",
+      "status": "ROUTING_CONFIRMED",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "phone"
+      ],
+      "category": "accommodation",
+      "identity_context": {
+        "address": "1509 Broadway",
+        "city": "Detroit",
+        "state": "MI",
+        "postal_code": "48226",
+        "phone": "313-277-4736"
+      },
+      "withdrawn_by_work_order": "PTF-DETROIT-ANN-ARBOR-FINAL-REVIEW-AND-DEPLOY-PREP-028"
     }
   ],
   "work_orders": [
@@ -4271,6 +4379,7 @@
     "PTF-DETROIT-ANN-ARBOR-ATTENDED-COMPLETION-ADOPTION-022",
     "PTF-DETROIT-ANN-ARBOR-BRIGHTDATA-AUTHORITY-APPLICATION-019",
     "PTF-DETROIT-ANN-ARBOR-DISPLAY-INVENTORY-AND-RELEASE-CONTRACT-005",
+    "PTF-DETROIT-ANN-ARBOR-FINAL-REVIEW-AND-DEPLOY-PREP-028",
     "PTF-DETROIT-ANN-ARBOR-FOUNDER-EXCEPTIONS-AND-DISPLAY-REPAIR-012",
     "PTF-DETROIT-ANN-ARBOR-FOUNDER-REVIEW-AND-AUTHORITY-011",
     "PTF-DETROIT-ANN-ARBOR-FREE-ATTENDED-PASS-020-FOUNDER-RULINGS",

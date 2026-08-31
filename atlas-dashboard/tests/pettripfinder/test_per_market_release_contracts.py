@@ -98,7 +98,7 @@ EXPECTED_RECONCILIATION = {
     # $0: 85 -> 87 published, 157 -> 159 resolved.
     # ATTENDED-COMPLETION-ADOPTION-022 then applied the adopted attended
     # clean block: 87 -> 107 published, 72 -> 76 no-pets, 183 resolved.
-    DETROIT: (247, 118, 81, 199, 48),
+    DETROIT: (247, 121, 81, 202, 45),
     # PTF-CLEVELAND-POLICY-CAPTURE-INTEGRATION-003 published the two Drury
     # properties worker 003 established on their own domain: 19 -> 21, and
     # unresolved 161 -> 159. The other four candidates it reviewed did NOT
