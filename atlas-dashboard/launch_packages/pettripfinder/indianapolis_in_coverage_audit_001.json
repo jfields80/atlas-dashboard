@@ -1,0 +1,130 @@
+{
+ "contract": "ptf-market-coverage-audit/1.0",
+ "work_order": "PTF-INDIANAPOLIS-HARDENED-COVERAGE-AUDIT-001",
+ "market_id": "indianapolis-in",
+ "generated_at": "2026-08-31T12:41:51Z",
+ "benchmark": {
+  "source": "BringFido",
+  "claimed_hotels": 122,
+  "role": "DISCOVERY_PROMPT_ONLY",
+  "used_as_policy_evidence": false,
+  "contacted_during_this_audit": false
+ },
+ "cost": {
+  "paid_provider_calls": 0,
+  "usd_spent": 0.0,
+  "free_first_party_http_requests": 226,
+  "pages_re_purchased": 0
+ },
+ "census": {
+  "registered_identities": 257,
+  "deduplicated_identities": 256,
+  "genuine_duplicate_clusters": 1,
+  "preserved_duplicate_finding": "hampton inn indianapolis sw / southwest plainfield",
+  "modified_by_this_audit": false
+ },
+ "resolution": {
+  "pet_friendly": 56,
+  "verified_no_pets": 34,
+  "resolved": 90,
+  "unresolved": 167,
+  "live_published_profiles": 56
+ },
+ "blockers": {
+  "NO_OFFICIAL_URL": 118,
+  "RESOLVED": 90,
+  "TRANSPORT_FAILED": 17,
+  "IDENTITY_MISMATCH": 11,
+  "BRAND_EXCLUDED": 9,
+  "SOURCE_SILENT": 8,
+  "CAPTURED_BUT_NOT_SIGNED": 2,
+  "BRAND_INDEX_ONLY": 1,
+  "ROUTED_NEVER_ATTEMPTED": 1
+ },
+ "primary_finding": {
+  "cause": "POLICY_COVERAGE",
+  "statement": "118 of 257 registered identities are blocked solely on NO_OFFICIAL_URL. At the market measured 62% pet-friendly rate those alone project ~160 pet-friendly profiles, above the 122 benchmark. The census is not the binding constraint.",
+  "unrouted_identities": 118,
+  "projected_pf_if_routed": 160
+ },
+ "secondary_finding": {
+  "cause": "CENSUS_GAP",
+  "true_missing_identities": 12,
+  "is_a_floor": true,
+  "why_a_floor": "only 6 of 13 brand families served a free directory or sitemap; the rest refused and hold the larger half of the census, so no estimate is projected across them",
+  "unreadable_families": [
+   "CHOICE",
+   "IHG",
+   "MARRIOTT",
+   "MOTEL6",
+   "RED_ROOF",
+   "SONESTA",
+   "RADISSON",
+   "INTOWN",
+   "BEST_WESTERN",
+   "HYATT"
+  ],
+  "concentrated_in": [
+   "ESA",
+   "BAYMONT",
+   "DAYS_INN",
+   "SUPER_8",
+   "TRAVELODGE"
+  ],
+  "miss_rate_within_readable_families": 0.3636
+ },
+ "classification": {
+  "ALREADY_REGISTERED_ALIAS": 7,
+  "TRUE_MISSING_IDENTITY": 10,
+  "CLOSED_OR_CONVERTED": 9,
+  "OUTSIDE_MARKET": 1
+ },
+ "free_routing_gain": {
+  "candidate_urls_harvested": 1287,
+  "rows_with_leads": 30,
+  "confirmed_net_new_routes": 2,
+  "routes": [
+   {
+    "identity_key": "la quinta inn",
+    "url": "https://www.wyndhamhotels.com/baymont/indianapolis-indiana/baymont-inn-and-suites-indianapolis-northwest/overview",
+    "http": 200,
+    "verdict": "CONFIRMED",
+    "basis": "street agrees + postal",
+    "page_address": "3871 W 92nd St",
+    "census_address": "3871 West 92nd Street"
+   },
+   {
+    "identity_key": "extended stay america indianapolis northwest",
+    "url": "https://www.extendedstayamerica.com/hotels/in/indianapolis/northwest-i465",
+    "http": 200,
+    "verdict": "CONFIRMED",
+    "basis": "street + postal agrees; census flag 'extended stay america' vs page flag 'extended stay america'",
+    "page_address": "9370 Waldemar Road",
+    "census_address": "9370 Waldemar Road"
+   }
+  ],
+  "refused_after_physical_check": 2,
+  "note": "six rows matched a harvested URL on brand and locality; only two survived physical verification against the page own address. A name may propose a match, never decide one."
+ },
+ "successor_questions": [
+  {
+   "identity_key": "woodspring suites indianapolis plainfield",
+   "url": "https://www.extendedstayamerica.com/hotels/in/indianapolis/plainfield",
+   "http": 200,
+   "verdict": "REBRAND_OR_SUCCESSOR",
+   "basis": "street + postal agrees; census flag 'woodspring' vs page flag 'extended stay america'",
+   "page_address": "6295 Gateway Dr",
+   "census_address": "6295 Gateway Drive"
+  }
+ ],
+ "guarantees": {
+  "registered_census_untouched": true,
+  "existing_authority_preserved": true,
+  "other_markets_untouched": true,
+  "cross_market_identity_collisions_introduced": 0,
+  "published_profiles_changed": 0,
+  "deployment_performed": false,
+  "launch_authorization_issued": false,
+  "paid_acquisition_performed": false
+ }
+}
