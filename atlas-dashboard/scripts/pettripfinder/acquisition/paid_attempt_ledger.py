@@ -760,6 +760,50 @@ def _escalations_since_decision(attempts: Sequence[Mapping]) -> int:
                and not a.get("material_change_reason", "").startswith("operator:"))
 
 
+def load_material_changes(path) -> Dict[str, Dict[str, str]]:
+    """``identity_key -> {kind: reason}`` from a ptf-material-changes document.
+
+    A material change is how a paid row that the ledger would otherwise
+    suppress becomes payable again -- a re-buy of a page we have already paid
+    for. That is precisely the decision that must never be implicit, so this
+    refuses three ways: an unknown ``kind`` (the vocabulary is closed), a
+    missing reason (an override nobody has to justify is not a control), and a
+    second assertion of the same kind for one identity (two reasons for one
+    re-buy means nobody knows which one is operative).
+
+    Loading is separate from applying: the caller still passes the result to
+    ``suppress``/``decide``, which decide whether the asserted change actually
+    licenses THIS row.
+    """
+    if not path:
+        return {}
+    document = json.loads(Path(path).read_text(encoding="utf-8"))
+    out: Dict[str, Dict[str, str]] = OrderedDict()
+    for row in document.get("changes") or ():
+        key = str(row.get("identity_key") or "").strip()
+        if not key:
+            raise PaidLedgerError("a material change names no identity_key")
+        kind = str(row.get("kind") or "").strip()
+        if kind not in MATERIAL_CHANGES:
+            raise PaidLedgerError(
+                "material change for %r names kind %r, which is not one of "
+                "%s. The vocabulary is closed because a repeat purchase must "
+                "cite a reason the ledger already understands."
+                % (key, kind, ", ".join(MATERIAL_CHANGES)))
+        reason = str(row.get("reason") or "").strip()
+        if not reason:
+            raise PaidLedgerError(
+                "material change %r for %r gives no reason; a repeat purchase "
+                "must record WHY it is allowed" % (kind, key))
+        bucket = out.setdefault(key, OrderedDict())
+        if kind in bucket:
+            raise PaidLedgerError(
+                "%r asserts %r twice; two reasons for one re-buy means nobody "
+                "knows which is operative" % (key, kind))
+        bucket[kind] = reason
+    return out
+
+
 def _material(assertions: Optional[Mapping[str, str]], kind: str) -> str:
     """The reason string for an asserted material change, validated.
 

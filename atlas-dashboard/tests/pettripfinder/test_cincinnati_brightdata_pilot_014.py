@@ -222,14 +222,23 @@ def test_nothing_bought_was_published(observations):
 # ------------------------------------------------------ the money is recorded
 
 def test_every_paid_attempt_is_in_the_cross_run_ledger():
-    """Cincinnati had zero paid attempts before this order and has twelve now.
+    """Cincinnati had zero paid attempts before this order; THIS run added 12.
 
-    An unrecorded paid attempt is money a later run spends again.
+    An unrecorded paid attempt is money a later run spends again. The market
+    total has since moved -- PTF-CINCINNATI-HILTON-CLOSE-AND-MARRIOTT-RETRY-
+    PROBE-015 bought four more Hilton rows and retried five of this pilot's
+    challenged Marriott rows -- so what is pinned here is THIS run's twelve,
+    matched by run_id, rather than a market total a successor is expected to
+    change.
     """
     attempts = _load(LEDGER)["attempts"]
     cincinnati = [a for a in attempts if a.get("market_id") == "cincinnati-oh"]
-    assert len(cincinnati) == ATTEMPTS
-    assert len({a["identity_key"] for a in cincinnati}) == ATTEMPTS
+    mine = [a for a in cincinnati if a.get("run_id") == "cincinnati-oh-pilot-014"]
+    assert len(mine) == ATTEMPTS
+    assert len({a["identity_key"] for a in mine}) == ATTEMPTS
+    # And this pilot's own attempts were preserved, not overwritten by the
+    # retry: five of them are the challenged rows 015 went back to.
+    assert len(cincinnati) >= ATTEMPTS
 
 
 def test_the_evidence_was_kept_but_the_captures_were_not(observations):
