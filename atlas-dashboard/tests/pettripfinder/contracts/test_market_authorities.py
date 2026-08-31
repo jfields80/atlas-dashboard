@@ -119,8 +119,8 @@ EXPECTED = {
     # Novi, whose order-019 hold a zero-cost re-capture cleared.
     # ... then ATTENDED-COMPLETION-ADOPTION-022 applied the clean block of
     # the adopted 45-row attended cohort: +20 published, +4 no-pets, $0.
-    DETROIT: {"census": 247, "published": 112, "no_pets": 79,
-              "out_of_category": 0, "unresolved": 56},
+    DETROIT: {"census": 247, "published": 118, "no_pets": 81,
+              "out_of_category": 0, "unresolved": 48},
     INDIANAPOLIS: {"census": 153, "published": 8, "no_pets": 4,
                    "out_of_category": 0, "unresolved": 141},
 }
