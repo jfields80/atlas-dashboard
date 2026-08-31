@@ -14,7 +14,7 @@
   "merge_base_subject": "feat(ptf): Indianapolis is LIVE; deploy 6a9102c0 serves 8 markets / 517 profiles (PTF-INDIANAPOLIS-DEPLOY-AUTHORIZATION-020)",
   "canonical_already_contains_indianapolis_through": "PTF-INDIANAPOLIS-DEPLOY-AUTHORIZATION-020",
   "canonical_ahead_by_commits": 80,
-  "commits_to_transplant": 5,
+  "commits_to_transplant": 6,
   "why_this_is_small": "Canonical already carries every Indianapolis commit through the live deploy. Only the coverage audit, the founder rulings that followed it, and the 004 investigation are unique to this branch."
  },
  "commits": [
@@ -201,6 +201,59 @@
      "note": "now prefers the newest cohort document"
     }
    ]
+  },
+  {
+   "sha": "PENDING -- order 007 commit",
+   "work_order": "PTF-INDIANAPOLIS-FREE-ROUTING-SCALE-007",
+   "subject": "IDR-005-002 explicit assignment applied; 17 free routes bound; 1 new successor review; $0",
+   "files": [
+    {
+     "status": "M",
+     "path": "atlas-dashboard/launch_packages/pettripfinder/identity_census_admission/indianapolis-in.json",
+     "class": "SAFE_CHERRY_PICK"
+    },
+    {
+     "status": "M",
+     "path": "atlas-dashboard/launch_packages/pettripfinder/markets/indianapolis-in.json",
+     "class": "SEMANTIC_UNION_REQUIRED",
+     "note": "007 appends one more explicit_hotel_id (airport corridor) and a boundary-note sentence"
+    },
+    {
+     "status": "M",
+     "path": "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_identity_review_register_002.json",
+     "class": "SAFE_CHERRY_PICK"
+    },
+    {
+     "status": "A",
+     "path": "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_routing_results_007.json",
+     "class": "SAFE_CHERRY_PICK"
+    },
+    {
+     "status": "A",
+     "path": "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_unrouted_cohort_007.json",
+     "class": "SAFE_CHERRY_PICK"
+    },
+    {
+     "status": "A",
+     "path": "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_policy_opportunity_007.json",
+     "class": "SAFE_CHERRY_PICK"
+    },
+    {
+     "status": "M",
+     "path": "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_routing_cost_plan_003.json",
+     "class": "REGENERATE_ON_CANONICAL"
+    },
+    {
+     "status": "M",
+     "path": "atlas-dashboard/scripts/pettripfinder/indianapolis_routing_cost_plan_003.py",
+     "class": "SAFE_CHERRY_PICK"
+    },
+    {
+     "status": "M",
+     "path": "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_canonical_transplant_inventory_003.json",
+     "class": "SAFE_CHERRY_PICK"
+    }
+   ]
   }
  ],
  "conflict_risk": {
@@ -249,20 +302,21 @@
   "usd_spent": 0.0,
   "deployment_performed": false,
   "launch_authorization_issued": false,
-  "unrouted_cohort_audit_scope": 118,
-  "unrouted_total_in_shadow": 126,
-  "supersessions_applied_to_shadow": 3,
+  "unrouted_cohort_audit_scope": 111,
+  "unrouted_total_in_shadow": 111,
+  "supersessions_applied_to_shadow": 4,
   "explicit_corridor_assignments": 3,
   "policy_published": 0,
   "free_publication_grade_policy_captured_not_published": 1,
-  "open_address_review_queue": 6
+  "open_address_review_queue": 6,
+  "routes_bound_free": 17
  },
  "open_founder_decisions_carried_forward": [
-  "IDR-005-002 -- WoodSpring Airport South: verdict STALE_OR_WRONG_CENSUS_BINDING, remedy blocked on ZIP 46221 geography (recommend explicit assignment to the airport corridor)",
-  "the 6-row address-review queue -- each needs individual corroboration, NOT bulk correction",
+  "IDR-007-001 -- la quinta inn vs Baymont Northwest at 3871 W 92nd St (successor question)",
+  "the 6-row address-review queue -- individual corroboration, never bulk",
   "PROMOTION -- moving the shadow census into the pinned census remains deployment-bearing"
  ],
- "updated_by": "PTF-INDIANAPOLIS-ADDRESS-REVIEW-006",
+ "updated_by": "PTF-INDIANAPOLIS-FREE-ROUTING-SCALE-007",
  "updated_at": "2026-08-31",
  "transplant_classification": {
   "SAFE_CHERRY_PICK": [
@@ -274,12 +328,15 @@
    "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_founder_packet_006.json",
    "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_free_routing_design_007.json",
    "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_identity_review_register_002.json",
+   "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_policy_opportunity_007.json",
+   "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_routing_results_007.json",
    "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_shadow_additive_inventory_001.json",
    "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_shadow_policy_evidence_005.json",
    "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_shadow_policy_evidence_006.json",
    "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_unrouted_cohort_003.json",
    "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_unrouted_cohort_005.json",
    "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_unrouted_cohort_006.json",
+   "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_unrouted_cohort_007.json",
    "atlas-dashboard/scripts/pettripfinder/indianapolis_apply_rulings_005.py",
    "atlas-dashboard/scripts/pettripfinder/indianapolis_census_admission_002.py",
    "atlas-dashboard/scripts/pettripfinder/indianapolis_coverage_audit_001.py",
@@ -314,7 +371,7 @@
   "SEMANTIC_UNION_REQUIRED": [
    {
     "path": "atlas-dashboard/launch_packages/pettripfinder/markets/indianapolis-in.json",
-    "why": "Order 005 appended three explicit_hotel_ids to keystone-castleton and east-i70 and added a sentence to _boundary_note. If canonical has edited either corridor, taking one side whole would silently drop the other side entries.",
+    "why": "Order 005 appended three explicit_hotel_ids to keystone-castleton and east-i70 and added a sentence to _boundary_note. If canonical has edited either corridor, taking one side whole would silently drop the other side entries. Order 007 appends a further explicit id (woodspring suites indianapolis airport south) to indianapolis-in__airport and a second boundary-note sentence, so the union now spans THREE corridors: keystone-castleton, east-i70 and airport.",
     "how": "UNION the explicit_hotel_ids lists per corridor and keep BOTH boundary-note sentences; never take either file wholesale",
     "verify_after": "load_markets() must parse, and every explicit id must still be a normalized-name key not also present in excluded_hotel_ids"
    }
