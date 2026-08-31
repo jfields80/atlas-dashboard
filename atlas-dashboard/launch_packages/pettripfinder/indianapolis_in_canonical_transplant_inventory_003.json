@@ -14,7 +14,7 @@
   "merge_base_subject": "feat(ptf): Indianapolis is LIVE; deploy 6a9102c0 serves 8 markets / 517 profiles (PTF-INDIANAPOLIS-DEPLOY-AUTHORIZATION-020)",
   "canonical_already_contains_indianapolis_through": "PTF-INDIANAPOLIS-DEPLOY-AUTHORIZATION-020",
   "canonical_ahead_by_commits": 80,
-  "commits_to_transplant": 3,
+  "commits_to_transplant": 4,
   "why_this_is_small": "Canonical already carries every Indianapolis commit through the live deploy. Only the coverage audit, the founder rulings that followed it, and the 004 investigation are unique to this branch."
  },
  "commits": [
@@ -94,6 +94,60 @@
      "class": "SAFE_CHERRY_PICK"
     }
    ]
+  },
+  {
+   "sha": "PENDING -- order 005 commit",
+   "work_order": "PTF-INDIANAPOLIS-APPLY-RULINGS-005",
+   "subject": "apply the three founder rulings to the shadow census; two supersessions, three explicit corridor assignments, two new address reviews registered",
+   "files": [
+    {
+     "status": "M",
+     "path": "atlas-dashboard/launch_packages/pettripfinder/identity_census_admission/indianapolis-in.json",
+     "class": "SAFE_CHERRY_PICK"
+    },
+    {
+     "status": "M",
+     "path": "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_identity_review_register_002.json",
+     "class": "SAFE_CHERRY_PICK"
+    },
+    {
+     "status": "M",
+     "path": "atlas-dashboard/launch_packages/pettripfinder/markets/indianapolis-in.json",
+     "class": "SAFE_CHERRY_PICK",
+     "note": "MARKET CONTRACT -- three explicit_hotel_ids added plus a boundary-note sentence. This is the ONE shared-ish file this branch touches. It is NOT hash-pinned by the deployment manifest (the manifest pins only the release contract), and the three keys name rows that exist solely in the shadow census, so on the pinned census the change is inert. Verify canonical has not edited the same corridors before picking."
+    },
+    {
+     "status": "M",
+     "path": "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_routing_cost_plan_003.json",
+     "class": "REGENERATE_ON_CANONICAL"
+    },
+    {
+     "status": "M",
+     "path": "atlas-dashboard/scripts/pettripfinder/indianapolis_routing_cost_plan_003.py",
+     "class": "SAFE_CHERRY_PICK",
+     "note": "now prefers the 005 cohort when present"
+    },
+    {
+     "status": "A",
+     "path": "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_unrouted_cohort_005.json",
+     "class": "SAFE_CHERRY_PICK"
+    },
+    {
+     "status": "A",
+     "path": "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_shadow_policy_evidence_005.json",
+     "class": "SAFE_CHERRY_PICK"
+    },
+    {
+     "status": "A",
+     "path": "atlas-dashboard/scripts/pettripfinder/indianapolis_apply_rulings_005.py",
+     "class": "SAFE_CHERRY_PICK"
+    },
+    {
+     "status": "M",
+     "path": "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_canonical_transplant_inventory_003.json",
+     "class": "SAFE_CHERRY_PICK"
+    }
+   ]
   }
  ],
  "conflict_risk": {
@@ -113,9 +167,12 @@
    "git checkout worker/ptf-hardened-lineage-consolidation-008",
    "git cherry-pick 35ff374ed90b",
    "git cherry-pick 111b0dd6d6fb",
-   "git cherry-pick <the 004 commit>   # must follow 111b0dd: it edits files 111b0dd creates",
+   "git cherry-pick 8990948   # edits files 111b0dd creates -- order matters",
+   "git cherry-pick f4be4e6",
+   "git cherry-pick <the 005 commit>   # edits the shadow census and the market contract",
+   "BEFORE picking 005: confirm canonical has not itself edited markets/indianapolis-in.json corridors keystone-castleton or east-i70; if it has, merge the explicit_hotel_ids lists by UNION rather than taking either side whole",
    "re-derive indianapolis_in_routing_cost_plan_003.json on canonical and commit it",
-   "prove the transplant by FAILURE-SET IDENTITY against canonical's own baseline, not by test counts"
+   "prove the transplant by FAILURE-SET IDENTITY against canonical's own baseline"
   ]
  },
  "must_be_re_derived_not_copied": [
@@ -132,35 +189,42 @@
  },
  "state_this_branch_leaves_behind": {
   "pinned_census_identities": 257,
-  "shadow_admission_census_identities": 265,
+  "shadow_admission_census_identities": 268,
   "published_pet_friendly": 56,
   "live_deploy": "6a9102c0 (unchanged, 8 markets / 517 profiles)",
   "paid_provider_calls": 0,
   "usd_spent": 0.0,
   "deployment_performed": false,
-  "launch_authorization_issued": false
+  "launch_authorization_issued": false,
+  "unrouted_cohort_audit_scope": 119,
+  "unrouted_total_in_shadow": 127,
+  "supersessions_applied_to_shadow": 2,
+  "explicit_corridor_assignments": 3,
+  "policy_published": 0
  },
  "open_founder_decisions_carried_forward": [
-  "IDR-002-001 -- INVESTIGATED, recommendation SAME_IDENTITY_REBRAND_SUCCESSOR (rename + route)",
-  "IDR-002-002 -- INVESTIGATED, recommendation ADDRESS_SUPERSESSION to 7940 N. Shadeland Ave",
-  "IDR-002-003 -- INVESTIGATED, recommendation EXPLICIT ASSIGNMENT of the three keys",
-  "F-004-1 / F-004-2 -- two further WoodSpring address discrepancies registered, not acted on",
+  "IDR-005-001 -- WoodSpring Castleton 8255 vs 8301 Bash Street (ADDRESS_SUPERSESSION_REVIEW)",
+  "IDR-005-002 -- WoodSpring Airport South 4402 W Morris 46241 vs 4545 Kentucky Ave 46221 (ADDRESS_AND_GEOGRAPHY_REVIEW; 46221 is in no corridor)",
   "PROMOTION -- moving the shadow census into the pinned census remains deployment-bearing"
  ],
- "updated_by": "PTF-INDIANAPOLIS-CORRIDOR-AND-IDENTITY-RULINGS-004",
+ "updated_by": "PTF-INDIANAPOLIS-APPLY-RULINGS-005",
  "updated_at": "2026-08-31",
  "transplant_classification": {
   "SAFE_CHERRY_PICK": [
+   "atlas-dashboard/launch_packages/pettripfinder/identity_census_admission/indianapolis-in.json",
+   "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_canonical_transplant_inventory_003.json",
    "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_coverage_audit_001.json",
    "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_coverage_audit_founder_packet_001.json",
-   "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_shadow_additive_inventory_001.json",
-   "atlas-dashboard/launch_packages/pettripfinder/identity_census_admission/indianapolis-in.json",
-   "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_identity_review_register_002.json",
-   "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_unrouted_cohort_003.json",
    "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_founder_packet_004.json",
-   "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_canonical_transplant_inventory_003.json",
-   "atlas-dashboard/scripts/pettripfinder/indianapolis_coverage_audit_001.py",
+   "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_identity_review_register_002.json",
+   "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_shadow_additive_inventory_001.json",
+   "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_shadow_policy_evidence_005.json",
+   "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_unrouted_cohort_003.json",
+   "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_unrouted_cohort_005.json",
+   "atlas-dashboard/launch_packages/pettripfinder/markets/indianapolis-in.json",
+   "atlas-dashboard/scripts/pettripfinder/indianapolis_apply_rulings_005.py",
    "atlas-dashboard/scripts/pettripfinder/indianapolis_census_admission_002.py",
+   "atlas-dashboard/scripts/pettripfinder/indianapolis_coverage_audit_001.py",
    "atlas-dashboard/scripts/pettripfinder/indianapolis_routing_cost_plan_003.py"
   ],
   "REGENERATE_ON_CANONICAL": [
