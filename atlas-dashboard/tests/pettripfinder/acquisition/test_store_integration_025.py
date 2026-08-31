@@ -122,6 +122,11 @@ OTHER_MARKET_RUNS = {
     # Also pittsburgh-pa, and it holds no rendered bytes at all -- only the
     # atomic hash+quote record the attended-capture contract defines.
     "pittsburgh_pa_free_recapture_006",
+    # PTF-PITTSBURGH-IDENTITY-CLOSE-007: attended-Chrome reads of three
+    # Pittsburgh properties plus IHG's Cranberry Township directory, all for
+    # $0.00. Also pittsburgh-pa, and it holds no rendered bytes -- only the
+    # atomic hash+quote records the attended-capture contract defines.
+    "pittsburgh_pa_free_capture_007",
 }
 
 
