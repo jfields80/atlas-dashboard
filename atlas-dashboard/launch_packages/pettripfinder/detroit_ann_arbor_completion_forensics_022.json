@@ -1,0 +1,215 @@
+{
+  "schema": "ptf-detroit-ann-arbor-completion-forensics/1.0",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-ATTENDED-COMPLETION-ADOPTION-022",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-30",
+  "provider_calls": 0,
+  "spend_usd": 0.0,
+  "provenance_event": {
+    "label": "PTF-DETROIT-ANN-ARBOR-ATTENDED-020-EXTERNAL-COMPLETION-ADOPTED",
+    "base_commit": "f5828db",
+    "external_commit": "b5c5c6a",
+    "produced_by": "a different session, after f5828db, and committed by it",
+    "adopted_by": "PTF-DETROIT-ANN-ARBOR-ATTENDED-COMPLETION-ADOPTION-022",
+    "note": "The historical fact stays visible: these 33 captures were NOT produced by this order. This order verified and adopted them."
+  },
+  "phase_0_inventory": [
+    {
+      "path": "atlas-dashboard/launch_packages/pettripfinder/detroit_ann_arbor_application_inventory_020.json",
+      "kind": "report_or_evidence_index",
+      "existed_at_f5828db": false,
+      "sha256": ""
+    },
+    {
+      "path": "atlas-dashboard/launch_packages/pettripfinder/detroit_ann_arbor_attended_results_020.json",
+      "kind": "report_or_evidence_index",
+      "existed_at_f5828db": true,
+      "sha256": ""
+    },
+    {
+      "path": "atlas-dashboard/launch_packages/pettripfinder/detroit_ann_arbor_attended_triage_020.json",
+      "kind": "report_or_evidence_index",
+      "existed_at_f5828db": true,
+      "sha256": ""
+    },
+    {
+      "path": "atlas-dashboard/launch_packages/pettripfinder/detroit_ann_arbor_founder_packet_020.json",
+      "kind": "report_or_evidence_index",
+      "existed_at_f5828db": true,
+      "sha256": ""
+    },
+    {
+      "path": "atlas-dashboard/launch_packages/pettripfinder/detroit_ann_arbor_remaining_020.json",
+      "kind": "report_or_evidence_index",
+      "existed_at_f5828db": true,
+      "sha256": ""
+    },
+    {
+      "path": "atlas-dashboard/launch_packages/pettripfinder/detroit_ann_arbor_remaining_classification_020.json",
+      "kind": "report_or_evidence_index",
+      "existed_at_f5828db": true,
+      "sha256": ""
+    },
+    {
+      "path": "atlas-dashboard/scripts/pettripfinder/detroit_ann_arbor_attended_close_020_completion.py",
+      "kind": "source",
+      "existed_at_f5828db": false,
+      "sha256": ""
+    },
+    {
+      "path": "atlas-dashboard/scripts/pettripfinder/detroit_ann_arbor_remaining_classification_020.py",
+      "kind": "source",
+      "existed_at_f5828db": true,
+      "sha256": ""
+    }
+  ],
+  "authority_paths_touched_by_the_outside_commit": [],
+  "reconstruction": {
+    "rows": 45,
+    "independent_reader_rebuild": {
+      "NO_EVIDENCE": 9,
+      "pets_allowed_true": 31,
+      "unresolved_boolean": 2,
+      "pets_allowed_false": 3
+    },
+    "recorded_triage": {
+      "NO_FOUNDER_ACTION": 6,
+      "CLEAN_PET_FRIENDLY_CANDIDATE": 27,
+      "FOUNDER_EXCEPTION": 6,
+      "CLEAN_VERIFIED_NO_PETS_CANDIDATE": 6
+    },
+    "recorded_outcome": {
+      "POLICY_NOT_FOUND": 6,
+      "PUBLICATION_CANDIDATE": 33,
+      "ROUTING_REPAIR_REQUIRED": 2,
+      "HOLD": 3,
+      "IDENTITY_MISMATCH": 1
+    }
+  },
+  "integrity_checks": [
+    {
+      "check": "the outside commit touched NO authority file",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "check": "the outside commit touched no other market",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "check": "the outside commit is committed and pushed",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "admitted identities = 45",
+      "pass": true,
+      "detail": "45"
+    },
+    {
+      "check": "processed identities = 45",
+      "pass": true,
+      "detail": "45"
+    },
+    {
+      "check": "missing identities = 0",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "check": "no identity outside the admitted cohort entered",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "check": "duplicate identities = 0",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "check": "exactly one final observation per identity",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "every persisted block re-hashes from disk",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "check": "every row carrying evidence links a persisted artifact",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "check": "no capture row carries founder-approval vocabulary",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "check": "captured host matches the routed identity",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "check": "recorded triage distribution matches the halted-021 audit",
+      "pass": true,
+      "detail": "rebuilt {'NO_FOUNDER_ACTION': 6, 'CLEAN_PET_FRIENDLY_CANDIDATE': 27, 'FOUNDER_EXCEPTION': 6, 'CLEAN_VERIFIED_NO_PETS_CANDIDATE': 6} vs expected {'CLEAN_PET_FRIENDLY_CANDIDATE': 27, 'CLEAN_VERIFIED_NO_PETS_CANDIDATE': 6, 'FOUNDER_EXCEPTION': 6, 'NO_FOUNDER_ACTION': 6}"
+    },
+    {
+      "check": "independent reader rebuild agrees with the clean-block size",
+      "pass": true,
+      "detail": "reader true=31, clean PF=27"
+    },
+    {
+      "check": "no clean VERIFIED_NO_PETS rests on a silent page",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "the completion script names no paid provider",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "check": "the completion script declares the attended lane",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "the completion recorded provider_calls = 0 and spend 0",
+      "pass": true,
+      "detail": "calls=0 spend=0.0"
+    },
+    {
+      "check": "hashes were computed from captured bytes, not copied",
+      "pass": true,
+      "detail": "verified by re-hashing every file above"
+    }
+  ],
+  "advisory_checks": [
+    {
+      "check": "independent re-derivation agrees with every recorded pets_allowed",
+      "pass": false,
+      "disagreements": [
+        [
+          "embassy hotel",
+          "recorded False, rebuilt None"
+        ],
+        [
+          "hometowne studios by red roof detroit livonia",
+          "recorded False, rebuilt None"
+        ],
+        [
+          "saint john s resort",
+          "recorded False, rebuilt True"
+        ]
+      ],
+      "meaning": "each disagreement is routed to the sanctioned publication gate, which decides"
+    }
+  ],
+  "failed": 0,
+  "verdict": "ADOPT",
+  "verdict_note": "ADOPT means the evidence is authentic, complete and untampered -- not that every row is publishable. Classification is decided by the publication gates, which reject on their own terms."
+}

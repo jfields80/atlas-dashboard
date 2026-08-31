@@ -97,8 +97,13 @@ EXPECTED = {
     # state in which no directory can list both.
     PITTSBURGH: {"census": 101, "published": 51, "no_pets": 12,
                  "out_of_category": 3, "unresolved": 35},
-    DETROIT: {"census": 143, "published": 0, "no_pets": 0,
-              "out_of_category": 1, "unresolved": 142},
+    # PTF-DETROIT-ANN-ARBOR-HARDENED-SYNC-029 transplanted the hardened
+    # Detroit market onto this lineage: a 247-identity promoted census
+    # with 121 founder-signed pet-friendly profiles and 81 verified
+    # no-pets exclusions. This lineage previously carried the market as
+    # a scaffold that published nothing.
+    DETROIT: {"census": 247, "published": 121, "no_pets": 81,
+              "out_of_category": 0, "unresolved": 45},
     # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: 257-identity promoted census. Its
     # partition is a generic-path factory artifact (AWAITING_* states only), so
     # the partition-derived counts are 0/0/257; the 24 + 24 authority is pinned

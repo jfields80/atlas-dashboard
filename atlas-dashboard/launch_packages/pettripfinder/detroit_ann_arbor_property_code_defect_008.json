@@ -1,0 +1,90 @@
+{
+  "schema": "ptf-detroit-ann-arbor-property-code-defect/1.0",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-FIRECRAWL-PASS-008",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-29",
+  "status": "AWAITING_FOUNDER_AUTHORISATION",
+  "applied": false,
+  "severity": "HIGH, and NOT specific to Detroit. Every market that routes an IHG or Choice property through a lane using page_health has been paying for pages it then refused on an identity check that could not succeed. Detroit is simply the first market to run a cohort large enough in those two families to make it visible.",
+  "what_happened": "49 of this pass's 65 paid attempts were refused as UNEXPECTED_PAGE before any page could be judged. The page-health gate compares the property code parsed from the final URL against the expected code; for IHG and Choice the parser returns an empty string, so the comparison could never succeed.",
+  "cost_of_the_defect_usd": 3.53,
+  "what_it_is_not": "not a bot wall, not a brand serving the wrong page, and not evidence about any hotel. The refused attempts measured nothing, which is why the yield artifact reports them on their own denominator instead of blending them into a rate.",
+  "proof": {
+    "rows_tested": 53,
+    "committed_parser_correct": 0,
+    "proposed_parser_correct": 53,
+    "note": "tested against the canonical URLs this market already holds, at zero cost. This proves the PARSER reads the code; it does not prove the pages are reachable, which only a re-run would show."
+  },
+  "evidence": [
+    {
+      "family": "IHG",
+      "rows_carrying_a_code": 31,
+      "committed_pattern": "/hotels/[a-z]{2}/[a-z]+/([a-z0-9]{5})/",
+      "committed_parses_correctly": 0,
+      "proposed_pattern": "/hotels/[a-z]{2}/[a-z]{2}/[a-z0-9-]+/([a-z0-9]{5})/",
+      "proposed_parses_correctly": 31,
+      "diagnosis": "the committed pattern expects /hotels/<country>/<city>/<code>/, but the brand's URL is /hotels/us/en/<city>/<code>/ -- there is a LANGUAGE segment between country and city that the pattern does not allow. With it absent, [a-z]+ consumes 'en' and the capture group is offered the city, which is hyphenated and the wrong length.",
+      "example": "https://www.ihg.com/crowneplaza/hotels/us/en/auburn-hills/dttah/hoteldetail -> expected dttah",
+      "samples": [
+        {
+          "url": "https://www.ihg.com/crowneplaza/hotels/us/en/auburn-hills/dttah/hoteldetail",
+          "expected_code": "dttah",
+          "committed_parser_returns": "(empty)",
+          "proposed_parser_returns": "dttah"
+        },
+        {
+          "url": "https://www.ihg.com/crowneplaza/hotels/us/en/detroit/dttnd/hoteldetail",
+          "expected_code": "dttnd",
+          "committed_parser_returns": "(empty)",
+          "proposed_parser_returns": "dttnd"
+        },
+        {
+          "url": "https://www.ihg.com/evenhotels/hotels/us/en/ann-arbor/arbmi/hoteldetail",
+          "expected_code": "arbmi",
+          "committed_parser_returns": "(empty)",
+          "proposed_parser_returns": "arbmi"
+        }
+      ]
+    },
+    {
+      "family": "CHOICE",
+      "rows_carrying_a_code": 22,
+      "committed_pattern": "/[a-z]{2}/[a-z-]+/[a-z-]+-hotel/([a-z0-9]{4,8})",
+      "committed_parses_correctly": 0,
+      "proposed_pattern": "/[a-z-]+/[a-z-]+/[a-z-]+-hotels?/([a-z0-9]{4,8})",
+      "proposed_parses_correctly": 22,
+      "diagnosis": "two mismatches. The committed pattern expects a two-letter state ('/mi/') where the brand spells the state out ('/michigan/'), and it expects a singular '-hotel' segment where the brand uses the plural '-hotels'.",
+      "example": "https://www.choicehotels.com/michigan/romulus/clarion-hotels/mi190 -> expected mi190",
+      "samples": [
+        {
+          "url": "https://www.choicehotels.com/michigan/romulus/clarion-hotels/mi190",
+          "expected_code": "mi190",
+          "committed_parser_returns": "(empty)",
+          "proposed_parser_returns": "mi190"
+        },
+        {
+          "url": "https://www.choicehotels.com/michigan/dearborn/comfort-inn-hotels/mi385",
+          "expected_code": "mi385",
+          "committed_parser_returns": "(empty)",
+          "proposed_parser_returns": "mi385"
+        },
+        {
+          "url": "https://www.choicehotels.com/michigan/detroit/comfort-inn-hotels/mi194",
+          "expected_code": "mi194",
+          "committed_parser_returns": "(empty)",
+          "proposed_parser_returns": "mi194"
+        }
+      ]
+    }
+  ],
+  "repair_is_not_applied_because": [
+    "PROPERTY_CODE_PATTERNS is shared by every market and both paid lanes; a Detroit Firecrawl pass is not the place to change how every market resolves identity",
+    "a reading rule must not be widened during the review it feeds -- repairing and re-running inside this order would decide the very rows the founder is being asked to rule on",
+    "this order forbids duplicate page buys, and the 49 refused rows would have to be bought again"
+  ],
+  "recommended_next_order": {
+    "1": "apply the two proposed patterns behind negative tests that pin what must STILL be refused -- a brand landing page, a different property's code, a locale redirect",
+    "2": "run the full test suite: these patterns are shared, so the blast radius is every market, not Detroit",
+    "3": "re-run the 49 refused Detroit rows as a fresh authorised cohort, priced at the Wilson LOWER bound in the yield artifact"
+  }
+}

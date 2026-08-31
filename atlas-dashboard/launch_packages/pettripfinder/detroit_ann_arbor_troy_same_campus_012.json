@@ -1,0 +1,54 @@
+{
+  "schema": "ptf-detroit-ann-arbor-troy-same-campus/1.0",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-FOUNDER-EXCEPTIONS-AND-DISPLAY-REPAIR-012",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-29",
+  "provider_calls": 0,
+  "spend_usd": 0.0,
+  "question": "are these two distinct marketed hotel identities at one campus, or one property wearing two identities?",
+  "determination": "A_TWO_DISTINCT_ENTITIES",
+  "evidence_basis": "each property's OWN rendered first-party page, already persisted and re-hashed here. Both state the same street, and each states its own hotelCode, its own marketed name and its own telephone number. A shared street with distinct codes, names and phones is a dual-brand building -- two businesses at one address. A SHARED TELEPHONE would have argued the other way, and these differ.",
+  "shared_street": "575 w big beaver rd",
+  "distinct_hotel_codes": [
+    "dttoy",
+    "dttry"
+  ],
+  "distinct_telephones": [
+    "1-248-5095700",
+    "1-248-7206400"
+  ],
+  "distinct_marketed_names": [
+    "EVEN Hotel Detroit North - Troy",
+    "Hotel Indigo Detroit North - Troy"
+  ],
+  "observed": [
+    {
+      "identity_key": "hotel indigo detroit north troy",
+      "canonical_name": "Hotel Indigo Detroit North Troy",
+      "routed_url": "ihg.com/hotelindigo/hotels/us/en/troy/dttoy/hoteldetail",
+      "document_sha256": "11e313a4cf787b4036ea066d41e2f74722a6c66e68449ce0b03503c55bc42a46",
+      "page_title": "Hotel in Troy, Michigan | Hotel Indigo Detroit North - Troy",
+      "hotel_code_in_the_page": "dttoy",
+      "stated_name": "Hotel Indigo Detroit North - Troy",
+      "stated_street": "575 W Big Beaver Rd",
+      "stated_postal": "48084",
+      "stated_telephone": "1-248-7206400",
+      "already_published": false
+    },
+    {
+      "identity_key": "even hotel detroit north troy",
+      "canonical_name": "EVEN Hotel Detroit North Troy",
+      "routed_url": "ihg.com/evenhotels/hotels/us/en/troy/dttry/hoteldetail",
+      "document_sha256": "a5c56fda9f21b08f7418e2100cce3fed430c8ad51e14c70a1b9192a58947d547",
+      "page_title": "Troy, Michigan Hotel | EVEN Hotel Detroit North - Troy",
+      "hotel_code_in_the_page": "dttry",
+      "stated_name": "EVEN Hotel Detroit North - Troy",
+      "stated_street": "575 W Big Beaver Rd",
+      "stated_postal": "48084",
+      "stated_telephone": "1-248-5095700",
+      "already_published": true
+    }
+  ],
+  "consequence": "a reviewed same-campus exception is recorded for THIS ADDRESS ONLY. The global address dedup rule is unchanged: every other collision still blocks until a human reviews it.",
+  "resolution_recorded": "res-ihg-dual-brand-575-big-beaver-troy"
+}

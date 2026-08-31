@@ -1,0 +1,443 @@
+{
+  "schema": "ptf-detroit-ann-arbor-pass3-approval-attempt/1.0",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-RECANDIDACY-REPAIR-AND-FOUNDER-DECISIONS-003",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-28",
+  "status": "BLOCKED_ON_AN_EVIDENCE_CONTRACT_DECISION",
+  "headline": "Every hash was re-verified and NONE had drifted, but NO approval was written: the Pass 3 evidence carries an artifact kind and a source-grade spelling that the publication evidence contract does not accept, and widening either closed vocabulary is a decision this work order did not authorise.",
+  "step_1_hash_verification": {
+    "rows_in_packet": 30,
+    "artifact_bearing_rows": 28,
+    "hashes_re_verified_and_STILL_VALID": 28,
+    "hashes_DRIFTED": 0,
+    "rows_with_no_artifact_by_design": 2,
+    "verdict": "All 28 artefact-bearing rows still hash exactly as the committed manifest records. Evidence integrity is intact."
+  },
+  "step_2_contract_validation": {
+    "publication_candidates": 10,
+    "passing_the_publication_evidence_contract": 0,
+    "blockers": [
+      {
+        "id": "B-003-1",
+        "severity": "BLOCKING",
+        "field": "artifact_kind",
+        "packet_value": "text_extract",
+        "contract_allows": [
+          "rendered_html",
+          "operator_screenshot",
+          "pdf"
+        ],
+        "detail": "Pass 3 introduced a TEXT-ARTIFACT evidence class because the browser screenshot subsystem was broken that session -- the policy-bearing text was extracted, hashed in-browser and cross-verified byte-for-byte. That was good engineering under the circumstances, but the class was never registered in the evidence contract, so publication-grade evidence still means exactly three things: rendered_html, operator_screenshot, pdf.",
+        "decision_required": "Whether a hashed text extract may carry PUBLICATION-GRADE authority. That is a founder / architecture decision about what counts as proof, not a typo. It affects every market, and widening it inside the very review it feeds is the trap this codebase has been bitten by before."
+      },
+      {
+        "id": "B-003-2",
+        "severity": "BLOCKING but mechanical",
+        "field": "source_grade",
+        "packet_value": "GRADE_PT1_FIRST_PARTY",
+        "contract_allows": [
+          "PT1_FIRST_PARTY",
+          "PT2_BRAND",
+          "PT3_THIRD_PARTY",
+          "PT4_UNVERIFIED"
+        ],
+        "detail": "The packet spells the first-party grade with a GRADE_ prefix the contract does not know. Because the value is unrecognised the contract additionally reports NOT_FIRST_PARTY -- it cannot tell that the evidence IS first-party, so it refuses to publish it.",
+        "decision_required": "Normalising 'GRADE_PT1_FIRST_PARTY' -> 'PT1_FIRST_PARTY' at write time is almost certainly right, the intent being unambiguous. It is still a vocabulary normalisation and is recorded here rather than done silently inside an approval run."
+      }
+    ]
+  },
+  "what_was_NOT_done": [
+    "No approval, signature, record_hash or approval_hash was written for any of the 30 rows.",
+    "hotel_policy_facts_detroit-ann-arbor-mi.json is UNCHANGED: still 7 published.",
+    "hotel_exclusions.json is UNCHANGED: still 7 verified-no-pets.",
+    "Neither closed vocabulary was widened."
+  ],
+  "projected_effect_once_unblocked": {
+    "published_now": 7,
+    "publication_candidates_pending": 10,
+    "published_after_approval": 17,
+    "verified_no_pets_now": 7,
+    "verified_no_pets_candidates_pending": 18,
+    "verified_no_pets_after_approval": 25,
+    "note": "Projection only. Nothing is approved and nothing is published."
+  },
+  "holds": [
+    {
+      "queue_id": "DTW-P3-05",
+      "hotel": "Atheneum Suite Hotel",
+      "disposition": "HOLD_FOR_FURTHER_RESEARCH -- PRESERVED",
+      "why": "The property's own site states no pet policy anywhere: homepage, amenity and reservation pages, and the full page-sitemap.xml were all read and carry zero pet mentions. Founder rule SOURCE SILENCE IS ABSENCE -- silence is not a refusal, so this may not become VERIFIED_NO_PETS.",
+      "exact_next_action": "A NON-website first-party surface: a direct operator telephone call to the property, recorded, or a written reply from the property. No re-fetch of the same website can change this outcome -- the same lane has already answered, and re-running it would be a same-method retry against a source that has nothing to say."
+    },
+    {
+      "queue_id": "DTW-P3-14",
+      "hotel": "Daxton Hotel",
+      "disposition": "HOLD_FOR_FURTHER_RESEARCH -- PRESERVED",
+      "why": "The property's own site states no pet policy anywhere: homepage, amenity and reservation pages, and the full page-sitemap.xml were all read and carry zero pet mentions. Founder rule SOURCE SILENCE IS ABSENCE -- silence is not a refusal, so this may not become VERIFIED_NO_PETS.",
+      "exact_next_action": "A NON-website first-party surface: a direct operator telephone call to the property, recorded, or a written reply from the property. No re-fetch of the same website can change this outcome -- the same lane has already answered, and re-running it would be a same-method retry against a source that has nothing to say."
+    }
+  ],
+  "count": 30,
+  "rows": [
+    {
+      "queue_id": "DTW-P3-01",
+      "hotel": "AC Hotel Ann Arbor Downtown",
+      "identity_key": "ac hotel ann arbor downtown",
+      "recommended_founder_decision": "APPROVE_PUBLISH",
+      "outcome": "PUBLICATION_CANDIDATE",
+      "artifact_kind": "text_extract",
+      "source_grade": "GRADE_PT1_FIRST_PARTY",
+      "evidence_hash_state": "HASH_VALID",
+      "artifact_sha256_recomputed": "e5d9633bd55e2e947f391fed119a7bf3419829dab99a06ef9c37471eecd48d5a",
+      "signature_written": false
+    },
+    {
+      "queue_id": "DTW-P3-02",
+      "hotel": "Americas Best Value Inn Livonia Detroit",
+      "identity_key": "americas best value inn livonia detroit",
+      "recommended_founder_decision": "APPROVE_VERIFIED_NO_PETS",
+      "outcome": "VERIFIED_NO_PETS_CANDIDATE",
+      "artifact_kind": "text_extract",
+      "source_grade": "GRADE_PT1_FIRST_PARTY",
+      "evidence_hash_state": "HASH_VALID",
+      "artifact_sha256_recomputed": "70a49a286868fd0aad3b122204e45ab81593dcc69664aa607a3aaec6b372110c",
+      "signature_written": false
+    },
+    {
+      "queue_id": "DTW-P3-03",
+      "hotel": "Ann Arbor Marriott Ypsilanti at Eagle Crest",
+      "identity_key": "ann arbor marriott ypsilanti at eagle crest",
+      "recommended_founder_decision": "APPROVE_VERIFIED_NO_PETS",
+      "outcome": "VERIFIED_NO_PETS_CANDIDATE",
+      "artifact_kind": "text_extract",
+      "source_grade": "GRADE_PT1_FIRST_PARTY",
+      "evidence_hash_state": "HASH_VALID",
+      "artifact_sha256_recomputed": "4fbe56421047e51fa0038708dfd1378445ee89f7487b220b660b9580a0057b34",
+      "signature_written": false
+    },
+    {
+      "queue_id": "DTW-P3-04",
+      "hotel": "Ann Arbor Regent Hotel & Suites",
+      "identity_key": "ann arbor regent hotel and suites",
+      "recommended_founder_decision": "APPROVE_VERIFIED_NO_PETS",
+      "outcome": "VERIFIED_NO_PETS_CANDIDATE",
+      "artifact_kind": "text_extract",
+      "source_grade": "GRADE_PT1_FIRST_PARTY",
+      "evidence_hash_state": "HASH_VALID",
+      "artifact_sha256_recomputed": "4601818832c9b627f287d35d78a87e24cbed04324266200770a14e589a9c501a",
+      "signature_written": false
+    },
+    {
+      "queue_id": "DTW-P3-05",
+      "hotel": "Atheneum Suite Hotel",
+      "identity_key": "atheneum suite hotel",
+      "recommended_founder_decision": "HOLD_FOR_FURTHER_RESEARCH",
+      "outcome": "POLICY_NOT_FOUND",
+      "artifact_kind": null,
+      "source_grade": null,
+      "evidence_hash_state": "NO_ARTIFACT_EXPECTED",
+      "artifact_sha256_recomputed": null,
+      "signature_written": false
+    },
+    {
+      "queue_id": "DTW-P3-06",
+      "hotel": "Auburn Hills Marriott Pontiac",
+      "identity_key": "auburn hills marriott pontiac",
+      "recommended_founder_decision": "APPROVE_VERIFIED_NO_PETS",
+      "outcome": "VERIFIED_NO_PETS_CANDIDATE",
+      "artifact_kind": "text_extract",
+      "source_grade": "GRADE_PT1_FIRST_PARTY",
+      "evidence_hash_state": "HASH_VALID",
+      "artifact_sha256_recomputed": "bc8c4dbff48db63f778042f1cc579c513e5985ecf942846a42a8ef95cf6bbc0b",
+      "signature_written": false
+    },
+    {
+      "queue_id": "DTW-P3-07",
+      "hotel": "Best Western Detroit Livonia",
+      "identity_key": "best western detroit livonia",
+      "recommended_founder_decision": "APPROVE_VERIFIED_NO_PETS",
+      "outcome": "VERIFIED_NO_PETS_CANDIDATE",
+      "artifact_kind": "text_extract",
+      "source_grade": "GRADE_PT1_FIRST_PARTY",
+      "evidence_hash_state": "HASH_VALID",
+      "artifact_sha256_recomputed": "7a82b7a25d328751b61b7ff1615e190d04cab5bf51b6d749defc0ec4c7b5c6ff",
+      "signature_written": false
+    },
+    {
+      "queue_id": "DTW-P3-08",
+      "hotel": "Best Western Greenfield Inn",
+      "identity_key": "best western greenfield inn",
+      "recommended_founder_decision": "APPROVE_VERIFIED_NO_PETS",
+      "outcome": "VERIFIED_NO_PETS_CANDIDATE",
+      "artifact_kind": "text_extract",
+      "source_grade": "GRADE_PT1_FIRST_PARTY",
+      "evidence_hash_state": "HASH_VALID",
+      "artifact_sha256_recomputed": "7a82b7a25d328751b61b7ff1615e190d04cab5bf51b6d749defc0ec4c7b5c6ff",
+      "signature_written": false
+    },
+    {
+      "queue_id": "DTW-P3-09",
+      "hotel": "Cambria Hotel Detroit Downtown",
+      "identity_key": "cambria hotel detroit downtown",
+      "recommended_founder_decision": "APPROVE_VERIFIED_NO_PETS",
+      "outcome": "VERIFIED_NO_PETS_CANDIDATE",
+      "artifact_kind": "text_extract",
+      "source_grade": "GRADE_PT1_FIRST_PARTY",
+      "evidence_hash_state": "HASH_VALID",
+      "artifact_sha256_recomputed": "fcccced4dd763dc6576fce4901ec69f9a7660268dedddf567119d7d74ebe1f6f",
+      "signature_written": false
+    },
+    {
+      "queue_id": "DTW-P3-10",
+      "hotel": "Courtyard by Marriott Detroit Dearborn",
+      "identity_key": "courtyard by marriott detroit dearborn",
+      "recommended_founder_decision": "APPROVE_PUBLISH",
+      "outcome": "PUBLICATION_CANDIDATE",
+      "artifact_kind": "text_extract",
+      "source_grade": "GRADE_PT1_FIRST_PARTY",
+      "evidence_hash_state": "HASH_VALID",
+      "artifact_sha256_recomputed": "47361ef5a45e058321d0c26185dc027b57dcf8e6e7c422a81ba038b74ab5eae0",
+      "signature_written": false
+    },
+    {
+      "queue_id": "DTW-P3-11",
+      "hotel": "Courtyard by Marriott Detroit Downtown",
+      "identity_key": "courtyard by marriott detroit downtown",
+      "recommended_founder_decision": "APPROVE_VERIFIED_NO_PETS",
+      "outcome": "VERIFIED_NO_PETS_CANDIDATE",
+      "artifact_kind": "text_extract",
+      "source_grade": "GRADE_PT1_FIRST_PARTY",
+      "evidence_hash_state": "HASH_VALID",
+      "artifact_sha256_recomputed": "98573258de37306d44b8c786e73518598223ac639257ff6a95ded84bb407d4bb",
+      "signature_written": false
+    },
+    {
+      "queue_id": "DTW-P3-12",
+      "hotel": "Courtyard by Marriott Detroit Southfield",
+      "identity_key": "courtyard by marriott detroit southfield",
+      "recommended_founder_decision": "APPROVE_VERIFIED_NO_PETS",
+      "outcome": "VERIFIED_NO_PETS_CANDIDATE",
+      "artifact_kind": "text_extract",
+      "source_grade": "GRADE_PT1_FIRST_PARTY",
+      "evidence_hash_state": "HASH_VALID",
+      "artifact_sha256_recomputed": "6b3c3531ee10d1ae208ad93f754007add9950439699ab9c9f633c333fb27b75c",
+      "signature_written": false
+    },
+    {
+      "queue_id": "DTW-P3-13",
+      "hotel": "Courtyard by Marriott Detroit Troy",
+      "identity_key": "courtyard by marriott detroit troy",
+      "recommended_founder_decision": "APPROVE_PUBLISH",
+      "outcome": "PUBLICATION_CANDIDATE",
+      "artifact_kind": "text_extract",
+      "source_grade": "GRADE_PT1_FIRST_PARTY",
+      "evidence_hash_state": "HASH_VALID",
+      "artifact_sha256_recomputed": "2f567d6cbd77ad2415182cd187f429d76bb2db998f4bcffa1a057430475caaf4",
+      "signature_written": false
+    },
+    {
+      "queue_id": "DTW-P3-14",
+      "hotel": "Daxton Hotel",
+      "identity_key": "daxton hotel",
+      "recommended_founder_decision": "HOLD_FOR_FURTHER_RESEARCH",
+      "outcome": "POLICY_NOT_FOUND",
+      "artifact_kind": null,
+      "source_grade": null,
+      "evidence_hash_state": "NO_ARTIFACT_EXPECTED",
+      "artifact_sha256_recomputed": null,
+      "signature_written": false
+    },
+    {
+      "queue_id": "DTW-P3-15",
+      "hotel": "Dearborn Inn, Autograph Collection",
+      "identity_key": "dearborn inn autograph collection",
+      "recommended_founder_decision": "APPROVE_VERIFIED_NO_PETS",
+      "outcome": "VERIFIED_NO_PETS_CANDIDATE",
+      "artifact_kind": "text_extract",
+      "source_grade": "GRADE_PT1_FIRST_PARTY",
+      "evidence_hash_state": "HASH_VALID",
+      "artifact_sha256_recomputed": "ce5093b05cffcd6eb4246d357cfb67ca0683337d5a8ddb4bc157441bf02fb92a",
+      "signature_written": false
+    },
+    {
+      "queue_id": "DTW-P3-16",
+      "hotel": "Delta Hotels by Marriott Detroit Novi",
+      "identity_key": "delta hotels by marriott detroit novi",
+      "recommended_founder_decision": "APPROVE_PUBLISH",
+      "outcome": "PUBLICATION_CANDIDATE",
+      "artifact_kind": "text_extract",
+      "source_grade": "GRADE_PT1_FIRST_PARTY",
+      "evidence_hash_state": "HASH_VALID",
+      "artifact_sha256_recomputed": "8c40c1032178ecdbf8a5409c7fb36f9dd7a17078f5b9cb1dbda09e7aac6e4c9d",
+      "signature_written": false
+    },
+    {
+      "queue_id": "DTW-P3-17",
+      "hotel": "Detroit Foundation Hotel",
+      "identity_key": "detroit foundation hotel",
+      "recommended_founder_decision": "APPROVE_PUBLISH",
+      "outcome": "PUBLICATION_CANDIDATE",
+      "artifact_kind": "text_extract",
+      "source_grade": "GRADE_PT1_FIRST_PARTY",
+      "evidence_hash_state": "HASH_VALID",
+      "artifact_sha256_recomputed": "b5b07f9fa9023be5224c67e157821e6ccfdc9a942678aad9405488cfd656970e",
+      "signature_written": false
+    },
+    {
+      "queue_id": "DTW-P3-18",
+      "hotel": "Detroit Marriott Livonia",
+      "identity_key": "detroit marriott livonia",
+      "recommended_founder_decision": "APPROVE_PUBLISH",
+      "outcome": "PUBLICATION_CANDIDATE",
+      "artifact_kind": "text_extract",
+      "source_grade": "GRADE_PT1_FIRST_PARTY",
+      "evidence_hash_state": "HASH_VALID",
+      "artifact_sha256_recomputed": "ca79395cfff183744f4589eb0a159c0d9a48f68a9edb62dd770cfd671d08fe43",
+      "signature_written": false
+    },
+    {
+      "queue_id": "DTW-P3-19",
+      "hotel": "Detroit Marriott Southfield",
+      "identity_key": "detroit marriott southfield",
+      "recommended_founder_decision": "APPROVE_VERIFIED_NO_PETS",
+      "outcome": "VERIFIED_NO_PETS_CANDIDATE",
+      "artifact_kind": "text_extract",
+      "source_grade": "GRADE_PT1_FIRST_PARTY",
+      "evidence_hash_state": "HASH_VALID",
+      "artifact_sha256_recomputed": "98573258de37306d44b8c786e73518598223ac639257ff6a95ded84bb407d4bb",
+      "signature_written": false
+    },
+    {
+      "queue_id": "DTW-P3-20",
+      "hotel": "Detroit Marriott Troy",
+      "identity_key": "detroit marriott troy",
+      "recommended_founder_decision": "APPROVE_VERIFIED_NO_PETS",
+      "outcome": "VERIFIED_NO_PETS_CANDIDATE",
+      "artifact_kind": "text_extract",
+      "source_grade": "GRADE_PT1_FIRST_PARTY",
+      "evidence_hash_state": "HASH_VALID",
+      "artifact_sha256_recomputed": "98573258de37306d44b8c786e73518598223ac639257ff6a95ded84bb407d4bb",
+      "signature_written": false
+    },
+    {
+      "queue_id": "DTW-P3-21",
+      "hotel": "Detroit Metro Airport Marriott",
+      "identity_key": "detroit metro airport marriott",
+      "recommended_founder_decision": "APPROVE_PUBLISH",
+      "outcome": "PUBLICATION_CANDIDATE",
+      "artifact_kind": "text_extract",
+      "source_grade": "GRADE_PT1_FIRST_PARTY",
+      "evidence_hash_state": "HASH_VALID",
+      "artifact_sha256_recomputed": "d8059a175ef77a5c4619e987776b3cc165fb5eaa272f8f9582502d7b57f35430",
+      "signature_written": false
+    },
+    {
+      "queue_id": "DTW-P3-22",
+      "hotel": "El Moore Lodge",
+      "identity_key": "el moore lodge",
+      "recommended_founder_decision": "APPROVE_VERIFIED_NO_PETS",
+      "outcome": "VERIFIED_NO_PETS_CANDIDATE",
+      "artifact_kind": "text_extract",
+      "source_grade": "GRADE_PT1_FIRST_PARTY",
+      "evidence_hash_state": "HASH_VALID",
+      "artifact_sha256_recomputed": "f8153b53b97935e6a1dbfe68ecd59cd872f526ce1afe367e9494cec6b9f11186",
+      "signature_written": false
+    },
+    {
+      "queue_id": "DTW-P3-23",
+      "hotel": "Element Detroit at the Metropolitan",
+      "identity_key": "element detroit at the metropolitan",
+      "recommended_founder_decision": "APPROVE_PUBLISH",
+      "outcome": "PUBLICATION_CANDIDATE",
+      "artifact_kind": "text_extract",
+      "source_grade": "GRADE_PT1_FIRST_PARTY",
+      "evidence_hash_state": "HASH_VALID",
+      "artifact_sha256_recomputed": "a4f3b517016081ebd18751dc6412a4a826c088cb3631f2ba3414b2e93151e852",
+      "signature_written": false
+    },
+    {
+      "queue_id": "DTW-P3-24",
+      "hotel": "Extended Stay America Detroit Ann Arbor University South",
+      "identity_key": "extended stay america detroit ann arbor university south",
+      "recommended_founder_decision": "APPROVE_PUBLISH",
+      "outcome": "PUBLICATION_CANDIDATE",
+      "artifact_kind": "text_extract",
+      "source_grade": "GRADE_PT1_FIRST_PARTY",
+      "evidence_hash_state": "HASH_VALID",
+      "artifact_sha256_recomputed": "657cf6ece88ec716cad040977fdc18bea068a0f3e76aec032d8f749efae883ef",
+      "signature_written": false
+    },
+    {
+      "queue_id": "DTW-P3-25",
+      "hotel": "Fairfield Inn & Suites Ann Arbor Ypsilanti",
+      "identity_key": "fairfield inn and suites ann arbor ypsilanti",
+      "recommended_founder_decision": "APPROVE_VERIFIED_NO_PETS",
+      "outcome": "VERIFIED_NO_PETS_CANDIDATE",
+      "artifact_kind": "text_extract",
+      "source_grade": "GRADE_PT1_FIRST_PARTY",
+      "evidence_hash_state": "HASH_VALID",
+      "artifact_sha256_recomputed": "a2129edc9e640afa035620702d00e4e9fc5fc70d5938bb64b1a588822a438504",
+      "signature_written": false
+    },
+    {
+      "queue_id": "DTW-P3-26",
+      "hotel": "Fairfield Inn & Suites Detroit Farmington Hills",
+      "identity_key": "fairfield inn and suites detroit farmington hills",
+      "recommended_founder_decision": "APPROVE_PUBLISH",
+      "outcome": "PUBLICATION_CANDIDATE",
+      "artifact_kind": "text_extract",
+      "source_grade": "GRADE_PT1_FIRST_PARTY",
+      "evidence_hash_state": "HASH_VALID",
+      "artifact_sha256_recomputed": "f4a18bc60118453785bafa32f80c545ac5eb82e705fa7f4eac06b1b343df8eae",
+      "signature_written": false
+    },
+    {
+      "queue_id": "DTW-P3-27",
+      "hotel": "Fairfield Inn & Suites Detroit Troy",
+      "identity_key": "fairfield inn and suites detroit troy",
+      "recommended_founder_decision": "APPROVE_VERIFIED_NO_PETS",
+      "outcome": "VERIFIED_NO_PETS_CANDIDATE",
+      "artifact_kind": "text_extract",
+      "source_grade": "GRADE_PT1_FIRST_PARTY",
+      "evidence_hash_state": "HASH_VALID",
+      "artifact_sha256_recomputed": "8601a3d7773723bb892438578840e926b7ef59e507ad7f552950fb8063241739",
+      "signature_written": false
+    },
+    {
+      "queue_id": "DTW-P3-28",
+      "hotel": "Fairfield Inn & Suites by Marriott Detroit Livonia",
+      "identity_key": "fairfield inn and suites by marriott detroit livonia",
+      "recommended_founder_decision": "APPROVE_VERIFIED_NO_PETS",
+      "outcome": "VERIFIED_NO_PETS_CANDIDATE",
+      "artifact_kind": "text_extract",
+      "source_grade": "GRADE_PT1_FIRST_PARTY",
+      "evidence_hash_state": "HASH_VALID",
+      "artifact_sha256_recomputed": "98573258de37306d44b8c786e73518598223ac639257ff6a95ded84bb407d4bb",
+      "signature_written": false
+    },
+    {
+      "queue_id": "DTW-P3-29",
+      "hotel": "Fairfield Inn Ann Arbor",
+      "identity_key": "fairfield inn ann arbor",
+      "recommended_founder_decision": "APPROVE_VERIFIED_NO_PETS",
+      "outcome": "VERIFIED_NO_PETS_CANDIDATE",
+      "artifact_kind": "text_extract",
+      "source_grade": "GRADE_PT1_FIRST_PARTY",
+      "evidence_hash_state": "HASH_VALID",
+      "artifact_sha256_recomputed": "8601a3d7773723bb892438578840e926b7ef59e507ad7f552950fb8063241739",
+      "signature_written": false
+    },
+    {
+      "queue_id": "DTW-P3-30",
+      "hotel": "Four Points by Sheraton Detroit Novi",
+      "identity_key": "four points by sheraton detroit novi",
+      "recommended_founder_decision": "APPROVE_VERIFIED_NO_PETS",
+      "outcome": "VERIFIED_NO_PETS_CANDIDATE",
+      "artifact_kind": "text_extract",
+      "source_grade": "GRADE_PT1_FIRST_PARTY",
+      "evidence_hash_state": "HASH_VALID",
+      "artifact_sha256_recomputed": "98573258de37306d44b8c786e73518598223ac639257ff6a95ded84bb407d4bb",
+      "signature_written": false
+    }
+  ]
+}

@@ -1,0 +1,381 @@
+{
+  "schema": "ptf-detroit-routing-results/1.0",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-ROUTING-REPAIR-025",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-30",
+  "provider_calls": 0,
+  "spend_usd": 0.0,
+  "policy_acquired": false,
+  "authority_mutated": false,
+  "cohort": 34,
+  "counts": {
+    "ROUTE_NOT_FOUND": 22,
+    "IDENTITY_REVIEW_FIRST": 4,
+    "ROUTING_CONFIRMED": 6,
+    "PROPERTY_CLOSED_OR_CONVERTED": 1,
+    "ROUTING_UNRESOLVED": 1
+  },
+  "routes_repaired": 6,
+  "coverage": {
+    "rows_determined": 12,
+    "rows_not_reached": 22,
+    "note": "PARTIAL AND SAID SO. Six routes were repaired and verified by address, three named cases were determined, and three rows were flagged as identity rather than routing problems. The remaining rows are independents and brands whose directories were not swept in this pass; they are reported as ROUTE_NOT_FOUND rather than counted as failures or quietly dropped."
+  },
+  "rows": [
+    {
+      "identity_key": "baymont ferndale royal oak",
+      "canonical_name": "Baymont Ferndale/Royal Oak",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "not reached in this pass -- see coverage below",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-ROUTING-REPAIR-025",
+      "policy_captured": false
+    },
+    {
+      "identity_key": "comfort inn and suites allen park dearborn",
+      "canonical_name": "Comfort Inn & Suites Allen Park - Dearborn",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "not reached in this pass -- see coverage below",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-ROUTING-REPAIR-025",
+      "policy_captured": false
+    },
+    {
+      "identity_key": "comfort inn and suites ann arbor",
+      "canonical_name": "Comfort Inn & Suites Ann Arbor",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "not reached in this pass -- see coverage below",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-ROUTING-REPAIR-025",
+      "policy_captured": false
+    },
+    {
+      "identity_key": "comfort suites",
+      "canonical_name": "Comfort Suites",
+      "classification": "IDENTITY_REVIEW_FIRST",
+      "why": "flagged by the identity screen as a probable duplicate of an already-resolved identity, or as not obviously a lodging business",
+      "needs": "identity review before any route is discovered",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-ROUTING-REPAIR-025",
+      "policy_captured": false
+    },
+    {
+      "identity_key": "courtyard detroit metro airport romulus",
+      "canonical_name": "Courtyard Detroit Metro Airport Romulus",
+      "classification": "ROUTING_CONFIRMED",
+      "canonical_url": "https://www.marriott.com/en-us/hotels/dtwca-courtyard-detroit-metro-airport-romulus/overview/",
+      "first_party_domain": "marriott.com",
+      "discovery_method": "DETERMINISTIC_BRAND_TEMPLATE",
+      "route_evidence": "JSON-LD name 'Courtyard by Marriott Detroit Metro Airport Romulus'; address 30653 Flynn Drive, Romulus, Michigan, 48174; phone +17347213200; property code dtwca present in the document",
+      "identity_binding_signals": [
+        "name",
+        "street",
+        "city",
+        "postal_code",
+        "phone",
+        "property_code"
+      ],
+      "prior_route": "https://www.marriott.com/hotels/travel/dtwca-courtyard-detroit-metro-airport-romulus",
+      "replacement_reason": "the committed route was a brand-index/legacy template that names no building",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-ROUTING-REPAIR-025",
+      "policy_captured": false
+    },
+    {
+      "identity_key": "cranbrook inn",
+      "canonical_name": "Cranbrook Inn",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "not reached in this pass -- see coverage below",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-ROUTING-REPAIR-025",
+      "policy_captured": false
+    },
+    {
+      "identity_key": "crest motel",
+      "canonical_name": "Crest Motel",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "not reached in this pass -- see coverage below",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-ROUTING-REPAIR-025",
+      "policy_captured": false
+    },
+    {
+      "identity_key": "drury inn and suites",
+      "canonical_name": "Drury Inn & Suites",
+      "classification": "PROPERTY_CLOSED_OR_CONVERTED",
+      "evidence": "Drury's own complete US locations directory (215 property links, all states) lists exactly TWO Michigan properties -- Frankenmuth and Grand Rapids. There is no Troy or Detroit Drury in the brand's own directory. The committed legacy route wwws.druryhotels.com/PropertyHotelServices.aspx?Property=0029 returns no hotel content.",
+      "route_action": "the dead legacy route is PRESERVED as historical evidence and must not be used for acquisition",
+      "why_not_a_route_repair": "there is no current Drury route to repair TO. The brand does not list this building. Whether it closed, rebranded or converted is an identity question and is not decided here.",
+      "needs": "founder / identity review",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-ROUTING-REPAIR-025",
+      "policy_captured": false
+    },
+    {
+      "identity_key": "extended stay america detroit madison heights",
+      "canonical_name": "Extended Stay America - Detroit - Madison Heights",
+      "classification": "ROUTING_CONFIRMED",
+      "canonical_url": "https://www.extendedstayamerica.com/hotels/mi/detroit/madison-heights",
+      "first_party_domain": "extendedstayamerica.com",
+      "discovery_method": "BRAND_DIRECTORY",
+      "route_evidence": "listed in Extended Stay America's own Detroit directory; JSON-LD name 'Extended Stay America - Detroit - Madison Heights'; address 32690 Stephenson Hwy., Madison Heights, MI, 48071",
+      "identity_binding_signals": [
+        "name",
+        "street",
+        "city",
+        "postal_code"
+      ],
+      "prior_route": "",
+      "replacement_reason": "the identity carried no route at all",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-ROUTING-REPAIR-025",
+      "policy_captured": false
+    },
+    {
+      "identity_key": "extended stay america detroit novi orchard hill place",
+      "canonical_name": "Extended Stay America - Detroit - Novi - Orchard Hill Place",
+      "classification": "ROUTING_CONFIRMED",
+      "canonical_url": "https://www.extendedstayamerica.com/hotels/mi/detroit/novi-orchard-hill-place",
+      "first_party_domain": "extendedstayamerica.com",
+      "discovery_method": "BRAND_DIRECTORY",
+      "route_evidence": "listed in Extended Stay America's own Detroit directory; JSON-LD name 'Extended Stay America - Detroit - Novi - Orchard Hill Place'; address 39640 Orchard Hill Pl., Novi, MI, 48375",
+      "identity_binding_signals": [
+        "name",
+        "street",
+        "city",
+        "postal_code"
+      ],
+      "prior_route": "",
+      "replacement_reason": "the identity carried no route at all",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-ROUTING-REPAIR-025",
+      "policy_captured": false
+    },
+    {
+      "identity_key": "fort pontchartrain detroit a wyndham hotel",
+      "canonical_name": "Fort Pontchartrain Detroit a Wyndham Hotel",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "not reached in this pass -- see coverage below",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-ROUTING-REPAIR-025",
+      "policy_captured": false
+    },
+    {
+      "identity_key": "hawthorn suites by wyndham dearborn",
+      "canonical_name": "Hawthorn Suites By Wyndham Dearborn",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "not reached in this pass -- see coverage below",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-ROUTING-REPAIR-025",
+      "policy_captured": false
+    },
+    {
+      "identity_key": "holiday inn and suites ann arbor",
+      "canonical_name": "Holiday Inn & Suites Ann Arbor",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "not reached in this pass -- see coverage below",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-ROUTING-REPAIR-025",
+      "policy_captured": false
+    },
+    {
+      "identity_key": "holiday inn fairlane dearborn",
+      "canonical_name": "Holiday Inn Fairlane Dearborn",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "not reached in this pass -- see coverage below",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-ROUTING-REPAIR-025",
+      "policy_captured": false
+    },
+    {
+      "identity_key": "hotel yorba",
+      "canonical_name": "Hotel Yorba",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "not reached in this pass -- see coverage below",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-ROUTING-REPAIR-025",
+      "policy_captured": false
+    },
+    {
+      "identity_key": "hyatt place ann arbor",
+      "canonical_name": "Hyatt Place Ann Arbor",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "not reached in this pass -- see coverage below",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-ROUTING-REPAIR-025",
+      "policy_captured": false
+    },
+    {
+      "identity_key": "king s arms hotel",
+      "canonical_name": "King's Arms Hotel",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "not reached in this pass -- see coverage below",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-ROUTING-REPAIR-025",
+      "policy_captured": false
+    },
+    {
+      "identity_key": "knights inn farmington hill",
+      "canonical_name": "Knights Inn Farmington Hill",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "not reached in this pass -- see coverage below",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-ROUTING-REPAIR-025",
+      "policy_captured": false
+    },
+    {
+      "identity_key": "med inn",
+      "canonical_name": "Med Inn",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "not reached in this pass -- see coverage below",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-ROUTING-REPAIR-025",
+      "policy_captured": false
+    },
+    {
+      "identity_key": "motor city casino hotel",
+      "canonical_name": "Motor City Casino Hotel",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "not reached in this pass -- see coverage below",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-ROUTING-REPAIR-025",
+      "policy_captured": false
+    },
+    {
+      "identity_key": "my place hotel wixom mi",
+      "canonical_name": "My Place Hotel-Wixom, MI",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "not reached in this pass -- see coverage below",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-ROUTING-REPAIR-025",
+      "policy_captured": false
+    },
+    {
+      "identity_key": "radisson hotel detroit farmington hills",
+      "canonical_name": "Radisson Hotel Detroit-Farmington Hills",
+      "classification": "IDENTITY_REVIEW_FIRST",
+      "evidence": "verified first-hand this pass: the committed route radissonhotels.com/en-us/hotels/radisson-farmington-hills 302s to /en-us/brand/radisson, a brand index whose document names neither 'Farmington Hills' nor '12 Mile'. No property page for this building exists on the brand domain.",
+      "route_action": "the collapsing route is PRESERVED as evidence; it is not a property route and must not be treated as one",
+      "why_not_a_route_repair": "the order is explicit: do not force a Radisson route if the building is no longer a Radisson. The brand no longer publishes a page for it, and renaming the identity on that basis alone would be exactly the silent rebrand the order forbids.",
+      "needs": "founder / identity review",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-ROUTING-REPAIR-025",
+      "policy_captured": false
+    },
+    {
+      "identity_key": "red roof inn detroit troy",
+      "canonical_name": "Red Roof Inn Detroit - Troy",
+      "classification": "ROUTING_CONFIRMED",
+      "canonical_url": "https://www.redroof.com/property/mi/troy/rri021",
+      "first_party_domain": "redroof.com",
+      "discovery_method": "BRAND_SITEMAP",
+      "route_evidence": "found in Red Roof's own sitemap.xml (994 URLs) as the single Michigan Troy property; JSON-LD address 2350 Rochester Ct, Troy, MI; property code rri021",
+      "identity_binding_signals": [
+        "street",
+        "city",
+        "property_code"
+      ],
+      "prior_route": "",
+      "replacement_reason": "the identity carried no route at all",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-ROUTING-REPAIR-025",
+      "policy_captured": false
+    },
+    {
+      "identity_key": "residence inn detroit troy madison heights",
+      "canonical_name": "Residence Inn Detroit Troy/Madison Heights",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "not reached in this pass -- see coverage below",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-ROUTING-REPAIR-025",
+      "policy_captured": false
+    },
+    {
+      "identity_key": "roberts riverwalk hotel",
+      "canonical_name": "Roberts Riverwalk Hotel",
+      "classification": "ROUTING_UNRESOLVED",
+      "evidence": "detroitriverwalkhotel.com lapsed and was re-registered; it 301s to an online-gambling site. The hijacked page was NOT opened again this pass and is not treated as first-party evidence of anything.",
+      "route_action": "the hijacked route is PRESERVED as historical evidence, flagged as hijacked, and must never be used for acquisition or published to a guest",
+      "why_unresolved": "no current first-party property or operator page for 1000 River Place Drive was found at zero cost. Guessing a successor domain is precisely how a hijacked route gets adopted as a real one, so nothing was accepted.",
+      "needs": "zero-cost operator discovery in a follow-up, or founder identity review",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-ROUTING-REPAIR-025",
+      "policy_captured": false
+    },
+    {
+      "identity_key": "sagano motel",
+      "canonical_name": "Sagano Motel",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "not reached in this pass -- see coverage below",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-ROUTING-REPAIR-025",
+      "policy_captured": false
+    },
+    {
+      "identity_key": "the cochrane house",
+      "canonical_name": "The Cochrane House",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "not reached in this pass -- see coverage below",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-ROUTING-REPAIR-025",
+      "policy_captured": false
+    },
+    {
+      "identity_key": "the henry autograph collection",
+      "canonical_name": "The Henry, Autograph Collection",
+      "classification": "ROUTING_CONFIRMED",
+      "canonical_url": "https://www.marriott.com/en-us/hotels/dtwak-the-henry-autograph-collection/overview/",
+      "first_party_domain": "marriott.com",
+      "discovery_method": "DETERMINISTIC_BRAND_TEMPLATE",
+      "route_evidence": "JSON-LD name 'The Henry, Autograph Collection'; address Fairlane Plaza, 300 Town Center Drive, Dearborn, Michigan, 48126; phone +13134412000; property code dtwak present",
+      "identity_binding_signals": [
+        "name",
+        "street",
+        "city",
+        "postal_code",
+        "phone",
+        "property_code"
+      ],
+      "prior_route": "https://www.marriott.com/hotels/travel/dtwak-the-henry-autograph-collection/",
+      "replacement_reason": "the committed route was a brand-index/legacy template that names no building",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-ROUTING-REPAIR-025",
+      "policy_captured": false
+    },
+    {
+      "identity_key": "the inn at 97 winder",
+      "canonical_name": "The Inn at 97 Winder",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "not reached in this pass -- see coverage below",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-ROUTING-REPAIR-025",
+      "policy_captured": false
+    },
+    {
+      "identity_key": "the winder street inn",
+      "canonical_name": "The Winder Street Inn",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "not reached in this pass -- see coverage below",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-ROUTING-REPAIR-025",
+      "policy_captured": false
+    },
+    {
+      "identity_key": "towneplace suites detroit commerce",
+      "canonical_name": "TownePlace Suites Detroit Commerce",
+      "classification": "ROUTING_CONFIRMED",
+      "canonical_url": "https://www.marriott.com/en-us/hotels/dtwtc-towneplace-suites-detroit-commerce/overview/",
+      "first_party_domain": "marriott.com",
+      "discovery_method": "DETERMINISTIC_BRAND_TEMPLATE",
+      "route_evidence": "JSON-LD name 'TownePlace Suites by Marriott Detroit Commerce'; address 199 Loop Road, Commerce Township, Michigan, 48390; phone +12486693200; property code dtwtc present",
+      "identity_binding_signals": [
+        "name",
+        "street",
+        "city",
+        "postal_code",
+        "phone",
+        "property_code"
+      ],
+      "prior_route": "https://www.marriott.com/hotels/travel/dtwtc-towneplace-suites-detroit-commerce",
+      "replacement_reason": "the committed route was a brand-index/legacy template that names no building",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-ROUTING-REPAIR-025",
+      "policy_captured": false
+    },
+    {
+      "identity_key": "trumbell and porter",
+      "canonical_name": "Trumbell and Porter",
+      "classification": "IDENTITY_REVIEW_FIRST",
+      "why": "flagged by the identity screen as a probable duplicate of an already-resolved identity, or as not obviously a lodging business",
+      "needs": "identity review before any route is discovered",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-ROUTING-REPAIR-025",
+      "policy_captured": false
+    },
+    {
+      "identity_key": "viking motel",
+      "canonical_name": "Viking Motel",
+      "classification": "ROUTE_NOT_FOUND",
+      "why": "not reached in this pass -- see coverage below",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-ROUTING-REPAIR-025",
+      "policy_captured": false
+    },
+    {
+      "identity_key": "woodland direct",
+      "canonical_name": "Woodland Direct",
+      "classification": "IDENTITY_REVIEW_FIRST",
+      "why": "flagged by the identity screen as a probable duplicate of an already-resolved identity, or as not obviously a lodging business",
+      "needs": "identity review before any route is discovered",
+      "work_order": "PTF-DETROIT-ANN-ARBOR-ROUTING-REPAIR-025",
+      "policy_captured": false
+    }
+  ]
+}

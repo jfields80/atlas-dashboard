@@ -1,0 +1,70 @@
+{
+  "schema": "ptf-detroit-ann-arbor-hold-exceptions/1.0",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-FOUNDER-REVIEW-AND-AUTHORITY-011",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-29",
+  "status": "AWAITING_FOUNDER_RULING",
+  "count": 2,
+  "note": "Both holds are the same defect wearing two faces: the committed reader located a real policy block and declined to resolve pets_allowed from it. Neither is decided here, and neither is resolved by widening the reader inside the review it feeds.",
+  "holds": [
+    {
+      "identity_key": "days inn and suites by wyndham madison heights mi",
+      "property": "Days Inn & Suites by Wyndham Madison Heights MI",
+      "brand": "WYNDHAM",
+      "source_url": "wyndhamhotels.com/days-inn/madison-heights-michigan/days-inn-and-suites-madison-heights-mi/overview",
+      "exact_policy_quote": "ADA defined service animals are welcome at this hotel. Sorry not other pets are allowed.",
+      "reader_returned": {
+        "pets_allowed": null,
+        "block_located": true,
+        "brand_generic": false
+      },
+      "why_the_reader_withheld": "the reader's negative pattern requires 'no other pets'; this property's page reads 'Sorry NOT other pets are allowed' -- a typo on the hotel's own page. The reader declined to resolve the boolean rather than guess at an intended word, which is the correct behaviour.",
+      "mentions_service_animals": true,
+      "interpretation_options": [
+        {
+          "option": "READ AS VERIFIED_NO_PETS",
+          "reading": "'not' is a typo for 'no'; the sentence is a refusal, and the surrounding text ('ADA defined service animals are welcome at this hotel') matches the refusal template this brand uses verbatim on other properties",
+          "effect_on_authority": "verified no-pets 60 -> 61; pet-friendly unchanged"
+        },
+        {
+          "option": "HOLD FOR RE-CAPTURE",
+          "reading": "wait for the property to correct its page, or capture a second surface that states the policy unambiguously",
+          "effect_on_authority": "none; the row stays unresolved"
+        },
+        {
+          "option": "WIDEN THE READER",
+          "reading": "teach the negative pattern to accept 'not other pets'. NOT recommended inside a review this row feeds, and it would change how every market reads this phrasing",
+          "effect_on_authority": "same as option 1 here, but applied globally and without a founder seeing the other rows it would newly decide"
+        }
+      ],
+      "decided": false
+    },
+    {
+      "identity_key": "quality inn and suites banquet center livonia",
+      "property": "Quality Inn & Suites Banquet Center Livonia",
+      "brand": "CHOICE",
+      "source_url": "choicehotels.com/michigan/livonia/quality-inn-hotels/mi119",
+      "exact_policy_quote": "General: Only service animals are permitted, free of charge. Good to know Hotel alerts A 100 USD deposit will be taken and refunded on checkout. A hold on CC card will be required.",
+      "reader_returned": {
+        "pets_allowed": null,
+        "block_located": true,
+        "brand_generic": false
+      },
+      "why_the_reader_withheld": "the block states only what service animals may do. The reader does not convert a service-animal sentence into a pet policy in either direction, so it left the boolean unresolved. Service-animal access is a legal category, not a pet policy.",
+      "mentions_service_animals": true,
+      "interpretation_options": [
+        {
+          "option": "READ AS VERIFIED_NO_PETS",
+          "reading": "'Only service animals are permitted' excludes ordinary pets by the word 'only'; this is an affirmative refusal, not silence",
+          "effect_on_authority": "verified no-pets 60 -> 61; pet-friendly unchanged"
+        },
+        {
+          "option": "TREAT AS POLICY_NOT_FOUND",
+          "reading": "the surface addresses service animals and never addresses ordinary pets, so it states no pet policy at all. SOURCE SILENCE IS ABSENCE",
+          "effect_on_authority": "none; the row stays unresolved and is not a negative claim"
+        }
+      ],
+      "decided": false
+    }
+  ]
+}

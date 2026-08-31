@@ -1,0 +1,96 @@
+{
+  "schema": "ptf-detroit-ann-arbor-identity-ruling/1.0",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-RECANDIDACY-REPAIR-AND-FOUNDER-DECISIONS-003",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-28",
+  "ruling_id": "DTW-ID-003-NOVI-11-MILE",
+  "decision": "SUCCESSOR_IDENTITY_CONFIRMED",
+  "authorization": {
+    "instrument": "PTF-DETROIT-ANN-ARBOR-RECANDIDACY-REPAIR-AND-FOUNDER-DECISIONS-003 Phase 7",
+    "operator": "jfields80",
+    "verbatim": "Record founder decision: Courtyard by Marriott Detroit Novi and Sonesta Select Detroit Novi are the SAME BUILDING / successor identity at 42700 W 11 Mile Rd, 48375. Preserve the current canonical successor identity: Sonesta Select Detroit Novi. Retire/supersede the stale Courtyard identity through the sanctioned identity mechanism. Do not delete history.",
+    "note": "This ruling is recorded on the operator's written instruction in the work order above. It is not a per-row founder note written at a review desk, and it is labelled that way on purpose."
+  },
+  "building": {
+    "street_identity": "42700|mile|48375",
+    "address_as_committed_on_each_row": {
+      "courtyard by marriott detroit novi": "42700 W 11 Mile Rd",
+      "sonesta select detroit novi": "42700 West 11 Mile Rd"
+    },
+    "postal_code": "48375",
+    "city": "Novi",
+    "state": "MI"
+  },
+  "evidence": [
+    "Both identities are committed in the SAME census with the same street number, the same street and the same ZIP: '42700 W 11 Mile Rd' and '42700 West 11 Mile Rd', both 48375. The two spellings normalise to one address_key, which is the function the exclusion authority and the publication guard already use to decide whether two rows are one building.",
+    "The repaired shadow recensus absorbed them into ONE row independently, on street identity, from a local OpenStreetMap extract that had never seen either census.",
+    "The Courtyard row is IDENTITY_PROVISIONAL, carries NO official_url and has NO route in the authority shard. The Sonesta row is IDENTITY_CONFIRMED and carries a live first-party property page.",
+    "Only ONE hotel operates at that address. Two operating hotels would each hold their own brand property page; the Courtyard has none."
+  ],
+  "successor_identity": {
+    "identity_key": "sonesta select detroit novi",
+    "canonical_name": "Sonesta Select Detroit Novi",
+    "official_url": "https://www.sonesta.com/sonesta-select/mi/novi/sonesta-select-detroit-novi",
+    "routing_id": "detroit-ann-arbor-mi:sonesta-select-detroit-novi",
+    "disposition": "REMAINS CANONICAL -- unchanged by this ruling"
+  },
+  "superseded_identity": {
+    "identity_key": "courtyard by marriott detroit novi",
+    "canonical_name": "Courtyard by Marriott Detroit Novi",
+    "identity_state": "IDENTITY_PROVISIONAL",
+    "official_url": null,
+    "routing_id": null,
+    "ruled_disposition": "duplicate",
+    "duplicate_of": "sonesta select detroit novi",
+    "history_preserved": true
+  },
+  "history_preservation": [
+    "Nothing is deleted. The Courtyard identity_key, its canonical name and its census row remain on the record; the ruling SUPERSEDES it rather than removing it.",
+    "On application, 'Courtyard by Marriott Detroit Novi' becomes the former_name of the Sonesta Select row -- the same mechanism this market already used for Delta Hotels DTW -> Skyline Hotel and for Best Western Premier Southfield -> Radisson Southfield.",
+    "The duplicate ledger keeps the full reasoning, as it does for the founder-confirmed Homewood Suites Novi duplicate."
+  ],
+  "application_status": "APPLIED",
+  "why_not_applied_here": {
+    "reason": "Applying this ruling retires a row from the committed identity census, taking it from 182 to 181. This work order's standing prohibition is: do NOT overwrite the committed census until the shadow result is fully validated. The shadow result is NOT fully validated -- the reconciliation records four open promotion blockers, including a street-identity collapse that wrongly merges the EVEN / Hotel Indigo dual-brand pair. So the ruling is RECORDED here in full and its application is staged, rather than the census being edited while that prohibition is live.",
+    "what_is_needed_to_apply": [
+      "Clear the promotion blockers listed in detroit_ann_arbor_shadow_reconciliation_003.json.",
+      "Then apply exactly the three edits in 'application_plan' below, in one pass, and re-pin the census count constants in tests/pettripfinder/contracts/test_market_authorities.py and test_market_geography.py from 182 to 181."
+    ],
+    "superseded_note": "Resolved. The blocker named here -- the EVEN/Indigo collapse -- was fixed generically by the same-doorway guard before this ruling was applied."
+  },
+  "application_plan": [
+    {
+      "step": 1,
+      "target": "launch_packages/pettripfinder/identity_census/detroit-ann-arbor-mi.json",
+      "action": "Remove the 'courtyard by marriott detroit novi' row; census 182 -> 181."
+    },
+    {
+      "step": 2,
+      "target": "launch_packages/pettripfinder/identity_census/detroit-ann-arbor-mi.json",
+      "action": "Set former_name = 'Courtyard by Marriott Detroit Novi' on the 'sonesta select detroit novi' row."
+    },
+    {
+      "step": 3,
+      "target": "launch_packages/pettripfinder/markets/reports/detroit-ann-arbor-mi_duplicate_ledger.json",
+      "action": "Append a 'duplicate' item for 'courtyard by marriott detroit novi', duplicate_of 'sonesta select detroit novi', carrying this ruling_id and its evidence."
+    }
+  ],
+  "what_this_ruling_does_not_do": [
+    "It does not publish anything.",
+    "It does not promote the shadow census.",
+    "It does not change the Sonesta Select row's identity, route, policy state or evidence.",
+    "It does not rule on the other two street-identity collapses (575 W Big Beaver and 3764 S State St); both remain open and are recorded in the reconciliation."
+  ],
+  "applied_by": "PTF-DETROIT-ANN-ARBOR-EVIDENCE-VOCABULARY-AND-PROMOTION-004",
+  "applied_at": "2026-08-29",
+  "application_result": {
+    "census_count_before": 182,
+    "census_count_after": 181,
+    "stale_row_removed": "courtyard by marriott detroit novi",
+    "former_name_set_on": "sonesta select detroit novi",
+    "duplicate_ledger_entry_added": true,
+    "partition_rows_before": 182,
+    "partition_rows_after": 181,
+    "precondition_met": "the same-doorway guard was added and proven first; the guard confirms this doorway is NOT contested (the stale identity claims no official page of its own), so absorption here is a successor, not a merge of two live hotels."
+  }
+}

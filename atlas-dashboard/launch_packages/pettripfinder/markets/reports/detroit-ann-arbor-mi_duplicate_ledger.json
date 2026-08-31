@@ -1,14 +1,15 @@
 {
   "schema": "ptf-detroit-ann-arbor-duplicate-ledger/1.0",
-  "work_order": "PTF-DETROIT-ANN-ARBOR-MARKET-FACTORY-001",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-FOUNDER-RULINGS-AND-SHADOW-PROMOTION-006",
   "market_id": "detroit-ann-arbor-mi",
-  "as_of": "2026-08-16",
+  "as_of": "2026-08-17",
   "counts": {
-    "canonical": 143,
-    "duplicate": 0,
-    "boundary_excluded": 9,
-    "closed": 0,
-    "category_excluded_in_census": 1
+    "canonical": 180,
+    "duplicate": 2,
+    "boundary_excluded": 17,
+    "closed": 3,
+    "category_excluded_in_census": 1,
+    "corrected": 2
   },
   "items": [
     {
@@ -82,6 +83,126 @@
       "duplicate_of": "",
       "notes": "Chamber 'hotels' category member in East Lansing; outside the market regardless of category, and its own lodging status was never independently confirmed.",
       "source": "auburn_hills_chamber"
+    },
+    {
+      "identity_key": "hawthorn suites by wyndham southfield detroit",
+      "canonical_name": "Hawthorn Suites by Wyndham Southfield Detroit",
+      "disposition": "closed",
+      "duplicate_of": "",
+      "notes": "PTF-DETROIT-ANN-ARBOR-IDENTITY-REPAIR-PASS2-001: founder-approved APPROVE_CLOSED_OR_CONVERTED_OUT_OF_ACTIVE_CENSUS. Wyndham's own live inventory search near the committed address (26700 Central Park Blvd, Southfield, MI) returns zero Wyndham-branded properties within 7+ miles. Convergent OTA evidence shows a post-Wyndham independent rebrand ('Springwood Suites') at the same address that is itself marked closed, with no independent first-party website ever found for it. Revalidated a second time immediately before this mutation; no newer active hotel identity was found at the address. Not a pet-policy decision -- no exclusion was created.",
+      "source": "chain_aggregate"
+    },
+    {
+      "identity_key": "towneplace suites by marriott detroit commerce",
+      "canonical_name": "TownePlace Suites by Marriott Detroit Commerce",
+      "disposition": "boundary_excluded",
+      "duplicate_of": "",
+      "notes": "PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-002: Real Marriott property, ~4.4 mi from Farmington Hills. 'Commerce Township' is not in farmington-hills' included_cities (['Farmington Hills', 'West Bloomfield']). Adding it would silently widen the corridor's geographic definition -- a founder decision, not this script's to make.",
+      "source": "chain_locator_002"
+    },
+    {
+      "identity_key": "baymont by wyndham ferndale royal oak",
+      "canonical_name": "Baymont by Wyndham Ferndale/Royal Oak",
+      "disposition": "boundary_excluded",
+      "duplicate_of": "",
+      "notes": "PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-002: Real Wyndham property, adjacent to Royal Oak. 'Ferndale' is not in birmingham-royal-oak-rochester's included_cities. Same treatment as Commerce Township -- flagged, not silently added or silently dropped.",
+      "source": "chain_locator_002"
+    },
+    {
+      "identity_key": "hawthorn suites by wyndham troy",
+      "canonical_name": "Hawthorn Suites by Wyndham Troy",
+      "disposition": "closed",
+      "duplicate_of": "",
+      "notes": "PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-002: Yelp-confirmed CLOSED (updated December 2025). A different property from the already-retired Hawthorn Suites by Wyndham Southfield Detroit -- distinct address, distinct city. Never canonical in this census; retired straight to the 'closed' disposition rather than added and then immediately closed.",
+      "source": "chain_locator_002"
+    },
+    {
+      "identity_key": "hampton inn commerce novi",
+      "canonical_name": "Hampton Inn Commerce Novi",
+      "disposition": "boundary_excluded",
+      "duplicate_of": "",
+      "notes": "PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-003: Real Hilton property, 5.23 mi from Farmington Hills. 'Commerce Township' is not registered on any corridor (same issue as TownePlace Suites Detroit Commerce, flagged in Pass 002).",
+      "source": "chain_locator_003"
+    },
+    {
+      "identity_key": "comfort inn detroit troy",
+      "canonical_name": "Comfort Inn Detroit - Troy",
+      "disposition": "boundary_excluded",
+      "duplicate_of": "",
+      "notes": "PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-003: Choice-brand hotel named for Troy but physically in Clawson, MI, which is not in troy-auburn-hills' included_cities.",
+      "source": "chain_locator_003"
+    },
+    {
+      "identity_key": "comfort suites canton detroit",
+      "canonical_name": "Comfort Suites Canton - Detroit",
+      "disposition": "boundary_excluded",
+      "duplicate_of": "",
+      "notes": "PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-003: Canton, MI is adjacent to Plymouth/Livonia but is not itself in livonia-plymouth-northville's included_cities.",
+      "source": "chain_locator_003"
+    },
+    {
+      "identity_key": "rodeway inn madison heights detroit",
+      "canonical_name": "Rodeway Inn Madison Heights - Detroit",
+      "disposition": "boundary_excluded",
+      "duplicate_of": "",
+      "notes": "PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-003: Madison Heights is not in any corridor's included_cities.",
+      "source": "chain_locator_003"
+    },
+    {
+      "identity_key": "comfort inn and suites allen park dearborn",
+      "canonical_name": "Comfort Inn & Suites Allen Park - Dearborn",
+      "disposition": "boundary_excluded",
+      "duplicate_of": "",
+      "notes": "PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-003: Same city as the already-known Best Western Greenfield Inn boundary flag from Phase 1 (Allen Park, not Dearborn).",
+      "source": "chain_locator_003"
+    },
+    {
+      "identity_key": "days inn and suites by wyndham rochester hills mi",
+      "canonical_name": "Days Inn & Suites by Wyndham Rochester Hills MI",
+      "disposition": "boundary_excluded",
+      "duplicate_of": "",
+      "notes": "PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-003: 'Rochester Hills' is a distinct municipality from 'Rochester', which IS registered on birmingham-royal-oak-rochester. Not assumed to be the same string.",
+      "source": "chain_locator_003"
+    },
+    {
+      "identity_key": "radisson hotel southfield detroit",
+      "canonical_name": "Radisson Hotel Southfield-Detroit",
+      "disposition": "corrected",
+      "duplicate_of": "",
+      "notes": "PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-003: bestwestern.com's own property code (23171) now returns 'The hotel you searched for is no longer available'; choicehotels.com's own live property page for 'Radisson Hotel Southfield-Detroit' shows the IDENTICAL street address as the Best Western Premier record this market committed in Pass 002, with a real, distinct phone number. Same building, converted brand -- renamed in place, former_name preserved, same mechanism as Delta Hotels -> Skyline Hotel in Pass 2.",
+      "source": "chain_locator_003"
+    },
+    {
+      "identity_key": "staybridge suites detroit north royal oak",
+      "canonical_name": "Staybridge Suites Detroit North - Royal Oak",
+      "disposition": "corrected",
+      "duplicate_of": "",
+      "notes": "PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-003: The address recorded in Pass 002 (5150 Coolidge Hwy) does not match this property's own live IHG page (property code dtwro, unchanged) -- the real address is 5125 Meijer Drive. Not a rename: same identity_key, same canonical_name, address/phone corrected to match the property's own page.",
+      "source": "chain_locator_003"
+    },
+    {
+      "identity_key": "homewood suites by hilton novi detroit",
+      "canonical_name": "Homewood Suites by Hilton Novi Detroit",
+      "disposition": "duplicate",
+      "duplicate_of": "homewood suites by hilton novi",
+      "notes": "PTF-DETROIT-ANN-ARBOR-ROUTING-EXPANSION-004-IDENTITY-D001-D002: founder-confirmed CONFIRMED_DUPLICATE. Identical hilton.com official_property_url and the same address/phone (modulo 'Dr' vs 'Drive', '248-...' vs '+1 248-...') as 'homewood suites by hilton novi', which was added earlier (IDENTITY-ROUTING-REPAIR-001) and already carries the market's routing record for this property; this row was added later (CENSUS-COMPLETENESS-003) without recognizing the existing identity. No second route was ever created for it.",
+      "source": "chain_locator_003"
+    },
+    {
+      "identity_key": "courtyard by marriott detroit novi",
+      "canonical_name": "Courtyard by Marriott Detroit Novi",
+      "disposition": "duplicate",
+      "duplicate_of": "sonesta select detroit novi",
+      "notes": "PTF-DETROIT-ANN-ARBOR-EVIDENCE-VOCABULARY-AND-PROMOTION-004 applying founder ruling DTW-ID-003-NOVI-11-MILE. SUCCESSOR_IDENTITY_CONFIRMED: one building at 42700 W 11 Mile Rd, 48375. Both identities were committed in the same census with the same street number, street and ZIP ('42700 W 11 Mile Rd' and '42700 West 11 Mile Rd'), which normalise to one address_key. The repaired shadow recensus absorbed them into one row independently, on street identity, from a local OpenStreetMap extract that had seen neither census. The Courtyard row was IDENTITY_PROVISIONAL, carried NO official_url and had NO route; the Sonesta row is IDENTITY_CONFIRMED with a live first-party property page. A Courtyard that converted to a Sonesta Select. Not a pet-policy decision -- no exclusion was created. History preserved: the Courtyard name is now the former_name of the Sonesta Select row, the same mechanism this market used for Delta Hotels DTW -> Skyline Hotel and Best Western Premier Southfield -> Radisson Southfield.",
+      "source": "shadow_recensus_003 + committed census address agreement"
+    },
+    {
+      "identity_key": "motel 6 ann arbor",
+      "canonical_name": "Motel 6 Ann Arbor",
+      "disposition": "closed",
+      "duplicate_of": "",
+      "notes": "PTF-DETROIT-ANN-ARBOR-FOUNDER-RULINGS-AND-SHADOW-PROMOTION-006 applying founder ruling DTW-ID-004-STATE-ST: APPROVE_CLOSED_OR_CONVERTED. Evidence, first-party and single-sourced on purpose: Motel 6's own Ann Arbor locator at https://www.motel6.com/us/michigan/ann-arbor/ -- the exact URL this census row carried as its official_url -- states '6 motels in Ann Arbor MI' and lists six properties, every one of them in a DIFFERENT city (Farmington Hills, Southgate, Warren, Toledo, Rossford, Southgate). No Motel 6 in Ann Arbor at all, and none at 3764 S State St. Read in an attended browser 2026-08-29 at zero cost. The brand's own live inventory showing no property at a committed address is the same mechanism that retired Hawthorn Suites Southfield in Pass 2. Corroborating weakness of the record itself: a CITY-level brand URL with no property code, bound PAGE_RENDERED, and no phone. The Marriott page for the Residence Inn at the same address could NOT be read (Akamai) and is expressly NOT part of this ruling's evidence -- an access failure proves nothing about what is behind it. Not a pet-policy decision: no exclusion was created, and no succession to the Residence Inn is asserted.",
+      "source": "motel6.com first-party locator (attended read)"
     }
   ]
 }

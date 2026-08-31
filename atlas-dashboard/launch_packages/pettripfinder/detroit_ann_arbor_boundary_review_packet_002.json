@@ -1,0 +1,274 @@
+{
+  "schema": "ptf-detroit-ann-arbor-boundary-review-packet/1.0",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-HARDENED-MEMBERSHIP-AND-SHADOW-RECENSUS-002",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-28",
+  "status": "AWAITING_FOUNDER_BOUNDARY_DECISION",
+  "note": "NO RULING IS MADE HERE. Every founder_decision field is null and stays null until a human fills it. This packet exists because the market's boundary was, in seven places, decided by whether a municipality string happened to appear in a corridor's included_cities list -- which is a data-entry fact, not a geography ruling. 9 properties sit behind these seven names: 8 currently excluded and 1 already admitted. Under the market's declared MARKET_GEOGRAPHY basis a candidate in one of these municipalities whose coordinates fall inside the bounds is BORDERLINE and is held MARKET_MEMBERSHIP_UNRESOLVED for review -- it is not silently dropped, and it is not silently admitted either. Three further municipalities were surfaced by the shadow recensus and appended: Farmington Hill (an OSM spelling variant of the registered Farmington Hills), Farmington, and Plymouth Township. Together the ten names account for all 24 MARKET_MEMBERSHIP_UNRESOLVED candidates the shadow run produced.",
+  "market_bounds_unchanged_by_this_order": {
+    "min_lat": 42.05,
+    "max_lat": 42.75,
+    "min_lng": -83.95,
+    "max_lng": -82.9,
+    "_disclosure": "A loose enclosing box spanning the Detroit metro core, Oakland County suburbs, DTW airport, and the Ann Arbor / Washtenaw core, not an authoritative MSA boundary. Two distinct travel cores (Detroit and Ann Arbor) share this one box."
+  },
+  "included_municipalities_count": 22,
+  "corridors_count": 11,
+  "count": 10,
+  "items": [
+    {
+      "municipality": "Allen Park",
+      "state": "MI",
+      "in_included_municipalities": false,
+      "registered_on_any_corridor_included_cities": false,
+      "nearest_registered_corridor": "detroit-ann-arbor-mi__dearborn",
+      "question_for_the_founder": "Allen Park is the ONE municipality this market currently answers both ways. Best Western Greenfield Inn is IN the census, admitted to the dearborn corridor by explicit_hotel_ids -- the market's only explicit assignment. Comfort Inn & Suites Allen Park - Dearborn was boundary_excluded for being in the same city. Allen Park appears in no corridor's included_cities and in no included_municipalities entry, so under MARKET_GEOGRAPHY a fresh Allen Park candidate is BORDERLINE and held UNRESOLVED.",
+      "committed_rows_already_admitted": [
+        {
+          "identity_key": "best western greenfield inn",
+          "canonical_name": "Best Western Greenfield Inn",
+          "in_committed_census": true,
+          "identity_state": "IDENTITY_CONFIRMED",
+          "corridor": "detroit-ann-arbor-mi__dearborn",
+          "assignment_basis": "explicit",
+          "assignment_value": "best western greenfield inn"
+        }
+      ],
+      "rows_currently_excluded_on_this_municipality": [
+        {
+          "canonical_name": "Comfort Inn & Suites Allen Park - Dearborn",
+          "current_disposition": "boundary_excluded",
+          "ledger_note": "PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-003: Same city as the already-known Best Western Greenfield Inn boundary flag from Phase 1 (Allen Park, not Dearborn).",
+          "source": "chain_locator_003"
+        }
+      ],
+      "what_admitting_would_mean": "Add 'Allen Park' to included_municipalities in scripts/pettripfinder/discovery/config/detroit_ann_arbor_mi.json and to the included_cities of detroit-ann-arbor-mi__dearborn. Every affected row above becomes eligible for the census on its own geography; none is admitted automatically -- each still has to clear identity and routing.",
+      "what_excluding_would_mean": "Record an explicit out-of-market ruling naming 'Allen Park', so that the next recensus reports these rows as a BOUNDARY DECISION rather than re-surfacing them as UNRESOLVED every pass. Silence is what produced the current ambiguity.",
+      "preserve": "PRESERVE Best Western Greenfield Inn's existing history whichever way this is ruled. It is a committed IDENTITY_CONFIRMED census row, it holds ROUTING_CONFIRMED route detroit-ann-arbor-mi:best-western-greenfield-inn, and it is the market's only assignment_basis=explicit row. A ruling that ADMITS Allen Park should convert it from an explicit override to an ordinary city assignment WITHOUT changing its identity_key, its route or its evidence. A ruling that EXCLUDES Allen Park must SUPERSEDE this row with an explicit out-of-market ruling that names it -- it may never be dropped silently, and its route and history stay on the record.",
+      "founder_decision": null,
+      "decided_by": null,
+      "decided_at": null,
+      "shadow_recensus_unresolved_candidates": 2
+    },
+    {
+      "municipality": "Commerce Township",
+      "state": "MI",
+      "in_included_municipalities": false,
+      "registered_on_any_corridor_included_cities": false,
+      "nearest_registered_corridor": "detroit-ann-arbor-mi__farmington-hills",
+      "question_for_the_founder": "Two real chain properties, ~4.4 mi and ~5.2 mi from Farmington Hills, both excluded solely because 'Commerce Township' is absent from that corridor's included_cities ['Farmington Hills','West Bloomfield']. No founder has ever ruled on Commerce Township itself.",
+      "committed_rows_already_admitted": [],
+      "rows_currently_excluded_on_this_municipality": [
+        {
+          "canonical_name": "TownePlace Suites by Marriott Detroit Commerce",
+          "current_disposition": "boundary_excluded",
+          "ledger_note": "PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-002: Real Marriott property, ~4.4 mi from Farmington Hills. 'Commerce Township' is not in farmington-hills' included_cities (['Farmington Hills', 'West Bloomfield']). Adding it would silently widen the corridor's geographic definition -- a founder decision, not this script's to make.",
+          "source": "chain_locator_002"
+        },
+        {
+          "canonical_name": "Hampton Inn Commerce Novi",
+          "current_disposition": "boundary_excluded",
+          "ledger_note": "PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-003: Real Hilton property, 5.23 mi from Farmington Hills. 'Commerce Township' is not registered on any corridor (same issue as TownePlace Suites Detroit Commerce, flagged in Pass 002).",
+          "source": "chain_locator_003"
+        }
+      ],
+      "what_admitting_would_mean": "Add 'Commerce Township' to included_municipalities in scripts/pettripfinder/discovery/config/detroit_ann_arbor_mi.json and to the included_cities of detroit-ann-arbor-mi__farmington-hills. Every affected row above becomes eligible for the census on its own geography; none is admitted automatically -- each still has to clear identity and routing.",
+      "what_excluding_would_mean": "Record an explicit out-of-market ruling naming 'Commerce Township', so that the next recensus reports these rows as a BOUNDARY DECISION rather than re-surfacing them as UNRESOLVED every pass. Silence is what produced the current ambiguity.",
+      "preserve": null,
+      "founder_decision": null,
+      "decided_by": null,
+      "decided_at": null,
+      "shadow_recensus_unresolved_candidates": 2
+    },
+    {
+      "municipality": "Ferndale",
+      "state": "MI",
+      "in_included_municipalities": false,
+      "registered_on_any_corridor_included_cities": false,
+      "nearest_registered_corridor": "detroit-ann-arbor-mi__birmingham-royal-oak-rochester",
+      "question_for_the_founder": "Baymont by Wyndham Ferndale/Royal Oak is adjacent to Royal Oak, which IS a registered city on that corridor, and the property's own name carries both municipalities. Excluded because the string 'Ferndale' is not registered.",
+      "committed_rows_already_admitted": [],
+      "rows_currently_excluded_on_this_municipality": [
+        {
+          "canonical_name": "Baymont by Wyndham Ferndale/Royal Oak",
+          "current_disposition": "boundary_excluded",
+          "ledger_note": "PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-002: Real Wyndham property, adjacent to Royal Oak. 'Ferndale' is not in birmingham-royal-oak-rochester's included_cities. Same treatment as Commerce Township -- flagged, not silently added or silently dropped.",
+          "source": "chain_locator_002"
+        }
+      ],
+      "what_admitting_would_mean": "Add 'Ferndale' to included_municipalities in scripts/pettripfinder/discovery/config/detroit_ann_arbor_mi.json and to the included_cities of detroit-ann-arbor-mi__birmingham-royal-oak-rochester. Every affected row above becomes eligible for the census on its own geography; none is admitted automatically -- each still has to clear identity and routing.",
+      "what_excluding_would_mean": "Record an explicit out-of-market ruling naming 'Ferndale', so that the next recensus reports these rows as a BOUNDARY DECISION rather than re-surfacing them as UNRESOLVED every pass. Silence is what produced the current ambiguity.",
+      "preserve": null,
+      "founder_decision": null,
+      "decided_by": null,
+      "decided_at": null,
+      "shadow_recensus_unresolved_candidates": 1
+    },
+    {
+      "municipality": "Clawson",
+      "state": "MI",
+      "in_included_municipalities": false,
+      "registered_on_any_corridor_included_cities": false,
+      "nearest_registered_corridor": "detroit-ann-arbor-mi__troy-auburn-hills",
+      "question_for_the_founder": "Comfort Inn Detroit - Troy is NAMED for Troy, a registered city, but sits physically in Clawson. The exclusion is correct as a refusal to place a property by its brand string; the open question is whether Clawson itself belongs to the Troy/Auburn Hills corridor.",
+      "committed_rows_already_admitted": [],
+      "rows_currently_excluded_on_this_municipality": [
+        {
+          "canonical_name": "Comfort Inn Detroit - Troy",
+          "current_disposition": "boundary_excluded",
+          "ledger_note": "PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-003: Choice-brand hotel named for Troy but physically in Clawson, MI, which is not in troy-auburn-hills' included_cities.",
+          "source": "chain_locator_003"
+        }
+      ],
+      "what_admitting_would_mean": "Add 'Clawson' to included_municipalities in scripts/pettripfinder/discovery/config/detroit_ann_arbor_mi.json and to the included_cities of detroit-ann-arbor-mi__troy-auburn-hills. Every affected row above becomes eligible for the census on its own geography; none is admitted automatically -- each still has to clear identity and routing.",
+      "what_excluding_would_mean": "Record an explicit out-of-market ruling naming 'Clawson', so that the next recensus reports these rows as a BOUNDARY DECISION rather than re-surfacing them as UNRESOLVED every pass. Silence is what produced the current ambiguity.",
+      "preserve": null,
+      "founder_decision": null,
+      "decided_by": null,
+      "decided_at": null,
+      "shadow_recensus_unresolved_candidates": 1
+    },
+    {
+      "municipality": "Canton",
+      "state": "MI",
+      "in_included_municipalities": false,
+      "registered_on_any_corridor_included_cities": false,
+      "nearest_registered_corridor": "detroit-ann-arbor-mi__livonia-plymouth-northville",
+      "question_for_the_founder": "Comfort Suites Canton - Detroit. Canton adjoins Plymouth and Livonia, both registered, and sits between the Detroit metro cluster and the Ann Arbor cluster -- squarely inside this market's two-core hypothesis.",
+      "committed_rows_already_admitted": [],
+      "rows_currently_excluded_on_this_municipality": [
+        {
+          "canonical_name": "Comfort Suites Canton - Detroit",
+          "current_disposition": "boundary_excluded",
+          "ledger_note": "PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-003: Canton, MI is adjacent to Plymouth/Livonia but is not itself in livonia-plymouth-northville's included_cities.",
+          "source": "chain_locator_003"
+        }
+      ],
+      "what_admitting_would_mean": "Add 'Canton' to included_municipalities in scripts/pettripfinder/discovery/config/detroit_ann_arbor_mi.json and to the included_cities of detroit-ann-arbor-mi__livonia-plymouth-northville. Every affected row above becomes eligible for the census on its own geography; none is admitted automatically -- each still has to clear identity and routing.",
+      "what_excluding_would_mean": "Record an explicit out-of-market ruling naming 'Canton', so that the next recensus reports these rows as a BOUNDARY DECISION rather than re-surfacing them as UNRESOLVED every pass. Silence is what produced the current ambiguity.",
+      "preserve": null,
+      "founder_decision": null,
+      "decided_by": null,
+      "decided_at": null,
+      "shadow_recensus_unresolved_candidates": 5
+    },
+    {
+      "municipality": "Madison Heights",
+      "state": "MI",
+      "in_included_municipalities": false,
+      "registered_on_any_corridor_included_cities": false,
+      "nearest_registered_corridor": "detroit-ann-arbor-mi__birmingham-royal-oak-rochester",
+      "question_for_the_founder": "Rodeway Inn Madison Heights - Detroit. Madison Heights is registered on no corridor at all. It lies on I-75 between Royal Oak and Troy, both registered.",
+      "committed_rows_already_admitted": [],
+      "rows_currently_excluded_on_this_municipality": [
+        {
+          "canonical_name": "Rodeway Inn Madison Heights - Detroit",
+          "current_disposition": "boundary_excluded",
+          "ledger_note": "PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-003: Madison Heights is not in any corridor's included_cities.",
+          "source": "chain_locator_003"
+        }
+      ],
+      "what_admitting_would_mean": "Add 'Madison Heights' to included_municipalities in scripts/pettripfinder/discovery/config/detroit_ann_arbor_mi.json and to the included_cities of detroit-ann-arbor-mi__birmingham-royal-oak-rochester. Every affected row above becomes eligible for the census on its own geography; none is admitted automatically -- each still has to clear identity and routing.",
+      "what_excluding_would_mean": "Record an explicit out-of-market ruling naming 'Madison Heights', so that the next recensus reports these rows as a BOUNDARY DECISION rather than re-surfacing them as UNRESOLVED every pass. Silence is what produced the current ambiguity.",
+      "preserve": null,
+      "founder_decision": null,
+      "decided_by": null,
+      "decided_at": null,
+      "shadow_recensus_unresolved_candidates": 6
+    },
+    {
+      "municipality": "Rochester Hills",
+      "state": "MI",
+      "in_included_municipalities": false,
+      "registered_on_any_corridor_included_cities": false,
+      "nearest_registered_corridor": "detroit-ann-arbor-mi__birmingham-royal-oak-rochester",
+      "question_for_the_founder": "Days Inn & Suites by Wyndham Rochester Hills MI. 'Rochester' IS registered on this corridor; 'Rochester Hills' is a distinct municipality and was deliberately not assumed to be the same string. That caution was right, and it leaves a real question unanswered.",
+      "committed_rows_already_admitted": [],
+      "rows_currently_excluded_on_this_municipality": [
+        {
+          "canonical_name": "Days Inn & Suites by Wyndham Rochester Hills MI",
+          "current_disposition": "boundary_excluded",
+          "ledger_note": "PTF-DETROIT-ANN-ARBOR-CENSUS-COMPLETENESS-003: 'Rochester Hills' is a distinct municipality from 'Rochester', which IS registered on birmingham-royal-oak-rochester. Not assumed to be the same string.",
+          "source": "chain_locator_003"
+        }
+      ],
+      "what_admitting_would_mean": "Add 'Rochester Hills' to included_municipalities in scripts/pettripfinder/discovery/config/detroit_ann_arbor_mi.json and to the included_cities of detroit-ann-arbor-mi__birmingham-royal-oak-rochester. Every affected row above becomes eligible for the census on its own geography; none is admitted automatically -- each still has to clear identity and routing.",
+      "what_excluding_would_mean": "Record an explicit out-of-market ruling naming 'Rochester Hills', so that the next recensus reports these rows as a BOUNDARY DECISION rather than re-surfacing them as UNRESOLVED every pass. Silence is what produced the current ambiguity.",
+      "preserve": null,
+      "founder_decision": null,
+      "decided_by": null,
+      "decided_at": null,
+      "shadow_recensus_unresolved_candidates": 4
+    },
+    {
+      "municipality": "Farmington Hill",
+      "state": "MI",
+      "in_included_municipalities": false,
+      "registered_on_any_corridor_included_cities": false,
+      "nearest_registered_corridor": "detroit-ann-arbor-mi__farmington-hills",
+      "question_for_the_founder": "An OSM SPELLING VARIANT, not a municipality. 'Farmington Hills' IS registered on the farmington-hills corridor; OpenStreetMap spells this one 'Farmington Hill' (singular) at postal 48335. It is the absorption target for the committed row 'Delta Hotels by Marriott Detroit Novi', which was consequently held UNRESOLVED. This wants an ALIAS decision, not a boundary decision -- and never a silent string rewrite.",
+      "committed_rows_already_admitted": [],
+      "rows_currently_excluded_on_this_municipality": [],
+      "surfaced_by": "PTF-...-SHADOW-RECENSUS-002 local OSM shadow run (not present in the committed boundary_exclusion_ledger)",
+      "shadow_recensus_unresolved_candidates": 1,
+      "what_admitting_would_mean": "Register the string so its candidates stop arriving as BORDERLINE.",
+      "what_excluding_would_mean": "Record an explicit out-of-market ruling naming it.",
+      "preserve": null,
+      "founder_decision": null,
+      "decided_by": null,
+      "decided_at": null
+    },
+    {
+      "municipality": "Plymouth Township",
+      "state": "MI",
+      "in_included_municipalities": false,
+      "registered_on_any_corridor_included_cities": false,
+      "nearest_registered_corridor": "detroit-ann-arbor-mi__livonia-plymouth-northville",
+      "question_for_the_founder": "Distinct from 'Plymouth', which IS registered on the livonia-plymouth-northville corridor. Same shape as the Rochester / Rochester Hills question.",
+      "committed_rows_already_admitted": [],
+      "rows_currently_excluded_on_this_municipality": [],
+      "surfaced_by": "PTF-...-SHADOW-RECENSUS-002 local OSM shadow run (not present in the committed boundary_exclusion_ledger)",
+      "shadow_recensus_unresolved_candidates": 1,
+      "what_admitting_would_mean": "Register the string so its candidates stop arriving as BORDERLINE.",
+      "what_excluding_would_mean": "Record an explicit out-of-market ruling naming it.",
+      "preserve": null,
+      "founder_decision": null,
+      "decided_by": null,
+      "decided_at": null
+    },
+    {
+      "municipality": "Farmington",
+      "state": "MI",
+      "in_included_municipalities": false,
+      "registered_on_any_corridor_included_cities": false,
+      "nearest_registered_corridor": "detroit-ann-arbor-mi__farmington-hills",
+      "question_for_the_founder": "A DISTINCT municipality from Farmington Hills, which is registered. The same caution that kept 'Rochester Hills' separate from 'Rochester' applies here in reverse, and it has never been ruled on.",
+      "committed_rows_already_admitted": [],
+      "rows_currently_excluded_on_this_municipality": [],
+      "surfaced_by": "PTF-...-SHADOW-RECENSUS-002 local OSM shadow run (not present in the committed boundary_exclusion_ledger)",
+      "shadow_recensus_unresolved_candidates": 1,
+      "what_admitting_would_mean": "Register the string so its candidates stop arriving as BORDERLINE.",
+      "what_excluding_would_mean": "Record an explicit out-of-market ruling naming it.",
+      "preserve": null,
+      "founder_decision": null,
+      "decided_by": null,
+      "decided_at": null
+    }
+  ],
+  "shadow_recensus_cross_reference": {
+    "total_unresolved_candidates": 24,
+    "covered_by_this_packet": 24,
+    "by_city": {
+      "Madison Heights": 6,
+      "Canton": 5,
+      "Rochester Hills": 4,
+      "Allen Park": 2,
+      "Commerce Township": 2,
+      "Farmington Hill": 1,
+      "Clawson": 1,
+      "Plymouth Township": 1,
+      "Ferndale": 1,
+      "Farmington": 1
+    }
+  }
+}

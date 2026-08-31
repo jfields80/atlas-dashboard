@@ -1,0 +1,110 @@
+{
+  "schema": "ptf-detroit-ann-arbor-firecrawl-yield/1.0",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-FIRECRAWL-PASS-008",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-29",
+  "run_id": "detroit-firecrawl-008",
+  "lane": "firecrawl",
+  "note": "Yield denominated in ATTEMPTS, on two denominators that are published separately and never blended. Nothing here authorises a cohort or publishes a hotel.",
+  "spend": {
+    "authoritative_unit": "firecrawl plan CREDITS",
+    "credits_before": 631.0,
+    "credits_after": 569.0,
+    "credits_spent": 62.0,
+    "attempts": 65,
+    "measured_credits_per_attempt": 0.9538,
+    "assumed_credits_per_attempt": 0.54,
+    "usd_per_credit": 0.13358,
+    "usd_spent": 8.282,
+    "usd_if_the_assumed_rate_had_held": 4.6887,
+    "hard_cap_usd": 20.0,
+    "cap_held": true,
+    "note": "The cost plan assumed 0.54 credits/attempt from 203 committed ledger rows; this run measured 0.95. An attempt that falls through several render engines bills for each of them, and 49 of these attempts were refusals. The cap held with room to spare, but the per-row USD constant in the ledger understates this run and is not the figure to price the next cohort on."
+  },
+  "defect_blocked_attempts": {
+    "count": 49,
+    "usd": 6.24,
+    "cause": "PROPERTY_CODE_PATTERNS cannot read an IHG or Choice property code off those brands' own canonical URL shapes, so the page-health gate compared an empty string against the expected code and refused every page",
+    "what_they_measured": "nothing about the hotel, the lane, or the market"
+  },
+  "all_attempts": {
+    "denominator": "all_attempts",
+    "what_it_is": "every paid attempt in this run, including the two pages bought twice and the 49 the parser defect refused before any page could be judged. The honest cost-side rate.",
+    "attempts": 65,
+    "counts": {
+      "ACQUISITION_FAILURE": 4,
+      "HOLD": 1,
+      "PET_FRIENDLY": 4,
+      "UNEXPECTED_PAGE": 50,
+      "VERIFIED_NO_PETS": 6
+    },
+    "pet_friendly": {
+      "measures": "attempts that ended in a first-party page stating pets are accepted",
+      "successes": 4,
+      "attempts": 65,
+      "point": 0.0615,
+      "wilson_lower_95": 0.0242,
+      "wilson_upper_95": 0.1478
+    },
+    "publication_grade": {
+      "measures": "attempts that ended in a publication-grade answer either way -- pet-friendly or verified no-pets",
+      "successes": 10,
+      "attempts": 65,
+      "point": 0.1538,
+      "wilson_lower_95": 0.0858,
+      "wilson_upper_95": 0.2606
+    }
+  },
+  "reached_the_identity_gate": {
+    "denominator": "reached_the_identity_gate",
+    "what_it_is": "the attempts the page-health gate did not refuse for an unreadable property code. The capability-side rate, and the only one that says anything about what this lane can do.",
+    "attempts": 16,
+    "counts": {
+      "ACQUISITION_FAILURE": 4,
+      "HOLD": 1,
+      "PET_FRIENDLY": 4,
+      "UNEXPECTED_PAGE": 1,
+      "VERIFIED_NO_PETS": 6
+    },
+    "pet_friendly": {
+      "measures": "attempts that ended in a first-party page stating pets are accepted",
+      "successes": 4,
+      "attempts": 16,
+      "point": 0.25,
+      "wilson_lower_95": 0.1018,
+      "wilson_upper_95": 0.495
+    },
+    "publication_grade": {
+      "measures": "attempts that ended in a publication-grade answer either way -- pet-friendly or verified no-pets",
+      "successes": 10,
+      "attempts": 16,
+      "point": 0.625,
+      "wilson_lower_95": 0.3864,
+      "wilson_upper_95": 0.8152
+    }
+  },
+  "repricing": {
+    "basis": "MEASURED RESULTS ONLY. No prior estimate, no other market's rate, and no assumption that a repaired parser behaves like Wyndham -- the bound is carried across because it is the only measurement this market has, and it is carried as a LOWER bound for exactly that reason.",
+    "caveat": "n=16. The lower bound is 39% against a point estimate of 62%; that gap is the measurement's width, not pessimism, and it is why sizing uses the lower bound and feasibility the upper.",
+    "firecrawl_rows_still_unanswered": {
+      "rows": 49,
+      "why": "refused by the page-health gate for an unreadable property code; the pages were never judged",
+      "precondition": "NOT re-runnable until PROPERTY_CODE_PATTERNS is repaired and the repair is proven on these URLs; re-running them as they stand would buy the same refusal again",
+      "cost_to_retry_usd": 6.24,
+      "cost_to_retry_credits": 46.7,
+      "priced_at": "the MEASURED credits/attempt of this run, not the cost plan's assumed 0.54",
+      "expected_publication_grade_at_wilson_lower": 18.9,
+      "expected_publication_grade_at_point": 30.6,
+      "expected_pet_friendly_at_wilson_lower": 5.0
+    },
+    "brightdata_cohort_if_it_were_ever_authorised": {
+      "rows": 43,
+      "status": "NOT AUTHORISED, NOT SIZED FOR APPROVAL, NOT RUN. This order authorises Firecrawl only and forbids Bright Data; the figure exists so a future order can be written against a measurement instead of a guess.",
+      "why_these_rows": "the committed routing registry routes these families to the managed browser, not to Firecrawl",
+      "sizing_rule": "size on the Wilson LOWER bound, never the point estimate",
+      "expected_publication_grade_at_wilson_lower": 16.6,
+      "feasibility_ceiling_at_wilson_upper": 35.1,
+      "note": "the Firecrawl rate is a POOR prior for the Bright Data lane -- different provider, different families, different walls. Carried only as an order-of-magnitude figure, and it should be re-measured on a small authorised pilot before any large cohort is priced."
+    }
+  }
+}

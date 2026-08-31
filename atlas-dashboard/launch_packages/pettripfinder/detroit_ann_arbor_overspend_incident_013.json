@@ -1,0 +1,28 @@
+{
+  "schema": "ptf-detroit-ann-arbor-overspend-incident/1.0",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-BRIGHTDATA-PILOT-013",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-29",
+  "severity": "CAP BREACHED",
+  "what_happened": "The 12-row pilot was launched in the background. Polling the ledger showed 8 rows and the log file was empty because the process buffered its output, so I judged the run stalled and launched it again in the foreground. It had not stalled. Both invocations then ran concurrently and the second re-attempted 4 rows the first still had in flight.",
+  "why_the_guard_did_not_catch_it": "the runner's already-bought guard reads the ledger ONCE at startup. That defends against re-running a finished slice, which is the case it was written for, and is blind to rows another process is fetching right now. Recording each attempt in a finally makes a spend durable; it does not make it visible to a process that has already read the file.",
+  "cost": {
+    "authorised_cap_usd": 2.28,
+    "measured_spend_usd": 2.64,
+    "over_cap_usd": 0.36,
+    "over_cap_percent": 15.8,
+    "authorised_attempts": 12,
+    "duplicate_attempts": 4,
+    "total_paid_attempts": 16,
+    "measured_usd_per_attempt": 0.165,
+    "note": "the 12 authorised attempts alone would have cost about $1.98, inside the cap. The breach is entirely the 4 duplicates."
+  },
+  "what_was_NOT_compromised": [
+    "the measurement: 12 distinct rows, one verdict each, no row counted twice",
+    "the cohort: no row outside the 12 the founder authorised was attempted",
+    "the lane: Bright Data browser only; no Firecrawl, Places or Web Unlocker",
+    "the ledger: all 16 paid attempts are now recorded, the 4 duplicates explicitly marked as such with their predecessor"
+  ],
+  "repair": "The runner now takes an exclusive lock file before its first paid call and refuses to start if one exists. The mistake is now impossible rather than merely discouraged.",
+  "standing_lesson": "Never re-launch a paid run because it looks stalled. A buffered log is not evidence of a stall; check the ledger's growth over time, or the vendor meter, and let a paid job finish or kill it explicitly first."
+}

@@ -1,0 +1,831 @@
+{
+  "schema": "ptf-detroit-ann-arbor-brightdata-run/1.0",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-MARRIOTT-SCALE-015",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-29",
+  "run_id": "detroit-brightdata-015-marriott-scale",
+  "lane": "brightdata_browser",
+  "lanes_forbidden_and_not_used": [
+    "firecrawl",
+    "google_places",
+    "brightdata_web_unlocker"
+  ],
+  "attempts_per_row": 1,
+  "automatic_retries": 0,
+  "attempts": 16,
+  "outcomes": {
+    "CAPTURE_FAILED": 1,
+    "VALID": 15
+  },
+  "publication_grade": 15,
+  "spend": {
+    "authoritative_unit": "Bright Data zone cost, month-to-date",
+    "zone": "scraping_browser1",
+    "month_to_date_before_usd": 77.7,
+    "month_to_date_after_usd": 75.58,
+    "measured_delta_usd": -2.12,
+    "bandwidth_before": "8.6 GB",
+    "bandwidth_after": "8.4 GB",
+    "ceiling_usd": 2.64,
+    "hard_cap_usd": 3.25,
+    "cap_held": true,
+    "caveat": "Bright Data reports zone cost MONTH-TO-DATE and settles UPWARD after a run, so this delta is a FLOOR at the moment it was taken, not a final invoice. The authorised ceiling is what the cap was enforced against."
+  },
+  "results": [
+    {
+      "attempt_id": "3e337f87e9e667ca",
+      "identity_key": "courtyard detroit farmington hills",
+      "canonical_name": "Courtyard Detroit Farmington Hills",
+      "brand": "MARRIOTT",
+      "sub_brand": "courtyard",
+      "city": "Farmington Hills",
+      "canonical_url": "https://www.marriott.com/dtwcf",
+      "lane": "brightdata_browser",
+      "reader": "marriott",
+      "access_result": "CAPTURE_FAILED",
+      "identity_result": {
+        "confirmed": true,
+        "binding_method": "PROPERTY_CODE",
+        "matched": [
+          "property_code",
+          "name",
+          "postal_code",
+          "phone"
+        ],
+        "conflicting": [
+          "street_identity"
+        ]
+      },
+      "policy_reading": {
+        "found": false,
+        "pets_allowed": null,
+        "block_text": "",
+        "brand_generic": false,
+        "charges": []
+      },
+      "publication_grade": false,
+      "artifact_path": "",
+      "artifact_hash": "",
+      "cost_ceiling_usd": 0.165,
+      "refusal_reason": "artifact persistence failed: TargetClosedError: Page.screenshot: Target page, context or browser has been closed\nCall log:\n  - taking page screenshot\n"
+    },
+    {
+      "attempt_id": "680c38fd8618f26b",
+      "identity_key": "hotel david whitney autograph collection",
+      "canonical_name": "Hotel David Whitney, Autograph Collection",
+      "brand": "MARRIOTT",
+      "sub_brand": "autograph",
+      "city": "Detroit",
+      "canonical_url": "https://www.marriott.com/en-us/hotels/dtwkd-hotel-david-whitney-autograph-collection/overview/",
+      "lane": "brightdata_browser",
+      "reader": "marriott",
+      "access_result": "VALID",
+      "identity_result": {
+        "confirmed": true,
+        "binding_method": "PROPERTY_CODE",
+        "matched": [
+          "property_code",
+          "name",
+          "postal_code",
+          "phone",
+          "canonical_path"
+        ],
+        "conflicting": []
+      },
+      "policy_reading": {
+        "found": true,
+        "pets_allowed": true,
+        "block_text": "Does Hotel David Whitney, Autograph Collection allow pets? Yes, pets are welcome at Hotel David Whitney, Autograph Collection. One pet is allowed per room, with a maximum weight of 40.0 lbs. What are the parking options at Hotel David Whitney, Autograph Collection? On-site valet parking is available at Hotel David Whitney, Autograph Collection. The daily valet fee is $52.00 per day.",
+        "brand_generic": false,
+        "charges": []
+      },
+      "publication_grade": true,
+      "artifact_path": "C:\\ptf-detroit\\atlas-dashboard\\data\\worker_runs\\pettripfinder\\detroit-ann-arbor-marriott-015\\hotel-david-whitney-autograph-collection\\attempt-01\\rendered.html",
+      "artifact_hash": "1a67b4f84dfe560ee60df1138ae0382a1e4ca924885966f965239cf2f32fb8a3",
+      "cost_ceiling_usd": 0.165,
+      "refusal_reason": ""
+    },
+    {
+      "attempt_id": "4f1228cece74ad90",
+      "identity_key": "residence inn by marriott ann arbor downtown",
+      "canonical_name": "Residence Inn by Marriott Ann Arbor Downtown",
+      "brand": "MARRIOTT",
+      "sub_brand": "residence-inn",
+      "city": "Ann Arbor",
+      "canonical_url": "https://www.marriott.com/en-us/hotels/arbdt-residence-inn-ann-arbor-downtown/overview/",
+      "lane": "brightdata_browser",
+      "reader": "marriott",
+      "access_result": "VALID",
+      "identity_result": {
+        "confirmed": true,
+        "binding_method": "PROPERTY_CODE",
+        "matched": [
+          "property_code",
+          "name",
+          "postal_code",
+          "street_identity",
+          "phone",
+          "canonical_path"
+        ],
+        "conflicting": []
+      },
+      "policy_reading": {
+        "found": true,
+        "pets_allowed": true,
+        "block_text": "Does Residence Inn by Marriott Ann Arbor Downtown allow pets? Yes, pets are welcome at Residence Inn by Marriott Ann Arbor Downtown. Up to 2 pets are allowed per room. Each pet may weigh up to 50.0 lbs. A non-refundable pet fee of $100.00 per stay applies. What are the parking options at Residence Inn by Marriott Ann Arbor Downtown? Off-site valet parking is available at Residence Inn by Marriott Ann Arbor Downtown. The daily valet fee is $38.00 per day.",
+        "brand_generic": false,
+        "charges": [
+          {
+            "amount_minor": 10000,
+            "basis": "per_stay",
+            "scope": "",
+            "origin": "prose",
+            "refundable": false,
+            "quote": "$100.00 per stay ",
+            "label": "",
+            "kind": "fee",
+            "cleaning_labelled": false
+          },
+          {
+            "amount_minor": 10000,
+            "basis": "per_stay",
+            "scope": "",
+            "origin": "prose",
+            "refundable": false,
+            "quote": "100.00 per stay",
+            "label": "",
+            "kind": "fee",
+            "cleaning_labelled": false
+          }
+        ]
+      },
+      "publication_grade": true,
+      "artifact_path": "C:\\ptf-detroit\\atlas-dashboard\\data\\worker_runs\\pettripfinder\\detroit-ann-arbor-marriott-015\\residence-inn-by-marriott-ann-arbor-downtown\\attempt-01\\rendered.html",
+      "artifact_hash": "eda14041ae1168139345d3dc1e129e3fb3ffdfed9be9eddd4a6213826dbbd853",
+      "cost_ceiling_usd": 0.165,
+      "refusal_reason": ""
+    },
+    {
+      "attempt_id": "a4fc765e06963a5e",
+      "identity_key": "residence inn by marriott ann arbor north",
+      "canonical_name": "Residence Inn by Marriott Ann Arbor North",
+      "brand": "MARRIOTT",
+      "sub_brand": "residence-inn",
+      "city": "Ann Arbor",
+      "canonical_url": "https://www.marriott.com/en-us/hotels/arbrn-residence-inn-ann-arbor-north/overview/",
+      "lane": "brightdata_browser",
+      "reader": "marriott",
+      "access_result": "VALID",
+      "identity_result": {
+        "confirmed": true,
+        "binding_method": "PROPERTY_CODE",
+        "matched": [
+          "property_code",
+          "name",
+          "postal_code",
+          "street_identity",
+          "phone",
+          "canonical_path"
+        ],
+        "conflicting": []
+      },
+      "policy_reading": {
+        "found": true,
+        "pets_allowed": true,
+        "block_text": "Does Residence Inn by Marriott Ann Arbor North allow pets? Yes, pets are welcome at Residence Inn by Marriott Ann Arbor North. Up to 2 pets are allowed per room. Each pet may weigh up to 150.0 lbs. A non-refundable pet fee of $100.00 per stay applies.",
+        "brand_generic": false,
+        "charges": [
+          {
+            "amount_minor": 10000,
+            "basis": "per_stay",
+            "scope": "",
+            "origin": "prose",
+            "refundable": false,
+            "quote": "$100.00 per stay ",
+            "label": "",
+            "kind": "fee",
+            "cleaning_labelled": false
+          },
+          {
+            "amount_minor": 10000,
+            "basis": "per_stay",
+            "scope": "",
+            "origin": "prose",
+            "refundable": false,
+            "quote": "100.00 per stay",
+            "label": "",
+            "kind": "fee",
+            "cleaning_labelled": false
+          }
+        ]
+      },
+      "publication_grade": true,
+      "artifact_path": "C:\\ptf-detroit\\atlas-dashboard\\data\\worker_runs\\pettripfinder\\detroit-ann-arbor-marriott-015\\residence-inn-by-marriott-ann-arbor-north\\attempt-01\\rendered.html",
+      "artifact_hash": "34000ddfc047c2c04799cb1535fa23253f2aaa6e887f58e77757ad4851b316bc",
+      "cost_ceiling_usd": 0.165,
+      "refusal_reason": ""
+    },
+    {
+      "attempt_id": "8f826b6b75b48bc9",
+      "identity_key": "residence inn by marriott ann arbor south",
+      "canonical_name": "Residence Inn by Marriott Ann Arbor South",
+      "brand": "MARRIOTT",
+      "sub_brand": "residence-inn",
+      "city": "Ann Arbor",
+      "canonical_url": "https://www.marriott.com/en-us/hotels/dtwrp-residence-inn-ann-arbor-south/overview/",
+      "lane": "brightdata_browser",
+      "reader": "marriott",
+      "access_result": "VALID",
+      "identity_result": {
+        "confirmed": true,
+        "binding_method": "PROPERTY_CODE",
+        "matched": [
+          "property_code",
+          "name",
+          "postal_code",
+          "street_identity",
+          "phone",
+          "canonical_path"
+        ],
+        "conflicting": []
+      },
+      "policy_reading": {
+        "found": true,
+        "pets_allowed": true,
+        "block_text": "Does Residence Inn by Marriott Ann Arbor South allow pets? Yes, pets are welcome at Residence Inn by Marriott Ann Arbor South. Up to 2 pets are allowed per room. Each pet may weigh up to 50.0 lbs.",
+        "brand_generic": false,
+        "charges": []
+      },
+      "publication_grade": true,
+      "artifact_path": "C:\\ptf-detroit\\atlas-dashboard\\data\\worker_runs\\pettripfinder\\detroit-ann-arbor-marriott-015\\residence-inn-by-marriott-ann-arbor-south\\attempt-01\\rendered.html",
+      "artifact_hash": "9721f5423cb7b018364043b54a7f623467bd01015420e9ed15e139230c90e445",
+      "cost_ceiling_usd": 0.165,
+      "refusal_reason": ""
+    },
+    {
+      "attempt_id": "26b27bcb5f24375e",
+      "identity_key": "residence inn by marriott detroit farmington hills",
+      "canonical_name": "Residence Inn by Marriott Detroit Farmington Hills",
+      "brand": "MARRIOTT",
+      "sub_brand": "residence-inn",
+      "city": "Farmington Hills",
+      "canonical_url": "https://www.marriott.com/en-us/hotels/dtwrf-residence-inn-detroit-farmington-hills/overview/",
+      "lane": "brightdata_browser",
+      "reader": "marriott",
+      "access_result": "VALID",
+      "identity_result": {
+        "confirmed": true,
+        "binding_method": "PROPERTY_CODE",
+        "matched": [
+          "property_code",
+          "name",
+          "postal_code",
+          "street_identity",
+          "phone",
+          "canonical_path"
+        ],
+        "conflicting": []
+      },
+      "policy_reading": {
+        "found": true,
+        "pets_allowed": true,
+        "block_text": "Does Residence Inn by Marriott Detroit Farmington Hills allow pets? Yes, pets are welcome at Residence Inn by Marriott Detroit Farmington Hills. Up to 2 pets are allowed per room. Each pet may weigh up to 50.0 lbs. A non-refundable pet fee of $100.00 per stay applies.",
+        "brand_generic": false,
+        "charges": [
+          {
+            "amount_minor": 10000,
+            "basis": "per_stay",
+            "scope": "",
+            "origin": "prose",
+            "refundable": false,
+            "quote": "$100.00 per stay ",
+            "label": "",
+            "kind": "fee",
+            "cleaning_labelled": false
+          },
+          {
+            "amount_minor": 10000,
+            "basis": "per_stay",
+            "scope": "",
+            "origin": "prose",
+            "refundable": false,
+            "quote": "100.00 per stay",
+            "label": "",
+            "kind": "fee",
+            "cleaning_labelled": false
+          }
+        ]
+      },
+      "publication_grade": true,
+      "artifact_path": "C:\\ptf-detroit\\atlas-dashboard\\data\\worker_runs\\pettripfinder\\detroit-ann-arbor-marriott-015\\residence-inn-by-marriott-detroit-farmington-hills\\attempt-01\\rendered.html",
+      "artifact_hash": "836bef02dc27a246a2883775f64f246ff7e7c23a4a781b1207ac9c17b3dfe90d",
+      "cost_ceiling_usd": 0.165,
+      "refusal_reason": ""
+    },
+    {
+      "attempt_id": "4f98dc75747916ea",
+      "identity_key": "residence inn by marriott detroit novi",
+      "canonical_name": "Residence Inn by Marriott Detroit Novi",
+      "brand": "MARRIOTT",
+      "sub_brand": "residence-inn",
+      "city": "Novi",
+      "canonical_url": "https://www.marriott.com/en-us/hotels/dtwno-residence-inn-detroit-novi/overview/",
+      "lane": "brightdata_browser",
+      "reader": "marriott",
+      "access_result": "VALID",
+      "identity_result": {
+        "confirmed": true,
+        "binding_method": "PROPERTY_CODE",
+        "matched": [
+          "property_code",
+          "name",
+          "postal_code",
+          "street_identity",
+          "phone",
+          "canonical_path"
+        ],
+        "conflicting": []
+      },
+      "policy_reading": {
+        "found": true,
+        "pets_allowed": true,
+        "block_text": "Does Residence Inn by Marriott Detroit Novi allow pets? Yes, pets are welcome at Residence Inn by Marriott Detroit Novi. Up to 2 pets are allowed per room. Each pet may weigh up to 120.0 lbs. A non-refundable pet fee of $100.00 per stay applies. What are the parking options at Residence Inn by Marriott Detroit Novi? On-site self parking is available at Residence Inn by Marriott Detroit Novi. Self parking is available at Residence Inn by Marriott Detroit Novi, with rates of $0.00 per hour, $6.00 per day, $0.00 per week, and $0.00 perstay.",
+        "brand_generic": false,
+        "charges": [
+          {
+            "amount_minor": 10000,
+            "basis": "per_stay",
+            "scope": "",
+            "origin": "prose",
+            "refundable": false,
+            "quote": "$100.00 per stay ",
+            "label": "",
+            "kind": "fee",
+            "cleaning_labelled": false
+          },
+          {
+            "amount_minor": 10000,
+            "basis": "per_stay",
+            "scope": "",
+            "origin": "prose",
+            "refundable": false,
+            "quote": "100.00 per stay",
+            "label": "",
+            "kind": "fee",
+            "cleaning_labelled": false
+          }
+        ]
+      },
+      "publication_grade": true,
+      "artifact_path": "C:\\ptf-detroit\\atlas-dashboard\\data\\worker_runs\\pettripfinder\\detroit-ann-arbor-marriott-015\\residence-inn-by-marriott-detroit-novi\\attempt-01\\rendered.html",
+      "artifact_hash": "11ac22eb96cdaad934969aa10c1c51e8f952c366338ec0260be4087a47c03223",
+      "cost_ceiling_usd": 0.165,
+      "refusal_reason": ""
+    },
+    {
+      "attempt_id": "040ac483d29bfbd2",
+      "identity_key": "sheraton detroit novi hotel",
+      "canonical_name": "Sheraton Detroit Novi Hotel",
+      "brand": "MARRIOTT",
+      "sub_brand": "sheraton",
+      "city": "Novi",
+      "canonical_url": "https://www.marriott.com/en-us/hotels/dtwos-sheraton-detroit-novi-hotel/overview/",
+      "lane": "brightdata_browser",
+      "reader": "marriott",
+      "access_result": "VALID",
+      "identity_result": {
+        "confirmed": true,
+        "binding_method": "PROPERTY_CODE",
+        "matched": [
+          "property_code",
+          "name",
+          "phone",
+          "canonical_path"
+        ],
+        "conflicting": []
+      },
+      "policy_reading": {
+        "found": true,
+        "pets_allowed": true,
+        "block_text": "Does Sheraton Detroit Novi Hotel allow pets? Yes, pets are welcome at Sheraton Detroit Novi Hotel. One pet is allowed per room, with a maximum weight of 50.0 lbs. A non-refundable pet fee of $75.00 per stay applies. What are the parking options at Sheraton Detroit Novi Hotel? On-site self parking is available at Sheraton Detroit Novi Hotel. Self parking is available at Sheraton Detroit Novi Hotel, with rates of $0.00 per hour, $10.00 per day, $0.00 per week, and $0.00 perstay.",
+        "brand_generic": false,
+        "charges": [
+          {
+            "amount_minor": 7500,
+            "basis": "per_stay",
+            "scope": "",
+            "origin": "prose",
+            "refundable": false,
+            "quote": "$75.00 per stay ",
+            "label": "",
+            "kind": "fee",
+            "cleaning_labelled": false
+          },
+          {
+            "amount_minor": 7500,
+            "basis": "per_stay",
+            "scope": "",
+            "origin": "prose",
+            "refundable": false,
+            "quote": "75.00 per stay",
+            "label": "",
+            "kind": "fee",
+            "cleaning_labelled": false
+          }
+        ]
+      },
+      "publication_grade": true,
+      "artifact_path": "C:\\ptf-detroit\\atlas-dashboard\\data\\worker_runs\\pettripfinder\\detroit-ann-arbor-marriott-015\\sheraton-detroit-novi-hotel\\attempt-01\\rendered.html",
+      "artifact_hash": "3f6b6e0a0eb8d79934c92545d2c43bb4bbe2db08afebbefd58b5ebf0a45b1e17",
+      "cost_ceiling_usd": 0.165,
+      "refusal_reason": ""
+    },
+    {
+      "attempt_id": "199b05f8054641e6",
+      "identity_key": "springhill suites by marriott detroit dearborn",
+      "canonical_name": "SpringHill Suites by Marriott Detroit Dearborn",
+      "brand": "MARRIOTT",
+      "sub_brand": "springhill",
+      "city": "Dearborn",
+      "canonical_url": "https://www.marriott.com/en-us/hotels/dttsd-springhill-suites-detroit-dearborn/overview/",
+      "lane": "brightdata_browser",
+      "reader": "marriott",
+      "access_result": "VALID",
+      "identity_result": {
+        "confirmed": true,
+        "binding_method": "PROPERTY_CODE",
+        "matched": [
+          "property_code",
+          "name",
+          "postal_code",
+          "street_identity",
+          "phone",
+          "canonical_path"
+        ],
+        "conflicting": []
+      },
+      "policy_reading": {
+        "found": true,
+        "pets_allowed": false,
+        "block_text": "Pet Policy Pets Not Allowed",
+        "brand_generic": false,
+        "charges": []
+      },
+      "publication_grade": true,
+      "artifact_path": "C:\\ptf-detroit\\atlas-dashboard\\data\\worker_runs\\pettripfinder\\detroit-ann-arbor-marriott-015\\springhill-suites-by-marriott-detroit-dearborn\\attempt-01\\rendered.html",
+      "artifact_hash": "c72f9943a884c7bb8aa7e66030f1c060d5e320988da96c2de884cc2abe2b23a6",
+      "cost_ceiling_usd": 0.165,
+      "refusal_reason": ""
+    },
+    {
+      "attempt_id": "573773bdd24552c6",
+      "identity_key": "springhill suites by marriott detroit metro airport romulus",
+      "canonical_name": "SpringHill Suites by Marriott Detroit Metro Airport Romulus",
+      "brand": "MARRIOTT",
+      "sub_brand": "springhill",
+      "city": "Romulus",
+      "canonical_url": "https://www.marriott.com/en-us/hotels/dtwas-springhill-suites-detroit-metro-airport-romulus/overview",
+      "lane": "brightdata_browser",
+      "reader": "marriott",
+      "access_result": "VALID",
+      "identity_result": {
+        "confirmed": true,
+        "binding_method": "PROPERTY_CODE",
+        "matched": [
+          "property_code",
+          "name",
+          "postal_code",
+          "street_identity",
+          "phone",
+          "canonical_path"
+        ],
+        "conflicting": []
+      },
+      "policy_reading": {
+        "found": true,
+        "pets_allowed": false,
+        "block_text": "Pet Policy Pets Not Allowed",
+        "brand_generic": false,
+        "charges": []
+      },
+      "publication_grade": true,
+      "artifact_path": "C:\\ptf-detroit\\atlas-dashboard\\data\\worker_runs\\pettripfinder\\detroit-ann-arbor-marriott-015\\springhill-suites-by-marriott-detroit-metro-airport-romulus\\attempt-01\\rendered.html",
+      "artifact_hash": "faf0054811db154b17b8faad11cf8bb48434aee899879539cf89e7cef434c0be",
+      "cost_ceiling_usd": 0.165,
+      "refusal_reason": ""
+    },
+    {
+      "attempt_id": "980a0ad929c3ff8b",
+      "identity_key": "springhill suites detroit southfield",
+      "canonical_name": "SpringHill Suites Detroit Southfield",
+      "brand": "MARRIOTT",
+      "sub_brand": "springhill",
+      "city": "Southfield",
+      "canonical_url": "https://www.marriott.com/en-us/hotels/dtwsd-springhill-suites-detroit-southfield/overview/",
+      "lane": "brightdata_browser",
+      "reader": "marriott",
+      "access_result": "VALID",
+      "identity_result": {
+        "confirmed": true,
+        "binding_method": "PROPERTY_CODE",
+        "matched": [
+          "property_code",
+          "name",
+          "postal_code",
+          "street_identity",
+          "phone",
+          "canonical_path"
+        ],
+        "conflicting": []
+      },
+      "policy_reading": {
+        "found": true,
+        "pets_allowed": false,
+        "block_text": "Pet Policy Pets Not Allowed",
+        "brand_generic": false,
+        "charges": []
+      },
+      "publication_grade": true,
+      "artifact_path": "C:\\ptf-detroit\\atlas-dashboard\\data\\worker_runs\\pettripfinder\\detroit-ann-arbor-marriott-015\\springhill-suites-detroit-southfield\\attempt-01\\rendered.html",
+      "artifact_hash": "504b345259c7c00bc06cb949d40d9c2f8bc81ba52d768361ac3d1f562e16948a",
+      "cost_ceiling_usd": 0.165,
+      "refusal_reason": ""
+    },
+    {
+      "attempt_id": "98a302f520332152",
+      "identity_key": "springhill suites detroit wixom",
+      "canonical_name": "SpringHill Suites Detroit Wixom",
+      "brand": "MARRIOTT",
+      "sub_brand": "springhill",
+      "city": "Wixom",
+      "canonical_url": "https://www.marriott.com/dtwsw",
+      "lane": "brightdata_browser",
+      "reader": "marriott",
+      "access_result": "VALID",
+      "identity_result": {
+        "confirmed": true,
+        "binding_method": "PROPERTY_CODE",
+        "matched": [
+          "property_code",
+          "name_partial",
+          "postal_code",
+          "street_identity",
+          "phone"
+        ],
+        "conflicting": []
+      },
+      "policy_reading": {
+        "found": true,
+        "pets_allowed": true,
+        "block_text": "Does SpringHill Suites by Marriott Wixom Novi allow pets? Yes, pets are welcome at SpringHill Suites by Marriott Wixom Novi. Up to 2 pets are allowed per room. Each pet may weigh up to 50.0 lbs.",
+        "brand_generic": false,
+        "charges": []
+      },
+      "publication_grade": true,
+      "artifact_path": "C:\\ptf-detroit\\atlas-dashboard\\data\\worker_runs\\pettripfinder\\detroit-ann-arbor-marriott-015\\springhill-suites-detroit-wixom\\attempt-01\\rendered.html",
+      "artifact_hash": "2dce5f91a6a01b0dcbb282c90d8589f202e670a5fc9cdac26ac20a7ddf1572c7",
+      "cost_ceiling_usd": 0.165,
+      "refusal_reason": ""
+    },
+    {
+      "attempt_id": "34b84266c8a211e0",
+      "identity_key": "the westin southfield detroit",
+      "canonical_name": "The Westin Southfield Detroit",
+      "brand": "MARRIOTT",
+      "sub_brand": "westin",
+      "city": "Southfield",
+      "canonical_url": "https://www.marriott.com/en-us/hotels/dtwwi-the-westin-southfield-detroit/overview/",
+      "lane": "brightdata_browser",
+      "reader": "marriott",
+      "access_result": "VALID",
+      "identity_result": {
+        "confirmed": true,
+        "binding_method": "PROPERTY_CODE",
+        "matched": [
+          "property_code",
+          "name",
+          "postal_code",
+          "street_identity",
+          "phone",
+          "canonical_path"
+        ],
+        "conflicting": []
+      },
+      "policy_reading": {
+        "found": true,
+        "pets_allowed": true,
+        "block_text": "Does The Westin Southfield Detroit allow pets? Yes, pets are welcome at The Westin Southfield Detroit. Up to 2 pets are allowed per room. Each pet may weigh up to 50.0 lbs. A non-refundable pet fee of $50.00 per night applies. What are the parking options at The Westin Southfield Detroit? On-site parking is available at The Westin Southfield Detroit. Self parking is available for $15.00 per day. Valet parking is available for $30.00 per day.",
+        "brand_generic": false,
+        "charges": [
+          {
+            "amount_minor": 5000,
+            "basis": "per_night",
+            "scope": "",
+            "origin": "prose",
+            "refundable": false,
+            "quote": "$50.00 per night ",
+            "label": "",
+            "kind": "fee",
+            "cleaning_labelled": false
+          },
+          {
+            "amount_minor": 5000,
+            "basis": "per_night",
+            "scope": "",
+            "origin": "prose",
+            "refundable": false,
+            "quote": "50.00 per night",
+            "label": "",
+            "kind": "fee",
+            "cleaning_labelled": false
+          }
+        ]
+      },
+      "publication_grade": true,
+      "artifact_path": "C:\\ptf-detroit\\atlas-dashboard\\data\\worker_runs\\pettripfinder\\detroit-ann-arbor-marriott-015\\the-westin-southfield-detroit\\attempt-01\\rendered.html",
+      "artifact_hash": "e316f317651e384b1d45b9cbf9a88d367fae6ec5f56a06457c3bbd0b6bd8d203",
+      "cost_ceiling_usd": 0.165,
+      "refusal_reason": ""
+    },
+    {
+      "attempt_id": "0b48ae340e9ad7b5",
+      "identity_key": "towneplace suites by marriott ann arbor",
+      "canonical_name": "TownePlace Suites by Marriott Ann Arbor",
+      "brand": "MARRIOTT",
+      "sub_brand": "towneplace",
+      "city": "Ann Arbor",
+      "canonical_url": "https://www.marriott.com/en-us/hotels/arbtp-towneplace-suites-ann-arbor/overview/",
+      "lane": "brightdata_browser",
+      "reader": "marriott",
+      "access_result": "VALID",
+      "identity_result": {
+        "confirmed": true,
+        "binding_method": "PROPERTY_CODE",
+        "matched": [
+          "property_code",
+          "name",
+          "postal_code",
+          "street_identity",
+          "phone",
+          "canonical_path"
+        ],
+        "conflicting": []
+      },
+      "policy_reading": {
+        "found": true,
+        "pets_allowed": true,
+        "block_text": "Pet Policy Pets Welcome $50/per day to a max of $150, max 2 pets Non-Refundable Pet Fee Per Stay: $150.00 Maximum Number of Pets in Room: 2",
+        "brand_generic": false,
+        "charges": [
+          {
+            "amount_minor": 15000,
+            "basis": "per_stay",
+            "scope": "",
+            "origin": "labelled_row",
+            "refundable": false,
+            "quote": "Non-Refundable Pet Fee Per Stay: $150.00",
+            "label": "Non-Refundable Pet Fee Per Stay",
+            "kind": "fee",
+            "cleaning_labelled": false
+          },
+          {
+            "amount_minor": 15000,
+            "basis": "per_stay",
+            "scope": "",
+            "origin": "prose",
+            "refundable": false,
+            "quote": "Pet Fee Per Stay: $150.00",
+            "label": "",
+            "kind": "fee",
+            "cleaning_labelled": false
+          }
+        ]
+      },
+      "publication_grade": true,
+      "artifact_path": "C:\\ptf-detroit\\atlas-dashboard\\data\\worker_runs\\pettripfinder\\detroit-ann-arbor-marriott-015\\towneplace-suites-by-marriott-ann-arbor\\attempt-01\\rendered.html",
+      "artifact_hash": "1c43cfe981fab5438608ccfae170ed3ba73afcc031607a6e3efdda705ed92dbb",
+      "cost_ceiling_usd": 0.165,
+      "refusal_reason": ""
+    },
+    {
+      "attempt_id": "25b8e39191db9235",
+      "identity_key": "towneplace suites by marriott detroit dearborn",
+      "canonical_name": "TownePlace Suites by Marriott Detroit Dearborn",
+      "brand": "MARRIOTT",
+      "sub_brand": "towneplace",
+      "city": "Dearborn",
+      "canonical_url": "https://www.marriott.com/en-us/hotels/dtwtd-towneplace-suites-detroit-dearborn/overview/",
+      "lane": "brightdata_browser",
+      "reader": "marriott",
+      "access_result": "VALID",
+      "identity_result": {
+        "confirmed": true,
+        "binding_method": "PROPERTY_CODE",
+        "matched": [
+          "property_code",
+          "name",
+          "postal_code",
+          "street_identity",
+          "phone",
+          "canonical_path"
+        ],
+        "conflicting": []
+      },
+      "policy_reading": {
+        "found": true,
+        "pets_allowed": null,
+        "block_text": "Non-Refundable Pet Fee Per Stay: $100.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2 Parking On-Site Parking Hourly: $0.00 Daily: $3.00 Weekly: $0.00 PerStay: $0.00 Additional Parking Information Discounted parking for Bonvoy Members Daily Complimentary Breakfast Kick start your mornings with energizing selections from our complimentary breakfast spread, served daily.",
+        "brand_generic": false,
+        "charges": [
+          {
+            "amount_minor": 10000,
+            "basis": "per_stay",
+            "scope": "",
+            "origin": "labelled_row",
+            "refundable": false,
+            "quote": "Non-Refundable Pet Fee Per Stay: $100.00",
+            "label": "Non-Refundable Pet Fee Per Stay",
+            "kind": "fee",
+            "cleaning_labelled": false
+          },
+          {
+            "amount_minor": 10000,
+            "basis": "per_stay",
+            "scope": "",
+            "origin": "prose",
+            "refundable": false,
+            "quote": "Pet Fee Per Stay: $100.00",
+            "label": "",
+            "kind": "fee",
+            "cleaning_labelled": false
+          }
+        ]
+      },
+      "publication_grade": true,
+      "artifact_path": "C:\\ptf-detroit\\atlas-dashboard\\data\\worker_runs\\pettripfinder\\detroit-ann-arbor-marriott-015\\towneplace-suites-by-marriott-detroit-dearborn\\attempt-01\\rendered.html",
+      "artifact_hash": "aecfe5eb08113ef5d57845c64da6626834d98b6cd0b19385195a2957c672ad23",
+      "cost_ceiling_usd": 0.165,
+      "refusal_reason": ""
+    },
+    {
+      "attempt_id": "331d291f1d3187ee",
+      "identity_key": "towneplace suites by marriott detroit troy",
+      "canonical_name": "TownePlace Suites by Marriott Detroit Troy",
+      "brand": "MARRIOTT",
+      "sub_brand": "towneplace",
+      "city": "Troy",
+      "canonical_url": "https://www.marriott.com/en-us/hotels/dttts-towneplace-suites-detroit-troy/overview/",
+      "lane": "brightdata_browser",
+      "reader": "marriott",
+      "access_result": "VALID",
+      "identity_result": {
+        "confirmed": true,
+        "binding_method": "PROPERTY_CODE",
+        "matched": [
+          "property_code",
+          "name",
+          "postal_code",
+          "street_identity",
+          "phone",
+          "canonical_path"
+        ],
+        "conflicting": []
+      },
+      "policy_reading": {
+        "found": true,
+        "pets_allowed": true,
+        "block_text": "Does TownePlace Suites by Marriott Detroit Troy allow pets? Yes, pets are welcome at TownePlace Suites by Marriott Detroit Troy. One pet is allowed per room, with a maximum weight of 40.0 lbs. A non-refundable pet fee of $150.00 per stay applies.",
+        "brand_generic": false,
+        "charges": [
+          {
+            "amount_minor": 15000,
+            "basis": "per_stay",
+            "scope": "",
+            "origin": "prose",
+            "refundable": false,
+            "quote": "$150.00 per stay ",
+            "label": "",
+            "kind": "fee",
+            "cleaning_labelled": false
+          },
+          {
+            "amount_minor": 15000,
+            "basis": "per_stay",
+            "scope": "",
+            "origin": "prose",
+            "refundable": false,
+            "quote": "150.00 per stay",
+            "label": "",
+            "kind": "fee",
+            "cleaning_labelled": false
+          }
+        ]
+      },
+      "publication_grade": true,
+      "artifact_path": "C:\\ptf-detroit\\atlas-dashboard\\data\\worker_runs\\pettripfinder\\detroit-ann-arbor-marriott-015\\towneplace-suites-by-marriott-detroit-troy\\attempt-01\\rendered.html",
+      "artifact_hash": "c2360a35fd8289440a52e94d02d6d5af14e9982bf56fbcd12d9e0668dcd78d1a",
+      "cost_ceiling_usd": 0.165,
+      "refusal_reason": ""
+    }
+  ]
+}

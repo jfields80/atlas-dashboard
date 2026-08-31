@@ -1,0 +1,108 @@
+{
+  "schema": "ptf-detroit-ann-arbor-identity-review-packet/1.0",
+  "work_order": "PTF-DETROIT-ANN-ARBOR-EVIDENCE-VOCABULARY-AND-PROMOTION-004",
+  "market_id": "detroit-ann-arbor-mi",
+  "as_of": "2026-08-29",
+  "review_id": "DTW-ID-004-STATE-ST",
+  "status": "FOUNDER_RULED",
+  "question": "Two committed identities normalise to one street identity -- 3764|state|48108. Are they two hotels at one doorway, or one building whose Motel 6 identity is stale? NOTHING IS INFERRED HERE. The same-doorway guard added by this order keeps them SEPARATE by default, because each names a different official page, so no merge can happen while this sits unruled.",
+  "why_it_was_never_flagged_before": "The committed census collision audit compares raw street_identity STRINGS -- '3764 s state st|48108' against '3764 south state street|48108' -- and they differ. address_key, which the exclusion authority and the publication guard both use, normalises them to the same key. The pair has been invisible to the audit since it was created.",
+  "sides": [
+    {
+      "identity_key": "motel 6 ann arbor",
+      "canonical_name": "Motel 6 Ann Arbor",
+      "address": "3764 S State St",
+      "postal_code": "48108",
+      "city": "Ann Arbor",
+      "phone": null,
+      "official_url": "https://www.motel6.com/us/michigan/ann-arbor/",
+      "route_url": "https://www.motel6.com/us/michigan/ann-arbor/",
+      "property_code": null,
+      "binding_method": "PAGE_RENDERED",
+      "identity_signals_matched": [
+        "name",
+        "address"
+      ],
+      "identity_state": "IDENTITY_CONFIRMED",
+      "lodging_state": "LODGING_CONFIRMED"
+    },
+    {
+      "identity_key": "residence inn by marriott ann arbor south",
+      "canonical_name": "Residence Inn by Marriott Ann Arbor South",
+      "address": "3764 South State Street",
+      "postal_code": "48108",
+      "city": "Ann Arbor",
+      "phone": "(734) 590-7500",
+      "official_url": "https://www.marriott.com/en-us/hotels/dtwrp-residence-inn-ann-arbor-south/overview/",
+      "route_url": "https://www.marriott.com/en-us/hotels/dtwrp-residence-inn-ann-arbor-south/overview/",
+      "property_code": "dtwrp",
+      "binding_method": "BRAND_INDEX_BINDING",
+      "identity_signals_matched": [
+        "name",
+        "address",
+        "phone"
+      ],
+      "identity_state": "IDENTITY_CONFIRMED",
+      "lodging_state": "LODGING_CONFIRMED"
+    }
+  ],
+  "attended_evidence_gathered_at_zero_cost": {
+    "method": "attended browser, operator Chrome, read-only",
+    "cost_usd": 0.0,
+    "provider_calls": 0,
+    "read_at": "2026-08-29",
+    "findings": [
+      {
+        "source": "https://www.motel6.com/us/michigan/ann-arbor/",
+        "what_it_is": "The brand's OWN city locator page -- the exact URL the committed Motel 6 row carries as its official_url.",
+        "observed": "The page heading reads '6 motels in Ann Arbor MI', and every one of the six listings is in a DIFFERENT city: Farmington Hills, Southgate, Warren, Toledo, ROSSFORD, Southgate. Not one listing is in Ann Arbor, and none is at 3764 S State St.",
+        "what_it_supports": "Motel 6's own live inventory shows NO property in Ann Arbor. That is the same mechanism that retired Hawthorn Suites Southfield in Pass 2: the brand's own search returns zero branded properties at or near the committed address.",
+        "what_it_does_NOT_establish": "It does not by itself prove the Residence Inn occupies that building, and it does not date the change. A locator can also drop a property for reasons other than closure."
+      },
+      {
+        "source": "https://www.marriott.com/en-us/hotels/dtwrp-residence-inn-ann-arbor-south/overview/",
+        "what_it_is": "The Residence Inn's own property page, property code dtwrp.",
+        "observed": "NOT READ. The page is behind an Akamai bot wall and served no content to the attended browser -- the established Marriott hard lane. Recorded as an access outcome, never as evidence about the property: a wall proves nothing about what is behind it.",
+        "what_it_supports": "nothing"
+      }
+    ],
+    "the_weaker_record_of_the_two": "The Motel 6 row's official_url is a CITY-level brand page with no property code, bound PAGE_RENDERED. The Residence Inn row carries a real property page with code dtwrp, a phone, and name+address+phone corroboration. If one of the two identities is stale, the evidence points at the Motel 6 row."
+  },
+  "recommended_founder_ruling": {
+    "recommendation": "RETIRE_MOTEL_6_AS_CLOSED_OR_CONVERTED",
+    "confidence": "MODERATE -- one first-party source, corroborated by the weakness of the Motel 6 record itself, and NOT by a reading of the Residence Inn page, which could not be read.",
+    "reasoning": "Motel 6's own locator lists no Ann Arbor property at all. The committed Motel 6 row has no phone, no property code, and a city-level URL. This is not a pet-policy decision and would create no exclusion.",
+    "binding": false,
+    "note": "A RECOMMENDATION. No ruling is applied by this order, which was told not to infer on this pair."
+  },
+  "what_would_settle_it_at_zero_cost": [
+    "An attended read of the Residence Inn dtwrp page from a session that gets past the Akamai wall -- the Detroit market has broken that wall before with an attended browser -- comparing its STATED street address against 3764 S State St.",
+    "A recorded operator telephone call to (734) 590-7500, asking what previously operated at that address.",
+    "Neither costs anything. Neither has been done, so the pair stays unruled."
+  ],
+  "guard_status": {
+    "same_doorway_guard_active": true,
+    "effect": "3764|state|48108 is a CONTESTED doorway: both identities name a different official page, so neither may absorb the other and both survive any recensus untouched. The open question cannot silently resolve itself."
+  },
+  "founder_decision": "RETIRE_MOTEL_6_AS_CLOSED_OR_CONVERTED",
+  "decided_by": "jfields80",
+  "decided_at": "2026-08-29",
+  "decided_under": "PTF-DETROIT-ANN-ARBOR-FOUNDER-RULINGS-AND-SHADOW-PROMOTION-006",
+  "ruling_applied": {
+    "retired_identity": "motel 6 ann arbor",
+    "preserved_identity": "residence inn by marriott ann arbor south",
+    "census_before": 181,
+    "census_after": 180,
+    "duplicate_ledger_disposition": "closed",
+    "former_name_written": false,
+    "why_no_former_name": "A closure is not a succession. The evidence establishes that the Motel 6 is not there; it does not establish that the Residence Inn is what it became. Writing 'formerly Motel 6 Ann Arbor' onto the Residence Inn would assert the second.",
+    "evidence_used": [
+      "motel6.com own Ann Arbor locator, attended read 2026-08-29",
+      "the committed identity record for the Motel 6 row"
+    ],
+    "evidence_excluded": [
+      "the Marriott dtwrp page -- Akamai access failure, which is an access outcome and never evidence about the property"
+    ],
+    "history_preserved": true
+  }
+}
