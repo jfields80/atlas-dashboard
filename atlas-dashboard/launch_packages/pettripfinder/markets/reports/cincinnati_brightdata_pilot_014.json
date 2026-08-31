@@ -1,0 +1,152 @@
+{
+ "schema": "ptf-paid-pilot-measurement/1.0",
+ "what_this_is": "Cincinnati's first paid acquisition of any kind. Twelve properties, one Bright Data browser attempt each, no retries and no escalation, under a $3.00 cap enforced against the live prepaid balance. It measures two brand families separately because they failed for unrelated reasons.",
+ "work_order": "PTF-CINCINNATI-BRIGHTDATA-PILOT-014",
+ "market_id": "cincinnati-oh",
+ "run_id": "cincinnati-oh-pilot-014",
+ "generated_at": "2026-08-31T00:34:22.354364+00:00",
+ "authorization": {
+  "properties_max": 12,
+  "properties_attempted": 12,
+  "cap_usd": 3.0,
+  "lane": "brightdata_browser",
+  "escalation": "FORBIDDEN -- fallback_providers emptied and brightdata_web_unlocker/firecrawl/spider forbidden per identity",
+  "attempts_per_row": 1,
+  "cohort_keys_sha256": "4845db30fb6a33a261be72b32c42b22c98aa8df5cfa7267427fed273f37798b6"
+ },
+ "spend": {
+  "prepaid_balance_before_usd": 8.34,
+  "prepaid_balance_after_usd": 7.56,
+  "prepaid_balance_delta_usd": 0.78,
+  "runner_measured_usd": 1.08,
+  "attempts": 12,
+  "usd_per_attempt_by_balance": 0.065,
+  "usd_per_attempt_by_runner": 0.09,
+  "sizing_rate_usd_per_attempt": 0.09,
+  "why_the_larger": "a cohort priced on the cheaper of two disagreeing meters is a cohort that overruns its cap when the cheaper meter turns out to be the lagging one"
+ },
+ "cap_invariant": {
+  "cap_usd": 3.0,
+  "largest_meter_usd": 1.08,
+  "breached": false,
+  "note": "every meter -- balance delta 0.78, runner measured 1.08, zone month-to-date delta 0.30 -- is under the cap. The three disagree because the vendor's zone meter lags; the cap bound on the largest."
+ },
+ "outcome_counts": {
+  "ACCESS_DENIED": 5,
+  "POLICY_NOT_FOUND": 1,
+  "VALID": 6
+ },
+ "measurement_by_brand": {
+  "HILTON": {
+   "attempts": 4,
+   "pages_reached": 4,
+   "publication_grade": 3,
+   "access_failed": 0,
+   "source_silent": 1,
+   "yield_per_attempt": {
+    "point": 0.75,
+    "low": 0.3006,
+    "high": 0.9544,
+    "successes": 3,
+    "trials": 4
+   },
+   "access_per_attempt": {
+    "point": 1.0,
+    "low": 0.5101,
+    "high": 1.0,
+    "successes": 4,
+    "trials": 4
+   },
+   "extraction_per_page_reached": {
+    "point": 0.75,
+    "low": 0.3006,
+    "high": 0.9544,
+    "successes": 3,
+    "trials": 4
+   }
+  },
+  "MARRIOTT": {
+   "attempts": 8,
+   "pages_reached": 3,
+   "publication_grade": 3,
+   "access_failed": 5,
+   "source_silent": 0,
+   "yield_per_attempt": {
+    "point": 0.375,
+    "low": 0.1368,
+    "high": 0.6943,
+    "successes": 3,
+    "trials": 8
+   },
+   "access_per_attempt": {
+    "point": 0.375,
+    "low": 0.1368,
+    "high": 0.6943,
+    "successes": 3,
+    "trials": 8
+   },
+   "extraction_per_page_reached": {
+    "point": 1.0,
+    "low": 0.4385,
+    "high": 1.0,
+    "successes": 3,
+    "trials": 3
+   }
+  }
+ },
+ "the_distinction": "MARRIOTT and HILTON both returned 3 publication-grade records, and the similarity ends there. Marriott's five misses are ACCESS failures: a ~250 character challenge page, no property content, nothing any reader could have parsed. Hilton's single miss is SOURCE SILENCE: The Cincinnatian returned a complete 6,032 character page that does not publish a pet policy. Marriott's problem is the wall; Hilton's is the hotel. Only the first is a lane question, and only the first could be bought around.",
+ "marriott_access_pattern": {
+  "denied": 5,
+  "reached": 3,
+  "hypothesis": "INDEPENDENT_PER_SESSION_CHALLENGE",
+  "evidence": [
+   "the FIRST TWO attempts of the run were both denied, on the freshest session -- cumulative throttling cannot explain a failure that happens before any volume accumulates",
+   "denials are spread evenly through the sequence (1,2,4,6,8) rather than back-loaded, which is the shape throttling produces",
+   "every denial returned 243-266 characters after 59-91 seconds: the browser waited for property content that never arrived",
+   "no sub-brand pattern -- select-service and full-service appear on both sides of the split"
+  ],
+  "not_tested": "whether a second attempt on a denied row succeeds. The order authorised exactly one attempt per row and forbade retries, so this pilot cannot answer it and does not claim to.",
+  "why_it_matters": "if the challenge is independent per attempt, the committed registry's three attempts would reach roughly 1-(5/8)^3 = 76% of rows rather than 37.5%. That is a HYPOTHESIS with a arithmetic consequence, not a measurement, and buying 34 rows on it would be spending on an untested assumption."
+ },
+ "template_limitation": "The order asked for a template stratification. Cincinnati has only ONE Marriott URL template -- all 42 unresolved rows are /en-us/hotels/<code>-<slug>/overview -- so the legacy /hotels/travel/ shape that split Detroit's yield 0/2 against 11/11 does not exist here. The pilot stratified on SUB-BRAND instead (eight distinct Marriott sub-brands, four distinct Hilton), and the template question is unanswerable in this market rather than unanswered.",
+ "remaining_cohort": {
+  "derivation": "rebuilt from the routing shard and the final partition, not quoted from the prior report",
+  "marriott": 34,
+  "hilton": 4,
+  "total": 38
+ },
+ "reprice": {
+  "HILTON": {
+   "remaining_rows": 4,
+   "cost_usd": 0.36,
+   "expected_records_low": 1,
+   "expected_records_point": 3,
+   "expected_records_high": 3,
+   "cost_per_record_at_low_bound": 0.36
+  },
+  "MARRIOTT": {
+   "remaining_rows": 34,
+   "cost_usd": 3.06,
+   "expected_records_low": 4,
+   "expected_records_point": 13,
+   "expected_records_high": 23,
+   "cost_per_record_at_low_bound": 0.77
+  }
+ },
+ "recommendations": {
+  "HILTON": {
+   "recommendation": "BUY_THE_REMAINDER",
+   "rows": 4,
+   "cost_usd": 0.36,
+   "why": "access was 4 of 4. The lane is not in question for this brand, the remainder is four rows, and the whole purchase costs less than forty cents. The one miss was the hotel's silence, which no provider can buy around."
+  },
+  "MARRIOTT": {
+   "recommendation": "RETRY_PROBE_BEFORE_SCALE",
+   "do_not": "buy all 34 rows on this pilot's 37.5%",
+   "rows_proposed": 8,
+   "cost_usd": 2.16,
+   "why": "extraction was 3 of 3 -- every page the lane reached became a publication-grade record, so the reader is sound and the wall is the whole problem. Whether retries beat the wall is exactly what this pilot was forbidden to test. A small probe that re-attempts denied rows up to three times answers it for about $2, where scaling blind risks $3.06 for as few as 4 records at the lower bound."
+  }
+ },
+ "authority_mutation": "NONE -- this order measured and did not apply. No census, routing, exclusion, policy or partition artifact was edited."
+}

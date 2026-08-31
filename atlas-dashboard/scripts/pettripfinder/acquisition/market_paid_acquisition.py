@@ -1143,6 +1143,11 @@ def main(argv=None) -> int:
     parser.add_argument("--dedup-plan", default="",
                         help="a ptf-pre-acquisition-dedup document; its merged and"
                              " withheld identities may not enter the paid cohort")
+    parser.add_argument("--registry", default="",
+                        help="a routing registry to use INSTEAD of the "
+                             "committed one, so an order that authorises a "
+                             "single lane and a single attempt can be run as "
+                             "authorised rather than merely intended")
     parser.add_argument("--census", default="",
                         help="the census to read; default identity_census/"
                              "<market>.json. A re-census of a registered market "
@@ -1198,8 +1203,18 @@ def main(argv=None) -> int:
     # Alternate-lane rows start on the lane the prior attempt never tried. The
     # overlay is layered over the committed registry, whose brand-level
     # forbidden lists still apply beneath it.
+    #
+    # ``--registry`` names a NARROWER registry than the committed one. An
+    # authorisation that says "browser only, one attempt, no escalation" cannot
+    # be honoured by a table whose brand rows carry three attempts and a Web
+    # Unlocker fallback, and discovering that after the money moved is too late.
+    # It is loaded through the same strict validator, so a constrained table
+    # that names an unknown provider or reader is refused here rather than
+    # mid-run. Absent the flag the committed registry is used exactly as before.
+    base_registry = REGISTRY.load(Path(args.registry) if args.registry else None)
     registry_doc = RP.lane_overrides_registry(
-        queue, work_order=args.work_order or run_id, base=REGISTRY.load())
+        queue, work_order=args.work_order or run_id,
+        base=base_registry) or base_registry
 
     run_dir = Path(args.run_dir)
     run_dir.mkdir(parents=True, exist_ok=True)

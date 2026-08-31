@@ -22,6 +22,7 @@ import pytest
 
 from scripts.pettripfinder.acquisition import market_paid_acquisition as PA
 from scripts.pettripfinder.acquisition import market_routing as MR
+from scripts.pettripfinder.acquisition import registry as REGISTRY
 from scripts.pettripfinder.brightdata import outcomes as O
 
 
@@ -498,3 +499,65 @@ class TestAlreadySettledRowsAreNeverPurchasedTwice:
         document = CP.build(plan, prior, authorised_cap_usd=10)
         assert document["double_buy_check"]["no_property_is_bought_twice"] is True
         assert document["double_buy_check"]["already_answered_by_a_prior_pass"] == []
+
+
+class TestAConstrainedRegistryIsHonouredRatherThanIntended:
+    """PTF-CINCINNATI-BRIGHTDATA-PILOT-014 added ``--registry``.
+
+    That order authorised "Bright Data browser only, one attempt per row, no
+    Web Unlocker escalation". The committed registry gives both bot-walled
+    brands three attempts and a Web Unlocker fallback, so running under it
+    would have escalated on the first refusal -- and there were five refusals.
+    An authorisation the runner cannot express is an authorisation it cannot
+    keep, so the narrower table is loaded through the same strict validator.
+    """
+
+    def _narrow(self, tmp_path):
+        base = REGISTRY.load()
+        doc = json.loads(json.dumps(base))
+        doc["properties"] = dict(doc.get("properties") or {})
+        doc["properties"]["walled"] = {
+            "provider": "brightdata_browser",
+            "fallback_providers": [],
+            "forbidden_providers": ["brightdata_web_unlocker"],
+            "reader": "generic",
+            "max_attempts_per_provider": 1,
+            "why": "the order authorised one browser attempt and no escalation",
+            "measured_by": "PTF-CINCINNATI-BRIGHTDATA-PILOT-014",
+        }
+        path = tmp_path / "registry.json"
+        path.write_text(json.dumps(doc), encoding="utf-8")
+        return path
+
+    def test_the_committed_table_would_have_escalated(self):
+        """The premise. Without this, the flag is solving nothing."""
+        route = REGISTRY.resolve(brand="MARRIOTT",
+                                 url="https://www.marriott.com/en-us/hotels/x/overview/",
+                                 identity_key="walled")
+        assert "brightdata_web_unlocker" in route.ladder
+        assert route.max_attempts_per_provider > 1
+
+    def test_the_narrower_table_forbids_the_escalation(self, tmp_path):
+        route = REGISTRY.resolve(
+            brand="MARRIOTT",
+            url="https://www.marriott.com/en-us/hotels/x/overview/",
+            identity_key="walled",
+            registry=REGISTRY.load(self._narrow(tmp_path)))
+        assert route.ladder == ("brightdata_browser",)
+        assert route.max_attempts_per_provider == 1
+
+    def test_a_constrained_table_is_still_validated(self, tmp_path):
+        """A narrower table naming a provider that does not exist is refused
+        HERE, not mid-run after money has moved."""
+        doc = json.loads(json.dumps(REGISTRY.load()))
+        doc["properties"] = {"walled": {"provider": "a_provider_that_is_not_real",
+                                        "reader": "generic", "why": "w",
+                                        "measured_by": "m"}}
+        path = tmp_path / "bad.json"
+        path.write_text(json.dumps(doc), encoding="utf-8")
+        with pytest.raises(REGISTRY.RegistryError):
+            REGISTRY.load(path)
+
+    def test_omitting_the_flag_keeps_the_committed_behaviour(self):
+        """The flag is additive: absent it, nothing about routing changes."""
+        assert REGISTRY.load() == REGISTRY.load(None)
