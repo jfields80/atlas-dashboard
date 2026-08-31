@@ -188,8 +188,11 @@ EXPECTED_RECONCILIATION = {
     # Suites Pittsburgh Airport asserted pets_allowed from a 2026-08-17
     # capture, and the page this market owns from six days later states pets
     # are not allowed beside the same fee line.
-    # 102 = 51 + 13 + 3 out_of_current_category + 35.
-    PITTSBURGH: (102, 51, 13, 67, 35),
+    # Five were added, not six: 'comfort suites' is a bare chain word that
+    # Indianapolis already holds as an identity key, so the add was refused
+    # on the key collision alone whatever the street evidence said.
+    # 101 = 51 + 12 + 3 out_of_current_category + 35.
+    PITTSBURGH: (101, 51, 12, 66, 35),
     # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004 promoted 257 identities from the
     # hardened recensus with 24 founder-signed profiles and 24 verified-no-pets
     # (both 601 W Washington hotels, distinct Marriott codes, under the exclusion
@@ -387,7 +390,7 @@ class TestContractAgreesWithItsOwnAuthority:
         """
         by_market = {mid: derive_authority(mid).verified_no_pets for mid in MARKETS}
         assert by_market == {COLUMBUS: 14, CLEVELAND: 40, DAYTON: 8,
-                             PITTSBURGH: 13, INDIANAPOLIS: 34, MILWAUKEE: 27,
+                             PITTSBURGH: 12, INDIANAPOLIS: 34, MILWAUKEE: 27,
                              ST_LOUIS: 37,
                              # PTF-LOUISVILLE-PUBLICATION-008. Every other
                              # market's number is unchanged, which is the half

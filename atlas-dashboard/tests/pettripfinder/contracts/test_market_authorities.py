@@ -91,8 +91,11 @@ EXPECTED = {
     # PTF-PITTSBURGH-FOUNDER-HOLD-RESOLUTION-005: six identities ADDED (each
     # carrying a signature the sync could not apply while the identity did not
     # exist, all 96 prior identities preserved), three founder holds ruled
-    # publishable, and one published record WITHDRAWN.
-    PITTSBURGH: {"census": 102, "published": 51, "no_pets": 13,
+    # publishable, and one published record WITHDRAWN. Five identities were
+    # added, not six: 'comfort suites' is a bare chain word Indianapolis
+    # already holds as an identity key, and two hotels under one key is the
+    # state in which no directory can list both.
+    PITTSBURGH: {"census": 101, "published": 51, "no_pets": 12,
                  "out_of_category": 3, "unresolved": 35},
     DETROIT: {"census": 143, "published": 0, "no_pets": 0,
               "out_of_category": 1, "unresolved": 142},

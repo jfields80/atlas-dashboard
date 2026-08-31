@@ -68,6 +68,7 @@ from scripts.pettripfinder.pittsburgh_hardened_sync_004 import (       # noqa: E
 WORK_ORDER = "PTF-PITTSBURGH-FOUNDER-HOLD-RESOLUTION-005"
 AS_OF = "2026-08-30"
 BACKLOG = REPORTS / "pittsburgh_hold_resolution_005_backlog.json"
+CENSUS_DIR = CENSUS.parent
 
 DIRECT = "DIRECT_REGISTERED_IDENTITY"
 TWIN_URL = "REGISTERED_TWIN_BY_OFFICIAL_URL"
@@ -92,7 +93,7 @@ def _authority() -> Tuple[Dict[str, str], Dict]:
     return answered, shard
 
 
-def _cross_market_collision(codes, url: str, addr: str, phone: str
+def _cross_market_collision(key: str, codes, url: str, addr: str, phone: str
                             ) -> Optional[str]:
     """Does any OTHER market already claim this property?
 
@@ -103,6 +104,17 @@ def _cross_market_collision(codes, url: str, addr: str, phone: str
     for market in MA.sharded_market_ids():
         if market == MARKET_ID:
             continue
+        # The CENSUS first. An identity can exist in another market's census
+        # without appearing in its authority at all, and a bare chain word is
+        # exactly the key two markets end up sharing -- Indianapolis already
+        # holds "comfort suites". Two different hotels under one identity key is
+        # the state in which no directory can list both, so the key collision is
+        # disqualifying on its own, whatever the street evidence says.
+        other = CENSUS_DIR / ("%s.json" % market)
+        if other.is_file():
+            for row in (_load(other).get("hotels") or ()):
+                if row.get("identity_key") == key:
+                    return "%s census identity %r" % (market, key)
         for row in MA.load_market_exclusions_document(market)["exclusions"]:
             if url and canonical_url(row.get("official_url")) == url:
                 return "%s exclusion %s" % (market, row["normalized_name"])
@@ -206,7 +218,7 @@ def classify(signed: Mapping, shadow: Optional[Mapping],
              "not absence of identity: adding this row could publish a second "
              "profile for one building. A name cannot PROVE identity, but it "
              "is reason enough to refuse a silent ADD." % stub)))
-    foreign = _cross_market_collision(codes, url, addr, phone)
+    foreign = _cross_market_collision(key, codes, url, addr, phone)
     if foreign:
         return OrderedDict((("label", UNRESOLVED),
                             ("registered_identity_key", None),

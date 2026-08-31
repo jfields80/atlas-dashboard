@@ -51,7 +51,11 @@ EXPECTED_ROUTE_MODE = {COLUMBUS: "legacy_unprefixed", CLEVELAND: "market_prefixe
     PITTSBURGH: "market_prefixed", DETROIT: "market_prefixed",
     INDIANAPOLIS: "market_prefixed", MILWAUKEE: "market_prefixed"}
 EXPECTED_ROWS = {COLUMBUS: 112, CLEVELAND: 188, DAYTON: 129, CINCINNATI: 256,
-                 PITTSBURGH: 96, DETROIT: 143,
+                 # 96 -> 101 at PTF-PITTSBURGH-FOUNDER-HOLD-RESOLUTION-005,
+                 # an ADD-ONLY promotion of five identities that each
+                 # carried a founder signature the sync could not apply
+                 # while the identity did not exist. All 96 preserved.
+                 PITTSBURGH: 101, DETROIT: 143,
                  # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004 promoted the 257-identity recensus.
                  INDIANAPOLIS: 257,
                  MILWAUKEE: 147}
