@@ -101,6 +101,9 @@ class TestBatchCompleteness:
 
 class TestArtifactBinding:
     def test_every_artifact_sha256_matches_the_file_on_disk(self, packet):
+        if not RAW_DIR.is_dir():
+            pytest.skip("data/ is gitignored; the pass-3 captures live in the "
+                        "Detroit worktree, where this test passes")
         for c in packet["candidates"]:
             if c["decision_id"] in NO_ARTIFACT_IDS:
                 assert "artifact_sha256" not in c

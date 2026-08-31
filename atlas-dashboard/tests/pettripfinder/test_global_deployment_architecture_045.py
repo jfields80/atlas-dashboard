@@ -186,23 +186,34 @@ def test_a_contractless_market_is_excluded_and_says_why():
     longer be shown on it. Detroit-Ann Arbor still commits a census and no
     policy package, and is the market that demonstrates it.
 
-    Assemblable is still not public. Cincinnati's launch participation row says
-    NOT_SOURCE_READY, the sync work order explicitly does not touch that file,
-    and ``test_cincinnati_does_not_fail_the_global_selection`` holds the line:
-    admission is a founder decision, not a consequence of passing a gate.
+    Assemblable is still not public: admission is a founder decision, not a
+    consequence of passing a gate.
+
+    Detroit held the demonstration role until
+    PTF-DETROIT-ANN-ARBOR-HARDENED-SYNC-029 gave it a contract and
+    PTF-DETROIT-ANN-ARBOR-TROY-IDENTITY-AND-BUNDLE-030 let the assembler see
+    its partition, both carried onto this lineage by
+    PTF-LINEAGE-CONSOLIDATION-008. NO CONFIGURED MARKET DEMONSTRATES THE RULE
+    TODAY, so the loop below asserts it over whichever markets lack a contract
+    and asserts nothing until a new configured market appears before its first
+    contract -- the same treatment test_per_market_release_contracts gives the
+    same state.
     """
     contracted = set(RC.available_market_ids())
-    market_id = "detroit-ann-arbor-mi"
-    assert market_id not in contracted
-    row = market_eligibility(
-        next(m for m in load_markets() if m.market_id == market_id))
-    assert row["assemblable"] is False
-    assert [k for k, v in row["conditions"].items() if not v]
+    for market in load_markets():
+        if market.market_id in contracted:
+            continue
+        row = market_eligibility(market)
+        assert row["assemblable"] is False
+        assert [k for k, v in row["conditions"].items() if not v]
 
-    assert "cincinnati-oh" in contracted
-    cincinnati = market_eligibility(
-        next(m for m in load_markets() if m.market_id == "cincinnati-oh"))
-    assert cincinnati["assemblable"] is True
+    # Both former demonstrators are now the other half of the point:
+    # assemblable, and still not admitted -- the founder lever holds them out.
+    for market_id in ("cincinnati-oh", "detroit-ann-arbor-mi"):
+        assert market_id in contracted
+        row = market_eligibility(
+            next(m for m in load_markets() if m.market_id == market_id))
+        assert row["assemblable"] is True
 
 
 def test_an_ineligible_market_cannot_be_forced_into_the_bundle(tmp_path):

@@ -305,9 +305,19 @@ class TestBuildId:
 
     def test_build_id_is_empty_for_a_market_with_no_package(self):
         # Was cincinnati-oh until PTF-CINCINNATI-HARDENED-SYNC-002 gave it a
-        # policy package. Detroit-Ann Arbor is the configured market that still
-        # commits none, so it is the market this rule can be demonstrated on.
-        assert M.build_id_for("detroit-ann-arbor-mi") == ""
+        # policy package, then detroit-ann-arbor-mi until
+        # PTF-DETROIT-ANN-ARBOR-HARDENED-SYNC-029 gave it one, carried onto
+        # this lineage by PTF-LINEAGE-CONSOLIDATION-008. Every configured
+        # market now commits a package, so the rule is asserted over
+        # whichever markets lack one and asserts nothing until a new
+        # configured market appears before its first package -- the same
+        # treatment test_per_market_release_contracts gives the same state.
+        from scripts.pettripfinder.assemble_production_site import load_markets
+        from scripts.pettripfinder.site_data import published_facts_path
+        packageless = [m.market_id for m in load_markets()
+                       if not published_facts_path(m.market_id).is_file()]
+        for market_id in packageless:
+            assert M.build_id_for(market_id) == ""
 
     def test_build_id_falls_back_to_the_package_file_without_a_contract(self, monkeypatch):
         from scripts.pettripfinder import release_contracts as RC

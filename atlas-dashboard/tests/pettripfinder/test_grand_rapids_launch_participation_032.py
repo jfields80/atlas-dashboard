@@ -203,13 +203,15 @@ def test_grand_rapids_is_authorized_and_nothing_else_moved():
         "cleveland-akron-canton-oh", "columbus-oh", "dayton-oh",
         "grand-rapids-holland-mi", "indianapolis-in", "louisville-ky",
         "milwaukee-wi", "pittsburgh-pa", "st-louis-mo"])
-    # Neither is authorized, and they are unauthorized for different
-    # reasons. Detroit cannot assemble at all. Cincinnati assembles cleanly
-    # since PTF-CINCINNATI-HARDENED-SYNC-002 and is withheld by the record --
+    # Neither is authorized. Cincinnati assembles cleanly since
+    # PTF-CINCINNATI-HARDENED-SYNC-002, Detroit since
+    # PTF-DETROIT-ANN-ARBOR-TROY-IDENTITY-AND-BUNDLE-030 (carried here by
+    # PTF-LINEAGE-CONSOLIDATION-008), and both are withheld by the record --
     # which is the state SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH
     # exists to express. What this test guards is that neither is in the
     # authorized set, and neither is.
-    assert LP.launch_status("detroit-ann-arbor-mi") == LP.NOT_SOURCE_READY
+    assert LP.launch_status("detroit-ann-arbor-mi") == (
+        LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH)
     assert LP.launch_status("cincinnati-oh") == (
         LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH)
     for mid in ("cincinnati-oh", "detroit-ann-arbor-mi"):

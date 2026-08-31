@@ -310,7 +310,12 @@ class TestTheRepositoryMatchesProduction:
         """
         assert (LP.launch_status("indianapolis-in")
                 == LP.FOUNDER_AUTHORIZED_FOR_LAUNCH)
-        assert LP.launch_status("detroit-ann-arbor-mi") == LP.NOT_SOURCE_READY
+        # Detroit has now wholly left it too: source-ready since
+        # PTF-DETROIT-ANN-ARBOR-TROY-IDENTITY-AND-BUNDLE-030 (carried here by
+        # PTF-LINEAGE-CONSOLIDATION-008), and still absent from every
+        # deployed bundle.
+        assert LP.launch_status("detroit-ann-arbor-mi") == (
+            LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH)
         assert LP.launch_status("cincinnati-oh") == (
             LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH)
         for market_id in ("cincinnati-oh", "detroit-ann-arbor-mi"):

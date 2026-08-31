@@ -122,12 +122,19 @@ class TestParticipationIsTheSixMarketSet:
         Indianapolis left this list by decision, not by drift. Cincinnati is
         now the other half of the same point: PTF-CINCINNATI-HARDENED-SYNC-002
         made it genuinely source-ready, and it is STILL out, because only a
-        founder authorization admits a market. Detroit remains out because it
-        cannot assemble at all.
+        founder authorization admits a market. Detroit is since
+        PTF-DETROIT-ANN-ARBOR-TROY-IDENTITY-AND-BUNDLE-030 (carried here by
+        PTF-LINEAGE-CONSOLIDATION-008) the same point a third time:
+        genuinely source-ready, and STILL out.
         """
         assert (LP.launch_status("indianapolis-in")
                 == LP.FOUNDER_AUTHORIZED_FOR_LAUNCH)
-        assert LP.launch_status("detroit-ann-arbor-mi") == LP.NOT_SOURCE_READY
+        # Detroit is out for Cincinnati's reason now: source-ready since
+        # PTF-DETROIT-ANN-ARBOR-TROY-IDENTITY-AND-BUNDLE-030 (carried here by
+        # PTF-LINEAGE-CONSOLIDATION-008), and still absent from every
+        # deployed bundle.
+        assert LP.launch_status("detroit-ann-arbor-mi") == (
+            LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH)
         assert LP.launch_status("cincinnati-oh") == (
             LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH)
         for market_id in ("cincinnati-oh", "detroit-ann-arbor-mi"):

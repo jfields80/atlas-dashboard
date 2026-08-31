@@ -255,6 +255,13 @@ def test_market_has_no_identity_collision_and_publishes_only_its_own():
     recorded |= {(r["identity_key"], r["also_in_market"]) for r in
                  _load(PACKAGE / "grand_rapids_holland_mi_cross_market_"
                        "collisions_033.json")["rows"]}
+    # PTF-LINEAGE-CONSOLIDATION-008 brought the hardened Detroit census onto
+    # this lineage and two more bare-chain collisions became visible, recorded
+    # in that order's own document for 033's reason: editing a dated report
+    # would rewrite history to make a later fact look old.
+    recorded |= {(r["identity_key"], r["also_in_market"]) for r in
+                 _load(PACKAGE / "grand_rapids_holland_mi_cross_market_"
+                       "collisions_consolidation_008.json")["rows"]}
     for other in ("columbus-oh", "cleveland-akron-canton-oh", "dayton-oh",
                   "cincinnati-oh", "pittsburgh-pa", "detroit-ann-arbor-mi",
                   "indianapolis-in", "louisville-ky", "milwaukee-wi",
