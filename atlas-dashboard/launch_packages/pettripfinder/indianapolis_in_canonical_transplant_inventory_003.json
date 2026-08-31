@@ -1,0 +1,93 @@
+{
+ "schema": "ptf-transplant-inventory/1.0",
+ "what_this_is": "Exactly what must move from this temporary Indianapolis worker branch onto the canonical hardened lineage, and what must be re-derived rather than copied. Generated from git, not written by hand.",
+ "market_id": "indianapolis-in",
+ "generated_at": "2026-08-31",
+ "source_branch": "grok/ptf-indianapolis-revalidation-002",
+ "source_branch_status": "TEMPORARY WORKER BRANCH -- not canonical, never deploy from it",
+ "canonical_target": {
+  "branch": "worker/ptf-hardened-lineage-consolidation-008",
+  "commit": "f94a75a8106bb56d369f0751b89f7b4010db23cd"
+ },
+ "lineage": {
+  "merge_base": "d3d9a8cba3a0d85df348b65280bbdd1ce0eafb22",
+  "merge_base_subject": "feat(ptf): Indianapolis is LIVE; deploy 6a9102c0 serves 8 markets / 517 profiles (PTF-INDIANAPOLIS-DEPLOY-AUTHORIZATION-020)",
+  "canonical_already_contains_indianapolis_through": "PTF-INDIANAPOLIS-DEPLOY-AUTHORIZATION-020",
+  "canonical_ahead_by_commits": 80,
+  "commits_to_transplant": 2,
+  "why_this_is_small": "Canonical already carries every Indianapolis commit through the live deploy. Only the coverage audit and the founder rulings that followed it are unique to this branch."
+ },
+ "commits": [
+  {
+   "sha": "35ff374ed90b",
+   "work_order": "PTF-INDIANAPOLIS-HARDENED-COVERAGE-AUDIT-001",
+   "subject": "Indianapolis coverage audit -- the gap is policy coverage, not census; 12 true-missing identities proven as a floor, 2 free routes, $0 spent",
+   "files": [
+    {"status": "A", "path": "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_coverage_audit_001.json"},
+    {"status": "A", "path": "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_coverage_audit_founder_packet_001.json"},
+    {"status": "A", "path": "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_shadow_additive_inventory_001.json"},
+    {"status": "A", "path": "atlas-dashboard/scripts/pettripfinder/indianapolis_coverage_audit_001.py"}
+   ]
+  },
+  {
+   "sha": "111b0dd6d6fb",
+   "work_order": "PTF-INDIANAPOLIS-CENSUS-ADMISSION-002 / PTF-INDIANAPOLIS-ROUTING-COST-PLAN-003",
+   "subject": "Indianapolis founder rulings -- 8 identities admitted to a shadow census, 3 holds registered, the 118-row routing cohort priced at $0 spend",
+   "files": [
+    {"status": "A", "path": "atlas-dashboard/launch_packages/pettripfinder/identity_census_admission/indianapolis-in.json"},
+    {"status": "A", "path": "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_identity_review_register_002.json"},
+    {"status": "A", "path": "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_routing_cost_plan_003.json"},
+    {"status": "A", "path": "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_unrouted_cohort_003.json"},
+    {"status": "A", "path": "atlas-dashboard/scripts/pettripfinder/indianapolis_census_admission_002.py"},
+    {"status": "A", "path": "atlas-dashboard/scripts/pettripfinder/indianapolis_routing_cost_plan_003.py"}
+   ]
+  }
+ ],
+ "conflict_risk": {
+  "files_total": 10,
+  "files_that_are_pure_additions": 10,
+  "files_modified_on_this_branch": 0,
+  "files_that_already_exist_on_canonical": 0,
+  "shared_or_generated_globals_touched": 0,
+  "assessment": "NONE. Every path is new to canonical and no tracked file was modified on this branch, so a cherry-pick of the two commits applies without conflict.",
+  "why_no_shared_files_moved": "The admission was deliberately written to a SHADOW census. Promoting it into the pinned census would move the release contract, which would invalidate the global deployment manifest -- a deployment step. That is why this branch touches no pinned artifact."
+ },
+ "procedure": {
+  "method": "CHERRY-PICK, in order. Do NOT merge this branch into canonical.",
+  "steps": [
+   "git checkout worker/ptf-hardened-lineage-consolidation-008",
+   "git cherry-pick 35ff374ed90b",
+   "git cherry-pick 111b0dd6d6fb",
+   "re-derive the cost plan (see must_be_re_derived below) and commit the regenerated file",
+   "prove the transplant by FAILURE-SET IDENTITY against canonical's own baseline, not by test counts"
+  ]
+ },
+ "must_be_re_derived_not_copied": [
+  {
+   "artifact": "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_routing_cost_plan_003.json",
+   "why": "Its rates are derived at run time from the two cross-run ledgers, and those ledgers have DIVERGED on canonical: canonical carries 799 paid attempts / $75.96 and 183 discovery attempts, this branch 739 / $68.02 and 143. The committed plan therefore quotes rates measured on a stale ledger.",
+   "action": "after cherry-picking, re-run scripts/pettripfinder/indianapolis_routing_cost_plan_003.py on canonical and commit the regenerated JSON. The script reads the ledgers live, so this needs no code change.",
+   "cost": "$0 -- it reads committed files and makes no provider call"
+  }
+ ],
+ "do_not_transplant": {
+  "ledgers": "ptf_paid_attempt_ledger_001.json and ptf_discovery_attempt_ledger_001.json were READ but never written by this work. Canonical's copies are ahead. Never overwrite them from this branch.",
+  "pinned_artifacts": "identity_census/indianapolis-in.json, the release contract, the final partition and the deployment manifest are all UNCHANGED here and must stay canonical's."
+ },
+ "state_this_branch_leaves_behind": {
+  "pinned_census_identities": 257,
+  "shadow_admission_census_identities": 265,
+  "published_pet_friendly": 56,
+  "live_deploy": "6a9102c0 (unchanged, 8 markets / 517 profiles)",
+  "paid_provider_calls": 0,
+  "usd_spent": 0.0,
+  "deployment_performed": false,
+  "launch_authorization_issued": false
+ },
+ "open_founder_decisions_carried_forward": [
+  "IDR-002-001 SUCCESSOR_IDENTITY_REVIEW -- WoodSpring vs ESA Plainfield at 6295 Gateway Dr",
+  "IDR-002-002 ADDRESS_SUPERSESSION_REVIEW -- is 'extended stay america indianapolis castleton' at the wrong address?",
+  "IDR-002-003 CORRIDOR_REGISTRY_REVIEW -- widen the registry to ZIPs 46236 / 46239, admitting 3 more approved identities",
+  "PROMOTION -- move the 8 admitted identities from the shadow census into the pinned census. This is deployment-bearing: it moves the release contract and the deployment manifest, so it must be bundled with the next assembly and authorization."
+ ]
+}
