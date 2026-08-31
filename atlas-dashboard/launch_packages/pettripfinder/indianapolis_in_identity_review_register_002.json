@@ -200,7 +200,7 @@
   },
   {
    "review_id": "IDR-005-001",
-   "review_state": "ADDRESS_SUPERSESSION_REVIEW",
+   "review_state": "RULED_AND_APPLIED",
    "raised_by": "finding F-004-1 of PTF-INDIANAPOLIS-CORRIDOR-AND-IDENTITY-RULINGS-004; registered by the founder in PTF-INDIANAPOLIS-APPLY-RULINGS-005",
    "question": "Does the registered WoodSpring Castleton row carry a stale street address?",
    "identity_key": "woodspring suites indianapolis castleton",
@@ -233,11 +233,22 @@
     "retiring or merging either Bash Street identity"
    ],
    "default_if_never_ruled": "the row keeps 8255 Bash Street and stays unrouted",
-   "acted_on": false
+   "acted_on": false,
+   "verdict": "A. ADDRESS_SUPERSESSION",
+   "applied": true,
+   "applied_by": "PTF-INDIANAPOLIS-ADDRESS-REVIEW-006",
+   "applied_to": "SHADOW census only; pinned census untouched",
+   "proof": [
+    "owned Places record carries telephone (317) 854-3327",
+    "WoodSpring own page at 8301 Bash Street carries the SAME telephone",
+    "same canonical URL in both records",
+    "WoodSpring lists exactly one Castleton property",
+    "the PAID capture in order 012 already recorded the 8301-vs-8255 disagreement"
+   ]
   },
   {
    "review_id": "IDR-005-002",
-   "review_state": "ADDRESS_AND_GEOGRAPHY_REVIEW",
+   "review_state": "INVESTIGATED_AWAITING_GEOGRAPHY_RULING",
    "raised_by": "finding F-004-2 of PTF-INDIANAPOLIS-CORRIDOR-AND-IDENTITY-RULINGS-004; registered by the founder in PTF-INDIANAPOLIS-APPLY-RULINGS-005",
    "question": "Is the registered WoodSpring Airport South row at the wrong address, and if so does its real address even fall inside a declared corridor?",
    "identity_key": "woodspring suites indianapolis airport south",
@@ -269,7 +280,12 @@
     "binding a route"
    ],
    "default_if_never_ruled": "the row keeps its address and corridor and stays unrouted",
-   "acted_on": false
+   "acted_on": false,
+   "verdict": "D. STALE_OR_WRONG_CENSUS_BINDING",
+   "supersession_versus_relocation": "UNDETERMINED from owned or free evidence; it does not change the remedy, and is left explicit rather than guessed",
+   "blocked_on": "ZIP 46221 is claimed by no corridor; correcting the address re-admits a candidate the registry excluded. Founder geography decision.",
+   "recommendation": "EXPLICIT ASSIGNMENT of this one identity to indianapolis-in__airport, consistent with Order 005",
+   "applied": false
   }
  ],
  "guarantees": {
@@ -323,5 +339,52 @@
    "status": "ANALYTICAL OBSERVATION ONLY",
    "ruling": "the founder ruled this is NOT evidence of bad addresses and NOT grounds for a generic repair campaign. A correlation is not a defect count."
   }
- ]
+ ],
+ "address_review_queue_006": {
+  "what_this_is": "Rows with a street disagreement PROVABLE from owned evidence that are still unrouted and unresolved. This is a QUEUE, not a defect list: a disagreement can equally mean the acquisition reached the wrong page and the refusal was correct.",
+  "count": 6,
+  "must_not_be_corrected_in_bulk": true,
+  "each_needs": [
+   "independent corroboration that the PAGE is the right hotel",
+   "a telephone, property code, or single-property brand inventory"
+  ],
+  "rows": [
+   {
+    "identity_key": "comfort inn east indianapolis",
+    "census_street": "7015 Western Select Drive",
+    "page_street": "2295 N. Shadeland",
+    "places_bind_was_name_and_postal": false
+   },
+   {
+    "identity_key": "echo suites extended stay by wyndham indianapolis ameriplex",
+    "census_street": "8805 Ameriplex Drive",
+    "page_street": "5831 Alta Lake Drive",
+    "places_bind_was_name_and_postal": true
+   },
+   {
+    "identity_key": "quality inn and suites noblesville indianapolis",
+    "census_street": "16025 Promise Road",
+    "page_street": "17070 Dragonfly Lane",
+    "places_bind_was_name_and_postal": false
+   },
+   {
+    "identity_key": "quality inn brownsburg indianapolis west",
+    "census_street": "31 Brownsburg Place",
+    "page_street": "31 Maplehurst Drive",
+    "places_bind_was_name_and_postal": false
+   },
+   {
+    "identity_key": "quality inn noblesville indianapolis",
+    "census_street": "17070 Dragonfly Drive",
+    "page_street": "17070 Dragonfly Lane",
+    "places_bind_was_name_and_postal": true
+   },
+   {
+    "identity_key": "wingate by wyndham indianapolis airport plainfield",
+    "census_street": "6010 Gateway Drive",
+    "page_street": "6300 Gateway Drive",
+    "places_bind_was_name_and_postal": true
+   }
+  ]
+ }
 }
