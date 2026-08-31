@@ -1,0 +1,118 @@
+{
+ "schema": "ptf-founder-review-packet/1.0",
+ "work_order": "PTF-INDIANAPOLIS-ADDRESS-REVIEW-006",
+ "market_id": "indianapolis-in",
+ "generated_at": "2026-08-31",
+ "cost": {"paid_provider_calls": 0, "usd_spent": 0.0, "free_http_requests": 2,
+          "note": "Both address questions were settled almost entirely from evidence this project ALREADY OWNED. Only two free requests were made, and both were to the one page a ruling had just bound."},
+ "one_question_only": "IDR-005-001 was resolved mechanically and applied. Only IDR-005-002 needs you, and only for its geography.",
+ "decisions_requested": [
+  {
+   "id": "IDR-005-002",
+   "title": "WoodSpring Airport South — the census bound the wrong candidate, and the fix moves the row into an unassigned ZIP",
+   "verdict_reached_without_you": "D. STALE_OR_WRONG_CENSUS_BINDING",
+   "what_the_owned_evidence_shows": [
+    "The ORIGINAL candidate ledger (indianapolis_in_candidate_ledger_002.json) holds TWO candidates under the identical name 'WoodSpring Suites Indianapolis Airport South'.",
+    "Candidate dc_a11eec6d593c13fe — 4545 Kentucky Avenue, 46221, from OPENSTREETMAP — was REJECTED with disposition OUT_OF_MARKET_BOUNDARY_DECISION and the reason: postal code 46221 is inside the discovery bounding box and is claimed by no corridor in the market registry.",
+    "Candidate prior-census::woodspring suites indianapolis airport south — 4402 West Morris Street, 46241, from PRIOR_CENSUS — was ADMITTED_TO_CENSUS and assigned the airport corridor.",
+    "So the factory saw the real property, discarded it on a GEOGRAPHY rule, and kept the prior-census copy whose street no source has ever confirmed.",
+    "The owned Places lookup for the admitted row (4402 West Morris Street) returned UNBOUND_NO_SANCTIONED_KEY — nothing was findable there under that name.",
+    "WoodSpring's own Indiana directory lists exactly THREE Indianapolis properties: Castleton, Airport South and Zionsville. Its Airport South page names 4545 Kentucky Ave, 46221, telephone 3178569533."
+   ],
+   "why_this_is_not_a_typo": "The street AND the ZIP differ, and they differ because two DIFFERENT candidate records were in play — not because one address was mistyped. Calling it a typo would hide that the market's own geography rule is what discarded the correct record.",
+   "supersession_versus_relocation": {
+    "determined": false,
+    "why": "Owned and free evidence cannot show whether a WoodSpring ever operated at 4402 West Morris Street. So I cannot tell you whether this is one building whose address was recorded wrongly (SUPERSESSION) or a business that moved buildings (RELOCATION).",
+    "does_it_change_the_action": "No. Either way the current property is 4545 Kentucky Ave, 46221. The distinction matters for the lineage note, not for the remedy, and I have left it explicitly undetermined rather than guessing."
+   },
+   "the_actual_question": "ZIP 46221 is claimed by no Indianapolis corridor, so correcting this address moves the row out of its corridor and re-admits a candidate the market registry already excluded. That is a geography decision, and it is yours.",
+   "geography_findings": {
+    "classification": "EXPLICIT_HOTEL_ASSIGNMENT_APPROPRIATE",
+    "evidence": [
+     "4545 Kentucky Ave is south-west Indianapolis on the Kentucky Avenue diagonal running toward the airport; the airport corridor is 46241 and 46221 adjoins it.",
+     "The market boundary note enumerates its exclusions by name and 46221 is NOT among them.",
+     "The 'no corridor therefore out of market' rule has ALREADY been overridden by explicit assignment three times: 46202 and 46222 rows sit in the census today by explicit_hotel_ids, and you authorised the same mechanism for 46239 in Order 005.",
+     "Eight candidates were rejected on this rule market-wide; 46221 holds two of them — this WoodSpring and a Country Inn & Suites. A blanket ZIP rule would sweep in the Country Inn as well; an explicit assignment admits only the WoodSpring."
+    ]
+   },
+   "options": [
+    {"option": "1. EXPLICIT ASSIGNMENT (recommended)",
+     "action": "supersede the address to 4545 Kentucky Ave 46221 AND assign this one identity explicitly to indianapolis-in__airport",
+     "admits": "exactly this identity; the Country Inn & Suites in 46221 stays out and returns to you separately",
+     "consistency": "identical to the mechanism you approved in Order 005",
+     "reversible": true},
+    {"option": "2. WIDEN 46221 INTO THE AIRPORT CORRIDOR",
+     "action": "add 46221 to included_postal_codes",
+     "admits": "this WoodSpring AND the Country Inn & Suites AND every future 46221 hotel, automatically",
+     "reversible": true},
+    {"option": "3. LEAVE THE ROW AS IT IS",
+     "action": "nothing",
+     "consequence": "the census keeps an address no source can confirm, and any future route bound to it risks capturing policy for the wrong building — the exact failure this order exists to prevent",
+     "reversible": true},
+    {"option": "4. RETIRE THE ROW",
+     "action": "remove the identity from the shadow census",
+     "consequence": "loses a real hotel that demonstrably exists",
+     "reversible": true}
+   ],
+   "recommendation": "Option 1. It corrects a binding that is provably wrong, uses the mechanism you have already sanctioned twice, and admits exactly one identity rather than settling 46221 for every future hotel.",
+   "census_impact": "count UNCHANGED — a supersession corrects a row in place.",
+   "route_impact": "+1 route at $0 once applied; the row currently cannot be routed at all without risking the wrong building.",
+   "publication_impact": "NONE today. WoodSpring pages do carry complete first-party pet policy for free, so this row would likely become publishable cheaply afterwards — but that is a later order.",
+   "reversible": true
+  }
+ ],
+ "resolved_without_you": [
+  {
+   "id": "IDR-005-001",
+   "verdict": "A. ADDRESS_SUPERSESSION",
+   "applied": true,
+   "applied_to": "SHADOW census only; pinned census untouched",
+   "change": "woodspring suites indianapolis castleton — 8255 Bash Street superseded by 8301 Bash Street, routed and phoned; 8255 preserved in the supersession block",
+   "proof": [
+    "the Places record we already own for this identity carries telephone (317) 854-3327",
+    "WoodSpring's own property page at 8301 Bash Street carries the SAME telephone 3178543327",
+    "both records carry the same canonical URL",
+    "WoodSpring lists exactly one Castleton property, so the identity denotes one building",
+    "the census street 8255 has never been confirmed by any source"
+   ],
+   "note_worth_reading": "The PAID capture in PTF-INDIANAPOLIS-TARGETED-POLICY-ACQUISITION-012 already recorded this verbatim on 2026-08-27: 'page street 8301 Bash Street does not agree with expected 8255 Bash Street'. We paid to learn this in August and filed it as an IDENTITY_MISMATCH — a routing defect — when it was a CENSUS ADDRESS defect. The guard was right; the interpretation was wrong."
+  }
+ ],
+ "free_policy_result": {
+  "identity": "woodspring suites indianapolis castleton",
+  "classification": "PET_FRIENDLY",
+  "publication_grade": true,
+  "published": false,
+  "identity_binding": "page confirmed by BOTH address 8301 Bash Street and telephone 3178543327",
+  "document_sha256": "e5baff7f12e44a2a",
+  "exact_quote": "Service Animals are welcome at no additional charge, must be registered upon arrival. Limit of 2 Dogs per room. No Cats. Registration Fee of 50 USD. Plus 5 USD for each dog per night. Weight limit of 50 lbs per pet. Credit Card required for incidentals.",
+  "terms": {"registration_fee": "50 USD", "recurring": "5 USD per dog per night",
+            "count": "2 dogs per room", "species_refused": ["cats"],
+            "weight": "50 lbs per pet",
+            "service_animals": "no additional charge, must be registered"},
+  "why_this_matters_beyond_one_hotel": "This is a COMPLETE first-party policy obtained for $0 from a brand we had not tried for policy. If Order 007 routes other WoodSpring/Choice-family rows, a free policy pass on them is likely high-yield. Recorded, not acted on.",
+  "reader_note": "The first pass scored this HOLD because the fee regex only matched a leading '$'. This page writes '50 USD'. The miss was the reader, not the page — worth fixing before any wider free-policy pass."
+ },
+ "address_diagnostic": {
+  "method": "zero new fetches — the acquisition runs already record every street disagreement they hit, verbatim, so an owned artifact carries a first-party street for each row",
+  "rows_whose_places_bind_used_NAME_AND_POSTAL_CODE": 39,
+  "street_disagreements_found_in_owned_evidence": 35,
+  "judged_by_the_committed_streets_agree_rule": {
+   "cosmetic_indianapolis": 3, "real_indianapolis": 13, "other_markets_out_of_scope": 18},
+  "of_the_13_real": {"already_routed_or_resolved": 5, "still_unrouted_and_unresolved": 8},
+  "already_ruled": ["extended stay america indianapolis castleton (Order 005)",
+                    "woodspring suites indianapolis castleton (this order)"],
+  "remaining_queue": 6,
+  "important_caveat": "A recorded street disagreement does NOT prove the census is wrong. It can equally mean the acquisition reached the WRONG PAGE and the refusal was correct. WoodSpring Castleton was provable only because independent evidence — a matching telephone and a single-property brand inventory — showed the PAGE was the right hotel. The other six have no such corroboration yet and must NOT be corrected in bulk.",
+  "recommended": "a future narrow order that corroborates each of the six individually. NOT a 257-row cleanup, and NOT started from the 23%-vs-39% correlation."
+ },
+ "guarantees": {
+  "paid_provider_calls": 0, "usd_spent": 0.0,
+  "pinned_census_identities": 257, "published_pet_friendly": 56,
+  "release_contract_changed": false, "deployment_manifest_changed": false,
+  "launch_authorization": "NONE", "corridor_registry_changed_this_order": false,
+  "identities_merged": 0, "identities_retired": 0,
+  "policy_published_to_authority": 0,
+  "rows_corrected_in_bulk": 0
+ }
+}
