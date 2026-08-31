@@ -14,7 +14,7 @@
   "merge_base_subject": "feat(ptf): Indianapolis is LIVE; deploy 6a9102c0 serves 8 markets / 517 profiles (PTF-INDIANAPOLIS-DEPLOY-AUTHORIZATION-020)",
   "canonical_already_contains_indianapolis_through": "PTF-INDIANAPOLIS-DEPLOY-AUTHORIZATION-020",
   "canonical_ahead_by_commits": 80,
-  "commits_to_transplant": 7,
+  "commits_to_transplant": 8,
   "why_this_is_small": "Canonical already carries every Indianapolis commit through the live deploy. Only the coverage audit, the founder rulings that followed it, and the 004 investigation are unique to this branch."
  },
  "commits": [
@@ -277,6 +277,29 @@
      "class": "SAFE_CHERRY_PICK"
     }
    ]
+  },
+  {
+   "sha": "PENDING -- order 009 commit",
+   "work_order": "PTF-INDIANAPOLIS-ATTENDED-POLICY-PASS-009",
+   "subject": "attended-render policy capture on the 8 Wyndham rows: 5 PF + 3 no-pets, 8/8 clean at $0; consolidated pending-application inventory 009",
+   "files": [
+    {
+     "status": "A",
+     "path": "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_shadow_policy_evidence_009.json",
+     "class": "SAFE_CHERRY_PICK"
+    },
+    {
+     "status": "A",
+     "path": "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_pending_application_inventory_009.json",
+     "class": "SAFE_CHERRY_PICK",
+     "note": "the CONSOLIDATED artifact a future promotion order consumes; supersedes the 008 inventory, which is kept intact as that order's record"
+    },
+    {
+     "status": "M",
+     "path": "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_canonical_transplant_inventory_003.json",
+     "class": "SAFE_CHERRY_PICK"
+    }
+   ]
   }
  ],
  "conflict_risk": {
@@ -336,15 +359,19 @@
   "clean_pet_friendly_awaiting_application": 6,
   "policy_rows_blocked_on_attended_render": 8,
   "projected_pf_if_applied": 62,
-  "live_pf_unchanged": 56
+  "live_pf_unchanged": 56,
+  "pending_clean_pet_friendly": 11,
+  "pending_clean_no_pets": 3,
+  "projected_pf_if_promoted": 67,
+  "policy_rows_still_unresolved": 0
  },
  "open_founder_decisions_carried_forward": [
   "IDR-007-001 -- la quinta inn vs Baymont Northwest (successor question)",
   "the 6-row address-review queue -- individual corroboration, never bulk",
-  "APPLICATION -- the 6 CLEAN_PET_FRIENDLY results wait for the promotion order; applying them is deployment-bearing",
-  "PROMOTION -- moving the shadow census into the pinned census remains deployment-bearing"
+  "READER FIX -- the USD-suffix fee defect blocks application of the 8 Wyndham rows",
+  "APPLICATION + PROMOTION -- applying the 14 clean results and moving the shadow census are deployment-bearing and belong in one founder-authorised order"
  ],
- "updated_by": "PTF-INDIANAPOLIS-FREE-POLICY-PASS-008",
+ "updated_by": "PTF-INDIANAPOLIS-ATTENDED-POLICY-PASS-009",
  "updated_at": "2026-08-31",
  "transplant_classification": {
   "SAFE_CHERRY_PICK": [
@@ -357,12 +384,14 @@
    "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_free_routing_design_007.json",
    "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_identity_review_register_002.json",
    "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_pending_application_inventory_008.json",
+   "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_pending_application_inventory_009.json",
    "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_policy_opportunity_007.json",
    "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_routing_results_007.json",
    "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_shadow_additive_inventory_001.json",
    "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_shadow_policy_evidence_005.json",
    "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_shadow_policy_evidence_006.json",
    "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_shadow_policy_evidence_008.json",
+   "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_shadow_policy_evidence_009.json",
    "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_unrouted_cohort_003.json",
    "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_unrouted_cohort_005.json",
    "atlas-dashboard/launch_packages/pettripfinder/indianapolis_in_unrouted_cohort_006.json",
@@ -406,5 +435,19 @@
     "verify_after": "load_markets() must parse, and every explicit id must still be a normalized-name key not also present in excluded_hotel_ids"
    }
   ]
+ },
+ "blocking_prerequisite_before_application": {
+  "what": "the shared fee reader under-reads the USD-SUFFIX money form",
+  "forms_observed": [
+   "15 USD",
+   "20.00 USD",
+   "25USD (no space)",
+   "100 USD",
+   "250USD"
+  ],
+  "affects": "all 8 Wyndham rows in the 009 inventory",
+  "does_not_affect": "the 6 ESA rows from 008, which use a leading \"$\"",
+  "correction_to_earlier_finding": "Orders 007 and 008 recorded Wyndham as leading-\"$\" and therefore NOT exposed. That was read off the STATIC surface. The RENDERED policy uses the USD suffix, so the exposure is real.",
+  "required": "fix and test the reader on canonical BEFORE applying these rows"
  }
 }
