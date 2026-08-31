@@ -103,7 +103,11 @@ EXPECTED_RECONCILIATION = {
     # 91/40/137/119 -> 99/47/152/104 at
     # PTF-CINCINNATI-FREE-LANE-APPLICATION-010, which applied the zero-cost
     # independent probes. 256 = 99 + 47 + 6 + 104.
-    CINCINNATI: (256, 99, 47, 152, 104),
+    # 256/99/47/152/104 -> 257/99/49/154/103 at PTF-CINCINNATI-MAINSTAY-CENSUS-SPLIT-013. Cincinnati's census
+    # GREW, which no earlier order in this lineage did: one conflated identity
+    # was replaced by the two real hotels it denoted, each bringing its own
+    # refusal. 257 = 99 + 49 + 6 + 103.
+    CINCINNATI: (257, 99, 49, 154, 103),
     # 163 identities, 43 published, 20 verified-no-pets, 63 resolved and 100
     # unresolved. The census is the 163-row recensus, promoted into the pinned
     # path by PTF-GRAND-RAPIDS-CENSUS-PIN-AND-RELEASE-CONTRACT-024; the
@@ -429,7 +433,7 @@ class TestContractAgreesWithItsOwnAuthority:
                              # refusals from the independent probes,
                              # including Great Wolf released from its
                              # APPLICATION-004 hold.
-                             CINCINNATI: 47}
+                             CINCINNATI: 49}
         registry = json.loads(
             (REPO_ROOT / "launch_packages" / "pettripfinder" / "hotel_exclusions.json")
             .read_text(encoding="utf-8-sig"))["exclusions"]

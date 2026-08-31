@@ -482,24 +482,34 @@ def test_the_reprice_covers_every_unresolved_row():
 
 # --------------------------------------------- the two deferred orders stay deferred
 
-def test_the_species_key_defect_was_not_touched():
+def test_the_species_key_defect_was_not_touched_by_this_order():
+    """This asserted the defect was still present, and it no longer is.
+
+    PTF-CINCINNATI-SPECIES-KEY-REBIND-011 renamed the eight records' species
+    keys to the spelling canonical_view reads. What THIS order is entitled to
+    claim is that it did not touch them, and the durable form of that claim is
+    that no record anywhere carries a singular key and every record with
+    species evidence projects.
+    """
     from scripts.pettripfinder import canonical_view as CV
     package = _load(PKG / "hotel_policy_facts_cincinnati-oh.json")
-    singular = [h for h in package["hotels"]
-                if set(h["facts"].get("species") or {}) & {"dog", "cat"}]
-    assert len(singular) == 8
-    for record in singular:
-        view = CV.build(record, market_id="cincinnati-oh")
-        assert view.dogs_state == "" and view.cats_state == ""
+    for record in package["hotels"]:
+        species = (record.get("facts") or {}).get("species") or {}
+        assert not (set(species) & {"dog", "cat"}), record["identity_key"]
+        if species:
+            view = CV.build(record, market_id="cincinnati-oh")
+            assert view.dogs_state or view.cats_state, record["identity_key"]
+def test_this_probe_did_not_touch_the_mainstay_hold(rows):
+    """It asserted the row was still held, and it no longer exists.
 
-
-def test_the_mainstay_identity_hold_was_not_resolved(rows):
-    partition = _load(PKG / "cincinnati_final_partition_001.json")
-    item = next(i for i in partition["items"]
-                if i["identity_key"] == "comfort suites mainstay hotel")
-    assert item["resolved"] is False
-    routes = {r["hotel_ref"]["identity_key"]
-              for r in _load(AUTH / "identity_routing.json")["routes"]}
-    assert "comfort suites mainstay hotel" in routes
+    PTF-CINCINNATI-MAINSTAY-IDENTITY-012 found the row denoted two hotels and
+    PTF-CINCINNATI-MAINSTAY-CENSUS-SPLIT-013 replaced it with both. What THIS order can claim permanently is that it
+    never observed the row -- the hold was not its to touch.
+    """
     assert "comfort suites mainstay hotel" not in {r["identity_key"]
                                                    for r in rows}
+    keys = {i["identity_key"] for i in
+            _load(PKG / "cincinnati_final_partition_001.json")["items"]}
+    assert "comfort suites mainstay hotel" not in keys
+    assert "comfort suites cincinnati university downtown" in keys
+    assert "mainstay suites cincinnati university uptown" in keys

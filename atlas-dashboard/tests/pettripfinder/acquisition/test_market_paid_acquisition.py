@@ -22,6 +22,9 @@ import pytest
 
 from scripts.pettripfinder.acquisition import market_paid_acquisition as PA
 from scripts.pettripfinder.acquisition import market_routing as MR
+from scripts.pettripfinder.acquisition import paid_attempt_ledger as PAL
+from scripts.pettripfinder.acquisition import retry_policy as RP
+from scripts.pettripfinder.acquisition import registry as REGISTRY
 from scripts.pettripfinder.brightdata import outcomes as O
 
 
@@ -498,3 +501,163 @@ class TestAlreadySettledRowsAreNeverPurchasedTwice:
         document = CP.build(plan, prior, authorised_cap_usd=10)
         assert document["double_buy_check"]["no_property_is_bought_twice"] is True
         assert document["double_buy_check"]["already_answered_by_a_prior_pass"] == []
+
+
+class TestAConstrainedRegistryIsHonouredRatherThanIntended:
+    """PTF-CINCINNATI-BRIGHTDATA-PILOT-014 added ``--registry``.
+
+    That order authorised "Bright Data browser only, one attempt per row, no
+    Web Unlocker escalation". The committed registry gives both bot-walled
+    brands three attempts and a Web Unlocker fallback, so running under it
+    would have escalated on the first refusal -- and there were five refusals.
+    An authorisation the runner cannot express is an authorisation it cannot
+    keep, so the narrower table is loaded through the same strict validator.
+    """
+
+    def _narrow(self, tmp_path):
+        base = REGISTRY.load()
+        doc = json.loads(json.dumps(base))
+        doc["properties"] = dict(doc.get("properties") or {})
+        doc["properties"]["walled"] = {
+            "provider": "brightdata_browser",
+            "fallback_providers": [],
+            "forbidden_providers": ["brightdata_web_unlocker"],
+            "reader": "generic",
+            "max_attempts_per_provider": 1,
+            "why": "the order authorised one browser attempt and no escalation",
+            "measured_by": "PTF-CINCINNATI-BRIGHTDATA-PILOT-014",
+        }
+        path = tmp_path / "registry.json"
+        path.write_text(json.dumps(doc), encoding="utf-8")
+        return path
+
+    def test_the_committed_table_would_have_escalated(self):
+        """The premise. Without this, the flag is solving nothing."""
+        route = REGISTRY.resolve(brand="MARRIOTT",
+                                 url="https://www.marriott.com/en-us/hotels/x/overview/",
+                                 identity_key="walled")
+        assert "brightdata_web_unlocker" in route.ladder
+        assert route.max_attempts_per_provider > 1
+
+    def test_the_narrower_table_forbids_the_escalation(self, tmp_path):
+        route = REGISTRY.resolve(
+            brand="MARRIOTT",
+            url="https://www.marriott.com/en-us/hotels/x/overview/",
+            identity_key="walled",
+            registry=REGISTRY.load(self._narrow(tmp_path)))
+        assert route.ladder == ("brightdata_browser",)
+        assert route.max_attempts_per_provider == 1
+
+    def test_a_constrained_table_is_still_validated(self, tmp_path):
+        """A narrower table naming a provider that does not exist is refused
+        HERE, not mid-run after money has moved."""
+        doc = json.loads(json.dumps(REGISTRY.load()))
+        doc["properties"] = {"walled": {"provider": "a_provider_that_is_not_real",
+                                        "reader": "generic", "why": "w",
+                                        "measured_by": "m"}}
+        path = tmp_path / "bad.json"
+        path.write_text(json.dumps(doc), encoding="utf-8")
+        with pytest.raises(REGISTRY.RegistryError):
+            REGISTRY.load(path)
+
+    def test_omitting_the_flag_keeps_the_committed_behaviour(self):
+        """The flag is additive: absent it, nothing about routing changes."""
+        assert REGISTRY.load() == REGISTRY.load(None)
+
+
+class TestMaterialChangesAreLoadedThroughAClosedVocabulary:
+    """PTF-CINCINNATI-HILTON-CLOSE-AND-MARRIOTT-RETRY-PROBE-015.
+
+    A material change makes an already-paid page payable again. That is the
+    one decision that must never be implicit, so the loader refuses an unknown
+    kind, a missing reason, and a doubled assertion.
+    """
+
+    def _doc(self, tmp_path, changes):
+        path = tmp_path / "material.json"
+        path.write_text(json.dumps({"changes": changes}), encoding="utf-8")
+        return path
+
+    def test_a_reasoned_override_loads(self, tmp_path):
+        loaded = PAL.load_material_changes(self._doc(tmp_path, [
+            {"identity_key": "a", "kind": "OPERATOR_OVERRIDE",
+             "reason": "controlled session retry authorised by the work order"}]))
+        assert loaded == {"a": {"OPERATOR_OVERRIDE":
+                                "controlled session retry authorised by the "
+                                "work order"}}
+
+    def test_an_unknown_kind_is_refused(self, tmp_path):
+        with pytest.raises(PAL.PaidLedgerError):
+            PAL.load_material_changes(self._doc(tmp_path, [
+                {"identity_key": "a", "kind": "BECAUSE_I_SAID_SO",
+                 "reason": "no"}]))
+
+    def test_an_unreasoned_override_is_refused(self, tmp_path):
+        """An override nobody has to justify is not a control."""
+        with pytest.raises(PAL.PaidLedgerError):
+            PAL.load_material_changes(self._doc(tmp_path, [
+                {"identity_key": "a", "kind": "OPERATOR_OVERRIDE",
+                 "reason": "   "}]))
+
+    def test_the_same_kind_asserted_twice_is_refused(self, tmp_path):
+        with pytest.raises(PAL.PaidLedgerError):
+            PAL.load_material_changes(self._doc(tmp_path, [
+                {"identity_key": "a", "kind": "OPERATOR_OVERRIDE", "reason": "x"},
+                {"identity_key": "a", "kind": "OPERATOR_OVERRIDE", "reason": "y"}]))
+
+    def test_no_document_means_no_overrides(self):
+        assert PAL.load_material_changes("") == {}
+
+
+class TestRoutingAndAcquisitionShareOneRegistry:
+    """The lane the retry policy reasons about must be the lane the run can use.
+
+    Routing through the COMMITTED table while acquiring through a narrower one
+    let the retry policy read the wide ladder, see the primary lane was already
+    paid for, and start the row on a fallback the narrower table forbids. In
+    PILOT-015 that silently routed five Marriott retries to Web Unlocker -- the
+    one lane the order excluded -- and only the dry run caught it.
+    """
+
+    def _narrow(self, tmp_path):
+        doc = json.loads(json.dumps(REGISTRY.load()))
+        doc["properties"] = dict(doc.get("properties") or {})
+        doc["properties"]["walled"] = {
+            "provider": "brightdata_browser",
+            "fallback_providers": [],
+            "forbidden_providers": ["brightdata_web_unlocker"],
+            "reader": "generic",
+            "max_attempts_per_provider": 1,
+            "why": "one attempt, no escalation",
+            "measured_by": "PTF-CINCINNATI-HILTON-CLOSE-AND-MARRIOTT-RETRY-PROBE-015",
+        }
+        path = tmp_path / "registry.json"
+        path.write_text(json.dumps(doc), encoding="utf-8")
+        return REGISTRY.load(path)
+
+    def test_the_wide_ladder_offers_the_forbidden_lane_as_an_alternate(self):
+        """The bug's precondition, stated so the fix cannot be misread."""
+        entry = {"identity_key": "walled",
+                 "ladder": list(REGISTRY.resolve(
+                     brand="MARRIOTT",
+                     url="https://www.marriott.com/en-us/hotels/x/overview/",
+                     identity_key="walled").ladder)}
+        assert "brightdata_web_unlocker" in RP.approved_ladder(entry)
+
+    def test_routing_through_the_narrow_table_offers_no_alternate(self, tmp_path):
+        narrow = self._narrow(tmp_path)
+        entry = {"identity_key": "walled",
+                 "ladder": list(REGISTRY.resolve(
+                     brand="MARRIOTT",
+                     url="https://www.marriott.com/en-us/hotels/x/overview/",
+                     identity_key="walled", registry=narrow).ladder)}
+        assert RP.approved_ladder(entry) == ("brightdata_browser",)
+
+    def test_route_census_honours_the_registry_it_is_given(self, tmp_path):
+        rows = [{"identity_key": "walled", "canonical_name": "Walled",
+                 "brand": "MARRIOTT", "corridor": "c",
+                 "official_url": "https://www.marriott.com/en-us/hotels/x/overview/"}]
+        wide, _ = MR.route_census(rows)
+        narrow, _ = MR.route_census(rows, self._narrow(tmp_path))
+        assert "brightdata_web_unlocker" in (wide[0].get("fallback_providers") or [])
+        assert (narrow[0].get("fallback_providers") or []) == []

@@ -1,0 +1,102 @@
+{
+ "schema": "ptf-market-identity-determination/1.0",
+ "work_order": "PTF-CINCINNATI-MAINSTAY-IDENTITY-012",
+ "market_id": "cincinnati-oh",
+ "as_of": "2026-08-31",
+ "identity_key": "comfort suites mainstay hotel",
+ "classification": "SEPARATE_BUILDING_IDENTITY",
+ "provider_calls": 0,
+ "paid_spend_usd": 0.0,
+ "capture_method": "attended_chrome_render",
+ "census_before": {
+  "census_name": "Comfort Suites Mainstay Hotel",
+  "census_street": "2347 Reading Rd.",
+  "census_postal_code": "45219",
+  "census_phone": "5133946073",
+  "route_property_code": "oh721",
+  "route_url": "https://www.choicehotels.com/ohio/cincinnati/mainstay-hotels/oh721",
+  "route_signals_claimed": [
+   "binding:street",
+   "binding:postal_code",
+   "binding:phone",
+   "binding:property_code",
+   "binding:city",
+   "binding:state"
+  ],
+  "route_status": "ROUTING_CONFIRMED"
+ },
+ "observed_first_party": {
+  "oh720": {
+   "property_code": "oh720",
+   "name": "Comfort Suites Cincinnati University - Downtown",
+   "street": "2347 Reading Road, Building A",
+   "city": "Cincinnati",
+   "state": "OH",
+   "postal_code": "45202",
+   "phone": "5137437508",
+   "official_property_url": "https://www.choicehotels.com/ohio/cincinnati/comfort-suites-hotels/oh720",
+   "reviews": 436,
+   "pets": "Pets Allowed: No General: Only service animals are permitted, free of charge.",
+   "sha256_page": "b1ca728d-e49ecbc6-266d5553-61873a90-eb515bad-17a3a5ba-4dc9e6ae-2c0a725f",
+   "in_census": false
+  },
+  "oh721": {
+   "property_code": "oh721",
+   "name": "MainStay Suites Cincinnati University - Uptown",
+   "street": "2347 Reading Road, Building B",
+   "city": "Cincinnati",
+   "state": "OH",
+   "postal_code": "45202",
+   "phone": "5132023971",
+   "official_property_url": "https://www.choicehotels.com/ohio/cincinnati/mainstay-hotels/oh721",
+   "reviews": 144,
+   "pets": "Pets Allowed: No General: Only service animals are permitted, free of charge.",
+   "sha256_page": "ade36a79-9fe351ce-130d945d-8464e8e9-a82e651c-26dce47b-32b5d7b9-6f24a5a1",
+   "in_census": false
+  }
+ },
+ "conflicting_evidence": [
+  "name: the census pairs two Choice brands ('Comfort Suites' and 'Mainstay'); each real property carries one",
+  "postal_code: census 45219; both pages state 45202",
+  "phone: census 5133946073; oh720 states 5137437508 and oh721 states 5132023971 -- the census phone matches neither",
+  "building: oh720 is Building A and oh721 is Building B at the same street number, which is identity-significant"
+ ],
+ "why_the_stronger_signals_win": "Two distinct Choice property codes with two distinct phones, two buildings and two independent review counts are the strongest identity evidence available, and they are first-party. A shared street NUMBER is the weakest signal in the set and is the only one the census row has in common with either page.",
+ "policy_may_bind": false,
+ "route_remains_active": true,
+ "other_identities_affected": [
+  {
+   "identity_key": "mainstay suites cincinnati blue ash",
+   "effect": "none -- a different MainStay in the Blue Ash corridor at 45242, itself still AWAITING_IDENTITY_RESOLUTION"
+  }
+ ],
+ "authority_change": "none",
+ "routing_signal_correction": {
+  "claimed": [
+   "binding:street",
+   "binding:postal_code",
+   "binding:phone",
+   "binding:property_code",
+   "binding:city",
+   "binding:state"
+  ],
+  "actually_hold": [
+   "binding:street_number",
+   "binding:street_name",
+   "binding:city",
+   "binding:state",
+   "binding:property_code"
+  ],
+  "removed": [
+   "binding:postal_code",
+   "binding:phone"
+  ],
+  "why": "PTF-CINCINNATI-URL-ROUTING-RECOVERY-001 recorded verdict BRAND_PROPERTY_URL_FOUND_2OF3 for this row while listing six binding signals, so the list was a template rather than a measurement. Both removed signals are contradicted by the record's own note."
+ },
+ "follow_up_required": {
+  "work_order": "PTF-CINCINNATI-MAINSTAY-CENSUS-SPLIT-013",
+  "what": "Retire the conflated row and add oh720 and oh721 as their own census identities, then bind each property's own refusal to its own identity.",
+  "why_not_here": "This order is forbidden from adding census identities.",
+  "evidence_already_owned": "Both property pages were captured attended at zero cost and their digests are recorded above; the split needs no new acquisition."
+ }
+}

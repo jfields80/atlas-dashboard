@@ -1,0 +1,394 @@
+{
+ "schema": "ptf-application-inventory/1.0",
+ "what_this_is": "Everything Cincinnati has bought across its three paid orders, sorted into what a founder can apply directly and what still needs a decision. Nothing here is authority: no record is written, no identity resolved, no exclusion registered. It exists so the application order can rule without re-reading three reports or paying again.",
+ "work_orders": [
+  "PTF-CINCINNATI-BRIGHTDATA-PILOT-014",
+  "PTF-CINCINNATI-HILTON-CLOSE-AND-MARRIOTT-RETRY-PROBE-015",
+  "PTF-CINCINNATI-MARRIOTT-SCALE-BATCH-016"
+ ],
+ "market_id": "cincinnati-oh",
+ "generated_at": "2026-08-31T12:35:44.088971+00:00",
+ "applied": "NOTHING",
+ "counts": {
+  "CLEAN_PET_FRIENDLY": 11,
+  "CLEAN_VERIFIED_NO_PETS": 10,
+  "FOUNDER_EXCEPTION": 7,
+  "NO_AUTHORITY_ACTION": 2
+ },
+ "total_identities": 30,
+ "reconciliation": {
+  "paid_identities_in_ledger": 30,
+  "identities_in_this_inventory": 30,
+  "paid_but_missing_here": [],
+  "here_but_never_paid": [],
+  "balanced": true
+ },
+ "binding_rule": "an approval binds document_sha256. Across the three orders, 28 rows carry evidence and their block digests collide repeatedly -- many properties refuse in the identical words 'Pet Policy Pets Not Allowed' -- while every document digest is distinct. A record bound to a block digest alone names evidence that could have come from another building.",
+ "open_questions": {
+  "fee_or_deposit": "all SEVEN publication-grade Hilton rows carry 'Deposit Yes. $X Non-refundable Fee'. A deposit and a non-refundable fee are two different charges and the label names both. Seven identical labels are ONE template artifact, not seven corroborating statements.",
+  "homewood_tier_gap": "Homewood Midtown reads '$75.00(1-nights), $125.00(5+nights)', leaving nights 2-4 unstated. It cannot be borrowed from siblings because the siblings disagree: four use 1-4/5+ and Sharonville uses 1-3/4-7.",
+  "sharonville_species": "Tru Sharonville says '*No Cats' where its siblings say 'dog or cat', and exempts ADA service animals from the fee.",
+  "monroe_taxable": "Tru Monroe says 'Pet fee is TAXABLE'. The schema has no field for it; dropping it silently would publish a price that is not the price.",
+  "fee_not_stated": "three Marriott rows (Fairfield Middletown, AC Banks, The Westin) state pets are welcome and give no fee sentence. Within this template a fee is stated when one exists, so the absence is informative -- but absence is not $0, and only the founder decides whether it publishes as free or as withheld. Aloft Newport is NOT in this group: it says pets stay free, which is a stated zero.",
+  "springhill_penalty": "SpringHill Airport South refuses pets AND names a USD 250 charge for an undisclosed pet. That is a penalty, not a pet fee, and must never be encoded as a fee tier."
+ },
+ "items": {
+  "CLEAN_PET_FRIENDLY": [
+   {
+    "identity_key": "ac hotel by marriott cincinnati at the banks",
+    "classification": "CLEAN_PET_FRIENDLY",
+    "policy_block": "Does AC Hotel Cincinnati at The Banks allow pets? Yes, pets are welcome at AC Hotel Cincinnati at The Banks. Up to 2 pets are allowed per room. Each pet may weigh up to 100.0 lbs. What are the parking options at AC Hotel Cincinnati at The Banks? On-site valet parking is available at AC Hotel Cincinnati at The Banks. The daily valet fee is $47.00 per day.",
+    "block_sha256": "51da4294ab09696de1c95daddb9f967d0703524b113f33b0fd363464fa581ebe",
+    "note": "2 pets, 100 lbs, no fee sentence. Same reading as Fairfield.",
+    "fee_status": "NOT_STATED",
+    "document_sha256": "df377a9948a22bf93b7d6ec9f4157f1fd3f0b6b6c4bb6df47058db6722915ff5",
+    "locator_strategy": "pet_policy_heading_parent",
+    "source_url": "https://www.marriott.com/en-us/hotels/cvgbc-ac-hotel-cincinnati-at-the-banks/overview/",
+    "acquired_by": "014+015"
+   },
+   {
+    "identity_key": "aloft newport on the levee",
+    "classification": "CLEAN_PET_FRIENDLY",
+    "policy_block": "Pet Policy Pets Welcome ARF! Pets stay for free! Maximum Number of Pets in Room: 2",
+    "document_sha256": "b298bc5a649190762e915f85c40400e44e316838dc258c7737781a02a3878eaa",
+    "block_sha256": "4dd43ec66a2e495ddbcb7c0988ac5b219660851d188448eb31fecd328669fa6f",
+    "source_url": "https://www.marriott.com/en-us/hotels/cvgpl-aloft-newport-on-the-levee/overview/",
+    "note": "Pets stay for free -- an explicit zero, which is a different fact from a missing fee sentence.",
+    "fee_status": "free",
+    "acquired_by": "016"
+   },
+   {
+    "identity_key": "aloft west chester",
+    "classification": "CLEAN_PET_FRIENDLY",
+    "policy_block": "Does Aloft by Marriott Cincinnati West Chester allow pets? Yes, pets are welcome at Aloft by Marriott Cincinnati West Chester. Up to 2 pets are allowed per room. Each pet may weigh up to 40.0 lbs. A non-refundable pet fee of $50.00 per night applies.",
+    "block_sha256": "51ca3fc947fab1f308c04278faa7d4af4f159e93af6f0acfe6347e95dfb0e54e",
+    "note": "2 pets, 40 lbs, $50 non-refundable per NIGHT. Note the basis differs from Lytle Park's per-stay; they are not one ladder.",
+    "fee_status": "STATED",
+    "document_sha256": "eb76299f32470f5f2b19c45b3a18b0cc5520ee4c9190b7ef37cc66f8753e0016",
+    "locator_strategy": "pet_policy_heading_parent",
+    "source_url": "https://www.marriott.com/en-us/hotels/cvgaw-aloft-cincinnati-west-chester/overview/",
+    "acquired_by": "014+015"
+   },
+   {
+    "identity_key": "courtyard by marriott cincinnati blue ash",
+    "classification": "CLEAN_PET_FRIENDLY",
+    "policy_block": "Does Courtyard by Marriott Cincinnati Blue Ash allow pets? Yes, pets are welcome at Courtyard by Marriott Cincinnati Blue Ash. One pet is allowed per room, with a maximum weight of 50.0 lbs. A non-refundable pet fee of $100.00 per stay applies. What are the parking options at Courtyard by Marriott Cincinnati Blue Ash? On-site self parking is available at Courtyard by Marriott Cincinnati Blue Ash. Self parking is available at Courtyard by Marriott Cincinnati Blue Ash, with rates of $0.00 per hour, $10.00 per day, and $0.00 perstay.",
+    "document_sha256": "a6830ef92ca53ae0b95d8b6e66639e615449ba80e350a5e9e8b5b9b3b79f5c7d",
+    "block_sha256": "bc8c80ccc7053612ce5a8a604c2d20a64186395529e23a1775307d7678cb89a2",
+    "source_url": "https://www.marriott.com/en-us/hotels/cvgba-courtyard-cincinnati-blue-ash/overview/",
+    "note": "1 pet, 50 lbs, $100 non-refundable per stay.",
+    "fee_status": "stated",
+    "acquired_by": "016"
+   },
+   {
+    "identity_key": "fairfield inn middletown monroe",
+    "classification": "CLEAN_PET_FRIENDLY",
+    "policy_block": "Does Fairfield Inn Middletown Monroe allow pets? Yes, pets are welcome at Fairfield Inn Middletown Monroe. Up to 2 pets are allowed per room. Each pet may weigh up to 75.0 lbs.",
+    "block_sha256": "3a9803d22654e55c1e255e6f7f41f6aa0e39ea35924ad25e808cbdc70324a0e6",
+    "note": "2 pets, 75 lbs, and NO fee sentence. Within this Marriott FAQ template a fee is stated when one exists (Lytle Park and Aloft both state one), so the absence is informative -- but absence is not the same as $0, and how it publishes is the founder's call.",
+    "fee_status": "NOT_STATED",
+    "document_sha256": "3317cf5ae0ed00c3a83194f0867a7c6923b0174484e202509a0ec5ff32485efd",
+    "locator_strategy": "pet_policy_heading_parent",
+    "source_url": "https://www.marriott.com/en-us/hotels/mwdfi-fairfield-inn-middletown-monroe/overview/",
+    "acquired_by": "014+015"
+   },
+   {
+    "identity_key": "hotel celare a marriott tribute portfolio hotel",
+    "classification": "CLEAN_PET_FRIENDLY",
+    "policy_block": "Does Hotel Celare, Cincinnati Midtown, a Tribute Portfolio Hotel allow pets? Yes, pets are welcome at Hotel Celare, Cincinnati Midtown, a Tribute Portfolio Hotel. One pet is allowed per room, with a maximum weight of 75.0 lbs. A non-refundable pet fee of $100.00 per stay applies. What are the parking options at Hotel Celare, Cincinnati Midtown, a Tribute Portfolio Hotel? On-site valet parking is available at Hotel Celare, Cincinnati Midtown, a Tribute Portfolio Hotel. The daily valet fee is $40.00 per day.",
+    "document_sha256": "ea42d140b8151698dfc1c6b13a459e10b6d20fc7fe2dc42c63af959b6e91b352",
+    "block_sha256": "83aa618ac56917359249dda77a3e502d38ec1d73427a678f9697dda8c5f6004b",
+    "source_url": "https://www.marriott.com/en-us/hotels/cvgmb-hotel-celare-cincinnati-midtown-a-tribute-portfolio-hotel/overview/",
+    "note": "1 pet, 75 lbs, $100 non-refundable per stay. Recovered on retry.",
+    "fee_status": "stated",
+    "acquired_by": "016"
+   },
+   {
+    "identity_key": "residence inn by marriott cincinnati airport",
+    "classification": "CLEAN_PET_FRIENDLY",
+    "policy_block": "Does Residence Inn by Marriott Cincinnati Airport allow pets? Yes, pets are welcome at Residence Inn by Marriott Cincinnati Airport. One pet is allowed per room, with a maximum weight of 50.0 lbs. A non-refundable pet fee of $100.00 per stay applies.",
+    "document_sha256": "ca68e25d42cb46c022fcb87b0a9f222a817bd350edfa53a75e5d230edb4742ef",
+    "block_sha256": "ccde86517369865e6d4e9bba783bcbdfa9ff11fe74ca9439b529a98632b96af9",
+    "source_url": "https://www.marriott.com/en-us/hotels/cvgap-residence-inn-cincinnati-airport/overview/",
+    "note": "1 pet, 50 lbs, $100 non-refundable per stay. Recovered on retry.",
+    "fee_status": "stated",
+    "acquired_by": "016"
+   },
+   {
+    "identity_key": "residence inn cincinnati midtown rookwood",
+    "classification": "CLEAN_PET_FRIENDLY",
+    "policy_block": "Pet Policy Pets Welcome 2 pets per room allowed with USD 100 non-refundable fee per room per stay-Dog Park on property. Non-Refundable Pet Fee Per Stay: $100.00",
+    "block_sha256": "1d5739e34eae67ae9e267743d0da108e412ae13fd1baaa079b3a347d6d91f147",
+    "note": "2 pets, $100 non-refundable per room per stay.",
+    "fee_status": "STATED",
+    "document_sha256": "0a77f478ef7a5ce547f4a276066bc0be140459691d1c43af835f5160dd9194f5",
+    "locator_strategy": "pet_policy_heading_parent",
+    "source_url": "https://www.marriott.com/en-us/hotels/cvges-residence-inn-cincinnati-midtown-rookwood/overview/",
+    "acquired_by": "014+015"
+   },
+   {
+    "identity_key": "the lytle park hotel autograph collection",
+    "classification": "CLEAN_PET_FRIENDLY",
+    "policy_block": "Does The Lytle Park Hotel, Autograph Collection allow pets? Yes, pets are welcome at The Lytle Park Hotel, Autograph Collection. Up to 2 pets are allowed per room. Each pet may weigh up to 50.0 lbs. A non-refundable pet fee of $100.00 per stay applies. What are the parking options at The Lytle Park Hotel, Autograph Collection? On-site valet parking is available at The Lytle Park Hotel, Autograph Collection. The daily valet fee is $48.00 per day.",
+    "block_sha256": "1bff04d21820249a3fcf4761b13ea0fdddf32fa387a809be204e4eb0fbe649c5",
+    "note": "2 pets, 50 lbs, $100 non-refundable per STAY. Fee, basis and limits all stated.",
+    "fee_status": "STATED",
+    "document_sha256": "498962bf9ee94b84a0174555922121d668ec48635647502aff0befa5813adf05",
+    "locator_strategy": "pet_policy_accordion_panel",
+    "source_url": "https://www.marriott.com/en-us/hotels/cvgak-the-lytle-park-hotel-autograph-collection/overview/",
+    "acquired_by": "014+015"
+   },
+   {
+    "identity_key": "the westin cincinnati",
+    "classification": "CLEAN_PET_FRIENDLY",
+    "policy_block": "Does The Westin Cincinnati allow pets? Yes, pets are welcome at The Westin Cincinnati. One pet is allowed per room, with a maximum weight of 40.0 lbs. What are the parking options at The Westin Cincinnati? On-site self parking is available at The Westin Cincinnati. Self parking is available for $21.00 per day. Off-site parking is also available near The Westin Cincinnati. The daily valet fee is $48.00 per day.",
+    "document_sha256": "83ff56d1afe3bf2fc5fdf3b15f2252670c33103aa0c478fa9612585d7aa1603f",
+    "block_sha256": "6ec07697c9db4db14526021fc5ee4a20af3ca46063ba3089984eab1f058e6805",
+    "source_url": "https://www.marriott.com/en-us/hotels/cvgwi-the-westin-cincinnati/overview/",
+    "note": "1 pet, 40 lbs, and no fee sentence. Absence is not $0; how it publishes is the founder's call.",
+    "fee_status": "not_stated",
+    "acquired_by": "016"
+   },
+   {
+    "identity_key": "towneplace suites by marriott cincinnati fairfield",
+    "classification": "CLEAN_PET_FRIENDLY",
+    "policy_block": "Pet Policy Pets Welcome Max of 2 pets per room Non-Refundable Pet Fee Per Stay: $100.00 Maximum Number of Pets in Room: 2",
+    "document_sha256": "5fb0ee755988c8b2eeca7476fb3ec6438b17db7eefd72dbc53492727c59d5ebe",
+    "block_sha256": "4e7ba140b9e2b3198468bb8e5b79ef79b4c26226b712175f0fda97d5bf7900f6",
+    "source_url": "https://www.marriott.com/en-us/hotels/cvgti-towneplace-suites-cincinnati-fairfield/overview/",
+    "note": "2 pets, $100 non-refundable per stay. Recovered on retry.",
+    "fee_status": "stated",
+    "acquired_by": "016"
+   }
+  ],
+  "CLEAN_VERIFIED_NO_PETS": [
+   {
+    "identity_key": "ac hotel cincinnati at liberty center",
+    "classification": "CLEAN_VERIFIED_NO_PETS",
+    "policy_block": "Pet Policy Pets Not Allowed No pets allowed-service animals only",
+    "document_sha256": "b51d9902da579b908febd2dcf11deff4e5614ec56f688b36ac39a3039e595483",
+    "block_sha256": "f0b8a0099c50912a51ad58e5539e2bacc73168630aa3bb7646604bd9c419450c",
+    "source_url": "https://www.marriott.com/en-us/hotels/cvgci-ac-hotel-cincinnati-at-liberty-center/overview/",
+    "note": "Pets Not Allowed; no pets allowed, service animals only. A service animal is not a pet, so this is a refusal and not an allowance.",
+    "acquired_by": "016"
+   },
+   {
+    "identity_key": "cincinnati airport marriott",
+    "classification": "CLEAN_VERIFIED_NO_PETS",
+    "policy_block": "Pet Policy Pets Not Allowed",
+    "block_sha256": "d2e629b2b96b75354f1b8dc2ccd4f002326c1cbbccd7f6eef999e62726371df7",
+    "note": "'Pet Policy Pets Not Allowed'. Unambiguous refusal; belongs in the exclusion registry, not the policy package.",
+    "document_sha256": "6d7b731b4c7cca88ac79c7bb00bab56f9210ef9aece1d43ea32c72e9a9e443e7",
+    "locator_strategy": "pet_policy_heading_parent",
+    "source_url": "https://www.marriott.com/en-us/hotels/cvgam-marriott-cincinnati-airport/overview/",
+    "acquired_by": "014+015"
+   },
+   {
+    "identity_key": "cincinnati marriott at rivercenter",
+    "classification": "CLEAN_VERIFIED_NO_PETS",
+    "policy_block": "Pet Policy Pets Not Allowed Service animals only",
+    "document_sha256": "e2cf98d34581c207bc08109f679fd31d78251020a01026ce89f6ceff1fb34acb",
+    "block_sha256": "6acbd9ca84ddc20601898b0739c7c8c1df39e810936845aa187a5457dd192ab2",
+    "source_url": "https://www.marriott.com/en-us/hotels/cvgdr-cincinnati-marriott-at-rivercenter/overview/",
+    "note": "Pets Not Allowed; service animals only.",
+    "acquired_by": "016"
+   },
+   {
+    "identity_key": "courtyard by marriott mason",
+    "classification": "CLEAN_VERIFIED_NO_PETS",
+    "policy_block": "Pet Policy Pets Not Allowed",
+    "document_sha256": "aa2775f92fe7ea0e2cff7ef1aa75dc43ccfea0d4c397277c3680e7d2fb5a7418",
+    "block_sha256": "d2e629b2b96b75354f1b8dc2ccd4f002326c1cbbccd7f6eef999e62726371df7",
+    "source_url": "https://www.marriott.com/en-us/hotels/cvgcm-courtyard-cincinnati-mason/overview/",
+    "note": "Pets Not Allowed.",
+    "acquired_by": "016"
+   },
+   {
+    "identity_key": "delta hotels by marriott cincinnati sharonville",
+    "classification": "CLEAN_VERIFIED_NO_PETS",
+    "policy_block": "Pet Policy Pets Not Allowed",
+    "document_sha256": "99c93123e2bba3d51b3408192dfd00f0082a9a818fee71e15dad37e9834a23b1",
+    "block_sha256": "d2e629b2b96b75354f1b8dc2ccd4f002326c1cbbccd7f6eef999e62726371df7",
+    "source_url": "https://www.marriott.com/en-us/hotels/cvgde-delta-hotels-marriott-cincinnati-sharonville/overview/",
+    "note": "Pets Not Allowed.",
+    "acquired_by": "016"
+   },
+   {
+    "identity_key": "fairfield inn and suites by marriott cincinnati north west chester",
+    "classification": "CLEAN_VERIFIED_NO_PETS",
+    "policy_block": "Pet Policy Pets Not Allowed",
+    "document_sha256": "9747a57dfbf6f055336d8a2d504d6cfdb0c186fec1650fb0818885f92d422ffb",
+    "block_sha256": "d2e629b2b96b75354f1b8dc2ccd4f002326c1cbbccd7f6eef999e62726371df7",
+    "source_url": "https://www.marriott.com/en-us/hotels/cvgfw-fairfield-inn-and-suites-cincinnati-north-west-chester/overview/",
+    "note": "Pets Not Allowed.",
+    "acquired_by": "016"
+   },
+   {
+    "identity_key": "moxy cincinnati downtown",
+    "classification": "CLEAN_VERIFIED_NO_PETS",
+    "policy_block": "Pet Policy Pets Not Allowed",
+    "document_sha256": "19e50532ed50c3c39f387e430384bc4b6b17f1ced118d6af33fb953f2345367c",
+    "block_sha256": "d2e629b2b96b75354f1b8dc2ccd4f002326c1cbbccd7f6eef999e62726371df7",
+    "source_url": "https://www.marriott.com/en-us/hotels/cvgdx-moxy-cincinnati-downtown/overview/",
+    "note": "Pets Not Allowed.",
+    "acquired_by": "016"
+   },
+   {
+    "identity_key": "renaissance cincinnati downtown hotel",
+    "classification": "CLEAN_VERIFIED_NO_PETS",
+    "policy_block": "Pet Policy Pets Not Allowed",
+    "document_sha256": "98bcbe12b28d68408039affb4450b5b40fa2f40096d4c4c24c8c084495d4e971",
+    "block_sha256": "d2e629b2b96b75354f1b8dc2ccd4f002326c1cbbccd7f6eef999e62726371df7",
+    "source_url": "https://www.marriott.com/en-us/hotels/cvgbr-renaissance-cincinnati-downtown-hotel/overview/",
+    "note": "Pets Not Allowed.",
+    "acquired_by": "016"
+   },
+   {
+    "identity_key": "springhill suites cincinnati airport south",
+    "classification": "CLEAN_VERIFIED_NO_PETS",
+    "policy_block": "Pet Policy Pets Not Allowed A USD 250 fee will be charged for pets in hotel without our knowledge",
+    "document_sha256": "65500c1be7f627ff1ff9c16f07c31ea860962abf83d22dcfe482cd26f20d9cf0",
+    "block_sha256": "26d55451496b5c45ac65fc663dfb72759d7d7ffad734f8e48cd0453857cef3c9",
+    "source_url": "https://www.marriott.com/en-us/hotels/cvgsf-springhill-suites-cincinnati-airport-south/overview/",
+    "note": "Pets Not Allowed, plus a USD 250 charge for pets in the hotel without the hotel's knowledge.",
+    "caution": "the USD 250 is a PENALTY for an undisclosed pet, not a pet fee. It must never be encoded as a fee tier: the row refuses pets, and a reader that picks up the dollar amount would publish a price for something the hotel does not sell.",
+    "acquired_by": "016"
+   },
+   {
+    "identity_key": "towneplace suites cincinnati downtown",
+    "classification": "CLEAN_VERIFIED_NO_PETS",
+    "policy_block": "Pet Policy Pets Not Allowed",
+    "block_sha256": "d2e629b2b96b75354f1b8dc2ccd4f002326c1cbbccd7f6eef999e62726371df7",
+    "note": "'Pet Policy Pets Not Allowed'. Recovered on retry -- pilot 014 had this row behind the challenge wall.",
+    "document_sha256": "f49c809bde7cdb759fbc9e5f6a431929e5b8704f68ae1f7afa70762c35267da1",
+    "locator_strategy": "pet_policy_heading_parent",
+    "source_url": "https://www.marriott.com/en-us/hotels/cvgtw-towneplace-suites-cincinnati-downtown/overview/",
+    "acquired_by": "014+015"
+   }
+  ],
+  "FOUNDER_EXCEPTION": [
+   {
+    "identity_key": "homewood suites cincinnati midtown",
+    "classification": "FOUNDER_EXCEPTION",
+    "policy_block": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Other pet information $75.00(1-nights), $125.00(5+nights) 2 pets Max: dog/cat only",
+    "block_sha256": "72966cb04ac2c320f5c2af0e44fa37c9a3c9d98598028b77a017faf84a9f2149",
+    "note": "Carries BOTH pilot-014 questions: the deposit/fee label, and '$75.00(1-nights), $125.00(5+nights)' which leaves nights 2-4 unstated.",
+    "questions": [
+     "FEE_OR_DEPOSIT",
+     "TIER_GAP_NIGHTS_2_TO_4"
+    ],
+    "document_sha256": "3db6e07007bfae3c2ff56c51f01c375cf2ee623612202a1430f365187b2c827a",
+    "locator_strategy": "generic_signal_walk",
+    "source_url": "https://www.hilton.com/en/hotels/cvgmthw-homewood-suites-cincinnati-midtown/",
+    "acquired_by": "014+015"
+   },
+   {
+    "identity_key": "spark by hilton cincinnati airport south",
+    "classification": "FOUNDER_EXCEPTION",
+    "policy_block": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 75 lbs Max size Large Other pet information 1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
+    "block_sha256": "d24fed82d5f785377967e0d92d93dc1251abee532fb0a76627928891f35ca8d7",
+    "note": "1-4 night $75; 5+ $125. Tiers complete; the deposit/fee label is not.",
+    "questions": [
+     "FEE_OR_DEPOSIT"
+    ],
+    "document_sha256": "c0e2bea51722096530a35ac1de6b2cdbc62a5d7c56ab2c38ebef67d74bc5cdd3",
+    "locator_strategy": "generic_signal_walk",
+    "source_url": "https://www.hilton.com/en/hotels/cvgfrpe-spark-cincinnati-airport-south/",
+    "acquired_by": "014+015"
+   },
+   {
+    "identity_key": "tru by hilton florence",
+    "classification": "FOUNDER_EXCEPTION",
+    "policy_block": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Other pet information 1-4 night stay $75; 5+ night stay $125; 2 pets max; dog or cat only",
+    "block_sha256": "bd997880dd854e380ffb0104c7bff722174bc743b05cff85078cbc18291a0e83",
+    "note": "1-4 night $75; 5+ $125. Deposit/fee label unresolved.",
+    "questions": [
+     "FEE_OR_DEPOSIT"
+    ],
+    "document_sha256": "80be9e542c0f51f930bfa2301545ecaf3f277881588a0641155a3ade0ea3a182",
+    "locator_strategy": "generic_signal_walk",
+    "source_url": "https://www.hilton.com/en/hotels/cvgafru-tru-cincinnati-airport-south-florence/",
+    "acquired_by": "014+015"
+   },
+   {
+    "identity_key": "tru by hilton mason kings island",
+    "classification": "FOUNDER_EXCEPTION",
+    "policy_block": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Other pet information $75(1-4n) $125(5+n) 2petsMax,dog/cat only",
+    "block_sha256": "ed797a6ea1953edf746fe8b16720fa4632183470dba9a6619f93ab33ff679a5c",
+    "note": "$75(1-4n) $125(5+n). Deposit/fee label unresolved.",
+    "questions": [
+     "FEE_OR_DEPOSIT"
+    ],
+    "document_sha256": "00d8159b056f278ff6cca887cbb445ca53d0fb9d57850129690f0f0ac69a27a3",
+    "locator_strategy": "generic_signal_walk",
+    "source_url": "https://www.hilton.com/en/hotels/cvgmkru-tru-mason-kings-island/",
+    "acquired_by": "014+015"
+   },
+   {
+    "identity_key": "tru by hilton milford",
+    "classification": "FOUNDER_EXCEPTION",
+    "policy_block": "Pets allowed Yes Deposit Yes. $50.00 Non-refundable Fee Max weight 75 lbs Max size Medium Other pet information 1-4 night stay $50; 5+ night stay $75; 2 pets max; dog or cat only",
+    "block_sha256": "2b99e134fdbb819c2ceb1aa621d549db95b5e4d50810e5725e7b94b5e6ad3928",
+    "note": "1-4 night $50; 5+ $75, 75 lbs, size Medium. A DIFFERENT fee level from its siblings, which is why none of them may be read off another.",
+    "questions": [
+     "FEE_OR_DEPOSIT"
+    ],
+    "document_sha256": "3fc790337accb7d58caf7934aa0b847548d9cdec374411caa1f7c957c6b40dc4",
+    "locator_strategy": "generic_signal_walk",
+    "source_url": "https://www.hilton.com/en/hotels/cvgmfru-tru-milford-cincinnati/",
+    "acquired_by": "014+015"
+   },
+   {
+    "identity_key": "tru by hilton monroe",
+    "classification": "FOUNDER_EXCEPTION",
+    "policy_block": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Max weight 75 lbs Other pet information $75 (1-4n) $150(5+n) 2pets Max, dog/cat only. Pet fee is TAXABLE",
+    "block_sha256": "fdf905a94be942b34963c2a5e35848bf83f3a5c1e739cfa613de5bdab11dd783",
+    "note": "$75(1-4n) $150(5+n) and 'Pet fee is TAXABLE' -- a fee attribute the schema has no field for. Do not silently drop it.",
+    "questions": [
+     "FEE_OR_DEPOSIT",
+     "FEE_TAXABLE_NOT_REPRESENTABLE"
+    ],
+    "document_sha256": "a068983d003ecad77e278f2e5695012fda2e152411a15cba5c8fb090e45ea89c",
+    "locator_strategy": "generic_signal_walk",
+    "source_url": "https://www.hilton.com/en/hotels/cvgjpru-tru-monroe-oh/",
+    "acquired_by": "014+015"
+   },
+   {
+    "identity_key": "tru by hilton sharonville",
+    "classification": "FOUNDER_EXCEPTION",
+    "policy_block": "Pets allowed Yes Deposit Yes. $75.00 Non-refundable Fee Other pet information Non-Refundable Fee: $75/1-3nts, $125/4-7nts. 2 Pets Max, *No Cats. Fee Exempt for ADA Service Animals. Addl charge for damages may apply",
+    "block_sha256": "2d9e31ef7acec7206cc29b92a6f79d7238221de64f894d36ca4ca3e925a1fd58",
+    "note": "$75/1-3nts, $125/4-7nts, '*No Cats', ADA service animals fee-exempt. Three separate problems: boundaries of 1-3/4-7 unlike every sibling, nothing stated above 7 nights, and a species restriction that contradicts the 'dog or cat' of the others.",
+    "questions": [
+     "FEE_OR_DEPOSIT",
+     "TIER_BOUNDARIES_DIFFER",
+     "TIER_GAP_ABOVE_7_NIGHTS",
+     "SPECIES_EXCLUDES_CATS",
+     "SERVICE_ANIMAL_FEE_EXEMPTION"
+    ],
+    "document_sha256": "038ca7e134922d74214e5ed4cb91f88ff3d762f71f49973240f0c5b06c80c81d",
+    "locator_strategy": "generic_signal_walk",
+    "source_url": "https://www.hilton.com/en/hotels/lkushru-tru-sharonville-cincinnati/",
+    "acquired_by": "014+015"
+   }
+  ],
+  "NO_AUTHORITY_ACTION": [
+   {
+    "identity_key": "courtyard by marriott hamilton",
+    "classification": "NO_AUTHORITY_ACTION",
+    "policy_block": "",
+    "block_sha256": "",
+    "note": "The retry died on ERR_TUNNEL_CONNECTION_FAILED with zero bytes -- the transport never reached Marriott. It is neither a repeated challenge nor an answer, and the row is simply still open.",
+    "acquired_by": "014+015"
+   },
+   {
+    "identity_key": "the cincinnatian hotel",
+    "classification": "NO_AUTHORITY_ACTION",
+    "policy_block": "",
+    "block_sha256": "",
+    "note": "POLICY_NOT_FOUND on a complete 6,032 character page. Source silence is absence, never a refusal, and no provider can buy around it.",
+    "acquired_by": "014+015"
+   }
+  ]
+ }
+}

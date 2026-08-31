@@ -50,7 +50,7 @@ EXPECTED_ROUTE_MODE = {COLUMBUS: "legacy_unprefixed", CLEVELAND: "market_prefixe
     DAYTON: "market_prefixed", CINCINNATI: "market_prefixed",
     PITTSBURGH: "market_prefixed", DETROIT: "market_prefixed",
     INDIANAPOLIS: "market_prefixed", MILWAUKEE: "market_prefixed"}
-EXPECTED_ROWS = {COLUMBUS: 112, CLEVELAND: 188, DAYTON: 129, CINCINNATI: 256,
+EXPECTED_ROWS = {COLUMBUS: 112, CLEVELAND: 188, DAYTON: 129, CINCINNATI: 257,
                  # 96 -> 101 at PTF-PITTSBURGH-FOUNDER-HOLD-RESOLUTION-005,
                  # an ADD-ONLY promotion of five identities that each
                  # carried a founder signature the sync could not apply
@@ -144,7 +144,13 @@ class TestMarketStateOwnership:
         the airport and Florence clusters the old census never surveyed are
         almost all on the Kentucky side of the river."""
         counts = collections.Counter(r["state"] for r in census(CINCINNATI)["hotels"])
-        assert counts == {"OH": 170, "KY": 77, "IN": 9}
+        # OH 170 -> 171 at PTF-CINCINNATI-MAINSTAY-CENSUS-SPLIT-013,
+        # which replaced the conflated "Comfort Suites Mainstay Hotel"
+        # with the two real Choice properties at 2347 Reading Road --
+        # oh720 in Building A and oh721 in Building B. Kentucky and
+        # Indiana are unchanged, which is the half of this assertion
+        # that says one market's split did not disturb its neighbours.
+        assert counts == {"OH": 171, "KY": 77, "IN": 9}
 
     def test_a_kentucky_property_is_not_relabelled_ohio(self):
         """The market's primary state may never overwrite a row's own."""

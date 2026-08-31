@@ -19,27 +19,29 @@
  "identity_census": {
   "path": "launch_packages/pettripfinder/identity_census/cincinnati-oh.json",
   "schema": "ptf-market-identity-census/1.1",
-  "expected_count": 256,
-  "note": "The committed census is the Cincinnati Tri-State identity universe (OH/KY/IN). 74 founder-approved pet-friendly profiles and 16 verified-no-pets exclusions are published; 6 identities are ruled out of the current lodging category; 160 remain unresolved."
+  "expected_count": 257,
+  "note": "The committed census is the Cincinnati Tri-State identity universe (OH/KY/IN). 74 founder-approved pet-friendly profiles and 16 verified-no-pets exclusions are published; 6 identities are ruled out of the current lodging category; 160 remain unresolved.",
+  "split_note": "256 - 1 conflated legacy identity + 2 real identities = 257. The census carries no retired state and partition.reconcile requires its keys to equal the partition's, so the superseded row was removed rather than flagged; its lineage lives on both successors as prior_identity_key and a split block, and the row itself is preserved verbatim in the split ledger."
  },
  "reconciliation": {
-  "confirmed_identities": 256,
+  "confirmed_identities": 257,
   "published_pet_friendly": 99,
-  "verified_no_pets": 47,
+  "verified_no_pets": 49,
   "out_of_current_category": 6,
-  "resolved": 152,
-  "unresolved": 104,
-  "note": "Counts are derived from the committed policy package and exclusion registry via derive_authority(); unresolved is not negative pet evidence. 256 = 99 + 47 + 6 + 104."
+  "resolved": 154,
+  "unresolved": 103,
+  "note": "Counts are derived from the committed policy package and exclusion registry via derive_authority(); unresolved is not negative pet evidence. 257 = 99 + 49 + 6 + 103. The census grew from 256 to 257 at PTF-CINCINNATI-MAINSTAY-CENSUS-SPLIT-013, which replaced the conflated identity 'Comfort Suites Mainstay Hotel' with the two real Choice properties at 2347 Reading Road -- oh720 in Building A and oh721 in Building B. Unresolved is derived as census minus resolved, never carried forward."
  },
  "reconciliation_cross_checks": [],
  "policy_package": {
   "path": "launch_packages/pettripfinder/hotel_policy_facts_cincinnati-oh.json",
-  "expected_sha256": "cc9987a2cf92c8bdaa007d45924d008b80277807703249641ad68f2a3960691d",
+  "expected_sha256": "6c445526569dc2b4086b707d5483a98332e8b23e11645c33351e0d54fccf2ab8",
   "expected_schema_version": "1.3",
   "expected_record_count": 99,
   "identity_authority": true,
   "note": "The live Cincinnati policy package is the sole identity authority for its 99 verified profiles. 21 were written by the Capture Pass 1 applications; APPLICATION-004 added 53; FREE-LANE-APPLICATION-007 added 17 from the zero-cost attended-Chrome brand lane; PTF-CINCINNATI-FREE-LANE-APPLICATION-010 added 8 from the zero-cost independent probes (PROBE-008 and PROBE-009) -- one clean candidate plus four Drury properties and three partial approvals the founder ruled individually. No hard-coded allow-list is repeated here.",
-  "schema_note": "Schema 1.3. PTF-CINCINNATI-HARDENED-SYNC-002 stamped the package from 1.2 to 1.3 -- an additive amendment (enums.CANONICAL_POLICY_SCHEMA_VERSIONS holds both) that added the service_animal_statement.quote field the founder's Capture Pass 1 statements had nowhere to live in. Seven records gained that quote; no fact, evidence entry, withholding or founder decision changed. record_hash is taken over the whole record, so stamping the version moved it on all twenty-one: each approval carries a 'rebinding' block naming the prior hash and what moved, evidence_hash is unchanged throughout, and no decision was re-asked or re-signed."
+  "schema_note": "Schema 1.3. PTF-CINCINNATI-HARDENED-SYNC-002 stamped the package from 1.2 to 1.3 -- an additive amendment (enums.CANONICAL_POLICY_SCHEMA_VERSIONS holds both) that added the service_animal_statement.quote field the founder's Capture Pass 1 statements had nowhere to live in. Seven records gained that quote; no fact, evidence entry, withholding or founder decision changed. record_hash is taken over the whole record, so stamping the version moved it on all twenty-one: each approval carries a 'rebinding' block naming the prior hash and what moved, evidence_hash is unchanged throughout, and no decision was re-asked or re-signed.",
+  "rebind_note": "PTF-CINCINNATI-SPECIES-KEY-REBIND-011 renamed the species keys of eight 2026-08-17 records from dog/cat to dogs/cats, the spelling canonical_view actually reads. record_hash is taken over the record minus approval, so the rename moved it on all eight and each approval carries a rebinding block naming the prior hash. No species state, evidence entry, evidence_hash, founder decision or count changed, so this sha256 is the only pin that moves."
  },
  "public_surface": {
   "seed_hotel_rows": 99,

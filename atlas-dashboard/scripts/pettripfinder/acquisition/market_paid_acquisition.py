@@ -94,6 +94,7 @@ from scripts.pettripfinder.acquisition import authorized_cohort as AUTH  # noqa:
 from scripts.pettripfinder.acquisition import cohort_cost_plan as CP  # noqa: E402
 from scripts.pettripfinder.acquisition import journal as JOURNAL      # noqa: E402
 from scripts.pettripfinder.acquisition import market_routing as MR    # noqa: E402
+from scripts.pettripfinder.acquisition import paid_attempt_ledger as PAL  # noqa: E402
 from scripts.pettripfinder.acquisition import providers as PROVIDERS  # noqa: E402
 from scripts.pettripfinder.acquisition import registry as REGISTRY    # noqa: E402
 from scripts.pettripfinder.acquisition import retry_policy as RP      # noqa: E402
@@ -1143,6 +1144,17 @@ def main(argv=None) -> int:
     parser.add_argument("--dedup-plan", default="",
                         help="a ptf-pre-acquisition-dedup document; its merged and"
                              " withheld identities may not enter the paid cohort")
+    parser.add_argument("--material-changes", default="",
+                        help="a ptf-material-changes document naming, with a "
+                             "reason apiece, the already-paid identities an "
+                             "operator has authorised re-buying -- a "
+                             "controlled retry of a page whose first attempt "
+                             "hit a challenge wall, for instance")
+    parser.add_argument("--registry", default="",
+                        help="a routing registry to use INSTEAD of the "
+                             "committed one, so an order that authorises a "
+                             "single lane and a single attempt can be run as "
+                             "authorised rather than merely intended")
     parser.add_argument("--census", default="",
                         help="the census to read; default identity_census/"
                              "<market>.json. A re-census of a registered market "
@@ -1155,7 +1167,15 @@ def main(argv=None) -> int:
     census = json.loads(census_path.read_text(encoding="utf-8"))
     prior = json.loads(Path(args.prior).read_text(encoding="utf-8"))
     overlay = apply_url_overlay(census["hotels"], args.url_overlay)
-    entries, routing_summary = MR.route_census(census["hotels"])
+    # The registry is loaded BEFORE routing, and routing is done through it.
+    # Resolving lanes from the committed table and then ACQUIRING through a
+    # narrower one lets the retry policy offer an "untried alternate lane" the
+    # narrower table forbids -- it reads the wide ladder, sees the primary was
+    # already paid for, and starts the row on a lane this order excluded. One
+    # registry for both decisions is the only way the ladder the policy reasons
+    # about is the ladder the run can actually use.
+    base_registry = REGISTRY.load(Path(args.registry) if args.registry else None)
+    entries, routing_summary = MR.route_census(census["hotels"], base_registry)
     overrides = (RP.load_overrides(Path(args.retry_overrides))
                  if args.retry_overrides else None)
     cohort, settled, suppressed = plan_cohort(
@@ -1176,10 +1196,23 @@ def main(argv=None) -> int:
         document = AUTH.load(args.only_cohort)
         paid_ledger = (json.loads(Path(args.paid_ledger).read_text(encoding="utf-8"))
                        if args.paid_ledger else None)
+        # PTF-CINCINNATI-HILTON-CLOSE-AND-MARRIOTT-RETRY-PROBE-015. A row the
+        # ledger has already paid for is suppressed, which is what stops a
+        # market buying the same answer twice. A CONTROLLED RETRY is the one
+        # case where re-buying is the point -- and without a way to say so, the
+        # gate refuses the very diagnostic the order authorised. The assertions
+        # are loaded through the ledger's own closed vocabulary and still have
+        # to convince ``decide`` row by row; this flag lets the authorisation be
+        # STATED, it does not let it bypass anything.
+        material_changes = PAL.load_material_changes(args.material_changes)
         queue, authorized_report = AUTH.gate(
             queue, document, market_id=args.market,
             cap_usd_minor=int(round(args.cap_usd * 100)),
-            plan_credit_cap=args.credit_cap, ledger=paid_ledger)
+            plan_credit_cap=args.credit_cap, ledger=paid_ledger,
+            material_changes=material_changes)
+        authorized_report["material_changes"] = OrderedDict(
+            (k, OrderedDict(sorted(v.items())))
+            for k, v in sorted(material_changes.items()))
         authorized_report["only_cohort"] = str(Path(args.only_cohort).as_posix())
         # The reported cohort must be what this run will actually buy. Leaving
         # the wider eligible list here would describe a purchase that is not
@@ -1198,8 +1231,17 @@ def main(argv=None) -> int:
     # Alternate-lane rows start on the lane the prior attempt never tried. The
     # overlay is layered over the committed registry, whose brand-level
     # forbidden lists still apply beneath it.
+    #
+    # ``--registry`` names a NARROWER registry than the committed one. An
+    # authorisation that says "browser only, one attempt, no escalation" cannot
+    # be honoured by a table whose brand rows carry three attempts and a Web
+    # Unlocker fallback, and discovering that after the money moved is too late.
+    # It is loaded through the same strict validator, so a constrained table
+    # that names an unknown provider or reader is refused here rather than
+    # mid-run. Absent the flag the committed registry is used exactly as before.
     registry_doc = RP.lane_overrides_registry(
-        queue, work_order=args.work_order or run_id, base=REGISTRY.load())
+        queue, work_order=args.work_order or run_id,
+        base=base_registry) or base_registry
 
     run_dir = Path(args.run_dir)
     run_dir.mkdir(parents=True, exist_ok=True)

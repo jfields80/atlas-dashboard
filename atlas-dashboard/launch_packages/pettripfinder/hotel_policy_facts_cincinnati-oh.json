@@ -9,8 +9,8 @@
    "facts": {
     "pets_allowed": true,
     "species": {
-     "dog": "accepted",
-     "cat": "conditional"
+     "dogs": "accepted",
+     "cats": "conditional"
     },
     "pet_count_limit": 2,
     "pet_count_scope": "room",
@@ -118,18 +118,19 @@
      "PTF-CINCINNATI-CAPTURE-PASS1-FOUNDER-DECISIONS. Founder decision approved against THIS record_hash, applied under PTF-CINCINNATI-PASS1-AUTHORITY-APPLICATION-001.",
      "Artifact evidence for this record consists of a SHA256 computed live against the page's rendered outerHTML and a quote extracted from the same DOM in the same JavaScript call, both captured under PTF-CINCINNATI-CAPTURE-PASS1-001. Raw HTML/text bytes were not persisted to disk, so this application could not independently re-verify the quote against stored artifact bytes the way cleveland_pass4_capture_integration.py's verify_capture() does; the sha256 and quote are taken as recorded at capture time."
     ],
-    "record_hash": "sha256:4456d09d67e321762f3e6cd32c9ca98ec72cdd5d7020892cc641e92eec2d414d",
+    "record_hash": "sha256:63f37ab888f62ecbee0f3e694c6e49ec6f6b0ad9bcec46dd4856ddb997672b45",
     "evidence_hash": "sha256:fcf06c287c1ffbc09b7f06b88ffd1b6e73d646b72f09289678c1530e2b923cec",
     "rebinding": {
-     "work_order": "PTF-CINCINNATI-HARDENED-SYNC-002",
-     "from_schema": "1.2",
-     "to_schema": "1.3",
-     "changed": [
-      "schema_version 1.2 -> 1.3"
-     ],
-     "prior_record_hash": "sha256:aaca697a8cfb9ff216e324c89534299014335849910e9f88dc93d4eec4e983ee",
-     "evidence_hash_unchanged": true,
-     "note": "The founder's decision, facts, withholding, evidence and committed service-animal charge state are byte-identical; what moved is the schema stamp and, on seven records, the 1.3 quote field that publishes a sentence this founder had already approved. record_hash is taken over the whole record, so it moves with them. This REBINDS the existing approval to the record it now describes. It is not itself an approval: no decision was re-asked, and none was re-signed."
+     "reason": "SPECIES_KEY_CANONICALIZATION",
+     "old_record_hash": "sha256:4456d09d67e321762f3e6cd32c9ca98ec72cdd5d7020892cc641e92eec2d414d",
+     "new_record_hash": "sha256:63f37ab888f62ecbee0f3e694c6e49ec6f6b0ad9bcec46dd4856ddb997672b45",
+     "semantic_change": false,
+     "evidence_change": false,
+     "source_change": false,
+     "authority_change": false,
+     "work_order": "PTF-CINCINNATI-SPECIES-KEY-REBIND-011",
+     "rebound_on": "2026-08-31",
+     "what_moved": "The species keys were renamed cat -> cats, dog -> dogs. canonical_view reads species['dogs'] and species['cats'], so these records projected an empty species state and their species never reached a public surface. record_hash is taken over the record minus approval, so renaming a key inside facts moves it; the founder's decision, its caveats, every evidence entry and evidence_hash are unchanged, and this block records that the hash the founder signed was the old one."
     }
    }
   },
@@ -139,8 +140,8 @@
    "facts": {
     "pets_allowed": true,
     "species": {
-     "dog": "accepted",
-     "cat": "conditional"
+     "dogs": "accepted",
+     "cats": "conditional"
     },
     "pet_count_limit": 2,
     "pet_count_scope": "room",
@@ -248,18 +249,19 @@
      "PTF-CINCINNATI-CAPTURE-PASS1-FOUNDER-DECISIONS. Founder decision approved against THIS record_hash, applied under PTF-CINCINNATI-PASS1-AUTHORITY-APPLICATION-001.",
      "Artifact evidence for this record consists of a SHA256 computed live against the page's rendered outerHTML and a quote extracted from the same DOM in the same JavaScript call, both captured under PTF-CINCINNATI-CAPTURE-PASS1-001. Raw HTML/text bytes were not persisted to disk, so this application could not independently re-verify the quote against stored artifact bytes the way cleveland_pass4_capture_integration.py's verify_capture() does; the sha256 and quote are taken as recorded at capture time."
     ],
-    "record_hash": "sha256:ba4e3abfdb699a793de6802376d4a3d1ad35cb63bc6a53801753a33b94f28c14",
+    "record_hash": "sha256:3cbd4aaffd4a62cfe67f0132e2b3877a0fb56795dc0101f86a7977aa0cf911bf",
     "evidence_hash": "sha256:52ea40a9b2b95082d2036ddc987de018a1f10de2e9157cef39c9c5f44d8715ad",
     "rebinding": {
-     "work_order": "PTF-CINCINNATI-HARDENED-SYNC-002",
-     "from_schema": "1.2",
-     "to_schema": "1.3",
-     "changed": [
-      "schema_version 1.2 -> 1.3"
-     ],
-     "prior_record_hash": "sha256:6207c696b0978584e17703bd6dc39b860072e6c992ae9ba4c62b218e3c8d3e6b",
-     "evidence_hash_unchanged": true,
-     "note": "The founder's decision, facts, withholding, evidence and committed service-animal charge state are byte-identical; what moved is the schema stamp and, on seven records, the 1.3 quote field that publishes a sentence this founder had already approved. record_hash is taken over the whole record, so it moves with them. This REBINDS the existing approval to the record it now describes. It is not itself an approval: no decision was re-asked, and none was re-signed."
+     "reason": "SPECIES_KEY_CANONICALIZATION",
+     "old_record_hash": "sha256:ba4e3abfdb699a793de6802376d4a3d1ad35cb63bc6a53801753a33b94f28c14",
+     "new_record_hash": "sha256:3cbd4aaffd4a62cfe67f0132e2b3877a0fb56795dc0101f86a7977aa0cf911bf",
+     "semantic_change": false,
+     "evidence_change": false,
+     "source_change": false,
+     "authority_change": false,
+     "work_order": "PTF-CINCINNATI-SPECIES-KEY-REBIND-011",
+     "rebound_on": "2026-08-31",
+     "what_moved": "The species keys were renamed cat -> cats, dog -> dogs. canonical_view reads species['dogs'] and species['cats'], so these records projected an empty species state and their species never reached a public surface. record_hash is taken over the record minus approval, so renaming a key inside facts moves it; the founder's decision, its caveats, every evidence entry and evidence_hash are unchanged, and this block records that the hash the founder signed was the old one."
     }
    }
   },
@@ -269,8 +271,8 @@
    "facts": {
     "pets_allowed": true,
     "species": {
-     "dog": "accepted",
-     "cat": "conditional"
+     "dogs": "accepted",
+     "cats": "conditional"
     },
     "pet_count_limit": 2,
     "pet_count_scope": "room",
@@ -378,18 +380,19 @@
      "PTF-CINCINNATI-CAPTURE-PASS1-FOUNDER-DECISIONS. Founder decision approved against THIS record_hash, applied under PTF-CINCINNATI-PASS1-AUTHORITY-APPLICATION-001.",
      "Artifact evidence for this record consists of a SHA256 computed live against the page's rendered outerHTML and a quote extracted from the same DOM in the same JavaScript call, both captured under PTF-CINCINNATI-CAPTURE-PASS1-001. Raw HTML/text bytes were not persisted to disk, so this application could not independently re-verify the quote against stored artifact bytes the way cleveland_pass4_capture_integration.py's verify_capture() does; the sha256 and quote are taken as recorded at capture time."
     ],
-    "record_hash": "sha256:a0f242f8649fdfc9698dfb12981ba26709c4e799a6443a1576f7ab142fbe1ef4",
+    "record_hash": "sha256:dfb9b9f3f374e798692cd727e86cb940ee213f91a4eea35d0821277dc9e18426",
     "evidence_hash": "sha256:ecb331b1634e99bab1d46da9e2c9914d28ac629220601cb1755653d23147b6e7",
     "rebinding": {
-     "work_order": "PTF-CINCINNATI-HARDENED-SYNC-002",
-     "from_schema": "1.2",
-     "to_schema": "1.3",
-     "changed": [
-      "schema_version 1.2 -> 1.3"
-     ],
-     "prior_record_hash": "sha256:69e514eae9b173a379be299845b93a2b8ea16d9d480063a7eca11ceb170b0d34",
-     "evidence_hash_unchanged": true,
-     "note": "The founder's decision, facts, withholding, evidence and committed service-animal charge state are byte-identical; what moved is the schema stamp and, on seven records, the 1.3 quote field that publishes a sentence this founder had already approved. record_hash is taken over the whole record, so it moves with them. This REBINDS the existing approval to the record it now describes. It is not itself an approval: no decision was re-asked, and none was re-signed."
+     "reason": "SPECIES_KEY_CANONICALIZATION",
+     "old_record_hash": "sha256:a0f242f8649fdfc9698dfb12981ba26709c4e799a6443a1576f7ab142fbe1ef4",
+     "new_record_hash": "sha256:dfb9b9f3f374e798692cd727e86cb940ee213f91a4eea35d0821277dc9e18426",
+     "semantic_change": false,
+     "evidence_change": false,
+     "source_change": false,
+     "authority_change": false,
+     "work_order": "PTF-CINCINNATI-SPECIES-KEY-REBIND-011",
+     "rebound_on": "2026-08-31",
+     "what_moved": "The species keys were renamed cat -> cats, dog -> dogs. canonical_view reads species['dogs'] and species['cats'], so these records projected an empty species state and their species never reached a public surface. record_hash is taken over the record minus approval, so renaming a key inside facts moves it; the founder's decision, its caveats, every evidence entry and evidence_hash are unchanged, and this block records that the hash the founder signed was the old one."
     }
    }
   },
@@ -984,8 +987,8 @@
    "facts": {
     "pets_allowed": true,
     "species": {
-     "cat": "accepted",
-     "dog": "accepted"
+     "cats": "accepted",
+     "dogs": "accepted"
     },
     "pet_count_limit": 2,
     "pet_count_scope": "room",
@@ -1135,19 +1138,19 @@
      "PTF-CINCINNATI-CAPTURE-PASS1-FOUNDER-DECISIONS. Founder decision approved against THIS record_hash, applied under PTF-CINCINNATI-PASS1-AUTHORITY-APPLICATION-001.",
      "Artifact evidence for this record consists of a SHA256 computed live against the page's rendered outerHTML and a quote extracted from the same DOM in the same JavaScript call, both captured under PTF-CINCINNATI-CAPTURE-PASS1-001. Raw HTML/text bytes were not persisted to disk, so this application could not independently re-verify the quote against stored artifact bytes the way cleveland_pass4_capture_integration.py's verify_capture() does; the sha256 and quote are taken as recorded at capture time."
     ],
-    "record_hash": "sha256:224acbea693de96da04b8e55099f2e395e7beb524b3fe1ba7d71f7f57dfacc0d",
+    "record_hash": "sha256:976425ad2b8ad5593cde935d9e5f451459389720a3a6bc11379b76969730dc94",
     "evidence_hash": "sha256:09859c0b406b41db104bb2998cf3a90d75ccac33591b005953696edd4d2ab466",
     "rebinding": {
-     "work_order": "PTF-CINCINNATI-HARDENED-SYNC-002",
-     "from_schema": "1.2",
-     "to_schema": "1.3",
-     "changed": [
-      "schema_version 1.2 -> 1.3",
-      "service_animal_statement.quote published (charges_stated=not_addressed, verified against contracts.service_animal)"
-     ],
-     "prior_record_hash": "sha256:1ee5a0626c4ba636a16cec90e055ef2cda8f4f996c514b0a96a7bc660959be56",
-     "evidence_hash_unchanged": true,
-     "note": "The founder's decision, facts, withholding, evidence and committed service-animal charge state are byte-identical; what moved is the schema stamp and, on seven records, the 1.3 quote field that publishes a sentence this founder had already approved. record_hash is taken over the whole record, so it moves with them. This REBINDS the existing approval to the record it now describes. It is not itself an approval: no decision was re-asked, and none was re-signed."
+     "reason": "SPECIES_KEY_CANONICALIZATION",
+     "old_record_hash": "sha256:224acbea693de96da04b8e55099f2e395e7beb524b3fe1ba7d71f7f57dfacc0d",
+     "new_record_hash": "sha256:976425ad2b8ad5593cde935d9e5f451459389720a3a6bc11379b76969730dc94",
+     "semantic_change": false,
+     "evidence_change": false,
+     "source_change": false,
+     "authority_change": false,
+     "work_order": "PTF-CINCINNATI-SPECIES-KEY-REBIND-011",
+     "rebound_on": "2026-08-31",
+     "what_moved": "The species keys were renamed cat -> cats, dog -> dogs. canonical_view reads species['dogs'] and species['cats'], so these records projected an empty species state and their species never reached a public surface. record_hash is taken over the record minus approval, so renaming a key inside facts moves it; the founder's decision, its caveats, every evidence entry and evidence_hash are unchanged, and this block records that the hash the founder signed was the old one."
     }
    }
   },
@@ -1157,8 +1160,8 @@
    "facts": {
     "pets_allowed": true,
     "species": {
-     "cat": "accepted",
-     "dog": "accepted"
+     "cats": "accepted",
+     "dogs": "accepted"
     },
     "pet_count_limit": 2,
     "pet_count_scope": "room",
@@ -1308,19 +1311,19 @@
      "PTF-CINCINNATI-CAPTURE-PASS1-FOUNDER-DECISIONS. Founder decision approved against THIS record_hash, applied under PTF-CINCINNATI-PASS1-AUTHORITY-APPLICATION-001.",
      "Artifact evidence for this record consists of a SHA256 computed live against the page's rendered outerHTML and a quote extracted from the same DOM in the same JavaScript call, both captured under PTF-CINCINNATI-CAPTURE-PASS1-001. Raw HTML/text bytes were not persisted to disk, so this application could not independently re-verify the quote against stored artifact bytes the way cleveland_pass4_capture_integration.py's verify_capture() does; the sha256 and quote are taken as recorded at capture time."
     ],
-    "record_hash": "sha256:d630cbff11b776092c9a951644f2881862aaeba5fd9062f8a215bda907fb3f68",
+    "record_hash": "sha256:acbacbe7d5d0ac245f7db46b8ffcf54e76b7b6b3141c1dd0aa2abf662d3f1dc0",
     "evidence_hash": "sha256:97b1b3dd9b41c410a578902914a79eceb2a0cbbc7267b702a7138f199e8eae38",
     "rebinding": {
-     "work_order": "PTF-CINCINNATI-HARDENED-SYNC-002",
-     "from_schema": "1.2",
-     "to_schema": "1.3",
-     "changed": [
-      "schema_version 1.2 -> 1.3",
-      "service_animal_statement.quote published (charges_stated=not_addressed, verified against contracts.service_animal)"
-     ],
-     "prior_record_hash": "sha256:602e826a28855af43e5d24f41ff49d57bbe7165778410b7de6207aa5f24f1d41",
-     "evidence_hash_unchanged": true,
-     "note": "The founder's decision, facts, withholding, evidence and committed service-animal charge state are byte-identical; what moved is the schema stamp and, on seven records, the 1.3 quote field that publishes a sentence this founder had already approved. record_hash is taken over the whole record, so it moves with them. This REBINDS the existing approval to the record it now describes. It is not itself an approval: no decision was re-asked, and none was re-signed."
+     "reason": "SPECIES_KEY_CANONICALIZATION",
+     "old_record_hash": "sha256:d630cbff11b776092c9a951644f2881862aaeba5fd9062f8a215bda907fb3f68",
+     "new_record_hash": "sha256:acbacbe7d5d0ac245f7db46b8ffcf54e76b7b6b3141c1dd0aa2abf662d3f1dc0",
+     "semantic_change": false,
+     "evidence_change": false,
+     "source_change": false,
+     "authority_change": false,
+     "work_order": "PTF-CINCINNATI-SPECIES-KEY-REBIND-011",
+     "rebound_on": "2026-08-31",
+     "what_moved": "The species keys were renamed cat -> cats, dog -> dogs. canonical_view reads species['dogs'] and species['cats'], so these records projected an empty species state and their species never reached a public surface. record_hash is taken over the record minus approval, so renaming a key inside facts moves it; the founder's decision, its caveats, every evidence entry and evidence_hash are unchanged, and this block records that the hash the founder signed was the old one."
     }
    }
   },
@@ -1330,8 +1333,8 @@
    "facts": {
     "pets_allowed": true,
     "species": {
-     "cat": "accepted",
-     "dog": "accepted"
+     "cats": "accepted",
+     "dogs": "accepted"
     },
     "pet_count_limit": 2,
     "pet_count_scope": "room",
@@ -1481,19 +1484,19 @@
      "PTF-CINCINNATI-CAPTURE-PASS1-FOUNDER-DECISIONS. Founder decision approved against THIS record_hash, applied under PTF-CINCINNATI-PASS1-AUTHORITY-APPLICATION-001.",
      "Artifact evidence for this record consists of a SHA256 computed live against the page's rendered outerHTML and a quote extracted from the same DOM in the same JavaScript call, both captured under PTF-CINCINNATI-CAPTURE-PASS1-001. Raw HTML/text bytes were not persisted to disk, so this application could not independently re-verify the quote against stored artifact bytes the way cleveland_pass4_capture_integration.py's verify_capture() does; the sha256 and quote are taken as recorded at capture time."
     ],
-    "record_hash": "sha256:e4d26462b2e2a4d416118d7a154e3dc34335092f540a7b3a993febb0828b1431",
+    "record_hash": "sha256:ae228d845dc908a3d85344340bc6703f0d99f2876f3c86d1402004883209e6fc",
     "evidence_hash": "sha256:1962ccfa74aa1bcecb6e03ae39188f2519f12fa88e22a255a3d3ccf3de62b0a9",
     "rebinding": {
-     "work_order": "PTF-CINCINNATI-HARDENED-SYNC-002",
-     "from_schema": "1.2",
-     "to_schema": "1.3",
-     "changed": [
-      "schema_version 1.2 -> 1.3",
-      "service_animal_statement.quote published (charges_stated=not_addressed, verified against contracts.service_animal)"
-     ],
-     "prior_record_hash": "sha256:8dbb1f42414da63efd420659f39d851f784ba322b6f3a97a12c1e24256101937",
-     "evidence_hash_unchanged": true,
-     "note": "The founder's decision, facts, withholding, evidence and committed service-animal charge state are byte-identical; what moved is the schema stamp and, on seven records, the 1.3 quote field that publishes a sentence this founder had already approved. record_hash is taken over the whole record, so it moves with them. This REBINDS the existing approval to the record it now describes. It is not itself an approval: no decision was re-asked, and none was re-signed."
+     "reason": "SPECIES_KEY_CANONICALIZATION",
+     "old_record_hash": "sha256:e4d26462b2e2a4d416118d7a154e3dc34335092f540a7b3a993febb0828b1431",
+     "new_record_hash": "sha256:ae228d845dc908a3d85344340bc6703f0d99f2876f3c86d1402004883209e6fc",
+     "semantic_change": false,
+     "evidence_change": false,
+     "source_change": false,
+     "authority_change": false,
+     "work_order": "PTF-CINCINNATI-SPECIES-KEY-REBIND-011",
+     "rebound_on": "2026-08-31",
+     "what_moved": "The species keys were renamed cat -> cats, dog -> dogs. canonical_view reads species['dogs'] and species['cats'], so these records projected an empty species state and their species never reached a public surface. record_hash is taken over the record minus approval, so renaming a key inside facts moves it; the founder's decision, its caveats, every evidence entry and evidence_hash are unchanged, and this block records that the hash the founder signed was the old one."
     }
    }
   },
@@ -1503,8 +1506,8 @@
    "facts": {
     "pets_allowed": true,
     "species": {
-     "cat": "accepted",
-     "dog": "accepted"
+     "cats": "accepted",
+     "dogs": "accepted"
     },
     "pet_count_limit": 2,
     "pet_count_scope": "room",
@@ -1654,19 +1657,19 @@
      "PTF-CINCINNATI-CAPTURE-PASS1-FOUNDER-DECISIONS. Founder decision approved against THIS record_hash, applied under PTF-CINCINNATI-PASS1-AUTHORITY-APPLICATION-001.",
      "Artifact evidence for this record consists of a SHA256 computed live against the page's rendered outerHTML and a quote extracted from the same DOM in the same JavaScript call, both captured under PTF-CINCINNATI-CAPTURE-PASS1-001. Raw HTML/text bytes were not persisted to disk, so this application could not independently re-verify the quote against stored artifact bytes the way cleveland_pass4_capture_integration.py's verify_capture() does; the sha256 and quote are taken as recorded at capture time."
     ],
-    "record_hash": "sha256:4b59a5b04b638d69e8e14ca5e3eb749c5719c69c41c2ab0ef4ca03f3dcee69eb",
+    "record_hash": "sha256:31a57bfb090aa560e0c98946afcc1b7abec76972cf3b37bf524886bba78d7055",
     "evidence_hash": "sha256:2354cbaa5310ee5ed7f640c7df865db267736d6b445effc4b9d8df9ae6b0c344",
     "rebinding": {
-     "work_order": "PTF-CINCINNATI-HARDENED-SYNC-002",
-     "from_schema": "1.2",
-     "to_schema": "1.3",
-     "changed": [
-      "schema_version 1.2 -> 1.3",
-      "service_animal_statement.quote published (charges_stated=not_addressed, verified against contracts.service_animal)"
-     ],
-     "prior_record_hash": "sha256:46cfa71e0d4ca9cbabaede310af8da7081632e133cfccc2e7a60b609abc8895a",
-     "evidence_hash_unchanged": true,
-     "note": "The founder's decision, facts, withholding, evidence and committed service-animal charge state are byte-identical; what moved is the schema stamp and, on seven records, the 1.3 quote field that publishes a sentence this founder had already approved. record_hash is taken over the whole record, so it moves with them. This REBINDS the existing approval to the record it now describes. It is not itself an approval: no decision was re-asked, and none was re-signed."
+     "reason": "SPECIES_KEY_CANONICALIZATION",
+     "old_record_hash": "sha256:4b59a5b04b638d69e8e14ca5e3eb749c5719c69c41c2ab0ef4ca03f3dcee69eb",
+     "new_record_hash": "sha256:31a57bfb090aa560e0c98946afcc1b7abec76972cf3b37bf524886bba78d7055",
+     "semantic_change": false,
+     "evidence_change": false,
+     "source_change": false,
+     "authority_change": false,
+     "work_order": "PTF-CINCINNATI-SPECIES-KEY-REBIND-011",
+     "rebound_on": "2026-08-31",
+     "what_moved": "The species keys were renamed cat -> cats, dog -> dogs. canonical_view reads species['dogs'] and species['cats'], so these records projected an empty species state and their species never reached a public surface. record_hash is taken over the record minus approval, so renaming a key inside facts moves it; the founder's decision, its caveats, every evidence entry and evidence_hash are unchanged, and this block records that the hash the founder signed was the old one."
     }
    }
   },
@@ -1934,7 +1937,7 @@
    "facts": {
     "pets_allowed": true,
     "species": {
-     "dog": "accepted"
+     "dogs": "accepted"
     },
     "pet_count_limit": 2,
     "pet_fee": {
@@ -2040,19 +2043,19 @@
      "PTF-CINCINNATI-CAPTURE-PASS1-FOUNDER-DECISIONS. Founder decision approved against THIS record_hash, applied under PTF-CINCINNATI-PASS1-AUTHORITY-APPLICATION-001.",
      "Artifact evidence for this record consists of a SHA256 computed live against the page's rendered outerHTML and a quote extracted from the same DOM in the same JavaScript call, both captured under PTF-CINCINNATI-CAPTURE-PASS1-001. Raw HTML/text bytes were not persisted to disk, so this application could not independently re-verify the quote against stored artifact bytes the way cleveland_pass4_capture_integration.py's verify_capture() does; the sha256 and quote are taken as recorded at capture time."
     ],
-    "record_hash": "sha256:2b2be384486b17081da6ac725110c8cef757a3ca0e2378bb5ab80b573c6f5556",
+    "record_hash": "sha256:1d8bd04c09ee46d3f37126bdc6917ba61bed3c916bec5ac4c622f6aab106ab5c",
     "evidence_hash": "sha256:5810eadc08fa35d374e958af555f08307d7353845b573f4acc11011a26c9e31f",
     "rebinding": {
-     "work_order": "PTF-CINCINNATI-HARDENED-SYNC-002",
-     "from_schema": "1.2",
-     "to_schema": "1.3",
-     "changed": [
-      "schema_version 1.2 -> 1.3",
-      "service_animal_statement.quote published (charges_stated=not_addressed, verified against contracts.service_animal)"
-     ],
-     "prior_record_hash": "sha256:287fcf788117fec3c7dbb65af27c2e517b5a2383027c08fd48445afd7a42f5f1",
-     "evidence_hash_unchanged": true,
-     "note": "The founder's decision, facts, withholding, evidence and committed service-animal charge state are byte-identical; what moved is the schema stamp and, on seven records, the 1.3 quote field that publishes a sentence this founder had already approved. record_hash is taken over the whole record, so it moves with them. This REBINDS the existing approval to the record it now describes. It is not itself an approval: no decision was re-asked, and none was re-signed."
+     "reason": "SPECIES_KEY_CANONICALIZATION",
+     "old_record_hash": "sha256:2b2be384486b17081da6ac725110c8cef757a3ca0e2378bb5ab80b573c6f5556",
+     "new_record_hash": "sha256:1d8bd04c09ee46d3f37126bdc6917ba61bed3c916bec5ac4c622f6aab106ab5c",
+     "semantic_change": false,
+     "evidence_change": false,
+     "source_change": false,
+     "authority_change": false,
+     "work_order": "PTF-CINCINNATI-SPECIES-KEY-REBIND-011",
+     "rebound_on": "2026-08-31",
+     "what_moved": "The species keys were renamed cat -> cats, dog -> dogs. canonical_view reads species['dogs'] and species['cats'], so these records projected an empty species state and their species never reached a public surface. record_hash is taken over the record minus approval, so renaming a key inside facts moves it; the founder's decision, its caveats, every evidence entry and evidence_hash are unchanged, and this block records that the hash the founder signed was the old one."
     }
    }
   },

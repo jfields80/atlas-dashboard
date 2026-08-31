@@ -1,0 +1,140 @@
+{
+ "schema": "ptf-market-census-split/1.0",
+ "work_order": "PTF-CINCINNATI-MAINSTAY-CENSUS-SPLIT-013",
+ "parent_work_order": "PTF-CINCINNATI-MAINSTAY-IDENTITY-012",
+ "market_id": "cincinnati-oh",
+ "as_of": "2026-08-31",
+ "operator": "jfields80",
+ "reason": "CONFLATED_DUAL_PROPERTY_DIRECTORY_IDENTITY",
+ "provider_calls": 0,
+ "paid_spend_usd": 0.0,
+ "retired_identity": {
+  "identity_key": "comfort suites mainstay hotel",
+  "canonical_name": "Comfort Suites Mainstay Hotel",
+  "address": "2347 Reading Rd.",
+  "postal_code": "45219",
+  "phone": "5133946073",
+  "resolved_by": "CENSUS_SPLIT",
+  "superseded_by": [
+   "comfort suites cincinnati university downtown",
+   "mainstay suites cincinnati university uptown"
+  ],
+  "evidence_source": "PTF-CINCINNATI-MAINSTAY-IDENTITY-012",
+  "policy_outcome_applied_to_old_row": false,
+  "why_removed_not_flagged": "enums.IDENTITY_STATES has no retired value and partition.reconcile requires census and partition keys to be equal, so a flagged row would have stayed a live third hotel.",
+  "route_retired": {
+   "routing_id": "route-cincinnati-oh-comfort-suites-mainstay-hotel",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "cincinnati-oh",
+    "canonical_name": "Comfort Suites Mainstay Hotel",
+    "normalized_name": "comfort suites mainstay hotel",
+    "identity_key": "comfort suites mainstay hotel"
+   },
+   "market_id": "cincinnati-oh",
+   "official_property_url": "https://www.choicehotels.com/ohio/cincinnati/mainstay-hotels/oh721",
+   "official_domain": "choicehotels.com",
+   "property_code": "oh721",
+   "brand": "CHOICE",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "BRAND_PROPERTY_PAGE"
+   ],
+   "identity_signals_matched": [
+    "binding:street_number",
+    "binding:street_name",
+    "binding:city",
+    "binding:state",
+    "binding:property_code"
+   ],
+   "identity_context": {
+    "address": "2347 Reading Rd.",
+    "city": "Cincinnati",
+    "state": "OH",
+    "postal_code": "45219",
+    "phone": "5133946073"
+   },
+   "observed_at": "2026-08-17",
+   "verified_at": "2026-08-31",
+   "status": "ROUTING_CONFIRMED",
+   "notes": "PTF-CINCINNATI-MAINSTAY-IDENTITY-012: IDENTITY CONFLATION. Choice's own listing shows TWO properties at 2347 Reading Road -- oh720 Comfort Suites Cincinnati University - Downtown in Building A ((513) 743-7508) and oh721 MainStay Suites Cincinnati University - Uptown in Building B ((513) 202-3971). This census row's name pairs both Choice brands and its phone (513) 394-6073 matches neither, while its postal code 45219 matches neither page (both state 45202). The route points at oh721 only, so it binds ONE of the two hotels this identity denotes. identity_signals_matched previously claimed binding:postal_code and binding:phone; neither holds and both are removed. The route stays ACTIVE because the row is unresolved and still needs working. Resolution requires splitting the census row into oh720 and oh721, which is a census-add order and is NOT done here.",
+   "category": "accommodation"
+  }
+ },
+ "retired_identity_census_row": {
+  "identity_key": "comfort suites mainstay hotel",
+  "canonical_name": "Comfort Suites Mainstay Hotel",
+  "display_name": "Comfort Suites Mainstay Hotel",
+  "slug": "comfort-suites-mainstay-hotel",
+  "market_id": "cincinnati-oh",
+  "address": "2347 Reading Rd.",
+  "city": "Cincinnati",
+  "state": "OH",
+  "postal_code": "45219",
+  "phone": "5133946073",
+  "official_url": "",
+  "identity_state": "IDENTITY_CONFIRMED",
+  "lodging_state": "LODGING_CONFIRMED",
+  "policy_state": "POLICY_NOT_VERIFIED",
+  "collision_state": "NONE",
+  "corridor": "cincinnati-oh__downtown-cincinnati",
+  "assignment_basis": "postal_code",
+  "assignment_value": "45219",
+  "source": "visit_cincy",
+  "observed_at": "2026-08-16",
+  "provenance": "PTF-CINCINNATI-CENSUS-RECONCILIATION-001",
+  "prior_identity_key": "",
+  "identity_review": {
+   "classification": "SEPARATE_BUILDING_IDENTITY",
+   "reviewed_by": "PTF-CINCINNATI-MAINSTAY-IDENTITY-012",
+   "reviewed_on": "2026-08-31",
+   "finding": "This row denotes two distinct Choice properties sharing one street address in separate buildings: oh720 (Comfort Suites, Building A) and oh721 (MainStay Suites, Building B). Its canonical name pairs both brands, its phone matches neither property, and its postal code matches neither page.",
+   "not_a_rename": "A rename supersedes one identity with one identity. There is no single hotel this row could be renamed to without silently discarding the other.",
+   "not_merged_with": "mainstay suites cincinnati blue ash",
+   "not_merged_because": "A separate MainStay property in the Blue Ash corridor at postal code 45242, itself still AWAITING_IDENTITY_RESOLUTION. Brand similarity is not identity.",
+   "policy_withheld": "Both properties refuse pets, but an exclusion record carries one canonical name, street, postal code, phone and URL, and its normalized_name must derive from its canonical name. One record for two hotels would be wrong about the building, the phone and the URL, and would put identity authority on record as believing two hotels are one.",
+   "resolution_requires": "A census split: retire this row and add oh720 and oh721 as their own identities. That is a census-add work order and was not performed here."
+  }
+ },
+ "successors": [
+  {
+   "identity_key": "comfort suites cincinnati university downtown",
+   "canonical_name": "Comfort Suites Cincinnati University - Downtown",
+   "property_code": "oh720",
+   "address": "2347 Reading Road, Building A",
+   "postal_code": "45202",
+   "phone": "5137437508",
+   "official_url": "",
+   "evidence_sha256_page": "b1ca728d-e49ecbc6-266d5553-61873a90-eb515bad-17a3a5ba-4dc9e6ae-2c0a725f",
+   "sibling_identity_key": "mainstay suites cincinnati university uptown",
+   "policy_outcome": "VERIFIED_NO_PETS"
+  },
+  {
+   "identity_key": "mainstay suites cincinnati university uptown",
+   "canonical_name": "MainStay Suites Cincinnati University - Uptown",
+   "property_code": "oh721",
+   "address": "2347 Reading Road, Building B",
+   "postal_code": "45202",
+   "phone": "5132023971",
+   "official_url": "",
+   "evidence_sha256_page": "ade36a79-9fe351ce-130d945d-8464e8e9-a82e651c-26dce47b-32b5d7b9-6f24a5a1",
+   "sibling_identity_key": "comfort suites cincinnati university downtown",
+   "policy_outcome": "VERIFIED_NO_PETS"
+  }
+ ],
+ "census_arithmetic": {
+  "before": 256,
+  "retired": 1,
+  "added": 2,
+  "after": 257,
+  "semantics": "Physical removal. The census carries no retired state, so a superseded row cannot remain in it."
+ },
+ "authority_after": {
+  "published_pet_friendly": 99,
+  "verified_no_pets": 49,
+  "out_of_current_category": 6,
+  "resolved": 154,
+  "unresolved": 103,
+  "derivation": "unresolved = census - resolved, computed, never assumed"
+ }
+}

@@ -13,7 +13,7 @@
   "grand-rapids-holland-identity-routing-repair-001",
   "PTF-PITTSBURGH-PASS4-ROUTING-AND-RECAPTURE-PREP-001"
  ],
- "count": 218,
+ "count": 219,
  "routes": [
   {
    "routing_id": "route-cincinnati-oh-ac-hotel-by-marriott-cincinnati-at-the-banks",
@@ -589,45 +589,6 @@
    "verified_at": "2026-08-17",
    "status": "ROUTING_CONFIRMED",
    "notes": "street+ZIP+phone agree; shares address_key 210|45202 with Symphony Hotel & Restaurant (different street name, same house number) -- disambiguated by distinctive name tokens",
-   "category": "accommodation"
-  },
-  {
-   "routing_id": "route-cincinnati-oh-comfort-suites-mainstay-hotel",
-   "schema_version": "1.0.0",
-   "hotel_ref": {
-    "market_id": "cincinnati-oh",
-    "canonical_name": "Comfort Suites Mainstay Hotel",
-    "normalized_name": "comfort suites mainstay hotel",
-    "identity_key": "comfort suites mainstay hotel"
-   },
-   "market_id": "cincinnati-oh",
-   "official_property_url": "https://www.choicehotels.com/ohio/cincinnati/mainstay-hotels/oh721",
-   "official_domain": "choicehotels.com",
-   "property_code": "oh721",
-   "brand": "CHOICE",
-   "binding_method": "BRAND_INDEX_BINDING",
-   "binding_sources": [
-    "BRAND_PROPERTY_PAGE"
-   ],
-   "identity_signals_matched": [
-    "binding:street",
-    "binding:postal_code",
-    "binding:phone",
-    "binding:property_code",
-    "binding:city",
-    "binding:state"
-   ],
-   "identity_context": {
-    "address": "2347 Reading Rd.",
-    "city": "Cincinnati",
-    "state": "OH",
-    "postal_code": "45219",
-    "phone": "5133946073"
-   },
-   "observed_at": "2026-08-17",
-   "verified_at": "2026-08-17",
-   "status": "ROUTING_CONFIRMED",
-   "notes": "CENSUS_REVIEW: street number 2347 and street name (Reading Rd/Road) agree; official page states ZIP 45202, census carries 45219. Corridor would move downtown-cincinnati<->midtown-oakley-mariemont depending on which ZIP is correct; NOT corrected here.",
    "category": "accommodation"
   },
   {
@@ -3014,6 +2975,86 @@
    "verified_at": "2026-08-17",
    "status": "ROUTING_CONFIRMED",
    "notes": "street+ZIP+phone agree",
+   "category": "accommodation"
+  },
+  {
+   "routing_id": "route-cincinnati-oh-comfort-suites-cincinnati-university-downtown",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "cincinnati-oh",
+    "canonical_name": "Comfort Suites Cincinnati University - Downtown",
+    "normalized_name": "comfort suites cincinnati university downtown",
+    "identity_key": "comfort suites cincinnati university downtown"
+   },
+   "market_id": "cincinnati-oh",
+   "official_property_url": "https://www.choicehotels.com/ohio/cincinnati/comfort-suites-hotels/oh720",
+   "official_domain": "choicehotels.com",
+   "property_code": "oh720",
+   "brand": "CHOICE",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "BRAND_PROPERTY_PAGE"
+   ],
+   "identity_signals_matched": [
+    "binding:street",
+    "binding:building",
+    "binding:postal_code",
+    "binding:phone",
+    "binding:property_code",
+    "binding:city",
+    "binding:state"
+   ],
+   "identity_context": {
+    "address": "2347 Reading Road, Building A",
+    "city": "Cincinnati",
+    "state": "OH",
+    "postal_code": "45202",
+    "phone": "5137437508"
+   },
+   "observed_at": "2026-08-31",
+   "verified_at": "2026-08-31",
+   "status": "ROUTING_CONFIRMED",
+   "notes": "PTF-CINCINNATI-MAINSTAY-CENSUS-SPLIT-013: created by the census split of 'Comfort Suites Mainstay Hotel'. This route binds ONE property -- oh720 in Building A -- and shares no URL, phone or evidence with its sibling mainstay suites cincinnati university uptown. Every signal here was read from this property's own page; the retired route claimed postal_code and phone against a census row that matched neither hotel.",
+   "category": "accommodation"
+  },
+  {
+   "routing_id": "route-cincinnati-oh-mainstay-suites-cincinnati-university-uptown",
+   "schema_version": "1.0.0",
+   "hotel_ref": {
+    "market_id": "cincinnati-oh",
+    "canonical_name": "MainStay Suites Cincinnati University - Uptown",
+    "normalized_name": "mainstay suites cincinnati university uptown",
+    "identity_key": "mainstay suites cincinnati university uptown"
+   },
+   "market_id": "cincinnati-oh",
+   "official_property_url": "https://www.choicehotels.com/ohio/cincinnati/mainstay-hotels/oh721",
+   "official_domain": "choicehotels.com",
+   "property_code": "oh721",
+   "brand": "CHOICE",
+   "binding_method": "BRAND_INDEX_BINDING",
+   "binding_sources": [
+    "BRAND_PROPERTY_PAGE"
+   ],
+   "identity_signals_matched": [
+    "binding:street",
+    "binding:building",
+    "binding:postal_code",
+    "binding:phone",
+    "binding:property_code",
+    "binding:city",
+    "binding:state"
+   ],
+   "identity_context": {
+    "address": "2347 Reading Road, Building B",
+    "city": "Cincinnati",
+    "state": "OH",
+    "postal_code": "45202",
+    "phone": "5132023971"
+   },
+   "observed_at": "2026-08-31",
+   "verified_at": "2026-08-31",
+   "status": "ROUTING_CONFIRMED",
+   "notes": "PTF-CINCINNATI-MAINSTAY-CENSUS-SPLIT-013: created by the census split of 'Comfort Suites Mainstay Hotel'. This route binds ONE property -- oh721 in Building B -- and shares no URL, phone or evidence with its sibling comfort suites cincinnati university downtown. Every signal here was read from this property's own page; the retired route claimed postal_code and phone against a census row that matched neither hotel.",
    "category": "accommodation"
   },
   {

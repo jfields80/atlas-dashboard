@@ -65,7 +65,9 @@ def test_every_graded_row_actually_carries_a_url(rows):
 
 def test_the_queue_covers_the_whole_census(queue, rows):
     census = _load(PKG / "identity_census" / "cincinnati-oh.json")
-    assert queue["count"] == len(queue["rows"]) == 256
+    # 256 -> 257 at PTF-CINCINNATI-MAINSTAY-CENSUS-SPLIT-013: one conflated
+    # identity was replaced by the two real hotels it denoted.
+    assert queue["count"] == len(queue["rows"]) == 257
     assert set(rows) == {h["identity_key"] for h in census["hotels"]}
 
 
@@ -84,14 +86,15 @@ def test_it_records_what_it_supersedes(queue):
 # ------------------------------------------------- decisions are not re-asked
 
 def test_every_resolved_identity_is_marked_decided(queue, rows):
-    # 33 -> 96 (004) -> 137 (007) -> 152 (010).
+    # 33 -> 96 (004) -> 137 (007) -> 152 (010) -> 154 (013, which split one
+    # held identity into two and registered a refusal for each).
     decided = [r for r in queue["rows"] if r["review_status"] == "DECIDED"]
-    assert len(decided) == 152
+    assert len(decided) == 154
     by_lane = {}
     for row in decided:
         by_lane.setdefault(row["capture_lane"], []).append(row)
     assert len(by_lane["RESOLVED_PUBLISHED"]) == 99
-    assert len(by_lane["RESOLVED_NO_PETS"]) == 47
+    assert len(by_lane["RESOLVED_NO_PETS"]) == 49
     assert len(by_lane["RESOLVED_OUT_OF_CATEGORY"]) == 6
 
 
@@ -118,7 +121,7 @@ def test_the_twenty_seven_capture_pass_one_rulings_survive(queue):
     # their authorization on the policy record's approval block rather than a
     # Pass 1 decision id, so they are decided without being among these 27.
     decided = [r for r in queue["rows"] if r["review_status"] == "DECIDED"]
-    assert len(decided) - len(ruled) == 125
+    assert len(decided) - len(ruled) == 127
 
 
 def test_published_rows_carry_the_hash_their_approval_binds(rows):
@@ -193,9 +196,9 @@ def test_an_unadjudicated_census_url_is_its_own_lane(rows):
 
 
 def test_the_lane_totals_account_for_every_row(queue):
-    assert sum(queue["lane_counts"].values()) == queue["count"] == 256
-    assert sum(queue["review_status_counts"].values()) == 256
-    assert sum(queue["url_grade_counts"].values()) == 256
+    assert sum(queue["lane_counts"].values()) == queue["count"] == 257
+    assert sum(queue["review_status_counts"].values()) == 257
+    assert sum(queue["url_grade_counts"].values()) == 257
 
 
 def test_no_review_outcome_was_inferred_from_the_old_discovery_queue(queue):

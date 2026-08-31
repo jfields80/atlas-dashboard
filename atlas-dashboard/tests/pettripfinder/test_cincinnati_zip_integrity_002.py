@@ -209,7 +209,8 @@ def test_the_census_still_holds_every_identity(rows):
     """A blanket string replace over a market's authority is how an unrelated
     ZIP moves. This pins the blast radius at the two rows the founder named.
     """
-    assert len(rows) == 256
+    # 256 -> 257: PTF-CINCINNATI-MAINSTAY-CENSUS-SPLIT-013 replaced the conflated 'Comfort Suites Mainstay Hotel' with the two real Choice properties at 2347 Reading Road (oh720 Building A, oh721 Building B), so the census is 256 - 1 + 2 = 257.
+    assert len(rows) == 257
     assert set(REPAIRED) <= {k for k, h in rows.items()
                              if h["postal_code"] == FLORENCE}
 

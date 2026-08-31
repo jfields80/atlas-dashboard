@@ -522,14 +522,20 @@ def test_no_family_is_costed_without_evidence():
 
 # ------------------------------------------------ Phase 10: still report-only
 
-def test_the_species_key_defect_was_not_touched():
-    """Deferred to PTF-CINCINNATI-SPECIES-KEY-REBIND-007, unchanged at 8."""
+def test_the_species_key_defect_was_not_touched_by_this_order():
+    """This asserted the defect was still present, and it no longer is.
+
+    PTF-CINCINNATI-SPECIES-KEY-REBIND-011 renamed the eight records' species
+    keys to the spelling canonical_view reads. What THIS order is entitled to
+    claim is that it did not touch them, and the durable form of that claim is
+    that no record anywhere carries a singular key and every record with
+    species evidence projects.
+    """
     from scripts.pettripfinder import canonical_view as CV
     package = _load(PKG / "hotel_policy_facts_cincinnati-oh.json")
-    singular = [h for h in package["hotels"]
-                if set(h["facts"].get("species") or {}) & {"dog", "cat"}]
-    assert len(singular) == 8
-    assert {h["approval"]["approval_date"] for h in singular} == {"2026-08-17"}
-    for record in singular:
-        view = CV.build(record, market_id="cincinnati-oh")
-        assert view.dogs_state == "" and view.cats_state == ""
+    for record in package["hotels"]:
+        species = (record.get("facts") or {}).get("species") or {}
+        assert not (set(species) & {"dog", "cat"}), record["identity_key"]
+        if species:
+            view = CV.build(record, market_id="cincinnati-oh")
+            assert view.dogs_state or view.cats_state, record["identity_key"]
