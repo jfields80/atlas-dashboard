@@ -47,7 +47,7 @@ def test_shadow_admission_is_pinned_minus_retired_plus_admitted():
     pinned = _read(PKG / "identity_census" / f"{MARKET_ID}.json")
     app = _read(PKG / f"{M}_shadow_application_002.json")
     retired = {r["identity_key"] for r in app["C_non_lodging_retirements"]}
-    admitted = [h for h in shadow["hotels"] if (h.get("admission") or {}).get("status") == "SHADOW_ADMITTED_002"]
+    admitted = [h for h in shadow["hotels"] if str((h.get("admission") or {}).get("status", "")).startswith("SHADOW_ADMITTED")]
     assert shadow["admission"]["pinned_census_touched"] is False
     assert shadow["count"] == len(shadow["hotels"]) == len(pinned["hotels"]) - len(retired) + len(admitted)
     assert len(retired) == 3 and len(shadow["retired_non_lodging_002"]) == 3
@@ -57,10 +57,19 @@ def test_shadow_admission_is_pinned_minus_retired_plus_admitted():
     # every pinned, non-retired, non-superseded row survives unchanged
     superseded = {s["from"] for s in shadow["supersessions_002"]}
     shadow_by = {h["identity_key"]: h for h in shadow["hotels"]}
+    # A later order may overlay a pinned row (display name, address supersession, lodging
+    # confirmation) but must say so with a marker field; anything else must be byte-identical.
+    overlay_markers = ("display_name_overlay_003", "address_supersession_003", "lodging_confirmation_003")
+    overlay_fields = {"display_name", "official_url", "has_official_link", "address", "lodging_state"}
     for h in pinned["hotels"]:
         if h["identity_key"] in retired or h["identity_key"] in superseded:
             continue
-        assert shadow_by[h["identity_key"]] == h, h["identity_key"]
+        got = shadow_by[h["identity_key"]]
+        if any(m in got for m in overlay_markers):
+            stripped = {k: v for k, v in got.items() if k not in overlay_fields and k not in overlay_markers}
+            assert stripped == {k: v for k, v in h.items() if k not in overlay_fields}, h["identity_key"]
+        else:
+            assert got == h, h["identity_key"]
 
 
 def test_supersession_keeps_its_predecessor_and_is_one_hotel():

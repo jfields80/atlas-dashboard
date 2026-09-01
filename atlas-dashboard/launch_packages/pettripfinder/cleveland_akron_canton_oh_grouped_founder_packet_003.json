@@ -1,0 +1,366 @@
+{
+ "contract": "ptf-founder-review-packet/1.0",
+ "work_order": "PTF-CLEVELAND-AKRON-CANTON-HARDENED-POLICY-003",
+ "market_id": "cleveland-akron-canton-oh",
+ "generated_at": "2026-09-01T14:13:00Z",
+ "nothing_was_spent": true,
+ "nothing_was_published": true,
+ "groups": {
+  "A_rebrand_successor": [
+   {
+    "property": "Cambria Hotel & Suites Avon -> Wyndham Avon",
+    "identity_key": "cambria hotel and suites avon",
+    "issue": "the current first-party page at the census premises brands the property Wyndham Avon",
+    "evidence": {
+     "page": "https://www.wyndhamhotels.com/wyndham/avon-ohio/wyndham-avon/overview",
+     "document_sha256": "4030153a29dbb8a2c5a241491336f6189584150b0f0d7fe1ca78d63eaa415d0e",
+     "page_name": "Wyndham Avon",
+     "page_street": "35600 Detroit Road",
+     "page_postal": "44011",
+     "page_phone": "+1-440-517-4124",
+     "census": {
+      "address": "35600 Detroit Rd",
+      "postal_code": "44011",
+      "phone": ""
+     },
+     "route": "identity_routing shard ROUTING_CONFIRMED to the Wyndham page",
+     "historical": "PTF-CLEVELAND-ROUTING-REPAIR-001 verdict PROPERTY_CLOSED_OR_CONVERTED with rename proposal 'Wyndham Avon'; RR-001 attended artifact reads pets allowed $100/stay, 2 pets"
+    },
+    "recommendation": "SAME_IDENTITY_REBRAND_SUCCESSOR (street number + postal + route bind; the census phone is empty so phone cannot conflict). NOT applied: Avon (44011) is a geography hold (ruling G). Apply the rename + PF only together with an Avon geography ruling.",
+    "status": "DETERMINED_HELD_ON_GEOGRAPHY",
+    "census_impact": "rename 1 key (deferred)",
+    "authority_impact": "+1 PF (deferred)"
+   },
+   {
+    "property": "Motel 6 Richfield (LIVE PF) and Holiday Inn Express & Suites Cleveland-Richfield at 5171 Brecksville Rd",
+    "identity_key": "motel 6 richfield",
+    "issue": "two brands claim the same street address",
+    "evidence": {
+     "motel6_page": "https://www.motel6.com/property/motel-richfield-ohio-us-293697/",
+     "motel6_document_sha256": "c43b54d6-d0b8d574-1f47a022-b4c70650-35b989aa-191c2b18-e5ed30a0-c4caf74d",
+     "motel6_state": "ACTIVE and bookable; JSON-LD names Motel 6 Richfield, OH at 5171 Brecksville Road; reservations 330-659-6116",
+     "ihg_search": "Holiday Inn Express & Suites Cleveland-Richfield listed bookable at 5171 Brecksville Road, Richfield 44286 (identity_reads_002 TM-033 search list)"
+    },
+    "recommendation": "BOTH_ACTIVE_DISTINCT_SAME_ADDRESS_IDENTITIES: Motel 6 is still active (own page) and the HIE is active (IHG inventory); neither is a successor of the other. Record SAME_CAMPUS_DISTINCT_ENTITY and admit the HIE as a true-missing identity on a first-party property-page read (not done this order: the IHG property page was not opened). Live Motel 6 PF row untouched.",
+    "status": "DETERMINED_AWAITING_HIE_PAGE_READ",
+    "census_impact": "+1 row after the HIE page read",
+    "authority_impact": "none"
+   },
+   {
+    "property": "Extended Stay America Select Suites Cleveland - Airport",
+    "identity_key": "extended stay america select suites cleveland airport",
+    "issue": "brand-locator lead (Order 002)",
+    "evidence": {
+     "locator": "https://www.extendedstayamerica.com/hotels/oh/cleveland",
+     "document_sha256": "b5fa977a85db053b4a63459be2a50541149eac6978dc14bcb5aab3c42c97796e",
+     "address": "20829 Emerald Pkwy 44135"
+    },
+    "recommendation": "REBRAND_SUCCESSOR -- premises registered as woodspring suites cleveland under another brand family; the registered row's page must be read before either identity moves (founder group A)",
+    "status": "HELD_FOUNDER",
+    "census_impact": "none",
+    "authority_impact": "none"
+   }
+  ],
+  "B_address_postal": [
+   {
+    "property": "Red Roof Inn Akron (2939 S Arlington Rd)",
+    "identity_key": "red roof inn akron",
+    "issue": "census/OSM postal 44312 vs the page's SEO title '44132'",
+    "evidence": {
+     "page": "https://www.redroof.com/property/oh/akron/rri207",
+     "page_address_block": "2939 S Arlington Rd, Akron OH (no postal in the address block or JSON-LD)",
+     "title": "Cheap Hotel in Akron, OH 44132 | Red Roof",
+     "property_code": "RRI207",
+     "brand_locator": "redroof.com/locations/oh/akron rendered empty"
+    },
+    "recommendation": "IDENTITY_UNRESOLVED on postal: the street, city and property code bind, the page states no postal in its own address block, and 44132 (an Euclid ZIP) cannot be the Akron premises; a second first-party source (Red Roof locator or booking page) is needed before admission. Not silently corrected.",
+    "status": "HELD_IDENTITY_UNRESOLVED",
+    "census_impact": "+1 row after postal proof",
+    "authority_impact": "none"
+   }
+  ],
+  "C_geography": [
+   {
+    "property": "Oakwood Village 44146 (2 first-party-confirmed hotels)",
+    "identity_key": "(geography)",
+    "issue": "undeclared postal inside the east-side doctrine",
+    "evidence": {
+     "hotels": [
+      "Hampton Inn & Suites Oakwood Village-Cleveland",
+      "Quality Inn & Suites Oakwood Village - Cleveland South"
+     ],
+     "declared_neighbours": [
+      "44128 Warrensville Heights",
+      "44139 Solon",
+      "44146 sits between them on I-271"
+     ]
+    },
+    "recommendation": "CLEARLY_WITHIN_EXISTING_MARKET_INTENT: admitted to the SHADOW with an explicit corridor assignment (cleveland-akron-canton-oh__cleveland-east-beachwood); no ZIP widened; the contract's explicit_hotel_ids change is proposed for the deployment-bearing order",
+    "status": "SETTLED_MECHANICALLY_SHADOW_ONLY",
+    "census_impact": "+2 shadow rows",
+    "authority_impact": "none"
+   }
+  ],
+  "D_routing_trace": [
+   {
+    "property": "The Westin / TownePlace Suites by Marriott / Sonesta ES Suites Cleveland Westlake full names",
+    "identity_key": "(3 keys)",
+    "issue": "shortened or superseded chain names on LIVE rows",
+    "evidence": {
+     "westin": "The Westin Cleveland Downtown, 777 Saint Clair Ave NE 44114, CLEWI",
+     "towneplace": "TownePlace Suites by Marriott Cleveland Solon, 6040 Enterprise Pkwy 44139, CLETO",
+     "sonesta": "Sonesta Simply Suites Cleveland Westlake, 30100 Clemens Rd 44145, phone matches census"
+    },
+    "recommendation": "display-name overlays applied in the SHADOW with identity keys preserved (doctrine: a successor key needs approval; none is required here)",
+    "status": "SETTLED_MECHANICALLY_SHADOW_ONLY",
+    "census_impact": "none (display only)",
+    "authority_impact": "none"
+   },
+   {
+    "property": "Comfort Suites Twinsburg",
+    "identity_key": "comfort suites twinsburg",
+    "issue": "census 2715 Creekside Dr vs page 2716 Creekside Drive (routing repair 001)",
+    "evidence": "Choice locator states 2716 Creekside Drive, Twinsburg, OH 44087",
+    "recommendation": "SAFE_ADDRESS_SUPERSESSION applied in the shadow (live PF row's policy untouched)",
+    "status": "SETTLED_MECHANICALLY_SHADOW_ONLY",
+    "census_impact": "address form on 1 row",
+    "authority_impact": "none"
+   },
+   {
+    "property": "Sonesta ES Suites Cleveland Westlake -> Sonesta Simply Suites",
+    "identity_key": "sonesta es suites cleveland westlake",
+    "issue": "routing repair 001 ROUTING_REPLACED with a rename proposal",
+    "evidence": "static read: page name Sonesta Simply Suites Cleveland Westlake, 30100 Clemens Road 44145, (440) 892-2254 = census phone",
+    "recommendation": "SAFE_ROUTE_REPAIR: route to the Simply Suites page and display-name overlay (key preserved)",
+    "status": "SETTLED_MECHANICALLY_SHADOW_ONLY",
+    "census_impact": "display only",
+    "authority_impact": "none"
+   },
+   {
+    "property": "Villa Croatia at the American-Croatian Lodge",
+    "identity_key": "villa croatia at the american croatian lodge",
+    "issue": "routing repair 001 OFFICIAL_URL_FOUND with a phone mismatch",
+    "evidence": "croatianlodge.com is an event-venue site (34900 Lakeshore Blvd #301, 44095); /rooms.html is 404; site phone 440-946-3366 vs census 216.704.9009",
+    "recommendation": "HOLD: the route names the venue, not the lodging; no first-party lodging page located",
+    "status": "HELD_FOUNDER",
+    "census_impact": "none",
+    "authority_impact": "none"
+   }
+  ],
+  "E_lodging_non_lodging": [
+   {
+    "property": "Harbor Inn (1219 Main Ave 44113)",
+    "identity_key": "harbor inn",
+    "issue": "routing repair 001 IDENTITY_CONFLICT",
+    "evidence": "CVB anchor + chamberofcommerce category 'bar': the Harbor Inn Cafe, one of Cleveland's oldest bars; no lodging surface exists",
+    "recommendation": "NON_LODGING -> RETIRE_FROM_HOTEL_PROMOTION_SET (same treatment as ruling C); awaiting founder",
+    "status": "HELD_FOUNDER",
+    "census_impact": "-1 row",
+    "authority_impact": "none"
+   },
+   {
+    "property": "Hopp Inn (4896 Pearl Rd 44109)",
+    "identity_key": "hopp inn",
+    "issue": "routing repair 001 IDENTITY_CONFLICT",
+    "evidence": "CVB anchor + chamberofcommerce category 'bar': neighborhood bar with Polish food; no lodging surface exists",
+    "recommendation": "NON_LODGING -> RETIRE_FROM_HOTEL_PROMOTION_SET; awaiting founder",
+    "status": "HELD_FOUNDER",
+    "census_impact": "-1 row",
+    "authority_impact": "none"
+   },
+   {
+    "property": "Kent State University Hotel & Conference Center",
+    "identity_key": "kent state university hotel and conference center",
+    "issue": "lodging_state NEEDS_REVIEW",
+    "evidence": "first-party site names the hotel at 215 S. Depeyster Street, Kent 44240, +1-330-346-0100 (census street/postal/phone)",
+    "recommendation": "LODGING, in market (44240, streetsboro-hudson-aurora corridor); lodging_state -> LODGING_CONFIRMED in the shadow; pet policy not stated on the site (work-browser pass: PAGE_RENDERED_NO_PET_POLICY_STATED)",
+    "status": "SETTLED_MECHANICALLY_SHADOW_ONLY",
+    "census_impact": "none",
+    "authority_impact": "none"
+   }
+  ],
+  "F_brand_locator_lead": [
+   {
+    "property": "Extended Stay America Suites Cleveland - Brooklyn",
+    "identity_key": "extended stay america suites cleveland brooklyn",
+    "issue": "brand-locator lead (Order 002)",
+    "evidence": {
+     "locator": "https://www.extendedstayamerica.com/hotels/oh/cleveland",
+     "document_sha256": "b5fa977a85db053b4a63459be2a50541149eac6978dc14bcb5aab3c42c97796e",
+     "address": "10300 Cascade Crossing 44144"
+    },
+    "recommendation": "CONFIRMED_TRUE_MISSING -- brand's own locator states name, numbered street and postal; no registered row in any market shares the premises",
+    "status": "SETTLED_MECHANICALLY_SHADOW_ONLY",
+    "census_impact": "+1 shadow row",
+    "authority_impact": "none"
+   },
+   {
+    "property": "Extended Stay America Select Suites Cleveland - Mentor",
+    "identity_key": "extended stay america select suites cleveland mentor",
+    "issue": "brand-locator lead (Order 002)",
+    "evidence": {
+     "locator": "https://www.extendedstayamerica.com/hotels/oh/cleveland",
+     "document_sha256": "b5fa977a85db053b4a63459be2a50541149eac6978dc14bcb5aab3c42c97796e",
+     "address": "5650 Emerald Ct 44060"
+    },
+    "recommendation": "CONFIRMED_TRUE_MISSING -- brand's own locator states name, numbered street and postal; no registered row in any market shares the premises",
+    "status": "SETTLED_MECHANICALLY_SHADOW_ONLY",
+    "census_impact": "+1 shadow row",
+    "authority_impact": "none"
+   },
+   {
+    "property": "Extended Stay America Suites Cleveland - Great Northern Mall",
+    "identity_key": "extended stay america suites cleveland great northern mall",
+    "issue": "brand-locator lead (Order 002)",
+    "evidence": {
+     "locator": "https://www.extendedstayamerica.com/hotels/oh/cleveland",
+     "document_sha256": "b5fa977a85db053b4a63459be2a50541149eac6978dc14bcb5aab3c42c97796e",
+     "address": "25801 Country Club Blvd. 44070"
+    },
+    "recommendation": "CONFIRMED_TRUE_MISSING -- brand's own locator states name, numbered street and postal; no registered row in any market shares the premises",
+    "status": "SETTLED_MECHANICALLY_SHADOW_ONLY",
+    "census_impact": "+1 shadow row",
+    "authority_impact": "none"
+   },
+   {
+    "property": "Extended Stay America Suites Cleveland - Middleburg Heights",
+    "identity_key": "extended stay america suites cleveland middleburg heights",
+    "issue": "brand-locator lead (Order 002)",
+    "evidence": {
+     "locator": "https://www.extendedstayamerica.com/hotels/oh/cleveland",
+     "document_sha256": "b5fa977a85db053b4a63459be2a50541149eac6978dc14bcb5aab3c42c97796e",
+     "address": "17552 Rosbough Dr. 44130"
+    },
+    "recommendation": "CONFIRMED_TRUE_MISSING -- brand's own locator states name, numbered street and postal; no registered row in any market shares the premises",
+    "status": "SETTLED_MECHANICALLY_SHADOW_ONLY",
+    "census_impact": "+1 shadow row",
+    "authority_impact": "none"
+   },
+   {
+    "property": "Comfort Inn Cleveland Airport",
+    "identity_key": "comfort inn cleveland airport",
+    "issue": "brand-locator lead (Order 002)",
+    "evidence": {
+     "locator": "https://www.choicehotels.com/ohio/north-olmsted/radisson-hotels?brand=RD",
+     "document_sha256": "bcecc6d6ba6c8a1c6c206af4c32396842ddf182928f0ff2ff6298d4b461c55f6",
+     "address": "17550 Rosbough Dr. 44130"
+    },
+    "recommendation": "CONFIRMED_TRUE_MISSING -- brand's own locator states name, numbered street and postal; no registered row in any market shares the premises",
+    "status": "SETTLED_MECHANICALLY_SHADOW_ONLY",
+    "census_impact": "+1 shadow row",
+    "authority_impact": "none"
+   },
+   {
+    "property": "Quality Inn Middleburg Heights near Cleveland Airport",
+    "identity_key": "quality inn middleburg heights near cleveland airport",
+    "issue": "brand-locator lead (Order 002)",
+    "evidence": {
+     "locator": "https://www.choicehotels.com/ohio/north-olmsted/radisson-hotels?brand=RD",
+     "document_sha256": "bcecc6d6ba6c8a1c6c206af4c32396842ddf182928f0ff2ff6298d4b461c55f6",
+     "address": "7233 Engle Road 44130"
+    },
+    "recommendation": "CONFIRMED_TRUE_MISSING -- brand's own locator states name, numbered street and postal; no registered row in any market shares the premises",
+    "status": "SETTLED_MECHANICALLY_SHADOW_ONLY",
+    "census_impact": "+1 shadow row",
+    "authority_impact": "none"
+   },
+   {
+    "property": "MainStay Suites Middleburg Heights Cleveland Airport",
+    "identity_key": "mainstay suites middleburg heights cleveland airport",
+    "issue": "brand-locator lead (Order 002)",
+    "evidence": {
+     "locator": "https://www.choicehotels.com/ohio/north-olmsted/radisson-hotels?brand=RD",
+     "document_sha256": "bcecc6d6ba6c8a1c6c206af4c32396842ddf182928f0ff2ff6298d4b461c55f6",
+     "address": "7325 Engle Rd 44130"
+    },
+    "recommendation": "CONFIRMED_TRUE_MISSING -- brand's own locator states name, numbered street and postal; no registered row in any market shares the premises",
+    "status": "SETTLED_MECHANICALLY_SHADOW_ONLY",
+    "census_impact": "+1 shadow row",
+    "authority_impact": "none"
+   },
+   {
+    "property": "Candlewood Suites Cleveland South - Independence",
+    "identity_key": "candlewood suites cleveland south independence",
+    "issue": "brand-locator lead (Order 002)",
+    "evidence": {
+     "locator": "https://www.ihg.com/hotels/us/en/find-hotels/hotel-search?qDest=Independence,%20OH",
+     "document_sha256": null,
+     "address": "6125 Rockside Place 44131"
+    },
+    "recommendation": "CONFIRMED_TRUE_MISSING -- brand's own locator states name, numbered street and postal; no registered row in any market shares the premises",
+    "status": "SETTLED_MECHANICALLY_SHADOW_ONLY",
+    "census_impact": "+1 shadow row",
+    "authority_impact": "none"
+   },
+   {
+    "property": "Candlewood Suites Beachwood - Cleveland",
+    "identity_key": "candlewood suites beachwood cleveland",
+    "issue": "brand-locator lead (Order 002)",
+    "evidence": {
+     "locator": "https://www.ihg.com/hotels/us/en/find-hotels/hotel-search?qDest=Independence,%20OH",
+     "document_sha256": null,
+     "address": "3625 Orange Place 44122"
+    },
+    "recommendation": "CONFIRMED_TRUE_MISSING -- brand's own locator states name, numbered street and postal; no registered row in any market shares the premises",
+    "status": "SETTLED_MECHANICALLY_SHADOW_ONLY",
+    "census_impact": "+1 shadow row",
+    "authority_impact": "none"
+   },
+   {
+    "property": "Staybridge Suites Cleveland Mayfield Hts Beachwd",
+    "identity_key": "staybridge suites cleveland mayfield hts beachwd",
+    "issue": "brand-locator lead (Order 002)",
+    "evidence": {
+     "locator": "https://www.ihg.com/hotels/us/en/find-hotels/hotel-search?qDest=Independence,%20OH",
+     "document_sha256": null,
+     "address": "6103 Landerhaven Drive 44124"
+    },
+    "recommendation": "ALREADY_REGISTERED_ALIAS -- premises registered as staybridge suites mayfield heights (same brand family; name variant)",
+    "status": "SETTLED_NO_ACTION",
+    "census_impact": "none",
+    "authority_impact": "none"
+   },
+   {
+    "property": "Staybridge Suites Akron-Stow-Cuyahoga Falls",
+    "identity_key": "staybridge suites akron stow cuyahoga falls",
+    "issue": "brand-locator lead (Order 002)",
+    "evidence": {
+     "locator": "https://www.ihg.com/hotels/us/en/find-hotels/hotel-search?qDest=Independence,%20OH",
+     "document_sha256": null,
+     "address": "4351 Steels Pointe Drive 44224"
+    },
+    "recommendation": "ALREADY_REGISTERED_ALIAS -- identity key registered",
+    "status": "SETTLED_NO_ACTION",
+    "census_impact": "none",
+    "authority_impact": "none"
+   }
+  ]
+ },
+ "held_decisions": [
+  "cambria hotel and suites avon",
+  "extended stay america select suites cleveland airport",
+  "harbor inn",
+  "hopp inn",
+  "motel 6 richfield",
+  "red roof inn akron",
+  "villa croatia at the american croatian lodge"
+ ],
+ "settled_mechanically": [
+  "(3 keys)",
+  "(geography)",
+  "candlewood suites beachwood cleveland",
+  "candlewood suites cleveland south independence",
+  "comfort inn cleveland airport",
+  "comfort suites twinsburg",
+  "extended stay america select suites cleveland mentor",
+  "extended stay america suites cleveland brooklyn",
+  "extended stay america suites cleveland great northern mall",
+  "extended stay america suites cleveland middleburg heights",
+  "kent state university hotel and conference center",
+  "mainstay suites middleburg heights cleveland airport",
+  "quality inn middleburg heights near cleveland airport",
+  "sonesta es suites cleveland westlake",
+  "staybridge suites akron stow cuyahoga falls",
+  "staybridge suites cleveland mayfield hts beachwd"
+ ]
+}
