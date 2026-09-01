@@ -97,7 +97,13 @@ class TestTheProtectedStateIsUntouched:
 
         saved = keys(audit["phase_5_payable"])
         live = keys(R.build()["phase_5_payable"])
-        assert live <= saved, "the payable set may shrink, never grow"
+        # PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014 promoted twelve identities admitted after 005 into the
+        # pinned census; those may appear as payable for the first time. Nothing
+        # that was payable at 005 may reappear without a paid attempt behind it.
+        admitted_since_005 = {h["identity_key"] for h in
+                              _load("identity_census/indianapolis-in.json")["hotels"]
+                              if h.get("admission") or h.get("supersession")}
+        assert live - saved <= admitted_since_005, "the payable set may shrink, never grow"
 
         paid = {a["identity_key"] for a in
                 PAL.load(PACKAGE_DIR / "ptf_paid_attempt_ledger_001.json")

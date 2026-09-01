@@ -420,16 +420,21 @@ def test_indianapolis_routes_are_present_and_correctly_counted(production):
     assert slugs <= present
     assert all((hub / s / "index.html").is_file() for s in slugs)
     sitemap = (site / "sitemap.xml").read_text(encoding="utf-8")
-    assert sitemap.count("/pet-friendly-hotels/indianapolis-in/") == 71
+    # 71 = 56 profiles + hub + 13 corridors + policy comparison until
+    # PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014: 67 profiles, and the fourteenth
+    # corridor crossed its minimum -> 67 + 1 + 14 + 1.
+    assert sitemap.count("/pet-friendly-hotels/indianapolis-in/") == PROMOTED_PET_FRIENDLY + 16
 
 
 def test_no_held_or_refused_indianapolis_row_reached_the_bundle(production):
-    """The rows 018 deliberately did not promote must not appear."""
+    """The rows 018 deliberately did not promote must not appear -- except the
+    one PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014 later published under founder
+    authorization: ESA Airport W Southern Ave, with pets_allowed read by the
+    canonical reader and its fee WITHHELD. The Home2 bare-brand key stays out."""
     _manifest, site = production
     sitemap = (site / "sitemap.xml").read_text(encoding="utf-8")
-    for slug in ("extended-stay-america-indianapolis-airport-w-southern-ave",
-                 "home2-suites-by-hilton/"):
-        assert slug not in sitemap, slug
+    assert "home2-suites-by-hilton/" not in sitemap
+    assert "extended-stay-america-indianapolis-airport-w-southern-ave" in sitemap
 
 
 def test_every_required_gate_ran_and_passed(production):

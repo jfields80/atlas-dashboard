@@ -20,7 +20,7 @@ from pathlib import Path
 import pytest
 
 from pettripfinder.indianapolis_promoted_state import (
-    PROMOTED_PET_FRIENDLY, PROMOTED_VERIFIED_NO_PETS)
+    PROMOTED_PET_FRIENDLY, PROMOTED_VERIFIED_NO_PETS, CENSUS)
 
 PACKAGE_DIR = (Path(__file__).resolve().parents[2]
                / "launch_packages" / "pettripfinder")
@@ -166,4 +166,4 @@ class TestNothingWasPromoted:
 
     def test_the_census_is_untouched_at_257(self):
         census = _load("identity_census/indianapolis-in.json")
-        assert census["count"] == 257
+        assert census["count"] == CENSUS  # 257 until PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014 promoted the reviewed shadow

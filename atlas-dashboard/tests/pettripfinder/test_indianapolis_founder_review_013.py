@@ -23,7 +23,7 @@ from pathlib import Path
 import pytest
 
 from pettripfinder.indianapolis_promoted_state import (
-    PROMOTED_PET_FRIENDLY, PROMOTED_VERIFIED_NO_PETS)
+    PROMOTED_PET_FRIENDLY, PROMOTED_VERIFIED_NO_PETS, CENSUS)
 
 from scripts.pettripfinder import indianapolis_founder_review_013 as R
 
@@ -245,4 +245,4 @@ class TestNothingWasPromoted:
         assert shard["count"] == PROMOTED_VERIFIED_NO_PETS
 
     def test_the_census_is_still_257(self):
-        assert _load("identity_census/indianapolis-in.json")["count"] == 257
+        assert _load("identity_census/indianapolis-in.json")["count"] == CENSUS  # 257 until PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014 promoted the reviewed shadow

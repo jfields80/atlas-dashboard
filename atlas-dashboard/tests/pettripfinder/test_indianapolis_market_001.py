@@ -9,7 +9,7 @@ from pathlib import Path
 
 from pettripfinder.indianapolis_promoted_state import (  # noqa: F401
     EXCLUSION_IDS,
-    PROMOTED_PET_FRIENDLY, PROMOTED_SEED_ROWS, PROMOTED_VERIFIED_NO_PETS)
+    PROMOTED_PET_FRIENDLY, PROMOTED_SEED_ROWS, PROMOTED_VERIFIED_NO_PETS, CENSUS)
 
 from scripts.pettripfinder.assemble_production_site import (
     market_eligibility, select_markets,
@@ -23,7 +23,8 @@ from scripts.pettripfinder.release_contracts import available_market_ids
 ROOT = Path(__file__).resolve().parents[2]
 PACKAGE = ROOT / "launch_packages" / "pettripfinder"
 CENSUS_PATH = PACKAGE / "identity_census" / "indianapolis-in.json"
-PARTITION_PATH = PACKAGE / "indianapolis_in_final_partition_004.json"  # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004
+# 004 until PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014 rebuilt the partition over the promoted 263-identity census.
+PARTITION_PATH = PACKAGE / "indianapolis_in_final_partition_014.json"
 PARTITION_001_PATH = PACKAGE / "indianapolis_final_partition_001.json"
 QUEUE_DIR = (
     ROOT / "data" / "operator_evidence" / "indianapolis-founder-review-001"
@@ -36,19 +37,23 @@ COMMITTED = (
 )
 # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: corridor counts of the promoted 257-identity census.
 EXPECTED_CORRIDORS = {
+    # Measured on the 257-identity census of PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004;
+    # re-measured on the 263-identity census promoted by PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014 (twelve admissions,
+    # five retirements, one rebrand-successor rename, and Airport South assigned
+    # explicitly to the airport corridor at ZIP 46221).
     "indianapolis-in__downtown": 40,
-    "indianapolis-in__airport": 29,
-    "indianapolis-in__northwest": 27,
-    "indianapolis-in__east-i70": 22,
-    "indianapolis-in__keystone-castleton": 22,
+    "indianapolis-in__northwest": 29,
+    "indianapolis-in__airport": 27,
+    "indianapolis-in__keystone-castleton": 25,
+    "indianapolis-in__east-i70": 23,
     "indianapolis-in__plainfield": 22,
-    "indianapolis-in__south": 17,
+    "indianapolis-in__south": 19,
     "indianapolis-in__carmel": 15,
-    "indianapolis-in__fishers": 15,
-    "indianapolis-in__greenwood": 12,
-    "indianapolis-in__hendricks-west": 9,
-    "indianapolis-in__noblesville": 8,
-    "indianapolis-in__speedway": 8,
+    "indianapolis-in__fishers": 14,
+    "indianapolis-in__greenwood": 13,
+    "indianapolis-in__speedway": 10,
+    "indianapolis-in__hendricks-west": 8,
+    "indianapolis-in__noblesville": 7,
     "indianapolis-in__westfield": 5,
     "indianapolis-in__broad-ripple": 3,
     "indianapolis-in__north-central": 2,
@@ -64,8 +69,9 @@ def test_census_schema_and_count():
     doc = _json(CENSUS_PATH)
     assert doc["schema"] == enums.CENSUS_SCHEMA
     assert doc["market_id"] == MARKET
-    assert doc["count"] == len(doc["hotels"]) == 257  # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004
-    assert doc["promotion"]["plan_work_order"] == "PTF-INDIANAPOLIS-PROMOTION-AUTHORITY-PREP-003"
+    assert doc["count"] == len(doc["hotels"]) == CENSUS  # 257 (004) -> 263 (014)
+    assert doc["promotion"]["plan_work_order"] == "PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014"
+    assert doc["promotion_history"][0]["plan_work_order"] == "PTF-INDIANAPOLIS-PROMOTION-AUTHORITY-PREP-003"
     assert census.validate(doc, market_states=["IN"]) == ()
 
 
@@ -77,10 +83,11 @@ def test_partition_reconciles_by_set():
     assert rec.agrees
     # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: the generic-path partition is a factory artifact (AWAITING_* states);
     # the authority is pinned below from the package and the exclusion shard.
-    assert rec.published == 0
-    assert rec.verified_no_pets == 0
+    # -> the 014 partition carries the promoted authority as terminal states.
+    assert rec.published == PROMOTED_PET_FRIENDLY
+    assert rec.verified_no_pets == PROMOTED_VERIFIED_NO_PETS
     assert rec.out_of_category == 0
-    assert rec.unresolved == 257
+    assert rec.unresolved == CENSUS - PROMOTED_PET_FRIENDLY - PROMOTED_VERIFIED_NO_PETS
     assert rec.published + rec.verified_no_pets + rec.out_of_category + rec.unresolved \
         == rec.census_count
     assert partition.validate(part) == ()
@@ -221,7 +228,7 @@ def test_every_canonical_lodging_has_one_corridor():
 def test_corridor_counts_match_measured_table():
     counts = Counter(r["corridor"] for r in _json(CENSUS_PATH)["hotels"])
     assert dict(counts) == EXPECTED_CORRIDORS
-    assert sum(counts.values()) == 257
+    assert sum(counts.values()) == CENSUS
 
 
 def test_assignment_is_reproducible():
@@ -342,7 +349,7 @@ def test_identity_keys_derive_from_names():
 def test_identity_state_counts_are_preserved():
     counts = _json(CENSUS_PATH)["identity_state_counts"]
     # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: every promoted row is IDENTITY_CONFIRMED (the recensus re-derived identity).
-    assert counts == {"IDENTITY_CONFIRMED": 257}
+    assert counts == {"IDENTITY_CONFIRMED": CENSUS}
 
 
 def test_pass1_identity_repair_bound_url_property_codes():

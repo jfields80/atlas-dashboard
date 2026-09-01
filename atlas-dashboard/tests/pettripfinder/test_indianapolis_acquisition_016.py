@@ -31,7 +31,7 @@ from pathlib import Path
 import pytest
 
 from pettripfinder.indianapolis_promoted_state import (
-    PROMOTED_PET_FRIENDLY, PROMOTED_VERIFIED_NO_PETS)
+    PROMOTED_PET_FRIENDLY, PROMOTED_VERIFIED_NO_PETS, CENSUS)
 
 from scripts.pettripfinder import indianapolis_founder_review_013 as R13
 from scripts.pettripfinder import indianapolis_founder_review_016 as M
@@ -339,7 +339,7 @@ class TestNothingWasPromoted:
             "markets/authority/indianapolis-in/hotel_exclusions.json")["count"] == PROMOTED_VERIFIED_NO_PETS
 
     def test_the_census_is_still_257(self):
-        assert _load("identity_census/indianapolis-in.json")["count"] == 257
+        assert _load("identity_census/indianapolis-in.json")["count"] == CENSUS  # 257 until PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014 promoted the reviewed shadow
 
     def test_the_esa_hold_and_the_mismatch_rows_were_not_touched(self, run):
         """Both were forbidden by this work order."""

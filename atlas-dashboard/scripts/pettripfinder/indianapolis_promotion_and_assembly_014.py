@@ -128,6 +128,27 @@ def _slug(name: str) -> str:
 # Phase 2 -- promote the shadow census
 # --------------------------------------------------------------------------- #
 
+def _chained_key_map(pinned, new):
+    """003's key_map followed by 014's renames and merges."""
+    fresh = OrderedDict()
+    for h in new["hotels"]:
+        for old in h.get("prior_census_identity_keys") or ():
+            if old != h["identity_key"]:
+                fresh[old] = h["identity_key"]
+        for old in h.get("merged_in_013") or ():
+            fresh[old] = h["identity_key"]
+    for e in new.get("retired_013", []):
+        target = (e.get("merged_into") or "").split(" (")[0].strip()
+        if target and target in {h["identity_key"] for h in new["hotels"]}:
+            fresh.setdefault(e["row"]["identity_key"], target)
+    chained = OrderedDict()
+    for old, mid in ((pinned.get("promotion") or {}).get("key_map") or {}).items():
+        chained[old] = fresh.get(mid, mid)
+    for old, tgt in fresh.items():
+        chained.setdefault(old, tgt)
+    return chained
+
+
 def promote_census(shadow, pinned, market):
     new = json.loads(json.dumps(shadow), object_pairs_hook=OrderedDict)
     keys = [h["identity_key"] for h in new["hotels"]]
@@ -207,6 +228,9 @@ def promote_census(shadow, pinned, market):
         ("source", "launch_packages/pettripfinder/identity_census_admission/indianapolis-in.json"),
         ("source_sha256", _sha(json.dumps(shadow, ensure_ascii=False, sort_keys=True))),
         ("retired", sorted(retired)), ("renamed_from", sorted(renamed_from)),
+        # old key -> surviving key, CHAINED through the 003 map so every consumer
+        # that rekeys the 002 pilot (indianapolis_recovery_005) still resolves.
+        ("key_map", _chained_key_map(pinned, new)),
         ("orders_carried", ["PTF-INDIANAPOLIS-CENSUS-ADMISSION-002", "PTF-INDIANAPOLIS-APPLY-RULINGS-005",
                             "PTF-INDIANAPOLIS-ADDRESS-REVIEW-006", "PTF-INDIANAPOLIS-FREE-ROUTING-SCALE-007",
                             "PTF-INDIANAPOLIS-IDENTITY-ADDRESS-CLEANUP-012", "PTF-INDIANAPOLIS-FOUNDER-RULINGS-013"]),
@@ -382,6 +406,18 @@ def build_record(pend: Dict, census_row: Dict, text: str, kind: str, method: str
     ))
     if sa:
         record["service_animal_statement"] = OrderedDict((("stated", True), ("charges_stated", SA.charges_stated(sa)), ("quote", sa)))
+    # The Indianapolis envelope every earlier record carries (017/018 tests pin it):
+    # the founder decision and reviewer on the record itself, plus the two
+    # honesty lists the projection layer writes.
+    record["non_inferences"] = [
+        "weight_limit.operator: 'must not weigh more than' / 'or less' are recorded as lte per pet only where the source states the ceiling per pet",
+        "species: a surface that names one refused species says nothing about the others; nothing is defaulted",
+        "other_charges: a conditional or generic charge is withheld with its wording, never published unconditioned",
+    ] + (["pet_fee: two stated ceilings are not a price; withheld rather than published as the lower rung"] if "pet_fee" in withheld else [])
+    record["founder_decision"] = enums.APPROVED_AFTER_CURRENT_REVIEW
+    record["founder_reviewer_id"] = REVIEWER
+    record["founder_reviewed_at"] = AS_OF
+    record["projection_notes"] = ["%s: facts re-read by policy_reading.parse at application; see approval.caveats" % WORK_ORDER] + notes
     record["computation_class"] = classify(facts).computation_class
     if withheld:
         record["withheld_fields"] = OrderedDict(
@@ -659,7 +695,9 @@ def main(argv=None) -> int:
     problems = PM.validate_migrated(only_new)
     if problems:
         raise PromotionError("new records do not validate: %s" % problems[:10])
-    shard["exclusions"] = list(shard["exclusions"]) + exclusions
+    # The shard is kept SORTED by normalized_name, the order the freeze tests
+    # compare against; appending would break it.
+    shard["exclusions"] = sorted(list(shard["exclusions"]) + exclusions, key=lambda e: e["normalized_name"])
     shard["count"] = len(shard["exclusions"])
     validated = EX.validate(shard)          # returns the validated rows; raises on a defect
     if len(validated) != shard["count"]:
