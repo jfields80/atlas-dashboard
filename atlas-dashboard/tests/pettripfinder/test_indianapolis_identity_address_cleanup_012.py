@@ -52,9 +52,13 @@ def test_pinned_production_census_and_live_authority_are_untouched():
 
 
 def test_shadow_count_is_unchanged_and_no_identity_was_added_or_removed():
+    # 268 at 012 (this order added and removed nothing). 263 since
+    # PTF-INDIANAPOLIS-FOUNDER-RULINGS-013 applied the packet: five rows
+    # retired into ``retired_013`` (three duplicates, two closures), none added.
     doc = shadow()
-    assert doc["count"] == 268 and len(doc["hotels"]) == 268
-    assert len({h["identity_key"] for h in doc["hotels"]}) == 268
+    assert doc["count"] == 263 and len(doc["hotels"]) == 263
+    assert len({h["identity_key"] for h in doc["hotels"]}) == 263
+    assert len(doc["retired_013"]) == 5
 
 
 def test_every_supersession_keeps_the_old_address_in_lineage():
@@ -86,8 +90,12 @@ def test_wyndham_west_is_routed_on_an_exact_telephone_and_not_renamed():
     h = by_key()["wyndham indianapolis west"]
     assert h["official_url"].endswith("/wyndham-indianapolis-airport/overview")
     assert h["phone"] == "3172482481"
-    assert h["canonical_name"] == "Wyndham Indianapolis West"       # the rename is the founder's
-    assert h["routing_history"][-1]["page_telephone"] == "3172482481"
+    # 012 left the name alone because the rename was the founder's; 013
+    # (IDR-012-006) approved it. The key is unchanged and the old name is in
+    # name_correction_013.was.
+    assert h["canonical_name"] == "Wyndham Indianapolis Airport"
+    assert h["name_correction_013"]["was"]["canonical_name"] == "Wyndham Indianapolis West"
+    assert h["routing_history"][0]["page_telephone"] == "3172482481"
     assert h["closure_review_012"]["now"].startswith("STILL_ACTIVE")
 
 
@@ -111,17 +119,23 @@ def test_held_candidates_resolved_as_aliases_are_recorded_not_added():
 def test_every_retire_merge_or_rename_is_queued_for_the_founder():
     reg = _load("indianapolis_in_identity_review_register_002.json")
     ids = {r["review_id"]: r for r in reg["reviews"]}
-    for rid in ("IDR-012-001", "IDR-012-002", "IDR-012-003", "IDR-012-004", "IDR-012-005", "IDR-012-006"):
-        assert ids[rid]["acted_on"] is False
-        assert "retiring, merging or renaming the identity" in ids[rid]["forbidden_until_ruled"]
-    assert ids["IDR-007-001"]["review_state"] == "SUCCESSOR_IDENTITY_REVIEW"       # still held
-    assert ids["IDR-007-001"]["acted_on"] is False
-    # the duplicate rows still exist in the shadow -- nothing was retired here
+    # 012 queued every one of these with acted_on False; 013 applied the
+    # founder's rulings, so each is now RULED_AND_APPLIED by 013 and the
+    # forbidden list it carried is still on record.
+    for rid in ("IDR-012-001", "IDR-012-002", "IDR-012-003", "IDR-012-004", "IDR-012-005", "IDR-012-006", "IDR-007-001"):
+        assert ids[rid]["applied_by"] == "PTF-INDIANAPOLIS-FOUNDER-RULINGS-013"
+        assert ids[rid]["review_state"] == "RULED_AND_APPLIED"
+    assert "retiring, merging or renaming the identity" in ids["IDR-012-001"]["forbidden_until_ruled"]
+    # the rows 012 refused to retire left the shadow only through 013's
+    # retired_013 block (lineage kept) or its rename (la quinta inn -> Baymont NW)
     rows = by_key()
+    retired = {e["row"]["identity_key"] for e in shadow()["retired_013"]}
     for key in ("quality inn and suites noblesville indianapolis", "quality inn brownsburg indianapolis west",
                 "echo suites extended stay by wyndham", "americinn by wyndham fishers indianapolis",
-                "ramada indianapolis airport", "la quinta inn"):
-        assert key in rows, key
+                "ramada indianapolis airport"):
+        assert key not in rows and key in retired, key
+    assert "la quinta inn" not in rows
+    assert "la quinta inn" in rows["baymont by wyndham indianapolis northwest"]["prior_census_identity_keys"]
     packet = _load("indianapolis_in_founder_packet_012.json")
     assert {p["review_id"] for p in packet["decisions_requested"]} == {
         "IDR-007-001", "IDR-012-001", "IDR-012-002", "IDR-012-003", "IDR-012-004", "IDR-012-005", "IDR-012-006"}
@@ -156,6 +170,10 @@ def test_the_rebuilt_cohort_drops_exactly_the_routed_rows():
 def test_the_cost_plan_prices_the_012_cohort():
     plan = _load("indianapolis_in_routing_cost_plan_003.json")
     c12 = _load("indianapolis_in_unrouted_cohort_012.json")
-    assert plan["cohort_primary"]["rows"] == c12["count"]
+    # The plan prices the NEWEST cohort: 012's until PTF-INDIANAPOLIS-FOUNDER-
+    # RULINGS-013 superseded it with a 100-row cohort.
+    newest = PKG / "indianapolis_in_unrouted_cohort_013.json"
+    expected = _load(newest.name)["count"] if newest.is_file() else c12["count"]
+    assert plan["cohort_primary"]["rows"] == expected
     assert plan["spend_authorized_usd"] == 0.0
     assert plan["cohort_primary"]["conservative_hard_cap_ceiling_usd"] > 0
