@@ -1,0 +1,694 @@
+{
+ "schema": "ptf-hardened-projection/1.0",
+ "work_order": "PTF-CLEVELAND-AKRON-CANTON-HARDENED-REVALIDATION-001",
+ "market_id": "cleveland-akron-canton-oh",
+ "as_of": "2026-09-01",
+ "preservation_proof": {
+  "protected_files": {
+   "launch_packages/pettripfinder/identity_census/cleveland-akron-canton-oh.json": "UNCHANGED",
+   "launch_packages/pettripfinder/hotel_policy_facts_cleveland-akron-canton-oh.json": "UNCHANGED",
+   "launch_packages/pettripfinder/markets/authority/cleveland-akron-canton-oh/hotel_exclusions.json": "UNCHANGED",
+   "launch_packages/pettripfinder/markets/authority/cleveland-akron-canton-oh/identity_routing.json": "UNCHANGED",
+   "launch_packages/pettripfinder/markets/authority/cleveland-akron-canton-oh/seed_businesses.csv": "UNCHANGED",
+   "launch_packages/pettripfinder/markets/authority/cleveland-akron-canton-oh/affiliate_destinations.json": "UNCHANGED",
+   "launch_packages/pettripfinder/markets/cleveland-akron-canton-oh.json": "UNCHANGED",
+   "launch_packages/pettripfinder/markets/coverage/cleveland-akron-canton-oh.json": "UNCHANGED",
+   "launch_packages/pettripfinder/markets/reports/cleveland-akron-canton-oh_coverage_audit.json": "UNCHANGED",
+   "launch_packages/pettripfinder/cleveland_final_partition_002.json": "UNCHANGED",
+   "launch_packages/pettripfinder/cleveland_unresolved_manifest.json": "UNCHANGED",
+   "deploy/netlify/release_contracts/cleveland-akron-canton-oh.json": "UNCHANGED",
+   "deploy/netlify/launch_participation.json": "UNCHANGED",
+   "deploy/netlify/global_deployment_manifest.json": "UNCHANGED"
+  },
+  "regressions": [],
+  "verdict": "PRESERVED"
+ },
+ "phase_11_safe_shadow_application_inventory": {
+  "counts": {
+   "CLEAN_PET_FRIENDLY": 0,
+   "CLEAN_VERIFIED_NO_PETS": 3,
+   "SAFE_CENSUS_ADD": 0,
+   "SAFE_IDENTITY_SUPERSESSION": 0,
+   "SAFE_ADDRESS_SUPERSESSION": 0,
+   "SAFE_ROUTE_REPAIR": 0,
+   "FOUNDER_EXCEPTION": 54,
+   "NO_AUTHORITY_ACTION": 12
+  },
+  "items": {
+   "CLEAN_PET_FRIENDLY": [],
+   "CLEAN_VERIFIED_NO_PETS": [
+    {
+     "identity_key": "quality inn hall of fame",
+     "why": "attended first-party capture, identity bound on street+postal; refusal sentence verbatim",
+     "artifact": "HA-002-quality-inn-hall-of-fame.json",
+     "sha256": "2ad8988d09ddb4d5f3acaa3a64bb6935a0d36ee83d453ba28d19b8ff95476a62",
+     "quote": "Pets Allowed: No",
+     "final_url": "https://www.choicehotels.com/ohio/canton/quality-inn-hotels/oh584"
+    },
+    {
+     "identity_key": "doubletree by hilton tudor arms hotel",
+     "why": "attended first-party capture, identity bound on street+postal; refusal sentence verbatim",
+     "artifact": "HA-003-doubletree-by-hilton-tudor-arms-hotel.json",
+     "sha256": "2b6d284d3248875dcd6d04afabd1648a59a6e6c60d70dea85980b742b0d5bc08",
+     "quote": "Pets allowed: No",
+     "final_url": "https://www.hilton.com/en/hotels/cleucdt-the-tudor-arms-hotel-cleveland/hotel-info/"
+    },
+    {
+     "identity_key": "courtyard by marriott akron stow",
+     "why": "attended first-party capture, identity bound on street+postal; refusal sentence verbatim",
+     "artifact": "HA-004-courtyard-by-marriott-akron-stow.json",
+     "sha256": "c9eca14cd129f5a902002fbf6fdf4d965273a934dd67eefe5e00b3cd38973076",
+     "quote": "Pets Not Allowed",
+     "final_url": "https://www.marriott.com/en-us/hotels/cakcy-courtyard-akron-stow/overview/"
+    }
+   ],
+   "SAFE_CENSUS_ADD": [],
+   "SAFE_IDENTITY_SUPERSESSION": [],
+   "SAFE_ADDRESS_SUPERSESSION": [],
+   "SAFE_ROUTE_REPAIR": [],
+   "FOUNDER_EXCEPTION": [
+    {
+     "identity_key": "cambria hotel and suites avon",
+     "why": "owned evidence reads PET_FRIENDLY_STATED but the identity is a conversion / successor question (clicked Hotel Policies; CONVERSION row (census identity Cambria Hotel & Suites Avon))",
+     "artifact": "RR-001-wyndham-avon.json",
+     "sha256": "7e9fe7c550d406e541332842ff9a47752962b7b1b56c3b574b07856e2d9d349f",
+     "quote": "Pets Allowed",
+     "final_url": "https://www.wyndhamhotels.com/wyndham/avon-ohio/wyndham-avon/overview"
+    },
+    {
+     "identity_key": "days inn richfield",
+     "why": "owned evidence reads NO_PETS_STATED but the identity is a conversion / successor question (waited for hydration; CONVERSION row (census identity Days Inn Richfield))",
+     "artifact": "RR-009-quality-inn-suites-richfield.json",
+     "sha256": "70fd740899ad3c7916469907bd3e988717eb4a617b27a57ee5062137e900a7d5",
+     "quote": "No Pets Allowed",
+     "final_url": "https://www.choicehotels.com/ohio/richfield/quality-inn-hotels/oh330"
+    },
+    {
+     "identity_key": "doubletree by hilton cleveland westlake",
+     "why": "owned evidence reads PET_FRIENDLY_STATED but the identity is a conversion / successor question (clicked Hotel Policies; CONVERSION row (census identity DoubleTree by Hilton Cleveland-Westlake))",
+     "artifact": "RR-010-wyndham-garden-westlake.json",
+     "sha256": "96fda8107ba1f1a56ba1c821e6d78b9734e666b9b7c8afd6818bcc163e3bf2db",
+     "quote": "Dogs only",
+     "final_url": "https://www.wyndhamhotels.com/wyndham-garden/westlake-ohio/wyndham-garden-westlake/overview"
+    },
+    {
+     "identity_key": "studio 6 extended stay hotel mentor",
+     "why": "attended capture reads PET FRIENDLY on the property's current page, but the page brands the property differently from the census identity (Hotel in Mentor, OH | Suburban Studios Mentor - Cleveland Northeast): rename ruling before application",
+     "artifact": "HA-001-studio-6-extended-stay-hotel-mentor.json",
+     "sha256": "0f2672696685a0347c42540f00ea99ed561fd1c2965f5f80773db2f64d337513",
+     "quote": "Pets Allowed",
+     "extraction": {
+      "pets_allowed": true,
+      "pet_fee": 1000,
+      "fee_currency": "USD",
+      "fee_basis": "per_night",
+      "weight_limit": {
+       "value": 30.0,
+       "unit": "lb"
+      },
+      "pet_count_limit": 2,
+      "pet_count_scope": "per_room",
+      "service_animal_exception": "Service animals are permitted, without charge."
+     },
+     "final_url": "https://www.choicehotels.com/ohio/mentor/suburban-hotels/oh196?checkOutDate=2026-09-07"
+    },
+    {
+     "identity_key": "the rowley inn",
+     "why": "NON_LODGING_PAGE: homepage read; site is a restaurant/bar (Toast online ordering, TripAdvisor Restaurant_Review, Diners Drive-Ins and Dives feature); no rooms, stay or booking surface",
+     "artifact": "HA-008-the-rowley-inn.json",
+     "sha256": "c7d7b4108aa7aaf35d4a84158aac754e2eb8669d07281b0580e5ba22cf1a54b4",
+     "final_url": "https://www.therowleyinn.com/"
+    },
+    {
+     "identity_key": "inn the doghouse",
+     "why": "NON_LODGING_PAGE: homepage read; the business is a dog daycare / boarding pet resort with a pet spa; no human lodging",
+     "artifact": "HA-009-inn-the-doghouse.json",
+     "sha256": "0207d2158a02360d8742a9808b113b08638c33831e8a00207b4c9ca3c4a143db",
+     "final_url": "https://innthedoghouse.com/"
+    },
+    {
+     "identity_key": "cleveland house hotels",
+     "why": "MULTI_PROPERTY_OPERATOR_NOT_A_SINGLE_PREMISES: homepage read; operator of 19 whole-house rentals in Cleveland and Columbus; no single premises, no street address, no pet mention",
+     "artifact": "HA-013-cleveland-house-hotels.json",
+     "sha256": "6d3d47606a35fceac016b104a83990a5a6f9eecc3040f5431951eedde03f8f00",
+     "final_url": "https://thehousehotels.com/"
+    },
+    {
+     "identity_key": "baymont by wyndham copley akron",
+     "why": "SHARED_STREET_AND_POSTAL: two census rows share a physical/page signal",
+     "evidence": {
+      "value": "130 montrose w ave|44321",
+      "names": [
+       "Baymont by Wyndham Copley Akron",
+       "Super 8 by Wyndham Copley Akron"
+      ],
+      "brand_families": [
+       "baymont",
+       "super 8"
+      ],
+      "names_compatible": false
+     }
+    },
+    {
+     "identity_key": "super 8 by wyndham copley akron",
+     "why": "SHARED_STREET_AND_POSTAL: two census rows share a physical/page signal",
+     "evidence": {
+      "value": "130 montrose w ave|44321",
+      "names": [
+       "Baymont by Wyndham Copley Akron",
+       "Super 8 by Wyndham Copley Akron"
+      ],
+      "brand_families": [
+       "baymont",
+       "super 8"
+      ],
+      "names_compatible": false
+     }
+    },
+    {
+     "identity_key": "the westin",
+     "why": "SHORTENED_CHAIN_NAME: name is only the brand; the identity key cannot distinguish this row from a sibling",
+     "evidence": {
+      "canonical_name": "The Westin",
+      "city": "Cleveland"
+     }
+    },
+    {
+     "identity_key": "kent state university hotel and conference center",
+     "why": "LODGING_NEEDS_REVIEW: census itself flags lodging_state NEEDS_REVIEW",
+     "evidence": {
+      "canonical_name": "Kent State University Hotel & Conference Center"
+     }
+    },
+    {
+     "identity_key": "sonesta es suites cleveland westlake",
+     "why": "PRIOR_RENAME_OR_REVIEW_TRACE: routing repair 001 recorded a rename proposal or census-review candidate that the pinned census still carries",
+     "evidence": {
+      "verdict": "ROUTING_REPLACED",
+      "old_url": "https://www.sonesta.com/us/ohio/westlake/sonesta-es-suites-cleveland-westlake",
+      "new_candidate_url": "https://www.sonesta.com/sonesta-simply-suites/oh/westlake/sonesta-simply-suites-cleveland-westlake",
+      "final_url": "https://www.sonesta.com/sonesta-simply-suites/oh/westlake/sonesta-simply-suites-cleveland-westlake",
+      "rename_proposal": "Sonesta Simply Suites Cleveland Westlake",
+      "census_hygiene": "",
+      "census_review_candidate": false,
+      "source_relationship": "OFFICIAL_BRAND_PROPERTY_PAGE"
+     }
+    },
+    {
+     "identity_key": "comfort suites twinsburg",
+     "why": "PRIOR_RENAME_OR_REVIEW_TRACE: routing repair 001 recorded a rename proposal or census-review candidate that the pinned census still carries",
+     "evidence": {
+      "verdict": "PROPERTY_LEVEL_URL_UPGRADED",
+      "old_url": "https://www.choicehotels.com/ohio/twinsburg/comfort-suites-hotels/oh271",
+      "new_candidate_url": "",
+      "final_url": "https://www.choicehotels.com/ohio/twinsburg/comfort-suites-hotels/oh271",
+      "rename_proposal": "",
+      "census_hygiene": "page street reads 2716 Creekside Drive; census carries 2715 Creekside Dr -- address form to review",
+      "census_review_candidate": false,
+      "source_relationship": "OFFICIAL_BRAND_PROPERTY_PAGE"
+     }
+    },
+    {
+     "identity_key": "harbor inn",
+     "why": "PRIOR_RENAME_OR_REVIEW_TRACE: routing repair 001 recorded a rename proposal or census-review candidate that the pinned census still carries",
+     "evidence": {
+      "verdict": "IDENTITY_CONFLICT",
+      "old_url": "",
+      "new_candidate_url": "",
+      "final_url": "",
+      "rename_proposal": "",
+      "census_hygiene": "",
+      "census_review_candidate": true,
+      "source_relationship": "OFFICIAL_CVB_DIRECTORY_ANCHOR"
+     }
+    },
+    {
+     "identity_key": "hopp inn",
+     "why": "PRIOR_RENAME_OR_REVIEW_TRACE: routing repair 001 recorded a rename proposal or census-review candidate that the pinned census still carries",
+     "evidence": {
+      "verdict": "IDENTITY_CONFLICT",
+      "old_url": "",
+      "new_candidate_url": "",
+      "final_url": "",
+      "rename_proposal": "",
+      "census_hygiene": "",
+      "census_review_candidate": true,
+      "source_relationship": "OFFICIAL_CVB_DIRECTORY_ANCHOR"
+     }
+    },
+    {
+     "identity_key": "villa croatia at the american croatian lodge",
+     "why": "PRIOR_RENAME_OR_REVIEW_TRACE: routing repair 001 recorded a rename proposal or census-review candidate that the pinned census still carries",
+     "evidence": {
+      "verdict": "OFFICIAL_URL_FOUND",
+      "old_url": "",
+      "new_candidate_url": "https://croatianlodge.com/",
+      "final_url": "https://croatianlodge.com/",
+      "rename_proposal": "",
+      "census_hygiene": "site phone 440-946-3366 differs from census 216.704.9009",
+      "census_review_candidate": false,
+      "source_relationship": "FIRST_PARTY_PROPERTY_PAGE"
+     }
+    },
+    {
+     "identity_key": "extended stay america cleveland airport north olmsted",
+     "why": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 24851 Country Club Boulevard 44070",
+     "source": "openstreetmap"
+    },
+    {
+     "identity_key": "towneplace suites cleveland streetsboro",
+     "why": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 795 Mondial Parkway 44241",
+     "source": "openstreetmap"
+    },
+    {
+     "identity_key": "fairfield inn and suites akron fairlawn",
+     "why": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 208 Springside Drive 44333",
+     "source": "openstreetmap"
+    },
+    {
+     "identity_key": "ramada cleveland airport west",
+     "why": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 22115 Brookpark Road 44126",
+     "source": "openstreetmap"
+    },
+    {
+     "identity_key": "red roof inn akron",
+     "why": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 2939 South Arlington Road 44312",
+     "source": "openstreetmap"
+    },
+    {
+     "identity_key": "best western",
+     "why": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 8434 Mentor Avenue 44060",
+     "source": "openstreetmap"
+    },
+    {
+     "identity_key": "towneplace suites",
+     "why": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 25052 Sperry Drive 44145",
+     "source": "openstreetmap"
+    },
+    {
+     "identity_key": "noble motel",
+     "why": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 15740 Euclid Avenue 44112",
+     "source": "openstreetmap"
+    },
+    {
+     "identity_key": "hampton inn",
+     "why": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 6035 Enterprise Parkway 44139",
+     "source": "openstreetmap"
+    },
+    {
+     "identity_key": "doubletree",
+     "why": "SAME_CAMPUS_DISTINCT_ENTITY: same street+postal as residence inn cleveland beachwood under a different brand family; a dual-brand campus is two hotels unless the founder rules otherwise",
+     "name": "DoubleTree",
+     "address": "3628 Park East Drive",
+     "postal": "44122"
+    },
+    {
+     "identity_key": "radisson hotel cleveland airport west",
+     "why": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 25070 Country Club Boulevard 44070",
+     "source": "openstreetmap"
+    },
+    {
+     "identity_key": "extended stay america",
+     "why": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 30360 Clemens Road 44145",
+     "source": "openstreetmap"
+    },
+    {
+     "identity_key": "holiday inn express and suites cleveland richfield",
+     "why": "SAME_CAMPUS_DISTINCT_ENTITY: same street+postal as motel 6 richfield under a different brand family; a dual-brand campus is two hotels unless the founder rules otherwise",
+     "name": "Holiday Inn Express & Suites Cleveland-Richfield",
+     "address": "5171 Brecksville Road",
+     "postal": "44286"
+    },
+    {
+     "identity_key": "clarion hotel beachwood cleveland",
+     "why": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 26300 Chagrin Boulevard 44122",
+     "source": "openstreetmap"
+    },
+    {
+     "identity_key": "sonesta simply suites cleveland north olmsted",
+     "why": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 24741 Country Club Boulevard 44070",
+     "source": "openstreetmap"
+    },
+    {
+     "identity_key": "la quinta inn and suites",
+     "why": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 25105 Ctry Club Boulevard 44070",
+     "source": "openstreetmap"
+    },
+    {
+     "identity_key": "super 8 by wyndham",
+     "why": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 25200 Sperry Drive 44145",
+     "source": "openstreetmap"
+    },
+    {
+     "identity_key": "home2 suites by hilton middleburg heights cleveland",
+     "why": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 7355 Engle Road 44130",
+     "source": "openstreetmap"
+    },
+    {
+     "identity_key": "parma hotel",
+     "why": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 5531 Pearl Road 44129",
+     "source": "openstreetmap"
+    },
+    {
+     "identity_key": "wingate by wyndham streetsboro cleveland southeast",
+     "why": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 9705 State Route 14 44241",
+     "source": "openstreetmap"
+    },
+    {
+     "identity_key": "quality inn and suites",
+     "why": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 23303 Oakwood Commons Drive 44146",
+     "source": "openstreetmap"
+    },
+    {
+     "identity_key": "westin",
+     "why": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 777 Saint Clair Avenue Northeast 44114",
+     "source": "openstreetmap"
+    },
+    {
+     "identity_key": "hampton inn and suites",
+     "why": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 23300 Oakwood Commons Drive 44146",
+     "source": "openstreetmap"
+    },
+    {
+     "identity_key": "best western airport inn and suites cleveland",
+     "why": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 16501 Snow Road 44142",
+     "source": "openstreetmap"
+    },
+    {
+     "identity_key": "the ritz carlton",
+     "why": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 1515 West 3rd Street 44113",
+     "source": "openstreetmap"
+    },
+    {
+     "identity_key": "country inn and suites",
+     "why": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 1420 Main Street 44221",
+     "source": "openstreetmap"
+    },
+    {
+     "identity_key": "hampton inn and suites cleveland mentor",
+     "why": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 5675 Emerald Court 44060",
+     "source": "openstreetmap"
+    },
+    {
+     "identity_key": "la quinta inn and suites cleveland macedonia",
+     "why": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 268 East Highland Road 44056",
+     "source": "openstreetmap"
+    },
+    {
+     "identity_key": "extended stay america cleveland orange south",
+     "why": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 3820 Orange Place 44122",
+     "source": "openstreetmap"
+    },
+    {
+     "identity_key": "doubletree by hilton hotel cleveland downtown lakeside",
+     "why": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 1111 Lakeside Avenue East 44114",
+     "source": "openstreetmap"
+    },
+    {
+     "identity_key": "fairfield inn and suites cleveland tiedeman road",
+     "why": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 5110 Tiedeman Road 44144",
+     "source": "openstreetmap"
+    },
+    {
+     "identity_key": "super 8",
+     "why": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 8848 Twin Hills Parkway 44087",
+     "source": "openstreetmap"
+    },
+    {
+     "identity_key": "wingate by wyndham canton hall of fame",
+     "why": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 4914 Everhard Road Northwest 44718",
+     "source": "openstreetmap"
+    },
+    {
+     "identity_key": "fairfield inn and suites akron stow",
+     "why": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 4170 Steels Pointe 44224",
+     "source": "openstreetmap"
+    },
+    {
+     "identity_key": "crowne plaza cleveland independence",
+     "why": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 5300 Rockside Road 44131",
+     "source": "openstreetmap"
+    },
+    {
+     "identity_key": "economy inn and suites",
+     "why": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 4751 Northfield Road 44128",
+     "source": "openstreetmap"
+    },
+    {
+     "identity_key": "super 8 by wyndham mentor cleveland area",
+     "why": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 7325 Palisades Parkway 44060",
+     "source": "openstreetmap"
+    },
+    {
+     "identity_key": "kimpton schofield hotel",
+     "why": "static re-read disagrees with live authority: CLEAN_VERIFIED_NO_PETS_CANDIDATE (see reader note)",
+     "url": "https://www.theschofieldhotel.com/cleveland-downtown-hotels/pet-friendly/",
+     "page_sha256": "18b60a85a6966896d51c44891c154948e685304082574d799f9bba0fe4f81d9f"
+    }
+   ],
+   "NO_AUTHORITY_ACTION": [
+    {
+     "identity_key": "holiday inn cleveland clinic",
+     "why": "static lane: ACCESS_BLOCKED_PLAIN_CLIENT -- attended lane next"
+    },
+    {
+     "identity_key": "intercontinental suites hotel cleveland",
+     "why": "static lane: ACCESS_BLOCKED_PLAIN_CLIENT -- attended lane next"
+    },
+    {
+     "identity_key": "cleveland house hotels",
+     "why": "static lane: IDENTITY_NOT_CONFIRMED_STATIC -- attended lane next"
+    },
+    {
+     "identity_key": "inn the doghouse",
+     "why": "static lane: IDENTITY_TEXT_BOUND_POLICY_SILENT -- attended lane next"
+    },
+    {
+     "identity_key": "the rowley inn",
+     "why": "static lane: IDENTITY_TEXT_BOUND_POLICY_SILENT -- attended lane next"
+    },
+    {
+     "identity_key": "holiday inn cleveland south independence",
+     "why": "static lane: IDENTITY_TEXT_BOUND_POLICY_SILENT -- attended lane next"
+    },
+    {
+     "identity_key": "home2 suites by hilton",
+     "why": "static lane: ACCESS_BLOCKED_PLAIN_CLIENT -- attended lane next"
+    },
+    {
+     "identity_key": "woodspring suites cleveland",
+     "why": "static lane: IDENTITY_NOT_CONFIRMED_STATIC -- attended lane next"
+    },
+    {
+     "identity_key": "hyatt place cleveland westlake crocker park",
+     "why": "static lane: ACCESS_BLOCKED_PLAIN_CLIENT -- attended lane next"
+    },
+    {
+     "identity_key": "aurora inn",
+     "why": "static lane: IDENTITY_TEXT_BOUND_POLICY_SILENT -- attended lane next"
+    },
+    {
+     "identity_key": "walden country inn and stables",
+     "why": "static lane: IDENTITY_TEXT_BOUND_POLICY_SILENT -- attended lane next"
+    },
+    {
+     "identity_key": "magnuson extended stay",
+     "why": "static lane: IDENTITY_TEXT_BOUND_POLICY_SILENT -- attended lane next"
+    }
+   ]
+  },
+  "applied": false,
+  "deployment": "NONE"
+ },
+ "phase_10_live_quality": {
+  "live_rows": 139,
+  "pet_friendly_live": 99,
+  "verified_no_pets_live": 40,
+  "owned_evidence_replay_agrees": 91,
+  "static_reread_rows": 29,
+  "static_reread_outcomes": {
+   "CURRENTLY_CORRECT": 5,
+   "CURRENTLY_CORRECT_TEXT_BOUND": 1,
+   "NOT_RE_READABLE_STATICALLY": 8,
+   "NO_CHANGE_SIGNAL": 2,
+   "NO_CHANGE_SIGNAL_PAGE_SILENT": 12,
+   "WRONG_LIVE_POLICY_CANDIDATE": 1
+  },
+  "wrong_live_policy_confirmed": 0,
+  "wrong_live_policy_candidates_explained": [
+   {
+    "identity_key": "kimpton schofield hotel",
+    "explanation": "reader false negative: the block 'No limit on number of pets allowed No deposit or cleaning fees charged' is read as 'pets allowed No'; the page states 'Tail-Waggers Welcome' -- live PF stands; generic reader defect recorded as backlog"
+   }
+  ],
+  "rows_settled_by_owned_evidence_only": 110,
+  "not_re_readable_statically": 8
+ },
+ "phase_12_coverage_gap": {
+  "PINNED_CENSUS": 188,
+  "DEDUPLICATED_PINNED_CENSUS": 188,
+  "SHADOW_RECENSUS_IDENTITIES_EXAMINED": 266,
+  "SHADOW_RECENSUS_CENSUS_COUNT": 223,
+  "TRUE_MISSING_IDENTITIES": 36,
+  "true_missing_first_party_confirmed": 0,
+  "true_missing_corroborated_by_first_party_directory_listing": 5,
+  "true_missing_provisional_osm_only": 36,
+  "ALIASES": 67,
+  "EXACT": 43,
+  "DUPLICATES_PROBABLE": 26,
+  "REBRANDS": 0,
+  "SAME_CAMPUS_DISTINCT": 2,
+  "CLOSED_CONVERTED": 29,
+  "OUTSIDE_MARKET": 13,
+  "NON_LODGING": 0,
+  "UNRESOLVED_IDENTITY": 50,
+  "census_increase_pct": 18.6,
+  "under_covered_brand_families": {
+   "BEST_WESTERN": 2,
+   "CHOICE": 2,
+   "ESA": 3,
+   "HILTON": 5,
+   "IHG": 1,
+   "INDEPENDENT": 3,
+   "MARRIOTT": 7,
+   "RADISSON": 3,
+   "RED_ROOF": 1,
+   "SONESTA": 1,
+   "WYNDHAM": 8
+  },
+  "under_covered_geography": {
+   "(no corridor)": 6,
+   "cleveland-akron-canton-oh__akron-south-green": 1,
+   "cleveland-akron-canton-oh__canton-north-canton-cak": 1,
+   "cleveland-akron-canton-oh__cleveland-airport-west": 9,
+   "cleveland-akron-canton-oh__cleveland-east-beachwood": 4,
+   "cleveland-akron-canton-oh__cuyahoga-falls-stow": 2,
+   "cleveland-akron-canton-oh__downtown-cleveland": 3,
+   "cleveland-akron-canton-oh__fairlawn-montrose-copley": 1,
+   "cleveland-akron-canton-oh__independence-rockside": 1,
+   "cleveland-akron-canton-oh__macedonia-twinsburg-northfield": 3,
+   "cleveland-akron-canton-oh__mentor-lake-county": 3,
+   "cleveland-akron-canton-oh__streetsboro-hudson-aurora": 2
+  },
+  "discovery_coverage": {
+   "overpass_cells_answered": 48,
+   "overpass_cells_total": 48,
+   "local_extract_used": true,
+   "brand_families_free": [
+    "MARRIOTT",
+    "HILTON",
+    "WYNDHAM",
+    "DRURY",
+    "SONESTA",
+    "MY_PLACE",
+    "MAGNUSON",
+    "INTOWN",
+    "WOODSPRING"
+   ],
+   "brand_families_refused": [
+    "IHG",
+    "HYATT",
+    "BEST_WESTERN",
+    "ESA",
+    "RED_ROOF",
+    "CHOICE",
+    "MOTEL6",
+    "RADISSON"
+   ]
+  },
+  "DID_THE_ORIGINAL_CENSUS_MATERIALLY_MISS_HOTEL_INVENTORY": "YES -- 36 in-market identities (18.6% of the pinned census) with a numbered street and postal that no registered row shares, concentrated in (no corridor) (6), cleveland-akron-canton-oh__akron-south-green (1), cleveland-akron-canton-oh__canton-north-canton-cak (1), cleveland-akron-canton-oh__cleveland-airport-west (9), cleveland-akron-canton-oh__cleveland-east-beachwood (4), cleveland-akron-canton-oh__cuyahoga-falls-stow (2), cleveland-akron-canton-oh__downtown-cleveland (3), cleveland-akron-canton-oh__fairlawn-montrose-copley (1), cleveland-akron-canton-oh__independence-rockside (1), cleveland-akron-canton-oh__macedonia-twinsburg-northfield (3), cleveland-akron-canton-oh__mentor-lake-county (3), cleveland-akron-canton-oh__streetsboro-hudson-aurora (2); 0 are stated by a first-party brand page, 36 are OpenStreetMap-only and need a page before registration"
+ },
+ "phase_13_projected_hardened_state": {
+  "LIVE": {
+   "census": 188,
+   "pet_friendly": 99,
+   "verified_no_pets": 40,
+   "resolved": 139,
+   "unresolved": 49,
+   "profiles": 99,
+   "hotel_routes": 99,
+   "corridor_routes": 6
+  },
+  "PROJECTED_IF_SAFE_INVENTORY_APPLIED": {
+   "census": 188,
+   "pet_friendly": 99,
+   "verified_no_pets": 43,
+   "resolved": 142,
+   "unresolved": 46,
+   "profiles": 99
+  },
+  "PROJECTED_IF_FOUNDER_APPROVES_EVERY_EXCEPTION": {
+   "census": 224,
+   "pet_friendly_upper_bound": 101,
+   "note": "an upper bound only: every founder exception counted as approved, every stranded PF applied"
+  },
+  "published_by_this_order": 0,
+  "deployment": "NONE"
+ },
+ "phase_15_factory_assessment": {
+  "active_elapsed_minutes": 66.4,
+  "started_at_utc": "2026-09-01T03:17:03Z",
+  "finished_at_utc": "2026-09-01T04:23:25Z",
+  "rows_mechanically_reviewed": {
+   "pinned_census_rows_audited": 188,
+   "owned_artifacts_replayed": 173,
+   "unresolved_rows_rebuilt": 49,
+   "shadow_identities_reconciled": 266,
+   "live_rows_re_read_statically": 29,
+   "routing_rows_worked": 12
+  },
+  "free_requests": 954,
+  "paid_provider_calls": 0,
+  "usd_spent": 0.0,
+  "evidence_artifacts_reused": 173,
+  "routes_recovered": 0,
+  "attended_captures": {
+   "rows": 13,
+   "outcomes": {
+    "AMENITY_CHIP_ONLY_NOT_EVIDENCE": 1,
+    "MULTI_PROPERTY_OPERATOR_NOT_A_SINGLE_PREMISES": 1,
+    "NON_LODGING_PAGE": 2,
+    "NO_PETS_STATED_ATTENDED": 3,
+    "PET_FRIENDLY_STATED_ATTENDED": 1,
+    "SOURCE_SILENT_ATTENDED": 5
+   }
+  },
+  "clean_policy_outcomes": {
+   "clean_pet_friendly": 0,
+   "clean_verified_no_pets": 3
+  },
+  "founder_decisions_required": 75,
+  "generic_code_changes_required": 0,
+  "generic_config_additions": [
+   "scripts/pettripfinder/discovery/config/cleveland_akron_canton_oh.json (new market config by convention; no registry edit)",
+   "scripts/pettripfinder/discovery/config/osm_extracts.json (+1 row: geofabrik-ohio; additive, precedent PA/MI)"
+  ],
+  "generic_defects_observed_not_fixed": [
+   {
+    "module": "brightdata/policy_reading.py",
+    "defect": "negation adjacency across list items: '...pets allowed' followed by 'No deposit...' reads as pets_allowed False",
+    "exposure": "Kimpton Schofield (live PF, page says pets welcome); would have produced a wrong exclusion if an automated lane trusted it",
+    "action": "pinned as a strict xfail test; reader unchanged under the freeze; founder decides whether it meets the wrong-published-policy criterion"
+   },
+   {
+    "module": "brightdata/policy_reading.py",
+    "defect": "room-grid rows ('No Pets Allowed' on a non-pet room type) win over the property policy block",
+    "exposure": "Quality Inn & Suites Richfield (live PF correct)",
+    "action": "backlog"
+   },
+   {
+    "module": "brightdata/policy_surface.py assess_identity",
+    "defect": "street agreement rejects abbreviation/ordinal variants ('4222 W 150 St.' vs '4222 West 150th St.'; 'Brook Park Rd' vs 'Brookpark Rd') and Bldg A/B suffixes",
+    "exposure": "13 of 29 live static re-reads declined on identity though street number + postal + phone agree in the page text",
+    "action": "backlog; text-bound fallback used in the Cleveland script only"
+   },
+   {
+    "module": "discovery/overpass_endpoints.py",
+    "defect": "public Overpass rate-limits after 2 requests per cycle for this bbox; 4 of 48 cells in two cycles",
+    "exposure": "discovery",
+    "action": "local Geofabrik extract path used, as the registry prescribes"
+   }
+  ],
+  "DID_THE_CANONICAL_HARDENED_FACTORY_MATERIALLY_IMPROVE_CLEVELAND_WITHOUT_ANOTHER_ARCHITECTURE_DETOUR": "YES -- every phase ran on canonical modules plus Cleveland-scoped scripts; 0 shared-code changes; see generic_defects_observed_not_fixed for the backlog"
+ }
+}

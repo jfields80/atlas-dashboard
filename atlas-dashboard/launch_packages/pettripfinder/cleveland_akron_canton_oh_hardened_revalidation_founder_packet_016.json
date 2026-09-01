@@ -1,0 +1,1061 @@
+{
+ "contract": "ptf-founder-review-packet/1.0",
+ "work_order": "PTF-CLEVELAND-AKRON-CANTON-HARDENED-REVALIDATION-001",
+ "market_id": "cleveland-akron-canton-oh",
+ "generated_at": "2026-09-01T04:23:25Z",
+ "nothing_was_spent": true,
+ "nothing_was_published": true,
+ "pinned_census_unchanged": true,
+ "decisions_requested": 75,
+ "group_level_decisions": {
+  "B_census_additions": "ONE decision covers the whole group: authorise a zero-cost first-party page read for each TRUE_MISSING premises (the Indianapolis COVERAGE-001 pattern: find address -> prove no census row holds it -> capture the property's own name/phone/postal), then admit the confirmed ones to the SHADOW census. Nothing is admitted by this order.",
+  "E_geography": "ONE decision covers the group: no corridor is added by this order; each area is listed so the founder can declare or decline a corridor."
+ },
+ "groups": {
+  "A_identity_rebrand": [
+   {
+    "property": "Cambria Hotel & Suites Avon",
+    "identity_key": "cambria hotel and suites avon",
+    "exact_issue": "owned evidence reads PET_FRIENDLY_STATED but the identity is a conversion / successor question (clicked Hotel Policies; CONVERSION row (census identity Cambria Hotel & Suites Avon))",
+    "evidence": {
+     "artifact": "RR-001-wyndham-avon.json",
+     "sha256": "7e9fe7c550d406e541332842ff9a47752962b7b1b56c3b574b07856e2d9d349f",
+     "quote": "Pets Allowed",
+     "final_url": "https://www.wyndhamhotels.com/wyndham/avon-ohio/wyndham-avon/overview"
+    },
+    "recommended_ruling": "RULE_SUCCESSOR: the page at the census premises now carries a different brand and states a pet policy (owned artifact, sha256 pinned); authorize the rename and apply the read policy, or hold",
+    "census_impact": "rename 1 identity key (no new row)",
+    "authority_impact": "+1 PF or +1 no-pets from owned evidence",
+    "route_impact": "route follows the ruled identity",
+    "reversibility": "full until applied"
+   },
+   {
+    "property": "days inn richfield",
+    "identity_key": "days inn richfield",
+    "exact_issue": "owned evidence reads NO_PETS_STATED but the identity is a conversion / successor question (waited for hydration; CONVERSION row (census identity Days Inn Richfield))",
+    "evidence": {
+     "artifact": "RR-009-quality-inn-suites-richfield.json",
+     "sha256": "70fd740899ad3c7916469907bd3e988717eb4a617b27a57ee5062137e900a7d5",
+     "quote": "No Pets Allowed",
+     "final_url": "https://www.choicehotels.com/ohio/richfield/quality-inn-hotels/oh330"
+    },
+    "recommended_ruling": "RULE_SUCCESSOR: the page at the census premises now carries a different brand and states a pet policy (owned artifact, sha256 pinned); authorize the rename and apply the read policy, or hold",
+    "census_impact": "rename 1 identity key (no new row)",
+    "authority_impact": "+1 PF or +1 no-pets from owned evidence",
+    "route_impact": "route follows the ruled identity",
+    "reversibility": "full until applied"
+   },
+   {
+    "property": "doubletree by hilton cleveland westlake",
+    "identity_key": "doubletree by hilton cleveland westlake",
+    "exact_issue": "owned evidence reads PET_FRIENDLY_STATED but the identity is a conversion / successor question (clicked Hotel Policies; CONVERSION row (census identity DoubleTree by Hilton Cleveland-Westlake))",
+    "evidence": {
+     "artifact": "RR-010-wyndham-garden-westlake.json",
+     "sha256": "96fda8107ba1f1a56ba1c821e6d78b9734e666b9b7c8afd6818bcc163e3bf2db",
+     "quote": "Dogs only",
+     "final_url": "https://www.wyndhamhotels.com/wyndham-garden/westlake-ohio/wyndham-garden-westlake/overview"
+    },
+    "recommended_ruling": "RULE_SUCCESSOR: the page at the census premises now carries a different brand and states a pet policy (owned artifact, sha256 pinned); authorize the rename and apply the read policy, or hold",
+    "census_impact": "rename 1 identity key (no new row)",
+    "authority_impact": "+1 PF or +1 no-pets from owned evidence",
+    "route_impact": "route follows the ruled identity",
+    "reversibility": "full until applied"
+   },
+   {
+    "property": "Studio 6 Extended Stay Hotel Mentor",
+    "identity_key": "studio 6 extended stay hotel mentor",
+    "exact_issue": "attended capture reads PET FRIENDLY on the property's current page, but the page brands the property differently from the census identity (Hotel in Mentor, OH | Suburban Studios Mentor - Cleveland Northeast): rename ruling before application",
+    "evidence": {
+     "artifact": "HA-001-studio-6-extended-stay-hotel-mentor.json",
+     "sha256": "0f2672696685a0347c42540f00ea99ed561fd1c2965f5f80773db2f64d337513",
+     "quote": "Pets Allowed",
+     "extraction": {
+      "pets_allowed": true,
+      "pet_fee": 1000,
+      "fee_currency": "USD",
+      "fee_basis": "per_night",
+      "weight_limit": {
+       "value": 30.0,
+       "unit": "lb"
+      },
+      "pet_count_limit": 2,
+      "pet_count_scope": "per_room",
+      "service_animal_exception": "Service animals are permitted, without charge."
+     },
+     "final_url": "https://www.choicehotels.com/ohio/mentor/suburban-hotels/oh196?checkOutDate=2026-09-07"
+    },
+    "recommended_ruling": "AUTHORIZE_RENAME_THEN_PUBLISH_PF (Choice OH196 code, street and postal bind; phone changed with the brand)",
+    "census_impact": "rename 1 identity key",
+    "authority_impact": "+1 PF",
+    "route_impact": "+1 hotel route",
+    "reversibility": "full until applied"
+   },
+   {
+    "property": "The Rowley Inn",
+    "identity_key": "the rowley inn",
+    "exact_issue": "NON_LODGING_PAGE: homepage read; site is a restaurant/bar (Toast online ordering, TripAdvisor Restaurant_Review, Diners Drive-Ins and Dives feature); no rooms, stay or booking surface",
+    "evidence": {
+     "artifact": "HA-008-the-rowley-inn.json",
+     "sha256": "c7d7b4108aa7aaf35d4a84158aac754e2eb8669d07281b0580e5ba22cf1a54b4",
+     "final_url": "https://www.therowleyinn.com/"
+    },
+    "recommended_ruling": "RETIRE_FROM_CENSUS_AS_NON_LODGING (keep provenance; no deletion)",
+    "census_impact": "188 -> 187 registered lodging identities per row retired",
+    "authority_impact": "none (row is unresolved today)",
+    "route_impact": "none",
+    "reversibility": "full: the row is marked, never deleted"
+   },
+   {
+    "property": "Inn the Doghouse",
+    "identity_key": "inn the doghouse",
+    "exact_issue": "NON_LODGING_PAGE: homepage read; the business is a dog daycare / boarding pet resort with a pet spa; no human lodging",
+    "evidence": {
+     "artifact": "HA-009-inn-the-doghouse.json",
+     "sha256": "0207d2158a02360d8742a9808b113b08638c33831e8a00207b4c9ca3c4a143db",
+     "final_url": "https://innthedoghouse.com/"
+    },
+    "recommended_ruling": "RETIRE_FROM_CENSUS_AS_NON_LODGING (keep provenance; no deletion)",
+    "census_impact": "188 -> 187 registered lodging identities per row retired",
+    "authority_impact": "none (row is unresolved today)",
+    "route_impact": "none",
+    "reversibility": "full: the row is marked, never deleted"
+   },
+   {
+    "property": "Cleveland House Hotels",
+    "identity_key": "cleveland house hotels",
+    "exact_issue": "MULTI_PROPERTY_OPERATOR_NOT_A_SINGLE_PREMISES: homepage read; operator of 19 whole-house rentals in Cleveland and Columbus; no single premises, no street address, no pet mention",
+    "evidence": {
+     "artifact": "HA-013-cleveland-house-hotels.json",
+     "sha256": "6d3d47606a35fceac016b104a83990a5a6f9eecc3040f5431951eedde03f8f00",
+     "final_url": "https://thehousehotels.com/"
+    },
+    "recommended_ruling": "RETIRE_FROM_CENSUS_AS_NON_LODGING (keep provenance; no deletion)",
+    "census_impact": "188 -> 187 registered lodging identities per row retired",
+    "authority_impact": "none (row is unresolved today)",
+    "route_impact": "none",
+    "reversibility": "full: the row is marked, never deleted"
+   },
+   {
+    "property": "Baymont by Wyndham Copley Akron",
+    "identity_key": "baymont by wyndham copley akron",
+    "exact_issue": "SHARED_STREET_AND_POSTAL: two census rows share a physical/page signal",
+    "evidence": {
+     "evidence": {
+      "value": "130 montrose w ave|44321",
+      "names": [
+       "Baymont by Wyndham Copley Akron",
+       "Super 8 by Wyndham Copley Akron"
+      ],
+      "brand_families": [
+       "baymont",
+       "super 8"
+      ],
+      "names_compatible": false
+     }
+    },
+    "recommended_ruling": "RECORD_SAME_CAMPUS_DISTINCT_ENTITY_RESOLUTION -- both rows are LIVE PF and their own pages read '130 Montrose West Ave, Bldg A' / 'Bldg B' (live audit 010); two hotels, one campus, like Detroit Troy",
+    "census_impact": "none",
+    "authority_impact": "none; a resolution row in identity_resolutions.json",
+    "route_impact": "none",
+    "reversibility": "full"
+   },
+   {
+    "property": "Super 8 by Wyndham Copley Akron",
+    "identity_key": "super 8 by wyndham copley akron",
+    "exact_issue": "SHARED_STREET_AND_POSTAL: two census rows share a physical/page signal",
+    "evidence": {
+     "evidence": {
+      "value": "130 montrose w ave|44321",
+      "names": [
+       "Baymont by Wyndham Copley Akron",
+       "Super 8 by Wyndham Copley Akron"
+      ],
+      "brand_families": [
+       "baymont",
+       "super 8"
+      ],
+      "names_compatible": false
+     }
+    },
+    "recommended_ruling": "RECORD_SAME_CAMPUS_DISTINCT_ENTITY_RESOLUTION -- both rows are LIVE PF and their own pages read '130 Montrose West Ave, Bldg A' / 'Bldg B' (live audit 010); two hotels, one campus, like Detroit Troy",
+    "census_impact": "none",
+    "authority_impact": "none; a resolution row in identity_resolutions.json",
+    "route_impact": "none",
+    "reversibility": "full"
+   },
+   {
+    "property": "The Westin",
+    "identity_key": "the westin",
+    "exact_issue": "SHORTENED_CHAIN_NAME: name is only the brand; the identity key cannot distinguish this row from a sibling",
+    "evidence": {
+     "evidence": {
+      "canonical_name": "The Westin",
+      "city": "Cleveland"
+     }
+    },
+    "recommended_ruling": "RENAME_TO_THE_PROPERTY'S_FULL_NAME -- OSM alias 'Westin' at 777 St. Clair Ave NE 44114 bound on street number + postal; the row is LIVE PF so the rename is a display/identity-key supersession, not a new row",
+    "census_impact": "identity key supersession (1)",
+    "authority_impact": "policy row re-keyed, facts unchanged",
+    "route_impact": "hotel route slug changes -> needs a redirect",
+    "reversibility": "full until deployed"
+   },
+   {
+    "property": "Kent State University Hotel & Conference Center",
+    "identity_key": "kent state university hotel and conference center",
+    "exact_issue": "LODGING_NEEDS_REVIEW: census itself flags lodging_state NEEDS_REVIEW",
+    "evidence": {
+     "evidence": {
+      "canonical_name": "Kent State University Hotel & Conference Center"
+     }
+    },
+    "recommended_ruling": "CONFIRM_LODGING (university hotel & conference center) or retire",
+    "census_impact": "none or -1",
+    "authority_impact": "none",
+    "route_impact": "none",
+    "reversibility": "full"
+   },
+   {
+    "property": "Sonesta ES Suites Cleveland Westlake",
+    "identity_key": "sonesta es suites cleveland westlake",
+    "exact_issue": "PRIOR_RENAME_OR_REVIEW_TRACE: routing repair 001 recorded a rename proposal or census-review candidate that the pinned census still carries",
+    "evidence": {
+     "evidence": {
+      "verdict": "ROUTING_REPLACED",
+      "old_url": "https://www.sonesta.com/us/ohio/westlake/sonesta-es-suites-cleveland-westlake",
+      "new_candidate_url": "https://www.sonesta.com/sonesta-simply-suites/oh/westlake/sonesta-simply-suites-cleveland-westlake",
+      "final_url": "https://www.sonesta.com/sonesta-simply-suites/oh/westlake/sonesta-simply-suites-cleveland-westlake",
+      "rename_proposal": "Sonesta Simply Suites Cleveland Westlake",
+      "census_hygiene": "",
+      "census_review_candidate": false,
+      "source_relationship": "OFFICIAL_BRAND_PROPERTY_PAGE"
+     }
+    },
+    "recommended_ruling": "RULE_THE_RECORDED_ROUTING-REPAIR_PROPOSAL (rename / census-review) -- it has waited since PTF-CLEVELAND-ROUTING-REPAIR-001",
+    "census_impact": "rename or none",
+    "authority_impact": "none now",
+    "route_impact": "route follows the ruled identity",
+    "reversibility": "full"
+   },
+   {
+    "property": "Comfort Suites Twinsburg",
+    "identity_key": "comfort suites twinsburg",
+    "exact_issue": "PRIOR_RENAME_OR_REVIEW_TRACE: routing repair 001 recorded a rename proposal or census-review candidate that the pinned census still carries",
+    "evidence": {
+     "evidence": {
+      "verdict": "PROPERTY_LEVEL_URL_UPGRADED",
+      "old_url": "https://www.choicehotels.com/ohio/twinsburg/comfort-suites-hotels/oh271",
+      "new_candidate_url": "",
+      "final_url": "https://www.choicehotels.com/ohio/twinsburg/comfort-suites-hotels/oh271",
+      "rename_proposal": "",
+      "census_hygiene": "page street reads 2716 Creekside Drive; census carries 2715 Creekside Dr -- address form to review",
+      "census_review_candidate": false,
+      "source_relationship": "OFFICIAL_BRAND_PROPERTY_PAGE"
+     }
+    },
+    "recommended_ruling": "RULE_THE_RECORDED_ROUTING-REPAIR_PROPOSAL (rename / census-review) -- it has waited since PTF-CLEVELAND-ROUTING-REPAIR-001",
+    "census_impact": "rename or none",
+    "authority_impact": "none now",
+    "route_impact": "route follows the ruled identity",
+    "reversibility": "full"
+   },
+   {
+    "property": "Harbor Inn",
+    "identity_key": "harbor inn",
+    "exact_issue": "PRIOR_RENAME_OR_REVIEW_TRACE: routing repair 001 recorded a rename proposal or census-review candidate that the pinned census still carries",
+    "evidence": {
+     "evidence": {
+      "verdict": "IDENTITY_CONFLICT",
+      "old_url": "",
+      "new_candidate_url": "",
+      "final_url": "",
+      "rename_proposal": "",
+      "census_hygiene": "",
+      "census_review_candidate": true,
+      "source_relationship": "OFFICIAL_CVB_DIRECTORY_ANCHOR"
+     }
+    },
+    "recommended_ruling": "RULE_THE_RECORDED_ROUTING-REPAIR_PROPOSAL (rename / census-review) -- it has waited since PTF-CLEVELAND-ROUTING-REPAIR-001",
+    "census_impact": "rename or none",
+    "authority_impact": "none now",
+    "route_impact": "route follows the ruled identity",
+    "reversibility": "full"
+   },
+   {
+    "property": "Hopp Inn",
+    "identity_key": "hopp inn",
+    "exact_issue": "PRIOR_RENAME_OR_REVIEW_TRACE: routing repair 001 recorded a rename proposal or census-review candidate that the pinned census still carries",
+    "evidence": {
+     "evidence": {
+      "verdict": "IDENTITY_CONFLICT",
+      "old_url": "",
+      "new_candidate_url": "",
+      "final_url": "",
+      "rename_proposal": "",
+      "census_hygiene": "",
+      "census_review_candidate": true,
+      "source_relationship": "OFFICIAL_CVB_DIRECTORY_ANCHOR"
+     }
+    },
+    "recommended_ruling": "RULE_THE_RECORDED_ROUTING-REPAIR_PROPOSAL (rename / census-review) -- it has waited since PTF-CLEVELAND-ROUTING-REPAIR-001",
+    "census_impact": "rename or none",
+    "authority_impact": "none now",
+    "route_impact": "route follows the ruled identity",
+    "reversibility": "full"
+   },
+   {
+    "property": "Villa Croatia at the American-Croatian Lodge",
+    "identity_key": "villa croatia at the american croatian lodge",
+    "exact_issue": "PRIOR_RENAME_OR_REVIEW_TRACE: routing repair 001 recorded a rename proposal or census-review candidate that the pinned census still carries",
+    "evidence": {
+     "evidence": {
+      "verdict": "OFFICIAL_URL_FOUND",
+      "old_url": "",
+      "new_candidate_url": "https://croatianlodge.com/",
+      "final_url": "https://croatianlodge.com/",
+      "rename_proposal": "",
+      "census_hygiene": "site phone 440-946-3366 differs from census 216.704.9009",
+      "census_review_candidate": false,
+      "source_relationship": "FIRST_PARTY_PROPERTY_PAGE"
+     }
+    },
+    "recommended_ruling": "RULE_THE_RECORDED_ROUTING-REPAIR_PROPOSAL (rename / census-review) -- it has waited since PTF-CLEVELAND-ROUTING-REPAIR-001",
+    "census_impact": "rename or none",
+    "authority_impact": "none now",
+    "route_impact": "route follows the ruled identity",
+    "reversibility": "full"
+   },
+   {
+    "property": "DoubleTree",
+    "identity_key": "doubletree",
+    "exact_issue": "SAME_CAMPUS_DISTINCT_ENTITY: same street+postal as residence inn cleveland beachwood under a different brand family; a dual-brand campus is two hotels unless the founder rules otherwise",
+    "evidence": {
+     "name": "DoubleTree",
+     "address": "3628 Park East Drive",
+     "postal": "44122"
+    },
+    "recommended_ruling": "READ_ONE_FIRST_PARTY_PAGE_THEN_RULE: predecessor brand (OSM stale) vs second hotel on the campus; the registered row is LIVE PF and its evidence predates this order's replay",
+    "census_impact": "+1 row only if a second hotel exists",
+    "authority_impact": "none",
+    "route_impact": "none",
+    "reversibility": "full"
+   },
+   {
+    "property": "Holiday Inn Express & Suites Cleveland-Richfield",
+    "identity_key": "holiday inn express and suites cleveland richfield",
+    "exact_issue": "SAME_CAMPUS_DISTINCT_ENTITY: same street+postal as motel 6 richfield under a different brand family; a dual-brand campus is two hotels unless the founder rules otherwise",
+    "evidence": {
+     "name": "Holiday Inn Express & Suites Cleveland-Richfield",
+     "address": "5171 Brecksville Road",
+     "postal": "44286"
+    },
+    "recommended_ruling": "READ_ONE_FIRST_PARTY_PAGE_THEN_RULE: predecessor brand (OSM stale) vs second hotel on the campus; the registered row is LIVE PF and its evidence predates this order's replay",
+    "census_impact": "+1 row only if a second hotel exists",
+    "authority_impact": "none",
+    "route_impact": "none",
+    "reversibility": "full"
+   }
+  ],
+  "B_census_additions": [
+   {
+    "property": "extended stay america cleveland airport north olmsted",
+    "identity_key": "extended stay america cleveland airport north olmsted",
+    "exact_issue": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 24851 Country Club Boulevard 44070",
+    "evidence": {
+     "source": "openstreetmap"
+    },
+    "recommended_ruling": "ADMIT_TO_SHADOW_CENSUS_AFTER_ONE_FIRST_PARTY_PAGE_READ",
+    "census_impact": "+1 IDENTITY_PROVISIONAL row",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full: shadow only"
+   },
+   {
+    "property": "towneplace suites cleveland streetsboro",
+    "identity_key": "towneplace suites cleveland streetsboro",
+    "exact_issue": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 795 Mondial Parkway 44241",
+    "evidence": {
+     "source": "openstreetmap"
+    },
+    "recommended_ruling": "ADMIT_TO_SHADOW_CENSUS_AFTER_ONE_FIRST_PARTY_PAGE_READ",
+    "census_impact": "+1 IDENTITY_PROVISIONAL row",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full: shadow only"
+   },
+   {
+    "property": "fairfield inn and suites akron fairlawn",
+    "identity_key": "fairfield inn and suites akron fairlawn",
+    "exact_issue": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 208 Springside Drive 44333",
+    "evidence": {
+     "source": "openstreetmap"
+    },
+    "recommended_ruling": "ADMIT_TO_SHADOW_CENSUS_AFTER_ONE_FIRST_PARTY_PAGE_READ",
+    "census_impact": "+1 IDENTITY_PROVISIONAL row",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full: shadow only"
+   },
+   {
+    "property": "ramada cleveland airport west",
+    "identity_key": "ramada cleveland airport west",
+    "exact_issue": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 22115 Brookpark Road 44126",
+    "evidence": {
+     "source": "openstreetmap"
+    },
+    "recommended_ruling": "ADMIT_TO_SHADOW_CENSUS_AFTER_ONE_FIRST_PARTY_PAGE_READ",
+    "census_impact": "+1 IDENTITY_PROVISIONAL row",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full: shadow only"
+   },
+   {
+    "property": "red roof inn akron",
+    "identity_key": "red roof inn akron",
+    "exact_issue": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 2939 South Arlington Road 44312",
+    "evidence": {
+     "source": "openstreetmap"
+    },
+    "recommended_ruling": "ADMIT_TO_SHADOW_CENSUS_AFTER_ONE_FIRST_PARTY_PAGE_READ",
+    "census_impact": "+1 IDENTITY_PROVISIONAL row",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full: shadow only"
+   },
+   {
+    "property": "best western",
+    "identity_key": "best western",
+    "exact_issue": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 8434 Mentor Avenue 44060",
+    "evidence": {
+     "source": "openstreetmap"
+    },
+    "recommended_ruling": "ADMIT_TO_SHADOW_CENSUS_AFTER_ONE_FIRST_PARTY_PAGE_READ",
+    "census_impact": "+1 IDENTITY_PROVISIONAL row",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full: shadow only"
+   },
+   {
+    "property": "towneplace suites",
+    "identity_key": "towneplace suites",
+    "exact_issue": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 25052 Sperry Drive 44145",
+    "evidence": {
+     "source": "openstreetmap"
+    },
+    "recommended_ruling": "ADMIT_TO_SHADOW_CENSUS_AFTER_ONE_FIRST_PARTY_PAGE_READ",
+    "census_impact": "+1 IDENTITY_PROVISIONAL row",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full: shadow only"
+   },
+   {
+    "property": "noble motel",
+    "identity_key": "noble motel",
+    "exact_issue": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 15740 Euclid Avenue 44112",
+    "evidence": {
+     "source": "openstreetmap"
+    },
+    "recommended_ruling": "ADMIT_TO_SHADOW_CENSUS_AFTER_ONE_FIRST_PARTY_PAGE_READ",
+    "census_impact": "+1 IDENTITY_PROVISIONAL row",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full: shadow only"
+   },
+   {
+    "property": "hampton inn",
+    "identity_key": "hampton inn",
+    "exact_issue": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 6035 Enterprise Parkway 44139",
+    "evidence": {
+     "source": "openstreetmap"
+    },
+    "recommended_ruling": "ADMIT_TO_SHADOW_CENSUS_AFTER_ONE_FIRST_PARTY_PAGE_READ",
+    "census_impact": "+1 IDENTITY_PROVISIONAL row",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full: shadow only"
+   },
+   {
+    "property": "radisson hotel cleveland airport west",
+    "identity_key": "radisson hotel cleveland airport west",
+    "exact_issue": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 25070 Country Club Boulevard 44070",
+    "evidence": {
+     "source": "openstreetmap"
+    },
+    "recommended_ruling": "ADMIT_TO_SHADOW_CENSUS_AFTER_ONE_FIRST_PARTY_PAGE_READ",
+    "census_impact": "+1 IDENTITY_PROVISIONAL row",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full: shadow only"
+   },
+   {
+    "property": "extended stay america",
+    "identity_key": "extended stay america",
+    "exact_issue": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 30360 Clemens Road 44145",
+    "evidence": {
+     "source": "openstreetmap"
+    },
+    "recommended_ruling": "ADMIT_TO_SHADOW_CENSUS_AFTER_ONE_FIRST_PARTY_PAGE_READ",
+    "census_impact": "+1 IDENTITY_PROVISIONAL row",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full: shadow only"
+   },
+   {
+    "property": "clarion hotel beachwood cleveland",
+    "identity_key": "clarion hotel beachwood cleveland",
+    "exact_issue": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 26300 Chagrin Boulevard 44122",
+    "evidence": {
+     "source": "openstreetmap"
+    },
+    "recommended_ruling": "ADMIT_TO_SHADOW_CENSUS_AFTER_ONE_FIRST_PARTY_PAGE_READ",
+    "census_impact": "+1 IDENTITY_PROVISIONAL row",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full: shadow only"
+   },
+   {
+    "property": "sonesta simply suites cleveland north olmsted",
+    "identity_key": "sonesta simply suites cleveland north olmsted",
+    "exact_issue": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 24741 Country Club Boulevard 44070",
+    "evidence": {
+     "source": "openstreetmap"
+    },
+    "recommended_ruling": "ADMIT_TO_SHADOW_CENSUS_AFTER_ONE_FIRST_PARTY_PAGE_READ",
+    "census_impact": "+1 IDENTITY_PROVISIONAL row",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full: shadow only"
+   },
+   {
+    "property": "la quinta inn and suites",
+    "identity_key": "la quinta inn and suites",
+    "exact_issue": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 25105 Ctry Club Boulevard 44070",
+    "evidence": {
+     "source": "openstreetmap"
+    },
+    "recommended_ruling": "ADMIT_TO_SHADOW_CENSUS_AFTER_ONE_FIRST_PARTY_PAGE_READ",
+    "census_impact": "+1 IDENTITY_PROVISIONAL row",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full: shadow only"
+   },
+   {
+    "property": "super 8 by wyndham",
+    "identity_key": "super 8 by wyndham",
+    "exact_issue": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 25200 Sperry Drive 44145",
+    "evidence": {
+     "source": "openstreetmap"
+    },
+    "recommended_ruling": "ADMIT_TO_SHADOW_CENSUS_AFTER_ONE_FIRST_PARTY_PAGE_READ",
+    "census_impact": "+1 IDENTITY_PROVISIONAL row",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full: shadow only"
+   },
+   {
+    "property": "home2 suites by hilton middleburg heights cleveland",
+    "identity_key": "home2 suites by hilton middleburg heights cleveland",
+    "exact_issue": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 7355 Engle Road 44130",
+    "evidence": {
+     "source": "openstreetmap"
+    },
+    "recommended_ruling": "ADMIT_TO_SHADOW_CENSUS_AFTER_ONE_FIRST_PARTY_PAGE_READ",
+    "census_impact": "+1 IDENTITY_PROVISIONAL row",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full: shadow only"
+   },
+   {
+    "property": "parma hotel",
+    "identity_key": "parma hotel",
+    "exact_issue": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 5531 Pearl Road 44129",
+    "evidence": {
+     "source": "openstreetmap"
+    },
+    "recommended_ruling": "ADMIT_TO_SHADOW_CENSUS_AFTER_ONE_FIRST_PARTY_PAGE_READ",
+    "census_impact": "+1 IDENTITY_PROVISIONAL row",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full: shadow only"
+   },
+   {
+    "property": "wingate by wyndham streetsboro cleveland southeast",
+    "identity_key": "wingate by wyndham streetsboro cleveland southeast",
+    "exact_issue": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 9705 State Route 14 44241",
+    "evidence": {
+     "source": "openstreetmap"
+    },
+    "recommended_ruling": "ADMIT_TO_SHADOW_CENSUS_AFTER_ONE_FIRST_PARTY_PAGE_READ",
+    "census_impact": "+1 IDENTITY_PROVISIONAL row",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full: shadow only"
+   },
+   {
+    "property": "quality inn and suites",
+    "identity_key": "quality inn and suites",
+    "exact_issue": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 23303 Oakwood Commons Drive 44146",
+    "evidence": {
+     "source": "openstreetmap"
+    },
+    "recommended_ruling": "ADMIT_TO_SHADOW_CENSUS_AFTER_ONE_FIRST_PARTY_PAGE_READ",
+    "census_impact": "+1 IDENTITY_PROVISIONAL row",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full: shadow only"
+   },
+   {
+    "property": "westin",
+    "identity_key": "westin",
+    "exact_issue": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 777 Saint Clair Avenue Northeast 44114",
+    "evidence": {
+     "source": "openstreetmap"
+    },
+    "recommended_ruling": "ADMIT_TO_SHADOW_CENSUS_AFTER_ONE_FIRST_PARTY_PAGE_READ",
+    "census_impact": "+1 IDENTITY_PROVISIONAL row",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full: shadow only"
+   },
+   {
+    "property": "hampton inn and suites",
+    "identity_key": "hampton inn and suites",
+    "exact_issue": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 23300 Oakwood Commons Drive 44146",
+    "evidence": {
+     "source": "openstreetmap"
+    },
+    "recommended_ruling": "ADMIT_TO_SHADOW_CENSUS_AFTER_ONE_FIRST_PARTY_PAGE_READ",
+    "census_impact": "+1 IDENTITY_PROVISIONAL row",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full: shadow only"
+   },
+   {
+    "property": "best western airport inn and suites cleveland",
+    "identity_key": "best western airport inn and suites cleveland",
+    "exact_issue": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 16501 Snow Road 44142",
+    "evidence": {
+     "source": "openstreetmap"
+    },
+    "recommended_ruling": "ADMIT_TO_SHADOW_CENSUS_AFTER_ONE_FIRST_PARTY_PAGE_READ",
+    "census_impact": "+1 IDENTITY_PROVISIONAL row",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full: shadow only"
+   },
+   {
+    "property": "the ritz carlton",
+    "identity_key": "the ritz carlton",
+    "exact_issue": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 1515 West 3rd Street 44113",
+    "evidence": {
+     "source": "openstreetmap"
+    },
+    "recommended_ruling": "ADMIT_TO_SHADOW_CENSUS_AFTER_ONE_FIRST_PARTY_PAGE_READ",
+    "census_impact": "+1 IDENTITY_PROVISIONAL row",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full: shadow only"
+   },
+   {
+    "property": "country inn and suites",
+    "identity_key": "country inn and suites",
+    "exact_issue": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 1420 Main Street 44221",
+    "evidence": {
+     "source": "openstreetmap"
+    },
+    "recommended_ruling": "ADMIT_TO_SHADOW_CENSUS_AFTER_ONE_FIRST_PARTY_PAGE_READ",
+    "census_impact": "+1 IDENTITY_PROVISIONAL row",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full: shadow only"
+   },
+   {
+    "property": "hampton inn and suites cleveland mentor",
+    "identity_key": "hampton inn and suites cleveland mentor",
+    "exact_issue": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 5675 Emerald Court 44060",
+    "evidence": {
+     "source": "openstreetmap"
+    },
+    "recommended_ruling": "ADMIT_TO_SHADOW_CENSUS_AFTER_ONE_FIRST_PARTY_PAGE_READ",
+    "census_impact": "+1 IDENTITY_PROVISIONAL row",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full: shadow only"
+   },
+   {
+    "property": "la quinta inn and suites cleveland macedonia",
+    "identity_key": "la quinta inn and suites cleveland macedonia",
+    "exact_issue": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 268 East Highland Road 44056",
+    "evidence": {
+     "source": "openstreetmap"
+    },
+    "recommended_ruling": "ADMIT_TO_SHADOW_CENSUS_AFTER_ONE_FIRST_PARTY_PAGE_READ",
+    "census_impact": "+1 IDENTITY_PROVISIONAL row",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full: shadow only"
+   },
+   {
+    "property": "extended stay america cleveland orange south",
+    "identity_key": "extended stay america cleveland orange south",
+    "exact_issue": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 3820 Orange Place 44122",
+    "evidence": {
+     "source": "openstreetmap"
+    },
+    "recommended_ruling": "ADMIT_TO_SHADOW_CENSUS_AFTER_ONE_FIRST_PARTY_PAGE_READ",
+    "census_impact": "+1 IDENTITY_PROVISIONAL row",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full: shadow only"
+   },
+   {
+    "property": "doubletree by hilton hotel cleveland downtown lakeside",
+    "identity_key": "doubletree by hilton hotel cleveland downtown lakeside",
+    "exact_issue": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 1111 Lakeside Avenue East 44114",
+    "evidence": {
+     "source": "openstreetmap"
+    },
+    "recommended_ruling": "ADMIT_TO_SHADOW_CENSUS_AFTER_ONE_FIRST_PARTY_PAGE_READ",
+    "census_impact": "+1 IDENTITY_PROVISIONAL row",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full: shadow only"
+   },
+   {
+    "property": "fairfield inn and suites cleveland tiedeman road",
+    "identity_key": "fairfield inn and suites cleveland tiedeman road",
+    "exact_issue": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 5110 Tiedeman Road 44144",
+    "evidence": {
+     "source": "openstreetmap"
+    },
+    "recommended_ruling": "ADMIT_TO_SHADOW_CENSUS_AFTER_ONE_FIRST_PARTY_PAGE_READ",
+    "census_impact": "+1 IDENTITY_PROVISIONAL row",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full: shadow only"
+   },
+   {
+    "property": "super 8",
+    "identity_key": "super 8",
+    "exact_issue": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 8848 Twin Hills Parkway 44087",
+    "evidence": {
+     "source": "openstreetmap"
+    },
+    "recommended_ruling": "ADMIT_TO_SHADOW_CENSUS_AFTER_ONE_FIRST_PARTY_PAGE_READ",
+    "census_impact": "+1 IDENTITY_PROVISIONAL row",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full: shadow only"
+   },
+   {
+    "property": "wingate by wyndham canton hall of fame",
+    "identity_key": "wingate by wyndham canton hall of fame",
+    "exact_issue": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 4914 Everhard Road Northwest 44718",
+    "evidence": {
+     "source": "openstreetmap"
+    },
+    "recommended_ruling": "ADMIT_TO_SHADOW_CENSUS_AFTER_ONE_FIRST_PARTY_PAGE_READ",
+    "census_impact": "+1 IDENTITY_PROVISIONAL row",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full: shadow only"
+   },
+   {
+    "property": "fairfield inn and suites akron stow",
+    "identity_key": "fairfield inn and suites akron stow",
+    "exact_issue": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 4170 Steels Pointe 44224",
+    "evidence": {
+     "source": "openstreetmap"
+    },
+    "recommended_ruling": "ADMIT_TO_SHADOW_CENSUS_AFTER_ONE_FIRST_PARTY_PAGE_READ",
+    "census_impact": "+1 IDENTITY_PROVISIONAL row",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full: shadow only"
+   },
+   {
+    "property": "crowne plaza cleveland independence",
+    "identity_key": "crowne plaza cleveland independence",
+    "exact_issue": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 5300 Rockside Road 44131",
+    "evidence": {
+     "source": "openstreetmap"
+    },
+    "recommended_ruling": "ADMIT_TO_SHADOW_CENSUS_AFTER_ONE_FIRST_PARTY_PAGE_READ",
+    "census_impact": "+1 IDENTITY_PROVISIONAL row",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full: shadow only"
+   },
+   {
+    "property": "economy inn and suites",
+    "identity_key": "economy inn and suites",
+    "exact_issue": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 4751 Northfield Road 44128",
+    "evidence": {
+     "source": "openstreetmap"
+    },
+    "recommended_ruling": "ADMIT_TO_SHADOW_CENSUS_AFTER_ONE_FIRST_PARTY_PAGE_READ",
+    "census_impact": "+1 IDENTITY_PROVISIONAL row",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full: shadow only"
+   },
+   {
+    "property": "super 8 by wyndham mentor cleveland area",
+    "identity_key": "super 8 by wyndham mentor cleveland area",
+    "exact_issue": "TRUE_MISSING from openstreetmap only (no first-party page read yet): 7325 Palisades Parkway 44060",
+    "evidence": {
+     "source": "openstreetmap"
+    },
+    "recommended_ruling": "ADMIT_TO_SHADOW_CENSUS_AFTER_ONE_FIRST_PARTY_PAGE_READ",
+    "census_impact": "+1 IDENTITY_PROVISIONAL row",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full: shadow only"
+   },
+   {
+    "property": "Towneplace Suites Painesville Mentor",
+    "identity_key": "towneplace suites painesville mentor",
+    "exact_issue": "MARRIOTT directory lists property code CLETM under a name no census row and no OSM row matches; the brand host refuses a plain client so no address was read",
+    "evidence": "https://www.marriott.com/en-gb/hotels/cletm-towneplace-suites-painesville-mentor/overview/",
+    "recommended_ruling": "READ_ONE_FIRST_PARTY_PAGE_ATTENDED_THEN_CLASSIFY (alias of a registered row vs true missing)",
+    "census_impact": "+1 row only if the page names a premises no row holds",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full"
+   },
+   {
+    "property": "Blu Tique Akron A Tribute Portfolio Hotel",
+    "identity_key": "blu tique akron a tribute portfolio hotel",
+    "exact_issue": "MARRIOTT directory lists property code CAKTX under a name no census row and no OSM row matches; the brand host refuses a plain client so no address was read",
+    "evidence": "https://www.marriott.com/en-us/hotels/caktx-blu-tique-akron-a-tribute-portfolio-hotel/overview/",
+    "recommended_ruling": "READ_ONE_FIRST_PARTY_PAGE_ATTENDED_THEN_CLASSIFY (alias of a registered row vs true missing)",
+    "census_impact": "+1 row only if the page names a premises no row holds",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full"
+   },
+   {
+    "property": "Towneplace Suites Youngstown North",
+    "identity_key": "towneplace suites youngstown north",
+    "exact_issue": "MARRIOTT directory lists property code CAKYT under a name no census row and no OSM row matches; the brand host refuses a plain client so no address was read",
+    "evidence": "https://www.marriott.com/en-us/hotels/cakyt-towneplace-suites-youngstown-north/overview/",
+    "recommended_ruling": "READ_ONE_FIRST_PARTY_PAGE_ATTENDED_THEN_CLASSIFY (alias of a registered row vs true missing)",
+    "census_impact": "+1 row only if the page names a premises no row holds",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full"
+   },
+   {
+    "property": "Fairfield Inn And Suites Cleveland Avon",
+    "identity_key": "fairfield inn and suites cleveland avon",
+    "exact_issue": "MARRIOTT directory lists property code CLEAV under a name no census row and no OSM row matches; the brand host refuses a plain client so no address was read",
+    "evidence": "https://www.marriott.com/en-us/hotels/cleav-fairfield-inn-and-suites-cleveland-avon/overview/",
+    "recommended_ruling": "READ_ONE_FIRST_PARTY_PAGE_ATTENDED_THEN_CLASSIFY (alias of a registered row vs true missing)",
+    "census_impact": "+1 row only if the page names a premises no row holds",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full"
+   },
+   {
+    "property": "Courtyard Cleveland Beachwood",
+    "identity_key": "courtyard cleveland beachwood",
+    "exact_issue": "MARRIOTT directory lists property code CLEBW under a name no census row and no OSM row matches; the brand host refuses a plain client so no address was read",
+    "evidence": "https://www.marriott.com/en-us/hotels/clebw-courtyard-cleveland-beachwood/overview/",
+    "recommended_ruling": "READ_ONE_FIRST_PARTY_PAGE_ATTENDED_THEN_CLASSIFY (alias of a registered row vs true missing)",
+    "census_impact": "+1 row only if the page names a premises no row holds",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full"
+   },
+   {
+    "property": "Courtyard Cleveland Independence",
+    "identity_key": "courtyard cleveland independence",
+    "exact_issue": "MARRIOTT directory lists property code CLECI under a name no census row and no OSM row matches; the brand host refuses a plain client so no address was read",
+    "evidence": "https://www.marriott.com/en-us/hotels/cleci-courtyard-cleveland-independence/overview/",
+    "recommended_ruling": "READ_ONE_FIRST_PARTY_PAGE_ATTENDED_THEN_CLASSIFY (alias of a registered row vs true missing)",
+    "census_impact": "+1 row only if the page names a premises no row holds",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full"
+   },
+   {
+    "property": "Courtyard Cleveland Westlake",
+    "identity_key": "courtyard cleveland westlake",
+    "exact_issue": "MARRIOTT directory lists property code CLECW under a name no census row and no OSM row matches; the brand host refuses a plain client so no address was read",
+    "evidence": "https://www.marriott.com/en-us/hotels/clecw-courtyard-cleveland-westlake/overview/",
+    "recommended_ruling": "READ_ONE_FIRST_PARTY_PAGE_ATTENDED_THEN_CLASSIFY (alias of a registered row vs true missing)",
+    "census_impact": "+1 row only if the page names a premises no row holds",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full"
+   },
+   {
+    "property": "Hotel Cleveland Autograph Collection",
+    "identity_key": "hotel cleveland autograph collection",
+    "exact_issue": "MARRIOTT directory lists property code CLEDK under a name no census row and no OSM row matches; the brand host refuses a plain client so no address was read",
+    "evidence": "https://www.marriott.com/en-us/hotels/cledk-hotel-cleveland-autograph-collection/overview/",
+    "recommended_ruling": "READ_ONE_FIRST_PARTY_PAGE_ATTENDED_THEN_CLASSIFY (alias of a registered row vs true missing)",
+    "census_impact": "+1 row only if the page names a premises no row holds",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full"
+   },
+   {
+    "property": "Residence Inn Cleveland Independence",
+    "identity_key": "residence inn cleveland independence",
+    "exact_issue": "MARRIOTT directory lists property code CLEIN under a name no census row and no OSM row matches; the brand host refuses a plain client so no address was read",
+    "evidence": "https://www.marriott.com/en-us/hotels/clein-residence-inn-cleveland-independence/overview/",
+    "recommended_ruling": "READ_ONE_FIRST_PARTY_PAGE_ATTENDED_THEN_CLASSIFY (alias of a registered row vs true missing)",
+    "census_impact": "+1 row only if the page names a premises no row holds",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full"
+   },
+   {
+    "property": "Courtyard Cleveland Elyria",
+    "identity_key": "courtyard cleveland elyria",
+    "exact_issue": "MARRIOTT directory lists property code CLELY under a name no census row and no OSM row matches; the brand host refuses a plain client so no address was read",
+    "evidence": "https://www.marriott.com/en-us/hotels/clely-courtyard-cleveland-elyria/overview/",
+    "recommended_ruling": "READ_ONE_FIRST_PARTY_PAGE_ATTENDED_THEN_CLASSIFY (alias of a registered row vs true missing)",
+    "census_impact": "+1 row only if the page names a premises no row holds",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full"
+   },
+   {
+    "property": "Courtyard Cleveland Airport North",
+    "identity_key": "courtyard cleveland airport north",
+    "exact_issue": "MARRIOTT directory lists property code CLENO under a name no census row and no OSM row matches; the brand host refuses a plain client so no address was read",
+    "evidence": "https://www.marriott.com/en-us/hotels/cleno-courtyard-cleveland-airport-north/overview/",
+    "recommended_ruling": "READ_ONE_FIRST_PARTY_PAGE_ATTENDED_THEN_CLASSIFY (alias of a registered row vs true missing)",
+    "census_impact": "+1 row only if the page names a premises no row holds",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full"
+   },
+   {
+    "property": "Towneplace Suites Painesville Mentor",
+    "identity_key": "towneplace suites painesville mentor",
+    "exact_issue": "MARRIOTT directory lists property code CLETM under a name no census row and no OSM row matches; the brand host refuses a plain client so no address was read",
+    "evidence": "https://www.marriott.com/en-us/hotels/cletm-towneplace-suites-painesville-mentor/overview/",
+    "recommended_ruling": "READ_ONE_FIRST_PARTY_PAGE_ATTENDED_THEN_CLASSIFY (alias of a registered row vs true missing)",
+    "census_impact": "+1 row only if the page names a premises no row holds",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full"
+   },
+   {
+    "property": "Towneplace Suites Cleveland Solon",
+    "identity_key": "towneplace suites cleveland solon",
+    "exact_issue": "MARRIOTT directory lists property code CLETO under a name no census row and no OSM row matches; the brand host refuses a plain client so no address was read",
+    "evidence": "https://www.marriott.com/en-us/hotels/cleto-towneplace-suites-cleveland-solon/overview/",
+    "recommended_ruling": "READ_ONE_FIRST_PARTY_PAGE_ATTENDED_THEN_CLASSIFY (alias of a registered row vs true missing)",
+    "census_impact": "+1 row only if the page names a premises no row holds",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full"
+   },
+   {
+    "property": "Towneplace Suites Cleveland Westlake",
+    "identity_key": "towneplace suites cleveland westlake",
+    "exact_issue": "MARRIOTT directory lists property code CLETS under a name no census row and no OSM row matches; the brand host refuses a plain client so no address was read",
+    "evidence": "https://www.marriott.com/en-us/hotels/clets-towneplace-suites-cleveland-westlake/overview/",
+    "recommended_ruling": "READ_ONE_FIRST_PARTY_PAGE_ATTENDED_THEN_CLASSIFY (alias of a registered row vs true missing)",
+    "census_impact": "+1 row only if the page names a premises no row holds",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full"
+   },
+   {
+    "property": "Courtyard Cleveland Willoughby",
+    "identity_key": "courtyard cleveland willoughby",
+    "exact_issue": "MARRIOTT directory lists property code CLEWB under a name no census row and no OSM row matches; the brand host refuses a plain client so no address was read",
+    "evidence": "https://www.marriott.com/en-us/hotels/clewb-courtyard-cleveland-willoughby/overview/",
+    "recommended_ruling": "READ_ONE_FIRST_PARTY_PAGE_ATTENDED_THEN_CLASSIFY (alias of a registered row vs true missing)",
+    "census_impact": "+1 row only if the page names a premises no row holds",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full"
+   },
+   {
+    "property": "Hotel Cleveland Autograph Collection",
+    "identity_key": "hotel cleveland autograph collection",
+    "exact_issue": "MARRIOTT directory lists property code CLEDK under a name no census row and no OSM row matches; the brand host refuses a plain client so no address was read",
+    "evidence": "https://www.marriott.com/es/hotels/cledk-hotel-cleveland-autograph-collection/overview/",
+    "recommended_ruling": "READ_ONE_FIRST_PARTY_PAGE_ATTENDED_THEN_CLASSIFY (alias of a registered row vs true missing)",
+    "census_impact": "+1 row only if the page names a premises no row holds",
+    "authority_impact": "none",
+    "route_impact": "none until policy is read",
+    "reversibility": "full"
+   }
+  ],
+  "C_live_policy_contradictions": [
+   {
+    "property": "Kimpton Schofield Hotel",
+    "identity_key": "kimpton schofield hotel",
+    "exact_issue": "static re-read disagrees with live authority: CLEAN_VERIFIED_NO_PETS_CANDIDATE (see reader note)",
+    "evidence": {
+     "url": "https://www.theschofieldhotel.com/cleveland-downtown-hotels/pet-friendly/",
+     "page_sha256": "18b60a85a6966896d51c44891c154948e685304082574d799f9bba0fe4f81d9f"
+    },
+    "recommended_ruling": "KEEP_LIVE_PF -- reader false negative, page states pets welcome",
+    "census_impact": "none",
+    "authority_impact": "none",
+    "route_impact": "none",
+    "reversibility": "n/a"
+   }
+  ],
+  "D_semantic_policy_issues": [],
+  "E_geography": [
+   {
+    "property": "(area)",
+    "exact_issue": "Strongsville (44136) and Brunswick (44212): I-71 south lodging cluster between the airport corridor and Medina; one Brunswick row is already a fringe registration. Not a corridor; flagged for founder geography ruling, not widened here.",
+    "evidence": "geography_002 fringe/undeclared postal analysis",
+    "recommended_ruling": "NO_WIDENING_THIS_ORDER; decide whether a corridor is warranted",
+    "census_impact": "none now",
+    "authority_impact": "none",
+    "route_impact": "a new corridor page if declared",
+    "reversibility": "full"
+   },
+   {
+    "property": "(area)",
+    "exact_issue": "Avon / Avon Lake (44011 / 44012): two Avon rows are registered fringe (Cambria->Wyndham Avon; Residence Inn Avon is LIVE); the I-90 west cluster has no corridor.",
+    "evidence": "geography_002 fringe/undeclared postal analysis",
+    "recommended_ruling": "NO_WIDENING_THIS_ORDER; decide whether a corridor is warranted",
+    "census_impact": "none now",
+    "authority_impact": "none",
+    "route_impact": "a new corridor page if declared",
+    "reversibility": "full"
+   },
+   {
+    "property": "(area)",
+    "exact_issue": "Mayfield / Highland Heights (44143) and Wickliffe (44092): inside the east-side doctrine, partially declared (44143 present, 44092 absent).",
+    "evidence": "geography_002 fringe/undeclared postal analysis",
+    "recommended_ruling": "NO_WIDENING_THIS_ORDER; decide whether a corridor is warranted",
+    "census_impact": "none now",
+    "authority_impact": "none",
+    "route_impact": "a new corridor page if declared",
+    "reversibility": "full"
+   },
+   {
+    "property": "(area)",
+    "exact_issue": "Elyria / Lorain / Oberlin (44035 / 44052 / 44074): Lorain County rows registered as fringe; outside the three stated cores.",
+    "evidence": "geography_002 fringe/undeclared postal analysis",
+    "recommended_ruling": "NO_WIDENING_THIS_ORDER; decide whether a corridor is warranted",
+    "census_impact": "none now",
+    "authority_impact": "none",
+    "route_impact": "a new corridor page if declared",
+    "reversibility": "full"
+   },
+   {
+    "property": "(area)",
+    "exact_issue": "Geneva-on-the-Lake (44041): Ashtabula County resort rows registered as fringe; outside the CSA doctrine.",
+    "evidence": "geography_002 fringe/undeclared postal analysis",
+    "recommended_ruling": "NO_WIDENING_THIS_ORDER; decide whether a corridor is warranted",
+    "census_impact": "none now",
+    "authority_impact": "none",
+    "route_impact": "a new corridor page if declared",
+    "reversibility": "full"
+   }
+  ]
+ }
+}

@@ -1,0 +1,735 @@
+{
+ "schema": "ptf-paid-readiness-plan/1.0",
+ "work_order": "PTF-CLEVELAND-AKRON-CANTON-HARDENED-REVALIDATION-001",
+ "phase": "14 -- paid readiness (nothing spent)",
+ "market_id": "cleveland-akron-canton-oh",
+ "as_of": "2026-09-01",
+ "paid_provider_calls": 0,
+ "usd_spent": 0.0,
+ "rates_source": {
+  "paid_attempt_ledger": "launch_packages\\pettripfinder\\ptf_paid_attempt_ledger_001.json",
+  "discovery_attempt_ledger": "launch_packages\\pettripfinder\\ptf_discovery_attempt_ledger_001.json",
+  "rule": "rates are read from the ledgers at run time; no static constant is an expected cost"
+ },
+ "measured_rates": {
+  "lanes": {
+   "brightdata_browser": {
+    "attempts": 473,
+    "billed_attempts": 385,
+    "usd_spent": 46.12,
+    "usd_per_billed_attempt": 0.1198,
+    "unit_price_state": "MEASURED_FROM_LEDGER",
+    "publication_grade": 327,
+    "publication_grade_rate": 0.6913,
+    "publication_grade_rate_wilson_lower": 0.6483
+   },
+   "brightdata_web_unlocker": {
+    "attempts": 104,
+    "billed_attempts": 94,
+    "usd_spent": 10.65,
+    "usd_per_billed_attempt": 0.1133,
+    "unit_price_state": "MEASURED_FROM_LEDGER",
+    "publication_grade": 22,
+    "publication_grade_rate": 0.2115,
+    "publication_grade_rate_wilson_lower": 0.1441
+   },
+   "firecrawl": {
+    "attempts": 203,
+    "billed_attempts": 203,
+    "usd_spent": 19.19,
+    "usd_per_billed_attempt": 0.0945,
+    "unit_price_state": "MEASURED_FROM_LEDGER",
+    "publication_grade": 144,
+    "publication_grade_rate": 0.7094,
+    "publication_grade_rate_wilson_lower": 0.6435
+   }
+  },
+  "brand_publication_grade_yield_brightdata": {
+   "CHOICE": {
+    "attempts": 13,
+    "publication_grade": 8,
+    "rate": 0.6154,
+    "rate_wilson_lower": 0.3552
+   },
+   "DRURY": {
+    "attempts": 5,
+    "publication_grade": 0,
+    "rate": 0.0,
+    "rate_wilson_lower": 0.0
+   },
+   "ESA": {
+    "attempts": 8,
+    "publication_grade": 3,
+    "rate": 0.375,
+    "rate_wilson_lower": 0.1368
+   },
+   "HILTON": {
+    "attempts": 159,
+    "publication_grade": 126,
+    "rate": 0.7925,
+    "rate_wilson_lower": 0.7229
+   },
+   "IHG": {
+    "attempts": 20,
+    "publication_grade": 16,
+    "rate": 0.8,
+    "rate_wilson_lower": 0.584
+   },
+   "MARRIOTT": {
+    "attempts": 272,
+    "publication_grade": 166,
+    "rate": 0.6103,
+    "rate_wilson_lower": 0.5512
+   },
+   "MOTEL6": {
+    "attempts": 7,
+    "publication_grade": 4,
+    "rate": 0.5714,
+    "rate_wilson_lower": 0.2505
+   },
+   "RED_ROOF": {
+    "attempts": 7,
+    "publication_grade": 4,
+    "rate": 0.5714,
+    "rate_wilson_lower": 0.2505
+   },
+   "WYNDHAM": {
+    "attempts": 19,
+    "publication_grade": 8,
+    "rate": 0.4211,
+    "rate_wilson_lower": 0.2314
+   }
+  },
+  "discovery": {
+   "provider": "GOOGLE_PLACES",
+   "attempts": 183,
+   "bound": 63,
+   "bind_rate": 0.3443,
+   "bind_rate_wilson_lower": 0.2793,
+   "usd_recorded_in_ledger": 0.0,
+   "unit_price_state": "UNPRICED_BY_LEDGER",
+   "why": "the discovery ledger records no spend for any lookup, so this plan refuses to invent a per-request price -- read the live console rate before authorising any spend; a cap is meaningless against a number nobody read"
+  },
+  "this_market_in_ledgers": {
+   "paid_attempts_for_this_market": 0,
+   "discovery_attempts_for_this_market": 0
+  }
+ },
+ "lane_counts": {
+  "BRIGHTDATA_QUALIFIED": 1,
+  "FOUNDER_HOLD": 2,
+  "FREE_ATTENDED_QUALIFIED": 3,
+  "FREE_LANE_EXHAUSTED": 4,
+  "IDENTITY_REVIEW_FIRST": 8,
+  "PAID_DISCOVERY_REQUIRED": 11,
+  "SOURCE_SILENT": 20
+ },
+ "segments": {
+  "BRIGHTDATA_QUALIFIED": {
+   "HILTON": 1
+  },
+  "FOUNDER_HOLD": {
+   "HYATT": 2
+  },
+  "FREE_ATTENDED_QUALIFIED": {
+   "BEST_WESTERN": 1,
+   "CHOICE": 1,
+   "HYATT": 1
+  },
+  "FREE_LANE_EXHAUSTED": {
+   "CHOICE": 1,
+   "HILTON": 1,
+   "MARRIOTT": 1,
+   "MOTEL6": 1
+  },
+  "IDENTITY_REVIEW_FIRST": {
+   "CHOICE": 1,
+   "INDEPENDENT": 7
+  },
+  "PAID_DISCOVERY_REQUIRED": {
+   "CHOICE": 1,
+   "HYATT": 1,
+   "INDEPENDENT": 8,
+   "RADISSON": 1
+  },
+  "SOURCE_SILENT": {
+   "IHG": 3,
+   "INDEPENDENT": 15,
+   "MAGNUSON": 1,
+   "RADISSON": 1
+  }
+ },
+ "brightdata": {
+  "eligible_rows": 1,
+  "expected_attempts": 1,
+  "unit_price_usd": 0.1198,
+  "unit_price_state": "MEASURED_FROM_LEDGER",
+  "expected_usd": 0.12,
+  "conservative_hard_cap_usd": 0.15,
+  "expected_publication_grade_rows": 0.6,
+  "publication_grade_rate_used": 0.6483
+ },
+ "paid_discovery": {
+  "eligible_rows": 11,
+  "expected_lookups": 11,
+  "expected_binds_at_measured_rate": 3.1,
+  "unit_price_state": "UNPRICED_BY_LEDGER",
+  "expected_usd": "CANNOT BE QUOTED UNTIL THE RATE IS READ",
+  "note": "you cannot buy a page you cannot address: discovery must bind a first-party URL before any policy acquisition is priced"
+ },
+ "firecrawl": {
+  "eligible_rows": 0,
+  "why": "not a lane for this cohort: cannot reach Marriott or Hilton and the ledger records 203 attempts"
+ },
+ "pilot": {
+  "recommended_first_pilot": {
+   "brightdata_rows": 1,
+   "brightdata_usd_expected": 0.12,
+   "brightdata_hard_cap_usd": 0.15,
+   "discovery_rows": 10,
+   "discovery_usd": "UNPRICED_BY_LEDGER",
+   "rule": "cap against a LIVE balance read before the run and stop WHEN the cap is exceeded, not after; the balance settles late so it is not a cost meter"
+  }
+ },
+ "rows": [
+  {
+   "identity_key": "cambria hotel and suites avon",
+   "canonical_name": "Cambria Hotel & Suites Avon",
+   "brand_family": "CHOICE",
+   "phase7_lane": "IDENTITY_REVIEW_FIRST",
+   "routing_state": null,
+   "static_classification": null,
+   "attended_classification": null,
+   "lane": "IDENTITY_REVIEW_FIRST",
+   "segment": "CHOICE"
+  },
+  {
+   "identity_key": "ariel broadway hotel",
+   "canonical_name": "Ariel Broadway Hotel",
+   "brand_family": "INDEPENDENT",
+   "phase7_lane": "SOURCE_SILENT",
+   "routing_state": null,
+   "static_classification": null,
+   "attended_classification": null,
+   "lane": "SOURCE_SILENT",
+   "segment": "INDEPENDENT"
+  },
+  {
+   "identity_key": "studio 6 extended stay hotel mentor",
+   "canonical_name": "Studio 6 Extended Stay Hotel Mentor",
+   "brand_family": "MOTEL6",
+   "phase7_lane": "FREE_ATTENDED_QUALIFIED",
+   "routing_state": null,
+   "static_classification": null,
+   "attended_classification": "PET_FRIENDLY_STATED_ATTENDED",
+   "lane": "FREE_LANE_EXHAUSTED",
+   "segment": "MOTEL6"
+  },
+  {
+   "identity_key": "inn at brandywine falls",
+   "canonical_name": "Inn at Brandywine Falls",
+   "brand_family": "INDEPENDENT",
+   "phase7_lane": "SOURCE_SILENT",
+   "routing_state": null,
+   "static_classification": null,
+   "attended_classification": null,
+   "lane": "SOURCE_SILENT",
+   "segment": "INDEPENDENT"
+  },
+  {
+   "identity_key": "sunset motel",
+   "canonical_name": "Sunset Motel",
+   "brand_family": "INDEPENDENT",
+   "phase7_lane": "ROUTING_REPAIR_FIRST",
+   "routing_state": "NO_FREE_ROUTE_INDEPENDENT_PAID_DISCOVERY_REQUIRED",
+   "static_classification": null,
+   "attended_classification": null,
+   "lane": "PAID_DISCOVERY_REQUIRED",
+   "segment": "INDEPENDENT"
+  },
+  {
+   "identity_key": "twinsburg country inn",
+   "canonical_name": "Twinsburg Country Inn",
+   "brand_family": "RADISSON",
+   "phase7_lane": "ROUTING_REPAIR_FIRST",
+   "routing_state": "NO_FREE_ROUTE_BRAND_DIRECTORY_REFUSED",
+   "static_classification": null,
+   "attended_classification": null,
+   "lane": "PAID_DISCOVERY_REQUIRED",
+   "segment": "RADISSON"
+  },
+  {
+   "identity_key": "twinsburg inn motel",
+   "canonical_name": "Twinsburg Inn Motel",
+   "brand_family": "INDEPENDENT",
+   "phase7_lane": "ROUTING_REPAIR_FIRST",
+   "routing_state": "NO_FREE_ROUTE_INDEPENDENT_PAID_DISCOVERY_REQUIRED",
+   "static_classification": null,
+   "attended_classification": null,
+   "lane": "PAID_DISCOVERY_REQUIRED",
+   "segment": "INDEPENDENT"
+  },
+  {
+   "identity_key": "villa croatia at the american croatian lodge",
+   "canonical_name": "Villa Croatia at the American-Croatian Lodge",
+   "brand_family": "INDEPENDENT",
+   "phase7_lane": "IDENTITY_REVIEW_FIRST",
+   "routing_state": null,
+   "static_classification": null,
+   "attended_classification": null,
+   "lane": "IDENTITY_REVIEW_FIRST",
+   "segment": "INDEPENDENT"
+  },
+  {
+   "identity_key": "doubletree by hilton tudor arms hotel",
+   "canonical_name": "DoubleTree by Hilton Tudor Arms Hotel",
+   "brand_family": "HILTON",
+   "phase7_lane": "FREE_ATTENDED_QUALIFIED",
+   "routing_state": null,
+   "static_classification": null,
+   "attended_classification": "NO_PETS_STATED_ATTENDED",
+   "lane": "FREE_LANE_EXHAUSTED",
+   "segment": "HILTON"
+  },
+  {
+   "identity_key": "holiday inn cleveland clinic",
+   "canonical_name": "Holiday Inn Cleveland Clinic",
+   "brand_family": "IHG",
+   "phase7_lane": "FREE_STATIC_QUALIFIED",
+   "routing_state": null,
+   "static_classification": "ACCESS_BLOCKED_PLAIN_CLIENT",
+   "attended_classification": "SOURCE_SILENT_ATTENDED",
+   "lane": "SOURCE_SILENT",
+   "segment": "IHG"
+  },
+  {
+   "identity_key": "inn on coventry",
+   "canonical_name": "Inn on Coventry",
+   "brand_family": "INDEPENDENT",
+   "phase7_lane": "SOURCE_SILENT",
+   "routing_state": null,
+   "static_classification": null,
+   "attended_classification": null,
+   "lane": "SOURCE_SILENT",
+   "segment": "INDEPENDENT"
+  },
+  {
+   "identity_key": "intercontinental suites hotel cleveland",
+   "canonical_name": "Intercontinental Suites Hotel Cleveland",
+   "brand_family": "IHG",
+   "phase7_lane": "FREE_STATIC_QUALIFIED",
+   "routing_state": null,
+   "static_classification": "ACCESS_BLOCKED_PLAIN_CLIENT",
+   "attended_classification": "SOURCE_SILENT_ATTENDED",
+   "lane": "SOURCE_SILENT",
+   "segment": "IHG"
+  },
+  {
+   "identity_key": "cleveland house hotels",
+   "canonical_name": "Cleveland House Hotels",
+   "brand_family": "INDEPENDENT",
+   "phase7_lane": "FREE_STATIC_QUALIFIED",
+   "routing_state": null,
+   "static_classification": "IDENTITY_NOT_CONFIRMED_STATIC",
+   "attended_classification": "MULTI_PROPERTY_OPERATOR_NOT_A_SINGLE_PREMISES",
+   "lane": "IDENTITY_REVIEW_FIRST",
+   "segment": "INDEPENDENT"
+  },
+  {
+   "identity_key": "inn the doghouse",
+   "canonical_name": "Inn the Doghouse",
+   "brand_family": "INDEPENDENT",
+   "phase7_lane": "FREE_STATIC_QUALIFIED",
+   "routing_state": null,
+   "static_classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "attended_classification": "NON_LODGING_PAGE",
+   "lane": "IDENTITY_REVIEW_FIRST",
+   "segment": "INDEPENDENT"
+  },
+  {
+   "identity_key": "hopp inn",
+   "canonical_name": "Hopp Inn",
+   "brand_family": "INDEPENDENT",
+   "phase7_lane": "IDENTITY_REVIEW_FIRST",
+   "routing_state": null,
+   "static_classification": null,
+   "attended_classification": null,
+   "lane": "IDENTITY_REVIEW_FIRST",
+   "segment": "INDEPENDENT"
+  },
+  {
+   "identity_key": "the rowley inn",
+   "canonical_name": "The Rowley Inn",
+   "brand_family": "INDEPENDENT",
+   "phase7_lane": "FREE_STATIC_QUALIFIED",
+   "routing_state": null,
+   "static_classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "attended_classification": "NON_LODGING_PAGE",
+   "lane": "IDENTITY_REVIEW_FIRST",
+   "segment": "INDEPENDENT"
+  },
+  {
+   "identity_key": "harbor inn",
+   "canonical_name": "Harbor Inn",
+   "brand_family": "INDEPENDENT",
+   "phase7_lane": "IDENTITY_REVIEW_FIRST",
+   "routing_state": null,
+   "static_classification": null,
+   "attended_classification": null,
+   "lane": "IDENTITY_REVIEW_FIRST",
+   "segment": "INDEPENDENT"
+  },
+  {
+   "identity_key": "hotel cleveland",
+   "canonical_name": "Hotel Cleveland",
+   "brand_family": "INDEPENDENT",
+   "phase7_lane": "SOURCE_SILENT",
+   "routing_state": null,
+   "static_classification": null,
+   "attended_classification": null,
+   "lane": "SOURCE_SILENT",
+   "segment": "INDEPENDENT"
+  },
+  {
+   "identity_key": "stone gables inn",
+   "canonical_name": "Stone Gables Inn",
+   "brand_family": "INDEPENDENT",
+   "phase7_lane": "SOURCE_SILENT",
+   "routing_state": null,
+   "static_classification": null,
+   "attended_classification": null,
+   "lane": "SOURCE_SILENT",
+   "segment": "INDEPENDENT"
+  },
+  {
+   "identity_key": "hyatt regency",
+   "canonical_name": "Hyatt Regency",
+   "brand_family": "HYATT",
+   "phase7_lane": "FOUNDER_HOLD",
+   "routing_state": null,
+   "static_classification": null,
+   "attended_classification": null,
+   "lane": "FOUNDER_HOLD",
+   "segment": "HYATT"
+  },
+  {
+   "identity_key": "metropolitan hotel at the 9",
+   "canonical_name": "Metropolitan Hotel at the 9",
+   "brand_family": "INDEPENDENT",
+   "phase7_lane": "SOURCE_SILENT",
+   "routing_state": null,
+   "static_classification": null,
+   "attended_classification": null,
+   "lane": "SOURCE_SILENT",
+   "segment": "INDEPENDENT"
+  },
+  {
+   "identity_key": "hyatt place cleveland lyndhurst legacy village",
+   "canonical_name": "Hyatt Place Cleveland Lyndhurst Legacy Village",
+   "brand_family": "HYATT",
+   "phase7_lane": "FOUNDER_HOLD",
+   "routing_state": null,
+   "static_classification": null,
+   "attended_classification": null,
+   "lane": "FOUNDER_HOLD",
+   "segment": "HYATT"
+  },
+  {
+   "identity_key": "highlander inn",
+   "canonical_name": "Highlander Inn",
+   "brand_family": "INDEPENDENT",
+   "phase7_lane": "SOURCE_SILENT",
+   "routing_state": null,
+   "static_classification": null,
+   "attended_classification": null,
+   "lane": "SOURCE_SILENT",
+   "segment": "INDEPENDENT"
+  },
+  {
+   "identity_key": "holiday inn cleveland south independence",
+   "canonical_name": "Holiday Inn Cleveland South Independence",
+   "brand_family": "IHG",
+   "phase7_lane": "FREE_STATIC_QUALIFIED",
+   "routing_state": null,
+   "static_classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "attended_classification": "SOURCE_SILENT_ATTENDED",
+   "lane": "SOURCE_SILENT",
+   "segment": "IHG"
+  },
+  {
+   "identity_key": "home2 suites by hilton",
+   "canonical_name": "Home2 Suites by Hilton",
+   "brand_family": "HILTON",
+   "phase7_lane": "FREE_STATIC_QUALIFIED",
+   "routing_state": null,
+   "static_classification": "ACCESS_BLOCKED_PLAIN_CLIENT",
+   "attended_classification": null,
+   "lane": "BRIGHTDATA_QUALIFIED",
+   "segment": "HILTON"
+  },
+  {
+   "identity_key": "inn cahoots",
+   "canonical_name": "Inn Cahoots",
+   "brand_family": "INDEPENDENT",
+   "phase7_lane": "SOURCE_SILENT",
+   "routing_state": null,
+   "static_classification": null,
+   "attended_classification": null,
+   "lane": "SOURCE_SILENT",
+   "segment": "INDEPENDENT"
+  },
+  {
+   "identity_key": "woodspring suites cleveland",
+   "canonical_name": "Woodspring Suites Cleveland",
+   "brand_family": "CHOICE",
+   "phase7_lane": "FREE_STATIC_QUALIFIED",
+   "routing_state": null,
+   "static_classification": "IDENTITY_NOT_CONFIRMED_STATIC",
+   "attended_classification": null,
+   "lane": "FREE_ATTENDED_QUALIFIED",
+   "segment": "CHOICE"
+  },
+  {
+   "identity_key": "hyatt place cleveland westlake crocker park",
+   "canonical_name": "Hyatt Place Cleveland Westlake Crocker Park",
+   "brand_family": "HYATT",
+   "phase7_lane": "FREE_STATIC_QUALIFIED",
+   "routing_state": null,
+   "static_classification": "ACCESS_BLOCKED_PLAIN_CLIENT",
+   "attended_classification": null,
+   "lane": "FREE_ATTENDED_QUALIFIED",
+   "segment": "HYATT"
+  },
+  {
+   "identity_key": "aurora inn",
+   "canonical_name": "Aurora Inn",
+   "brand_family": "INDEPENDENT",
+   "phase7_lane": "FREE_STATIC_QUALIFIED",
+   "routing_state": null,
+   "static_classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "attended_classification": "SOURCE_SILENT_ATTENDED",
+   "lane": "SOURCE_SILENT",
+   "segment": "INDEPENDENT"
+  },
+  {
+   "identity_key": "the bertram hotel and conference center",
+   "canonical_name": "The Bertram Hotel & Conference Center",
+   "brand_family": "INDEPENDENT",
+   "phase7_lane": "SOURCE_SILENT",
+   "routing_state": null,
+   "static_classification": null,
+   "attended_classification": null,
+   "lane": "SOURCE_SILENT",
+   "segment": "INDEPENDENT"
+  },
+  {
+   "identity_key": "walden country inn and stables",
+   "canonical_name": "Walden Country Inn & Stables",
+   "brand_family": "RADISSON",
+   "phase7_lane": "FREE_STATIC_QUALIFIED",
+   "routing_state": null,
+   "static_classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "attended_classification": "SOURCE_SILENT_ATTENDED",
+   "lane": "SOURCE_SILENT",
+   "segment": "RADISSON"
+  },
+  {
+   "identity_key": "berlin s motel",
+   "canonical_name": "Berlin's Motel",
+   "brand_family": "INDEPENDENT",
+   "phase7_lane": "ROUTING_REPAIR_FIRST",
+   "routing_state": "NO_FREE_ROUTE_INDEPENDENT_PAID_DISCOVERY_REQUIRED",
+   "static_classification": null,
+   "attended_classification": null,
+   "lane": "PAID_DISCOVERY_REQUIRED",
+   "segment": "INDEPENDENT"
+  },
+  {
+   "identity_key": "skyview lodge",
+   "canonical_name": "Skyview Lodge",
+   "brand_family": "INDEPENDENT",
+   "phase7_lane": "SOURCE_SILENT",
+   "routing_state": null,
+   "static_classification": null,
+   "attended_classification": null,
+   "lane": "SOURCE_SILENT",
+   "segment": "INDEPENDENT"
+  },
+  {
+   "identity_key": "ranch motel",
+   "canonical_name": "Ranch Motel",
+   "brand_family": "INDEPENDENT",
+   "phase7_lane": "ROUTING_REPAIR_FIRST",
+   "routing_state": "NO_FREE_ROUTE_INDEPENDENT_PAID_DISCOVERY_REQUIRED",
+   "static_classification": null,
+   "attended_classification": null,
+   "lane": "PAID_DISCOVERY_REQUIRED",
+   "segment": "INDEPENDENT"
+  },
+  {
+   "identity_key": "courtyard by marriott akron stow",
+   "canonical_name": "Courtyard by Marriott Akron Stow",
+   "brand_family": "MARRIOTT",
+   "phase7_lane": "FREE_ATTENDED_QUALIFIED",
+   "routing_state": null,
+   "static_classification": null,
+   "attended_classification": "NO_PETS_STATED_ATTENDED",
+   "lane": "FREE_LANE_EXHAUSTED",
+   "segment": "MARRIOTT"
+  },
+  {
+   "identity_key": "economy inn",
+   "canonical_name": "Economy Inn",
+   "brand_family": "INDEPENDENT",
+   "phase7_lane": "SOURCE_SILENT",
+   "routing_state": null,
+   "static_classification": null,
+   "attended_classification": null,
+   "lane": "SOURCE_SILENT",
+   "segment": "INDEPENDENT"
+  },
+  {
+   "identity_key": "budget inn",
+   "canonical_name": "Budget Inn",
+   "brand_family": "INDEPENDENT",
+   "phase7_lane": "ROUTING_REPAIR_FIRST",
+   "routing_state": "NO_FREE_ROUTE_INDEPENDENT_PAID_DISCOVERY_REQUIRED",
+   "static_classification": null,
+   "attended_classification": null,
+   "lane": "PAID_DISCOVERY_REQUIRED",
+   "segment": "INDEPENDENT"
+  },
+  {
+   "identity_key": "clarion inn and conference center",
+   "canonical_name": "Clarion Inn and Conference Center",
+   "brand_family": "CHOICE",
+   "phase7_lane": "ROUTING_REPAIR_FIRST",
+   "routing_state": "NO_FREE_ROUTE_BRAND_DIRECTORY_REFUSED",
+   "static_classification": null,
+   "attended_classification": null,
+   "lane": "PAID_DISCOVERY_REQUIRED",
+   "segment": "CHOICE"
+  },
+  {
+   "identity_key": "kent state university hotel and conference center",
+   "canonical_name": "Kent State University Hotel & Conference Center",
+   "brand_family": "INDEPENDENT",
+   "phase7_lane": "IDENTITY_REVIEW_FIRST",
+   "routing_state": null,
+   "static_classification": null,
+   "attended_classification": null,
+   "lane": "IDENTITY_REVIEW_FIRST",
+   "segment": "INDEPENDENT"
+  },
+  {
+   "identity_key": "don el motel",
+   "canonical_name": "Don-El Motel",
+   "brand_family": "INDEPENDENT",
+   "phase7_lane": "ROUTING_REPAIR_FIRST",
+   "routing_state": "NO_FREE_ROUTE_INDEPENDENT_PAID_DISCOVERY_REQUIRED",
+   "static_classification": null,
+   "attended_classification": null,
+   "lane": "PAID_DISCOVERY_REQUIRED",
+   "segment": "INDEPENDENT"
+  },
+  {
+   "identity_key": "courtesy inn",
+   "canonical_name": "Courtesy Inn",
+   "brand_family": "INDEPENDENT",
+   "phase7_lane": "ROUTING_REPAIR_FIRST",
+   "routing_state": "NO_FREE_ROUTE_INDEPENDENT_PAID_DISCOVERY_REQUIRED",
+   "static_classification": null,
+   "attended_classification": null,
+   "lane": "PAID_DISCOVERY_REQUIRED",
+   "segment": "INDEPENDENT"
+  },
+  {
+   "identity_key": "lakeside motel",
+   "canonical_name": "Lakeside Motel",
+   "brand_family": "INDEPENDENT",
+   "phase7_lane": "ROUTING_REPAIR_FIRST",
+   "routing_state": "NO_FREE_ROUTE_INDEPENDENT_PAID_DISCOVERY_REQUIRED",
+   "static_classification": null,
+   "attended_classification": null,
+   "lane": "PAID_DISCOVERY_REQUIRED",
+   "segment": "INDEPENDENT"
+  },
+  {
+   "identity_key": "palmantiers motel",
+   "canonical_name": "Palmantiers Motel",
+   "brand_family": "INDEPENDENT",
+   "phase7_lane": "SOURCE_SILENT",
+   "routing_state": null,
+   "static_classification": null,
+   "attended_classification": null,
+   "lane": "SOURCE_SILENT",
+   "segment": "INDEPENDENT"
+  },
+  {
+   "identity_key": "the inn at amish door",
+   "canonical_name": "The Inn at Amish Door",
+   "brand_family": "INDEPENDENT",
+   "phase7_lane": "SOURCE_SILENT",
+   "routing_state": null,
+   "static_classification": null,
+   "attended_classification": null,
+   "lane": "SOURCE_SILENT",
+   "segment": "INDEPENDENT"
+  },
+  {
+   "identity_key": "magnuson extended stay",
+   "canonical_name": "Magnuson Extended Stay",
+   "brand_family": "MAGNUSON",
+   "phase7_lane": "FREE_STATIC_QUALIFIED",
+   "routing_state": null,
+   "static_classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "attended_classification": "AMENITY_CHIP_ONLY_NOT_EVIDENCE",
+   "lane": "SOURCE_SILENT",
+   "segment": "MAGNUSON"
+  },
+  {
+   "identity_key": "quality inn hall of fame",
+   "canonical_name": "Quality Inn Hall of Fame",
+   "brand_family": "CHOICE",
+   "phase7_lane": "FREE_ATTENDED_QUALIFIED",
+   "routing_state": null,
+   "static_classification": null,
+   "attended_classification": "NO_PETS_STATED_ATTENDED",
+   "lane": "FREE_LANE_EXHAUSTED",
+   "segment": "CHOICE"
+  },
+  {
+   "identity_key": "the bertram inn at glenmoor",
+   "canonical_name": "The Bertram Inn at Glenmoor",
+   "brand_family": "INDEPENDENT",
+   "phase7_lane": "SOURCE_SILENT",
+   "routing_state": null,
+   "static_classification": null,
+   "attended_classification": null,
+   "lane": "SOURCE_SILENT",
+   "segment": "INDEPENDENT"
+  },
+  {
+   "identity_key": "best western plus north canton inn and suites",
+   "canonical_name": "Best Western Plus North Canton Inn & Suites",
+   "brand_family": "BEST_WESTERN",
+   "phase7_lane": "ROUTING_REPAIR_FIRST",
+   "routing_state": "ROUTE_PROPOSED_ATTENDED_BINDING_REQUIRED",
+   "static_classification": null,
+   "attended_classification": null,
+   "lane": "FREE_ATTENDED_QUALIFIED",
+   "segment": "BEST_WESTERN"
+  },
+  {
+   "identity_key": "hyatt place canton",
+   "canonical_name": "Hyatt Place Canton",
+   "brand_family": "HYATT",
+   "phase7_lane": "ROUTING_REPAIR_FIRST",
+   "routing_state": "NO_FREE_ROUTE_BRAND_DIRECTORY_REFUSED",
+   "static_classification": null,
+   "attended_classification": null,
+   "lane": "PAID_DISCOVERY_REQUIRED",
+   "segment": "HYATT"
+  }
+ ]
+}

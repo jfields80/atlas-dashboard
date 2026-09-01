@@ -1,0 +1,415 @@
+{
+ "schema": "ptf-market-census-audit/1.0",
+ "work_order": "PTF-CLEVELAND-AKRON-CANTON-HARDENED-REVALIDATION-001",
+ "phase": "5 -- audit the existing 188-row census",
+ "market_id": "cleveland-akron-canton-oh",
+ "as_of": "2026-09-01",
+ "what_this_is": "Independent inspection of the pinned census through the canonical dedup helpers and the physical-signal checks the order names. Every finding is a PROPOSAL; the pinned census is not edited and no row is deleted. Premises signals (street+postal, phone) propose and never decide -- a dual-brand building is two hotels.",
+ "inputs": {
+  "census_rows": 188,
+  "policy_rows": 99,
+  "exclusion_rows": 40,
+  "routing_rows": 38
+ },
+ "canonical_dedup": {
+  "schema": "ptf-pre-acquisition-dedup/1.0",
+  "groups": 0,
+  "verdicts": {},
+  "suppressed_keys": []
+ },
+ "duplicate_scan": {
+  "groups": 0,
+  "by_signal": {},
+  "groups_detail": []
+ },
+ "authority_consistency": {
+  "policy_exclusion_overlap": [],
+  "policy_keys_not_in_census": [],
+  "exclusion_keys_not_in_census": [],
+  "seed_vs_policy": {
+   "seed_not_in_policy": [],
+   "policy_not_in_seed": []
+  },
+  "pf_live": 99,
+  "no_pets_live": 40,
+  "unresolved_manifest": 49,
+  "sum": 188
+ },
+ "finding_counts_by_kind": {
+  "CONVERSION_OR_RENAME_PENDING": 4,
+  "LODGING_NEEDS_REVIEW": 1,
+  "PRIOR_RENAME_OR_REVIEW_TRACE": 8,
+  "ROUTING_ROUTING_HELD": 1,
+  "ROUTING_ROUTING_RETIRED": 2,
+  "SHARED_STREET_AND_POSTAL": 1,
+  "SHORTENED_CHAIN_NAME": 1
+ },
+ "proposed_disposition_counts": {
+  "FOUNDER_IDENTITY_REVIEW": 6,
+  "IDENTITY_SUPERSESSION": 8,
+  "ROUTING_HELD": 3,
+  "SAME_CAMPUS_DISTINCT_ENTITY_CANDIDATE": 1
+ },
+ "findings": [
+  {
+   "kind": "SHARED_STREET_AND_POSTAL",
+   "identity_keys": [
+    "baymont by wyndham copley akron",
+    "super 8 by wyndham copley akron"
+   ],
+   "evidence": {
+    "value": "130 montrose w ave|44321",
+    "names": [
+     "Baymont by Wyndham Copley Akron",
+     "Super 8 by Wyndham Copley Akron"
+    ],
+    "brand_families": [
+     "baymont",
+     "super 8"
+    ],
+    "names_compatible": false
+   },
+   "proposed_disposition": "SAME_CAMPUS_DISTINCT_ENTITY_CANDIDATE",
+   "why": "two census rows share a physical/page signal",
+   "severity": "REVIEW",
+   "live_state": {
+    "baymont by wyndham copley akron": "PET_FRIENDLY_LIVE",
+    "super 8 by wyndham copley akron": "PET_FRIENDLY_LIVE"
+   }
+  },
+  {
+   "kind": "SHORTENED_CHAIN_NAME",
+   "identity_keys": [
+    "the westin"
+   ],
+   "evidence": {
+    "canonical_name": "The Westin",
+    "city": "Cleveland"
+   },
+   "proposed_disposition": "FOUNDER_IDENTITY_REVIEW",
+   "why": "name is only the brand; the identity key cannot distinguish this row from a sibling",
+   "severity": "REVIEW",
+   "live_state": {
+    "the westin": "PET_FRIENDLY_LIVE"
+   }
+  },
+  {
+   "kind": "LODGING_NEEDS_REVIEW",
+   "identity_keys": [
+    "kent state university hotel and conference center"
+   ],
+   "evidence": {
+    "canonical_name": "Kent State University Hotel & Conference Center"
+   },
+   "proposed_disposition": "FOUNDER_IDENTITY_REVIEW",
+   "why": "census itself flags lodging_state NEEDS_REVIEW",
+   "severity": "REVIEW",
+   "live_state": {
+    "kent state university hotel and conference center": "UNRESOLVED"
+   }
+  },
+  {
+   "kind": "PRIOR_RENAME_OR_REVIEW_TRACE",
+   "identity_keys": [
+    "cambria hotel and suites avon"
+   ],
+   "evidence": {
+    "verdict": "PROPERTY_CLOSED_OR_CONVERTED",
+    "old_url": "https://www.choicehotels.com/ohio/avon/cambria-hotels/oh598",
+    "new_candidate_url": "https://www.wyndhamhotels.com/wyndham/avon-ohio/wyndham-avon/overview",
+    "final_url": "https://www.wyndhamhotels.com/wyndham/avon-ohio/wyndham-avon/overview",
+    "rename_proposal": "Wyndham Avon",
+    "census_hygiene": "",
+    "census_review_candidate": false,
+    "source_relationship": "OFFICIAL_BRAND_PROPERTY_PAGE"
+   },
+   "proposed_disposition": "IDENTITY_SUPERSESSION",
+   "why": "routing repair 001 recorded a rename proposal or census-review candidate that the pinned census still carries",
+   "severity": "REVIEW",
+   "live_state": {
+    "cambria hotel and suites avon": "UNRESOLVED"
+   }
+  },
+  {
+   "kind": "PRIOR_RENAME_OR_REVIEW_TRACE",
+   "identity_keys": [
+    "days inn richfield"
+   ],
+   "evidence": {
+    "verdict": "PROPERTY_CLOSED_OR_CONVERTED",
+    "old_url": "https://www.wyndhamhotels.com/days-inn/richfield-ohio/days-inn-and-suites-richfield/overview",
+    "new_candidate_url": "https://www.choicehotels.com/ohio/richfield/quality-inn-hotels/oh330",
+    "final_url": "https://www.choicehotels.com/ohio/richfield/quality-inn-hotels/oh330",
+    "rename_proposal": "Quality Inn & Suites Richfield",
+    "census_hygiene": "page phone (330) 523-5329 differs from census 330.659.6151; changed with the flag conversion",
+    "census_review_candidate": false,
+    "source_relationship": "OFFICIAL_BRAND_PROPERTY_PAGE"
+   },
+   "proposed_disposition": "IDENTITY_SUPERSESSION",
+   "why": "routing repair 001 recorded a rename proposal or census-review candidate that the pinned census still carries",
+   "severity": "REVIEW",
+   "live_state": {
+    "days inn richfield": "UNKNOWN"
+   }
+  },
+  {
+   "kind": "PRIOR_RENAME_OR_REVIEW_TRACE",
+   "identity_keys": [
+    "doubletree by hilton cleveland westlake"
+   ],
+   "evidence": {
+    "verdict": "PROPERTY_CLOSED_OR_CONVERTED",
+    "old_url": "https://www.hilton.com/en/hotels/clecrdt-doubletree-cleveland-westlake/",
+    "new_candidate_url": "https://www.wyndhamhotels.com/wyndham-garden/westlake-ohio/wyndham-garden-westlake/overview",
+    "final_url": "https://www.wyndhamhotels.com/wyndham-garden/westlake-ohio/wyndham-garden-westlake/overview",
+    "rename_proposal": "Wyndham Garden Westlake",
+    "census_hygiene": "",
+    "census_review_candidate": false,
+    "source_relationship": "OFFICIAL_BRAND_PROPERTY_PAGE"
+   },
+   "proposed_disposition": "IDENTITY_SUPERSESSION",
+   "why": "routing repair 001 recorded a rename proposal or census-review candidate that the pinned census still carries",
+   "severity": "REVIEW",
+   "live_state": {
+    "doubletree by hilton cleveland westlake": "UNKNOWN"
+   }
+  },
+  {
+   "kind": "PRIOR_RENAME_OR_REVIEW_TRACE",
+   "identity_keys": [
+    "sonesta es suites cleveland westlake"
+   ],
+   "evidence": {
+    "verdict": "ROUTING_REPLACED",
+    "old_url": "https://www.sonesta.com/us/ohio/westlake/sonesta-es-suites-cleveland-westlake",
+    "new_candidate_url": "https://www.sonesta.com/sonesta-simply-suites/oh/westlake/sonesta-simply-suites-cleveland-westlake",
+    "final_url": "https://www.sonesta.com/sonesta-simply-suites/oh/westlake/sonesta-simply-suites-cleveland-westlake",
+    "rename_proposal": "Sonesta Simply Suites Cleveland Westlake",
+    "census_hygiene": "",
+    "census_review_candidate": false,
+    "source_relationship": "OFFICIAL_BRAND_PROPERTY_PAGE"
+   },
+   "proposed_disposition": "IDENTITY_SUPERSESSION",
+   "why": "routing repair 001 recorded a rename proposal or census-review candidate that the pinned census still carries",
+   "severity": "REVIEW",
+   "live_state": {
+    "sonesta es suites cleveland westlake": "PET_FRIENDLY_LIVE"
+   }
+  },
+  {
+   "kind": "PRIOR_RENAME_OR_REVIEW_TRACE",
+   "identity_keys": [
+    "comfort suites twinsburg"
+   ],
+   "evidence": {
+    "verdict": "PROPERTY_LEVEL_URL_UPGRADED",
+    "old_url": "https://www.choicehotels.com/ohio/twinsburg/comfort-suites-hotels/oh271",
+    "new_candidate_url": "",
+    "final_url": "https://www.choicehotels.com/ohio/twinsburg/comfort-suites-hotels/oh271",
+    "rename_proposal": "",
+    "census_hygiene": "page street reads 2716 Creekside Drive; census carries 2715 Creekside Dr -- address form to review",
+    "census_review_candidate": false,
+    "source_relationship": "OFFICIAL_BRAND_PROPERTY_PAGE"
+   },
+   "proposed_disposition": "FOUNDER_IDENTITY_REVIEW",
+   "why": "routing repair 001 recorded a rename proposal or census-review candidate that the pinned census still carries",
+   "severity": "REVIEW",
+   "live_state": {
+    "comfort suites twinsburg": "PET_FRIENDLY_LIVE"
+   }
+  },
+  {
+   "kind": "PRIOR_RENAME_OR_REVIEW_TRACE",
+   "identity_keys": [
+    "harbor inn"
+   ],
+   "evidence": {
+    "verdict": "IDENTITY_CONFLICT",
+    "old_url": "",
+    "new_candidate_url": "",
+    "final_url": "",
+    "rename_proposal": "",
+    "census_hygiene": "",
+    "census_review_candidate": true,
+    "source_relationship": "OFFICIAL_CVB_DIRECTORY_ANCHOR"
+   },
+   "proposed_disposition": "FOUNDER_IDENTITY_REVIEW",
+   "why": "routing repair 001 recorded a rename proposal or census-review candidate that the pinned census still carries",
+   "severity": "REVIEW",
+   "live_state": {
+    "harbor inn": "UNRESOLVED"
+   }
+  },
+  {
+   "kind": "PRIOR_RENAME_OR_REVIEW_TRACE",
+   "identity_keys": [
+    "hopp inn"
+   ],
+   "evidence": {
+    "verdict": "IDENTITY_CONFLICT",
+    "old_url": "",
+    "new_candidate_url": "",
+    "final_url": "",
+    "rename_proposal": "",
+    "census_hygiene": "",
+    "census_review_candidate": true,
+    "source_relationship": "OFFICIAL_CVB_DIRECTORY_ANCHOR"
+   },
+   "proposed_disposition": "FOUNDER_IDENTITY_REVIEW",
+   "why": "routing repair 001 recorded a rename proposal or census-review candidate that the pinned census still carries",
+   "severity": "REVIEW",
+   "live_state": {
+    "hopp inn": "UNRESOLVED"
+   }
+  },
+  {
+   "kind": "PRIOR_RENAME_OR_REVIEW_TRACE",
+   "identity_keys": [
+    "villa croatia at the american croatian lodge"
+   ],
+   "evidence": {
+    "verdict": "OFFICIAL_URL_FOUND",
+    "old_url": "",
+    "new_candidate_url": "https://croatianlodge.com/",
+    "final_url": "https://croatianlodge.com/",
+    "rename_proposal": "",
+    "census_hygiene": "site phone 440-946-3366 differs from census 216.704.9009",
+    "census_review_candidate": false,
+    "source_relationship": "FIRST_PARTY_PROPERTY_PAGE"
+   },
+   "proposed_disposition": "FOUNDER_IDENTITY_REVIEW",
+   "why": "routing repair 001 recorded a rename proposal or census-review candidate that the pinned census still carries",
+   "severity": "REVIEW",
+   "live_state": {
+    "villa croatia at the american croatian lodge": "UNRESOLVED"
+   }
+  },
+  {
+   "kind": "CONVERSION_OR_RENAME_PENDING",
+   "identity_keys": [
+    "cambria hotel and suites avon"
+   ],
+   "evidence": {
+    "outcome": "POLICY_NOT_FOUND",
+    "final_url": "https://www.wyndhamhotels.com/wyndham/avon-ohio/wyndham-avon/overview",
+    "conversion_note": {
+     "census_name": "Cambria Hotel & Suites Avon",
+     "observed_name": "Wyndham Avon",
+     "note": "the property converted from Cambria to Wyndham; the census identity still carries the prior name. No policy was captured, so no rename decision is forced by this pass -- the rename remains the routing repair's open proposal."
+    },
+    "hotel": "Cambria Hotel & Suites Avon"
+   },
+   "proposed_disposition": "IDENTITY_SUPERSESSION",
+   "why": "pass 4 captured a page whose brand differs from the census identity (successor question)",
+   "severity": "REVIEW",
+   "live_state": {
+    "cambria hotel and suites avon": "UNRESOLVED"
+   }
+  },
+  {
+   "kind": "CONVERSION_OR_RENAME_PENDING",
+   "identity_keys": [
+    "days inn richfield"
+   ],
+   "evidence": {
+    "outcome": "POLICY_CAPTURED_PENDING_IDENTITY_RENAME",
+    "final_url": "https://www.choicehotels.com/ohio/richfield/quality-inn-hotels/oh330",
+    "conversion_note": null,
+    "hotel": "Days Inn Richfield"
+   },
+   "proposed_disposition": "IDENTITY_SUPERSESSION",
+   "why": "pass 4 captured a page whose brand differs from the census identity (successor question)",
+   "severity": "REVIEW",
+   "live_state": {
+    "days inn richfield": "UNKNOWN"
+   }
+  },
+  {
+   "kind": "CONVERSION_OR_RENAME_PENDING",
+   "identity_keys": [
+    "doubletree by hilton cleveland westlake"
+   ],
+   "evidence": {
+    "outcome": "POLICY_CAPTURED_PENDING_IDENTITY_RENAME",
+    "final_url": "https://www.wyndhamhotels.com/wyndham-garden/westlake-ohio/wyndham-garden-westlake/overview",
+    "conversion_note": null,
+    "hotel": "DoubleTree by Hilton Cleveland-Westlake"
+   },
+   "proposed_disposition": "IDENTITY_SUPERSESSION",
+   "why": "pass 4 captured a page whose brand differs from the census identity (successor question)",
+   "severity": "REVIEW",
+   "live_state": {
+    "doubletree by hilton cleveland westlake": "UNKNOWN"
+   }
+  },
+  {
+   "kind": "CONVERSION_OR_RENAME_PENDING",
+   "identity_keys": [
+    "sonesta es suites cleveland westlake"
+   ],
+   "evidence": {
+    "outcome": "POLICY_CAPTURED_PENDING_IDENTITY_RENAME",
+    "final_url": "https://www.sonesta.com/sonesta-simply-suites/oh/westlake/sonesta-simply-suites-cleveland-westlake",
+    "conversion_note": null,
+    "hotel": "Sonesta ES Suites Cleveland Westlake"
+   },
+   "proposed_disposition": "IDENTITY_SUPERSESSION",
+   "why": "pass 4 captured a page whose brand differs from the census identity (successor question)",
+   "severity": "REVIEW",
+   "live_state": {
+    "sonesta es suites cleveland westlake": "PET_FRIENDLY_LIVE"
+   }
+  },
+  {
+   "kind": "ROUTING_ROUTING_RETIRED",
+   "identity_keys": [
+    "eastland inn restaurant"
+   ],
+   "evidence": {
+    "url": "https://eastlandinn.com",
+    "notes": "REVIEW: the name reads as a restaurant/venue rather than a place to sleep; routed but flagged",
+    "binding_method": "BRAND_INDEX_BINDING"
+   },
+   "proposed_disposition": "ROUTING_HELD",
+   "why": "routing shard already holds or retired this route; preserve the record, never queue it",
+   "severity": "INFO",
+   "live_state": {
+    "eastland inn restaurant": "UNKNOWN"
+   }
+  },
+  {
+   "kind": "ROUTING_ROUTING_RETIRED",
+   "identity_keys": [
+    "the welshfield inn"
+   ],
+   "evidence": {
+    "url": "https://thedriftwoodgroup.com/restaurants/welshfield-inn/",
+    "notes": "held: the census cannot satisfy the queue identity contract for this hotel (missing phone)",
+    "binding_method": "BRAND_INDEX_BINDING"
+   },
+   "proposed_disposition": "ROUTING_HELD",
+   "why": "routing shard already holds or retired this route; preserve the record, never queue it",
+   "severity": "INFO",
+   "live_state": {
+    "the welshfield inn": "UNKNOWN"
+   }
+  },
+  {
+   "kind": "ROUTING_ROUTING_HELD",
+   "identity_keys": [
+    "best western plus north canton inn and suites"
+   ],
+   "evidence": {
+    "url": "https://www.bestwestern.com/en_US/book/hotels-in-north-canton/best-western-plus-north-canton-inn-suites/propertyCode.36148.html",
+    "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative. // PTF-CLEVELAND-ROUTING-REPAIR-001 verdict=ROUTING_UNRESOLVED; old URL: https://www.bestwestern.com/en_US/book/hotels-in-north-canton/best-western-plus-north-canton-inn-suites/propertyCode.36148.html.",
+    "binding_method": "BRAND_INDEX_BINDING"
+   },
+   "proposed_disposition": "ROUTING_HELD",
+   "why": "routing shard already holds or retired this route; preserve the record, never queue it",
+   "severity": "INFO",
+   "live_state": {
+    "best western plus north canton inn and suites": "UNRESOLVED"
+   }
+  }
+ ]
+}

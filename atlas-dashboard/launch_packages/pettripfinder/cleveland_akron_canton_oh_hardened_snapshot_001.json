@@ -1,0 +1,2076 @@
+{
+ "schema": "ptf-market-preservation-snapshot/1.0",
+ "work_order": "PTF-CLEVELAND-AKRON-CANTON-HARDENED-REVALIDATION-001",
+ "phase": "1 -- freeze / snapshot current live state",
+ "market_id": "cleveland-akron-canton-oh",
+ "what_this_is": "The do-not-regress baseline for the hardened revalidation of an ALREADY LIVE market. Every file below is hashed as committed on the canonical lineage; every live row carries a canonical-JSON hash; every owned evidence artifact is hashed and checked against the sha256 its capture-results document committed. Nothing in this order may change a protected file. Later phases prove preservation by re-deriving this document and comparing hashes.",
+ "canonical_head_expected": "9618a407a56edc6b26c036452412bcf271e5c8e6",
+ "counts": {
+  "census_identities": 188,
+  "policy_package_rows": 99,
+  "verified_no_pets_exclusions": 40,
+  "identity_routes": 38,
+  "identity_routes_by_status": {
+   "ROUTING_CONFIRMED": 35,
+   "ROUTING_HELD": 1,
+   "ROUTING_RETIRED": 2
+  },
+  "partition_items": 188,
+  "partition_final_state_counts": {
+   "PUBLISHED_PET_FRIENDLY": 99,
+   "VERIFIED_NO_PETS": 40,
+   "AWAITING_POLICY_ARTIFACT": 4,
+   "AWAITING_POLICY_OBSERVATION": 22,
+   "AWAITING_ATTENDED_CAPTURE": 1,
+   "AWAITING_ROUTING_REPLACEMENT": 1,
+   "AWAITING_ROUTING_REVIEW": 1,
+   "AWAITING_OFFICIAL_URL": 12,
+   "AWAITING_PROPERTY_LEVEL_URL": 0,
+   "AWAITING_CONTRADICTION_RESOLUTION": 3,
+   "AWAITING_CENSUS_REVIEW": 3,
+   "ACCESS_BLOCKED": 2
+  },
+  "unresolved_manifest_items": 49,
+  "seed_rows": 99,
+  "hotel_routes": 99,
+  "corridor_routes_declared": 14,
+  "contract_hotel_route_count": 99,
+  "contract_published_corridor_route_count": 6
+ },
+ "release_contract": {
+  "contract_id": "pettripfinder-cleveland-akron-canton-oh-release/1.0",
+  "expected_census_count": 188,
+  "reconciliation": {
+   "confirmed_identities": 188,
+   "published_pet_friendly": 99,
+   "verified_no_pets": 40,
+   "resolved": 139,
+   "unresolved": 49,
+   "note": "verified_no_pets counts ONLY VERIFIED_NO_PETS records this market owns in launch_packages/pettripfinder/hotel_exclusions.json. unresolved is UNKNOWN, never negative evidence: a failed capture answers nothing, and a routed identity with an official URL is still unanswered until a policy observation passes the membrane."
+  },
+  "policy_package_expected_sha256": "d865e4cdab48ec8a152127aa4675f3089c600342873b1ce5e6ff1c44bff3663c",
+  "policy_package_sha256_matches": true,
+  "grants_deployment": false
+ },
+ "launch_participation": {
+  "row": {
+   "market_id": "cleveland-akron-canton-oh",
+   "launch_status": "FOUNDER_AUTHORIZED_FOR_LAUNCH"
+  },
+  "decision_work_order": "PTF-GRAND-RAPIDS-LAUNCH-PARTICIPATION-032"
+ },
+ "global_deployment_manifest": {
+  "sha256": "bd105b19ae459eb5bdafd4c381800e27b026327a7f7385fd8c59914a16d65e34",
+  "source_commit": "99c9db064d8971d83b167ec11ac3376547d9fc83",
+  "participating_markets": [
+   {
+    "market_id": "cleveland-akron-canton-oh",
+    "published_profiles": 99,
+    "release_contract": "deploy/netlify/release_contracts/cleveland-akron-canton-oh.json",
+    "release_contract_sha256": "9856a22ec4f8b4a87c1ede20cb387899a2a31d945c4503ea57940f02c7ae2d17",
+    "contract_disagreements": []
+   },
+   {
+    "market_id": "columbus-oh",
+    "published_profiles": 88,
+    "release_contract": "deploy/netlify/release_contracts/columbus-oh.json",
+    "release_contract_sha256": "b14f9f21a94ac09f7d658a94de17d770d58b54b398b1ade650f90481708091c2",
+    "contract_disagreements": []
+   },
+   {
+    "market_id": "dayton-oh",
+    "published_profiles": 47,
+    "release_contract": "deploy/netlify/release_contracts/dayton-oh.json",
+    "release_contract_sha256": "7462a2772c8fe09cf5365c2ec420a87e14c5f99727357ffd68618f154c25332b",
+    "contract_disagreements": []
+   },
+   {
+    "market_id": "grand-rapids-holland-mi",
+    "published_profiles": 43,
+    "release_contract": "deploy/netlify/release_contracts/grand-rapids-holland-mi.json",
+    "release_contract_sha256": "62133774be6250f000893180ad255c906735d4692d7ba4af4accbaaafe4ea4ce",
+    "contract_disagreements": []
+   },
+   {
+    "market_id": "indianapolis-in",
+    "published_profiles": 56,
+    "release_contract": "deploy/netlify/release_contracts/indianapolis-in.json",
+    "release_contract_sha256": "5c962e7430b6506391a000785b703d54548c439378ac5a374ed633af759e5923",
+    "contract_disagreements": []
+   },
+   {
+    "market_id": "louisville-ky",
+    "published_profiles": 46,
+    "release_contract": "deploy/netlify/release_contracts/louisville-ky.json",
+    "release_contract_sha256": "886d1c7486b78116ef2da9fdf8b34866411df166587d6f0c58665eb5bc7027b8",
+    "contract_disagreements": []
+   },
+   {
+    "market_id": "milwaukee-wi",
+    "published_profiles": 73,
+    "release_contract": "deploy/netlify/release_contracts/milwaukee-wi.json",
+    "release_contract_sha256": "320a9b05348f7dc55e02d899b77a9efe0760284eadfd77a9ef1b25c8907e5d73",
+    "contract_disagreements": []
+   },
+   {
+    "market_id": "pittsburgh-pa",
+    "published_profiles": 26,
+    "release_contract": "deploy/netlify/release_contracts/pittsburgh-pa.json",
+    "release_contract_sha256": "074f99ee6c02618dbbfab88c88818a07428a54153b50b8833a260eae099d2eb9",
+    "contract_disagreements": []
+   },
+   {
+    "market_id": "st-louis-mo",
+    "published_profiles": 82,
+    "release_contract": "deploy/netlify/release_contracts/st-louis-mo.json",
+    "release_contract_sha256": "704801a45f58e06d0469341bc1c83917b0ed3377abaa40d05f35b1dc193bb031",
+    "contract_disagreements": []
+   }
+  ],
+  "total_published_profiles": 560
+ },
+ "protected_files": {
+  "launch_packages/pettripfinder/identity_census/cleveland-akron-canton-oh.json": {
+   "sha256": "b2b48577a4569e4830eab4687450300de686f5231b57f8592173900c27186876",
+   "bytes": 236629
+  },
+  "launch_packages/pettripfinder/hotel_policy_facts_cleveland-akron-canton-oh.json": {
+   "sha256": "d865e4cdab48ec8a152127aa4675f3089c600342873b1ce5e6ff1c44bff3663c",
+   "bytes": 662995
+  },
+  "launch_packages/pettripfinder/markets/authority/cleveland-akron-canton-oh/hotel_exclusions.json": {
+   "sha256": "42da39b28c2b231ba21a2f3092d458d45c93ca440649f51e11cab1b86849ca1c",
+   "bytes": 52943
+  },
+  "launch_packages/pettripfinder/markets/authority/cleveland-akron-canton-oh/identity_routing.json": {
+   "sha256": "ef57f6e5059740f8fb4f2b9cb6a3d4af086a27628443cadb850938e23d39c9fd",
+   "bytes": 53915
+  },
+  "launch_packages/pettripfinder/markets/authority/cleveland-akron-canton-oh/seed_businesses.csv": {
+   "sha256": "229a868276a8ad79cafd8cec0ce94786ec985c250080d24eaedb80eaa6374cc7",
+   "bytes": 59374
+  },
+  "launch_packages/pettripfinder/markets/authority/cleveland-akron-canton-oh/affiliate_destinations.json": {
+   "sha256": "07857e29d67c6b138828be497c7ed3c0bda263f1cd6ff9abcfc9a0839ea79aac",
+   "bytes": 671
+  },
+  "launch_packages/pettripfinder/markets/cleveland-akron-canton-oh.json": {
+   "sha256": "122668a6f04be0fec782367f45d3c271b897057dc0f0f7f69fb260e9d814b227",
+   "bytes": 14666
+  },
+  "launch_packages/pettripfinder/markets/coverage/cleveland-akron-canton-oh.json": {
+   "sha256": "54c9ef63fd4dddf0f9da0bc06c9cd07f0dc9173f943abadf42bf4e16fbe19893",
+   "bytes": 659
+  },
+  "launch_packages/pettripfinder/markets/reports/cleveland-akron-canton-oh_coverage_audit.json": {
+   "sha256": "2924198c85db07f3ca613c2791713cb2acadca7f7a0726ee259dbb38386c8149",
+   "bytes": 4842
+  },
+  "launch_packages/pettripfinder/cleveland_final_partition_002.json": {
+   "sha256": "031345d893ead620d039f24994a82ab1b27bbb01cf8035129a4239bb1a825c00",
+   "bytes": 174528
+  },
+  "launch_packages/pettripfinder/cleveland_unresolved_manifest.json": {
+   "sha256": "c2a6475f253cdf4b1c96426abccf1e94fa7752bc1f6cfce2949aad2a84a0c052",
+   "bytes": 44760
+  },
+  "deploy/netlify/release_contracts/cleveland-akron-canton-oh.json": {
+   "sha256": "9856a22ec4f8b4a87c1ede20cb387899a2a31d945c4503ea57940f02c7ae2d17",
+   "bytes": 8017
+  },
+  "deploy/netlify/launch_participation.json": {
+   "sha256": "7f270d7bc837c3f620f7fee4735cafb48d37106c75b1e3a2b8c1077d3cc7d5e9",
+   "bytes": 10346
+  },
+  "deploy/netlify/global_deployment_manifest.json": {
+   "sha256": "bd105b19ae459eb5bdafd4c381800e27b026327a7f7385fd8c59914a16d65e34",
+   "bytes": 6392
+  }
+ },
+ "hotel_routes": [
+  "/pet-friendly-hotels/cleveland-akron-canton/ac-hotel-cleveland-beachwood/",
+  "/pet-friendly-hotels/cleveland-akron-canton/cleveland-marriott-downtown-at-key-tower/",
+  "/pet-friendly-hotels/cleveland-akron-canton/comfort-inn-mayfield-heights-cleveland-east/",
+  "/pet-friendly-hotels/cleveland-akron-canton/courtyard-by-marriott-airport-north/",
+  "/pet-friendly-hotels/cleveland-akron-canton/embassy-suites-beachwood/",
+  "/pet-friendly-hotels/cleveland-akron-canton/embassy-suites-rockside-independence/",
+  "/pet-friendly-hotels/cleveland-akron-canton/hampton-inn-suites-streetsboro/",
+  "/pet-friendly-hotels/cleveland-akron-canton/holiday-inn-express-suites/",
+  "/pet-friendly-hotels/cleveland-akron-canton/home2-suites-by-hilton-cleveland-beachwood/",
+  "/pet-friendly-hotels/cleveland-akron-canton/hotel-indigo-cleveland-beachwood/",
+  "/pet-friendly-hotels/cleveland-akron-canton/hotel-indigo-cleveland-downtown/",
+  "/pet-friendly-hotels/cleveland-akron-canton/residence-inn-by-marriott-cleveland-avon-at-the-emerald-event-center/",
+  "/pet-friendly-hotels/cleveland-akron-canton/residence-inn-by-marriott-cleveland-downtown/",
+  "/pet-friendly-hotels/cleveland-akron-canton/residence-inn-by-marriott-independence/",
+  "/pet-friendly-hotels/cleveland-akron-canton/residence-inn-cleveland-airport-middleburg-heights/",
+  "/pet-friendly-hotels/cleveland-akron-canton/residence-inn-cleveland-beachwood/",
+  "/pet-friendly-hotels/cleveland-akron-canton/the-westin/",
+  "/pet-friendly-hotels/cleveland-akron-canton/tru-by-hilton/",
+  "/pet-friendly-hotels/cleveland-akron-canton/wyndham-independence/",
+  "/pet-friendly-hotels/cleveland-akron-canton/drury-inn-suites-beachwood/",
+  "/pet-friendly-hotels/cleveland-akron-canton/drury-plaza-hotel/",
+  "/pet-friendly-hotels/cleveland-akron-canton/comfort-inn-alliance/",
+  "/pet-friendly-hotels/cleveland-akron-canton/comfort-inn-canton/",
+  "/pet-friendly-hotels/cleveland-akron-canton/econo-lodge-akron-copley-northwest/",
+  "/pet-friendly-hotels/cleveland-akron-canton/courtyard-by-marriott-akron-downtown/",
+  "/pet-friendly-hotels/cleveland-akron-canton/residence-inn-by-marriott-akron-south-green/",
+  "/pet-friendly-hotels/cleveland-akron-canton/aloft-beachwood/",
+  "/pet-friendly-hotels/cleveland-akron-canton/courtyard-by-marriott-canton/",
+  "/pet-friendly-hotels/cleveland-akron-canton/residence-inn-by-marriott-canton/",
+  "/pet-friendly-hotels/cleveland-akron-canton/aloft-cleveland-downtown/",
+  "/pet-friendly-hotels/cleveland-akron-canton/sheraton-suites-akron-cuyahoga-falls/",
+  "/pet-friendly-hotels/cleveland-akron-canton/residence-inn-by-marriott-akron-fairlawn/",
+  "/pet-friendly-hotels/cleveland-akron-canton/residence-inn-mentor/",
+  "/pet-friendly-hotels/cleveland-akron-canton/aloft-cleveland-airport/",
+  "/pet-friendly-hotels/cleveland-akron-canton/red-roof-inn-north-canton/",
+  "/pet-friendly-hotels/cleveland-akron-canton/america-s-best-value-inn-alliance/",
+  "/pet-friendly-hotels/cleveland-akron-canton/extended-stay-america-select-suites-akron-south/",
+  "/pet-friendly-hotels/cleveland-akron-canton/motel-6-richfield/",
+  "/pet-friendly-hotels/cleveland-akron-canton/super-8-by-wyndham-copley-akron/",
+  "/pet-friendly-hotels/cleveland-akron-canton/baymont-by-wyndham-copley-akron/",
+  "/pet-friendly-hotels/cleveland-akron-canton/days-inn-lakewood/",
+  "/pet-friendly-hotels/cleveland-akron-canton/emerald-necklace-inn-bed-breakfast-and-tea-room/",
+  "/pet-friendly-hotels/cleveland-akron-canton/fidelity-hotel/",
+  "/pet-friendly-hotels/cleveland-akron-canton/kimpton-schofield-hotel/",
+  "/pet-friendly-hotels/cleveland-akron-canton/punderson-manor-lodge-conference-center/",
+  "/pet-friendly-hotels/cleveland-akron-canton/roost-cleveland-apartment-hotel/",
+  "/pet-friendly-hotels/cleveland-akron-canton/sonesta-es-suites-cleveland-airport/",
+  "/pet-friendly-hotels/cleveland-akron-canton/the-hotel-at-oberlin/",
+  "/pet-friendly-hotels/cleveland-akron-canton/doubletree-by-hilton-akron-fairlawn/",
+  "/pet-friendly-hotels/cleveland-akron-canton/extended-stay-america-hotel-akron-copley-east/",
+  "/pet-friendly-hotels/cleveland-akron-canton/hampton-inn-akron-fairlawn/",
+  "/pet-friendly-hotels/cleveland-akron-canton/hampton-inn-akron-south/",
+  "/pet-friendly-hotels/cleveland-akron-canton/hampton-inn-suites-alliance/",
+  "/pet-friendly-hotels/cleveland-akron-canton/hampton-inn-suites-beachwood/",
+  "/pet-friendly-hotels/cleveland-akron-canton/hampton-inn-suites-by-hilton-canton/",
+  "/pet-friendly-hotels/cleveland-akron-canton/hampton-inn-suites-cleveland-airport/",
+  "/pet-friendly-hotels/cleveland-akron-canton/hampton-inn-suites-cleveland-independence/",
+  "/pet-friendly-hotels/cleveland-akron-canton/hampton-inn-cleveland-airport-brooklyn-oh/",
+  "/pet-friendly-hotels/cleveland-akron-canton/hampton-inn-cleveland-downtown/",
+  "/pet-friendly-hotels/cleveland-akron-canton/hampton-inn-massillon/",
+  "/pet-friendly-hotels/cleveland-akron-canton/hampton-inn-north-olmsted-cleveland-airport/",
+  "/pet-friendly-hotels/cleveland-akron-canton/hampton-inn-stow/",
+  "/pet-friendly-hotels/cleveland-akron-canton/hampton-inn-westlake/",
+  "/pet-friendly-hotels/cleveland-akron-canton/hilton-cleveland-downtown/",
+  "/pet-friendly-hotels/cleveland-akron-canton/hilton-garden-inn-akron/",
+  "/pet-friendly-hotels/cleveland-akron-canton/hilton-garden-inn-cleveland-airport/",
+  "/pet-friendly-hotels/cleveland-akron-canton/hilton-garden-inn-cleveland-east-mayfield-village/",
+  "/pet-friendly-hotels/cleveland-akron-canton/hilton-garden-inn-cleveland-twinsburg/",
+  "/pet-friendly-hotels/cleveland-akron-canton/hilton-garden-inn-downtown-cleveland/",
+  "/pet-friendly-hotels/cleveland-akron-canton/home2-suites-by-hilton-canton/",
+  "/pet-friendly-hotels/cleveland-akron-canton/home2-suites-by-hilton-stow-akron/",
+  "/pet-friendly-hotels/cleveland-akron-canton/homewood-suites-by-hilton/",
+  "/pet-friendly-hotels/cleveland-akron-canton/homewood-suites-by-hilton-akron-fairlawn/",
+  "/pet-friendly-hotels/cleveland-akron-canton/homewood-suites-by-hilton-cleveland-beachwood/",
+  "/pet-friendly-hotels/cleveland-akron-canton/knights-inn-cleveland-macedonia/",
+  "/pet-friendly-hotels/cleveland-akron-canton/la-quinta-inn-cleveland-independence/",
+  "/pet-friendly-hotels/cleveland-akron-canton/staybridge-suites-akron-stow-cuyahoga-falls/",
+  "/pet-friendly-hotels/cleveland-akron-canton/staybridge-suites-canton/",
+  "/pet-friendly-hotels/cleveland-akron-canton/staybridge-suites-mayfield-heights/",
+  "/pet-friendly-hotels/cleveland-akron-canton/super-8-by-wyndham-akron-south-green-uniontown/",
+  "/pet-friendly-hotels/cleveland-akron-canton/super-8-by-wyndham-richfield-cleveland/",
+  "/pet-friendly-hotels/cleveland-akron-canton/radisson-hotel-akron-fairlawn/",
+  "/pet-friendly-hotels/cleveland-akron-canton/la-quinta-inn-suites-cleveland-airport-north/",
+  "/pet-friendly-hotels/cleveland-akron-canton/comfort-suites-hartville/",
+  "/pet-friendly-hotels/cleveland-akron-canton/crowne-plaza-cleveland-airport/",
+  "/pet-friendly-hotels/cleveland-akron-canton/embassy-suites-by-hilton-akron-canton-airport/",
+  "/pet-friendly-hotels/cleveland-akron-canton/extended-stay-america-premier-suites/",
+  "/pet-friendly-hotels/cleveland-akron-canton/springhill-suites-solon/",
+  "/pet-friendly-hotels/cleveland-akron-canton/comfort-suites-twinsburg/",
+  "/pet-friendly-hotels/cleveland-akron-canton/red-roof-inn-cleveland-east/",
+  "/pet-friendly-hotels/cleveland-akron-canton/red-roof-inn-independence/",
+  "/pet-friendly-hotels/cleveland-akron-canton/red-roof-inn-middleburg-heights/",
+  "/pet-friendly-hotels/cleveland-akron-canton/red-roof-inn-westlake/",
+  "/pet-friendly-hotels/cleveland-akron-canton/residence-inn-by-marriott-cleveland-university-circle-medical-center/",
+  "/pet-friendly-hotels/cleveland-akron-canton/towneplace-suites-by-marriott/",
+  "/pet-friendly-hotels/cleveland-akron-canton/hilton-garden-inn-akron-canton-airport/",
+  "/pet-friendly-hotels/cleveland-akron-canton/quality-inn-suites-richfield/",
+  "/pet-friendly-hotels/cleveland-akron-canton/wyndham-garden-westlake/",
+  "/pet-friendly-hotels/cleveland-akron-canton/sonesta-es-suites-cleveland-westlake/"
+ ],
+ "corridor_routes_declared": [
+  "/pet-friendly-hotels/cleveland-akron-canton/downtown-cleveland/",
+  "/pet-friendly-hotels/cleveland-akron-canton/cleveland-airport-west/",
+  "/pet-friendly-hotels/cleveland-akron-canton/cleveland-east-beachwood/",
+  "/pet-friendly-hotels/cleveland-akron-canton/independence-rockside/",
+  "/pet-friendly-hotels/cleveland-akron-canton/mentor-lake-county/",
+  "/pet-friendly-hotels/cleveland-akron-canton/macedonia-twinsburg-northfield/",
+  "/pet-friendly-hotels/cleveland-akron-canton/richfield-brecksville/",
+  "/pet-friendly-hotels/cleveland-akron-canton/streetsboro-hudson-aurora/",
+  "/pet-friendly-hotels/cleveland-akron-canton/akron-downtown-east/",
+  "/pet-friendly-hotels/cleveland-akron-canton/fairlawn-montrose-copley/",
+  "/pet-friendly-hotels/cleveland-akron-canton/cuyahoga-falls-stow/",
+  "/pet-friendly-hotels/cleveland-akron-canton/akron-south-green/",
+  "/pet-friendly-hotels/cleveland-akron-canton/canton-north-canton-cak/",
+  "/pet-friendly-hotels/cleveland-akron-canton/massillon-alliance-stark/"
+ ],
+ "row_hashes": {
+  "hash_rule": "sha256 of json.dumps(row, sort_keys=True, ensure_ascii=False, separators=(',',':'))",
+  "census_by_identity_key": {
+   "ac hotel cleveland beachwood": "33ed86b422ffbdb3241d1823ea45512840ca1a51132b37013a1bc7abb2713684",
+   "aloft beachwood": "e04d4bea802fa5a69e14dd9a7c3c965605b948f3ad86893b0f1989a46f937773",
+   "aloft cleveland airport": "2972e780103fdba48ffcf35efb658914a97ae578a7e6cac321fbfdc08aaf8744",
+   "aloft cleveland downtown": "b5f7d4c2fdce234fd833c9931b742c211e7d3bd3272af3d671894df934d6f42b",
+   "america s best value inn alliance": "73ae1f23195a9a50178829811cea06c24c23ebc7443ca4952acccba79a80c609",
+   "ariel broadway hotel": "7fc42a303fb2d1812e540b4fa4f81f5669b53aa6888906c7c2a6b88b6e4d80a6",
+   "aurora inn": "616f5fa72fed36b6457af8cc54d839e3a8a0e61fa5abbcd5387cb755ecf3760e",
+   "baymont by wyndham copley akron": "c810ebcabad9b85e4b960c9e03f303c05950bc12b90bb6bc060eee9727475aa7",
+   "berlin s motel": "fb4db13f588b7b185a3828af75a66887a86e16a32cda0993eedc005cb23cca10",
+   "best western plus north canton inn and suites": "64ddf9c20cd0a88e4333e3a7cad468c86dbd05b9eedbaaf630540681e8539f06",
+   "blu tique akron a tribute portfolio hotel": "5d2a3b7a57a858da134f9babbc787723b28390b644b1ed5349a03d562f2da410",
+   "budget inn": "cfb45fb1ce679839a57d7e906fff8b20b1ecd68339d81dfbe5257bf77800aaec",
+   "cambria hotel akron canton airport": "4dc4b648e34b590d3c8dae2cbc51fcf2518b98fce3723d227d9c58be58db0821",
+   "cambria hotel and suites avon": "86171547572780c22d8d9d5ea56ef28a98deb4893e08d3f79e7fde3a8c937731",
+   "clarion inn and conference center": "287e5a2cc082893de1e7608f94b872096531faa8b530e5e18c6a97ed3abe1c3d",
+   "cleveland house hotels": "8cbbb64a1120c539728de0051ba42ce4c76a8a1b9b10a6f333192186fa2d81c4",
+   "cleveland marriott downtown at key tower": "623d71a8ca7c6f1ab4cc29758002cf39676460220de264d562c47c3df040c4d2",
+   "comfort inn akron south": "39ec89e0c37648d8440f1aacd086c236e803f064ae6d57b147cc70a3f49ac4ac",
+   "comfort inn alliance": "8d4058bd02c73f5f2cae426d530fae3610d611bf411d8cf8aadecb03021beb79",
+   "comfort inn and suites streetsboro": "9b80b81f8bc5cd632b2de7709f0f4dae2dedd54154eef63363e01a7ea13c6ee5",
+   "comfort inn canton": "cbfb8aa32f6310b8fb951f9baca2a6ccfa8017cc82db1071ad24452d081dc479",
+   "comfort inn cleveland south richfield": "6af73fc6e12f50175842dc4f596b4bfadd0ba78212239313036f25a14b157fe6",
+   "comfort inn downtown": "a41e382efcba7ce19ecfc5a645a5f9dc1fb2ba44a6d8d20723c2f801ed1e8456",
+   "comfort inn independence": "ed2ea8daaa6e03cc57d7b959796f0d30f0e9e0b1b7025e5db12ed873b5df54f9",
+   "comfort inn mayfield heights cleveland east": "f29288309d2c80c9fe7dc9ce26ca451221ff7f94b381227248601909d4c3329a",
+   "comfort suites hartville": "5e6a202c93430c0c6a0893e59fd3b36a84ee6c3a2ed88863525a77c957b9931a",
+   "comfort suites twinsburg": "be8e31381aab14ac63493348952d3b400ddb7fc9c5d35f8d341a88fb4f7373b4",
+   "cottages at the lodge": "53f05f7118089005f1c4a9e0ca07a4366aad880a609ba539dc306f49a3c53edc",
+   "courtesy inn": "c7335c1be7075d9cbdf50bd6841252d7a8428056f00ec7baed23c19637442366",
+   "courtyard by marriott airport north": "ee3e7554d256ba0db0cfb5c86898f535d226af6eea46528a099c48514f887009",
+   "courtyard by marriott akron downtown": "d652c8043fdb3374b3d637d3cdb264f729ad21d33e76fde56f47e798fdcb47a0",
+   "courtyard by marriott akron fairlawn": "089f0da32baf7e51adb88f659d1e37ca9d89dd3058f5825bf6dbe60776c7e84a",
+   "courtyard by marriott akron stow": "a6f90b44c3f31e4352677ca978ef518c1a18c3e727ea89d50ac6f8019162f2f1",
+   "courtyard by marriott beachwood": "e8013d03b5b8ac8de25ecff9d8ae8b8370cc61bc66407ffab84389ac498fd640",
+   "courtyard by marriott canton": "b42223e73173b4a2f89c1fb50693657835c128d7d63b77387409fc004ea5040a",
+   "courtyard by marriott cleveland airport south": "d952ea38b83bef85d6b4fc7ad6110709520cd911a59da0da064cfd73cd0a2c09",
+   "courtyard by marriott cleveland university circle": "061b94ff541ec1e11c754b5344dda3524b6661d6898d20f0c8257ca26f44476b",
+   "courtyard by marriott independence": "212565896f363e01a4bba8dc4a796a9c93cf095a9fd129d4453d21f127e064d3",
+   "courtyard by marriott westlake": "6a9cb422b68567952540163db7f3d5bc2781856c583aa68df376ca5a04ebe1e0",
+   "courtyard by marriott willoughby": "e5023766e59b92b90ecd555a178e514891cd1434977f600bcc400b48af52180d",
+   "courtyard marriott": "63c48815d2b248a265507db292575467ea1a6ffc390f28e348a7830f74ec4171",
+   "crowne plaza cleveland airport": "807c6392ab5ee0c1fb288677cabfadc27eea687c9e434d6050bfe333e97c6152",
+   "crowne plaza cleveland playhouse square": "193e604bb78f84ee5781f9e913ba3dda163ac0be6e7eaeb8f4763d35c5059be8",
+   "days inn lakewood": "c547ef3f914641ce1f3cb8c8c857a4ee99051093e8f81bc94503574ad5104ccd",
+   "quality inn and suites richfield": "ace4b1c6a734946e2ef749fc6d01222df9d897159814e8fdb16ec786e30b923f",
+   "don el motel": "c891bc09a08e201d25a4145d97cd6c4eee9ec595455ad86dcf98f3ca78b25f5e",
+   "doubletree by hilton akron fairlawn": "92b75adf4e22235073f3b6dda41e6f5f79ac6932c4818247cd94d7d20413b13d",
+   "doubletree by hilton canton downtown": "fd62c200cc62d70850c1953665954b94ffd1bc0de8fd2f03b909be86f4e96fd5",
+   "wyndham garden westlake": "fd480a4814c5cce2df83bf26a2bfe2d3802a527a41490431c95ffba268c247ed",
+   "doubletree by hilton tudor arms hotel": "859cf3da3cf17832dca452879665d08ca475432798f8c3fea5d9d8ddb8d6bc2d",
+   "drury inn and suites beachwood": "d1b30fb3f06568b65524bab18e6f9a19b261e4f79f01d63a8b825f7da2d4c5e6",
+   "drury plaza hotel": "0fc392b8e965d0c0db8e5d42d1822d495dd02dcec05ea04048dc41fc53156cc8",
+   "econo lodge akron copley northwest": "2541aa4df366d61aedbea8d31ca31c26d4989c1903f5d3b2b8b60204cf60e7f6",
+   "economy inn": "01bf314d9b91ce5950d6e5b89f6e6632da6730128842dfd55f1407c724de5152",
+   "embassy suites beachwood": "7630be015ba8164a2aad86c6249a695c88d05c22facad00729d737745a520bfd",
+   "embassy suites by hilton akron canton airport": "b211c16dbbd03fd750485bf7e57f21b691b81f7bc20b54b3d35b83cd3612cc41",
+   "embassy suites rockside independence": "858fdb633b3c3d77f1857ef8161c420bbf26af9f6e181f286cce6446861f2435",
+   "emerald necklace inn bed and breakfast and tea room": "4fce017a92ff2b72251773e5077c7d8d752386407556a7d2308c81083ed2cacf",
+   "extended stay america hotel akron copley east": "4b9e31aac5c8ae07ea6b465175c8fa174a9163294e198709bdff44b2bd41db75",
+   "extended stay america premier suites": "97cd56ed82c09c775e04943939d9bc9baa98ef0e1fa6d0ba79046d8ac05b4a85",
+   "extended stay america select suites akron south": "a9b2f918127d855c3c80a5cfb20fa1c5dc9aaec877cc50727d32a609c6cdead9",
+   "fairfield inn and suites canton": "f37d8b2f1d33a1e8599d910b09e28fc7011a83d51d56053addb14ddc111bde93",
+   "fairfield inn and suites canton south": "3e044a38f00e84224ae44fd8dceace383dc3360682939f7076aa48ba8f2c6192",
+   "fairfield inn and suites streetsboro": "d2dd69bd072ed48dd0647082a1ffccfd0282a1f3a68e9899041363e33a9ed061",
+   "fidelity hotel": "b844e47a792606bde7a29d4854f823497e8f638cb98d2fea18dc5447d6cfd6dc",
+   "four points by sheraton cleveland eastlake": "bc02b93dc3b26ffbb14dd3c3357b9eb419e732bdb140d2fa9803de7fb516d997",
+   "hampton inn akron fairlawn": "9ce78139c9710d729b642ba9e61c4ce542cb153ec418195555cc8ac6f34ba02b",
+   "hampton inn akron south": "fb847cce2b72290b89d565cab139ab1b0f39dd15ef60ff7b935788ab1a120459",
+   "hampton inn and suites alliance": "6a64263c8cd39ecf257f0cc95ee71a8e4bd04ddceb241683571537cb67ddaf06",
+   "hampton inn and suites beachwood": "f59ec26809651dc4715e3eb79e64b8a766d13027befbacdd8b82f1368df3fe88",
+   "hampton inn and suites by hilton canton": "c7e2641e34031a3a863336ec17df1568203a4331fbac5d9e839a022dd52edef5",
+   "hampton inn and suites cleveland airport": "be46544ce04d5dbb2338caecbf8a754764a208e3ccede728a92f495f019ab76b",
+   "hampton inn and suites cleveland independence": "8c1d7aa792d7cb9055f64197d256988ebeb737b6f126a2de65e8973718850c01",
+   "hampton inn and suites streetsboro": "5abfbe4eee7f8eca9dad636fe74001f7cb20f0ba05238407d1dde6018382f186",
+   "hampton inn cleveland airport brooklyn oh": "ecdeaa79606f1c8a832c33af642f1990b4bd17a92f684730e407bbc3a8de5343",
+   "hampton inn cleveland downtown": "d2fa6b05148bd17c732f9c56872b4d06b251cc1996d1346091f6b137cc10f5db",
+   "hampton inn massillon": "446df75c4f84266525ffbf3b7b63c31ebe1b6c2dd452f966ad9dbc14a44ca1f3",
+   "hampton inn north olmsted cleveland airport": "853f1df9ff63c5e034d47c5b3e736a7210e0c330b63b6b780f4173e74ccf625a",
+   "hampton inn stow": "54b5c7a7e3fc0db2d0b0dbe87efb602d29e01db3130fe7bc087f40b073b72e75",
+   "hampton inn westlake": "a3ed9357e29ee3b5ed9f0818a7d5c9a363b7ac2b57d5831a1c6c24837cfcaa5d",
+   "harbor inn": "ee6a1080f665c5675cb5b8dc8809872b3786c5487f7b2b0fadacc30abe1cbadb",
+   "highlander inn": "77654228cc0175463644252d71013816539006c8aec94cb8d60c1f7b223d5def",
+   "hilton cleveland downtown": "e049b1ab5ae7108dbb0c7c01c6f1438d8971c8acd883b9eaa6bd65dbdf4819ae",
+   "hilton garden inn akron": "de0eb453da297de52831525b704bb68aa16ade947a10076aea8ea166d2f03b2e",
+   "hilton garden inn akron canton airport": "3fb4ef9226be0869e43b7b30c947c4901366819c16cbe011d1de4e5263267eb8",
+   "hilton garden inn cleveland airport": "86575383631dd5e7bf1108657f82013e1dd515aaa7a04c7b045b092c194f7991",
+   "hilton garden inn cleveland east mayfield village": "0c51ef28b37658b3a6679f1a464df4f7e2cd807e2fd89099189d597ba84d4a0b",
+   "hilton garden inn cleveland twinsburg": "a6dd16a793cd371a5b39e370af7b85f0ddb7c36387572f519979899fd32ceb15",
+   "hilton garden inn downtown cleveland": "418bc7fa7d1d100d00c79b80b68e77ed95e5e95776db0db7b8b8c1a63bb294e1",
+   "holiday inn canton": "d3da58c9fe1f91e48dbabde6d289d1f77f80b1ad28634c1af06980770d5aa54b",
+   "holiday inn cleveland clinic": "ce451d17af86fbad136754a8a6a2254c5388cc4c0afd4e976c865f699a6c6db4",
+   "holiday inn cleveland mayfield": "94f365968c80823e6cb397897c3ec247f22aa872c9e44445fb8be04f38a2eae6",
+   "holiday inn cleveland south independence": "a3d4733b0790c4d70008af38fffd53c942277ca5d08347a782f86f219c32047f",
+   "holiday inn express": "e88554aa2c2e27907e1462a067ee08882bdb2f8677cf94592b974cc43ba400a8",
+   "holiday inn express akron nw fairlawn": "6cf2b90d698ee58555f037bfbc8a45655e3f41c9c4fa6fe3472ea712ce5500e7",
+   "holiday inn express and suites": "6ee5cdab11b749c4fe8fae7776ddcfbca9e2d29a20b7ef9efee12232e189d077",
+   "holiday inn express and suites alliance": "27656b00720d827efbd0ec4b21602a169a8d9a68c00c2d89669a3790981f62ff",
+   "holiday inn mentor": "1106ee25fabe869125149892b77c311c38c7b24efdbd1b40e97f5d741ba8498d",
+   "home2 suites by hilton": "59da0b423574fc7e8245a788f0b5d56d3556f39bb38f2f216a3fc68bd03a7332",
+   "home2 suites by hilton canton": "a0a9cecc4c0e1c254bf40cc50e501c51ae43f702aabc5dc880e1c105cb03f70f",
+   "home2 suites by hilton cleveland beachwood": "6a0a700d95e4aa3f915016cf66603edf5394c9797ebba433f7c535d25b52b6cb",
+   "home2 suites by hilton stow akron": "83b13ef27ccea689ec6f6f1fa47423f5a86335582cc2c8a49bf80fe53862f715",
+   "homewood suites by hilton": "511ae7e0352934dbdfc4c6bd5ae7d6cfd5d1f30599bb186084cd7f622dfcf3f9",
+   "homewood suites by hilton akron fairlawn": "b0ac50e333603473d461d71ca90c0de4f150f15108165077d1ca107b5f270a6e",
+   "homewood suites by hilton cleveland beachwood": "ca991431c556dedd5dc26fc62374f3e604927a8056906ce9e9d2ec867a7f309f",
+   "hopp inn": "c29885d29e19c3c1fa6cc0ac210268e87c467e2c0c14e7ad3c88753dec65dbfa",
+   "hotel cleveland": "d95b92bb50ffbb239e2e38b5ff671176eff0b254471d1ad8fdb35c1b6a62b600",
+   "hotel indigo cleveland beachwood": "48df2c6810930a39fb7681c04b2e4c77581084cc48dd272325f3c08dc903b075",
+   "hotel indigo cleveland downtown": "e061e2d9762353b873b04f2942565716428bfd0bedaf1bbd1744894b85d9a512",
+   "hyatt place canton": "eb232e8512135e28c2a09151bf4a568127f427e01075b5a20ea095cf5fb56106",
+   "hyatt place cleveland lyndhurst legacy village": "684ce0692cfac468c4b410b253bc3766a7fbae1dac8d4fde03bb24bec922b933",
+   "hyatt place cleveland westlake crocker park": "e3a0061273899d0ef0149c650014cf2f06479fbd4ff1e8547184713076b5f53d",
+   "hyatt regency": "6bccc34bef6fc5fcd8f5f0b7f512caad1a09b8ad4e31a1967641c862c6b92469",
+   "inn at brandywine falls": "c41a369130d5d8b7351b5cbb363380bedc2f720ae39ee805741f8cbf6090e999",
+   "inn cahoots": "6ee7b106e315bbe270d69830236289004b7115c345595b89b8cff06a2254dac0",
+   "inn on coventry": "5b11ef9f0e9c67506d5d9243c78319db6060fb3b4072571211bafc1811c31e68",
+   "inn the doghouse": "00e0684a02f3654c3d8d4511af857b10ab023b6f83639ca7c6b97e6868c5ff17",
+   "intercontinental suites hotel cleveland": "596ab6bd0f0a1610f994828fe484b7b815488a4d57ca7224ab766372b67174db",
+   "kent state university hotel and conference center": "828508a80d22e4647a2e91ada5507deeb78ab45262de7cb59acdca204338f9fd",
+   "kimpton schofield hotel": "e98bfe2b41cb209ef081fb97d9a7c26086e24385bba3c18f27b45dbaf268e260",
+   "knights inn cleveland macedonia": "d6f7acadff0a245cb73655fb0ae8e633dea9a70bdba2565dca1405fb22e61c69",
+   "la quinta inn and suites cleveland airport north": "fd61e86e99c326fa0ecf5cbcb55f0ba3d76afa4cc14d1eaafa6445ec80c8d89d",
+   "la quinta inn cleveland independence": "cf1ee6706430dffbed9726f498a325a14a595dbd62f2a5b1145d1b449505ebf9",
+   "lakeside motel": "5f340a6881f3c6aaa087e21a4e562ccf59d669dfbdd5a259efe535093e3e47b2",
+   "magnuson extended stay": "9bcc095e6c5e2a90ccfbd43e32611c8fbc9ec753b2cb681a512fe8778b79a7d7",
+   "marriott cleveland east": "c6e68e45ca64ea1d029f7ffec21434e81bd28d598c59faf1da0e6e9fee30a99b",
+   "metropolitan hotel at the 9": "b58b5f90a9504b989c4be6f1a7eaec42a69f59e529f13699d9c0ba627935fca5",
+   "microtel inn and suites north canton": "87fd09485856f57648ab1d9f36dbcdf81c23568eba4a405f55c0b3f07c59b344",
+   "motel 6 richfield": "5c512e37f8e532cb32ac7d095e8ee10ca8d3bd44a2040497876a640026b7227c",
+   "palmantiers motel": "08731f5a4c710d160180126bf8b2ddbc38281e8783e1608f31405cae4f61b127",
+   "punderson manor lodge and conference center": "826383d53b6503081a1b94f6e32c9619bb29da84e8a0c20f75048cebce2b3ce7",
+   "quality inn arlington": "77ce8274c2bd2804fdf304fda228adde1024796a1afebbb21068a65a75b876b8",
+   "quality inn hall of fame": "3c49c84189beaa1d36f664d9ec7d3fa6444ddff8185aa6d18d2e4eee9f54b674",
+   "radisson hotel akron fairlawn": "62bf39f8343a1eeca7701197f7f492ff530093b9c6d25fa501a786ce9cad69b8",
+   "ranch motel": "8448962faa2ac3e09b93a270ce0a07315195a191ef6f0b9e76661cd737be5672",
+   "red roof inn cleveland east": "2b24a292e8b03d5c1c6b6f78665a87a38d15745dd3addfdab0f17729783d3757",
+   "red roof inn independence": "eb6bf8678c3feaf958f659f73bff431e9ae3f9b58e46409b51c4b7f564d93eb4",
+   "red roof inn middleburg heights": "f7ec924a3505c23add883ba234e978c0453a4c184cd3f1e96cf7aecb97ec64f9",
+   "red roof inn north canton": "207c77463d3b3059e9f07653d19622dad5baebc117dd463ae22f1bea979b219f",
+   "red roof inn westlake": "2b368572a2029eb170faf5fe84a6f3bfaeeda873da8bc4198963e7d3cae75b21",
+   "residence inn by marriott akron fairlawn": "dcef37c2ff2e057740cea49d702f9b72b31fe227a1aa99831afdb35b3ee9057d",
+   "residence inn by marriott akron south green": "2e881149c50706a2fd4581bd54692483fd1d784550f28cae5babc5b7fb0fcabc",
+   "residence inn by marriott canton": "b4f5afa3ce0a0e1641de937a2c78923a34d5b7cc72b0b090c401556aab420feb",
+   "residence inn by marriott cleveland avon at the emerald event center": "f88e5e56d99cf08ee0704e7c15c5c8e4dd69cac2d3c923642070390b445d9b26",
+   "residence inn by marriott cleveland downtown": "0faf3c95a3c695906ebf9a0f1f0832ac8e443f41633bb71afe89ace5ca0239f7",
+   "residence inn by marriott cleveland university circle medical center": "741b968ee1a2ccbdd73a9d4c8702b0ada03c26422dab379dad0354c8990e13b0",
+   "residence inn by marriott independence": "9d663269ccb5979f6fcf58bcdc72afe6dd67a2cba15bb95776661de913b7845b",
+   "residence inn cleveland airport middleburg heights": "ec318e2f70410f8781ad72a016eaff0ba078ad13e894663aa441fa638821f2d8",
+   "residence inn cleveland beachwood": "c84e8641e913708b9a56d174ff9f4d36eaf2638b10777b41e603ec7c421aab76",
+   "residence inn mentor": "aacc463279bdbed73d0a11ac39518ba7e70b765af5418580f3190a85f1a6e463",
+   "roost cleveland apartment hotel": "8ce2120fa72ca92bb4f258c8301b4af9f13300d1eca9cf5c9bcf9e6b34792892",
+   "shady oaks farm bed and breakfast": "cd82e611bd99f9b748210f6e3515c7bd86c7751abd789c479dfb4acb8254b170",
+   "sheraton suites akron cuyahoga falls": "7411332fa4f6fe89383fec26e59547ac7af1b19d4b7c8daf1b000be55f911c02",
+   "skyview lodge": "906c7e905bddf6b997f6c2eedaf8d94068d584d274a8e1fdfa95de715c569086",
+   "sonesta es suites cleveland airport": "f5358ecc372a0d962e52997cc430437a48eed7565a2f5cd2e22f430e70d75377",
+   "sonesta es suites cleveland westlake": "cd16fc4cfb8fe4a58204a9684df5d6ae72864ba3adc90fe19de3574d47503970",
+   "springhill suites canton": "d9e753591c3775b6abb6f64a0a0d28d8c0b6933c5b792f7ed2106fdabb1abd87",
+   "springhill suites independence": "435963e8213a345c2ef6013dddf395a2845ba0f4b763dbd6cd86a1a4beda6e12",
+   "springhill suites solon": "23d79d2dc83b4052b3326c3328ffdc2e5ba779b1a52a9a1b384e0074e07f04ae",
+   "staybridge suites akron stow cuyahoga falls": "274761b847c2e95f2fa898c74fd66777820606541aa8e771128592830292ceef",
+   "staybridge suites canton": "0273beee57fc5831b7385c12a82052f1f2dd4b8e55687dbebb939cebe326bd38",
+   "staybridge suites mayfield heights": "27431022ff24ff01ae117010c5e1a686714c8e61e7a9008b21fc43a3acddfd09",
+   "stone gables inn": "ee92775254f8d58343444f8493cfea512be3886856365cb7f9b4c441a25a0f25",
+   "studio 6 extended stay hotel mentor": "491745d9ffa77aa0d2a3b7b5fb6d272d5c637fb406858d06c3e0e20e202f0c04",
+   "sunset motel": "00fe51b18fe610f4cee6586bbafcdb8cc9efb2b1a5d5371adbe5d5da1c96237b",
+   "super 8 by wyndham akron south green uniontown": "9c69202a3422f7034dd8ae951db74e59ab2b65a7680974579243fcba3227263f",
+   "super 8 by wyndham copley akron": "5ff2912ee4ae53d7fd25dae4ad18f4eb14e71ef570419ac454f7800ae414c31d",
+   "super 8 by wyndham richfield cleveland": "268d319725352c62dbdc607db0eacfcd30448131d48ee1434aaf052eb9d87837",
+   "terry point motel": "7d77130e35af961c13ee3a4fe3fef318e12f71fee18bfbb03c34b5a22ce90e5b",
+   "the bertram hotel and conference center": "4fc17f81471d04cd54451dcf50c4b1843dd7a90f6c57257cbde7f157a8d78b9b",
+   "the bertram inn at glenmoor": "46e3826eb367d82043f6881860e734c646ddc87b4f1098d4ed8a6bc03b514855",
+   "the hotel at oberlin": "39722e1d09f6d55099ec2588a20d58072a8d0698a5718bbf5c12524ae91822e1",
+   "the inn at amish door": "41d1870a1aa5c260e568c2f859c080056a035fc3774c215474033df23ce9e7fe",
+   "the lakehouse inn and winery": "683c2ee38fa82d6eed49adfc415edbc5149c23f0779bd0236eacc1bba25f9099",
+   "the o neil house bed and breakfast": "4cb8e339e090f76cd3ea1c268b91591a303bff5c1b25de39b99c6f002e26be56",
+   "the ohio motel": "e88fad0cdf638730a42af35ab9bc06e57e6947f56e44ea3ccddc56c311bac9bd",
+   "the rowley inn": "3c054e9a0634eb5b649c1d96c4755b54fa77e58180824bb09b2b85b2f7a888e0",
+   "the westin": "ddc050ca01772bcfd776f8b1390fded9fcf90b24e2543eaad0f1dc972254f075",
+   "towneplace suites by marriott": "0c062b257628a63e5620df4e44831ab718888574770de3629d856ec8034a9411",
+   "travelodge by wyndham": "91f3b989c8270d0a228a1110492a7379e8474db4b9fefe0b74fd91934bbebbba",
+   "travelodge cleveland airport": "b720cdb80ad8a032b0d2923e96ce514c68e16ee0345bd387b02f392ba68df46f",
+   "tru by hilton": "1f3b90284bce89d50f6a0a509601f7f7c9ac4b5a287db0a289bb9dbbf5aaa604",
+   "twinsburg country inn": "c32a56bdbde10a84e8221e9dbdc4035ad7beaa9c2747cb3206f45497decdd983",
+   "twinsburg inn motel": "4bc22ffa2758ec6f0d030a313fce986727e35f68b1a67886829a566f5451a269",
+   "villa croatia at the american croatian lodge": "525478bd077dd5614426bd608eb0075850455b9798a87a03c8eec88a7dbdcfc3",
+   "walden country inn and stables": "1c1edf9993158ff50200e1946cea334b45a3c0011cfc55b6f7e8939fbe6b35f6",
+   "woodspring suites cleveland": "c92fbc1f300a5b25048ac638516b30e052d0269c7ca1855f3a4c679b70218041",
+   "wyndham independence": "e315bca66083885b9a8bfbfec0345dce6d61ac4d8e361542d41639783ae991b9"
+  },
+  "policy_by_identity_key": {
+   "ac hotel cleveland beachwood": "85d13e1715d1beef744a636d70e700138866497c13d93c8bf1d5900fc59ea507",
+   "cleveland marriott downtown at key tower": "330b08d9c78188000833be743f721e2d4530539952ca9995d0efc573d84c428f",
+   "comfort inn mayfield heights cleveland east": "889bfbea8f4875338f6450d024d8bd155e4a9baf5a7ed55b54da6c8bdcdfcbcf",
+   "courtyard by marriott airport north": "5e9f54ca2f9f2c6f0d0acae64442e564f231d79ec82f0047f441a34601059e8e",
+   "embassy suites beachwood": "5ced27183b5942cb39b22e0f131e60b6616319bb02df67dc4372e41baf8be62e",
+   "embassy suites rockside independence": "04ba2f6c628a97a51da8a43a6bd53df50254839f113fce8eae75031fe7a39254",
+   "hampton inn and suites streetsboro": "7a9db7acacf35c124b137c2a0659cd5e78b8f423a7a4894e54a980b91db4f62f",
+   "holiday inn express and suites": "f26974b8a99ed416c77f7b9bff992480e1e5c5b4cd234183fdfbf5203d6e8903",
+   "home2 suites by hilton cleveland beachwood": "20359652abbdd1f12d919cc81f13e24cd1e4355828b4613f1145f044dc1671da",
+   "hotel indigo cleveland beachwood": "4066565a3edc260a7f5f773fb8ce6382da1f27591b421a64ab1c0dc6aa88851a",
+   "hotel indigo cleveland downtown": "cab7d1760859a934da0bdb0f956d2970f7fe9b1b7229aedeef1f093ca5d40e58",
+   "residence inn by marriott cleveland avon at the emerald event center": "a500a9f6db8eb1192f2c4bb5992e8b686399e336bfaecfb3d5b52a2a2a36c406",
+   "residence inn by marriott cleveland downtown": "73311545b0013957244683c1724300d0186fb53ca5daaa046c78106c30c063d6",
+   "residence inn by marriott independence": "90f82168a02d5e02865cea7ffa0808c1280a77f35fabfe8a0c945e4e67721de2",
+   "residence inn cleveland airport middleburg heights": "352daed2abd7de3dae084c5fe51d14d8f138a7253ce28e53ce3ced10b2fdb03f",
+   "residence inn cleveland beachwood": "d3d918c432190b10662d96df3ebb0eda235aa65796f8d23da81e41ef33aa9546",
+   "the westin": "584d0f7100fb1f161c9d8d215d250eb8e8987910f34e8286904850a16f3ae0b9",
+   "tru by hilton": "61a3c36cada350cfa3c9a9f5cde80016b2c58520aac6106afeda6df7c6d99dc6",
+   "wyndham independence": "adea5907688f231c70a50d6ee33ee0e0e9cd90945382b2f3d551b642ed1d8e89",
+   "drury inn and suites beachwood": "05a54073f18b6676e0a0cecf90c058f7470c0491bf0a514fbdf8d49fca811fd4",
+   "drury plaza hotel": "e2750e2230dfafdd28f2dcf0ee3c0cf4f8954c441108648979bc1ddeeb8503a0",
+   "comfort inn alliance": "4be4587e82aa9bf37d3751136172f5a9445831bf6a30f7fa61409803f64819b5",
+   "comfort inn canton": "903569a6dc86dc6a362a4cbed1c35df66a9552615b9e894b8826b3262921b8f7",
+   "econo lodge akron copley northwest": "b4f3e1361433ccb27542a6312746144f32455cf916010ed212cb9066d53eec65",
+   "courtyard by marriott akron downtown": "21b444f39e1ce76bf45caa17205924da6505f1de9ff13e3ef6e241f1d36899c5",
+   "residence inn by marriott akron south green": "5ed0d16d05fee8b934433b2125a7f65b49dff73c9c79ed9a5f8199a575a743c7",
+   "aloft beachwood": "efaa2e260ddc9782d51abe56ea578bef30d616cf74d09eeeef84cf2cc5d71a37",
+   "courtyard by marriott canton": "3e67f6bdbd5b66f57d03bbf7fb626ae4759f2b5be1a82aaa5fb6bb9fd4074008",
+   "residence inn by marriott canton": "ab164528c0e8ce25afd1951dd0e11306d04d8dab8a9fb0a7149e6dce087abbfb",
+   "aloft cleveland downtown": "49e785dc30623b396942af23298789674e60c913ccac5872f37c618320cad4f8",
+   "sheraton suites akron cuyahoga falls": "ce67cd8c0b43d14b66a615491e797f825d0d48963456144f98ad698fbca04c1e",
+   "residence inn by marriott akron fairlawn": "01716a9ad57cd5a6605e74e124f0fcfce21bbf9e2bd3d091a66c057913be2f86",
+   "residence inn mentor": "b46b95c3cf916afd2a0a369e08070a281ecbe7793fbe121c0ec6831dfdbdcd79",
+   "aloft cleveland airport": "722077eb6283c4c11c1d8a26a9cb8d4f237f3f5e9bbca77d6be8df2fb68d0249",
+   "red roof inn north canton": "9b8c43e797e423afb0eef2180c7f68d3f3b4798ea03c92405675c790b8c4d84d",
+   "america s best value inn alliance": "70c240d36ec4a5bbc67c2db9facbbcf04104e256a1e01731f0014469f5d8ccf6",
+   "extended stay america select suites akron south": "78b0b3e6d4c87a6294650be15dd1e7fbd5471ab1562f24bda6dafeddca100601",
+   "motel 6 richfield": "5a6d076c9dcfb5b1892655fa792e4964cac8dd5e686bd9fcd4f50a1a91c9b4f9",
+   "super 8 by wyndham copley akron": "e5de96bb0d001bcdf7d7b950ed542f3e57f3b27bd9bc88d38389469cb6497250",
+   "baymont by wyndham copley akron": "88864671f212806e807aaad237cd46d6e7ef633fc58b062a19d450b5b4d461e2",
+   "days inn lakewood": "7eafd2778fbb66372ef2ad5141007725ee7997c167279c1be6fcbd699fc15f6d",
+   "emerald necklace inn bed and breakfast and tea room": "a4f5257ae7b86374b7d73e47296df3ada18e429c9606bb96ae0f97281a8e5aea",
+   "fidelity hotel": "b65ab6ae812360cfe555d31298e668a8b405e4922a63adcfeaba759c7088d843",
+   "kimpton schofield hotel": "b4c921eb6fb9335e11842c135ab70b4af7bbc4eac06c8712fe34cea9dc7bdd59",
+   "punderson manor lodge and conference center": "0f525b6d0d1f3a8f34ee8bd308759b6a8aee2aebe3743a12213387f636a1b2b6",
+   "roost cleveland apartment hotel": "d78ec4c199efe86e4afe51dbda39f71aaba9046522a934a5dafc47654c013261",
+   "sonesta es suites cleveland airport": "29f12d38be5f5f3ed341da6d760d49546d7c8c5a32ad294a31ce3f37a1fcda98",
+   "the hotel at oberlin": "8e66d84d7940aa53ccb5aa6b752cf2394e7d19bf8907e881d2b4b7ff6ee0d5df",
+   "doubletree by hilton akron fairlawn": "bd8deb01693298849fb1a2433693c334638d04a28db9333a918cf8bcf07c156b",
+   "extended stay america hotel akron copley east": "aa93cb28db1aa1e0d948e8eb720b0258c66bc284946fc13e69feeb57c9e98b74",
+   "hampton inn akron fairlawn": "0c7d41cdcfcb507a7c1de4afa661e3f16cd0299b35fa190c1c43c71cc0a4c1d8",
+   "hampton inn akron south": "7b172ac4198ae6dc0d4f061e8a1e194c5e0492478c89bc564bae5d4397da5ba0",
+   "hampton inn and suites alliance": "39eb0397147471ca8ae9efa9582cce526cb3c6e148c7535a94645b4b505fca0f",
+   "hampton inn and suites beachwood": "2e272130463d5bf38f272383814d3e5fdff38d3afe20e14645eb5ac55202f53a",
+   "hampton inn and suites by hilton canton": "017fa3a56e593ad754da300e6fdfadc92494dc2f6de0dd5909d13953f5fc5154",
+   "hampton inn and suites cleveland airport": "2511f549cf2382539cf03e438bf3025c0daa706e9a4a45ba26e88048f537a5ed",
+   "hampton inn and suites cleveland independence": "3cd45777e105b67114fb2ac5748f1906e84704883e01a89b58b9133f2b5c787a",
+   "hampton inn cleveland airport brooklyn oh": "09bc8fc6a3fbe714d9c1c6d3af66f5a386086aaec6a628a1d9bfa7b4437b211f",
+   "hampton inn cleveland downtown": "1738578a99874748f001502234de6b31d4e00e48a12459a43bf6a34376d0e423",
+   "hampton inn massillon": "525fa2a307821a4042af655b7b892da4ff8a8794c03d9379c4623d6af637e3a4",
+   "hampton inn north olmsted cleveland airport": "ba4d620c25257f4806550788b839c1664a62c0d957fe6a7d88880a6bb297062c",
+   "hampton inn stow": "8b2f8e4e4539c5627324bcccbf88974a087cb1bf7c080c3945b2356bf3e3e98f",
+   "hampton inn westlake": "2dbcdca62b333e5bc47abc5a51494e012c5d31215249652023414dd5d596d62d",
+   "hilton cleveland downtown": "e293c17c9f32db11132d1341565884e596c47c4e8234cb8865e152dd6612f968",
+   "hilton garden inn akron": "b3aa88b96f4c270564ff8b75dc5715fc2b66707c60ddebced1db2d25109edcca",
+   "hilton garden inn cleveland airport": "125dc625fd0e954fb4b6284d29d734b58a49b331e9e0c017900e668b2e13b8ca",
+   "hilton garden inn cleveland east mayfield village": "45112857df22d58cbcfb8de9a45bb9b5b4d290b87be934e723aa9f7c36e9b3d3",
+   "hilton garden inn cleveland twinsburg": "d13132848ff718ab5cdbfe85f817384a380dfae2d67bf154fe1f2de912fa488f",
+   "hilton garden inn downtown cleveland": "80477eb877ac1ef2e75650fcbffcb056866064514223e454fcdd7e3c4565148b",
+   "home2 suites by hilton canton": "bdee175464c99de120f0071a0b61f8c420adb49e6f3cda92ea5f172c0527c344",
+   "home2 suites by hilton stow akron": "74c4d252951fa3c8511c59aecdf6d97645d8de4281511015b80fce1b30af675f",
+   "homewood suites by hilton": "cc48f5cf4870df8a217df62d4025a5f5470505259772a56643c4332241954602",
+   "homewood suites by hilton akron fairlawn": "940bfaec69334ad8f6011cf4064238bd5d474a75d0e81364914ddd1541d6638f",
+   "homewood suites by hilton cleveland beachwood": "d4c73585fc9282d7411a878eb9043ead4a4df393807c27f2faf4d966a5a49d7f",
+   "knights inn cleveland macedonia": "15144a10cbb1945468d641eaf56872dd58f8bbfe358bec972ec0224dd48a056a",
+   "la quinta inn cleveland independence": "e134e2a929cb59a67a70efa92659304347f6daf0438f3cc7241ba6195c18bd35",
+   "staybridge suites akron stow cuyahoga falls": "fac695c2cb8be7bd0bccc114b00743ba550067012982a1533d4cf8c0d0622108",
+   "staybridge suites canton": "665ad8b5dd7c363387329ff8124adc9fae2d6f4be8f1feae64478f6e32ff03ac",
+   "staybridge suites mayfield heights": "2b961909a2f0cd13599f4fd5f7fef15baf5d163635bc3765db943aa12adbcddd",
+   "super 8 by wyndham akron south green uniontown": "a946d8b31808ae114faaa07e9b4e7ad275ad0faa329e938eae6392adba74c048",
+   "super 8 by wyndham richfield cleveland": "e6d37d3992953982544927094604afa928074566c5467dba97ce3ae479af4aa6",
+   "radisson hotel akron fairlawn": "afe375ad5ece88812f74cf73cbf0537544eeba87d15a60a20760c76da7eac186",
+   "la quinta inn and suites cleveland airport north": "beff33f92b42b86bf2106bc2fea7aa9253d1b143073413f7fc3ee21db940528c",
+   "comfort suites hartville": "baa30888033f4dc9cfe1a681c7fd27a3c4f66efc6affb8b194aeb99425b209da",
+   "crowne plaza cleveland airport": "461d065ee33079259f8a4ea8e2ca4cb3a55685c33e62478c1933d31dcb8d55d6",
+   "embassy suites by hilton akron canton airport": "a0f53e9a79f265ee44a692e3070c4dac38b43953077e3597d75084d4059ac92d",
+   "extended stay america premier suites": "54cee7315e54fe28c469417e4a61940de3f6bfba84e758b86b38982a8972ee89",
+   "springhill suites solon": "be23bac95c0e312cd4a4e071b38f190600e57fab2ba60ec70caae3c778268eb2",
+   "comfort suites twinsburg": "038be860cc2b8a64c78177c89d395b34095253c00ca342bf3fe5593474595266",
+   "red roof inn cleveland east": "8159beb6864c0bdbda770fcf99ced7aec39e3282bdaf5f3812ab02f8ae8befde",
+   "red roof inn independence": "330846ae2611aca01d6c615c23434e0f3a57bfa047e623621e54947c7ee1e8de",
+   "red roof inn middleburg heights": "1ac155d01abbeb3d7b9deb5c8805395c37265f600d170cae2a7a295e50fa4575",
+   "red roof inn westlake": "cd20381bfad7288df99af058205eaf98d7a970eefd8e65a8cefd067c8ab03e0e",
+   "residence inn by marriott cleveland university circle medical center": "c7762ad658a3412eb295e81ad21b9e928845e29841800e9e08e889b5cd78747b",
+   "towneplace suites by marriott": "a3936f6af96de28d28d02dc90b702a6f31c414fa78a04c2c2b354fdbda8ef9f0",
+   "hilton garden inn akron canton airport": "5297ffcae3f8c61c84133c76d2f3a5d2b8dc7f9ec3f22d0fd61003e2a7368d33",
+   "quality inn and suites richfield": "3381dcef4e1865cb24dc23a9d5272290950fc17b1be762184e19ba0700838d9c",
+   "wyndham garden westlake": "901032aadc2d37c11bc4052192144235ba674db4a81237d5367360f3b8effc5e",
+   "sonesta es suites cleveland westlake": "1cf9cb5f782d3f6c683573c870f95b0665ac3e27bb6f3eeff73d9d1535767530"
+  },
+  "exclusions_by_exclusion_id": {
+   "cle-courtyard-by-marriott-beachwood": "8495dd55e0e6d141761211ec832917f103b4d46e7d40fad598a41351b414baaf",
+   "cle-courtyard-by-marriott-cleveland-airport-south": "8038976501303cd9610c9a779678d6a69abd9281693c79345f580105d4d4a440",
+   "cle-courtyard-by-marriott-cleveland-university-circle": "1c403a94aeecd6a3a4308f60d95d4d2a18a362537ab6d26aa9554bf49b1c0cb1",
+   "cle-courtyard-by-marriott-westlake": "badde9fc83f546f8b733031b042d5b31040804d76aff5157da6d81b2e139f8e0",
+   "cle-courtyard-marriott": "f1a1f011b6fed8788443bfe9558c1ee18e112567d1a0e9374f67a6b8e80260ce",
+   "cle-fairfield-inn-suites-streetsboro": "efb1b1eefce83d9b7f294797cb64a21191bf4434b5d6cce54b71cb74587d83f8",
+   "cle-four-points-by-sheraton-cleveland-eastlake": "d08cbef809361da2ab144206b54628c074387ebae7a563263567de765c602de9",
+   "cle-springhill-suites-independence": "ce3f9b8d16ffb4179e2413c85073d94b4ed0e0f157abc839a76f41f24d1baa04",
+   "cle-comfort-inn-downtown": "f13723f6ea4d308c097add9ad00117b16b0e7f301b746b14ee310767f3afd2de",
+   "cle-comfort-inn-akron-south": "36ff5e1789df000bd2c90962c97219df2f121e4ba4e240128a7db7610e961726",
+   "cle-comfort-inn-independence": "d68c6f85765e0568cf2fc31038eac898bda897839f1b529f541adb3d84af332a",
+   "cle-comfort-inn-cleveland-south-richfield": "3bbebf82827d7a7df94bf74e4428aa35c2a9790a9a7cf0108463232eb148f668",
+   "cle-comfort-inn-suites-streetsboro": "7f6b54662097a0e5447592fa8c5920e8aa5d3013d0134a81bb8022d49ac2fc8a",
+   "cle-cambria-hotel-akron-canton-airport": "613aebe06a0eb06b4b9c5d87d864cfa5bb892bf138646a9b4e65faee14389c5c",
+   "cle-blu-tique-akron-a-tribute-portfolio-hotel": "df870cb162dc794cb4da449253ac9b53edd1abe17ff107f1155dd5693c13fa63",
+   "cle-fairfield-inn-suites-canton": "614a9be489b9365a0e496df18c9fef41c99e1f607166ba6c7198aa78098f5974",
+   "cle-fairfield-inn-suites-canton-south": "64eecda8c433e603af3ff382a77debee7bead95d14bc14ac04c56f2705424db8",
+   "cle-courtyard-by-marriott-independence": "1327376fb3fbe85abe081c27832be0b16d19027ca6f12afecac7f741989bad96",
+   "cle-courtyard-by-marriott-akron-fairlawn": "2cb5ec8c17eac2f740d7fe58d472dcac162c7aa9c2a38297d2286f2b4cdc15fb",
+   "cle-marriott-cleveland-east": "c335947c00cfdbd7c1d9743731ede9268aa93e88ca68da84812df88901a0d4ff",
+   "cle-courtyard-by-marriott-willoughby": "b80e7066d87b176c58029ab14842f26c3b8eeffa006f92bf1821cdb01075e5db",
+   "cle-springhill-suites-canton": "d2ed5e15125cba5a7b9869d8dd0b06085840554cbcd8d41ad270da8bf1fbf9c5",
+   "cle-the-o-neil-house-bed-and-breakfast": "f600440998b2653f2ccddd2d639f4732b8579930757cce3db6a7efadaa0a6d70",
+   "cle-holiday-inn-express": "1b8aa463e9f0b7929a6472d9b515ef43ebc0ab353351981ba98bd4e459a5dd02",
+   "cle-holiday-inn-express-akron-nw-fairlawn": "7090636738e18abf94b06ce52dc9fc9ce71579a6bd70c0475cd2fa6ed3a923b4",
+   "cle-holiday-inn-express-suites-alliance": "a1f7f744e3ed6ba1ff74002e32c4e2c27964a32c692d8a4f733634b727cf2d94",
+   "cle-crowne-plaza-cleveland-playhouse-square": "3855bab9f1e49367b43506b43a8ea6c4e0fbc0d61ddbafabb9e3f4db8b2bd94b",
+   "cle-holiday-inn-cleveland-mayfield": "f112b5e4410274bd96b0097dfd362237a8a5d53ecdb638de2369876667730967",
+   "cle-holiday-inn-mentor": "c7677529941ebd5314ec567cc8e5e87a2c34a16fbac41e6ad14717ff148840db",
+   "cle-travelodge-by-wyndham": "6056f9834611bdac4b6c07899dec4b5fcc76f91fd6d171912b05d42e406dcbab",
+   "cle-microtel-inn-suites-north-canton": "07d5665365bda49481a335a121100defe76fcdc892577e2058a91b2ca0ba6504",
+   "cle-doubletree-by-hilton-canton-downtown": "9d9b5eb7148818dfcc1c505be400d5a11e3af23c0759d3937912db30a9376f98",
+   "cle-shady-oaks-farm-bed-and-breakfast": "348f419b031f00cae941196c3272364f7bd77be0e21b23e767447fb3640e9412",
+   "cle-terry-point-motel": "5912bffb92d6280969ef749d587e3705737eea6a872d46e9918e622502e69e7f",
+   "cle-the-ohio-motel": "b4a1af9dad4aae224d83d85b9e3585221f53ecedd6146a24a3a034b52568b399",
+   "cle-cottages-at-the-lodge": "63bee8bf86756196efd0d3f4680475904d7cd630922a1d3ab57f254d1a1b7768",
+   "cle-holiday-inn-canton": "5e0c5f73c58aa81eb88f8e61b5ed112b103af9b7b93659e3f796c2af970fa6aa",
+   "cle-quality-inn-arlington": "e03d9185afae4ffa4af6d5f50f517067cd101ad2d6e091d36b0cce47369ff4d9",
+   "cle-the-lakehouse-inn-winery": "6cb39630a70911f8e2869d48e08e031adaa06d12275f55f4030bac4c7d50c013",
+   "cle-travelodge-cleveland-airport": "691b58b72b52dd5cbe05518154a86d60667add8a1b7da819a81e0db9a447204b"
+  },
+  "routing_by_routing_id": {
+   "route-cleveland-akron-canton-oh-ariel-broadway-hotel": "0fa0b93d9013a0e3870889e9667e0b0db6982a99559b443e1ac43d33dacf7582",
+   "route-cleveland-akron-canton-oh-aurora-inn": "d3375b7d10f5c467e467d593402d483d16081cba51e1baa0c0670d54a8fdde7e",
+   "route-cleveland-akron-canton-oh-cleveland-house-hotels": "f9bd9af4669a652013690e06b65a2c6f30a8db5bd78370509493e872cb2b0ea6",
+   "route-cleveland-akron-canton-oh-eastland-inn-restaurant": "ef1364cf8f4c5ab37146bbbd5b47bfb4ed2c3fb52ae60c820dd7aba073adad7e",
+   "route-cleveland-akron-canton-oh-highlander-inn": "d60c0dba30518c141dfa73e7298d4002e463b64d24d33d1dbab957da64e0f992",
+   "route-cleveland-akron-canton-oh-holiday-inn-cleveland-clinic": "3571c177a4eb706b34fca64b16d661dac933f0a584a654826212abc5258944d2",
+   "route-cleveland-akron-canton-oh-holiday-inn-cleveland-south-independence": "bf9c03c8ed4b99b8875aadbcb8bea52cd76b56134b766bf1fec4585a8fc0a89e",
+   "route-cleveland-akron-canton-oh-home2-suites-by-hilton": "cdf0280b036e863ede9a5505a4d0366d5e370764053af22c968f24161f6674b7",
+   "route-cleveland-akron-canton-oh-hotel-cleveland": "b3b2422b1fe968bcca4b2b80410b7e6942cc9ab19e8b7783115c4136264b6118",
+   "route-cleveland-akron-canton-oh-hyatt-place-cleveland-lyndhurst-legacy-village": "cbcf0654414043a11a78549a25a599603ca1789abf3bac1ecdb024ef9458603b",
+   "route-cleveland-akron-canton-oh-hyatt-place-cleveland-westlake-crocker-park": "8edc83200be6426d19628689258baf541739537230cdaeba749c6342f833c016",
+   "route-cleveland-akron-canton-oh-hyatt-regency": "356842a68d10c468b4ad64625df3dce1a1f329adeeca6a8aa6f1d4581324ae49",
+   "route-cleveland-akron-canton-oh-inn-cahoots": "78c7661ede33235fbbbd50f80dd8acce173b74bbfd4db0fe349d369d8dbd5651",
+   "route-cleveland-akron-canton-oh-inn-on-coventry": "566f4b94ebc5c42785d0d67e2ae33c14ca2722b9817e56877d1ee22a1c4dfdad",
+   "route-cleveland-akron-canton-oh-inn-the-doghouse": "3353c0d4d93538380d423844a4872137a0df24b2434592e31a90d60718f523fc",
+   "route-cleveland-akron-canton-oh-intercontinental-suites-hotel-cleveland": "270770ef405d3562331bb9953747e9a9cf10adad5e03721e8d2724e7715a60d5",
+   "route-cleveland-akron-canton-oh-kent-state-university-hotel-conference-center": "26deea575c11aa6822b7b8453da43569a59370e231227972285bfc8987fe695f",
+   "route-cleveland-akron-canton-oh-metropolitan-hotel-at-the-9": "6971bc46ade9cbcc750c95bcb0208f34a370a3a0f855faeb4e02d74e80ed654d",
+   "route-cleveland-akron-canton-oh-skyview-lodge": "d4cc8a0e7e2a1f3ab0cacd0c2e9c59cb16f648b94142d171b5f1e8e836b4f5ab",
+   "route-cleveland-akron-canton-oh-stone-gables-inn": "c2156ab5d672d1363d542c6386d416a5670874df67f2e91bf5aa09050c6c9075",
+   "route-cleveland-akron-canton-oh-the-bertram-hotel-conference-center": "9b5200305e3895414fee715cfdcfcb1eb3d1fe15ac618ef8842830069ea7cb03",
+   "route-cleveland-akron-canton-oh-the-bertram-inn-at-glenmoor": "dc1bc70ee0f7afe42e7ecea7f317589bae5e88a2fa56ee204e25845ad8f0978c",
+   "route-cleveland-akron-canton-oh-the-inn-at-amish-door": "fd9f93f09a2441faadd7e20155a55cb96820188059d848ff0773f9905ecd4859",
+   "route-cleveland-akron-canton-oh-the-rowley-inn": "a083ec9bd5b3d3df2a64f25a9de58459c59e5a04b31e1cbd9ca38046e40a9efa",
+   "route-cleveland-akron-canton-oh-the-welshfield-inn": "15be1d1645deb830c411e4a26ce74fc6580e70c525f2a8fc9b7dce0eda40c8ce",
+   "route-cleveland-akron-canton-oh-woodspring-suites-cleveland": "6139d7979202ac5f087127b2c513504c588aca33106fd1e47ce87daf20ceade2",
+   "route-cleveland-akron-canton-oh-cambria-hotel-and-suites-avon": "94aa00dc67e05b0efb1793d381a88d536bb40815f6a17411463b3ba080a755a8",
+   "route-cleveland-akron-canton-oh-inn-at-brandywine-falls": "dd0899acfa45bf9a380ba75a37ad82239dda52abd61badc8927106b83b002831",
+   "route-cleveland-akron-canton-oh-doubletree-by-hilton-tudor-arms-hotel": "057c510faf609c36ce1a436476ff84d216bd060d9daf83ec8cdffe46c90a935f",
+   "route-cleveland-akron-canton-oh-walden-country-inn-and-stables": "d296835f7081eb290f539139fc5edac55c6667cfb17e4d0d973892ad4271d073",
+   "route-cleveland-akron-canton-oh-courtyard-by-marriott-akron-stow": "3fadc81a53d984782d6bc86b4523ca78f842217a8b44eeb7e5db1de95e5c884c",
+   "route-cleveland-akron-canton-oh-economy-inn": "fd8ca52f023a67ad4d01b1078111fc873bea4ef1bc7f8213ec3caee676be6c5b",
+   "route-cleveland-akron-canton-oh-palmantiers-motel": "e810c36374e4ae3a79e2396a4251d183ff520419946aa942e3d458b8d0a9065b",
+   "route-cleveland-akron-canton-oh-quality-inn-hall-of-fame": "64146d9a97c6b440dc078d114eed6c599533028303b22776d0c85a6955eb4e64",
+   "route-cleveland-akron-canton-oh-best-western-plus-north-canton-inn-and-suites": "673ff05adec41005792cdd82f4585eab50e4de464a45773e40107f525575b34b",
+   "route-cleveland-akron-canton-oh-studio-6-extended-stay-hotel-mentor": "f0dbf5f3aea8b243a199d284b850910ac4c4134751db19313ae00fcee300089d",
+   "route-cleveland-akron-canton-oh-magnuson-extended-stay": "04ec5754d82856502fb6cfff342708ca21e1df0b6a452ba71fa3bf34c8a44cca",
+   "route-cleveland-akron-canton-oh-villa-croatia-at-the-american-croatian-lodge": "8b77239bbee7ee50577bf07fa09c6a60819418ad65455bfed002477b5f5f6400"
+  }
+ },
+ "owned_evidence": {
+  "mirror_root": "data/worker_runs/pettripfinder/<run>/raw (gitignored; mirrored read-only from the main checkout)",
+  "artifacts": 173,
+  "custody_agrees": 171,
+  "custody_disagrees": 0,
+  "custody_missing": 0,
+  "by_artifact": {
+   "A01-comfort-inn-alliance.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "1e3ffb68c005ed0d389b5364ab7583e137a4dc435bc0d293007ecf6761799d39",
+    "mirrored_sha256": "1e3ffb68c005ed0d389b5364ab7583e137a4dc435bc0d293007ecf6761799d39",
+    "bytes": 3973354,
+    "custody": "AGREES"
+   },
+   "A02-comfort-inn-canton.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "8e6e948e7aff53dccbe72dbe5028efca96b3f1cdc4ac8ccee666e86b2ae600a1",
+    "mirrored_sha256": "8e6e948e7aff53dccbe72dbe5028efca96b3f1cdc4ac8ccee666e86b2ae600a1",
+    "bytes": 3901295,
+    "custody": "AGREES"
+   },
+   "A03-econo-lodge-akron-copley-northwest.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "a0a43704fb75fc3bc7f6aac7d1fc59fe6056f0de02ebab4ae82dba50273f4b5e",
+    "mirrored_sha256": "a0a43704fb75fc3bc7f6aac7d1fc59fe6056f0de02ebab4ae82dba50273f4b5e",
+    "bytes": 3903464,
+    "custody": "AGREES"
+   },
+   "A06-courtyard-akron-downtown.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "eae906933a7547edd339744b1d0b25856f0c34664f977731d8c651950f166083",
+    "mirrored_sha256": "eae906933a7547edd339744b1d0b25856f0c34664f977731d8c651950f166083",
+    "bytes": 1089617,
+    "custody": "AGREES"
+   },
+   "A07-residence-inn-akron-south-green.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "e4e665b3d6ccb0c45bfd2b8eb6f8ccb1a988667d6551438b672db938d24ce4ae",
+    "mirrored_sha256": "e4e665b3d6ccb0c45bfd2b8eb6f8ccb1a988667d6551438b672db938d24ce4ae",
+    "bytes": 1011115,
+    "custody": "AGREES"
+   },
+   "A08-aloft-beachwood.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "07d6a26ba4a17afa506893a0c786edb3fdd65c6a0daf82171c9d8e2feb9f4cda",
+    "mirrored_sha256": "07d6a26ba4a17afa506893a0c786edb3fdd65c6a0daf82171c9d8e2feb9f4cda",
+    "bytes": 1057670,
+    "custody": "AGREES"
+   },
+   "A09-courtyard-canton.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "7928737f758dd55ca84e8be6a2ba01b3d8b2871588828868683d54a626733843",
+    "mirrored_sha256": "7928737f758dd55ca84e8be6a2ba01b3d8b2871588828868683d54a626733843",
+    "bytes": 1089815,
+    "custody": "AGREES"
+   },
+   "A10-residence-inn-canton.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "cdb6f8a645123cf0881f4b09aa4fdd9f8e3ec58ffd77e62ac6fa10fcd243ae40",
+    "mirrored_sha256": "cdb6f8a645123cf0881f4b09aa4fdd9f8e3ec58ffd77e62ac6fa10fcd243ae40",
+    "bytes": 1049530,
+    "custody": "AGREES"
+   },
+   "A11-aloft-cleveland-downtown.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "1fc88c1645870843cea9e0117e3046559ca242858f25f0c0df44f6eb2b5603a1",
+    "mirrored_sha256": "1fc88c1645870843cea9e0117e3046559ca242858f25f0c0df44f6eb2b5603a1",
+    "bytes": 994154,
+    "custody": "AGREES"
+   },
+   "A12-sheraton-suites-akron-cuyahoga-falls.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "2d9b6004811f5b6e570823d990b7807a895cd16da810b04cc24f7b8fa3c0299e",
+    "mirrored_sha256": "2d9b6004811f5b6e570823d990b7807a895cd16da810b04cc24f7b8fa3c0299e",
+    "bytes": 1072502,
+    "custody": "AGREES"
+   },
+   "A13-residence-inn-akron-fairlawn.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "3d3d72a3d82b98087e6ec317375793d071424612f8be48529ab74496a35d7c4c",
+    "mirrored_sha256": "3d3d72a3d82b98087e6ec317375793d071424612f8be48529ab74496a35d7c4c",
+    "bytes": 1024856,
+    "custody": "AGREES"
+   },
+   "A14-residence-inn-mentor.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "eb3744fcc98281862dcf368d8d5776c4e88ac2cb2367d0b3435cc3fef1fae6b9",
+    "mirrored_sha256": "eb3744fcc98281862dcf368d8d5776c4e88ac2cb2367d0b3435cc3fef1fae6b9",
+    "bytes": 1060581,
+    "custody": "AGREES"
+   },
+   "A15-aloft-cleveland-airport.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "65aea5d773a26572d55c3b33dc8910d62bcfc6b9d8fa1c1d5c630a1c71fe4574",
+    "mirrored_sha256": "65aea5d773a26572d55c3b33dc8910d62bcfc6b9d8fa1c1d5c630a1c71fe4574",
+    "bytes": 988992,
+    "custody": "AGREES"
+   },
+   "A16-red-roof-inn-north-canton.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "fcc3f5dbb30b76716bbfaa0f875ff9c90a184d3267e2e00acd21d7af45708520",
+    "mirrored_sha256": "fcc3f5dbb30b76716bbfaa0f875ff9c90a184d3267e2e00acd21d7af45708520",
+    "bytes": 451312,
+    "custody": "AGREES"
+   },
+   "A17-americas-best-value-inn-alliance.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "fb7092905c3ce145cc538425b5324828557993827e762ee61c5d5f9034f4318d",
+    "mirrored_sha256": "fb7092905c3ce145cc538425b5324828557993827e762ee61c5d5f9034f4318d",
+    "bytes": 1038758,
+    "custody": "AGREES"
+   },
+   "B01-comfort-inn-downtown.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "dc588d9d929636197c7e9fcafde87678e174fdefea1429a83339e84021207fdd",
+    "mirrored_sha256": "dc588d9d929636197c7e9fcafde87678e174fdefea1429a83339e84021207fdd",
+    "bytes": 3599487,
+    "custody": "AGREES"
+   },
+   "B02-comfort-inn-akron-south.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "90e39d889625f45fa2b7ceedf0af541073064a10614e46c52e4ff6353510b555",
+    "mirrored_sha256": "90e39d889625f45fa2b7ceedf0af541073064a10614e46c52e4ff6353510b555",
+    "bytes": 3936618,
+    "custody": "AGREES"
+   },
+   "B03-comfort-inn-independence.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "fdfc19d2a07a15fc93e18afd08f1f2c94d05410157103742c61c43271ddec54e",
+    "mirrored_sha256": "fdfc19d2a07a15fc93e18afd08f1f2c94d05410157103742c61c43271ddec54e",
+    "bytes": 3689922,
+    "custody": "AGREES"
+   },
+   "B04-comfort-inn-cleveland-south-richfield.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "52a4901350aa24bf268c196c0ae9123f3187adaf67331280a90b1fa8602e95a1",
+    "mirrored_sha256": "52a4901350aa24bf268c196c0ae9123f3187adaf67331280a90b1fa8602e95a1",
+    "bytes": 3916220,
+    "custody": "AGREES"
+   },
+   "B05-comfort-inn-suites-streetsboro.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "353bb9085f29e66d1adb8c0e42bab891726add72c18f325e9d32a654ec2ad218",
+    "mirrored_sha256": "353bb9085f29e66d1adb8c0e42bab891726add72c18f325e9d32a654ec2ad218",
+    "bytes": 3846647,
+    "custody": "AGREES"
+   },
+   "B06-cambria-hotel-akron-canton-airport.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "aae7625f56a65582bccd930573b3ba93640f4eab8bc03eb4c187b4f61cd0c5f6",
+    "mirrored_sha256": "aae7625f56a65582bccd930573b3ba93640f4eab8bc03eb4c187b4f61cd0c5f6",
+    "bytes": 4272861,
+    "custody": "AGREES"
+   },
+   "B07-blu-tique-akron.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "863fb7e33ff207986475bc74bb76a16eead629171dca6f7cf4442063750fb767",
+    "mirrored_sha256": "863fb7e33ff207986475bc74bb76a16eead629171dca6f7cf4442063750fb767",
+    "bytes": 958451,
+    "custody": "AGREES"
+   },
+   "B08-fairfield-inn-suites-canton.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "41fe416a7bce2a34a5ff4f3ae72dbea046d036502267aa0058b13779cbb051ce",
+    "mirrored_sha256": "41fe416a7bce2a34a5ff4f3ae72dbea046d036502267aa0058b13779cbb051ce",
+    "bytes": 1049751,
+    "custody": "AGREES"
+   },
+   "B09-fairfield-inn-suites-canton-south.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "76c692cabb82bdc52c937a57c3dcfd860a937f74cc60ac00c79d72f8b23d0324",
+    "mirrored_sha256": "76c692cabb82bdc52c937a57c3dcfd860a937f74cc60ac00c79d72f8b23d0324",
+    "bytes": 1052143,
+    "custody": "AGREES"
+   },
+   "B10-courtyard-independence.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "15ee1816807570c79e770208a0eef11cdfdf3002d89fef626a6aca048f6d61bc",
+    "mirrored_sha256": "15ee1816807570c79e770208a0eef11cdfdf3002d89fef626a6aca048f6d61bc",
+    "bytes": 1086428,
+    "custody": "AGREES"
+   },
+   "B11-courtyard-akron-fairlawn.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "477cf3ec9220b7b949a26a93f95d5d7f1c7ccede8be9ba56cdcf297b9a3b18d8",
+    "mirrored_sha256": "477cf3ec9220b7b949a26a93f95d5d7f1c7ccede8be9ba56cdcf297b9a3b18d8",
+    "bytes": 1027928,
+    "custody": "AGREES"
+   },
+   "B13-marriott-cleveland-east.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "4c2e33b1d7ed7b04ecad48823afd9379c7f17f4dc31038c54d663de16f4a8a6a",
+    "mirrored_sha256": "4c2e33b1d7ed7b04ecad48823afd9379c7f17f4dc31038c54d663de16f4a8a6a",
+    "bytes": 1119548,
+    "custody": "AGREES"
+   },
+   "B14-courtyard-willoughby.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "3f948bd7907c990d748647c62862c679a24d40c5c2fdfad24275d4a49d2855dc",
+    "mirrored_sha256": "3f948bd7907c990d748647c62862c679a24d40c5c2fdfad24275d4a49d2855dc",
+    "bytes": 1058306,
+    "custody": "AGREES"
+   },
+   "B12-springhill-suites-canton.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "0b09c60ee257b5701e16d414299ad1f5c82f4dc8347fdaa1f315d2522c1ec5a2",
+    "mirrored_sha256": "0b09c60ee257b5701e16d414299ad1f5c82f4dc8347fdaa1f315d2522c1ec5a2",
+    "bytes": 1041009,
+    "custody": "AGREES"
+   },
+   "B15-oneil-house-bed-and-breakfast.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "4ea6d2af2be67d01e697f377fc96c5d93de800d24337aea62fbbe38b5e84e3a7",
+    "mirrored_sha256": "4ea6d2af2be67d01e697f377fc96c5d93de800d24337aea62fbbe38b5e84e3a7",
+    "bytes": 152851,
+    "custody": "AGREES"
+   },
+   "C01-economy-inn.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "fa318d75bf03bb6349c03b4bd5d0f9ce3685d40f2eb296326d75f7d29952aaea",
+    "mirrored_sha256": "fa318d75bf03bb6349c03b4bd5d0f9ce3685d40f2eb296326d75f7d29952aaea",
+    "bytes": 121762,
+    "custody": "AGREES"
+   },
+   "C02-extended-stay-america-select-akron-south.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "745bcead60eaaabed007be42d8cb2a6185436417872c157068327b2a204efb47",
+    "mirrored_sha256": "745bcead60eaaabed007be42d8cb2a6185436417872c157068327b2a204efb47",
+    "bytes": 829480,
+    "custody": "AGREES"
+   },
+   "C03-holiday-inn-express-brookpark.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "1d074c35c04ab80f6132cb473f839789a474db90a4644a281254894c477e2f69",
+    "mirrored_sha256": "1d074c35c04ab80f6132cb473f839789a474db90a4644a281254894c477e2f69",
+    "bytes": 1336316,
+    "custody": "AGREES"
+   },
+   "C04-holiday-inn-express-akron-nw-fairlawn.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "878959a93cc94b56ffeeb7be0ac42042bffd8fd6553666af4741ac31287746a4",
+    "mirrored_sha256": "878959a93cc94b56ffeeb7be0ac42042bffd8fd6553666af4741ac31287746a4",
+    "bytes": 1295703,
+    "custody": "AGREES"
+   },
+   "C05-holiday-inn-express-suites-alliance.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "c7cf4de05491d2090a5022933e7cc41dc3918f8a456caa0831d282dad447efc8",
+    "mirrored_sha256": "c7cf4de05491d2090a5022933e7cc41dc3918f8a456caa0831d282dad447efc8",
+    "bytes": 1323289,
+    "custody": "AGREES"
+   },
+   "C06-crowne-plaza-cleveland-playhouse-square.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "f5e0717101924b45805b6fccc2b90efd22a2a8bdf16a4d7452d8931c09e05bd8",
+    "mirrored_sha256": "f5e0717101924b45805b6fccc2b90efd22a2a8bdf16a4d7452d8931c09e05bd8",
+    "bytes": 1468402,
+    "custody": "AGREES"
+   },
+   "C07-holiday-inn-cleveland-mayfield.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "3dac543430bd68d2e112b1595584bdba1b2157ee83fa51369dbedccebb7b16c6",
+    "mirrored_sha256": "3dac543430bd68d2e112b1595584bdba1b2157ee83fa51369dbedccebb7b16c6",
+    "bytes": 1339045,
+    "custody": "AGREES"
+   },
+   "C08-holiday-inn-mentor.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "0cc7c7afb40effddad0be5a9d4b55d994edcc2e6267c788b164151116c35e4e4",
+    "mirrored_sha256": "0cc7c7afb40effddad0be5a9d4b55d994edcc2e6267c788b164151116c35e4e4",
+    "bytes": 1358397,
+    "custody": "AGREES"
+   },
+   "C09-motel-6-richfield.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "7129043e3ac25d46074d1e9e736e14bea3135f11653cf7a91de6bc470df949f1",
+    "mirrored_sha256": "7129043e3ac25d46074d1e9e736e14bea3135f11653cf7a91de6bc470df949f1",
+    "bytes": 521251,
+    "custody": "AGREES"
+   },
+   "C10-super-8-copley-akron.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "0e0498a76f2a572ccde9fee24d1f4a6e3ed080a0e796cdf038fded1f87559746",
+    "mirrored_sha256": "0e0498a76f2a572ccde9fee24d1f4a6e3ed080a0e796cdf038fded1f87559746",
+    "bytes": 677505,
+    "custody": "AGREES"
+   },
+   "C11-baymont-copley-akron.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "3b3079d7d767313958725568ef19932c71f10173c59320410ff167ec8108cdce",
+    "mirrored_sha256": "3b3079d7d767313958725568ef19932c71f10173c59320410ff167ec8108cdce",
+    "bytes": 667911,
+    "custody": "AGREES"
+   },
+   "C12-days-inn-lakewood.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "ef34938a5344c788ff95a515ca1fd4a858ee753d5863ab0ddca52eaddd6998e2",
+    "mirrored_sha256": "ef34938a5344c788ff95a515ca1fd4a858ee753d5863ab0ddca52eaddd6998e2",
+    "bytes": 634474,
+    "custody": "AGREES"
+   },
+   "C13-travelodge-lakewood.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "e0e16cdffdafdf08aedd5cedc29500f5f96427603f9dc52baaac5fc20d78203b",
+    "mirrored_sha256": "e0e16cdffdafdf08aedd5cedc29500f5f96427603f9dc52baaac5fc20d78203b",
+    "bytes": 674491,
+    "custody": "AGREES"
+   },
+   "C14-microtel-north-canton.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": "7edc956e40c21f6bc4803086e43dc2fb52afb79b57d59fd1aab2a162c3a2ec5f",
+    "mirrored_sha256": "7edc956e40c21f6bc4803086e43dc2fb52afb79b57d59fd1aab2a162c3a2ec5f",
+    "bytes": 660285,
+    "custody": "AGREES"
+   },
+   "E48-drury-inn-and-suites-beachwood.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": null,
+    "mirrored_sha256": "190b1f19da2c8a90e27ab453f88403f7cb47d388a41e513e394d748641d2acf2",
+    "bytes": 511248,
+    "custody": "UNPINNED"
+   },
+   "E49-drury-plaza-hotel-cleveland-downtown.json": {
+    "run": "cleveland-attended-capture-002",
+    "results_document": "cleveland_pass2_capture_results.json",
+    "committed_sha256": null,
+    "mirrored_sha256": "239298060612fcc4ca14ed70f12a1da5dcbd2272f88228c573139817a1a31292",
+    "bytes": 548714,
+    "custody": "UNPINNED"
+   },
+   "P3-001-ariel-broadway-hotel.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "c37040134e5dca98601de9898150f9b9156e587c4d197de389bf37268179d5af",
+    "mirrored_sha256": "c37040134e5dca98601de9898150f9b9156e587c4d197de389bf37268179d5af",
+    "bytes": 42368,
+    "custody": "AGREES"
+   },
+   "P3-002-cambria-hotel-suites-avon.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "10a974779e3b4c4f4e8e8fa8d782c0134414adab72ec37acbcc05a1ef11e2301",
+    "mirrored_sha256": "10a974779e3b4c4f4e8e8fa8d782c0134414adab72ec37acbcc05a1ef11e2301",
+    "bytes": 3682719,
+    "custody": "AGREES"
+   },
+   "P3-003-cleveland-house-hotels.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "fe01cb0860c6d47fc8ee7c60abc01c48ef6525bfe4e12c91a3f125a2c9abb391",
+    "mirrored_sha256": "fe01cb0860c6d47fc8ee7c60abc01c48ef6525bfe4e12c91a3f125a2c9abb391",
+    "bytes": 1603706,
+    "custody": "AGREES"
+   },
+   "P3-004b-doubletree-canton-downtown-hilton.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "e8a5b5764eafb4a984b50d2bb20da236b4f686d67b740f638cb523e1bd71950f",
+    "mirrored_sha256": "e8a5b5764eafb4a984b50d2bb20da236b4f686d67b740f638cb523e1bd71950f",
+    "bytes": 751048,
+    "custody": "AGREES"
+   },
+   "P3-004-doubletree-canton-downtown.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "e9e47a29440ef1b4f13872e0bdd6088cbea1ba90ad3022d3586775a7ec437745",
+    "mirrored_sha256": "e9e47a29440ef1b4f13872e0bdd6088cbea1ba90ad3022d3586775a7ec437745",
+    "bytes": 174425,
+    "custody": "AGREES"
+   },
+   "P3-005-emerald-necklace-inn.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "91cd16c91c12656f04343ba75dac50d302b92771b8f055fd15fb4ff36ec1d1e9",
+    "mirrored_sha256": "91cd16c91c12656f04343ba75dac50d302b92771b8f055fd15fb4ff36ec1d1e9",
+    "bytes": 457160,
+    "custody": "AGREES"
+   },
+   "P3-005b-emerald-necklace-inn-policy.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "62883e4ae6be7072713a2d315dcedf7fab9bf586bc3192dcd398642b0cd5085c",
+    "mirrored_sha256": "62883e4ae6be7072713a2d315dcedf7fab9bf586bc3192dcd398642b0cd5085c",
+    "bytes": 329449,
+    "custody": "AGREES"
+   },
+   "P3-006-fidelity-hotel.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "f5d3eb02e9f4c7b2e93fafd6f9becf21332204c7d1f90ca25e004bccb7a4bff1",
+    "mirrored_sha256": "f5d3eb02e9f4c7b2e93fafd6f9becf21332204c7d1f90ca25e004bccb7a4bff1",
+    "bytes": 218099,
+    "custody": "AGREES"
+   },
+   "P3-006b-fidelity-hotel-faq.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "f32eceaeef32ae81b604f210cead848ba9e3a072ceb76eb3965db5060da8f3f9",
+    "mirrored_sha256": "f32eceaeef32ae81b604f210cead848ba9e3a072ceb76eb3965db5060da8f3f9",
+    "bytes": 151487,
+    "custody": "AGREES"
+   },
+   "P3-007-holiday-inn-canton.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "6a25ca7fb9dc7a44e5da367380f3a17e4969535b339a39555b0f3980797d6903",
+    "mirrored_sha256": "6a25ca7fb9dc7a44e5da367380f3a17e4969535b339a39555b0f3980797d6903",
+    "bytes": 1342329,
+    "custody": "AGREES"
+   },
+   "P3-008-holiday-inn-cleveland-clinic.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "0991ceaa4a0b88ba89c3d5c34748e7378cff83e19aacfef10cc29d9de720239f",
+    "mirrored_sha256": "0991ceaa4a0b88ba89c3d5c34748e7378cff83e19aacfef10cc29d9de720239f",
+    "bytes": 122199,
+    "custody": "AGREES"
+   },
+   "P3-008b-holiday-inn-cleveland-clinic-faq.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "c9d7d41be05f28ccac635d3f3ecd7b8fe06006edb8ff11e241986dab1a8c8879",
+    "mirrored_sha256": "c9d7d41be05f28ccac635d3f3ecd7b8fe06006edb8ff11e241986dab1a8c8879",
+    "bytes": 76194,
+    "custody": "AGREES"
+   },
+   "P3-009-holiday-inn-rockside.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "2b4233ad03a28ce3ba666f1eed7cea0746ddb5e299e7f57ec4fc60e33185e964",
+    "mirrored_sha256": "2b4233ad03a28ce3ba666f1eed7cea0746ddb5e299e7f57ec4fc60e33185e964",
+    "bytes": 210702,
+    "custody": "AGREES"
+   },
+   "P3-009b-holiday-inn-rockside-amenities.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "644dc58e5cdf88406f2390295bc56bd33013ee6a4e47ede5c4892d6bad897e8f",
+    "mirrored_sha256": "644dc58e5cdf88406f2390295bc56bd33013ee6a4e47ede5c4892d6bad897e8f",
+    "bytes": 778510,
+    "custody": "AGREES"
+   },
+   "P3-010-hotel-cleveland.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "c2d2d44fa2a8844c96454786feed9281ccae1b49a2d43e1f1656c5a24b2949c1",
+    "mirrored_sha256": "c2d2d44fa2a8844c96454786feed9281ccae1b49a2d43e1f1656c5a24b2949c1",
+    "bytes": 794187,
+    "custody": "AGREES"
+   },
+   "P3-010b-hotel-cleveland-stay.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "93080badae2160732ad34a5cf63382e3994c68073cd3525cb07523d8685ea2c7",
+    "mirrored_sha256": "93080badae2160732ad34a5cf63382e3994c68073cd3525cb07523d8685ea2c7",
+    "bytes": 786867,
+    "custody": "AGREES"
+   },
+   "P3-011-inn-at-brandywine-falls.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "4b8ce7b7352c8793451468d6514720f5498c55cd886539c2290f53389878a124",
+    "mirrored_sha256": "4b8ce7b7352c8793451468d6514720f5498c55cd886539c2290f53389878a124",
+    "bytes": 240765,
+    "custody": "AGREES"
+   },
+   "P3-011b-inn-at-brandywine-falls-faqs.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "ab0e25a2ccb3f15cd8462886f802188c7ebb6de0162d0dee8aaa5fa2171d30f6",
+    "mirrored_sha256": "ab0e25a2ccb3f15cd8462886f802188c7ebb6de0162d0dee8aaa5fa2171d30f6",
+    "bytes": 83644,
+    "custody": "AGREES"
+   },
+   "P3-012-inn-cahoots.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "967d11bfa00a2b03266dcccf3e0efbc2ae7bd2ec123ce81204012f3808250e3c",
+    "mirrored_sha256": "967d11bfa00a2b03266dcccf3e0efbc2ae7bd2ec123ce81204012f3808250e3c",
+    "bytes": 74926,
+    "custody": "AGREES"
+   },
+   "P3-013-inn-on-coventry.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "bc12b11dde2f0ee1c5cfa93c3204b55b3cd165ad57e78b56c6fb48db30b763fa",
+    "mirrored_sha256": "bc12b11dde2f0ee1c5cfa93c3204b55b3cd165ad57e78b56c6fb48db30b763fa",
+    "bytes": 380378,
+    "custody": "AGREES"
+   },
+   "P3-014-kent-state-hotel.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "3a20a0205448e57b3cdcf41d0be52e9828394f70a9d2776d56dd49a2a7d2baa5",
+    "mirrored_sha256": "3a20a0205448e57b3cdcf41d0be52e9828394f70a9d2776d56dd49a2a7d2baa5",
+    "bytes": 88771,
+    "custody": "AGREES"
+   },
+   "P3-014c-kent-state-hotel-faq-expanded.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "e25af30a6168fef6f60cf6f03a9fde5dbe3e1f6ea30555c6c99bc6fcb615bace",
+    "mirrored_sha256": "e25af30a6168fef6f60cf6f03a9fde5dbe3e1f6ea30555c6c99bc6fcb615bace",
+    "bytes": 92178,
+    "custody": "AGREES"
+   },
+   "P3-015-kimpton-schofield.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "9a3990f0bdaf2f417b6fc959e7eb17d9496fe7f82177164fdf66fcc6e7eacab1",
+    "mirrored_sha256": "9a3990f0bdaf2f417b6fc959e7eb17d9496fe7f82177164fdf66fcc6e7eacab1",
+    "bytes": 409093,
+    "custody": "AGREES"
+   },
+   "P3-015b-kimpton-schofield-pet-friendly.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "f4d5a629df7840dcd543dbf6852f34b2f9ed918b36a1dd18ae99fc67cfc5d824",
+    "mirrored_sha256": "f4d5a629df7840dcd543dbf6852f34b2f9ed918b36a1dd18ae99fc67cfc5d824",
+    "bytes": 400070,
+    "custody": "AGREES"
+   },
+   "P3-016-metropolitan-at-the-9.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "5fad822ce6076a6859dd2986ee23fb232cd1802000783f06c10a34636b03d962",
+    "mirrored_sha256": "5fad822ce6076a6859dd2986ee23fb232cd1802000783f06c10a34636b03d962",
+    "bytes": 361050,
+    "custody": "AGREES"
+   },
+   "P3-017-palmantiers-motel.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "cdb7228dbda75e1f7a92f7657333d476335a6c45ab20bc1dad5808dc2b8b7552",
+    "mirrored_sha256": "cdb7228dbda75e1f7a92f7657333d476335a6c45ab20bc1dad5808dc2b8b7552",
+    "bytes": 685695,
+    "custody": "AGREES"
+   },
+   "P3-018-punderson-manor.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "1994f49c775d99297da9499aedc42dbff9da9c3e40b470007096939148370f86",
+    "mirrored_sha256": "1994f49c775d99297da9499aedc42dbff9da9c3e40b470007096939148370f86",
+    "bytes": 88814,
+    "custody": "AGREES"
+   },
+   "P3-018b-punderson-pet-cabins.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "0e15dc4cbbc19f93ea368388c26ad47dd139fbb05ce535c45e50bcb05277f45e",
+    "mirrored_sha256": "0e15dc4cbbc19f93ea368388c26ad47dd139fbb05ce535c45e50bcb05277f45e",
+    "bytes": 61676,
+    "custody": "AGREES"
+   },
+   "P3-019-radisson-akron-fairlawn.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "1eccee6966f86ac6eaa35352d9b11a179013c1ec34015329dd7482ff8983bb17",
+    "mirrored_sha256": "1eccee6966f86ac6eaa35352d9b11a179013c1ec34015329dd7482ff8983bb17",
+    "bytes": 1801893,
+    "custody": "AGREES"
+   },
+   "P3-020-roost-cleveland.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "a4b4d37fd3cfed804cd549f9a2c083fea8a285844a80fe10e0e8b10e821d4b63",
+    "mirrored_sha256": "a4b4d37fd3cfed804cd549f9a2c083fea8a285844a80fe10e0e8b10e821d4b63",
+    "bytes": 816691,
+    "custody": "AGREES"
+   },
+   "P3-020b-roost-cleveland-faq.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "8d9e20fbc8e3f5bd37a0f1dc3ae2db947a46103572a144831253755448a479d6",
+    "mirrored_sha256": "8d9e20fbc8e3f5bd37a0f1dc3ae2db947a46103572a144831253755448a479d6",
+    "bytes": 972161,
+    "custody": "AGREES"
+   },
+   "P3-021-shady-oaks-farm.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "c8dc86a5f8824b07d126c55d088bd82f2ac83bac0eeb2def221a825e05bacdd8",
+    "mirrored_sha256": "c8dc86a5f8824b07d126c55d088bd82f2ac83bac0eeb2def221a825e05bacdd8",
+    "bytes": 301386,
+    "custody": "AGREES"
+   },
+   "P3-021b-shady-oaks-faqs.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "6dd78fe81e38d968b35a9132ebf8b94760ec35d402382ede428c2a3eb4780d04",
+    "mirrored_sha256": "6dd78fe81e38d968b35a9132ebf8b94760ec35d402382ede428c2a3eb4780d04",
+    "bytes": 107430,
+    "custody": "AGREES"
+   },
+   "P3-022-skyview-lodge.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "37e013b35fb45c832979e7813893cdd4929c1d833aa518fb38c61e9f1ef4acf2",
+    "mirrored_sha256": "37e013b35fb45c832979e7813893cdd4929c1d833aa518fb38c61e9f1ef4acf2",
+    "bytes": 164116,
+    "custody": "AGREES"
+   },
+   "P3-023-sonesta-simply-suites-cleveland-airport.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "79b5e6bfe4912985ed7efa755ade7a3f6a91a15ffa54b1ac32d8809eb6d29aae",
+    "mirrored_sha256": "79b5e6bfe4912985ed7efa755ade7a3f6a91a15ffa54b1ac32d8809eb6d29aae",
+    "bytes": 1082186,
+    "custody": "AGREES"
+   },
+   "P3-023b-sonesta-simply-suites-pet-policy.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "de1bd3735fa684be61b81ab31694ae40c5e13fa16217566db0f541df3d4566fb",
+    "mirrored_sha256": "de1bd3735fa684be61b81ab31694ae40c5e13fa16217566db0f541df3d4566fb",
+    "bytes": 1363092,
+    "custody": "AGREES"
+   },
+   "P3-024-stone-gables-inn.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "f98666773a06f199ed97bf04367aaebf21723667715dfdd33039a214f83146c9",
+    "mirrored_sha256": "f98666773a06f199ed97bf04367aaebf21723667715dfdd33039a214f83146c9",
+    "bytes": 115423,
+    "custody": "AGREES"
+   },
+   "P3-025-terry-point-motel.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "21c7df9f5e97d7638d054920ce7e57aabbbe37152ae84f85fb557907f992bb41",
+    "mirrored_sha256": "21c7df9f5e97d7638d054920ce7e57aabbbe37152ae84f85fb557907f992bb41",
+    "bytes": 574219,
+    "custody": "AGREES"
+   },
+   "P3-025b-terry-point-faq.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "95e54cfc013b0d9965e1d81a961566c0570d652016e7a94f80501199df9b4108",
+    "mirrored_sha256": "95e54cfc013b0d9965e1d81a961566c0570d652016e7a94f80501199df9b4108",
+    "bytes": 937275,
+    "custody": "AGREES"
+   },
+   "P3-026-bertram-inn.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "10e9e21965c61953978218de2f432fa5b6c3d3edd3ee27aecc3612ac817665ef",
+    "mirrored_sha256": "10e9e21965c61953978218de2f432fa5b6c3d3edd3ee27aecc3612ac817665ef",
+    "bytes": 147437,
+    "custody": "AGREES"
+   },
+   "P3-026b-bertram-inn-amenities.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "cc625e8c4506a02d3c8a25de6f3cca452ee89fe4f23db15e84755d1918e977c1",
+    "mirrored_sha256": "cc625e8c4506a02d3c8a25de6f3cca452ee89fe4f23db15e84755d1918e977c1",
+    "bytes": 107307,
+    "custody": "AGREES"
+   },
+   "P3-027-hotel-at-oberlin.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "42794f72a70ac2fc165f17314c7984e5d8fca83f968d294e984af99c76c22b9e",
+    "mirrored_sha256": "42794f72a70ac2fc165f17314c7984e5d8fca83f968d294e984af99c76c22b9e",
+    "bytes": 76070,
+    "custody": "AGREES"
+   },
+   "P3-027b-hotel-at-oberlin-pet-friendly.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "90e58f493eec48d499284f369fe362273fb2661a5b40efb3241aafef6aeb2c46",
+    "mirrored_sha256": "90e58f493eec48d499284f369fe362273fb2661a5b40efb3241aafef6aeb2c46",
+    "bytes": 56828,
+    "custody": "AGREES"
+   },
+   "P3-028-inn-at-amish-door.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "1a05e0bc8b5c3d1bd12e47f2f5394966aa04342d6bd7b821f66a4778d24dd4b5",
+    "mirrored_sha256": "1a05e0bc8b5c3d1bd12e47f2f5394966aa04342d6bd7b821f66a4778d24dd4b5",
+    "bytes": 111328,
+    "custody": "AGREES"
+   },
+   "P3-029-ohio-motel.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "9583ea80f039f0816bdc19023ea729f6293dc1284df518a9870744cffc2edc46",
+    "mirrored_sha256": "9583ea80f039f0816bdc19023ea729f6293dc1284df518a9870744cffc2edc46",
+    "bytes": 694555,
+    "custody": "AGREES"
+   },
+   "P3-029b-ohio-motel-faq.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "ad975dc5a1d0ee6ba8a7eb41f9c69a42b3c2b81f306bb60d4617092d311ed2ad",
+    "mirrored_sha256": "ad975dc5a1d0ee6ba8a7eb41f9c69a42b3c2b81f306bb60d4617092d311ed2ad",
+    "bytes": 1050926,
+    "custody": "AGREES"
+   },
+   "P3-030-walden-country-inn.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "ddf5d63c594b8d3c9c75f8c57196c42a0f25bf3e9687dcd18538f16371971043",
+    "mirrored_sha256": "ddf5d63c594b8d3c9c75f8c57196c42a0f25bf3e9687dcd18538f16371971043",
+    "bytes": 470928,
+    "custody": "AGREES"
+   },
+   "P3-030b-walden-policies.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "b4f8cffcba2c440f6f595bad19566cc06b3b4b36582cfa76489e7942cfede6b3",
+    "mirrored_sha256": "b4f8cffcba2c440f6f595bad19566cc06b3b4b36582cfa76489e7942cfede6b3",
+    "bytes": 868387,
+    "custody": "AGREES"
+   },
+   "P3-031-best-western-plus-north-canton.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "1c4dc665413e451f79168cc9ca6aebc882e68e2f1f7d3f1a91f97b1953a3f3e2",
+    "mirrored_sha256": "1c4dc665413e451f79168cc9ca6aebc882e68e2f1f7d3f1a91f97b1953a3f3e2",
+    "bytes": 653143,
+    "custody": "AGREES"
+   },
+   "P3-032-doubletree-akron-fairlawn.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "acf5ee4222e05cca12fe4013f93f5d782e463ffadaed1504c2e0376d5bf593c5",
+    "mirrored_sha256": "acf5ee4222e05cca12fe4013f93f5d782e463ffadaed1504c2e0376d5bf593c5",
+    "bytes": 749362,
+    "custody": "AGREES"
+   },
+   "P3-033-esa-akron-copley-east.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "b941efd7aa2ca777c0beb5c1de2206f8909737f9c172b9c68be4c8b9fc7c6266",
+    "mirrored_sha256": "b941efd7aa2ca777c0beb5c1de2206f8909737f9c172b9c68be4c8b9fc7c6266",
+    "bytes": 785471,
+    "custody": "AGREES"
+   },
+   "P3-034-hampton-akron-fairlawn.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "cd1095b5814bb4c5ac6ffc641ee21fc36635b9b23fe02dff5cee1c8676fe2154",
+    "mirrored_sha256": "cd1095b5814bb4c5ac6ffc641ee21fc36635b9b23fe02dff5cee1c8676fe2154",
+    "bytes": 729736,
+    "custody": "AGREES"
+   },
+   "P3-035-hampton-akron-south.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "0bc963647bcc30af1283ebb1ca4f71948a6c697ca50109cb7a226ab6b8a28489",
+    "mirrored_sha256": "0bc963647bcc30af1283ebb1ca4f71948a6c697ca50109cb7a226ab6b8a28489",
+    "bytes": 728428,
+    "custody": "AGREES"
+   },
+   "P3-036-hampton-suites-alliance.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "2d770ce34e77ea26b7f20e7d20c07d4d584ded57b4eeea9f706ab45b15ae3c37",
+    "mirrored_sha256": "2d770ce34e77ea26b7f20e7d20c07d4d584ded57b4eeea9f706ab45b15ae3c37",
+    "bytes": 742875,
+    "custody": "AGREES"
+   },
+   "P3-037-hampton-suites-beachwood.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "5339a27ae4138fdd7944b03dbeeaf7d7fe1159357673f3bf9cbcac34c81fa596",
+    "mirrored_sha256": "5339a27ae4138fdd7944b03dbeeaf7d7fe1159357673f3bf9cbcac34c81fa596",
+    "bytes": 743654,
+    "custody": "AGREES"
+   },
+   "P3-038-hampton-suites-canton.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "0a3c3a2b52655015938f5aef4006cc7c7e6c78276092ff7b8e57aae6beb957cc",
+    "mirrored_sha256": "0a3c3a2b52655015938f5aef4006cc7c7e6c78276092ff7b8e57aae6beb957cc",
+    "bytes": 737038,
+    "custody": "AGREES"
+   },
+   "P3-039-hampton-suites-cleveland-airport-middleburg.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "8a51648f65b629140da37c14c657d92405fc8b105a4e70d91f079638aeabc9ac",
+    "mirrored_sha256": "8a51648f65b629140da37c14c657d92405fc8b105a4e70d91f079638aeabc9ac",
+    "bytes": 738380,
+    "custody": "AGREES"
+   },
+   "P3-040-hampton-suites-cleveland-independence.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "90fc12983cd7df18d38638419bb62d7910ee14e6489bdb0ce0c532bd9ce8a8cc",
+    "mirrored_sha256": "90fc12983cd7df18d38638419bb62d7910ee14e6489bdb0ce0c532bd9ce8a8cc",
+    "bytes": 732054,
+    "custody": "AGREES"
+   },
+   "P3-041-hampton-cleveland-airport-tiedeman.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "f101828fa3b1c79e5efde7fd106a955da3b98d950df0599fddbbe5f4f79ee176",
+    "mirrored_sha256": "f101828fa3b1c79e5efde7fd106a955da3b98d950df0599fddbbe5f4f79ee176",
+    "bytes": 734926,
+    "custody": "AGREES"
+   },
+   "P3-042-hampton-cleveland-downtown.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "c9b4b3b8886f8296c6c610346c3a3c08a9ae1a739fb52a937e6933e154836703",
+    "mirrored_sha256": "c9b4b3b8886f8296c6c610346c3a3c08a9ae1a739fb52a937e6933e154836703",
+    "bytes": 735823,
+    "custody": "AGREES"
+   },
+   "P3-043-hampton-massillon.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "2f2221cff5bc4e5a5363b9f03436a4c494d22125cb335da43f7877004f237821",
+    "mirrored_sha256": "2f2221cff5bc4e5a5363b9f03436a4c494d22125cb335da43f7877004f237821",
+    "bytes": 731282,
+    "custody": "AGREES"
+   },
+   "P3-044-hampton-north-olmsted.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "a8b312118c72d4dcf79f7a59c2fc6b388f2da8b26618e29b07310327f68dfd14",
+    "mirrored_sha256": "a8b312118c72d4dcf79f7a59c2fc6b388f2da8b26618e29b07310327f68dfd14",
+    "bytes": 724160,
+    "custody": "AGREES"
+   },
+   "P3-045-hampton-stow.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "0a5a223f7dabd94830243591ee19a7b67a32120dd3383642a88bd853f6b310e4",
+    "mirrored_sha256": "0a5a223f7dabd94830243591ee19a7b67a32120dd3383642a88bd853f6b310e4",
+    "bytes": 742064,
+    "custody": "AGREES"
+   },
+   "P3-046-hampton-westlake.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "f345d30069657f5a0afed66e237c9f24efa60c4065de5c33581c71ddd859e848",
+    "mirrored_sha256": "f345d30069657f5a0afed66e237c9f24efa60c4065de5c33581c71ddd859e848",
+    "bytes": 719919,
+    "custody": "AGREES"
+   },
+   "P3-047-hilton-cleveland-downtown.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "2e7a5fb2b201f44e6636df0b7baed8a310414186ddfec16238d76d1c1012717f",
+    "mirrored_sha256": "2e7a5fb2b201f44e6636df0b7baed8a310414186ddfec16238d76d1c1012717f",
+    "bytes": 782431,
+    "custody": "AGREES"
+   },
+   "P3-048-hilton-garden-inn-akron.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "1048673b9c0b3654345adbe05e5964a4fa70dfa071061d76079ab41a2ddf8959",
+    "mirrored_sha256": "1048673b9c0b3654345adbe05e5964a4fa70dfa071061d76079ab41a2ddf8959",
+    "bytes": 749751,
+    "custody": "AGREES"
+   },
+   "P3-050-hilton-garden-inn-cleveland-airport.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "942bee4ac361b05eea94d9f0c9ed03397d876b31e469aa05b84df3baa2b4bf55",
+    "mirrored_sha256": "942bee4ac361b05eea94d9f0c9ed03397d876b31e469aa05b84df3baa2b4bf55",
+    "bytes": 750820,
+    "custody": "AGREES"
+   },
+   "P3-051-hilton-garden-inn-cleveland-east-mayfield-village.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "046da8a1644324a613280027c48c1a2c41d0af0d57d89febf2ed726afa0a12b4",
+    "mirrored_sha256": "046da8a1644324a613280027c48c1a2c41d0af0d57d89febf2ed726afa0a12b4",
+    "bytes": 752776,
+    "custody": "AGREES"
+   },
+   "P3-052-hilton-garden-inn-cleveland-twinsburg.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "c3841e5f52e71a0f6dd2a43329374e5ac389a53318f5105a7c1e3473a9f3cba4",
+    "mirrored_sha256": "c3841e5f52e71a0f6dd2a43329374e5ac389a53318f5105a7c1e3473a9f3cba4",
+    "bytes": 745253,
+    "custody": "AGREES"
+   },
+   "P3-053-hilton-garden-inn-downtown-cleveland.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "51ea5c070d88a186634162737cb18e9b020c0e614de9185f54023e62d7ffcb3e",
+    "mirrored_sha256": "51ea5c070d88a186634162737cb18e9b020c0e614de9185f54023e62d7ffcb3e",
+    "bytes": 738145,
+    "custody": "AGREES"
+   },
+   "P3-054-home2suites-brand.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "06ed2c5141914b4df710672aa48d15260d5c5cd1d4be228cbb2ea6a429d2a3cf",
+    "mirrored_sha256": "06ed2c5141914b4df710672aa48d15260d5c5cd1d4be228cbb2ea6a429d2a3cf",
+    "bytes": 322807,
+    "custody": "AGREES"
+   },
+   "P3-055-home2-suites-canton.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "5d00fa80e49df020e9dfae23d9f03965f50636a224e6e191eba1af43c40d1124",
+    "mirrored_sha256": "5d00fa80e49df020e9dfae23d9f03965f50636a224e6e191eba1af43c40d1124",
+    "bytes": 751672,
+    "custody": "AGREES"
+   },
+   "P3-056-home2-suites-stow-akron.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "733a1fb8974b63b42ac141360239ec62f1ba40f4a2a1846c911019f81d9150a1",
+    "mirrored_sha256": "733a1fb8974b63b42ac141360239ec62f1ba40f4a2a1846c911019f81d9150a1",
+    "bytes": 746255,
+    "custody": "AGREES"
+   },
+   "P3-057-homewood-suites-solon.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "e9b5600ce4ce8e3f357b82a06dd3846b4325a483e0c2aa0f48ae66f16c4ef025",
+    "mirrored_sha256": "e9b5600ce4ce8e3f357b82a06dd3846b4325a483e0c2aa0f48ae66f16c4ef025",
+    "bytes": 741572,
+    "custody": "AGREES"
+   },
+   "P3-058-homewood-suites-akron-fairlawn.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "ac6c918bf78586dd3416220394d9fcf72ad4b7a2aa77e908bd51d1e562dc96ec",
+    "mirrored_sha256": "ac6c918bf78586dd3416220394d9fcf72ad4b7a2aa77e908bd51d1e562dc96ec",
+    "bytes": 752973,
+    "custody": "AGREES"
+   },
+   "P3-059b-homewood-suites-cleveland-beachwood.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "3c73fd9de0746976297b5036bc9e2d5842d1a2d954d24511c5b6e1dd423e3571",
+    "mirrored_sha256": "3c73fd9de0746976297b5036bc9e2d5842d1a2d954d24511c5b6e1dd423e3571",
+    "bytes": 743222,
+    "custody": "AGREES"
+   },
+   "P3-059-homewood-suites-cleveland-beachwood.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "245ba2be6af3e89c4391e143cea086e5136a6e8507b900afddbf1610730073a8",
+    "mirrored_sha256": "245ba2be6af3e89c4391e143cea086e5136a6e8507b900afddbf1610730073a8",
+    "bytes": 743299,
+    "custody": "AGREES"
+   },
+   "P3-060-knights-inn-macedonia.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "0f18830d15eb20fa797b07c767d479b84b18a10ad2de13417556628d16fa6cd7",
+    "mirrored_sha256": "0f18830d15eb20fa797b07c767d479b84b18a10ad2de13417556628d16fa6cd7",
+    "bytes": 119061,
+    "custody": "AGREES"
+   },
+   "P3-060b-knights-inn-macedonia-amenities.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "8ce0a294b25877b6f140b48b62a8d2d00c69e9b679eeea8f162e51446e5b18fe",
+    "mirrored_sha256": "8ce0a294b25877b6f140b48b62a8d2d00c69e9b679eeea8f162e51446e5b18fe",
+    "bytes": 119388,
+    "custody": "AGREES"
+   },
+   "P3-061-la-quinta-cleveland-airport-west.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "ac3f70464e75d205a1bd27a552bc08ec133d055902f32d368edaaba67507afc4",
+    "mirrored_sha256": "ac3f70464e75d205a1bd27a552bc08ec133d055902f32d368edaaba67507afc4",
+    "bytes": 725655,
+    "custody": "AGREES"
+   },
+   "P3-062-la-quinta-independence.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "5d656c98293ec24746b00a3d0732ca8345c3f14a691d01c8f08805c7a0be935a",
+    "mirrored_sha256": "5d656c98293ec24746b00a3d0732ca8345c3f14a691d01c8f08805c7a0be935a",
+    "bytes": 682696,
+    "custody": "AGREES"
+   },
+   "P3-063-staybridge-stow.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "8035c6654c3723eb28f38c5ac4b7463139dfb5ffdaa96058404d5d050c7b7cf8",
+    "mirrored_sha256": "8035c6654c3723eb28f38c5ac4b7463139dfb5ffdaa96058404d5d050c7b7cf8",
+    "bytes": 1212738,
+    "custody": "AGREES"
+   },
+   "P3-063b-staybridge-stow-faq.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "21ffbc77f6ecf2698ea756edbfd873e451b02703ad0522899f78642fec8a8bab",
+    "mirrored_sha256": "21ffbc77f6ecf2698ea756edbfd873e451b02703ad0522899f78642fec8a8bab",
+    "bytes": 1212581,
+    "custody": "AGREES"
+   },
+   "P3-064-staybridge-canton.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "aea002f9b7845a9f65ae8257e8b6975138ee83ed471dd558ddc15ca7e2e21fd7",
+    "mirrored_sha256": "aea002f9b7845a9f65ae8257e8b6975138ee83ed471dd558ddc15ca7e2e21fd7",
+    "bytes": 1217307,
+    "custody": "AGREES"
+   },
+   "P3-065-staybridge-mayfield-heights.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "83116dc3060c36e0125635201dcfc0e9f276ac901f02fcabce9980cfc2d437c8",
+    "mirrored_sha256": "83116dc3060c36e0125635201dcfc0e9f276ac901f02fcabce9980cfc2d437c8",
+    "bytes": 1206598,
+    "custody": "AGREES"
+   },
+   "P3-066-super-8-akron-s-green-uniontown.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "09ab42ff54690cb800dcece885f48c6a257d09d98eff5a6c509b3efec7aadcde",
+    "mirrored_sha256": "09ab42ff54690cb800dcece885f48c6a257d09d98eff5a6c509b3efec7aadcde",
+    "bytes": 670193,
+    "custody": "AGREES"
+   },
+   "P3-067-super-8-richfield-cleveland.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "ba9d2cbd8fc5e425706b4415c27debcea2dd31dba296f099fb0ba12a18861ca9",
+    "mirrored_sha256": "ba9d2cbd8fc5e425706b4415c27debcea2dd31dba296f099fb0ba12a18861ca9",
+    "bytes": 645777,
+    "custody": "AGREES"
+   },
+   "P3-068-woodspring-brand.json": {
+    "run": "cleveland-attended-capture-003",
+    "results_document": "cleveland_pass3_capture_results.json",
+    "committed_sha256": "957231db94d51dcbed4a3acea47fb988cbccb3e48d95938db197d1a41088e33a",
+    "mirrored_sha256": "957231db94d51dcbed4a3acea47fb988cbccb3e48d95938db197d1a41088e33a",
+    "bytes": 239244,
+    "custody": "AGREES"
+   },
+   "RR-001-wyndham-avon.json": {
+    "run": "cleveland-attended-capture-004",
+    "results_document": "cleveland_pass4_capture_results.json",
+    "committed_sha256": "7e9fe7c550d406e541332842ff9a47752962b7b1b56c3b574b07856e2d9d349f",
+    "mirrored_sha256": "7e9fe7c550d406e541332842ff9a47752962b7b1b56c3b574b07856e2d9d349f",
+    "bytes": 691013,
+    "custody": "AGREES"
+   },
+   "RR-001b-wyndham-avon-policies.json": {
+    "run": "cleveland-attended-capture-004",
+    "results_document": "cleveland_pass4_capture_results.json",
+    "committed_sha256": "87ed12f73d28aef05e6b1af5737ab01c722e584f4a5956a9fe6b4d93d5e3b5f4",
+    "mirrored_sha256": "87ed12f73d28aef05e6b1af5737ab01c722e584f4a5956a9fe6b4d93d5e3b5f4",
+    "bytes": 689733,
+    "custody": "AGREES"
+   },
+   "RR-002-holiday-inn-canton-belden-village.json": {
+    "run": "cleveland-attended-capture-004",
+    "results_document": "cleveland_pass4_capture_results.json",
+    "committed_sha256": "a06fcd11f94dfcb21678d597af37ec4ece5e71f1d226bc99eeae2c44f24888a3",
+    "mirrored_sha256": "a06fcd11f94dfcb21678d597af37ec4ece5e71f1d226bc99eeae2c44f24888a3",
+    "bytes": 1676730,
+    "custody": "AGREES"
+   },
+   "RR-003-radisson-akron-fairlawn.json": {
+    "run": "cleveland-attended-capture-004",
+    "results_document": "cleveland_pass4_capture_results.json",
+    "committed_sha256": "2702c8c1cc0582af91a61753dea23be3b1a06e5bc574926a49a59d95c0768b8a",
+    "mirrored_sha256": "2702c8c1cc0582af91a61753dea23be3b1a06e5bc574926a49a59d95c0768b8a",
+    "bytes": 3749030,
+    "custody": "AGREES"
+   },
+   "RR-004-inn-at-amish-door.json": {
+    "run": "cleveland-attended-capture-004",
+    "results_document": "cleveland_pass4_capture_results.json",
+    "committed_sha256": "26103e49489bcee5b95e5d03e1a793582bd0b002652e6904d998fc7072a8f9bc",
+    "mirrored_sha256": "26103e49489bcee5b95e5d03e1a793582bd0b002652e6904d998fc7072a8f9bc",
+    "bytes": 264408,
+    "custody": "AGREES"
+   },
+   "RR-005-la-quinta-cleveland-airport-north.json": {
+    "run": "cleveland-attended-capture-004",
+    "results_document": "cleveland_pass4_capture_results.json",
+    "committed_sha256": "6c295cf53b7848516c059f89d7c85a58db7e29d6d3403b1961289abc36697954",
+    "mirrored_sha256": "6c295cf53b7848516c059f89d7c85a58db7e29d6d3403b1961289abc36697954",
+    "bytes": 719307,
+    "custody": "AGREES"
+   },
+   "RR-006-comfort-suites-hartville.json": {
+    "run": "cleveland-attended-capture-004",
+    "results_document": "cleveland_pass4_capture_results.json",
+    "committed_sha256": "b4cf1d8561afc6bf32b05c66db68a9b5f80dee2e3d5e3246e248e6fe4dc78b7b",
+    "mirrored_sha256": "b4cf1d8561afc6bf32b05c66db68a9b5f80dee2e3d5e3246e248e6fe4dc78b7b",
+    "bytes": 3939409,
+    "custody": "AGREES"
+   },
+   "RR-007-cottages-at-the-lodge.json": {
+    "run": "cleveland-attended-capture-004",
+    "results_document": "cleveland_pass4_capture_results.json",
+    "committed_sha256": "bbc798691d6323b402baba26b9eafc717bb24329f874d8954f2151dc8585457b",
+    "mirrored_sha256": "bbc798691d6323b402baba26b9eafc717bb24329f874d8954f2151dc8585457b",
+    "bytes": 259680,
+    "custody": "AGREES"
+   },
+   "RR-007b-lodge-geneva-stay-policies.json": {
+    "run": "cleveland-attended-capture-004",
+    "results_document": "cleveland_pass4_capture_results.json",
+    "committed_sha256": "c5188eed47a66e9bbb78ce1e82b856fd5560670d5976202e4549cb70db519d61",
+    "mirrored_sha256": "c5188eed47a66e9bbb78ce1e82b856fd5560670d5976202e4549cb70db519d61",
+    "bytes": 261682,
+    "custody": "AGREES"
+   },
+   "RR-008-crowne-plaza-cleveland-airport.json": {
+    "run": "cleveland-attended-capture-004",
+    "results_document": "cleveland_pass4_capture_results.json",
+    "committed_sha256": "2df873fa0e40c9ecb4f8b2e2dbce5b817563559f1c99e6317dbbd6b461078842",
+    "mirrored_sha256": "2df873fa0e40c9ecb4f8b2e2dbce5b817563559f1c99e6317dbbd6b461078842",
+    "bytes": 1730881,
+    "custody": "AGREES"
+   },
+   "RR-009-quality-inn-suites-richfield.json": {
+    "run": "cleveland-attended-capture-004",
+    "results_document": "cleveland_pass4_capture_results.json",
+    "committed_sha256": "70fd740899ad3c7916469907bd3e988717eb4a617b27a57ee5062137e900a7d5",
+    "mirrored_sha256": "70fd740899ad3c7916469907bd3e988717eb4a617b27a57ee5062137e900a7d5",
+    "bytes": 3767978,
+    "custody": "AGREES"
+   },
+   "RR-010-wyndham-garden-westlake.json": {
+    "run": "cleveland-attended-capture-004",
+    "results_document": "cleveland_pass4_capture_results.json",
+    "committed_sha256": "96fda8107ba1f1a56ba1c821e6d78b9734e666b9b7c8afd6818bcc163e3bf2db",
+    "mirrored_sha256": "96fda8107ba1f1a56ba1c821e6d78b9734e666b9b7c8afd6818bcc163e3bf2db",
+    "bytes": 722426,
+    "custody": "AGREES"
+   },
+   "RR-011-embassy-suites-akron-canton-airport.json": {
+    "run": "cleveland-attended-capture-004",
+    "results_document": "cleveland_pass4_capture_results.json",
+    "committed_sha256": "88472f547f0243c5078f2e9bd924f610eba4d5c95cbd1d86681461a42d0ceff3",
+    "mirrored_sha256": "88472f547f0243c5078f2e9bd924f610eba4d5c95cbd1d86681461a42d0ceff3",
+    "bytes": 768198,
+    "custody": "AGREES"
+   },
+   "RR-012-esa-premier-suites-independence.json": {
+    "run": "cleveland-attended-capture-004",
+    "results_document": "cleveland_pass4_capture_results.json",
+    "committed_sha256": "8be7367d052ea4c365308c73ae5ab74a20a99a9c43d9144da7d11629c5869576",
+    "mirrored_sha256": "8be7367d052ea4c365308c73ae5ab74a20a99a9c43d9144da7d11629c5869576",
+    "bytes": 838661,
+    "custody": "AGREES"
+   },
+   "RR-012b-esa-independence-faq.json": {
+    "run": "cleveland-attended-capture-004",
+    "results_document": "cleveland_pass4_capture_results.json",
+    "committed_sha256": "7bd343a5999c834718b15da570cd83d27846ea14f289d4406d85ed58a20cb609",
+    "mirrored_sha256": "7bd343a5999c834718b15da570cd83d27846ea14f289d4406d85ed58a20cb609",
+    "bytes": 856055,
+    "custody": "AGREES"
+   },
+   "RR-013-highlander-inn.json": {
+    "run": "cleveland-attended-capture-004",
+    "results_document": "cleveland_pass4_capture_results.json",
+    "committed_sha256": "4d107d8a7424a2cf17213b16b2404508307565eb020d2f86fc42ee9c750a7b07",
+    "mirrored_sha256": "4d107d8a7424a2cf17213b16b2404508307565eb020d2f86fc42ee9c750a7b07",
+    "bytes": 213180,
+    "custody": "AGREES"
+   },
+   "RR-013b-highlander-rooms.json": {
+    "run": "cleveland-attended-capture-004",
+    "results_document": "cleveland_pass4_capture_results.json",
+    "committed_sha256": "304449f91b163a6a97785454b1fad1cf98d6c19ed1265bb34a171463ba3bbe1a",
+    "mirrored_sha256": "304449f91b163a6a97785454b1fad1cf98d6c19ed1265bb34a171463ba3bbe1a",
+    "bytes": 138109,
+    "custody": "AGREES"
+   },
+   "RR-014-intercontinental-suites.json": {
+    "run": "cleveland-attended-capture-004",
+    "results_document": "cleveland_pass4_capture_results.json",
+    "committed_sha256": "30bab38f26958e7310bc5e4654b5f3b773c1975f0706c273f57618880b612802",
+    "mirrored_sha256": "30bab38f26958e7310bc5e4654b5f3b773c1975f0706c273f57618880b612802",
+    "bytes": 167987,
+    "custody": "AGREES"
+   },
+   "RR-014b-intercontinental-suites-faqs.json": {
+    "run": "cleveland-attended-capture-004",
+    "results_document": "cleveland_pass4_capture_results.json",
+    "committed_sha256": "05d71cb32d32385bb7ce52a4fe02c09c327dfe01d5d63d1542c4524fc33debe7",
+    "mirrored_sha256": "05d71cb32d32385bb7ce52a4fe02c09c327dfe01d5d63d1542c4524fc33debe7",
+    "bytes": 100587,
+    "custody": "AGREES"
+   },
+   "RR-015-sonesta-simply-suites-westlake.json": {
+    "run": "cleveland-attended-capture-004",
+    "results_document": "cleveland_pass4_capture_results.json",
+    "committed_sha256": "dd5451a150989a295978f44092bdfdf5d22ce9bf40897f0e60fa1d03aee538e4",
+    "mirrored_sha256": "dd5451a150989a295978f44092bdfdf5d22ce9bf40897f0e60fa1d03aee538e4",
+    "bytes": 1087272,
+    "custody": "AGREES"
+   },
+   "RR-015b-sonesta-westlake-pet-policy.json": {
+    "run": "cleveland-attended-capture-004",
+    "results_document": "cleveland_pass4_capture_results.json",
+    "committed_sha256": "2f9025532f188615b70ae0b1b04f0f63c30771694291ec836c42d090f01c0715",
+    "mirrored_sha256": "2f9025532f188615b70ae0b1b04f0f63c30771694291ec836c42d090f01c0715",
+    "bytes": 1371201,
+    "custody": "AGREES"
+   },
+   "RR-016-springhill-suites-solon.json": {
+    "run": "cleveland-attended-capture-004",
+    "results_document": "cleveland_pass4_capture_results.json",
+    "committed_sha256": "2c8351efd02a6711633899eb6fc367b4fd9cc55e5a96fa529904457043e325e6",
+    "mirrored_sha256": "2c8351efd02a6711633899eb6fc367b4fd9cc55e5a96fa529904457043e325e6",
+    "bytes": 666836,
+    "custody": "AGREES"
+   },
+   "RR-017-bertram-inn-at-glenmoor.json": {
+    "run": "cleveland-attended-capture-004",
+    "results_document": "cleveland_pass4_capture_results.json",
+    "committed_sha256": "8ef29857843dda448878abd6c585cdefb2d6bc9907958e95aa240a425d0b6fe7",
+    "mirrored_sha256": "8ef29857843dda448878abd6c585cdefb2d6bc9907958e95aa240a425d0b6fe7",
+    "bytes": 165864,
+    "custody": "AGREES"
+   },
+   "RR-017b-bertram-glenmoor-hotel-amenities.json": {
+    "run": "cleveland-attended-capture-004",
+    "results_document": "cleveland_pass4_capture_results.json",
+    "committed_sha256": "ac06d1dbb1cf7e46cb9f6d66feb622f5d091c6e16b0b0bf7a740f7fe1145a964",
+    "mirrored_sha256": "ac06d1dbb1cf7e46cb9f6d66feb622f5d091c6e16b0b0bf7a740f7fe1145a964",
+    "bytes": 167340,
+    "custody": "AGREES"
+   },
+   "RR-018-lakehouse-inn.json": {
+    "run": "cleveland-attended-capture-004",
+    "results_document": "cleveland_pass4_capture_results.json",
+    "committed_sha256": "7f82817073a5b949a4f6bf4fbe9fe0cdf7ed59a40f07d385e687a77fe1fef424",
+    "mirrored_sha256": "7f82817073a5b949a4f6bf4fbe9fe0cdf7ed59a40f07d385e687a77fe1fef424",
+    "bytes": 269629,
+    "custody": "AGREES"
+   },
+   "RR-018b-lakehouse-guest-rooms-policies.json": {
+    "run": "cleveland-attended-capture-004",
+    "results_document": "cleveland_pass4_capture_results.json",
+    "committed_sha256": "ba5dcaba6007db4b1bc187e18259e38db97b6e3c4ccc04441661d1469313ecc7",
+    "mirrored_sha256": "ba5dcaba6007db4b1bc187e18259e38db97b6e3c4ccc04441661d1469313ecc7",
+    "bytes": 236088,
+    "custody": "AGREES"
+   },
+   "RR-019-comfort-suites-twinsburg.json": {
+    "run": "cleveland-attended-capture-004",
+    "results_document": "cleveland_pass4_capture_results.json",
+    "committed_sha256": "36c556c894dac6f71575fb12a5f8c635d16584e2c23f18a282360e4c0462873a",
+    "mirrored_sha256": "36c556c894dac6f71575fb12a5f8c635d16584e2c23f18a282360e4c0462873a",
+    "bytes": 3778885,
+    "custody": "AGREES"
+   },
+   "RR-020-red-roof-cleveland-east.json": {
+    "run": "cleveland-attended-capture-004",
+    "results_document": "cleveland_pass4_capture_results.json",
+    "committed_sha256": "0af88f8f432e272afca07e8eefc62cd637d0c8807afdf94f27d770641694b48e",
+    "mirrored_sha256": "0af88f8f432e272afca07e8eefc62cd637d0c8807afdf94f27d770641694b48e",
+    "bytes": 463791,
+    "custody": "AGREES"
+   },
+   "RR-021-red-roof-independence.json": {
+    "run": "cleveland-attended-capture-004",
+    "results_document": "cleveland_pass4_capture_results.json",
+    "committed_sha256": "e73e82e5b1513a34bd60d7f44d3ce1ce32fae872060ad71ba8cc059b8796fc39",
+    "mirrored_sha256": "e73e82e5b1513a34bd60d7f44d3ce1ce32fae872060ad71ba8cc059b8796fc39",
+    "bytes": 429765,
+    "custody": "AGREES"
+   },
+   "RR-022-red-roof-middleburg-heights.json": {
+    "run": "cleveland-attended-capture-004",
+    "results_document": "cleveland_pass4_capture_results.json",
+    "committed_sha256": "808e5685c4c4e119e12d8001efcd97bfd47892393d688f7ed4b8a7215b3aebed",
+    "mirrored_sha256": "808e5685c4c4e119e12d8001efcd97bfd47892393d688f7ed4b8a7215b3aebed",
+    "bytes": 444801,
+    "custody": "AGREES"
+   },
+   "RR-023-red-roof-westlake.json": {
+    "run": "cleveland-attended-capture-004",
+    "results_document": "cleveland_pass4_capture_results.json",
+    "committed_sha256": "c0be59957e615123284b10db65dc689131959fcc27123941b9398af5dee81742",
+    "mirrored_sha256": "c0be59957e615123284b10db65dc689131959fcc27123941b9398af5dee81742",
+    "bytes": 456349,
+    "custody": "AGREES"
+   },
+   "RR-024-residence-inn-university-circle.json": {
+    "run": "cleveland-attended-capture-004",
+    "results_document": "cleveland_pass4_capture_results.json",
+    "committed_sha256": "d4a500ea8eacf4942772e13e57eb6bc23063e06583ade825c94851b3373d92c8",
+    "mirrored_sha256": "d4a500ea8eacf4942772e13e57eb6bc23063e06583ade825c94851b3373d92c8",
+    "bytes": 663922,
+    "custody": "AGREES"
+   },
+   "RR-025-towneplace-suites-solon.json": {
+    "run": "cleveland-attended-capture-004",
+    "results_document": "cleveland_pass4_capture_results.json",
+    "committed_sha256": "1470f9fbe77f3f7f566207bb2887a21fd425345b865507950f44a2229e842c92",
+    "mirrored_sha256": "1470f9fbe77f3f7f566207bb2887a21fd425345b865507950f44a2229e842c92",
+    "bytes": 631665,
+    "custody": "AGREES"
+   },
+   "RR-026-travelodge-cleveland-airport.json": {
+    "run": "cleveland-attended-capture-004",
+    "results_document": "cleveland_pass4_capture_results.json",
+    "committed_sha256": "ee5d9a5a71388e21d464ccdb6b5b3da2e9c9c67df83844e60a51251b32e9782f",
+    "mirrored_sha256": "ee5d9a5a71388e21d464ccdb6b5b3da2e9c9c67df83844e60a51251b32e9782f",
+    "bytes": 647334,
+    "custody": "AGREES"
+   },
+   "RR-027-magnuson-extended-stay-canton.json": {
+    "run": "cleveland-attended-capture-004",
+    "results_document": "cleveland_pass4_capture_results.json",
+    "committed_sha256": "cce858eeda9be03d3142a92ee0d8de7ac2f86ec8e6dff76a1728b152e8107d49",
+    "mirrored_sha256": "cce858eeda9be03d3142a92ee0d8de7ac2f86ec8e6dff76a1728b152e8107d49",
+    "bytes": 430915,
+    "custody": "AGREES"
+   },
+   "RR-028-quality-inn-arlington-akron-south.json": {
+    "run": "cleveland-attended-capture-004",
+    "results_document": "cleveland_pass4_capture_results.json",
+    "committed_sha256": "3356bc7dd8aacbd14240f3a732bc8140bdd5d7af1d0648aaaa2a917236a0f347",
+    "mirrored_sha256": "3356bc7dd8aacbd14240f3a732bc8140bdd5d7af1d0648aaaa2a917236a0f347",
+    "bytes": 3648911,
+    "custody": "AGREES"
+   },
+   "RR-029-villa-croatia-croatian-lodge.json": {
+    "run": "cleveland-attended-capture-004",
+    "results_document": "cleveland_pass4_capture_results.json",
+    "committed_sha256": "49f29a59d3514d92062e0ed8b19b01c7ac1b2df1cc55acd379cf8a0bd698a789",
+    "mirrored_sha256": "49f29a59d3514d92062e0ed8b19b01c7ac1b2df1cc55acd379cf8a0bd698a789",
+    "bytes": 96750,
+    "custody": "AGREES"
+   },
+   "RR-029b-villa-croatia-faq.json": {
+    "run": "cleveland-attended-capture-004",
+    "results_document": "cleveland_pass4_capture_results.json",
+    "committed_sha256": "8421176cce5e2f7658c295aa9260a76205b7cc791209e743e5ef15f93c07d075",
+    "mirrored_sha256": "8421176cce5e2f7658c295aa9260a76205b7cc791209e743e5ef15f93c07d075",
+    "bytes": 19597,
+    "custody": "AGREES"
+   },
+   "RR-030-hilton-garden-inn-akron-canton-airport.json": {
+    "run": "cleveland-attended-capture-004",
+    "results_document": "cleveland_pass4_capture_results.json",
+    "committed_sha256": "85ea8fa53e69e8355625d8ec612d7a37d144d6dd9732f57d72f70fa56b587b09",
+    "mirrored_sha256": "85ea8fa53e69e8355625d8ec612d7a37d144d6dd9732f57d72f70fa56b587b09",
+    "bytes": 822556,
+    "custody": "AGREES"
+   }
+  }
+ }
+}

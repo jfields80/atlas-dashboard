@@ -1,0 +1,524 @@
+{
+ "schema": "ptf-free-static-capture/1.0",
+ "work_order": "PTF-CLEVELAND-AKRON-CANTON-HARDENED-REVALIDATION-001",
+ "phase": "9 -- zero-cost policy capture (static)",
+ "market_id": "cleveland-akron-canton-oh",
+ "run_id": "cleveland_akron_canton_oh_free_static_009",
+ "as_of": "2026-09-01",
+ "lane": "direct_http (first-party static; no vendor, no browser, no price)",
+ "paid_provider_calls": 0,
+ "usd_spent": 0.0,
+ "free_http_requests_this_run": 0,
+ "targets": 12,
+ "classification_counts": {
+  "ACCESS_BLOCKED_PLAIN_CLIENT": 4,
+  "IDENTITY_NOT_CONFIRMED_STATIC": 2,
+  "IDENTITY_TEXT_BOUND_POLICY_SILENT": 6
+ },
+ "live_audit_counts": {},
+ "rows": [
+  {
+   "identity_key": "holiday inn cleveland clinic",
+   "canonical_name": "Holiday Inn Cleveland Clinic",
+   "brand": "IHG",
+   "origin": "PHASE_7:FREE_STATIC_QUALIFIED",
+   "requested_url": "https://www.hiclevelandclinic.com/",
+   "live_state": "UNRESOLVED_OR_NEW",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.hiclevelandclinic.com/",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_free_static_009\\holiday-inn-cleveland-clinic\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "identity_key": "intercontinental suites hotel cleveland",
+   "canonical_name": "Intercontinental Suites Hotel Cleveland",
+   "brand": "IHG",
+   "origin": "PHASE_7:FREE_STATIC_QUALIFIED",
+   "requested_url": "https://www.icsuitescleveland.com/",
+   "live_state": "UNRESOLVED_OR_NEW",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.icsuitescleveland.com/",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_free_static_009\\intercontinental-suites-hotel-cleveland\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "identity_key": "cleveland house hotels",
+   "canonical_name": "Cleveland House Hotels",
+   "brand": "INDEPENDENT",
+   "origin": "PHASE_7:FREE_STATIC_QUALIFIED",
+   "requested_url": "https://thehousehotels.com/",
+   "live_state": "UNRESOLVED_OR_NEW",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://thehousehotels.com/",
+   "title": "Top Rated Boutique Hotels in Cleveland & Columbus | The House Hotels",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Top Rated Boutique Hotels in Cleveland &amp; Columbus | The House Hotels",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://thehousehotels.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "2164526553"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_free_static_009\\cleveland-house-hotels\\attempt-01",
+   "classification": "IDENTITY_NOT_CONFIRMED_STATIC",
+   "text_bound_read": {
+    "street_number_agrees": false,
+    "postal_agrees": false,
+    "phone_agrees": false,
+    "text_bound": false,
+    "document_sha256": "bd60d2cdfb8ae114daacc3a00d363556b6fb3111bd1352237b603e98ec128b82",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "identity_key": "inn the doghouse",
+   "canonical_name": "Inn the Doghouse",
+   "brand": "INDEPENDENT",
+   "origin": "PHASE_7:FREE_STATIC_QUALIFIED",
+   "requested_url": "https://innthedoghouse.com/",
+   "live_state": "UNRESOLVED_OR_NEW",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://innthedoghouse.com/",
+   "title": "Inn The Dog House – Daycare & Pet Resort",
+   "detail": "the page declares no telephone number of its own; the names agree only on inn, the, which this market's hotels share; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Inn The Dog House &#8211; Daycare &amp; Pet Resort",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://innthedoghouse.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "2166510873",
+      "4405278036",
+      "4407804299",
+      "2166510941",
+      "4405278143",
+      "4407804298"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name_partial"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "the names agree only on inn, the, which this market's hotels share",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_free_static_009\\inn-the-doghouse\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "97ed1b851eac356c68044441a61a3d8bad6de9e18cb1f6bb541c757dd18c3c69",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "identity_key": "the rowley inn",
+   "canonical_name": "The Rowley Inn",
+   "brand": "INDEPENDENT",
+   "origin": "PHASE_7:FREE_STATIC_QUALIFIED",
+   "requested_url": "https://www.therowleyinn.com",
+   "live_state": "UNRESOLVED_OR_NEW",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.therowleyinn.com",
+   "title": "Tremont Restaurant - Tremont Bar | Cleveland, Ohio",
+   "detail": "page names 'Tremont Restaurant - Tremont Bar | Cleveland, Ohio', which does not agree with 'The Rowley Inn'; the page declares no telephone number of its own",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Tremont Restaurant - Tremont Bar | Cleveland, Ohio",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.therowleyinn.com",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "2167955345"
+     ]
+    },
+    "confirmed": false,
+    "matched": [],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'Tremont Restaurant - Tremont Bar | Cleveland, Ohio', which does not agree with 'The Rowley Inn'",
+     "the page declares no telephone number of its own"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_free_static_009\\the-rowley-inn\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "fcb66c28ba08f7e4dafcbb7e095d462ac903bdb94c5c0147e2c2007b208376fc",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "identity_key": "holiday inn cleveland south independence",
+   "canonical_name": "Holiday Inn Cleveland South Independence",
+   "brand": "IHG",
+   "origin": "PHASE_7:FREE_STATIC_QUALIFIED",
+   "requested_url": "https://www.hirockside.com",
+   "live_state": "UNRESOLVED_OR_NEW",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.hirockside.com",
+   "title": "Holiday Inn | South Cleveland | Independence",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Holiday Inn | South Cleveland | Independence",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.hirockside.com",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "2165248050",
+      "2165249280"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_free_static_009\\holiday-inn-cleveland-south-independence\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "d4bf34ed8c7de6d401f40093b26677d645ba034190819df54096b03bf99fc115",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "identity_key": "home2 suites by hilton",
+   "canonical_name": "Home2 Suites by Hilton",
+   "brand": "HILTON",
+   "origin": "PHASE_7:FREE_STATIC_QUALIFIED",
+   "requested_url": "https://www.home2suites.com",
+   "live_state": "UNRESOLVED_OR_NEW",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.home2suites.com",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_free_static_009\\home2-suites-by-hilton\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "identity_key": "woodspring suites cleveland",
+   "canonical_name": "Woodspring Suites Cleveland",
+   "brand": "CHOICE",
+   "origin": "PHASE_7:FREE_STATIC_QUALIFIED",
+   "requested_url": "https://www.woodspring.com",
+   "live_state": "UNRESOLVED_OR_NEW",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.woodspring.com/home",
+   "title": "Extended Stay Hotels | WoodSpring Suites Weekly Hotels",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Extended Stay Hotels | WoodSpring Suites Weekly Hotels",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.woodspring.com/home",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "8008159959",
+      "8449746835"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name_partial"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_free_static_009\\woodspring-suites-cleveland\\attempt-01",
+   "classification": "IDENTITY_NOT_CONFIRMED_STATIC",
+   "text_bound_read": {
+    "street_number_agrees": false,
+    "postal_agrees": false,
+    "phone_agrees": false,
+    "text_bound": false,
+    "document_sha256": "1b8db407333a3f7ef7136165b6bdb13c614de989ad1feea3415f02ac703e9d85",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "identity_key": "hyatt place cleveland westlake crocker park",
+   "canonical_name": "Hyatt Place Cleveland Westlake Crocker Park",
+   "brand": "HYATT",
+   "origin": "PHASE_7:FREE_STATIC_QUALIFIED",
+   "requested_url": "https://hyattplaceclevelandwestlake.com",
+   "live_state": "UNRESOLVED_OR_NEW",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://hyattplaceclevelandwestlake.com",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_free_static_009\\hyatt-place-cleveland-westlake-crocker-park\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "identity_key": "aurora inn",
+   "canonical_name": "Aurora Inn",
+   "brand": "INDEPENDENT",
+   "origin": "PHASE_7:FREE_STATIC_QUALIFIED",
+   "requested_url": "https://aurorainnohio.com/",
+   "live_state": "UNRESOLVED_OR_NEW",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://aurorainnohio.com/",
+   "title": "The Aurora Inn Hotel & Event Center, - Home",
+   "detail": "the page declares no telephone number of its own; the names agree only on aurora, inn, which this market's hotels share; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "The Aurora Inn Hotel &amp; Event Center,",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://aurorainnohio.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "3305620767"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "the names agree only on aurora, inn, which this market's hotels share",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_free_static_009\\aurora-inn\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "85b19756db2882b18ccf6101e4c15374d28c5833723c88065e9f2fb3e5ec8f50",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "identity_key": "walden country inn and stables",
+   "canonical_name": "Walden Country Inn & Stables",
+   "brand": "RADISSON",
+   "origin": "PHASE_7:FREE_STATIC_QUALIFIED",
+   "requested_url": "https://www.yourwalden.com/",
+   "live_state": "UNRESOLVED_OR_NEW",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.yourwalden.com",
+   "title": "Aurora Ohio Luxury Inn and Spa, Walden Inn and Spa - Walden",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Aurora Ohio Luxury Inn and Spa, Walden Inn and Spa - Walden",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.yourwalden.com",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "3305625508"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name_partial"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_free_static_009\\walden-country-inn-stables\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "678ee3835a96ba6bf61f513209c38b5968fb43c72bac1ff14c753f720580f4d6",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "identity_key": "magnuson extended stay",
+   "canonical_name": "Magnuson Extended Stay",
+   "brand": "MAGNUSON",
+   "origin": "PHASE_7:FREE_STATIC_QUALIFIED",
+   "requested_url": "https://www.magnusonhotels.com/magnusonhotelextendedstaycantonohio/",
+   "live_state": "UNRESOLVED_OR_NEW",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.magnusonhotels.com/magnusonhotelextendedstaycantonohio/",
+   "title": "Magnuson Hotel Extended Stay Canton – Canton hotel with kitchenette",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Magnuson Hotel Extended Stay Canton – Canton hotel with kitchenette",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.magnusonhotels.com/magnusonhotelextendedstaycantonohio/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "3304942233"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_free_static_009\\magnuson-extended-stay\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": false,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "4442d1cfcf16ccff149086fa65a44a4025daed77dfa4b0436cb3970f6a483712",
+    "reader": {
+     "found": true,
+     "walk": "STATIC_HTML_WALK",
+     "block_chars": 23,
+     "pets_allowed": null,
+     "pets_allowed_quote": "",
+     "extraction": {
+      "service_animal_exception": "Service Animals Allowed"
+     },
+     "withheld": {
+      "pets_allowed": "SOURCE_SILENT"
+     },
+     "evidence_quotes": [
+      "Service Animals Allowed"
+     ],
+     "service_animal_quote": "Service Animals Allowed",
+     "brand_generic": false
+    }
+   }
+  }
+ ]
+}

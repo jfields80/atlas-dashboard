@@ -1,0 +1,2052 @@
+{
+ "schema": "ptf-free-static-capture/1.0",
+ "work_order": "PTF-CLEVELAND-AKRON-CANTON-HARDENED-REVALIDATION-001",
+ "phase": "10 -- current live authority contradiction audit (static re-read of non-walled hosts)",
+ "market_id": "cleveland-akron-canton-oh",
+ "run_id": "cleveland_akron_canton_oh_live_audit_010",
+ "as_of": "2026-09-01",
+ "lane": "direct_http (first-party static; no vendor, no browser, no price)",
+ "paid_provider_calls": 0,
+ "usd_spent": 0.0,
+ "free_http_requests_this_run": 0,
+ "targets": 29,
+ "classification_counts": {
+  "ACCESS_BLOCKED_PLAIN_CLIENT": 1,
+  "CLEAN_PET_FRIENDLY_CANDIDATE": 4,
+  "CLEAN_VERIFIED_NO_PETS_CANDIDATE": 2,
+  "IDENTITY_TEXT_BOUND_POLICY_SILENT": 12,
+  "NEEDS_ATTENDED_RENDER": 6,
+  "PET_FRIENDLY_READ_TEXT_BOUND": 1,
+  "SOURCE_SILENT_STATIC": 1,
+  "TRANSPORT_FAILED": 1,
+  "UNEXPECTED_PAGE": 1
+ },
+ "live_audit_counts": {
+  "CURRENTLY_CORRECT": 5,
+  "CURRENTLY_CORRECT_TEXT_BOUND": 1,
+  "NOT_RE_READABLE_STATICALLY": 8,
+  "NO_CHANGE_SIGNAL": 2,
+  "NO_CHANGE_SIGNAL_PAGE_SILENT": 12,
+  "WRONG_LIVE_POLICY_CANDIDATE": 1
+ },
+ "rows": [
+  {
+   "identity_key": "wyndham independence",
+   "canonical_name": "Wyndham Independence",
+   "brand": "WYNDHAM",
+   "origin": "LIVE_PET_FRIENDLY",
+   "requested_url": "https://www.wyndhamhotels.com/wyndham/independence-ohio/wyndham-independence/overview",
+   "live_state": "PET_FRIENDLY_LIVE",
+   "outcome": "VALID",
+   "final_url": "https://www.wyndhamhotels.com/wyndham/independence-ohio/wyndham-independence/overview",
+   "title": "Wyndham Independence | Independence, OH Hotels",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Wyndham Independence",
+     "address_on_page": "6200 Quarry Lane",
+     "postal_code": "44131",
+     "phone_on_page": "+1-216-270-4701",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.wyndhamhotels.com/wyndham/independence-ohio/wyndham-independence/overview",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "2162704701",
+      "8669967937",
+      "8779993223",
+      "8004079832"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "page telephone '+1-216-270-4701' is not the census number '216.447.1300'; one property commonly publishes several",
+     "confirmed on name, postal_code, street_identity, canonical_path via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "page_sha256": "59eced4f1b9cdbf570120f3ee8b039a5a04a6ad84253a8db01f602bc68bb2ab1",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_live_audit_010\\wyndham-independence\\attempt-01",
+   "observation": {
+    "extraction": {
+     "pets_allowed": true
+    },
+    "evidence": [
+     {
+      "quote": "Dog-friendly",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     }
+    ],
+    "withheld_fields": {
+     "pet_fee": "SOURCE_SILENT"
+    },
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "cleveland_akron_canton_oh_live_audit_010::wyndham independence::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "Dog-friendly",
+       "source_url": "https://www.wyndhamhotels.com/wyndham/independence-ohio/wyndham-independence/overview",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "59eced4f1b9cdbf570120f3ee8b039a5a04a6ad84253a8db01f602bc68bb2ab1",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-01",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "3c34bf6c4e57c8cd419987ac37008fd3560e200f0cc9bbf1a38aaeec71611645",
+     "document_sha256": "59eced4f1b9cdbf570120f3ee8b039a5a04a6ad84253a8db01f602bc68bb2ab1"
+    },
+    "membrane": {
+     "verdict": "VALID",
+     "rule": "",
+     "detail": "",
+     "hint_only": false,
+     "stripped_fields": [],
+     "flags_raised": [],
+     "rule_statement": ""
+    }
+   },
+   "classification": "CLEAN_PET_FRIENDLY_CANDIDATE",
+   "live_audit": "CURRENTLY_CORRECT",
+   "fee_comparison": {
+    "published_cents": 7500,
+    "page_minor": null
+   }
+  },
+  {
+   "identity_key": "drury inn and suites beachwood",
+   "canonical_name": "Drury Inn & Suites Beachwood",
+   "brand": "DRURY",
+   "origin": "LIVE_PET_FRIENDLY",
+   "requested_url": "https://www.druryhotels.com/locations/cleveland-oh/drury-inn-and-suites-cleveland-beachwood",
+   "live_state": "PET_FRIENDLY_LIVE",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.druryhotels.com/locations/cleveland-oh/drury-inn-and-suites-cleveland-beachwood",
+   "title": "Drury Hotels - Drury Inn & Suites Cleveland Beachwood",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Drury Hotels - Drury Inn &amp; Suites Cleveland Beachwood",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "8003787946",
+      "2162929980",
+      "2168256076",
+      "5733348281",
+      "8004361169",
+      "8004361175"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_live_audit_010\\drury-inn-suites-beachwood\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "92e37c409b3e323e66ebd8507394221ae5d988581d74b8ea179e7bb259daf34c",
+    "reader": {
+     "found": true,
+     "walk": "STATIC_HTML_WALK",
+     "block_chars": 206,
+     "pets_allowed": null,
+     "pets_allowed_quote": "",
+     "extraction": {
+      "pet_count_limit": 2,
+      "species_allowed": [
+       "cat",
+       "dog"
+      ],
+      "service_animal_exception": "Service animals are free of charge."
+     },
+     "withheld": {
+      "pets_allowed": "SOURCE_SILENT",
+      "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+      "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+     },
+     "evidence_quotes": [
+      "Limit of two pets",
+      "Dogs and cats accepted",
+      "Service animals are free of charge."
+     ],
+     "service_animal_quote": "Service animals are free of charge.",
+     "brand_generic": false
+    }
+   },
+   "live_audit": "NO_CHANGE_SIGNAL_PAGE_SILENT"
+  },
+  {
+   "identity_key": "drury plaza hotel",
+   "canonical_name": "Drury Plaza Hotel",
+   "brand": "DRURY",
+   "origin": "LIVE_PET_FRIENDLY",
+   "requested_url": "https://www.druryhotels.com/locations/cleveland-oh/drury-plaza-hotel-cleveland-downtown",
+   "live_state": "PET_FRIENDLY_LIVE",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.druryhotels.com/locations/cleveland-oh/drury-plaza-hotel-cleveland-downtown",
+   "title": "Drury Hotels - Drury Plaza Hotel Cleveland Downtown",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Drury Hotels - Drury Plaza Hotel Cleveland Downtown",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "8003787946",
+      "2163573100",
+      "2164153199",
+      "8004361169",
+      "8004361175"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_live_audit_010\\drury-plaza-hotel\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": false,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "d9bb08144a5d005c80e51d14c689879fdc32241975f61d1889e34a8a2036d34e",
+    "reader": {
+     "found": true,
+     "walk": "STATIC_HTML_WALK",
+     "block_chars": 206,
+     "pets_allowed": null,
+     "pets_allowed_quote": "",
+     "extraction": {
+      "pet_count_limit": 2,
+      "species_allowed": [
+       "cat",
+       "dog"
+      ],
+      "service_animal_exception": "Service animals are free of charge."
+     },
+     "withheld": {
+      "pets_allowed": "SOURCE_SILENT",
+      "pet_fee": "SCHEMA_CANNOT_REPRESENT",
+      "fee_basis": "SCHEMA_CANNOT_REPRESENT"
+     },
+     "evidence_quotes": [
+      "Limit of two pets",
+      "Dogs and cats accepted",
+      "Service animals are free of charge."
+     ],
+     "service_animal_quote": "Service animals are free of charge.",
+     "brand_generic": false
+    }
+   },
+   "live_audit": "NO_CHANGE_SIGNAL_PAGE_SILENT"
+  },
+  {
+   "identity_key": "motel 6 richfield",
+   "canonical_name": "Motel 6 Richfield",
+   "brand": "MOTEL6",
+   "origin": "LIVE_PET_FRIENDLY",
+   "requested_url": "https://www.motel6.com/property/motel-richfield-ohio-us-293697/",
+   "live_state": "PET_FRIENDLY_LIVE",
+   "outcome": "NAVIGATION_FAILED",
+   "final_url": "https://www.motel6.com/property/motel-richfield-ohio-us-293697/",
+   "title": "",
+   "detail": "TimeoutError: The read operation timed out",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_live_audit_010\\motel-6-richfield\\attempt-01",
+   "classification": "TRANSPORT_FAILED",
+   "live_audit": "NOT_RE_READABLE_STATICALLY"
+  },
+  {
+   "identity_key": "super 8 by wyndham copley akron",
+   "canonical_name": "Super 8 by Wyndham Copley Akron",
+   "brand": "WYNDHAM",
+   "origin": "LIVE_PET_FRIENDLY",
+   "requested_url": "https://www.wyndhamhotels.com/super-8/copley-ohio/super-8-copley-akron/overview",
+   "live_state": "PET_FRIENDLY_LIVE",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.wyndhamhotels.com/super-8/copley-ohio/super-8-copley-akron/overview",
+   "title": "Super 8 by Wyndham Copley Akron | Copley, OH Hotels",
+   "detail": "page street '130 Montrose West Ave, Bldg B' does not agree with expected '130 Montrose W Ave'",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Super 8 by Wyndham Copley Akron",
+     "address_on_page": "130 Montrose West Ave, Bldg B",
+     "postal_code": "44321-1372",
+     "phone_on_page": "+1-330-835-6584",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.wyndhamhotels.com/super-8/copley-ohio/super-8-copley-akron/overview",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "3308356584",
+      "8444054141",
+      "8669967937",
+      "8004543213",
+      "8004079832"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name",
+     "postal_code",
+     "phone",
+     "canonical_path"
+    ],
+    "conflicting": [
+     "street_identity"
+    ],
+    "reasons": [
+     "page street '130 Montrose West Ave, Bldg B' does not agree with expected '130 Montrose W Ave'"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_live_audit_010\\super-8-by-wyndham-copley-akron\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "fc18eb5d1a58673c64fa081fcf5fb48b21326bf4c5e3de6554000f2ad703e5e9",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   },
+   "live_audit": "NO_CHANGE_SIGNAL_PAGE_SILENT"
+  },
+  {
+   "identity_key": "baymont by wyndham copley akron",
+   "canonical_name": "Baymont by Wyndham Copley Akron",
+   "brand": "WYNDHAM",
+   "origin": "LIVE_PET_FRIENDLY",
+   "requested_url": "https://www.wyndhamhotels.com/baymont/copley-ohio/baymont-inn-and-suites-copley-akron/overview",
+   "live_state": "PET_FRIENDLY_LIVE",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.wyndhamhotels.com/baymont/copley-ohio/baymont-inn-and-suites-copley-akron/overview",
+   "title": "Baymont by Wyndham Copley Akron | Copley, OH Hotels",
+   "detail": "page street '130 Montrose West Ave, Bldg A' does not agree with expected '130 Montrose W Ave, Building A'",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Baymont by Wyndham Copley Akron",
+     "address_on_page": "130 Montrose West Ave, Bldg A",
+     "postal_code": "44321-1372",
+     "phone_on_page": "+1-330-576-5723",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.wyndhamhotels.com/baymont/copley-ohio/baymont-inn-and-suites-copley-akron/overview",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "3305765723",
+      "8444054141",
+      "8669967937",
+      "8004079832"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name",
+     "postal_code",
+     "phone",
+     "canonical_path"
+    ],
+    "conflicting": [
+     "street_identity"
+    ],
+    "reasons": [
+     "page street '130 Montrose West Ave, Bldg A' does not agree with expected '130 Montrose W Ave, Building A'"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_live_audit_010\\baymont-by-wyndham-copley-akron\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "3665ffaa1c792c18421dbc8a3e3840fbbba1df1ab6343744e132c2b26bce56c2",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   },
+   "live_audit": "NO_CHANGE_SIGNAL_PAGE_SILENT"
+  },
+  {
+   "identity_key": "days inn lakewood",
+   "canonical_name": "Days Inn Lakewood",
+   "brand": "WYNDHAM",
+   "origin": "LIVE_PET_FRIENDLY",
+   "requested_url": "https://www.wyndhamhotels.com/days-inn/cleveland-ohio/days-inn-cleveland-lakewood/overview",
+   "live_state": "PET_FRIENDLY_LIVE",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.wyndhamhotels.com/days-inn/cleveland-ohio/days-inn-cleveland-lakewood/overview",
+   "title": "Days Inn by Wyndham Cleveland Lakewood | Cleveland, OH Hotels",
+   "detail": "page street '12019 Lake Ave W 117th St. and Clifton Blvd' does not agree with expected '12019 Lake Ave.'",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Days Inn by Wyndham Cleveland Lakewood",
+     "address_on_page": "12019 Lake Ave W 117th St. and Clifton Blvd",
+     "postal_code": "44107",
+     "phone_on_page": "+1-216-226-4800",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.wyndhamhotels.com/days-inn/cleveland-ohio/days-inn-cleveland-lakewood/overview",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "2162264800",
+      "8444054141",
+      "8669967937",
+      "8002253297",
+      "8004079832"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name",
+     "postal_code",
+     "phone",
+     "canonical_path"
+    ],
+    "conflicting": [
+     "street_identity"
+    ],
+    "reasons": [
+     "page street '12019 Lake Ave W 117th St. and Clifton Blvd' does not agree with expected '12019 Lake Ave.'"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_live_audit_010\\days-inn-lakewood\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "f251194c9d62ef4a7e9cc76ea62f9b46fd928ebd443c38b1d543bf5ecf20bb36",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   },
+   "live_audit": "NO_CHANGE_SIGNAL_PAGE_SILENT"
+  },
+  {
+   "identity_key": "emerald necklace inn bed and breakfast and tea room",
+   "canonical_name": "Emerald Necklace Inn Bed & Breakfast and Tea Room",
+   "brand": "INDEPENDENT",
+   "origin": "LIVE_PET_FRIENDLY",
+   "requested_url": "https://www.emeraldnecklaceinn.com/policy/",
+   "live_state": "PET_FRIENDLY_LIVE",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.emeraldnecklaceinn.com/policy/",
+   "title": "Policy | Emerald Necklace Inn",
+   "detail": "page names 'Policy | Emerald Necklace Inn', which does not agree with 'Emerald Necklace Inn Bed & Breakfast and Tea Room'; the page declares no telephone number of its own",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Policy | Emerald Necklace Inn",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.emeraldnecklaceinn.com/policy/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "4403339100"
+     ]
+    },
+    "confirmed": false,
+    "matched": [],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'Policy | Emerald Necklace Inn', which does not agree with 'Emerald Necklace Inn Bed & Breakfast and Tea Room'",
+     "the page declares no telephone number of its own"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_live_audit_010\\emerald-necklace-inn-bed-breakfast-and-tea-room\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "70feb03f0cb1d52c74467b1cae8a95bfb69da12d9ad5f8660e969be5777628cb",
+    "reader": {
+     "found": true,
+     "walk": "STATIC_HTML_WALK",
+     "block_chars": 201,
+     "pets_allowed": null,
+     "pets_allowed_quote": "",
+     "extraction": {
+      "pet_fee": 2500,
+      "fee_currency": "USD"
+     },
+     "withheld": {
+      "pets_allowed": "SOURCE_SILENT",
+      "fee_basis": "SOURCE_SILENT"
+     },
+     "evidence_quotes": [
+      "$25.00 service charge"
+     ],
+     "service_animal_quote": "",
+     "brand_generic": false
+    }
+   },
+   "live_audit": "NO_CHANGE_SIGNAL_PAGE_SILENT"
+  },
+  {
+   "identity_key": "fidelity hotel",
+   "canonical_name": "Fidelity Hotel",
+   "brand": "INDEPENDENT",
+   "origin": "LIVE_PET_FRIENDLY",
+   "requested_url": "https://www.fidelityhotels.com/cleveland/faq/",
+   "live_state": "PET_FRIENDLY_LIVE",
+   "outcome": "VALID",
+   "final_url": "https://www.fidelityhotels.com/cleveland/faq/",
+   "title": "Explore FAQs | Cleveland's Fidelity Hotel",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Explore FAQs | Cleveland&#039;s Fidelity Hotel",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.fidelityhotels.com/cleveland/faq/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "4405683200"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "confirmed on name, canonical_path via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "page_sha256": "cd7eb2e9b0382b9eeb1f988bdd877898fe885fe000dd6d5274cb8683fbb6c09a",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_live_audit_010\\fidelity-hotel\\attempt-01",
+   "observation": {
+    "extraction": {
+     "pets_allowed": true
+    },
+    "evidence": [
+     {
+      "quote": "pet friendly",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     }
+    ],
+    "withheld_fields": {
+     "pet_fee": "SOURCE_SILENT"
+    },
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "cleveland_akron_canton_oh_live_audit_010::fidelity hotel::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "pet friendly",
+       "source_url": "https://www.fidelityhotels.com/cleveland/faq/",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "cd7eb2e9b0382b9eeb1f988bdd877898fe885fe000dd6d5274cb8683fbb6c09a",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-01",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "b9786ea86222a119ee47a27fc8e206c9f0de3e419a825d4b6594551297403e61",
+     "document_sha256": "cd7eb2e9b0382b9eeb1f988bdd877898fe885fe000dd6d5274cb8683fbb6c09a"
+    },
+    "membrane": {
+     "verdict": "VALID",
+     "rule": "",
+     "detail": "",
+     "hint_only": false,
+     "stripped_fields": [],
+     "flags_raised": [],
+     "rule_statement": ""
+    }
+   },
+   "classification": "CLEAN_PET_FRIENDLY_CANDIDATE",
+   "live_audit": "CURRENTLY_CORRECT",
+   "fee_comparison": {
+    "published_cents": 0,
+    "page_minor": null
+   }
+  },
+  {
+   "identity_key": "kimpton schofield hotel",
+   "canonical_name": "Kimpton Schofield Hotel",
+   "brand": "IHG",
+   "origin": "LIVE_PET_FRIENDLY",
+   "requested_url": "https://www.theschofieldhotel.com/cleveland-downtown-hotels/pet-friendly/",
+   "live_state": "PET_FRIENDLY_LIVE",
+   "outcome": "VALID",
+   "final_url": "https://www.theschofieldhotel.com/cleveland-downtown-hotels/pet-friendly/",
+   "title": "Pet-Friendly Hotel in Cleveland, Ohio | Kimpton Schofield Hotel",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Pet-Friendly Hotel in Cleveland, Ohio | Kimpton Schofield Hotel",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.theschofieldhotel.com/cleveland-downtown-hotels/pet-friendly/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "2163573250",
+      "8773632377",
+      "2163573280",
+      "8555467866"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "confirmed on name, canonical_path via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "page_sha256": "18b60a85a6966896d51c44891c154948e685304082574d799f9bba0fe4f81d9f",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_live_audit_010\\kimpton-schofield-hotel\\attempt-01",
+   "observation": {
+    "extraction": {
+     "pets_allowed": false
+    },
+    "evidence": [
+     {
+      "quote": "pets allowed No",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     }
+    ],
+    "withheld_fields": {},
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "cleveland_akron_canton_oh_live_audit_010::kimpton schofield hotel::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "pets allowed No",
+       "source_url": "https://www.theschofieldhotel.com/cleveland-downtown-hotels/pet-friendly/",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "18b60a85a6966896d51c44891c154948e685304082574d799f9bba0fe4f81d9f",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-01",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "9506eb203af7b9b939ca170fbeea18822b9d4a6213b16fcd912afb778d22c342",
+     "document_sha256": "18b60a85a6966896d51c44891c154948e685304082574d799f9bba0fe4f81d9f"
+    },
+    "membrane": {
+     "verdict": "VALID",
+     "rule": "",
+     "detail": "",
+     "hint_only": false,
+     "stripped_fields": [],
+     "flags_raised": [],
+     "rule_statement": ""
+    }
+   },
+   "classification": "CLEAN_VERIFIED_NO_PETS_CANDIDATE",
+   "live_audit": "WRONG_LIVE_POLICY_CANDIDATE"
+  },
+  {
+   "identity_key": "punderson manor lodge and conference center",
+   "canonical_name": "Punderson Manor Lodge & Conference Center",
+   "brand": "INDEPENDENT",
+   "origin": "LIVE_PET_FRIENDLY",
+   "requested_url": "https://www.pundersonmanor.com/cabins/pet-friendly-cabins",
+   "live_state": "PET_FRIENDLY_LIVE",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.pundersonmanor.com/cabins/pet-friendly-cabins",
+   "title": "Pet Friendly Cabins | Punderson Manor State Park Lodge",
+   "detail": "page names 'Pet Friendly Cabins | Punderson Manor State Park Lodge', which does not agree with 'Punderson Manor Lodge & Conference Center'; the page declares no telephone number of its own",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Pet Friendly Cabins | Punderson Manor State Park Lodge",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "8002827275",
+      "4405649144"
+     ]
+    },
+    "confirmed": false,
+    "matched": [],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'Pet Friendly Cabins | Punderson Manor State Park Lodge', which does not agree with 'Punderson Manor Lodge & Conference Center'",
+     "the page declares no telephone number of its own"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_live_audit_010\\punderson-manor-lodge-conference-center\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "5012e4644a10c9b32617e3ff385b8e1ef9d8e070229fca54b6b2c58f5fdbb7ee",
+    "reader": {
+     "found": true,
+     "walk": "STATIC_HTML_WALK",
+     "block_chars": 45,
+     "pets_allowed": null,
+     "pets_allowed_quote": "",
+     "extraction": {
+      "species_allowed": [
+       "cat",
+       "dog"
+      ]
+     },
+     "withheld": {
+      "pets_allowed": "SOURCE_SILENT"
+     },
+     "evidence_quotes": [
+      "dogs and cats only"
+     ],
+     "service_animal_quote": "",
+     "brand_generic": false
+    }
+   },
+   "live_audit": "NO_CHANGE_SIGNAL_PAGE_SILENT"
+  },
+  {
+   "identity_key": "roost cleveland apartment hotel",
+   "canonical_name": "Roost Cleveland - Apartment Hotel",
+   "brand": "INDEPENDENT",
+   "origin": "LIVE_PET_FRIENDLY",
+   "requested_url": "https://www.myroost.com/extended-stay-hotel-cleveland-ohio/faq",
+   "live_state": "PET_FRIENDLY_LIVE",
+   "outcome": "VALID",
+   "final_url": "https://www.myroost.com/extended-stay-hotel-cleveland-ohio/faq",
+   "title": "FAQ | ROOST Cleveland",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "FAQ | ROOST Cleveland",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.myroost.com/extended-stay-hotel-cleveland-ohio/faq",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "2168770500"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name_partial",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "confirmed on name_partial, canonical_path via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "page_sha256": "7734ecbfdb84fec055735ead683dcb3263ce703266a4405594c2850e2321b10c",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_live_audit_010\\roost-cleveland-apartment-hotel\\attempt-01",
+   "observation": {
+    "extraction": {
+     "pets_allowed": true
+    },
+    "evidence": [
+     {
+      "quote": "pet friendly",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     }
+    ],
+    "withheld_fields": {
+     "pet_fee": "SOURCE_AMBIGUOUS"
+    },
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "cleveland_akron_canton_oh_live_audit_010::roost cleveland apartment hotel::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "pet friendly",
+       "source_url": "https://www.myroost.com/extended-stay-hotel-cleveland-ohio/faq",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "7734ecbfdb84fec055735ead683dcb3263ce703266a4405594c2850e2321b10c",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-01",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "b87ab4e9ddee83e561fb06b7462a80520e5d87f7d770eb9d6793f2ec96e6deca",
+     "document_sha256": "7734ecbfdb84fec055735ead683dcb3263ce703266a4405594c2850e2321b10c"
+    },
+    "membrane": {
+     "verdict": "REJECT_WRONG_PROPERTY",
+     "rule": "M10",
+     "detail": "identity gate: the page identifies 'FAQ | ROOST Cleveland', which is neither a subset nor a superset of the referenced identity 'Roost Cleveland - Apartment Hotel', and neither an exact property-code + street-address agreement nor a street-address + owner-qualified-name agreement establishes it another way",
+     "hint_only": false,
+     "stripped_fields": [],
+     "flags_raised": [],
+     "rule_statement": "wrong property means no evidence, whatever the text says"
+    }
+   },
+   "classification": "CLEAN_PET_FRIENDLY_CANDIDATE",
+   "live_audit": "CURRENTLY_CORRECT",
+   "fee_comparison": {
+    "published_cents": null,
+    "page_minor": null
+   }
+  },
+  {
+   "identity_key": "the hotel at oberlin",
+   "canonical_name": "The Hotel at Oberlin",
+   "brand": "INDEPENDENT",
+   "origin": "LIVE_PET_FRIENDLY",
+   "requested_url": "https://thehotelatoberlin.com/about/pet-friendly/",
+   "live_state": "PET_FRIENDLY_LIVE",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://thehotelatoberlin.com/about/pet-friendly/",
+   "title": "Dog Friendly Hotel | Hotel at Oberlin",
+   "detail": "page names 'Dog Friendly Hotel', which does not agree with 'The Hotel at Oberlin'; the page declares no telephone number of its own",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Dog Friendly Hotel",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://thehotelatoberlin.com/about/pet-friendly/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "4407757001"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "canonical_path"
+    ],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'Dog Friendly Hotel', which does not agree with 'The Hotel at Oberlin'",
+     "the page declares no telephone number of its own"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_live_audit_010\\the-hotel-at-oberlin\\attempt-01",
+   "classification": "PET_FRIENDLY_READ_TEXT_BOUND",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "504defab71cfedeef6ae3783f07a04d5d6c82a14a123d3ecc82ce2deb4527090",
+    "reader": {
+     "found": true,
+     "walk": "STATIC_HTML_WALK",
+     "block_chars": 351,
+     "pets_allowed": true,
+     "pets_allowed_quote": "Pet Friendly",
+     "extraction": {
+      "pets_allowed": true,
+      "pet_fee": 7500,
+      "fee_currency": "USD",
+      "fee_basis": "per_stay"
+     },
+     "withheld": {},
+     "evidence_quotes": [
+      "Pet Friendly",
+      "$75 per stay, ",
+      "$75 per stay, "
+     ],
+     "service_animal_quote": "",
+     "brand_generic": false
+    }
+   },
+   "live_audit": "CURRENTLY_CORRECT_TEXT_BOUND"
+  },
+  {
+   "identity_key": "knights inn cleveland macedonia",
+   "canonical_name": "Knights Inn Cleveland/Macedonia",
+   "brand": "INDEPENDENT",
+   "origin": "LIVE_PET_FRIENDLY",
+   "requested_url": "https://www.knightsinn.com/us/oh/macedonia/knights-inn-macedonia",
+   "live_state": "PET_FRIENDLY_LIVE",
+   "outcome": "POLICY_NOT_FOUND",
+   "final_url": "https://www.knightsinn.com/us/oh/macedonia/knights-inn-macedonia",
+   "title": "Knights Inn Macedonia Hotel",
+   "detail": "no bounded policy block in a page that served; 2 signal candidates considered",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Knights Inn Macedonia Hotel",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.knightsinn.com/us/oh/macedonia/knights-inn-macedonia",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "3304671981"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name_partial",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "confirmed on name_partial, canonical_path via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_live_audit_010\\knights-inn-cleveland-macedonia\\attempt-01",
+   "classification": "SOURCE_SILENT_STATIC",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "3c57eb0050a86ceae268a1edd588142ddeccd70192d48c3232263ae37f06ba5f",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   },
+   "live_audit": "NO_CHANGE_SIGNAL"
+  },
+  {
+   "identity_key": "la quinta inn cleveland independence",
+   "canonical_name": "La Quinta Inn Cleveland Independence",
+   "brand": "WYNDHAM",
+   "origin": "LIVE_PET_FRIENDLY",
+   "requested_url": "https://www.wyndhamhotels.com/laquinta/independence-ohio/la-quinta-inn-cleveland-independence/overview",
+   "live_state": "PET_FRIENDLY_LIVE",
+   "outcome": "UNHYDRATED",
+   "final_url": "https://www.wyndhamhotels.com/laquinta/independence-ohio/la-quinta-inn-cleveland-independence/overview",
+   "title": "La Quinta Inn by Wyndham Cleveland Independence | Independence, OH Hotels",
+   "detail": "the policy region of the served document is an unrendered client-side template ('{{bedtype}}'); this lane fetched the template, not the render",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "La Quinta Inn by Wyndham Cleveland Independence",
+     "address_on_page": "6161 Quarry Ln.",
+     "postal_code": "44131",
+     "phone_on_page": "+1-216-447-1133",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.wyndhamhotels.com/laquinta/independence-ohio/la-quinta-inn-cleveland-independence/overview",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "2164471133",
+      "8444054141",
+      "8669967937",
+      "8007533757",
+      "8004079832"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "phone",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, street_identity, phone, canonical_path via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_live_audit_010\\la-quinta-inn-cleveland-independence\\attempt-01",
+   "classification": "NEEDS_ATTENDED_RENDER",
+   "live_audit": "NOT_RE_READABLE_STATICALLY"
+  },
+  {
+   "identity_key": "super 8 by wyndham akron south green uniontown",
+   "canonical_name": "Super 8 by Wyndham Akron South/Green/Uniontown",
+   "brand": "WYNDHAM",
+   "origin": "LIVE_PET_FRIENDLY",
+   "requested_url": "https://www.wyndhamhotels.com/super-8/uniontown-ohio/super-8-akron-s-green-uniontown-oh/overview",
+   "live_state": "PET_FRIENDLY_LIVE",
+   "outcome": "UNHYDRATED",
+   "final_url": "https://www.wyndhamhotels.com/super-8/uniontown-ohio/super-8-akron-s-green-uniontown-oh/overview",
+   "title": "Super 8 by Wyndham Akron S/Green/Uniontown OH | Uniontown, OH Hotels",
+   "detail": "the policy region of the served document is an unrendered client-side template ('{{bedtype}}'); this lane fetched the template, not the render",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Super 8 by Wyndham Akron S/Green/Uniontown OH",
+     "address_on_page": "1605 Corporate Woods Parkway",
+     "postal_code": "44685-7891",
+     "phone_on_page": "+1-330-776-5350",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.wyndhamhotels.com/super-8/uniontown-ohio/super-8-akron-s-green-uniontown-oh/overview",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "3307765350",
+      "8444054141",
+      "8669967937",
+      "8004543213",
+      "8004079832"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name_partial",
+     "postal_code",
+     "street_identity",
+     "phone",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name_partial, postal_code, street_identity, phone, canonical_path via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_live_audit_010\\super-8-by-wyndham-akron-south-green-uniontown\\attempt-01",
+   "classification": "NEEDS_ATTENDED_RENDER",
+   "live_audit": "NOT_RE_READABLE_STATICALLY"
+  },
+  {
+   "identity_key": "super 8 by wyndham richfield cleveland",
+   "canonical_name": "Super 8 by Wyndham Richfield/Cleveland",
+   "brand": "WYNDHAM",
+   "origin": "LIVE_PET_FRIENDLY",
+   "requested_url": "https://www.wyndhamhotels.com/super-8/richfield-ohio/super-8-richfield-cleveland/overview",
+   "live_state": "PET_FRIENDLY_LIVE",
+   "outcome": "UNHYDRATED",
+   "final_url": "https://www.wyndhamhotels.com/super-8/richfield-ohio/super-8-richfield-cleveland/overview",
+   "title": "Super 8 by Wyndham Richfield/Cleveland | Richfield, OH Hotels",
+   "detail": "the policy region of the served document is an unrendered client-side template ('{{bedtype}}'); this lane fetched the template, not the render",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Super 8 by Wyndham Richfield/Cleveland",
+     "address_on_page": "4845 Brecksville Rd",
+     "postal_code": "44286-9621",
+     "phone_on_page": "+1-330-344-9040",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.wyndhamhotels.com/super-8/richfield-ohio/super-8-richfield-cleveland/overview",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "3303449040",
+      "8444054141",
+      "8669967937",
+      "8004543213",
+      "8004079832"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "page telephone '+1-330-344-9040' is not the census number '(330) 659-6888'; one property commonly publishes several",
+     "confirmed on name, postal_code, street_identity, canonical_path via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_live_audit_010\\super-8-by-wyndham-richfield-cleveland\\attempt-01",
+   "classification": "NEEDS_ATTENDED_RENDER",
+   "live_audit": "NOT_RE_READABLE_STATICALLY"
+  },
+  {
+   "identity_key": "la quinta inn and suites cleveland airport north",
+   "canonical_name": "La Quinta Inn & Suites Cleveland Airport North",
+   "brand": "WYNDHAM",
+   "origin": "LIVE_PET_FRIENDLY",
+   "requested_url": "https://www.wyndhamhotels.com/laquinta/cleveland-ohio/la-quinta-cleveland-airport-north/overview",
+   "live_state": "PET_FRIENDLY_LIVE",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.wyndhamhotels.com/laquinta/cleveland-ohio/la-quinta-cleveland-airport-north/overview",
+   "title": "La Quinta Inn & Suites by Wyndham Cleveland - Airport North | Cleveland, OH Hotels",
+   "detail": "page street '4222 W 150 St.' does not agree with expected '4222 West 150th St.'",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "La Quinta Inn & Suites by Wyndham Cleveland - Airport North",
+     "address_on_page": "4222 W 150 St.",
+     "postal_code": "44135",
+     "phone_on_page": "+1-216-251-8500",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.wyndhamhotels.com/laquinta/cleveland-ohio/la-quinta-cleveland-airport-north/overview",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "2162518500",
+      "8444054141",
+      "8669967937",
+      "8007533757",
+      "8004079832"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name",
+     "postal_code",
+     "phone",
+     "canonical_path"
+    ],
+    "conflicting": [
+     "street_identity"
+    ],
+    "reasons": [
+     "page street '4222 W 150 St.' does not agree with expected '4222 West 150th St.'"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_live_audit_010\\la-quinta-inn-suites-cleveland-airport-north\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": false,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "7295ef320fbca60290bc13995964952da43e091b94309b4428cf883ba34b488b",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   },
+   "live_audit": "NO_CHANGE_SIGNAL_PAGE_SILENT"
+  },
+  {
+   "identity_key": "wyndham garden westlake",
+   "canonical_name": "Wyndham Garden Westlake",
+   "brand": "WYNDHAM",
+   "origin": "LIVE_PET_FRIENDLY",
+   "requested_url": "https://www.wyndhamhotels.com/wyndham-garden/westlake-ohio/wyndham-garden-westlake/overview",
+   "live_state": "PET_FRIENDLY_LIVE",
+   "outcome": "VALID",
+   "final_url": "https://www.wyndhamhotels.com/wyndham-garden/westlake-ohio/wyndham-garden-westlake/overview",
+   "title": "Wyndham Garden Westlake | Westlake, OH Hotels",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Wyndham Garden Westlake",
+     "address_on_page": "1100 Crocker Rd",
+     "postal_code": "44145",
+     "phone_on_page": "+1-440-414-3800",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.wyndhamhotels.com/wyndham-garden/westlake-ohio/wyndham-garden-westlake/overview",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "4404143800",
+      "8444054141",
+      "8669967937",
+      "8004079832"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "page telephone '+1-440-414-3800' is not the census number '440.871.6000'; one property commonly publishes several",
+     "confirmed on name, postal_code, street_identity, canonical_path via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "page_sha256": "a32b08c1df13d571d0769665e4ddf3a0380a7fc3a63d28032009d73b877999e9",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_live_audit_010\\wyndham-garden-westlake\\attempt-01",
+   "observation": {
+    "extraction": {
+     "pets_allowed": true
+    },
+    "evidence": [
+     {
+      "quote": "Dog-friendly",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     }
+    ],
+    "withheld_fields": {
+     "pet_fee": "SOURCE_SILENT"
+    },
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "cleveland_akron_canton_oh_live_audit_010::wyndham garden westlake::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "Dog-friendly",
+       "source_url": "https://www.wyndhamhotels.com/wyndham-garden/westlake-ohio/wyndham-garden-westlake/overview",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "a32b08c1df13d571d0769665e4ddf3a0380a7fc3a63d28032009d73b877999e9",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-01",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "8d3375558b2a51ebfe4c4e39630997b31ad33343a122ccc6ca86aeb6aefd43d7",
+     "document_sha256": "a32b08c1df13d571d0769665e4ddf3a0380a7fc3a63d28032009d73b877999e9"
+    },
+    "membrane": {
+     "verdict": "VALID",
+     "rule": "",
+     "detail": "",
+     "hint_only": false,
+     "stripped_fields": [],
+     "flags_raised": [],
+     "rule_statement": ""
+    }
+   },
+   "classification": "CLEAN_PET_FRIENDLY_CANDIDATE",
+   "live_audit": "CURRENTLY_CORRECT",
+   "fee_comparison": {
+    "published_cents": 5000,
+    "page_minor": null
+   }
+  },
+  {
+   "identity_key": "the o neil house bed and breakfast",
+   "canonical_name": "The O'Neil House Bed and Breakfast",
+   "brand": "INDEPENDENT",
+   "origin": "LIVE_VERIFIED_NO_PETS",
+   "requested_url": "https://oneilhouse.com/",
+   "live_state": "VERIFIED_NO_PETS_LIVE",
+   "outcome": "UNEXPECTED_PAGE",
+   "final_url": "https://11a0d1d.netsolhost.com/",
+   "title": "Bed and Breakfast | Akron, OH – The O’Neil House Bed and Breakfast",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_live_audit_010\\the-o-neil-house-bed-and-breakfast\\attempt-01",
+   "classification": "UNEXPECTED_PAGE",
+   "live_audit": "NO_CHANGE_SIGNAL"
+  },
+  {
+   "identity_key": "holiday inn express",
+   "canonical_name": "Holiday Inn Express",
+   "brand": "IHG",
+   "origin": "LIVE_VERIFIED_NO_PETS",
+   "requested_url": "https://www.hiexpress.com/hotels/us/en/brookpark/bokoh/hoteldetail",
+   "live_state": "VERIFIED_NO_PETS_LIVE",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.hiexpress.com/hotels/us/en/brookpark/bokoh/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_live_audit_010\\holiday-inn-express\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT",
+   "live_audit": "NOT_RE_READABLE_STATICALLY"
+  },
+  {
+   "identity_key": "travelodge by wyndham",
+   "canonical_name": "Travelodge by Wyndham",
+   "brand": "WYNDHAM",
+   "origin": "LIVE_VERIFIED_NO_PETS",
+   "requested_url": "https://www.wyndhamhotels.com/travelodge/lakewood-ohio/travelodge-cleveland-lakewood/overview",
+   "live_state": "VERIFIED_NO_PETS_LIVE",
+   "outcome": "UNHYDRATED",
+   "final_url": "https://www.wyndhamhotels.com/travelodge/lakewood-ohio/travelodge-cleveland-lakewood/overview",
+   "title": "Travelodge by Wyndham Cleveland Lakewood | Lakewood, OH Hotels",
+   "detail": "the policy region of the served document is an unrendered client-side template ('{{bedtype}}'); this lane fetched the template, not the render",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Travelodge by Wyndham Cleveland Lakewood",
+     "address_on_page": "11837 Edgewater Drive",
+     "postal_code": "44107",
+     "phone_on_page": "+1-216-221-9000",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.wyndhamhotels.com/travelodge/lakewood-ohio/travelodge-cleveland-lakewood/overview",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "2162219000",
+      "8444054141",
+      "8669967937",
+      "8004079832",
+      "8005254055"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "phone",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, street_identity, phone, canonical_path via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_live_audit_010\\travelodge-by-wyndham\\attempt-01",
+   "classification": "NEEDS_ATTENDED_RENDER",
+   "live_audit": "NOT_RE_READABLE_STATICALLY"
+  },
+  {
+   "identity_key": "microtel inn and suites north canton",
+   "canonical_name": "Microtel Inn & Suites North Canton",
+   "brand": "WYNDHAM",
+   "origin": "LIVE_VERIFIED_NO_PETS",
+   "requested_url": "https://www.wyndhamhotels.com/microtel/north-canton-ohio/microtel-inn-and-suites-north-canton/overview",
+   "live_state": "VERIFIED_NO_PETS_LIVE",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.wyndhamhotels.com/microtel/north-canton-ohio/microtel-inn-and-suites-north-canton/overview",
+   "title": "Microtel Inn & Suites by Wyndham North Canton | North Canton, OH Hotels",
+   "detail": "page street '7046 Sunset Strip Avenue' does not agree with expected '7046 Sunset Strip Ave N'; page telephone '+1-330-461-9542' is not the census number '(330) 966-7551'; one property commonly publishes several; nothing physical agreed: no street identity and no telephone match, and a related-lookin",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Microtel Inn & Suites by Wyndham North Canton",
+     "address_on_page": "7046 Sunset Strip Avenue",
+     "postal_code": "44720",
+     "phone_on_page": "+1-330-461-9542",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.wyndhamhotels.com/microtel/north-canton-ohio/microtel-inn-and-suites-north-canton/overview",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "3304619542",
+      "8444054141",
+      "8669967937",
+      "8004079832",
+      "8003370050"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name",
+     "postal_code",
+     "canonical_path"
+    ],
+    "conflicting": [
+     "street_identity"
+    ],
+    "reasons": [
+     "page street '7046 Sunset Strip Avenue' does not agree with expected '7046 Sunset Strip Ave N'",
+     "page telephone '+1-330-461-9542' is not the census number '(330) 966-7551'; one property commonly publishes several",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_live_audit_010\\microtel-inn-suites-north-canton\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": false,
+    "text_bound": true,
+    "document_sha256": "f085437f812e6f6ea0162f87c9f0afe0fbc3941c65f1f8045535fe5497ef4372",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   },
+   "live_audit": "NO_CHANGE_SIGNAL_PAGE_SILENT"
+  },
+  {
+   "identity_key": "shady oaks farm bed and breakfast",
+   "canonical_name": "Shady Oaks Farm Bed and Breakfast",
+   "brand": "INDEPENDENT",
+   "origin": "LIVE_VERIFIED_NO_PETS",
+   "requested_url": "https://www.shadyoaksfarmbnb.com/faqs",
+   "live_state": "VERIFIED_NO_PETS_LIVE",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.shadyoaksfarmbnb.com/faqs",
+   "title": "FAQs | Policies — Shady Oaks Farm Bed and Breakfast - Discover the meaning of relaxation.",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "FAQs | Policies &mdash; Shady Oaks Farm Bed and Breakfast - Discover the meaning of relaxation.",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.shadyoaksfarmbnb.com/faqs",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "3304682909"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_live_audit_010\\shady-oaks-farm-bed-and-breakfast\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "37e751db3446a062967bbcc65901eca32ffdcca950759c9210ae20f245d9771b",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   },
+   "live_audit": "NO_CHANGE_SIGNAL_PAGE_SILENT"
+  },
+  {
+   "identity_key": "terry point motel",
+   "canonical_name": "Terry Point Motel",
+   "brand": "INDEPENDENT",
+   "origin": "LIVE_VERIFIED_NO_PETS",
+   "requested_url": "https://www.terrypoint.com/faq",
+   "live_state": "VERIFIED_NO_PETS_LIVE",
+   "outcome": "UNHYDRATED",
+   "final_url": "https://www.terrypoint.com/faq",
+   "title": "FAQ | Terry Point Motel",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_live_audit_010\\terry-point-motel\\attempt-01",
+   "classification": "NEEDS_ATTENDED_RENDER",
+   "live_audit": "NOT_RE_READABLE_STATICALLY"
+  },
+  {
+   "identity_key": "the ohio motel",
+   "canonical_name": "The Ohio Motel",
+   "brand": "INDEPENDENT",
+   "origin": "LIVE_VERIFIED_NO_PETS",
+   "requested_url": "https://www.theohiomotel.com/faq",
+   "live_state": "VERIFIED_NO_PETS_LIVE",
+   "outcome": "UNHYDRATED",
+   "final_url": "https://www.theohiomotel.com/faq",
+   "title": "FAQ | The Ohio Motel | Extended Stay Hotel - Cleveland & Akron",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_live_audit_010\\the-ohio-motel\\attempt-01",
+   "classification": "NEEDS_ATTENDED_RENDER",
+   "live_audit": "NOT_RE_READABLE_STATICALLY"
+  },
+  {
+   "identity_key": "cottages at the lodge",
+   "canonical_name": "Cottages at the Lodge",
+   "brand": "INDEPENDENT",
+   "origin": "LIVE_VERIFIED_NO_PETS",
+   "requested_url": "https://www.thelodgeatgeneva.com/stay/policies/",
+   "live_state": "VERIFIED_NO_PETS_LIVE",
+   "outcome": "VALID",
+   "final_url": "https://www.thelodgeatgeneva.com/stay/policies/",
+   "title": "Policies - The Lodge at Geneva-on-the-Lake",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Policies - The Lodge at Geneva-on-the-Lake",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.thelodgeatgeneva.com/stay/policies/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "8668068066",
+      "8668901171",
+      "8666011973"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name_partial",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "confirmed on name_partial, canonical_path via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "page_sha256": "9e6e22c474a0d6b54ac46bf32a6eff17282333fab9931e691358edcf3766d15c",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_live_audit_010\\cottages-at-the-lodge\\attempt-01",
+   "observation": {
+    "extraction": {
+     "pets_allowed": false,
+     "service_animal_exception": "With the exception of service animals, pets are not permitted at The Lodge, which includes all Cottages, guest rooms, lobby and common areas, indoor and outdoor pool areas, gift shop, meeting rooms, in/near the restaurant or outside patio."
+    },
+    "evidence": [
+     {
+      "quote": "pets are not permitted",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "With the exception of service animals, pets are not permitted at The Lodge, which includes all Cottages, guest rooms, lobby and common areas, indoor and outdoor pool areas, gift shop, meeting rooms, in/near the restaurant or outside patio.",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "service_animal_exception"
+      ]
+     }
+    ],
+    "withheld_fields": {},
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt",
+      "service_animal_exception": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "cleveland_akron_canton_oh_live_audit_010::cottages at the lodge::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "pets are not permitted",
+       "source_url": "https://www.thelodgeatgeneva.com/stay/policies/",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "9e6e22c474a0d6b54ac46bf32a6eff17282333fab9931e691358edcf3766d15c",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-01",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "cleveland_akron_canton_oh_live_audit_010::cottages at the lodge::service_animal_exception::1",
+       "field": "service_animal_exception",
+       "quote": "With the exception of service animals, pets are not permitted at The Lodge, which includes all Cottages, guest rooms, lobby and common areas, indoor and outdoor pool areas, gift shop, meeting rooms, in/near the restaurant or outside patio.",
+       "source_url": "https://www.thelodgeatgeneva.com/stay/policies/",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "9e6e22c474a0d6b54ac46bf32a6eff17282333fab9931e691358edcf3766d15c",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-01",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "53f3a401e81272e1bb827a62bf5452df6caf7b2f2cc76d340d07c632675f724a",
+     "document_sha256": "9e6e22c474a0d6b54ac46bf32a6eff17282333fab9931e691358edcf3766d15c"
+    },
+    "membrane": {
+     "verdict": "REJECT_WRONG_PROPERTY",
+     "rule": "M10",
+     "detail": "identity gate: the page identifies 'Policies - The Lodge at Geneva-on-the-Lake', which is neither a subset nor a superset of the referenced identity 'Cottages at the Lodge', and neither an exact property-code + street-address agreement nor a street-address + owner-qualified-name agreement establishes it another way",
+     "hint_only": false,
+     "stripped_fields": [],
+     "flags_raised": [],
+     "rule_statement": "wrong property means no evidence, whatever the text says"
+    }
+   },
+   "classification": "CLEAN_VERIFIED_NO_PETS_CANDIDATE",
+   "live_audit": "CURRENTLY_CORRECT"
+  },
+  {
+   "identity_key": "the lakehouse inn and winery",
+   "canonical_name": "The Lakehouse Inn & Winery",
+   "brand": "INDEPENDENT",
+   "origin": "LIVE_VERIFIED_NO_PETS",
+   "requested_url": "https://thelakehouseinn.com/guest-rooms-policies/",
+   "live_state": "VERIFIED_NO_PETS_LIVE",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://thelakehouseinn.com/guest-rooms-policies/",
+   "title": "Policies for our Lakeside Resort | The Lakehouse Inn",
+   "detail": "page names 'Reservation Policies', which does not agree with 'The Lakehouse Inn & Winery'; the page declares no telephone number of its own",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Reservation Policies",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://thelakehouseinn.com/guest-rooms-policies/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "4404668668"
+     ]
+    },
+    "confirmed": false,
+    "matched": [],
+    "conflicting": [
+     "name"
+    ],
+    "reasons": [
+     "page names 'Reservation Policies', which does not agree with 'The Lakehouse Inn & Winery'",
+     "the page declares no telephone number of its own"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_live_audit_010\\the-lakehouse-inn-winery\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "b47389297a43218de17cee0d5bc36fae6f749e65cf139c7182d1907e6686a050",
+    "reader": {
+     "found": true,
+     "walk": "STATIC_HTML_WALK",
+     "block_chars": 401,
+     "pets_allowed": null,
+     "pets_allowed_quote": "",
+     "extraction": {
+      "pet_fee": 50000,
+      "fee_currency": "USD"
+     },
+     "withheld": {
+      "pets_allowed": "SOURCE_SILENT",
+      "fee_basis": "SOURCE_SILENT"
+     },
+     "evidence_quotes": [
+      "$500 pet fee"
+     ],
+     "service_animal_quote": "",
+     "brand_generic": false
+    }
+   },
+   "live_audit": "NO_CHANGE_SIGNAL_PAGE_SILENT"
+  },
+  {
+   "identity_key": "travelodge cleveland airport",
+   "canonical_name": "Travelodge Cleveland Airport",
+   "brand": "WYNDHAM",
+   "origin": "LIVE_VERIFIED_NO_PETS",
+   "requested_url": "https://www.wyndhamhotels.com/travelodge/brook-park-ohio/travelodge-cleveland-airport/overview",
+   "live_state": "VERIFIED_NO_PETS_LIVE",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://www.wyndhamhotels.com/travelodge/brook-park-ohio/travelodge-cleveland-airport/overview",
+   "title": "Travelodge by Wyndham Cleveland Airport | Brook Park, OH Hotels",
+   "detail": "page street '14043 Brook Park Rd' does not agree with expected '14043 Brookpark Rd'",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Travelodge by Wyndham Cleveland Airport",
+     "address_on_page": "14043 Brook Park Rd",
+     "postal_code": "44142",
+     "phone_on_page": "+1-216-920-0855",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.wyndhamhotels.com/travelodge/brook-park-ohio/travelodge-cleveland-airport/overview",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "2169200855",
+      "8444054141",
+      "8669967937",
+      "8004079832",
+      "8005254055"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name",
+     "postal_code",
+     "phone",
+     "canonical_path"
+    ],
+    "conflicting": [
+     "street_identity"
+    ],
+    "reasons": [
+     "page street '14043 Brook Park Rd' does not agree with expected '14043 Brookpark Rd'"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\cleveland_akron_canton_oh_live_audit_010\\travelodge-cleveland-airport\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "e4081f25133afbeecffc65293e118f9eb408ff62dcf1d0b3cf0984a2486a680e",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   },
+   "live_audit": "NO_CHANGE_SIGNAL_PAGE_SILENT"
+  }
+ ]
+}

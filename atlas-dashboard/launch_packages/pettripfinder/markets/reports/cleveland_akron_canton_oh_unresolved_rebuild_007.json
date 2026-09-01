@@ -1,0 +1,1258 @@
+{
+ "schema": "ptf-unresolved-rebuild/1.0",
+ "work_order": "PTF-CLEVELAND-AKRON-CANTON-HARDENED-REVALIDATION-001",
+ "phase": "7 -- rebuild the 49 current unresolved",
+ "market_id": "cleveland-akron-canton-oh",
+ "as_of": "2026-09-01",
+ "what_this_is": "The 49 unresolved rows rebuilt from current state and reclassified under the current factory's lanes. Historical labels are shown beside the new lane but never decide it. PAID_DISCOVERY_REQUIRED is assigned only by phase 8/14 after the free routing lanes are exhausted.",
+ "rows_rebuilt": 49,
+ "lane_counts": {
+  "FOUNDER_HOLD": 2,
+  "FREE_ATTENDED_QUALIFIED": 4,
+  "FREE_STATIC_QUALIFIED": 12,
+  "IDENTITY_REVIEW_FIRST": 5,
+  "ROUTING_REPAIR_FIRST": 12,
+  "SOURCE_SILENT": 14
+ },
+ "prior_classification_to_lane": {
+  "ROUTING_REPAIRED_AWAITING_CAPTURE": {
+   "FREE_STATIC_QUALIFIED": 2,
+   "IDENTITY_REVIEW_FIRST": 2,
+   "SOURCE_SILENT": 3
+  },
+  "ADAPTER_GAP_INDEPENDENT": {
+   "FREE_STATIC_QUALIFIED": 8,
+   "IDENTITY_REVIEW_FIRST": 1,
+   "SOURCE_SILENT": 8
+  },
+  "ROUTED_AWAITING_CAPTURE": {
+   "FREE_ATTENDED_QUALIFIED": 4,
+   "ROUTING_REPAIR_FIRST": 1
+  },
+  "ROUTED_NO_BRAND_ADAPTER": {
+   "FREE_STATIC_QUALIFIED": 1,
+   "SOURCE_SILENT": 3
+  },
+  "NO_OFFICIAL_URL": {
+   "IDENTITY_REVIEW_FIRST": 2,
+   "ROUTING_REPAIR_FIRST": 10
+  },
+  "ADR_ACCESS_BLOCKED": {
+   "FOUNDER_HOLD": 2,
+   "FREE_STATIC_QUALIFIED": 1,
+   "ROUTING_REPAIR_FIRST": 1
+  }
+ },
+ "rows": [
+  {
+   "identity_key": "cambria hotel and suites avon",
+   "canonical_name": "Cambria Hotel & Suites Avon",
+   "city": "Avon",
+   "postal_code": "44011",
+   "brand_family": "CHOICE",
+   "in_census": true,
+   "prior_classification": "ROUTING_REPAIRED_AWAITING_CAPTURE",
+   "prior_why": "PTF-CLEVELAND-ROUTING-REPAIR-001 bound a working property page; the pet policy is still unobserved.",
+   "route_status": "ROUTING_CONFIRMED",
+   "url": "https://www.wyndhamhotels.com/wyndham/avon-ohio/wyndham-avon/overview",
+   "host": "wyndhamhotels.com",
+   "owned_artifacts": [
+    "P3-002-cambria-hotel-suites-avon.json",
+    "RR-001-wyndham-avon.json",
+    "RR-001b-wyndham-avon-policies.json"
+   ],
+   "owned_replay_states": [
+    "PET_FRIENDLY_STATED",
+    "SILENT_NO_POLICY_BLOCK"
+   ],
+   "owned_identity_bound": true,
+   "owned_page_names_other_property": true,
+   "census_audit_findings": [
+    "CONVERSION_OR_RENAME_PENDING",
+    "PRIOR_RENAME_OR_REVIEW_TRACE"
+   ],
+   "lane": "IDENTITY_REVIEW_FIRST",
+   "why": [
+    "identity question recorded: CONVERSION_OR_RENAME_PENDING, PRIOR_RENAME_OR_REVIEW_TRACE"
+   ]
+  },
+  {
+   "identity_key": "ariel broadway hotel",
+   "canonical_name": "Ariel Broadway Hotel",
+   "city": "Lorain",
+   "postal_code": "44052",
+   "brand_family": "INDEPENDENT",
+   "in_census": true,
+   "prior_classification": "ADAPTER_GAP_INDEPENDENT",
+   "prior_why": "brand_unrecognised:www.arielbroadwayhotel.com",
+   "route_status": "ROUTING_CONFIRMED",
+   "url": "https://www.arielbroadwayhotel.com/abw/homePage.html",
+   "host": "arielbroadwayhotel.com",
+   "owned_artifacts": [
+    "P3-001-ariel-broadway-hotel.json"
+   ],
+   "owned_replay_states": [
+    "SILENT_NO_POLICY_BLOCK"
+   ],
+   "owned_identity_bound": true,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "SOURCE_SILENT",
+   "why": [
+    "the property's own page(s) were captured (1 artifact(s)) and say nothing about pets"
+   ]
+  },
+  {
+   "identity_key": "studio 6 extended stay hotel mentor",
+   "canonical_name": "Studio 6 Extended Stay Hotel Mentor",
+   "city": "Mentor",
+   "postal_code": "44060",
+   "brand_family": "MOTEL6",
+   "in_census": true,
+   "prior_classification": "ROUTED_AWAITING_CAPTURE",
+   "prior_why": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "route_status": "ROUTING_CONFIRMED",
+   "url": "https://www.choicehotels.com/ohio/mentor/suburban-hotels/oh196",
+   "host": "choicehotels.com",
+   "owned_artifacts": [],
+   "owned_replay_states": [],
+   "owned_identity_bound": false,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "FREE_ATTENDED_QUALIFIED",
+   "why": [
+    "brand host renders client-side or refuses a plain client; attended browser at $0"
+   ]
+  },
+  {
+   "identity_key": "inn at brandywine falls",
+   "canonical_name": "Inn at Brandywine Falls",
+   "city": "Northfield",
+   "postal_code": "44067",
+   "brand_family": "INDEPENDENT",
+   "in_census": true,
+   "prior_classification": "ROUTED_NO_BRAND_ADAPTER",
+   "prior_why": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (PAGE_RENDERED); the pet policy itself is still unobserved",
+   "route_status": "ROUTING_CONFIRMED",
+   "url": "https://www.theinnatbrandywinefalls.com/",
+   "host": "theinnatbrandywinefalls.com",
+   "owned_artifacts": [
+    "P3-011-inn-at-brandywine-falls.json",
+    "P3-011b-inn-at-brandywine-falls-faqs.json"
+   ],
+   "owned_replay_states": [
+    "SILENT_NO_POLICY_BLOCK"
+   ],
+   "owned_identity_bound": true,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "SOURCE_SILENT",
+   "why": [
+    "the property's own page(s) were captured (2 artifact(s)) and say nothing about pets"
+   ]
+  },
+  {
+   "identity_key": "sunset motel",
+   "canonical_name": "Sunset Motel",
+   "city": "Northfield",
+   "postal_code": "44067",
+   "brand_family": "INDEPENDENT",
+   "in_census": true,
+   "prior_classification": "NO_OFFICIAL_URL",
+   "prior_why": "no official URL was recoverable from the CVB listing",
+   "route_status": "NO_ROUTE",
+   "url": "",
+   "host": "",
+   "owned_artifacts": [],
+   "owned_replay_states": [],
+   "owned_identity_bound": false,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "ROUTING_REPAIR_FIRST",
+   "why": [
+    "no confirmed first-party property URL (route status NO_ROUTE)"
+   ]
+  },
+  {
+   "identity_key": "twinsburg country inn",
+   "canonical_name": "Twinsburg Country Inn",
+   "city": "Twinsburg",
+   "postal_code": "44087",
+   "brand_family": "RADISSON",
+   "in_census": true,
+   "prior_classification": "NO_OFFICIAL_URL",
+   "prior_why": "no official URL was recoverable from the CVB listing",
+   "route_status": "NO_ROUTE",
+   "url": "",
+   "host": "",
+   "owned_artifacts": [],
+   "owned_replay_states": [],
+   "owned_identity_bound": false,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "ROUTING_REPAIR_FIRST",
+   "why": [
+    "no confirmed first-party property URL (route status NO_ROUTE)"
+   ]
+  },
+  {
+   "identity_key": "twinsburg inn motel",
+   "canonical_name": "Twinsburg Inn Motel",
+   "city": "Twinsburg",
+   "postal_code": "44087",
+   "brand_family": "INDEPENDENT",
+   "in_census": true,
+   "prior_classification": "NO_OFFICIAL_URL",
+   "prior_why": "no official URL was recoverable from the CVB listing",
+   "route_status": "NO_ROUTE",
+   "url": "",
+   "host": "",
+   "owned_artifacts": [],
+   "owned_replay_states": [],
+   "owned_identity_bound": false,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "ROUTING_REPAIR_FIRST",
+   "why": [
+    "no confirmed first-party property URL (route status NO_ROUTE)"
+   ]
+  },
+  {
+   "identity_key": "villa croatia at the american croatian lodge",
+   "canonical_name": "Villa Croatia at the American-Croatian Lodge",
+   "city": "Eastlake",
+   "postal_code": "44095",
+   "brand_family": "INDEPENDENT",
+   "in_census": true,
+   "prior_classification": "ROUTING_REPAIRED_AWAITING_CAPTURE",
+   "prior_why": "PTF-CLEVELAND-ROUTING-REPAIR-001 bound a working property page; the pet policy is still unobserved.",
+   "route_status": "ROUTING_CONFIRMED",
+   "url": "https://croatianlodge.com/",
+   "host": "croatianlodge.com",
+   "owned_artifacts": [
+    "RR-029-villa-croatia-croatian-lodge.json",
+    "RR-029b-villa-croatia-faq.json"
+   ],
+   "owned_replay_states": [
+    "SILENT_NO_POLICY_BLOCK"
+   ],
+   "owned_identity_bound": true,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [
+    "PRIOR_RENAME_OR_REVIEW_TRACE"
+   ],
+   "lane": "IDENTITY_REVIEW_FIRST",
+   "why": [
+    "identity question recorded: PRIOR_RENAME_OR_REVIEW_TRACE"
+   ]
+  },
+  {
+   "identity_key": "doubletree by hilton tudor arms hotel",
+   "canonical_name": "DoubleTree by Hilton Tudor Arms Hotel",
+   "city": "Cleveland",
+   "postal_code": "44106",
+   "brand_family": "HILTON",
+   "in_census": true,
+   "prior_classification": "ROUTED_AWAITING_CAPTURE",
+   "prior_why": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "route_status": "ROUTING_CONFIRMED",
+   "url": "https://www.hilton.com/en/hotels/cleucdt-the-tudor-arms-hotel-cleveland/",
+   "host": "hilton.com",
+   "owned_artifacts": [],
+   "owned_replay_states": [],
+   "owned_identity_bound": false,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "FREE_ATTENDED_QUALIFIED",
+   "why": [
+    "brand host renders client-side or refuses a plain client; attended browser at $0"
+   ]
+  },
+  {
+   "identity_key": "holiday inn cleveland clinic",
+   "canonical_name": "Holiday Inn Cleveland Clinic",
+   "city": "Cleveland",
+   "postal_code": "44106",
+   "brand_family": "IHG",
+   "in_census": true,
+   "prior_classification": "ADAPTER_GAP_INDEPENDENT",
+   "prior_why": "brand_unrecognised:www.hiclevelandclinic.com",
+   "route_status": "ROUTING_CONFIRMED",
+   "url": "https://www.hiclevelandclinic.com/",
+   "host": "hiclevelandclinic.com",
+   "owned_artifacts": [
+    "P3-008-holiday-inn-cleveland-clinic.json",
+    "P3-008b-holiday-inn-cleveland-clinic-faq.json"
+   ],
+   "owned_replay_states": [
+    "SILENT_NO_POLICY_BLOCK"
+   ],
+   "owned_identity_bound": true,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "FREE_STATIC_QUALIFIED",
+   "why": [
+    "first-party URL on a host that answers a plain client"
+   ]
+  },
+  {
+   "identity_key": "inn on coventry",
+   "canonical_name": "Inn on Coventry",
+   "city": "Cleveland",
+   "postal_code": "44106",
+   "brand_family": "INDEPENDENT",
+   "in_census": true,
+   "prior_classification": "ADAPTER_GAP_INDEPENDENT",
+   "prior_why": "brand_unrecognised:www.theinnoncoventry.com",
+   "route_status": "ROUTING_CONFIRMED",
+   "url": "https://www.theinnoncoventry.com/",
+   "host": "theinnoncoventry.com",
+   "owned_artifacts": [
+    "P3-013-inn-on-coventry.json"
+   ],
+   "owned_replay_states": [
+    "SILENT_NO_POLICY_BLOCK"
+   ],
+   "owned_identity_bound": true,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "SOURCE_SILENT",
+   "why": [
+    "the property's own page(s) were captured (1 artifact(s)) and say nothing about pets"
+   ]
+  },
+  {
+   "identity_key": "intercontinental suites hotel cleveland",
+   "canonical_name": "Intercontinental Suites Hotel Cleveland",
+   "city": "Cleveland",
+   "postal_code": "44106",
+   "brand_family": "IHG",
+   "in_census": true,
+   "prior_classification": "ROUTING_REPAIRED_AWAITING_CAPTURE",
+   "prior_why": "PTF-CLEVELAND-ROUTING-REPAIR-001 bound a working property page; the pet policy is still unobserved.",
+   "route_status": "ROUTING_CONFIRMED",
+   "url": "https://www.icsuitescleveland.com/",
+   "host": "icsuitescleveland.com",
+   "owned_artifacts": [
+    "RR-014-intercontinental-suites.json",
+    "RR-014b-intercontinental-suites-faqs.json"
+   ],
+   "owned_replay_states": [
+    "SILENT_NO_POLICY_BLOCK"
+   ],
+   "owned_identity_bound": true,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "FREE_STATIC_QUALIFIED",
+   "why": [
+    "first-party URL on a host that answers a plain client"
+   ]
+  },
+  {
+   "identity_key": "cleveland house hotels",
+   "canonical_name": "Cleveland House Hotels",
+   "city": "Lakewood",
+   "postal_code": "44107",
+   "brand_family": "INDEPENDENT",
+   "in_census": true,
+   "prior_classification": "ADAPTER_GAP_INDEPENDENT",
+   "prior_why": "brand_unrecognised:thehousehotels.com",
+   "route_status": "ROUTING_CONFIRMED",
+   "url": "https://thehousehotels.com/",
+   "host": "thehousehotels.com",
+   "owned_artifacts": [
+    "P3-003-cleveland-house-hotels.json"
+   ],
+   "owned_replay_states": [
+    "SILENT_NO_POLICY_BLOCK"
+   ],
+   "owned_identity_bound": false,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "FREE_STATIC_QUALIFIED",
+   "why": [
+    "first-party URL on a host that answers a plain client"
+   ]
+  },
+  {
+   "identity_key": "inn the doghouse",
+   "canonical_name": "Inn the Doghouse",
+   "city": "Lakewood",
+   "postal_code": "44107",
+   "brand_family": "INDEPENDENT",
+   "in_census": true,
+   "prior_classification": "ADAPTER_GAP_INDEPENDENT",
+   "prior_why": "brand_unrecognised:innthedoghouse.com",
+   "route_status": "ROUTING_CONFIRMED",
+   "url": "https://innthedoghouse.com/",
+   "host": "innthedoghouse.com",
+   "owned_artifacts": [],
+   "owned_replay_states": [],
+   "owned_identity_bound": false,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "FREE_STATIC_QUALIFIED",
+   "why": [
+    "first-party URL on a host that answers a plain client"
+   ]
+  },
+  {
+   "identity_key": "hopp inn",
+   "canonical_name": "Hopp Inn",
+   "city": "Cleveland",
+   "postal_code": "44109",
+   "brand_family": "INDEPENDENT",
+   "in_census": true,
+   "prior_classification": "NO_OFFICIAL_URL",
+   "prior_why": "no official URL was recoverable from the CVB listing",
+   "route_status": "NO_ROUTE",
+   "url": "",
+   "host": "",
+   "owned_artifacts": [],
+   "owned_replay_states": [],
+   "owned_identity_bound": false,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [
+    "PRIOR_RENAME_OR_REVIEW_TRACE"
+   ],
+   "lane": "IDENTITY_REVIEW_FIRST",
+   "why": [
+    "identity question recorded: PRIOR_RENAME_OR_REVIEW_TRACE"
+   ]
+  },
+  {
+   "identity_key": "the rowley inn",
+   "canonical_name": "The Rowley Inn",
+   "city": "Cleveland",
+   "postal_code": "44109",
+   "brand_family": "INDEPENDENT",
+   "in_census": true,
+   "prior_classification": "ADAPTER_GAP_INDEPENDENT",
+   "prior_why": "brand_unrecognised:www.therowleyinn.com",
+   "route_status": "ROUTING_CONFIRMED",
+   "url": "https://www.therowleyinn.com",
+   "host": "therowleyinn.com",
+   "owned_artifacts": [],
+   "owned_replay_states": [],
+   "owned_identity_bound": false,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "FREE_STATIC_QUALIFIED",
+   "why": [
+    "first-party URL on a host that answers a plain client"
+   ]
+  },
+  {
+   "identity_key": "harbor inn",
+   "canonical_name": "Harbor Inn",
+   "city": "Cleveland",
+   "postal_code": "44113",
+   "brand_family": "INDEPENDENT",
+   "in_census": true,
+   "prior_classification": "NO_OFFICIAL_URL",
+   "prior_why": "no official URL was recoverable from the CVB listing",
+   "route_status": "NO_ROUTE",
+   "url": "",
+   "host": "",
+   "owned_artifacts": [],
+   "owned_replay_states": [],
+   "owned_identity_bound": false,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [
+    "PRIOR_RENAME_OR_REVIEW_TRACE"
+   ],
+   "lane": "IDENTITY_REVIEW_FIRST",
+   "why": [
+    "identity question recorded: PRIOR_RENAME_OR_REVIEW_TRACE"
+   ]
+  },
+  {
+   "identity_key": "hotel cleveland",
+   "canonical_name": "Hotel Cleveland",
+   "city": "Cleveland",
+   "postal_code": "44113",
+   "brand_family": "INDEPENDENT",
+   "in_census": true,
+   "prior_classification": "ADAPTER_GAP_INDEPENDENT",
+   "prior_why": "brand_unrecognised:www.hotelcleveland.com",
+   "route_status": "ROUTING_CONFIRMED",
+   "url": "https://www.hotelcleveland.com",
+   "host": "hotelcleveland.com",
+   "owned_artifacts": [
+    "P3-010-hotel-cleveland.json",
+    "P3-010b-hotel-cleveland-stay.json"
+   ],
+   "owned_replay_states": [
+    "SILENT_NO_POLICY_BLOCK"
+   ],
+   "owned_identity_bound": true,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "SOURCE_SILENT",
+   "why": [
+    "the property's own page(s) were captured (2 artifact(s)) and say nothing about pets"
+   ]
+  },
+  {
+   "identity_key": "stone gables inn",
+   "canonical_name": "Stone Gables Inn",
+   "city": "Cleveland",
+   "postal_code": "44113",
+   "brand_family": "INDEPENDENT",
+   "in_census": true,
+   "prior_classification": "ADAPTER_GAP_INDEPENDENT",
+   "prior_why": "brand_unrecognised:stonegablesinn.com",
+   "route_status": "ROUTING_CONFIRMED",
+   "url": "https://stonegablesinn.com/",
+   "host": "stonegablesinn.com",
+   "owned_artifacts": [
+    "P3-024-stone-gables-inn.json"
+   ],
+   "owned_replay_states": [
+    "SILENT_NO_POLICY_BLOCK"
+   ],
+   "owned_identity_bound": true,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "SOURCE_SILENT",
+   "why": [
+    "the property's own page(s) were captured (1 artifact(s)) and say nothing about pets"
+   ]
+  },
+  {
+   "identity_key": "hyatt regency",
+   "canonical_name": "Hyatt Regency",
+   "city": "Cleveland",
+   "postal_code": "44114",
+   "brand_family": "HYATT",
+   "in_census": true,
+   "prior_classification": "ADR_ACCESS_BLOCKED",
+   "prior_why": "no_adapter_for_brand:hyatt",
+   "route_status": "ROUTING_CONFIRMED",
+   "url": "https://cleveland.regency.hyatt.com",
+   "host": "cleveland.regency.hyatt.com",
+   "owned_artifacts": [],
+   "owned_replay_states": [],
+   "owned_identity_bound": false,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "FOUNDER_HOLD",
+   "why": [
+    "hyatt.com Kasada interstitial; ADR-PTF-AUTOMATED-BROWSING forbids satisfying it -- founder-attended capture only"
+   ]
+  },
+  {
+   "identity_key": "metropolitan hotel at the 9",
+   "canonical_name": "Metropolitan Hotel at the 9",
+   "city": "Cleveland",
+   "postal_code": "44115",
+   "brand_family": "INDEPENDENT",
+   "in_census": true,
+   "prior_classification": "ADAPTER_GAP_INDEPENDENT",
+   "prior_why": "brand_unrecognised:www.metropolitancleveland.com",
+   "route_status": "ROUTING_CONFIRMED",
+   "url": "https://www.metropolitancleveland.com/",
+   "host": "metropolitancleveland.com",
+   "owned_artifacts": [
+    "P3-016-metropolitan-at-the-9.json"
+   ],
+   "owned_replay_states": [
+    "SILENT_NO_POLICY_BLOCK"
+   ],
+   "owned_identity_bound": true,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "SOURCE_SILENT",
+   "why": [
+    "the property's own page(s) were captured (1 artifact(s)) and say nothing about pets"
+   ]
+  },
+  {
+   "identity_key": "hyatt place cleveland lyndhurst legacy village",
+   "canonical_name": "Hyatt Place Cleveland Lyndhurst Legacy Village",
+   "city": "Lyndhurst",
+   "postal_code": "44124",
+   "brand_family": "HYATT",
+   "in_census": true,
+   "prior_classification": "ADR_ACCESS_BLOCKED",
+   "prior_why": "no_adapter_for_brand:hyatt",
+   "route_status": "ROUTING_CONFIRMED",
+   "url": "https://clevelandlyndhurst.place.hyatt.com/en/hotel/home.html",
+   "host": "clevelandlyndhurst.place.hyatt.com",
+   "owned_artifacts": [],
+   "owned_replay_states": [],
+   "owned_identity_bound": false,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "FOUNDER_HOLD",
+   "why": [
+    "hyatt.com Kasada interstitial; ADR-PTF-AUTOMATED-BROWSING forbids satisfying it -- founder-attended capture only"
+   ]
+  },
+  {
+   "identity_key": "highlander inn",
+   "canonical_name": "Highlander Inn",
+   "city": "Cleveland",
+   "postal_code": "44128",
+   "brand_family": "INDEPENDENT",
+   "in_census": true,
+   "prior_classification": "ROUTING_REPAIRED_AWAITING_CAPTURE",
+   "prior_why": "PTF-CLEVELAND-ROUTING-REPAIR-001 bound a working property page; the pet policy is still unobserved.",
+   "route_status": "ROUTING_CONFIRMED",
+   "url": "https://highlanderinnhotel.com/",
+   "host": "highlanderinnhotel.com",
+   "owned_artifacts": [
+    "RR-013-highlander-inn.json",
+    "RR-013b-highlander-rooms.json"
+   ],
+   "owned_replay_states": [
+    "SILENT_NO_POLICY_BLOCK"
+   ],
+   "owned_identity_bound": true,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "SOURCE_SILENT",
+   "why": [
+    "the property's own page(s) were captured (2 artifact(s)) and say nothing about pets"
+   ]
+  },
+  {
+   "identity_key": "holiday inn cleveland south independence",
+   "canonical_name": "Holiday Inn Cleveland South Independence",
+   "city": "Independence",
+   "postal_code": "44131",
+   "brand_family": "IHG",
+   "in_census": true,
+   "prior_classification": "ADAPTER_GAP_INDEPENDENT",
+   "prior_why": "brand_unrecognised:www.hirockside.com",
+   "route_status": "ROUTING_CONFIRMED",
+   "url": "https://www.hirockside.com",
+   "host": "hirockside.com",
+   "owned_artifacts": [
+    "P3-009-holiday-inn-rockside.json",
+    "P3-009b-holiday-inn-rockside-amenities.json"
+   ],
+   "owned_replay_states": [
+    "SILENT_NO_POLICY_BLOCK"
+   ],
+   "owned_identity_bound": true,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "FREE_STATIC_QUALIFIED",
+   "why": [
+    "first-party URL on a host that answers a plain client"
+   ]
+  },
+  {
+   "identity_key": "home2 suites by hilton",
+   "canonical_name": "Home2 Suites by Hilton",
+   "city": "Independence",
+   "postal_code": "44131",
+   "brand_family": "HILTON",
+   "in_census": true,
+   "prior_classification": "ADAPTER_GAP_INDEPENDENT",
+   "prior_why": "brand_unrecognised:www.home2suites.com",
+   "route_status": "ROUTING_CONFIRMED",
+   "url": "https://www.home2suites.com",
+   "host": "home2suites.com",
+   "owned_artifacts": [
+    "P3-054-home2suites-brand.json"
+   ],
+   "owned_replay_states": [
+    "SILENT_NO_POLICY_BLOCK"
+   ],
+   "owned_identity_bound": false,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "FREE_STATIC_QUALIFIED",
+   "why": [
+    "first-party URL on a host that answers a plain client"
+   ]
+  },
+  {
+   "identity_key": "inn cahoots",
+   "canonical_name": "Inn Cahoots",
+   "city": "Seven Hills",
+   "postal_code": "44131",
+   "brand_family": "INDEPENDENT",
+   "in_census": true,
+   "prior_classification": "ADAPTER_GAP_INDEPENDENT",
+   "prior_why": "brand_unrecognised:inncahootsbarandgrill.com",
+   "route_status": "ROUTING_CONFIRMED",
+   "url": "https://inncahootsbarandgrill.com",
+   "host": "inncahootsbarandgrill.com",
+   "owned_artifacts": [
+    "P3-012-inn-cahoots.json"
+   ],
+   "owned_replay_states": [
+    "SILENT_NO_POLICY_BLOCK"
+   ],
+   "owned_identity_bound": true,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "SOURCE_SILENT",
+   "why": [
+    "the property's own page(s) were captured (1 artifact(s)) and say nothing about pets"
+   ]
+  },
+  {
+   "identity_key": "woodspring suites cleveland",
+   "canonical_name": "Woodspring Suites Cleveland",
+   "city": "Cleveland",
+   "postal_code": "44135",
+   "brand_family": "CHOICE",
+   "in_census": true,
+   "prior_classification": "ADAPTER_GAP_INDEPENDENT",
+   "prior_why": "brand_unrecognised:www.woodspring.com",
+   "route_status": "ROUTING_CONFIRMED",
+   "url": "https://www.woodspring.com",
+   "host": "woodspring.com",
+   "owned_artifacts": [
+    "P3-068-woodspring-brand.json"
+   ],
+   "owned_replay_states": [
+    "BLOCK_FOUND_BUT_SILENT"
+   ],
+   "owned_identity_bound": false,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "FREE_STATIC_QUALIFIED",
+   "why": [
+    "first-party URL on a host that answers a plain client"
+   ]
+  },
+  {
+   "identity_key": "hyatt place cleveland westlake crocker park",
+   "canonical_name": "Hyatt Place Cleveland Westlake Crocker Park",
+   "city": "Westlake",
+   "postal_code": "44145",
+   "brand_family": "HYATT",
+   "in_census": true,
+   "prior_classification": "ADR_ACCESS_BLOCKED",
+   "prior_why": "brand_unrecognised:hyattplaceclevelandwestlake.com",
+   "route_status": "ROUTING_CONFIRMED",
+   "url": "https://hyattplaceclevelandwestlake.com",
+   "host": "hyattplaceclevelandwestlake.com",
+   "owned_artifacts": [],
+   "owned_replay_states": [],
+   "owned_identity_bound": false,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "FREE_STATIC_QUALIFIED",
+   "why": [
+    "first-party URL on a host that answers a plain client"
+   ]
+  },
+  {
+   "identity_key": "aurora inn",
+   "canonical_name": "Aurora Inn",
+   "city": "Aurora",
+   "postal_code": "44202",
+   "brand_family": "INDEPENDENT",
+   "in_census": true,
+   "prior_classification": "ADAPTER_GAP_INDEPENDENT",
+   "prior_why": "brand_unrecognised:aurorainnohio.com",
+   "route_status": "ROUTING_CONFIRMED",
+   "url": "https://aurorainnohio.com/",
+   "host": "aurorainnohio.com",
+   "owned_artifacts": [],
+   "owned_replay_states": [],
+   "owned_identity_bound": false,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "FREE_STATIC_QUALIFIED",
+   "why": [
+    "first-party URL on a host that answers a plain client"
+   ]
+  },
+  {
+   "identity_key": "the bertram hotel and conference center",
+   "canonical_name": "The Bertram Hotel & Conference Center",
+   "city": "Aurora",
+   "postal_code": "44202",
+   "brand_family": "INDEPENDENT",
+   "in_census": true,
+   "prior_classification": "ADAPTER_GAP_INDEPENDENT",
+   "prior_why": "brand_unrecognised:www.thebertraminn.com",
+   "route_status": "ROUTING_CONFIRMED",
+   "url": "https://www.thebertraminn.com",
+   "host": "thebertraminn.com",
+   "owned_artifacts": [
+    "P3-026-bertram-inn.json",
+    "P3-026b-bertram-inn-amenities.json"
+   ],
+   "owned_replay_states": [
+    "SILENT_NO_POLICY_BLOCK"
+   ],
+   "owned_identity_bound": true,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "SOURCE_SILENT",
+   "why": [
+    "the property's own page(s) were captured (2 artifact(s)) and say nothing about pets"
+   ]
+  },
+  {
+   "identity_key": "walden country inn and stables",
+   "canonical_name": "Walden Country Inn & Stables",
+   "city": "Aurora",
+   "postal_code": "44202",
+   "brand_family": "RADISSON",
+   "in_census": true,
+   "prior_classification": "ROUTED_NO_BRAND_ADAPTER",
+   "prior_why": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (PAGE_RENDERED); the pet policy itself is still unobserved",
+   "route_status": "ROUTING_CONFIRMED",
+   "url": "https://www.yourwalden.com/",
+   "host": "yourwalden.com",
+   "owned_artifacts": [
+    "P3-030-walden-country-inn.json",
+    "P3-030b-walden-policies.json"
+   ],
+   "owned_replay_states": [
+    "SILENT_NO_POLICY_BLOCK"
+   ],
+   "owned_identity_bound": true,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "FREE_STATIC_QUALIFIED",
+   "why": [
+    "first-party URL on a host that answers a plain client"
+   ]
+  },
+  {
+   "identity_key": "berlin s motel",
+   "canonical_name": "Berlin's Motel",
+   "city": "Barberton",
+   "postal_code": "44203",
+   "brand_family": "INDEPENDENT",
+   "in_census": true,
+   "prior_classification": "NO_OFFICIAL_URL",
+   "prior_why": "no official URL was recoverable from the CVB listing",
+   "route_status": "NO_ROUTE",
+   "url": "",
+   "host": "",
+   "owned_artifacts": [],
+   "owned_replay_states": [],
+   "owned_identity_bound": false,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "ROUTING_REPAIR_FIRST",
+   "why": [
+    "no confirmed first-party property URL (route status NO_ROUTE)"
+   ]
+  },
+  {
+   "identity_key": "skyview lodge",
+   "canonical_name": "Skyview Lodge",
+   "city": "Brunswick",
+   "postal_code": "44212",
+   "brand_family": "INDEPENDENT",
+   "in_census": true,
+   "prior_classification": "ADAPTER_GAP_INDEPENDENT",
+   "prior_why": "brand_unrecognised:www.skyviewlodgeinc.com",
+   "route_status": "ROUTING_CONFIRMED",
+   "url": "https://www.skyviewlodgeinc.com/",
+   "host": "skyviewlodgeinc.com",
+   "owned_artifacts": [
+    "P3-022-skyview-lodge.json"
+   ],
+   "owned_replay_states": [
+    "SILENT_NO_POLICY_BLOCK"
+   ],
+   "owned_identity_bound": true,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "SOURCE_SILENT",
+   "why": [
+    "the property's own page(s) were captured (1 artifact(s)) and say nothing about pets"
+   ]
+  },
+  {
+   "identity_key": "ranch motel",
+   "canonical_name": "Ranch Motel",
+   "city": "Cuyahoga Falls",
+   "postal_code": "44223",
+   "brand_family": "INDEPENDENT",
+   "in_census": true,
+   "prior_classification": "NO_OFFICIAL_URL",
+   "prior_why": "no official URL was recoverable from the CVB listing",
+   "route_status": "NO_ROUTE",
+   "url": "",
+   "host": "",
+   "owned_artifacts": [],
+   "owned_replay_states": [],
+   "owned_identity_bound": false,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "ROUTING_REPAIR_FIRST",
+   "why": [
+    "no confirmed first-party property URL (route status NO_ROUTE)"
+   ]
+  },
+  {
+   "identity_key": "courtyard by marriott akron stow",
+   "canonical_name": "Courtyard by Marriott Akron Stow",
+   "city": "Stow",
+   "postal_code": "44224",
+   "brand_family": "MARRIOTT",
+   "in_census": true,
+   "prior_classification": "ROUTED_AWAITING_CAPTURE",
+   "prior_why": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "route_status": "ROUTING_CONFIRMED",
+   "url": "https://www.marriott.com/en-us/hotels/cakcy-courtyard-akron-stow/overview/",
+   "host": "marriott.com",
+   "owned_artifacts": [],
+   "owned_replay_states": [],
+   "owned_identity_bound": false,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "FREE_ATTENDED_QUALIFIED",
+   "why": [
+    "brand host renders client-side or refuses a plain client; attended browser at $0"
+   ]
+  },
+  {
+   "identity_key": "economy inn",
+   "canonical_name": "Economy Inn",
+   "city": "Cuyahoga Falls",
+   "postal_code": "44224",
+   "brand_family": "INDEPENDENT",
+   "in_census": true,
+   "prior_classification": "ROUTED_NO_BRAND_ADAPTER",
+   "prior_why": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (PAGE_RENDERED); the pet policy itself is still unobserved",
+   "route_status": "ROUTING_CONFIRMED",
+   "url": "https://www.economyinnohio.com/",
+   "host": "economyinnohio.com",
+   "owned_artifacts": [
+    "C01-economy-inn.json"
+   ],
+   "owned_replay_states": [
+    "SILENT_NO_POLICY_BLOCK"
+   ],
+   "owned_identity_bound": true,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "SOURCE_SILENT",
+   "why": [
+    "the property's own page(s) were captured (1 artifact(s)) and say nothing about pets"
+   ]
+  },
+  {
+   "identity_key": "budget inn",
+   "canonical_name": "Budget Inn",
+   "city": "Hudson",
+   "postal_code": "44236",
+   "brand_family": "INDEPENDENT",
+   "in_census": true,
+   "prior_classification": "NO_OFFICIAL_URL",
+   "prior_why": "no official URL was recoverable from the CVB listing",
+   "route_status": "NO_ROUTE",
+   "url": "",
+   "host": "",
+   "owned_artifacts": [],
+   "owned_replay_states": [],
+   "owned_identity_bound": false,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "ROUTING_REPAIR_FIRST",
+   "why": [
+    "no confirmed first-party property URL (route status NO_ROUTE)"
+   ]
+  },
+  {
+   "identity_key": "clarion inn and conference center",
+   "canonical_name": "Clarion Inn and Conference Center",
+   "city": "Hudson",
+   "postal_code": "44236",
+   "brand_family": "CHOICE",
+   "in_census": true,
+   "prior_classification": "NO_OFFICIAL_URL",
+   "prior_why": "no official URL was recoverable from the CVB listing",
+   "route_status": "NO_ROUTE",
+   "url": "",
+   "host": "",
+   "owned_artifacts": [],
+   "owned_replay_states": [],
+   "owned_identity_bound": false,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "ROUTING_REPAIR_FIRST",
+   "why": [
+    "no confirmed first-party property URL (route status NO_ROUTE)"
+   ]
+  },
+  {
+   "identity_key": "kent state university hotel and conference center",
+   "canonical_name": "Kent State University Hotel & Conference Center",
+   "city": "Kent",
+   "postal_code": "44240",
+   "brand_family": "INDEPENDENT",
+   "in_census": true,
+   "prior_classification": "ADAPTER_GAP_INDEPENDENT",
+   "prior_why": "brand_unrecognised:kentstatehotel.com",
+   "route_status": "ROUTING_CONFIRMED",
+   "url": "https://kentstatehotel.com/",
+   "host": "kentstatehotel.com",
+   "owned_artifacts": [
+    "P3-014-kent-state-hotel.json",
+    "P3-014c-kent-state-hotel-faq-expanded.json"
+   ],
+   "owned_replay_states": [
+    "SILENT_NO_POLICY_BLOCK"
+   ],
+   "owned_identity_bound": true,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [
+    "LODGING_NEEDS_REVIEW"
+   ],
+   "lane": "IDENTITY_REVIEW_FIRST",
+   "why": [
+    "identity question recorded: LODGING_NEEDS_REVIEW"
+   ]
+  },
+  {
+   "identity_key": "don el motel",
+   "canonical_name": "Don-El Motel",
+   "city": "Peninsula",
+   "postal_code": "44264",
+   "brand_family": "INDEPENDENT",
+   "in_census": true,
+   "prior_classification": "NO_OFFICIAL_URL",
+   "prior_why": "no official URL was recoverable from the CVB listing",
+   "route_status": "NO_ROUTE",
+   "url": "",
+   "host": "",
+   "owned_artifacts": [],
+   "owned_replay_states": [],
+   "owned_identity_bound": false,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "ROUTING_REPAIR_FIRST",
+   "why": [
+    "no confirmed first-party property URL (route status NO_ROUTE)"
+   ]
+  },
+  {
+   "identity_key": "courtesy inn",
+   "canonical_name": "Courtesy Inn",
+   "city": "Akron",
+   "postal_code": "44303",
+   "brand_family": "INDEPENDENT",
+   "in_census": true,
+   "prior_classification": "NO_OFFICIAL_URL",
+   "prior_why": "no official URL was recoverable from the CVB listing",
+   "route_status": "NO_ROUTE",
+   "url": "",
+   "host": "",
+   "owned_artifacts": [],
+   "owned_replay_states": [],
+   "owned_identity_bound": false,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "ROUTING_REPAIR_FIRST",
+   "why": [
+    "no confirmed first-party property URL (route status NO_ROUTE)"
+   ]
+  },
+  {
+   "identity_key": "lakeside motel",
+   "canonical_name": "Lakeside Motel",
+   "city": "Akron",
+   "postal_code": "44319",
+   "brand_family": "INDEPENDENT",
+   "in_census": true,
+   "prior_classification": "NO_OFFICIAL_URL",
+   "prior_why": "no official URL was recoverable from the CVB listing",
+   "route_status": "NO_ROUTE",
+   "url": "",
+   "host": "",
+   "owned_artifacts": [],
+   "owned_replay_states": [],
+   "owned_identity_bound": false,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "ROUTING_REPAIR_FIRST",
+   "why": [
+    "no confirmed first-party property URL (route status NO_ROUTE)"
+   ]
+  },
+  {
+   "identity_key": "palmantiers motel",
+   "canonical_name": "Palmantiers Motel",
+   "city": "Minerva",
+   "postal_code": "44657",
+   "brand_family": "INDEPENDENT",
+   "in_census": true,
+   "prior_classification": "ROUTED_NO_BRAND_ADAPTER",
+   "prior_why": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (PAGE_RENDERED); the pet policy itself is still unobserved",
+   "route_status": "ROUTING_CONFIRMED",
+   "url": "https://www.palmantiers.com/",
+   "host": "palmantiers.com",
+   "owned_artifacts": [
+    "P3-017-palmantiers-motel.json"
+   ],
+   "owned_replay_states": [
+    "SILENT_NO_POLICY_BLOCK"
+   ],
+   "owned_identity_bound": true,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "SOURCE_SILENT",
+   "why": [
+    "the property's own page(s) were captured (1 artifact(s)) and say nothing about pets"
+   ]
+  },
+  {
+   "identity_key": "the inn at amish door",
+   "canonical_name": "The Inn at Amish Door",
+   "city": "Wilmot",
+   "postal_code": "44689",
+   "brand_family": "INDEPENDENT",
+   "in_census": true,
+   "prior_classification": "ROUTING_REPAIRED_AWAITING_CAPTURE",
+   "prior_why": "PTF-CLEVELAND-ROUTING-REPAIR-001 bound a working property page; the pet policy is still unobserved.",
+   "route_status": "ROUTING_CONFIRMED",
+   "url": "https://amishdoor.com/the-inn-at-amish-door/",
+   "host": "amishdoor.com",
+   "owned_artifacts": [
+    "P3-028-inn-at-amish-door.json",
+    "RR-004-inn-at-amish-door.json"
+   ],
+   "owned_replay_states": [
+    "SILENT_NO_POLICY_BLOCK"
+   ],
+   "owned_identity_bound": true,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "SOURCE_SILENT",
+   "why": [
+    "the property's own page(s) were captured (2 artifact(s)) and say nothing about pets"
+   ]
+  },
+  {
+   "identity_key": "magnuson extended stay",
+   "canonical_name": "Magnuson Extended Stay",
+   "city": "Canton",
+   "postal_code": "44718",
+   "brand_family": "MAGNUSON",
+   "in_census": true,
+   "prior_classification": "ROUTING_REPAIRED_AWAITING_CAPTURE",
+   "prior_why": "PTF-CLEVELAND-ROUTING-REPAIR-001 bound a working property page; the pet policy is still unobserved.",
+   "route_status": "ROUTING_CONFIRMED",
+   "url": "https://www.magnusonhotels.com/magnusonhotelextendedstaycantonohio/",
+   "host": "magnusonhotels.com",
+   "owned_artifacts": [
+    "RR-027-magnuson-extended-stay-canton.json"
+   ],
+   "owned_replay_states": [
+    "SERVICE_ANIMAL_LANGUAGE_ONLY"
+   ],
+   "owned_identity_bound": true,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "FREE_STATIC_QUALIFIED",
+   "why": [
+    "first-party URL on a host that answers a plain client"
+   ]
+  },
+  {
+   "identity_key": "quality inn hall of fame",
+   "canonical_name": "Quality Inn Hall of Fame",
+   "city": "Canton",
+   "postal_code": "44718",
+   "brand_family": "CHOICE",
+   "in_census": true,
+   "prior_classification": "ROUTED_AWAITING_CAPTURE",
+   "prior_why": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "route_status": "ROUTING_CONFIRMED",
+   "url": "https://www.choicehotels.com/ohio/canton/quality-inn-hotels/oh584",
+   "host": "choicehotels.com",
+   "owned_artifacts": [],
+   "owned_replay_states": [],
+   "owned_identity_bound": false,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "FREE_ATTENDED_QUALIFIED",
+   "why": [
+    "brand host renders client-side or refuses a plain client; attended browser at $0"
+   ]
+  },
+  {
+   "identity_key": "the bertram inn at glenmoor",
+   "canonical_name": "The Bertram Inn at Glenmoor",
+   "city": "Canton",
+   "postal_code": "44718",
+   "brand_family": "INDEPENDENT",
+   "in_census": true,
+   "prior_classification": "ROUTING_REPAIRED_AWAITING_CAPTURE",
+   "prior_why": "PTF-CLEVELAND-ROUTING-REPAIR-001 bound a working property page; the pet policy is still unobserved.",
+   "route_status": "ROUTING_CONFIRMED",
+   "url": "https://glenmoorcc.com/Hotel",
+   "host": "glenmoorcc.com",
+   "owned_artifacts": [
+    "RR-017-bertram-inn-at-glenmoor.json",
+    "RR-017b-bertram-glenmoor-hotel-amenities.json"
+   ],
+   "owned_replay_states": [
+    "SILENT_NO_POLICY_BLOCK"
+   ],
+   "owned_identity_bound": true,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "SOURCE_SILENT",
+   "why": [
+    "the property's own page(s) were captured (2 artifact(s)) and say nothing about pets"
+   ]
+  },
+  {
+   "identity_key": "best western plus north canton inn and suites",
+   "canonical_name": "Best Western Plus North Canton Inn & Suites",
+   "city": "North Canton",
+   "postal_code": "44720",
+   "brand_family": "BEST_WESTERN",
+   "in_census": true,
+   "prior_classification": "ROUTED_AWAITING_CAPTURE",
+   "prior_why": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "route_status": "ROUTING_HELD",
+   "url": "https://www.bestwestern.com/en_US/book/hotels-in-north-canton/best-western-plus-north-canton-inn-suites/propertyCode.36148.html",
+   "host": "bestwestern.com",
+   "owned_artifacts": [
+    "P3-031-best-western-plus-north-canton.json"
+   ],
+   "owned_replay_states": [
+    "SILENT_NO_POLICY_BLOCK"
+   ],
+   "owned_identity_bound": false,
+   "owned_page_names_other_property": true,
+   "census_audit_findings": [
+    "ROUTING_ROUTING_HELD"
+   ],
+   "lane": "ROUTING_REPAIR_FIRST",
+   "why": [
+    "no confirmed first-party property URL (route status ROUTING_HELD)"
+   ]
+  },
+  {
+   "identity_key": "hyatt place canton",
+   "canonical_name": "Hyatt Place Canton",
+   "city": "Canton",
+   "postal_code": "44720",
+   "brand_family": "HYATT",
+   "in_census": true,
+   "prior_classification": "ADR_ACCESS_BLOCKED",
+   "prior_why": "no official URL was recoverable from the CVB listing",
+   "route_status": "NO_ROUTE",
+   "url": "",
+   "host": "",
+   "owned_artifacts": [],
+   "owned_replay_states": [],
+   "owned_identity_bound": false,
+   "owned_page_names_other_property": false,
+   "census_audit_findings": [],
+   "lane": "ROUTING_REPAIR_FIRST",
+   "why": [
+    "no confirmed first-party property URL (route status NO_ROUTE)"
+   ]
+  }
+ ]
+}
