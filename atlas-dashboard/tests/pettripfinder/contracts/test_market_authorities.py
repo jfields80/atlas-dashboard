@@ -48,7 +48,9 @@ PARTITION_FILES = {
     CINCINNATI: "cincinnati_final_partition_001.json",
     PITTSBURGH: "pittsburgh_final_partition_001.json",
     DETROIT: "detroit_ann_arbor_final_partition_001.json",
-    INDIANAPOLIS: "indianapolis_in_final_partition_004.json",   # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004
+    # 004 until PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014 rebuilt the partition over
+    # the promoted 263-identity census with the 67 / 37 authority as terminal states.
+    INDIANAPOLIS: "indianapolis_in_final_partition_014.json",
     MILWAUKEE: "milwaukee_final_partition_001.json",
 }
 
@@ -122,8 +124,11 @@ EXPECTED = {
     # the partition-derived counts are 0/0/257; the 24 + 24 authority is pinned
     # by test_indianapolis_promoted_authority_is_24_and_24 from the package and
     # the exclusion shard.
-    INDIANAPOLIS: {"census": 257, "published": 0, "no_pets": 0,
-                   "out_of_category": 0, "unresolved": 257},
+    # -> 263/67/37/0/159 at PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014: the reviewed
+    # shadow promoted (257 -> 263) and the pending 11 PF + 3 no-pets applied; the
+    # 014 partition carries the authority as terminal states. 263 = 67 + 37 + 159.
+    INDIANAPOLIS: {"census": 263, "published": 67, "no_pets": 37,
+                   "out_of_category": 0, "unresolved": 159},
     # PTF-MILWAUKEE-MARKET-FACTORY-001. Census-only: no policy authority
     # exists for this market, so published and no_pets are zero by
     # construction and every identity carries a blocker.

@@ -415,7 +415,7 @@ def test_indianapolis_routes_are_present_and_correctly_counted(production):
                     re.sub(r"[^a-z0-9]+", "-",
                            h["name"].lower().replace("&", " "))).strip("-")
              for h in package["hotels"]}
-    assert len(slugs) == PROMOTED_PET_FRIENDLY == 56
+    assert len(slugs) == PROMOTED_PET_FRIENDLY      # 56 until 014 promoted 67
     present = {d.name for d in hub.iterdir() if d.is_dir()}
     assert slugs <= present
     assert all((hub / s / "index.html").is_file() for s in slugs)

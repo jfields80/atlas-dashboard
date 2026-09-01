@@ -34,14 +34,16 @@ def rows():
 
 
 def test_pinned_production_is_byte_for_byte_the_257_it_was():
+    # 013 left the pinned census at 257 and the package at 56. PTF-INDIANAPOLIS-
+    # PROMOTION-AND-ASSEMBLY-014 then promoted the reviewed shadow (263) and applied
+    # the pending inventory (67); the retired keys now live in the pinned document's
+    # retired_013 block, exactly as they did in the shadow.
     pinned = _load("identity_census/indianapolis-in.json")
-    assert len(pinned["hotels"]) == 257
+    assert len(pinned["hotels"]) == 263
     pin = C.identity_keys(pinned)
-    # every retired or renamed key still lives in the pinned census -- 013 is shadow only
-    for key in RETIRED | {"la quinta inn"}:
-        if key in pin:
-            assert key in pin
-    assert len(_load("hotel_policy_facts_indianapolis-in.json")["hotels"]) == 56
+    assert not (RETIRED & pin) and "la quinta inn" not in pin
+    assert {e["row"]["identity_key"] for e in pinned["retired_013"]} == RETIRED
+    assert len(_load("hotel_policy_facts_indianapolis-in.json")["hotels"]) == 67
 
 
 def test_shadow_reconciles_to_263_with_five_retirements_and_no_duplicate_key():
@@ -94,10 +96,16 @@ def test_the_merge_targets_are_bound_to_their_choice_property_codes():
 
 
 def test_wyndham_airport_kept_its_key_and_its_old_name():
+    # 013 wrote the corrected name onto the shadow row; 014 moved it into the
+    # name_corrections OVERLAY (the census contract requires the key to derive
+    # from canonical_name -- the 018 mechanism) and restored the row's own name.
     h = rows()["wyndham indianapolis west"]
-    assert h["canonical_name"] == "Wyndham Indianapolis Airport"
+    assert h["canonical_name"] == "Wyndham Indianapolis West"
     assert h["name_correction_013"]["identity_key_unchanged"] is True
     assert h["name_correction_013"]["was"]["canonical_name"] == "Wyndham Indianapolis West"
+    overlay = _load("markets/name_corrections/indianapolis-in.json")
+    rec = next(r for r in overlay["records"] if r["identity_key"] == "wyndham indianapolis west")
+    assert rec["corrected_canonical_name"] == "Wyndham Indianapolis Airport"
 
 
 def test_no_new_address_duplicate_and_no_cross_market_collision():

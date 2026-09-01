@@ -40,15 +40,17 @@ SUPERSEDED = {
 
 
 def test_pinned_production_census_and_live_authority_are_untouched():
+    # Untouched BY 012 (257 / 56). PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014 then
+    # promoted the shadow into the pinned census (263 / 67), carrying every 012
+    # supersession with its old address in lineage.
     pinned = _load("identity_census/indianapolis-in.json")
-    assert len(pinned["hotels"]) == 257
+    assert len(pinned["hotels"]) == 263
     live = _load("hotel_policy_facts_indianapolis-in.json")
-    assert len(live["hotels"]) == 56
-    # the pinned rows still carry the addresses the shadow superseded
+    assert len(live["hotels"]) == 67
     pin = {h["identity_key"]: h for h in pinned["hotels"]}
-    for key, (old, _new, _phone) in SUPERSEDED.items():
-        if key in pin:
-            assert pin[key]["address"] == old, key
+    for key, (old, new, _phone) in SUPERSEDED.items():
+        assert pin[key]["address"] == new, key
+        assert pin[key]["supersession"]["was"]["address"] == old, key
 
 
 def test_shadow_count_is_unchanged_and_no_identity_was_added_or_removed():
@@ -93,7 +95,9 @@ def test_wyndham_west_is_routed_on_an_exact_telephone_and_not_renamed():
     # 012 left the name alone because the rename was the founder's; 013
     # (IDR-012-006) approved it. The key is unchanged and the old name is in
     # name_correction_013.was.
-    assert h["canonical_name"] == "Wyndham Indianapolis Airport"
+    # 014 carried the founder's name correction into the name_corrections overlay;
+    # the census row keeps the key-derived name, as the census contract requires.
+    assert h["canonical_name"] == "Wyndham Indianapolis West"
     assert h["name_correction_013"]["was"]["canonical_name"] == "Wyndham Indianapolis West"
     assert h["routing_history"][0]["page_telephone"] == "3172482481"
     assert h["closure_review_012"]["now"].startswith("STILL_ACTIVE")

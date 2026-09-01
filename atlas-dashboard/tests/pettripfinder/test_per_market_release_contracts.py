@@ -223,7 +223,10 @@ EXPECTED_RECONCILIATION = {
     # the Plainfield Hampton once its identity ruling was recorded, and Omni
     # Severin once the reader gap that held it was closed. Resolved 90;
     # unresolved COUNTED as the exact remainder (167).
-    INDIANAPOLIS: (257, 56, 34, 90, 167),
+    # 257/56/34/90/167 -> 263/67/37/104/159 at PTF-INDIANAPOLIS-PROMOTION-AND-
+    # ASSEMBLY-014: the reviewed shadow census promoted and the pending 008/009
+    # inventory applied (11 PF, 3 no-pets). 263 = 67 + 37 + 159.
+    INDIANAPOLIS: (263, 67, 37, 104, 159),
     # PTF-MILWAUKEE-PUBLICATION-042. 147 confirmed identities; 73 published
     # pet-friendly and 27 verified-no-pets, both founder-approved across two
     # sittings (036 and 040); resolved = 73 + 27 = 100; unresolved is COUNTED
@@ -416,7 +419,7 @@ class TestContractAgreesWithItsOwnAuthority:
         """
         by_market = {mid: derive_authority(mid).verified_no_pets for mid in MARKETS}
         assert by_market == {COLUMBUS: 14, CLEVELAND: 40, DAYTON: 8,
-                             PITTSBURGH: 17, INDIANAPOLIS: 34, MILWAUKEE: 27,
+                             PITTSBURGH: 17, INDIANAPOLIS: 37, MILWAUKEE: 27,
                              ST_LOUIS: 37,
                              # PTF-LOUISVILLE-PUBLICATION-008. Every other
                              # market's number is unchanged, which is the half
