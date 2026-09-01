@@ -136,7 +136,11 @@ def test_participation_status_is_unchanged_and_no_authorization_was_created():
     row = next(r for r in lp["markets"] if r["market_id"] == "indianapolis-in")
     assert row["launch_status"] == "FOUNDER_AUTHORIZED_FOR_LAUNCH"
     assert "67 founder-signed" in row["note"] and "263-identity" in row["note"]
-    assert row["replaces"]["note"].startswith("56 founder-signed")
+    # the 046 withholding history stays at row.replaces (046's own test reads it
+    # there); the note this order replaced is kept under source_state_correction
+    assert row["replaces"]["launch_status"] == "SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH"
+    assert row["source_state_correction"]["previous_note"].startswith("56 founder-signed")
+    assert row["source_state_correction"]["work_order"] == WO
     auths = sorted((REPO_ROOT / "deploy" / "netlify" / "deployment_authorizations").glob("*.json"))
     assert not any("014" in a.name for a in auths)
     report = _load("indianapolis_in_promotion_report_014.json")
