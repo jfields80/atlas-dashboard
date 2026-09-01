@@ -1,0 +1,878 @@
+{
+ "schema": "ptf-shadow-policy-state/1.1",
+ "work_order": "PTF-CLEVELAND-AKRON-CANTON-HARDENED-POLICY-004",
+ "prior_order": "PTF-CLEVELAND-AKRON-CANTON-HARDENED-POLICY-003",
+ "market_id": "cleveland-akron-canton-oh",
+ "as_of": "2026-09-01",
+ "provider_calls": 0,
+ "usd_spent": 0.0,
+ "live_authority_touched": false,
+ "pinned_census_touched": false,
+ "deployment": "NONE",
+ "phase_1_cohort": {
+  "size": 31,
+  "counts": {
+   "FREE_ATTENDED": 22,
+   "FREE_STATIC": 8,
+   "OWNED_EVIDENCE_REUSE": 1
+  },
+  "note": "26 expected (15 CAPTURE_FAILED + 11 unread) + 2 re-reads of Order-003 non-clean results (Sonesta POLICY_NOT_FOUND, Super 8 Twinsburg FOUNDER_EXCEPTION) + 3 first-time identities (HIE Richfield, Red Roof Akron, ESA Select Airport)"
+ },
+ "phase_2_browser_access": {
+  "wyndhamhotels_com": "PERMITTED this session (no change made by this order)",
+  "hilton_com": "NOT PERMITTED (navigation refused) and static HTTP 403 -> ATTENDED_ACCESS_BLOCKED x4",
+  "extendedstayamerica_com": "NOT PERMITTED in the browser; the static lane reads it (8/8 VALID)",
+  "permission_changes_made": 0
+ },
+ "phase_3_owned_evidence": {
+  "reused": [
+   "la quinta inn and suites by wyndham cleveland airport west <- cleveland-attended-capture-003/raw/P3-061 (2026-08-16, clicked Hotel Policies)"
+  ],
+  "routes_from_owned_evidence": [
+   "5 Choice property codes from the P3-002 Avon listing JSON-LD (oh439, oh716, oh837, oh643, oh875)"
+  ],
+  "owned_files_scanned": 405
+ },
+ "phase_4_5_9_policy_reads": {
+  "attempted": 31,
+  "targets": 31,
+  "counts": {
+   "CAPTURE_FAILED": 4,
+   "CLEAN_PET_FRIENDLY": 18,
+   "CLEAN_VERIFIED_NO_PETS": 6,
+   "FOUNDER_EXCEPTION": 3
+  },
+  "static_requests": 8,
+  "browser_page_loads": 27
+ },
+ "phase_6_richfield": {
+  "question": "Motel 6 Richfield (LIVE PF) and Holiday Inn Express & Suites Cleveland-Richfield both claim 5171 Brecksville Rd, Richfield 44286",
+  "motel_6": {
+   "identity_key": "motel 6 richfield",
+   "census_address": "5171 Brecksville Rd",
+   "census_postal": "44286",
+   "census_phone": "(330) 293-3647",
+   "first_party_page": "https://www.motel6.com/property/motel-richfield-ohio-us-293697/",
+   "document_sha256": "c43b54d6-d0b8d574-1f47a022-b4c70650-35b989aa-191c2b18-e5ed30a0-c4caf74d",
+   "state": "ACTIVE and bookable; JSON-LD names Motel 6 Richfield, OH at 5171 Brecksville Road; reservations 330-659-6116",
+   "property_identity": "Motel 6 property 293697; reservations 330-659-6116",
+   "live_authority": "PET_FRIENDLY (untouched)"
+  },
+  "holiday_inn_express": {
+   "identity_key": "holiday inn express and suites cleveland richfield",
+   "first_party_page": "https://www.ihg.com/holidayinnexpress/hotels/us/en/richfield/clerf/hoteldetail",
+   "document_sha256": "31b1731e-a6399ae3-c318ee5e-b4045826-5d016b34-d6d44cf0-5f198a47-f1a39557",
+   "pre_interaction_document_sha256": "e9d7e600-f5e71b35-c21b2758-75fdbf68-d1721da3-fb18add6-81ded500-e08387fc",
+   "property_code": "CLERF",
+   "page_street": "5171 Brecksville Road",
+   "page_postal": "44286",
+   "page_phone": "+1-330-523-5000",
+   "page_email_domain": "exrichfieldclerf@gmail.com",
+   "ihg_search_list": "bookable at 5171 Brecksville Road, Richfield 44286 (IHG search list rendered this order)",
+   "pet_policy": "pets are not allowed",
+   "policy_read": {
+    "classification": "CLEAN_VERIFIED_NO_PETS",
+    "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/richfield/clerf/hoteldetail",
+    "document_sha256": "31b1731e-a6399ae3-c318ee5e-b4045826-5d016b34-d6d44cf0-5f198a47-f1a39557",
+    "artifact": "PR-holiday-inn-express-and-suites-cleveland-richfield.json",
+    "captured_at": "2026-09-01T15:48:38.474Z",
+    "quote": "pets are not allowed",
+    "extraction": {
+     "pets_allowed": false
+    },
+    "identity_binding": {
+     "street_number_agrees": true,
+     "house_number_agrees": true,
+     "postal_agrees": true,
+     "phone_agrees": true,
+     "bound": true
+    }
+   }
+  },
+  "signals": {
+   "same_street_number_and_postal": true,
+   "same_brand_family": false,
+   "same_phone": false,
+   "same_property_code_system": false,
+   "both_pages_active_and_bookable": true,
+   "either_page_names_the_other": false
+  },
+  "determination": "A. TWO_DISTINCT_IDENTITIES_SAME_ADDRESS",
+  "why": "Both first-party pages are active and bookable under different brand families with different phones and property codes, and neither page mentions the other; the address alone cannot merge them (doctrine). The HIE is a true-missing identity on the Motel 6 premises: the Copley precedent (ruling D, Order 002) recorded such a pair as SAME_CAMPUS_DISTINCT_ENTITY by founder ruling.",
+  "proposed_action": "record SAME_CAMPUS_DISTINCT_ENTITY for (motel 6 richfield, holiday inn express and suites cleveland richfield) and admit the HIE to the shadow as CONFIRMED_TRUE_MISSING with its clean no-pets read",
+  "status": "DETERMINED_HELD_FOR_SAME_CAMPUS_RULING"
+ },
+ "phase_7_holds": [
+  {
+   "n": 1,
+   "property": "Cambria Hotel & Suites Avon -> Wyndham Avon",
+   "identity_key": "cambria hotel and suites avon",
+   "category": "rebrand_successor",
+   "current_identity": "shadow row 'cambria hotel and suites avon', 35600 Detroit Rd 44011, unresolved",
+   "proposed_action": "rename the key to the Wyndham Avon successor and apply its PF read together with an Avon (44011) geography ruling",
+   "exact_evidence": {
+    "first_party_page": "https://www.wyndhamhotels.com/wyndham/avon-ohio/wyndham-avon/overview",
+    "document_sha256": "4030153a29dbb8a2c5a241491336f6189584150b0f0d7fe1ca78d63eaa415d0e",
+    "page_premises": "35600 Detroit Road 44011, +1-440-517-4124",
+    "owned_policy_read": "RR-001b attended artifact (Order pass 4): pets allowed, $100/stay, 2 pets",
+    "route": "identity_routing shard ROUTING_CONFIRMED to the Wyndham page"
+   },
+   "conflicting_evidence": "none on identity; 44011 is undeclared in the market contract (ruling G geography hold)",
+   "mechanical_outcome": "SAME_IDENTITY_REBRAND_SUCCESSOR",
+   "recommendation": "apply only with an Avon geography ruling (declare 44011 or explicit assignment); nothing new this order",
+   "census_effect": "rename 1 key (deferred)",
+   "authority_effect": "+1 PF (deferred)",
+   "route_effect": "route already confirmed",
+   "reversibility": "fully reversible (shadow only)",
+   "status": "HELD_ON_GEOGRAPHY"
+  },
+  {
+   "n": 2,
+   "property": "Motel 6 Richfield / Holiday Inn Express & Suites Cleveland-Richfield",
+   "identity_key": "holiday inn express and suites cleveland richfield",
+   "category": "same_campus",
+   "current_identity": "'motel 6 richfield' LIVE PF; the HIE is not a census row",
+   "proposed_action": "record SAME_CAMPUS_DISTINCT_ENTITY and admit the HIE (clean no-pets read ready)",
+   "exact_evidence": {
+    "identity_key": "holiday inn express and suites cleveland richfield",
+    "first_party_page": "https://www.ihg.com/holidayinnexpress/hotels/us/en/richfield/clerf/hoteldetail",
+    "document_sha256": "31b1731e-a6399ae3-c318ee5e-b4045826-5d016b34-d6d44cf0-5f198a47-f1a39557",
+    "pre_interaction_document_sha256": "e9d7e600-f5e71b35-c21b2758-75fdbf68-d1721da3-fb18add6-81ded500-e08387fc",
+    "property_code": "CLERF",
+    "page_street": "5171 Brecksville Road",
+    "page_postal": "44286",
+    "page_phone": "+1-330-523-5000",
+    "page_email_domain": "exrichfieldclerf@gmail.com",
+    "ihg_search_list": "bookable at 5171 Brecksville Road, Richfield 44286 (IHG search list rendered this order)",
+    "pet_policy": "pets are not allowed",
+    "policy_read": {
+     "classification": "CLEAN_VERIFIED_NO_PETS",
+     "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/richfield/clerf/hoteldetail",
+     "document_sha256": "31b1731e-a6399ae3-c318ee5e-b4045826-5d016b34-d6d44cf0-5f198a47-f1a39557",
+     "artifact": "PR-holiday-inn-express-and-suites-cleveland-richfield.json",
+     "captured_at": "2026-09-01T15:48:38.474Z",
+     "quote": "pets are not allowed",
+     "extraction": {
+      "pets_allowed": false
+     },
+     "identity_binding": {
+      "street_number_agrees": true,
+      "house_number_agrees": true,
+      "postal_agrees": true,
+      "phone_agrees": true,
+      "bound": true
+     }
+    }
+   },
+   "conflicting_evidence": "the same street number + postal as the live Motel 6 row",
+   "mechanical_outcome": "A. TWO_DISTINCT_IDENTITIES_SAME_ADDRESS",
+   "recommendation": "record SAME_CAMPUS_DISTINCT_ENTITY for (motel 6 richfield, holiday inn express and suites cleveland richfield) and admit the HIE to the shadow as CONFIRMED_TRUE_MISSING with its clean no-pets read",
+   "census_effect": "+1 shadow row after the ruling",
+   "authority_effect": "+1 verified no-pets after the ruling",
+   "route_effect": "new route (IHG CLERF)",
+   "reversibility": "fully reversible (shadow only)",
+   "status": "HELD_FOR_SAME_CAMPUS_RULING"
+  },
+  {
+   "n": 3,
+   "property": "Red Roof Inn Akron (2939 S Arlington Rd)",
+   "identity_key": "red roof inn akron",
+   "category": "address_postal",
+   "current_identity": "not a census row (identity_reads_002 TM-005 IDENTITY_UNRESOLVED on postal)",
+   "proposed_action": "admit to the shadow as CONFIRMED_TRUE_MISSING at 2939 S Arlington Rd 44312 (this order, mechanically)",
+   "exact_evidence": {
+    "first_party_page": "https://www.redroof.com/property/oh/akron/rri207",
+    "document_sha256": "d244b9fa-f9ee1042-e03c2c6e-28388ceb-41795778-adc49ed4-704795e5-e7042435",
+    "property_code": "RRI207",
+    "page_property_data": {
+     "displayAddressWithZip": "2939 S Arlington Rd, Akron, OH 44312",
+     "postalCode": "44312",
+     "propertyId": "RRI207",
+     "source": "page-embedded property state object (document HTML), quoted verbatim"
+    },
+    "policy_read": {
+     "classification": "CLEAN_PET_FRIENDLY",
+     "route": "https://www.redroof.com/property/oh/akron/rri207",
+     "document_sha256": "d244b9fa-f9ee1042-e03c2c6e-28388ceb-41795778-adc49ed4-704795e5-e7042435",
+     "artifact": "PR-red-roof-inn-akron.json",
+     "captured_at": "2026-09-01T15:50:30.712Z",
+     "quote": "pets allowed",
+     "extraction": {
+      "pets_allowed": true,
+      "fee_cap": {
+       "amount_minor": 10500,
+       "currency": "USD",
+       "basis": "per_stay"
+      },
+      "weight_limit": {
+       "value": 80.0,
+       "unit": "lb"
+      },
+      "pet_count_limit": 3,
+      "species_allowed": [
+       "cat",
+       "dog"
+      ]
+     },
+     "identity_binding": {
+      "street_number_agrees": true,
+      "house_number_agrees": true,
+      "postal_agrees": true,
+      "phone_agrees": false,
+      "bound": true
+     }
+    }
+   },
+   "conflicting_evidence": "the SEO title still says 'Akron, OH 44132' (an Euclid ZIP); the visible address block has no ZIP",
+   "mechanical_outcome": "ADDRESS_POSTAL_SUPERSESSION_NOT_NEEDED -- the page's own property data states 44312, the census/OSM postal",
+   "recommendation": "resolved: CONFIRMED_TRUE_MISSING (first-party name, numbered street, postal, property code); admitted to the shadow by the Order-002 admission doctrine",
+   "census_effect": "+1 shadow row",
+   "authority_effect": "+1 pending PF",
+   "route_effect": "route rri207",
+   "reversibility": "fully reversible (shadow only)",
+   "status": "RESOLVED_MECHANICALLY"
+  },
+  {
+   "n": 4,
+   "property": "Harbor Inn (1219 Main Ave 44113)",
+   "identity_key": "harbor inn",
+   "category": "lodging_non_lodging",
+   "current_identity": "shadow row 'harbor inn' (OSM batch 003), unresolved",
+   "proposed_action": "retire from the hotel promotion set as NON_LODGING (ruling C treatment)",
+   "exact_evidence": "CVB anchor + chamberofcommerce category 'bar' (Order 001/003): the Harbor Inn Cafe, a bar; no lodging surface exists; no first-party lodging page located in four orders",
+   "conflicting_evidence": "none",
+   "mechanical_outcome": "NON_LODGING",
+   "recommendation": "retire (founder ruling, as for Rowley Inn / Inn the Doghouse / Cleveland House Hotels)",
+   "census_effect": "-1 row",
+   "authority_effect": "none",
+   "route_effect": "none",
+   "reversibility": "reversible (row moved to the retired list, never deleted)",
+   "status": "HELD_FOUNDER"
+  },
+  {
+   "n": 5,
+   "property": "Hopp Inn (4896 Pearl Rd 44109)",
+   "identity_key": "hopp inn",
+   "category": "lodging_non_lodging",
+   "current_identity": "shadow row 'hopp inn' (OSM batch 003), unresolved",
+   "proposed_action": "retire from the hotel promotion set as NON_LODGING",
+   "exact_evidence": "CVB anchor + chamberofcommerce category 'bar': a neighborhood bar; no lodging surface exists",
+   "conflicting_evidence": "none",
+   "mechanical_outcome": "NON_LODGING",
+   "recommendation": "retire (founder ruling)",
+   "census_effect": "-1 row",
+   "authority_effect": "none",
+   "route_effect": "none",
+   "reversibility": "reversible (retired list)",
+   "status": "HELD_FOUNDER"
+  },
+  {
+   "n": 6,
+   "property": "Villa Croatia at the American-Croatian Lodge (34900 Lakeshore Blvd 44095)",
+   "identity_key": "villa croatia at the american croatian lodge",
+   "category": "lodging_non_lodging",
+   "current_identity": "shadow row (OSM batch 003), unresolved; routing repair 001 found croatianlodge.com",
+   "proposed_action": "retire from the hotel promotion set as NON_LODGING_ON_ROUTE unless the founder knows a lodging surface",
+   "exact_evidence": {
+    "site_home": "https://www.croatianlodge.com/ -- title 'American Croatian Lodge | Premier Event Venue in Northeast Ohio'",
+    "navigation": [
+     "Home",
+     "Weddings",
+     "Private Parties",
+     "Upcoming Events",
+     "Corporate Events",
+     "About Us",
+     "Contact"
+    ],
+    "about_page": "about.php: event rooms and banquet reviews only",
+    "document_sha256_home": "86cec2cc-edf2843e-f49807df-29095719-de697c17-e03e1808-ade58853-d67ec045",
+    "site_phone": "(440) 946-3366 vs census 216.704.9009",
+    "rooms_page": "/rooms.html 404 (Order 003)"
+   },
+   "conflicting_evidence": "the OSM node names a 'Villa' at the lodge; the site never mentions a villa or guest rooms",
+   "mechanical_outcome": "IDENTITY_UNRESOLVED (no lodging surface on the only first-party site)",
+   "recommendation": "retire as non-lodging-on-route (founder ruling); re-admit on any first-party lodging page",
+   "census_effect": "-1 row",
+   "authority_effect": "none",
+   "route_effect": "none",
+   "reversibility": "reversible (retired list)",
+   "status": "HELD_FOUNDER"
+  },
+  {
+   "n": 7,
+   "property": "Extended Stay America Select Suites Cleveland - Airport on the registered WoodSpring premises",
+   "identity_key": "extended stay america select suites cleveland airport",
+   "category": "rebrand_successor",
+   "current_identity": "shadow row 'woodspring suites cleveland', 20829 Emerald Pkwy 44135, phone 216.303.7060, unresolved",
+   "proposed_action": "rename the key to the ESA Select successor (SAME_IDENTITY_REBRAND_SUCCESSOR, ruling-B precedent) and apply its clean PF read",
+   "exact_evidence": {
+    "esa_page": "https://www.extendedstayamerica.com/hotels/oh/cleveland/airport",
+    "esa_document_sha256": "ff4043c6a72d4705e8896e4d29cddb236895158216d1bd5f35af985ca07da35f",
+    "esa_page_identity": {
+     "name": "Extended Stay America - Cleveland - Airport",
+     "street": "20829 Emerald Pkwy",
+     "postal": "44135"
+    },
+    "esa_policy_read": {
+     "classification": "CLEAN_PET_FRIENDLY",
+     "route": "https://www.extendedstayamerica.com/hotels/oh/cleveland/airport",
+     "document_sha256": "ff4043c6a72d4705e8896e4d29cddb236895158216d1bd5f35af985ca07da35f",
+     "artifact": "data\\acquisition\\cleveland_akron_canton_oh_policy_reads_004\\extended-stay-america-select-suites-cleveland-airport\\attempt-01",
+     "captured_at": "2026-09-01T15:58:17.340386+00:00",
+     "quote": "pets are allowed",
+     "extraction": {
+      "pets_allowed": true,
+      "pet_fee": 1500,
+      "fee_currency": "USD",
+      "pet_count_limit": 2,
+      "service_animal_exception": "Service animals will be exempt from this charge."
+     },
+     "identity_binding": null
+    },
+    "woodspring_locator": "https://www.woodspring.com/extended-stay-hotels/locations/ohio/hotels",
+    "woodspring_locator_document_sha256": "3bfa1bd2-944ee1c4-7bd785be-733024c7-818586be-bddb1b4b-cbe5b7d6-7120da52",
+    "woodspring_locator_ohio_hotels": [
+     "6725 Fairfield Business Ctr., Fairfield, OH",
+     "4202 Transit Drive, Columbus, OH",
+     "375 Hutchinson Ave, Columbus, OH",
+     "4105 Hamilton Square Boulevard, Groveport, OH",
+     "7373 Miller Lane, Dayton, OH",
+     "1788 Indian Wood Circle, Maumee, OH",
+     "3205 Centerpoint Dr., Grove City, OH",
+     "2305 North Wilson Road, Columbus, OH"
+    ],
+    "woodspring_cleveland_listed": false
+   },
+   "conflicting_evidence": "the brands differ (WoodSpring -> Extended Stay America Select); the census phone 216.303.7060 is not on the ESA page",
+   "mechanical_outcome": "SAME_IDENTITY_REBRAND_SUCCESSOR",
+   "recommendation": "apply the successor rename + PF (founder authorization, as ruling B for Studio 6 -> Suburban Studios)",
+   "census_effect": "rename 1 key",
+   "authority_effect": "+1 PF (deferred)",
+   "route_effect": "route to the ESA page",
+   "reversibility": "fully reversible (shadow only)",
+   "status": "HELD_FOR_SUCCESSOR_AUTHORIZATION"
+  }
+ ],
+ "phase_8_packet_summary": {
+  "groups": {
+   "A_identity_successor_or_same_campus": 3,
+   "B_non_lodging_retirements": 3,
+   "C_reader_exceptions_with_exact_quotes": 3
+  },
+  "resolved_mechanically": [
+   "red roof inn akron"
+  ],
+  "held": [
+   "cambria hotel and suites avon",
+   "holiday inn express and suites cleveland richfield",
+   "harbor inn",
+   "hopp inn",
+   "villa croatia at the american croatian lodge",
+   "extended stay america select suites cleveland airport",
+   "best western airport inn and suites cleveland",
+   "candlewood suites cleveland south independence",
+   "candlewood suites beachwood cleveland"
+  ]
+ },
+ "phase_10_pending_application": {
+  "LIVE": {
+   "pet_friendly": 99,
+   "verified_no_pets": 40
+  },
+  "PENDING_SHADOW": {
+   "pet_friendly": [
+    "suburban studios mentor cleveland northeast",
+    "towneplace suites by marriott cleveland westlake",
+    "the ritz carlton cleveland",
+    "towneplace suites by marriott painesville mentor",
+    "extended stay america suites cleveland airport north olmsted",
+    "ramada by wyndham cleveland airport west",
+    "best western plus mentor cleveland northeast",
+    "extended stay america suites cleveland westlake",
+    "sonesta simply suites cleveland north olmsted airport",
+    "la quinta inn and suites by wyndham cleveland airport west",
+    "la quinta inn and suites by wyndham cleveland macedonia",
+    "extended stay america suites cleveland beachwood orange place south",
+    "super 8 by wyndham twinsburg cleveland area",
+    "super 8 by wyndham mentor cleveland area",
+    "extended stay america suites cleveland brooklyn",
+    "extended stay america select suites cleveland mentor",
+    "extended stay america suites cleveland great northern mall",
+    "extended stay america suites cleveland middleburg heights",
+    "comfort inn cleveland airport",
+    "mainstay suites middleburg heights cleveland airport",
+    "red roof inn akron"
+   ],
+   "verified_no_pets": [
+    "quality inn hall of fame",
+    "doubletree by hilton tudor arms hotel",
+    "courtyard by marriott akron stow",
+    "fairfield by marriott inn and suites akron fairlawn",
+    "fairfield by marriott inn and suites cleveland tiedeman road",
+    "fairfield by marriott inn and suites akron stow",
+    "comfort inn and suites cuyahoga falls akron",
+    "wingate by wyndham canton hall of fame",
+    "country inn and suites by radisson macedonia northfield",
+    "quality inn and suites oakwood village cleveland south",
+    "quality inn middleburg heights near cleveland airport"
+   ],
+   "founder_exceptions": [
+    "best western airport inn and suites cleveland",
+    "candlewood suites cleveland south independence",
+    "candlewood suites beachwood cleveland"
+   ],
+   "held_with_evidence": {
+    "holiday inn express and suites cleveland richfield": "clean no-pets read; admission held for the same-campus ruling",
+    "extended stay america select suites cleveland airport": "clean PF read; successor rename held for authorization",
+    "cambria hotel and suites avon": "owned PF read (Wyndham Avon); held on the Avon geography ruling"
+   },
+   "source_silent": [],
+   "capture_failed_hilton_access_blocked": [
+    "hampton inn cleveland solon",
+    "home2 suites by hilton middleburg heights cleveland",
+    "hampton inn and suites cleveland mentor",
+    "hampton inn and suites oakwood village cleveland"
+   ],
+   "no_action": []
+  },
+  "PENDING_COUNTS": {
+   "pet_friendly": 21,
+   "verified_no_pets": 11,
+   "founder_exceptions": 3,
+   "held_with_evidence": 3,
+   "source_silent": 0,
+   "capture_failed": 4,
+   "no_action": 0
+  },
+  "PROJECTED_IF_APPLIED": {
+   "census": 220,
+   "pet_friendly": 120,
+   "verified_no_pets": 51,
+   "resolved": 171,
+   "unresolved": 49,
+   "profiles": 120
+  },
+  "live_policy_package_written": false,
+  "live_exclusions_written": false
+ },
+ "phase_11_shadow_census": {
+  "path": "launch_packages\\pettripfinder\\identity_census_admission\\cleveland-akron-canton-oh.json",
+  "pinned": 188,
+  "shadow": 220,
+  "deduplicated": 220,
+  "additions_total": 35,
+  "additions_004": 1,
+  "retirements": 3,
+  "successors_applied": 1,
+  "successors_determined_held": [
+   "cambria hotel and suites avon -> wyndham avon",
+   "woodspring suites cleveland -> extended stay america select suites cleveland airport"
+  ],
+  "same_campus_pairs": [
+   "copley bldg a/b (recorded, ruling D)",
+   "motel 6 richfield / holiday inn express and suites cleveland richfield (determined, held)"
+  ],
+  "geography_holds": [
+   "avon 44011 (cambria->wyndham avon)"
+  ],
+  "unresolved_founder_identity_items": [
+   "harbor inn",
+   "hopp inn",
+   "villa croatia at the american croatian lodge"
+  ],
+  "validation_issues": [],
+  "duplicate_keys": [],
+  "duplicate_premises": [],
+  "cross_market_collisions": []
+ },
+ "phase_12_paid_readiness": {
+  "lanes": {
+   "BRIGHTDATA_QUALIFIED": 5,
+   "FOUNDER_HOLD": 10,
+   "FREE_LANE_EXHAUSTED": 2,
+   "IDENTITY_REVIEW_FIRST": 1,
+   "PAID_DISCOVERY_REQUIRED": 11,
+   "SOURCE_SILENT": 20
+  },
+  "rows": [
+   {
+    "identity_key": "ariel broadway hotel",
+    "canonical_name": "Ariel Broadway Hotel",
+    "lane": "SOURCE_SILENT"
+   },
+   {
+    "identity_key": "aurora inn",
+    "canonical_name": "Aurora Inn",
+    "lane": "SOURCE_SILENT"
+   },
+   {
+    "identity_key": "berlin s motel",
+    "canonical_name": "Berlin's Motel",
+    "lane": "PAID_DISCOVERY_REQUIRED"
+   },
+   {
+    "identity_key": "best western plus north canton inn and suites",
+    "canonical_name": "Best Western Plus North Canton Inn & Suites",
+    "lane": "FREE_LANE_EXHAUSTED"
+   },
+   {
+    "identity_key": "budget inn",
+    "canonical_name": "Budget Inn",
+    "lane": "PAID_DISCOVERY_REQUIRED"
+   },
+   {
+    "identity_key": "cambria hotel and suites avon",
+    "canonical_name": "Cambria Hotel & Suites Avon",
+    "lane": "FOUNDER_HOLD"
+   },
+   {
+    "identity_key": "clarion inn and conference center",
+    "canonical_name": "Clarion Inn and Conference Center",
+    "lane": "PAID_DISCOVERY_REQUIRED"
+   },
+   {
+    "identity_key": "courtesy inn",
+    "canonical_name": "Courtesy Inn",
+    "lane": "PAID_DISCOVERY_REQUIRED"
+   },
+   {
+    "identity_key": "don el motel",
+    "canonical_name": "Don-El Motel",
+    "lane": "PAID_DISCOVERY_REQUIRED"
+   },
+   {
+    "identity_key": "economy inn",
+    "canonical_name": "Economy Inn",
+    "lane": "SOURCE_SILENT"
+   },
+   {
+    "identity_key": "harbor inn",
+    "canonical_name": "Harbor Inn",
+    "lane": "FOUNDER_HOLD"
+   },
+   {
+    "identity_key": "highlander inn",
+    "canonical_name": "Highlander Inn",
+    "lane": "SOURCE_SILENT"
+   },
+   {
+    "identity_key": "holiday inn cleveland clinic",
+    "canonical_name": "Holiday Inn Cleveland Clinic",
+    "lane": "SOURCE_SILENT"
+   },
+   {
+    "identity_key": "holiday inn cleveland south independence",
+    "canonical_name": "Holiday Inn Cleveland South Independence",
+    "lane": "SOURCE_SILENT"
+   },
+   {
+    "identity_key": "home2 suites by hilton",
+    "canonical_name": "Home2 Suites by Hilton",
+    "lane": "BRIGHTDATA_QUALIFIED"
+   },
+   {
+    "identity_key": "hopp inn",
+    "canonical_name": "Hopp Inn",
+    "lane": "FOUNDER_HOLD"
+   },
+   {
+    "identity_key": "hotel cleveland",
+    "canonical_name": "Hotel Cleveland",
+    "lane": "SOURCE_SILENT"
+   },
+   {
+    "identity_key": "hyatt place canton",
+    "canonical_name": "Hyatt Place Canton",
+    "lane": "PAID_DISCOVERY_REQUIRED"
+   },
+   {
+    "identity_key": "hyatt place cleveland lyndhurst legacy village",
+    "canonical_name": "Hyatt Place Cleveland Lyndhurst Legacy Village",
+    "lane": "FOUNDER_HOLD"
+   },
+   {
+    "identity_key": "hyatt place cleveland westlake crocker park",
+    "canonical_name": "Hyatt Place Cleveland Westlake Crocker Park",
+    "lane": "FREE_LANE_EXHAUSTED"
+   },
+   {
+    "identity_key": "hyatt regency",
+    "canonical_name": "Hyatt Regency",
+    "lane": "FOUNDER_HOLD"
+   },
+   {
+    "identity_key": "inn at brandywine falls",
+    "canonical_name": "Inn at Brandywine Falls",
+    "lane": "SOURCE_SILENT"
+   },
+   {
+    "identity_key": "inn cahoots",
+    "canonical_name": "Inn Cahoots",
+    "lane": "SOURCE_SILENT"
+   },
+   {
+    "identity_key": "inn on coventry",
+    "canonical_name": "Inn on Coventry",
+    "lane": "SOURCE_SILENT"
+   },
+   {
+    "identity_key": "intercontinental suites hotel cleveland",
+    "canonical_name": "Intercontinental Suites Hotel Cleveland",
+    "lane": "SOURCE_SILENT"
+   },
+   {
+    "identity_key": "kent state university hotel and conference center",
+    "canonical_name": "Kent State University Hotel & Conference Center",
+    "lane": "IDENTITY_REVIEW_FIRST"
+   },
+   {
+    "identity_key": "lakeside motel",
+    "canonical_name": "Lakeside Motel",
+    "lane": "PAID_DISCOVERY_REQUIRED"
+   },
+   {
+    "identity_key": "magnuson extended stay",
+    "canonical_name": "Magnuson Extended Stay",
+    "lane": "SOURCE_SILENT"
+   },
+   {
+    "identity_key": "metropolitan hotel at the 9",
+    "canonical_name": "Metropolitan Hotel at the 9",
+    "lane": "SOURCE_SILENT"
+   },
+   {
+    "identity_key": "palmantiers motel",
+    "canonical_name": "Palmantiers Motel",
+    "lane": "SOURCE_SILENT"
+   },
+   {
+    "identity_key": "ranch motel",
+    "canonical_name": "Ranch Motel",
+    "lane": "PAID_DISCOVERY_REQUIRED"
+   },
+   {
+    "identity_key": "skyview lodge",
+    "canonical_name": "Skyview Lodge",
+    "lane": "SOURCE_SILENT"
+   },
+   {
+    "identity_key": "stone gables inn",
+    "canonical_name": "Stone Gables Inn",
+    "lane": "SOURCE_SILENT"
+   },
+   {
+    "identity_key": "sunset motel",
+    "canonical_name": "Sunset Motel",
+    "lane": "PAID_DISCOVERY_REQUIRED"
+   },
+   {
+    "identity_key": "the bertram hotel and conference center",
+    "canonical_name": "The Bertram Hotel & Conference Center",
+    "lane": "SOURCE_SILENT"
+   },
+   {
+    "identity_key": "the bertram inn at glenmoor",
+    "canonical_name": "The Bertram Inn at Glenmoor",
+    "lane": "SOURCE_SILENT"
+   },
+   {
+    "identity_key": "the inn at amish door",
+    "canonical_name": "The Inn at Amish Door",
+    "lane": "SOURCE_SILENT"
+   },
+   {
+    "identity_key": "twinsburg country inn",
+    "canonical_name": "Twinsburg Country Inn",
+    "lane": "PAID_DISCOVERY_REQUIRED"
+   },
+   {
+    "identity_key": "twinsburg inn motel",
+    "canonical_name": "Twinsburg Inn Motel",
+    "lane": "PAID_DISCOVERY_REQUIRED"
+   },
+   {
+    "identity_key": "villa croatia at the american croatian lodge",
+    "canonical_name": "Villa Croatia at the American-Croatian Lodge",
+    "lane": "FOUNDER_HOLD"
+   },
+   {
+    "identity_key": "walden country inn and stables",
+    "canonical_name": "Walden Country Inn & Stables",
+    "lane": "SOURCE_SILENT"
+   },
+   {
+    "identity_key": "woodspring suites cleveland",
+    "canonical_name": "Woodspring Suites Cleveland",
+    "lane": "FOUNDER_HOLD"
+   },
+   {
+    "identity_key": "hampton inn cleveland solon",
+    "canonical_name": "Hampton Inn Cleveland-Solon",
+    "lane": "BRIGHTDATA_QUALIFIED"
+   },
+   {
+    "identity_key": "home2 suites by hilton middleburg heights cleveland",
+    "canonical_name": "Home2 Suites by Hilton Middleburg Heights Cleveland",
+    "lane": "BRIGHTDATA_QUALIFIED"
+   },
+   {
+    "identity_key": "best western airport inn and suites cleveland",
+    "canonical_name": "Best Western Airport Inn & Suites Cleveland",
+    "lane": "FOUNDER_HOLD"
+   },
+   {
+    "identity_key": "hampton inn and suites cleveland mentor",
+    "canonical_name": "Hampton Inn & Suites Cleveland-Mentor",
+    "lane": "BRIGHTDATA_QUALIFIED"
+   },
+   {
+    "identity_key": "hampton inn and suites oakwood village cleveland",
+    "canonical_name": "Hampton Inn & Suites Oakwood Village-Cleveland",
+    "lane": "BRIGHTDATA_QUALIFIED"
+   },
+   {
+    "identity_key": "candlewood suites cleveland south independence",
+    "canonical_name": "Candlewood Suites Cleveland South - Independence",
+    "lane": "FOUNDER_HOLD"
+   },
+   {
+    "identity_key": "candlewood suites beachwood cleveland",
+    "canonical_name": "Candlewood Suites Beachwood - Cleveland",
+    "lane": "FOUNDER_HOLD"
+   }
+  ],
+  "pilot_plan_not_executed": {
+   "authorized": false,
+   "executed": false,
+   "live_read_at": "2026-09-01T15:54:08Z",
+   "bright_data": {
+    "rows": 5,
+    "what": "hilton.com rows: 4 blocked this order (static HTTP 403; browser host not permitted) + 1 carried from the Order-002 lanes",
+    "unit_usd_measured": 0.1198,
+    "expected_usd": 0.6,
+    "hard_cap_usd": 0.75,
+    "balance_usd": 4.28,
+    "pending_usd": 0.0,
+    "balance_sufficient": true,
+    "expected_publication_grade_rows": 3.24,
+    "optional_first_pilot_rows": 1
+   },
+   "google_places": {
+    "rows": 11,
+    "unit_usd_rate_card": 0.032,
+    "ledger_state": "UNPRICED_BY_LEDGER",
+    "optional_first_pilot_rows": 10,
+    "expected_usd": 0.32,
+    "hard_cap_usd": 0.4,
+    "expected_binds": 2.8,
+    "rate_card": {
+     "source": "https://developers.google.com/maps/billing-and-pricing/pricing (public rate card, read 2026-09-01; no API call made)",
+     "text_search_pro_usd_per_1000": 32.0,
+     "text_search_pro_usd_per_request": 0.032,
+     "place_details_pro_usd_per_1000": 17.0,
+     "place_details_pro_usd_per_request": 0.017,
+     "note": "a websiteUri lookup is a Text Search Pro SKU; monthly free-tier credit may apply and is not assumed"
+    }
+   },
+   "account_balance_required_usd": {
+    "bright_data": 0.75,
+    "google_places": 0.4
+   }
+  }
+ },
+ "phase_13_promotion_readiness": {
+  "PROMOTION_READY": true,
+  "checks": {
+   "identity_founder_holds_resolved_or_held_outside_promotion": true,
+   "promoted_shadow_rows_have_deterministic_identities": true,
+   "clean_policy_inventory_bound": true,
+   "no_duplicate_premises": true,
+   "no_cross_market_collision": true,
+   "geography_requirements_satisfied": "yes: no ZIP widened; Oakwood 44146 rows carry an explicit corridor assignment (contract change known)",
+   "market_contract_changes_known_and_deterministic": [
+    "explicit_hotel_ids += 2 Oakwood Village rows on cleveland-east-beachwood",
+    "release contract re-pin: census 220, PF 120, no-pets 51"
+   ],
+   "remaining_work_is_optional_coverage_expansion": true
+  },
+  "held_outside_promotion": {
+   "cambria hotel and suites avon": "stays an unresolved row under its current key; Avon geography ruling pending",
+   "woodspring suites cleveland": "stays an unresolved row under its current key; successor rename pending",
+   "holiday inn express and suites cleveland richfield": "not a census row until the same-campus ruling; coverage only",
+   "harbor inn / hopp inn / villa croatia": "stay unresolved rows (never promoted as PF) until retired",
+   "3 reader exceptions": "stay unresolved rows until the founder accepts the page statements"
+  },
+  "further_coverage": "OPTIONAL -- 4 Hilton rows (Bright Data qualified), 3 reader exceptions, the held identities, and the 42 legacy unresolved rows can remain unresolved under the contract",
+  "what_promotion_requires_next": [
+   "a deployment-bearing application order: write the pending PF rows to the live package and the pending no-pets rows to the exclusions shard from the bound artifacts",
+   "re-pin the pinned census from the shadow (220) and the release contract (220 / 120 / 51)",
+   "market contract explicit_hotel_ids for the two Oakwood Village rows",
+   "founder rulings on packet groups A-C may land before or after (each is reversible and shadow-scoped)"
+  ],
+  "blockers": []
+ },
+ "phase_14_factory_performance": {
+  "active_minutes": {
+   "order_001": 66.4,
+   "order_002": 40.3,
+   "order_003": 25.8,
+   "order_004": 44.1,
+   "total": 176.6
+  },
+  "free_requests": {
+   "order_001": 954,
+   "order_002": 48,
+   "order_003": 35,
+   "order_004": 38,
+   "total": 1075
+  },
+  "census_rows_audited": {
+   "pinned_rows_audited": 188,
+   "shadow_identities_reconciled": 266,
+   "locator_leads_read": 12,
+   "identity_reads_002": 37
+  },
+  "confirmed_missing_identities": {
+   "order_002": 23,
+   "order_003": 11,
+   "order_004": 1,
+   "determined_held": 2,
+   "total_admitted": 35
+  },
+  "clean_policy_recovered": {
+   "order_001": {
+    "pet_friendly": 0,
+    "verified_no_pets": 3
+   },
+   "order_002": {
+    "pet_friendly": 1,
+    "verified_no_pets": 0
+   },
+   "order_003": {
+    "pet_friendly": 3,
+    "verified_no_pets": 3
+   },
+   "order_004": {
+    "pet_friendly": 18,
+    "verified_no_pets": 6,
+    "of_which_held_with_the_identity": 2
+   },
+   "total_pending_pf": 21,
+   "total_pending_no_pets": 11
+  },
+  "architecture_changes": {
+   "shared_code_changes": 0,
+   "additive_config_files_001": 2,
+   "cleveland_scoped_scripts_004": 2,
+   "browser_permission_changes_by_me": 0
+  },
+  "paid_spend_usd": 0.0,
+  "paid_provider_calls": 0,
+  "IS_CLEVELAND_NOW_READY_TO_MOVE_FROM_HARDENING_INTO_PROMOTION_DEPLOYMENT_PREP": "YES"
+ },
+ "factory": {
+  "active_minutes_004": 44.1,
+  "free_requests_004": 38,
+  "generic_code_changes": 0
+ }
+}

@@ -3,14 +3,14 @@
  "market_id": "cleveland-akron-canton-oh",
  "identity_key_contract": "ptf_identity_key/1.0",
  "identity_contract": "ptf-identity-evidence/1.0",
- "work_order": "PTF-CLEVELAND-AKRON-CANTON-HARDENED-POLICY-003",
+ "work_order": "PTF-CLEVELAND-AKRON-CANTON-HARDENED-POLICY-004",
  "captured_at": "2026-09-01",
  "note": "Cleveland's committed 188-identity census, upgraded to 1.1 by PTF-CENSUS-PARTITION-NORMALIZATION-001. Membership, identity evidence and corridor annotations are unchanged; the canonical identity key and per-row market ownership are added.",
  "source_authorities": [
   "identity_census/cleveland-akron-canton-oh.json",
   "cleveland_final_partition_002.json"
  ],
- "count": 219,
+ "count": 220,
  "source_batch": "cleveland-akron-canton-007",
  "hotels": [
   {
@@ -7235,9 +7235,49 @@
     "phone": "not stated by the locator",
     "work_order": "PTF-CLEVELAND-AKRON-CANTON-HARDENED-POLICY-003"
    }
+  },
+  {
+   "identity_key": "red roof inn akron",
+   "canonical_name": "Red Roof Inn Akron",
+   "display_name": "Red Roof Inn Akron",
+   "slug": "red-roof-inn-akron",
+   "market_id": "cleveland-akron-canton-oh",
+   "address": "2939 S Arlington Rd",
+   "city": "Akron",
+   "state": "OH",
+   "postal_code": "44312",
+   "phone": "",
+   "identity_state": "IDENTITY_CONFIRMED",
+   "lodging_state": "LODGING_BY_NAME",
+   "policy_state": "POLICY_NOT_VERIFIED",
+   "collision_state": "NONE",
+   "official_url": "https://www.redroof.com/property/oh/akron/rri207",
+   "corridor": "cleveland-akron-canton-oh__akron-south-green",
+   "assignment_basis": "postal_code",
+   "assignment_value": "44312",
+   "source": "first_party_property_page",
+   "source_id": "https://www.redroof.com/property/oh/akron/rri207",
+   "observed_at": "2026-09-01",
+   "provenance": "PTF-CLEVELAND-AKRON-CANTON-HARDENED-POLICY-004:PHASE_7_HOLD_3_POSTAL_PROVEN",
+   "batch": "hardened-policy-004",
+   "has_official_link": true,
+   "normalized_name": "red roof inn akron",
+   "raw_name": "Red Roof Inn Akron",
+   "street_identity": "2939 s arlington rd|44312",
+   "admission": {
+    "status": "SHADOW_ADMITTED_004",
+    "classification": "CONFIRMED_TRUE_MISSING",
+    "read_method": "ATTENDED",
+    "evidence_url": "https://www.redroof.com/property/oh/akron/rri207",
+    "document_sha256": "d244b9fa-f9ee1042-e03c2c6e-28388ceb-41795778-adc49ed4-704795e5-e7042435",
+    "property_code": "RRI207",
+    "postal_source": "page-embedded property data: postalCode 44312, displayAddressWithZip '2939 S Arlington Rd, Akron, OH 44312'",
+    "phone": "page shows brand reservation numbers only",
+    "work_order": "PTF-CLEVELAND-AKRON-CANTON-HARDENED-POLICY-004"
+   }
   }
  ],
- "what_this_is": "SHADOW admission census v003 for cleveland-akron-canton-oh: Order-002 shadow (208) + 2 Oakwood Village rows (explicit east-side assignment, contract change proposed) + 9 brand-locator true-missing rows; display-name overlays on 3 live rows (keys preserved); Comfort Suites Twinsburg address supersession; Kent State lodging confirmed. Never registered, never deployed.",
+ "what_this_is": "SHADOW admission census v004 for cleveland-akron-canton-oh: Order-003 shadow (219) + 1 row admitted after a first-party postal proof (Red Roof Inn Akron). Successor renames (Cambria->Wyndham Avon, WoodSpring->ESA Select), the Holiday Inn Express Richfield same-campus admission and the three non-lodging retirements are HELD for founder ruling and not applied. Never registered, never deployed.",
  "retired_non_lodging_002": [
   {
    "identity_key": "the rowley inn",
@@ -7438,6 +7478,23 @@
   ],
   "lodging_confirmed": [
    "kent state university hotel and conference center"
+  ],
+  "deployment": "NONE"
+ },
+ "admission_004": {
+  "pinned_census_touched": false,
+  "supersedes_003": {
+   "count": 219,
+   "commit": "e2ba1b9d86fd78eadf723df71fbc7ecd3c7374f4"
+  },
+  "added_after_postal_proof": [
+   "red roof inn akron"
+  ],
+  "held_not_applied": [
+   "cambria hotel and suites avon -> wyndham avon (geography)",
+   "woodspring suites cleveland -> extended stay america select suites cleveland airport (successor authorization)",
+   "holiday inn express and suites cleveland richfield (same-campus ruling with motel 6 richfield)",
+   "harbor inn / hopp inn / villa croatia (non-lodging retirements)"
   ],
   "deployment": "NONE"
  }

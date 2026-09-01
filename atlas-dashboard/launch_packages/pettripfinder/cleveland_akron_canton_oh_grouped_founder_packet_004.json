@@ -1,0 +1,306 @@
+{
+ "contract": "ptf-grouped-founder-packet/1.0",
+ "work_order": "PTF-CLEVELAND-AKRON-CANTON-HARDENED-POLICY-004",
+ "market_id": "cleveland-akron-canton-oh",
+ "generated_at": "2026-09-01",
+ "nothing_was_spent": true,
+ "nothing_was_published": true,
+ "pause_once": "three grouped decisions; every item carries its evidence, effect and reversibility; none blocks promotion if explicitly held outside it",
+ "groups": {
+  "A_identity_successor_or_same_campus": [
+   {
+    "n": 1,
+    "property": "Cambria Hotel & Suites Avon -> Wyndham Avon",
+    "identity_key": "cambria hotel and suites avon",
+    "category": "rebrand_successor",
+    "current_identity": "shadow row 'cambria hotel and suites avon', 35600 Detroit Rd 44011, unresolved",
+    "proposed_action": "rename the key to the Wyndham Avon successor and apply its PF read together with an Avon (44011) geography ruling",
+    "exact_evidence": {
+     "first_party_page": "https://www.wyndhamhotels.com/wyndham/avon-ohio/wyndham-avon/overview",
+     "document_sha256": "4030153a29dbb8a2c5a241491336f6189584150b0f0d7fe1ca78d63eaa415d0e",
+     "page_premises": "35600 Detroit Road 44011, +1-440-517-4124",
+     "owned_policy_read": "RR-001b attended artifact (Order pass 4): pets allowed, $100/stay, 2 pets",
+     "route": "identity_routing shard ROUTING_CONFIRMED to the Wyndham page"
+    },
+    "conflicting_evidence": "none on identity; 44011 is undeclared in the market contract (ruling G geography hold)",
+    "mechanical_outcome": "SAME_IDENTITY_REBRAND_SUCCESSOR",
+    "recommendation": "apply only with an Avon geography ruling (declare 44011 or explicit assignment); nothing new this order",
+    "census_effect": "rename 1 key (deferred)",
+    "authority_effect": "+1 PF (deferred)",
+    "route_effect": "route already confirmed",
+    "reversibility": "fully reversible (shadow only)",
+    "status": "HELD_ON_GEOGRAPHY"
+   },
+   {
+    "n": 2,
+    "property": "Motel 6 Richfield / Holiday Inn Express & Suites Cleveland-Richfield",
+    "identity_key": "holiday inn express and suites cleveland richfield",
+    "category": "same_campus",
+    "current_identity": "'motel 6 richfield' LIVE PF; the HIE is not a census row",
+    "proposed_action": "record SAME_CAMPUS_DISTINCT_ENTITY and admit the HIE (clean no-pets read ready)",
+    "exact_evidence": {
+     "identity_key": "holiday inn express and suites cleveland richfield",
+     "first_party_page": "https://www.ihg.com/holidayinnexpress/hotels/us/en/richfield/clerf/hoteldetail",
+     "document_sha256": "31b1731e-a6399ae3-c318ee5e-b4045826-5d016b34-d6d44cf0-5f198a47-f1a39557",
+     "pre_interaction_document_sha256": "e9d7e600-f5e71b35-c21b2758-75fdbf68-d1721da3-fb18add6-81ded500-e08387fc",
+     "property_code": "CLERF",
+     "page_street": "5171 Brecksville Road",
+     "page_postal": "44286",
+     "page_phone": "+1-330-523-5000",
+     "page_email_domain": "exrichfieldclerf@gmail.com",
+     "ihg_search_list": "bookable at 5171 Brecksville Road, Richfield 44286 (IHG search list rendered this order)",
+     "pet_policy": "pets are not allowed",
+     "policy_read": {
+      "classification": "CLEAN_VERIFIED_NO_PETS",
+      "route": "https://www.ihg.com/holidayinnexpress/hotels/us/en/richfield/clerf/hoteldetail",
+      "document_sha256": "31b1731e-a6399ae3-c318ee5e-b4045826-5d016b34-d6d44cf0-5f198a47-f1a39557",
+      "artifact": "PR-holiday-inn-express-and-suites-cleveland-richfield.json",
+      "captured_at": "2026-09-01T15:48:38.474Z",
+      "quote": "pets are not allowed",
+      "extraction": {
+       "pets_allowed": false
+      },
+      "identity_binding": {
+       "street_number_agrees": true,
+       "house_number_agrees": true,
+       "postal_agrees": true,
+       "phone_agrees": true,
+       "bound": true
+      }
+     }
+    },
+    "conflicting_evidence": "the same street number + postal as the live Motel 6 row",
+    "mechanical_outcome": "A. TWO_DISTINCT_IDENTITIES_SAME_ADDRESS",
+    "recommendation": "record SAME_CAMPUS_DISTINCT_ENTITY for (motel 6 richfield, holiday inn express and suites cleveland richfield) and admit the HIE to the shadow as CONFIRMED_TRUE_MISSING with its clean no-pets read",
+    "census_effect": "+1 shadow row after the ruling",
+    "authority_effect": "+1 verified no-pets after the ruling",
+    "route_effect": "new route (IHG CLERF)",
+    "reversibility": "fully reversible (shadow only)",
+    "status": "HELD_FOR_SAME_CAMPUS_RULING"
+   },
+   {
+    "n": 7,
+    "property": "Extended Stay America Select Suites Cleveland - Airport on the registered WoodSpring premises",
+    "identity_key": "extended stay america select suites cleveland airport",
+    "category": "rebrand_successor",
+    "current_identity": "shadow row 'woodspring suites cleveland', 20829 Emerald Pkwy 44135, phone 216.303.7060, unresolved",
+    "proposed_action": "rename the key to the ESA Select successor (SAME_IDENTITY_REBRAND_SUCCESSOR, ruling-B precedent) and apply its clean PF read",
+    "exact_evidence": {
+     "esa_page": "https://www.extendedstayamerica.com/hotels/oh/cleveland/airport",
+     "esa_document_sha256": "ff4043c6a72d4705e8896e4d29cddb236895158216d1bd5f35af985ca07da35f",
+     "esa_page_identity": {
+      "name": "Extended Stay America - Cleveland - Airport",
+      "street": "20829 Emerald Pkwy",
+      "postal": "44135"
+     },
+     "esa_policy_read": {
+      "classification": "CLEAN_PET_FRIENDLY",
+      "route": "https://www.extendedstayamerica.com/hotels/oh/cleveland/airport",
+      "document_sha256": "ff4043c6a72d4705e8896e4d29cddb236895158216d1bd5f35af985ca07da35f",
+      "artifact": "data\\acquisition\\cleveland_akron_canton_oh_policy_reads_004\\extended-stay-america-select-suites-cleveland-airport\\attempt-01",
+      "captured_at": "2026-09-01T15:58:17.340386+00:00",
+      "quote": "pets are allowed",
+      "extraction": {
+       "pets_allowed": true,
+       "pet_fee": 1500,
+       "fee_currency": "USD",
+       "pet_count_limit": 2,
+       "service_animal_exception": "Service animals will be exempt from this charge."
+      },
+      "identity_binding": null
+     },
+     "woodspring_locator": "https://www.woodspring.com/extended-stay-hotels/locations/ohio/hotels",
+     "woodspring_locator_document_sha256": "3bfa1bd2-944ee1c4-7bd785be-733024c7-818586be-bddb1b4b-cbe5b7d6-7120da52",
+     "woodspring_locator_ohio_hotels": [
+      "6725 Fairfield Business Ctr., Fairfield, OH",
+      "4202 Transit Drive, Columbus, OH",
+      "375 Hutchinson Ave, Columbus, OH",
+      "4105 Hamilton Square Boulevard, Groveport, OH",
+      "7373 Miller Lane, Dayton, OH",
+      "1788 Indian Wood Circle, Maumee, OH",
+      "3205 Centerpoint Dr., Grove City, OH",
+      "2305 North Wilson Road, Columbus, OH"
+     ],
+     "woodspring_cleveland_listed": false
+    },
+    "conflicting_evidence": "the brands differ (WoodSpring -> Extended Stay America Select); the census phone 216.303.7060 is not on the ESA page",
+    "mechanical_outcome": "SAME_IDENTITY_REBRAND_SUCCESSOR",
+    "recommendation": "apply the successor rename + PF (founder authorization, as ruling B for Studio 6 -> Suburban Studios)",
+    "census_effect": "rename 1 key",
+    "authority_effect": "+1 PF (deferred)",
+    "route_effect": "route to the ESA page",
+    "reversibility": "fully reversible (shadow only)",
+    "status": "HELD_FOR_SUCCESSOR_AUTHORIZATION"
+   }
+  ],
+  "B_non_lodging_retirements": [
+   {
+    "n": 4,
+    "property": "Harbor Inn (1219 Main Ave 44113)",
+    "identity_key": "harbor inn",
+    "category": "lodging_non_lodging",
+    "current_identity": "shadow row 'harbor inn' (OSM batch 003), unresolved",
+    "proposed_action": "retire from the hotel promotion set as NON_LODGING (ruling C treatment)",
+    "exact_evidence": "CVB anchor + chamberofcommerce category 'bar' (Order 001/003): the Harbor Inn Cafe, a bar; no lodging surface exists; no first-party lodging page located in four orders",
+    "conflicting_evidence": "none",
+    "mechanical_outcome": "NON_LODGING",
+    "recommendation": "retire (founder ruling, as for Rowley Inn / Inn the Doghouse / Cleveland House Hotels)",
+    "census_effect": "-1 row",
+    "authority_effect": "none",
+    "route_effect": "none",
+    "reversibility": "reversible (row moved to the retired list, never deleted)",
+    "status": "HELD_FOUNDER"
+   },
+   {
+    "n": 5,
+    "property": "Hopp Inn (4896 Pearl Rd 44109)",
+    "identity_key": "hopp inn",
+    "category": "lodging_non_lodging",
+    "current_identity": "shadow row 'hopp inn' (OSM batch 003), unresolved",
+    "proposed_action": "retire from the hotel promotion set as NON_LODGING",
+    "exact_evidence": "CVB anchor + chamberofcommerce category 'bar': a neighborhood bar; no lodging surface exists",
+    "conflicting_evidence": "none",
+    "mechanical_outcome": "NON_LODGING",
+    "recommendation": "retire (founder ruling)",
+    "census_effect": "-1 row",
+    "authority_effect": "none",
+    "route_effect": "none",
+    "reversibility": "reversible (retired list)",
+    "status": "HELD_FOUNDER"
+   },
+   {
+    "n": 6,
+    "property": "Villa Croatia at the American-Croatian Lodge (34900 Lakeshore Blvd 44095)",
+    "identity_key": "villa croatia at the american croatian lodge",
+    "category": "lodging_non_lodging",
+    "current_identity": "shadow row (OSM batch 003), unresolved; routing repair 001 found croatianlodge.com",
+    "proposed_action": "retire from the hotel promotion set as NON_LODGING_ON_ROUTE unless the founder knows a lodging surface",
+    "exact_evidence": {
+     "site_home": "https://www.croatianlodge.com/ -- title 'American Croatian Lodge | Premier Event Venue in Northeast Ohio'",
+     "navigation": [
+      "Home",
+      "Weddings",
+      "Private Parties",
+      "Upcoming Events",
+      "Corporate Events",
+      "About Us",
+      "Contact"
+     ],
+     "about_page": "about.php: event rooms and banquet reviews only",
+     "document_sha256_home": "86cec2cc-edf2843e-f49807df-29095719-de697c17-e03e1808-ade58853-d67ec045",
+     "site_phone": "(440) 946-3366 vs census 216.704.9009",
+     "rooms_page": "/rooms.html 404 (Order 003)"
+    },
+    "conflicting_evidence": "the OSM node names a 'Villa' at the lodge; the site never mentions a villa or guest rooms",
+    "mechanical_outcome": "IDENTITY_UNRESOLVED (no lodging surface on the only first-party site)",
+    "recommendation": "retire as non-lodging-on-route (founder ruling); re-admit on any first-party lodging page",
+    "census_effect": "-1 row",
+    "authority_effect": "none",
+    "route_effect": "none",
+    "reversibility": "reversible (retired list)",
+    "status": "HELD_FOUNDER"
+   }
+  ],
+  "C_reader_exceptions_with_exact_quotes": [
+   {
+    "property": "Best Western Airport Inn & Suites Cleveland",
+    "identity_key": "best western airport inn and suites cleveland",
+    "category": "reader_exception",
+    "current_identity": "shadow-admitted row, policy not verified",
+    "proposed_action": "accept the page's own statement as the policy, or leave unresolved",
+    "exact_evidence": {
+     "page": "https://www.bestwestern.com/en_US/book/hotels-in-cleveland/best-western-airport-inn-suites-cleveland/propertyCode.36108.html",
+     "document_sha256": "4a5d629d-93c9b3d7-e5cf1c55-f6e7b668-fb2af04e-6dbf9ac0-4aa84b01-5e8fb443",
+     "page_windows": [
+      "PET POLICY Pets are not accepted.",
+      "Q. Is the Best Western Airport Inn & Suites Cleveland Pet Friendly?"
+     ],
+     "reader_result": null
+    },
+    "conflicting_evidence": "reader found no bounded block, but the page states in its own words: 'PET POLICY Pets are not accepted.'",
+    "mechanical_outcome": "FOUNDER_EXCEPTION",
+    "recommendation": "BW Airport: accept as VERIFIED_NO_PETS ('Pets are not accepted.' is the property's own refusal; the reader needs the sentence to carry a subject it recognises). Candlewood Independence: accept as PET_FRIENDLY (the FAQ answer states weight 80 lb and a $150 non-refundable per-pet fee; the reader's acceptance signal came from the amenity chip). Candlewood Beachwood: leave unresolved ('Pet free and deposit required' is ambiguous on the page itself).",
+    "census_effect": "none",
+    "authority_effect": "+1 PF or +1 no-pets on acceptance",
+    "route_effect": "none",
+    "reversibility": "fully reversible (shadow only)",
+    "status": "HELD_FOUNDER"
+   },
+   {
+    "property": "Candlewood Suites Cleveland South - Independence",
+    "identity_key": "candlewood suites cleveland south independence",
+    "category": "reader_exception",
+    "current_identity": "shadow-admitted row, policy not verified",
+    "proposed_action": "accept the page's own statement as the policy, or leave unresolved",
+    "exact_evidence": {
+     "page": "https://www.ihg.com/candlewood/hotels/us/en/independence/cleip/hoteldetail",
+     "document_sha256": "f7cccb06-ca8f239d-0ef74bc3-86b8b30a-12aa9dbd-5e9b9d25-4334a2dd-104dfb7a",
+     "page_windows": [
+      "Pets weighing less than 80 lbs. are welcome. A non refundable fee pet fee of 150.00 per pet is due at check in. Guests are responsible for any damages to the room.",
+      "Pet-friendly (150 USD / stay)",
+      "Can I bring my pet to Candlewood Suites Cleveland South - Independence?",
+      "Pet Friendly"
+     ],
+     "reader_result": {
+      "pets_allowed": true,
+      "pet_fee": 15000,
+      "fee_currency": "USD",
+      "fee_basis": "per_stay",
+      "weight_limit": {
+       "value": 80.0,
+       "unit": "lb"
+      }
+     }
+    },
+    "conflicting_evidence": "the pets statement is a bare phrase ('Pet-friendly'), not a sentence with terms",
+    "mechanical_outcome": "FOUNDER_EXCEPTION",
+    "recommendation": "BW Airport: accept as VERIFIED_NO_PETS ('Pets are not accepted.' is the property's own refusal; the reader needs the sentence to carry a subject it recognises). Candlewood Independence: accept as PET_FRIENDLY (the FAQ answer states weight 80 lb and a $150 non-refundable per-pet fee; the reader's acceptance signal came from the amenity chip). Candlewood Beachwood: leave unresolved ('Pet free and deposit required' is ambiguous on the page itself).",
+    "census_effect": "none",
+    "authority_effect": "+1 PF or +1 no-pets on acceptance",
+    "route_effect": "none",
+    "reversibility": "fully reversible (shadow only)",
+    "status": "HELD_FOUNDER"
+   },
+   {
+    "property": "Candlewood Suites Beachwood - Cleveland",
+    "identity_key": "candlewood suites beachwood cleveland",
+    "category": "reader_exception",
+    "current_identity": "shadow-admitted row, policy not verified",
+    "proposed_action": "accept the page's own statement as the policy, or leave unresolved",
+    "exact_evidence": {
+     "page": "https://www.ihg.com/candlewood/hotels/us/en/beachwood/cleop/hoteldetail",
+     "document_sha256": "0313b427-ef4b4cbd-74b5acf0-d553993b-66d658f9-1011fb04-16d1a33e-4ed48f03",
+     "page_windows": [
+      "Can I bring my pet to Candlewood Suites Beachwood - Cleveland? Pet free and deposit required. Pets may not be left in room without the owner.",
+      "Pet-friendly (75 USD / night)",
+      "Pet-Friendly Stays",
+      "Pet Friendly"
+     ],
+     "reader_result": null
+    },
+    "conflicting_evidence": "reader found no bounded block, but the page states in its own words: 'Can I bring my pet to Candlewood Suites Beachwood - Cleveland? Pet free and deposit required. Pets may not be left in room without the owner.' | 'Pet-friendly (75 USD / night)'",
+    "mechanical_outcome": "FOUNDER_EXCEPTION",
+    "recommendation": "BW Airport: accept as VERIFIED_NO_PETS ('Pets are not accepted.' is the property's own refusal; the reader needs the sentence to carry a subject it recognises). Candlewood Independence: accept as PET_FRIENDLY (the FAQ answer states weight 80 lb and a $150 non-refundable per-pet fee; the reader's acceptance signal came from the amenity chip). Candlewood Beachwood: leave unresolved ('Pet free and deposit required' is ambiguous on the page itself).",
+    "census_effect": "none",
+    "authority_effect": "+1 PF or +1 no-pets on acceptance",
+    "route_effect": "none",
+    "reversibility": "fully reversible (shadow only)",
+    "status": "HELD_FOUNDER"
+   }
+  ]
+ },
+ "resolved_mechanically_this_order": [
+  "red roof inn akron"
+ ],
+ "held": [
+  "cambria hotel and suites avon",
+  "holiday inn express and suites cleveland richfield",
+  "harbor inn",
+  "hopp inn",
+  "villa croatia at the american croatian lodge",
+  "extended stay america select suites cleveland airport",
+  "best western airport inn and suites cleveland",
+  "candlewood suites cleveland south independence",
+  "candlewood suites beachwood cleveland"
+ ]
+}
