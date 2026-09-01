@@ -194,11 +194,15 @@ def cohort(package_dir):
     # PTF-INDIANAPOLIS-APPLY-RULINGS-005 superseded the 003 cohort: two rows were
     # routed by the identity rulings and three were admitted. Prefer the newer
     # cohort when it exists so the plan prices the CURRENT unrouted set.
+    # PTF-INDIANAPOLIS-IDENTITY-ADDRESS-CLEANUP-012 routed five rows on exact
+    # identity and moved the rows awaiting a founder retire/merge ruling to
+    # IDENTITY_REVIEW_FIRST; its cohort is the current unrouted set.
+    _c12 = os.path.join(package_dir, 'indianapolis_in_unrouted_cohort_012.json')
     _c7 = os.path.join(package_dir, 'indianapolis_in_unrouted_cohort_007.json')
     _c6 = os.path.join(package_dir, 'indianapolis_in_unrouted_cohort_006.json')
     _c5 = os.path.join(package_dir, 'indianapolis_in_unrouted_cohort_005.json')
     _c3 = os.path.join(package_dir, 'indianapolis_in_unrouted_cohort_003.json')
-    _pick = next((c for c in (_c7, _c6, _c5, _c3) if os.path.isfile(c)), _c3)
+    _pick = next((c for c in (_c12, _c7, _c6, _c5, _c3) if os.path.isfile(c)), _c3)
     pinned = set(_read(_pick)['identity_keys'])
 
     rows, admitted = [], []
