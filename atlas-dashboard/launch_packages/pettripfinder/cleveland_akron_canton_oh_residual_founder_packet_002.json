@@ -1,0 +1,141 @@
+{
+ "contract": "ptf-founder-review-packet/1.0",
+ "work_order": "PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-002",
+ "market_id": "cleveland-akron-canton-oh",
+ "generated_at": "2026-09-01T12:51:14Z",
+ "nothing_was_spent": true,
+ "nothing_was_published": true,
+ "decisions_requested": 14,
+ "items": [
+  {
+   "property": "Cambria Hotel & Suites Avon -> Wyndham Avon",
+   "identity_key": "cambria hotel and suites avon",
+   "issue": "owned page at the census premises (35600 Detroit Rd 44011) now brands the property Wyndham Avon and states pets allowed $100/stay, 2 pets; premises sit in the Avon geography hold",
+   "evidence": {
+    "artifact": "RR-001-wyndham-avon.json",
+    "sha256": "7e9fe7c550d406e541332842ff9a47752962b7b1b56c3b574b07856e2d9d349f",
+    "page": "https://www.wyndhamhotels.com/wyndham/avon-ohio/wyndham-avon/overview"
+   },
+   "recommendation": "RULE_SUCCESSOR (rename + apply PF) or HOLD with the Avon geography question",
+   "census_impact": "rename 1 key",
+   "authority_impact": "+1 PF"
+  },
+  {
+   "property": "The Westin",
+   "identity_key": "the westin",
+   "issue": "SHORTENED_CHAIN_NAME",
+   "evidence": "census_audit_005 / routing_repair_001 traces",
+   "recommendation": "rule the recorded proposal",
+   "census_impact": "rename or none",
+   "authority_impact": "none now"
+  },
+  {
+   "property": "Kent State University Hotel & Conference Center",
+   "identity_key": "kent state university hotel and conference center",
+   "issue": "LODGING_NEEDS_REVIEW",
+   "evidence": "census_audit_005 / routing_repair_001 traces",
+   "recommendation": "rule the recorded proposal",
+   "census_impact": "rename or none",
+   "authority_impact": "none now"
+  },
+  {
+   "property": "Sonesta ES Suites Cleveland Westlake",
+   "identity_key": "sonesta es suites cleveland westlake",
+   "issue": "PRIOR_RENAME_OR_REVIEW_TRACE",
+   "evidence": "census_audit_005 / routing_repair_001 traces",
+   "recommendation": "rule the recorded proposal",
+   "census_impact": "rename or none",
+   "authority_impact": "none now"
+  },
+  {
+   "property": "Comfort Suites Twinsburg",
+   "identity_key": "comfort suites twinsburg",
+   "issue": "PRIOR_RENAME_OR_REVIEW_TRACE",
+   "evidence": "census_audit_005 / routing_repair_001 traces",
+   "recommendation": "rule the recorded proposal",
+   "census_impact": "rename or none",
+   "authority_impact": "none now"
+  },
+  {
+   "property": "Harbor Inn",
+   "identity_key": "harbor inn",
+   "issue": "PRIOR_RENAME_OR_REVIEW_TRACE",
+   "evidence": "census_audit_005 / routing_repair_001 traces",
+   "recommendation": "rule the recorded proposal",
+   "census_impact": "rename or none",
+   "authority_impact": "none now"
+  },
+  {
+   "property": "Hopp Inn",
+   "identity_key": "hopp inn",
+   "issue": "PRIOR_RENAME_OR_REVIEW_TRACE",
+   "evidence": "census_audit_005 / routing_repair_001 traces",
+   "recommendation": "rule the recorded proposal",
+   "census_impact": "rename or none",
+   "authority_impact": "none now"
+  },
+  {
+   "property": "Villa Croatia at the American-Croatian Lodge",
+   "identity_key": "villa croatia at the american croatian lodge",
+   "issue": "PRIOR_RENAME_OR_REVIEW_TRACE",
+   "evidence": "census_audit_005 / routing_repair_001 traces",
+   "recommendation": "rule the recorded proposal",
+   "census_impact": "rename or none",
+   "authority_impact": "none now"
+  },
+  {
+   "property": "DoubleTree",
+   "identity_key": "doubletree",
+   "issue": "SAME_CAMPUS_DISTINCT_ENTITY",
+   "evidence": "census_audit_005 / routing_repair_001 traces",
+   "recommendation": "rule the recorded proposal",
+   "census_impact": "rename or none",
+   "authority_impact": "none now"
+  },
+  {
+   "property": "Holiday Inn Express & Suites Cleveland-Richfield",
+   "identity_key": "holiday inn express and suites cleveland richfield",
+   "issue": "SAME_CAMPUS_DISTINCT_ENTITY",
+   "evidence": "census_audit_005 / routing_repair_001 traces",
+   "recommendation": "rule the recorded proposal",
+   "census_impact": "rename or none",
+   "authority_impact": "none now"
+  },
+  {
+   "property": "Motel 6 Richfield vs Holiday Inn Express & Suites Cleveland-Richfield (5171 Brecksville Rd 44286)",
+   "identity_key": "motel 6 richfield",
+   "issue": "IHG's own search lists Holiday Inn Express & Suites Cleveland-Richfield ACTIVE at 5171 Brecksville Road, the census address of the LIVE PF Motel 6 Richfield row; the motel6.com page timed out on static re-read",
+   "evidence": "identity_reads_002 TM-033 IHG search list; live_audit_010",
+   "recommendation": "READ the motel6.com page attended: same building (successor/predecessor) or two hotels on one lot; do not withdraw the live row without evidence",
+   "census_impact": "possible +1 row or address supersession",
+   "authority_impact": "none until read"
+  },
+  {
+   "property": "Red Roof Inn Akron (2939 S Arlington Rd)",
+   "identity_key": "red roof inn akron",
+   "issue": "redroof.com page RRI207 states the street but its title says ZIP 44132 while OSM states 44312; JSON-LD carries no postal",
+   "evidence": "identity_reads_002 TM-005",
+   "recommendation": "accept 44312 (44132 does not exist in Summit County) and admit, or hold",
+   "census_impact": "+1 row if accepted",
+   "authority_impact": "none"
+  },
+  {
+   "property": "Oakwood Village 44146: Hampton Inn & Suites Oakwood Village-Cleveland (23300 Oakwood Commons Dr) and Quality Inn & Suites Oakwood Village (23303 Oakwood Commons Dr)",
+   "identity_key": "(geography)",
+   "issue": "two first-party-confirmed hotels sit in postal 44146, which no corridor declares and no pinned row holds; classified OUTSIDE_MARKET by rule, not by intent (the east-side doctrine reaches Warrensville Heights / Solon)",
+   "evidence": "identity_reads_002 TM-019, TM-021",
+   "recommendation": "declare 44146 in cleveland-east-beachwood or macedonia-twinsburg-northfield, or decline",
+   "census_impact": "+2 rows if declared",
+   "authority_impact": "none"
+  },
+  {
+   "property": "Brand-locator leads not in the cohort (no read spent)",
+   "identity_key": "(leads)",
+   "issue": "ESA Brooklyn 10300 Cascade Crossing 44144; ESA Select Mentor 5650 Emerald Ct 44060; ESA Select Airport 20829 Emerald Pkwy 44135; ESA Great Northern Mall 25801 Country Club Blvd 44070; ESA Middleburg Heights 17552 Rosbough Dr 44130; Comfort Inn Cleveland Airport 17550 Rosbough Dr 44130; Quality Inn Middleburg Heights 7233 Engle Rd 44130; MainStay Suites Middleburg Heights 7325 Engle Rd 44130; Candlewood Suites Cleveland South-Independence 6125 Rockside Pl 44131; Candlewood Suites Beachwood 3625 Orange Pl 44122; Staybridge Suites Mayfield Hts 6103 Landerhaven Dr 44124; Staybridge Suites Akron-Stow 4351 Steels Pointe Dr 44224",
+   "evidence": "identity_reads_002 TM-010, TM-027, TM-033 locator pages",
+   "recommendation": "authorize one read each in a later order (12 leads) -- this order capped reads at the 36 + 6",
+   "census_impact": "up to +12 rows",
+   "authority_impact": "none"
+  }
+ ]
+}
