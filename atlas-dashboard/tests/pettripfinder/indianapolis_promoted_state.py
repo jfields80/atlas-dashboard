@@ -22,16 +22,18 @@ work order legitimately promotes.
 from __future__ import annotations
 
 #: launch_packages/pettripfinder/hotel_policy_facts_indianapolis-in.json
-PROMOTED_PET_FRIENDLY = 56
+PROMOTED_PET_FRIENDLY = 67
 
 #: markets/authority/indianapolis-in/hotel_exclusions.json
-PROMOTED_VERIFIED_NO_PETS = 34
+PROMOTED_VERIFIED_NO_PETS = 37
 
 #: markets/authority/indianapolis-in/seed_businesses.csv (one row per profile)
-PROMOTED_SEED_ROWS = 56
+PROMOTED_SEED_ROWS = 67
 
-#: identity_census/indianapolis-in.json -- unchanged by 017
-CENSUS = 257
+#: identity_census/indianapolis-in.json -- 257 from 004 until
+#: PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014 promoted the reviewed shadow (263:
+#: five retirements, one rebrand-successor rename, twelve admissions since 002).
+CENSUS = 263
 
 #: What the market was before 017, kept so a test can state the delta rather
 #: than silently forget there was one.
@@ -39,7 +41,10 @@ PROMOTED_BEFORE_017 = 24
 VERIFIED_NO_PETS_BEFORE_017 = 24
 
 #: The work order that moved it, for error messages worth reading.
-PROMOTED_BY = "PTF-INDIANAPOLIS-56-PROFILE-AUTHORITY-PROMOTION-017"
+#: 56 by 017/018; 67 since PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014 applied the
+#: 11 pending records (6 ESA + 5 Wyndham) and 3 verified-no-pets exclusions.
+PROMOTED_BY = "PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014"
+PROMOTED_BY_017 = "PTF-INDIANAPOLIS-56-PROFILE-AUTHORITY-PROMOTION-017"
 
 #: Every verified-no-pets identity in the committed shard, sorted.
 #: Six test files each froze this list inline at 24 names. One promotion
@@ -48,6 +53,7 @@ PROMOTED_BY = "PTF-INDIANAPOLIS-56-PROFILE-AUTHORITY-PROMOTION-017"
 #: the exclusion authority" should compare against the authority, not
 #: against a copy of it made on a different day.
 EXCLUSION_NAMES = [
+    'baymont by wyndham indianapolis northeast',
     'comfort inn avon indianapolis west',
     'comfort inn fishers indianapolis',
     'comfort inn indianapolis airport plainfield',
@@ -61,6 +67,8 @@ EXCLUSION_NAMES = [
     'courtyard indianapolis west speedway',
     'crowne plaza indianapolis airport',
     'crowne plaza indianapolis downtown union station',
+    'days inn and suites by wyndham northwest indianapolis',
+    'days inn by wyndham indianapolis castleton',
     'fairfield inn and suites indianapolis avon',
     'fairfield inn and suites indianapolis carmel',
     'fairfield inn and suites indianapolis downtown',
@@ -86,6 +94,7 @@ EXCLUSION_NAMES = [
 
 #: The same authority, keyed by exclusion_id.
 EXCLUSION_IDS = [
+    'ii-baymont-by-wyndham-indianapolis-northeast',
     'ii-comfort-inn-avon-indianapolis-west',
     'ii-comfort-inn-fishers-indianapolis',
     'ii-comfort-inn-indianapolis-airport-plainfield',
@@ -99,6 +108,8 @@ EXCLUSION_IDS = [
     'ii-courtyard-indianapolis-west-speedway',
     'ii-crowne-plaza-indianapolis-airport',
     'ii-crowne-plaza-indianapolis-downtown-union-station',
+    'ii-days-inn-and-suites-by-wyndham-northwest-indianapolis',
+    'ii-days-inn-by-wyndham-indianapolis-castleton',
     'ii-fairfield-inn-and-suites-indianapolis-avon',
     'ii-fairfield-inn-and-suites-indianapolis-carmel',
     'ii-fairfield-inn-and-suites-indianapolis-downtown',

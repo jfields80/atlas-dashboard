@@ -1,0 +1,123 @@
+{
+  "schema": "ptf-identity-address-cleanup/1.0",
+  "work_order": "PTF-INDIANAPOLIS-IDENTITY-ADDRESS-CLEANUP-012",
+  "market_id": "indianapolis-in",
+  "generated_at": "2026-09-01",
+  "shadow_only": true,
+  "paid_provider_calls": 0,
+  "usd_spent": 0.0,
+  "attended_first_party_reads": [
+    "https://www.choicehotels.com/indiana/indianapolis/comfort-suites-hotels/in293",
+    "https://www.choicehotels.com/indiana/indianapolis/comfort-inn-hotels/in099",
+    "https://www.choicehotels.com/indiana/noblesville/hotels",
+    "https://www.wyndhamhotels.com/hotels/indianapolis-indiana (brand filter counts: La Quinta 4, ECHO Suites 1, Wingate 3, Baymont 8, AmericInn none, Ramada none)",
+    "https://www.wyndhamhotels.com/baymont/indianapolis-indiana/baymont-inn-and-suites-indianapolis-northwest/overview",
+    "https://www.wyndhamhotels.com/wyndham/indianapolis-indiana/wyndham-indianapolis-airport/overview",
+    "https://www.wyndhamhotels.com/echo-suites/indianapolis-indiana/echo-suites-extended-stay-indianapolis-ameriplex/overview",
+    "https://www.wyndhamhotels.com/wingate/plainfield-indiana/wingate-by-wyndham-indianapolis-airport-plainfield/overview"
+  ],
+  "open_review_set_rebuilt": {
+    "IDENTITY_SUCCESSOR_REVIEW": [
+      "la quinta inn"
+    ],
+    "ADDRESS_SUPERSESSION_REVIEW": [
+      "comfort inn east indianapolis",
+      "echo suites extended stay by wyndham indianapolis ameriplex",
+      "quality inn and suites noblesville indianapolis",
+      "quality inn brownsburg indianapolis west",
+      "quality inn noblesville indianapolis",
+      "wingate by wyndham indianapolis airport plainfield"
+    ],
+    "ADDRESS_AND_GEOGRAPHY_REVIEW": [
+      "woodspring suites indianapolis airport south -- RULED_AND_APPLIED by 007 (IDR-005-002); contract change pending promotion; not reopened"
+    ],
+    "CLOSED_OR_CONVERTED_REVIEW": [
+      "americinn by wyndham fishers indianapolis",
+      "ramada indianapolis airport",
+      "wyndham indianapolis west"
+    ],
+    "HELD_CANDIDATE": [
+      "comfort suites indianapolis airport (dc_38bda8c5e06cb16b)",
+      "wingate by wyndham indianapolis airport plainfield (dc_471a3f27e0f70810)",
+      "15 further build-time collision holds recorded in identity_key_collisions, untouched by this order"
+    ],
+    "OTHER": []
+  },
+  "classifications": {
+    "IDR-007-001": "IDENTITY_UNRESOLVED (recommended A. SAME_IDENTITY_REBRAND_SUCCESSOR; founder packet)",
+    "comfort suites indianapolis airport": "ALREADY_REGISTERED_ALIAS (held OSM candidate == IN293); ADDRESS_SUPERSESSION applied",
+    "address_queue": {
+      "comfort inn east indianapolis": "ADDRESS_SUPERSESSION -- applied to the shadow (phone-bound IN099)",
+      "echo suites extended stay by wyndham indianapolis ameriplex": "ADDRESS_SUPERSESSION -- applied to the shadow (exact-name page + single-property inventory + Places); the OSM stub at 5831 is a duplicate queued as IDR-012-003",
+      "quality inn and suites noblesville indianapolis": "IDENTITY_UNRESOLVED -- DUPLICATE_OF_EXISTING: Choice lists exactly one Noblesville property (IN338, 17070 Dragonfly Lane), which the OSM row already carries; retirement queued as IDR-012-001",
+      "quality inn brownsburg indianapolis west": "IDENTITY_UNRESOLVED -- DUPLICATE_OF_EXISTING: Choice's only Brownsburg Quality Inn is IN441 at 31 Maplehurst Drive, which the OSM row 'quality inn and suites brownsburg indianapolis west' already carries; retirement queued as IDR-012-002",
+      "quality inn noblesville indianapolis": "ADDRESS_CONFIRMED_CURRENT -- cosmetic Drive -> Lane corrected in the shadow; routed to IN338",
+      "wingate by wyndham indianapolis airport plainfield": "ADDRESS_SUPERSESSION -- applied to the shadow (page + Places + OSM agree on 6300; 6010 is the Baymont)"
+    },
+    "closed_or_converted": {
+      "americinn by wyndham fishers indianapolis": "PROPERTY_CONVERTED (Places CLOSED_PERMANENTLY + brand inventory absent + Choice successor at the same street) -- retire queued IDR-012-004",
+      "ramada indianapolis airport": "PROPERTY_CLOSED_OR_CONVERTED (brand inventory absent + soft-404; successor unknown) -- retire queued IDR-012-005",
+      "wyndham indianapolis west": "STILL_ACTIVE (renamed Wyndham Indianapolis Airport; exact telephone match) -- routed; name queued IDR-012-006"
+    }
+  },
+  "applied_shadow_actions": [
+    {
+      "identity_key": "comfort inn east indianapolis",
+      "action": "ADDRESS_SUPERSESSION_AND_ROUTE",
+      "from": "7015 Western Select Drive",
+      "to": "2295 N. Shadeland",
+      "bound_url": "https://www.choicehotels.com/indiana/indianapolis/comfort-inn-hotels/in099"
+    },
+    {
+      "identity_key": "comfort suites indianapolis airport",
+      "action": "ADDRESS_SUPERSESSION_AND_ROUTE",
+      "from": "2181 West Southern Avenue",
+      "to": "2750 Fortune Circle West",
+      "bound_url": "https://www.choicehotels.com/indiana/indianapolis/comfort-suites-hotels/in293"
+    },
+    {
+      "identity_key": "wingate by wyndham indianapolis airport plainfield",
+      "action": "ADDRESS_SUPERSESSION_AND_ROUTE",
+      "from": "6010 Gateway Drive",
+      "to": "6300 Gateway Drive",
+      "bound_url": "https://www.wyndhamhotels.com/wingate/plainfield-indiana/wingate-by-wyndham-indianapolis-airport-plainfield/overview"
+    },
+    {
+      "identity_key": "echo suites extended stay by wyndham indianapolis ameriplex",
+      "action": "ADDRESS_SUPERSESSION_AND_ROUTE",
+      "from": "8805 Ameriplex Drive",
+      "to": "5831 Alta Lake Drive",
+      "bound_url": "https://www.wyndhamhotels.com/echo-suites/indianapolis-indiana/echo-suites-extended-stay-indianapolis-ameriplex/overview"
+    },
+    {
+      "identity_key": "quality inn noblesville indianapolis",
+      "action": "ADDRESS_SUPERSESSION_AND_ROUTE",
+      "from": "17070 Dragonfly Drive",
+      "to": "17070 Dragonfly Lane",
+      "bound_url": "https://www.choicehotels.com/indiana/noblesville/quality-inn-hotels/in338"
+    },
+    {
+      "identity_key": "wyndham indianapolis west",
+      "action": "ROUTE_CORRECTION_EXACT_IDENTITY",
+      "bound_url": "https://www.wyndhamhotels.com/wyndham/indianapolis-indiana/wyndham-indianapolis-airport/overview"
+    }
+  ],
+  "founder_packet": "indianapolis_in_founder_packet_012.json",
+  "cohort": "indianapolis_in_unrouted_cohort_012.json",
+  "cohort_segments": {
+    "ROUTING_REPAIR_FIRST_PAID_DISCOVERY": 57,
+    "FREE_LANE_EXHAUSTED_THIS_RUN": 28,
+    "ROUTING_REPAIR_FIRST_INDEPENDENT": 15,
+    "IDENTITY_REVIEW_FIRST": 4,
+    "CLOSED_OR_CONVERTED": 2
+  },
+  "untouched": [
+    "identity_census/indianapolis-in.json (257)",
+    "hotel_policy_facts_indianapolis-in.json (56)",
+    "deploy/netlify/release_contracts/indianapolis-in.json",
+    "indianapolis_in_final_partition_004.json",
+    "deploy/netlify/global_deployment_manifest.json",
+    "both cross-run ledgers",
+    "launch participation"
+  ]
+}

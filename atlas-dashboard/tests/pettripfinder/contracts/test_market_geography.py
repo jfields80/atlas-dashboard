@@ -62,7 +62,8 @@ EXPECTED_ROWS = {COLUMBUS: 112, CLEVELAND: 188, DAYTON: 129, CINCINNATI: 257,
                  # 247 identities, transplanted whole.
                  PITTSBURGH: 103, DETROIT: 247,
                  # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004 promoted the 257-identity recensus.
-                 INDIANAPOLIS: 257,
+                 # 257 -> 263 at PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014 (shadow promoted).
+                 INDIANAPOLIS: 263,
                  MILWAUKEE: 147}
 # Cincinnati was 121 until PTF-CINCINNATI-CENSUS-RECONCILIATION-001 rebuilt it
 # from six official destination-marketing directories instead of from its own

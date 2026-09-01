@@ -1,0 +1,97 @@
+{
+  "schema": "ptf-founder-rulings-applied/1.0",
+  "work_order": "PTF-INDIANAPOLIS-FOUNDER-RULINGS-013",
+  "market_id": "indianapolis-in",
+  "decided_by": "founder",
+  "decided_on": "2026-09-01",
+  "source_packet": "indianapolis_in_founder_packet_012.json",
+  "shadow_only": true,
+  "paid_provider_calls": 0,
+  "usd_spent": 0.0,
+  "rulings": [
+    {
+      "review_id": "IDR-007-001",
+      "verdict": "SAME_IDENTITY_REBRAND_SUCCESSOR",
+      "action": "la quinta inn -> baymont by wyndham indianapolis northwest"
+    },
+    {
+      "review_id": "IDR-012-001",
+      "verdict": "DUPLICATE_OF_EXISTING / SAFE_MERGE",
+      "action": "quality inn and suites noblesville indianapolis -> merged into quality inn noblesville indianapolis (IN338)"
+    },
+    {
+      "review_id": "IDR-012-002",
+      "verdict": "DUPLICATE_OF_EXISTING / SAFE_MERGE",
+      "action": "quality inn brownsburg indianapolis west -> merged into quality inn and suites brownsburg indianapolis west (IN441 bound)"
+    },
+    {
+      "review_id": "IDR-012-006",
+      "verdict": "SAME_IDENTITY_REBRAND_SUCCESSOR (display name)",
+      "action": "Wyndham Indianapolis West -> Wyndham Indianapolis Airport; key unchanged"
+    },
+    {
+      "review_id": "IDR-012-004",
+      "verdict": "PROPERTY_CONVERTED / RETIRE",
+      "action": "americinn by wyndham fishers indianapolis retired; successor comfort inn fishers indianapolis already registered"
+    },
+    {
+      "review_id": "IDR-012-005",
+      "verdict": "PROPERTY_CLOSED_OR_CONVERTED / RETIRE",
+      "action": "ramada indianapolis airport retired; no successor bound"
+    },
+    {
+      "review_id": "IDR-012-003",
+      "verdict": "DUPLICATE_OF_EXISTING / SAFE_MERGE",
+      "action": "echo suites extended stay by wyndham (stub) -> merged into ...ameriplex"
+    }
+  ],
+  "shadow": {
+    "before": 268,
+    "after": 263,
+    "deduplicated": 263,
+    "retired": [
+      "quality inn and suites noblesville indianapolis",
+      "quality inn brownsburg indianapolis west",
+      "americinn by wyndham fishers indianapolis",
+      "ramada indianapolis airport",
+      "echo suites extended stay by wyndham"
+    ],
+    "renamed": [
+      "la quinta inn -> baymont by wyndham indianapolis northwest"
+    ],
+    "name_corrected": [
+      "wyndham indianapolis west -> 'Wyndham Indianapolis Airport' (key unchanged)"
+    ],
+    "pinned": 257
+  },
+  "cohort": {
+    "before": 106,
+    "after": 100,
+    "segments": {
+      "ROUTING_REPAIR_FIRST_PAID_DISCOVERY": 57,
+      "FREE_LANE_EXHAUSTED_THIS_RUN": 28,
+      "ROUTING_REPAIR_FIRST_INDEPENDENT": 15,
+      "IDENTITY_REVIEW_FIRST": 0,
+      "CLOSED_OR_CONVERTED": 0
+    },
+    "removed_by_013": [
+      "americinn by wyndham fishers indianapolis",
+      "echo suites extended stay by wyndham",
+      "la quinta inn",
+      "quality inn and suites noblesville indianapolis",
+      "quality inn brownsburg indianapolis west",
+      "ramada indianapolis airport"
+    ]
+  },
+  "pending_policy_rebinding": "none required: no pending record binds to a renamed or retired key",
+  "untouched": [
+    "identity_census/indianapolis-in.json (257)",
+    "hotel_policy_facts_indianapolis-in.json (56)",
+    "deploy/netlify/release_contracts/indianapolis-in.json",
+    "indianapolis_in_final_partition_004.json",
+    "deploy/netlify/global_deployment_manifest.json",
+    "both cross-run ledgers",
+    "launch participation",
+    "markets/authority/indianapolis-in/* (live routing and exclusions)"
+  ]
+}

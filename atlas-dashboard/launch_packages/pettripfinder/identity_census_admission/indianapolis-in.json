@@ -7,7 +7,7 @@
  "captured_at": "2026-08-31",
  "note": "PTF-INDIANAPOLIS-HARDENED-RECENSUS-002 built this census by projecting a persisted multi-provider discovery candidate set through discovery.census_projection: category, then membership by the corridor registry, then address-less identity reconciliation, then the canonical row constructor. Every discovery candidate that did not become a row is in the candidate ledger with its disposition; the ledger and this document sum to the discovered universe.",
  "source_authorities": [],
- "count": 268,
+ "count": 263,
  "built_by": "scripts/pettripfinder/market_census_cli.py",
  "discovery_candidates_source": "data/discovery/indianapolis_rebuild_002/candidates/indianapolis-in_candidates_merged.json",
  "identity_key_collisions": [
@@ -29,7 +29,13 @@
       "OPENSTREETMAP"
      ]
     }
-   ]
+   ],
+   "resolution_012": {
+    "work_order": "PTF-INDIANAPOLIS-IDENTITY-ADDRESS-CLEANUP-012",
+    "held_candidate_id": "dc_38bda8c5e06cb16b",
+    "classification": "ALREADY_REGISTERED_ALIAS",
+    "note": "the held candidate names the same building the kept row now carries after its address supersession; nothing to add"
+   }
   },
   {
    "identity_key": "extended stay america indianapolis airport",
@@ -349,11 +355,17 @@
       "OPENSTREETMAP"
      ]
     }
-   ]
+   ],
+   "resolution_012": {
+    "work_order": "PTF-INDIANAPOLIS-IDENTITY-ADDRESS-CLEANUP-012",
+    "held_candidate_id": "dc_471a3f27e0f70810",
+    "classification": "ALREADY_REGISTERED_ALIAS",
+    "note": "the held candidate names the same building the kept row now carries after its address supersession; nothing to add"
+   }
   }
  ],
  "identity_state_counts": {
-  "IDENTITY_CONFIRMED": 268
+  "IDENTITY_CONFIRMED": 263
  },
  "market_contract_source": "launch_packages/pettripfinder/markets/indianapolis-in.json",
  "states_derived_from_the_corridor_registry": [
@@ -1247,50 +1259,6 @@
    "prior_census_identity_keys": [],
    "state_source": "provider",
    "street_shared_with": [],
-   "website_state": "WEBSITE_MISSING"
-  },
-  {
-   "identity_key": "americinn by wyndham fishers indianapolis",
-   "canonical_name": "AmericInn by Wyndham Fishers Indianapolis",
-   "display_name": "AmericInn by Wyndham Fishers Indianapolis",
-   "slug": "americinn-by-wyndham-fishers-indianapolis",
-   "market_id": "indianapolis-in",
-   "address": "9780 North by Northeast Boulevard",
-   "city": "Fishers",
-   "state": "IN",
-   "postal_code": "46037",
-   "phone": "",
-   "identity_state": "IDENTITY_CONFIRMED",
-   "lodging_state": "LODGING_BY_NAME",
-   "policy_state": "POLICY_NOT_VERIFIED",
-   "collision_state": "NONE",
-   "official_url": "",
-   "corridor": "indianapolis-in__fishers",
-   "assignment_basis": "postal_code",
-   "assignment_value": "46037",
-   "source": "discovery",
-   "source_id": "dc_024026ffd9e85cf6",
-   "observed_at": "2026-08-25",
-   "provenance": "PTF-INDIANAPOLIS-HARDENED-RECENSUS-002:OPENSTREETMAP",
-   "discovery_cells": [
-    "indianapolis-in__fishers",
-    "indianapolis-in__keystone-castleton"
-   ],
-   "discovery_providers": [
-    "OPENSTREETMAP"
-   ],
-   "discovery_review_state": "AUTO_MERGED",
-   "latitude": 39.9305095,
-   "lodging_basis": "no provider category affirms or denies lodging; the candidate was returned by a hotel/motel query and its name does not state another business type",
-   "longitude": -86.0255262,
-   "name_before_recandidacy": "",
-   "normalized_name": "americinn by wyndham fishers indianapolis",
-   "prior_census_identity_keys": [],
-   "state_source": "provider",
-   "street_shared_with": [
-    "prior-census::comfort inn fishers indianapolis",
-    "prior-census::staybridge suites indianapolis fishers"
-   ],
    "website_state": "WEBSITE_MISSING"
   },
   {
@@ -2358,7 +2326,7 @@
    "display_name": "Comfort Inn East Indianapolis",
    "slug": "comfort-inn-east-indianapolis",
    "market_id": "indianapolis-in",
-   "address": "7015 Western Select Drive",
+   "address": "2295 N. Shadeland",
    "city": "Indianapolis",
    "state": "IN",
    "postal_code": "46219",
@@ -2367,7 +2335,7 @@
    "lodging_state": "LODGING_BY_NAME",
    "policy_state": "POLICY_NOT_VERIFIED",
    "collision_state": "NONE",
-   "official_url": "",
+   "official_url": "https://www.choicehotels.com/indiana/indianapolis/comfort-inn-hotels/in099",
    "corridor": "indianapolis-in__east-i70",
    "assignment_basis": "postal_code",
    "assignment_value": "46219",
@@ -2393,7 +2361,50 @@
    "website_state": "OFFICIAL_WEBSITE_PRESENT",
    "promotion": {
     "official_url_was": "https://www.choicehotels.com/indiana/whitestown/woodspring-hotels"
-   }
+   },
+   "supersession": {
+    "work_order": "PTF-INDIANAPOLIS-IDENTITY-ADDRESS-CLEANUP-012",
+    "ruling": "deterministic shadow action under the IDR-005-001 precedent; no founder ruling required",
+    "verdict": "A. ADDRESS_SUPERSESSION",
+    "cause": "D. the OpenStreetMap candidate carried a street no first-party source ever confirmed; the identity was already PHONE-bound",
+    "was": {
+     "identity_key": "comfort inn east indianapolis",
+     "canonical_name": "Comfort Inn East Indianapolis",
+     "address": "7015 Western Select Drive",
+     "postal_code": "46219",
+     "official_url": "",
+     "phone": "3173599999",
+     "provenance": "PTF-INDIANAPOLIS-HARDENED-RECENSUS-002:OPENSTREETMAP",
+     "source": "discovery",
+     "source_id": "dc_fd2bbe954efde85e",
+     "observed_at": "2026-08-25"
+    },
+    "proof": [
+     "owned Places bind (PTF-INDIANAPOLIS-PLACES-BROADER-RECOVERY-010): bind_method PHONE, census 3173599999 == matched (317) 359-9999, postal 46219, names compatible",
+     "Choice IN099 own page read attended 2026-09-01 prints '2295 N. Shadeland, Indianapolis, IN, 46219, US' and '(317) 359-9999' -- the SAME telephone",
+     "Choice's own Indianapolis-area listing names exactly one 'Comfort Inn Indianapolis East', at 2295 N. Shadeland",
+     "the earlier acquisition (PTF-INDIANAPOLIS-ADDRESS-REVIEW-006 queue) had already recorded page street 2295 N. Shadeland verbatim against the census street"
+    ],
+    "two_independent_property_signals": true,
+    "lineage_preserved": true,
+    "second_identity_created": false,
+    "policy_published": false
+   },
+   "routing_history": [
+    {
+     "work_order": "PTF-INDIANAPOLIS-IDENTITY-ADDRESS-CLEANUP-012",
+     "prior_official_url": "",
+     "bound_url": "https://www.choicehotels.com/indiana/indianapolis/comfort-inn-hotels/in099",
+     "bound_on": "telephone agrees exactly (Places bind and the property page)",
+     "method": "owned_artifact_url_confirmed_by_attended_first_party_read",
+     "page_address": "2295 N. Shadeland",
+     "page_telephone": "3173599999",
+     "census_address": "7015 Western Select Drive",
+     "cost": "$0 -- free first-party read, attended, 2026-09-01",
+     "bound_at": "2026-09-01T02:30:00Z"
+    }
+   ],
+   "property_code": "IN099"
   },
   {
    "identity_key": "comfort inn fishers indianapolis",
@@ -2683,11 +2694,11 @@
    "display_name": "Comfort Suites Indianapolis Airport",
    "slug": "comfort-suites-indianapolis-airport",
    "market_id": "indianapolis-in",
-   "address": "2181 West Southern Avenue",
+   "address": "2750 Fortune Circle West",
    "city": "Indianapolis",
    "state": "IN",
    "postal_code": "46241",
-   "phone": "3174810700",
+   "phone": "3177592371",
    "identity_state": "IDENTITY_CONFIRMED",
    "lodging_state": "LODGING_CONFIRMED",
    "policy_state": "POLICY_NOT_VERIFIED",
@@ -2713,7 +2724,50 @@
    "prior_census_identity_keys": [],
    "state_source": "corridor_registry",
    "street_shared_with": [],
-   "website_state": "OFFICIAL_WEBSITE_PRESENT"
+   "website_state": "OFFICIAL_WEBSITE_PRESENT",
+   "supersession": {
+    "work_order": "PTF-INDIANAPOLIS-IDENTITY-ADDRESS-CLEANUP-012",
+    "ruling": "deterministic shadow action under the IDR-005-001 precedent; no founder ruling required",
+    "verdict": "A. ADDRESS_SUPERSESSION",
+    "cause": "D. the prior-census row carried a street and telephone no source ever confirmed, while its own official_url already named property IN293",
+    "was": {
+     "identity_key": "comfort suites indianapolis airport",
+     "canonical_name": "Comfort Suites Indianapolis Airport",
+     "address": "2181 West Southern Avenue",
+     "postal_code": "46241",
+     "official_url": "https://www.choicehotels.com/indiana/indianapolis/comfort-suites-hotels/in293",
+     "phone": "3174810700",
+     "provenance": "PTF-INDIANAPOLIS-HARDENED-RECENSUS-002:PRIOR_CENSUS",
+     "source": "discovery",
+     "source_id": "prior-census::comfort suites indianapolis airport",
+     "observed_at": "2026-08-25"
+    },
+    "proof": [
+     "the census row's own official_url is https://www.choicehotels.com/indiana/indianapolis/comfort-suites-hotels/in293 -- property code IN293 is the identity anchor",
+     "Choice IN293 own page read attended 2026-09-01: 'Comfort Suites near Indianapolis Airport', '2750 Fortune Circle West, Indianapolis, IN, 46241, US', '(317) 759-2371'",
+     "Choice's own Indianapolis-area listing carries exactly ONE Comfort Suites near the airport (IN293); no Choice property is listed at 2181 West Southern Avenue",
+     "the OSM candidate dc_38bda8c5e06cb16b held at admission (2750 Fortune Circle West, 46241) names this same building -- ALREADY_REGISTERED_ALIAS, not a missing identity"
+    ],
+    "two_independent_property_signals": true,
+    "lineage_preserved": true,
+    "second_identity_created": false,
+    "policy_published": false
+   },
+   "routing_history": [
+    {
+     "work_order": "PTF-INDIANAPOLIS-IDENTITY-ADDRESS-CLEANUP-012",
+     "prior_official_url": "https://www.choicehotels.com/indiana/indianapolis/comfort-suites-hotels/in293",
+     "bound_url": "https://www.choicehotels.com/indiana/indianapolis/comfort-suites-hotels/in293",
+     "bound_on": "property code IN293 in the row's own official URL; page telephone read",
+     "method": "owned_artifact_url_confirmed_by_attended_first_party_read",
+     "page_address": "2750 Fortune Circle West",
+     "page_telephone": "3177592371",
+     "census_address": "2181 West Southern Avenue",
+     "cost": "$0 -- free first-party read, attended, 2026-09-01",
+     "bound_at": "2026-09-01T02:30:00Z"
+    }
+   ],
+   "property_code": "IN293"
   },
   {
    "identity_key": "comfort suites indianapolis downtown",
@@ -3953,61 +4007,21 @@
    "website_state": ""
   },
   {
-   "identity_key": "echo suites extended stay by wyndham",
-   "canonical_name": "Echo Suites Extended Stay by Wyndham",
-   "display_name": "Echo Suites Extended Stay by Wyndham",
-   "slug": "echo-suites-extended-stay-by-wyndham",
-   "market_id": "indianapolis-in",
-   "address": "5831",
-   "city": "Indianapolis",
-   "state": "IN",
-   "postal_code": "46241",
-   "phone": "",
-   "identity_state": "IDENTITY_CONFIRMED",
-   "lodging_state": "LODGING_BY_NAME",
-   "policy_state": "POLICY_NOT_VERIFIED",
-   "collision_state": "NONE",
-   "official_url": "",
-   "corridor": "indianapolis-in__airport",
-   "assignment_basis": "postal_code",
-   "assignment_value": "46241",
-   "source": "discovery",
-   "source_id": "dc_76d25b1670634f1b",
-   "observed_at": "2026-08-25",
-   "provenance": "PTF-INDIANAPOLIS-HARDENED-RECENSUS-002:OPENSTREETMAP",
-   "discovery_cells": [
-    "indianapolis-in__airport"
-   ],
-   "discovery_providers": [
-    "OPENSTREETMAP"
-   ],
-   "discovery_review_state": "SINGLE_SOURCE",
-   "latitude": 39.6775457,
-   "lodging_basis": "no provider category affirms or denies lodging; the candidate was returned by a hotel/motel query and its name does not state another business type",
-   "longitude": -86.3188397,
-   "name_before_recandidacy": "",
-   "normalized_name": "echo suites extended stay by wyndham",
-   "prior_census_identity_keys": [],
-   "state_source": "provider",
-   "street_shared_with": [],
-   "website_state": "WEBSITE_MISSING"
-  },
-  {
    "identity_key": "echo suites extended stay by wyndham indianapolis ameriplex",
    "canonical_name": "Echo Suites Extended Stay by Wyndham Indianapolis Ameriplex",
    "display_name": "Echo Suites Extended Stay by Wyndham Indianapolis Ameriplex",
    "slug": "echo-suites-extended-stay-by-wyndham-indianapolis-ameriplex",
    "market_id": "indianapolis-in",
-   "address": "8805 Ameriplex Drive",
+   "address": "5831 Alta Lake Drive",
    "city": "Indianapolis",
    "state": "IN",
    "postal_code": "46241",
-   "phone": "",
+   "phone": "3172839434",
    "identity_state": "IDENTITY_CONFIRMED",
    "lodging_state": "LODGING_CONFIRMED",
    "policy_state": "POLICY_NOT_VERIFIED",
    "collision_state": "NONE",
-   "official_url": "",
+   "official_url": "https://www.wyndhamhotels.com/echo-suites/indianapolis-indiana/echo-suites-extended-stay-indianapolis-ameriplex/overview",
    "corridor": "indianapolis-in__airport",
    "assignment_basis": "postal_code",
    "assignment_value": "46241",
@@ -4028,7 +4042,52 @@
    "prior_census_identity_keys": [],
    "state_source": "corridor_registry",
    "street_shared_with": [],
-   "website_state": ""
+   "website_state": "",
+   "supersession": {
+    "work_order": "PTF-INDIANAPOLIS-IDENTITY-ADDRESS-CLEANUP-012",
+    "ruling": "deterministic shadow action under the IDR-005-001 precedent; no founder ruling required",
+    "verdict": "A. ADDRESS_SUPERSESSION",
+    "cause": "D. the prior-census street 8805 Ameriplex Drive was never confirmed by any source; the property's own page and Places both print Alta Lake Drive",
+    "was": {
+     "identity_key": "echo suites extended stay by wyndham indianapolis ameriplex",
+     "canonical_name": "Echo Suites Extended Stay by Wyndham Indianapolis Ameriplex",
+     "address": "8805 Ameriplex Drive",
+     "postal_code": "46241",
+     "official_url": "",
+     "phone": "",
+     "provenance": "PTF-INDIANAPOLIS-HARDENED-RECENSUS-002:PRIOR_CENSUS",
+     "source": "discovery",
+     "source_id": "prior-census::echo suites extended stay by wyndham indianapolis ameriplex",
+     "observed_at": "2026-08-25"
+    },
+    "proof": [
+     "Wyndham's own page read attended 2026-09-01: heading 'ECHO Suites Extended Stay by Wyndham Indianapolis AmeriPlex' (the exact identity), '5831 Alta Lake Drive', '+1-317-283-9434'",
+     "Wyndham's own Indianapolis search inventory carries exactly ONE ECHO Suites (brand filter count 1), so the name denotes one building",
+     "owned Places bind (010): returned 'ECHO Suites Extended Stay by Wyndham Indianapolis AmeriPlex', '5831 Alta Lk Dr, Indianapolis, IN 46241, USA'",
+     "the shadow also holds an OSM stub 'echo suites extended stay by wyndham' at 5831 / 46241 -- the same building; its retirement as a duplicate is queued for the founder (IDR-012-003), not decided here"
+    ],
+    "two_independent_property_signals": true,
+    "lineage_preserved": true,
+    "second_identity_created": false,
+    "policy_published": false
+   },
+   "routing_history": [
+    {
+     "work_order": "PTF-INDIANAPOLIS-IDENTITY-ADDRESS-CLEANUP-012",
+     "prior_official_url": "",
+     "bound_url": "https://www.wyndhamhotels.com/echo-suites/indianapolis-indiana/echo-suites-extended-stay-indianapolis-ameriplex/overview",
+     "bound_on": "exact property name on the page + single-property brand inventory + Places agrees on the street",
+     "method": "owned_artifact_url_confirmed_by_attended_first_party_read",
+     "page_address": "5831 Alta Lake Drive",
+     "page_telephone": "3172839434",
+     "census_address": "8805 Ameriplex Drive",
+     "cost": "$0 -- free first-party read, attended, 2026-09-01",
+     "bound_at": "2026-09-01T02:30:00Z"
+    }
+   ],
+   "merged_in_013": [
+    "echo suites extended stay by wyndham"
+   ]
   },
   {
    "identity_key": "embassy suites by hilton indianapolis downtown",
@@ -8456,21 +8515,21 @@
    "website_state": "OFFICIAL_WEBSITE_PRESENT"
   },
   {
-   "identity_key": "la quinta inn",
-   "canonical_name": "La Quinta Inn",
-   "display_name": "La Quinta Inn",
-   "slug": "la-quinta-inn",
+   "identity_key": "baymont by wyndham indianapolis northwest",
+   "canonical_name": "Baymont by Wyndham Indianapolis Northwest",
+   "display_name": "Baymont by Wyndham Indianapolis Northwest",
+   "slug": "baymont-by-wyndham-indianapolis-northwest",
    "market_id": "indianapolis-in",
-   "address": "3871 West 92nd Street",
+   "address": "3871 W 92nd St",
    "city": "Indianapolis",
    "state": "IN",
    "postal_code": "46268",
-   "phone": "",
+   "phone": "3174260215",
    "identity_state": "IDENTITY_CONFIRMED",
    "lodging_state": "LODGING_BY_NAME",
    "policy_state": "POLICY_NOT_VERIFIED",
    "collision_state": "NONE",
-   "official_url": "",
+   "official_url": "https://www.wyndhamhotels.com/baymont/indianapolis-indiana/baymont-inn-and-suites-indianapolis-northwest/overview",
    "corridor": "indianapolis-in__northwest",
    "assignment_basis": "postal_code",
    "assignment_value": "46268",
@@ -8490,10 +8549,58 @@
    "longitude": -86.228153,
    "name_before_recandidacy": "",
    "normalized_name": "la quinta inn",
-   "prior_census_identity_keys": [],
+   "prior_census_identity_keys": [
+    "la quinta inn"
+   ],
    "state_source": "provider",
    "street_shared_with": [],
-   "website_state": "WEBSITE_MISSING"
+   "website_state": "OFFICIAL_WEBSITE_PRESENT",
+   "supersession": {
+    "work_order": "PTF-INDIANAPOLIS-FOUNDER-RULINGS-013",
+    "ruling": "IDR-007-001 -- SAME_IDENTITY_REBRAND_SUCCESSOR",
+    "decided_by": "founder",
+    "decided_on": "2026-09-01",
+    "verdict": "SAME_IDENTITY_REBRAND_SUCCESSOR",
+    "was": {
+     "identity_key": "la quinta inn",
+     "canonical_name": "La Quinta Inn",
+     "display_name": "La Quinta Inn",
+     "slug": "la-quinta-inn",
+     "address": "3871 West 92nd Street",
+     "postal_code": "46268",
+     "official_url": "",
+     "phone": "",
+     "provenance": "PTF-INDIANAPOLIS-HARDENED-RECENSUS-002:OPENSTREETMAP",
+     "source": "discovery",
+     "source_id": "dc_a41435c7038baa7f",
+     "observed_at": "2026-08-25",
+     "corridor": "indianapolis-in__northwest"
+    },
+    "why": "a bare-brand OpenStreetMap tag with no telephone or website at a building Wyndham sells as Baymont by Wyndham Indianapolis Northwest; the founder ruled the OSM row a stale name for the same building, not a second hotel",
+    "evidence": [
+     "Baymont by Wyndham Indianapolis Northwest own page read attended 2026-09-01: '3871 W 92nd St, Indianapolis, Indiana 46268-3102', '+1-317-426-0215' -- street and postal agree exactly with the census row",
+     "the census row is a SINGLE_SOURCE OpenStreetMap candidate with WEBSITE_MISSING and no telephone; no owned artifact carries a La Quinta telephone for this street",
+     "Wyndham's own Indianapolis inventory read attended 2026-09-01 carries 4 La Quinta properties; the three the census already routes are Downtown (401 E Washington), Airport Executive Dr (2650 Executive Dr) and South (5120 Victory Dr); no La Quinta card at 92nd Street was observed among the loaded results",
+     "Wyndham's inventory also shows 'Baymont by Wyndham Indianapolis Airport Lynhurst' at 5316 W. Southern Ave -- the census row 'la quinta inn indianapolis airport lynhurst' has evidently been re-flagged the same way (recorded here, out of scope)"
+    ],
+    "lineage_preserved": true,
+    "second_identity_created": false,
+    "policy_published": false
+   },
+   "routing_history": [
+    {
+     "work_order": "PTF-INDIANAPOLIS-FOUNDER-RULINGS-013",
+     "prior_official_url": "",
+     "bound_url": "https://www.wyndhamhotels.com/baymont/indianapolis-indiana/baymont-inn-and-suites-indianapolis-northwest/overview",
+     "bound_on": "founder ruling IDR-007-001: street and postal agree exactly; the only first-party property at the address is Baymont NW",
+     "method": "founder_ruling_over_attended_first_party_read",
+     "page_address": "3871 W 92nd St",
+     "page_telephone": "3174260215",
+     "census_address": "3871 West 92nd Street",
+     "cost": "$0",
+     "bound_at": "2026-09-01T04:00:00Z"
+    }
+   ]
   },
   {
    "identity_key": "la quinta inn and suites by wyndham indianapolis downtown",
@@ -9631,7 +9738,7 @@
    "lodging_state": "LODGING_BY_NAME",
    "policy_state": "POLICY_NOT_VERIFIED",
    "collision_state": "NONE",
-   "official_url": "",
+   "official_url": "https://www.choicehotels.com/indiana/brownsburg/quality-inn-hotels/in441",
    "corridor": "indianapolis-in__hendricks-west",
    "assignment_basis": "postal_code",
    "assignment_value": "46112",
@@ -9654,7 +9761,25 @@
    "prior_census_identity_keys": [],
    "state_source": "provider",
    "street_shared_with": [],
-   "website_state": "WEBSITE_MISSING"
+   "website_state": "OFFICIAL_WEBSITE_PRESENT",
+   "property_code": "IN441",
+   "routing_history": [
+    {
+     "work_order": "PTF-INDIANAPOLIS-FOUNDER-RULINGS-013",
+     "prior_official_url": "",
+     "bound_url": "https://www.choicehotels.com/indiana/brownsburg/quality-inn-hotels/in441",
+     "bound_on": "founder ruling IDR-012-002: Choice's only Brownsburg Quality Inn is IN441 at 31 Maplehurst Drive, the row's own street",
+     "method": "founder_ruling_over_attended_first_party_listing",
+     "page_address": "31 Maplehurst Drive",
+     "page_telephone": "",
+     "census_address": "31 Maplehurst Drive",
+     "cost": "$0",
+     "bound_at": "2026-09-01T04:00:00Z"
+    }
+   ],
+   "merged_in_013": [
+    "quality inn brownsburg indianapolis west"
+   ]
   },
   {
    "identity_key": "quality inn and suites indianapolis fairgrounds",
@@ -9727,82 +9852,6 @@
    "longitude": null,
    "name_before_recandidacy": "",
    "normalized_name": "quality inn and suites indianapolis speedway",
-   "prior_census_identity_keys": [],
-   "state_source": "corridor_registry",
-   "street_shared_with": [],
-   "website_state": ""
-  },
-  {
-   "identity_key": "quality inn and suites noblesville indianapolis",
-   "canonical_name": "Quality Inn & Suites Noblesville Indianapolis",
-   "display_name": "Quality Inn & Suites Noblesville Indianapolis",
-   "slug": "quality-inn-and-suites-noblesville-indianapolis",
-   "market_id": "indianapolis-in",
-   "address": "16025 Promise Road",
-   "city": "Noblesville",
-   "state": "IN",
-   "postal_code": "46060",
-   "phone": "",
-   "identity_state": "IDENTITY_CONFIRMED",
-   "lodging_state": "LODGING_CONFIRMED",
-   "policy_state": "POLICY_NOT_VERIFIED",
-   "collision_state": "NONE",
-   "official_url": "",
-   "corridor": "indianapolis-in__noblesville",
-   "assignment_basis": "postal_code",
-   "assignment_value": "46060",
-   "source": "discovery",
-   "source_id": "prior-census::quality inn and suites noblesville indianapolis",
-   "observed_at": "2026-08-25",
-   "provenance": "PTF-INDIANAPOLIS-HARDENED-RECENSUS-002:PRIOR_CENSUS",
-   "discovery_cells": [],
-   "discovery_providers": [
-    "PRIOR_CENSUS"
-   ],
-   "discovery_review_state": "",
-   "latitude": null,
-   "lodging_basis": "provider categories affirm lodging: hotel",
-   "longitude": null,
-   "name_before_recandidacy": "",
-   "normalized_name": "quality inn and suites noblesville indianapolis",
-   "prior_census_identity_keys": [],
-   "state_source": "corridor_registry",
-   "street_shared_with": [],
-   "website_state": ""
-  },
-  {
-   "identity_key": "quality inn brownsburg indianapolis west",
-   "canonical_name": "Quality Inn Brownsburg Indianapolis West",
-   "display_name": "Quality Inn Brownsburg Indianapolis West",
-   "slug": "quality-inn-brownsburg-indianapolis-west",
-   "market_id": "indianapolis-in",
-   "address": "31 Brownsburg Place",
-   "city": "Brownsburg",
-   "state": "IN",
-   "postal_code": "46112",
-   "phone": "",
-   "identity_state": "IDENTITY_CONFIRMED",
-   "lodging_state": "LODGING_CONFIRMED",
-   "policy_state": "POLICY_NOT_VERIFIED",
-   "collision_state": "NONE",
-   "official_url": "",
-   "corridor": "indianapolis-in__hendricks-west",
-   "assignment_basis": "postal_code",
-   "assignment_value": "46112",
-   "source": "discovery",
-   "source_id": "prior-census::quality inn brownsburg indianapolis west",
-   "observed_at": "2026-08-25",
-   "provenance": "PTF-INDIANAPOLIS-HARDENED-RECENSUS-002:PRIOR_CENSUS",
-   "discovery_cells": [],
-   "discovery_providers": [
-    "PRIOR_CENSUS"
-   ],
-   "discovery_review_state": "",
-   "latitude": null,
-   "lodging_basis": "provider categories affirm lodging: hotel",
-   "longitude": null,
-   "name_before_recandidacy": "",
-   "normalized_name": "quality inn brownsburg indianapolis west",
    "prior_census_identity_keys": [],
    "state_source": "corridor_registry",
    "street_shared_with": [],
@@ -9930,7 +9979,7 @@
    "display_name": "Quality Inn Noblesville-Indianapolis",
    "slug": "quality-inn-noblesville-indianapolis",
    "market_id": "indianapolis-in",
-   "address": "17070 Dragonfly Drive",
+   "address": "17070 Dragonfly Lane",
    "city": "Noblesville",
    "state": "IN",
    "postal_code": "46060",
@@ -9939,7 +9988,7 @@
    "lodging_state": "LODGING_BY_NAME",
    "policy_state": "POLICY_NOT_VERIFIED",
    "collision_state": "NONE",
-   "official_url": "",
+   "official_url": "https://www.choicehotels.com/indiana/noblesville/quality-inn-hotels/in338",
    "corridor": "indianapolis-in__noblesville",
    "assignment_basis": "postal_code",
    "assignment_value": "46060",
@@ -9962,7 +10011,52 @@
    "prior_census_identity_keys": [],
    "state_source": "provider",
    "street_shared_with": [],
-   "website_state": "WEBSITE_MISSING"
+   "website_state": "WEBSITE_MISSING",
+   "supersession": {
+    "work_order": "PTF-INDIANAPOLIS-IDENTITY-ADDRESS-CLEANUP-012",
+    "ruling": "deterministic shadow action under the IDR-005-001 precedent; no founder ruling required",
+    "verdict": "ADDRESS_CONFIRMED_CURRENT (cosmetic street-type correction Drive -> Lane)",
+    "cause": "C. cosmetic: same number and street name, the suffix differed",
+    "was": {
+     "identity_key": "quality inn noblesville indianapolis",
+     "canonical_name": "Quality Inn Noblesville-Indianapolis",
+     "address": "17070 Dragonfly Drive",
+     "postal_code": "46060",
+     "official_url": "",
+     "phone": "",
+     "provenance": "PTF-INDIANAPOLIS-HARDENED-RECENSUS-002:OPENSTREETMAP",
+     "source": "discovery",
+     "source_id": "dc_f4d0aabf64360cd2",
+     "observed_at": "2026-08-25"
+    },
+    "proof": [
+     "Choice's own Noblesville listing read attended 2026-09-01: 'Quality Inn Noblesville-Indianapolis', '17070 Dragonfly Lane, Noblesville, IN, 46060, US' -- Choice's ONLY property in Noblesville",
+     "owned Places bind (010): 'Quality Inn Noblesville-Indianapolis', '17070 Dragonfly Dr, Noblesville, IN 46060, USA'",
+     "the acquisition had already reached IN338 for this row and recorded page street 17070 Dragonfly Lane"
+    ],
+    "two_independent_property_signals": true,
+    "lineage_preserved": true,
+    "second_identity_created": false,
+    "policy_published": false
+   },
+   "routing_history": [
+    {
+     "work_order": "PTF-INDIANAPOLIS-IDENTITY-ADDRESS-CLEANUP-012",
+     "prior_official_url": "",
+     "bound_url": "https://www.choicehotels.com/indiana/noblesville/quality-inn-hotels/in338",
+     "bound_on": "street number and name agree; Choice lists exactly one Noblesville property (IN338)",
+     "method": "owned_artifact_url_confirmed_by_attended_first_party_read",
+     "page_address": "17070 Dragonfly Lane",
+     "page_telephone": "",
+     "census_address": "17070 Dragonfly Drive",
+     "cost": "$0 -- free first-party read, attended, 2026-09-01",
+     "bound_at": "2026-09-01T02:30:00Z"
+    }
+   ],
+   "property_code": "IN338",
+   "merged_in_013": [
+    "quality inn and suites noblesville indianapolis"
+   ]
   },
   {
    "identity_key": "quality inn of indy castleton",
@@ -10039,46 +10133,6 @@
    "longitude": -86.3677435,
    "name_before_recandidacy": "",
    "normalized_name": "quality inn plainfield",
-   "prior_census_identity_keys": [],
-   "state_source": "provider",
-   "street_shared_with": [],
-   "website_state": "WEBSITE_MISSING"
-  },
-  {
-   "identity_key": "ramada indianapolis airport",
-   "canonical_name": "Ramada Indianapolis Airport",
-   "display_name": "Ramada Indianapolis Airport",
-   "slug": "ramada-indianapolis-airport",
-   "market_id": "indianapolis-in",
-   "address": "5601 Fortune Circle West",
-   "city": "Indianapolis",
-   "state": "IN",
-   "postal_code": "46241",
-   "phone": "",
-   "identity_state": "IDENTITY_CONFIRMED",
-   "lodging_state": "LODGING_BY_NAME",
-   "policy_state": "POLICY_NOT_VERIFIED",
-   "collision_state": "NONE",
-   "official_url": "",
-   "corridor": "indianapolis-in__airport",
-   "assignment_basis": "postal_code",
-   "assignment_value": "46241",
-   "source": "discovery",
-   "source_id": "dc_82e14b0c1984ede9",
-   "observed_at": "2026-08-25",
-   "provenance": "PTF-INDIANAPOLIS-HARDENED-RECENSUS-002:OPENSTREETMAP",
-   "discovery_cells": [
-    "indianapolis-in__airport"
-   ],
-   "discovery_providers": [
-    "OPENSTREETMAP"
-   ],
-   "discovery_review_state": "SINGLE_SOURCE",
-   "latitude": 39.7276818,
-   "lodging_basis": "no provider category affirms or denies lodging; the candidate was returned by a hotel/motel query and its name does not state another business type",
-   "longitude": -86.2579483,
-   "name_before_recandidacy": "",
-   "normalized_name": "ramada indianapolis airport",
    "prior_census_identity_keys": [],
    "state_source": "provider",
    "street_shared_with": [],
@@ -11994,16 +12048,16 @@
    "display_name": "Wingate by Wyndham Indianapolis Airport Plainfield",
    "slug": "wingate-by-wyndham-indianapolis-airport-plainfield",
    "market_id": "indianapolis-in",
-   "address": "6010 Gateway Drive",
+   "address": "6300 Gateway Drive",
    "city": "Plainfield",
    "state": "IN",
    "postal_code": "46168",
-   "phone": "",
+   "phone": "3172042457",
    "identity_state": "IDENTITY_CONFIRMED",
    "lodging_state": "LODGING_CONFIRMED",
    "policy_state": "POLICY_NOT_VERIFIED",
    "collision_state": "NONE",
-   "official_url": "",
+   "official_url": "https://www.wyndhamhotels.com/wingate/plainfield-indiana/wingate-by-wyndham-indianapolis-airport-plainfield/overview",
    "corridor": "indianapolis-in__plainfield",
    "assignment_basis": "postal_code",
    "assignment_value": "46168",
@@ -12026,7 +12080,49 @@
    "street_shared_with": [
     "dc_82f531275b955b17"
    ],
-   "website_state": ""
+   "website_state": "",
+   "supersession": {
+    "work_order": "PTF-INDIANAPOLIS-IDENTITY-ADDRESS-CLEANUP-012",
+    "ruling": "deterministic shadow action under the IDR-005-001 precedent; no founder ruling required",
+    "verdict": "A. ADDRESS_SUPERSESSION",
+    "cause": "D. the prior-census street 6010 Gateway Drive belongs to a DIFFERENT hotel already in this census (Baymont Inn & Suites Plainfield Indianapolis Airport, 3172039321)",
+    "was": {
+     "identity_key": "wingate by wyndham indianapolis airport plainfield",
+     "canonical_name": "Wingate by Wyndham Indianapolis Airport Plainfield",
+     "address": "6010 Gateway Drive",
+     "postal_code": "46168",
+     "official_url": "",
+     "phone": "",
+     "provenance": "PTF-INDIANAPOLIS-HARDENED-RECENSUS-002:PRIOR_CENSUS",
+     "source": "discovery",
+     "source_id": "prior-census::wingate by wyndham indianapolis airport plainfield",
+     "observed_at": "2026-08-25"
+    },
+    "proof": [
+     "Wingate's own page read attended 2026-09-01: 'Wingate by Wyndham Indianapolis Airport Plainfield', '6300 Gateway Drive', '+1-317-204-2457'",
+     "owned Places bind (010): returned_address '6300 Gateway Dr, Plainfield, IN 46168, USA' for this exact name",
+     "OSM candidate dc_471a3f27e0f70810 held at admission: 6300 Gateway Drive, 46168 -- ALREADY_REGISTERED_ALIAS of this row",
+     "census row 'baymont inn and suites plainfield indianapolis airport' sits at 6010 Gateway Drive with its own telephone, so 6010 cannot also be the Wingate"
+    ],
+    "two_independent_property_signals": true,
+    "lineage_preserved": true,
+    "second_identity_created": false,
+    "policy_published": false
+   },
+   "routing_history": [
+    {
+     "work_order": "PTF-INDIANAPOLIS-IDENTITY-ADDRESS-CLEANUP-012",
+     "prior_official_url": "",
+     "bound_url": "https://www.wyndhamhotels.com/wingate/plainfield-indiana/wingate-by-wyndham-indianapolis-airport-plainfield/overview",
+     "bound_on": "exact property name on the page + Places and OSM agree on the street + the old street is another hotel's",
+     "method": "owned_artifact_url_confirmed_by_attended_first_party_read",
+     "page_address": "6300 Gateway Drive",
+     "page_telephone": "3172042457",
+     "census_address": "6010 Gateway Drive",
+     "cost": "$0 -- free first-party read, attended, 2026-09-01",
+     "bound_at": "2026-09-01T02:30:00Z"
+    }
+   ]
   },
   {
    "identity_key": "wingate by wyndham indianapolis airport rockville rd",
@@ -12230,12 +12326,12 @@
    "city": "Indianapolis",
    "state": "IN",
    "postal_code": "46241",
-   "phone": "",
+   "phone": "3172482481",
    "identity_state": "IDENTITY_CONFIRMED",
    "lodging_state": "LODGING_BY_NAME",
    "policy_state": "POLICY_NOT_VERIFIED",
    "collision_state": "NONE",
-   "official_url": "",
+   "official_url": "https://www.wyndhamhotels.com/wyndham/indianapolis-indiana/wyndham-indianapolis-airport/overview",
    "corridor": "indianapolis-in__airport",
    "assignment_basis": "postal_code",
    "assignment_value": "46241",
@@ -12260,7 +12356,63 @@
    ],
    "state_source": "provider",
    "street_shared_with": [],
-   "website_state": "WEBSITE_MISSING"
+   "website_state": "WEBSITE_MISSING",
+   "routing_history": [
+    {
+     "work_order": "PTF-INDIANAPOLIS-IDENTITY-ADDRESS-CLEANUP-012",
+     "prior_official_url": "",
+     "bound_url": "https://www.wyndhamhotels.com/wyndham/indianapolis-indiana/wyndham-indianapolis-airport/overview",
+     "bound_on": "telephone agrees exactly; same brand, street and postal; display name differs and is queued for the founder (IDR-012-006)",
+     "method": "attended_first_party_inventory_and_page_read",
+     "page_address": "2544 Executive Drive",
+     "page_telephone": "3172482481",
+     "census_address": "2544 Executive Drive",
+     "cost": "$0 -- free first-party read, attended, 2026-09-01",
+     "bound_at": "2026-09-01T02:30:00Z"
+    }
+   ],
+   "closure_review_012": {
+    "work_order": "PTF-INDIANAPOLIS-IDENTITY-ADDRESS-CLEANUP-012",
+    "was_classified": "PROPERTY_CLOSED_OR_CONVERTED (routing 007, brand soft-404)",
+    "now": "STILL_ACTIVE -- SAME_IDENTITY, page now titled 'Wyndham Indianapolis Airport'",
+    "proof": [
+     "owned record for this identity carries telephone 3172482481 and the old URL .../wyndham-indianapolis-west/overview, which now answers a soft-404 (routing 007)",
+     "Wyndham's own Indianapolis search inventory read attended 2026-09-01 lists 'Wyndham Indianapolis Airport' at '2544 Executive Drive, Indianapolis, Indiana 46241' -- the census street and postal",
+     "that page read attended 2026-09-01 prints '+1-317-248-2481' -- the SAME telephone",
+     "same brand family (WYNDHAM), same street, same postal, same telephone: an exact identity; only the locality word in the display name changed (West -> Airport)"
+    ],
+    "display_name_change_queued": "IDR-012-006"
+   },
+   "name_correction_013": {
+    "work_order": "PTF-INDIANAPOLIS-FOUNDER-RULINGS-013",
+    "ruling": "IDR-012-006 -- SAME_IDENTITY_REBRAND_SUCCESSOR (display name)",
+    "decided_by": "founder",
+    "decided_on": "2026-09-01",
+    "was": {
+     "identity_key": "wyndham indianapolis west",
+     "canonical_name": "Wyndham Indianapolis West",
+     "display_name": "Wyndham Indianapolis West",
+     "slug": "wyndham-indianapolis-west",
+     "address": "2544 Executive Drive",
+     "postal_code": "46241",
+     "official_url": "https://www.wyndhamhotels.com/wyndham/indianapolis-indiana/wyndham-indianapolis-airport/overview",
+     "phone": "3172482481",
+     "provenance": "PTF-INDIANAPOLIS-HARDENED-RECENSUS-002:OPENSTREETMAP",
+     "source": "discovery",
+     "source_id": "dc_6294a62a4416c1d9",
+     "observed_at": "2026-08-25",
+     "corridor": "indianapolis-in__airport"
+    },
+    "identity_key_unchanged": true,
+    "why": "same brand, street, postal and telephone; Wyndham retitled the page. The identity key stays 'wyndham indianapolis west' as the packet recorded, so every artifact that names it still resolves.",
+    "evidence": [
+     "page +1-317-248-2481 == owned 3172482481; same brand, street, postal"
+    ],
+    "lineage_preserved": true,
+    "second_identity_created": false,
+    "policy_published": false,
+    "applied_via": "markets/name_corrections/indianapolis-in.json (PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014)"
+   }
   }
  ],
  "promotion": {
@@ -12411,5 +12563,345 @@
   "policy_published": 0,
   "pinned_census_touched": false,
   "census_count_unchanged": 268
+ },
+ "retired_013": [
+  {
+   "work_order": "PTF-INDIANAPOLIS-FOUNDER-RULINGS-013",
+   "review_id": "IDR-012-001",
+   "decided_by": "founder",
+   "decided_on": "2026-09-01",
+   "verdict": "DUPLICATE_OF_EXISTING / SAFE_MERGE",
+   "routing": "ROUTING_RETIRED",
+   "merged_into": "quality inn noblesville indianapolis",
+   "note": "Choice lists exactly one Noblesville property (IN338); the surviving row is bound to it. 16025 Promise Road preserved here in lineage.",
+   "evidence": [
+    "Choice's own Noblesville listing read attended 2026-09-01: exactly ONE Choice property in Noblesville, 'Quality Inn Noblesville-Indianapolis', 17070 Dragonfly Lane (IN338)",
+    "the earlier acquisition for THIS row also reached IN338 and recorded page street 17070 Dragonfly Lane",
+    "16025 Promise Road was never confirmed by any source; the nearby Baymont Noblesville sits at 16025 Prosperity Drive"
+   ],
+   "lineage_preserved": true,
+   "second_identity_created": false,
+   "row": {
+    "identity_key": "quality inn and suites noblesville indianapolis",
+    "canonical_name": "Quality Inn & Suites Noblesville Indianapolis",
+    "display_name": "Quality Inn & Suites Noblesville Indianapolis",
+    "slug": "quality-inn-and-suites-noblesville-indianapolis",
+    "market_id": "indianapolis-in",
+    "address": "16025 Promise Road",
+    "city": "Noblesville",
+    "state": "IN",
+    "postal_code": "46060",
+    "phone": "",
+    "identity_state": "IDENTITY_CONFIRMED",
+    "lodging_state": "LODGING_CONFIRMED",
+    "policy_state": "POLICY_NOT_VERIFIED",
+    "collision_state": "NONE",
+    "official_url": "",
+    "corridor": "indianapolis-in__noblesville",
+    "assignment_basis": "postal_code",
+    "assignment_value": "46060",
+    "source": "discovery",
+    "source_id": "prior-census::quality inn and suites noblesville indianapolis",
+    "observed_at": "2026-08-25",
+    "provenance": "PTF-INDIANAPOLIS-HARDENED-RECENSUS-002:PRIOR_CENSUS",
+    "discovery_cells": [],
+    "discovery_providers": [
+     "PRIOR_CENSUS"
+    ],
+    "discovery_review_state": "",
+    "latitude": null,
+    "lodging_basis": "provider categories affirm lodging: hotel",
+    "longitude": null,
+    "name_before_recandidacy": "",
+    "normalized_name": "quality inn and suites noblesville indianapolis",
+    "prior_census_identity_keys": [],
+    "state_source": "corridor_registry",
+    "street_shared_with": [],
+    "website_state": ""
+   }
+  },
+  {
+   "work_order": "PTF-INDIANAPOLIS-FOUNDER-RULINGS-013",
+   "review_id": "IDR-012-002",
+   "decided_by": "founder",
+   "decided_on": "2026-09-01",
+   "verdict": "DUPLICATE_OF_EXISTING / SAFE_MERGE",
+   "routing": "ROUTING_RETIRED",
+   "merged_into": "quality inn and suites brownsburg indianapolis west",
+   "note": "31 Brownsburg Place was never confirmed by any source; the surviving OSM row carries Choice's own street and is now bound to IN441.",
+   "evidence": [
+    "Choice's own listing read attended 2026-09-01: 'Quality Inn & Suites Brownsburg - Indianapolis West', 31 Maplehurst Drive, Brownsburg 46112 -- Choice's only Quality Inn in Brownsburg (IN441)",
+    "the earlier acquisition for THIS row reached IN441 and recorded page street 31 Maplehurst Drive; same street number 31",
+    "'31 Brownsburg Place' was never confirmed by any source"
+   ],
+   "lineage_preserved": true,
+   "second_identity_created": false,
+   "row": {
+    "identity_key": "quality inn brownsburg indianapolis west",
+    "canonical_name": "Quality Inn Brownsburg Indianapolis West",
+    "display_name": "Quality Inn Brownsburg Indianapolis West",
+    "slug": "quality-inn-brownsburg-indianapolis-west",
+    "market_id": "indianapolis-in",
+    "address": "31 Brownsburg Place",
+    "city": "Brownsburg",
+    "state": "IN",
+    "postal_code": "46112",
+    "phone": "",
+    "identity_state": "IDENTITY_CONFIRMED",
+    "lodging_state": "LODGING_CONFIRMED",
+    "policy_state": "POLICY_NOT_VERIFIED",
+    "collision_state": "NONE",
+    "official_url": "",
+    "corridor": "indianapolis-in__hendricks-west",
+    "assignment_basis": "postal_code",
+    "assignment_value": "46112",
+    "source": "discovery",
+    "source_id": "prior-census::quality inn brownsburg indianapolis west",
+    "observed_at": "2026-08-25",
+    "provenance": "PTF-INDIANAPOLIS-HARDENED-RECENSUS-002:PRIOR_CENSUS",
+    "discovery_cells": [],
+    "discovery_providers": [
+     "PRIOR_CENSUS"
+    ],
+    "discovery_review_state": "",
+    "latitude": null,
+    "lodging_basis": "provider categories affirm lodging: hotel",
+    "longitude": null,
+    "name_before_recandidacy": "",
+    "normalized_name": "quality inn brownsburg indianapolis west",
+    "prior_census_identity_keys": [],
+    "state_source": "corridor_registry",
+    "street_shared_with": [],
+    "website_state": ""
+   }
+  },
+  {
+   "work_order": "PTF-INDIANAPOLIS-FOUNDER-RULINGS-013",
+   "review_id": "IDR-012-004",
+   "decided_by": "founder",
+   "decided_on": "2026-09-01",
+   "verdict": "PROPERTY_CONVERTED / RETIRE",
+   "routing": "ROUTING_RETIRED",
+   "merged_into": "comfort inn fishers indianapolis (successor already registered; no new row)",
+   "note": "Places CLOSED_PERMANENTLY; AmericInn absent from Wyndham's inventory; Choice lists Comfort Inn & Suites Fishers at the same street, already a census row.",
+   "evidence": [
+    "owned Places record (PTF-INDIANAPOLIS-PLACES-QUALIFICATION-008): business_status CLOSED_PERMANENTLY, (317) 578-9000, 9780 N by NE Blvd",
+    "Wyndham's own Indianapolis inventory read attended 2026-09-01: the AmericInn brand filter carries NO property (no count), and the property page soft-404s (routing 007)",
+    "Choice's own listing read attended 2026-09-01: 'Comfort Inn & Suites Fishers - Indianapolis', 9780 N. by Northeast Boulevard, Fishers 46037 -- the same street, and that identity is already a census row"
+   ],
+   "lineage_preserved": true,
+   "second_identity_created": false,
+   "row": {
+    "identity_key": "americinn by wyndham fishers indianapolis",
+    "canonical_name": "AmericInn by Wyndham Fishers Indianapolis",
+    "display_name": "AmericInn by Wyndham Fishers Indianapolis",
+    "slug": "americinn-by-wyndham-fishers-indianapolis",
+    "market_id": "indianapolis-in",
+    "address": "9780 North by Northeast Boulevard",
+    "city": "Fishers",
+    "state": "IN",
+    "postal_code": "46037",
+    "phone": "",
+    "identity_state": "IDENTITY_CONFIRMED",
+    "lodging_state": "LODGING_BY_NAME",
+    "policy_state": "POLICY_NOT_VERIFIED",
+    "collision_state": "NONE",
+    "official_url": "",
+    "corridor": "indianapolis-in__fishers",
+    "assignment_basis": "postal_code",
+    "assignment_value": "46037",
+    "source": "discovery",
+    "source_id": "dc_024026ffd9e85cf6",
+    "observed_at": "2026-08-25",
+    "provenance": "PTF-INDIANAPOLIS-HARDENED-RECENSUS-002:OPENSTREETMAP",
+    "discovery_cells": [
+     "indianapolis-in__fishers",
+     "indianapolis-in__keystone-castleton"
+    ],
+    "discovery_providers": [
+     "OPENSTREETMAP"
+    ],
+    "discovery_review_state": "AUTO_MERGED",
+    "latitude": 39.9305095,
+    "lodging_basis": "no provider category affirms or denies lodging; the candidate was returned by a hotel/motel query and its name does not state another business type",
+    "longitude": -86.0255262,
+    "name_before_recandidacy": "",
+    "normalized_name": "americinn by wyndham fishers indianapolis",
+    "prior_census_identity_keys": [],
+    "state_source": "provider",
+    "street_shared_with": [
+     "prior-census::comfort inn fishers indianapolis",
+     "prior-census::staybridge suites indianapolis fishers"
+    ],
+    "website_state": "WEBSITE_MISSING"
+   }
+  },
+  {
+   "work_order": "PTF-INDIANAPOLIS-FOUNDER-RULINGS-013",
+   "review_id": "IDR-012-005",
+   "decided_by": "founder",
+   "decided_on": "2026-09-01",
+   "verdict": "PROPERTY_CLOSED_OR_CONVERTED / RETIRE",
+   "routing": "ROUTING_RETIRED",
+   "merged_into": "",
+   "note": "Ramada absent from Wyndham's inventory and the route soft-404s; no successor proven, none invented.",
+   "evidence": [
+    "Wyndham's own Indianapolis inventory read attended 2026-09-01: the Ramada brand filter carries NO property (no count); the property page soft-404s (routing 007)",
+    "owned Places record (010) at capture time still returned 'Ramada by Wyndham Indianapolis Airport', 5601 Fortune Cir W, (317) 643-5699 -- a directory listing that has since lost its first-party page"
+   ],
+   "lineage_preserved": true,
+   "second_identity_created": false,
+   "row": {
+    "identity_key": "ramada indianapolis airport",
+    "canonical_name": "Ramada Indianapolis Airport",
+    "display_name": "Ramada Indianapolis Airport",
+    "slug": "ramada-indianapolis-airport",
+    "market_id": "indianapolis-in",
+    "address": "5601 Fortune Circle West",
+    "city": "Indianapolis",
+    "state": "IN",
+    "postal_code": "46241",
+    "phone": "",
+    "identity_state": "IDENTITY_CONFIRMED",
+    "lodging_state": "LODGING_BY_NAME",
+    "policy_state": "POLICY_NOT_VERIFIED",
+    "collision_state": "NONE",
+    "official_url": "",
+    "corridor": "indianapolis-in__airport",
+    "assignment_basis": "postal_code",
+    "assignment_value": "46241",
+    "source": "discovery",
+    "source_id": "dc_82e14b0c1984ede9",
+    "observed_at": "2026-08-25",
+    "provenance": "PTF-INDIANAPOLIS-HARDENED-RECENSUS-002:OPENSTREETMAP",
+    "discovery_cells": [
+     "indianapolis-in__airport"
+    ],
+    "discovery_providers": [
+     "OPENSTREETMAP"
+    ],
+    "discovery_review_state": "SINGLE_SOURCE",
+    "latitude": 39.7276818,
+    "lodging_basis": "no provider category affirms or denies lodging; the candidate was returned by a hotel/motel query and its name does not state another business type",
+    "longitude": -86.2579483,
+    "name_before_recandidacy": "",
+    "normalized_name": "ramada indianapolis airport",
+    "prior_census_identity_keys": [],
+    "state_source": "provider",
+    "street_shared_with": [],
+    "website_state": "WEBSITE_MISSING"
+   }
+  },
+  {
+   "work_order": "PTF-INDIANAPOLIS-FOUNDER-RULINGS-013",
+   "review_id": "IDR-012-003",
+   "decided_by": "founder",
+   "decided_on": "2026-09-01",
+   "verdict": "DUPLICATE_OF_EXISTING / SAFE_MERGE",
+   "routing": "ROUTING_RETIRED",
+   "merged_into": "echo suites extended stay by wyndham indianapolis ameriplex",
+   "note": "an OSM stub with a truncated street at the surviving row's own street number; Wyndham's inventory holds exactly one ECHO Suites.",
+   "evidence": [
+    "Wyndham's own Indianapolis inventory carries exactly ONE ECHO Suites (brand filter count 1)",
+    "the named row's page prints 5831 Alta Lake Drive / +1-317-283-9434 -- the stub's street number"
+   ],
+   "lineage_preserved": true,
+   "second_identity_created": false,
+   "row": {
+    "identity_key": "echo suites extended stay by wyndham",
+    "canonical_name": "Echo Suites Extended Stay by Wyndham",
+    "display_name": "Echo Suites Extended Stay by Wyndham",
+    "slug": "echo-suites-extended-stay-by-wyndham",
+    "market_id": "indianapolis-in",
+    "address": "5831",
+    "city": "Indianapolis",
+    "state": "IN",
+    "postal_code": "46241",
+    "phone": "",
+    "identity_state": "IDENTITY_CONFIRMED",
+    "lodging_state": "LODGING_BY_NAME",
+    "policy_state": "POLICY_NOT_VERIFIED",
+    "collision_state": "NONE",
+    "official_url": "",
+    "corridor": "indianapolis-in__airport",
+    "assignment_basis": "postal_code",
+    "assignment_value": "46241",
+    "source": "discovery",
+    "source_id": "dc_76d25b1670634f1b",
+    "observed_at": "2026-08-25",
+    "provenance": "PTF-INDIANAPOLIS-HARDENED-RECENSUS-002:OPENSTREETMAP",
+    "discovery_cells": [
+     "indianapolis-in__airport"
+    ],
+    "discovery_providers": [
+     "OPENSTREETMAP"
+    ],
+    "discovery_review_state": "SINGLE_SOURCE",
+    "latitude": 39.6775457,
+    "lodging_basis": "no provider category affirms or denies lodging; the candidate was returned by a hotel/motel query and its name does not state another business type",
+    "longitude": -86.3188397,
+    "name_before_recandidacy": "",
+    "normalized_name": "echo suites extended stay by wyndham",
+    "prior_census_identity_keys": [],
+    "state_source": "provider",
+    "street_shared_with": [],
+    "website_state": "WEBSITE_MISSING"
+   }
+  }
+ ],
+ "founder_rulings_013": {
+  "work_order": "PTF-INDIANAPOLIS-FOUNDER-RULINGS-013",
+  "decided_by": "founder",
+  "decided_on": "2026-09-01",
+  "source_packet": "indianapolis_in_founder_packet_012.json",
+  "applied": [
+   {
+    "review_id": "IDR-007-001",
+    "verdict": "SAME_IDENTITY_REBRAND_SUCCESSOR",
+    "action": "la quinta inn -> baymont by wyndham indianapolis northwest"
+   },
+   {
+    "review_id": "IDR-012-001",
+    "verdict": "DUPLICATE_OF_EXISTING / SAFE_MERGE",
+    "action": "quality inn and suites noblesville indianapolis -> merged into quality inn noblesville indianapolis (IN338)"
+   },
+   {
+    "review_id": "IDR-012-002",
+    "verdict": "DUPLICATE_OF_EXISTING / SAFE_MERGE",
+    "action": "quality inn brownsburg indianapolis west -> merged into quality inn and suites brownsburg indianapolis west (IN441 bound)"
+   },
+   {
+    "review_id": "IDR-012-006",
+    "verdict": "SAME_IDENTITY_REBRAND_SUCCESSOR (display name)",
+    "action": "Wyndham Indianapolis West -> Wyndham Indianapolis Airport; key unchanged"
+   },
+   {
+    "review_id": "IDR-012-004",
+    "verdict": "PROPERTY_CONVERTED / RETIRE",
+    "action": "americinn by wyndham fishers indianapolis retired; successor comfort inn fishers indianapolis already registered"
+   },
+   {
+    "review_id": "IDR-012-005",
+    "verdict": "PROPERTY_CLOSED_OR_CONVERTED / RETIRE",
+    "action": "ramada indianapolis airport retired; no successor bound"
+   },
+   {
+    "review_id": "IDR-012-003",
+    "verdict": "DUPLICATE_OF_EXISTING / SAFE_MERGE",
+    "action": "echo suites extended stay by wyndham (stub) -> merged into ...ameriplex"
+   }
+  ],
+  "shadow_before": 268,
+  "shadow_after": 263,
+  "renamed": 1,
+  "name_corrected": 1,
+  "retired": 5,
+  "pinned_census_touched": false,
+  "policy_published": false
+ },
+ "promoted_into_pinned": {
+  "work_order": "PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014",
+  "at": "2026-09-01",
+  "count": 263
  }
 }

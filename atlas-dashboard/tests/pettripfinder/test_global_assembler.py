@@ -488,7 +488,8 @@ def test_current_live_inventory_preserves_all_assemblable_market_profiles(market
     # PTF-LINEAGE-CONSOLIDATION-008: 807 = 560 live + Pittsburgh's further
     # 27 (26 -> 53) + Cincinnati 99 + Detroit 121, consolidated onto one
     # lineage.
-    assert sum(counts.values()) == 807
+    # PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014: + Indianapolis's 11 (56 -> 67).
+    assert sum(counts.values()) == 818
 
 
 # --------------------------------------------------------------------------- #

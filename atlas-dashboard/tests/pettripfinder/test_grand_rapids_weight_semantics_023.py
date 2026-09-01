@@ -183,6 +183,13 @@ def test_no_other_market_carries_the_newly_recognised_phrase():
     for path in sorted(LP.glob("hotel_policy_facts*.json")):
         if path.name == PACKAGE.name:
             continue
+        # PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014 published Baymont by Wyndham Indianapolis West, whose
+        # own page states "Pets must not weigh more than 25 lbs each"; the phrase now
+        # legitimately appears in that package as a cited quote. The guard this test
+        # carries -- that extending _MAXIMAL_RE moved no OTHER market at 023 -- is
+        # unchanged for every market published before it.
+        if path.name == "hotel_policy_facts_indianapolis-in.json":
+            continue
         text = path.read_text(encoding="utf-8").lower()
         assert "must not weigh more than" not in text, path.name
 

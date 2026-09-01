@@ -148,7 +148,13 @@ class TestItem5EsaIsHandedBackNotReached:
     def test_and_it_is_still_held(self, cleanup, package):
         esa = cleanup["item_5_esa_fee_only_hold"]
         assert esa["state"].startswith("STILL HELD")
-        assert M.ESA not in {h["identity_key"] for h in package["hotels"]}
+        # 018 handed the ESA fee-only hold back. PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014 later published the
+        # row under founder authorization with pets_allowed and the two-pet limit
+        # read by the canonical reader and pet_fee WITHHELD (two ceilings, not a
+        # price) -- the hold's substance survives as a withheld field.
+        esa_now = next(h for h in package["hotels"] if h["identity_key"] == M.ESA)
+        assert "pet_fee" not in esa_now["facts"]
+        assert esa_now["withheld_fields"]["pet_fee"]["reason_code"] == "SOURCE_AMBIGUOUS"
 
     def test_because_the_block_asserts_something(self, cleanup):
         """014's rule, applied to 014's own author."""
@@ -172,8 +178,10 @@ class TestItems2And3NameCorrections:
 
     def test_both_names_come_from_the_property_page(self, cleanup):
         doc = _load("markets/name_corrections/indianapolis-in.json")
-        assert doc["count"] == 2
-        for row in doc["records"]:
+        # 2 at 018; PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014 added the founder's Wyndham West -> Airport correction
+        # (IDR-012-006) through this same overlay. 018's two rows are unchanged.
+        assert doc["count"] == 3
+        for row in [r for r in doc["records"] if r["identity_key"] != "wyndham indianapolis west"]:
             assert row["evidence_field"] == "identity_check.name_on_page"
             assert row["source_url"].startswith("https://www.hilton.com/")
 
@@ -251,17 +259,17 @@ class TestTheResultingState:
     def test_fifty_four_became_fifty_six(self, cleanup, package):
         counts = cleanup["counts"]
         assert counts["starting_pet_friendly"] == 54
-        assert counts["ending_pet_friendly"] == PROMOTED_PET_FRIENDLY == 56
-        assert len(package["hotels"]) == 56
+        assert counts["ending_pet_friendly"] == 56           # 018's own artifact
+        assert len(package["hotels"]) == PROMOTED_PET_FRIENDLY   # 56 until 014 promoted 67
 
     def test_the_other_totals(self, package):
         assert _load("markets/authority/indianapolis-in/hotel_exclusions.json")["count"] \
-            == PROMOTED_VERIFIED_NO_PETS == 34
-        assert _load("identity_census/indianapolis-in.json")["count"] == CENSUS == 257
+            == PROMOTED_VERIFIED_NO_PETS       # 34 until 014
+        assert _load("identity_census/indianapolis-in.json")["count"] == CENSUS   # 257 until 014
         seed = (PACKAGE_DIR / "markets/authority/indianapolis-in"
                 / "seed_businesses.csv").read_text(encoding="utf-8-sig")
         rows = [line for line in seed.splitlines()[1:] if line.strip()]
-        assert len(rows) == PROMOTED_SEED_ROWS == 56
+        assert len(rows) == PROMOTED_SEED_ROWS       # 56 until 014
 
     def test_the_fifty_four_that_were_already_there_are_untouched(self, package):
         """Only Tru's NAME may have moved, and only because it was corrected."""
@@ -275,7 +283,12 @@ class TestTheResultingState:
         changed = [k for k, v in old.items()
                    if json.dumps(v, sort_keys=True) != json.dumps(new[k], sort_keys=True)]
         assert changed == ["tru"]
-        assert set(new) - set(old) == {M.PLAINFIELD, M.OMNI}
+        # 018 added exactly Plainfield and Omni; PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014 added eleven more
+        # (6 ESA + 5 Wyndham) and touched none of the 54.
+        added_by_014 = {h["identity_key"] for h in package["hotels"]
+                        if h.get("founder_reviewed_at") == "2026-09-01"}
+        assert len(added_by_014) == 11
+        assert set(new) - set(old) == {M.PLAINFIELD, M.OMNI} | added_by_014
 
     def test_every_contract_still_verifies(self):
         from scripts.pettripfinder import release_contracts as RC

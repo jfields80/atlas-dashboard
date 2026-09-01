@@ -13,7 +13,8 @@ PACKAGE = ROOT / "launch_packages" / "pettripfinder"
 REPAIR = PACKAGE / "indianapolis_identity_routing_repair_001.json"
 QUEUE = PACKAGE / "indianapolis_capture_ready_queue_002.json"
 CENSUS = PACKAGE / "identity_census" / "indianapolis-in.json"
-PARTITION = PACKAGE / "indianapolis_in_final_partition_004.json"  # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004
+# 004 until PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014 rebuilt the partition over the promoted census.
+PARTITION = PACKAGE / "indianapolis_in_final_partition_014.json"
 
 
 def _json(path):
@@ -30,7 +31,7 @@ def test_crowne_airport_exclusion_remains_applied():
     assert rec.agrees
     # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: the promoted census and its factory partition agree row for row;
     # the repair's subject (Crowne Plaza Airport) is still a signed exclusion.
-    assert rec.census_count == rec.partition_count == 257
+    assert rec.census_count == rec.partition_count == 263     # 257 until 014
     exclusions = _json(PACKAGE / "hotel_exclusions.json")["exclusions"]
     assert "crowne plaza indianapolis airport" in {
         e["normalized_name"] for e in exclusions if e["market_id"] == "indianapolis-in"}

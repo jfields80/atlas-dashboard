@@ -207,14 +207,14 @@ class TestTheCounts:
 
     def test_verified_no_pets_and_seed_agree(self, package):
         shard = _load("markets/authority/indianapolis-in/hotel_exclusions.json")
-        assert shard["count"] == PROMOTED_VERIFIED_NO_PETS == 34
+        assert shard["count"] == PROMOTED_VERIFIED_NO_PETS      # 34 until 014 applied three more
         seed = (PACKAGE_DIR / "markets/authority/indianapolis-in"
                 / "seed_businesses.csv").read_text(encoding="utf-8-sig")
         rows = [line for line in seed.splitlines()[1:] if line.strip()]
         assert len(rows) == PROMOTED_SEED_ROWS == len(package["hotels"])
 
     def test_the_census_was_not_touched(self):
-        assert _load("identity_census/indianapolis-in.json")["count"] == CENSUS == 257
+        assert _load("identity_census/indianapolis-in.json")["count"] == CENSUS  # 257 until PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014 promoted the reviewed shadow
 
 
 class TestEveryPromotedRecordIsSound:
