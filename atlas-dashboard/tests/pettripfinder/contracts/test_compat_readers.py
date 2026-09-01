@@ -36,7 +36,11 @@ PACKAGES = {
 #: What the three committed packages hold today. Pinned so a change to
 #: committed authority shows up here rather than silently altering a count the
 #: rest of the program reasons about.
-EXPECTED_RECORDS = {"columbus-oh": 88, "cleveland-akron-canton-oh": 99,  # after PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001
+EXPECTED_RECORDS = {"columbus-oh": 88,
+                    # 99 after PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001;
+                    # 120 after PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005
+                    # applied the 21 pending hardened-order records.
+                    "cleveland-akron-canton-oh": 120,
                     "dayton-oh": 47}
 
 

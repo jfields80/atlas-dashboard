@@ -36,6 +36,9 @@ def _exists(path: Path):
 
 
 def test_live_authority_unchanged_since_order_001_snapshot():
+    if (PKG / "cleveland_akron_canton_oh_promotion_report_005.json").exists():
+        pytest.skip("epoch pin: PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005 promoted the live "
+                    "state under founder authorization (pinned by test_cleveland_hardened_application_005.py)")
     snapshot = _read(PKG / f"{M}_hardened_snapshot_001.json")
     changed = [rel for rel, meta in snapshot["protected_files"].items()
                if hashlib.sha256((_DASH / rel).read_bytes()).hexdigest() != meta["sha256"]]
@@ -43,6 +46,10 @@ def test_live_authority_unchanged_since_order_001_snapshot():
 
 
 def test_shadow_admission_is_pinned_minus_retired_plus_admitted():
+    if (PKG / "cleveland_akron_canton_oh_promotion_report_005.json").exists():
+        pytest.skip("epoch pin: this arithmetic held while the pinned census was 188; "
+                    "PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005 promoted the shadow whole into "
+                    "the pinned census (pinned by test_cleveland_hardened_application_005.py)")
     shadow = _exists(PKG / "identity_census_admission" / f"{MARKET_ID}.json")
     pinned = _read(PKG / "identity_census" / f"{MARKET_ID}.json")
     app = _read(PKG / f"{M}_shadow_application_002.json")

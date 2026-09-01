@@ -182,11 +182,13 @@ def test_pass4_changed_no_authority(packet):
     actual = hashlib.sha256(FACTS_PATH.read_bytes()).hexdigest()
     assert contract["policy_package"]["expected_sha256"] == actual
     facts = _json(FACTS_PATH)
-    assert len(facts["hotels"]) == 99
+    # 99/40 as Pass 4 left them; 120/51 after PTF-CLEVELAND-AKRON-CANTON-
+    # HARDENED-APPLICATION-005 applied the pending hardened-order inventory.
+    assert len(facts["hotels"]) == 120
     cle_no_pets = [e for e in _json(EXCLUSIONS_PATH)["exclusions"]
                    if e.get("market_id") == "cleveland-akron-canton-oh"
                    and e["exclusion_state"] == "VERIFIED_NO_PETS"]
-    assert len(cle_no_pets) == 40
+    assert len(cle_no_pets) == 51
     rec = _json(PARTITION_PATH)["reconciliation"]
     assert (rec["published_pet_friendly"], rec["verified_no_pets"],
             rec["unresolved"]) == (99, 40, 49)

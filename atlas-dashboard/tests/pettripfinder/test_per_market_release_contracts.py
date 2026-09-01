@@ -162,7 +162,14 @@ EXPECTED_RECONCILIATION = {
     # PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001 then applied 23 rulings:
     # 18 publications (81 -> 99, incl. two authorized renames) and 5
     # refusals (35 -> 40), so resolved is 139 and unresolved 49.
-    CLEVELAND: (188, 99, 40, 139, 49),
+    # 188/99/40/139/49 -> 220/120/51/171/49 at
+    # PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005, which promoted the
+    # hardened shadow census (three non-lodging retirements, the Studio 6 ->
+    # Suburban Studios successor rename with lineage, 35 first-party-confirmed
+    # admissions) and applied the 21 pending pet-friendly records and 11
+    # verified-no-pets exclusions from the hardened orders' zero-cost
+    # captures. 220 = 120 + 51 + 49.
+    CLEVELAND: (220, 120, 51, 171, 49),
     # PTF-DAYTON-CANDIDATE-PROMOTION-001 promoted the reviewed
     # dayton-recovery-002 candidates: 33 -> 44 published (eleven new) and
     # 6 -> 7 verified-no-pets (Hotel Versailles). Two of the fourteen proposals
@@ -418,7 +425,11 @@ class TestContractAgreesWithItsOwnAuthority:
         unchanged here, which is the half of the assertion that says so.
         """
         by_market = {mid: derive_authority(mid).verified_no_pets for mid in MARKETS}
-        assert by_market == {COLUMBUS: 14, CLEVELAND: 40, DAYTON: 8,
+        # CLEVELAND 40 -> 51 at PTF-CLEVELAND-AKRON-CANTON-HARDENED-
+        # APPLICATION-005 (11 first-party refusals applied); every other
+        # market's number is unchanged, which is the half of this assertion
+        # that proves the scoping.
+        assert by_market == {COLUMBUS: 14, CLEVELAND: 51, DAYTON: 8,
                              PITTSBURGH: 17, INDIANAPOLIS: 37, MILWAUKEE: 27,
                              ST_LOUIS: 37,
                              # PTF-LOUISVILLE-PUBLICATION-008. Every other

@@ -7,6 +7,7 @@
   "cincinnati-url-routing-recovery-001c",
   "ptf-cleveland-url-recovery-002-batch1",
   "cleveland-work-browser-pass-001",
+  "PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005",
   "columbus-official-url-recovery-001",
   "columbus-official-url-apply-001",
   "dayton-work-browser-001",
@@ -17,7 +18,7 @@
   "grand-rapids-holland-identity-routing-repair-001",
   "PTF-PITTSBURGH-PASS4-ROUTING-AND-RECAPTURE-PREP-001"
  ],
- "count": 322,
+ "count": 321,
  "routes": [
   {
    "routing_id": "route-cincinnati-oh-ac-hotel-by-marriott-cincinnati-at-the-banks",
@@ -3165,9 +3166,11 @@
    },
    "observed_at": "2026-08-09",
    "verified_at": "2026-08-09",
-   "status": "ROUTING_CONFIRMED",
-   "notes": "Cleveland market factory: official URL recovered from the CVB listing that names this property. Identity is the census's; the URL supplies only where to look.",
-   "category": "accommodation"
+   "status": "ROUTING_RETIRED",
+   "notes": "Cleveland market factory: official URL recovered from the CVB listing that names this property. Identity is the census's; the URL supplies only where to look. | PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005: the identity was retired from the census with the promotion (multi-property operator retired from the hotel promotion set (founder ruling C, PTF-...-APPLICATION-002)); the route is retired with it, row preserved as lineage.",
+   "category": "accommodation",
+   "retired_at": "2026-09-01",
+   "retired_reason": "identity retired from the hotel census: a multi-property operator, not a single premises (founder ruling C, applied by PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005)"
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-eastland-inn-restaurant",
@@ -3600,9 +3603,11 @@
    },
    "observed_at": "2026-08-09",
    "verified_at": "2026-08-09",
-   "status": "ROUTING_CONFIRMED",
-   "notes": "Cleveland market factory: official URL recovered from the CVB listing that names this property. Identity is the census's; the URL supplies only where to look.",
-   "category": "accommodation"
+   "status": "ROUTING_RETIRED",
+   "notes": "Cleveland market factory: official URL recovered from the CVB listing that names this property. Identity is the census's; the URL supplies only where to look. | PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005: the identity was retired from the census with the promotion (non-lodging (pet boarding) retired from the hotel promotion set (founder ruling C, PTF-...-APPLICATION-002)); the route is retired with it, row preserved as lineage.",
+   "category": "accommodation",
+   "retired_at": "2026-09-01",
+   "retired_reason": "identity retired from the hotel census: a pet-boarding business, not lodging (founder ruling C, applied by PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005)"
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-intercontinental-suites-hotel-cleveland",
@@ -3924,9 +3929,11 @@
    },
    "observed_at": "2026-08-09",
    "verified_at": "2026-08-09",
-   "status": "ROUTING_CONFIRMED",
-   "notes": "Cleveland market factory: official URL recovered from the CVB listing that names this property. Identity is the census's; the URL supplies only where to look.",
-   "category": "accommodation"
+   "status": "ROUTING_RETIRED",
+   "notes": "Cleveland market factory: official URL recovered from the CVB listing that names this property. Identity is the census's; the URL supplies only where to look. | PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005: the identity was retired from the census with the promotion (non-lodging (bar/restaurant) retired from the hotel promotion set (founder ruling C, PTF-...-APPLICATION-002)); the route is retired with it, row preserved as lineage.",
+   "category": "accommodation",
+   "retired_at": "2026-09-01",
+   "retired_reason": "identity retired from the hotel census: a bar/restaurant, not lodging (founder ruling C, applied by PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005)"
   },
   {
    "routing_id": "route-cleveland-akron-canton-oh-the-welshfield-inn",
@@ -4325,42 +4332,6 @@
    "verified_at": "2026-08-16",
    "status": "ROUTING_HELD",
    "notes": "PTF-CLEVELAND-DAYTON-WORKER-INTEGRATION-001: binding_method corrected PAGE_RENDERED -> BRAND_INDEX_BINDING. The worker labelled this record as bound from a rendered property page, but the host returns HTTP 403 to a browser-UA request on re-probe, so that provenance claim is not reproducible. The URL and the identity signals are retained unchanged; only the label is corrected, per the contract rule that a binding method is never upgraded merely because a record became authoritative. // PTF-CLEVELAND-ROUTING-REPAIR-001 verdict=ROUTING_UNRESOLVED; old URL: https://www.bestwestern.com/en_US/book/hotels-in-north-canton/best-western-plus-north-canton-inn-suites/propertyCode.36148.html.",
-   "category": "accommodation"
-  },
-  {
-   "routing_id": "route-cleveland-akron-canton-oh-studio-6-extended-stay-hotel-mentor",
-   "schema_version": "1.0.0",
-   "hotel_ref": {
-    "identity_key": "studio 6 extended stay hotel mentor",
-    "market_id": "cleveland-akron-canton-oh",
-    "canonical_name": "Studio 6 Extended Stay Hotel Mentor",
-    "normalized_name": "studio 6 extended stay hotel mentor"
-   },
-   "market_id": "cleveland-akron-canton-oh",
-   "official_property_url": "https://www.choicehotels.com/ohio/mentor/suburban-hotels/oh196",
-   "official_domain": "choicehotels.com",
-   "property_code": "oh196",
-   "brand": "CHOICE_SUBURBAN_STUDIOS",
-   "binding_method": "BRAND_INDEX_BINDING",
-   "binding_sources": [
-    "choicehotels.com property page oh196 confirms 7677 Reynolds Rd, Mentor OH"
-   ],
-   "identity_signals_matched": [
-    "street=7677 Reynolds Rd",
-    "city=Mentor",
-    "zip=44060"
-   ],
-   "identity_context": {
-    "address": "7677 Reynolds",
-    "city": "Mentor",
-    "state": "OH",
-    "postal_code": "44060",
-    "phone": "440.946.0749"
-   },
-   "observed_at": "2026-08-11",
-   "verified_at": "2026-08-11",
-   "status": "ROUTING_CONFIRMED",
-   "notes": "This property no longer operates as 'Studio 6'; G6 Hospitality's Choice-affiliated successor brand is 'Suburban Studios' at the same address. Property-level phone on the Choice page (440-276-6556) differs from the census phone (440-946-0749); address is an exact match.",
    "category": "accommodation"
   },
   {

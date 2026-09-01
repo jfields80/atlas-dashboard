@@ -43,7 +43,10 @@ MARKETS = (COLUMBUS, CLEVELAND, DAYTON, CINCINNATI, PITTSBURGH, DETROIT,
 
 PARTITION_FILES = {
     COLUMBUS: "columbus_final_partition_001.json",
-    CLEVELAND: "cleveland_final_partition_002.json",
+    # 002 covered the 188-identity census; PTF-CLEVELAND-AKRON-CANTON-
+    # HARDENED-APPLICATION-005 promoted 220 and committed the partition of
+    # that state (the 002 document stays as the record of the earlier build).
+    CLEVELAND: "cleveland_final_partition_005.json",
     DAYTON: "dayton_final_partition_001.json",
     CINCINNATI: "cincinnati_final_partition_001.json",
     PITTSBURGH: "pittsburgh_final_partition_001.json",
@@ -63,7 +66,12 @@ EXPECTED = {
     # then PTF-CLEVELAND-PASS3-FOUNDER-DECISIONS-001 (81/35/72), then
     # PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001 applied the founder's
     # rulings on the routing-repaired queue: 99 published, 40 no-pets.
-    CLEVELAND: {"census": 188, "published": 99, "no_pets": 40,
+    # 188/99/40 -> 220/120/51 at PTF-CLEVELAND-AKRON-CANTON-HARDENED-
+    # APPLICATION-005: the hardened shadow census promoted (3 non-lodging
+    # retirements, the Studio 6 -> Suburban Studios successor rename with
+    # lineage, 35 first-party-confirmed admissions) and the 21 pending
+    # pet-friendly + 11 verified-no-pets records applied. 220 = 120 + 51 + 49.
+    CLEVELAND: {"census": 220, "published": 120, "no_pets": 51,
                 "out_of_category": 0, "unresolved": 49},
     DAYTON: {"census": 129, "published": 47, "no_pets": 8,
              "out_of_category": 0, "unresolved": 74},
@@ -512,7 +520,17 @@ class TestRoutingSubsetOfCensus:
         retired = {r["hotel_ref"]["identity_key"]: r for r in routes()
                    if r["status"] == enums.ROUTING_RETIRED
                    and r["market_id"] == "cleveland-akron-canton-oh"}
-        assert set(retired) == {"eastland inn restaurant", "the welshfield inn"}
+        # PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005 retired three
+        # more with the promotion: the founder's ruling C non-lodging
+        # retirements (a multi-property operator, a pet-boarding business and
+        # a bar) left the census and their routes are retired beside them.
+        # The Studio 6 -> Suburban Studios successor route left the shard for
+        # cleveland_route_retirement_005_ledger.json when the successor was
+        # published (the Cincinnati seed-double-source precedent); rows are
+        # preserved, never deleted.
+        assert set(retired) == {"eastland inn restaurant", "the welshfield inn",
+                                "cleveland house hotels", "inn the doghouse",
+                                "the rowley inn"}
         for route in retired.values():
             assert route["retired_at"] and route["retired_reason"]
             assert route["official_property_url"]
@@ -520,7 +538,10 @@ class TestRoutingSubsetOfCensus:
 
     def test_the_census_was_not_expanded_to_house_them(self):
         """Fixing membership by admitting non-hotels would defeat the rule."""
-        assert census_doc(CLEVELAND)["count"] == 188
+        # 188 -> 220 at PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005:
+        # every admission is a first-party-confirmed hotel; the two orphans
+        # below are still not among them.
+        assert census_doc(CLEVELAND)["count"] == 220
         keys = census.identity_keys(census_doc(CLEVELAND))
         assert "eastland inn restaurant" not in keys
         assert "the welshfield inn" not in keys

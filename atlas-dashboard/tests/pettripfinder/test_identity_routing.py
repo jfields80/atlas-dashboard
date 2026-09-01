@@ -301,6 +301,10 @@ def test_committed_authority_split(routes):
     # which is a founder ruling and not this suite's to overwrite.
     assert {h["hotel_ref"]["normalized_name"] for h in retired} == {
         "eastland inn restaurant", "the welshfield inn",
+        # PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005: the founder's
+        # ruling C non-lodging identities left the Cleveland census with the
+        # promotion and their routes are retired beside them.
+        "cleveland house hotels", "inn the doghouse", "the rowley inn",
         "baymont by wyndham monroe",
         "best western plus hannaford inn and suites",
         "best western premier mariemont inn",
@@ -601,7 +605,11 @@ def test_routing_carries_more_than_one_market(queues, routing_delta_from_shards)
     # PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001, whose 23 retirements
     # came entirely from the pre-repair 61 placeholders those decisions
     # settled -- the repair-created routes were not among them.
-    assert len(by_market["cleveland-akron-canton-oh"]) == 38
+    # 38 -> 37 at PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005: the
+    # published successor's route moved to
+    # cleveland_route_retirement_005_ledger.json (the Cincinnati
+    # seed-double-source precedent).
+    assert len(by_market["cleveland-akron-canton-oh"]) == 37
     assert len(by_market["dayton-oh"]) == 9
     # First-time Cincinnati routing: 223 targets adjudicated, 210 routed (12
     # ROUTING_UNRESOLVED and 1 PROPERTY_CLOSED_OR_CONVERTED-with-no-URL

@@ -57,7 +57,14 @@ def _authority_commit() -> str:
 #: Where each market's committed final partition lives.
 _PARTITION_FILES = {
     "columbus-oh": "columbus_final_partition_001.json",
-    "cleveland-akron-canton-oh": "cleveland_final_partition_002.json",
+    # cleveland-akron-canton-oh was mapped to cleveland_final_partition_002.json,
+    # the partition of the 188-identity census. PTF-CLEVELAND-AKRON-CANTON-
+    # HARDENED-APPLICATION-005 promoted the 220-identity census and a 120-record
+    # authority, and committed the partition of THAT state; the mapping is
+    # repointed (not removed) so unresolved stays COUNTED from the market's own
+    # partition rather than derived by subtraction. The 002 partition stays
+    # committed as the record of the earlier build.
+    "cleveland-akron-canton-oh": "cleveland_final_partition_005.json",
     "dayton-oh": "dayton_final_partition_001.json",
     "cincinnati-oh": "cincinnati_final_partition_001.json",
     # louisville-ky was mapped to louisville_final_partition_001.json, a

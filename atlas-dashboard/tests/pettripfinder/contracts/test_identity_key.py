@@ -193,7 +193,13 @@ class TestAgainstCommittedAuthority:
             r["hotel_ref"]["canonical_name"] for r in self._routes()
             if r["market_id"] == "cleveland-akron-canton-oh"
             and ptf_identity_key(r["hotel_ref"]["canonical_name"]) not in census)
-        assert orphans == ["Eastland Inn Restaurant", "The Welshfield Inn"]
+        # PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005 retired three
+        # founder-ruled non-lodging identities from the census with the
+        # promotion; their routes are ROUTING_RETIRED and stay visible here as
+        # lineage, exactly as the two originals do.
+        assert orphans == ["Cleveland House Hotels", "Eastland Inn Restaurant",
+                           "Inn the Doghouse", "The Rowley Inn",
+                           "The Welshfield Inn"]
 
     def test_no_census_collisions(self):
         """Two distinct identities sharing a key would be unjoinable."""

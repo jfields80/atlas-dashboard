@@ -43,6 +43,18 @@ EXCLUSIONS_PATH = _LP / "hotel_exclusions.json"
 
 Q_PACKET_PATH = _LP / "cleveland_pass2_founder_review_packet.json"
 
+# PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005 promoted the census
+# (188 -> 220) and committed cleveland_final_partition_005.json as the
+# partition of record; this module's membership assertions reconcile the 002
+# partition against the census it covered, an epoch that has closed. The 002
+# document stays committed as the record of that build, the promoted state is
+# pinned by contracts/test_census_partition.py, contracts/
+# test_market_authorities.py and test_cleveland_hardened_application_005.py.
+if (_LP / "cleveland_akron_canton_oh_promotion_report_005.json").exists():
+    pytestmark = pytest.mark.skip(
+        reason="epoch pins: the 002 partition covered the 188-identity census; "
+               "superseded by cleveland_final_partition_005.json under the 005 promotion")
+
 
 def _json(path):
     return json.loads(path.read_text(encoding="utf-8"))

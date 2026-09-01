@@ -51,6 +51,10 @@ def test_snapshot_counts_are_the_live_market(snapshot):
 
 
 def test_every_protected_live_file_is_byte_identical_to_the_snapshot(snapshot):
+    if (PKG / "cleveland_akron_canton_oh_promotion_report_005.json").exists():
+        pytest.skip("epoch pin: the 001 snapshot froze the PRE-promotion live state; "
+                    "PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005 promoted it under founder "
+                    "authorization and the promoted state is pinned by test_cleveland_hardened_application_005.py")
     changed = []
     for rel, meta in snapshot["protected_files"].items():
         now = hashlib.sha256((_DASH / rel).read_bytes()).hexdigest()
@@ -66,6 +70,10 @@ def test_owned_evidence_custody_has_no_disagreement(snapshot):
 
 
 def test_shadow_recensus_never_touches_the_pinned_census():
+    if (PKG / "cleveland_akron_canton_oh_promotion_report_005.json").exists():
+        pytest.skip("epoch pin: the pinned census was 188 while this order ran; "
+                    "PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005 promoted it to 220 under founder "
+                    "authorization (pinned by test_cleveland_hardened_application_005.py)")
     shadow_path = PKG / "identity_census" / "recensus" / f"{MARKET_ID}.json"
     if not shadow_path.exists():
         pytest.skip("shadow recensus not written in this checkout")

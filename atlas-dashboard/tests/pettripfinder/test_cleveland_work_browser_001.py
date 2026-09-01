@@ -130,6 +130,23 @@ class TestLedgerShape:
                 assert any(h["normalized_name"] == current
                            for h in census["hotels"]), current
                 continue
+            # Three identities the founder ruled non-lodging (ruling C) left
+            # the census with the PTF-CLEVELAND-AKRON-CANTON-HARDENED-
+            # APPLICATION-005 promotion; the ledger keeps what it saw, and the
+            # binding asserts their ABSENCE rather than rewriting history.
+            if item["normalized_name"] in {"cleveland house hotels",
+                                           "inn the doghouse",
+                                           "the rowley inn"}:
+                assert item["slug"] not in known, item["slug"]
+                continue
+            # The 005 promotion also renamed the Studio 6 row to its
+            # founder-ruled successor (ruling B); the binding follows the
+            # supersession the census records rather than rewriting the ledger.
+            if item["normalized_name"] == "studio 6 extended stay hotel mentor":
+                assert any(h["normalized_name"] ==
+                           "suburban studios mentor cleveland northeast"
+                           for h in census["hotels"])
+                continue
             assert item["slug"] in known, item["slug"]
             assert item["normalized_name"] == known[item["slug"]]["normalized_name"]
             assert item["market_id"] == WB.MARKET
@@ -161,20 +178,35 @@ class TestNothingPublished:
                       / "cleveland_pass3_founder_review_packet.json")
         pass4 = _json(P2_PACKET_PATH.parent
                       / "cleveland_pass4_founder_review_packet.json")
+        # PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005 later applied
+        # 21 more records and 11 more exclusions under founder authorization;
+        # the deltas are read from its committed promotion report, so the
+        # arithmetic still names every publication since this ledger closed.
+        applied_005 = _json(P2_PACKET_PATH.parent
+                            / "cleveland_akron_canton_oh_promotion_report_005.json")["summary"]
         published_later = (len(packet["positive_candidates"])
                            + len(pass3["positive_candidates"])
                            + len(pass4["positive_candidates"])
-                           + len(pass4["rename_candidates"]))
+                           + len(pass4["rename_candidates"])
+                           + len(applied_005["records_applied"]))
         assert totals["published_pet_friendly_after"] + published_later == len(
             _json(CLEVELAND_FACTS_PATH)["hotels"])
         exclusions = _json(EXCLUSIONS_PATH)
         records = exclusions["exclusions"] if isinstance(exclusions, dict) else exclusions
         excluded_later = (len(packet["negative_candidates"])
                           + len(pass3["negative_candidates"])
-                          + len(pass4["negative_candidates"]))
+                          + len(pass4["negative_candidates"])
+                          + len(applied_005["exclusions_applied"]))
         assert totals["verified_no_pets_after"] + excluded_later == len(
             [r for r in records if r.get("market_id") == WB.MARKET])
-        assert totals["confirmed_identities"] == _json(CENSUS_PATH)["count"]
+        # The ledger described the 188-identity census; the 005 promotion
+        # moved the census to 220 (32 admissions, 3 retirements) and records
+        # it in the census's own promotion block, which is asserted instead
+        # of pretending the ledger described a census it never saw.
+        assert totals["confirmed_identities"] == 188
+        census_doc = _json(CENSUS_PATH)
+        assert census_doc["count"] == 220
+        assert census_doc["promotion"]["from_count"] == 188
 
     def test_no_reviewed_slug_entered_the_cleveland_policy_facts(self, ledger):
         """None of the 135 acquired a policy record from the TRANSCRIPTION.
@@ -207,6 +239,12 @@ class TestNothingPublished:
                       "cleveland_pass4_founder_review_packet.json"):
             pk = _json(P2_PACKET_PATH.parent / later)
             decided |= {c["identity_key"] for c in pk["negative_candidates"]}
+        # The 11 refusals PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005
+        # applied were each founder-authorized against a hash-bound first-party
+        # capture; the promotion report names them, exactly as the packets do.
+        decided |= set(_json(P2_PACKET_PATH.parent
+                             / "cleveland_akron_canton_oh_promotion_report_005.json")
+                       ["summary"]["exclusions_applied"])
         assert not (reviewed & excluded) - decided - {
             r["normalized_name"] for r in records
             if r.get("observed_at", "") < WB.AS_OF}
@@ -383,8 +421,10 @@ class TestRoutingAdjudication:
         # 145 when this pass closed; 102 after Pass 2 retired the routes
         # of the 43 founder-decided identities; 58 after Pass 3
         # retired 44 more; 61 after PTF-CLEVELAND-ROUTING-REPAIR-001
-        # created three.
-        assert by_market["cleveland-akron-canton-oh"] == 38
+        # created three; 37 after PTF-CLEVELAND-AKRON-CANTON-HARDENED-
+        # APPLICATION-005 moved the published successor's route to
+        # cleveland_route_retirement_005_ledger.json.
+        assert by_market["cleveland-akron-canton-oh"] == 37
         assert by_market["columbus-oh"] == 20
 
     def test_no_two_identities_own_one_official_url(self):
@@ -450,7 +490,7 @@ class TestOtherMarketsUntouched:
         for record in routes:
             by_market[record["market_id"]] = by_market.get(record["market_id"], 0) + 1
         assert by_market["columbus-oh"] == 20
-        assert by_market["cleveland-akron-canton-oh"] == 38  # after routing-repair creations
+        assert by_market["cleveland-akron-canton-oh"] == 37  # 38 after routing-repair creations; 37 after the 005 successor-route ledgering
 
 
 # --------------------------------------------------------------------------- #

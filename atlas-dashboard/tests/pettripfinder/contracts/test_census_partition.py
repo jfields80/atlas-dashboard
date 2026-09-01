@@ -331,9 +331,19 @@ class TestCommittedAuthority:
         retired = {r["hotel_ref"]["canonical_name"] for r in self._routes()
                    if r["status"] == enums.ROUTING_RETIRED
                    and r["market_id"] == "cleveland-akron-canton-oh"}
-        assert retired == {"Eastland Inn Restaurant", "The Welshfield Inn"}
-        # The census was NOT expanded to 190 to house them.
-        assert len(self._census_keys("cleveland-akron-canton-oh")) == 188
+        # PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005 retired three more
+        # routes with the promotion: the founder-ruled non-lodging census
+        # retirements. The Studio 6 -> Suburban Studios successor route left
+        # the shard for cleveland_route_retirement_005_ledger.json when the
+        # successor was published (the Cincinnati seed-double-source
+        # precedent). Rows are preserved, never deleted.
+        assert retired == {"Eastland Inn Restaurant", "The Welshfield Inn",
+                           "Cleveland House Hotels", "Inn the Doghouse",
+                           "The Rowley Inn"}
+        # The census was NOT expanded to house the orphans: the 005 promotion
+        # admitted first-party-confirmed hotels only (188 -> 220), and the two
+        # non-lodging orphans are still outside it.
+        assert len(self._census_keys("cleveland-akron-canton-oh")) == 220
 
     def test_dayton_census_geography_defects_are_pinned(self):
         """Eleven unreproducible corridor claims and eight axis violations.
@@ -357,15 +367,24 @@ class TestCommittedAuthority:
         assert sum(1 for i in issues if i.code == "AXIS_VIOLATION") == 0
 
     def test_cleveland_partition_covers_its_census(self):
-        path = PACKAGE_DIR / "cleveland_final_partition_002.json"
+        # cleveland_final_partition_002.json covered the 188-identity census;
+        # PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005 promoted the
+        # 220-identity census and committed the partition of THAT state, which
+        # build_market_manifest now maps. The 002 partition stays committed as
+        # the record of the earlier build.
+        path = PACKAGE_DIR / "cleveland_final_partition_005.json"
         if not path.is_file():
             pytest.skip("Cleveland partition is not committed")
         doc = json.loads(path.read_text(encoding="utf-8-sig"))
         rec = partition.reconcile(self._census_keys("cleveland-akron-canton-oh"),
                                   doc, market_id="cleveland-akron-canton-oh")
-        assert rec.census_count == rec.partition_count == 188
+        assert rec.census_count == rec.partition_count == 220
         assert rec.missing_from_partition == ()
         assert rec.missing_from_census == ()
         assert rec.duplicated_in_partition == ()
-        assert (rec.published, rec.verified_no_pets) == (99, 40)  # after PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001
-        assert rec.resolved == 139 and rec.unresolved == 49  # after Pass-4 decisions
+        assert (rec.published, rec.verified_no_pets) == (120, 51)  # after PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005
+        # resolved 139 -> 171 (120 published + 51 no-pets) at
+        # PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005; unresolved
+        # stays 49 because the promotion admitted exactly as many identities
+        # as it resolved (21 + 11 applied over 32 admissions and 3 retirements).
+        assert rec.resolved == 171 and rec.unresolved == 49

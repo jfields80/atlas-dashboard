@@ -47,7 +47,8 @@ def test_report_covers_all_published_records(facts, report):
     cleveland_pass2_capture_results.json."""
     assert report["schema"] == "ptf-cleveland-artifact-verification/1.0"
     assert report["records_checked"] == 21
-    assert len(facts["hotels"]) == 99
+    # 99 -> 120 at PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005.
+    assert len(facts["hotels"]) == 120
     assert report["classification_counts"] == {
         "ARTIFACT_VERIFIED_COMPLETE": 19,
         "ARTIFACT_PARTIAL": 2,
@@ -65,7 +66,11 @@ def test_verified_records_are_publication_grade(facts):
         drury = hotel["identity_key"] in DRURY_KEYS
         for entry in entries:
             assert entry["artifact_class"] == enums.PUBLICATION_GRADE_EVIDENCE
-            assert entry["artifact_kind"] == enums.ARTIFACT_RENDERED_HTML
+            # rendered_html only until PTF-CLEVELAND-AKRON-CANTON-HARDENED-
+            # APPLICATION-005 applied records whose attended-Chrome captures
+            # are text_extract artifacts (the 009-style digest basis).
+            assert entry["artifact_kind"] in (enums.ARTIFACT_RENDERED_HTML,
+                                              enums.ARTIFACT_TEXT_EXTRACT)
             assert entry["artifact_sha256"].startswith("sha256:")
             assert entry["captured_at"]
             if drury:
@@ -76,10 +81,14 @@ def test_verified_records_are_publication_grade(facts):
                 assert entry["artifact_sha256"] != hotel["worker_result_hash"]
             else:
                 # Pass-1-era records were browser_assisted captures; the
-                # Pass-2 founder-approved records are attended captures.
+                # Pass-2 founder-approved records are attended captures; the
+                # hardened APPLICATION-005 records are attended_chrome_render
+                # captures or deterministic free fetches (the 014 vocabulary).
                 # Either way the binding names the page the result hash names.
                 assert entry["capture_method"] in ("browser_assisted",
-                                                   "attended_browser")
+                                                   "attended_browser",
+                                                   "attended_chrome_render",
+                                                   "deterministic_fetch")
                 assert entry["artifact_sha256"] == hotel["worker_result_hash"]
             assert entry["source_grade"] == enums.GRADE_PT1_FIRST_PARTY
         assert not evidence_contract.validate(hotel)
@@ -109,9 +118,10 @@ def test_approvals_founder_bound_after_closeout(facts):
         assert approval["decision"] == enums.APPROVED_AFTER_CURRENT_REVIEW
         assert approval["operator"] == "jfields80"
         # 2026-08-15: Pass-1 closeout + Pass-2 decisions; 2026-08-16:
-        # Pass-3 decisions and the ESA ceiling!=price remediation.
+        # Pass-3 decisions and the ESA ceiling!=price remediation;
+        # 2026-09-01: the hardened APPLICATION-005 records.
         assert approval["approval_date"] in ("2026-08-15", "2026-08-16",
-                                        "2026-08-17")
+                                        "2026-08-17", "2026-09-01")
         if hotel["identity_key"] in DRURY_KEYS:
             # Re-attested by PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001 against
             # the verified current hash; the 2026-08-11 approval is preserved
@@ -124,9 +134,10 @@ def test_approvals_founder_bound_after_closeout(facts):
             continue
         prior = approval.get("supersedes")
         if prior is None:
-            # First publication (Pass-2/Pass-3 founder decision): nothing
-            # replaced.
-            assert any("Founder decision" in c for c in approval["caveats"])
+            # First publication: a Pass-2/Pass-3 founder decision, or the
+            # hardened APPLICATION-005 founder authorization; nothing replaced.
+            assert any("Founder decision" in c or "FOUNDER AUTHORIZATION" in c
+                       for c in approval["caveats"])
             continue
         # A superseding approval is either the Pass-1 governance closeout
         # re-attestation or the founder's Pass-3 ESA remediation.
@@ -183,7 +194,8 @@ def test_release_contract_pins_the_upgraded_package(report):
     actual = hashlib.sha256(FACTS_PATH.read_bytes()).hexdigest()
     assert contract["policy_package"]["expected_sha256"] == actual
     # Earlier shas are history; the latest pass stamps the pin it leaves.
-    assert report["facts_sha256_after_pass4_decisions"] == actual
+    assert report["facts_sha256_after_application_005"] == actual
+    assert report["facts_sha256_after_pass4_decisions"] != actual
     assert report["facts_sha256_after_pass3_decisions"] != actual
     assert report["facts_sha256_after_pass2_decisions"] != actual
     assert report["facts_sha256_after_pass2"] != actual

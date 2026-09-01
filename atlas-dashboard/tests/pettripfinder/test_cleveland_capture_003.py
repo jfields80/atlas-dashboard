@@ -64,10 +64,12 @@ class TestTargetSetIsDerivedNotAssumed:
         # consumed thirty-one routed targets; 10 after the Pass-3 founder
         # decisions consumed thirty-one more; 6 after
         # PTF-CLEVELAND-ROUTING-REPAIR-001 moved four repaired rows to its
-        # own ROUTING_REPAIRED_AWAITING_CAPTURE classification.
-        assert len(routed) == 5
+        # own ROUTING_REPAIRED_AWAITING_CAPTURE classification; 1 after
+        # PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005 resolved four
+        # more routed targets with first-party policy reads.
+        assert len(routed) == 1
         names = [i["normalized_name"] for i in routed]
-        assert len(set(names)) == 5  # 72 before the Pass-2 decisions
+        assert len(set(names)) == 1  # 72 before the Pass-2 decisions
         for item in routed:
             attempt = item["capture_attempt"]
             assert attempt["run_id"] == "cleveland-policy-capture-003"
@@ -92,8 +94,9 @@ class TestManifestIsProposalOnly:
         """
         facts = json.loads(PUBLISHED_FACTS_PATH.read_text(encoding="utf-8"))
         # 21 when capture-003 closed; 41 after the Pass-2 publications;
-        # 81 after the Pass-3 publications.
-        assert len(facts["hotels"]) == 99
+        # 81 after the Pass-3 publications; 99 after Pass 4; 120 after the
+        # hardened APPLICATION-005 promotion.
+        assert len(facts["hotels"]) == 120
         published = {h["key"] for h in facts["hotels"]}
         assert {"drury plaza hotel", "drury inn and suites beachwood"} <= published
         # Three of the four candidates this manifest could not publish were

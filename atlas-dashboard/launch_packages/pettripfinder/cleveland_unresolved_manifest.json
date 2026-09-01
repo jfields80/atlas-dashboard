@@ -1,22 +1,120 @@
 {
  "schema": "ptf-cleveland-unresolved/1.0",
- "as_of": "2026-08-17",
+ "as_of": "2026-09-01",
  "market_id": "cleveland-akron-canton-oh",
- "confirmed_identities": 188,
- "resolved": 139,
- "published_pet_friendly": 99,
- "verified_no_pets": 40,
+ "confirmed_identities": 220,
+ "resolved": 171,
+ "published_pet_friendly": 120,
+ "verified_no_pets": 51,
  "unresolved": 49,
  "classification_counts": {
-  "ADAPTER_GAP_INDEPENDENT": 17,
+  "ADAPTER_GAP_INDEPENDENT": 14,
   "ADR_ACCESS_BLOCKED": 4,
+  "AWAITING_OFFICIAL_URL": 2,
+  "AWAITING_POLICY_OBSERVATION": 5,
   "NO_OFFICIAL_URL": 12,
-  "ROUTED_AWAITING_CAPTURE": 5,
+  "ROUTED_AWAITING_CAPTURE": 1,
   "ROUTED_NO_BRAND_ADAPTER": 4,
   "ROUTING_REPAIRED_AWAITING_CAPTURE": 7
  },
  "rule": "a failed capture is never negative evidence; every row here is UNKNOWN, not no-pets. Routing a hotel does not answer it -- a ROUTED_* row has an official URL and an identity binding, and still no observed pet policy.",
  "items": [
+  {
+   "normalized_name": "ariel broadway hotel",
+   "canonical_name": "Ariel Broadway Hotel",
+   "city": "Lorain",
+   "postal_code": "44052",
+   "phone": "440.246.6669",
+   "official_url": "https://www.arielbroadwayhotel.com/abw/homePage.html",
+   "classification": "ADAPTER_GAP_INDEPENDENT",
+   "why_unresolved": "brand_unrecognised:www.arielbroadwayhotel.com",
+   "next_action": "Independent property with no chain adapter. Open its own site and screenshot the pet policy plus the page area showing name/address.",
+   "can_remain_unresolved_safely": true
+  },
+  {
+   "normalized_name": "aurora inn",
+   "canonical_name": "Aurora Inn",
+   "city": "Aurora",
+   "postal_code": "44202",
+   "phone": "330.562.0767",
+   "official_url": "https://aurorainnohio.com/",
+   "classification": "ADAPTER_GAP_INDEPENDENT",
+   "why_unresolved": "brand_unrecognised:aurorainnohio.com",
+   "next_action": "Independent property with no chain adapter. Open its own site and screenshot the pet policy plus the page area showing name/address.",
+   "can_remain_unresolved_safely": true
+  },
+  {
+   "normalized_name": "berlin s motel",
+   "canonical_name": "Berlin's Motel",
+   "city": "Barberton",
+   "postal_code": "44203",
+   "phone": "(330) 825-9984",
+   "official_url": "",
+   "classification": "NO_OFFICIAL_URL",
+   "why_unresolved": "no official URL was recoverable from the CVB listing",
+   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "can_remain_unresolved_safely": true,
+   "routing_repair": {
+    "work_order": "PTF-CLEVELAND-ROUTING-REPAIR-001",
+    "as_of": "2026-08-16",
+    "verdict": "ROUTING_UNRESOLVED",
+    "old_url": "",
+    "evidence": "chamberofcommerce.com business directory confirms Berlin's Motel at 334 31st St NW, Barberton 44203; no first-party website exists in any authoritative source. No URL is fabricated; the identity stays in the discovery lane."
+   }
+  },
+  {
+   "normalized_name": "best western airport inn and suites cleveland",
+   "canonical_name": "Best Western Airport Inn & Suites Cleveland",
+   "city": "Cleveland",
+   "postal_code": "44142",
+   "phone": "",
+   "official_url": "https://www.bestwestern.com/en_US/book/hotels-in-cleveland/best-western-airport-inn-suites-cleveland/propertyCode.36108.html",
+   "classification": "AWAITING_POLICY_OBSERVATION"
+  },
+  {
+   "normalized_name": "best western plus north canton inn and suites",
+   "canonical_name": "Best Western Plus North Canton Inn & Suites",
+   "city": "North Canton",
+   "postal_code": "44720",
+   "phone": "(330) 497-8799",
+   "official_url": "https://www.bestwestern.com/en_US/book/hotels-in-north-canton/best-western-plus-north-canton-inn-suites/propertyCode.36148.html",
+   "classification": "ROUTED_AWAITING_CAPTURE",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
+   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
+   "can_remain_unresolved_safely": true,
+   "capture_attempt": {
+    "run_id": "cleveland-policy-capture-003",
+    "outcome": "ACCESS_BLOCKED",
+    "detail": "www.bestwestern.com HTTP 403 Forbidden (directly attempted)",
+    "next_action": "attended/authenticated browser capture, or a direct operator phone call -- static HTTP is bot-walled at the brand-platform level (this exact block reproduces across every Dayton/Columbus/Cleveland worker run to date; not attempted here as a bypass, per ADR-PTF-AUTOMATED-BROWSING)"
+   },
+   "routing_repair": {
+    "work_order": "PTF-CLEVELAND-ROUTING-REPAIR-001",
+    "as_of": "2026-08-16",
+    "verdict": "ROUTING_UNRESOLVED",
+    "old_url": "https://www.bestwestern.com/en_US/book/hotels-in-north-canton/best-western-plus-north-canton-inn-suites/propertyCode.36148.html",
+    "evidence": "Both the direct hotel-rooms.36148 URL and the canonical property-page URL redirect to bestwestern.com's search page (pre-filled with a different city), so the brand endpoint refuses to serve this property page to this session. Closure is NOT inferred: the Canton CVB (explorecantonohio.com) lists the property as operating at 6889 Sunset Strip Ave NW, North Canton 44720. The route is HELD with the candidate URL retained; an attended or operator session must re-probe before capture."
+   }
+  },
+  {
+   "normalized_name": "budget inn",
+   "canonical_name": "Budget Inn",
+   "city": "Hudson",
+   "postal_code": "44236",
+   "phone": "(330) 650-4341",
+   "official_url": "",
+   "classification": "NO_OFFICIAL_URL",
+   "why_unresolved": "no official URL was recoverable from the CVB listing",
+   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "can_remain_unresolved_safely": true,
+   "routing_repair": {
+    "work_order": "PTF-CLEVELAND-ROUTING-REPAIR-001",
+    "as_of": "2026-08-16",
+    "verdict": "ROUTING_UNRESOLVED",
+    "old_url": "",
+    "evidence": "chamberofcommerce.com confirms The Budget Inn at 5891 Akron-Cleveland Rd, Hudson 44236; the only web presences are OTA white-labels; no first-party site. No URL is fabricated; the identity stays in the discovery lane."
+   }
+  },
   {
    "normalized_name": "cambria hotel and suites avon",
    "canonical_name": "Cambria Hotel & Suites Avon",
@@ -44,34 +142,280 @@
    }
   },
   {
-   "normalized_name": "ariel broadway hotel",
-   "canonical_name": "Ariel Broadway Hotel",
-   "city": "Lorain",
-   "postal_code": "44052",
-   "phone": "440.246.6669",
-   "official_url": "https://www.arielbroadwayhotel.com/abw/homePage.html",
+   "normalized_name": "candlewood suites beachwood cleveland",
+   "canonical_name": "Candlewood Suites Beachwood - Cleveland",
+   "city": "Beachwood",
+   "postal_code": "44122",
+   "phone": "",
+   "official_url": "",
+   "classification": "AWAITING_OFFICIAL_URL"
+  },
+  {
+   "normalized_name": "candlewood suites cleveland south independence",
+   "canonical_name": "Candlewood Suites Cleveland South - Independence",
+   "city": "Independence",
+   "postal_code": "44131",
+   "phone": "",
+   "official_url": "",
+   "classification": "AWAITING_OFFICIAL_URL"
+  },
+  {
+   "normalized_name": "clarion inn and conference center",
+   "canonical_name": "Clarion Inn and Conference Center",
+   "city": "Hudson",
+   "postal_code": "44236",
+   "phone": "330.653.9191",
+   "official_url": "",
+   "classification": "NO_OFFICIAL_URL",
+   "why_unresolved": "no official URL was recoverable from the CVB listing",
+   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "can_remain_unresolved_safely": true,
+   "routing_repair": {
+    "work_order": "PTF-CLEVELAND-ROUTING-REPAIR-001",
+    "as_of": "2026-08-16",
+    "verdict": "ROUTING_UNRESOLVED",
+    "old_url": "",
+    "evidence": "thisiscleveland.com (CVB) confirms the property operating at 6625 Dean Memorial Parkway, Hudson 44236, 330.653.9191, but Choice Hotels lists no Clarion in Hudson OH -- the property appears to have left the flag -- and no first-party site exists. No URL is fabricated; the identity stays in the discovery lane."
+   }
+  },
+  {
+   "normalized_name": "courtesy inn",
+   "canonical_name": "Courtesy Inn",
+   "city": "Akron",
+   "postal_code": "44303",
+   "phone": "(330) 762-9581",
+   "official_url": "",
+   "classification": "NO_OFFICIAL_URL",
+   "why_unresolved": "no official URL was recoverable from the CVB listing",
+   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "can_remain_unresolved_safely": true,
+   "routing_repair": {
+    "work_order": "PTF-CLEVELAND-ROUTING-REPAIR-001",
+    "as_of": "2026-08-16",
+    "verdict": "ROUTING_UNRESOLVED",
+    "old_url": "",
+    "evidence": "visitakron-summit.org (CVB) lists Courtesy Inn at 210 W Market St, Akron 44303 with no website link; no first-party site exists. No URL is fabricated; the identity stays in the discovery lane."
+   }
+  },
+  {
+   "normalized_name": "don el motel",
+   "canonical_name": "Don-El Motel",
+   "city": "Peninsula",
+   "postal_code": "44264",
+   "phone": "(330) 650-0596",
+   "official_url": "",
+   "classification": "NO_OFFICIAL_URL",
+   "why_unresolved": "no official URL was recoverable from the CVB listing",
+   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "can_remain_unresolved_safely": true,
+   "routing_repair": {
+    "work_order": "PTF-CLEVELAND-ROUTING-REPAIR-001",
+    "as_of": "2026-08-16",
+    "verdict": "ROUTING_UNRESOLVED",
+    "old_url": "",
+    "evidence": "visitakron-summit.org (CVB) lists Don-El Motel at 5133 Akron-Cleveland Rd, Peninsula 44264 with no website link; no first-party site exists. No URL is fabricated; the identity stays in the discovery lane."
+   }
+  },
+  {
+   "normalized_name": "economy inn",
+   "canonical_name": "Economy Inn",
+   "city": "Cuyahoga Falls",
+   "postal_code": "44224",
+   "phone": "(330) 929-8200",
+   "official_url": "https://www.economyinnohio.com/",
+   "classification": "ROUTED_NO_BRAND_ADAPTER",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (PAGE_RENDERED); the pet policy itself is still unobserved",
+   "next_action": "Attended browser capture against the routed official URL -- the URL is bound and identity-verified, but no registered brand adapter covers this property, so the deterministic queue cannot claim it.",
+   "can_remain_unresolved_safely": true
+  },
+  {
+   "normalized_name": "hampton inn and suites cleveland mentor",
+   "canonical_name": "Hampton Inn & Suites Cleveland-Mentor",
+   "city": "Mentor",
+   "postal_code": "44060",
+   "phone": "",
+   "official_url": "https://www.hilton.com/en/hotels/clemehx-hampton-suites-cleveland-mentor/",
+   "classification": "AWAITING_POLICY_OBSERVATION"
+  },
+  {
+   "normalized_name": "hampton inn and suites oakwood village cleveland",
+   "canonical_name": "Hampton Inn & Suites Oakwood Village-Cleveland",
+   "city": "Oakwood Village",
+   "postal_code": "44146",
+   "phone": "",
+   "official_url": "https://www.hilton.com/en/hotels/cleovhx-hampton-suites-oakwood-village-cleveland/",
+   "classification": "AWAITING_POLICY_OBSERVATION"
+  },
+  {
+   "normalized_name": "hampton inn cleveland solon",
+   "canonical_name": "Hampton Inn Cleveland-Solon",
+   "city": "Solon",
+   "postal_code": "44139",
+   "phone": "",
+   "official_url": "https://www.hilton.com/en/hotels/cleslhx-hampton-cleveland-solon/",
+   "classification": "AWAITING_POLICY_OBSERVATION"
+  },
+  {
+   "normalized_name": "harbor inn",
+   "canonical_name": "Harbor Inn",
+   "city": "Cleveland",
+   "postal_code": "44113",
+   "phone": "216.241.3232",
+   "official_url": "",
+   "classification": "NO_OFFICIAL_URL",
+   "why_unresolved": "no official URL was recoverable from the CVB listing",
+   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "can_remain_unresolved_safely": true,
+   "routing_repair": {
+    "work_order": "PTF-CLEVELAND-ROUTING-REPAIR-001",
+    "as_of": "2026-08-16",
+    "verdict": "IDENTITY_CONFLICT",
+    "old_url": "",
+    "evidence": "Every authoritative source (thisiscleveland.com CVB, chamberofcommerce.com -- category 'bar') describes 1219 Main Ave as the Harbor Inn Cafe, one of Cleveland's oldest BARS, not lodging. Census-review candidate alongside Inn the Doghouse and The Rowley Inn; the state stays in the discovery lane because a category exit is a census decision, not a routing one."
+   }
+  },
+  {
+   "normalized_name": "highlander inn",
+   "canonical_name": "Highlander Inn",
+   "city": "Cleveland",
+   "postal_code": "44128",
+   "phone": "216.475.4070",
+   "official_url": "https://highlanderinnhotel.com/",
+   "classification": "ROUTING_REPAIRED_AWAITING_CAPTURE",
+   "why_unresolved": "PTF-CLEVELAND-ROUTING-REPAIR-001 bound a working property page; the pet policy is still unobserved.",
+   "next_action": "Open https://highlanderinnhotel.com/ in the attended browser, verify the page's own address block matches the census identity, and capture the pet policy surface.",
+   "can_remain_unresolved_safely": true,
+   "routing_repair": {
+    "work_order": "PTF-CLEVELAND-ROUTING-REPAIR-001",
+    "as_of": "2026-08-16",
+    "verdict": "ROUTING_REPLACED",
+    "old_url": "https://www.highlanderinncle.com",
+    "evidence": "The old domain no longer resolves (DNS). The property's new domain highlanderinnhotel.com serves a plain GET and carries 4353 Northfield Rd, 44128 and the census phone digits 216-475-4070."
+   }
+  },
+  {
+   "normalized_name": "holiday inn cleveland clinic",
+   "canonical_name": "Holiday Inn Cleveland Clinic",
+   "city": "Cleveland",
+   "postal_code": "44106",
+   "phone": "216.707.4200",
+   "official_url": "https://www.hiclevelandclinic.com/",
    "classification": "ADAPTER_GAP_INDEPENDENT",
-   "why_unresolved": "brand_unrecognised:www.arielbroadwayhotel.com",
+   "why_unresolved": "brand_unrecognised:www.hiclevelandclinic.com",
    "next_action": "Independent property with no chain adapter. Open its own site and screenshot the pet policy plus the page area showing name/address.",
    "can_remain_unresolved_safely": true
   },
   {
-   "normalized_name": "studio 6 extended stay hotel mentor",
-   "canonical_name": "Studio 6 Extended Stay Hotel Mentor",
-   "city": "Mentor",
-   "postal_code": "44060",
-   "phone": "440.946.0749",
-   "official_url": "https://www.choicehotels.com/ohio/mentor/suburban-hotels/oh196",
-   "classification": "ROUTED_AWAITING_CAPTURE",
-   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
-   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
+   "normalized_name": "holiday inn cleveland south independence",
+   "canonical_name": "Holiday Inn Cleveland South Independence",
+   "city": "Independence",
+   "postal_code": "44131",
+   "phone": "216.524.8050",
+   "official_url": "https://www.hirockside.com",
+   "classification": "ADAPTER_GAP_INDEPENDENT",
+   "why_unresolved": "brand_unrecognised:www.hirockside.com",
+   "next_action": "Independent property with no chain adapter. Open its own site and screenshot the pet policy plus the page area showing name/address.",
+   "can_remain_unresolved_safely": true
+  },
+  {
+   "normalized_name": "home2 suites by hilton",
+   "canonical_name": "Home2 Suites by Hilton",
+   "city": "Independence",
+   "postal_code": "44131",
+   "phone": "216.264.4272",
+   "official_url": "https://www.home2suites.com",
+   "classification": "ADAPTER_GAP_INDEPENDENT",
+   "why_unresolved": "brand_unrecognised:www.home2suites.com",
+   "next_action": "Independent property with no chain adapter. Open its own site and screenshot the pet policy plus the page area showing name/address.",
+   "can_remain_unresolved_safely": true
+  },
+  {
+   "normalized_name": "home2 suites by hilton middleburg heights cleveland",
+   "canonical_name": "Home2 Suites by Hilton Middleburg Heights Cleveland",
+   "city": "Middleburg Heights",
+   "postal_code": "44130",
+   "phone": "",
+   "official_url": "https://www.hilton.com/en/hotels/clemiht-home2-suites-middleburg-heights-cleveland/",
+   "classification": "AWAITING_POLICY_OBSERVATION"
+  },
+  {
+   "normalized_name": "hopp inn",
+   "canonical_name": "Hopp Inn",
+   "city": "Cleveland",
+   "postal_code": "44109",
+   "phone": "216.398.4143",
+   "official_url": "",
+   "classification": "NO_OFFICIAL_URL",
+   "why_unresolved": "no official URL was recoverable from the CVB listing",
+   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
    "can_remain_unresolved_safely": true,
-   "capture_attempt": {
-    "run_id": "cleveland-policy-capture-003",
-    "outcome": "ACCESS_BLOCKED",
-    "detail": "www.choicehotels.com read-timeout, no response (directly attempted)",
-    "next_action": "attended/authenticated browser capture, or a direct operator phone call -- static HTTP times out at the brand-platform level (this exact block reproduces across every Dayton/Columbus/Cleveland worker run to date; not attempted here as a bypass, per ADR-PTF-AUTOMATED-BROWSING)"
+   "routing_repair": {
+    "work_order": "PTF-CLEVELAND-ROUTING-REPAIR-001",
+    "as_of": "2026-08-16",
+    "verdict": "IDENTITY_CONFLICT",
+    "old_url": "",
+    "evidence": "Every authoritative source (thisiscleveland.com CVB, chamberofcommerce.com -- category 'bar') describes 4896 Pearl Rd as the Hopp-Inn, a neighborhood BAR with Polish food, not lodging. Census-review candidate; state stays in the discovery lane for the same reason as Harbor Inn."
    }
+  },
+  {
+   "normalized_name": "hotel cleveland",
+   "canonical_name": "Hotel Cleveland",
+   "city": "Cleveland",
+   "postal_code": "44113",
+   "phone": "216.696.5600",
+   "official_url": "https://www.hotelcleveland.com",
+   "classification": "ADAPTER_GAP_INDEPENDENT",
+   "why_unresolved": "brand_unrecognised:www.hotelcleveland.com",
+   "next_action": "Independent property with no chain adapter. Open its own site and screenshot the pet policy plus the page area showing name/address.",
+   "can_remain_unresolved_safely": true
+  },
+  {
+   "normalized_name": "hyatt place canton",
+   "canonical_name": "Hyatt Place Canton",
+   "city": "Canton",
+   "postal_code": "44720",
+   "phone": "(330) 244-1700",
+   "official_url": "",
+   "classification": "ADR_ACCESS_BLOCKED",
+   "why_unresolved": "no official URL was recoverable from the CVB listing",
+   "next_action": "hyatt.com serves a Kasada interstitial that ADR-PTF-AUTOMATED-BROWSING forbids satisfying. Open the property page yourself and supply the 'We Are Pet Friendly' block and the 'Getting Here' block, exactly as the Columbus Hyatt batch did.",
+   "can_remain_unresolved_safely": true
+  },
+  {
+   "normalized_name": "hyatt place cleveland lyndhurst legacy village",
+   "canonical_name": "Hyatt Place Cleveland Lyndhurst Legacy Village",
+   "city": "Lyndhurst",
+   "postal_code": "44124",
+   "phone": "216.382.3350",
+   "official_url": "https://clevelandlyndhurst.place.hyatt.com/en/hotel/home.html",
+   "classification": "ADR_ACCESS_BLOCKED",
+   "why_unresolved": "no_adapter_for_brand:hyatt",
+   "next_action": "hyatt.com serves a Kasada interstitial that ADR-PTF-AUTOMATED-BROWSING forbids satisfying. Open the property page yourself and supply the 'We Are Pet Friendly' block and the 'Getting Here' block, exactly as the Columbus Hyatt batch did.",
+   "can_remain_unresolved_safely": true
+  },
+  {
+   "normalized_name": "hyatt place cleveland westlake crocker park",
+   "canonical_name": "Hyatt Place Cleveland Westlake Crocker Park",
+   "city": "Westlake",
+   "postal_code": "44145",
+   "phone": "440.871.3100",
+   "official_url": "https://hyattplaceclevelandwestlake.com",
+   "classification": "ADR_ACCESS_BLOCKED",
+   "why_unresolved": "brand_unrecognised:hyattplaceclevelandwestlake.com",
+   "next_action": "hyatt.com serves a Kasada interstitial that ADR-PTF-AUTOMATED-BROWSING forbids satisfying. Open the property page yourself and supply the 'We Are Pet Friendly' block and the 'Getting Here' block, exactly as the Columbus Hyatt batch did.",
+   "can_remain_unresolved_safely": true
+  },
+  {
+   "normalized_name": "hyatt regency",
+   "canonical_name": "Hyatt Regency",
+   "city": "Cleveland",
+   "postal_code": "44114",
+   "phone": "216.575.1234",
+   "official_url": "https://cleveland.regency.hyatt.com",
+   "classification": "ADR_ACCESS_BLOCKED",
+   "why_unresolved": "no_adapter_for_brand:hyatt",
+   "next_action": "hyatt.com serves a Kasada interstitial that ADR-PTF-AUTOMATED-BROWSING forbids satisfying. Open the property page yourself and supply the 'We Are Pet Friendly' block and the 'Getting Here' block, exactly as the Columbus Hyatt batch did.",
+   "can_remain_unresolved_safely": true
   },
   {
    "normalized_name": "inn at brandywine falls",
@@ -83,6 +427,166 @@
    "classification": "ROUTED_NO_BRAND_ADAPTER",
    "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (PAGE_RENDERED); the pet policy itself is still unobserved",
    "next_action": "Attended browser capture against the routed official URL -- the URL is bound and identity-verified, but no registered brand adapter covers this property, so the deterministic queue cannot claim it.",
+   "can_remain_unresolved_safely": true
+  },
+  {
+   "normalized_name": "inn cahoots",
+   "canonical_name": "Inn Cahoots",
+   "city": "Seven Hills",
+   "postal_code": "44131",
+   "phone": "440.882.6669",
+   "official_url": "https://inncahootsbarandgrill.com",
+   "classification": "ADAPTER_GAP_INDEPENDENT",
+   "why_unresolved": "brand_unrecognised:inncahootsbarandgrill.com",
+   "next_action": "Independent property with no chain adapter. Open its own site and screenshot the pet policy plus the page area showing name/address.",
+   "can_remain_unresolved_safely": true
+  },
+  {
+   "normalized_name": "inn on coventry",
+   "canonical_name": "Inn on Coventry",
+   "city": "Cleveland",
+   "postal_code": "44106",
+   "phone": "216.371.1811",
+   "official_url": "https://www.theinnoncoventry.com/",
+   "classification": "ADAPTER_GAP_INDEPENDENT",
+   "why_unresolved": "brand_unrecognised:www.theinnoncoventry.com",
+   "next_action": "Independent property with no chain adapter. Open its own site and screenshot the pet policy plus the page area showing name/address.",
+   "can_remain_unresolved_safely": true
+  },
+  {
+   "normalized_name": "intercontinental suites hotel cleveland",
+   "canonical_name": "Intercontinental Suites Hotel Cleveland",
+   "city": "Cleveland",
+   "postal_code": "44106",
+   "phone": "216.707.4300",
+   "official_url": "https://www.icsuitescleveland.com/",
+   "classification": "ROUTING_REPAIRED_AWAITING_CAPTURE",
+   "why_unresolved": "PTF-CLEVELAND-ROUTING-REPAIR-001 bound a working property page; the pet policy is still unobserved.",
+   "next_action": "Open https://www.icsuitescleveland.com/ in the attended browser, verify the page's own address block matches the census identity, and capture the pet policy surface.",
+   "can_remain_unresolved_safely": true,
+   "routing_repair": {
+    "work_order": "PTF-CLEVELAND-ROUTING-REPAIR-001",
+    "as_of": "2026-08-16",
+    "verdict": "ROUTING_REPLACED",
+    "old_url": "https://www.intercontinentalsuitescleveland.com",
+    "evidence": "The recorded vanity 301-redirects to the property's own icsuitescleveland.com, which renders in the attended browser and carries 8800 Euclid Ave, 44106 and 216-707-4300 -- all three census signals."
+   }
+  },
+  {
+   "normalized_name": "kent state university hotel and conference center",
+   "canonical_name": "Kent State University Hotel & Conference Center",
+   "city": "Kent",
+   "postal_code": "44240",
+   "phone": "330.346.0100",
+   "official_url": "https://kentstatehotel.com/",
+   "classification": "ADAPTER_GAP_INDEPENDENT",
+   "why_unresolved": "brand_unrecognised:kentstatehotel.com",
+   "next_action": "Independent property with no chain adapter. Open its own site and screenshot the pet policy plus the page area showing name/address.",
+   "can_remain_unresolved_safely": true
+  },
+  {
+   "normalized_name": "lakeside motel",
+   "canonical_name": "Lakeside Motel",
+   "city": "Akron",
+   "postal_code": "44319",
+   "phone": "(330) 644-9666",
+   "official_url": "",
+   "classification": "NO_OFFICIAL_URL",
+   "why_unresolved": "no official URL was recoverable from the CVB listing",
+   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "can_remain_unresolved_safely": true,
+   "routing_repair": {
+    "work_order": "PTF-CLEVELAND-ROUTING-REPAIR-001",
+    "as_of": "2026-08-16",
+    "verdict": "ROUTING_UNRESOLVED",
+    "old_url": "",
+    "evidence": "visitakron-summit.org (CVB) lists Lakeside Motel at 3529 Manchester Rd, Akron 44319 with no website link; no first-party site exists. No URL is fabricated; the identity stays in the discovery lane."
+   }
+  },
+  {
+   "normalized_name": "magnuson extended stay",
+   "canonical_name": "Magnuson Extended Stay",
+   "city": "Canton",
+   "postal_code": "44718",
+   "phone": "(330) 494-2233",
+   "official_url": "https://www.magnusonhotels.com/magnusonhotelextendedstaycantonohio/",
+   "classification": "ROUTING_REPAIRED_AWAITING_CAPTURE",
+   "why_unresolved": "PTF-CLEVELAND-ROUTING-REPAIR-001 bound a working property page; the pet policy is still unobserved.",
+   "next_action": "Open https://www.magnusonhotels.com/magnusonhotelextendedstaycantonohio/ in the attended browser, verify the page's own address block matches the census identity, and capture the pet policy surface.",
+   "can_remain_unresolved_safely": true,
+   "routing_repair": {
+    "work_order": "PTF-CLEVELAND-ROUTING-REPAIR-001",
+    "as_of": "2026-08-16",
+    "verdict": "OFFICIAL_URL_FOUND",
+    "old_url": "",
+    "evidence": "magnusonhotels.com's own property page serves a plain GET and carries 4285 Everhard Rd NW, 44718 and 330-494-2233 -- all three census signals."
+   }
+  },
+  {
+   "normalized_name": "metropolitan hotel at the 9",
+   "canonical_name": "Metropolitan Hotel at the 9",
+   "city": "Cleveland",
+   "postal_code": "44115",
+   "phone": "216.239.1200",
+   "official_url": "https://www.metropolitancleveland.com/",
+   "classification": "ADAPTER_GAP_INDEPENDENT",
+   "why_unresolved": "brand_unrecognised:www.metropolitancleveland.com",
+   "next_action": "Independent property with no chain adapter. Open its own site and screenshot the pet policy plus the page area showing name/address.",
+   "can_remain_unresolved_safely": true
+  },
+  {
+   "normalized_name": "palmantiers motel",
+   "canonical_name": "Palmantiers Motel",
+   "city": "Minerva",
+   "postal_code": "44657",
+   "phone": "(330) 868-6000",
+   "official_url": "https://www.palmantiers.com/",
+   "classification": "ROUTED_NO_BRAND_ADAPTER",
+   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (PAGE_RENDERED); the pet policy itself is still unobserved",
+   "next_action": "Attended browser capture against the routed official URL -- the URL is bound and identity-verified, but no registered brand adapter covers this property, so the deterministic queue cannot claim it.",
+   "can_remain_unresolved_safely": true
+  },
+  {
+   "normalized_name": "ranch motel",
+   "canonical_name": "Ranch Motel",
+   "city": "Cuyahoga Falls",
+   "postal_code": "44223",
+   "phone": "(330) 928-8192",
+   "official_url": "",
+   "classification": "NO_OFFICIAL_URL",
+   "why_unresolved": "no official URL was recoverable from the CVB listing",
+   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
+   "can_remain_unresolved_safely": true,
+   "routing_repair": {
+    "work_order": "PTF-CLEVELAND-ROUTING-REPAIR-001",
+    "as_of": "2026-08-16",
+    "verdict": "ROUTING_UNRESOLVED",
+    "old_url": "",
+    "evidence": "visitakron-summit.org (CVB) lists Ranch Motel at 3608 State Rd, Cuyahoga Falls 44223 with no website link; no first-party site exists. No URL is fabricated; the identity stays in the discovery lane."
+   }
+  },
+  {
+   "normalized_name": "skyview lodge",
+   "canonical_name": "Skyview Lodge",
+   "city": "Brunswick",
+   "postal_code": "44212",
+   "phone": "330.225.8345",
+   "official_url": "https://www.skyviewlodgeinc.com/",
+   "classification": "ADAPTER_GAP_INDEPENDENT",
+   "why_unresolved": "brand_unrecognised:www.skyviewlodgeinc.com",
+   "next_action": "Independent property with no chain adapter. Open its own site and screenshot the pet policy plus the page area showing name/address.",
+   "can_remain_unresolved_safely": true
+  },
+  {
+   "normalized_name": "stone gables inn",
+   "canonical_name": "Stone Gables Inn",
+   "city": "Cleveland",
+   "postal_code": "44113",
+   "phone": "216.961.4654",
+   "official_url": "https://stonegablesinn.com/",
+   "classification": "ADAPTER_GAP_INDEPENDENT",
+   "why_unresolved": "brand_unrecognised:stonegablesinn.com",
+   "next_action": "Independent property with no chain adapter. Open its own site and screenshot the pet policy plus the page area showing name/address.",
    "can_remain_unresolved_safely": true
   },
   {
@@ -102,6 +606,56 @@
     "verdict": "ROUTING_UNRESOLVED",
     "old_url": "",
     "evidence": "chamberofcommerce.com confirms Sunset Motel at 10255 Northfield Rd, Northfield 44067; only OTA white-labels exist; no first-party site. No URL is fabricated; the identity stays in the discovery lane."
+   }
+  },
+  {
+   "normalized_name": "the bertram hotel and conference center",
+   "canonical_name": "The Bertram Hotel & Conference Center",
+   "city": "Aurora",
+   "postal_code": "44202",
+   "phone": "330.995.0200",
+   "official_url": "https://www.thebertraminn.com",
+   "classification": "ADAPTER_GAP_INDEPENDENT",
+   "why_unresolved": "brand_unrecognised:www.thebertraminn.com",
+   "next_action": "Independent property with no chain adapter. Open its own site and screenshot the pet policy plus the page area showing name/address.",
+   "can_remain_unresolved_safely": true
+  },
+  {
+   "normalized_name": "the bertram inn at glenmoor",
+   "canonical_name": "The Bertram Inn at Glenmoor",
+   "city": "Canton",
+   "postal_code": "44718",
+   "phone": "(330) 966-3600",
+   "official_url": "https://glenmoorcc.com/Hotel",
+   "classification": "ROUTING_REPAIRED_AWAITING_CAPTURE",
+   "why_unresolved": "PTF-CLEVELAND-ROUTING-REPAIR-001 bound a working property page; the pet policy is still unobserved.",
+   "next_action": "Open https://glenmoorcc.com/Hotel in the attended browser, verify the page's own address block matches the census identity, and capture the pet policy surface.",
+   "can_remain_unresolved_safely": true,
+   "routing_repair": {
+    "work_order": "PTF-CLEVELAND-ROUTING-REPAIR-001",
+    "as_of": "2026-08-16",
+    "verdict": "ROUTING_REPLACED",
+    "old_url": "https://glenmoorcc.com/Spa",
+    "evidence": "The recorded path is the spa. Glenmoor Country Club's own /Hotel page serves a plain GET and carries 4191 Glenmoor Rd NW, 44718, 330-966-3600 and the Bertram name."
+   }
+  },
+  {
+   "normalized_name": "the inn at amish door",
+   "canonical_name": "The Inn at Amish Door",
+   "city": "Wilmot",
+   "postal_code": "44689",
+   "phone": "(330) 359-7996",
+   "official_url": "https://amishdoor.com/the-inn-at-amish-door/",
+   "classification": "ROUTING_REPAIRED_AWAITING_CAPTURE",
+   "why_unresolved": "PTF-CLEVELAND-ROUTING-REPAIR-001 bound a working property page; the pet policy is still unobserved.",
+   "next_action": "Open https://amishdoor.com/the-inn-at-amish-door/ in the attended browser, verify the page's own address block matches the census identity, and capture the pet policy surface.",
+   "can_remain_unresolved_safely": true,
+   "routing_repair": {
+    "work_order": "PTF-CLEVELAND-ROUTING-REPAIR-001",
+    "as_of": "2026-08-16",
+    "verdict": "ROUTING_REPLACED",
+    "old_url": "https://www.milanaballroom.com/",
+    "evidence": "The recorded URL is an event-venue site. The Amish Door Village's own inn page serves a plain GET and carries 1210 Winesburg St, Wilmot, 44689 and 330-359-7996 -- all three census signals plus the property name."
    }
   },
   {
@@ -163,304 +717,6 @@
    }
   },
   {
-   "normalized_name": "doubletree by hilton tudor arms hotel",
-   "canonical_name": "DoubleTree by Hilton Tudor Arms Hotel",
-   "city": "Cleveland",
-   "postal_code": "44106",
-   "phone": "216.455.1260",
-   "official_url": "https://www.hilton.com/en/hotels/cleucdt-the-tudor-arms-hotel-cleveland/",
-   "classification": "ROUTED_AWAITING_CAPTURE",
-   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
-   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
-   "can_remain_unresolved_safely": true,
-   "capture_attempt": {
-    "run_id": "cleveland-policy-capture-003",
-    "outcome": "ACCESS_BLOCKED",
-    "detail": "www.hilton.com read-timeout, no response (directly attempted)",
-    "next_action": "attended/authenticated browser capture, or a direct operator phone call -- static HTTP times out at the brand-platform level (this exact block reproduces across every Dayton/Columbus/Cleveland worker run to date; not attempted here as a bypass, per ADR-PTF-AUTOMATED-BROWSING)"
-   }
-  },
-  {
-   "normalized_name": "holiday inn cleveland clinic",
-   "canonical_name": "Holiday Inn Cleveland Clinic",
-   "city": "Cleveland",
-   "postal_code": "44106",
-   "phone": "216.707.4200",
-   "official_url": "https://www.hiclevelandclinic.com/",
-   "classification": "ADAPTER_GAP_INDEPENDENT",
-   "why_unresolved": "brand_unrecognised:www.hiclevelandclinic.com",
-   "next_action": "Independent property with no chain adapter. Open its own site and screenshot the pet policy plus the page area showing name/address.",
-   "can_remain_unresolved_safely": true
-  },
-  {
-   "normalized_name": "inn on coventry",
-   "canonical_name": "Inn on Coventry",
-   "city": "Cleveland",
-   "postal_code": "44106",
-   "phone": "216.371.1811",
-   "official_url": "https://www.theinnoncoventry.com/",
-   "classification": "ADAPTER_GAP_INDEPENDENT",
-   "why_unresolved": "brand_unrecognised:www.theinnoncoventry.com",
-   "next_action": "Independent property with no chain adapter. Open its own site and screenshot the pet policy plus the page area showing name/address.",
-   "can_remain_unresolved_safely": true
-  },
-  {
-   "normalized_name": "intercontinental suites hotel cleveland",
-   "canonical_name": "Intercontinental Suites Hotel Cleveland",
-   "city": "Cleveland",
-   "postal_code": "44106",
-   "phone": "216.707.4300",
-   "official_url": "https://www.icsuitescleveland.com/",
-   "classification": "ROUTING_REPAIRED_AWAITING_CAPTURE",
-   "why_unresolved": "PTF-CLEVELAND-ROUTING-REPAIR-001 bound a working property page; the pet policy is still unobserved.",
-   "next_action": "Open https://www.icsuitescleveland.com/ in the attended browser, verify the page's own address block matches the census identity, and capture the pet policy surface.",
-   "can_remain_unresolved_safely": true,
-   "routing_repair": {
-    "work_order": "PTF-CLEVELAND-ROUTING-REPAIR-001",
-    "as_of": "2026-08-16",
-    "verdict": "ROUTING_REPLACED",
-    "old_url": "https://www.intercontinentalsuitescleveland.com",
-    "evidence": "The recorded vanity 301-redirects to the property's own icsuitescleveland.com, which renders in the attended browser and carries 8800 Euclid Ave, 44106 and 216-707-4300 -- all three census signals."
-   }
-  },
-  {
-   "normalized_name": "cleveland house hotels",
-   "canonical_name": "Cleveland House Hotels",
-   "city": "Lakewood",
-   "postal_code": "44107",
-   "phone": "216.202.3501",
-   "official_url": "https://thehousehotels.com/",
-   "classification": "ADAPTER_GAP_INDEPENDENT",
-   "why_unresolved": "brand_unrecognised:thehousehotels.com",
-   "next_action": "Independent property with no chain adapter. Open its own site and screenshot the pet policy plus the page area showing name/address.",
-   "can_remain_unresolved_safely": true
-  },
-  {
-   "normalized_name": "inn the doghouse",
-   "canonical_name": "Inn the Doghouse",
-   "city": "Lakewood",
-   "postal_code": "44107",
-   "phone": "216.651.0873",
-   "official_url": "https://innthedoghouse.com/",
-   "classification": "ADAPTER_GAP_INDEPENDENT",
-   "why_unresolved": "brand_unrecognised:innthedoghouse.com",
-   "next_action": "Independent property with no chain adapter. Open its own site and screenshot the pet policy plus the page area showing name/address.",
-   "can_remain_unresolved_safely": true
-  },
-  {
-   "normalized_name": "hopp inn",
-   "canonical_name": "Hopp Inn",
-   "city": "Cleveland",
-   "postal_code": "44109",
-   "phone": "216.398.4143",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
-   "can_remain_unresolved_safely": true,
-   "routing_repair": {
-    "work_order": "PTF-CLEVELAND-ROUTING-REPAIR-001",
-    "as_of": "2026-08-16",
-    "verdict": "IDENTITY_CONFLICT",
-    "old_url": "",
-    "evidence": "Every authoritative source (thisiscleveland.com CVB, chamberofcommerce.com -- category 'bar') describes 4896 Pearl Rd as the Hopp-Inn, a neighborhood BAR with Polish food, not lodging. Census-review candidate; state stays in the discovery lane for the same reason as Harbor Inn."
-   }
-  },
-  {
-   "normalized_name": "the rowley inn",
-   "canonical_name": "The Rowley Inn",
-   "city": "Cleveland",
-   "postal_code": "44109",
-   "phone": "216.795.5345",
-   "official_url": "https://www.therowleyinn.com",
-   "classification": "ADAPTER_GAP_INDEPENDENT",
-   "why_unresolved": "brand_unrecognised:www.therowleyinn.com",
-   "next_action": "Independent property with no chain adapter. Open its own site and screenshot the pet policy plus the page area showing name/address.",
-   "can_remain_unresolved_safely": true
-  },
-  {
-   "normalized_name": "harbor inn",
-   "canonical_name": "Harbor Inn",
-   "city": "Cleveland",
-   "postal_code": "44113",
-   "phone": "216.241.3232",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
-   "can_remain_unresolved_safely": true,
-   "routing_repair": {
-    "work_order": "PTF-CLEVELAND-ROUTING-REPAIR-001",
-    "as_of": "2026-08-16",
-    "verdict": "IDENTITY_CONFLICT",
-    "old_url": "",
-    "evidence": "Every authoritative source (thisiscleveland.com CVB, chamberofcommerce.com -- category 'bar') describes 1219 Main Ave as the Harbor Inn Cafe, one of Cleveland's oldest BARS, not lodging. Census-review candidate alongside Inn the Doghouse and The Rowley Inn; the state stays in the discovery lane because a category exit is a census decision, not a routing one."
-   }
-  },
-  {
-   "normalized_name": "hotel cleveland",
-   "canonical_name": "Hotel Cleveland",
-   "city": "Cleveland",
-   "postal_code": "44113",
-   "phone": "216.696.5600",
-   "official_url": "https://www.hotelcleveland.com",
-   "classification": "ADAPTER_GAP_INDEPENDENT",
-   "why_unresolved": "brand_unrecognised:www.hotelcleveland.com",
-   "next_action": "Independent property with no chain adapter. Open its own site and screenshot the pet policy plus the page area showing name/address.",
-   "can_remain_unresolved_safely": true
-  },
-  {
-   "normalized_name": "stone gables inn",
-   "canonical_name": "Stone Gables Inn",
-   "city": "Cleveland",
-   "postal_code": "44113",
-   "phone": "216.961.4654",
-   "official_url": "https://stonegablesinn.com/",
-   "classification": "ADAPTER_GAP_INDEPENDENT",
-   "why_unresolved": "brand_unrecognised:stonegablesinn.com",
-   "next_action": "Independent property with no chain adapter. Open its own site and screenshot the pet policy plus the page area showing name/address.",
-   "can_remain_unresolved_safely": true
-  },
-  {
-   "normalized_name": "hyatt regency",
-   "canonical_name": "Hyatt Regency",
-   "city": "Cleveland",
-   "postal_code": "44114",
-   "phone": "216.575.1234",
-   "official_url": "https://cleveland.regency.hyatt.com",
-   "classification": "ADR_ACCESS_BLOCKED",
-   "why_unresolved": "no_adapter_for_brand:hyatt",
-   "next_action": "hyatt.com serves a Kasada interstitial that ADR-PTF-AUTOMATED-BROWSING forbids satisfying. Open the property page yourself and supply the 'We Are Pet Friendly' block and the 'Getting Here' block, exactly as the Columbus Hyatt batch did.",
-   "can_remain_unresolved_safely": true
-  },
-  {
-   "normalized_name": "metropolitan hotel at the 9",
-   "canonical_name": "Metropolitan Hotel at the 9",
-   "city": "Cleveland",
-   "postal_code": "44115",
-   "phone": "216.239.1200",
-   "official_url": "https://www.metropolitancleveland.com/",
-   "classification": "ADAPTER_GAP_INDEPENDENT",
-   "why_unresolved": "brand_unrecognised:www.metropolitancleveland.com",
-   "next_action": "Independent property with no chain adapter. Open its own site and screenshot the pet policy plus the page area showing name/address.",
-   "can_remain_unresolved_safely": true
-  },
-  {
-   "normalized_name": "hyatt place cleveland lyndhurst legacy village",
-   "canonical_name": "Hyatt Place Cleveland Lyndhurst Legacy Village",
-   "city": "Lyndhurst",
-   "postal_code": "44124",
-   "phone": "216.382.3350",
-   "official_url": "https://clevelandlyndhurst.place.hyatt.com/en/hotel/home.html",
-   "classification": "ADR_ACCESS_BLOCKED",
-   "why_unresolved": "no_adapter_for_brand:hyatt",
-   "next_action": "hyatt.com serves a Kasada interstitial that ADR-PTF-AUTOMATED-BROWSING forbids satisfying. Open the property page yourself and supply the 'We Are Pet Friendly' block and the 'Getting Here' block, exactly as the Columbus Hyatt batch did.",
-   "can_remain_unresolved_safely": true
-  },
-  {
-   "normalized_name": "highlander inn",
-   "canonical_name": "Highlander Inn",
-   "city": "Cleveland",
-   "postal_code": "44128",
-   "phone": "216.475.4070",
-   "official_url": "https://highlanderinnhotel.com/",
-   "classification": "ROUTING_REPAIRED_AWAITING_CAPTURE",
-   "why_unresolved": "PTF-CLEVELAND-ROUTING-REPAIR-001 bound a working property page; the pet policy is still unobserved.",
-   "next_action": "Open https://highlanderinnhotel.com/ in the attended browser, verify the page's own address block matches the census identity, and capture the pet policy surface.",
-   "can_remain_unresolved_safely": true,
-   "routing_repair": {
-    "work_order": "PTF-CLEVELAND-ROUTING-REPAIR-001",
-    "as_of": "2026-08-16",
-    "verdict": "ROUTING_REPLACED",
-    "old_url": "https://www.highlanderinncle.com",
-    "evidence": "The old domain no longer resolves (DNS). The property's new domain highlanderinnhotel.com serves a plain GET and carries 4353 Northfield Rd, 44128 and the census phone digits 216-475-4070."
-   }
-  },
-  {
-   "normalized_name": "holiday inn cleveland south independence",
-   "canonical_name": "Holiday Inn Cleveland South Independence",
-   "city": "Independence",
-   "postal_code": "44131",
-   "phone": "216.524.8050",
-   "official_url": "https://www.hirockside.com",
-   "classification": "ADAPTER_GAP_INDEPENDENT",
-   "why_unresolved": "brand_unrecognised:www.hirockside.com",
-   "next_action": "Independent property with no chain adapter. Open its own site and screenshot the pet policy plus the page area showing name/address.",
-   "can_remain_unresolved_safely": true
-  },
-  {
-   "normalized_name": "home2 suites by hilton",
-   "canonical_name": "Home2 Suites by Hilton",
-   "city": "Independence",
-   "postal_code": "44131",
-   "phone": "216.264.4272",
-   "official_url": "https://www.home2suites.com",
-   "classification": "ADAPTER_GAP_INDEPENDENT",
-   "why_unresolved": "brand_unrecognised:www.home2suites.com",
-   "next_action": "Independent property with no chain adapter. Open its own site and screenshot the pet policy plus the page area showing name/address.",
-   "can_remain_unresolved_safely": true
-  },
-  {
-   "normalized_name": "inn cahoots",
-   "canonical_name": "Inn Cahoots",
-   "city": "Seven Hills",
-   "postal_code": "44131",
-   "phone": "440.882.6669",
-   "official_url": "https://inncahootsbarandgrill.com",
-   "classification": "ADAPTER_GAP_INDEPENDENT",
-   "why_unresolved": "brand_unrecognised:inncahootsbarandgrill.com",
-   "next_action": "Independent property with no chain adapter. Open its own site and screenshot the pet policy plus the page area showing name/address.",
-   "can_remain_unresolved_safely": true
-  },
-  {
-   "normalized_name": "woodspring suites cleveland",
-   "canonical_name": "Woodspring Suites Cleveland",
-   "city": "Cleveland",
-   "postal_code": "44135",
-   "phone": "216.303.7060",
-   "official_url": "https://www.woodspring.com",
-   "classification": "ADAPTER_GAP_INDEPENDENT",
-   "why_unresolved": "brand_unrecognised:www.woodspring.com",
-   "next_action": "Independent property with no chain adapter. Open its own site and screenshot the pet policy plus the page area showing name/address.",
-   "can_remain_unresolved_safely": true
-  },
-  {
-   "normalized_name": "hyatt place cleveland westlake crocker park",
-   "canonical_name": "Hyatt Place Cleveland Westlake Crocker Park",
-   "city": "Westlake",
-   "postal_code": "44145",
-   "phone": "440.871.3100",
-   "official_url": "https://hyattplaceclevelandwestlake.com",
-   "classification": "ADR_ACCESS_BLOCKED",
-   "why_unresolved": "brand_unrecognised:hyattplaceclevelandwestlake.com",
-   "next_action": "hyatt.com serves a Kasada interstitial that ADR-PTF-AUTOMATED-BROWSING forbids satisfying. Open the property page yourself and supply the 'We Are Pet Friendly' block and the 'Getting Here' block, exactly as the Columbus Hyatt batch did.",
-   "can_remain_unresolved_safely": true
-  },
-  {
-   "normalized_name": "aurora inn",
-   "canonical_name": "Aurora Inn",
-   "city": "Aurora",
-   "postal_code": "44202",
-   "phone": "330.562.0767",
-   "official_url": "https://aurorainnohio.com/",
-   "classification": "ADAPTER_GAP_INDEPENDENT",
-   "why_unresolved": "brand_unrecognised:aurorainnohio.com",
-   "next_action": "Independent property with no chain adapter. Open its own site and screenshot the pet policy plus the page area showing name/address.",
-   "can_remain_unresolved_safely": true
-  },
-  {
-   "normalized_name": "the bertram hotel and conference center",
-   "canonical_name": "The Bertram Hotel & Conference Center",
-   "city": "Aurora",
-   "postal_code": "44202",
-   "phone": "330.995.0200",
-   "official_url": "https://www.thebertraminn.com",
-   "classification": "ADAPTER_GAP_INDEPENDENT",
-   "why_unresolved": "brand_unrecognised:www.thebertraminn.com",
-   "next_action": "Independent property with no chain adapter. Open its own site and screenshot the pet policy plus the page area showing name/address.",
-   "can_remain_unresolved_safely": true
-  },
-  {
    "normalized_name": "walden country inn and stables",
    "canonical_name": "Walden Country Inn & Stables",
    "city": "Aurora",
@@ -473,314 +729,15 @@
    "can_remain_unresolved_safely": true
   },
   {
-   "normalized_name": "berlin s motel",
-   "canonical_name": "Berlin's Motel",
-   "city": "Barberton",
-   "postal_code": "44203",
-   "phone": "(330) 825-9984",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
-   "can_remain_unresolved_safely": true,
-   "routing_repair": {
-    "work_order": "PTF-CLEVELAND-ROUTING-REPAIR-001",
-    "as_of": "2026-08-16",
-    "verdict": "ROUTING_UNRESOLVED",
-    "old_url": "",
-    "evidence": "chamberofcommerce.com business directory confirms Berlin's Motel at 334 31st St NW, Barberton 44203; no first-party website exists in any authoritative source. No URL is fabricated; the identity stays in the discovery lane."
-   }
-  },
-  {
-   "normalized_name": "skyview lodge",
-   "canonical_name": "Skyview Lodge",
-   "city": "Brunswick",
-   "postal_code": "44212",
-   "phone": "330.225.8345",
-   "official_url": "https://www.skyviewlodgeinc.com/",
+   "normalized_name": "woodspring suites cleveland",
+   "canonical_name": "Woodspring Suites Cleveland",
+   "city": "Cleveland",
+   "postal_code": "44135",
+   "phone": "216.303.7060",
+   "official_url": "https://www.woodspring.com",
    "classification": "ADAPTER_GAP_INDEPENDENT",
-   "why_unresolved": "brand_unrecognised:www.skyviewlodgeinc.com",
+   "why_unresolved": "brand_unrecognised:www.woodspring.com",
    "next_action": "Independent property with no chain adapter. Open its own site and screenshot the pet policy plus the page area showing name/address.",
-   "can_remain_unresolved_safely": true
-  },
-  {
-   "normalized_name": "ranch motel",
-   "canonical_name": "Ranch Motel",
-   "city": "Cuyahoga Falls",
-   "postal_code": "44223",
-   "phone": "(330) 928-8192",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
-   "can_remain_unresolved_safely": true,
-   "routing_repair": {
-    "work_order": "PTF-CLEVELAND-ROUTING-REPAIR-001",
-    "as_of": "2026-08-16",
-    "verdict": "ROUTING_UNRESOLVED",
-    "old_url": "",
-    "evidence": "visitakron-summit.org (CVB) lists Ranch Motel at 3608 State Rd, Cuyahoga Falls 44223 with no website link; no first-party site exists. No URL is fabricated; the identity stays in the discovery lane."
-   }
-  },
-  {
-   "normalized_name": "courtyard by marriott akron stow",
-   "canonical_name": "Courtyard by Marriott Akron Stow",
-   "city": "Stow",
-   "postal_code": "44224",
-   "phone": "(330) 945-9722",
-   "official_url": "https://www.marriott.com/en-us/hotels/cakcy-courtyard-akron-stow/overview/",
-   "classification": "ROUTED_AWAITING_CAPTURE",
-   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
-   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
-   "can_remain_unresolved_safely": true,
-   "capture_attempt": {
-    "run_id": "cleveland-policy-capture-003",
-    "outcome": "ACCESS_BLOCKED",
-    "detail": "www.marriott.com HTTP 403 Forbidden (directly attempted)",
-    "next_action": "attended/authenticated browser capture, or a direct operator phone call -- static HTTP is bot-walled at the brand-platform level (this exact block reproduces across every Dayton/Columbus/Cleveland worker run to date; not attempted here as a bypass, per ADR-PTF-AUTOMATED-BROWSING)"
-   }
-  },
-  {
-   "normalized_name": "economy inn",
-   "canonical_name": "Economy Inn",
-   "city": "Cuyahoga Falls",
-   "postal_code": "44224",
-   "phone": "(330) 929-8200",
-   "official_url": "https://www.economyinnohio.com/",
-   "classification": "ROUTED_NO_BRAND_ADAPTER",
-   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (PAGE_RENDERED); the pet policy itself is still unobserved",
-   "next_action": "Attended browser capture against the routed official URL -- the URL is bound and identity-verified, but no registered brand adapter covers this property, so the deterministic queue cannot claim it.",
-   "can_remain_unresolved_safely": true
-  },
-  {
-   "normalized_name": "budget inn",
-   "canonical_name": "Budget Inn",
-   "city": "Hudson",
-   "postal_code": "44236",
-   "phone": "(330) 650-4341",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
-   "can_remain_unresolved_safely": true,
-   "routing_repair": {
-    "work_order": "PTF-CLEVELAND-ROUTING-REPAIR-001",
-    "as_of": "2026-08-16",
-    "verdict": "ROUTING_UNRESOLVED",
-    "old_url": "",
-    "evidence": "chamberofcommerce.com confirms The Budget Inn at 5891 Akron-Cleveland Rd, Hudson 44236; the only web presences are OTA white-labels; no first-party site. No URL is fabricated; the identity stays in the discovery lane."
-   }
-  },
-  {
-   "normalized_name": "clarion inn and conference center",
-   "canonical_name": "Clarion Inn and Conference Center",
-   "city": "Hudson",
-   "postal_code": "44236",
-   "phone": "330.653.9191",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
-   "can_remain_unresolved_safely": true,
-   "routing_repair": {
-    "work_order": "PTF-CLEVELAND-ROUTING-REPAIR-001",
-    "as_of": "2026-08-16",
-    "verdict": "ROUTING_UNRESOLVED",
-    "old_url": "",
-    "evidence": "thisiscleveland.com (CVB) confirms the property operating at 6625 Dean Memorial Parkway, Hudson 44236, 330.653.9191, but Choice Hotels lists no Clarion in Hudson OH -- the property appears to have left the flag -- and no first-party site exists. No URL is fabricated; the identity stays in the discovery lane."
-   }
-  },
-  {
-   "normalized_name": "kent state university hotel and conference center",
-   "canonical_name": "Kent State University Hotel & Conference Center",
-   "city": "Kent",
-   "postal_code": "44240",
-   "phone": "330.346.0100",
-   "official_url": "https://kentstatehotel.com/",
-   "classification": "ADAPTER_GAP_INDEPENDENT",
-   "why_unresolved": "brand_unrecognised:kentstatehotel.com",
-   "next_action": "Independent property with no chain adapter. Open its own site and screenshot the pet policy plus the page area showing name/address.",
-   "can_remain_unresolved_safely": true
-  },
-  {
-   "normalized_name": "don el motel",
-   "canonical_name": "Don-El Motel",
-   "city": "Peninsula",
-   "postal_code": "44264",
-   "phone": "(330) 650-0596",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
-   "can_remain_unresolved_safely": true,
-   "routing_repair": {
-    "work_order": "PTF-CLEVELAND-ROUTING-REPAIR-001",
-    "as_of": "2026-08-16",
-    "verdict": "ROUTING_UNRESOLVED",
-    "old_url": "",
-    "evidence": "visitakron-summit.org (CVB) lists Don-El Motel at 5133 Akron-Cleveland Rd, Peninsula 44264 with no website link; no first-party site exists. No URL is fabricated; the identity stays in the discovery lane."
-   }
-  },
-  {
-   "normalized_name": "courtesy inn",
-   "canonical_name": "Courtesy Inn",
-   "city": "Akron",
-   "postal_code": "44303",
-   "phone": "(330) 762-9581",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
-   "can_remain_unresolved_safely": true,
-   "routing_repair": {
-    "work_order": "PTF-CLEVELAND-ROUTING-REPAIR-001",
-    "as_of": "2026-08-16",
-    "verdict": "ROUTING_UNRESOLVED",
-    "old_url": "",
-    "evidence": "visitakron-summit.org (CVB) lists Courtesy Inn at 210 W Market St, Akron 44303 with no website link; no first-party site exists. No URL is fabricated; the identity stays in the discovery lane."
-   }
-  },
-  {
-   "normalized_name": "lakeside motel",
-   "canonical_name": "Lakeside Motel",
-   "city": "Akron",
-   "postal_code": "44319",
-   "phone": "(330) 644-9666",
-   "official_url": "",
-   "classification": "NO_OFFICIAL_URL",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "Open the property's own site (search the exact name + city), confirm the page names this hotel and address, then screenshot the pet-policy section and the identity block.",
-   "can_remain_unresolved_safely": true,
-   "routing_repair": {
-    "work_order": "PTF-CLEVELAND-ROUTING-REPAIR-001",
-    "as_of": "2026-08-16",
-    "verdict": "ROUTING_UNRESOLVED",
-    "old_url": "",
-    "evidence": "visitakron-summit.org (CVB) lists Lakeside Motel at 3529 Manchester Rd, Akron 44319 with no website link; no first-party site exists. No URL is fabricated; the identity stays in the discovery lane."
-   }
-  },
-  {
-   "normalized_name": "palmantiers motel",
-   "canonical_name": "Palmantiers Motel",
-   "city": "Minerva",
-   "postal_code": "44657",
-   "phone": "(330) 868-6000",
-   "official_url": "https://www.palmantiers.com/",
-   "classification": "ROUTED_NO_BRAND_ADAPTER",
-   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (PAGE_RENDERED); the pet policy itself is still unobserved",
-   "next_action": "Attended browser capture against the routed official URL -- the URL is bound and identity-verified, but no registered brand adapter covers this property, so the deterministic queue cannot claim it.",
-   "can_remain_unresolved_safely": true
-  },
-  {
-   "normalized_name": "the inn at amish door",
-   "canonical_name": "The Inn at Amish Door",
-   "city": "Wilmot",
-   "postal_code": "44689",
-   "phone": "(330) 359-7996",
-   "official_url": "https://amishdoor.com/the-inn-at-amish-door/",
-   "classification": "ROUTING_REPAIRED_AWAITING_CAPTURE",
-   "why_unresolved": "PTF-CLEVELAND-ROUTING-REPAIR-001 bound a working property page; the pet policy is still unobserved.",
-   "next_action": "Open https://amishdoor.com/the-inn-at-amish-door/ in the attended browser, verify the page's own address block matches the census identity, and capture the pet policy surface.",
-   "can_remain_unresolved_safely": true,
-   "routing_repair": {
-    "work_order": "PTF-CLEVELAND-ROUTING-REPAIR-001",
-    "as_of": "2026-08-16",
-    "verdict": "ROUTING_REPLACED",
-    "old_url": "https://www.milanaballroom.com/",
-    "evidence": "The recorded URL is an event-venue site. The Amish Door Village's own inn page serves a plain GET and carries 1210 Winesburg St, Wilmot, 44689 and 330-359-7996 -- all three census signals plus the property name."
-   }
-  },
-  {
-   "normalized_name": "magnuson extended stay",
-   "canonical_name": "Magnuson Extended Stay",
-   "city": "Canton",
-   "postal_code": "44718",
-   "phone": "(330) 494-2233",
-   "official_url": "https://www.magnusonhotels.com/magnusonhotelextendedstaycantonohio/",
-   "classification": "ROUTING_REPAIRED_AWAITING_CAPTURE",
-   "why_unresolved": "PTF-CLEVELAND-ROUTING-REPAIR-001 bound a working property page; the pet policy is still unobserved.",
-   "next_action": "Open https://www.magnusonhotels.com/magnusonhotelextendedstaycantonohio/ in the attended browser, verify the page's own address block matches the census identity, and capture the pet policy surface.",
-   "can_remain_unresolved_safely": true,
-   "routing_repair": {
-    "work_order": "PTF-CLEVELAND-ROUTING-REPAIR-001",
-    "as_of": "2026-08-16",
-    "verdict": "OFFICIAL_URL_FOUND",
-    "old_url": "",
-    "evidence": "magnusonhotels.com's own property page serves a plain GET and carries 4285 Everhard Rd NW, 44718 and 330-494-2233 -- all three census signals."
-   }
-  },
-  {
-   "normalized_name": "quality inn hall of fame",
-   "canonical_name": "Quality Inn Hall of Fame",
-   "city": "Canton",
-   "postal_code": "44718",
-   "phone": "(330) 956-5056",
-   "official_url": "https://www.choicehotels.com/ohio/canton/quality-inn-hotels/oh584",
-   "classification": "ROUTED_AWAITING_CAPTURE",
-   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
-   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
-   "can_remain_unresolved_safely": true,
-   "capture_attempt": {
-    "run_id": "cleveland-policy-capture-003",
-    "outcome": "ACCESS_BLOCKED",
-    "detail": "www.choicehotels.com read-timeout, no response (directly attempted)",
-    "next_action": "attended/authenticated browser capture, or a direct operator phone call -- static HTTP times out at the brand-platform level (this exact block reproduces across every Dayton/Columbus/Cleveland worker run to date; not attempted here as a bypass, per ADR-PTF-AUTOMATED-BROWSING)"
-   }
-  },
-  {
-   "normalized_name": "the bertram inn at glenmoor",
-   "canonical_name": "The Bertram Inn at Glenmoor",
-   "city": "Canton",
-   "postal_code": "44718",
-   "phone": "(330) 966-3600",
-   "official_url": "https://glenmoorcc.com/Hotel",
-   "classification": "ROUTING_REPAIRED_AWAITING_CAPTURE",
-   "why_unresolved": "PTF-CLEVELAND-ROUTING-REPAIR-001 bound a working property page; the pet policy is still unobserved.",
-   "next_action": "Open https://glenmoorcc.com/Hotel in the attended browser, verify the page's own address block matches the census identity, and capture the pet policy surface.",
-   "can_remain_unresolved_safely": true,
-   "routing_repair": {
-    "work_order": "PTF-CLEVELAND-ROUTING-REPAIR-001",
-    "as_of": "2026-08-16",
-    "verdict": "ROUTING_REPLACED",
-    "old_url": "https://glenmoorcc.com/Spa",
-    "evidence": "The recorded path is the spa. Glenmoor Country Club's own /Hotel page serves a plain GET and carries 4191 Glenmoor Rd NW, 44718, 330-966-3600 and the Bertram name."
-   }
-  },
-  {
-   "normalized_name": "best western plus north canton inn and suites",
-   "canonical_name": "Best Western Plus North Canton Inn & Suites",
-   "city": "North Canton",
-   "postal_code": "44720",
-   "phone": "(330) 497-8799",
-   "official_url": "https://www.bestwestern.com/en_US/book/hotels-in-north-canton/best-western-plus-north-canton-inn-suites/propertyCode.36148.html",
-   "classification": "ROUTED_AWAITING_CAPTURE",
-   "why_unresolved": "official URL recovered and identity-bound by PTF-CLEVELAND-URL-RECOVERY-WORKER-002 (BRAND_INDEX_BINDING); the pet policy itself is still unobserved",
-   "next_action": "Run the capture worker against the routed official URL and screenshot the pet-policy section plus the identity block; this hotel is already in the capture queue and needs no further routing work.",
-   "can_remain_unresolved_safely": true,
-   "capture_attempt": {
-    "run_id": "cleveland-policy-capture-003",
-    "outcome": "ACCESS_BLOCKED",
-    "detail": "www.bestwestern.com HTTP 403 Forbidden (directly attempted)",
-    "next_action": "attended/authenticated browser capture, or a direct operator phone call -- static HTTP is bot-walled at the brand-platform level (this exact block reproduces across every Dayton/Columbus/Cleveland worker run to date; not attempted here as a bypass, per ADR-PTF-AUTOMATED-BROWSING)"
-   },
-   "routing_repair": {
-    "work_order": "PTF-CLEVELAND-ROUTING-REPAIR-001",
-    "as_of": "2026-08-16",
-    "verdict": "ROUTING_UNRESOLVED",
-    "old_url": "https://www.bestwestern.com/en_US/book/hotels-in-north-canton/best-western-plus-north-canton-inn-suites/propertyCode.36148.html",
-    "evidence": "Both the direct hotel-rooms.36148 URL and the canonical property-page URL redirect to bestwestern.com's search page (pre-filled with a different city), so the brand endpoint refuses to serve this property page to this session. Closure is NOT inferred: the Canton CVB (explorecantonohio.com) lists the property as operating at 6889 Sunset Strip Ave NW, North Canton 44720. The route is HELD with the candidate URL retained; an attended or operator session must re-probe before capture."
-   }
-  },
-  {
-   "normalized_name": "hyatt place canton",
-   "canonical_name": "Hyatt Place Canton",
-   "city": "Canton",
-   "postal_code": "44720",
-   "phone": "(330) 244-1700",
-   "official_url": "",
-   "classification": "ADR_ACCESS_BLOCKED",
-   "why_unresolved": "no official URL was recoverable from the CVB listing",
-   "next_action": "hyatt.com serves a Kasada interstitial that ADR-PTF-AUTOMATED-BROWSING forbids satisfying. Open the property page yourself and supply the 'We Are Pet Friendly' block and the 'Getting Here' block, exactly as the Columbus Hyatt batch did.",
    "can_remain_unresolved_safely": true
   }
  ],
@@ -799,5 +756,10 @@
  "pass2_update": "PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001 removed 43 rows (20 published, 23 verified no-pets) after the attended capture pass; every removal is traceable in cleveland_pass2_capture_results.json.",
  "pass3_update": "PTF-CLEVELAND-PASS3-FOUNDER-DECISIONS-001 removed 44 rows (40 published, 4 verified no-pets) after the Pass-3 attended capture pass; every removal is traceable in cleveland_pass3_capture_results.json.",
  "routing_repair_001": "PTF-CLEVELAND-ROUTING-REPAIR-001 adjudicated 43 routing rows: every verdict, old URL and the exact evidence live on each item's routing_repair block and in cleveland_routing_repair_001_results.json.",
- "pass4_update": "PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001 removed 23 rows (18 published, 5 verified no-pets) and rewrote two renamed identity keys; every removal is traceable in cleveland_pass4_capture_results.json."
+ "pass4_update": "PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001 removed 23 rows (18 published, 5 verified no-pets) and rewrote two renamed identity keys; every removal is traceable in cleveland_pass4_capture_results.json.",
+ "application_005_update": {
+  "work_order": "PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005",
+  "as_of": "2026-09-01",
+  "what_changed": "census promoted 188 -> 220; 21 pet-friendly records and 11 verified-no-pets exclusions applied from the hardened orders' bound artifacts; the unresolved set is re-counted from cleveland_final_partition_005.json. A row admitted since the 2026-08-17 manifest carries its partition state as its classification."
+ }
 }

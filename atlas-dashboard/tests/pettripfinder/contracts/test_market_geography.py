@@ -50,7 +50,11 @@ EXPECTED_ROUTE_MODE = {COLUMBUS: "legacy_unprefixed", CLEVELAND: "market_prefixe
     DAYTON: "market_prefixed", CINCINNATI: "market_prefixed",
     PITTSBURGH: "market_prefixed", DETROIT: "market_prefixed",
     INDIANAPOLIS: "market_prefixed", MILWAUKEE: "market_prefixed"}
-EXPECTED_ROWS = {COLUMBUS: 112, CLEVELAND: 188, DAYTON: 129, CINCINNATI: 257,
+EXPECTED_ROWS = {COLUMBUS: 112,
+                 # 188 -> 220 at PTF-CLEVELAND-AKRON-CANTON-HARDENED-
+                 # APPLICATION-005: the hardened shadow census promoted whole
+                 # (3 retirements, 1 successor rename, 35 admissions).
+                 CLEVELAND: 220, DAYTON: 129, CINCINNATI: 257,
                  # 96 -> 101 at PTF-PITTSBURGH-FOUNDER-HOLD-RESOLUTION-005,
                  # an ADD-ONLY promotion of five identities that each
                  # carried a founder signature the sync could not apply

@@ -37,7 +37,10 @@ from scripts.pettripfinder.policy_migration import (
 MARKETS = tuple(POLICY_PACKAGES)
 # Cleveland grew 21 -> 41 when PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001
 # published the founder-approved attended-capture candidates.
-EXPECTED_PUBLISHED = {"columbus-oh": 88, "cleveland-akron-canton-oh": 99,
+EXPECTED_PUBLISHED = {"columbus-oh": 88,
+                      # 99 -> 120 at PTF-CLEVELAND-AKRON-CANTON-HARDENED-
+                      # APPLICATION-005 (21 pending records applied).
+                      "cleveland-akron-canton-oh": 120,
                       "dayton-oh": 47}
 
 #: Legacy fact keys that must not survive anywhere in active authority.
@@ -115,7 +118,7 @@ def test_the_migrated_corpus_is_still_exactly_1_2(packages, records):
 def test_published_counts_are_unchanged(packages):
     counts = {m: len(packages[m]["hotels"]) for m in MARKETS}
     assert counts == EXPECTED_PUBLISHED
-    assert sum(counts.values()) == 234
+    assert sum(counts.values()) == 255
 
 
 def test_every_record_validates_against_the_frozen_contract(packages):
@@ -267,7 +270,11 @@ def test_silence_restatements_were_dropped_not_recoded():
     # Premier Suites' cleaning-fee ceilings, Red Roof Westlake's non-pet
     # deposit, Wyndham Garden Westlake's discretionary sanitation charge,
     # and Sonesta Westlake's unstated-refundability deposit.
-    assert total == 67
+    # 67 -> 82 at PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005: the
+    # seven newly published ESA records each withhold the two-ceiling fee and
+    # the 36-inch size rule (14), and Red Roof Akron withholds its
+    # per-additional-pet schedule (1).
+    assert total == 82
 
 
 def test_a_withheld_field_is_never_also_published(records):

@@ -39,6 +39,9 @@ def _exists(p: Path):
 
 
 def test_live_authority_unchanged_since_order_001_snapshot():
+    if (PKG / "cleveland_akron_canton_oh_promotion_report_005.json").exists():
+        pytest.skip("epoch pin: PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005 promoted the live "
+                    "state under founder authorization (pinned by test_cleveland_hardened_application_005.py)")
     snapshot = _read(PKG / f"{M}_hardened_snapshot_001.json")
     changed = [rel for rel, meta in snapshot["protected_files"].items() if hashlib.sha256((_DASH / rel).read_bytes()).hexdigest() != meta["sha256"]]
     assert changed == [], changed

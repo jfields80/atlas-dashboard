@@ -53,8 +53,10 @@ class TestClevelandAuthority:
         assert facts["market"] == CLEVELAND
         # 21 before the Pass-2 founder decisions published twenty more;
         # 41 before Pass 3 published forty more; 81 before Pass 4
-        # published eighteen more.
-        assert len(facts["hotels"]) == 99
+        # published eighteen more; 99 before
+        # PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005 applied the
+        # twenty-one pending hardened-order records.
+        assert len(facts["hotels"]) == 120
         assert {h["verification_state"] for h in facts["hotels"]} == {"VERIFIED_PET_FRIENDLY"}
 
     def test_eight_verified_no_pets_are_cleveland_owned(self):
@@ -62,8 +64,9 @@ class TestClevelandAuthority:
                if e.get("market_id") == CLEVELAND
                and e["exclusion_state"] == "VERIFIED_NO_PETS"]
         # 8 before Pass 2; 23 first-party refusals joined them; Pass 3
-        # added 4; Pass 4 added 5 more.
-        assert len(cle) == 40
+        # added 4; Pass 4 added 5 more; the hardened APPLICATION-005 order
+        # applied 11 more first-party refusals.
+        assert len(cle) == 51
 
     def test_every_exclusion_states_its_market(self):
         """Implicit ownership defaulted Columbus's 14 exclusions into whichever
@@ -127,7 +130,11 @@ class TestClevelandAuthority:
         # tier band), Crowne Plaza's and Sonesta's unstated-refundability
         # deposits, Red Roof Westlake's property-wide deposit, Wyndham
         # Garden's discretionary sanitation fee, and ESA's ceiling schedule.
-        assert withheld_total == 32
+        # +15 from the hardened APPLICATION-005 records: the seven newly
+        # published ESA properties each withhold the two-ceiling fee ladder
+        # and the 36-inch size rule, and Red Roof Akron withholds its
+        # per-additional-pet fee schedule.
+        assert withheld_total == 47
 
     def test_no_invented_money_or_weight_units(self, facts):
         for hotel in facts["hotels"]:
@@ -187,7 +194,7 @@ class TestMarketIsolation:
     def test_cleveland_inventory_is_owned_and_scoped(self):
         rows = read_production_rows()
         cle = owned_by(rows, CLEVELAND)
-        assert len(cle) == 99
+        assert len(cle) == 120  # 99 + the 21 hardened APPLICATION-005 records
         assert all(r["category"] == "pet-friendly-hotels" for r in cle)
 
     def test_columbus_inventory_is_unchanged_at_116(self):
@@ -202,7 +209,7 @@ class TestMarketIsolation:
     def test_each_market_selects_only_its_own_facts(self):
         cbus = load_published_hotel_policy_facts(COLUMBUS)
         cle = load_published_hotel_policy_facts(CLEVELAND)
-        assert len(cbus) == 88 and len(cle) == 99
+        assert len(cbus) == 88 and len(cle) == 120
         assert set(cbus) & set(cle) == set()
 
     def test_the_columbus_join_still_yields_88(self):
@@ -215,15 +222,17 @@ class TestMarketIsolation:
         rows = [r for r in owned_by(read_production_rows(), CLEVELAND)
                 if r["category"] == "pet-friendly-hotels"]
         assert len(verified_public_hotels(
-            rows, load_published_hotel_policy_facts(CLEVELAND))) == 99
+            rows, load_published_hotel_policy_facts(CLEVELAND))) == 120
 
     def test_reconciliation_is_188_21_8_29_159(self):
         from scripts.pettripfinder.build_market_manifest import build_package
 
+        # (188, 99, 40, 139, 49) until PTF-CLEVELAND-AKRON-CANTON-HARDENED-
+        # APPLICATION-005 promoted the census and applied the pending records.
         pkg = build_package(CLEVELAND)
-        assert pkg.reconciliation() == (188, 99, 40, 139, 49)
-        assert pkg.published_pet_friendly_count + pkg.verified_no_pets_count == 139
-        assert 139 + pkg.unresolved_count == 188
+        assert pkg.reconciliation() == (220, 120, 51, 171, 49)
+        assert pkg.published_pet_friendly_count + pkg.verified_no_pets_count == 171
+        assert 171 + pkg.unresolved_count == 220
 
     def test_columbus_reconciliation_is_untouched(self):
         """Cleveland's work must not move Columbus's numbers.
