@@ -47,7 +47,11 @@ PARTITION_FILES = {
     # HARDENED-APPLICATION-005 promoted 220 and committed the partition of
     # that state (the 002 document stays as the record of the earlier build).
     CLEVELAND: "cleveland_final_partition_005.json",
-    DAYTON: "dayton_final_partition_001.json",
+    # PTF-DAYTON-OH-HARDENED-APPLICATION-002 applied 7 pet-friendly records
+    # and 16 verified-no-pets exclusions and committed the partition of THAT
+    # state, exactly as Cleveland did above. Repointed, not removed: the 001
+    # partition stays committed as the record of the 47/8 epoch.
+    DAYTON: "dayton_final_partition_002.json",
     CINCINNATI: "cincinnati_final_partition_001.json",
     PITTSBURGH: "pittsburgh_final_partition_001.json",
     DETROIT: "detroit_ann_arbor_final_partition_001.json",

@@ -148,8 +148,11 @@ class TestA_ColumbusFailsClosed:
 class TestB_DaytonPerPetCohort:
     """Dayton fee-scope values that reached no public surface at all.
 
-    Ten at Phase B; twelve now, because Phase F recovered the scope of two
-    La Quinta records from the property's own "for up to 2 pets" wording.
+    Ten at Phase B; twelve after Phase F recovered the scope of two La Quinta
+    records from the property's own "for up to 2 pets" wording; fourteen after
+    PTF-DAYTON-OH-HARDENED-APPLICATION-002 published the Baymont Dayton North
+    and Quality Inn St. Marys records, both of which state a per-pet charge in
+    their own words.
     """
 
     def cohort(self):
@@ -161,13 +164,15 @@ class TestB_DaytonPerPetCohort:
             assert canonical_fee_scope(shown(record)) in (
                 enums.SCOPE_PER_ROOM, enums.SCOPE_PER_PET), record["key"]
 
-    def test_the_cohort_is_twelve_records(self):
-        assert len(self.cohort()) == 12
+    def test_the_cohort_is_the_expected_size(self):
+        # Renamed from test_the_cohort_is_twelve_records: the count is an epoch
+        # fact and the method name should not assert a number it no longer checks.
+        assert len(self.cohort()) == 14
 
     def test_per_pet_is_visible_on_every_per_pet_record(self):
         per_pet = [r for r in self.cohort()
                    if canonical_fee_scope(shown(r)) == enums.SCOPE_PER_PET]
-        assert len(per_pet) == 8
+        assert len(per_pet) == 10
         for record in per_pet:
             # A property with no fee amount has nothing to scope; every one
             # that states an amount must show who it attaches to.

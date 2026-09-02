@@ -182,7 +182,12 @@ EXPECTED_RECONCILIATION = {
     # Westerns and one Extended Stay America whose visible pet policy publishes,
     # and Best Western Celina's "Pets are not accepted." All four had been
     # written off as brand-platform ACCESS_BLOCKED by a static fetch.
-    DAYTON: (129, 47, 8, 55, 74),
+    # PTF-DAYTON-OH-HARDENED-APPLICATION-002 applied the 23-row clean
+    # inventory PTF-DAYTON-OH-HARDENED-REVALIDATION-001 recovered at $0:
+    # published 47 -> 54, no-pets 8 -> 24, resolved 55 -> 78, unresolved
+    # 74 -> 51. The census does not move -- policy was promoted, not
+    # membership, and Dayton's census coverage is still NOT confirmed.
+    DAYTON: (129, 54, 24, 78, 51),
     # PTF-PITTSBURGH-PASS1-DECISION-APPLICATION-001 applied the twenty founder
     # decisions from the Pass 1 packet: 17 artifact-backed publications, 2
     # first-party refusals, and the Distrikt -> Joinery identity rename

@@ -41,7 +41,7 @@ EXPECTED_RECORDS = {"columbus-oh": 88,
                     # 120 after PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005
                     # applied the 21 pending hardened-order records.
                     "cleveland-akron-canton-oh": 120,
-                    "dayton-oh": 47}
+                    "dayton-oh": 54}
 
 
 def load(market_id):
@@ -320,7 +320,10 @@ class TestCommittedCorpus:
         document, _ = read_package(load("dayton-oh"))
         per_pet = [r for r in document["hotels"]
                    if (r["facts"].get("pet_fee") or {}).get("scope") == "per_pet"]
-        assert len(per_pet) == 8
+        # 8 -> 10: the Baymont Dayton North and Quality Inn St. Marys records
+        # PTF-DAYTON-OH-HARDENED-APPLICATION-002 published both state a per-pet
+        # charge in the property's own words.
+        assert len(per_pet) == 10
 
     def test_the_columbus_approval_gap_is_closed(self):
         """It was 26 -- 21 blank decisions plus 5 records with no approval

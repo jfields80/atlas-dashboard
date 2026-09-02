@@ -329,11 +329,23 @@ class TestDaytonStillReconciles:
                 + rec["unresolved_or_held"]) == 129
 
     def test_the_ledger_agrees_with_the_committed_authority(self, ledger, facts):
-        assert len(facts["hotels"]) == ledger["market_reconciliation"][
-            "published_pet_friendly"]
+        """The ledger describes the market as this work order left it: 47 / 8.
+
+        PTF-DAYTON-OH-HARDENED-APPLICATION-002 has since published seven more
+        records and excluded sixteen more, so the live authority is 54 / 24. The
+        ledger is a historical record and is NOT rewritten; what must still hold
+        is that it is a SUBSET of the live authority -- nothing it counted has
+        since disappeared.
+        """
+        rec = ledger["market_reconciliation"]
+        assert rec["published_pet_friendly"] == 47
+        assert rec["verified_no_pets"] == 8
+        assert len(facts["hotels"]) == 54
         registry = [e for e in load_exclusions() if e.get("market_id") == DAYTON
                     and e["exclusion_state"] == "VERIFIED_NO_PETS"]
-        assert len(registry) == ledger["market_reconciliation"]["verified_no_pets"]
+        assert len(registry) == 24
+        assert len(facts["hotels"]) >= rec["published_pet_friendly"]
+        assert len(registry) >= rec["verified_no_pets"]
 
     def test_no_published_identity_is_also_excluded(self, facts):
         keys = {h["key"] for h in facts["hotels"]}
@@ -350,19 +362,31 @@ class TestDaytonStillReconciles:
             (_ROOT / "launch_packages" / "pettripfinder" / "identity_census"
              / "dayton-recovery-002-proposed-authority.json").read_text(encoding="utf-8"))
         remaining = {r["slug"] for r in manifest["remaining_unresolved"]}
-        assert len(remaining) == 72
+        # 72 when this work order ran; 50 since PTF-DAYTON-OH-HARDENED-
+        # APPLICATION-002 resolved twenty-two more of them (the list is a
+        # DERIVED view, subtracted by every order that resolves an identity).
+        assert len(remaining) == 50
         for slug in ("best-western-celina", "best-western-plus-miamisburg-dayton",
                      "best-western-wapakoneta-inn",
                      "extended-stay-america-select-suites-dayton-miamisburg"):
             assert slug not in remaining, slug
 
-    def test_the_two_marketing_only_wyndhams_are_still_held(self, ledger, facts):
+    def test_the_two_marketing_only_wyndhams_were_held_by_this_pass(self, ledger, facts):
+        """Both were POLICY_PARTIAL_HELD here, and this ledger still says so.
+
+        The Baymont has since published, but not on this evidence:
+        PTF-DAYTON-OH-HARDENED-REVALIDATION-001 opened the property's own Hotel
+        Policies dialog and read a stated policy with a fee, a weight limit and
+        a count. What this pass decided about the marketing blurb is unchanged
+        and is asserted below; the Wingate, which has had no such read, must
+        still be absent from the package.
+        """
         keys = {h["key"] for h in facts["hotels"]}
         items = {i["slug"]: i for i in ledger["items"]}
-        for slug, name in (("baymont-by-wyndham-dayton-north", "Baymont by Wyndham Dayton North"),
-                           ("wingate-by-wyndham-dayton-north", "Wingate by Wyndham Dayton North")):
-            assert normalize_name(name) not in keys
+        for slug in ("baymont-by-wyndham-dayton-north",
+                     "wingate-by-wyndham-dayton-north"):
             assert items[slug]["outcome"] == WB.OUT_POLICY_PARTIAL_HELD
+        assert normalize_name("Wingate by Wyndham Dayton North") not in keys
 
     def test_a_provisional_identity_never_carries_a_published_policy(self, ledger, facts):
         """Golden Inn New Paris states a $15 pet fee on its own site and does not

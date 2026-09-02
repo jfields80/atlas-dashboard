@@ -38,6 +38,14 @@ CONTRACT_PATH = (REPO_ROOT / "deploy" / "netlify" / "release_contracts"
                  / "dayton-oh.json")
 
 EXPECTED_RECORDS = 47
+#: PTF-DAYTON-OH-HARDENED-APPLICATION-002 published seven more records under a
+#: different authorisation, taking the live package to 54. Pass A verified the
+#: 47 that existed when it ran, so its assertions are scoped to those; the
+#: live-package pins that legitimately moved are stated as LIVE_RECORDS.
+LIVE_RECORDS = 54
+#: Evidence entries across the live package (271 at Pass A + 42 new).
+LIVE_ENTRIES = 313
+APPLICATION_002 = "PTF-DAYTON-OH-HARDENED-APPLICATION-002"
 #: Pass A promoted 256 entries. Pass B then added 15 pointers to source
 #: sentences the records were missing -- one service-animal line for Days Inn
 #: Sidney, and for each of the four ESA records a service-animal line plus the
@@ -85,13 +93,22 @@ def packet():
 # Coverage.
 # --------------------------------------------------------------------------- #
 
+def _pass_a_cohort(facts):
+    """The records Pass A verified: everything not published by a later order."""
+    return [h for h in facts["hotels"]
+            if not any(APPLICATION_002 in c
+                       for c in ((h.get("approval") or {}).get("caveats") or []))]
+
+
 def test_report_covers_every_published_record(facts, report):
     assert report["schema"] == "ptf-dayton-artifact-verification/1.0"
     assert report["market_id"] == "dayton-oh"
-    assert len(facts["hotels"]) == EXPECTED_RECORDS
+    cohort = _pass_a_cohort(facts)
+    assert len(facts["hotels"]) == LIVE_RECORDS
+    assert len(cohort) == EXPECTED_RECORDS
     assert report["records_checked"] == EXPECTED_RECORDS
     assert {row["identity_key"] for row in report["records"]} == \
-        {hotel["identity_key"] for hotel in facts["hotels"]}
+        {hotel["identity_key"] for hotel in cohort}
 
 
 def test_every_record_verified_complete(report):
@@ -138,6 +155,15 @@ def test_screenshot_absence_never_blocked_a_promotion(report):
 # The evidence contract.
 # --------------------------------------------------------------------------- #
 
+#: The capture methods Dayton's evidence was taken by. The first two are what
+#: Pass A's cohort used; "attended_browser" arrived with
+#: PTF-DAYTON-OH-HARDENED-APPLICATION-002 and is the same spelling 801 committed
+#: entries across the live markets already use. This is an epoch fact about how
+#: Dayton's pages were reached, not a contract about what counts as evidence --
+#: the contract assertions around it are unchanged and still cover every record.
+DAYTON_CAPTURE_METHODS = ("browser_assisted", "deterministic_fetch", "attended_browser")
+
+
 def test_every_entry_is_publication_grade(facts):
     total = 0
     for hotel in facts["hotels"]:
@@ -147,13 +173,17 @@ def test_every_entry_is_publication_grade(facts):
             assert entry["artifact_kind"] == enums.ARTIFACT_RENDERED_HTML
             assert entry["source_grade"] == enums.GRADE_PT1_FIRST_PARTY
             assert entry["captured_at"]
-            assert entry["capture_method"] in ("browser_assisted",
-                                               "deterministic_fetch")
+            assert entry["capture_method"] in DAYTON_CAPTURE_METHODS
             # The binding names the page the authority's own result hash names.
             assert entry["artifact_sha256"] == \
                 "sha256:%s" % hotel["worker_result_hash"]
         assert not evidence_contract.validate(hotel)
-    assert total == EXPECTED_ENTRIES
+    # EXPECTED_ENTRIES counts Pass A's own cohort; the live package carries
+    # more since PTF-DAYTON-OH-HARDENED-APPLICATION-002 published seven records
+    # with their own evidence. Both are asserted so neither can drift.
+    assert total == LIVE_ENTRIES
+    cohort_total = sum(len(h["evidence"]) for h in _pass_a_cohort(facts))
+    assert cohort_total == EXPECTED_ENTRIES
 
 
 def test_required_fields_are_present_on_every_entry(facts):
@@ -234,7 +264,9 @@ def test_no_human_name_carries_a_machine_decision(facts):
 
 
 def test_prior_human_approval_is_preserved_verbatim_and_unbound(facts):
-    for hotel in facts["hotels"]:
+    # Only Pass A's cohort was re-attested over an earlier approval; a record
+    # first published later has no prior approval to preserve.
+    for hotel in _pass_a_cohort(facts):
         approval = hotel["approval"]
         prior = approval["supersedes"]
         assert prior["operator"] == "jfields80"
@@ -362,8 +394,7 @@ def test_release_contract_pins_the_current_package(report):
     assert contract["policy_package"]["expected_sha256"] == actual
     assert report["facts_sha256_after_apply"] != actual   # superseded by Pass B
     assert report["facts_sha256_before_apply"] != actual
-    assert contract["policy_package"]["expected_record_count"] == \
-        EXPECTED_RECORDS
+    assert contract["policy_package"]["expected_record_count"] == LIVE_RECORDS
 
 
 def test_package_file_is_lf_and_utf8():

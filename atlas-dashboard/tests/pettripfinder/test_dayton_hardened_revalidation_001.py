@@ -3,8 +3,11 @@
 What this order promised and what it observed, pinned so a later order cannot
 quietly regress either:
 
-* the LIVE Dayton authority is untouched -- 129 / 47 / 8 / 55 / 74, and the
-  committed policy package still hashes to the sha the release contract names;
+* the LIVE Dayton authority matches its epoch and the committed policy package
+  still hashes to the sha the release contract names. Order 001 changed no
+  authority at all (it was a shadow); PTF-DAYTON-OH-HARDENED-APPLICATION-002
+  then applied its 23-row inventory under founder authorisation, so the pin
+  reads 129 / 54 / 24 / 78 / 51 and is carried forward, never relaxed;
 * the shadow never touched the pinned census, the policy package, the exclusion
   shard or the final partition;
 * every report this order wrote spent nothing and called no paid provider;
@@ -59,13 +62,22 @@ def packet():
 # the live market is untouched
 # --------------------------------------------------------------------------
 
-def test_live_authority_is_unchanged():
+def test_live_authority_matches_the_current_epoch():
+    """Order 001 itself changed no live authority -- it was a shadow, and the
+    assertion it originally carried was 47 published / 8 no-pets.
+    PTF-DAYTON-OH-HARDENED-APPLICATION-002 then applied that shadow's 23-row
+    clean inventory under founder authorisation, moving published 47 -> 54 and
+    no-pets 8 -> 24. The pin is CARRIED FORWARD to the new epoch rather than
+    relaxed: the numbers are still exact, and the only thing permitted to move
+    them is a named, authorised application order. The census is unchanged at
+    129, because that order promoted policy and not membership.
+    """
     census = _read(PKG / "identity_census" / f"{MARKET_ID}.json")
     assert census["count"] == 129
     policy = _read(PKG / f"hotel_policy_facts_{MARKET_ID}.json")
-    assert len(policy["hotels"]) == 47
+    assert len(policy["hotels"]) == 54
     exclusions = _read(AUTH / "hotel_exclusions.json")
-    assert len(exclusions["exclusions"]) == 8
+    assert len(exclusions["exclusions"]) == 24
     assert all(e["exclusion_state"] == "VERIFIED_NO_PETS" for e in exclusions["exclusions"])
     assert all(e["market_id"] == MARKET_ID for e in exclusions["exclusions"])
 
@@ -75,8 +87,9 @@ def test_policy_package_still_hashes_to_the_release_contract():
     raw = (PKG / f"hotel_policy_facts_{MARKET_ID}.json").read_bytes()
     assert hashlib.sha256(raw).hexdigest() == contract["policy_package"]["expected_sha256"]
     recon = contract["reconciliation"]
+    # epoch carried forward by PTF-DAYTON-OH-HARDENED-APPLICATION-002
     assert (recon["confirmed_identities"], recon["published_pet_friendly"],
-            recon["verified_no_pets"], recon["resolved"], recon["unresolved"]) == (129, 47, 8, 55, 74)
+            recon["verified_no_pets"], recon["resolved"], recon["unresolved"]) == (129, 54, 24, 78, 51)
 
 
 def test_final_partition_arithmetic_still_agrees():

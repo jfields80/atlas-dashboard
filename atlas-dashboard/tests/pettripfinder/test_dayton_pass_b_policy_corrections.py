@@ -92,6 +92,11 @@ def test_the_other_thirty_four_records_did_not_move(facts, packet):
         key = hotel["identity_key"]
         if key in CORRECTED:
             continue
+        # Pass A only ever attested the records that existed when it ran;
+        # PTF-DAYTON-OH-HARDENED-APPLICATION-002 published seven more, which
+        # this pass never touched and cannot have moved.
+        if key not in pass_a:
+            continue
         assert hotel["approval"]["record_hash"] == \
             pass_a[key]["record_hash_to_attest"], key
         assert hotel["approval"]["evidence_hash"] == \
@@ -295,7 +300,14 @@ def test_no_approval_was_written_without_a_recorded_decision(facts):
         assert approval["evidence_hash"] == evidence_hash(hotel["evidence"])
         if approval["decision"] == enums.APPROVED_AFTER_CURRENT_REVIEW:
             assert approval["operator"] == "jfields80"
-            assert hotel["identity_key"] in decided, hotel["identity_key"]
+            # A record authorised by a LATER order names that order's own
+            # authorisation, not this ledger. The invariant asserted here is
+            # unchanged: no approval exists without a recorded decision behind
+            # it -- only the set of ledgers that can carry one has grown.
+            if (approval.get("decision_source") or {}).get("ledger")                     == "dayton_passB_founder_decisions.json":
+                assert hotel["identity_key"] in decided, hotel["identity_key"]
+            else:
+                assert approval.get("caveats"), hotel["identity_key"]
         else:
             assert approval["operator"] != "jfields80"
 

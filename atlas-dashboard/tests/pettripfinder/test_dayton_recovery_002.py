@@ -65,15 +65,21 @@ class TestManifestIsProposalOnly:
             assert len(hits) <= 1, (row["slug"], hits)
             outcomes[hits[0] if hits else "still_proposed"].add(row["slug"])
 
-        assert len(outcomes["published"]) == 11
+        # 11 -> 12 published and one more excluded since
+        # PTF-DAYTON-OH-HARDENED-APPLICATION-002 adjudicated two of the three
+        # that were still proposals: the Baymont published on the stated policy
+        # in its own Hotel Policies dialog, and Comfort Inn & Suites Dayton
+        # North was excluded on its own refusal. The Wingate, which has had no
+        # such read, is still a proposal.
+        assert len(outcomes["published"]) == 12
         assert outcomes["excluded"] == {"hotel-versailles"}
-        assert outcomes["still_proposed"] == {"baymont-by-wyndham-dayton-north",
-                                              "wingate-by-wyndham-dayton-north"}
+        assert outcomes["still_proposed"] == {"wingate-by-wyndham-dayton-north"}
         # 44 -> 47: PTF-DAYTON-WORK-BROWSER-INTEGRATION-001 published three more
         # identities from hash-verified captures. None of them is one of these
         # fourteen candidates, which is why the three assertions above are
         # unchanged -- this one counts the whole package, not this batch.
-        assert len(facts["hotels"]) == 47
+        # 47 -> 54 with PTF-DAYTON-OH-HARDENED-APPLICATION-002.
+        assert len(facts["hotels"]) == 54
 
     def test_the_two_unpromoted_candidates_are_not_publishable(self, manifest):
         """They are held back by the readiness engine, not by opinion."""
@@ -270,11 +276,22 @@ class TestCensusUpdatesAreConservative:
         # policy at all. Phase C withdrew that unsupported claim rather than
         # inventing evidence for it, so the census now under-claims relative to
         # the registry instead of disagreeing with it in both directions.
-        assert len(registry) == 8
+        # 8 -> 24 with PTF-DAYTON-OH-HARDENED-APPLICATION-002. The census
+        # annotation is untouched at 7: this order wrote exclusions, not census
+        # policy_state, so the two sets diverge further rather than converge --
+        # which is the point of the assertions below.
+        assert len(registry) == 24
         assert len(census_no_pets) == 7
         assert registry != census_no_pets
         assert census_no_pets - registry == set()
-        assert registry - census_no_pets == {normalize_name("Best Western Celina")}
+        # Best Western Celina was the original divergence. The sixteen this
+        # order excluded widen it, and each is named by its own record rather
+        # than absorbed into a looser assertion.
+        added = {normalize_name(e["canonical_name"]) for e in load_exclusions()
+                 if e.get("market_id") == "dayton-oh"
+                 and "APPLICATION-002" in (e.get("notes") or "")}
+        assert len(added) == 16
+        assert registry - census_no_pets == {normalize_name("Best Western Celina")} | added
         # And the partition -- which owns disposition -- places Troy as
         # unresolved, which is what "unadjudicated" has always meant.
         partition = json.loads(
@@ -349,8 +366,10 @@ class TestCensusUpdatesAreConservative:
         proposed = ({r["slug"] for r in manifest["candidates"]}
                     - published - no_pets - remaining)
 
-        assert (len(published), len(no_pets)) == (47, 8)
-        assert (len(proposed), len(remaining)) == (2, 72)
+        # 47 / 8 -> 54 / 24, and the derived views subtracted accordingly:
+        # PTF-DAYTON-OH-HARDENED-APPLICATION-002 resolved 23 identities.
+        assert (len(published), len(no_pets)) == (54, 24)
+        assert (len(proposed), len(remaining)) == (1, 50)
         buckets = (published, no_pets, proposed, remaining)
         for i, a in enumerate(buckets):
             for b in buckets[i + 1:]:

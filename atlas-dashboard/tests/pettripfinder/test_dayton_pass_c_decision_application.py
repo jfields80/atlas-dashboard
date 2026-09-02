@@ -32,6 +32,9 @@ FACTS_PATH = LP / "hotel_policy_facts_dayton-oh.json"
 LEDGER_PATH = LP / "dayton_passB_founder_decisions.json"
 REPORT_PATH = LP / "dayton_passC_application_report.json"
 BASELINE = "d14cdc4"
+#: The policy-package sha Pass C produced and its release contract pinned when
+#: the market held exactly its 47 records.
+PASS_C_EPOCH_SHA256 = "7cd4cf025bf371dfa89bc0d25b90527c4a75aa9b3e4bae2f95925055224d8c53"
 
 
 @pytest.fixture(scope="module")
@@ -44,23 +47,42 @@ def ledger():
     return json.loads(LEDGER_PATH.read_text(encoding="utf-8"))
 
 
+@pytest.fixture
+def dry_run(monkeypatch):
+    return _run_at_epoch(monkeypatch)
+
+
 @pytest.fixture(scope="module")
-def dry_run():
-    return run(BASELINE, apply=False)
+def pass_c_records(facts):
+    """The 47 records Pass C applied, identified by the ledger that authorised
+    them.
+
+    Pass C was a one-shot closeout over the market as it stood on 2026-08-16.
+    PTF-DAYTON-OH-HARDENED-APPLICATION-002 has since published seven more
+    records under a different authorisation, so "every record in the package"
+    is no longer the same set as "every record Pass C applied". Scoping to the
+    ledger keeps these assertions pointed at the work they were written to
+    verify, and makes the count of 47 an assertion about the COHORT rather than
+    an accident of the package's size.
+    """
+    return [h for h in facts["hotels"]
+            if (h["approval"].get("decision_source") or {}).get("ledger")
+            == "dayton_passB_founder_decisions.json"]
 
 
 # --------------------------------------------------------------------------- #
 # Nothing has been applied.
 # --------------------------------------------------------------------------- #
 
-def test_every_record_is_now_founder_approved(facts):
+def test_every_record_is_now_founder_approved(facts, pass_c_records):
     """The end state the work order named: 47 founder approvals, 0 pending."""
-    assert len(facts["hotels"]) == 47
-    for hotel in facts["hotels"]:
+    assert len(pass_c_records) == 47
+    for hotel in pass_c_records:
         approval = hotel["approval"]
         assert approval["decision"] == enums.APPROVED_AFTER_CURRENT_REVIEW
         assert approval["operator"] == FOUNDER
         assert approval["approval_date"] == "2026-08-16"
+    # No record in the package, of any epoch, may sit pending an operator.
     pending = [h for h in facts["hotels"] if h["approval"]["decision"]
                == enums.MACHINE_REVIEWED_PENDING_OPERATOR]
     assert pending == []
@@ -82,7 +104,7 @@ def test_the_application_report_records_what_was_applied():
     }
 
 
-def test_a_rerun_is_idempotent(facts):
+def test_a_rerun_is_idempotent(facts, monkeypatch):
     """Applying twice must not double-supersede or move a hash.
 
     The failure this guards against is the one that has already happened twice
@@ -90,7 +112,7 @@ def test_a_rerun_is_idempotent(facts):
     machine block it replaced.
     """
     before = FACTS_PATH.read_bytes()
-    report = run(BASELINE, apply=False)
+    report = _run_at_epoch(monkeypatch)
     assert report["counts"]["total_applied"] == 47
     assert report["counts"]["refused"] == 0
     assert FACTS_PATH.read_bytes() == before
@@ -100,11 +122,11 @@ def test_a_rerun_is_idempotent(facts):
 # What it would do.
 # --------------------------------------------------------------------------- #
 
-def test_each_approval_names_the_decision_that_authorised_it(facts):
+def test_each_approval_names_the_decision_that_authorised_it(pass_c_records):
     """An approval binding only hashes says a record was approved; one naming
     its decision says WHICH ruling, given when, in which ledger."""
     kinds = {POLICY: 0, COHORT: 0}
-    for hotel in facts["hotels"]:
+    for hotel in pass_c_records:
         source = hotel["approval"]["decision_source"]
         assert source["decided_by"] == FOUNDER
         assert source["decided_at"] == "2026-08-16"
@@ -118,8 +140,13 @@ def test_each_approval_names_the_decision_that_authorised_it(facts):
     assert kinds == {POLICY: 13, COHORT: 34}
 
 
-def test_no_approval_is_stale_or_drifted(facts):
+def test_no_approval_is_stale_or_drifted(facts, pass_c_records):
+    # Every record in the package must bind its own bytes, whatever applied it.
     for hotel in facts["hotels"]:
+        assert hotel["approval"]["record_hash"] == record_hash(hotel)
+        assert hotel["approval"]["evidence_hash"] == evidence_hash(hotel["evidence"])
+    # Only Pass C's cohort carries a superseded approval to compare against.
+    for hotel in pass_c_records:
         approval = hotel["approval"]
         assert approval["record_hash"] == record_hash(hotel)
         assert approval["evidence_hash"] == evidence_hash(hotel["evidence"])
@@ -155,9 +182,15 @@ def test_the_release_contract_pins_the_applied_bytes(dry_run):
         (REPO_ROOT / "deploy" / "netlify" / "release_contracts"
          / "dayton-oh.json").read_text(encoding="utf-8"))
     assert contract["policy_package"]["expected_sha256"] == actual
-    # Applied and stable: a re-run projects the same bytes it already pinned.
-    assert dry_run["release_contract"]["projected_sha256"] == actual
-    assert dry_run["release_contract"]["current_sha256"] == actual
+    # Applied and stable: re-running Pass C over its OWN epoch reproduces that
+    # epoch's bytes EXACTLY -- the sha the contract pinned when Pass C closed.
+    # It is not compared against current_sha256, which simply reads whatever is
+    # on disk now, and the package has since grown by the seven records
+    # PTF-DAYTON-OH-HARDENED-APPLICATION-002 published. The line above is what
+    # holds today's contract to today's bytes; this one proves the historical
+    # applier is still byte-for-byte idempotent over the market it was
+    # authorised for.
+    assert dry_run["release_contract"]["projected_sha256"] == PASS_C_EPOCH_SHA256
     assert b"\r\n" not in FACTS_PATH.read_bytes()
 
 
@@ -177,19 +210,58 @@ def test_the_two_lanes_partition_the_market(dry_run, ledger):
 # Refusals -- the half that matters.
 # --------------------------------------------------------------------------- #
 
-def _tamper(monkeypatch, mutate):
-    """Run the applier over a mutated in-memory package."""
+PASS_C_LEDGER = "dayton_passB_founder_decisions.json"
+
+
+def _epoch_package(loaded):
+    """The package as Pass C saw it: its own 47 records, nothing later.
+
+    Pass C's own guard refuses to run unless its two decision lanes cover the
+    market EXACTLY. That guard is correct and is deliberately left in place --
+    a one-shot applier must not run against a market that has moved past the
+    epoch it was authorised for, and since
+    PTF-DAYTON-OH-HARDENED-APPLICATION-002 published seven more records the
+    live package is no longer that market.
+
+    So the applier is given its own epoch rather than the guard being relaxed.
+    Every assertion below then tests what it was written to test: the refusal
+    behaviour of a real applier over the real records it was authorised for.
+    """
+    loaded["hotels"] = [h for h in loaded["hotels"]
+                        if (h.get("approval", {}).get("decision_source") or {})
+                        .get("ledger") == PASS_C_LEDGER]
+    return loaded
+
+
+def _run_at_epoch(monkeypatch, mutate=None):
     import scripts.pettripfinder.dayton_pass_c_decision_application as module
     original = module.load_json
 
     def patched(path):
         loaded = original(path)
         if "hotel_policy_facts" in str(path):
-            mutate(loaded)
+            loaded = _epoch_package(loaded)
+            if mutate is not None:
+                mutate(loaded)
         return loaded
 
     monkeypatch.setattr(module, "load_json", patched)
     return module.run(BASELINE, apply=False)
+
+
+def _tamper(monkeypatch, mutate):
+    """Run the applier over a mutated in-memory package at its own epoch."""
+    return _run_at_epoch(monkeypatch, mutate)
+
+
+def test_the_applier_refuses_a_market_that_moved_past_its_epoch():
+    """The one-shot guard, asserted directly rather than worked around.
+
+    Run against the LIVE package -- which now carries seven records Pass C was
+    never authorised over -- the applier must refuse outright.
+    """
+    with pytest.raises(AssertionError, match="do not cover the market exactly"):
+        run(BASELINE, apply=False)
 
 
 def test_a_cohort_record_that_stopped_qualifying_is_refused(monkeypatch):
@@ -265,8 +337,11 @@ def test_a_non_approval_decision_is_never_applied(facts, ledger):
     original = module.load_json
 
     def patched(path):
-        return copy.deepcopy(held) if "founder_decisions" in str(path) \
-            else original(path)
+        if "founder_decisions" in str(path):
+            return copy.deepcopy(held)
+        loaded = original(path)
+        # Pass C is a one-shot over its own 47 records; see _epoch_package.
+        return _epoch_package(loaded) if "hotel_policy_facts" in str(path) else loaded
 
     module.load_json = patched
     try:
@@ -282,14 +357,23 @@ def test_a_non_approval_decision_is_never_applied(facts, ledger):
 # The supersedes chain.
 # --------------------------------------------------------------------------- #
 
-def test_no_agent_name_survives_anywhere_in_a_supersedes_chain(facts):
+def test_no_agent_name_survives_anywhere_in_a_supersedes_chain(facts, pass_c_records):
     """Applying replaced the agent's machine block, never the human approval
     beneath it -- so every chain reads founder -> founder and no agent name is
-    left where a reader checks provenance first."""
-    for hotel in facts["hotels"]:
+    left where a reader checks provenance first.
+
+    Scoped to Pass C's cohort because only those records HAVE a supersedes
+    chain; a record published later never carried a machine block to replace.
+    The wider invariant -- no agent name in any approval anywhere -- is asserted
+    over the whole package immediately after."""
+    for hotel in pass_c_records:
         approval = hotel["approval"]
         assert approval["supersedes"]["operator"] == FOUNDER
         assert "claude" not in json.dumps(approval["supersedes"]).lower()
+    for hotel in facts["hotels"]:
+        assert hotel["approval"]["operator"] == FOUNDER, hotel["key"]
+        assert "claude" not in json.dumps(
+            hotel["approval"].get("supersedes") or {}).lower(), hotel["key"]
 
 
 def test_founder_prior_finds_the_last_human_approval(facts):

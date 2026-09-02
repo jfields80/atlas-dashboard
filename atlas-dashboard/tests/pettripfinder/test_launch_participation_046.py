@@ -66,7 +66,8 @@ LIVE = tuple(sorted(FIVE + ("st-louis-mo", "louisville-ky", "indianapolis-in",
 # DEPLOYMENT-AUTHORIZATION-015; cleveland 99 -> 120 at PTF-CLEVELAND-AKRON-
 # CANTON-DEPLOYMENT-AUTHORIZATION-006. Every other market unchanged.
 PROFILES = {"cleveland-akron-canton-oh": 120, "columbus-oh": 88,
-            "dayton-oh": 47, "milwaukee-wi": 73, "pittsburgh-pa": 53,
+            # 47 -> 54 at PTF-DAYTON-OH-HARDENED-APPLICATION-002.
+            "dayton-oh": 54, "milwaukee-wi": 73, "pittsburgh-pa": 53,
             "st-louis-mo": 82, "louisville-ky": 46, "indianapolis-in": 67,
             "grand-rapids-holland-mi": 43}
 #: 046 withheld Indianapolis and PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019
@@ -145,10 +146,11 @@ DEPLOYED_020_BUNDLE_SHA256 = (
 #: intermediate 014/015 candidate eef57e2b was deployed from its own packet
 #: without moving this pin.)
 EXPECTED_BUNDLE_SHA256 = (
-    "b0eedd71f3f3fa3810ce1e9d596c07f4f00cf25ffdfc255ca5ffed072629d826")
+    # moved by PTF-DAYTON-OH-HARDENED-APPLICATION-002.
+    "de669c40d8118a9293798ae1e5ad10ab8219c66798d002d6bf2a12cae504e374")
 EXPECTED_HTML_PAGES = 3844
 EXPECTED_FILES = 3862
-EXPECTED_SITEMAP_ROUTES = 759
+EXPECTED_SITEMAP_ROUTES = 767
 #: The withdrawn six-market candidate. Kept so nobody authorizes it by habit.
 WITHDRAWN_SIX_MARKET_SHA256 = (
     "8ea6131e9fe8689fc23d3a362ae12ffaa2155c687737c6f5fcde03b5a22c42b8")
@@ -381,7 +383,8 @@ def test_the_bundle_carries_exactly_the_live_set(production):
             for r in manifest["participating_markets"]} == PROFILES
     # 560 -> 598 at PTF-INDIANAPOLIS-DEPLOYMENT-AUTHORIZATION-015; 598 -> 619
     # at PTF-CLEVELAND-AKRON-CANTON-DEPLOYMENT-AUTHORIZATION-006.
-    assert sum(PROFILES.values()) == 619
+    # 619 -> 626 with the seven Dayton records.
+    assert sum(PROFILES.values()) == 626
 
 
 def test_the_bundle_excludes_only_the_two_that_are_not_source_ready(production):

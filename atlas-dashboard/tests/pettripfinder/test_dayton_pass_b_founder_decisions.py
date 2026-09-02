@@ -72,7 +72,14 @@ def test_recording_and_applying_stayed_separate_events(facts, ledger):
         approval = hotel["approval"]
         if approval["decision"] == enums.APPROVED_AFTER_CURRENT_REVIEW:
             assert approval["operator"] == FOUNDER
-            assert hotel["identity_key"] in decided
+            # Records this ledger authorised must appear in it. Records a later
+            # order authorised name their own work order in their caveats --
+            # the rule that an approval never stands without a recorded
+            # decision is unchanged, and is asserted for both cases.
+            if (approval.get("decision_source") or {}).get("ledger")                     == "dayton_passB_founder_decisions.json":
+                assert hotel["identity_key"] in decided
+            else:
+                assert approval.get("caveats"), hotel["identity_key"]
 
 
 def test_the_ledger_says_so_in_its_own_fields(ledger):

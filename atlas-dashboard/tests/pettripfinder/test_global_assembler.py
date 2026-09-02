@@ -418,7 +418,8 @@ def test_current_live_inventory_preserves_all_assemblable_market_profiles(market
     # CLEVELAND 99 -> 120 at PTF-CLEVELAND-AKRON-CANTON-HARDENED-
     # APPLICATION-005 (21 pending hardened-order records applied); every
     # other market's count is unchanged.
-    assert counts == {COLUMBUS: 88, CLEVELAND: 120, DAYTON: 47,
+    # DAYTON 47 -> 54 at PTF-DAYTON-OH-HARDENED-APPLICATION-002.
+    assert counts == {COLUMBUS: 88, CLEVELAND: 120, DAYTON: 54,
                       # PTF-PITTSBURGH-HARDENED-SYNC-004: 26 -> 46. Applied
                       # the 32 founder decisions signed 2026-08-26 on a branch
                       # that never merged, onto the REGISTERED 96-identity

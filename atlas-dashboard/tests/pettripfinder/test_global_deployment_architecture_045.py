@@ -66,13 +66,19 @@ EXPECTED_MARKETS = ("cleveland-akron-canton-oh", "columbus-oh", "dayton-oh",
 # cleveland 99 -> 120 at PTF-CLEVELAND-AKRON-CANTON-DEPLOYMENT-
 # AUTHORIZATION-006 (deploy 6a976f61). Every other market unchanged.
 EXPECTED_PROFILES = {"cleveland-akron-canton-oh": 120, "columbus-oh": 88,
-                     "dayton-oh": 47, "grand-rapids-holland-mi": 43,
+                     # 47 -> 54 at PTF-DAYTON-OH-HARDENED-APPLICATION-002.
+                     "dayton-oh": 54, "grand-rapids-holland-mi": 43,
                      "indianapolis-in": 67, "louisville-ky": 46,
                      "milwaukee-wi": 73, "pittsburgh-pa": 53,
                      "st-louis-mo": 82}
-EXPECTED_TOTAL = 619
+#: 619 -> 626: the seven Dayton records PTF-DAYTON-OH-HARDENED-APPLICATION-002
+#: published. The LIVE deploy still serves 619; this is the candidate the repo
+#: now builds, and it stays ahead until a Dayton deployment order ships it.
+EXPECTED_TOTAL = 626
 EXPECTED_HTML_PAGES = 3844
-EXPECTED_SITEMAP_ROUTES = 759
+#: 759 -> 767: seven hotel routes plus the Washington Court House corridor,
+#: which reached its publication minimum of one.
+EXPECTED_SITEMAP_ROUTES = 767
 
 
 @pytest.fixture(scope="module")
@@ -478,7 +484,9 @@ DEPLOYED_020_BUNDLE_SHA256 = (
 #: DEPLOYMENT-AUTHORIZATION-006: the nine-market candidate carrying Cleveland
 #: 120, Indianapolis 67 and Pittsburgh 53, DEPLOYED as 6a976f61.
 DISABLED_BUILD_BUNDLE_SHA256 = (
-    "b0eedd71f3f3fa3810ce1e9d596c07f4f00cf25ffdfc255ca5ffed072629d826")
+    # b0eedd71 was the Cleveland candidate; the bundle moved with the Dayton
+    # application (PTF-DAYTON-OH-HARDENED-APPLICATION-002).
+    "de669c40d8118a9293798ae1e5ad10ab8219c66798d002d6bf2a12cae504e374")
 
 #: The only four routes PTF-011 was permitted to change.
 SERVICE_ANIMAL_CORRECTED_ROUTES = (

@@ -82,7 +82,8 @@ def test_the_committed_authorization_is_the_047_artifact(auth):
     assert auth["production_context"] == "production"
     assert auth["participating_markets"] == FIVE
     assert auth["profile_counts"] == {"cleveland-akron-canton-oh": 99,
-                                      "columbus-oh": 88, "dayton-oh": 47,
+                                      # 47 -> 54 at PTF-DAYTON-OH-HARDENED-APPLICATION-002.
+                                      "columbus-oh": 88, "dayton-oh": 54,
                                       "milwaukee-wi": 73, "pittsburgh-pa": 26}
     assert auth["total_profiles"] == 333
     assert auth["sitemap_route_count"] == 416

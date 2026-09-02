@@ -65,7 +65,15 @@ _PARTITION_FILES = {
     # partition rather than derived by subtraction. The 002 partition stays
     # committed as the record of the earlier build.
     "cleveland-akron-canton-oh": "cleveland_final_partition_005.json",
-    "dayton-oh": "dayton_final_partition_001.json",
+    # dayton-oh was mapped to dayton_final_partition_001.json, the partition of
+    # the 47-published / 8-no-pets epoch. PTF-DAYTON-OH-HARDENED-APPLICATION-002
+    # applied 7 pet-friendly records and 16 verified-no-pets exclusions and
+    # committed the partition of THAT state; the mapping is repointed (not
+    # removed) so unresolved stays COUNTED from the market's own partition rather
+    # than derived by subtraction. The census is unchanged at 129 -- this order
+    # promoted policy, not membership. The 001 partition stays committed as the
+    # record of the earlier build.
+    "dayton-oh": "dayton_final_partition_002.json",
     "cincinnati-oh": "cincinnati_final_partition_001.json",
     # louisville-ky was mapped to louisville_final_partition_001.json, a
     # partition of a market that no longer exists: 130 identities from the

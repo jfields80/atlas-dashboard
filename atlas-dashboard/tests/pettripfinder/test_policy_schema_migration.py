@@ -41,7 +41,11 @@ EXPECTED_PUBLISHED = {"columbus-oh": 88,
                       # 99 -> 120 at PTF-CLEVELAND-AKRON-CANTON-HARDENED-
                       # APPLICATION-005 (21 pending records applied).
                       "cleveland-akron-canton-oh": 120,
-                      "dayton-oh": 47}
+                      # 47 -> 54 at PTF-DAYTON-OH-HARDENED-APPLICATION-002 (the
+                      # seven CLEAN_PET_FRIENDLY rows PTF-DAYTON-OH-HARDENED-
+                      # REVALIDATION-001 recovered through the attended lane,
+                      # applied under founder authorisation).
+                      "dayton-oh": 54}
 
 #: Legacy fact keys that must not survive anywhere in active authority.
 FORBIDDEN_FACT_KEYS = frozenset({
@@ -118,7 +122,9 @@ def test_the_migrated_corpus_is_still_exactly_1_2(packages, records):
 def test_published_counts_are_unchanged(packages):
     counts = {m: len(packages[m]["hotels"]) for m in MARKETS}
     assert counts == EXPECTED_PUBLISHED
-    assert sum(counts.values()) == 255
+    # 255 -> 262 with the seven Dayton records applied by
+    # PTF-DAYTON-OH-HARDENED-APPLICATION-002.
+    assert sum(counts.values()) == 262
 
 
 def test_every_record_validates_against_the_frozen_contract(packages):
@@ -592,7 +598,10 @@ def test_service_animal_statements_left_the_pet_policy_facts():
     # "ADA-defined service animals are welcome free of charge" and the four
     # Extended Stay America records' "Service animals will be exempt from
     # this charge" (Dayton 4 -> 9).
-    assert len(statements) == 45
+    # Five more when PTF-DAYTON-OH-HARDENED-APPLICATION-002 published seven
+    # Dayton records, five of which carry their page's own service-animal
+    # sentence (Dayton 9 -> 14, total 45 -> 50).
+    assert len(statements) == 50
     # A legal access category never shares a namespace with commercial terms.
     for _market, record in statements:
         assert "service_animal_statement" not in record["facts"]

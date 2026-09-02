@@ -47,8 +47,13 @@ _ROOT = Path(__file__).resolve().parents[2]
 #: a routing proposal: two Best Westerns that dayton_recovery_002_closeout had
 #: written off as "bestwestern.com 403" while an attended capture of each sat on
 #: disk, a fourth Extended Stay America, and Best Western Celina's refusal.
-ACCEPTED = 47
-NO_PETS = 8
+#: PTF-DAYTON-OH-HARDENED-APPLICATION-002 moved 47 -> 54 and 8 -> 24, applying
+#: the 23-row clean inventory PTF-DAYTON-OH-HARDENED-REVALIDATION-001 recovered
+#: at $0 through the attended lane. Every applied row is bound to its own
+#: property's page on that page's premises and was re-read by the canonical
+#: reader at application time. The census did NOT move: it is still 129.
+ACCEPTED = 54
+NO_PETS = 24
 HELD = 6
 CENSUS = 129
 
@@ -263,12 +268,30 @@ class TestNegativeFactsNeedArtifactsToo:
             assert len(e["source_hash"]) >= 64, e["canonical_name"]
             assert e["exclusion_state"] == "VERIFIED_NO_PETS", e["canonical_name"]
 
-    def test_hie_troy_is_not_excluded(self):
-        """The worker counted it VERIFIED_NO_PETS on a research-agent assertion
-        with no quote, no capture and no hash. Silence about evidence is not
-        evidence, so it went back to unresolved rather than being grandfathered."""
-        names = {normalize_name(e["canonical_name"]) for e in load_exclusions()}
-        assert normalize_name("Holiday Inn Express & Suites Troy") not in names
+    def test_hie_troy_is_excluded_only_now_that_evidence_exists(self):
+        """The invariant is unchanged; the evidence caught up with it.
+
+        The worker had counted Troy VERIFIED_NO_PETS on a research-agent
+        assertion with no quote, no capture and no hash, so it went back to
+        unresolved rather than being grandfathered -- and this test asserted its
+        ABSENCE from the registry for as long as that was the whole story.
+        PTF-DAYTON-OH-HARDENED-APPLICATION-002 admitted it on evidence the
+        earlier pass did not have: the property's own page states "No, pets are
+        not allowed at Holiday Inn Express & Suites Troy", bound to the census
+        row on street number, postal code and telephone, with the document
+        sha256 recorded. So the assertion flips, and what it now guards is the
+        thing that always mattered -- the record exists BECAUSE it carries an
+        artifact, not despite carrying none.
+        """
+        hits = [e for e in load_exclusions()
+                if normalize_name(e["canonical_name"])
+                == normalize_name("Holiday Inn Express & Suites Troy")]
+        assert len(hits) == 1
+        record = hits[0]
+        assert record["exclusion_state"] == "VERIFIED_NO_PETS"
+        assert len(record["source_hash"]) >= 64, "a refusal needs the artifact's hash"
+        assert record["source_url"]
+        assert re.search(r"not allowed", record["evidence_quote"], re.I),             "the quote must be the property's own refusal"
 
     def test_the_census_still_records_it_for_a_later_capture(self, census):
         hit = [h for h in census["hotels"]
@@ -281,17 +304,35 @@ class TestThePromotedRecoveryCandidates:
     """PTF-DAYTON-CANDIDATE-PROMOTION-001. What review changed about the
     fourteen proposed candidates, pinned to the records so it cannot drift."""
 
-    def test_the_two_marketing_only_candidates_are_not_published(self, facts):
-        """Both carry a real first-party affirmation, and both are POLICY_PARTIAL
-        -- marketing language without a stated policy. POLICY_PARTIAL is not in
-        readiness.PUBLISHABLE_STATES, so neither publishes."""
+    def test_marketing_language_still_never_publishes(self, facts):
+        """POLICY_PARTIAL never publishes -- but a better source can replace it.
+
+        Both Wyndhams were POLICY_PARTIAL on the evidence PTF-DAYTON-CANDIDATE-
+        PROMOTION-001 had: marketing language ("you can bring your pet for an
+        extra nightly fee") without a stated policy. That rule is unchanged and
+        is still asserted below.
+
+        The Baymont now publishes because the marketing blurb is no longer its
+        best source. PTF-DAYTON-OH-HARDENED-REVALIDATION-001 opened the
+        property's own Hotel Policies dialog and read its operative PET &
+        SERVICE ANIMAL POLICY section: "A maximum of 2 pets allowed up to 50 lbs
+        for a non-refundable charge of 25.00 USD per pet per night." That is a
+        stated policy, and it publishes on its own terms with a fee, a weight
+        limit, a count and a quote.
+
+        The Wingate has no such read and MUST still be absent.
+        """
         from scripts.pettripfinder.policy import readiness as RD
 
         keys = {h["key"] for h in facts["hotels"]}
-        for name in ("Baymont by Wyndham Dayton North",
-                     "Wingate by Wyndham Dayton North"):
-            assert normalize_name(name) not in keys, name
+        assert normalize_name("Wingate by Wyndham Dayton North") not in keys
         assert "POLICY_PARTIAL" not in RD.PUBLISHABLE_STATES
+
+        baymont = [h for h in facts["hotels"]
+                   if h["key"] == normalize_name("Baymont by Wyndham Dayton North")]
+        assert len(baymont) == 1, "published from the Hotel Policies dialog, not the blurb"
+        quotes = " ".join(e["quote"] for e in baymont[0]["evidence"])
+        assert "25.00 USD" in quotes and "50 lbs" in quotes,             "it publishes on the stated policy, not on marketing language"
 
     def test_extended_stay_publishes_no_fee_and_no_weight(self, facts):
         """The fee is a tiered CLEANING fee ($25/day for six nights, then
