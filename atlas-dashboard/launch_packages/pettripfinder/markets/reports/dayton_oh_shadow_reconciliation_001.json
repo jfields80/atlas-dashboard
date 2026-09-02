@@ -1,0 +1,1327 @@
+{
+ "schema": "ptf-market-shadow-reconciliation/1.0",
+ "work_order": "PTF-DAYTON-OH-HARDENED-REVALIDATION-001",
+ "market_id": "dayton-oh",
+ "as_of": "2026-09-02",
+ "base_commit": "f8006cef3917018f08e3ebc1d7fd9bd3b2709002",
+ "nothing_applied": "The pinned census, policy package, exclusion shard, final partition and release contract are inputs to this document and were not written.",
+ "paid_provider_calls": 0,
+ "usd_spent": 0.0,
+ "baseline_from_contract": {
+  "confirmed_identities": 129,
+  "published_pet_friendly": 47,
+  "verified_no_pets": 8,
+  "resolved": 55,
+  "unresolved": 74,
+  "note": "verified_no_pets counts ONLY VERIFIED_NO_PETS records this market owns in launch_packages/pettripfinder/hotel_exclusions.json. unresolved is UNKNOWN, never negative evidence: a failed capture answers nothing."
+ },
+ "partition_state_counts": {
+  "PUBLISHED_PET_FRIENDLY": 47,
+  "VERIFIED_NO_PETS": 8,
+  "AWAITING_OFFICIAL_URL": 15,
+  "AWAITING_ROUTING_REVIEW": 8,
+  "AWAITING_ROUTING_REPLACEMENT": 7,
+  "AWAITING_POLICY_OBSERVATION": 25,
+  "AWAITING_POLICY_ARTIFACT": 13,
+  "AWAITING_CENSUS_REVIEW": 2,
+  "ACCESS_BLOCKED": 4
+ },
+ "free_static_classification_counts": {
+  "ACCESS_BLOCKED_PLAIN_CLIENT": 21,
+  "IDENTITY_NOT_CONFIRMED_STATIC": 1,
+  "IDENTITY_TEXT_BOUND_POLICY_SILENT": 1,
+  "NEEDS_ATTENDED_RENDER": 8,
+  "TRANSPORT_FAILED": 10,
+  "UNEXPECTED_PAGE": 7
+ },
+ "attended_outcome_counts": {
+  "IDENTITY_NOT_BOUND_ON_PAGE": 4,
+  "NO_PETS_STATED_ATTENDED": 6,
+  "NO_PETS_STATED_ATTENDED_FAQ": 10,
+  "PET_FRIENDLY_STATED_ATTENDED": 5,
+  "PET_FRIENDLY_STATED_ATTENDED_FAQ": 2
+ },
+ "owned_routes_replayed": 13,
+ "recensus_reconciliation": {
+  "candidates_scoped_to_this_market": 295,
+  "classification_counts": {
+   "ALIAS_OF_EXISTING": 10,
+   "EXACT_EXISTING": 34,
+   "NAME_ONLY_UNRESOLVED": 251
+  },
+  "true_missing_identities": 0
+ },
+ "wrong_live_policy_audit": {
+  "rows_tested": 55,
+  "counts": {
+   "CURRENTLY_CORRECT": 12,
+   "CURRENTLY_CORRECT_TEXT_BOUND": 1,
+   "NOT_RE_READABLE_STATICALLY": 37,
+   "NO_CHANGE_SIGNAL": 2,
+   "NO_CHANGE_SIGNAL_PAGE_SILENT": 3
+  },
+  "wrong_live_policy_findings": 0,
+  "wrong_live_policy_rows": [],
+  "coverage_note": "Every live Dayton record was re-requested. The rows a plain client could re-read all agreed with live authority; the rest could not be re-read statically at all, which is an absence of a re-read and not an absence of a contradiction."
+ },
+ "pending_application_inventory": {
+  "clean_pet_friendly": 7,
+  "clean_verified_no_pets": 16,
+  "held": 4,
+  "pet_friendly_rows": [
+   {
+    "identity_key": "baymont by wyndham dayton north",
+    "canonical_name": "Baymont by Wyndham Dayton North",
+    "brand": "WYNDHAM",
+    "canonical_url": "https://www.wyndhamhotels.com/baymont/dayton-ohio/baymont-dayton-north/overview",
+    "document_sha256": "sha256:05bb0776be75083919152c73b4411d141c713acfb89a3f2d60dcf0c306a8468e",
+    "artifact_file": "DAY-WYN-01-baymont-by-wyndham-dayton-north.json",
+    "artifact_sha256": "sha256:2d7361f2c8f3e3d809d6ac6e70e75ba86dab962b839b082b02a5f2b0b304467a",
+    "captured_at": "2026-09-02T02:35:00Z",
+    "lane": "FREE_ATTENDED",
+    "interaction": "attended Chrome; opened the property's own Hotel Policies dialog (a.policy-link-seeall) and read the PET & SERVICE ANIMAL POLICY section it renders",
+    "identity_signals": {
+     "street_number_agrees": true,
+     "postal_agrees": true,
+     "phone_agrees": false,
+     "bound": true
+    },
+    "evidence_source": "visible_text",
+    "exact_quote": "pets allowed",
+    "evidence_quotes": [
+     "pets allowed",
+     "25.00 USD per pet per night",
+     "25.00 USD per pet per night",
+     "25.00 USD per pet per night",
+     "up to 50 lbs",
+     "maximum of 2 pets",
+     "ADA defined service animals are welcome at this hotel."
+    ],
+    "parsed_facts": {
+     "pets_allowed": true,
+     "pet_fee": 2500,
+     "fee_currency": "USD",
+     "fee_basis": "per_night",
+     "fee_scope": "per_pet",
+     "weight_limit": {
+      "value": 50.0,
+      "unit": "lb"
+     },
+     "pet_count_limit": 2,
+     "service_animal_exception": "ADA defined service animals are welcome at this hotel."
+    },
+    "withheld_facts": {},
+    "service_animal_statement": "ADA defined service animals are welcome at this hotel.",
+    "brand_generic_wording": false,
+    "markup_corroboration": null,
+    "live_state": "UNRESOLVED_OR_NEW",
+    "partition_state_before": "AWAITING_POLICY_ARTIFACT",
+    "classification": "PET_FRIENDLY_STATED_ATTENDED"
+   },
+   {
+    "identity_key": "holiday inn express and suites dayton huber heights",
+    "canonical_name": "Holiday Inn Express & Suites Dayton-Huber Heights",
+    "brand": "IHG",
+    "canonical_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/huber-heights/huboh/hoteldetail",
+    "document_sha256": "sha256:43bdc8182a15d1874a63251ec8cbb5ae03c82bdad788028324f39563f2efd2d2",
+    "artifact_file": "DAY-IHG-02-holiday-inn-express-and-suites-dayton-huber-heights.json",
+    "artifact_sha256": "sha256:7170fc9576fbac832c9445924e10933b386273e042a650343f1eda5cceb12a66",
+    "captured_at": "2026-09-02T02:22:00Z",
+    "lane": "FREE_ATTENDED",
+    "interaction": "same-origin fetch from an attended ihg.com session (the brand refuses a plain client with HTTP 403); no challenge solved, no bot defence circumvented",
+    "identity_signals": {
+     "street_number_agrees": true,
+     "postal_agrees": true,
+     "phone_agrees": true,
+     "bound": true
+    },
+    "evidence_source": "property_named_faq",
+    "exact_quote": "Pets are welcome",
+    "evidence_quotes": [
+     "Pets are welcome"
+    ],
+    "parsed_facts": {
+     "pets_allowed": true
+    },
+    "withheld_facts": {
+     "pet_fee": "SOURCE_SILENT"
+    },
+    "service_animal_statement": "",
+    "brand_generic_wording": false,
+    "markup_corroboration": {
+     "markup_pets_allowed": true,
+     "markup_pet_description": "We do charge a 35 00 USD Pet Fee per day for deep cleaning after check out Dogs should be well behaved Owner responsible for any damages pet may cause",
+     "fields": {
+      "petDepositPerStay": "35 USD",
+      "petDescription": "We do charge a 35 00 USD Pet Fee per day for deep cleaning after check out Dogs should be well behaved Owner responsible for any damages pet may cause",
+      "petRestrictionPolicy": "",
+      "petsAllowed": "true",
+      "phoneNumber": "1-937-2352000",
+      "postalCode": "45424",
+      "weightLimitPerPet": ""
+     },
+     "agrees_with_prose_read": true,
+     "role": "CORROBORATION_ONLY -- never parsed into a published fact"
+    },
+    "live_state": "UNRESOLVED_OR_NEW",
+    "partition_state_before": "AWAITING_POLICY_ARTIFACT",
+    "classification": "PET_FRIENDLY_STATED_ATTENDED_FAQ"
+   },
+   {
+    "identity_key": "holiday inn express and suites washington court house",
+    "canonical_name": "Holiday Inn Express & Suites Washington Court House",
+    "brand": "IHG",
+    "canonical_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/washington-court-house/cmhwc/hoteldetail",
+    "document_sha256": "sha256:19988f62638e522268b9635164b7ecbf1e9e81f92c7a2fe629a1311e21c6c5e8",
+    "artifact_file": "DAY-IHG-10-holiday-inn-express-and-suites-washington-court-house.json",
+    "artifact_sha256": "sha256:0a068dac874adeb3b53d6258bec1ce418b01b4a3cd4d3fa83b2eadc18c70a089",
+    "captured_at": "2026-09-02T02:22:00Z",
+    "lane": "FREE_ATTENDED",
+    "interaction": "same-origin fetch from an attended ihg.com session (the brand refuses a plain client with HTTP 403); no challenge solved, no bot defence circumvented",
+    "identity_signals": {
+     "street_number_agrees": true,
+     "postal_agrees": true,
+     "phone_agrees": true,
+     "bound": true
+    },
+    "evidence_source": "property_named_faq",
+    "exact_quote": "Pets are welcome",
+    "evidence_quotes": [
+     "Pets are welcome"
+    ],
+    "parsed_facts": {
+     "pets_allowed": true
+    },
+    "withheld_facts": {
+     "pet_fee": "SOURCE_SILENT"
+    },
+    "service_animal_statement": "",
+    "brand_generic_wording": false,
+    "markup_corroboration": {
+     "markup_pets_allowed": true,
+     "markup_pet_description": "All pets are welcome",
+     "fields": {
+      "petDepositPerStay": "25 USD",
+      "petDescription": "All pets are welcome",
+      "petRestrictionPolicy": "Only dogs and cats allowed",
+      "petsAllowed": "true",
+      "phoneNumber": "1-740-3359310",
+      "postalCode": "43160",
+      "weightLimitPerPet": ""
+     },
+     "agrees_with_prose_read": true,
+     "role": "CORROBORATION_ONLY -- never parsed into a published fact"
+    },
+    "live_state": "UNRESOLVED_OR_NEW",
+    "partition_state_before": "AWAITING_POLICY_ARTIFACT",
+    "classification": "PET_FRIENDLY_STATED_ATTENDED_FAQ"
+   },
+   {
+    "identity_key": "comfort inn and suites dayton northwest englewood",
+    "canonical_name": "Comfort Inn & Suites Dayton Northwest - Englewood",
+    "brand": "CHOICE",
+    "canonical_url": "https://www.choicehotels.com/ohio/dayton/comfort-inn-hotels/oh209",
+    "document_sha256": "sha256:7e66bccff1db4d1a8291691c029a5d9173e9fbe2e7c32b48b17ef1a079ad8b17",
+    "artifact_file": "DAY-CHO-01-comfort-inn-and-suites-dayton-northwest-englewood.json",
+    "artifact_sha256": "sha256:a711b0933f4f440208f73fcb5f3277d0d566054de67b04815716be53ae2f1e4c",
+    "captured_at": "2026-09-02T02:55:00Z",
+    "lane": "FREE_ATTENDED",
+    "interaction": "attended Chrome; the property page rendered in a same-origin iframe whose location and address block were confirmed to be this property before the read (choicehotels.com times out to a plain client)",
+    "identity_signals": {
+     "street_number_agrees": true,
+     "postal_agrees": true,
+     "phone_agrees": true,
+     "bound": true
+    },
+    "evidence_source": "visible_text",
+    "exact_quote": "Pets are allowed",
+    "evidence_quotes": [
+     "Pets are allowed",
+     "150 USD refundable deposit",
+     "25.00 USD per night. ",
+     "25.00 USD per night. ",
+     "Service animals are permitted, without charge."
+    ],
+    "parsed_facts": {
+     "pets_allowed": true,
+     "pet_deposit": 15000,
+     "pet_fee": 2500,
+     "fee_currency": "USD",
+     "fee_basis": "per_night",
+     "service_animal_exception": "Service animals are permitted, without charge."
+    },
+    "withheld_facts": {},
+    "service_animal_statement": "Service animals are permitted, without charge.",
+    "brand_generic_wording": false,
+    "markup_corroboration": null,
+    "live_state": "UNRESOLVED_OR_NEW",
+    "partition_state_before": "AWAITING_POLICY_ARTIFACT",
+    "classification": "PET_FRIENDLY_STATED_ATTENDED"
+   },
+   {
+    "identity_key": "quality inn dayton airport",
+    "canonical_name": "Quality Inn Dayton Airport",
+    "brand": "CHOICE",
+    "canonical_url": "https://www.choicehotels.com/ohio/englewood/quality-inn-hotels/oh591",
+    "document_sha256": "sha256:b3b30ebc9dbd786f0badc706af1587bb2550acad4492901ffdbeb3b751f17a7b",
+    "artifact_file": "DAY-CHO-03-quality-inn-dayton-airport.json",
+    "artifact_sha256": "sha256:fdfd5e5deaa660cd55bb0f9baafef6677f5f225a82d87da9793d3c10c4c46078",
+    "captured_at": "2026-09-02T02:55:00Z",
+    "lane": "FREE_ATTENDED",
+    "interaction": "attended Chrome; the property page rendered in a same-origin iframe whose location and address block were confirmed to be this property before the read (choicehotels.com times out to a plain client)",
+    "identity_signals": {
+     "street_number_agrees": true,
+     "postal_agrees": true,
+     "phone_agrees": false,
+     "bound": true
+    },
+    "evidence_source": "visible_text",
+    "exact_quote": "Pets Allowed",
+    "evidence_quotes": [
+     "Pets Allowed",
+     "20.00 USD per night ",
+     "20.00 USD per night ",
+     "maximum of 50 pounds",
+     "2 pets per room",
+     "Service animals are permitted, without charge."
+    ],
+    "parsed_facts": {
+     "pets_allowed": true,
+     "pet_fee": 2000,
+     "fee_currency": "USD",
+     "fee_basis": "per_night",
+     "weight_limit": {
+      "value": 50.0,
+      "unit": "lb"
+     },
+     "pet_count_limit": 2,
+     "pet_count_scope": "per_room",
+     "service_animal_exception": "Service animals are permitted, without charge."
+    },
+    "withheld_facts": {},
+    "service_animal_statement": "Service animals are permitted, without charge.",
+    "brand_generic_wording": false,
+    "markup_corroboration": null,
+    "live_state": "UNRESOLVED_OR_NEW",
+    "partition_state_before": "AWAITING_POLICY_ARTIFACT",
+    "classification": "PET_FRIENDLY_STATED_ATTENDED"
+   },
+   {
+    "identity_key": "quality inn dayton north vandalia",
+    "canonical_name": "Quality Inn Dayton North - Vandalia",
+    "brand": "CHOICE",
+    "canonical_url": "https://www.choicehotels.com/ohio/dayton/quality-inn-hotels/oh161",
+    "document_sha256": "sha256:3c9e08409fe1ab5d6e6adbe7da53ce29f73d84538cdbaf124ccf7a948d99db5c",
+    "artifact_file": "DAY-CHO-04-quality-inn-dayton-north-vandalia.json",
+    "artifact_sha256": "sha256:9f40a8a49ea50f997c833a232c6b6283b80d668a44eea5de2684969755942df6",
+    "captured_at": "2026-09-02T02:55:00Z",
+    "lane": "FREE_ATTENDED",
+    "interaction": "attended Chrome; the property page rendered in a same-origin iframe whose location and address block were confirmed to be this property before the read (choicehotels.com times out to a plain client)",
+    "identity_signals": {
+     "street_number_agrees": true,
+     "postal_agrees": true,
+     "phone_agrees": true,
+     "bound": true
+    },
+    "evidence_source": "visible_text",
+    "exact_quote": "Pets are allowed",
+    "evidence_quotes": [
+     "Pets are allowed",
+     "25.00 USD per night. ",
+     "25.00 USD per night. ",
+     "maximum of 25 pounds",
+     "2 pets per room",
+     "Service animals are permitted, without charge."
+    ],
+    "parsed_facts": {
+     "pets_allowed": true,
+     "pet_fee": 2500,
+     "fee_currency": "USD",
+     "fee_basis": "per_night",
+     "weight_limit": {
+      "value": 25.0,
+      "unit": "lb"
+     },
+     "pet_count_limit": 2,
+     "pet_count_scope": "per_room",
+     "service_animal_exception": "Service animals are permitted, without charge."
+    },
+    "withheld_facts": {},
+    "service_animal_statement": "Service animals are permitted, without charge.",
+    "brand_generic_wording": false,
+    "markup_corroboration": null,
+    "live_state": "UNRESOLVED_OR_NEW",
+    "partition_state_before": "AWAITING_POLICY_ARTIFACT",
+    "classification": "PET_FRIENDLY_STATED_ATTENDED"
+   },
+   {
+    "identity_key": "quality inn st marys",
+    "canonical_name": "Quality Inn St. Marys",
+    "brand": "CHOICE",
+    "canonical_url": "https://www.choicehotels.com/ohio/st-marys/quality-inn-hotels/oh590",
+    "document_sha256": "sha256:5932469f49deaf117ba7df5991a2856eb26c38b1eff89b723ffb734f39ec3098",
+    "artifact_file": "DAY-CHO-05-quality-inn-st-marys.json",
+    "artifact_sha256": "sha256:98904f1eebb32f9a97807a5e3c8976b70a03fa20da7fe3c0206b3c77764dc10d",
+    "captured_at": "2026-09-02T02:55:00Z",
+    "lane": "FREE_ATTENDED",
+    "interaction": "attended Chrome; policy read in a same-origin iframe confirmed on this property, identity lines merged from the same session's server-HTML read of the same URL",
+    "identity_signals": {
+     "street_number_agrees": true,
+     "postal_agrees": true,
+     "phone_agrees": true,
+     "bound": true
+    },
+    "evidence_source": "visible_text",
+    "exact_quote": "Pets Allowed",
+    "evidence_quotes": [
+     "Pets Allowed",
+     "35.00 USD per stay, per pet",
+     "35.00 USD per stay, per pet",
+     "35.00 USD per stay, per pet",
+     "40 lbs or less",
+     "2 pets per room",
+     "Service animals are permitted, without charge."
+    ],
+    "parsed_facts": {
+     "pets_allowed": true,
+     "pet_fee": 3500,
+     "fee_currency": "USD",
+     "fee_basis": "per_stay",
+     "fee_scope": "per_pet",
+     "weight_limit": {
+      "value": 40.0,
+      "unit": "lb"
+     },
+     "pet_count_limit": 2,
+     "pet_count_scope": "per_room",
+     "service_animal_exception": "Service animals are permitted, without charge."
+    },
+    "withheld_facts": {},
+    "service_animal_statement": "Service animals are permitted, without charge.",
+    "brand_generic_wording": false,
+    "markup_corroboration": null,
+    "live_state": "UNRESOLVED_OR_NEW",
+    "partition_state_before": "AWAITING_POLICY_ARTIFACT",
+    "classification": "PET_FRIENDLY_STATED_ATTENDED"
+   }
+  ],
+  "verified_no_pets_rows": [
+   {
+    "identity_key": "holiday inn express and suites dayton east beavercreek",
+    "canonical_name": "Holiday Inn Express & Suites Dayton East - Beavercreek",
+    "brand": "IHG",
+    "canonical_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/beavercreek/daybc/hoteldetail",
+    "document_sha256": "sha256:991b9566d7c408e01717c6a85c96ff9b48bbcc5dede543b141656adf694a4929",
+    "artifact_file": "DAY-IHG-01-holiday-inn-express-and-suites-dayton-east-beavercreek.json",
+    "artifact_sha256": "sha256:c647dcf791120db06f4bd20a69aaddccdba36efc881517389eda977d5a997796",
+    "captured_at": "2026-09-02T02:22:00Z",
+    "lane": "FREE_ATTENDED",
+    "interaction": "same-origin fetch from an attended ihg.com session (the brand refuses a plain client with HTTP 403); no challenge solved, no bot defence circumvented",
+    "identity_signals": {
+     "street_number_agrees": true,
+     "postal_agrees": true,
+     "phone_agrees": true,
+     "bound": true
+    },
+    "evidence_source": "property_named_faq",
+    "exact_quote": "pets are not allowed",
+    "evidence_quotes": [
+     "pets are not allowed"
+    ],
+    "parsed_facts": {
+     "pets_allowed": false
+    },
+    "withheld_facts": {},
+    "service_animal_statement": "",
+    "brand_generic_wording": false,
+    "markup_corroboration": {
+     "markup_pets_allowed": false,
+     "markup_pet_description": "No pets allowed service animals only",
+     "fields": {
+      "petDepositPerStay": "",
+      "petDescription": "No pets allowed service animals only",
+      "petRestrictionPolicy": "",
+      "petsAllowed": "false",
+      "phoneNumber": "1-937-9129643",
+      "postalCode": "45431",
+      "weightLimitPerPet": ""
+     },
+     "agrees_with_prose_read": true,
+     "role": "CORROBORATION_ONLY -- never parsed into a published fact"
+    },
+    "live_state": "UNRESOLVED_OR_NEW",
+    "partition_state_before": "AWAITING_POLICY_OBSERVATION",
+    "classification": "NO_PETS_STATED_ATTENDED_FAQ"
+   },
+   {
+    "identity_key": "holiday inn express and suites dayton north tipp city",
+    "canonical_name": "Holiday Inn Express & Suites Dayton North - Tipp City",
+    "brand": "IHG",
+    "canonical_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/tipp-city/daytc/hoteldetail",
+    "document_sha256": "sha256:3122efc8b10b21c361dd9b4045b18e7f06c3126b766a09e88f98b11030cf64f5",
+    "artifact_file": "DAY-IHG-03-holiday-inn-express-and-suites-dayton-north-tipp-city.json",
+    "artifact_sha256": "sha256:8c333f0765f772bf4a773304d3ae4ae16aaa6ac89d79b999f222725f9fe8a8fb",
+    "captured_at": "2026-09-02T02:22:00Z",
+    "lane": "FREE_ATTENDED",
+    "interaction": "same-origin fetch from an attended ihg.com session (the brand refuses a plain client with HTTP 403); no challenge solved, no bot defence circumvented",
+    "identity_signals": {
+     "street_number_agrees": true,
+     "postal_agrees": true,
+     "phone_agrees": true,
+     "bound": true
+    },
+    "evidence_source": "property_named_faq",
+    "exact_quote": "pets are not allowed",
+    "evidence_quotes": [
+     "pets are not allowed"
+    ],
+    "parsed_facts": {
+     "pets_allowed": false
+    },
+    "withheld_facts": {},
+    "service_animal_statement": "",
+    "brand_generic_wording": false,
+    "markup_corroboration": {
+     "markup_pets_allowed": false,
+     "markup_pet_description": "Pets are not allowed Service animals only",
+     "fields": {
+      "petDepositPerStay": "",
+      "petDescription": "Pets are not allowed Service animals only",
+      "petRestrictionPolicy": "",
+      "petsAllowed": "false",
+      "phoneNumber": "1-937-6675161",
+      "postalCode": "45371",
+      "weightLimitPerPet": ""
+     },
+     "agrees_with_prose_read": true,
+     "role": "CORROBORATION_ONLY -- never parsed into a published fact"
+    },
+    "live_state": "UNRESOLVED_OR_NEW",
+    "partition_state_before": "AWAITING_POLICY_OBSERVATION",
+    "classification": "NO_PETS_STATED_ATTENDED_FAQ"
+   },
+   {
+    "identity_key": "holiday inn express and suites dayton north vandalia",
+    "canonical_name": "Holiday Inn Express & Suites Dayton North - Vandalia",
+    "brand": "IHG",
+    "canonical_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/dayton/dayly/hoteldetail",
+    "document_sha256": "sha256:045a37031edab426ac165df80dda04c7c076b4324729707e24b7d0ef23e0d92c",
+    "artifact_file": "DAY-IHG-04-holiday-inn-express-and-suites-dayton-north-vandalia.json",
+    "artifact_sha256": "sha256:509f5255d9c4680c36325b5bd2f972c1d8e5715ba533e15e7595d87dc0a4c629",
+    "captured_at": "2026-09-02T02:22:00Z",
+    "lane": "FREE_ATTENDED",
+    "interaction": "same-origin fetch from an attended ihg.com session (the brand refuses a plain client with HTTP 403); no challenge solved, no bot defence circumvented",
+    "identity_signals": {
+     "street_number_agrees": true,
+     "postal_agrees": true,
+     "phone_agrees": true,
+     "bound": true
+    },
+    "evidence_source": "property_named_faq",
+    "exact_quote": "pets are not allowed",
+    "evidence_quotes": [
+     "pets are not allowed"
+    ],
+    "parsed_facts": {
+     "pets_allowed": false
+    },
+    "withheld_facts": {},
+    "service_animal_statement": "",
+    "brand_generic_wording": false,
+    "markup_corroboration": {
+     "markup_pets_allowed": false,
+     "markup_pet_description": "We do not allow pets",
+     "fields": {
+      "petDepositPerStay": "",
+      "petDescription": "We do not allow pets",
+      "petRestrictionPolicy": "",
+      "petsAllowed": "false",
+      "phoneNumber": "1-937-2804880",
+      "postalCode": "45414",
+      "weightLimitPerPet": ""
+     },
+     "agrees_with_prose_read": true,
+     "role": "CORROBORATION_ONLY -- never parsed into a published fact"
+    },
+    "live_state": "UNRESOLVED_OR_NEW",
+    "partition_state_before": "AWAITING_POLICY_OBSERVATION",
+    "classification": "NO_PETS_STATED_ATTENDED_FAQ"
+   },
+   {
+    "identity_key": "holiday inn express and suites dayton south i 675",
+    "canonical_name": "Holiday Inn Express & Suites Dayton South - I-675",
+    "brand": "IHG",
+    "canonical_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/dayton/dayml/hoteldetail",
+    "document_sha256": "sha256:5c4ecd14e131d104c88bcfebf0e0c65ff1d16b156ad82f31f8d84b9b5f4158c5",
+    "artifact_file": "DAY-IHG-05-holiday-inn-express-and-suites-dayton-south-i-675.json",
+    "artifact_sha256": "sha256:ef88be0098d14aa86e1cfebcd9439290c74dcafcad2021b24f06da98e6b652a3",
+    "captured_at": "2026-09-02T02:22:00Z",
+    "lane": "FREE_ATTENDED",
+    "interaction": "same-origin fetch from an attended ihg.com session (the brand refuses a plain client with HTTP 403); no challenge solved, no bot defence circumvented",
+    "identity_signals": {
+     "street_number_agrees": true,
+     "postal_agrees": true,
+     "phone_agrees": true,
+     "bound": true
+    },
+    "evidence_source": "property_named_faq",
+    "exact_quote": "pets are not allowed",
+    "evidence_quotes": [
+     "pets are not allowed"
+    ],
+    "parsed_facts": {
+     "pets_allowed": false
+    },
+    "withheld_facts": {},
+    "service_animal_statement": "",
+    "brand_generic_wording": false,
+    "markup_corroboration": {
+     "markup_pets_allowed": false,
+     "markup_pet_description": "Service animals only permitted The hotel reserves the right to enforce a 250 00 fine for lodging a non service animal in the hotel",
+     "fields": {
+      "petDepositPerStay": "",
+      "petDescription": "Service animals only permitted The hotel reserves the right to enforce a 250 00 fine for lodging a non service animal in the hotel",
+      "petRestrictionPolicy": "",
+      "petsAllowed": "false",
+      "phoneNumber": "1-937-9389550",
+      "postalCode": "45459",
+      "weightLimitPerPet": ""
+     },
+     "agrees_with_prose_read": true,
+     "role": "CORROBORATION_ONLY -- never parsed into a published fact"
+    },
+    "live_state": "UNRESOLVED_OR_NEW",
+    "partition_state_before": "AWAITING_POLICY_OBSERVATION",
+    "classification": "NO_PETS_STATED_ATTENDED_FAQ"
+   },
+   {
+    "identity_key": "holiday inn express and suites dayton sw university area",
+    "canonical_name": "Holiday Inn Express & Suites Dayton SW - University Area",
+    "brand": "IHG",
+    "canonical_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/dayton/dayds/hoteldetail",
+    "document_sha256": "sha256:84997b3eab3f02aedda9b0381811ab3573f19431ceddc19d039cc97d4964da75",
+    "artifact_file": "DAY-IHG-06-holiday-inn-express-and-suites-dayton-sw-university-area.json",
+    "artifact_sha256": "sha256:ae14666c694e4cecbb3c1539acb446a1500b858e889af08fd7869f2ef92d513c",
+    "captured_at": "2026-09-02T02:22:00Z",
+    "lane": "FREE_ATTENDED",
+    "interaction": "same-origin fetch from an attended ihg.com session (the brand refuses a plain client with HTTP 403); no challenge solved, no bot defence circumvented",
+    "identity_signals": {
+     "street_number_agrees": true,
+     "postal_agrees": true,
+     "phone_agrees": true,
+     "bound": true
+    },
+    "evidence_source": "property_named_faq",
+    "exact_quote": "pets are not allowed",
+    "evidence_quotes": [
+     "pets are not allowed"
+    ],
+    "parsed_facts": {
+     "pets_allowed": false
+    },
+    "withheld_facts": {},
+    "service_animal_statement": "",
+    "brand_generic_wording": false,
+    "markup_corroboration": {
+     "markup_pets_allowed": false,
+     "markup_pet_description": "Pets are not permitted",
+     "fields": {
+      "petDepositPerStay": "",
+      "petDescription": "Pets are not permitted",
+      "petRestrictionPolicy": "",
+      "petsAllowed": "false",
+      "phoneNumber": "1-937-2506400",
+      "postalCode": "45417",
+      "weightLimitPerPet": ""
+     },
+     "agrees_with_prose_read": true,
+     "role": "CORROBORATION_ONLY -- never parsed into a published fact"
+    },
+    "live_state": "UNRESOLVED_OR_NEW",
+    "partition_state_before": "AWAITING_POLICY_OBSERVATION",
+    "classification": "NO_PETS_STATED_ATTENDED_FAQ"
+   },
+   {
+    "identity_key": "holiday inn express and suites sidney",
+    "canonical_name": "Holiday Inn Express & Suites Sidney",
+    "brand": "IHG",
+    "canonical_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/sidney/daysd/hoteldetail",
+    "document_sha256": "sha256:7fe1172487fe304993cdb873f41330c76adfa50d13f68e73ef91d872540f5a64",
+    "artifact_file": "DAY-IHG-07-holiday-inn-express-and-suites-sidney.json",
+    "artifact_sha256": "sha256:44bb51d35392680239140ec72f20a341d0e0d7f1578f5ccc1b4922f28973ad41",
+    "captured_at": "2026-09-02T02:22:00Z",
+    "lane": "FREE_ATTENDED",
+    "interaction": "same-origin fetch from an attended ihg.com session (the brand refuses a plain client with HTTP 403); no challenge solved, no bot defence circumvented",
+    "identity_signals": {
+     "street_number_agrees": true,
+     "postal_agrees": true,
+     "phone_agrees": true,
+     "bound": true
+    },
+    "evidence_source": "property_named_faq",
+    "exact_quote": "pets are not allowed",
+    "evidence_quotes": [
+     "pets are not allowed"
+    ],
+    "parsed_facts": {
+     "pets_allowed": false
+    },
+    "withheld_facts": {},
+    "service_animal_statement": "",
+    "brand_generic_wording": false,
+    "markup_corroboration": {
+     "markup_pets_allowed": false,
+     "markup_pet_description": "No pets allowed Service animals welcomed",
+     "fields": {
+      "petDepositPerStay": "",
+      "petDescription": "No pets allowed Service animals welcomed",
+      "petRestrictionPolicy": "",
+      "petsAllowed": "false",
+      "phoneNumber": "1-937-4926010",
+      "postalCode": "45365",
+      "weightLimitPerPet": ""
+     },
+     "agrees_with_prose_read": true,
+     "role": "CORROBORATION_ONLY -- never parsed into a published fact"
+    },
+    "live_state": "UNRESOLVED_OR_NEW",
+    "partition_state_before": "AWAITING_POLICY_OBSERVATION",
+    "classification": "NO_PETS_STATED_ATTENDED_FAQ"
+   },
+   {
+    "identity_key": "holiday inn express and suites troy",
+    "canonical_name": "Holiday Inn Express & Suites Troy",
+    "brand": "IHG",
+    "canonical_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/troy/tryoh/hoteldetail",
+    "document_sha256": "sha256:aa414719b61b2aefd784d53010bac3bd3362988a11646810eba7a4a7c8e35760",
+    "artifact_file": "DAY-IHG-08-holiday-inn-express-and-suites-troy.json",
+    "artifact_sha256": "sha256:1169bbf519afd9abf8b174ce9bb4211c323b318d066c6f2ef90b99004132e1ad",
+    "captured_at": "2026-09-02T02:22:00Z",
+    "lane": "FREE_ATTENDED",
+    "interaction": "same-origin fetch from an attended ihg.com session (the brand refuses a plain client with HTTP 403); no challenge solved, no bot defence circumvented",
+    "identity_signals": {
+     "street_number_agrees": true,
+     "postal_agrees": true,
+     "phone_agrees": true,
+     "bound": true
+    },
+    "evidence_source": "property_named_faq",
+    "exact_quote": "pets are not allowed",
+    "evidence_quotes": [
+     "pets are not allowed"
+    ],
+    "parsed_facts": {
+     "pets_allowed": false
+    },
+    "withheld_facts": {},
+    "service_animal_statement": "",
+    "brand_generic_wording": false,
+    "markup_corroboration": {
+     "markup_pets_allowed": false,
+     "markup_pet_description": "",
+     "fields": {
+      "petDepositPerStay": "",
+      "petDescription": "",
+      "petRestrictionPolicy": "",
+      "petsAllowed": "false",
+      "phoneNumber": "1-937-3321700",
+      "postalCode": "45373",
+      "weightLimitPerPet": ""
+     },
+     "agrees_with_prose_read": true,
+     "role": "CORROBORATION_ONLY -- never parsed into a published fact"
+    },
+    "live_state": "UNRESOLVED_OR_NEW",
+    "partition_state_before": "AWAITING_POLICY_OBSERVATION",
+    "classification": "NO_PETS_STATED_ATTENDED_FAQ"
+   },
+   {
+    "identity_key": "holiday inn express and suites wapakoneta",
+    "canonical_name": "Holiday Inn Express & Suites Wapakoneta",
+    "brand": "IHG",
+    "canonical_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/wapakoneta/axvoh/hoteldetail",
+    "document_sha256": "sha256:ec08f14a41c1a23371f4c89ff168a9d1ed643bffbb4da9b0490fa702a3b6144b",
+    "artifact_file": "DAY-IHG-09-holiday-inn-express-and-suites-wapakoneta.json",
+    "artifact_sha256": "sha256:066568b68080aab9b3d173b405ec49ba879f9e1b633082a161c86fe78af6381a",
+    "captured_at": "2026-09-02T02:22:00Z",
+    "lane": "FREE_ATTENDED",
+    "interaction": "same-origin fetch from an attended ihg.com session (the brand refuses a plain client with HTTP 403); no challenge solved, no bot defence circumvented",
+    "identity_signals": {
+     "street_number_agrees": true,
+     "postal_agrees": true,
+     "phone_agrees": true,
+     "bound": true
+    },
+    "evidence_source": "property_named_faq",
+    "exact_quote": "pets are not allowed",
+    "evidence_quotes": [
+     "pets are not allowed"
+    ],
+    "parsed_facts": {
+     "pets_allowed": false
+    },
+    "withheld_facts": {},
+    "service_animal_statement": "",
+    "brand_generic_wording": false,
+    "markup_corroboration": {
+     "markup_pets_allowed": false,
+     "markup_pet_description": "No Pets Allowed Service Animals Always Welcome",
+     "fields": {
+      "petDepositPerStay": "0 USD",
+      "petDescription": "No Pets Allowed Service Animals Always Welcome",
+      "petRestrictionPolicy": "",
+      "petsAllowed": "false",
+      "phoneNumber": "1-567-3564151",
+      "postalCode": "45895",
+      "weightLimitPerPet": ""
+     },
+     "agrees_with_prose_read": true,
+     "role": "CORROBORATION_ONLY -- never parsed into a published fact"
+    },
+    "live_state": "UNRESOLVED_OR_NEW",
+    "partition_state_before": "AWAITING_POLICY_OBSERVATION",
+    "classification": "NO_PETS_STATED_ATTENDED_FAQ"
+   },
+   {
+    "identity_key": "staybridge suites dayton north",
+    "canonical_name": "Staybridge Suites Dayton North",
+    "brand": "IHG",
+    "canonical_url": "https://www.ihg.com/staybridge/hotels/us/en/dayton/daymr/hoteldetail",
+    "document_sha256": "sha256:2cf5ae7d9e2899dd833fb810a887f58352ef0461d20e2e447b5f3ff37b9917f6",
+    "artifact_file": "DAY-IHG-11-staybridge-suites-dayton-north.json",
+    "artifact_sha256": "sha256:96289feb7534cb435689012de3727ab180fe2de76176159e1aa5bd989ff671ea",
+    "captured_at": "2026-09-02T02:22:00Z",
+    "lane": "FREE_ATTENDED",
+    "interaction": "same-origin fetch from an attended ihg.com session (the brand refuses a plain client with HTTP 403); no challenge solved, no bot defence circumvented",
+    "identity_signals": {
+     "street_number_agrees": true,
+     "postal_agrees": true,
+     "phone_agrees": false,
+     "bound": true
+    },
+    "evidence_source": "property_named_faq",
+    "exact_quote": "pets are not allowed",
+    "evidence_quotes": [
+     "pets are not allowed"
+    ],
+    "parsed_facts": {
+     "pets_allowed": false
+    },
+    "withheld_facts": {},
+    "service_animal_statement": "",
+    "brand_generic_wording": false,
+    "markup_corroboration": {
+     "markup_pets_allowed": null,
+     "markup_pet_description": "",
+     "fields": {
+      "postalCode": "45414"
+     },
+     "agrees_with_prose_read": null,
+     "role": "CORROBORATION_ONLY -- never parsed into a published fact"
+    },
+    "live_state": "UNRESOLVED_OR_NEW",
+    "partition_state_before": "AWAITING_POLICY_OBSERVATION",
+    "classification": "NO_PETS_STATED_ATTENDED_FAQ"
+   },
+   {
+    "identity_key": "holiday inn express and suites greenville",
+    "canonical_name": "Holiday Inn Express & Suites Greenville",
+    "brand": "IHG",
+    "canonical_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/greenville/gvekb/hoteldetail",
+    "document_sha256": "sha256:bfbdd7800b1a427acd2b514c6a275716f891b19b7976d1bc8dd002f4345fe557",
+    "artifact_file": "DAY-IHG-13-holiday-inn-express-and-suites-greenville.json",
+    "artifact_sha256": "sha256:fcec1aff1e9ee692f0c4c5a348158f03313757b8685917f5bf6fee5c26c89844",
+    "captured_at": "2026-09-02T02:22:00Z",
+    "lane": "FREE_ATTENDED",
+    "interaction": "same-origin fetch from an attended ihg.com session (the brand refuses a plain client with HTTP 403); no challenge solved, no bot defence circumvented",
+    "identity_signals": {
+     "street_number_agrees": true,
+     "postal_agrees": true,
+     "phone_agrees": false,
+     "bound": true
+    },
+    "evidence_source": "property_named_faq",
+    "exact_quote": "pets are not allowed",
+    "evidence_quotes": [
+     "pets are not allowed"
+    ],
+    "parsed_facts": {
+     "pets_allowed": false
+    },
+    "withheld_facts": {},
+    "service_animal_statement": "",
+    "brand_generic_wording": false,
+    "markup_corroboration": {
+     "markup_pets_allowed": false,
+     "markup_pet_description": "",
+     "fields": {
+      "petDepositPerStay": "",
+      "petDescription": "",
+      "petRestrictionPolicy": "",
+      "petsAllowed": "false",
+      "phoneNumber": "1-937-5481328",
+      "postalCode": "45331",
+      "weightLimitPerPet": ""
+     },
+     "agrees_with_prose_read": true,
+     "role": "CORROBORATION_ONLY -- never parsed into a published fact"
+    },
+    "live_state": "UNRESOLVED_OR_NEW",
+    "partition_state_before": "AWAITING_ROUTING_REVIEW",
+    "classification": "NO_PETS_STATED_ATTENDED_FAQ"
+   },
+   {
+    "identity_key": "comfort inn and suites dayton north",
+    "canonical_name": "Comfort Inn & Suites Dayton North",
+    "brand": "CHOICE",
+    "canonical_url": "https://www.choicehotels.com/ohio/dayton/comfort-inn-hotels/oh572",
+    "document_sha256": "sha256:bb2bd5ef929cdf2d4f73a7d7c234d1c076ddb74203ad0dc7233a04411aad264d",
+    "artifact_file": "DAY-CHO-07-comfort-inn-and-suites-dayton-north.json",
+    "artifact_sha256": "sha256:436837d37a6e560f2b206719e48013d20c043f13fafa0639155a4f6218cf0a07",
+    "captured_at": "2026-09-02T02:55:00Z",
+    "lane": "FREE_ATTENDED",
+    "interaction": "same-origin fetch from an attended choicehotels.com session (the brand times out to a plain client); the refusal sentence is the page's own LocationFeatureSpecification",
+    "identity_signals": {
+     "street_number_agrees": true,
+     "postal_agrees": true,
+     "phone_agrees": false,
+     "bound": true
+    },
+    "evidence_source": "visible_text",
+    "exact_quote": "No Pets Allowed",
+    "evidence_quotes": [
+     "No Pets Allowed",
+     "Only service animals are permitted, free of charge."
+    ],
+    "parsed_facts": {
+     "pets_allowed": false,
+     "service_animal_exception": "Only service animals are permitted, free of charge."
+    },
+    "withheld_facts": {},
+    "service_animal_statement": "Only service animals are permitted, free of charge.",
+    "brand_generic_wording": false,
+    "markup_corroboration": null,
+    "live_state": "UNRESOLVED_OR_NEW",
+    "partition_state_before": "AWAITING_CENSUS_REVIEW",
+    "classification": "NO_PETS_STATED_ATTENDED"
+   },
+   {
+    "identity_key": "comfort suites dayton wright patterson",
+    "canonical_name": "Comfort Suites Dayton-Wright Patterson",
+    "brand": "CHOICE",
+    "canonical_url": "https://www.choicehotels.com/ohio/dayton/comfort-suites-hotels/oh311",
+    "document_sha256": "sha256:989ac7798805f8d0967b462c5cb1e1b83b2ec38afb80aba4b2d7fb59d3cb173a",
+    "artifact_file": "DAY-CHO-08-comfort-suites-dayton-wright-patterson.json",
+    "artifact_sha256": "sha256:3029bdd9b58e20e5ebe16b3f88f948a46975f6f89ccdb9da9df3ddb6ed92db4a",
+    "captured_at": "2026-09-02T02:55:00Z",
+    "lane": "FREE_ATTENDED",
+    "interaction": "same-origin fetch from an attended choicehotels.com session (the brand times out to a plain client); the refusal sentence is the page's own LocationFeatureSpecification",
+    "identity_signals": {
+     "street_number_agrees": true,
+     "postal_agrees": true,
+     "phone_agrees": true,
+     "bound": true
+    },
+    "evidence_source": "visible_text",
+    "exact_quote": "No Pets Allowed",
+    "evidence_quotes": [
+     "No Pets Allowed",
+     "Only service animals are permitted, free of charge."
+    ],
+    "parsed_facts": {
+     "pets_allowed": false,
+     "service_animal_exception": "Only service animals are permitted, free of charge."
+    },
+    "withheld_facts": {},
+    "service_animal_statement": "Only service animals are permitted, free of charge.",
+    "brand_generic_wording": false,
+    "markup_corroboration": null,
+    "live_state": "UNRESOLVED_OR_NEW",
+    "partition_state_before": "AWAITING_POLICY_ARTIFACT",
+    "classification": "NO_PETS_STATED_ATTENDED"
+   },
+   {
+    "identity_key": "comfort suites miamisburg dayton south",
+    "canonical_name": "Comfort Suites Miamisburg - Dayton South",
+    "brand": "CHOICE",
+    "canonical_url": "https://www.choicehotels.com/ohio/miamisburg/comfort-suites-hotels/oh202",
+    "document_sha256": "sha256:cd40e08a78d6af0add5128351cc96d3c1d499025b53b6a2834c8b68d74bdd603",
+    "artifact_file": "DAY-CHO-09-comfort-suites-miamisburg-dayton-south.json",
+    "artifact_sha256": "sha256:e80c3c6bcbb27b210698279f610ebb758214f3be15cc8e8746d816afdfbb86eb",
+    "captured_at": "2026-09-02T02:55:00Z",
+    "lane": "FREE_ATTENDED",
+    "interaction": "same-origin fetch from an attended choicehotels.com session (the brand times out to a plain client); the refusal sentence is the page's own LocationFeatureSpecification",
+    "identity_signals": {
+     "street_number_agrees": true,
+     "postal_agrees": true,
+     "phone_agrees": true,
+     "bound": true
+    },
+    "evidence_source": "visible_text",
+    "exact_quote": "No Pets Allowed",
+    "evidence_quotes": [
+     "No Pets Allowed",
+     "Only service animals are permitted, free of charge."
+    ],
+    "parsed_facts": {
+     "pets_allowed": false,
+     "service_animal_exception": "Only service animals are permitted, free of charge."
+    },
+    "withheld_facts": {},
+    "service_animal_statement": "Only service animals are permitted, free of charge.",
+    "brand_generic_wording": false,
+    "markup_corroboration": null,
+    "live_state": "UNRESOLVED_OR_NEW",
+    "partition_state_before": "AWAITING_POLICY_ARTIFACT",
+    "classification": "NO_PETS_STATED_ATTENDED"
+   },
+   {
+    "identity_key": "comfort suites springfield i 70",
+    "canonical_name": "Comfort Suites Springfield I-70",
+    "brand": "CHOICE",
+    "canonical_url": "https://www.choicehotels.com/ohio/springfield/comfort-suites-hotels/oh189",
+    "document_sha256": "sha256:5660dba4f856e4150200cb9fba3ac647798e132437f9c2a804a63327472cc265",
+    "artifact_file": "DAY-CHO-10-comfort-suites-springfield-i-70.json",
+    "artifact_sha256": "sha256:347f0025afa21ae4e201893ff1d965a16e7888938ce75dda5739267a4a12c903",
+    "captured_at": "2026-09-02T02:55:00Z",
+    "lane": "FREE_ATTENDED",
+    "interaction": "same-origin fetch from an attended choicehotels.com session (the brand times out to a plain client); the refusal sentence is the page's own LocationFeatureSpecification",
+    "identity_signals": {
+     "street_number_agrees": true,
+     "postal_agrees": true,
+     "phone_agrees": true,
+     "bound": true
+    },
+    "evidence_source": "visible_text",
+    "exact_quote": "No Pets Allowed",
+    "evidence_quotes": [
+     "No Pets Allowed",
+     "Only service animals are permitted, free of charge."
+    ],
+    "parsed_facts": {
+     "pets_allowed": false,
+     "service_animal_exception": "Only service animals are permitted, free of charge."
+    },
+    "withheld_facts": {},
+    "service_animal_statement": "Only service animals are permitted, free of charge.",
+    "brand_generic_wording": false,
+    "markup_corroboration": null,
+    "live_state": "UNRESOLVED_OR_NEW",
+    "partition_state_before": "AWAITING_ROUTING_REVIEW",
+    "classification": "NO_PETS_STATED_ATTENDED"
+   },
+   {
+    "identity_key": "quality inn greenville",
+    "canonical_name": "Quality Inn Greenville",
+    "brand": "CHOICE",
+    "canonical_url": "https://www.choicehotels.com/ohio/greenville/quality-inn-hotels/oh019",
+    "document_sha256": "sha256:feb2d840741cd5b47bc0b0d67f9817cfbabfe7228f552768a309a65f48c3c94a",
+    "artifact_file": "DAY-CHO-11-quality-inn-greenville.json",
+    "artifact_sha256": "sha256:9ee5aae30e6cef971f412e4db7006660aeabb27211c232306a2c3ae9a84ea3c7",
+    "captured_at": "2026-09-02T02:55:00Z",
+    "lane": "FREE_ATTENDED",
+    "interaction": "same-origin fetch from an attended choicehotels.com session (the brand times out to a plain client); the refusal sentence is the page's own LocationFeatureSpecification",
+    "identity_signals": {
+     "street_number_agrees": true,
+     "postal_agrees": true,
+     "phone_agrees": false,
+     "bound": true
+    },
+    "evidence_source": "visible_text",
+    "exact_quote": "No Pets Allowed",
+    "evidence_quotes": [
+     "No Pets Allowed",
+     "Only service animals are permitted, free of charge."
+    ],
+    "parsed_facts": {
+     "pets_allowed": false,
+     "service_animal_exception": "Only service animals are permitted, free of charge."
+    },
+    "withheld_facts": {},
+    "service_animal_statement": "Only service animals are permitted, free of charge.",
+    "brand_generic_wording": false,
+    "markup_corroboration": null,
+    "live_state": "UNRESOLVED_OR_NEW",
+    "partition_state_before": "AWAITING_ROUTING_REVIEW",
+    "classification": "NO_PETS_STATED_ATTENDED"
+   },
+   {
+    "identity_key": "quality inn sidney",
+    "canonical_name": "Quality Inn Sidney",
+    "brand": "CHOICE",
+    "canonical_url": "https://www.choicehotels.com/ohio/sidney/quality-inn-hotels/oh079",
+    "document_sha256": "sha256:89c6d33ff12d269126a903813dec9e3c6f342a210bc965f011ce94f314d0dd5b",
+    "artifact_file": "DAY-CHO-12-quality-inn-sidney.json",
+    "artifact_sha256": "sha256:993a267e6928a43cfee91550811ed3dea901a8aaf390663c77e3c201b4b58502",
+    "captured_at": "2026-09-02T02:55:00Z",
+    "lane": "FREE_ATTENDED",
+    "interaction": "same-origin fetch from an attended choicehotels.com session (the brand times out to a plain client); the refusal sentence is the page's own LocationFeatureSpecification",
+    "identity_signals": {
+     "street_number_agrees": true,
+     "postal_agrees": true,
+     "phone_agrees": false,
+     "bound": true
+    },
+    "evidence_source": "visible_text",
+    "exact_quote": "No Pets Allowed",
+    "evidence_quotes": [
+     "No Pets Allowed",
+     "Only service animals are permitted, free of charge."
+    ],
+    "parsed_facts": {
+     "pets_allowed": false,
+     "service_animal_exception": "Only service animals are permitted, free of charge."
+    },
+    "withheld_facts": {},
+    "service_animal_statement": "Only service animals are permitted, free of charge.",
+    "brand_generic_wording": false,
+    "markup_corroboration": null,
+    "live_state": "UNRESOLVED_OR_NEW",
+    "partition_state_before": "AWAITING_ROUTING_REVIEW",
+    "classification": "NO_PETS_STATED_ATTENDED"
+   }
+  ],
+  "held_rows": [
+   {
+    "identity_key": "staybridge suites fairborn dayton east",
+    "canonical_name": "Staybridge Suites Fairborn - Dayton East",
+    "brand": "IHG",
+    "canonical_url": "https://www.ihg.com/staybridge/hotels/us/en/fairborn/daybf/hoteldetail",
+    "document_sha256": "sha256:fab5adf5591ea73f5b9e10c45fb3984fab33f6e02c762d50f965fcff8fbc62cb",
+    "artifact_file": "DAY-IHG-12-staybridge-suites-fairborn-dayton-east.json",
+    "artifact_sha256": "sha256:1fd06fe594c740ff90444ce483416bfe368bf9322b7530e52f8c144ba578ac55",
+    "captured_at": "2026-09-02T02:22:00Z",
+    "lane": "FREE_ATTENDED",
+    "interaction": "same-origin fetch from an attended ihg.com session (the brand refuses a plain client with HTTP 403); no challenge solved, no bot defence circumvented",
+    "identity_signals": {
+     "street_number_agrees": false,
+     "postal_agrees": true,
+     "phone_agrees": false,
+     "bound": false
+    },
+    "evidence_source": "property_named_faq",
+    "exact_quote": "Pets are welcome",
+    "evidence_quotes": [
+     "Pets are welcome"
+    ],
+    "parsed_facts": {
+     "pets_allowed": true
+    },
+    "withheld_facts": {
+     "pet_fee": "SOURCE_SILENT"
+    },
+    "service_animal_statement": "",
+    "brand_generic_wording": false,
+    "markup_corroboration": {
+     "markup_pets_allowed": null,
+     "markup_pet_description": "",
+     "fields": {
+      "postalCode": "45324"
+     },
+     "agrees_with_prose_read": null,
+     "role": "CORROBORATION_ONLY -- never parsed into a published fact"
+    },
+    "live_state": "UNRESOLVED_OR_NEW",
+    "partition_state_before": "AWAITING_POLICY_OBSERVATION",
+    "classification": "IDENTITY_NOT_BOUND_ON_PAGE",
+    "held_reason": "IDENTITY_NOT_BOUND_ON_PAGE"
+   },
+   {
+    "identity_key": "holiday inn express and suites springfield",
+    "canonical_name": "Holiday Inn Express & Suites Springfield",
+    "brand": "IHG",
+    "canonical_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/springfield/sghss/hoteldetail",
+    "document_sha256": "sha256:1de1b1abf8611357d05a371561e62312e2f9359118f60a6ccd01084e66ee0561",
+    "artifact_file": "DAY-IHG-14-holiday-inn-express-and-suites-springfield.json",
+    "artifact_sha256": "sha256:3222f31ee7159d1129bc049da6405021b691116ac293541c7f316ab23dd1f2b8",
+    "captured_at": "2026-09-02T02:22:00Z",
+    "lane": "FREE_ATTENDED",
+    "interaction": "same-origin fetch from an attended ihg.com session (the brand refuses a plain client with HTTP 403); no challenge solved, no bot defence circumvented",
+    "identity_signals": {
+     "street_number_agrees": false,
+     "postal_agrees": false,
+     "phone_agrees": false,
+     "bound": false
+    },
+    "evidence_source": "property_named_faq",
+    "exact_quote": "pets are not allowed",
+    "evidence_quotes": [
+     "pets are not allowed"
+    ],
+    "parsed_facts": {
+     "pets_allowed": false
+    },
+    "withheld_facts": {},
+    "service_animal_statement": "",
+    "brand_generic_wording": false,
+    "markup_corroboration": {
+     "markup_pets_allowed": false,
+     "markup_pet_description": "Pets are not allowed Please contact our Guest Services Representative for details on local kennel options",
+     "fields": {
+      "petDepositPerStay": "",
+      "petDescription": "Pets are not allowed Please contact our Guest Services Representative for details on local kennel options",
+      "petRestrictionPolicy": "",
+      "petsAllowed": "false",
+      "phoneNumber": "1-937-5051670",
+      "postalCode": "45505",
+      "weightLimitPerPet": ""
+     },
+     "agrees_with_prose_read": true,
+     "role": "CORROBORATION_ONLY -- never parsed into a published fact"
+    },
+    "live_state": "UNRESOLVED_OR_NEW",
+    "partition_state_before": "AWAITING_ROUTING_REPLACEMENT",
+    "classification": "IDENTITY_NOT_BOUND_ON_PAGE",
+    "held_reason": "IDENTITY_NOT_BOUND_ON_PAGE"
+   },
+   {
+    "identity_key": "comfort inn bellefontaine",
+    "canonical_name": "Comfort Inn Bellefontaine",
+    "brand": "CHOICE",
+    "canonical_url": "https://www.choicehotels.com/ohio/bellefontaine/comfort-inn-hotels/oh087",
+    "document_sha256": "sha256:be2dc17990c90cc6258dff1eebbf1ee6d43c3a8c2878879ba93d12458e78ce74",
+    "artifact_file": "DAY-CHO-02-comfort-inn-bellefontaine.json",
+    "artifact_sha256": "sha256:759ff0ad18c398ab84655243ede01285bdb8dfe573788d8fb3b0e3cbb44f5cfe",
+    "captured_at": "2026-09-02T02:55:00Z",
+    "lane": "FREE_ATTENDED",
+    "interaction": "attended Chrome; the property page rendered in a same-origin iframe whose location and address block were confirmed to be this property before the read (choicehotels.com times out to a plain client)",
+    "identity_signals": {
+     "street_number_agrees": false,
+     "postal_agrees": true,
+     "phone_agrees": false,
+     "bound": false
+    },
+    "evidence_source": "visible_text",
+    "exact_quote": "Pets are allowed",
+    "evidence_quotes": [
+     "Pets are allowed",
+     "50.00 USD per night per pet",
+     "50.00 USD per night per pet",
+     "50.00 USD per night per pet",
+     "Maximum of 2 pets",
+     "Service animals are permitted, without charge."
+    ],
+    "parsed_facts": {
+     "pets_allowed": true,
+     "pet_fee": 5000,
+     "fee_currency": "USD",
+     "fee_basis": "per_night",
+     "fee_scope": "per_pet",
+     "pet_count_limit": 2,
+     "service_animal_exception": "Service animals are permitted, without charge."
+    },
+    "withheld_facts": {},
+    "service_animal_statement": "Service animals are permitted, without charge.",
+    "brand_generic_wording": false,
+    "markup_corroboration": null,
+    "live_state": "UNRESOLVED_OR_NEW",
+    "partition_state_before": "ACCESS_BLOCKED",
+    "classification": "IDENTITY_NOT_BOUND_ON_PAGE",
+    "held_reason": "IDENTITY_NOT_BOUND_ON_PAGE"
+   },
+   {
+    "identity_key": "quality inn springfield",
+    "canonical_name": "Quality Inn Springfield",
+    "brand": "CHOICE",
+    "canonical_url": "https://www.choicehotels.com/ohio/springfield/quality-inn-hotels/oh396",
+    "document_sha256": "sha256:c5dbe159646cf6e927284c40e20ec39e8413acd8ff3e9c52787a8a3dd6a726be",
+    "artifact_file": "DAY-CHO-06-quality-inn-springfield.json",
+    "artifact_sha256": "sha256:91b6b1a322426d3642eb5db3b320b18bb25ec83d96aaa565b6eb3b5ce3836e2c",
+    "captured_at": "2026-09-02T02:55:00Z",
+    "lane": "FREE_ATTENDED",
+    "interaction": "attended Chrome; the property page rendered in a same-origin iframe whose location and address block were confirmed to be this property before the read (choicehotels.com times out to a plain client)",
+    "identity_signals": {
+     "street_number_agrees": false,
+     "postal_agrees": false,
+     "phone_agrees": false,
+     "bound": false
+    },
+    "evidence_source": "visible_text",
+    "exact_quote": "Pets are allowed",
+    "evidence_quotes": [
+     "Pets are allowed",
+     "25 USD charge",
+     "maximum of 2 pets",
+     "Service animals are permitted, without charge."
+    ],
+    "parsed_facts": {
+     "pets_allowed": true,
+     "pet_fee": 2500,
+     "fee_currency": "USD",
+     "pet_count_limit": 2,
+     "service_animal_exception": "Service animals are permitted, without charge."
+    },
+    "withheld_facts": {
+     "fee_basis": "SOURCE_SILENT"
+    },
+    "service_animal_statement": "Service animals are permitted, without charge.",
+    "brand_generic_wording": false,
+    "markup_corroboration": null,
+    "live_state": "UNRESOLVED_OR_NEW",
+    "partition_state_before": "AWAITING_ROUTING_REPLACEMENT",
+    "classification": "IDENTITY_NOT_BOUND_ON_PAGE",
+    "held_reason": "IDENTITY_NOT_BOUND_ON_PAGE"
+   }
+  ]
+ },
+ "shadow_reconciliation": {
+  "pinned_census": 129,
+  "shadow_census": 129,
+  "shadow_census_note": "The shadow census equals the pinned census because no identity was added or retired, NOT because the recensus lane cleared Dayton. That lane was only partially exercised and its incompleteness is stated in recensus_lane_coverage below. Every policy result this order produced landed on an identity the pinned census already carries.",
+  "recensus_lane_coverage": {
+   "status": "PARTIAL -- the harvest ran to completion but could not reach the evidence bar an admission requires",
+   "local_osm_geofabrik": "UNAVAILABLE: no extract in the registry covers dayton-oh and no .osm.pbf is on disk, so the first canonical free lane could not run at all",
+   "overpass": "NOT RUN",
+   "brand_directory_harvest": "COMPLETED: 949 free requests over 9 families; 17,928 property URLs harvested, 295 scoped to this market's geography, 295 property pages fetched (51 served, 244 refused with HTTP 403)",
+   "reconciliation": {
+    "ALIAS_OF_EXISTING": 10,
+    "EXACT_EXISTING": 34,
+    "NAME_ONLY_UNRESOLVED": 251
+   },
+   "true_missing_identities_found": 0,
+   "why_zero": "Marriott refused 244 of its 252 scoped property pages, and most pages that did serve declare no address, postal or telephone, so no candidate carried the identity evidence an admission requires. A refusal is a fetch outcome and proves nothing about a property.",
+   "consequence": "Dayton's 129-row census is carried forward as PINNED AND UNCHALLENGED, not as confirmed complete. This order narrowed the search space and admitted nothing. A recensus that can actually reach Marriott -- and a registered OSM extract for this market -- is the first item of the next order."
+  },
+  "active_identities": 129,
+  "retirements": 0,
+  "successors_proposed": 0,
+  "same_campus_pairs_identified": 1,
+  "explicit_geography_assignments_needed": 2,
+  "geography_held": 0,
+  "duplicates_found": 0,
+  "unresolved_identity_items": null,
+  "live": {
+   "pet_friendly": 47,
+   "verified_no_pets": 8,
+   "resolved": 55,
+   "unresolved": 74,
+   "profiles": 47
+  },
+  "projected_if_clean_inventory_promoted": {
+   "pet_friendly": 54,
+   "verified_no_pets": 24,
+   "resolved": 78,
+   "unresolved": 51,
+   "profiles": 54
+  },
+  "delta": {
+   "pet_friendly": 7,
+   "verified_no_pets": 16,
+   "resolved": 23,
+   "unresolved": -23
+  }
+ },
+ "promotion_readiness": {
+  "PROMOTION_READY": "YES",
+  "blockers": [],
+  "what_yes_means": "The clean inventory below can be applied to Dayton's source authority in a following order. It is not a claim that Dayton is complete: it is a claim that nothing in this inventory is unsafe to promote and that no wrong live authority was left unexplained.",
+  "required_before_promotion": [
+   "nothing outstanding for the rows in the pending inventory -- each is identity-bound to the property's own page and carries its exact quote, document sha256 and capture timestamp",
+   "founder rulings on the packet groups below are required only for the HELD rows, which are outside this inventory by construction"
+  ],
+  "optional_coverage_expansion": [
+   "the brand families this order did not reach attended (Marriott, Hilton, Red Roof, Radisson, Best Western and the independents) -- the lane is proven and the remaining rows are a throughput question, not a correctness one",
+   "paid lanes remain unnecessary for every row this order closed"
+  ]
+ }
+}

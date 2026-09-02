@@ -127,6 +127,18 @@ OTHER_MARKET_RUNS = {
     # $0.00. Also pittsburgh-pa, and it holds no rendered bytes -- only the
     # atomic hash+quote records the attended-capture contract defines.
     "pittsburgh_pa_free_capture_007",
+    # PTF-DAYTON-OH-HARDENED-REVALIDATION-001 phase 9: 48 first-party HTTPS GETs
+    # over the unresolved cohort through the canonical direct_http lane, $0.00
+    # and no provider. Every target refused a plain client, so the run holds
+    # denial pages rather than policy -- which is the evidence that Dayton needs
+    # the attended lane. Belongs to dayton-oh and must never reach Milwaukee's
+    # projection.
+    "dayton_oh_free_static_001",
+    # PTF-DAYTON-OH-HARDENED-REVALIDATION-001 phase 11: the same lane re-run
+    # over all 55 LIVE Dayton records to test published authority against the
+    # properties' own pages. $0.00, no provider, and it wrote nothing to
+    # authority. Also dayton-oh.
+    "dayton_oh_live_audit_001",
 }
 
 
