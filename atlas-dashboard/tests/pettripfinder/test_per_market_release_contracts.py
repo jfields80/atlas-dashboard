@@ -434,7 +434,8 @@ class TestContractAgreesWithItsOwnAuthority:
         # APPLICATION-005 (11 first-party refusals applied); every other
         # market's number is unchanged, which is the half of this assertion
         # that proves the scoping.
-        assert by_market == {COLUMBUS: 14, CLEVELAND: 51, DAYTON: 8,
+        # DAYTON 8 -> 24 at PTF-DAYTON-OH-HARDENED-APPLICATION-002.
+        assert by_market == {COLUMBUS: 14, CLEVELAND: 51, DAYTON: 24,
                              PITTSBURGH: 17, INDIANAPOLIS: 37, MILWAUKEE: 27,
                              ST_LOUIS: 37,
                              # PTF-LOUISVILLE-PUBLICATION-008. Every other

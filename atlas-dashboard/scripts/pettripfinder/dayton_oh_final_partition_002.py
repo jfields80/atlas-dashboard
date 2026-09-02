@@ -104,6 +104,16 @@ def build():
             determined = before.get("determined_by", "")
             reason = before.get("state_override_reason", "")
         changed = state != before["final_state"]
+        # A row that is still UNRESOLVED must name the pass that determined its
+        # blocker -- the contract requires next_action_source, and an empty one
+        # says "something is outstanding and nobody recorded who decided that".
+        # Terminal rows carry no next action, so they carry no source.
+        if state in ("PUBLISHED_PET_FRIENDLY", "VERIFIED_NO_PETS"):
+            source = ""
+        elif changed:
+            source = WORK_ORDER
+        else:
+            source = before.get("next_action_source", "")
         items.append(CPB.partition_item(
             identity_key=key,
             canonical_name=row.get("canonical_name", before["canonical_name"]),
@@ -111,7 +121,7 @@ def build():
             city=row.get("city", ""), state=row.get("state", ""),
             postal_code=row.get("postal_code", ""),
             final_state=state,
-            next_action_source=("" if changed else before.get("next_action_source", "")),
+            next_action_source=source,
             determined_by=determined,
             updated_at=AS_OF if changed else before.get("updated_at", AS_OF),
             official_url=row.get("official_url", "") or before.get("official_url", ""),

@@ -1,0 +1,107 @@
+{
+ "schema": "ptf-market-deployment-packet/1.0",
+ "work_order": "PTF-DAYTON-OH-HARDENED-APPLICATION-002",
+ "market_id": "dayton-oh",
+ "as_of": "2026-09-02T07:38:17Z",
+ "status": "PREPARED_NOT_AUTHORIZED",
+ "deployment_authorized": false,
+ "authorization_consumed": false,
+ "what_this_is": "Everything a founder needs to authorise (or refuse) a Dayton deployment, pinned to exact bytes. This order prepared it and did not deploy, did not create an authorization, and did not consume one.",
+ "source": {
+  "source_commit": "03e6b39dd6463944d628e578bf07d1d0dc886074",
+  "bundle_generated_from_commit": "03e6b39dd6463944d628e578bf07d1d0dc886074",
+  "reproducibility": "REPRODUCED"
+ },
+ "market_authority": {
+  "census": 129,
+  "pet_friendly_profiles": 54,
+  "verified_no_pets": 24,
+  "resolved": 78,
+  "unresolved": 51,
+  "policy_package_sha256": "a67f5968d4bb5ab36e6bdcef33d4f3edb2b3018afa7f518baa1ffe396114723d",
+  "release_contract_sha256": "d0805ffa32b52b58336a27f809615c8fed1f41ea60278832ca930e04d5d3573b",
+  "release_contract_disagreements": 0
+ },
+ "candidate_bundle": {
+  "bundle_sha256": "de669c40d8118a9293798ae1e5ad10ab8219c66798d002d6bf2a12cae504e374",
+  "sitemap_sha256": "d02b642ea415241f76afc4854eea37cdfd75665cbe2047202772b8bf72df3e49",
+  "html_pages": 3887,
+  "sitemap_route_count": 767,
+  "broken_links": 0,
+  "collisions": 0,
+  "global_shadowing": 0,
+  "canonical_violations": 0,
+  "all_gates_pass": true
+ },
+ "production_baseline": {
+  "deployment_id": "6a976f61a5b7d158363f5f98",
+  "rollback_target": "6a9713fcb727114045fa091e",
+  "markets": 9,
+  "profiles": 619,
+  "sitemap_routes": 759,
+  "live_sitemap_sha256": "5e0aaca00dd5219ec2068c65afd9f0453dc9ed368fefd3dd7cb46f978db19c19",
+  "live_sitemap_routes_counted": 759
+ },
+ "delta": {
+  "markets": "9 -> 9 (no market added or removed)",
+  "profiles": "619 -> 626 (+7, all dayton-oh)",
+  "sitemap_routes": "759 -> 767 (+8)",
+  "routes_added": 8,
+  "routes_removed": 0,
+  "markets_with_a_non_zero_delta": [
+   "dayton-oh"
+  ],
+  "every_other_market": "+0 routes and +0 profiles, verified route-by-route against the LIVE production sitemap rather than against a previous local build",
+  "what_the_eight_are": "seven new Dayton hotel profiles, plus the Washington Court House corridor page, which reached its publication minimum of one when this order published the Holiday Inn Express there"
+ },
+ "census_coverage": {
+  "policy_authority_hardening": "COMPLETE ENOUGH FOR DEPLOYMENT",
+  "census_coverage_validation": "NOT COMPLETE",
+  "census_coverage_confirmed": false,
+  "why_not": [
+   "no OSM extract is registered for dayton-oh, so the canonical LOCAL discovery lane has never run for this market",
+   "Marriott refused 244 of the 252 property pages the free brand harvest scoped to this market (HTTP 403); a refusal is a fetch outcome and proves nothing about a property",
+   "the 51 identities that remain unresolved are UNKNOWN, never negative evidence"
+  ],
+  "what_zero_true_missing_means": "No candidate reached the evidence bar an admission requires. It does NOT mean 129 is exhaustive, and no artifact in this order may be read as claiming Dayton's census is complete.",
+  "does_not_block_deployment": "Coverage and correctness are different claims. Every published Dayton record is bound to its own property's page; publishing 54 correct records is not made unsafe by the possibility that a 130th hotel exists."
+ },
+ "paid_backlog": {
+  "nothing_spent": true,
+  "paid_provider_calls": 0,
+  "usd_spent": 0.0,
+  "dayton_rows_in_paid_ledger": 0,
+  "dayton_rows_in_discovery_ledger": 0,
+  "no_duplicate_attempt_possible": "Both cross-run ledgers were re-read at run time and neither carries a dayton-oh row, so nothing proposed here can repeat a prior paid attempt.",
+  "brightdata": {
+   "eligible_rows": 23,
+   "unit_price_usd_per_billed_attempt": 0.1198,
+   "unit_price_state": "MEASURED_FROM_LEDGER",
+   "ledger_attempts": 473,
+   "ledger_billed": 385,
+   "publication_grade_rate_wilson_lower": 0.6483,
+   "expected_usd": 2.76,
+   "expected_publication_grade_rows": 14.9,
+   "live_balance_usd_last_read": 4.28,
+   "live_balance_read_at": "2026-09-02T02:11:49Z",
+   "hard_cap_usd": 4.0,
+   "cap_rule": "cap against a LIVE balance read taken immediately before any run, and stop WHEN the cap is exceeded rather than after; the balance settles late, so it is not a cost meter",
+   "required_for_deployment": false
+  },
+  "google_places": {
+   "eligible_rows": 27,
+   "ledger_attempts": 183,
+   "usd_recorded_in_ledger": 0.0,
+   "unit_price_state": "UNPRICED_BY_LEDGER",
+   "expected_usd": "CANNOT BE QUOTED UNTIL THE LIVE RATE IS READ",
+   "why": "the discovery ledger records attempts and zero spend, so it prices nothing. A cap is meaningless against a number nobody read.",
+   "required_for_deployment": false
+  },
+  "verdict": "Paid work remains OPTIONAL. Every one of the 23 rows this order applied was closed free, and no paid lane is required to deploy the current authority. Whether paid discovery becomes NECESSARY is a question for the census coverage-validation order, not for this deployment."
+ },
+ "authorization_requirements": [
+  "a founder deployment-authorization order naming this source commit",
+  "re-assembly at that pinned commit reproducing bundle_sha256 above",
+  "a live-sitemap re-check proving 0 removals immediately before deploying"
+ ]
+}

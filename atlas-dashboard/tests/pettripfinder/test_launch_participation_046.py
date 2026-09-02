@@ -145,11 +145,19 @@ DEPLOYED_020_BUNDLE_SHA256 = (
 #: Pittsburgh 53, assembled from 42d0c86 and DEPLOYED as 6a976f61. (The
 #: intermediate 014/015 candidate eef57e2b was deployed from its own packet
 #: without moving this pin.)
+#: What a FRESH assembly now produces; moved by
+#: PTF-DAYTON-OH-HARDENED-APPLICATION-002.
 EXPECTED_BUNDLE_SHA256 = (
-    # moved by PTF-DAYTON-OH-HARDENED-APPLICATION-002.
     "de669c40d8118a9293798ae1e5ad10ab8219c66798d002d6bf2a12cae504e374")
-EXPECTED_HTML_PAGES = 3844
-EXPECTED_FILES = 3862
+#: What the COMMITTED manifest pins: the bundle production serves. An
+#: application order moves source ahead of production and must NOT move this.
+COMMITTED_MANIFEST_BUNDLE_SHA256 = (
+    "b0eedd71f3f3fa3810ce1e9d596c07f4f00cf25ffdfc255ca5ffed072629d826")
+#: Profiles the LIVE deploy serves. Source is ahead of it by the seven Dayton
+#: records until a Dayton deployment-authorization order ships them.
+LIVE_DEPLOYED_PROFILE_TOTAL = 619
+EXPECTED_HTML_PAGES = 3887
+EXPECTED_FILES = 3905
 EXPECTED_SITEMAP_ROUTES = 767
 #: The withdrawn six-market candidate. Kept so nobody authorizes it by habit.
 WITHDRAWN_SIX_MARKET_SHA256 = (
@@ -535,10 +543,15 @@ def test_the_committed_manifest_describes_the_live_deploy_and_pins_the_record():
     # manifest against it would ask a record of a past deployment to describe a
     # future one -- until 034 DEPLOYED it, which is where that reasoning ends.
     assert [r["market_id"] for r in doc["participating_markets"]] == sorted(LIVE)
-    assert doc["total_published_profiles"] == sum(PROFILES.values())
+    # PROFILES describes a FRESH assembly (626 since
+    # PTF-DAYTON-OH-HARDENED-APPLICATION-002). The committed manifest describes
+    # what production serves, which is still 619 until Dayton deploys.
+    assert doc["total_published_profiles"] == LIVE_DEPLOYED_PROFILE_TOTAL
     # 034 deployed the bundle 032 composed, so the committed manifest and a
-    # fresh assembly name the same artifact again.
-    assert doc["bundle_sha256"] == EXPECTED_BUNDLE_SHA256
+    # fresh assembly named the same artifact -- until
+    # PTF-DAYTON-OH-HARDENED-APPLICATION-002 moved source ahead of production.
+    # The committed manifest still describes what production serves.
+    assert doc["bundle_sha256"] == COMMITTED_MANIFEST_BUNDLE_SHA256
     assert doc["bundle_sha256"] != DEPLOYED_020_BUNDLE_SHA256
     # PTF-047: the flag mirrors a verifying deployment authorization record.
     assert doc["deployment_authorized"] is (doc.get("deployment_authorization") is not None)

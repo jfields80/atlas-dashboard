@@ -495,7 +495,9 @@ def test_current_live_inventory_preserves_all_assemblable_market_profiles(market
     # PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014: + Indianapolis's 11 (56 -> 67).
     # PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005: + Cleveland's 21
     # (99 -> 120).
-    assert sum(counts.values()) == 839
+    # 839 -> 846 with the seven Dayton records
+    # (PTF-DAYTON-OH-HARDENED-APPLICATION-002).
+    assert sum(counts.values()) == 846
 
 
 # --------------------------------------------------------------------------- #

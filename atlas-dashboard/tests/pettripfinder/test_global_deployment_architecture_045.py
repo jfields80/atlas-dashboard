@@ -75,7 +75,8 @@ EXPECTED_PROFILES = {"cleveland-akron-canton-oh": 120, "columbus-oh": 88,
 #: published. The LIVE deploy still serves 619; this is the candidate the repo
 #: now builds, and it stays ahead until a Dayton deployment order ships it.
 EXPECTED_TOTAL = 626
-EXPECTED_HTML_PAGES = 3844
+#: 3844 -> 3887 with the seven Dayton profiles and their /go/ pages.
+EXPECTED_HTML_PAGES = 3887
 #: 759 -> 767: seven hotel routes plus the Washington Court House corridor,
 #: which reached its publication minimum of one.
 EXPECTED_SITEMAP_ROUTES = 767
@@ -483,10 +484,17 @@ DEPLOYED_020_BUNDLE_SHA256 = (
 #: deployed from its own packet), and re-pinned at PTF-CLEVELAND-AKRON-CANTON-
 #: DEPLOYMENT-AUTHORIZATION-006: the nine-market candidate carrying Cleveland
 #: 120, Indianapolis 67 and Pittsburgh 53, DEPLOYED as 6a976f61.
+#: What a FRESH assembly now produces. Moved by
+#: PTF-DAYTON-OH-HARDENED-APPLICATION-002, which published seven Dayton records.
 DISABLED_BUILD_BUNDLE_SHA256 = (
-    # b0eedd71 was the Cleveland candidate; the bundle moved with the Dayton
-    # application (PTF-DAYTON-OH-HARDENED-APPLICATION-002).
     "de669c40d8118a9293798ae1e5ad10ab8219c66798d002d6bf2a12cae504e374")
+#: What the COMMITTED manifest pins -- the bundle production actually serves.
+#: It does NOT move with an application order: source runs ahead of production
+#: until a deployment-authorization order ships it. These are two different
+#: facts and must not share a constant, which is the same lesson the comment
+#: above records from the last time they were conflated.
+COMMITTED_MANIFEST_BUNDLE_SHA256 = (
+    "b0eedd71f3f3fa3810ce1e9d596c07f4f00cf25ffdfc255ca5ffed072629d826")
 
 #: The only four routes PTF-011 was permitted to change.
 SERVICE_ANIMAL_CORRECTED_ROUTES = (
@@ -598,7 +606,7 @@ def test_the_committed_manifest_pins_the_measurement_config_and_is_authorized_on
     assert manifest_problems_other_than_the_lapsed_pin() == []
     # The committed manifest describes the DEPLOYED bundle, which since 034 is
     # the nine-market one a fresh assembly also produces.
-    assert doc["bundle_sha256"] == DISABLED_BUILD_BUNDLE_SHA256
+    assert doc["bundle_sha256"] == COMMITTED_MANIFEST_BUNDLE_SHA256
     assert doc["bundle_sha256"] != DEPLOYED_020_BUNDLE_SHA256
     for gate in MEASUREMENT_GATES:
         assert gate in doc["required_gates"], gate

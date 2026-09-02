@@ -77,8 +77,10 @@ EXPECTED = {
     # pet-friendly + 11 verified-no-pets records applied. 220 = 120 + 51 + 49.
     CLEVELAND: {"census": 220, "published": 120, "no_pets": 51,
                 "out_of_category": 0, "unresolved": 49},
-    DAYTON: {"census": 129, "published": 47, "no_pets": 8,
-             "out_of_category": 0, "unresolved": 74},
+    # PTF-DAYTON-OH-HARDENED-APPLICATION-002: published 47 -> 54, no-pets
+    # 8 -> 24, resolved 55 -> 78, unresolved 74 -> 51. Census unchanged.
+    DAYTON: {"census": 129, "published": 54, "no_pets": 24,
+             "out_of_category": 0, "unresolved": 51},
     # 121/0/0/0/121 until PTF-CINCINNATI-CENSUS-RECONCILIATION-001 rebuilt the
     # census from independent discovery. The six out-of-category rows are the
     # short-term rentals and guesthouses the directories list beside hotels.

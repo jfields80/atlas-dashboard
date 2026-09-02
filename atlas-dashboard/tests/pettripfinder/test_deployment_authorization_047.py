@@ -82,8 +82,13 @@ def test_the_committed_authorization_is_the_047_artifact(auth):
     assert auth["production_context"] == "production"
     assert auth["participating_markets"] == FIVE
     assert auth["profile_counts"] == {"cleveland-akron-canton-oh": 99,
-                                      # 47 -> 54 at PTF-DAYTON-OH-HARDENED-APPLICATION-002.
-                                      "columbus-oh": 88, "dayton-oh": 54,
+                                      # dayton-oh stays 47: this describes the
+                                      # AUTHORIZATION, i.e. what production was
+                                      # authorised to serve. Source is ahead of
+                                      # it by the seven records
+                                      # PTF-DAYTON-OH-HARDENED-APPLICATION-002
+                                      # published, until Dayton deploys.
+                                      "columbus-oh": 88, "dayton-oh": 47,
                                       "milwaukee-wi": 73, "pittsburgh-pa": 26}
     assert auth["total_profiles"] == 333
     assert auth["sitemap_route_count"] == 416
@@ -174,6 +179,11 @@ MOVED_BY_LATER_WORK = {
     # PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014 re-authored the
     # Indianapolis contract (deployed by 015).
     "indianapolis-in",
+    # PTF-DAYTON-OH-HARDENED-APPLICATION-002 applied 7 pet-friendly records and
+    # 16 verified-no-pets exclusions and re-authored the Dayton contract
+    # (47 -> 54 / 8 -> 24). NOT yet deployed: source is ahead of production
+    # until a Dayton deployment-authorization order ships it.
+    "dayton-oh",
     # PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005 re-authored the
     # Cleveland contract (deployed by 006).
     "cleveland-akron-canton-oh",
