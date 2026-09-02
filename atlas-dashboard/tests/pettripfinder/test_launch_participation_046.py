@@ -62,9 +62,12 @@ FIVE = ("cleveland-akron-canton-oh", "columbus-oh", "dayton-oh",
 #: would have reached predated every founder signature.
 LIVE = tuple(sorted(FIVE + ("st-louis-mo", "louisville-ky", "indianapolis-in",
                             "grand-rapids-holland-mi")))
-PROFILES = {"cleveland-akron-canton-oh": 99, "columbus-oh": 88,
-            "dayton-oh": 47, "milwaukee-wi": 73, "pittsburgh-pa": 26,
-            "st-louis-mo": 82, "louisville-ky": 46, "indianapolis-in": 56,
+# indianapolis 56 -> 67 and pittsburgh 26 -> 53 at PTF-INDIANAPOLIS-
+# DEPLOYMENT-AUTHORIZATION-015; cleveland 99 -> 120 at PTF-CLEVELAND-AKRON-
+# CANTON-DEPLOYMENT-AUTHORIZATION-006. Every other market unchanged.
+PROFILES = {"cleveland-akron-canton-oh": 120, "columbus-oh": 88,
+            "dayton-oh": 47, "milwaukee-wi": 73, "pittsburgh-pa": 53,
+            "st-louis-mo": 82, "louisville-ky": 46, "indianapolis-in": 67,
             "grand-rapids-holland-mi": 43}
 #: 046 withheld Indianapolis and PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019
 #: admitted it on a founder decision. Both facts are asserted below: the
@@ -136,11 +139,16 @@ DEPLOYED_020_BUNDLE_SHA256 = (
     "e9998c51d13559333ef9bd63f287e8858b73eb0011401a9606a58871f6ba74cc")
 #: The nine-market candidate composed by
 #: PTF-GRAND-RAPIDS-LAUNCH-PARTICIPATION-032. NOT deployed and NOT authorised.
+#: Re-pinned at PTF-CLEVELAND-AKRON-CANTON-DEPLOYMENT-AUTHORIZATION-006: the
+#: nine-market candidate carrying Cleveland 120, Indianapolis 67 and
+#: Pittsburgh 53, assembled from 42d0c86 and DEPLOYED as 6a976f61. (The
+#: intermediate 014/015 candidate eef57e2b was deployed from its own packet
+#: without moving this pin.)
 EXPECTED_BUNDLE_SHA256 = (
-    "5fc4ae2c555d83a9986d3d071df1013cc1a9f2fcff5d509d26c49278c84defb6")
-EXPECTED_HTML_PAGES = 3503
-EXPECTED_FILES = 3521
-EXPECTED_SITEMAP_ROUTES = 688
+    "b0eedd71f3f3fa3810ce1e9d596c07f4f00cf25ffdfc255ca5ffed072629d826")
+EXPECTED_HTML_PAGES = 3844
+EXPECTED_FILES = 3862
+EXPECTED_SITEMAP_ROUTES = 759
 #: The withdrawn six-market candidate. Kept so nobody authorizes it by habit.
 WITHDRAWN_SIX_MARKET_SHA256 = (
     "8ea6131e9fe8689fc23d3a362ae12ffaa2155c687737c6f5fcde03b5a22c42b8")
@@ -371,7 +379,9 @@ def test_the_bundle_carries_exactly_the_live_set(production):
     assert manifest["market_fragments_included"] == list(LIVE)
     assert {r["market_id"]: r["published_profiles"]
             for r in manifest["participating_markets"]} == PROFILES
-    assert sum(PROFILES.values()) == 560
+    # 560 -> 598 at PTF-INDIANAPOLIS-DEPLOYMENT-AUTHORIZATION-015; 598 -> 619
+    # at PTF-CLEVELAND-AKRON-CANTON-DEPLOYMENT-AUTHORIZATION-006.
+    assert sum(PROFILES.values()) == 619
 
 
 def test_the_bundle_excludes_only_the_two_that_are_not_source_ready(production):

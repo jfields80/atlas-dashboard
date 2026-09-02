@@ -167,6 +167,15 @@ MOVED_BY_LATER_WORK = {
     # re-issued the launch participation record and installed a contract for a
     # market that did not exist when 047 was signed.
     "st-louis-mo",
+    # PTF-PITTSBURGH-HARDENED-SYNC-004 .. IDENTITY-CLOSE-007 took Pittsburgh
+    # 26 -> 53 and re-authored its contract (deployed by 015).
+    "pittsburgh-pa",
+    # PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014 re-authored the
+    # Indianapolis contract (deployed by 015).
+    "indianapolis-in",
+    # PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005 re-authored the
+    # Cleveland contract (deployed by 006).
+    "cleveland-akron-canton-oh",
 }
 
 

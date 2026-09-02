@@ -61,14 +61,18 @@ EXPECTED_MARKETS = ("cleveland-akron-canton-oh", "columbus-oh", "dayton-oh",
                     "grand-rapids-holland-mi", "indianapolis-in",
                     "louisville-ky", "milwaukee-wi", "pittsburgh-pa",
                     "st-louis-mo")
-EXPECTED_PROFILES = {"cleveland-akron-canton-oh": 99, "columbus-oh": 88,
+# indianapolis 56 -> 67 and pittsburgh 26 -> 53 moved at
+# PTF-INDIANAPOLIS-DEPLOYMENT-AUTHORIZATION-015 (deploy 6a9713fc);
+# cleveland 99 -> 120 at PTF-CLEVELAND-AKRON-CANTON-DEPLOYMENT-
+# AUTHORIZATION-006 (deploy 6a976f61). Every other market unchanged.
+EXPECTED_PROFILES = {"cleveland-akron-canton-oh": 120, "columbus-oh": 88,
                      "dayton-oh": 47, "grand-rapids-holland-mi": 43,
-                     "indianapolis-in": 56, "louisville-ky": 46,
-                     "milwaukee-wi": 73, "pittsburgh-pa": 26,
+                     "indianapolis-in": 67, "louisville-ky": 46,
+                     "milwaukee-wi": 73, "pittsburgh-pa": 53,
                      "st-louis-mo": 82}
-EXPECTED_TOTAL = 560
-EXPECTED_HTML_PAGES = 3503
-EXPECTED_SITEMAP_ROUTES = 688
+EXPECTED_TOTAL = 619
+EXPECTED_HTML_PAGES = 3844
+EXPECTED_SITEMAP_ROUTES = 759
 
 
 @pytest.fixture(scope="module")
@@ -469,8 +473,12 @@ DEPLOYED_020_BUNDLE_SHA256 = (
 #: bundle for as long as no market joined between deployments, so a single
 #: constant served both -- and it kept the word FIVE through four more
 #: markets. They are two different facts and now hold two different values.
+#: Moved twice since 032 without a re-pin (the 014/015 candidate eef57e2b was
+#: deployed from its own packet), and re-pinned at PTF-CLEVELAND-AKRON-CANTON-
+#: DEPLOYMENT-AUTHORIZATION-006: the nine-market candidate carrying Cleveland
+#: 120, Indianapolis 67 and Pittsburgh 53, DEPLOYED as 6a976f61.
 DISABLED_BUILD_BUNDLE_SHA256 = (
-    "5fc4ae2c555d83a9986d3d071df1013cc1a9f2fcff5d509d26c49278c84defb6")
+    "b0eedd71f3f3fa3810ce1e9d596c07f4f00cf25ffdfc255ca5ffed072629d826")
 
 #: The only four routes PTF-011 was permitted to change.
 SERVICE_ANIMAL_CORRECTED_ROUTES = (

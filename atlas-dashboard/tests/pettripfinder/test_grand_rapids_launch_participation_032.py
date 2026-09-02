@@ -336,7 +336,11 @@ def test_the_candidate_never_edited_the_committed_manifest():
     assert "deployment_authorization" not in candidate
     assert live.get("deployment_authorization")
     assert live["deployment_authorized"] is True
-    # Both now describe the same nine-market bundle -- the candidate because it
-    # composed it, the committed manifest because it was deployed.
-    assert live["bundle_sha256"] == candidate["bundle_sha256"] == CANDIDATE_BUNDLE
+    # The candidate is 032's own committed artifact and never moves. The
+    # committed manifest has since described two LATER deploys (015's
+    # eef57e2b, then PTF-CLEVELAND-AKRON-CANTON-DEPLOYMENT-AUTHORIZATION-006's
+    # b0eedd71) -- a record of the CURRENT deploy, not of this order's.
+    assert candidate["bundle_sha256"] == CANDIDATE_BUNDLE
+    assert live["bundle_sha256"] == (
+        "b0eedd71f3f3fa3810ce1e9d596c07f4f00cf25ffdfc255ca5ffed072629d826")
     assert CANDIDATE.name != "global_deployment_manifest.json"
