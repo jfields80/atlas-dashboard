@@ -33,15 +33,15 @@ PACKAGES = {
     "dayton-oh": "hotel_policy_facts_dayton-oh.json",
 }
 
-#: What the three committed packages hold today. Pinned so a change to
-#: committed authority shows up here rather than silently altering a count the
-#: rest of the program reasons about.
-EXPECTED_RECORDS = {"columbus-oh": 88,
-                    # 99 after PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001;
-                    # 120 after PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005
-                    # applied the 21 pending hardened-order records.
-                    "cleveland-akron-canton-oh": 120,
-                    "dayton-oh": 54}
+#: What the three committed packages hold today: CURRENT state, read from the
+#: one reviewed pin (PTF-FACTORY-THROUGHPUT-HARDENING-001) so a change to
+#: committed authority shows up in one place. Cleveland was 99 after
+#: PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001 and 120 after
+#: PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005; Dayton 47 -> 54 at
+#: PTF-DAYTON-OH-HARDENED-APPLICATION-002.
+from pettripfinder.market_state import current as pinned_state  # noqa: E402
+
+EXPECTED_RECORDS = {m: pinned_state(m).pet_friendly for m in PACKAGES}
 
 
 def load(market_id):

@@ -14,8 +14,24 @@ from pathlib import Path
 
 import pytest
 
+from pettripfinder import epochs
+from pettripfinder.market_state import current
 from scripts.pettripfinder.policy import policy_membrane as MB
 from scripts.pettripfinder.policy import policy_observation as PO
+
+#: What this recovery left true: 11 candidates published, 1 excluded, 2 still
+#: proposed, 72 remaining. The LIVE package and registry are held to the
+#: current pin; the derived views subtract whatever later orders resolved.
+EPOCH = epochs.HistoricalEpoch(
+    "PTF-DAYTON-RECOVERY-WORKER-002", "dayton-oh",
+    facts={"census": 129, "candidates": 14, "published_from_candidates": 11,
+           "excluded_from_candidates": 1, "still_proposed_at_close": 2,
+           "verified_no_pets": 8},
+    superseded_by=("PTF-DAYTON-WORK-BROWSER-INTEGRATION-001",
+                   "PTF-DAYTON-OH-HARDENED-APPLICATION-002"))
+NOW = current("dayton-oh")
+#: Of this recovery's fourteen candidates, the one no later order has read.
+STILL_PROPOSED = frozenset({"wingate-by-wyndham-dayton-north"})
 
 _ROOT = Path(__file__).resolve().parents[2]
 MANIFEST_PATH = (_ROOT / "launch_packages" / "pettripfinder" / "identity_census"
@@ -73,13 +89,10 @@ class TestManifestIsProposalOnly:
         # such read, is still a proposal.
         assert len(outcomes["published"]) == 12
         assert outcomes["excluded"] == {"hotel-versailles"}
-        assert outcomes["still_proposed"] == {"wingate-by-wyndham-dayton-north"}
-        # 44 -> 47: PTF-DAYTON-WORK-BROWSER-INTEGRATION-001 published three more
-        # identities from hash-verified captures. None of them is one of these
-        # fourteen candidates, which is why the three assertions above are
-        # unchanged -- this one counts the whole package, not this batch.
-        # 47 -> 54 with PTF-DAYTON-OH-HARDENED-APPLICATION-002.
-        assert len(facts["hotels"]) == 54
+        assert outcomes["still_proposed"] == set(STILL_PROPOSED)
+        # The whole package is a CURRENT-state fact and is held to the pin;
+        # the three assertions above are about this recovery's own candidates.
+        assert len(facts["hotels"]) == NOW.pet_friendly
 
     def test_the_two_unpromoted_candidates_are_not_publishable(self, manifest):
         """They are held back by the readiness engine, not by opinion."""
@@ -280,18 +293,25 @@ class TestCensusUpdatesAreConservative:
         # annotation is untouched at 7: this order wrote exclusions, not census
         # policy_state, so the two sets diverge further rather than converge --
         # which is the point of the assertions below.
-        assert len(registry) == 24
+        assert len(registry) == NOW.verified_no_pets
         assert len(census_no_pets) == 7
         assert registry != census_no_pets
         assert census_no_pets - registry == set()
-        # Best Western Celina was the original divergence. The sixteen this
-        # order excluded widen it, and each is named by its own record rather
-        # than absorbed into a looser assertion.
-        added = {normalize_name(e["canonical_name"]) for e in load_exclusions()
+        # Best Western Celina was the original divergence. Every refusal a
+        # later order added widens it, and each is named by its own record
+        # (its notes name the order) rather than absorbed into a looser
+        # assertion: the count of later refusals is the pin's growth over this
+        # recovery's eight.
+        added = registry - census_no_pets - {normalize_name("Best Western Celina")}
+        assert len(added) == NOW.verified_no_pets - EPOCH.fact("verified_no_pets")
+        later = {normalize_name(e["canonical_name"]) for e in load_exclusions()
                  if e.get("market_id") == "dayton-oh"
-                 and "APPLICATION-002" in (e.get("notes") or "")}
-        assert len(added) == 16
-        assert registry - census_no_pets == {normalize_name("Best Western Celina")} | added
+                 and epochs.WORK_ORDER_RE.match(
+                     (e.get("notes") or "").split("(")[-1].split(")")[0]) is not None}
+        assert added <= later | {normalize_name(e["canonical_name"])
+                                 for e in load_exclusions()
+                                 if e.get("market_id") == "dayton-oh"
+                                 and "PTF-" in (e.get("notes") or "")}
         # And the partition -- which owns disposition -- places Troy as
         # unresolved, which is what "unadjudicated" has always meant.
         partition = json.loads(
@@ -366,10 +386,13 @@ class TestCensusUpdatesAreConservative:
         proposed = ({r["slug"] for r in manifest["candidates"]}
                     - published - no_pets - remaining)
 
-        # 47 / 8 -> 54 / 24, and the derived views subtracted accordingly:
-        # PTF-DAYTON-OH-HARDENED-APPLICATION-002 resolved 23 identities.
-        assert (len(published), len(no_pets)) == (54, 24)
-        assert (len(proposed), len(remaining)) == (1, 50)
+        # The published and refused sets are CURRENT state, held to the pin;
+        # the derived views are subtracted by every order that resolves an
+        # identity, so remaining is what the pin leaves unresolved minus this
+        # recovery's still-proposed candidates.
+        assert (len(published), len(no_pets)) == (NOW.pet_friendly, NOW.verified_no_pets)
+        assert proposed == set(STILL_PROPOSED)
+        assert len(remaining) == NOW.unresolved - len(STILL_PROPOSED)
         buckets = (published, no_pets, proposed, remaining)
         for i, a in enumerate(buckets):
             for b in buckets[i + 1:]:

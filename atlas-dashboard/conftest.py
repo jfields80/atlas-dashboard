@@ -179,3 +179,57 @@ def sparse_blueprint() -> Dict[str, Any]:
 def sparse_seed_package() -> Dict[str, Any]:
     """A seed package with no explicit sections at all."""
     return {}
+
+
+# --------------------------------------------------------------------------- #
+# PTF-FACTORY-THROUGHPUT-HARDENING-001 -- test lanes.
+#
+# Lane and market markers come from ONE committed table
+# (scripts/pettripfinder/regression_lanes.py) and are applied here at
+# collection, so `-m policy_schema` and `--ptf-market dayton-oh` select the
+# same modules the lane runner would run. Nothing outside tests/pettripfinder
+# is marked.
+# --------------------------------------------------------------------------- #
+
+DASHBOARD_ROOT = Path(__file__).resolve().parent
+if str(DASHBOARD_ROOT) not in sys.path:
+    sys.path.insert(0, str(DASHBOARD_ROOT))
+
+
+def pytest_addoption(parser):
+    group = parser.getgroup("pettripfinder")
+    group.addoption("--ptf-market", action="store", default=None,
+                    help="run only the tests in this market's targeted lane "
+                         "(its own modules plus the per-market contract rows)")
+
+
+def pytest_collection_modifyitems(config, items):
+    from scripts.pettripfinder import regression_lanes as LANES
+
+    wanted_market = config.getoption("--ptf-market")
+    ptf_root = LANES.PTF_TESTS.resolve()
+    keep, drop = [], []
+    for item in items:
+        try:
+            rel = Path(str(item.fspath)).resolve().relative_to(ptf_root).as_posix()
+        except ValueError:
+            if wanted_market:
+                drop.append(item)
+            else:
+                keep.append(item)
+            continue
+        lanes = LANES.lanes_for(rel)
+        for lane in lanes:
+            item.add_marker(getattr(pytest.mark, lane))
+        market = LANES.market_for(rel)
+        if market:
+            item.add_marker(pytest.mark.ptf_market(market))
+        if wanted_market:
+            targeted = (market == wanted_market
+                        or rel in LANES.PER_MARKET_CONTRACT_MODULES)
+            (keep if targeted else drop).append(item)
+        else:
+            keep.append(item)
+    if wanted_market:
+        items[:] = keep
+        config.hook.pytest_deselected(items=drop)

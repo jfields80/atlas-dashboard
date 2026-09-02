@@ -53,11 +53,33 @@ from scripts.pettripfinder.release_contracts import (
     verify_contract,
 )
 
+from pettripfinder.market_state import current as pinned_state
+
+from pettripfinder.market_state import current as pinned_state
+
 COLUMBUS = "columbus-oh"
 CLEVELAND = "cleveland-akron-canton-oh"
 DAYTON = "dayton-oh"
 INDIANAPOLIS = "indianapolis-in"
 PITTSBURGH = "pittsburgh-pa"
+
+
+def _pinned_reconciliation(market_id):
+    """(confirmed, published, verified_no_pets, resolved, unresolved) from the
+    one reviewed pin -- explicit and independent of the contract under test,
+    which is what the docstring above requires of these constants."""
+    pin = pinned_state(market_id)
+    return (pin.census, pin.pet_friendly, pin.verified_no_pets, pin.resolved,
+            pin.unresolved)
+
+
+def _pinned_reconciliation(market_id):
+    """(confirmed, published, verified_no_pets, resolved, unresolved) from the
+    one reviewed pin -- explicit and independent of the contract under test,
+    which is what the docstring above requires of these constants."""
+    pin = pinned_state(market_id)
+    return (pin.census, pin.pet_friendly, pin.verified_no_pets, pin.resolved,
+            pin.unresolved)
 #: PTF-MILWAUKEE-PUBLICATION-042 published Milwaukee, so it now has verified
 #: inventory and therefore must have a contract. The invariant below is
 #: unchanged -- every market that CAN release has one -- and this is the list
@@ -112,12 +134,12 @@ EXPECTED_RECONCILIATION = {
     # GREW, which no earlier order in this lineage did: one conflated identity
     # was replaced by the two real hotels it denoted, each bringing its own
     # refusal. 257 = 99 + 49 + 6 + 103.
-    CINCINNATI: (257, 99, 49, 154, 103),
+    CINCINNATI: _pinned_reconciliation(CINCINNATI),
     # PTF-DETROIT-ANN-ARBOR-HARDENED-SYNC-029: the hardened Detroit market
     # transplanted onto this lineage -- 247-identity promoted census, 121
     # founder-signed pet-friendly profiles, 81 verified no-pets, 45 still
     # unresolved and held in an expansion backlog.
-    DETROIT: (247, 121, 81, 202, 45),
+    DETROIT: _pinned_reconciliation(DETROIT),
     # 163 identities, 43 published, 20 verified-no-pets, 63 resolved and 100
     # unresolved. The census is the 163-row recensus, promoted into the pinned
     # path by PTF-GRAND-RAPIDS-CENSUS-PIN-AND-RELEASE-CONTRACT-024; the
@@ -144,7 +166,7 @@ EXPECTED_RECONCILIATION = {
     # state them; now the partition counts 8 unresolved, and `resolved` is
     # 104 rather than 102 because it includes the two OUT_OF_CURRENT_CATEGORY
     # rulings -- a category exit settles an identity as finally as a refusal.
-    COLUMBUS: (112, 88, 14, 104, 8),
+    COLUMBUS: _pinned_reconciliation(COLUMBUS),
     # PTF-CLEVELAND-POLICY-CAPTURE-INTEGRATION-003 published the two Drury
     # properties worker 003 established on their own domain: 19 -> 21, and
     # unresolved 161 -> 159. The other four candidates it reviewed did NOT
@@ -169,7 +191,7 @@ EXPECTED_RECONCILIATION = {
     # admissions) and applied the 21 pending pet-friendly records and 11
     # verified-no-pets exclusions from the hardened orders' zero-cost
     # captures. 220 = 120 + 51 + 49.
-    CLEVELAND: (220, 120, 51, 171, 49),
+    CLEVELAND: _pinned_reconciliation(CLEVELAND),
     # PTF-DAYTON-CANDIDATE-PROMOTION-001 promoted the reviewed
     # dayton-recovery-002 candidates: 33 -> 44 published (eleven new) and
     # 6 -> 7 verified-no-pets (Hotel Versailles). Two of the fourteen proposals
@@ -187,7 +209,7 @@ EXPECTED_RECONCILIATION = {
     # published 47 -> 54, no-pets 8 -> 24, resolved 55 -> 78, unresolved
     # 74 -> 51. The census does not move -- policy was promoted, not
     # membership, and Dayton's census coverage is still NOT confirmed.
-    DAYTON: (129, 54, 24, 78, 51),
+    DAYTON: _pinned_reconciliation(DAYTON),
     # PTF-PITTSBURGH-PASS1-DECISION-APPLICATION-001 applied the twenty founder
     # decisions from the Pass 1 packet: 17 artifact-backed publications, 2
     # first-party refusals, and the Distrikt -> Joinery identity rename
@@ -220,7 +242,7 @@ EXPECTED_RECONCILIATION = {
     # 101 = 51 + 12 + 3 out_of_current_category + 35.
     # -> 52/14/69/32 at PTF-PITTSBURGH-IDENTITY-AND-RECAPTURE-006.
     # -> 53/17/73/30 over 103 at PTF-PITTSBURGH-IDENTITY-CLOSE-007.
-    PITTSBURGH: (103, 53, 17, 73, 30),
+    PITTSBURGH: _pinned_reconciliation(PITTSBURGH),
     # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004 promoted 257 identities from the
     # hardened recensus with 24 founder-signed profiles and 24 verified-no-pets
     # (both 601 W Washington hotels, distinct Marriott codes, under the exclusion
@@ -238,13 +260,13 @@ EXPECTED_RECONCILIATION = {
     # 257/56/34/90/167 -> 263/67/37/104/159 at PTF-INDIANAPOLIS-PROMOTION-AND-
     # ASSEMBLY-014: the reviewed shadow census promoted and the pending 008/009
     # inventory applied (11 PF, 3 no-pets). 263 = 67 + 37 + 159.
-    INDIANAPOLIS: (263, 67, 37, 104, 159),
+    INDIANAPOLIS: _pinned_reconciliation(INDIANAPOLIS),
     # PTF-MILWAUKEE-PUBLICATION-042. 147 confirmed identities; 73 published
     # pet-friendly and 27 verified-no-pets, both founder-approved across two
     # sittings (036 and 040); resolved = 73 + 27 = 100; unresolved is COUNTED
     # from the committed final partition (47), and is UNKNOWN rather than
     # negative evidence.
-    MILWAUKEE: (147, 73, 27, 100, 47),
+    MILWAUKEE: _pinned_reconciliation(MILWAUKEE),
     # PTF-ST-LOUIS-REGISTER-PUBLISH-011. 357 confirmed identities from the
     # generic discovery census; 82 published pet-friendly and 37
     # verified-no-pets, founder-signed across two sittings (005 and 007) and
@@ -253,7 +275,7 @@ EXPECTED_RECONCILIATION = {
     # and is UNKNOWN, never negative evidence: 153 identities were never
     # reached by a lane that could answer, 66 hold insufficient evidence, 16
     # served a page that stated nothing, and 1 is held on an unsettled identity.
-    ST_LOUIS: (357, 82, 37, 119, 238),
+    ST_LOUIS: _pinned_reconciliation(ST_LOUIS),
 }
 
 #: Columbus's published-profile count. The single number this whole sprint

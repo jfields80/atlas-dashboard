@@ -19,6 +19,8 @@ from pathlib import Path
 
 import pytest
 
+from pettripfinder.market_state import current
+from pettripfinder.market_state import current
 from scripts.pettripfinder.hotel_exclusions import load_exclusions
 from scripts.pettripfinder.market_ownership import owned_by
 from scripts.pettripfinder.site_data import (
@@ -52,10 +54,15 @@ _ROOT = Path(__file__).resolve().parents[2]
 #: at $0 through the attended lane. Every applied row is bound to its own
 #: property's page on that page's premises and was re-read by the canonical
 #: reader at application time. The census did NOT move: it is still 129.
-ACCEPTED = 54
-NO_PETS = 24
+#: PTF-FACTORY-THROUGHPUT-HARDENING-001: these are CURRENT-state counts and
+#: are read from the one reviewed pin (tests/pettripfinder/pins/market_state.json)
+#: rather than restated here. The history above stays as the record of how
+#: they moved; the next order that moves Dayton edits the pin, not this file.
+_NOW = current(DAYTON)
+ACCEPTED = _NOW.pet_friendly
+NO_PETS = _NOW.verified_no_pets
 HELD = 6
-CENSUS = 129
+CENSUS = _NOW.census
 
 
 @pytest.fixture(scope="module")
@@ -439,19 +446,20 @@ class TestMarketIsolation:
         # Cleveland moved 19 -> 21 under its OWN integration
         # (PTF-CLEVELAND-POLICY-CAPTURE-INTEGRATION-003); Dayton did not
         # move it, which is what this test defends.
-        assert len([r for r in rows if r.get("market_id") == CLEVELAND]) == 120  # after PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005
+        assert len([r for r in rows if r.get("market_id") == CLEVELAND]) == \
+            current(CLEVELAND).profiles
 
     def test_columbus_still_has_exactly_fourteen_no_pets(self):
         cbus = [e for e in load_exclusions()
                 if e.get("market_id") == COLUMBUS
                 and e["exclusion_state"] == "VERIFIED_NO_PETS"]
-        assert len(cbus) == 14
+        assert len(cbus) == current(COLUMBUS).verified_no_pets
 
     def test_cleveland_still_has_exactly_eight_no_pets(self):
         cle = [e for e in load_exclusions()
                if e.get("market_id") == CLEVELAND
                and e["exclusion_state"] == "VERIFIED_NO_PETS"]
-        assert len(cle) == 51  # after PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005
+        assert len(cle) == current(CLEVELAND).verified_no_pets
 
     def test_no_dayton_hotel_appears_in_another_market_authority(self, facts):
         day_keys = {h["key"] for h in facts["hotels"]}

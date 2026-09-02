@@ -35,6 +35,18 @@ A phase recorded in the ledger (`<slug>_factory_ledger_<suffix>.json`) as
 COMPLETED or SKIPPED is not run again. A phase whose predecessor is not satisfied
 is not started. Every gate reads an artifact, never a flag.
 
+## Throughput contract (PTF-FACTORY-THROUGHPUT-HARDENING-001)
+
+The acquisition ORDER a market walks (owned → local free discovery → direct
+static → Firecrawl → attended browser → paid fetch → paid discovery), the
+regression ORDER a market change runs (targeted lanes → schema/identity →
+release contracts → assembly → commit → ONE broad regression classified
+against a baseline manifest), and the factory FREEZE rule are in
+`docs/PTF_HARDENED_FACTORY_RUNBOOK.md`. The ladder planner is
+`scripts/pettripfinder/acquisition/ladder.py`; the lanes are
+`scripts/pettripfinder/regression_lanes.py`; the current-state pins every suite
+reads are `tests/pettripfinder/pins/`.
+
 ## The three rules the hardening adds
 
 **Zero-cost recovery is mandatory before paid acquisition.** Phase 6 refuses to

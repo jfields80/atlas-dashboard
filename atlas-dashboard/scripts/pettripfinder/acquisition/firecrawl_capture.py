@@ -25,16 +25,29 @@ which makes the figure a measured delta rather than an estimate -- but it is
 credits, and converting it to dollars depends on a plan this module does not
 know. It reports credits and says so.
 
-Not registered on any route
----------------------------
-Implemented and deliberately unrouted, exactly like the Spider lane.
-``routes.json`` is untouched. Promotion is a decision with a measurement behind
-it, not a side effect of an adapter existing.
+Routing
+-------
+Written unrouted, exactly like the Spider lane. Since then the decision tests
+PTF-WYNDHAM-FIRECRAWL-DECISION-008, PTF-IHG-FIRECRAWL-DECISION-009 and
+PTF-FIRECRAWL-CHOICE-VALIDATION-004 / CHOICE-ROUTE-CLOSURE-005 earned it the
+Wyndham, IHG and Choice rows of ``routes.json``. Promotion was a decision with a
+measurement behind it, not a side effect of an adapter existing.
+
+Provenance (PTF-FACTORY-THROUGHPUT-HARDENING-001)
+-------------------------------------------------
+Every call is described by a deterministic request envelope -- the canonical
+URL and the profile, nothing else -- and every result by a provenance block:
+the requested and final URLs, the upstream status, the capture timestamp, the
+sha256 of the returned document, the vendor's request id and its per-call
+credit figure when the response carries them, and never a credential. Each
+call is also appended to a local call ledger so a run's spend can be reconciled
+against the credit delta rather than assumed from a per-row constant.
 """
 
 from __future__ import annotations
 
 import asyncio
+import hashlib
 import html as htmllib
 import json
 import os
@@ -43,8 +56,9 @@ import sys
 import time
 import urllib.error
 import urllib.request
+from collections import OrderedDict
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Mapping, Optional, Tuple
 
 _REPO_ROOT = Path(__file__).resolve().parents[3]
 if str(_REPO_ROOT) not in sys.path:
@@ -166,24 +180,97 @@ def credits_remaining() -> Optional[int]:
         return None
 
 
-def fetch(url: str, *, profile: Optional[Dict] = None) -> Dict:
-    """One Firecrawl scrape. Returns rendered HTML and the upstream status."""
+#: Where every Firecrawl call is appended, one JSON line each. Under the
+#: gitignored data tree; ``RECORD_CALLS`` lets a test switch it off.
+CALL_LEDGER_PATH = _REPO_ROOT / "data" / "acquisition" / "firecrawl_call_ledger.jsonl"
+RECORD_CALLS = True
+#: The retry ceiling per URL, shared with every other lane.
+MAX_ATTEMPTS_PER_URL = BC.MAX_ATTEMPTS
+
+
+def request_envelope(url: str, *, profile: Optional[Dict] = None) -> Dict:
+    """The deterministic description of one call: the canonical URL and the
+    profile, sorted, with a sha256 over exactly that. Two calls with the same
+    envelope are the same request, whatever else was going on."""
     body = dict(profile or DEFAULT_PROFILE)
     body["url"] = url
-    payload = _request(API_URL, data=body)
+    canonical = json.dumps(body, sort_keys=True, separators=(",", ":"))
+    return {"provider": PROVIDER, "api": API_URL, "body": body,
+            "envelope_sha256": hashlib.sha256(canonical.encode("utf-8")).hexdigest()}
+
+
+def provenance(*, requested_url: str, result: Mapping, envelope: Mapping,
+               captured_at: str) -> Dict:
+    """The provenance block for one result. No credential can appear: every
+    string that came from the vendor passed through ``redact``."""
+    html = result.get("html") or ""
+    return OrderedDict((
+        ("provider", PROVIDER),
+        ("requested_url", requested_url),
+        ("final_url", result.get("final_url") or requested_url),
+        ("status", result.get("status")),
+        ("ok", bool(result.get("ok"))),
+        ("captured_at", captured_at),
+        ("content_sha256", hashlib.sha256(html.encode("utf-8")).hexdigest() if html else ""),
+        ("content_bytes", len(html.encode("utf-8")) if html else 0),
+        ("provider_request_id", redact(str(result.get("request_id") or ""))),
+        ("credits_used", result.get("credits_used")),
+        ("envelope_sha256", envelope.get("envelope_sha256", "")),
+        ("error", redact(str(result.get("error") or ""))),
+    ))
+
+
+def _record_call(entry: Mapping) -> None:
+    if not RECORD_CALLS:
+        return
+    try:
+        CALL_LEDGER_PATH.parent.mkdir(parents=True, exist_ok=True)
+        with open(CALL_LEDGER_PATH, "a", encoding="utf-8") as handle:
+            handle.write(json.dumps(entry, sort_keys=True) + "\n")
+    except OSError:                                              # noqa: BLE001
+        pass
+
+
+def fetch(url: str, *, profile: Optional[Dict] = None) -> Dict:
+    """One Firecrawl scrape. Returns rendered HTML, the upstream status and
+    the provenance of the call (under ``provenance``), and appends the call
+    to the local ledger. The request goes out exactly as the envelope says."""
+    envelope = request_envelope(url, profile=profile)
+    captured_at = BC.utc_now_iso()
+    try:
+        payload = _request(API_URL, data=envelope["body"])
+    except Exception as exc:                                     # noqa: BLE001
+        _record_call({"provider": PROVIDER, "captured_at": captured_at,
+                      "requested_url": url,
+                      "envelope_sha256": envelope["envelope_sha256"],
+                      "ok": False,
+                      "error": redact("%s: %s" % (type(exc).__name__, exc))})
+        raise
     if not payload.get("success"):
-        return {"html": "", "status": None, "ok": False,
-                "error": redact(str(payload.get("error") or "unspecified"))}
-    data = payload.get("data") or {}
-    metadata = data.get("metadata") or {}
-    return {
-        "html": data.get("rawHtml") or data.get("html") or "",
-        "status": metadata.get("statusCode"),
-        "ok": True,
-        "error": redact(str(metadata.get("error") or "")),
-        "final_url": metadata.get("sourceURL") or metadata.get("url") or url,
-        "title": metadata.get("title") or "",
-    }
+        result = {"html": "", "status": None, "ok": False,
+                  "error": redact(str(payload.get("error") or "unspecified")),
+                  "request_id": str(payload.get("id") or ""),
+                  "credits_used": payload.get("creditsUsed")}
+    else:
+        data = payload.get("data") or {}
+        metadata = data.get("metadata") or {}
+        credits = metadata.get("creditsUsed")
+        if credits is None:
+            credits = payload.get("creditsUsed")
+        result = {
+            "html": data.get("rawHtml") or data.get("html") or "",
+            "status": metadata.get("statusCode"),
+            "ok": True,
+            "error": redact(str(metadata.get("error") or "")),
+            "final_url": metadata.get("sourceURL") or metadata.get("url") or url,
+            "title": metadata.get("title") or "",
+            "request_id": str(metadata.get("scrapeId") or payload.get("id") or ""),
+            "credits_used": credits,
+        }
+    result["provenance"] = provenance(requested_url=url, result=result,
+                                      envelope=envelope, captured_at=captured_at)
+    _record_call(result["provenance"])
+    return result
 
 
 def run_attempt(target: BC.CaptureTarget, attempt: int, *, run_dir: Path,
@@ -385,7 +472,8 @@ async def capture_property(target: BC.CaptureTarget, *, run_dir: Path,
     return records, None
 
 
-__all__ = ["PROVIDER", "KEY_ENV", "DEFAULT_PROFILE", "FirecrawlError",
-           "FirecrawlRateLimited", "FirecrawlAllEnginesFailed",
+__all__ = ["PROVIDER", "KEY_ENV", "DEFAULT_PROFILE", "ROUTED_PROFILE",
+           "FirecrawlError", "FirecrawlRateLimited", "FirecrawlAllEnginesFailed",
            "credential_present", "credits_remaining", "redact", "fetch",
-           "run_attempt", "capture_property"]
+           "request_envelope", "provenance", "CALL_LEDGER_PATH", "RECORD_CALLS",
+           "MAX_ATTEMPTS_PER_URL", "run_attempt", "capture_property"]

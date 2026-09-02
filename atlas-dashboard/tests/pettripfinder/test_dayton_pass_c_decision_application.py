@@ -20,6 +20,8 @@ from pathlib import Path
 
 import pytest
 
+from pettripfinder import epochs
+
 from scripts.pettripfinder.contracts import enums
 from scripts.pettripfinder.dayton_pass_c_decision_application import (
     COHORT, FOUNDER, POLICY, _founder_prior, approve, run,
@@ -32,6 +34,7 @@ FACTS_PATH = LP / "hotel_policy_facts_dayton-oh.json"
 LEDGER_PATH = LP / "dayton_passB_founder_decisions.json"
 REPORT_PATH = LP / "dayton_passC_application_report.json"
 BASELINE = "d14cdc4"
+PASS_C_LEDGER = "dayton_passB_founder_decisions.json"
 #: The policy-package sha Pass C produced and its release contract pinned when
 #: the market held exactly its 47 records.
 PASS_C_EPOCH_SHA256 = "7cd4cf025bf371dfa89bc0d25b90527c4a75aa9b3e4bae2f95925055224d8c53"
@@ -65,9 +68,7 @@ def pass_c_records(facts):
     verify, and makes the count of 47 an assertion about the COHORT rather than
     an accident of the package's size.
     """
-    return [h for h in facts["hotels"]
-            if (h["approval"].get("decision_source") or {}).get("ledger")
-            == "dayton_passB_founder_decisions.json"]
+    return epochs.cohort(facts["hotels"], epochs.by_ledger(PASS_C_LEDGER))
 
 
 # --------------------------------------------------------------------------- #
@@ -210,7 +211,6 @@ def test_the_two_lanes_partition_the_market(dry_run, ledger):
 # Refusals -- the half that matters.
 # --------------------------------------------------------------------------- #
 
-PASS_C_LEDGER = "dayton_passB_founder_decisions.json"
 
 
 def _epoch_package(loaded):
@@ -227,9 +227,7 @@ def _epoch_package(loaded):
     Every assertion below then tests what it was written to test: the refusal
     behaviour of a real applier over the real records it was authorised for.
     """
-    loaded["hotels"] = [h for h in loaded["hotels"]
-                        if (h.get("approval", {}).get("decision_source") or {})
-                        .get("ledger") == PASS_C_LEDGER]
+    loaded["hotels"] = epochs.cohort(loaded["hotels"], epochs.by_ledger(PASS_C_LEDGER))
     return loaded
 
 

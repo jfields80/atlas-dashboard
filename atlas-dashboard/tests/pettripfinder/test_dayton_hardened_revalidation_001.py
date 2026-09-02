@@ -27,11 +27,25 @@ from pathlib import Path
 
 import pytest
 
+from pettripfinder import epochs
+from pettripfinder.market_state import current
+
 _DASH = Path(__file__).resolve().parents[2]
 PKG = _DASH / "launch_packages" / "pettripfinder"
 REPORTS = PKG / "markets" / "reports"
 MARKET_ID = "dayton-oh"
 AUTH = PKG / "markets" / "authority" / MARKET_ID
+
+#: What Dayton held when this order ran, and what its own artifacts (the
+#: 001 partition, the shadow reconciliation, the live-policy audit) state
+#: forever. PTF-DAYTON-OH-HARDENED-APPLICATION-002 then applied this order's
+#: clean inventory, so the LIVE files are held to the current pin instead.
+EPOCH = epochs.HistoricalEpoch(
+    "PTF-DAYTON-OH-HARDENED-REVALIDATION-001", MARKET_ID,
+    facts={"census": 129, "pet_friendly": 47, "verified_no_pets": 8,
+           "resolved": 55, "unresolved": 74, "profiles": 47},
+    superseded_by=("PTF-DAYTON-OH-HARDENED-APPLICATION-002",))
+NOW = current(MARKET_ID)
 
 
 def _read(path: Path):
@@ -73,11 +87,13 @@ def test_live_authority_matches_the_current_epoch():
     129, because that order promoted policy and not membership.
     """
     census = _read(PKG / "identity_census" / f"{MARKET_ID}.json")
-    assert census["count"] == 129
+    assert census["count"] == NOW.census
+    # This order pinned the census and did not move it; nothing since has.
+    assert NOW.census == EPOCH.fact("census")
     policy = _read(PKG / f"hotel_policy_facts_{MARKET_ID}.json")
-    assert len(policy["hotels"]) == 54
+    assert len(policy["hotels"]) == NOW.pet_friendly
     exclusions = _read(AUTH / "hotel_exclusions.json")
-    assert len(exclusions["exclusions"]) == 24
+    assert len(exclusions["exclusions"]) == NOW.verified_no_pets
     assert all(e["exclusion_state"] == "VERIFIED_NO_PETS" for e in exclusions["exclusions"])
     assert all(e["market_id"] == MARKET_ID for e in exclusions["exclusions"])
 
@@ -87,27 +103,35 @@ def test_policy_package_still_hashes_to_the_release_contract():
     raw = (PKG / f"hotel_policy_facts_{MARKET_ID}.json").read_bytes()
     assert hashlib.sha256(raw).hexdigest() == contract["policy_package"]["expected_sha256"]
     recon = contract["reconciliation"]
-    # epoch carried forward by PTF-DAYTON-OH-HARDENED-APPLICATION-002
+    # The LIVE contract, held to the current pin (moved past this order's
+    # epoch by PTF-DAYTON-OH-HARDENED-APPLICATION-002).
     assert (recon["confirmed_identities"], recon["published_pet_friendly"],
-            recon["verified_no_pets"], recon["resolved"], recon["unresolved"]) == (129, 54, 24, 78, 51)
+            recon["verified_no_pets"], recon["resolved"], recon["unresolved"]) == (
+                NOW.census, NOW.pet_friendly, NOW.verified_no_pets,
+                NOW.resolved, NOW.unresolved)
 
 
 def test_final_partition_arithmetic_still_agrees():
+    # The 001 partition is this order's own committed artifact: it describes
+    # the 47 / 8 epoch forever and is held to the epoch, not to the pin.
     part = _read(PKG / "dayton_final_partition_001.json")
     counts = part["final_state_counts"]
-    assert part["count"] == 129
-    assert counts["PUBLISHED_PET_FRIENDLY"] == 47
-    assert counts["VERIFIED_NO_PETS"] == 8
+    assert part["count"] == EPOCH.fact("census")
+    assert counts["PUBLISHED_PET_FRIENDLY"] == EPOCH.fact("pet_friendly")
+    assert counts["VERIFIED_NO_PETS"] == EPOCH.fact("verified_no_pets")
     resolved = sum(1 for i in part["items"] if i["resolved"])
-    assert resolved == 55
-    assert len(part["items"]) - resolved == 74
+    assert resolved == EPOCH.fact("resolved")
+    assert len(part["items"]) - resolved == EPOCH.fact("unresolved")
 
 
 def test_the_shadow_reports_the_same_live_numbers(shadow):
     live = shadow["shadow_reconciliation"]["live"]
     assert (live["pet_friendly"], live["verified_no_pets"], live["resolved"],
-            live["unresolved"], live["profiles"]) == (47, 8, 55, 74, 47)
-    assert shadow["shadow_reconciliation"]["pinned_census"] == 129
+            live["unresolved"], live["profiles"]) == (
+                EPOCH.fact("pet_friendly"), EPOCH.fact("verified_no_pets"),
+                EPOCH.fact("resolved"), EPOCH.fact("unresolved"),
+                EPOCH.fact("profiles"))
+    assert shadow["shadow_reconciliation"]["pinned_census"] == EPOCH.fact("census")
 
 
 # --------------------------------------------------------------------------

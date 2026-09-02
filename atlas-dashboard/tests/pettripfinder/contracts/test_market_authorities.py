@@ -20,6 +20,9 @@ from pathlib import Path
 
 import pytest
 
+from pettripfinder.market_state import current as pinned_state
+from pettripfinder.market_state import current as pinned_state
+from pettripfinder.market_state import current as pinned_state
 from scripts.pettripfinder.contracts import census, enums, partition
 from scripts.pettripfinder.contracts.identity_key import (
     is_canonical_key, ptf_identity_key,
@@ -61,11 +64,24 @@ PARTITION_FILES = {
     MILWAUKEE: "milwaukee_final_partition_001.json",
 }
 
-#: What each market holds. Pinned so a change to an authority shows up here
-#: rather than silently altering a number the rest of the program reasons about.
+#: What each market holds. Pinned so a change to an authority shows up in ONE
+#: place rather than silently altering a number the rest of the program
+#: reasons about. PTF-FACTORY-THROUGHPUT-HARDENING-001: that place is now
+#: tests/pettripfinder/pins/market_state.json, read through _pinned(); the
+#: history of every move stays below as the record. Milwaukee is the
+#: exception: its committed partition (001) predates its publication and
+#: still describes 0 / 0 / 147, so its row is stated literally as the
+#: partition's own epoch.
+def _pinned(market_id):
+    pin = pinned_state(market_id)
+    return {"census": pin.census, "published": pin.pet_friendly,
+            "no_pets": pin.verified_no_pets,
+            "out_of_category": pin.out_of_category,
+            "unresolved": pin.unresolved}
+
+
 EXPECTED = {
-    COLUMBUS: {"census": 112, "published": 88, "no_pets": 14,
-               "out_of_category": 2, "unresolved": 8},
+    COLUMBUS: _pinned(COLUMBUS),
     # 21/8/159 until PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001 (41/31/116),
     # then PTF-CLEVELAND-PASS3-FOUNDER-DECISIONS-001 (81/35/72), then
     # PTF-CLEVELAND-PASS4-DECISION-APPLICATION-001 applied the founder's
@@ -75,12 +91,10 @@ EXPECTED = {
     # retirements, the Studio 6 -> Suburban Studios successor rename with
     # lineage, 35 first-party-confirmed admissions) and the 21 pending
     # pet-friendly + 11 verified-no-pets records applied. 220 = 120 + 51 + 49.
-    CLEVELAND: {"census": 220, "published": 120, "no_pets": 51,
-                "out_of_category": 0, "unresolved": 49},
+    CLEVELAND: _pinned(CLEVELAND),
     # PTF-DAYTON-OH-HARDENED-APPLICATION-002: published 47 -> 54, no-pets
     # 8 -> 24, resolved 55 -> 78, unresolved 74 -> 51. Census unchanged.
-    DAYTON: {"census": 129, "published": 54, "no_pets": 24,
-             "out_of_category": 0, "unresolved": 51},
+    DAYTON: _pinned(DAYTON),
     # 121/0/0/0/121 until PTF-CINCINNATI-CENSUS-RECONCILIATION-001 rebuilt the
     # census from independent discovery. The six out-of-category rows are the
     # short-term rentals and guesthouses the directories list beside hotels.
@@ -103,8 +117,7 @@ EXPECTED = {
     # earlier Cincinnati order did: one conflated identity was replaced by the
     # two real hotels it denoted, and each brought its own refusal.
     # 257 = 99 + 49 + 6 + 103.
-    CINCINNATI: {"census": 257, "published": 99, "no_pets": 49,
-                 "out_of_category": 6, "unresolved": 103},
+    CINCINNATI: _pinned(CINCINNATI),
     # 26/4/3/63 -> 46/10/3/37 at PTF-PITTSBURGH-HARDENED-SYNC-004, which
     # applied the 32 founder decisions signed on 2026-08-26 and kept the census
     # at 96 by refusing to promote the 115-row shadow recensus.
@@ -124,15 +137,13 @@ EXPECTED = {
     # -> 53/17/3/30 over a 103-row census at PTF-PITTSBURGH-IDENTITY-CLOSE-007:
     # three authorised identity rulings (a supersession, an authorised
     # identity-key correction, and a census add) plus one free attended capture.
-    PITTSBURGH: {"census": 103, "published": 53, "no_pets": 17,
-                 "out_of_category": 3, "unresolved": 30},
+    PITTSBURGH: _pinned(PITTSBURGH),
     # PTF-DETROIT-ANN-ARBOR-HARDENED-SYNC-029 transplanted the hardened
     # Detroit market onto this lineage: a 247-identity promoted census
     # with 121 founder-signed pet-friendly profiles and 81 verified
     # no-pets exclusions. This lineage previously carried the market as
     # a scaffold that published nothing.
-    DETROIT: {"census": 247, "published": 121, "no_pets": 81,
-              "out_of_category": 0, "unresolved": 45},
+    DETROIT: _pinned(DETROIT),
     # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: 257-identity promoted census. Its
     # partition is a generic-path factory artifact (AWAITING_* states only), so
     # the partition-derived counts are 0/0/257; the 24 + 24 authority is pinned
@@ -141,8 +152,7 @@ EXPECTED = {
     # -> 263/67/37/0/159 at PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014: the reviewed
     # shadow promoted (257 -> 263) and the pending 11 PF + 3 no-pets applied; the
     # 014 partition carries the authority as terminal states. 263 = 67 + 37 + 159.
-    INDIANAPOLIS: {"census": 263, "published": 67, "no_pets": 37,
-                   "out_of_category": 0, "unresolved": 159},
+    INDIANAPOLIS: _pinned(INDIANAPOLIS),
     # PTF-MILWAUKEE-MARKET-FACTORY-001. Census-only: no policy authority
     # exists for this market, so published and no_pets are zero by
     # construction and every identity carries a blocker.
@@ -414,27 +424,33 @@ class TestTerminalDispositionsMatchAuthority:
                            if e["market_id"] == CINCINNATI
                            and e["exclusion_state"] == "VERIFIED_NO_PETS"}
 
-    def test_indianapolis_promoted_authority_is_24_and_24(self):
-        """PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: the 257-identity census and the
-        founder-signed authority (24 profiles, 24 verified refusals, both
-        601 W Washington hotels preserved under the exclusion contract's
-        brand-scoped co-location rule)."""
+    def test_indianapolis_promoted_authority_matches_the_pin(self):
+        """PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004 promoted 24 profiles and 24
+        verified refusals, both 601 W Washington hotels preserved under the
+        exclusion contract's brand-scoped co-location rule. Later orders
+        (017, 018, 014) promoted more; the LIVE counts are held to the pin,
+        and the co-location rule below is what this test still guards."""
         published = published_keys(POLICY_FILES[INDIANAPOLIS])
-        assert len(published) == 24
+        assert len(published) == pinned_state(INDIANAPOLIS).pet_friendly
         exclusions = load(PACKAGE_DIR / "hotel_exclusions.json")["exclusions"]
         refused = {ptf_identity_key(e["canonical_name"]) for e in exclusions
                    if e["market_id"] == INDIANAPOLIS
                    and e["exclusion_state"] == enums.VERIFIED_NO_PETS}
-        assert len(refused) == 24
+        assert len(refused) == pinned_state(INDIANAPOLIS).verified_no_pets
         assert {"courtyard by marriott indianapolis downtown",
                 "springhill suites indianapolis downtown"} <= refused
         assert not (published & refused)
         census = census_doc(INDIANAPOLIS)
         keys = {r["identity_key"] for r in census["hotels"]}
-        assert len(keys) == 257
+        # 257 at 004; the pinned census has since been promoted (263 at
+        # PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014) and is held to the pin.
+        assert len(keys) == pinned_state(INDIANAPOLIS).census
         assert (published | refused) <= keys
-        assert all(r["policy_state"] == enums.POLICY_NOT_VERIFIED for r in census["hotels"])
-        doc = partition_doc(INDIANAPOLIS)
+        # What 004 itself left true lives in its OWN committed partition, which
+        # never moves: 257 identities, no terminal state, 48 awaiting the
+        # founder. The live partition (014) carries the authority as terminal
+        # states and is checked by test_partition_counts_the_pinned_unresolved.
+        doc = load(PACKAGE_DIR / "indianapolis_in_final_partition_004.json")
         assert len(doc["items"]) == 257
         states = collections.Counter(i["final_state"] for i in doc["items"])
         assert not (set(states) & set(enums.TERMINAL_STATES))

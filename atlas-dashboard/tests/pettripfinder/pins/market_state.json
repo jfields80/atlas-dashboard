@@ -1,0 +1,139 @@
+{
+ "schema": "ptf-market-state-pins/1.0",
+ "what_this_is": "The ONE place the CURRENT per-market source state is pinned for the test suites. Every number is an explicit, reviewed expectation -- it is written by the work order that moved the market and read by tests whose semantic is 'the market as it stands now'. It is deliberately NOT derived from the files it describes: tests/pettripfinder/contracts/test_market_state_pins.py is the single cross-check that holds these pins to the release contracts, the policy packages, the exclusion shards and the partitions. A market-scoped order that changes a count edits this file (and the market's release contract) and nothing else in the suite should need to restate the number.",
+ "reviewed_by": "PTF-FACTORY-THROUGHPUT-HARDENING-001",
+ "fields": {
+  "census": "confirmed identities in the market's committed identity census",
+  "pet_friendly": "records in the market's committed hotel_policy_facts package (published pet-friendly)",
+  "verified_no_pets": "VERIFIED_NO_PETS exclusions the market owns in its exclusion shard",
+  "resolved": "pet_friendly + verified_no_pets + out_of_category (the release contracts count an out-of-category row as resolved: nothing is outstanding on it)",
+  "unresolved": "census - resolved, and COUNTED from the market's final partition rather than derived by subtraction alone",
+  "out_of_category": "OUT_OF_CURRENT_CATEGORY identities the census retains but neither publishes nor refuses (short-term rentals, guesthouses)",
+  "profiles": "public hotel profiles a fresh assembly of this market emits (== pet_friendly for every current market)",
+  "corridor_routes": "published corridor routes the market's release contract states",
+  "last_moved_by": "the work order that last changed any of these numbers; the next one replaces it"
+ },
+ "markets": {
+  "cincinnati-oh": {
+   "census": 257,
+   "pet_friendly": 99,
+   "verified_no_pets": 49,
+   "resolved": 154,
+   "unresolved": 103,
+   "out_of_category": 6,
+   "profiles": 99,
+   "corridor_routes": 14,
+   "last_moved_by": "PTF-CINCINNATI-MAINSTAY-CENSUS-SPLIT-013"
+  },
+  "cleveland-akron-canton-oh": {
+   "census": 220,
+   "pet_friendly": 120,
+   "verified_no_pets": 51,
+   "resolved": 171,
+   "unresolved": 49,
+   "out_of_category": 0,
+   "profiles": 120,
+   "corridor_routes": 9,
+   "last_moved_by": "PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005"
+  },
+  "columbus-oh": {
+   "census": 112,
+   "pet_friendly": 88,
+   "verified_no_pets": 14,
+   "resolved": 104,
+   "unresolved": 8,
+   "out_of_category": 2,
+   "profiles": 88,
+   "corridor_routes": 9,
+   "last_moved_by": "PTF-POLICY-SCHEMA-MIGRATION-001"
+  },
+  "dayton-oh": {
+   "census": 129,
+   "pet_friendly": 54,
+   "verified_no_pets": 24,
+   "resolved": 78,
+   "unresolved": 51,
+   "out_of_category": 0,
+   "profiles": 54,
+   "corridor_routes": 13,
+   "last_moved_by": "PTF-DAYTON-OH-HARDENED-APPLICATION-002"
+  },
+  "detroit-ann-arbor-mi": {
+   "census": 247,
+   "pet_friendly": 121,
+   "verified_no_pets": 81,
+   "resolved": 202,
+   "unresolved": 45,
+   "out_of_category": 0,
+   "profiles": 121,
+   "corridor_routes": 10,
+   "last_moved_by": "PTF-DETROIT-ANN-ARBOR-HARDENED-SYNC-029"
+  },
+  "grand-rapids-holland-mi": {
+   "census": 163,
+   "pet_friendly": 43,
+   "verified_no_pets": 20,
+   "resolved": 63,
+   "unresolved": 100,
+   "out_of_category": 0,
+   "profiles": 43,
+   "corridor_routes": 5,
+   "last_moved_by": "PTF-GRAND-RAPIDS-FOUNDER-SIGNATURE-PASS-030"
+  },
+  "indianapolis-in": {
+   "census": 263,
+   "pet_friendly": 67,
+   "verified_no_pets": 37,
+   "resolved": 104,
+   "unresolved": 159,
+   "out_of_category": 0,
+   "profiles": 67,
+   "corridor_routes": 14,
+   "last_moved_by": "PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014"
+  },
+  "louisville-ky": {
+   "census": 166,
+   "pet_friendly": 46,
+   "verified_no_pets": 17,
+   "resolved": 63,
+   "unresolved": 103,
+   "out_of_category": 0,
+   "profiles": 46,
+   "corridor_routes": 4,
+   "last_moved_by": "PTF-LOUISVILLE-PUBLICATION-008"
+  },
+  "milwaukee-wi": {
+   "census": 147,
+   "pet_friendly": 73,
+   "verified_no_pets": 27,
+   "resolved": 100,
+   "unresolved": 47,
+   "out_of_category": 0,
+   "profiles": 73,
+   "corridor_routes": 7,
+   "last_moved_by": "PTF-MILWAUKEE-SERVICE-ANIMAL-CORRECTION-012"
+  },
+  "pittsburgh-pa": {
+   "census": 103,
+   "pet_friendly": 53,
+   "verified_no_pets": 17,
+   "resolved": 73,
+   "unresolved": 30,
+   "out_of_category": 3,
+   "profiles": 53,
+   "corridor_routes": 14,
+   "last_moved_by": "PTF-PITTSBURGH-IDENTITY-CLOSE-007"
+  },
+  "st-louis-mo": {
+   "census": 357,
+   "pet_friendly": 82,
+   "verified_no_pets": 37,
+   "resolved": 119,
+   "unresolved": 238,
+   "out_of_category": 0,
+   "profiles": 82,
+   "corridor_routes": 15,
+   "last_moved_by": "PTF-ST-LOUIS-REGISTER-PUBLISH-011"
+  }
+ }
+}

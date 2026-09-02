@@ -25,6 +25,10 @@ import tempfile
 
 import pytest
 
+from pettripfinder.market_state import current as pinned_state
+from pettripfinder.market_state import market_ids as pinned_market_ids
+from pettripfinder.market_state import current as pinned_state
+from pettripfinder.market_state import market_ids as pinned_market_ids
 from pettripfinder.indianapolis_promoted_state import (
     PROMOTED_PET_FRIENDLY, PROMOTED_SEED_ROWS, PROMOTED_VERIFIED_NO_PETS)
 
@@ -319,8 +323,8 @@ def test_cincinnati_is_assemblable_since_its_authority_was_replayed(markets):
     order does not touch it, and Cincinnati's status there is unchanged.
     """
     row = market_eligibility(market_by_id(markets, CINCINNATI))
-    # 21 -> 74 (004) -> 91 (007) -> 99 (010).
-    assert row["published_count"] == 99
+    # 21 -> 74 (004) -> 91 (007) -> 99 (010); CURRENT state, from the pin.
+    assert row["published_count"] == pinned_state(CINCINNATI).profiles
     assert row["conditions"]["census_present"] is True
     assert row["conditions"]["meets_minimum_published"] is True
     assert row["assemblable"] is True
@@ -496,8 +500,10 @@ def test_current_live_inventory_preserves_all_assemblable_market_profiles(market
     # PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005: + Cleveland's 21
     # (99 -> 120).
     # 839 -> 846 with the seven Dayton records
-    # (PTF-DAYTON-OH-HARDENED-APPLICATION-002).
-    assert sum(counts.values()) == 846
+    # (PTF-DAYTON-OH-HARDENED-APPLICATION-002). The ASSEMBLABLE total is the
+    # sum of every pinned market's profiles, live or not.
+    assert sum(counts.values()) == sum(
+        pinned_state(m).profiles for m in pinned_market_ids())
 
 
 # --------------------------------------------------------------------------- #

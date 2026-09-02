@@ -27,6 +27,9 @@ from pathlib import Path
 
 import pytest
 
+from pettripfinder import epochs
+from pettripfinder.market_state import current
+
 _DASH = Path(__file__).resolve().parents[2]
 PKG = _DASH / "launch_packages" / "pettripfinder"
 REPORTS = PKG / "markets" / "reports"
@@ -68,7 +71,26 @@ def application():
     return _read(REPORTS / "dayton_oh_application_002.json")
 
 
+#: What this order left true. Its own artifacts (the application report, the
+#: 002 partition, the founder packet) state these forever; the LIVE files are
+#: compared against the current pin, which names whichever order moved Dayton
+#: last. While that is still this order the two agree exactly.
+EPOCH = epochs.HistoricalEpoch(
+    "PTF-DAYTON-OH-HARDENED-APPLICATION-002", MARKET,
+    facts={"census": 129, "pet_friendly": 54, "verified_no_pets": 24,
+           "resolved": 78, "unresolved": 51, "corridor_routes": 13})
+NOW = current(MARKET)
+
+
 # ------------------------------------------------------------------ counts
+
+def test_the_live_market_still_stands_at_this_orders_epoch():
+    """Exact while nothing later has moved Dayton; superseded BY NAME after."""
+    epochs.whole_market_counts_or_superseded(EPOCH, NOW, {
+        "census": "census", "pet_friendly": "pet_friendly",
+        "verified_no_pets": "verified_no_pets", "resolved": "resolved",
+        "unresolved": "unresolved", "corridor_routes": "corridor_routes"})
+
 
 def test_the_application_moved_exactly_what_it_claimed(application):
     assert application["mode"] == "APPLIED"
@@ -81,26 +103,31 @@ def test_the_application_moved_exactly_what_it_claimed(application):
 
 
 def test_authority_counts(policy, exclusions, census):
-    assert len(policy["hotels"]) == 54
-    assert len(exclusions["exclusions"]) == 24 == exclusions["count"]
+    # The LIVE authority, held to the current pin.
+    assert len(policy["hotels"]) == NOW.pet_friendly
+    assert len(exclusions["exclusions"]) == NOW.verified_no_pets == exclusions["count"]
     assert all(e["exclusion_state"] == "VERIFIED_NO_PETS" for e in exclusions["exclusions"])
     assert all(e["market_id"] == MARKET for e in exclusions["exclusions"])
     # the census did NOT move
-    assert census["count"] == 129 == len(census["hotels"])
+    assert census["count"] == NOW.census == len(census["hotels"])
 
 
 def test_the_partition_partitions(partition):
+    # dayton_final_partition_002.json is THIS order's committed artifact and
+    # never moves: it is held to the epoch, not to the pin.
     items = partition["items"]
-    assert partition["count"] == 129 == len(items)
+    assert partition["count"] == EPOCH.fact("census") == len(items)
     counts = {}
     for i in items:
         counts[i["final_state"]] = counts.get(i["final_state"], 0) + 1
-    assert counts["PUBLISHED_PET_FRIENDLY"] == 54
-    assert counts["VERIFIED_NO_PETS"] == 24
+    assert counts["PUBLISHED_PET_FRIENDLY"] == EPOCH.fact("pet_friendly")
+    assert counts["VERIFIED_NO_PETS"] == EPOCH.fact("verified_no_pets")
     resolved = sum(1 for i in items if i["resolved"])
-    assert resolved == 78
-    assert len(items) - resolved == 51
-    assert 129 == 54 + 24 + 51
+    assert resolved == EPOCH.fact("resolved")
+    assert len(items) - resolved == EPOCH.fact("unresolved")
+    assert EPOCH.fact("census") == (EPOCH.fact("pet_friendly")
+                                    + EPOCH.fact("verified_no_pets")
+                                    + EPOCH.fact("unresolved"))
     keys = [i["identity_key"] for i in items]
     assert len(keys) == len(set(keys)), "an identity appears twice in the partition"
 
@@ -237,7 +264,7 @@ def test_seed_inventory_is_one_row_per_published_identity(policy):
     from scripts.pettripfinder.site_data import normalize_name
     rows = list(csv.DictReader((AUTH / "seed_businesses.csv").open(encoding="utf-8-sig")))
     names = [normalize_name(r["name"]) for r in rows]
-    assert len(names) == len(set(names)) == 54
+    assert len(names) == len(set(names)) == NOW.profiles
     assert set(names) == {r["identity_key"] for r in policy["hotels"]}
     premises = [(r["address"].strip().lower(), r["postal_code"].strip())
                 for r in rows if r["address"].strip()]
@@ -247,14 +274,17 @@ def test_seed_inventory_is_one_row_per_published_identity(policy):
 def test_the_contract_states_the_applied_authority(contract, policy):
     raw = (PKG / ("hotel_policy_facts_%s.json" % MARKET)).read_bytes()
     assert hashlib.sha256(raw).hexdigest() == contract["policy_package"]["expected_sha256"]
-    assert contract["policy_package"]["expected_record_count"] == 54
+    # The LIVE contract, held to the current pin.
+    assert contract["policy_package"]["expected_record_count"] == NOW.pet_friendly
     r = contract["reconciliation"]
     assert (r["confirmed_identities"], r["published_pet_friendly"], r["verified_no_pets"],
-            r["resolved"], r["unresolved"]) == (129, 54, 24, 78, 51)
-    assert contract["public_surface"]["public_hotel_profile_count"] == 54
-    assert contract["public_surface"]["seed_hotel_rows"] == 54
-    assert contract["routes"]["hotel_route_count"] == 54
-    assert contract["routes"]["published_corridor_route_count"] == 13
+            r["resolved"], r["unresolved"]) == (NOW.census, NOW.pet_friendly,
+                                                NOW.verified_no_pets, NOW.resolved,
+                                                NOW.unresolved)
+    assert contract["public_surface"]["public_hotel_profile_count"] == NOW.profiles
+    assert contract["public_surface"]["seed_hotel_rows"] == NOW.profiles
+    assert contract["routes"]["hotel_route_count"] == NOW.profiles
+    assert contract["routes"]["published_corridor_route_count"] == NOW.corridor_routes
     assert contract["deployment_authorization"]["grants_deployment"] is False
 
 
@@ -267,7 +297,7 @@ def test_the_contract_still_refuses_to_claim_census_completeness(contract):
 def test_the_recovery_view_still_partitions_the_unresolved_total(contract):
     doc = _read(PKG / "identity_census" / "dayton-recovery-002-proposed-authority.json")
     total = len(doc["candidates_still_proposed"]) + len(doc["remaining_unresolved"])
-    assert total == contract["reconciliation"]["unresolved"] == 51
+    assert total == contract["reconciliation"]["unresolved"] == NOW.unresolved
     assert len(doc["candidates"]) == 14, "the historical candidate record must not be edited"
 
 

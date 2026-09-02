@@ -34,18 +34,15 @@ from scripts.pettripfinder.policy_migration import (
     same_fact_aliases_for, validate_migrated,
 )
 
+from pettripfinder.market_state import current as pinned_state  # noqa: E402
+
 MARKETS = tuple(POLICY_PACKAGES)
-# Cleveland grew 21 -> 41 when PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001
-# published the founder-approved attended-capture candidates.
-EXPECTED_PUBLISHED = {"columbus-oh": 88,
-                      # 99 -> 120 at PTF-CLEVELAND-AKRON-CANTON-HARDENED-
-                      # APPLICATION-005 (21 pending records applied).
-                      "cleveland-akron-canton-oh": 120,
-                      # 47 -> 54 at PTF-DAYTON-OH-HARDENED-APPLICATION-002 (the
-                      # seven CLEAN_PET_FRIENDLY rows PTF-DAYTON-OH-HARDENED-
-                      # REVALIDATION-001 recovered through the attended lane,
-                      # applied under founder authorisation).
-                      "dayton-oh": 54}
+# The published count per migrated market is CURRENT state, read from the one
+# reviewed pin (PTF-FACTORY-THROUGHPUT-HARDENING-001). Cleveland grew 21 -> 41
+# at PTF-CLEVELAND-PASS2-FOUNDER-DECISIONS-001, 99 -> 120 at
+# PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005; Dayton 47 -> 54 at
+# PTF-DAYTON-OH-HARDENED-APPLICATION-002.
+EXPECTED_PUBLISHED = {m: pinned_state(m).pet_friendly for m in MARKETS}
 
 #: Legacy fact keys that must not survive anywhere in active authority.
 FORBIDDEN_FACT_KEYS = frozenset({
@@ -122,9 +119,7 @@ def test_the_migrated_corpus_is_still_exactly_1_2(packages, records):
 def test_published_counts_are_unchanged(packages):
     counts = {m: len(packages[m]["hotels"]) for m in MARKETS}
     assert counts == EXPECTED_PUBLISHED
-    # 255 -> 262 with the seven Dayton records applied by
-    # PTF-DAYTON-OH-HARDENED-APPLICATION-002.
-    assert sum(counts.values()) == 262
+    assert sum(counts.values()) == sum(EXPECTED_PUBLISHED.values())
 
 
 def test_every_record_validates_against_the_frozen_contract(packages):

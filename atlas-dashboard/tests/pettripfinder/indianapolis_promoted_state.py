@@ -21,19 +21,26 @@ work order legitimately promotes.
 """
 from __future__ import annotations
 
+#: PTF-FACTORY-THROUGHPUT-HARDENING-001: this module was the precedent for
+#: the one-place pin, and it now READS that place -- pins/market_state.json --
+#: so Indianapolis is pinned the same way as every other market.
+from pettripfinder.market_state import current as _pinned  # noqa: E402
+
+_NOW = _pinned("indianapolis-in")
+
 #: launch_packages/pettripfinder/hotel_policy_facts_indianapolis-in.json
-PROMOTED_PET_FRIENDLY = 67
+PROMOTED_PET_FRIENDLY = _NOW.pet_friendly
 
 #: markets/authority/indianapolis-in/hotel_exclusions.json
-PROMOTED_VERIFIED_NO_PETS = 37
+PROMOTED_VERIFIED_NO_PETS = _NOW.verified_no_pets
 
 #: markets/authority/indianapolis-in/seed_businesses.csv (one row per profile)
-PROMOTED_SEED_ROWS = 67
+PROMOTED_SEED_ROWS = _NOW.profiles
 
 #: identity_census/indianapolis-in.json -- 257 from 004 until
 #: PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014 promoted the reviewed shadow (263:
 #: five retirements, one rebrand-successor rename, twelve admissions since 002).
-CENSUS = 263
+CENSUS = _NOW.census
 
 #: What the market was before 017, kept so a test can state the delta rather
 #: than silently forget there was one.
@@ -43,7 +50,7 @@ VERIFIED_NO_PETS_BEFORE_017 = 24
 #: The work order that moved it, for error messages worth reading.
 #: 56 by 017/018; 67 since PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014 applied the
 #: 11 pending records (6 ESA + 5 Wyndham) and 3 verified-no-pets exclusions.
-PROMOTED_BY = "PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014"
+PROMOTED_BY = _NOW.last_moved_by
 PROMOTED_BY_017 = "PTF-INDIANAPOLIS-56-PROFILE-AUTHORITY-PROMOTION-017"
 
 #: Every verified-no-pets identity in the committed shard, sorted.

@@ -34,6 +34,18 @@ from scripts.pettripfinder.assemble_production_site import (
 from scripts.pettripfinder.markets import load_markets
 from pettripfinder.conftest import (
     manifest_problems_other_than_the_lapsed_pin)
+from pettripfinder.market_state import current as pinned_state
+from pettripfinder.market_state import live as _live_pins
+from pettripfinder.market_state import source_assembly as _source_pins
+
+LIVE_PINS = _live_pins()
+SOURCE_PINS = _source_pins()
+from pettripfinder.market_state import current as pinned_state
+from pettripfinder.market_state import live as _live_pins
+from pettripfinder.market_state import source_assembly as _source_pins
+
+LIVE_PINS = _live_pins()
+SOURCE_PINS = _source_pins()
 
 #: Short root: the generated tree nests deeply enough that a long path trips
 #: the Windows 260-character limit mid-build, which surfaces as a missing file
@@ -65,21 +77,13 @@ EXPECTED_MARKETS = ("cleveland-akron-canton-oh", "columbus-oh", "dayton-oh",
 # PTF-INDIANAPOLIS-DEPLOYMENT-AUTHORIZATION-015 (deploy 6a9713fc);
 # cleveland 99 -> 120 at PTF-CLEVELAND-AKRON-CANTON-DEPLOYMENT-
 # AUTHORIZATION-006 (deploy 6a976f61). Every other market unchanged.
-EXPECTED_PROFILES = {"cleveland-akron-canton-oh": 120, "columbus-oh": 88,
-                     # 47 -> 54 at PTF-DAYTON-OH-HARDENED-APPLICATION-002.
-                     "dayton-oh": 54, "grand-rapids-holland-mi": 43,
-                     "indianapolis-in": 67, "louisville-ky": 46,
-                     "milwaukee-wi": 73, "pittsburgh-pa": 53,
-                     "st-louis-mo": 82}
-#: 619 -> 626: the seven Dayton records PTF-DAYTON-OH-HARDENED-APPLICATION-002
-#: published. The LIVE deploy still serves 619; this is the candidate the repo
-#: now builds, and it stays ahead until a Dayton deployment order ships it.
-EXPECTED_TOTAL = 626
-#: 3844 -> 3887 with the seven Dayton profiles and their /go/ pages.
-EXPECTED_HTML_PAGES = 3887
-#: 759 -> 767: seven hotel routes plus the Washington Court House corridor,
-#: which reached its publication minimum of one.
-EXPECTED_SITEMAP_ROUTES = 767
+#: PTF-FACTORY-THROUGHPUT-HARDENING-001: what a FRESH assembly produces is
+#: CURRENT state, read from pins/market_state.json and the ``source`` block of
+#: pins/deployment_state.json. The history of every move stays above.
+EXPECTED_PROFILES = {m: pinned_state(m).profiles for m in EXPECTED_MARKETS}
+EXPECTED_TOTAL = SOURCE_PINS.total_profiles
+EXPECTED_HTML_PAGES = SOURCE_PINS.total_html_pages
+EXPECTED_SITEMAP_ROUTES = SOURCE_PINS.sitemap_route_count
 
 
 @pytest.fixture(scope="module")
@@ -486,8 +490,7 @@ DEPLOYED_020_BUNDLE_SHA256 = (
 #: 120, Indianapolis 67 and Pittsburgh 53, DEPLOYED as 6a976f61.
 #: What a FRESH assembly now produces. Moved by
 #: PTF-DAYTON-OH-HARDENED-APPLICATION-002, which published seven Dayton records.
-DISABLED_BUILD_BUNDLE_SHA256 = (
-    "de669c40d8118a9293798ae1e5ad10ab8219c66798d002d6bf2a12cae504e374")
+DISABLED_BUILD_BUNDLE_SHA256 = SOURCE_PINS.bundle_sha256
 #: What the COMMITTED manifest pins -- the bundle production actually serves.
 #: It does NOT move with an application order: source runs ahead of production
 #: until a deployment-authorization order ships it. These are two different
@@ -495,8 +498,7 @@ DISABLED_BUILD_BUNDLE_SHA256 = (
 #: above records from the last time they were conflated. They agree again now
 #: that PTF-DAYTON-OH-DEPLOYMENT-AUTHORIZATION-003 deployed the candidate as
 #: 6a982a1f -- and they will diverge again at the next application order.
-COMMITTED_MANIFEST_BUNDLE_SHA256 = (
-    "de669c40d8118a9293798ae1e5ad10ab8219c66798d002d6bf2a12cae504e374")
+COMMITTED_MANIFEST_BUNDLE_SHA256 = LIVE_PINS.bundle_sha256
 
 #: The only four routes PTF-011 was permitted to change.
 SERVICE_ANIMAL_CORRECTED_ROUTES = (

@@ -1,0 +1,191 @@
+{
+ "schema": "ptf-factory-throughput-benchmark/1.0",
+ "work_order": "PTF-FACTORY-THROUGHPUT-HARDENING-001",
+ "ladder_replay": {
+  "market_id": "dayton-oh",
+  "inputs": {
+   "static_report": "PTF-DAYTON-OH-HARDENED-REVALIDATION-001",
+   "static_rows": 48,
+   "static_outcomes": {
+    "ACCESS_DENIED": 21,
+    "IDENTITY_MISMATCH": 2,
+    "NAVIGATION_FAILED": 10,
+    "UNEXPECTED_PAGE": 7,
+    "UNHYDRATED": 8
+   },
+   "attended_rows": 27,
+   "attended_by_family": {
+    "CHOICE": 12,
+    "IHG": 14,
+    "WYNDHAM": 1
+   },
+   "attended_identity_bound": 23,
+   "owned_rows": 27
+  },
+  "as_run": {
+   "by_next_lane": {
+    "OWNED_EVIDENCE": 0,
+    "LOCAL_FREE_DISCOVERY": 3,
+    "DIRECT_STATIC_FETCH": 2,
+    "FIRECRAWL": 14,
+    "ATTENDED_BROWSER": 35,
+    "PAID_FETCH": 0,
+    "PAID_IDENTITY_DISCOVERY": 0
+   },
+   "settled": 25,
+   "note": "owned -> static -> attended; Firecrawl never evaluated"
+  },
+  "at_the_decision_point": {
+   "unresolved_routed": 46,
+   "by_next_lane_unsettled": {
+    "OWNED_EVIDENCE": 0,
+    "LOCAL_FREE_DISCOVERY": 1,
+    "DIRECT_STATIC_FETCH": 0,
+    "FIRECRAWL": 33,
+    "ATTENDED_BROWSER": 12,
+    "PAID_FETCH": 0,
+    "PAID_IDENTITY_DISCOVERY": 0
+   },
+   "firecrawl_candidates_by_family": {
+    "CHOICE": 8,
+    "IHG": 12,
+    "WYNDHAM": 13
+   },
+   "attended_pressure": {
+    "unresolved_routed": 46,
+    "static_to_attended": 12,
+    "firecrawl_candidates": 33,
+    "share_static_to_attended": 0.2609,
+    "share_firecrawl_candidates": 0.7174,
+    "threshold": 0.2,
+    "warning": true,
+    "message": "33 of 46 unresolved routed rows (72%) are Firecrawl candidates: evaluate the Firecrawl lane before continuing to the attended browser"
+   },
+   "firecrawl_not_candidate_reasons": {
+    "BRAND_EXCLUDED_FROM_ACQUISITION": 1,
+    "FIRECRAWL_KNOWN_CAPABILITY_WALL": 6,
+    "FIRECRAWL_UNMEASURED_FOR_FAMILY": 5,
+    "PROPERTY_CODE_UNPARSEABLE_ROUTING_REPAIR_REQUIRED": 1
+   }
+  },
+  "attended_page_reduction": {
+   "attended_pages_dayton_actually_opened": 27,
+   "of_which_firecrawl_candidates": 21,
+   "rows_headed_to_a_browser_without_the_ladder": 45,
+   "rows_headed_to_a_browser_with_the_ladder_upper_bound": 12,
+   "firecrawl_candidates": 33,
+   "expected_firecrawl_answers": 32.5,
+   "rows_headed_to_a_browser_with_the_ladder_expected": 12.5,
+   "reduction_upper_bound_share": 0.7333,
+   "reduction_expected_share": 0.7215,
+   "measured_rates_used": {
+    "IHG": {
+     "rate": 1.0,
+     "sample": 5,
+     "measured_by": "PTF-IHG-FIRECRAWL-DECISION-009"
+    },
+    "WYNDHAM": {
+     "rate": 1.0,
+     "sample": 7,
+     "measured_by": "PTF-WYNDHAM-FIRECRAWL-DECISION-008"
+    },
+    "CHOICE": {
+     "rate": 0.9333333333333333,
+     "sample": 30,
+     "measured_by": "PTF-FIRECRAWL-CHOICE-VALIDATION-004 (28 publication-grade of 30 effective attempts, identity failures excluded)"
+    }
+   },
+   "credits_upper_bound": 33,
+   "credits_note": "one credit per scrape is the benchmark-002 figure; Detroit PASS-008 measured 0.95 per ATTEMPT including engine fallthrough, so budget the candidate count as the floor and read the credit delta as the truth",
+   "caveat": "the attended lane batched a whole brand per session in Dayton, so pages are not sessions; the saving is in rows that never need a person, not in minutes per page"
+  },
+  "safety": {
+   "paid_provider_calls": 0,
+   "usd_spent": 0.0,
+   "credits_spent": 0,
+   "authority_changed": false
+  }
+ },
+ "regression_flow": {
+  "old": {
+   "work_order": "PTF-DAYTON-OH-HARDENED-APPLICATION-002",
+   "total_minutes": 337,
+   "actual_application_minutes": 45,
+   "full_regression_minutes_each": 37,
+   "epoch_pin_failures": 85,
+   "modules_with_epoch_pin_failures": 19
+  },
+  "old_regression_overhead_minutes": 292,
+  "new_runs": [
+   {
+    "run_dir": "C:\\Users\\jfiel\\AppData\\Local\\Temp\\claude\\C--Atlas-Factory-Throughput\\7fc73ead-5772-408a-9df5-8aea3116ad98\\scratchpad\\lanes\\targeted_dayton",
+    "label": "market_targeted",
+    "market": "dayton-oh",
+    "collected": 1257,
+    "failed": 1,
+    "seconds": 386.9,
+    "minutes": 6.4,
+    "timing": [
+     {
+      "lane": "market_targeted",
+      "modules": 26,
+      "seconds": 386.9,
+      "exit_code": 1
+     }
+    ]
+   },
+   {
+    "run_dir": "C:\\Users\\jfiel\\AppData\\Local\\Temp\\claude\\C--Atlas-Factory-Throughput\\7fc73ead-5772-408a-9df5-8aea3116ad98\\scratchpad\\lanes\\safety",
+    "label": "policy_schema,identity_routing",
+    "market": null,
+    "collected": 2822,
+    "failed": 19,
+    "seconds": 195.4,
+    "minutes": 3.3,
+    "timing": [
+     {
+      "lane": "policy_schema",
+      "modules": 45,
+      "seconds": 67.6,
+      "exit_code": 1
+     },
+     {
+      "lane": "identity_routing",
+      "modules": 41,
+      "seconds": 127.8,
+      "exit_code": 1
+     }
+    ]
+   },
+   {
+    "run_dir": "C:\\Users\\jfiel\\AppData\\Local\\Temp\\claude\\C--Atlas-Factory-Throughput\\7fc73ead-5772-408a-9df5-8aea3116ad98\\scratchpad\\lanes\\contract",
+    "label": "release_contract",
+    "market": null,
+    "collected": 540,
+    "failed": 0,
+    "seconds": 364.8,
+    "minutes": 6.1,
+    "timing": [
+     {
+      "lane": "release_contract",
+      "modules": 6,
+      "seconds": 364.8,
+      "exit_code": 0
+     }
+    ]
+   }
+  ],
+  "assembly": {
+   "seconds": 410.0,
+   "bundle_sha256": "de669c40d8118a9293798ae1e5ad10ab8219c66798d002d6bf2a12cae504e374"
+  },
+  "projected_new_market_overhead": {
+   "targeted_lanes_minutes": 15.8,
+   "assembly_minutes": 6.8,
+   "full_regression_minutes": 0.0,
+   "pin_edits": "three JSON files plus the order's own suite; no module hunt",
+   "expected_engineering_overhead_minutes": 22.6,
+   "note": "targeted lanes are run once per pin-fix cycle (each a few minutes); the full regression runs ONCE, after the commit"
+  }
+ }
+}

@@ -38,14 +38,19 @@ CONTRACT_PATH = (REPO_ROOT / "deploy" / "netlify" / "release_contracts"
                  / "dayton-oh.json")
 
 EXPECTED_RECORDS = 47
-#: PTF-DAYTON-OH-HARDENED-APPLICATION-002 published seven more records under a
-#: different authorisation, taking the live package to 54. Pass A verified the
-#: 47 that existed when it ran, so its assertions are scoped to those; the
-#: live-package pins that legitimately moved are stated as LIVE_RECORDS.
-LIVE_RECORDS = 54
-#: Evidence entries across the live package (271 at Pass A + 42 new).
-LIVE_ENTRIES = 313
-APPLICATION_002 = "PTF-DAYTON-OH-HARDENED-APPLICATION-002"
+#: Pass A verified the 47 records that existed when it ran; later orders have
+#: published more under their own authorisations. Its assertions are scoped
+#: to its COHORT -- the records the Pass B/C ledger approved, which is the
+#: durable marker of the epoch -- and the live-package count is read from the
+#: current pin rather than restated here.
+from pettripfinder import epochs  # noqa: E402
+from pettripfinder.market_state import current  # noqa: E402
+
+EPOCH = epochs.HistoricalEpoch(
+    "PTF-DAYTON-RECERTIFICATION-001", "dayton-oh",
+    facts={"pet_friendly": EXPECTED_RECORDS})
+PASS_C_LEDGER = "dayton_passB_founder_decisions.json"
+LIVE_RECORDS = current("dayton-oh").pet_friendly
 #: Pass A promoted 256 entries. Pass B then added 15 pointers to source
 #: sentences the records were missing -- one service-animal line for Days Inn
 #: Sidney, and for each of the four ESA records a service-animal line plus the
@@ -94,10 +99,8 @@ def packet():
 # --------------------------------------------------------------------------- #
 
 def _pass_a_cohort(facts):
-    """The records Pass A verified: everything not published by a later order."""
-    return [h for h in facts["hotels"]
-            if not any(APPLICATION_002 in c
-                       for c in ((h.get("approval") or {}).get("caveats") or []))]
+    """The records Pass A verified: the cohort the Pass B/C ledger approved."""
+    return epochs.cohort(facts["hotels"], epochs.by_ledger(PASS_C_LEDGER))
 
 
 def test_report_covers_every_published_record(facts, report):
@@ -178,12 +181,14 @@ def test_every_entry_is_publication_grade(facts):
             assert entry["artifact_sha256"] == \
                 "sha256:%s" % hotel["worker_result_hash"]
         assert not evidence_contract.validate(hotel)
-    # EXPECTED_ENTRIES counts Pass A's own cohort; the live package carries
-    # more since PTF-DAYTON-OH-HARDENED-APPLICATION-002 published seven records
-    # with their own evidence. Both are asserted so neither can drift.
-    assert total == LIVE_ENTRIES
-    cohort_total = sum(len(h["evidence"]) for h in _pass_a_cohort(facts))
+    # EXPECTED_ENTRIES counts Pass A's own cohort exactly. Records later
+    # orders published carry their own evidence under the same contract (the
+    # loop above checked every one); their count is theirs, not Pass A's.
+    cohort, later = epochs.split(facts["hotels"], epochs.by_ledger(PASS_C_LEDGER))
+    cohort_total = sum(len(h["evidence"]) for h in cohort)
     assert cohort_total == EXPECTED_ENTRIES
+    assert all(h["evidence"] for h in later)
+    assert total == cohort_total + sum(len(h["evidence"]) for h in later)
 
 
 def test_required_fields_are_present_on_every_entry(facts):

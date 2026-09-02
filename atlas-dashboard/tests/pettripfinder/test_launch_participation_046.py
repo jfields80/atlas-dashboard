@@ -45,6 +45,18 @@ from scripts.pettripfinder.assemble_production_site import (
 from scripts.pettripfinder.markets import load_markets, market_by_id
 from pettripfinder.conftest import (
     manifest_problems_other_than_the_lapsed_pin)
+from pettripfinder.market_state import current as pinned_state
+from pettripfinder.market_state import live as _live_pins
+from pettripfinder.market_state import source_assembly as _source_pins
+
+LIVE_PINS = _live_pins()
+SOURCE_PINS = _source_pins()
+from pettripfinder.market_state import current as pinned_state
+from pettripfinder.market_state import live as _live_pins
+from pettripfinder.market_state import source_assembly as _source_pins
+
+LIVE_PINS = _live_pins()
+SOURCE_PINS = _source_pins()
 
 SCRATCH = Path(chr(67) + ":/t/ptf046t")
 
@@ -65,11 +77,9 @@ LIVE = tuple(sorted(FIVE + ("st-louis-mo", "louisville-ky", "indianapolis-in",
 # indianapolis 56 -> 67 and pittsburgh 26 -> 53 at PTF-INDIANAPOLIS-
 # DEPLOYMENT-AUTHORIZATION-015; cleveland 99 -> 120 at PTF-CLEVELAND-AKRON-
 # CANTON-DEPLOYMENT-AUTHORIZATION-006. Every other market unchanged.
-PROFILES = {"cleveland-akron-canton-oh": 120, "columbus-oh": 88,
-            # 47 -> 54 at PTF-DAYTON-OH-HARDENED-APPLICATION-002.
-            "dayton-oh": 54, "milwaukee-wi": 73, "pittsburgh-pa": 53,
-            "st-louis-mo": 82, "louisville-ky": 46, "indianapolis-in": 67,
-            "grand-rapids-holland-mi": 43}
+#: PTF-FACTORY-THROUGHPUT-HARDENING-001: per-market profile counts are
+#: CURRENT state and come from the one reviewed pin.
+PROFILES = {m: pinned_state(m).profiles for m in LIVE}
 #: 046 withheld Indianapolis and PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019
 #: admitted it on a founder decision. Both facts are asserted below: the
 #: withholding is still provable from the participation record's own
@@ -147,19 +157,17 @@ DEPLOYED_020_BUNDLE_SHA256 = (
 #: without moving this pin.)
 #: What a FRESH assembly now produces; moved by
 #: PTF-DAYTON-OH-HARDENED-APPLICATION-002.
-EXPECTED_BUNDLE_SHA256 = (
-    "de669c40d8118a9293798ae1e5ad10ab8219c66798d002d6bf2a12cae504e374")
+#: PTF-FACTORY-THROUGHPUT-HARDENING-001: the fresh-assembly pins come from
+#: pins/deployment_state.json ``source``; the live pins from its ``live``.
+EXPECTED_BUNDLE_SHA256 = SOURCE_PINS.bundle_sha256
 #: What the COMMITTED manifest pins: the bundle production serves. An
 #: application order moves source ahead of production and must NOT move this.
-#: Deployed as 6a982a1f by PTF-DAYTON-OH-DEPLOYMENT-AUTHORIZATION-003, so the
-#: committed manifest and a fresh assembly name the same artifact again.
-COMMITTED_MANIFEST_BUNDLE_SHA256 = (
-    "de669c40d8118a9293798ae1e5ad10ab8219c66798d002d6bf2a12cae504e374")
-#: Profiles the LIVE deploy serves: 619 -> 626 with the seven Dayton records.
-LIVE_DEPLOYED_PROFILE_TOTAL = 626
-EXPECTED_HTML_PAGES = 3887
-EXPECTED_FILES = 3905
-EXPECTED_SITEMAP_ROUTES = 767
+COMMITTED_MANIFEST_BUNDLE_SHA256 = LIVE_PINS.bundle_sha256
+#: Profiles the LIVE deploy serves.
+LIVE_DEPLOYED_PROFILE_TOTAL = LIVE_PINS.total_profiles
+EXPECTED_HTML_PAGES = SOURCE_PINS.total_html_pages
+EXPECTED_FILES = SOURCE_PINS.total_files
+EXPECTED_SITEMAP_ROUTES = SOURCE_PINS.sitemap_route_count
 #: The withdrawn six-market candidate. Kept so nobody authorizes it by habit.
 WITHDRAWN_SIX_MARKET_SHA256 = (
     "8ea6131e9fe8689fc23d3a362ae12ffaa2155c687737c6f5fcde03b5a22c42b8")
@@ -391,9 +399,9 @@ def test_the_bundle_carries_exactly_the_live_set(production):
     assert {r["market_id"]: r["published_profiles"]
             for r in manifest["participating_markets"]} == PROFILES
     # 560 -> 598 at PTF-INDIANAPOLIS-DEPLOYMENT-AUTHORIZATION-015; 598 -> 619
-    # at PTF-CLEVELAND-AKRON-CANTON-DEPLOYMENT-AUTHORIZATION-006.
-    # 619 -> 626 with the seven Dayton records.
-    assert sum(PROFILES.values()) == 626
+    # at PTF-CLEVELAND-AKRON-CANTON-DEPLOYMENT-AUTHORIZATION-006; 619 -> 626
+    # at PTF-DAYTON-OH-DEPLOYMENT-AUTHORIZATION-003.
+    assert sum(PROFILES.values()) == SOURCE_PINS.total_profiles
 
 
 def test_the_bundle_excludes_only_the_two_that_are_not_source_ready(production):

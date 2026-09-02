@@ -18,6 +18,7 @@ from pathlib import Path
 
 import pytest
 
+from pettripfinder.market_state import current
 from scripts.pettripfinder.hotel_exclusions import load_exclusions
 from scripts.pettripfinder.market_ownership import owned_by
 from scripts.pettripfinder.site_data import (
@@ -56,7 +57,7 @@ class TestClevelandAuthority:
         # published eighteen more; 99 before
         # PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005 applied the
         # twenty-one pending hardened-order records.
-        assert len(facts["hotels"]) == 120
+        assert len(facts["hotels"]) == current(CLEVELAND).pet_friendly
         assert {h["verification_state"] for h in facts["hotels"]} == {"VERIFIED_PET_FRIENDLY"}
 
     def test_eight_verified_no_pets_are_cleveland_owned(self):
@@ -66,7 +67,7 @@ class TestClevelandAuthority:
         # 8 before Pass 2; 23 first-party refusals joined them; Pass 3
         # added 4; Pass 4 added 5 more; the hardened APPLICATION-005 order
         # applied 11 more first-party refusals.
-        assert len(cle) == 51
+        assert len(cle) == current(CLEVELAND).verified_no_pets
 
     def test_every_exclusion_states_its_market(self):
         """Implicit ownership defaulted Columbus's 14 exclusions into whichever
@@ -77,7 +78,7 @@ class TestClevelandAuthority:
         cbus = [e for e in load_exclusions()
                 if e.get("market_id") == COLUMBUS
                 and e["exclusion_state"] == "VERIFIED_NO_PETS"]
-        assert len(cbus) == 14
+        assert len(cbus) == current(COLUMBUS).verified_no_pets
 
     def test_out_of_current_category_is_kept_distinct(self):
         states = {e["exclusion_state"] for e in load_exclusions()}
@@ -194,7 +195,7 @@ class TestMarketIsolation:
     def test_cleveland_inventory_is_owned_and_scoped(self):
         rows = read_production_rows()
         cle = owned_by(rows, CLEVELAND)
-        assert len(cle) == 120  # 99 + the 21 hardened APPLICATION-005 records
+        assert len(cle) == current(CLEVELAND).profiles
         assert all(r["category"] == "pet-friendly-hotels" for r in cle)
 
     def test_columbus_inventory_is_unchanged_at_116(self):
@@ -209,20 +210,21 @@ class TestMarketIsolation:
     def test_each_market_selects_only_its_own_facts(self):
         cbus = load_published_hotel_policy_facts(COLUMBUS)
         cle = load_published_hotel_policy_facts(CLEVELAND)
-        assert len(cbus) == 88 and len(cle) == 120
+        assert len(cbus) == current(COLUMBUS).pet_friendly
+        assert len(cle) == current(CLEVELAND).pet_friendly
         assert set(cbus) & set(cle) == set()
 
     def test_the_columbus_join_still_yields_88(self):
         rows = [r for r in owned_by(read_production_rows(), COLUMBUS)
                 if r["category"] == "pet-friendly-hotels"]
         assert len(verified_public_hotels(
-            rows, load_published_hotel_policy_facts(COLUMBUS))) == 88
+            rows, load_published_hotel_policy_facts(COLUMBUS))) == current(COLUMBUS).profiles
 
     def test_the_cleveland_join_yields_21(self):
         rows = [r for r in owned_by(read_production_rows(), CLEVELAND)
                 if r["category"] == "pet-friendly-hotels"]
         assert len(verified_public_hotels(
-            rows, load_published_hotel_policy_facts(CLEVELAND))) == 120
+            rows, load_published_hotel_policy_facts(CLEVELAND))) == current(CLEVELAND).profiles
 
     def test_reconciliation_is_188_21_8_29_159(self):
         from scripts.pettripfinder.build_market_manifest import build_package
@@ -230,9 +232,12 @@ class TestMarketIsolation:
         # (188, 99, 40, 139, 49) until PTF-CLEVELAND-AKRON-CANTON-HARDENED-
         # APPLICATION-005 promoted the census and applied the pending records.
         pkg = build_package(CLEVELAND)
-        assert pkg.reconciliation() == (220, 120, 51, 171, 49)
-        assert pkg.published_pet_friendly_count + pkg.verified_no_pets_count == 171
-        assert 171 + pkg.unresolved_count == 220
+        now = current(CLEVELAND)
+        assert pkg.reconciliation() == (now.census, now.pet_friendly,
+                                        now.verified_no_pets, now.resolved,
+                                        now.unresolved)
+        assert pkg.published_pet_friendly_count + pkg.verified_no_pets_count == now.resolved
+        assert now.resolved + pkg.unresolved_count == now.census
 
     def test_columbus_reconciliation_is_untouched(self):
         """Cleveland's work must not move Columbus's numbers.

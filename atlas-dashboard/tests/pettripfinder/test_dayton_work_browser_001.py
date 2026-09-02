@@ -24,12 +24,25 @@ from pathlib import Path
 
 import pytest
 
+from pettripfinder import epochs
+from pettripfinder.market_state import current
 from scripts.pettripfinder import integrate_dayton_work_browser_001 as WB
 from scripts.pettripfinder.hotel_exclusions import load_exclusions
 from scripts.pettripfinder.site_data import normalize_name, published_facts_path
 
 _ROOT = Path(__file__).resolve().parents[2]
 DAYTON = "dayton-oh"
+
+#: What this order left true (its ledger says so forever). The LIVE package
+#: and registry are held to the current pin.
+EPOCH = epochs.HistoricalEpoch(
+    "PTF-DAYTON-WORK-BROWSER-INTEGRATION-001", DAYTON,
+    facts={"census": 129, "pet_friendly": 47, "verified_no_pets": 8,
+           "resolved": 55, "unresolved_or_held": 74},
+    superseded_by=("PTF-DAYTON-OH-HARDENED-APPLICATION-002",))
+NOW = current(DAYTON)
+#: Recovery-002 candidates no later order has read (the Wingate).
+STILL_PROPOSED = 1
 
 #: What the pass published, and the shape of each. Named here so a change to
 #: the table in the integrator has to be a deliberate change here too.
@@ -338,12 +351,12 @@ class TestDaytonStillReconciles:
         since disappeared.
         """
         rec = ledger["market_reconciliation"]
-        assert rec["published_pet_friendly"] == 47
-        assert rec["verified_no_pets"] == 8
-        assert len(facts["hotels"]) == 54
+        assert rec["published_pet_friendly"] == EPOCH.fact("pet_friendly")
+        assert rec["verified_no_pets"] == EPOCH.fact("verified_no_pets")
+        assert len(facts["hotels"]) == NOW.pet_friendly
         registry = [e for e in load_exclusions() if e.get("market_id") == DAYTON
                     and e["exclusion_state"] == "VERIFIED_NO_PETS"]
-        assert len(registry) == 24
+        assert len(registry) == NOW.verified_no_pets
         assert len(facts["hotels"]) >= rec["published_pet_friendly"]
         assert len(registry) >= rec["verified_no_pets"]
 
@@ -362,10 +375,10 @@ class TestDaytonStillReconciles:
             (_ROOT / "launch_packages" / "pettripfinder" / "identity_census"
              / "dayton-recovery-002-proposed-authority.json").read_text(encoding="utf-8"))
         remaining = {r["slug"] for r in manifest["remaining_unresolved"]}
-        # 72 when this work order ran; 50 since PTF-DAYTON-OH-HARDENED-
-        # APPLICATION-002 resolved twenty-two more of them (the list is a
-        # DERIVED view, subtracted by every order that resolves an identity).
-        assert len(remaining) == 50
+        # 72 when this work order ran. The list is a DERIVED view, subtracted
+        # by every order that resolves an identity, so it is what the pin
+        # leaves unresolved minus the recovery candidate still proposed.
+        assert len(remaining) == NOW.unresolved - STILL_PROPOSED
         for slug in ("best-western-celina", "best-western-plus-miamisburg-dayton",
                      "best-western-wapakoneta-inn",
                      "extended-stay-america-select-suites-dayton-miamisburg"):

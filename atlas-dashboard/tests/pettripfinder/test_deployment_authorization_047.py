@@ -27,6 +27,8 @@ if str(REPO) not in sys.path:
 from scripts.pettripfinder import deployment_authorization as DA
 from scripts.pettripfinder import global_deployment as GD
 from scripts.pettripfinder import launch_participation as LP
+from pettripfinder import epochs
+from pettripfinder import epochs
 from pettripfinder.conftest import (
     manifest_problems_other_than_the_lapsed_pin)
 
@@ -165,29 +167,19 @@ def test_the_manifest_no_longer_points_at_this_authorization(manifest):
 #: What each later work order moved out from under this authorization. Named
 #: rather than skipped wholesale, so the refusal stays SPECIFIC: an
 #: authorization that stopped binding everything would prove nothing.
-MOVED_BY_LATER_WORK = {
-    # PTF-MILWAUKEE-SERVICE-ANIMAL-CORRECTION-011/012 corrected four Milwaukee
-    # profiles and restamped that market's contract.
-    "milwaukee-wi",
-    # PTF-ST-LOUIS-REGISTER-PUBLISH-011 registered a sixth market, which
-    # re-issued the launch participation record and installed a contract for a
-    # market that did not exist when 047 was signed.
-    "st-louis-mo",
-    # PTF-PITTSBURGH-HARDENED-SYNC-004 .. IDENTITY-CLOSE-007 took Pittsburgh
-    # 26 -> 53 and re-authored its contract (deployed by 015).
-    "pittsburgh-pa",
-    # PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014 re-authored the
-    # Indianapolis contract (deployed by 015).
-    "indianapolis-in",
-    # PTF-DAYTON-OH-HARDENED-APPLICATION-002 applied 7 pet-friendly records and
-    # 16 verified-no-pets exclusions and re-authored the Dayton contract
-    # (47 -> 54 / 8 -> 24). NOT yet deployed: source is ahead of production
-    # until a Dayton deployment-authorization order ships it.
-    "dayton-oh",
-    # PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005 re-authored the
-    # Cleveland contract (deployed by 006).
-    "cleveland-akron-canton-oh",
-}
+#:
+#: PTF-FACTORY-THROUGHPUT-HARDENING-001: the set is read from the supersession
+#: registry (tests/pettripfinder/pins/supersessions.json), which names the
+#: order that moved each market, so a later order registers its move in one
+#: place. contracts/test_market_state_pins.py proves the registry neither
+#: over-claims (a listed market really differs) nor under-claims (every
+#: unlisted market still binds). History of the moves, for the reader:
+#: Milwaukee by SERVICE-ANIMAL-CORRECTION-011/012; St. Louis registered by
+#: REGISTER-PUBLISH-011 after 047 was signed; Pittsburgh 26 -> 53 by
+#: HARDENED-SYNC-004 .. IDENTITY-CLOSE-007; Indianapolis by
+#: PROMOTION-AND-ASSEMBLY-014; Dayton 47 -> 54 by HARDENED-APPLICATION-002;
+#: Cleveland 99 -> 120 by HARDENED-APPLICATION-005.
+MOVED_BY_LATER_WORK = epochs.markets_moved_since(AUTH_ID)
 
 
 def test_the_authorization_binds_the_hashes_it_did_not_move(auth):

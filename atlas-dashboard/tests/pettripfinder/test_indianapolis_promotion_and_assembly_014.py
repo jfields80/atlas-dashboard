@@ -21,8 +21,25 @@ from scripts.pettripfinder.contracts.identity_key import ptf_identity_key  # noq
 from scripts.pettripfinder.release_contracts import (                 # noqa: E402
     contract_disagreements, derive_authority, load_contract)
 
+from pettripfinder import epochs                                      # noqa: E402
+from pettripfinder.market_state import current                        # noqa: E402
+
 PKG = REPO_ROOT / "launch_packages" / "pettripfinder"
 WO = "PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014"
+#: What this order left true; its own partition (014) states it forever, the
+#: LIVE files are held to the current pin.
+EPOCH = epochs.HistoricalEpoch(
+    WO, "indianapolis-in",
+    facts={"census": 263, "census_before": 257, "pet_friendly": 67,
+           "verified_no_pets": 37, "unresolved": 159})
+NOW = current("indianapolis-in")
+
+
+def test_the_live_market_still_stands_at_this_orders_epoch():
+    """Exact while nothing later has moved Indianapolis; superseded BY NAME after."""
+    epochs.whole_market_counts_or_superseded(EPOCH, NOW, {
+        "census": "census", "pet_friendly": "pet_friendly",
+        "verified_no_pets": "verified_no_pets", "unresolved": "unresolved"})
 ESA = ("extended stay america indianapolis airport w southern ave", "extended stay america indianapolis lawrence",
        "extended stay america indianapolis northwest", "extended stay america indianapolis west 86th st",
        "extended stay america select suites indianapolis greenwood", "extended stay america select suites indianapolis west")
@@ -39,9 +56,10 @@ def _load(rel):
 def test_pinned_census_is_the_promoted_shadow_with_lineage():
     pinned = _load("identity_census/indianapolis-in.json")
     shadow = _load("identity_census_admission/indianapolis-in.json")
-    assert pinned["count"] == 263 == len(pinned["hotels"])
+    assert pinned["count"] == NOW.census == len(pinned["hotels"])
     assert [h["identity_key"] for h in pinned["hotels"]] == [h["identity_key"] for h in shadow["hotels"]]
-    assert pinned["promotion"]["plan_work_order"] == WO and pinned["promotion"]["from_count"] == 257
+    assert pinned["promotion"]["plan_work_order"] == WO
+    assert pinned["promotion"]["from_count"] == EPOCH.fact("census_before")
     assert pinned["promotion_history"][0]["plan_work_order"] == "PTF-INDIANAPOLIS-PROMOTION-AUTHORITY-PREP-003"
     assert len(pinned["retired_013"]) == 5 and pinned["founder_rulings_013"]["decided_by"] == "founder"
     assert shadow["promoted_into_pinned"]["work_order"] == WO
@@ -62,12 +80,12 @@ def test_airport_south_is_explicit_and_zip_46221_is_not_widened():
 
 def test_authority_is_67_published_37_refused_and_the_contract_agrees():
     pkg = _load("hotel_policy_facts_indianapolis-in.json")
-    assert pkg["count"] == 67 == len(pkg["hotels"])
+    assert pkg["count"] == NOW.pet_friendly == len(pkg["hotels"])
     assert list(PS.validate_package(pkg)) == []
     keys = [h["identity_key"] for h in pkg["hotels"]]
-    assert len(set(keys)) == 67 and set(ESA + WYNDHAM_PF) <= set(keys)
+    assert len(set(keys)) == NOW.pet_friendly and set(ESA + WYNDHAM_PF) <= set(keys)
     shard = _load("markets/authority/indianapolis-in/hotel_exclusions.json")
-    assert shard["count"] == 37
+    assert shard["count"] == NOW.verified_no_pets
     refused = {e["normalized_name"] for e in shard["exclusions"] if e["exclusion_state"] == enums.VERIFIED_NO_PETS}
     assert set(NO_PETS) <= refused and not (refused & set(keys))
     derived = derive_authority("indianapolis-in")
@@ -113,7 +131,7 @@ def test_esa_records_publish_the_permission_and_withhold_the_ceiling_ladder():
 
 def test_seed_shard_matches_the_package_and_routes_are_unique():
     rows = list(csv.DictReader((PKG / "markets/authority/indianapolis-in/seed_businesses.csv").open(encoding="utf-8-sig")))
-    assert len(rows) == 67
+    assert len(rows) == NOW.profiles
     pkg = _load("hotel_policy_facts_indianapolis-in.json")
     names = Counter(r["name"] for r in rows)
     assert max(names.values()) == 1
@@ -122,11 +140,12 @@ def test_seed_shard_matches_the_package_and_routes_are_unique():
 
 
 def test_partition_014_carries_the_authority_as_terminal_states():
+    # This order's own committed partition: held to the epoch, not the pin.
     p = _load("indianapolis_in_final_partition_014.json")
-    assert p["count"] == 263
-    assert p["final_state_counts"][enums.PUBLISHED_PET_FRIENDLY] == 67
-    assert p["final_state_counts"][enums.VERIFIED_NO_PETS] == 37
-    assert sum(n for s, n in p["final_state_counts"].items() if s not in enums.TERMINAL_STATES) == 159
+    assert p["count"] == EPOCH.fact("census")
+    assert p["final_state_counts"][enums.PUBLISHED_PET_FRIENDLY] == EPOCH.fact("pet_friendly")
+    assert p["final_state_counts"][enums.VERIFIED_NO_PETS] == EPOCH.fact("verified_no_pets")
+    assert sum(n for s, n in p["final_state_counts"].items() if s not in enums.TERMINAL_STATES) == EPOCH.fact("unresolved")
     assert (PKG / "indianapolis_in_final_partition_004.json").is_file()   # the 004 record is kept
 
 

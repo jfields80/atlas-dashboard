@@ -22,11 +22,32 @@ from pathlib import Path
 
 import pytest
 
+from pettripfinder import epochs
+from pettripfinder.market_state import current
+
 _DASH = Path(__file__).resolve().parents[2]
 PKG = _DASH / "launch_packages" / "pettripfinder"
 MARKET_ID = "cleveland-akron-canton-oh"
 M = MARKET_ID.replace("-", "_")
 WO = "PTF-CLEVELAND-AKRON-CANTON-HARDENED-APPLICATION-005"
+
+#: What this order left true; its own artifacts (promotion report, partition
+#: 005, deployment packet) state these forever. LIVE files are held to the
+#: current pin, which agrees exactly while nothing later has moved Cleveland.
+EPOCH = epochs.HistoricalEpoch(
+    WO, MARKET_ID,
+    facts={"census": 220, "pet_friendly": 120, "verified_no_pets": 51,
+           "resolved": 171, "unresolved": 49, "census_before": 188,
+           "records_applied": 21, "exclusions_applied": 11})
+NOW = current(MARKET_ID)
+
+
+def test_the_live_market_still_stands_at_this_orders_epoch():
+    """Exact while nothing later has moved Cleveland; superseded BY NAME after."""
+    epochs.whole_market_counts_or_superseded(EPOCH, NOW, {
+        "census": "census", "pet_friendly": "pet_friendly",
+        "verified_no_pets": "verified_no_pets", "resolved": "resolved",
+        "unresolved": "unresolved"})
 
 
 def _read(p: Path):
@@ -42,10 +63,11 @@ def _exists(p: Path):
 def test_census_is_the_promoted_shadow_with_lineage():
     census = _exists(PKG / "identity_census" / f"{MARKET_ID}.json")
     shadow = _read(PKG / "identity_census_admission" / f"{MARKET_ID}.json")
-    assert census["count"] == len(census["hotels"]) == 220
+    assert census["count"] == len(census["hotels"]) == NOW.census
     promo = census["promotion"]
     assert promo["plan_work_order"] == WO and promo["decided_by"] == "founder"
-    assert promo["from_count"] == 188 and promo["to_count"] == 220
+    assert promo["from_count"] == EPOCH.fact("census_before")
+    assert promo["to_count"] == EPOCH.fact("census")
     assert promo["retired"] == ["cleveland house hotels", "inn the doghouse", "the rowley inn"]
     assert promo["key_map"] == {"studio 6 extended stay hotel mentor": "suburban studios mentor cleveland northeast"}
     assert shadow["promoted_into_pinned"]["work_order"] == WO
@@ -67,13 +89,13 @@ def test_census_is_the_promoted_shadow_with_lineage():
 def test_authority_is_exactly_the_pending_inventory_and_no_held_row_leaked():
     package = _read(PKG / f"hotel_policy_facts_{MARKET_ID}.json")
     report = _exists(PKG / f"{M}_promotion_report_005.json")
-    assert len(package["hotels"]) == 120
+    assert len(package["hotels"]) == NOW.pet_friendly
     keys = {h["identity_key"] for h in package["hotels"]}
     assert set(report["summary"]["records_applied"]) <= keys
-    assert len(report["summary"]["records_applied"]) == 21
+    assert len(report["summary"]["records_applied"]) == EPOCH.fact("records_applied")
     shard = _read(PKG / "markets" / "authority" / MARKET_ID / "hotel_exclusions.json")
-    assert shard["count"] == len(shard["exclusions"]) == 51
-    assert len(report["summary"]["exclusions_applied"]) == 11
+    assert shard["count"] == len(shard["exclusions"]) == NOW.verified_no_pets
+    assert len(report["summary"]["exclusions_applied"]) == EPOCH.fact("exclusions_applied")
     excl = {e["normalized_name"] for e in shard["exclusions"]}
     assert not keys & excl, "a hotel is both published and excluded"
     for held in ("best western airport inn and suites cleveland", "candlewood suites cleveland south independence",
@@ -84,10 +106,10 @@ def test_authority_is_exactly_the_pending_inventory_and_no_held_row_leaked():
     from scripts.pettripfinder.contracts import policy_schema as PS
     assert list(PS.validate_package(package)) == []
     from scripts.pettripfinder import hotel_exclusions as EX
-    assert len(EX.validate(shard)) == 51
+    assert len(EX.validate(shard)) == NOW.verified_no_pets
     # the new exclusions re-derive their hashes and carry a first-party refusal
     new = [e for e in shard["exclusions"] if e["normalized_name"] in set(report["summary"]["exclusions_applied"])]
-    assert len(new) == 11
+    assert len(new) == EPOCH.fact("exclusions_applied")
     for e in new:
         assert EX.record_hash(e) == e["record_hash"] and EX.approval_hash(e) == e["approval_hash"]
         assert e["exclusion_state"] == "VERIFIED_NO_PETS" and e["source_hash"].startswith("sha256:")
@@ -124,15 +146,19 @@ def test_oakwood_explicit_assignment_without_widening():
 
 
 def test_partition_005_and_contract_agree_with_the_authority():
+    # The 005 partition is this order's own committed artifact: held to the
+    # epoch. The unresolved manifest is a live derived view: held to the pin.
     part = _exists(PKG / "cleveland_final_partition_005.json")
-    assert part["count"] == 220
+    assert part["count"] == EPOCH.fact("census")
     counts = part["final_state_counts"]
-    assert counts["PUBLISHED_PET_FRIENDLY"] == 120 and counts["VERIFIED_NO_PETS"] == 51
+    assert counts["PUBLISHED_PET_FRIENDLY"] == EPOCH.fact("pet_friendly")
+    assert counts["VERIFIED_NO_PETS"] == EPOCH.fact("verified_no_pets")
     unresolved = sum(n for s, n in counts.items() if s not in ("PUBLISHED_PET_FRIENDLY", "VERIFIED_NO_PETS", "OUT_OF_CURRENT_CATEGORY"))
-    assert unresolved == 49
+    assert unresolved == EPOCH.fact("unresolved")
     um = _read(PKG / "cleveland_unresolved_manifest.json")
-    assert (um["confirmed_identities"], um["published_pet_friendly"], um["verified_no_pets"], um["unresolved"]) == (220, 120, 51, 49)
-    assert len(um["items"]) == 49
+    assert (um["confirmed_identities"], um["published_pet_friendly"], um["verified_no_pets"], um["unresolved"]) == (
+        NOW.census, NOW.pet_friendly, NOW.verified_no_pets, NOW.unresolved)
+    assert len(um["items"]) == NOW.unresolved
     from scripts.pettripfinder.release_contracts import verify_contract
     assert verify_contract(MARKET_ID) == []
 

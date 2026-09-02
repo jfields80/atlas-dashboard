@@ -342,6 +342,6 @@ def test_the_candidate_never_edited_the_committed_manifest():
     # b0eedd71, then PTF-DAYTON-OH-DEPLOYMENT-AUTHORIZATION-003's de669c40,
     # live as 6a982a1f) -- a record of the CURRENT deploy, not of this order's.
     assert candidate["bundle_sha256"] == CANDIDATE_BUNDLE
-    assert live["bundle_sha256"] == (
-        "de669c40d8118a9293798ae1e5ad10ab8219c66798d002d6bf2a12cae504e374")
+    from pettripfinder.market_state import live as live_pins
+    assert live["bundle_sha256"] == live_pins().bundle_sha256
     assert CANDIDATE.name != "global_deployment_manifest.json"
