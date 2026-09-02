@@ -492,9 +492,11 @@ DISABLED_BUILD_BUNDLE_SHA256 = (
 #: It does NOT move with an application order: source runs ahead of production
 #: until a deployment-authorization order ships it. These are two different
 #: facts and must not share a constant, which is the same lesson the comment
-#: above records from the last time they were conflated.
+#: above records from the last time they were conflated. They agree again now
+#: that PTF-DAYTON-OH-DEPLOYMENT-AUTHORIZATION-003 deployed the candidate as
+#: 6a982a1f -- and they will diverge again at the next application order.
 COMMITTED_MANIFEST_BUNDLE_SHA256 = (
-    "b0eedd71f3f3fa3810ce1e9d596c07f4f00cf25ffdfc255ca5ffed072629d826")
+    "de669c40d8118a9293798ae1e5ad10ab8219c66798d002d6bf2a12cae504e374")
 
 #: The only four routes PTF-011 was permitted to change.
 SERVICE_ANIMAL_CORRECTED_ROUTES = (

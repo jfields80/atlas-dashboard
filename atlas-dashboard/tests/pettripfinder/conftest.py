@@ -26,24 +26,6 @@ deliberately narrow: it drops only complaints about the participation record
 itself, so a dropped market, an UNEXPECTED changed contract or a moved control
 file still comes through and still fails.
 
-THE LAPSED DAYTON CONTRACT PIN
-------------------------------
-PTF-DAYTON-OH-HARDENED-APPLICATION-002 applied 7 pet-friendly records and 16
-verified-no-pets exclusions to ``dayton-oh`` under founder authorisation, and
-re-authored that market's release contract to match (47 -> 54 published, 8 -> 24
-no-pets). ``ptf-auth-006`` -- the authorization deployment 6a976f61 consumed --
-binds every market's contract sha, so Dayton's contract no longer matches it.
-
-This is the same mechanism as the participation lapse and the same design
-working: source has legitimately moved AHEAD of what production serves, and it
-stays that way until a Dayton deployment-authorization order issues a new
-authorization. THE LIVE BUNDLE IS UNTOUCHED -- 6a976f61 still serves 9 markets /
-619 profiles / 759 routes, and every other fact the manifest states about it is
-still true and still checked.
-
-The allowance is deliberately narrower than the general case: it names
-``dayton-oh`` explicitly, so a change to ANY OTHER market's contract still comes
-through and still fails. It must be removed when Dayton deploys.
 """
 from __future__ import annotations
 
@@ -58,23 +40,12 @@ _LAPSED_PIN_MARKERS = (
     "was written",
 )
 
-#: The two complaints PTF-DAYTON-OH-HARDENED-APPLICATION-002 legitimately
-#: produces. dayton-oh is named in BOTH so that another market's contract
-#: changing is still a real disagreement. Remove these when Dayton deploys.
-_LAPSED_DAYTON_CONTRACT_MARKERS = (
-    "release_contracts[dayton-oh]: contract has changed since authorization",
-    "dayton-oh: release contract has changed since the manifest was written",
-)
 
 
 def is_the_lapsed_participation_pin(problem: str) -> bool:
     """Is this complaint the known, accepted pin lapse and nothing else?"""
     return any(marker in problem for marker in _LAPSED_PIN_MARKERS)
 
-
-def is_the_lapsed_dayton_contract_pin(problem: str) -> bool:
-    """Is this the Dayton contract lapse APPLICATION-002 knowingly created?"""
-    return any(marker in problem for marker in _LAPSED_DAYTON_CONTRACT_MARKERS)
 
 
 def manifest_problems_other_than_the_lapsed_pin(
@@ -87,6 +58,4 @@ def manifest_problems_other_than_the_lapsed_pin(
     if problems is None:
         from scripts.pettripfinder import global_deployment as GD
         problems = GD.verify_manifest()
-    return [p for p in problems
-            if not is_the_lapsed_participation_pin(p)
-            and not is_the_lapsed_dayton_contract_pin(p)]
+    return [p for p in problems if not is_the_lapsed_participation_pin(p)]

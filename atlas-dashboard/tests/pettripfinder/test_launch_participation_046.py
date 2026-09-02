@@ -151,11 +151,12 @@ EXPECTED_BUNDLE_SHA256 = (
     "de669c40d8118a9293798ae1e5ad10ab8219c66798d002d6bf2a12cae504e374")
 #: What the COMMITTED manifest pins: the bundle production serves. An
 #: application order moves source ahead of production and must NOT move this.
+#: Deployed as 6a982a1f by PTF-DAYTON-OH-DEPLOYMENT-AUTHORIZATION-003, so the
+#: committed manifest and a fresh assembly name the same artifact again.
 COMMITTED_MANIFEST_BUNDLE_SHA256 = (
-    "b0eedd71f3f3fa3810ce1e9d596c07f4f00cf25ffdfc255ca5ffed072629d826")
-#: Profiles the LIVE deploy serves. Source is ahead of it by the seven Dayton
-#: records until a Dayton deployment-authorization order ships them.
-LIVE_DEPLOYED_PROFILE_TOTAL = 619
+    "de669c40d8118a9293798ae1e5ad10ab8219c66798d002d6bf2a12cae504e374")
+#: Profiles the LIVE deploy serves: 619 -> 626 with the seven Dayton records.
+LIVE_DEPLOYED_PROFILE_TOTAL = 626
 EXPECTED_HTML_PAGES = 3887
 EXPECTED_FILES = 3905
 EXPECTED_SITEMAP_ROUTES = 767
