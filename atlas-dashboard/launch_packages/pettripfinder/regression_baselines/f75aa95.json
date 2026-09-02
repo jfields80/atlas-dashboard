@@ -1,12 +1,12 @@
 {
  "schema": "ptf-regression-baseline/1.0",
- "source_sha": "c854469",
- "label": "PTF-FACTORY-THROUGHPUT-HARDENING-001 baseline at the starting SHA",
- "note": "tests/pettripfinder in six chunks (acquisition; discovery+importer+policy+brightdata; contracts; top-level a/b/c) plus tests/ minus tests/pettripfinder as a seventh chunk, run in a FRESH detached worktree at c854469 with no untracked data/ corpora present: the PetTripFinder failures are predominantly environmental (modules that glob data/acquisition or data/market_research) plus the pre-existing Indianapolis 004-epoch pins. tests/website_generation/integration/test_pettripfinder_demo_media.py is DESELECTED in the seventh chunk: its real-chain-with-media tests do not complete in this environment (30+ minutes of CPU, reproduced three times); that is a pre-existing website-generation issue outside this order's scope and is recorded here so the deselection is explicit rather than silent.",
- "collected": 17129,
- "passed": 16750,
- "skipped": 218,
- "failed": 161,
+ "source_sha": "f75aa95",
+ "label": "PTF-FACTORY-THROUGHPUT-HARDENING-001 at its own commit",
+ "note": "Same seven chunks and the same fresh-worktree environment as c854469.json (no untracked data/ corpora; tests/website_generation/integration/test_pettripfinder_demo_media.py deselected). Every failing node id here is PRE_EXISTING against c854469.json; the one baseline failure no longer listed is the Indianapolis 004-epoch contract test, which this order scoped to its own artifact and renamed. Timings: {\"ptf_acquisition\": 159.8, \"ptf_subpackages\": 109.4, \"ptf_contracts\": 9.1, \"ptf_top_a\": 64.2, \"ptf_top_b\": 2559.6, \"ptf_top_c\": 846.3, \"non_ptf\": 214.98}.",
+ "collected": 17292,
+ "passed": 16913,
+ "skipped": 219,
+ "failed": 160,
  "failing_node_ids": [
   "tests/pettripfinder/acquisition/test_authority_build_036.py::test_a_deposit_needs_its_refundability_stated",
   "tests/pettripfinder/acquisition/test_authority_build_036.py::test_rebuilding_the_authority_is_byte_identical",
@@ -147,7 +147,6 @@
   "tests/pettripfinder/acquisition/test_store_reader_sync_030.py::test_the_row_count_moves_only_when_an_observation_is_added",
   "tests/pettripfinder/acquisition/test_store_reader_sync_030.py::test_the_whole_projection_needs_no_provider_call",
   "tests/pettripfinder/acquisition/test_vocabulary_normalization_043.py::test_every_other_market_still_verifies_and_is_untouched",
-  "tests/pettripfinder/contracts/test_market_authorities.py::TestTerminalDispositionsMatchAuthority::test_indianapolis_promoted_authority_is_24_and_24",
   "tests/pettripfinder/test_grand_rapids_founder_signature_030.py::test_the_declined_capture_was_not_touched",
   "tests/pettripfinder/test_grand_rapids_founder_signature_030.py::test_the_relocated_block_says_where_it_came_from",
   "tests/pettripfinder/test_grand_rapids_policy_acquisition_028.py::test_the_bytes_are_on_disk_so_the_reading_would_cost_nothing",
@@ -200,7 +199,6 @@
   "tests/pettripfinder/acquisition/test_store_integration_025.py": 1,
   "tests/pettripfinder/acquisition/test_store_reader_sync_030.py": 12,
   "tests/pettripfinder/acquisition/test_vocabulary_normalization_043.py": 1,
-  "tests/pettripfinder/contracts/test_market_authorities.py": 1,
   "tests/pettripfinder/test_grand_rapids_founder_signature_030.py": 2,
   "tests/pettripfinder/test_grand_rapids_policy_acquisition_028.py": 1,
   "tests/pettripfinder/test_indianapolis_authority_promotion_017.py": 5,
@@ -209,16 +207,16 @@
   "tests/pettripfinder/test_indianapolis_promotion_validation_003.py": 3,
   "tests/pettripfinder/test_louisville_authority.py": 5
  },
- "chunk_timing_seconds": {
-  "ptf_acquisition": 156.4,
-  "ptf_subpackages": 116.7,
-  "ptf_contracts": 7.5,
-  "ptf_top_a": 62.1,
-  "ptf_top_b": 1651.5,
-  "ptf_top_c": 1283.9,
-  "non_ptf_module_deselected": null
- },
  "deselected": [
   "tests/website_generation/integration/test_pettripfinder_demo_media.py"
- ]
+ ],
+ "chunk_timing_seconds": {
+  "ptf_acquisition": 159.8,
+  "ptf_subpackages": 109.4,
+  "ptf_contracts": 9.1,
+  "ptf_top_a": 64.2,
+  "ptf_top_b": 2559.6,
+  "ptf_top_c": 846.3,
+  "non_ptf": 214.98
+ }
 }
