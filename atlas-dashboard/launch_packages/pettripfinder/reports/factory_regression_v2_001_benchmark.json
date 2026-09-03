@@ -50,7 +50,13 @@
   "against_stated_low_minutes": 84.6,
   "against_stated_high_minutes": 104.6,
   "target": "a bookkeeping-only late fix closes in under 10 minutes",
-  "target_met": true
+  "target_met": true,
+  "second_measured_case": {
+   "case": "GENERATED_REPORT_ONLY inventory regeneration",
+   "new_closure_seconds": 11.1,
+   "old_closure_minutes": 109.2,
+   "saved_minutes": 109.0
+  }
  },
  "what_the_targeted_run_covered": {
   "owning_directory": "tests/pettripfinder/acquisition",
@@ -126,5 +132,40 @@
   "validation": "python -m scripts.pettripfinder.regression_delta validate --base <before> --head <after> --baseline launch_packages/pettripfinder/regression_baselines/f75aa95.json --require-closed <node id> --out <dir>",
   "replay_worktree": "a scratch worktree at 1eab5dd, removed afterwards; no Cincinnati authority was read or written",
   "closure_artifact": "launch_packages/pettripfinder/failure_closures/ptf-cincinnati-late-fix-replay-001.json"
+ },
+ "final_broad_regression": {
+  "source_commit": "e8f9948e9acadc5b43640ca437d6dcadaf999b8d",
+  "baseline": "launch_packages/pettripfinder/regression_baselines/f75aa95.json",
+  "collected": 17379,
+  "passed": 16999,
+  "skipped": 219,
+  "failed": 161,
+  "seconds": 6549.6,
+  "minutes": 109.2,
+  "PRE_EXISTING": 160,
+  "EXPECTED_EPOCH_CHANGE": 0,
+  "TEST_HARNESS_FLAKE": 0,
+  "TRUE_NEW_FAILURE_at_first_run": 1,
+  "the_one_true_new": "tests/pettripfinder/test_factory_throughput_001.py::TestTheHarness::test_the_committed_inventory_reproduces_from_the_suite",
+  "closed_by": "861c21168f27ffddf347ab53ba9c2f24c3168bef",
+  "closure_artifact": "launch_packages/pettripfinder/failure_closures/ptf-factory-regression-v2-001-1.json",
+  "TRUE_NEW_FAILURE_after_closure": 0,
+  "note": "109.2 minutes measured on this hardware, inside the 90-110 minute range the work order states. The 66.1-minute figure carried from the prior order was a lighter suite: 17292 collected there against 17379 here."
+ },
+ "first_production_use": {
+  "what": "this order closing its own post-broad failure through the workflow it adds",
+  "failing_node": "tests/pettripfinder/test_factory_throughput_001.py::TestTheHarness::test_the_committed_inventory_reproduces_from_the_suite",
+  "fix": "regenerate launch_packages/pettripfinder/reports/factory_throughput_001_test_inventory.{json,md}",
+  "change_class": "GENERATED_REPORT_ONLY",
+  "classification_seconds": 0.4,
+  "targeted_validation_seconds": 10.7,
+  "modules_run": 1,
+  "collected": 34,
+  "failed": 0,
+  "found_by": "the reverse-import scan: the only test module whose source names the changed artifact",
+  "full_regression_required": "NO",
+  "total_closure_seconds": 11.1,
+  "old_method_would_have_cost_minutes": 109.2,
+  "saved_minutes": 109.0
  }
 }

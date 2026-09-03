@@ -1,0 +1,66 @@
+{
+ "schema": "ptf-failure-closure/1.0",
+ "work_order": "PTF-FACTORY-REGRESSION-V2-001",
+ "fix_commit_sha": "861c21168f27ffddf347ab53ba9c2f24c3168bef",
+ "base_sha": "e8f9948e9acadc5b43640ca437d6dcadaf999b8d",
+ "head": "861c211",
+ "head_sha": "861c21168f27ffddf347ab53ba9c2f24c3168bef",
+ "original_true_new_node_ids": [
+  "tests/pettripfinder/test_factory_throughput_001.py::TestTheHarness::test_the_committed_inventory_reproduces_from_the_suite"
+ ],
+ "baseline_source_sha": "f75aa95",
+ "changed_files": [
+  {
+   "path": "launch_packages/pettripfinder/reports/factory_throughput_001_test_inventory.json",
+   "status": "M",
+   "classes": [
+    "GENERATED_REPORT_ONLY"
+   ],
+   "why": "matched prefix:launch_packages/pettripfinder/reports/"
+  },
+  {
+   "path": "launch_packages/pettripfinder/reports/factory_throughput_001_test_inventory.md",
+   "status": "M",
+   "classes": [
+    "GENERATED_REPORT_ONLY"
+   ],
+   "why": "matched prefix:launch_packages/pettripfinder/reports/"
+  }
+ ],
+ "change_classes": [
+  "GENERATED_REPORT_ONLY"
+ ],
+ "required_validations": {
+  "lanes": [],
+  "markets": [],
+  "modules": [
+   "tests/pettripfinder/test_factory_throughput_001.py"
+  ],
+  "assembly_required": false
+ },
+ "targeted_result": {
+  "collected": 34,
+  "passed": 33,
+  "skipped": 1,
+  "failed": 0,
+  "seconds": 10.7
+ },
+ "node_id_results": {
+  "tests/pettripfinder/test_factory_throughput_001.py::TestTheHarness::test_the_committed_inventory_reproduces_from_the_suite": "CLOSED"
+ },
+ "against_baseline": {
+  "baseline_source_sha": "f75aa95",
+  "PRE_EXISTING": [],
+  "TRUE_NEW": [],
+  "counts": {
+   "PRE_EXISTING": 0,
+   "TRUE_NEW": 0,
+   "RESOLVED": 0
+  },
+  "RESOLVED": []
+ },
+ "FULL_REGRESSION_REQUIRED": "NO",
+ "full_regression_reason": "every changed file classifies into a narrow class (GENERATED_REPORT_ONLY); no row of the matrix makes a broad regression mandatory",
+ "all_original_failures_accounted_for": true,
+ "rationale": "The broad regression at e8f9948 (17379 collected, 160 PRE_EXISTING, 1 TRUE_NEW) returned one new node: the inventory the prior order committed no longer enumerated the suite, because this order added tests/pettripfinder/test_regression_delta_001.py and grew HISTORICAL_COHORT_INVARIANT from 853 to 856. The fix regenerates that inventory from the suite. Two generated report artifacts under launch_packages/pettripfinder/reports/ changed and nothing else; no authority, runtime, schema, routing or deployment surface is reachable from them, so the matrix requires no assembly and no second broad regression. This closure is itself the first production use of the workflow this order adds."
+}
