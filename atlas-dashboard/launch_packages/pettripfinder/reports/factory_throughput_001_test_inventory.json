@@ -10,15 +10,15 @@
   "CROSS_MARKET_INVARIANT"
  ],
  "modules_scanned": 389,
- "modules_with_pins": 263,
- "sites": 1583,
+ "modules_with_pins": 262,
+ "sites": 1551,
  "by_class": {
   "CURRENT_STATE_INVARIANT": 160,
-  "HISTORICAL_COHORT_INVARIANT": 853,
+  "HISTORICAL_COHORT_INVARIANT": 825,
   "HISTORICAL_ARTIFACT_INVARIANT": 183,
   "DEPLOYMENT_EPOCH_INVARIANT": 126,
   "GENERIC_SCHEMA_INVARIANT": 194,
-  "CROSS_MARKET_INVARIANT": 67
+  "CROSS_MARKET_INVARIANT": 63
  },
  "modules_asserting_whole_package_counts": [
   "tests/pettripfinder/acquisition/test_authority_build_036.py",
@@ -49,7 +49,6 @@
   "tests/pettripfinder/policy/test_authority_safety.py",
   "tests/pettripfinder/policy/test_m10_code_and_address_override.py",
   "tests/pettripfinder/test_build_capture_queue.py",
-  "tests/pettripfinder/test_cincinnati_capture_pass1_001.py",
   "tests/pettripfinder/test_cincinnati_founder_application_004.py",
   "tests/pettripfinder/test_cincinnati_free_lane_application_010.py",
   "tests/pettripfinder/test_cincinnati_hilton_close_marriott_retry_015.py",
@@ -58,7 +57,6 @@
   "tests/pettripfinder/test_cincinnati_marriott_scale_batch_016.py",
   "tests/pettripfinder/test_cincinnati_species_key_rebind_011.py",
   "tests/pettripfinder/test_cincinnati_zero_cost_capture_003.py",
-  "tests/pettripfinder/test_cincinnati_zip_integrity_002.py",
   "tests/pettripfinder/test_cleveland_attended_artifact_queue_001.py",
   "tests/pettripfinder/test_cleveland_capture_003.py",
   "tests/pettripfinder/test_cleveland_final_partition_002.py",
@@ -7272,15 +7270,15 @@
    ],
    "default_class": "HISTORICAL_COHORT_INVARIANT",
    "default_reason": "work-order-numbered module",
-   "site_count": 13,
+   "site_count": 9,
    "by_class": {
-    "CROSS_MARKET_INVARIANT": 8,
+    "CROSS_MARKET_INVARIANT": 4,
     "HISTORICAL_ARTIFACT_INVARIANT": 1,
     "HISTORICAL_COHORT_INVARIANT": 4
    },
    "sites": [
     {
-     "line": 85,
+     "line": 92,
      "test": "test_exactly_twelve_attempts_and_no_more",
      "kind": "count",
      "literal": 12,
@@ -7291,7 +7289,7 @@
      "reason": "count read from a committed artifact"
     },
     {
-     "line": 135,
+     "line": 142,
      "test": "test_the_denied_rows_really_were_walls",
      "kind": "count",
      "literal": 5,
@@ -7302,51 +7300,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 199,
-     "test": "test_the_market_totals_are_untouched_by_this_order",
-     "kind": "count",
-     "literal": 99,
-     "reads_package": true,
-     "has_len": false,
-     "source": "counts[\"PUBLISHED_PET_FRIENDLY\"] == 99",
-     "class": "CROSS_MARKET_INVARIANT",
-     "reason": "names another market or isolation"
-    },
-    {
-     "line": 200,
-     "test": "test_the_market_totals_are_untouched_by_this_order",
-     "kind": "count",
-     "literal": 49,
-     "reads_package": true,
-     "has_len": false,
-     "source": "counts[\"VERIFIED_NO_PETS\"] == 49",
-     "class": "CROSS_MARKET_INVARIANT",
-     "reason": "names another market or isolation"
-    },
-    {
-     "line": 201,
-     "test": "test_the_market_totals_are_untouched_by_this_order",
-     "kind": "count",
-     "literal": 6,
-     "reads_package": true,
-     "has_len": false,
-     "source": "counts[\"OUT_OF_CURRENT_CATEGORY\"] == 6",
-     "class": "CROSS_MARKET_INVARIANT",
-     "reason": "names another market or isolation"
-    },
-    {
-     "line": 202,
-     "test": "test_the_market_totals_are_untouched_by_this_order",
-     "kind": "count",
-     "literal": 257,
-     "reads_package": true,
-     "has_len": true,
-     "source": "sum(counts.values()) == 257",
-     "class": "CROSS_MARKET_INVARIANT",
-     "reason": "names another market or isolation"
-    },
-    {
-     "line": 203,
+     "line": 211,
      "test": "test_the_market_totals_are_untouched_by_this_order",
      "kind": "count",
      "literal": 80,
@@ -7357,7 +7311,7 @@
      "reason": "names another market or isolation"
     },
     {
-     "line": 237,
+     "line": 245,
      "test": "test_every_paid_attempt_is_in_the_cross_run_ledger",
      "kind": "count",
      "literal": 12,
@@ -7368,7 +7322,7 @@
      "reason": "names another market or isolation"
     },
     {
-     "line": 238,
+     "line": 246,
      "test": "test_every_paid_attempt_is_in_the_cross_run_ledger",
      "kind": "count",
      "literal": 12,
@@ -7379,7 +7333,7 @@
      "reason": "names another market or isolation"
     },
     {
-     "line": 241,
+     "line": 249,
      "test": "test_every_paid_attempt_is_in_the_cross_run_ledger",
      "kind": "count",
      "literal": 12,
@@ -7390,7 +7344,7 @@
      "reason": "names another market or isolation"
     },
     {
-     "line": 248,
+     "line": 256,
      "test": "test_the_evidence_was_kept_but_the_captures_were_not",
      "kind": "count",
      "literal": 6,
@@ -7401,7 +7355,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 305,
+     "line": 313,
      "test": "test_the_remaining_cohort_was_rebuilt_not_quoted_forward",
      "kind": "count",
      "literal": 38,
@@ -7412,7 +7366,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 314,
+     "line": 322,
      "test": "test_the_remaining_cohort_was_rebuilt_not_quoted_forward",
      "kind": "count",
      "literal": 50,
@@ -7433,14 +7387,14 @@
    ],
    "default_class": "HISTORICAL_COHORT_INVARIANT",
    "default_reason": "work-order-numbered module",
-   "site_count": 15,
+   "site_count": 11,
    "by_class": {
     "HISTORICAL_ARTIFACT_INVARIANT": 3,
-    "HISTORICAL_COHORT_INVARIANT": 12
+    "HISTORICAL_COHORT_INVARIANT": 8
    },
    "sites": [
     {
-     "line": 55,
+     "line": 62,
      "test": "test_exactly_thirty_rows",
      "kind": "count",
      "literal": 30,
@@ -7451,7 +7405,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 57,
+     "line": 64,
      "test": "test_exactly_thirty_rows",
      "kind": "count",
      "literal": 30,
@@ -7462,7 +7416,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 68,
+     "line": 75,
      "test": "test_results_match_prepared_queue_exactly",
      "kind": "count",
      "literal": 30,
@@ -7473,7 +7427,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 98,
+     "line": 105,
      "test": "test_hilton_did_not_expand_beyond_two",
      "kind": "count",
      "literal": 2,
@@ -7484,7 +7438,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 115,
+     "line": 122,
      "test": "test_sha256_when_present_is_well_formed",
      "kind": "count",
      "literal": 64,
@@ -7495,7 +7449,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 158,
+     "line": 165,
      "test": "test_packet_covers_exactly_the_candidate_outcomes",
      "kind": "count",
      "literal": 27,
@@ -7506,40 +7460,7 @@
      "reason": "count read from a committed artifact"
     },
     {
-     "line": 189,
-     "test": "test_partition_totals_256_with_27_resolved",
-     "kind": "count",
-     "literal": 257,
-     "reads_package": true,
-     "has_len": true,
-     "source": "sum(counts.values()) == 257",
-     "class": "HISTORICAL_COHORT_INVARIANT",
-     "reason": "whole-package count in a closed order's suite"
-    },
-    {
-     "line": 193,
-     "test": "test_partition_totals_256_with_27_resolved",
-     "kind": "count",
-     "literal": 99,
-     "reads_package": true,
-     "has_len": false,
-     "source": "counts.get(\"PUBLISHED_PET_FRIENDLY\") == 99",
-     "class": "HISTORICAL_COHORT_INVARIANT",
-     "reason": "count in a closed order's suite"
-    },
-    {
-     "line": 194,
-     "test": "test_partition_totals_256_with_27_resolved",
-     "kind": "count",
-     "literal": 49,
-     "reads_package": true,
-     "has_len": false,
-     "source": "counts.get(\"VERIFIED_NO_PETS\") == 49",
-     "class": "HISTORICAL_COHORT_INVARIANT",
-     "reason": "count in a closed order's suite"
-    },
-    {
-     "line": 230,
+     "line": 237,
      "test": "test_routing_authority_reflects_the_27_retirements",
      "kind": "count",
      "literal": 80,
@@ -7550,7 +7471,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 233,
+     "line": 240,
      "test": "test_routing_authority_reflects_the_27_retirements",
      "kind": "count",
      "literal": 6,
@@ -7561,7 +7482,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 236,
+     "line": 243,
      "test": "test_routing_authority_reflects_the_27_retirements",
      "kind": "count",
      "literal": 21,
@@ -7572,7 +7493,7 @@
      "reason": "count read from a committed artifact"
     },
     {
-     "line": 237,
+     "line": 244,
      "test": "test_routing_authority_reflects_the_27_retirements",
      "kind": "count",
      "literal": 27,
@@ -7583,18 +7504,7 @@
      "reason": "count read from a committed artifact"
     },
     {
-     "line": 272,
-     "test": "test_hotel_policy_facts_file_exists_with_twentyone_records",
-     "kind": "count",
-     "literal": 99,
-     "reads_package": true,
-     "has_len": true,
-     "source": "len(facts[\"hotels\"]) == 99",
-     "class": "HISTORICAL_COHORT_INVARIANT",
-     "reason": "whole-package count in a closed order's suite"
-    },
-    {
-     "line": 275,
+     "line": 282,
      "test": "test_hotel_policy_facts_file_exists_with_twentyone_records",
      "kind": "count",
      "literal": 21,
@@ -7719,24 +7629,13 @@
    ],
    "default_class": "HISTORICAL_COHORT_INVARIANT",
    "default_reason": "work-order-numbered module",
-   "site_count": 11,
+   "site_count": 10,
    "by_class": {
-    "HISTORICAL_COHORT_INVARIANT": 11
+    "HISTORICAL_COHORT_INVARIANT": 10
    },
    "sites": [
     {
-     "line": 70,
-     "test": "test_the_queue_covers_the_whole_census",
-     "kind": "count",
-     "literal": 257,
-     "reads_package": false,
-     "has_len": true,
-     "source": "queue[\"count\"] == len(queue[\"rows\"]) == 257",
-     "class": "HISTORICAL_COHORT_INVARIANT",
-     "reason": "count in a closed order's suite"
-    },
-    {
-     "line": 82,
+     "line": 89,
      "test": "test_it_records_what_it_supersedes",
      "kind": "count",
      "literal": 250,
@@ -7747,7 +7646,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 92,
+     "line": 99,
      "test": "test_every_resolved_identity_is_marked_decided",
      "kind": "count",
      "literal": 154,
@@ -7758,7 +7657,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 96,
+     "line": 103,
      "test": "test_every_resolved_identity_is_marked_decided",
      "kind": "count",
      "literal": 99,
@@ -7769,7 +7668,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 97,
+     "line": 104,
      "test": "test_every_resolved_identity_is_marked_decided",
      "kind": "count",
      "literal": 49,
@@ -7780,7 +7679,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 98,
+     "line": 105,
      "test": "test_every_resolved_identity_is_marked_decided",
      "kind": "count",
      "literal": 6,
@@ -7791,7 +7690,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 116,
+     "line": 123,
      "test": "test_the_twenty_seven_capture_pass_one_rulings_survive",
      "kind": "count",
      "literal": 27,
@@ -7802,7 +7701,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 183,
+     "line": 190,
      "test": "test_an_unadjudicated_census_url_is_its_own_lane",
      "kind": "count",
      "literal": 12,
@@ -7813,7 +7712,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 199,
+     "line": 206,
      "test": "test_the_lane_totals_account_for_every_row",
      "kind": "count",
      "literal": 257,
@@ -7824,7 +7723,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 200,
+     "line": 207,
      "test": "test_the_lane_totals_account_for_every_row",
      "kind": "count",
      "literal": 257,
@@ -7835,7 +7734,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 201,
+     "line": 208,
      "test": "test_the_lane_totals_account_for_every_row",
      "kind": "count",
      "literal": 257,
@@ -7993,13 +7892,13 @@
    ],
    "default_class": "HISTORICAL_COHORT_INVARIANT",
    "default_reason": "work-order-numbered module",
-   "site_count": 19,
+   "site_count": 13,
    "by_class": {
-    "HISTORICAL_COHORT_INVARIANT": 19
+    "HISTORICAL_COHORT_INVARIANT": 13
    },
    "sites": [
     {
-     "line": 76,
+     "line": 83,
      "test": "test_this_order_published_eight_and_refused_seven",
      "kind": "count",
      "literal": 8,
@@ -8010,18 +7909,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 77,
-     "test": "test_this_order_published_eight_and_refused_seven",
-     "kind": "count",
-     "literal": 99,
-     "reads_package": true,
-     "has_len": true,
-     "source": "len(package[\"hotels\"]) == 99",
-     "class": "HISTORICAL_COHORT_INVARIANT",
-     "reason": "whole-package count in a closed order's suite"
-    },
-    {
-     "line": 82,
+     "line": 89,
      "test": "test_this_order_published_eight_and_refused_seven",
      "kind": "count",
      "literal": 7,
@@ -8032,7 +7920,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 84,
+     "line": 91,
      "test": "test_this_order_published_eight_and_refused_seven",
      "kind": "count",
      "literal": 49,
@@ -8043,62 +7931,7 @@
      "reason": "whole-package count in a closed order's suite"
     },
     {
-     "line": 91,
-     "test": "test_the_partition_reconciles",
-     "kind": "count",
-     "literal": 257,
-     "reads_package": true,
-     "has_len": true,
-     "source": "sum(counts.values()) == 257 == len(partition[\"items\"])",
-     "class": "HISTORICAL_COHORT_INVARIANT",
-     "reason": "whole-package count in a closed order's suite"
-    },
-    {
-     "line": 94,
-     "test": "test_the_partition_reconciles",
-     "kind": "count",
-     "literal": 99,
-     "reads_package": true,
-     "has_len": true,
-     "source": "counts[\"PUBLISHED_PET_FRIENDLY\"] == 99 == len(package[\"hotels\"])",
-     "class": "HISTORICAL_COHORT_INVARIANT",
-     "reason": "whole-package count in a closed order's suite"
-    },
-    {
-     "line": 97,
-     "test": "test_the_partition_reconciles",
-     "kind": "count",
-     "literal": 49,
-     "reads_package": true,
-     "has_len": false,
-     "source": "counts[\"VERIFIED_NO_PETS\"] == 49",
-     "class": "HISTORICAL_COHORT_INVARIANT",
-     "reason": "count in a closed order's suite"
-    },
-    {
-     "line": 98,
-     "test": "test_the_partition_reconciles",
-     "kind": "count",
-     "literal": 6,
-     "reads_package": true,
-     "has_len": false,
-     "source": "counts[\"OUT_OF_CURRENT_CATEGORY\"] == 6",
-     "class": "HISTORICAL_COHORT_INVARIANT",
-     "reason": "count in a closed order's suite"
-    },
-    {
-     "line": 103,
-     "test": "test_the_partition_reconciles",
-     "kind": "count",
-     "literal": 103,
-     "reads_package": true,
-     "has_len": false,
-     "source": "sum(counts.values()) - resolved == 103",
-     "class": "HISTORICAL_COHORT_INVARIANT",
-     "reason": "count in a closed order's suite"
-    },
-    {
-     "line": 179,
+     "line": 186,
      "test": "test_every_drury_record_publishes_the_property_terms",
      "kind": "count",
      "literal": 5000,
@@ -8109,7 +7942,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 182,
+     "line": 189,
      "test": "test_every_drury_record_publishes_the_property_terms",
      "kind": "count",
      "literal": 2,
@@ -8120,7 +7953,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 183,
+     "line": 190,
      "test": "test_every_drury_record_publishes_the_property_terms",
      "kind": "count",
      "literal": 80,
@@ -8131,7 +7964,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 223,
+     "line": 230,
      "test": "test_two_charges_with_different_bases_were_kept_apart",
      "kind": "count",
      "literal": 5000,
@@ -8142,7 +7975,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 248,
+     "line": 255,
      "test": "test_the_summit_publishes_only_its_supported_dog_fields",
      "kind": "count",
      "literal": 50,
@@ -8153,7 +7986,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 251,
+     "line": 258,
      "test": "test_the_summit_publishes_only_its_supported_dog_fields",
      "kind": "count",
      "literal": 2,
@@ -8164,7 +7997,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 267,
+     "line": 274,
      "test": "test_a_refundable_deposit_publishes_beside_its_fee_not_merged",
      "kind": "count",
      "literal": 2500,
@@ -8175,7 +8008,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 333,
+     "line": 340,
      "test": "test_the_withdrawals_match_what_entered_authority",
      "kind": "count",
      "literal": 15,
@@ -8186,7 +8019,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 343,
+     "line": 350,
      "test": "test_the_withdrawals_match_what_entered_authority",
      "kind": "count",
      "literal": 80,
@@ -8197,7 +8030,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 370,
+     "line": 377,
      "test": "test_the_decisions_record_the_block_and_the_rulings",
      "kind": "count",
      "literal": 8,
@@ -8389,14 +8222,14 @@
    ],
    "default_class": "HISTORICAL_COHORT_INVARIANT",
    "default_reason": "work-order-numbered module",
-   "site_count": 11,
+   "site_count": 8,
    "by_class": {
     "HISTORICAL_ARTIFACT_INVARIANT": 1,
-    "HISTORICAL_COHORT_INVARIANT": 10
+    "HISTORICAL_COHORT_INVARIANT": 7
    },
    "sites": [
     {
-     "line": 149,
+     "line": 156,
      "test": "test_hilton_is_closed_because_the_population_is_exhausted",
      "kind": "count",
      "literal": 8,
@@ -8407,7 +8240,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 178,
+     "line": 185,
      "test": "test_seven_identical_labels_did_not_resolve_the_fee_question",
      "kind": "count",
      "literal": 7,
@@ -8418,40 +8251,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 223,
-     "test": "test_no_authority_was_mutated",
-     "kind": "count",
-     "literal": 99,
-     "reads_package": true,
-     "has_len": false,
-     "source": "counts[\"PUBLISHED_PET_FRIENDLY\"] == 99",
-     "class": "HISTORICAL_COHORT_INVARIANT",
-     "reason": "count in a closed order's suite"
-    },
-    {
-     "line": 224,
-     "test": "test_no_authority_was_mutated",
-     "kind": "count",
-     "literal": 49,
-     "reads_package": true,
-     "has_len": false,
-     "source": "counts[\"VERIFIED_NO_PETS\"] == 49",
-     "class": "HISTORICAL_COHORT_INVARIANT",
-     "reason": "count in a closed order's suite"
-    },
-    {
-     "line": 225,
-     "test": "test_no_authority_was_mutated",
-     "kind": "count",
-     "literal": 257,
-     "reads_package": true,
-     "has_len": true,
-     "source": "sum(counts.values()) == 257",
-     "class": "HISTORICAL_COHORT_INVARIANT",
-     "reason": "whole-package count in a closed order's suite"
-    },
-    {
-     "line": 226,
+     "line": 233,
      "test": "test_no_authority_was_mutated",
      "kind": "count",
      "literal": 80,
@@ -8462,7 +8262,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 254,
+     "line": 261,
      "test": "test_the_first_attempt_was_preserved_not_overwritten",
      "kind": "count",
      "literal": 5,
@@ -8473,7 +8273,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 258,
+     "line": 265,
      "test": "test_the_first_attempt_was_preserved_not_overwritten",
      "kind": "count",
      "literal": 2,
@@ -8484,7 +8284,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 260,
+     "line": 267,
      "test": "test_the_first_attempt_was_preserved_not_overwritten",
      "kind": "count",
      "literal": 9,
@@ -8495,7 +8295,7 @@
      "reason": "count read from a committed artifact"
     },
     {
-     "line": 342,
+     "line": 349,
      "test": "test_two_refusals_share_a_block_digest_so_the_page_digest_binds",
      "kind": "count",
      "literal": 14,
@@ -8506,7 +8306,7 @@
      "reason": "whole-package count in a closed order's suite"
     },
     {
-     "line": 343,
+     "line": 350,
      "test": "test_two_refusals_share_a_block_digest_so_the_page_digest_binds",
      "kind": "count",
      "literal": 14,
@@ -8868,13 +8668,13 @@
    ],
    "default_class": "HISTORICAL_COHORT_INVARIANT",
    "default_reason": "work-order-numbered module",
-   "site_count": 9,
+   "site_count": 4,
    "by_class": {
-    "HISTORICAL_COHORT_INVARIANT": 9
+    "HISTORICAL_COHORT_INVARIANT": 4
    },
    "sites": [
     {
-     "line": 200,
+     "line": 214,
      "test": "test_each_route_points_at_one_property_page",
      "kind": "count",
      "literal": 2,
@@ -8885,7 +8685,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 242,
+     "line": 256,
      "test": "test_no_combined_exclusion_was_ever_registered",
      "kind": "count",
      "literal": 2,
@@ -8896,7 +8696,7 @@
      "reason": "whole-package count in a closed order's suite"
     },
     {
-     "line": 247,
+     "line": 261,
      "test": "test_the_two_refusals_are_two_records_not_one",
      "kind": "count",
      "literal": 2,
@@ -8907,40 +8707,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 255,
-     "test": "test_the_census_grew_by_exactly_one",
-     "kind": "count",
-     "literal": 257,
-     "reads_package": true,
-     "has_len": true,
-     "source": "census[\"count\"] == len(census[\"hotels\"]) == 257",
-     "class": "HISTORICAL_COHORT_INVARIANT",
-     "reason": "whole-package count in a closed order's suite"
-    },
-    {
-     "line": 266,
-     "test": "test_no_identity_is_duplicated",
-     "kind": "count",
-     "literal": 257,
-     "reads_package": false,
-     "has_len": true,
-     "source": "len(set(keys)) == len(keys) == 257",
-     "class": "HISTORICAL_COHORT_INVARIANT",
-     "reason": "count in a closed order's suite"
-    },
-    {
-     "line": 277,
-     "test": "test_the_partition_reconciles_to_the_new_census",
-     "kind": "count",
-     "literal": 257,
-     "reads_package": false,
-     "has_len": false,
-     "source": "rec.census_count == rec.partition_count == 257",
-     "class": "HISTORICAL_COHORT_INVARIANT",
-     "reason": "count in a closed order's suite"
-    },
-    {
-     "line": 284,
+     "line": 307,
      "test": "test_unresolved_is_derived_not_carried_forward",
      "kind": "count",
      "literal": 99,
@@ -8949,28 +8716,6 @@
      "source": "after[\"published_pet_friendly\"] == 99",
      "class": "HISTORICAL_COHORT_INVARIANT",
      "reason": "count in a closed order's suite"
-    },
-    {
-     "line": 297,
-     "test": "test_unresolved_is_derived_not_carried_forward",
-     "kind": "count",
-     "literal": 103,
-     "reads_package": true,
-     "has_len": false,
-     "source": "sum(counts.values()) - resolved == 103",
-     "class": "HISTORICAL_COHORT_INVARIANT",
-     "reason": "count in a closed order's suite"
-    },
-    {
-     "line": 324,
-     "test": "test_the_pet_friendly_package_was_not_touched",
-     "kind": "count",
-     "literal": 99,
-     "reads_package": true,
-     "has_len": true,
-     "source": "len(package[\"hotels\"]) == 99",
-     "class": "HISTORICAL_COHORT_INVARIANT",
-     "reason": "whole-package count in a closed order's suite"
     }
    ]
   },
@@ -8983,13 +8728,13 @@
    ],
    "default_class": "HISTORICAL_COHORT_INVARIANT",
    "default_reason": "work-order-numbered module",
-   "site_count": 10,
+   "site_count": 7,
    "by_class": {
-    "HISTORICAL_COHORT_INVARIANT": 10
+    "HISTORICAL_COHORT_INVARIANT": 7
    },
    "sites": [
     {
-     "line": 189,
+     "line": 196,
      "test": "test_every_publication_grade_row_carries_its_document_hash",
      "kind": "count",
      "literal": 14,
@@ -9000,7 +8745,7 @@
      "reason": "whole-package count in a closed order's suite"
     },
     {
-     "line": 191,
+     "line": 198,
      "test": "test_every_publication_grade_row_carries_its_document_hash",
      "kind": "count",
      "literal": 14,
@@ -9011,7 +8756,7 @@
      "reason": "whole-package count in a closed order's suite"
     },
     {
-     "line": 225,
+     "line": 232,
      "test": "test_every_admitted_identity_got_exactly_one_terminal_state",
      "kind": "count",
      "literal": 14,
@@ -9022,7 +8767,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 269,
+     "line": 276,
      "test": "test_the_remaining_pool_matches_authority",
      "kind": "count",
      "literal": 20,
@@ -9033,7 +8778,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 287,
+     "line": 294,
      "test": "test_the_consolidated_counts",
      "kind": "count",
      "literal": 30,
@@ -9044,7 +8789,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 293,
+     "line": 300,
      "test": "test_no_identity_is_claimed_by_two_orders",
      "kind": "count",
      "literal": 30,
@@ -9055,40 +8800,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 311,
-     "test": "test_nothing_was_applied",
-     "kind": "count",
-     "literal": 99,
-     "reads_package": true,
-     "has_len": false,
-     "source": "counts[\"PUBLISHED_PET_FRIENDLY\"] == 99",
-     "class": "HISTORICAL_COHORT_INVARIANT",
-     "reason": "count in a closed order's suite"
-    },
-    {
-     "line": 312,
-     "test": "test_nothing_was_applied",
-     "kind": "count",
-     "literal": 49,
-     "reads_package": true,
-     "has_len": false,
-     "source": "counts[\"VERIFIED_NO_PETS\"] == 49",
-     "class": "HISTORICAL_COHORT_INVARIANT",
-     "reason": "count in a closed order's suite"
-    },
-    {
-     "line": 313,
-     "test": "test_nothing_was_applied",
-     "kind": "count",
-     "literal": 257,
-     "reads_package": true,
-     "has_len": true,
-     "source": "sum(counts.values()) == 257",
-     "class": "HISTORICAL_COHORT_INVARIANT",
-     "reason": "whole-package count in a closed order's suite"
-    },
-    {
-     "line": 314,
+     "line": 321,
      "test": "test_nothing_was_applied",
      "kind": "count",
      "literal": 80,
@@ -9109,14 +8821,14 @@
    ],
    "default_class": "HISTORICAL_COHORT_INVARIANT",
    "default_reason": "work-order-numbered module",
-   "site_count": 10,
+   "site_count": 5,
    "by_class": {
     "HISTORICAL_ARTIFACT_INVARIANT": 1,
-    "HISTORICAL_COHORT_INVARIANT": 9
+    "HISTORICAL_COHORT_INVARIANT": 4
    },
    "sites": [
     {
-     "line": 76,
+     "line": 83,
      "test": "test_exactly_eight_records_were_rebound",
      "kind": "count",
      "literal": 8,
@@ -9127,7 +8839,7 @@
      "reason": "count read from a committed artifact"
     },
     {
-     "line": 77,
+     "line": 84,
      "test": "test_exactly_eight_records_were_rebound",
      "kind": "count",
      "literal": 8,
@@ -9138,7 +8850,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 203,
+     "line": 210,
      "test": "test_no_record_outside_the_cohort_was_touched",
      "kind": "count",
      "literal": 91,
@@ -9149,40 +8861,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 273,
-     "test": "test_no_count_moved",
-     "kind": "count",
-     "literal": 99,
-     "reads_package": true,
-     "has_len": true,
-     "source": "len(package[\"hotels\"]) == 99",
-     "class": "HISTORICAL_COHORT_INVARIANT",
-     "reason": "whole-package count in a closed order's suite"
-    },
-    {
-     "line": 278,
-     "test": "test_no_count_moved",
-     "kind": "count",
-     "literal": 99,
-     "reads_package": true,
-     "has_len": true,
-     "source": "counts[\"PUBLISHED_PET_FRIENDLY\"] == 99 == len(package[\"hotels\"])",
-     "class": "HISTORICAL_COHORT_INVARIANT",
-     "reason": "whole-package count in a closed order's suite"
-    },
-    {
-     "line": 279,
-     "test": "test_no_count_moved",
-     "kind": "count",
-     "literal": 6,
-     "reads_package": true,
-     "has_len": false,
-     "source": "counts[\"OUT_OF_CURRENT_CATEGORY\"] == 6",
-     "class": "HISTORICAL_COHORT_INVARIANT",
-     "reason": "count in a closed order's suite"
-    },
-    {
-     "line": 284,
+     "line": 291,
      "test": "test_the_shards_were_not_rebuilt",
      "kind": "count",
      "literal": 80,
@@ -9193,7 +8872,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 286,
+     "line": 293,
      "test": "test_the_shards_were_not_rebuilt",
      "kind": "count",
      "literal": 49,
@@ -9202,28 +8881,6 @@
      "source": "sum(1 for e in exclusions\n               if e[\"exclusion_state\"] == \"VERIFIED_NO_PETS\") == 49",
      "class": "HISTORICAL_COHORT_INVARIANT",
      "reason": "whole-package count in a closed order's suite"
-    },
-    {
-     "line": 294,
-     "test": "test_the_contract_agrees_and_says_why_its_pin_moved",
-     "kind": "count",
-     "literal": 99,
-     "reads_package": false,
-     "has_len": false,
-     "source": "contract[\"policy_package\"][\"expected_record_count\"] == 99",
-     "class": "HISTORICAL_COHORT_INVARIANT",
-     "reason": "count in a closed order's suite"
-    },
-    {
-     "line": 296,
-     "test": "test_the_contract_agrees_and_says_why_its_pin_moved",
-     "kind": "count",
-     "literal": 99,
-     "reads_package": false,
-     "has_len": false,
-     "source": "contract[\"reconciliation\"][\"published_pet_friendly\"] == 99",
-     "class": "HISTORICAL_COHORT_INVARIANT",
-     "reason": "count in a closed order's suite"
     }
    ]
   },
@@ -9378,33 +9035,6 @@
      "source": "manifest[\"phase_1_routing_verification\"][\"promoted\"] == 4",
      "class": "HISTORICAL_ARTIFACT_INVARIANT",
      "reason": "count read from a committed artifact"
-    }
-   ]
-  },
-  {
-   "module": "tests/pettripfinder/test_cincinnati_zip_integrity_002.py",
-   "market": "cincinnati-oh",
-   "lanes": [
-    "market_targeted",
-    "full_regression"
-   ],
-   "default_class": "HISTORICAL_COHORT_INVARIANT",
-   "default_reason": "work-order-numbered module",
-   "site_count": 1,
-   "by_class": {
-    "HISTORICAL_COHORT_INVARIANT": 1
-   },
-   "sites": [
-    {
-     "line": 213,
-     "test": "test_the_census_still_holds_every_identity",
-     "kind": "count",
-     "literal": 257,
-     "reads_package": true,
-     "has_len": true,
-     "source": "len(rows) == 257",
-     "class": "HISTORICAL_COHORT_INVARIANT",
-     "reason": "whole-package count in a closed order's suite"
     }
    ]
   },

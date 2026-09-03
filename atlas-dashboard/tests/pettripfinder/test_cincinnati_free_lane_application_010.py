@@ -31,6 +31,8 @@ from pathlib import Path
 
 import pytest
 
+from pettripfinder.market_state import current
+
 from scripts.pettripfinder import cincinnati_free_lane_application_010 as A
 from scripts.pettripfinder.contracts import enums, policy_schema
 from scripts.pettripfinder.contracts import service_animal as SA
@@ -47,6 +49,11 @@ WITHDRAWALS = REPORTS / "cincinnati_free_lane_route_withdrawals_010.json"
 
 APPLIED_ON = "2026-08-31"
 HELD = "studio 6 extended stay fairfield oh cincinnati"
+
+#: The market's CURRENT counts. PTF-FACTORY-THROUGHPUT-HARDENING-001: a live
+#: authority count is read from the pin, never restated in one more module.
+NOW = current("cincinnati-oh")
+
 
 
 def _load(path):
@@ -74,7 +81,7 @@ def exclusions():
 def test_this_order_published_eight_and_refused_seven(package, applied,
                                                       exclusions):
     assert len(applied) == 8            # 1 clean + 7 publishing rulings
-    assert len(package["hotels"]) == 99
+    assert len(package["hotels"]) == NOW.pet_friendly
     # Scoped by WORK ORDER, not by date: PTF-CINCINNATI-MAINSTAY-CENSUS-
     # SPLIT-013 registered two more refusals on the same day, and a date is
     # not an identifier.
@@ -88,19 +95,19 @@ def test_this_order_published_eight_and_refused_seven(package, applied,
 def test_the_partition_reconciles(package):
     partition = _load(PARTITION)
     counts = partition["final_state_counts"]
-    assert sum(counts.values()) == 257 == len(partition["items"])
+    assert sum(counts.values()) == NOW.census == len(partition["items"])
     keys = [i["identity_key"] for i in partition["items"]]
     assert len(set(keys)) == len(keys)
-    assert counts["PUBLISHED_PET_FRIENDLY"] == 99 == len(package["hotels"])
+    assert counts["PUBLISHED_PET_FRIENDLY"] == NOW.pet_friendly == len(package["hotels"])
     # 47 -> 49 and 152/104 -> 154/103 at PTF-CINCINNATI-MAINSTAY-CENSUS-SPLIT-013, which registered a refusal for
     # each of the two hotels the conflated MainStay row denoted.
-    assert counts["VERIFIED_NO_PETS"] == 49
-    assert counts["OUT_OF_CURRENT_CATEGORY"] == 6
+    assert counts["VERIFIED_NO_PETS"] == NOW.verified_no_pets
+    assert counts["OUT_OF_CURRENT_CATEGORY"] == NOW.out_of_category
     resolved = sum(counts[s] for s in ("PUBLISHED_PET_FRIENDLY",
                                        "VERIFIED_NO_PETS",
                                        "OUT_OF_CURRENT_CATEGORY"))
-    assert resolved == 154
-    assert sum(counts.values()) - resolved == 103
+    assert resolved == NOW.resolved
+    assert sum(counts.values()) - resolved == NOW.unresolved
 
 
 def test_nothing_is_both_published_and_refused(package, exclusions):

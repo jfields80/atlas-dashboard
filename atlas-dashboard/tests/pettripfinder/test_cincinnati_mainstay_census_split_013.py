@@ -29,6 +29,8 @@ from pathlib import Path
 
 import pytest
 
+from pettripfinder import epochs
+from pettripfinder.market_state import current
 from scripts.pettripfinder import cincinnati_mainstay_census_split_013 as S
 from scripts.pettripfinder import hotel_exclusions as EX
 from scripts.pettripfinder.contracts import census as census_contract
@@ -40,6 +42,18 @@ AUTH = PKG / "markets" / "authority" / "cincinnati-oh"
 CENSUS = PKG / "identity_census" / "cincinnati-oh.json"
 PARTITION = PKG / "cincinnati_final_partition_001.json"
 LEDGER = PKG / "markets" / "reports" / "cincinnati_mainstay_census_split_013.json"
+
+MARKET = "cincinnati-oh"
+
+#: What this order left true when it closed. PTF-FACTORY-THROUGHPUT-HARDENING-001:
+#: the whole-market numbers live on the pin, not restated here. While the pin
+#: still names this order as Cincinnati's last mover the two agree exactly; once
+#: a later order moves the market they are superseded BY THAT ORDER'S NAME.
+EPOCH = epochs.HistoricalEpoch(
+    "PTF-CINCINNATI-MAINSTAY-CENSUS-SPLIT-013", MARKET,
+    facts={"census": 257, "pet_friendly": 99, "verified_no_pets": 49,
+           "resolved": 154, "unresolved": 103, "out_of_category": 6})
+NOW = current(MARKET)
 
 LEGACY = "comfort suites mainstay hotel"
 OH720 = "comfort suites cincinnati university downtown"
@@ -251,8 +265,17 @@ def test_the_two_refusals_are_two_records_not_one(exclusions):
 
 # ---------------------------------------------------------- the arithmetic
 
+def test_the_market_still_stands_at_this_orders_epoch():
+    """Exact while the pin still names this order as Cincinnati's last mover;
+    superseded BY NAME once a later order moves the market."""
+    epochs.whole_market_counts_or_superseded(EPOCH, NOW, {
+        "census": "census", "pet_friendly": "pet_friendly",
+        "verified_no_pets": "verified_no_pets", "resolved": "resolved",
+        "unresolved": "unresolved", "out_of_category": "out_of_category"})
+
+
 def test_the_census_grew_by_exactly_one(census, ledger):
-    assert census["count"] == len(census["hotels"]) == 257
+    assert census["count"] == len(census["hotels"]) == NOW.census
     arithmetic = ledger["census_arithmetic"]
     assert arithmetic["before"] == 256
     assert arithmetic["retired"] == 1
@@ -263,7 +286,7 @@ def test_the_census_grew_by_exactly_one(census, ledger):
 
 def test_no_identity_is_duplicated(census):
     keys = [h["identity_key"] for h in census["hotels"]]
-    assert len(set(keys)) == len(keys) == 257
+    assert len(set(keys)) == len(keys) == NOW.census
     assert census_contract.validate(census) == ()
 
 
@@ -274,7 +297,7 @@ def test_the_partition_reconciles_to_the_new_census(census):
     assert rec.missing_from_partition == ()
     assert rec.missing_from_census == ()
     assert rec.duplicated_in_partition == ()
-    assert rec.census_count == rec.partition_count == 257
+    assert rec.census_count == rec.partition_count == NOW.census
     assert rec.agrees
 
 
@@ -293,8 +316,8 @@ def test_unresolved_is_derived_not_carried_forward(ledger):
     resolved = sum(counts[s] for s in ("PUBLISHED_PET_FRIENDLY",
                                        "VERIFIED_NO_PETS",
                                        "OUT_OF_CURRENT_CATEGORY"))
-    assert resolved == 154
-    assert sum(counts.values()) - resolved == 103
+    assert resolved == NOW.resolved
+    assert sum(counts.values()) - resolved == NOW.unresolved
 
 
 def test_the_release_contract_agrees():
@@ -302,10 +325,10 @@ def test_the_release_contract_agrees():
     assert RC.verify_contract("cincinnati-oh") == []
     contract = _load(RC.contract_path("cincinnati-oh"))
     rec = contract["reconciliation"]
-    assert rec["confirmed_identities"] == 257
-    assert rec["verified_no_pets"] == 49
-    assert rec["resolved"] == 154
-    assert rec["unresolved"] == 103
+    assert rec["confirmed_identities"] == NOW.census
+    assert rec["verified_no_pets"] == NOW.verified_no_pets
+    assert rec["resolved"] == NOW.resolved
+    assert rec["unresolved"] == NOW.unresolved
 
 
 # ------------------------------------------------------- nothing else moved
@@ -321,7 +344,7 @@ def test_the_blue_ash_mainstay_was_not_swept_in(rows):
 
 def test_the_pet_friendly_package_was_not_touched():
     package = _load(PKG / "hotel_policy_facts_cincinnati-oh.json")
-    assert len(package["hotels"]) == 99
+    assert len(package["hotels"]) == NOW.pet_friendly
     keys = {h["identity_key"] for h in package["hotels"]}
     assert LEGACY not in keys and OH720 not in keys and OH721 not in keys
 

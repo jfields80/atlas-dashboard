@@ -28,6 +28,8 @@ from pathlib import Path
 
 import pytest
 
+from pettripfinder.market_state import current
+
 from scripts.pettripfinder import canonical_view as CV
 from scripts.pettripfinder import cincinnati_species_key_rebind_011 as R
 from scripts.pettripfinder import policy_migration as PM
@@ -41,6 +43,11 @@ PARTITION = PKG / "cincinnati_final_partition_001.json"
 AUTH = PKG / "markets" / "authority" / "cincinnati-oh"
 
 REBOUND_ON = "2026-08-31"
+
+#: The market's CURRENT counts. PTF-FACTORY-THROUGHPUT-HARDENING-001: a live
+#: authority count is read from the pin, never restated in one more module.
+NOW = current("cincinnati-oh")
+
 
 
 def _load(path):
@@ -270,13 +277,13 @@ def test_the_package_still_validates(package):
 
 
 def test_no_count_moved(package):
-    assert len(package["hotels"]) == 99
+    assert len(package["hotels"]) == NOW.pet_friendly
     # The rebind moved no count, which is what this test is about. The market
     # totals have since moved for an unrelated reason -- PTF-CINCINNATI-MAINSTAY-CENSUS-SPLIT-013 split one identity
     # into two -- so what is pinned is the package this order touched.
     counts = _load(PARTITION)["final_state_counts"]
-    assert counts["PUBLISHED_PET_FRIENDLY"] == 99 == len(package["hotels"])
-    assert counts["OUT_OF_CURRENT_CATEGORY"] == 6
+    assert counts["PUBLISHED_PET_FRIENDLY"] == NOW.pet_friendly == len(package["hotels"])
+    assert counts["OUT_OF_CURRENT_CATEGORY"] == NOW.out_of_category
 
 
 def test_the_shards_were_not_rebuilt():
@@ -291,10 +298,10 @@ def test_the_contract_agrees_and_says_why_its_pin_moved():
     from scripts.pettripfinder import release_contracts as RC
     assert RC.verify_contract("cincinnati-oh") == []
     contract = _load(RC.contract_path("cincinnati-oh"))
-    assert contract["policy_package"]["expected_record_count"] == 99
+    assert contract["policy_package"]["expected_record_count"] == NOW.pet_friendly
     assert "REBIND-011" in contract["policy_package"]["rebind_note"]
-    assert contract["reconciliation"]["published_pet_friendly"] == 99
-    assert contract["reconciliation"]["unresolved"] == 103
+    assert contract["reconciliation"]["published_pet_friendly"] == NOW.pet_friendly
+    assert contract["reconciliation"]["unresolved"] == NOW.unresolved
 
 
 def test_this_order_cost_nothing(report):

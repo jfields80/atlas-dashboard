@@ -41,6 +41,8 @@ from pathlib import Path
 
 import pytest
 
+from pettripfinder.market_state import current
+
 from scripts.pettripfinder.discovery import market_membership as MM
 from scripts.pettripfinder.discovery.census_projection import corridor_zips
 from scripts.pettripfinder.markets import load_markets, market_by_id
@@ -72,6 +74,11 @@ ESA = "extended stay america florence meijer drive"
 #: The two codes this work order corrected, keyed by the identity that carried
 #: each one.
 REPAIRED = {ESA: "40142", "laquinta inn and suites florence": "41242"}
+
+#: The market's CURRENT counts. PTF-FACTORY-THROUGHPUT-HARDENING-001: a live
+#: authority count is read from the pin, never restated in one more module.
+NOW = current("cincinnati-oh")
+
 
 
 def _load(path):
@@ -210,7 +217,7 @@ def test_the_census_still_holds_every_identity(rows):
     ZIP moves. This pins the blast radius at the two rows the founder named.
     """
     # 256 -> 257: PTF-CINCINNATI-MAINSTAY-CENSUS-SPLIT-013 replaced the conflated 'Comfort Suites Mainstay Hotel' with the two real Choice properties at 2347 Reading Road (oh720 Building A, oh721 Building B), so the census is 256 - 1 + 2 = 257.
-    assert len(rows) == 257
+    assert len(rows) == NOW.census
     assert set(REPAIRED) <= {k for k, h in rows.items()
                              if h["postal_code"] == FLORENCE}
 

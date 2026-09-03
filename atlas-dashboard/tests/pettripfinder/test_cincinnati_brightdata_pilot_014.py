@@ -24,6 +24,8 @@ from pathlib import Path
 
 import pytest
 
+from pettripfinder.market_state import current
+
 from scripts.pettripfinder import cincinnati_brightdata_pilot_014 as M
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -36,6 +38,11 @@ LEDGER = PKG / "ptf_paid_attempt_ledger_001.json"
 
 CAP_USD = 3.00
 ATTEMPTS = 12
+
+#: The market's CURRENT counts. PTF-FACTORY-THROUGHPUT-HARDENING-001: a live
+#: authority count is read from the pin, never restated in one more module.
+NOW = current("cincinnati-oh")
+
 
 
 def _load(path):
@@ -194,12 +201,13 @@ def test_no_cincinnati_authority_was_mutated(report):
 
 
 def test_the_market_totals_are_untouched_by_this_order():
-    """99 published / 49 no-pets / 154 resolved, exactly as SPLIT-013 left it."""
+    """The pilot mutated no authority: the market still stands where the pin
+    says it does, whichever order moved it last."""
     counts = _load(PKG / "cincinnati_final_partition_001.json")["final_state_counts"]
-    assert counts["PUBLISHED_PET_FRIENDLY"] == 99
-    assert counts["VERIFIED_NO_PETS"] == 49
-    assert counts["OUT_OF_CURRENT_CATEGORY"] == 6
-    assert sum(counts.values()) == 257
+    assert counts["PUBLISHED_PET_FRIENDLY"] == NOW.pet_friendly
+    assert counts["VERIFIED_NO_PETS"] == NOW.verified_no_pets
+    assert counts["OUT_OF_CURRENT_CATEGORY"] == NOW.out_of_category
+    assert sum(counts.values()) == NOW.census
     assert _load(AUTH / "identity_routing.json")["count"] == 80
 
 

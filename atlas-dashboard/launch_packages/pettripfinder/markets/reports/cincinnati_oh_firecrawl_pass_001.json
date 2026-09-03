@@ -1,0 +1,897 @@
+{
+ "schema": "ptf-firecrawl-pass/1.0",
+ "work_order": "PTF-CINCINNATI-HARDENED-REVALIDATION-001",
+ "market_id": "cincinnati-oh",
+ "phase": "11 -- the Firecrawl rung, after the free static pass",
+ "run_id": "cincinnati_oh_firecrawl_001",
+ "lane": "firecrawl (rendered scrape; billed in PLAN CREDITS, no USD)",
+ "authorization": {
+  "granted_by": "operator, in session, for this diagnostic cohort",
+  "cap_credits": 7,
+  "usd_spent": 0.0,
+  "brightdata_calls": 0,
+  "places_calls": 0
+ },
+ "cohort_source": "ladder.plan_cohort over the committed static report; never a typed list",
+ "attended_pressure_before": {
+  "unresolved_routed": 37,
+  "static_to_attended": 28,
+  "firecrawl_candidates": 7,
+  "share_static_to_attended": 0.7568,
+  "share_firecrawl_candidates": 0.1892,
+  "threshold": 0.2,
+  "warning": false,
+  "message": ""
+ },
+ "planned_rows": 7,
+ "attempted_rows": 7,
+ "stopped_by_cap": false,
+ "credits": {
+  "before": 520,
+  "after": 515,
+  "delta": 5,
+  "note": "the credit delta is the meter; the adapter asserts no per-call price and none may be inferred"
+ },
+ "binding": {
+  "bound": {
+   "comfort suites mason near kings island": {
+    "identity_key": "comfort suites mason near kings island",
+    "requested_url": "https://www.choicehotels.com/ohio/mason/comfort-suites-hotels/oh470",
+    "identity_confirmed": true,
+    "outcome": "VALID"
+   },
+   "holiday inn cincinnati liberty way": {
+    "identity_key": "holiday inn cincinnati liberty way",
+    "requested_url": "https://www.ihg.com/holidayinn/hotels/us/en/west-chester/cvgwe/hoteldetail",
+    "identity_confirmed": true,
+    "outcome": "VALID"
+   },
+   "holiday inn express and suites cincinnati north liberty way": {
+    "identity_key": "holiday inn express and suites cincinnati north liberty way",
+    "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/west-chester/cvglc/hoteldetail",
+    "identity_confirmed": true,
+    "outcome": "VALID"
+   }
+  },
+  "unbound": [
+   {
+    "identity_key": "comfort inn and suites middletown franklin",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "quality inn and suites cvg airport",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "quality inn i 75 west chester north cincinnati",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   },
+   {
+    "identity_key": "quality inn mason near kings island",
+    "why": "UNBOUND_IDENTITY_NOT_CONFIRMED_ON_PAGE"
+   }
+  ],
+  "requests": 7,
+  "results": 7
+ },
+ "class_counts": {
+  "FIRECRAWL_BLOCKED": 2,
+  "FIRECRAWL_MISMATCH": 2,
+  "FIRECRAWL_PUBLICATION_GRADE": 3
+ },
+ "outcome_counts": {
+  "ACCESS_DENIED": 2,
+  "IDENTITY_MISMATCH": 2,
+  "VALID": 3
+ },
+ "authority_mutation": "NONE",
+ "rows": [
+  {
+   "identity_key": "comfort inn and suites middletown franklin",
+   "canonical_name": "Comfort Inn & Suites Middletown - Franklin",
+   "family": "CHOICE",
+   "property_code": "",
+   "requested_url": "https://www.choicehotels.com/ohio/middletown/comfort-inn-hotels/oh680",
+   "final_url": "",
+   "outcome": "ACCESS_DENIED",
+   "detail": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "45044",
+   "expected_street": "6575 Terhune Dr",
+   "captured_at": "2026-09-03T00:49:40.449311+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.choicehotels.com/ohio/middletown/comfort-inn-hotels/oh680"
+    },
+    "envelope_sha256": "28b26cdbda524590deb7bb9b8eb942ee41c23bde3c91ca04846f7d880121bab0"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\cincinnati_oh_firecrawl_001\\comfort-inn-suites-middletown-franklin\\attempt-01",
+   "ladder_reason": "static channel failure (NAVIGATION_FAILED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-FIRECRAWL-CHOICE-VALIDATION-004, PTF-CHOICE-READER-AND-ROUTE-CLOSURE-005",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "comfort suites mason near kings island",
+   "canonical_name": "Comfort Suites Mason near Kings Island",
+   "family": "CHOICE",
+   "property_code": "",
+   "requested_url": "https://www.choicehotels.com/ohio/mason/comfort-suites-hotels/oh470",
+   "final_url": "https://www.choicehotels.com/ohio/mason/comfort-suites-hotels/oh470",
+   "outcome": "VALID",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Comfort Suites Mason near Kings Island",
+     "address_on_page": "5457 Kings Center Drive",
+     "postal_code": "45040",
+     "phone_on_page": "(513) 202-3996",
+     "property_code_on_page": "oh470",
+     "canonical_url": "https://www.choicehotels.com/ohio/mason/comfort-suites-hotels/oh470",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "5132023996",
+      "5133369007",
+      "8887706800",
+      "8669999999",
+      "8002242826",
+      "5167474462",
+      "8776342826",
+      "8777342826",
+      "8774246423",
+      "8002285050",
+      "8003008800",
+      "8663513033",
+      "8005444444",
+      "8553253180",
+      "8662231911",
+      "8008920395",
+      "8884899290",
+      "8005212121",
+      "8662331911",
+      "8882888889"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, canonical_path via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "45040",
+   "expected_street": "",
+   "captured_at": "2026-09-03T00:49:44.809713+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.choicehotels.com/ohio/mason/comfort-suites-hotels/oh470"
+    },
+    "envelope_sha256": "df54a6c4bfb8723850963828a9744792d6764a5a2bc0c28ab8932c4483f57cd9"
+   },
+   "page_sha256": "6c5eb6d771c9cedec8684e47c8a7bfdb9134fbeb9768b0aa62cea36ac6535e8f",
+   "artifact_dir": "data\\acquisition\\cincinnati_oh_firecrawl_001\\comfort-suites-mason-near-kings-island\\attempt-01",
+   "ladder_reason": "static channel failure (NAVIGATION_FAILED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-FIRECRAWL-CHOICE-VALIDATION-004, PTF-CHOICE-READER-AND-ROUTE-CLOSURE-005",
+   "observation": {
+    "extraction": {
+     "pets_allowed": false,
+     "service_animal_exception": "Pets Allowed: No General: Only service animals are permitted, free of charge."
+    },
+    "evidence": [
+     {
+      "quote": "Pets Allowed: No",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "Pets Allowed: No General: Only service animals are permitted, free of charge.",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "service_animal_exception"
+      ]
+     }
+    ],
+    "withheld_fields": {},
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt",
+      "service_animal_exception": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "cincinnati_oh_firecrawl_001::comfort suites mason near kings island::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "Pets Allowed: No",
+       "source_url": "https://www.choicehotels.com/ohio/mason/comfort-suites-hotels/oh470",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "6c5eb6d771c9cedec8684e47c8a7bfdb9134fbeb9768b0aa62cea36ac6535e8f",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-03",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "cincinnati_oh_firecrawl_001::comfort suites mason near kings island::service_animal_exception::1",
+       "field": "service_animal_exception",
+       "quote": "Pets Allowed: No General: Only service animals are permitted, free of charge.",
+       "source_url": "https://www.choicehotels.com/ohio/mason/comfort-suites-hotels/oh470",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "6c5eb6d771c9cedec8684e47c8a7bfdb9134fbeb9768b0aa62cea36ac6535e8f",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-03",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "8fad5376d7613884cb547498de7375c3dd00df99fe90a3e0d1b5cb339498b49a",
+     "document_sha256": "6c5eb6d771c9cedec8684e47c8a7bfdb9134fbeb9768b0aa62cea36ac6535e8f"
+    }
+   },
+   "pets_allowed": false,
+   "firecrawl_class": "FIRECRAWL_PUBLICATION_GRADE"
+  },
+  {
+   "identity_key": "holiday inn cincinnati liberty way",
+   "canonical_name": "Holiday Inn Cincinnati - Liberty Way",
+   "family": "IHG",
+   "property_code": "",
+   "requested_url": "https://www.ihg.com/holidayinn/hotels/us/en/west-chester/cvgwe/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinn/hotels/us/en/west-chester/cvgwe/hoteldetail",
+   "outcome": "VALID",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Holiday Inn Cincinnati - Liberty Way",
+     "address_on_page": "7500 Tylers Place Boulevard",
+     "postal_code": "45069",
+     "phone_on_page": "1-513-8476765",
+     "property_code_on_page": "cvgwe",
+     "canonical_url": "https://www.ihg.com/holidayinn/hotels/us/en/west-chester/cvgwe/hoteldetail",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "0800405060",
+      "5138476765"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, street_identity, canonical_path via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "45069",
+   "expected_street": "7500 Tylers Place Blvd",
+   "captured_at": "2026-09-03T00:50:05.014950+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.ihg.com/holidayinn/hotels/us/en/west-chester/cvgwe/hoteldetail"
+    },
+    "envelope_sha256": "0827e579182a2643e804af93be3f28460b70c17e1ddea2719203c7644bf692ad"
+   },
+   "page_sha256": "e21d0444e308ec99a446bc03a7e9d4320f3cb4b5963fc7b07a7e6e5b37bdf45b",
+   "artifact_dir": "data\\acquisition\\cincinnati_oh_firecrawl_001\\holiday-inn-cincinnati-liberty-way\\attempt-01",
+   "ladder_reason": "static channel failure (ACCESS_DENIED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-IHG-FIRECRAWL-DECISION-009",
+   "observation": {
+    "extraction": {
+     "pets_allowed": true,
+     "pet_fee": 7500,
+     "fee_currency": "USD",
+     "fee_basis": "per_night",
+     "weight_limit": {
+      "value": 40.0,
+      "unit": "lb"
+     },
+     "pet_count_limit": 1
+    },
+    "evidence": [
+     {
+      "quote": "pet permitted",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "Pet fee per night: 75 USD",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_fee",
+       "fee_currency"
+      ]
+     },
+     {
+      "quote": "Pet fee per night: 75 USD",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "fee_basis"
+      ]
+     },
+     {
+      "quote": "up to 40lbs",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "weight_limit"
+      ]
+     },
+     {
+      "quote": "Max 1 pet",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_count_limit"
+      ]
+     }
+    ],
+    "withheld_fields": {},
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt",
+      "pet_fee": "page-text.txt",
+      "fee_currency": "page-text.txt",
+      "fee_basis": "page-text.txt",
+      "weight_limit": "page-text.txt",
+      "pet_count_limit": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "cincinnati_oh_firecrawl_001::holiday inn cincinnati liberty way::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "pet permitted",
+       "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/west-chester/cvgwe/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "e21d0444e308ec99a446bc03a7e9d4320f3cb4b5963fc7b07a7e6e5b37bdf45b",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-03",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "cincinnati_oh_firecrawl_001::holiday inn cincinnati liberty way::pet_fee::1",
+       "field": "pet_fee",
+       "quote": "Pet fee per night: 75 USD",
+       "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/west-chester/cvgwe/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "e21d0444e308ec99a446bc03a7e9d4320f3cb4b5963fc7b07a7e6e5b37bdf45b",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-03",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "cincinnati_oh_firecrawl_001::holiday inn cincinnati liberty way::fee_currency::1",
+       "field": "fee_currency",
+       "quote": "Pet fee per night: 75 USD",
+       "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/west-chester/cvgwe/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "e21d0444e308ec99a446bc03a7e9d4320f3cb4b5963fc7b07a7e6e5b37bdf45b",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-03",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "cincinnati_oh_firecrawl_001::holiday inn cincinnati liberty way::fee_basis::2",
+       "field": "fee_basis",
+       "quote": "Pet fee per night: 75 USD",
+       "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/west-chester/cvgwe/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "e21d0444e308ec99a446bc03a7e9d4320f3cb4b5963fc7b07a7e6e5b37bdf45b",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-03",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "cincinnati_oh_firecrawl_001::holiday inn cincinnati liberty way::weight_limit::3",
+       "field": "weight_limit",
+       "quote": "up to 40lbs",
+       "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/west-chester/cvgwe/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "e21d0444e308ec99a446bc03a7e9d4320f3cb4b5963fc7b07a7e6e5b37bdf45b",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-03",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "cincinnati_oh_firecrawl_001::holiday inn cincinnati liberty way::pet_count_limit::4",
+       "field": "pet_count_limit",
+       "quote": "Max 1 pet",
+       "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/west-chester/cvgwe/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "e21d0444e308ec99a446bc03a7e9d4320f3cb4b5963fc7b07a7e6e5b37bdf45b",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-03",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "ed858d8ad3a55bdb3f05a990d15ccece64d3518f9fa6f4ca6f48070dd0c2a3df",
+     "document_sha256": "e21d0444e308ec99a446bc03a7e9d4320f3cb4b5963fc7b07a7e6e5b37bdf45b"
+    }
+   },
+   "pets_allowed": true,
+   "firecrawl_class": "FIRECRAWL_PUBLICATION_GRADE"
+  },
+  {
+   "identity_key": "holiday inn express and suites cincinnati north liberty way",
+   "canonical_name": "Holiday Inn Express & Suites Cincinnati North - Liberty Way",
+   "family": "IHG",
+   "property_code": "",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/west-chester/cvglc/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/west-chester/cvglc/hoteldetail",
+   "outcome": "VALID",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Holiday Inn Express &amp; Suites Cincinnati North - Liberty Way",
+     "address_on_page": "7750 Liberty Field Drive",
+     "postal_code": "45069",
+     "phone_on_page": "1-513-7779900",
+     "property_code_on_page": "cvglc",
+     "canonical_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/west-chester/cvglc/hoteldetail",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8884654329",
+      "5137779900"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, postal_code, street_identity, canonical_path via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "identity_confirmed": true,
+   "expected_postal_code": "45069",
+   "expected_street": "7750 Liberty Field Drive",
+   "captured_at": "2026-09-03T00:50:20.599941+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/west-chester/cvglc/hoteldetail"
+    },
+    "envelope_sha256": "24c367394165c0fdf9c9cd2e8905b778dcf70870687733f95bd4eab5d345da39"
+   },
+   "page_sha256": "f697a974881e3e828287cb7dfbbd8789c0f19311e14d91d27caab0a3e7e61d70",
+   "artifact_dir": "data\\acquisition\\cincinnati_oh_firecrawl_001\\holiday-inn-express-suites-cincinnati-north-liberty-way\\attempt-01",
+   "ladder_reason": "static channel failure (ACCESS_DENIED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-IHG-FIRECRAWL-DECISION-009",
+   "observation": {
+    "extraction": {
+     "pets_allowed": false
+    },
+    "evidence": [
+     {
+      "quote": "pets are not allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     }
+    ],
+    "withheld_fields": {},
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "cincinnati_oh_firecrawl_001::holiday inn express and suites cincinnati north liberty way::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "pets are not allowed",
+       "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/west-chester/cvglc/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "f697a974881e3e828287cb7dfbbd8789c0f19311e14d91d27caab0a3e7e61d70",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-03",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "92f66f74a9c70490c868ab164eb512d45ffe0f5d46be87141b5695f3bc424102",
+     "document_sha256": "f697a974881e3e828287cb7dfbbd8789c0f19311e14d91d27caab0a3e7e61d70"
+    }
+   },
+   "pets_allowed": false,
+   "firecrawl_class": "FIRECRAWL_PUBLICATION_GRADE"
+  },
+  {
+   "identity_key": "quality inn and suites cvg airport",
+   "canonical_name": "Quality Inn & Suites CVG Airport",
+   "family": "CHOICE",
+   "property_code": "",
+   "requested_url": "https://www.choicehotels.com/kentucky/erlanger/quality-inn-hotels/ky145",
+   "final_url": "https://www.choicehotels.com/kentucky/erlanger/quality-inn-hotels/ky145",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page street '1805 Airport Exchange Boulevar' does not agree with expected '1805 Airport Exchange'; page telephone '(859) 279-2283' is not the census number '8597460300'; one property commonly publishes several; nothing physical agreed: no street identity and no telephone match, and a related-looking",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Quality Inn & Suites CVG Airport",
+     "address_on_page": "1805 Airport Exchange Boulevar",
+     "postal_code": "41018",
+     "phone_on_page": "(859) 279-2283",
+     "property_code_on_page": "ky145",
+     "canonical_url": "https://www.choicehotels.com/kentucky/erlanger/quality-inn-hotels/ky145",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8592792283",
+      "4743096808",
+      "2018788483",
+      "6951158212",
+      "8597460777",
+      "8887706800",
+      "8669999999",
+      "8002242826",
+      "5167474462",
+      "8776342826",
+      "8777342826",
+      "8774246423",
+      "8002285050",
+      "8003008800",
+      "8663513033",
+      "8005444444",
+      "8553253180",
+      "8662231911",
+      "8008920395",
+      "8884899290",
+      "8005212121",
+      "8662331911",
+      "8882888889"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name",
+     "postal_code",
+     "canonical_path"
+    ],
+    "conflicting": [
+     "street_identity"
+    ],
+    "reasons": [
+     "page street '1805 Airport Exchange Boulevar' does not agree with expected '1805 Airport Exchange'",
+     "page telephone '(859) 279-2283' is not the census number '8597460300'; one property commonly publishes several",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "41018",
+   "expected_street": "1805 Airport Exchange",
+   "captured_at": "2026-09-03T00:50:37.895256+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.choicehotels.com/kentucky/erlanger/quality-inn-hotels/ky145"
+    },
+    "envelope_sha256": "282342d805a0a4c3d372b859a7f9f7337a2b2611ff465f78c5714f1585f7603b"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\cincinnati_oh_firecrawl_001\\quality-inn-suites-cvg-airport\\attempt-01",
+   "ladder_reason": "static channel failure (NAVIGATION_FAILED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-FIRECRAWL-CHOICE-VALIDATION-004, PTF-CHOICE-READER-AND-ROUTE-CLOSURE-005",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  },
+  {
+   "identity_key": "quality inn i 75 west chester north cincinnati",
+   "canonical_name": "Quality Inn I-75 West Chester-North Cincinnati",
+   "family": "CHOICE",
+   "property_code": "",
+   "requested_url": "https://www.choicehotels.com/ohio/west-chester/quality-inn-hotels/oh605",
+   "final_url": "",
+   "outcome": "ACCESS_DENIED",
+   "detail": "ALL_ENGINES_FAILED: SCRAPE_ALL_ENGINES_FAILED: every Firecrawl engine was refused by this origin",
+   "identity_assessment": {},
+   "identity_confirmed": false,
+   "expected_postal_code": "45069",
+   "expected_street": "8567 Cincinnati Dayton Rd.",
+   "captured_at": "2026-09-03T00:50:57.399026+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.choicehotels.com/ohio/west-chester/quality-inn-hotels/oh605"
+    },
+    "envelope_sha256": "753e40c0659f2cc92e8312d08d8a14e0f65a153b66c3f1ffb90b7c67dd61cccd"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\cincinnati_oh_firecrawl_001\\quality-inn-i-75-west-chester-north-cincinnati\\attempt-01",
+   "ladder_reason": "static channel failure (NAVIGATION_FAILED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-FIRECRAWL-CHOICE-VALIDATION-004, PTF-CHOICE-READER-AND-ROUTE-CLOSURE-005",
+   "firecrawl_class": "FIRECRAWL_BLOCKED"
+  },
+  {
+   "identity_key": "quality inn mason near kings island",
+   "canonical_name": "Quality Inn Mason Near Kings Island",
+   "family": "CHOICE",
+   "property_code": "",
+   "requested_url": "https://www.choicehotels.com/ohio/mason/quality-inn-hotels/oh860",
+   "final_url": "https://www.choicehotels.com/ohio/mason/quality-inn-hotels/oh860",
+   "outcome": "IDENTITY_MISMATCH",
+   "detail": "page street '5589 Kings Mills Road, Bldg A' does not agree with expected '5589 Kings Mills Rd'; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Quality Inn Mason Near Kings Island",
+     "address_on_page": "5589 Kings Mills Road, Bldg A",
+     "postal_code": "45040",
+     "phone_on_page": "(513) 994-5326",
+     "property_code_on_page": "oh860",
+     "canonical_url": "https://www.choicehotels.com/ohio/mason/quality-inn-hotels/oh860",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "5139945326",
+      "4743096808",
+      "2018788483",
+      "6951158212",
+      "5134591043",
+      "8887706800",
+      "8669999999",
+      "8002242826",
+      "5167474462",
+      "8776342826",
+      "8777342826",
+      "8774246423",
+      "8002285050",
+      "8003008800",
+      "8663513033",
+      "8005444444",
+      "8553253180",
+      "8662231911",
+      "8008920395",
+      "8884899290",
+      "8005212121",
+      "8662331911",
+      "8882888889"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name",
+     "postal_code",
+     "canonical_path"
+    ],
+    "conflicting": [
+     "street_identity"
+    ],
+    "reasons": [
+     "page street '5589 Kings Mills Road, Bldg A' does not agree with expected '5589 Kings Mills Rd'",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "identity_confirmed": false,
+   "expected_postal_code": "45040",
+   "expected_street": "5589 Kings Mills Rd",
+   "captured_at": "2026-09-03T00:51:01.270420+00:00",
+   "request_envelope": {
+    "provider": "Firecrawl",
+    "api": "https://api.firecrawl.dev/v1/scrape",
+    "body": {
+     "formats": [
+      "rawHtml"
+     ],
+     "waitFor": 6000,
+     "timeout": 90000,
+     "location": {
+      "country": "US"
+     },
+     "url": "https://www.choicehotels.com/ohio/mason/quality-inn-hotels/oh860"
+    },
+    "envelope_sha256": "9d3362213c788662593ac08d86a8ec40ce62af8498a1092c593fd7445768f54b"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\cincinnati_oh_firecrawl_001\\quality-inn-mason-near-kings-island\\attempt-01",
+   "ladder_reason": "static channel failure (NAVIGATION_FAILED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "firecrawl_measured_by": "PTF-FIRECRAWL-CHOICE-VALIDATION-004, PTF-CHOICE-READER-AND-ROUTE-CLOSURE-005",
+   "firecrawl_class": "FIRECRAWL_MISMATCH"
+  }
+ ]
+}

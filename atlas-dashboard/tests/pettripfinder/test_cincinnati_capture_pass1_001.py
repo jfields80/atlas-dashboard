@@ -13,6 +13,8 @@ from pathlib import Path
 
 import pytest
 
+from pettripfinder.market_state import current
+
 REPO_ROOT = Path(__file__).resolve().parents[2]
 LP = REPO_ROOT / "launch_packages" / "pettripfinder"
 PREPARED_PATH = LP / "markets" / "reports" / "cincinnati_capture_pass1_001_prepared.json"
@@ -28,6 +30,11 @@ OUTCOMES = {
 }
 CANDIDATE_OUTCOMES = {"PUBLICATION_CANDIDATE", "VERIFIED_NO_PETS_CANDIDATE"}
 FORBIDDEN_LANES = {"choice", "marriott", "hyatt", "ihg"}
+
+#: The market's CURRENT counts. PTF-FACTORY-THROUGHPUT-HARDENING-001: a live
+#: authority count is read from the pin, never restated in one more module.
+NOW = current("cincinnati-oh")
+
 
 
 def _load(path):
@@ -186,12 +193,12 @@ class TestAuthorityFreeze:
         partition = _load(PARTITION_PATH)
         counts = partition["final_state_counts"]
         # 256 -> 257: PTF-CINCINNATI-MAINSTAY-CENSUS-SPLIT-013 replaced the conflated 'Comfort Suites Mainstay Hotel' with the two real Choice properties at 2347 Reading Road (oh720 Building A, oh721 Building B), so the census is 256 - 1 + 2 = 257.
-        assert sum(counts.values()) == 257
+        assert sum(counts.values()) == NOW.census
         # 21/6 at Pass 1; 74/16 after APPLICATION-004 applied Capture Pass 3;
         # 91/40 since PTF-CINCINNATI-FREE-LANE-APPLICATION-007 applied the
         # zero-cost attended-Chrome free lane.
-        assert counts.get("PUBLISHED_PET_FRIENDLY") == 99
-        assert counts.get("VERIFIED_NO_PETS") == 49
+        assert counts.get("PUBLISHED_PET_FRIENDLY") == NOW.pet_friendly
+        assert counts.get("VERIFIED_NO_PETS") == NOW.verified_no_pets
 
     def test_routing_authority_reflects_the_27_retirements(self):
         """All 27 are accounted for: 21 removed, 6 kept and marked.
@@ -269,7 +276,7 @@ class TestAuthorityFreeze:
         # FREE-LANE-APPLICATION-007. What this test is about is unchanged:
         # every record in the package, whichever pass wrote it, carries a
         # named operator and an explicit approval decision.
-        assert len(facts["hotels"]) == 99
+        assert len(facts["hotels"]) == NOW.pet_friendly
         pass1 = [h for h in facts["hotels"]
                  if h["approval"]["approval_date"] == "2026-08-17"]
         assert len(pass1) == 21

@@ -22,12 +22,19 @@ from pathlib import Path
 
 import pytest
 
+from pettripfinder.market_state import current
+
 REPO_ROOT = Path(__file__).resolve().parents[2]
 PKG = REPO_ROOT / "launch_packages" / "pettripfinder"
 AUTH = PKG / "markets" / "authority" / "cincinnati-oh"
 QUEUE = PKG / "markets" / "reports" / "cincinnati-oh_founder_review_queue.json"
 
 REVIEWER = "jfields80"
+
+#: The market's CURRENT counts. PTF-FACTORY-THROUGHPUT-HARDENING-001: a live
+#: authority count is read from the pin, never restated in one more module.
+NOW = current("cincinnati-oh")
+
 
 
 def _load(path):
@@ -67,7 +74,7 @@ def test_the_queue_covers_the_whole_census(queue, rows):
     census = _load(PKG / "identity_census" / "cincinnati-oh.json")
     # 256 -> 257 at PTF-CINCINNATI-MAINSTAY-CENSUS-SPLIT-013: one conflated
     # identity was replaced by the two real hotels it denoted.
-    assert queue["count"] == len(queue["rows"]) == 257
+    assert queue["count"] == len(queue["rows"]) == NOW.census
     assert set(rows) == {h["identity_key"] for h in census["hotels"]}
 
 

@@ -24,6 +24,8 @@ from pathlib import Path
 
 import pytest
 
+from pettripfinder.market_state import current
+
 from scripts.pettripfinder import cincinnati_marriott_scale_batch_016 as M
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -34,6 +36,11 @@ REPORT = REPORTS / "cincinnati_marriott_scale_batch_016.json"
 INVENTORY = REPORTS / "cincinnati_application_inventory_016.json"
 LEDGER = PKG / "ptf_paid_attempt_ledger_001.json"
 PARTITION = PKG / "cincinnati_final_partition_001.json"
+
+#: The market's CURRENT counts. PTF-FACTORY-THROUGHPUT-HARDENING-001: a live
+#: authority count is read from the pin, never restated in one more module.
+NOW = current("cincinnati-oh")
+
 
 
 def _load(path):
@@ -308,9 +315,9 @@ def test_nothing_was_applied(report, inventory):
     assert report["authority_mutation"] == "NONE"
     assert inventory["applied"] == "NOTHING"
     counts = _load(PARTITION)["final_state_counts"]
-    assert counts["PUBLISHED_PET_FRIENDLY"] == 99
-    assert counts["VERIFIED_NO_PETS"] == 49
-    assert sum(counts.values()) == 257
+    assert counts["PUBLISHED_PET_FRIENDLY"] == NOW.pet_friendly
+    assert counts["VERIFIED_NO_PETS"] == NOW.verified_no_pets
+    assert sum(counts.values()) == NOW.census
     assert _load(AUTH / "identity_routing.json")["count"] == 80
 
     package = {h["identity_key"] for h in
