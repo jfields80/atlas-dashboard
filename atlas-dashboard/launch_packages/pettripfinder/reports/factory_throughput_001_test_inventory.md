@@ -1,11 +1,11 @@
 # PetTripFinder test pin inventory (A1)
 
-Schema `ptf-test-pin-inventory/1.0`. 389 modules scanned, 263 carry pins, 1583 sites.
+Schema `ptf-test-pin-inventory/1.0`. 390 modules scanned, 264 carry pins, 1586 sites.
 
 | class | sites |
 |---|---|
 | CURRENT_STATE_INVARIANT | 160 |
-| HISTORICAL_COHORT_INVARIANT | 853 |
+| HISTORICAL_COHORT_INVARIANT | 856 |
 | HISTORICAL_ARTIFACT_INVARIANT | 183 |
 | DEPLOYMENT_EPOCH_INVARIANT | 126 |
 | GENERIC_SCHEMA_INVARIANT | 194 |
@@ -358,6 +358,7 @@ Schema `ptf-test-pin-inventory/1.0`. 389 modules scanned, 263 carry pins, 1583 s
 | `test_publication_schema_decisions_010.py` |  | HISTORICAL_COHORT_INVARIANT | 12 | DEPLOYMENT_EPOCH 1, HISTORICAL_COHORT 11 |
 | `test_reader_tiered_fee_hardening_010.py` |  | HISTORICAL_COHORT_INVARIANT | 3 | CROSS_MARKET 1, HISTORICAL_COHORT 2 |
 | `test_register_publish_011.py` |  | DEPLOYMENT_EPOCH_INVARIANT | 7 | DEPLOYMENT_EPOCH 7 |
+| `test_regression_delta_001.py` |  | HISTORICAL_COHORT_INVARIANT | 3 | HISTORICAL_COHORT 3 |
 | `test_renderer_real_records.py` |  | GENERIC_SCHEMA_INVARIANT | 7 | CURRENT_STATE 2, GENERIC_SCHEMA 5 |
 | `test_routing_property_code_scope.py` |  | GENERIC_SCHEMA_INVARIANT | 3 | GENERIC_SCHEMA 3 |
 | `test_service_animal_correction_011.py` |  | HISTORICAL_COHORT_INVARIANT | 1 | CROSS_MARKET 1 |

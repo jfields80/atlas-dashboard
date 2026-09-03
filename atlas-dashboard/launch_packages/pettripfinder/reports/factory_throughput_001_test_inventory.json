@@ -9,12 +9,12 @@
   "GENERIC_SCHEMA_INVARIANT",
   "CROSS_MARKET_INVARIANT"
  ],
- "modules_scanned": 389,
- "modules_with_pins": 263,
- "sites": 1583,
+ "modules_scanned": 390,
+ "modules_with_pins": 264,
+ "sites": 1586,
  "by_class": {
   "CURRENT_STATE_INVARIANT": 160,
-  "HISTORICAL_COHORT_INVARIANT": 853,
+  "HISTORICAL_COHORT_INVARIANT": 856,
   "HISTORICAL_ARTIFACT_INVARIANT": 183,
   "DEPLOYMENT_EPOCH_INVARIANT": 126,
   "GENERIC_SCHEMA_INVARIANT": 194,
@@ -21151,6 +21151,54 @@
      "source": "RC.load_contract(MARKET)[\"routes\"][\n            \"published_corridor_route_count\"] == 15",
      "class": "DEPLOYMENT_EPOCH_INVARIANT",
      "reason": "bundle / sitemap / route total"
+    }
+   ]
+  },
+  {
+   "module": "tests/pettripfinder/test_regression_delta_001.py",
+   "market": null,
+   "lanes": [
+    "full_regression"
+   ],
+   "default_class": "HISTORICAL_COHORT_INVARIANT",
+   "default_reason": "work-order-numbered module",
+   "site_count": 3,
+   "by_class": {
+    "HISTORICAL_COHORT_INVARIANT": 3
+   },
+   "sites": [
+    {
+     "line": 170,
+     "test": "test_the_bulk_of_launch_packages_is_deliberately_unclassified",
+     "kind": "count",
+     "literal": 100,
+     "reads_package": false,
+     "has_len": true,
+     "source": "len(direct) > 100",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 174,
+     "test": "test_the_bulk_of_launch_packages_is_deliberately_unclassified",
+     "kind": "count",
+     "literal": 100,
+     "reads_package": false,
+     "has_len": true,
+     "source": "len(unclassified) > 100",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 443,
+     "test": "test_no_safe_classification_can_be_reached_from_a_runtime_or_authority_path",
+     "kind": "count",
+     "literal": 100,
+     "reads_package": false,
+     "has_len": true,
+     "source": "len(paths) > 100",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
     }
    ]
   },
