@@ -1,0 +1,130 @@
+{
+ "schema": "ptf-regression-delta-benchmark/1.0",
+ "work_order": "PTF-FACTORY-REGRESSION-V2-001",
+ "scenario": {
+  "name": "Cincinnati registration-only late fix",
+  "origin_order": "PTF-CINCINNATI-HARDENED-REVALIDATION-001",
+  "original_true_new_node_ids": [
+   "tests/pettripfinder/acquisition/test_store_integration_025.py::test_every_run_on_disk_is_classified"
+  ],
+  "the_fix": "two run ids added to OTHER_MARKET_RUNS, a module-level literal set in tests/pettripfinder/acquisition/test_store_integration_025.py",
+  "authority_changed": false,
+  "runtime_changed": false,
+  "bundle_changed": false,
+  "provider_calls": 0,
+  "spend_usd": 0.0
+ },
+ "old_method": {
+  "what": "another broad regression over the whole suite",
+  "stated_minutes_low": 90.0,
+  "stated_minutes_high": 110.0,
+  "measured_minutes_at_f75aa95": 66.1,
+  "measured_source": "launch_packages/pettripfinder/reports/factory_throughput_001_benchmark.json (regression_flow.projected_new_market_overhead.full_regression_minutes), same machine",
+  "collected": 17292,
+  "note": "the 90-110 minute figure is the operational range the work order states; 66.1 minutes is what a broad run actually measured on this hardware at f75aa95. Both are reported rather than the more flattering one."
+ },
+ "new_method": {
+  "change_classification_seconds": 7.0,
+  "targeted_validation_seconds": 315.8,
+  "targeted_validation_minutes": 5.3,
+  "node_id_proof_seconds": 0.4,
+  "total_closure_seconds": 323.2,
+  "total_closure_minutes": 5.4,
+  "change_class": [
+   "BOOKKEEPING_REGISTRATION_CHANGE"
+  ],
+  "full_regression_required": "NO",
+  "modules_run": 34,
+  "collected": 3523,
+  "collected_share_of_broad_run": 0.204,
+  "failures": 139,
+  "pre_existing": 139,
+  "true_new": 0,
+  "node_id_verdicts": {
+   "tests/pettripfinder/acquisition/test_store_integration_025.py::test_every_run_on_disk_is_classified": "CLOSED"
+  },
+  "all_original_failures_accounted_for": true
+ },
+ "savings": {
+  "against_measured_minutes": 60.7,
+  "against_stated_low_minutes": 84.6,
+  "against_stated_high_minutes": 104.6,
+  "target": "a bookkeeping-only late fix closes in under 10 minutes",
+  "target_met": true
+ },
+ "what_the_targeted_run_covered": {
+  "owning_directory": "tests/pettripfinder/acquisition",
+  "market_targeted": [
+   "cincinnati-oh"
+  ],
+  "lanes": [],
+  "assembly_required": false,
+  "note": "a bookkeeping change owes no lane and no assembly; it owes its owning directory, every module whose source names the changed one, and the market_targeted lane for the market the registered run ids themselves name."
+ },
+ "negative_safety_probes": [
+  {
+   "surface": "policy schema / parser contract",
+   "path": "scripts/pettripfinder/contracts/policy_schema.py",
+   "classes": [
+    "GENERIC_RUNTIME_CHANGE",
+    "SCHEMA_CHANGE"
+   ],
+   "full_regression_required": "YES"
+  },
+  {
+   "surface": "market authority JSON",
+   "path": "launch_packages/pettripfinder/hotel_policy_facts_dayton-oh.json",
+   "classes": [
+    "AUTHORITY_CHANGE"
+   ],
+   "full_regression_required": "YES"
+  },
+  {
+   "surface": "routing contract",
+   "path": "launch_packages/pettripfinder/markets/authority/dayton-oh/identity_routing.json",
+   "classes": [
+    "AUTHORITY_CHANGE"
+   ],
+   "full_regression_required": "YES"
+  },
+  {
+   "surface": "deployment record / manifest",
+   "path": "deploy/netlify/deployment_records/ptf-deploy-003-6a982a1fc32c2911d0d65d04.json",
+   "classes": [
+    "DEPLOYMENT_CHANGE"
+   ],
+   "full_regression_required": "YES"
+  },
+  {
+   "surface": "generic assembler",
+   "path": "scripts/pettripfinder/assemble_netlify_bundle.py",
+   "classes": [
+    "GENERIC_RUNTIME_CHANGE",
+    "DEPLOYMENT_CHANGE"
+   ],
+   "full_regression_required": "YES"
+  },
+  {
+   "surface": "release contract",
+   "path": "deploy/netlify/release_contracts/cincinnati-oh.json",
+   "classes": [
+    "DEPLOYMENT_CHANGE"
+   ],
+   "full_regression_required": "YES"
+  },
+  {
+   "surface": "a path no rule claims",
+   "path": "some/brand/new/surface/thing.bin",
+   "classes": [
+    "UNCLASSIFIED"
+   ],
+   "full_regression_required": "YES"
+  }
+ ],
+ "method": {
+  "classification": "python -m scripts.pettripfinder.regression_delta classify --base <before> --head <after>",
+  "validation": "python -m scripts.pettripfinder.regression_delta validate --base <before> --head <after> --baseline launch_packages/pettripfinder/regression_baselines/f75aa95.json --require-closed <node id> --out <dir>",
+  "replay_worktree": "a scratch worktree at 1eab5dd, removed afterwards; no Cincinnati authority was read or written",
+  "closure_artifact": "launch_packages/pettripfinder/failure_closures/ptf-cincinnati-late-fix-replay-001.json"
+ }
+}

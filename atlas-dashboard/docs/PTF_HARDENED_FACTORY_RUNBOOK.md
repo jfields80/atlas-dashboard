@@ -149,6 +149,118 @@ manifest, records and authorizations. Every other suite reads the pin through
 Nothing else should need a number. If a lane surfaces a module that still
 restates one, that module is the defect: move it onto the pin.
 
+## POST-BROAD FIX RULE
+
+**Authority:** PTF-FACTORY-REGRESSION-V2-001.
+
+The lanes above answer *which subset finds the pins a market change moved*.
+They do not answer the question that costs the most wall-clock: the first broad
+regression has already run, it returned one `TRUE_NEW_FAILURE`, and you have
+just fixed it. Does closing it cost **another** 90–110 minutes?
+
+Cincinnati made it concrete. The broad regression returned exactly one node:
+
+```
+tests/pettripfinder/acquisition/test_store_integration_025.py::test_every_run_on_disk_is_classified
+```
+
+The fix added two run ids to `OTHER_MARKET_RUNS` — a module-level literal set
+in a test file that declares which directories under `data/acquisition/` belong
+to another market. No authority moved. No runtime module was touched. No bundle
+changed, and the candidate hash was identical before and after. The workflow
+still spent another full regression proving it.
+
+**The rule.** After the first broad regression, for each fix:
+
+1. apply the fix;
+2. classify the change surface;
+3. run the delta-scoped validation;
+4. if `FULL_REGRESSION_REQUIRED = NO`, close the failure by **node id** and stop;
+5. if `YES`, run another full regression.
+
+```
+python -m scripts.pettripfinder.regression_delta classify --base <prior sha>
+python -m scripts.pettripfinder.regression_delta validate \
+    --base <prior sha> --head WORKTREE \
+    --baseline launch_packages/pettripfinder/regression_baselines/<prior sha>.json \
+    --require-closed "<the TRUE_NEW node id>" \
+    --out data/regression/delta-1 \
+    --closure-out launch_packages/pettripfinder/failure_closures/<order>-1.json \
+    --order <ORDER-ID> --fix-commit <sha>
+```
+
+`validate` exits non-zero unless every `--require-closed` node was **executed
+and passed** in the delta run, and no node outside the baseline failed. A node
+that was never collected is `NOT_EXERCISED`, not closed — absence is not
+evidence, which is why no step here compares counts.
+
+### The change classes
+
+`classify` reads file paths and, for test modules, the two versions' syntax
+trees. It never reads the commit message. The committed, machine-readable
+matrix is `launch_packages/pettripfinder/regression_validation_matrix.json`
+(regenerate with `regression_delta matrix --out …`; a contract test fails if
+the export drifts from the module).
+
+| change class | assembly | full regression |
+|---|---|---|
+| `AUTHORITY_CHANGE` | required | **required** |
+| `GENERIC_RUNTIME_CHANGE` | required | **required** |
+| `SCHEMA_CHANGE` | required | **required** |
+| `ROUTING_SEMANTIC_CHANGE` | required | **required** |
+| `DEPLOYMENT_CHANGE` | required | **required** |
+| `UNCLASSIFIED` | required | **required** |
+| `TEST_EXPECTATION_CHANGE` | not required | conditional — required when the expectation is *shared current state* (`tests/pettripfinder/pins/`, a `conftest.py`, `epochs.py`, `market_state.py`, a `*_freeze.py` helper, a shared fixture); not required when it is confined to the modules that name it |
+| `BOOKKEEPING_REGISTRATION_CHANGE` | not required | not required |
+| `DOCUMENTATION_ONLY` | not required | not required |
+| `GENERATED_REPORT_ONLY` | not required | not required |
+| `BASELINE_MANIFEST_ONLY` | not required | not required |
+
+A narrow class still owes work: the owning test modules, every test module
+whose source names the changed module (an over-inclusive reverse-import scan),
+the owning directory for a bookkeeping change, and the `market_targeted` lane
+for every market the change names — including markets named by the run ids the
+registration itself adds.
+
+### SAFE DELTA — a run-registration declaration
+
+Adding `cincinnati_oh_free_static_001` and `cincinnati_oh_firecrawl_001` to
+`OTHER_MARKET_RUNS`. Classified `BOOKKEEPING_REGISTRATION_CHANGE`, so:
+`FULL_REGRESSION_REQUIRED = NO`, no assembly, and the proof is the owning
+directory plus Cincinnati's own modules.
+
+### UNSAFE DELTA — a policy parser change
+
+Editing anything under `scripts/pettripfinder/contracts/`, a reader, a
+renderer, the assembler, a market authority shard, a release contract or a
+deployment record. Classified `GENERIC_RUNTIME_CHANGE` (usually alongside
+`SCHEMA_CHANGE`, `ROUTING_SEMANTIC_CHANGE` or `DEPLOYMENT_CHANGE`), so
+`FULL_REGRESSION_REQUIRED = YES` and assembly is mandatory.
+
+### Why the bookkeeping narrowing is safe
+
+Three rules, each with its own test in
+`tests/pettripfinder/test_regression_delta_001.py`:
+
+- a path no rule claims is `UNCLASSIFIED`, and `UNCLASSIFIED` requires a full
+  regression — teaching the factory a new directory can only make it slower;
+- a test file drops to `BOOKKEEPING_REGISTRATION_CHANGE` only when the two
+  versions' module-level syntax trees differ **solely** in the elements of a
+  literal collection named in `regression_delta.REGISTRATION_CONTAINERS` — a
+  committed list of containers that declare *what exists* rather than what a
+  computation should return. An expectation table that happens to be a literal
+  set is not on that list. An added import, an added test, a changed assertion,
+  or a container turned into a comprehension all block the narrowing;
+- the verdict over a whole change is the **strictest** row any file selects, so
+  one dangerous file among a hundred harmless ones still costs the full suite.
+
+Every closure leaves a durable artifact under
+`launch_packages/pettripfinder/failure_closures/`: the original `TRUE_NEW` node
+ids, the fix commit, the changed files and their classes, the validations that
+were required, the per-node verdict, and the full-regression decision with its
+reason. A committed artifact that does not account for every original node id
+fails its own test.
+
 ## Factory freeze rule
 
 Shared or generic code (`scripts/pettripfinder/acquisition/*`, `brightdata/*`,

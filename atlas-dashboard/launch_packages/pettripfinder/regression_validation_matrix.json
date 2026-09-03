@@ -1,0 +1,639 @@
+{
+ "schema": "ptf-validation-matrix/1.0",
+ "work_order": "PTF-FACTORY-REGRESSION-V2-001",
+ "change_classes": [
+  "AUTHORITY_CHANGE",
+  "GENERIC_RUNTIME_CHANGE",
+  "SCHEMA_CHANGE",
+  "ROUTING_SEMANTIC_CHANGE",
+  "DEPLOYMENT_CHANGE",
+  "TEST_EXPECTATION_CHANGE",
+  "BOOKKEEPING_REGISTRATION_CHANGE",
+  "DOCUMENTATION_ONLY",
+  "GENERATED_REPORT_ONLY",
+  "BASELINE_MANIFEST_ONLY",
+  "UNCLASSIFIED"
+ ],
+ "mandatory_full_regression": [
+  "AUTHORITY_CHANGE",
+  "GENERIC_RUNTIME_CHANGE",
+  "SCHEMA_CHANGE",
+  "ROUTING_SEMANTIC_CHANGE",
+  "DEPLOYMENT_CHANGE",
+  "UNCLASSIFIED"
+ ],
+ "safe_narrow_classes": [
+  "BOOKKEEPING_REGISTRATION_CHANGE",
+  "DOCUMENTATION_ONLY",
+  "GENERATED_REPORT_ONLY",
+  "BASELINE_MANIFEST_ONLY"
+ ],
+ "rows": [
+  {
+   "change_class": "AUTHORITY_CHANGE",
+   "surface": "a market's own authority: its shard, its census and partition, its release contract, the three generated globals, and every profile the assembler renders from them",
+   "required_lanes": [
+    "policy_schema",
+    "identity_routing",
+    "release_contract",
+    "cross_market"
+   ],
+   "owning_modules": true,
+   "owning_directory": false,
+   "reverse_dependents": true,
+   "market_targeted": true,
+   "assembly": "required",
+   "full_regression": "required",
+   "condition": "",
+   "why": "authority is what the site publishes; a wrong row reaches a reader, and the per-market contract rows and cross-market isolation gates are the only proof it did not leak"
+  },
+  {
+   "change_class": "GENERIC_RUNTIME_CHANGE",
+   "surface": "shared runtime every market executes: readers, assemblers, builders, ledgers, the acquisition router",
+   "required_lanes": [
+    "policy_schema",
+    "identity_routing",
+    "release_contract",
+    "cross_market",
+    "assembly",
+    "deployment_architecture"
+   ],
+   "owning_modules": true,
+   "owning_directory": false,
+   "reverse_dependents": true,
+   "market_targeted": false,
+   "assembly": "required",
+   "full_regression": "required",
+   "condition": "",
+   "why": "one edit changes what ELEVEN markets derive; the blast radius is the suite by definition, so the broad regression is the proof rather than the discovery"
+  },
+  {
+   "change_class": "SCHEMA_CHANGE",
+   "surface": "the policy record contract and everything that reads, validates or renders it",
+   "required_lanes": [
+    "policy_schema",
+    "release_contract",
+    "assembly"
+   ],
+   "owning_modules": true,
+   "owning_directory": false,
+   "reverse_dependents": true,
+   "market_targeted": false,
+   "assembly": "required",
+   "full_regression": "required",
+   "condition": "",
+   "why": "a shape the renderer cannot carry is fatal at assembly and silent everywhere else; service_animal_statement proved it"
+  },
+  {
+   "change_class": "ROUTING_SEMANTIC_CHANGE",
+   "surface": "identity keys, census partitions, geography, corridor assignment and route derivation",
+   "required_lanes": [
+    "identity_routing",
+    "cross_market",
+    "release_contract"
+   ],
+   "owning_modules": true,
+   "owning_directory": false,
+   "reverse_dependents": true,
+   "market_targeted": true,
+   "assembly": "required",
+   "full_regression": "required",
+   "condition": "",
+   "why": "a route is an identity's public address; moving one silently retires a live URL, and only the assembled sitemap shows it"
+  },
+  {
+   "change_class": "DEPLOYMENT_CHANGE",
+   "surface": "deployment authorizations, deployment records, release contracts, the production manifest and launch participation",
+   "required_lanes": [
+    "deployment_architecture",
+    "release_contract",
+    "assembly"
+   ],
+   "owning_modules": true,
+   "owning_directory": false,
+   "reverse_dependents": true,
+   "market_targeted": false,
+   "assembly": "required",
+   "full_regression": "required",
+   "condition": "",
+   "why": "deployment doctrine: what the record claims is served must be what a fresh assembly builds, and nothing narrower proves it"
+  },
+  {
+   "change_class": "TEST_EXPECTATION_CHANGE",
+   "surface": "what a suite asserts -- an epoch pin, a count, a hash, a restated site",
+   "required_lanes": [],
+   "owning_modules": true,
+   "owning_directory": false,
+   "reverse_dependents": true,
+   "market_targeted": true,
+   "assembly": "not_required",
+   "full_regression": "conditional",
+   "condition": "required when the changed expectation is a SHARED current-state fact -- anything under tests/pettripfinder/pins/, conftest.py, or a helper module imported by other suites; not required when the change is confined to the modules it owns",
+   "why": "growing a package broke 85 tests in 19 modules once already; a shared pin moves suites that never name it, and only the broad run finds them"
+  },
+  {
+   "change_class": "BOOKKEEPING_REGISTRATION_CHANGE",
+   "surface": "a declaration of WHAT EXISTS -- run ids, excused directories -- inside one module-level literal collection in one test file, proven by syntax tree to have changed nothing else",
+   "required_lanes": [],
+   "owning_modules": true,
+   "owning_directory": true,
+   "reverse_dependents": true,
+   "market_targeted": true,
+   "assembly": "not_required",
+   "full_regression": "not_required",
+   "condition": "",
+   "why": "the declaration is read by the module that declares it and by nothing else; no runtime executes it, no authority derives from it, and the assembled bundle cannot observe it"
+  },
+  {
+   "change_class": "DOCUMENTATION_ONLY",
+   "surface": "prose: runbooks, work-order reports, README text",
+   "required_lanes": [],
+   "owning_modules": false,
+   "owning_directory": false,
+   "reverse_dependents": true,
+   "market_targeted": false,
+   "assembly": "not_required",
+   "full_regression": "not_required",
+   "condition": "",
+   "why": "no suite reads prose; the reverse-dependent scan is kept because a doc under docs/ is occasionally asserted verbatim"
+  },
+  {
+   "change_class": "GENERATED_REPORT_ONLY",
+   "surface": "an artifact a script emitted: a run report, a founder packet, an evidence manifest",
+   "required_lanes": [],
+   "owning_modules": false,
+   "owning_directory": false,
+   "reverse_dependents": true,
+   "market_targeted": true,
+   "assembly": "not_required",
+   "full_regression": "not_required",
+   "condition": "",
+   "why": "a report is an output, never an input to authority; the modules that pin one are found by the reverse-dependent scan"
+  },
+  {
+   "change_class": "BASELINE_MANIFEST_ONLY",
+   "surface": "a committed regression baseline manifest",
+   "required_lanes": [],
+   "owning_modules": false,
+   "owning_directory": false,
+   "reverse_dependents": true,
+   "market_targeted": false,
+   "assembly": "not_required",
+   "full_regression": "not_required",
+   "condition": "",
+   "why": "a manifest records what a past run did; it cannot change what the next run does, and the classifier self-test is the only thing that reads it"
+  },
+  {
+   "change_class": "UNCLASSIFIED",
+   "surface": "unknown -- no rule claims this path",
+   "required_lanes": [
+    "policy_schema",
+    "identity_routing",
+    "release_contract",
+    "cross_market",
+    "assembly",
+    "deployment_architecture"
+   ],
+   "owning_modules": true,
+   "owning_directory": false,
+   "reverse_dependents": true,
+   "market_targeted": false,
+   "assembly": "required",
+   "full_regression": "required",
+   "condition": "",
+   "why": "uncertainty is not a narrow class; a path nobody taught this module about costs the full suite until somebody does"
+  }
+ ],
+ "registration_containers": [
+  {
+   "module": "pettripfinder/acquisition/test_store_integration_025.py",
+   "container": "OTHER_MARKET_RUNS",
+   "declares": "directories under data/acquisition/ that belong to another market and must stay out of Milwaukee's projection; every new market drops one here"
+  }
+ ],
+ "path_rules": [
+  {
+   "kind": "prefix",
+   "pattern": "launch_packages/pettripfinder/regression_baselines/",
+   "classes": [
+    "BASELINE_MANIFEST_ONLY"
+   ]
+  },
+  {
+   "kind": "prefix",
+   "pattern": "launch_packages/pettripfinder/failure_closures/",
+   "classes": [
+    "GENERATED_REPORT_ONLY"
+   ]
+  },
+  {
+   "kind": "glob",
+   "pattern": "launch_packages/pettripfinder/regression_validation_matrix.json",
+   "classes": [
+    "GENERIC_RUNTIME_CHANGE"
+   ]
+  },
+  {
+   "kind": "prefix",
+   "pattern": "deploy/",
+   "classes": [
+    "DEPLOYMENT_CHANGE"
+   ]
+  },
+  {
+   "kind": "glob",
+   "pattern": "launch_packages/pettripfinder/launch_participation.json",
+   "classes": [
+    "DEPLOYMENT_CHANGE"
+   ]
+  },
+  {
+   "kind": "glob",
+   "pattern": "launch_packages/pettripfinder/*deployment_packet*.json",
+   "classes": [
+    "DEPLOYMENT_CHANGE"
+   ]
+  },
+  {
+   "kind": "glob",
+   "pattern": "launch_packages/pettripfinder/*deployment_manifest*.json",
+   "classes": [
+    "DEPLOYMENT_CHANGE"
+   ]
+  },
+  {
+   "kind": "glob",
+   "pattern": "launch_packages/pettripfinder/ptf_market_manifest*.json",
+   "classes": [
+    "DEPLOYMENT_CHANGE"
+   ]
+  },
+  {
+   "kind": "glob",
+   "pattern": "launch_packages/pettripfinder/markets/manifest*.json",
+   "classes": [
+    "DEPLOYMENT_CHANGE"
+   ]
+  },
+  {
+   "kind": "prefix",
+   "pattern": "launch_packages/pettripfinder/markets/authority/",
+   "classes": [
+    "AUTHORITY_CHANGE"
+   ]
+  },
+  {
+   "kind": "prefix",
+   "pattern": "launch_packages/pettripfinder/markets/name_corrections/",
+   "classes": [
+    "AUTHORITY_CHANGE"
+   ]
+  },
+  {
+   "kind": "prefix",
+   "pattern": "launch_packages/pettripfinder/markets/founder_overrides/",
+   "classes": [
+    "AUTHORITY_CHANGE"
+   ]
+  },
+  {
+   "kind": "prefix",
+   "pattern": "launch_packages/pettripfinder/markets/coverage/",
+   "classes": [
+    "AUTHORITY_CHANGE"
+   ]
+  },
+  {
+   "kind": "prefix",
+   "pattern": "launch_packages/pettripfinder/markets/discovered_policy_urls/",
+   "classes": [
+    "AUTHORITY_CHANGE"
+   ]
+  },
+  {
+   "kind": "prefix",
+   "pattern": "launch_packages/pettripfinder/identity_census",
+   "classes": [
+    "AUTHORITY_CHANGE",
+    "ROUTING_SEMANTIC_CHANGE"
+   ]
+  },
+  {
+   "kind": "glob",
+   "pattern": "launch_packages/pettripfinder/hotel_policy_facts*.json",
+   "classes": [
+    "AUTHORITY_CHANGE"
+   ]
+  },
+  {
+   "kind": "glob",
+   "pattern": "launch_packages/pettripfinder/hotel_exclusions*.json",
+   "classes": [
+    "AUTHORITY_CHANGE"
+   ]
+  },
+  {
+   "kind": "glob",
+   "pattern": "launch_packages/pettripfinder/identity_routing*.json",
+   "classes": [
+    "AUTHORITY_CHANGE",
+    "ROUTING_SEMANTIC_CHANGE"
+   ]
+  },
+  {
+   "kind": "glob",
+   "pattern": "launch_packages/pettripfinder/*seed_businesses*.csv",
+   "classes": [
+    "AUTHORITY_CHANGE"
+   ]
+  },
+  {
+   "kind": "glob",
+   "pattern": "launch_packages/pettripfinder/ptf_global_authority_manifest.json",
+   "classes": [
+    "AUTHORITY_CHANGE"
+   ]
+  },
+  {
+   "kind": "glob",
+   "pattern": "launch_packages/pettripfinder/*_final_partition_*.json",
+   "classes": [
+    "AUTHORITY_CHANGE",
+    "ROUTING_SEMANTIC_CHANGE"
+   ]
+  },
+  {
+   "kind": "glob",
+   "pattern": "launch_packages/pettripfinder/*_census_*.json",
+   "classes": [
+    "AUTHORITY_CHANGE",
+    "ROUTING_SEMANTIC_CHANGE"
+   ]
+  },
+  {
+   "kind": "glob",
+   "pattern": "launch_packages/pettripfinder/markets/*.json",
+   "classes": [
+    "AUTHORITY_CHANGE"
+   ]
+  },
+  {
+   "kind": "prefix",
+   "pattern": "launch_packages/pettripfinder/markets/reports/",
+   "classes": [
+    "GENERATED_REPORT_ONLY"
+   ]
+  },
+  {
+   "kind": "prefix",
+   "pattern": "launch_packages/pettripfinder/reports/",
+   "classes": [
+    "GENERATED_REPORT_ONLY"
+   ]
+  },
+  {
+   "kind": "glob",
+   "pattern": "launch_packages/pettripfinder/*_report_*.json",
+   "classes": [
+    "GENERATED_REPORT_ONLY"
+   ]
+  },
+  {
+   "kind": "glob",
+   "pattern": "launch_packages/pettripfinder/*_packet_*.json",
+   "classes": [
+    "GENERATED_REPORT_ONLY"
+   ]
+  },
+  {
+   "kind": "glob",
+   "pattern": "launch_packages/pettripfinder/*_verification_*.json",
+   "classes": [
+    "GENERATED_REPORT_ONLY"
+   ]
+  },
+  {
+   "kind": "glob",
+   "pattern": "launch_packages/pettripfinder/*_queue*.json",
+   "classes": [
+    "GENERATED_REPORT_ONLY"
+   ]
+  },
+  {
+   "kind": "prefix",
+   "pattern": "tests/",
+   "classes": [
+    "TEST_EXPECTATION_CHANGE"
+   ]
+  },
+  {
+   "kind": "prefix",
+   "pattern": "scripts/pettripfinder/contracts/",
+   "classes": [
+    "GENERIC_RUNTIME_CHANGE",
+    "SCHEMA_CHANGE"
+   ]
+  },
+  {
+   "kind": "prefix",
+   "pattern": "scripts/pettripfinder/acquisition/",
+   "classes": [
+    "GENERIC_RUNTIME_CHANGE"
+   ]
+  },
+  {
+   "kind": "prefix",
+   "pattern": "scripts/pettripfinder/brightdata/",
+   "classes": [
+    "GENERIC_RUNTIME_CHANGE"
+   ]
+  },
+  {
+   "kind": "prefix",
+   "pattern": "scripts/pettripfinder/discovery/",
+   "classes": [
+    "GENERIC_RUNTIME_CHANGE",
+    "ROUTING_SEMANTIC_CHANGE"
+   ]
+  },
+  {
+   "kind": "glob",
+   "pattern": "scripts/pettripfinder/*polic*.py",
+   "classes": [
+    "GENERIC_RUNTIME_CHANGE",
+    "SCHEMA_CHANGE"
+   ]
+  },
+  {
+   "kind": "glob",
+   "pattern": "scripts/pettripfinder/*reader*.py",
+   "classes": [
+    "GENERIC_RUNTIME_CHANGE",
+    "SCHEMA_CHANGE"
+   ]
+  },
+  {
+   "kind": "glob",
+   "pattern": "scripts/pettripfinder/*render*.py",
+   "classes": [
+    "GENERIC_RUNTIME_CHANGE",
+    "SCHEMA_CHANGE"
+   ]
+  },
+  {
+   "kind": "glob",
+   "pattern": "scripts/pettripfinder/approved_hotel_profile.py",
+   "classes": [
+    "GENERIC_RUNTIME_CHANGE",
+    "SCHEMA_CHANGE"
+   ]
+  },
+  {
+   "kind": "glob",
+   "pattern": "scripts/pettripfinder/*identity*.py",
+   "classes": [
+    "GENERIC_RUNTIME_CHANGE",
+    "ROUTING_SEMANTIC_CHANGE"
+   ]
+  },
+  {
+   "kind": "glob",
+   "pattern": "scripts/pettripfinder/*routing*.py",
+   "classes": [
+    "GENERIC_RUNTIME_CHANGE",
+    "ROUTING_SEMANTIC_CHANGE"
+   ]
+  },
+  {
+   "kind": "glob",
+   "pattern": "scripts/pettripfinder/census_*.py",
+   "classes": [
+    "GENERIC_RUNTIME_CHANGE",
+    "ROUTING_SEMANTIC_CHANGE"
+   ]
+  },
+  {
+   "kind": "glob",
+   "pattern": "scripts/pettripfinder/*corridor*.py",
+   "classes": [
+    "GENERIC_RUNTIME_CHANGE",
+    "ROUTING_SEMANTIC_CHANGE"
+   ]
+  },
+  {
+   "kind": "glob",
+   "pattern": "scripts/pettripfinder/assemble_*.py",
+   "classes": [
+    "GENERIC_RUNTIME_CHANGE",
+    "DEPLOYMENT_CHANGE"
+   ]
+  },
+  {
+   "kind": "glob",
+   "pattern": "scripts/pettripfinder/build_market_manifest.py",
+   "classes": [
+    "GENERIC_RUNTIME_CHANGE",
+    "DEPLOYMENT_CHANGE"
+   ]
+  },
+  {
+   "kind": "glob",
+   "pattern": "scripts/pettripfinder/*deploy*.py",
+   "classes": [
+    "GENERIC_RUNTIME_CHANGE",
+    "DEPLOYMENT_CHANGE"
+   ]
+  },
+  {
+   "kind": "glob",
+   "pattern": "scripts/pettripfinder/release_contracts.py",
+   "classes": [
+    "GENERIC_RUNTIME_CHANGE",
+    "DEPLOYMENT_CHANGE"
+   ]
+  },
+  {
+   "kind": "prefix",
+   "pattern": "scripts/pettripfinder/",
+   "classes": [
+    "GENERIC_RUNTIME_CHANGE"
+   ]
+  },
+  {
+   "kind": "prefix",
+   "pattern": "scripts/",
+   "classes": [
+    "GENERIC_RUNTIME_CHANGE"
+   ]
+  },
+  {
+   "kind": "prefix",
+   "pattern": "docs/",
+   "classes": [
+    "DOCUMENTATION_ONLY"
+   ]
+  },
+  {
+   "kind": "glob",
+   "pattern": "*.md",
+   "classes": [
+    "DOCUMENTATION_ONLY"
+   ]
+  },
+  {
+   "kind": "glob",
+   "pattern": "../*.md",
+   "classes": [
+    "DOCUMENTATION_ONLY"
+   ]
+  },
+  {
+   "kind": "glob",
+   "pattern": "../.gitignore",
+   "classes": [
+    "DOCUMENTATION_ONLY"
+   ]
+  },
+  {
+   "kind": "prefix",
+   "pattern": "../",
+   "classes": [
+    "UNCLASSIFIED"
+   ]
+  }
+ ],
+ "shared_test_state": [
+  {
+   "kind": "prefix",
+   "pattern": "tests/pettripfinder/pins/"
+  },
+  {
+   "kind": "prefix",
+   "pattern": "tests/pettripfinder/fixtures/"
+  },
+  {
+   "kind": "glob",
+   "pattern": "tests/**/conftest.py"
+  },
+  {
+   "kind": "glob",
+   "pattern": "tests/pettripfinder/epochs.py"
+  },
+  {
+   "kind": "glob",
+   "pattern": "tests/pettripfinder/market_state.py"
+  },
+  {
+   "kind": "glob",
+   "pattern": "tests/pettripfinder/**/authority_freeze.py"
+  },
+  {
+   "kind": "glob",
+   "pattern": "tests/pettripfinder/**/locator_freeze.py"
+  },
+  {
+   "kind": "glob",
+   "pattern": "tests/pettripfinder/**/reader_freeze.py"
+  }
+ ]
+}
