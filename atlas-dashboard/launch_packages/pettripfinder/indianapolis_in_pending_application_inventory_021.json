@@ -1,0 +1,71 @@
+{
+ "schema": "ptf-market-pending-application-inventory/1.1",
+ "market_id": "indianapolis-in",
+ "work_order": "PTF-INDIANAPOLIS-FIRECRAWL-RECOVERY-002",
+ "as_of": "2026-09-04",
+ "supersedes": "indianapolis_in_pending_application_inventory_020.json",
+ "what_this_is": "The Indianapolis rows ready to be applied by a LATER promotion order, rebuilt from the prior revalidation's 14 clean rows plus this order's Firecrawl publication-grade results. Nothing here is applied. Deduplicated by identity_key; no identity appears twice and no identity appears in both a clean list and a held list.",
+ "evidence_sources": [
+  "indianapolis_in_shadow_policy_evidence_020.json (owned replay, free static, attended)",
+  "indianapolis_in_firecrawl_evidence_021.json (this order)"
+ ],
+ "admission_rule": "identity binds on the property's own page stating the census street AND postal, plus the census telephone where one exists or the brand property code where it does not; the policy quote must establish ordinary pet acceptance or an explicit refusal without leaning on a service-animal sentence; and no open census collision may claim the premises",
+ "CLEAN_PET_FRIENDLY": [
+  {"identity_key": "sonesta select", "lane": "free_static", "source_order": "020", "requires": "name_corrections row (deterministic, page-stated)"},
+  {"identity_key": "woodspring suites indianapolis castleton", "lane": "free_static", "source_order": "020"},
+  {"identity_key": "baymont by wyndham indianapolis northwest", "lane": "attended", "source_order": "020"},
+  {"identity_key": "baymont inn and suites plainfield indianapolis airport", "lane": "attended", "source_order": "020"},
+  {"identity_key": "days inn by wyndham plainfield", "lane": "attended", "source_order": "020"},
+  {"identity_key": "echo suites extended stay by wyndham indianapolis ameriplex", "lane": "attended", "source_order": "020"},
+  {"identity_key": "super 8 by wyndham brownsburg", "lane": "attended", "source_order": "020"},
+  {"identity_key": "wyndham indianapolis west", "lane": "attended", "source_order": "020"},
+  {"identity_key": "home2 suites by hilton", "lane": "owned_replay", "source_order": "020", "requires": "name_corrections row ALREADY committed"},
+  {"identity_key": "comfort suites indianapolis airport", "lane": "firecrawl", "source_order": "021", "net_new": true, "note": "pets_allowed only; every other field withheld as source-silent"},
+  {"identity_key": "red roof inn indianapolis east", "lane": "firecrawl", "source_order": "021", "net_new": true},
+  {"identity_key": "extended stay america indianapolis castleton", "lane": "firecrawl", "source_order": "021", "net_new": true},
+  {"identity_key": "extended stay america indianapolis plainfield", "lane": "firecrawl", "source_order": "021", "net_new": true},
+  {"identity_key": "hyatt place indianapolis airport", "lane": "firecrawl", "source_order": "021", "net_new": true, "note": "also discharges this row's AWAITING_ROUTING_REVIEW hold"}
+ ],
+ "CLEAN_VERIFIED_NO_PETS": [
+  {"identity_key": "woodspring suites indianapolis airport south", "lane": "free_static", "source_order": "020"},
+  {"identity_key": "days inn by wyndham indianapolis east post road", "lane": "attended", "source_order": "020"},
+  {"identity_key": "super 8 by wyndham indianapolis", "lane": "attended", "source_order": "020"},
+  {"identity_key": "super 8 by wyndham indianapolis castleton", "lane": "attended", "source_order": "020"},
+  {"identity_key": "wingate by wyndham indianapolis airport plainfield", "lane": "attended", "source_order": "020"},
+  {"identity_key": "comfort inn east indianapolis", "lane": "firecrawl", "source_order": "021", "net_new": true},
+  {"identity_key": "quality inn noblesville indianapolis", "lane": "firecrawl", "source_order": "021", "net_new": true}
+ ],
+ "counts": {
+  "prior_clean_pet_friendly": 9,
+  "prior_clean_verified_no_pets": 5,
+  "new_clean_pet_friendly": 5,
+  "new_clean_verified_no_pets": 2,
+  "total_clean_pet_friendly": 14,
+  "total_clean_verified_no_pets": 7,
+  "total_clean": 21,
+  "net_new_clean_yield_this_order": 7
+ },
+ "HELD_WITH_EVIDENCE": [
+  {"identity_key": "best western plus greenwood indy south", "policy_class": "PET_FRIENDLY", "hold": "IDENTITY_COLLISION at 1281 South Park Drive", "founder_group": "A", "carried_from": "020", "changed_by_this_order": false},
+  {"identity_key": "best western plus indianapolis northwest", "policy_class": "PET_FRIENDLY", "hold": "IDENTITY_COLLISION at 7220 Woodland Drive", "founder_group": "A", "carried_from": "020", "changed_by_this_order": false},
+  {"identity_key": "la quinta inn indianapolis airport lynhurst", "policy_class": "PET_FRIENDLY", "hold": "SAME_IDENTITY_REBRAND_SUCCESSOR to Baymont Indianapolis Airport Lynhurst", "founder_group": "A", "carried_from": "020", "changed_by_this_order": false},
+  {"identity_key": "baymont by wyndham plainfield indianapolis airport area", "policy_class": "NONE -- routing defect", "hold": "IDENTITY_MISMATCH; its URL serves the other Plainfield Baymont", "founder_group": "A", "carried_from": "020", "changed_by_this_order": false},
+  {"identity_key": "extended stay america indianapolis airport", "policy_class": "PET_FRIENDLY if the identity settles", "hold": "ADDRESS_CONFLICT -- postal and telephone bind, street does not (census 5820 West Franklin Road, page 2730 Fortune Cir. W.)", "founder_group": "A", "created_by_this_order": true},
+  {"identity_key": "delta hotels by marriott indianapolis airport", "policy_class": "NONE -- routing defect", "hold": "DEAD_ROUTE -- the brand answered 404 on the committed URL", "founder_group": "A", "created_by_this_order": true}
+ ],
+ "IDENTITY_ONLY": [],
+ "SOURCE_SILENT": [
+  {"identity_key": "cambria hotel indianapolis airport plainfield", "why": "rendered but unhydrated; address fields returned as template literals and no pet sentence"},
+  {"identity_key": "country inn and suites indianapolis south in", "why": "no address rendered; the only pet string is a brand navigation item"},
+  {"identity_key": "hyatt house", "why": "redirected; no address and no pet sentence"},
+  {"identity_key": "comfort suites", "why": "the bound URL is a Shelbyville brand index, not a property page -- confirms AWAITING_PROPERTY_LEVEL_URL"},
+  {"identity_key": "hotel broad ripple", "why": "carried from 020: no pet mention on the property's own site"},
+  {"identity_key": "prairie guest house", "why": "carried from 020: no pet mention including its policies section"},
+  {"identity_key": "hotel indy indianapolis a tribute portfolio hotel", "why": "carried from 020: no pet sentence at the routed URL"}
+ ],
+ "FAILED": [
+  {"identity_key": "keystone inn and suites", "why": "unreachable to BOTH the free static lane and Firecrawl; no document returned, 0 credits"}
+ ],
+ "no_identity_appears_twice": true,
+ "nothing_is_applied_by_this_file": "This inventory promotes no census row, signs no authority, writes no policy package, regenerates no global, moves no pin, assembles no candidate and deploys nothing."
+}

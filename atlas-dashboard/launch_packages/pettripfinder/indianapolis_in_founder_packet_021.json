@@ -1,0 +1,93 @@
+{
+ "schema": "ptf-market-founder-packet/1.1",
+ "market_id": "indianapolis-in",
+ "work_order": "PTF-INDIANAPOLIS-FIRECRAWL-RECOVERY-002",
+ "as_of": "2026-09-04",
+ "status": "AWAITING_FOUNDER",
+ "amends": "indianapolis_in_founder_packet_020.json",
+ "what_this_is": "An amendment, not a replacement. The nine decisions of packet 020 stand as written; this file records only what the Firecrawl evidence changed, and adds the two holds that evidence newly exposed. No ruling is invented here and no decision of 020 is re-argued.",
+ "paid_provider_calls": 36,
+ "firecrawl_credits": 17.0,
+ "starting_holds": 9,
+ "resolved_by_new_evidence": 0,
+ "still_held": 9,
+ "newly_created_holds": 2,
+ "total_open_decisions": 11,
+ "still_blocking_promotion": 3,
+ "carried_unchanged": [
+  {"id": "A-020-1", "subject": "la quinta inn indianapolis airport lynhurst -> Baymont Lynhurst successor", "why_unchanged": "not in the Firecrawl cohort -- the free lane had already reached it, so no credit was spent to re-ask a settled question", "blocks_promotion": "NO"},
+  {"id": "A-020-2", "subject": "baymont by wyndham plainfield indianapolis airport area misroute", "why_unchanged": "not in the Firecrawl cohort", "blocks_promotion": "NO, provided the row is not promoted against its current URL"},
+  {"id": "A-020-3", "subject": "1281 South Park Drive -- Best Western Plus Greenwood vs La Quinta South Greenwood", "why_unchanged": "not in the Firecrawl cohort; both rows were already reachable free", "blocks_promotion": "YES"},
+  {"id": "A-020-4", "subject": "7220 Woodland Drive -- Best Western Plus Indianapolis NW vs Holiday Inn Express Northwest Park 100", "why_unchanged": "not in the Firecrawl cohort", "blocks_promotion": "YES"},
+  {"id": "A-020-6", "subject": "same-address pairs and the two bare-brand aliases", "why_unchanged": "no new evidence bears on it", "blocks_promotion": "NO today"},
+  {"id": "D-020-1", "subject": "home2 suites by hilton indianapolis keystone crossing -- the live record under-reports its own founder-signed evidence", "why_unchanged": "deliberately untouched: this order alters no live authority. The defect is carried forward exactly as stated.", "blocks_promotion": "NO, but it is a REQUIRED correction in the promotion order"}
+ ],
+ "updated_by_new_evidence_but_still_held": [
+  {
+   "id": "A-020-5",
+   "subject": "the census identities whose canonical name is a bare chain word",
+   "what_firecrawl_added": "three of them were in the cohort and none produced a publishable record: 'home2 suites by hilton' was refused by every Firecrawl engine, 'hyatt house' redirected and returned no address or pet sentence, and 'comfort suites' resolved to a Shelbyville brand index. So no bare-brand row except 'sonesta select' can reach promotion on current evidence, which narrows the decision rather than settling it.",
+   "recommendation_unchanged": "confirm the order-018 rule and add the 'sonesta select' -> 'Sonesta Select Indianapolis Carmel' name_corrections row as part of any promotion",
+   "blocks_promotion": "YES, for 'sonesta select' specifically"
+  },
+  {
+   "id": "D-020-2",
+   "subject": "the two owned observations at POLICY_NOT_FOUND",
+   "what_firecrawl_added": "'fairfield inn and suites indianapolis airport' was attempted and refused by every Firecrawl engine at zero cost. Firecrawl is now a closed question for it, so the row's next lane is attended or a paid unlocker, not another Firecrawl attempt. 'motel 6 indianapolis airport' has no official URL and was never eligible.",
+   "recommendation_unchanged": "leave both unresolved; no inference from silence",
+   "blocks_promotion": "NO"
+  },
+  {
+   "id": "E-020-1",
+   "subject": "the eight rows classified AWAITING_OFFICIAL_URL while already carrying a property-specific URL",
+   "what_firecrawl_added": "the last two of the eight were settled from their own bound URLs in this order (comfort inn east indianapolis as a refusal, extended stay america indianapolis castleton and quality inn noblesville indianapolis). ALL EIGHT of those rows have now produced evidence from the URL the partition claimed they did not have. The bookkeeping defect is therefore proven end to end rather than argued.",
+   "recommendation_unchanged": "reclassify the eight in a later order so the partition arithmetic stays honest",
+   "blocks_promotion": "NO"
+  }
+ ],
+ "newly_created_holds": [
+  {
+   "id": "A-021-1",
+   "subject": "extended stay america indianapolis airport -- ADDRESS CONFLICT",
+   "question": "Is the census street stale, or does the brand slug reach a different building?",
+   "evidence": [
+    "the census carries 5820 West Franklin Road, 46241, telephone 317-248-0465",
+    "the property page at extendedstayamerica.com/hotels/in/indianapolis/airport states 2730 Fortune Cir. W. with postal 46241",
+    "the census telephone IS present on that page, and the postal matches; only the street disagrees",
+    "a genuinely different building would not normally publish this row's telephone"
+   ],
+   "recommendation": "Hold. Do not correct in bulk. This needs one independent corroboration -- a brand single-property inventory listing for the Indianapolis airport ESA, or a second source naming 2730 Fortune Cir. W. -- before an address supersession is applied. The precedent for that discipline is the address review queue of order 006, which required exactly this before any of its six rows moved.",
+   "census_effect": "one street supersession if confirmed; none otherwise",
+   "authority_effect": "admits one PUBLISHED_PET_FRIENDLY row (the standard ESA policy) once settled",
+   "routing_effect": "none -- the route already resolves",
+   "reversibility": "fully reversible",
+   "blocks_promotion": "NO -- the row is held outside the clean inventory"
+  },
+  {
+   "id": "A-021-2",
+   "subject": "delta hotels by marriott indianapolis airport -- the committed route is DEAD",
+   "question": "Is this property closed, renamed, or merely re-slugged?",
+   "evidence": [
+    "this was the one Marriott URL in the cohort Firecrawl was allowed to reach, and the brand answered HTTP 404",
+    "every other Marriott row was refused before a status could be observed, so this is the only Marriott routing fact this market now has",
+    "a 404 from the brand is materially different from the 403 the free lane saw: a refusal proves nothing about whether the page exists, and this one says it does not"
+   ],
+   "recommendation": "Treat the route as dead and re-derive it from Marriott's own Indianapolis inventory before any further spend on this row. Under the standing rule a soft-404 or a hard 404 is a renamed slug until the brand inventory says otherwise, so closure must not be assumed.",
+   "census_effect": "none until the inventory is read",
+   "authority_effect": "none",
+   "routing_effect": "one committed route is known bad and should not be re-attempted as-is",
+   "reversibility": "fully reversible",
+   "blocks_promotion": "NO"
+  }
+ ],
+ "summary": {
+  "open_decisions": 11,
+  "blocking_promotion": ["A-020-3", "A-020-4", "A-020-5 (for sonesta select)"],
+  "required_corrections_for_the_promotion_order": [
+   "D-020-1 Home2 Keystone Crossing projection defect",
+   "A-020-5 sonesta select name correction",
+   "A-020-2 Baymont Plainfield route correction",
+   "A-020-1 La Quinta Lynhurst successor handling"
+  ]
+ }
+}
