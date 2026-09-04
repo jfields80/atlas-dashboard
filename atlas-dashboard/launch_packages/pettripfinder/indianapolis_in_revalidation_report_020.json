@@ -223,5 +223,45 @@
    "recommended_cohort": 4
   },
   "the_honest_headline": "Indianapolis coverage expansion is NOT cheap. The 100 rows with no official URL look like an opportunity and are mostly a closed question: paid discovery has already been run against 96 of them. The remaining real yield in this market is the 36-row Firecrawl policy cohort at roughly 2.60 USD, plus attended reads for the Choice and Motel 6 surfaces that time out rather than refuse."
+ },
+ "phase_18_regression": {
+  "matrix_verdict": "FULL_REGRESSION_REQUIRED = YES",
+  "why_a_full_run_was_owed": "three of this order's five new artifacts (the shadow policy evidence, the pending application inventory and the firecrawl cost plan) match no PATH_RULES entry and classify UNCLASSIFIED. The classifier's rule is that an unclaimed path costs the full suite, and regression_delta.py states in its own comments that the rest of launch_packages/pettripfinder deliberately stays UNCLASSIFIED and that this is 'not an oversight to be tidied up with a blanket rule'. Adding a rule, or renaming these files to match an existing narrow glob, would have been gaming the gate rather than passing it. The matrix was obeyed.",
+  "lane": "full_regression",
+  "command": "regression_lanes.py run --lane full_regression",
+  "wall_clock": "1:52:21 (6741.06s)",
+  "collected": 17379,
+  "passed": 17000,
+  "skipped": 219,
+  "failed": 160,
+  "baseline": "launch_packages/pettripfinder/regression_baselines/f75aa95.json",
+  "classification": {
+   "PRE_EXISTING": 160,
+   "EXPECTED_EPOCH_CHANGE": 0,
+   "TEST_HARNESS_FLAKE": 0,
+   "TRUE_NEW_FAILURE": 0
+  },
+  "proved_by_identity_not_by_count": {
+   "rule": "a matching failure COUNT proves nothing; the failing sets must be the same set",
+   "baseline_failing_node_ids": 160,
+   "run_failing_node_ids": 160,
+   "sets_identical": true,
+   "in_run_but_not_baseline": 0,
+   "in_baseline_but_not_run": 0
+  },
+  "collection_delta_explained": {
+   "baseline_collected": 17292,
+   "run_collected": 17379,
+   "delta": 87,
+   "why_it_is_not_a_regression": "the f75aa95 baseline was taken in a fresh worktree with no untracked data corpora; this worktree collects 87 more parametrised cases from the data present here. All 87 passed -- the failing set is identical node id for node id, so the extra collection adds coverage and no failure.",
+   "no_test_was_deselected_to_reach_this_result": true
+  },
+  "TRUE_NEW_FAILURE": 0,
+  "second_commit_delta_scoped": {
+   "commit": "the paid-readiness amendment",
+   "classified": "GENERATED_REPORT_ONLY",
+   "FULL_REGRESSION_REQUIRED": "NO",
+   "why": "it changes one *_report_*.json and nothing else, which is a narrow class the matrix already names -- exactly the case the V2 delta classifier exists to make cheap"
+  }
  }
 }
