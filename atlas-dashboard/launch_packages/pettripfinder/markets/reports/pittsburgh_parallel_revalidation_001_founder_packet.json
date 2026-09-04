@@ -1,0 +1,323 @@
+{
+ "schema": "ptf-founder-decision-packet/1.1",
+ "work_order": "PTF-PITTSBURGH-PARALLEL-REVALIDATION-001",
+ "market_id": "pittsburgh-pa",
+ "as_of": "2026-09-03",
+ "prepared_by": "Claude Opus 5",
+ "signature_status": "UNSIGNED — no decision below has been ruled, and nothing here is applied.",
+ "attribution_rule": "No approval in this packet is signed in the operator's name. Every item awaits an explicit founder ruling.",
+ "how_to_read": "Each item states the evidence, a recommendation, the census / authority / routing effect, whether it is reversible, and whether it blocks the promotion of THIS order's clean inventory. Items that do not block promotion may be ruled later without holding the 12 clean rows.",
+ "blocks_promotion_count": 0,
+ "groups": {
+  "A_identity_alias_successor_same_campus": [
+   {
+    "id": "PGH-R1-A1",
+    "identity_keys": ["residence inn pittsburgh airport coraopolis", "trellis north fayette"],
+    "question": "Are these two census rows the same premises?",
+    "evidence": [
+     "The pinned census holds 'trellis north fayette' at 1500 Park Lane, Pittsburgh PA 15275, telephone 412-787-3300, IDENTITY_CONFIRMED, sourced from the Pittsburgh Airport Area chamber directory, with no official URL.",
+     "The shadow recensus holds 'residence inn pittsburgh airport' at the SAME street 1500 Park Lane, the SAME ZIP 15275 and the SAME telephone 4127873300, discovered via OpenStreetMap, carrying Marriott code pitra.",
+     "The pinned census row 'residence inn pittsburgh airport coraopolis' carries Marriott code pitra with NO street and NO telephone, and a city/ZIP of Coraopolis 15108 that disagrees with the 15275 above.",
+     "marriott.com/pitra canonicalises to the slug residence-inn-pittsburgh-airport-coraopolis and that page renders Marriott's own 404, 'Sorry, we can't find the page you requested.'",
+     "Marriott's own published US hotel sitemap (10,220 codes) does NOT contain pitra."
+    ],
+    "recommendation": "Rule that 1500 Park Lane is ONE premises, that the Marriott flag has left it, and that 'trellis north fayette' is the surviving identity. Retire 'residence inn pittsburgh airport coraopolis' by MOVING the row into a supersession record rather than deleting it, preserving its prior provenance. Do not rename the row it lands on.",
+    "confidence": "high on same-premises (street AND telephone agree); medium on which name is current, because no first-party Trellis page has yet been read.",
+    "census_effect": "103 -> 102 if the supersession is ruled.",
+    "authority_effect": "None. Neither row is published; neither is in this order's clean inventory.",
+    "routing_effect": "Retires the dead pitra route. 'trellis north fayette' still needs a first-party route.",
+    "reversible": true,
+    "blocks_promotion": false
+   },
+   {
+    "id": "PGH-R1-A2",
+    "identity_keys": ["residence inn pittsburgh university center", "residence inn pittsburgh oakland university place"],
+    "question": "Is the unresolved row a stale duplicate of a row this market already publishes?",
+    "evidence": [
+     "'residence inn pittsburgh university center' carries Marriott code pitro. Marriott's published sitemap does NOT contain pitro.",
+     "'residence inn pittsburgh oakland university place' carries Marriott code pitrd, which IS in the sitemap as residence-inn-pittsburgh-oakland-university-place, and this row is PUBLISHED_PET_FRIENDLY today.",
+     "The shadow recensus maps a discovery row 'residence inn' at 3341 Forbes Avenue 15213 onto the published pitrd row.",
+     "Both names describe a Residence Inn at the Oakland university-medical campus."
+    ],
+    "recommendation": "Treat pitro as a retired code for the SAME premises now published as pitrd, and retire the unresolved row by supersession into the published one. Do NOT alter the published row's identity key, canonical name or policy.",
+    "confidence": "medium-high. The codes and the campus agree, but the unresolved row carries no street to compare, so this is a judgement about a retired code rather than an address match.",
+    "census_effect": "102 -> 101 if ruled together with A1.",
+    "authority_effect": "None to live output. It removes a duplicate premises risk that would otherwise sit behind a future promotion.",
+    "routing_effect": "Retires the dead pitro route.",
+    "reversible": true,
+    "blocks_promotion": false
+   },
+   {
+    "id": "PGH-R1-A3",
+    "identity_keys": ["tryp hotel pittsburgh"],
+    "question": "Accept the property's own address and ZIP over the census ZIP?",
+    "evidence": [
+     "The property's own page states '177 40TH STREET • PITTSBURGH, PA 15201 • 412-567-0555' and titles itself 'TRYP by Wyndham Pittsburgh | Lawrenceville'.",
+     "The pinned census holds ZIP 15222 with no street and no telephone.",
+     "15201 is Lawrenceville; 15222 is Downtown. These are different corridors."
+    ],
+    "recommendation": "Fill street 177 40th Street, ZIP 15201 and telephone 412-567-0555 from the property's own page, and reassign the corridor from Downtown to Strip District / Lawrenceville.",
+    "confidence": "high. Street, ZIP and telephone all come from the property's own surface and agree with its own brand naming.",
+    "census_effect": "No count change; one row gains an address, a telephone and a corridor.",
+    "authority_effect": "None. This row has POLICY_NOT_FOUND and is not in the clean inventory.",
+    "routing_effect": "Once bound, this identity becomes a WYNDHAM-family candidate rather than a bare independent, which would make it Firecrawl-eligible on a measured family.",
+    "reversible": true,
+    "blocks_promotion": false
+   },
+   {
+    "id": "PGH-R1-A4",
+    "identity_keys": ["the priory hotel", "the landing hotel at rivers casino"],
+    "question": "Accept deterministic address and telephone fills from each property's own page?",
+    "evidence": [
+     "The Priory Hotel's own page states 614 Pressley Street and 412-231-3338; the census ZIP 15212 agrees and the census holds no street or telephone.",
+     "The Landing Hotel's own page states 757 Casino Drive and 412-231-7777; the census ZIP 15212 agrees and the census holds no street or telephone.",
+     "The Landing's page titles itself 'The Landing Hotel Pittsburgh', while the census canonical name is 'The Landing Hotel at Rivers Casino'."
+    ],
+    "recommendation": "Fill both streets and telephones. Record the Landing's shorter self-name in the name-corrections DISPLAY overlay only; do not change the identity key.",
+    "confidence": "high. In both cases the census ZIP already agrees, so the page is corroborating a partially known identity rather than proposing a new one.",
+    "census_effect": "No count change; two rows gain an address and a telephone.",
+    "authority_effect": "None. Both are POLICY_NOT_FOUND.",
+    "routing_effect": "Both keep their existing first-party routes.",
+    "reversible": true,
+    "blocks_promotion": false
+   },
+   {
+    "id": "PGH-R1-A5",
+    "identity_keys": ["hyatt place pittsburgh cranberry"],
+    "question": "How should a route that names no property be handled?",
+    "evidence": [
+     "The committed hyatt.com slug for this row redirects to Hyatt's generic loyalty homepage, so it identifies no building.",
+     "Hyatt then returned HTTP 429 on its robots/sitemap, so the locator could not be read in this session.",
+     "No evidence was gathered either way about whether the property operates."
+    ],
+    "recommendation": "Retire the route into the route-retirement ledger as naming no property, and re-run a Hyatt locator read in a later order. Do NOT infer closure.",
+    "confidence": "high that the route is bad; no confidence at all about the building.",
+    "census_effect": "None.",
+    "authority_effect": "None.",
+    "routing_effect": "One route retired; the row stays unresolved pending a fresh locator read.",
+    "reversible": true,
+    "blocks_promotion": false
+   }
+  ],
+  "B_geography": [
+   {
+    "id": "PGH-R1-B1",
+    "identity_keys": ["ac hotel by marriott pittsburgh downtown"],
+    "question": "Which corridor does 1126 Smallman Street belong to?",
+    "evidence": [
+     "The property's own page states 1126 Smallman Street, Pittsburgh PA 15222.",
+     "The census assigns this row to pittsburgh-pa__downtown.",
+     "The market contract states: 'ZIP 15219/15222 span Downtown, the Strip, and Station Square; Strip Smallman hotels and the Station Square Sheraton are excluded from Downtown and assigned explicitly.'"
+    ],
+    "recommendation": "Reassign to pittsburgh-pa__strip-lawrenceville under the market contract's own explicit-assignment rule.",
+    "census_effect": "None.",
+    "authority_effect": "This row is CLEAN_VERIFIED_NO_PETS in this order's inventory, so it publishes no profile either way. The corridor matters for later coverage counting, not for output.",
+    "routing_effect": "None.",
+    "reversible": true,
+    "blocks_promotion": false
+   },
+   {
+    "id": "PGH-R1-B2",
+    "identity_keys": ["residence inn pittsburgh monroeville", "fairfield inn and suites pittsburgh downtown", "homewood suites robinson area"],
+    "question": "Three ZIP disagreements between the census and each property's own page.",
+    "evidence": [
+     "residence inn pittsburgh monroeville: census Wilkins Township 15146; the property's page states Pittsburgh, PA 15235.",
+     "fairfield inn and suites pittsburgh downtown: census 15222; the property's page states 15219. Fort Pitt Boulevard sits on the seam the market contract already names.",
+     "homewood suites robinson area: census Pittsburgh 15205; the property's page states 2000 GSK Drive, Moon Township, PA 15108. The market contract notes 15205 is deliberately attached to no corridor because it spans Green Tree and Robinson."
+    ],
+    "recommendation": "Accept each property's own page for the ZIP, then re-derive the corridor from the corrected ZIP. Rule the three together, since all three are seam cases the market contract anticipates.",
+    "confidence": "high on the ZIPs (first-party); the corridor consequence is a founder call.",
+    "census_effect": "No count change; three rows gain a corrected ZIP.",
+    "authority_effect": "Two of the three are in this order's clean inventory. Their POLICY is unaffected; only their geography moves.",
+    "routing_effect": "None.",
+    "reversible": true,
+    "blocks_promotion": false
+   },
+   {
+    "id": "PGH-R1-B3",
+    "identity_keys": ["crowne plaza pittsburgh south"],
+    "question": "Confirm an in-market assignment that introduces a ZIP the census has never carried.",
+    "evidence": [
+     "The Firecrawl capture binds this row to 164 Fort Couch Road, Pittsburgh PA 15241.",
+     "The census assigns it explicitly to pittsburgh-pa__south-hills, and the market contract names South Hills (Bridgeville/Mt. Lebanon) as an APPROVED outer-ring corridor.",
+     "15241 appears in no other census row, so this would be a new ZIP for the market."
+    ],
+    "recommendation": "Confirm the existing explicit South Hills assignment and admit ZIP 15241. The assignment is already explicit and the corridor is already approved; this only records the ZIP.",
+    "census_effect": "No count change.",
+    "authority_effect": "This row is CLEAN_PET_FRIENDLY in this order's inventory, so confirming it keeps the row promotable.",
+    "routing_effect": "None.",
+    "reversible": true,
+    "blocks_promotion": false
+   }
+  ],
+  "C_closure_conversion_non_lodging": [
+   {
+    "id": "PGH-R1-C1",
+    "identity_keys": ["shadyside inn suites"],
+    "question": "Is this still transient lodging?",
+    "evidence": [
+     "The operator's own domain states, in its own words: 'While COVID-19 closed one door the pandemic opened a new one. We are excited to announce a pivot in our business back to offering long term unfurnished rental apartments. We will now be called Shadyside At Home Apartments.'",
+     "The same page's footer still carries the census street, ZIP and telephone (5405 Fifth Ave, Pittsburgh PA 15232, 412-441-4444), so the statement is bound to the right premises.",
+     "Independently reproduced twice: in this market's owned 2026-08-26 capture and in this order's fresh fetch."
+    ],
+    "recommendation": "Rule OUT_OF_CURRENT_CATEGORY / NON_LODGING. Long-term unfurnished apartments are not transient lodging. Move the row into the exclusions authority; do not delete it.",
+    "confidence": "very high. This is the operator's own first-party announcement, identity-bound, and reproduced.",
+    "census_effect": "Census count unchanged; one row moves from AWAITING_CENSUS_REVIEW to OUT_OF_CURRENT_CATEGORY.",
+    "authority_effect": "resolved 73 -> 74 and unresolved 30 -> 29, independently of this order's clean inventory.",
+    "routing_effect": "The route stays bound as the evidence for the conversion.",
+    "reversible": true,
+    "blocks_promotion": false
+   },
+   {
+    "id": "PGH-R1-C2",
+    "identity_keys": ["ace hotel pittsburgh"],
+    "question": "Has this brand left this building?",
+    "evidence": [
+     "acehotel.com's own location selector lists Athens, Brooklyn, Kyoto, New York, Palm Springs, Seattle, Sydney and Toronto. Pittsburgh is absent.",
+     "The census route now resolves to brand content whose printed address is Artemisiou 1 with ZIP '166 75', which is Athens, not the census's 120 South Whitfield Street 15206.",
+     "Reproduced twice: the owned 2026-08-26 capture and this order's fresh fetch both returned the same brand shell."
+    ],
+    "recommendation": "Rule that the Ace flag has left this building and retire the acehotel.com route. Do NOT rule the BUILDING closed on this evidence: absence from a brand locator is a statement about the brand roster, not about whether 120 South Whitfield Street operates as a hotel under another name. A separate free identity read should establish what, if anything, operates there.",
+    "confidence": "high on the brand departure; none on the building's status.",
+    "census_effect": "None yet.",
+    "authority_effect": "None.",
+    "routing_effect": "One route retired.",
+    "reversible": true,
+    "blocks_promotion": false
+   },
+   {
+    "id": "PGH-R1-C3",
+    "identity_keys": ["courtyard by marriott pittsburgh shadyside", "doubletree by hilton pittsburgh monroeville", "hampton inn pittsburgh airport moon"],
+    "question": "Three routes whose brand no longer publishes the property code.",
+    "evidence": [
+     "marriott:pitok is absent from Marriott's published US hotel sitemap (10,220 codes).",
+     "hilton:pitmrdt is absent from Hilton's published DoubleTree property sitemaps.",
+     "hilton:pitaphx is absent from Hilton's published Hampton property sitemaps.",
+     "All three brands DO still publish many other Pittsburgh-area codes in the same sitemaps, so the absences are specific and not a scraping artefact.",
+     "The census holds a street for only one of the three (5308 Liberty Avenue for the Courtyard), so two cannot be re-identified on address at all."
+    ],
+    "recommendation": "Retire all three routes into the route-retirement ledger as codes the brand no longer publishes, and open a free identity read for each to find out what operates at those premises. Do NOT rule any of the three closed: a delisted code is a brand-roster fact.",
+    "confidence": "high that the codes are gone; none about the buildings.",
+    "census_effect": "None.",
+    "authority_effect": "None. All three are already unresolved.",
+    "routing_effect": "Three routes retired.",
+    "reversible": true,
+    "blocks_promotion": false
+   }
+  ],
+  "D_policy_ambiguity_reader_exception": [
+   {
+    "id": "PGH-R1-D1",
+    "identity_keys": ["residence inn pittsburgh monroeville"],
+    "question": "Which fee should be published when the page states two that do not reconcile?",
+    "evidence": [
+     "The property's own Pet Policy block states BOTH '$25 per day per pet not to exceed $150.00 per month - nonrefundable' AND 'Non-Refundable Pet Fee Per Stay: $100.00'.",
+     "These cannot both be the whole charge: a $25/night rate reaches $100 in four nights and then keeps running to a $150 monthly cap.",
+     "Both strings are quoted verbatim in the capture artifact; neither has been collapsed into the other."
+    ],
+    "recommendation": "Publish the prose tier ($25 per night, capped at $150 per month) as the operative charge and record the $100 per-stay figure as a second stated charge, following the established rule that a fee and a second charge are two charges and not one. If the founder prefers, withhold the fee entirely and publish pets_allowed with no amount.",
+    "census_effect": "None.",
+    "authority_effect": "Determines what one CLEAN_PET_FRIENDLY row publishes. The pets_allowed fact itself is not in doubt.",
+    "routing_effect": "None.",
+    "reversible": true,
+    "blocks_promotion": false
+   },
+   {
+    "id": "PGH-R1-D2",
+    "identity_keys": ["hyatt house pittsburgh south side works"],
+    "question": "Are cats accepted?",
+    "evidence": [
+     "The page says 'We happily welcome your canine travel companions' and 'All dogs must be housebroken'. It makes no statement about cats anywhere.",
+     "The capture withholds cat acceptance rather than inferring it."
+    ],
+    "recommendation": "Publish dogs as accepted and leave cats unstated. Silence about a species is not a refusal and is not an acceptance.",
+    "census_effect": "None.",
+    "authority_effect": "Shapes one CLEAN_PET_FRIENDLY row's species field.",
+    "routing_effect": "None.",
+    "reversible": true,
+    "blocks_promotion": false
+   },
+   {
+    "id": "PGH-R1-D3",
+    "identity_keys": ["mansions on fifth", "the priory hotel", "the landing hotel at rivers casino", "tryp hotel pittsburgh"],
+    "question": "Four properties whose own surfaces state no pet policy at all.",
+    "evidence": [
+     "mansions on fifth: four first-party surfaces checked across two orders, none containing the word 'pet', each recorded with its digest.",
+     "the priory hotel: homepage plus accommodations, amenities and about pages; no pet sentence on any.",
+     "the landing hotel: homepage plus amenities, rooms-suites and a second amenities page; no pet sentence on any.",
+     "tryp hotel pittsburgh: homepage plus its accommodations page; no pet sentence on either.",
+     "Every surface checked is recorded with its URL, status and sha256, so each POLICY_NOT_FOUND claim is falsifiable."
+    ],
+    "recommendation": "Hold all four as POLICY_NOT_FOUND. Do NOT infer a no-pets policy from silence. TRYP should be re-attempted after ruling A3, because binding it to the Wyndham family opens a measured Firecrawl route to a rendered policy dialog that a plain fetch cannot reach.",
+    "census_effect": "None.",
+    "authority_effect": "None; these four stay unresolved and publish nothing.",
+    "routing_effect": "None.",
+    "reversible": true,
+    "blocks_promotion": false
+   },
+   {
+    "id": "PGH-R1-D4",
+    "identity_keys": ["homewood suites robinson area"],
+    "question": "How should a page that identified itself but never rendered its policy be recorded?",
+    "evidence": [
+     "Hilton returned a bot-mitigation shell. The property name and '2000 GSK Drive, Moon Township, Pennsylvania, 15108' rendered, so identity is bound.",
+     "The only occurrence of a pet word on the rendered page is the global Hilton footer link 'Pet-Friendly Stays', which is site-wide marketing and names no property.",
+     "The policy surface never hydrated across three attempts."
+    ],
+    "recommendation": "Record CAPTURE_FAILED, not POLICY_NOT_FOUND, and keep the identity fill. A page that did not render cannot be evidence of silence, and the footer link must never be read as this property's policy.",
+    "census_effect": "None.",
+    "authority_effect": "None.",
+    "routing_effect": "The route is confirmed good against Hilton's own sitemap, so no repair is needed; only a re-read.",
+    "reversible": true,
+    "blocks_promotion": false
+   }
+  ],
+  "E_evidence_conflict": [
+   {
+    "id": "PGH-R1-E1",
+    "identity_keys": ["doubletree by hilton pittsburgh airport"],
+    "question": "A LIVE record whose evidence is an amenity-list line.",
+    "evidence": [
+     "This record is published VERIFIED_NO_PETS on the quote 'Pets not allowed'.",
+     "In this market's OWN captured page that string appears in the amenity list, between 'Meeting rooms' and 'All Amenities'.",
+     "The founder note attached to the record already states that 'the Pets policy panel itself is empty of content'.",
+     "The same page carries the global footer link 'Pet-Friendly Stays', which was correctly NOT used."
+    ],
+    "recommendation": "Re-read the property's own Hotel Policies pet panel on a free attended visit and re-bind the quote. Do not flip the fact on this finding: the amenity flag is first-party and property-specific, so the fact is probably correct and only its grade is wrong.",
+    "confidence": "high that the evidence is chip-grade; no reason to think the fact is wrong.",
+    "census_effect": "None.",
+    "authority_effect": "None to live output, because a no-pets record suppresses a profile rather than publishing a policy.",
+    "routing_effect": "None; hilton:pitardt matches Hilton's published inventory.",
+    "reversible": true,
+    "blocks_promotion": false
+   },
+   {
+    "id": "PGH-R1-E2",
+    "identity_keys": ["sunnyledge boutique hotel"],
+    "question": "A route retired as poisoned with no replacement found.",
+    "evidence": [
+     "Order 007 retired sunnyledge.com because it redirects to a domain reseller's sale page.",
+     "The shadow recensus still carries that retired route, which makes the shadow stale for this row.",
+     "No replacement first-party route was found in this order; the census holds 5124 Fifth Avenue, 15232 and 412-683-5014."
+    ],
+    "recommendation": "Leave the route retired and re-attempt discovery from the street address in a later order. A lapsed domain is not evidence that the property closed.",
+    "census_effect": "None.",
+    "authority_effect": "None.",
+    "routing_effect": "None; already retired.",
+    "reversible": true,
+    "blocks_promotion": false
+   }
+  ]
+ },
+ "optional_coverage_expansion": {
+  "what_this_is": "Properties each brand publishes inside an APPROVED corridor that this census holds under no row. Each needs a founder census-add ruling. None blocks promotion.",
+  "candidates": [
+   {"code": "marriott:pitne", "name": "TownePlace Suites Pittsburgh Harmarville", "corridor": "pittsburgh-pa__allegheny-valley"},
+   {"code": "marriott:pitfm", "name": "Fairfield Inn & Suites Pittsburgh North/McCandless Crossing", "corridor": "pittsburgh-pa__north-hills"},
+   {"code": "marriott:pitmp", "name": "Four Points Monroeville", "corridor": "pittsburgh-pa__monroeville"},
+   {"code": "marriott:pitwm", "name": "SpringHill Suites West Mifflin", "corridor": "pittsburgh-pa__waterfront"},
+   {"code": "hilton:pitwmhx", "name": "Hampton Inn Pittsburgh West Mifflin", "corridor": "pittsburgh-pa__waterfront"}
+  ],
+  "also_seen_in_shadow_recensus": "The 115-row shadow additionally proposes independents and economy properties (Best Western Plus Cranberry, Clarion Inn, Comfort Inn McKnight, East Exit Motel, two Extended Stay America properties, Quality Inn Cranberry, two Red Roof properties, Wingate Cranberry, Pittsburgh Airport Inn & Suites). These were NOT verified in this order and are listed only so the next coverage order has a starting set."
+ }
+}

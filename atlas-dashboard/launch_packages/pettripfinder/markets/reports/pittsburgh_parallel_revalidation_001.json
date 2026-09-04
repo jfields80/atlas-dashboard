@@ -1,0 +1,484 @@
+{
+ "schema": "ptf-market-parallel-revalidation/1.0",
+ "work_order": "PTF-PITTSBURGH-PARALLEL-REVALIDATION-001",
+ "market_id": "pittsburgh-pa",
+ "as_of": "2026-09-03",
+ "base_commit": "d06e2eba07dc95edda745d31c51e53edad72983a",
+ "parallel_safe": true,
+ "serialized_boundary": "This order STOPS before source promotion, shared-global regeneration, shared-pin movement, candidate assembly, deployment authorization and deployment. Nothing here is applied to live authority.",
+ "provider_calls": {
+  "firecrawl": 2,
+  "brightdata": 0,
+  "places": 0
+ },
+ "credits_used": {
+  "firecrawl": 2
+ },
+ "usd_spent": 0.0,
+ "baseline": {
+  "census": 103,
+  "pet_friendly": 53,
+  "verified_no_pets": 17,
+  "out_of_current_category": 3,
+  "resolved": 73,
+  "unresolved": 30,
+  "profiles": 53
+ },
+ "baseline_agreement": "The pinned census, the final partition, the policy package, the exclusions authority and the release contract all state the same numbers, and the committed policy-package sha256 reproduces the release contract's expected_sha256 exactly.",
+ "wrong_live_policy_audit": {
+  "records_audited": 73,
+  "published_pet_friendly": {
+   "count": 53,
+   "classification": "CURRENT_AUTHORITY_CORRECT",
+   "amenity_chip_bindings_found": 0,
+   "method": "Every published record carries PER-FIELD evidence entries (274 across 53 records), each with its own quote, source_url, artifact_sha256, capture_method and source_grade. Each record's composed evidence_quote carries fee, weight, count or species detail, which an amenity chip cannot express. Where this market owns the captured page, the operative label-value block was re-located in it.",
+   "findings": []
+  },
+  "verified_no_pets": {
+   "count": 17,
+   "correct": 16,
+   "findings": [
+    {
+     "identity_key": "doubletree by hilton pittsburgh airport",
+     "classification": "EVIDENCE_BELOW_PUBLICATION_GRADE",
+     "severity": "evidence grade, not a live-output defect",
+     "what": "The published refusal quote 'Pets not allowed' is located in this market's OWN captured page at an amenity-list line, between 'Meeting rooms' and 'All Amenities'. The page's operative 'Hotel policies > Pets' panel is empty of content, which the founder note for this record already states.",
+     "why_it_matters": "Repository doctrine is that an amenity chip is never operative policy evidence. The FACT is probably right, since the amenity flag is first-party and property-specific, but the evidence does not meet the grade the other 16 no-pets records meet.",
+     "live_output_effect": "None. A VERIFIED_NO_PETS record suppresses a profile rather than publishing a policy, so no wrong pet policy is served.",
+     "recommendation": "Re-read the property's own Hotel Policies pet panel on a free attended visit and re-bind the quote. Do not flip the fact on this finding alone.",
+     "blocks_promotion": false
+    }
+   ],
+   "checked_and_cleared": [
+    {
+     "pattern": "Marriott 'Pet Policy / Pets Not Allowed / Service animals only'",
+     "rows": 4,
+     "verdict": "Operative LABEL-VALUE pair under the page's own Pet Policy heading, re-located in this market's owned captured pages. Not a chip."
+    },
+    {
+     "pattern": "IHG 'No, pets are not allowed at <property name>'",
+     "rows": 3,
+     "verdict": "Property-named FAQ prose, re-located in the owned pages. Not a chip."
+    },
+    {
+     "pattern": "Choice 'Pets | Pets Allowed: No | General: Only service animals'",
+     "rows": 1,
+     "verdict": "Operative policy panel."
+    },
+    {
+     "pattern": "InTown 'Are Pets Allowed At <property>? No pets allowed at <property>'",
+     "rows": 1,
+     "verdict": "Property-named FAQ prose."
+    }
+   ]
+  },
+  "out_of_current_category": {
+   "count": 3,
+   "classification": "CURRENT_AUTHORITY_CORRECT",
+   "note": "Three founder category rulings, unchanged."
+  },
+  "wrong_live_pf": 0,
+  "wrong_live_no_pets": 0,
+  "identity_mismatch_live": 0
+ },
+ "route_audit": {
+  "method": "Every Marriott- and Hilton-coded route this market holds, across the census, the policy package, the exclusions authority and the final partition, compared with that brand's OWN published sitemap roster.",
+  "routes_audited": 59,
+  "route_matches_inventory": 54,
+  "code_absent_from_brand_inventory": 5,
+  "wrong_live_routes": 0,
+  "note": "All 5 absences fall on rows that are already UNRESOLVED. No published route in this market points at a code its brand has stopped publishing.",
+  "absent_codes": [
+   {
+    "identity_key": "courtyard by marriott pittsburgh shadyside",
+    "code": "marriott:pitok",
+    "final_state": "AWAITING_CENSUS_REVIEW"
+   },
+   {
+    "identity_key": "residence inn pittsburgh airport coraopolis",
+    "code": "marriott:pitra",
+    "final_state": "AWAITING_IDENTITY_RESOLUTION"
+   },
+   {
+    "identity_key": "residence inn pittsburgh university center",
+    "code": "marriott:pitro",
+    "final_state": "AWAITING_IDENTITY_RESOLUTION"
+   },
+   {
+    "identity_key": "doubletree by hilton pittsburgh monroeville",
+    "code": "hilton:pitmrdt",
+    "final_state": "AWAITING_IDENTITY_RESOLUTION"
+   },
+   {
+    "identity_key": "hampton inn pittsburgh airport moon",
+    "code": "hilton:pitaphx",
+    "final_state": "AWAITING_IDENTITY_RESOLUTION"
+   }
+  ],
+  "routes_recovered_free": [
+   {
+    "identity_key": "courtyard by marriott cranberry woods",
+    "code": "marriott:pitct",
+    "url": "https://www.marriott.com/en-us/hotels/pitct-courtyard-pittsburgh-north-cranberry-woods/overview/"
+   },
+   {
+    "identity_key": "fairfield inn and suites pittsburgh downtown",
+    "code": "marriott:pitdf",
+    "url": "https://www.marriott.com/en-us/hotels/pitdf-fairfield-inn-and-suites-pittsburgh-downtown/overview/"
+   }
+  ]
+ },
+ "lane_yield": {
+  "owned_evidence": {
+   "artifacts_scanned": 125,
+   "json_artifacts": 86,
+   "corpus_files": 352,
+   "corpus_journal_rows": 92,
+   "publication_grade_captures_in_corpus": 41,
+   "UNAPPLIED_publication_grade": 0,
+   "note": "Unlike Cincinnati, Pittsburgh's owned corpus holds NO unapplied publication-grade policy evidence. Every one of the 41 is already reflected in committed authority. The owned lane's yield here was IDENTITY and STATUS, not new policy."
+  },
+  "free_static": {
+   "attempts": 23,
+   "access_denied": 17,
+   "identity_mismatch": 6,
+   "publication_grade": 0,
+   "note": "Reproduced the measured capability wall exactly: Marriott, Hilton, IHG and Hyatt all refused at the edge. The 17 channel failures are what made the Firecrawl rung eligible."
+  },
+  "firecrawl": {
+   "candidates_derived": 2,
+   "calls": 2,
+   "credits_used": 2,
+   "usd": 0.0,
+   "publication_grade": 2,
+   "note": "The ladder DERIVED exactly two candidates: IHG rows whose static attempt failed on the channel, on a family the route table names from a measured decision. Marriott and Hilton were excluded as known capability walls, and Hyatt as a cost exclusion, so no credit was spent on a guess."
+  },
+  "attended": {
+   "pages": 10,
+   "publication_grade": 10,
+   "blocked": [
+    {
+     "identity_key": "homewood suites robinson area",
+     "outcome": "CAPTURE_FAILED",
+     "why": "Hilton returned a bot-mitigation shell; the property name and street rendered but the policy surface never hydrated. Recorded as a capture failure, NOT as policy silence."
+    },
+    {
+     "identity_key": "hyatt place pittsburgh cranberry",
+     "outcome": "ROUTE_NOT_FOUND",
+     "why": "The committed hyatt.com slug redirects to Hyatt's generic loyalty homepage, so it names no property. Hyatt then rate-limited the locator read. Routing repair required."
+    }
+   ]
+  }
+ },
+ "pending_clean_inventory": {
+  "asserts_nothing_applied": true,
+  "clean_pet_friendly": 8,
+  "clean_verified_no_pets": 4,
+  "pet_friendly_rows": [
+   "marriott pittsburgh north cranberry woods",
+   "residence inn pittsburgh cranberry township",
+   "residence inn pittsburgh monroeville",
+   "courtyard by marriott cranberry woods",
+   "fairfield inn and suites pittsburgh downtown",
+   "hyatt house pittsburgh south side works",
+   "crowne plaza pittsburgh south",
+   "hotel indigo pittsburgh university oakland"
+  ],
+  "verified_no_pets_rows": [
+   "ac hotel by marriott pittsburgh downtown",
+   "springhill suites pittsburgh mills",
+   "springhill suites pittsburgh monroeville",
+   "springhill suites pittsburgh southside works"
+  ],
+  "evidence_locations": {
+   "attended": "launch_packages/pettripfinder/markets/reports/pittsburgh_parallel_revalidation_001_attended_capture.json",
+   "firecrawl": "data/acquisition/pittsburgh_pa_firecrawl_008/ (gitignored; ledger entries in the Firecrawl call ledger)",
+   "static": "data/acquisition/pittsburgh_pa_free_static_008/ (gitignored)"
+  },
+  "excluded_from_this_inventory": [
+   "every row with an unresolved identity question",
+   "every row with a geography hold",
+   "every row whose evidence is a reader exception or a source silence",
+   "any identity-only Firecrawl result"
+  ]
+ },
+ "shadow_reconciliation": {
+  "pinned_census": 103,
+  "shadow_census": 103,
+  "census_moves_proposed": 0,
+  "note": "This order proposes NO census add, retirement or supersession. Every identity question it opened is routed to the founder packet, because each one changes what a row MEANS and none is mechanically derivable.",
+  "projected_authority_if_clean_inventory_is_promoted": {
+   "census": 103,
+   "pet_friendly": 61,
+   "verified_no_pets": 21,
+   "out_of_current_category": 3,
+   "resolved": 85,
+   "unresolved": 18,
+   "profiles": 61
+  },
+  "delta": {
+   "pet_friendly": 8,
+   "verified_no_pets": 4,
+   "resolved": 12,
+   "unresolved": -12,
+   "profiles": 8
+  }
+ },
+ "recensus": {
+  "shadow_source": "launch_packages/pettripfinder/identity_census/recensus/pittsburgh-pa.json",
+  "shadow_rows": 115,
+  "pinned_rows": 103,
+  "exact_existing": 74,
+  "same_address_as_existing": 18,
+  "candidate_not_in_census": 23,
+  "in_census_not_in_shadow": 29,
+  "stale_shadow_rows_flagged": [
+   {
+    "identity_key": "sunnyledge boutique hotel",
+    "why": "The shadow still carries the sunnyledge.com route that order 007 RETIRED as a domain-reseller page. The pinned census is correct and the shadow is stale."
+   },
+   {
+    "identity_key": "holiday inn express pittsburgh cranberry township",
+    "why": "The shadow still carries the IHG /cranberry/fklpa/ route that order 007 RETIRED as the wrong Cranberry, seventy miles away in Venango county."
+   }
+  ],
+  "true_missing_candidates_from_brand_inventory": [
+   {
+    "code": "marriott:pitne",
+    "name": "TownePlace Suites Pittsburgh Harmarville",
+    "corridor": "pittsburgh-pa__allegheny-valley"
+   },
+   {
+    "code": "marriott:pitfm",
+    "name": "Fairfield Inn & Suites Pittsburgh North/McCandless Crossing",
+    "corridor": "pittsburgh-pa__north-hills"
+   },
+   {
+    "code": "marriott:pitmp",
+    "name": "Four Points Monroeville",
+    "corridor": "pittsburgh-pa__monroeville"
+   },
+   {
+    "code": "marriott:pitwm",
+    "name": "SpringHill Suites West Mifflin",
+    "corridor": "pittsburgh-pa__waterfront"
+   },
+   {
+    "code": "hilton:pitwmhx",
+    "name": "Hampton Inn Pittsburgh West Mifflin",
+    "corridor": "pittsburgh-pa__waterfront"
+   }
+  ],
+  "true_missing_note": "These are published by their own brands inside APPROVED corridors and are bound to no census row. They are OPTIONAL COVERAGE EXPANSION, not a promotion blocker, and each needs a founder census-add ruling.",
+  "method_note": "This order did NOT re-query Overpass or Geofabrik. Owned evidence comes first, and this market already holds a 115-row shadow recensus built on 2026-08-26 from a persisted multi-provider discovery candidate set. That shadow was reconciled against the pinned census here, and the free-discovery rung was then advanced with something the earlier recensus did not use: each brand's OWN published sitemap. A fresh Overpass sweep remains available for a later coverage order and is listed under optional expansion."
+ },
+ "promotion_readiness": {
+  "PROMOTION_READY": "YES",
+  "what_is_ready": "The 12-row clean inventory: 8 CLEAN_PET_FRIENDLY and 4 CLEAN_VERIFIED_NO_PETS, every one bound to a first-party page by an exact identity signal and carrying a document digest taken in the same call as its quote.",
+  "criteria": [
+   {
+    "criterion": "no unexplained wrong-live authority",
+    "met": true,
+    "note": "53 published pet-friendly records audited: zero amenity-chip bindings, zero wrong-live facts. One no-pets record (DoubleTree Pittsburgh Airport) has chip-grade evidence; it is EXPLAINED, it changes no live output, and it is routed to founder item PGH-R1-E1."
+   },
+   {
+    "criterion": "deterministic promoted identities",
+    "met": true,
+    "note": "Every promoted row binds on an exact street match, an exact property code confirmed against the brand's own sitemap, or both. No row is promoted on a name alone."
+   },
+   {
+    "criterion": "evidence-bound clean inventory",
+    "met": true,
+    "note": "12 of 12 rows carry a URL, a sha256, a timestamp, a verbatim quote, parsed facts and withheld facts."
+   },
+   {
+    "criterion": "no duplicate premises among promoted rows",
+    "met": true,
+    "note": "Checked explicitly. 100 vs 150 Cranberry Woods Drive are two buildings; 2950 vs 2795 South Water Street are two buildings. The two duplicate-premises questions this order found (PGH-R1-A1, PGH-R1-A2) both sit OUTSIDE the promoted set."
+   },
+   {
+    "criterion": "geography deterministic or held outside promotion",
+    "met": true,
+    "note": "Four geography questions are open (PGH-R1-B1..B3). None changes a pets_allowed fact; all are corridor and ZIP questions that can be ruled before or after the policy is applied."
+   },
+   {
+    "criterion": "founder holds explicitly outside promotion",
+    "met": true,
+    "note": "All 14 founder items are marked blocks_promotion false, and none names a promoted row's policy."
+   },
+   {
+    "criterion": "release changes known",
+    "met": true,
+    "note": "A promotion of this inventory moves published_pet_friendly 53 -> 61 and verified_no_pets 17 -> 21, so the Pittsburgh release contract's reconciliation block and hotel_route_count both move. The census count does not change."
+   },
+   {
+    "criterion": "remaining work is optional coverage",
+    "met": true,
+    "note": "The 5 brand-published in-corridor properties and the 23 shadow candidates are coverage expansion, not correctness."
+   }
+  ],
+  "required_before_promotion": [
+   "None for the 12-row inventory itself.",
+   "A promotion order must still do the serialized work this order is forbidden to do: apply the records, regenerate the shared globals BEFORE deriving the contract, re-derive the release contract, and reproduce the candidate assembly."
+  ],
+  "optional_coverage_expansion": [
+   "PGH-R1-A1 / A2 duplicate-premises supersessions (census 103 -> 101).",
+   "PGH-R1-C1 Shadyside Inn conversion (resolved 73 -> 74 independently of the inventory).",
+   "PGH-R1-C2 / C3 route retirements for five delisted brand codes.",
+   "PGH-R1-A3 / A4 identity fills for TRYP, the Priory and the Landing.",
+   "Five brand-published properties in approved corridors that this census does not hold."
+  ]
+ },
+ "parallelism_safety": {
+  "market_local_files_changed": [
+   "launch_packages/pettripfinder/markets/reports/pittsburgh_parallel_revalidation_001.json",
+   "launch_packages/pettripfinder/markets/reports/pittsburgh_parallel_revalidation_001_attended_capture.json",
+   "launch_packages/pettripfinder/markets/reports/pittsburgh_parallel_revalidation_001_brand_inventory.json",
+   "launch_packages/pettripfinder/markets/reports/pittsburgh_parallel_revalidation_001_founder_packet.json",
+   "launch_packages/pettripfinder/markets/reports/pittsburgh_parallel_revalidation_001_paid_readiness.json"
+  ],
+  "shared_files_changed": [
+   "tests/pettripfinder/acquisition/test_store_integration_025.py"
+  ],
+  "shared_file_justification": "This is the unavoidable bookkeeping registration the order permits. `data/acquisition/` is shared by every market, and its classification gate fails on any run directory nobody has decided about. TWO Pittsburgh run ids were APPENDED to OTHER_MARKET_RUNS. No existing entry was edited, reordered or removed, and no Milwaukee classification changed.",
+  "OTHER_MARKET_RUNS_entry_added": true,
+  "entries_added": [
+   "pittsburgh_pa_free_static_008",
+   "pittsburgh_pa_firecrawl_008"
+  ],
+  "merge_note": "Indianapolis is running concurrently in a separate worktree and may append its OWN run ids to this same set. That is an ADDITIVE conflict. The correct resolution is to preserve BOTH sets of entries -- every Pittsburgh id and every Indianapolis id -- never to take one side. Dropping either market's entries re-opens the classification gate for that market.",
+  "not_touched": [
+   "any Indianapolis market file",
+   "the generated global identity_routing.json, hotel_exclusions.json and policy package",
+   "tests/pettripfinder/pins/ (deployment_state.json, market_state.json, supersessions.json)",
+   "the candidate assembly and the global deployment manifest",
+   "deploy/netlify/deployment_authorizations and deployment_records",
+   "deploy/netlify/release_contracts/pittsburgh-pa.json",
+   "the shared cross-run paid-attempt and discovery-attempt ledgers (READ only)",
+   "launch_packages/pettripfinder/identity_census/pittsburgh-pa.json (the PINNED census)"
+  ],
+  "serialized_boundary_respected": true
+ },
+ "speed_benchmark": {
+  "owned_evidence_reused": {
+   "artifacts_scanned": 125,
+   "corpus_files": 352,
+   "journal_rows": 92,
+   "pages_replayed_at_zero_cost": 5,
+   "note": "The owned corpus lives in a sibling worktree because data/ is gitignored; it was read, never re-fetched."
+  },
+  "free_requests": {
+   "direct_static": 23,
+   "subpage_probe": 8,
+   "brand_sitemaps": 537,
+   "attended_properties_visited": 13,
+   "attended_properties_captured_publication_grade": 10,
+   "attended_properties_blocked_or_unroutable": 3
+  },
+  "firecrawl": {
+   "candidates": 2,
+   "calls": 2,
+   "credits": 2,
+   "usd": 0.0
+  },
+  "paid": {
+   "brightdata_calls": 0,
+   "places_calls": 0,
+   "usd": 0.0
+  },
+  "yield": {
+   "clean_pet_friendly": 8,
+   "clean_verified_no_pets": 4,
+   "routes_recovered_free": 2,
+   "dead_brand_codes_found": 5,
+   "duplicate_premises_found": 2,
+   "conversions_evidenced": 1,
+   "founder_items_prepared": 14
+  },
+  "attended_pages_avoided": {
+   "count": 2,
+   "how": "The ladder sent the two IHG rows to Firecrawl instead of a browser, and both came back publication-grade. Marriott and Hilton were correctly NOT sent, because the route table records them as measured capability walls -- so no credit was wasted proving a known wall."
+  },
+  "comparison_with_prior_pittsburgh_work": {
+   "PTF-PITTSBURGH-PAID-ACQUISITION-003": "92 paid attempts, $17.08, 43 VALID.",
+   "PTF-PITTSBURGH-IDENTITY-CLOSE-007": "Concluded the remaining 30 rows needed one attended visit per property and could not be closed mechanically. 0 rows closed.",
+   "this_order": "12 of those 30 rows closed with publication-grade first-party evidence for $0.00 and 2 plan credits.",
+   "what_changed": "Two rungs that did not exist when 007 ran. The Firecrawl rung closed 2 IHG rows that 007 would have walked into a browser. The official-sitemap rung of LOCAL_FREE_DISCOVERY did more: it recovered 2 routes 007 recorded as unroutable, and it answered the identity question for 5 more rows by asking each brand what it still publishes -- which is why those 5 are now founder rulings instead of open capture work."
+  },
+  "release_contract_check": {
+   "markets_verified": 11,
+   "agreement": "ok for every committed contract",
+   "note": "Includes indianapolis-in, which this order did not touch."
+  },
+  "active_minutes": {
+   "value": null,
+   "note": "Wall-clock active minutes were not instrumented for this session, so no figure is asserted. The measured components are: market_targeted lane 246.4s; 2 Firecrawl calls; 23 direct static fetches; 537 brand-sitemap fetches; 13 attended property visits whose capture timestamps span 00:24:43Z to 00:26:51Z."
+  }
+ },
+ "regression": {
+  "flow": "PTF-FACTORY-REGRESSION-V2 delta-scoped validation, then the order's named lanes.",
+  "change_surface_classification": {
+   "tool": "scripts/pettripfinder/regression_delta.py classify --base d06e2eb",
+   "classes": [
+    "GENERATED_REPORT_ONLY",
+    "BOOKKEEPING_REGISTRATION_CHANGE"
+   ],
+   "unclassified_paths": 0,
+   "assembly_required": false,
+   "FULL_REGRESSION_REQUIRED": "NO",
+   "reason": "every changed file classifies into a narrow class; no row of the validation matrix makes a broad regression mandatory"
+  },
+  "lanes": {
+   "market_targeted": {
+    "modules": 22,
+    "collected": 1087,
+    "passed": 1081,
+    "skipped": 6,
+    "failed": 0,
+    "seconds": 246.4
+   },
+   "policy_schema": {
+    "modules": 45,
+    "collected": 1655,
+    "passed": 1630,
+    "skipped": 20,
+    "failed": 5,
+    "seconds": 77.2
+   },
+   "identity_routing": {
+    "modules": 41,
+    "failed": 14
+   },
+   "release_contract": {
+    "modules": 5,
+    "failed": 0
+   }
+  },
+  "release_contract_verification": {
+   "markets": 11,
+   "agreement": "ok",
+   "pittsburgh": "103 confirmed / 53 published / 17 no-pets / 73 resolved / 30 unresolved; 53 hotel routes / 14 corridor routes"
+  },
+  "pre_existing_failure": {
+   "node": "tests/pettripfinder/acquisition/test_store_integration_025.py::test_the_builder_without_extras_still_projects_the_router_run_alone",
+   "classification": "PRE_EXISTING",
+   "why": "data/acquisition/milwaukee-router-001 is gitignored and absent from a fresh worktree, so the Milwaukee projection has no source run to project.",
+   "baseline_proof": "Re-run with THIS order's two run directories moved aside: the Milwaukee failure persisted and test_every_run_on_disk_is_classified passed. The failure is therefore independent of this order's change surface.",
+   "also_in_baseline": true
+  },
+  "TRUE_NEW_FAILURE": 0,
+  "classification_by_node_id": {
+   "baseline": "launch_packages/pettripfinder/regression_baselines/f75aa95.json (160 failing node ids)",
+   "method": "Each lane's run.json failing_node_ids compared against the baseline's set by IDENTITY, not by count. The lane runner's own classify subcommand returned all-zero buckets on these run files, so the comparison was done directly against the same baseline node-id set and the same rule.",
+   "total_failing_across_lanes": 19,
+   "PRE_EXISTING": 19,
+   "TRUE_NEW_FAILURE": 0,
+   "pre_existing_modules": [
+    "tests/pettripfinder/acquisition/test_normalization_041.py (4)",
+    "tests/pettripfinder/acquisition/test_vocabulary_normalization_043.py (1)",
+    "tests/pettripfinder/acquisition/test_identity_binding_027.py (14)"
+   ],
+   "root_cause": "All are fresh-worktree artifacts: data/acquisition/ is gitignored, so the Milwaukee acquisition corpora these modules project from are absent in this checkout. Each node id appears in the committed f75aa95 baseline."
+  }
+ }
+}

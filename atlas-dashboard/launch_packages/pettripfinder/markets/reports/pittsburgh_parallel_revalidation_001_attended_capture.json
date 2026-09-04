@@ -1,0 +1,262 @@
+{
+ "schema": "ptf-attended-capture-batch/1.0",
+ "work_order": "PTF-PITTSBURGH-PARALLEL-REVALIDATION-001",
+ "market_id": "pittsburgh-pa",
+ "as_of": "2026-09-03",
+ "lane": "FREE_ATTENDED_CHROME",
+ "provider_calls": 0,
+ "usd_spent": 0.0,
+ "digest_contract": "Each SHA-256 is over that page's rendered outerHTML and was taken in the SAME JavaScript call as the quote and the identity signals recorded beside it. Raw bytes are not retained: live pages mutate between calls, so separately fetched bytes could not match this digest.",
+ "identity_contract": "Every capture names the identity key it was FOR and the URL it fetched. Nothing here binds by order of arrival, and no property's text is carried across to its neighbour. Each row's brand property code is parsed from the URL that was actually loaded.",
+ "amenity_chip_rule": "The Marriott rows quote the LABEL-VALUE pair under the page's own 'Pet Policy' heading, not an amenity-list line. The Hyatt row quotes the 'We Are Pet Friendly' prose block and its fee/weight table, not the 'Pet Friendly' chip that also appears in that page's amenity list.",
+ "service_animal_rule": "Service-animal access is a legal category. It never converts a no-pets policy into pet acceptance, and it is not published as pet acceptance anywhere below.",
+ "count": 10,
+ "captures": [
+  {
+   "identity_key": "ac hotel by marriott pittsburgh downtown",
+   "classification": "CLEAN_VERIFIED_NO_PETS",
+   "final_url": "https://www.marriott.com/en-us/hotels/pitar-ac-hotel-pittsburgh-downtown/overview/",
+   "artifact_sha256": "sha256:60610ad12cd6e45fd848fee7ad77feca93db42f5e07acaf530500cad7d09fe42",
+   "artifact_bytes": 820041,
+   "artifact_kind": "rendered_html",
+   "captured_at": "2026-09-04T00:24:43.872Z",
+   "identity_signals": {
+    "page_h1": "WELCOME TO AC HOTEL PITTSBURGH DOWNTOWN",
+    "street": "1126 Smallman Street",
+    "city_state_zip": "Pittsburgh, Pennsylvania, USA, 15222",
+    "phone": "+1 412-281-9300",
+    "property_code": "marriott:pitar"
+   },
+   "policy_quote": "Pet Policy Pets Not Allowed Pets not allowed. Service animals only.",
+   "parsed_facts": {"pets_allowed": false},
+   "withheld_facts": ["fee", "deposit", "weight", "count", "species"],
+   "census_identity_effect": "FILLS a street address, ZIP and telephone the census row did not carry. Census held city Pittsburgh with no street, no ZIP and no phone.",
+   "geography_note": "1126 Smallman Street is a Strip District address. The census assigns this row to pittsburgh-pa__downtown. The market contract states that Strip Smallman hotels are excluded from Downtown and assigned explicitly, so the corridor needs a founder ruling before promotion."
+  },
+  {
+   "identity_key": "marriott pittsburgh north cranberry woods",
+   "classification": "CLEAN_PET_FRIENDLY",
+   "final_url": "https://www.marriott.com/en-us/hotels/pitno-pittsburgh-marriott-north/overview/",
+   "artifact_sha256": "sha256:348ca088987067be0d3c32e64b1b41ec86f305a13b31fac878f4527f2487c04d",
+   "artifact_bytes": 952137,
+   "artifact_kind": "rendered_html",
+   "captured_at": "2026-09-04T00:25:00.636Z",
+   "identity_signals": {
+    "page_h1": "WELCOME TO PITTSBURGH MARRIOTT NORTH",
+    "street": "100 Cranberry Woods Drive",
+    "city_state_zip": "Cranberry Township, Pennsylvania, USA, 16066",
+    "phone": "+1 724-772-3700",
+    "property_code": "marriott:pitno"
+   },
+   "policy_quote": "Pet Policy Pets Welcome 2 pets 25 pounds or less 1st floor only with USD 75 plus tax non-refundable fee Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 25.0lbs Maximum Number of Pets in Room: 2",
+   "parsed_facts": {
+    "pets_allowed": true,
+    "fee_non_refundable_per_stay_usd": 75.0,
+    "max_pet_weight_lbs": 25.0,
+    "max_pets_in_room": 2,
+    "restriction": "1st floor only"
+   },
+   "withheld_facts": ["species", "deposit"],
+   "census_identity_effect": "FILLS street, ZIP and telephone. Census held city Cranberry Township 16066 with no street and no phone.",
+   "distinctness_note": "100 Cranberry Woods Drive. Distinct building from marriott:pitct at 150 Cranberry Woods Drive; the two are not duplicates."
+  },
+  {
+   "identity_key": "residence inn pittsburgh cranberry township",
+   "classification": "CLEAN_PET_FRIENDLY",
+   "final_url": "https://www.marriott.com/en-us/hotels/pitcr-residence-inn-pittsburgh-cranberry-township/overview/",
+   "artifact_sha256": "sha256:dd562d40695a9569ae8ea55465bcf04377944b98a4eed3050a840f832a47e066",
+   "artifact_bytes": 986045,
+   "artifact_kind": "rendered_html",
+   "captured_at": "2026-09-04T00:25:14.452Z",
+   "identity_signals": {
+    "page_h1": "WELCOME TO RESIDENCE INN BY MARRIOTT PITTSBURGH CRANBERRY TOWNSHIP",
+    "street": "1308 Freedom Road",
+    "city_state_zip": "Cranberry Township, Pennsylvania, USA, 16066",
+    "phone": "+1 724-779-1000",
+    "property_code": "marriott:pitcr"
+   },
+   "policy_quote": "Pet Policy Pets Welcome Pets allowed with USD 75 non-refundable fee per stay Non-Refundable Pet Fee Per Stay: $75.00",
+   "parsed_facts": {"pets_allowed": true, "fee_non_refundable_per_stay_usd": 75.0},
+   "withheld_facts": ["weight", "count", "species", "deposit"],
+   "census_identity_effect": "CONFIRMS the census street 1308 Freedom Road on the property's own page; ADDS the telephone."
+  },
+  {
+   "identity_key": "residence inn pittsburgh monroeville",
+   "classification": "CLEAN_PET_FRIENDLY",
+   "final_url": "https://www.marriott.com/en-us/hotels/pitpm-residence-inn-pittsburgh-monroeville-wilkins-township/overview/",
+   "artifact_sha256": "sha256:f2d148b91a56a1965c5e022cb974d3c4ccd06d210de65d0ae6bacdb8a23f8fcc",
+   "artifact_bytes": 913085,
+   "artifact_kind": "rendered_html",
+   "captured_at": "2026-09-04T00:25:26.915Z",
+   "identity_signals": {
+    "page_h1": "WELCOME TO RESIDENCE INN BY MARRIOTT PITTSBURGH MONROEVILLE/WILKINS TOWNSHIP",
+    "street": null,
+    "city_state_zip": "Pittsburgh, Pennsylvania, USA, 15235",
+    "phone": "+1 412-816-1300",
+    "property_code": "marriott:pitpm"
+   },
+   "policy_quote": "Pet Policy Pets Welcome $25 per day per pet not to exceed $150.00 per month - nonrefundable Non-Refundable Pet Fee Per Stay: $100.00 Maximum Pet Weight: 70.0lbs Maximum Number of Pets in Room: 2",
+   "parsed_facts": {
+    "pets_allowed": true,
+    "fee_non_refundable_per_night_usd": 25.0,
+    "fee_monthly_cap_usd": 150.0,
+    "fee_non_refundable_per_stay_usd": 100.0,
+    "max_pet_weight_lbs": 70.0,
+    "max_pets_in_room": 2
+   },
+   "withheld_facts": ["species", "deposit"],
+   "fee_shape_flag": "This page states TWO fee expressions that do not reconcile arithmetically: a $25/night charge capped at $150/month, and a $100 non-refundable fee per stay. Both are quoted verbatim rather than reduced to one number. A founder ruling should decide which is published before this row is applied.",
+   "address_conflict": "Census holds city Wilkins Township, ZIP 15146. The property's own page states Pittsburgh, PA 15235. The ZIP disagrees and needs a ruling; it is not fixed here."
+  },
+  {
+   "identity_key": "springhill suites pittsburgh mills",
+   "classification": "CLEAN_VERIFIED_NO_PETS",
+   "final_url": "https://www.marriott.com/en-us/hotels/pitml-springhill-suites-pittsburgh-mills/overview/",
+   "artifact_sha256": "sha256:22fb46b05a90d87b76d38d4083f33a37cc8c29c88f42c90ebc74497c3fa27837",
+   "artifact_bytes": 972385,
+   "artifact_kind": "rendered_html",
+   "captured_at": "2026-09-04T00:25:40.715Z",
+   "identity_signals": {
+    "page_h1": "WELCOME TO SPRINGHILL SUITES BY MARRIOTT PITTSBURGH MILLS",
+    "street": null,
+    "city_state_zip": "Tarentum, Pennsylvania, USA, 15084",
+    "phone": "+1 724-274-1064",
+    "property_code": "marriott:pitml"
+   },
+   "policy_quote": "Pet Policy Pets Not Allowed Service Animals Only",
+   "parsed_facts": {"pets_allowed": false},
+   "withheld_facts": ["fee", "deposit", "weight", "count", "species"],
+   "census_identity_effect": "CONFIRMS census city Tarentum and ZIP 15084; ADDS the telephone. No street on the rendered surface."
+  },
+  {
+   "identity_key": "springhill suites pittsburgh monroeville",
+   "classification": "CLEAN_VERIFIED_NO_PETS",
+   "final_url": "https://www.marriott.com/en-us/hotels/pitmv-springhill-suites-pittsburgh-monroeville/overview/",
+   "artifact_sha256": "sha256:546831f041d52fdbcafa68415bf4222909d60adfbe0548a3ea54eb44107d3564",
+   "artifact_bytes": 975521,
+   "artifact_kind": "rendered_html",
+   "captured_at": "2026-09-04T00:25:55.316Z",
+   "identity_signals": {
+    "page_h1": "WELCOME TO SPRINGHILL SUITES BY MARRIOTT PITTSBURGH MONROEVILLE",
+    "street": "122 Daugherty Drive",
+    "city_state_zip": "Monroeville, Pennsylvania, USA, 15146",
+    "phone": "+1 412-380-9100",
+    "property_code": "marriott:pitmv"
+   },
+   "policy_quote": "Pet Policy Pets Not Allowed No Pets Allowed - service animals only",
+   "parsed_facts": {"pets_allowed": false},
+   "withheld_facts": ["fee", "deposit", "weight", "count", "species"],
+   "census_identity_effect": "FILLS street and telephone; CONFIRMS census city Monroeville and ZIP 15146."
+  },
+  {
+   "identity_key": "springhill suites pittsburgh southside works",
+   "classification": "CLEAN_VERIFIED_NO_PETS",
+   "final_url": "https://www.marriott.com/en-us/hotels/pitss-springhill-suites-pittsburgh-southside-works/overview/",
+   "artifact_sha256": "sha256:a7b06f1239872288e1126503cc8f04bf78e3070d8ef9c8957fe849d26e0da938",
+   "artifact_bytes": 978883,
+   "artifact_kind": "rendered_html",
+   "captured_at": "2026-09-04T00:26:09.567Z",
+   "identity_signals": {
+    "page_h1": "WELCOME TO SPRINGHILL SUITES BY MARRIOTT PITTSBURGH SOUTHSIDE WORKS",
+    "street": "2950 South Water Street",
+    "city_state_zip": "Pittsburgh, Pennsylvania, USA, 15203",
+    "phone": "+1 412-488-8003",
+    "property_code": "marriott:pitss"
+   },
+   "policy_quote": "Pet Policy Pets Not Allowed Service Animals Only",
+   "parsed_facts": {"pets_allowed": false},
+   "withheld_facts": ["fee", "deposit", "weight", "count", "species"],
+   "census_identity_effect": "FILLS street and telephone; CONFIRMS census ZIP 15203.",
+   "distinctness_note": "2950 South Water Street. Distinct building from hyatt:pitxs at 2795 South Water Street; the two are not duplicates."
+  },
+  {
+   "identity_key": "courtyard by marriott cranberry woods",
+   "classification": "CLEAN_PET_FRIENDLY",
+   "final_url": "https://www.marriott.com/en-us/hotels/pitct-courtyard-pittsburgh-north-cranberry-woods/overview/",
+   "artifact_sha256": "sha256:5e47d11b00d9a54fd3c4cdae428a45e197b8d293fc68ff4e210733e8e2518d08",
+   "artifact_bytes": 964330,
+   "artifact_kind": "rendered_html",
+   "captured_at": "2026-09-04T00:26:22.262Z",
+   "identity_signals": {
+    "page_h1": "WELCOME TO COURTYARD BY MARRIOTT PITTSBURGH NORTH/CRANBERRY WOODS",
+    "street": "150 Cranberry Woods Drive",
+    "city_state_zip": "Cranberry Township, Pennsylvania, USA, 16066",
+    "phone": "+1 724-776-1900",
+    "property_code": "marriott:pitct"
+   },
+   "policy_quote": "Pet Policy Pets Welcome 2 pets 25 pounds or less 1st floor only with USD 75 plus tax non-refundable fee Non-Refundable Pet Fee Per Stay: $75.00 Non-Refundable Pet Fee Per Night: $20.00 Maximum Pet Weight: 25.0lbs Maximum Number of Pets in Room: 2",
+   "parsed_facts": {
+    "pets_allowed": true,
+    "fee_non_refundable_per_stay_usd": 75.0,
+    "fee_non_refundable_per_night_usd": 20.0,
+    "max_pet_weight_lbs": 25.0,
+    "max_pets_in_room": 2,
+    "restriction": "1st floor only"
+   },
+   "withheld_facts": ["species", "deposit"],
+   "route_provenance": "This row carried NO official URL in the pinned census. The route was recovered free from Marriott's own published US hotel sitemap, which lists marriott:pitct as courtyard-pittsburgh-north-cranberry-woods.",
+   "census_identity_effect": "FILLS street, city, ZIP and telephone on a row that previously had none of them.",
+   "fee_shape_flag": "Two charges are stated, a per-stay fee and a per-night fee. Both are recorded; neither is collapsed into the other."
+  },
+  {
+   "identity_key": "fairfield inn and suites pittsburgh downtown",
+   "classification": "CLEAN_PET_FRIENDLY",
+   "final_url": "https://www.marriott.com/en-us/hotels/pitdf-fairfield-inn-and-suites-pittsburgh-downtown/overview/",
+   "artifact_sha256": "sha256:dc7be066af80050571fe0d1bddb6961e8f30ee46fecb7b0c36a072b52878ee06",
+   "artifact_bytes": 816913,
+   "artifact_kind": "rendered_html",
+   "captured_at": "2026-09-04T00:26:36.265Z",
+   "identity_signals": {
+    "page_h1": "WELCOME TO FAIRFIELD BY MARRIOTT INN & SUITES PITTSBURGH DOWNTOWN",
+    "street": "435 Fort Pitt Boulevard",
+    "city_state_zip": "Pittsburgh, Pennsylvania, USA, 15219",
+    "phone": "+1 412-515-2100",
+    "property_code": "marriott:pitdf"
+   },
+   "policy_quote": "Pet Policy Pets Welcome Pets Welcome! Non-Refundable Pet Fee Per Stay: $50.00 Maximum Number of Pets in Room: 1",
+   "parsed_facts": {
+    "pets_allowed": true,
+    "fee_non_refundable_per_stay_usd": 50.0,
+    "max_pets_in_room": 1
+   },
+   "withheld_facts": ["weight", "species", "deposit"],
+   "route_provenance": "This row carried NO official URL in the pinned census. The route was recovered free from Marriott's own published US hotel sitemap, which lists marriott:pitdf as fairfield-inn-and-suites-pittsburgh-downtown.",
+   "census_identity_effect": "FILLS street and telephone on a row that had neither. The shadow recensus independently held 435 Fort Pitt Boulevard for this identity, which corroborates the bind.",
+   "address_conflict": "Census holds ZIP 15222; the property's own page states 15219. Fort Pitt Boulevard sits on the 15219/15222 seam, which the market contract already names as an explicit-assignment case. Needs a ruling; not fixed here."
+  },
+  {
+   "identity_key": "hyatt house pittsburgh south side works",
+   "classification": "CLEAN_PET_FRIENDLY",
+   "final_url": "https://www.hyatt.com/hyatt-house/en-US/pitxs-hyatt-house-pittsburgh-south-side",
+   "artifact_sha256": "sha256:ff92d1d0a453644904ea75b2cb5bc7d9296604704ea46753d247d12ebcfc86c3",
+   "artifact_bytes": 864290,
+   "artifact_kind": "rendered_html",
+   "captured_at": "2026-09-04T00:26:51.045Z",
+   "identity_signals": {
+    "page_title": "South Side Pittsburgh Hotel | Extended Stay | Hyatt House",
+    "street": "2795 South Water Street",
+    "city_state_zip": "Pittsburgh, PA 15203",
+    "phone": null,
+    "property_code": "hyatt:pitxs"
+   },
+   "policy_quote": "We Are Pet Friendly We happily welcome your canine travel companions at Hyatt House Pittsburgh-South Side. All dogs must be housebroken. Pet Fees 1–6 nights: $75 / STAY 7–30 nights (includes cleaning fee) : $150 / STAY Weight Limits Individual pet weight limit: 50 Pounds Combined pets weight limit: 75 Pounds Maximum number of pets is 2.",
+   "parsed_facts": {
+    "pets_allowed": true,
+    "species": {"dogs": "accepted", "cats": "not_stated"},
+    "fee_tiers": [
+     {"nights_from": 1, "nights_to": 6, "amount_usd": 75.0, "basis": "per_stay"},
+     {"nights_from": 7, "nights_to": 30, "amount_usd": 150.0, "basis": "per_stay", "note": "includes cleaning fee"}
+    ],
+    "max_pet_weight_lbs": 50.0,
+    "combined_pets_weight_lbs": 75.0,
+    "max_pets_in_room": 2,
+    "restriction": "all dogs must be housebroken"
+   },
+   "withheld_facts": ["deposit", "cat acceptance"],
+   "species_note": "The page says 'canine travel companions' and 'All dogs must be housebroken'. It makes NO statement about cats, so cat acceptance is withheld rather than inferred.",
+   "chip_avoidance_note": "This page also renders a bare 'Pet Friendly' chip in its amenity list. That chip is NOT the evidence used; the quote above is the property's own prose block plus its fee and weight table.",
+   "census_identity_effect": "FILLS street and ZIP on a row that carried neither. The shadow recensus independently held 2795 South Water Street 15203, which corroborates the bind.",
+   "display_name_note": "The property calls itself 'Hyatt House Pittsburgh-South Side'. The census canonical name is 'Hyatt House Pittsburgh South Side Works'. Any rename belongs in the name-corrections DISPLAY overlay, never in the identity key."
+  }
+ ]
+}
