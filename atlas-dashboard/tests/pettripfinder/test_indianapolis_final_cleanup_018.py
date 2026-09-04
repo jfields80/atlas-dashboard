@@ -28,6 +28,7 @@ from pathlib import Path
 
 import pytest
 
+from pettripfinder import epochs
 from pettripfinder.indianapolis_promoted_state import (
     CENSUS, PROMOTED_PET_FRIENDLY, PROMOTED_SEED_ROWS, PROMOTED_VERIFIED_NO_PETS)
 
@@ -180,10 +181,20 @@ class TestItems2And3NameCorrections:
         doc = _load("markets/name_corrections/indianapolis-in.json")
         # 2 at 018; PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014 added the founder's Wyndham West -> Airport correction
         # (IDR-012-006) through this same overlay. 018's two rows are unchanged.
-        assert doc["count"] == 3
-        for row in [r for r in doc["records"] if r["identity_key"] != "wyndham indianapolis west"]:
-            assert row["evidence_field"] == "identity_check.name_on_page"
-            assert row["source_url"].startswith("https://www.hilton.com/")
+        # 2 at 018; 014 added the founder's Wyndham West -> Airport correction
+        # (IDR-012-006) and PTF-INDIANAPOLIS-PROMOTION-AND-APPLICATION-004 added
+        # Sonesta Select through the same overlay under the same standing rule.
+        # This order's own two rows are what it established, and they are
+        # asserted by name rather than by counting the whole overlay -- the
+        # overlay grows every time the rule is applied again, which is the rule
+        # working, not this order being undone.
+        assert doc["count"] >= 3
+        mine = {"home2 suites by hilton", "tru"}
+        rows = {r["identity_key"]: r for r in doc["records"]}
+        assert mine <= set(rows)
+        for key in mine:
+            assert rows[key]["evidence_field"] == "identity_check.name_on_page"
+            assert rows[key]["source_url"].startswith("https://www.hilton.com/")
 
     def test_tru_publishes_a_building_now(self, package):
         tru = next(h for h in package["hotels"] if h["identity_key"] == "tru")
@@ -282,13 +293,31 @@ class TestTheResultingState:
         new = {h["identity_key"]: h for h in package["hotels"]}
         changed = [k for k, v in old.items()
                    if json.dumps(v, sort_keys=True) != json.dumps(new[k], sort_keys=True)]
-        assert changed == ["tru"]
         # 018 added exactly Plainfield and Omni; PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014 added eleven more
         # (6 ESA + 5 Wyndham) and touched none of the 54.
         added_by_014 = {h["identity_key"] for h in package["hotels"]
                         if h.get("founder_reviewed_at") == "2026-09-01"}
         assert len(added_by_014) == 11
-        assert set(new) - set(old) == {M.PLAINFIELD, M.OMNI} | added_by_014
+        # THIS order changed exactly one of the 54, and that is still true.
+        assert "tru" in changed
+        # The list as a whole is a CURRENT-state claim about every later order
+        # too. PTF-INDIANAPOLIS-PROMOTION-AND-APPLICATION-004 corrected
+        # home2 keystone crossing, restoring the 75 lb limit and the 75/125 USD
+        # tiers its own founder-signed reparse had recovered and the projection
+        # had dropped. Any row that changed beyond this order's own must name
+        # the order that changed it.
+        for key in changed:
+            if key == "tru":
+                continue
+            notes = " ".join(new[key].get("projection_notes") or ())
+            assert epochs.is_work_order(notes.split(":")[0].split()[-1]) or "PTF-" in notes, (
+                "%s changed since 018 and names no work order that changed it" % key)
+        # 018 added exactly these two. Later orders legitimately add more, so
+        # the set is asserted as a floor with 018's own contribution named,
+        # rather than frozen against every promotion that follows.
+        added_since = set(new) - set(old)
+        assert {M.PLAINFIELD, M.OMNI} <= added_since
+        assert added_by_014 <= added_since
 
     def test_every_contract_still_verifies(self):
         from scripts.pettripfinder import release_contracts as RC

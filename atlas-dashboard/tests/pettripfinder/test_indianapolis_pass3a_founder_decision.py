@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from pettripfinder.indianapolis_promoted_state import EXCLUSION_NAMES
+from pettripfinder.indianapolis_promoted_state import assert_exclusion_cohort_preserved
 
 ROOT = Path(__file__).resolve().parents[2]
 PACKAGE = ROOT / "launch_packages" / "pettripfinder"
@@ -55,7 +55,7 @@ def test_residence_inn_decision_recorded_not_applied():
     indy = [e for e in _json(PACKAGE / "hotel_exclusions.json")["exclusions"]
             if e.get("market_id") == "indianapolis-in"]
     # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004 promoted the founder-signed authority: 24 verified-no-pets exclusions.
-    assert [e["normalized_name"] for e in indy] == EXCLUSION_NAMES
+    assert_exclusion_cohort_preserved(indy)
     assert _json(PACKAGE / "indianapolis_pass2_founder_decision_001.json")[
         "status"] == "RECORDED_NOT_APPLIED"
     assert _json(HILTON)["executed"] is True

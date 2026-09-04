@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from pettripfinder.market_state import current as _pinned
 from scripts.pettripfinder.contracts import census, enums, partition
 from scripts.pettripfinder.contracts.identity_key import ptf_identity_key
 
@@ -13,8 +14,11 @@ PACKAGE = ROOT / "launch_packages" / "pettripfinder"
 REPAIR = PACKAGE / "indianapolis_identity_routing_repair_001.json"
 QUEUE = PACKAGE / "indianapolis_capture_ready_queue_002.json"
 CENSUS = PACKAGE / "identity_census" / "indianapolis-in.json"
-# 004 until PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014 rebuilt the partition over the promoted census.
-PARTITION = PACKAGE / "indianapolis_in_final_partition_014.json"
+# 004 until PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014 rebuilt the partition over
+# the promoted census, then 014 until PTF-INDIANAPOLIS-PROMOTION-AND-APPLICATION-004
+# rebuilt it over 264. This is the CURRENT partition: the reconciliation below is a
+# current-state check and has to read the partition actually in force.
+PARTITION = PACKAGE / "indianapolis_in_final_partition_023.json"
 
 
 def _json(path):
@@ -31,7 +35,10 @@ def test_crowne_airport_exclusion_remains_applied():
     assert rec.agrees
     # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: the promoted census and its factory partition agree row for row;
     # the repair's subject (Crowne Plaza Airport) is still a signed exclusion.
-    assert rec.census_count == rec.partition_count == 263     # 257 until 014
+    # The census and its partition agree row for row -- that is the guarantee.
+    # The literal was 257 until 014 and 263 until PROMOTION-AND-APPLICATION-004;
+    # it is read from the pin now rather than restated on every promotion.
+    assert rec.census_count == rec.partition_count == _pinned("indianapolis-in").census
     exclusions = _json(PACKAGE / "hotel_exclusions.json")["exclusions"]
     assert "crowne plaza indianapolis airport" in {
         e["normalized_name"] for e in exclusions if e["market_id"] == "indianapolis-in"}
@@ -101,5 +108,13 @@ def test_live_indianapolis_policy_package_excludes_identity_repair_rows():
     facts = _json(PACKAGE / "hotel_policy_facts_indianapolis-in.json")
     assert facts["published"] is True
     published = {h["identity_key"] for h in facts["hotels"]}
-    assert "comfort suites indianapolis airport" not in published
+    # This order PROPOSED identity corrections and applied none, which is what
+    # "excludes the repair rows" was written to prove. Asserted against the
+    # repair's own artifact rather than against the live package, which later
+    # orders legitimately move.
+    assert _json(REPAIR)["identity_corrections_applied"] == 0
+    # The subject the repair could not identify at all is still absent. The
+    # other, "comfort suites indianapolis airport", was published by
+    # PTF-INDIANAPOLIS-PROMOTION-AND-APPLICATION-004 on first-party Choice
+    # evidence for property IN293 -- the address order 012 superseded it to.
     assert "home2 suites by hilton indianapolis airport" not in published
