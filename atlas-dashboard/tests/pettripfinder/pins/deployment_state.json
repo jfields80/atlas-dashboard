@@ -3,15 +3,15 @@
  "what_this_is": "The CURRENT deployment pins, in two blocks that are two different facts. `live` is what production serves: the deployment record's own numbers, moved ONLY by a deployment-authorization order. `source` is what a FRESH assembly of the committed source produces: moved by an application order, which puts source AHEAD of production until the next deploy. When the two agree, ahead_of_production is false and moved_by is null. Consumed historical authorizations are never restated here; they live in deploy/netlify/deployment_authorizations and are immutable evidence of what was authorized at the time (see supersessions.json).",
  "reviewed_by": "PTF-FACTORY-THROUGHPUT-HARDENING-001",
  "live": {
-  "deploy_id": "6a982a1fc32c2911d0d65d04",
-  "deployed_by": "PTF-DAYTON-OH-DEPLOYMENT-AUTHORIZATION-003",
-  "authorization_id": "ptf-auth-003-de669c40d811",
-  "deployment_record_id": "ptf-deploy-003-6a982a1fc32c2911d0d65d04",
-  "source_commit": "03e6b39dd6463944d628e578bf07d1d0dc886074",
-  "bundle_sha256": "de669c40d8118a9293798ae1e5ad10ab8219c66798d002d6bf2a12cae504e374",
-  "sitemap_sha256": "d02b642ea415241f76afc4854eea37cdfd75665cbe2047202772b8bf72df3e49",
-  "previous_deploy_id": "6a976f61a5b7d158363f5f98",
-  "rollback_target": "6a976f61a5b7d158363f5f98",
+  "deploy_id": "6a9b4046e6e7a0438f36e78d",
+  "deployed_by": "PTF-INDIANAPOLIS-DEPLOYMENT-AUTHORIZATION-006",
+  "authorization_id": "ptf-auth-indianapolis-006-4d684ebfc742",
+  "deployment_record_id": "ptf-deploy-indianapolis-006-6a9b4046e6e7a0438f36e78d",
+  "source_commit": "92ae9973110d1e152ac50afeb6b193dbbbe643e2",
+  "bundle_sha256": "4d684ebfc742ccf44dae7d0ac7cf928b826cc31b2f0e1593d63f178f09f2d939",
+  "sitemap_sha256": "b343794db5a143a4f14cc38988d4fe43367daffb14a4a4f56fedd583c02cdec3",
+  "previous_deploy_id": "6a982a1fc32c2911d0d65d04",
+  "rollback_target": "6a982a1fc32c2911d0d65d04",
   "participating_markets": [
    "cleveland-akron-canton-oh",
    "columbus-oh",
@@ -28,20 +28,20 @@
    "columbus-oh": 88,
    "dayton-oh": 54,
    "grand-rapids-holland-mi": 43,
-   "indianapolis-in": 67,
+   "indianapolis-in": 82,
    "louisville-ky": 46,
    "milwaukee-wi": 73,
    "pittsburgh-pa": 53,
    "st-louis-mo": 82
   },
-  "total_profiles": 626,
-  "sitemap_route_count": 767,
-  "total_html_pages": 3887,
-  "total_files": 3905
+  "total_profiles": 641,
+  "sitemap_route_count": 782,
+  "total_html_pages": 3977,
+  "total_files": 3995
  },
  "source": {
-  "ahead_of_production": true,
-  "moved_by": "PTF-INDIANAPOLIS-PROMOTION-REMEDIATION-005",
+  "ahead_of_production": false,
+  "moved_by": "PTF-INDIANAPOLIS-DEPLOYMENT-AUTHORIZATION-006",
   "bundle_sha256": "4d684ebfc742ccf44dae7d0ac7cf928b826cc31b2f0e1593d63f178f09f2d939",
   "sitemap_sha256": "b343794db5a143a4f14cc38988d4fe43367daffb14a4a4f56fedd583c02cdec3",
   "participating_markets": [
@@ -70,8 +70,8 @@
   "sitemap_route_count": 782,
   "total_html_pages": 3977,
   "total_files": 3995,
-  "note": "What a fresh assembly of the committed source produces. Source is AHEAD of production: PTF-INDIANAPOLIS-PROMOTION-REMEDIATION-005 moved Indianapolis to 82 published profiles in SOURCE, while the live deploy 6a982a1fc32c2911d0d65d04 is unchanged and still serves 626 profiles with Indianapolis at 67. These figures DESCRIBE the candidate and authorise nothing -- a deployment authorization is a separate artifact and none exists for this bundle. The live block above is untouched.",
-  "source_commit": "3ec4efc7b552d68df4339cc9d6b7ae951e4e76b4",
-  "deployment_authorized": false
+  "note": "Source and production are IN SYNC. Deploy 6a9b4046e6e7a0438f36e78d serves exactly this bundle: the live sitemap is byte-identical to the authorized sitemap and all 782 live routes are byte-identical to the authorized bundle. Indianapolis is live at 82 published profiles.",
+  "source_commit": "92ae9973110d1e152ac50afeb6b193dbbbe643e2",
+  "deployment_authorized": true
  }
 }
