@@ -280,9 +280,13 @@
     "other_charges": [
      {
       "label": "pet sanitation fee",
-      "amount_cents": 5000,
+      "kind": "sanitation_fee",
       "currency": "USD",
-      "conditional": true
+      "refundable_stated": true,
+      "refundable": false,
+      "conditional": true,
+      "trigger": "the source states the fee applies only if required / if applicable",
+      "amount_cents": 5000
      }
     ]
    },
@@ -677,9 +681,13 @@
     "other_charges": [
      {
       "label": "pet sanitation fee",
-      "amount_cents": 10000,
+      "kind": "sanitation_fee",
       "currency": "USD",
-      "conditional": true
+      "refundable_stated": true,
+      "refundable": false,
+      "conditional": true,
+      "trigger": "the source states the fee applies only if required / if applicable",
+      "amount_cents": 10000
      }
     ]
    },
@@ -1571,9 +1579,13 @@
     "other_charges": [
      {
       "label": "pet sanitation fee",
-      "amount_cents": 15000,
+      "kind": "sanitation_fee",
       "currency": "USD",
-      "conditional": true
+      "refundable_stated": true,
+      "refundable": false,
+      "conditional": true,
+      "trigger": "the source states the fee applies only if required / if applicable",
+      "amount_cents": 15000
      }
     ]
    },
@@ -5250,10 +5262,10 @@
    "founder_reviewed_at": "2026-08-26"
   },
   {
-   "key": "home2 suites by hilton carmel indianapolis",
+   "key": "home2 suites by hilton",
    "identity_key": "home2 suites by hilton",
    "schema_version": "1.3",
-   "name": "Home2 Suites by Hilton Carmel Indianapolis",
+   "name": "Home2 Suites by Hilton",
    "facts": {
     "pets_allowed": true,
     "species": {
@@ -5324,7 +5336,8 @@
    "founder_reviewed_at": "2026-09-04",
    "projection_notes": [
     "applied by PTF-INDIANAPOLIS-PROMOTION-AND-APPLICATION-004",
-    "withheld_fields cleared by PTF-INDIANAPOLIS-PROMOTION-AND-APPLICATION-004: the entries recorded fields the source simply never mentions. Silence is the ABSENCE of a field, not a decision to withhold one, and the renderer already tells a reader when a fee states an amount without saying whether it is per pet or per room."
+    "withheld_fields cleared by PTF-INDIANAPOLIS-PROMOTION-AND-APPLICATION-004: the entries recorded fields the source simply never mentions. Silence is the ABSENCE of a field, not a decision to withhold one, and the renderer already tells a reader when a fee states an amount without saying whether it is per pet or per room.",
+    "PTF-INDIANAPOLIS-PROMOTION-REMEDIATION-005: name/key put back on the census canonical name. The corrected display name lives in the name_corrections overlay, which is a render-time layer and does not rekey the identity."
    ]
   },
   {
@@ -7146,22 +7159,37 @@
      "amount_cents": 0,
      "currency": "USD",
      "basis": "per_stay",
-     "scope": "first_pet"
+     "scope": "per_pet",
+     "refundable_stated": false
     },
-    "other_charges": [
-     {
-      "label": "second pet, per night",
-      "amount_cents": 1500,
-      "currency": "USD",
-      "basis": "per_night",
-      "scope": "second_pet"
-     }
-    ],
-    "fee_cap": {
-     "amount_cents": 10500,
-     "currency": "USD",
-     "scope": "per_pet_per_stay",
-     "note": "not to exceed 7 nights or $105 per pet per stay"
+    "fee_pet_schedule": {
+     "entries": [
+      {
+       "pet_ordinal": 1,
+       "amount_cents": 0,
+       "currency": "USD",
+       "basis": "per_stay",
+       "scope": "per_pet",
+       "additive": false
+      },
+      {
+       "pet_ordinal": 2,
+       "amount_cents": 1500,
+       "currency": "USD",
+       "basis": "per_night",
+       "scope": "per_pet",
+       "additive": true,
+       "cap": {
+        "amount_cents": 10500,
+        "currency": "USD",
+        "basis": "per_stay",
+        "scope": "per_pet",
+        "qualifier_stated": true,
+        "applies_to_pet_ordinal": 2,
+        "trigger_max_nights": 7
+       }
+      }
+     ]
     }
    },
    "evidence": [
@@ -7852,10 +7880,10 @@
    "founder_reviewed_at": "2026-08-27"
   },
   {
-   "key": "sonesta select indianapolis carmel",
+   "key": "sonesta select",
    "identity_key": "sonesta select",
    "schema_version": "1.3",
-   "name": "Sonesta Select Indianapolis Carmel",
+   "name": "Sonesta Select",
    "facts": {
     "pets_allowed": true,
     "pet_count_limit": 2
@@ -7897,7 +7925,8 @@
    "founder_reviewed_at": "2026-09-04",
    "projection_notes": [
     "applied by PTF-INDIANAPOLIS-PROMOTION-AND-APPLICATION-004",
-    "withheld_fields cleared by PTF-INDIANAPOLIS-PROMOTION-AND-APPLICATION-004: the entries recorded fields the source simply never mentions. Silence is the ABSENCE of a field, not a decision to withhold one, and the renderer already tells a reader when a fee states an amount without saying whether it is per pet or per room."
+    "withheld_fields cleared by PTF-INDIANAPOLIS-PROMOTION-AND-APPLICATION-004: the entries recorded fields the source simply never mentions. Silence is the ABSENCE of a field, not a decision to withhold one, and the renderer already tells a reader when a fee states an amount without saying whether it is per pet or per room.",
+    "PTF-INDIANAPOLIS-PROMOTION-REMEDIATION-005: name/key put back on the census canonical name. The corrected display name lives in the name_corrections overlay, which is a render-time layer and does not rekey the identity."
    ]
   },
   {
@@ -7985,9 +8014,13 @@
     "other_charges": [
      {
       "label": "pet sanitation fee",
-      "amount_cents": 10000,
+      "kind": "sanitation_fee",
       "currency": "USD",
-      "conditional": true
+      "refundable_stated": true,
+      "refundable": false,
+      "conditional": true,
+      "trigger": "the source states the fee applies only if required / if applicable",
+      "amount_cents": 10000
      }
     ]
    },
@@ -9016,15 +9049,20 @@
      "currency": "USD",
      "basis": "per_stay",
      "scope": "per_room",
-     "refundable_stated": false
+     "refundable_stated": true,
+     "refundable": false
     },
     "other_charges": [
      {
       "label": "per-dog nightly charge",
+      "kind": "non_refundable_fee",
       "amount_cents": 500,
       "currency": "USD",
       "basis": "per_night",
-      "scope": "per_pet"
+      "scope": "per_pet",
+      "refundable_stated": true,
+      "refundable": false,
+      "conditional": false
      }
     ]
    },
@@ -9116,10 +9154,10 @@
    ]
   },
   {
-   "key": "wyndham indianapolis airport",
+   "key": "wyndham indianapolis west",
    "identity_key": "wyndham indianapolis west",
    "schema_version": "1.3",
-   "name": "Wyndham Indianapolis Airport",
+   "name": "Wyndham Indianapolis West",
    "facts": {
     "pets_allowed": true,
     "species": {
@@ -9206,7 +9244,8 @@
    "founder_reviewer_id": "PTF-FOUNDER-001",
    "founder_reviewed_at": "2026-09-04",
    "projection_notes": [
-    "applied by PTF-INDIANAPOLIS-PROMOTION-AND-APPLICATION-004"
+    "applied by PTF-INDIANAPOLIS-PROMOTION-AND-APPLICATION-004",
+    "PTF-INDIANAPOLIS-PROMOTION-REMEDIATION-005: name/key put back on the census canonical name. The corrected display name lives in the name_corrections overlay, which is a render-time layer and does not rekey the identity."
    ]
   }
  ],

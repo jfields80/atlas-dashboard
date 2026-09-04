@@ -141,13 +141,18 @@ class AssemblyError(RuntimeError):
 
 def _partition_path(market_id: str) -> Optional[Path]:
     """The market's committed final partition, if it commits one."""
-    matches = sorted(PACKAGE_DIR.glob("%s_final_partition_*.json"
-                                      % market_id.rsplit("-", 1)[0].replace("-oh", "")))
     # Partition filenames are historical (``cleveland_final_partition_002``),
-    # so a glob on the market id alone would miss them. Fall back to an
-    # explicit table rather than guessing from a name.
-    if matches:
-        return matches[0]
+    # so a glob on the market id alone would miss them. An explicit table names
+    # the partition where the glob cannot be trusted.
+    #
+    # PTF-INDIANAPOLIS-PROMOTION-REMEDIATION-005 moved this table AHEAD of the
+    # glob. It used to be a fallback consulted only when the glob found
+    # nothing, which silently made the glob authoritative wherever it happened
+    # to match -- and for Indianapolis it matched the wrong file (see the
+    # entry below). A named entry is a decision; a glob hit is a coincidence,
+    # and the decision must win. Every market that already had an entry
+    # resolves to the same file as before, because each entry names what its
+    # glob was already finding or what the glob was missing entirely.
     table = {
         "columbus-oh": "columbus_final_partition_001.json",
         "cleveland-akron-canton-oh": "cleveland_final_partition_002.json",
@@ -192,10 +197,28 @@ def _partition_path(market_id: str) -> Optional[Path]:
         # Pinning 001 would assemble a market whose published hotels its own
         # partition says are waiting to be looked at.
         "grand-rapids-holland-mi": "grand_rapids_holland_mi_final_partition_002.json",
+        # PTF-INDIANAPOLIS-PROMOTION-REMEDIATION-005. Indianapolis is the worst
+        # case of this trap so far, because the glob DID match -- just the wrong
+        # file. "indianapolis-in" strips to "indianapolis", and the glob
+        # "indianapolis_final_partition_*" matches exactly one file:
+        # indianapolis_final_partition_001.json, the 153-row partition from
+        # PTF-INDIANAPOLIS-DECISION-APPLICATION-001. Every partition written
+        # since then is named with the market id -- indianapolis_IN_final_...
+        # -- so none of them matched, and the assembler silently pinned a
+        # partition from before the census was ever promoted. It never read as
+        # "no partition" the way Detroit and Grand Rapids did; it read as a
+        # confident wrong answer, through the 067-profile deployment and every
+        # order after it. Named explicitly here so sorted order can never
+        # choose again.
+        "indianapolis-in": "indianapolis_in_final_partition_023.json",
     }
     name = table.get(market_id)
-    path = PACKAGE_DIR / name if name else None
-    return path if path and path.is_file() else None
+    if name:
+        path = PACKAGE_DIR / name
+        return path if path.is_file() else None
+    matches = sorted(PACKAGE_DIR.glob("%s_final_partition_*.json"
+                                      % market_id.rsplit("-", 1)[0].replace("-oh", "")))
+    return matches[0] if matches else None
 
 
 def published_hotels(market: MarketConfig) -> List[Dict]:

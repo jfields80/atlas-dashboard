@@ -162,9 +162,32 @@ class TestDeploymentPinsAgreeWithTheSource:
         assert latest["deployment_id"] == live.deploy_id
 
     def test_live_profile_counts_are_the_market_pins(self):
+        """What production serves is what the market pins say -- for every
+        market that has not moved since the live deploy.
+
+        PTF-INDIANAPOLIS-PROMOTION-REMEDIATION-005 scoped this rather than
+        relaxing it. A promotion order moves SOURCE and deploys nothing, so
+        between that order and the deployment that ships it the two numbers are
+        SUPPOSED to differ for exactly one market. Asserting equality for all
+        of them made a correct source-ahead state read as corruption.
+
+        The exemption is not a blanket: a market is excused only if the
+        supersessions pin NAMES it against the live authorization, together
+        with the work order that moved it. Every market that is not named is
+        still held to the live count exactly as before, and a market that
+        drifts without being named still fails.
+        """
         live = MS.live()
         assert sum(live.profile_counts.values()) == live.total_profiles
+        moved = epochs.moved_by_later_work(live.authorization_id)
         for market_id, count in live.profile_counts.items():
+            if market_id in moved:
+                # Named as moved: it must actually have moved, or the
+                # exemption is hiding nothing and should not be claimed.
+                assert MS.current(market_id).profiles != count, (
+                    "%s is named as moved by %s but still matches the live count"
+                    % (market_id, moved[market_id]))
+                continue
             assert count == MS.current(market_id).profiles, market_id
 
     def test_committed_manifest_describes_the_live_deploy(self):
