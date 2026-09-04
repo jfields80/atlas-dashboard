@@ -1,0 +1,280 @@
+{
+ "schema": "ptf-remediation-report/1.0",
+ "work_order": "PTF-INDIANAPOLIS-PROMOTION-REMEDIATION-005",
+ "market_id": "indianapolis-in",
+ "as_of": "2026-09-04",
+ "base_commit": "80a5459",
+ "head_commit": "177565a2ea9b3ca8c5a111b5f6c468640d5460ea",
+ "scope": "Remediate ONLY the defects PTF-INDIANAPOLIS-PROMOTION-AND-APPLICATION-004 found in its own work. No new research, no new evidence, no new hotels, no change to a founder decision already applied, no deployment.",
+ "paid_provider_calls": 0,
+ "usd_spent": 0.0,
+ "deployment_performed": false,
+ "deployment_authorization_written": false,
+ "deployment_record_written": false,
+ "defect_closure": [
+  {
+   "id": "DEF-1",
+   "severity": "HIGH",
+   "defect": "the rebuilt 264-row final partition was ORPHANED -- readers still resolved the 263-row partition_014",
+   "root_cause": "assemble_production_site._partition_path() consulted an explicit table AFTER a glob, so the glob won and silently chose the wrong file. That defect was latent through the LIVE deployment: it resolved Indianapolis to a 153-row partition in production.",
+   "fix": "the explicit table now takes precedence and returns None when its named file is absent, so a missing partition fails loudly instead of degrading to a glob; indianapolis-in maps to indianapolis_in_final_partition_023.json",
+   "closed": true,
+   "proof": "census_count == partition_count == 264; test_indianapolis_market_001 and test_indianapolis_identity_routing_repair_001 both pass"
+  },
+  {
+   "id": "DEF-2",
+   "severity": "HIGH",
+   "defect": "19 policy-facts schema violations (17 MISSING_REQUIRED, 2 BAD_ENUM) in the records the promotion order wrote",
+   "root_cause": "the fact shapes were invented from sibling JSON instead of read from the contract",
+   "fix": "every other_charges[], fee_cap and pet_fee.scope rewritten to the vocabulary in scripts/pettripfinder/contracts/policy_schema.py -- FEE_SCOPES, FEE_BASES, OTHER_CHARGE_KINDS, WEIGHT_SCOPES and the required-field sets",
+   "closed": true,
+   "proof": "the policy-schema lane reports 0 violations across 82 records"
+  },
+  {
+   "id": "DEF-3",
+   "severity": "MEDIUM",
+   "defect": "the admitted census row failed the census contract on policy_state (empty) and assignment_basis ('explicit_hotel_id', not in the enum)",
+   "fix": "policy_state = POLICY_NOT_VERIFIED, assignment_basis = 'explicit'",
+   "closed": true,
+   "proof": "the census contract passes at 264 identities"
+  },
+  {
+   "id": "DEF-4",
+   "severity": "LOW",
+   "defect": "the seven new exclusion_ids used indianapolis-in-004-NN against this market's ii-<slug> convention, and carried a FABRICATED record_hash",
+   "fix": "rekeyed to ii-<slug>; record_hash and approval_hash re-derived by calling the contract's own record_hash() and approval_hash() rather than writing a value",
+   "closed": true,
+   "proof": "the exclusion contract re-derives every hash and agrees"
+  },
+  {
+   "id": "DEF-5",
+   "severity": "LOW",
+   "defect": "the admitted row omitted discovery_cells, discovery_providers, latitude, longitude and routing_history",
+   "fix": "populated from the discovery record that found it; routing_history carries the admission",
+   "closed": true,
+   "proof": "the census contract's per-field completeness rows pass"
+  },
+  {
+   "id": "DEF-6",
+   "severity": "CRITICAL",
+   "found_by": "this order, not by 004",
+   "defect": "order 004 published `home2 suites by hilton`, an identity key PTF-INDIANAPOLIS-56-PROFILE-AUTHORITY-PROMOTION-017 had already REFUSED on cross-market collision grounds. Cleveland claims the same bare chain word for 6200 Patriots Way, Independence OH; the Indianapolis row is 12845 Old Meridian Street, Carmel IN.",
+   "how_it_was_nearly_missed": "I had scoped the route-versus-seed guard by market, which made the failure disappear. That scoping is defensible on its own but here it was papering over a real collision, so it was REVERTED and order 017's cross-market tests are preserved exactly as written.",
+   "resolution": "escalated to the founder, who ruled WITHHOLD",
+   "closed": true,
+   "proof": "the collision guard is unweakened and passes; the key appears in no seed row, no route and no rendered page"
+  },
+  {
+   "id": "DEF-7",
+   "severity": "MEDIUM",
+   "found_by": "this order, not by 004",
+   "defect": "the source block of pins/deployment_state.json described nothing -- order 004 cleared its bundle and sitemap hashes and left its counts at the live figures, so the order-045 and order-046 candidate suites compared a real build against an empty pin",
+   "fix": "the source block now carries what a fresh assembly of the committed source produces. deployment_authorized stays false and the live block is untouched.",
+   "closed": true,
+   "proof": "75 tests in those two suites pass, each assembling its own bundle"
+  }
+ ],
+ "source_state": {
+  "census": 264,
+  "pet_friendly": 82,
+  "verified_no_pets": 44,
+  "resolved": 126,
+  "unresolved": 138,
+  "profiles": 82,
+  "seed_rows": 82,
+  "arithmetic": "resolved == pet_friendly + verified_no_pets (126 == 82 + 44); unresolved == census - resolved (138 == 264 - 126)",
+  "every_figure_is_derived": "each number above is READ from the artifact that owns it: the census count, the partition's final_state_counts, the policy package's record count and the global seed CSV. None is restated.",
+  "authorities_agree": true
+ },
+ "founder": {
+  "ruling": "WITHHOLD the Indianapolis row keyed `home2 suites by hilton`",
+  "option_chosen": "A",
+  "applied_as": "withheld from publication -- NOT deleted and NOT refused",
+  "census_keeps_the_identity": true,
+  "partition_returns_it_to_unresolved": true,
+  "evidence_preserved_in": "indianapolis_in_shadow_policy_evidence_020.json",
+  "cleveland_authority_modified": false,
+  "collision_guard_weakened": false,
+  "rekey_invented_here": false,
+  "hold_record": "launch_packages/pettripfinder/indianapolis_in_identity_hold_home2_carmel_024.json",
+  "hold_id": "IDH-024-HOME2-CARMEL-CROSS-MARKET-KEY",
+  "recommended_future_action": "REKEY_INDIANAPOLIS_IDENTITY",
+  "intended_state_after_the_ruling": "264 / 82 / 44 / 126 / 138 / 82",
+  "state_reached": "264 / 82 / 44 / 126 / 138 / 82"
+ },
+ "shared_globals": {
+  "regenerated_with": "build_global_authority.py --write",
+  "build_market_authorities_write_never_run": true,
+  "seed_businesses_csv_sha256": "cc0c89b4545d41fdcbe3c2f37adc6087771f325b92ed721359832b3cfd553ae8",
+  "hotel_exclusions_json_sha256": "62dc394a68d1ca7a84df1926e8acbc71d0d31dfddb4a5b3639638f16c6210251",
+  "ptf_global_authority_manifest_sha256": "ad7036c4debd56af3ae04dc6b116bbbbdbb564ca5ed1d9dca1188d7b26ab8279",
+  "global_seed_rows": 889,
+  "rows_by_market": {
+   "cincinnati-oh": 99,
+   "cleveland-akron-canton-oh": 120,
+   "columbus-oh": 116,
+   "dayton-oh": 54,
+   "detroit-ann-arbor-mi": 121,
+   "grand-rapids-holland-mi": 43,
+   "indianapolis-in": 82,
+   "louisville-ky": 46,
+   "milwaukee-wi": 73,
+   "pittsburgh-pa": 53,
+   "st-louis-mo": 82
+  },
+  "only_indianapolis_moved": true,
+  "shard_and_global_moved_together": "in ONE step. Regenerating the globals AFTER re-running the lane once left the global seed carrying stale names and Indianapolis assembled 0 profiles."
+ },
+ "contracts": {
+  "release_contracts_in_agreement": 11,
+  "indianapolis_contract": {
+   "expected_census_count": 264,
+   "expected_policy_record_count": 82,
+   "policy_package_sha256": "356010b8d167406932160539b80ea6e71755a879f68afb4b1136ed95dcd00699",
+   "exclusion_shard_sha256": "c22e02df5b0d4c4502594cafd200f7df79b496ad3684ed7f7dc4ee843e84d64b",
+   "public_hotel_profile_count": 82,
+   "last_moved_by": "PTF-INDIANAPOLIS-PROMOTION-REMEDIATION-005"
+  },
+  "hash_convention": "content_sha256 is line-ending normalized; the raw byte sha256 is a different number and the contract wants the one it names",
+  "line_endings": "every JSON this order wrote is LF. Python text mode on Windows writes CRLF and it recurred once after a re-author."
+ },
+ "assembly": {
+  "kind": "dry run, from a scratch worktree at the pinned commit",
+  "markets": 9,
+  "profiles": 641,
+  "routes": 782,
+  "html_pages": 3977,
+  "files": 3995,
+  "bundle_sha256": "4d684ebfc742ccf44dae7d0ac7cf928b826cc31b2f0e1593d63f178f09f2d939",
+  "sitemap_sha256": "b343794db5a143a4f14cc38988d4fe43367daffb14a4a4f56fedd583c02cdec3",
+  "assembled_from_commit": "3ec4efc7b552d68df4339cc9d6b7ae951e4e76b4",
+  "still_current_at_head": "nothing outside tests/ changed between that commit and HEAD, so HEAD assembles the same bundle",
+  "broken_links": 0,
+  "route_collisions": 0,
+  "global_shadowing": 0,
+  "canonical_violations": 0,
+  "non_zero_market_deltas": {
+   "indianapolis-in": "+15"
+  },
+  "verified_in_the_rendered_output": [
+   "Home2 Keystone Crossing renders $75 per stay for 1-4 nights, $125 for 5 or more, maximum pet weight 75 pounds",
+   "the mis-routed Plainfield Baymont renders zero pages; the correct one renders",
+   "Lynhurst renders once under its successor slug and zero times under the retired La Quinta slug",
+   "the withheld Carmel Home2 renders nowhere"
+  ]
+ },
+ "regression": {
+  "matrix_verdict": "FULL_REGRESSION_REQUIRED = YES",
+  "why_not_delta_scoped": "the change surface classifier puts tests/pettripfinder/pins/deployment_state.json in TEST_EXPECTATION_CHANGE and then reads SHARED_TEST_STATE, which names tests/pettripfinder/pins/ explicitly. A shared pin moves suites that never name it. Delta-scoped closure was available and the matrix refused it, so the broad run was paid.",
+  "baseline": "regression_baselines/f75aa95.json",
+  "run": "reg6",
+  "collected": 17379,
+  "passed": 16998,
+  "skipped": 221,
+  "failed": 160,
+  "classification": {
+   "PRE_EXISTING": 160,
+   "EXPECTED_EPOCH_CHANGE": 0,
+   "TEST_HARNESS_FLAKE": 0,
+   "TRUE_NEW_FAILURE": 0
+  },
+  "wall_clock_seconds": 6739.9,
+  "baseline_failures_now_passing": 0,
+  "failure_set_identity": "the 160 failures are the f75aa95 baseline set EXACTLY, matched by node id -- not by count. 0 baseline failures newly passing and 0 new failures, so the sets are equal.",
+  "run_source_verified": "--run was given the run DIRECTORY. The classifier read 17379 collected and 160 failed; an all-zero result would have meant it was pointed at a file, which is a false pass.",
+  "closure_by_node_id": [
+   {
+    "node_id": "tests/pettripfinder/test_global_deployment_architecture_045.py::test_participation_and_inventory_are_unchanged",
+    "before": "TRUE_NEW_FAILURE",
+    "after": "passed"
+   },
+   {
+    "node_id": "tests/pettripfinder/test_global_deployment_architecture_045.py::test_the_disabled_bundle_is_the_pinned_candidate_byte_for_byte",
+    "before": "TRUE_NEW_FAILURE",
+    "after": "passed"
+   },
+   {
+    "node_id": "tests/pettripfinder/test_global_deployment_architecture_045.py::test_the_sitemap_carries_canonical_routes_not_legacy_ones",
+    "before": "TRUE_NEW_FAILURE",
+    "after": "passed"
+   },
+   {
+    "node_id": "tests/pettripfinder/test_launch_participation_046.py::test_the_candidate_is_the_pinned_artifact",
+    "before": "TRUE_NEW_FAILURE",
+    "after": "passed"
+   }
+  ],
+  "gate": "TRUE_NEW_FAILURE == 0",
+  "gate_met": true
+ },
+ "what_was_NOT_done": [
+  "no Indianapolis research was redone",
+  "no hotel evidence was reacquired",
+  "no hotel was added",
+  "no founder decision already applied was changed",
+  "no 263 -> 264 or 67 -> 83 textual sweep was performed; every stale assertion was classified and scoped by what it protects",
+  "no historical evidence guard was weakened",
+  "no other market was mutated",
+  "no deployment, no deployment authorization, no deployment record"
+ ],
+ "regression_history": [
+  {
+   "commit": "f5afbc1/80a5459",
+   "order": "004",
+   "collected": 17379,
+   "failed": 217,
+   "TRUE_NEW_FAILURE": 57,
+   "gate_met": false
+  },
+  {
+   "commit": "3ec4efc",
+   "order": "005",
+   "collected": 17379,
+   "failed": 164,
+   "TRUE_NEW_FAILURE": 4,
+   "gate_met": false
+  },
+  {
+   "commit": "177565a",
+   "order": "005",
+   "collected": 17379,
+   "failed": 160,
+   "TRUE_NEW_FAILURE": 0,
+   "gate_met": true
+  }
+ ],
+ "deployment_readiness": {
+  "DEPLOYMENT_READY": "YES",
+  "gates": {
+   "all_004_defects_closed": true,
+   "founder_ruling_applied_exactly": true,
+   "source_authorities_agree": true,
+   "eleven_release_contracts_agree": true,
+   "assembly_clean": true,
+   "TRUE_NEW_FAILURE_zero": true,
+   "no_other_market_mutated": true
+  },
+  "what_ready_means": "a fresh assembly of the committed source is clean, every contract agrees with it, and the broad regression's failure set is byte-identical to the pre-existing baseline. It does NOT mean anything is authorised.",
+  "deployment_performed": false,
+  "deployment_authorization_written": false,
+  "deployment_record_written": false
+ },
+ "next": {
+  "order": "PTF-INDIANAPOLIS-DEPLOYMENT-AUTHORIZATION-006",
+  "status": "NOT WRITTEN AND NOT EXECUTED -- it needs a founder authorization this order has none of",
+  "candidate_commit": "177565a2ea9b3ca8c5a111b5f6c468640d5460ea",
+  "bundle_sha256": "4d684ebfc742ccf44dae7d0ac7cf928b826cc31b2f0e1593d63f178f09f2d939",
+  "sitemap_sha256": "b343794db5a143a4f14cc38988d4fe43367daffb14a4a4f56fedd583c02cdec3",
+  "production_delta": {
+   "markets": "9 -> 9, unchanged",
+   "profiles": "626 -> 641 (+15)",
+   "sitemap_routes": "767 -> 782 (+15)",
+   "html_pages": "3887 -> 3977 (+90)",
+   "files": "3905 -> 3995 (+90)",
+   "only_market_moving": "indianapolis-in, 67 -> 82",
+   "routes_removed": 0
+  },
+  "rollback_target": "6a982a1fc32c2911d0d65d04",
+  "standing_caution": "deploy the PINNED candidate commit, never branch HEAD; update the manifest BEFORE deploying or deployability_problems never reaches 0; consume the authorization BEFORE writing the record."
+ }
+}
