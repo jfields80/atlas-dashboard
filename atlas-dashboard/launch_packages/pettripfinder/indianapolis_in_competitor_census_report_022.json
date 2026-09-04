@@ -7,8 +7,14 @@
  "live_authority_mutated": false,
  "deployment_performed": false,
  "precheck": {
-  "baseline_re_derived": {"census": 263, "pet_friendly": 67, "verified_no_pets": 37,
-                          "resolved": 104, "unresolved": 159, "profiles": 67},
+  "baseline_re_derived": {
+   "census": 263,
+   "pet_friendly": 67,
+   "verified_no_pets": 37,
+   "resolved": 104,
+   "unresolved": 159,
+   "profiles": 67
+  },
   "all_authorities_agree": true,
   "policy_package_sha_matches_contract": true,
   "prior_pending_inventory_rows": 21,
@@ -110,9 +116,14 @@
   ],
   "geography_is_not_equal": "BringFido's 122 counts a city string while the Atlas market is a corridor set that both includes suburbs BringFido files elsewhere and excludes Zionsville, which BringFido includes. The two footprints are not the same shape and no equal-geography claim is made."
  },
- "cost": {"free_requests": 178, "attended_pages": 6, "provider_calls": 0,
-          "credits": 0.0, "usd": 0.0,
-          "note": "BringFido refuses an ordinary static GET with 403; the whole capture was done through attended Chrome and same-origin fetch, and no paid lane was touched"},
+ "cost": {
+  "free_requests": 178,
+  "attended_pages": 6,
+  "provider_calls": 0,
+  "credits": 0.0,
+  "usd": 0.0,
+  "note": "BringFido refuses an ordinary static GET with 403; the whole capture was done through attended Chrome and same-origin fetch, and no paid lane was touched"
+ },
  "benchmark": {
   "active_minutes": 74,
   "bringfido_leads_captured": 169,
@@ -144,5 +155,54 @@
   "shared_paid_ledgers_changed": 0,
   "other_market_runs_entry_needed": false,
   "serialized_boundary_respected": true
+ },
+ "regression": {
+  "matrix_verdict": "FULL_REGRESSION_REQUIRED = YES",
+  "why": "four artifacts classify UNCLASSIFIED, and the census report's filename additionally trips the *_census_*.json rule as AUTHORITY_CHANGE + ROUTING_SEMANTIC_CHANGE. That classification is stricter than the file deserves -- it is a report, not a census -- but renaming a file to escape a change class is precisely the gaming the order forbids, so the matrix was obeyed as written.",
+  "one_run_answered_five_questions": "the full suite is a superset of the four required lanes; it was run once and each lane read out of it by node id",
+  "wall_clock": "1:47:40 (6460.55s)",
+  "collected": 17379,
+  "passed": 17000,
+  "skipped": 219,
+  "failed": 160,
+  "baseline": "regression_baselines/f75aa95.json",
+  "classification": {
+   "PRE_EXISTING": 160,
+   "EXPECTED_EPOCH_CHANGE": 0,
+   "TEST_HARNESS_FLAKE": 0,
+   "TRUE_NEW_FAILURE": 0
+  },
+  "proved_by_identity_not_by_count": {
+   "baseline_failing_node_ids": 160,
+   "run_failing_node_ids": 160,
+   "sets_identical": true,
+   "in_run_but_not_baseline": 0,
+   "in_baseline_but_not_run": 0
+  },
+  "required_lanes_read_from_the_same_run": {
+   "market_targeted": {
+    "modules": 47,
+    "failures": 13,
+    "TRUE_NEW": 0
+   },
+   "policy_schema": {
+    "modules": 45,
+    "failures": 5,
+    "TRUE_NEW": 0
+   },
+   "identity_routing": {
+    "modules": 41,
+    "failures": 14,
+    "TRUE_NEW": 0
+   },
+   "release_contract": {
+    "modules": 5,
+    "failures": 0,
+    "TRUE_NEW": 0
+   }
+  },
+  "production_assembly_run": false,
+  "shared_pins_moved": false,
+  "TRUE_NEW_FAILURE": 0
  }
 }
