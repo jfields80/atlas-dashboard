@@ -1,0 +1,81 @@
+{
+ "schema": "ptf-market-pending-application-inventory/1.0",
+ "market_id": "indianapolis-in",
+ "work_order": "PTF-INDIANAPOLIS-PARALLEL-REVALIDATION-001",
+ "as_of": "2026-09-03",
+ "what_this_is": "The Indianapolis rows this revalidation believes are ready to be applied by a LATER promotion order. Nothing here is applied, promoted, assembled or deployed by this file. Every row carries its own evidence; rows with any open identity question are excluded to the held list below rather than smuggled in.",
+ "evidence_source": "indianapolis_in_shadow_policy_evidence_020.json",
+ "exclusion_rule": "a row is admitted only if its identity binds on street AND postal AND (telephone OR brand property code), its policy quote establishes ordinary pet acceptance or an explicit refusal without leaning on a service-animal sentence, and no open census collision claims its premises",
+ "CLEAN_PET_FRIENDLY": [
+  {"identity_key": "sonesta select", "corridor_hint": "carmel", "fee": "SOURCE_SILENT -- withheld", "requires": "name_corrections row (deterministic, page-stated)"},
+  {"identity_key": "woodspring suites indianapolis castleton", "corridor_hint": "keystone-castleton", "fee": "50 USD registration per stay + 5 USD per dog per night (TWO charges)"},
+  {"identity_key": "baymont by wyndham indianapolis northwest", "corridor_hint": "northwest", "fee": "20 USD per pet per night"},
+  {"identity_key": "baymont inn and suites plainfield indianapolis airport", "corridor_hint": "plainfield", "fee": "25 USD per pet per stay, non-refundable"},
+  {"identity_key": "days inn by wyndham plainfield", "corridor_hint": "plainfield", "fee": "20 USD per dog per night, non-refundable"},
+  {"identity_key": "echo suites extended stay by wyndham indianapolis ameriplex", "corridor_hint": "airport", "fee": "50 USD first night + 10 USD each additional night per dog (fee_tiers)"},
+  {"identity_key": "super 8 by wyndham brownsburg", "corridor_hint": "hendricks-west", "fee": "15 USD per pet per night"},
+  {"identity_key": "wyndham indianapolis west", "corridor_hint": "airport", "fee": "50 USD flat one-time, non-refundable"},
+  {"identity_key": "home2 suites by hilton", "corridor_hint": "carmel", "fee": "75 USD", "requires": "name_corrections row ALREADY committed"}
+ ],
+ "CLEAN_VERIFIED_NO_PETS": [
+  {"identity_key": "woodspring suites indianapolis airport south"},
+  {"identity_key": "days inn by wyndham indianapolis east post road"},
+  {"identity_key": "super 8 by wyndham indianapolis"},
+  {"identity_key": "super 8 by wyndham indianapolis castleton"},
+  {"identity_key": "wingate by wyndham indianapolis airport plainfield"}
+ ],
+ "counts": {
+  "clean_pet_friendly": 9,
+  "clean_verified_no_pets": 5,
+  "total_clean": 14,
+  "held_with_evidence": 4
+ },
+ "HELD_WITH_EVIDENCE": [
+  {
+   "identity_key": "best western plus greenwood indy south",
+   "policy_class": "PET_FRIENDLY",
+   "hold_reason": "IDENTITY_COLLISION -- 1281 South Park Drive is also claimed by 'la quinta inn and suites indianapolis south greenwood'",
+   "founder_group": "A",
+   "evidence_is_complete": true
+  },
+  {
+   "identity_key": "best western plus indianapolis northwest",
+   "policy_class": "PET_FRIENDLY",
+   "hold_reason": "IDENTITY_COLLISION -- 7220 Woodland Drive is also claimed by 'holiday inn express northwest park 100'",
+   "founder_group": "A",
+   "evidence_is_complete": true
+  },
+  {
+   "identity_key": "la quinta inn indianapolis airport lynhurst",
+   "policy_class": "PET_FRIENDLY",
+   "hold_reason": "SAME_IDENTITY_REBRAND_SUCCESSOR -- the La Quinta slug soft-404s to the brand list; Wyndham's current inventory shows 5316 W. Southern Ave 46241 operating as 'Baymont by Wyndham Indianapolis Airport Lynhurst'",
+   "founder_group": "A",
+   "evidence_is_complete": true,
+   "successor_policy_already_captured": "2 pets max, dogs only, 45 lbs or less per dog, 25 USD per pet per night"
+  },
+  {
+   "identity_key": "baymont by wyndham plainfield indianapolis airport area",
+   "policy_class": "NONE -- routing defect, not a policy row",
+   "hold_reason": "IDENTITY_MISMATCH -- its bound URL serves the OTHER Plainfield Baymont (6010 Gateway Drive / 317-203-9321). This row is 2244 East Perry Road / 317-837-9000 and currently has no correct route.",
+   "founder_group": "A",
+   "must_not_be_published": "publishing this row against its current URL would put another building's pet policy on its page"
+  }
+ ],
+ "projected_authority_if_only_the_clean_rows_are_applied": {
+  "census": 263,
+  "pet_friendly": 76,
+  "verified_no_pets": 42,
+  "resolved": 118,
+  "unresolved": 145,
+  "profiles": 76
+ },
+ "projected_authority_if_the_holds_also_clear_as_recommended": {
+  "census": 263,
+  "pet_friendly": 79,
+  "verified_no_pets": 42,
+  "resolved": 121,
+  "unresolved": 142,
+  "profiles": 79
+ },
+ "nothing_is_applied_by_this_file": "This inventory promotes no census row, signs no authority, writes no policy package, regenerates no global, moves no pin, assembles no candidate and deploys nothing."
+}
