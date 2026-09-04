@@ -11,12 +11,24 @@
   "worktree": "C:/Atlas-Indy-Hardened-V2",
   "tree_clean_at_start": true,
   "origin_equalled_head": true,
-  "baseline_re_derived": {"census": 263, "pet_friendly": 67, "verified_no_pets": 37,
-                          "resolved": 104, "unresolved": 159, "profiles": 67},
+  "baseline_re_derived": {
+   "census": 263,
+   "pet_friendly": 67,
+   "verified_no_pets": 37,
+   "resolved": 104,
+   "unresolved": 159,
+   "profiles": 67
+  },
   "all_authorities_agree": true,
   "policy_package_sha_matches_contract": true,
-  "cost_plan_verified": {"rows": 36, "cap_rows": 36, "credits": 19.44, "cap_credits": 19.44,
-                         "live_balance_at_start": 513, "sufficient": true}
+  "cost_plan_verified": {
+   "rows": 36,
+   "cap_rows": 36,
+   "credits": 19.44,
+   "cap_credits": 19.44,
+   "live_balance_at_start": 513,
+   "sufficient": true
+  }
  },
  "firecrawl": {
   "eligible_rows": 36,
@@ -77,15 +89,34 @@
   "newly_created": 2,
   "total_open": 11,
   "still_blocking_promotion": 3,
-  "blocking": ["A-020-3", "A-020-4", "A-020-5 (sonesta select)"]
+  "blocking": [
+   "A-020-3",
+   "A-020-4",
+   "A-020-5 (sonesta select)"
+  ]
  },
  "known_required_corrections_carried_forward": [
-  {"id": "D-020-1", "subject": "Home2 Suites Keystone Crossing projection defect",
+  {
+   "id": "D-020-1",
+   "subject": "Home2 Suites Keystone Crossing projection defect",
    "detail": "the live record carries only pets_allowed although the founder-signed reparse of order 014 recovered a 75 lb limit and 75/125 USD fee tiers from the same artifact the record cites, and the record asserts a pet_fee source-silence that artifact contradicts",
-   "status": "UNTOUCHED by this order, exactly as instructed; REQUIRED in the promotion order"},
-  {"id": "A-020-5", "subject": "sonesta select name correction to 'Sonesta Select Indianapolis Carmel'", "status": "REQUIRED before that row publishes"},
-  {"id": "A-020-2", "subject": "baymont by wyndham plainfield indianapolis airport area route correction", "status": "REQUIRED before that row publishes"},
-  {"id": "A-020-1", "subject": "la quinta inn indianapolis airport lynhurst successor handling", "status": "REQUIRED for that row"}
+   "status": "UNTOUCHED by this order, exactly as instructed; REQUIRED in the promotion order"
+  },
+  {
+   "id": "A-020-5",
+   "subject": "sonesta select name correction to 'Sonesta Select Indianapolis Carmel'",
+   "status": "REQUIRED before that row publishes"
+  },
+  {
+   "id": "A-020-2",
+   "subject": "baymont by wyndham plainfield indianapolis airport area route correction",
+   "status": "REQUIRED before that row publishes"
+  },
+  {
+   "id": "A-020-1",
+   "subject": "la quinta inn indianapolis airport lynhurst successor handling",
+   "status": "REQUIRED for that row"
+  }
  ],
  "paid_backlog_after_this_order": {
   "firecrawl": {
@@ -114,5 +145,60 @@
   "why_no_registration_is_needed": "run artifacts were written to the session scratchpad rather than to data/acquisition/, so this order creates no run directory. The test that polices OTHER_MARKET_RUNS enumerates DIRECTORIES under data/acquisition/, and the adapter's own call ledger is a single file under a path the repository gitignores in full.",
   "additive_merge_note": "no OTHER_MARKET_RUNS entry was added, so this order cannot conflict with the concurrent Pittsburgh run on that container. Should a later Indianapolis order need one, it must add Indianapolis entries only, and an integrator resolving a clash with Pittsburgh must preserve BOTH sets rather than choosing between them.",
   "serialized_boundary_respected": true
+ },
+ "regression": {
+  "matrix_verdict": "FULL_REGRESSION_REQUIRED = YES",
+  "why": "two of this order's four artifacts (the Firecrawl evidence and the rebuilt pending inventory) match no PATH_RULES entry and classify UNCLASSIFIED. regression_delta.py states that the rest of launch_packages/pettripfinder deliberately stays unclassified and is not to be tidied away with a blanket rule, so the matrix was obeyed rather than worked around. The order itself instructs this: obey the classifier when it conservatively requires a full run.",
+  "one_run_answered_five_questions": "the full suite is a superset of the four required lanes, so it was run once and each lane's result was read out of it by node id rather than paying for four additional runs",
+  "wall_clock": "1:52:29 (6749.44s)",
+  "collected": 17379,
+  "passed": 17000,
+  "skipped": 219,
+  "failed": 160,
+  "baseline": "regression_baselines/f75aa95.json",
+  "classification": {
+   "PRE_EXISTING": 160,
+   "EXPECTED_EPOCH_CHANGE": 0,
+   "TEST_HARNESS_FLAKE": 0,
+   "TRUE_NEW_FAILURE": 0
+  },
+  "proved_by_identity_not_by_count": {
+   "baseline_failing_node_ids": 160,
+   "run_failing_node_ids": 160,
+   "sets_identical": true,
+   "in_run_but_not_baseline": 0,
+   "in_baseline_but_not_run": 0
+  },
+  "required_lanes_read_from_the_same_run": {
+   "market_targeted": {
+    "modules": 47,
+    "failures": 13,
+    "TRUE_NEW": 0
+   },
+   "policy_schema": {
+    "modules": 45,
+    "failures": 5,
+    "TRUE_NEW": 0
+   },
+   "identity_routing": {
+    "modules": 41,
+    "failures": 14,
+    "TRUE_NEW": 0
+   },
+   "release_contract": {
+    "modules": 5,
+    "failures": 0,
+    "TRUE_NEW": 0
+   }
+  },
+  "collection_delta": {
+   "baseline": 17292,
+   "run": 17379,
+   "delta": 87,
+   "why_benign": "the baseline was taken in a fresh worktree without the data corpora present here; all 87 extra cases passed and the failing set is identical node id for node id"
+  },
+  "production_assembly_run": false,
+  "shared_pins_moved": false,
+  "TRUE_NEW_FAILURE": 0
  }
 }
