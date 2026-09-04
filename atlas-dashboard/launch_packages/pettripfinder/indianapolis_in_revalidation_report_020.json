@@ -143,9 +143,9 @@
    "the eight mislabelled AWAITING_OFFICIAL_URL rows reclassified (E-020-1) so the partition arithmetic stays honest"
   ],
   "OPTIONAL_COVERAGE_EXPANSION": [
-   "the 36-row Firecrawl cohort (19.44 credits, ~2.60 USD) -- the only remaining lane with real yield, since free discovery for this market is exhausted",
-   "attended reads for the Choice and Motel 6 rows that time out rather than refuse",
-   "paid identity discovery for the 100 census rows that have never had an official URL"
+   "the 36-row Firecrawl policy cohort (19.44 credits, ~2.60 USD) -- the only remaining lane with material yield",
+   "attended reads for the 5 Choice rows and 1 independent that time out rather than refuse",
+   "paid identity discovery is NOT a viable expansion lane here: 96 of the 100 rows with no official URL have already been bought through Google Places and 91 returned UNBOUND_NO_SANCTIONED_KEY; only 4 rows are a new question"
   ]
  },
  "phase_19_benchmark": {
@@ -170,5 +170,58 @@
    "this_run": "14 clean rows recovered at 0 provider calls and 0.00 USD",
    "what_changed": "the free rungs were run in ladder order and measured before anything was bought. The static rung alone settled five rows the committed partition had marked unroutable, and the attended rung settled nine more on a brand whose policy is never in the static markup. Under the old shape those 14 would have entered a paid cohort."
   }
+ },
+ "phase_14_paid_readiness": {
+  "ledgers_read_not_written": [
+   "ptf_paid_attempt_ledger_001.json",
+   "ptf_discovery_attempt_ledger_001.json"
+  ],
+  "shared_ledgers_written": 0,
+  "spend_this_run_usd": 0.0,
+  "measured_unit_costs_for_this_market": {
+   "basis": "the committed cross-run paid ledger's own 181 Indianapolis attempts, not an estimate",
+   "firecrawl": {
+    "attempts": 53,
+    "avg_usd": 0.1005,
+    "credits": 16.84
+   },
+   "brightdata_web_unlocker": {
+    "attempts": 28,
+    "avg_usd": 0.1104
+   },
+   "brightdata_browser": {
+    "attempts": 100,
+    "avg_usd": 0.1168
+   },
+   "note": "the market's own firecrawl average (0.1005 USD) runs above the cross-market measured rate (0.0721) because this market's attempts skew to the harder brands; the cost plan uses the cross-market rate, so the request is if anything understated and the cap should be enforced on ATTEMPTS"
+  },
+  "firecrawl": {
+   "eligible_rows": 36,
+   "credits": 19.44,
+   "usd_worst_case": 2.6,
+   "credits_remaining_live_read": 515,
+   "hard_cap_recommended": "36 attempts / 25 credits -- a ceiling on attempts, not on the balance",
+   "status": "AWAITING AUTHORISATION"
+  },
+  "bright_data": {
+   "rows": 0,
+   "status": "NOT REQUESTED",
+   "why": "128 Bright Data attempts are already on record for this market (100 browser + 28 web unlocker). The rows this revalidation could not settle are the same Marriott, Hilton and Hyatt surfaces those attempts already returned UNEXPECTED_PAGE, IDENTITY_MISMATCH or ACCESS_DENIED on. Firecrawl is the untried rung and is cheaper; Bright Data should not be re-bought until Firecrawl has answered."
+  },
+  "google_places": {
+   "unrouted_rows_with_no_official_url_ever": 100,
+   "already_attempted_through_places": 96,
+   "genuinely_new_rows": 4,
+   "prior_outcomes": {
+    "UNBOUND_NO_SANCTIONED_KEY": 91,
+    "BOUND": 43,
+    "UNBOUND_NO_WEBSITE": 8,
+    "UNBOUND_REJECTED_URL_SHAPE": 1
+   },
+   "status": "EFFECTIVELY EXHAUSTED -- DO NOT RE-BUY",
+   "why": "143 Google Places discovery attempts are already committed for this market and 96 of the 100 unrouted rows are among them. Ninety-one came back UNBOUND_NO_SANCTIONED_KEY: Places answered, and the answer was that it has no sanctioned URL for that row. Re-running them would pay a second time to FIND a page, which the standing rule forbids. Only 4 rows are a genuinely new question.",
+   "recommended_cohort": 4
+  },
+  "the_honest_headline": "Indianapolis coverage expansion is NOT cheap. The 100 rows with no official URL look like an opportunity and are mostly a closed question: paid discovery has already been run against 96 of them. The remaining real yield in this market is the 36-row Firecrawl policy cohort at roughly 2.60 USD, plus attended reads for the Choice and Motel 6 surfaces that time out rather than refuse."
  }
 }
