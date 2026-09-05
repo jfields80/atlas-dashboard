@@ -49,6 +49,7 @@ Read-only with respect to every other market. No network.
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
 from typing import Dict, List, Mapping
@@ -58,6 +59,7 @@ if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
 from scripts.pettripfinder import hotel_exclusions as HX             # noqa: E402
+from scripts.pettripfinder import market_authority as MA             # noqa: E402
 from scripts.pettripfinder.brightdata import policy_reading as PR    # noqa: E402
 from scripts.pettripfinder.contracts import enums                    # noqa: E402
 from scripts.pettripfinder.contracts import policy_schema as PS      # noqa: E402
@@ -74,7 +76,11 @@ CAPTURED_ON = "2026-09-04"
 
 PACKAGE = _REPO_ROOT / "launch_packages" / "pettripfinder"
 POLICY_PATH = PACKAGE / f"hotel_policy_facts_{MARKET}.json"
-SHARD_PATH = PACKAGE / "markets" / "authority" / MARKET / "hotel_exclusions.json"
+# Ask the sharding module for this market's shard rather than rebuilding the
+# path here. Same file, but the write goes through the one helper that knows
+# where a shard lives, so no reader of this module has to prove the join is a
+# shard and not the generated global of the same basename.
+SHARD_PATH = MA.exclusions_shard_path(MARKET)
 CAPTURE_PATH = (PACKAGE / "markets" / "reports"
                 / "pittsburgh_parallel_revalidation_001_attended_capture.json")
 FIRECRAWL_BLOCKS = {
@@ -349,6 +355,21 @@ def build_pet_friendly(key: str, cap: Mapping, block: str, url: str, sha: str,
     return record
 
 
+def _postal_code(city_state_zip: str) -> str:
+    """The five-digit ZIP out of a property page's own locality line.
+
+    Splitting on the comma and taking the last field is wrong, because the
+    brands do not agree on how many commas the line has. Marriott prints
+    "Pittsburgh, Pennsylvania, USA, 15219" and the last field IS the ZIP;
+    Hyatt prints "Pittsburgh, PA 15203" and the last field is "PA 15203".
+    The ZIP is what this returns, or "" when the line states none -- an empty
+    postal code is a missing field the contract can refuse, while "PA 15203"
+    is a wrong field that passes for one.
+    """
+    match = re.search(r"\b(\d{5})(?:-\d{4})?\b", city_state_zip or "")
+    return match.group(1) if match else ""
+
+
 def build_exclusion(key: str, cap: Mapping, display_name: str) -> Dict:
     """One VERIFIED_NO_PETS exclusion, hashed by the contract's own functions.
 
@@ -360,7 +381,7 @@ def build_exclusion(key: str, cap: Mapping, display_name: str) -> Dict:
     sig = cap["identity_signals"]
     city_zip = (sig.get("city_state_zip") or "").split(",")
     city = city_zip[0].strip() if city_zip else ""
-    postal = (city_zip[-1].strip() if city_zip else "")
+    postal = _postal_code(sig.get("city_state_zip") or "")
     name = display_name
     reread = cap.get("address_completion_reread") or {}
     source_url = reread.get("final_url") or cap["final_url"]

@@ -460,8 +460,11 @@ class TestContractAgreesWithItsOwnAuthority:
         # INDIANAPOLIS 37 -> 44 at PTF-INDIANAPOLIS-PROMOTION-AND-APPLICATION-004
         # (7 first-party refusals applied); every other market's number is
         # unchanged, which is the half of this assertion that proves the scoping.
+        # PITTSBURGH 17 -> 21 at PTF-PITTSBURGH-PROMOTION-AND-APPLICATION-002
+        # (4 first-party refusals applied); every other market's number is
+        # unchanged, which is the half of this assertion that proves the scoping.
         assert by_market == {COLUMBUS: 14, CLEVELAND: 51, DAYTON: 24,
-                             PITTSBURGH: 17, INDIANAPOLIS: 44, MILWAUKEE: 27,
+                             PITTSBURGH: 21, INDIANAPOLIS: 44, MILWAUKEE: 27,
                              ST_LOUIS: 37,
                              # PTF-LOUISVILLE-PUBLICATION-008. Every other
                              # market's number is unchanged, which is the half

@@ -434,7 +434,13 @@ def test_current_live_inventory_preserves_all_assemblable_market_profiles(market
                       # its page states pets are not allowed.
                       # PTF-PITTSBURGH-IDENTITY-AND-RECAPTURE-006: 51 -> 52.
                       # PTF-PITTSBURGH-IDENTITY-CLOSE-007: 52 -> 53.
-                      "pittsburgh-pa": 53,
+                      # PTF-PITTSBURGH-PROMOTION-AND-APPLICATION-002: 53 -> 61.
+                      # The eight publication-grade rows
+                      # PTF-PITTSBURGH-PARALLEL-REVALIDATION-001 left pending,
+                      # promoted over the unmoved 103-identity census. Same
+                      # half of the assertion, same conclusion -- nothing else
+                      # above moved.
+                      "pittsburgh-pa": 61,
                       # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: 8 -> 24 founder-signed profiles over
                       # the promoted 257-identity census. 24 -> 54 at
                       # PTF-INDIANAPOLIS-56-PROFILE-AUTHORITY-PROMOTION-017 (54) and
