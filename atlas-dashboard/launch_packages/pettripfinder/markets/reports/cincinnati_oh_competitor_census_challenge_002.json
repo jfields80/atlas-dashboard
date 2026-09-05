@@ -1,0 +1,87 @@
+{
+  "schema": "ptf-competitor-census-challenge/1.0",
+  "work_order": "PTF-CINCINNATI-PARALLEL-REVALIDATION-002",
+  "market_id": "cincinnati-oh",
+  "phase": "6 -- competitor directories as DISCOVERY LEAD SOURCES only",
+  "as_of": "2026-09-04",
+  "usd_spent": 0.0,
+  "paid_provider_calls": 0,
+  "authority_mutation": "NONE",
+  "standing_rule": "A competitor directory is an AUDIT lane, not an acquisition lane, and it is never policy authority. No competitor policy text is published, quoted into authority, or used to grade a row. Any candidate found here must go back through first-party verification.",
+
+  "free_static_lane": {
+    "outcome": "EXHAUSTED",
+    "attempts": [
+      {"host": "www.bringfido.com", "status": "403", "note": "refuses a plain client on every lodging path tried"},
+      {"host": "www.petswelcome.com", "status": "403", "note": "robots.txt names a sitemap index; the index itself is 403"},
+      {"host": "www.gopetfriendly.com", "status": "200", "note": "serves one 405 KB client-rendered shell for every path, including /robots.txt and /sitemap_index.xml. A 200 that returns the same shell for a robots file is not a served page."},
+      {"host": "www.tripswithpets.com", "status": "404", "note": "guessed city path does not exist and robots.txt names no sitemap"}
+    ],
+    "conclusion": "the competitor lane is reachable only with an attended browser, which is where this order took it"
+  },
+
+  "attended_lane": {
+    "directory": "BringFido",
+    "why_this_one": "it is the directory the committed doctrine has already measured, against Indianapolis, so its traps are known and testable here",
+    "inert_filter_test": {
+      "why": "the committed doctrine warns that this directory's QUERY-STRING category filter is inert -- ?type=hotels and ?type=rentals return byte-identical results -- and that the real filter is a PATH segment. This order tested the path segment on three values.",
+      "observations": [
+        {"path": "/lodging/city/cincinnati_oh_us/", "headline": "There are 135 pet friendly hotels in Cincinnati", "category_word_used": "hotels"},
+        {"path": "/lodging/hotels/city/cincinnati_oh_us/", "headline": "There are 36 pet friendly hotels in Cincinnati", "category_word_used": "hotels"},
+        {"path": "/lodging/rentals/city/cincinnati_oh_us/", "headline": "There are 99 pet friendly vacation rentals in Cincinnati", "category_word_used": "vacation rentals"}
+      ],
+      "arithmetic": "36 + 99 = 135, exactly",
+      "finding": "The PATH filter is live -- three values, three different cohorts. But the UNFILTERED page calls itself 'hotels' while serving hotels and vacation rentals together. Its 135 is a mixed-category number wearing a hotel label. The directory's real Cincinnati hotel inventory is 36.",
+      "consequence": "Taking 135 as the competitor's hotel census would have manufactured a discovery gap out of 99 vacation rentals. This is the committed inert-filter and headline-count traps in their sharpest form, and the arithmetic proves it rather than asserting it."
+    },
+    "served_cohort_harvest": {
+      "state": "PARTIAL -- 12 of 135 rows rendered",
+      "why_partial": "the listing renders twelve teaser cards and gates the rest behind an interactive date selection; scrolling does not extend it (page height and link count both stay fixed). The full served cohort was NOT harvested and this order does not report one.",
+      "what_is_reported": "the twelve rows that did render, reconciled honestly, and the three headline counts, which are the directory's own claims about its own size"
+    }
+  },
+
+  "category_hygiene": {
+    "rows_sampled": 12,
+    "rows_that_are_not_hotels": 2,
+    "examples": ["Tranquil Garden Carriage House", "5723 Ridge Road"],
+    "note": "both are vacation-rental rows served on a page headed 'pet friendly hotels'. 2 of 12 is consistent with the ~9.5% non-hotel rate the committed doctrine measured elsewhere."
+  },
+
+  "geography_note": "BringFido scopes this listing to the literal city string 'Cincinnati, OH'. Atlas's market is the tri-state metro and includes Florence KY, Erlanger KY, Newport KY, Mason OH, West Chester OH, Hamilton OH, Middletown OH, Lawrenceburg IN and more. The directory cannot see most of this market, so its inventory is not comparable to the census without that caveat stated.",
+
+  "reconciliation": {
+    "rows_observed": 12,
+    "EXACT_EXISTING_ALREADY_PUBLISHED": 7,
+    "EXACT_EXISTING_STILL_UNRESOLVED": 2,
+    "NON_LODGING_OR_RENTAL_CATEGORY_ROW": 2,
+    "IDENTITY_REVIEW_REQUIRED": 1,
+    "TRUE_MISSING_IDENTITY": 0,
+    "rows": [
+      {"lead": "The Summit Hotel", "atlas": "The Summit Hotel", "class": "EXACT_EXISTING_ALREADY_PUBLISHED", "atlas_state": "PUBLISHED_PET_FRIENDLY"},
+      {"lead": "Hampton Inn Cincinnati Eastgate", "atlas": "Hampton Inn & Suites Cincinnati - Eastgate", "class": "EXACT_EXISTING_ALREADY_PUBLISHED", "atlas_state": "PUBLISHED_PET_FRIENDLY"},
+      {"lead": "Red Roof Inn & Suites Cincinnati North - Mason", "atlas": "Red Roof Inn Cincinnati North - Mason", "class": "EXACT_EXISTING_ALREADY_PUBLISHED", "atlas_state": "PUBLISHED_PET_FRIENDLY"},
+      {"lead": "Red Roof Inn Cincinnati East - Beechmont", "atlas": "Red Roof Inn Cincinnati East - Eastgate", "class": "EXACT_EXISTING_ALREADY_PUBLISHED", "atlas_state": "PUBLISHED_PET_FRIENDLY", "note": "the two names disagree on the suburb (Beechmont vs Eastgate). Same brand, same city, so this demotes to a naming question, never to a discovery."},
+      {"lead": "Best Western Clermont", "atlas": "Best Western Clermont", "class": "EXACT_EXISTING_ALREADY_PUBLISHED", "atlas_state": "PUBLISHED_PET_FRIENDLY"},
+      {"lead": "Hampton Inn & Suites Cincinnati-Downtown", "atlas": "Hampton Inn & Suites Cincinnati-Downtown", "class": "EXACT_EXISTING_ALREADY_PUBLISHED", "atlas_state": "PUBLISHED_PET_FRIENDLY"},
+      {"lead": "Hampton Inn & Suites Cincinnati/Uptown-University Area", "atlas": "Hampton Inn & Suites Uptown University Area", "class": "EXACT_EXISTING_ALREADY_PUBLISHED", "atlas_state": "PUBLISHED_PET_FRIENDLY"},
+      {"lead": "The Lytle Park Hotel Autograph Collection", "atlas": "The Lytle Park Hotel, Autograph Collection", "class": "EXACT_EXISTING_STILL_UNRESOLVED", "atlas_state": "AWAITING_POLICY_OBSERVATION"},
+      {"lead": "Residence Inn by Marriott Cincinnati Downtown/the Phelps", "atlas": "Residence Inn Cincinnati Downtown/The Phelps", "class": "EXACT_EXISTING_STILL_UNRESOLVED", "atlas_state": "AWAITING_POLICY_OBSERVATION", "note": "this order's own attended pass read this property's first-party policy and it is in the clean pending inventory. The competitor did not find it for us; the brand did."},
+      {"lead": "Tranquil Garden Carriage House", "atlas": null, "class": "NON_LODGING_OR_RENTAL_CATEGORY_ROW"},
+      {"lead": "5723 Ridge Road", "atlas": null, "class": "NON_LODGING_OR_RENTAL_CATEGORY_ROW", "note": "a bare street address is a rental listing, not a hotel identity"},
+      {"lead": "Motel 6-Cincinnati OH", "atlas": null, "class": "IDENTITY_REVIEW_REQUIRED", "note": "the census carries several Motel 6 / Studio 6 identities in this metro and the lead names no address. Same brand plus same city demotes to review, never to TRUE_MISSING."}
+    ]
+  },
+
+  "what_this_lane_delivered": [
+    "the competitor's own hotel inventory for this city is 36, not the 135 its unfiltered page claims",
+    "Atlas publishes 99 pet-friendly Cincinnati profiles today, which is 2.75x the competitor's entire city hotel directory, and its census carries 257 identities",
+    "0 TRUE_MISSING_IDENTITY in the sampled rows",
+    "the arithmetic proof that this directory mixes vacation rentals into a page labelled hotels"
+  ],
+  "what_this_lane_did_not_deliver": [
+    "the full 135-row or 36-row served cohort; the listing gates it behind an interactive date selection and this order did not force it",
+    "any policy fact whatsoever -- by rule, not by failure"
+  ],
+  "unexplained_gap": "not computable from a 12-row sample, and this order does not estimate one. What is bounded is the ceiling: the competitor's whole Cincinnati hotel directory is 36 rows, so no discovery gap larger than 36 can come out of this source for this city."
+}

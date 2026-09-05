@@ -1,0 +1,315 @@
+{
+  "schema": "ptf-founder-packet/1.1",
+  "work_order": "PTF-CINCINNATI-PARALLEL-REVALIDATION-002",
+  "market_id": "cincinnati-oh",
+  "as_of": "2026-09-05T03:34:57Z",
+  "authority_mutation": "NONE",
+  "usd_spent": 0.0,
+  "no_founder_ruling_is_invented_here": "Every item is a question. Where 001 left a question open, this order says whether its new evidence answers it or only sharpens it, and never answers it on the founder's behalf.",
+  "groups": {
+    "A -- identity / alias / successor / same-campus": [
+      {
+        "id": "A1",
+        "subject": "Comfort Suites Mason near Kings Island and Quality Inn Mason near Kings Island -- two Choice identities sharing postal 45040, and 001 raised both as open identity questions (its A1 and A2)",
+        "evidence": "This order read both first-party Choice pages in an attended session and both refuse pets in the same words: 'No Pets Allowed Only service animals are permitted, free of charge.' The Comfort Suites page declares its own street, 5457 Kings Center Drive, Mason OH 45040; the census row for that identity carries NO address at all. The Quality Inn page declared no street; the census row for it says 5589 Kings Mills Rd. So the evidence that would separate these two rows exists on one page and is missing from the other, and postal 45040 is shared.",
+        "recommendation": "ADMIT THE ADDRESS, THEN THE POLICY. Write 5457 Kings Center Drive onto the Comfort Suites census row from its own page, which settles that identity; then re-read the Quality Inn page for its street before admitting it. Both refusals are already captured with a document hash and can be applied the moment the addresses separate the rows.",
+        "census_effect": "no row added or removed; one census row gains the address it never had",
+        "authority_effect": "two VERIFIED_NO_PETS exclusions become admissible once the identities separate",
+        "routing_effect": "none -- both routes already resolve to the correct brand pages",
+        "reversibility": "fully reversible: an address correction and two exclusions, each removable",
+        "promotion_blocker": "NO -- these two sit outside the clean inventory by construction, so promotion can proceed without them",
+        "carries_document_hash": true,
+        "supersedes": "001 founder packet items A1 and A2, which asked the same question with less evidence"
+      },
+      {
+        "id": "A2",
+        "subject": "The Well House Hotel, Hamilton OH -- routed to hilton.com/en/hotels/lukmaup-the-well-house-hamilton/",
+        "evidence": "The page served an operative Hilton policy record: pets allowed, $50.00 non-refundable fee, 40 lbs maximum. It declared no address of its own in any structured field, so the only thing tying it to the census row at 10 S Monument Ave, Hamilton 45011 is the committed route itself. The property code prefix is LUK, which is Louisville, not CVG.",
+        "recommendation": "CONFIRM THE IDENTITY on the property's own address or phone before admitting the policy. A route is a claim about identity, not a proof of one, and a Louisville code prefix on a Hamilton hotel is exactly the kind of thing worth one look.",
+        "census_effect": "none",
+        "authority_effect": "one pet-friendly publication waits on the ruling",
+        "routing_effect": "none if confirmed; a re-route if not",
+        "reversibility": "fully reversible",
+        "promotion_blocker": "NO"
+      },
+      {
+        "id": "A3",
+        "subject": "DoubleTree by Hilton Lawrenceburg -- the committed route is marked ROUTING_RETIRED, and it works",
+        "evidence": "The committed route table carries cvgladt-doubletree-lawrenceburg with status ROUTING_RETIRED. This order fetched that exact URL in an attended session: HTTP 200, 295,650 bytes, and Hilton's own structured policy field reads 'Service animals only'. The brand still publishes the page. The page declared no address, and the census row for DoubleTree by Hilton Lawrenceburg (51 Walnut Street, Lawrenceburg IN 47025) carries no official_url at all.",
+        "recommendation": "REVIEW THE RETIREMENT. Either the retirement was wrong and the route should be restored to the census row, or the retirement was right for a reason this order cannot see. Confirm on the page's address before restoring anything.",
+        "census_effect": "none",
+        "authority_effect": "a verified-no-pets exclusion becomes available if the route is restored",
+        "routing_effect": "one retired route may return to service",
+        "reversibility": "fully reversible -- retirement is a status, not a deletion",
+        "promotion_blocker": "NO"
+      },
+      {
+        "id": "A4",
+        "subject": "28 OpenStreetMap candidates the census does not explain (carried forward from 001)",
+        "evidence": "001's free recensus read 201 OSM lodging candidates over 38 Overpass requests: 40 EXACT_EXISTING, 23 ALIAS_OF_EXISTING, 110 NAME_ONLY_UNRESOLVED and 28 named-and-addressed review leads. TRUE_MISSING_IDENTITY was declared 0 and stays 0. This order's competitor pass found 0 TRUE_MISSING in its own sample and bounded the whole BringFido Cincinnati hotel directory at 36 rows, which is smaller than the leads already in hand.",
+        "recommendation": "RULE THE 28 ONE AT A TIME, or defer them. They are a coverage-expansion question, not a correctness question, and nothing in the current authority depends on them.",
+        "census_effect": "up to 28 admissions if every lead survives review, which is unlikely",
+        "authority_effect": "none until an identity is admitted",
+        "routing_effect": "none until an identity is admitted",
+        "reversibility": "fully reversible",
+        "promotion_blocker": "NO",
+        "carried_from": "PTF-CINCINNATI-HARDENED-REVALIDATION-001 item A3"
+      },
+      {
+        "id": "A5",
+        "subject": "18 Cincinnati-area brand properties the census does not carry, found in the brands' own published inventories",
+        "evidence": "This order read Marriott's, Hilton's, Best Western's and Sonesta's official sitemaps in full: 28,779 published US properties over 564 free first-party requests, $0. Two tests had to pass before a row counted as a lead -- the slug had to name a WHOLE market city, and the brand's own property code had to carry a market prefix this market already owns (Marriott cvg/mwd, Hilton cvg/lku/luk/mwo/oxf/sgo, read back off the routes this same run matched, never invented). 5 come back TRUE_MISSING_BRAND_IDENTITY: Fairfield Inn & Suites Cincinnati Oakley (cvgfn), Hampton Suites Williamstown Ark Encounter (cvgarhx), Home2 Suites Lawrenceburg/Greendale (cvggrht), Spark Walton (cvguspe) and The Hotel Rambler Montgomery (cvgqkup). 13 more are IDENTITY_REVIEW_REQUIRED because a census identity is a close name match. The first matcher this order wrote reported 2,708 missing hotels; every sample was a Marriott in Atlanta or Austin matching on the word 'fairfield', which is a Marriott BRAND and not a city. It was tightened before any number was reported.",
+        "recommendation": "RULE THEM ONE AT A TIME as census admissions in an identity order. Neither the OSM recensus nor the competitor directory found these five; the brand did.",
+        "census_effect": "up to 18 admissions if every lead survives review",
+        "authority_effect": "none until an identity is admitted -- a verified new hotel is a census admission, never a clean pending row",
+        "routing_effect": "each admission would arrive with a first-party route already in hand",
+        "reversibility": "fully reversible",
+        "promotion_blocker": "NO",
+        "brands_whose_inventory_is_closed": "IHG, Choice, Hyatt, Red Roof and Motel 6 refuse their own published sitemap to a plain client, so this lane is SILENT about them rather than clean. Wyndham's opened on a later probe having refused an earlier one: the wall is not stable, and a refusal is a measurement, never a permanent fact."
+      }
+    ],
+    "B -- geography": [
+      {
+        "id": "B1",
+        "subject": "none",
+        "evidence": "No corridor moved, no postal code was widened and no boundary was reopened. The committed Cincinnati/Dayton boundary review still owns the Middletown, Monroe, Lebanon and northern Butler/Warren question, and this order deliberately excluded 'Dayton' from its own metro token vocabulary so no lead could be matched into the neighbouring market.",
+        "recommendation": "nothing to decide",
+        "census_effect": "none",
+        "authority_effect": "none",
+        "routing_effect": "none",
+        "reversibility": "n/a",
+        "promotion_blocker": "NO"
+      }
+    ],
+    "C -- closure / conversion / non-lodging": [
+      {
+        "id": "C1",
+        "subject": "Two committed Cincinnati routes now resolve to sites that are not hotels at all",
+        "evidence": "REST (333 e 8th st., Cincinnati 45202) is routed to iresteasy.com, which now serves unrelated Japanese-language content. The Glendalia (11 Village Square, Glendale 45246) is routed to theglendalia.com, which now serves an unrelated online-gambling site. Both returned HTTP 200 with a document hash recorded. 001's static pass saw these as TRANSPORT_FAILED and IDENTITY_NOT_CONFIRMED_STATIC; the attended pass explains why -- the domains lapsed and were repurposed.",
+        "recommendation": "WITHDRAW BOTH ROUTES and send both identities back to routing. Do NOT infer closure of the business: a lapsed domain says the URL is dead, never that the hotel is. Both rows are already unresolved, so nothing wrong is live.",
+        "census_effect": "none -- neither row is retired, and a retirement would MOVE the row, never delete it",
+        "authority_effect": "none -- both are unresolved today",
+        "routing_effect": "two routes withdrawn; two identities return to AWAITING_OFFICIAL_URL",
+        "reversibility": "fully reversible",
+        "promotion_blocker": "NO"
+      },
+      {
+        "id": "C2",
+        "subject": "SureStay Hotel by Best Western Florence -- the property code itself is dead",
+        "evidence": "Best Western publishes 3,882 US properties in its own sitemap and property code 55078 is not among them. The committed route therefore cannot resolve to a property page and does not.",
+        "recommendation": "DO NOT INFER CLOSURE. A retired property code means the brand stopped publishing that code, which can mean a rebrand, a franchise exit or a closure, and the inventory does not say which. Re-route from the brand's current Florence KY inventory and let the page say what happened.",
+        "census_effect": "none -- no census row moves on a dead code alone",
+        "authority_effect": "none -- the row is unresolved today",
+        "routing_effect": "one route to replace",
+        "reversibility": "fully reversible",
+        "promotion_blocker": "NO"
+      }
+    ],
+    "D -- policy ambiguity / reader exception": [
+      {
+        "id": "D1",
+        "subject": "Holiday Inn Express Fairfield states three different pet charges on one page",
+        "evidence": "The amenity chip says 'Pet-friendly (50 USD / stay)'. The policy prose on the same document says '50 dollar pet fee Per pet' and, one clause later, 'Pet fee per night: 50 USD'. Per stay, per pet and per night are three different charges and the page asserts all three. Everything else is unambiguous: no weight limit, 2 pets, dogs and cats only.",
+        "recommendation": "PUBLISH THE POLICY WITHOUT A FEE BASIS, or hold the row. Picking one of the three would publish a price the source does not support. This row is held out of the clean inventory.",
+        "census_effect": "none",
+        "authority_effect": "one pet-friendly publication waits on the ruling",
+        "routing_effect": "none",
+        "reversibility": "fully reversible",
+        "promotion_blocker": "NO",
+        "carries_document_hash": true
+      },
+      {
+        "id": "D2",
+        "subject": "Homewood Suites Cincinnati Midtown leaves nights 2 to 4 unpriced (carried from 001, re-confirmed here)",
+        "evidence": "Hilton's own structured field reads '$75.00(1-nights), $125.00(5+nights) 2 pets Max: dog/cat only'. Nights 2 through 4 are unstated. 001 raised this and noted the siblings cannot supply the missing tier because they disagree with each other: four use 1-4/5+ and Sharonville uses 1-3/4-7. This order re-read the page and the gap is still there, in the same words.",
+        "recommendation": "PUBLISH THE TWO STATED TIERS AND WITHHOLD THE MIDDLE, or hold the row. Borrowing a sibling's tier structure would invent a price.",
+        "census_effect": "none",
+        "authority_effect": "one pet-friendly publication is affected",
+        "routing_effect": "none",
+        "reversibility": "fully reversible",
+        "promotion_blocker": "NO",
+        "carried_from": "PTF-CINCINNATI-HARDENED-REVALIDATION-001 open question homewood_tier_gap"
+      },
+      {
+        "id": "D3",
+        "subject": "Three Hilton rows carry facts the schema has nowhere to put",
+        "evidence": "Tru by Hilton Monroe: '$75 (1-4n) $150(5+n) 2pets Max, dog/cat only. Pet fee is TAXABLE.' Tru by Hilton Sharonville: 'Non-Refundable Fee: $75/1-3nts, $125/4-7nts. 2 Pets Max, *No Cats. Fee Exempt for ADA Service Animals.' Every publication-grade Hilton row also carries the template label 'Pets allowed Yes Deposit' alongside a structured field that says the charge is NOT refundable -- a deposit and a non-refundable fee are two different things and the page shows both.",
+        "recommendation": "RULE ON EACH. Taxability, a species exclusion that contradicts the brand template, and the deposit-versus-fee label are three separate schema questions. The rows themselves are clean and are IN the pending inventory; what needs a ruling is how much of each sentence survives into a published fact.",
+        "census_effect": "none",
+        "authority_effect": "affects how three pet-friendly rows render, not whether they publish",
+        "routing_effect": "none",
+        "reversibility": "fully reversible",
+        "promotion_blocker": "NO",
+        "carried_from": "PTF-CINCINNATI-HARDENED-REVALIDATION-001 open questions fee_or_deposit, sharonville_species, monroe_taxable"
+      },
+      {
+        "id": "D4",
+        "subject": "Hyatt Regency Cincinnati says nothing about pets",
+        "evidence": "The hotel-info page served and bound to the identity on its own address (151 West Fifth Street, 45202) in both the served markup and the attended render, and carries no pet sentence at all.",
+        "recommendation": "LEAVE IT UNRESOLVED. Silence is an absence of observation and never a refusal. No ruling is needed and none should be made.",
+        "census_effect": "none",
+        "authority_effect": "none",
+        "routing_effect": "none",
+        "reversibility": "n/a",
+        "promotion_blocker": "NO"
+      }
+    ],
+    "E -- evidence conflict": [
+      {
+        "id": "E1",
+        "subject": "Studio 6 Extended Stay Fairfield names two different streets for itself and offers only an amenity chip for its pet policy",
+        "evidence": "The page header reads 'Seward Road, Fairfield', which agrees with the census row at 9651 Seward Rd. Its own About prose reads 'Located at 3010 Lakeview Dr'. Its only pet language is an amenity card ('Pet-Friendly Accommodation / Pets welcome throughout your stay') and a site-wide footer link ('Pets Stay Free Details'). Neither is this property stating a policy.",
+        "recommendation": "HOLD. The identity binds on the header, which agrees with Atlas, but a page that contradicts itself on its own address is not a page to publish a fee from -- and there is no fee here to publish, only a chip.",
+        "census_effect": "none",
+        "authority_effect": "none -- the row stays unresolved",
+        "routing_effect": "none",
+        "reversibility": "fully reversible",
+        "promotion_blocker": "NO"
+      },
+      {
+        "id": "E2",
+        "subject": "SureStay Hotel by Best Western Florence -- the property URL is not a property page",
+        "evidence": "The committed route bestwestern.com/en_US/book/hotels-in-florence/surestay-by-best-western-florence/propertyCode.55078.html redirects to a Best Western hotel-search results page. The only pet language there is a 'Pet Friendly' search facet on a result card. 001 classified this UNEXPECTED_PAGE from a static client; the attended session reproduces it exactly.",
+        "recommendation": "REPAIR THE ROUTE. This order then read Best Western's own published inventory in full -- 3,882 US properties -- and property code 55078 is NOT in it. That is why the URL falls through to a search page: the code is DEAD, not merely mis-routed. Re-route this identity from the brand's current Florence KY inventory. Do not read policy off a search page.",
+        "census_effect": "none",
+        "authority_effect": "none -- the row stays unresolved",
+        "routing_effect": "one route to replace, not repair",
+        "reversibility": "fully reversible",
+        "promotion_blocker": "NO",
+        "mechanically_answered_by": "the Phase 7 brand inventory audit, classification DEAD_PROPERTY_CODE"
+      },
+      {
+        "id": "E3",
+        "subject": "Three free route repairs the brands' own inventories offer, and two retired Best Western routes the brand still publishes",
+        "evidence": "ROUTE_REPAIR_AVAILABLE: Home2 Suites by Hilton Springdale Cincinnati -> hilton.com/en/hotels/cvgspht-home2-suites-springdale-cincinnati/ ; SpringHill Suites by Marriott Cincinnati Mason -> marriott.com/en-us/hotels/cvgms-springhill-suites-... ; Americas Best Value Inn & Suites Williamstown -> a Sonesta route. The first two are census rows sitting in AWAITING_IDENTITY_RESOLUTION with no official URL at all, and the brand publishes one for each. REBRAND_ROUTE: the committed routes for BEST WESTERN PLUS Hannaford Inn & Suites and Best Western Premier Mariemont Inn are retired, and Best Western still publishes both pages.",
+        "recommendation": "BIND THE THREE REPAIRS on the page's own address, then re-read each for policy; review the two retirements the same way as A3. Every one of these came free from an inventory the brand publishes, not from a purchase.",
+        "census_effect": "none",
+        "authority_effect": "up to five rows become routable and then readable",
+        "routing_effect": "three routes gained, two retirements reviewed",
+        "reversibility": "fully reversible",
+        "promotion_blocker": "NO"
+      },
+      {
+        "id": "E4",
+        "subject": "The Cincinnati routing shard does not describe most of the market's live routes",
+        "evidence": "Of the 99 live pet-friendly identities whose committed URL this order matched against the brand's own inventory as EXACT_ACTIVE_ROUTE: 47 have NO row at all in markets/authority/cincinnati-oh/identity_routing.json, 43 have a row that carries an EMPTY property_code, and only 9 agree with the brand's published code. The codes are not missing from the world -- they are sitting in the URLs the shard already stores (cvgbc, cvgci, cvgpl and so on) and in the brand inventories this order read.",
+        "recommendation": "BACKFILL THE SHARD from the brand inventory in the serialized order. This is bookkeeping hygiene, not a correctness defect: no live route is wrong, and the audit proved that separately. But a routing table that cannot name a property code cannot detect a dead one.",
+        "census_effect": "none",
+        "authority_effect": "none",
+        "routing_effect": "the shard gains rows and codes it should already have",
+        "reversibility": "fully reversible",
+        "promotion_blocker": "NO"
+      }
+    ],
+    "F -- cross-market collision": [
+      {
+        "id": "F1",
+        "subject": "Two Cincinnati properties carry Louisville Hilton property-code prefixes",
+        "evidence": "Tru by Hilton Sharonville routes to lkushru-tru-sharonville-cincinnati and The Well House Hamilton routes to lukmaup-the-well-house-hamilton. Both prefixes are LKU/LKUS (Louisville), not CVG. Sharonville's page declared 11155 Dowlin Drive, Sharonville OH 45241, which matches the census exactly, so that one is a naming curiosity and not a collision. The Well House page declared no address at all, which is why it is also item A2.",
+        "recommendation": "NO ACTION on Sharonville: a brand's internal code prefix is not a market boundary and the address settles it. Resolve The Well House under A2.",
+        "census_effect": "none",
+        "authority_effect": "none",
+        "routing_effect": "none",
+        "reversibility": "n/a",
+        "promotion_blocker": "NO"
+      }
+    ]
+  },
+  "item_counts": {
+    "A -- identity / alias / successor / same-campus": 5,
+    "B -- geography": 1,
+    "C -- closure / conversion / non-lodging": 2,
+    "D -- policy ambiguity / reader exception": 4,
+    "E -- evidence conflict": 4,
+    "F -- cross-market collision": 1
+  },
+  "attended_verdicts": {
+    "CAPTURE_FAILED": 3,
+    "CLEAN_PET_FRIENDLY": 19,
+    "CLEAN_VERIFIED_NO_PETS": 17,
+    "IDENTITY_REVIEW_REQUIRED": 4,
+    "POLICY_NOT_FOUND": 1,
+    "SOURCE_SILENT": 2
+  },
+  "items_carried_from_001": [
+    "A1",
+    "A4",
+    "D2",
+    "D3"
+  ],
+  "001_group_counts": {
+    "A -- identity / alias / successor / same-campus": 3,
+    "B -- geography": 1,
+    "C -- closure / conversion / non-lodging": 1,
+    "D -- policy ambiguity / reader exception": 2,
+    "E -- evidence conflict": 1
+  },
+  "recensus_true_missing": 0,
+  "competitor_true_missing": 0,
+  "phase_16_paid_readiness": {
+    "ledgers_read": [
+      "ptf_paid_attempt_ledger_001.json",
+      "ptf_discovery_attempt_ledger_001.json"
+    ],
+    "ledgers_mutated": "NONE -- this order is parallel-safe and may not write a shared ledger",
+    "cincinnati_paid_history": {
+      "attempts_recorded": 39,
+      "lanes": {
+        "brightdata_browser": 39
+      },
+      "usd_spent_all_time": 6.24,
+      "firecrawl_credits_in_ledger": 0,
+      "outcomes": {
+        "ACCESS_DENIED": 7,
+        "NAVIGATION_FAILED": 3,
+        "POLICY_NOT_FOUND": 1,
+        "VALID": 28
+      },
+      "terminal_attempts": 29,
+      "reusable_evidence": 29
+    },
+    "cincinnati_paid_discovery_history": {
+      "attempts_recorded": 0,
+      "note": "Cincinnati has never bought a places lookup. There is no double-buy risk in that lane and no cached answer to reuse either."
+    },
+    "ledger_gap_to_flag": "001's Firecrawl run (7 attempts, 5 plan credits, $0 USD) is recorded in that order's own market report but does not appear as Cincinnati rows in the shared paid-attempt ledger on this base. A later serialized order should reconcile it. This order must not write that ledger.",
+    "firecrawl": {
+      "eligible_rows_this_order": 0,
+      "why": "the attended lane answered every routed row the ladder would have escalated, at $0 and 0 credits. Buying a credit for a page a browser already read is a double buy.",
+      "standing_cost_shape": "1 credit on a successful scrape, 0 when the origin refuses every engine. Cap on ATTEMPTS, never on a plan's arithmetic and never on the account balance."
+    },
+    "brightdata": {
+      "eligible_rows_this_order": 0,
+      "why": "same reason. Cincinnati has already spent $6.24 across 39 Bright Data browser attempts; 29 produced reusable terminal evidence. Nothing in the remaining cohort needs that lane."
+    },
+    "places_paid_discovery": {
+      "qualified_rows": 16,
+      "what_they_are": "the 16 identities still in AWAITING_OFFICIAL_URL, plus the two whose routes this order found pointing at repurposed domains",
+      "prior_attempts": 0,
+      "recommendation": "NOT NOW. Free routing has not been exhausted for these rows: the official brand inventories this order read are the cheaper instrument and were only partially applied. Buy discovery after the brand-inventory route repairs, not before."
+    },
+    "usd_authorized_this_order": 0.0,
+    "usd_spent_this_order": 0.0
+  },
+  "phase_18_promotion_readiness": {
+    "PROMOTION_READY": "YES",
+    "what_that_means": "the clean inventory this order assembled can be applied by a later serialized application order without any founder ruling first. It is NOT a deployment authorization and this order deployed nothing.",
+    "required_before_promotion": [
+      "integrate the then-current deployed canonical lineage into this branch FIRST. This branch is based on d06e2eb and predates the Indianapolis deployment lineage. Market-local evidence work is safe on it; promotion is not."
+    ],
+    "why_nothing_else_is_required": [
+      "no wrong live authority: every clean row sits in an unresolved partition state, so there is nothing live for it to contradict, and 001 already checked 118 live records against every owned verdict and found 0 contradictions",
+      "every promoted row is identity-bound on something the PAGE declared about itself, not on the route that led there",
+      "59 clean rows carry 59 distinct document hashes",
+      "no duplicate premises: each identity appears at most once across both source orders",
+      "no census admission is inside the clean inventory; every recensus and competitor lead is a question in group A, not a row",
+      "founder holds sit OUTSIDE the clean inventory by construction"
+    ],
+    "optional_coverage_expansion": [
+      "the 28 OSM review leads (A4)",
+      "the 16 AWAITING_OFFICIAL_URL identities, routed against the official brand inventories rather than bought",
+      "the two route repairs in C1 and the one in E2"
+    ],
+    "promotion_blockers_open": []
+  }
+}

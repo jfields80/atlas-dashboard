@@ -1,0 +1,97 @@
+{
+  "schema": "ptf-wrong-live-audit/1.0",
+  "work_order": "PTF-CINCINNATI-PARALLEL-REVALIDATION-002",
+  "market_id": "cincinnati-oh",
+  "phase": "4 -- wrong-live / incomplete-live audit",
+  "as_of": "2026-09-04",
+  "lane": "attended browser; same-origin fetch inside each brand's own origin",
+  "usd_spent": 0.0,
+  "paid_provider_calls": 0,
+  "plan_credits_spent": 0,
+  "authority_mutation": "NONE",
+
+  "what_001_did": "PTF-CINCINNATI-HARDENED-REVALIDATION-001 replayed every live Cincinnati record against every verdict the lineage OWNED: 118 corroborated, 0 contradicted. That is a replay of stored evidence, and it can only find a contradiction that was already sitting in the corpus.",
+  "what_this_order_adds": "a FRESH first-party read of live pet-friendly rows, today, on the three brands the attended lane can reach. A stored verdict cannot tell you a hotel changed its mind last month; the hotel's own page can.",
+
+  "cohort": {
+    "live_published_pet_friendly_total": 99,
+    "reachable_by_the_attended_lane_this_order": 57,
+    "read_this_order": 57,
+    "by_brand": {"HILTON": 39, "IHG": 10, "CHOICE": 8},
+    "not_read": {
+      "count": 42,
+      "hosts": "wyndhamhotels.com 9, redroof.com 7, druryhotels.com 4, extendedstayamerica.com 4, bestwestern.com 3, motel6.com 3, sonesta.com 2, and 10 independent domains",
+      "why": "out of scope for this order's attended budget, not out of reach. They stay covered by 001's owned-evidence replay and are named here so the gap is visible rather than implied."
+    },
+    "marriott_note": "Cincinnati has 42 committed Marriott routes and NONE of them is a live PUBLISHED_PET_FRIENDLY row. That is not an oversight: this order's attended pass read 21 unresolved Marriott properties first-party and 13 of them refuse pets outright. Marriott is genuinely a low-acceptance brand in this metro."
+  },
+
+  "method": [
+    "enter the brand's own origin in an attended session, then read each property by same-origin fetch",
+    "take the verdict from the brand's own structured policy field where it has one (Hilton petsInfo.petsAllowed, Choice 'Pets Allowed:' label) and from the property's own pet-policy prose otherwise (IHG's per-property FAQ answer)",
+    "never from an amenity chip, a search facet, or a service-animal sentence"
+  ],
+
+  "classification_counts": {
+    "CURRENT_AUTHORITY_CORRECT": 57,
+    "SOURCE_CHANGED": 0,
+    "WRONG_LIVE_PF": 0,
+    "WRONG_LIVE_NO_PETS": 0,
+    "MATERIAL_POLICY_OMISSION": 0,
+    "READER_FALSE_NEGATIVE": 0,
+    "EVIDENCE_STALE": 0,
+    "IDENTITY_MISMATCH": 0
+  },
+
+  "per_brand_result": {
+    "HILTON": "39 of 39 return petsInfo.petsAllowed = true. Every live pet-friendly Hilton row in this market is still pet-friendly according to Hilton.",
+    "CHOICE": "8 of 8 return the label 'Pets Allowed: Yes'.",
+    "IHG": "10 of 10 return a per-property FAQ answer beginning 'Pets are welcome at <this property>'."
+  },
+
+  "provenance": {
+    "per_row_document_hashes_retained": "IHG 10 of 10, plus 12 of the 39 Hilton rows",
+    "why_not_all": "a corroboration publishes nothing. The rows that WILL be published carry a document hash each, in cincinnati_oh_attended_pass_002.json; these 57 are a check on authority that already exists, and the deliverable is the verdict. This is stated rather than papered over.",
+    "ihg_hashes": [
+      {"code": "cvgav", "sha256": "sha256:278aec80fc20f772abf38dabc71c444d8350978b10e918ff25e33a07392bce51", "bytes": 225043},
+      {"code": "cvgsn", "sha256": "sha256:90fd2e5c9640a519952cd18eec579d5a082756a3937b006a4ce0dd7c926e497a", "bytes": 303333},
+      {"code": "cvger", "sha256": "sha256:42c3e83876b5666aa1cc9d48c4c9c16582ea49f9247f23dc0f66d5877ab07460", "bytes": 274898},
+      {"code": "cvgap", "sha256": "sha256:473efd496bfd003eef95a3a13a5f7a13b52558d0f168707f521f29c15976fe6d", "bytes": 280862},
+      {"code": "cvgrf", "sha256": "sha256:01a309990a8b20e59b75910d6a89fff1ce0ef2c173d8186b4ec6b4d4f88bc009", "bytes": 299088},
+      {"code": "cvgrr", "sha256": "sha256:33a3940345ff1c5f064c7d6c6ce841b4f7a7e80ee74bafd67a4a4fe6cb2b90aa", "bytes": 268478},
+      {"code": "cvgma", "sha256": "sha256:589119a77f53ab70d69cd6d40990d56ba67e14034bb9602a7d2c681f9e9e65bc", "bytes": 282671},
+      {"code": "cvgnw", "sha256": "sha256:f4464e8fa30490aacdded826c5ae9f606af7fe83024b92733850ebdf23d70a3a", "bytes": 193093},
+      {"code": "cvgfo", "sha256": "sha256:2dcd7cf142de9fedaa6cbd22a304e86473d0891bbf3430d89c14beb417ad633a", "bytes": 204367},
+      {"code": "cvgml", "sha256": "sha256:10ba7a03fccecdfd67a6b7ed3c5b9cd09aa99dc415c4f3e9b3ed28cd0d2a3d3a", "bytes": 198072}
+    ],
+    "hilton_hashes_sample": [
+      {"code": "cvghbdt", "sha256": "sha256:476c6f2f1c5c72c1faa6c9fdd0d73af963849e4d300c5b51cef9920eabe388fc", "bytes": 286255},
+      {"code": "cvgkrdt", "sha256": "sha256:deb54f532f7026629ed16000325fd02ff026d7accd3009917f08e08852f21135", "bytes": 281411},
+      {"code": "cvgcves", "sha256": "sha256:07796527cc891f7e20f730204af0e02724b9ac4f8403caeabc4659d572f76884", "bytes": 306879},
+      {"code": "cvgbaes", "sha256": "sha256:18bbd472825d46987f4e0d86b6afb8dbf629e02e2c8ecc2f4a039fddff1adb23", "bytes": 290127},
+      {"code": "cvggcgu", "sha256": "sha256:a78d8a8f539c29df15ccb7c65b585d03ea49afdfee9d3633f1f03b357f19bc5b", "bytes": 261378},
+      {"code": "cvglthx", "sha256": "sha256:e52f81c3b767b9dc4cbe17118c31a4bccb866cb14725f4a735650720647cee41", "bytes": 261797},
+      {"code": "cvgbrhx", "sha256": "sha256:9f0b0b14b5205cb318044013efb0c11db8be647af28aa8bcf01d9870044ea5ee", "bytes": 272014},
+      {"code": "cvgvihx", "sha256": "sha256:b327878f1fb69963f39008b470127d7b24498160d5684d5c07e85d55b286d4b0", "bytes": 296089},
+      {"code": "cvgeghx", "sha256": "sha256:4091726147c05f05f86ba7da70e6d241212a327373eaaef776767854cdac3ed8", "bytes": 271109},
+      {"code": "cvgckhx", "sha256": "sha256:1dd79f592047bd7479002e5e11b7ba273483b31c32c79dab199f2b43f70e43a9", "bytes": 251259},
+      {"code": "cvghshx", "sha256": "sha256:de37617732483aff1baa85309577114a4954c99c55bcb3776f848049645b12ae", "bytes": 291865}
+    ]
+  },
+
+  "route_health_found_while_auditing": {
+    "note": "these came out of the UNRESOLVED cohort, not the live one, so no live route is affected",
+    "dead_routes": [
+      {"identity": "REST", "url": "https://www.iresteasy.com/", "state": "the domain now serves unrelated Japanese-language content"},
+      {"identity": "The Glendalia", "url": "https://www.theglendalia.com/", "state": "the domain now serves an unrelated online-gambling site"}
+    ],
+    "redirecting_route": [
+      {"identity": "SureStay Hotel by Best Western Florence", "url": "bestwestern.com .../propertyCode.55078.html", "state": "redirects to a brand hotel-search page"}
+    ],
+    "retired_route_that_still_serves": [
+      {"identity": "DoubleTree by Hilton Lawrenceburg", "url": "https://www.hilton.com/en/hotels/cvgladt-doubletree-lawrenceburg/", "state": "committed status is ROUTING_RETIRED; the brand still publishes the page and it returns HTTP 200 with a policy"}
+    ]
+  },
+
+  "verdict": "0 wrong live pet-friendly rows and 0 wrong live no-pets rows across the 57 live records this order re-read first-party today. Cincinnati's live authority is not wrong where this order could check it, and this order says exactly where it could not check."
+}
