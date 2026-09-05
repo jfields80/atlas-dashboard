@@ -1,0 +1,461 @@
+{
+ "schema": "ptf-founder-packet/1.1",
+ "work_order": "PTF-CINCINNATI-HARDENED-REVALIDATION-001",
+ "market_id": "cincinnati-oh",
+ "authority_mutation": "NONE",
+ "usd_spent": 0.0,
+ "groups": {
+  "A -- identity / alias / successor / same-campus": [
+   {
+    "id": "A1",
+    "current_identity": "comfort suites mason near kings island (partition: AWAITING_IDENTITY_RESOLUTION)",
+    "evidence": "This order's Firecrawl capture confirmed the page identity on name, postal 45040 and the canonical path oh470, and read a property-specific refusal ('Pets Allowed: No. Only service animals are permitted, free of charge'), graded PUBLICATION_GRADE_CONFIRMED with a distinct document hash. The census, not the page, is what is unsettled.",
+    "proposed_action": "Rule the identity resolved on the first-party page's own signals, then admit the no-pets row in a later application order.",
+    "recommendation": "RESOLVE THE IDENTITY, then admit. The evidence is already bought and bound; what is missing is a ruling, not a fetch.",
+    "census_effect": "none -- the row already exists; only its identity_state moves",
+    "authority_effect": "+1 verified_no_pets when applied (60 -> 61 in the shadow)",
+    "routing_effect": "none; the route already resolves to this property",
+    "reversibility": "fully reversible: the ruling is a state change on one census row and the evidence is preserved either way",
+    "blocks_promotion": "NO",
+    "rows": [
+     {
+      "identity_key": "comfort suites mason near kings island",
+      "class": "IDENTITY_AMBIGUITY",
+      "why": "partition state is AWAITING_IDENTITY_RESOLUTION; the Firecrawl capture confirmed the page identity and is evidence for the identity ruling, but the market has not made that ruling",
+      "document_sha256": "6c5eb6d771c9cedec8684e47c8a7bfdb9134fbeb9768b0aa62cea36ac6535e8f",
+      "verdict_withheld": "VERIFIED_NO_PETS"
+     }
+    ]
+   },
+   {
+    "id": "A2",
+    "current_identity": "quality inn and suites cvg airport; quality inn mason near kings island",
+    "evidence": "Firecrawl reached both property pages and both were declined IDENTITY_MISMATCH on STREET ONLY. Name, postal code and canonical property path all agreed. The disagreement is our census address being incomplete or abbreviated: the page says '1805 Airport Exchange Boulevard' where the census says '1805 Airport Exchange', and '5589 Kings Mills Road, Bldg A' where the census says '5589 Kings Mills Rd'.",
+    "proposed_action": "Complete the two census addresses from the first-party pages, then re-run these two rows through the same lane.",
+    "recommendation": "REPAIR THE CENSUS ADDRESSES. Do NOT relax the street comparison: the gate behaved correctly, and a reading rule widened during the review it feeds is how a wrong building gets published.",
+    "census_effect": "none -- two address fields are completed, no identity moves",
+    "authority_effect": "none until the rows are re-read and applied",
+    "routing_effect": "none; both routes already reach the right page",
+    "reversibility": "fully reversible; the prior address strings are in git",
+    "blocks_promotion": "NO",
+    "rows": [
+     {
+      "identity_key": "quality inn and suites cvg airport",
+      "expected_street": "1805 Airport Exchange",
+      "street_on_page": "1805 Airport Exchange Boulevar",
+      "postal_agrees": true,
+      "document_sha256": ""
+     },
+     {
+      "identity_key": "quality inn mason near kings island",
+      "expected_street": "5589 Kings Mills Rd",
+      "street_on_page": "5589 Kings Mills Road, Bldg A",
+      "postal_agrees": true,
+      "document_sha256": ""
+     }
+    ]
+   },
+   {
+    "id": "A3",
+    "current_identity": "28 OpenStreetMap candidates the census does not explain",
+    "evidence": "A free Overpass recensus (38 requests, no rate limits, $0) returned 201 lodging candidates. 63 are explained by the census exactly or by a distinctive-token alias, 110 are bare chain instances that no coordinate can promote to an identity, and these 28 are named, addressed, and match no census identity on any distinctive token.",
+    "proposed_action": "Review as census LEADS. Do not admit any of them on OSM evidence alone.",
+    "recommendation": "REVIEW LATER, as optional coverage expansion. This order declares TRUE_MISSING_IDENTITY = 0 because OSM cannot establish one: a name and a coordinate is a lead.",
+    "census_effect": "0 today; unknown, and bounded above by 28, after review",
+    "authority_effect": "none",
+    "routing_effect": "none",
+    "reversibility": "n/a -- nothing is applied",
+    "blocks_promotion": "NO",
+    "rows": [
+     {
+      "name": "Quality Inn & Suites Mason Hwy 42",
+      "address": "4110 State Road 42",
+      "postal_code": "45040",
+      "cell_id": "cincinnati-oh__mason-deerfield",
+      "why": "named and addressed, and no census identity shares a distinctive token -- a genuine review lead"
+     },
+     {
+      "name": "Staybridge Suite",
+      "address": "8955 Lakota Drive West",
+      "postal_code": "45069",
+      "cell_id": "cincinnati-oh__west-chester-liberty-township",
+      "why": "named and addressed, and no census identity shares a distinctive token -- a genuine review lead"
+     },
+     {
+      "name": "Gateway Bed and Breakfast",
+      "address": "326 East 6th Street",
+      "postal_code": "41071",
+      "cell_id": "cincinnati-oh__downtown-cincinnati",
+      "why": "named and addressed, and no census identity shares a distinctive token -- a genuine review lead"
+     },
+     {
+      "name": "Capri Motel",
+      "address": "3256 Dixie Highway",
+      "postal_code": "45014",
+      "cell_id": "cincinnati-oh__fairfield-hamilton",
+      "why": "named and addressed, and no census identity shares a distinctive token -- a genuine review lead"
+     },
+     {
+      "name": "Residence Inn by Marriott Cincinnati Downtown/The Phelps",
+      "address": "506 East 4th Street",
+      "postal_code": "45202",
+      "cell_id": "cincinnati-oh__downtown-cincinnati",
+      "why": "distinctive token(s) ['marriott'] fit 2 census rows; an alias that fits more than one identity names none of them"
+     },
+     {
+      "name": "Commonwealth Hilton",
+      "address": "7373 Turfway Road",
+      "postal_code": "",
+      "cell_id": "cincinnati-oh__erlanger-florence-airport",
+      "why": "distinctive token(s) ['hilton'] fit 20 census rows; an alias that fits more than one identity names none of them"
+     },
+     {
+      "name": "Microtel Inn & Suites by Wyndham Florence/Cincinnati Airport",
+      "address": "7490 Woodspoint Drive",
+      "postal_code": "41042",
+      "cell_id": "cincinnati-oh__erlanger-florence-airport",
+      "why": "named and addressed, and no census identity shares a distinctive token -- a genuine review lead"
+     },
+     {
+      "name": "Days Inn by Wyndham Florence Cincinnati Area",
+      "address": "50 Cavalier Boulevard",
+      "postal_code": "41042",
+      "cell_id": "cincinnati-oh__erlanger-florence-airport",
+      "why": "named and addressed, and no census identity shares a distinctive token -- a genuine review lead"
+     },
+     {
+      "name": "Marriott Cincinnati North",
+      "address": "6189 Mulhauser Road",
+      "postal_code": "45069",
+      "cell_id": "cincinnati-oh__west-chester-liberty-township",
+      "why": "distinctive token(s) ['marriott'] fit 2 census rows; an alias that fits more than one identity names none of them"
+     },
+     {
+      "name": "Extended Stay InTown Suites Cincinnati",
+      "address": "",
+      "postal_code": "",
+      "cell_id": "cincinnati-oh__springdale-forest-park",
+      "why": "distinctive token(s) ['extended', 'stay'] fit 5 census rows; an alias that fits more than one identity names none of them"
+     },
+     {
+      "name": "Super 8 by Wyndham Florence",
+      "address": "7937 Dream Street",
+      "postal_code": "41042",
+      "cell_id": "cincinnati-oh__erlanger-florence-airport",
+      "why": "named and addressed, and no census identity shares a distinctive token -- a genuine review lead"
+     },
+     {
+      "name": "Hampton",
+      "address": "275 Columbia Street",
+      "postal_code": "41071",
+      "cell_id": "cincinnati-oh__downtown-cincinnati",
+      "why": "named and addressed, and no census identity shares a distinctive token -- a genuine review lead"
+     },
+     {
+      "name": "Aloft",
+      "address": "",
+      "postal_code": "",
+      "cell_id": "cincinnati-oh__west-chester-liberty-township",
+      "why": "distinctive token(s) ['aloft'] fit 2 census rows; an alias that fits more than one identity names none of them"
+     },
+     {
+      "name": "Stay Lodge Florence",
+      "address": "8035 Action Boulevard",
+      "postal_code": "41042",
+      "cell_id": "cincinnati-oh__erlanger-florence-airport",
+      "why": "distinctive token(s) ['stay'] fit 2 census rows; an alias that fits more than one identity names none of them"
+     },
+     {
+      "name": "La Quinta Inn & Suites Cincinnati Airpt Florence",
+      "address": "350 Meijer Drive",
+      "postal_code": "41042",
+      "cell_id": "cincinnati-oh__erlanger-florence-airport",
+      "why": "named and addressed, and no census identity shares a distinctive token -- a genuine review lead"
+     },
+     {
+      "name": "Country Vacation Homes \"Parlor House\"",
+      "address": "2901 2nd Street",
+      "postal_code": "41080",
+      "cell_id": "cincinnati-oh__lawrenceburg-aurora",
+      "why": "named and addressed, and no census identity shares a distinctive token -- a genuine review lead"
+     },
+     {
+      "name": "Country Vacation Homes",
+      "address": "6585 Market Street",
+      "postal_code": "41080",
+      "cell_id": "cincinnati-oh__lawrenceburg-aurora",
+      "why": "named and addressed, and no census identity shares a distinctive token -- a genuine review lead"
+     },
+     {
+      "name": "Morgan's Frontier Inn",
+      "address": "8318 Dixie Highway",
+      "postal_code": "41042",
+      "cell_id": "cincinnati-oh__erlanger-florence-airport",
+      "why": "named and addressed, and no census identity shares a distinctive token -- a genuine review lead"
+     },
+     {
+      "name": "Hampton",
+      "address": "9266 Schulze Drive",
+      "postal_code": "45069",
+      "cell_id": "cincinnati-oh__west-chester-liberty-township",
+      "why": "named and addressed, and no census identity shares a distinctive token -- a genuine review lead"
+     },
+     {
+      "name": "Riverside Inn",
+      "address": "515 East Eads Parkway",
+      "postal_code": "47025",
+      "cell_id": "cincinnati-oh__lawrenceburg-aurora",
+      "why": "named and addressed, and no census identity shares a distinctive token -- a genuine review lead"
+     },
+     {
+      "name": "The Guild Hotel",
+      "address": "630 Vine Street",
+      "postal_code": "45202",
+      "cell_id": "cincinnati-oh__downtown-cincinnati",
+      "why": "named and addressed, and no census identity shares a distinctive token -- a genuine review lead"
+     },
+     {
+      "name": "Hampton",
+      "address": "10 Hampton Lane",
+      "postal_code": "41076",
+      "cell_id": "",
+      "why": "named and addressed, and no census identity shares a distinctive token -- a genuine review lead"
+     },
+     {
+      "name": "Holiday Inn Express & Suites",
+      "address": "",
+      "postal_code": "",
+      "cell_id": "cincinnati-oh__blue-ash-sharonville",
+      "why": "distinctive token(s) ['express'] fit 14 census rows; an alias that fits more than one identity names none of them"
+     },
+     {
+      "name": "Hawthorne Suites by Wyndham",
+      "address": "",
+      "postal_code": "",
+      "cell_id": "cincinnati-oh__blue-ash-sharonville",
+      "why": "distinctive token(s) ['wyndham'] fit 11 census rows; an alias that fits more than one identity names none of them"
+     },
+     {
+      "name": "Tru",
+      "address": "2720 Waterpark Drive",
+      "postal_code": "45040",
+      "cell_id": "cincinnati-oh__mason-deerfield",
+      "why": "named and addressed, and no census identity shares a distinctive token -- a genuine review lead"
+     },
+     {
+      "name": "Hampton",
+      "address": "2000 Ronald Reagan Drive",
+      "postal_code": "45236",
+      "cell_id": "cincinnati-oh__blue-ash-sharonville",
+      "why": "named and addressed, and no census identity shares a distinctive token -- a genuine review lead"
+     },
+     {
+      "name": "Days Inn by Wyndham Fort Wright Cincinnati Area",
+      "address": "1937 Dixie Highway",
+      "postal_code": "41011",
+      "cell_id": "cincinnati-oh__covington-newport",
+      "why": "named and addressed, and no census identity shares a distinctive token -- a genuine review lead"
+     },
+     {
+      "name": "Hampton",
+      "address": "430 Kolb Drive",
+      "postal_code": "45014",
+      "cell_id": "cincinnati-oh__springdale-forest-park",
+      "why": "named and addressed, and no census identity shares a distinctive token -- a genuine review lead"
+     }
+    ]
+   }
+  ],
+  "B -- geography": [
+   {
+    "id": "B1",
+    "current_identity": "none",
+    "evidence": "This order recomputed no corridor and moved no identity between corridors. Every recensus candidate was tested against the market's own cells and bounding box; none fell outside.",
+    "proposed_action": "none",
+    "recommendation": "NO ACTION. No ZIP is widened and no explicit assignment is proposed.",
+    "census_effect": "none",
+    "authority_effect": "none",
+    "routing_effect": "none",
+    "reversibility": "n/a",
+    "blocks_promotion": "NO",
+    "rows": []
+   }
+  ],
+  "C -- closure / conversion / non-lodging": [
+   {
+    "id": "C1",
+    "current_identity": "none newly found",
+    "evidence": "No candidate matched the market's census quarantine, and no owned artifact reported a closure this order did not already hold. The 6 OUT_OF_CURRENT_CATEGORY rows are settled and unchanged.",
+    "proposed_action": "none",
+    "recommendation": "NO ACTION.",
+    "census_effect": "none",
+    "authority_effect": "none",
+    "routing_effect": "none",
+    "reversibility": "n/a",
+    "blocks_promotion": "NO",
+    "rows": []
+   }
+  ],
+  "D -- policy ambiguity / reader exception": [
+   {
+    "id": "D1",
+    "current_identity": "7 Hilton and Marriott rows Cincinnati already PAID for and has never applied",
+    "evidence": "Order 016's inventory carries them with named open questions, reproduced verbatim in this packet's open_questions block: a 'Deposit Yes. $X Non-refundable Fee' label that names two different charges on seven rows from one template; a Homewood tier gap over nights 2-4 that siblings disagree about; a Tru Sharonville '*No Cats' where siblings say 'dog or cat'; a Tru Monroe 'Pet fee is TAXABLE' the schema has no field for.",
+    "proposed_action": "Rule each question once, as a class, then apply.",
+    "recommendation": "RULE BEFORE APPLYING. Each is a price or a species the site would publish wrongly, and the evidence is already bought -- ruling costs nothing and re-fetching buys nothing new.",
+    "census_effect": "none",
+    "authority_effect": "up to +7 rows when ruled and applied",
+    "routing_effect": "none",
+    "reversibility": "fully reversible until applied",
+    "blocks_promotion": "NO -- these sit OUTSIDE the clean inventory by design",
+    "rows": [
+     {
+      "identity_key": "homewood suites cincinnati midtown",
+      "class": "FOUNDER_EXCEPTION",
+      "why": "carries an open founder question; see cincinnati_application_inventory_016.open_questions",
+      "document_sha256": "3db6e07007bfae3c2ff56c51f01c375cf2ee623612202a1430f365187b2c827a"
+     },
+     {
+      "identity_key": "spark by hilton cincinnati airport south",
+      "class": "FOUNDER_EXCEPTION",
+      "why": "carries an open founder question; see cincinnati_application_inventory_016.open_questions",
+      "document_sha256": "c0e2bea51722096530a35ac1de6b2cdbc62a5d7c56ab2c38ebef67d74bc5cdd3"
+     },
+     {
+      "identity_key": "tru by hilton florence",
+      "class": "FOUNDER_EXCEPTION",
+      "why": "carries an open founder question; see cincinnati_application_inventory_016.open_questions",
+      "document_sha256": "80be9e542c0f51f930bfa2301545ecaf3f277881588a0641155a3ade0ea3a182"
+     },
+     {
+      "identity_key": "tru by hilton mason kings island",
+      "class": "FOUNDER_EXCEPTION",
+      "why": "carries an open founder question; see cincinnati_application_inventory_016.open_questions",
+      "document_sha256": "00d8159b056f278ff6cca887cbb445ca53d0fb9d57850129690f0f0ac69a27a3"
+     },
+     {
+      "identity_key": "tru by hilton milford",
+      "class": "FOUNDER_EXCEPTION",
+      "why": "carries an open founder question; see cincinnati_application_inventory_016.open_questions",
+      "document_sha256": "3fc790337accb7d58caf7934aa0b847548d9cdec374411caa1f7c957c6b40dc4"
+     },
+     {
+      "identity_key": "tru by hilton monroe",
+      "class": "FOUNDER_EXCEPTION",
+      "why": "carries an open founder question; see cincinnati_application_inventory_016.open_questions",
+      "document_sha256": "a068983d003ecad77e278f2e5695012fda2e152411a15cba5c8fb090e45ea89c"
+     },
+     {
+      "identity_key": "tru by hilton sharonville",
+      "class": "FOUNDER_EXCEPTION",
+      "why": "carries an open founder question; see cincinnati_application_inventory_016.open_questions",
+      "document_sha256": "038ca7e134922d74214e5ed4cb91f88ff3d762f71f49973240f0c5b06c80c81d"
+     }
+    ]
+   },
+   {
+    "id": "D2",
+    "current_identity": "2 rows with no authority action available",
+    "evidence": "The Cincinnatian returned a complete page that publishes no pet policy, and Courtyard Hamilton likewise. That is the hotel's answer, not the lane's failure.",
+    "proposed_action": "Record as SOURCE_SILENT and leave unresolved.",
+    "recommendation": "NO ACTION. Silence is not a refusal and must never be published as one.",
+    "census_effect": "none",
+    "authority_effect": "none",
+    "routing_effect": "none",
+    "reversibility": "n/a",
+    "blocks_promotion": "NO",
+    "rows": [
+     {
+      "identity_key": "courtyard by marriott hamilton",
+      "class": "NO_AUTHORITY_ACTION",
+      "why": "carries an open founder question; see cincinnati_application_inventory_016.open_questions",
+      "document_sha256": ""
+     },
+     {
+      "identity_key": "the cincinnatian hotel",
+      "class": "NO_AUTHORITY_ACTION",
+      "why": "carries an open founder question; see cincinnati_application_inventory_016.open_questions",
+      "document_sha256": ""
+     }
+    ]
+   }
+  ],
+  "E -- evidence conflict": [
+   {
+    "id": "E1",
+    "current_identity": "none",
+    "evidence": "Phase 13 audited every live Cincinnati record against every owned verdict in this lineage: 118 live records are corroborated and NOT ONE is contradicted. There is no wrong live pet-friendly row and no wrong live no-pets row.",
+    "proposed_action": "none",
+    "recommendation": "NO ACTION.",
+    "census_effect": "none",
+    "authority_effect": "none",
+    "routing_effect": "none",
+    "reversibility": "n/a",
+    "blocks_promotion": "NO",
+    "rows": []
+   }
+  ]
+ },
+ "open_questions_carried_forward": {
+  "fee_or_deposit": "all SEVEN publication-grade Hilton rows carry 'Deposit Yes. $X Non-refundable Fee'. A deposit and a non-refundable fee are two different charges and the label names both. Seven identical labels are ONE template artifact, not seven corroborating statements.",
+  "homewood_tier_gap": "Homewood Midtown reads '$75.00(1-nights), $125.00(5+nights)', leaving nights 2-4 unstated. It cannot be borrowed from siblings because the siblings disagree: four use 1-4/5+ and Sharonville uses 1-3/4-7.",
+  "sharonville_species": "Tru Sharonville says '*No Cats' where its siblings say 'dog or cat', and exempts ADA service animals from the fee.",
+  "monroe_taxable": "Tru Monroe says 'Pet fee is TAXABLE'. The schema has no field for it; dropping it silently would publish a price that is not the price.",
+  "fee_not_stated": "three Marriott rows (Fairfield Middletown, AC Banks, The Westin) state pets are welcome and give no fee sentence. Within this template a fee is stated when one exists, so the absence is informative -- but absence is not $0, and only the founder decides whether it publishes as free or as withheld. Aloft Newport is NOT in this group: it says pets stay free, which is a stated zero.",
+  "springhill_penalty": "SpringHill Airport South refuses pets AND names a USD 250 charge for an undisclosed pet. That is a penalty, not a pet fee, and must never be encoded as a fee tier."
+ },
+ "phase_16_paid_readiness": {
+  "brightdata": {
+   "qualified_rows": 22,
+   "measured_usd_per_attempt": 0.17,
+   "measured_by": "PTF-CINCINNATI-MARRIOTT-SCALE-BATCH-016 settled rate; the higher of two disagreeing meters",
+   "expected_attempts": 29,
+   "expected_cost_usd": 4.86,
+   "hard_cap_usd": 7.48,
+   "live_balance_usd": 4.28,
+   "operational_floor_usd": 1.0,
+   "rows_the_balance_can_fund": 14,
+   "balance_sufficient_for_all": false,
+   "constraint": "the balance funds 14 of 22 rows; the next batch is balance-limited unless the account is topped up"
+  },
+  "firecrawl": {
+   "executed_this_order": 7,
+   "credits_before": 520,
+   "credits_after": 515,
+   "credits_delta": 5,
+   "usd": 0.0,
+   "remaining_candidates": 0,
+   "note": "the cohort the ladder named is exhausted; two Choice origins returned SCRAPE_ALL_ENGINES_FAILED and are a measured limit of this lane on those origins, not a retry"
+  },
+  "places_paid_discovery": {
+   "qualified_rows": 0,
+   "why": "the cross-run discovery ledger records ZERO Cincinnati paid discovery attempts, and no row in this order needed one: every unresolved row already carries a route or is held on identity",
+   "expected_cost_usd": 0.0
+  },
+  "never_duplicate_a_prior_paid_attempt": {
+   "cincinnati_attempts_in_ledger": 39,
+   "distinct_identities_already_paid": 30,
+   "excluded_from_any_new_batch": true
+  }
+ },
+ "phase_18_promotion_readiness": {
+  "PROMOTION_READY": "YES",
+  "what_that_means": "the clean inventory this order assembled can be applied by a later application order without any founder ruling first. It is NOT a deployment authorization and this order deployed nothing.",
+  "required_before_promotion": [],
+  "why_nothing_is_required": [
+   "no unexplained wrong live authority: Phase 13 found 0 contradictions across 118 corroborated live records",
+   "every promoted row is identity-bound: 23 rows, 23 distinct document hashes, each with a contiguous quote and a capture timestamp",
+   "no duplicate premises: every clean row is a distinct census identity in AWAITING_POLICY_OBSERVATION",
+   "geography is deterministic: no corridor moved and no ZIP was widened",
+   "founder holds sit OUTSIDE the clean inventory by construction",
+   "release changes are known: the contract's counts move with the partition and the pin, and nothing else"
+  ],
+  "optional_coverage_expansion": [
+   "A1 -- rule one identity, gain 1 verified-no-pets row, $0",
+   "A2 -- repair two census addresses, re-read 2 Choice rows, $0",
+   "A3 -- review 28 OSM leads, $0",
+   "D1 -- rule the Hilton fee/deposit class, gain up to 7 rows already paid for, $0",
+   "Bright Data batch -- 22 Marriott/Choice rows, $4.86 expected, balance-limited to 14 rows today"
+  ]
+ }
+}
