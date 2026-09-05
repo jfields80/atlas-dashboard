@@ -3,14 +3,17 @@
   "work_order": "PTF-CINCINNATI-PARALLEL-REVALIDATION-002",
   "market_id": "cincinnati-oh",
   "phase": "19 -- parallel safety",
-  "as_of": "2026-09-05T03:39:25Z",
+  "as_of": "2026-09-05T15:19:53Z",
   "base": "d06e2eba07dc95edda745d31c51e53edad72983a",
   "method": "every path this branch changed against its base, read from git and matched against the prohibitions the order names. This is a mechanical read, not an assertion of intent.",
-  "total_paths_changed": 34,
+  "total_paths_changed": 37,
   "cincinnati_market_local_paths": 33,
-  "shared_paths_touched": 1,
+  "shared_paths_touched": 4,
   "shared_paths_and_why_each_is_allowed": {
-    "atlas-dashboard/tests/pettripfinder/acquisition/test_store_integration_025.py": "run-registration bookkeeping. Phase 19 permits adding Cincinnati only, and the diff adds two cincinnati_oh_* run ids to OTHER_MARKET_RUNS and changes nothing else."
+    "atlas-dashboard/launch_packages/pettripfinder/reports/factory_throughput_001_test_inventory.json": "generated description of the suite, regenerated because carrying revalidation 001's pin migration onto this base moved 32 restated sites onto the shared pins. It is a report ABOUT the tests, never authority, and no market's counts live in it.",
+    "atlas-dashboard/launch_packages/pettripfinder/reports/factory_throughput_001_test_inventory.md": "the same generated inventory in its readable form, regenerated in the same call.",
+    "atlas-dashboard/tests/pettripfinder/acquisition/test_store_integration_025.py": "run-registration bookkeeping. Phase 19 permits adding Cincinnati only, and the diff adds four cincinnati_oh_* run ids to OTHER_MARKET_RUNS and changes nothing else.",
+    "atlas-dashboard/tests/pettripfinder/test_regression_delta_001.py": "closure of a TRUE_NEW failure this order's own registration commit opened. The replay fixture built its BEFORE from the live registration file, so once this branch actually applied that registration the edit under test became a no-op. The fixture now strips those two elements back out before committing its base. No assertion changed and no market is named."
   },
   "paths_accounted_for_by_neither_rule": [],
   "checks": {
@@ -100,6 +103,8 @@
     "atlas-dashboard/launch_packages/pettripfinder/markets/reports/cincinnati_oh_shadow_reconciliation_001.json",
     "atlas-dashboard/launch_packages/pettripfinder/markets/reports/cincinnati_oh_shadow_reconciliation_002.json",
     "atlas-dashboard/launch_packages/pettripfinder/markets/reports/cincinnati_oh_wrong_live_audit_002.json",
+    "atlas-dashboard/launch_packages/pettripfinder/reports/factory_throughput_001_test_inventory.json",
+    "atlas-dashboard/launch_packages/pettripfinder/reports/factory_throughput_001_test_inventory.md",
     "atlas-dashboard/scripts/pettripfinder/cincinnati_oh_attended_pass_002.py",
     "atlas-dashboard/scripts/pettripfinder/cincinnati_oh_brand_inventory_audit_002.py",
     "atlas-dashboard/scripts/pettripfinder/cincinnati_oh_firecrawl_pass_001.py",
@@ -119,6 +124,7 @@
     "atlas-dashboard/tests/pettripfinder/test_cincinnati_mainstay_census_split_013.py",
     "atlas-dashboard/tests/pettripfinder/test_cincinnati_marriott_scale_batch_016.py",
     "atlas-dashboard/tests/pettripfinder/test_cincinnati_species_key_rebind_011.py",
-    "atlas-dashboard/tests/pettripfinder/test_cincinnati_zip_integrity_002.py"
+    "atlas-dashboard/tests/pettripfinder/test_cincinnati_zip_integrity_002.py",
+    "atlas-dashboard/tests/pettripfinder/test_regression_delta_001.py"
   ]
 }
