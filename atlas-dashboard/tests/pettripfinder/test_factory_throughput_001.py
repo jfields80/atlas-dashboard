@@ -281,15 +281,49 @@ class TestDeploymentHistoryIsProtected:
                 assert epochs.is_work_order(order), (auth_id, market_id)
 
     def test_the_live_authorization_binds_every_market_exactly(self):
+        """Every market the live authorization bound is still byte-identical --
+        except the ones a later order is NAMED as having moved.
+
+        PTF-INDIANAPOLIS-PROMOTION-REMEDIATION-005 scoped this. An
+        authorization is immutable evidence of what was authorized; a promotion
+        that lands after it legitimately changes that market's contract, and
+        holding every market to the old hash makes correct source growth read
+        as a corrupt authorization. The exemption is not a blanket: a market is
+        skipped only when the supersessions pin names it against THIS
+        authorization together with the order that moved it, and every market
+        it does not name is still bound byte for byte.
+        """
         live = MS.live()
         auth = DA.load_authorization(live.authorization_id)
+        moved = epochs.moved_by_later_work(live.authorization_id)
+        checked = 0
         for row in auth["release_contracts"]:
+            if row["market_id"] in moved:
+                continue
             assert row["sha256"] == DA._sha256_file(REPO_ROOT / row["path"]), row["market_id"]
+            checked += 1
+        assert checked, "every market was excused; the exemption is not a blanket"
 
     def test_the_lapsed_source_allowance_is_gone_now_that_production_caught_up(self):
+        """The Dayton-shaped one-off allowance stays gone.
+
+        PTF-INDIANAPOLIS-PROMOTION-REMEDIATION-005: the second assertion used to
+        require source to be level with production, which was true when this
+        order closed and is false between any promotion and the deployment that
+        ships it. What must not come back is the NAMED one-off hook; a source
+        that is ahead has to say so in the pin and name the order that moved it,
+        which is asserted here instead.
+        """
         from pettripfinder import conftest as C
         assert not hasattr(C, "manifest_problems_other_than_the_lapsed_dayton_contract")
-        assert MS.source_assembly().ahead_of_production is False
+        source = MS.source_assembly()
+        if source.ahead_of_production:
+            assert epochs.is_work_order(source.moved_by), (
+                "source is ahead of production but names no work order that moved it")
+            assert epochs.moved_by_later_work(MS.live().authorization_id), (
+                "source is ahead but no market is named against the live authorization")
+        else:
+            assert source.moved_by is None
 
 
 # --------------------------------------------------------------------------- #

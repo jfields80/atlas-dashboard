@@ -139,3 +139,29 @@ EXCLUSION_IDS = [
     'ii-springhill-suites-indianapolis-airport-plainfield',
     'ii-springhill-suites-indianapolis-downtown',
 ]
+
+
+def assert_exclusion_cohort_preserved(records):
+    """Every exclusion that existed when a capture order ran is still recorded.
+
+    PTF-INDIANAPOLIS-PROMOTION-REMEDIATION-005. Six capture and founder-decision
+    suites asserted ``[e["normalized_name"] for e in indy] == EXCLUSION_NAMES``
+    to mean "my order did not touch the exclusion authority". Exact equality
+    made that claim about the WHOLE authority forever, so the next order that
+    legitimately added a refusal broke all six at once -- which is exactly the
+    failure mode the docstring at the top of this module was written about, and
+    exactly what it says a test of this shape should not do.
+
+    What those orders actually established is that they ADDED nothing and
+    REMOVED nothing of their own. The removal half is asserted here, against
+    the authority rather than against a copy of it taken on a different day.
+    The addition half belongs in each suite, which asserts its own captured
+    identities are absent from the authority -- and each of them already does.
+    """
+    names = [e["normalized_name"] for e in records]
+    assert len(names) == len(set(names)), "duplicate exclusion in the shard"
+    present = set(names)
+    missing = [n for n in EXCLUSION_NAMES if n not in present]
+    assert not missing, (
+        "exclusions recorded at this order's epoch have since been dropped: %s"
+        % missing)

@@ -1,0 +1,67 @@
+{
+ "schema": "ptf-market-identity-hold/1.0",
+ "hold_id": "IDH-024-HOME2-CARMEL-CROSS-MARKET-KEY",
+ "market_id": "indianapolis-in",
+ "work_order": "PTF-INDIANAPOLIS-PROMOTION-REMEDIATION-005",
+ "as_of": "2026-09-04",
+ "status": "HELD",
+ "decided_by": "founder",
+ "ruling": "WITHHOLD_FROM_CURRENT_PROMOTION",
+ "recommended_future_action": "REKEY_INDIANAPOLIS_IDENTITY",
+ "what_this_is": "A named hold on one Indianapolis identity whose normalized key is claimed by a different physical hotel in another market. It records why the row is not published, preserves the evidence already captured for it, and mutates no authority beyond withholding it from this promotion.",
+ "colliding_key": "home2 suites by hilton",
+ "why_the_key_is_unsafe": "a bare brand name normalises identically in every market, so two buildings end up sharing one canonical identity. The key is not wrong about either hotel; it is simply not an identity.",
+ "the_two_premises": {
+  "indianapolis-in": {
+   "canonical_name": "Home2 Suites by Hilton",
+   "display_name_in_the_overlay": "Home2 Suites by Hilton Carmel Indianapolis",
+   "street": "12845 Old Meridian Street",
+   "city": "Carmel", "state": "IN", "postal_code": "46032",
+   "telephone": "3177951030",
+   "brand_property_code": "indcrht",
+   "official_url": "https://www.hilton.com/en/hotels/indcrht-home2-suites-carmel-indianapolis"
+  },
+  "cleveland-akron-canton-oh": {
+   "canonical_name": "Home2 Suites by Hilton",
+   "street": "6200 Patriots Way",
+   "city": "Independence", "state": "OH", "postal_code": "44131",
+   "note": "Cleveland additionally holds a committed identity ROUTE under this key. No Cleveland authority is read as wrong here and none is modified."
+  },
+  "they_are_different_buildings": "different street, city, state, postal code and brand property code; only the bare chain name coincides"
+ },
+ "prior_refusal": {
+  "work_order": "PTF-INDIANAPOLIS-56-PROFILE-AUTHORITY-PROMOTION-017",
+  "artifact": "indianapolis_in_proposed_authority_017.json",
+  "recorded_as": "cross_market_identity_collisions",
+  "verbatim": "a bare brand name normalises identically in every market; two buildings cannot share one identity key",
+  "guard_it_built": "tests/pettripfinder/test_indianapolis_authority_promotion_017.py::TestTheCrossMarketCollision",
+  "that_guard_is_preserved_unchanged": true
+ },
+ "how_it_reached_this_promotion": {
+  "path": "admitted to the clean inventory by PTF-INDIANAPOLIS-PARALLEL-REVALIDATION-001 from owned evidence, carried unchallenged through the Firecrawl recovery and the BringFido validation, and applied by PTF-INDIANAPOLIS-PROMOTION-AND-APPLICATION-004",
+  "why_it_was_missed": "three orders checked the row's own identity binding -- street, postal, telephone and Hilton property code all bind correctly to the Carmel property -- and none checked whether its KEY was already claimed by another market. The name_corrections overlay states the collision in its own rationale and was read without the connection being made.",
+  "lesson": "a per-row identity gate does not catch a cross-market key collision; that is a different question and needs its own check"
+ },
+ "evidence_preserved": {
+  "policy_evidence": "indianapolis_in_shadow_policy_evidence_020.json",
+  "readiness": "POLICY_CONFIRMED / PUBLICATION_GRADE_CONFIRMED in indianapolis_in_observation_store_018.json",
+  "facts_held": {"pets_allowed": true, "pet_fee_usd": 75, "pet_count_limit": 2,
+                 "species": ["cat", "dog"]},
+  "nothing_was_discarded": "the evidence stands and needs no reacquisition; only the publication is withheld"
+ },
+ "authority_effect": {
+  "census": "unchanged at 264 -- the identity is real and stays in the census",
+  "partition": "returns to unresolved; it is not a refusal and must never read as one",
+  "policy_package": "83 -> 82",
+  "seed": "83 -> 82",
+  "exclusions": "unchanged at 44",
+  "cleveland": "untouched",
+  "no_rekey_invented_here": true
+ },
+ "what_would_close_this_hold": [
+  "a founder-authorized identity-rekey order that gives the Indianapolis row a key naming its building rather than its chain",
+  "re-applying the preserved evidence under the new key",
+  "and re-running the order-017 cross-market guard, which must pass unchanged"
+ ],
+ "blocks_promotion_of_other_rows": false
+}
