@@ -1,7 +1,7 @@
 {
  "schema": "ptf-supersession-registry/1.0",
  "what_this_is": "Which later work orders moved a market out from under a CONSUMED historical deployment authorization. An authorization is immutable evidence of what was authorized and deployed at the time; later legitimate source growth must NOT make its historical hash read as corrupt. So a test that re-verifies a historical authorization skips exactly the markets named here -- named, never blanket -- and still binds every market that was not moved. A market may only be listed with the work order that moved it.",
- "reviewed_by": "PTF-PITTSBURGH-PROMOTION-AND-APPLICATION-002",
+ "reviewed_by": "PTF-PITTSBURGH-DEPLOYMENT-AUTHORIZATION-003",
  "authorizations": {
   "ptf-auth-047-a324b1bf5023": {
    "work_order": "PTF-FIRST-MULTI-MARKET-AUTHORIZATION-AND-DEPLOYMENT-047",
@@ -26,7 +26,12 @@
    "moved_by_later_work": {
     "pittsburgh-pa": "PTF-PITTSBURGH-PROMOTION-AND-APPLICATION-002"
    },
-   "note": "The current live authorization. Pittsburgh has moved out from under it: PTF-PITTSBURGH-PROMOTION-AND-APPLICATION-002 promoted 8 pet-friendly and 4 verified-no-pets rows into source, taking the market from 53 to 61 published profiles. Production still serves 53, so source is AHEAD of production for this one market until a deployment order ships it. Every other market is still bound exactly."
+   "note": "Historical. It was the live authorization until PTF-PITTSBURGH-DEPLOYMENT-AUTHORIZATION-003 shipped Pittsburgh as deploy 6a9c3a1422ead7c0c01b3468. Pittsburgh had moved out from under it in source before that deploy and is named above, so re-verifying this authorization skips exactly that market and still binds every other one."
+  },
+  "ptf-auth-pittsburgh-003-9d87153f8e9f": {
+   "work_order": "PTF-PITTSBURGH-DEPLOYMENT-AUTHORIZATION-003",
+   "moved_by_later_work": {},
+   "note": "The current live authorization. Nothing has moved out from under it: every market's source count equals what production serves, which is why this list is empty rather than absent. A later promotion order that moves a market names it here."
   }
  }
 }

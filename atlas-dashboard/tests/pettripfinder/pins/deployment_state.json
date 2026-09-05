@@ -3,15 +3,15 @@
  "what_this_is": "The CURRENT deployment pins, in two blocks that are two different facts. `live` is what production serves: the deployment record's own numbers, moved ONLY by a deployment-authorization order. `source` is what a FRESH assembly of the committed source produces: moved by an application order, which puts source AHEAD of production until the next deploy. When the two agree, ahead_of_production is false and moved_by is null. Consumed historical authorizations are never restated here; they live in deploy/netlify/deployment_authorizations and are immutable evidence of what was authorized at the time (see supersessions.json).",
  "reviewed_by": "PTF-FACTORY-THROUGHPUT-HARDENING-001",
  "live": {
-  "deploy_id": "6a9b4046e6e7a0438f36e78d",
-  "deployed_by": "PTF-INDIANAPOLIS-DEPLOYMENT-AUTHORIZATION-006",
-  "authorization_id": "ptf-auth-indianapolis-006-4d684ebfc742",
-  "deployment_record_id": "ptf-deploy-indianapolis-006-6a9b4046e6e7a0438f36e78d",
-  "source_commit": "92ae9973110d1e152ac50afeb6b193dbbbe643e2",
-  "bundle_sha256": "4d684ebfc742ccf44dae7d0ac7cf928b826cc31b2f0e1593d63f178f09f2d939",
-  "sitemap_sha256": "b343794db5a143a4f14cc38988d4fe43367daffb14a4a4f56fedd583c02cdec3",
-  "previous_deploy_id": "6a982a1fc32c2911d0d65d04",
-  "rollback_target": "6a982a1fc32c2911d0d65d04",
+  "deploy_id": "6a9c3a1422ead7c0c01b3468",
+  "deployed_by": "PTF-PITTSBURGH-DEPLOYMENT-AUTHORIZATION-003",
+  "authorization_id": "ptf-auth-pittsburgh-003-9d87153f8e9f",
+  "deployment_record_id": "ptf-deploy-pittsburgh-003-6a9c3a1422ead7c0c01b3468",
+  "source_commit": "3f13cf4bc3a8f5d0ccf8b0e46630c95c92c784e0",
+  "bundle_sha256": "9d87153f8e9fa81c2c036403d648844182e3957d71583a01c1a70391ded989fb",
+  "sitemap_sha256": "becefd014f3edb94b42cf48a1f823e520467a33b348707e11c56ca6939d0a2f2",
+  "previous_deploy_id": "6a9b4046e6e7a0438f36e78d",
+  "rollback_target": "6a9b4046e6e7a0438f36e78d",
   "participating_markets": [
    "cleveland-akron-canton-oh",
    "columbus-oh",
@@ -31,17 +31,17 @@
    "indianapolis-in": 82,
    "louisville-ky": 46,
    "milwaukee-wi": 73,
-   "pittsburgh-pa": 53,
+   "pittsburgh-pa": 61,
    "st-louis-mo": 82
   },
-  "total_profiles": 641,
-  "sitemap_route_count": 782,
-  "total_html_pages": 3977,
-  "total_files": 3995
+  "total_profiles": 649,
+  "sitemap_route_count": 790,
+  "total_html_pages": 4022,
+  "total_files": 4040
  },
  "source": {
-  "ahead_of_production": true,
-  "moved_by": "PTF-PITTSBURGH-PROMOTION-AND-APPLICATION-002",
+  "ahead_of_production": false,
+  "moved_by": null,
   "bundle_sha256": "9d87153f8e9fa81c2c036403d648844182e3957d71583a01c1a70391ded989fb",
   "sitemap_sha256": "becefd014f3edb94b42cf48a1f823e520467a33b348707e11c56ca6939d0a2f2",
   "participating_markets": [
@@ -71,7 +71,7 @@
   "total_html_pages": 4022,
   "total_files": 4040,
   "source_commit": "3f13cf4bc3a8f5d0ccf8b0e46630c95c92c784e0",
-  "deployment_authorized": false,
-  "note": "Source is AHEAD of production for exactly one market. PTF-PITTSBURGH-PROMOTION-AND-APPLICATION-002 promoted Pittsburgh from 53 to 61 published profiles over an unmoved 103-identity census, and this bundle was assembled from commit 3f13cf4 -- the promotion at ffd7e44 plus the five defect closures its own targeted lanes surfaced, one of which corrected a published row's postal code and therefore changed the bundle. Two independent assemblies produced bundle 9d87153f and identical file-hash manifests. Production still serves deploy 6a9b4046e6e7a0438f36e78d at 641 profiles, and rolling this change back means returning to that deploy. No deployment authorization was written and no deployment was made, so deployment_authorized stays false until a separate order ships this bundle."
+  "deployment_authorized": true,
+  "note": "Source and production are IN SYNC. Deploy 6a9c3a1422ead7c0c01b3468 serves exactly this bundle: all 790 live routes were fetched from production and hashed against the authorized bundle and every one is byte-identical, the live sitemap matches the authorized sitemap, and the previous deploy's own sitemap proves 0 routes were removed. Pittsburgh is live at 61 published profiles."
  }
 }
