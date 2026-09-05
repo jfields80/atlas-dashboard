@@ -1,15 +1,15 @@
 # PetTripFinder test pin inventory (A1)
 
-Schema `ptf-test-pin-inventory/1.0`. 390 modules scanned, 264 carry pins, 1586 sites.
+Schema `ptf-test-pin-inventory/1.0`. 390 modules scanned, 263 carry pins, 1554 sites.
 
 | class | sites |
 |---|---|
 | CURRENT_STATE_INVARIANT | 160 |
-| HISTORICAL_COHORT_INVARIANT | 856 |
+| HISTORICAL_COHORT_INVARIANT | 828 |
 | HISTORICAL_ARTIFACT_INVARIANT | 183 |
 | DEPLOYMENT_EPOCH_INVARIANT | 126 |
 | GENERIC_SCHEMA_INVARIANT | 194 |
-| CROSS_MARKET_INVARIANT | 67 |
+| CROSS_MARKET_INVARIANT | 63 |
 
 ## Modules asserting whole-package counts
 
@@ -41,7 +41,6 @@ Schema `ptf-test-pin-inventory/1.0`. 390 modules scanned, 264 carry pins, 1586 s
 - `tests/pettripfinder/policy/test_authority_safety.py`
 - `tests/pettripfinder/policy/test_m10_code_and_address_override.py`
 - `tests/pettripfinder/test_build_capture_queue.py`
-- `tests/pettripfinder/test_cincinnati_capture_pass1_001.py`
 - `tests/pettripfinder/test_cincinnati_founder_application_004.py`
 - `tests/pettripfinder/test_cincinnati_free_lane_application_010.py`
 - `tests/pettripfinder/test_cincinnati_hilton_close_marriott_retry_015.py`
@@ -50,7 +49,6 @@ Schema `ptf-test-pin-inventory/1.0`. 390 modules scanned, 264 carry pins, 1586 s
 - `tests/pettripfinder/test_cincinnati_marriott_scale_batch_016.py`
 - `tests/pettripfinder/test_cincinnati_species_key_rebind_011.py`
 - `tests/pettripfinder/test_cincinnati_zero_cost_capture_003.py`
-- `tests/pettripfinder/test_cincinnati_zip_integrity_002.py`
 - `tests/pettripfinder/test_cleveland_attended_artifact_queue_001.py`
 - `tests/pettripfinder/test_cleveland_capture_003.py`
 - `tests/pettripfinder/test_cleveland_final_partition_002.py`
@@ -214,22 +212,21 @@ Schema `ptf-test-pin-inventory/1.0`. 390 modules scanned, 264 carry pins, 1586 s
 | `policy/test_drury_and_sonesta.py` |  | GENERIC_SCHEMA_INVARIANT | 2 | GENERIC_SCHEMA 2 |
 | `policy/test_m10_code_and_address_override.py` |  | GENERIC_SCHEMA_INVARIANT | 1 | CURRENT_STATE 1 |
 | `test_build_capture_queue.py` |  | HISTORICAL_COHORT_INVARIANT | 4 | HISTORICAL_COHORT 4 |
-| `test_cincinnati_brightdata_pilot_014.py` | cincinnati-oh | HISTORICAL_COHORT_INVARIANT | 13 | CROSS_MARKET 8, HISTORICAL_ARTIFACT 1, HISTORICAL_COHORT 4 |
-| `test_cincinnati_capture_pass1_001.py` | cincinnati-oh | HISTORICAL_COHORT_INVARIANT | 15 | HISTORICAL_ARTIFACT 3, HISTORICAL_COHORT 12 |
+| `test_cincinnati_brightdata_pilot_014.py` | cincinnati-oh | HISTORICAL_COHORT_INVARIANT | 9 | CROSS_MARKET 4, HISTORICAL_ARTIFACT 1, HISTORICAL_COHORT 4 |
+| `test_cincinnati_capture_pass1_001.py` | cincinnati-oh | HISTORICAL_COHORT_INVARIANT | 11 | HISTORICAL_ARTIFACT 3, HISTORICAL_COHORT 8 |
 | `test_cincinnati_founder_application_004.py` | cincinnati-oh | HISTORICAL_COHORT_INVARIANT | 8 | HISTORICAL_COHORT 8 |
-| `test_cincinnati_founder_review_queue_002.py` | cincinnati-oh | HISTORICAL_COHORT_INVARIANT | 11 | HISTORICAL_COHORT 11 |
+| `test_cincinnati_founder_review_queue_002.py` | cincinnati-oh | HISTORICAL_COHORT_INVARIANT | 10 | HISTORICAL_COHORT 10 |
 | `test_cincinnati_free_brand_probe_005.py` | cincinnati-oh | HISTORICAL_COHORT_INVARIANT | 11 | HISTORICAL_COHORT 11 |
-| `test_cincinnati_free_lane_application_010.py` | cincinnati-oh | HISTORICAL_COHORT_INVARIANT | 19 | HISTORICAL_COHORT 19 |
+| `test_cincinnati_free_lane_application_010.py` | cincinnati-oh | HISTORICAL_COHORT_INVARIANT | 13 | HISTORICAL_COHORT 13 |
 | `test_cincinnati_free_lane_scale_006.py` | cincinnati-oh | HISTORICAL_COHORT_INVARIANT | 14 | HISTORICAL_ARTIFACT 3, HISTORICAL_COHORT 11 |
-| `test_cincinnati_hilton_close_marriott_retry_015.py` | cincinnati-oh | HISTORICAL_COHORT_INVARIANT | 11 | HISTORICAL_ARTIFACT 1, HISTORICAL_COHORT 10 |
+| `test_cincinnati_hilton_close_marriott_retry_015.py` | cincinnati-oh | HISTORICAL_COHORT_INVARIANT | 8 | HISTORICAL_ARTIFACT 1, HISTORICAL_COHORT 7 |
 | `test_cincinnati_independent_probe_008.py` | cincinnati-oh | HISTORICAL_COHORT_INVARIANT | 12 | HISTORICAL_ARTIFACT 1, HISTORICAL_COHORT 11 |
 | `test_cincinnati_independent_probe_009.py` | cincinnati-oh | HISTORICAL_COHORT_INVARIANT | 16 | HISTORICAL_COHORT 16 |
-| `test_cincinnati_mainstay_census_split_013.py` | cincinnati-oh | HISTORICAL_COHORT_INVARIANT | 9 | HISTORICAL_COHORT 9 |
-| `test_cincinnati_marriott_scale_batch_016.py` | cincinnati-oh | HISTORICAL_COHORT_INVARIANT | 10 | HISTORICAL_COHORT 10 |
-| `test_cincinnati_species_key_rebind_011.py` | cincinnati-oh | HISTORICAL_COHORT_INVARIANT | 10 | HISTORICAL_ARTIFACT 1, HISTORICAL_COHORT 9 |
+| `test_cincinnati_mainstay_census_split_013.py` | cincinnati-oh | HISTORICAL_COHORT_INVARIANT | 4 | HISTORICAL_COHORT 4 |
+| `test_cincinnati_marriott_scale_batch_016.py` | cincinnati-oh | HISTORICAL_COHORT_INVARIANT | 7 | HISTORICAL_COHORT 7 |
+| `test_cincinnati_species_key_rebind_011.py` | cincinnati-oh | HISTORICAL_COHORT_INVARIANT | 5 | HISTORICAL_ARTIFACT 1, HISTORICAL_COHORT 4 |
 | `test_cincinnati_url_routing_progress_001.py` | cincinnati-oh | HISTORICAL_COHORT_INVARIANT | 5 | HISTORICAL_COHORT 5 |
 | `test_cincinnati_zero_cost_capture_003.py` | cincinnati-oh | HISTORICAL_COHORT_INVARIANT | 6 | HISTORICAL_ARTIFACT 3, HISTORICAL_COHORT 3 |
-| `test_cincinnati_zip_integrity_002.py` | cincinnati-oh | HISTORICAL_COHORT_INVARIANT | 1 | HISTORICAL_COHORT 1 |
 | `test_cleveland_attended_artifact_queue_001.py` | cleveland-akron-canton-oh | HISTORICAL_COHORT_INVARIANT | 1 | HISTORICAL_COHORT 1 |
 | `test_cleveland_authority.py` | cleveland-akron-canton-oh | CURRENT_STATE_INVARIANT | 3 | CURRENT_STATE 3 |
 | `test_cleveland_capture_003.py` | cleveland-akron-canton-oh | HISTORICAL_COHORT_INVARIANT | 5 | HISTORICAL_COHORT 5 |

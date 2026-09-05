@@ -540,6 +540,17 @@ def replay_repo(tmp_path):
     target.mkdir(parents=True)
     source = (REPO / "tests" / "pettripfinder" / "acquisition"
               / "test_store_integration_025.py").read_text(encoding="utf-8-sig")
+    # The replay needs a BEFORE that predates the registration it replays. Once
+    # this checkout actually applied that fix the live file already carries the
+    # two run ids, and re-adding them would be a no-op rather than the edit
+    # under test. Strip them back out so the BEFORE is the pre-fix file no
+    # matter which side of the fix this checkout sits on. Only the two
+    # registration elements are removed; nothing else about the module moves.
+    registered = ['"%s",' % run_id for run_id in CINCINNATI_RUNS]
+    source = "".join(line for line in source.splitlines(keepends=True)
+                     if line.strip() not in registered)
+    for run_id in CINCINNATI_RUNS:
+        assert run_id not in source
     module = target / "test_store_integration_025.py"
     module.write_text(source, encoding="utf-8")
 

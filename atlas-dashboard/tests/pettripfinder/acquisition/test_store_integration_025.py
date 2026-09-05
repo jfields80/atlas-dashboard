@@ -152,6 +152,19 @@ OTHER_MARKET_RUNS = {
     # cap checked against a live credit read before each call. Also
     # cincinnati-oh, and it wrote nothing to authority.
     "cincinnati_oh_firecrawl_001",
+    # PTF-CINCINNATI-PARALLEL-REVALIDATION-002 phase 5: the attended browser
+    # pass over Cincinnati's unresolved cohort, entered once per brand origin
+    # and read by same-origin fetch. 46 rows, 46 distinct document hashes,
+    # $0.00, no provider and no plan credit. cincinnati-oh, and it wrote
+    # nothing to authority.
+    "cincinnati_oh_attended_002",
+    # PTF-CINCINNATI-PARALLEL-REVALIDATION-002 phase 7: the official brand
+    # sitemap sweep -- 564 free first-party HTTPS GETs through the canonical
+    # direct_http lane, every response cached on disk so a rerun costs nothing.
+    # An identity and ROUTING lane only; a sitemap carries a URL and a
+    # timestamp and never a pet policy. $0.00, no provider, cincinnati-oh, and
+    # it wrote nothing to authority.
+    "cincinnati_oh_brand_inventory_002",
 }
 
 
