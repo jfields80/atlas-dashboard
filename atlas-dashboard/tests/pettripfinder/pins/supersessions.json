@@ -1,7 +1,7 @@
 {
  "schema": "ptf-supersession-registry/1.0",
  "what_this_is": "Which later work orders moved a market out from under a CONSUMED historical deployment authorization. An authorization is immutable evidence of what was authorized and deployed at the time; later legitimate source growth must NOT make its historical hash read as corrupt. So a test that re-verifies a historical authorization skips exactly the markets named here -- named, never blanket -- and still binds every market that was not moved. A market may only be listed with the work order that moved it.",
- "reviewed_by": "PTF-INDIANAPOLIS-DEPLOYMENT-AUTHORIZATION-006",
+ "reviewed_by": "PTF-PITTSBURGH-PROMOTION-AND-APPLICATION-002",
  "authorizations": {
   "ptf-auth-047-a324b1bf5023": {
    "work_order": "PTF-FIRST-MULTI-MARKET-AUTHORIZATION-AND-DEPLOYMENT-047",
@@ -17,13 +17,16 @@
   "ptf-auth-003-de669c40d811": {
    "work_order": "PTF-DAYTON-OH-DEPLOYMENT-AUTHORIZATION-003",
    "moved_by_later_work": {
-    "indianapolis-in": "PTF-INDIANAPOLIS-PROMOTION-REMEDIATION-005"
+    "indianapolis-in": "PTF-INDIANAPOLIS-PROMOTION-REMEDIATION-005",
+    "pittsburgh-pa": "PTF-PITTSBURGH-PROMOTION-AND-APPLICATION-002"
    }
   },
   "ptf-auth-indianapolis-006-4d684ebfc742": {
    "work_order": "PTF-INDIANAPOLIS-DEPLOYMENT-AUTHORIZATION-006",
-   "moved_by_later_work": {},
-   "note": "The current live authorization. Nothing has moved out from under it: production serves exactly the committed source, so every market is bound."
+   "moved_by_later_work": {
+    "pittsburgh-pa": "PTF-PITTSBURGH-PROMOTION-AND-APPLICATION-002"
+   },
+   "note": "The current live authorization. Pittsburgh has moved out from under it: PTF-PITTSBURGH-PROMOTION-AND-APPLICATION-002 promoted 8 pet-friendly and 4 verified-no-pets rows into source, taking the market from 53 to 61 published profiles. Production still serves 53, so source is AHEAD of production for this one market until a deployment order ships it. Every other market is still bound exactly."
   }
  }
 }

@@ -1,0 +1,130 @@
+{
+ "schema": "ptf-market-promotion-application/1.0",
+ "work_order": "PTF-PITTSBURGH-PROMOTION-AND-APPLICATION-002",
+ "market_id": "pittsburgh-pa",
+ "as_of": "2026-09-05",
+ "serialized": true,
+ "deployed": false,
+ "deployment_authorization_written": false,
+ "provider_calls": {"firecrawl": 0, "brightdata": 0, "places": 0},
+ "usd_spent": 0.0,
+
+ "integration_precondition": {
+  "what_happened": "This order's branch was cut from d06e2eb and did NOT contain the Indianapolis promotion and deployment. Assembling Pittsburgh from it unchanged would have produced a candidate that rolled Indianapolis back from 82 published profiles to 67 -- two non-zero market deltas instead of one.",
+  "resolution": "The Indianapolis lineage (15 commits, tip 66371a2) was merged first, at the operator's direction, in merge commit e5b2f8b. The merge was conflict-free: Indianapolis never touched the one shared file this branch had edited, and the five revalidation reports carry unique filenames.",
+  "baseline_after_merge": {
+   "live_deploy_id": "6a9b4046e6e7a0438f36e78d",
+   "rollback_target": "6a982a1fc32c2911d0d65d04",
+   "total_profiles": 641, "sitemap_route_count": 782,
+   "total_html_pages": 3977, "total_files": 3995,
+   "indianapolis_in": 82, "pittsburgh_pa": 53,
+   "all_11_release_contracts": "AGREEMENT ok"
+  }
+ },
+
+ "baseline": {"census": 103, "pet_friendly": 53, "verified_no_pets": 17,
+              "out_of_current_category": 3, "resolved": 73, "unresolved": 30,
+              "profiles": 53},
+
+ "promoted": {
+  "clean_pet_friendly": 8,
+  "clean_verified_no_pets": 4,
+  "total": 12,
+  "pet_friendly_rows": [
+   "courtyard by marriott cranberry woods",
+   "crowne plaza pittsburgh south",
+   "fairfield inn and suites pittsburgh downtown",
+   "hotel indigo pittsburgh university oakland",
+   "hyatt house pittsburgh south side works",
+   "marriott pittsburgh north cranberry woods",
+   "residence inn pittsburgh cranberry township",
+   "residence inn pittsburgh monroeville"
+  ],
+  "verified_no_pets_rows": [
+   "ac hotel by marriott pittsburgh downtown",
+   "springhill suites pittsburgh mills",
+   "springhill suites pittsburgh monroeville",
+   "springhill suites pittsburgh southside works"
+  ],
+  "pre_existing_records_changed": 0,
+  "pre_existing_exclusions_changed": 0,
+  "census_rows_moved": 0
+ },
+
+ "final_source": {"census": 103, "pet_friendly": 61, "verified_no_pets": 21,
+                  "out_of_current_category": 3, "resolved": 85, "unresolved": 18,
+                  "profiles": 61,
+                  "arithmetic": "resolved 85 = 61 published + 21 no-pets + 3 out-of-category; unresolved 18 = 103 - 85"},
+
+ "how_the_facts_were_derived": {
+  "rule": "Every published fact came from the repository's OWN reader (brightdata.policy_reading) run over the captured policy block, including every field it refused to derive. A promotion order is not the place to overrule a reader.",
+  "withheld_by_the_reader": {
+   "residence inn pittsburgh monroeville": {
+    "field": "pet_fee", "reason": "SCHEMA_CANNOT_REPRESENT",
+    "why": "The page states two fee expressions that do not reconcile: $25 per day per pet capped at $150 per month, and a $100 non-refundable fee per stay. The reader refused to choose, so the row publishes pets_allowed, weight and count with the fee withheld. This is why founder item PGH-R1-D1 does NOT block the promotion: the open question is which fee to publish, and no fee is published."
+   },
+   "crowne plaza pittsburgh south": {
+    "field": "weight_limit", "reason": "SOURCE_AMBIGUOUS",
+    "why": "The page prints 'Pet weight limit: 100' with no unit. The reader refuses a unitless limit rather than assuming pounds."
+   }
+  },
+  "beyond_the_observation_vocabulary": {
+   "fee_tiers": "The Hyatt row's banded fee is withheld by to_extraction as SCHEMA_CANNOT_REPRESENT because the observation format holds one amount, but the policy schema has carried fee_tiers[] since the migration and parse_stay_bands returns this ladder with an empty problems tuple (contiguous 1-6 and 7-30, both bases stated). PTF-MILWAUKEE-READER-TO-TIERS-034 exists for this gap and built the rungs.",
+   "other_charges": "Two rows state a SECOND labelled charge beside the first -- Courtyard Cranberry Woods a $20 per-night fee alongside its $75 per-stay fee, Hotel Indigo a $75 damage deposit alongside its $75 per-night fee. The single pet_fee slot cannot hold two prices, so the additional charge lives in other_charges[] with its own labelled quote. Neither charge is inferred from the other and neither is collapsed into it."
+  },
+  "species": "The Hyatt page says 'canine travel companions' and makes no statement about cats, so dogs are published as accepted and cats are left unstated rather than inferred."
+ },
+
+ "defects_caught_before_assembly": [
+  {
+   "what": "Six of the eight new records carried the lowercase identity key in their display `name`, because the attended-capture artifact records identity SIGNALS and no display name, and the applier fell back to the key.",
+   "why_it_mattered": "The join still worked, so no gate would have failed; eight public profiles would simply have rendered with a lowercase join key as their title.",
+   "fix": "The display name is now read from the census canonical_name, and the promotion was re-run from a reverted base rather than patched in place."
+  },
+  {
+   "what": "The Hyatt row's pets_allowed quote was the two-word fragment 'Pet Friendly', lifted by the reader from the block's heading.",
+   "why_it_mattered": "On the page that fragment is indistinguishable from the amenity chip this market's own capture contract promises never to publish as policy.",
+   "fix": "That row now cites the property's own operative sentence, verbatim, and the applier refuses any pets_allowed quote that is not present verbatim in its own block. The Marriott and IHG rows were left alone: their 'Pets Welcome' / 'pets allowed' IS the label-value pair under the page's Pet Policy heading, which is what the market's other 53 records already cite."
+  },
+  {
+   "what": "A suspected U+FFFD corruption in the Hyatt night-range dashes.",
+   "outcome": "NOT a defect. The stored character is U+2013 EN DASH; the replacement glyph was this terminal's cp1252 rendering. A note added on the false assumption was removed."
+  }
+ ],
+
+ "address_completion_rereads": {
+  "why": "The exclusion contract requires a non-empty address (empty string counts as missing), and every one of this market's 53 existing seed rows carries one. Two promoted rows rendered no street in their 2026-09-04 capture, and neither the census nor the shadow recensus held one.",
+  "authorisation": "The operator ruled in-conversation on 2026-09-05 that completing an approved row's required identity field with one free re-read is completion, not new acquisition. The first re-read was ruled explicitly; the second was applied on the same principle and is reported here rather than assumed.",
+  "rows": [
+   {"identity_key": "springhill suites pittsburgh mills",
+    "street": "3015 Pittsburgh Mills Blvd",
+    "source": "the property page's own JSON-LD streetAddress, corroborated by rendered text",
+    "reproduced_unchanged": "policy quote, telephone, city and ZIP"},
+   {"identity_key": "residence inn pittsburgh monroeville",
+    "street": "3455 William Penn Highway",
+    "source": "the property page's own JSON-LD streetAddress",
+    "reproduced_unchanged": "policy quote, telephone, city and ZIP"}
+  ],
+  "cost": "$0.00, no provider, 2 page loads"
+ },
+
+ "founder_holds_preserved_outside_promotion": {
+  "blocking": 0,
+  "non_blocking": 14,
+  "explicitly_not_promoted": [
+   {"row": "shadyside inn suites", "why": "conversion to long-term apartments is founder item PGH-R1-C1 and has no signed disposition; not added to any authority"},
+   {"row": "doubletree by hilton pittsburgh airport", "why": "its LIVE no-pets evidence rests on an amenity-list line (founder item PGH-R1-E1). The record was not touched, re-signed or re-hashed."},
+   {"rows": "residence inn pittsburgh airport coraopolis, residence inn pittsburgh university center, trellis north fayette", "why": "the two duplicate-premises questions, PGH-R1-A1 and PGH-R1-A2, remain open and all three rows stay unresolved"},
+   {"rows": "mansions on fifth, the priory hotel, the landing hotel at rivers casino, tryp hotel pittsburgh", "why": "POLICY_NOT_FOUND across their own surfaces; silence is not a refusal"},
+   {"rows": "courtyard by marriott pittsburgh shadyside, doubletree by hilton pittsburgh monroeville, hampton inn pittsburgh airport moon, ace hotel pittsburgh, sunnyledge boutique hotel, hyatt place pittsburgh cranberry", "why": "dead or poisoned routes; brand-roster absence is not a closure ruling"}
+  ]
+ },
+
+ "routing_findings_preserved": {
+  "marriott_hilton_routes_audited": 59,
+  "route_matches_inventory": 54,
+  "dead_codes": 5,
+  "dead_codes_on_published_rows": 0,
+  "note": "Every promoted row's route matches its brand's own published sitemap. The two rows routed free from those sitemaps (marriott:pitct and marriott:pitdf) were captured at their recovered first-party URL, not bound positionally. No published live route was rebound to a dead code, and the Firecrawl-resolved IHG rows keep their exact first-party route."
+ }
+}
