@@ -2,10 +2,10 @@
  "schema": "ptf-canonical-name-correction/1.0",
  "what_this_is": "Canonical names corrected from the property's OWN page, for census identities whose discovered name is a bare chain word or names the same building a different way. The census is not edited: it remains the record of what discovery OBSERVED, and this overlay is what a reader should be shown instead. Every row cites the page that states the replacement, so a correction can be checked or withdrawn by deleting one entry.",
  "market_id": "louisville-ky",
- "work_order": "PTF-LOUISVILLE-FOUNDER-REMEDIATION-005 / PTF-LOUISVILLE-FOUNDER-FINAL-006",
+ "work_order": "PTF-LOUISVILLE-PROMOTION-AND-APPLICATION-002",
  "authorised_by": "PTF-LOUISVILLE-FOUNDER-REVIEW-004 (APPROVE_WITH_CHANGE, canonical_name) and the founder decision recorded in markets/founder_overrides/louisville-ky.json for the Seelbach",
  "rule": "A replacement may only be a name the property's own captured page states. Nothing here is invented, and no correction adds or alters a policy fact.",
- "count": 10,
+ "count": 11,
  "records": [
   {
    "identity_key": "candlewood suites",
@@ -86,6 +86,16 @@
    "evidence_field": "identity_check.name_on_page",
    "source_url": "https://www.hilton.com/en/hotels/sdflvru-tru-louisville-east/",
    "why": "the census name is a bare chain word and would publish a directory entry that names no building"
+  },
+  {
+   "identity_key": "staybridge suites",
+   "census_canonical_name": "Staybridge Suites",
+   "corrected_canonical_name": "Staybridge Suites Louisville-East",
+   "evidence_url": "https://www.ihg.com/staybridge/hotels/us/en/louisville/sdfmt/hoteldetail",
+   "evidence_quote": "Louisville Hotel near Kentucky Kingdom | Staybridge Suites Louisville-East",
+   "evidence_sha256": "sha256:read in PTF-LOUISVILLE-PARALLEL-REVALIDATION-001 firecrawl_captures.json",
+   "recorded_by": "PTF-LOUISVILLE-PROMOTION-AND-APPLICATION-002",
+   "note": "The census discovered this identity as the bare chain word 'Staybridge Suites'. Its own IHG page (property code sdfmt, 11711 Gateworth Way, 40299) titles it Staybridge Suites Louisville-East, and it is a DIFFERENT building from 'staybridge suites louisville expo center' (sdfbg, 380 Farmington Ave, 40209), which this market already publishes. The census row is NOT renamed and the identity is NOT rekeyed: the public route is derived from the seed name, which must normalize to the identity key, so correcting the route would require an authorized rekey. Recorded here as the display a reader should be shown, and raised as a founder item."
   }
  ]
 }

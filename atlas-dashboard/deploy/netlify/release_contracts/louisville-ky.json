@@ -18,15 +18,17 @@
    "PTF-LOUISVILLE-COVERAGE-EXPANSION-003",
    "PTF-LOUISVILLE-FOUNDER-REVIEW-004",
    "PTF-LOUISVILLE-FOUNDER-REMEDIATION-005",
-   "PTF-LOUISVILLE-FOUNDER-FINAL-006"
+   "PTF-LOUISVILLE-FOUNDER-FINAL-006",
+   "PTF-LOUISVILLE-PROMOTION-AND-APPLICATION-002"
   ],
   "decision_ledgers": [
-   "louisville_ky_founder_decisions_006.json"
+   "louisville_ky_founder_decisions_006.json",
+   "PTF-LOUISVILLE-PROMOTION-AND-APPLICATION-002"
   ],
   "binding_contract": "semantic-approval/1.0",
   "approval_vocabulary": "founder-approval-vocabulary/1.0",
   "publication_schema_work_order": "PTF-ST-LOUIS-PUBLICATION-SCHEMA-DECISIONS-010, re-affirmed for this market by PTF-LOUISVILLE-PUBLICATION-008: 23 rows publish an unqualified blanket maximum as operator=lte scope=per_pet, and one fee cap publishes qualifier_stated=false, meaning THE SOURCE STATED NO FURTHER QUALIFIER and never that none exists.",
-  "signed_authority_total": 63,
+  "signed_authority_total": 73,
   "superseded_identities": [],
   "superseded_note": "None. No Louisville signature was withdrawn or superseded.",
   "held_identities": [],
@@ -48,31 +50,31 @@
  },
  "reconciliation": {
   "confirmed_identities": 166,
-  "published_pet_friendly": 46,
-  "verified_no_pets": 17,
-  "resolved": 63,
-  "unresolved": 103,
-  "note": "verified_no_pets counts ONLY VERIFIED_NO_PETS records this market owns. unresolved is UNKNOWN and never negative evidence: 41 identities were never reached by a lane that could answer, 61 hold insufficient evidence and 1 served a page that stated no policy. A failed capture answers nothing."
+  "published_pet_friendly": 53,
+  "verified_no_pets": 20,
+  "resolved": 73,
+  "unresolved": 93,
+  "note": "verified_no_pets counts ONLY VERIFIED_NO_PETS records this market owns. unresolved is UNKNOWN and never negative evidence. PTF-LOUISVILLE-PROMOTION-AND-APPLICATION-002 promoted the reader-validated rows from PTF-LOUISVILLE-PARALLEL-REVALIDATION-001 -- 7 pet-friendly and 3 verified-no-pets -- moving published 46 -> 53, no-pets 17 -> 20, resolved 63 -> 73 and unresolved 103 -> 93. The census did not move: this order promoted policy, not membership. Four rows the revalidation called clean are HELD because the committed policy reader would not derive their pets_allowed."
  },
  "policy_package": {
   "path": "launch_packages/pettripfinder/hotel_policy_facts_louisville-ky.json",
-  "expected_sha256": "b6401ecd2c3284fd970ebe272b35ef6b30aa688cb9c491f072bf8ea7fba054c5",
+  "expected_sha256": "b728c2bc09da15c226326464529917ea3b646591f6f1b75dacfa6aca2ee51bac",
   "expected_schema_version": "1.3",
-  "expected_record_count": 46,
+  "expected_record_count": 53,
   "identity_authority": true,
-  "note": "The verified hotel identities are DERIVED from this package at assembly time via scripts.pettripfinder.site_data.verified_public_hotels(); they are not restated here. This package carries published: true and a publication block naming the work order that flipped it, and its records are byte-identical to the ones the founder signed at PTF-LOUISVILLE-FOUNDER-FINAL-006.",
+  "note": "The verified hotel identities are DERIVED from this package at assembly time via scripts.pettripfinder.site_data.verified_public_hotels(); they are not restated here. Records 47-53 were appended by PTF-LOUISVILLE-PROMOTION-AND-APPLICATION-002 and each carries its own approval block naming that order; the original 46 are byte-identical to the ones the founder signed at PTF-LOUISVILLE-FOUNDER-FINAL-006.",
   "replaces": "The 14-record package this path carried from the retired 001 build. That package described a market of 130 identities and was never published."
  },
  "public_surface": {
-  "seed_hotel_rows": 46,
-  "public_hotel_profile_count": 46,
+  "seed_hotel_rows": 53,
+  "public_hotel_profile_count": 53,
   "excluded_public_profile_count": 0,
   "held_hotel_exclusion": "Every seed hotel this market owns that is absent from the committed package must have NO public route and NO reference on any surface: hotel profiles, the hotels listing page, nearby-lodging cards, the policy-comparison table, the sitemap, canonicals, internal links and /go/ interstitials. This market's seed inventory is derived one row per approved record, so a held, refused or SUPERSEDED property has no inventory row to leak -- and the gate is derived, so it starts enforcing the moment that changes."
  },
  "routes": {
   "market_slug": "louisville-ky",
   "route_mode": "market_prefixed",
-  "hotel_route_count": 46,
+  "hotel_route_count": 53,
   "published_corridor_route_count": 4,
   "note": "route_mode market_prefixed: this market's hub, corridor and policy-comparison pages live under /pet-friendly-hotels/louisville-ky/. Four of its eighteen configured corridors reach their own configured minimum and claim a route; the rest claim none. The market and its corridors stay hidden from navigation and the sitemap (show_in_navigation=false, show_in_sitemap=false), the posture the market contract carries and the one Pittsburgh and St. Louis launched with. The routes themselves are live and directly reachable."
  },
