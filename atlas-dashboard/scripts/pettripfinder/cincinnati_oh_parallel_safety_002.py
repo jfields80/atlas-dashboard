@@ -65,8 +65,19 @@ FORBIDDEN = [
 # A shared file this order IS allowed to touch, and the exact reason.
 ALLOWED_SHARED = {
     "atlas-dashboard/tests/pettripfinder/acquisition/test_store_integration_025.py":
-        "run-registration bookkeeping. Phase 19 permits adding Cincinnati only, and the diff adds two "
+        "run-registration bookkeeping. Phase 19 permits adding Cincinnati only, and the diff adds four "
         "cincinnati_oh_* run ids to OTHER_MARKET_RUNS and changes nothing else.",
+    "atlas-dashboard/tests/pettripfinder/test_regression_delta_001.py":
+        "closure of a TRUE_NEW failure this order's own registration commit opened. The replay fixture "
+        "built its BEFORE from the live registration file, so once this branch actually applied that "
+        "registration the edit under test became a no-op. The fixture now strips those two elements back "
+        "out before committing its base. No assertion changed and no market is named.",
+    "atlas-dashboard/launch_packages/pettripfinder/reports/factory_throughput_001_test_inventory.json":
+        "generated description of the suite, regenerated because carrying revalidation 001's pin "
+        "migration onto this base moved 32 restated sites onto the shared pins. It is a report ABOUT the "
+        "tests, never authority, and no market's counts live in it.",
+    "atlas-dashboard/launch_packages/pettripfinder/reports/factory_throughput_001_test_inventory.md":
+        "the same generated inventory in its readable form, regenerated in the same call.",
 }
 
 
