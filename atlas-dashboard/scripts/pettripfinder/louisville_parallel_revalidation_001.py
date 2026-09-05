@@ -15,7 +15,16 @@ from __future__ import annotations
 
 import json
 import pathlib
+import re
 import sys
+
+# Louisville metro localities, state-qualified so a same-named town elsewhere cannot
+# leak into this market's roster.
+WYN_METRO_RE = re.compile(
+    r"/(louisville-kentucky|jeffersonville-indiana|clarksville-indiana|"
+    r"new-albany-indiana|sellersburg-indiana|shepherdsville-kentucky|"
+    r"jeffersontown-kentucky|la-grange-kentucky|charlestown-indiana|"
+    r"prospect-kentucky|shively-kentucky|lyndon-kentucky)/")
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 PKG = ROOT / "launch_packages" / "pettripfinder"
@@ -362,9 +371,15 @@ def build(scratch: pathlib.Path) -> None:
             },
             "WYNDHAM": {
                 "source": "https://www.wyndhamhotels.com/sitemap.xml -> 695 shards",
+                "locality_must_carry_its_state":
+                    "Wyndham's slugs name the state, and a bare locality token drags other "
+                    "states in: 'clarksville' alone pulls Clarksville TENNESSEE and "
+                    "ARKANSAS into a Louisville roster, and 'middletown' pulls Rhode "
+                    "Island. The metro list below is filtered on state-qualified slugs.",
                 "metro_property_pages": sorted(
                     {u for u in wyn["urls"]
-                     if "/en-ca/" not in u and u.rstrip("/").endswith("overview")}),
+                     if "/en-ca/" not in u and u.rstrip("/").endswith("overview")
+                     and WYN_METRO_RE.search(u.lower())}),
             },
         },
         "route_classification": {
