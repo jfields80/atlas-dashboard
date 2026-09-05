@@ -1,7 +1,7 @@
 {
  "schema": "ptf-supersession-registry/1.0",
  "what_this_is": "Which later work orders moved a market out from under a CONSUMED historical deployment authorization. An authorization is immutable evidence of what was authorized and deployed at the time; later legitimate source growth must NOT make its historical hash read as corrupt. So a test that re-verifies a historical authorization skips exactly the markets named here -- named, never blanket -- and still binds every market that was not moved. A market may only be listed with the work order that moved it.",
- "reviewed_by": "PTF-LOUISVILLE-PROMOTION-AND-APPLICATION-002",
+ "reviewed_by": "PTF-LOUISVILLE-DEPLOYMENT-AUTHORIZATION-003",
  "authorizations": {
   "ptf-auth-047-a324b1bf5023": {
    "work_order": "PTF-FIRST-MULTI-MARKET-AUTHORIZATION-AND-DEPLOYMENT-047",
@@ -36,7 +36,12 @@
    "moved_by_later_work": {
     "louisville-ky": "PTF-LOUISVILLE-PROMOTION-AND-APPLICATION-002"
    },
-   "note": "The current live authorization. Nothing has moved out from under it: every market's source count equals what production serves, which is why this list is empty rather than absent. A later promotion order that moves a market names it here."
+   "note": "Historical. It was the live authorization until PTF-LOUISVILLE-DEPLOYMENT-AUTHORIZATION-003 shipped Louisville as deploy 6a9ca921843f2cba2ddf8da1. Louisville had moved out from under it in source before that deploy and is named above, so re-verifying this authorization skips exactly that market and still binds every other one."
+  },
+  "ptf-auth-louisville-003-ea9349d31b86": {
+   "work_order": "PTF-LOUISVILLE-DEPLOYMENT-AUTHORIZATION-003",
+   "moved_by_later_work": {},
+   "note": "The current live authorization. Nothing has moved out from under it: it was authorized against exactly the source that deploy 6a9ca921843f2cba2ddf8da1 serves, so source and production are in sync and this entry stays empty until the next application order moves a market."
   }
  }
 }
