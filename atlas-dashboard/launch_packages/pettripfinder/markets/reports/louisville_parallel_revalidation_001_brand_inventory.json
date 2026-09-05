@@ -1,0 +1,820 @@
+{
+ "schema": "ptf-brand-inventory-snapshot/1.1",
+ "work_order": "PTF-LOUISVILLE-PARALLEL-REVALIDATION-001",
+ "market_id": "louisville-ky",
+ "as_of": "2026-09-04",
+ "lane": "LOCAL_FREE_DISCOVERY (official brand sitemaps)",
+ "provider_calls": 0,
+ "usd_spent": 0.0,
+ "credits": 0,
+ "what_this_is": "Each brand's OWN published sitemap, read so that every route this market holds can be audited against the roster the brand itself publishes rather than against a guess. Marriott, Hilton and Wyndham all wall their property PAGES at 403 while serving their sitemaps freely, so the sitemap is the only zero-cost way to ask a brand what it still operates.",
+ "asserts_no_closure": "A property ABSENT from a brand's published roster is a statement about the BRAND ROSTER, not proof that a building closed or stopped taking guests. Every absence here is routed to a founder identity question, never to a closure ruling.",
+ "a_sitemap_does_not_prove_policy": "A sitemap or locator can prove identity and routing. It proves nothing about a pet policy, and no policy fact in this order rests on one.",
+ "surface_probe": {
+  "served_free": {
+   "marriott.com": "sitemap 200",
+   "hilton.com": "sitemap 200",
+   "wyndhamhotels.com": "sitemap 200",
+   "druryhotels.com": "property pages 200"
+  },
+  "refused_free": {
+   "ihg.com": "403",
+   "choicehotels.com": "timeout",
+   "bestwestern.com": "403",
+   "hyatt.com": "403",
+   "redroof.com": "403",
+   "motel6.com": "timeout"
+  },
+  "property_pages_walled_even_where_the_sitemap_served": [
+   "marriott.com 403",
+   "hilton.com 403",
+   "wyndhamhotels.com 403 (intermittent: the same host served 10 property pages later in the run, so Wyndham is RATE-LIMITED, not walled)"
+  ]
+ },
+ "brands": {
+  "MARRIOTT": {
+   "source": "https://www.marriott.com/sitemap-index.xml -> 74 hotel shards",
+   "total_us_codes": 10229,
+   "market_slice_sdf": 42,
+   "route_assertions_audited": 76,
+   "exact_active_route": 76,
+   "dead_property_code": 0,
+   "codes": {
+    "sdfac": "ac-hotel-louisville-downtown",
+    "sdfak": "hotel-distil-autograph-collection",
+    "sdfal": "aloft-louisville-east",
+    "sdfap": "courtyard-louisville-airport",
+    "sdfch": "courtyard-louisville-east",
+    "sdfdt": "courtyard-louisville-downtown",
+    "sdfei": "residence-inn-elizabethtown",
+    "sdfel": "fairfield-inn-and-suites-elizabethtown",
+    "sdfer": "studiores-louisville-east",
+    "sdffa": "fairfield-inn-and-suites-louisville-airport",
+    "sdffb": "fairfield-inn-and-suites-bardstown",
+    "sdffd": "fairfield-inn-and-suites-louisville-downtown",
+    "sdffl": "fairfield-inn-and-suites-louisville-jeffersonville",
+    "sdffm": "fairfield-inn-and-suites-madison-historic-eagle-cotton-mill",
+    "sdffn": "fairfield-inn-and-suites-louisville-northeast",
+    "sdffp": "four-points-louisville-airport",
+    "sdffv": "fairfield-inn-and-suites-louisville-shepherdsville",
+    "sdffy": "fairfield-inn-and-suites-louisville-new-albany-in",
+    "sdfgj": "residence-inn-louisville-downtown",
+    "sdfhf": "residence-inn-louisville-east",
+    "sdfla": "springhill-suites-louisville-airport",
+    "sdfld": "aloft-louisville-downtown",
+    "sdfle": "fairfield-inn-and-suites-louisville-east",
+    "sdflm": "louisville-marriott-downtown",
+    "sdfls": "louisville-marriott-east",
+    "sdfne": "courtyard-louisville-northeast",
+    "sdfox": "moxy-louisville-downtown",
+    "sdfra": "residence-inn-louisville-airport",
+    "sdfre": "residence-inn-louisville-east-oxmoor",
+    "sdfri": "residence-inn-louisville-northeast",
+    "sdfrt": "residence-inn-louisville-old-henry",
+    "sdfsd": "springhill-suites-louisville-downtown",
+    "sdfse": "springhill-suites-elizabethtown",
+    "sdfsh": "springhill-suites-louisville-hurstbourne-north",
+    "sdfsi": "sheraton-louisville-riverside-hotel",
+    "sdfsx": "city-express-shepherdsville-louisville",
+    "sdftd": "towneplace-suites-louisville-downtown",
+    "sdftn": "towneplace-suites-louisville-northeast",
+    "sdfts": "towneplace-suites-louisville-airport",
+    "sdfvf": "fairfield-inn-and-suites-shelbyville",
+    "sdfvn": "towneplace-suites-louisville-north",
+    "sdfxe": "city-express-louisville-southeast"
+   }
+  },
+  "HILTON": {
+   "source": "https://www.hilton.com/sitemap/en/sitemap-en.xml -> 539 property shards",
+   "total_codes": 9736,
+   "market_slice_sdf": 38,
+   "route_assertions_audited": 158,
+   "exact_active_route": 158,
+   "dead_property_code": 0,
+   "slice_correction": "An earlier pass sliced Hilton by the sdf* airport prefix alone and manufactured two dead codes. A market's property codes are NOT all prefixed by its airport code -- Clarksville uses ckv*, Louisville downtown uses lou* -- and both codes are alive in the full roster. The audit above runs against the FULL published roster.",
+   "codes": {
+    "sdfahgi": "hilton-garden-inn-louisville-airport",
+    "sdfaihw": "homewood-suites-louisville-airport",
+    "sdfanpe": "spark-la-grange",
+    "sdfaphx": "hampton-louisville-airport",
+    "sdfbrhx": "hampton-louisville-i-65-at-brooks-rd",
+    "sdfcchx": "hampton-cave-city",
+    "sdfcvhx": "hampton-louisville-north-clarksville",
+    "sdfcype": "spark-cave-city",
+    "sdfdnes": "embassy-suites-louisville-downtown",
+    "sdfdthx": "hampton-louisville-downtown",
+    "sdfeahw": "homewood-suites-louisville-east",
+    "sdfecht": "home2-suites-louisville-airport-expo-center",
+    "sdfehht": "home2-suites-louisville-east-hurstbourne",
+    "sdfemes": "embassy-suites-louisville-east",
+    "sdfeohx": "hampton-suites-louisville-east-oxmoor",
+    "sdfhshx": "hampton-suites-louisville-east",
+    "sdfhuhx": "hampton-louisville-east-hurstbourne",
+    "sdfimpe": "spark-louisville-airport",
+    "sdfjfgi": "hilton-garden-inn-jeffersonville-louisville-north",
+    "sdfkdhx": "hampton-new-albany-louisville-west",
+    "sdfkyhx": "hampton-louisville-northeast",
+    "sdflaru": "tru-louisville-airport",
+    "sdfldgi": "hilton-garden-inn-louisville-downtown",
+    "sdflegi": "hilton-garden-inn-louisville-east",
+    "sdflmht": "home2-suites-louisville-downtown-nulu",
+    "sdflvru": "tru-louisville-east",
+    "sdfmyup": "the-myriad-hotel-louisville",
+    "sdfnegi": "hilton-garden-inn-louisville-northeast",
+    "sdfnqhx": "hampton-simpsonville",
+    "sdfonpe": "spark-shepherdsville-louisville-south",
+    "sdfpopo": "tempo-louisville-downtown-nulu",
+    "sdfruru": "tru-shepherdsville-louisville-south",
+    "sdfshhf": "the-seelbach-hilton-louisville",
+    "sdfsmgi": "hilton-garden-inn-louisville-mall-of-st-matthews",
+    "sdfstqq": "hotel-bourre-bonne-louisville",
+    "sdfsvht": "home2-suites-shepherdsville-louisville-south",
+    "sdftglx": "the-grady",
+    "sdfuppe": "spark-sellersburg"
+   }
+  },
+  "WYNDHAM": {
+   "source": "https://www.wyndhamhotels.com/sitemap.xml -> 695 shards",
+   "metro_property_pages": [
+    "https://www.wyndhamhotels.com/baymont/brooks-kentucky/baymont-louisville-south-shepherdsville-i-65/overview",
+    "https://www.wyndhamhotels.com/baymont/clarksville-tennessee/baymont-inn-and-suites-clarksville-northeast/overview",
+    "https://www.wyndhamhotels.com/baymont/clarksville-tennessee/baymont-inn-suites-clarksville/overview",
+    "https://www.wyndhamhotels.com/baymont/corydon-indiana/baymont-inn-and-suites-corydon/overview",
+    "https://www.wyndhamhotels.com/baymont/elizabethtown-kentucky/baymont-inn-and-suites-elizabethtown/overview",
+    "https://www.wyndhamhotels.com/baymont/jeffersonville-ohio/baymont-inn-and-suites-washington-court-house/overview",
+    "https://www.wyndhamhotels.com/baymont/la-grange-kentucky/baymont-la-grange-ky-southeast/overview",
+    "https://www.wyndhamhotels.com/baymont/louisville-kentucky/baymont-inn-and-suites-louisville/overview",
+    "https://www.wyndhamhotels.com/baymont/louisville-kentucky/baymont-inn-louisville-airport-south/overview",
+    "https://www.wyndhamhotels.com/baymont/louisville-kentucky/baymont-louisville-southwest/overview",
+    "https://www.wyndhamhotels.com/days-inn/clarksville-arkansas/days-inn-clarksville/overview",
+    "https://www.wyndhamhotels.com/days-inn/clarksville-tennessee/days-inn-clarksville-north/overview",
+    "https://www.wyndhamhotels.com/days-inn/clarksville-tennessee/days-inn-clarksville-tn/overview",
+    "https://www.wyndhamhotels.com/days-inn/elizabethtown-kentucky/days-inn-elizabethtown/overview",
+    "https://www.wyndhamhotels.com/days-inn/jeffersonville-indiana/days-inn-and-suites-jeffersonville-indiana/overview",
+    "https://www.wyndhamhotels.com/days-inn/jeffersonville-indiana/days-inn-jeffersonville/overview",
+    "https://www.wyndhamhotels.com/days-inn/la-grange-georgia/days-inn-la-grange/overview",
+    "https://www.wyndhamhotels.com/days-inn/louisville-kentucky/days-inn-louisville-airport-fair-and-expo-center/overview",
+    "https://www.wyndhamhotels.com/days-inn/louisville-kentucky/days-inn-suites-louisville-airport-sw/overview",
+    "https://www.wyndhamhotels.com/days-inn/louisville-mississippi/days-inn-louisville-ms/overview",
+    "https://www.wyndhamhotels.com/days-inn/middletown-ohio/days-inn-middletown-oh/overview",
+    "https://www.wyndhamhotels.com/days-inn/middletown-pennsylvania/days-inn-middletown-harrisburg-east-airport/overview",
+    "https://www.wyndhamhotels.com/days-inn/middletown-pennsylvania/days-inn-middletown-harrisburg-east/overview",
+    "https://www.wyndhamhotels.com/days-inn/middletown-rhode-island/days-inn-middletown-newport-area/overview",
+    "https://www.wyndhamhotels.com/days-inn/new-hampton-new-york/days-inn-middletown-nv/overview",
+    "https://www.wyndhamhotels.com/days-inn/sellersburg-indiana/days-inn-and-suites-sellersburg/overview",
+    "https://www.wyndhamhotels.com/days-inn/shepherdsville-kentucky/days-inn-shepherdsville-louisville/overview",
+    "https://www.wyndhamhotels.com/hawthorn-extended-stay/louisville-kentucky/hawthorn-suites-by-wyndham-louisville-east/overview",
+    "https://www.wyndhamhotels.com/hojo/bardstown-kentucky/howard-johnson-bardstown/overview",
+    "https://www.wyndhamhotels.com/hojo/clarksville-tennessee/howard-johnson-clarksville-tennessee/overview",
+    "https://www.wyndhamhotels.com/hojo/elizabethtown-kentucky/howard-johnson-inn-elizabethtown/overview",
+    "https://www.wyndhamhotels.com/hojo/middletown-new-york/howard-johnson-hotel-middletown/overview",
+    "https://www.wyndhamhotels.com/hojo/middletown-rhode-island/howard-johnson-inn-newport-area-middletown/overview",
+    "https://www.wyndhamhotels.com/hojo/rugao-china/howard-johnson-prospect-hotel-rugao/overview",
+    "https://www.wyndhamhotels.com/laquinta/bardstown-kentucky/la-quinta-inn-and-suites-bardstown/overview",
+    "https://www.wyndhamhotels.com/laquinta/clarksville-tennessee/la-quinta-clarksville/overview",
+    "https://www.wyndhamhotels.com/laquinta/elizabethtown-kentucky/la-quinta-elizabethtown/overview",
+    "https://www.wyndhamhotels.com/laquinta/louisville-colorado/la-quinta-denver-boulder-louisville/overview",
+    "https://www.wyndhamhotels.com/laquinta/louisville-kentucky/la-quinta-inn-and-suites-louisville-ne-old-henry-rd/overview",
+    "https://www.wyndhamhotels.com/laquinta/louisville-kentucky/la-quinta-louisville-east/overview",
+    "https://www.wyndhamhotels.com/laquinta/middletown-new-york/la-quinta-inn-and-suites-middletown-goshen/overview",
+    "https://www.wyndhamhotels.com/laquinta/middletown-new-york/la-quinta-inn-and-suites-middletown/overview",
+    "https://www.wyndhamhotels.com/microtel/clarksville-tennessee/microtel-inn-and-suites-clarksville/overview",
+    "https://www.wyndhamhotels.com/microtel/louisville-kentucky/microtel-inn-louisville-east-ky/overview",
+    "https://www.wyndhamhotels.com/microtel/middletown-new-york/microtel-inn-and-suites-middletown/overview",
+    "https://www.wyndhamhotels.com/ramada/bardstown-kentucky/ramada-bardstown/overview",
+    "https://www.wyndhamhotels.com/ramada/elizabethtown-kentucky/ramada-elizabethtown/overview",
+    "https://www.wyndhamhotels.com/ramada/sellersburg-indiana/ramada-sellersburg-louisville-north/overview",
+    "https://www.wyndhamhotels.com/ramada/shepherdsville-kentucky/ramada-shepherdsville-louisville-south/overview",
+    "https://www.wyndhamhotels.com/super-8/clarksville-arkansas/super-8-clarksville-ar/overview",
+    "https://www.wyndhamhotels.com/super-8/clarksville-tennessee/super-8-clarksville-east/overview",
+    "https://www.wyndhamhotels.com/super-8/clarksville-tennessee/super-8-clarksville-northeast/overview",
+    "https://www.wyndhamhotels.com/super-8/corydon-indiana/super-8-corydon/overview",
+    "https://www.wyndhamhotels.com/super-8/elizabethtown-kentucky/super-8-elizabethtown/overview",
+    "https://www.wyndhamhotels.com/super-8/la-grange-georgia/super-8-la-grange/overview",
+    "https://www.wyndhamhotels.com/super-8/louisville-kentucky/super-8-louisville-airport/overview",
+    "https://www.wyndhamhotels.com/super-8/louisville-kentucky/super-8-louisville-expo-center/overview",
+    "https://www.wyndhamhotels.com/super-8/louisville-kentucky/super-8-louisville-near-conv-expo-ctr/overview",
+    "https://www.wyndhamhotels.com/super-8/middletown-new-york/super-8-middletown/overview",
+    "https://www.wyndhamhotels.com/super-8/middletown-ohio/super-8-franklin-middletown-area/overview",
+    "https://www.wyndhamhotels.com/super-8/middletown-virginia/super-8-middletown-winchester-area-va/overview",
+    "https://www.wyndhamhotels.com/super-8/shepherdsville-kentucky/super-8-by-wyndham-shepherdsville-louisville-south-i65/overview",
+    "https://www.wyndhamhotels.com/trademark/louisville-kentucky/galt-house-hotel-a-trademark-collection-hotel/overview",
+    "https://www.wyndhamhotels.com/travelodge/clarksville-tennessee/travelodge-clarksville/overview",
+    "https://www.wyndhamhotels.com/travelodge/louisville-kentucky/travelodge-louisville-airport/overview",
+    "https://www.wyndhamhotels.com/travelodge/middletown-rhode-island/travelodge-newport-area-middletown/overview",
+    "https://www.wyndhamhotels.com/travelodge/sellersburg-indiana/travelodge-sellersburg-louisville-north/overview",
+    "https://www.wyndhamhotels.com/wingate/clarksville-tennessee/wingate-by-wyndham-clarksville/overview",
+    "https://www.wyndhamhotels.com/wingate/louisville-kentucky/wingate-by-wyndham-louisville-east/overview",
+    "https://www.wyndhamhotels.com/wingate/louisville-kentucky/wingate-by-wyndham-louisville-fair-and-expo/overview",
+    "https://www.wyndhamhotels.com/wingate/prospect-heights-illinois/wingate-by-wyndham-prospect-heights-northbrook/overview",
+    "https://www.wyndhamhotels.com/wyndham-garden/louisville-kentucky/wyndham-garden-louisville-ky/overview",
+    "https://www.wyndhamhotels.com/wyndham/middletown-rhode-island/wyndham-newport-hotel/overview"
+   ]
+  }
+ },
+ "route_classification": {
+  "EXACT_ACTIVE_ROUTE": 234,
+  "DEAD_PROPERTY_CODE": 0,
+  "ROUTE_REPAIR_AVAILABLE": 1,
+  "BRAND_INVENTORY_SILENT": 18,
+  "IDENTITY_REVIEW_FIRST": 2
+ },
+ "routing_rows": [
+  {
+   "identity_key": "americas best value inn louisville",
+   "classification": "FREE_LANE_EXHAUSTED",
+   "reason": "no family whose official sitemap served this run",
+   "city": "Shively",
+   "address": "1735 Stewart Avenue"
+  },
+  {
+   "identity_key": "best western premier louisville airport expo center hotel",
+   "classification": "FREE_LANE_EXHAUSTED",
+   "reason": "no family whose official sitemap served this run",
+   "city": "Louisville",
+   "address": "1921 Bishop Ln"
+  },
+  {
+   "identity_key": "breckinridge inn",
+   "classification": "FREE_LANE_EXHAUSTED",
+   "reason": "no family whose official sitemap served this run",
+   "city": "Louisville",
+   "address": "2800 Breckenridge Lane"
+  },
+  {
+   "identity_key": "candlewood suites jeffersonville",
+   "classification": "FREE_LANE_EXHAUSTED",
+   "reason": "no family whose official sitemap served this run",
+   "city": "Jeffersonville",
+   "address": "1419 N Luther Rd"
+  },
+  {
+   "identity_key": "candlewood suites louisville east",
+   "classification": "FREE_LANE_EXHAUSTED",
+   "reason": "no family whose official sitemap served this run",
+   "city": "Louisville",
+   "address": "11701 Plantside Dr"
+  },
+  {
+   "identity_key": "comfort inn",
+   "classification": "FREE_LANE_EXHAUSTED",
+   "reason": "no family whose official sitemap served this run",
+   "city": "Shively",
+   "address": "4444 Dixie Highway"
+  },
+  {
+   "identity_key": "comfort inn and suites",
+   "classification": "FREE_LANE_EXHAUSTED",
+   "reason": "no family whose official sitemap served this run",
+   "city": "Clarksville",
+   "address": "1485 Broadway Street"
+  },
+  {
+   "identity_key": "comfort inn louisville southwest",
+   "classification": "FREE_LANE_EXHAUSTED",
+   "reason": "no family whose official sitemap served this run",
+   "city": "Louisville",
+   "address": "6703 Dixie Hwy"
+  },
+  {
+   "identity_key": "comfort inn louisville university",
+   "classification": "FREE_LANE_EXHAUSTED",
+   "reason": "no family whose official sitemap served this run",
+   "city": "Louisville",
+   "address": "1419 S 1st St"
+  },
+  {
+   "identity_key": "comfort inn sellersburg",
+   "classification": "FREE_LANE_EXHAUSTED",
+   "reason": "no family whose official sitemap served this run",
+   "city": "Sellersburg",
+   "address": "360 Holiday Blvd"
+  },
+  {
+   "identity_key": "cottonwood suites louisville fair and expo center",
+   "classification": "FREE_LANE_EXHAUSTED",
+   "reason": "no family whose official sitemap served this run",
+   "city": "Shively",
+   "address": "4110 Dixie Highway"
+  },
+  {
+   "identity_key": "country inn and suites by radisson louisville airport",
+   "classification": "FREE_LANE_EXHAUSTED",
+   "reason": "no family whose official sitemap served this run",
+   "city": "Louisville",
+   "address": "1241 Durrett Ln"
+  },
+  {
+   "identity_key": "country inn and suites louisville east ky",
+   "classification": "FREE_LANE_EXHAUSTED",
+   "reason": "no family whose official sitemap served this run",
+   "city": "Jeffersontown",
+   "address": "1241 Kentucky Mills Drive"
+  },
+  {
+   "identity_key": "crossland economy studios louisville st matthews",
+   "classification": "FREE_LANE_EXHAUSTED",
+   "reason": "no family whose official sitemap served this run",
+   "city": "St Matthews",
+   "address": "1401 Browns Lane"
+  },
+  {
+   "identity_key": "days inn by wyndham clarksville",
+   "classification": "BRAND_INVENTORY_SILENT",
+   "subfamily": "days-inn",
+   "distinguishing_tokens": [
+    "clarksville"
+   ],
+   "city": "Clarksville",
+   "postal_code": "47129",
+   "address": "1419 Greene St",
+   "candidates": [],
+   "proposed_url": null
+  },
+  {
+   "identity_key": "days inn central university and expo center",
+   "classification": "BRAND_INVENTORY_SILENT",
+   "subfamily": "days-inn",
+   "distinguishing_tokens": [
+    "central",
+    "expo",
+    "university"
+   ],
+   "city": "Louisville",
+   "postal_code": "40208",
+   "address": "1620 Arthur Street",
+   "candidates": [],
+   "proposed_url": null
+  },
+  {
+   "identity_key": "econo lodge airport",
+   "classification": "FREE_LANE_EXHAUSTED",
+   "reason": "no family whose official sitemap served this run",
+   "city": "Louisville",
+   "address": "6109 Preston Highway"
+  },
+  {
+   "identity_key": "extended stay america louisville alliant avenue",
+   "classification": "FREE_LANE_EXHAUSTED",
+   "reason": "no family whose official sitemap served this run",
+   "city": "Jeffersontown",
+   "address": "1650 Alliant Avenue"
+  },
+  {
+   "identity_key": "extended stay america louisville dutchman",
+   "classification": "FREE_LANE_EXHAUSTED",
+   "reason": "no family whose official sitemap served this run",
+   "city": "St Matthews",
+   "address": "6101 Dutchmans Lane"
+  },
+  {
+   "identity_key": "extended stay america louisville hurstbourne",
+   "classification": "FREE_LANE_EXHAUSTED",
+   "reason": "no family whose official sitemap served this run",
+   "city": "Jeffersontown",
+   "address": "9801 Bunsen Parkway"
+  },
+  {
+   "identity_key": "extended stay america suites louisville hurstbourne",
+   "classification": "FREE_LANE_EXHAUSTED",
+   "reason": "no family whose official sitemap served this run",
+   "city": "Louisville",
+   "address": "10503 Timberwood Cir"
+  },
+  {
+   "identity_key": "fairfield inn and suites by marriott clarksville",
+   "classification": "BRAND_INVENTORY_SILENT",
+   "subfamily": "fairfield",
+   "distinguishing_tokens": [
+    "clarksville"
+   ],
+   "city": "Clarksville",
+   "postal_code": "47129",
+   "address": "1717 Marriott Dr",
+   "candidates": [],
+   "proposed_url": null
+  },
+  {
+   "identity_key": "fairfield inn and suites by marriott louisville north",
+   "classification": "BRAND_INVENTORY_SILENT",
+   "subfamily": "fairfield",
+   "distinguishing_tokens": [
+    "louisville",
+    "north"
+   ],
+   "city": "Jeffersonville",
+   "postal_code": "47130",
+   "address": "300 Embassy Blvd",
+   "candidates": [],
+   "proposed_url": null
+  },
+  {
+   "identity_key": "hampton inn jeffersonville louisville north",
+   "classification": "BRAND_INVENTORY_SILENT",
+   "subfamily": "hampton",
+   "distinguishing_tokens": [
+    "jeffersonville",
+    "louisville",
+    "north"
+   ],
+   "city": "Jeffersonville",
+   "postal_code": "47130",
+   "address": "7002 Highway 62",
+   "candidates": [],
+   "proposed_url": null
+  },
+  {
+   "identity_key": "hampton inn sellersburg",
+   "classification": "BRAND_INVENTORY_SILENT",
+   "subfamily": "hampton",
+   "distinguishing_tokens": [
+    "sellersburg"
+   ],
+   "city": "Sellersburg",
+   "postal_code": "47172",
+   "address": "303 Holiday Blvd",
+   "candidates": [],
+   "proposed_url": null
+  },
+  {
+   "identity_key": "hawthorn suites by wyndham louisville jeffersontown",
+   "classification": "BRAND_INVENTORY_SILENT",
+   "subfamily": "hawthorn",
+   "distinguishing_tokens": [
+    "jeffersontown",
+    "louisville"
+   ],
+   "city": "Jeffersontown",
+   "postal_code": "40299",
+   "address": "11762 Commonwealth Drive",
+   "candidates": [],
+   "proposed_url": null
+  },
+  {
+   "identity_key": "holiday inn express and suites",
+   "classification": "FREE_LANE_EXHAUSTED",
+   "reason": "no family whose official sitemap served this run",
+   "city": "Jeffersontown",
+   "address": "1520 Alliant Avenue"
+  },
+  {
+   "identity_key": "holiday inn express and suites louisville n jeffersonville an ihg hotel holiday inn express and suites",
+   "classification": "FREE_LANE_EXHAUSTED",
+   "reason": "no family whose official sitemap served this run",
+   "city": "Jeffersonville",
+   "address": "1635 Veterans Parkway;Hamburg Pike"
+  },
+  {
+   "identity_key": "holiday inn express clarksville",
+   "classification": "FREE_LANE_EXHAUSTED",
+   "reason": "no family whose official sitemap served this run",
+   "city": "Clarksville",
+   "address": "709 Marriott Dr"
+  },
+  {
+   "identity_key": "holiday inn express louisville southwest",
+   "classification": "FREE_LANE_EXHAUSTED",
+   "reason": "no family whose official sitemap served this run",
+   "city": "Louisville",
+   "address": "6801 Dixie Hwy"
+  },
+  {
+   "identity_key": "holiday inn express new albany",
+   "classification": "FREE_LANE_EXHAUSTED",
+   "reason": "no family whose official sitemap served this run",
+   "city": "New Albany",
+   "address": "200 Plaza Dr"
+  },
+  {
+   "identity_key": "holiday inn express sellersburg",
+   "classification": "FREE_LANE_EXHAUSTED",
+   "reason": "no family whose official sitemap served this run",
+   "city": "Sellersburg",
+   "address": "350 Holiday Blvd"
+  },
+  {
+   "identity_key": "home2 suites by hilton jeffersonville",
+   "classification": "BRAND_INVENTORY_SILENT",
+   "subfamily": "home2",
+   "distinguishing_tokens": [
+    "jeffersonville"
+   ],
+   "city": "Jeffersonville",
+   "postal_code": "47130",
+   "address": "1466 Veterans Pkwy",
+   "candidates": [],
+   "proposed_url": null
+  },
+  {
+   "identity_key": "home2 suites by hilton louisville northeast",
+   "classification": "BRAND_INVENTORY_SILENT",
+   "subfamily": "home2",
+   "distinguishing_tokens": [
+    "louisville",
+    "northeast"
+   ],
+   "city": "Louisville",
+   "postal_code": "40241",
+   "address": "3701 Chamberlain Ln",
+   "candidates": [],
+   "proposed_url": null
+  },
+  {
+   "identity_key": "homewood suites by hilton louisville east",
+   "classification": "IDENTITY_REVIEW_FIRST",
+   "subfamily": "homewood",
+   "distinguishing_tokens": [
+    "east",
+    "louisville"
+   ],
+   "city": "Louisville",
+   "postal_code": "40223",
+   "address": "10245 Linn Station Rd",
+   "candidates": [
+    {
+     "code": "sdfeahw",
+     "url": "https://www.hilton.com/en/hotels/sdfeahw-homewood-suites-louisville-east/",
+     "slug": "homewood-suites-louisville-east",
+     "extra_tokens": []
+    }
+   ],
+   "proposed_url": null,
+   "review_reason": "2 census rows resolve to the single brand property https://www.hilton.com/en/hotels/sdfeahw-homewood-suites-louisville-east/; the brand publishes one building, so at most one of these rows can hold this route"
+  },
+  {
+   "identity_key": "homewood suites louisville east",
+   "classification": "IDENTITY_REVIEW_FIRST",
+   "subfamily": "homewood",
+   "distinguishing_tokens": [
+    "east",
+    "louisville"
+   ],
+   "city": "Lyndon",
+   "postal_code": "40222",
+   "address": "9401 Hurstbourne Trace",
+   "candidates": [
+    {
+     "code": "sdfeahw",
+     "url": "https://www.hilton.com/en/hotels/sdfeahw-homewood-suites-louisville-east/",
+     "slug": "homewood-suites-louisville-east",
+     "extra_tokens": []
+    }
+   ],
+   "proposed_url": null,
+   "review_reason": "2 census rows resolve to the single brand property https://www.hilton.com/en/hotels/sdfeahw-homewood-suites-louisville-east/; the brand publishes one building, so at most one of these rows can hold this route"
+  },
+  {
+   "identity_key": "howard johnson by wyndham louisville airport",
+   "classification": "BRAND_INVENTORY_SILENT",
+   "subfamily": "hojo",
+   "distinguishing_tokens": [
+    "airport",
+    "louisville"
+   ],
+   "city": "Louisville",
+   "postal_code": "40213",
+   "address": "4470 Olin Rd",
+   "candidates": [],
+   "proposed_url": null
+  },
+  {
+   "identity_key": "intown suites",
+   "classification": "FREE_LANE_EXHAUSTED",
+   "reason": "no family whose official sitemap served this run",
+   "city": "Louisville",
+   "address": "4604 Wattbourne Lane"
+  },
+  {
+   "identity_key": "intown suites louisville airport",
+   "classification": "FREE_LANE_EXHAUSTED",
+   "reason": "no family whose official sitemap served this run",
+   "city": "Louisville",
+   "address": "6623 Preston Highway"
+  },
+  {
+   "identity_key": "intown suites louisville south",
+   "classification": "FREE_LANE_EXHAUSTED",
+   "reason": "no family whose official sitemap served this run",
+   "city": "Louisville",
+   "address": "7121 Preston Highway"
+  },
+  {
+   "identity_key": "la quinta inn and suites by wyndham louisville airport expo",
+   "classification": "BRAND_INVENTORY_SILENT",
+   "subfamily": "laquinta",
+   "distinguishing_tokens": [
+    "airport",
+    "expo",
+    "louisville"
+   ],
+   "city": "Louisville",
+   "postal_code": "40213",
+   "address": "4125 Preston Hwy",
+   "candidates": [],
+   "proposed_url": null
+  },
+  {
+   "identity_key": "market street inn bed and breakfast",
+   "classification": "FREE_LANE_EXHAUSTED",
+   "reason": "no family whose official sitemap served this run",
+   "city": "Jeffersonville",
+   "address": "330 West Market Street"
+  },
+  {
+   "identity_key": "microtel inn and suites by wyndham louisville airport",
+   "classification": "BRAND_INVENTORY_SILENT",
+   "subfamily": "microtel",
+   "distinguishing_tokens": [
+    "airport",
+    "louisville"
+   ],
+   "city": "Louisville",
+   "postal_code": "40213",
+   "address": "1221 Durrett Ln",
+   "candidates": [],
+   "proposed_url": null
+  },
+  {
+   "identity_key": "motel 6 louisville ky bardstown road",
+   "classification": "FREE_LANE_EXHAUSTED",
+   "reason": "no family whose official sitemap served this run",
+   "city": "Louisville",
+   "address": "3304 Bardstown Rd"
+  },
+  {
+   "identity_key": "quality inn and suites",
+   "classification": "FREE_LANE_EXHAUSTED",
+   "reason": "no family whose official sitemap served this run",
+   "city": "Louisville",
+   "address": "9340 Blairwood Road"
+  },
+  {
+   "identity_key": "quality inn louisville airport",
+   "classification": "FREE_LANE_EXHAUSTED",
+   "reason": "no family whose official sitemap served this run",
+   "city": "Louisville",
+   "address": "4455 Bishop Ln"
+  },
+  {
+   "identity_key": "quality inn louisville east",
+   "classification": "FREE_LANE_EXHAUSTED",
+   "reason": "no family whose official sitemap served this run",
+   "city": "Louisville",
+   "address": "1001 Herr Ln"
+  },
+  {
+   "identity_key": "quality inn louisville southwest",
+   "classification": "FREE_LANE_EXHAUSTED",
+   "reason": "no family whose official sitemap served this run",
+   "city": "Louisville",
+   "address": "4444 Dixie Hwy"
+  },
+  {
+   "identity_key": "quality inn new albany",
+   "classification": "FREE_LANE_EXHAUSTED",
+   "reason": "no family whose official sitemap served this run",
+   "city": "New Albany",
+   "address": "411 Penn St"
+  },
+  {
+   "identity_key": "ramada plaza louisville hotel and conference center",
+   "classification": "BRAND_INVENTORY_SILENT",
+   "subfamily": "ramada",
+   "distinguishing_tokens": [
+    "louisville",
+    "plaza"
+   ],
+   "city": "Jeffersontown",
+   "postal_code": "40299",
+   "address": "9700 Bluegrass Parkway",
+   "candidates": [],
+   "proposed_url": null
+  },
+  {
+   "identity_key": "rivue tower",
+   "classification": "FREE_LANE_EXHAUSTED",
+   "reason": "no family whose official sitemap served this run",
+   "city": "Louisville",
+   "address": "140 North 4th Street"
+  },
+  {
+   "identity_key": "sleep inn louisville",
+   "classification": "FREE_LANE_EXHAUSTED",
+   "reason": "no family whose official sitemap served this run",
+   "city": "Jeffersontown",
+   "address": "1850 Priority Way"
+  },
+  {
+   "identity_key": "star motel",
+   "classification": "FREE_LANE_EXHAUSTED",
+   "reason": "no family whose official sitemap served this run",
+   "city": "Clarksville",
+   "address": "1412 Eastern Blvd"
+  },
+  {
+   "identity_key": "super 8 by wyndham clarksville",
+   "classification": "BRAND_INVENTORY_SILENT",
+   "subfamily": "super-8",
+   "distinguishing_tokens": [
+    "clarksville"
+   ],
+   "city": "Clarksville",
+   "postal_code": "47129",
+   "address": "1099 N Luther Rd",
+   "candidates": [],
+   "proposed_url": null
+  },
+  {
+   "identity_key": "super 8 by wyndham louisville southwest",
+   "classification": "BRAND_INVENTORY_SILENT",
+   "subfamily": "super-8",
+   "distinguishing_tokens": [
+    "louisville",
+    "southwest"
+   ],
+   "city": "Louisville",
+   "postal_code": "40216",
+   "address": "4800 Dixie Hwy",
+   "candidates": [],
+   "proposed_url": null
+  },
+  {
+   "identity_key": "super 8 by wyndham new albany",
+   "classification": "BRAND_INVENTORY_SILENT",
+   "subfamily": "super-8",
+   "distinguishing_tokens": [
+    "albany",
+    "new"
+   ],
+   "city": "New Albany",
+   "postal_code": "47150",
+   "address": "1620 E Oak St",
+   "candidates": [],
+   "proposed_url": null
+  },
+  {
+   "identity_key": "the galt house hotel trademark collection by wyndham",
+   "classification": "ROUTED_OFFICIAL_SITEMAP",
+   "subfamily": "trademark",
+   "distinguishing_tokens": [],
+   "city": "Louisville",
+   "postal_code": "40202",
+   "address": "140 North 4th Street",
+   "candidates": [
+    {
+     "code": "galt-house-hotel-a-trademark-collection-hotel",
+     "url": "https://www.wyndhamhotels.com/trademark/louisville-kentucky/galt-house-hotel-a-trademark-collection-hotel/overview",
+     "slug": "trademark/louisville-kentucky/galt-house-hotel-a-trademark-collection-hotel",
+     "extra_tokens": [
+      "kentucky",
+      "louisville"
+     ]
+    }
+   ],
+   "proposed_url": "https://www.wyndhamhotels.com/trademark/louisville-kentucky/galt-house-hotel-a-trademark-collection-hotel/overview"
+  },
+  {
+   "identity_key": "the inn at woodhaven",
+   "classification": "FREE_LANE_EXHAUSTED",
+   "reason": "no family whose official sitemap served this run",
+   "city": "Louisville",
+   "address": "401 S Hubbards Ln"
+  },
+  {
+   "identity_key": "tru by hilton jeffersonville louisville north",
+   "classification": "BRAND_INVENTORY_SILENT",
+   "subfamily": "tru",
+   "distinguishing_tokens": [
+    "jeffersonville",
+    "louisville",
+    "north"
+   ],
+   "city": "Jeffersonville",
+   "postal_code": "47130",
+   "address": "1468 Veterans Pkwy",
+   "candidates": [],
+   "proposed_url": null
+  },
+  {
+   "identity_key": "tru by hilton louisville downtown",
+   "classification": "BRAND_INVENTORY_SILENT",
+   "subfamily": "tru",
+   "distinguishing_tokens": [
+    "downtown",
+    "louisville"
+   ],
+   "city": "Louisville",
+   "postal_code": "40202",
+   "address": "410 S 3rd St",
+   "candidates": [],
+   "proposed_url": null
+  },
+  {
+   "identity_key": "woodspring suites",
+   "classification": "FREE_LANE_EXHAUSTED",
+   "reason": "no family whose official sitemap served this run",
+   "city": "Louisville",
+   "address": "10400 Brookridge Village Boulevard"
+  }
+ ]
+}

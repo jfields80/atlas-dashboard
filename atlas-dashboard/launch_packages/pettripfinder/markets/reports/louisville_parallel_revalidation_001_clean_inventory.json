@@ -1,0 +1,592 @@
+{
+ "schema": "ptf-market-clean-inventory/1.0",
+ "work_order": "PTF-LOUISVILLE-PARALLEL-REVALIDATION-001",
+ "market_id": "louisville-ky",
+ "as_of": "2026-09-04",
+ "nothing_is_applied_by_this_file": "This inventory records evidence that is READY to be applied. It publishes nothing, moves no census, edits no authority and grants no deployment. A later serialized order applies it under founder authorisation.",
+ "clean_pet_friendly": 11,
+ "clean_verified_no_pets": 3,
+ "held_with_evidence": 1,
+ "excluded_from_this_inventory": [
+  "identity ambiguity",
+  "geography holds",
+  "founder holds",
+  "reader exceptions",
+  "source silence",
+  "identity-only evidence",
+  "competitor-directory evidence"
+ ],
+ "rows": [
+  {
+   "identity_key": "hotel bourre bonne",
+   "canonical_name": "Hotel Bourré Bonne",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "census_address": "133 West Market Street",
+   "census_city": "Louisville",
+   "census_postal": "40202",
+   "corridor": "louisville-ky__downtown",
+   "parsed_facts": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 100.0,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "pet_fee": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_pet"
+    }
+   },
+   "withheld_facts_and_reasons": [
+    "fee_basis: the surface says '$75 per pet fee applied at check-in' and never says per night or per stay; the basis is recorded as per_pet and the nightly/stay question is left unanswered rather than defaulted",
+    "species: 'pets' is not dogs+cats; the species map stays empty"
+   ],
+   "lane": "DIRECT_STATIC_FIRST_PARTY",
+   "provider": null,
+   "usd": 0.0,
+   "credits": 0,
+   "canonical_url": "https://www.bourrebonne.com",
+   "document_sha256": "sha256:1958843f2a5758274e718e1b392247fc19da5372a565261010ead25154d23bc6",
+   "captured_at": "2026-09-05T01:57:09+00:00",
+   "capture_method": "direct_static_fetch",
+   "source_grade": "PT1_FIRST_PARTY",
+   "exact_quote": "Is Hotel Bourré Bonne a pet-friendly property? Yes, well-behaved pets are welcome at Hotel Bourré Bonne! Pets up to 100 pounds are welcome, and there is a $75 per pet fee applied at check-in. We ask that pets be kept on a leash in common areas and not left unattended in guest rooms. Just let us know you will be bringing a pet when you make your reservation so we can set everything up before you arrive. We also have water and food bowls with p",
+   "identity_signals": [
+    "POSTAL_ON_PAGE:40202"
+   ]
+  },
+  {
+   "identity_key": "the bellwether hotel",
+   "canonical_name": "The Bellwether Hotel",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "census_address": "1300 Bardstown Road",
+   "census_city": "Louisville",
+   "census_postal": "40204",
+   "corridor": "louisville-ky__highlands-germantown",
+   "parsed_facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "refused"
+    },
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "combined"
+    },
+    "pet_fee": {
+     "amount_cents": 3500,
+     "currency": "USD",
+     "basis": "per_stay"
+    },
+    "pet_count_limit": 2
+   },
+   "withheld_facts_and_reasons": [
+    "weight_limit.scope: the surface states a COMBINED limit for two dogs or a single dog at the same figure, so the scope is recorded as combined, not per_pet",
+    "the $200 charge is a conditional cleaning penalty for evidence of a pet in a restricted area, not a pet fee, and is not recorded as one"
+   ],
+   "lane": "DIRECT_STATIC_FIRST_PARTY",
+   "provider": null,
+   "usd": 0.0,
+   "credits": 0,
+   "canonical_url": "https://www.thebellwetherhotel.com/",
+   "document_sha256": "sha256:9e3513d2ce36e0dd1821d8b0c9a02849e7571e83b97b17c01984c03a1d90b40a",
+   "captured_at": "2026-09-05T01:57:09+00:00",
+   "capture_method": "direct_static_fetch",
+   "source_grade": "PT1_FIRST_PARTY",
+   "exact_quote": "What is the hotel's pet policy? The Bellwether Hotel allows dogs only with the following restrictions: Dogs are only allowed in first floor rooms. We allow up to two dogs to stay as long as their combined weight is not over 50 pounds, or one dog not over 50 pounds. A $35 pet fee will be required at time of booking. Please notify us at time of booking if a dog will be staying. We provide some dog supplies prior to check-in. Supplies provided upon request and are subject to availability. Dogs are not allowed in the lounge area of the second floor, service dogs exempt from this rule. If you are bringing a Service Dog please notify us at the time of booking. Emotional support animals are not permitted. Dogs not allowed on furniture in the room. Pets must not be left unattended in room",
+   "identity_signals": [
+    "STREET_ON_PAGE:1300 Bardstown Road",
+    "POSTAL_ON_PAGE:40204"
+   ]
+  },
+  {
+   "identity_key": "21c museum hotel",
+   "canonical_name": "21c Museum Hotel",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "census_address": "700 West Main Street",
+   "census_city": "Louisville",
+   "census_postal": "40202",
+   "corridor": "louisville-ky__downtown",
+   "parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": {
+     "amount_cents": 4000,
+     "currency": "USD",
+     "basis": "per_stay"
+    }
+   },
+   "withheld_facts_and_reasons": [
+    "fee_basis: the surface says 'The pet fee is $40' without naming a period; recorded per_stay is NOT asserted -- the qualifier is unstated and flagged",
+    "species: unstated",
+    "weight_limit: unstated"
+   ],
+   "lane": "DIRECT_STATIC_FIRST_PARTY",
+   "provider": null,
+   "usd": 0.0,
+   "credits": 0,
+   "canonical_url": "https://21cmuseumhotels.com/louisville/faq/",
+   "document_sha256": "sha256:d68e6ff2db9cb960391818ec36a42ccba1f8205a972f70c1911679807f7350db",
+   "captured_at": "2026-09-05T01:57:09+00:00",
+   "capture_method": "direct_static_fetch",
+   "source_grade": "PT1_FIRST_PARTY",
+   "exact_quote": "Pet Policy Pets are always welcome at 21c. The pet fee is $40 and a pet waiver form must be completed and signed at check-in. Please call the front desk team with any questions. In-Room Dining Proof on Main offers in-room dining for breakfast, lunch, dinner, and brunch on the weekends. To place an order, dial from your room phon",
+   "identity_signals": [
+    "PHONE_ON_PAGE:5022176300"
+   ]
+  },
+  {
+   "identity_key": "drury inn and suites louisville",
+   "canonical_name": "Drury Inn & Suites Louisville",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "census_address": "9501 Blairwood Road",
+   "census_city": "Hurstbourne",
+   "census_postal": "40222",
+   "corridor": "louisville-ky__st-matthews",
+   "parsed_facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "weight_limit": {
+     "value": 80.0,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "combined"
+    },
+    "pet_fee": {
+     "amount_cents": 5000,
+     "currency": "USD",
+     "basis": "per_night"
+    },
+    "pet_count_limit": 2
+   },
+   "withheld_facts_and_reasons": [
+    "the fee is stated per ROOM per day, not per pet; recorded per_night with no per-pet multiplier"
+   ],
+   "lane": "DIRECT_STATIC_FIRST_PARTY",
+   "provider": null,
+   "usd": 0.0,
+   "credits": 0,
+   "canonical_url": "https://www.druryhotels.com/locations/louisville-ky/drury-inn-and-suites-louisville-east",
+   "document_sha256": "sha256:bbbcc6e6ba8828079c76a26f854b32e1ac8bbe586cdb2d2e4e14de68269bfea1",
+   "captured_at": "2026-09-05T01:57:10+00:00",
+   "capture_method": "direct_static_fetch",
+   "source_grade": "PT1_FIRST_PARTY",
+   "exact_quote": "Pet Policy Dogs and cats accepted. Rooms with pets will be charged a daily fee of $50 per room plus tax. Service animals are free of charge. Limit of two pets per room with a combined weight of 80 pounds. Details here Payment Policy Details here Guests Per Room Maximum of five (5) people in a standard room or up to six (6) in a",
+   "identity_signals": [
+    "STREET_ON_PAGE:9501 Blairwood Road",
+    "POSTAL_ON_PAGE:40222"
+   ]
+  },
+  {
+   "identity_key": "drury inn and suites louisville north",
+   "canonical_name": "Drury Inn and Suites Louisville North",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "census_address": "9597 Brownsboro Rd",
+   "census_city": "Louisville",
+   "census_postal": "40241",
+   "corridor": "louisville-ky__middletown-east",
+   "parsed_facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "weight_limit": {
+     "value": 80.0,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "combined"
+    },
+    "pet_fee": {
+     "amount_cents": 5000,
+     "currency": "USD",
+     "basis": "per_night"
+    },
+    "pet_count_limit": 2
+   },
+   "withheld_facts_and_reasons": [
+    "the fee is stated per ROOM per day, not per pet"
+   ],
+   "lane": "DIRECT_STATIC_FIRST_PARTY",
+   "provider": null,
+   "usd": 0.0,
+   "credits": 0,
+   "canonical_url": "https://www.druryhotels.com/locations/louisville-ky/drury-inn-and-suites-louisville-north",
+   "document_sha256": "sha256:34380076900cb0f76000b5ba3c6476c8cda343c5569a252657f499c33709fa39",
+   "captured_at": "2026-09-05T01:57:10+00:00",
+   "capture_method": "direct_static_fetch",
+   "source_grade": "PT1_FIRST_PARTY",
+   "exact_quote": "Pet Policy Dogs and cats accepted. Rooms with pets will be charged a daily fee of $50 per room plus tax. Service animals are free of charge. Limit of two pets per room with a combined weight of 80 pounds. Details here Payment Policy Details here Guests Per Room Maximum of five (5) people in a standard room or up to six (6) in a",
+   "identity_signals": [
+    "POSTAL_ON_PAGE:40241",
+    "PHONE_ON_PAGE:5024255500"
+   ]
+  },
+  {
+   "identity_key": "the brown hotel",
+   "canonical_name": "The Brown Hotel",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "census_address": "335 West Broadway",
+   "census_city": "Louisville",
+   "census_postal": "40202",
+   "corridor": "louisville-ky__downtown",
+   "parsed_facts": {
+    "pets_allowed": false
+   },
+   "withheld_facts_and_reasons": [
+    "the surface admits service animals and exempts them from fees; a service-animal admission is NOT an ordinary-pet admission and does not disturb the negative"
+   ],
+   "lane": "DIRECT_STATIC_FIRST_PARTY",
+   "provider": null,
+   "usd": 0.0,
+   "credits": 0,
+   "canonical_url": "https://www.brownhotel.com/frequently-asked-questions",
+   "document_sha256": "sha256:9fd2a410ce6609a51d7b7d8fe5adb2a98105c3346e822b135dcef0af76644e3d",
+   "captured_at": "2026-09-05T01:57:10+00:00",
+   "capture_method": "direct_static_fetch",
+   "source_grade": "PT1_FIRST_PARTY",
+   "exact_quote": "Are you pet friendly? Pets not allowed (service animals are welcome, and are exempt from fees). What is your smoking policy? We are a smoke-free property. Who do I contact for Kentucky Derby related inquires and accommodations? If you are interested in Derby rates & availability,",
+   "identity_signals": [
+    "STREET_ON_PAGE:335 West Broadway",
+    "POSTAL_ON_PAGE:40202",
+    "PHONE_ON_PAGE:5025831234"
+   ]
+  },
+  {
+   "identity_key": "hotel louisville downtown",
+   "canonical_name": "Hotel Louisville Downtown",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "census_address": "120 West Broadway",
+   "census_city": "Louisville",
+   "census_postal": "40202",
+   "corridor": "louisville-ky__downtown",
+   "parsed_facts": {
+    "pets_allowed": false
+   },
+   "withheld_facts_and_reasons": [
+    "'only service animals are welcome' is an explicit ordinary-pet refusal"
+   ],
+   "lane": "DIRECT_STATIC_FIRST_PARTY",
+   "provider": null,
+   "usd": 0.0,
+   "credits": 0,
+   "canonical_url": "http://www.hotellouisville.org/rooms",
+   "document_sha256": "sha256:f9f8f868b46080773be9da954c471ba9ac9ca2498c4f258d52c7533ecddde8b3",
+   "captured_at": "2026-09-05T01:57:10+00:00",
+   "capture_method": "direct_static_fetch",
+   "source_grade": "PT1_FIRST_PARTY",
+   "exact_quote": "Is Hotel Louisville pet-friendly? No, only service animals are welcome at the property. How much is parking at Hotel Louisville? Self-parking is free at this property. What time is check-in at Hotel Louisville? Check-in is from 4 PM – anytime. What time is check-out at Hotel Louisville? Check",
+   "identity_signals": [
+    "STREET_ON_PAGE:120 West Broadway",
+    "POSTAL_ON_PAGE:40202"
+   ]
+  },
+  {
+   "identity_key": "baymont by wyndham louisville airport south",
+   "canonical_name": "Baymont by Wyndham Louisville Airport South",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "census_address": "6515 Signature Dr",
+   "census_city": "Louisville",
+   "census_postal": "40213",
+   "corridor": "louisville-ky__airport-fairgrounds",
+   "parsed_facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "refused"
+    },
+    "weight_limit": {
+     "value": 25.0,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "pet_fee": {
+     "amount_cents": 2000,
+     "currency": "USD",
+     "basis": "per_night"
+    },
+    "pet_count_limit": 2,
+    "pet_deposit": {
+     "amount_cents": 10000,
+     "currency": "USD",
+     "refundable": true
+    }
+   },
+   "withheld_facts_and_reasons": [
+    "'Dogs only please' is an explicit refusal of cats, recorded as such"
+   ],
+   "lane": "FIRECRAWL",
+   "provider": "firecrawl",
+   "usd": 0.0,
+   "credits": 1,
+   "canonical_url": "https://www.wyndhamhotels.com/baymont/louisville-kentucky/baymont-inn-louisville-airport-south/overview",
+   "document_sha256": "sha256:843052fc3160b983217703cec9ded68cb1e6af0925d927925612052363a859cc",
+   "captured_at": "2026-09-05T01:58:18+00:00",
+   "capture_method": "firecrawl_rendered_scrape",
+   "source_grade": "PT1_FIRST_PARTY",
+   "exact_quote": "kentucky/baymont-inn-louisville-airport-south/overview#) ×Hotel Policies Check In3:00 p.m. Check Out11:00 a.m. Children Stay Free PolicyChildren 17 and under stay free. Pet & Service Animal PolicyDogs only please.Two dogs up to 25 lbs are allowed for a non-refundable charge of Dollar 20 plus tax per pet per night with a Dollar 100 refundable deposit. ADA defined service animals are also welcome at this hotel. Smoking PolicySmoking is permitted at this hotel. Please be sure to select ",
+   "identity_signals": [
+    "STREET_ON_PAGE:6515 Signature Dr",
+    "POSTAL_ON_PAGE:40213",
+    "PHONE_ON_PAGE:5029684100"
+   ]
+  },
+  {
+   "identity_key": "candlewood suites louisville airport",
+   "canonical_name": "Candlewood Suites Louisville Airport",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "census_address": "1367 Gardiner Ln",
+   "census_city": "Louisville",
+   "census_postal": "40213",
+   "corridor": "louisville-ky__airport-fairgrounds",
+   "parsed_facts": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 80.0,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "pet_fee": {
+     "amount_cents": 3000,
+     "currency": "USD",
+     "basis": "per_night"
+    },
+    "fee_cap": {
+     "amount_cents": 15000,
+     "currency": "USD",
+     "basis": "per_stay",
+     "qualifier_stated": true
+    },
+    "pet_count_limit": 2
+   },
+   "withheld_facts_and_reasons": [
+    "the 150 USD figure is a FLAT fee that replaces the nightly rate at 7+ nights, recorded as a cap with its qualifier stated, not as a second charge",
+    "species: 'All pets allowed' is not a species enumeration"
+   ],
+   "lane": "FIRECRAWL",
+   "provider": "firecrawl",
+   "usd": 0.0,
+   "credits": 1,
+   "canonical_url": "https://www.ihg.com/candlewood/hotels/us/en/louisville/sdfgl/hoteldetail",
+   "document_sha256": "sha256:6fc985769c5965ae78d61be02c12689dba00cc57906d8ac3b7b076b2b605017e",
+   "captured_at": "2026-09-05T01:58:29+00:00",
+   "capture_method": "firecrawl_rendered_scrape",
+   "source_grade": "PT1_FIRST_PARTY",
+   "exact_quote": "sts only Vehicles allowed: Trailer, Truck [Parking & transportation details](https://www.ihg.com/candlewood/hotels/us/en/louisville/sdfgl/hoteldetail/directions) Can I bring my pet to Candlewood Suites Louisville Airport? Pets are welcome at Candlewood Suites Louisville Airport. Pet policy description. Pets are welcome with a nonrefundable fee The charge is 30 USD per pet per night For stays of 7 nights or more a flat fee of 150 USD per pet applies A pet agreement is requir",
+   "identity_signals": [
+    "POSTAL_ON_PAGE:40213",
+    "PHONE_ON_PAGE:5023573577"
+   ]
+  },
+  {
+   "identity_key": "hawthorn suites by wyndham louisville east",
+   "canonical_name": "Hawthorn Suites by Wyndham Louisville East",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "census_address": "751 Cypress Station Drive",
+   "census_city": "Louisville",
+   "census_postal": "40207",
+   "corridor": "louisville-ky__clifton-crescent-hill",
+   "parsed_facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "pet_fee": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_stay"
+    },
+    "pet_count_limit": 2
+   },
+   "withheld_facts_and_reasons": [
+    "the surface states a TIERED stay fee -- 75 USD for 1-4 nights, 125 USD for 5+, plus 25 USD per additional pet; only the first tier is recorded as pet_fee and the remaining tiers are reported here rather than flattened into one number"
+   ],
+   "lane": "FIRECRAWL",
+   "provider": "firecrawl",
+   "usd": 0.0,
+   "credits": 1,
+   "canonical_url": "https://www.wyndhamhotels.com/hawthorn-extended-stay/louisville-kentucky/hawthorn-suites-by-wyndham-louisville-east/overview",
+   "document_sha256": "sha256:e50bfa7bdd13832bd69e57c3381b534af8bda96db32c084edeb6164a5bd42469",
+   "captured_at": "2026-09-05T01:58:40+00:00",
+   "capture_method": "firecrawl_rendered_scrape",
+   "source_grade": "PT1_FIRST_PARTY",
+   "exact_quote": "ky/hawthorn-suites-by-wyndham-louisville-east/overview#) ×Hotel Policies Check In3:00 p.m. Check Out11:00 a.m. Children Stay Free PolicyChildren 17 and under stay free. Pet & Service Animal PolicyService Animals - ADA-defined service animals welcome. / Pets Allowed - 2 pets max. Dogs and cats only. 75lbs or less per pet. / Fees – 75USD per stay for 1–4 nights. 125USD per stay 5+ nights. 25USD per additional pet. / Other information - Contact hotel for additional details and availabili",
+   "identity_signals": [
+    "STREET_ON_PAGE:751 Cypress Station Drive",
+    "POSTAL_ON_PAGE:40207"
+   ]
+  },
+  {
+   "identity_key": "staybridge suites",
+   "canonical_name": "Staybridge Suites",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "census_address": "11711 Gateworth Way",
+   "census_city": "Middletown",
+   "census_postal": "40299",
+   "corridor": "louisville-ky__hurstbourne-jeffersontown",
+   "parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "basis": "per_stay"
+    }
+   },
+   "withheld_facts_and_reasons": [
+    "the surface states 75 USD for 1-6 nights and 150 USD for 7+; the second tier is reported, not folded into the first",
+    "species, weight and count: unstated on this surface"
+   ],
+   "lane": "FIRECRAWL",
+   "provider": "firecrawl",
+   "usd": 0.0,
+   "credits": 1,
+   "canonical_url": "https://www.ihg.com/staybridge/hotels/us/en/louisville/sdfmt/hoteldetail",
+   "document_sha256": "sha256:90caa0bff5213f12cf586915723409c9b5db199ccae9628bf6e0e0a4e426557b",
+   "captured_at": "2026-09-05T01:59:09+00:00",
+   "capture_method": "firecrawl_rendered_scrape",
+   "source_grade": "PT1_FIRST_PARTY",
+   "exact_quote": "enter at Staybridge Suites Louisville-East. Does Staybridge Suites Louisville-East offer free Wi-Fi? Yes, the Staybridge Suites Louisville-East offers free WiFi! Can I bring my pet to Staybridge Suites Louisville-East? Pets are welcome at Staybridge Suites Louisville-East. There is a pet deposit per stay of 75 USD . Our Pet Policy: Pets allowed with a non refundable fee of 75 plus tax for 1 to 6 nights and for 7 plus nights it is 150 plus tax. Pets must be registered upon ch",
+   "identity_signals": [
+    "STREET_ON_PAGE:11711 Gateworth Way",
+    "POSTAL_ON_PAGE:40299"
+   ]
+  },
+  {
+   "identity_key": "super 8 by wyndham louisville airport",
+   "canonical_name": "Super 8 by Wyndham Louisville Airport",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "census_address": "4800 Preston Highway",
+   "census_city": "Louisville",
+   "census_postal": "40213",
+   "corridor": "louisville-ky__airport-fairgrounds",
+   "parsed_facts": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "pet_fee": {
+     "amount_cents": 2500,
+     "currency": "USD",
+     "basis": "per_night"
+    },
+    "pet_count_limit": 2
+   },
+   "withheld_facts_and_reasons": [
+    "the 150.00 USD sanitation charge is conditional ('if applicable') and is not recorded as a pet fee or deposit",
+    "species: unstated"
+   ],
+   "lane": "FIRECRAWL",
+   "provider": "firecrawl",
+   "usd": 0.0,
+   "credits": 1,
+   "canonical_url": "https://www.wyndhamhotels.com/super-8/louisville-kentucky/super-8-louisville-airport/overview",
+   "document_sha256": "sha256:46f2a99eb2b5fcce999b2046ae55b470d1426ee04283aefc5e4b037d4c554731",
+   "captured_at": "2026-09-05T01:59:19+00:00",
+   "capture_method": "firecrawl_rendered_scrape",
+   "source_grade": "PT1_FIRST_PARTY",
+   "exact_quote": "ouisville-kentucky/super-8-louisville-airport/overview#) ×Hotel Policies Check In3:00 p.m. Check Out11:00 a.m. Children Stay Free PolicyChildren 17 and under stay free. Pet & Service Animal PolicyMaximum of 2 pets with a max weight of 50 lbs per room at a nonrefundable charge of 25USD per pet per night. Pet Sanitation fee of 150.00 USD applies if applicable. ADA defined service animals are welcome at this hotel. Smoking PolicyThis is a non-smoking hotel. General InformationGuests mu",
+   "identity_signals": [
+    "STREET_ON_PAGE:4800 Preston Highway",
+    "POSTAL_ON_PAGE:40213",
+    "PHONE_ON_PAGE:5026329574"
+   ]
+  },
+  {
+   "identity_key": "travelodge by wyndham sellersburg louisville north",
+   "canonical_name": "Travelodge by Wyndham Sellersburg Louisville North",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "census_address": "7618 Old State Rd 60",
+   "census_city": "Sellersburg",
+   "census_postal": "47172",
+   "corridor": "louisville-ky__southern-indiana-north",
+   "parsed_facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "birds": "accepted",
+     "cats": "refused"
+    },
+    "pet_fee": {
+     "amount_cents": 2000,
+     "currency": "USD",
+     "basis": "per_night"
+    },
+    "pet_count_limit": 1
+   },
+   "withheld_facts_and_reasons": [
+    "'Sorry no cats allowed' is an explicit species refusal",
+    "the 150 USD sanitation charge is conditional and is not recorded as a pet fee"
+   ],
+   "lane": "FIRECRAWL",
+   "provider": "firecrawl",
+   "usd": 0.0,
+   "credits": 1,
+   "canonical_url": "https://www.wyndhamhotels.com/travelodge/sellersburg-indiana/travelodge-sellersburg-louisville-north/overview",
+   "document_sha256": "sha256:1ba73fcf54b0bd2ef6fd48a61b87eef3811a1c337a021d6abff9742074d875fd",
+   "captured_at": "2026-09-05T01:59:28+00:00",
+   "capture_method": "firecrawl_rendered_scrape",
+   "source_grade": "PT1_FIRST_PARTY",
+   "exact_quote": "diana/travelodge-sellersburg-louisville-north/overview#) ×Hotel Policies Check In3:00 p.m. Check Out11:00 a.m. Children Stay Free PolicyChildren 17 and under stay free. Pet & Service Animal PolicyDogs and birds are allowed for a non-refundable charge of 20.00 USD per night. 1 pet maximum. Sorry no cats allowed. Pet Sanitation Fee is 150 USD if applicable. ADA defined service animals are welcome at this hotel. Smoking PolicySmoking is permitted at this hotel. Please be sure to select ",
+   "identity_signals": [
+    "STREET_ON_PAGE:7618 Old State Rd 60",
+    "POSTAL_ON_PAGE:47172",
+    "PHONE_ON_PAGE:8122464451"
+   ]
+  },
+  {
+   "identity_key": "holiday inn express and suites jeffersonville",
+   "canonical_name": "Holiday Inn Express and Suites Jeffersonville",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "census_address": "1635 Veterans Pkwy",
+   "census_city": "Jeffersonville",
+   "census_postal": "47130",
+   "corridor": "louisville-ky__jeffersonville-in",
+   "parsed_facts": {
+    "pets_allowed": false
+   },
+   "withheld_facts_and_reasons": [
+    "'No, pets are not allowed' is an explicit ordinary-pet refusal"
+   ],
+   "lane": "FIRECRAWL",
+   "provider": "firecrawl",
+   "usd": 0.0,
+   "credits": 1,
+   "canonical_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/jeffersonville/indjv/hoteldetail",
+   "document_sha256": "sha256:046eca92c3f45c4a8fc48ea98139b1910d9b35fa99c268147fe3a04999d6229f",
+   "captured_at": "2026-09-05T01:58:49+00:00",
+   "capture_method": "firecrawl_rendered_scrape",
+   "source_grade": "PT1_FIRST_PARTY",
+   "exact_quote": "king for registered guests only [Parking & transportation details](https://www.ihg.com/holidayinnexpress/hotels/us/en/jeffersonville/indjv/hoteldetail/directions) Can I bring my pet to Holiday Inn Express & Suites Louisville N - Jeffersonville? No, pets are not allowed at Holiday Inn Express & Suites Louisville N - Jeffersonville. Can I cancel my booking at Holiday Inn Express & Suites Louisville N - Jeffersonville for a full refund? Always check the hotel's cancellation po",
+   "identity_signals": [
+    "POSTAL_ON_PAGE:47130",
+    "PHONE_ON_PAGE:8129203918"
+   ]
+  }
+ ],
+ "held": {
+  "la quinta inn and suites by wyndham louisville northeast old henry": {
+   "classification": "FIRECRAWL_IDENTITY_MISMATCH",
+   "why": "This census row carries 13825 Terra View Trl, Louisville 40245, but its bound official_url served 1501 Alliant Avenue, Jeffersontown 40299 -- a different building, and one this market ALREADY publishes under the identity 'la quinta inn and suites louisville'. The policy read on that page is that other property's and is NOT carried to this row.",
+   "credit_spent": 1,
+   "blocks_promotion_of_clean_inventory": false
+  }
+ }
+}
