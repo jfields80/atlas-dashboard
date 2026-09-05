@@ -1,0 +1,96 @@
+{
+ "schema": "ptf-market-founder-packet/1.2",
+ "market_id": "indianapolis-in",
+ "work_order": "PTF-INDIANAPOLIS-BRINGFIDO-CENSUS-VALIDATION-003",
+ "as_of": "2026-09-04",
+ "status": "AWAITING_FOUNDER",
+ "amends": ["indianapolis_in_founder_packet_020.json", "indianapolis_in_founder_packet_021.json"],
+ "what_this_is": "An amendment. The eleven open decisions stand exactly as written and none is reopened. This file records only what the competitor census challenge newly exposed.",
+ "starting_open_decisions": 11,
+ "resolved_by_this_order": 0,
+ "still_open": 11,
+ "newly_created": 3,
+ "total_open_decisions": 14,
+ "still_blocking_promotion": 3,
+ "blocking_unchanged": ["A-020-3", "A-020-4", "A-020-5 (sonesta select)"],
+ "carried_forward_unchanged": [
+  "A-020-1 la quinta inn indianapolis airport lynhurst -> Baymont Lynhurst successor",
+  "A-020-2 baymont by wyndham plainfield indianapolis airport area misroute",
+  "A-020-3 1281 South Park Drive collision (BLOCKING)",
+  "A-020-4 7220 Woodland Drive collision (BLOCKING)",
+  "A-020-5 bare chain-word names, sonesta select specifically (BLOCKING)",
+  "A-020-6 same-address pairs and the two bare-brand aliases",
+  "D-020-1 Home2 Keystone Crossing projection defect -- REQUIRED correction, untouched again by this order",
+  "D-020-2 the two POLICY_NOT_FOUND observations",
+  "E-020-1 the eight mislabelled AWAITING_OFFICIAL_URL rows",
+  "A-021-1 extended stay america indianapolis airport address conflict",
+  "A-021-2 delta hotels by marriott indianapolis airport dead route"
+ ],
+ "newly_created_decisions": [
+  {
+   "id": "A-022-1",
+   "group": "A -- identity",
+   "subject": "Admit Tru by Hilton Indianapolis Lawrence to the census?",
+   "question": "This is a real hotel inside the market that the pinned census does not contain. Admit it?",
+   "evidence": [
+    "Hilton's own locality inventory lists property code inddlru",
+    "the property's own Hilton page states 5660 Lawrence Village Parkway, Indianapolis, IN 46216, telephone +1 317-541-8803",
+    "the BringFido lead agrees on postal, street number and telephone independently",
+    "Atlas holds no census row at that premises",
+    "it is NOT the existing 'tru by hilton indianapolis downtown', which is 601 Russell Avenue 46202 under code inddwru; Hilton lists both codes separately",
+    "its first-party pet policy is already captured and is publication-grade: pets allowed, dog or cat, 2 max, 50 lbs, $50 for 1-4 nights and $75 for 5+ nights, non-refundable"
+   ],
+   "recommendation": "ADMIT. Identity is deterministic on street, postal, telephone and brand property code, and corroborated by two independent sources. The policy is first-party and complete.",
+   "census_effect": "263 -> 264",
+   "authority_effect": "one additional PUBLISHED_PET_FRIENDLY, taking the projection to 82",
+   "routing_effect": "one new published route",
+   "reversibility": "a census admission is reversible by retirement with lineage",
+   "blocks_promotion": "NO -- it sits outside the 21-row clean inventory and can be admitted in the same order or a later one"
+  },
+  {
+   "id": "A-022-2",
+   "group": "A -- identity",
+   "subject": "Hotel Nickel Plate Fishers -- an identity BOTH directories missed",
+   "question": "Investigate and admit?",
+   "evidence": [
+    "Hilton's official Fishers-area inventory lists property code indelup",
+    "Atlas holds no corresponding identity",
+    "BringFido did not list it either, so it is not a competitor lead -- the brand's own inventory found it"
+   ],
+   "recommendation": "Investigate on the free lane before ruling. No policy evidence was captured in this order and none should be assumed.",
+   "census_effect": "263 -> 264 if admitted, independent of A-022-1",
+   "authority_effect": "unknown until its policy is read",
+   "reversibility": "fully reversible",
+   "blocks_promotion": "NO",
+   "worth_noting": "a competitor census challenge found 15 candidates; the BRAND's own inventory found one that the competitor did not. The brand surface is the better discovery source of the two."
+  },
+  {
+   "id": "A-022-3",
+   "group": "A -- identity",
+   "subject": "24 same-brand, same-city BringFido rows that did not bind to Atlas premises",
+   "question": "Confirm these are worked as address adjudications rather than treated as new hotels.",
+   "evidence": [
+    "each has an Atlas row of the same brand family in the same city but a different street or postal",
+    "that is exactly the shape of an address conflict or a duplicate listing, and it is also the shape a genuine second property of the same brand takes",
+    "name similarity was explicitly NOT allowed to decide: the diagnostic paired 'Motel 6 Southport' with 'motel 6 indianapolis airport' and 'Spark Fishers' with 'hilton garden inn northeast fishers', and both pairings are wrong"
+   ],
+   "recommendation": "Work them on the free lane, one at a time, binding each on the property page's own street, postal and telephone. Do not bulk-correct any address, and do not admit any as a new identity without that read.",
+   "census_effect": "unknown until worked -- some will be address supersessions on existing rows, some may be genuine second properties",
+   "blocks_promotion": "NO -- none of them is in the clean inventory",
+   "note": "this is the largest single block of unfinished identity work the challenge produced, and it is free to work"
+  }
+ ],
+ "explicitly_not_reopened": [
+  "F-004-3, the settled ruling that Zionsville is outside this market by contract. Four BringFido rows sit in the Zionsville corridor and were classified OUTSIDE_ATLAS_MARKET on the strength of that existing ruling, not re-argued."
+ ],
+ "summary": {
+  "total_open": 14,
+  "blocking_promotion": 3,
+  "required_corrections_for_the_promotion_order": [
+   "D-020-1 Home2 Keystone Crossing projection defect",
+   "A-020-5 sonesta select name correction",
+   "A-020-2 Baymont Plainfield route correction",
+   "A-020-1 La Quinta Lynhurst successor handling"
+  ]
+ }
+}

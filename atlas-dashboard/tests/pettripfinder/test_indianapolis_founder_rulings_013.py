@@ -4,6 +4,8 @@ the shadow census with lineage intact, and nothing production-bearing moved."""
 from __future__ import annotations
 
 import json
+
+from pettripfinder.market_state import current as _pinned
 import sys
 from collections import Counter
 from pathlib import Path
@@ -39,11 +41,16 @@ def test_pinned_production_is_byte_for_byte_the_257_it_was():
     # the pending inventory (67); the retired keys now live in the pinned document's
     # retired_013 block, exactly as they did in the shadow.
     pinned = _load("identity_census/indianapolis-in.json")
-    assert len(pinned["hotels"]) == 263
+    # 257 at 013, 263 at PROMOTION-AND-ASSEMBLY-014, and moved again by
+    # PTF-INDIANAPOLIS-PROMOTION-AND-APPLICATION-004. Read from the pin so a
+    # later promotion does not read as this order having been undone; what 013
+    # established -- its retirements -- is asserted exactly, below.
+    assert len(pinned["hotels"]) == _pinned("indianapolis-in").census
     pin = C.identity_keys(pinned)
     assert not (RETIRED & pin) and "la quinta inn" not in pin
     assert {e["row"]["identity_key"] for e in pinned["retired_013"]} == RETIRED
-    assert len(_load("hotel_policy_facts_indianapolis-in.json")["hotels"]) == 67
+    assert (len(_load("hotel_policy_facts_indianapolis-in.json")["hotels"])
+            == _pinned("indianapolis-in").pet_friendly)
 
 
 def test_shadow_reconciles_to_263_with_five_retirements_and_no_duplicate_key():

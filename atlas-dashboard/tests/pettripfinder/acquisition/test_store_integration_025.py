@@ -139,6 +139,17 @@ OTHER_MARKET_RUNS = {
     # properties' own pages. $0.00, no provider, and it wrote nothing to
     # authority. Also dayton-oh.
     "dayton_oh_live_audit_001",
+    # PTF-PITTSBURGH-PARALLEL-REVALIDATION-001 phase 9: 23 first-party HTTPS
+    # GETs over the routed unresolved cohort through the canonical direct_http
+    # lane, $0.00 and no provider. Marriott, Hilton, IHG and Hyatt all refused
+    # at the edge, so the run holds denial pages plus six independents that
+    # answered -- which is the evidence that made the Firecrawl rung eligible.
+    # Belongs to pittsburgh-pa and must never reach Milwaukee's projection.
+    "pittsburgh_pa_free_static_008",
+    # PTF-PITTSBURGH-PARALLEL-REVALIDATION-001 phase 10: the two IHG rows the
+    # acquisition ladder derived as Firecrawl candidates, fetched for 2 plan
+    # credits and $0.00. Also pittsburgh-pa.
+    "pittsburgh_pa_firecrawl_008",
 }
 
 

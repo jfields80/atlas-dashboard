@@ -57,7 +57,20 @@ def test_pinned_census_is_the_promoted_shadow_with_lineage():
     pinned = _load("identity_census/indianapolis-in.json")
     shadow = _load("identity_census_admission/indianapolis-in.json")
     assert pinned["count"] == NOW.census == len(pinned["hotels"])
-    assert [h["identity_key"] for h in pinned["hotels"]] == [h["identity_key"] for h in shadow["hotels"]]
+    # 014 promoted the shadow admission census WHOLE, and this proved it key for
+    # key. PTF-INDIANAPOLIS-PROMOTION-AND-APPLICATION-004 admitted one identity
+    # and RENAMED one to its same-premises successor, so exact equality is a
+    # current-state claim now. What 014 actually established -- that every
+    # identity it promoted survived -- is asserted instead, and a renamed row
+    # counts only through the lineage it is required to carry.
+    pinned_keys = {h["identity_key"] for h in pinned["hotels"]}
+    lineage = {k for h in pinned["hotels"]
+               for k in (h.get("prior_census_identity_keys") or ())}
+    for h in shadow["hotels"]:
+        key = h["identity_key"]
+        assert key in pinned_keys or key in lineage, (
+            "%s was promoted by %s and is now neither in the census nor carried "
+            "as lineage by the row that superseded it" % (key, WO))
     assert pinned["promotion"]["plan_work_order"] == WO
     assert pinned["promotion"]["from_count"] == EPOCH.fact("census_before")
     assert pinned["promotion_history"][0]["plan_work_order"] == "PTF-INDIANAPOLIS-PROMOTION-AUTHORITY-PREP-003"
@@ -89,9 +102,19 @@ def test_authority_is_67_published_37_refused_and_the_contract_agrees():
     refused = {e["normalized_name"] for e in shard["exclusions"] if e["exclusion_state"] == enums.VERIFIED_NO_PETS}
     assert set(NO_PETS) <= refused and not (refused & set(keys))
     derived = derive_authority("indianapolis-in")
-    assert dict(derived.reconciliation()) == {"confirmed_identities": 263, "published_pet_friendly": 67,
-                                              "verified_no_pets": 37, "resolved": 104, "unresolved": 159}
+    # The contract must still agree with the authority it describes -- that is
+    # this order's real guarantee and it runs unconditionally.
     assert contract_disagreements(load_contract("indianapolis-in"), derived) == []
+    # The literal 263/67/37/104/159 below was 014's CURRENT-state reconciliation.
+    # It is retired by name once a later order moves the market, exactly as the
+    # whole-market counts at the top of this module are.
+    if NOW.last_moved_by == WO:
+        assert dict(derived.reconciliation()) == {"confirmed_identities": 263, "published_pet_friendly": 67,
+                                                  "verified_no_pets": 37, "resolved": 104, "unresolved": 159}
+    else:
+        epochs.superseded_assertion(
+            by=NOW.last_moved_by,
+            what="the reconciliation %s closed with (263/67/37/104/159)" % WO)
     assert load_contract("indianapolis-in")["deployment_authorization"]["grants_deployment"] is False
 
 

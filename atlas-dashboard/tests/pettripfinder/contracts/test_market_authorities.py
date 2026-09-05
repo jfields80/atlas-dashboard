@@ -59,8 +59,14 @@ PARTITION_FILES = {
     PITTSBURGH: "pittsburgh_final_partition_001.json",
     DETROIT: "detroit_ann_arbor_final_partition_001.json",
     # 004 until PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014 rebuilt the partition over
-    # the promoted 263-identity census with the 67 / 37 authority as terminal states.
-    INDIANAPOLIS: "indianapolis_in_final_partition_014.json",
+    # the promoted 263-identity census with the 67 / 37 authority as terminal states,
+    # then 014 until PTF-INDIANAPOLIS-PROMOTION-AND-APPLICATION-004 promoted the
+    # 21-row clean inventory, the Lynhurst same-premises successor and one census
+    # admission, and committed the partition of THAT state: 264 identities with
+    # 83 / 44 terminal. Repointed, not removed, exactly as Cleveland and Dayton
+    # above -- the 014 document stays committed as the record of the 67 / 37 epoch
+    # and its own suite still proves it.
+    INDIANAPOLIS: "indianapolis_in_final_partition_023.json",
     MILWAUKEE: "milwaukee_final_partition_001.json",
 }
 

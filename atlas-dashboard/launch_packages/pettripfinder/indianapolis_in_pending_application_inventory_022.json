@@ -1,0 +1,92 @@
+{
+ "schema": "ptf-market-pending-application-inventory/1.2",
+ "market_id": "indianapolis-in",
+ "work_order": "PTF-INDIANAPOLIS-BRINGFIDO-CENSUS-VALIDATION-003",
+ "as_of": "2026-09-04",
+ "supersedes": "indianapolis_in_pending_application_inventory_021.json",
+ "prior_inventory_preserved_not_destroyed": true,
+ "what_this_is": "The versioned successor to the 21-row inventory, carrying every prior row forward unchanged and adding what the BringFido census challenge produced. Nothing here is applied.",
+ "CLEAN_PET_FRIENDLY": [
+  {"identity_key": "sonesta select", "lane": "free_static", "from": "020", "requires": "name_corrections row"},
+  {"identity_key": "woodspring suites indianapolis castleton", "lane": "free_static", "from": "020"},
+  {"identity_key": "baymont by wyndham indianapolis northwest", "lane": "attended", "from": "020"},
+  {"identity_key": "baymont inn and suites plainfield indianapolis airport", "lane": "attended", "from": "020"},
+  {"identity_key": "days inn by wyndham plainfield", "lane": "attended", "from": "020"},
+  {"identity_key": "echo suites extended stay by wyndham indianapolis ameriplex", "lane": "attended", "from": "020"},
+  {"identity_key": "super 8 by wyndham brownsburg", "lane": "attended", "from": "020"},
+  {"identity_key": "wyndham indianapolis west", "lane": "attended", "from": "020"},
+  {"identity_key": "home2 suites by hilton", "lane": "owned_replay", "from": "020", "requires": "name_corrections row ALREADY committed"},
+  {"identity_key": "comfort suites indianapolis airport", "lane": "firecrawl", "from": "021"},
+  {"identity_key": "red roof inn indianapolis east", "lane": "firecrawl", "from": "021"},
+  {"identity_key": "extended stay america indianapolis castleton", "lane": "firecrawl", "from": "021"},
+  {"identity_key": "extended stay america indianapolis plainfield", "lane": "firecrawl", "from": "021"},
+  {"identity_key": "hyatt place indianapolis airport", "lane": "firecrawl", "from": "021"}
+ ],
+ "CLEAN_VERIFIED_NO_PETS": [
+  {"identity_key": "woodspring suites indianapolis airport south", "lane": "free_static", "from": "020"},
+  {"identity_key": "days inn by wyndham indianapolis east post road", "lane": "attended", "from": "020"},
+  {"identity_key": "super 8 by wyndham indianapolis", "lane": "attended", "from": "020"},
+  {"identity_key": "super 8 by wyndham indianapolis castleton", "lane": "attended", "from": "020"},
+  {"identity_key": "wingate by wyndham indianapolis airport plainfield", "lane": "attended", "from": "020"},
+  {"identity_key": "comfort inn east indianapolis", "lane": "firecrawl", "from": "021"},
+  {"identity_key": "quality inn noblesville indianapolis", "lane": "firecrawl", "from": "021"}
+ ],
+ "counts": {
+  "prior_pending_pet_friendly": 14,
+  "prior_pending_verified_no_pets": 7,
+  "new_pet_friendly_from_bringfido_challenge": 0,
+  "new_verified_no_pets_from_bringfido_challenge": 0,
+  "total_pending_pet_friendly": 14,
+  "total_pending_verified_no_pets": 7,
+  "total_clean": 21
+ },
+ "why_the_challenge_added_zero_rows_to_THIS_list": {
+  "headline": "the challenge produced one first-party-verified pet-friendly hotel, and it is deliberately NOT in the clean list",
+  "reason": "Tru by Hilton Indianapolis Lawrence is not an unresolved row of the pinned census -- it is a property the census does not contain at all. Admitting a new identity to a contract-pinned census is a founder decision with its own census effect, not an application of policy evidence to an existing row. Putting it in the clean inventory would smuggle a census admission through a policy gate.",
+  "where_it_is_instead": "CENSUS_ADMISSION_CANDIDATES below, and founder item A-022-1",
+  "the_honest_reading": "a competitor census challenge is a DISCOVERY lane. It finds identities. It does not, by itself, produce publishable rows, and this order did not manufacture any."
+ },
+ "CENSUS_ADMISSION_CANDIDATES": [
+  {
+   "proposed_identity": "Tru by Hilton Indianapolis Lawrence",
+   "street": "5660 Lawrence Village Parkway", "city": "Indianapolis", "postal": "46216",
+   "telephone": "3175418803", "brand_property_code": "inddlru",
+   "official_url": "https://www.hilton.com/en/hotels/inddlru-tru-lawrence/",
+   "identity_evidence": "the property's own Hilton page states street, city, postal and telephone; Hilton's official locality inventory lists the code; the BringFido lead agrees on all of it independently",
+   "policy_evidence": "first-party and publication-grade: pets allowed, dog or cat, 2 max, 50 lbs, $50 for 1-4 nights and $75 for 5+ nights, non-refundable",
+   "census_effect": "263 -> 264 if admitted",
+   "authority_effect": "one additional PUBLISHED_PET_FRIENDLY once admitted",
+   "blocks_promotion": "NO"
+  },
+  {
+   "proposed_identity": "Hotel Nickel Plate Fishers",
+   "brand_property_code": "indelup",
+   "identity_evidence": "listed in Hilton's own Fishers-area inventory; Atlas holds no corresponding identity and BringFido did not list it either",
+   "policy_evidence": "NONE YET -- not captured in this order",
+   "census_effect": "263 -> 264 if admitted, independent of the row above",
+   "blocks_promotion": "NO"
+  }
+ ],
+ "HELD_WITH_EVIDENCE": [
+  {"identity_key": "best western plus greenwood indy south", "hold": "IDENTITY_COLLISION at 1281 South Park Drive", "from": "020"},
+  {"identity_key": "best western plus indianapolis northwest", "hold": "IDENTITY_COLLISION at 7220 Woodland Drive", "from": "020"},
+  {"identity_key": "la quinta inn indianapolis airport lynhurst", "hold": "REBRAND_SUCCESSOR to Baymont Lynhurst", "from": "020"},
+  {"identity_key": "baymont by wyndham plainfield indianapolis airport area", "hold": "IDENTITY_MISMATCH, route serves the other Plainfield Baymont", "from": "020"},
+  {"identity_key": "extended stay america indianapolis airport", "hold": "ADDRESS_CONFLICT, postal and telephone bind but street does not", "from": "021"},
+  {"identity_key": "delta hotels by marriott indianapolis airport", "hold": "DEAD_ROUTE, brand answered 404", "from": "021"}
+ ],
+ "IDENTITY_REVIEW": {
+  "count": 24,
+  "source": "BringFido leads that did not bind to an Atlas identity on premises or telephone but for which Atlas holds a same-brand, same-city row -- the shape an address conflict or a duplicate takes",
+  "detail": "indianapolis_in_competitor_lead_inventory_022.json"
+ },
+ "TRUE_MISSING_CANDIDATES": {
+  "count": 15,
+  "verified_first_party_so_far": 1,
+  "detail": "indianapolis_in_competitor_lead_inventory_022.json; the 14 not yet verified are a free-lane backlog, not a spend request"
+ },
+ "SOURCE_SILENT": {"count": 7, "carried_from": "021"},
+ "CLOSED_OR_CONVERTED": {"count": 0},
+ "OUTSIDE_MARKET": {"count": 6, "detail": "Whitestown/Zionsville corridor, Franklin, and one Greenfield postal"},
+ "nothing_is_applied_by_this_file": "This inventory promotes no census row, admits no identity, signs no authority, regenerates no global, moves no pin, assembles no candidate and deploys nothing."
+}

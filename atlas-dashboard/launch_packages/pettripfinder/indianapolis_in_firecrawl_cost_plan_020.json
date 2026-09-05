@@ -1,0 +1,306 @@
+{
+ "schema": "ptf-market-firecrawl-cost-plan/1.0",
+ "market_id": "indianapolis-in",
+ "work_order": "PTF-INDIANAPOLIS-PARALLEL-REVALIDATION-001",
+ "as_of": "2026-09-03",
+ "status": "NOT EXECUTED -- AWAITING EXPLICIT AUTHORISATION",
+ "why_not_executed": "This work order grants no provider-spend authorisation. It says 'Do not spend' in its free-lane phases, lists 'No unauthorized provider spend' in its closing prohibitions, and instructs Phase 10 to STOP and report the exact cohort and cost if spend or credits require explicit authorisation. Firecrawl consumes metered plan credits, which are a purchased finite resource, so it is gated here rather than assumed.",
+ "authorisation_requested": {
+  "lane": "firecrawl",
+  "rows": 36,
+  "credits_required": 19.44,
+  "usd_equivalent_worst_case": 2.6,
+  "bright_data": "not requested",
+  "google_places": "not requested"
+ },
+ "unit_cost": {
+  "credits_per_attempt": 0.54,
+  "usd_per_attempt": 0.0721333333333333,
+  "basis": "MEASURED, carried from the committed cross-run paid ledger (203 firecrawl attempts, every one at cost_usd_minor 7.2133 and firecrawl_credits 0.54). Not an estimate."
+ },
+ "account_live_read": {
+  "remaining_credits": 515,
+  "plan_credits": 1000,
+  "billing_period_end": "2026-09-19",
+  "read_at": "2026-09-03",
+  "credits_left_after_the_requested_run": 495.56,
+  "note": "the account credit balance is not a cost meter; this is a live read taken at plan time and the cap must be enforced against attempts, not against the balance"
+ },
+ "worst_case_is_every_attempt_failing": "Yes. Firecrawl bills per ATTEMPT: a refusal costs the same as a good page, so the figure above is a ceiling independent of yield.",
+ "double_buy_guard": {
+  "rule": "pay once per page ever, and once to FIND a page ever",
+  "ledger_consulted": "ptf_paid_attempt_ledger_001.json (181 committed Indianapolis attempts: 100 brightdata_browser, 53 firecrawl, 28 brightdata_web_unlocker)",
+  "rows_dropped_because_firecrawl_already_bought_this_exact_url": 0,
+  "rows_admitted_as_new_url_after_an_address_supersession": 4,
+  "material_change_basis": "comfort inn east indianapolis, comfort suites indianapolis airport and quality inn noblesville indianapolis each carry a prior firecrawl IDENTITY_MISMATCH. Order 012 has since superseded all three census addresses and rebound each to a phone-confirmed property URL, so the premise of the earlier attempt no longer holds and the retry is a new question, not a re-buy."
+ },
+ "cohort": [
+  {
+   "identity_key": "cambria hotel indianapolis airport plainfield",
+   "final_state": "AWAITING_ATTENDED_CAPTURE",
+   "free_outcome": "NAVIGATION_FAILED",
+   "class": "FIRECRAWL_ELIGIBLE_NEW_URL",
+   "url": "https://www.choicehotels.com/indiana/plainfield/cambria-hotels/in272"
+  },
+  {
+   "identity_key": "comfort inn east indianapolis",
+   "final_state": "AWAITING_OFFICIAL_URL",
+   "free_outcome": "NAVIGATION_FAILED",
+   "class": "FIRECRAWL_ELIGIBLE_NEW_URL",
+   "url": "https://www.choicehotels.com/indiana/indianapolis/comfort-inn-hotels/in099"
+  },
+  {
+   "identity_key": "comfort suites",
+   "final_state": "AWAITING_PROPERTY_LEVEL_URL",
+   "free_outcome": "NAVIGATION_FAILED",
+   "class": "FIRECRAWL_ELIGIBLE_NEW",
+   "url": "https://www.choicehotels.com/indiana/shelbyville/econo-lodge-hotels"
+  },
+  {
+   "identity_key": "comfort suites indianapolis airport",
+   "final_state": "AWAITING_ATTENDED_CAPTURE",
+   "free_outcome": "NAVIGATION_FAILED",
+   "class": "FIRECRAWL_ELIGIBLE_NEW_URL",
+   "url": "https://www.choicehotels.com/indiana/indianapolis/comfort-suites-hotels/in293"
+  },
+  {
+   "identity_key": "country inn and suites indianapolis south in",
+   "final_state": "AWAITING_POLICY_OBSERVATION",
+   "free_outcome": "ACCESS_DENIED",
+   "class": "FIRECRAWL_ELIGIBLE_NEW",
+   "url": "https://www.radissonhotels.com/en-us/hotels/country-inn-indianapolis-southport-in"
+  },
+  {
+   "identity_key": "courtyard by marriott indianapolis castleton",
+   "final_state": "AWAITING_ATTENDED_CAPTURE",
+   "free_outcome": "ACCESS_DENIED",
+   "class": "FIRECRAWL_ELIGIBLE_NEW",
+   "url": "https://www.marriott.com/hotels/travel/indcs-courtyard-indianapolis-castleton"
+  },
+  {
+   "identity_key": "courtyard by marriott indianapolis northwest",
+   "final_state": "AWAITING_ATTENDED_CAPTURE",
+   "free_outcome": "ACCESS_DENIED",
+   "class": "FIRECRAWL_ELIGIBLE_NEW",
+   "url": "https://www.marriott.com/indnw"
+  },
+  {
+   "identity_key": "courtyard indianapolis south",
+   "final_state": "AWAITING_ATTENDED_CAPTURE",
+   "free_outcome": "ACCESS_DENIED",
+   "class": "FIRECRAWL_ELIGIBLE_NEW",
+   "url": "https://www.marriott.com/hotels/travel/indsp-courtyard-indianapolis-south"
+  },
+  {
+   "identity_key": "delta hotels by marriott indianapolis airport",
+   "final_state": "AWAITING_ATTENDED_CAPTURE",
+   "free_outcome": "HTTP_ERROR",
+   "class": "FIRECRAWL_ELIGIBLE_NEW",
+   "url": "https://www.marriott.com/hotels/travel/indde-delta-hotels-indianapolis-airport/?scid=bb1a189a-fec3-4d19-a255-54ba596febe2&y_source=1_NjA0MjU1MS03MTUtbG9jYXRpb24uZ29vZ2xlX3dlYnNpdGVfb3ZlcnJpZGU%3D"
+  },
+  {
+   "identity_key": "embassy suites by hilton plainfield indianapolis airport",
+   "final_state": "AWAITING_POLICY_OBSERVATION",
+   "free_outcome": "ACCESS_DENIED",
+   "class": "FIRECRAWL_ELIGIBLE_NEW",
+   "url": "https://www.hilton.com/en/hotels/indples-embassy-suites-plainfield-indianapolis-airport"
+  },
+  {
+   "identity_key": "extended stay america indianapolis airport",
+   "final_state": "AWAITING_POLICY_OBSERVATION",
+   "free_outcome": "ACCESS_DENIED",
+   "class": "FIRECRAWL_ELIGIBLE_NEW",
+   "url": "https://www.extendedstayamerica.com/hotels/in/indianapolis/airport"
+  },
+  {
+   "identity_key": "extended stay america indianapolis castleton",
+   "final_state": "AWAITING_OFFICIAL_URL",
+   "free_outcome": "ACCESS_DENIED",
+   "class": "FIRECRAWL_ELIGIBLE_NEW",
+   "url": "https://www.extendedstayamerica.com/hotels/in/indianapolis/castleton"
+  },
+  {
+   "identity_key": "extended stay america indianapolis plainfield",
+   "final_state": "AWAITING_POLICY_OBSERVATION",
+   "free_outcome": "ACCESS_DENIED",
+   "class": "FIRECRAWL_ELIGIBLE_NEW",
+   "url": "https://www.extendedstayamerica.com/hotels/in/indianapolis/plainfield"
+  },
+  {
+   "identity_key": "fairfield inn and suites",
+   "final_state": "AWAITING_ATTENDED_CAPTURE",
+   "free_outcome": "ACCESS_DENIED",
+   "class": "FIRECRAWL_ELIGIBLE_NEW",
+   "url": "https://www.marriott.com/hotels/travel/indif-fairfield-inn-and-suites-indianapolis-fishers"
+  },
+  {
+   "identity_key": "fairfield inn and suites indianapolis airport",
+   "final_state": "AWAITING_POLICY_ARTIFACT",
+   "free_outcome": "ACCESS_DENIED",
+   "class": "FIRECRAWL_ELIGIBLE_NEW",
+   "url": "https://www.marriott.com/indfa"
+  },
+  {
+   "identity_key": "fairfield inn and suites indianapolis noblesville",
+   "final_state": "ACCESS_BLOCKED",
+   "free_outcome": "ACCESS_DENIED",
+   "class": "FIRECRAWL_ELIGIBLE_NEW",
+   "url": "https://www.marriott.com/hotels/travel/indnb-fairfield-inn-and-suites-indianapolis-noblesville"
+  },
+  {
+   "identity_key": "fairfield inn indianapolis south",
+   "final_state": "ACCESS_BLOCKED",
+   "free_outcome": "ACCESS_DENIED",
+   "class": "FIRECRAWL_ELIGIBLE_NEW",
+   "url": "https://www.marriott.com/hotels/travel/indfi-fairfield-inn-indianapolis-south"
+  },
+  {
+   "identity_key": "hampton by hilton",
+   "final_state": "ACCESS_BLOCKED",
+   "free_outcome": "ACCESS_DENIED",
+   "class": "FIRECRAWL_ELIGIBLE_NEW",
+   "url": "https://hamptoninn3.hilton.com/en/hotels/indiana/hampton-inn-and-suites-indianapolis-fishers-INDFSHX/index.html"
+  },
+  {
+   "identity_key": "hampton inn indianapolis sw plainfield",
+   "final_state": "AWAITING_POLICY_OBSERVATION",
+   "free_outcome": "ACCESS_DENIED",
+   "class": "FIRECRAWL_ELIGIBLE_NEW",
+   "url": "https://www.hilton.com/en/hotels/indpfhx-hampton-indianapolis-sw-plainfield"
+  },
+  {
+   "identity_key": "home2 suites by hilton",
+   "final_state": "AWAITING_POLICY_OBSERVATION",
+   "free_outcome": "ACCESS_DENIED",
+   "class": "FIRECRAWL_ELIGIBLE_NEW",
+   "url": "https://www.hilton.com/en/hotels/indcrht-home2-suites-carmel-indianapolis"
+  },
+  {
+   "identity_key": "hyatt house",
+   "final_state": "AWAITING_ROUTING_REVIEW",
+   "free_outcome": "ACCESS_DENIED",
+   "class": "FIRECRAWL_ELIGIBLE_NEW",
+   "url": "https://www.hyatt.com/en-us/hotel/indiana/hyatt-house-indianapolis-fishers/indxf"
+  },
+  {
+   "identity_key": "hyatt house indianapolis downtown",
+   "final_state": "AWAITING_ROUTING_REVIEW",
+   "free_outcome": "ACCESS_DENIED",
+   "class": "FIRECRAWL_ELIGIBLE_NEW",
+   "url": "https://www.hyatt.com/en-us/hotel/indiana/hyatt-place-indianapolis-downtown/indzi"
+  },
+  {
+   "identity_key": "hyatt place indianapolis airport",
+   "final_state": "AWAITING_ROUTING_REVIEW",
+   "free_outcome": "ACCESS_DENIED",
+   "class": "FIRECRAWL_ELIGIBLE_NEW",
+   "url": "https://indianapolisairport.place.hyatt.com/en/hotel/home.html"
+  },
+  {
+   "identity_key": "hyatt place indianapolis downtown",
+   "final_state": "AWAITING_ROUTING_REVIEW",
+   "free_outcome": "ACCESS_DENIED",
+   "class": "FIRECRAWL_ELIGIBLE_NEW",
+   "url": "https://www.hyatt.com/en-us/hotel/indiana/hyatt-place-indianapolis-downtown/indzi"
+  },
+  {
+   "identity_key": "hyatt regency indianapolis",
+   "final_state": "AWAITING_ROUTING_REVIEW",
+   "free_outcome": "ACCESS_DENIED",
+   "class": "FIRECRAWL_ELIGIBLE_NEW",
+   "url": "https://www.hyatt.com/hyatt-regency/en-us/indri-hyatt-regency-indianapolis"
+  },
+  {
+   "identity_key": "keystone inn and suites",
+   "final_state": "AWAITING_POLICY_OBSERVATION",
+   "free_outcome": "NAVIGATION_FAILED",
+   "class": "FIRECRAWL_ELIGIBLE_NEW",
+   "url": "https://www.keystoneinnsuites.com/en"
+  },
+  {
+   "identity_key": "quality inn noblesville indianapolis",
+   "final_state": "AWAITING_OFFICIAL_URL",
+   "free_outcome": "NAVIGATION_FAILED",
+   "class": "FIRECRAWL_ELIGIBLE_NEW_URL",
+   "url": "https://www.choicehotels.com/indiana/noblesville/quality-inn-hotels/in338"
+  },
+  {
+   "identity_key": "red roof inn indianapolis east",
+   "final_state": "AWAITING_POLICY_OBSERVATION",
+   "free_outcome": "ACCESS_DENIED",
+   "class": "FIRECRAWL_ELIGIBLE_NEW",
+   "url": "https://www.redroof.com/property/in/indianapolis/RRI602"
+  },
+  {
+   "identity_key": "renaissance indianapolis north hotel",
+   "final_state": "AWAITING_ATTENDED_CAPTURE",
+   "free_outcome": "ACCESS_DENIED",
+   "class": "FIRECRAWL_ELIGIBLE_NEW",
+   "url": "https://www.marriott.com/hotels/travel/indbr-renaissance-indianapolis-north-hotel"
+  },
+  {
+   "identity_key": "residence inn by marriott indianapolis airport",
+   "final_state": "AWAITING_ATTENDED_CAPTURE",
+   "free_outcome": "ACCESS_DENIED",
+   "class": "FIRECRAWL_ELIGIBLE_NEW",
+   "url": "https://www.marriott.com/hotels/travel/indap-residence-inn-indianapolis-airport/"
+  },
+  {
+   "identity_key": "residence inn indianapolis airport",
+   "final_state": "AWAITING_ATTENDED_CAPTURE",
+   "free_outcome": "ACCESS_DENIED",
+   "class": "FIRECRAWL_ELIGIBLE_NEW",
+   "url": "https://www.marriott.com/indap"
+  },
+  {
+   "identity_key": "residence inn indianapolis fishers",
+   "final_state": "ACCESS_BLOCKED",
+   "free_outcome": "ACCESS_DENIED",
+   "class": "FIRECRAWL_ELIGIBLE_NEW",
+   "url": "https://www.marriott.com/hotels/travel/indfs-residence-inn-indianapolis-fishers"
+  },
+  {
+   "identity_key": "residence inn indianapolis northwest",
+   "final_state": "AWAITING_ATTENDED_CAPTURE",
+   "free_outcome": "ACCESS_DENIED",
+   "class": "FIRECRAWL_ELIGIBLE_NEW",
+   "url": "https://www.marriott.com/hotels/travel/indws-residence-inn-indianapolis-northwest"
+  },
+  {
+   "identity_key": "residence inn indianapolis south greenwood",
+   "final_state": "AWAITING_ATTENDED_CAPTURE",
+   "free_outcome": "ACCESS_DENIED",
+   "class": "FIRECRAWL_ELIGIBLE_NEW",
+   "url": "https://www.marriott.com/hotels/travel/indrw-residence-inn-indianapolis-south-greenwood"
+  },
+  {
+   "identity_key": "towneplace suites",
+   "final_state": "AWAITING_ATTENDED_CAPTURE",
+   "free_outcome": "ACCESS_DENIED",
+   "class": "FIRECRAWL_ELIGIBLE_NEW",
+   "url": "https://www.marriott.com/indtd"
+  },
+  {
+   "identity_key": "towneplace suites indianapolis park 100",
+   "final_state": "ACCESS_BLOCKED",
+   "free_outcome": "ACCESS_DENIED",
+   "class": "FIRECRAWL_ELIGIBLE_NEW",
+   "url": "https://www.marriott.com/hotels/travel/indts-towneplace-suites-indianapolis-park-100"
+  }
+ ],
+ "rows_the_free_lanes_settled_and_firecrawl_never_needed_to_see": {
+  "note": "These two were never in the Firecrawl cohort: both served a 200 to an ordinary free GET, so they were never a static ACCESS failure. They are recorded here because their COMMITTED partition state said otherwise, and a reader of this plan would otherwise expect them.",
+  "rows": [
+   {
+    "identity_key": "super 8 by wyndham indianapolis castleton",
+    "committed_state": "ACCESS_BLOCKED",
+    "actual": "fetched free, then read under attended Chrome as CLEAN_VERIFIED_NO_PETS"
+   },
+   {
+    "identity_key": "la quinta inn indianapolis airport lynhurst",
+    "committed_state": "ACCESS_BLOCKED",
+    "actual": "fetched free; the slug soft-404s to the brand list and the building now trades as Baymont by Wyndham Indianapolis Airport Lynhurst. Paying to fetch the dead slug would have bought a redirect."
+   }
+  ]
+ }
+}

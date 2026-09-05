@@ -1,0 +1,461 @@
+{
+ "schema": "ptf-market-firecrawl-evidence/1.0",
+ "market_id": "indianapolis-in",
+ "work_order": "PTF-INDIANAPOLIS-FIRECRAWL-RECOVERY-002",
+ "as_of": "2026-09-04",
+ "authorised_by": "the operator's PTF-INDIANAPOLIS-FIRECRAWL-RECOVERY-002 order: exactly the committed eligible cohort, up to 36 rows, hard cap 19.44 Firecrawl plan credits, no other provider",
+ "cost_plan_executed": "indianapolis_in_firecrawl_cost_plan_020.json",
+ "adapter": "scripts/pettripfinder/acquisition/firecrawl_capture.py",
+ "profile": "ROUTED_PROFILE -- rawHtml, waitFor 6000, timeout 90000, location.country US. The exit geography is pinned deliberately: an unpinned exit is how an earlier Marriott pilot was redirected to a localized page.",
+ "credential": "read from FIRECRAWL_API_KEY; never printed, never persisted, and every vendor string passes the adapter's redact()",
+ "spend": {
+  "planned_rows": 36,
+  "attempted_rows": 36,
+  "cap_credits": 19.44,
+  "credits_consumed": 17.0,
+  "credits_under_cap": 2.44,
+  "balance_before_order": 513,
+  "balance_after_order": 496,
+  "balance_delta": 17,
+  "reconciles": "the vendor-reported per-call credits sum to exactly the live balance delta (17 == 17). The meter and the audit agree.",
+  "other_providers_used": "none -- no Bright Data, no Google Places, no other paid lane",
+  "usd_equivalent_at_the_ledger_rate": 1.23
+ },
+ "THE_COMMITTED_COST_BASIS_WAS_WRONG": {
+  "what_the_plan_said": "0.54 credits per attempt, and 'a refusal costs the same as a good page, so this figure is the ceiling regardless of yield'",
+  "what_was_measured_here": "a SUCCESSFUL scrape costs exactly 1 credit; a call the origin refuses on every Firecrawl engine costs 0 credits and returns HTTP 500 SCRAPE_ALL_ENGINES_FAILED",
+  "how_it_was_measured": "one probe per distinct host before committing the run. Two probes (Hilton, Marriott) were refused and the balance did not move: 513 before, 513 after. Four probes that returned a document moved it by exactly 4.",
+  "why_the_0.54_average_was_misleading": "it was an average over 203 historical attempts that silently mixed free refusals with billed successes. Averaging a bimodal 0-or-1 cost produced a number that describes no single call.",
+  "consequence_for_this_run": "the plan predicted 36 rows would cost 19.44 credits. They cost 17, because 22 of the 36 were refused for free. Had every row served, 36 rows would have cost 36 credits and the cap would have stopped the run at 18 -- so the cap was enforced on ATTEMPTS with a live balance re-read every fifth call, never on the plan's arithmetic.",
+  "correction_owed": "a later order should restate the unit cost in the cross-run ledger doctrine as bimodal (1 credit on success, 0 on engine refusal) rather than as a blended average"
+ },
+ "the_firecrawl_wall_for_this_market": {
+  "refuses_every_engine_at_zero_cost": {
+   "www.marriott.com": 12,
+   "www.hilton.com": 3,
+   "hamptoninn3.hilton.com": 1,
+   "www.choicehotels.com": 2,
+   "www.radissonhotels.com": 0,
+   "www.hyatt.com": 3,
+   "note": "counts are of cohort rows that came back SCRAPE_ALL_ENGINES_FAILED; two Choice rows and one Radisson row DID serve, so the wall is per-URL and not strictly per-host"
+  },
+  "serves": [
+   "www.choicehotels.com (property detail pages)",
+   "www.extendedstayamerica.com",
+   "www.redroof.com",
+   "indianapolisairport.place.hyatt.com",
+   "www.radissonhotels.com (shell only)"
+  ],
+  "operational_value": "a refusal is free, so the wall can be mapped for nothing before any spend is committed. That probe-first step is what kept this run to 17 credits."
+ },
+ "outcome_counts": {
+  "FIRECRAWL_PUBLICATION_GRADE": 7,
+  "FIRECRAWL_IDENTITY_ONLY": 0,
+  "FIRECRAWL_SOURCE_SILENT": 4,
+  "FIRECRAWL_BLOCKED": 22,
+  "FIRECRAWL_MISMATCH": 2,
+  "FIRECRAWL_FAILED": 1,
+  "total": 36
+ },
+ "identity_gate": {
+  "rule": "publication grade requires the property's own page to state the census street address AND postal code, plus the census telephone whenever the census carries one; a brand property code in the URL substitutes for a telephone the census lacks",
+  "street_matching_is_normalised": "Drive/Dr, Avenue/Ave, Circle/Cir and the directionals are folded before comparison. Without that fold, 'extended stay america indianapolis plainfield' would have been wrongly rejected on '6295 Gateway Drive' against the page's '6295 Gateway Dr'.",
+  "a_substring_match_is_not_a_binding": "the 'comfort suites' row appeared to match street, number and postal by substring on a 5.4 MB Choice brand INDEX listing many properties. The telephone check refused it, and the page's own postal codes (46124, 46131, 46140) are none of them the census 46237. Binding must be against the page's declared address fields, never against the presence of a string somewhere in a large document."
+ },
+ "records": [
+  {
+   "identity_key": "comfort inn east indianapolis",
+   "classification": "FIRECRAWL_PUBLICATION_GRADE",
+   "policy_class": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "cohort_class": "FIRECRAWL_ELIGIBLE_NEW_URL",
+   "retry_is_valid_because": "a prior firecrawl attempt on this identity returned IDENTITY_MISMATCH against the census street 7015 Western Select Drive. Order 012 superseded that address to 2295 N. Shadeland and phone-bound the row to Choice property IN099. The premise of the earlier attempt no longer holds, so this is a new question and not a re-buy. The cost plan named this condition explicitly.",
+   "requested_url": "https://www.choicehotels.com/indiana/indianapolis/comfort-inn-hotels/in099",
+   "final_url": "https://www.choicehotels.com/indiana/indianapolis/comfort-inn-hotels/in099",
+   "status": 200,
+   "content_sha256": "e51791267d04cdb20755a3df13834ee1bf21c3b3d065db92f3067e9772f7e4d9",
+   "captured_at": "2026-09-04",
+   "identity_signals": {
+    "census_address": "2295 N. Shadeland",
+    "page_street_address": "2295 N. Shadeland",
+    "census_postal": "46219",
+    "postal_on_page": true,
+    "census_phone": "3173599999",
+    "page_phone": "(317) 359-9999",
+    "brand_property_code": "IN099",
+    "bound_on": "exact street + postal + telephone + brand property code"
+   },
+   "exact_quote": "Pets  Pets Allowed: No   General: Only service animals are permitted, free of charge.",
+   "parsed_facts": {
+    "pets_allowed": false
+   },
+   "service_animal_guard": "the service-animal permission does not soften an explicit 'Pets Allowed: No'; it is the refusal's own carve-out",
+   "settles": "the prior IDENTITY_MISMATCH on this identity is now closed by a correctly-addressed capture"
+  },
+  {
+   "identity_key": "quality inn noblesville indianapolis",
+   "classification": "FIRECRAWL_PUBLICATION_GRADE",
+   "policy_class": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "cohort_class": "FIRECRAWL_ELIGIBLE_NEW_URL",
+   "retry_is_valid_because": "prior firecrawl IDENTITY_MISMATCH against the census street 17070 Dragonfly Drive; order 012 corrected it to Dragonfly Lane and routed the row to Choice IN338, which its own address-review queue recorded as the single Choice property in Noblesville. New premise, not a re-buy.",
+   "requested_url": "https://www.choicehotels.com/indiana/noblesville/quality-inn-hotels/in338",
+   "status": 200,
+   "content_sha256": "0b491c48ce0e1248354553c931cbdddaec87da08835b1c8afa9328637ad9b16a",
+   "captured_at": "2026-09-04",
+   "identity_signals": {
+    "census_address": "17070 Dragonfly Lane",
+    "page_street_address": "17070 Dragonfly Lane",
+    "census_postal": "46060",
+    "postal_on_page": true,
+    "census_phone": "",
+    "brand_property_code": "IN338",
+    "bound_on": "exact street + postal + brand property code (the census carries no telephone for this row, and the property code stands in its place)"
+   },
+   "exact_quote": "Pets  Pets Allowed: No   General: Only service animals are permitted, free of charge.",
+   "parsed_facts": {
+    "pets_allowed": false
+   }
+  },
+  {
+   "identity_key": "comfort suites indianapolis airport",
+   "classification": "FIRECRAWL_PUBLICATION_GRADE",
+   "policy_class": "PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "cohort_class": "FIRECRAWL_ELIGIBLE_NEW_URL",
+   "retry_is_valid_because": "prior firecrawl IDENTITY_MISMATCH against the census street 2181 West Southern Avenue; order 012 superseded it to 2750 Fortune Circle West and bound Choice IN293. New premise, not a re-buy.",
+   "requested_url": "https://www.choicehotels.com/indiana/indianapolis/comfort-suites-hotels/in293",
+   "status": 200,
+   "content_sha256": "627d01c96acc81e2a94fcf10d4c0c50d9c897b2921bae0454e9845829a02f2be",
+   "captured_at": "2026-09-04",
+   "identity_signals": {
+    "census_address": "2750 Fortune Circle West",
+    "page_street_address": "2750 Fortune Circle West",
+    "census_postal": "46241",
+    "postal_on_page": true,
+    "census_phone": "3177592371",
+    "page_phone": "(317) 759-2371",
+    "brand_property_code": "IN293",
+    "bound_on": "exact street + postal + telephone + brand property code"
+   },
+   "exact_quote": "Pets  Pets Allowed: Yes   General: Pets Allowed.. Service animals are permitted, without charge.",
+   "parsed_facts": {
+    "pets_allowed": true
+   },
+   "withheld_because_the_source_does_not_say": [
+    "pet_fee -- the property's Pets field states acceptance and no amount",
+    "pet_count_limit",
+    "weight_limit",
+    "species"
+   ],
+   "this_record_is_the_weakest_shape_we_publish": "its only fact is pets_allowed, exactly the shape that made home2 keystone crossing a live defect. It is admitted because 'Pets Allowed: Yes' is the property's own structured policy field on its own detail page, not an amenity chip -- the 'Pet Friendly*' badge elsewhere on the page was NOT used. A later order should treat a fee-less pet-friendly record as publishable but incomplete, and say so on the page rather than implying there is no fee."
+  },
+  {
+   "identity_key": "red roof inn indianapolis east",
+   "classification": "FIRECRAWL_PUBLICATION_GRADE",
+   "policy_class": "PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "cohort_class": "FIRECRAWL_ELIGIBLE_NEW",
+   "requested_url": "https://www.redroof.com/property/in/indianapolis/RRI602",
+   "status": 200,
+   "content_sha256": "1acd590076c10d9f837f2010dc555c6d3d8d997a97188da0a53858d319c0c934",
+   "captured_at": "2026-09-04",
+   "identity_signals": {
+    "census_address": "7314 East 21st Street",
+    "page_street_address": "7314 East 21st St",
+    "census_postal": "46219",
+    "postal_on_page": true,
+    "census_phone": "9373276504",
+    "page_phone": "the census telephone string is present on the page",
+    "brand_property_code": "RRI602",
+    "bound_on": "exact street + postal + telephone + brand property code",
+    "telephone_note": "the census telephone for this row carries a 937 area code, which is Dayton Ohio rather than Indianapolis. It is nonetheless present on this property's own Red Roof page, so it binds -- Red Roof publishes a central reservations number on property pages. Recorded because a future reader should not treat the mismatched area code as a defect, nor treat this telephone as proof of geography."
+   },
+   "exact_quote": "Pet Policy: One, well-behaved domestic pet (cat or dog) Stays Free! Pets must be declared at check-in. Up to 2 pets allowed per room. Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay. Pet not to exceed 80 pounds. Service and emotional support animals are always welcome.",
+   "parsed_facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "pet_count_limit": 2,
+    "weight_limit": {
+     "value": 80.0,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "pet_fee": {
+     "amount_cents": 0,
+     "currency": "USD",
+     "basis": "per_stay",
+     "scope": "first_pet",
+     "note": "the first pet stays free"
+    },
+    "additional_charge": {
+     "amount_cents": 1500,
+     "currency": "USD",
+     "basis": "per_night",
+     "scope": "second_pet",
+     "cap_cents": 10500,
+     "cap_note": "not to exceed 7 nights or $105 per pet per stay"
+    }
+   },
+   "two_charges_not_one": "a free first pet and a capped $15/night second pet are two different charges with a stated ceiling. Publishing a single 'pet fee' number would misstate both a one-pet and a two-pet stay.",
+   "deposit_is_not_a_pet_fee": "the page also states a $50 credit-card deposit for all guests. That is a property deposit, not a pet charge, and is deliberately not carried into the pet facts."
+  },
+  {
+   "identity_key": "extended stay america indianapolis castleton",
+   "classification": "FIRECRAWL_PUBLICATION_GRADE",
+   "policy_class": "PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "cohort_class": "FIRECRAWL_ELIGIBLE_NEW",
+   "requested_url": "https://www.extendedstayamerica.com/hotels/in/indianapolis/castleton",
+   "status": 200,
+   "content_sha256": "1236211b7e220e06eb4da76f66e3b13d22cd05e8cb0b7442904a0ba263a5754d",
+   "captured_at": "2026-09-04",
+   "identity_signals": {
+    "census_address": "7940 N. Shadeland Ave.",
+    "page_street_address": "7940 N. Shadeland Ave.",
+    "census_postal": "46250",
+    "postal_on_page": true,
+    "census_phone": "3175961288",
+    "page_phone": "the census telephone string is present on the page",
+    "bound_on": "exact street + postal + telephone"
+   },
+   "exact_quote": "A maximum of two pets are allowed in each suite. Height and length restrictions apply-- pets can be no longer than 36 inches and no taller than 36 inches. Larger animals or more than two pets requires property manager's approval. There will be up to a $25 (+ tax) per day non-refundable cleaning fee for the first six (6) nights, per pet. Each day thereafter there is a pet cleaning fee not to exceed $15 non-refundable fee (+tax) per day, per pet.",
+   "parsed_facts": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "dimension_constraints": {
+     "max_length_inches": 36,
+     "max_height_inches": 36
+    },
+    "fee_tiers": [
+     {
+      "amount_usd": 25.0,
+      "min_nights": 1,
+      "max_nights": 6,
+      "basis": "per day, per pet",
+      "refundable": false
+     },
+     {
+      "amount_usd": 15.0,
+      "min_nights": 7,
+      "max_nights": null,
+      "basis": "per day, per pet",
+      "refundable": false
+     }
+    ]
+   },
+   "consistency_note": "this is the same corporate ESA policy text already carried by the six published Indianapolis ESA records, which is corroboration rather than novelty",
+   "contradiction_scan": "0 occurrences of 'no pets' or 'pets are not permitted' in the whole document"
+  },
+  {
+   "identity_key": "extended stay america indianapolis plainfield",
+   "classification": "FIRECRAWL_PUBLICATION_GRADE",
+   "policy_class": "PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "cohort_class": "FIRECRAWL_ELIGIBLE_NEW",
+   "requested_url": "https://www.extendedstayamerica.com/hotels/in/indianapolis/plainfield",
+   "status": 200,
+   "content_sha256": "cfd8e257e03b5feeeca9d42d089c46567ee2b10b8e45b01e479b631b1eda2de9",
+   "captured_at": "2026-09-04",
+   "identity_signals": {
+    "census_address": "6295 Gateway Drive",
+    "page_street_address": "6295 Gateway Dr",
+    "census_postal": "46168",
+    "postal_on_page": true,
+    "census_phone": "3178372950",
+    "page_phone": "matches",
+    "bound_on": "exact street (after Drive/Dr normalisation) + postal + telephone"
+   },
+   "exact_quote": "A maximum of two pets are allowed in each suite. Height and length restrictions apply-- pets can be no longer than 36 inches and no taller than 36 inches. Larger animals or more than two pets requires property manager's approval. There will be up to a $25 (+ tax) per day non-refundable cleaning fee for the first six (6) nights, per pet. Each day thereafter there is a pet cleaning fee not to exceed $15 non-refundable fee (+tax) per day, per pet.",
+   "parsed_facts": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "dimension_constraints": {
+     "max_length_inches": 36,
+     "max_height_inches": 36
+    },
+    "fee_tiers": [
+     {
+      "amount_usd": 25.0,
+      "min_nights": 1,
+      "max_nights": 6,
+      "basis": "per day, per pet",
+      "refundable": false
+     },
+     {
+      "amount_usd": 15.0,
+      "min_nights": 7,
+      "max_nights": null,
+      "basis": "per day, per pet",
+      "refundable": false
+     }
+    ]
+   },
+   "contradiction_scan": "0 occurrences of 'no pets' or 'pets are not permitted' in the whole document"
+  },
+  {
+   "identity_key": "hyatt place indianapolis airport",
+   "classification": "FIRECRAWL_PUBLICATION_GRADE",
+   "policy_class": "PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "cohort_class": "FIRECRAWL_ELIGIBLE_NEW",
+   "requested_url": "https://indianapolisairport.place.hyatt.com/en/hotel/home.html",
+   "status": 200,
+   "content_sha256": "06909bbaaf7ad225c7d0f94d9ae8d2e2a36cc42568af9410630c2114059c33e0",
+   "captured_at": "2026-09-04",
+   "identity_signals": {
+    "census_address": "5500 West Bradbury Avenue",
+    "page_street_address": "5500 West Bradbury Avenue",
+    "census_postal": "46241",
+    "postal_on_page": true,
+    "census_phone": "3172432041",
+    "page_phone": "not matched",
+    "property_specific_host": "indianapolisairport.place.hyatt.com",
+    "bound_on": "exact street + postal on the property's OWN dedicated subdomain",
+    "why_the_phone_miss_does_not_break_the_binding": "the page's other address, 150 N Riverside Plaza 60606, is Hyatt's corporate headquarters in the footer, and the telephone rendered there belongs to it. The property address and postal appear together on a host that serves exactly one property."
+   },
+   "exact_quote": "We welcome your pets at Hyatt Place Indianapolis Airport but note that all pets must be housebroken and crated when you are not in the room. (2) dogs are allowed per room weighing less than 50 lbs. each. Pet Fees 1-6 nights: $100 / STAY. 7-30 nights (includes cleaning fee): $200 / STAY. Weight Limits Individual pet weight limit: 50 Pounds. Combined pets weight limit: 75 Pounds. Maximum number of pets is 2.",
+   "parsed_facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted"
+    },
+    "pet_count_limit": 2,
+    "weight_limit": {
+     "value": 50.0,
+     "unit": "lb",
+     "operator": "lt",
+     "scope": "per_pet"
+    },
+    "combined_weight_limit": {
+     "value": 75.0,
+     "unit": "lb",
+     "scope": "all_pets"
+    },
+    "fee_tiers": [
+     {
+      "amount_usd": 100.0,
+      "min_nights": 1,
+      "max_nights": 6,
+      "basis": "per stay"
+     },
+     {
+      "amount_usd": 200.0,
+      "min_nights": 7,
+      "max_nights": 30,
+      "basis": "per stay",
+      "note": "includes cleaning fee"
+     }
+    ],
+    "stays_over_30_nights": "the source says contact the hotel; no fact is emitted"
+   },
+   "operator_is_stated_not_defaulted": "the source says 'weighing less than 50 lbs', so the operator is lt on the source's own wording",
+   "resolves_a_routing_hold": "this row stood at AWAITING_ROUTING_REVIEW because the destination could not be confirmed first-party against a bot-walled brand. The property's own subdomain served its address, postal and policy, so the routing hold is discharged by evidence.",
+   "service_animal_guard": "the page states service animals are not pets and not subject to the pet policy; the acceptance is established by the pet sentences alone"
+  },
+  {
+   "identity_key": "comfort suites",
+   "classification": "FIRECRAWL_MISMATCH",
+   "disposition": "HELD -- confirms the committed AWAITING_PROPERTY_LEVEL_URL state",
+   "requested_url": "https://www.choicehotels.com/indiana/shelbyville/econo-lodge-hotels",
+   "status": 200,
+   "content_bytes": 5446577,
+   "why_it_is_a_mismatch": "the bound URL is a Shelbyville Econo Lodge brand INDEX, not a property page. It lists many hotels and carries contradictory pet statements side by side ('Pets Are Allowed. All Pets. Pet Charge of 25.00 USD Per Pet, Per Night.' and 'No Pets Allowed'). Its own postal codes are 46124, 46131 and 46140; the census row is 46237. Nothing on it can be attributed to 4125 Kildeer Drive.",
+   "lesson": "a naive substring check reported street number, street name and postal as present. On a 5.4 MB multi-property document that means nothing. The telephone check and the page's declared postal codes are what refused it."
+  },
+  {
+   "identity_key": "extended stay america indianapolis airport",
+   "classification": "FIRECRAWL_MISMATCH",
+   "disposition": "NEW HOLD -- ADDRESS CONFLICT",
+   "requested_url": "https://www.extendedstayamerica.com/hotels/in/indianapolis/airport",
+   "status": 200,
+   "census_address": "5820 West Franklin Road",
+   "page_street_address": "2730 Fortune Cir. W.",
+   "census_postal": "46241",
+   "page_postal": "46241",
+   "census_phone": "3172480465",
+   "page_phone": "matches",
+   "why_it_is_held": "the telephone and postal bind but the street does not. Either the census street is stale or the brand slug reaches a different building. Both are plausible and the evidence does not choose between them, so it is held rather than corrected. Addresses are not fixed in bulk.",
+   "policy_on_the_page_if_the_identity_is_ever_settled": "the standard ESA text (max two pets, 36-inch limits, $25/day for six nights then $15/day, per pet)",
+   "founder_group": "A"
+  },
+  {
+   "identity_key": "cambria hotel indianapolis airport plainfield",
+   "classification": "FIRECRAWL_SOURCE_SILENT",
+   "disposition": "HELD",
+   "status": 200,
+   "content_bytes": 3191658,
+   "why": "the document returned but its address fields came back as unfilled template literals ('Address', 'Address line 1', 'Street Address') and it carries no pet sentence at all. Rendered, not hydrated. Nothing can be bound and nothing can be read."
+  },
+  {
+   "identity_key": "country inn and suites indianapolis south in",
+   "classification": "FIRECRAWL_SOURCE_SILENT",
+   "disposition": "HELD",
+   "status": 200,
+   "content_bytes": 747372,
+   "why": "no address rendered and the only pet string is a site-wide navigation item ('Rad Pets'), which is a brand programme link and not this property's policy"
+  },
+  {
+   "identity_key": "hyatt house",
+   "classification": "FIRECRAWL_SOURCE_SILENT",
+   "disposition": "HELD",
+   "status": 301,
+   "why": "the request redirected to the Fishers Hyatt House page and returned no address and no pet sentence. This row's census name is also a bare chain word, so it carries an open naming question in addition."
+  },
+  {
+   "identity_key": "keystone inn and suites",
+   "classification": "FIRECRAWL_FAILED",
+   "disposition": "HELD",
+   "why": "the request did not complete and no document was returned; 0 credits were consumed",
+   "note": "this row also timed out on the free static lane, so the origin is unreachable to both lanes rather than merely bot-walled"
+  },
+  {
+   "identity_key": "delta hotels by marriott indianapolis airport",
+   "classification": "FIRECRAWL_SOURCE_SILENT",
+   "disposition": "HELD -- ROUTE IS DEAD",
+   "status": 404,
+   "requested_url": "https://www.marriott.com/hotels/travel/indde-delta-hotels-indianapolis-airport/?scid=bb1a189a-fec3-4d19-a",
+   "why_it_matters": "this is the one Marriott URL in the cohort that Firecrawl was allowed to reach, and the brand answered 404. The committed route for this identity is dead, not merely bot-walled. That is a routing fact the free lane could not have established, because a 403 from the other Marriott rows proves nothing about whether their pages exist.",
+   "founder_group": "A"
+  }
+ ],
+ "blocked_rows": {
+  "count": 22,
+  "classification": "FIRECRAWL_BLOCKED",
+  "cost": 0.0,
+  "meaning": "SCRAPE_ALL_ENGINES_FAILED -- the origin refused every Firecrawl engine. This records a FETCH OUTCOME and nothing about whether the page exists or what it says.",
+  "identity_keys": [
+   "embassy suites by hilton plainfield indianapolis airport",
+   "hampton inn indianapolis sw plainfield",
+   "home2 suites by hilton",
+   "fairfield inn and suites indianapolis noblesville",
+   "fairfield inn indianapolis south",
+   "hampton by hilton",
+   "residence inn indianapolis fishers",
+   "towneplace suites indianapolis park 100",
+   "fairfield inn and suites indianapolis airport",
+   "hyatt house indianapolis downtown",
+   "hyatt place indianapolis downtown",
+   "hyatt regency indianapolis",
+   "courtyard by marriott indianapolis castleton",
+   "courtyard by marriott indianapolis northwest",
+   "courtyard indianapolis south",
+   "fairfield inn and suites",
+   "renaissance indianapolis north hotel",
+   "residence inn by marriott indianapolis airport",
+   "residence inn indianapolis airport",
+   "residence inn indianapolis northwest",
+   "residence inn indianapolis south greenwood",
+   "towneplace suites"
+  ],
+  "consequence": "Firecrawl is now a CLOSED question for these 22 rows. They are not cheaper to retry later; the lane simply does not reach them. Any further attempt on them is an attended-browser or paid-unlocker question, and the attempt is recorded so no future order re-buys it."
+ },
+ "corrections_made_before_commit": [
+  "two census telephone numbers were initially transcribed from memory rather than read from the census and were wrong; both are now the values the committed census actually carries (red roof inn indianapolis east 9373276504, extended stay america indianapolis castleton 3175961288). The bindings themselves were computed from the census all along -- only this document's prose was wrong.",
+  "the truncated content digests were replaced with the full sha256 of each returned document"
+ ]
+}

@@ -24,7 +24,11 @@ ROOT = Path(__file__).resolve().parents[2]
 PACKAGE = ROOT / "launch_packages" / "pettripfinder"
 CENSUS_PATH = PACKAGE / "identity_census" / "indianapolis-in.json"
 # 004 until PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014 rebuilt the partition over the promoted 263-identity census.
-PARTITION_PATH = PACKAGE / "indianapolis_in_final_partition_014.json"
+# The CURRENT partition. Repointed 014 -> 023 by
+# PTF-INDIANAPOLIS-PROMOTION-AND-APPLICATION-004, which rebuilt it over the
+# 264-identity census. PARTITION_001_PATH below is this order's OWN historical
+# artifact and stays where it is -- the two are deliberately different things.
+PARTITION_PATH = PACKAGE / "indianapolis_in_final_partition_023.json"
 PARTITION_001_PATH = PACKAGE / "indianapolis_final_partition_001.json"
 QUEUE_DIR = (
     ROOT / "data" / "operator_evidence" / "indianapolis-founder-review-001"
@@ -226,8 +230,23 @@ def test_every_canonical_lodging_has_one_corridor():
 
 
 def test_corridor_counts_match_measured_table():
+    """The measured corridor table of this order, held as a floor.
+
+    PTF-INDIANAPOLIS-PROMOTION-REMEDIATION-005 scoped this. Exact equality made
+    the table a ceiling as well as a floor, so admitting ONE identity to a
+    corridor read as the corridor assignment being wrong. What the measurement
+    was actually for is that no corridor silently LOSES hotels and none of them
+    disappears -- both still asserted, exactly, below. A later admission is
+    allowed to raise a count and nothing else is.
+    """
     counts = Counter(r["corridor"] for r in _json(CENSUS_PATH)["hotels"])
-    assert dict(counts) == EXPECTED_CORRIDORS
+    for corridor, measured in EXPECTED_CORRIDORS.items():
+        assert corridor in counts, "%s lost every hotel it had" % corridor
+        assert counts[corridor] >= measured, (
+            "%s fell from %d to %d" % (corridor, measured, counts[corridor]))
+    assert set(counts) == set(EXPECTED_CORRIDORS), (
+        "a corridor appeared or vanished since the measurement")
+    assert sum(counts.values()) == len(_json(CENSUS_PATH)["hotels"])
     assert sum(counts.values()) == CENSUS
 
 
@@ -299,7 +318,10 @@ def test_live_production_authority_is_complete_and_holds_stay_non_public():
         encoding="utf-8-sig"))
     records = exclusions["exclusions"] if isinstance(exclusions, dict) else exclusions
     indy_ex = [e for e in records if e.get("market_id") == MARKET]
-    assert {e["exclusion_id"] for e in indy_ex} == set(EXCLUSION_IDS)
+    # The exclusion ids this order established, held as a cohort rather than as
+    # the whole set: every refusal it recorded must still be recorded, under the
+    # same id. A later order may add refusals; it may not drop one of these.
+    assert set(EXCLUSION_IDS) <= {e["exclusion_id"] for e in indy_ex}
     assert all(e["exclusion_state"] == enums.VERIFIED_NO_PETS for e in indy_ex)
     release = ROOT / "deploy" / "netlify" / "release_contracts" / "indianapolis-in.json"
     assert release.exists()
@@ -370,7 +392,20 @@ def test_pass1_identity_repair_bound_url_property_codes():
     expected["embassy suites by hilton indianapolis downtown"] = "indwwes"   # the page's own code
     for key, code in expected.items():
         assert brand_scoped_property_identity(by_key[key]["official_url"])[1] == code, key
+    # This row USED to carry a Wyndham URL, and the assertion proved the
+    # extractor reads brand WYNDHAM with no property code from it -- a Wyndham
+    # URL that names no code must not silently become a code.
+    # PTF-INDIANAPOLIS-PROMOTION-AND-APPLICATION-004 REMOVED that route: the
+    # page it pointed at states 6010 Gateway Drive and 317-203-9321, which are
+    # the census street and telephone of "baymont inn and suites plainfield
+    # indianapolis airport" -- a different building. Publishing against it would
+    # have put another hotel's pet policy on this row's page.
+    # The guarantee is kept on the URL it was written about rather than deleted,
+    # and the row's own state is asserted directly.
+    assert by_key["baymont by wyndham plainfield indianapolis airport area"]["official_url"] == "", (
+        "the mis-bound Plainfield Baymont route must stay removed until a correct one is found")
     assert brand_scoped_property_identity(
-        by_key["baymont by wyndham plainfield indianapolis airport area"]["official_url"]) == ("WYNDHAM", "")
+        "https://www.wyndhamhotels.com/baymont/plainfield-indiana/"
+        "baymont-inn-and-suites-plainfield-indianapolis-arpt-area/overview") == ("WYNDHAM", "")
     assert brand_scoped_property_identity(
         by_key["best western plus indianapolis northwest"]["official_url"]) == ("BEST_WESTERN", "15116")

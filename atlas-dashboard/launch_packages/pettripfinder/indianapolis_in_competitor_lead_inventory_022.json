@@ -1,0 +1,67 @@
+{
+ "schema": "ptf-market-competitor-lead-inventory/1.0",
+ "market_id": "indianapolis-in",
+ "work_order": "PTF-INDIANAPOLIS-BRINGFIDO-CENSUS-VALIDATION-003",
+ "as_of": "2026-09-04",
+ "competitor": "BringFido",
+ "lane": "COMPETITIVE DISCOVERY LEAD SOURCE ONLY",
+ "authority_status": "BringFido is NEVER publication authority. No policy fact in the Atlas authority derives from it. Every row it suggested still requires deterministic identity binding and first-party policy evidence before it can be admitted.",
+ "cost": {"provider_calls": 0, "credits": 0.0, "usd": 0.0,
+          "how": "attended Chrome plus same-origin fetch; BringFido refuses an ordinary static GET with HTTP 403, and no paid lane was used to get past it"},
+ "capture": {
+  "surface_used": "/lodging/hotels/city/indianapolis_in_us/ with page pagination",
+  "displayed_hotel_count": 122,
+  "captured_hotel_count": 169,
+  "pages_walked": 9,
+  "capture_completeness": "complete for this surface: pagination was walked until the server stopped returning a page, and the last page returned 10 rather than 20 rows",
+  "why_122_and_169_disagree": "MECHANICAL, not a capture failure. Of the 169 properties the paginated hotel cohort serves, exactly 122 carry addressLocality 'Indianapolis' in BringFido's own JSON-LD. The headline 122 counts the city string; the cohort it actually serves includes the surrounding market -- Plainfield 11, Carmel 7, Fishers 7, Greenwood 4, Whitestown 4, Brownsburg 3, Noblesville 3, Westfield 1, Avon 1, Franklin 1, and 5 listings with no address at all.",
+  "a_second_and_larger_discrepancy": {
+   "finding": "the UNFILTERED lodging page claims 'There are 248 pet friendly hotels in Indianapolis' while serving every lodging type, including vacation rentals and campgrounds",
+   "why": "the type filter is a PATH segment, not a query parameter. /lodging/city/indianapolis_in_us/?type=hotels is inert -- it returns byte-identical results to ?type=campgrounds and ?type=rentals -- while /lodging/hotels/city/indianapolis_in_us/ is the real hotel surface and reports 122.",
+   "how_it_was_caught": "the same page-1 identity set came back for four different type values; a filter that changes nothing is not a filter",
+   "consequence_if_missed": "a competitor census taken from the query-parameter URL would have compared 329 mixed-category lodging rows against a hotel census and reported a fictitious gap"
+  }
+ },
+ "fields_preserved_per_lead": ["bringfido property id", "displayed property name",
+  "bringfido property path", "street address", "locality", "postal code",
+  "telephone", "coordinates where exposed", "visible pet-policy snippet",
+  "fee / weight / pet-count chips", "capture timestamp"],
+ "reconciliation_method": {
+  "authority": "the pinned Atlas identity census of 263",
+  "hierarchy": ["exact premises: postal + street number", "telephone", "brand property code"],
+  "name_is_never_a_binding": "name similarity was computed only as a DIAGNOSTIC to find rows the address matcher had missed, and it proved the point: it paired 'Motel 6 Southport' with 'motel 6 indianapolis airport', 'Home2 Suites Fishers' with 'home2 suites indianapolis northwest' and 'Spark Fishers' with 'hilton garden inn northeast fishers'. Every one is a different building. No pairing was promoted to a match.",
+  "a_substring_is_not_a_match": "street/postal substring tests were run against the page's DECLARED address fields, never against the raw document -- on a multi-property brand index, a raw substring test reports a match for a building that is not there"
+ },
+ "counts": {
+  "bringfido_hotels_captured": 169,
+  "already_in_atlas_census": 111,
+  "identity_review_required": 24,
+  "true_missing_candidates": 15,
+  "non_lodging_or_wrong_category": 10,
+  "outside_atlas_geography": 6,
+  "bringfido_duplicate_listings": 3,
+  "closed_or_converted": 0,
+  "total": 169
+ },
+ "not_lodging_but_filed_under_hotels": {
+  "count": 10,
+  "detail": "two are category landing pages rather than properties at all ('Indianapolis Airbnb Rentals', 'VRBO Indianapolis'); two are bed & breakfasts; and six are apartment or whole-house short-term rentals ('CozySuites at Artistry Indy', 'CozySuites at Bottleworks District', 'CozySuites at East Washington', 'The Residences at CityWay', 'Urban Chic Townhome Near Downtown', 'Artisan Oasis-Hot Tub Fire Pit 8BD Whole House')",
+  "significance": "5.9% of the competitor's own hotel category is not a hotel. Any count taken from it without category adjudication is inflated by that much before geography is even considered."
+ },
+ "outside_atlas_geography": {
+  "count": 6,
+  "detail": "three Whitestown 46075 properties and one Whitestown 46275 (the Zionsville corridor, excluded from this market by the market contract and settled by founder ruling F-004-3, which must not be reopened), one Franklin 46131, and one listing whose stated city is Plainfield but whose postal 46148 is Greenfield",
+  "significance": "these are not Atlas coverage gaps; they are a different market boundary"
+ },
+ "reverse_check_atlas_against_bringfido": {
+  "purpose": "BringFido is not assumed to be ground truth, so the comparison was run in both directions",
+  "live_pet_friendly_represented": 57,
+  "live_pet_friendly_total": 67,
+  "live_pet_friendly_absent_from_bringfido": 10,
+  "pending_pet_friendly_represented": 11,
+  "pending_pet_friendly_total": 14,
+  "pending_pet_friendly_absent_from_bringfido": 3,
+  "atlas_verified_no_pets_that_bringfido_lists_as_pet_friendly": 3,
+  "reading": "the competitor is missing 10 hotels Atlas has already verified and published as pet-friendly, and it lists 3 properties as pet-friendly for which Atlas holds a citable first-party refusal. Completeness runs in both directions, and on accuracy the disagreements found so far favour Atlas."
+ }
+}

@@ -1,0 +1,62 @@
+{
+ "schema": "ptf-market-paid-readiness/1.0",
+ "work_order": "PTF-PITTSBURGH-PARALLEL-REVALIDATION-001",
+ "market_id": "pittsburgh-pa",
+ "as_of": "2026-09-03",
+ "shared_ledgers": {
+  "read": [
+   "launch_packages/pettripfinder/ptf_paid_attempt_ledger_001.json",
+   "launch_packages/pettripfinder/ptf_discovery_attempt_ledger_001.json"
+  ],
+  "written": [],
+  "note": "This order READ the shared cross-run ledgers and wrote neither. Writing them is a serialized-boundary action."
+ },
+ "prior_position": {
+  "pittsburgh_paid_attempts_ever": 120,
+  "total_usd_spent_ever": 16.58,
+  "mean_usd_per_attempt": 0.138,
+  "by_lane": {"brightdata_browser": 82, "brightdata_web_unlocker": 28, "firecrawl": 10},
+  "firecrawl_credits_logged_before_this_order": 10,
+  "pittsburgh_discovery_lookups_ever": 0,
+  "note": "Pittsburgh has never bought a places/identity lookup. Every dollar it has spent went on fetching pages."
+ },
+ "this_order": {
+  "usd_spent": 0.0,
+  "firecrawl_calls": 2,
+  "firecrawl_credits_used": 2,
+  "credits_remaining_after": 513,
+  "brightdata_calls": 0,
+  "places_calls": 0,
+  "authorization_basis": "Firecrawl bills in PLAN CREDITS with no per-request USD. The credit position was read live before the run (515) and again after (513), so the figure is a measured delta and not an estimate. Two credits of 515 at $0 marginal is inside standing doctrine; no dollar authorization was required or assumed."
+ },
+ "firecrawl_readiness": {
+  "eligible_remaining_rows": 0,
+  "why": "Every remaining unresolved row is either on a MEASURED capability wall (Marriott, Hilton), on a cost-excluded brand (Hyatt), blocked on a route rather than a fetch, or already answered. The ladder derived two candidates for this order and both were spent.",
+  "conditional_future_candidate": {
+   "identity_key": "tryp hotel pittsburgh",
+   "becomes_eligible_if": "founder item PGH-R1-A3 binds this identity to a wyndhamhotels.com property route, which moves it from a bare independent onto the WYNDHAM family the route table names from a measured decision.",
+   "estimated_credits": 1,
+   "estimated_usd": 0.0
+  }
+ },
+ "brightdata_readiness": {
+  "rows_that_would_be_sent": 0,
+  "measured_rate_usd_per_attempt": 0.138,
+  "expected_cost_usd": 0.0,
+  "hard_cap_recommended_usd": 0.0,
+  "why_paid_stays_closed": "Every remaining unresolved row is blocked on a ROUTE or an IDENTITY, and buying a page supplies neither. Five of them point at property codes their own brand no longer publishes, so a paid fetch would buy a 404 or the wrong building. This reproduces the conclusion order 007 reached, now on stronger evidence: the brands' own sitemaps.",
+  "do_not_duplicate": {
+   "unresolved_rows_with_a_prior_paid_attempt": 17,
+   "of_which_closed_free_by_this_order": 6,
+   "note": "Six rows that had already cost a paid attempt were closed in this order at $0 through the free attended lane. Re-sending any of the 17 without a material change in premises would be a duplicate attempt."
+  }
+ },
+ "places_readiness": {
+  "rows_that_would_be_sent": 0,
+  "pricing_state": "Pittsburgh has never made a discovery lookup, so this market has no measured rate.",
+  "expected_cost_usd": 0.0,
+  "hard_cap_recommended_usd": 0.0,
+  "why": "The identity questions this order opened are answered by founder rulings and by brand sitemaps already read for free, not by buying a third-party record of where a hotel is."
+ },
+ "recommendation": "Pittsburgh needs no provider spend to reach its next promotion. The remaining work is founder rulings plus free reads."
+}

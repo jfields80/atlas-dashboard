@@ -67,7 +67,13 @@ EXPECTED_ROWS = {COLUMBUS: 112,
                  PITTSBURGH: 103, DETROIT: 247,
                  # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004 promoted the 257-identity recensus.
                  # 257 -> 263 at PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014 (shadow promoted).
-                 INDIANAPOLIS: 263,
+                 # 263 -> 264 at PTF-INDIANAPOLIS-PROMOTION-AND-APPLICATION-004: ONE census
+                 # admission, Tru by Hilton Indianapolis Lawrence, whose identity Hilton's own
+                 # locality inventory and the property's own page both state. The La Quinta
+                 # Lynhurst row was RENAMED to its Baymont successor at the same premises in
+                 # the same order and is not an addition -- the count moved by the admission
+                 # alone, which is why it is +1 and not +2.
+                 INDIANAPOLIS: 264,
                  MILWAUKEE: 147}
 # Cincinnati was 121 until PTF-CINCINNATI-CENSUS-RECONCILIATION-001 rebuilt it
 # from six official destination-marketing directories instead of from its own
