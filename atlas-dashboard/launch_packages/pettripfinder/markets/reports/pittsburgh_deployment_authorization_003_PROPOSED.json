@@ -1,0 +1,182 @@
+{
+ "schema": "ptf-deployment-authorization-proposal/1.0",
+ "status": "PROPOSED_UNEXECUTED",
+ "what_this_is": "A prepared, UNSIGNED deployment authorization for founder review. It is deliberately NOT written to deploy/netlify/deployment_authorizations/, because a file in that directory IS an authorization and PTF-PITTSBURGH-PROMOTION-AND-APPLICATION-002 is forbidden to write one. No deployment record exists and no deployment was made.",
+ "would_become": "PTF-PITTSBURGH-DEPLOYMENT-AUTHORIZATION-003",
+ "prepared_by": "PTF-PITTSBURGH-PROMOTION-AND-APPLICATION-002",
+ "prepared_at": "2026-09-05",
+ "authorized_by": null,
+ "authorized_at": null,
+ "source_commit": "3f13cf4bc3a8f5d0ccf8b0e46630c95c92c784e0",
+ "binding_identity": "bundle_sha256",
+ "bundle_sha256": "9d87153f8e9fa81c2c036403d648844182e3957d71583a01c1a70391ded989fb",
+ "sitemap_sha256": "becefd014f3edb94b42cf48a1f823e520467a33b348707e11c56ca6939d0a2f2",
+ "determinism_proof": "The bundle was assembled twice from the same source -- once from the working tree before the defect-fix commit and once from committed 3f13cf4 -- and both produced bundle_sha256 9d87153f8e9fa81c with byte-identical file-hash manifests over all 4,040 files.",
+ "supersedes_earlier_proposal": {
+  "bundle_sha256": "b56ff8026b639165017fb4e0ab21e904c6714bc0308921ef3dc7e32f68af1eec",
+  "why": "That candidate carried Hyatt House Pittsburgh South Side Works with postal_code 'PA 15203'. The row's ZIP is 15203, which is what the property page states and what this market's census and final partition already held. The correction changed the rendered profile, so it changed the bundle; the route set did not move, which is why the sitemap digest is the same in both."
+ },
+ "production_context": "production",
+ "production_baseline": {
+  "deploy_id": "6a9b4046e6e7a0438f36e78d",
+  "deployed_by": "PTF-INDIANAPOLIS-DEPLOYMENT-AUTHORIZATION-006",
+  "total_profiles": 641,
+  "sitemap_route_count": 782,
+  "total_html_pages": 3977,
+  "total_files": 3995,
+  "bundle_sha256": "4d684ebfc742ccf44dae7d0ac7cf928b826cc31b2f0e1593d63f178f09f2d939",
+  "sitemap_sha256": "b343794db5a143a4f14cc38988d4fe43367daffb14a4a4f56fedd583c02cdec3",
+  "profile_counts": {
+   "cleveland-akron-canton-oh": 120,
+   "columbus-oh": 88,
+   "dayton-oh": 54,
+   "grand-rapids-holland-mi": 43,
+   "indianapolis-in": 82,
+   "louisville-ky": 46,
+   "milwaukee-wi": 73,
+   "pittsburgh-pa": 53,
+   "st-louis-mo": 82
+  },
+  "verified_live_on": "2026-09-05",
+  "how_verified": "https://pettripfinder.com/sitemap.xml was fetched and hashed. The live sitemap carries 782 routes and hashes to b343794db5a143a4f14cc38988d4fe43367daffb14a4a4f56fedd583c02cdec3, byte-identical to the live pin, so production has not moved since PTF-INDIANAPOLIS-DEPLOYMENT-AUTHORIZATION-006."
+ },
+ "rollback_target": "6a9b4046e6e7a0438f36e78d",
+ "rollback_note": "Rolling back means returning to deploy 6a9b4046e6e7a0438f36e78d, which is what production serves today at 641 profiles. The live pin's own rollback_target (6a982a1fc32c2911d0d65d04) is the deploy BEFORE it and is not the target for this change.",
+ "candidate": {
+  "participating_markets": [
+   "cleveland-akron-canton-oh",
+   "columbus-oh",
+   "dayton-oh",
+   "grand-rapids-holland-mi",
+   "indianapolis-in",
+   "louisville-ky",
+   "milwaukee-wi",
+   "pittsburgh-pa",
+   "st-louis-mo"
+  ],
+  "profile_counts": {
+   "cleveland-akron-canton-oh": 120,
+   "columbus-oh": 88,
+   "dayton-oh": 54,
+   "grand-rapids-holland-mi": 43,
+   "indianapolis-in": 82,
+   "louisville-ky": 46,
+   "milwaukee-wi": 73,
+   "pittsburgh-pa": 61,
+   "st-louis-mo": 82
+  },
+  "total_profiles": 649,
+  "sitemap_route_count": 790,
+  "total_html_pages": 4022,
+  "total_files": 4040,
+  "anchor_market": "columbus-oh",
+  "all_gates_pass": true,
+  "global_gate_count": 27,
+  "broken_links": 0,
+  "collision_count": 0,
+  "global_shadowing_count": 0,
+  "canonical_violations": 0,
+  "contract_disagreements": 0
+ },
+ "pittsburgh_only_delta": {
+  "markets_that_moved": {
+   "pittsburgh-pa": {
+    "live": 53,
+    "candidate": 61,
+    "delta": 8
+   }
+  },
+  "every_other_market": 0,
+  "total_profiles": {
+   "live": 641,
+   "candidate": 649,
+   "delta": 8
+  },
+  "sitemap_routes": {
+   "live": 782,
+   "candidate": 790,
+   "delta": 8
+  },
+  "html_pages": {
+   "live": 3977,
+   "candidate": 4022,
+   "delta": 45
+  },
+  "files": {
+   "live": 3995,
+   "candidate": 4040,
+   "delta": 45
+  }
+ },
+ "control_files": {
+  "headers_source": "deploy/netlify/headers.production",
+  "headers_sha256": "cc96c4373564958c8036100207649601547017457fad868cbbd995efef1a6af5",
+  "redirects_source": "deploy/netlify/redirects",
+  "redirects_sha256": "db33b892554509f8534667a1bf773cbce23b9b5371c17bf8da8d33a6ec331f8a",
+  "measurement_config_source": "deploy/netlify/measurement.json",
+  "measurement_config_sha256": "cec583ff9b0601063307fe612c758140e6343ded3fa15f7f578f0726c8a9d604",
+  "measurement_enabled": false,
+  "launch_participation_source": "deploy/netlify/launch_participation.json",
+  "launch_participation_sha256": "6d227508c6a8ce291f800769147caca52451d6c0db51288a5b33838aa278b10f"
+ },
+ "release_contracts": [
+  {
+   "market_id": "cleveland-akron-canton-oh",
+   "path": "deploy/netlify/release_contracts/cleveland-akron-canton-oh.json",
+   "sha256": "a3875e7202537e83cc0da54a984c7968116cb083ce2f3a85339fee78eda1c644"
+  },
+  {
+   "market_id": "columbus-oh",
+   "path": "deploy/netlify/release_contracts/columbus-oh.json",
+   "sha256": "b14f9f21a94ac09f7d658a94de17d770d58b54b398b1ade650f90481708091c2"
+  },
+  {
+   "market_id": "dayton-oh",
+   "path": "deploy/netlify/release_contracts/dayton-oh.json",
+   "sha256": "d0805ffa32b52b58336a27f809615c8fed1f41ea60278832ca930e04d5d3573b"
+  },
+  {
+   "market_id": "grand-rapids-holland-mi",
+   "path": "deploy/netlify/release_contracts/grand-rapids-holland-mi.json",
+   "sha256": "62133774be6250f000893180ad255c906735d4692d7ba4af4accbaaafe4ea4ce"
+  },
+  {
+   "market_id": "indianapolis-in",
+   "path": "deploy/netlify/release_contracts/indianapolis-in.json",
+   "sha256": "b874a950f5c71e6c4a72c101ad3a0d5e9d0649c7a17793b373fe6203b2b9d2fd"
+  },
+  {
+   "market_id": "louisville-ky",
+   "path": "deploy/netlify/release_contracts/louisville-ky.json",
+   "sha256": "886d1c7486b78116ef2da9fdf8b34866411df166587d6f0c58665eb5bc7027b8"
+  },
+  {
+   "market_id": "milwaukee-wi",
+   "path": "deploy/netlify/release_contracts/milwaukee-wi.json",
+   "sha256": "320a9b05348f7dc55e02d899b77a9efe0760284eadfd77a9ef1b25c8907e5d73"
+  },
+  {
+   "market_id": "pittsburgh-pa",
+   "path": "deploy/netlify/release_contracts/pittsburgh-pa.json",
+   "sha256": "cd60139c945e1ed217960e57408b798795f857327f8dcdda96137a151dbe14da"
+  },
+  {
+   "market_id": "st-louis-mo",
+   "path": "deploy/netlify/release_contracts/st-louis-mo.json",
+   "sha256": "704801a45f58e06d0469341bc1c83917b0ed3377abaa40d05f35b1dc193bb031"
+  }
+ ],
+ "what_the_founder_is_being_asked_to_authorize": "Publishing 8 additional Pittsburgh hotel profiles, taking that market from 53 to 61 and the site from 641 to 649. No other market changes. Every one of the 8 carries a first-party quote, a document digest taken in the same call as that quote, and an exact identity binding on street, telephone or brand property code.",
+ "what_this_does_not_assert": [
+  "That Pittsburgh is complete. 18 of its 103 confirmed identities are still unresolved and are held outside this candidate.",
+  "That the 14 open founder items are settled. None of them blocks this candidate, and none of their rows entered authority.",
+  "That the DoubleTree Pittsburgh Airport evidence question is resolved. That record is LIVE, was not touched, and its amenity-line evidence remains founder item PGH-R1-E1."
+ ],
+ "execution_steps_deliberately_not_taken": [
+  "Write deploy/netlify/deployment_authorizations/ptf-auth-pittsburgh-003-<bundle prefix>.json",
+  "Update deploy/netlify/global_deployment_manifest.json",
+  "netlify deploy the bundle",
+  "Write deploy/netlify/deployment_records/ptf-deploy-pittsburgh-003-<deploy id>.json",
+  "Move the LIVE half of tests/pettripfinder/pins/deployment_state.json"
+ ]
+}

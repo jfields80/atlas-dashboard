@@ -40,10 +40,10 @@
   "total_files": 3995
  },
  "source": {
-  "ahead_of_production": false,
-  "moved_by": null,
-  "bundle_sha256": "4d684ebfc742ccf44dae7d0ac7cf928b826cc31b2f0e1593d63f178f09f2d939",
-  "sitemap_sha256": "b343794db5a143a4f14cc38988d4fe43367daffb14a4a4f56fedd583c02cdec3",
+  "ahead_of_production": true,
+  "moved_by": "PTF-PITTSBURGH-PROMOTION-AND-APPLICATION-002",
+  "bundle_sha256": "9d87153f8e9fa81c2c036403d648844182e3957d71583a01c1a70391ded989fb",
+  "sitemap_sha256": "becefd014f3edb94b42cf48a1f823e520467a33b348707e11c56ca6939d0a2f2",
   "participating_markets": [
    "cleveland-akron-canton-oh",
    "columbus-oh",
@@ -63,15 +63,15 @@
    "indianapolis-in": 82,
    "louisville-ky": 46,
    "milwaukee-wi": 73,
-   "pittsburgh-pa": 53,
+   "pittsburgh-pa": 61,
    "st-louis-mo": 82
   },
-  "total_profiles": 641,
-  "sitemap_route_count": 782,
-  "total_html_pages": 3977,
-  "total_files": 3995,
-  "note": "Source and production are IN SYNC. Deploy 6a9b4046e6e7a0438f36e78d serves exactly this bundle: the live sitemap is byte-identical to the authorized sitemap and all 782 live routes are byte-identical to the authorized bundle. Indianapolis is live at 82 published profiles.",
-  "source_commit": "92ae9973110d1e152ac50afeb6b193dbbbe643e2",
-  "deployment_authorized": true
+  "total_profiles": 649,
+  "sitemap_route_count": 790,
+  "total_html_pages": 4022,
+  "total_files": 4040,
+  "source_commit": "3f13cf4bc3a8f5d0ccf8b0e46630c95c92c784e0",
+  "deployment_authorized": false,
+  "note": "Source is AHEAD of production for exactly one market. PTF-PITTSBURGH-PROMOTION-AND-APPLICATION-002 promoted Pittsburgh from 53 to 61 published profiles over an unmoved 103-identity census, and this bundle was assembled from commit 3f13cf4 -- the promotion at ffd7e44 plus the five defect closures its own targeted lanes surfaced, one of which corrected a published row's postal code and therefore changed the bundle. Two independent assemblies produced bundle 9d87153f and identical file-hash manifests. Production still serves deploy 6a9b4046e6e7a0438f36e78d at 641 profiles, and rolling this change back means returning to that deploy. No deployment authorization was written and no deployment was made, so deployment_authorized stays false until a separate order ships this bundle."
  }
 }
