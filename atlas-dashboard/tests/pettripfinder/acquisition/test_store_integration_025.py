@@ -139,6 +139,19 @@ OTHER_MARKET_RUNS = {
     # properties' own pages. $0.00, no provider, and it wrote nothing to
     # authority. Also dayton-oh.
     "dayton_oh_live_audit_001",
+    # PTF-CINCINNATI-HARDENED-REVALIDATION-001 phase 10: 75 first-party HTTPS
+    # GETs over Cincinnati's unresolved cohort through the canonical
+    # direct_http lane, $0.00 and no provider. 65 of the 75 were refused on the
+    # CHANNEL, which is what made the Firecrawl rung eligible below. Belongs to
+    # cincinnati-oh and must never reach Milwaukee's projection.
+    "cincinnati_oh_free_static_001",
+    # PTF-CINCINNATI-HARDENED-REVALIDATION-001 phase 11: the seven rows the
+    # acquisition ladder named as Firecrawl candidates after that static pass --
+    # Choice and IHG, the families the committed route table sends there. Billed
+    # in PLAN CREDITS (five consumed) and $0.00 USD, under a seven-credit hard
+    # cap checked against a live credit read before each call. Also
+    # cincinnati-oh, and it wrote nothing to authority.
+    "cincinnati_oh_firecrawl_001",
 }
 
 
