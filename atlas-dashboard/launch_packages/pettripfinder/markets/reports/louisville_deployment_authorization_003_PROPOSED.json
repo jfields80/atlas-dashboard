@@ -1,0 +1,111 @@
+{
+ "schema": "ptf-deployment-authorization-proposal/1.0",
+ "status": "PROPOSED_UNEXECUTED",
+ "what_this_is": "A prepared, UNSIGNED deployment authorization for founder review. It is deliberately NOT written to deploy/netlify/deployment_authorizations/, because a file in that directory IS an authorization and PTF-LOUISVILLE-PROMOTION-AND-APPLICATION-002 is forbidden to write one. No deployment record exists and no deployment was made.",
+ "would_become": "PTF-LOUISVILLE-DEPLOYMENT-AUTHORIZATION-003",
+ "prepared_by": "PTF-LOUISVILLE-PROMOTION-AND-APPLICATION-002",
+ "prepared_at": "2026-09-05",
+ "authorized_by": null,
+ "authorized_at": null,
+ "source_commit": "3363e30c57eac7cd77799beb86948e71dc6c6f18",
+ "binding_identity": "bundle_sha256",
+ "bundle_sha256": "ea9349d31b860504bd93660159a2839d87a619ee71f9be830993e6647126b39c",
+ "sitemap_sha256": "08ecce446d9a109eb52fe56e3704e5cda6832177c3a7a66537ca2f471f1ff83a",
+ "determinism_proof": "The bundle was assembled twice: once in the working tree before the promotion was committed, and once from committed 3363e30 in a CLEAN detached worktree that had never held this order's files. Both produced bundle_sha256 ea9349d31b860504 and sitemap_sha256 08ecce446d9a109e, with identical page, file and route counts.",
+ "production_context": "production",
+ "production_baseline": {
+  "deploy_id": "6a9c3a1422ead7c0c01b3468",
+  "deployed_by": "PTF-PITTSBURGH-DEPLOYMENT-AUTHORIZATION-003",
+  "authorization_id": "ptf-auth-pittsburgh-003-9d87153f8e9f",
+  "total_profiles": 649,
+  "sitemap_route_count": 790,
+  "total_html_pages": 4022,
+  "total_files": 4040,
+  "bundle_sha256": "9d87153f8e9fa81c2c036403d648844182e3957d71583a01c1a70391ded989fb",
+  "sitemap_sha256": "becefd014f3edb94b42cf48a1f823e520467a33b348707e11c56ca6939d0a2f2",
+  "profile_counts": {
+   "cleveland-akron-canton-oh": 120,
+   "columbus-oh": 88,
+   "dayton-oh": 54,
+   "grand-rapids-holland-mi": 43,
+   "indianapolis-in": 82,
+   "louisville-ky": 46,
+   "milwaukee-wi": 73,
+   "pittsburgh-pa": 61,
+   "st-louis-mo": 82
+  },
+  "verified_live_on": "2026-09-05",
+  "how_verified": "https://pettripfinder.com/sitemap.xml was fetched and hashed. The live sitemap carries 790 routes and hashes to becefd014f3edb94b42cf48a1f823e520467a33b348707e11c56ca6939d0a2f2, byte-identical to the live pin, so production has not moved since PTF-PITTSBURGH-DEPLOYMENT-AUTHORIZATION-003."
+ },
+ "rollback_target": "6a9c3a1422ead7c0c01b3468",
+ "rollback_note": "Rolling back means returning to deploy 6a9c3a1422ead7c0c01b3468, which is what production serves today at 649 profiles. That is the target for THIS change; the deploy before it is not.",
+ "candidate": {
+  "participating_markets": [
+   "cleveland-akron-canton-oh",
+   "columbus-oh",
+   "dayton-oh",
+   "grand-rapids-holland-mi",
+   "indianapolis-in",
+   "louisville-ky",
+   "milwaukee-wi",
+   "pittsburgh-pa",
+   "st-louis-mo"
+  ],
+  "profile_counts": {
+   "cleveland-akron-canton-oh": 120,
+   "columbus-oh": 88,
+   "dayton-oh": 54,
+   "grand-rapids-holland-mi": 43,
+   "indianapolis-in": 82,
+   "louisville-ky": 53,
+   "milwaukee-wi": 73,
+   "pittsburgh-pa": 61,
+   "st-louis-mo": 82
+  },
+  "total_profiles": 656,
+  "sitemap_route_count": 797,
+  "total_html_pages": 4061,
+  "total_files": 4079,
+  "all_gates_pass": true,
+  "broken_links": 0,
+  "collision_count": 0,
+  "global_shadowing_count": 0,
+  "canonical_violations": 0
+ },
+ "delta_against_production": {
+  "louisville-ky": {
+   "from": 46,
+   "to": 53,
+   "delta": 7
+  },
+  "every_other_market": 0,
+  "total_profiles": {
+   "from": 649,
+   "to": 656,
+   "delta": 7
+  },
+  "sitemap_routes": {
+   "from": 790,
+   "to": 797,
+   "delta": 7
+  },
+  "routes_added": 7,
+  "routes_removed": 0,
+  "how_the_route_delta_was_proved": "The live production sitemap was fetched and its 790 routes were differenced against the candidate's 797. Exactly 7 routes are ADDED, all of them Louisville hotel profiles, and 0 are REMOVED.",
+  "added_routes": [
+   "/pet-friendly-hotels/louisville-ky/baymont-by-wyndham-louisville-airport-south/",
+   "/pet-friendly-hotels/louisville-ky/candlewood-suites-louisville-airport/",
+   "/pet-friendly-hotels/louisville-ky/hawthorn-suites-by-wyndham-louisville-east/",
+   "/pet-friendly-hotels/louisville-ky/hotel-bourre-bonne/",
+   "/pet-friendly-hotels/louisville-ky/staybridge-suites/",
+   "/pet-friendly-hotels/louisville-ky/the-bellwether-hotel/",
+   "/pet-friendly-hotels/louisville-ky/travelodge-by-wyndham-sellersburg-louisville-north/"
+  ]
+ },
+ "what_this_authorization_would_NOT_assert": [
+  "That Louisville's identity universe is resolved. 93 of its 166 confirmed identities remain unresolved and the census has not been proven complete.",
+  "That the four rows held by the committed policy reader are refusals. They are UNKNOWN, hold publication-grade evidence, and are waiting on a reader order.",
+  "Any founder ruling on the nine items in the revalidation's founder packet."
+ ],
+ "execution_note": "NOT EXECUTED. Executing it means writing an authorization under deploy/netlify/deployment_authorizations/, registering it, updating the global manifest BEFORE deploying, and only then deploying. PTF-LOUISVILLE-PROMOTION-AND-APPLICATION-002 did none of those and is forbidden to."
+}
