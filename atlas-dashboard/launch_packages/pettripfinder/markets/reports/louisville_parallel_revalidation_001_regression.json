@@ -1,0 +1,24 @@
+{
+ "schema": "ptf-market-regression-result/1.0",
+ "work_order": "PTF-LOUISVILLE-PARALLEL-REVALIDATION-001",
+ "market_id": "louisville-ky",
+ "as_of": "2026-09-05",
+ "lane": "full_regression",
+ "why_a_broad_run": "The change-surface classifier returned FULL_REGRESSION_REQUIRED = YES for two reasons: the new markets/evidence/ prefix matched no rule and is therefore UNCLASSIFIED, and any new module under scripts/pettripfinder/ classifies as GENERIC_RUNTIME_CHANGE. This order is report-only and modified no existing file, but scoping the guard down to make the requirement disappear is exactly the move the matrix exists to prevent, so the broad run was obeyed rather than argued with.",
+ "baseline": "launch_packages/pettripfinder/regression_baselines/f75aa95.json",
+ "baseline_source_sha": "f75aa95",
+ "collected": 17379,
+ "failed": 160,
+ "wall_clock_seconds": 9927.66,
+ "wall_clock_note": "2h45m against a measured 109-minute baseline, because full_regression is the only lane that runs TestEveryMarketAssembles (documented at 638 s: it assembles all eleven markets bundles) and two other market regressions were running concurrently on the same machine.",
+ "counts": {
+  "PRE_EXISTING": 160,
+  "EXPECTED_EPOCH_CHANGE": 0,
+  "TEST_HARNESS_FLAKE": 0,
+  "TRUE_NEW_FAILURE": 0
+ },
+ "proved_by": "node-id IDENTITY against the committed baseline manifest, not by failure COUNT",
+ "TRUE_NEW_FAILURE": 0,
+ "baseline_failures_now_passing": [],
+ "production_assembly": "NOT RUN -- no candidate bundle was assembled and no deployment artifact was produced. TestEveryMarketAssembles builds bundles inside test fixtures; that is the suite exercising the assembler, not this order assembling a production candidate."
+}
