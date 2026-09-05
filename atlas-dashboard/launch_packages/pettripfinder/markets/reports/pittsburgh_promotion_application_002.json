@@ -6,26 +6,36 @@
  "serialized": true,
  "deployed": false,
  "deployment_authorization_written": false,
- "provider_calls": {"firecrawl": 0, "brightdata": 0, "places": 0},
+ "provider_calls": {
+  "firecrawl": 0,
+  "brightdata": 0,
+  "places": 0
+ },
  "usd_spent": 0.0,
-
  "integration_precondition": {
   "what_happened": "This order's branch was cut from d06e2eb and did NOT contain the Indianapolis promotion and deployment. Assembling Pittsburgh from it unchanged would have produced a candidate that rolled Indianapolis back from 82 published profiles to 67 -- two non-zero market deltas instead of one.",
   "resolution": "The Indianapolis lineage (15 commits, tip 66371a2) was merged first, at the operator's direction, in merge commit e5b2f8b. The merge was conflict-free: Indianapolis never touched the one shared file this branch had edited, and the five revalidation reports carry unique filenames.",
   "baseline_after_merge": {
    "live_deploy_id": "6a9b4046e6e7a0438f36e78d",
    "rollback_target": "6a982a1fc32c2911d0d65d04",
-   "total_profiles": 641, "sitemap_route_count": 782,
-   "total_html_pages": 3977, "total_files": 3995,
-   "indianapolis_in": 82, "pittsburgh_pa": 53,
+   "total_profiles": 641,
+   "sitemap_route_count": 782,
+   "total_html_pages": 3977,
+   "total_files": 3995,
+   "indianapolis_in": 82,
+   "pittsburgh_pa": 53,
    "all_11_release_contracts": "AGREEMENT ok"
   }
  },
-
- "baseline": {"census": 103, "pet_friendly": 53, "verified_no_pets": 17,
-              "out_of_current_category": 3, "resolved": 73, "unresolved": 30,
-              "profiles": 53},
-
+ "baseline": {
+  "census": 103,
+  "pet_friendly": 53,
+  "verified_no_pets": 17,
+  "out_of_current_category": 3,
+  "resolved": 73,
+  "unresolved": 30,
+  "profiles": 53
+ },
  "promoted": {
   "clean_pet_friendly": 8,
   "clean_verified_no_pets": 4,
@@ -50,21 +60,27 @@
   "pre_existing_exclusions_changed": 0,
   "census_rows_moved": 0
  },
-
- "final_source": {"census": 103, "pet_friendly": 61, "verified_no_pets": 21,
-                  "out_of_current_category": 3, "resolved": 85, "unresolved": 18,
-                  "profiles": 61,
-                  "arithmetic": "resolved 85 = 61 published + 21 no-pets + 3 out-of-category; unresolved 18 = 103 - 85"},
-
+ "final_source": {
+  "census": 103,
+  "pet_friendly": 61,
+  "verified_no_pets": 21,
+  "out_of_current_category": 3,
+  "resolved": 85,
+  "unresolved": 18,
+  "profiles": 61,
+  "arithmetic": "resolved 85 = 61 published + 21 no-pets + 3 out-of-category; unresolved 18 = 103 - 85"
+ },
  "how_the_facts_were_derived": {
   "rule": "Every published fact came from the repository's OWN reader (brightdata.policy_reading) run over the captured policy block, including every field it refused to derive. A promotion order is not the place to overrule a reader.",
   "withheld_by_the_reader": {
    "residence inn pittsburgh monroeville": {
-    "field": "pet_fee", "reason": "SCHEMA_CANNOT_REPRESENT",
+    "field": "pet_fee",
+    "reason": "SCHEMA_CANNOT_REPRESENT",
     "why": "The page states two fee expressions that do not reconcile: $25 per day per pet capped at $150 per month, and a $100 non-refundable fee per stay. The reader refused to choose, so the row publishes pets_allowed, weight and count with the fee withheld. This is why founder item PGH-R1-D1 does NOT block the promotion: the open question is which fee to publish, and no fee is published."
    },
    "crowne plaza pittsburgh south": {
-    "field": "weight_limit", "reason": "SOURCE_AMBIGUOUS",
+    "field": "weight_limit",
+    "reason": "SOURCE_AMBIGUOUS",
     "why": "The page prints 'Pet weight limit: 100' with no unit. The reader refuses a unitless limit rather than assuming pounds."
    }
   },
@@ -74,7 +90,6 @@
   },
   "species": "The Hyatt page says 'canine travel companions' and makes no statement about cats, so dogs are published as accepted and cats are left unstated rather than inferred."
  },
-
  "defects_caught_before_assembly": [
   {
    "what": "Six of the eight new records carried the lowercase identity key in their display `name`, because the attended-capture artifact records identity SIGNALS and no display name, and the applier fell back to the key.",
@@ -91,40 +106,165 @@
    "outcome": "NOT a defect. The stored character is U+2013 EN DASH; the replacement glyph was this terminal's cp1252 rendering. A note added on the false assumption was removed."
   }
  ],
-
  "address_completion_rereads": {
   "why": "The exclusion contract requires a non-empty address (empty string counts as missing), and every one of this market's 53 existing seed rows carries one. Two promoted rows rendered no street in their 2026-09-04 capture, and neither the census nor the shadow recensus held one.",
   "authorisation": "The operator ruled in-conversation on 2026-09-05 that completing an approved row's required identity field with one free re-read is completion, not new acquisition. The first re-read was ruled explicitly; the second was applied on the same principle and is reported here rather than assumed.",
   "rows": [
-   {"identity_key": "springhill suites pittsburgh mills",
+   {
+    "identity_key": "springhill suites pittsburgh mills",
     "street": "3015 Pittsburgh Mills Blvd",
     "source": "the property page's own JSON-LD streetAddress, corroborated by rendered text",
-    "reproduced_unchanged": "policy quote, telephone, city and ZIP"},
-   {"identity_key": "residence inn pittsburgh monroeville",
+    "reproduced_unchanged": "policy quote, telephone, city and ZIP"
+   },
+   {
+    "identity_key": "residence inn pittsburgh monroeville",
     "street": "3455 William Penn Highway",
     "source": "the property page's own JSON-LD streetAddress",
-    "reproduced_unchanged": "policy quote, telephone, city and ZIP"}
+    "reproduced_unchanged": "policy quote, telephone, city and ZIP"
+   }
   ],
   "cost": "$0.00, no provider, 2 page loads"
  },
-
  "founder_holds_preserved_outside_promotion": {
   "blocking": 0,
   "non_blocking": 14,
   "explicitly_not_promoted": [
-   {"row": "shadyside inn suites", "why": "conversion to long-term apartments is founder item PGH-R1-C1 and has no signed disposition; not added to any authority"},
-   {"row": "doubletree by hilton pittsburgh airport", "why": "its LIVE no-pets evidence rests on an amenity-list line (founder item PGH-R1-E1). The record was not touched, re-signed or re-hashed."},
-   {"rows": "residence inn pittsburgh airport coraopolis, residence inn pittsburgh university center, trellis north fayette", "why": "the two duplicate-premises questions, PGH-R1-A1 and PGH-R1-A2, remain open and all three rows stay unresolved"},
-   {"rows": "mansions on fifth, the priory hotel, the landing hotel at rivers casino, tryp hotel pittsburgh", "why": "POLICY_NOT_FOUND across their own surfaces; silence is not a refusal"},
-   {"rows": "courtyard by marriott pittsburgh shadyside, doubletree by hilton pittsburgh monroeville, hampton inn pittsburgh airport moon, ace hotel pittsburgh, sunnyledge boutique hotel, hyatt place pittsburgh cranberry", "why": "dead or poisoned routes; brand-roster absence is not a closure ruling"}
+   {
+    "row": "shadyside inn suites",
+    "why": "conversion to long-term apartments is founder item PGH-R1-C1 and has no signed disposition; not added to any authority"
+   },
+   {
+    "row": "doubletree by hilton pittsburgh airport",
+    "why": "its LIVE no-pets evidence rests on an amenity-list line (founder item PGH-R1-E1). The record was not touched, re-signed or re-hashed."
+   },
+   {
+    "rows": "residence inn pittsburgh airport coraopolis, residence inn pittsburgh university center, trellis north fayette",
+    "why": "the two duplicate-premises questions, PGH-R1-A1 and PGH-R1-A2, remain open and all three rows stay unresolved"
+   },
+   {
+    "rows": "mansions on fifth, the priory hotel, the landing hotel at rivers casino, tryp hotel pittsburgh",
+    "why": "POLICY_NOT_FOUND across their own surfaces; silence is not a refusal"
+   },
+   {
+    "rows": "courtyard by marriott pittsburgh shadyside, doubletree by hilton pittsburgh monroeville, hampton inn pittsburgh airport moon, ace hotel pittsburgh, sunnyledge boutique hotel, hyatt place pittsburgh cranberry",
+    "why": "dead or poisoned routes; brand-roster absence is not a closure ruling"
+   }
   ]
  },
-
  "routing_findings_preserved": {
   "marriott_hilton_routes_audited": 59,
   "route_matches_inventory": 54,
   "dead_codes": 5,
   "dead_codes_on_published_rows": 0,
   "note": "Every promoted row's route matches its brand's own published sitemap. The two rows routed free from those sitemaps (marriott:pitct and marriott:pitdf) were captured at their recovered first-party URL, not bound positionally. No published live route was rebound to a dead code, and the Firecrawl-resolved IHG rows keep their exact first-party route."
+ },
+ "validation": {
+  "change_surface": {
+   "tool": "scripts/pettripfinder/regression_delta.py classify --base 66371a2",
+   "classes": [
+    "AUTHORITY_CHANGE",
+    "ROUTING_SEMANTIC_CHANGE",
+    "DEPLOYMENT_CHANGE",
+    "GENERIC_RUNTIME_CHANGE",
+    "TEST_EXPECTATION_CHANGE",
+    "BOOKKEEPING_REGISTRATION_CHANGE",
+    "GENERATED_REPORT_ONLY"
+   ],
+   "unclassified_paths": 0,
+   "assembly_required": true,
+   "FULL_REGRESSION_REQUIRED": "YES",
+   "why": "An authority change is what the site publishes, and a deployment change claims what is served; neither has a narrow class. No delta-scoped closure was available and none was claimed."
+  },
+  "targeted_lanes": {
+   "lanes": [
+    "market_targeted",
+    "policy_schema",
+    "identity_routing",
+    "release_contract"
+   ],
+   "collected": 3484,
+   "passed": 3432,
+   "skipped": 28,
+   "failed": 24,
+   "seconds": 400.6,
+   "pre_existing": 19,
+   "not_in_baseline": 5,
+   "what_the_five_were": "Four were this order's own bookkeeping -- two epoch pins restating Pittsburgh 53 -> 61 and no-pets 17 -> 21, and two write-discipline flags from a static scan that cannot tell this market's shard from the generated global of the same basename. The fifth was a real defect in published data: Hyatt House South Side Works carried postal_code 'PA 15203'."
+  },
+  "the_data_defect": {
+   "row": "hyatt house pittsburgh south side works",
+   "field": "postal_code",
+   "was": "PA 15203",
+   "is": "15203",
+   "found_by": "tests/pettripfinder/test_seed_matches_official_source.py::TestTheSeedStaysInternallyConsistent::test_every_hotel_postal_code_is_five_digits",
+   "cause": "The applier read the last comma-field of the property's own locality line. Marriott prints 'Pittsburgh, Pennsylvania, USA, 15219' where the last field IS the ZIP; Hyatt prints 'Pittsburgh, PA 15203' where it is not.",
+   "corroboration": "15203 is what the page states, what this market's census and final partition already carried for the row, and what SpringHill Suites Pittsburgh Southside Works on the same street carries.",
+   "fix": "The applier takes the five-digit ZIP out of the line and returns '' when the line states none. Replayed over all ten committed captures it reproduces every one of the four exclusions' postal codes unchanged and corrects only this row.",
+   "blast_radius": "One field of one seed row, and the two generated globals that derive from it. No policy record carries a postal code, so the policy package did not move; the census and partition were already right.",
+   "fix_commit": "3f13cf4bc3a8f5d0ccf8b0e46630c95c92c784e0"
+  },
+  "broad_regression": {
+   "at_commit": "e8299ea753ef8affd4ced0573be32557bffd0387",
+   "lane": "full_regression",
+   "collected": 17379,
+   "passed": 16998,
+   "skipped": 221,
+   "failed": 160,
+   "seconds": 5612.6,
+   "baseline": "launch_packages/pettripfinder/regression_baselines/f75aa95.json",
+   "PRE_EXISTING": 160,
+   "EXPECTED_EPOCH_CHANGE": 0,
+   "TEST_HARNESS_FLAKE": 0,
+   "TRUE_NEW_FAILURE": 0,
+   "proved_by": "Failure-set IDENTITY, not counts: the 160 failing node ids are exactly the f75aa95 set, with 0 only in the baseline and 0 only in this run."
+  },
+  "release_contracts": {
+   "markets": 11,
+   "agreement": "ok",
+   "pittsburgh": "103 confirmed / 61 published / 21 no-pets / 85 resolved / 18 unresolved; 61 hotel routes / 14 corridor routes"
+  }
+ },
+ "assembly": {
+  "assembled_from_commit": "3f13cf4bc3a8f5d0ccf8b0e46630c95c92c784e0",
+  "context": "production",
+  "anchor_market": "columbus-oh",
+  "markets": 9,
+  "total_profiles": 649,
+  "sitemap_route_count": 790,
+  "total_html_pages": 4022,
+  "total_files": 4040,
+  "broken_links": 0,
+  "collision_count": 0,
+  "global_shadowing_count": 0,
+  "canonical_violations": 0,
+  "all_gates_pass": true,
+  "gate_count": 27,
+  "bundle_sha256": "9d87153f8e9fa81c2c036403d648844182e3957d71583a01c1a70391ded989fb",
+  "sitemap_sha256": "becefd014f3edb94b42cf48a1f823e520467a33b348707e11c56ca6939d0a2f2",
+  "determinism": "Two independent assemblies -- one from the working tree before the fix commit, one from committed 3f13cf4 -- produced the same bundle digest and byte-identical file-hash manifests over all 4,040 files.",
+  "market_deltas_against_live": {
+   "pittsburgh-pa": 8,
+   "every_other_market": 0
+  },
+  "superseded_candidate": {
+   "bundle_sha256": "b56ff8026b639165017fb4e0ab21e904c6714bc0308921ef3dc7e32f68af1eec",
+   "why": "It carried the wrong Hyatt House postal code."
+  }
+ },
+ "production_baseline_verified": {
+  "on": "2026-09-05",
+  "how": "https://pettripfinder.com/sitemap.xml fetched and hashed.",
+  "live_sitemap_sha256": "b343794db5a143a4f14cc38988d4fe43367daffb14a4a4f56fedd583c02cdec3",
+  "live_sitemap_routes": 782,
+  "matches_live_pin": true,
+  "deploy_id": "6a9b4046e6e7a0438f36e78d",
+  "conclusion": "Production has not moved since PTF-INDIANAPOLIS-DEPLOYMENT-AUTHORIZATION-006. Indianapolis is live at 82 and stays at 82 in this candidate."
+ },
+ "deployment_ready": {
+  "verdict": "YES",
+  "packet": "launch_packages/pettripfinder/markets/reports/pittsburgh_deployment_authorization_003_PROPOSED.json",
+  "deployed": false,
+  "deployment_authorization_written": false,
+  "deployment_record_written": false
  }
 }
