@@ -4,16 +4,16 @@
  "market_id": "toledo-oh",
  "phase": "20 -- parallel safety",
  "base_commit": "2163c4ed23b7315954f896c99729ca95c08eabfc",
- "head_commit": "130f39f93d89cb82d1cea2aa0f5593e57b6845b3",
+ "head_commit": "385c18a3b60d7ede32c53ed7fca9bf8a68ef3c30",
  "concurrent_market_orders": [
   "fort-wayne (worker/ptf-fort-wayne-new-market-001)",
   "lexington (worker/ptf-lexington-new-market-001)"
  ],
  "how_this_is_proved": "the working tree is diffed against the base commit and EVERY changed path is classified; a path no Toledo rule admits is a violation, not a note",
  "counts": {
-  "changed_paths": 35,
+  "changed_paths": 37,
   "by_class": {
-   "TOLEDO_OWNED": 35
+   "TOLEDO_OWNED": 37
   },
   "violations": 0
  },
@@ -277,6 +277,20 @@
   {
    "status": "A",
    "path": "atlas-dashboard/tests/pettripfinder/test_toledo_oh_new_market_001.py",
+   "class": "TOLEDO_OWNED",
+   "why": "the path carries this market's id",
+   "allowed": true
+  },
+  {
+   "status": "?",
+   "path": "atlas-dashboard/docs/work_items/PTF-TOLEDO-OH-PROMOTION-AND-APPLICATION-002.md",
+   "class": "TOLEDO_OWNED",
+   "why": "the path carries this market's id",
+   "allowed": true
+  },
+  {
+   "status": "?",
+   "path": "atlas-dashboard/launch_packages/pettripfinder/toledo_oh_founder_rulings_001.json",
    "class": "TOLEDO_OWNED",
    "why": "the path carries this market's id",
    "allowed": true

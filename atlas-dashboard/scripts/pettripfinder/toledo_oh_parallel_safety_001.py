@@ -45,7 +45,10 @@ REPORTS = os.path.join(PKG, "markets", "reports")
 BASE = "2163c4ed23b7315954f896c99729ca95c08eabfc"
 
 #: A path this order owns. Every one of these carries the market in its name.
-TOLEDO_OWNED = re.compile(r"(^|/|_)toledo[-_]oh", re.I)
+#: A path this order owns. Every one carries the market in its name, in any
+#: of the separators the repository actually uses: a directory boundary, a
+#: snake_case module, or a hyphenated work-order document name.
+TOLEDO_OWNED = re.compile(r"(^|[/_-])toledo[-_]oh", re.I)
 
 #: Markets that must not move. Fort Wayne and Lexington are running now; the
 #: other twelve are registered and some are live.
