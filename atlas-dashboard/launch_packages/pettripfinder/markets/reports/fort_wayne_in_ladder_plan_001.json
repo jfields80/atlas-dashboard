@@ -1,0 +1,319 @@
+{
+ "schema": "ptf-acquisition-ladder-plan/1.0",
+ "work_order": "PTF-FORT-WAYNE-IN-NEW-MARKET-001",
+ "phase": "11/17 -- acquisition ladder plan and paid readiness",
+ "market_id": "fort-wayne-in",
+ "as_of": "2026-09-06",
+ "what_this_is": "The committed ladder's own decision for every routed Fort Wayne row, from the static lane's outcomes. Firecrawl candidacy is evidence-aware: a row the static lane failed is NOT thereby a Firecrawl row, and the families measured as a capability wall are never candidates. Nothing was requested and nothing was spent.",
+ "paid_provider_calls": 0,
+ "usd_spent": 0.0,
+ "credits_consumed": 0,
+ "known_capability_walls": {
+  "MARRIOTT": "PTF-FIRECRAWL-HARD-LANES-003",
+  "HILTON": "PTF-FIRECRAWL-HARD-LANES-003"
+ },
+ "firecrawl_routed_families": [
+  "CHOICE",
+  "IHG",
+  "WYNDHAM"
+ ],
+ "counts": {
+  "rows_planned": 19,
+  "by_next_lane": {
+   "ATTENDED_BROWSER": 7,
+   "DIRECT_STATIC_FETCH": 1,
+   "FIRECRAWL": 3,
+   "LOCAL_FREE_DISCOVERY": 8
+  },
+  "by_firecrawl_reason": {
+   "BRAND_EXCLUDED_FROM_ACQUISITION": 2,
+   "FIRECRAWL_KNOWN_CAPABILITY_WALL": 5,
+   "FIRECRAWL_ROUTED_FOR_FAMILY": 3,
+   "PROPERTY_CODE_UNPARSEABLE_ROUTING_REPAIR_REQUIRED": 5,
+   "STATIC_LANE_ANSWERED": 1,
+   "URL_IS_NOT_A_PROPERTY_PAGE": 3
+  },
+  "firecrawl_candidates": 3,
+  "firecrawl_credits_worst_case": 3,
+  "firecrawl_probe_eligible_not_candidates": 0,
+  "blocked_by_a_measured_capability_wall": 5
+ },
+ "attended_pressure": {
+  "unresolved_routed": 18,
+  "static_to_attended": 7,
+  "firecrawl_candidates": 3,
+  "share_static_to_attended": 0.3889,
+  "share_firecrawl_candidates": 0.1667,
+  "threshold": 0.2,
+  "warning": false,
+  "message": ""
+ },
+ "firecrawl_candidate_rows": [
+  {
+   "identity_key": "baymont by wyndham fort wayne",
+   "family": "WYNDHAM",
+   "url": "https://www.wyndhamhotels.com/baymont/fort-wayne-indiana/baymont-inn-fort-wayne-in/overview",
+   "next_lane": "FIRECRAWL",
+   "reason": "static channel failure (UNHYDRATED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "settled": false,
+   "firecrawl_candidate": true,
+   "firecrawl_reason": "FIRECRAWL_ROUTED_FOR_FAMILY",
+   "firecrawl_measured_by": "PTF-WYNDHAM-FIRECRAWL-DECISION-008",
+   "firecrawl_probe_eligible": false
+  },
+  {
+   "identity_key": "days inn by wyndham fort wayne",
+   "family": "WYNDHAM",
+   "url": "https://www.wyndhamhotels.com/days-inn/fort-wayne-indiana/days-inn-fort-wayne/overview",
+   "next_lane": "FIRECRAWL",
+   "reason": "static channel failure (UNHYDRATED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "settled": false,
+   "firecrawl_candidate": true,
+   "firecrawl_reason": "FIRECRAWL_ROUTED_FOR_FAMILY",
+   "firecrawl_measured_by": "PTF-WYNDHAM-FIRECRAWL-DECISION-008",
+   "firecrawl_probe_eligible": false
+  },
+  {
+   "identity_key": "holiday inn express fort wayne east new haven",
+   "family": "IHG",
+   "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/new-haven/nhnin/hoteldetail",
+   "next_lane": "FIRECRAWL",
+   "reason": "static channel failure (ACCESS_DENIED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "settled": false,
+   "firecrawl_candidate": true,
+   "firecrawl_reason": "FIRECRAWL_ROUTED_FOR_FAMILY",
+   "firecrawl_measured_by": "PTF-IHG-FIRECRAWL-DECISION-009",
+   "firecrawl_probe_eligible": false
+  }
+ ],
+ "decisions": [
+  {
+   "identity_key": "baymont by wyndham fort wayne",
+   "family": "WYNDHAM",
+   "url": "https://www.wyndhamhotels.com/baymont/fort-wayne-indiana/baymont-inn-fort-wayne-in/overview",
+   "next_lane": "FIRECRAWL",
+   "reason": "static channel failure (UNHYDRATED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "settled": false,
+   "firecrawl_candidate": true,
+   "firecrawl_reason": "FIRECRAWL_ROUTED_FOR_FAMILY",
+   "firecrawl_measured_by": "PTF-WYNDHAM-FIRECRAWL-DECISION-008",
+   "firecrawl_probe_eligible": false
+  },
+  {
+   "identity_key": "best western plus fort wayne inn and suites north",
+   "family": "BEST_WESTERN",
+   "url": "https://www.bestwestern.com/en_US/book/hotels-in-fort-wayne/best-western-plus-fort-wayne-inn-suites-north/propertyCode.15111.html",
+   "next_lane": "ATTENDED_BROWSER",
+   "reason": "static channel failure (ACCESS_DENIED); Firecrawl is not the next rung (BRAND_EXCLUDED_FROM_ACQUISITION)",
+   "settled": false,
+   "firecrawl_candidate": false,
+   "firecrawl_reason": "BRAND_EXCLUDED_FROM_ACQUISITION",
+   "firecrawl_measured_by": "",
+   "firecrawl_probe_eligible": false
+  },
+  {
+   "identity_key": "comfort suites north",
+   "family": "CHOICE",
+   "url": "https://www.choicehotels.com/indiana/fort-wayne/suburban-hotels",
+   "next_lane": "LOCAL_FREE_DISCOVERY",
+   "reason": "no routable first-party URL; discovery before any fetch",
+   "settled": false,
+   "firecrawl_candidate": false,
+   "firecrawl_reason": "URL_IS_NOT_A_PROPERTY_PAGE",
+   "firecrawl_measured_by": "",
+   "firecrawl_probe_eligible": false
+  },
+  {
+   "identity_key": "comfort suites south",
+   "family": "CHOICE",
+   "url": "https://www.choicehotels.com/indiana/huntington/quality-inn-hotels",
+   "next_lane": "LOCAL_FREE_DISCOVERY",
+   "reason": "no routable first-party URL; discovery before any fetch",
+   "settled": false,
+   "firecrawl_candidate": false,
+   "firecrawl_reason": "URL_IS_NOT_A_PROPERTY_PAGE",
+   "firecrawl_measured_by": "",
+   "firecrawl_probe_eligible": false
+  },
+  {
+   "identity_key": "courtyard fort wayne",
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/fwadt",
+   "next_lane": "LOCAL_FREE_DISCOVERY",
+   "reason": "ROUTING_REPAIR_REQUIRED: PROPERTY_CODE_UNPARSEABLE_ROUTING_REPAIR_REQUIRED",
+   "settled": false,
+   "firecrawl_candidate": false,
+   "firecrawl_reason": "PROPERTY_CODE_UNPARSEABLE_ROUTING_REPAIR_REQUIRED",
+   "firecrawl_measured_by": "",
+   "firecrawl_probe_eligible": false
+  },
+  {
+   "identity_key": "days inn by wyndham fort wayne",
+   "family": "WYNDHAM",
+   "url": "https://www.wyndhamhotels.com/days-inn/fort-wayne-indiana/days-inn-fort-wayne/overview",
+   "next_lane": "FIRECRAWL",
+   "reason": "static channel failure (UNHYDRATED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "settled": false,
+   "firecrawl_candidate": true,
+   "firecrawl_reason": "FIRECRAWL_ROUTED_FOR_FAMILY",
+   "firecrawl_measured_by": "PTF-WYNDHAM-FIRECRAWL-DECISION-008",
+   "firecrawl_probe_eligible": false
+  },
+  {
+   "identity_key": "fairfield inn and suites fort wayne",
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/fwaff",
+   "next_lane": "LOCAL_FREE_DISCOVERY",
+   "reason": "ROUTING_REPAIR_REQUIRED: PROPERTY_CODE_UNPARSEABLE_ROUTING_REPAIR_REQUIRED",
+   "settled": false,
+   "firecrawl_candidate": false,
+   "firecrawl_reason": "PROPERTY_CODE_UNPARSEABLE_ROUTING_REPAIR_REQUIRED",
+   "firecrawl_measured_by": "",
+   "firecrawl_probe_eligible": false
+  },
+  {
+   "identity_key": "fairfield inn and suites fort wayne southwest",
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/fwasw",
+   "next_lane": "LOCAL_FREE_DISCOVERY",
+   "reason": "ROUTING_REPAIR_REQUIRED: PROPERTY_CODE_UNPARSEABLE_ROUTING_REPAIR_REQUIRED",
+   "settled": false,
+   "firecrawl_candidate": false,
+   "firecrawl_reason": "PROPERTY_CODE_UNPARSEABLE_ROUTING_REPAIR_REQUIRED",
+   "firecrawl_measured_by": "",
+   "firecrawl_probe_eligible": false
+  },
+  {
+   "identity_key": "hampton inn and suites fort wayne",
+   "family": "HILTON",
+   "url": "https://www.hilton.com/en/hotels/fwadthx-hampton-suites-fort-wayne-downtown/",
+   "next_lane": "ATTENDED_BROWSER",
+   "reason": "static channel failure (ACCESS_DENIED); Firecrawl is not the next rung (FIRECRAWL_KNOWN_CAPABILITY_WALL)",
+   "settled": false,
+   "firecrawl_candidate": false,
+   "firecrawl_reason": "FIRECRAWL_KNOWN_CAPABILITY_WALL",
+   "firecrawl_measured_by": "PTF-FIRECRAWL-HARD-LANES-003",
+   "firecrawl_probe_eligible": false
+  },
+  {
+   "identity_key": "hampton inn dupont road",
+   "family": "HILTON",
+   "url": "https://www.hilton.com/en/hotels/fwadphx-hampton-ft-wayne-dupont-road/",
+   "next_lane": "ATTENDED_BROWSER",
+   "reason": "static channel failure (ACCESS_DENIED); Firecrawl is not the next rung (FIRECRAWL_KNOWN_CAPABILITY_WALL)",
+   "settled": false,
+   "firecrawl_candidate": false,
+   "firecrawl_reason": "FIRECRAWL_KNOWN_CAPABILITY_WALL",
+   "firecrawl_measured_by": "PTF-FIRECRAWL-HARD-LANES-003",
+   "firecrawl_probe_eligible": false
+  },
+  {
+   "identity_key": "hilton fort wayne at the grand wayne convention center",
+   "family": "HILTON",
+   "url": "https://www.hilton.com/en/hotels/fwafhhf-hilton-fort-wayne-at-the-grand-wayne-convention-center/",
+   "next_lane": "ATTENDED_BROWSER",
+   "reason": "static channel failure (ACCESS_DENIED); Firecrawl is not the next rung (FIRECRAWL_KNOWN_CAPABILITY_WALL)",
+   "settled": false,
+   "firecrawl_candidate": false,
+   "firecrawl_reason": "FIRECRAWL_KNOWN_CAPABILITY_WALL",
+   "firecrawl_measured_by": "PTF-FIRECRAWL-HARD-LANES-003",
+   "firecrawl_probe_eligible": false
+  },
+  {
+   "identity_key": "hilton garden inn",
+   "family": "HILTON",
+   "url": "https://www.hilton.com/en/hotels/fwafegi-hilton-garden-inn-fort-wayne/",
+   "next_lane": "ATTENDED_BROWSER",
+   "reason": "static channel failure (ACCESS_DENIED); Firecrawl is not the next rung (FIRECRAWL_KNOWN_CAPABILITY_WALL)",
+   "settled": false,
+   "firecrawl_candidate": false,
+   "firecrawl_reason": "FIRECRAWL_KNOWN_CAPABILITY_WALL",
+   "firecrawl_measured_by": "PTF-FIRECRAWL-HARD-LANES-003",
+   "firecrawl_probe_eligible": false
+  },
+  {
+   "identity_key": "hilton garden inn north",
+   "family": "HILTON",
+   "url": "https://www.hilton.com/en/hotels/fwanhgi-hilton-garden-inn-fort-wayne-north/",
+   "next_lane": "ATTENDED_BROWSER",
+   "reason": "static channel failure (ACCESS_DENIED); Firecrawl is not the next rung (FIRECRAWL_KNOWN_CAPABILITY_WALL)",
+   "settled": false,
+   "firecrawl_candidate": false,
+   "firecrawl_reason": "FIRECRAWL_KNOWN_CAPABILITY_WALL",
+   "firecrawl_measured_by": "PTF-FIRECRAWL-HARD-LANES-003",
+   "firecrawl_probe_eligible": false
+  },
+  {
+   "identity_key": "holiday inn express fort wayne east new haven",
+   "family": "IHG",
+   "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/new-haven/nhnin/hoteldetail",
+   "next_lane": "FIRECRAWL",
+   "reason": "static channel failure (ACCESS_DENIED) on a Firecrawl-routed family; evaluate the rendered fetch before a browser session",
+   "settled": false,
+   "firecrawl_candidate": true,
+   "firecrawl_reason": "FIRECRAWL_ROUTED_FOR_FAMILY",
+   "firecrawl_measured_by": "PTF-IHG-FIRECRAWL-DECISION-009",
+   "firecrawl_probe_eligible": false
+  },
+  {
+   "identity_key": "hyatt place fort wayne northwest",
+   "family": "HYATT",
+   "url": "https://www.hyatt.com/hyatt-place/en-US/fwazn-hyatt-place-fort-wayne-northwest",
+   "next_lane": "ATTENDED_BROWSER",
+   "reason": "static channel failure (ACCESS_DENIED); Firecrawl is not the next rung (BRAND_EXCLUDED_FROM_ACQUISITION)",
+   "settled": false,
+   "firecrawl_candidate": false,
+   "firecrawl_reason": "BRAND_EXCLUDED_FROM_ACQUISITION",
+   "firecrawl_measured_by": "",
+   "firecrawl_probe_eligible": false
+  },
+  {
+   "identity_key": "residence inn fort wayne",
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/fwari",
+   "next_lane": "LOCAL_FREE_DISCOVERY",
+   "reason": "ROUTING_REPAIR_REQUIRED: PROPERTY_CODE_UNPARSEABLE_ROUTING_REPAIR_REQUIRED",
+   "settled": false,
+   "firecrawl_candidate": false,
+   "firecrawl_reason": "PROPERTY_CODE_UNPARSEABLE_ROUTING_REPAIR_REQUIRED",
+   "firecrawl_measured_by": "",
+   "firecrawl_probe_eligible": false
+  },
+  {
+   "identity_key": "rodeway inn",
+   "family": "CHOICE",
+   "url": "https://www.choicehotels.com/indiana/huntington/quality-inn-hotels",
+   "next_lane": "LOCAL_FREE_DISCOVERY",
+   "reason": "no routable first-party URL; discovery before any fetch",
+   "settled": false,
+   "firecrawl_candidate": false,
+   "firecrawl_reason": "URL_IS_NOT_A_PROPERTY_PAGE",
+   "firecrawl_measured_by": "",
+   "firecrawl_probe_eligible": false
+  },
+  {
+   "identity_key": "springhill suites fort wayne north",
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/fwafn",
+   "next_lane": "LOCAL_FREE_DISCOVERY",
+   "reason": "ROUTING_REPAIR_REQUIRED: PROPERTY_CODE_UNPARSEABLE_ROUTING_REPAIR_REQUIRED",
+   "settled": false,
+   "firecrawl_candidate": false,
+   "firecrawl_reason": "PROPERTY_CODE_UNPARSEABLE_ROUTING_REPAIR_REQUIRED",
+   "firecrawl_measured_by": "",
+   "firecrawl_probe_eligible": false
+  },
+  {
+   "identity_key": "woodspring suites fort wayne",
+   "family": "CHOICE",
+   "url": "https://www.woodspring.com/extended-stay-hotels/locations/indiana/fort-wayne/woodspring-suites-fort-wayne",
+   "next_lane": "DIRECT_STATIC_FETCH",
+   "reason": "the static lane answered; nothing outranks it",
+   "settled": true,
+   "firecrawl_candidate": false,
+   "firecrawl_reason": "STATIC_LANE_ANSWERED",
+   "firecrawl_measured_by": "",
+   "firecrawl_probe_eligible": false
+  }
+ ]
+}

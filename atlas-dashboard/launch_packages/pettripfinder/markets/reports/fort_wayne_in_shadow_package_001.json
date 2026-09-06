@@ -734,12 +734,15 @@
   ]
  },
  "paid_readiness": {
+  "publication_gap_profiles": 4,
   "firecrawl": {
-   "candidate_rows": 16,
-   "credits_if_every_attempt_succeeds": 16,
+   "candidate_rows": 3,
+   "credits_if_every_attempt_succeeds": 3,
+   "candidacy_decided_by": "scripts/pettripfinder/acquisition/ladder.firecrawl_candidacy over this market's own static outcomes: {\"BRAND_EXCLUDED_FROM_ACQUISITION\": 2, \"FIRECRAWL_KNOWN_CAPABILITY_WALL\": 5, \"FIRECRAWL_ROUTED_FOR_FAMILY\": 3, \"PROPERTY_CODE_UNPARSEABLE_ROUTING_REPAIR_REQUIRED\": 5, \"STATIC_LANE_ANSWERED\": 1, \"URL_IS_NOT_A_PROPERTY_PAGE\": 3}",
+   "blocked_by_a_measured_capability_wall": 5,
    "cost_basis": "Firecrawl cost is BIMODAL: 1 credit on a success, 0 when the origin refuses every engine. The blended average is not a ceiling, so the cap is on ATTEMPTS, not on an expected spend.",
    "authorized_by_this_order": false,
-   "classification": "REQUIRED_FOR_PROMOTION_ANY_ONE_OF_THESE"
+   "classification": "INSUFFICIENT_ALONE_3_CANDIDATES_FOR_A_GAP_OF_4"
   },
   "bright_data": {
    "candidate_rows": 16,
@@ -747,7 +750,7 @@
    "expected_attempts": 16,
    "hard_cap_usd": null,
    "authorized_by_this_order": false,
-   "classification": "REQUIRED_FOR_PROMOTION_ANY_ONE_OF_THESE"
+   "classification": "REQUIRED_FOR_PROMOTION"
   },
   "places": {
    "candidate_rows": 23,
@@ -757,12 +760,14 @@
    "classification": "OPTIONAL_COVERAGE_EXPANSION"
   },
   "attended_browser": {
-   "candidate_rows": 39,
+   "candidate_rows": 30,
+   "rows_the_ladder_sends_here": 7,
+   "free_routing_repairs_first": 5,
    "cost": "no money; operator time",
-   "classification": "REQUIRED_FOR_PROMOTION_ANY_ONE_OF_THESE"
+   "classification": "REQUIRED_FOR_PROMOTION"
   },
   "required_for_promotion": [
-   "ONE rendered lane -- attended browser (no money) or Firecrawl (16 credits at most) -- is required to reach 5 published profiles. Which lane is the founder's call; that a rendered lane is needed is not, because the static lane's remaining rows are channel failures and re-running it cannot change them."
+   "Reaching 5 published profiles needs the ATTENDED BROWSER lane (7 rows the ladder sends there, no money, operator time) and the 5 FREE routing repairs it flags. Firecrawl is NOT the answer here: the ladder makes only 3 row(s) a candidate, because five of the blocked rows sit behind the Marriott/Hilton capability wall PTF-FIRECRAWL-HARD-LANES-003 already measured and five more need a routing repair rather than a credit. Three credits cannot close a four-profile gap."
   ],
   "required_for_correctness": [],
   "what_required_means_here": "Two different questions, and this market separates them because the answers differ. CORRECTNESS requires nothing: every clean row was read from a first-party page and survived the wrong-evidence audit, and every unresolved row is explicitly held and publishes nothing. PROMOTION does require one rendered lane -- not to make the clean rows truer, but because 1 published profile(s) is below the market's own minimum_published_hotels of 5 and no corridor reaches its minimum either. Calling that OPTIONAL while also reporting PROMOTION_READY = NO for exactly that reason would be two answers to one question."
@@ -784,11 +789,11 @@
  "promotion": {
   "promotion_ready": "NO",
   "blockers": [
-   "the market publishes 1 pet-friendly profile(s) against its own minimum_published_hotels of 5: the free static lane returned 1 VALID capture from 19 routed rows, and 38 of the remaining rows are CHANNEL failures (13 ACCESS_DENIED brand walls, 3 UNHYDRATED, 2 transport) rather than sources that said nothing. A rendered lane -- attended browser at no money, or Firecrawl on authorized credits -- is what this market needs, and neither is authorized by this order.",
+   "the market publishes 1 pet-friendly profile(s) against its own minimum_published_hotels of 5: the free static lane returned 1 VALID capture from 19 routed rows, and 38 of the remaining rows are CHANNEL failures (13 ACCESS_DENIED brand walls, 3 UNHYDRATED, 2 transport) rather than sources that said nothing. The ATTENDED BROWSER lane is what closes this, at no money; Firecrawl cannot close it alone because the ladder makes only 3 rows candidates against a gap of 4. Neither lane is authorized by this order and neither was run.",
    "no corridor reaches its own minimum_hotel_count, so the market would publish no corridor page at all"
   ],
   "required_before_promotion": [
-   "the market publishes 1 pet-friendly profile(s) against its own minimum_published_hotels of 5: the free static lane returned 1 VALID capture from 19 routed rows, and 38 of the remaining rows are CHANNEL failures (13 ACCESS_DENIED brand walls, 3 UNHYDRATED, 2 transport) rather than sources that said nothing. A rendered lane -- attended browser at no money, or Firecrawl on authorized credits -- is what this market needs, and neither is authorized by this order.",
+   "the market publishes 1 pet-friendly profile(s) against its own minimum_published_hotels of 5: the free static lane returned 1 VALID capture from 19 routed rows, and 38 of the remaining rows are CHANNEL failures (13 ACCESS_DENIED brand walls, 3 UNHYDRATED, 2 transport) rather than sources that said nothing. The ATTENDED BROWSER lane is what closes this, at no money; Firecrawl cannot close it alone because the ladder makes only 3 rows candidates against a gap of 4. Neither lane is authorized by this order and neither was run.",
    "no corridor reaches its own minimum_hotel_count, so the market would publish no corridor page at all"
   ],
   "optional_coverage_expansion": [

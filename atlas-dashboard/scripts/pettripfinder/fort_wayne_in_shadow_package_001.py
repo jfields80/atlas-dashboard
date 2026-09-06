@@ -56,6 +56,7 @@ BRAND = os.path.join(REPORTS, "fort_wayne_in_brand_directory_harvest_001.json")
 COMPETITOR = os.path.join(REPORTS, "fort_wayne_in_competitor_leads_001.json")
 CVB = os.path.join(REPORTS, "fort_wayne_in_cvb_directory_harvest_001.json")
 OSM = os.path.join(REPORTS, "fort_wayne_in_osm_census_sweep_001.json")
+LADDER = os.path.join(REPORTS, "fort_wayne_in_ladder_plan_001.json")
 
 
 def read_json(path, default=None):
@@ -453,19 +454,53 @@ def build(args):
     # Any ONE of the rendered lanes closes the publication gap; none is needed
     # for correctness. They are alternatives, so each is labelled the same way
     # and the founder picks one.
-    rendered_lane_class = ("OPTIONAL_COVERAGE_EXPANSION"
-                           if len(clean_pf) >= contract.minimum_published_hotels
-                           else "REQUIRED_FOR_PROMOTION_ANY_ONE_OF_THESE")
+    # The LADDER decides Firecrawl candidacy, not this module's arithmetic. The
+    # difference is the whole point: counting "rows the static lane failed"
+    # gave 16 candidates, of which the ladder rules out ten -- five behind the
+    # Marriott/Hilton capability wall PTF-FIRECRAWL-HARD-LANES-003 already
+    # measured, five needing a free routing repair because their property code
+    # will not parse. Buying those would repurchase a known failure.
+    ladder = read_json(LADDER, {}) or {}
+    ladder_counts = ladder.get("counts") or {}
+    firecrawl_candidates = ladder_counts.get("firecrawl_candidates")
+    if firecrawl_candidates is None:
+        firecrawl_candidates = len(blocked)
+        firecrawl_basis = ("ladder plan not available; falling back to the count of "
+                           "rows the static lane failed, which OVERSTATES candidacy")
+    else:
+        firecrawl_basis = (
+            "scripts/pettripfinder/acquisition/ladder.firecrawl_candidacy over this "
+            "market's own static outcomes: %s"
+            % json.dumps(ladder_counts.get("by_firecrawl_reason") or {}))
+    attended_rows = (ladder_counts.get("by_next_lane") or {}).get("ATTENDED_BROWSER", 0)
+    gap = max(0, contract.minimum_published_hotels - len(clean_pf))
+    if not gap:
+        rendered_lane_class = firecrawl_class = "OPTIONAL_COVERAGE_EXPANSION"
+    else:
+        rendered_lane_class = "REQUIRED_FOR_PROMOTION"
+        # A lane that cannot reach the gap is not an alternative to one that
+        # can, however cheap it looks. Three credits against a four-profile
+        # shortfall is not a smaller version of the right answer.
+        firecrawl_class = ("REQUIRED_FOR_PROMOTION" if firecrawl_candidates >= gap
+                           else "INSUFFICIENT_ALONE_%d_CANDIDATES_FOR_A_GAP_OF_%d"
+                                % (firecrawl_candidates, gap))
+    routing_repairs = (ladder_counts.get("by_firecrawl_reason") or {}).get(
+        "PROPERTY_CODE_UNPARSEABLE_ROUTING_REPAIR_REQUIRED", 0)
+
     paid = OrderedDict([
+        ("publication_gap_profiles", gap),
         ("firecrawl", OrderedDict([
-            ("candidate_rows", len(blocked)),
-            ("credits_if_every_attempt_succeeds", len(blocked)),
+            ("candidate_rows", firecrawl_candidates),
+            ("credits_if_every_attempt_succeeds", firecrawl_candidates),
+            ("candidacy_decided_by", firecrawl_basis),
+            ("blocked_by_a_measured_capability_wall",
+             ladder_counts.get("blocked_by_a_measured_capability_wall", 0)),
             ("cost_basis",
              "Firecrawl cost is BIMODAL: 1 credit on a success, 0 when the origin "
              "refuses every engine. The blended average is not a ceiling, so the "
              "cap is on ATTEMPTS, not on an expected spend."),
             ("authorized_by_this_order", False),
-            ("classification", rendered_lane_class),
+            ("classification", firecrawl_class),
         ])),
         ("bright_data", OrderedDict([
             ("candidate_rows", len(blocked)),
@@ -484,18 +519,23 @@ def build(args):
             ("classification", "OPTIONAL_COVERAGE_EXPANSION"),
         ])),
         ("attended_browser", OrderedDict([
-            ("candidate_rows", len(blocked) + len(missing_brand)),
+            ("candidate_rows", attended_rows + len(missing_brand)),
+            ("rows_the_ladder_sends_here", attended_rows),
+            ("free_routing_repairs_first", routing_repairs),
             ("cost", "no money; operator time"),
             ("classification", rendered_lane_class),
         ])),
         ("required_for_promotion",
          [] if len(clean_pf) >= contract.minimum_published_hotels else
-         ["ONE rendered lane -- attended browser (no money) or Firecrawl "
-          "(%d credits at most) -- is required to reach %d published profiles. "
-          "Which lane is the founder's call; that a rendered lane is needed is "
-          "not, because the static lane's remaining rows are channel failures "
-          "and re-running it cannot change them."
-          % (len(blocked), contract.minimum_published_hotels)]),
+         ["Reaching %d published profiles needs the ATTENDED BROWSER lane (%d rows "
+          "the ladder sends there, no money, operator time) and the %d FREE routing "
+          "repairs it flags. Firecrawl is NOT the answer here: the ladder makes only "
+          "%d row(s) a candidate, because five of the blocked rows sit behind the "
+          "Marriott/Hilton capability wall PTF-FIRECRAWL-HARD-LANES-003 already "
+          "measured and five more need a routing repair rather than a credit. Three "
+          "credits cannot close a four-profile gap."
+          % (contract.minimum_published_hotels, attended_rows, routing_repairs,
+             firecrawl_candidates)]),
         ("required_for_correctness", []),
         ("what_required_means_here",
          "Two different questions, and this market separates them because the "
@@ -534,10 +574,12 @@ def build(args):
             "minimum_published_hotels of %d: the free static lane returned 1 VALID "
             "capture from 19 routed rows, and 38 of the remaining rows are CHANNEL "
             "failures (13 ACCESS_DENIED brand walls, 3 UNHYDRATED, 2 transport) "
-            "rather than sources that said nothing. A rendered lane -- attended "
-            "browser at no money, or Firecrawl on authorized credits -- is what "
-            "this market needs, and neither is authorized by this order."
-            % (len(clean_pf), contract.minimum_published_hotels))
+            "rather than sources that said nothing. The ATTENDED BROWSER lane is "
+            "what closes this, at no money; Firecrawl cannot close it alone "
+            "because the ladder makes only 3 rows candidates against a gap of %d. "
+            "Neither lane is authorized by this order and neither was run."
+            % (len(clean_pf), contract.minimum_published_hotels,
+               max(0, contract.minimum_published_hotels - len(clean_pf))))
     corridors_publishing = sum(
         1 for c in contract.corridors
         if sum(1 for e in clean_pf
