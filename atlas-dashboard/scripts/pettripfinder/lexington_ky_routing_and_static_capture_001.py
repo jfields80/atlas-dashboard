@@ -429,10 +429,29 @@ def main() -> int:
     for r in recon["records"]:
         if r["classification"] != "EXACT_UNIQUE_IDENTITY":
             continue
-        key = re.sub(r"[^a-z0-9]+", "-", norm(r["name"])).strip("-")
+        # PTF-LEXINGTON-KY-POLICY-ACQUISITION-002 DEFECT REPAIR.
+        # This key used to be the name slug alone. Lexington has TWO hotels
+        # named "Holiday Inn Express" (2255 Buena Vista Road and 1935 Stanton
+        # Way) and TWO named "Red Roof Inn" (2651 Wilhite Drive and 1980
+        # Haggard Court), so 61 rows collapsed into 59 keys and two pairs of
+        # distinct hotels shared one identity -- and would have shared one
+        # capture directory had both ever been routed.
+        #
+        # This is the standing rule turned on the factory's own code: a NAME
+        # proposes an identity and never decides it. The key now carries a
+        # geographic discriminator taken from what the row itself states --
+        # its street address, or failing that its OSM element id, which is
+        # unique by construction. It never falls back to a sequence number.
+        name_slug = re.sub(r"[^a-z0-9]+", "-", norm(r["name"])).strip("-")
+        disc = re.sub(r"[^a-z0-9]+", "-", norm(r["address_line"])).strip("-")
+        if not disc:
+            disc = re.sub(r"[^a-z0-9]+", "-", (r["osm_element"] or "").lower()).strip("-")
+        key = "%s--%s" % (name_slug, disc) if disc else name_slug
         identities.append(OrderedDict([
             ("identity_key", key),
             ("slug", key),
+            ("name_slug", name_slug),
+            ("identity_discriminator", disc),
             ("name", r["name"]),
             ("address_line", r["address_line"]),
             ("city", r["city"]),

@@ -1,0 +1,95 @@
+{
+ "schema": "ptf-parallel-safety-and-benchmark/1.0",
+ "work_order": "PTF-LEXINGTON-KY-POLICY-ACQUISITION-002",
+ "market_id": "lexington-ky",
+ "as_of": "2026-09-06",
+
+ "parallel_safety": {
+  "starting_sha": "4346a5ff2cc7857f85014015fb9ea8c6182697e4",
+  "method": "git status against the starting commit; every changed path is named lexington_ky*",
+  "toledo_files_changed": 0,
+  "fort_wayne_files_changed": 0,
+  "live_authority_changed": 0,
+  "existing_market_authority_changed": 0,
+  "shared_globals_changed": 0,
+  "shared_current_state_pins_changed": 0,
+  "deployment_files_changed": 0,
+  "production_assembly": "NOT RUN",
+  "shared_modules_changed": 0,
+  "note": "This order changed NO shared file at all. Order 001 needed one additive row in discovery/config/osm_extracts.json; this order needed nothing outside the lexington_ky namespace. The two modified files are this market's own order-001 artifacts, corrected for the identity-key defect a policy page exposed.",
+  "gitignored_runtime_writes": [
+   "data/acquisition/firecrawl_call_ledger.jsonl -- the per-call provenance the runbook requires; data/ is gitignored so no shared ledger is committed",
+   "data/acquisition/lexington_ky_firecrawl_002/ -- 10 attempt artifacts",
+   "data/discovery/lexington_ky_attended_002/ -- the attended captures"
+  ]
+ },
+
+ "provider_spend": {
+  "firecrawl_authorized_rows": 10,
+  "firecrawl_authorized_credits": 10,
+  "firecrawl_calls_made": 10,
+  "credits_balance_before": 469,
+  "credits_balance_after": 459,
+  "credits_used": 10,
+  "within_authorization": true,
+  "bright_data_calls": 0,
+  "places_calls": 0,
+  "usd_spent": 0.0,
+  "double_buy_check": "the per-call ledger was empty before this run, so no URL in the cohort had ever been bought; every call was a first purchase",
+  "cohort_gate": "the cohort was re-derived mechanically with acquisition.ladder.firecrawl_candidacy and compared to the committed plan; the run refuses to start unless the two are identical and the cohort is at most 10 rows"
+ },
+
+ "policy_results": {
+  "attended_rows_bound": 37,
+  "attended_captures_taken": 40,
+  "attended_unbound": 3,
+  "firecrawl_rows": 10,
+  "firecrawl_publication_grade": 8,
+  "firecrawl_failed": 2,
+  "clean_pet_friendly": 28,
+  "clean_verified_no_pets": 14,
+  "clean_total": 42,
+  "source_silent": 1,
+  "identity_mismatches": 0,
+  "cross_lane_conflicts": 0,
+  "corroborated_by_two_lanes": 1
+ },
+
+ "regression": {
+  "authority": "Regression V2, delta-scoped",
+  "change_surface": "market-local artifacts and scripts in the lexington_ky namespace only; no shared module, no authority, no pin, no global, no assembly input",
+  "lanes": [
+   {"lane": "policy_schema + identity_routing", "classified": {"PRE_EXISTING": 19, "EXPECTED_EPOCH_CHANGE": 0, "TEST_HARNESS_FLAKE": 0, "TRUE_NEW_FAILURE": 0}},
+   {"lane": "market_targeted --market lexington-ky", "exit_code": 0, "classified": {"PRE_EXISTING": 0, "TRUE_NEW_FAILURE": 0}},
+   {"lane": "discovery package", "result": "1003 passed, 27 skipped"}
+  ],
+  "classified_against": "launch_packages/pettripfinder/regression_baselines/f75aa95.json",
+  "TRUE_NEW_FAILURE": 0,
+  "production_assembly": "NOT RUN",
+  "shared_globals_regenerated": "NO"
+ },
+
+ "speed": {
+  "order_minutes_approximate": 95,
+  "cumulative_lexington_minutes_approximate": 340,
+  "browser_bottleneck_result": "RESOLVED. Order 001 identified the attended browser as the lane that had to run and did not have the budget for it. It cost about 45 minutes here and settled 37 rows, including all 25 Marriott and Hilton rows behind the measured capability wall. The decisive technique was the same-origin fetch: one navigation per brand origin, then every property page fetched from inside that origin, rather than one navigation per hotel.",
+  "what_made_it_fast": [
+   "same-origin fetch batches a WHOLE BRAND from one attended navigation",
+   "Marriott exposes its Pet Policy in the overview page's raw HTML, so no rendering wait is needed once inside the origin",
+   "Hilton exposes an operative pets.description prose field on /hotel-info/",
+   "Choice's own city page yielded 10 property codes and repaired 5 broken routes at once"
+  ],
+  "what_cost_time": [
+   "shuttling captured data out of the browser: tool results truncate near 1 KB, so 25 rows had to be emitted in slices. Persisting to disk from inside the page is not possible, and this is the single largest avoidable cost in an attended order.",
+   "a heredoc corrupted a regex escape into a literal backspace byte (0x08) inside a compiled pattern, which silently made 'Pets Allowed: No' unmatchable and mis-classified 7 unambiguous refusals. The standing rule says use Write/Edit for regex; it was violated and it cost a debugging cycle."
+  ]
+ },
+
+ "defects_found_and_fixed_in_this_order": [
+  "identity_key derived from the NAME alone collapsed 61 hotels into 59 keys (two 'Holiday Inn Express', two 'Red Roof Inn'). Repaired with an address/element discriminator; no evidence was damaged.",
+  "the attended binder matched a Marriott-branded census row to a Quality Inn page at the same street number, and would have published one hotel's policy under another hotel's name. A brand-family check now blocks it.",
+  "the street-word tiebreak included the street NUMBER, so 3060 Lakecrest Circle and 3060 Fieldstone Way could not be told apart.",
+  "a naive acceptance regex read 'Pets Allowed: No' as acceptance; the labelled form is now decisive and tested first.",
+  "a heredoc-corrupted backspace byte inside the LABELLED regex made it match nothing."
+ ]
+}

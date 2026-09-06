@@ -1,0 +1,2770 @@
+{
+ "schema": "ptf-clean-pending-authority/1.0",
+ "work_order": "PTF-LEXINGTON-KY-POLICY-ACQUISITION-002",
+ "market_id": "lexington-ky",
+ "as_of": "2026-09-06",
+ "nothing_promoted": true,
+ "excluded_from_this_inventory": [
+  "identity holds and unnamed OSM elements",
+  "rows outside the market by county polygon",
+  "SOURCE_SILENT rows (21c Museum Hotel states nothing about pets on five surfaces)",
+  "identity-only and competitor-only evidence",
+  "the three Choice properties this order found that the census does not contain"
+ ],
+ "totals": {
+  "clean_pet_friendly": 28,
+  "clean_verified_no_pets": 14,
+  "clean_total": 42,
+  "corroborated_by_two_lanes": 1,
+  "cross_lane_conflicts": 0,
+  "corridors_covered": 7
+ },
+ "conflicts": [],
+ "clean_rows": [
+  {
+   "identity_key": "best-western-lexington-inn--2221-elkhorn-road",
+   "canonical_name": "Best Western Lexington Inn",
+   "address": "2221 Elkhorn Road",
+   "postal_code": "40505",
+   "corridor": "lexington-ky__hamburg",
+   "county": "Fayette County",
+   "brand": "BEST_WESTERN",
+   "policy_class": "CLEAN_VERIFIED_NO_PETS",
+   "lanes": [
+    "ATTENDED_BROWSER"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "ATTENDED_BROWSER",
+    "policy_class": "CLEAN_VERIFIED_NO_PETS",
+    "canonical_url": "https://www.bestwestern.com/en_US/book/hotels-in-lexington/best-western-lexington-inn/propertyCode.18117.html",
+    "requested_url": "https://www.bestwestern.com/en_US/book/hotels-in-lexington/best-western-lexington-inn/propertyCode.18117.html",
+    "content_sha256": "0425ad6a3692665c36441444a52d59ef4734c993f9fa35f5cc8506635a4f33b0",
+    "captured_at": "2026-09-06T16:50:00Z",
+    "identity_signals": {
+     "street_on_page": "2221 Elkhorn Road",
+     "postal_on_page": "40505-4837",
+     "street_number_match": true,
+     "bound_by": "the street number stated by the property's own page",
+     "never_bound_by": "sequence, page order, or name alone"
+    },
+    "exact_quote": "PET POLICY -- Pets are not accepted.",
+    "parsed_facts": {
+     "pets_allowed": false,
+     "pet_fee_usd": null,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {
+     "pet_fee": "NOT_PARSED_BY_THIS_ORDER -- the quote often states a fee, but this order publishes acceptance/refusal only and leaves fee parsing to the reader that owns the schema"
+    },
+    "publication_grade": {
+     "verdict": "OPERATOR_PROSE_CONFIRMED",
+     "why": "explicit ordinary-pet refusal in the operator's own prose"
+    }
+   },
+   "all_observations": null
+  },
+  {
+   "identity_key": "clarion-hotel-conference-center-lexington-north--1950-newtown-pike",
+   "canonical_name": "Clarion Hotel Conference Center Lexington North",
+   "address": "1950 Newtown Pike",
+   "postal_code": "40511",
+   "corridor": "lexington-ky__griffin-gate-newtown",
+   "county": "Fayette County",
+   "brand": "CHOICE",
+   "policy_class": "CLEAN_PET_FRIENDLY",
+   "lanes": [
+    "FIRECRAWL",
+    "ATTENDED_BROWSER"
+   ],
+   "corroborated_by_second_lane": true,
+   "evidence": {
+    "lane": "ATTENDED_BROWSER",
+    "policy_class": "CLEAN_PET_FRIENDLY",
+    "canonical_url": "https://www.choicehotels.com/kentucky/lexington/*/ky231",
+    "requested_url": "https://www.choicehotels.com/kentucky/lexington/*/ky231",
+    "content_sha256": "bb2cb7a164ed75eba1c2e8e5561280f4b5289b11a6769e35e71254d7cc1f2505",
+    "captured_at": "2026-09-06T16:35:00Z",
+    "identity_signals": {
+     "street_on_page": "1950 Newtown Pike",
+     "postal_on_page": "40511",
+     "street_number_match": true,
+     "bound_by": "the street number stated by the property's own page",
+     "never_bound_by": "sequence, page order, or name alone"
+    },
+    "exact_quote": "Pets Allowed: Yes",
+    "parsed_facts": {
+     "pets_allowed": true,
+     "pet_fee_usd": null,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {
+     "pet_fee": "NOT_PARSED_BY_THIS_ORDER -- the quote often states a fee, but this order publishes acceptance/refusal only and leaves fee parsing to the reader that owns the schema"
+    },
+    "publication_grade": {
+     "verdict": "OPERATOR_PROSE_CONFIRMED",
+     "why": "the operator's own labelled policy line states 'Pets Allowed: Yes'"
+    }
+   },
+   "all_observations": [
+    {
+     "lane": "FIRECRAWL",
+     "policy_class": "CLEAN_PET_FRIENDLY",
+     "canonical_url": "https://www.choicehotels.com/kentucky/lexington/clarion-hotels/ky231",
+     "requested_url": "https://www.choicehotels.com/kentucky/lexington/clarion-hotels/ky231",
+     "content_sha256": "5cd8dd824efde20fb6ba23806e4cd5ce33b7a3014d52d897ff7b4c169e2c39e2",
+     "captured_at": "2026-09-06",
+     "identity_signals": {
+      "name_on_page": "Clarion Hotel Conference Center Lexington North",
+      "address_on_page": "1950 Newtown Pike",
+      "postal_code": "40511",
+      "phone_on_page": "(859) 977-9114",
+      "property_code_on_page": "ky231"
+     },
+     "exact_quote": "Pets Allowed | Maximum of 30 pounds | maximum of 3 pets | Service animals are permitted, without charge.",
+     "parsed_facts": {
+      "pets_allowed": true,
+      "pet_fee_usd": null,
+      "max_weight": null,
+      "max_pets": null
+     },
+     "withheld_facts": {
+      "pet_fee": "SOURCE_AMBIGUOUS"
+     },
+     "publication_grade": {
+      "verdict": "PUBLICATION_GRADE_CONFIRMED",
+      "reasons": [
+       "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+      ],
+      "schema_issues": [],
+      "blockers": [],
+      "hash_rederived": true,
+      "quotes_contiguous": true,
+      "quote_sources": {
+       "pets_allowed": "page-text.txt",
+       "weight_limit": "page-text.txt",
+       "pet_count_limit": "page-text.txt",
+       "service_animal_exception": "page-text.txt"
+      },
+      "evidence_entries": [
+       {
+        "evidence_ref": "lexington_ky_firecrawl_002::clarion-hotel-conference-center-lexington-north::pets_allowed::0",
+        "field": "pets_allowed",
+        "quote": "Pets Allowed",
+        "source_url": "https://www.choicehotels.com/kentucky/lexington/clarion-hotels/ky231",
+        "source_grade": "PT1_FIRST_PARTY",
+        "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+        "artifact_sha256": "5cd8dd824efde20fb6ba23806e4cd5ce33b7a3014d52d897ff7b4c169e2c39e2",
+        "artifact_kind": "rendered_html",
+        "captured_at": "2026-09-06",
+        "capture_method": "browser_assisted"
+       },
+       {
+        "evidence_ref": "lexington_ky_firecrawl_002::clarion-hotel-conference-center-lexington-north::weight_limit::1",
+        "field": "weight_limit",
+        "quote": "Maximum of 30 pounds",
+        "source_url": "https://www.choicehotels.com/kentucky/lexington/clarion-hotels/ky231",
+        "source_grade": "PT1_FIRST_PARTY",
+        "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+        "artifact_sha256": "5cd8dd824efde20fb6ba23806e4cd5ce33b7a3014d52d897ff7b4c169e2c39e2",
+        "artifact_kind": "rendered_html",
+        "captured_at": "2026-09-06",
+        "capture_method": "browser_assisted"
+       },
+       {
+        "evidence_ref": "lexington_ky_firecrawl_002::clarion-hotel-conference-center-lexington-north::pet_count_limit::2",
+        "field": "pet_count_limit",
+        "quote": "maximum of 3 pets",
+        "source_url": "https://www.choicehotels.com/kentucky/lexington/clarion-hotels/ky231",
+        "source_grade": "PT1_FIRST_PARTY",
+        "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+        "artifact_sha256": "5cd8dd824efde20fb6ba23806e4cd5ce33b7a3014d52d897ff7b4c169e2c39e2",
+        "artifact_kind": "rendered_html",
+        "captured_at": "2026-09-06",
+        "capture_method": "browser_assisted"
+       },
+       {
+        "evidence_ref": "lexington_ky_firecrawl_002::clarion-hotel-conference-center-lexington-north::service_animal_exception::3",
+        "field": "service_animal_exception",
+        "quote": "Service animals are permitted, without charge.",
+        "source_url": "https://www.choicehotels.com/kentucky/lexington/clarion-hotels/ky231",
+        "source_grade": "PT1_FIRST_PARTY",
+        "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+        "artifact_sha256": "5cd8dd824efde20fb6ba23806e4cd5ce33b7a3014d52d897ff7b4c169e2c39e2",
+        "artifact_kind": "rendered_html",
+        "captured_at": "2026-09-06",
+        "capture_method": "browser_assisted"
+       }
+      ],
+      "contract_integration_gaps": [
+       {
+        "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+        "summary": "a machine-captured screenshot has no lawful artifact_kind",
+        "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+        "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+        "blocks_publication": false
+       },
+       {
+        "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+        "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+        "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+        "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+        "blocks_publication": false
+       },
+       {
+        "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+        "summary": "an evidence entry does not record what fetched the page",
+        "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+        "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+        "blocks_publication": false
+       }
+      ]
+     }
+    },
+    {
+     "lane": "ATTENDED_BROWSER",
+     "policy_class": "CLEAN_PET_FRIENDLY",
+     "canonical_url": "https://www.choicehotels.com/kentucky/lexington/*/ky231",
+     "requested_url": "https://www.choicehotels.com/kentucky/lexington/*/ky231",
+     "content_sha256": "bb2cb7a164ed75eba1c2e8e5561280f4b5289b11a6769e35e71254d7cc1f2505",
+     "captured_at": "2026-09-06T16:35:00Z",
+     "identity_signals": {
+      "street_on_page": "1950 Newtown Pike",
+      "postal_on_page": "40511",
+      "street_number_match": true,
+      "bound_by": "the street number stated by the property's own page",
+      "never_bound_by": "sequence, page order, or name alone"
+     },
+     "exact_quote": "Pets Allowed: Yes",
+     "parsed_facts": {
+      "pets_allowed": true,
+      "pet_fee_usd": null,
+      "max_weight": null,
+      "max_pets": null
+     },
+     "withheld_facts": {
+      "pet_fee": "NOT_PARSED_BY_THIS_ORDER -- the quote often states a fee, but this order publishes acceptance/refusal only and leaves fee parsing to the reader that owns the schema"
+     },
+     "publication_grade": {
+      "verdict": "OPERATOR_PROSE_CONFIRMED",
+      "why": "the operator's own labelled policy line states 'Pets Allowed: Yes'"
+     }
+    }
+   ]
+  },
+  {
+   "identity_key": "comfort-inn--5531-athens-boonesboro-road",
+   "canonical_name": "Comfort Inn",
+   "address": "5531 Athens Boonesboro Road",
+   "postal_code": "40509",
+   "corridor": "lexington-ky__richmond-road-i75-south",
+   "county": "Fayette County",
+   "brand": "CHOICE",
+   "policy_class": "CLEAN_VERIFIED_NO_PETS",
+   "lanes": [
+    "ATTENDED_BROWSER"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "ATTENDED_BROWSER",
+    "policy_class": "CLEAN_VERIFIED_NO_PETS",
+    "canonical_url": "https://www.choicehotels.com/kentucky/lexington/*/ky421",
+    "requested_url": "https://www.choicehotels.com/kentucky/lexington/*/ky421",
+    "content_sha256": "7a99ee525d3dd2d3ddb7b3bc98eef4f645bc6c2d2597a458550dc39573600635",
+    "captured_at": "2026-09-06T16:35:00Z",
+    "identity_signals": {
+     "street_on_page": "5531 Athens Boonesboro Rd.",
+     "postal_on_page": "40509",
+     "street_number_match": true,
+     "bound_by": "the street number stated by the property's own page",
+     "never_bound_by": "sequence, page order, or name alone"
+    },
+    "exact_quote": "Pets Allowed: No General: Only service animals are permitted, free of charge.",
+    "parsed_facts": {
+     "pets_allowed": false,
+     "pet_fee_usd": null,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {
+     "pet_fee": "NOT_PARSED_BY_THIS_ORDER -- the quote often states a fee, but this order publishes acceptance/refusal only and leaves fee parsing to the reader that owns the schema"
+    },
+    "publication_grade": {
+     "verdict": "OPERATOR_PROSE_CONFIRMED",
+     "why": "the operator's own labelled policy line states 'Pets Allowed: No'"
+    }
+   },
+   "all_observations": null
+  },
+  {
+   "identity_key": "comfort-inn-suites--3060-fieldstone-way",
+   "canonical_name": "Comfort Inn & Suites",
+   "address": "3060 Fieldstone Way",
+   "postal_code": "40513",
+   "corridor": "lexington-ky__inner-versailles-road",
+   "county": "Fayette County",
+   "brand": "CHOICE",
+   "policy_class": "CLEAN_VERIFIED_NO_PETS",
+   "lanes": [
+    "ATTENDED_BROWSER"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "ATTENDED_BROWSER",
+    "policy_class": "CLEAN_VERIFIED_NO_PETS",
+    "canonical_url": "https://www.choicehotels.com/kentucky/lexington/*/ky025",
+    "requested_url": "https://www.choicehotels.com/kentucky/lexington/*/ky025",
+    "content_sha256": "2aba7cdc8cb6c6c0194723809e9881ea0ffdcbda001dfd9c2440e10827b41580",
+    "captured_at": "2026-09-06T16:35:00Z",
+    "identity_signals": {
+     "street_on_page": "3060 Fieldstone Way",
+     "postal_on_page": "40513",
+     "street_number_match": true,
+     "bound_by": "the street number stated by the property's own page",
+     "never_bound_by": "sequence, page order, or name alone"
+    },
+    "exact_quote": "Pets Allowed: No",
+    "parsed_facts": {
+     "pets_allowed": false,
+     "pet_fee_usd": null,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {
+     "pet_fee": "NOT_PARSED_BY_THIS_ORDER -- the quote often states a fee, but this order publishes acceptance/refusal only and leaves fee parsing to the reader that owns the schema"
+    },
+    "publication_grade": {
+     "verdict": "OPERATOR_PROSE_CONFIRMED",
+     "why": "the operator's own labelled policy line states 'Pets Allowed: No'"
+    }
+   },
+   "all_observations": null
+  },
+  {
+   "identity_key": "country-inn-suites--2297-executive-drive",
+   "canonical_name": "Country Inn & Suites",
+   "address": "2297 Executive Drive",
+   "postal_code": "40505",
+   "corridor": "lexington-ky__hamburg",
+   "county": "Fayette County",
+   "brand": "CHOICE",
+   "policy_class": "CLEAN_VERIFIED_NO_PETS",
+   "lanes": [
+    "ATTENDED_BROWSER"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "ATTENDED_BROWSER",
+    "policy_class": "CLEAN_VERIFIED_NO_PETS",
+    "canonical_url": "https://www.choicehotels.com/kentucky/lexington/*/ky422",
+    "requested_url": "https://www.choicehotels.com/kentucky/lexington/*/ky422",
+    "content_sha256": "eb0973a6e421af893f01b36c9c2e0e9d9ad5a6b216ef8472194359d8fafd16de",
+    "captured_at": "2026-09-06T16:35:00Z",
+    "identity_signals": {
+     "street_on_page": "2297 Executive Drive",
+     "postal_on_page": "40505",
+     "street_number_match": true,
+     "bound_by": "the street number stated by the property's own page",
+     "never_bound_by": "sequence, page order, or name alone"
+    },
+    "exact_quote": "Pets Allowed: No",
+    "parsed_facts": {
+     "pets_allowed": false,
+     "pet_fee_usd": null,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {
+     "pet_fee": "NOT_PARSED_BY_THIS_ORDER -- the quote often states a fee, but this order publishes acceptance/refusal only and leaves fee parsing to the reader that owns the schema"
+    },
+    "publication_grade": {
+     "verdict": "OPERATOR_PROSE_CONFIRMED",
+     "why": "the operator's own labelled policy line states 'Pets Allowed: No'"
+    }
+   },
+   "all_observations": null
+  },
+  {
+   "identity_key": "courtyard--775-newtown-court",
+   "canonical_name": "Courtyard",
+   "address": "775 Newtown Court",
+   "postal_code": "40511",
+   "corridor": "lexington-ky__griffin-gate-newtown",
+   "county": "Fayette County",
+   "brand": "MARRIOTT",
+   "policy_class": "CLEAN_VERIFIED_NO_PETS",
+   "lanes": [
+    "ATTENDED_BROWSER"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "ATTENDED_BROWSER",
+    "policy_class": "CLEAN_VERIFIED_NO_PETS",
+    "canonical_url": "https://www.marriott.com/lexno",
+    "requested_url": "https://www.marriott.com/lexno",
+    "content_sha256": "6c3e1a659549de513aa71803ae453fbd31a846445c3521ae64b5124c553fc793",
+    "captured_at": "2026-09-06T16:20:00Z",
+    "identity_signals": {
+     "street_on_page": "775 Newtown Court",
+     "postal_on_page": "40511",
+     "street_number_match": true,
+     "bound_by": "the street number stated by the property's own page",
+     "never_bound_by": "sequence, page order, or name alone"
+    },
+    "exact_quote": "Pet Policy Pets Not Allowed No pets allowed-service animals only.",
+    "parsed_facts": {
+     "pets_allowed": false,
+     "pet_fee_usd": null,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {
+     "pet_fee": "NOT_PARSED_BY_THIS_ORDER -- the quote often states a fee, but this order publishes acceptance/refusal only and leaves fee parsing to the reader that owns the schema"
+    },
+    "publication_grade": {
+     "verdict": "OPERATOR_PROSE_CONFIRMED",
+     "why": "explicit ordinary-pet refusal in the operator's own prose"
+    }
+   },
+   "all_observations": null
+  },
+  {
+   "identity_key": "courtyard-lexington-keeneland-airport--3100-wall-street",
+   "canonical_name": "Courtyard Lexington Keeneland/Airport",
+   "address": "3100 Wall Street",
+   "postal_code": "40513",
+   "corridor": "lexington-ky__inner-versailles-road",
+   "county": "Fayette County",
+   "brand": "MARRIOTT",
+   "policy_class": "CLEAN_VERIFIED_NO_PETS",
+   "lanes": [
+    "ATTENDED_BROWSER"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "ATTENDED_BROWSER",
+    "policy_class": "CLEAN_VERIFIED_NO_PETS",
+    "canonical_url": "https://www.marriott.com/lexkn",
+    "requested_url": "https://www.marriott.com/lexkn",
+    "content_sha256": "eec24f894fb21d5991d1d91a4d9e615e5f3872a1f35c25da19949039922452e8",
+    "captured_at": "2026-09-06T16:20:00Z",
+    "identity_signals": {
+     "street_on_page": "3100 Wall Street",
+     "postal_on_page": "40513",
+     "street_number_match": true,
+     "bound_by": "the street number stated by the property's own page",
+     "never_bound_by": "sequence, page order, or name alone"
+    },
+    "exact_quote": "Pet Policy Pets Not Allowed No pets allowed-service animals only",
+    "parsed_facts": {
+     "pets_allowed": false,
+     "pet_fee_usd": null,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {
+     "pet_fee": "NOT_PARSED_BY_THIS_ORDER -- the quote often states a fee, but this order publishes acceptance/refusal only and leaves fee parsing to the reader that owns the schema"
+    },
+    "publication_grade": {
+     "verdict": "OPERATOR_PROSE_CONFIRMED",
+     "why": "explicit ordinary-pet refusal in the operator's own prose"
+    }
+   },
+   "all_observations": null
+  },
+  {
+   "identity_key": "courtyard-lexington-south-hamburg-place--1951-pleasant-ridge-drive",
+   "canonical_name": "Courtyard Lexington South/Hamburg Place",
+   "address": "1951 Pleasant Ridge Drive",
+   "postal_code": "40509",
+   "corridor": "lexington-ky__hamburg",
+   "county": "Fayette County",
+   "brand": "MARRIOTT",
+   "policy_class": "CLEAN_VERIFIED_NO_PETS",
+   "lanes": [
+    "ATTENDED_BROWSER"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "ATTENDED_BROWSER",
+    "policy_class": "CLEAN_VERIFIED_NO_PETS",
+    "canonical_url": "https://www.marriott.com/lexce",
+    "requested_url": "https://www.marriott.com/lexce",
+    "content_sha256": "f23552eb2539244f096d8affcd2e959663e35fcd71ce9ded0e38a59250030ac1",
+    "captured_at": "2026-09-06T16:20:00Z",
+    "identity_signals": {
+     "street_on_page": "1951 Pleasant Ridge Drive, I-75 at Man-O-War Boulevard",
+     "postal_on_page": "40509",
+     "street_number_match": true,
+     "bound_by": "the street number stated by the property's own page",
+     "never_bound_by": "sequence, page order, or name alone"
+    },
+    "exact_quote": "Pet Policy Pets Not Allowed",
+    "parsed_facts": {
+     "pets_allowed": false,
+     "pet_fee_usd": null,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {
+     "pet_fee": "NOT_PARSED_BY_THIS_ORDER -- the quote often states a fee, but this order publishes acceptance/refusal only and leaves fee parsing to the reader that owns the schema"
+    },
+    "publication_grade": {
+     "verdict": "OPERATOR_PROSE_CONFIRMED",
+     "why": "explicit ordinary-pet refusal in the operator's own prose"
+    }
+   },
+   "all_observations": null
+  },
+  {
+   "identity_key": "days-inn--1987-north-broadway",
+   "canonical_name": "Days Inn",
+   "address": "1987 North Broadway",
+   "postal_code": "40505",
+   "corridor": "lexington-ky__i75-winchester-road",
+   "county": "Fayette County",
+   "brand": "WYNDHAM",
+   "policy_class": "CLEAN_PET_FRIENDLY",
+   "lanes": [
+    "FIRECRAWL"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "FIRECRAWL",
+    "policy_class": "CLEAN_PET_FRIENDLY",
+    "canonical_url": "https://www.wyndhamhotels.com/days-inn/lexington-kentucky/days-inn-and-suites-lexington/overview",
+    "requested_url": "https://www.wyndhamhotels.com/days-inn/lexington-kentucky/days-inn-and-suites-lexington/overview",
+    "content_sha256": "9b2c756a36dbd4434458032141de7ce57185be6602da816a608898b13a68de1e",
+    "captured_at": "2026-09-06",
+    "identity_signals": {
+     "name_on_page": "Days Inn & Suites by Wyndham Lexington",
+     "address_on_page": "1987 North Broadway",
+     "postal_code": "40505",
+     "phone_on_page": "859-2991202",
+     "property_code_on_page": ""
+    },
+    "exact_quote": "Pet Allowed | Deposit 25USD | Pet Sanitation Fee 100USD | max. 40lbs | 1 pet max | Service Animals - ADA-defined service animals welcome.",
+    "parsed_facts": {
+     "pets_allowed": true,
+     "pet_fee_usd": 100.0,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {
+     "fee_basis": "SOURCE_SILENT"
+    },
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt",
+      "pet_deposit": "page-text.txt",
+      "pet_fee": "page-text.txt",
+      "fee_currency": "page-text.txt",
+      "weight_limit": "page-text.txt",
+      "pet_count_limit": "page-text.txt",
+      "service_animal_exception": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::days-inn::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "Pet Allowed",
+       "source_url": "https://www.wyndhamhotels.com/days-inn/lexington-kentucky/days-inn-and-suites-lexington/overview",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "9b2c756a36dbd4434458032141de7ce57185be6602da816a608898b13a68de1e",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::days-inn::pet_deposit::1",
+       "field": "pet_deposit",
+       "quote": "Deposit 25USD",
+       "source_url": "https://www.wyndhamhotels.com/days-inn/lexington-kentucky/days-inn-and-suites-lexington/overview",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "9b2c756a36dbd4434458032141de7ce57185be6602da816a608898b13a68de1e",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::days-inn::pet_fee::2",
+       "field": "pet_fee",
+       "quote": "Pet Sanitation Fee 100USD",
+       "source_url": "https://www.wyndhamhotels.com/days-inn/lexington-kentucky/days-inn-and-suites-lexington/overview",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "9b2c756a36dbd4434458032141de7ce57185be6602da816a608898b13a68de1e",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::days-inn::fee_currency::2",
+       "field": "fee_currency",
+       "quote": "Pet Sanitation Fee 100USD",
+       "source_url": "https://www.wyndhamhotels.com/days-inn/lexington-kentucky/days-inn-and-suites-lexington/overview",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "9b2c756a36dbd4434458032141de7ce57185be6602da816a608898b13a68de1e",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::days-inn::weight_limit::3",
+       "field": "weight_limit",
+       "quote": "max. 40lbs",
+       "source_url": "https://www.wyndhamhotels.com/days-inn/lexington-kentucky/days-inn-and-suites-lexington/overview",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "9b2c756a36dbd4434458032141de7ce57185be6602da816a608898b13a68de1e",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::days-inn::pet_count_limit::4",
+       "field": "pet_count_limit",
+       "quote": "1 pet max",
+       "source_url": "https://www.wyndhamhotels.com/days-inn/lexington-kentucky/days-inn-and-suites-lexington/overview",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "9b2c756a36dbd4434458032141de7ce57185be6602da816a608898b13a68de1e",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::days-inn::service_animal_exception::5",
+       "field": "service_animal_exception",
+       "quote": "Service Animals - ADA-defined service animals welcome.",
+       "source_url": "https://www.wyndhamhotels.com/days-inn/lexington-kentucky/days-inn-and-suites-lexington/overview",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "9b2c756a36dbd4434458032141de7ce57185be6602da816a608898b13a68de1e",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    }
+   },
+   "all_observations": null
+  },
+  {
+   "identity_key": "double-tree-hilton--2601-richmond-road",
+   "canonical_name": "Double Tree Hilton",
+   "address": "2601 Richmond Road",
+   "postal_code": "40509",
+   "corridor": "lexington-ky__hamburg",
+   "county": "Fayette County",
+   "brand": "HILTON",
+   "policy_class": "CLEAN_PET_FRIENDLY",
+   "lanes": [
+    "ATTENDED_BROWSER"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "ATTENDED_BROWSER",
+    "policy_class": "CLEAN_PET_FRIENDLY",
+    "canonical_url": "https://www.hilton.com/en/hotels/lexrrdt/hotel-info/",
+    "requested_url": "https://www.hilton.com/en/hotels/lexrrdt/hotel-info/",
+    "content_sha256": "b4a523ff1f0ba48a148f6e4d0de9972da37c05175f939d705ad4f2e2dbe20c72",
+    "captured_at": "2026-09-06T16:06:11Z",
+    "identity_signals": {
+     "street_on_page": "2601 Richmond Road",
+     "postal_on_page": "40509",
+     "street_number_match": true,
+     "bound_by": "the street number stated by the property's own page",
+     "never_bound_by": "sequence, page order, or name alone"
+    },
+    "exact_quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, Non refundable $75 fee per dog",
+    "parsed_facts": {
+     "pets_allowed": true,
+     "pet_fee_usd": null,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {
+     "pet_fee": "NOT_PARSED_BY_THIS_ORDER -- the quote often states a fee, but this order publishes acceptance/refusal only and leaves fee parsing to the reader that owns the schema"
+    },
+    "publication_grade": {
+     "verdict": "OPERATOR_PROSE_CONFIRMED",
+     "why": "explicit ordinary-pet acceptance in the operator's own prose"
+    }
+   },
+   "all_observations": null
+  },
+  {
+   "identity_key": "econo-lodge--5527-athens-boonesboro-road",
+   "canonical_name": "Econo Lodge",
+   "address": "5527 Athens Boonesboro Road",
+   "postal_code": "40509",
+   "corridor": "lexington-ky__richmond-road-i75-south",
+   "county": "Fayette County",
+   "brand": "CHOICE",
+   "policy_class": "CLEAN_PET_FRIENDLY",
+   "lanes": [
+    "ATTENDED_BROWSER"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "ATTENDED_BROWSER",
+    "policy_class": "CLEAN_PET_FRIENDLY",
+    "canonical_url": "https://www.choicehotels.com/kentucky/lexington/*/ky056",
+    "requested_url": "https://www.choicehotels.com/kentucky/lexington/*/ky056",
+    "content_sha256": "e2cd8f2bac1f8055fd7af56ad11da138f3b11ee3773a3cafdc4ac0280260b462",
+    "captured_at": "2026-09-06T16:35:00Z",
+    "identity_signals": {
+     "street_on_page": "5527 Athens-Boonesboro Rd.",
+     "postal_on_page": "40509",
+     "street_number_match": true,
+     "bound_by": "the street number stated by the property's own page",
+     "never_bound_by": "sequence, page order, or name alone"
+    },
+    "exact_quote": "Pets Allowed: Yes",
+    "parsed_facts": {
+     "pets_allowed": true,
+     "pet_fee_usd": null,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {
+     "pet_fee": "NOT_PARSED_BY_THIS_ORDER -- the quote often states a fee, but this order publishes acceptance/refusal only and leaves fee parsing to the reader that owns the schema"
+    },
+    "publication_grade": {
+     "verdict": "OPERATOR_PROSE_CONFIRMED",
+     "why": "the operator's own labelled policy line states 'Pets Allowed: Yes'"
+    }
+   },
+   "all_observations": null
+  },
+  {
+   "identity_key": "embassy-suites--1801-newtown-pike",
+   "canonical_name": "Embassy Suites",
+   "address": "1801 Newtown Pike",
+   "postal_code": "40511",
+   "corridor": "lexington-ky__griffin-gate-newtown",
+   "county": "Fayette County",
+   "brand": "HILTON",
+   "policy_class": "CLEAN_PET_FRIENDLY",
+   "lanes": [
+    "ATTENDED_BROWSER"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "ATTENDED_BROWSER",
+    "policy_class": "CLEAN_PET_FRIENDLY",
+    "canonical_url": "https://www.hilton.com/en/hotels/lexeses/hotel-info/",
+    "requested_url": "https://www.hilton.com/en/hotels/lexeses/hotel-info/",
+    "content_sha256": "4be03f5f10e41db554d9c28c537a79fcdb80022023f7122fbce60539bae56c10",
+    "captured_at": "2026-09-06T16:06:11Z",
+    "identity_signals": {
+     "street_on_page": "1801 Newtown Pike",
+     "postal_on_page": "40511",
+     "street_number_match": true,
+     "bound_by": "the street number stated by the property's own page",
+     "never_bound_by": "sequence, page order, or name alone"
+    },
+    "exact_quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+    "parsed_facts": {
+     "pets_allowed": true,
+     "pet_fee_usd": null,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {
+     "pet_fee": "NOT_PARSED_BY_THIS_ORDER -- the quote often states a fee, but this order publishes acceptance/refusal only and leaves fee parsing to the reader that owns the schema"
+    },
+    "publication_grade": {
+     "verdict": "OPERATOR_PROSE_CONFIRMED",
+     "why": "explicit ordinary-pet acceptance in the operator's own prose"
+    }
+   },
+   "all_observations": null
+  },
+  {
+   "identity_key": "extended-stay-america-lexington-nicholasville-road--2650-wilhite-court",
+   "canonical_name": "Extended Stay America - Lexington - Nicholasville Road",
+   "address": "2650 Wilhite Court",
+   "postal_code": "",
+   "corridor": "lexington-ky__nicholasville-road-south",
+   "county": "Fayette County",
+   "brand": "ESA",
+   "policy_class": "CLEAN_PET_FRIENDLY",
+   "lanes": [
+    "ATTENDED_BROWSER"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "ATTENDED_BROWSER",
+    "policy_class": "CLEAN_PET_FRIENDLY",
+    "canonical_url": "https://www.extendedstayamerica.com/hotels/ky/lexington/nicholasville-road",
+    "requested_url": "https://www.extendedstayamerica.com/hotels/ky/lexington/nicholasville-road",
+    "content_sha256": "b816b13b82220560a1ead0bd0cb03a1629b01411e1700424dd790d409170b8cb",
+    "captured_at": "2026-09-06T16:50:00Z",
+    "identity_signals": {
+     "street_on_page": "2650 Wilhite Dr.",
+     "postal_on_page": "40503",
+     "street_number_match": true,
+     "bound_by": "the street number stated by the property's own page",
+     "never_bound_by": "sequence, page order, or name alone"
+    },
+    "exact_quote": "Is Extended Stay America Lexington - Nicholasville Road pet friendly? Yes. Extended Stay America Lexington - Nicholasville Road offers pet-friendly rooms, so you can bring your furry companion along for your stay.",
+    "parsed_facts": {
+     "pets_allowed": true,
+     "pet_fee_usd": null,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {
+     "pet_fee": "NOT_PARSED_BY_THIS_ORDER -- the quote often states a fee, but this order publishes acceptance/refusal only and leaves fee parsing to the reader that owns the schema"
+    },
+    "publication_grade": {
+     "verdict": "OPERATOR_PROSE_CONFIRMED",
+     "why": "explicit ordinary-pet acceptance in the operator's own prose"
+    }
+   },
+   "all_observations": null
+  },
+  {
+   "identity_key": "fairfield-inn-suites--3050-lakecrest-circle",
+   "canonical_name": "Fairfield Inn & Suites",
+   "address": "3050 Lakecrest Circle",
+   "postal_code": "40513",
+   "corridor": "lexington-ky__inner-versailles-road",
+   "county": "Fayette County",
+   "brand": "MARRIOTT",
+   "policy_class": "CLEAN_VERIFIED_NO_PETS",
+   "lanes": [
+    "ATTENDED_BROWSER"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "ATTENDED_BROWSER",
+    "policy_class": "CLEAN_VERIFIED_NO_PETS",
+    "canonical_url": "https://www.marriott.com/lexsw",
+    "requested_url": "https://www.marriott.com/lexsw",
+    "content_sha256": "5c0c4c256b4211e9b35597cbbd2d1a6d55d008053a421cc346ed4ed2cde003f9",
+    "captured_at": "2026-09-06T16:20:00Z",
+    "identity_signals": {
+     "street_on_page": "3050 Lakecrest Circle",
+     "postal_on_page": "40513",
+     "street_number_match": true,
+     "bound_by": "the street number stated by the property's own page",
+     "never_bound_by": "sequence, page order, or name alone"
+    },
+    "exact_quote": "Pet Policy Pets Not Allowed No Pets",
+    "parsed_facts": {
+     "pets_allowed": false,
+     "pet_fee_usd": null,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {
+     "pet_fee": "NOT_PARSED_BY_THIS_ORDER -- the quote often states a fee, but this order publishes acceptance/refusal only and leaves fee parsing to the reader that owns the schema"
+    },
+    "publication_grade": {
+     "verdict": "OPERATOR_PROSE_CONFIRMED",
+     "why": "explicit ordinary-pet refusal in the operator's own prose"
+    }
+   },
+   "all_observations": null
+  },
+  {
+   "identity_key": "fairfield-inn-suites-lexington-east-i-75--2211-elkhorn-road",
+   "canonical_name": "Fairfield Inn & Suites Lexington East \\ I-75",
+   "address": "2211 Elkhorn Road",
+   "postal_code": "40505",
+   "corridor": "lexington-ky__hamburg",
+   "county": "Fayette County",
+   "brand": "MARRIOTT",
+   "policy_class": "CLEAN_VERIFIED_NO_PETS",
+   "lanes": [
+    "ATTENDED_BROWSER"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "ATTENDED_BROWSER",
+    "policy_class": "CLEAN_VERIFIED_NO_PETS",
+    "canonical_url": "https://www.marriott.com/lexle",
+    "requested_url": "https://www.marriott.com/lexle",
+    "content_sha256": "2158d7191d4b1392f18cb1b2cd76a0548adbe3629fe559514bf04523e1746f9d",
+    "captured_at": "2026-09-06T16:20:00Z",
+    "identity_signals": {
+     "street_on_page": "2211 Elkhorn Road",
+     "postal_on_page": "40505",
+     "street_number_match": true,
+     "bound_by": "the street number stated by the property's own page",
+     "never_bound_by": "sequence, page order, or name alone"
+    },
+    "exact_quote": "Pet Policy Pets Not Allowed",
+    "parsed_facts": {
+     "pets_allowed": false,
+     "pet_fee_usd": null,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {
+     "pet_fee": "NOT_PARSED_BY_THIS_ORDER -- the quote often states a fee, but this order publishes acceptance/refusal only and leaves fee parsing to the reader that owns the schema"
+    },
+    "publication_grade": {
+     "verdict": "OPERATOR_PROSE_CONFIRMED",
+     "why": "explicit ordinary-pet refusal in the operator's own prose"
+    }
+   },
+   "all_observations": null
+  },
+  {
+   "identity_key": "fairfield-inn-suites-lexington-north--2100-hackney-place",
+   "canonical_name": "Fairfield Inn & Suites Lexington North",
+   "address": "2100 Hackney Place",
+   "postal_code": "40511",
+   "corridor": "lexington-ky__griffin-gate-newtown",
+   "county": "Fayette County",
+   "brand": "MARRIOTT",
+   "policy_class": "CLEAN_PET_FRIENDLY",
+   "lanes": [
+    "ATTENDED_BROWSER"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "ATTENDED_BROWSER",
+    "policy_class": "CLEAN_PET_FRIENDLY",
+    "canonical_url": "https://www.marriott.com/lexnw",
+    "requested_url": "https://www.marriott.com/lexnw",
+    "content_sha256": "5821d78a55164a32dbce6ca000bf27cfb84571db1e4cdbc1813013aaea2e2d9d",
+    "captured_at": "2026-09-06T16:20:00Z",
+    "identity_signals": {
+     "street_on_page": "2100 Hackney Place",
+     "postal_on_page": "40511",
+     "street_number_match": true,
+     "bound_by": "the street number stated by the property's own page",
+     "never_bound_by": "sequence, page order, or name alone"
+    },
+    "exact_quote": "Pet Policy Pets Welcome Pets restricted to specific floor and specific room types. Non-Refundable Pet Fee : $0.00 Non-Refundable Pet Fee Per Night: $30.00 Maximum Pet Weight: 50.0lbs",
+    "parsed_facts": {
+     "pets_allowed": true,
+     "pet_fee_usd": null,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {
+     "pet_fee": "NOT_PARSED_BY_THIS_ORDER -- the quote often states a fee, but this order publishes acceptance/refusal only and leaves fee parsing to the reader that owns the schema"
+    },
+    "publication_grade": {
+     "verdict": "OPERATOR_PROSE_CONFIRMED",
+     "why": "explicit ordinary-pet acceptance in the operator's own prose"
+    }
+   },
+   "all_observations": null
+  },
+  {
+   "identity_key": "griffin-gate-marriott-resort-spa--1800-newtown-pike",
+   "canonical_name": "Griffin Gate Marriott Resort & Spa",
+   "address": "1800 Newtown Pike",
+   "postal_code": "",
+   "corridor": "lexington-ky__griffin-gate-newtown",
+   "county": "Fayette County",
+   "brand": "MARRIOTT",
+   "policy_class": "CLEAN_PET_FRIENDLY",
+   "lanes": [
+    "ATTENDED_BROWSER"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "ATTENDED_BROWSER",
+    "policy_class": "CLEAN_PET_FRIENDLY",
+    "canonical_url": "https://www.marriott.com/lexky",
+    "requested_url": "https://www.marriott.com/lexky",
+    "content_sha256": "ce5b34121516d415966b2cb8f0200c9d8e3a466db415ae0fde94b79d47c7337b",
+    "captured_at": "2026-09-06T16:20:00Z",
+    "identity_signals": {
+     "street_on_page": "1800 Newtown Pike",
+     "postal_on_page": "40511",
+     "street_number_match": true,
+     "bound_by": "the street number stated by the property's own page",
+     "never_bound_by": "sequence, page order, or name alone"
+    },
+    "exact_quote": "Pet Policy Pets Welcome. 2 pets 100 lbs max per room-USD 100 per room fee / Undeclared pets USD 250. Non-Refundable Pet Fee Per Stay: $100.00 Maximum Pet Weight: 100.0lbs",
+    "parsed_facts": {
+     "pets_allowed": true,
+     "pet_fee_usd": null,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {
+     "pet_fee": "NOT_PARSED_BY_THIS_ORDER -- the quote often states a fee, but this order publishes acceptance/refusal only and leaves fee parsing to the reader that owns the schema"
+    },
+    "publication_grade": {
+     "verdict": "OPERATOR_PROSE_CONFIRMED",
+     "why": "explicit ordinary-pet acceptance in the operator's own prose"
+    }
+   },
+   "all_observations": null
+  },
+  {
+   "identity_key": "hampton-inn--2251-elkhorn-road",
+   "canonical_name": "Hampton Inn",
+   "address": "2251 Elkhorn Road",
+   "postal_code": "40505",
+   "corridor": "lexington-ky__hamburg",
+   "county": "Fayette County",
+   "brand": "HILTON",
+   "policy_class": "CLEAN_PET_FRIENDLY",
+   "lanes": [
+    "ATTENDED_BROWSER"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "ATTENDED_BROWSER",
+    "policy_class": "CLEAN_PET_FRIENDLY",
+    "canonical_url": "https://www.hilton.com/en/hotels/lexehhx/hotel-info/",
+    "requested_url": "https://www.hilton.com/en/hotels/lexehhx/hotel-info/",
+    "content_sha256": "5489f9fb9fe6ff6b02d6588ab64c1e1900ca290d36f25f3048b79f26ff573da0",
+    "captured_at": "2026-09-06T16:06:11Z",
+    "identity_signals": {
+     "street_on_page": "2251 Elkhorn Rd.",
+     "postal_on_page": "40505",
+     "street_number_match": true,
+     "bound_by": "the street number stated by the property's own page",
+     "never_bound_by": "sequence, page order, or name alone"
+    },
+    "exact_quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+    "parsed_facts": {
+     "pets_allowed": true,
+     "pet_fee_usd": null,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {
+     "pet_fee": "NOT_PARSED_BY_THIS_ORDER -- the quote often states a fee, but this order publishes acceptance/refusal only and leaves fee parsing to the reader that owns the schema"
+    },
+    "publication_grade": {
+     "verdict": "OPERATOR_PROSE_CONFIRMED",
+     "why": "explicit ordinary-pet acceptance in the operator's own prose"
+    }
+   },
+   "all_observations": null
+  },
+  {
+   "identity_key": "hampton-inn-lexington-medical-center--1953-nicholasville-road",
+   "canonical_name": "Hampton Inn Lexington Medical Center",
+   "address": "1953 Nicholasville Road",
+   "postal_code": "40503",
+   "corridor": "lexington-ky__inner-versailles-road",
+   "county": "Fayette County",
+   "brand": "HILTON",
+   "policy_class": "CLEAN_PET_FRIENDLY",
+   "lanes": [
+    "ATTENDED_BROWSER"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "ATTENDED_BROWSER",
+    "policy_class": "CLEAN_PET_FRIENDLY",
+    "canonical_url": "https://www.hilton.com/en/hotels/lexmchx/hotel-info/",
+    "requested_url": "https://www.hilton.com/en/hotels/lexmchx/hotel-info/",
+    "content_sha256": "a413a1d82df7d948bae85840235a6dc61e57a6cec5aab006c472c76d7440cf6f",
+    "captured_at": "2026-09-06T16:06:11Z",
+    "identity_signals": {
+     "street_on_page": "1953 Nicholasville Road",
+     "postal_on_page": "40503",
+     "street_number_match": true,
+     "bound_by": "the street number stated by the property's own page",
+     "never_bound_by": "sequence, page order, or name alone"
+    },
+    "exact_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum",
+    "parsed_facts": {
+     "pets_allowed": true,
+     "pet_fee_usd": null,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {
+     "pet_fee": "NOT_PARSED_BY_THIS_ORDER -- the quote often states a fee, but this order publishes acceptance/refusal only and leaves fee parsing to the reader that owns the schema"
+    },
+    "publication_grade": {
+     "verdict": "OPERATOR_PROSE_CONFIRMED",
+     "why": "explicit ordinary-pet acceptance in the operator's own prose"
+    }
+   },
+   "all_observations": null
+  },
+  {
+   "identity_key": "hampton-inn-lexington-south-keeneland-airport--3060-lakecrest-circle",
+   "canonical_name": "Hampton Inn Lexington South-Keeneland/Airport",
+   "address": "3060 Lakecrest Circle",
+   "postal_code": "40513",
+   "corridor": "lexington-ky__inner-versailles-road",
+   "county": "Fayette County",
+   "brand": "HILTON",
+   "policy_class": "CLEAN_PET_FRIENDLY",
+   "lanes": [
+    "ATTENDED_BROWSER"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "ATTENDED_BROWSER",
+    "policy_class": "CLEAN_PET_FRIENDLY",
+    "canonical_url": "https://www.hilton.com/en/hotels/lexaphx/hotel-info/",
+    "requested_url": "https://www.hilton.com/en/hotels/lexaphx/hotel-info/",
+    "content_sha256": "e193bb2788bffd2dbc772a686aabd0f0e2bb830221d0ea31c62d5a95b3d1d9c2",
+    "captured_at": "2026-09-06T16:06:11Z",
+    "identity_signals": {
+     "street_on_page": "3060 Lakecrest Circle",
+     "postal_on_page": "40513",
+     "street_number_match": true,
+     "bound_by": "the street number stated by the property's own page",
+     "never_bound_by": "sequence, page order, or name alone"
+    },
+    "exact_quote": "Pets allowed, $50.00 non-refundable fee, $50(1-4 nights), $75(5+ nights) 2 pets Max, dog/cat only",
+    "parsed_facts": {
+     "pets_allowed": true,
+     "pet_fee_usd": null,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {
+     "pet_fee": "NOT_PARSED_BY_THIS_ORDER -- the quote often states a fee, but this order publishes acceptance/refusal only and leaves fee parsing to the reader that owns the schema"
+    },
+    "publication_grade": {
+     "verdict": "OPERATOR_PROSE_CONFIRMED",
+     "why": "explicit ordinary-pet acceptance in the operator's own prose"
+    }
+   },
+   "all_observations": null
+  },
+  {
+   "identity_key": "hilton-garden-inn--1973-plaudit-place",
+   "canonical_name": "Hilton Garden Inn",
+   "address": "1973 Plaudit Place",
+   "postal_code": "40509",
+   "corridor": "lexington-ky__hamburg",
+   "county": "Fayette County",
+   "brand": "HILTON",
+   "policy_class": "CLEAN_PET_FRIENDLY",
+   "lanes": [
+    "ATTENDED_BROWSER"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "ATTENDED_BROWSER",
+    "policy_class": "CLEAN_PET_FRIENDLY",
+    "canonical_url": "https://www.hilton.com/en/hotels/lexlhgi/hotel-info/",
+    "requested_url": "https://www.hilton.com/en/hotels/lexlhgi/hotel-info/",
+    "content_sha256": "86c6a07240111bb0860a08327de4c68f165be510e4cae679157c0c4cbe51318c",
+    "captured_at": "2026-09-06T16:06:11Z",
+    "identity_signals": {
+     "street_on_page": "1973 Plaudit Place",
+     "postal_on_page": "40509",
+     "street_number_match": true,
+     "bound_by": "the street number stated by the property's own page",
+     "never_bound_by": "sequence, page order, or name alone"
+    },
+    "exact_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75 (1-4nt), $125(5+nts) 2 pets Max, dog/cat only",
+    "parsed_facts": {
+     "pets_allowed": true,
+     "pet_fee_usd": null,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {
+     "pet_fee": "NOT_PARSED_BY_THIS_ORDER -- the quote often states a fee, but this order publishes acceptance/refusal only and leaves fee parsing to the reader that owns the schema"
+    },
+    "publication_grade": {
+     "verdict": "OPERATOR_PROSE_CONFIRMED",
+     "why": "explicit ordinary-pet acceptance in the operator's own prose"
+    }
+   },
+   "all_observations": null
+  },
+  {
+   "identity_key": "hilton-lexington-downtown--369-west-vine-street",
+   "canonical_name": "Hilton Lexington/Downtown",
+   "address": "369 West Vine Street",
+   "postal_code": "40507",
+   "corridor": "lexington-ky__downtown",
+   "county": "Fayette County",
+   "brand": "HILTON",
+   "policy_class": "CLEAN_VERIFIED_NO_PETS",
+   "lanes": [
+    "ATTENDED_BROWSER"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "ATTENDED_BROWSER",
+    "policy_class": "CLEAN_VERIFIED_NO_PETS",
+    "canonical_url": "https://www.hilton.com/en/hotels/lexdthf/hotel-info/",
+    "requested_url": "https://www.hilton.com/en/hotels/lexdthf/hotel-info/",
+    "content_sha256": "3f4a20d1adc7607c080d8d2dcf0828f635d47ce675c04134cdbc475009e4f446",
+    "captured_at": "2026-09-06T16:06:11Z",
+    "identity_signals": {
+     "street_on_page": "369 West Vine Street",
+     "postal_on_page": "40507",
+     "street_number_match": true,
+     "bound_by": "the street number stated by the property's own page",
+     "never_bound_by": "sequence, page order, or name alone"
+    },
+    "exact_quote": "PetsPets allowed: No | Service animals only",
+    "parsed_facts": {
+     "pets_allowed": false,
+     "pet_fee_usd": null,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {
+     "pet_fee": "NOT_PARSED_BY_THIS_ORDER -- the quote often states a fee, but this order publishes acceptance/refusal only and leaves fee parsing to the reader that owns the schema"
+    },
+    "publication_grade": {
+     "verdict": "OPERATOR_PROSE_CONFIRMED",
+     "why": "the operator's own labelled policy line states 'Pets Allowed: No'"
+    }
+   },
+   "all_observations": null
+  },
+  {
+   "identity_key": "holiday-inn-express--2255-buena-vista-road",
+   "canonical_name": "Holiday Inn Express",
+   "address": "2255 Buena Vista Road",
+   "postal_code": "40505",
+   "corridor": "lexington-ky__hamburg",
+   "county": "Fayette County",
+   "brand": "IHG",
+   "policy_class": "CLEAN_VERIFIED_NO_PETS",
+   "lanes": [
+    "FIRECRAWL"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "FIRECRAWL",
+    "policy_class": "CLEAN_VERIFIED_NO_PETS",
+    "canonical_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/lexington/lexsl/hoteldetail",
+    "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/lexington/lexsl/hoteldetail",
+    "content_sha256": "f60cb82a9c79012024e1a58b6e2f3308f928c104761eec453ebbb1683a9a4535",
+    "captured_at": "2026-09-06",
+    "identity_signals": {
+     "name_on_page": "Holiday Inn Express &amp; Suites Lexington - Hamburg Area",
+     "address_on_page": "2255 Buena Vista Road",
+     "postal_code": "40505",
+     "phone_on_page": "1-859-3090492",
+     "property_code_on_page": "lexsl"
+    },
+    "exact_quote": "pets are not allowed",
+    "parsed_facts": {
+     "pets_allowed": false,
+     "pet_fee_usd": null,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {},
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::holiday-inn-express::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "pets are not allowed",
+       "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/lexington/lexsl/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "f60cb82a9c79012024e1a58b6e2f3308f928c104761eec453ebbb1683a9a4535",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    }
+   },
+   "all_observations": null
+  },
+  {
+   "identity_key": "holiday-inn-express-suites-lexington-dtwn-area-keeneland--1780-sharkey-way",
+   "canonical_name": "Holiday Inn Express & Suites Lexington Dtwn Area-Keeneland",
+   "address": "1780 Sharkey Way",
+   "postal_code": "40511",
+   "corridor": "lexington-ky__griffin-gate-newtown",
+   "county": "Fayette County",
+   "brand": "IHG",
+   "policy_class": "CLEAN_VERIFIED_NO_PETS",
+   "lanes": [
+    "FIRECRAWL"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "FIRECRAWL",
+    "policy_class": "CLEAN_VERIFIED_NO_PETS",
+    "canonical_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/lexington/lexnc/hoteldetail",
+    "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/lexington/lexnc/hoteldetail",
+    "content_sha256": "8255607a598ff20bc15d979fdbcc71759954181cb3247d7beb8a084c868e5595",
+    "captured_at": "2026-09-06",
+    "identity_signals": {
+     "name_on_page": "Holiday Inn Express &amp; Suites Lexington Dtwn Area-Keeneland",
+     "address_on_page": "1780 Sharkey Way",
+     "postal_code": "40511",
+     "phone_on_page": "1-859-2310656",
+     "property_code_on_page": "lexnc"
+    },
+    "exact_quote": "pets are not allowed",
+    "parsed_facts": {
+     "pets_allowed": false,
+     "pet_fee_usd": null,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {},
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::holiday-inn-express-suites-lexington-dtwn-area-keeneland::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "pets are not allowed",
+       "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/lexington/lexnc/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "8255607a598ff20bc15d979fdbcc71759954181cb3247d7beb8a084c868e5595",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    }
+   },
+   "all_observations": null
+  },
+  {
+   "identity_key": "holiday-inn-lexington-hamburg--1976-justice-drive",
+   "canonical_name": "Holiday Inn Lexington - Hamburg",
+   "address": "1976 Justice Drive",
+   "postal_code": "40509",
+   "corridor": "lexington-ky__hamburg",
+   "county": "Fayette County",
+   "brand": "IHG",
+   "policy_class": "CLEAN_PET_FRIENDLY",
+   "lanes": [
+    "FIRECRAWL"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "FIRECRAWL",
+    "policy_class": "CLEAN_PET_FRIENDLY",
+    "canonical_url": "https://www.ihg.com/holidayinn/hotels/us/en/lexington/lexmw/hoteldetail",
+    "requested_url": "https://www.ihg.com/holidayinn/hotels/us/en/lexington/lexmw/hoteldetail",
+    "content_sha256": "64d33cba1a1607443657ceee3afbf92d4c61b65af532124cb4a3fd9eb8c033de",
+    "captured_at": "2026-09-06",
+    "identity_signals": {
+     "name_on_page": "Holiday Inn Lexington - Hamburg",
+     "address_on_page": "1976 Justice Dr",
+     "postal_code": "40509",
+     "phone_on_page": "1-859-6877008",
+     "property_code_on_page": "lexmw"
+    },
+    "exact_quote": "pets allowed | Pet fee per night: 75 USD | Pet fee per night: 75 USD | 2 pets allowed",
+    "parsed_facts": {
+     "pets_allowed": true,
+     "pet_fee_usd": 75.0,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {},
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt",
+      "pet_fee": "page-text.txt",
+      "fee_currency": "page-text.txt",
+      "fee_basis": "page-text.txt",
+      "pet_count_limit": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::holiday-inn-lexington-hamburg::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "pets allowed",
+       "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/lexington/lexmw/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "64d33cba1a1607443657ceee3afbf92d4c61b65af532124cb4a3fd9eb8c033de",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::holiday-inn-lexington-hamburg::pet_fee::1",
+       "field": "pet_fee",
+       "quote": "Pet fee per night: 75 USD",
+       "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/lexington/lexmw/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "64d33cba1a1607443657ceee3afbf92d4c61b65af532124cb4a3fd9eb8c033de",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::holiday-inn-lexington-hamburg::fee_currency::1",
+       "field": "fee_currency",
+       "quote": "Pet fee per night: 75 USD",
+       "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/lexington/lexmw/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "64d33cba1a1607443657ceee3afbf92d4c61b65af532124cb4a3fd9eb8c033de",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::holiday-inn-lexington-hamburg::fee_basis::2",
+       "field": "fee_basis",
+       "quote": "Pet fee per night: 75 USD",
+       "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/lexington/lexmw/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "64d33cba1a1607443657ceee3afbf92d4c61b65af532124cb4a3fd9eb8c033de",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::holiday-inn-lexington-hamburg::pet_count_limit::3",
+       "field": "pet_count_limit",
+       "quote": "2 pets allowed",
+       "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/lexington/lexmw/hoteldetail",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "64d33cba1a1607443657ceee3afbf92d4c61b65af532124cb4a3fd9eb8c033de",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    }
+   },
+   "all_observations": null
+  },
+  {
+   "identity_key": "home2-suites--960-midnight-pass",
+   "canonical_name": "Home2 Suites",
+   "address": "960 Midnight Pass",
+   "postal_code": "40513",
+   "corridor": "lexington-ky__inner-versailles-road",
+   "county": "Fayette County",
+   "brand": "HILTON",
+   "policy_class": "CLEAN_PET_FRIENDLY",
+   "lanes": [
+    "ATTENDED_BROWSER"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "ATTENDED_BROWSER",
+    "policy_class": "CLEAN_PET_FRIENDLY",
+    "canonical_url": "https://www.hilton.com/en/hotels/lexkeht/hotel-info/",
+    "requested_url": "https://www.hilton.com/en/hotels/lexkeht/hotel-info/",
+    "content_sha256": "c71e33f8c5d72b764b2ffa281446b88c7bfd172b67918bee6a14249b48cee620",
+    "captured_at": "2026-09-06T16:06:11Z",
+    "identity_signals": {
+     "street_on_page": "960 Midnight Pass",
+     "postal_on_page": "40513",
+     "street_number_match": true,
+     "bound_by": "the street number stated by the property's own page",
+     "never_bound_by": "sequence, page order, or name alone"
+    },
+    "exact_quote": "Pets allowed, $75.00 non-refundable fee, 100 lbs maximum",
+    "parsed_facts": {
+     "pets_allowed": true,
+     "pet_fee_usd": null,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {
+     "pet_fee": "NOT_PARSED_BY_THIS_ORDER -- the quote often states a fee, but this order publishes acceptance/refusal only and leaves fee parsing to the reader that owns the schema"
+    },
+    "publication_grade": {
+     "verdict": "OPERATOR_PROSE_CONFIRMED",
+     "why": "explicit ordinary-pet acceptance in the operator's own prose"
+    }
+   },
+   "all_observations": null
+  },
+  {
+   "identity_key": "homewood-suites-by-hilton-lexington-hamburg--2033-bryant-road",
+   "canonical_name": "Homewood Suites by Hilton Lexington-Hamburg",
+   "address": "2033 Bryant Road",
+   "postal_code": "40509",
+   "corridor": "lexington-ky__hamburg",
+   "county": "Fayette County",
+   "brand": "HILTON",
+   "policy_class": "CLEAN_PET_FRIENDLY",
+   "lanes": [
+    "ATTENDED_BROWSER"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "ATTENDED_BROWSER",
+    "policy_class": "CLEAN_PET_FRIENDLY",
+    "canonical_url": "https://www.hilton.com/en/hotels/lexhbhw/hotel-info/",
+    "requested_url": "https://www.hilton.com/en/hotels/lexhbhw/hotel-info/",
+    "content_sha256": "6512bc81e8f36059035369dee2c373d444c868ec7a6560aa9732bdca0c4c1530",
+    "captured_at": "2026-09-06T16:06:11Z",
+    "identity_signals": {
+     "street_on_page": "2033 Bryant Road",
+     "postal_on_page": "40509",
+     "street_number_match": true,
+     "bound_by": "the street number stated by the property's own page",
+     "never_bound_by": "sequence, page order, or name alone"
+    },
+    "exact_quote": "Pets allowed, $50.00 non-refundable fee, $50(1-4n),$75(5+n) 2petsMax,dog/cat only",
+    "parsed_facts": {
+     "pets_allowed": true,
+     "pet_fee_usd": null,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {
+     "pet_fee": "NOT_PARSED_BY_THIS_ORDER -- the quote often states a fee, but this order publishes acceptance/refusal only and leaves fee parsing to the reader that owns the schema"
+    },
+    "publication_grade": {
+     "verdict": "OPERATOR_PROSE_CONFIRMED",
+     "why": "explicit ordinary-pet acceptance in the operator's own prose"
+    }
+   },
+   "all_observations": null
+  },
+  {
+   "identity_key": "hyatt-place-lexington--2001-bryant-road",
+   "canonical_name": "Hyatt Place Lexington",
+   "address": "2001 Bryant Road",
+   "postal_code": "40509",
+   "corridor": "lexington-ky__hamburg",
+   "county": "Fayette County",
+   "brand": "HYATT",
+   "policy_class": "CLEAN_PET_FRIENDLY",
+   "lanes": [
+    "ATTENDED_BROWSER"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "ATTENDED_BROWSER",
+    "policy_class": "CLEAN_PET_FRIENDLY",
+    "canonical_url": "https://www.hyatt.com/en-us/hotel/kentucky/hyatt-place-lexington/lexzl",
+    "requested_url": "https://www.hyatt.com/en-us/hotel/kentucky/hyatt-place-lexington/lexzl",
+    "content_sha256": "22105777c5f2f89380692daa3993fe319014a96d85b752fa74f09cb84b79dee6",
+    "captured_at": "2026-09-06T16:50:00Z",
+    "identity_signals": {
+     "street_on_page": "2001 Bryant Road",
+     "postal_on_page": "40509",
+     "street_number_match": true,
+     "bound_by": "the street number stated by the property's own page",
+     "never_bound_by": "sequence, page order, or name alone"
+    },
+    "exact_quote": "Pets Are Welcome. Hyatt Place Lexington is a pet-friendly hotel. We welcome dogs up to 50 pounds, or two dogs with a combined weight of 75 pounds or less per room. All dogs must be housebroken, always be on a leash and are not allowed in food service areas or the pool.",
+    "parsed_facts": {
+     "pets_allowed": true,
+     "pet_fee_usd": null,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {
+     "pet_fee": "NOT_PARSED_BY_THIS_ORDER -- the quote often states a fee, but this order publishes acceptance/refusal only and leaves fee parsing to the reader that owns the schema"
+    },
+    "publication_grade": {
+     "verdict": "OPERATOR_PROSE_CONFIRMED",
+     "why": "explicit ordinary-pet acceptance in the operator's own prose"
+    }
+   },
+   "all_observations": null
+  },
+  {
+   "identity_key": "hyatt-regency-lexington--401-west-high-street",
+   "canonical_name": "Hyatt Regency Lexington",
+   "address": "401 West High Street",
+   "postal_code": "40507",
+   "corridor": "lexington-ky__downtown",
+   "county": "Fayette County",
+   "brand": "HYATT",
+   "policy_class": "CLEAN_PET_FRIENDLY",
+   "lanes": [
+    "ATTENDED_BROWSER"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "ATTENDED_BROWSER",
+    "policy_class": "CLEAN_PET_FRIENDLY",
+    "canonical_url": "https://www.hyatt.com/hyatt-regency/en-US/lexrl-hyatt-regency-lexington",
+    "requested_url": "https://www.hyatt.com/hyatt-regency/en-US/lexrl-hyatt-regency-lexington",
+    "content_sha256": "b5ff1df8ff5006b5b53d3274c09715bd70cf0a204b3c265c594c0bee7d520970",
+    "captured_at": "2026-09-06T16:50:00Z",
+    "identity_signals": {
+     "street_on_page": "401 West High Street",
+     "postal_on_page": "40507",
+     "street_number_match": true,
+     "bound_by": "the street number stated by the property's own page",
+     "never_bound_by": "sequence, page order, or name alone"
+    },
+    "exact_quote": "We Are Pet Friendly. Pets are not allowed in the public areas, food service areas and pool. Dogs must be on leashes when in public areas. Pet Fees 1 - 6 nights: $100; 7 nights or more: $200. Individual pet weight limit: 50 Pounds.",
+    "parsed_facts": {
+     "pets_allowed": true,
+     "pet_fee_usd": null,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {
+     "pet_fee": "NOT_PARSED_BY_THIS_ORDER -- the quote often states a fee, but this order publishes acceptance/refusal only and leaves fee parsing to the reader that owns the schema"
+    },
+    "publication_grade": {
+     "verdict": "OPERATOR_PROSE_CONFIRMED",
+     "why": "explicit ordinary-pet acceptance in the operator's own prose"
+    }
+   },
+   "all_observations": null
+  },
+  {
+   "identity_key": "la-quinta-inn-lexington--way-403403856",
+   "canonical_name": "La Quinta Inn - Lexington",
+   "address": "",
+   "postal_code": "",
+   "corridor": "lexington-ky__griffin-gate-newtown",
+   "county": "Fayette County",
+   "brand": "WYNDHAM",
+   "policy_class": "CLEAN_PET_FRIENDLY",
+   "lanes": [
+    "FIRECRAWL"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "FIRECRAWL",
+    "policy_class": "CLEAN_PET_FRIENDLY",
+    "canonical_url": "https://www.wyndhamhotels.com/laquinta/lexington-kentucky/la-quinta-inn-lexington/overview",
+    "requested_url": "https://www.wyndhamhotels.com/laquinta/lexington-kentucky/la-quinta-inn-lexington/overview",
+    "content_sha256": "17d9a1331f9bd74accf95e8e6bbb3efac4217af8f9547e2caea1627064546ed6",
+    "captured_at": "2026-09-06",
+    "identity_signals": {
+     "name_on_page": "La Quinta Inn Lexington/Horse Park",
+     "address_on_page": "1920 Stanton Way",
+     "postal_code": "40511",
+     "phone_on_page": "859-2317551",
+     "property_code_on_page": ""
+    },
+    "exact_quote": "Pets Allowed | 25 USD nightly  | 25 USD nightly  | Max 75 USD per stay | 75lbs or less | up to 2 pets | Cats and dogs only | Service Animals - ADA-defined service animals are welcome free of charge.",
+    "parsed_facts": {
+     "pets_allowed": true,
+     "pet_fee_usd": 25.0,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {},
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt",
+      "pet_fee": "page-text.txt",
+      "fee_currency": "page-text.txt",
+      "fee_basis": "page-text.txt",
+      "fee_cap": "page-text.txt",
+      "weight_limit": "page-text.txt",
+      "pet_count_limit": "page-text.txt",
+      "species_allowed": "page-text.txt",
+      "service_animal_exception": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::la-quinta-inn-lexington::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "Pets Allowed",
+       "source_url": "https://www.wyndhamhotels.com/laquinta/lexington-kentucky/la-quinta-inn-lexington/overview",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "17d9a1331f9bd74accf95e8e6bbb3efac4217af8f9547e2caea1627064546ed6",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::la-quinta-inn-lexington::pet_fee::1",
+       "field": "pet_fee",
+       "quote": "25 USD nightly ",
+       "source_url": "https://www.wyndhamhotels.com/laquinta/lexington-kentucky/la-quinta-inn-lexington/overview",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "17d9a1331f9bd74accf95e8e6bbb3efac4217af8f9547e2caea1627064546ed6",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::la-quinta-inn-lexington::fee_currency::1",
+       "field": "fee_currency",
+       "quote": "25 USD nightly ",
+       "source_url": "https://www.wyndhamhotels.com/laquinta/lexington-kentucky/la-quinta-inn-lexington/overview",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "17d9a1331f9bd74accf95e8e6bbb3efac4217af8f9547e2caea1627064546ed6",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::la-quinta-inn-lexington::fee_basis::2",
+       "field": "fee_basis",
+       "quote": "25 USD nightly ",
+       "source_url": "https://www.wyndhamhotels.com/laquinta/lexington-kentucky/la-quinta-inn-lexington/overview",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "17d9a1331f9bd74accf95e8e6bbb3efac4217af8f9547e2caea1627064546ed6",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::la-quinta-inn-lexington::fee_cap::3",
+       "field": "fee_cap",
+       "quote": "Max 75 USD per stay",
+       "source_url": "https://www.wyndhamhotels.com/laquinta/lexington-kentucky/la-quinta-inn-lexington/overview",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "17d9a1331f9bd74accf95e8e6bbb3efac4217af8f9547e2caea1627064546ed6",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::la-quinta-inn-lexington::weight_limit::4",
+       "field": "weight_limit",
+       "quote": "75lbs or less",
+       "source_url": "https://www.wyndhamhotels.com/laquinta/lexington-kentucky/la-quinta-inn-lexington/overview",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "17d9a1331f9bd74accf95e8e6bbb3efac4217af8f9547e2caea1627064546ed6",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::la-quinta-inn-lexington::pet_count_limit::5",
+       "field": "pet_count_limit",
+       "quote": "up to 2 pets",
+       "source_url": "https://www.wyndhamhotels.com/laquinta/lexington-kentucky/la-quinta-inn-lexington/overview",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "17d9a1331f9bd74accf95e8e6bbb3efac4217af8f9547e2caea1627064546ed6",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::la-quinta-inn-lexington::species_allowed::6",
+       "field": "species_allowed",
+       "quote": "Cats and dogs only",
+       "source_url": "https://www.wyndhamhotels.com/laquinta/lexington-kentucky/la-quinta-inn-lexington/overview",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "17d9a1331f9bd74accf95e8e6bbb3efac4217af8f9547e2caea1627064546ed6",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::la-quinta-inn-lexington::service_animal_exception::7",
+       "field": "service_animal_exception",
+       "quote": "Service Animals - ADA-defined service animals are welcome free of charge.",
+       "source_url": "https://www.wyndhamhotels.com/laquinta/lexington-kentucky/la-quinta-inn-lexington/overview",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "17d9a1331f9bd74accf95e8e6bbb3efac4217af8f9547e2caea1627064546ed6",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    }
+   },
+   "all_observations": null
+  },
+  {
+   "identity_key": "la-quinta-inn-suites-lexington-south-hamburg--100-canebrake-drive",
+   "canonical_name": "La Quinta Inn & Suites Lexington South / Hamburg",
+   "address": "100 Canebrake Drive",
+   "postal_code": "40509",
+   "corridor": "lexington-ky__richmond-road-i75-south",
+   "county": "Fayette County",
+   "brand": "WYNDHAM",
+   "policy_class": "CLEAN_PET_FRIENDLY",
+   "lanes": [
+    "FIRECRAWL"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "FIRECRAWL",
+    "policy_class": "CLEAN_PET_FRIENDLY",
+    "canonical_url": "https://www.wyndhamhotels.com/laquinta/lexington-kentucky/la-quinta-lexington-south-hamburg/overview",
+    "requested_url": "https://www.wyndhamhotels.com/laquinta/lexington-kentucky/la-quinta-lexington-south-hamburg/overview",
+    "content_sha256": "d6eee2cc4ba88eef3dec7bf08a2e7f31f0d9e252849a1d39fd06bd9dae9a4801",
+    "captured_at": "2026-09-06",
+    "identity_signals": {
+     "name_on_page": "La Quinta Inn & Suites by Wyndham Lexington South / Hamburg",
+     "address_on_page": "100 Canebrake Drive",
+     "postal_code": "40509",
+     "phone_on_page": "1-859-5431877",
+     "property_code_on_page": ""
+    },
+    "exact_quote": "Pets Allowed | 25 USD nightly  | 25 USD nightly  | Max 75 USD per stay | 75lbs or less | up to 2 pets | Cats and dogs only | Service Animals - ADA-defined service animals are welcome free of charge.",
+    "parsed_facts": {
+     "pets_allowed": true,
+     "pet_fee_usd": 25.0,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {},
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt",
+      "pet_fee": "page-text.txt",
+      "fee_currency": "page-text.txt",
+      "fee_basis": "page-text.txt",
+      "fee_cap": "page-text.txt",
+      "weight_limit": "page-text.txt",
+      "pet_count_limit": "page-text.txt",
+      "species_allowed": "page-text.txt",
+      "service_animal_exception": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::la-quinta-inn-suites-lexington-south-hamburg::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "Pets Allowed",
+       "source_url": "https://www.wyndhamhotels.com/laquinta/lexington-kentucky/la-quinta-lexington-south-hamburg/overview",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "d6eee2cc4ba88eef3dec7bf08a2e7f31f0d9e252849a1d39fd06bd9dae9a4801",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::la-quinta-inn-suites-lexington-south-hamburg::pet_fee::1",
+       "field": "pet_fee",
+       "quote": "25 USD nightly ",
+       "source_url": "https://www.wyndhamhotels.com/laquinta/lexington-kentucky/la-quinta-lexington-south-hamburg/overview",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "d6eee2cc4ba88eef3dec7bf08a2e7f31f0d9e252849a1d39fd06bd9dae9a4801",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::la-quinta-inn-suites-lexington-south-hamburg::fee_currency::1",
+       "field": "fee_currency",
+       "quote": "25 USD nightly ",
+       "source_url": "https://www.wyndhamhotels.com/laquinta/lexington-kentucky/la-quinta-lexington-south-hamburg/overview",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "d6eee2cc4ba88eef3dec7bf08a2e7f31f0d9e252849a1d39fd06bd9dae9a4801",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::la-quinta-inn-suites-lexington-south-hamburg::fee_basis::2",
+       "field": "fee_basis",
+       "quote": "25 USD nightly ",
+       "source_url": "https://www.wyndhamhotels.com/laquinta/lexington-kentucky/la-quinta-lexington-south-hamburg/overview",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "d6eee2cc4ba88eef3dec7bf08a2e7f31f0d9e252849a1d39fd06bd9dae9a4801",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::la-quinta-inn-suites-lexington-south-hamburg::fee_cap::3",
+       "field": "fee_cap",
+       "quote": "Max 75 USD per stay",
+       "source_url": "https://www.wyndhamhotels.com/laquinta/lexington-kentucky/la-quinta-lexington-south-hamburg/overview",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "d6eee2cc4ba88eef3dec7bf08a2e7f31f0d9e252849a1d39fd06bd9dae9a4801",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::la-quinta-inn-suites-lexington-south-hamburg::weight_limit::4",
+       "field": "weight_limit",
+       "quote": "75lbs or less",
+       "source_url": "https://www.wyndhamhotels.com/laquinta/lexington-kentucky/la-quinta-lexington-south-hamburg/overview",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "d6eee2cc4ba88eef3dec7bf08a2e7f31f0d9e252849a1d39fd06bd9dae9a4801",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::la-quinta-inn-suites-lexington-south-hamburg::pet_count_limit::5",
+       "field": "pet_count_limit",
+       "quote": "up to 2 pets",
+       "source_url": "https://www.wyndhamhotels.com/laquinta/lexington-kentucky/la-quinta-lexington-south-hamburg/overview",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "d6eee2cc4ba88eef3dec7bf08a2e7f31f0d9e252849a1d39fd06bd9dae9a4801",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::la-quinta-inn-suites-lexington-south-hamburg::species_allowed::6",
+       "field": "species_allowed",
+       "quote": "Cats and dogs only",
+       "source_url": "https://www.wyndhamhotels.com/laquinta/lexington-kentucky/la-quinta-lexington-south-hamburg/overview",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "d6eee2cc4ba88eef3dec7bf08a2e7f31f0d9e252849a1d39fd06bd9dae9a4801",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::la-quinta-inn-suites-lexington-south-hamburg::service_animal_exception::7",
+       "field": "service_animal_exception",
+       "quote": "Service Animals - ADA-defined service animals are welcome free of charge.",
+       "source_url": "https://www.wyndhamhotels.com/laquinta/lexington-kentucky/la-quinta-lexington-south-hamburg/overview",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "d6eee2cc4ba88eef3dec7bf08a2e7f31f0d9e252849a1d39fd06bd9dae9a4801",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    }
+   },
+   "all_observations": null
+  },
+  {
+   "identity_key": "lexington-marriott-city-center--way-975785246",
+   "canonical_name": "Lexington Marriott City Center",
+   "address": "",
+   "postal_code": "",
+   "corridor": "lexington-ky__downtown",
+   "county": "Fayette County",
+   "brand": "MARRIOTT",
+   "policy_class": "CLEAN_VERIFIED_NO_PETS",
+   "lanes": [
+    "ATTENDED_BROWSER"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "ATTENDED_BROWSER",
+    "policy_class": "CLEAN_VERIFIED_NO_PETS",
+    "canonical_url": "https://www.marriott.com/lexdt",
+    "requested_url": "https://www.marriott.com/lexdt",
+    "content_sha256": "e650dfdb6cf4b1572dd883a7be483482497de60adc8946d9a43948ed65e51193",
+    "captured_at": "2026-09-06T16:20:00Z",
+    "identity_signals": {
+     "street_on_page": "121 West Vine Street",
+     "postal_on_page": "40507",
+     "street_number_match": false,
+     "bound_by": "the property code carried by the route already recorded for this identity, because the census row states no address of its own",
+     "never_bound_by": "sequence, page order, or name alone"
+    },
+    "exact_quote": "Pet Policy Pets Not Allowed",
+    "parsed_facts": {
+     "pets_allowed": false,
+     "pet_fee_usd": null,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {
+     "pet_fee": "NOT_PARSED_BY_THIS_ORDER -- the quote often states a fee, but this order publishes acceptance/refusal only and leaves fee parsing to the reader that owns the schema"
+    },
+    "publication_grade": {
+     "verdict": "OPERATOR_PROSE_CONFIRMED",
+     "why": "explicit ordinary-pet refusal in the operator's own prose"
+    }
+   },
+   "all_observations": null
+  },
+  {
+   "identity_key": "residence-inn--3110-wall-street",
+   "canonical_name": "Residence Inn",
+   "address": "3110 Wall Street",
+   "postal_code": "40513",
+   "corridor": "lexington-ky__inner-versailles-road",
+   "county": "Fayette County",
+   "brand": "MARRIOTT",
+   "policy_class": "CLEAN_PET_FRIENDLY",
+   "lanes": [
+    "ATTENDED_BROWSER"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "ATTENDED_BROWSER",
+    "policy_class": "CLEAN_PET_FRIENDLY",
+    "canonical_url": "https://www.marriott.com/lexke",
+    "requested_url": "https://www.marriott.com/lexke",
+    "content_sha256": "6a6c0a11d45f2d2285a7d43f5fd22e93d7ecc522dc4948de90a3adcf6618b59d",
+    "captured_at": "2026-09-06T16:20:00Z",
+    "identity_signals": {
+     "street_on_page": "3110 Wall St.",
+     "postal_on_page": "40513",
+     "street_number_match": true,
+     "bound_by": "the street number stated by the property's own page",
+     "never_bound_by": "sequence, page order, or name alone"
+    },
+    "exact_quote": "Pet Policy Pets Welcome Pets allowed with USD 100 non-refundable fee per stay Non-Refundable Pet Fee Per Stay: $100.00 Maximum Pet Weight: 60.0lbs Maximum Number of Pets in Room: 2",
+    "parsed_facts": {
+     "pets_allowed": true,
+     "pet_fee_usd": null,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {
+     "pet_fee": "NOT_PARSED_BY_THIS_ORDER -- the quote often states a fee, but this order publishes acceptance/refusal only and leaves fee parsing to the reader that owns the schema"
+    },
+    "publication_grade": {
+     "verdict": "OPERATOR_PROSE_CONFIRMED",
+     "why": "explicit ordinary-pet acceptance in the operator's own prose"
+    }
+   },
+   "all_observations": null
+  },
+  {
+   "identity_key": "residence-inn-lexington-city-center--150-west-main-street",
+   "canonical_name": "Residence Inn Lexington City Center",
+   "address": "150 West Main Street",
+   "postal_code": "40507",
+   "corridor": "lexington-ky__downtown",
+   "county": "Fayette County",
+   "brand": "MARRIOTT",
+   "policy_class": "CLEAN_PET_FRIENDLY",
+   "lanes": [
+    "ATTENDED_BROWSER"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "ATTENDED_BROWSER",
+    "policy_class": "CLEAN_PET_FRIENDLY",
+    "canonical_url": "https://www.marriott.com/lexrd",
+    "requested_url": "https://www.marriott.com/lexrd",
+    "content_sha256": "d055623036ef97a56a3ffeaca2052ce11526f4534260664819cef68104944953",
+    "captured_at": "2026-09-06T16:20:00Z",
+    "identity_signals": {
+     "street_on_page": "150 West Main Street",
+     "postal_on_page": "40507",
+     "street_number_match": true,
+     "bound_by": "the street number stated by the property's own page",
+     "never_bound_by": "sequence, page order, or name alone"
+    },
+    "exact_quote": "Pet Policy Pets Welcome 2 pets 75lbs maximum per room with 100 USD non Refundable fee per room per stay Non-Refundable Pet Fee Per Stay: $100.00 Maximum Pet Weight: 75.0lbs",
+    "parsed_facts": {
+     "pets_allowed": true,
+     "pet_fee_usd": null,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {
+     "pet_fee": "NOT_PARSED_BY_THIS_ORDER -- the quote often states a fee, but this order publishes acceptance/refusal only and leaves fee parsing to the reader that owns the schema"
+    },
+    "publication_grade": {
+     "verdict": "OPERATOR_PROSE_CONFIRMED",
+     "why": "explicit ordinary-pet acceptance in the operator's own prose"
+    }
+   },
+   "all_observations": null
+  },
+  {
+   "identity_key": "sleep-inn--1920-plaudit-place",
+   "canonical_name": "Sleep Inn",
+   "address": "1920 Plaudit Place",
+   "postal_code": "",
+   "corridor": "lexington-ky__hamburg",
+   "county": "Fayette County",
+   "brand": "CHOICE",
+   "policy_class": "CLEAN_PET_FRIENDLY",
+   "lanes": [
+    "ATTENDED_BROWSER"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "ATTENDED_BROWSER",
+    "policy_class": "CLEAN_PET_FRIENDLY",
+    "canonical_url": "https://www.choicehotels.com/kentucky/lexington/*/ky098",
+    "requested_url": "https://www.choicehotels.com/kentucky/lexington/*/ky098",
+    "content_sha256": "08845ede4403ecf5280f5b118583fefd046e59cab01f75ac1d801803bb62679d",
+    "captured_at": "2026-09-06T16:35:00Z",
+    "identity_signals": {
+     "street_on_page": "1920 Plaudit Place",
+     "postal_on_page": "40509-2417",
+     "street_number_match": true,
+     "bound_by": "the street number stated by the property's own page",
+     "never_bound_by": "sequence, page order, or name alone"
+    },
+    "exact_quote": "Pets Allowed: Yes",
+    "parsed_facts": {
+     "pets_allowed": true,
+     "pet_fee_usd": null,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {
+     "pet_fee": "NOT_PARSED_BY_THIS_ORDER -- the quote often states a fee, but this order publishes acceptance/refusal only and leaves fee parsing to the reader that owns the schema"
+    },
+    "publication_grade": {
+     "verdict": "OPERATOR_PROSE_CONFIRMED",
+     "why": "the operator's own labelled policy line states 'Pets Allowed: Yes'"
+    }
+   },
+   "all_observations": null
+  },
+  {
+   "identity_key": "springhill-suites--863-south-broadway",
+   "canonical_name": "SpringHill Suites",
+   "address": "863 South Broadway",
+   "postal_code": "40504",
+   "corridor": "lexington-ky__downtown",
+   "county": "Fayette County",
+   "brand": "MARRIOTT",
+   "policy_class": "CLEAN_PET_FRIENDLY",
+   "lanes": [
+    "ATTENDED_BROWSER"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "ATTENDED_BROWSER",
+    "policy_class": "CLEAN_PET_FRIENDLY",
+    "canonical_url": "https://www.marriott.com/lexsh",
+    "requested_url": "https://www.marriott.com/lexsh",
+    "content_sha256": "22c8c39098591ea064c8aad8a37b59e23e1f269226f68c70348a1527684b5eb6",
+    "captured_at": "2026-09-06T16:20:00Z",
+    "identity_signals": {
+     "street_on_page": "863 South Broadway",
+     "postal_on_page": "40504",
+     "street_number_match": true,
+     "bound_by": "the street number stated by the property's own page",
+     "never_bound_by": "sequence, page order, or name alone"
+    },
+    "exact_quote": "Pet Policy Pets Welcome 2 pets/100 lbs max per room/USD 100 non-refundable cleaning fee per room/stay. Non-Refundable Pet Fee Per Stay: $100.00 Maximum Pet Weight: 100.0lbs",
+    "parsed_facts": {
+     "pets_allowed": true,
+     "pet_fee_usd": null,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {
+     "pet_fee": "NOT_PARSED_BY_THIS_ORDER -- the quote often states a fee, but this order publishes acceptance/refusal only and leaves fee parsing to the reader that owns the schema"
+    },
+    "publication_grade": {
+     "verdict": "OPERATOR_PROSE_CONFIRMED",
+     "why": "explicit ordinary-pet acceptance in the operator's own prose"
+    }
+   },
+   "all_observations": null
+  },
+  {
+   "identity_key": "super-8-by-wyndham-lexington-winchester-rd--2351-buena-vista-road",
+   "canonical_name": "Super 8 by Wyndham Lexington Winchester Rd",
+   "address": "2351 Buena Vista Road",
+   "postal_code": "40505",
+   "corridor": "lexington-ky__hamburg",
+   "county": "Fayette County",
+   "brand": "WYNDHAM",
+   "policy_class": "CLEAN_PET_FRIENDLY",
+   "lanes": [
+    "FIRECRAWL"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "FIRECRAWL",
+    "policy_class": "CLEAN_PET_FRIENDLY",
+    "canonical_url": "https://www.wyndhamhotels.com/super-8/lexington-kentucky/super-8-lexington-hamburg-area/overview",
+    "requested_url": "https://www.wyndhamhotels.com/super-8/lexington-kentucky/super-8-lexington-hamburg-area/overview",
+    "content_sha256": "cb3c216e9003efb58aec49bc441e6180df3e449927ed4f236a75f3b6bf4b9726",
+    "captured_at": "2026-09-06",
+    "identity_signals": {
+     "name_on_page": "Super 8 by Wyndham Lexington/Hamburg Area",
+     "address_on_page": "2351 Buena Vista Road",
+     "postal_code": "40505-4823",
+     "phone_on_page": "859-2996241",
+     "property_code_on_page": ""
+    },
+    "exact_quote": "Pets Allowed | 15USD per pet per night | 15USD per pet per night | 15USD per pet per night | 50lbs or less | 4 pets max | Dogs only | Service Animals - ADA-defined service animals welcome.",
+    "parsed_facts": {
+     "pets_allowed": true,
+     "pet_fee_usd": 15.0,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {},
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt",
+      "pet_fee": "page-text.txt",
+      "fee_currency": "page-text.txt",
+      "fee_basis": "page-text.txt",
+      "fee_scope": "page-text.txt",
+      "weight_limit": "page-text.txt",
+      "pet_count_limit": "page-text.txt",
+      "species_allowed": "page-text.txt",
+      "service_animal_exception": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::super-8-by-wyndham-lexington-winchester-rd::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "Pets Allowed",
+       "source_url": "https://www.wyndhamhotels.com/super-8/lexington-kentucky/super-8-lexington-hamburg-area/overview",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "cb3c216e9003efb58aec49bc441e6180df3e449927ed4f236a75f3b6bf4b9726",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::super-8-by-wyndham-lexington-winchester-rd::pet_fee::1",
+       "field": "pet_fee",
+       "quote": "15USD per pet per night",
+       "source_url": "https://www.wyndhamhotels.com/super-8/lexington-kentucky/super-8-lexington-hamburg-area/overview",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "cb3c216e9003efb58aec49bc441e6180df3e449927ed4f236a75f3b6bf4b9726",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::super-8-by-wyndham-lexington-winchester-rd::fee_currency::1",
+       "field": "fee_currency",
+       "quote": "15USD per pet per night",
+       "source_url": "https://www.wyndhamhotels.com/super-8/lexington-kentucky/super-8-lexington-hamburg-area/overview",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "cb3c216e9003efb58aec49bc441e6180df3e449927ed4f236a75f3b6bf4b9726",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::super-8-by-wyndham-lexington-winchester-rd::fee_basis::2",
+       "field": "fee_basis",
+       "quote": "15USD per pet per night",
+       "source_url": "https://www.wyndhamhotels.com/super-8/lexington-kentucky/super-8-lexington-hamburg-area/overview",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "cb3c216e9003efb58aec49bc441e6180df3e449927ed4f236a75f3b6bf4b9726",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::super-8-by-wyndham-lexington-winchester-rd::fee_scope::3",
+       "field": "fee_scope",
+       "quote": "15USD per pet per night",
+       "source_url": "https://www.wyndhamhotels.com/super-8/lexington-kentucky/super-8-lexington-hamburg-area/overview",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "cb3c216e9003efb58aec49bc441e6180df3e449927ed4f236a75f3b6bf4b9726",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::super-8-by-wyndham-lexington-winchester-rd::weight_limit::4",
+       "field": "weight_limit",
+       "quote": "50lbs or less",
+       "source_url": "https://www.wyndhamhotels.com/super-8/lexington-kentucky/super-8-lexington-hamburg-area/overview",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "cb3c216e9003efb58aec49bc441e6180df3e449927ed4f236a75f3b6bf4b9726",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::super-8-by-wyndham-lexington-winchester-rd::pet_count_limit::5",
+       "field": "pet_count_limit",
+       "quote": "4 pets max",
+       "source_url": "https://www.wyndhamhotels.com/super-8/lexington-kentucky/super-8-lexington-hamburg-area/overview",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "cb3c216e9003efb58aec49bc441e6180df3e449927ed4f236a75f3b6bf4b9726",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::super-8-by-wyndham-lexington-winchester-rd::species_allowed::6",
+       "field": "species_allowed",
+       "quote": "Dogs only",
+       "source_url": "https://www.wyndhamhotels.com/super-8/lexington-kentucky/super-8-lexington-hamburg-area/overview",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "cb3c216e9003efb58aec49bc441e6180df3e449927ed4f236a75f3b6bf4b9726",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "lexington_ky_firecrawl_002::super-8-by-wyndham-lexington-winchester-rd::service_animal_exception::7",
+       "field": "service_animal_exception",
+       "quote": "Service Animals - ADA-defined service animals welcome.",
+       "source_url": "https://www.wyndhamhotels.com/super-8/lexington-kentucky/super-8-lexington-hamburg-area/overview",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "cb3c216e9003efb58aec49bc441e6180df3e449927ed4f236a75f3b6bf4b9726",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    }
+   },
+   "all_observations": null
+  },
+  {
+   "identity_key": "the-campbell-house--way-402064742",
+   "canonical_name": "The Campbell House",
+   "address": "",
+   "postal_code": "",
+   "corridor": "lexington-ky__downtown",
+   "county": "Fayette County",
+   "brand": "INDEPENDENT",
+   "policy_class": "CLEAN_PET_FRIENDLY",
+   "lanes": [
+    "ATTENDED_BROWSER"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "ATTENDED_BROWSER",
+    "policy_class": "CLEAN_PET_FRIENDLY",
+    "canonical_url": "https://www.hilton.com/en/hotels/lexqqqq/hotel-info/",
+    "requested_url": "https://www.hilton.com/en/hotels/lexqqqq/hotel-info/",
+    "content_sha256": "b0132aa787ee8f1fc1d707dfe63b2e51ed18ce98413fc709ea00f9d9b80401d4",
+    "captured_at": "2026-09-06T16:06:11Z",
+    "identity_signals": {
+     "street_on_page": "1375 South Broadway Road",
+     "postal_on_page": "40504",
+     "street_number_match": false,
+     "bound_by": "the property code carried by the route already recorded for this identity, because the census row states no address of its own",
+     "never_bound_by": "sequence, page order, or name alone"
+    },
+    "exact_quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum",
+    "parsed_facts": {
+     "pets_allowed": true,
+     "pet_fee_usd": null,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {
+     "pet_fee": "NOT_PARSED_BY_THIS_ORDER -- the quote often states a fee, but this order publishes acceptance/refusal only and leaves fee parsing to the reader that owns the schema"
+    },
+    "publication_grade": {
+     "verdict": "OPERATOR_PROSE_CONFIRMED",
+     "why": "explicit ordinary-pet acceptance in the operator's own prose"
+    }
+   },
+   "all_observations": null
+  },
+  {
+   "identity_key": "the-sire-hotel--120-west-second-street",
+   "canonical_name": "The Sire Hotel",
+   "address": "120 West Second Street",
+   "postal_code": "40507",
+   "corridor": "lexington-ky__downtown",
+   "county": "Fayette County",
+   "brand": "INDEPENDENT",
+   "policy_class": "CLEAN_VERIFIED_NO_PETS",
+   "lanes": [
+    "ATTENDED_BROWSER"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "ATTENDED_BROWSER",
+    "policy_class": "CLEAN_VERIFIED_NO_PETS",
+    "canonical_url": "https://www.hilton.com/en/hotels/lexgpup/hotel-info/",
+    "requested_url": "https://www.hilton.com/en/hotels/lexgpup/hotel-info/",
+    "content_sha256": "6c995c5a102886f8e1a34649351ff9a7a30de67a3a3ee3946ec821e8ac4cc6f5",
+    "captured_at": "2026-09-06T16:06:11Z",
+    "identity_signals": {
+     "street_on_page": "120 West Second Street",
+     "postal_on_page": "40507",
+     "street_number_match": true,
+     "bound_by": "the street number stated by the property's own page",
+     "never_bound_by": "sequence, page order, or name alone"
+    },
+    "exact_quote": "PetsPets allowed: No | Service animals only",
+    "parsed_facts": {
+     "pets_allowed": false,
+     "pet_fee_usd": null,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {
+     "pet_fee": "NOT_PARSED_BY_THIS_ORDER -- the quote often states a fee, but this order publishes acceptance/refusal only and leaves fee parsing to the reader that owns the schema"
+    },
+    "publication_grade": {
+     "verdict": "OPERATOR_PROSE_CONFIRMED",
+     "why": "the operator's own labelled policy line states 'Pets Allowed: No'"
+    }
+   },
+   "all_observations": null
+  },
+  {
+   "identity_key": "towneplace-suites--1790-vendor-way",
+   "canonical_name": "TownePlace Suites",
+   "address": "1790 Vendor Way",
+   "postal_code": "40509",
+   "corridor": "lexington-ky__hamburg",
+   "county": "Fayette County",
+   "brand": "MARRIOTT",
+   "policy_class": "CLEAN_PET_FRIENDLY",
+   "lanes": [
+    "ATTENDED_BROWSER"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "ATTENDED_BROWSER",
+    "policy_class": "CLEAN_PET_FRIENDLY",
+    "canonical_url": "https://www.marriott.com/lexts",
+    "requested_url": "https://www.marriott.com/lexts",
+    "content_sha256": "f4109dfb1d2be24065aa8d64914db1328dd8c1da5b7f7bb877dc8ca0ca90f026",
+    "captured_at": "2026-09-06T16:20:00Z",
+    "identity_signals": {
+     "street_on_page": "1790 Vendor Way",
+     "postal_on_page": "40509",
+     "street_number_match": true,
+     "bound_by": "the street number stated by the property's own page",
+     "never_bound_by": "sequence, page order, or name alone"
+    },
+    "exact_quote": "Pet Policy Pets Welcome $75 non-refundable pet deposit. We welcome your furry friends! Non-Refundable Pet Fee Per Stay: $75.00 Maximum Number of Pets in Room: 2",
+    "parsed_facts": {
+     "pets_allowed": true,
+     "pet_fee_usd": null,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {
+     "pet_fee": "NOT_PARSED_BY_THIS_ORDER -- the quote often states a fee, but this order publishes acceptance/refusal only and leaves fee parsing to the reader that owns the schema"
+    },
+    "publication_grade": {
+     "verdict": "OPERATOR_PROSE_CONFIRMED",
+     "why": "explicit ordinary-pet acceptance in the operator's own prose"
+    }
+   },
+   "all_observations": null
+  },
+  {
+   "identity_key": "towneplace-suites-lexington-keeneland-airport--980-midnight-pass",
+   "canonical_name": "TownePlace Suites Lexington Keeneland/Airport",
+   "address": "980 Midnight Pass",
+   "postal_code": "40513",
+   "corridor": "lexington-ky__inner-versailles-road",
+   "county": "Fayette County",
+   "brand": "MARRIOTT",
+   "policy_class": "CLEAN_PET_FRIENDLY",
+   "lanes": [
+    "ATTENDED_BROWSER"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "ATTENDED_BROWSER",
+    "policy_class": "CLEAN_PET_FRIENDLY",
+    "canonical_url": "https://www.marriott.com/lextw",
+    "requested_url": "https://www.marriott.com/lextw",
+    "content_sha256": "916a07f601bee978e1556e5b0adf1e34c2c91d360284a561a8c624399b08f891",
+    "captured_at": "2026-09-06T16:20:00Z",
+    "identity_signals": {
+     "street_on_page": "980 Midnight Pass",
+     "postal_on_page": "40513",
+     "street_number_match": true,
+     "bound_by": "the street number stated by the property's own page",
+     "never_bound_by": "sequence, page order, or name alone"
+    },
+    "exact_quote": "Pet Policy Pets Welcome 2 pets per room with USD 100 non-refundable fee per room per stay Non-Refundable Pet Fee Per Stay: $100.00 Maximum Number of Pets in Room: 2",
+    "parsed_facts": {
+     "pets_allowed": true,
+     "pet_fee_usd": null,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {
+     "pet_fee": "NOT_PARSED_BY_THIS_ORDER -- the quote often states a fee, but this order publishes acceptance/refusal only and leaves fee parsing to the reader that owns the schema"
+    },
+    "publication_grade": {
+     "verdict": "OPERATOR_PROSE_CONFIRMED",
+     "why": "explicit ordinary-pet acceptance in the operator's own prose"
+    }
+   },
+   "all_observations": null
+  },
+  {
+   "identity_key": "tru--535-waller-avenue",
+   "canonical_name": "Tru",
+   "address": "535 Waller Avenue",
+   "postal_code": "40504",
+   "corridor": "lexington-ky__downtown",
+   "county": "Fayette County",
+   "brand": "HILTON",
+   "policy_class": "CLEAN_PET_FRIENDLY",
+   "lanes": [
+    "ATTENDED_BROWSER"
+   ],
+   "corroborated_by_second_lane": false,
+   "evidence": {
+    "lane": "ATTENDED_BROWSER",
+    "policy_class": "CLEAN_PET_FRIENDLY",
+    "canonical_url": "https://www.hilton.com/en/hotels/lexumru/hotel-info/",
+    "requested_url": "https://www.hilton.com/en/hotels/lexumru/hotel-info/",
+    "content_sha256": "8ae08856931df17f7bb53393c003ef15e8c2dae09f9c9c29f32b40d928e36142",
+    "captured_at": "2026-09-06T16:06:11Z",
+    "identity_signals": {
+     "street_on_page": "535 Waller Avenue",
+     "postal_on_page": "40504",
+     "street_number_match": true,
+     "bound_by": "the street number stated by the property's own page",
+     "never_bound_by": "sequence, page order, or name alone"
+    },
+    "exact_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $50(1-4n),$75(5+n) 2petsMax,dog/cat only",
+    "parsed_facts": {
+     "pets_allowed": true,
+     "pet_fee_usd": null,
+     "max_weight": null,
+     "max_pets": null
+    },
+    "withheld_facts": {
+     "pet_fee": "NOT_PARSED_BY_THIS_ORDER -- the quote often states a fee, but this order publishes acceptance/refusal only and leaves fee parsing to the reader that owns the schema"
+    },
+    "publication_grade": {
+     "verdict": "OPERATOR_PROSE_CONFIRMED",
+     "why": "explicit ordinary-pet acceptance in the operator's own prose"
+    }
+   },
+   "all_observations": null
+  }
+ ]
+}

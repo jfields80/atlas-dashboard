@@ -1,0 +1,54 @@
+{
+ "schema": "ptf-promotion-readiness/2.0",
+ "work_order": "PTF-LEXINGTON-KY-POLICY-ACQUISITION-002",
+ "market_id": "lexington-ky",
+ "as_of": "2026-09-06",
+ "supersedes": "lexington_ky_promotion_readiness_001.json (PROMOTION_READY = NO)",
+ "PROMOTION_READY": "YES",
+ "what_changed_since_001": "Order 001 had ONE blocker: zero publication-grade policy observations. This order closed it. The Firecrawl cohort the planner identified was executed inside its authorization (10 rows, 10 credits) and the attended browser walked the Marriott and Hilton capability wall that no free static lane could read.",
+ "criteria": {
+  "deterministic_census_for_clean_rows": {
+   "met": true,
+   "why": "61 confirmed identities, each with exactly one classification and one county-polygon placement; identity keys are now unique (61 of 61)"
+  },
+  "no_duplicate_premises": {
+   "met": true,
+   "why": "no two clean rows share a street address, and no clean row shares an identity key"
+  },
+  "no_unresolved_cross_market_collision_in_clean_cohort": {
+   "met": true,
+   "why": "every clean row is inside the Fayette County polygon; Louisville's committed boundary review explicitly excludes Lexington"
+  },
+  "publication_grade_first_party_evidence": {
+   "met": true,
+   "why": "42 clean rows, every one carrying a canonical URL, a capture lane, a content sha256, a timestamp, identity signals read off the page, an exact operator quote, parsed facts and withheld facts with reasons"
+  },
+  "held_ambiguity_excluded": {
+   "met": true,
+   "why": "source-silent, policy-not-found, identity-hold, brand-inventory-silent and out-of-market rows are all outside the clean cohort by construction; 0 cross-lane conflicts"
+  },
+  "deterministic_geography_or_explicit_hold": {
+   "met": true,
+   "why": "county polygons decide membership; the three fringe towns remain an explicit hold with an empty explicit_hotel_admissions mechanism"
+  },
+  "known_later_release_contract_inputs": {
+   "met": true,
+   "why": "census, corridors (7), routes, partition inputs and a clean policy inventory all exist in this shadow"
+  },
+  "remaining_acquisition_optional": {
+   "met": true,
+   "why": "the 19 unresolved rows are explicitly held and optional: the market publishes 28 profiles without any of them"
+  }
+ },
+ "exact_blockers": [],
+ "shadow": {
+  "census": 61,
+  "pet_friendly": 28,
+  "verified_no_pets": 14,
+  "resolved": 42,
+  "unresolved": 19,
+  "profiles": 28,
+  "corridors": 7
+ },
+ "perfect_coverage_not_required": "19 of 61 identities remain unresolved and every one is explicitly held. They are coverage expansion for a later order, not promotion blockers."
+}
