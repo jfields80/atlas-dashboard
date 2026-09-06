@@ -104,7 +104,7 @@ def test_an_ambiguous_caller_still_fails_closed(two_markets):
 
 def test_an_unknown_market_id_fails_closed_rather_than_falling_back(two_markets):
     with pytest.raises(MarketContractError, match="no configured market with market_id"):
-        market_by_id(load_markets(), "toledo-oh")
+        market_by_id(load_markets(), "not-a-market-zz")
 
 
 def test_explicit_resolution_is_indifferent_to_the_other_market(two_markets):

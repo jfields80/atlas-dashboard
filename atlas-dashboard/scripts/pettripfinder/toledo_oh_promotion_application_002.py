@@ -52,6 +52,10 @@ _DASH = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)),
 if _DASH not in sys.path:
     sys.path.insert(0, _DASH)
 
+from scripts.pettripfinder.contracts import enums                   # noqa: E402
+from scripts.pettripfinder.contracts import fee_computation as FC   # noqa: E402
+from scripts.pettripfinder.contracts import policy_schema as SCHEMA # noqa: E402
+from scripts.pettripfinder.contracts.identity_key import ptf_identity_key  # noqa: E402
 from scripts.pettripfinder import hotel_exclusions as HE            # noqa: E402
 from scripts.pettripfinder import market_authority as MA            # noqa: E402
 from scripts.pettripfinder.markets import contract as MC            # noqa: E402
@@ -133,24 +137,31 @@ _NIGHT_PLUS = re.compile(r"\$?\s*([\d,]+(?:\.\d{2})?)\s*\(?\s*(\d+)\s*\+\s*(?:n|
                          re.I)
 
 
-def fee_tiers_from(quote, headline_cents, refundable):
-    """A per-night ladder if the source states one, else the headline alone.
+def fee_from(quote, headline_cents, refundable):
+    """A per-night LADDER when the source states one, else a single fee.
 
-    Hilton states "$75(1-4 nights) $125(5+ nights)" beside a headline fee, and a
-    market that keeps only the headline publishes one of the two prices as if it
-    were the whole answer.
+    Two different contract shapes, and the difference matters. ``fee_tiers``
+    requires a real condition -- role, condition_type and boundary_unit are all
+    mandatory -- because a tier exists to say WHEN a price applies. A flat fee
+    has no condition, so it belongs in ``pet_fee``; forcing it into a tier means
+    inventing a condition the source never stated.
+
+    ``basis`` is omitted unless the source states one. Several Toledo pages give
+    a fee with no period at all, and asserting per_stay there would publish a
+    term nobody wrote.
     """
     tiers = []
     for m in _NIGHT_RANGE.finditer(quote or ""):
         amt = int(round(float(m.group(1).replace(",", "")) * 100))
         lo, hi = int(m.group(2)), m.group(3)
         t = OrderedDict([("amount_cents", amt), ("currency", "USD"),
-                         ("role", "REPLACEMENT_PRICE"),
-                         ("condition_type", "stay_length_range"),
-                         ("boundary_unit", "nights"), ("condition_min", lo)])
+                         ("role", enums.ROLE_REPLACEMENT_PRICE),
+                         ("condition_type", enums.CONDITION_STAY_LENGTH_RANGE),
+                         ("boundary_unit", enums.BOUNDARY_NIGHTS),
+                         ("condition_min", lo)])
         if hi:
             t["condition_max"] = int(hi)
-        t["scope"] = "per_pet"
+        t["scope"] = enums.SCOPE_PER_PET
         t["basis_stated"] = False
         tiers.append(t)
     for m in _NIGHT_PLUS.finditer(quote or ""):
@@ -159,20 +170,40 @@ def fee_tiers_from(quote, headline_cents, refundable):
         if any(t["amount_cents"] == amt and t["condition_min"] == lo for t in tiers):
             continue
         tiers.append(OrderedDict([("amount_cents", amt), ("currency", "USD"),
-                                  ("role", "REPLACEMENT_PRICE"),
-                                  ("condition_type", "stay_length_range"),
-                                  ("boundary_unit", "nights"), ("condition_min", lo),
-                                  ("scope", "per_pet"), ("basis_stated", False)]))
+                                  ("role", enums.ROLE_REPLACEMENT_PRICE),
+                                  ("condition_type", enums.CONDITION_STAY_LENGTH_RANGE),
+                                  ("boundary_unit", enums.BOUNDARY_NIGHTS),
+                                  ("condition_min", lo),
+                                  ("scope", enums.SCOPE_PER_PET),
+                                  ("basis_stated", False)]))
     tiers.sort(key=lambda t: (t["condition_min"], t["amount_cents"]))
     if len(tiers) >= 2:
-        return tiers
+        return "fee_tiers", tiers
     if headline_cents is None:
-        return []
-    return [OrderedDict([("amount_cents", headline_cents), ("currency", "USD"),
-                         ("role", "PRICE"), ("condition_type", "none"),
-                         ("scope", "per_pet"),
-                         ("refundable", bool(refundable)),
-                         ("basis_stated", False)])]
+        return None, None
+    fee = OrderedDict([("amount_cents", headline_cents), ("currency", "USD"),
+                       ("scope", enums.SCOPE_PER_PET)])
+    basis = _stated_basis(quote)
+    if basis:
+        fee["basis"] = basis
+    if refundable is not None:
+        fee["refundable"] = bool(refundable)
+    return "pet_fee", fee
+
+
+_BASIS_WORDS = (
+    (enums.BASIS_PER_NIGHT, r"per\s+night|/\s*night|nightly|per\s+room\s+per\s+night"),
+    (enums.BASIS_PER_STAY, r"per\s+stay|/\s*stay|non-?refundable\s+fee\s+per\s+stay"),
+    (enums.BASIS_PER_DAY, r"per\s+day|/\s*day|daily"),
+)
+
+
+def _stated_basis(quote):
+    """The fee period the source actually states, or "" when it states none."""
+    for basis, pattern in _BASIS_WORDS:
+        if re.search(pattern, quote or "", re.I):
+            return basis
+    return ""
 
 
 def facts_from_read(row):
@@ -204,27 +235,46 @@ def facts_from_read(row):
             ("scope", "per_pet")])
     fee = ext.get("pet_fee")
     if fee is not None:
-        tiers = fee_tiers_from(quote, fee, ext.get("fee_refundable"))
-        if tiers:
-            facts["fee_tiers"] = tiers
+        field, value = fee_from(quote, fee, ext.get("fee_refundable"))
+        if field:
+            facts[field] = value
     if ext.get("pet_count_limit") is not None:
         facts["pet_count_limit"] = ext["pet_count_limit"]
 
-    sa = ext.get("service_animal_statement")
-    if sa:
-        # STRUCTURED, never a bare string: a bare quote crashes the renderer
-        # (PTF-SERVICE-ANIMAL-STATEMENT-STRUCTURED-SHAPE).
-        if isinstance(sa, dict):
-            facts["service_animal_statement"] = OrderedDict([
-                ("stated", bool(sa.get("stated", True))),
-                ("quote", str(sa.get("quote") or "")[:400])])
-        else:
-            facts["service_animal_statement"] = OrderedDict([
-                ("stated", True), ("quote", str(sa)[:400])])
-    elif ext.get("service_animal_exception"):
-        facts["service_animal_statement"] = OrderedDict([
-            ("stated", True), ("quote", str(ext["service_animal_exception"])[:400])])
     return facts
+
+
+def service_animal_statement(row):
+    """The record-level service-animal statement, or None.
+
+    It is NOT a fact. policy_schema flags ``facts.service_animal_exception`` as
+    a MISPLACED_FIELD by name: a legal access category must not sit in the
+    commercial-terms namespace, where something could apply a weight limit to
+    it. It is STRUCTURED -- a bare quote string crashes the renderer -- and it
+    carries ``charges_stated``, which reports whether the property addressed a
+    charge at all rather than inferring one from silence.
+    """
+    ext = row["extraction"] or {}
+    sa = ext.get("service_animal_statement")
+    quote = ""
+    if isinstance(sa, dict):
+        quote = str(sa.get("quote") or "")
+    elif sa:
+        quote = str(sa)
+    if not quote:
+        quote = str(ext.get("service_animal_exception") or "")
+    if not quote.strip():
+        return None
+    low = quote.lower()
+    if re.search(r"exempt|no (additional |extra )?(charge|fee)|free of charge|without charge",
+                 low):
+        charges = "no_charge"
+    elif re.search(r"[$]|fee|charge", low):
+        charges = "charge_stated"
+    else:
+        charges = "not_addressed"
+    return OrderedDict([("stated", True), ("charges_stated", charges),
+                        ("quote", quote.strip()[:400])])
 
 
 #: A PUBLISHED field name and the READER field names whose quotes support it.
@@ -233,6 +283,7 @@ def facts_from_read(row):
 #: refuses every fee row for carrying no quote, which is how it was found.
 _PUBLISHED_FROM_READER = {
     "fee_tiers": {"pet_fee", "fee_currency", "fee_refundable", "fee_basis", "fee_cap"},
+    "pet_fee": {"pet_fee", "fee_currency", "fee_refundable", "fee_basis", "fee_cap"},
     "species": {"species_allowed", "species"},
     "weight_limit": {"weight_limit", "weight_limit_unit", "weight_limit_operator"},
     "pet_count_limit": {"pet_count_limit"},
@@ -241,11 +292,21 @@ _PUBLISHED_FROM_READER = {
 }
 
 
-def _published_field_for(reader_field):
-    for published, readers in _PUBLISHED_FROM_READER.items():
-        if reader_field in readers:
-            return published
-    return reader_field
+def _published_field_for(reader_field, facts):
+    """Which PUBLISHED field this reader field's quote supports.
+
+    A single reader field can feed more than one published shape -- "pet_fee"
+    supports fee_tiers on a ladder and pet_fee on a flat charge -- so the answer
+    depends on which shape was actually published. Resolving by dict order
+    instead silently attributed every flat fee's quote to a fee_tiers field that
+    was not there.
+    """
+    candidates = [pub for pub, readers in _PUBLISHED_FROM_READER.items()
+                  if reader_field in readers]
+    for pub in candidates:
+        if pub in facts:
+            return pub
+    return candidates[0] if candidates else reader_field
 
 
 def evidence_rows(row, facts):
@@ -257,7 +318,7 @@ def evidence_rows(row, facts):
         if not quote:
             continue
         for reader_field in (e.get("field_refs") or []):
-            field = _published_field_for(reader_field)
+            field = _published_field_for(reader_field, facts)
             key = (field, quote)
             if field not in facts or key in seen:
                 continue
@@ -311,8 +372,20 @@ def build_policy_package(clean, census_by_key):
                 "%r does not round-trip: normalize_name gives %r but the identity key is %r; "
                 "the join would fail closed" % (name, normalize_name(name), key))
         facts = facts_from_read(row)
-        hotels.append(OrderedDict([
-            ("key", key), ("name", name), ("facts", facts),
+        ident = ptf_identity_key(name)
+        if not SCHEMA.is_canonical_key(ident):
+            raise PromotionError("%r does not produce a canonical identity_key" % name)
+        rec = OrderedDict([
+            ("key", key), ("identity_key", ident), ("name", name),
+            ("market_id", MARKET_ID), ("schema_version", enums.POLICY_SCHEMA_VERSION),
+            ("facts", facts),
+        ])
+        sa = service_animal_statement(row)
+        if sa:
+            rec["service_animal_statement"] = sa
+        # The contract's OWN classifier decides this; never a literal.
+        rec["computation_class"] = FC.classify(facts).computation_class
+        hotels.append(OrderedDict(list(rec.items()) + [
             ("evidence", evidence_rows(row, facts)),
             ("source_url", row["source_url"]),
             ("corridor", crow["corridor"]),
@@ -324,6 +397,12 @@ def build_policy_package(clean, census_by_key):
             ("work_order", WORK_ORDER),
         ]))
     hotels.sort(key=lambda h: h["key"])
+    # The record contract is the gate, not this module's opinion of it.
+    for h in hotels:
+        issues = SCHEMA.validate_record(h)
+        if issues:
+            raise PromotionError("%s fails the record contract: %s"
+                                 % (h["name"], [(i.path, i.code) for i in issues]))
     keys = [h["key"] for h in hotels]
     if len(keys) != len(set(keys)):
         dupes = sorted(k for k, n in Counter(keys).items() if n > 1)

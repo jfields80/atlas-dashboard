@@ -77,9 +77,12 @@ class TestStLouisIsNowRegistered:
         market that arrived with its own contract, shard and participation
         row. PTF-GRAND-RAPIDS-HOLLAND-STAGE-001 made it 11: Grand Rapids-
         Holland arrived with a contract and a shard; its participation row is
-        the founder's to issue and is owed, not silently assumed."""
+        the founder's to issue and is owed, not silently assumed.
+        PTF-TOLEDO-OH-PROMOTION-AND-APPLICATION-002 made it 12 the same way:
+        Toledo arrived with a contract, a shard and a participation row that
+        records source readiness and withholds authorization."""
         assert "st-louis-mo" in MA.registered_market_ids()
-        assert len(load_markets()) == 11
+        assert len(load_markets()) == 12
 
     def test_the_authority_shard_exists_and_is_discoverable(self):
         assert "st-louis-mo" in MA.sharded_market_ids()

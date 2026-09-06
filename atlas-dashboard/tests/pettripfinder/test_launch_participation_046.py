@@ -107,7 +107,12 @@ WITHHELD_BY_046 = "indianapolis-in"
 #: AUTHORIZATION-004, the way Grand Rapids did: by founder decision, not by
 #: gaining data. Detroit remains, assemblable at 121 published and simply not
 #: authorized -- which is still the distinction these tests draw.
-NOT_READY = ("detroit-ann-arbor-mi",)
+#: PTF-TOLEDO-OH-PROMOTION-AND-APPLICATION-002 registered Toledo as
+#: SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH, so the bundle now
+#: excludes two markets rather than one. Detroit's exclusion is unchanged,
+#: which is the half of this assertion that says a new market disturbed no
+#: old one.
+NOT_READY = ("detroit-ann-arbor-mi", "toledo-oh")
 #: Genuinely cannot assemble: a configured market with no policy package.
 #: EMPTY as of PTF-DETROIT-ANN-ARBOR-TROY-IDENTITY-AND-BUNDLE-030. Detroit
 #: left this list the way Grand Rapids did: not by gaining data, but

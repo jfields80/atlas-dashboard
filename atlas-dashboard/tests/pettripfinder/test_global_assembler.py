@@ -520,7 +520,17 @@ def test_current_live_inventory_preserves_all_assemblable_market_profiles(market
                       # not founder-authorized and does not enter the bundle.
                       # Every other count is unchanged -- the half of this
                       # assertion saying a new market disturbed no old one.
-                      DETROIT: 121}
+                      DETROIT: 121,
+                      # PTF-TOLEDO-OH-PROMOTION-AND-APPLICATION-002: Toledo
+                      # registers with 17 published profiles over a 54-identity
+                      # census, built from zero by PTF-TOLEDO-OH-NEW-MARKET-001.
+                      # Like Cincinnati and Detroit above, appearing here is a
+                      # statement about the SOURCE and not an admission: Toledo
+                      # is recorded SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR
+                      # _LAUNCH and does not enter the bundle. Every other count
+                      # is unchanged -- the half of this assertion saying a new
+                      # market disturbed no old one.
+                      "toledo-oh": 17}
     # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: 469 + Indianapolis's 16 further
     # founder-signed profiles (8 -> 24). Every other market's count above is
     # unchanged, so the whole of this movement is Indianapolis's.

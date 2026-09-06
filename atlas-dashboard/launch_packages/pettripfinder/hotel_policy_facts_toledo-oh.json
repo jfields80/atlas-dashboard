@@ -8,7 +8,10 @@
  "hotels": [
   {
    "key": "baymont by wyndham perrysburg toledo",
+   "identity_key": "baymont by wyndham perrysburg toledo",
    "name": "Baymont by Wyndham Perrysburg/Toledo",
+   "market_id": "toledo-oh",
+   "schema_version": "1.3",
    "facts": {
     "pets_allowed": true,
     "species": {
@@ -20,22 +23,19 @@
      "operator": "lte",
      "scope": "per_pet"
     },
-    "fee_tiers": [
-     {
-      "amount_cents": 2500,
-      "currency": "USD",
-      "role": "PRICE",
-      "condition_type": "none",
-      "scope": "per_pet",
-      "refundable": false,
-      "basis_stated": false
-     }
-    ],
-    "service_animal_statement": {
-     "stated": true,
-     "quote": "Service Animals - ADA-defined service animals welcome./Pets Allowed - 2 pets max."
+    "pet_fee": {
+     "amount_cents": 2500,
+     "currency": "USD",
+     "scope": "per_pet",
+     "basis": "per_night"
     }
    },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "Service Animals - ADA-defined service animals welcome./Pets Allowed - 2 pets max."
+   },
+   "computation_class": "COMPUTATION_SAFE_ONE_PET_ONLY",
    "evidence": [
     {
      "field": "pets_allowed",
@@ -51,11 +51,11 @@
      "source_grade": "PT2_BRAND"
     },
     {
-     "field": "fee_tiers",
+     "field": "pet_fee",
      "quote": "25USD per pet per night",
      "source_url": "https://www.wyndhamhotels.com/baymont/perrysburg-ohio/baymont-perrysburg-toledo/overview",
-     "value": "[{\"amount_cents\": 2500, \"basis_stated\": false, \"condition_type\": \"none\", \"currency\": \"USD\", \"refundable\": false, \"role\": \"PRICE\", \"scope\": \"per_pet\"}]",
-     "evidence_ref": "ev:c0f1d951a07b236d",
+     "value": "{\"amount_cents\": 2500, \"basis\": \"per_night\", \"currency\": \"USD\", \"scope\": \"per_pet\"}",
+     "evidence_ref": "ev:2c38377928ec0de3",
      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
      "artifact_sha256": "sha256:cab2f42bd9adb6bdbf21ae83badeda2c119a34c9f16ca95d1b574e24340b6bfa",
      "artifact_kind": "rendered_html",
@@ -88,19 +88,6 @@
      "captured_at": "2026-09-06T14:03:35.297151+00:00",
      "capture_method": "firecrawl_rendered_fetch",
      "source_grade": "PT2_BRAND"
-    },
-    {
-     "field": "service_animal_statement",
-     "quote": "Service Animals - ADA-defined service animals welcome./Pets Allowed - 2 pets max.",
-     "source_url": "https://www.wyndhamhotels.com/baymont/perrysburg-ohio/baymont-perrysburg-toledo/overview",
-     "value": "{\"quote\": \"Service Animals - ADA-defined service animals welcome./Pets Allowed - 2 pets max.\", \"stated\": true}",
-     "evidence_ref": "ev:b7ef55a79261c20f",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:cab2f42bd9adb6bdbf21ae83badeda2c119a34c9f16ca95d1b574e24340b6bfa",
-     "artifact_kind": "rendered_html",
-     "captured_at": "2026-09-06T14:03:35.297151+00:00",
-     "capture_method": "firecrawl_rendered_fetch",
-     "source_grade": "PT2_BRAND"
     }
    ],
    "source_url": "https://www.wyndhamhotels.com/baymont/perrysburg-ohio/baymont-perrysburg-toledo/overview",
@@ -114,7 +101,10 @@
   },
   {
    "key": "baymont inn and suites by wyndham swanton toledo airport",
+   "identity_key": "baymont inn and suites by wyndham swanton toledo airport",
    "name": "Baymont Inn & Suites by Wyndham Swanton/Toledo Airport",
+   "market_id": "toledo-oh",
+   "schema_version": "1.3",
    "facts": {
     "pets_allowed": true,
     "weight_limit": {
@@ -123,23 +113,20 @@
      "operator": "lte",
      "scope": "per_pet"
     },
-    "fee_tiers": [
-     {
-      "amount_cents": 2000,
-      "currency": "USD",
-      "role": "PRICE",
-      "condition_type": "none",
-      "scope": "per_pet",
-      "refundable": false,
-      "basis_stated": false
-     }
-    ],
-    "pet_count_limit": 2,
-    "service_animal_statement": {
-     "stated": true,
-     "quote": "Service Animals - ADA-defined service animals welcome."
-    }
+    "pet_fee": {
+     "amount_cents": 2000,
+     "currency": "USD",
+     "scope": "per_pet",
+     "basis": "per_night"
+    },
+    "pet_count_limit": 2
    },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "Service Animals - ADA-defined service animals welcome."
+   },
+   "computation_class": "COMPUTATION_SAFE_ARBITRARY_ALLOWED_PET_COUNT",
    "evidence": [
     {
      "field": "pets_allowed",
@@ -155,11 +142,11 @@
      "source_grade": "PT2_BRAND"
     },
     {
-     "field": "fee_tiers",
+     "field": "pet_fee",
      "quote": "20USD per night per room",
      "source_url": "https://www.wyndhamhotels.com/baymont/swanton-ohio/baymont-inn-and-suites-swanton-toledo-airport/overview",
-     "value": "[{\"amount_cents\": 2000, \"basis_stated\": false, \"condition_type\": \"none\", \"currency\": \"USD\", \"refundable\": false, \"role\": \"PRICE\", \"scope\": \"per_pet\"}]",
-     "evidence_ref": "ev:639e9fd1c5f09e0e",
+     "value": "{\"amount_cents\": 2000, \"basis\": \"per_night\", \"currency\": \"USD\", \"scope\": \"per_pet\"}",
+     "evidence_ref": "ev:0a4ab6edd50cc30b",
      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
      "artifact_sha256": "sha256:14fb870251fdc1f897feaf6347fe0f1f263ca63aa354bec0c3986cafc08ae577",
      "artifact_kind": "rendered_html",
@@ -192,19 +179,6 @@
      "captured_at": "2026-09-06T14:06:39.575909+00:00",
      "capture_method": "firecrawl_rendered_fetch",
      "source_grade": "PT2_BRAND"
-    },
-    {
-     "field": "service_animal_statement",
-     "quote": "Service Animals - ADA-defined service animals welcome.",
-     "source_url": "https://www.wyndhamhotels.com/baymont/swanton-ohio/baymont-inn-and-suites-swanton-toledo-airport/overview",
-     "value": "{\"quote\": \"Service Animals - ADA-defined service animals welcome.\", \"stated\": true}",
-     "evidence_ref": "ev:bbf286a1cab68bd4",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:14fb870251fdc1f897feaf6347fe0f1f263ca63aa354bec0c3986cafc08ae577",
-     "artifact_kind": "rendered_html",
-     "captured_at": "2026-09-06T14:06:39.575909+00:00",
-     "capture_method": "firecrawl_rendered_fetch",
-     "source_grade": "PT2_BRAND"
     }
    ],
    "source_url": "https://www.wyndhamhotels.com/baymont/swanton-ohio/baymont-inn-and-suites-swanton-toledo-airport/overview",
@@ -218,25 +192,25 @@
   },
   {
    "key": "comfort inn east oregon toledo",
+   "identity_key": "comfort inn east oregon toledo",
    "name": "Comfort Inn East Oregon - Toledo",
+   "market_id": "toledo-oh",
+   "schema_version": "1.3",
    "facts": {
     "pets_allowed": true,
-    "fee_tiers": [
-     {
-      "amount_cents": 2500,
-      "currency": "USD",
-      "role": "PRICE",
-      "condition_type": "none",
-      "scope": "per_pet",
-      "refundable": false,
-      "basis_stated": false
-     }
-    ],
-    "service_animal_statement": {
-     "stated": true,
-     "quote": "Service animals are permitted, without charge."
+    "pet_fee": {
+     "amount_cents": 2500,
+     "currency": "USD",
+     "scope": "per_pet",
+     "basis": "per_night"
     }
    },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "no_charge",
+    "quote": "Service animals are permitted, without charge."
+   },
+   "computation_class": "COMPUTATION_SAFE_ONE_PET_ONLY",
    "evidence": [
     {
      "field": "pets_allowed",
@@ -252,24 +226,11 @@
      "source_grade": "PT2_BRAND"
     },
     {
-     "field": "fee_tiers",
+     "field": "pet_fee",
      "quote": "25.00 USD per night..",
      "source_url": "https://www.choicehotels.com/ohio/oregon/comfort-inn-hotels/oh073",
-     "value": "[{\"amount_cents\": 2500, \"basis_stated\": false, \"condition_type\": \"none\", \"currency\": \"USD\", \"refundable\": false, \"role\": \"PRICE\", \"scope\": \"per_pet\"}]",
-     "evidence_ref": "ev:e55558aa5b18cadd",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:76df2a4273e0dc8d9630ae1c4047b1fcfe1f790bb24a81d8940ce31dd3de8205",
-     "artifact_kind": "rendered_html",
-     "captured_at": "2026-09-06T14:03:51.910903+00:00",
-     "capture_method": "firecrawl_rendered_fetch",
-     "source_grade": "PT2_BRAND"
-    },
-    {
-     "field": "service_animal_statement",
-     "quote": "Service animals are permitted, without charge.",
-     "source_url": "https://www.choicehotels.com/ohio/oregon/comfort-inn-hotels/oh073",
-     "value": "{\"quote\": \"Service animals are permitted, without charge.\", \"stated\": true}",
-     "evidence_ref": "ev:8d6c5d22cf73d217",
+     "value": "{\"amount_cents\": 2500, \"basis\": \"per_night\", \"currency\": \"USD\", \"scope\": \"per_pet\"}",
+     "evidence_ref": "ev:dc4f771261d1b177",
      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
      "artifact_sha256": "sha256:76df2a4273e0dc8d9630ae1c4047b1fcfe1f790bb24a81d8940ce31dd3de8205",
      "artifact_kind": "rendered_html",
@@ -289,26 +250,25 @@
   },
   {
    "key": "extended stay america toledo maumee",
+   "identity_key": "extended stay america toledo maumee",
    "name": "Extended Stay America - Toledo - Maumee",
+   "market_id": "toledo-oh",
+   "schema_version": "1.3",
    "facts": {
     "pets_allowed": true,
-    "fee_tiers": [
-     {
-      "amount_cents": 1500,
-      "currency": "USD",
-      "role": "PRICE",
-      "condition_type": "none",
-      "scope": "per_pet",
-      "refundable": false,
-      "basis_stated": false
-     }
-    ],
-    "pet_count_limit": 2,
-    "service_animal_statement": {
-     "stated": true,
-     "quote": "Service animals will be exempt from this charge."
-    }
+    "pet_fee": {
+     "amount_cents": 1500,
+     "currency": "USD",
+     "scope": "per_pet"
+    },
+    "pet_count_limit": 2
    },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "no_charge",
+    "quote": "Service animals will be exempt from this charge."
+   },
+   "computation_class": "CONDITIONALLY_SAFE",
    "evidence": [
     {
      "field": "pets_allowed",
@@ -324,11 +284,11 @@
      "source_grade": "PT1_PROPERTY"
     },
     {
-     "field": "fee_tiers",
+     "field": "pet_fee",
      "quote": "$15 non-refundable fee",
      "source_url": "https://www.extendedstayamerica.com/hotels/oh/toledo/maumee",
-     "value": "[{\"amount_cents\": 1500, \"basis_stated\": false, \"condition_type\": \"none\", \"currency\": \"USD\", \"refundable\": false, \"role\": \"PRICE\", \"scope\": \"per_pet\"}]",
-     "evidence_ref": "ev:d0932b316639cbf4",
+     "value": "{\"amount_cents\": 1500, \"currency\": \"USD\", \"scope\": \"per_pet\"}",
+     "evidence_ref": "ev:6e2d6e12f42f1df4",
      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
      "artifact_sha256": "sha256:abc40fbe5b6aee688510ea6386323147aa3e7b579d75751cb9182e3a1a441660",
      "artifact_kind": "rendered_html",
@@ -348,19 +308,6 @@
      "captured_at": "2026-09-06",
      "capture_method": "direct_http",
      "source_grade": "PT1_PROPERTY"
-    },
-    {
-     "field": "service_animal_statement",
-     "quote": "Service animals will be exempt from this charge.",
-     "source_url": "https://www.extendedstayamerica.com/hotels/oh/toledo/maumee",
-     "value": "{\"quote\": \"Service animals will be exempt from this charge.\", \"stated\": true}",
-     "evidence_ref": "ev:fa3eae5fc8b1e48e",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:abc40fbe5b6aee688510ea6386323147aa3e7b579d75751cb9182e3a1a441660",
-     "artifact_kind": "rendered_html",
-     "captured_at": "2026-09-06",
-     "capture_method": "direct_http",
-     "source_grade": "PT1_PROPERTY"
     }
    ],
    "source_url": "https://www.extendedstayamerica.com/hotels/oh/toledo/maumee",
@@ -374,7 +321,10 @@
   },
   {
    "key": "hampton bowling green",
+   "identity_key": "hampton bowling green",
    "name": "Hampton Bowling Green",
+   "market_id": "toledo-oh",
+   "schema_version": "1.3",
    "facts": {
     "pets_allowed": true,
     "species": {
@@ -409,12 +359,14 @@
       "basis_stated": false
      }
     ],
-    "pet_count_limit": 2,
-    "service_animal_statement": {
-     "stated": true,
-     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
-    }
+    "pet_count_limit": 2
    },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "computation_class": "CONDITIONALLY_SAFE",
    "evidence": [
     {
      "field": "pets_allowed",
@@ -493,7 +445,10 @@
   },
   {
    "key": "hampton inn and suites toledo oregon",
+   "identity_key": "hampton inn and suites toledo oregon",
    "name": "Hampton Inn & Suites - Toledo/Oregon",
+   "market_id": "toledo-oh",
+   "schema_version": "1.3",
    "facts": {
     "pets_allowed": true,
     "species": {
@@ -522,12 +477,14 @@
       "basis_stated": false
      }
     ],
-    "pet_count_limit": 2,
-    "service_animal_statement": {
-     "stated": true,
-     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
-    }
+    "pet_count_limit": 2
    },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "computation_class": "CONDITIONALLY_SAFE",
    "evidence": [
     {
      "field": "pets_allowed",
@@ -593,25 +550,25 @@
   },
   {
    "key": "hampton inn and suites toledo perrysburg",
+   "identity_key": "hampton inn and suites toledo perrysburg",
    "name": "Hampton Inn & Suites Toledo-Perrysburg",
+   "market_id": "toledo-oh",
+   "schema_version": "1.3",
    "facts": {
     "pets_allowed": true,
-    "fee_tiers": [
-     {
-      "amount_cents": 7500,
-      "currency": "USD",
-      "role": "PRICE",
-      "condition_type": "none",
-      "scope": "per_pet",
-      "refundable": false,
-      "basis_stated": false
-     }
-    ],
-    "service_animal_statement": {
-     "stated": true,
-     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    "pet_fee": {
+     "amount_cents": 7500,
+     "currency": "USD",
+     "scope": "per_pet",
+     "refundable": false
     }
    },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "computation_class": "CONDITIONALLY_SAFE",
    "evidence": [
     {
      "field": "pets_allowed",
@@ -627,11 +584,11 @@
      "source_grade": "PT2_BRAND"
     },
     {
-     "field": "fee_tiers",
+     "field": "pet_fee",
      "quote": "Pets allowed, $75.00 non-refundable fee",
      "source_url": "https://www.hilton.com/en/hotels/tolpghx-hampton-suites-toledo-perrysburg/",
-     "value": "[{\"amount_cents\": 7500, \"basis_stated\": false, \"condition_type\": \"none\", \"currency\": \"USD\", \"refundable\": false, \"role\": \"PRICE\", \"scope\": \"per_pet\"}]",
-     "evidence_ref": "ev:03789f397a335216",
+     "value": "{\"amount_cents\": 7500, \"currency\": \"USD\", \"refundable\": false, \"scope\": \"per_pet\"}",
+     "evidence_ref": "ev:8113bf1f180b85a4",
      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
      "artifact_sha256": "sha256:b40bb532333f13770aea62988254efcc06ad8d0a87b793c3d614746c9587af73",
      "artifact_kind": "rendered_html",
@@ -651,7 +608,10 @@
   },
   {
    "key": "hampton inn and suites toledo westgate",
+   "identity_key": "hampton inn and suites toledo westgate",
    "name": "Hampton Inn & Suites - Toledo/Westgate",
+   "market_id": "toledo-oh",
+   "schema_version": "1.3",
    "facts": {
     "pets_allowed": true,
     "species": {
@@ -680,12 +640,14 @@
       "basis_stated": false
      }
     ],
-    "pet_count_limit": 2,
-    "service_animal_statement": {
-     "stated": true,
-     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
-    }
+    "pet_count_limit": 2
    },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "computation_class": "CONDITIONALLY_SAFE",
    "evidence": [
     {
      "field": "pets_allowed",
@@ -751,7 +713,10 @@
   },
   {
    "key": "hampton inn toledo south maumee",
+   "identity_key": "hampton inn toledo south maumee",
    "name": "Hampton Inn Toledo - South/Maumee",
+   "market_id": "toledo-oh",
+   "schema_version": "1.3",
    "facts": {
     "pets_allowed": true,
     "species": {
@@ -786,12 +751,14 @@
       "basis_stated": false
      }
     ],
-    "pet_count_limit": 2,
-    "service_animal_statement": {
-     "stated": true,
-     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
-    }
+    "pet_count_limit": 2
    },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "computation_class": "CONDITIONALLY_SAFE",
    "evidence": [
     {
      "field": "pets_allowed",
@@ -870,7 +837,10 @@
   },
   {
    "key": "hilton garden inn toledo perrysburg",
+   "identity_key": "hilton garden inn toledo perrysburg",
    "name": "Hilton Garden Inn Toledo Perrysburg",
+   "market_id": "toledo-oh",
+   "schema_version": "1.3",
    "facts": {
     "pets_allowed": true,
     "species": {
@@ -899,12 +869,14 @@
       "basis_stated": false
      }
     ],
-    "pet_count_limit": 2,
-    "service_animal_statement": {
-     "stated": true,
-     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
-    }
+    "pet_count_limit": 2
    },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "computation_class": "CONDITIONALLY_SAFE",
    "evidence": [
     {
      "field": "pets_allowed",
@@ -970,7 +942,10 @@
   },
   {
    "key": "home2 suites bowling green",
+   "identity_key": "home2 suites bowling green",
    "name": "Home2 Suites Bowling Green",
+   "market_id": "toledo-oh",
+   "schema_version": "1.3",
    "facts": {
     "pets_allowed": true,
     "species": {
@@ -999,12 +974,14 @@
       "basis_stated": false
      }
     ],
-    "pet_count_limit": 2,
-    "service_animal_statement": {
-     "stated": true,
-     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
-    }
+    "pet_count_limit": 2
    },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "computation_class": "CONDITIONALLY_SAFE",
    "evidence": [
     {
      "field": "pets_allowed",
@@ -1070,7 +1047,10 @@
   },
   {
    "key": "home2 suites by hilton perrysburg levis commons toledo",
+   "identity_key": "home2 suites by hilton perrysburg levis commons toledo",
    "name": "Home2 Suites by Hilton Perrysburg Levis Commons Toledo",
+   "market_id": "toledo-oh",
+   "schema_version": "1.3",
    "facts": {
     "pets_allowed": true,
     "species": {
@@ -1099,12 +1079,14 @@
       "basis_stated": false
      }
     ],
-    "pet_count_limit": 2,
-    "service_animal_statement": {
-     "stated": true,
-     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
-    }
+    "pet_count_limit": 2
    },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "computation_class": "CONDITIONALLY_SAFE",
    "evidence": [
     {
      "field": "pets_allowed",
@@ -1170,10 +1152,14 @@
   },
   {
    "key": "staybridge inn and suites toledo rossford perrysburg",
+   "identity_key": "staybridge inn and suites toledo rossford perrysburg",
    "name": "Staybridge Inn & Suites Toledo Rossford- Perrysburg",
+   "market_id": "toledo-oh",
+   "schema_version": "1.3",
    "facts": {
     "pets_allowed": true
    },
+   "computation_class": "NOT_COMPUTABLE",
    "evidence": [
     {
      "field": "pets_allowed",
@@ -1200,7 +1186,10 @@
   },
   {
    "key": "super 8 by wyndham millbury toledo",
+   "identity_key": "super 8 by wyndham millbury toledo",
    "name": "Super 8 by Wyndham Millbury/Toledo",
+   "market_id": "toledo-oh",
+   "schema_version": "1.3",
    "facts": {
     "pets_allowed": true,
     "weight_limit": {
@@ -1209,22 +1198,19 @@
      "operator": "lte",
      "scope": "per_pet"
     },
-    "fee_tiers": [
-     {
-      "amount_cents": 1000,
-      "currency": "USD",
-      "role": "PRICE",
-      "condition_type": "none",
-      "scope": "per_pet",
-      "refundable": false,
-      "basis_stated": false
-     }
-    ],
-    "service_animal_statement": {
-     "stated": true,
-     "quote": "Service Animals - ADA-defined service animals are welcome free of charge."
+    "pet_fee": {
+     "amount_cents": 1000,
+     "currency": "USD",
+     "scope": "per_pet",
+     "basis": "per_night"
     }
    },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "no_charge",
+    "quote": "Service Animals - ADA-defined service animals are welcome free of charge."
+   },
+   "computation_class": "COMPUTATION_SAFE_ONE_PET_ONLY",
    "evidence": [
     {
      "field": "pets_allowed",
@@ -1240,11 +1226,11 @@
      "source_grade": "PT2_BRAND"
     },
     {
-     "field": "fee_tiers",
+     "field": "pet_fee",
      "quote": "10USD per pet per night",
      "source_url": "https://www.wyndhamhotels.com/super-8/millbury-ohio/super-8-millbury-toledo/overview",
-     "value": "[{\"amount_cents\": 1000, \"basis_stated\": false, \"condition_type\": \"none\", \"currency\": \"USD\", \"refundable\": false, \"role\": \"PRICE\", \"scope\": \"per_pet\"}]",
-     "evidence_ref": "ev:12e29b0ff11feac5",
+     "value": "{\"amount_cents\": 1000, \"basis\": \"per_night\", \"currency\": \"USD\", \"scope\": \"per_pet\"}",
+     "evidence_ref": "ev:f5c03767b3242c41",
      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
      "artifact_sha256": "sha256:a06ce0f4b3fd4cb45524f28e0d420380918a98c32333579e93912ed32d3b2844",
      "artifact_kind": "rendered_html",
@@ -1264,19 +1250,6 @@
      "captured_at": "2026-09-06T14:08:24.022042+00:00",
      "capture_method": "firecrawl_rendered_fetch",
      "source_grade": "PT2_BRAND"
-    },
-    {
-     "field": "service_animal_statement",
-     "quote": "Service Animals - ADA-defined service animals are welcome free of charge.",
-     "source_url": "https://www.wyndhamhotels.com/super-8/millbury-ohio/super-8-millbury-toledo/overview",
-     "value": "{\"quote\": \"Service Animals - ADA-defined service animals are welcome free of charge.\", \"stated\": true}",
-     "evidence_ref": "ev:d62ad22b2f86c579",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:a06ce0f4b3fd4cb45524f28e0d420380918a98c32333579e93912ed32d3b2844",
-     "artifact_kind": "rendered_html",
-     "captured_at": "2026-09-06T14:08:24.022042+00:00",
-     "capture_method": "firecrawl_rendered_fetch",
-     "source_grade": "PT2_BRAND"
     }
    ],
    "source_url": "https://www.wyndhamhotels.com/super-8/millbury-ohio/super-8-millbury-toledo/overview",
@@ -1290,7 +1263,10 @@
   },
   {
    "key": "towneplace suites by marriott toledo perrysburg",
+   "identity_key": "towneplace suites by marriott toledo perrysburg",
    "name": "TownePlace Suites by Marriott Toledo Perrysburg",
+   "market_id": "toledo-oh",
+   "schema_version": "1.3",
    "facts": {
     "pets_allowed": true,
     "weight_limit": {
@@ -1301,6 +1277,7 @@
     },
     "pet_count_limit": 2
    },
+   "computation_class": "NOT_COMPUTABLE",
    "evidence": [
     {
      "field": "pets_allowed",
@@ -1353,7 +1330,10 @@
   },
   {
    "key": "tru perrysburg toledo",
+   "identity_key": "tru perrysburg toledo",
    "name": "Tru Perrysburg Toledo",
+   "market_id": "toledo-oh",
+   "schema_version": "1.3",
    "facts": {
     "pets_allowed": true,
     "species": {
@@ -1382,12 +1362,14 @@
       "basis_stated": false
      }
     ],
-    "pet_count_limit": 2,
-    "service_animal_statement": {
-     "stated": true,
-     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
-    }
+    "pet_count_limit": 2
    },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "computation_class": "CONDITIONALLY_SAFE",
    "evidence": [
     {
      "field": "pets_allowed",
@@ -1453,7 +1435,10 @@
   },
   {
    "key": "woodspring suites toledo maumee",
+   "identity_key": "woodspring suites toledo maumee",
    "name": "WoodSpring Suites Toledo Maumee",
+   "market_id": "toledo-oh",
+   "schema_version": "1.3",
    "facts": {
     "pets_allowed": true,
     "weight_limit": {
@@ -1462,23 +1447,20 @@
      "operator": "lte",
      "scope": "per_pet"
     },
-    "fee_tiers": [
-     {
-      "amount_cents": 1000,
-      "currency": "USD",
-      "role": "PRICE",
-      "condition_type": "none",
-      "scope": "per_pet",
-      "refundable": false,
-      "basis_stated": false
-     }
-    ],
-    "pet_count_limit": 2,
-    "service_animal_statement": {
-     "stated": true,
-     "quote": "Allowed only dogs and service animals"
-    }
+    "pet_fee": {
+     "amount_cents": 1000,
+     "currency": "USD",
+     "scope": "per_pet",
+     "basis": "per_night"
+    },
+    "pet_count_limit": 2
    },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "Allowed only dogs and service animals"
+   },
+   "computation_class": "COMPUTATION_SAFE_ARBITRARY_ALLOWED_PET_COUNT",
    "evidence": [
     {
      "field": "pets_allowed",
@@ -1494,11 +1476,11 @@
      "source_grade": "PT1_PROPERTY"
     },
     {
-     "field": "fee_tiers",
+     "field": "pet_fee",
      "quote": "10.00 USD per night, per pet",
      "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/ohio/maumee-ohio/woodspring-suites-maumee",
-     "value": "[{\"amount_cents\": 1000, \"basis_stated\": false, \"condition_type\": \"none\", \"currency\": \"USD\", \"refundable\": false, \"role\": \"PRICE\", \"scope\": \"per_pet\"}]",
-     "evidence_ref": "ev:f251db41425bf7c0",
+     "value": "{\"amount_cents\": 1000, \"basis\": \"per_night\", \"currency\": \"USD\", \"scope\": \"per_pet\"}",
+     "evidence_ref": "ev:90a95d62766f815b",
      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
      "artifact_sha256": "sha256:e0d46d9b669fb21cd0af94666ffb35c86cb0519df84f698bdb0f81ad146dcc31",
      "artifact_kind": "rendered_html",
@@ -1525,19 +1507,6 @@
      "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/ohio/maumee-ohio/woodspring-suites-maumee",
      "value": "2",
      "evidence_ref": "ev:29c0e5b889f53a41",
-     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
-     "artifact_sha256": "sha256:e0d46d9b669fb21cd0af94666ffb35c86cb0519df84f698bdb0f81ad146dcc31",
-     "artifact_kind": "rendered_html",
-     "captured_at": "2026-09-06",
-     "capture_method": "direct_http",
-     "source_grade": "PT1_PROPERTY"
-    },
-    {
-     "field": "service_animal_statement",
-     "quote": "Allowed only dogs and service animals",
-     "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/ohio/maumee-ohio/woodspring-suites-maumee",
-     "value": "{\"quote\": \"Allowed only dogs and service animals\", \"stated\": true}",
-     "evidence_ref": "ev:82643f4edcc0e122",
      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
      "artifact_sha256": "sha256:e0d46d9b669fb21cd0af94666ffb35c86cb0519df84f698bdb0f81ad146dcc31",
      "artifact_kind": "rendered_html",
