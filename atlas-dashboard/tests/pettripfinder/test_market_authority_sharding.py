@@ -113,7 +113,11 @@ class TestShardsAreWellFormed:
             MA.load_market_routing_document("columbus-oh", authority_dir=tmp_path)
 
     def test_an_unregistered_market_directory_is_refused(self, tmp_path):
-        (tmp_path / "toledo-oh").mkdir()
+        # The id here must be one no market will ever register. It used to be
+        # "toledo-oh", which PTF-TOLEDO-OH-PROMOTION-AND-APPLICATION-002 then
+        # registered, and the test began asserting nothing. A real market id is
+        # a moving target; this one is deliberately not a place.
+        (tmp_path / "not-a-market-zz").mkdir()
         with pytest.raises(MA.MarketAuthorityError, match="unregistered market"):
             MA.sharded_market_ids(authority_dir=tmp_path)
 

@@ -100,13 +100,16 @@ GRAND_RAPIDS = "grand-rapids-holland-mi"
 #: work order explicitly does not touch launch participation.
 CINCINNATI = "cincinnati-oh"
 DETROIT = "detroit-ann-arbor-mi"
+#: PTF-TOLEDO-OH-PROMOTION-AND-APPLICATION-002 registers Toledo, built from
+#: zero by PTF-TOLEDO-OH-NEW-MARKET-001 and promoted at 17 published profiles.
+TOLEDO = "toledo-oh"
 
 # DETROIT joins at PTF-DETROIT-ANN-ARBOR-HARDENED-SYNC-029, which brought its
 # hardened market onto this lineage: 121 published, 81 verified no-pets, a
 # release contract verifying with zero disagreements. It is releasable and
 # NOT launch-authorized -- two different facts, and this tuple is the first.
 MARKETS = (COLUMBUS, CLEVELAND, DAYTON, PITTSBURGH, INDIANAPOLIS, MILWAUKEE,
-           ST_LOUIS, LOUISVILLE, GRAND_RAPIDS, CINCINNATI, DETROIT)
+           ST_LOUIS, LOUISVILLE, GRAND_RAPIDS, CINCINNATI, DETROIT, TOLEDO)
 
 #: The reconciliation each market's committed authority is expected to state, as
 #: (confirmed, published, verified_no_pets, resolved, unresolved). ``None`` means
@@ -140,6 +143,13 @@ EXPECTED_RECONCILIATION = {
     # founder-signed pet-friendly profiles, 81 verified no-pets, 45 still
     # unresolved and held in an expansion backlog.
     DETROIT: _pinned_reconciliation(DETROIT),
+    # PTF-TOLEDO-OH-PROMOTION-AND-APPLICATION-002: 54 identities, 17 published,
+    # 9 verified-no-pets, 26 resolved and 28 unresolved. Nine, not ten: founder
+    # ruling TOLEDO-R3 holds both reads at 10667/10667B Fremont Pike, where
+    # address_key collapses a building letter and two Wyndham brands state
+    # opposite policies. Toledo records no OUT_OF_CURRENT_CATEGORY identities,
+    # so resolved is published + verified-no-pets.
+    TOLEDO: _pinned_reconciliation(TOLEDO),
     # 163 identities, 43 published, 20 verified-no-pets, 63 resolved and 100
     # unresolved. The census is the 163-row recensus, promoted into the pinned
     # path by PTF-GRAND-RAPIDS-CENSUS-PIN-AND-RELEASE-CONTRACT-024; the
@@ -399,9 +409,15 @@ class TestContractRegistry:
             assert contract["schema"] == CONTRACT_SCHEMA
 
     def test_unknown_market_fails_closed_rather_than_falling_back(self):
-        """No market may borrow another's contract by being unconfigured."""
+        """No market may borrow another's contract by being unconfigured.
+
+        The id here must be one no market will ever hold. It used to be
+        "toledo-oh", which PTF-TOLEDO-OH-PROMOTION-AND-APPLICATION-002 then gave
+        a contract, and the test began asserting nothing. A real market id is a
+        moving target; this one is deliberately not a place.
+        """
         with pytest.raises(ReleaseContractError):
-            load_contract("toledo-oh")
+            load_contract("not-a-market-zz")
         with pytest.raises(ReleaseContractError):
             load_contract("")
 
@@ -527,7 +543,15 @@ class TestContractAgreesWithItsOwnAuthority:
                              # silence is never an exclusion in this
                              # market. Every number above is unchanged,
                              # which is the half that proves the scoping.
-                             DETROIT: 81}
+                             DETROIT: 81,
+                             # PTF-TOLEDO-OH-PROMOTION-AND-APPLICATION-002.
+                             # Toledo arrives with 9 verified-no-pets
+                             # exclusions, each one an affirmative
+                             # property-specific refusal read from the
+                             # property's own page. Every number above is
+                             # unchanged, which is the half that proves the
+                             # scoping.
+                             TOLEDO: 9}
         registry = json.loads(
             (REPO_ROOT / "launch_packages" / "pettripfinder" / "hotel_exclusions.json")
             .read_text(encoding="utf-8-sig"))["exclusions"]

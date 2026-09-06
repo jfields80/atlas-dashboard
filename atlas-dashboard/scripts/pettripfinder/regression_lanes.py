@@ -139,6 +139,8 @@ MARKET_PREFIXES: "OrderedDict[str, Tuple[str, ...]]" = OrderedDict((
     ("milwaukee-wi", ("test_milwaukee_",)),
     ("pittsburgh-pa", ("test_pittsburgh_",)),
     ("st-louis-mo", ("test_st_louis_",)),
+    # PTF-TOLEDO-OH-PROMOTION-AND-APPLICATION-002.
+    ("toledo-oh", ("test_toledo_",)),
 ))
 
 #: Modules that carry a row for EVERY market (a per-market pin, a per-market

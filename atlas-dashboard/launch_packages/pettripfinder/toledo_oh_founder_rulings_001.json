@@ -157,28 +157,71 @@
     "the_precedent_test": "An existing signed precedent is 'fully deterministic' only when a prior order's SIGNED ruling settles this exact disposition on facts this market already holds. A precedent that merely resembles the case does not qualify, and the promotion order may not stretch one to admit a row."
    },
    "counts_after_this_ruling": "unchanged"
+  },
+  {
+   "ruling_id": "TOLEDO-R3-FREMONT-PIKE-BOTH-HELD",
+   "packet_group": "A_IDENTITY",
+   "item": "10667 / 10667B Fremont Pike, Perrysburg 43551",
+   "founder_words": "Proceed at 9 verified no-pets. Do NOT publish either policy read under the current merged identity. Hold both. The current address_key collapses the building letter and therefore cannot safely distinguish the two Wyndham identities. Publishing either policy under the merged identity risks assigning opposite pet policies to one canonical row. Do not invent a split inside this promotion order.",
+   "disposition": "HOLD_BOTH_READS_PENDING_A_DUAL_BRAND_SPLIT_REVIEW",
+   "agent_recommendation_was": "Proceed at 9",
+   "founder_agreed_with_recommendation": true,
+   "held_reads": [
+    {
+     "captured_as": "Days Inn Perrysburg",
+     "lane": "FIRECRAWL",
+     "address_on_page": "10667B Fremont Pike",
+     "postal_code": "43551",
+     "pets_allowed": false,
+     "quote": "no other pets",
+     "service_animal_quote": "ADA defined service animals are welcome at this hotel.",
+     "source_url": "https://www.wyndhamhotels.com/days-inn/perrysburg-ohio/days-inn-perrysburg/overview"
+    },
+    {
+     "captured_as": "Super 8 Perrysburg Toledo",
+     "lane": "DIRECT_STATIC",
+     "address_on_page": "10667 Fremont Pike",
+     "postal_code": "43551",
+     "pets_allowed": true,
+     "quote": "Dog-friendly",
+     "note": "an amenity-chip phrase, not an operative policy statement; it would be held on its own grade even if the identity were settled",
+     "source_url": "https://www.wyndhamhotels.com/super-8/perrysburg-ohio/super-8-perrysburg-toledo/overview"
+    }
+   ],
+   "why": "address_key strips the building letter, so 10667 and 10667B produce one key and the two Wyndham identities collapse into one census row. The two pages state OPPOSITE pet policies. Publishing either would put contradictory facts on one canonical row.",
+   "proposed_future_action": "SAME_PREMISES_DISTINCT_IDENTITIES / DUAL-BRAND SPLIT REVIEW",
+   "preserve": "Both first-party captures and all identity evidence are preserved: the reads stay in toledo_oh_evidence_audit_001.json with their quotes, document provenance and identity signals, and the census row keeps every alias that names either brand.",
+   "counts_after_this_ruling": {
+    "census": 54,
+    "clean_pet_friendly": 17,
+    "clean_verified_no_pets": 9,
+    "corridors": 13
+   }
   }
  ],
  "a_conflict_the_agent_must_not_resolve_silently": {
-  "what": "The first ruling excluded Bowling Green while restating the clean set as 17/10, which are the counts WITH Bowling Green in. The agent surfaced the disagreement rather than choosing, and the founder resolved it by revising the ruling: Bowling Green is IN and 54/17/10/13 governs.",
-  "status": "RESOLVED_BY_THE_FOUNDER",
-  "resolved_how": "TOLEDO-R1A-BOWLING-GREEN-INCLUDED",
+  "what": "Two conflicts arose and both were surfaced rather than reconciled. The first was Bowling Green (resolved by TOLEDO-R1A). The second was a one-row difference between the founder's restated 10 verified no-pets and the 9 that correct application of TOLEDO-R2 produces, caused by a defect in the agent's own wrong-evidence audit.",
+  "status": "BOTH_RESOLVED_BY_THE_FOUNDER",
+  "resolved_how": [
+   "TOLEDO-R1A-BOWLING-GREEN-INCLUDED",
+   "TOLEDO-R3-FREMONT-PIKE-BOTH-HELD"
+  ],
   "governing_counts": {
    "census": 54,
    "clean_pet_friendly": 17,
-   "clean_verified_no_pets": 10,
+   "clean_verified_no_pets": 9,
    "corridors": 13
   },
-  "why_it_was_worth_asking": "the two readings differed by three published pages. Had the agent reconciled it silently either way, one of them would have been wrong and no technical gate would have caught it."
+  "why_it_was_worth_asking": "the first differed by three published pages; the second would have put a 'no other pets' fact and a 'Dog-friendly' fact on one canonical row. No technical gate catches either."
  },
  "promotion_ready": "YES",
  "blocks_promotion": [],
- "authorises": "PTF-TOLEDO-OH-PROMOTION-AND-APPLICATION-002 to promote Toledo's clean set of 17 CLEAN_PET_FRIENDLY and 10 CLEAN_VERIFIED_NO_PETS into shared production source, across 13 corridors including Bowling Green, after that order has first integrated the then-current deployed canonical lineage. It does NOT authorise a deployment, a launch-participation flip, or any publication of a held Group A row.",
+ "authorises": "PTF-TOLEDO-OH-PROMOTION-AND-APPLICATION-002 to promote 17 CLEAN_PET_FRIENDLY and 9 CLEAN_VERIFIED_NO_PETS across 13 corridors into shared production source and to prepare an UNEXECUTED deployment authorization packet. It does NOT authorise a deployment or a launch-participation flip.",
  "revision_note": "Ruling R1 was made and then revised by the founder within the same session. R1A governs. R1 is retained in full, marked SUPERSEDED, because retiring a decision is a move and never a deletion (PTF-INDIANAPOLIS-FOUNDER-RULINGS-013).",
  "governing_promotion_set": {
   "census": 54,
   "clean_pet_friendly": 17,
-  "clean_verified_no_pets": 10,
+  "clean_verified_no_pets": 9,
   "corridors": 13
  }
 }

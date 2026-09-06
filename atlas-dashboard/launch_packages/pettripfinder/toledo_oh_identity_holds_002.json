@@ -1,0 +1,68 @@
+{
+ "schema": "ptf-founder-identity-hold/1.0",
+ "work_order": "PTF-TOLEDO-OH-PROMOTION-AND-APPLICATION-002",
+ "market_id": "toledo-oh",
+ "recorded_at": "2026-09-06",
+ "recorded_by": "Claude Opus 5 (agent transcription)",
+ "what_this_is": "Identities this market carries but will not publish, each one held by a named founder ruling and each one carrying the evidence a later order needs to resolve it. A hold is a MOVE of the question, never a deletion of the answer: every first-party capture behind these rows is preserved and cited.",
+ "holds": [
+  {
+   "hold_id": "TOLEDO-HOLD-001-FREMONT-PIKE",
+   "proposed_future_action": "SAME_PREMISES_DISTINCT_IDENTITIES / DUAL-BRAND SPLIT REVIEW",
+   "held_by": "TOLEDO-R3-FREMONT-PIKE-BOTH-HELD",
+   "census_identity_key": "days inn by wyndham perrysburg toledo",
+   "census_canonical_name": "Days Inn by Wyndham Perrysburg/Toledo",
+   "census_street": "10667 Fremont Pike",
+   "census_postal_code": "43551",
+   "corridor": "toledo-oh__perrysburg-levis-commons",
+   "census_aliases": [
+    "days inn by wyndham perrysburg toledo",
+    "days inn perrysburg",
+    "super 8 by wyndham perrysburg toledo",
+    "super 8 perrysburg toledo"
+   ],
+   "why_held": "address_key strips the building letter, so 10667 and 10667B produce one identity key and two Wyndham brands collapse into one census row. The two first-party pages state OPPOSITE pet policies, so publishing either would put contradictory facts on one canonical row.",
+   "the_two_first_party_captures_preserved": [
+    {
+     "proposed_identity": "Days Inn by Wyndham Perrysburg/Toledo",
+     "address_the_page_states": "10667B Fremont Pike",
+     "postal_code": "43551",
+     "lane": "FIRECRAWL",
+     "source_url": "https://www.wyndhamhotels.com/days-inn/perrysburg-ohio/days-inn-perrysburg/overview",
+     "pets_allowed": false,
+     "operative_quote": "no other pets",
+     "service_animal_quote": "ADA defined service animals are welcome at this hotel.",
+     "would_have_been": "CLEAN_VERIFIED_NO_PETS",
+     "evidence_lives_in": "launch_packages/pettripfinder/markets/reports/toledo_oh_evidence_audit_001.json and toledo_oh_firecrawl_pass_001.json"
+    },
+    {
+     "proposed_identity": "Super 8 by Wyndham Perrysburg/Toledo",
+     "address_the_page_states": "10667 Fremont Pike",
+     "postal_code": "43551",
+     "lane": "DIRECT_STATIC",
+     "source_url": "https://www.wyndhamhotels.com/super-8/perrysburg-ohio/super-8-perrysburg-toledo/overview",
+     "pets_allowed": true,
+     "operative_quote": "Dog-friendly",
+     "quote_grade_caveat": "an amenity-chip phrase, not an operative policy statement. This read would be held on its own evidence grade even if the identity were settled, so a split does not automatically publish it.",
+     "would_have_been": "held pending a publication-grade read",
+     "evidence_lives_in": "launch_packages/pettripfinder/markets/reports/toledo_oh_evidence_audit_001.json and toledo_oh_free_static_capture_001.json"
+    }
+   ],
+   "what_a_later_order_needs_to_do": [
+    "Confirm on a first-party source that 10667 and 10667B are two distinct lodging premises, not one building with two mailing forms.",
+    "If they are two: split the census row into two identities, carry the Days Inn refusal onto the 10667B identity, and re-read the Super 8 for a publication-grade statement -- 'Dog-friendly' is a chip.",
+    "If they are one: rule which brand trades there today and treat the other as a predecessor, retiring it by MOVE.",
+    "Either way the fix belongs upstream too: address_key drops the building letter, and any market with an A/B campus will hit this again."
+   ],
+   "blocks_promotion": "NO",
+   "effect_on_this_promotion": "one CLEAN_VERIFIED_NO_PETS row withheld; the market promotes at 9 rather than 10"
+  }
+ ],
+ "other_group_a_identities_held_by_TOLEDO_R2": [
+  {"address": "3100 Glendale Avenue, Toledo 43614", "identities": ["Radisson Hotel at The University of Toledo", "Delta Hotels Toledo"], "class": "SAME_IDENTITY_REBRAND_SUCCESSOR", "note": "Marriott's own page puts Delta Hotels Toledo at this address, and the attended read states Pets Not Allowed. Which name trades there is a founder ruling."},
+  {"address": "6425 Kit Lane, Maumee 43537", "identities": ["Best Western", "Baymont by Wyndham Maumee Toledo"], "class": "SAME_IDENTITY_REBRAND_SUCCESSOR", "note": "Wyndham's own page puts Baymont Maumee at the address the map source still calls Best Western."},
+  {"address": "1390 Arrowhead Drive, Maumee 43537", "identities": ["Super 8", "Spark by Hilton Maumee Toledo"], "class": "IDENTITY_UNRESOLVED_BY_THE_MERGE", "note": "Hilton's own page puts Spark Maumee Toledo at the address the map source calls Super 8."},
+  {"address": "101 N Summit Street, Toledo 43604", "identities": ["Hilton Garden Inn Toledo Downtown (TOLDEGI)", "Homewood Suites Toledo Downtown (TOLDDHW)"], "class": "SAME_CAMPUS_DISTINCT_ENTITY", "note": "Two Hilton property codes at one street address, which the destination bureau itself lists as 'Hiltons at Toledo Downtown'. Both attended reads are preserved; neither publishes until the census separates them."}
+ ],
+ "preservation_guarantee": "Nothing here is deleted. Every held identity remains in the census with its aliases, every read remains in the evidence audit with its quote and document provenance, and every route remains in the routing table. A later order inherits work already done and paid for."
+}

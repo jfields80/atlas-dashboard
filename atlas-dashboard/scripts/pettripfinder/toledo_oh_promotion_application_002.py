@@ -79,11 +79,14 @@ FOUNDER_REVIEWER_ID = "PTF-FOUNDER-001"
 REVIEW_BASIS = (
     "Set-level founder authorisation. The founder ruled on this market's grouped packet in "
     "session (TOLEDO-R1A and TOLEDO-R2, recorded in toledo_oh_founder_rulings_001.json) and "
-    "authorised the clean promotion set of 17 CLEAN_PET_FRIENDLY and 10 CLEAN_VERIFIED_NO_PETS by "
+    "authorised the clean promotion set of 17 CLEAN_PET_FRIENDLY and 9 CLEAN_VERIFIED_NO_PETS by "
     "count and by scope. The agent did not attribute a per-row reading to the founder and no "
     "human name appears in any field a human did not put there.")
 
-GOVERNING = {"census": 54, "clean_pet_friendly": 17, "clean_verified_no_pets": 10, "corridors": 13}
+#: The founder's governing promotion set after TOLEDO-R3. Nine, not ten: the
+#: tenth refusal sits on an identity the merge could not separate from a second
+#: Wyndham brand at the same address stem, and TOLEDO-R3 holds both reads.
+GOVERNING = {"census": 54, "clean_pet_friendly": 17, "clean_verified_no_pets": 9, "corridors": 13}
 
 
 class PromotionError(RuntimeError):
@@ -104,6 +107,15 @@ def _write(path, doc):
 
 def _sha(text):
     return "sha256:" + hashlib.sha256((text or "").encode("utf-8")).hexdigest()
+
+
+def _prefixed(digest):
+    """A sha256 digest in ONE form. Bare hex and sha256:-prefixed are not
+    comparable, and this market's lanes emit both."""
+    d = (digest or "").strip()
+    if not d:
+        return ""
+    return d if d.startswith("sha256:") else "sha256:" + d
 
 
 def slugify(text):
@@ -175,11 +187,21 @@ def facts_from_read(row):
         facts["species"] = OrderedDict(
             [("dogs", "accepted")] if "dog" in species else []
             + ([("cats", "accepted")] if "cat" in species else []))
-    if ext.get("weight_limit") is not None:
+    # The readers disagree on shape: some return a bare number with a separate
+    # unit, others a {"value": n, "unit": "lb"} object. Publish one shape, and
+    # never a number nested inside the field that is supposed to hold it.
+    wl = ext.get("weight_limit")
+    if wl is not None:
+        if isinstance(wl, dict):
+            value, unit = wl.get("value"), wl.get("unit")
+        else:
+            value, unit = wl, ext.get("weight_limit_unit")
+        if value is None:
+            raise PromotionError("%s: a weight limit with no value" % row["canonical_name"])
         facts["weight_limit"] = OrderedDict([
-            ("value", ext["weight_limit"]),
-            ("unit", ext.get("weight_limit_unit") or "lb"),
-            ("operator", "lte"), ("scope", "per_pet")])
+            ("value", float(value)), ("unit", unit or "lb"),
+            ("operator", ext.get("weight_limit_operator") or "lte"),
+            ("scope", "per_pet")])
     fee = ext.get("pet_fee")
     if fee is not None:
         tiers = fee_tiers_from(quote, fee, ext.get("fee_refundable"))
@@ -249,7 +271,9 @@ def evidence_rows(row, facts):
                 ("evidence_ref", "ev:" + hashlib.sha256(
                     (row["identity_key"] + field + quote).encode("utf-8")).hexdigest()[:16]),
                 ("artifact_class", "PUBLICATION_GRADE_EVIDENCE"),
-                ("artifact_sha256", row.get("document_sha256")
+                # Always sha256:-prefixed. A bare hex digest and a prefixed one
+                # are not comparable, and half this market's lanes emit each.
+                ("artifact_sha256", _prefixed(row.get("document_sha256"))
                  or _sha(row["source_url"] + quote)),
                 ("artifact_kind", "rendered_html"),
                 ("captured_at", row.get("captured_at") or AS_OF),
@@ -330,6 +354,9 @@ def build_exclusions(clean, census_by_key):
             raise PromotionError("%s: a VERIFIED_NO_PETS row with no refusal quote"
                                  % crow["canonical_name"])
         rec = OrderedDict([
+            # A shard owns only its OWN records, and market_authority proves it
+            # per record rather than per file.
+            ("market_id", MARKET_ID),
             ("exclusion_id", "tol-" + slugify(crow["canonical_name"])),
             ("canonical_name", crow["canonical_name"]),
             ("normalized_name", key),
@@ -340,7 +367,8 @@ def build_exclusions(clean, census_by_key):
             ("evidence_quote", quote),
             ("source_url", row["source_url"]),
             ("observed_at", (row.get("captured_at") or AS_OF)[:10]),
-            ("source_hash", row.get("document_sha256") or _sha(row["source_url"] + quote)),
+            ("source_hash", _prefixed(row.get("document_sha256"))
+             or _sha(row["source_url"] + quote)),
         ])
         rec["record_hash"] = HE.record_hash(rec)
         rec["reviewer_id"] = FOUNDER_REVIEWER_ID

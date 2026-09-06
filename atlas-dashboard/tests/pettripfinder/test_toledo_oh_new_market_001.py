@@ -31,13 +31,30 @@ from scripts.pettripfinder.discovery.market_config import load_market_config
 from scripts.pettripfinder.markets import contract as MC
 from scripts.pettripfinder.site_data import normalize_name
 
+from . import epochs
+
+PROMOTION = "PTF-TOLEDO-OH-PROMOTION-AND-APPLICATION-002"
+
 REPO_ROOT = Path(__file__).resolve().parents[2]
 PACKAGE = REPO_ROOT / "launch_packages" / "pettripfinder"
 REPORTS = PACKAGE / "markets" / "reports"
 MARKET = "toledo-oh"
 
-PROPOSED_CONTRACT = PACKAGE / "markets" / "proposed" / "toledo-oh.json"
-PROPOSED_CENSUS = PACKAGE / "identity_census_proposed" / "toledo-oh.json"
+def _either(registered: Path, proposed: Path) -> Path:
+    """The registered artifact once this market is promoted, else the proposed one.
+
+    PTF-TOLEDO-OH-PROMOTION-AND-APPLICATION-002 MOVED both files. Every gate
+    below that describes how the market was BUILT is still true of the moved
+    artifact, so it follows the file rather than being retired with the boundary.
+    """
+    return registered if registered.is_file() else proposed
+
+
+PROPOSED_CONTRACT = _either(PACKAGE / "markets" / "toledo-oh.json",
+                            PACKAGE / "markets" / "proposed" / "toledo-oh.json")
+PROPOSED_CENSUS = _either(PACKAGE / "identity_census" / "toledo-oh.json",
+                          PACKAGE / "identity_census_proposed" / "toledo-oh.json")
+REGISTERED = (PACKAGE / "markets" / "toledo-oh.json").is_file()
 OWNED_EVIDENCE = REPORTS / "toledo_oh_owned_evidence_001.json"
 LEAD_SOURCES = REPORTS / "toledo_oh_lead_sources_001.json"
 BRAND_CITY_PAGES = REPORTS / "toledo_oh_brand_city_pages_001.json"
@@ -58,6 +75,7 @@ def _load(path: Path):
 # order crossed it.
 # --------------------------------------------------------------------------- #
 
+@epochs.superseded(by=PROMOTION, what='Toledo was absent from markets/*.json. The promotion registered it, which is what registering a market means.')
 def test_toledo_is_not_a_registered_market():
     """markets/*.json IS the registry. Toledo must not be in it."""
     registered = {p.stem for p in (PACKAGE / "markets").glob("*.json")}
@@ -65,12 +83,14 @@ def test_toledo_is_not_a_registered_market():
     assert MARKET not in {m.market_id for m in MC.load_markets()}
 
 
+@epochs.superseded(by=PROMOTION, what='Toledo had no authority shard, no registered census and no policy package. The promotion wrote all three.')
 def test_toledo_has_no_authority_shard_and_no_registered_census():
     assert not (PACKAGE / "markets" / "authority" / MARKET).exists()
     assert not (PACKAGE / "identity_census" / ("%s.json" % MARKET)).exists()
     assert not (PACKAGE / ("hotel_policy_facts_%s.json" % MARKET)).exists()
 
 
+@epochs.superseded(by=PROMOTION, what='Toledo was absent from market_state.json. The promotion added its row.')
 def test_toledo_is_absent_from_every_current_state_pin():
     pins = REPO_ROOT / "tests" / "pettripfinder" / "pins"
     market_state = _load(pins / "market_state.json")
@@ -81,6 +101,7 @@ def test_toledo_is_absent_from_every_current_state_pin():
         assert MARKET not in deployment[block]["profile_counts"]
 
 
+@epochs.superseded(by=PROMOTION, what='Toledo had no release contract and no launch-participation row. The promotion derived the contract and recorded SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH, which the assembler requires of every registered market and which is not an authorization.')
 def test_toledo_has_no_release_contract_and_no_launch_participation():
     assert not (REPO_ROOT / "deploy" / "netlify" / "release_contracts"
                 / ("%s.json" % MARKET)).is_file()
@@ -258,6 +279,7 @@ def test_no_competitor_row_entered_the_census_on_competitor_evidence_alone():
 # The census.
 # --------------------------------------------------------------------------- #
 
+@epochs.superseded(by=PROMOTION, what='The census carried status PROPOSED_NOT_REGISTERED. The promotion dropped that marker when it moved the file into identity_census/.')
 def test_the_proposed_census_is_marked_proposed():
     doc = _load(PROPOSED_CENSUS)
     assert doc["status"] == "PROPOSED_NOT_REGISTERED"

@@ -211,6 +211,13 @@ def _partition_path(market_id: str) -> Optional[Path]:
         # order after it. Named explicitly here so sorted order can never
         # choose again.
         "indianapolis-in": "indianapolis_in_final_partition_023.json",
+        # PTF-TOLEDO-OH-PROMOTION-AND-APPLICATION-002. Named explicitly like
+        # every market since Indianapolis, and this one could not rely on the
+        # glob even if it wanted to: "toledo-oh" strips to "toledo", and the
+        # partition this order writes is toledo_OH_final_partition_001.json, so
+        # the glob matches nothing and the assembler would read "no partition"
+        # for a market that has one.
+        "toledo-oh": "toledo_oh_final_partition_001.json",
     }
     name = table.get(market_id)
     if name:

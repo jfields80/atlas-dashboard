@@ -1125,6 +1125,69 @@
   "toledo-oh__toledo-express-airport": 1,
   "toledo-oh__university-medical": 4
  },
+ "first_party_naming": {
+  "what_it_is": "A bare brand label is not an identity: Detroit already owns the key 'hampton', so a Toledo row named 'Hampton' collides across markets and the seed assembler refuses it. Each such row takes the property's OWN name from its brand's route slug.",
+  "renamed": [
+   {
+    "was": "Hampton",
+    "now": "Hampton Bowling Green",
+    "route": "https://www.hilton.com/en/hotels/bgnohhx-hampton-bowling-green/",
+    "basis": "the property's own slug on its brand's site; the map source left the identity bare and a bare brand label is not an identity"
+   },
+   {
+    "was": "Home2 Suites",
+    "now": "Home2 Suites Bowling Green",
+    "route": "https://www.hilton.com/en/hotels/tolbght-home2-suites-bowling-green/",
+    "basis": "the property's own slug on its brand's site; the map source left the identity bare and a bare brand label is not an identity"
+   }
+  ]
+ },
+ "city_backfill": {
+  "what_it_is": "A blank city filled from this market's OWN evidence: another admitted row in the same postal code, or the city segment of the property's own canonical URL. A brand's marketing NAME is never read as a city -- Hilton calls two Rossford hotels Toledo-Perrysburg.",
+  "filled": [
+   {
+    "identity_key": "americas best value inn maumee toledo",
+    "city": "Maumee",
+    "basis": "every other admitted identity in postal code 43537 states this city"
+   },
+   {
+    "identity_key": "baymont by wyndham northwood",
+    "city": "Northwood",
+    "basis": "the city segment of the property's own canonical URL on the brand's site (wyndhamhotels.com/baymont/northwood-ohio/); the rule was validated on this market's own data -- 3 rows whose city was already known agreed, 0 disagreed"
+   },
+   {
+    "identity_key": "baymont inn and suites by wyndham swanton toledo airport",
+    "city": "Swanton",
+    "basis": "the city segment of the property's own canonical URL on the brand's site (wyndhamhotels.com/baymont/swanton-ohio/); the rule was validated on this market's own data -- 3 rows whose city was already known agreed, 0 disagreed"
+   },
+   {
+    "identity_key": "days inn by wyndham perrysburg toledo",
+    "city": "Perrysburg",
+    "basis": "every other admitted identity in postal code 43551 states this city"
+   },
+   {
+    "identity_key": "quality inn",
+    "city": "Perrysburg",
+    "basis": "every other admitted identity in postal code 43551 states this city"
+   },
+   {
+    "identity_key": "super 8 by wyndham millbury toledo",
+    "city": "Millbury",
+    "basis": "the city segment of the property's own canonical URL on the brand's site (wyndhamhotels.com/super-8/millbury-ohio/); the rule was validated on this market's own data -- 3 rows whose city was already known agreed, 0 disagreed"
+   },
+   {
+    "identity_key": "tru perrysburg toledo",
+    "city": "Rossford",
+    "basis": "every other admitted identity in postal code 43460 states this city"
+   },
+   {
+    "identity_key": "woodspring suites toledo maumee",
+    "city": "Maumee",
+    "basis": "every other admitted identity in postal code 43537 states this city"
+   }
+  ],
+  "left_blank": []
+ },
  "merge_conflicts": [
   {
    "observation": {
@@ -9046,7 +9109,7 @@
    "classification": "TRUE_HOTEL_IDENTITY",
    "classification_reason": "",
    "street": "150 Dussel Drive",
-   "city": "",
+   "city": "Maumee",
    "state": "OH",
    "postal_code": "43537",
    "phone": "419-893-9960",
@@ -9110,7 +9173,8 @@
      "binding_reason": "brand 1.00, town ['maumee', 'toledo'], area not stated",
      "binding_caveat": "Bound to this building by NAME plus its own hard geography. The observation carried no street address, no phone and no comparable property code. The binding is a proposal for the routing and policy lanes to confirm on the property's OWN page; it is not an identity decision and it publishes nothing."
     }
-   ]
+   ],
+   "city_basis": "every other admitted identity in postal code 43537 states this city"
   },
   {
    "identity_key": "baymont by wyndham holland toledo",
@@ -9165,7 +9229,7 @@
    "classification": "TRUE_HOTEL_IDENTITY",
    "classification_reason": "",
    "street": "2426 Oregon Rd",
-   "city": "",
+   "city": "Northwood",
    "state": "OH",
    "postal_code": "43619",
    "phone": "+1-419-442-0471",
@@ -9226,7 +9290,8 @@
      "binding_method": "CANONICAL_PATH_AND_NAME",
      "read_for_identity_key": "baymont northwood"
     }
-   ]
+   ],
+   "city_basis": "the city segment of the property's own canonical URL on the brand's site (wyndhamhotels.com/baymont/northwood-ohio/); the rule was validated on this market's own data -- 3 rows whose city was already known agreed, 0 disagreed"
   },
   {
    "identity_key": "baymont by wyndham perrysburg toledo",
@@ -9348,7 +9413,7 @@
    "classification": "TRUE_HOTEL_IDENTITY",
    "classification_reason": "",
    "street": "10753 Airport Hwy",
-   "city": "",
+   "city": "Swanton",
    "state": "OH",
    "postal_code": "43558",
    "phone": "+1-419-491-3369",
@@ -9422,7 +9487,8 @@
      "binding_reason": "brand 1.00, town ['swanton', 'toledo'], area ['airport']",
      "binding_caveat": "Bound to this building by NAME plus its own hard geography. The observation carried no street address, no phone and no comparable property code. The binding is a proposal for the routing and policy lanes to confirm on the property's OWN page; it is not an identity decision and it publishes nothing."
     }
-   ]
+   ],
+   "city_basis": "the city segment of the property's own canonical URL on the brand's site (wyndhamhotels.com/baymont/swanton-ohio/); the rule was validated on this market's own data -- 3 rows whose city was already known agreed, 0 disagreed"
   },
   {
    "identity_key": "comfort inn",
@@ -10385,7 +10451,7 @@
    "classification": "TRUE_HOTEL_IDENTITY",
    "classification_reason": "",
    "street": "10667 Fremont Pike",
-   "city": "",
+   "city": "Perrysburg",
    "state": "OH",
    "postal_code": "43551",
    "phone": "+1-419-931-6310",
@@ -10460,7 +10526,8 @@
      "binding_method": "CANONICAL_PATH_AND_NAME",
      "read_for_identity_key": "days inn perrysburg"
     }
-   ]
+   ],
+   "city_basis": "every other admitted identity in postal code 43551 states this city"
   },
   {
    "identity_key": "econo lodge",
@@ -10846,13 +10913,13 @@
    ]
   },
   {
-   "identity_key": "hampton",
+   "identity_key": "hampton bowling green",
    "identity_key_aliases": [
     "hampton",
     "hampton bowling green",
     "hampton inn bowling green"
    ],
-   "canonical_name": "Hampton",
+   "canonical_name": "Hampton Bowling Green",
    "classification": "TRUE_HOTEL_IDENTITY",
    "classification_reason": "",
    "street": "142 Campbell Hill Road",
@@ -10938,7 +11005,8 @@
      "binding_reason": "brand 1.00, town ['bowling green'], area not stated",
      "binding_caveat": "Bound to this building by NAME plus its own hard geography. The observation carried no street address, no phone and no comparable property code. The binding is a proposal for the routing and policy lanes to confirm on the property's OWN page; it is not an identity decision and it publishes nothing."
     }
-   ]
+   ],
+   "canonical_name_basis": "the property's own slug on its brand's site; the map source left the identity bare and a bare brand label is not an identity"
   },
   {
    "identity_key": "hampton inn and suites toledo oregon",
@@ -11811,13 +11879,13 @@
    ]
   },
   {
-   "identity_key": "home2 suites",
+   "identity_key": "home2 suites bowling green",
    "identity_key_aliases": [
     "home2 suites",
     "home2 suites bowling green",
     "home2 suites by hilton bowling green"
    ],
-   "canonical_name": "Home2 Suites",
+   "canonical_name": "Home2 Suites Bowling Green",
    "classification": "TRUE_HOTEL_IDENTITY",
    "classification_reason": "",
    "street": "1630 East Wooster Street",
@@ -11903,7 +11971,8 @@
      "binding_reason": "brand 1.00, town ['bowling green'], area not stated",
      "binding_caveat": "Bound to this building by NAME plus its own hard geography. The observation carried no street address, no phone and no comparable property code. The binding is a proposal for the routing and policy lanes to confirm on the property's OWN page; it is not an identity decision and it publishes nothing."
     }
-   ]
+   ],
+   "canonical_name_basis": "the property's own slug on its brand's site; the map source left the identity bare and a bare brand label is not an identity"
   },
   {
    "identity_key": "home2 suites by hilton perrysburg levis commons toledo",
@@ -12065,7 +12134,7 @@
    "classification": "TRUE_HOTEL_IDENTITY",
    "classification_reason": "",
    "street": "27350 Lakevue Drive",
-   "city": "",
+   "city": "Perrysburg",
    "state": "OH",
    "postal_code": "43551",
    "phone": "",
@@ -12135,7 +12204,8 @@
      "binding_reason": "brand 1.00, town not stated, area not stated",
      "binding_caveat": "Bound to this building by NAME plus its own hard geography. The observation carried no street address, no phone and no comparable property code. The binding is a proposal for the routing and policy lanes to confirm on the property's OWN page; it is not an identity decision and it publishes nothing."
     }
-   ]
+   ],
+   "city_basis": "every other admitted identity in postal code 43551 states this city"
   },
   {
    "identity_key": "relax inn",
@@ -12855,7 +12925,7 @@
    "classification": "TRUE_HOTEL_IDENTITY",
    "classification_reason": "",
    "street": "3491 Latcha Road",
-   "city": "",
+   "city": "Millbury",
    "state": "OH",
    "postal_code": "43447",
    "phone": "+1-419-210-5849",
@@ -12929,7 +12999,8 @@
      "binding_reason": "brand 1.00, town ['millbury', 'toledo'], area not stated",
      "binding_caveat": "Bound to this building by NAME plus its own hard geography. The observation carried no street address, no phone and no comparable property code. The binding is a proposal for the routing and policy lanes to confirm on the property's OWN page; it is not an identity decision and it publishes nothing."
     }
-   ]
+   ],
+   "city_basis": "the city segment of the property's own canonical URL on the brand's site (wyndhamhotels.com/super-8/millbury-ohio/); the rule was validated on this market's own data -- 3 rows whose city was already known agreed, 0 disagreed"
   },
   {
    "identity_key": "towneplace suites by marriott toledo oregon",
@@ -13107,7 +13178,7 @@
    "classification": "TRUE_HOTEL_IDENTITY",
    "classification_reason": "",
    "street": "9735 Clark Drive",
-   "city": "",
+   "city": "Rossford",
    "state": "OH",
    "postal_code": "43460",
    "phone": "",
@@ -13167,7 +13238,8 @@
      "binding_reason": "brand 1.00, town ['perrysburg', 'toledo'], area not stated",
      "binding_caveat": "Bound to this building by NAME plus its own hard geography. The observation carried no street address, no phone and no comparable property code. The binding is a proposal for the routing and policy lanes to confirm on the property's OWN page; it is not an identity decision and it publishes nothing."
     }
-   ]
+   ],
+   "city_basis": "every other admitted identity in postal code 43460 states this city"
   },
   {
    "identity_key": "wingate by wyndham sylvania toledo",
@@ -13256,7 +13328,7 @@
    "classification": "TRUE_HOTEL_IDENTITY",
    "classification_reason": "",
    "street": "1788 Indian Wood Circle",
-   "city": "",
+   "city": "Maumee",
    "state": "OH",
    "postal_code": "43537",
    "phone": "1(419)740-5819",
@@ -13334,7 +13406,8 @@
      "binding_reason": "brand 1.00, town ['maumee', 'toledo'], area not stated",
      "binding_caveat": "Bound to this building by NAME plus its own hard geography. The observation carried no street address, no phone and no comparable property code. The binding is a proposal for the routing and policy lanes to confirm on the property's OWN page; it is not an identity decision and it publishes nothing."
     }
-   ]
+   ],
+   "city_basis": "every other admitted identity in postal code 43537 states this city"
   }
  ]
 }

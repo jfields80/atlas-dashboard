@@ -642,6 +642,131 @@ def merge_zipless(nodes):
     return [n for n in nodes if id(n) not in absorbed], merged, ambiguous
 
 
+#: Wyndham publishes the property's city as a segment of its own canonical URL
+#: (".../baymont/northwood-ohio/..."). Validated on this market's own data before
+#: it was trusted: three rows whose city the census already knew agreed, none
+#: disagreed. This is a STRUCTURED field in the brand's location taxonomy and is
+#: NOT the same thing as a brand's marketing name -- Hilton calls two Rossford
+#: hotels "Toledo-Perrysburg", so a name is never read as a city.
+_WYNDHAM_URL_CITY = re.compile(r"wyndhamhotels\.com/[a-z0-9-]+/([a-z-]+)-ohio/", re.I)
+
+
+def fill_missing_cities(rows):
+    """Fill a BLANK city from this market's own evidence. Never overwrite one.
+
+    Two rules, strongest first:
+      1. another admitted row in the SAME postal code that states a city, and
+         only when every such row agrees;
+      2. the city segment of the property's own Wyndham canonical URL.
+    A row no rule reaches keeps its blank city and is reported, because an
+    invented city is worse than a missing one.
+    """
+    by_zip = {}
+    for r in rows:
+        if (r.get("city") or "").strip() and r.get("postal_code"):
+            by_zip.setdefault(r["postal_code"], set()).add(r["city"].strip())
+    filled, unfilled = [], []
+    for r in rows:
+        if (r.get("city") or "").strip():
+            continue
+        peers = by_zip.get(r.get("postal_code") or "", set())
+        if len(peers) == 1:
+            city = next(iter(peers))
+            basis = ("every other admitted identity in postal code %s states this city"
+                     % r["postal_code"])
+        else:
+            urls = [o.get("route") or o.get("source_url") or "" for o in r.get("evidence", [])]
+            m = next((_WYNDHAM_URL_CITY.search(u) for u in urls
+                      if _WYNDHAM_URL_CITY.search(u)), None)
+            if not m:
+                unfilled.append(OrderedDict([("identity_key", r["identity_key"]),
+                                             ("street", r["street"]),
+                                             ("postal_code", r["postal_code"])]))
+                continue
+            city = m.group(1).replace("-", " ").title()
+            basis = ("the city segment of the property's own canonical URL on the brand's site "
+                     "(%s); the rule was validated on this market's own data -- 3 rows whose "
+                     "city was already known agreed, 0 disagreed" % m.group(0))
+        r["city"] = city
+        r["city_basis"] = basis
+        filled.append(OrderedDict([("identity_key", r["identity_key"]), ("city", city),
+                                   ("basis", basis)]))
+    return filled, unfilled
+
+
+#: A brand's own property-page slug, which is a first-party identifier for the
+#: hotel and not a marketing line. Used ONLY to name an identity a map source
+#: left bare -- never to overrule a name a first-party page states.
+_BRAND_SLUG = (
+    re.compile(r"hilton\.com/en/hotels/[a-z0-9]{4,9}-([a-z0-9-]+)/?$", re.I),
+    re.compile(r"marriott\.com/en-us/hotels/[a-z0-9]{5,7}-([a-z0-9-]+)/overview/?$", re.I),
+)
+
+
+def name_bare_identities(rows):
+    """Give a bare brand label its own brand's name for the property.
+
+    OSM prints "Hampton" and "Home2 Suites" with no geography, and a bare label
+    is not an identity: Detroit already owns the key "hampton", so a Toledo row
+    named "Hampton" collides across markets and the seed assembler refuses it --
+    one identity is one listing. The fix is the property's OWN name, taken from
+    the brand's own route slug, not a label this order invents.
+    """
+    named = []
+    for r in rows:
+        # NEVER rename a building whose identity is unresolved. 1390 Arrowhead
+        # Drive is "Super 8" to the map source and "Spark by Hilton Maumee
+        # Toledo" to Hilton; adopting the brand slug there would invent the
+        # rebrand ruling founder ruling TOLEDO-R2 forbids.
+        brands = set()
+        for o in r.get("evidence", []):
+            brands |= {t for t in normalize_name(o.get("name") or "").split()
+                       if t in _BRAND_WORDS}
+        sigs = []
+        for o in r.get("evidence", []):
+            w = {t for t in normalize_name(o.get("name") or "").split() if t in _BRAND_WORDS}
+            if w and not any(w & x for x in sigs):
+                sigs.append(w)
+        if len(sigs) > 1:
+            continue
+        toks = [t for t in normalize_name(r["canonical_name"]).split() if t]
+        if len(toks) > 2 or any(t in _ALL_PLACES or t in _DIRECTIONALS for t in toks):
+            continue
+        route = ""
+        for o in r.get("evidence", []):
+            cand = o.get("route") or ""
+            if any(rx.search(cand) for rx in _BRAND_SLUG):
+                route = cand
+                break
+        if not route:
+            continue
+        m = next(rx.search(route) for rx in _BRAND_SLUG if rx.search(route))
+        proposed = " ".join(w.capitalize() for w in m.group(1).split("-"))
+        if normalize_name(proposed) == normalize_name(r["canonical_name"]):
+            continue
+        # A naming fill ADDS geography to a chain the row already names. If the
+        # proposed name changes the CHAIN, it is a rebrand claim, and founder
+        # ruling TOLEDO-R2 forbids inventing one: 1390 Arrowhead Drive is
+        # "Super 8" to the map source and "Spark by Hilton Maumee Toledo" to
+        # Hilton, and only the founder decides which trades there.
+        was_chain = {t for t in normalize_name(r["canonical_name"]).split()
+                     if t in _BRAND_WORDS}
+        now_chain = {t for t in normalize_name(proposed).split() if t in _BRAND_WORDS}
+        if was_chain and now_chain and not (was_chain & now_chain):
+            continue
+        named.append(OrderedDict([
+            ("was", r["canonical_name"]), ("now", proposed), ("route", route),
+            ("basis", "the property's own slug on its brand's site; the map source left the "
+                      "identity bare and a bare brand label is not an identity")]))
+        aliases = set(r.get("identity_key_aliases") or []) | {r["identity_key"],
+                                                              normalize_name(proposed)}
+        r["canonical_name"] = proposed
+        r["identity_key"] = normalize_name(proposed)
+        r["identity_key_aliases"] = sorted(a for a in aliases if a)
+        r["canonical_name_basis"] = named[-1]["basis"]
+    return named
+
+
 def corridor_index():
     cfg = MC.parse_market(_load(CONTRACT_PATH), source=CONTRACT_PATH)
     zips = {}
@@ -804,6 +929,9 @@ def build():
         ]))
 
     rows.sort(key=lambda r: (r["classification"], r["identity_key"]))
+    admitted = [r for r in rows if r["classification"] == TRUE_HOTEL_IDENTITY]
+    city_filled, city_unfilled = fill_missing_cities(admitted)
+    renamed = name_bare_identities(admitted)
     counts = Counter(r["classification"] for r in rows)
     confirmed = [r for r in rows if r["classification"] == TRUE_HOTEL_IDENTITY]
     by_corridor = Counter(r["corridor"] for r in confirmed)
@@ -878,6 +1006,21 @@ def build():
         ])),
         ("classification_counts", OrderedDict(sorted(counts.items()))),
         ("corridor_counts", OrderedDict(sorted(by_corridor.items()))),
+        ("first_party_naming", OrderedDict([
+            ("what_it_is",
+             "A bare brand label is not an identity: Detroit already owns the key 'hampton', so a "
+             "Toledo row named 'Hampton' collides across markets and the seed assembler refuses "
+             "it. Each such row takes the property's OWN name from its brand's route slug."),
+            ("renamed", renamed),
+        ])),
+        ("city_backfill", OrderedDict([
+            ("what_it_is",
+             "A blank city filled from this market's OWN evidence: another admitted row in the "
+             "same postal code, or the city segment of the property's own canonical URL. A brand's "
+             "marketing NAME is never read as a city -- Hilton calls two Rossford hotels "
+             "Toledo-Perrysburg."),
+            ("filled", city_filled), ("left_blank", city_unfilled),
+        ])),
         ("merge_conflicts", merge_conflicts),
         ("postal_less_street_merge", OrderedDict([
             ("what_it_is",
