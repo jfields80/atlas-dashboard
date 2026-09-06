@@ -16,17 +16,17 @@
  "counts": {
   "reads_audited": 34,
   "clean_pet_friendly": 17,
-  "clean_verified_no_pets": 10,
-  "held": 7,
+  "clean_verified_no_pets": 9,
+  "held": 8,
   "by_lane": {
    "ATTENDED_BROWSER": 18,
    "DIRECT_STATIC": 3,
    "FIRECRAWL": 13
   },
   "held_by_class": {
-   "IDENTITY_UNRESOLVED_BY_THE_MERGE": 2,
+   "IDENTITY_UNRESOLVED_BY_THE_MERGE": 3,
    "NOT_IN_THE_PROPOSED_CENSUS": 3,
-   "TWO_PROPERTIES_READ_ONTO_ONE_IDENTITY": 2
+   "TWO_PROPERTIES_READ_ONTO_ONE_IDENTITY": 4
   }
  },
  "reads": [
@@ -302,6 +302,10 @@
     {
      "class": "IDENTITY_UNRESOLVED_BY_THE_MERGE",
      "why": "this building's address is claimed by two DIFFERENT chain identities and the founder has not ruled which one trades there; publishing a policy under either name could name a hotel that no longer answers to it"
+    },
+    {
+     "class": "TWO_PROPERTIES_READ_ONTO_ONE_IDENTITY",
+     "why": "2 reads bound to this one census identity (https://www.wyndhamhotels.com/days-inn/perrysburg-ohio/days-inn-perrys, https://www.wyndhamhotels.com/super-8/perrysburg-ohio/super-8-perrysbu). Two hotels share the address and the census has not yet separated them, so neither read may publish under it"
     }
    ],
    "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\super-8-perrysburg-toledo\\attempt-01"
@@ -2330,8 +2334,17 @@
      }
     ]
    },
-   "audit_verdict": "CLEAN_VERIFIED_NO_PETS",
-   "audit_problems": [],
+   "audit_verdict": "HELD",
+   "audit_problems": [
+    {
+     "class": "IDENTITY_UNRESOLVED_BY_THE_MERGE",
+     "why": "this building's address is claimed by two DIFFERENT chain identities and the founder has not ruled which one trades there; publishing a policy under either name could name a hotel that no longer answers to it"
+    },
+    {
+     "class": "TWO_PROPERTIES_READ_ONTO_ONE_IDENTITY",
+     "why": "2 reads bound to this one census identity (https://www.wyndhamhotels.com/days-inn/perrysburg-ohio/days-inn-perrys, https://www.wyndhamhotels.com/super-8/perrysburg-ohio/super-8-perrysbu). Two hotels share the address and the census has not yet separated them, so neither read may publish under it"
+    }
+   ],
    "artifact_dir": "data\\acquisition\\toledo_oh_firecrawl_001\\days-inn-perrysburg\\attempt-01"
   },
   {

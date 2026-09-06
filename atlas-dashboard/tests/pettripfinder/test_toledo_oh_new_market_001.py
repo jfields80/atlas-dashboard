@@ -140,15 +140,32 @@ def test_the_postal_partition_is_a_partition():
     assert all(re.fullmatch(r"\d{5}", z) for z in claims)
 
 
-def test_bowling_green_is_held_not_quietly_admitted():
+def test_bowling_green_was_never_quietly_admitted():
+    """The corridor exists, and its state is a NAMED decision, never a default.
+
+    PTF-TOLEDO-OH-NEW-MARKET-001 authored it HELD FOR FOUNDER DECISION. Founder
+    ruling TOLEDO-R1A then admitted it, and PTF-TOLEDO-OH-PROMOTION-AND-
+    APPLICATION-002 discharged the hold. This gate follows that: it requires the
+    note to say one of those two things by name, and it still requires the
+    Bowling Green, KENTUCKY distinction under either.
+    """
     cfg = MC.parse_market(_load(PROPOSED_CONTRACT), source=str(PROPOSED_CONTRACT))
     bg = [c for c in cfg.corridors if c.slug == "bowling-green"]
     assert len(bg) == 1
     raw = [c for c in _load(PROPOSED_CONTRACT)["corridors"]
            if c["slug"] == "bowling-green"][0]
     note = raw.get("_boundary_note", "")
-    assert "HELD FOR FOUNDER DECISION" in note
+    held = "HELD FOR FOUNDER DECISION" in note
+    admitted = "TOLEDO-R1A" in note and "ADMITTED" in note
+    assert held or admitted, note[:200]
+    assert not (held and admitted), "the note may not claim both states"
     assert "KENTUCKY" in note, "the note must distinguish Bowling Green, OH from Bowling Green, KY"
+    if admitted:
+        rulings = _load(PACKAGE / "toledo_oh_founder_rulings_001.json")
+        live = [r for r in rulings["rulings"] if r["ruling_id"] == "TOLEDO-R1A-BOWLING-GREEN-INCLUDED"]
+        assert live, "the note cites TOLEDO-R1A but no such ruling is recorded"
+        assert live[0]["disposition"] == "ADMIT_AS_THE_TOLEDO_SOUTHERN_BOWLING_GREEN_CORRIDOR"
+        assert raw["included_postal_codes"] == ["43402"], "the corridor may not be widened"
 
 
 # --------------------------------------------------------------------------- #

@@ -51,8 +51,16 @@ WORK_ORDER = "PTF-TOLEDO-OH-NEW-MARKET-001"
 MARKET_ID = "toledo-oh"
 SCHEMA = "ptf-market-routing/1.0"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
+def _first_existing(*paths):
+    """The registered path if this market has been promoted, else the proposed one."""
+    for p in paths:
+        if os.path.exists(p):
+            return p
+    return paths[-1]
+
 REPORTS = os.path.join(PKG, "markets", "reports")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "toledo-oh.json")
+CENSUS = _first_existing(os.path.join(PKG, "identity_census", "toledo-oh.json"),
+                         os.path.join(PKG, "identity_census_proposed", "toledo-oh.json"))
 LEADS = os.path.join(REPORTS, "toledo_oh_lead_sources_001.json")
 
 OWNED_ROUTE_REUSED = "OWNED_ROUTE_REUSED"

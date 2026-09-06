@@ -60,9 +60,17 @@ SCHEMA = "ptf-market-identity-census/1.1"
 REPORT_SCHEMA = "ptf-census-reconciliation/1.0"
 GAP_SCHEMA = "ptf-competitor-gap-matrix/1.0"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
+def _first_existing(*paths):
+    """The registered path if this market has been promoted, else the proposed one."""
+    for p in paths:
+        if os.path.exists(p):
+            return p
+    return paths[-1]
+
 REPORTS = os.path.join(PKG, "markets", "reports")
 PROPOSED_CENSUS_DIR = os.path.join(PKG, "identity_census_proposed")
-CONTRACT_PATH = os.path.join(PKG, "markets", "proposed", "toledo-oh.json")
+CONTRACT_PATH = _first_existing(os.path.join(PKG, "markets", "toledo-oh.json"),
+                                os.path.join(PKG, "markets", "proposed", "toledo-oh.json"))
 
 CANDIDATES = os.path.join(_DASH, "data", "discovery", "toledo_oh_001", "candidates",
                           "toledo-oh_candidates.json")

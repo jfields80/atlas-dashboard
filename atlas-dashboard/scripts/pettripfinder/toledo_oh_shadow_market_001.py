@@ -58,9 +58,18 @@ from scripts.pettripfinder.site_data import normalize_name  # noqa: E402
 WORK_ORDER = "PTF-TOLEDO-OH-NEW-MARKET-001"
 MARKET_ID = "toledo-oh"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
+def _first_existing(*paths):
+    """The registered path if this market has been promoted, else the proposed one."""
+    for p in paths:
+        if os.path.exists(p):
+            return p
+    return paths[-1]
+
 REPORTS = os.path.join(PKG, "markets", "reports")
-CONTRACT = os.path.join(PKG, "markets", "proposed", "toledo-oh.json")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "toledo-oh.json")
+CONTRACT = _first_existing(os.path.join(PKG, "markets", "toledo-oh.json"),
+                           os.path.join(PKG, "markets", "proposed", "toledo-oh.json"))
+CENSUS = _first_existing(os.path.join(PKG, "identity_census", "toledo-oh.json"),
+                         os.path.join(PKG, "identity_census_proposed", "toledo-oh.json"))
 RECON = os.path.join(REPORTS, "toledo_oh_census_reconciliation_001.json")
 ROUTING = os.path.join(REPORTS, "toledo_oh_routing_001.json")
 STATIC = os.path.join(REPORTS, "toledo_oh_free_static_capture_001.json")
@@ -305,14 +314,31 @@ def clean_reads():
                 ("artifact_dir", r.get("artifact_dir")),
             ]))
     # Two closing holds, both of them defects this run actually produced.
-    conflicted = _conflicted_identities(_load(RECON, {}) or {})
+    # Resolve a conflict to the CENSUS IDENTITY, not to a display name. The
+    # building at 10667 Fremont Pike is claimed by "Days Inn by Wyndham
+    # Perrysburg/Toledo" and "Super 8 Perrysburg Toledo"; a read captured as
+    # "Days Inn Perrysburg" carries neither string, so a display-name test held
+    # one read on that building and published the other. Both are reads on one
+    # unresolved identity and both must be held.
+    conflicted_names = _conflicted_identities(_load(RECON, {}) or {})
+    conflicted = set()
+    for h in (_load(CENSUS, {}) or {}).get("hotels", []):
+        keys = {h["identity_key"]} | set(h.get("identity_key_aliases") or [])
+        if keys & conflicted_names:
+            conflicted |= keys
+    conflicted |= conflicted_names
     by_identity = {}
     for a in audited:
-        by_identity.setdefault(a["identity_key"], []).append(a)
+        row = census.get(a["identity_key"])
+        by_identity.setdefault(row["identity_key"] if row else a["identity_key"], []).append(a)
     for a in audited:
         if a["audit_verdict"] == "HELD":
             continue
-        if normalize_name(a["canonical_name"]) in conflicted:
+        row = census.get(a["identity_key"])
+        resolved = {a["identity_key"], normalize_name(a["canonical_name"])}
+        if row:
+            resolved |= {row["identity_key"]} | set(row.get("identity_key_aliases") or [])
+        if resolved & conflicted:
             a["audit_verdict"] = "HELD"
             a["audit_problems"].append(OrderedDict([
                 ("class", "IDENTITY_UNRESOLVED_BY_THE_MERGE"),
@@ -320,7 +346,7 @@ def clean_reads():
                         "and the founder has not ruled which one trades there; publishing a "
                         "policy under either name could name a hotel that no longer answers "
                         "to it")]))
-        peers = by_identity.get(a["identity_key"], [])
+        peers = by_identity.get(row["identity_key"] if row else a["identity_key"], [])
         if len(peers) > 1:
             codes = sorted({p.get("_property_code") or p.get("source_url") for p in peers})
             a["audit_verdict"] = "HELD"

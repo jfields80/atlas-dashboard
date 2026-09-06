@@ -1,0 +1,53 @@
+{
+ "schema": "ptf-order-halt/1.0",
+ "work_order": "PTF-TOLEDO-OH-PROMOTION-AND-APPLICATION-002",
+ "market_id": "toledo-oh",
+ "halted_at": "2026-09-06",
+ "halted_in_phase": "3 -- registration, at the count gate, before any authority package was written",
+ "status": "HALTED_AWAITING_FOUNDER",
+ "what_completed": [
+  "Phase 0 -- the then-current deployed canonical lineage derived mechanically: tip 2163c4e, deploy 6a9d33f5dc8c3d1cf9464376, 10 markets / 786 profiles / 945 routes. Neither Fort Wayne (+3 commits) nor Lexington (+1) touched a registry file, a pin or a deployment artifact; both stopped at the serialized boundary. No market is mid-registration.",
+  "Phase 1 -- Toledo integrated onto that lineage in a fresh worktree. The merge is purely additive: 37 changed paths, every one an A row, no M, D, R or T. The whole shadow was re-derived from committed bytes in the clean worktree and reproduced byte-identical modulo line endings.",
+  "Phase 2 -- founder ruling TOLEDO-R1A applied. Bowling Green's hold discharged, the corridor registered as authored at ZIP 43402 alone, exclusivity recorded in the market's boundary note. No count moved."
+ ],
+ "why_it_halted": {
+  "the_gate": "The founder's governing promotion set is 54 census / 17 CLEAN_PET_FRIENDLY / 10 CLEAN_VERIFIED_NO_PETS / 13 corridors. The order fails closed if it computes anything else.",
+  "what_it_computed": {"census": 54, "clean_pet_friendly": 17, "clean_verified_no_pets": 9, "corridors": 13},
+  "the_difference": "one CLEAN_VERIFIED_NO_PETS row",
+  "the_row": "Days Inn Perrysburg, 10667B Fremont Pike, Perrysburg 43551",
+  "who_was_wrong": "the agent. PTF-TOLEDO-OH-NEW-MARKET-001's wrong-evidence audit tested merge conflicts against a read's DISPLAY NAME instead of against the census identity it resolves to. The founder's 10 was a faithful restatement of that defective number."
+ },
+ "the_defect_in_full": {
+  "what_the_merge_found": "The census row at 10667 Fremont Pike is claimed by two different Wyndham chain identities: 'Days Inn by Wyndham Perrysburg/Toledo' and 'Super 8 Perrysburg Toledo'. The merge reported the conflict and refused to choose, which is correct.",
+  "what_the_audit_did": "It held the read captured as 'Super 8 Perrysburg Toledo', whose display name matched a claimant string, and published the read captured as 'Days Inn Perrysburg', whose display name matched neither claimant string even though it resolves to the same census identity. One building, two reads, opposite treatment.",
+  "what_the_two_reads_actually_say": [
+   {"captured_as": "Days Inn Perrysburg", "lane": "FIRECRAWL", "address_on_page": "10667B Fremont Pike", "postal": "43551", "pets_allowed": false, "quotes": ["no other pets", "ADA defined service animals are welcome at this hotel."]},
+   {"captured_as": "Super 8 Perrysburg Toledo", "lane": "DIRECT_STATIC", "address_on_page": "10667 Fremont Pike", "postal": "43551", "pets_allowed": true, "quotes": ["Dog-friendly"]}
+  ],
+  "why_this_matters_more_than_one_row": "The two pages state OPPOSITE policies at one address stem, and one of them prints a building letter the other does not. That is the signature of a dual-brand campus -- a Days Inn in the B building and a Super 8 in the A building -- which address_key cannot separate because it strips the letter. Publishing the refusal under the merged identity would have put a 'no other pets' fact and a 'Dog-friendly' fact on one row.",
+  "the_fix_applied": "The audit now resolves a merge conflict to the CENSUS IDENTITY and its aliases, not to a display name. Both reads on the unresolved building are held, which is what founder ruling TOLEDO-R2 requires.",
+  "the_fix_is_committed_and_reproducible": true
+ },
+ "what_the_founder_is_being_asked": {
+  "question": "The governing set says 10 verified no-pets; correctly applying TOLEDO-R2 gives 9. Which governs?",
+  "option_a": {
+   "label": "Proceed at 9",
+   "means": "TOLEDO-R2 applied as written. 10667 Fremont Pike stays held as an unresolved Group A identity, both of its reads withheld. Toledo promotes at 54 / 17 / 9 / 13.",
+   "agent_recommendation": "RECOMMENDED. R2 is unambiguous and the 10 came from the agent's own defective count. Withholding a refusal is the conservative direction: the hotel is simply not listed either way."
+  },
+  "option_b": {
+   "label": "Rule on 10667 Fremont Pike now",
+   "means": "Split it into two identities -- Days Inn at 10667B (VERIFIED_NO_PETS) and Super 8 at 10667 (its 'Dog-friendly' read is an amenity chip and would stay held) -- or name one as the successor. A split would give 10 verified no-pets, reached by a ruling rather than by publishing an unresolved row.",
+   "agent_recommendation": "This is a real ruling the evidence supports, but TOLEDO-R2 forbids the agent from inventing it. It needs the founder."
+  },
+  "what_the_agent_will_not_do": "Publish the Days Inn refusal under the merged identity to reach 10. That is the exact defect no technical gate catches, and TOLEDO-R2 names it."
+ },
+ "state_of_the_worktree": {
+  "branch": "worker/ptf-toledo-promotion-002",
+  "registration": "REVERTED. The contract and census are back in markets/proposed/ and identity_census_proposed/. A halted order does not leave a half-registered market.",
+  "authority_package_written": "NONE. No shard, no policy package, no partition, no global, no pin, no release contract.",
+  "shared_files_mutated": 0,
+  "deployed": false,
+  "resumable": "yes -- Phases 0 to 2 are proved and committed; resuming means re-running the registration move and the applier once the count question is answered."
+ }
+}
