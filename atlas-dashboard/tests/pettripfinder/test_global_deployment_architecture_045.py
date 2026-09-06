@@ -69,8 +69,14 @@ SCRATCH = Path(chr(67) + ":/t/ptf045t")
 #: What the participation record composes RIGHT NOW. These grow with each
 #: founder launch decision and only with one; the constants moved last for
 #: PTF-GRAND-RAPIDS-LAUNCH-PARTICIPATION-032, which admitted the ninth market.
-EXPECTED_MARKETS = ("cleveland-akron-canton-oh", "columbus-oh", "dayton-oh",
-                    "grand-rapids-holland-mi", "indianapolis-in",
+#: PTF-CINCINNATI-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-004 admitted cincinnati-oh
+#: as the TENTH market with 130 profiles, on the same terms as every admission
+#: above: its own namespace, nothing else touched. Every other figure below is
+#: UNCHANGED, which is the half of these constants that says a new market
+#: disturbed nothing -- and the live sitemap proved it, with 0 routes removed
+#: and all 148 added routes under /cincinnati-oh/.
+EXPECTED_MARKETS = ("cincinnati-oh", "cleveland-akron-canton-oh", "columbus-oh",
+                    "dayton-oh", "grand-rapids-holland-mi", "indianapolis-in",
                     "louisville-ky", "milwaukee-wi", "pittsburgh-pa",
                     "st-louis-mo")
 # indianapolis 56 -> 67 and pittsburgh 26 -> 53 moved at
@@ -232,11 +238,19 @@ def test_a_contractless_market_is_excluded_and_says_why():
 
 
 def test_an_ineligible_market_cannot_be_forced_into_the_bundle(tmp_path):
-    """Passing an unassemblable market explicitly must not smuggle it in."""
+    """Passing an ineligible market explicitly must not smuggle it in.
+
+    The example was cincinnati-oh until
+    PTF-CINCINNATI-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-004 admitted it, so it is
+    now detroit-ann-arbor-mi -- which is the STRONGER case for this guard.
+    Cincinnati was excluded on a condition that could be read as a data problem;
+    Detroit assembles cleanly at 121 published and is kept out purely because no
+    founder has authorized it. Selection must refuse it anyway.
+    """
     markets = [m for m in load_markets()
-               if m.market_id in ("columbus-oh", "cincinnati-oh")]
+               if m.market_id in ("columbus-oh", "detroit-ann-arbor-mi")]
     chosen, _rows = select_markets(markets)
-    assert "cincinnati-oh" not in {m.market_id for m in chosen}
+    assert "detroit-ann-arbor-mi" not in {m.market_id for m in chosen}
 
 
 # --------------------------------------------------------------------------- #

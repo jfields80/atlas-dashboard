@@ -72,8 +72,15 @@ FIVE = ("cleveland-akron-canton-oh", "columbus-oh", "dayton-oh",
 #: mechanism, once two things that had silently blocked it were fixed: the
 #: partition lookup could not reach its artifact at all, and the artifact it
 #: would have reached predated every founder signature.
+#: PTF-CINCINNATI-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-004 admitted a TENTH by
+#: the same mechanism. Cincinnati had been the standing example of the state
+#: this module exists to describe -- assemblable, source-ready, and deliberately
+#: not authorized -- for long enough that it appears in NOT_READY's own comment.
+#: The founder flipped it after PTF-CINCINNATI-PROMOTION-AND-APPLICATION-003
+#: promoted the market to 130 and proved the promotion moved no byte of the live
+#: bundle while participation stayed off.
 LIVE = tuple(sorted(FIVE + ("st-louis-mo", "louisville-ky", "indianapolis-in",
-                            "grand-rapids-holland-mi")))
+                            "grand-rapids-holland-mi", "cincinnati-oh")))
 # indianapolis 56 -> 67 and pittsburgh 26 -> 53 at PTF-INDIANAPOLIS-
 # DEPLOYMENT-AUTHORIZATION-015; cleveland 99 -> 120 at PTF-CLEVELAND-AKRON-
 # CANTON-DEPLOYMENT-AUTHORIZATION-006. Every other market unchanged.
@@ -86,6 +93,8 @@ PROFILES = {m: pinned_state(m).profiles for m in LIVE}
 #: supersedes block, which is where a reversed decision leaves its history.
 ADMITTED_AT_019 = "indianapolis-in"
 ADMITTED_AT_032 = "grand-rapids-holland-mi"
+#: PTF-CINCINNATI-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-004 admitted the tenth.
+ADMITTED_AT_004 = "cincinnati-oh"
 WITHHELD_BY_046 = "indianapolis-in"
 # grand-rapids-holland-mi joined this list in the lineage merge, when the
 # assembler first ran on a branch carrying it and could not reach its final
@@ -94,7 +103,11 @@ WITHHELD_BY_046 = "indianapolis-in"
 #: Registered, and excluded from the bundle. The name is historical: both were
 #: NOT_SOURCE_READY when it was chosen, and they are now excluded for two
 #: DIFFERENT reasons, which is the distinction the tests below draw.
-NOT_READY = ("cincinnati-oh", "detroit-ann-arbor-mi")
+#: cincinnati-oh LEFT this list at PTF-CINCINNATI-DEPLOYMENT-AND-LAUNCH-
+#: AUTHORIZATION-004, the way Grand Rapids did: by founder decision, not by
+#: gaining data. Detroit remains, assemblable at 121 published and simply not
+#: authorized -- which is still the distinction these tests draw.
+NOT_READY = ("detroit-ann-arbor-mi",)
 #: Genuinely cannot assemble: a configured market with no policy package.
 #: EMPTY as of PTF-DETROIT-ANN-ARBOR-TROY-IDENTITY-AND-BUNDLE-030. Detroit
 #: left this list the way Grand Rapids did: not by gaining data, but
@@ -118,7 +131,11 @@ NOT_ASSEMBLABLE = ()
 #: become false -- 121 profiles, 81 refusals, a contract that verifies and
 #: a bundle with zero broken links. Correcting the observation moved no
 #: authorization; the authorized set is unchanged.
-SOURCE_READY_UNAUTHORIZED = ("cincinnati-oh", "detroit-ann-arbor-mi")
+#: cincinnati-oh left this set at PTF-CINCINNATI-DEPLOYMENT-AND-LAUNCH-
+#: AUTHORIZATION-004, which is the founder decision the state was waiting
+#: for. Detroit is now the sole example, and the distinction the tests draw
+#: is unchanged: assemblable and source-ready is NOT authorized to launch.
+SOURCE_READY_UNAUTHORIZED = ("detroit-ann-arbor-mi",)
 
 #: The five-market production candidate, reproduced twice in the work order
 #: and DEPLOYED by PTF-047. Superseded by
@@ -197,15 +214,18 @@ def test_the_record_is_committed_and_names_its_decision():
     assert doc["schema"] == LP.PARTICIPATION_SCHEMA
     decision = doc["decision"]
     assert decision["decided_by"] == "founder"
-    assert "Indianapolis" in decision["reason"]
+    # The CURRENT decision is the Cincinnati launch. Each reissue moves these
+    # three lines and nothing else in this module: the lineage assertions below
+    # keep proving every ancestor, including the one this replaced.
+    assert "Cincinnati" in decision["reason"]
     # supersedes names the IMMEDIATE predecessor, and the flat lineage list
     # carries every ancestor with its sha256. Both are needed: an authorization
     # signed two reissues back can only be matched through the lineage, which
     # is what that block's own what_this_is says it is for.
-    assert decision["work_order"] == "PTF-GRAND-RAPIDS-LAUNCH-PARTICIPATION-032"
-    assert decision["supersedes"]["work_order"] ==         "PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019"
-    # The set 032 inherited: the eight that were live before Grand Rapids.
-    assert decision["supersedes"]["founder_authorized"] ==         sorted(set(LIVE) - {ADMITTED_AT_032})
+    assert decision["work_order"] ==         "PTF-CINCINNATI-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-004"
+    assert decision["supersedes"]["work_order"] ==         "PTF-GRAND-RAPIDS-LAUNCH-PARTICIPATION-032"
+    # The set 004 inherited: the nine that were live before Cincinnati.
+    assert decision["supersedes"]["founder_authorized"] ==         sorted(set(LIVE) - {ADMITTED_AT_004})
 
     records = decision["lineage"]["records"]
     # 046 is still the oldest ancestor and its withholding is still walkable
@@ -566,11 +586,12 @@ def test_the_committed_manifest_describes_the_live_deploy_and_pins_the_record():
     assert doc["deployment_authorized"] is (doc.get("deployment_authorization") is not None)
     excluded = {r["market_id"]: r for r in doc["excluded_markets"]}
     assert ADMITTED_AT_019 not in excluded
-    # The manifest records the deploy AS IT WAS. grand-rapids-holland-mi did
-    # not exist on this branch when it was written, so its excluded set is the
-    # two that were not source-ready then -- not today's NOT_READY, which has
-    # since gained a third. A record of a past deploy does not learn.
-    assert set(excluded) == {"cincinnati-oh", "detroit-ann-arbor-mi"}
+    # The manifest describes the CURRENT deploy. Cincinnati left the excluded
+    # set at PTF-CINCINNATI-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-004, which
+    # admitted it as the tenth market, so Detroit is the only market registered
+    # and excluded. It is excluded for the reason this module cares about:
+    # assemblable at 121 published, and not authorized to launch.
+    assert set(excluded) == {"detroit-ann-arbor-mi"}
 
 
 def test_a_changed_record_invalidates_the_manifest():

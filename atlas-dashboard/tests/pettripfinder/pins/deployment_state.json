@@ -3,15 +3,16 @@
  "what_this_is": "The CURRENT deployment pins, in two blocks that are two different facts. `live` is what production serves: the deployment record's own numbers, moved ONLY by a deployment-authorization order. `source` is what a FRESH assembly of the committed source produces: moved by an application order, which puts source AHEAD of production until the next deploy. When the two agree, ahead_of_production is false and moved_by is null. Consumed historical authorizations are never restated here; they live in deploy/netlify/deployment_authorizations and are immutable evidence of what was authorized at the time (see supersessions.json).",
  "reviewed_by": "PTF-FACTORY-THROUGHPUT-HARDENING-001",
  "live": {
-  "deploy_id": "6a9ca921843f2cba2ddf8da1",
-  "deployed_by": "PTF-LOUISVILLE-DEPLOYMENT-AUTHORIZATION-003",
-  "authorization_id": "ptf-auth-louisville-003-ea9349d31b86",
-  "deployment_record_id": "ptf-deploy-louisville-003-6a9ca921843f2cba2ddf8da1",
-  "previous_deploy_id": "6a9c3a1422ead7c0c01b3468",
-  "source_commit": "3363e30c57eac7cd77799beb86948e71dc6c6f18",
-  "bundle_sha256": "ea9349d31b860504bd93660159a2839d87a619ee71f9be830993e6647126b39c",
-  "sitemap_sha256": "08ecce446d9a109eb52fe56e3704e5cda6832177c3a7a66537ca2f471f1ff83a",
+  "deploy_id": "6a9d33f5dc8c3d1cf9464376",
+  "deployed_by": "PTF-CINCINNATI-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-004",
+  "authorization_id": "ptf-auth-cincinnati-004-ca59f3710abd",
+  "deployment_record_id": "ptf-deploy-cincinnati-004-6a9d33f5dc8c3d1cf9464376",
+  "previous_deploy_id": "6a9ca921843f2cba2ddf8da1",
+  "source_commit": "eb3a41651d02f3ca529919b57d9c2cc911ee0eba",
+  "bundle_sha256": "ca59f3710abde7504dc6c312992e0e2c9db70eccbff737cd12be6ec72708ff1f",
+  "sitemap_sha256": "5b7399e864f3f7e4ddc87c38a4e1c3be168d02377d2d3e4621aec13c982a9706",
   "participating_markets": [
+   "cincinnati-oh",
    "cleveland-akron-canton-oh",
    "columbus-oh",
    "dayton-oh",
@@ -23,6 +24,7 @@
    "st-louis-mo"
   ],
   "profile_counts": {
+   "cincinnati-oh": 130,
    "cleveland-akron-canton-oh": 120,
    "columbus-oh": 88,
    "dayton-oh": 54,
@@ -33,19 +35,20 @@
    "pittsburgh-pa": 61,
    "st-louis-mo": 82
   },
-  "total_profiles": 656,
-  "sitemap_route_count": 797,
-  "total_html_pages": 4061,
-  "total_files": 4079,
-  "rollback_target": "6a9c3a1422ead7c0c01b3468",
-  "note": "Production serves deploy 6a9ca921843f2cba2ddf8da1. All 797 live routes were fetched and hashed against the authorized bundle and every one is byte-identical; the live sitemap matches the authorized digest; and the PREVIOUS deploy's own sitemap proves 0 routes were removed. Louisville is live at 53 published profiles."
+  "total_profiles": 786,
+  "sitemap_route_count": 945,
+  "total_html_pages": 4815,
+  "total_files": 4833,
+  "rollback_target": "6a9ca921843f2cba2ddf8da1",
+  "note": "Production serves deploy 6a9d33f5dc8c3d1cf9464376. CINCINNATI IS LIVE AT 130, joining as the tenth market: 656 -> 786 profiles, 797 -> 945 routes, 0 routes removed and every previously live route still served. detroit-ann-arbor-mi remains out. Rolling back goes to 6a9ca921843f2cba2ddf8da1, the Louisville deploy this replaced -- NOT to 6a9c3a14, which would also un-deploy Louisville."
  },
  "source": {
   "ahead_of_production": false,
   "moved_by": null,
-  "bundle_sha256": "ea9349d31b860504bd93660159a2839d87a619ee71f9be830993e6647126b39c",
-  "sitemap_sha256": "08ecce446d9a109eb52fe56e3704e5cda6832177c3a7a66537ca2f471f1ff83a",
+  "bundle_sha256": "ca59f3710abde7504dc6c312992e0e2c9db70eccbff737cd12be6ec72708ff1f",
+  "sitemap_sha256": "5b7399e864f3f7e4ddc87c38a4e1c3be168d02377d2d3e4621aec13c982a9706",
   "participating_markets": [
+   "cincinnati-oh",
    "cleveland-akron-canton-oh",
    "columbus-oh",
    "dayton-oh",
@@ -57,6 +60,7 @@
    "st-louis-mo"
   ],
   "profile_counts": {
+   "cincinnati-oh": 130,
    "cleveland-akron-canton-oh": 120,
    "columbus-oh": 88,
    "dayton-oh": 54,
@@ -67,12 +71,12 @@
    "pittsburgh-pa": 61,
    "st-louis-mo": 82
   },
-  "total_profiles": 656,
-  "sitemap_route_count": 797,
-  "total_html_pages": 4061,
-  "total_files": 4079,
-  "source_commit": "a0cec800f619a2ffd3a865511877b8f8afa407f6",
+  "total_profiles": 786,
+  "sitemap_route_count": 945,
+  "total_html_pages": 4815,
+  "total_files": 4833,
+  "source_commit": "eb3a41651d02f3ca529919b57d9c2cc911ee0eba",
   "deployment_authorized": true,
-  "note": "Source and production are IN SYNC, and PTF-CINCINNATI-PROMOTION-AND-APPLICATION-003 did NOT change that. It promoted Cincinnati from 99 to 130 published profiles, but Cincinnati's launch_status is SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH, so the market contributes no fragment to the composed bundle. A fresh assembly of a0cec80 in a clean detached worktree reproduces deploy 6a9ca921843f2cba2ddf8da1 byte for byte: same bundle sha256, same sitemap sha256, 4079 of 4079 files identical. ahead_of_production is therefore FALSE and moved_by is null -- the source pin describes the COMPOSED BUNDLE, and this promotion moved market authority without moving a single byte of it. Cincinnati reaches production only when the founder flips participation, which is a separate authorization this order prepared and did not consume."
+  "note": "Source and production are IN SYNC. Deploy 6a9d33f5dc8c3d1cf9464376 serves exactly this bundle, assembled from eb3a416."
  }
 }
