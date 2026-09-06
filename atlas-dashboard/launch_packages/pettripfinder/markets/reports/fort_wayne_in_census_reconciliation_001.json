@@ -1,0 +1,6035 @@
+{
+ "schema": "ptf-census-reconciliation/1.0",
+ "work_order": "PTF-FORT-WAYNE-IN-NEW-MARKET-001",
+ "phase": "5/6/8 -- census reconciliation and proposed shadow census",
+ "market_id": "fort-wayne-in",
+ "as_of": "2026-09-06",
+ "what_this_is": "Every free discovery lane folded into one identity graph. Observations merge only on a STRONG key -- address (directionals kept), ten-digit phone, or a brand-scoped property code -- and never on a name, which only proposes an identity. A contradicting strong key blocks the merge outright. Market membership is decided by the committed market-membership contract on the market's declared geography. Nothing here is policy evidence and nothing here publishes.",
+ "census_membership_basis": "MARKET_GEOGRAPHY",
+ "lane_observation_counts": {
+  "OSM": 60,
+  "BRAND": 7,
+  "CVB": 27,
+  "COMPETITOR": 21
+ },
+ "paid_provider_calls": 0,
+ "usd_spent": 0.0,
+ "counts": {
+  "observations": 115,
+  "identity_groups": 93,
+  "by_classification": {
+   "ADDRESS_CONFLICT": 1,
+   "EXACT_UNIQUE_IDENTITY": 58,
+   "IDENTITY_REVIEW_REQUIRED": 6,
+   "NAME_ONLY_UNRESOLVED": 28
+  },
+  "by_membership": {
+   "IN_MARKET": 68,
+   "MARKET_MEMBERSHIP_UNRESOLVED": 25
+  },
+  "confirmed_active_identities": 58,
+  "multi_lane_corroborated": 19,
+  "with_official_url": 18,
+  "with_property_code": 0,
+  "same_number_street_disagreements": 2,
+  "name_collisions_across_buildings": 6
+ },
+ "same_number_street_disagreement": [
+  {
+   "street_number": "6910",
+   "postal_code": "46803",
+   "a": {
+    "lane": "OSM",
+    "name": "Hometown Inn",
+    "street": "6910 West State Road 930"
+   },
+   "b": {
+    "lane": "CVB",
+    "name": "Hometown Inn",
+    "street": "6910 IN 930 East"
+   },
+   "why": "same street number and ZIP, but the street itself does not agree; not merged"
+  },
+  {
+   "street_number": "4606",
+   "postal_code": "46803",
+   "a": {
+    "lane": "OSM",
+    "name": "Travelers Inn",
+    "street": "4606 IN-930"
+   },
+   "b": {
+    "lane": "CVB",
+    "name": "Traveler's Inn",
+    "street": "4606 E Washington Blvd."
+   },
+   "why": "same street number and ZIP, but the street itself does not agree; not merged"
+  }
+ ],
+ "name_collisions_across_buildings": [
+  {
+   "identity_key": "hampton inn and suites ft wayne north",
+   "groups": [
+    {
+     "canonical_name": "Hampton Inn & Suites Ft. Wayne-North",
+     "street": "5702 Challenger Parkway",
+     "postal_code": "46818",
+     "lanes": [
+      "OSM"
+     ]
+    },
+    {
+     "canonical_name": "Hampton Inn & Suites Ft Wayne-North",
+     "street": "",
+     "postal_code": "",
+     "lanes": [
+      "COMPETITOR"
+     ]
+    }
+   ],
+   "why": "one normalized name over two buildings; an alias or a rebrand ruling is required before either publishes"
+  },
+  {
+   "identity_key": "hometown inn",
+   "groups": [
+    {
+     "canonical_name": "Hometown Inn",
+     "street": "6910 West State Road 930",
+     "postal_code": "46803",
+     "lanes": [
+      "OSM"
+     ]
+    },
+    {
+     "canonical_name": "Hometown Inn",
+     "street": "6910 IN 930 East",
+     "postal_code": "46803",
+     "lanes": [
+      "CVB"
+     ]
+    }
+   ],
+   "why": "one normalized name over two buildings; an alias or a rebrand ruling is required before either publishes"
+  },
+  {
+   "identity_key": "motel 6 fort wayne in",
+   "groups": [
+    {
+     "canonical_name": "Motel 6 Fort Wayne, IN",
+     "street": "3003 West Coliseum Boulevard",
+     "postal_code": "46808",
+     "lanes": [
+      "OSM"
+     ]
+    },
+    {
+     "canonical_name": "Motel 6 Fort Wayne In",
+     "street": "",
+     "postal_code": "",
+     "lanes": [
+      "COMPETITOR"
+     ]
+    }
+   ],
+   "why": "one normalized name over two buildings; an alias or a rebrand ruling is required before either publishes"
+  },
+  {
+   "identity_key": "red roof inn fort wayne",
+   "groups": [
+    {
+     "canonical_name": "Red Roof Inn Fort Wayne",
+     "street": "3017 West Coliseum Boulevard",
+     "postal_code": "46808",
+     "lanes": [
+      "OSM"
+     ]
+    },
+    {
+     "canonical_name": "Red Roof Inn Fort Wayne",
+     "street": "",
+     "postal_code": "",
+     "lanes": [
+      "COMPETITOR"
+     ]
+    }
+   ],
+   "why": "one normalized name over two buildings; an alias or a rebrand ruling is required before either publishes"
+  },
+  {
+   "identity_key": "search results",
+   "groups": [
+    {
+     "canonical_name": "Search Results",
+     "street": "",
+     "postal_code": "",
+     "lanes": [
+      "BRAND"
+     ]
+    },
+    {
+     "canonical_name": "Search Results",
+     "street": "",
+     "postal_code": "",
+     "lanes": [
+      "BRAND"
+     ]
+    }
+   ],
+   "why": "one normalized name over two buildings; an alias or a rebrand ruling is required before either publishes"
+  },
+  {
+   "identity_key": "towneplace suites fort wayne north",
+   "groups": [
+    {
+     "canonical_name": "TownePlace Suites Fort Wayne North",
+     "street": "3949 Ice Way Drive",
+     "postal_code": "46805",
+     "lanes": [
+      "OSM"
+     ]
+    },
+    {
+     "canonical_name": "TownePlace Suites Fort Wayne North",
+     "street": "",
+     "postal_code": "",
+     "lanes": [
+      "COMPETITOR"
+     ]
+    }
+   ],
+   "why": "one normalized name over two buildings; an alias or a rebrand ruling is required before either publishes"
+  }
+ ],
+ "groups": [
+  {
+   "canonical_name": "Wayne Motel",
+   "street": "7001 IN 930 East",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46803",
+   "phone": "(260) 749-8579",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.0703861,
+   "longitude": -85.0506451,
+   "lanes": [
+    "CVB",
+    "OSM"
+   ],
+   "observation_count": 2,
+   "distinct_postal_codes": [
+    "46803"
+   ],
+   "distinct_address_keys": [
+    "7001|e|in|46803",
+    "7001||in|46803"
+   ],
+   "observations": [
+    {
+     "lane": "CVB",
+     "source_id": "https://www.visitfortwayne.com/listing/wayne-motel/53027/",
+     "name": "Wayne Motel",
+     "street": "7001 IN 930 East",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46803",
+     "phone": "(260) 749-8579",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.0703861,
+     "longitude": -85.0506451,
+     "note": "cvb_classification=LODGING",
+     "_address_parts": [
+      "7001",
+      "frozenset({'e'})",
+      [
+       "in"
+      ],
+      "46803"
+     ],
+     "_address_key": "7001|e|in|46803",
+     "_phone_key": "2607498579",
+     "_code_key": "",
+     "_name_key": "wayne motel"
+    },
+    {
+     "lane": "OSM",
+     "source_id": "way/1018991030",
+     "name": "Wayne Motel",
+     "street": "7001 IN 930",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46803",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.0703468,
+     "longitude": -85.050677,
+     "note": "",
+     "_address_parts": [
+      "7001",
+      "frozenset()",
+      [
+       "in"
+      ],
+      "46803"
+     ],
+     "_address_key": "7001||in|46803",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "wayne motel"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "ADDRESS_CONFLICT",
+   "classification_reason": "observations disagree on the building: ['7001|e|in|46803', '7001||in|46803']",
+   "identity_key": "wayne motel",
+   "slug": "wayne-motel"
+  },
+  {
+   "canonical_name": "avid hotel Fort Wayne North",
+   "street": "5950 Cross Creek Blvd",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46818",
+   "phone": "(260) 222-8890",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.177678,
+   "longitude": -85.1054753,
+   "lanes": [
+    "CVB"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46818"
+   ],
+   "distinct_address_keys": [
+    "5950||creek cross|46818"
+   ],
+   "observations": [
+    {
+     "lane": "CVB",
+     "source_id": "https://www.visitfortwayne.com/listing/avid-hotel-fort-wayne-north/54731/",
+     "name": "avid hotel Fort Wayne North",
+     "street": "5950 Cross Creek Blvd",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46818",
+     "phone": "(260) 222-8890",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.177678,
+     "longitude": -85.1054753,
+     "note": "cvb_classification=LODGING",
+     "_address_parts": [
+      "5950",
+      "frozenset()",
+      [
+       "creek",
+       "cross"
+      ],
+      "46818"
+     ],
+     "_address_key": "5950||creek cross|46818",
+     "_phone_key": "2602228890",
+     "_code_key": "",
+     "_name_key": "avid hotel fort wayne north"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "avid hotel fort wayne north",
+   "slug": "avid-hotel-fort-wayne-north"
+  },
+  {
+   "canonical_name": "Baymont by Wyndham Fort Wayne",
+   "street": "2881 East Dupont Road",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46825",
+   "phone": "+1-260-490-8989",
+   "brand_family": "WYNDHAM",
+   "property_code": "",
+   "official_url": "https://www.wyndhamhotels.com/baymont/fort-wayne-indiana/baymont-inn-fort-wayne-in/overview",
+   "latitude": 41.178905,
+   "longitude": -85.104606,
+   "lanes": [
+    "BRAND",
+    "CVB",
+    "OSM"
+   ],
+   "observation_count": 3,
+   "distinct_postal_codes": [
+    "46825"
+   ],
+   "distinct_address_keys": [
+    "2881|e|dupont|46825"
+   ],
+   "observations": [
+    {
+     "lane": "BRAND",
+     "source_id": "https://www.wyndhamhotels.com/baymont/fort-wayne-indiana/baymont-inn-fort-wayne-in/overview",
+     "name": "Baymont by Wyndham Fort Wayne",
+     "street": "2881 East Dupont Road",
+     "city": "",
+     "state": "IN",
+     "postal_code": "46825",
+     "phone": "+1-260-490-8989",
+     "url": "https://www.wyndhamhotels.com/baymont/fort-wayne-indiana/baymont-inn-fort-wayne-in/overview",
+     "brand_family": "WYNDHAM",
+     "property_code": "",
+     "latitude": null,
+     "longitude": null,
+     "note": "selected_by=",
+     "_address_parts": [
+      "2881",
+      "frozenset({'e'})",
+      [
+       "dupont"
+      ],
+      "46825"
+     ],
+     "_address_key": "2881|e|dupont|46825",
+     "_phone_key": "2604908989",
+     "_code_key": "",
+     "_name_key": "baymont by wyndham fort wayne"
+    },
+    {
+     "lane": "CVB",
+     "source_id": "https://www.visitfortwayne.com/listing/baymont-inn-%26-suites/53018/",
+     "name": "Baymont Inn & Suites",
+     "street": "2881 East Dupont Road",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46825",
+     "phone": "(260) 490-8989",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.178905,
+     "longitude": -85.104606,
+     "note": "cvb_classification=LODGING",
+     "_address_parts": [
+      "2881",
+      "frozenset({'e'})",
+      [
+       "dupont"
+      ],
+      "46825"
+     ],
+     "_address_key": "2881|e|dupont|46825",
+     "_phone_key": "2604908989",
+     "_code_key": "",
+     "_name_key": "baymont inn and suites"
+    },
+    {
+     "lane": "OSM",
+     "source_id": "way/972437450",
+     "name": "Baymont Fort Wayne",
+     "street": "2881 East Dupont Road",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46825",
+     "phone": "+1 260-490-8989",
+     "url": "https://www.wyndhamhotels.com/baymont/fort-wayne-indiana/baymont-inn-fort-wayne-in/overview",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1809873,
+     "longitude": -85.1049558,
+     "note": "",
+     "_address_parts": [
+      "2881",
+      "frozenset({'e'})",
+      [
+       "dupont"
+      ],
+      "46825"
+     ],
+     "_address_key": "2881|e|dupont|46825",
+     "_phone_key": "2604908989",
+     "_code_key": "",
+     "_name_key": "baymont fort wayne"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "baymont by wyndham fort wayne",
+   "slug": "baymont-by-wyndham-fort-wayne"
+  },
+  {
+   "canonical_name": "Best Way Inn Motel",
+   "street": "5718 Bluffton Road",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46809",
+   "phone": "(260) 747-4950",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.0312949,
+   "longitude": -85.1667693,
+   "lanes": [
+    "CVB"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46809"
+   ],
+   "distinct_address_keys": [
+    "5718||bluffton|46809"
+   ],
+   "observations": [
+    {
+     "lane": "CVB",
+     "source_id": "https://www.visitfortwayne.com/listing/best-way-inn-motel/53019/",
+     "name": "Best Way Inn Motel",
+     "street": "5718 Bluffton Road",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46809",
+     "phone": "(260) 747-4950",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.0312949,
+     "longitude": -85.1667693,
+     "note": "cvb_classification=LODGING",
+     "_address_parts": [
+      "5718",
+      "frozenset()",
+      [
+       "bluffton"
+      ],
+      "46809"
+     ],
+     "_address_key": "5718||bluffton|46809",
+     "_phone_key": "2607474950",
+     "_code_key": "",
+     "_name_key": "best way inn motel"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "best way inn motel",
+   "slug": "best-way-inn-motel"
+  },
+  {
+   "canonical_name": "Best Western",
+   "street": "5501 Coventry Lane",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46804",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.0353383,
+   "longitude": -85.2550312,
+   "lanes": [
+    "OSM"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46804"
+   ],
+   "distinct_address_keys": [
+    "5501||coventry|46804"
+   ],
+   "observations": [
+    {
+     "lane": "OSM",
+     "source_id": "way/473155200",
+     "name": "Best Western",
+     "street": "5501 Coventry Lane",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46804",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.0353383,
+     "longitude": -85.2550312,
+     "note": "",
+     "_address_parts": [
+      "5501",
+      "frozenset()",
+      [
+       "coventry"
+      ],
+      "46804"
+     ],
+     "_address_key": "5501||coventry|46804",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "best western"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "best western",
+   "slug": "best-western"
+  },
+  {
+   "canonical_name": "Best Western Ft. Wayne I-69 North",
+   "street": "2902 East Dupont Road",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46825",
+   "phone": "(260) 490-7950",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.177678,
+   "longitude": -85.1054753,
+   "lanes": [
+    "CVB",
+    "OSM"
+   ],
+   "observation_count": 2,
+   "distinct_postal_codes": [
+    "46825"
+   ],
+   "distinct_address_keys": [
+    "2902|e|dupont|46825"
+   ],
+   "observations": [
+    {
+     "lane": "CVB",
+     "source_id": "https://www.visitfortwayne.com/listing/best-western-ft-wayne-i-69-north/168/",
+     "name": "Best Western Ft. Wayne I-69 North",
+     "street": "2902 East Dupont Road",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46825",
+     "phone": "(260) 490-7950",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.177678,
+     "longitude": -85.1054753,
+     "note": "cvb_classification=LODGING",
+     "_address_parts": [
+      "2902",
+      "frozenset({'e'})",
+      [
+       "dupont"
+      ],
+      "46825"
+     ],
+     "_address_key": "2902|e|dupont|46825",
+     "_phone_key": "2604907950",
+     "_code_key": "",
+     "_name_key": "best western ft wayne i 69 north"
+    },
+    {
+     "lane": "OSM",
+     "source_id": "way/185493146",
+     "name": "La Quinta Inn & Suites Ft. Wayne",
+     "street": "2902 East Dupont Road",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46825",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1776787,
+     "longitude": -85.1055126,
+     "note": "",
+     "_address_parts": [
+      "2902",
+      "frozenset({'e'})",
+      [
+       "dupont"
+      ],
+      "46825"
+     ],
+     "_address_key": "2902|e|dupont|46825",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "la quinta inn and suites ft wayne"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "best western ft wayne i 69 north",
+   "slug": "best-western-ft-wayne-i-69-north"
+  },
+  {
+   "canonical_name": "Best Western Plus Fort Wayne Inn & Suites North",
+   "street": "5926 Cross Creek Boulevard",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46818",
+   "phone": "+1 260-490-6060",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "https://www.bestwestern.com/en_US/book/hotels-in-fort-wayne/best-western-plus-fort-wayne-inn-suites-north/propertyCode.15111.html",
+   "latitude": 41.1330629,
+   "longitude": -85.1649393,
+   "lanes": [
+    "OSM"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46818"
+   ],
+   "distinct_address_keys": [
+    "5926||creek cross|46818"
+   ],
+   "observations": [
+    {
+     "lane": "OSM",
+     "source_id": "way/314635519",
+     "name": "Best Western Plus Fort Wayne Inn & Suites North",
+     "street": "5926 Cross Creek Boulevard",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46818",
+     "phone": "+1 260-490-6060",
+     "url": "https://www.bestwestern.com/en_US/book/hotels-in-fort-wayne/best-western-plus-fort-wayne-inn-suites-north/propertyCode.15111.html",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1330629,
+     "longitude": -85.1649393,
+     "note": "",
+     "_address_parts": [
+      "5926",
+      "frozenset()",
+      [
+       "creek",
+       "cross"
+      ],
+      "46818"
+     ],
+     "_address_key": "5926||creek cross|46818",
+     "_phone_key": "2604906060",
+     "_code_key": "",
+     "_name_key": "best western plus fort wayne inn and suites north"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "best western plus fort wayne inn and suites north",
+   "slug": "best-western-plus-fort-wayne-inn-suites-north"
+  },
+  {
+   "canonical_name": "Candlewood Suites Fort Wayne - NW",
+   "street": "5251 Distribution Drive",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46825",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.1259629,
+   "longitude": -85.1544158,
+   "lanes": [
+    "OSM"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46825"
+   ],
+   "distinct_address_keys": [
+    "5251||distribution|46825"
+   ],
+   "observations": [
+    {
+     "lane": "OSM",
+     "source_id": "way/489080739",
+     "name": "Candlewood Suites Fort Wayne - NW",
+     "street": "5251 Distribution Drive",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46825",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1259629,
+     "longitude": -85.1544158,
+     "note": "",
+     "_address_parts": [
+      "5251",
+      "frozenset()",
+      [
+       "distribution"
+      ],
+      "46825"
+     ],
+     "_address_key": "5251||distribution|46825",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "candlewood suites fort wayne nw"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "candlewood suites fort wayne nw",
+   "slug": "candlewood-suites-fort-wayne-nw"
+  },
+  {
+   "canonical_name": "Coliseum Inn",
+   "street": "1020 N. Coliseum Blvd.",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46805",
+   "phone": "(260) 424-0975",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.086177,
+   "longitude": -85.086422,
+   "lanes": [
+    "CVB",
+    "OSM"
+   ],
+   "observation_count": 2,
+   "distinct_postal_codes": [
+    "46805"
+   ],
+   "distinct_address_keys": [
+    "1020|n|coliseum|46805"
+   ],
+   "observations": [
+    {
+     "lane": "CVB",
+     "source_id": "https://www.visitfortwayne.com/listing/coliseum-inn/53011/",
+     "name": "Coliseum Inn",
+     "street": "1020 N. Coliseum Blvd.",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46805",
+     "phone": "(260) 424-0975",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.086177,
+     "longitude": -85.086422,
+     "note": "cvb_classification=LODGING",
+     "_address_parts": [
+      "1020",
+      "frozenset({'n'})",
+      [
+       "coliseum"
+      ],
+      "46805"
+     ],
+     "_address_key": "1020|n|coliseum|46805",
+     "_phone_key": "2604240975",
+     "_code_key": "",
+     "_name_key": "coliseum inn"
+    },
+    {
+     "lane": "OSM",
+     "source_id": "way/593571765",
+     "name": "Coliseum Inn",
+     "street": "1020 North Coliseum Boulevard",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46805",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.0861493,
+     "longitude": -85.0862653,
+     "note": "",
+     "_address_parts": [
+      "1020",
+      "frozenset({'n'})",
+      [
+       "coliseum"
+      ],
+      "46805"
+     ],
+     "_address_key": "1020|n|coliseum|46805",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "coliseum inn"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "coliseum inn",
+   "slug": "coliseum-inn"
+  },
+  {
+   "canonical_name": "Comfort Inn Fort Wayne",
+   "street": "1005 West Washington Center Road",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46825",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.1312949,
+   "longitude": -85.1527707,
+   "lanes": [
+    "OSM"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46825"
+   ],
+   "distinct_address_keys": [
+    "1005|w|center washington|46825"
+   ],
+   "observations": [
+    {
+     "lane": "OSM",
+     "source_id": "way/314635514",
+     "name": "Comfort Inn Fort Wayne",
+     "street": "1005 West Washington Center Road",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46825",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1312949,
+     "longitude": -85.1527707,
+     "note": "",
+     "_address_parts": [
+      "1005",
+      "frozenset({'w'})",
+      [
+       "center",
+       "washington"
+      ],
+      "46825"
+     ],
+     "_address_key": "1005|w|center washington|46825",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "comfort inn fort wayne"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "comfort inn fort wayne",
+   "slug": "comfort-inn-fort-wayne"
+  },
+  {
+   "canonical_name": "Comfort Suites North",
+   "street": "3302 East Dupont Road",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46825",
+   "phone": "+1 260-264-7111",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "https://www.choicehotels.com/indiana/fort-wayne/suburban-hotels",
+   "latitude": 41.1781216,
+   "longitude": -85.101816,
+   "lanes": [
+    "OSM"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46825"
+   ],
+   "distinct_address_keys": [
+    "3302|e|dupont|46825"
+   ],
+   "observations": [
+    {
+     "lane": "OSM",
+     "source_id": "way/972425159",
+     "name": "Comfort Suites North",
+     "street": "3302 East Dupont Road",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46825",
+     "phone": "+1 260-264-7111",
+     "url": "https://www.choicehotels.com/indiana/fort-wayne/suburban-hotels",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1781216,
+     "longitude": -85.101816,
+     "note": "",
+     "_address_parts": [
+      "3302",
+      "frozenset({'e'})",
+      [
+       "dupont"
+      ],
+      "46825"
+     ],
+     "_address_key": "3302|e|dupont|46825",
+     "_phone_key": "2602647111",
+     "_code_key": "",
+     "_name_key": "comfort suites north"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "comfort suites north",
+   "slug": "comfort-suites-north"
+  },
+  {
+   "canonical_name": "Comfort Suites South",
+   "street": "5775 Coventry Lane",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46804",
+   "phone": "+1 260-436-4300",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "https://www.choicehotels.com/indiana/huntington/quality-inn-hotels",
+   "latitude": 41.0342697,
+   "longitude": -85.2553035,
+   "lanes": [
+    "OSM"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46804"
+   ],
+   "distinct_address_keys": [
+    "5775||coventry|46804"
+   ],
+   "observations": [
+    {
+     "lane": "OSM",
+     "source_id": "way/473155199",
+     "name": "Comfort Suites South",
+     "street": "5775 Coventry Lane",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46804",
+     "phone": "+1 260-436-4300",
+     "url": "https://www.choicehotels.com/indiana/huntington/quality-inn-hotels",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.0342697,
+     "longitude": -85.2553035,
+     "note": "",
+     "_address_parts": [
+      "5775",
+      "frozenset()",
+      [
+       "coventry"
+      ],
+      "46804"
+     ],
+     "_address_key": "5775||coventry|46804",
+     "_phone_key": "2604364300",
+     "_code_key": "",
+     "_name_key": "comfort suites south"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "comfort suites south",
+   "slug": "comfort-suites-south"
+  },
+  {
+   "canonical_name": "Country Hearth Inn & Suites",
+   "street": "2908 Goshen Road",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46808",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.1162436,
+   "longitude": -85.1785732,
+   "lanes": [
+    "OSM"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46808"
+   ],
+   "distinct_address_keys": [
+    "2908||goshen|46808"
+   ],
+   "observations": [
+    {
+     "lane": "OSM",
+     "source_id": "way/1019887686",
+     "name": "Country Hearth Inn & Suites",
+     "street": "2908 Goshen Road",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46808",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1162436,
+     "longitude": -85.1785732,
+     "note": "",
+     "_address_parts": [
+      "2908",
+      "frozenset()",
+      [
+       "goshen"
+      ],
+      "46808"
+     ],
+     "_address_key": "2908||goshen|46808",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "country hearth inn and suites"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "country hearth inn and suites",
+   "slug": "country-hearth-inn-suites"
+  },
+  {
+   "canonical_name": "Courtyard Fort Wayne",
+   "street": "1150 South Harrison Street",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46802",
+   "phone": "+1 260-490-3629",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "https://www.marriott.com/fwadt",
+   "latitude": 41.0753526,
+   "longitude": -85.1406009,
+   "lanes": [
+    "OSM"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46802"
+   ],
+   "distinct_address_keys": [
+    "1150|s|harrison|46802"
+   ],
+   "observations": [
+    {
+     "lane": "OSM",
+     "source_id": "way/255358664",
+     "name": "Courtyard Fort Wayne",
+     "street": "1150 South Harrison Street",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46802",
+     "phone": "+1 260-490-3629",
+     "url": "https://www.marriott.com/fwadt",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.0753526,
+     "longitude": -85.1406009,
+     "note": "",
+     "_address_parts": [
+      "1150",
+      "frozenset({'s'})",
+      [
+       "harrison"
+      ],
+      "46802"
+     ],
+     "_address_key": "1150|s|harrison|46802",
+     "_phone_key": "2604903629",
+     "_code_key": "",
+     "_name_key": "courtyard fort wayne"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "courtyard fort wayne",
+   "slug": "courtyard-fort-wayne"
+  },
+  {
+   "canonical_name": "Days Inn by Wyndham Fort Wayne",
+   "street": "1161 W Washington Center Road",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46825",
+   "phone": "+1-260-702-9180",
+   "brand_family": "WYNDHAM",
+   "property_code": "",
+   "official_url": "https://www.wyndhamhotels.com/days-inn/fort-wayne-indiana/days-inn-fort-wayne/overview",
+   "latitude": 41.13103,
+   "longitude": -85.1546,
+   "lanes": [
+    "BRAND",
+    "CVB",
+    "OSM"
+   ],
+   "observation_count": 3,
+   "distinct_postal_codes": [
+    "46825"
+   ],
+   "distinct_address_keys": [
+    "1161|w|center washington|46825"
+   ],
+   "observations": [
+    {
+     "lane": "BRAND",
+     "source_id": "https://www.wyndhamhotels.com/days-inn/fort-wayne-indiana/days-inn-fort-wayne/overview",
+     "name": "Days Inn by Wyndham Fort Wayne",
+     "street": "1161 W Washington Center Road",
+     "city": "",
+     "state": "IN",
+     "postal_code": "46825",
+     "phone": "+1-260-702-9180",
+     "url": "https://www.wyndhamhotels.com/days-inn/fort-wayne-indiana/days-inn-fort-wayne/overview",
+     "brand_family": "WYNDHAM",
+     "property_code": "",
+     "latitude": null,
+     "longitude": null,
+     "note": "selected_by=",
+     "_address_parts": [
+      "1161",
+      "frozenset({'w'})",
+      [
+       "center",
+       "washington"
+      ],
+      "46825"
+     ],
+     "_address_key": "1161|w|center washington|46825",
+     "_phone_key": "2607029180",
+     "_code_key": "",
+     "_name_key": "days inn by wyndham fort wayne"
+    },
+    {
+     "lane": "CVB",
+     "source_id": "https://www.visitfortwayne.com/listing/days-inn/71/",
+     "name": "Days Inn",
+     "street": "1161 West Washington Center Road",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46825",
+     "phone": "(260) 489-6556",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.13103,
+     "longitude": -85.1546,
+     "note": "cvb_classification=LODGING",
+     "_address_parts": [
+      "1161",
+      "frozenset({'w'})",
+      [
+       "center",
+       "washington"
+      ],
+      "46825"
+     ],
+     "_address_key": "1161|w|center washington|46825",
+     "_phone_key": "2604896556",
+     "_code_key": "",
+     "_name_key": "days inn"
+    },
+    {
+     "lane": "OSM",
+     "source_id": "way/317522970",
+     "name": "Days Inn by Wyndham Fort Wayne",
+     "street": "1161 West Washington Center Road",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46825",
+     "phone": "+1 260-702-9180",
+     "url": "https://www.wyndhamhotels.com/days-inn/fort-wayne-indiana/days-inn-fort-wayne/overview",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1307146,
+     "longitude": -85.1545442,
+     "note": "",
+     "_address_parts": [
+      "1161",
+      "frozenset({'w'})",
+      [
+       "center",
+       "washington"
+      ],
+      "46825"
+     ],
+     "_address_key": "1161|w|center washington|46825",
+     "_phone_key": "2607029180",
+     "_code_key": "",
+     "_name_key": "days inn by wyndham fort wayne"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "days inn by wyndham fort wayne",
+   "slug": "days-inn-by-wyndham-fort-wayne"
+  },
+  {
+   "canonical_name": "Deluxe Inn Motel",
+   "street": "3116 Maumee Avenue",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46803",
+   "phone": "(260) 755-3306",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.0757984,
+   "longitude": -85.0972871,
+   "lanes": [
+    "CVB",
+    "OSM"
+   ],
+   "observation_count": 2,
+   "distinct_postal_codes": [
+    "46803"
+   ],
+   "distinct_address_keys": [
+    "3116||maumee|46803"
+   ],
+   "observations": [
+    {
+     "lane": "CVB",
+     "source_id": "https://www.visitfortwayne.com/listing/deluxe-inn-motel/53025/",
+     "name": "Deluxe Inn Motel",
+     "street": "3116 Maumee Avenue",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46803",
+     "phone": "(260) 755-3306",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.0757984,
+     "longitude": -85.0972871,
+     "note": "cvb_classification=LODGING",
+     "_address_parts": [
+      "3116",
+      "frozenset()",
+      [
+       "maumee"
+      ],
+      "46803"
+     ],
+     "_address_key": "3116||maumee|46803",
+     "_phone_key": "2607553306",
+     "_code_key": "",
+     "_name_key": "deluxe inn motel"
+    },
+    {
+     "lane": "OSM",
+     "source_id": "way/1018986659",
+     "name": "Deluxe Inn Motel",
+     "street": "3116 Maumee Avenue",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46803",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.0758098,
+     "longitude": -85.0972668,
+     "note": "",
+     "_address_parts": [
+      "3116",
+      "frozenset()",
+      [
+       "maumee"
+      ],
+      "46803"
+     ],
+     "_address_key": "3116||maumee|46803",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "deluxe inn motel"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "deluxe inn motel",
+   "slug": "deluxe-inn-motel"
+  },
+  {
+   "canonical_name": "Economy Inn",
+   "street": "3340 W Coliseum Blvd",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46808",
+   "phone": "(260) 449-9564",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.1180999,
+   "longitude": -85.1892206,
+   "lanes": [
+    "CVB",
+    "OSM"
+   ],
+   "observation_count": 2,
+   "distinct_postal_codes": [
+    "46808"
+   ],
+   "distinct_address_keys": [
+    "3340|w|coliseum|46808"
+   ],
+   "observations": [
+    {
+     "lane": "CVB",
+     "source_id": "https://www.visitfortwayne.com/listing/economy-inn/53042/",
+     "name": "Economy Inn",
+     "street": "3340 W Coliseum Blvd",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46808",
+     "phone": "(260) 449-9564",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1180999,
+     "longitude": -85.1892206,
+     "note": "cvb_classification=LODGING",
+     "_address_parts": [
+      "3340",
+      "frozenset({'w'})",
+      [
+       "coliseum"
+      ],
+      "46808"
+     ],
+     "_address_key": "3340|w|coliseum|46808",
+     "_phone_key": "2604499564",
+     "_code_key": "",
+     "_name_key": "economy inn"
+    },
+    {
+     "lane": "OSM",
+     "source_id": "way/922954320",
+     "name": "Economy Inn",
+     "street": "3340 West Coliseum Boulevard",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46808",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1184143,
+     "longitude": -85.189259,
+     "note": "",
+     "_address_parts": [
+      "3340",
+      "frozenset({'w'})",
+      [
+       "coliseum"
+      ],
+      "46808"
+     ],
+     "_address_key": "3340|w|coliseum|46808",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "economy inn"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "economy inn",
+   "slug": "economy-inn"
+  },
+  {
+   "canonical_name": "Executive Inn",
+   "street": "1401 West Washington Center Road",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46825",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.1317777,
+   "longitude": -85.1577607,
+   "lanes": [
+    "OSM"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46825"
+   ],
+   "distinct_address_keys": [
+    "1401|w|center washington|46825"
+   ],
+   "observations": [
+    {
+     "lane": "OSM",
+     "source_id": "way/314635505",
+     "name": "Executive Inn",
+     "street": "1401 West Washington Center Road",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46825",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1317777,
+     "longitude": -85.1577607,
+     "note": "",
+     "_address_parts": [
+      "1401",
+      "frozenset({'w'})",
+      [
+       "center",
+       "washington"
+      ],
+      "46825"
+     ],
+     "_address_key": "1401|w|center washington|46825",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "executive inn"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "executive inn",
+   "slug": "executive-inn"
+  },
+  {
+   "canonical_name": "Extended Stay America Fort Wayne South",
+   "street": "8309 W. Jefferson Blvd",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46804",
+   "phone": "(260) 432-1916",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.030064,
+   "longitude": -85.2508552,
+   "lanes": [
+    "CVB",
+    "OSM"
+   ],
+   "observation_count": 2,
+   "distinct_postal_codes": [
+    "46804"
+   ],
+   "distinct_address_keys": [
+    "8309|w|jefferson|46804"
+   ],
+   "observations": [
+    {
+     "lane": "CVB",
+     "source_id": "https://www.visitfortwayne.com/listing/extended-stay-america-fort-wayne-south/52861/",
+     "name": "Extended Stay America Fort Wayne South",
+     "street": "8309 W. Jefferson Blvd",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46804",
+     "phone": "(260) 432-1916",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.030064,
+     "longitude": -85.2508552,
+     "note": "cvb_classification=LODGING",
+     "_address_parts": [
+      "8309",
+      "frozenset({'w'})",
+      [
+       "jefferson"
+      ],
+      "46804"
+     ],
+     "_address_key": "8309|w|jefferson|46804",
+     "_phone_key": "2604321916",
+     "_code_key": "",
+     "_name_key": "extended stay america fort wayne south"
+    },
+    {
+     "lane": "OSM",
+     "source_id": "way/473155201",
+     "name": "Extended Stay America",
+     "street": "8309 West Jefferson Blvd;West Jefferson Boulevard",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46804",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.0300636,
+     "longitude": -85.2508555,
+     "note": "",
+     "_address_parts": [
+      "8309",
+      "frozenset({'w'})",
+      [
+       "jefferson"
+      ],
+      "46804"
+     ],
+     "_address_key": "8309|w|jefferson|46804",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "extended stay america"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "extended stay america fort wayne south",
+   "slug": "extended-stay-america-fort-wayne-south"
+  },
+  {
+   "canonical_name": "Extended Stay America- North",
+   "street": "5810 Challenger Parkway",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46818",
+   "phone": "(260) 490-0500",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.1319071,
+   "longitude": -85.1637902,
+   "lanes": [
+    "CVB",
+    "OSM"
+   ],
+   "observation_count": 2,
+   "distinct_postal_codes": [
+    "46818"
+   ],
+   "distinct_address_keys": [
+    "5810||challenger|46818"
+   ],
+   "observations": [
+    {
+     "lane": "CVB",
+     "source_id": "https://www.visitfortwayne.com/listing/extended-stay-america-north/55507/",
+     "name": "Extended Stay America- North",
+     "street": "5810 Challenger Parkway",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46818",
+     "phone": "(260) 490-0500",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1319071,
+     "longitude": -85.1637902,
+     "note": "cvb_classification=LODGING",
+     "_address_parts": [
+      "5810",
+      "frozenset()",
+      [
+       "challenger"
+      ],
+      "46818"
+     ],
+     "_address_key": "5810||challenger|46818",
+     "_phone_key": "2604900500",
+     "_code_key": "",
+     "_name_key": "extended stay america north"
+    },
+    {
+     "lane": "OSM",
+     "source_id": "way/317522962",
+     "name": "Extended Stay America - Fort Wayne - North",
+     "street": "5810 Challenger Parkway",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46818",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1319127,
+     "longitude": -85.1637967,
+     "note": "",
+     "_address_parts": [
+      "5810",
+      "frozenset()",
+      [
+       "challenger"
+      ],
+      "46818"
+     ],
+     "_address_key": "5810||challenger|46818",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "extended stay america fort wayne north"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "extended stay america north",
+   "slug": "extended-stay-america-north"
+  },
+  {
+   "canonical_name": "Fair Oak Motel",
+   "street": "6511 Bluffton Road",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46809",
+   "phone": "(260) 747-8444",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.0225803,
+   "longitude": -85.1686862,
+   "lanes": [
+    "CVB"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46809"
+   ],
+   "distinct_address_keys": [
+    "6511||bluffton|46809"
+   ],
+   "observations": [
+    {
+     "lane": "CVB",
+     "source_id": "https://www.visitfortwayne.com/listing/fair-oak-motel/53012/",
+     "name": "Fair Oak Motel",
+     "street": "6511 Bluffton Road",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46809",
+     "phone": "(260) 747-8444",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.0225803,
+     "longitude": -85.1686862,
+     "note": "cvb_classification=LODGING",
+     "_address_parts": [
+      "6511",
+      "frozenset()",
+      [
+       "bluffton"
+      ],
+      "46809"
+     ],
+     "_address_key": "6511||bluffton|46809",
+     "_phone_key": "2607478444",
+     "_code_key": "",
+     "_name_key": "fair oak motel"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "fair oak motel",
+   "slug": "fair-oak-motel"
+  },
+  {
+   "canonical_name": "FairBridge Inn and Suites",
+   "street": "5707 Challenger Parkway",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46818",
+   "phone": "(260) 489-8888",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.13104,
+   "longitude": -85.16294,
+   "lanes": [
+    "CVB"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46818"
+   ],
+   "distinct_address_keys": [
+    "5707||challenger|46818"
+   ],
+   "observations": [
+    {
+     "lane": "CVB",
+     "source_id": "https://www.visitfortwayne.com/listing/fairbridge-inn-and-suites/175/",
+     "name": "FairBridge Inn and Suites",
+     "street": "5707 Challenger Parkway",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46818",
+     "phone": "(260) 489-8888",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.13104,
+     "longitude": -85.16294,
+     "note": "cvb_classification=LODGING",
+     "_address_parts": [
+      "5707",
+      "frozenset()",
+      [
+       "challenger"
+      ],
+      "46818"
+     ],
+     "_address_key": "5707||challenger|46818",
+     "_phone_key": "2604898888",
+     "_code_key": "",
+     "_name_key": "fairbridge inn and suites"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "fairbridge inn and suites",
+   "slug": "fairbridge-inn-and-suites"
+  },
+  {
+   "canonical_name": "Fairfield Inn & Suites Fort Wayne",
+   "street": "6021 Lima Road",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46818",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "https://www.marriott.com/fwaff",
+   "latitude": 41.1340432,
+   "longitude": -85.1620701,
+   "lanes": [
+    "OSM"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46818"
+   ],
+   "distinct_address_keys": [
+    "6021||lima|46818"
+   ],
+   "observations": [
+    {
+     "lane": "OSM",
+     "source_id": "way/458350158",
+     "name": "Fairfield Inn & Suites Fort Wayne",
+     "street": "6021 Lima Road",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46818",
+     "phone": "",
+     "url": "https://www.marriott.com/fwaff",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1340432,
+     "longitude": -85.1620701,
+     "note": "",
+     "_address_parts": [
+      "6021",
+      "frozenset()",
+      [
+       "lima"
+      ],
+      "46818"
+     ],
+     "_address_key": "6021||lima|46818",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "fairfield inn and suites fort wayne"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "fairfield inn and suites fort wayne",
+   "slug": "fairfield-inn-suites-fort-wayne"
+  },
+  {
+   "canonical_name": "Fairfield Inn & Suites Fort Wayne Southwest",
+   "street": "7737 West Jefferson Boulevard",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46804",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "https://www.marriott.com/fwasw",
+   "latitude": 41.0391506,
+   "longitude": -85.2412278,
+   "lanes": [
+    "OSM"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46804"
+   ],
+   "distinct_address_keys": [
+    "7737|w|jefferson|46804"
+   ],
+   "observations": [
+    {
+     "lane": "OSM",
+     "source_id": "way/603540448",
+     "name": "Fairfield Inn & Suites Fort Wayne Southwest",
+     "street": "7737 West Jefferson Boulevard",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46804",
+     "phone": "",
+     "url": "https://www.marriott.com/fwasw",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.0391506,
+     "longitude": -85.2412278,
+     "note": "",
+     "_address_parts": [
+      "7737",
+      "frozenset({'w'})",
+      [
+       "jefferson"
+      ],
+      "46804"
+     ],
+     "_address_key": "7737|w|jefferson|46804",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "fairfield inn and suites fort wayne southwest"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "fairfield inn and suites fort wayne southwest",
+   "slug": "fairfield-inn-suites-fort-wayne-southwest"
+  },
+  {
+   "canonical_name": "Hallmark Inn",
+   "street": "3730 E. Washington Blvd.",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46803",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.0726847,
+   "longitude": -85.0903067,
+   "lanes": [
+    "CVB"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46803"
+   ],
+   "distinct_address_keys": [
+    "3730|e|washington|46803"
+   ],
+   "observations": [
+    {
+     "lane": "CVB",
+     "source_id": "https://www.visitfortwayne.com/listing/hallmark-inn/53020/",
+     "name": "Hallmark Inn",
+     "street": "3730 E. Washington Blvd.",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46803",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.0726847,
+     "longitude": -85.0903067,
+     "note": "cvb_classification=LODGING",
+     "_address_parts": [
+      "3730",
+      "frozenset({'e'})",
+      [
+       "washington"
+      ],
+      "46803"
+     ],
+     "_address_key": "3730|e|washington|46803",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "hallmark inn"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "hallmark inn",
+   "slug": "hallmark-inn"
+  },
+  {
+   "canonical_name": "Hampton Inn",
+   "street": "8219 West Jefferson Boulevard",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46804",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.0307837,
+   "longitude": -85.2501508,
+   "lanes": [
+    "OSM"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46804"
+   ],
+   "distinct_address_keys": [
+    "8219|w|jefferson|46804"
+   ],
+   "observations": [
+    {
+     "lane": "OSM",
+     "source_id": "way/92994813",
+     "name": "Hampton Inn",
+     "street": "8219 West Jefferson Boulevard",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46804",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.0307837,
+     "longitude": -85.2501508,
+     "note": "",
+     "_address_parts": [
+      "8219",
+      "frozenset({'w'})",
+      [
+       "jefferson"
+      ],
+      "46804"
+     ],
+     "_address_key": "8219|w|jefferson|46804",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "hampton inn"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "hampton inn",
+   "slug": "hampton-inn"
+  },
+  {
+   "canonical_name": "Hampton Inn and Suites Fort Wayne",
+   "street": "223 West Jefferson Boulevard",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46802",
+   "phone": "+1 260-247-6915",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "https://www.hilton.com/en/hotels/fwadthx-hampton-suites-fort-wayne-downtown/",
+   "latitude": 41.0756329,
+   "longitude": -85.1411487,
+   "lanes": [
+    "OSM"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46802"
+   ],
+   "distinct_address_keys": [
+    "223|w|jefferson|46802"
+   ],
+   "observations": [
+    {
+     "lane": "OSM",
+     "source_id": "way/733761368",
+     "name": "Hampton Inn and Suites Fort Wayne",
+     "street": "223 West Jefferson Boulevard",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46802",
+     "phone": "+1 260-247-6915",
+     "url": "https://www.hilton.com/en/hotels/fwadthx-hampton-suites-fort-wayne-downtown/",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.0756329,
+     "longitude": -85.1411487,
+     "note": "",
+     "_address_parts": [
+      "223",
+      "frozenset({'w'})",
+      [
+       "jefferson"
+      ],
+      "46802"
+     ],
+     "_address_key": "223|w|jefferson|46802",
+     "_phone_key": "2602476915",
+     "_code_key": "",
+     "_name_key": "hampton inn and suites fort wayne"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "hampton inn and suites fort wayne",
+   "slug": "hampton-inn-and-suites-fort-wayne"
+  },
+  {
+   "canonical_name": "Hampton Inn Dupont Road",
+   "street": "3520 East Dupont Road",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46825",
+   "phone": "+1 260-483-3999",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "https://www.hilton.com/en/hotels/fwadphx-hampton-ft-wayne-dupont-road/",
+   "latitude": 41.1779068,
+   "longitude": -85.1008454,
+   "lanes": [
+    "OSM"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46825"
+   ],
+   "distinct_address_keys": [
+    "3520|e|dupont|46825"
+   ],
+   "observations": [
+    {
+     "lane": "OSM",
+     "source_id": "way/527130631",
+     "name": "Hampton Inn Dupont Road",
+     "street": "3520 East Dupont Road",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46825",
+     "phone": "+1 260-483-3999",
+     "url": "https://www.hilton.com/en/hotels/fwadphx-hampton-ft-wayne-dupont-road/",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1779068,
+     "longitude": -85.1008454,
+     "note": "",
+     "_address_parts": [
+      "3520",
+      "frozenset({'e'})",
+      [
+       "dupont"
+      ],
+      "46825"
+     ],
+     "_address_key": "3520|e|dupont|46825",
+     "_phone_key": "2604833999",
+     "_code_key": "",
+     "_name_key": "hampton inn dupont road"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "hampton inn dupont road",
+   "slug": "hampton-inn-dupont-road"
+  },
+  {
+   "canonical_name": "Hilton Fort Wayne at the Grand Wayne Convention Center",
+   "street": "1020 South Calhoun Street",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46802",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.0766745,
+   "longitude": -85.1392729,
+   "lanes": [
+    "OSM"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46802"
+   ],
+   "distinct_address_keys": [
+    "1020|s|calhoun|46802"
+   ],
+   "observations": [
+    {
+     "lane": "OSM",
+     "source_id": "way/88981809",
+     "name": "Hilton Fort Wayne at the Grand Wayne Convention Center",
+     "street": "1020 South Calhoun Street",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46802",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.0766745,
+     "longitude": -85.1392729,
+     "note": "",
+     "_address_parts": [
+      "1020",
+      "frozenset({'s'})",
+      [
+       "calhoun"
+      ],
+      "46802"
+     ],
+     "_address_key": "1020|s|calhoun|46802",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "hilton fort wayne at the grand wayne convention center"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "hilton fort wayne at the grand wayne convention center",
+   "slug": "hilton-fort-wayne-at-the-grand-wayne-convention-center"
+  },
+  {
+   "canonical_name": "Hilton Garden Inn",
+   "street": "8615 West United States 24",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46804",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "https://www.hilton.com/en/hotels/fwafegi-hilton-garden-inn-fort-wayne/",
+   "latitude": 41.0321915,
+   "longitude": -85.254395,
+   "lanes": [
+    "OSM"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46804"
+   ],
+   "distinct_address_keys": [
+    "8615|w|states united|46804"
+   ],
+   "observations": [
+    {
+     "lane": "OSM",
+     "source_id": "way/473155197",
+     "name": "Hilton Garden Inn",
+     "street": "8615 West United States 24",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46804",
+     "phone": "",
+     "url": "https://www.hilton.com/en/hotels/fwafegi-hilton-garden-inn-fort-wayne/",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.0321915,
+     "longitude": -85.254395,
+     "note": "",
+     "_address_parts": [
+      "8615",
+      "frozenset({'w'})",
+      [
+       "states",
+       "united"
+      ],
+      "46804"
+     ],
+     "_address_key": "8615|w|states united|46804",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "hilton garden inn"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "hilton garden inn",
+   "slug": "hilton-garden-inn"
+  },
+  {
+   "canonical_name": "Hilton Garden Inn North",
+   "street": "10650 Diebold Road",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46845",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "https://www.hilton.com/en/hotels/fwantht-home2-suites-fort-wayne-north/",
+   "latitude": 41.1823538,
+   "longitude": -85.0924083,
+   "lanes": [
+    "OSM"
+   ],
+   "observation_count": 2,
+   "distinct_postal_codes": [
+    "46845"
+   ],
+   "distinct_address_keys": [
+    "10650||diebold|46845"
+   ],
+   "observations": [
+    {
+     "lane": "OSM",
+     "source_id": "node/12650955214",
+     "name": "Hilton Garden Inn North",
+     "street": "10650 Diebold Road",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46845",
+     "phone": "",
+     "url": "https://www.hilton.com/en/hotels/fwantht-home2-suites-fort-wayne-north/",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1823538,
+     "longitude": -85.0924083,
+     "note": "",
+     "_address_parts": [
+      "10650",
+      "frozenset()",
+      [
+       "diebold"
+      ],
+      "46845"
+     ],
+     "_address_key": "10650||diebold|46845",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "hilton garden inn north"
+    },
+    {
+     "lane": "OSM",
+     "source_id": "node/12650955215",
+     "name": "Home2 Suites Fort Wayne",
+     "street": "10650 Diebold Road",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46845",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1816978,
+     "longitude": -85.0922972,
+     "note": "",
+     "_address_parts": [
+      "10650",
+      "frozenset()",
+      [
+       "diebold"
+      ],
+      "46845"
+     ],
+     "_address_key": "10650||diebold|46845",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "home2 suites fort wayne"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "hilton garden inn north",
+   "slug": "hilton-garden-inn-north"
+  },
+  {
+   "canonical_name": "Holiday Inn Express & Suites Fort Wayne North",
+   "street": "10040 Diebold Road",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46825",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.1762973,
+   "longitude": -85.0921943,
+   "lanes": [
+    "OSM"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46825"
+   ],
+   "distinct_address_keys": [
+    "10040||diebold|46825"
+   ],
+   "observations": [
+    {
+     "lane": "OSM",
+     "source_id": "way/1018988445",
+     "name": "Holiday Inn Express & Suites Fort Wayne North",
+     "street": "10040 Diebold Road",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46825",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1762973,
+     "longitude": -85.0921943,
+     "note": "",
+     "_address_parts": [
+      "10040",
+      "frozenset()",
+      [
+       "diebold"
+      ],
+      "46825"
+     ],
+     "_address_key": "10040||diebold|46825",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "holiday inn express and suites fort wayne north"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "holiday inn express and suites fort wayne north",
+   "slug": "holiday-inn-express-suites-fort-wayne-north"
+  },
+  {
+   "canonical_name": "Holiday Inn Express Fort Wayne-East (New Haven)",
+   "street": "11205 Isabelle Drive",
+   "city": "New Haven",
+   "state": "IN",
+   "postal_code": "46774",
+   "phone": "+1 260-748-6767",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/new-haven/nhnin/hoteldetail",
+   "latitude": 41.0637839,
+   "longitude": -84.9951987,
+   "lanes": [
+    "OSM"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46774"
+   ],
+   "distinct_address_keys": [
+    "11205||isabelle|46774"
+   ],
+   "observations": [
+    {
+     "lane": "OSM",
+     "source_id": "way/473155206",
+     "name": "Holiday Inn Express Fort Wayne-East (New Haven)",
+     "street": "11205 Isabelle Drive",
+     "city": "New Haven",
+     "state": "IN",
+     "postal_code": "46774",
+     "phone": "+1 260-748-6767",
+     "url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/new-haven/nhnin/hoteldetail",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.0637839,
+     "longitude": -84.9951987,
+     "note": "",
+     "_address_parts": [
+      "11205",
+      "frozenset()",
+      [
+       "isabelle"
+      ],
+      "46774"
+     ],
+     "_address_key": "11205||isabelle|46774",
+     "_phone_key": "2607486767",
+     "_code_key": "",
+     "_name_key": "holiday inn express fort wayne east new haven"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "holiday inn express fort wayne east new haven",
+   "slug": "holiday-inn-express-fort-wayne-east-new-haven"
+  },
+  {
+   "canonical_name": "Holiday Inn Express Hotel & Suites",
+   "street": "5915 Ellison Road",
+   "city": "",
+   "state": "IN",
+   "postal_code": "",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.0300806,
+   "longitude": -85.2541083,
+   "lanes": [
+    "OSM"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [],
+   "distinct_address_keys": [
+    "5915||ellison|"
+   ],
+   "observations": [
+    {
+     "lane": "OSM",
+     "source_id": "way/91178103",
+     "name": "Holiday Inn Express Hotel & Suites",
+     "street": "5915 Ellison Road",
+     "city": "",
+     "state": "IN",
+     "postal_code": "",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.0300806,
+     "longitude": -85.2541083,
+     "note": "",
+     "_address_parts": [
+      "5915",
+      "frozenset()",
+      [
+       "ellison"
+      ],
+      ""
+     ],
+     "_address_key": "5915||ellison|",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "holiday inn express hotel and suites"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "holiday inn express hotel and suites",
+   "slug": "holiday-inn-express-hotel-suites"
+  },
+  {
+   "canonical_name": "Holiday Inn Fort Wayne-PFW & Coliseum",
+   "street": "4111 Paul Shaffer Drive",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46825",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.1174122,
+   "longitude": -85.1217296,
+   "lanes": [
+    "OSM"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46825"
+   ],
+   "distinct_address_keys": [
+    "4111||paul shaffer|46825"
+   ],
+   "observations": [
+    {
+     "lane": "OSM",
+     "source_id": "way/82142348",
+     "name": "Holiday Inn Fort Wayne-PFW & Coliseum",
+     "street": "4111 Paul Shaffer Drive",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46825",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1174122,
+     "longitude": -85.1217296,
+     "note": "",
+     "_address_parts": [
+      "4111",
+      "frozenset()",
+      [
+       "paul",
+       "shaffer"
+      ],
+      "46825"
+     ],
+     "_address_key": "4111||paul shaffer|46825",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "holiday inn fort wayne pfw and coliseum"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "holiday inn fort wayne pfw and coliseum",
+   "slug": "holiday-inn-fort-wayne-pfw-coliseum"
+  },
+  {
+   "canonical_name": "Homewood Suites by Hilton",
+   "street": "8621 West United States 24",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46804",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.0318757,
+   "longitude": -85.2549636,
+   "lanes": [
+    "OSM"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46804"
+   ],
+   "distinct_address_keys": [
+    "8621|w|states united|46804"
+   ],
+   "observations": [
+    {
+     "lane": "OSM",
+     "source_id": "way/461289138",
+     "name": "Homewood Suites by Hilton",
+     "street": "8621 West United States 24",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46804",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.0318757,
+     "longitude": -85.2549636,
+     "note": "",
+     "_address_parts": [
+      "8621",
+      "frozenset({'w'})",
+      [
+       "states",
+       "united"
+      ],
+      "46804"
+     ],
+     "_address_key": "8621|w|states united|46804",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "homewood suites by hilton"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "homewood suites by hilton",
+   "slug": "homewood-suites-by-hilton"
+  },
+  {
+   "canonical_name": "Hoosier Inn",
+   "street": "3527 W Coliseum Blvd",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46808",
+   "phone": "(260) 755-5526",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.1167462,
+   "longitude": -85.1900219,
+   "lanes": [
+    "CVB"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46808"
+   ],
+   "distinct_address_keys": [
+    "3527|w|coliseum|46808"
+   ],
+   "observations": [
+    {
+     "lane": "CVB",
+     "source_id": "https://www.visitfortwayne.com/listing/hoosier-inn/53022/",
+     "name": "Hoosier Inn",
+     "street": "3527 W Coliseum Blvd",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46808",
+     "phone": "(260) 755-5526",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1167462,
+     "longitude": -85.1900219,
+     "note": "cvb_classification=LODGING",
+     "_address_parts": [
+      "3527",
+      "frozenset({'w'})",
+      [
+       "coliseum"
+      ],
+      "46808"
+     ],
+     "_address_key": "3527|w|coliseum|46808",
+     "_phone_key": "2607555526",
+     "_code_key": "",
+     "_name_key": "hoosier inn"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "hoosier inn",
+   "slug": "hoosier-inn"
+  },
+  {
+   "canonical_name": "Hyatt Place Fort Wayne – Northwest",
+   "street": "111 West Washington Center Road",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46825",
+   "phone": "+1-260-471-8522",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "https://www.hyatt.com/hyatt-place/en-US/fwazn-hyatt-place-fort-wayne-northwest",
+   "latitude": 41.1313561,
+   "longitude": -85.1401793,
+   "lanes": [
+    "OSM"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46825"
+   ],
+   "distinct_address_keys": [
+    "111|w|center washington|46825"
+   ],
+   "observations": [
+    {
+     "lane": "OSM",
+     "source_id": "way/183871751",
+     "name": "Hyatt Place Fort Wayne – Northwest",
+     "street": "111 West Washington Center Road",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46825",
+     "phone": "+1-260-471-8522",
+     "url": "https://www.hyatt.com/hyatt-place/en-US/fwazn-hyatt-place-fort-wayne-northwest",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1313561,
+     "longitude": -85.1401793,
+     "note": "",
+     "_address_parts": [
+      "111",
+      "frozenset({'w'})",
+      [
+       "center",
+       "washington"
+      ],
+      "46825"
+     ],
+     "_address_key": "111|w|center washington|46825",
+     "_phone_key": "2604718522",
+     "_code_key": "",
+     "_name_key": "hyatt place fort wayne northwest"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "hyatt place fort wayne northwest",
+   "slug": "hyatt-place-fort-wayne-northwest"
+  },
+  {
+   "canonical_name": "Kings Inn",
+   "street": "2901 Goshen Rd",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46808",
+   "phone": "(260) 484-2669",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.1163173,
+   "longitude": -85.1813132,
+   "lanes": [
+    "CVB",
+    "OSM"
+   ],
+   "observation_count": 2,
+   "distinct_postal_codes": [
+    "46808"
+   ],
+   "distinct_address_keys": [
+    "2901||goshen|46808"
+   ],
+   "observations": [
+    {
+     "lane": "CVB",
+     "source_id": "https://www.visitfortwayne.com/listing/kings-inn/53013/",
+     "name": "Kings Inn",
+     "street": "2901 Goshen Rd",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46808",
+     "phone": "(260) 484-2669",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1163173,
+     "longitude": -85.1813132,
+     "note": "cvb_classification=LODGING",
+     "_address_parts": [
+      "2901",
+      "frozenset()",
+      [
+       "goshen"
+      ],
+      "46808"
+     ],
+     "_address_key": "2901||goshen|46808",
+     "_phone_key": "2604842669",
+     "_code_key": "",
+     "_name_key": "kings inn"
+    },
+    {
+     "lane": "OSM",
+     "source_id": "way/1018986935",
+     "name": "Kings Inn",
+     "street": "2901 Goshen Road",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46808",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1163284,
+     "longitude": -85.1813553,
+     "note": "",
+     "_address_parts": [
+      "2901",
+      "frozenset()",
+      [
+       "goshen"
+      ],
+      "46808"
+     ],
+     "_address_key": "2901||goshen|46808",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "kings inn"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "kings inn",
+   "slug": "kings-inn"
+  },
+  {
+   "canonical_name": "Klopfenstein Inn and Suites",
+   "street": "1212 Magnavox Way",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46804",
+   "phone": "(260) 436-8600",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.073061,
+   "longitude": -85.222546,
+   "lanes": [
+    "CVB",
+    "OSM"
+   ],
+   "observation_count": 2,
+   "distinct_postal_codes": [
+    "46804"
+   ],
+   "distinct_address_keys": [
+    "1212||magnavox|46804"
+   ],
+   "observations": [
+    {
+     "lane": "CVB",
+     "source_id": "https://www.visitfortwayne.com/listing/klopfenstein-inn-and-suites/53035/",
+     "name": "Klopfenstein Inn and Suites",
+     "street": "1212 Magnavox Way",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46804",
+     "phone": "(260) 436-8600",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.073061,
+     "longitude": -85.222546,
+     "note": "cvb_classification=LODGING",
+     "_address_parts": [
+      "1212",
+      "frozenset()",
+      [
+       "magnavox"
+      ],
+      "46804"
+     ],
+     "_address_key": "1212||magnavox|46804",
+     "_phone_key": "2604368600",
+     "_code_key": "",
+     "_name_key": "klopfenstein inn and suites"
+    },
+    {
+     "lane": "OSM",
+     "source_id": "way/473155203",
+     "name": "Klopfenstein Inn And Suites",
+     "street": "1212 Magnavox Way",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46804",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.0732974,
+     "longitude": -85.2222416,
+     "note": "",
+     "_address_parts": [
+      "1212",
+      "frozenset()",
+      [
+       "magnavox"
+      ],
+      "46804"
+     ],
+     "_address_key": "1212||magnavox|46804",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "klopfenstein inn and suites"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "klopfenstein inn and suites",
+   "slug": "klopfenstein-inn-and-suites"
+  },
+  {
+   "canonical_name": "Knotty Pine Motel",
+   "street": "1201 Goshen Road",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46808",
+   "phone": "(260) 483-0855",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.1031617,
+   "longitude": -85.163188,
+   "lanes": [
+    "CVB",
+    "OSM"
+   ],
+   "observation_count": 2,
+   "distinct_postal_codes": [
+    "46808"
+   ],
+   "distinct_address_keys": [
+    "1201||goshen|46808"
+   ],
+   "observations": [
+    {
+     "lane": "CVB",
+     "source_id": "https://www.visitfortwayne.com/listing/knotty-pine-motel/53014/",
+     "name": "Knotty Pine Motel",
+     "street": "1201 Goshen Road",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46808",
+     "phone": "(260) 483-0855",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1031617,
+     "longitude": -85.163188,
+     "note": "cvb_classification=LODGING",
+     "_address_parts": [
+      "1201",
+      "frozenset()",
+      [
+       "goshen"
+      ],
+      "46808"
+     ],
+     "_address_key": "1201||goshen|46808",
+     "_phone_key": "2604830855",
+     "_code_key": "",
+     "_name_key": "knotty pine motel"
+    },
+    {
+     "lane": "OSM",
+     "source_id": "way/1172105652",
+     "name": "Knotty Pine Motel",
+     "street": "1201 Goshen Avenue",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46808",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.100583,
+     "longitude": -85.1581695,
+     "note": "",
+     "_address_parts": [
+      "1201",
+      "frozenset()",
+      [
+       "goshen"
+      ],
+      "46808"
+     ],
+     "_address_key": "1201||goshen|46808",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "knotty pine motel"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "knotty pine motel",
+   "slug": "knotty-pine-motel"
+  },
+  {
+   "canonical_name": "Magnuson Hotel Fort Wayne North-Coliseum",
+   "street": "522 East Coliseum Boulevard",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46805",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.117131,
+   "longitude": -85.1334365,
+   "lanes": [
+    "OSM"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46805"
+   ],
+   "distinct_address_keys": [
+    "522|e|coliseum|46805"
+   ],
+   "observations": [
+    {
+     "lane": "OSM",
+     "source_id": "way/473155205",
+     "name": "Magnuson Hotel Fort Wayne North-Coliseum",
+     "street": "522 East Coliseum Boulevard",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46805",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.117131,
+     "longitude": -85.1334365,
+     "note": "",
+     "_address_parts": [
+      "522",
+      "frozenset({'e'})",
+      [
+       "coliseum"
+      ],
+      "46805"
+     ],
+     "_address_key": "522|e|coliseum|46805",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "magnuson hotel fort wayne north coliseum"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "magnuson hotel fort wayne north coliseum",
+   "slug": "magnuson-hotel-fort-wayne-north-coliseum"
+  },
+  {
+   "canonical_name": "Midwest Motel",
+   "street": "7021 US Highway 30 E",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46803",
+   "phone": "(260) 493-4977",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.1253078,
+   "longitude": -85.2345481,
+   "lanes": [
+    "CVB",
+    "OSM"
+   ],
+   "observation_count": 2,
+   "distinct_postal_codes": [
+    "46803"
+   ],
+   "distinct_address_keys": [
+    "7021|e|us|46803"
+   ],
+   "observations": [
+    {
+     "lane": "CVB",
+     "source_id": "https://www.visitfortwayne.com/listing/midwest-motel/53021/",
+     "name": "Midwest Motel",
+     "street": "7021 US Highway 30 E",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46803",
+     "phone": "(260) 493-4977",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1253078,
+     "longitude": -85.2345481,
+     "note": "cvb_classification=LODGING",
+     "_address_parts": [
+      "7021",
+      "frozenset({'e'})",
+      [
+       "us"
+      ],
+      "46803"
+     ],
+     "_address_key": "7021|e|us|46803",
+     "_phone_key": "2604934977",
+     "_code_key": "",
+     "_name_key": "midwest motel"
+    },
+    {
+     "lane": "OSM",
+     "source_id": "way/1018988475",
+     "name": "Midwest Motel",
+     "street": "7021 Us Highway 30 East",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46803",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.0703313,
+     "longitude": -85.0477738,
+     "note": "",
+     "_address_parts": [
+      "7021",
+      "frozenset({'e'})",
+      [
+       "us"
+      ],
+      "46803"
+     ],
+     "_address_key": "7021|e|us|46803",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "midwest motel"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "midwest motel",
+   "slug": "midwest-motel"
+  },
+  {
+   "canonical_name": "Parkview Studios",
+   "street": "3501 Harris Road",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46808",
+   "phone": "(260) 482-1711",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.1092549,
+   "longitude": -85.1695085,
+   "lanes": [
+    "CVB",
+    "OSM"
+   ],
+   "observation_count": 2,
+   "distinct_postal_codes": [
+    "46808"
+   ],
+   "distinct_address_keys": [
+    "3501||harris|46808"
+   ],
+   "observations": [
+    {
+     "lane": "CVB",
+     "source_id": "https://www.visitfortwayne.com/listing/parkview-studios/53028/",
+     "name": "Parkview Studios",
+     "street": "3501 Harris Road",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46808",
+     "phone": "(260) 482-1711",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1092549,
+     "longitude": -85.1695085,
+     "note": "cvb_classification=LODGING",
+     "_address_parts": [
+      "3501",
+      "frozenset()",
+      [
+       "harris"
+      ],
+      "46808"
+     ],
+     "_address_key": "3501||harris|46808",
+     "_phone_key": "2604821711",
+     "_code_key": "",
+     "_name_key": "parkview studios"
+    },
+    {
+     "lane": "OSM",
+     "source_id": "way/935013850",
+     "name": "Parkview Studios",
+     "street": "3501 Harris Road",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46808",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1092308,
+     "longitude": -85.1695412,
+     "note": "",
+     "_address_parts": [
+      "3501",
+      "frozenset()",
+      [
+       "harris"
+      ],
+      "46808"
+     ],
+     "_address_key": "3501||harris|46808",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "parkview studios"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "parkview studios",
+   "slug": "parkview-studios"
+  },
+  {
+   "canonical_name": "Pine Haven Motel",
+   "street": "4905 Bluffton Road",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46809",
+   "phone": "(260) 747-7502",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.039692,
+   "longitude": -85.166556,
+   "lanes": [
+    "CVB",
+    "OSM"
+   ],
+   "observation_count": 2,
+   "distinct_postal_codes": [
+    "46809"
+   ],
+   "distinct_address_keys": [
+    "4905||bluffton|46809"
+   ],
+   "observations": [
+    {
+     "lane": "CVB",
+     "source_id": "https://www.visitfortwayne.com/listing/pine-haven-motel/53015/",
+     "name": "Pine Haven Motel",
+     "street": "4905 Bluffton Road",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46809",
+     "phone": "(260) 747-7502",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.039692,
+     "longitude": -85.166556,
+     "note": "cvb_classification=LODGING",
+     "_address_parts": [
+      "4905",
+      "frozenset()",
+      [
+       "bluffton"
+      ],
+      "46809"
+     ],
+     "_address_key": "4905||bluffton|46809",
+     "_phone_key": "2607477502",
+     "_code_key": "",
+     "_name_key": "pine haven motel"
+    },
+    {
+     "lane": "OSM",
+     "source_id": "way/782189457",
+     "name": "Pine Haven Motel",
+     "street": "4905 Bluffton Road",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46809",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.039675,
+     "longitude": -85.1664878,
+     "note": "",
+     "_address_parts": [
+      "4905",
+      "frozenset()",
+      [
+       "bluffton"
+      ],
+      "46809"
+     ],
+     "_address_key": "4905||bluffton|46809",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "pine haven motel"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "pine haven motel",
+   "slug": "pine-haven-motel"
+  },
+  {
+   "canonical_name": "Quality Inn",
+   "street": "1734 West Washington Center Road",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46818",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.1333015,
+   "longitude": -85.1619768,
+   "lanes": [
+    "OSM"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46818"
+   ],
+   "distinct_address_keys": [
+    "1734|w|center washington|46818"
+   ],
+   "observations": [
+    {
+     "lane": "OSM",
+     "source_id": "way/317709378",
+     "name": "Quality Inn",
+     "street": "1734 West Washington Center Road",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46818",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1333015,
+     "longitude": -85.1619768,
+     "note": "",
+     "_address_parts": [
+      "1734",
+      "frozenset({'w'})",
+      [
+       "center",
+       "washington"
+      ],
+      "46818"
+     ],
+     "_address_key": "1734|w|center washington|46818",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "quality inn"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "quality inn",
+   "slug": "quality-inn"
+  },
+  {
+   "canonical_name": "Regency Inn",
+   "street": "1004 W. Coliseum Blvd.",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46808",
+   "phone": "(260) 484-0443",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.1183819,
+   "longitude": -85.1557848,
+   "lanes": [
+    "CVB"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46808"
+   ],
+   "distinct_address_keys": [
+    "1004|w|coliseum|46808"
+   ],
+   "observations": [
+    {
+     "lane": "CVB",
+     "source_id": "https://www.visitfortwayne.com/listing/regency-inn/53036/",
+     "name": "Regency Inn",
+     "street": "1004 W. Coliseum Blvd.",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46808",
+     "phone": "(260) 484-0443",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1183819,
+     "longitude": -85.1557848,
+     "note": "cvb_classification=LODGING",
+     "_address_parts": [
+      "1004",
+      "frozenset({'w'})",
+      [
+       "coliseum"
+      ],
+      "46808"
+     ],
+     "_address_key": "1004|w|coliseum|46808",
+     "_phone_key": "2604840443",
+     "_code_key": "",
+     "_name_key": "regency inn"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "regency inn",
+   "slug": "regency-inn"
+  },
+  {
+   "canonical_name": "Residence Inn Fort Wayne",
+   "street": "7811 West Jefferson Boulevard",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46804",
+   "phone": "+1 260-432-8000",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "https://www.marriott.com/fwari",
+   "latitude": 41.0382879,
+   "longitude": -85.2429887,
+   "lanes": [
+    "OSM"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46804"
+   ],
+   "distinct_address_keys": [
+    "7811|w|jefferson|46804"
+   ],
+   "observations": [
+    {
+     "lane": "OSM",
+     "source_id": "way/603201043",
+     "name": "Residence Inn Fort Wayne",
+     "street": "7811 West Jefferson Boulevard",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46804",
+     "phone": "+1 260-432-8000",
+     "url": "https://www.marriott.com/fwari",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.0382879,
+     "longitude": -85.2429887,
+     "note": "",
+     "_address_parts": [
+      "7811",
+      "frozenset({'w'})",
+      [
+       "jefferson"
+      ],
+      "46804"
+     ],
+     "_address_key": "7811|w|jefferson|46804",
+     "_phone_key": "2604328000",
+     "_code_key": "",
+     "_name_key": "residence inn fort wayne"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "residence inn fort wayne",
+   "slug": "residence-inn-fort-wayne"
+  },
+  {
+   "canonical_name": "Rodeway Inn",
+   "street": "2920 Goshen Road",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46808",
+   "phone": "(260) 484-8641",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "https://www.choicehotels.com/indiana/huntington/quality-inn-hotels",
+   "latitude": 41.11761,
+   "longitude": -85.18249,
+   "lanes": [
+    "CVB",
+    "OSM"
+   ],
+   "observation_count": 2,
+   "distinct_postal_codes": [
+    "46808"
+   ],
+   "distinct_address_keys": [
+    "2920||goshen|46808"
+   ],
+   "observations": [
+    {
+     "lane": "CVB",
+     "source_id": "https://www.visitfortwayne.com/listing/rodeway-inn/481/",
+     "name": "Rodeway Inn",
+     "street": "2920 Goshen Road",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46808",
+     "phone": "(260) 484-8641",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.11761,
+     "longitude": -85.18249,
+     "note": "cvb_classification=LODGING",
+     "_address_parts": [
+      "2920",
+      "frozenset()",
+      [
+       "goshen"
+      ],
+      "46808"
+     ],
+     "_address_key": "2920||goshen|46808",
+     "_phone_key": "2604848641",
+     "_code_key": "",
+     "_name_key": "rodeway inn"
+    },
+    {
+     "lane": "OSM",
+     "source_id": "way/972493833",
+     "name": "Rodeway Inn",
+     "street": "2920 Goshen Road",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46808",
+     "phone": "+1 260-484-8641",
+     "url": "https://www.choicehotels.com/indiana/huntington/quality-inn-hotels",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1170545,
+     "longitude": -85.1792946,
+     "note": "",
+     "_address_parts": [
+      "2920",
+      "frozenset()",
+      [
+       "goshen"
+      ],
+      "46808"
+     ],
+     "_address_key": "2920||goshen|46808",
+     "_phone_key": "2604848641",
+     "_code_key": "",
+     "_name_key": "rodeway inn"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "rodeway inn",
+   "slug": "rodeway-inn"
+  },
+  {
+   "canonical_name": "SpringHill Suites Fort Wayne North",
+   "street": "4145 New Vision Drive",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46845",
+   "phone": "+1 260-267-7870",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "https://www.marriott.com/fwafn",
+   "latitude": 41.1880582,
+   "longitude": -85.0921421,
+   "lanes": [
+    "OSM"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46845"
+   ],
+   "distinct_address_keys": [
+    "4145||new vision|46845"
+   ],
+   "observations": [
+    {
+     "lane": "OSM",
+     "source_id": "way/1018989773",
+     "name": "SpringHill Suites Fort Wayne North",
+     "street": "4145 New Vision Drive",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46845",
+     "phone": "+1 260-267-7870",
+     "url": "https://www.marriott.com/fwafn",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1880582,
+     "longitude": -85.0921421,
+     "note": "",
+     "_address_parts": [
+      "4145",
+      "frozenset()",
+      [
+       "new",
+       "vision"
+      ],
+      "46845"
+     ],
+     "_address_key": "4145||new vision|46845",
+     "_phone_key": "2602677870",
+     "_code_key": "",
+     "_name_key": "springhill suites fort wayne north"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "springhill suites fort wayne north",
+   "slug": "springhill-suites-fort-wayne-north"
+  },
+  {
+   "canonical_name": "Suburban Extended Stay Hotel",
+   "street": "3320 W Coliseum Boulevard",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46808",
+   "phone": "(260) 739-7464",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.1175921,
+   "longitude": -85.1824715,
+   "lanes": [
+    "CVB",
+    "OSM"
+   ],
+   "observation_count": 2,
+   "distinct_postal_codes": [
+    "46808"
+   ],
+   "distinct_address_keys": [
+    "3320|w|coliseum|46808"
+   ],
+   "observations": [
+    {
+     "lane": "CVB",
+     "source_id": "https://www.visitfortwayne.com/listing/suburban-extended-stay-hotel/53131/",
+     "name": "Suburban Extended Stay Hotel",
+     "street": "3320 W Coliseum Boulevard",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46808",
+     "phone": "(260) 739-7464",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1175921,
+     "longitude": -85.1824715,
+     "note": "cvb_classification=LODGING",
+     "_address_parts": [
+      "3320",
+      "frozenset({'w'})",
+      [
+       "coliseum"
+      ],
+      "46808"
+     ],
+     "_address_key": "3320|w|coliseum|46808",
+     "_phone_key": "2607397464",
+     "_code_key": "",
+     "_name_key": "suburban extended stay hotel"
+    },
+    {
+     "lane": "OSM",
+     "source_id": "relation/12499011",
+     "name": "Suburban Extended Stay Hotel",
+     "street": "3320 West Coliseum Boulevard",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46808",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.118449,
+     "longitude": -85.1885364,
+     "note": "",
+     "_address_parts": [
+      "3320",
+      "frozenset({'w'})",
+      [
+       "coliseum"
+      ],
+      "46808"
+     ],
+     "_address_key": "3320|w|coliseum|46808",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "suburban extended stay hotel"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "suburban extended stay hotel",
+   "slug": "suburban-extended-stay-hotel"
+  },
+  {
+   "canonical_name": "Suburban Studios",
+   "street": "4919 Lima Road",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46808",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.1234908,
+   "longitude": -85.1549773,
+   "lanes": [
+    "OSM"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46808"
+   ],
+   "distinct_address_keys": [
+    "4919||lima|46808"
+   ],
+   "observations": [
+    {
+     "lane": "OSM",
+     "source_id": "way/1075408696",
+     "name": "Suburban Studios",
+     "street": "4919 Lima Road",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46808",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1234908,
+     "longitude": -85.1549773,
+     "note": "",
+     "_address_parts": [
+      "4919",
+      "frozenset()",
+      [
+       "lima"
+      ],
+      "46808"
+     ],
+     "_address_key": "4919||lima|46808",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "suburban studios"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "suburban studios",
+   "slug": "suburban-studios"
+  },
+  {
+   "canonical_name": "Super 8 by Wyndham Fort Wayne",
+   "street": "5710 Challenger Parkway",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46818",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.1303883,
+   "longitude": -85.1619499,
+   "lanes": [
+    "OSM"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46818"
+   ],
+   "distinct_address_keys": [
+    "5710||challenger|46818"
+   ],
+   "observations": [
+    {
+     "lane": "OSM",
+     "source_id": "way/317709377",
+     "name": "Super 8 by Wyndham Fort Wayne",
+     "street": "5710 Challenger Parkway",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46818",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1303883,
+     "longitude": -85.1619499,
+     "note": "",
+     "_address_parts": [
+      "5710",
+      "frozenset()",
+      [
+       "challenger"
+      ],
+      "46818"
+     ],
+     "_address_key": "5710||challenger|46818",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "super 8 by wyndham fort wayne"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "super 8 by wyndham fort wayne",
+   "slug": "super-8-by-wyndham-fort-wayne"
+  },
+  {
+   "canonical_name": "The Bradley",
+   "street": "204 West Main Street",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46802",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.080301,
+   "longitude": -85.1420886,
+   "lanes": [
+    "OSM"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46802"
+   ],
+   "distinct_address_keys": [
+    "204|w|main|46802"
+   ],
+   "observations": [
+    {
+     "lane": "OSM",
+     "source_id": "way/856154084",
+     "name": "The Bradley",
+     "street": "204 West Main Street",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46802",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.080301,
+     "longitude": -85.1420886,
+     "note": "",
+     "_address_parts": [
+      "204",
+      "frozenset({'w'})",
+      [
+       "main"
+      ],
+      "46802"
+     ],
+     "_address_key": "204|w|main|46802",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "the bradley"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "the bradley",
+   "slug": "the-bradley"
+  },
+  {
+   "canonical_name": "Travel Inn",
+   "street": "2712 W. Coliseum Blvd",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46808",
+   "phone": "(260) 484-6764",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.118299,
+   "longitude": -85.177842,
+   "lanes": [
+    "CVB",
+    "OSM"
+   ],
+   "observation_count": 2,
+   "distinct_postal_codes": [
+    "46808"
+   ],
+   "distinct_address_keys": [
+    "2712|w|coliseum|46808"
+   ],
+   "observations": [
+    {
+     "lane": "CVB",
+     "source_id": "https://www.visitfortwayne.com/listing/travel-inn/53032/",
+     "name": "Travel Inn",
+     "street": "2712 W. Coliseum Blvd",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46808",
+     "phone": "(260) 484-6764",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.118299,
+     "longitude": -85.177842,
+     "note": "cvb_classification=LODGING",
+     "_address_parts": [
+      "2712",
+      "frozenset({'w'})",
+      [
+       "coliseum"
+      ],
+      "46808"
+     ],
+     "_address_key": "2712|w|coliseum|46808",
+     "_phone_key": "2604846764",
+     "_code_key": "",
+     "_name_key": "travel inn"
+    },
+    {
+     "lane": "OSM",
+     "source_id": "way/1095721928",
+     "name": "Travel Inn",
+     "street": "2712 West Coliseum Boulevard",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46808",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1182547,
+     "longitude": -85.1777254,
+     "note": "",
+     "_address_parts": [
+      "2712",
+      "frozenset({'w'})",
+      [
+       "coliseum"
+      ],
+      "46808"
+     ],
+     "_address_key": "2712|w|coliseum|46808",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "travel inn"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "travel inn",
+   "slug": "travel-inn"
+  },
+  {
+   "canonical_name": "Traveler's Inn",
+   "street": "4606 E Washington Blvd.",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46803",
+   "phone": "(260) 422-9511",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.072335,
+   "longitude": -85.080339,
+   "lanes": [
+    "CVB"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46803"
+   ],
+   "distinct_address_keys": [
+    "4606|e|washington|46803"
+   ],
+   "observations": [
+    {
+     "lane": "CVB",
+     "source_id": "https://www.visitfortwayne.com/listing/travelers-inn/53024/",
+     "name": "Traveler's Inn",
+     "street": "4606 E Washington Blvd.",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46803",
+     "phone": "(260) 422-9511",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.072335,
+     "longitude": -85.080339,
+     "note": "cvb_classification=LODGING",
+     "_address_parts": [
+      "4606",
+      "frozenset({'e'})",
+      [
+       "washington"
+      ],
+      "46803"
+     ],
+     "_address_key": "4606|e|washington|46803",
+     "_phone_key": "2604229511",
+     "_code_key": "",
+     "_name_key": "traveler s inn"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "traveler s inn",
+   "slug": "traveler-s-inn"
+  },
+  {
+   "canonical_name": "Travelers Inn",
+   "street": "4606 IN-930",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46803",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.0723533,
+   "longitude": -85.0808112,
+   "lanes": [
+    "OSM"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46803"
+   ],
+   "distinct_address_keys": [
+    "4606||in|46803"
+   ],
+   "observations": [
+    {
+     "lane": "OSM",
+     "source_id": "way/1018990594",
+     "name": "Travelers Inn",
+     "street": "4606 IN-930",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46803",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.0723533,
+     "longitude": -85.0808112,
+     "note": "",
+     "_address_parts": [
+      "4606",
+      "frozenset()",
+      [
+       "in"
+      ],
+      "46803"
+     ],
+     "_address_key": "4606||in|46803",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "travelers inn"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "travelers inn",
+   "slug": "travelers-inn"
+  },
+  {
+   "canonical_name": "WoodSpring Suites Fort Wayne",
+   "street": "2850 Dupont Commerce Court",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46825",
+   "phone": "1(260)489-4106",
+   "brand_family": "WOODSPRING",
+   "property_code": "",
+   "official_url": "https://www.woodspring.com/extended-stay-hotels/locations/indiana/fort-wayne/woodspring-suites-fort-wayne",
+   "latitude": 41.1704551,
+   "longitude": -85.1050106,
+   "lanes": [
+    "BRAND",
+    "OSM"
+   ],
+   "observation_count": 2,
+   "distinct_postal_codes": [
+    "46825"
+   ],
+   "distinct_address_keys": [
+    "2850||commerce dupont|46825"
+   ],
+   "observations": [
+    {
+     "lane": "BRAND",
+     "source_id": "https://www.woodspring.com/extended-stay-hotels/locations/indiana/fort-wayne/woodspring-suites-fort-wayne",
+     "name": "WoodSpring Suites Fort Wayne",
+     "street": "2850 Dupont Commerce Court",
+     "city": "",
+     "state": "IN",
+     "postal_code": "46825",
+     "phone": "1(260)489-4106",
+     "url": "https://www.woodspring.com/extended-stay-hotels/locations/indiana/fort-wayne/woodspring-suites-fort-wayne",
+     "brand_family": "WOODSPRING",
+     "property_code": "",
+     "latitude": null,
+     "longitude": null,
+     "note": "selected_by=",
+     "_address_parts": [
+      "2850",
+      "frozenset()",
+      [
+       "commerce",
+       "dupont"
+      ],
+      "46825"
+     ],
+     "_address_key": "2850||commerce dupont|46825",
+     "_phone_key": "2604894106",
+     "_code_key": "",
+     "_name_key": "woodspring suites fort wayne"
+    },
+    {
+     "lane": "OSM",
+     "source_id": "way/458709969",
+     "name": "WoodSpring Suites Fort Wayne",
+     "street": "2850 Dupont Commerce Court",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46825",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1704551,
+     "longitude": -85.1050106,
+     "note": "",
+     "_address_parts": [
+      "2850",
+      "frozenset()",
+      [
+       "commerce",
+       "dupont"
+      ],
+      "46825"
+     ],
+     "_address_key": "2850||commerce dupont|46825",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "woodspring suites fort wayne"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "woodspring suites fort wayne",
+   "slug": "woodspring-suites-fort-wayne"
+  },
+  {
+   "canonical_name": "Wyndham Garden Fort Wayne",
+   "street": "5750 Challenger Parkway",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46818",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.1311721,
+   "longitude": -85.1609691,
+   "lanes": [
+    "OSM"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46818"
+   ],
+   "distinct_address_keys": [
+    "5750||challenger|46818"
+   ],
+   "observations": [
+    {
+     "lane": "OSM",
+     "source_id": "relation/4283720",
+     "name": "Wyndham Garden Fort Wayne",
+     "street": "5750 Challenger Parkway",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46818",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1311721,
+     "longitude": -85.1609691,
+     "note": "",
+     "_address_parts": [
+      "5750",
+      "frozenset()",
+      [
+       "challenger"
+      ],
+      "46818"
+     ],
+     "_address_key": "5750||challenger|46818",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "wyndham garden fort wayne"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "EXACT_UNIQUE_IDENTITY",
+   "classification_reason": "one building, corroborated and inside the market",
+   "identity_key": "wyndham garden fort wayne",
+   "slug": "wyndham-garden-fort-wayne"
+  },
+  {
+   "canonical_name": "Hampton Inn & Suites Ft. Wayne-North",
+   "street": "5702 Challenger Parkway",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46818",
+   "phone": "+1 260-489-0908",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "https://www.hilton.com/en/hotels/fwanohx-hampton-suites-ft-wayne-north/",
+   "latitude": 41.1299765,
+   "longitude": -85.1630909,
+   "lanes": [
+    "OSM"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46818"
+   ],
+   "distinct_address_keys": [
+    "5702||challenger|46818"
+   ],
+   "observations": [
+    {
+     "lane": "OSM",
+     "source_id": "way/317522959",
+     "name": "Hampton Inn & Suites Ft. Wayne-North",
+     "street": "5702 Challenger Parkway",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46818",
+     "phone": "+1 260-489-0908",
+     "url": "https://www.hilton.com/en/hotels/fwanohx-hampton-suites-ft-wayne-north/",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1299765,
+     "longitude": -85.1630909,
+     "note": "",
+     "_address_parts": [
+      "5702",
+      "frozenset()",
+      [
+       "challenger"
+      ],
+      "46818"
+     ],
+     "_address_key": "5702||challenger|46818",
+     "_phone_key": "2604890908",
+     "_code_key": "",
+     "_name_key": "hampton inn and suites ft wayne north"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "IDENTITY_REVIEW_REQUIRED",
+   "classification_reason": "another distinct building normalizes to the same identity key 'hampton inn and suites ft wayne north'",
+   "identity_key": "hampton inn and suites ft wayne north",
+   "slug": "hampton-inn-suites-ft-wayne-north"
+  },
+  {
+   "canonical_name": "Hometown Inn",
+   "street": "6910 West State Road 930",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46803",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.0688423,
+   "longitude": -85.0513888,
+   "lanes": [
+    "OSM"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46803"
+   ],
+   "distinct_address_keys": [
+    "6910|w|state|46803"
+   ],
+   "observations": [
+    {
+     "lane": "OSM",
+     "source_id": "way/667517047",
+     "name": "Hometown Inn",
+     "street": "6910 West State Road 930",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46803",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.0688423,
+     "longitude": -85.0513888,
+     "note": "",
+     "_address_parts": [
+      "6910",
+      "frozenset({'w'})",
+      [
+       "state"
+      ],
+      "46803"
+     ],
+     "_address_key": "6910|w|state|46803",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "hometown inn"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "IDENTITY_REVIEW_REQUIRED",
+   "classification_reason": "another distinct building normalizes to the same identity key 'hometown inn'",
+   "identity_key": "hometown inn",
+   "slug": "hometown-inn"
+  },
+  {
+   "canonical_name": "Hometown Inn",
+   "street": "6910 IN 930 East",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46803",
+   "phone": "(260) 749-5058",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.0689117,
+   "longitude": -85.051171,
+   "lanes": [
+    "CVB"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46803"
+   ],
+   "distinct_address_keys": [
+    "6910|e|in|46803"
+   ],
+   "observations": [
+    {
+     "lane": "CVB",
+     "source_id": "https://www.visitfortwayne.com/listing/hometown-inn/53026/",
+     "name": "Hometown Inn",
+     "street": "6910 IN 930 East",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46803",
+     "phone": "(260) 749-5058",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.0689117,
+     "longitude": -85.051171,
+     "note": "cvb_classification=LODGING",
+     "_address_parts": [
+      "6910",
+      "frozenset({'e'})",
+      [
+       "in"
+      ],
+      "46803"
+     ],
+     "_address_key": "6910|e|in|46803",
+     "_phone_key": "2607495058",
+     "_code_key": "",
+     "_name_key": "hometown inn"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "IDENTITY_REVIEW_REQUIRED",
+   "classification_reason": "another distinct building normalizes to the same identity key 'hometown inn'",
+   "identity_key": "hometown inn",
+   "slug": "hometown-inn"
+  },
+  {
+   "canonical_name": "Motel 6 Fort Wayne, IN",
+   "street": "3003 West Coliseum Boulevard",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46808",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.1169536,
+   "longitude": -85.182307,
+   "lanes": [
+    "OSM"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46808"
+   ],
+   "distinct_address_keys": [
+    "3003|w|coliseum|46808"
+   ],
+   "observations": [
+    {
+     "lane": "OSM",
+     "source_id": "way/972492345",
+     "name": "Motel 6 Fort Wayne, IN",
+     "street": "3003 West Coliseum Boulevard",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46808",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1169536,
+     "longitude": -85.182307,
+     "note": "",
+     "_address_parts": [
+      "3003",
+      "frozenset({'w'})",
+      [
+       "coliseum"
+      ],
+      "46808"
+     ],
+     "_address_key": "3003|w|coliseum|46808",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "motel 6 fort wayne in"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "IDENTITY_REVIEW_REQUIRED",
+   "classification_reason": "another distinct building normalizes to the same identity key 'motel 6 fort wayne in'",
+   "identity_key": "motel 6 fort wayne in",
+   "slug": "motel-6-fort-wayne-in"
+  },
+  {
+   "canonical_name": "Red Roof Inn Fort Wayne",
+   "street": "3017 West Coliseum Boulevard",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46808",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.116827,
+   "longitude": -85.1835841,
+   "lanes": [
+    "OSM"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46808"
+   ],
+   "distinct_address_keys": [
+    "3017|w|coliseum|46808"
+   ],
+   "observations": [
+    {
+     "lane": "OSM",
+     "source_id": "way/819055011",
+     "name": "Red Roof Inn Fort Wayne",
+     "street": "3017 West Coliseum Boulevard",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46808",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.116827,
+     "longitude": -85.1835841,
+     "note": "",
+     "_address_parts": [
+      "3017",
+      "frozenset({'w'})",
+      [
+       "coliseum"
+      ],
+      "46808"
+     ],
+     "_address_key": "3017|w|coliseum|46808",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "red roof inn fort wayne"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "IDENTITY_REVIEW_REQUIRED",
+   "classification_reason": "another distinct building normalizes to the same identity key 'red roof inn fort wayne'",
+   "identity_key": "red roof inn fort wayne",
+   "slug": "red-roof-inn-fort-wayne"
+  },
+  {
+   "canonical_name": "TownePlace Suites Fort Wayne North",
+   "street": "3949 Ice Way Drive",
+   "city": "Fort Wayne",
+   "state": "IN",
+   "postal_code": "46805",
+   "phone": "+1 260-483-1160",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "https://www.marriott.com/fwats",
+   "latitude": 41.1131082,
+   "longitude": -85.1473348,
+   "lanes": [
+    "OSM"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [
+    "46805"
+   ],
+   "distinct_address_keys": [
+    "3949||ice|46805"
+   ],
+   "observations": [
+    {
+     "lane": "OSM",
+     "source_id": "way/227672427",
+     "name": "TownePlace Suites Fort Wayne North",
+     "street": "3949 Ice Way Drive",
+     "city": "Fort Wayne",
+     "state": "IN",
+     "postal_code": "46805",
+     "phone": "+1 260-483-1160",
+     "url": "https://www.marriott.com/fwats",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1131082,
+     "longitude": -85.1473348,
+     "note": "",
+     "_address_parts": [
+      "3949",
+      "frozenset()",
+      [
+       "ice"
+      ],
+      "46805"
+     ],
+     "_address_key": "3949||ice|46805",
+     "_phone_key": "2604831160",
+     "_code_key": "",
+     "_name_key": "towneplace suites fort wayne north"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "IDENTITY_REVIEW_REQUIRED",
+   "classification_reason": "another distinct building normalizes to the same identity key 'towneplace suites fort wayne north'",
+   "identity_key": "towneplace suites fort wayne north",
+   "slug": "towneplace-suites-fort-wayne-north"
+  },
+  {
+   "canonical_name": "Avid Hotel Fort Wayne North by IHG",
+   "street": "",
+   "city": "",
+   "state": "IN",
+   "postal_code": "",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": null,
+   "longitude": null,
+   "lanes": [
+    "COMPETITOR"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [],
+   "distinct_address_keys": [],
+   "observations": [
+    {
+     "lane": "COMPETITOR",
+     "source_id": "Avid Hotel Fort Wayne North by IHG",
+     "name": "Avid Hotel Fort Wayne North by IHG",
+     "street": "",
+     "city": "",
+     "state": "IN",
+     "postal_code": "",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": null,
+     "longitude": null,
+     "note": "LEAD ONLY -- competitor rows carry no first-party evidence",
+     "_address_parts": null,
+     "_address_key": "",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "avid hotel fort wayne north by ihg"
+    }
+   ],
+   "membership_outcome": "MARKET_MEMBERSHIP_UNRESOLVED",
+   "membership_reason": "the candidate geography cannot settle market membership either way (scope UNKNOWN_SCOPE); held for review rather than asserted to be outside bounds it was never measured against",
+   "classification": "NAME_ONLY_UNRESOLVED",
+   "classification_reason": "named only by a competitor directory, with no street address from any lane",
+   "identity_key": "avid hotel fort wayne north by ihg",
+   "slug": "avid-hotel-fort-wayne-north-by-ihg"
+  },
+  {
+   "canonical_name": "Best Western Fort Wayne I-69 North",
+   "street": "",
+   "city": "",
+   "state": "IN",
+   "postal_code": "",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": null,
+   "longitude": null,
+   "lanes": [
+    "COMPETITOR"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [],
+   "distinct_address_keys": [],
+   "observations": [
+    {
+     "lane": "COMPETITOR",
+     "source_id": "Best Western Fort Wayne I-69 North",
+     "name": "Best Western Fort Wayne I-69 North",
+     "street": "",
+     "city": "",
+     "state": "IN",
+     "postal_code": "",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": null,
+     "longitude": null,
+     "note": "LEAD ONLY -- competitor rows carry no first-party evidence",
+     "_address_parts": null,
+     "_address_key": "",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "best western fort wayne i 69 north"
+    }
+   ],
+   "membership_outcome": "MARKET_MEMBERSHIP_UNRESOLVED",
+   "membership_reason": "the candidate geography cannot settle market membership either way (scope UNKNOWN_SCOPE); held for review rather than asserted to be outside bounds it was never measured against",
+   "classification": "NAME_ONLY_UNRESOLVED",
+   "classification_reason": "named only by a competitor directory, with no street address from any lane",
+   "identity_key": "best western fort wayne i 69 north",
+   "slug": "best-western-fort-wayne-i-69-north"
+  },
+  {
+   "canonical_name": "Best Western Fort Wayne Inn & Suites North",
+   "street": "",
+   "city": "",
+   "state": "IN",
+   "postal_code": "",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": null,
+   "longitude": null,
+   "lanes": [
+    "COMPETITOR"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [],
+   "distinct_address_keys": [],
+   "observations": [
+    {
+     "lane": "COMPETITOR",
+     "source_id": "Best Western Fort Wayne Inn & Suites North",
+     "name": "Best Western Fort Wayne Inn & Suites North",
+     "street": "",
+     "city": "",
+     "state": "IN",
+     "postal_code": "",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": null,
+     "longitude": null,
+     "note": "LEAD ONLY -- competitor rows carry no first-party evidence",
+     "_address_parts": null,
+     "_address_key": "",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "best western fort wayne inn and suites north"
+    }
+   ],
+   "membership_outcome": "MARKET_MEMBERSHIP_UNRESOLVED",
+   "membership_reason": "the candidate geography cannot settle market membership either way (scope UNKNOWN_SCOPE); held for review rather than asserted to be outside bounds it was never measured against",
+   "classification": "NAME_ONLY_UNRESOLVED",
+   "classification_reason": "named only by a competitor directory, with no street address from any lane",
+   "identity_key": "best western fort wayne inn and suites north",
+   "slug": "best-western-fort-wayne-inn-suites-north"
+  },
+  {
+   "canonical_name": "Best Western Luxbury Inn Fort Wayne",
+   "street": "",
+   "city": "",
+   "state": "IN",
+   "postal_code": "",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": null,
+   "longitude": null,
+   "lanes": [
+    "COMPETITOR"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [],
+   "distinct_address_keys": [],
+   "observations": [
+    {
+     "lane": "COMPETITOR",
+     "source_id": "Best Western Luxbury Inn Fort Wayne",
+     "name": "Best Western Luxbury Inn Fort Wayne",
+     "street": "",
+     "city": "",
+     "state": "IN",
+     "postal_code": "",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": null,
+     "longitude": null,
+     "note": "LEAD ONLY -- competitor rows carry no first-party evidence",
+     "_address_parts": null,
+     "_address_key": "",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "best western luxbury inn fort wayne"
+    }
+   ],
+   "membership_outcome": "MARKET_MEMBERSHIP_UNRESOLVED",
+   "membership_reason": "the candidate geography cannot settle market membership either way (scope UNKNOWN_SCOPE); held for review rather than asserted to be outside bounds it was never measured against",
+   "classification": "NAME_ONLY_UNRESOLVED",
+   "classification_reason": "named only by a competitor directory, with no street address from any lane",
+   "identity_key": "best western luxbury inn fort wayne",
+   "slug": "best-western-luxbury-inn-fort-wayne"
+  },
+  {
+   "canonical_name": "Candlewood Suites Fort Wayne NW by IHG",
+   "street": "",
+   "city": "",
+   "state": "IN",
+   "postal_code": "",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": null,
+   "longitude": null,
+   "lanes": [
+    "COMPETITOR"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [],
+   "distinct_address_keys": [],
+   "observations": [
+    {
+     "lane": "COMPETITOR",
+     "source_id": "Candlewood Suites Fort Wayne NW by IHG",
+     "name": "Candlewood Suites Fort Wayne NW by IHG",
+     "street": "",
+     "city": "",
+     "state": "IN",
+     "postal_code": "",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": null,
+     "longitude": null,
+     "note": "LEAD ONLY -- competitor rows carry no first-party evidence",
+     "_address_parts": null,
+     "_address_key": "",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "candlewood suites fort wayne nw by ihg"
+    }
+   ],
+   "membership_outcome": "MARKET_MEMBERSHIP_UNRESOLVED",
+   "membership_reason": "the candidate geography cannot settle market membership either way (scope UNKNOWN_SCOPE); held for review rather than asserted to be outside bounds it was never measured against",
+   "classification": "NAME_ONLY_UNRESOLVED",
+   "classification_reason": "named only by a competitor directory, with no street address from any lane",
+   "identity_key": "candlewood suites fort wayne nw by ihg",
+   "slug": "candlewood-suites-fort-wayne-nw-by-ihg"
+  },
+  {
+   "canonical_name": "Comfort Suites Fort Wayne North",
+   "street": "",
+   "city": "",
+   "state": "IN",
+   "postal_code": "",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": null,
+   "longitude": null,
+   "lanes": [
+    "COMPETITOR"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [],
+   "distinct_address_keys": [],
+   "observations": [
+    {
+     "lane": "COMPETITOR",
+     "source_id": "Comfort Suites Fort Wayne North",
+     "name": "Comfort Suites Fort Wayne North",
+     "street": "",
+     "city": "",
+     "state": "IN",
+     "postal_code": "",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": null,
+     "longitude": null,
+     "note": "LEAD ONLY -- competitor rows carry no first-party evidence",
+     "_address_parts": null,
+     "_address_key": "",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "comfort suites fort wayne north"
+    }
+   ],
+   "membership_outcome": "MARKET_MEMBERSHIP_UNRESOLVED",
+   "membership_reason": "the candidate geography cannot settle market membership either way (scope UNKNOWN_SCOPE); held for review rather than asserted to be outside bounds it was never measured against",
+   "classification": "NAME_ONLY_UNRESOLVED",
+   "classification_reason": "named only by a competitor directory, with no street address from any lane",
+   "identity_key": "comfort suites fort wayne north",
+   "slug": "comfort-suites-fort-wayne-north"
+  },
+  {
+   "canonical_name": "Econo Lodge",
+   "street": "",
+   "city": "",
+   "state": "IN",
+   "postal_code": "",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.1312831,
+   "longitude": -85.1632948,
+   "lanes": [
+    "OSM"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [],
+   "distinct_address_keys": [],
+   "observations": [
+    {
+     "lane": "OSM",
+     "source_id": "node/4673214324",
+     "name": "Econo Lodge",
+     "street": "",
+     "city": "",
+     "state": "IN",
+     "postal_code": "",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.1312831,
+     "longitude": -85.1632948,
+     "note": "",
+     "_address_parts": null,
+     "_address_key": "",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "econo lodge"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "NAME_ONLY_UNRESOLVED",
+   "classification_reason": "no lane states a street address for this name",
+   "identity_key": "econo lodge",
+   "slug": "econo-lodge"
+  },
+  {
+   "canonical_name": "Extended Stay America Suites Fort Wayne North",
+   "street": "",
+   "city": "",
+   "state": "IN",
+   "postal_code": "",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": null,
+   "longitude": null,
+   "lanes": [
+    "COMPETITOR"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [],
+   "distinct_address_keys": [],
+   "observations": [
+    {
+     "lane": "COMPETITOR",
+     "source_id": "Extended Stay America Suites Fort Wayne North",
+     "name": "Extended Stay America Suites Fort Wayne North",
+     "street": "",
+     "city": "",
+     "state": "IN",
+     "postal_code": "",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": null,
+     "longitude": null,
+     "note": "LEAD ONLY -- competitor rows carry no first-party evidence",
+     "_address_parts": null,
+     "_address_key": "",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "extended stay america suites fort wayne north"
+    }
+   ],
+   "membership_outcome": "MARKET_MEMBERSHIP_UNRESOLVED",
+   "membership_reason": "the candidate geography cannot settle market membership either way (scope UNKNOWN_SCOPE); held for review rather than asserted to be outside bounds it was never measured against",
+   "classification": "NAME_ONLY_UNRESOLVED",
+   "classification_reason": "named only by a competitor directory, with no street address from any lane",
+   "identity_key": "extended stay america suites fort wayne north",
+   "slug": "extended-stay-america-suites-fort-wayne-north"
+  },
+  {
+   "canonical_name": "Extended Stay America Suites Fort Wayne South",
+   "street": "",
+   "city": "",
+   "state": "IN",
+   "postal_code": "",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": null,
+   "longitude": null,
+   "lanes": [
+    "COMPETITOR"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [],
+   "distinct_address_keys": [],
+   "observations": [
+    {
+     "lane": "COMPETITOR",
+     "source_id": "Extended Stay America Suites Fort Wayne South",
+     "name": "Extended Stay America Suites Fort Wayne South",
+     "street": "",
+     "city": "",
+     "state": "IN",
+     "postal_code": "",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": null,
+     "longitude": null,
+     "note": "LEAD ONLY -- competitor rows carry no first-party evidence",
+     "_address_parts": null,
+     "_address_key": "",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "extended stay america suites fort wayne south"
+    }
+   ],
+   "membership_outcome": "MARKET_MEMBERSHIP_UNRESOLVED",
+   "membership_reason": "the candidate geography cannot settle market membership either way (scope UNKNOWN_SCOPE); held for review rather than asserted to be outside bounds it was never measured against",
+   "classification": "NAME_ONLY_UNRESOLVED",
+   "classification_reason": "named only by a competitor directory, with no street address from any lane",
+   "identity_key": "extended stay america suites fort wayne south",
+   "slug": "extended-stay-america-suites-fort-wayne-south"
+  },
+  {
+   "canonical_name": "Extended Stay Hotels in Fort Wayne, IN with Kitchens &amp; Weekly Rates",
+   "street": "",
+   "city": "",
+   "state": "IN",
+   "postal_code": "",
+   "phone": "",
+   "brand_family": "WOODSPRING",
+   "property_code": "",
+   "official_url": "https://www.woodspring.com/extended-stay-hotels/locations/indiana/fort-wayne/hotels",
+   "latitude": null,
+   "longitude": null,
+   "lanes": [
+    "BRAND"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [],
+   "distinct_address_keys": [],
+   "observations": [
+    {
+     "lane": "BRAND",
+     "source_id": "https://www.woodspring.com/extended-stay-hotels/locations/indiana/fort-wayne/hotels",
+     "name": "Extended Stay Hotels in Fort Wayne, IN with Kitchens &amp; Weekly Rates",
+     "street": "",
+     "city": "",
+     "state": "IN",
+     "postal_code": "",
+     "phone": "",
+     "url": "https://www.woodspring.com/extended-stay-hotels/locations/indiana/fort-wayne/hotels",
+     "brand_family": "WOODSPRING",
+     "property_code": "",
+     "latitude": null,
+     "longitude": null,
+     "note": "selected_by=",
+     "_address_parts": null,
+     "_address_key": "",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "extended stay hotels in fort wayne in with kitchens and amp weekly rates"
+    }
+   ],
+   "membership_outcome": "MARKET_MEMBERSHIP_UNRESOLVED",
+   "membership_reason": "the candidate geography cannot settle market membership either way (scope UNKNOWN_SCOPE); held for review rather than asserted to be outside bounds it was never measured against",
+   "classification": "NAME_ONLY_UNRESOLVED",
+   "classification_reason": "no lane states a street address for this name",
+   "identity_key": "extended stay hotels in fort wayne in with kitchens and amp weekly rates",
+   "slug": "extended-stay-hotels-in-fort-wayne-in-with-kitchens-amp-weekly-rates"
+  },
+  {
+   "canonical_name": "Hampton Inn & Suites Ft Wayne-North",
+   "street": "",
+   "city": "",
+   "state": "IN",
+   "postal_code": "",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": null,
+   "longitude": null,
+   "lanes": [
+    "COMPETITOR"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [],
+   "distinct_address_keys": [],
+   "observations": [
+    {
+     "lane": "COMPETITOR",
+     "source_id": "Hampton Inn & Suites Ft Wayne-North",
+     "name": "Hampton Inn & Suites Ft Wayne-North",
+     "street": "",
+     "city": "",
+     "state": "IN",
+     "postal_code": "",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": null,
+     "longitude": null,
+     "note": "LEAD ONLY -- competitor rows carry no first-party evidence",
+     "_address_parts": null,
+     "_address_key": "",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "hampton inn and suites ft wayne north"
+    }
+   ],
+   "membership_outcome": "MARKET_MEMBERSHIP_UNRESOLVED",
+   "membership_reason": "the candidate geography cannot settle market membership either way (scope UNKNOWN_SCOPE); held for review rather than asserted to be outside bounds it was never measured against",
+   "classification": "NAME_ONLY_UNRESOLVED",
+   "classification_reason": "named only by a competitor directory, with no street address from any lane",
+   "identity_key": "hampton inn and suites ft wayne north",
+   "slug": "hampton-inn-suites-ft-wayne-north"
+  },
+  {
+   "canonical_name": "Hampton Inn Auburn",
+   "street": "",
+   "city": "",
+   "state": "IN",
+   "postal_code": "",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": null,
+   "longitude": null,
+   "lanes": [
+    "COMPETITOR"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [],
+   "distinct_address_keys": [],
+   "observations": [
+    {
+     "lane": "COMPETITOR",
+     "source_id": "Hampton Inn Auburn",
+     "name": "Hampton Inn Auburn",
+     "street": "",
+     "city": "",
+     "state": "IN",
+     "postal_code": "",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": null,
+     "longitude": null,
+     "note": "LEAD ONLY -- competitor rows carry no first-party evidence",
+     "_address_parts": null,
+     "_address_key": "",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "hampton inn auburn"
+    }
+   ],
+   "membership_outcome": "MARKET_MEMBERSHIP_UNRESOLVED",
+   "membership_reason": "the candidate geography cannot settle market membership either way (scope UNKNOWN_SCOPE); held for review rather than asserted to be outside bounds it was never measured against",
+   "classification": "NAME_ONLY_UNRESOLVED",
+   "classification_reason": "named only by a competitor directory, with no street address from any lane",
+   "identity_key": "hampton inn auburn",
+   "slug": "hampton-inn-auburn"
+  },
+  {
+   "canonical_name": "Hilton Garden Inn Fort Wayne North",
+   "street": "",
+   "city": "",
+   "state": "IN",
+   "postal_code": "",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": null,
+   "longitude": null,
+   "lanes": [
+    "COMPETITOR"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [],
+   "distinct_address_keys": [],
+   "observations": [
+    {
+     "lane": "COMPETITOR",
+     "source_id": "Hilton Garden Inn Fort Wayne North",
+     "name": "Hilton Garden Inn Fort Wayne North",
+     "street": "",
+     "city": "",
+     "state": "IN",
+     "postal_code": "",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": null,
+     "longitude": null,
+     "note": "LEAD ONLY -- competitor rows carry no first-party evidence",
+     "_address_parts": null,
+     "_address_key": "",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "hilton garden inn fort wayne north"
+    }
+   ],
+   "membership_outcome": "MARKET_MEMBERSHIP_UNRESOLVED",
+   "membership_reason": "the candidate geography cannot settle market membership either way (scope UNKNOWN_SCOPE); held for review rather than asserted to be outside bounds it was never measured against",
+   "classification": "NAME_ONLY_UNRESOLVED",
+   "classification_reason": "named only by a competitor directory, with no street address from any lane",
+   "identity_key": "hilton garden inn fort wayne north",
+   "slug": "hilton-garden-inn-fort-wayne-north"
+  },
+  {
+   "canonical_name": "Holiday Inn Express & Suites Fort Wayne by IHG",
+   "street": "",
+   "city": "",
+   "state": "IN",
+   "postal_code": "",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": null,
+   "longitude": null,
+   "lanes": [
+    "COMPETITOR"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [],
+   "distinct_address_keys": [],
+   "observations": [
+    {
+     "lane": "COMPETITOR",
+     "source_id": "Holiday Inn Express & Suites Fort Wayne by IHG",
+     "name": "Holiday Inn Express & Suites Fort Wayne by IHG",
+     "street": "",
+     "city": "",
+     "state": "IN",
+     "postal_code": "",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": null,
+     "longitude": null,
+     "note": "LEAD ONLY -- competitor rows carry no first-party evidence",
+     "_address_parts": null,
+     "_address_key": "",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "holiday inn express and suites fort wayne by ihg"
+    }
+   ],
+   "membership_outcome": "MARKET_MEMBERSHIP_UNRESOLVED",
+   "membership_reason": "the candidate geography cannot settle market membership either way (scope UNKNOWN_SCOPE); held for review rather than asserted to be outside bounds it was never measured against",
+   "classification": "NAME_ONLY_UNRESOLVED",
+   "classification_reason": "named only by a competitor directory, with no street address from any lane",
+   "identity_key": "holiday inn express and suites fort wayne by ihg",
+   "slug": "holiday-inn-express-suites-fort-wayne-by-ihg"
+  },
+  {
+   "canonical_name": "Home2 Suites",
+   "street": "",
+   "city": "",
+   "state": "IN",
+   "postal_code": "",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.0353192,
+   "longitude": -85.2563563,
+   "lanes": [
+    "OSM"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [],
+   "distinct_address_keys": [],
+   "observations": [
+    {
+     "lane": "OSM",
+     "source_id": "way/1550469994",
+     "name": "Home2 Suites",
+     "street": "",
+     "city": "",
+     "state": "IN",
+     "postal_code": "",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.0353192,
+     "longitude": -85.2563563,
+     "note": "",
+     "_address_parts": null,
+     "_address_key": "",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "home2 suites"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "NAME_ONLY_UNRESOLVED",
+   "classification_reason": "no lane states a street address for this name",
+   "identity_key": "home2 suites",
+   "slug": "home2-suites"
+  },
+  {
+   "canonical_name": "Homewood Suites Fort Wayne",
+   "street": "",
+   "city": "",
+   "state": "IN",
+   "postal_code": "",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": null,
+   "longitude": null,
+   "lanes": [
+    "COMPETITOR"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [],
+   "distinct_address_keys": [],
+   "observations": [
+    {
+     "lane": "COMPETITOR",
+     "source_id": "Homewood Suites Fort Wayne",
+     "name": "Homewood Suites Fort Wayne",
+     "street": "",
+     "city": "",
+     "state": "IN",
+     "postal_code": "",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": null,
+     "longitude": null,
+     "note": "LEAD ONLY -- competitor rows carry no first-party evidence",
+     "_address_parts": null,
+     "_address_key": "",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "homewood suites fort wayne"
+    }
+   ],
+   "membership_outcome": "MARKET_MEMBERSHIP_UNRESOLVED",
+   "membership_reason": "the candidate geography cannot settle market membership either way (scope UNKNOWN_SCOPE); held for review rather than asserted to be outside bounds it was never measured against",
+   "classification": "NAME_ONLY_UNRESOLVED",
+   "classification_reason": "named only by a competitor directory, with no street address from any lane",
+   "identity_key": "homewood suites fort wayne",
+   "slug": "homewood-suites-fort-wayne"
+  },
+  {
+   "canonical_name": "Magnuson Hotel Fort Wayne North",
+   "street": "",
+   "city": "",
+   "state": "IN",
+   "postal_code": "",
+   "phone": "",
+   "brand_family": "MAGNUSON",
+   "property_code": "",
+   "official_url": "https://www.magnusonhotels.com/magnusonhotelfortwaynenorth-coliseum/",
+   "latitude": null,
+   "longitude": null,
+   "lanes": [
+    "BRAND"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [],
+   "distinct_address_keys": [],
+   "observations": [
+    {
+     "lane": "BRAND",
+     "source_id": "https://www.magnusonhotels.com/magnusonhotelfortwaynenorth-coliseum/",
+     "name": "Magnuson Hotel Fort Wayne North",
+     "street": "",
+     "city": "",
+     "state": "IN",
+     "postal_code": "",
+     "phone": "",
+     "url": "https://www.magnusonhotels.com/magnusonhotelfortwaynenorth-coliseum/",
+     "brand_family": "MAGNUSON",
+     "property_code": "",
+     "latitude": null,
+     "longitude": null,
+     "note": "selected_by=",
+     "_address_parts": null,
+     "_address_key": "",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "magnuson hotel fort wayne north"
+    }
+   ],
+   "membership_outcome": "MARKET_MEMBERSHIP_UNRESOLVED",
+   "membership_reason": "the candidate geography cannot settle market membership either way (scope UNKNOWN_SCOPE); held for review rather than asserted to be outside bounds it was never measured against",
+   "classification": "NAME_ONLY_UNRESOLVED",
+   "classification_reason": "no lane states a street address for this name",
+   "identity_key": "magnuson hotel fort wayne north",
+   "slug": "magnuson-hotel-fort-wayne-north"
+  },
+  {
+   "canonical_name": "Motel 6 Fort Wayne In",
+   "street": "",
+   "city": "",
+   "state": "IN",
+   "postal_code": "",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": null,
+   "longitude": null,
+   "lanes": [
+    "COMPETITOR"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [],
+   "distinct_address_keys": [],
+   "observations": [
+    {
+     "lane": "COMPETITOR",
+     "source_id": "Motel 6 Fort Wayne In",
+     "name": "Motel 6 Fort Wayne In",
+     "street": "",
+     "city": "",
+     "state": "IN",
+     "postal_code": "",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": null,
+     "longitude": null,
+     "note": "LEAD ONLY -- competitor rows carry no first-party evidence",
+     "_address_parts": null,
+     "_address_key": "",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "motel 6 fort wayne in"
+    }
+   ],
+   "membership_outcome": "MARKET_MEMBERSHIP_UNRESOLVED",
+   "membership_reason": "the candidate geography cannot settle market membership either way (scope UNKNOWN_SCOPE); held for review rather than asserted to be outside bounds it was never measured against",
+   "classification": "NAME_ONLY_UNRESOLVED",
+   "classification_reason": "named only by a competitor directory, with no street address from any lane",
+   "identity_key": "motel 6 fort wayne in",
+   "slug": "motel-6-fort-wayne-in"
+  },
+  {
+   "canonical_name": "Red Roof Inn Auburn",
+   "street": "",
+   "city": "",
+   "state": "IN",
+   "postal_code": "",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": null,
+   "longitude": null,
+   "lanes": [
+    "COMPETITOR"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [],
+   "distinct_address_keys": [],
+   "observations": [
+    {
+     "lane": "COMPETITOR",
+     "source_id": "Red Roof Inn Auburn",
+     "name": "Red Roof Inn Auburn",
+     "street": "",
+     "city": "",
+     "state": "IN",
+     "postal_code": "",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": null,
+     "longitude": null,
+     "note": "LEAD ONLY -- competitor rows carry no first-party evidence",
+     "_address_parts": null,
+     "_address_key": "",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "red roof inn auburn"
+    }
+   ],
+   "membership_outcome": "MARKET_MEMBERSHIP_UNRESOLVED",
+   "membership_reason": "the candidate geography cannot settle market membership either way (scope UNKNOWN_SCOPE); held for review rather than asserted to be outside bounds it was never measured against",
+   "classification": "NAME_ONLY_UNRESOLVED",
+   "classification_reason": "named only by a competitor directory, with no street address from any lane",
+   "identity_key": "red roof inn auburn",
+   "slug": "red-roof-inn-auburn"
+  },
+  {
+   "canonical_name": "Red Roof Inn Fort Wayne",
+   "street": "",
+   "city": "",
+   "state": "IN",
+   "postal_code": "",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": null,
+   "longitude": null,
+   "lanes": [
+    "COMPETITOR"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [],
+   "distinct_address_keys": [],
+   "observations": [
+    {
+     "lane": "COMPETITOR",
+     "source_id": "Red Roof Inn Fort Wayne",
+     "name": "Red Roof Inn Fort Wayne",
+     "street": "",
+     "city": "",
+     "state": "IN",
+     "postal_code": "",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": null,
+     "longitude": null,
+     "note": "LEAD ONLY -- competitor rows carry no first-party evidence",
+     "_address_parts": null,
+     "_address_key": "",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "red roof inn fort wayne"
+    }
+   ],
+   "membership_outcome": "MARKET_MEMBERSHIP_UNRESOLVED",
+   "membership_reason": "the candidate geography cannot settle market membership either way (scope UNKNOWN_SCOPE); held for review rather than asserted to be outside bounds it was never measured against",
+   "classification": "NAME_ONLY_UNRESOLVED",
+   "classification_reason": "named only by a competitor directory, with no street address from any lane",
+   "identity_key": "red roof inn fort wayne",
+   "slug": "red-roof-inn-fort-wayne"
+  },
+  {
+   "canonical_name": "Residence Inn by Marriott Fort Wayne Southwest",
+   "street": "",
+   "city": "",
+   "state": "IN",
+   "postal_code": "",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": null,
+   "longitude": null,
+   "lanes": [
+    "COMPETITOR"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [],
+   "distinct_address_keys": [],
+   "observations": [
+    {
+     "lane": "COMPETITOR",
+     "source_id": "Residence Inn by Marriott Fort Wayne Southwest",
+     "name": "Residence Inn by Marriott Fort Wayne Southwest",
+     "street": "",
+     "city": "",
+     "state": "IN",
+     "postal_code": "",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": null,
+     "longitude": null,
+     "note": "LEAD ONLY -- competitor rows carry no first-party evidence",
+     "_address_parts": null,
+     "_address_key": "",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "residence inn by marriott fort wayne southwest"
+    }
+   ],
+   "membership_outcome": "MARKET_MEMBERSHIP_UNRESOLVED",
+   "membership_reason": "the candidate geography cannot settle market membership either way (scope UNKNOWN_SCOPE); held for review rather than asserted to be outside bounds it was never measured against",
+   "classification": "NAME_ONLY_UNRESOLVED",
+   "classification_reason": "named only by a competitor directory, with no street address from any lane",
+   "identity_key": "residence inn by marriott fort wayne southwest",
+   "slug": "residence-inn-by-marriott-fort-wayne-southwest"
+  },
+  {
+   "canonical_name": "Search Results",
+   "street": "",
+   "city": "",
+   "state": "IN",
+   "postal_code": "",
+   "phone": "",
+   "brand_family": "WYNDHAM",
+   "property_code": "",
+   "official_url": "https://www.wyndhamhotels.com/hotels/ft-wayne-indiana?brand_id=BU",
+   "latitude": null,
+   "longitude": null,
+   "lanes": [
+    "BRAND"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [],
+   "distinct_address_keys": [],
+   "observations": [
+    {
+     "lane": "BRAND",
+     "source_id": "https://www.wyndhamhotels.com/baymont/ft-wayne-indiana/baymont-inn-and-suites-ft-wayne/overview",
+     "name": "Search Results",
+     "street": "",
+     "city": "",
+     "state": "IN",
+     "postal_code": "",
+     "phone": "",
+     "url": "https://www.wyndhamhotels.com/hotels/ft-wayne-indiana?brand_id=BU",
+     "brand_family": "WYNDHAM",
+     "property_code": "",
+     "latitude": null,
+     "longitude": null,
+     "note": "selected_by=",
+     "_address_parts": null,
+     "_address_key": "",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "search results"
+    }
+   ],
+   "membership_outcome": "MARKET_MEMBERSHIP_UNRESOLVED",
+   "membership_reason": "the candidate geography cannot settle market membership either way (scope UNKNOWN_SCOPE); held for review rather than asserted to be outside bounds it was never measured against",
+   "classification": "NAME_ONLY_UNRESOLVED",
+   "classification_reason": "no lane states a street address for this name",
+   "identity_key": "search results",
+   "slug": "search-results"
+  },
+  {
+   "canonical_name": "Search Results",
+   "street": "",
+   "city": "",
+   "state": "IN",
+   "postal_code": "",
+   "phone": "",
+   "brand_family": "WYNDHAM",
+   "property_code": "",
+   "official_url": "https://www.wyndhamhotels.com/hotels/fort-wayne-indiana?brand_id=LQ",
+   "latitude": null,
+   "longitude": null,
+   "lanes": [
+    "BRAND"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [],
+   "distinct_address_keys": [],
+   "observations": [
+    {
+     "lane": "BRAND",
+     "source_id": "https://www.wyndhamhotels.com/laquinta/fort-wayne-indiana/la-quinta-ft-wayne/overview",
+     "name": "Search Results",
+     "street": "",
+     "city": "",
+     "state": "IN",
+     "postal_code": "",
+     "phone": "",
+     "url": "https://www.wyndhamhotels.com/hotels/fort-wayne-indiana?brand_id=LQ",
+     "brand_family": "WYNDHAM",
+     "property_code": "",
+     "latitude": null,
+     "longitude": null,
+     "note": "selected_by=",
+     "_address_parts": null,
+     "_address_key": "",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "search results"
+    }
+   ],
+   "membership_outcome": "MARKET_MEMBERSHIP_UNRESOLVED",
+   "membership_reason": "the candidate geography cannot settle market membership either way (scope UNKNOWN_SCOPE); held for review rather than asserted to be outside bounds it was never measured against",
+   "classification": "NAME_ONLY_UNRESOLVED",
+   "classification_reason": "no lane states a street address for this name",
+   "identity_key": "search results",
+   "slug": "search-results"
+  },
+  {
+   "canonical_name": "Staybridge Suites",
+   "street": "",
+   "city": "",
+   "state": "IN",
+   "postal_code": "",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 41.029583,
+   "longitude": -85.2538394,
+   "lanes": [
+    "OSM"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [],
+   "distinct_address_keys": [],
+   "observations": [
+    {
+     "lane": "OSM",
+     "source_id": "way/473155196",
+     "name": "Staybridge Suites",
+     "street": "",
+     "city": "",
+     "state": "IN",
+     "postal_code": "",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": 41.029583,
+     "longitude": -85.2538394,
+     "note": "",
+     "_address_parts": null,
+     "_address_key": "",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "staybridge suites"
+    }
+   ],
+   "membership_outcome": "IN_MARKET",
+   "membership_reason": "the candidate own geography places it in the market (municipality or coordinates inside the market bounds)",
+   "classification": "NAME_ONLY_UNRESOLVED",
+   "classification_reason": "no lane states a street address for this name",
+   "identity_key": "staybridge suites",
+   "slug": "staybridge-suites"
+  },
+  {
+   "canonical_name": "Staybridge Suites Fort Wayne by IHG",
+   "street": "",
+   "city": "",
+   "state": "IN",
+   "postal_code": "",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": null,
+   "longitude": null,
+   "lanes": [
+    "COMPETITOR"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [],
+   "distinct_address_keys": [],
+   "observations": [
+    {
+     "lane": "COMPETITOR",
+     "source_id": "Staybridge Suites Fort Wayne by IHG",
+     "name": "Staybridge Suites Fort Wayne by IHG",
+     "street": "",
+     "city": "",
+     "state": "IN",
+     "postal_code": "",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": null,
+     "longitude": null,
+     "note": "LEAD ONLY -- competitor rows carry no first-party evidence",
+     "_address_parts": null,
+     "_address_key": "",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "staybridge suites fort wayne by ihg"
+    }
+   ],
+   "membership_outcome": "MARKET_MEMBERSHIP_UNRESOLVED",
+   "membership_reason": "the candidate geography cannot settle market membership either way (scope UNKNOWN_SCOPE); held for review rather than asserted to be outside bounds it was never measured against",
+   "classification": "NAME_ONLY_UNRESOLVED",
+   "classification_reason": "named only by a competitor directory, with no street address from any lane",
+   "identity_key": "staybridge suites fort wayne by ihg",
+   "slug": "staybridge-suites-fort-wayne-by-ihg"
+  },
+  {
+   "canonical_name": "The 418",
+   "street": "",
+   "city": "",
+   "state": "IN",
+   "postal_code": "",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": null,
+   "longitude": null,
+   "lanes": [
+    "COMPETITOR"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [],
+   "distinct_address_keys": [],
+   "observations": [
+    {
+     "lane": "COMPETITOR",
+     "source_id": "The 418",
+     "name": "The 418",
+     "street": "",
+     "city": "",
+     "state": "IN",
+     "postal_code": "",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": null,
+     "longitude": null,
+     "note": "LEAD ONLY -- competitor rows carry no first-party evidence",
+     "_address_parts": null,
+     "_address_key": "",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "the 418"
+    }
+   ],
+   "membership_outcome": "MARKET_MEMBERSHIP_UNRESOLVED",
+   "membership_reason": "the candidate geography cannot settle market membership either way (scope UNKNOWN_SCOPE); held for review rather than asserted to be outside bounds it was never measured against",
+   "classification": "NAME_ONLY_UNRESOLVED",
+   "classification_reason": "named only by a competitor directory, with no street address from any lane",
+   "identity_key": "the 418",
+   "slug": "the-418"
+  },
+  {
+   "canonical_name": "The Bradley Hotel",
+   "street": "",
+   "city": "",
+   "state": "IN",
+   "postal_code": "",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": null,
+   "longitude": null,
+   "lanes": [
+    "COMPETITOR"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [],
+   "distinct_address_keys": [],
+   "observations": [
+    {
+     "lane": "COMPETITOR",
+     "source_id": "The Bradley Hotel",
+     "name": "The Bradley Hotel",
+     "street": "",
+     "city": "",
+     "state": "IN",
+     "postal_code": "",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": null,
+     "longitude": null,
+     "note": "LEAD ONLY -- competitor rows carry no first-party evidence",
+     "_address_parts": null,
+     "_address_key": "",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "the bradley hotel"
+    }
+   ],
+   "membership_outcome": "MARKET_MEMBERSHIP_UNRESOLVED",
+   "membership_reason": "the candidate geography cannot settle market membership either way (scope UNKNOWN_SCOPE); held for review rather than asserted to be outside bounds it was never measured against",
+   "classification": "NAME_ONLY_UNRESOLVED",
+   "classification_reason": "named only by a competitor directory, with no street address from any lane",
+   "identity_key": "the bradley hotel",
+   "slug": "the-bradley-hotel"
+  },
+  {
+   "canonical_name": "TownePlace Suites Fort Wayne North",
+   "street": "",
+   "city": "",
+   "state": "IN",
+   "postal_code": "",
+   "phone": "",
+   "brand_family": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": null,
+   "longitude": null,
+   "lanes": [
+    "COMPETITOR"
+   ],
+   "observation_count": 1,
+   "distinct_postal_codes": [],
+   "distinct_address_keys": [],
+   "observations": [
+    {
+     "lane": "COMPETITOR",
+     "source_id": "TownePlace Suites Fort Wayne North",
+     "name": "TownePlace Suites Fort Wayne North",
+     "street": "",
+     "city": "",
+     "state": "IN",
+     "postal_code": "",
+     "phone": "",
+     "url": "",
+     "brand_family": "",
+     "property_code": "",
+     "latitude": null,
+     "longitude": null,
+     "note": "LEAD ONLY -- competitor rows carry no first-party evidence",
+     "_address_parts": null,
+     "_address_key": "",
+     "_phone_key": "",
+     "_code_key": "",
+     "_name_key": "towneplace suites fort wayne north"
+    }
+   ],
+   "membership_outcome": "MARKET_MEMBERSHIP_UNRESOLVED",
+   "membership_reason": "the candidate geography cannot settle market membership either way (scope UNKNOWN_SCOPE); held for review rather than asserted to be outside bounds it was never measured against",
+   "classification": "NAME_ONLY_UNRESOLVED",
+   "classification_reason": "named only by a competitor directory, with no street address from any lane",
+   "identity_key": "towneplace suites fort wayne north",
+   "slug": "towneplace-suites-fort-wayne-north"
+  }
+ ]
+}

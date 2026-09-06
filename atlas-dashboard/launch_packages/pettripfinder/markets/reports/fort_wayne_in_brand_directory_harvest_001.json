@@ -1,0 +1,843 @@
+{
+ "schema": "ptf-brand-inventory-audit/1.0",
+ "work_order": "PTF-FORT-WAYNE-IN-NEW-MARKET-001",
+ "phase": "4C/7 -- new-market shadow census, official brand inventory lane",
+ "market_id": "fort-wayne-in",
+ "as_of": "2026-09-06",
+ "what_this_is": "Official brand inventory for Fort Wayne, taken from the cheapest rung each family answers: owned committed harvests first (zero requests), then the brand's own city page, then a bounded sitemap walk. A property code SELECTS but never ADMITS -- Marriott issues fwafw to Warsaw, Indiana, outside this market -- so every selected row is fetched and judged on the address its own page states. Identity and routing evidence only; never policy evidence.",
+ "why_not_a_full_sitemap_walk": "Measured on this order: Marriott's walk cost 75 sitemaps and 117,189 URLs to select 9 properties this repository already owned, and Hilton's sitemap-en index has 984 brand-sharded children answering in ~10 s each -- 75 minutes bought about a fifth of it before the walk was stopped. Hilton's own Fort Wayne city page returns all 12 of its properties in ONE request.",
+ "paid_provider_calls": 0,
+ "usd_spent": 0.0,
+ "free_http_requests": 124,
+ "owned_reports_scanned": [
+  {
+   "report": "dayton_oh_brand_directory_harvest_001.json",
+   "property_urls_scanned": 17928
+  },
+  {
+   "report": "cleveland_akron_canton_oh_brand_directory_harvest_003.json",
+   "property_urls_scanned": 420
+  }
+ ],
+ "location_pages": {
+  "HILTON": {
+   "url": "https://www.hilton.com/en/locations/usa/indiana/fort-wayne/",
+   "status": 200,
+   "seconds": 10.26,
+   "codes_on_page": 12,
+   "codes_selected_by_prefix": [
+    "fwadphx",
+    "fwadthx",
+    "fwafegi",
+    "fwafhhf",
+    "fwafwpe",
+    "fwainhw",
+    "fwanhgi",
+    "fwanohx",
+    "fwantht",
+    "fwaruru",
+    "fwasoht",
+    "fwaswhx"
+   ],
+   "codes_rejected_wrong_prefix": []
+  }
+ },
+ "sitemap_families": {
+  "WYNDHAM": {
+   "robots": 200,
+   "sitemaps_fetched": 25,
+   "urls_seen": 10440,
+   "property_urls": 91,
+   "truncated_at_child_cap": true,
+   "notes": [
+    "stopped at the 25-child cap with 670 children still queued; this family has no affordable sitemap rung"
+   ]
+  },
+  "DRURY": {
+   "robots": 200,
+   "sitemaps_fetched": 1,
+   "urls_seen": 606,
+   "property_urls": 5,
+   "truncated_at_child_cap": false,
+   "notes": []
+  },
+  "SONESTA": {
+   "robots": 200,
+   "sitemaps_fetched": 2,
+   "urls_seen": 5392,
+   "property_urls": 4,
+   "truncated_at_child_cap": false,
+   "notes": []
+  },
+  "WOODSPRING": {
+   "robots": 200,
+   "sitemaps_fetched": 8,
+   "urls_seen": 846,
+   "property_urls": 15,
+   "truncated_at_child_cap": false,
+   "notes": []
+  },
+  "MY_PLACE": {
+   "robots": 200,
+   "sitemaps_fetched": 7,
+   "urls_seen": 301,
+   "property_urls": 1,
+   "truncated_at_child_cap": false,
+   "notes": []
+  },
+  "INTOWN": {
+   "robots": 200,
+   "sitemaps_fetched": 7,
+   "urls_seen": 892,
+   "property_urls": 126,
+   "truncated_at_child_cap": false,
+   "notes": []
+  },
+  "MAGNUSON": {
+   "robots": 200,
+   "sitemaps_fetched": 25,
+   "urls_seen": 170,
+   "property_urls": 14,
+   "truncated_at_child_cap": true,
+   "notes": [
+    "https://www.magnusonhotels.com/m-star-hotel-covington/sitemap_index.xml: 410",
+    "https://www.magnusonhotels.com/magnuson-grand-hotel-and-conference-center-tyler/sitemap_index.xml: 410",
+    "stopped at the 25-child cap with 72 children still queued; this family has no affordable sitemap rung"
+   ]
+  }
+ },
+ "refused_families": {
+  "IHG": {
+   "robots_url": "https://www.ihg.com/robots.txt",
+   "status": 200,
+   "seconds": 0.22,
+   "probed_at": "2026-09-06T13:31:53Z",
+   "note": "measured on this run, not inherited"
+  },
+  "CHOICE": {
+   "robots_url": "https://www.choicehotels.com/robots.txt",
+   "status": 200,
+   "seconds": 0.48,
+   "probed_at": "2026-09-06T13:31:55Z",
+   "note": "measured on this run, not inherited"
+  },
+  "BEST_WESTERN": {
+   "robots_url": "https://www.bestwestern.com/robots.txt",
+   "status": 200,
+   "seconds": 0.3,
+   "probed_at": "2026-09-06T13:31:56Z",
+   "note": "measured on this run, not inherited"
+  },
+  "ESA": {
+   "robots_url": "https://www.extendedstayamerica.com/robots.txt",
+   "status": 403,
+   "seconds": 0.15,
+   "probed_at": "2026-09-06T13:31:58Z",
+   "note": "measured on this run, not inherited"
+  },
+  "RED_ROOF": {
+   "robots_url": "https://www.redroof.com/robots.txt",
+   "status": 200,
+   "seconds": 0.33,
+   "probed_at": "2026-09-06T13:32:00Z",
+   "note": "measured on this run, not inherited"
+  },
+  "HYATT": {
+   "robots_url": "https://www.hyatt.com/robots.txt",
+   "status": 429,
+   "seconds": 0.21,
+   "probed_at": "2026-09-06T13:32:02Z",
+   "note": "measured on this run, not inherited"
+  },
+  "MOTEL6": {
+   "robots_url": "https://www.motel6.com/robots.txt",
+   "status": 200,
+   "seconds": 0.27,
+   "probed_at": "2026-09-06T13:32:03Z",
+   "note": "measured on this run, not inherited"
+  }
+ },
+ "candidate_counts": {
+  "total": 34,
+  "by_family": {
+   "HILTON": 12,
+   "MAGNUSON": 1,
+   "MARRIOTT": 15,
+   "WOODSPRING": 2,
+   "WYNDHAM": 4
+  },
+  "by_rung": {
+   "BRAND_LOCATION_PAGE": 12,
+   "BRAND_SITEMAP": 6,
+   "OWNED_EVIDENCE": 16
+  },
+  "pages_fetched": 34,
+  "page_status": {
+   "200": 7,
+   "403": 27
+  },
+  "with_identity_name": 7
+ },
+ "candidates": [
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-gb/hotels/fwarn-residence-inn-fort-wayne-north/overview/",
+   "property_code": "fwarn",
+   "locality_token": "fort-wayne",
+   "rung": "OWNED_EVIDENCE",
+   "owned_from": "dayton_oh_brand_directory_harvest_001.json",
+   "page": {
+    "url": "https://www.marriott.com/en-gb/hotels/fwarn-residence-inn-fort-wayne-north/overview/",
+    "family": "MARRIOTT",
+    "status": 403,
+    "final_url": "https://www.marriott.com/en-gb/hotels/fwarn-residence-inn-fort-wayne-north/overview/",
+    "bytes": 0,
+    "page_sha256": null
+   }
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/fwadt-courtyard-fort-wayne-downtown-at-grand-wayne-convention-center/overview/",
+   "property_code": "fwadt",
+   "locality_token": "fort-wayne",
+   "rung": "OWNED_EVIDENCE",
+   "owned_from": "dayton_oh_brand_directory_harvest_001.json",
+   "page": {
+    "url": "https://www.marriott.com/en-us/hotels/fwadt-courtyard-fort-wayne-downtown-at-grand-wayne-convention-center/overview/",
+    "family": "MARRIOTT",
+    "status": 403,
+    "final_url": "https://www.marriott.com/en-us/hotels/fwadt-courtyard-fort-wayne-downtown-at-grand-wayne-convention-center/overview/",
+    "bytes": 0,
+    "page_sha256": null
+   }
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/fwaff-fairfield-inn-and-suites-fort-wayne/overview/",
+   "property_code": "fwaff",
+   "locality_token": "fort-wayne",
+   "rung": "OWNED_EVIDENCE",
+   "owned_from": "dayton_oh_brand_directory_harvest_001.json",
+   "page": {
+    "url": "https://www.marriott.com/en-us/hotels/fwaff-fairfield-inn-and-suites-fort-wayne/overview/",
+    "family": "MARRIOTT",
+    "status": 403,
+    "final_url": "https://www.marriott.com/en-us/hotels/fwaff-fairfield-inn-and-suites-fort-wayne/overview/",
+    "bytes": 0,
+    "page_sha256": null
+   }
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/fwafn-springhill-suites-fort-wayne-north/overview/",
+   "property_code": "fwafn",
+   "locality_token": "fort-wayne",
+   "rung": "OWNED_EVIDENCE",
+   "owned_from": "dayton_oh_brand_directory_harvest_001.json",
+   "page": {
+    "url": "https://www.marriott.com/en-us/hotels/fwafn-springhill-suites-fort-wayne-north/overview/",
+    "family": "MARRIOTT",
+    "status": 403,
+    "final_url": "https://www.marriott.com/en-us/hotels/fwafn-springhill-suites-fort-wayne-north/overview/",
+    "bytes": 0,
+    "page_sha256": null
+   }
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/fwafw-fairfield-inn-and-suites-warsaw/overview/",
+   "property_code": "fwafw",
+   "locality_token": "",
+   "rung": "OWNED_EVIDENCE",
+   "owned_from": "dayton_oh_brand_directory_harvest_001.json",
+   "page": {
+    "url": "https://www.marriott.com/en-us/hotels/fwafw-fairfield-inn-and-suites-warsaw/overview/",
+    "family": "MARRIOTT",
+    "status": 403,
+    "final_url": "https://www.marriott.com/en-us/hotels/fwafw-fairfield-inn-and-suites-warsaw/overview/",
+    "bytes": 0,
+    "page_sha256": null
+   }
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/fwari-residence-inn-fort-wayne-southwest/overview/",
+   "property_code": "fwari",
+   "locality_token": "fort-wayne",
+   "rung": "OWNED_EVIDENCE",
+   "owned_from": "dayton_oh_brand_directory_harvest_001.json",
+   "page": {
+    "url": "https://www.marriott.com/en-us/hotels/fwari-residence-inn-fort-wayne-southwest/overview/",
+    "family": "MARRIOTT",
+    "status": 403,
+    "final_url": "https://www.marriott.com/en-us/hotels/fwari-residence-inn-fort-wayne-southwest/overview/",
+    "bytes": 0,
+    "page_sha256": null
+   }
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/fwarn-residence-inn-fort-wayne-north/overview/",
+   "property_code": "fwarn",
+   "locality_token": "fort-wayne",
+   "rung": "OWNED_EVIDENCE",
+   "owned_from": "dayton_oh_brand_directory_harvest_001.json",
+   "page": {
+    "url": "https://www.marriott.com/en-us/hotels/fwarn-residence-inn-fort-wayne-north/overview/",
+    "family": "MARRIOTT",
+    "status": 403,
+    "final_url": "https://www.marriott.com/en-us/hotels/fwarn-residence-inn-fort-wayne-north/overview/",
+    "bytes": 0,
+    "page_sha256": null
+   }
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/fwaso-springhill-suites-fort-wayne-southwest/overview/",
+   "property_code": "fwaso",
+   "locality_token": "fort-wayne",
+   "rung": "OWNED_EVIDENCE",
+   "owned_from": "dayton_oh_brand_directory_harvest_001.json",
+   "page": {
+    "url": "https://www.marriott.com/en-us/hotels/fwaso-springhill-suites-fort-wayne-southwest/overview/",
+    "family": "MARRIOTT",
+    "status": 403,
+    "final_url": "https://www.marriott.com/en-us/hotels/fwaso-springhill-suites-fort-wayne-southwest/overview/",
+    "bytes": 0,
+    "page_sha256": null
+   }
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/fwasw-fairfield-inn-and-suites-fort-wayne-southwest/overview/",
+   "property_code": "fwasw",
+   "locality_token": "fort-wayne",
+   "rung": "OWNED_EVIDENCE",
+   "owned_from": "dayton_oh_brand_directory_harvest_001.json",
+   "page": {
+    "url": "https://www.marriott.com/en-us/hotels/fwasw-fairfield-inn-and-suites-fort-wayne-southwest/overview/",
+    "family": "MARRIOTT",
+    "status": 403,
+    "final_url": "https://www.marriott.com/en-us/hotels/fwasw-fairfield-inn-and-suites-fort-wayne-southwest/overview/",
+    "bytes": 0,
+    "page_sha256": null
+   }
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/fwats-towneplace-suites-fort-wayne-north/overview/",
+   "property_code": "fwats",
+   "locality_token": "fort-wayne",
+   "rung": "OWNED_EVIDENCE",
+   "owned_from": "dayton_oh_brand_directory_harvest_001.json",
+   "page": {
+    "url": "https://www.marriott.com/en-us/hotels/fwats-towneplace-suites-fort-wayne-north/overview/",
+    "family": "MARRIOTT",
+    "status": 403,
+    "final_url": "https://www.marriott.com/en-us/hotels/fwats-towneplace-suites-fort-wayne-north/overview/",
+    "bytes": 0,
+    "page_sha256": null
+   }
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/hvnco-courtyard-new-haven-orange-milford/overview/",
+   "property_code": "",
+   "locality_token": "new-haven",
+   "rung": "OWNED_EVIDENCE",
+   "owned_from": "dayton_oh_brand_directory_harvest_001.json",
+   "page": {
+    "url": "https://www.marriott.com/en-us/hotels/hvnco-courtyard-new-haven-orange-milford/overview/",
+    "family": "MARRIOTT",
+    "status": 403,
+    "final_url": "https://www.marriott.com/en-us/hotels/hvnco-courtyard-new-haven-orange-milford/overview/",
+    "bytes": 0,
+    "page_sha256": null
+   }
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/hvndt-courtyard-new-haven-at-yale/overview/",
+   "property_code": "",
+   "locality_token": "new-haven",
+   "rung": "OWNED_EVIDENCE",
+   "owned_from": "dayton_oh_brand_directory_harvest_001.json",
+   "page": {
+    "url": "https://www.marriott.com/en-us/hotels/hvndt-courtyard-new-haven-at-yale/overview/",
+    "family": "MARRIOTT",
+    "status": 403,
+    "final_url": "https://www.marriott.com/en-us/hotels/hvndt-courtyard-new-haven-at-yale/overview/",
+    "bytes": 0,
+    "page_sha256": null
+   }
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/hvnfw-fairfield-inn-and-suites-wallingford-new-haven/overview/",
+   "property_code": "",
+   "locality_token": "new-haven",
+   "rung": "OWNED_EVIDENCE",
+   "owned_from": "dayton_oh_brand_directory_harvest_001.json",
+   "page": {
+    "url": "https://www.marriott.com/en-us/hotels/hvnfw-fairfield-inn-and-suites-wallingford-new-haven/overview/",
+    "family": "MARRIOTT",
+    "status": 403,
+    "final_url": "https://www.marriott.com/en-us/hotels/hvnfw-fairfield-inn-and-suites-wallingford-new-haven/overview/",
+    "bytes": 0,
+    "page_sha256": null
+   }
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/hvnrh-residence-inn-new-haven-hamden/overview/",
+   "property_code": "",
+   "locality_token": "new-haven",
+   "rung": "OWNED_EVIDENCE",
+   "owned_from": "dayton_oh_brand_directory_harvest_001.json",
+   "page": {
+    "url": "https://www.marriott.com/en-us/hotels/hvnrh-residence-inn-new-haven-hamden/overview/",
+    "family": "MARRIOTT",
+    "status": 403,
+    "final_url": "https://www.marriott.com/en-us/hotels/hvnrh-residence-inn-new-haven-hamden/overview/",
+    "bytes": 0,
+    "page_sha256": null
+   }
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/hvnwa-courtyard-new-haven-wallingford/overview/",
+   "property_code": "",
+   "locality_token": "new-haven",
+   "rung": "OWNED_EVIDENCE",
+   "owned_from": "dayton_oh_brand_directory_harvest_001.json",
+   "page": {
+    "url": "https://www.marriott.com/en-us/hotels/hvnwa-courtyard-new-haven-wallingford/overview/",
+    "family": "MARRIOTT",
+    "status": 403,
+    "final_url": "https://www.marriott.com/en-us/hotels/hvnwa-courtyard-new-haven-wallingford/overview/",
+    "bytes": 0,
+    "page_sha256": null
+   }
+  },
+  {
+   "family": "MAGNUSON",
+   "url": "https://www.magnusonhotels.com/magnusonhotelfortwaynenorth-coliseum/",
+   "property_code": "",
+   "locality_token": "fortwayne",
+   "rung": "OWNED_EVIDENCE",
+   "owned_from": "dayton_oh_brand_directory_harvest_001.json",
+   "page": {
+    "url": "https://www.magnusonhotels.com/magnusonhotelfortwaynenorth-coliseum/",
+    "family": "MAGNUSON",
+    "status": 200,
+    "final_url": "https://www.magnusonhotels.com/magnusonhotelfortwaynenorth-coliseum/",
+    "bytes": 339270,
+    "page_sha256": "29670a878777d9b2d94bccfb821493ec2e098a1a089e54c72e5de94287d85463",
+    "title": "Magnuson Hotel Fort Wayne North -",
+    "identity": {
+     "name_on_page": "Magnuson Hotel Fort Wayne North",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.magnusonhotels.com/magnusonhotelfortwaynenorth-coliseum/",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": []
+    },
+    "soft_404_suspected": false
+   }
+  },
+  {
+   "family": "HILTON",
+   "url": "https://www.hilton.com/en/hotels/fwadphx-hampton-ft-wayne-dupont-road/",
+   "property_code": "fwadphx",
+   "locality_token": "ft-wayne",
+   "rung": "BRAND_LOCATION_PAGE",
+   "owned_from": "",
+   "page": {
+    "url": "https://www.hilton.com/en/hotels/fwadphx-hampton-ft-wayne-dupont-road/",
+    "family": "HILTON",
+    "status": 403,
+    "final_url": "https://www.hilton.com/en/hotels/fwadphx-hampton-ft-wayne-dupont-road/",
+    "bytes": 0,
+    "page_sha256": null
+   }
+  },
+  {
+   "family": "HILTON",
+   "url": "https://www.hilton.com/en/hotels/fwadthx-hampton-suites-fort-wayne-downtown/",
+   "property_code": "fwadthx",
+   "locality_token": "fort-wayne",
+   "rung": "BRAND_LOCATION_PAGE",
+   "owned_from": "",
+   "page": {
+    "url": "https://www.hilton.com/en/hotels/fwadthx-hampton-suites-fort-wayne-downtown/",
+    "family": "HILTON",
+    "status": 403,
+    "final_url": "https://www.hilton.com/en/hotels/fwadthx-hampton-suites-fort-wayne-downtown/",
+    "bytes": 0,
+    "page_sha256": null
+   }
+  },
+  {
+   "family": "HILTON",
+   "url": "https://www.hilton.com/en/hotels/fwafegi-hilton-garden-inn-fort-wayne/",
+   "property_code": "fwafegi",
+   "locality_token": "fort-wayne",
+   "rung": "BRAND_LOCATION_PAGE",
+   "owned_from": "",
+   "page": {
+    "url": "https://www.hilton.com/en/hotels/fwafegi-hilton-garden-inn-fort-wayne/",
+    "family": "HILTON",
+    "status": 403,
+    "final_url": "https://www.hilton.com/en/hotels/fwafegi-hilton-garden-inn-fort-wayne/",
+    "bytes": 0,
+    "page_sha256": null
+   }
+  },
+  {
+   "family": "HILTON",
+   "url": "https://www.hilton.com/en/hotels/fwafhhf-hilton-fort-wayne-at-the-grand-wayne-convention-center/",
+   "property_code": "fwafhhf",
+   "locality_token": "fort-wayne",
+   "rung": "BRAND_LOCATION_PAGE",
+   "owned_from": "",
+   "page": {
+    "url": "https://www.hilton.com/en/hotels/fwafhhf-hilton-fort-wayne-at-the-grand-wayne-convention-center/",
+    "family": "HILTON",
+    "status": 403,
+    "final_url": "https://www.hilton.com/en/hotels/fwafhhf-hilton-fort-wayne-at-the-grand-wayne-convention-center/",
+    "bytes": 0,
+    "page_sha256": null
+   }
+  },
+  {
+   "family": "HILTON",
+   "url": "https://www.hilton.com/en/hotels/fwafwpe-spark-fort-wayne/",
+   "property_code": "fwafwpe",
+   "locality_token": "fort-wayne",
+   "rung": "BRAND_LOCATION_PAGE",
+   "owned_from": "",
+   "page": {
+    "url": "https://www.hilton.com/en/hotels/fwafwpe-spark-fort-wayne/",
+    "family": "HILTON",
+    "status": 403,
+    "final_url": "https://www.hilton.com/en/hotels/fwafwpe-spark-fort-wayne/",
+    "bytes": 0,
+    "page_sha256": null
+   }
+  },
+  {
+   "family": "HILTON",
+   "url": "https://www.hilton.com/en/hotels/fwainhw-homewood-suites-fort-wayne/",
+   "property_code": "fwainhw",
+   "locality_token": "fort-wayne",
+   "rung": "BRAND_LOCATION_PAGE",
+   "owned_from": "",
+   "page": {
+    "url": "https://www.hilton.com/en/hotels/fwainhw-homewood-suites-fort-wayne/",
+    "family": "HILTON",
+    "status": 403,
+    "final_url": "https://www.hilton.com/en/hotels/fwainhw-homewood-suites-fort-wayne/",
+    "bytes": 0,
+    "page_sha256": null
+   }
+  },
+  {
+   "family": "HILTON",
+   "url": "https://www.hilton.com/en/hotels/fwanhgi-hilton-garden-inn-fort-wayne-north/",
+   "property_code": "fwanhgi",
+   "locality_token": "fort-wayne",
+   "rung": "BRAND_LOCATION_PAGE",
+   "owned_from": "",
+   "page": {
+    "url": "https://www.hilton.com/en/hotels/fwanhgi-hilton-garden-inn-fort-wayne-north/",
+    "family": "HILTON",
+    "status": 403,
+    "final_url": "https://www.hilton.com/en/hotels/fwanhgi-hilton-garden-inn-fort-wayne-north/",
+    "bytes": 0,
+    "page_sha256": null
+   }
+  },
+  {
+   "family": "HILTON",
+   "url": "https://www.hilton.com/en/hotels/fwanohx-hampton-suites-ft-wayne-north/",
+   "property_code": "fwanohx",
+   "locality_token": "ft-wayne",
+   "rung": "BRAND_LOCATION_PAGE",
+   "owned_from": "",
+   "page": {
+    "url": "https://www.hilton.com/en/hotels/fwanohx-hampton-suites-ft-wayne-north/",
+    "family": "HILTON",
+    "status": 403,
+    "final_url": "https://www.hilton.com/en/hotels/fwanohx-hampton-suites-ft-wayne-north/",
+    "bytes": 0,
+    "page_sha256": null
+   }
+  },
+  {
+   "family": "HILTON",
+   "url": "https://www.hilton.com/en/hotels/fwantht-home2-suites-fort-wayne-north/",
+   "property_code": "fwantht",
+   "locality_token": "fort-wayne",
+   "rung": "BRAND_LOCATION_PAGE",
+   "owned_from": "",
+   "page": {
+    "url": "https://www.hilton.com/en/hotels/fwantht-home2-suites-fort-wayne-north/",
+    "family": "HILTON",
+    "status": 403,
+    "final_url": "https://www.hilton.com/en/hotels/fwantht-home2-suites-fort-wayne-north/",
+    "bytes": 0,
+    "page_sha256": null
+   }
+  },
+  {
+   "family": "HILTON",
+   "url": "https://www.hilton.com/en/hotels/fwaruru-tru-fort-wayne/",
+   "property_code": "fwaruru",
+   "locality_token": "fort-wayne",
+   "rung": "BRAND_LOCATION_PAGE",
+   "owned_from": "",
+   "page": {
+    "url": "https://www.hilton.com/en/hotels/fwaruru-tru-fort-wayne/",
+    "family": "HILTON",
+    "status": 403,
+    "final_url": "https://www.hilton.com/en/hotels/fwaruru-tru-fort-wayne/",
+    "bytes": 0,
+    "page_sha256": null
+   }
+  },
+  {
+   "family": "HILTON",
+   "url": "https://www.hilton.com/en/hotels/fwasoht-home2-suites-fort-wayne-south/",
+   "property_code": "fwasoht",
+   "locality_token": "fort-wayne",
+   "rung": "BRAND_LOCATION_PAGE",
+   "owned_from": "",
+   "page": {
+    "url": "https://www.hilton.com/en/hotels/fwasoht-home2-suites-fort-wayne-south/",
+    "family": "HILTON",
+    "status": 403,
+    "final_url": "https://www.hilton.com/en/hotels/fwasoht-home2-suites-fort-wayne-south/",
+    "bytes": 0,
+    "page_sha256": null
+   }
+  },
+  {
+   "family": "HILTON",
+   "url": "https://www.hilton.com/en/hotels/fwaswhx-hampton-ft-wayne-southwest/",
+   "property_code": "fwaswhx",
+   "locality_token": "ft-wayne",
+   "rung": "BRAND_LOCATION_PAGE",
+   "owned_from": "",
+   "page": {
+    "url": "https://www.hilton.com/en/hotels/fwaswhx-hampton-ft-wayne-southwest/",
+    "family": "HILTON",
+    "status": 403,
+    "final_url": "https://www.hilton.com/en/hotels/fwaswhx-hampton-ft-wayne-southwest/",
+    "bytes": 0,
+    "page_sha256": null
+   }
+  },
+  {
+   "family": "WYNDHAM",
+   "url": "https://www.wyndhamhotels.com/baymont/fort-wayne-indiana/baymont-inn-fort-wayne-in/overview",
+   "property_code": "",
+   "locality_token": "fort-wayne",
+   "rung": "BRAND_SITEMAP",
+   "owned_from": "",
+   "page": {
+    "url": "https://www.wyndhamhotels.com/baymont/fort-wayne-indiana/baymont-inn-fort-wayne-in/overview",
+    "family": "WYNDHAM",
+    "status": 200,
+    "final_url": "https://www.wyndhamhotels.com/baymont/fort-wayne-indiana/baymont-inn-fort-wayne-in/overview",
+    "bytes": 386622,
+    "page_sha256": "dcf9311498399400df74997d1a8e6c74421b9f33671dce0fff80b8610764497b",
+    "title": "Baymont by Wyndham Fort Wayne | Fort Wayne, IN Hotels",
+    "identity": {
+     "name_on_page": "Baymont by Wyndham Fort Wayne",
+     "address_on_page": "2881 East Dupont Road",
+     "postal_code": "46825",
+     "phone_on_page": "+1-260-490-8989",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.wyndhamhotels.com/baymont/fort-wayne-indiana/baymont-inn-fort-wayne-in/overview",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "2604908989",
+      "8444054141",
+      "8669967937",
+      "8004079832"
+     ]
+    },
+    "soft_404_suspected": false
+   }
+  },
+  {
+   "family": "WYNDHAM",
+   "url": "https://www.wyndhamhotels.com/baymont/ft-wayne-indiana/baymont-inn-and-suites-ft-wayne/overview",
+   "property_code": "",
+   "locality_token": "ft-wayne",
+   "rung": "BRAND_SITEMAP",
+   "owned_from": "",
+   "page": {
+    "url": "https://www.wyndhamhotels.com/baymont/ft-wayne-indiana/baymont-inn-and-suites-ft-wayne/overview",
+    "family": "WYNDHAM",
+    "status": 200,
+    "final_url": "https://www.wyndhamhotels.com/hotels/ft-wayne-indiana?brand_id=BU",
+    "bytes": 284850,
+    "page_sha256": "b7692241a83ca594e9a146bd1edb781bde15ba0e7a57daa3ad7bc0deafcb01fd",
+    "title": "Search Results",
+    "identity": {
+     "name_on_page": "Search Results",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.wyndhamhotels.com/baymont/search-results",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "8444054141",
+      "8669967937",
+      "8004079832"
+     ]
+    },
+    "soft_404_suspected": true
+   }
+  },
+  {
+   "family": "WYNDHAM",
+   "url": "https://www.wyndhamhotels.com/days-inn/fort-wayne-indiana/days-inn-fort-wayne/overview",
+   "property_code": "",
+   "locality_token": "fort-wayne",
+   "rung": "BRAND_SITEMAP",
+   "owned_from": "",
+   "page": {
+    "url": "https://www.wyndhamhotels.com/days-inn/fort-wayne-indiana/days-inn-fort-wayne/overview",
+    "family": "WYNDHAM",
+    "status": 200,
+    "final_url": "https://www.wyndhamhotels.com/days-inn/fort-wayne-indiana/days-inn-fort-wayne/overview",
+    "bytes": 409487,
+    "page_sha256": "720e941ec386c488fbab0118d46e158ce2304487a01dfbfcf6fb9e6fe9422efd",
+    "title": "Days Inn by Wyndham Fort Wayne | Fort Wayne, IN Hotels",
+    "identity": {
+     "name_on_page": "Days Inn by Wyndham Fort Wayne",
+     "address_on_page": "1161 W Washington Center Road",
+     "postal_code": "46825",
+     "phone_on_page": "+1-260-702-9180",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.wyndhamhotels.com/days-inn/fort-wayne-indiana/days-inn-fort-wayne/overview",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "2607029180",
+      "8444054141",
+      "8669967937",
+      "8002253297",
+      "8004079832"
+     ]
+    },
+    "soft_404_suspected": false
+   }
+  },
+  {
+   "family": "WYNDHAM",
+   "url": "https://www.wyndhamhotels.com/laquinta/fort-wayne-indiana/la-quinta-ft-wayne/overview",
+   "property_code": "",
+   "locality_token": "fort-wayne",
+   "rung": "BRAND_SITEMAP",
+   "owned_from": "",
+   "page": {
+    "url": "https://www.wyndhamhotels.com/laquinta/fort-wayne-indiana/la-quinta-ft-wayne/overview",
+    "family": "WYNDHAM",
+    "status": 200,
+    "final_url": "https://www.wyndhamhotels.com/hotels/fort-wayne-indiana?brand_id=LQ",
+    "bytes": 285302,
+    "page_sha256": "854a91448520bf7e7a2c9fffd119e1d84acd0b3590e0ad02495f94bc78830642",
+    "title": "Search Results",
+    "identity": {
+     "name_on_page": "Search Results",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.wyndhamhotels.com/laquinta/search-results",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "8444054141",
+      "8669967937",
+      "8007533757",
+      "8004079832"
+     ]
+    },
+    "soft_404_suspected": true
+   }
+  },
+  {
+   "family": "WOODSPRING",
+   "url": "https://www.woodspring.com/extended-stay-hotels/locations/indiana/fort-wayne/hotels",
+   "property_code": "",
+   "locality_token": "fort-wayne",
+   "rung": "BRAND_SITEMAP",
+   "owned_from": "",
+   "page": {
+    "url": "https://www.woodspring.com/extended-stay-hotels/locations/indiana/fort-wayne/hotels",
+    "family": "WOODSPRING",
+    "status": 200,
+    "final_url": "https://www.woodspring.com/extended-stay-hotels/locations/indiana/fort-wayne/hotels",
+    "bytes": 116297,
+    "page_sha256": "87c1090d31f161301374c7ac12d6e6b1d45606c5024ac1df5e66111c614385a6",
+    "title": "Extended Stay Hotels in Fort Wayne, IN with Kitchens &amp; Weekly Rates",
+    "identity": {
+     "name_on_page": "Extended Stay Hotels in Fort Wayne, IN with Kitchens &amp; Weekly Rates",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.woodspring.com/extended-stay-hotels/locations/indiana/fort-wayne/hotels",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "8449746835"
+     ]
+    },
+    "soft_404_suspected": false
+   }
+  },
+  {
+   "family": "WOODSPRING",
+   "url": "https://www.woodspring.com/extended-stay-hotels/locations/indiana/fort-wayne/woodspring-suites-fort-wayne",
+   "property_code": "",
+   "locality_token": "fort-wayne",
+   "rung": "BRAND_SITEMAP",
+   "owned_from": "",
+   "page": {
+    "url": "https://www.woodspring.com/extended-stay-hotels/locations/indiana/fort-wayne/woodspring-suites-fort-wayne",
+    "family": "WOODSPRING",
+    "status": 200,
+    "final_url": "https://www.woodspring.com/extended-stay-hotels/locations/indiana/fort-wayne/woodspring-suites-fort-wayne",
+    "bytes": 222057,
+    "page_sha256": "e96e1a3b7a6382dc4cb0e729df04a895c5319e5a240910f4189df8303d6c3f26",
+    "title": "Extended Stay Hotel in Fort Wayne, IN | WoodSpring Suites Fort Wayne",
+    "identity": {
+     "name_on_page": "WoodSpring Suites Fort Wayne",
+     "address_on_page": "2850 Dupont Commerce Court",
+     "postal_code": "46825",
+     "phone_on_page": "1(260)489-4106",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.woodspring.com/extended-stay-hotels/locations/indiana/fort-wayne/woodspring-suites-fort-wayne",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "2604894164",
+      "8449746835"
+     ]
+    },
+    "soft_404_suspected": false
+   }
+  }
+ ]
+}
