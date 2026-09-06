@@ -1,0 +1,77 @@
+{
+ "schema": "ptf-market-brand-inventory-evidence/1.0",
+ "market_id": "indianapolis-in",
+ "work_order": "PTF-INDIANAPOLIS-BRINGFIDO-CENSUS-VALIDATION-003",
+ "as_of": "2026-09-04",
+ "technique": "the Pittsburgh lesson: for brands whose property pages are a capability wall, the brand's own LOCATION INVENTORY still serves identities and property codes",
+ "cost": {"provider_calls": 0, "usd": 0.0, "lane": "attended Chrome"},
+ "this_is_identity_and_routing_evidence_not_policy": true,
+ "hilton": {
+  "surfaces_swept": [
+   "hilton.com/en/locations/usa/indiana/indianapolis/",
+   "hilton.com/en/locations/usa/indiana/fishers/"
+  ],
+  "sweep_is_not_exhaustive": "two locality pages were swept, not the whole state. Six Hilton property codes Atlas already routes to did not appear in these two pages, which is a limit of the sweep and not evidence those properties are gone.",
+  "official_codes_observed": 36,
+  "atlas_routes_to_hilton_codes": 22,
+  "OFFICIAL_INVENTORY_MATCH": 16,
+  "of_which_already_published_pet_friendly": 15,
+  "OFFICIAL_INVENTORY_NOT_FOUND": {
+   "count": 2,
+   "rows": [
+    {"code": "inddlru", "official_name": "Tru by Hilton Indianapolis Lawrence",
+     "status": "CONFIRMED FIRST-PARTY, see the verified record below",
+     "corroborated_by": "BringFido lead 1164938, independently"},
+    {"code": "indelup", "official_name": "Hotel Nickel Plate Fishers",
+     "status": "OFFICIAL INVENTORY LISTS IT; Atlas has no corresponding identity and BringFido did not list it either",
+     "note": "a lead that the competitor also missed -- the brand's own inventory found it and neither directory did"
+   }]
+  },
+  "route_recovery_candidates": {
+   "count": 18,
+   "what_they_are": "official Hilton property codes for which Atlas plausibly holds an identity but binds no official URL. Several Atlas rows sit at AWAITING_OFFICIAL_URL while Hilton publishes a canonical property page for what is likely the same building.",
+   "status": "PROPOSALS FOR REVIEW, NOT APPLIED",
+   "why_not_applied": "the pairing was found by name, and name is not an identity. Three of the eighteen are visibly wrong on inspection -- 'Tru NE Indianapolis Castleton' paired to a Staybridge, 'Home2 Suites Noblesville' to a Courtyard and 'Spark Fishers' to a Hilton Garden Inn. Each candidate needs its street and postal read from the property page before a route is bound.",
+   "value_if_worked": "this is the single largest routing opportunity this order found: up to 18 unrouted Atlas rows may be routable from a free brand surface, with no provider spend at all"
+  }
+ },
+ "marriott": {
+  "status": "NOT SWEPT IN THIS ORDER",
+  "why": "the Hilton sweep consumed the attended budget for this order and produced a complete, checkable result. Marriott's inventory surface is the obvious next step and is recorded here as owed rather than claimed.",
+  "what_is_already_known": "the prior order established that Marriott refuses every Firecrawl engine and that one Marriott route (delta hotels by marriott indianapolis airport) answers 404, so Marriott identities in this market currently rest on the census alone"
+ },
+ "verified_records": [
+  {
+   "identity": "Tru by Hilton Indianapolis Lawrence",
+   "classification": "OFFICIAL_INVENTORY_NOT_FOUND -> TRUE_MISSING_IDENTITY, first-party confirmed",
+   "chain": "BringFido lead 1164938 -> Hilton official Fishers-area inventory (code inddlru) -> Hilton first-party property page",
+   "official_url": "https://www.hilton.com/en/hotels/inddlru-tru-lawrence/",
+   "brand_property_code": "inddlru",
+   "identity_signals": {
+    "street": "5660 Lawrence Village Parkway",
+    "city": "Indianapolis",
+    "postal": "46216",
+    "telephone": "+1 317-541-8803",
+    "bound_on": "the property's own page states street, city, postal and telephone, and all four agree with the competitor lead independently",
+    "atlas_has_no_row_at_this_premises": true,
+    "distinguished_from": "'tru by hilton indianapolis downtown' is a different building at 601 Russell Avenue 46202 under Hilton code inddwru; Hilton's inventory lists both codes"
+   },
+   "policy_class": "CLEAN_PET_FRIENDLY",
+   "exact_quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $50(1-4n),$75(5+n) 2petsMax,dog/cat only",
+   "corroborating_quote_same_page": "1-4 night stay $50; 5+ night stay $75; 2 pets max; dog or cat only",
+   "parsed_facts": {
+    "pets_allowed": true,
+    "species": {"dogs": "accepted", "cats": "accepted"},
+    "pet_count_limit": 2,
+    "weight_limit": {"value": 50.0, "unit": "lb", "operator": "lte", "scope": "per_pet"},
+    "fee_tiers": [
+     {"amount_usd": 50.0, "min_nights": 1, "max_nights": 4, "refundable": false},
+     {"amount_usd": 75.0, "min_nights": 5, "max_nights": null, "refundable": false}
+    ]
+   },
+   "evidence_grade": "the statement is Hilton's own structured pet-policy field on the property's own page, not an amenity chip and not the competitor's text. BringFido's policy prose was NOT used and is not cited.",
+   "census_effect": "one TRUE_MISSING identity to admit; the census would move 263 -> 264",
+   "blocks_promotion": "NO -- it is a census admission, which is a founder decision, and it is held outside the clean inventory until that ruling exists"
+  }
+ ]
+}

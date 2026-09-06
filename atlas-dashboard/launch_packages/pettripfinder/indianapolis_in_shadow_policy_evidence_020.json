@@ -1,0 +1,456 @@
+{
+ "schema": "ptf-market-shadow-policy-evidence/1.0",
+ "market_id": "indianapolis-in",
+ "work_order": "PTF-INDIANAPOLIS-PARALLEL-REVALIDATION-001",
+ "as_of": "2026-09-03",
+ "what_this_is": "Policy evidence acquired in this revalidation from the FREE rungs of the ladder only: one direct first-party HTTPS GET per row, then an attended Chrome read for the brands whose operative policy is injected client-side. Nothing here is applied. The live Indianapolis authority is untouched by this file.",
+ "provider_calls": 0,
+ "usd_spent": 0.0,
+ "firecrawl_credits_spent": 0.0,
+ "lanes_used": [
+  "OWNED_EVIDENCE_REPLAY",
+  "DIRECT_STATIC_FIRST_PARTY",
+  "ATTENDED_BROWSER"
+ ],
+ "lane_not_used": {
+  "firecrawl": "eligible cohort computed and costed, NOT executed: this order grants no provider spend authorisation. See indianapolis_in_firecrawl_cost_plan_020.json.",
+  "bright_data": "FORBIDDEN by this order",
+  "google_places": "FORBIDDEN by this order"
+ },
+ "reader_findings_worth_carrying_forward": [
+  "The Wyndham policy dialog heading is NOT stable: this market served both 'PET & SERVICE ANIMAL POLICY' and 'PET POLICY' on the same brand family. A reader anchored on the longer heading alone silently misses the shorter one -- 'days inn by wyndham plainfield' read as SOURCE_SILENT until the heading regex was widened.",
+  "Wyndham's static markup carries only booking boilerplate ('...and pets (if allowed)') plus marketing prose. That boilerplate is NOT a property policy and must never establish a fact. The operative text appears only after the Hotel Policies control is activated.",
+  "Best Western serves the operative policy inside the static markup as a FACILITY/PETS attribute value, so it is reachable free without a browser; its amenity code block ('PET|PETS ALLOWED|LIMITED - PETS') is chip-only and must not be used."
+ ],
+ "count": 16,
+ "records": [
+  {
+   "identity_key": "best western plus greenwood indy south",
+   "canonical_name": "Best Western Plus Greenwood/Indy South Inn",
+   "lane": "DIRECT_STATIC_FIRST_PARTY",
+   "classification": "ROUTED_FREE_STATIC",
+   "policy_class": "PET_FRIENDLY",
+   "disposition": "HELD_IDENTITY_COLLISION",
+   "requested_url": "https://www.bestwestern.com/en_US/book/hotels-in-indianapolis/best-western-airport-suites/propertyCode.18134.html",
+   "final_url": "https://www.bestwestern.com/en_US/book/hotels-in-greenwood/best-western-plus-greenwood-indy-south-inn/property",
+   "document_sha256": "215c1b81dd45034136b496a062a648164d437e4fa79d2a0419f2eeceb6076ada",
+   "observed_at": "2026-09-03",
+   "identity_signals": {
+    "census_address": "1281 South Park Drive",
+    "page_street_address": "1281 South Park Drive",
+    "census_postal": "46143",
+    "page_postal": "46143",
+    "census_phone": "3178650100",
+    "page_phone": "(317) 865-0100",
+    "bound_on": "street + postal + telephone"
+   },
+   "exact_quote": "We are Pet Friendly and allow up to two dogs in a limited number of rooms. The size limit for any one dog shall be 80 pounds. Other pet types (e.g., cats) may be allowed upon the hotel's approval prior to arrival. The Pet Friendly rate is 25 USD per day.",
+   "parsed_facts": {
+    "pets_allowed": true,
+    "species": {"dogs": "accepted", "cats": "on_request"},
+    "pet_count_limit": 2,
+    "weight_limit": {"value": 80.0, "unit": "lb", "operator": "lte", "scope": "per_pet"},
+    "pet_fee": {"amount_cents": 2500, "currency": "USD", "basis": "per_night", "scope": null}
+   },
+   "withheld_because_the_source_does_not_say": [
+    "fee_scope -- 'The Pet Friendly rate is 25 USD per day' never says per pet or per room"
+   ],
+   "why_held": "1281 South Park Drive is also claimed by census identity 'la quinta inn and suites indianapolis south greenwood'. Wyndham's own current La Quinta inventory for Indianapolis lists no property at this address, which is evidence the La Quinta row is a stale predecessor -- but a rebrand-successor ruling is a founder decision, not a reader's.",
+   "founder_group": "A"
+  },
+  {
+   "identity_key": "best western plus indianapolis northwest",
+   "canonical_name": "Best Western Plus Indianapolis NW Hotel",
+   "lane": "DIRECT_STATIC_FIRST_PARTY",
+   "classification": "ROUTED_FREE_STATIC",
+   "policy_class": "PET_FRIENDLY",
+   "disposition": "HELD_IDENTITY_COLLISION",
+   "final_url": "https://www.bestwestern.com/en_US/book/hotels-in-indianapolis/best-western-plus-indianapolis-nw-hotel/property",
+   "document_sha256": "faeaa4c4f3305b6b92031d6706f1a084143e91132d5766249b59a0eccfd1ff44",
+   "observed_at": "2026-09-03",
+   "identity_signals": {
+    "census_address": "7220 Woodland Drive",
+    "page_street_address": "7220 Woodland Drive",
+    "census_postal": "46278",
+    "page_postal": "46278",
+    "census_phone": "",
+    "bound_on": "street + postal (census carries no telephone for this row)"
+   },
+   "exact_quote": "We are Pet Friendly and allow up to two dogs in a limited number of rooms. The size limit for any one dog shall be 80 pounds. Other pet types (e.g., cats) may be allowed upon the hotel's approval prior to arrival. The Pet Friendly rate is 35 USD per day.",
+   "parsed_facts": {
+    "pets_allowed": true,
+    "species": {"dogs": "accepted", "cats": "on_request"},
+    "pet_count_limit": 2,
+    "weight_limit": {"value": 80.0, "unit": "lb", "operator": "lte", "scope": "per_pet"},
+    "pet_fee": {"amount_cents": 3500, "currency": "USD", "basis": "per_night", "scope": null}
+   },
+   "withheld_because_the_source_does_not_say": ["fee_scope"],
+   "why_held": "7220 Woodland Drive is also claimed by census identity 'holiday inn express northwest park 100'. Same-address, different-brand pairs are a founder ruling; this row also has no census telephone, so the binding rests on street and postal alone.",
+   "founder_group": "A"
+  },
+  {
+   "identity_key": "sonesta select",
+   "canonical_name_on_page": "Sonesta Select Indianapolis Carmel",
+   "lane": "DIRECT_STATIC_FIRST_PARTY",
+   "classification": "ROUTED_FREE_STATIC",
+   "policy_class": "PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "final_url": "https://www.sonesta.com/sonesta-select/in/indianapolis/sonesta-select-indianapolis-carmel",
+   "document_sha256": "5f61e002542c601594f9609c350ee98015c7a3cf7dc41ddcfe95a0305e9fa6a3",
+   "observed_at": "2026-09-03",
+   "identity_signals": {
+    "census_address": "37 103rd Street",
+    "page_street_address": "37 W 103rd Street",
+    "census_postal": "46290",
+    "page_postal": "46290",
+    "census_phone": "3175711110",
+    "page_phone": "(317) 571-1110",
+    "bound_on": "street number + street + postal + telephone"
+   },
+   "exact_quote": "Sonesta Select Indianapolis Carmel ... welcomes well-mannered pets, with no breed or weight restrictions. Up to two pets are permitted per suite.",
+   "parsed_facts": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "weight_limit": null,
+    "breed_restrictions": false
+   },
+   "withheld_because_the_source_does_not_say": [
+    "pet_fee -- the PAWS page states no amount on this property's page. Silence is not 'free'."
+   ],
+   "accompanying_action_required_before_promotion": "This census identity_key is the bare chain word 'sonesta select'. It needs a markets/name_corrections/indianapolis-in.json row correcting the displayed name to 'Sonesta Select Indianapolis Carmel', which the property's own page states -- exactly the tru / home2 precedent set by PTF-INDIANAPOLIS-FINAL-ZERO-COST-CLEANUP-018. The identity itself is unambiguous: street, postal and telephone all bind.",
+   "address_note": "page says '37 W 103rd Street' against census '37 103rd Street' -- a cosmetic directional refinement on the same number, street, postal and telephone, the same class as the Dragonfly Drive -> Lane correction settled by order 012."
+  },
+  {
+   "identity_key": "woodspring suites indianapolis castleton",
+   "canonical_name": "WoodSpring Suites Indianapolis Castleton",
+   "lane": "DIRECT_STATIC_FIRST_PARTY",
+   "classification": "ROUTED_FREE_STATIC",
+   "policy_class": "PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "final_url": "https://www.woodspring.com/extended-stay-hotels/locations/indiana/indianapolis/woodSpring-suites-indianapolis-castleton",
+   "document_sha256": "d8be1a3079fda065aa89875ca3fa7a5d9a31ecc18f9d3243b8654bfb67ff2c6f",
+   "observed_at": "2026-09-03",
+   "identity_signals": {
+    "census_address": "8301 Bash Street",
+    "page_street_address": "8301 Bash Street",
+    "census_postal": "46250",
+    "page_postal": "46250",
+    "census_phone": "3178543327",
+    "page_phone": "317-854-3327",
+    "bound_on": "street + postal + telephone"
+   },
+   "exact_quote": "Pet Policy: Service Animals are welcome at no additional charge, must be registered upon arrival. Limit of 2 Dogs per room. No Cats. Registration Fee of 50 USD. Plus 5 USD for each dog per night. Weight limit of 50 lbs per pet. Credit Card required for incidentals.",
+   "parsed_facts": {
+    "pets_allowed": true,
+    "species": {"dogs": "accepted", "cats": "prohibited"},
+    "pet_count_limit": 2,
+    "weight_limit": {"value": 50.0, "unit": "lb", "operator": "lte", "scope": "per_pet"},
+    "pet_fee": {"amount_cents": 5000, "currency": "USD", "basis": "per_stay", "scope": "per_room", "label": "registration fee"},
+    "additional_charge": {"amount_cents": 500, "currency": "USD", "basis": "per_night", "scope": "per_pet"}
+   },
+   "two_charges_not_one": "A 50 USD registration fee per stay AND 5 USD per dog per night are two separate charges. Collapsing them into a single number understates a week-long stay by 35 USD -- the Louisville fee-vs-deposit precedent.",
+   "contradiction_scan": "the whole document was scanned: 0 occurrences of 'pets are not permitted', 0 of 'no pets'",
+   "service_animal_guard": "the service-animal sentence is adjacent but is NOT doing the work: 'Limit of 2 Dogs per room ... 5 USD for each dog per night' establishes ordinary pet acceptance on its own"
+  },
+  {
+   "identity_key": "woodspring suites indianapolis airport south",
+   "canonical_name": "WoodSpring Suites Indianapolis Airport South",
+   "lane": "DIRECT_STATIC_FIRST_PARTY",
+   "classification": "ROUTED_FREE_STATIC",
+   "policy_class": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "final_url": "https://www.woodspring.com/extended-stay-hotels/locations/indiana/indianapolis/woodspring-suites-indianapolis-airport-south",
+   "document_sha256": "8c3f0ecfb977cf2f7d7ea6b1fce213d68ba5d3eb9116f79a34c4be047a407621",
+   "observed_at": "2026-09-03",
+   "identity_signals": {
+    "census_address": "4545 Kentucky Ave",
+    "page_street_address": "4545 Kentucky Ave",
+    "census_postal": "46221",
+    "page_postal": "46221",
+    "census_phone": "3178569533",
+    "page_phone": "317-856-9533",
+    "bound_on": "street + postal + telephone"
+   },
+   "exact_quote": "We're sorry, but pets are not permitted at WoodSpring Suites Indianapolis Airport South. However, service animals and guide animals under the ADA, as amended, are accepted at the WoodSpring Suites Indianapolis Airport South.",
+   "parsed_facts": {"pets_allowed": false},
+   "refusal_is_citable": true,
+   "service_animal_guard": "the service-animal acceptance does NOT soften the refusal; the sentence refuses ordinary pets by name"
+  },
+  {
+   "identity_key": "baymont by wyndham indianapolis northwest",
+   "canonical_name": "Baymont by Wyndham Indianapolis Northwest",
+   "lane": "ATTENDED_BROWSER",
+   "classification": "ROUTED_FREE_ATTENDED",
+   "policy_class": "PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "final_url": "https://www.wyndhamhotels.com/baymont/indianapolis-indiana/baymont-inn-and-suites-indianapolis-northwest/overview",
+   "observed_at": "2026-09-03",
+   "capture_method": "attended_chrome_render",
+   "surface": "Hotel Policies dialog, PET & SERVICE ANIMAL POLICY section",
+   "identity_signals": {
+    "census_address": "3871 W 92nd St",
+    "page_street_address": "3871 W 92nd St, Indianapolis, Indiana 46268-3102",
+    "census_phone": "3174260215",
+    "page_phone": "+1-317-426-0215",
+    "bound_on": "street + postal + telephone"
+   },
+   "exact_quote": "Service Animals - ADA-defined service animals welcome. / Pets Allowed - 2 pets max. 20lbs or less per pet. / Fees - 20USD per pet per night. Pet Sanitation Fee 50USD if required./ Other information - Pets cannot be left unattended in room.",
+   "parsed_facts": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "weight_limit": {"value": 20.0, "unit": "lb", "operator": "lte", "scope": "per_pet"},
+    "pet_fee": {"amount_cents": 2000, "currency": "USD", "basis": "per_night", "scope": "per_pet"},
+    "other_charges": [{"label": "pet sanitation fee", "amount_cents": 5000, "currency": "USD", "conditional": true}]
+   },
+   "withheld_because_the_source_does_not_say": ["species -- 'pets' is not dogs+cats"]
+  },
+  {
+   "identity_key": "baymont inn and suites plainfield indianapolis airport",
+   "canonical_name": "Baymont by Wyndham Plainfield/ Indianapolis Arpt Area",
+   "lane": "ATTENDED_BROWSER",
+   "classification": "ROUTED_FREE_ATTENDED",
+   "policy_class": "PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "final_url": "https://www.wyndhamhotels.com/baymont/plainfield-indiana/baymont-inn-and-suites-plainfield-indianapolis-arpt-area/overview",
+   "observed_at": "2026-09-03",
+   "capture_method": "attended_chrome_render",
+   "identity_signals": {
+    "census_address": "6010 Gateway Drive",
+    "page_street_address": "6010 Gateway Drive, Plainfield, Indiana 46168",
+    "census_phone": "3172039321",
+    "page_phone": "+1-317-203-9321",
+    "bound_on": "street + postal + telephone -- all three agree"
+   },
+   "exact_quote": "A maximum of two pets are allowed for a non-refundable charge of 25 USD per pet per stay. Pets must be registered with the Front Desk and must be in 1st Floor Rooms. Pet Sanitation Fee is 100 USD if applicable. ADA defined service animals are also welcome at this hotel.",
+   "parsed_facts": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "pet_fee": {"amount_cents": 2500, "currency": "USD", "basis": "per_stay", "scope": "per_pet", "refundable": false},
+    "other_charges": [{"label": "pet sanitation fee", "amount_cents": 10000, "currency": "USD", "conditional": true}]
+   },
+   "this_read_settles_a_collision": "Two census identities were bound to this one URL. The page states 6010 Gateway Drive and +1-317-203-9321, which are THIS row's census street and telephone exactly. The other claimant ('baymont by wyndham plainfield indianapolis airport area', 2244 East Perry Road, 317-837-9000) is therefore mis-routed and is recorded separately as a routing defect, NOT as a policy row."
+  },
+  {
+   "identity_key": "days inn by wyndham plainfield",
+   "canonical_name": "Days Inn by Wyndham Plainfield",
+   "lane": "ATTENDED_BROWSER",
+   "classification": "ROUTED_FREE_ATTENDED",
+   "policy_class": "PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "final_url": "https://www.wyndhamhotels.com/days-inn/plainfield-indiana/days-inn-plainfield/overview",
+   "observed_at": "2026-09-03",
+   "capture_method": "attended_chrome_render",
+   "surface": "Hotel Policies dialog, PET POLICY section (short heading)",
+   "identity_signals": {
+    "census_address": "2245 Perry Road",
+    "page_street_address": "2245 East Perry Road, Plainfield, Indiana 46168",
+    "census_phone": "3172794562",
+    "page_phone": "+1-317-279-4562",
+    "bound_on": "street + postal + telephone"
+   },
+   "exact_quote": "Maximum 2 dogs are allowed for a non-refundable charge of 20.00 USD per dog per night. Pet Sanitation Fee is 150.00 USD if applicable. ADA defined service animals are also welcome at this hotel.",
+   "parsed_facts": {
+    "pets_allowed": true,
+    "species": {"dogs": "accepted"},
+    "pet_count_limit": 2,
+    "pet_fee": {"amount_cents": 2000, "currency": "USD", "basis": "per_night", "scope": "per_pet", "refundable": false},
+    "other_charges": [{"label": "pet sanitation fee", "amount_cents": 15000, "currency": "USD", "conditional": true}]
+   },
+   "reader_note": "this row read as SOURCE_SILENT under a heading regex anchored on 'PET & SERVICE ANIMAL POLICY'; the property serves the section as 'PET POLICY'"
+  },
+  {
+   "identity_key": "echo suites extended stay by wyndham indianapolis ameriplex",
+   "canonical_name": "ECHO Suites Extended Stay by Wyndham Indianapolis AmeriPlex",
+   "lane": "ATTENDED_BROWSER",
+   "classification": "ROUTED_FREE_ATTENDED",
+   "policy_class": "PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "final_url": "https://www.wyndhamhotels.com/echo-suites/indianapolis-indiana/echo-suites-extended-stay-indianapolis-ameriplex/overview",
+   "observed_at": "2026-09-03",
+   "capture_method": "attended_chrome_render",
+   "identity_signals": {
+    "census_address": "5831 Alta Lake Drive",
+    "page_street_address": "5831 Alta Lake Drive, Indianapolis, Indiana 46241",
+    "census_phone": "3172839434",
+    "page_phone": "+1-317-283-9434",
+    "bound_on": "street + postal + telephone; confirms the address supersession applied by order 012"
+   },
+   "exact_quote": "Service Animals - ADA-defined service animals welcome. / Dogs Allowed - 2 dogs max. Dogs only. 75lbs or less per dog. / Fees - 50USD for 1st night. Plus 10USD for each additional night per dog.",
+   "parsed_facts": {
+    "pets_allowed": true,
+    "species": {"dogs": "accepted", "cats": "prohibited"},
+    "pet_count_limit": 2,
+    "weight_limit": {"value": 75.0, "unit": "lb", "operator": "lte", "scope": "per_pet"},
+    "fee_tiers": [
+     {"amount_usd": 50.0, "min_nights": 1, "max_nights": 1, "basis": "first night"},
+     {"amount_usd": 10.0, "min_nights": 2, "max_nights": null, "basis": "each additional night per dog"}
+    ]
+   },
+   "note": "'Dogs only' is an explicit exclusion of other species, not an inference from a silent species map"
+  },
+  {
+   "identity_key": "super 8 by wyndham brownsburg",
+   "canonical_name": "Super 8 by Wyndham Brownsburg",
+   "lane": "ATTENDED_BROWSER",
+   "classification": "ROUTED_FREE_ATTENDED",
+   "policy_class": "PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "final_url": "https://www.wyndhamhotels.com/super-8/brownsburg-indiana/super-8-brownsburg/overview",
+   "observed_at": "2026-09-03",
+   "capture_method": "attended_chrome_render",
+   "identity_signals": {
+    "census_address": "1100 North Green Street",
+    "page_street_address": "1100 North Green Street, Brownsburg, Indiana 46112",
+    "census_phone": "3178525211",
+    "page_phone": "+1-317-852-5211",
+    "bound_on": "street + postal + telephone"
+   },
+   "exact_quote": "ADA-defined service animals are welcome free of charge. Max 2 dogs only for 15 USD per pet per night. Pet Sanitation Fee is 100 USD if required.",
+   "parsed_facts": {
+    "pets_allowed": true,
+    "species": {"dogs": "accepted"},
+    "pet_count_limit": 2,
+    "pet_fee": {"amount_cents": 1500, "currency": "USD", "basis": "per_night", "scope": "per_pet"},
+    "other_charges": [{"label": "pet sanitation fee", "amount_cents": 10000, "currency": "USD", "conditional": true}]
+   }
+  },
+  {
+   "identity_key": "wyndham indianapolis west",
+   "canonical_name_on_page": "Wyndham Indianapolis Airport",
+   "lane": "ATTENDED_BROWSER",
+   "classification": "ROUTED_FREE_ATTENDED",
+   "policy_class": "PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "final_url": "https://www.wyndhamhotels.com/wyndham/indianapolis-indiana/wyndham-indianapolis-airport/overview",
+   "observed_at": "2026-09-03",
+   "capture_method": "attended_chrome_render",
+   "surface": "Hotel Policies dialog, PET POLICY section (short heading)",
+   "identity_signals": {
+    "census_address": "2544 Executive Drive",
+    "page_street_address": "2544 Executive Drive, Indianapolis, Indiana 46241",
+    "census_phone": "3172482481",
+    "page_phone": "+1-317-248-2481",
+    "bound_on": "street + postal + telephone"
+   },
+   "exact_quote": "Designated Pet-friendly rooms may not be available for a requested room type. We welcome your pets and accept up to a maximum of two dogs weighing below 70 pounds with some breed restrictions. There is a flat 50 USD one-time fee which is non-refundable. Dogs are not allowed in the common areas.",
+   "parsed_facts": {
+    "pets_allowed": true,
+    "species": {"dogs": "accepted"},
+    "pet_count_limit": 2,
+    "weight_limit": {"value": 70.0, "unit": "lb", "operator": "lt", "scope": "per_pet"},
+    "pet_fee": {"amount_cents": 5000, "currency": "USD", "basis": "per_stay", "refundable": false},
+    "breed_restrictions": true
+   },
+   "operator_is_stated_not_defaulted": "the source says 'weighing below 70 pounds', so the operator is lt on the source's own wording, not a defaulted lte",
+   "name_correction_already_committed": "markets/name_corrections/indianapolis-in.json already carries this row (IDR-012-006); today's read re-confirms the page title 'Wyndham Indianapolis Airport' at the same street, postal and telephone"
+  },
+  {
+   "identity_key": "days inn by wyndham indianapolis east post road",
+   "canonical_name": "Days Inn by Wyndham Indianapolis East Post Road",
+   "lane": "ATTENDED_BROWSER",
+   "classification": "ROUTED_FREE_ATTENDED",
+   "policy_class": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "final_url": "https://www.wyndhamhotels.com/days-inn/indianapolis-indiana/days-inn-indianapolis-east-post-road/overview",
+   "observed_at": "2026-09-03",
+   "capture_method": "attended_chrome_render",
+   "identity_signals": {
+    "census_address": "2150 North Post Road",
+    "page_street_address": "2150 North Post Road, Indianapolis, Indiana 46219",
+    "census_phone": "3176437487",
+    "page_phone": "+1-317-643-7487",
+    "bound_on": "street + postal + telephone"
+   },
+   "exact_quote": "Service Animals - ADA defined service animals are welcome free of charge. Sorry no other pets are allowed.",
+   "parsed_facts": {"pets_allowed": false},
+   "service_animal_guard": "'no other pets are allowed' refuses ordinary pets explicitly; the service-animal welcome does not establish acceptance"
+  },
+  {
+   "identity_key": "super 8 by wyndham indianapolis",
+   "canonical_name": "Super 8 by Wyndham Indianapolis/Southport Rd",
+   "lane": "ATTENDED_BROWSER",
+   "classification": "ROUTED_FREE_ATTENDED",
+   "policy_class": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "final_url": "https://www.wyndhamhotels.com/super-8/indianapolis-indiana/super-8-indianapolis-southport-rd/overview",
+   "observed_at": "2026-09-03",
+   "capture_method": "attended_chrome_render",
+   "identity_signals": {
+    "census_address": "4033 East Southport Road",
+    "page_street_address": "4033 East Southport Rd, Indianapolis, Indiana 46237",
+    "census_phone": "3178880900",
+    "page_phone": "+1-317-888-0900",
+    "bound_on": "street + postal + telephone"
+   },
+   "exact_quote": "ADA defined service animals are welcome at this hotel. Sorry no other pets are allowed.",
+   "parsed_facts": {"pets_allowed": false}
+  },
+  {
+   "identity_key": "super 8 by wyndham indianapolis castleton",
+   "canonical_name": "Super 8 by Wyndham Indianapolis/NE/Castleton Area",
+   "lane": "ATTENDED_BROWSER",
+   "classification": "ROUTED_FREE_ATTENDED",
+   "policy_class": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "final_url": "https://www.wyndhamhotels.com/super-8/indianapolis-indiana/super-8-indianapolis-ne-castleton-area/overview",
+   "observed_at": "2026-09-03",
+   "capture_method": "attended_chrome_render",
+   "identity_signals": {
+    "census_address": "7202 East 82nd Street",
+    "page_street_address": "7202 East 82nd Street, Indianapolis, Indiana 46256",
+    "census_phone": "3175379686",
+    "page_phone": "+1-317-537-9686",
+    "bound_on": "street + postal + telephone"
+   },
+   "exact_quote": "Service Animals - ADA defined service animals are welcome free of charge. Sorry no other pets are allowed.",
+   "parsed_facts": {"pets_allowed": false},
+   "stale_state_corrected": "the partition carries this row as ACCESS_BLOCKED. It served a 200 to an ordinary free GET today and rendered fully under attended Chrome. ACCESS_BLOCKED records a fetch outcome, and that outcome has changed."
+  },
+  {
+   "identity_key": "wingate by wyndham indianapolis airport plainfield",
+   "canonical_name": "Wingate by Wyndham Indianapolis Airport Plainfield",
+   "lane": "ATTENDED_BROWSER",
+   "classification": "ROUTED_FREE_ATTENDED",
+   "policy_class": "VERIFIED_NO_PETS",
+   "disposition": "CLEAN_VERIFIED_NO_PETS",
+   "final_url": "https://www.wyndhamhotels.com/wingate/plainfield-indiana/wingate-by-wyndham-indianapolis-airport-plainfield/overview",
+   "observed_at": "2026-09-03",
+   "capture_method": "attended_chrome_render",
+   "identity_signals": {
+    "census_address": "6300 Gateway Drive",
+    "page_street_address": "6300 Gateway Drive, Plainfield, Indiana 46168",
+    "census_phone": "3172042457",
+    "page_phone": "+1-317-204-2457",
+    "bound_on": "street + postal + telephone; confirms the 6010 -> 6300 supersession applied by order 012 and separates this row from the Baymont at 6010"
+   },
+   "exact_quote": "Service Animals - ADA defined service animals are welcome free of charge. Sorry no other pets are allowed.",
+   "parsed_facts": {"pets_allowed": false}
+  },
+  {
+   "identity_key": "home2 suites by hilton",
+   "canonical_name_on_page": "Home2 Suites by Hilton Carmel Indianapolis",
+   "lane": "OWNED_EVIDENCE_REPLAY",
+   "classification": "NEWLY_READABLE_PF",
+   "policy_class": "PET_FRIENDLY",
+   "disposition": "CLEAN_PET_FRIENDLY",
+   "source_artifact": "indianapolis_in_observation_store_018.json",
+   "observed_at": "carried from the committed observation store; no new request was made",
+   "readiness_state": "POLICY_CONFIRMED",
+   "publication_grade": "PUBLICATION_GRADE_CONFIRMED",
+   "identity_signals": {
+    "street_identity": "12845 old meridian st|46032",
+    "hilton_property_code_in_url": "indcrht",
+    "distinguished_from": "'home2 suites by hilton indianapolis keystone crossing' is a DIFFERENT building: 3980 east 82nd st|46240, Hilton code indenht. The two were separated on address and property code, never on name."
+   },
+   "parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "species_allowed": ["cat", "dog"]
+   },
+   "why_it_was_never_published": "its review_state is AWAITING_FOUNDER_REVIEW -- it carries a confirmed publication-grade observation that no founder ledger has ever signed. It is not a defect in the live authority; it is unconsumed owned evidence.",
+   "name_correction_already_committed": "markets/name_corrections/indianapolis-in.json already carries this identity_key"
+  }
+ ]
+}

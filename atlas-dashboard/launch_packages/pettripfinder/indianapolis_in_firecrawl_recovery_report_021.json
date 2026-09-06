@@ -1,0 +1,204 @@
+{
+ "schema": "ptf-market-firecrawl-recovery-report/1.0",
+ "market_id": "indianapolis-in",
+ "work_order": "PTF-INDIANAPOLIS-FIRECRAWL-RECOVERY-002",
+ "as_of": "2026-09-04",
+ "base_commit": "d39406274541cb1601d13ba34b24a4176c5aa05d",
+ "branch": "worker/ptf-indianapolis-parallel-revalidation-001",
+ "deployment_performed": false,
+ "live_authority_mutated": false,
+ "precheck": {
+  "worktree": "C:/Atlas-Indy-Hardened-V2",
+  "tree_clean_at_start": true,
+  "origin_equalled_head": true,
+  "baseline_re_derived": {
+   "census": 263,
+   "pet_friendly": 67,
+   "verified_no_pets": 37,
+   "resolved": 104,
+   "unresolved": 159,
+   "profiles": 67
+  },
+  "all_authorities_agree": true,
+  "policy_package_sha_matches_contract": true,
+  "cost_plan_verified": {
+   "rows": 36,
+   "cap_rows": 36,
+   "credits": 19.44,
+   "cap_credits": 19.44,
+   "live_balance_at_start": 513,
+   "sufficient": true
+  }
+ },
+ "firecrawl": {
+  "eligible_rows": 36,
+  "attempted_rows": 36,
+  "publication_grade": 7,
+  "identity_only": 0,
+  "source_silent": 4,
+  "blocked": 22,
+  "mismatch": 2,
+  "failed": 1,
+  "credits_consumed": 17.0,
+  "hard_cap": 19.44,
+  "under_cap_by": 2.44,
+  "balance_before": 513,
+  "balance_remaining": 496,
+  "credits_per_publication_grade_result": 2.43,
+  "other_provider_spend": 0.0
+ },
+ "cost_model_correction": {
+  "headline": "the committed plan's unit cost was wrong, and measuring it first is what kept the run inside the cap",
+  "plan_said": "0.54 credits per attempt; a refusal costs the same as a good page",
+  "measured": "1 credit on success, 0 credits when the origin refuses every engine",
+  "how": "one probe per distinct host before committing spend; the two refused probes moved the balance by 0",
+  "why_it_mattered": "22 of the 36 rows were refused, so the run cost 17 rather than the predicted 19.44. Had the wall fallen the other way, 36 successes would have cost 36 credits and the cap would have truncated the run at 18 rows -- which is why the cap was enforced on attempts with a live balance re-read every fifth call rather than on the plan's arithmetic.",
+  "reconciliation": "vendor-reported per-call credits summed to exactly the live balance delta, 17 == 17"
+ },
+ "double_buy_guard": {
+  "rows_retried_on_a_corrected_identity": 4,
+  "retries_that_paid_off": 3,
+  "detail": "comfort inn east indianapolis, comfort suites indianapolis airport and quality inn noblesville indianapolis each carried a prior Firecrawl IDENTITY_MISMATCH taken against a census street that order 012 has since superseded. All three now bind on the corrected street, the postal and the brand property code, and two of them additionally on the census telephone. The fourth, cambria hotel indianapolis airport plainfield, returned an unhydrated page.",
+  "rows_re_bought_without_a_material_change": 0,
+  "measurement_overhead_acknowledged": "4 credits were spent on host probes whose documents were not persisted, and those four rows were then fetched again in the run. That is 4 credits of avoidable duplication inside this order -- the probes should have written their artifacts. It is counted in the 17 and is not hidden."
+ },
+ "pending_inventory": {
+  "prior_clean_pet_friendly": 9,
+  "prior_clean_verified_no_pets": 5,
+  "new_clean_pet_friendly": 5,
+  "new_clean_verified_no_pets": 2,
+  "total_pending_pet_friendly": 14,
+  "total_pending_verified_no_pets": 7,
+  "total_clean": 21,
+  "net_new_clean_yield": 7,
+  "verified_mechanically": "35 rows across all five lists, all unique, all present in the pinned census, none already published and none already resolved"
+ },
+ "projected_authority_if_the_clean_inventory_is_promoted": {
+  "census": 263,
+  "pet_friendly": 81,
+  "verified_no_pets": 44,
+  "resolved": 125,
+  "unresolved": 138,
+  "profiles": 81,
+  "note": "projection only; nothing live changed in this order. The prior order projected 76/42; this order carries it to 81/44."
+ },
+ "founder": {
+  "starting_holds": 9,
+  "resolved_by_new_evidence": 0,
+  "still_held": 9,
+  "newly_created": 2,
+  "total_open": 11,
+  "still_blocking_promotion": 3,
+  "blocking": [
+   "A-020-3",
+   "A-020-4",
+   "A-020-5 (sonesta select)"
+  ]
+ },
+ "known_required_corrections_carried_forward": [
+  {
+   "id": "D-020-1",
+   "subject": "Home2 Suites Keystone Crossing projection defect",
+   "detail": "the live record carries only pets_allowed although the founder-signed reparse of order 014 recovered a 75 lb limit and 75/125 USD fee tiers from the same artifact the record cites, and the record asserts a pet_fee source-silence that artifact contradicts",
+   "status": "UNTOUCHED by this order, exactly as instructed; REQUIRED in the promotion order"
+  },
+  {
+   "id": "A-020-5",
+   "subject": "sonesta select name correction to 'Sonesta Select Indianapolis Carmel'",
+   "status": "REQUIRED before that row publishes"
+  },
+  {
+   "id": "A-020-2",
+   "subject": "baymont by wyndham plainfield indianapolis airport area route correction",
+   "status": "REQUIRED before that row publishes"
+  },
+  {
+   "id": "A-020-1",
+   "subject": "la quinta inn indianapolis airport lynhurst successor handling",
+   "status": "REQUIRED for that row"
+  }
+ ],
+ "paid_backlog_after_this_order": {
+  "firecrawl": {
+   "remaining_eligible_rows": 0,
+   "why": "the cohort is exhausted. 22 rows are proven unreachable to this lane at zero cost, and the rest either produced evidence or produced a hold. There is nothing left in this market that Firecrawl can be asked.",
+   "rows_now_proven_not_worth_further_firecrawl_spend": 22
+  },
+  "bright_data": {
+   "rows": "the 22 blocked rows plus the 4 source-silent ones are the only candidates",
+   "status": "NOT REQUESTED and not recommended yet",
+   "why": "128 Bright Data attempts are already committed for this market and returned UNEXPECTED_PAGE, IDENTITY_MISMATCH or ACCESS_DENIED on these same Marriott, Hilton and Hyatt surfaces. Buying them a third time needs a reason this order does not have."
+  },
+  "google_places": {
+   "status": "EXHAUSTED -- DO NOT RE-BUY",
+   "why": "96 of the 100 rows with no official URL were already bought and 91 returned UNBOUND_NO_SANCTIONED_KEY; only 4 are a new question"
+  },
+  "the_cheapest_remaining_lane_is_free": "an attended browser pass over the 22 Firecrawl-blocked rows costs nothing but time, and the free lane has already proven on this market that attended reads settle brands whose policy no fetcher can see."
+ },
+ "parallel_safety": {
+  "pittsburgh_files_changed": 0,
+  "shared_globals_changed": 0,
+  "shared_current_state_pins_changed": 0,
+  "deployment_files_changed": 0,
+  "shared_ledgers_changed": 0,
+  "other_market_runs_entry_needed": false,
+  "why_no_registration_is_needed": "run artifacts were written to the session scratchpad rather than to data/acquisition/, so this order creates no run directory. The test that polices OTHER_MARKET_RUNS enumerates DIRECTORIES under data/acquisition/, and the adapter's own call ledger is a single file under a path the repository gitignores in full.",
+  "additive_merge_note": "no OTHER_MARKET_RUNS entry was added, so this order cannot conflict with the concurrent Pittsburgh run on that container. Should a later Indianapolis order need one, it must add Indianapolis entries only, and an integrator resolving a clash with Pittsburgh must preserve BOTH sets rather than choosing between them.",
+  "serialized_boundary_respected": true
+ },
+ "regression": {
+  "matrix_verdict": "FULL_REGRESSION_REQUIRED = YES",
+  "why": "two of this order's four artifacts (the Firecrawl evidence and the rebuilt pending inventory) match no PATH_RULES entry and classify UNCLASSIFIED. regression_delta.py states that the rest of launch_packages/pettripfinder deliberately stays unclassified and is not to be tidied away with a blanket rule, so the matrix was obeyed rather than worked around. The order itself instructs this: obey the classifier when it conservatively requires a full run.",
+  "one_run_answered_five_questions": "the full suite is a superset of the four required lanes, so it was run once and each lane's result was read out of it by node id rather than paying for four additional runs",
+  "wall_clock": "1:52:29 (6749.44s)",
+  "collected": 17379,
+  "passed": 17000,
+  "skipped": 219,
+  "failed": 160,
+  "baseline": "regression_baselines/f75aa95.json",
+  "classification": {
+   "PRE_EXISTING": 160,
+   "EXPECTED_EPOCH_CHANGE": 0,
+   "TEST_HARNESS_FLAKE": 0,
+   "TRUE_NEW_FAILURE": 0
+  },
+  "proved_by_identity_not_by_count": {
+   "baseline_failing_node_ids": 160,
+   "run_failing_node_ids": 160,
+   "sets_identical": true,
+   "in_run_but_not_baseline": 0,
+   "in_baseline_but_not_run": 0
+  },
+  "required_lanes_read_from_the_same_run": {
+   "market_targeted": {
+    "modules": 47,
+    "failures": 13,
+    "TRUE_NEW": 0
+   },
+   "policy_schema": {
+    "modules": 45,
+    "failures": 5,
+    "TRUE_NEW": 0
+   },
+   "identity_routing": {
+    "modules": 41,
+    "failures": 14,
+    "TRUE_NEW": 0
+   },
+   "release_contract": {
+    "modules": 5,
+    "failures": 0,
+    "TRUE_NEW": 0
+   }
+  },
+  "collection_delta": {
+   "baseline": 17292,
+   "run": 17379,
+   "delta": 87,
+   "why_benign": "the baseline was taken in a fresh worktree without the data corpora present here; all 87 extra cases passed and the failing set is identical node id for node id"
+  },
+  "production_assembly_run": false,
+  "shared_pins_moved": false,
+  "TRUE_NEW_FAILURE": 0
+ }
+}

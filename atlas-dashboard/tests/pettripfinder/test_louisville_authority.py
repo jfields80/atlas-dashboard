@@ -37,6 +37,8 @@ from scripts.pettripfinder.discovery.source_families import FAMILY_CVB, family_o
 from scripts.pettripfinder.markets import homepage_config, load_markets, market_by_id
 from scripts.pettripfinder.normalize_census_geography import recompute
 from scripts.pettripfinder.release_contracts import available_market_ids
+from pettripfinder import epochs
+from pettripfinder.market_state import current as _current_market_state
 
 REPO = Path(__file__).resolve().parents[2]
 PKG = REPO / "launch_packages" / "pettripfinder"
@@ -246,8 +248,15 @@ class TestIsolation:
             encoding="utf-8-sig"))
         ours = [e for e in exclusions.get("exclusions", ())
                 if e.get("market_id") == MARKET]
-        assert len(ours) == 17
+        # 17 while PTF-LOUISVILLE-PUBLICATION-008 is still the order that moved
+        # this market last; compared against the pin so a later application that
+        # legitimately adds refusals supersedes the number BY NAME rather than
+        # making a correct market read as a leak. What never moves is the half
+        # that proves scoping: every row here is this market's, and every one is
+        # a refusal.
+        assert {e["market_id"] for e in ours} == {MARKET}
         assert {e["exclusion_state"] for e in ours} == {enums.VERIFIED_NO_PETS}
+        assert len(ours) == _current_market_state(MARKET).verified_no_pets
         # The prior rulings themselves are preserved, not deleted.
         preserved = json.loads((PKG / "louisville_prior_authority_001"
                                 / "hotel_exclusions.json").read_text(
@@ -264,9 +273,13 @@ class TestIsolation:
         # shard is a statement.
         assert not any(r.get("market_id") == MARKET for r in routing.get("routes", ()))
         seed = (PKG / "seed_businesses.csv").read_text(encoding="utf-8")
-        # The generated global seed inventory holds exactly this market's 46 --
-        # one row per approved record, generated from the shard.
-        assert seed.count(",louisville-ky\n") == 46
+        # The generated global seed inventory holds exactly this market's rows --
+        # one per approved record, GENERATED from the shard, so the count is a
+        # projection of the shard and never a second copy to maintain. It was 46
+        # at PTF-LOUISVILLE-PUBLICATION-008 and is read from the pin now, so an
+        # application that legitimately publishes more supersedes the number by
+        # name instead of reading as a leak into another market's inventory.
+        assert seed.count(",louisville-ky\n") == _current_market_state(MARKET).profiles
         preserved_seed = (PKG / "louisville_prior_authority_001"
                           / "seed_businesses.csv").read_text(encoding="utf-8")
         assert preserved_seed.count(",louisville-ky\n") == CURRENT_PUBLISHED
@@ -464,7 +477,14 @@ class TestPass1Capture:
         """
         facts = json.loads((PKG / "hotel_policy_facts_louisville-ky.json").read_text(
             encoding="utf-8-sig"))
-        assert len(facts["hotels"]) == 46
+        # The 46 PUBLICATION-008 signed are still all present and published. The
+        # package TOTAL is a whole-market fact that a later promotion moves, so
+        # it is read from the pin; the cohort this test is about does not move.
+        signed = epochs.cohort(
+            facts["hotels"],
+            epochs.not_by_caveat("PTF-LOUISVILLE-PROMOTION-AND-APPLICATION-002"))
+        assert len(signed) == 46
+        assert len(facts["hotels"]) == _current_market_state(MARKET).pet_friendly
         assert facts["published"] is True
         rec = partition.reconcile(census.identity_keys(_prior_census()),
                                   _prior_partition(), market_id=MARKET)

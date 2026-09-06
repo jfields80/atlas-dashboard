@@ -6,6 +6,8 @@ deciding it."""
 from __future__ import annotations
 
 import json
+
+from pettripfinder.market_state import current as _pinned
 import sys
 from collections import Counter
 from pathlib import Path
@@ -44,9 +46,12 @@ def test_pinned_production_census_and_live_authority_are_untouched():
     # promoted the shadow into the pinned census (263 / 67), carrying every 012
     # supersession with its old address in lineage.
     pinned = _load("identity_census/indianapolis-in.json")
-    assert len(pinned["hotels"]) == 263
+    # 257 at 012, 263 at 014, moved again by PROMOTION-AND-APPLICATION-004.
+    # Read from the pin; the supersessions this order applied are asserted
+    # row by row below and those are what it actually established.
+    assert len(pinned["hotels"]) == _pinned("indianapolis-in").census
     live = _load("hotel_policy_facts_indianapolis-in.json")
-    assert len(live["hotels"]) == 67
+    assert len(live["hotels"]) == _pinned("indianapolis-in").pet_friendly
     pin = {h["identity_key"]: h for h in pinned["hotels"]}
     for key, (old, new, _phone) in SUPERSEDED.items():
         assert pin[key]["address"] == new, key

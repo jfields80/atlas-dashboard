@@ -24,6 +24,8 @@ from scripts.pettripfinder import release_contracts as RC
 from scripts.pettripfinder.census_partition_builder import slugify
 from scripts.pettripfinder.contracts import policy_schema as PS
 from scripts.pettripfinder.markets import load_markets, market_by_id
+from pettripfinder import epochs
+from pettripfinder.market_state import current
 from pettripfinder.conftest import (
     manifest_problems_other_than_the_lapsed_pin)
 
@@ -31,8 +33,30 @@ REPO = Path(__file__).resolve().parents[2]
 PKG = REPO / "launch_packages" / "pettripfinder"
 MARKET = "louisville-ky"
 PACKAGE_PATH = PKG / "hotel_policy_facts_louisville-ky.json"
+
+#: What PTF-LOUISVILLE-PUBLICATION-008 published: 46 pet-friendly records and 17
+#: verified-no-pets exclusions. These are this order's OWN facts and they stay
+#: 46 and 17 forever -- a later order that grows the market does not make them
+#: wrong, it makes them historical. The WHOLE-MARKET counts below are compared
+#: against the current pin instead, and supersede by name once a later order has
+#: moved Louisville (PTF-LOUISVILLE-PROMOTION-AND-APPLICATION-002 was the first
+#: to do so, taking the market to 53 and 20).
 PROFILES = 46
 EXCLUSIONS = 17
+
+EPOCH = epochs.HistoricalEpoch(
+    "PTF-LOUISVILLE-PUBLICATION-008", MARKET,
+    facts={"pet_friendly": PROFILES, "verified_no_pets": EXCLUSIONS})
+NOW = current(MARKET)
+
+#: This order's cohort: every record it signed. A later promotion appends rows
+#: whose approval caveats name the order that added them, so excluding those
+#: leaves exactly the population 008 published.
+LATER_ORDERS = ("PTF-LOUISVILLE-PROMOTION-AND-APPLICATION-002",)
+
+
+def _cohort(package):
+    return epochs.cohort(package["hotels"], epochs.not_by_caveat(*LATER_ORDERS))
 
 
 @pytest.fixture(scope="module")
@@ -47,9 +71,17 @@ def contract():
 
 class TestThePackageIsTheOneTheFounderSigned:
     def test_it_holds_the_signed_population_and_says_it_is_published(self, package):
-        assert package["count"] == PROFILES == len(package["hotels"])
+        """The 46 this order signed are still all here and still published.
+
+        The package COUNT is a whole-market fact and moves when a later order
+        appends; the cohort is this order's own and does not.
+        """
+        assert len(_cohort(package)) == PROFILES
+        assert package["count"] == len(package["hotels"])
         assert package["schema_version"] == "1.3"
         assert package["published"] is True
+        epochs.whole_market_counts_or_superseded(
+            EPOCH, NOW, {"pet_friendly": "pet_friendly"})
 
     def test_every_record_validates_under_the_schema_it_claims(self, package):
         for record in package["hotels"]:
@@ -61,24 +93,30 @@ class TestThePackageIsTheOneTheFounderSigned:
         """23 weights and one cap publish under a named founder decision, and
         they publish the SOURCE's value with the founder's qualifier -- never a
         value the source did not state."""
-        weights = [r for r in package["hotels"] if r["facts"].get("weight_limit")]
+        weights = [r for r in _cohort(package) if r["facts"].get("weight_limit")]
         assert len(weights) == 23
         for record in weights:
             weight = record["facts"]["weight_limit"]
             assert weight["operator"] == "lte"
             assert weight["scope"] == "per_pet"
             assert weight["value"] > 0
-        caps = [r for r in package["hotels"] if r["facts"].get("fee_cap")]
+        caps = [r for r in _cohort(package) if r["facts"].get("fee_cap")]
         assert len(caps) == 1
         assert caps[0]["facts"]["fee_cap"]["qualifier_stated"] is False
 
 
 class TestTheRoutesNameBuildings:
     def test_every_profile_has_its_own_route(self, package):
+        """One route per profile, and no two profiles share one.
+
+        Uniqueness is a LIVE invariant over the whole package -- a later order
+        that appends a colliding name must fail here -- so it is asserted over
+        every record. The cohort size is this order's own fact.
+        """
         slugs = [slugify(r["name"]) for r in package["hotels"]]
-        assert len(slugs) == PROFILES
-        assert len(set(slugs)) == PROFILES
+        assert len(set(slugs)) == len(slugs)
         assert all(slugs)
+        assert len({slugify(r["name"]) for r in _cohort(package)}) == PROFILES
 
     @pytest.mark.parametrize("name, slug", [
         ("Tru By Hilton Louisville East", "tru-by-hilton-louisville-east"),
@@ -103,14 +141,20 @@ class TestTheRoutesNameBuildings:
 
 class TestTheShardAndThePackageAgree:
     def test_one_seed_row_per_published_record(self, package):
+        """A live invariant, not an epoch fact: however many records the package
+        holds, the seed inventory holds exactly those and no others."""
         seeds = MA.load_market_seed_rows(MARKET)
-        assert len(seeds) == PROFILES
+        assert len(seeds) == len(package["hotels"])
         assert {r["name"] for r in seeds} == {r["name"] for r in package["hotels"]}
 
     def test_one_exclusion_per_verified_no_pets_row(self):
+        """Every exclusion this market holds is a refusal -- a live invariant.
+        The COUNT this order wrote is compared against the pin, so it stays
+        exact until a later order moves it and supersedes by name."""
         exclusions = MA.load_market_exclusions(MARKET)
-        assert len(exclusions) == EXCLUSIONS
         assert {e["exclusion_state"] for e in exclusions} == {"VERIFIED_NO_PETS"}
+        epochs.whole_market_counts_or_superseded(
+            EPOCH, NOW, {"verified_no_pets": "verified_no_pets"})
 
     def test_an_exclusion_key_derives_from_the_name_it_carries(self):
         """The exclusion contract's own rule, and the way the publication guard
@@ -139,7 +183,8 @@ class TestTheContract:
 
     def test_it_pins_the_package_it_is_about(self, contract):
         spec = contract["policy_package"]
-        assert spec["expected_record_count"] == PROFILES
+        assert spec["expected_record_count"] == len(
+            json.loads(PACKAGE_PATH.read_text(encoding="utf-8-sig"))["hotels"])
         assert spec["expected_schema_version"] == "1.3"
         assert spec["expected_sha256"] == \
             hashlib.sha256(PACKAGE_PATH.read_bytes()).hexdigest()
@@ -149,7 +194,7 @@ class TestTheContract:
         assert market.show_in_navigation is False
         assert market.show_in_sitemap is False
         assert contract["routes"]["route_mode"] == market.route_mode == "market_prefixed"
-        assert contract["routes"]["hotel_route_count"] == PROFILES
+        assert contract["routes"]["hotel_route_count"] == NOW.profiles
 
     def test_it_records_the_dual_brand_confirmation_so_no_gate_reasks_it(self, contract):
         group = contract["identity_confirmations"]["dual_brand_same_address"][0]
@@ -224,7 +269,12 @@ class TestTheCandidateIsLive:
         assert markets == sorted(markets), "the set is written in a stable order"
         row = next(r for r in manifest["participating_markets"]
                    if r["market_id"] == "louisville-ky")
-        assert row["published_profiles"] == 46
+        # 008's fact is that Louisville reached production and STAYED there, not
+        # that it stayed at 46 forever. The count is read from the pin, which
+        # PTF-LOUISVILLE-DEPLOYMENT-AUTHORIZATION-003 moved to 53 when it shipped
+        # deploy 6a9ca921843f2cba2ddf8da1; a later deployment that grows this
+        # market must not make its continued presence read as a regression.
+        assert row["published_profiles"] == NOW.profiles
         assert row["contract_disagreements"] == []
         # 033 lapsed this pin and the next deployment healed it;
         # PTF-CINCINNATI-HARDENED-SYNC-002 lapsed it again by correcting

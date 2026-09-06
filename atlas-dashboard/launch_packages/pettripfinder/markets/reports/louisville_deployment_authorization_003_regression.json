@@ -1,0 +1,50 @@
+{
+ "schema": "ptf-market-regression-result/1.0",
+ "work_order": "PTF-LOUISVILLE-DEPLOYMENT-AUTHORIZATION-003",
+ "market_id": "louisville-ky",
+ "as_of": "2026-09-05",
+ "lane": "full_regression",
+ "why_a_broad_run": "The change-surface classifier returned FULL_REGRESSION_REQUIRED = YES for DEPLOYMENT_CHANGE on the authorization, the record and the global manifest, plus TEST_EXPECTATION_CHANGE on both shared pins.",
+ "baseline": "launch_packages/pettripfinder/regression_baselines/f75aa95.json",
+ "head_commit_of_the_broad_run": "a28af94",
+ "collected": 17379,
+ "failed": 162,
+ "passed": 16994,
+ "skipped": 210,
+ "xfailed": 13,
+ "wall_clock_seconds": 6122.05,
+ "counts": {
+  "PRE_EXISTING": 160,
+  "EXPECTED_EPOCH_CHANGE": 0,
+  "TEST_HARNESS_FLAKE": 0,
+  "TRUE_NEW_FAILURE": 2
+ },
+ "proved_by": "node-id IDENTITY against the committed baseline manifest",
+ "two_true_new_found_and_closed": {
+  "fix_commit": "4b537e6",
+  "matrix_verdict_on_the_fix": "FULL_REGRESSION_REQUIRED = NO -- every changed file is GENERATED_REPORT_ONLY or TEST_EXPECTATION_CHANGE, so no second multi-hour broad run was manufactured",
+  "delta_validation": {
+   "collected": 1151,
+   "failing": 5,
+   "PRE_EXISTING": 5,
+   "TRUE_NEW": 0,
+   "RESOLVED": 0
+  },
+  "nodes": [
+   {
+    "node_id": "tests/pettripfinder/test_louisville_publication_008.py::TestTheCandidateIsLive::test_the_manifest_still_carries_louisville_in_the_live_set",
+    "closure": "CLOSED by the delta lanes",
+    "cause": "asserted the live manifest carries Louisville at 46; it now carries 53, which is correct because this deployment shipped it",
+    "fix": "the count is read from the current-state pin, so 008's fact stays 'it reached production and stayed there' rather than 'it stayed at 46'"
+   },
+   {
+    "node_id": "tests/pettripfinder/test_prod005_netlify_config.py::TestAssembler::test_no_netlify_dir_created",
+    "closure": "NOT_EXERCISED by the delta lanes because the fix was a filesystem removal rather than a code change; proved EXPLICITLY at the fix commit instead -- the node passes, and its whole module passes 49/49 with 1 skip",
+    "cause": "netlify deploy scaffolds a .netlify/ beside netlify.toml and the assembler gate refuses it; it is gitignored, so the tree read clean while the gate failed",
+    "fix": "removed. It held one derived file, a CLI cache of the repository's own netlify.toml -- nothing authored, nothing tracked"
+   }
+  ]
+ },
+ "TRUE_NEW_FAILURE_after_closure": 0,
+ "deployment": "DEPLOYED. Louisville is live at 53 as deploy 6a9ca921843f2cba2ddf8da1."
+}

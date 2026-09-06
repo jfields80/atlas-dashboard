@@ -47,6 +47,38 @@ def is_the_lapsed_participation_pin(problem: str) -> bool:
     return any(marker in problem for marker in _LAPSED_PIN_MARKERS)
 
 
+def is_a_named_moved_market(problem: str) -> bool:
+    """Is this complaint a market a LATER order is named as having moved?
+
+    PTF-INDIANAPOLIS-PROMOTION-REMEDIATION-005. A promotion that lands after a
+    deployment legitimately changes that market's release contract, so the live
+    authorization reports "contract has changed since authorization" for it.
+    That is the authorization doing its job, not a corruption.
+
+    This is deliberately NOT a blanket. The market must be named in
+    pins/supersessions.json against that very authorization, together with the
+    work order that moved it, and the complaint must be about a release
+    contract. A market that drifts without being named still fails, and so does
+    any other kind of disagreement about a named market.
+    """
+    from pettripfinder import epochs
+
+    registry = epochs.supersession_registry()["authorizations"]
+    named = {market_id
+             for entry in registry.values()
+             for market_id in entry["moved_by_later_work"]}
+    for market_id in named:
+        # The authorization's phrasing, which carries the authorization id.
+        if ("release_contracts[%s]" % market_id) in problem \
+                and "has changed since authorization" in problem:
+            return True
+        # The manifest's phrasing for the same fact.
+        if problem.startswith("%s: release contract has changed since the "
+                              "manifest was written" % market_id):
+            return True
+    return False
+
+
 
 def manifest_problems_other_than_the_lapsed_pin(
         problems: Optional[Sequence[str]] = None) -> List[str]:
@@ -58,4 +90,6 @@ def manifest_problems_other_than_the_lapsed_pin(
     if problems is None:
         from scripts.pettripfinder import global_deployment as GD
         problems = GD.verify_manifest()
-    return [p for p in problems if not is_the_lapsed_participation_pin(p)]
+    return [p for p in problems
+            if not is_the_lapsed_participation_pin(p)
+            and not is_a_named_moved_market(p)]

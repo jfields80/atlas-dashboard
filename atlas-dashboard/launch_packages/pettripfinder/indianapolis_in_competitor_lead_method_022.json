@@ -1,0 +1,53 @@
+{
+ "schema": "ptf-competitor-lead-method/1.0",
+ "market_id": "indianapolis-in",
+ "work_order": "PTF-INDIANAPOLIS-BRINGFIDO-CENSUS-VALIDATION-003",
+ "as_of": "2026-09-04",
+ "status": "PROVEN ONCE ON ONE MARKET -- NOT YET GENERALISED",
+ "no_shared_factory_code_was_changed": true,
+ "why_this_file_exists": "to record the lane end to end while it is fresh, so a later order can generalise it from evidence rather than from memory. The order that proves a lane is not the order that should generalise it.",
+ "the_lane": [
+  {"step": 1, "name": "COMPETITOR DIRECTORY",
+   "do": "find the surface that actually filters to the category you want",
+   "trap": "BringFido's ?type= query parameter is INERT. ?type=hotels, ?type=campgrounds and ?type=rentals return byte-identical results; the real filter is a path segment, /lodging/hotels/city/<slug>/. A census taken from the query-parameter URL compares 329 mixed-category lodging rows against a hotel census and reports a fictitious gap.",
+   "test": "request the same page under two different filter values and compare the identity sets. A filter that changes nothing is not a filter."},
+  {"step": 2, "name": "LEAD INVENTORY",
+   "do": "walk pagination to exhaustion, then pull each property page for its structured address, telephone and coordinates",
+   "trap": "the competitor's headline count and its served cohort disagree. BringFido displays 122 and serves 169: the 122 counts rows whose city string is literally the search city, while the cohort spans the surrounding market. Report both numbers and explain the difference mechanically rather than picking one.",
+   "note": "the listing card is not enough. Card text gave a contaminated locality and a name of 'See Details'; the property page's JSON-LD gave a clean street, city, postal and telephone for 164 of 169 rows."},
+  {"step": 3, "name": "IDENTITY RECONCILIATION",
+   "do": "bind on premises (postal + street number), then telephone, then brand property code",
+   "trap": "NEVER let name similarity bind. Run it if you like as a DIAGNOSTIC to find rows the address matcher missed, but read what it proposes before believing it: here it paired 'Motel 6 Southport' with 'motel 6 indianapolis airport', 'Home2 Suites Fishers' with 'home2 suites indianapolis northwest' and 'Spark Fishers' with 'hilton garden inn northeast fishers'. Every one is a different building.",
+   "trap_2": "a substring test against a whole document is not an address match. On a multi-property brand index a raw substring test reported street number, street name and postal all present for a building that was not on the page. Match against the page's DECLARED address fields.",
+   "demote_do_not_promote": "a lead with no premises match but a same-brand same-city Atlas row is IDENTITY_REVIEW, not TRUE_MISSING. That single rule moved 23 of 38 apparent discoveries out of the discovery column and is the difference between an honest gap and an inflated one."},
+  {"step": 4, "name": "CATEGORY AND GEOGRAPHY ADJUDICATION",
+   "do": "strip what is not a hotel and what is not in your market BEFORE counting a gap",
+   "found_here": "10 of 169 were not hotels -- two were Airbnb/VRBO category landing pages, two were B&Bs and six were apartment or whole-house rentals. 6 more were outside the market boundary. That is 9.5% of the competitor's own hotel category removed before any real comparison begins.",
+   "use_existing_rulings": "the four Zionsville-corridor rows were classified from the market contract's existing exclusion and its settled founder ruling, not re-argued"},
+  {"step": 5, "name": "FIRST-PARTY VERIFICATION",
+   "do": "for each surviving candidate, prove identity first-party, THEN read policy first-party",
+   "the_chain_that_worked": "competitor lead -> brand's OFFICIAL locality inventory (which yields the property code) -> the property's own page -> structured pet-policy field",
+   "why_the_brand_inventory_step_matters": "it is the Pittsburgh lesson and it held again: Hilton property pages are a capability wall to static fetch and refuse every Firecrawl engine, but hilton.com's own locality inventory served 36 property codes to an attended browser for nothing. It also found one identity the competitor missed entirely.",
+   "never": "the competitor's policy prose is not evidence and must not be cited, even when it turns out to be right"},
+  {"step": 6, "name": "CLEAN AUTHORITY CANDIDATE",
+   "do": "separate what the lane produced into policy applications and census admissions",
+   "the_discipline_that_matters": "a verified new hotel is a CENSUS ADMISSION, not a clean pending row. Putting it in the clean inventory would smuggle a census change through a policy gate. This order verified one pet-friendly hotel and added zero rows to the clean inventory, deliberately."}
+ ],
+ "measured_value": {
+  "leads_captured": 169,
+  "already_known": 111,
+  "true_missing_after_adjudication": 15,
+  "verified_first_party": 1,
+  "new_clean_pet_friendly_per_hour": 0.81,
+  "provider_spend_usd": 0.0,
+  "verdict": "a poor ACQUISITION lane and an excellent AUDIT lane",
+  "reasoning": "0.8 verified hotels per hour is below every other free lane this market has run. But for zero spend it bounded the discovery gap at 15 identities, proved the Atlas census is 56% larger than the competitor's whole inventory, found 3 properties the competitor calls pet-friendly that Atlas has disproven first-party, and found 10 non-hotels inside the competitor's hotel category. Knowing the gap is small is the deliverable; the one hotel is a by-product."
+ },
+ "what_a_generalising_order_would_need": [
+  "a per-competitor surface descriptor, because the path-vs-query filter trap is site-specific and silent",
+  "a reusable premises matcher with street-abbreviation folding, since 'Drive' against 'Dr' produced a false miss in the prior order too",
+  "a standing rule that same-brand same-city demotes to review, encoded rather than remembered",
+  "a category blocklist for aggregator landing pages and whole-house rentals",
+  "and a hard separation in the inventory schema between policy applications and census admissions"
+ ]
+}

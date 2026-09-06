@@ -1,0 +1,37 @@
+{
+ "schema": "ptf-market-regression-result/1.0",
+ "work_order": "PTF-LOUISVILLE-PROMOTION-AND-APPLICATION-002",
+ "market_id": "louisville-ky",
+ "as_of": "2026-09-05",
+ "lane": "full_regression",
+ "why_a_broad_run": "The change-surface classifier returned FULL_REGRESSION_REQUIRED = YES on five classes: AUTHORITY_CHANGE (the policy package, both exclusion authorities, the seed shard and the name-corrections overlay), DEPLOYMENT_CHANGE (the release contract), GENERIC_RUNTIME_CHANGE (the new applier module), TEST_EXPECTATION_CHANGE and GENERATED_REPORT_ONLY. This order changes what the site publishes, so the matrix is obeyed rather than argued with.",
+ "baseline": "launch_packages/pettripfinder/regression_baselines/f75aa95.json",
+ "baseline_source_sha": "f75aa95",
+ "head_commit": "cc233e2",
+ "collected": 17379,
+ "failed": 160,
+ "passed": 16996,
+ "skipped": 210,
+ "xfailed": 13,
+ "wall_clock_seconds": 5481.19,
+ "counts": {
+  "PRE_EXISTING": 160,
+  "EXPECTED_EPOCH_CHANGE": 0,
+  "TEST_HARNESS_FLAKE": 0,
+  "TRUE_NEW_FAILURE": 0
+ },
+ "proved_by": "node-id IDENTITY against the committed baseline manifest, not by failure COUNT",
+ "TRUE_NEW_FAILURE": 0,
+ "baseline_failures_now_passing": [],
+ "targeted_lanes_before_assembly": {
+  "lanes": [
+   "market_targeted",
+   "policy_schema",
+   "identity_routing",
+   "release_contract"
+  ],
+  "PRE_EXISTING": 24,
+  "TRUE_NEW_FAILURE": 0
+ },
+ "deployment": "NOT AUTHORIZED and NOT DEPLOYED. deploy/netlify/deployment_authorizations and deployment_records both still hold 11 entries, unchanged by this order."
+}

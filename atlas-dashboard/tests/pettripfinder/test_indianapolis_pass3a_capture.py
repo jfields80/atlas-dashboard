@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from pettripfinder.indianapolis_promoted_state import EXCLUSION_NAMES
+from pettripfinder.indianapolis_promoted_state import assert_exclusion_cohort_preserved
 
 from scripts.pettripfinder.contracts.identity_key import ptf_identity_key
 
@@ -83,7 +83,7 @@ def test_pass3a_authority_untouched():
     indy = [e for e in _json(PACKAGE / "hotel_exclusions.json")["exclusions"]
             if e.get("market_id") == "indianapolis-in"]
     # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004 promoted the founder-signed authority: 24 verified-no-pets exclusions.
-    assert [e["normalized_name"] for e in indy] == EXCLUSION_NAMES
+    assert_exclusion_cohort_preserved(indy)
     assert _json(PACKAGE / "indianapolis_pass2_founder_decision_001.json")[
         "founder_decisions_applied"] is False
     assert _json(PACKAGE / "indianapolis_pass2_founder_decision_001.json")[

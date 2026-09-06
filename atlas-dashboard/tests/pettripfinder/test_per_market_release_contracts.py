@@ -159,7 +159,14 @@ EXPECTED_RECONCILIATION = {
     # unresolved -- and unresolved is COUNTED as the remainder because this
     # market records no OUT_OF_CURRENT_CATEGORY identity, exactly as Milwaukee
     # and St. Louis do (PTF-LOUISVILLE-PUBLICATION-008).
-    "louisville-ky": (166, 46, 17, 63, 103),
+    # 46/17/63/103 -> 53/20/73/93 at PTF-LOUISVILLE-PROMOTION-AND-APPLICATION-002,
+    # which promoted the reader-validated rows from
+    # PTF-LOUISVILLE-PARALLEL-REVALIDATION-001: 7 pet-friendly into the policy
+    # package and 3 verified-no-pets into the exclusion shard. The census did NOT
+    # move -- this order promoted policy, not membership -- so 166 = 53 + 20 + 93.
+    # Four rows the revalidation called clean are HELD, not published, because the
+    # committed policy reader would not derive their pets_allowed.
+    "louisville-ky": (166, 53, 20, 73, 93),
     # PTF-CENSUS-PARTITION-NORMALIZATION-001 gave Columbus the census it never
     # had: 112 identities reconstructed from committed authority alone. Its
     # confirmed and unresolved figures were `None` because nothing could
@@ -457,13 +464,22 @@ class TestContractAgreesWithItsOwnAuthority:
         # market's number is unchanged, which is the half of this assertion
         # that proves the scoping.
         # DAYTON 8 -> 24 at PTF-DAYTON-OH-HARDENED-APPLICATION-002.
+        # INDIANAPOLIS 37 -> 44 at PTF-INDIANAPOLIS-PROMOTION-AND-APPLICATION-004
+        # (7 first-party refusals applied); every other market's number is
+        # unchanged, which is the half of this assertion that proves the scoping.
+        # PITTSBURGH 17 -> 21 at PTF-PITTSBURGH-PROMOTION-AND-APPLICATION-002
+        # (4 first-party refusals applied); every other market's number is
+        # unchanged, which is the half of this assertion that proves the scoping.
         assert by_market == {COLUMBUS: 14, CLEVELAND: 51, DAYTON: 24,
-                             PITTSBURGH: 17, INDIANAPOLIS: 37, MILWAUKEE: 27,
+                             PITTSBURGH: 21, INDIANAPOLIS: 44, MILWAUKEE: 27,
                              ST_LOUIS: 37,
-                             # PTF-LOUISVILLE-PUBLICATION-008. Every other
+                             # PTF-LOUISVILLE-PUBLICATION-008 wrote 17.
+                             # LOUISVILLE 17 -> 20 at
+                             # PTF-LOUISVILLE-PROMOTION-AND-APPLICATION-002
+                             # (3 first-party refusals applied); every other
                              # market's number is unchanged, which is the half
                              # of this assertion that proves the scoping.
-                             LOUISVILLE: 17,
+                             LOUISVILLE: 20,
                              # PTF-GRAND-RAPIDS-SOURCE-PROMOTION-022 wrote this
                              # market's first 14 and
                              # PTF-GRAND-RAPIDS-FOUNDER-SIGNATURE-PASS-030

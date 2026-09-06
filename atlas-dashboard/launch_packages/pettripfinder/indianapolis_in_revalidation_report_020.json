@@ -1,0 +1,267 @@
+{
+ "schema": "ptf-market-revalidation-report/1.0",
+ "market_id": "indianapolis-in",
+ "work_order": "PTF-INDIANAPOLIS-PARALLEL-REVALIDATION-001",
+ "as_of": "2026-09-03",
+ "base_commit": "d06e2eba07dc95edda745d31c51e53edad72983a",
+ "worktree": "C:/Atlas-Indy-Hardened-V2",
+ "branch": "worker/ptf-indianapolis-parallel-revalidation-001",
+ "paid_provider_calls": 0,
+ "usd_spent": 0.0,
+ "firecrawl_credits_spent": 0.0,
+ "deployment_performed": false,
+ "baseline_derived_mechanically_from_source": {
+  "census": 263,
+  "pet_friendly": 67,
+  "verified_no_pets": 37,
+  "resolved": 104,
+  "unresolved": 159,
+  "profiles": 67,
+  "corridors_declared": 17,
+  "published_corridor_routes": 14,
+  "routed_identities": 131,
+  "production_deploy_id": "6a982a1fc32c2911d0d65d04",
+  "source_ahead_of_production": false,
+  "agreement": "the release contract, the market-state pin, the final partition, the identity census, the policy package and the exclusion shard all state the same six numbers; the policy package sha256 6d2744... matches the contract's expected_sha256 byte for byte"
+ },
+ "phase_4_wrong_live_policy_audit": {
+  "records_audited": 104,
+  "CURRENT_AUTHORITY_CORRECT": 104,
+  "WRONG_LIVE_PF": 0,
+  "WRONG_LIVE_NO_PETS": 0,
+  "IDENTITY_MISMATCH": 0,
+  "SOURCE_CHANGED": 0,
+  "READER_FALSE_NEGATIVE": 0,
+  "EVIDENCE_STALE": 1,
+  "how_it_was_checked": [
+   "every published identity resolves in the census and carries the matching partition state; the 37 exclusions form an exact bijection with the 37 VERIFIED_NO_PETS rows",
+   "all 350 evidence entries across the 67 published records are PUBLICATION_GRADE_EVIDENCE at PT1_FIRST_PARTY, each with an artifact hash and a source URL",
+   "no artifact hash and no source URL is shared by two identities, so no record is positionally bound",
+   "94 owned observations were replayed against live authority: 56 AGREES_LIVE_PF, 34 AGREES_LIVE_NO_PETS, 1 NEWLY_READABLE_PF, 2 POLICY_NOT_FOUND, 1 SOURCE_SILENT",
+   "the 10 published records absent from the observation store are exactly the 11 CLEAN_PET_FRIENDLY rows of the attended pass 009 (the eleventh is the SOURCE_SILENT row above), and the 3 CLEAN_VERIFIED_NO_PETS of 009 complete the 37 exclusions -- every live record is evidence-backed with nothing left over",
+   "11 records whose pets_allowed quote contains a service-animal sentence were read individually: in all 11 the quote establishes ordinary pet acceptance on its own ('A maximum of two pets are allowed in each suite', 'Pets Allowed - 2 pets max', 'Up to 2 pets are welcome'), so none rests on the service-animal sentence",
+   "41 records carry a short 'Pets Allowed' style quote; 40 are corroborated by a fee, a limit or a species fact read from the same artifact, which makes them label-value reads rather than amenity chips"
+  ],
+  "the_one_finding": "home2 suites by hilton indianapolis keystone crossing is the single published record whose only fact is pets_allowed and whose only evidence is an uncorroborated 'pets allowed'. Its founder-signed correction (PTF-INDIANAPOLIS-HOME2-KEYSTONE-REPARSE-014) recovered a 75 lb limit and 75/125 USD fee tiers from the SAME artifact the live record cites, and the package names that ledger in derived_from -- but the facts were not projected. The live record additionally asserts pet_fee SOURCE_SILENT, which its own artifact contradicts. Raised as founder item D-020-1.",
+  "conclusion": "no Indianapolis identity is published pet-friendly that refuses pets, and none is excluded that accepts them. The live authority is not wrong; one live record is materially incomplete."
+ },
+ "phase_5_recensus": {
+  "method": "owned candidate ledger reconciliation plus first-party brand inventory reads; no provider was called",
+  "owned_candidates_reconciled": 332,
+  "coverage_audit_001_proposals": 12,
+  "EXACT_EXISTING": 12,
+  "TRUE_MISSING_IDENTITY": 0,
+  "note": "all 12 identities proposed by the hardened coverage audit are present in the pinned 263 census, matched on street plus postal or on official URL. That backlog is fully consumed. The owned OSM/prior-census candidate sweep is nine days old and its 332 candidates already resolve to the committed census, so a fresh free sweep was not re-run; coverage growth for this market now depends on the paid discovery lane, not on free discovery.",
+  "shadow_census": 263,
+  "pinned_census_mutated": false
+ },
+ "phase_6_identity": {
+  "census_identity_state": "263/263 IDENTITY_CONFIRMED, 263/263 collision_state NONE, 0 suspected_duplicates_for_review",
+  "physical_collisions_still_present_in_the_data": {
+   "same_official_url": 2,
+   "same_brand_property_code": 2,
+   "same_street_and_postal": 14,
+   "note": "the census asserts collision_state NONE while these signals persist. That is not a contradiction: the duplicate scan of order 002 states plainly that nothing is merged and a person decides, and the collision gate of order 004 permits an unresolved row to stay unresolved while it cannot create a duplicate live route. Verified this run: no collision group has two members that both generate a live route, so the live surface is clean today."
+  },
+  "address_review_queue_006": "CLOSED -- all six rows resolved by order 012 (3 supersessions, 1 cosmetic correction, 2 duplicates queued to the founder), unresolved count 0",
+  "new_identity_findings_this_run": [
+   "la quinta inn indianapolis airport lynhurst is a rebrand successor (now Baymont by Wyndham Indianapolis Airport Lynhurst at the same street and postal)",
+   "baymont by wyndham plainfield indianapolis airport area is bound to the other Plainfield Baymont's page",
+   "14 census identities carry a bare chain word as their canonical name; only one of them is published and it is already corrected by the overlay"
+  ]
+ },
+ "phase_7_routing": {
+  "routed_unresolved_rows_probed": 59,
+  "OWNED_ROUTE_REUSED": 59,
+  "ROUTED_FREE_STATIC": 5,
+  "ROUTED_FREE_ATTENDED": 11,
+  "FREE_LANE_EXHAUSTED": 36,
+  "IDENTITY_REVIEW_FIRST": 2,
+  "free_static_reachability": {
+   "FETCHED": 23,
+   "ACCESS_DENIED": 29,
+   "NAVIGATION_FAILED": 6,
+   "HTTP_ERROR": 1,
+   "by_host": "wyndhamhotels 12 fetched; bestwestern 4 fetched; woodspring 2; sonesta, visitindy, hotelindy, hotelbroadripple, prairieguesthouse 1 each. marriott 15 denied + 1 error; hyatt 4 denied; hilton 3 + 1 denied; extendedstayamerica 3 denied; redroof, radisson 1 each denied; choicehotels 5 timed out; keystoneinnsuites 1 timed out.",
+   "matches_the_committed_capability_wall": "the direct_http lane's documented wall (Marriott, Hilton, IHG, Red Roof refuse; Choice and Motel 6 time out; Wyndham, ESA, Sonesta and independents serve) held exactly, except ESA which refused here"
+  }
+ },
+ "phase_8_9_11_policy": {
+  "owned_evidence_replayed": 94,
+  "free_static_captures": 23,
+  "attended_pages_read": 13,
+  "clean_pet_friendly_recovered": 9,
+  "clean_verified_no_pets_recovered": 5,
+  "held_with_evidence": 4,
+  "source_silent": 3,
+  "attended_pages_avoided": 5,
+  "attended_avoided_because": "five rows were settled by a plain first-party GET that a browser would otherwise have had to render (2 WoodSpring, 2 Best Western, 1 Sonesta)"
+ },
+ "phase_10_firecrawl": {
+  "status": "GATED -- cohort costed, not executed",
+  "eligible_rows": 36,
+  "credits_required": 19.44,
+  "usd_equivalent_worst_case": 2.6,
+  "credits_remaining_live_read": 515,
+  "why_gated": "this order authorises no provider spend and instructs Phase 10 to stop and report if credits require explicit authorisation",
+  "plan": "indianapolis_in_firecrawl_cost_plan_020.json"
+ },
+ "phase_15_shadow_reconciliation": {
+  "pinned_census": 263,
+  "shadow_census": 263,
+  "retirements_proposed": 0,
+  "retirements_recommended_pending_founder": 3,
+  "successors_proposed": 1,
+  "same_campus_pairs_left_intact": 11,
+  "geography_holds": 0,
+  "identity_holds": 4,
+  "projected_authority_if_the_clean_inventory_is_later_promoted": {
+   "pet_friendly": 76,
+   "verified_no_pets": 42,
+   "resolved": 118,
+   "unresolved": 145,
+   "profiles": 76
+  },
+  "nothing_applied_live": true
+ },
+ "phase_16_promotion_readiness": {
+  "PROMOTION_READY": "YES",
+  "scope": "YES for the 14-row clean inventory only. This order performs no promotion; the flag states that a later promotion order has a clean, evidence-bound set to work from.",
+  "basis": [
+   "no unexplained wrong-live authority: 104/104 published records replay correctly against owned evidence",
+   "every promoted identity is deterministic: each of the 14 binds on street AND postal AND telephone, or on a brand property code",
+   "the clean inventory is evidence-bound: every row carries a source URL, a document hash or a committed artifact reference, an exact quote, parsed facts and its withheld fields",
+   "no duplicate premises: every row with an open census collision was moved to the held list rather than admitted",
+   "geography is deterministic -- no geography question arose",
+   "the four founder holds are explicitly outside the promotable set",
+   "release changes are known: census unchanged at 263, pet_friendly 67 -> 76, verified_no_pets 37 -> 42, resolved 104 -> 118, unresolved 159 -> 145, profiles 67 -> 76"
+  ],
+  "REQUIRED_BEFORE_PROMOTION": [
+   "a founder ruling on group A (identity), at least for A-020-5 so 'sonesta select' gets its name_corrections row before it can publish",
+   "a markets/name_corrections/indianapolis-in.json row for 'sonesta select' -> 'Sonesta Select Indianapolis Carmel'",
+   "the projection defect D-020-1 on home2 keystone crossing corrected in the same order, since it touches the live package",
+   "the eight mislabelled AWAITING_OFFICIAL_URL rows reclassified (E-020-1) so the partition arithmetic stays honest"
+  ],
+  "OPTIONAL_COVERAGE_EXPANSION": [
+   "the 36-row Firecrawl policy cohort (19.44 credits, ~2.60 USD) -- the only remaining lane with material yield",
+   "attended reads for the 5 Choice rows and 1 independent that time out rather than refuse",
+   "paid identity discovery is NOT a viable expansion lane here: 96 of the 100 rows with no official URL have already been bought through Google Places and 91 returned UNBOUND_NO_SANCTIONED_KEY; only 4 rows are a new question"
+  ]
+ },
+ "phase_19_benchmark": {
+  "active_minutes": 78,
+  "owned_evidence_files_scanned": 243,
+  "owned_observations_reused": 94,
+  "free_requests": 82,
+  "firecrawl_candidates": 36,
+  "firecrawl_calls": 0,
+  "firecrawl_credits": 0.0,
+  "attended_pages": 13,
+  "attended_pages_avoided": 5,
+  "clean_pf_recovered": 9,
+  "clean_no_pets_recovered": 5,
+  "founder_holds": 4,
+  "paid_calls": 0,
+  "spend_usd": 0.0,
+  "comparison_with_prior_indianapolis_work": {
+   "prior_committed_paid_attempts_for_this_market": 181,
+   "prior_recorded_spend_usd": 20.1,
+   "prior_firecrawl_credits": 48.0,
+   "this_run": "14 clean rows recovered at 0 provider calls and 0.00 USD",
+   "what_changed": "the free rungs were run in ladder order and measured before anything was bought. The static rung alone settled five rows the committed partition had marked unroutable, and the attended rung settled nine more on a brand whose policy is never in the static markup. Under the old shape those 14 would have entered a paid cohort."
+  }
+ },
+ "phase_14_paid_readiness": {
+  "ledgers_read_not_written": [
+   "ptf_paid_attempt_ledger_001.json",
+   "ptf_discovery_attempt_ledger_001.json"
+  ],
+  "shared_ledgers_written": 0,
+  "spend_this_run_usd": 0.0,
+  "measured_unit_costs_for_this_market": {
+   "basis": "the committed cross-run paid ledger's own 181 Indianapolis attempts, not an estimate",
+   "firecrawl": {
+    "attempts": 53,
+    "avg_usd": 0.1005,
+    "credits": 16.84
+   },
+   "brightdata_web_unlocker": {
+    "attempts": 28,
+    "avg_usd": 0.1104
+   },
+   "brightdata_browser": {
+    "attempts": 100,
+    "avg_usd": 0.1168
+   },
+   "note": "the market's own firecrawl average (0.1005 USD) runs above the cross-market measured rate (0.0721) because this market's attempts skew to the harder brands; the cost plan uses the cross-market rate, so the request is if anything understated and the cap should be enforced on ATTEMPTS"
+  },
+  "firecrawl": {
+   "eligible_rows": 36,
+   "credits": 19.44,
+   "usd_worst_case": 2.6,
+   "credits_remaining_live_read": 515,
+   "hard_cap_recommended": "36 attempts / 25 credits -- a ceiling on attempts, not on the balance",
+   "status": "AWAITING AUTHORISATION"
+  },
+  "bright_data": {
+   "rows": 0,
+   "status": "NOT REQUESTED",
+   "why": "128 Bright Data attempts are already on record for this market (100 browser + 28 web unlocker). The rows this revalidation could not settle are the same Marriott, Hilton and Hyatt surfaces those attempts already returned UNEXPECTED_PAGE, IDENTITY_MISMATCH or ACCESS_DENIED on. Firecrawl is the untried rung and is cheaper; Bright Data should not be re-bought until Firecrawl has answered."
+  },
+  "google_places": {
+   "unrouted_rows_with_no_official_url_ever": 100,
+   "already_attempted_through_places": 96,
+   "genuinely_new_rows": 4,
+   "prior_outcomes": {
+    "UNBOUND_NO_SANCTIONED_KEY": 91,
+    "BOUND": 43,
+    "UNBOUND_NO_WEBSITE": 8,
+    "UNBOUND_REJECTED_URL_SHAPE": 1
+   },
+   "status": "EFFECTIVELY EXHAUSTED -- DO NOT RE-BUY",
+   "why": "143 Google Places discovery attempts are already committed for this market and 96 of the 100 unrouted rows are among them. Ninety-one came back UNBOUND_NO_SANCTIONED_KEY: Places answered, and the answer was that it has no sanctioned URL for that row. Re-running them would pay a second time to FIND a page, which the standing rule forbids. Only 4 rows are a genuinely new question.",
+   "recommended_cohort": 4
+  },
+  "the_honest_headline": "Indianapolis coverage expansion is NOT cheap. The 100 rows with no official URL look like an opportunity and are mostly a closed question: paid discovery has already been run against 96 of them. The remaining real yield in this market is the 36-row Firecrawl policy cohort at roughly 2.60 USD, plus attended reads for the Choice and Motel 6 surfaces that time out rather than refuse."
+ },
+ "phase_18_regression": {
+  "matrix_verdict": "FULL_REGRESSION_REQUIRED = YES",
+  "why_a_full_run_was_owed": "three of this order's five new artifacts (the shadow policy evidence, the pending application inventory and the firecrawl cost plan) match no PATH_RULES entry and classify UNCLASSIFIED. The classifier's rule is that an unclaimed path costs the full suite, and regression_delta.py states in its own comments that the rest of launch_packages/pettripfinder deliberately stays UNCLASSIFIED and that this is 'not an oversight to be tidied up with a blanket rule'. Adding a rule, or renaming these files to match an existing narrow glob, would have been gaming the gate rather than passing it. The matrix was obeyed.",
+  "lane": "full_regression",
+  "command": "regression_lanes.py run --lane full_regression",
+  "wall_clock": "1:52:21 (6741.06s)",
+  "collected": 17379,
+  "passed": 17000,
+  "skipped": 219,
+  "failed": 160,
+  "baseline": "launch_packages/pettripfinder/regression_baselines/f75aa95.json",
+  "classification": {
+   "PRE_EXISTING": 160,
+   "EXPECTED_EPOCH_CHANGE": 0,
+   "TEST_HARNESS_FLAKE": 0,
+   "TRUE_NEW_FAILURE": 0
+  },
+  "proved_by_identity_not_by_count": {
+   "rule": "a matching failure COUNT proves nothing; the failing sets must be the same set",
+   "baseline_failing_node_ids": 160,
+   "run_failing_node_ids": 160,
+   "sets_identical": true,
+   "in_run_but_not_baseline": 0,
+   "in_baseline_but_not_run": 0
+  },
+  "collection_delta_explained": {
+   "baseline_collected": 17292,
+   "run_collected": 17379,
+   "delta": 87,
+   "why_it_is_not_a_regression": "the f75aa95 baseline was taken in a fresh worktree with no untracked data corpora; this worktree collects 87 more parametrised cases from the data present here. All 87 passed -- the failing set is identical node id for node id, so the extra collection adds coverage and no failure.",
+   "no_test_was_deselected_to_reach_this_result": true
+  },
+  "TRUE_NEW_FAILURE": 0,
+  "second_commit_delta_scoped": {
+   "commit": "the paid-readiness amendment",
+   "classified": "GENERATED_REPORT_ONLY",
+   "FULL_REGRESSION_REQUIRED": "NO",
+   "why": "it changes one *_report_*.json and nothing else, which is a narrow class the matrix already names -- exactly the case the V2 delta classifier exists to make cheap"
+  }
+ }
+}

@@ -1,0 +1,106 @@
+{
+ "schema": "ptf-deployment-record/1.0",
+ "what_this_is": "What a production deployment actually did, written only after the outcome was known. Names the authorization it consumed; holds no credential.",
+ "deployment_record_id": "ptf-deploy-louisville-003-6a9ca921843f2cba2ddf8da1",
+ "authorization_id": "ptf-auth-louisville-003-ea9349d31b86",
+ "work_order": "PTF-LOUISVILLE-DEPLOYMENT-AUTHORIZATION-003",
+ "source_commit": "3363e30c57eac7cd77799beb86948e71dc6c6f18",
+ "manifest_source_commit": "3363e30c57eac7cd77799beb86948e71dc6c6f18",
+ "bundle_sha256": "ea9349d31b860504bd93660159a2839d87a619ee71f9be830993e6647126b39c",
+ "sitemap_sha256": "08ecce446d9a109eb52fe56e3704e5cda6832177c3a7a66537ca2f471f1ff83a",
+ "deployment_id": "6a9ca921843f2cba2ddf8da1",
+ "previous_deployment_id": "6a9c3a1422ead7c0c01b3468",
+ "rollback_target": "6a9c3a1422ead7c0c01b3468",
+ "target_site": "pettripfinder-prod",
+ "production_url": "https://pettripfinder.com",
+ "deployed_at": "2026-09-05T23:45:31+00:00",
+ "deployer": {
+  "by": "founder",
+  "via": "netlify-cli 26.2.0",
+  "account": "Jonathan Fields",
+  "team": "Atlas"
+ },
+ "deployed_directory": "the authorized bundle assembled from committed 3363e30 in a clean detached worktree; NOT rebuilt for the deploy",
+ "command": "netlify deploy --prod --no-build --dir <bundle>/site --site ecf6b5ee-45cb-4ead-a242-3f0f9096de15",
+ "exit_status": 0,
+ "participating_markets": [
+  "cleveland-akron-canton-oh",
+  "columbus-oh",
+  "dayton-oh",
+  "grand-rapids-holland-mi",
+  "indianapolis-in",
+  "louisville-ky",
+  "milwaukee-wi",
+  "pittsburgh-pa",
+  "st-louis-mo"
+ ],
+ "profile_counts": {
+  "cleveland-akron-canton-oh": 120,
+  "columbus-oh": 88,
+  "dayton-oh": 54,
+  "grand-rapids-holland-mi": 43,
+  "indianapolis-in": 82,
+  "louisville-ky": 53,
+  "milwaukee-wi": 73,
+  "pittsburgh-pa": 61,
+  "st-louis-mo": 82
+ },
+ "total_profiles": 656,
+ "sitemap_route_count": 797,
+ "global_gate_results": {
+  "deployability_problems": 0,
+  "verify_authorization": 0,
+  "verify_bundle_directory": "the directory IS the authorized bundle",
+  "verify_target": "live site is the authorized target and had not moved",
+  "manifest_updated_before_deploy": true,
+  "all_required_gates_pass": true
+ },
+ "measurement": {
+  "enabled": false,
+  "provider_kind": "none"
+ },
+ "affiliate": {
+  "providers_enrolled": 0,
+  "destinations_active": 0
+ },
+ "live_verification_results": {
+  "live_sitemap_sha256": "08ecce446d9a109eb52fe56e3704e5cda6832177c3a7a66537ca2f471f1ff83a",
+  "matches_authorized_sitemap": true,
+  "live_route_count": 797,
+  "routes_added_vs_previous_deploy": 7,
+  "routes_removed_vs_previous_deploy": 0,
+  "how_removals_were_proved": "the PREVIOUS deploy's own sitemap was fetched at https://6a9c3a1422ead7c0c01b3468--pettripfinder-prod.netlify.app/sitemap.xml and differenced against the live one",
+  "live_routes_fetched_and_hashed": 797,
+  "live_routes_byte_identical_to_bundle": 797,
+  "live_routes_differing": 0
+ },
+ "final_status": "DEPLOYED",
+ "rollback_used": false,
+ "rollback_reason": null,
+ "restored_deployment_id": null,
+ "market_delta": {
+  "louisville-ky": {
+   "from": 46,
+   "to": 53,
+   "delta": 7
+  },
+  "every_other_market": 0
+ },
+ "totals": {
+  "markets": 9,
+  "profiles": 656,
+  "routes": 797,
+  "html_pages": 4061,
+  "files": 4079
+ },
+ "withheld_from_this_deployment": {
+  "what_this_is": "Four rows the revalidation classified CLEAN_PET_FRIENDLY that this deployment does NOT publish. They are UNKNOWN, not refusals, and are counted in Louisville's 93 unresolved. Their evidence stays committed.",
+  "operator_direction": "Do not weaken the policy reader and do not infer pet acceptance from a fee.",
+  "rows": {
+   "21c museum hotel": "reader-language gap: 'Pets are always welcome at 21c' -- the acceptance patterns allow filler words before 'is/are' but not between 'are' and 'welcome'",
+   "drury inn and suites louisville": "reader-language gap: 'Dogs and cats accepted' -- no branch for the verb 'accepted', though the same sentence yields species_allowed",
+   "drury inn and suites louisville north": "reader-language gap: same sentence and same gap as the Louisville row",
+   "super 8 by wyndham louisville airport": "requires NEW first-party acceptance evidence: the page states no acceptance verb and the permission is implied only by a price, which the reader correctly refuses to read an allowance out of"
+  }
+ }
+}

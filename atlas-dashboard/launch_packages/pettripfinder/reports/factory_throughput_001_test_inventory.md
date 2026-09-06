@@ -1,15 +1,15 @@
 # PetTripFinder test pin inventory (A1)
 
-Schema `ptf-test-pin-inventory/1.0`. 390 modules scanned, 263 carry pins, 1554 sites.
+Schema `ptf-test-pin-inventory/1.0`. 390 modules scanned, 263 carry pins, 1541 sites.
 
 | class | sites |
 |---|---|
-| CURRENT_STATE_INVARIANT | 160 |
-| HISTORICAL_COHORT_INVARIANT | 828 |
+| CURRENT_STATE_INVARIANT | 158 |
+| HISTORICAL_COHORT_INVARIANT | 825 |
 | HISTORICAL_ARTIFACT_INVARIANT | 183 |
-| DEPLOYMENT_EPOCH_INVARIANT | 126 |
+| DEPLOYMENT_EPOCH_INVARIANT | 120 |
 | GENERIC_SCHEMA_INVARIANT | 194 |
-| CROSS_MARKET_INVARIANT | 63 |
+| CROSS_MARKET_INVARIANT | 61 |
 
 ## Modules asserting whole-package counts
 
@@ -297,11 +297,11 @@ Schema `ptf-test-pin-inventory/1.0`. 390 modules scanned, 263 carry pins, 1554 s
 | `test_indianapolis_discovery_replay_007.py` | indianapolis-in | HISTORICAL_COHORT_INVARIANT | 4 | HISTORICAL_COHORT 4 |
 | `test_indianapolis_final_cleanup_018.py` | indianapolis-in | HISTORICAL_COHORT_INVARIANT | 5 | CROSS_MARKET 1, HISTORICAL_ARTIFACT 1, HISTORICAL_COHORT 3 |
 | `test_indianapolis_founder_review_013.py` | indianapolis-in | HISTORICAL_COHORT_INVARIANT | 16 | HISTORICAL_ARTIFACT 2, HISTORICAL_COHORT 14 |
-| `test_indianapolis_founder_rulings_013.py` | indianapolis-in | HISTORICAL_COHORT_INVARIANT | 10 | HISTORICAL_ARTIFACT 1, HISTORICAL_COHORT 9 |
+| `test_indianapolis_founder_rulings_013.py` | indianapolis-in | HISTORICAL_COHORT_INVARIANT | 8 | HISTORICAL_ARTIFACT 1, HISTORICAL_COHORT 7 |
 | `test_indianapolis_hilton_fresh_session.py` | indianapolis-in | HISTORICAL_COHORT_INVARIANT | 2 | HISTORICAL_COHORT 2 |
 | `test_indianapolis_home2_reparse_014.py` | indianapolis-in | HISTORICAL_COHORT_INVARIANT | 3 | HISTORICAL_COHORT 3 |
-| `test_indianapolis_identity_address_cleanup_012.py` | indianapolis-in | HISTORICAL_COHORT_INVARIANT | 5 | CROSS_MARKET 2, HISTORICAL_COHORT 3 |
-| `test_indianapolis_identity_routing_repair_001.py` | indianapolis-in | HISTORICAL_COHORT_INVARIANT | 7 | HISTORICAL_ARTIFACT 1, HISTORICAL_COHORT 6 |
+| `test_indianapolis_identity_address_cleanup_012.py` | indianapolis-in | HISTORICAL_COHORT_INVARIANT | 3 | HISTORICAL_COHORT 3 |
+| `test_indianapolis_identity_routing_repair_001.py` | indianapolis-in | HISTORICAL_COHORT_INVARIANT | 6 | HISTORICAL_ARTIFACT 1, HISTORICAL_COHORT 5 |
 | `test_indianapolis_market_001.py` | indianapolis-in | HISTORICAL_COHORT_INVARIANT | 2 | HISTORICAL_COHORT 2 |
 | `test_indianapolis_name_normalization_009.py` | indianapolis-in | HISTORICAL_COHORT_INVARIANT | 1 | HISTORICAL_COHORT 1 |
 | `test_indianapolis_paid_attempt_ledger_sync_001.py` | indianapolis-in | HISTORICAL_COHORT_INVARIANT | 3 | HISTORICAL_ARTIFACT 1, HISTORICAL_COHORT 2 |
@@ -322,9 +322,9 @@ Schema `ptf-test-pin-inventory/1.0`. 390 modules scanned, 263 carry pins, 1554 s
 | `test_launch_participation_046.py` |  | DEPLOYMENT_EPOCH_INVARIANT | 9 | DEPLOYMENT_EPOCH 9 |
 | `test_listing_dataset_builder.py` |  | CURRENT_STATE_INVARIANT | 3 | CURRENT_STATE 3 |
 | `test_listing_renderability_boundary.py` |  | CURRENT_STATE_INVARIANT | 4 | CURRENT_STATE 4 |
-| `test_louisville_authority.py` | louisville-ky | CURRENT_STATE_INVARIANT | 46 | CURRENT_STATE 46 |
+| `test_louisville_authority.py` | louisville-ky | CURRENT_STATE_INVARIANT | 44 | CURRENT_STATE 44 |
 | `test_louisville_final_006.py` | louisville-ky | HISTORICAL_COHORT_INVARIANT | 3 | HISTORICAL_ARTIFACT 1, HISTORICAL_COHORT 2 |
-| `test_louisville_publication_008.py` | louisville-ky | DEPLOYMENT_EPOCH_INVARIANT | 16 | DEPLOYMENT_EPOCH 16 |
+| `test_louisville_publication_008.py` | louisville-ky | DEPLOYMENT_EPOCH_INVARIANT | 10 | DEPLOYMENT_EPOCH 10 |
 | `test_market_coverage_cli.py` |  | GENERIC_SCHEMA_INVARIANT | 18 | GENERIC_SCHEMA 18 |
 | `test_market_factory_cli.py` |  | GENERIC_SCHEMA_INVARIANT | 1 | GENERIC_SCHEMA 1 |
 | `test_market_isolation.py` |  | CURRENT_STATE_INVARIANT | 7 | CURRENT_STATE 7 |

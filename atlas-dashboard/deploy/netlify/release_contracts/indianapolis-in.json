@@ -1,141 +1,152 @@
 {
-  "schema": "ptf-market-release-contract/1.0",
-  "contract_id": "pettripfinder-indianapolis-in-release/1.0",
-  "market_id": "indianapolis-in",
-  "product": "pettripfinder-indianapolis-in",
-  "release_name_prefix": "prod-005-indianapolis",
-  "description": "Deterministic release-gate contract for the PetTripFinder Indianapolis market through PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014. Calibrated to THIS market's committed authority; every number is derived from the authority files, none is typed.",
-  "deployment_authorization": {
-    "grants_deployment": false,
-    "asserts_market_complete": false,
-    "means": "A passing contract means this market's assembled package is STRUCTURALLY deployable: its authority files agree, its routes match its reviewed inventory, no held identity leaks, and every publish gate holds. It is not a deployment authorization: PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014 promoted the census and applied the pending policy inventory and deployed nothing; the authorization that put the previous 56-profile Indianapolis live was signed against the contract this one replaces and cannot authorise this state. 159 of 263 confirmed identities remain unresolved."
-  },
-  "canonical": {
-    "base_url": "https://pettripfinder.com",
-    "canonical_host": "pettripfinder.com",
-    "robots_sitemap_host": "pettripfinder.com",
-    "sitemap_host": "pettripfinder.com"
-  },
-  "identity_census": {
-    "path": "launch_packages/pettripfinder/identity_census/indianapolis-in.json",
-    "schema": "ptf-market-identity-census/1.1",
-    "expected_count": 263,
-    "note": "The committed census is the promoted Indianapolis identity universe (PTF-INDIANAPOLIS-HARDENED-RECENSUS-002 265 -> PTF-INDIANAPOLIS-PROMOTION-AUTHORITY-PREP-003 shadow 257, promoted by PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004). Policy publication is restricted to the founder-signed authority."
-  },
-  "reconciliation": {
-    "confirmed_identities": 263,
-    "published_pet_friendly": 67,
-    "verified_no_pets": 37,
-    "resolved": 104,
-    "unresolved": 159,
-    "note": "PTF-INDIANAPOLIS-PROMOTION-AND-ASSEMBLY-014: census promoted 257 -> 263 (five retirements and one rebrand-successor rename with lineage, from PTF-INDIANAPOLIS-FOUNDER-RULINGS-013), 11 pending pet-friendly records and 3 verified-no-pets exclusions applied from the 008/009 zero-cost captures. resolved = published + verified_no_pets; unresolved = confirmed - resolved, exact because this market records no OUT_OF_CURRENT_CATEGORY identity."
-  },
-  "reconciliation_cross_checks": [],
-  "policy_package": {
-    "path": "launch_packages/pettripfinder/hotel_policy_facts_indianapolis-in.json",
-    "expected_sha256": "6d2744114ee344f8cd579ed884522c60471471331b112a969adebd559aeccf89",
-    "expected_schema_version": "1.3",
-    "expected_record_count": 67,
-    "identity_authority": true,
-    "note": "The Indianapolis policy package is the sole identity authority for its 24 verified pet-friendly profiles, projected from indianapolis_in_proposed_authority_003.json with founder decisions 1 and 3 applied and published by PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004; no hard-coded allow-list is repeated here.",
-    "schema_note": "Schema 1.3; each record carries its founder decision binding, its withholdings with their sentences and its evidence references."
-  },
-  "public_surface": {
-    "seed_hotel_rows": 67,
-    "public_hotel_profile_count": 67,
-    "excluded_public_profile_count": 0,
-    "held_hotel_exclusion": "The five founder HOLDs of PTF-INDIANAPOLIS-FOUNDER-REVIEW-002 were resolved in PREP-003; every unresolved census identity (deferred, alternate-lane, no official URL, brand-excluded, identity-mismatched or policy-not-found) has no seed row and no public route."
-  },
-  "routes": {
-    "market_slug": "indianapolis-in",
-    "route_mode": "market_prefixed",
-    "hotel_route_count": 67,
-    "published_corridor_route_count": 14,
-    "note": "Routes are derived from the 24 published records and the committed Indianapolis corridor assignment; unresolved identities are absent."
-  },
-  "minimum_release_gates": [
-    "authority.contract_is_for_this_market",
-    "authority.reconciliation_matches_market_authority",
-    "authority.package_exists",
-    "authority.package_sha256",
-    "authority.package_schema_version",
-    "authority.package_count",
-    "identity.verified_from_package",
-    "identity.held_derived",
-    "route.profile_count_matches_contract",
-    "route.all_committed_profiles_present",
-    "route.all_held_absent",
-    "route.no_excluded_reference_on_any_surface",
-    "publish.control_files_present",
-    "publish.headers_match_tracked_source",
-    "publish.redirects_match_tracked_source",
-    "publish.no_forbidden_files",
-    "publish.no_build_reports_in_site",
-    "headers.context_noindex_preview_only",
-    "content.zero_broken_links",
-    "content.quality_report_clean",
-    "content.build_report_hotel_count_matches_contract",
-    "tech.go_pages_noindex",
-    "tech.sitemap_public_canonical_only",
-    "tech.robots_sitemap_host_apex",
-    "tech.no_credentials",
-    "tech.no_windows_local_paths",
-    "tech.no_runtime_paths"
+ "schema": "ptf-market-release-contract/1.0",
+ "contract_id": "pettripfinder-indianapolis-in-release/1.0",
+ "market_id": "indianapolis-in",
+ "product": "pettripfinder-indianapolis-in",
+ "release_name_prefix": "prod-005-indianapolis",
+ "description": "Deterministic release-gate contract for the PetTripFinder Indianapolis market through PTF-INDIANAPOLIS-PROMOTION-AND-APPLICATION-004. Calibrated to THIS market's assembled package.",
+ "deployment_authorization": {
+  "grants_deployment": false,
+  "asserts_market_complete": false,
+  "means": "A passing contract means this market's assembled package is STRUCTURALLY deployable. It is NOT a deployment authorization. Indianapolis stands at 264 identities and 82 published profiles in SOURCE; one identity is withheld under a named founder hold (IDH-024) pending an authorized rekey. 138 of 264 identities remain unresolved."
+ },
+ "canonical": {
+  "base_url": "https://pettripfinder.com",
+  "canonical_host": "pettripfinder.com",
+  "robots_sitemap_host": "pettripfinder.com",
+  "sitemap_host": "pettripfinder.com"
+ },
+ "identity_census": {
+  "path": "launch_packages/pettripfinder/identity_census/indianapolis-in.json",
+  "schema": "ptf-market-identity-census/1.1",
+  "expected_count": 264,
+  "note": "The committed census is the promoted Indianapolis identity universe. PTF-INDIANAPOLIS-PROMOTION-AND-APPLICATION-004 admitted Tru by Hilton Indianapolis Lawrence (Hilton code inddlru) and renamed the La Quinta Lynhurst row to its Baymont successor at the same premises under founder precedent IDR-007-001, taking 263 -> 264."
+ },
+ "reconciliation": {
+  "confirmed_identities": 264,
+  "published_pet_friendly": 82,
+  "verified_no_pets": 44,
+  "resolved": 126,
+  "unresolved": 138,
+  "note": "PTF-INDIANAPOLIS-PROMOTION-REMEDIATION-005 withheld one identity from the promotion by founder ruling -- its normalized key is claimed by a different Cleveland hotel and order 017 had already refused it. Indianapolis stands at 264 census, 82 pet-friendly, 44 verified no-pets."
+ },
+ "reconciliation_cross_checks": [],
+ "policy_package": {
+  "path": "launch_packages/pettripfinder/hotel_policy_facts_indianapolis-in.json",
+  "expected_sha256": "356010b8d167406932160539b80ea6e71755a879f68afb4b1136ed95dcd00699",
+  "expected_schema_version": "1.3",
+  "expected_record_count": 82,
+  "identity_authority": true,
+  "note": "The Indianapolis policy package is the sole identity authority for its 83 verified pet-friendly profiles.",
+  "schema_note": "Schema 1.3; each record carries its founder decision binding, its withholdings with their sentences and its evidence references.",
+  "hash_convention": "content_sha256 (line-ending normalised)"
+ },
+ "public_surface": {
+  "seed_hotel_rows": 82,
+  "public_hotel_profile_count": 82,
+  "excluded_public_profile_count": 0,
+  "held_hotel_exclusion": "The five founder HOLDs of PTF-INDIANAPOLIS-FOUNDER-REVIEW-002 were resolved in PREP-003; every unresolved census identity (deferred, alternate-lane, no official URL, brand-excluded, identity-mismatched or policy-not-found) has no seed row and no public route."
+ },
+ "routes": {
+  "market_slug": "indianapolis-in",
+  "route_mode": "market_prefixed",
+  "hotel_route_count": 82,
+  "published_corridor_route_count": 14,
+  "note": "Routes are derived from the 83 published records and the committed Indianapolis corridor assignment; unresolved identities are absent."
+ },
+ "minimum_release_gates": [
+  "authority.contract_is_for_this_market",
+  "authority.reconciliation_matches_market_authority",
+  "authority.package_exists",
+  "authority.package_sha256",
+  "authority.package_schema_version",
+  "authority.package_count",
+  "identity.verified_from_package",
+  "identity.held_derived",
+  "route.profile_count_matches_contract",
+  "route.all_committed_profiles_present",
+  "route.all_held_absent",
+  "route.no_excluded_reference_on_any_surface",
+  "publish.control_files_present",
+  "publish.headers_match_tracked_source",
+  "publish.redirects_match_tracked_source",
+  "publish.no_forbidden_files",
+  "publish.no_build_reports_in_site",
+  "headers.context_noindex_preview_only",
+  "content.zero_broken_links",
+  "content.quality_report_clean",
+  "content.build_report_hotel_count_matches_contract",
+  "tech.go_pages_noindex",
+  "tech.sitemap_public_canonical_only",
+  "tech.robots_sitemap_host_apex",
+  "tech.no_credentials",
+  "tech.no_windows_local_paths",
+  "tech.no_runtime_paths"
+ ],
+ "forbidden_output_tokens": [
+  "C:\\Atlas",
+  "C:/Atlas",
+  "NETLIFY_AUTH_TOKEN",
+  "NETLIFY_SITE_ID",
+  "nfp_",
+  "AppData",
+  "/Users/",
+  "\\Users\\"
+ ],
+ "publish": {
+  "publishable_root": "site/",
+  "control_files": [
+   "_headers",
+   "_redirects"
   ],
-  "forbidden_output_tokens": [
-    "C:\\Atlas",
-    "C:/Atlas",
-    "NETLIFY_AUTH_TOKEN",
-    "NETLIFY_SITE_ID",
-    "nfp_",
-    "AppData",
-    "/Users/",
-    "\\Users\\"
+  "control_file_sources": {
+   "_headers": {
+    "preview": "deploy/netlify/headers.preview",
+    "production": "deploy/netlify/headers.production"
+   },
+   "_redirects": "deploy/netlify/redirects"
+  },
+  "forbidden_basenames": [
+   "_build_report.json",
+   "_broken_link_report.json",
+   "_quality_report.json",
+   "bundle_manifest.json",
+   ".env"
   ],
-  "publish": {
-    "publishable_root": "site/",
-    "control_files": [
-      "_headers",
-      "_redirects"
-    ],
-    "control_file_sources": {
-      "_headers": {
-        "preview": "deploy/netlify/headers.preview",
-        "production": "deploy/netlify/headers.production"
-      },
-      "_redirects": "deploy/netlify/redirects"
-    },
-    "forbidden_basenames": [
-      "_build_report.json",
-      "_broken_link_report.json",
-      "_quality_report.json",
-      "bundle_manifest.json",
-      ".env"
-    ],
-    "forbidden_extensions": [
-      ".py",
-      ".pyc",
-      ".pyo",
-      ".patch",
-      ".map",
-      ".json",
-      ".env"
-    ],
-    "forbidden_path_segments": [
-      ".git",
-      ".github",
-      ".claude",
-      ".netlify",
-      "__pycache__",
-      "data",
-      "docs",
-      "tests",
-      "scripts",
-      "services",
-      "launch_packages",
-      "engines",
-      "repositories"
-    ],
-    "note": "The publish root must contain ONLY the static website plus the two Netlify control files. Build-internal reports the generator emits (_build_report.json, _broken_link_report.json, _quality_report.json, bundle_manifest.json) are read for gating but are excluded from site/ and must never ship."
-  }
+  "forbidden_extensions": [
+   ".py",
+   ".pyc",
+   ".pyo",
+   ".patch",
+   ".map",
+   ".json",
+   ".env"
+  ],
+  "forbidden_path_segments": [
+   ".git",
+   ".github",
+   ".claude",
+   ".netlify",
+   "__pycache__",
+   "data",
+   "docs",
+   "tests",
+   "scripts",
+   "services",
+   "launch_packages",
+   "engines",
+   "repositories"
+  ],
+  "note": "The publish root must contain ONLY the static website plus the two Netlify control files. Build-internal reports the generator emits (_build_report.json, _broken_link_report.json, _quality_report.json, bundle_manifest.json) are read for gating but are excluded from site/ and must never ship."
+ },
+ "exclusion_shard": {
+  "path": "launch_packages/pettripfinder/markets/authority/indianapolis-in/hotel_exclusions.json",
+  "expected_sha256": "c22e02df5b0d4c4502594cafd200f7df79b496ad3684ed7f7dc4ee843e84d64b",
+  "expected_count": 44
+ },
+ "final_partition": {
+  "path": "launch_packages/pettripfinder/indianapolis_in_final_partition_023.json",
+  "expected_count": 264
+ },
+ "last_moved_by": "PTF-INDIANAPOLIS-PROMOTION-REMEDIATION-005"
 }

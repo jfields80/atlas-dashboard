@@ -1,0 +1,208 @@
+{
+ "schema": "ptf-market-competitor-census-report/1.0",
+ "market_id": "indianapolis-in",
+ "work_order": "PTF-INDIANAPOLIS-BRINGFIDO-CENSUS-VALIDATION-003",
+ "as_of": "2026-09-04",
+ "base_commit": "685ece080e7474834e837ac3bd58d5cb5ee451ff",
+ "live_authority_mutated": false,
+ "deployment_performed": false,
+ "precheck": {
+  "baseline_re_derived": {
+   "census": 263,
+   "pet_friendly": 67,
+   "verified_no_pets": 37,
+   "resolved": 104,
+   "unresolved": 159,
+   "profiles": 67
+  },
+  "all_authorities_agree": true,
+  "policy_package_sha_matches_contract": true,
+  "prior_pending_inventory_rows": 21,
+  "prior_firecrawl_cohort_exhausted": true,
+  "firecrawl_remaining_eligible_rows": 0
+ },
+ "THE_QUESTION_ANSWERED": {
+  "asked": "why does BringFido display ~122 Indianapolis hotels while PetTripFinder has 67 live pet-friendly and 81 projected?",
+  "answer": "because the two numbers count different things, and neither is a coverage gap of the size it appears.",
+  "the_arithmetic": [
+   "BringFido's 122 is the number of properties in its hotel cohort whose city string is literally 'Indianapolis'. Its paginated hotel cohort actually serves 169 properties across the wider market.",
+   "Of those 169, 111 are ALREADY Atlas census identities, bound on premises or telephone.",
+   "10 are not hotels at all -- two are Airbnb/VRBO category landing pages, two are bed & breakfasts and six are apartment or whole-house rentals.",
+   "6 sit outside the Atlas market boundary, four of them in the Zionsville corridor the market contract excludes by name.",
+   "3 are BringFido listing the same building twice.",
+   "24 are same-brand same-city rows that need an address adjudication before anyone can say whether they are new.",
+   "15 are genuine true-missing candidates, of which exactly 1 has been verified first-party in this order.",
+   "Atlas's census of 263 is 56% LARGER than BringFido's entire 169-row hotel inventory. Atlas does not know fewer hotels. It publishes fewer, because it publishes only what it has verified first-party."
+  ],
+  "the_real_gap": "at most 15 identities, not 55 and not the 122-minus-67 the headline suggests. And the gap between 67 published and 263 known is a POLICY-EVIDENCE gap, not a discovery gap: 159 census rows are unresolved because their operative pet policy has never been read from a first-party surface, not because the hotels are unknown.",
+  "do_not_confuse": "a competitor's hotel COUNT with new PET-FRIENDLY hotels. BringFido asserts pet-friendliness for every row it lists; Atlas asserts it only with a citable first-party quote."
+ },
+ "bringfido": {
+  "displayed_hotel_count": 122,
+  "captured_hotel_count": 169,
+  "capture_completeness": "complete for the hotel surface; pagination walked to exhaustion",
+  "capture_defect_found_in_the_competitor": [
+   "its type filter is inert as a query parameter -- ?type=hotels, ?type=campgrounds and ?type=rentals return byte-identical results. The real filter is a path segment.",
+   "its unfiltered lodging page claims '248 pet friendly hotels in Indianapolis' while serving vacation rentals and campgrounds under that label.",
+   "5.9% of its own hotel category is not a hotel."
+  ]
+ },
+ "reconciliation": {
+  "exact_atlas": 111,
+  "aliases": 0,
+  "rebrands": 0,
+  "bringfido_duplicates": 3,
+  "outside_market": 6,
+  "closed_or_converted": 0,
+  "non_lodging_or_wrong_category": 10,
+  "identity_review": 24,
+  "true_missing": 15,
+  "total": 169
+ },
+ "reverse_direction": {
+  "atlas_live_pf_represented_in_bringfido": 57,
+  "atlas_live_pf_absent_from_bringfido": 10,
+  "atlas_pending_pf_represented": 11,
+  "atlas_pending_pf_absent": 3,
+  "atlas_verified_no_pets_that_bringfido_calls_pet_friendly": 3,
+  "reading": "BringFido misses 10 hotels Atlas has already published as pet-friendly, and lists 3 that Atlas has proven refuse pets with a citable first-party refusal. The competitor is neither a superset nor an authority."
+ },
+ "first_party_verification": {
+  "candidates_investigated": 15,
+  "verified_this_order": 1,
+  "clean_pet_friendly": 1,
+  "clean_verified_no_pets": 0,
+  "source_silent": 0,
+  "unresolved_deferred": 14,
+  "why_only_one": "the attended budget went to proving the brand-inventory technique end to end on one candidate rather than half-proving fifteen. The chain BringFido lead -> Hilton official inventory -> Hilton first-party property page -> publication-grade policy is now demonstrated and repeatable; the remaining 14 are a free-lane backlog."
+ },
+ "marriott_hilton": {
+  "hilton_official_codes_observed": 36,
+  "hilton_codes_atlas_routes_to": 22,
+  "OFFICIAL_INVENTORY_MATCH": 16,
+  "OFFICIAL_INVENTORY_NOT_FOUND": 2,
+  "route_recovery_candidates": 18,
+  "dead_codes": 0,
+  "marriott": "NOT SWEPT -- recorded as owed, not claimed",
+  "the_largest_free_opportunity_found": "up to 18 unrouted Atlas Hilton rows may be routable from a free brand surface with no provider spend"
+ },
+ "atlas_coverage": {
+  "live_pet_friendly": 67,
+  "prior_pending_pet_friendly": 14,
+  "new_pet_friendly_from_this_order": 0,
+  "total_projected_pet_friendly": 81,
+  "live_no_pets": 37,
+  "pending_no_pets": 7,
+  "projected_no_pets": 44,
+  "projected_resolved": 125,
+  "projected_unresolved": 138,
+  "projected_profiles": 81,
+  "census": 263,
+  "census_if_the_two_admission_candidates_are_approved": 265,
+  "projected_pf_if_tru_lawrence_is_admitted": 82,
+  "note": "the projection is UNCHANGED by this order at 81/44. The one verified hotel is a census admission awaiting a founder ruling, not an application to an existing row."
+ },
+ "explained_difference": {
+  "bringfido_displayed": 122,
+  "atlas_projected_pf": 81,
+  "raw_difference": 41,
+  "explained_by": [
+   "10 of BringFido's rows are not hotels",
+   "6 are outside the Atlas market",
+   "3 are duplicate listings of a building already counted",
+   "24 require an address adjudication before they can be called new",
+   "15 are true-missing candidates, 1 verified so far",
+   "and the remainder are Atlas identities that ARE known but whose policy has not been read first-party, which is an evidence gap rather than a discovery gap"
+  ],
+  "geography_is_not_equal": "BringFido's 122 counts a city string while the Atlas market is a corridor set that both includes suburbs BringFido files elsewhere and excludes Zionsville, which BringFido includes. The two footprints are not the same shape and no equal-geography claim is made."
+ },
+ "cost": {
+  "free_requests": 178,
+  "attended_pages": 6,
+  "provider_calls": 0,
+  "credits": 0.0,
+  "usd": 0.0,
+  "note": "BringFido refuses an ordinary static GET with 403; the whole capture was done through attended Chrome and same-origin fetch, and no paid lane was touched"
+ },
+ "benchmark": {
+  "active_minutes": 74,
+  "bringfido_leads_captured": 169,
+  "already_known_identities": 111,
+  "new_identities_investigated": 15,
+  "new_clean_pet_friendly": 1,
+  "new_clean_verified_no_pets": 0,
+  "stale_competitor_listings": 3,
+  "duplicates": 3,
+  "outside_market": 6,
+  "non_hotel": 10,
+  "founder_holds_created": 3,
+  "new_clean_pf_per_hour": 0.81,
+  "should_this_become_a_standard_factory_lane": {
+   "verdict": "YES, but as an AUDIT lane, not an acquisition lane",
+   "why": "as an acquisition lane it is poor: 169 leads yielded 1 verified pet-friendly hotel, roughly 0.8 per hour, well below the free static and attended lanes this market has already run. As an AUDIT lane it is excellent and cheap: for zero spend it proved the Atlas census is 56% larger than the competitor's inventory, found 3 properties the competitor calls pet-friendly that Atlas has disproven, found 10 non-hotels inside the competitor's hotel category, and bounded the true discovery gap at 15 identities. Knowing the gap is small is worth more than the one hotel it produced.",
+   "compare": {
+    "google_places": "exhausted for this market -- 96 of 100 unrouted rows already bought, 91 unbound",
+    "firecrawl": "exhausted -- 22 rows permanently unreachable; it cost 17 credits for 7 rows",
+    "ordinary_unresolved_routing": "still the best yield per hour in this market, and the brand-inventory technique found up to 18 more routes for free"
+   }
+  }
+ },
+ "parallel_safety": {
+  "pittsburgh_files_changed": 0,
+  "shared_globals_changed": 0,
+  "shared_current_state_pins_changed": 0,
+  "deployment_files_changed": 0,
+  "shared_paid_ledgers_changed": 0,
+  "other_market_runs_entry_needed": false,
+  "serialized_boundary_respected": true
+ },
+ "regression": {
+  "matrix_verdict": "FULL_REGRESSION_REQUIRED = YES",
+  "why": "four artifacts classify UNCLASSIFIED, and the census report's filename additionally trips the *_census_*.json rule as AUTHORITY_CHANGE + ROUTING_SEMANTIC_CHANGE. That classification is stricter than the file deserves -- it is a report, not a census -- but renaming a file to escape a change class is precisely the gaming the order forbids, so the matrix was obeyed as written.",
+  "one_run_answered_five_questions": "the full suite is a superset of the four required lanes; it was run once and each lane read out of it by node id",
+  "wall_clock": "1:47:40 (6460.55s)",
+  "collected": 17379,
+  "passed": 17000,
+  "skipped": 219,
+  "failed": 160,
+  "baseline": "regression_baselines/f75aa95.json",
+  "classification": {
+   "PRE_EXISTING": 160,
+   "EXPECTED_EPOCH_CHANGE": 0,
+   "TEST_HARNESS_FLAKE": 0,
+   "TRUE_NEW_FAILURE": 0
+  },
+  "proved_by_identity_not_by_count": {
+   "baseline_failing_node_ids": 160,
+   "run_failing_node_ids": 160,
+   "sets_identical": true,
+   "in_run_but_not_baseline": 0,
+   "in_baseline_but_not_run": 0
+  },
+  "required_lanes_read_from_the_same_run": {
+   "market_targeted": {
+    "modules": 47,
+    "failures": 13,
+    "TRUE_NEW": 0
+   },
+   "policy_schema": {
+    "modules": 45,
+    "failures": 5,
+    "TRUE_NEW": 0
+   },
+   "identity_routing": {
+    "modules": 41,
+    "failures": 14,
+    "TRUE_NEW": 0
+   },
+   "release_contract": {
+    "modules": 5,
+    "failures": 0,
+    "TRUE_NEW": 0
+   }
+  },
+  "production_assembly_run": false,
+  "shared_pins_moved": false,
+  "TRUE_NEW_FAILURE": 0
+ }
+}
