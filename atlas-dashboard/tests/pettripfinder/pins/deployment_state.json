@@ -71,8 +71,8 @@
   "sitemap_route_count": 797,
   "total_html_pages": 4061,
   "total_files": 4079,
-  "source_commit": "3363e30c57eac7cd77799beb86948e71dc6c6f18",
+  "source_commit": "a0cec800f619a2ffd3a865511877b8f8afa407f6",
   "deployment_authorized": true,
-  "note": "Source and production are IN SYNC. Deploy 6a9ca921843f2cba2ddf8da1 serves exactly this bundle."
+  "note": "Source and production are IN SYNC, and PTF-CINCINNATI-PROMOTION-AND-APPLICATION-003 did NOT change that. It promoted Cincinnati from 99 to 130 published profiles, but Cincinnati's launch_status is SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH, so the market contributes no fragment to the composed bundle. A fresh assembly of a0cec80 in a clean detached worktree reproduces deploy 6a9ca921843f2cba2ddf8da1 byte for byte: same bundle sha256, same sitemap sha256, 4079 of 4079 files identical. ahead_of_production is therefore FALSE and moved_by is null -- the source pin describes the COMPOSED BUNDLE, and this promotion moved market authority without moving a single byte of it. Cincinnati reaches production only when the founder flips participation, which is a separate authorization this order prepared and did not consume."
  }
 }
