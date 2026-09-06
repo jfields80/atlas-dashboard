@@ -345,3 +345,31 @@ def test_the_packet_numbers_are_derived_from_artifacts_not_typed():
     assert would["published_profiles"] == state["profiles"] == GOVERNING["pet_friendly"]
     assert would["verified_no_pets"] == state["verified_no_pets"] == GOVERNING["verified_no_pets"]
     assert doc["rollback_target"] == _load(PINS / "deployment_state.json")["live"]["deploy_id"]
+
+
+RUN3 = REPORTS / "toledo_oh_regression_run3_classify_002.json"
+
+
+def test_the_broad_run_was_re_proved_at_the_final_commit():
+    """Deriving the readiness verdict edited two scripts, which costs a full run.
+
+    ``regression_delta`` reads any path under ``scripts/pettripfinder/`` as a
+    runtime change, and a runtime change is MANDATORY_FULL. The tempting move is
+    a narrow rule exempting order-local report generators; that rule module's own
+    comment refuses exactly that shortcut, so the third broad run was paid rather
+    than argued away. It covers the report, the packet and these gates, none of
+    which existed when run 2 started.
+    """
+    doc = _load(RUN3)
+    assert doc["classification"]["TRUE_NEW_FAILURE"] == 0
+    assert doc["failure_set_identical_to_baseline"] is True
+    assert doc["failure_set_identical_to_run_2"] is True
+    assert doc["failed"] == _load(REGRESSION)["run_2"]["failed"]
+
+
+def test_the_third_run_grew_only_the_passing_count_and_only_by_this_orders_gates():
+    """A broad run whose PASSED count moves for an unexplained reason is not clean."""
+    doc = _load(RUN3)
+    assert doc["passed_delta_vs_run_2"] == 7
+    assert doc["passed"] - doc["failed"] > 0
+    assert doc["collected"] == doc["passed"] + doc["failed"] + 223 + 13

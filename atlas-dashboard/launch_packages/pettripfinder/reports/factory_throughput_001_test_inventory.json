@@ -11,11 +11,11 @@
  ],
  "modules_scanned": 392,
  "modules_with_pins": 265,
- "sites": 1554,
+ "sites": 1555,
  "by_class": {
   "CURRENT_STATE_INVARIANT": 157,
   "HISTORICAL_COHORT_INVARIANT": 833,
-  "HISTORICAL_ARTIFACT_INVARIANT": 185,
+  "HISTORICAL_ARTIFACT_INVARIANT": 186,
   "DEPLOYMENT_EPOCH_INVARIANT": 122,
   "GENERIC_SCHEMA_INVARIANT": 194,
   "CROSS_MARKET_INVARIANT": 63
@@ -21277,9 +21277,10 @@
    ],
    "default_class": "HISTORICAL_COHORT_INVARIANT",
    "default_reason": "work-order-numbered module",
-   "site_count": 6,
+   "site_count": 7,
    "by_class": {
     "CROSS_MARKET_INVARIANT": 1,
+    "HISTORICAL_ARTIFACT_INVARIANT": 1,
     "HISTORICAL_COHORT_INVARIANT": 5
    },
    "sites": [
@@ -21348,6 +21349,17 @@
      "source": "len(causes) == r1[\"true_new_failures\"] == 9",
      "class": "HISTORICAL_COHORT_INVARIANT",
      "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 373,
+     "test": "test_the_third_run_grew_only_the_passing_count_and_only_by_this_orders_gates",
+     "kind": "count",
+     "literal": 7,
+     "reads_package": true,
+     "has_len": false,
+     "source": "doc[\"passed_delta_vs_run_2\"] == 7",
+     "class": "HISTORICAL_ARTIFACT_INVARIANT",
+     "reason": "count read from a committed artifact"
     }
    ]
   },
