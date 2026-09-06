@@ -450,6 +450,12 @@ def build(args):
                if r.get("classification") in ("ACCESS_BLOCKED_PLAIN_CLIENT",
                                               "NEEDS_ATTENDED_RENDER")]
     missing_brand = [b for b in brand_rows if b["state"] == "TRUE_MISSING_BRAND_IDENTITY"]
+    # Any ONE of the rendered lanes closes the publication gap; none is needed
+    # for correctness. They are alternatives, so each is labelled the same way
+    # and the founder picks one.
+    rendered_lane_class = ("OPTIONAL_COVERAGE_EXPANSION"
+                           if len(clean_pf) >= contract.minimum_published_hotels
+                           else "REQUIRED_FOR_PROMOTION_ANY_ONE_OF_THESE")
     paid = OrderedDict([
         ("firecrawl", OrderedDict([
             ("candidate_rows", len(blocked)),
@@ -459,7 +465,7 @@ def build(args):
              "refuses every engine. The blended average is not a ceiling, so the "
              "cap is on ATTEMPTS, not on an expected spend."),
             ("authorized_by_this_order", False),
-            ("classification", "OPTIONAL_COVERAGE_EXPANSION"),
+            ("classification", rendered_lane_class),
         ])),
         ("bright_data", OrderedDict([
             ("candidate_rows", len(blocked)),
@@ -467,7 +473,7 @@ def build(args):
             ("expected_attempts", len(blocked)),
             ("hard_cap_usd", None),
             ("authorized_by_this_order", False),
-            ("classification", "OPTIONAL_COVERAGE_EXPANSION"),
+            ("classification", rendered_lane_class),
         ])),
         ("places", OrderedDict([
             ("candidate_rows", len(missing_brand)),
@@ -480,15 +486,28 @@ def build(args):
         ("attended_browser", OrderedDict([
             ("candidate_rows", len(blocked) + len(missing_brand)),
             ("cost", "no money; operator time"),
-            ("classification", "OPTIONAL_COVERAGE_EXPANSION"),
+            ("classification", rendered_lane_class),
         ])),
-        ("required_for_promotion", []),
-        ("why_nothing_is_required",
-         "Promotion needs the rows it promotes to be correct, not the market to be "
-         "complete. Every clean row here was read from a first-party page and "
-         "survived the wrong-evidence audit; every unresolved row is explicitly "
-         "held and publishes nothing. Buying more coverage would raise the count "
-         "and cannot change the correctness of what is already clean."),
+        ("required_for_promotion",
+         [] if len(clean_pf) >= contract.minimum_published_hotels else
+         ["ONE rendered lane -- attended browser (no money) or Firecrawl "
+          "(%d credits at most) -- is required to reach %d published profiles. "
+          "Which lane is the founder's call; that a rendered lane is needed is "
+          "not, because the static lane's remaining rows are channel failures "
+          "and re-running it cannot change them."
+          % (len(blocked), contract.minimum_published_hotels)]),
+        ("required_for_correctness", []),
+        ("what_required_means_here",
+         "Two different questions, and this market separates them because the "
+         "answers differ. CORRECTNESS requires nothing: every clean row was read "
+         "from a first-party page and survived the wrong-evidence audit, and every "
+         "unresolved row is explicitly held and publishes nothing. PROMOTION does "
+         "require one rendered lane -- not to make the clean rows truer, but "
+         "because %d published profile(s) is below the market's own "
+         "minimum_published_hotels of %d and no corridor reaches its minimum "
+         "either. Calling that OPTIONAL while also reporting PROMOTION_READY = NO "
+         "for exactly that reason would be two answers to one question."
+         % (len(clean_pf), contract.minimum_published_hotels)),
     ])
 
     # ---- phase 19: promotion readiness ------------------------------------ #

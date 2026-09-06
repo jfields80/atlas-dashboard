@@ -580,17 +580,6 @@
     "blocks_promotion": "NO"
    },
    {
-    "identity": "search results",
-    "evidence": "Search Results at no street (BRAND); Search Results at no street (BRAND)",
-    "proposed_action": "give each building a distinguishing canonical name, or rule one an alias",
-    "recommendation": "distinguish by location -- a bare brand name over two buildings cannot route or publish",
-    "census_effect": "keeps both rows, renames at least one",
-    "authority_effect": "none: neither row publishes",
-    "routing_effect": "each building keeps its own route",
-    "reversibility": "fully reversible",
-    "blocks_promotion": "NO"
-   },
-   {
     "identity": "towneplace suites fort wayne north",
     "evidence": "TownePlace Suites Fort Wayne North at 3949 Ice Way Drive (OSM); TownePlace Suites Fort Wayne North at no street (COMPETITOR)",
     "proposed_action": "give each building a distinguishing canonical name, or rule one an alias",
@@ -681,7 +670,7 @@
   ],
   "B_geography_fringe": [
    {
-    "identity": "28 name-only leads",
+    "identity": "25 name-only leads",
     "evidence": "named by a directory but no lane states a street address, so market membership cannot be settled either way",
     "proposed_action": "obtain an address, or retire the lead",
     "recommendation": "leave unresolved -- these are leads, and a lead is not a census row",
@@ -750,7 +739,7 @@
    "credits_if_every_attempt_succeeds": 16,
    "cost_basis": "Firecrawl cost is BIMODAL: 1 credit on a success, 0 when the origin refuses every engine. The blended average is not a ceiling, so the cap is on ATTEMPTS, not on an expected spend.",
    "authorized_by_this_order": false,
-   "classification": "OPTIONAL_COVERAGE_EXPANSION"
+   "classification": "REQUIRED_FOR_PROMOTION_ANY_ONE_OF_THESE"
   },
   "bright_data": {
    "candidate_rows": 16,
@@ -758,7 +747,7 @@
    "expected_attempts": 16,
    "hard_cap_usd": null,
    "authorized_by_this_order": false,
-   "classification": "OPTIONAL_COVERAGE_EXPANSION"
+   "classification": "REQUIRED_FOR_PROMOTION_ANY_ONE_OF_THESE"
   },
   "places": {
    "candidate_rows": 23,
@@ -770,10 +759,13 @@
   "attended_browser": {
    "candidate_rows": 39,
    "cost": "no money; operator time",
-   "classification": "OPTIONAL_COVERAGE_EXPANSION"
+   "classification": "REQUIRED_FOR_PROMOTION_ANY_ONE_OF_THESE"
   },
-  "required_for_promotion": [],
-  "why_nothing_is_required": "Promotion needs the rows it promotes to be correct, not the market to be complete. Every clean row here was read from a first-party page and survived the wrong-evidence audit; every unresolved row is explicitly held and publishes nothing. Buying more coverage would raise the count and cannot change the correctness of what is already clean."
+  "required_for_promotion": [
+   "ONE rendered lane -- attended browser (no money) or Firecrawl (16 credits at most) -- is required to reach 5 published profiles. Which lane is the founder's call; that a rendered lane is needed is not, because the static lane's remaining rows are channel failures and re-running it cannot change them."
+  ],
+  "required_for_correctness": [],
+  "what_required_means_here": "Two different questions, and this market separates them because the answers differ. CORRECTNESS requires nothing: every clean row was read from a first-party page and survived the wrong-evidence audit, and every unresolved row is explicitly held and publishes nothing. PROMOTION does require one rendered lane -- not to make the clean rows truer, but because 1 published profile(s) is below the market's own minimum_published_hotels of 5 and no corridor reaches its minimum either. Calling that OPTIONAL while also reporting PROMOTION_READY = NO for exactly that reason would be two answers to one question."
  },
  "shadow_market": {
   "census": 58,
@@ -802,7 +794,7 @@
   "optional_coverage_expansion": [
    "23 brand-inventory properties whose pages refuse a plain client",
    "16 routed rows blocked or unhydrated on the static lane",
-   "28 name-only leads with no address"
+   "25 name-only leads with no address"
   ]
  }
 }

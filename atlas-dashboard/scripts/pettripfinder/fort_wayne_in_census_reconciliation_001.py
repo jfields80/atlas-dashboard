@@ -178,6 +178,12 @@ def name_key(name: str) -> str:
         return ""
 
 
+#: A brand page that answers 200 without serving the property asked for. The
+#: title is the only thing that says so -- the status does not.
+_SOFT_404_TITLE = re.compile(
+    r"^\s*(search results|hotels? in |find hotels|extended stay hotels in )", re.I)
+
+
 def slugify(text: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", (text or "").strip().lower()).strip("-")
 
@@ -225,6 +231,13 @@ def load_observations():
             page = c.get("page") or {}
             ident = page.get("identity") or {}
             if page.get("status") != 200:
+                continue
+            # A brand that answers 200 with its SEARCH page for a retired slug
+            # has not served a property, and its page still carries a name --
+            # "Search Results". Admitting that name invented a Fort Wayne hotel
+            # called Search Results and then reported it as a name collision.
+            # A soft 404 settles nothing and contributes no observation.
+            if _SOFT_404_TITLE.search(page.get("title") or ""):
                 continue
             nm = (ident.get("name_on_page") or "").strip()
             if not nm:
