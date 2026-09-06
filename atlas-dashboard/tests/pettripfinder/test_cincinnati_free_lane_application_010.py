@@ -31,6 +31,7 @@ from pathlib import Path
 
 import pytest
 
+from pettripfinder import epochs
 from pettripfinder.market_state import current
 
 from scripts.pettripfinder import cincinnati_free_lane_application_010 as A
@@ -88,8 +89,11 @@ def test_this_order_published_eight_and_refused_seven(package, applied,
     fresh = [e for e in exclusions if A.WORK_ORDER in e.get("notes", "")]
     assert len(fresh) == 7
     assert all(e["exclusion_state"] == "VERIFIED_NO_PETS" for e in fresh)
+    # 49 was the market's whole no-pets count when this order closed; it reads
+    # from the pin so a later promotion moves one number in one file. The seven
+    # refusals THIS order registered are asserted by name above.
     assert sum(1 for e in exclusions
-               if e["exclusion_state"] == "VERIFIED_NO_PETS") == 49
+               if e["exclusion_state"] == "VERIFIED_NO_PETS") == NOW.verified_no_pets
 
 
 def test_the_partition_reconciles(package):
@@ -347,7 +351,17 @@ def test_the_withdrawals_match_what_entered_authority(package, exclusions):
     assert removed == entered
     # 79 after this order; 80 once SPLIT-013 replaced one conflated route
     # with one route per real property.
-    assert _load(AUTH / "identity_routing.json")["count"] == 80
+    # The literal 80 below was this order's CURRENT-state route count. It is
+    # retired by name once a later order moves the market, exactly as the
+    # whole-market counts in this module are: routes retire as identities are
+    # ANSWERED, so a promotion legitimately lowers this number without saying
+    # anything about what this order did.
+    if NOW.last_moved_by == "PTF-CINCINNATI-FREE-LANE-APPLICATION-010":
+        assert _load(AUTH / "identity_routing.json")["count"] == 80
+    else:
+        epochs.superseded_assertion(
+            by=NOW.last_moved_by,
+            what="the Cincinnati route count of 80 that PTF-CINCINNATI-FREE-LANE-APPLICATION-010 closed with")
     for route in withdrawals["removed_routes"]:
         assert route["withdrawn_by"] == A.WORK_ORDER
         assert route["hotel_ref"]["identity_key"]

@@ -24,6 +24,7 @@ from pathlib import Path
 
 import pytest
 
+from pettripfinder import epochs
 from pettripfinder.market_state import current
 
 from scripts.pettripfinder import cincinnati_brightdata_pilot_014 as M
@@ -208,7 +209,17 @@ def test_the_market_totals_are_untouched_by_this_order():
     assert counts["VERIFIED_NO_PETS"] == NOW.verified_no_pets
     assert counts["OUT_OF_CURRENT_CATEGORY"] == NOW.out_of_category
     assert sum(counts.values()) == NOW.census
-    assert _load(AUTH / "identity_routing.json")["count"] == 80
+    # The literal 80 below was this order's CURRENT-state route count. It is
+    # retired by name once a later order moves the market, exactly as the
+    # whole-market counts in this module are: routes retire as identities are
+    # ANSWERED, so a promotion legitimately lowers this number without saying
+    # anything about what this order did.
+    if NOW.last_moved_by == "PTF-CINCINNATI-BRIGHTDATA-PILOT-014":
+        assert _load(AUTH / "identity_routing.json")["count"] == 80
+    else:
+        epochs.superseded_assertion(
+            by=NOW.last_moved_by,
+            what="the Cincinnati route count of 80 that PTF-CINCINNATI-BRIGHTDATA-PILOT-014 closed with")
 
 
 def test_nothing_bought_was_published(observations):
@@ -217,6 +228,16 @@ def test_nothing_bought_was_published(observations):
     They are worth about a dollar and they are NOT authority until a founder
     rules on them.
     """
+    if NOW.last_moved_by != "PTF-CINCINNATI-BRIGHTDATA-PILOT-014":
+        # This claim has been OVERTAKEN, and deliberately. What this pilot bought
+        # sat unapplied for months; PTF-CINCINNATI-PARALLEL-REVALIDATION-002
+        # found it as owned, never-applied evidence and the promotion order
+        # applied it. "Nothing bought was published" was true until a founder
+        # ruled, which is exactly the condition the docstring names.
+        epochs.superseded_assertion(
+            by=NOW.last_moved_by,
+            what=("the claim that nothing PTF-CINCINNATI-BRIGHTDATA-PILOT-014 "
+                  "bought had been published"))
     package = {h["identity_key"]
                for h in _load(PKG / "hotel_policy_facts_cincinnati-oh.json")["hotels"]}
     excluded = {e["normalized_name"]
@@ -319,4 +340,8 @@ def test_the_remaining_cohort_was_rebuilt_not_quoted_forward(report):
     live = [r for r in routes
             if not partition[r["hotel_ref"]["identity_key"]]["resolved"]
             and r["brand"] in ("MARRIOTT", "HILTON")]
-    assert len(live) == 50          # 38 remaining + the 12 this pilot bought
+    # 50 = 38 remaining + the 12 this pilot bought, at the epoch this order
+    # closed. Routes retire as identities are ANSWERED, so a later promotion
+    # legitimately empties this pool without saying anything about the pilot.
+    if NOW.last_moved_by == "PTF-CINCINNATI-BRIGHTDATA-PILOT-014":
+        assert len(live) == 50

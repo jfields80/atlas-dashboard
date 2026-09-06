@@ -1051,9 +1051,21 @@ def main(argv: Optional[List[str]] = None) -> int:
     print("  anchor market      :", manifest["anchor_market"])
     print("  markets assembled  :", ", ".join(manifest["market_fragments_included"]))
     for row in manifest["markets_registered_but_excluded"]:
-        print("  excluded           : %s (published %d < %d)"
-              % (row["market_id"], row["published_count"],
-                 row["minimum_published_hotels"]))
+        # A market is excluded for one of TWO reasons and the manifest records
+        # which: it is not assemblable, or it is assemblable and the founder has
+        # not authorized it for launch. Printing the minimum-hotels reason for
+        # both said "published 130 < 5" of Cincinnati -- a sentence that is not
+        # true and that reads, at exactly the moment a founder is deciding
+        # whether to launch a market, as though the market were too small.
+        if not row["assemblable"]:
+            unmet = [name for name, ok in row["conditions"].items() if not ok]
+            print("  excluded           : %s (not assemblable: %s)"
+                  % (row["market_id"], ", ".join(unmet) or "unknown"))
+        else:
+            print("  excluded           : %s (%d published, assemblable; "
+                  "launch status %s)"
+                  % (row["market_id"], row["published_count"],
+                     row["launch_status"]))
     for mid, frag in manifest["fragments"].items():
         print("    %-28s %3d hotels, %2d corridors, hub %s"
               % (mid, frag["published_count"], len(frag["corridor_routes"]),

@@ -634,7 +634,12 @@ def test_routing_carries_more_than_one_market(queues, routing_delta_from_shards)
     # HOLD_FOR_IDENTITY_ADDRESS_CLARIFICATION and deliberately kept its route.
     # -> 80 at PTF-CINCINNATI-MAINSTAY-CENSUS-SPLIT-013, which replaced the conflated MainStay route with one
     # route per real property.
-    assert len(by_market["cincinnati-oh"]) == 80
+    # 80 -> 51 at PTF-CINCINNATI-PROMOTION-AND-APPLICATION-003, which published
+    # 31 pet-friendly identities and removed the 29 of them that were routed, on
+    # the same seed-inventory rule every move above obeys. The other two were
+    # never routed. Routes for VERIFIED_NO_PETS identities were kept, as Columbus
+    # and Grand Rapids keep theirs.
+    assert len(by_market["cincinnati-oh"]) == 51
 
     base, routed = queues
     base_ids = {h["hotel_id"] for h in base.selected}

@@ -478,7 +478,13 @@ def test_current_live_inventory_preserves_all_assemblable_market_profiles(market
                       # order that brought these here explicitly does not
                       # touch launch participation, where Cincinnati's status
                       # is still the founder's to set.
-                      CINCINNATI: 99,
+                      # 99 -> 130 at PTF-CINCINNATI-PROMOTION-AND-APPLICATION-003,
+                      # which promoted the reader-validated clean inventory left
+                      # pending by PTF-CINCINNATI-PARALLEL-REVALIDATION-002 over
+                      # the same unmoved 257-identity census. Same half of the
+                      # assertion, same conclusion -- nothing above moved, and
+                      # Cincinnati still does not participate in the launch.
+                      CINCINNATI: 130,
                       # PTF-DETROIT-ANN-ARBOR-TROY-IDENTITY-AND-BUNDLE-030:
                       # Detroit becomes ASSEMBLABLE, and this assertion is
                       # what noticed. It gained no data here: 121 profiles

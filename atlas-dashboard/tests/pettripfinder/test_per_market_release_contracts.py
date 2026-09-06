@@ -511,7 +511,15 @@ class TestContractAgreesWithItsOwnAuthority:
                              # refusals from the independent probes,
                              # including Great Wolf released from its
                              # APPLICATION-004 hold.
-                             CINCINNATI: 49,
+                             # 49 -> 75 at PTF-CINCINNATI-PROMOTION-AND-
+                             # APPLICATION-003: 26 first-party refusals from
+                             # the clean inventory PTF-CINCINNATI-PARALLEL-
+                             # REVALIDATION-002 left pending. Two of its 28
+                             # were held -- The Cincinnatian by founder
+                             # decision, and Cincinnati Marriott at RiverCenter
+                             # because a lossy address key would have barred a
+                             # live Embassy Suites across the street.
+                             CINCINNATI: 75,
                              # PTF-DETROIT-ANN-ARBOR-HARDENED-SYNC-029.
                              # Detroit arrives with 81 verified-no-pets
                              # exclusions, every one resting on an

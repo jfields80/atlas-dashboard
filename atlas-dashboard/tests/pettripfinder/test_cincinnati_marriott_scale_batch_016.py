@@ -24,6 +24,7 @@ from pathlib import Path
 
 import pytest
 
+from pettripfinder import epochs
 from pettripfinder.market_state import current
 
 from scripts.pettripfinder import cincinnati_marriott_scale_batch_016 as M
@@ -273,7 +274,11 @@ def test_the_remaining_pool_matches_authority(cincinnati_attempts):
     left = [r for r in routes if r["brand"] == "MARRIOTT"
             and not partition[r["hotel_ref"]["identity_key"]]["resolved"]
             and r["hotel_ref"]["identity_key"] not in attempted]
-    assert len(left) == 20
+    # 20 was the pool left at this order's close. It drains as identities are
+    # ANSWERED and their routes retire, so a later promotion empties it without
+    # saying anything about what this batch attempted.
+    if NOW.last_moved_by == "PTF-CINCINNATI-MARRIOTT-SCALE-BATCH-016":
+        assert len(left) == 20
 
 
 # ----------------------------------------------------- the merged inventory
@@ -318,7 +323,17 @@ def test_nothing_was_applied(report, inventory):
     assert counts["PUBLISHED_PET_FRIENDLY"] == NOW.pet_friendly
     assert counts["VERIFIED_NO_PETS"] == NOW.verified_no_pets
     assert sum(counts.values()) == NOW.census
-    assert _load(AUTH / "identity_routing.json")["count"] == 80
+    # The literal 80 below was this order's CURRENT-state route count. It is
+    # retired by name once a later order moves the market, exactly as the
+    # whole-market counts in this module are: routes retire as identities are
+    # ANSWERED, so a promotion legitimately lowers this number without saying
+    # anything about what this order did.
+    if NOW.last_moved_by == "PTF-CINCINNATI-MARRIOTT-SCALE-BATCH-016":
+        assert _load(AUTH / "identity_routing.json")["count"] == 80
+    else:
+        epochs.superseded_assertion(
+            by=NOW.last_moved_by,
+            what="the Cincinnati route count of 80 that PTF-CINCINNATI-MARRIOTT-SCALE-BATCH-016 closed with")
 
     package = {h["identity_key"] for h in
                _load(PKG / "hotel_policy_facts_cincinnati-oh.json")["hotels"]}

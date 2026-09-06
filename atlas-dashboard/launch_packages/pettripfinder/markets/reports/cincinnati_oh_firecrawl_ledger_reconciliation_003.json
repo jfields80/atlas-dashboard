@@ -1,0 +1,145 @@
+{
+ "schema": "ptf-paid-ledger-reconciliation/1.0",
+ "work_order": "PTF-CINCINNATI-PROMOTION-AND-APPLICATION-003",
+ "market_id": "cincinnati-oh",
+ "phase": "5 -- reconcile the Firecrawl attempts the parallel order could not write",
+ "provider_calls_made_by_this_order": 0,
+ "usd_spent_by_this_order": 0.0,
+ "plan_credits_spent_by_this_order": 0,
+ "what_this_records": "attempts that already happened under PTF-CINCINNATI-HARDENED-REVALIDATION-001. No provider was called and no credit was consumed to produce this file.",
+ "source_run": {
+  "run_id": "cincinnati_oh_firecrawl_001",
+  "work_order": "PTF-CINCINNATI-HARDENED-REVALIDATION-001",
+  "lane": "firecrawl (rendered scrape; billed in PLAN CREDITS, no USD)",
+  "attempted_rows": 7,
+  "credits_before": 520,
+  "credits_after": 515,
+  "credits_delta_measured": 5,
+  "outcome_counts": {
+   "ACCESS_DENIED": 2,
+   "IDENTITY_MISMATCH": 2,
+   "VALID": 3
+  }
+ },
+ "ledger_before": {
+  "total_attempts": 799,
+  "cincinnati_attempts": 39,
+  "cincinnati_firecrawl_attempts": 0,
+  "cincinnati_usd_minor": 624.0
+ },
+ "rows_considered": 7,
+ "already_present": 0,
+ "duplicates_rejected": [],
+ "new_ledger_entries": 7,
+ "credits_represented": 5,
+ "usd_represented_minor": 0,
+ "apportionment": {
+  "method": "the ledger writer's own even split across the run's attempts",
+  "run_total_is_exact": true,
+  "per_row_figure_is_an_estimate": true,
+  "credits_per_attempt": 0.7142857142857143
+ },
+ "bimodal_reconciliation_reported_not_applied": {
+  "rule": "Firecrawl bills one credit when a document comes back and nothing when every engine is refused",
+  "rows_that_returned_a_document": 5,
+  "rows_the_origin_refused_outright": 2,
+  "credits_implied": 5,
+  "measured_meter_delta": 5,
+  "reconciles_exactly": true
+ },
+ "new_entries": [
+  {
+   "attempt_id": "b1790856aa0fa2e2",
+   "identity_key": "comfort inn and suites middletown franklin",
+   "canonical_name": "Comfort Inn & Suites Middletown - Franklin",
+   "lane": "firecrawl",
+   "outcome": "ACCESS_DENIED",
+   "terminal": false,
+   "reusable_evidence": false,
+   "firecrawl_credits": 0.7142857142857143,
+   "cost_usd_minor": 0.0
+  },
+  {
+   "attempt_id": "953e29d67c522e36",
+   "identity_key": "comfort suites mason near kings island",
+   "canonical_name": "Comfort Suites Mason near Kings Island",
+   "lane": "firecrawl",
+   "outcome": "VALID",
+   "terminal": true,
+   "reusable_evidence": true,
+   "firecrawl_credits": 0.7142857142857143,
+   "cost_usd_minor": 0.0
+  },
+  {
+   "attempt_id": "b16799f791314d5f",
+   "identity_key": "holiday inn cincinnati liberty way",
+   "canonical_name": "Holiday Inn Cincinnati - Liberty Way",
+   "lane": "firecrawl",
+   "outcome": "VALID",
+   "terminal": true,
+   "reusable_evidence": true,
+   "firecrawl_credits": 0.7142857142857143,
+   "cost_usd_minor": 0.0
+  },
+  {
+   "attempt_id": "a88384d11a42a201",
+   "identity_key": "holiday inn express and suites cincinnati north liberty way",
+   "canonical_name": "Holiday Inn Express & Suites Cincinnati North - Liberty Way",
+   "lane": "firecrawl",
+   "outcome": "VALID",
+   "terminal": true,
+   "reusable_evidence": true,
+   "firecrawl_credits": 0.7142857142857143,
+   "cost_usd_minor": 0.0
+  },
+  {
+   "attempt_id": "69dd969e06ec33fe",
+   "identity_key": "quality inn and suites cvg airport",
+   "canonical_name": "Quality Inn & Suites CVG Airport",
+   "lane": "firecrawl",
+   "outcome": "IDENTITY_MISMATCH",
+   "terminal": true,
+   "reusable_evidence": false,
+   "firecrawl_credits": 0.7142857142857143,
+   "cost_usd_minor": 0.0
+  },
+  {
+   "attempt_id": "4cf60cd8251d0de0",
+   "identity_key": "quality inn i 75 west chester north cincinnati",
+   "canonical_name": "Quality Inn I-75 West Chester-North Cincinnati",
+   "lane": "firecrawl",
+   "outcome": "ACCESS_DENIED",
+   "terminal": false,
+   "reusable_evidence": false,
+   "firecrawl_credits": 0.7142857142857143,
+   "cost_usd_minor": 0.0
+  },
+  {
+   "attempt_id": "6b0c9982a4c042e5",
+   "identity_key": "quality inn mason near kings island",
+   "canonical_name": "Quality Inn Mason Near Kings Island",
+   "lane": "firecrawl",
+   "outcome": "IDENTITY_MISMATCH",
+   "terminal": true,
+   "reusable_evidence": false,
+   "firecrawl_credits": 0.7142857142857143,
+   "cost_usd_minor": 0.0
+  }
+ ],
+ "ledger_after": {
+  "total_attempts": 806,
+  "cincinnati_attempts": 46,
+  "cincinnati_outcomes": {
+   "ACCESS_DENIED": 9,
+   "VALID": 31,
+   "POLICY_NOT_FOUND": 1,
+   "NAVIGATION_FAILED": 3,
+   "IDENTITY_MISMATCH": 2
+  }
+ },
+ "historical_entries_changed": 0,
+ "other_markets_changed": 0,
+ "markets_that_gained_rows": {
+  "cincinnati-oh": 7
+ }
+}

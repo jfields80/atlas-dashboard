@@ -27,6 +27,7 @@ from pathlib import Path
 
 import pytest
 
+from pettripfinder import epochs
 from pettripfinder.market_state import current
 
 from scripts.pettripfinder import cincinnati_hilton_close_marriott_retry_015 as M
@@ -230,10 +231,30 @@ def test_no_authority_was_mutated(report):
     assert counts["PUBLISHED_PET_FRIENDLY"] == NOW.pet_friendly
     assert counts["VERIFIED_NO_PETS"] == NOW.verified_no_pets
     assert sum(counts.values()) == NOW.census
-    assert _load(AUTH / "identity_routing.json")["count"] == 80
+    # The literal 80 below was this order's CURRENT-state route count. It is
+    # retired by name once a later order moves the market, exactly as the
+    # whole-market counts in this module are: routes retire as identities are
+    # ANSWERED, so a promotion legitimately lowers this number without saying
+    # anything about what this order did.
+    if NOW.last_moved_by == "PTF-CINCINNATI-HILTON-CLOSE-AND-MARRIOTT-RETRY-PROBE-015":
+        assert _load(AUTH / "identity_routing.json")["count"] == 80
+    else:
+        epochs.superseded_assertion(
+            by=NOW.last_moved_by,
+            what="the Cincinnati route count of 80 that PTF-CINCINNATI-HILTON-CLOSE-AND-MARRIOTT-RETRY-PROBE-015 closed with")
 
 
 def test_nothing_acquired_was_published(report):
+    if NOW.last_moved_by != "PTF-CINCINNATI-HILTON-CLOSE-AND-MARRIOTT-RETRY-PROBE-015":
+        # Overtaken deliberately. What this probe acquired sat unapplied until
+        # PTF-CINCINNATI-PARALLEL-REVALIDATION-002 found it as owned evidence
+        # and the promotion order applied it. Unapplied was the state at close,
+        # never a permanent property of the rows.
+        epochs.superseded_assertion(
+            by=NOW.last_moved_by,
+            what=("the claim that nothing "
+                  "PTF-CINCINNATI-HILTON-CLOSE-AND-MARRIOTT-RETRY-PROBE-015 "
+                  "acquired had been published"))
     package = {h["identity_key"] for h in
                _load(PKG / "hotel_policy_facts_cincinnati-oh.json")["hotels"]}
     excluded = {e["normalized_name"]

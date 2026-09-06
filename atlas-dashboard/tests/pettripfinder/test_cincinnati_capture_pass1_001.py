@@ -234,7 +234,10 @@ class TestAuthorityFreeze:
         # answered; Studio 6 was held and deliberately kept its route)
         # -> 80 (013 replaced the conflated MainStay route with one route per
         # real property, oh720 and oh721).
-        assert len(cincinnati) == 80
+        # -> 51 (PTF-CINCINNATI-PROMOTION-AND-APPLICATION-003 removed the 29
+        # routes whose identity it published, on the same seed-inventory rule
+        # every move above obeys).
+        assert len(cincinnati) == 51
 
         retired = [r for r in cincinnati if r["status"] == "ROUTING_RETIRED"]
         assert len(retired) == 6

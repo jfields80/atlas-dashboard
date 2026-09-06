@@ -28,6 +28,7 @@ from pathlib import Path
 
 import pytest
 
+from pettripfinder import epochs
 from pettripfinder.market_state import current
 
 from scripts.pettripfinder import canonical_view as CV
@@ -96,8 +97,14 @@ def test_every_record_with_species_evidence_now_projects(package):
             projecting += 1
         else:
             empty.append(record["identity_key"])
+    # The guarantee, and it runs over every record in the package however far
+    # the market has grown: nothing with species evidence projects empty.
     assert empty == []
-    assert projecting == 61
+    # The literal 61 is a CURRENT-state count. It rises whenever a later order
+    # publishes a record carrying species, which says nothing about whether this
+    # order's rebinding still holds -- the assertion above is what does.
+    if NOW.last_moved_by == "PTF-CINCINNATI-SPECIES-KEY-REBIND-011":
+        assert projecting == 61
 
 
 def test_the_report_records_the_before_and_after(report):
@@ -204,10 +211,17 @@ def test_the_semantic_guard_actually_catches_a_real_change(package):
 
 
 def test_no_record_outside_the_cohort_was_touched(package, report):
-    """91 records were already correct."""
+    """91 records were already correct when this order closed.
+
+    The literal 91 is a CURRENT-state count of the whole package, so it moves
+    every time the market publishes anything. What this test actually guards --
+    that this order stamped its rebinding on NOTHING outside its own cohort --
+    does not move, and it runs against every record either way.
+    """
     keys = {r["identity_key"] for r in report["rows"]}
     others = [h for h in package["hotels"] if h["identity_key"] not in keys]
-    assert len(others) == 91
+    if NOW.last_moved_by == "PTF-CINCINNATI-SPECIES-KEY-REBIND-011":
+        assert len(others) == 91
     for record in others:
         assert "rebinding" not in record["approval"] or \
             record["approval"]["rebinding"].get("work_order") != R.WORK_ORDER
@@ -288,7 +302,17 @@ def test_no_count_moved(package):
 
 def test_the_shards_were_not_rebuilt():
     """Only the package hash moved, so only the contract pin needed to."""
-    assert _load(AUTH / "identity_routing.json")["count"] == 80
+    # The literal 80 below was this order's CURRENT-state route count. It is
+    # retired by name once a later order moves the market, exactly as the
+    # whole-market counts in this module are: routes retire as identities are
+    # ANSWERED, so a promotion legitimately lowers this number without saying
+    # anything about what this order did.
+    if NOW.last_moved_by == "PTF-CINCINNATI-SPECIES-KEY-REBIND-011":
+        assert _load(AUTH / "identity_routing.json")["count"] == 80
+    else:
+        epochs.superseded_assertion(
+            by=NOW.last_moved_by,
+            what="the Cincinnati route count of 80 that PTF-CINCINNATI-SPECIES-KEY-REBIND-011 closed with")
     exclusions = _load(AUTH / "hotel_exclusions.json")["exclusions"]
     assert sum(1 for e in exclusions
                if e["exclusion_state"] == "VERIFIED_NO_PETS") == 49

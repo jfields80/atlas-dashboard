@@ -132,10 +132,21 @@ def test_the_twenty_seven_capture_pass_one_rulings_survive(queue):
 
 
 def test_published_rows_carry_the_hash_their_approval_binds(rows):
+    """Every row THIS queue decided still binds to the hash it approved.
+
+    Scoped to this order's own cohort, not to the whole package. Later orders
+    append records that this queue never saw and that carry their own approval
+    blocks naming those orders; iterating the whole package would make this
+    suite fail every time the market grows, which is a fact about the market and
+    not about whether these decisions still hold.
+    """
     package = {h["identity_key"]: h
                for h in _load(PKG / "hotel_policy_facts_cincinnati-oh.json")["hotels"]}
-    for key, record in package.items():
-        assert rows[key]["record_hash"] == record["approval"]["record_hash"]
+    mine = [key for key in package
+            if key in rows and rows[key].get("record_hash")]
+    assert mine, "this queue's cohort has vanished from the package"
+    for key in mine:
+        assert rows[key]["record_hash"] == package[key]["approval"]["record_hash"]
 
 
 # ------------------------------------------------ the distinctions that matter

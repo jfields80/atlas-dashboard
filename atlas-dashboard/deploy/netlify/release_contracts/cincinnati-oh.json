@@ -25,35 +25,35 @@
  },
  "reconciliation": {
   "confirmed_identities": 257,
-  "published_pet_friendly": 99,
-  "verified_no_pets": 49,
+  "published_pet_friendly": 130,
+  "verified_no_pets": 75,
   "out_of_current_category": 6,
-  "resolved": 154,
-  "unresolved": 103,
-  "note": "Counts are derived from the committed policy package and exclusion registry via derive_authority(); unresolved is not negative pet evidence. 257 = 99 + 49 + 6 + 103. The census grew from 256 to 257 at PTF-CINCINNATI-MAINSTAY-CENSUS-SPLIT-013, which replaced the conflated identity 'Comfort Suites Mainstay Hotel' with the two real Choice properties at 2347 Reading Road -- oh720 in Building A and oh721 in Building B. Unresolved is derived as census minus resolved, never carried forward."
+  "resolved": 211,
+  "unresolved": 46,
+  "note": "verified_no_pets counts ONLY VERIFIED_NO_PETS records this market owns. unresolved is UNKNOWN and never negative evidence. PTF-CINCINNATI-PROMOTION-AND-APPLICATION-003 promoted the reader-validated clean inventory from PTF-CINCINNATI-PARALLEL-REVALIDATION-002 -- 31 pet-friendly and 26 verified-no-pets -- moving published 99 -> 130, no-pets 49 -> 75, resolved 154 -> 211 and unresolved 103 -> 46. The census did not move: this order promoted policy, not membership. Two of the 28 clean no-pets rows were NOT applied. The Cincinnatian Hotel is held by founder decision because its only visible evidence is a service-animal sentence beside a structured flag, and this market has already ruled that a bare structured flag is not a refusal. Cincinnati Marriott at RiverCenter is held by the publication guard: address_key drops the street directional, so its refusal at 10 West RiverCenter Blvd would bar the already-published Embassy Suites at 10 East. Both keep their evidence committed."
  },
  "reconciliation_cross_checks": [],
  "policy_package": {
   "path": "launch_packages/pettripfinder/hotel_policy_facts_cincinnati-oh.json",
-  "expected_sha256": "6c445526569dc2b4086b707d5483a98332e8b23e11645c33351e0d54fccf2ab8",
+  "expected_sha256": "920366419c6dca45eccc6b752e255e9e950b2965f6c3213433bfd5ba3f598ba9",
   "expected_schema_version": "1.3",
-  "expected_record_count": 99,
+  "expected_record_count": 130,
   "identity_authority": true,
-  "note": "The live Cincinnati policy package is the sole identity authority for its 99 verified profiles. 21 were written by the Capture Pass 1 applications; APPLICATION-004 added 53; FREE-LANE-APPLICATION-007 added 17 from the zero-cost attended-Chrome brand lane; PTF-CINCINNATI-FREE-LANE-APPLICATION-010 added 8 from the zero-cost independent probes (PROBE-008 and PROBE-009) -- one clean candidate plus four Drury properties and three partial approvals the founder ruled individually. No hard-coded allow-list is repeated here.",
+  "note": "The verified hotel identities are DERIVED from this package at assembly time via scripts.pettripfinder.site_data.verified_public_hotels(); they are not restated here. Records 100-130 were appended by PTF-CINCINNATI-PROMOTION-AND-APPLICATION-003 and each carries its own approval block naming that order; the original 99 are unchanged. Seven of the 31 appended records publish with pet_fee WITHHELD -- six because the committed reader refused the field, and Holiday Inn Express Fairfield because its page states three different charges for the same thing and founder item D1 directs that no price be published rather than that one of the three be chosen.",
   "schema_note": "Schema 1.3. PTF-CINCINNATI-HARDENED-SYNC-002 stamped the package from 1.2 to 1.3 -- an additive amendment (enums.CANONICAL_POLICY_SCHEMA_VERSIONS holds both) that added the service_animal_statement.quote field the founder's Capture Pass 1 statements had nowhere to live in. Seven records gained that quote; no fact, evidence entry, withholding or founder decision changed. record_hash is taken over the whole record, so stamping the version moved it on all twenty-one: each approval carries a 'rebinding' block naming the prior hash and what moved, evidence_hash is unchanged throughout, and no decision was re-asked or re-signed.",
   "rebind_note": "PTF-CINCINNATI-SPECIES-KEY-REBIND-011 renamed the species keys of eight 2026-08-17 records from dog/cat to dogs/cats, the spelling canonical_view actually reads. record_hash is taken over the record minus approval, so the rename moved it on all eight and each approval carries a rebinding block naming the prior hash. No species state, evidence entry, evidence_hash, founder decision or count changed, so this sha256 is the only pin that moves."
  },
  "public_surface": {
-  "seed_hotel_rows": 99,
-  "public_hotel_profile_count": 99,
+  "seed_hotel_rows": 130,
+  "public_hotel_profile_count": 130,
   "excluded_public_profile_count": 0,
   "held_hotel_exclusion": "Every other unresolved or category-excluded census identity has no seed row and no public route. This market currently holds none -- every seed row it owns is published."
  },
  "routes": {
   "market_slug": "cincinnati-oh",
   "route_mode": "market_prefixed",
-  "hotel_route_count": 99,
-  "published_corridor_route_count": 14,
+  "hotel_route_count": 130,
+  "published_corridor_route_count": 16,
   "note": "route_mode market_prefixed: this market's hub, corridor, and policy-comparison pages live under /pet-friendly-hotels/cincinnati-oh/. 14 of this market's 22 configured corridors are above their publication minimum and claim a route, derived from the 99 published hotels' own corridor assignments; the market is registered assemblable but not yet enabled in primary navigation (show_in_navigation is a separate, unrelated market-config setting)."
  },
  "minimum_release_gates": [
@@ -140,5 +140,13 @@
    "repositories"
   ],
   "note": "The publish root must contain ONLY the static website plus the two Netlify control files. Build-internal reports the generator emits (_build_report.json, _broken_link_report.json, _quality_report.json, bundle_manifest.json) are read for gating but are excluded from site/ and must never ship."
+ },
+ "signed_authority": {
+  "work_orders": [
+   "PTF-CINCINNATI-PROMOTION-AND-APPLICATION-003"
+  ],
+  "artifacts": [
+   "PTF-CINCINNATI-PROMOTION-AND-APPLICATION-003"
+  ]
  }
 }

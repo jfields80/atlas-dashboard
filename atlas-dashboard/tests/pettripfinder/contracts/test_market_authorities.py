@@ -122,7 +122,7 @@ EXPECTED = {
     # PTF-CINCINNATI-MAINSTAY-CENSUS-SPLIT-013. The census GREW, which no
     # earlier Cincinnati order did: one conflated identity was replaced by the
     # two real hotels it denoted, and each brought its own refusal.
-    # 257 = 99 + 49 + 6 + 103.
+    # 257 = 130 + 75 + 6 + 46 after PTF-CINCINNATI-PROMOTION-AND-APPLICATION-003.
     CINCINNATI: _pinned(CINCINNATI),
     # 26/4/3/63 -> 46/10/3/37 at PTF-PITTSBURGH-HARDENED-SYNC-004, which
     # applied the 32 founder decisions signed on 2026-08-26 and kept the census
@@ -402,24 +402,28 @@ class TestTerminalDispositionsMatchAuthority:
     def test_cincinnati_terminal_states_match_the_exclusion_registry(self):
         """Silence is still not a refusal; 119 identities remain unobserved.
 
-        The counts here have moved three times -- 0/0 before
+        The counts here have moved four times -- 0/0 before
         PTF-CINCINNATI-HARDENED-SYNC-002 replayed the founder's 2026-08-17
-        decisions, 74/16 after APPLICATION-004, and 91/40 after
-        FREE-LANE-APPLICATION-007 applied the zero-cost attended-Chrome lane.
+        decisions, 74/16 after APPLICATION-004, 91/40 after
+        FREE-LANE-APPLICATION-007 applied the zero-cost attended-Chrome lane,
+        and 130/75 after PTF-CINCINNATI-PROMOTION-AND-APPLICATION-003 promoted
+        the reader-validated clean inventory. They are read from the pin rather
+        than restated here, so the next move edits one file.
 
         What the test guards has not moved. Every refusal is an affirmative,
         property-specific "pets are not allowed" in the hotel's own words, and
         the partition's refusals are EXACTLY the founder-approved exclusion
         records -- never a partition state invented beside them. Not one of the
         unresolved rows became a refusal for want of evidence. Out-of-category
-        stays 6, and is a category ruling rather than a pet-policy finding.
+        stays a category ruling rather than a pet-policy finding.
         """
+        pin = EXPECTED[CINCINNATI]
         doc = partition_doc(CINCINNATI)
         states = collections.Counter(i["final_state"] for i in doc["items"])
-        assert states[enums.PUBLISHED_PET_FRIENDLY] == 99
-        assert states[enums.VERIFIED_NO_PETS] == 49
-        assert states[enums.OUT_OF_CURRENT_CATEGORY] == 6
-        assert len(doc["items"]) == 257
+        assert states[enums.PUBLISHED_PET_FRIENDLY] == pin["published"]
+        assert states[enums.VERIFIED_NO_PETS] == pin["no_pets"]
+        assert states[enums.OUT_OF_CURRENT_CATEGORY] == pin["out_of_category"]
+        assert len(doc["items"]) == pin["census"]
 
         # The refusals are exactly the founder-approved exclusion records --
         # never a partition state invented beside them.
