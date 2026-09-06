@@ -1,6 +1,8 @@
 PTF-TOLEDO-OH-PROMOTION-AND-APPLICATION-002
 
-STATUS: AUTHORED, NOT STARTED.
+STATUS: AUTHORED AND AUTHORIZED TO RUN.
+Revision 2 (2026-09-06): the founder revised the Bowling Green ruling. Bowling
+Green is IN and the governing set is 54 / 17 / 10 / 13.
 Authored by PTF-TOLEDO-OH-NEW-MARKET-001 at the serialized boundary, under the
 founder rulings recorded in
 `launch_packages/pettripfinder/toledo_oh_founder_rulings_001.json`.
@@ -58,7 +60,8 @@ This order MUST NOT:
 - create or consume a deployment authorization
 - flip launch participation
 - publish any row the founder held
-- admit Bowling Green
+- widen the Bowling Green corridor beyond ZIP 43402
+- create a separate Bowling Green market for identities Toledo now holds
 - alter another market's authority, census, partition or release contract
 
 STOP at DEPLOYMENT_READY. Launch is PTF-TOLEDO-OH-DEPLOYMENT-AND-LAUNCH-
@@ -68,22 +71,28 @@ AUTHORIZATION-003 and is a separate, founder-authorized order.
 FOUNDER RULINGS THIS ORDER IS BOUND BY
 ============================================================
 
-R1 BOWLING GREEN — EXCLUDED.
-"Keep Bowling Green OUT of the Toledo market for this promotion. Do not create
-or widen a Toledo fringe corridor to include Bowling Green. Preserve the
-evidence and candidates for a future Bowling Green / northwest Ohio market
-decision."
+R1A BOWLING GREEN — INCLUDED. (Supersedes R1, which excluded it.)
+"INCLUDE the three Bowling Green identities in the Toledo market for this
+promotion. Treat Bowling Green as the Toledo market's southern / Bowling Green
+corridor. Preserve their existing evidence and classifications. Do not create a
+second overlapping Bowling Green market while these identities belong to Toledo
+unless a later founder-authorized market split explicitly migrates them."
 
-  - REMOVE the corridor toledo-oh__bowling-green from the contract that gets
-    registered. Do not register it empty, do not suppress it below a minimum.
-  - MOVE its three identities and every artifact bound to them out of the
-    Toledo package and into
-    launch_packages/pettripfinder/toledo_oh_bowling_green_preserved_001.json.
-    MOVE, never delete (PTF-INDIANAPOLIS-FOUNDER-RULINGS-013).
-      hampton                                            142 Campbell Hill Road   43402
-      home2 suites                                       1630 East Wooster Street 43402
-      fairfield by marriott inn and suites bowling green 1544 East Wooster Street 43402
-  - ZIP 43402 is claimed by no Toledo corridor after this.
+  - REGISTER the corridor toledo-oh__bowling-green AS AUTHORED. It claims ZIP
+    43402 alone. Do not widen it, and do not reach further into Wood County.
+  - Its three identities stay in the Toledo census with the evidence and the
+    classifications the new-market order gave them. No move, no preserved file,
+    no re-derivation of their reads.
+      hampton                                            142 Campbell Hill Road   43402  CLEAN_PET_FRIENDLY
+      home2 suites                                       1630 East Wooster Street 43402  CLEAN_PET_FRIENDLY
+      fairfield by marriott inn and suites bowling green 1544 East Wooster Street 43402  CLEAN_VERIFIED_NO_PETS
+  - The corridor's _boundary_note must be rewritten. It currently reads "FRINGE
+    -- HELD FOR FOUNDER DECISION"; that hold is discharged and the note must say
+    so, citing TOLEDO-R1A and keeping the Bowling Green, KENTUCKY distinction
+    that the note already carries.
+  - EXCLUSIVITY: while these three belong to Toledo, no second overlapping
+    Bowling Green market may be created for them. Only a later
+    founder-authorized market split migrates them, and it must do so explicitly.
 
 R2 GROUP A — HELD.
 "Keep all unresolved Group A rows HELD outside promotion unless an existing
@@ -107,20 +116,21 @@ increase coverage."
 THE COUNT GATE — READ THIS BEFORE PHASE 0
 ============================================================
 
-The founder's ruling excludes Bowling Green and then restates the clean set as
-17 CLEAN_PET_FRIENDLY and 10 CLEAN_VERIFIED_NO_PETS. Those disagree. 17/10 are
-the counts WITH Bowling Green in; two of the seventeen and one of the ten are
-Bowling Green properties.
+The governing promotion set, stated by the founder and equal to the shadow as
+PTF-TOLEDO-OH-NEW-MARKET-001 built it:
 
-The EXPLICIT RULING governs. The promotion set is:
+    census                    54
+    CLEAN_PET_FRIENDLY        17
+    CLEAN_VERIFIED_NO_PETS    10
+    corridors                 13
 
-    census                    51
-    CLEAN_PET_FRIENDLY        15
-    CLEAN_VERIFIED_NO_PETS     9
-    corridors                 12
+This order FAILS CLOSED if it computes anything else.
 
-This order FAILS CLOSED if it computes anything else. It does not reconcile the
-difference by choosing; if 51/15/9 does not reproduce, stop and report.
+Revision history worth keeping: the first ruling excluded Bowling Green while
+restating the set as 17/10, which are the counts WITH it in. The agent surfaced
+the disagreement instead of reconciling it, and the founder resolved it by
+revising the ruling. The two readings differed by three published pages and no
+technical gate would have caught the wrong one.
 
 ============================================================
 PHASE 0 — DERIVE THE CURRENT LINEAGE. DO NOT TYPE A SHA.
@@ -179,16 +189,19 @@ PHASE 2 — APPLY THE FOUNDER RULINGS TO THE SHADOW
 
 Before any shared file moves.
 
-1. Remove the bowling-green corridor from the contract to be registered.
-2. Move its three identities to
-   launch_packages/pettripfinder/toledo_oh_bowling_green_preserved_001.json,
-   carrying route, attended read, exact quote, document provenance and the
-   ruling that moved them.
+R1A admits Bowling Green, which is what the shadow already holds, so this phase
+CHANGES NO COUNT. It exists to discharge the hold explicitly rather than to let
+a stale note ride into production.
+
+1. Rewrite the toledo-oh__bowling-green corridor's _boundary_note: the hold is
+   discharged by TOLEDO-R1A. Keep the Bowling Green, KENTUCKY distinction.
+2. Record the exclusivity constraint in the market contract's _boundary_note, so
+   a future northwest Ohio order reads it where it will actually look.
 3. Re-derive the census, the clean authority and the shadow package from the
    ruled contract. Do not hand-edit counts.
-4. Assert the count gate: 51 / 15 / 9 / 12 corridors. FAIL CLOSED otherwise.
+4. Assert the count gate: 54 / 17 / 10 / 13 corridors. FAIL CLOSED otherwise.
 5. Assert that no held Group A identity appears in the clean inventory.
-6. Assert that ZIP 43402 is claimed by no corridor.
+6. Assert that ZIP 43402 is claimed by exactly one corridor, bowling-green.
 
 Commit this before Phase 3. The ruling application is reviewable on its own.
 
@@ -298,7 +311,7 @@ assembler gate and it is gitignored, so it is invisible until it bites
 
 Report against the CURRENT live numbers from Phase 0:
     markets before -> after
-    profiles before -> after (+15 expected)
+    profiles before -> after (+17 expected)
     routes before -> after
     routes ADDED and routes REMOVED — removals must be 0
     bundle sha256, sitemap sha256
@@ -364,8 +377,8 @@ Subject: PTF-TOLEDO-OH-PROMOTION-AND-APPLICATION-002
 
 Report:
     lineage tip integrated, and what moved since 2163c4e
-    census 51 / PF 15 / no-pets 9 / corridors 12
-    Bowling Green: 3 identities MOVED to the preserved file, corridor removed
+    census 54 / PF 17 / no-pets 10 / corridors 13
+    Bowling Green: corridor REGISTERED, 3 identities admitted, hold discharged
     Group A: rows still held, and any precedent applied with the signature named
     candidate id, bundle sha, sitemap sha
     routes added / removed (removed must be 0)
@@ -388,4 +401,4 @@ five characters and its rollback target was one deploy stale
 (PTF-CINCINNATI-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-004).
 
 STOP.
-No deployment. No launch flip. No held row published. No Bowling Green.
+No deployment. No launch flip. No held Group A row published.
