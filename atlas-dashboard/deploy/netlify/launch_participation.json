@@ -2,10 +2,10 @@
  "schema": "ptf-launch-participation/1.0",
  "what_this_is": "The founder's launch participation record for the composed PetTripFinder production bundle. Read by scripts/pettripfinder/launch_participation.py at assembly time. Every registered market must carry a row; only FOUNDER_AUTHORIZED_FOR_LAUNCH admits a market into the composed bundle. This record never states a market's facts: source readiness is derived by the assembler from the market's own census, partition, policy authority and release contract, and a status that disagrees with the source fails the build. Withdrawing a market here changes no byte of that market's authority and does not affect its own per-market assembly.",
  "decision": {
-  "work_order": "PTF-GRAND-RAPIDS-LAUNCH-PARTICIPATION-032",
+  "work_order": "PTF-CINCINNATI-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-004",
   "decided_by": "founder",
-  "decided_on": "2026-08-29",
-  "reason": "Founder authorizes Grand Rapids / Holland to participate in the next production assembly, joining as the ninth market with 43 pet-friendly profiles. Every other market's decision is unchanged: Indianapolis stays authorized as PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019 set it, and cincinnati-oh and detroit-ann-arbor-mi remain not source-ready. Grand Rapids was listed NOT_SOURCE_READY by the lineage merge because the assembler could not reach its final partition; 032 fixed the lookup and rebuilt the partition, and this row now records the founder's launch decision.",
+  "decided_on": "2026-09-06",
+  "reason": "Founder authorizes Cincinnati to participate in the next production assembly, joining as the TENTH market with 130 pet-friendly profiles. Every other market's decision is unchanged, and detroit-ann-arbor-mi remains NOT authorized for launch even though it is assemblable at 121 published -- the decision named Cincinnati and nothing else. PTF-CINCINNATI-PROMOTION-AND-APPLICATION-003 promoted the market to 130 published and 75 verified-no-pets over an unmoved 257-identity census, proved the promotion moved no byte of the live bundle while participation stayed off, and prepared the exact candidate a flip would produce. This row consumes that preparation.",
   "lineage": {
    "what_this_is": "Every participation record this one descends from, oldest first, so a deployment authorization can still be matched to the record it signed after more than one reissue. supersedes names only the immediate predecessor; with four reissues behind it that is no longer enough to walk the chain.",
    "records": [
@@ -58,50 +58,56 @@
       "pittsburgh-pa",
       "st-louis-mo"
      ]
+    },
+    {
+     "work_order": "PTF-GRAND-RAPIDS-LAUNCH-PARTICIPATION-032",
+     "sha256": "6d227508c6a8ce291f800769147caca52451d6c0db51288a5b33838aa278b10f",
+     "founder_authorized": [
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "grand-rapids-holland-mi",
+      "indianapolis-in",
+      "louisville-ky",
+      "milwaukee-wi",
+      "pittsburgh-pa",
+      "st-louis-mo"
+     ]
     }
    ]
   },
   "decision_basis": {
    "what_this_is": "What the founder was shown when deciding. These are a RECORD of the basis, not an authority: the assembler derives every one of them from the market's own census, package, shard and release contract, and a status that disagrees with the source fails the build.",
-   "market_id": "grand-rapids-holland-mi",
-   "source_commit": "248b8d938afefb5928942ec79c0db3789f24cd15",
-   "census_count": 163,
-   "pet_friendly_publication_count": 43,
-   "verified_no_pets_count": 20,
+   "market_id": "cincinnati-oh",
+   "source_commit": "a0cec800f619a2ffd3a865511877b8f8afa407f6",
+   "census_count": 257,
+   "pet_friendly_publication_count": 130,
+   "verified_no_pets_count": 75,
    "policy_package": {
-    "path": "launch_packages/pettripfinder/hotel_policy_facts_grand-rapids-holland-mi.json",
-    "sha256": "91646fcb4fa7259134c5cd13ffb915123f8753063e88b3dc3e3b420b3d5da639"
+    "path": "launch_packages/pettripfinder/hotel_policy_facts_cincinnati-oh.json",
+    "sha256": "920366419c6dca45eccc6b752e255e9e950b2965f6c3213433bfd5ba3f598ba9"
    },
    "exclusion_shard": {
-    "path": "launch_packages/pettripfinder/markets/authority/grand-rapids-holland-mi/hotel_exclusions.json",
-    "sha256": "3a40ca743aad03492f94689ac7a5cc838f4ecd6d9d5b0010ffad4f5a777ec682"
+    "path": "launch_packages/pettripfinder/markets/authority/cincinnati-oh/hotel_exclusions.json",
+    "sha256": "a413ea0e47beb24b9fc801c419c5e1af6e0bb57f424b5c4e32890dfd9db3b415"
    },
    "release_contract": {
-    "path": "deploy/netlify/release_contracts/grand-rapids-holland-mi.json",
-    "sha256": "62133774be6250f000893180ad255c906735d4692d7ba4af4accbaaafe4ea4ce"
+    "path": "deploy/netlify/release_contracts/cincinnati-oh.json",
+    "sha256": "7b4d65dbea8b2a0b4c19eb440ad32b7dd4af413ffc950b99b5c09e273ad623d5"
    },
    "identity_census": {
-    "path": "launch_packages/pettripfinder/identity_census/grand-rapids-holland-mi.json",
-    "sha256": "7321313c6b1985169193d59aa3d2b9496d207e536f9617772ccd362b60f0a115"
-   },
-   "final_partition": {
-    "path": "launch_packages/pettripfinder/grand_rapids_holland_mi_final_partition_002.json",
-    "sha256": "22c3639504468ecfee2a88de158d6d42ab666ab682d4996fd16fac46ebdfa8b1",
-    "why_it_is_named_here": "032 rebuilt it from the founder-signed authority. The partition it replaces predates every founder signature this market has and still carried 42 rows as AWAITING_FOUNDER_DECISION."
-   },
-   "deliberately_excluded": {
-    "avid hotel zeeland": "signed in 021 and WITHDRAWN by the founder in PTF-GRAND-RAPIDS-SOURCE-PROMOTION-022 'for now'; it stays AWAITING_FOUNDER_DECISION, which is exactly what it is waiting for",
-    "comfort suites grandville grand rapids sw": "one half of the identity pair PTF-GRAND-RAPIDS-FOUNDER-REVIEW-PREP-019 holds open: clean policy evidence, unsettled identity",
-    "unruled_rows": "100 rows nobody has ruled on since the 009 partition keep the state they already carried; 032 re-adjudicated nothing"
+    "path": "launch_packages/pettripfinder/identity_census/cincinnati-oh.json",
+    "sha256": "fdfbb730c8b206895fffa1b55e968e317a33c81d72c7748a7efa272ab9548ae0"
    }
   },
   "supersedes": {
-   "work_order": "PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019",
-   "sha256": "f522f422b3b4afff73eef26ad13bc175dbe814b1cca112778a7b6d600b573031",
+   "work_order": "PTF-GRAND-RAPIDS-LAUNCH-PARTICIPATION-032",
+   "sha256": "6d227508c6a8ce291f800769147caca52451d6c0db51288a5b33838aa278b10f",
    "founder_authorized": [
     "cleveland-akron-canton-oh",
     "columbus-oh",
     "dayton-oh",
+    "grand-rapids-holland-mi",
     "indianapolis-in",
     "louisville-ky",
     "milwaukee-wi",
@@ -118,8 +124,8 @@
  "markets": [
   {
    "market_id": "cincinnati-oh",
-   "launch_status": "SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH",
-   "note": "21 founder-signed pet-friendly profiles and 6 verified-no-pets exclusions over a 256-identity census; release contract verifies with zero disagreements. Recorded NOT_SOURCE_READY with the note 'publishes no hotel; no release contract' until PTF-CINCINNATI-HARDENED-SYNC-002, which was true of this lineage and false of the market: the founder decided these 27 identities on 2026-08-17 on a branch that never merged, and the sync replayed them. This row corrects an observation about source readiness. It is NOT an admission -- Cincinnati does not participate in this launch, and admitting it is a separate founder decision on the same lever."
+   "launch_status": "FOUNDER_AUTHORIZED_FOR_LAUNCH",
+   "note": "130 pet-friendly profiles and 75 verified-no-pets over a 257-identity census; release contract verifies with zero disagreements. Promoted by PTF-CINCINNATI-PROMOTION-AND-APPLICATION-003 and ADMITTED here by PTF-CINCINNATI-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-004, which is the founder's explicit launch decision. Hidden from global navigation and from the market listing: show_in_navigation=false and show_in_sitemap=false, exactly as live Louisville is -- those flags govern the hub's place in navigation, not whether the market's profile URLs are indexed, and its 148 routes do enter sitemap.xml."
   },
   {
    "market_id": "cleveland-akron-canton-oh",
