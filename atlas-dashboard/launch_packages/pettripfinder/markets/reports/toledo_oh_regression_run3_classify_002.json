@@ -3,7 +3,7 @@
  "work_order": "PTF-TOLEDO-OH-PROMOTION-AND-APPLICATION-002",
  "what_this_is": "The committed lane runner's own classify output for the THIRD broad run, kept verbatim. Run 3 was required because deriving the readiness verdict edited two scripts under scripts/pettripfinder/, which regression_delta classifies as a runtime change and therefore MANDATORY_FULL. It re-proves the same failure set at the final commit, and it also covers the report, packet and test gates that run 2 predated.",
  "run_dir": "data/regression/toledo_full3",
- "source_commit": "f2cc0b3",
+ "source_commit": "ee1ce3d",
  "baseline": "launch_packages/pettripfinder/regression_baselines/f75aa95.json",
  "collected": 17512,
  "passed": 17116,
@@ -19,5 +19,6 @@
  },
  "failure_set_identical_to_baseline": true,
  "failure_set_identical_to_run_2": true,
- "verdict": "CLEAN -- 0 TRUE_NEW_FAILURE at the final commit"
+ "verdict": "CLEAN -- 0 TRUE_NEW_FAILURE at the final commit",
+ "source_commit_provenance": "Run 3 executed at f2cc0b3. That commit was rewritten to ee1ce3d because three commits had been authored with a plain email address that the remote rejects under its privacy setting, so the author was reset to the repository's configured noreply address. The two trees differ in exactly one string -- the packet's own source_commit field, re-pinned to the rewritten source commit -- which no test reads at run time and which therefore cannot move a test outcome. ee1ce3d is the reachable commit whose tree this run proves."
 }
