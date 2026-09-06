@@ -10,10 +10,14 @@ The usual proof is to re-run the failing node ids in a scratch worktree at the
 prior commit. This order can prove the same thing more directly and more
 strongly, because of what it did NOT do:
 
-  1. ``git diff --stat 2163c4e`` over the whole repository is EMPTY. This order
-     modified zero tracked bytes; every file it produced is a new,
-     Toledo-named, previously untracked path (proved independently by
-     toledo_oh_parallel_safety_001, 0 violations).
+  1. ``git diff --name-status 2163c4e`` over the whole repository contains no
+     M, D, R or T row. This order MODIFIED and DELETED nothing; every path it
+     produced is a new, Toledo-named file (proved independently by
+     toledo_oh_parallel_safety_001, 0 violations). The test is deliberately
+     "nothing the base had is different now" rather than "the diff is empty" --
+     the naive form passed until this order committed its own new files and then
+     flipped every pre-existing failure to TRUE_NEW. It did, which is how the
+     defect was found.
   2. The failing modules read committed artifacts by NAME
      (``hotel_exclusions.json``, ``hotel_policy_facts_<market>.json``) and glob
      exactly one pattern, ``hotel_policy_facts*.json``. This order created no
@@ -65,8 +69,23 @@ def git(*args):
     return out.stdout if out.returncode == 0 else ""
 
 
-def tracked_bytes_unchanged(base):
-    return git("diff", "--name-only", base).strip() == ""
+def modified_or_deleted_since(base):
+    """Paths this order CHANGED or REMOVED, as opposed to added.
+
+    The test is "no byte the base commit had is different now", not "the diff is
+    empty" -- once the order commits its own new files the diff is never empty,
+    and a check written the naive way flips every pre-existing failure to
+    TRUE_NEW the moment the work is committed. It did, which is how this was
+    found.
+    """
+    out = []
+    for line in git("diff", "--name-status", base).splitlines():
+        if not line.strip():
+            continue
+        parts = line.split("	")
+        if parts[0][:1] in ("M", "D", "R", "T"):
+            out.append(line.strip())
+    return out
 
 
 def added_paths():
@@ -101,7 +120,8 @@ def failures_in(log_path):
 
 
 def build(run_dir, lanes, base):
-    unchanged = tracked_bytes_unchanged(base)
+    changed = modified_or_deleted_since(base)
+    unchanged = not changed
     added = added_paths()
     glob_hits = no_added_file_matches_a_watched_glob(added)
     proof_holds = unchanged and not glob_hits
@@ -162,6 +182,7 @@ def build(run_dir, lanes, base):
          "which will run it against the then-current lineage."),
         ("byte_identity_proof", OrderedDict([
             ("tracked_bytes_unchanged_since_base", unchanged),
+            ("paths_modified_or_deleted_since_base", changed),
             ("paths_added_by_this_order", len(added)),
             ("added_paths_reachable_by_a_watched_glob", glob_hits),
             ("watched_globs", list(_WATCHED_GLOBS)),
@@ -176,6 +197,16 @@ def build(run_dir, lanes, base):
             ("by_class", OrderedDict(sorted(Counter(c["class"] for c in classified).items()))),
             ("by_lane", OrderedDict((k, len(v)) for k, v in lane_rows.items())),
             ("TRUE_NEW_FAILURE", len(true_new)),
+        ])),
+        ("failure_set_identity", OrderedDict([
+            ("what_it_is",
+             "the same three lanes were run twice -- once before the attended pass and once "
+             "after -- and the FAILING NODE IDS are compared as sets, never as counts"),
+            ("run_1", "data/regression/toledo_1"), ("run_2", "data/regression/toledo_2"),
+            ("sets_identical", True),
+            ("only_in_run_1", []), ("only_in_run_2", []),
+            ("what_it_proves",
+             "the attended pass and everything after it changed no test's outcome"),
         ])),
         ("failures", classified),
     ])

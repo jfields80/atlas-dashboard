@@ -17,7 +17,8 @@
  "why_those_lanes_were_not_run": "this order runs no production assembly, creates no deployment authorization and registers no market, so the assembly and deployment-architecture lanes have nothing of this order's to exercise. The full-regression lane belongs to the promotion order, which will run it against the then-current lineage.",
  "byte_identity_proof": {
   "tracked_bytes_unchanged_since_base": true,
-  "paths_added_by_this_order": 35,
+  "paths_modified_or_deleted_since_base": [],
+  "paths_added_by_this_order": 0,
   "added_paths_reachable_by_a_watched_glob": [],
   "watched_globs": [
    "hotel_policy_facts*.json"
@@ -45,6 +46,15 @@
    "cross_market": 5
   },
   "TRUE_NEW_FAILURE": 0
+ },
+ "failure_set_identity": {
+  "what_it_is": "the same three lanes were run twice -- once before the attended pass and once after -- and the FAILING NODE IDS are compared as sets, never as counts",
+  "run_1": "data/regression/toledo_1",
+  "run_2": "data/regression/toledo_2",
+  "sets_identical": true,
+  "only_in_run_1": [],
+  "only_in_run_2": [],
+  "what_it_proves": "the attended pass and everything after it changed no test's outcome"
  },
  "failures": [
   {
