@@ -1,0 +1,2116 @@
+{
+ "schema": "ptf-free-static-capture/1.0",
+ "work_order": "PTF-TOLEDO-OH-NEW-MARKET-001",
+ "phase": "10 and 13 -- free first-party static capture and classification",
+ "market_id": "toledo-oh",
+ "run_id": "toledo_oh_free_static_001",
+ "as_of": "2026-09-06",
+ "lane": "direct_http (first-party static; no vendor, no browser, no price)",
+ "paid_provider_calls": 0,
+ "usd_spent": 0.0,
+ "free_http_requests_this_run": 60,
+ "no_inference_from_silence": "A page that states no pet policy is SOURCE_SILENT. It is not a refusal, it is not an acceptance, and it never becomes either here.",
+ "counts": {
+  "targets": 60,
+  "by_cohort": {
+   "IDENTITY_FILL": 23,
+   "ROUTED": 37
+  },
+  "by_outcome": {
+   "ACCESS_DENIED": 38,
+   "IDENTITY_MISMATCH": 1,
+   "NAVIGATION_FAILED": 4,
+   "POLICY_NOT_FOUND": 2,
+   "UNEXPECTED_PAGE": 4,
+   "UNHYDRATED": 8,
+   "VALID": 3
+  },
+  "by_classification": {
+   "ACCESS_BLOCKED_PLAIN_CLIENT": 38,
+   "CLEAN_PET_FRIENDLY_CANDIDATE": 3,
+   "IDENTITY_TEXT_BOUND_POLICY_SILENT": 2,
+   "NEEDS_ATTENDED_RENDER": 8,
+   "SOURCE_SILENT_STATIC": 1,
+   "TRANSPORT_FAILED": 4,
+   "UNEXPECTED_PAGE": 4
+  },
+  "by_brand": {
+   "CHOICE": 5,
+   "ESA": 1,
+   "HILTON": 15,
+   "IHG": 6,
+   "INDEPENDENT": 1,
+   "MARRIOTT": 18,
+   "RADISSON": 1,
+   "SONESTA": 1,
+   "WYNDHAM": 12
+  }
+ },
+ "rows": [
+  {
+   "cohort": "ROUTED",
+   "identity_key": "baymont perrysburg",
+   "canonical_name": "Baymont Perrysburg",
+   "brand": "WYNDHAM",
+   "routing_state": "ROUTED_OFFICIAL_SITEMAP",
+   "corridor": "toledo-oh__perrysburg-levis-commons",
+   "requested_url": "https://www.wyndhamhotels.com/baymont/perrysburg-ohio/baymont-perrysburg-toledo/overview",
+   "outcome": "UNHYDRATED",
+   "final_url": "https://www.wyndhamhotels.com/baymont/perrysburg-ohio/baymont-perrysburg-toledo/overview",
+   "title": "Baymont by Wyndham Perrysburg/Toledo | Perrysburg, OH Hotels",
+   "detail": "the policy region of the served document is an unrendered client-side template ('{{bedtype}}'); this lane fetched the template, not the render",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Baymont by Wyndham Perrysburg/Toledo",
+     "address_on_page": "27441 Helen Drive",
+     "postal_code": "43551-3375",
+     "phone_on_page": "+1-419-874-9181",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.wyndhamhotels.com/baymont/perrysburg-ohio/baymont-perrysburg-toledo/overview",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "4198749181",
+      "8444054141",
+      "8669967937",
+      "8004079832"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "page telephone '+1-419-874-9181' is not the census number '419-751-2173'; one property commonly publishes several",
+     "confirmed on name, postal_code, street_identity, canonical_path via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\baymont-perrysburg\\attempt-01",
+   "classification": "NEEDS_ATTENDED_RENDER"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "comfort inn and suites toledo",
+   "canonical_name": "Comfort Inn & Suites Toledo",
+   "brand": "CHOICE",
+   "routing_state": "ROUTED_FREE_STATIC",
+   "corridor": "toledo-oh__north-toledo-i75",
+   "requested_url": "https://comfortinnsuitestoledo.com/",
+   "outcome": "IDENTITY_MISMATCH",
+   "final_url": "https://comfortinnsuitestoledo.com/",
+   "title": "Comfort Inn & Suites",
+   "detail": "the page declares no telephone number of its own; nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Comfort Inn &amp; Suites",
+     "address_on_page": "",
+     "postal_code": "",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "",
+     "pets_allowed_structured": "",
+     "jsonld_present": false,
+     "phones_on_page": [
+      "4197278725",
+      "4198571414"
+     ]
+    },
+    "confirmed": false,
+    "matched": [
+     "name_partial"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "nothing physical agreed: no street identity and no telephone match, and a related-looking URL on the same domain is not an identity"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": ""
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\comfort-inn-and-suites-toledo\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": true,
+    "text_bound": true,
+    "document_sha256": "6763dbbf7e78408e3e56309a650dfbc2061c358e39967cb38f75aeaa7a66a749",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "comfort inn and suites toledo maumee",
+   "canonical_name": "Comfort Inn & Suites - Toledo - Maumee",
+   "brand": "CHOICE",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "toledo-oh__maumee-arrowhead",
+   "requested_url": "https://www.choicehotels.com/oh227",
+   "outcome": "NAVIGATION_FAILED",
+   "final_url": "https://www.choicehotels.com/oh227",
+   "title": "",
+   "detail": "TimeoutError: The read operation timed out",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\comfort-inn-and-suites-toledo-maumee\\attempt-01",
+   "classification": "TRANSPORT_FAILED"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "comfort inn east oregon",
+   "canonical_name": "Comfort Inn East - Oregon",
+   "brand": "CHOICE",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "toledo-oh__oregon-northwood-east",
+   "requested_url": "https://www.choicehotels.com/ohio/oregon/comfort-inn-hotels/oh073",
+   "outcome": "NAVIGATION_FAILED",
+   "final_url": "https://www.choicehotels.com/ohio/oregon/comfort-inn-hotels/oh073",
+   "title": "",
+   "detail": "TimeoutError: The read operation timed out",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\comfort-inn-east-oregon\\attempt-01",
+   "classification": "TRANSPORT_FAILED"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "country inn and suites by radisson toledo maumee",
+   "canonical_name": "Country Inn & Suites by Radisson- Toledo/Maumee",
+   "brand": "RADISSON",
+   "routing_state": "ROUTED_FREE_STATIC",
+   "corridor": "toledo-oh__maumee-arrowhead",
+   "requested_url": "https://www.countyinns.com/maumee-hotel-oh-43537/ohtoledo",
+   "outcome": "UNHYDRATED",
+   "final_url": "https://www.countyinns.com/maumee-hotel-oh-43537/ohtoledo",
+   "title": "countyinns.com",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\country-inn-and-suites-by-radisson-toledo-maumee\\attempt-01",
+   "classification": "NEEDS_ATTENDED_RENDER"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "courtyard by marriott toledo airport holland",
+   "canonical_name": "Courtyard By Marriott-Toledo Airport/Holland",
+   "brand": "MARRIOTT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "toledo-oh__holland-spring-meadows",
+   "requested_url": "https://www.marriott.com/hotels/travel/tolch-courtyard-toledo-airport-holland",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.marriott.com/hotels/travel/tolch-courtyard-toledo-airport-holland",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\courtyard-by-marriott-toledo-airport-holland\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "courtyard by marriott toledo west",
+   "canonical_name": "Courtyard by Marriott - Toledo West",
+   "brand": "MARRIOTT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "toledo-oh__university-medical",
+   "requested_url": "https://www.marriott.com/hotels/travel/tolcw-courtyard-toledo-west",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.marriott.com/hotels/travel/tolcw-courtyard-toledo-west",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\courtyard-by-marriott-toledo-west\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "courtyard toledo maumee arrowhead",
+   "canonical_name": "Courtyard Toledo Maumee/Arrowhead",
+   "brand": "MARRIOTT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "toledo-oh__maumee-arrowhead",
+   "requested_url": "https://www.marriott.com/hotels/travel/tolcy-courtyard-toledo-maumee-arrowhead/",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.marriott.com/hotels/travel/tolcy-courtyard-toledo-maumee-arrowhead/",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\courtyard-toledo-maumee-arrowhead\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "courtyard toledo north",
+   "canonical_name": "Courtyard Toledo North",
+   "brand": "MARRIOTT",
+   "routing_state": "ROUTED_OFFICIAL_SITEMAP",
+   "corridor": "toledo-oh__north-toledo-i75",
+   "requested_url": "https://www.marriott.com/en-us/hotels/tolno-courtyard-toledo-north/overview/",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.marriott.com/en-us/hotels/tolno-courtyard-toledo-north/overview/",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\courtyard-toledo-north\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "courtyard toledo rossford perrysburg",
+   "canonical_name": "Courtyard Toledo Rossford/Perrysburg",
+   "brand": "MARRIOTT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "toledo-oh__rossford-crossroads",
+   "requested_url": "https://www.marriott.com/hotels/travel/tolcr-courtyard-toledo-rossford-perrysburg",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.marriott.com/hotels/travel/tolcr-courtyard-toledo-rossford-perrysburg",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\courtyard-toledo-rossford-perrysburg\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "extended stay america toledo maumee",
+   "canonical_name": "Extended Stay America - Toledo/Maumee",
+   "brand": "ESA",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "toledo-oh__maumee-arrowhead",
+   "requested_url": "https://www.extendedstayamerica.com/hotels/oh/toledo/maumee",
+   "outcome": "VALID",
+   "final_url": "https://www.extendedstayamerica.com/hotels/oh/toledo/maumee",
+   "title": "Explore Our Nationwide Hotel Locations | Extended Stay America",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Extended Stay America - Toledo - Maumee",
+     "address_on_page": "542 W. Dussel Dr.",
+     "postal_code": "43537",
+     "phone_on_page": "+14198911211",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.extendedstayamerica.com/hotels/oh/toledo/maumee",
+     "pets_allowed_structured": "True",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "8008043724",
+      "4198911211"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "page telephone '+14198911211' is not the census number '419-318-7462'; one property commonly publishes several",
+     "confirmed on name, postal_code, street_identity, canonical_path via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "page_sha256": "abc40fbe5b6aee688510ea6386323147aa3e7b579d75751cb9182e3a1a441660",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\extended-stay-america-toledo-maumee\\attempt-01",
+   "observation": {
+    "extraction": {
+     "pets_allowed": true,
+     "pet_fee": 1500,
+     "fee_currency": "USD",
+     "pet_count_limit": 2,
+     "service_animal_exception": "Service animals will be exempt from this charge."
+    },
+    "evidence": [
+     {
+      "quote": "pets are allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "$15 non-refundable fee",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_fee",
+       "fee_currency"
+      ]
+     },
+     {
+      "quote": "two pets are allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_count_limit"
+      ]
+     },
+     {
+      "quote": "Service animals will be exempt from this charge.",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "service_animal_exception"
+      ]
+     }
+    ],
+    "withheld_fields": {
+     "fee_basis": "SOURCE_SILENT"
+    },
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt",
+      "pet_fee": "page-text.txt",
+      "fee_currency": "page-text.txt",
+      "pet_count_limit": "page-text.txt",
+      "service_animal_exception": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "toledo_oh_free_static_001::extended stay america toledo maumee::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "pets are allowed",
+       "source_url": "https://www.extendedstayamerica.com/hotels/oh/toledo/maumee",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "abc40fbe5b6aee688510ea6386323147aa3e7b579d75751cb9182e3a1a441660",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "toledo_oh_free_static_001::extended stay america toledo maumee::pet_fee::1",
+       "field": "pet_fee",
+       "quote": "$15 non-refundable fee",
+       "source_url": "https://www.extendedstayamerica.com/hotels/oh/toledo/maumee",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "abc40fbe5b6aee688510ea6386323147aa3e7b579d75751cb9182e3a1a441660",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "toledo_oh_free_static_001::extended stay america toledo maumee::fee_currency::1",
+       "field": "fee_currency",
+       "quote": "$15 non-refundable fee",
+       "source_url": "https://www.extendedstayamerica.com/hotels/oh/toledo/maumee",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "abc40fbe5b6aee688510ea6386323147aa3e7b579d75751cb9182e3a1a441660",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "toledo_oh_free_static_001::extended stay america toledo maumee::pet_count_limit::2",
+       "field": "pet_count_limit",
+       "quote": "two pets are allowed",
+       "source_url": "https://www.extendedstayamerica.com/hotels/oh/toledo/maumee",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "abc40fbe5b6aee688510ea6386323147aa3e7b579d75751cb9182e3a1a441660",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "toledo_oh_free_static_001::extended stay america toledo maumee::service_animal_exception::3",
+       "field": "service_animal_exception",
+       "quote": "Service animals will be exempt from this charge.",
+       "source_url": "https://www.extendedstayamerica.com/hotels/oh/toledo/maumee",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "abc40fbe5b6aee688510ea6386323147aa3e7b579d75751cb9182e3a1a441660",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "3fd9f26f67252106c24a728cf7f9b265d4b117e5b6da2089b7f3df7acd9d0d0d",
+     "document_sha256": "abc40fbe5b6aee688510ea6386323147aa3e7b579d75751cb9182e3a1a441660"
+    },
+    "membrane": {
+     "verdict": "VALID",
+     "rule": "",
+     "detail": "",
+     "hint_only": false,
+     "stripped_fields": [],
+     "flags_raised": [],
+     "rule_statement": ""
+    }
+   },
+   "classification": "CLEAN_PET_FRIENDLY_CANDIDATE"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "fairfield inn and suites bowling green",
+   "canonical_name": "Fairfield Inn & Suites Bowling Green",
+   "brand": "MARRIOTT",
+   "routing_state": "ROUTED_OFFICIAL_SITEMAP",
+   "corridor": "toledo-oh__bowling-green",
+   "requested_url": "https://www.marriott.com/en-us/hotels/tolbg-fairfield-inn-and-suites-bowling-green/overview/",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.marriott.com/en-us/hotels/tolbg-fairfield-inn-and-suites-bowling-green/overview/",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\fairfield-inn-and-suites-bowling-green\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "fairfield inn and suites toledo maumee",
+   "canonical_name": "Fairfield Inn & Suites - Toledo/Maumee",
+   "brand": "MARRIOTT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "toledo-oh__maumee-arrowhead",
+   "requested_url": "https://www.marriott.com/hotels/travel/tolmu-fairfield-inn-and-suites-toledo-maumee",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.marriott.com/hotels/travel/tolmu-fairfield-inn-and-suites-toledo-maumee",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\fairfield-inn-and-suites-toledo-maumee\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "fairfield inn and suites toledo north",
+   "canonical_name": "Fairfield Inn & Suites Toledo North",
+   "brand": "MARRIOTT",
+   "routing_state": "ROUTED_OFFICIAL_SITEMAP",
+   "corridor": "toledo-oh__north-toledo-i75",
+   "requested_url": "https://www.marriott.com/en-us/hotels/tolfn-fairfield-inn-and-suites-toledo-north/overview/",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.marriott.com/en-us/hotels/tolfn-fairfield-inn-and-suites-toledo-north/overview/",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\fairfield-inn-and-suites-toledo-north\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "hampton",
+   "canonical_name": "Hampton",
+   "brand": "HILTON",
+   "routing_state": "ROUTED_OFFICIAL_SITEMAP",
+   "corridor": "toledo-oh__bowling-green",
+   "requested_url": "https://www.hilton.com/en/hotels/bgnohhx-hampton-bowling-green/",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.hilton.com/en/hotels/bgnohhx-hampton-bowling-green/",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\hampton\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "hampton inn and suites toledo oregon",
+   "canonical_name": "Hampton Inn & Suites - Toledo/Oregon",
+   "brand": "HILTON",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "toledo-oh__oregon-northwood-east",
+   "requested_url": "https://www.hilton.com/en/hotels/toltohx-hampton-toledo-oregon",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.hilton.com/en/hotels/toltohx-hampton-toledo-oregon",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\hampton-inn-and-suites-toledo-oregon\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "hampton inn and suites toledo perrysburg",
+   "canonical_name": "Hampton Inn & Suites Toledo-Perrysburg",
+   "brand": "HILTON",
+   "routing_state": "ROUTED_OFFICIAL_SITEMAP",
+   "corridor": "toledo-oh__rossford-crossroads",
+   "requested_url": "https://www.hilton.com/en/hotels/tolpghx-hampton-suites-toledo-perrysburg/",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.hilton.com/en/hotels/tolpghx-hampton-suites-toledo-perrysburg/",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\hampton-inn-and-suites-toledo-perrysburg\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "hampton inn and suites toledo westgate",
+   "canonical_name": "Hampton Inn & Suites - Toledo/Westgate",
+   "brand": "HILTON",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "toledo-oh__university-medical",
+   "requested_url": "https://www.hilton.com/en/hotels/tolwghx-hampton-suites-toledo-westgate",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.hilton.com/en/hotels/tolwghx-hampton-suites-toledo-westgate",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\hampton-inn-and-suites-toledo-westgate\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "hampton inn toledo south maumee",
+   "canonical_name": "Hampton Inn Toledo - South/Maumee",
+   "brand": "HILTON",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "toledo-oh__maumee-arrowhead",
+   "requested_url": "https://www.hilton.com/en/hotels/tolsohx-hampton-toledo-south-maumee",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.hilton.com/en/hotels/tolsohx-hampton-toledo-south-maumee",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\hampton-inn-toledo-south-maumee\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "hilton garden inn toledo perrysburg",
+   "canonical_name": "Hilton Garden Inn Toledo Perrysburg",
+   "brand": "HILTON",
+   "routing_state": "ROUTED_OFFICIAL_SITEMAP",
+   "corridor": "toledo-oh__perrysburg-levis-commons",
+   "requested_url": "https://www.hilton.com/en/hotels/tolpbgi-hilton-garden-inn-toledo-perrysburg/",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.hilton.com/en/hotels/tolpbgi-hilton-garden-inn-toledo-perrysburg/",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\hilton-garden-inn-toledo-perrysburg\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "hiltons at toledo downtown",
+   "canonical_name": "Hiltons at Toledo Downtown",
+   "brand": "HILTON",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "toledo-oh__downtown-toledo",
+   "requested_url": "https://www.toledodowntown.hgi.com",
+   "outcome": "NAVIGATION_FAILED",
+   "final_url": "https://www.toledodowntown.hgi.com",
+   "title": "",
+   "detail": "URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\hiltons-at-toledo-downtown\\attempt-01",
+   "classification": "TRANSPORT_FAILED"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "holiday inn express and suites toledo south perrysburg",
+   "canonical_name": "Holiday Inn Express & Suites Toledo South - Perrysburg",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "toledo-oh__perrysburg-levis-commons",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/perrysburg/tolpr/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/perrysburg/tolpr/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\holiday-inn-express-and-suites-toledo-south-perrysburg\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "holiday inn express and suites toledo westgate",
+   "canonical_name": "Holiday Inn Express & Suites - Toledo/Westgate",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "toledo-oh__university-medical",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/toledo/tolws/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/toledo/tolws/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\holiday-inn-express-and-suites-toledo-westgate\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "holiday inn express toledo oregon",
+   "canonical_name": "Holiday Inn Express Toledo-Oregon",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "toledo-oh__oregon-northwood-east",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/oregon/tolor/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/oregon/tolor/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\holiday-inn-express-toledo-oregon\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "holiday inn toledo maumee",
+   "canonical_name": "Holiday Inn Toledo-Maumee",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "toledo-oh__maumee-arrowhead",
+   "requested_url": "https://www.ihg.com/holidayinn/hotels/us/en/maumee/toltd/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/holidayinn/hotels/us/en/maumee/toltd/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\holiday-inn-toledo-maumee\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "home2 suites",
+   "canonical_name": "Home2 Suites",
+   "brand": "HILTON",
+   "routing_state": "ROUTED_OFFICIAL_SITEMAP",
+   "corridor": "toledo-oh__bowling-green",
+   "requested_url": "https://www.hilton.com/en/hotels/tolbght-home2-suites-bowling-green/",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.hilton.com/en/hotels/tolbght-home2-suites-bowling-green/",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\home2-suites\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "home2 suites by hilton perrysburg levis commons toledo",
+   "canonical_name": "Home2 Suites by Hilton Perrysburg Levis Commons Toledo",
+   "brand": "HILTON",
+   "routing_state": "ROUTED_OFFICIAL_SITEMAP",
+   "corridor": "toledo-oh__perrysburg-levis-commons",
+   "requested_url": "https://www.hilton.com/en/hotels/tolohht-home2-suites-perrysburg-levis-commons-toledo/",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.hilton.com/en/hotels/tolohht-home2-suites-perrysburg-levis-commons-toledo/",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\home2-suites-by-hilton-perrysburg-levis-commons-toledo\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "home2 suites toledo maumee",
+   "canonical_name": "Home2 Suites-Toledo/Maumee",
+   "brand": "HILTON",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "toledo-oh__maumee-arrowhead",
+   "requested_url": "https://www.hilton.com/en/hotels/tolmaht-home2-suites-maumee-toledo",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.hilton.com/en/hotels/tolmaht-home2-suites-maumee-toledo",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\home2-suites-toledo-maumee\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "hotel royal toledo",
+   "canonical_name": "Hotel Royal Toledo",
+   "brand": "INDEPENDENT",
+   "routing_state": "ROUTED_FREE_STATIC",
+   "corridor": "toledo-oh__downtown-toledo",
+   "requested_url": "https://hotelroyaltoledo.com",
+   "outcome": "POLICY_NOT_FOUND",
+   "final_url": "https://hotelroyaltoledo.com/",
+   "title": "Hotel Royal | Opened 1900. Revived 2024.",
+   "detail": "no bounded policy block in a page that served; 0 signal candidates considered",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Hotel Royal",
+     "address_on_page": "337 Broadway St",
+     "postal_code": "43604",
+     "phone_on_page": "",
+     "property_code_on_page": "",
+     "canonical_url": "https://hotelroyaltoledo.com/",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": []
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "postal_code",
+     "street_identity"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "the page declares no telephone number of its own",
+     "confirmed on name, postal_code, street_identity via EXACT_ADDRESS_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "EXACT_ADDRESS_AND_NAME"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\hotel-royal-toledo\\attempt-01",
+   "classification": "IDENTITY_TEXT_BOUND_POLICY_SILENT",
+   "text_bound_read": {
+    "street_number_agrees": true,
+    "postal_agrees": true,
+    "phone_agrees": false,
+    "text_bound": true,
+    "document_sha256": "324fa30d70c50f7eede532f0f5f3b511db76a8e2cd783cab28d2b51dc603ca82",
+    "reader": {
+     "found": false,
+     "walk": "FULL_DOCUMENT_TEXT_RECOVERY"
+    }
+   }
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "renaissance toledo downtown hotel",
+   "canonical_name": "Renaissance Toledo Downtown Hotel",
+   "brand": "MARRIOTT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "toledo-oh__downtown-toledo",
+   "requested_url": "https://www.marriott.com/hotels/travel/tolgp-renaissance-toledo-downtown-hotel/",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.marriott.com/hotels/travel/tolgp-renaissance-toledo-downtown-hotel/",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\renaissance-toledo-downtown-hotel\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "residence inn and suites toledo west",
+   "canonical_name": "Residence Inn & Suites- Toledo West",
+   "brand": "MARRIOTT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "toledo-oh__university-medical",
+   "requested_url": "https://www.marriott.com/hotels/travel/tolrw-residence-inn-toledo-west/",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.marriott.com/hotels/travel/tolrw-residence-inn-toledo-west/",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\residence-inn-and-suites-toledo-west\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "residence inn by marriott toledo maumee",
+   "canonical_name": "Residence Inn by Marriott - Toledo/Maumee",
+   "brand": "MARRIOTT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "toledo-oh__maumee-arrowhead",
+   "requested_url": "https://www.marriott.com/hotels/travel/tolrt-residence-inn-toledo-maumee",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.marriott.com/hotels/travel/tolrt-residence-inn-toledo-maumee",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\residence-inn-by-marriott-toledo-maumee\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "sleep inn and suites",
+   "canonical_name": "Sleep Inn & Suites",
+   "brand": "CHOICE",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "toledo-oh__oregon-northwood-east",
+   "requested_url": "https://www.choicehotels.com/ohio/oregon/sleep-inn-hotels/oh190",
+   "outcome": "NAVIGATION_FAILED",
+   "final_url": "https://www.choicehotels.com/ohio/oregon/sleep-inn-hotels/oh190",
+   "title": "",
+   "detail": "TimeoutError: The read operation timed out",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\sleep-inn-and-suites\\attempt-01",
+   "classification": "TRANSPORT_FAILED"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "staybridge inn and suites toledo rossford perrysburg",
+   "canonical_name": "Staybridge Inn & Suites Toledo Rossford- Perrysburg",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "toledo-oh__rossford-crossroads",
+   "requested_url": "https://www.ihg.com/staybridge/hotels/us/en/rossford/tolsb/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/staybridge/hotels/us/en/rossford/tolsb/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\staybridge-inn-and-suites-toledo-rossford-perrysburg\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "staybridge suites toledo maumee",
+   "canonical_name": "Staybridge Suites Toledo - Maumee",
+   "brand": "IHG",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "toledo-oh__maumee-arrowhead",
+   "requested_url": "https://www.ihg.com/staybridge/hotels/us/en/maumee/tolmm/hoteldetail",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.ihg.com/staybridge/hotels/us/en/maumee/tolmm/hoteldetail",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\staybridge-suites-toledo-maumee\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "towneplace suites by marriott toledo oregon",
+   "canonical_name": "TownePlace Suites by Marriott -Toledo/Oregon",
+   "brand": "MARRIOTT",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "toledo-oh__oregon-northwood-east",
+   "requested_url": "https://www.marriott.com/hotels/travel/tolto-towneplace-suites-toledo-oregon",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.marriott.com/hotels/travel/tolto-towneplace-suites-toledo-oregon",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\towneplace-suites-by-marriott-toledo-oregon\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT"
+  },
+  {
+   "cohort": "ROUTED",
+   "identity_key": "wingate by wyndham sylvania toledo",
+   "canonical_name": "Wingate by Wyndham Sylvania/Toledo",
+   "brand": "WYNDHAM",
+   "routing_state": "ROUTED_OFFICIAL_DESTINATION",
+   "corridor": "toledo-oh__sylvania-central-avenue",
+   "requested_url": "https://www.wyndhamhotels.com/hotel/30140",
+   "outcome": "UNEXPECTED_PAGE",
+   "final_url": "https://www.wyndhamhotels.com/wingate/sylvania-ohio/wingate-by-wyndham-sylvania-toledo/overview",
+   "title": "Wingate by Wyndham Sylvania/Toledo | Sylvania, OH Hotels",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\wingate-by-wyndham-sylvania-toledo\\attempt-01",
+   "classification": "UNEXPECTED_PAGE"
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "americas best value inn maumee toledo",
+   "canonical_name": "Americas Best Value Inn Maumee Toledo",
+   "brand": "SONESTA",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.sonesta.com/americas-best-value-inn/oh/maumee/americas-best-value-inn-maumee-toledo",
+   "outcome": "POLICY_NOT_FOUND",
+   "final_url": "https://www.sonesta.com/americas-best-value-inn/oh/maumee/americas-best-value-inn-maumee-toledo",
+   "title": "Americas Best Value Inn Maumee Toledo by Sonesta",
+   "detail": "no bounded policy block in a page that served; 0 signal candidates considered",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Americas Best Value Inn Maumee Toledo",
+     "address_on_page": "150 Dussel Drive",
+     "postal_code": "43537",
+     "phone_on_page": "419-893-9960",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.sonesta.com/americas-best-value-inn/oh/maumee/americas-best-value-inn-maumee-toledo",
+     "pets_allowed_structured": "false",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "4198939960",
+      "8777379275"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, canonical_path via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\americas-best-value-inn-maumee-toledo\\attempt-01",
+   "classification": "SOURCE_SILENT_STATIC",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "baymont inn and suites swanton toledo airport",
+   "canonical_name": "Baymont Inn And Suites Swanton Toledo Airport",
+   "brand": "WYNDHAM",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.wyndhamhotels.com/baymont/swanton-ohio/baymont-inn-and-suites-swanton-toledo-airport/overview",
+   "outcome": "UNHYDRATED",
+   "final_url": "https://www.wyndhamhotels.com/baymont/swanton-ohio/baymont-inn-and-suites-swanton-toledo-airport/overview",
+   "title": "Baymont Inn & Suites by Wyndham Swanton/Toledo Airport | Swanton, OH Hotels",
+   "detail": "the policy region of the served document is an unrendered client-side template ('{{bedtype}}'); this lane fetched the template, not the render",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Baymont Inn & Suites by Wyndham Swanton/Toledo Airport",
+     "address_on_page": "10753 Airport Hwy",
+     "postal_code": "43558",
+     "phone_on_page": "+1-419-491-3369",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.wyndhamhotels.com/baymont/swanton-ohio/baymont-inn-and-suites-swanton-toledo-airport/overview",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "4194913369",
+      "8444054141",
+      "8669967937",
+      "8004079832"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, canonical_path via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\baymont-inn-and-suites-swanton-toledo-airport\\attempt-01",
+   "classification": "NEEDS_ATTENDED_RENDER",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "baymont maumee toledo",
+   "canonical_name": "Baymont Maumee Toledo",
+   "brand": "WYNDHAM",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.wyndhamhotels.com/baymont/maumee-ohio/baymont-maumee-toledo/overview",
+   "outcome": "UNHYDRATED",
+   "final_url": "https://www.wyndhamhotels.com/baymont/maumee-ohio/baymont-maumee-toledo/overview",
+   "title": "Baymont by Wyndham Maumee Toledo | Maumee, OH Hotels",
+   "detail": "the policy region of the served document is an unrendered client-side template ('{{bedtype}}'); this lane fetched the template, not the render",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Baymont by Wyndham Maumee Toledo",
+     "address_on_page": "6425 Kit Lane",
+     "postal_code": "43537",
+     "phone_on_page": "+1-419-558-5399",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.wyndhamhotels.com/baymont/maumee-ohio/baymont-maumee-toledo/overview",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "4195585399",
+      "8444054141",
+      "8669967937",
+      "8004079832"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, canonical_path via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\baymont-maumee-toledo\\attempt-01",
+   "classification": "NEEDS_ATTENDED_RENDER",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "baymont northwood",
+   "canonical_name": "Baymont Northwood",
+   "brand": "WYNDHAM",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.wyndhamhotels.com/baymont/northwood-ohio/baymont-northwood/overview",
+   "outcome": "UNHYDRATED",
+   "final_url": "https://www.wyndhamhotels.com/baymont/northwood-ohio/baymont-northwood/overview",
+   "title": "Baymont by Wyndham Northwood | Northwood, OH Hotels",
+   "detail": "the policy region of the served document is an unrendered client-side template ('{{bedtype}}'); this lane fetched the template, not the render",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Baymont by Wyndham Northwood",
+     "address_on_page": "2426 Oregon Rd",
+     "postal_code": "43619",
+     "phone_on_page": "+1-419-442-0471",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.wyndhamhotels.com/baymont/northwood-ohio/baymont-northwood/overview",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "4194420471",
+      "8444054141",
+      "8669967937",
+      "8004079832"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, canonical_path via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\baymont-northwood\\attempt-01",
+   "classification": "NEEDS_ATTENDED_RENDER",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "city express findlay",
+   "canonical_name": "City Express Findlay",
+   "brand": "MARRIOTT",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.marriott.com/en-us/hotels/tolfx-city-express-findlay/overview/",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.marriott.com/en-us/hotels/tolfx-city-express-findlay/overview/",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\city-express-findlay\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "days inn maumeetoledo",
+   "canonical_name": "Days Inn Maumeetoledo",
+   "brand": "WYNDHAM",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.wyndhamhotels.com/days-inn/maumee-ohio/days-inn-maumeetoledo/overview",
+   "outcome": "UNHYDRATED",
+   "final_url": "https://www.wyndhamhotels.com/days-inn/maumee-ohio/days-inn-maumeetoledo/overview",
+   "title": "Days Inn by Wyndham Maumee/Toledo | Maumee, OH Hotels",
+   "detail": "the policy region of the served document is an unrendered client-side template ('{{bedtype}}'); this lane fetched the template, not the render",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Days Inn by Wyndham Maumee/Toledo",
+     "address_on_page": "1704 Toll Gate Drive",
+     "postal_code": "43537-1674",
+     "phone_on_page": "+1-419-740-7551",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.wyndhamhotels.com/days-inn/maumee-ohio/days-inn-maumeetoledo/overview",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "4197407551",
+      "8444054141",
+      "8669967937",
+      "8002253297",
+      "8004079832"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name_partial",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name_partial, canonical_path via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\days-inn-maumeetoledo\\attempt-01",
+   "classification": "NEEDS_ATTENDED_RENDER",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "days inn perrysburg",
+   "canonical_name": "Days Inn Perrysburg",
+   "brand": "WYNDHAM",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.wyndhamhotels.com/days-inn/perrysburg-ohio/days-inn-perrysburg/overview",
+   "outcome": "UNHYDRATED",
+   "final_url": "https://www.wyndhamhotels.com/days-inn/perrysburg-ohio/days-inn-perrysburg/overview",
+   "title": "Days Inn by Wyndham Perrysburg/Toledo | Perrysburg, OH Hotels",
+   "detail": "the policy region of the served document is an unrendered client-side template ('{{bedtype}}'); this lane fetched the template, not the render",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Days Inn by Wyndham Perrysburg/Toledo",
+     "address_on_page": "10667 Fremont Pike",
+     "postal_code": "43551",
+     "phone_on_page": "+1-419-931-6310",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.wyndhamhotels.com/days-inn/perrysburg-ohio/days-inn-perrysburg/overview",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "4199316310",
+      "8444054141",
+      "8669967937",
+      "8002253297",
+      "8004079832"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, canonical_path via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\days-inn-perrysburg\\attempt-01",
+   "classification": "NEEDS_ATTENDED_RENDER",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "delta hotels toledo",
+   "canonical_name": "Delta Hotels Toledo",
+   "brand": "MARRIOTT",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.marriott.com/en-us/hotels/tolde-delta-hotels-toledo/overview/",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.marriott.com/en-us/hotels/tolde-delta-hotels-toledo/overview/",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\delta-hotels-toledo\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "fairfield inn and suites findlay",
+   "canonical_name": "Fairfield Inn And Suites Findlay",
+   "brand": "MARRIOTT",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.marriott.com/en-us/hotels/tolfi-fairfield-inn-and-suites-findlay/overview/",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.marriott.com/en-us/hotels/tolfi-fairfield-inn-and-suites-findlay/overview/",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\fairfield-inn-and-suites-findlay\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "fairfield inn and suites port clinton waterfront",
+   "canonical_name": "Fairfield Inn And Suites Port Clinton Waterfront",
+   "brand": "MARRIOTT",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.marriott.com/en-us/hotels/tolfc-fairfield-inn-and-suites-port-clinton-waterfront/overview/",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.marriott.com/en-us/hotels/tolfc-fairfield-inn-and-suites-port-clinton-waterfront/overview/",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\fairfield-inn-and-suites-port-clinton-waterfront\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "hilton garden inn toledo downtown",
+   "canonical_name": "Hilton Garden Inn Toledo Downtown",
+   "brand": "HILTON",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.hilton.com/en/hotels/toldegi-hilton-garden-inn-toledo-downtown/",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.hilton.com/en/hotels/toldegi-hilton-garden-inn-toledo-downtown/",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\hilton-garden-inn-toledo-downtown\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "homewood suites toledo downtown",
+   "canonical_name": "Homewood Suites Toledo Downtown",
+   "brand": "HILTON",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.hilton.com/en/hotels/tolddhw-homewood-suites-toledo-downtown/",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.hilton.com/en/hotels/tolddhw-homewood-suites-toledo-downtown/",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\homewood-suites-toledo-downtown\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "howard johnson inn perrysburg",
+   "canonical_name": "Howard Johnson Inn Perrysburg",
+   "brand": "WYNDHAM",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.wyndhamhotels.com/hojo/perrysburg-ohio/howard-johnson-inn-perrysburg/overview",
+   "outcome": "UNEXPECTED_PAGE",
+   "final_url": "https://www.wyndhamhotels.com/hojo/search-results",
+   "title": "Search Results",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\howard-johnson-inn-perrysburg\\attempt-01",
+   "classification": "UNEXPECTED_PAGE",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "ramada toledo conference center",
+   "canonical_name": "Ramada Toledo Conference Center",
+   "brand": "WYNDHAM",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.wyndhamhotels.com/ramada/toledo-ohio/ramada-toledo-conference-center/overview",
+   "outcome": "UNEXPECTED_PAGE",
+   "final_url": "https://www.wyndhamhotels.com/ramada/search-results",
+   "title": "Search Results",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\ramada-toledo-conference-center\\attempt-01",
+   "classification": "UNEXPECTED_PAGE",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "spark maumee toledo",
+   "canonical_name": "Spark Maumee Toledo",
+   "brand": "HILTON",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.hilton.com/en/hotels/tolmtpe-spark-maumee-toledo/",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.hilton.com/en/hotels/tolmtpe-spark-maumee-toledo/",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\spark-maumee-toledo\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "super 8 millbury toledo",
+   "canonical_name": "Super 8 Millbury Toledo",
+   "brand": "WYNDHAM",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.wyndhamhotels.com/super-8/millbury-ohio/super-8-millbury-toledo/overview",
+   "outcome": "UNHYDRATED",
+   "final_url": "https://www.wyndhamhotels.com/super-8/millbury-ohio/super-8-millbury-toledo/overview",
+   "title": "Super 8 by Wyndham Millbury/Toledo | Millbury, OH Hotels",
+   "detail": "the policy region of the served document is an unrendered client-side template ('{{bedtype}}'); this lane fetched the template, not the render",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Super 8 by Wyndham Millbury/Toledo",
+     "address_on_page": "3491 Latcha Road",
+     "postal_code": "43447",
+     "phone_on_page": "+1-419-210-5849",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.wyndhamhotels.com/super-8/millbury-ohio/super-8-millbury-toledo/overview",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "4192105849",
+      "8444054141",
+      "8669967937",
+      "8004543213",
+      "8004079832"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, canonical_path via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\super-8-millbury-toledo\\attempt-01",
+   "classification": "NEEDS_ATTENDED_RENDER",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "super 8 perrysburg toledo",
+   "canonical_name": "Super 8 Perrysburg Toledo",
+   "brand": "WYNDHAM",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.wyndhamhotels.com/super-8/perrysburg-ohio/super-8-perrysburg-toledo/overview",
+   "outcome": "VALID",
+   "final_url": "https://www.wyndhamhotels.com/super-8/perrysburg-ohio/super-8-perrysburg-toledo/overview",
+   "title": "Super 8 by Wyndham Perrysburg/Toledo | Perrysburg, OH Hotels",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "Super 8 by Wyndham Perrysburg/Toledo",
+     "address_on_page": "10667 Fremont Pike",
+     "postal_code": "43551",
+     "phone_on_page": "+1-419-515-6765",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.wyndhamhotels.com/super-8/perrysburg-ohio/super-8-perrysburg-toledo/overview",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "4195156765",
+      "8444054141",
+      "8669967937",
+      "8004543213",
+      "8004079832"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, canonical_path via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "page_sha256": "b0420580bae751254e3e7d8dd0ee38dc19a327c0456f3cbbcb91234840e0814d",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\super-8-perrysburg-toledo\\attempt-01",
+   "observation": {
+    "extraction": {
+     "pets_allowed": true
+    },
+    "evidence": [
+     {
+      "quote": "Dog-friendly",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     }
+    ],
+    "withheld_fields": {
+     "pet_fee": "SOURCE_SILENT"
+    },
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "toledo_oh_free_static_001::super 8 perrysburg toledo::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "Dog-friendly",
+       "source_url": "https://www.wyndhamhotels.com/super-8/perrysburg-ohio/super-8-perrysburg-toledo/overview",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "b0420580bae751254e3e7d8dd0ee38dc19a327c0456f3cbbcb91234840e0814d",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "6fafd1fb5310077e656195f8cb1002bf4c29684f66ebd6f87c2f4c72c5269545",
+     "document_sha256": "b0420580bae751254e3e7d8dd0ee38dc19a327c0456f3cbbcb91234840e0814d"
+    },
+    "membrane": {
+     "verdict": "VALID",
+     "rule": "",
+     "detail": "",
+     "hint_only": false,
+     "stripped_fields": [],
+     "flags_raised": [],
+     "rule_statement": ""
+    }
+   },
+   "classification": "CLEAN_PET_FRIENDLY_CANDIDATE",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "towneplace suites findlay",
+   "canonical_name": "Towneplace Suites Findlay",
+   "brand": "MARRIOTT",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.marriott.com/en-us/hotels/toltf-towneplace-suites-findlay/overview/",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.marriott.com/en-us/hotels/toltf-towneplace-suites-findlay/overview/",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\towneplace-suites-findlay\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "towneplace suites toledo perrysburg",
+   "canonical_name": "Towneplace Suites Toledo Perrysburg",
+   "brand": "MARRIOTT",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.marriott.com/en-us/hotels/tolpv-towneplace-suites-toledo-perrysburg/overview/",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.marriott.com/en-us/hotels/tolpv-towneplace-suites-toledo-perrysburg/overview/",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\towneplace-suites-toledo-perrysburg\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "travelodge bowling green",
+   "canonical_name": "Travelodge Bowling Green",
+   "brand": "WYNDHAM",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.wyndhamhotels.com/travelodge/bowling-green-ohio/travelodge-bowling-green/overview",
+   "outcome": "UNEXPECTED_PAGE",
+   "final_url": "https://www.wyndhamhotels.com/travelodge/search-results",
+   "title": "Search Results",
+   "detail": "rejected by the page-health gate",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\travelodge-bowling-green\\attempt-01",
+   "classification": "UNEXPECTED_PAGE",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "tru perrysburg toledo",
+   "canonical_name": "Tru Perrysburg Toledo",
+   "brand": "HILTON",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.hilton.com/en/hotels/tolruru-tru-perrysburg-toledo/",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.hilton.com/en/hotels/tolruru-tru-perrysburg-toledo/",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\tru-perrysburg-toledo\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "tru wauseon",
+   "canonical_name": "Tru Wauseon",
+   "brand": "HILTON",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.hilton.com/en/hotels/tolllru-tru-wauseon/",
+   "outcome": "ACCESS_DENIED",
+   "final_url": "https://www.hilton.com/en/hotels/tolllru-tru-wauseon/",
+   "title": "",
+   "detail": "HTTP 403",
+   "identity_assessment": null,
+   "page_sha256": "",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\tru-wauseon\\attempt-01",
+   "classification": "ACCESS_BLOCKED_PLAIN_CLIENT",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  },
+  {
+   "cohort": "IDENTITY_FILL",
+   "identity_key": "woodspring suites maumee",
+   "canonical_name": "Woodspring Suites Maumee",
+   "brand": "CHOICE",
+   "routing_state": "ROUTED_FOR_IDENTITY_FILL",
+   "corridor": "",
+   "requested_url": "https://www.woodspring.com/extended-stay-hotels/locations/ohio/maumee-ohio/woodspring-suites-maumee",
+   "outcome": "VALID",
+   "final_url": "https://www.woodspring.com/extended-stay-hotels/locations/ohio/maumee-ohio/woodspring-suites-maumee",
+   "title": "Extended Stay Hotel in Maumee, OH | WoodSpring Suites Toledo Maumee",
+   "detail": "",
+   "identity_assessment": {
+    "signals": {
+     "name_on_page": "WoodSpring Suites Toledo Maumee",
+     "address_on_page": "1788 Indian Wood Circle",
+     "postal_code": "43537",
+     "phone_on_page": "1(419)740-5819",
+     "property_code_on_page": "",
+     "canonical_url": "https://www.woodspring.com/extended-stay-hotels/locations/ohio/maumee-ohio/woodspring-suites-maumee",
+     "pets_allowed_structured": "",
+     "jsonld_present": true,
+     "phones_on_page": [
+      "4197405819",
+      "8449746835"
+     ]
+    },
+    "confirmed": true,
+    "matched": [
+     "name",
+     "canonical_path"
+    ],
+    "conflicting": [],
+    "reasons": [
+     "confirmed on name, canonical_path via CANONICAL_PATH_AND_NAME"
+    ],
+    "binding": "canonical_path_and_name",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "page_sha256": "e0d46d9b669fb21cd0af94666ffb35c86cb0519df84f698bdb0f81ad146dcc31",
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\woodspring-suites-maumee\\attempt-01",
+   "observation": {
+    "extraction": {
+     "pets_allowed": true,
+     "pet_fee": 1000,
+     "fee_currency": "USD",
+     "fee_basis": "per_night",
+     "fee_scope": "per_pet",
+     "weight_limit": {
+      "value": 80.0,
+      "unit": "lb"
+     },
+     "pet_count_limit": 2,
+     "cats_allowed": false,
+     "service_animal_exception": "Allowed only dogs and service animals"
+    },
+    "evidence": [
+     {
+      "quote": "pets allowed",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pets_allowed"
+      ]
+     },
+     {
+      "quote": "10.00 USD per night, per pet",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_fee",
+       "fee_currency"
+      ]
+     },
+     {
+      "quote": "10.00 USD per night, per pet",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "fee_basis"
+      ]
+     },
+     {
+      "quote": "10.00 USD per night, per pet",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "fee_scope"
+      ]
+     },
+     {
+      "quote": "under 80 lbs",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "weight_limit"
+      ]
+     },
+     {
+      "quote": "Limit 2 pets",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "pet_count_limit"
+      ]
+     },
+     {
+      "quote": "No Cats",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "cats_allowed"
+      ]
+     },
+     {
+      "quote": "Allowed only dogs and service animals",
+      "location": "bounded policy container (static_html_walk / (static text))",
+      "field_refs": [
+       "service_animal_exception"
+      ]
+     }
+    ],
+    "withheld_fields": {},
+    "publication_grade": {
+     "verdict": "PUBLICATION_GRADE_CONFIRMED",
+     "reasons": [
+      "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+     ],
+     "schema_issues": [],
+     "blockers": [],
+     "hash_rederived": true,
+     "quotes_contiguous": true,
+     "quote_sources": {
+      "pets_allowed": "page-text.txt",
+      "pet_fee": "page-text.txt",
+      "fee_currency": "page-text.txt",
+      "fee_basis": "page-text.txt",
+      "fee_scope": "page-text.txt",
+      "weight_limit": "page-text.txt",
+      "pet_count_limit": "page-text.txt",
+      "cats_allowed": "page-text.txt",
+      "service_animal_exception": "page-text.txt"
+     },
+     "evidence_entries": [
+      {
+       "evidence_ref": "toledo_oh_free_static_001::woodspring suites maumee::pets_allowed::0",
+       "field": "pets_allowed",
+       "quote": "pets allowed",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/ohio/maumee-ohio/woodspring-suites-maumee",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "e0d46d9b669fb21cd0af94666ffb35c86cb0519df84f698bdb0f81ad146dcc31",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "toledo_oh_free_static_001::woodspring suites maumee::pet_fee::1",
+       "field": "pet_fee",
+       "quote": "10.00 USD per night, per pet",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/ohio/maumee-ohio/woodspring-suites-maumee",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "e0d46d9b669fb21cd0af94666ffb35c86cb0519df84f698bdb0f81ad146dcc31",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "toledo_oh_free_static_001::woodspring suites maumee::fee_currency::1",
+       "field": "fee_currency",
+       "quote": "10.00 USD per night, per pet",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/ohio/maumee-ohio/woodspring-suites-maumee",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "e0d46d9b669fb21cd0af94666ffb35c86cb0519df84f698bdb0f81ad146dcc31",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "toledo_oh_free_static_001::woodspring suites maumee::fee_basis::2",
+       "field": "fee_basis",
+       "quote": "10.00 USD per night, per pet",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/ohio/maumee-ohio/woodspring-suites-maumee",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "e0d46d9b669fb21cd0af94666ffb35c86cb0519df84f698bdb0f81ad146dcc31",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "toledo_oh_free_static_001::woodspring suites maumee::fee_scope::3",
+       "field": "fee_scope",
+       "quote": "10.00 USD per night, per pet",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/ohio/maumee-ohio/woodspring-suites-maumee",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "e0d46d9b669fb21cd0af94666ffb35c86cb0519df84f698bdb0f81ad146dcc31",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "toledo_oh_free_static_001::woodspring suites maumee::weight_limit::4",
+       "field": "weight_limit",
+       "quote": "under 80 lbs",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/ohio/maumee-ohio/woodspring-suites-maumee",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "e0d46d9b669fb21cd0af94666ffb35c86cb0519df84f698bdb0f81ad146dcc31",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "toledo_oh_free_static_001::woodspring suites maumee::pet_count_limit::5",
+       "field": "pet_count_limit",
+       "quote": "Limit 2 pets",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/ohio/maumee-ohio/woodspring-suites-maumee",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "e0d46d9b669fb21cd0af94666ffb35c86cb0519df84f698bdb0f81ad146dcc31",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "toledo_oh_free_static_001::woodspring suites maumee::cats_allowed::6",
+       "field": "cats_allowed",
+       "quote": "No Cats",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/ohio/maumee-ohio/woodspring-suites-maumee",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "e0d46d9b669fb21cd0af94666ffb35c86cb0519df84f698bdb0f81ad146dcc31",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      },
+      {
+       "evidence_ref": "toledo_oh_free_static_001::woodspring suites maumee::service_animal_exception::7",
+       "field": "service_animal_exception",
+       "quote": "Allowed only dogs and service animals",
+       "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/ohio/maumee-ohio/woodspring-suites-maumee",
+       "source_grade": "PT1_FIRST_PARTY",
+       "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+       "artifact_sha256": "e0d46d9b669fb21cd0af94666ffb35c86cb0519df84f698bdb0f81ad146dcc31",
+       "artifact_kind": "rendered_html",
+       "captured_at": "2026-09-06",
+       "capture_method": "browser_assisted"
+      }
+     ],
+     "contract_integration_gaps": [
+      {
+       "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+       "summary": "a machine-captured screenshot has no lawful artifact_kind",
+       "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+       "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+       "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+       "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+       "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+       "blocks_publication": false
+      },
+      {
+       "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+       "summary": "an evidence entry does not record what fetched the page",
+       "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+       "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+       "blocks_publication": false
+      }
+     ]
+    },
+    "refusal_reason": "",
+    "reader_provenance": {
+     "module": "scripts/pettripfinder/brightdata/policy_reading.py",
+     "entrypoint": "parse -> to_extraction",
+     "locator_walk": "static_text_walk",
+     "locator_strategy": "static_html_walk",
+     "locator_contract": "ptf-policy-locator/1.0",
+     "block_sha256": "d905a1e8eff9994499fab0c1b7e3e87cb254f0c04673c85419363d15b44dc736",
+     "document_sha256": "e0d46d9b669fb21cd0af94666ffb35c86cb0519df84f698bdb0f81ad146dcc31"
+    },
+    "membrane": {
+     "verdict": "VALID",
+     "rule": "",
+     "detail": "",
+     "hint_only": false,
+     "stripped_fields": [],
+     "flags_raised": [],
+     "rule_statement": ""
+    }
+   },
+   "classification": "CLEAN_PET_FRIENDLY_CANDIDATE",
+   "address_read_from_page": {
+    "name_on_page": null,
+    "address_on_page": null,
+    "postal_code": null,
+    "phone_on_page": null,
+    "property_code_on_page": null
+   }
+  }
+ ]
+}

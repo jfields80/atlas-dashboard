@@ -1,0 +1,3484 @@
+{
+ "schema": "ptf-wrong-evidence-audit/1.0",
+ "work_order": "PTF-TOLEDO-OH-NEW-MARKET-001",
+ "market_id": "toledo-oh",
+ "phase": "14 -- wrong-evidence audit",
+ "failure_classes_tested": [
+  "SOURCE_SILENT_ENCODED_AS_POLICY",
+  "IDENTITY_NOT_CONFIRMED",
+  "AMENITY_CHIP_OR_BRAND_SURFACE",
+  "ACCEPTANCE_INFERRED_WITHOUT_A_STATEMENT",
+  "SERVICE_ANIMAL_LANGUAGE_READ_AS_PET_ACCEPTANCE",
+  "REFUSAL_INFERRED_FROM_A_STRUCTURED_FLAG_ALONE",
+  "NOT_IN_THE_PROPOSED_CENSUS",
+  "PAGE_POSTAL_DISAGREES_WITH_CENSUS"
+ ],
+ "counts": {
+  "reads_audited": 34,
+  "clean_pet_friendly": 17,
+  "clean_verified_no_pets": 10,
+  "held": 7,
+  "by_lane": {
+   "ATTENDED_BROWSER": 18,
+   "DIRECT_STATIC": 3,
+   "FIRECRAWL": 13
+  },
+  "held_by_class": {
+   "IDENTITY_UNRESOLVED_BY_THE_MERGE": 2,
+   "NOT_IN_THE_PROPOSED_CENSUS": 3,
+   "TWO_PROPERTIES_READ_ONTO_ONE_IDENTITY": 2
+  }
+ },
+ "reads": [
+  {
+   "lane": "DIRECT_STATIC",
+   "identity_key": "extended stay america toledo maumee",
+   "canonical_name": "Extended Stay America - Toledo/Maumee",
+   "brand": "ESA",
+   "corridor": "toledo-oh__maumee-arrowhead",
+   "source_url": "https://www.extendedstayamerica.com/hotels/oh/toledo/maumee",
+   "final_url": "https://www.extendedstayamerica.com/hotels/oh/toledo/maumee",
+   "document_sha256": "abc40fbe5b6aee688510ea6386323147aa3e7b579d75751cb9182e3a1a441660",
+   "captured_at": "",
+   "identity_signals": {
+    "name_on_page": "Extended Stay America - Toledo - Maumee",
+    "address_on_page": "542 W. Dussel Dr.",
+    "postal_code": "43537",
+    "phone_on_page": "+14198911211",
+    "property_code_on_page": "",
+    "canonical_url": "https://www.extendedstayamerica.com/hotels/oh/toledo/maumee",
+    "pets_allowed_structured": "True",
+    "jsonld_present": true,
+    "phones_on_page": [
+     "8008043724",
+     "4198911211"
+    ]
+   },
+   "identity_binding_method": "EXACT_ADDRESS_AND_NAME",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 1500,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "service_animal_exception": "Service animals will be exempt from this charge."
+   },
+   "evidence": [
+    {
+     "quote": "pets are allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "$15 non-refundable fee",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "two pets are allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Service animals will be exempt from this charge.",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ],
+   "withheld_fields": {
+    "fee_basis": "SOURCE_SILENT"
+   },
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED",
+    "reasons": [
+     "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+    ],
+    "schema_issues": [],
+    "blockers": [],
+    "hash_rederived": true,
+    "quotes_contiguous": true,
+    "quote_sources": {
+     "pets_allowed": "page-text.txt",
+     "pet_fee": "page-text.txt",
+     "fee_currency": "page-text.txt",
+     "pet_count_limit": "page-text.txt",
+     "service_animal_exception": "page-text.txt"
+    },
+    "evidence_entries": [
+     {
+      "evidence_ref": "toledo_oh_free_static_001::extended stay america toledo maumee::pets_allowed::0",
+      "field": "pets_allowed",
+      "quote": "pets are allowed",
+      "source_url": "https://www.extendedstayamerica.com/hotels/oh/toledo/maumee",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "abc40fbe5b6aee688510ea6386323147aa3e7b579d75751cb9182e3a1a441660",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_free_static_001::extended stay america toledo maumee::pet_fee::1",
+      "field": "pet_fee",
+      "quote": "$15 non-refundable fee",
+      "source_url": "https://www.extendedstayamerica.com/hotels/oh/toledo/maumee",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "abc40fbe5b6aee688510ea6386323147aa3e7b579d75751cb9182e3a1a441660",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_free_static_001::extended stay america toledo maumee::fee_currency::1",
+      "field": "fee_currency",
+      "quote": "$15 non-refundable fee",
+      "source_url": "https://www.extendedstayamerica.com/hotels/oh/toledo/maumee",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "abc40fbe5b6aee688510ea6386323147aa3e7b579d75751cb9182e3a1a441660",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_free_static_001::extended stay america toledo maumee::pet_count_limit::2",
+      "field": "pet_count_limit",
+      "quote": "two pets are allowed",
+      "source_url": "https://www.extendedstayamerica.com/hotels/oh/toledo/maumee",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "abc40fbe5b6aee688510ea6386323147aa3e7b579d75751cb9182e3a1a441660",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_free_static_001::extended stay america toledo maumee::service_animal_exception::3",
+      "field": "service_animal_exception",
+      "quote": "Service animals will be exempt from this charge.",
+      "source_url": "https://www.extendedstayamerica.com/hotels/oh/toledo/maumee",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "abc40fbe5b6aee688510ea6386323147aa3e7b579d75751cb9182e3a1a441660",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     }
+    ],
+    "contract_integration_gaps": [
+     {
+      "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+      "summary": "a machine-captured screenshot has no lawful artifact_kind",
+      "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+      "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+      "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+      "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+      "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+      "summary": "an evidence entry does not record what fetched the page",
+      "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+      "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+      "blocks_publication": false
+     }
+    ]
+   },
+   "audit_verdict": "CLEAN_PET_FRIENDLY",
+   "audit_problems": [],
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\extended-stay-america-toledo-maumee\\attempt-01"
+  },
+  {
+   "lane": "DIRECT_STATIC",
+   "identity_key": "super 8 perrysburg toledo",
+   "canonical_name": "Super 8 Perrysburg Toledo",
+   "brand": "WYNDHAM",
+   "corridor": "toledo-oh__perrysburg-levis-commons",
+   "source_url": "https://www.wyndhamhotels.com/super-8/perrysburg-ohio/super-8-perrysburg-toledo/overview",
+   "final_url": "https://www.wyndhamhotels.com/super-8/perrysburg-ohio/super-8-perrysburg-toledo/overview",
+   "document_sha256": "b0420580bae751254e3e7d8dd0ee38dc19a327c0456f3cbbcb91234840e0814d",
+   "captured_at": "",
+   "identity_signals": {
+    "name_on_page": "Super 8 by Wyndham Perrysburg/Toledo",
+    "address_on_page": "10667 Fremont Pike",
+    "postal_code": "43551",
+    "phone_on_page": "+1-419-515-6765",
+    "property_code_on_page": "",
+    "canonical_url": "https://www.wyndhamhotels.com/super-8/perrysburg-ohio/super-8-perrysburg-toledo/overview",
+    "pets_allowed_structured": "",
+    "jsonld_present": true,
+    "phones_on_page": [
+     "4195156765",
+     "8444054141",
+     "8669967937",
+     "8004543213",
+     "8004079832"
+    ]
+   },
+   "identity_binding_method": "CANONICAL_PATH_AND_NAME",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true
+   },
+   "evidence": [
+    {
+     "quote": "Dog-friendly",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "withheld_fields": {
+    "pet_fee": "SOURCE_SILENT"
+   },
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED",
+    "reasons": [
+     "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+    ],
+    "schema_issues": [],
+    "blockers": [],
+    "hash_rederived": true,
+    "quotes_contiguous": true,
+    "quote_sources": {
+     "pets_allowed": "page-text.txt"
+    },
+    "evidence_entries": [
+     {
+      "evidence_ref": "toledo_oh_free_static_001::super 8 perrysburg toledo::pets_allowed::0",
+      "field": "pets_allowed",
+      "quote": "Dog-friendly",
+      "source_url": "https://www.wyndhamhotels.com/super-8/perrysburg-ohio/super-8-perrysburg-toledo/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "b0420580bae751254e3e7d8dd0ee38dc19a327c0456f3cbbcb91234840e0814d",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     }
+    ],
+    "contract_integration_gaps": [
+     {
+      "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+      "summary": "a machine-captured screenshot has no lawful artifact_kind",
+      "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+      "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+      "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+      "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+      "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+      "summary": "an evidence entry does not record what fetched the page",
+      "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+      "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+      "blocks_publication": false
+     }
+    ]
+   },
+   "audit_verdict": "HELD",
+   "audit_problems": [
+    {
+     "class": "IDENTITY_UNRESOLVED_BY_THE_MERGE",
+     "why": "this building's address is claimed by two DIFFERENT chain identities and the founder has not ruled which one trades there; publishing a policy under either name could name a hotel that no longer answers to it"
+    }
+   ],
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\super-8-perrysburg-toledo\\attempt-01"
+  },
+  {
+   "lane": "DIRECT_STATIC",
+   "identity_key": "woodspring suites maumee",
+   "canonical_name": "Woodspring Suites Maumee",
+   "brand": "CHOICE",
+   "corridor": "toledo-oh__maumee-arrowhead",
+   "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/ohio/maumee-ohio/woodspring-suites-maumee",
+   "final_url": "https://www.woodspring.com/extended-stay-hotels/locations/ohio/maumee-ohio/woodspring-suites-maumee",
+   "document_sha256": "e0d46d9b669fb21cd0af94666ffb35c86cb0519df84f698bdb0f81ad146dcc31",
+   "captured_at": "",
+   "identity_signals": {
+    "name_on_page": "WoodSpring Suites Toledo Maumee",
+    "address_on_page": "1788 Indian Wood Circle",
+    "postal_code": "43537",
+    "phone_on_page": "1(419)740-5819",
+    "property_code_on_page": "",
+    "canonical_url": "https://www.woodspring.com/extended-stay-hotels/locations/ohio/maumee-ohio/woodspring-suites-maumee",
+    "pets_allowed_structured": "",
+    "jsonld_present": true,
+    "phones_on_page": [
+     "4197405819",
+     "8449746835"
+    ]
+   },
+   "identity_binding_method": "CANONICAL_PATH_AND_NAME",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 1000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "weight_limit": {
+     "value": 80.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "cats_allowed": false,
+    "service_animal_exception": "Allowed only dogs and service animals"
+   },
+   "evidence": [
+    {
+     "quote": "pets allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "10.00 USD per night, per pet",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "10.00 USD per night, per pet",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "fee_basis"
+     ]
+    },
+    {
+     "quote": "10.00 USD per night, per pet",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "fee_scope"
+     ]
+    },
+    {
+     "quote": "under 80 lbs",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Limit 2 pets",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "No Cats",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "cats_allowed"
+     ]
+    },
+    {
+     "quote": "Allowed only dogs and service animals",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ],
+   "withheld_fields": {},
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED",
+    "reasons": [
+     "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+    ],
+    "schema_issues": [],
+    "blockers": [],
+    "hash_rederived": true,
+    "quotes_contiguous": true,
+    "quote_sources": {
+     "pets_allowed": "page-text.txt",
+     "pet_fee": "page-text.txt",
+     "fee_currency": "page-text.txt",
+     "fee_basis": "page-text.txt",
+     "fee_scope": "page-text.txt",
+     "weight_limit": "page-text.txt",
+     "pet_count_limit": "page-text.txt",
+     "cats_allowed": "page-text.txt",
+     "service_animal_exception": "page-text.txt"
+    },
+    "evidence_entries": [
+     {
+      "evidence_ref": "toledo_oh_free_static_001::woodspring suites maumee::pets_allowed::0",
+      "field": "pets_allowed",
+      "quote": "pets allowed",
+      "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/ohio/maumee-ohio/woodspring-suites-maumee",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "e0d46d9b669fb21cd0af94666ffb35c86cb0519df84f698bdb0f81ad146dcc31",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_free_static_001::woodspring suites maumee::pet_fee::1",
+      "field": "pet_fee",
+      "quote": "10.00 USD per night, per pet",
+      "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/ohio/maumee-ohio/woodspring-suites-maumee",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "e0d46d9b669fb21cd0af94666ffb35c86cb0519df84f698bdb0f81ad146dcc31",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_free_static_001::woodspring suites maumee::fee_currency::1",
+      "field": "fee_currency",
+      "quote": "10.00 USD per night, per pet",
+      "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/ohio/maumee-ohio/woodspring-suites-maumee",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "e0d46d9b669fb21cd0af94666ffb35c86cb0519df84f698bdb0f81ad146dcc31",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_free_static_001::woodspring suites maumee::fee_basis::2",
+      "field": "fee_basis",
+      "quote": "10.00 USD per night, per pet",
+      "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/ohio/maumee-ohio/woodspring-suites-maumee",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "e0d46d9b669fb21cd0af94666ffb35c86cb0519df84f698bdb0f81ad146dcc31",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_free_static_001::woodspring suites maumee::fee_scope::3",
+      "field": "fee_scope",
+      "quote": "10.00 USD per night, per pet",
+      "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/ohio/maumee-ohio/woodspring-suites-maumee",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "e0d46d9b669fb21cd0af94666ffb35c86cb0519df84f698bdb0f81ad146dcc31",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_free_static_001::woodspring suites maumee::weight_limit::4",
+      "field": "weight_limit",
+      "quote": "under 80 lbs",
+      "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/ohio/maumee-ohio/woodspring-suites-maumee",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "e0d46d9b669fb21cd0af94666ffb35c86cb0519df84f698bdb0f81ad146dcc31",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_free_static_001::woodspring suites maumee::pet_count_limit::5",
+      "field": "pet_count_limit",
+      "quote": "Limit 2 pets",
+      "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/ohio/maumee-ohio/woodspring-suites-maumee",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "e0d46d9b669fb21cd0af94666ffb35c86cb0519df84f698bdb0f81ad146dcc31",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_free_static_001::woodspring suites maumee::cats_allowed::6",
+      "field": "cats_allowed",
+      "quote": "No Cats",
+      "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/ohio/maumee-ohio/woodspring-suites-maumee",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "e0d46d9b669fb21cd0af94666ffb35c86cb0519df84f698bdb0f81ad146dcc31",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_free_static_001::woodspring suites maumee::service_animal_exception::7",
+      "field": "service_animal_exception",
+      "quote": "Allowed only dogs and service animals",
+      "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/ohio/maumee-ohio/woodspring-suites-maumee",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "e0d46d9b669fb21cd0af94666ffb35c86cb0519df84f698bdb0f81ad146dcc31",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     }
+    ],
+    "contract_integration_gaps": [
+     {
+      "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+      "summary": "a machine-captured screenshot has no lawful artifact_kind",
+      "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+      "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+      "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+      "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+      "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+      "summary": "an evidence entry does not record what fetched the page",
+      "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+      "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+      "blocks_publication": false
+     }
+    ]
+   },
+   "audit_verdict": "CLEAN_PET_FRIENDLY",
+   "audit_problems": [],
+   "artifact_dir": "data\\acquisition\\toledo_oh_free_static_001\\woodspring-suites-maumee\\attempt-01"
+  },
+  {
+   "lane": "FIRECRAWL",
+   "identity_key": "baymont perrysburg",
+   "canonical_name": "Baymont Perrysburg",
+   "brand": "WYNDHAM",
+   "corridor": "toledo-oh__perrysburg-levis-commons",
+   "source_url": "https://www.wyndhamhotels.com/baymont/perrysburg-ohio/baymont-perrysburg-toledo/overview",
+   "final_url": "https://www.wyndhamhotels.com/baymont/perrysburg-ohio/baymont-perrysburg-toledo/overview",
+   "document_sha256": "cab2f42bd9adb6bdbf21ae83badeda2c119a34c9f16ca95d1b574e24340b6bfa",
+   "captured_at": "2026-09-06T14:03:35.297151+00:00",
+   "identity_signals": {
+    "name_on_page": "Baymont by Wyndham Perrysburg/Toledo",
+    "address_on_page": "27441 Helen Drive",
+    "postal_code": "43551-3375",
+    "phone_on_page": "1-419-8749181",
+    "property_code_on_page": "",
+    "canonical_url": "https://www.wyndhamhotels.com/baymont/perrysburg-ohio/baymont-perrysburg-toledo/overview",
+    "pets_allowed_structured": "",
+    "jsonld_present": true,
+    "phones_on_page": [
+     "8444054141",
+     "4198749181",
+     "8669967937",
+     "8004079832"
+    ]
+   },
+   "identity_binding_method": "EXACT_ADDRESS_AND_NAME",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "weight_limit": {
+     "value": 25.0,
+     "unit": "lb"
+    },
+    "species_allowed": [
+     "dog"
+    ],
+    "service_animal_exception": "Service Animals - ADA-defined service animals welcome./Pets Allowed - 2 pets max."
+   },
+   "evidence": [
+    {
+     "quote": "Pets Allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "25USD per pet per night",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "25USD per pet per night",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "fee_basis"
+     ]
+    },
+    {
+     "quote": "25USD per pet per night",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "fee_scope"
+     ]
+    },
+    {
+     "quote": "25lbs or less",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Dogs only",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals welcome./Pets Allowed - 2 pets max.",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ],
+   "withheld_fields": {},
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED",
+    "reasons": [
+     "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+    ],
+    "schema_issues": [],
+    "blockers": [],
+    "hash_rederived": true,
+    "quotes_contiguous": true,
+    "quote_sources": {
+     "pets_allowed": "page-text.txt",
+     "pet_fee": "page-text.txt",
+     "fee_currency": "page-text.txt",
+     "fee_basis": "page-text.txt",
+     "fee_scope": "page-text.txt",
+     "weight_limit": "page-text.txt",
+     "species_allowed": "page-text.txt",
+     "service_animal_exception": "page-text.txt"
+    },
+    "evidence_entries": [
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::baymont perrysburg::pets_allowed::0",
+      "field": "pets_allowed",
+      "quote": "Pets Allowed",
+      "source_url": "https://www.wyndhamhotels.com/baymont/perrysburg-ohio/baymont-perrysburg-toledo/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "cab2f42bd9adb6bdbf21ae83badeda2c119a34c9f16ca95d1b574e24340b6bfa",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::baymont perrysburg::pet_fee::1",
+      "field": "pet_fee",
+      "quote": "25USD per pet per night",
+      "source_url": "https://www.wyndhamhotels.com/baymont/perrysburg-ohio/baymont-perrysburg-toledo/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "cab2f42bd9adb6bdbf21ae83badeda2c119a34c9f16ca95d1b574e24340b6bfa",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::baymont perrysburg::fee_currency::1",
+      "field": "fee_currency",
+      "quote": "25USD per pet per night",
+      "source_url": "https://www.wyndhamhotels.com/baymont/perrysburg-ohio/baymont-perrysburg-toledo/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "cab2f42bd9adb6bdbf21ae83badeda2c119a34c9f16ca95d1b574e24340b6bfa",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::baymont perrysburg::fee_basis::2",
+      "field": "fee_basis",
+      "quote": "25USD per pet per night",
+      "source_url": "https://www.wyndhamhotels.com/baymont/perrysburg-ohio/baymont-perrysburg-toledo/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "cab2f42bd9adb6bdbf21ae83badeda2c119a34c9f16ca95d1b574e24340b6bfa",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::baymont perrysburg::fee_scope::3",
+      "field": "fee_scope",
+      "quote": "25USD per pet per night",
+      "source_url": "https://www.wyndhamhotels.com/baymont/perrysburg-ohio/baymont-perrysburg-toledo/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "cab2f42bd9adb6bdbf21ae83badeda2c119a34c9f16ca95d1b574e24340b6bfa",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::baymont perrysburg::weight_limit::4",
+      "field": "weight_limit",
+      "quote": "25lbs or less",
+      "source_url": "https://www.wyndhamhotels.com/baymont/perrysburg-ohio/baymont-perrysburg-toledo/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "cab2f42bd9adb6bdbf21ae83badeda2c119a34c9f16ca95d1b574e24340b6bfa",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::baymont perrysburg::species_allowed::5",
+      "field": "species_allowed",
+      "quote": "Dogs only",
+      "source_url": "https://www.wyndhamhotels.com/baymont/perrysburg-ohio/baymont-perrysburg-toledo/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "cab2f42bd9adb6bdbf21ae83badeda2c119a34c9f16ca95d1b574e24340b6bfa",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::baymont perrysburg::service_animal_exception::6",
+      "field": "service_animal_exception",
+      "quote": "Service Animals - ADA-defined service animals welcome./Pets Allowed - 2 pets max.",
+      "source_url": "https://www.wyndhamhotels.com/baymont/perrysburg-ohio/baymont-perrysburg-toledo/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "cab2f42bd9adb6bdbf21ae83badeda2c119a34c9f16ca95d1b574e24340b6bfa",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     }
+    ],
+    "contract_integration_gaps": [
+     {
+      "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+      "summary": "a machine-captured screenshot has no lawful artifact_kind",
+      "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+      "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+      "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+      "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+      "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+      "summary": "an evidence entry does not record what fetched the page",
+      "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+      "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+      "blocks_publication": false
+     }
+    ]
+   },
+   "audit_verdict": "CLEAN_PET_FRIENDLY",
+   "audit_problems": [],
+   "artifact_dir": "data\\acquisition\\toledo_oh_firecrawl_001\\baymont-perrysburg\\attempt-01"
+  },
+  {
+   "lane": "FIRECRAWL",
+   "identity_key": "comfort inn east oregon",
+   "canonical_name": "Comfort Inn East - Oregon",
+   "brand": "CHOICE",
+   "corridor": "toledo-oh__oregon-northwood-east",
+   "source_url": "https://www.choicehotels.com/ohio/oregon/comfort-inn-hotels/oh073",
+   "final_url": "https://www.choicehotels.com/ohio/oregon/comfort-inn-hotels/oh073",
+   "document_sha256": "76df2a4273e0dc8d9630ae1c4047b1fcfe1f790bb24a81d8940ce31dd3de8205",
+   "captured_at": "2026-09-06T14:03:51.910903+00:00",
+   "identity_signals": {
+    "name_on_page": "Comfort Inn East Oregon - Toledo",
+    "address_on_page": "2930 Navarre Ave.",
+    "postal_code": "43616",
+    "phone_on_page": "(419) 691-8911",
+    "property_code_on_page": "oh073",
+    "canonical_url": "https://www.choicehotels.com/ohio/oregon/comfort-inn-hotels/oh073",
+    "pets_allowed_structured": "True",
+    "jsonld_present": true,
+    "phones_on_page": [
+     "4196918911",
+     "4196912107",
+     "8887706800",
+     "8669999999",
+     "8002242826",
+     "5167474462",
+     "8776342826",
+     "8777342826",
+     "8774246423",
+     "8002285050",
+     "8003008800",
+     "8663513033",
+     "8005444444",
+     "8553253180",
+     "8662231911",
+     "8008920395",
+     "8884899290",
+     "8005212121",
+     "8662331911",
+     "8882888889"
+    ]
+   },
+   "identity_binding_method": "EXACT_ADDRESS_AND_NAME",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_deposit": 25000,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "service_animal_exception": "Service animals are permitted, without charge."
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "250.00 USD cash deposit",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_deposit"
+     ]
+    },
+    {
+     "quote": "25.00 USD per night.. ",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "25.00 USD per night.. ",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "fee_basis"
+     ]
+    },
+    {
+     "quote": "Service animals are permitted, without charge.",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ],
+   "withheld_fields": {},
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED",
+    "reasons": [
+     "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+    ],
+    "schema_issues": [],
+    "blockers": [],
+    "hash_rederived": true,
+    "quotes_contiguous": true,
+    "quote_sources": {
+     "pets_allowed": "page-text.txt",
+     "pet_deposit": "page-text.txt",
+     "pet_fee": "page-text.txt",
+     "fee_currency": "page-text.txt",
+     "fee_basis": "page-text.txt",
+     "service_animal_exception": "page-text.txt"
+    },
+    "evidence_entries": [
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::comfort inn east oregon::pets_allowed::0",
+      "field": "pets_allowed",
+      "quote": "Pets allowed",
+      "source_url": "https://www.choicehotels.com/ohio/oregon/comfort-inn-hotels/oh073",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "76df2a4273e0dc8d9630ae1c4047b1fcfe1f790bb24a81d8940ce31dd3de8205",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::comfort inn east oregon::pet_deposit::1",
+      "field": "pet_deposit",
+      "quote": "250.00 USD cash deposit",
+      "source_url": "https://www.choicehotels.com/ohio/oregon/comfort-inn-hotels/oh073",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "76df2a4273e0dc8d9630ae1c4047b1fcfe1f790bb24a81d8940ce31dd3de8205",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::comfort inn east oregon::pet_fee::2",
+      "field": "pet_fee",
+      "quote": "25.00 USD per night.. ",
+      "source_url": "https://www.choicehotels.com/ohio/oregon/comfort-inn-hotels/oh073",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "76df2a4273e0dc8d9630ae1c4047b1fcfe1f790bb24a81d8940ce31dd3de8205",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::comfort inn east oregon::fee_currency::2",
+      "field": "fee_currency",
+      "quote": "25.00 USD per night.. ",
+      "source_url": "https://www.choicehotels.com/ohio/oregon/comfort-inn-hotels/oh073",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "76df2a4273e0dc8d9630ae1c4047b1fcfe1f790bb24a81d8940ce31dd3de8205",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::comfort inn east oregon::fee_basis::3",
+      "field": "fee_basis",
+      "quote": "25.00 USD per night.. ",
+      "source_url": "https://www.choicehotels.com/ohio/oregon/comfort-inn-hotels/oh073",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "76df2a4273e0dc8d9630ae1c4047b1fcfe1f790bb24a81d8940ce31dd3de8205",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::comfort inn east oregon::service_animal_exception::4",
+      "field": "service_animal_exception",
+      "quote": "Service animals are permitted, without charge.",
+      "source_url": "https://www.choicehotels.com/ohio/oregon/comfort-inn-hotels/oh073",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "76df2a4273e0dc8d9630ae1c4047b1fcfe1f790bb24a81d8940ce31dd3de8205",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     }
+    ],
+    "contract_integration_gaps": [
+     {
+      "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+      "summary": "a machine-captured screenshot has no lawful artifact_kind",
+      "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+      "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+      "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+      "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+      "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+      "summary": "an evidence entry does not record what fetched the page",
+      "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+      "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+      "blocks_publication": false
+     }
+    ]
+   },
+   "audit_verdict": "CLEAN_PET_FRIENDLY",
+   "audit_problems": [],
+   "artifact_dir": "data\\acquisition\\toledo_oh_firecrawl_001\\comfort-inn-east-oregon\\attempt-01"
+  },
+  {
+   "lane": "FIRECRAWL",
+   "identity_key": "holiday inn express and suites toledo south perrysburg",
+   "canonical_name": "Holiday Inn Express & Suites Toledo South - Perrysburg",
+   "brand": "IHG",
+   "corridor": "toledo-oh__perrysburg-levis-commons",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/perrysburg/tolpr/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/perrysburg/tolpr/hoteldetail",
+   "document_sha256": "9a5bf6895453a82c3c5369c05643ed3cc16cd90ad50727d37032fe2b4816333c",
+   "captured_at": "2026-09-06T14:04:15.347226+00:00",
+   "identity_signals": {
+    "name_on_page": "Holiday Inn Express &amp; Suites Toledo South - Perrysburg",
+    "address_on_page": "12710 Roachton Road",
+    "postal_code": "43551",
+    "phone_on_page": "1-419-9319999",
+    "property_code_on_page": "tolpr",
+    "canonical_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/perrysburg/tolpr/hoteldetail",
+    "pets_allowed_structured": "",
+    "jsonld_present": true,
+    "phones_on_page": [
+     "8884654329",
+     "4199319999"
+    ]
+   },
+   "identity_binding_method": "EXACT_ADDRESS_AND_NAME",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "pets are not allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "withheld_fields": {},
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED",
+    "reasons": [
+     "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+    ],
+    "schema_issues": [],
+    "blockers": [],
+    "hash_rederived": true,
+    "quotes_contiguous": true,
+    "quote_sources": {
+     "pets_allowed": "page-text.txt"
+    },
+    "evidence_entries": [
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::holiday inn express and suites toledo south perrysburg::pets_allowed::0",
+      "field": "pets_allowed",
+      "quote": "pets are not allowed",
+      "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/perrysburg/tolpr/hoteldetail",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "9a5bf6895453a82c3c5369c05643ed3cc16cd90ad50727d37032fe2b4816333c",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     }
+    ],
+    "contract_integration_gaps": [
+     {
+      "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+      "summary": "a machine-captured screenshot has no lawful artifact_kind",
+      "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+      "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+      "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+      "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+      "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+      "summary": "an evidence entry does not record what fetched the page",
+      "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+      "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+      "blocks_publication": false
+     }
+    ]
+   },
+   "audit_verdict": "CLEAN_VERIFIED_NO_PETS",
+   "audit_problems": [],
+   "artifact_dir": "data\\acquisition\\toledo_oh_firecrawl_001\\holiday-inn-express-and-suites-toledo-south-perrysburg\\attempt-01"
+  },
+  {
+   "lane": "FIRECRAWL",
+   "identity_key": "holiday inn express and suites toledo westgate",
+   "canonical_name": "Holiday Inn Express & Suites - Toledo/Westgate",
+   "brand": "IHG",
+   "corridor": "toledo-oh__university-medical",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/toledo/tolws/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/toledo/tolws/hoteldetail",
+   "document_sha256": "002cd98d97b3995b73e6d4aa7dbc6783b5b4fb73b2a131e109442a8becb20ad1",
+   "captured_at": "2026-09-06T14:04:29.715902+00:00",
+   "identity_signals": {
+    "name_on_page": "Holiday Inn Express &amp; Suites Toledo West",
+    "address_on_page": "3440 Secor Road",
+    "postal_code": "43606",
+    "phone_on_page": "1-419-2144700",
+    "property_code_on_page": "tolws",
+    "canonical_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/toledo/tolws/hoteldetail",
+    "pets_allowed_structured": "",
+    "jsonld_present": true,
+    "phones_on_page": [
+     "8884654329",
+     "4192144700"
+    ]
+   },
+   "identity_binding_method": "CANONICAL_PATH_AND_NAME",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "pets are not allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "withheld_fields": {},
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED",
+    "reasons": [
+     "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+    ],
+    "schema_issues": [],
+    "blockers": [],
+    "hash_rederived": true,
+    "quotes_contiguous": true,
+    "quote_sources": {
+     "pets_allowed": "page-text.txt"
+    },
+    "evidence_entries": [
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::holiday inn express and suites toledo westgate::pets_allowed::0",
+      "field": "pets_allowed",
+      "quote": "pets are not allowed",
+      "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/toledo/tolws/hoteldetail",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "002cd98d97b3995b73e6d4aa7dbc6783b5b4fb73b2a131e109442a8becb20ad1",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     }
+    ],
+    "contract_integration_gaps": [
+     {
+      "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+      "summary": "a machine-captured screenshot has no lawful artifact_kind",
+      "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+      "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+      "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+      "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+      "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+      "summary": "an evidence entry does not record what fetched the page",
+      "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+      "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+      "blocks_publication": false
+     }
+    ]
+   },
+   "audit_verdict": "CLEAN_VERIFIED_NO_PETS",
+   "audit_problems": [],
+   "artifact_dir": "data\\acquisition\\toledo_oh_firecrawl_001\\holiday-inn-express-and-suites-toledo-westgate\\attempt-01"
+  },
+  {
+   "lane": "FIRECRAWL",
+   "identity_key": "holiday inn express toledo oregon",
+   "canonical_name": "Holiday Inn Express Toledo-Oregon",
+   "brand": "IHG",
+   "corridor": "toledo-oh__oregon-northwood-east",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/oregon/tolor/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/oregon/tolor/hoteldetail",
+   "document_sha256": "3f98c6316b099d8b862f68fa839ed73c2d910e65df7bdd8e310838a3f1de5694",
+   "captured_at": "2026-09-06T14:04:44.913295+00:00",
+   "identity_signals": {
+    "name_on_page": "Holiday Inn Express Toledo-Oregon",
+    "address_on_page": "3154 Navarre Avenue",
+    "postal_code": "43616",
+    "phone_on_page": "1-419-6918800",
+    "property_code_on_page": "tolor",
+    "canonical_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/oregon/tolor/hoteldetail",
+    "pets_allowed_structured": "",
+    "jsonld_present": true,
+    "phones_on_page": [
+     "8884654329",
+     "4196918800"
+    ]
+   },
+   "identity_binding_method": "EXACT_ADDRESS_AND_NAME",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "pets are not allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "withheld_fields": {},
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED",
+    "reasons": [
+     "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+    ],
+    "schema_issues": [],
+    "blockers": [],
+    "hash_rederived": true,
+    "quotes_contiguous": true,
+    "quote_sources": {
+     "pets_allowed": "page-text.txt"
+    },
+    "evidence_entries": [
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::holiday inn express toledo oregon::pets_allowed::0",
+      "field": "pets_allowed",
+      "quote": "pets are not allowed",
+      "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/oregon/tolor/hoteldetail",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "3f98c6316b099d8b862f68fa839ed73c2d910e65df7bdd8e310838a3f1de5694",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     }
+    ],
+    "contract_integration_gaps": [
+     {
+      "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+      "summary": "a machine-captured screenshot has no lawful artifact_kind",
+      "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+      "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+      "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+      "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+      "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+      "summary": "an evidence entry does not record what fetched the page",
+      "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+      "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+      "blocks_publication": false
+     }
+    ]
+   },
+   "audit_verdict": "CLEAN_VERIFIED_NO_PETS",
+   "audit_problems": [],
+   "artifact_dir": "data\\acquisition\\toledo_oh_firecrawl_001\\holiday-inn-express-toledo-oregon\\attempt-01"
+  },
+  {
+   "lane": "FIRECRAWL",
+   "identity_key": "holiday inn toledo maumee",
+   "canonical_name": "Holiday Inn Toledo-Maumee",
+   "brand": "IHG",
+   "corridor": "toledo-oh__maumee-arrowhead",
+   "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/maumee/toltd/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinn/hotels/us/en/maumee/toltd/hoteldetail",
+   "document_sha256": "9cce0bdefc6643378b4e6730d4a2ab38814f46f540a2aea0ef36a52635279387",
+   "captured_at": "2026-09-06T14:05:03.476959+00:00",
+   "identity_signals": {
+    "name_on_page": "Holiday Inn Toledo-Maumee (I-80/90)",
+    "address_on_page": "1705 Tollgate Drive",
+    "postal_code": "43537",
+    "phone_on_page": "1-419-4827777",
+    "property_code_on_page": "toltd",
+    "canonical_url": "https://www.ihg.com/holidayinn/hotels/us/en/maumee/toltd/hoteldetail",
+    "pets_allowed_structured": "",
+    "jsonld_present": true,
+    "phones_on_page": [
+     "8884654329",
+     "4194827777"
+    ]
+   },
+   "identity_binding_method": "EXACT_ADDRESS_AND_NAME",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "pets are not allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "withheld_fields": {},
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED",
+    "reasons": [
+     "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+    ],
+    "schema_issues": [],
+    "blockers": [],
+    "hash_rederived": true,
+    "quotes_contiguous": true,
+    "quote_sources": {
+     "pets_allowed": "page-text.txt"
+    },
+    "evidence_entries": [
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::holiday inn toledo maumee::pets_allowed::0",
+      "field": "pets_allowed",
+      "quote": "pets are not allowed",
+      "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/maumee/toltd/hoteldetail",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "9cce0bdefc6643378b4e6730d4a2ab38814f46f540a2aea0ef36a52635279387",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     }
+    ],
+    "contract_integration_gaps": [
+     {
+      "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+      "summary": "a machine-captured screenshot has no lawful artifact_kind",
+      "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+      "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+      "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+      "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+      "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+      "summary": "an evidence entry does not record what fetched the page",
+      "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+      "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+      "blocks_publication": false
+     }
+    ]
+   },
+   "audit_verdict": "CLEAN_VERIFIED_NO_PETS",
+   "audit_problems": [],
+   "artifact_dir": "data\\acquisition\\toledo_oh_firecrawl_001\\holiday-inn-toledo-maumee\\attempt-01"
+  },
+  {
+   "lane": "FIRECRAWL",
+   "identity_key": "sleep inn and suites",
+   "canonical_name": "Sleep Inn & Suites",
+   "brand": "CHOICE",
+   "corridor": "toledo-oh__oregon-northwood-east",
+   "source_url": "https://www.choicehotels.com/ohio/oregon/sleep-inn-hotels/oh190",
+   "final_url": "https://www.choicehotels.com/ohio/oregon/sleep-inn-hotels/oh190",
+   "document_sha256": "1ead7e14889809e48f6e24cd49b6ff970dff55e0c82a967ce7b10a1b38d17eb2",
+   "captured_at": "2026-09-06T14:05:19.320157+00:00",
+   "identity_signals": {
+    "name_on_page": "Sleep Inn & Suites Oregon - Toledo",
+    "address_on_page": "1761 Meijer Circle",
+    "postal_code": "43616",
+    "phone_on_page": "(419) 836-0138",
+    "property_code_on_page": "oh190",
+    "canonical_url": "https://www.choicehotels.com/ohio/oregon/sleep-inn-hotels/oh190",
+    "pets_allowed_structured": "True",
+    "jsonld_present": true,
+    "phones_on_page": [
+     "4198360138",
+     "4743096808",
+     "2018788483",
+     "6951158212",
+     "4196977810",
+     "8887706800",
+     "8669999999",
+     "8002242826",
+     "5167474462",
+     "8776342826",
+     "8777342826",
+     "8774246423",
+     "8002285050",
+     "8003008800",
+     "8663513033",
+     "8005444444",
+     "8553253180",
+     "8662231911",
+     "8008920395",
+     "8884899290",
+     "8005212121",
+     "8662331911",
+     "8882888889"
+    ]
+   },
+   "identity_binding_method": "EXACT_ADDRESS_AND_NAME",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false,
+    "service_animal_exception": "Only service animals are permitted, free of charge."
+   },
+   "evidence": [
+    {
+     "quote": "No Pets Allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Only service animals are permitted, free of charge.",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ],
+   "withheld_fields": {},
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED",
+    "reasons": [
+     "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+    ],
+    "schema_issues": [],
+    "blockers": [],
+    "hash_rederived": true,
+    "quotes_contiguous": true,
+    "quote_sources": {
+     "pets_allowed": "page-text.txt",
+     "service_animal_exception": "page-text.txt"
+    },
+    "evidence_entries": [
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::sleep inn and suites::pets_allowed::0",
+      "field": "pets_allowed",
+      "quote": "No Pets Allowed",
+      "source_url": "https://www.choicehotels.com/ohio/oregon/sleep-inn-hotels/oh190",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "1ead7e14889809e48f6e24cd49b6ff970dff55e0c82a967ce7b10a1b38d17eb2",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::sleep inn and suites::service_animal_exception::1",
+      "field": "service_animal_exception",
+      "quote": "Only service animals are permitted, free of charge.",
+      "source_url": "https://www.choicehotels.com/ohio/oregon/sleep-inn-hotels/oh190",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "1ead7e14889809e48f6e24cd49b6ff970dff55e0c82a967ce7b10a1b38d17eb2",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     }
+    ],
+    "contract_integration_gaps": [
+     {
+      "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+      "summary": "a machine-captured screenshot has no lawful artifact_kind",
+      "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+      "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+      "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+      "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+      "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+      "summary": "an evidence entry does not record what fetched the page",
+      "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+      "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+      "blocks_publication": false
+     }
+    ]
+   },
+   "audit_verdict": "CLEAN_VERIFIED_NO_PETS",
+   "audit_problems": [],
+   "artifact_dir": "data\\acquisition\\toledo_oh_firecrawl_001\\sleep-inn-and-suites\\attempt-01"
+  },
+  {
+   "lane": "FIRECRAWL",
+   "identity_key": "staybridge inn and suites toledo rossford perrysburg",
+   "canonical_name": "Staybridge Inn & Suites Toledo Rossford- Perrysburg",
+   "brand": "IHG",
+   "corridor": "toledo-oh__rossford-crossroads",
+   "source_url": "https://www.ihg.com/staybridge/hotels/us/en/rossford/tolsb/hoteldetail",
+   "final_url": "https://www.ihg.com/staybridge/hotels/us/en/rossford/tolsb/hoteldetail",
+   "document_sha256": "32a0c656af326320d442a86a160889245661a82d2060f0038dc19ac44dcd8d90",
+   "captured_at": "2026-09-06T14:05:42.712526+00:00",
+   "identity_signals": {
+    "name_on_page": "Staybridge Suites Toledo - Rossford - Perrysburg",
+    "address_on_page": "9749 Clark Drive",
+    "postal_code": "43460",
+    "phone_on_page": "1-419-8723700",
+    "property_code_on_page": "tolsb",
+    "canonical_url": "https://www.ihg.com/staybridge/hotels/us/en/rossford/tolsb/hoteldetail",
+    "pets_allowed_structured": "",
+    "jsonld_present": true,
+    "phones_on_page": [
+     "8772388889",
+     "4198723700"
+    ]
+   },
+   "identity_binding_method": "EXACT_ADDRESS_AND_NAME",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true
+   },
+   "evidence": [
+    {
+     "quote": "Pets are welcome",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "withheld_fields": {
+    "pet_fee": "SOURCE_SILENT"
+   },
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED",
+    "reasons": [
+     "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+    ],
+    "schema_issues": [],
+    "blockers": [],
+    "hash_rederived": true,
+    "quotes_contiguous": true,
+    "quote_sources": {
+     "pets_allowed": "page-text.txt"
+    },
+    "evidence_entries": [
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::staybridge inn and suites toledo rossford perrysburg::pets_allowed::0",
+      "field": "pets_allowed",
+      "quote": "Pets are welcome",
+      "source_url": "https://www.ihg.com/staybridge/hotels/us/en/rossford/tolsb/hoteldetail",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "32a0c656af326320d442a86a160889245661a82d2060f0038dc19ac44dcd8d90",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     }
+    ],
+    "contract_integration_gaps": [
+     {
+      "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+      "summary": "a machine-captured screenshot has no lawful artifact_kind",
+      "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+      "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+      "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+      "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+      "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+      "summary": "an evidence entry does not record what fetched the page",
+      "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+      "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+      "blocks_publication": false
+     }
+    ]
+   },
+   "audit_verdict": "CLEAN_PET_FRIENDLY",
+   "audit_problems": [],
+   "artifact_dir": "data\\acquisition\\toledo_oh_firecrawl_001\\staybridge-inn-and-suites-toledo-rossford-perrysburg\\attempt-01"
+  },
+  {
+   "lane": "FIRECRAWL",
+   "identity_key": "baymont inn and suites swanton toledo airport",
+   "canonical_name": "Baymont Inn And Suites Swanton Toledo Airport",
+   "brand": "WYNDHAM",
+   "corridor": "toledo-oh__toledo-express-airport",
+   "source_url": "https://www.wyndhamhotels.com/baymont/swanton-ohio/baymont-inn-and-suites-swanton-toledo-airport/overview",
+   "final_url": "https://www.wyndhamhotels.com/baymont/swanton-ohio/baymont-inn-and-suites-swanton-toledo-airport/overview",
+   "document_sha256": "14fb870251fdc1f897feaf6347fe0f1f263ca63aa354bec0c3986cafc08ae577",
+   "captured_at": "2026-09-06T14:06:39.575909+00:00",
+   "identity_signals": {
+    "name_on_page": "Baymont Inn & Suites by Wyndham Swanton/Toledo Airport",
+    "address_on_page": "10753 Airport Hwy",
+    "postal_code": "43558",
+    "phone_on_page": "419-865-2002",
+    "property_code_on_page": "",
+    "canonical_url": "https://www.wyndhamhotels.com/baymont/swanton-ohio/baymont-inn-and-suites-swanton-toledo-airport/overview",
+    "pets_allowed_structured": "",
+    "jsonld_present": true,
+    "phones_on_page": [
+     "4198652002",
+     "8444054141",
+     "4194913369",
+     "8669967937",
+     "8004079832"
+    ]
+   },
+   "identity_binding_method": "CANONICAL_PATH_AND_NAME",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_room",
+    "weight_limit": {
+     "value": 30.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "service_animal_exception": "Service Animals - ADA-defined service animals welcome."
+   },
+   "evidence": [
+    {
+     "quote": "Pets Allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "20USD per night per room",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "20USD per night per room",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "fee_basis"
+     ]
+    },
+    {
+     "quote": "20USD per night per room",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "fee_scope"
+     ]
+    },
+    {
+     "quote": "max. 30lbs",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "2 pets max",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals welcome.",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ],
+   "withheld_fields": {},
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED",
+    "reasons": [
+     "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+    ],
+    "schema_issues": [],
+    "blockers": [],
+    "hash_rederived": true,
+    "quotes_contiguous": true,
+    "quote_sources": {
+     "pets_allowed": "page-text.txt",
+     "pet_fee": "page-text.txt",
+     "fee_currency": "page-text.txt",
+     "fee_basis": "page-text.txt",
+     "fee_scope": "page-text.txt",
+     "weight_limit": "page-text.txt",
+     "pet_count_limit": "page-text.txt",
+     "service_animal_exception": "page-text.txt"
+    },
+    "evidence_entries": [
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::baymont inn and suites swanton toledo airport::pets_allowed::0",
+      "field": "pets_allowed",
+      "quote": "Pets Allowed",
+      "source_url": "https://www.wyndhamhotels.com/baymont/swanton-ohio/baymont-inn-and-suites-swanton-toledo-airport/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "14fb870251fdc1f897feaf6347fe0f1f263ca63aa354bec0c3986cafc08ae577",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::baymont inn and suites swanton toledo airport::pet_fee::1",
+      "field": "pet_fee",
+      "quote": "20USD per night per room",
+      "source_url": "https://www.wyndhamhotels.com/baymont/swanton-ohio/baymont-inn-and-suites-swanton-toledo-airport/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "14fb870251fdc1f897feaf6347fe0f1f263ca63aa354bec0c3986cafc08ae577",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::baymont inn and suites swanton toledo airport::fee_currency::1",
+      "field": "fee_currency",
+      "quote": "20USD per night per room",
+      "source_url": "https://www.wyndhamhotels.com/baymont/swanton-ohio/baymont-inn-and-suites-swanton-toledo-airport/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "14fb870251fdc1f897feaf6347fe0f1f263ca63aa354bec0c3986cafc08ae577",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::baymont inn and suites swanton toledo airport::fee_basis::2",
+      "field": "fee_basis",
+      "quote": "20USD per night per room",
+      "source_url": "https://www.wyndhamhotels.com/baymont/swanton-ohio/baymont-inn-and-suites-swanton-toledo-airport/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "14fb870251fdc1f897feaf6347fe0f1f263ca63aa354bec0c3986cafc08ae577",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::baymont inn and suites swanton toledo airport::fee_scope::3",
+      "field": "fee_scope",
+      "quote": "20USD per night per room",
+      "source_url": "https://www.wyndhamhotels.com/baymont/swanton-ohio/baymont-inn-and-suites-swanton-toledo-airport/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "14fb870251fdc1f897feaf6347fe0f1f263ca63aa354bec0c3986cafc08ae577",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::baymont inn and suites swanton toledo airport::weight_limit::4",
+      "field": "weight_limit",
+      "quote": "max. 30lbs",
+      "source_url": "https://www.wyndhamhotels.com/baymont/swanton-ohio/baymont-inn-and-suites-swanton-toledo-airport/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "14fb870251fdc1f897feaf6347fe0f1f263ca63aa354bec0c3986cafc08ae577",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::baymont inn and suites swanton toledo airport::pet_count_limit::5",
+      "field": "pet_count_limit",
+      "quote": "2 pets max",
+      "source_url": "https://www.wyndhamhotels.com/baymont/swanton-ohio/baymont-inn-and-suites-swanton-toledo-airport/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "14fb870251fdc1f897feaf6347fe0f1f263ca63aa354bec0c3986cafc08ae577",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::baymont inn and suites swanton toledo airport::service_animal_exception::6",
+      "field": "service_animal_exception",
+      "quote": "Service Animals - ADA-defined service animals welcome.",
+      "source_url": "https://www.wyndhamhotels.com/baymont/swanton-ohio/baymont-inn-and-suites-swanton-toledo-airport/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "14fb870251fdc1f897feaf6347fe0f1f263ca63aa354bec0c3986cafc08ae577",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     }
+    ],
+    "contract_integration_gaps": [
+     {
+      "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+      "summary": "a machine-captured screenshot has no lawful artifact_kind",
+      "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+      "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+      "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+      "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+      "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+      "summary": "an evidence entry does not record what fetched the page",
+      "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+      "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+      "blocks_publication": false
+     }
+    ]
+   },
+   "audit_verdict": "CLEAN_PET_FRIENDLY",
+   "audit_problems": [],
+   "artifact_dir": "data\\acquisition\\toledo_oh_firecrawl_001\\baymont-inn-and-suites-swanton-toledo-airport\\attempt-01"
+  },
+  {
+   "lane": "FIRECRAWL",
+   "identity_key": "baymont maumee toledo",
+   "canonical_name": "Baymont Maumee Toledo",
+   "brand": "WYNDHAM",
+   "corridor": "",
+   "source_url": "https://www.wyndhamhotels.com/baymont/maumee-ohio/baymont-maumee-toledo/overview",
+   "final_url": "https://www.wyndhamhotels.com/baymont/maumee-ohio/baymont-maumee-toledo/overview",
+   "document_sha256": "03838219ab3977c736bbfdbf0a576dcd69b68d783a5b6b2fc4845e1486db3845",
+   "captured_at": "2026-09-06T14:06:57.789096+00:00",
+   "identity_signals": {
+    "name_on_page": "Baymont by Wyndham Maumee Toledo",
+    "address_on_page": "6425 Kit Lane",
+    "postal_code": "43537",
+    "phone_on_page": "1-4194821111",
+    "property_code_on_page": "",
+    "canonical_url": "https://www.wyndhamhotels.com/baymont/maumee-ohio/baymont-maumee-toledo/overview",
+    "pets_allowed_structured": "",
+    "jsonld_present": true,
+    "phones_on_page": [
+     "8444054141",
+     "4195585399",
+     "8669967937",
+     "8004079832"
+    ]
+   },
+   "identity_binding_method": "CANONICAL_PATH_AND_NAME",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 3000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "weight_limit": {
+     "value": 100.0,
+     "unit": "lb"
+    },
+    "pet_count_limit": 2,
+    "service_animal_exception": "Service Animals - ADA-defined service animals welcome."
+   },
+   "evidence": [
+    {
+     "quote": "Pets Allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "30USD per pet per night",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "30USD per pet per night",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "fee_basis"
+     ]
+    },
+    {
+     "quote": "30USD per pet per night",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "fee_scope"
+     ]
+    },
+    {
+     "quote": "max. 100lbs",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "2 pets max",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals welcome.",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ],
+   "withheld_fields": {},
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED",
+    "reasons": [
+     "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+    ],
+    "schema_issues": [],
+    "blockers": [],
+    "hash_rederived": true,
+    "quotes_contiguous": true,
+    "quote_sources": {
+     "pets_allowed": "page-text.txt",
+     "pet_fee": "page-text.txt",
+     "fee_currency": "page-text.txt",
+     "fee_basis": "page-text.txt",
+     "fee_scope": "page-text.txt",
+     "weight_limit": "page-text.txt",
+     "pet_count_limit": "page-text.txt",
+     "service_animal_exception": "page-text.txt"
+    },
+    "evidence_entries": [
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::baymont maumee toledo::pets_allowed::0",
+      "field": "pets_allowed",
+      "quote": "Pets Allowed",
+      "source_url": "https://www.wyndhamhotels.com/baymont/maumee-ohio/baymont-maumee-toledo/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "03838219ab3977c736bbfdbf0a576dcd69b68d783a5b6b2fc4845e1486db3845",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::baymont maumee toledo::pet_fee::1",
+      "field": "pet_fee",
+      "quote": "30USD per pet per night",
+      "source_url": "https://www.wyndhamhotels.com/baymont/maumee-ohio/baymont-maumee-toledo/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "03838219ab3977c736bbfdbf0a576dcd69b68d783a5b6b2fc4845e1486db3845",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::baymont maumee toledo::fee_currency::1",
+      "field": "fee_currency",
+      "quote": "30USD per pet per night",
+      "source_url": "https://www.wyndhamhotels.com/baymont/maumee-ohio/baymont-maumee-toledo/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "03838219ab3977c736bbfdbf0a576dcd69b68d783a5b6b2fc4845e1486db3845",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::baymont maumee toledo::fee_basis::2",
+      "field": "fee_basis",
+      "quote": "30USD per pet per night",
+      "source_url": "https://www.wyndhamhotels.com/baymont/maumee-ohio/baymont-maumee-toledo/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "03838219ab3977c736bbfdbf0a576dcd69b68d783a5b6b2fc4845e1486db3845",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::baymont maumee toledo::fee_scope::3",
+      "field": "fee_scope",
+      "quote": "30USD per pet per night",
+      "source_url": "https://www.wyndhamhotels.com/baymont/maumee-ohio/baymont-maumee-toledo/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "03838219ab3977c736bbfdbf0a576dcd69b68d783a5b6b2fc4845e1486db3845",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::baymont maumee toledo::weight_limit::4",
+      "field": "weight_limit",
+      "quote": "max. 100lbs",
+      "source_url": "https://www.wyndhamhotels.com/baymont/maumee-ohio/baymont-maumee-toledo/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "03838219ab3977c736bbfdbf0a576dcd69b68d783a5b6b2fc4845e1486db3845",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::baymont maumee toledo::pet_count_limit::5",
+      "field": "pet_count_limit",
+      "quote": "2 pets max",
+      "source_url": "https://www.wyndhamhotels.com/baymont/maumee-ohio/baymont-maumee-toledo/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "03838219ab3977c736bbfdbf0a576dcd69b68d783a5b6b2fc4845e1486db3845",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::baymont maumee toledo::service_animal_exception::6",
+      "field": "service_animal_exception",
+      "quote": "Service Animals - ADA-defined service animals welcome.",
+      "source_url": "https://www.wyndhamhotels.com/baymont/maumee-ohio/baymont-maumee-toledo/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "03838219ab3977c736bbfdbf0a576dcd69b68d783a5b6b2fc4845e1486db3845",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     }
+    ],
+    "contract_integration_gaps": [
+     {
+      "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+      "summary": "a machine-captured screenshot has no lawful artifact_kind",
+      "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+      "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+      "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+      "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+      "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+      "summary": "an evidence entry does not record what fetched the page",
+      "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+      "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+      "blocks_publication": false
+     }
+    ]
+   },
+   "audit_verdict": "HELD",
+   "audit_problems": [
+    {
+     "class": "NOT_IN_THE_PROPOSED_CENSUS",
+     "why": "this read is not bound to an admitted Toledo identity"
+    }
+   ],
+   "artifact_dir": "data\\acquisition\\toledo_oh_firecrawl_001\\baymont-maumee-toledo\\attempt-01"
+  },
+  {
+   "lane": "FIRECRAWL",
+   "identity_key": "baymont northwood",
+   "canonical_name": "Baymont Northwood",
+   "brand": "WYNDHAM",
+   "corridor": "toledo-oh__oregon-northwood-east",
+   "source_url": "https://www.wyndhamhotels.com/baymont/northwood-ohio/baymont-northwood/overview",
+   "final_url": "https://www.wyndhamhotels.com/baymont/northwood-ohio/baymont-northwood/overview",
+   "document_sha256": "f2d3153311e578a40ff67e54039b0790a34ff80ac4fb8be1897ffb02f7e66a3c",
+   "captured_at": "2026-09-06T14:07:12.745354+00:00",
+   "identity_signals": {
+    "name_on_page": "Baymont by Wyndham Northwood",
+    "address_on_page": "2426 Oregon Rd",
+    "postal_code": "43619",
+    "phone_on_page": "419-6662600",
+    "property_code_on_page": "",
+    "canonical_url": "https://www.wyndhamhotels.com/baymont/northwood-ohio/baymont-northwood/overview",
+    "pets_allowed_structured": "",
+    "jsonld_present": true,
+    "phones_on_page": [
+     "8444054141",
+     "4194420471",
+     "8669967937",
+     "8004079832"
+    ]
+   },
+   "identity_binding_method": "CANONICAL_PATH_AND_NAME",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false,
+    "service_animal_exception": "ADA defined service animals are welcome at this hotel."
+   },
+   "evidence": [
+    {
+     "quote": "pets are not allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "ADA defined service animals are welcome at this hotel.",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ],
+   "withheld_fields": {},
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED",
+    "reasons": [
+     "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+    ],
+    "schema_issues": [],
+    "blockers": [],
+    "hash_rederived": true,
+    "quotes_contiguous": true,
+    "quote_sources": {
+     "pets_allowed": "page-text.txt",
+     "service_animal_exception": "page-text.txt"
+    },
+    "evidence_entries": [
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::baymont northwood::pets_allowed::0",
+      "field": "pets_allowed",
+      "quote": "pets are not allowed",
+      "source_url": "https://www.wyndhamhotels.com/baymont/northwood-ohio/baymont-northwood/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "f2d3153311e578a40ff67e54039b0790a34ff80ac4fb8be1897ffb02f7e66a3c",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::baymont northwood::service_animal_exception::1",
+      "field": "service_animal_exception",
+      "quote": "ADA defined service animals are welcome at this hotel.",
+      "source_url": "https://www.wyndhamhotels.com/baymont/northwood-ohio/baymont-northwood/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "f2d3153311e578a40ff67e54039b0790a34ff80ac4fb8be1897ffb02f7e66a3c",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     }
+    ],
+    "contract_integration_gaps": [
+     {
+      "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+      "summary": "a machine-captured screenshot has no lawful artifact_kind",
+      "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+      "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+      "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+      "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+      "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+      "summary": "an evidence entry does not record what fetched the page",
+      "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+      "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+      "blocks_publication": false
+     }
+    ]
+   },
+   "audit_verdict": "CLEAN_VERIFIED_NO_PETS",
+   "audit_problems": [],
+   "artifact_dir": "data\\acquisition\\toledo_oh_firecrawl_001\\baymont-northwood\\attempt-01"
+  },
+  {
+   "lane": "FIRECRAWL",
+   "identity_key": "days inn perrysburg",
+   "canonical_name": "Days Inn Perrysburg",
+   "brand": "WYNDHAM",
+   "corridor": "toledo-oh__perrysburg-levis-commons",
+   "source_url": "https://www.wyndhamhotels.com/days-inn/perrysburg-ohio/days-inn-perrysburg/overview",
+   "final_url": "https://www.wyndhamhotels.com/days-inn/perrysburg-ohio/days-inn-perrysburg/overview",
+   "document_sha256": "6a1c56f50388aec0e05506a3e49fb00b3e376a019fe9c96f10c421c36d8f29f1",
+   "captured_at": "2026-09-06T14:07:41.931716+00:00",
+   "identity_signals": {
+    "name_on_page": "Days Inn by Wyndham Perrysburg/Toledo",
+    "address_on_page": "10667B Fremont Pike",
+    "postal_code": "43551",
+    "phone_on_page": "419-8748771",
+    "property_code_on_page": "",
+    "canonical_url": "https://www.wyndhamhotels.com/days-inn/perrysburg-ohio/days-inn-perrysburg/overview",
+    "pets_allowed_structured": "",
+    "jsonld_present": true,
+    "phones_on_page": [
+     "8444054141",
+     "4199316310",
+     "8669967937",
+     "8002253297",
+     "8004079832"
+    ]
+   },
+   "identity_binding_method": "CANONICAL_PATH_AND_NAME",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false,
+    "service_animal_exception": "ADA defined service animals are welcome at this hotel."
+   },
+   "evidence": [
+    {
+     "quote": "no other pets",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "ADA defined service animals are welcome at this hotel.",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ],
+   "withheld_fields": {},
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED",
+    "reasons": [
+     "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+    ],
+    "schema_issues": [],
+    "blockers": [],
+    "hash_rederived": true,
+    "quotes_contiguous": true,
+    "quote_sources": {
+     "pets_allowed": "page-text.txt",
+     "service_animal_exception": "page-text.txt"
+    },
+    "evidence_entries": [
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::days inn perrysburg::pets_allowed::0",
+      "field": "pets_allowed",
+      "quote": "no other pets",
+      "source_url": "https://www.wyndhamhotels.com/days-inn/perrysburg-ohio/days-inn-perrysburg/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "6a1c56f50388aec0e05506a3e49fb00b3e376a019fe9c96f10c421c36d8f29f1",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::days inn perrysburg::service_animal_exception::1",
+      "field": "service_animal_exception",
+      "quote": "ADA defined service animals are welcome at this hotel.",
+      "source_url": "https://www.wyndhamhotels.com/days-inn/perrysburg-ohio/days-inn-perrysburg/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "6a1c56f50388aec0e05506a3e49fb00b3e376a019fe9c96f10c421c36d8f29f1",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     }
+    ],
+    "contract_integration_gaps": [
+     {
+      "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+      "summary": "a machine-captured screenshot has no lawful artifact_kind",
+      "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+      "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+      "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+      "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+      "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+      "summary": "an evidence entry does not record what fetched the page",
+      "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+      "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+      "blocks_publication": false
+     }
+    ]
+   },
+   "audit_verdict": "CLEAN_VERIFIED_NO_PETS",
+   "audit_problems": [],
+   "artifact_dir": "data\\acquisition\\toledo_oh_firecrawl_001\\days-inn-perrysburg\\attempt-01"
+  },
+  {
+   "lane": "FIRECRAWL",
+   "identity_key": "super 8 millbury toledo",
+   "canonical_name": "Super 8 Millbury Toledo",
+   "brand": "WYNDHAM",
+   "corridor": "toledo-oh__oregon-northwood-east",
+   "source_url": "https://www.wyndhamhotels.com/super-8/millbury-ohio/super-8-millbury-toledo/overview",
+   "final_url": "https://www.wyndhamhotels.com/super-8/millbury-ohio/super-8-millbury-toledo/overview",
+   "document_sha256": "a06ce0f4b3fd4cb45524f28e0d420380918a98c32333579e93912ed32d3b2844",
+   "captured_at": "2026-09-06T14:08:24.022042+00:00",
+   "identity_signals": {
+    "name_on_page": "Super 8 by Wyndham Millbury/Toledo",
+    "address_on_page": "3491 Latcha Road",
+    "postal_code": "43447",
+    "phone_on_page": "419-8376409",
+    "property_code_on_page": "",
+    "canonical_url": "https://www.wyndhamhotels.com/super-8/millbury-ohio/super-8-millbury-toledo/overview",
+    "pets_allowed_structured": "",
+    "jsonld_present": true,
+    "phones_on_page": [
+     "8444054141",
+     "4192105849",
+     "8669967937",
+     "8004543213",
+     "8004079832"
+    ]
+   },
+   "identity_binding_method": "CANONICAL_PATH_AND_NAME",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 1000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "weight_limit": {
+     "value": 25.0,
+     "unit": "lb"
+    },
+    "service_animal_exception": "Service Animals - ADA-defined service animals are welcome free of charge."
+   },
+   "evidence": [
+    {
+     "quote": "Pets Allowed",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "10USD per pet per night",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "pet_fee",
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "10USD per pet per night",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "fee_basis"
+     ]
+    },
+    {
+     "quote": "10USD per pet per night",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "fee_scope"
+     ]
+    },
+    {
+     "quote": "up to 25lbs",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge.",
+     "location": "bounded policy container (static_html_walk / (static text))",
+     "field_refs": [
+      "service_animal_exception"
+     ]
+    }
+   ],
+   "withheld_fields": {},
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED",
+    "reasons": [
+     "the rendered-DOM artifact, its rederived hash, the contiguous per-field quotes, the first-party source URL, the captured_at stamp and the confirmed identity together satisfy evidence.PUBLICATION_GRADE_REQUIRED with no change to the contract"
+    ],
+    "schema_issues": [],
+    "blockers": [],
+    "hash_rederived": true,
+    "quotes_contiguous": true,
+    "quote_sources": {
+     "pets_allowed": "page-text.txt",
+     "pet_fee": "page-text.txt",
+     "fee_currency": "page-text.txt",
+     "fee_basis": "page-text.txt",
+     "fee_scope": "page-text.txt",
+     "weight_limit": "page-text.txt",
+     "service_animal_exception": "page-text.txt"
+    },
+    "evidence_entries": [
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::super 8 millbury toledo::pets_allowed::0",
+      "field": "pets_allowed",
+      "quote": "Pets Allowed",
+      "source_url": "https://www.wyndhamhotels.com/super-8/millbury-ohio/super-8-millbury-toledo/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "a06ce0f4b3fd4cb45524f28e0d420380918a98c32333579e93912ed32d3b2844",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::super 8 millbury toledo::pet_fee::1",
+      "field": "pet_fee",
+      "quote": "10USD per pet per night",
+      "source_url": "https://www.wyndhamhotels.com/super-8/millbury-ohio/super-8-millbury-toledo/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "a06ce0f4b3fd4cb45524f28e0d420380918a98c32333579e93912ed32d3b2844",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::super 8 millbury toledo::fee_currency::1",
+      "field": "fee_currency",
+      "quote": "10USD per pet per night",
+      "source_url": "https://www.wyndhamhotels.com/super-8/millbury-ohio/super-8-millbury-toledo/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "a06ce0f4b3fd4cb45524f28e0d420380918a98c32333579e93912ed32d3b2844",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::super 8 millbury toledo::fee_basis::2",
+      "field": "fee_basis",
+      "quote": "10USD per pet per night",
+      "source_url": "https://www.wyndhamhotels.com/super-8/millbury-ohio/super-8-millbury-toledo/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "a06ce0f4b3fd4cb45524f28e0d420380918a98c32333579e93912ed32d3b2844",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::super 8 millbury toledo::fee_scope::3",
+      "field": "fee_scope",
+      "quote": "10USD per pet per night",
+      "source_url": "https://www.wyndhamhotels.com/super-8/millbury-ohio/super-8-millbury-toledo/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "a06ce0f4b3fd4cb45524f28e0d420380918a98c32333579e93912ed32d3b2844",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::super 8 millbury toledo::weight_limit::4",
+      "field": "weight_limit",
+      "quote": "up to 25lbs",
+      "source_url": "https://www.wyndhamhotels.com/super-8/millbury-ohio/super-8-millbury-toledo/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "a06ce0f4b3fd4cb45524f28e0d420380918a98c32333579e93912ed32d3b2844",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     },
+     {
+      "evidence_ref": "toledo_oh_firecrawl_001::super 8 millbury toledo::service_animal_exception::5",
+      "field": "service_animal_exception",
+      "quote": "Service Animals - ADA-defined service animals are welcome free of charge.",
+      "source_url": "https://www.wyndhamhotels.com/super-8/millbury-ohio/super-8-millbury-toledo/overview",
+      "source_grade": "PT1_FIRST_PARTY",
+      "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+      "artifact_sha256": "a06ce0f4b3fd4cb45524f28e0d420380918a98c32333579e93912ed32d3b2844",
+      "artifact_kind": "rendered_html",
+      "captured_at": "2026-09-06",
+      "capture_method": "browser_assisted"
+     }
+    ],
+    "contract_integration_gaps": [
+     {
+      "code": "GAP-01-NO-MACHINE-SCREENSHOT-KIND",
+      "summary": "a machine-captured screenshot has no lawful artifact_kind",
+      "detail": "enums.ARTIFACT_KINDS offers ['rendered_html', 'operator_screenshot', 'pdf', 'text_extract']. The only screenshot member is 'operator_screenshot', whose meaning in this repository is an image a human took of a page they were looking at. A Bright Data screenshot is of the same page and by a different witness, and calling it an operator screenshot would misstate who took it. So this pilot files NO screenshot as evidence: full-page.png and policy-section.png are persisted, hashed and referenced, but they carry no artifact_class and back no fact.",
+      "contract": "scripts/pettripfinder/contracts/enums.py ARTIFACT_KINDS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-02-NO-MANAGED-BROWSER-CAPTURE-METHOD",
+      "summary": "the capture-method vocabulary has no term for an unattended managed browser",
+      "detail": "policy_observation.CAPTURE_METHODS is ['deterministic_fetch', 'browser_assisted', 'human_manual', 'phone_contact']. This pilot records 'browser_assisted' because it is the nearest member, but the plain meaning of that term in this repository is an OPERATOR driving a browser -- the attended-capture path several markets depend on. A third-party managed browser has different failure modes (a silently rotated exit IP, a session that renders a shell) and a reviewer cannot currently tell the two apart from a committed record.",
+      "contract": "scripts/pettripfinder/policy/policy_observation.py CAPTURE_METHODS",
+      "blocks_publication": false
+     },
+     {
+      "code": "GAP-03-NO-CAPTURE-ENGINE-BINDING",
+      "summary": "an evidence entry does not record what fetched the page",
+      "detail": "evidence.PUBLICATION_GRADE_REQUIRED is ['evidence_ref', 'field', 'quote', 'source_url', 'source_grade', 'artifact_class', 'artifact_sha256', 'artifact_kind', 'captured_at']. It binds the SOURCE and the ARTIFACT and never the ACQUISITION PATH, so a record cannot say whether its page witness came from an operator's own browser, a deterministic fetch, or a third-party managed browser. That distinction is exactly what this pilot exists to evaluate, and today it survives only in the free-text capture_method field, which nothing validates.",
+      "contract": "scripts/pettripfinder/contracts/evidence.py PUBLICATION_GRADE_REQUIRED",
+      "blocks_publication": false
+     }
+    ]
+   },
+   "audit_verdict": "CLEAN_PET_FRIENDLY",
+   "audit_problems": [],
+   "artifact_dir": "data\\acquisition\\toledo_oh_firecrawl_001\\super-8-millbury-toledo\\attempt-01"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "identity_key": "",
+   "canonical_name": "",
+   "brand": "HILTON",
+   "corridor": "",
+   "source_url": "https://www.hilton.com/en/hotels/tolmaht-home2-suites-maumee-toledo/",
+   "final_url": "https://www.hilton.com/en/hotels/tolmaht-home2-suites-maumee-toledo/",
+   "document_sha256": "",
+   "captured_at": "2026-09-06",
+   "identity_signals": {
+    "address_on_page": "1701 Tollgate Drive",
+    "postal_code": "43537",
+    "property_code_on_page": "tolmaht"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 12500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "weight_limit": 25.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2,
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $125.00 non-refundable fee, 25 lbs maximum, $75(1-4 Nights) $125(5+Nights) 2Pets Max",
+     "location": "bounded policy container (__NEXT_DATA__ petsInfo node)",
+     "field_refs": [
+      "pets_allowed",
+      "pet_fee",
+      "fee_currency",
+      "fee_refundable",
+      "weight_limit",
+      "weight_limit_unit",
+      "pet_count_limit"
+     ]
+    }
+   ],
+   "withheld_fields": [],
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED"
+   },
+   "audit_verdict": "HELD",
+   "audit_problems": [
+    {
+     "class": "NOT_IN_THE_PROPOSED_CENSUS",
+     "why": "this read is not bound to an admitted Toledo identity"
+    }
+   ],
+   "artifact_dir": ""
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "identity_key": "hampton",
+   "canonical_name": "Hampton",
+   "brand": "HILTON",
+   "corridor": "toledo-oh__bowling-green",
+   "source_url": "https://www.hilton.com/en/hotels/bgnohhx-hampton-bowling-green/",
+   "final_url": "https://www.hilton.com/en/hotels/bgnohhx-hampton-bowling-green/",
+   "document_sha256": "",
+   "captured_at": "2026-09-06",
+   "identity_signals": {
+    "address_on_page": "142 Campbell Hill Road",
+    "postal_code": "43402",
+    "property_code_on_page": "bgnohhx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "weight_limit": 50.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ],
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4n), $125(5+n)2petsMax,dog/cat only. Each pet will be charged accordingly. Any additional cleaning or damages will be charged.",
+     "location": "bounded policy container (__NEXT_DATA__ petsInfo node)",
+     "field_refs": [
+      "pets_allowed",
+      "pet_fee",
+      "fee_currency",
+      "fee_refundable",
+      "weight_limit",
+      "weight_limit_unit",
+      "pet_count_limit",
+      "species_allowed"
+     ]
+    }
+   ],
+   "withheld_fields": [],
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED"
+   },
+   "audit_verdict": "CLEAN_PET_FRIENDLY",
+   "audit_problems": [],
+   "artifact_dir": ""
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "identity_key": "hampton inn and suites toledo oregon",
+   "canonical_name": "Hampton Inn & Suites - Toledo/Oregon",
+   "brand": "HILTON",
+   "corridor": "toledo-oh__oregon-northwood-east",
+   "source_url": "https://www.hilton.com/en/hotels/toltohx-hampton-toledo-oregon/",
+   "final_url": "https://www.hilton.com/en/hotels/toltohx-hampton-toledo-oregon/",
+   "document_sha256": "",
+   "captured_at": "2026-09-06",
+   "identity_signals": {
+    "address_on_page": "2931 Navarre Avenue",
+    "postal_code": "43616",
+    "property_code_on_page": "toltohx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ],
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75 (1-4 nights), $125 (5+ nights), dog/cat only, maximum of two pets.",
+     "location": "bounded policy container (__NEXT_DATA__ petsInfo node)",
+     "field_refs": [
+      "pets_allowed",
+      "pet_fee",
+      "fee_currency",
+      "fee_refundable",
+      "pet_count_limit",
+      "species_allowed"
+     ]
+    }
+   ],
+   "withheld_fields": [],
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED"
+   },
+   "audit_verdict": "CLEAN_PET_FRIENDLY",
+   "audit_problems": [],
+   "artifact_dir": ""
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "identity_key": "hampton inn and suites toledo perrysburg",
+   "canonical_name": "Hampton Inn & Suites Toledo-Perrysburg",
+   "brand": "HILTON",
+   "corridor": "toledo-oh__rossford-crossroads",
+   "source_url": "https://www.hilton.com/en/hotels/tolpghx-hampton-suites-toledo-perrysburg/",
+   "final_url": "https://www.hilton.com/en/hotels/tolpghx-hampton-suites-toledo-perrysburg/",
+   "document_sha256": "",
+   "captured_at": "2026-09-06",
+   "identity_signals": {
+    "address_on_page": "9753 Clark Dr.",
+    "postal_code": "43460",
+    "property_code_on_page": "tolpghx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee",
+     "location": "bounded policy container (__NEXT_DATA__ petsInfo node)",
+     "field_refs": [
+      "pets_allowed",
+      "pet_fee",
+      "fee_currency",
+      "fee_refundable"
+     ]
+    }
+   ],
+   "withheld_fields": [],
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED"
+   },
+   "audit_verdict": "CLEAN_PET_FRIENDLY",
+   "audit_problems": [],
+   "artifact_dir": ""
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "identity_key": "hampton inn and suites toledo westgate",
+   "canonical_name": "Hampton Inn & Suites - Toledo/Westgate",
+   "brand": "HILTON",
+   "corridor": "toledo-oh__university-medical",
+   "source_url": "https://www.hilton.com/en/hotels/tolwghx-hampton-suites-toledo-westgate/",
+   "final_url": "https://www.hilton.com/en/hotels/tolwghx-hampton-suites-toledo-westgate/",
+   "document_sha256": "",
+   "captured_at": "2026-09-06",
+   "identity_signals": {
+    "address_on_page": "3434 Secor Road",
+    "postal_code": "43606",
+    "property_code_on_page": "tolwghx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ],
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $50.00 non-refundable fee, $50(1-4n),$75(5+n) 2petsMax,dog/cat only",
+     "location": "bounded policy container (__NEXT_DATA__ petsInfo node)",
+     "field_refs": [
+      "pets_allowed",
+      "pet_fee",
+      "fee_currency",
+      "fee_refundable",
+      "pet_count_limit",
+      "species_allowed"
+     ]
+    }
+   ],
+   "withheld_fields": [],
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED"
+   },
+   "audit_verdict": "CLEAN_PET_FRIENDLY",
+   "audit_problems": [],
+   "artifact_dir": ""
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "identity_key": "hampton inn toledo south maumee",
+   "canonical_name": "Hampton Inn Toledo - South/Maumee",
+   "brand": "HILTON",
+   "corridor": "toledo-oh__maumee-arrowhead",
+   "source_url": "https://www.hilton.com/en/hotels/tolsohx-hampton-toledo-south-maumee/",
+   "final_url": "https://www.hilton.com/en/hotels/tolsohx-hampton-toledo-south-maumee/",
+   "document_sha256": "",
+   "captured_at": "2026-09-06",
+   "identity_signals": {
+    "address_on_page": "1409 Reynolds Road",
+    "postal_code": "43537-1625",
+    "property_code_on_page": "tolsohx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ],
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n)-$125(5+n)2petsMax,dog/cat only",
+     "location": "bounded policy container (__NEXT_DATA__ petsInfo node)",
+     "field_refs": [
+      "pets_allowed",
+      "pet_fee",
+      "fee_currency",
+      "fee_refundable",
+      "weight_limit",
+      "weight_limit_unit",
+      "pet_count_limit",
+      "species_allowed"
+     ]
+    }
+   ],
+   "withheld_fields": [],
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED"
+   },
+   "audit_verdict": "CLEAN_PET_FRIENDLY",
+   "audit_problems": [],
+   "artifact_dir": ""
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "identity_key": "hilton garden inn toledo perrysburg",
+   "canonical_name": "Hilton Garden Inn Toledo Perrysburg",
+   "brand": "HILTON",
+   "corridor": "toledo-oh__perrysburg-levis-commons",
+   "source_url": "https://www.hilton.com/en/hotels/tolpbgi-hilton-garden-inn-toledo-perrysburg/",
+   "final_url": "https://www.hilton.com/en/hotels/tolpbgi-hilton-garden-inn-toledo-perrysburg/",
+   "document_sha256": "",
+   "captured_at": "2026-09-06",
+   "identity_signals": {
+    "address_on_page": "6165 Levis Commons Blvd.",
+    "postal_code": "43551",
+    "property_code_on_page": "tolpbgi"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ],
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75 (1-4 nights), $125 (5+ nights) 2 pets max dogs and cats only",
+     "location": "bounded policy container (__NEXT_DATA__ petsInfo node)",
+     "field_refs": [
+      "pets_allowed",
+      "pet_fee",
+      "fee_currency",
+      "fee_refundable",
+      "pet_count_limit",
+      "species_allowed"
+     ]
+    }
+   ],
+   "withheld_fields": [],
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED"
+   },
+   "audit_verdict": "CLEAN_PET_FRIENDLY",
+   "audit_problems": [],
+   "artifact_dir": ""
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "identity_key": "home2 suites",
+   "canonical_name": "Home2 Suites",
+   "brand": "HILTON",
+   "corridor": "toledo-oh__bowling-green",
+   "source_url": "https://www.hilton.com/en/hotels/tolbght-home2-suites-bowling-green/",
+   "final_url": "https://www.hilton.com/en/hotels/tolbght-home2-suites-bowling-green/",
+   "document_sha256": "",
+   "captured_at": "2026-09-06",
+   "identity_signals": {
+    "address_on_page": "1630 E. Wooster St.",
+    "postal_code": "43402",
+    "property_code_on_page": "tolbght"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ],
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4 nights), $150(5+ nights) 2 pets max, dog/cat only",
+     "location": "bounded policy container (__NEXT_DATA__ petsInfo node)",
+     "field_refs": [
+      "pets_allowed",
+      "pet_fee",
+      "fee_currency",
+      "fee_refundable",
+      "pet_count_limit",
+      "species_allowed"
+     ]
+    }
+   ],
+   "withheld_fields": [],
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED"
+   },
+   "audit_verdict": "CLEAN_PET_FRIENDLY",
+   "audit_problems": [],
+   "artifact_dir": ""
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "identity_key": "home2 suites by hilton perrysburg levis commons toledo",
+   "canonical_name": "Home2 Suites by Hilton Perrysburg Levis Commons Toledo",
+   "brand": "HILTON",
+   "corridor": "toledo-oh__perrysburg-levis-commons",
+   "source_url": "https://www.hilton.com/en/hotels/tolohht-home2-suites-perrysburg-levis-commons-toledo/",
+   "final_url": "https://www.hilton.com/en/hotels/tolohht-home2-suites-perrysburg-levis-commons-toledo/",
+   "document_sha256": "",
+   "captured_at": "2026-09-06",
+   "identity_signals": {
+    "address_on_page": "5995 Levis Commons Blvd",
+    "postal_code": "43551",
+    "property_code_on_page": "tolohht"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ],
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75 (1-4 nights), $125 (5+ nights) 2 pets max dogs and cats only",
+     "location": "bounded policy container (__NEXT_DATA__ petsInfo node)",
+     "field_refs": [
+      "pets_allowed",
+      "pet_fee",
+      "fee_currency",
+      "fee_refundable",
+      "pet_count_limit",
+      "species_allowed"
+     ]
+    }
+   ],
+   "withheld_fields": [],
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED"
+   },
+   "audit_verdict": "CLEAN_PET_FRIENDLY",
+   "audit_problems": [],
+   "artifact_dir": ""
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "identity_key": "hiltons at toledo downtown",
+   "canonical_name": "Hiltons at Toledo Downtown",
+   "brand": "HILTON",
+   "corridor": "toledo-oh__downtown-toledo",
+   "source_url": "https://www.hilton.com/en/hotels/toldegi-hilton-garden-inn-toledo-downtown/",
+   "final_url": "https://www.hilton.com/en/hotels/toldegi-hilton-garden-inn-toledo-downtown/",
+   "document_sha256": "",
+   "captured_at": "2026-09-06",
+   "identity_signals": {
+    "address_on_page": "101 N Summit St",
+    "postal_code": "43604",
+    "property_code_on_page": "toldegi"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ],
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, Dogs or cats only, two pets max. $75 (1-4 nights), $125 (5+ nights)",
+     "location": "bounded policy container (__NEXT_DATA__ petsInfo node)",
+     "field_refs": [
+      "pets_allowed",
+      "pet_fee",
+      "fee_currency",
+      "fee_refundable",
+      "species_allowed"
+     ]
+    }
+   ],
+   "withheld_fields": [],
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED"
+   },
+   "audit_verdict": "HELD",
+   "audit_problems": [
+    {
+     "class": "TWO_PROPERTIES_READ_ONTO_ONE_IDENTITY",
+     "why": "2 reads bound to this one census identity (https://www.hilton.com/en/hotels/tolddhw-homewood-suites-toledo-downto, https://www.hilton.com/en/hotels/toldegi-hilton-garden-inn-toledo-down). Two hotels share the address and the census has not yet separated them, so neither read may publish under it"
+    }
+   ],
+   "artifact_dir": ""
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "identity_key": "hiltons at toledo downtown",
+   "canonical_name": "Hiltons at Toledo Downtown",
+   "brand": "HILTON",
+   "corridor": "toledo-oh__downtown-toledo",
+   "source_url": "https://www.hilton.com/en/hotels/tolddhw-homewood-suites-toledo-downtown/",
+   "final_url": "https://www.hilton.com/en/hotels/tolddhw-homewood-suites-toledo-downtown/",
+   "document_sha256": "",
+   "captured_at": "2026-09-06",
+   "identity_signals": {
+    "address_on_page": "101 N Summit St",
+    "postal_code": "43604",
+    "property_code_on_page": "tolddhw"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ],
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, Dogs or cats only, two pets max. $75 (1-4 nights), $125(5+ nights)",
+     "location": "bounded policy container (__NEXT_DATA__ petsInfo node)",
+     "field_refs": [
+      "pets_allowed",
+      "pet_fee",
+      "fee_currency",
+      "fee_refundable",
+      "species_allowed"
+     ]
+    }
+   ],
+   "withheld_fields": [],
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED"
+   },
+   "audit_verdict": "HELD",
+   "audit_problems": [
+    {
+     "class": "TWO_PROPERTIES_READ_ONTO_ONE_IDENTITY",
+     "why": "2 reads bound to this one census identity (https://www.hilton.com/en/hotels/tolddhw-homewood-suites-toledo-downto, https://www.hilton.com/en/hotels/toldegi-hilton-garden-inn-toledo-down). Two hotels share the address and the census has not yet separated them, so neither read may publish under it"
+    }
+   ],
+   "artifact_dir": ""
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "identity_key": "super 8",
+   "canonical_name": "Super 8",
+   "brand": "HILTON",
+   "corridor": "toledo-oh__maumee-arrowhead",
+   "source_url": "https://www.hilton.com/en/hotels/tolmtpe-spark-maumee-toledo/",
+   "final_url": "https://www.hilton.com/en/hotels/tolmtpe-spark-maumee-toledo/",
+   "document_sha256": "",
+   "captured_at": "2026-09-06",
+   "identity_signals": {
+    "address_on_page": "1390 Arrowhead Drive",
+    "postal_code": "43537",
+    "property_code_on_page": "tolmtpe"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, 50.00 non-refundable fee",
+     "location": "bounded policy container (__NEXT_DATA__ petsInfo node)",
+     "field_refs": [
+      "pets_allowed",
+      "pet_fee",
+      "fee_currency",
+      "fee_refundable"
+     ]
+    }
+   ],
+   "withheld_fields": [],
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED"
+   },
+   "audit_verdict": "HELD",
+   "audit_problems": [
+    {
+     "class": "IDENTITY_UNRESOLVED_BY_THE_MERGE",
+     "why": "this building's address is claimed by two DIFFERENT chain identities and the founder has not ruled which one trades there; publishing a policy under either name could name a hotel that no longer answers to it"
+    }
+   ],
+   "artifact_dir": ""
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "identity_key": "tru perrysburg toledo",
+   "canonical_name": "Tru Perrysburg Toledo",
+   "brand": "HILTON",
+   "corridor": "toledo-oh__rossford-crossroads",
+   "source_url": "https://www.hilton.com/en/hotels/tolruru-tru-perrysburg-toledo/",
+   "final_url": "https://www.hilton.com/en/hotels/tolruru-tru-perrysburg-toledo/",
+   "document_sha256": "",
+   "captured_at": "2026-09-06",
+   "identity_signals": {
+    "address_on_page": "9735 Clark Drive",
+    "postal_code": "43460",
+    "property_code_on_page": "tolruru"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ],
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $50.00 non-refundable fee, $50(1-4n),$75(5+n) 2petsMax,dog/cat only",
+     "location": "bounded policy container (__NEXT_DATA__ petsInfo node)",
+     "field_refs": [
+      "pets_allowed",
+      "pet_fee",
+      "fee_currency",
+      "fee_refundable",
+      "pet_count_limit",
+      "species_allowed"
+     ]
+    }
+   ],
+   "withheld_fields": [],
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED"
+   },
+   "audit_verdict": "CLEAN_PET_FRIENDLY",
+   "audit_problems": [],
+   "artifact_dir": ""
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "identity_key": "courtyard by marriott toledo north",
+   "canonical_name": "Courtyard by Marriott Toledo North",
+   "brand": "MARRIOTT",
+   "corridor": "toledo-oh__north-toledo-i75",
+   "source_url": "https://www.marriott.com/en-us/hotels/tolno-courtyard-toledo-north/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/tolno-courtyard-toledo-north/overview/",
+   "document_sha256": "",
+   "captured_at": "2026-09-06",
+   "identity_signals": {
+    "name_on_page": "Courtyard by Marriott Toledo North",
+    "address_on_page": "5875 Hagman Road",
+    "locality": "Toledo",
+    "region": "Ohio",
+    "postal_code": "43612",
+    "phone_on_page": "+14193929637",
+    "property_code_on_page": "tolno"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "Pets Not Allowed",
+     "location": "bounded policy container (HOTEL INFORMATION block, Pet Policy row)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "withheld_fields": [],
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED"
+   },
+   "audit_verdict": "CLEAN_VERIFIED_NO_PETS",
+   "audit_problems": [],
+   "artifact_dir": ""
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "identity_key": "fairfield by marriott inn and suites bowling green",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Bowling Green",
+   "brand": "MARRIOTT",
+   "corridor": "toledo-oh__bowling-green",
+   "source_url": "https://www.marriott.com/en-us/hotels/tolbg-fairfield-inn-and-suites-bowling-green/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/tolbg-fairfield-inn-and-suites-bowling-green/overview/",
+   "document_sha256": "",
+   "captured_at": "2026-09-06",
+   "identity_signals": {
+    "name_on_page": "Fairfield by Marriott Inn & Suites Bowling Green",
+    "address_on_page": "1544 East Wooster Street",
+    "locality": "Bowling Green",
+    "region": "Ohio",
+    "postal_code": "43402",
+    "phone_on_page": "+14193520033",
+    "property_code_on_page": "tolbg"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "Pets Not Allowed No Pets Allowed:Service Animals Only",
+     "location": "bounded policy container (HOTEL INFORMATION block, Pet Policy row)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "withheld_fields": [],
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED"
+   },
+   "audit_verdict": "CLEAN_VERIFIED_NO_PETS",
+   "audit_problems": [],
+   "artifact_dir": ""
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "identity_key": "fairfield by marriott inn and suites toledo north",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Toledo North",
+   "brand": "MARRIOTT",
+   "corridor": "toledo-oh__north-toledo-i75",
+   "source_url": "https://www.marriott.com/en-us/hotels/tolfn-fairfield-inn-and-suites-toledo-north/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/tolfn-fairfield-inn-and-suites-toledo-north/overview/",
+   "document_sha256": "",
+   "captured_at": "2026-09-06",
+   "identity_signals": {
+    "name_on_page": "Fairfield by Marriott Inn & Suites Toledo North",
+    "address_on_page": "5685 Benore Road",
+    "locality": "Toledo",
+    "region": "Ohio",
+    "postal_code": "43612",
+    "phone_on_page": "+14197250050",
+    "property_code_on_page": "tolfn"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "Pets Not Allowed",
+     "location": "bounded policy container (HOTEL INFORMATION block, Pet Policy row)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "withheld_fields": [],
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED"
+   },
+   "audit_verdict": "CLEAN_VERIFIED_NO_PETS",
+   "audit_problems": [],
+   "artifact_dir": ""
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "identity_key": "",
+   "canonical_name": "",
+   "brand": "MARRIOTT",
+   "corridor": "",
+   "source_url": "https://www.marriott.com/en-us/hotels/tolde-delta-hotels-toledo/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/tolde-delta-hotels-toledo/overview/",
+   "document_sha256": "",
+   "captured_at": "2026-09-06",
+   "identity_signals": {
+    "name_on_page": "Delta Hotels Toledo",
+    "address_on_page": "3100 Glendale Avenue",
+    "locality": "Toledo",
+    "region": "Ohio",
+    "postal_code": "43614",
+    "phone_on_page": "+14195068006",
+    "property_code_on_page": "tolde"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "Pets Not Allowed",
+     "location": "bounded policy container (HOTEL INFORMATION block, Pet Policy row)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ],
+   "withheld_fields": [],
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED"
+   },
+   "audit_verdict": "HELD",
+   "audit_problems": [
+    {
+     "class": "NOT_IN_THE_PROPOSED_CENSUS",
+     "why": "this read is not bound to an admitted Toledo identity"
+    }
+   ],
+   "artifact_dir": ""
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "identity_key": "towneplace suites by marriott toledo perrysburg",
+   "canonical_name": "TownePlace Suites by Marriott Toledo Perrysburg",
+   "brand": "MARRIOTT",
+   "corridor": "toledo-oh__perrysburg-levis-commons",
+   "source_url": "https://www.marriott.com/en-us/hotels/tolpv-towneplace-suites-toledo-perrysburg/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/tolpv-towneplace-suites-toledo-perrysburg/overview/",
+   "document_sha256": "",
+   "captured_at": "2026-09-06",
+   "identity_signals": {
+    "name_on_page": "TownePlace Suites by Marriott Toledo Perrysburg",
+    "address_on_page": "5501 S Wilkinson Way",
+    "locality": "Perrysburg",
+    "region": "Ohio",
+    "postal_code": "43551",
+    "phone_on_page": "+14198735656",
+    "property_code_on_page": "tolpv"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 50.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "quote": "Pets Welcome Non-Refundable Pet Fee Per Stay: $100.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+     "location": "bounded policy container (HOTEL INFORMATION block, Pet Policy row)",
+     "field_refs": [
+      "pets_allowed",
+      "weight_limit",
+      "weight_limit_unit",
+      "pet_count_limit"
+     ]
+    }
+   ],
+   "withheld_fields": [],
+   "publication_grade": {
+    "verdict": "PUBLICATION_GRADE_CONFIRMED"
+   },
+   "audit_verdict": "CLEAN_PET_FRIENDLY",
+   "audit_problems": [],
+   "artifact_dir": ""
+  }
+ ]
+}

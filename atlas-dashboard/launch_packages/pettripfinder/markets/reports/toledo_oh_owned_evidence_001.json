@@ -1,0 +1,742 @@
+{
+ "schema": "ptf-owned-evidence-index/1.0",
+ "work_order": "PTF-TOLEDO-OH-NEW-MARKET-001",
+ "phase": "3 -- owned evidence search, rung 0 of the acquisition ladder",
+ "market_id": "toledo-oh",
+ "what_this_is": "What the repository already owns about Toledo, read before any external request. Owned first-party brand inventory is REUSED, not reacquired; families with no owned rows are named so the fresh lane knows exactly what it is for.",
+ "owned_evidence_is_not_policy": "Every row here is an identity/routing LEAD from a brand's own published sitemap. None of it is policy evidence and none of it may publish a pet policy.",
+ "paid_provider_calls": 0,
+ "usd_spent": 0.0,
+ "http_requests": 0,
+ "prior_toledo_market_work": "NONE -- toledo-oh has no market contract, no discovery config prior to this order, no census, no routes, no policy evidence and no provider attempts in any committed ledger.",
+ "sources_scanned": {
+  "DAYTON-001": {
+   "path": "launch_packages/pettripfinder/markets/reports/dayton_oh_brand_directory_harvest_001.json",
+   "work_order": "PTF-DAYTON-OH-HARDENED-REVALIDATION-001",
+   "as_of": "2026-09-02",
+   "usd_spent": 0.0,
+   "free_http_requests": 949,
+   "families_with_property_urls": {
+    "MARRIOTT": 17567,
+    "HILTON": 0,
+    "WYNDHAM": 263,
+    "DRURY": 12,
+    "SONESTA": 19,
+    "MY_PLACE": 0,
+    "MAGNUSON": 41,
+    "INTOWN": 10,
+    "WOODSPRING": 16
+   },
+   "refused_families": {
+    "IHG": "robots.txt 403 to a plain client (probe 2026-09-01)",
+    "HYATT": "robots.txt 403 (Kasada) -- ADR forbids satisfying the interstitial",
+    "BEST_WESTERN": "robots.txt 403",
+    "ESA": "robots.txt 403",
+    "RED_ROOF": "robots.txt 403",
+    "CHOICE": "robots.txt connection timeout (20 s)",
+    "MOTEL6": "robots.txt connection timeout",
+    "RADISSON": "robots.txt connection timeout"
+   }
+  },
+  "CLEVELAND-003": {
+   "path": "launch_packages/pettripfinder/markets/reports/cleveland_akron_canton_oh_brand_directory_harvest_003.json",
+   "work_order": "PTF-CLEVELAND-AKRON-CANTON-HARDENED-REVALIDATION-001",
+   "as_of": "2026-09-01",
+   "usd_spent": 0.0,
+   "free_http_requests": 868,
+   "families_with_property_urls": {
+    "MARRIOTT": 58,
+    "HILTON": 0,
+    "WYNDHAM": 264,
+    "DRURY": 12,
+    "SONESTA": 19,
+    "MY_PLACE": 0,
+    "MAGNUSON": 41,
+    "INTOWN": 10,
+    "WOODSPRING": 16
+   },
+   "refused_families": {
+    "IHG": "robots.txt 403 to a plain client (probe 2026-09-01)",
+    "HYATT": "robots.txt 403 (Kasada) -- ADR forbids satisfying the interstitial",
+    "BEST_WESTERN": "robots.txt 403",
+    "ESA": "robots.txt 403",
+    "RED_ROOF": "robots.txt 403",
+    "CHOICE": "robots.txt connection timeout (20 s)",
+    "MOTEL6": "robots.txt connection timeout",
+    "RADISSON": "robots.txt connection timeout"
+   }
+  }
+ },
+ "registered_censuses_scanned": [
+  "cincinnati-dayton-boundary-review.json",
+  "cincinnati-oh-quarantine.json",
+  "cincinnati-oh.json",
+  "cleveland-akron-canton-oh.json",
+  "cleveland-policy-capture-003-proposed-authority.json",
+  "columbus-oh.json",
+  "dayton-oh-proposed-authority.json",
+  "dayton-oh.json",
+  "dayton-recovery-002-proposed-authority.json",
+  "detroit-ann-arbor-mi.json",
+  "grand-rapids-holland-mi.json",
+  "indianapolis-in.json",
+  "louisville-ky.json",
+  "milwaukee-wi.json",
+  "pittsburgh-pa.json",
+  "st-louis-mo.json"
+ ],
+ "proposed_contract_postal_codes": [
+  "43402",
+  "43447",
+  "43460",
+  "43465",
+  "43528",
+  "43537",
+  "43542",
+  "43551",
+  "43558",
+  "43560",
+  "43566",
+  "43571",
+  "43602",
+  "43604",
+  "43605",
+  "43606",
+  "43607",
+  "43608",
+  "43609",
+  "43610",
+  "43611",
+  "43612",
+  "43613",
+  "43614",
+  "43615",
+  "43616",
+  "43617",
+  "43619",
+  "43620",
+  "43623"
+ ],
+ "counts": {
+  "owned_leads": 36,
+  "owned_leads_by_family": {
+   "MARRIOTT": 20,
+   "SONESTA": 1,
+   "WOODSPRING": 2,
+   "WYNDHAM": 13
+  },
+  "dropped": 17547,
+  "dropped_by_verdict": {
+   "DROPPED_CODE_OUTSIDE_MARKET": 16366,
+   "DROPPED_LOCALITY_TOKEN_TRAP": 8,
+   "DROPPED_SUBPAGE_OF_OVERVIEW": 1173
+  },
+  "cross_market_collision_hits": 0
+ },
+ "families_not_owned_must_acquire_fresh": [
+  "HILTON",
+  "IHG",
+  "CHOICE",
+  "HYATT",
+  "BEST_WESTERN",
+  "ESA",
+  "RED_ROOF",
+  "MOTEL6",
+  "RADISSON",
+  "MY_PLACE"
+ ],
+ "owned_leads": [
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/tolpv-towneplace-suites-toledo-perrysburg/overview/",
+   "locale_normalised_from": "a non-en-us Marriott locale path",
+   "property_code": "tolpv",
+   "locality_token": "toledo",
+   "verdict": "OWNED_LEAD",
+   "admitted_by": "PROPERTY_CODE_PREFIX",
+   "slug": "towneplace-suites-toledo-perrysburg",
+   "seen_in": [
+    "DAYTON-001"
+   ]
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/tolbg-fairfield-inn-and-suites-bowling-green/overview/",
+   "property_code": "tolbg",
+   "locality_token": "bowling-green",
+   "verdict": "OWNED_LEAD",
+   "admitted_by": "PROPERTY_CODE_PREFIX",
+   "slug": "fairfield-inn-and-suites-bowling-green",
+   "seen_in": [
+    "DAYTON-001"
+   ]
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/tolch-courtyard-toledo-airport-holland/overview/",
+   "property_code": "tolch",
+   "locality_token": "toledo",
+   "verdict": "OWNED_LEAD",
+   "admitted_by": "PROPERTY_CODE_PREFIX",
+   "slug": "courtyard-toledo-airport-holland",
+   "seen_in": [
+    "DAYTON-001"
+   ]
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/tolcr-courtyard-toledo-rossford-perrysburg/overview/",
+   "property_code": "tolcr",
+   "locality_token": "toledo",
+   "verdict": "OWNED_LEAD",
+   "admitted_by": "PROPERTY_CODE_PREFIX",
+   "slug": "courtyard-toledo-rossford-perrysburg",
+   "seen_in": [
+    "DAYTON-001"
+   ]
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/tolcw-courtyard-toledo-west/overview/",
+   "property_code": "tolcw",
+   "locality_token": "toledo",
+   "verdict": "OWNED_LEAD",
+   "admitted_by": "PROPERTY_CODE_PREFIX",
+   "slug": "courtyard-toledo-west",
+   "seen_in": [
+    "DAYTON-001"
+   ]
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/tolcy-courtyard-toledo-maumee-arrowhead/overview/",
+   "property_code": "tolcy",
+   "locality_token": "toledo",
+   "verdict": "OWNED_LEAD",
+   "admitted_by": "PROPERTY_CODE_PREFIX",
+   "slug": "courtyard-toledo-maumee-arrowhead",
+   "seen_in": [
+    "DAYTON-001"
+   ]
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/tolde-delta-hotels-toledo/overview/",
+   "property_code": "tolde",
+   "locality_token": "toledo",
+   "verdict": "OWNED_LEAD",
+   "admitted_by": "PROPERTY_CODE_PREFIX",
+   "slug": "delta-hotels-toledo",
+   "seen_in": [
+    "DAYTON-001"
+   ]
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/tolfc-fairfield-inn-and-suites-port-clinton-waterfront/overview/",
+   "property_code": "tolfc",
+   "locality_token": "",
+   "verdict": "OWNED_LEAD",
+   "admitted_by": "PROPERTY_CODE_PREFIX",
+   "slug": "fairfield-inn-and-suites-port-clinton-waterfront",
+   "seen_in": [
+    "DAYTON-001"
+   ]
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/tolfi-fairfield-inn-and-suites-findlay/overview/",
+   "property_code": "tolfi",
+   "locality_token": "",
+   "verdict": "OWNED_LEAD",
+   "admitted_by": "PROPERTY_CODE_PREFIX",
+   "slug": "fairfield-inn-and-suites-findlay",
+   "seen_in": [
+    "DAYTON-001"
+   ]
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/tolfn-fairfield-inn-and-suites-toledo-north/overview/",
+   "property_code": "tolfn",
+   "locality_token": "toledo",
+   "verdict": "OWNED_LEAD",
+   "admitted_by": "PROPERTY_CODE_PREFIX",
+   "slug": "fairfield-inn-and-suites-toledo-north",
+   "seen_in": [
+    "DAYTON-001"
+   ]
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/tolfx-city-express-findlay/overview/",
+   "property_code": "tolfx",
+   "locality_token": "",
+   "verdict": "OWNED_LEAD",
+   "admitted_by": "PROPERTY_CODE_PREFIX",
+   "slug": "city-express-findlay",
+   "seen_in": [
+    "DAYTON-001"
+   ]
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/tolgp-renaissance-toledo-downtown-hotel/overview/",
+   "property_code": "tolgp",
+   "locality_token": "toledo",
+   "verdict": "OWNED_LEAD",
+   "admitted_by": "PROPERTY_CODE_PREFIX",
+   "slug": "renaissance-toledo-downtown-hotel",
+   "seen_in": [
+    "DAYTON-001"
+   ]
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/tolmu-fairfield-inn-and-suites-toledo-maumee/overview/",
+   "property_code": "tolmu",
+   "locality_token": "toledo",
+   "verdict": "OWNED_LEAD",
+   "admitted_by": "PROPERTY_CODE_PREFIX",
+   "slug": "fairfield-inn-and-suites-toledo-maumee",
+   "seen_in": [
+    "DAYTON-001"
+   ]
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/tolno-courtyard-toledo-north/overview/",
+   "property_code": "tolno",
+   "locality_token": "toledo",
+   "verdict": "OWNED_LEAD",
+   "admitted_by": "PROPERTY_CODE_PREFIX",
+   "slug": "courtyard-toledo-north",
+   "seen_in": [
+    "DAYTON-001"
+   ]
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/tolpv-towneplace-suites-toledo-perrysburg/overview/",
+   "property_code": "tolpv",
+   "locality_token": "toledo",
+   "verdict": "OWNED_LEAD",
+   "admitted_by": "PROPERTY_CODE_PREFIX",
+   "slug": "towneplace-suites-toledo-perrysburg",
+   "seen_in": [
+    "DAYTON-001"
+   ]
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/tolrt-residence-inn-toledo-maumee/overview/",
+   "property_code": "tolrt",
+   "locality_token": "toledo",
+   "verdict": "OWNED_LEAD",
+   "admitted_by": "PROPERTY_CODE_PREFIX",
+   "slug": "residence-inn-toledo-maumee",
+   "seen_in": [
+    "DAYTON-001"
+   ]
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/tolrw-residence-inn-toledo-west/overview/",
+   "property_code": "tolrw",
+   "locality_token": "toledo",
+   "verdict": "OWNED_LEAD",
+   "admitted_by": "PROPERTY_CODE_PREFIX",
+   "slug": "residence-inn-toledo-west",
+   "seen_in": [
+    "DAYTON-001"
+   ]
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/toltf-towneplace-suites-findlay/overview/",
+   "property_code": "toltf",
+   "locality_token": "",
+   "verdict": "OWNED_LEAD",
+   "admitted_by": "PROPERTY_CODE_PREFIX",
+   "slug": "towneplace-suites-findlay",
+   "seen_in": [
+    "DAYTON-001"
+   ]
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/tolto-towneplace-suites-toledo-oregon/overview/",
+   "property_code": "tolto",
+   "locality_token": "toledo",
+   "verdict": "OWNED_LEAD",
+   "admitted_by": "PROPERTY_CODE_PREFIX",
+   "slug": "towneplace-suites-toledo-oregon",
+   "seen_in": [
+    "DAYTON-001"
+   ]
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/tolrw-residence-inn-toledo-west/overview/",
+   "locale_normalised_from": "a non-en-us Marriott locale path",
+   "property_code": "tolrw",
+   "locality_token": "toledo",
+   "verdict": "OWNED_LEAD",
+   "admitted_by": "PROPERTY_CODE_PREFIX",
+   "slug": "residence-inn-toledo-west",
+   "seen_in": [
+    "DAYTON-001"
+   ]
+  },
+  {
+   "family": "WYNDHAM",
+   "url": "https://www.wyndhamhotels.com/baymont/maumee-ohio/baymont-maumee-toledo/overview",
+   "locality_token": "toledo",
+   "verdict": "OWNED_LEAD",
+   "admitted_by": "LOCALITY_TOKEN",
+   "seen_in": [
+    "DAYTON-001",
+    "CLEVELAND-003"
+   ]
+  },
+  {
+   "family": "WYNDHAM",
+   "url": "https://www.wyndhamhotels.com/baymont/northwood-ohio/baymont-northwood/overview",
+   "locality_token": "northwood",
+   "verdict": "OWNED_LEAD",
+   "admitted_by": "LOCALITY_TOKEN",
+   "seen_in": [
+    "DAYTON-001",
+    "CLEVELAND-003"
+   ]
+  },
+  {
+   "family": "WYNDHAM",
+   "url": "https://www.wyndhamhotels.com/baymont/perrysburg-ohio/baymont-perrysburg-toledo/overview",
+   "locality_token": "toledo",
+   "verdict": "OWNED_LEAD",
+   "admitted_by": "LOCALITY_TOKEN",
+   "seen_in": [
+    "DAYTON-001",
+    "CLEVELAND-003"
+   ]
+  },
+  {
+   "family": "WYNDHAM",
+   "url": "https://www.wyndhamhotels.com/baymont/swanton-ohio/baymont-inn-and-suites-swanton-toledo-airport/overview",
+   "locality_token": "toledo",
+   "verdict": "OWNED_LEAD",
+   "admitted_by": "LOCALITY_TOKEN",
+   "seen_in": [
+    "DAYTON-001",
+    "CLEVELAND-003"
+   ]
+  },
+  {
+   "family": "WYNDHAM",
+   "url": "https://www.wyndhamhotels.com/days-inn/maumee-ohio/days-inn-maumeetoledo/overview",
+   "locality_token": "toledo",
+   "verdict": "OWNED_LEAD",
+   "admitted_by": "LOCALITY_TOKEN",
+   "seen_in": [
+    "DAYTON-001",
+    "CLEVELAND-003"
+   ]
+  },
+  {
+   "family": "WYNDHAM",
+   "url": "https://www.wyndhamhotels.com/days-inn/perrysburg-ohio/days-inn-perrysburg/overview",
+   "locality_token": "perrysburg",
+   "verdict": "OWNED_LEAD",
+   "admitted_by": "LOCALITY_TOKEN",
+   "seen_in": [
+    "DAYTON-001",
+    "CLEVELAND-003"
+   ]
+  },
+  {
+   "family": "WYNDHAM",
+   "url": "https://www.wyndhamhotels.com/hojo/perrysburg-ohio/howard-johnson-inn-perrysburg/overview",
+   "locality_token": "perrysburg",
+   "verdict": "OWNED_LEAD",
+   "admitted_by": "LOCALITY_TOKEN",
+   "seen_in": [
+    "DAYTON-001",
+    "CLEVELAND-003"
+   ]
+  },
+  {
+   "family": "WYNDHAM",
+   "url": "https://www.wyndhamhotels.com/laquinta/perrysburg-ohio/la-quinta-inn-toledo-perrysburg/overview",
+   "locality_token": "toledo",
+   "verdict": "OWNED_LEAD",
+   "admitted_by": "LOCALITY_TOKEN",
+   "seen_in": [
+    "DAYTON-001",
+    "CLEVELAND-003"
+   ]
+  },
+  {
+   "family": "WYNDHAM",
+   "url": "https://www.wyndhamhotels.com/ramada/toledo-ohio/ramada-toledo-conference-center/overview",
+   "locality_token": "toledo",
+   "verdict": "OWNED_LEAD",
+   "admitted_by": "LOCALITY_TOKEN",
+   "seen_in": [
+    "DAYTON-001",
+    "CLEVELAND-003"
+   ]
+  },
+  {
+   "family": "WYNDHAM",
+   "url": "https://www.wyndhamhotels.com/super-8/millbury-ohio/super-8-millbury-toledo/overview",
+   "locality_token": "toledo",
+   "verdict": "OWNED_LEAD",
+   "admitted_by": "LOCALITY_TOKEN",
+   "seen_in": [
+    "DAYTON-001",
+    "CLEVELAND-003"
+   ]
+  },
+  {
+   "family": "WYNDHAM",
+   "url": "https://www.wyndhamhotels.com/super-8/perrysburg-ohio/super-8-perrysburg-toledo/overview",
+   "locality_token": "toledo",
+   "verdict": "OWNED_LEAD",
+   "admitted_by": "LOCALITY_TOKEN",
+   "seen_in": [
+    "DAYTON-001",
+    "CLEVELAND-003"
+   ]
+  },
+  {
+   "family": "WYNDHAM",
+   "url": "https://www.wyndhamhotels.com/travelodge/bowling-green-ohio/travelodge-bowling-green/overview",
+   "locality_token": "bowling-green",
+   "verdict": "OWNED_LEAD",
+   "admitted_by": "LOCALITY_TOKEN",
+   "seen_in": [
+    "DAYTON-001",
+    "CLEVELAND-003"
+   ]
+  },
+  {
+   "family": "WYNDHAM",
+   "url": "https://www.wyndhamhotels.com/wingate/sylvania-ohio/wingate-by-wyndham-sylvania-toledo/overview",
+   "locality_token": "toledo",
+   "verdict": "OWNED_LEAD",
+   "admitted_by": "LOCALITY_TOKEN",
+   "seen_in": [
+    "DAYTON-001",
+    "CLEVELAND-003"
+   ]
+  },
+  {
+   "family": "SONESTA",
+   "url": "https://www.sonesta.com/americas-best-value-inn/oh/maumee/americas-best-value-inn-maumee-toledo",
+   "locality_token": "toledo",
+   "verdict": "OWNED_LEAD",
+   "admitted_by": "LOCALITY_TOKEN",
+   "seen_in": [
+    "DAYTON-001",
+    "CLEVELAND-003"
+   ]
+  },
+  {
+   "family": "WOODSPRING",
+   "url": "https://www.woodspring.com/extended-stay-hotels/locations/ohio/maumee-ohio/woodspring-suites-maumee",
+   "locality_token": "maumee",
+   "verdict": "OWNED_LEAD",
+   "admitted_by": "LOCALITY_TOKEN",
+   "seen_in": [
+    "DAYTON-001",
+    "CLEVELAND-003"
+   ]
+  },
+  {
+   "family": "WOODSPRING",
+   "url": "https://www.woodspring.com/extended-stay-hotels/locations/ohio/maumee/hotels",
+   "locality_token": "maumee",
+   "verdict": "OWNED_LEAD",
+   "admitted_by": "LOCALITY_TOKEN",
+   "seen_in": [
+    "DAYTON-001",
+    "CLEVELAND-003"
+   ]
+  }
+ ],
+ "dropped_with_reason_note": "Only rows carrying a Toledo LOCALITY TOKEN are listed. The other 17532 dropped rows are the rest of the world: a global Marriott roster and non-en-us locale duplicates, dropped because their property code carries no TOL prefix.",
+ "dropped_with_reason": [
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/bnabh-springhill-suites-bowling-green/overview/",
+   "locale_normalised_from": "a non-en-us Marriott locale path",
+   "property_code": "bnabh",
+   "locality_token": "bowling-green",
+   "verdict": "DROPPED_LOCALITY_TOKEN_TRAP",
+   "why": "SpringHill Suites Bowling Green -- Bowling Green, KENTUCKY (BNA is Nashville).",
+   "seen_in": [
+    "DAYTON-001"
+   ]
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/grrht-towneplace-suites-holland/overview/",
+   "locale_normalised_from": "a non-en-us Marriott locale path",
+   "property_code": "grrht",
+   "locality_token": "holland",
+   "verdict": "DROPPED_CODE_OUTSIDE_MARKET",
+   "why": "Marriott code 'grrht' does not carry the TOL prefix this market owns.",
+   "seen_in": [
+    "DAYTON-001"
+   ]
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/bnabh-springhill-suites-bowling-green/overview/",
+   "property_code": "bnabh",
+   "locality_token": "bowling-green",
+   "verdict": "DROPPED_LOCALITY_TOKEN_TRAP",
+   "why": "SpringHill Suites Bowling Green -- Bowling Green, KENTUCKY (BNA is Nashville).",
+   "seen_in": [
+    "DAYTON-001"
+   ]
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/bwgcy-courtyard-bowling-green-convention-center/overview/",
+   "property_code": "bwgcy",
+   "locality_token": "bowling-green",
+   "verdict": "DROPPED_LOCALITY_TOKEN_TRAP",
+   "why": "Courtyard Bowling Green Convention Center -- Bowling Green, KENTUCKY (BWG).",
+   "seen_in": [
+    "DAYTON-001"
+   ]
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/bwgfb-fairfield-inn-and-suites-bowling-green/overview/",
+   "property_code": "bwgfb",
+   "locality_token": "bowling-green",
+   "verdict": "DROPPED_LOCALITY_TOKEN_TRAP",
+   "why": "Fairfield Inn & Suites Bowling Green -- Bowling Green, KENTUCKY (BWG).",
+   "seen_in": [
+    "DAYTON-001"
+   ]
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/bwgts-towneplace-suites-bowling-green/overview/",
+   "property_code": "bwgts",
+   "locality_token": "bowling-green",
+   "verdict": "DROPPED_LOCALITY_TOKEN_TRAP",
+   "why": "TownePlace Suites Bowling Green -- Bowling Green, KENTUCKY (BWG).",
+   "seen_in": [
+    "DAYTON-001"
+   ]
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/grrch-courtyard-holland-downtown/overview/",
+   "property_code": "grrch",
+   "locality_token": "holland",
+   "verdict": "DROPPED_CODE_OUTSIDE_MARKET",
+   "why": "Marriott code 'grrch' does not carry the TOL prefix this market owns.",
+   "seen_in": [
+    "DAYTON-001"
+   ]
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/grrfi-fairfield-inn-and-suites-holland/overview/",
+   "property_code": "grrfi",
+   "locality_token": "holland",
+   "verdict": "DROPPED_CODE_OUTSIDE_MARKET",
+   "why": "Marriott code 'grrfi' does not carry the TOL prefix this market owns.",
+   "seen_in": [
+    "DAYTON-001"
+   ]
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/grrho-residence-inn-holland/overview/",
+   "property_code": "grrho",
+   "locality_token": "holland",
+   "verdict": "DROPPED_CODE_OUTSIDE_MARKET",
+   "why": "Marriott code 'grrho' does not carry the TOL prefix this market owns.",
+   "seen_in": [
+    "DAYTON-001"
+   ]
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/grrht-towneplace-suites-holland/overview/",
+   "property_code": "grrht",
+   "locality_token": "holland",
+   "verdict": "DROPPED_CODE_OUTSIDE_MARKET",
+   "why": "Marriott code 'grrht' does not carry the TOL prefix this market owns.",
+   "seen_in": [
+    "DAYTON-001"
+   ]
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/grrsl-springhill-suites-holland/overview/",
+   "property_code": "grrsl",
+   "locality_token": "holland",
+   "verdict": "DROPPED_CODE_OUTSIDE_MARKET",
+   "why": "Marriott code 'grrsl' does not carry the TOL prefix this market owns.",
+   "seen_in": [
+    "DAYTON-001"
+   ]
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/madto-ac-hotel-ciudad-de-toledo/overview/",
+   "property_code": "madto",
+   "locality_token": "toledo",
+   "verdict": "DROPPED_LOCALITY_TOKEN_TRAP",
+   "why": "AC Hotel Ciudad de Toledo -- Toledo, SPAIN. Marriott MAD* is Madrid.",
+   "seen_in": [
+    "DAYTON-001"
+   ]
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/bnabh-springhill-suites-bowling-green/overview/",
+   "locale_normalised_from": "a non-en-us Marriott locale path",
+   "property_code": "bnabh",
+   "locality_token": "bowling-green",
+   "verdict": "DROPPED_LOCALITY_TOKEN_TRAP",
+   "why": "SpringHill Suites Bowling Green -- Bowling Green, KENTUCKY (BNA is Nashville).",
+   "seen_in": [
+    "DAYTON-001"
+   ]
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/madto-ac-hotel-ciudad-de-toledo/overview/",
+   "locale_normalised_from": "a non-en-us Marriott locale path",
+   "property_code": "madto",
+   "locality_token": "toledo",
+   "verdict": "DROPPED_LOCALITY_TOKEN_TRAP",
+   "why": "AC Hotel Ciudad de Toledo -- Toledo, SPAIN. Marriott MAD* is Madrid.",
+   "seen_in": [
+    "DAYTON-001"
+   ]
+  },
+  {
+   "family": "MARRIOTT",
+   "url": "https://www.marriott.com/en-us/hotels/grrho-residence-inn-holland/overview/",
+   "locale_normalised_from": "a non-en-us Marriott locale path",
+   "property_code": "grrho",
+   "locality_token": "holland",
+   "verdict": "DROPPED_CODE_OUTSIDE_MARKET",
+   "why": "Marriott code 'grrho' does not carry the TOL prefix this market owns.",
+   "seen_in": [
+    "DAYTON-001"
+   ]
+  }
+ ],
+ "cross_market_collisions": []
+}

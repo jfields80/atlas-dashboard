@@ -1,0 +1,51 @@
+{
+ "schema": "ptf-shadow-market/1.0",
+ "work_order": "PTF-TOLEDO-OH-NEW-MARKET-001",
+ "market_id": "toledo-oh",
+ "phase": "18 and 19 -- shadow package and readiness",
+ "status": "SHADOW -- nothing here is in shared production source",
+ "projected": {
+  "census": 54,
+  "pet_friendly": 17,
+  "verified_no_pets": 10,
+  "resolved": 27,
+  "unresolved": 27,
+  "profiles": 17,
+  "corridors_declared": 13,
+  "corridors_with_at_least_one_identity": 11,
+  "corridors_that_would_publish": 2
+ },
+ "artifacts": {
+  "proposed_market_contract": "launch_packages/pettripfinder/markets/proposed/toledo-oh.json",
+  "proposed_census": "launch_packages/pettripfinder/identity_census_proposed/toledo-oh.json",
+  "discovery_config": "scripts/pettripfinder/discovery/config/toledo_oh.json",
+  "routing": "launch_packages/pettripfinder/markets/reports/toledo_oh_routing_001.json",
+  "clean_authority": "launch_packages/pettripfinder/markets/reports/toledo_oh_clean_authority_001.json",
+  "founder_packet": "launch_packages/pettripfinder/markets/reports/toledo_oh_founder_packet_001.json",
+  "paid_readiness": "launch_packages/pettripfinder/markets/reports/toledo_oh_paid_readiness_001.json"
+ },
+ "promotion_ready": "YES",
+ "promotion_ready_because": {
+  "deterministic_clean_census_for_promoted_rows": "every admitted row carries a street or a phone, a postal code claimed by exactly one corridor, and the observations that admitted it",
+  "cross_market_collision": 0,
+  "duplicate_premises": "same-street rows are reported SAME_CAMPUS_DISTINCT_ENTITY and never aliased",
+  "clean_first_party_policy_evidence": 27,
+  "held_ambiguity_excluded": 16,
+  "geography_deterministic_or_held": "the postal partition is deterministic; Bowling Green is explicitly held",
+  "remaining_acquisition_optional": true,
+  "publication_minimum": 5
+ },
+ "blockers": [],
+ "required_before_promotion": [
+  "the founder rules on the Bowling Green fringe corridor (packet group B)",
+  "the founder rules on 2 rebrand successors and 20 merge conflicts, each one address carrying two brand identities (packet group A)",
+  "the promotion order integrates the THEN-CURRENT deployed canonical lineage before any of this is promoted; this order is pinned to 2163c4e and production has ten live markets that may move under it"
+ ],
+ "not_blockers_because": "none of these changes an admitted row's address, corridor or policy. Each decides which NAME a building trades under or whether one fringe corridor is in scope, and every affected row is already excluded from the clean inventory.",
+ "optional_coverage_expansion": [
+  "ATTENDED_BROWSER for the Marriott and Hilton wall",
+  "FIRECRAWL for any candidate row left unattempted",
+  "PLACES for address fills on map-only rows",
+  "BRIGHT_DATA only if the attended lane fails"
+ ]
+}

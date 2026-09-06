@@ -1,0 +1,802 @@
+{
+ "schema": "ptf-attended-capture/1.0",
+ "work_order": "PTF-TOLEDO-OH-NEW-MARKET-001",
+ "market_id": "toledo-oh",
+ "phase": "12 -- attended browser pass over the Marriott and Hilton wall",
+ "as_of": "2026-09-06",
+ "lane": "ATTENDED_BROWSER (a person in a real Chrome session; free)",
+ "authorization": "the operator selected the browser in session and authorised this pass",
+ "paid_provider_calls": 0,
+ "usd_spent": 0.0,
+ "firecrawl_credits": 0,
+ "why_attended": "Marriott and Hilton are a MEASURED Firecrawl capability wall (PTF-FIRECRAWL-HARD-LANES-003) and refuse this project's plain client; the acquisition ladder routes them here and nowhere cheaper",
+ "how_each_brand_was_read": {
+  "HILTON": "the __NEXT_DATA__ petsInfo node, anchored on its own key set. The same page carries guest-review prose saying pets were allowed; that is a review, not a policy, and the walk cannot reach it.",
+  "MARRIOTT": "the Hotel JSON-LD for identity, and a bounded window after the HOTEL INFORMATION 'Pet Policy' label for the operative statement"
+ },
+ "no_bot_check_was_answered": "every page served a plain same-origin fetch from the operator's own session. No credential was entered, no interstitial was solved and no detection was evaded.",
+ "a_code_selects_the_page_admits": "Marriott's TOL prefix reaches Findlay, Port Clinton and Wauseon, and Hilton's Toledo-area city pages list a Wauseon Tru. All four were captured and all four are OUTSIDE_MARKET on the address their own pages state.",
+ "radisson_row_not_read": {
+  "url": "https://www.countyinns.com/maumee-hotel-oh-43537/ohtoledo",
+  "result": "OPAQUE_NO_CORS_RESPONSE",
+  "note": "the destination roster's link for Country Inn & Suites Toledo/Maumee is countyinns.com, which is not Radisson's countryinns.com; the attended session could not read it and it is left unrouted"
+ },
+ "counts": {
+  "pages_read": 23,
+  "by_brand": {
+   "HILTON": 14,
+   "MARRIOTT": 9
+  },
+  "identity_confirmed": 23,
+  "in_market": 18,
+  "outside_market": 5,
+  "in_market_pet_friendly": 14,
+  "in_market_verified_no_pets": 4,
+  "outside_market_rows": [
+   {
+    "code": "tolllru",
+    "street": "8165 SR-108",
+    "postal": "43567"
+   },
+   {
+    "code": "tolfx",
+    "street": "941 Interstate Drive",
+    "postal": "45840"
+   },
+   {
+    "code": "tolfi",
+    "street": "2000 Tiffin Avenue",
+    "postal": "45839"
+   },
+   {
+    "code": "tolfc",
+    "street": "1811 East Perry Street",
+    "postal": "43452"
+   },
+   {
+    "code": "toltf",
+    "street": "2501 Tiffin Avenue",
+    "postal": "45840"
+   }
+  ]
+ },
+ "rows": [
+  {
+   "brand": "HILTON",
+   "property_code": "tolmaht",
+   "requested_url": "https://www.hilton.com/en/hotels/tolmaht-home2-suites-maumee-toledo/",
+   "final_url": "https://www.hilton.com/en/hotels/tolmaht-home2-suites-maumee-toledo/",
+   "captured_at": "2026-09-06",
+   "document_bytes": 275632,
+   "identity_signals": {
+    "address_on_page": "1701 Tollgate Drive",
+    "postal_code": "43537",
+    "property_code_on_page": "tolmaht"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "exact_quote": "Pets allowed, $125.00 non-refundable fee, 25 lbs maximum, $75(1-4 Nights) $125(5+Nights) 2Pets Max",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 12500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "weight_limit": 25.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2,
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "in_market": true,
+   "corridor": "toledo-oh__maumee-arrowhead",
+   "market_verdict": "IN_MARKET"
+  },
+  {
+   "brand": "HILTON",
+   "property_code": "bgnohhx",
+   "requested_url": "https://www.hilton.com/en/hotels/bgnohhx-hampton-bowling-green/",
+   "final_url": "https://www.hilton.com/en/hotels/bgnohhx-hampton-bowling-green/",
+   "captured_at": "2026-09-06",
+   "document_bytes": 285356,
+   "identity_signals": {
+    "address_on_page": "142 Campbell Hill Road",
+    "postal_code": "43402",
+    "property_code_on_page": "bgnohhx"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "exact_quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4n), $125(5+n)2petsMax,dog/cat only. Each pet will be charged accordingly. Any additional cleaning or damages will be charged.",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "weight_limit": 50.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ],
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "in_market": true,
+   "corridor": "toledo-oh__bowling-green",
+   "market_verdict": "IN_MARKET"
+  },
+  {
+   "brand": "HILTON",
+   "property_code": "toltohx",
+   "requested_url": "https://www.hilton.com/en/hotels/toltohx-hampton-toledo-oregon/",
+   "final_url": "https://www.hilton.com/en/hotels/toltohx-hampton-toledo-oregon/",
+   "captured_at": "2026-09-06",
+   "document_bytes": 270771,
+   "identity_signals": {
+    "address_on_page": "2931 Navarre Avenue",
+    "postal_code": "43616",
+    "property_code_on_page": "toltohx"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "exact_quote": "Pets allowed, $75.00 non-refundable fee, $75 (1-4 nights), $125 (5+ nights), dog/cat only, maximum of two pets.",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ],
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "in_market": true,
+   "corridor": "toledo-oh__oregon-northwood-east",
+   "market_verdict": "IN_MARKET"
+  },
+  {
+   "brand": "HILTON",
+   "property_code": "tolpghx",
+   "requested_url": "https://www.hilton.com/en/hotels/tolpghx-hampton-suites-toledo-perrysburg/",
+   "final_url": "https://www.hilton.com/en/hotels/tolpghx-hampton-suites-toledo-perrysburg/",
+   "captured_at": "2026-09-06",
+   "document_bytes": 270617,
+   "identity_signals": {
+    "address_on_page": "9753 Clark Dr.",
+    "postal_code": "43460",
+    "property_code_on_page": "tolpghx"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "exact_quote": "Pets allowed, $75.00 non-refundable fee",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "in_market": true,
+   "corridor": "toledo-oh__rossford-crossroads",
+   "market_verdict": "IN_MARKET"
+  },
+  {
+   "brand": "HILTON",
+   "property_code": "tolwghx",
+   "requested_url": "https://www.hilton.com/en/hotels/tolwghx-hampton-suites-toledo-westgate/",
+   "final_url": "https://www.hilton.com/en/hotels/tolwghx-hampton-suites-toledo-westgate/",
+   "captured_at": "2026-09-06",
+   "document_bytes": 272641,
+   "identity_signals": {
+    "address_on_page": "3434 Secor Road",
+    "postal_code": "43606",
+    "property_code_on_page": "tolwghx"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "exact_quote": "Pets allowed, $50.00 non-refundable fee, $50(1-4n),$75(5+n) 2petsMax,dog/cat only",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ],
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "in_market": true,
+   "corridor": "toledo-oh__university-medical",
+   "market_verdict": "IN_MARKET"
+  },
+  {
+   "brand": "HILTON",
+   "property_code": "tolsohx",
+   "requested_url": "https://www.hilton.com/en/hotels/tolsohx-hampton-toledo-south-maumee/",
+   "final_url": "https://www.hilton.com/en/hotels/tolsohx-hampton-toledo-south-maumee/",
+   "captured_at": "2026-09-06",
+   "document_bytes": 273558,
+   "identity_signals": {
+    "address_on_page": "1409 Reynolds Road",
+    "postal_code": "43537-1625",
+    "property_code_on_page": "tolsohx"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "exact_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n)-$125(5+n)2petsMax,dog/cat only",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ],
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "in_market": true,
+   "corridor": "toledo-oh__maumee-arrowhead",
+   "market_verdict": "IN_MARKET"
+  },
+  {
+   "brand": "HILTON",
+   "property_code": "tolpbgi",
+   "requested_url": "https://www.hilton.com/en/hotels/tolpbgi-hilton-garden-inn-toledo-perrysburg/",
+   "final_url": "https://www.hilton.com/en/hotels/tolpbgi-hilton-garden-inn-toledo-perrysburg/",
+   "captured_at": "2026-09-06",
+   "document_bytes": 279853,
+   "identity_signals": {
+    "address_on_page": "6165 Levis Commons Blvd.",
+    "postal_code": "43551",
+    "property_code_on_page": "tolpbgi"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "exact_quote": "Pets allowed, $75.00 non-refundable fee, $75 (1-4 nights), $125 (5+ nights) 2 pets max dogs and cats only",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ],
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "in_market": true,
+   "corridor": "toledo-oh__perrysburg-levis-commons",
+   "market_verdict": "IN_MARKET"
+  },
+  {
+   "brand": "HILTON",
+   "property_code": "tolbght",
+   "requested_url": "https://www.hilton.com/en/hotels/tolbght-home2-suites-bowling-green/",
+   "final_url": "https://www.hilton.com/en/hotels/tolbght-home2-suites-bowling-green/",
+   "captured_at": "2026-09-06",
+   "document_bytes": 295086,
+   "identity_signals": {
+    "address_on_page": "1630 E. Wooster St.",
+    "postal_code": "43402",
+    "property_code_on_page": "tolbght"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "exact_quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4 nights), $150(5+ nights) 2 pets max, dog/cat only",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ],
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "in_market": true,
+   "corridor": "toledo-oh__bowling-green",
+   "market_verdict": "IN_MARKET"
+  },
+  {
+   "brand": "HILTON",
+   "property_code": "tolohht",
+   "requested_url": "https://www.hilton.com/en/hotels/tolohht-home2-suites-perrysburg-levis-commons-toledo/",
+   "final_url": "https://www.hilton.com/en/hotels/tolohht-home2-suites-perrysburg-levis-commons-toledo/",
+   "captured_at": "2026-09-06",
+   "document_bytes": 292130,
+   "identity_signals": {
+    "address_on_page": "5995 Levis Commons Blvd",
+    "postal_code": "43551",
+    "property_code_on_page": "tolohht"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "exact_quote": "Pets allowed, $75.00 non-refundable fee, $75 (1-4 nights), $125 (5+ nights) 2 pets max dogs and cats only",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ],
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "in_market": true,
+   "corridor": "toledo-oh__perrysburg-levis-commons",
+   "market_verdict": "IN_MARKET"
+  },
+  {
+   "brand": "HILTON",
+   "property_code": "toldegi",
+   "requested_url": "https://www.hilton.com/en/hotels/toldegi-hilton-garden-inn-toledo-downtown/",
+   "final_url": "https://www.hilton.com/en/hotels/toldegi-hilton-garden-inn-toledo-downtown/",
+   "captured_at": "2026-09-06",
+   "document_bytes": 290984,
+   "identity_signals": {
+    "address_on_page": "101 N Summit St",
+    "postal_code": "43604",
+    "property_code_on_page": "toldegi"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "exact_quote": "Pets allowed, $75.00 non-refundable fee, Dogs or cats only, two pets max. $75 (1-4 nights), $125 (5+ nights)",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ],
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "in_market": true,
+   "corridor": "toledo-oh__downtown-toledo",
+   "market_verdict": "IN_MARKET"
+  },
+  {
+   "brand": "HILTON",
+   "property_code": "tolddhw",
+   "requested_url": "https://www.hilton.com/en/hotels/tolddhw-homewood-suites-toledo-downtown/",
+   "final_url": "https://www.hilton.com/en/hotels/tolddhw-homewood-suites-toledo-downtown/",
+   "captured_at": "2026-09-06",
+   "document_bytes": 293657,
+   "identity_signals": {
+    "address_on_page": "101 N Summit St",
+    "postal_code": "43604",
+    "property_code_on_page": "tolddhw"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "exact_quote": "Pets allowed, $75.00 non-refundable fee, Dogs or cats only, two pets max. $75 (1-4 nights), $125(5+ nights)",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ],
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "in_market": true,
+   "corridor": "toledo-oh__downtown-toledo",
+   "market_verdict": "IN_MARKET"
+  },
+  {
+   "brand": "HILTON",
+   "property_code": "tolmtpe",
+   "requested_url": "https://www.hilton.com/en/hotels/tolmtpe-spark-maumee-toledo/",
+   "final_url": "https://www.hilton.com/en/hotels/tolmtpe-spark-maumee-toledo/",
+   "captured_at": "2026-09-06",
+   "document_bytes": 216205,
+   "identity_signals": {
+    "address_on_page": "1390 Arrowhead Drive",
+    "postal_code": "43537",
+    "property_code_on_page": "tolmtpe"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "exact_quote": "Pets allowed, 50.00 non-refundable fee",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "in_market": true,
+   "corridor": "toledo-oh__maumee-arrowhead",
+   "market_verdict": "IN_MARKET"
+  },
+  {
+   "brand": "HILTON",
+   "property_code": "tolruru",
+   "requested_url": "https://www.hilton.com/en/hotels/tolruru-tru-perrysburg-toledo/",
+   "final_url": "https://www.hilton.com/en/hotels/tolruru-tru-perrysburg-toledo/",
+   "captured_at": "2026-09-06",
+   "document_bytes": 279491,
+   "identity_signals": {
+    "address_on_page": "9735 Clark Drive",
+    "postal_code": "43460",
+    "property_code_on_page": "tolruru"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "exact_quote": "Pets allowed, $50.00 non-refundable fee, $50(1-4n),$75(5+n) 2petsMax,dog/cat only",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ],
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "in_market": true,
+   "corridor": "toledo-oh__rossford-crossroads",
+   "market_verdict": "IN_MARKET"
+  },
+  {
+   "brand": "HILTON",
+   "property_code": "tolllru",
+   "requested_url": "https://www.hilton.com/en/hotels/tolllru-tru-wauseon/",
+   "final_url": "https://www.hilton.com/en/hotels/tolllru-tru-wauseon/",
+   "captured_at": "2026-09-06",
+   "document_bytes": 276721,
+   "identity_signals": {
+    "address_on_page": "8165 SR-108",
+    "postal_code": "43567",
+    "property_code_on_page": "tolllru"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "exact_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-3 nights) & $125(3 + nights) 2 pets Maximum, a dog/a cat only.",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ],
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "in_market": false,
+   "corridor": "",
+   "market_verdict": "OUTSIDE_MARKET"
+  },
+  {
+   "brand": "MARRIOTT",
+   "property_code": "tolno",
+   "requested_url": "https://www.marriott.com/en-us/hotels/tolno-courtyard-toledo-north/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/tolno-courtyard-toledo-north/overview/",
+   "captured_at": "2026-09-06",
+   "document_bytes": 325208,
+   "identity_signals": {
+    "name_on_page": "Courtyard by Marriott Toledo North",
+    "address_on_page": "5875 Hagman Road",
+    "locality": "Toledo",
+    "region": "Ohio",
+    "postal_code": "43612",
+    "phone_on_page": "+14193929637",
+    "property_code_on_page": "tolno"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "exact_quote": "Pets Not Allowed",
+   "extraction": {
+    "pets_allowed": false
+   },
+   "in_market": true,
+   "corridor": "toledo-oh__north-toledo-i75",
+   "market_verdict": "IN_MARKET"
+  },
+  {
+   "brand": "MARRIOTT",
+   "property_code": "tolbg",
+   "requested_url": "https://www.marriott.com/en-us/hotels/tolbg-fairfield-inn-and-suites-bowling-green/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/tolbg-fairfield-inn-and-suites-bowling-green/overview/",
+   "captured_at": "2026-09-06",
+   "document_bytes": 321445,
+   "identity_signals": {
+    "name_on_page": "Fairfield by Marriott Inn & Suites Bowling Green",
+    "address_on_page": "1544 East Wooster Street",
+    "locality": "Bowling Green",
+    "region": "Ohio",
+    "postal_code": "43402",
+    "phone_on_page": "+14193520033",
+    "property_code_on_page": "tolbg"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "exact_quote": "Pets Not Allowed No Pets Allowed:Service Animals Only",
+   "extraction": {
+    "pets_allowed": false
+   },
+   "in_market": true,
+   "corridor": "toledo-oh__bowling-green",
+   "market_verdict": "IN_MARKET",
+   "service_animals_only": "the row refuses ordinary pets and admits service animals; the carve-out is recorded and is never read as acceptance"
+  },
+  {
+   "brand": "MARRIOTT",
+   "property_code": "tolfn",
+   "requested_url": "https://www.marriott.com/en-us/hotels/tolfn-fairfield-inn-and-suites-toledo-north/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/tolfn-fairfield-inn-and-suites-toledo-north/overview/",
+   "captured_at": "2026-09-06",
+   "document_bytes": 309336,
+   "identity_signals": {
+    "name_on_page": "Fairfield by Marriott Inn & Suites Toledo North",
+    "address_on_page": "5685 Benore Road",
+    "locality": "Toledo",
+    "region": "Ohio",
+    "postal_code": "43612",
+    "phone_on_page": "+14197250050",
+    "property_code_on_page": "tolfn"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "exact_quote": "Pets Not Allowed",
+   "extraction": {
+    "pets_allowed": false
+   },
+   "in_market": true,
+   "corridor": "toledo-oh__north-toledo-i75",
+   "market_verdict": "IN_MARKET"
+  },
+  {
+   "brand": "MARRIOTT",
+   "property_code": "tolde",
+   "requested_url": "https://www.marriott.com/en-us/hotels/tolde-delta-hotels-toledo/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/tolde-delta-hotels-toledo/overview/",
+   "captured_at": "2026-09-06",
+   "document_bytes": 337380,
+   "identity_signals": {
+    "name_on_page": "Delta Hotels Toledo",
+    "address_on_page": "3100 Glendale Avenue",
+    "locality": "Toledo",
+    "region": "Ohio",
+    "postal_code": "43614",
+    "phone_on_page": "+14195068006",
+    "property_code_on_page": "tolde"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "exact_quote": "Pets Not Allowed",
+   "extraction": {
+    "pets_allowed": false
+   },
+   "in_market": true,
+   "corridor": "toledo-oh__south-toledo-i75",
+   "market_verdict": "IN_MARKET"
+  },
+  {
+   "brand": "MARRIOTT",
+   "property_code": "tolpv",
+   "requested_url": "https://www.marriott.com/en-us/hotels/tolpv-towneplace-suites-toledo-perrysburg/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/tolpv-towneplace-suites-toledo-perrysburg/overview/",
+   "captured_at": "2026-09-06",
+   "document_bytes": 312829,
+   "identity_signals": {
+    "name_on_page": "TownePlace Suites by Marriott Toledo Perrysburg",
+    "address_on_page": "5501 S Wilkinson Way",
+    "locality": "Perrysburg",
+    "region": "Ohio",
+    "postal_code": "43551",
+    "phone_on_page": "+14198735656",
+    "property_code_on_page": "tolpv"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "exact_quote": "Pets Welcome Non-Refundable Pet Fee Per Stay: $100.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 50.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "in_market": true,
+   "corridor": "toledo-oh__perrysburg-levis-commons",
+   "market_verdict": "IN_MARKET"
+  },
+  {
+   "brand": "MARRIOTT",
+   "property_code": "tolfx",
+   "requested_url": "https://www.marriott.com/en-us/hotels/tolfx-city-express-findlay/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/tolfx-city-express-findlay/overview/",
+   "captured_at": "2026-09-06",
+   "document_bytes": 306880,
+   "identity_signals": {
+    "name_on_page": "City Express By Marriott Findlay",
+    "address_on_page": "941 Interstate Drive",
+    "locality": "Findlay",
+    "region": "Ohio",
+    "postal_code": "45840",
+    "phone_on_page": "+15672759800",
+    "property_code_on_page": "tolfx"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "exact_quote": "Pet Policy: Pets Welcome 2 pets per room max with $50 nonrefundable fee per room per stay. Non-Refundable Pet Fee Per Stay: $50.00",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "pet_count_limit": 2
+   },
+   "in_market": false,
+   "corridor": "",
+   "market_verdict": "OUTSIDE_MARKET"
+  },
+  {
+   "brand": "MARRIOTT",
+   "property_code": "tolfi",
+   "requested_url": "https://www.marriott.com/en-us/hotels/tolfi-fairfield-inn-and-suites-findlay/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/tolfi-fairfield-inn-and-suites-findlay/overview/",
+   "captured_at": "2026-09-06",
+   "document_bytes": 331102,
+   "identity_signals": {
+    "name_on_page": "Fairfield by Marriott Inn & Suites Findlay",
+    "address_on_page": "2000 Tiffin Avenue",
+    "locality": "Findlay",
+    "region": "Ohio",
+    "postal_code": "45839",
+    "phone_on_page": "+14194249940",
+    "property_code_on_page": "tolfi"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "exact_quote": "Pets Not Allowed",
+   "extraction": {
+    "pets_allowed": false
+   },
+   "in_market": false,
+   "corridor": "",
+   "market_verdict": "OUTSIDE_MARKET"
+  },
+  {
+   "brand": "MARRIOTT",
+   "property_code": "tolfc",
+   "requested_url": "https://www.marriott.com/en-us/hotels/tolfc-fairfield-inn-and-suites-port-clinton-waterfront/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/tolfc-fairfield-inn-and-suites-port-clinton-waterfront/overview/",
+   "captured_at": "2026-09-06",
+   "document_bytes": 319778,
+   "identity_signals": {
+    "name_on_page": "Fairfield by Marriott Inn & Suites Port Clinton Waterfront",
+    "address_on_page": "1811 East Perry Street",
+    "locality": "Port Clinton",
+    "region": "Ohio",
+    "postal_code": "43452",
+    "phone_on_page": "+14197320007",
+    "property_code_on_page": "tolfc"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "exact_quote": "Pets Not Allowed",
+   "extraction": {
+    "pets_allowed": false
+   },
+   "in_market": false,
+   "corridor": "",
+   "market_verdict": "OUTSIDE_MARKET"
+  },
+  {
+   "brand": "MARRIOTT",
+   "property_code": "toltf",
+   "requested_url": "https://www.marriott.com/en-us/hotels/toltf-towneplace-suites-findlay/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/toltf-towneplace-suites-findlay/overview/",
+   "captured_at": "2026-09-06",
+   "document_bytes": 334428,
+   "identity_signals": {
+    "name_on_page": "TownePlace Suites by Marriott Findlay",
+    "address_on_page": "2501 Tiffin Avenue",
+    "locality": "Findlay",
+    "region": "Ohio",
+    "postal_code": "45840",
+    "phone_on_page": "+14194259545",
+    "property_code_on_page": "toltf"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "exact_quote": "Pets Welcome Pets allowed with USD 75 non-refundable fee per stay Non-Refundable Pet Fee Per Stay: $75.00 Maximum Number of Pets in Room: 2",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "pet_count_limit": 2
+   },
+   "in_market": false,
+   "corridor": "",
+   "market_verdict": "OUTSIDE_MARKET"
+  }
+ ]
+}

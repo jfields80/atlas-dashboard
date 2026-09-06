@@ -1,0 +1,20 @@
+{
+ "schema": "ptf-osm-extracts/1.0",
+ "what_this_is": "PTF-TOLEDO-OH-NEW-MARKET-001 market-local OSM extract registry. Passed to osm_extract_cli.py with --registry so the shared registry stays untouched while Fort Wayne and Lexington run concurrently.",
+ "provenance": "Geofabrik publishes per-state extracts of OpenStreetMap under the ODbL at https://download.geofabrik.de/north-america/us.html; each *.osm.pbf has a sibling *.osm.pbf.md5. Attribution: (c) OpenStreetMap contributors, ODbL 1.0.",
+ "extracts": [
+  {
+   "extract_id": "geofabrik-ohio",
+   "region": "Ohio, US",
+   "url": "https://download.geofabrik.de/north-america/us/ohio-latest.osm.pbf",
+   "md5_url": "https://download.geofabrik.de/north-america/us/ohio-latest.osm.pbf.md5",
+   "local_pbf": "data/osm_extracts/ohio-latest.osm.pbf",
+   "index_path": "data/osm_extracts/geofabrik-ohio.toledo-oh.index.json",
+   "markets": [
+    "toledo-oh"
+   ],
+   "license": "ODbL 1.0 (OpenStreetMap contributors)",
+   "notes": "PTF-TOLEDO-OH-NEW-MARKET-001 market-local registry row. Identical extract (same URL, same md5 e85cdb27eba19b7239c1a8f943081d72) as the committed geofabrik-ohio row; only the index_path and markets list differ, because the committed Cleveland index was reduced to the Cleveland bbox (min_lng -82.05) and does not contain a single Toledo element (Toledo sits at -83.54). This file is market-local and is NOT the shared registry: scripts/pettripfinder/discovery/config/osm_extracts.json is unmodified by this order."
+  }
+ ]
+}
