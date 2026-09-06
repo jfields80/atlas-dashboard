@@ -135,10 +135,12 @@ class TestParticipationIsTheSixMarketSet:
         # deployed bundle.
         assert LP.launch_status("detroit-ann-arbor-mi") == (
             LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH)
-        assert LP.launch_status("cincinnati-oh") == (
-            LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH)
-        for market_id in ("cincinnati-oh", "detroit-ann-arbor-mi"):
-            assert market_id not in LP.authorized_market_ids()
+        # Cincinnati was the other example until
+        # PTF-CINCINNATI-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-004 admitted it as
+        # the tenth market. What this test guards is unchanged: a market that is
+        # source-ready is still not thereby admitted, and the one that left this
+        # state left it by a NAMED founder decision rather than by drifting out.
+        assert "detroit-ann-arbor-mi" not in LP.authorized_market_ids()
 
     def test_every_registered_market_carries_a_row(self):
         """The gate ``global.launch_participation_explicit`` refuses a bundle

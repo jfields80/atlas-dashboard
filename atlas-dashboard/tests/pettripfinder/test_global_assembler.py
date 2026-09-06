@@ -331,9 +331,21 @@ def test_cincinnati_is_assemblable_since_its_authority_was_replayed(markets):
 
 
 def test_cincinnati_does_not_fail_the_global_selection(markets):
+    """Cincinnati never FAILED selection; it was withheld, and now it is not.
+
+    The name is kept because the distinction it draws is the point of the test:
+    being out of the bundle was always a founder decision about Cincinnati, never
+    a defect in it. PTF-CINCINNATI-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-004 made
+    that decision the other way, so the market that had been the standing example
+    of "assemblable and withheld" is now the tenth in the bundle. Detroit inherits
+    the example.
+    """
     chosen, rows = select_markets(markets)
-    assert CINCINNATI not in [m.market_id for m in chosen]
+    assert CINCINNATI in [m.market_id for m in chosen]
     assert CINCINNATI in [r["market_id"] for r in rows]
+    # The market still assembles on its own merits, which is what this test
+    # always checked; only the launch decision moved.
+    assert "detroit-ann-arbor-mi" not in [m.market_id for m in chosen]
     # Pittsburgh is currently assemblable but remains hidden from navigation;
     # Indianapolis was withheld by PTF-046 and admitted by
     # PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019.
@@ -348,7 +360,11 @@ def test_cincinnati_does_not_fail_the_global_selection(markets):
          # assemblable in that order, which fixed a partition lookup that
          # could not reach its artifact and rebuilt the artifact itself from
          # the founder-signed authority.
-         GRAND_RAPIDS])
+         GRAND_RAPIDS,
+         # PTF-CINCINNATI-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-004: the tenth,
+         # admitted by the same lever after PTF-CINCINNATI-PROMOTION-AND-
+         # APPLICATION-003 took it to 130 published profiles.
+         CINCINNATI])
 
 
 def test_indianapolis_is_registered_above_threshold_and_source_ready(markets):
@@ -383,7 +399,12 @@ def test_indianapolis_is_now_in_the_global_selection(markets):
          # assemblable in that order, which fixed a partition lookup that
          # could not reach its artifact and rebuilt the artifact itself from
          # the founder-signed authority.
-         GRAND_RAPIDS])
+         GRAND_RAPIDS,
+         # PTF-CINCINNATI-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-004: the tenth,
+         # admitted by the same lever. Participation was always the separate,
+         # recorded decision, which is why this list grows without a single
+         # source fact about the other nine markets changing.
+         CINCINNATI])
 
 
 def test_participation_is_a_founder_decision_layered_on_source_readiness(markets):

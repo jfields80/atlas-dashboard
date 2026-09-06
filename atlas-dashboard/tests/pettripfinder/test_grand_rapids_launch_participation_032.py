@@ -197,25 +197,35 @@ def test_the_partition_names_what_it_supersedes(partition):
 # Step 3 -- participation
 # --------------------------------------------------------------------------- #
 
+#: The nine markets authorized when THIS order closed. A launch set only ever
+#: grows, and each later founder decision adds to it, so the assertion below is
+#: "everything 032 authorized is still authorized" rather than an equality that
+#: would break on every future launch without saying anything about 032.
+AUTHORIZED_AT_032 = sorted([
+    "cleveland-akron-canton-oh", "columbus-oh", "dayton-oh",
+    "grand-rapids-holland-mi", "indianapolis-in", "louisville-ky",
+    "milwaukee-wi", "pittsburgh-pa", "st-louis-mo"])
+
+
 def test_grand_rapids_is_authorized_and_nothing_else_moved():
     assert LP.launch_status(MARKET) == LP.FOUNDER_AUTHORIZED_FOR_LAUNCH
-    assert LP.authorized_market_ids() == sorted([
-        "cleveland-akron-canton-oh", "columbus-oh", "dayton-oh",
-        "grand-rapids-holland-mi", "indianapolis-in", "louisville-ky",
-        "milwaukee-wi", "pittsburgh-pa", "st-louis-mo"])
-    # Neither is authorized. Cincinnati assembles cleanly since
-    # PTF-CINCINNATI-HARDENED-SYNC-002, Detroit since
-    # PTF-DETROIT-ANN-ARBOR-TROY-IDENTITY-AND-BUNDLE-030 (carried here by
-    # PTF-LINEAGE-CONSOLIDATION-008), and both are withheld by the record --
-    # which is the state SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH
-    # exists to express. What this test guards is that neither is in the
-    # authorized set, and neither is.
+    # Everything 032 authorized is still authorized.
+    assert set(AUTHORIZED_AT_032) <= set(LP.authorized_market_ids())
+    # Detroit assembles cleanly since PTF-DETROIT-ANN-ARBOR-TROY-IDENTITY-AND-
+    # BUNDLE-030 (carried here by PTF-LINEAGE-CONSOLIDATION-008) and is withheld
+    # by the record -- the state SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH
+    # exists to express, and what this test guards. Cincinnati was the other
+    # example until PTF-CINCINNATI-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-004
+    # admitted it as the tenth market. That it LEFT this state by a founder
+    # decision, with no source fact about it changing, is the same point stated
+    # the other way round.
     assert LP.launch_status("detroit-ann-arbor-mi") == (
         LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH)
-    assert LP.launch_status("cincinnati-oh") == (
-        LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH)
-    for mid in ("cincinnati-oh", "detroit-ann-arbor-mi"):
-        assert mid not in LP.authorized_market_ids()
+    assert "detroit-ann-arbor-mi" not in LP.authorized_market_ids()
+    # Nothing was swept in: every market admitted after 032 was admitted by a
+    # named founder decision, and there has been exactly one.
+    assert set(LP.authorized_market_ids()) - set(AUTHORIZED_AT_032) <= {
+        "cincinnati-oh"}
 
 
 def test_every_registered_market_still_carries_an_explicit_row():
@@ -229,15 +239,33 @@ def test_every_registered_market_still_carries_an_explicit_row():
 
 
 def test_the_decision_names_this_order_and_preserves_its_predecessor():
+    """032's decision, read from wherever the record now keeps it.
+
+    While 032 was the current decision this read ``decision`` directly. A later
+    founder launch moves it into the lineage, which is precisely what the lineage
+    is FOR -- "an authorization signed two reissues back can only be matched
+    through the lineage" is that block's own description of itself. So this
+    order's facts are asserted from whichever position holds them, and they are
+    the same facts either way.
+    """
     doc = LP.load_participation()
     decision = doc["decision"]
-    assert decision["work_order"] == "PTF-GRAND-RAPIDS-LAUNCH-PARTICIPATION-032"
     assert decision["decided_by"] == "founder"
-    assert decision["supersedes"]["work_order"] == \
+    if decision["work_order"] == "PTF-GRAND-RAPIDS-LAUNCH-PARTICIPATION-032":
+        mine, predecessor = decision, decision["supersedes"]
+    else:
+        records = decision["lineage"]["records"]
+        mine = next(r for r in records
+                    if r["work_order"] == "PTF-GRAND-RAPIDS-LAUNCH-PARTICIPATION-032")
+        predecessor = next(
+            r for r in records
+            if r["work_order"] == "PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019")
+    assert mine["work_order"] == "PTF-GRAND-RAPIDS-LAUNCH-PARTICIPATION-032"
+    assert predecessor["work_order"] == \
         "PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019"
     # The set it inherited: the eight live before Grand Rapids.
-    assert "grand-rapids-holland-mi" not in decision["supersedes"]["founder_authorized"]
-    assert len(decision["supersedes"]["founder_authorized"]) == 8
+    assert "grand-rapids-holland-mi" not in predecessor["founder_authorized"]
+    assert len(predecessor["founder_authorized"]) == 8
 
 
 # --------------------------------------------------------------------------- #
