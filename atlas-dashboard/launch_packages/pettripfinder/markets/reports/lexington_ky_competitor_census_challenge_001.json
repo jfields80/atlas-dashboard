@@ -1,0 +1,298 @@
+{
+ "schema": "ptf-competitor-census-challenge/1.0",
+ "work_order": "PTF-LEXINGTON-KY-NEW-MARKET-001",
+ "market_id": "lexington-ky",
+ "phase": "6 -- competitor directories as DISCOVERY LEAD SOURCES only",
+ "as_of": "2026-09-06",
+ "usd_spent": 0.0,
+ "paid_provider_calls": 0,
+ "authority_mutation": "NONE",
+ "standing_rule": "A competitor directory is an AUDIT lane, not an acquisition lane, and it is never policy authority. No competitor policy text is published, quoted into authority, or used to grade a row. Every candidate returns to first-party evidence before it can become authority.",
+ "stale_refusal_finding": "PTF-CINCINNATI-PARALLEL-REVALIDATION-002 recorded www.bringfido.com as 403 to a plain client on every lodging path tried (2026-09-04) and took the lane into an attended browser. Re-probed 2026-09-06 for Lexington the city page returns 200 to the same plain client. This order therefore ran the lane FREE and STATIC and spent no attended session on it. A refusal is a measurement with a date on it.",
+ "free_static_lane": {
+  "outcome": "ANSWERED",
+  "probes": [
+   {
+    "url": "https://www.bringfido.com/lodging/city/lexington_ky_us/",
+    "status": 200,
+    "bytes": 856679,
+    "sha256": "8dd6efee098156218ed12dfc59352f1b5dc0257afadd2d64135c08806a194176"
+   },
+   {
+    "url": "https://www.bringfido.com/lodging/city/lexington_ky_us/hotels/",
+    "status": 404,
+    "bytes": 0,
+    "sha256": ""
+   },
+   {
+    "url": "https://www.bringfido.com/lodging/city/lexington_ky_us/rentals/",
+    "status": 404,
+    "bytes": 0,
+    "sha256": ""
+   },
+   {
+    "url": "https://www.bringfido.com/lodging/city/lexington_ky_us/cats/",
+    "status": 200,
+    "bytes": 852711,
+    "sha256": "380f43785e23b1fc1f381b0ba51aa0c17923a72f24b018bfda13a350714c6f0c"
+   },
+   {
+    "url": "https://www.bringfido.com/lodging/city/lexington_ky_us/large-dogs/",
+    "status": 200,
+    "bytes": 853857,
+    "sha256": "b1a3946a29bc5865909cd21ec1abfcfde79014696f269e0f36796e5743521336"
+   },
+   {
+    "url": "https://www.bringfido.com/lodging/city/lexington_ky_us/no-pet-fee/",
+    "status": 200,
+    "bytes": 795437,
+    "sha256": "3606c6ef4e4d6affe198dc20aae38cbfd8912792494bd23b1dafe9dda2e9d49a"
+   },
+   {
+    "url": "https://www.bringfido.com/lodging/city/lexington_ky_us/?type=hotels",
+    "status": 200,
+    "bytes": 856739,
+    "sha256": "b55111352b7392fda298082351e5195dfbc523ef2ad35d52151eca7f600e7724"
+   },
+   {
+    "url": "https://www.bringfido.com/lodging/city/lexington_ky_us/?type=rentals",
+    "status": 200,
+    "bytes": 856741,
+    "sha256": "6b37157133422a3404c35fd868077f49541afaf8433b6a1ca9648f7bbe3b1065"
+   }
+  ]
+ },
+ "inert_filter_test": {
+  "path_filters_that_answered": [
+   "https://www.bringfido.com/lodging/city/lexington_ky_us/cats/",
+   "https://www.bringfido.com/lodging/city/lexington_ky_us/large-dogs/",
+   "https://www.bringfido.com/lodging/city/lexington_ky_us/no-pet-fee/"
+  ],
+  "query_string_values_tested": [
+   "https://www.bringfido.com/lodging/city/lexington_ky_us/?type=hotels",
+   "https://www.bringfido.com/lodging/city/lexington_ky_us/?type=rentals"
+  ],
+  "query_string_identical_to_unfiltered": false,
+  "distinct_content_hashes": 6,
+  "finding": "Query-string filters were not both served, so no inert-filter claim is made. What IS true for Lexington: the category PATH segments that exist on other cities (/hotels/, /rentals/) return 404 here, so this city page offers NO category split at all. The only live path filters are ATTRIBUTE filters (cats, large-dogs, no-pet-fee), which do not separate hotels from rentals."
+ },
+ "headline_count_trap": {
+  "headline": {
+   "count": 121,
+   "category_word": "hotels",
+   "place": "Lexington, KY"
+  },
+  "rows_actually_served_in_page_markup": 19,
+  "finding": "The page headlines 121 pet friendly 'hotels' but its own ItemList markup serves 19 rows. The committed doctrine is that this headline is a MIXED-category claim and is not the served hotel cohort; Cincinnati's page claimed 135 against a real hotel cohort of 36. No Lexington number is derived from the headline."
+ },
+ "reconciliation": {
+  "rows_observed": 19,
+  "classes": {
+   "EXACT_EXISTING_IN_SHADOW_CENSUS": 10,
+   "IDENTITY_REVIEW_REQUIRED": 5,
+   "SAME_BRAND_SAME_CITY_REVIEW": 4
+  },
+  "rows": [
+   {
+    "lead": "La Quinta Inn & Suites by Wyndham Lexington South Hamburg",
+    "lead_type": "Hotel",
+    "lead_locality": "",
+    "atlas": "La Quinta Inn & Suites Lexington South / Hamburg",
+    "shared_tokens": [
+     "hamburg"
+    ],
+    "class": "EXACT_EXISTING_IN_SHADOW_CENSUS",
+    "why": "shares distinctive token(s) ['hamburg'] with an Atlas Lexington row; the directory adds no identity here"
+   },
+   {
+    "lead": "Candlewood Suites Lexington Medical District by IHG",
+    "lead_type": "Hotel",
+    "lead_locality": "",
+    "atlas": "",
+    "shared_tokens": [],
+    "class": "IDENTITY_REVIEW_REQUIRED",
+    "why": "the lead name reduces to chain and locality words only, so it proposes a brand rather than a property; a bare chain name never identifies one hotel"
+   },
+   {
+    "lead": "The Manchester",
+    "lead_type": "Hotel",
+    "lead_locality": "",
+    "atlas": "The Manchester",
+    "shared_tokens": [
+     "manchester"
+    ],
+    "class": "EXACT_EXISTING_IN_SHADOW_CENSUS",
+    "why": "shares distinctive token(s) ['manchester'] with an Atlas Lexington row; the directory adds no identity here"
+   },
+   {
+    "lead": "Staybridge Suites Lexington by IHG",
+    "lead_type": "Hotel",
+    "lead_locality": "",
+    "atlas": "",
+    "shared_tokens": [],
+    "class": "IDENTITY_REVIEW_REQUIRED",
+    "why": "the lead name reduces to chain and locality words only, so it proposes a brand rather than a property; a bare chain name never identifies one hotel"
+   },
+   {
+    "lead": "Candlewood Suites Lexington by IHG",
+    "lead_type": "Hotel",
+    "lead_locality": "",
+    "atlas": "",
+    "shared_tokens": [],
+    "class": "IDENTITY_REVIEW_REQUIRED",
+    "why": "the lead name reduces to chain and locality words only, so it proposes a brand rather than a property; a bare chain name never identifies one hotel"
+   },
+   {
+    "lead": "Homewood Suites Lexington-Hamburg",
+    "lead_type": "Hotel",
+    "lead_locality": "",
+    "atlas": "La Quinta Inn & Suites Lexington South / Hamburg",
+    "shared_tokens": [
+     "hamburg"
+    ],
+    "class": "EXACT_EXISTING_IN_SHADOW_CENSUS",
+    "why": "shares distinctive token(s) ['hamburg'] with an Atlas Lexington row; the directory adds no identity here"
+   },
+   {
+    "lead": "Holiday Inn Lexington - Hamburg by IHG",
+    "lead_type": "Hotel",
+    "lead_locality": "",
+    "atlas": "La Quinta Inn & Suites Lexington South / Hamburg",
+    "shared_tokens": [
+     "hamburg"
+    ],
+    "class": "EXACT_EXISTING_IN_SHADOW_CENSUS",
+    "why": "shares distinctive token(s) ['hamburg'] with an Atlas Lexington row; the directory adds no identity here"
+   },
+   {
+    "lead": "Tru by Hilton Lexington Hamburg",
+    "lead_type": "Hotel",
+    "lead_locality": "",
+    "atlas": "La Quinta Inn & Suites Lexington South / Hamburg",
+    "shared_tokens": [
+     "hamburg"
+    ],
+    "class": "EXACT_EXISTING_IN_SHADOW_CENSUS",
+    "why": "shares distinctive token(s) ['hamburg'] with an Atlas Lexington row; the directory adds no identity here"
+   },
+   {
+    "lead": "Embassy Suites by Hilton Lexington/Uk Coldstream",
+    "lead_type": "Hotel",
+    "lead_locality": "",
+    "atlas": "Embassy Suites, Hilton Lexington/Downtown, Hilton Garden Inn",
+    "shared_tokens": [],
+    "class": "SAME_BRAND_SAME_CITY_REVIEW",
+    "why": "no distinctive token is shared, but Atlas holds 3 row(s) of the SAME brand in this market whose own name is a bare chain name carrying no distinctive token to match on. Same brand plus same city demotes to review: this is either that row under the directory's fuller name, or a second property of the brand. Only first-party address or property-code evidence separates them."
+   },
+   {
+    "lead": "Origin Lexington a Wyndham Hotel",
+    "lead_type": "Hotel",
+    "lead_locality": "",
+    "atlas": "Origin Hotel Lexington",
+    "shared_tokens": [
+     "origin"
+    ],
+    "class": "EXACT_EXISTING_IN_SHADOW_CENSUS",
+    "why": "shares distinctive token(s) ['origin'] with an Atlas Lexington row; the directory adds no identity here"
+   },
+   {
+    "lead": "Staybridge Suites Lexington S Medical CTR Area by IHG",
+    "lead_type": "Hotel",
+    "lead_locality": "",
+    "atlas": "Staybridge Suites Lexington",
+    "shared_tokens": [],
+    "class": "SAME_BRAND_SAME_CITY_REVIEW",
+    "why": "no distinctive token is shared, but Atlas holds 1 row(s) of the SAME brand in this market whose own name is a bare chain name carrying no distinctive token to match on. Same brand plus same city demotes to review: this is either that row under the directory's fuller name, or a second property of the brand. Only first-party address or property-code evidence separates them."
+   },
+   {
+    "lead": "Red Roof Inn Lexington South",
+    "lead_type": "Hotel",
+    "lead_locality": "",
+    "atlas": "",
+    "shared_tokens": [],
+    "class": "IDENTITY_REVIEW_REQUIRED",
+    "why": "the lead name reduces to chain and locality words only, so it proposes a brand rather than a property; a bare chain name never identifies one hotel"
+   },
+   {
+    "lead": "Residence Inn by Marriott Lexington South Hamburg Place",
+    "lead_type": "Hotel",
+    "lead_locality": "",
+    "atlas": "La Quinta Inn & Suites Lexington South / Hamburg",
+    "shared_tokens": [
+     "hamburg"
+    ],
+    "class": "EXACT_EXISTING_IN_SHADOW_CENSUS",
+    "why": "shares distinctive token(s) ['hamburg'] with an Atlas Lexington row; the directory adds no identity here"
+   },
+   {
+    "lead": "Quality Inn Lexington -Horse Park",
+    "lead_type": "Hotel",
+    "lead_locality": "",
+    "atlas": "Quality Inn",
+    "shared_tokens": [],
+    "class": "SAME_BRAND_SAME_CITY_REVIEW",
+    "why": "no distinctive token is shared, but Atlas holds 1 row(s) of the SAME brand in this market whose own name is a bare chain name carrying no distinctive token to match on. Same brand plus same city demotes to review: this is either that row under the directory's fuller name, or a second property of the brand. Only first-party address or property-code evidence separates them."
+   },
+   {
+    "lead": "Avid Hotel Lexington - Hamburg Area by IHG",
+    "lead_type": "Hotel",
+    "lead_locality": "",
+    "atlas": "La Quinta Inn & Suites Lexington South / Hamburg",
+    "shared_tokens": [
+     "hamburg"
+    ],
+    "class": "EXACT_EXISTING_IN_SHADOW_CENSUS",
+    "why": "shares distinctive token(s) ['hamburg'] with an Atlas Lexington row; the directory adds no identity here"
+   },
+   {
+    "lead": "SpringHill Suites by Marriott Lexington Fritz Farm",
+    "lead_type": "Hotel",
+    "lead_locality": "",
+    "atlas": "SpringHill Suites",
+    "shared_tokens": [],
+    "class": "SAME_BRAND_SAME_CITY_REVIEW",
+    "why": "no distinctive token is shared, but Atlas holds 1 row(s) of the SAME brand in this market whose own name is a bare chain name carrying no distinctive token to match on. Same brand plus same city demotes to review: this is either that row under the directory's fuller name, or a second property of the brand. Only first-party address or property-code evidence separates them."
+   },
+   {
+    "lead": "21c Museum Hotel Lexington",
+    "lead_type": "Hotel",
+    "lead_locality": "",
+    "atlas": "21c",
+    "shared_tokens": [
+     "21c"
+    ],
+    "class": "EXACT_EXISTING_IN_SHADOW_CENSUS",
+    "why": "shares distinctive token(s) ['21c'] with an Atlas Lexington row; the directory adds no identity here"
+   },
+   {
+    "lead": "DoubleTree Suites by Hilton Lexington",
+    "lead_type": "Hotel",
+    "lead_locality": "",
+    "atlas": "",
+    "shared_tokens": [],
+    "class": "IDENTITY_REVIEW_REQUIRED",
+    "why": "the lead name reduces to chain and locality words only, so it proposes a brand rather than a property; a bare chain name never identifies one hotel"
+   },
+   {
+    "lead": "TownePlace Suites by Marriott Lexington South Hamburg Place",
+    "lead_type": "Hotel",
+    "lead_locality": "",
+    "atlas": "La Quinta Inn & Suites Lexington South / Hamburg",
+    "shared_tokens": [
+     "hamburg"
+    ],
+    "class": "EXACT_EXISTING_IN_SHADOW_CENSUS",
+    "why": "shares distinctive token(s) ['hamburg'] with an Atlas Lexington row; the directory adds no identity here"
+   }
+  ]
+ },
+ "what_this_lane_delivered": [
+  "the lane runs FREE and STATIC for Lexington -- the inherited 403 was stale",
+  "a reconciliation of every row the directory's own markup served",
+  "true-missing candidates for first-party verification, admitted by nothing here"
+ ],
+ "what_this_lane_did_not_deliver": [
+  "any policy fact, quote or grade -- competitor policy text is never authority",
+  "the full headline cohort: the page's own markup serves fewer rows than it claims, and this order reports what it observed rather than estimating the remainder"
+ ]
+}

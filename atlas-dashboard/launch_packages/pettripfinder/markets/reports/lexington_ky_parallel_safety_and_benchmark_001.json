@@ -1,0 +1,139 @@
+{
+ "schema": "ptf-parallel-safety-and-benchmark/1.0",
+ "work_order": "PTF-LEXINGTON-KY-NEW-MARKET-001",
+ "market_id": "lexington-ky",
+ "as_of": "2026-09-06",
+ "phase": "20 and 22 -- parallel safety proof and factory speed benchmark",
+
+ "parallel_safety": {
+  "method": "git status against the base commit, then a structural diff of the ONE shared file this order touched. Counts are not asserted from memory; they are read off the working tree.",
+  "base_commit": "2163c4ed23b7315954f896c99729ca95c08eabfc",
+  "concurrent_worktrees_observed": {
+   "toledo": "C:/Atlas-Toledo-Hardened-V1 on worker/ptf-toledo-new-market-001 at 2163c4e",
+   "fort_wayne": "C:/Atlas-FortWayne-Hardened-V1 on worker/ptf-fort-wayne-new-market-001 at 2163c4e"
+  },
+  "toledo_files_changed": 0,
+  "fort_wayne_files_changed": 0,
+  "existing_market_authority_changed": 0,
+  "shared_globals_changed": 0,
+  "shared_current_state_pins_changed": 0,
+  "deployment_files_changed": 0,
+  "production_assembly": "NOT RUN",
+  "shared_paid_or_discovery_ledgers_written": 0,
+  "production_source_promoted": "NO",
+  "serialized_boundary": "RESPECTED -- this order stopped at the shadow",
+
+  "the_one_shared_file": {
+   "path": "atlas-dashboard/scripts/pettripfinder/discovery/config/osm_extracts.json",
+   "change": "ADDITIVE ONLY -- one new row, extract_id geofabrik-kentucky",
+   "proof": {
+    "extract_ids_removed": [],
+    "extract_ids_added": ["geofabrik-kentucky"],
+    "existing_extract_rows_modified": [],
+    "other_top_level_keys_changed": [],
+    "markets_named_by_the_new_row": ["lexington-ky"]
+   },
+   "why_it_was_necessary": "The approved public Overpass endpoints answered 2 of 26 planned cells and then all went to cooldown together. The committed local-extract fallback needs a registry row per region, and no Kentucky row existed. The row names lexington-ky alone, so it changes no other market's lane.",
+   "why_it_is_not_a_shared_global": "It is a discovery config registry, not one of the three generated globals, and it carries no counts, no authority and no pin. The order permits Lexington-only acquisition bookkeeping.",
+   "conflict_risk_with_toledo_and_fort_wayne": "Toledo's region (Ohio) is already registered and untouched. Fort Wayne's region (Indiana) is not registered; if that order adds a row it appends to the same list, which is a trivial append-append merge, not a semantic conflict."
+  },
+
+  "no_shared_module_edit_was_needed": "Registering lexington-ky required NO edit to scripts/pettripfinder/discovery/market_config.py. PTF-MARKET-AUTHORITY-SHARDING-001 added a conventional-filename fallback (lexington-ky -> lexington_ky.json) precisely so a new market does not conflict with every other market's branch. That fallback was verified by loading the config."
+ },
+
+ "regression": {
+  "authority": "Regression V2 (PTF-FACTORY-REGRESSION-V2-001), delta-scoped",
+  "change_surface_classification": "market-scoped new-market work plus ONE additive shared discovery-config row. No shared runtime module, no authority, no pin, no global, no assembly input.",
+  "lanes_run": [
+   {"lane": "discovery (full package)", "result": "1003 passed, 27 skipped"},
+   {"lane": "policy_schema", "modules": 45},
+   {"lane": "identity_routing", "modules": 41},
+   {"lane": "cross_market", "modules": 11},
+   {"lane": "market_targeted --market lexington-ky", "modules": 16, "exit_code": 0}
+  ],
+  "classified_against": "launch_packages/pettripfinder/regression_baselines/f75aa95.json",
+  "classification": {
+   "run_1_policy_schema_and_identity_routing": {
+    "PRE_EXISTING": 19, "EXPECTED_EPOCH_CHANGE": 0,
+    "TEST_HARNESS_FLAKE": 0, "TRUE_NEW_FAILURE": 0
+   },
+   "run_2_cross_market_and_market_targeted": {
+    "PRE_EXISTING": 5, "EXPECTED_EPOCH_CHANGE": 0,
+    "TEST_HARNESS_FLAKE": 0, "TRUE_NEW_FAILURE": 0
+   }
+  },
+  "TRUE_NEW_FAILURE": 0,
+  "production_assembly": "NOT RUN, per the order",
+  "shared_globals_regenerated": "NO, per the order"
+ },
+
+ "speed_benchmark": {
+  "active_minutes_approximate": 245,
+  "target": "2-4 hours market-local",
+  "target_met": "NO -- about 4.1 hours",
+  "census_identities": 61,
+  "candidates_discovered": 91,
+  "free_http_requests": {
+   "osm_local_extract": 0,
+   "overpass_public": 3,
+   "brand_sitemap_pass_1_probes": 9,
+   "brand_sitemap_pass_2": 831,
+   "brand_city_pages": 17,
+   "competitor_directory": 8,
+   "direct_static_policy": 45,
+   "total_approximate": 913
+  },
+  "official_brand_routes_recovered": 6,
+  "owned_routes_reused": 39,
+  "competitor_leads": 19,
+  "static_captures": 45,
+  "firecrawl_candidates": 10,
+  "firecrawl_calls": 0,
+  "firecrawl_credits": 0,
+  "attended_pages": 0,
+  "clean_pet_friendly": 0,
+  "clean_verified_no_pets": 0,
+  "founder_holds": 13,
+  "paid_calls": 0,
+  "usd_spent": 0.0,
+
+  "bottlenecks": [
+   {
+    "bottleneck": "PUBLIC OVERPASS COLLAPSE",
+    "cost_minutes": 25,
+    "detail": "The approved endpoints answered 2 of 26 cells. overpass-api.de returned HTTP_RATE_LIMITED and opened its circuit at a threshold of 1; kumi.systems timed out three times and took its private.coffee sibling down with it by shared failure domain. Two other PTF market orders were running free discovery against the same public endpoints at the same time.",
+    "fix_applied": "Registered a Kentucky Geofabrik extract and answered all 26 cells locally. Download plus md5 verify plus index build was about 12 minutes and is now reusable.",
+    "durable_lesson": "A new KY/OH/IN/MI market should register its extract BEFORE the first Overpass attempt, not after the endpoints collapse -- especially while sibling market orders run concurrently."
+   },
+   {
+    "bottleneck": "THE HILTON SITEMAP WALK -- the single largest waste",
+    "cost_minutes": 95,
+    "detail": "Hilton's robots.txt advertises ~200 sitemaps over ~985 children. At the polite 1.5 s spacing that is a 25-minute floor and it ran about 95 minutes without producing a single property URL. It was stopped and replaced.",
+    "fix_applied": "ONE request to Hilton's own Lexington city page returned 20 property codes, including six the census did not have.",
+    "durable_lesson": "A brand's own CITY page beats its sitemap. Try the city page first and fall back to the sitemap walk only for a brand that has none."
+   },
+   {
+    "bottleneck": "THE BEST WESTERN SITEMAP WALK -- 831 free requests for zero identities",
+    "cost_minutes": 25,
+    "detail": "A permissive Kentucky/locality regex over Best Western's 131,344 sitemap URLs selected 2,601 candidates, of which 1,738 were near-miss tokens matching worldwide ('richmond', 'paris'). 806 property pages were fetched; 426 returned 200 and NONE exposed structured identity data, so the lane bound zero Lexington properties.",
+    "fix_applied": "None needed for this order; recorded so the next market does not repeat it.",
+    "durable_lesson": "Scope a sitemap regex to the state token AND a core locality token before fetching, and probe ONE property page for structured data before fetching 800."
+   },
+   {
+    "bottleneck": "THE REAL BLOCKER IS NOT SPEED -- it is that the policy lane was never run",
+    "cost_minutes": 0,
+    "detail": "Free static returned zero publication-grade reads across 45 routed rows: 32 ACCESS_DENIED, 5 NAVIGATION_FAILED, 4 UNHYDRATED, 2 UNEXPECTED_PAGE, 1 POLICY_NOT_FOUND, 1 IDENTITY_MISMATCH. 35 of the 45 routed rows are Marriott or Hilton, which HARD-LANES-003 measured as a Firecrawl capability wall. The lane that answers them is the attended browser, and that is a session this order did not have the remaining budget for.",
+    "fix_applied": "None. The order stopped rather than infer policy from silence.",
+    "durable_lesson": "A NEW market cannot reach PROMOTION_READY inside 2-4 hours on free lanes alone if its brand mix is Marriott/Hilton-heavy. Census, geography and routing fit the window; policy acquisition is a second order."
+   }
+  ],
+
+  "what_the_window_did_buy": "A complete, evidence-bound shadow market: 91 candidates discovered, 61 confirmed identities each with exactly one classification, deterministic geography by county polygon with zero unresolved rows, 45 bound routes, a competitor challenge, a costed Firecrawl cohort, and a founder packet -- for 0 paid calls and $0."
+ },
+
+ "stale_measurements_this_order_corrected": [
+  "IHG, BEST_WESTERN, RED_ROOF, CHOICE, MOTEL6 and RADISSON were all recorded by Dayton and Cleveland as refusing a plain client. Re-probed 2026-09-06, all six returned robots.txt 200. Only HYATT (429) and ESA (403) still refuse.",
+  "www.bringfido.com was recorded by PTF-CINCINNATI-PARALLEL-REVALIDATION-002 as 403 on every lodging path, and that order spent an attended session on it. Re-probed, the Lexington city page returns 200 to a plain client, so this order ran the competitor lane free and static.",
+  "Neither correction was assumed; both were measured, and the probe artifacts are saved under data/discovery/."
+ ]
+}
