@@ -14,8 +14,9 @@ cannot drift from the artifact it describes.
 
 WHAT THIS CANDIDATE IS
 
-Toledo is registered and its authority is committed, but it is UNLISTED in
-launch participation, so it contributes no page to the composed site. The
+Toledo is registered and its authority is committed, but it is recorded
+SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH, so it contributes no page to
+the composed site. The
 candidate should therefore reproduce the live bundle EXACTLY -- same markets,
 same profiles, same routes, same digest. That is the Cincinnati precedent: a
 promotion that moves zero bytes of the composed bundle. The packet reports the
@@ -34,6 +35,8 @@ _DASH = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)),
 _REPO = os.path.abspath(os.path.join(_DASH, ".."))
 if _DASH not in sys.path:
     sys.path.insert(0, _DASH)
+
+from scripts.pettripfinder import launch_participation as LP  # noqa: E402
 
 WORK_ORDER = "PTF-TOLEDO-OH-PROMOTION-AND-APPLICATION-002"
 WOULD_BECOME = "PTF-TOLEDO-OH-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-003"
@@ -67,11 +70,10 @@ def main(argv=None) -> int:
                                   "%s.json" % MARKET_ID))
     rulings = _load(os.path.join(PKG, "toledo_oh_founder_rulings_001.json"))
 
-    cand_markets = list(manifest.get("participating_markets")
-                        or sorted(manifest.get("fragments", {})))
-    cand_profiles = manifest.get("total_profiles")
-    if cand_profiles is None:
-        cand_profiles = sum(f["published_count"] for f in manifest["fragments"].values())
+    participating = manifest["participating_markets"]
+    cand_markets = [m["market_id"] for m in participating]
+    cand_profiles = sum(m["published_profiles"] for m in participating)
+    cand_profile_counts = {m["market_id"]: m["published_profiles"] for m in participating}
 
     same_bundle = manifest["bundle_sha256"] == live["bundle_sha256"]
     same_sitemap = manifest["sitemap_sha256"] == live["sitemap_sha256"]
@@ -127,12 +129,15 @@ def main(argv=None) -> int:
             ("total_profiles", cand_profiles),
             ("sitemap_route_count", manifest["sitemap_route_count"]),
             ("total_html_pages", manifest["total_html_pages"]),
+            ("profile_counts", cand_profile_counts),
+            ("total_files", manifest["total_files"]),
+            ("all_gates_pass", manifest["all_gates_pass"]),
             ("broken_links", manifest["broken_links"]),
             ("collisions", manifest.get("collision_count")),
             ("canonical_violations", manifest.get("canonical_violations")),
         ])),
         ("toledo_is_registered_but_does_not_participate", OrderedDict([
-            ("launch_status", "UNLISTED"),
+            ("launch_status", LP.launch_status(MARKET_ID)),
             ("what_that_means",
              "Toledo's authority is committed and its release contract passes, but it contributes "
              "no page to the composed site until a founder flips its launch participation. This "
@@ -153,8 +158,9 @@ def main(argv=None) -> int:
             ("markets", "%d -> %d" % (len(live["participating_markets"]), len(cand_markets))),
             ("routes_added", 0 if same_sitemap else None),
             ("routes_removed", 0 if same_sitemap else None),
-            ("every_live_market_profile_delta",
-             "0 for every one" if same_bundle else "recompute before authorising"),
+            ("every_live_market_profile_delta", {
+                m: cand_profile_counts.get(m, 0) - live["profile_counts"][m]
+                for m in live["profile_counts"]}),
         ])),
         ("what_toledo_would_bring_when_it_is_launched", OrderedDict([
             ("market_id", MARKET_ID),
