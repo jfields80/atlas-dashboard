@@ -11,10 +11,10 @@
  ],
  "modules_scanned": 392,
  "modules_with_pins": 265,
- "sites": 1553,
+ "sites": 1554,
  "by_class": {
   "CURRENT_STATE_INVARIANT": 157,
-  "HISTORICAL_COHORT_INVARIANT": 832,
+  "HISTORICAL_COHORT_INVARIANT": 833,
   "HISTORICAL_ARTIFACT_INVARIANT": 185,
   "DEPLOYMENT_EPOCH_INVARIANT": 122,
   "GENERIC_SCHEMA_INVARIANT": 194,
@@ -14943,7 +14943,7 @@
      "literal": 2,
      "reads_package": false,
      "has_len": false,
-     "source": "cleveland_home.count(\"<em>Cleveland\u2013Akron\u2013Canton</em>\") == 2",
+     "source": "cleveland_home.count(\"<em>Cleveland–Akron–Canton</em>\") == 2",
      "class": "GENERIC_SCHEMA_INVARIANT",
      "reason": "module default"
     }
@@ -21277,10 +21277,10 @@
    ],
    "default_class": "HISTORICAL_COHORT_INVARIANT",
    "default_reason": "work-order-numbered module",
-   "site_count": 5,
+   "site_count": 6,
    "by_class": {
     "CROSS_MARKET_INVARIANT": 1,
-    "HISTORICAL_COHORT_INVARIANT": 4
+    "HISTORICAL_COHORT_INVARIANT": 5
    },
    "sites": [
     {
@@ -21337,6 +21337,17 @@
      "source": "len(live[\"participating_markets\"]) == 10",
      "class": "CROSS_MARKET_INVARIANT",
      "reason": "names another market or isolation"
+    },
+    {
+     "line": 314,
+     "test": "test_run_ones_nine_new_failures_are_each_explained_and_none_were_scoped_away",
+     "kind": "count",
+     "literal": 9,
+     "reads_package": false,
+     "has_len": true,
+     "source": "len(causes) == r1[\"true_new_failures\"] == 9",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
     }
    ]
   },

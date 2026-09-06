@@ -69,6 +69,8 @@ def main(argv=None) -> int:
     contract = _load(os.path.join(_DASH, "deploy", "netlify", "release_contracts",
                                   "%s.json" % MARKET_ID))
     rulings = _load(os.path.join(PKG, "toledo_oh_founder_rulings_001.json"))
+    regression = _load(os.path.join(REPORTS, "toledo_oh_regression_classification_002.json"))
+    holds = _load(os.path.join(PKG, "toledo_oh_identity_holds_002.json"))
 
     participating = manifest["participating_markets"]
     cand_markets = [m["market_id"] for m in participating]
@@ -77,6 +79,25 @@ def main(argv=None) -> int:
 
     same_bundle = manifest["bundle_sha256"] == live["bundle_sha256"]
     same_sitemap = manifest["sitemap_sha256"] == live["sitemap_sha256"]
+
+    # DEPLOYMENT_READY is DERIVED from these gates, never typed. Each one reads a
+    # committed artifact; a gate that cannot be read is a gate that does not pass.
+    gates = OrderedDict([
+        ("regression_failure_set_identical_to_baseline",
+         regression["run_2"]["failure_set_identical_to_baseline"]),
+        ("TRUE_NEW_FAILURE_is_zero",
+         regression["classification"]["TRUE_NEW_FAILURE"] == 0),
+        ("assembly_gates_pass", bool(manifest["all_gates_pass"])),
+        ("no_broken_links", manifest["broken_links"] == 0),
+        ("candidate_reproduces_the_live_bundle", same_bundle and same_sitemap),
+        ("no_live_market_profile_delta", all(
+            m["published_profiles"] == live["profile_counts"].get(m["market_id"])
+            for m in participating)),
+        ("toledo_does_not_participate",
+         LP.launch_status(MARKET_ID) == "SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH"),
+        ("founder_holds_recorded", bool(holds.get("holds"))),
+    ])
+    deployment_ready = all(gates.values())
 
     doc = OrderedDict([
         ("schema", "ptf-deployment-authorization-proposal/1.0"),
@@ -181,6 +202,33 @@ def main(argv=None) -> int:
             "and TOLEDO-R3 keep them held",
             "that Toledo should be launched -- launch participation is a separate founder lever",
         ]),
+        ("regression", OrderedDict([
+            ("lane", regression["lane"]),
+            ("baseline", regression["baseline"]["path"]),
+            ("baseline_failing_node_ids", regression["baseline"]["failing_node_ids"]),
+            ("run", regression["run_2"]["run_dir"]),
+            ("failed", regression["run_2"]["failed"]),
+            ("failure_set_identical_to_baseline",
+             regression["run_2"]["failure_set_identical_to_baseline"]),
+            ("classification", regression["classification"]),
+            ("proof_method", regression["proof_method"]),
+            ("report",
+             "launch_packages/pettripfinder/markets/reports/"
+             "toledo_oh_regression_classification_002.json"),
+        ])),
+        ("DEPLOYMENT_READY", "YES" if deployment_ready else "NO"),
+        ("deployment_ready_gates", gates),
+        ("what_deployment_ready_means", OrderedDict([
+            ("it_means",
+             "Every gate this order is permitted to close is closed: the source is promoted and "
+             "committed, the release contract derives and passes, the candidate assembles and "
+             "reproduces the live bundle byte for byte, and the broad regression reproduces the "
+             "baseline failure set exactly with 0 TRUE_NEW_FAILURE."),
+            ("it_does_not_mean",
+             "It is NOT a decision to deploy and NOT a decision to launch Toledo. No "
+             "authorization file exists, authorized_by is null, and launch participation has not "
+             "moved. Both remain founder levers that this order is forbidden to pull."),
+        ])),
         ("execution_note",
          "NOT EXECUTED. Executing it means writing an authorization under "
          "deploy/netlify/deployment_authorizations/, registering it, and deploying. A launch "
@@ -200,8 +248,12 @@ def main(argv=None) -> int:
     print("profiles         :", doc["delta_against_production"]["total_profiles"])
     print("routes           :", doc["delta_against_production"]["sitemap_routes"])
     print("verdict          :", doc["toledo_is_registered_but_does_not_participate"]["verdict"])
+    for name, ok in gates.items():
+        print("  gate %-42s %s" % (name, "PASS" if ok else "FAIL"))
+    print("DEPLOYMENT_READY :", doc["DEPLOYMENT_READY"])
+    print("authorized_by    :", doc["authorized_by"], "| status:", doc["status"])
     print("written          :", os.path.relpath(args.out, _DASH))
-    return 0
+    return 0 if deployment_ready else 1
 
 
 if __name__ == "__main__":

@@ -7,7 +7,7 @@
  "prepared_at": "2026-09-06",
  "authorized_by": null,
  "authorized_at": null,
- "source_commit": "99f7cf4963a35f8c0cb5be6531ca7855d8d447e1",
+ "source_commit": "d657863536ce336045ad6fca87a1ec67b52a39b6",
  "source_branch": "worker/ptf-toledo-promotion-002",
  "lineage_integrated": {
   "then_current_deployed_lineage": "2163c4ed23b7315954f896c99729ca95c08eabfc",
@@ -120,5 +120,36 @@
   "that the five held two-identity addresses are settled -- founder rulings TOLEDO-R2 and TOLEDO-R3 keep them held",
   "that Toledo should be launched -- launch participation is a separate founder lever"
  ],
+ "regression": {
+  "lane": "full_regression",
+  "baseline": "launch_packages/pettripfinder/regression_baselines/f75aa95.json",
+  "baseline_failing_node_ids": 160,
+  "run": "data/regression/toledo_full2",
+  "failed": 160,
+  "failure_set_identical_to_baseline": true,
+  "classification": {
+   "PRE_EXISTING": 160,
+   "EXPECTED_EPOCH_CHANGE": 0,
+   "TEST_HARNESS_FLAKE": 0,
+   "TRUE_NEW_FAILURE": 0
+  },
+  "proof_method": "SET IDENTITY by node id, never counts. A matching failure COUNT is not a proof: it is equally consistent with one baseline failure being fixed and one new failure appearing. The assertion below is that the run's failing node-id set and the baseline's are the same set.",
+  "report": "launch_packages/pettripfinder/markets/reports/toledo_oh_regression_classification_002.json"
+ },
+ "DEPLOYMENT_READY": "YES",
+ "deployment_ready_gates": {
+  "regression_failure_set_identical_to_baseline": true,
+  "TRUE_NEW_FAILURE_is_zero": true,
+  "assembly_gates_pass": true,
+  "no_broken_links": true,
+  "candidate_reproduces_the_live_bundle": true,
+  "no_live_market_profile_delta": true,
+  "toledo_does_not_participate": true,
+  "founder_holds_recorded": true
+ },
+ "what_deployment_ready_means": {
+  "it_means": "Every gate this order is permitted to close is closed: the source is promoted and committed, the release contract derives and passes, the candidate assembles and reproduces the live bundle byte for byte, and the broad regression reproduces the baseline failure set exactly with 0 TRUE_NEW_FAILURE.",
+  "it_does_not_mean": "It is NOT a decision to deploy and NOT a decision to launch Toledo. No authorization file exists, authorized_by is null, and launch participation has not moved. Both remain founder levers that this order is forbidden to pull."
+ },
  "execution_note": "NOT EXECUTED. Executing it means writing an authorization under deploy/netlify/deployment_authorizations/, registering it, and deploying. A launch order must also verify every pin here against the COMMITTED packet rather than against any SHA quoted in prose, and must delete the .netlify/ directory the Netlify CLI scaffolds before running any lane."
 }

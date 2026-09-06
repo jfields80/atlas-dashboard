@@ -1,0 +1,53 @@
+{
+ "schema": "ptf-regression-classification/2.0",
+ "work_order": "PTF-TOLEDO-OH-PROMOTION-AND-APPLICATION-002",
+ "classified_at": "2026-09-06",
+ "lane": "full_regression",
+ "why_the_full_suite": "This order REGISTERS a market. A registration is the one change class that re-tests every project-wide assumption about which markets exist, so no narrow lane is admissible and the broad run is mandatory.",
+ "baseline": {
+  "path": "launch_packages/pettripfinder/regression_baselines/f75aa95.json",
+  "source_sha": "f75aa95",
+  "failing_node_ids": 160
+ },
+ "proof_method": "SET IDENTITY by node id, never counts. A matching failure COUNT is not a proof: it is equally consistent with one baseline failure being fixed and one new failure appearing. The assertion below is that the run's failing node-id set and the baseline's are the same set.",
+ "run_1": {
+  "run_dir": "data/regression/toledo_full",
+  "collected": 17505,
+  "passed": 17100,
+  "failed": 169,
+  "seconds": 7489.7,
+  "true_new_failures": 9,
+  "every_new_failure_was_this_orders_own": {
+   "tests/pettripfinder/test_affiliate_destinations.py::TestCommittedState::test_the_committed_shards_are_what_empty_document_renders": "APPLIER DEFECT. Toledo's policy records were written without the record envelope the contract requires. Fixed at cause by validating every record through policy_schema.validate_record INSIDE the applier, which now refuses to write instead of leaving a broken shard for a test to find.",
+   "tests/pettripfinder/test_factory_throughput_001.py::TestCrossMarketIsolationIsProtected::test_identity_keys_are_unique_within_every_market": "REGISTRY COUNT. The suite enumerates registered markets; Toledo is the twelfth.",
+   "tests/pettripfinder/test_factory_throughput_001.py::TestTheHarness::test_the_committed_inventory_reproduces_from_the_suite": "REGISTRY COUNT. The committed test inventory was regenerated to include this order's two suites.",
+   "tests/pettripfinder/test_global_assembler.py::test_current_live_inventory_preserves_all_assemblable_market_profiles": "APPLIER DEFECT. Flat pet fees were published as fee_tiers with invalid enum values (role PRICE, condition_type none). A tier requires a real condition; a flat fee has none and belongs in pet_fee. Fixed at cause in fee_from(), then the expected Toledo count was added to the assembler suite.",
+   "tests/pettripfinder/test_launch_participation_046.py::test_the_bundle_excludes_only_the_two_that_are_not_source_ready": "REGISTRY COUNT. Toledo joins Detroit as a registered market that does not participate.",
+   "tests/pettripfinder/test_markets.py::test_production_markets_dir_loads_and_is_single_market_columbus": "REGISTRY COUNT. The expected market id list grew by toledo-oh.",
+   "tests/pettripfinder/test_service_animal_correction_011.py::test_no_committed_record_newly_fails_schema_validation": "APPLIER DEFECT. service_animal_statement was written inside facts, where policy_schema flags it as a MISPLACED_FIELD by name. Fixed at cause: the statement is a record-level structured field, not a fact.",
+   "tests/pettripfinder/test_st_louis_production_safety_001.py::TestStLouisIsNowRegistered::test_the_registry_grew_by_exactly_one": "REGISTRY COUNT. len(load_markets()) moved from 11 to 12.",
+   "tests/pettripfinder/test_two_market_compat.py::test_an_unknown_market_id_fails_closed_rather_than_falling_back": "TEST USED toledo-oh AS ITS EXAMPLE of an unregistered id, so it silently stopped asserting anything the moment Toledo registered. Repointed at not-a-market-zz, an id no market can hold. The same latent defect was fixed in test_per_market_release_contracts and test_market_authority_sharding."
+  },
+  "unexplained_new_failures": [],
+  "disposition": "All 9 were fixed AT CAUSE. Three were real applier defects that would have shipped a package the record contract rejects; five were registry counts that a twelfth market legitimately moves; one was a project test that had used toledo-oh as its example of an unregistered id. No gate was weakened or scoped away."
+ },
+ "run_2": {
+  "run_dir": "data/regression/toledo_full2",
+  "collected": 17505,
+  "passed": 17109,
+  "skipped": 236,
+  "failed": 160,
+  "seconds": 6300.3,
+  "failing_node_ids": 160,
+  "in_run_not_in_baseline": [],
+  "in_baseline_not_in_run": [],
+  "failure_set_identical_to_baseline": true
+ },
+ "classification": {
+  "PRE_EXISTING": 160,
+  "EXPECTED_EPOCH_CHANGE": 0,
+  "TEST_HARNESS_FLAKE": 0,
+  "TRUE_NEW_FAILURE": 0
+ },
+ "verdict": "CLEAN -- the broad run reproduces the f75aa95 baseline failure set EXACTLY by node id, 0 TRUE_NEW_FAILURE"
+}

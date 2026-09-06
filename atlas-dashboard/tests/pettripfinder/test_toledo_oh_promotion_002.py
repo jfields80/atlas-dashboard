@@ -259,3 +259,89 @@ def test_no_other_market_moved(other):
                      / ("%s.json" % other))
     assert contract["reconciliation"]["confirmed_identities"] == pin["census"]
     assert contract["reconciliation"]["published_pet_friendly"] == pin["pet_friendly"]
+
+
+# --------------------------------------------------------------------------
+# The broad regression, and the readiness it does and does not establish.
+# --------------------------------------------------------------------------
+
+REGRESSION = REPORTS / "toledo_oh_regression_classification_002.json"
+BASELINE = PACKAGE / "regression_baselines" / "f75aa95.json"
+PACKET = REPORTS / "toledo_deployment_authorization_003_PROPOSED.json"
+
+
+def test_the_broad_regression_was_classified_by_node_id_not_by_count():
+    """A matching failure COUNT is not a proof.
+
+    160 failures against a 160-failure baseline is equally consistent with one
+    baseline failure having been fixed and one fresh failure having appeared.
+    The committed report must assert SET IDENTITY, and it must show its work by
+    listing both directions of the difference.
+    """
+    rep = _load(REGRESSION)
+    run = rep["run_2"]
+    assert run["in_run_not_in_baseline"] == []
+    assert run["in_baseline_not_in_run"] == []
+    assert run["failure_set_identical_to_baseline"] is True
+    assert run["failed"] == _load(BASELINE)["failing_node_ids"].__len__()
+    assert rep["classification"]["PRE_EXISTING"] == run["failed"]
+
+
+def test_true_new_failure_is_zero():
+    rep = _load(REGRESSION)
+    assert rep["classification"]["TRUE_NEW_FAILURE"] == 0
+    assert rep["classification"]["TEST_HARNESS_FLAKE"] == 0
+    assert rep["verdict"].startswith("CLEAN")
+
+
+def test_the_lane_was_the_full_suite_because_a_registration_is_never_narrow():
+    rep = _load(REGRESSION)
+    assert rep["lane"] == "full_regression"
+    assert rep["run_2"]["collected"] > 17000
+
+
+def test_run_ones_nine_new_failures_are_each_explained_and_none_were_scoped_away():
+    """Every failure the first broad run added was this order's own.
+
+    Three were real applier defects that would have shipped a package the record
+    contract rejects. The rest were registry counts a twelfth market legitimately
+    moves, plus one project test that had used ``toledo-oh`` as its example of an
+    unregistered id. None was closed by weakening a gate.
+    """
+    r1 = _load(REGRESSION)["run_1"]
+    assert r1["unexplained_new_failures"] == []
+    causes = r1["every_new_failure_was_this_orders_own"]
+    assert len(causes) == r1["true_new_failures"] == 9
+    assert all(why.strip() for why in causes.values())
+
+
+def test_deployment_ready_is_yes_and_every_gate_is_recorded():
+    doc = _load(PACKET)
+    assert doc["DEPLOYMENT_READY"] == "YES"
+    gates = doc["deployment_ready_gates"]
+    assert gates and all(gates.values()), [k for k, v in gates.items() if not v]
+    assert gates["TRUE_NEW_FAILURE_is_zero"] is True
+    assert gates["candidate_reproduces_the_live_bundle"] is True
+    assert gates["toledo_does_not_participate"] is True
+
+
+def test_deployment_ready_is_not_an_authorization_and_not_a_launch():
+    """The two founder levers this order is forbidden to pull stay unpulled."""
+    doc = _load(PACKET)
+    assert doc["status"] == "PROPOSED_UNEXECUTED"
+    assert doc["authorized_by"] is None and doc["authorized_at"] is None
+    assert not list((REPO_ROOT / "deploy" / "netlify"
+                     / "deployment_authorizations").glob("*toledo*"))
+    assert LP.launch_status(MARKET) == "SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH"
+    assert doc["bundle_sha256"] == _load(PINS / "deployment_state.json")["live"]["bundle_sha256"]
+
+
+def test_the_packet_numbers_are_derived_from_artifacts_not_typed():
+    """The Cincinnati launch order quoted a bundle SHA wrong in five characters."""
+    doc = _load(PACKET)
+    state = _load(PINS / "market_state.json")["markets"][MARKET]
+    would = doc["what_toledo_would_bring_when_it_is_launched"]
+    assert would["census"] == state["census"] == GOVERNING["census"]
+    assert would["published_profiles"] == state["profiles"] == GOVERNING["pet_friendly"]
+    assert would["verified_no_pets"] == state["verified_no_pets"] == GOVERNING["verified_no_pets"]
+    assert doc["rollback_target"] == _load(PINS / "deployment_state.json")["live"]["deploy_id"]
