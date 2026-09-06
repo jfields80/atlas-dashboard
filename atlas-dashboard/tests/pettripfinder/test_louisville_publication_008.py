@@ -269,7 +269,12 @@ class TestTheCandidateIsLive:
         assert markets == sorted(markets), "the set is written in a stable order"
         row = next(r for r in manifest["participating_markets"]
                    if r["market_id"] == "louisville-ky")
-        assert row["published_profiles"] == 46
+        # 008's fact is that Louisville reached production and STAYED there, not
+        # that it stayed at 46 forever. The count is read from the pin, which
+        # PTF-LOUISVILLE-DEPLOYMENT-AUTHORIZATION-003 moved to 53 when it shipped
+        # deploy 6a9ca921843f2cba2ddf8da1; a later deployment that grows this
+        # market must not make its continued presence read as a regression.
+        assert row["published_profiles"] == NOW.profiles
         assert row["contract_disagreements"] == []
         # 033 lapsed this pin and the next deployment healed it;
         # PTF-CINCINNATI-HARDENED-SYNC-002 lapsed it again by correcting
