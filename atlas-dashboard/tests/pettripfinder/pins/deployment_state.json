@@ -45,15 +45,16 @@
   "note": "Toledo is live as the ELEVENTH market at 17 published profiles over a 54-identity census built from zero by PTF-TOLEDO-OH-NEW-MARKET-001 and promoted by PTF-TOLEDO-OH-PROMOTION-AND-APPLICATION-002. Production moved 786 -> 803 profiles and 945 -> 966 routes; every previously live market kept its exact profile count and no route was removed. detroit-ann-arbor-mi remains registered and withheld. The promotion packet pinned the PRE-FLIP bundle ca59f3710abde750, in which Toledo contributed nothing; that digest is untouched and is not what deployed. The founder was shown both and bound the authorization to the reassembled candidate 895248738c79bc27."
  },
  "source": {
-  "ahead_of_production": false,
-  "moved_by": null,
-  "bundle_sha256": "895248738c79bc27f26da5bba1d2a490361ce6bd4959698adf3fb6f892aad8b0",
-  "sitemap_sha256": "dfdac840be527d5431d0752e702b55fd41d3ee0d2f3635bed6796044d869d56a",
+  "ahead_of_production": true,
+  "moved_by": "PTF-DETROIT-ANN-ARBOR-LAUNCH-PREP-031",
+  "bundle_sha256": "92b39c81c31988a1d3f778d239ebf5c794cecec4318f524f0d58298aaae8c881",
+  "sitemap_sha256": "ad71bdfaef134ccd35c02b31fb35feb016015fdf85e648f63cd11968af4e4d40",
   "participating_markets": [
    "cincinnati-oh",
    "cleveland-akron-canton-oh",
    "columbus-oh",
    "dayton-oh",
+   "detroit-ann-arbor-mi",
    "grand-rapids-holland-mi",
    "indianapolis-in",
    "louisville-ky",
@@ -67,6 +68,7 @@
    "cleveland-akron-canton-oh": 120,
    "columbus-oh": 88,
    "dayton-oh": 54,
+   "detroit-ann-arbor-mi": 121,
    "grand-rapids-holland-mi": 43,
    "indianapolis-in": 82,
    "louisville-ky": 53,
@@ -75,10 +77,12 @@
    "st-louis-mo": 82,
    "toledo-oh": 17
   },
-  "total_profiles": 803,
-  "sitemap_route_count": 966,
-  "total_html_pages": 4920,
-  "total_files": 4938,
-  "note": "In sync with production: what production serves IS a fresh assembly of the committed source at 85c66ee. No application order has moved a market since."
+  "total_profiles": 924,
+  "sitemap_route_count": 1099,
+  "total_html_pages": 5646,
+  "total_files": 5664,
+  "source_commit": "ad3ffb268399590d41d5f3b54d77ee30a36a9f4b",
+  "candidate_manifest": "deploy/netlify/global_deployment_manifest_candidate_031.json",
+  "note": "AHEAD of production by exactly one market. A fresh assembly of the committed source now composes TWELVE markets and 924 profiles because PTF-DETROIT-ANN-ARBOR-LAUNCH-PREP-031 proposed detroit-ann-arbor-mi for launch; production still serves the ELEVEN-market, 803-profile bundle 895248738c79bc27. Detroit is the only non-zero market delta (+121); every other market's profile count is unchanged, no route is removed, and 4937 of production's 4938 files are byte-identical in the candidate (sitemap.xml is the one change, a pure insertion). The participation row is marked PROPOSED, not founder-decided: no deployment authorization exists and the live block below is untouched. PTF-DETROIT-ANN-ARBOR-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-032 is where the founder decision and the authorization belong."
  }
 }
