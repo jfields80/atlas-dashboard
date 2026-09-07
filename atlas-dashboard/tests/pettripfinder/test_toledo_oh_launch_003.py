@@ -65,18 +65,58 @@ def live_pin() -> dict:
 # Toledo is live.
 # --------------------------------------------------------------------------
 
+def _toledos_decision() -> dict:
+    """This order's decision, read from wherever the record now keeps it.
+
+    While 003 was the current decision this read ``decision`` directly. A later
+    order moves it into the lineage, which is what the lineage is FOR. So the
+    facts are asserted from whichever position holds them and they are the same
+    facts either way -- the same treatment
+    test_grand_rapids_launch_participation_032 already gives its own decision.
+    """
+    doc = _load(DEPLOY / "launch_participation.json")
+    decision = doc["decision"]
+    if decision["work_order"] == WORK_ORDER:
+        return decision
+    return next(r for r in decision["lineage"]["records"]
+                if r["work_order"] == WORK_ORDER)
+
+
 def test_toledo_participates_in_the_composed_bundle():
     from scripts.pettripfinder import launch_participation as LP
     assert LP.launch_status(MARKET) == LP.FOUNDER_AUTHORIZED_FOR_LAUNCH
-    decision = _load(DEPLOY / "launch_participation.json")["decision"]
-    assert decision["work_order"] == WORK_ORDER
-    assert decision["decided_by"] == "founder"
+    mine = _toledos_decision()
+    assert mine["work_order"] == WORK_ORDER
+    assert MARKET in mine["founder_authorized"]
+    # Toledo's own decision WAS the founder's, and stays so wherever it is
+    # held. The CURRENT record may be a later order's -- and since
+    # PTF-DETROIT-ANN-ARBOR-LAUNCH-PREP-031 it is a PROPOSAL that deliberately
+    # claims no founder signature -- which says nothing about this one.
+    doc = _load(DEPLOY / "launch_participation.json")
+    if doc["decision"]["work_order"] == WORK_ORDER:
+        assert doc["decision"]["decided_by"] == "founder"
 
 
 def test_exactly_one_market_joined_and_none_left():
-    """A launch record that quietly carried a second market is the worst defect."""
-    decision = _load(DEPLOY / "launch_participation.json")["decision"]
-    before = set(decision["supersedes"]["founder_authorized"])
+    """A launch record that quietly carried a second market is the worst defect.
+
+    Both sides are read from THIS launch's epoch: the set Toledo inherited, and
+    the set the deployment pinned. A later order proposing a twelfth market
+    moves neither, which is the point -- this asserts what the Toledo launch
+    did, not what the participation record says today.
+    """
+    doc = _load(DEPLOY / "launch_participation.json")
+    decision = doc["decision"]
+    if decision["work_order"] == WORK_ORDER:
+        before = set(decision["supersedes"]["founder_authorized"])
+    else:
+        # The record Toledo's own superseded, found by name rather than by
+        # position: the chain grows and an index would drift.
+        records = decision["lineage"]["records"]
+        mine = next(i for i, r in enumerate(records)
+                    if r["work_order"] == WORK_ORDER)
+        assert mine > 0, "the Toledo record has no ancestor"
+        before = set(records[mine - 1]["founder_authorized"])
     after = set(live_pin()["participating_markets"])
     assert sorted(after - before) == [MARKET]
     assert sorted(before - after) == []
@@ -84,11 +124,28 @@ def test_exactly_one_market_joined_and_none_left():
 
 
 def test_detroit_fort_wayne_and_lexington_are_still_out():
-    from scripts.pettripfinder import launch_participation as LP
-    assert LP.launch_status("detroit-ann-arbor-mi") != LP.FOUNDER_AUTHORIZED_FOR_LAUNCH
+    """Out of what PRODUCTION serves, which is this module's subject.
+
+    Detroit was out of the participation record too until
+    PTF-DETROIT-ANN-ARBOR-LAUNCH-PREP-031 proposed it in as a twelfth market.
+    That order deployed nothing, so Detroit is still out of the deployed
+    bundle, and the assertion is scoped to the deployment this suite is about
+    rather than relaxed. Fort Wayne and Lexington are not even registered.
+    """
+    live = live_pin()["participating_markets"]
+    assert "detroit-ann-arbor-mi" not in live
+    assert len(live) == AFTER["markets"]
+    # Detroit's admission to the RECORD is traceable to a named later order and
+    # is not a founder decision, so nothing was admitted silently.
+    doc = _load(DEPLOY / "launch_participation.json")
+    row = next(r for r in doc["markets"]
+               if r["market_id"] == "detroit-ann-arbor-mi")
+    if row["launch_status"] == "FOUNDER_AUTHORIZED_FOR_LAUNCH":
+        assert doc["decision"]["work_order"] != WORK_ORDER
+        assert row.get("proposed_not_decided") is True
     for unregistered in ("fort-wayne-in", "lexington-ky"):
         assert not (PACKAGE / "markets" / ("%s.json" % unregistered)).is_file()
-        assert unregistered not in live_pin()["participating_markets"]
+        assert unregistered not in live
 
 
 # --------------------------------------------------------------------------
@@ -183,17 +240,50 @@ def test_the_record_is_final_and_names_its_authorization():
 
 
 def test_source_is_back_in_sync_with_production():
+    """In sync AT THIS LAUNCH: what deployed IS a fresh assembly of 85c66ee.
+
+    That is a fact about the Toledo epoch and it is permanent. Source has since
+    moved ahead again -- PTF-DETROIT-ANN-ARBOR-LAUNCH-PREP-031 proposed a
+    twelfth market -- which is the normal cycle and not a contradiction. The
+    assertion that survives is that any drift is NAMED: an unexplained
+    divergence between source and production is what this was written to catch,
+    and it still fails on one.
+    """
     source = _load(PINS / "deployment_state.json")["source"]
-    assert source["ahead_of_production"] is False
-    assert source["moved_by"] is None
-    assert source["bundle_sha256"] == BUNDLE
+    live = live_pin()
+    # Production still serves exactly what this launch deployed.
+    assert live["bundle_sha256"] == BUNDLE
+    assert live["deploy_id"] == DEPLOY_ID
+    if source["ahead_of_production"]:
+        # Ahead is allowed only with a work order that says who moved it.
+        from pettripfinder import epochs
+        assert epochs.is_work_order(source["moved_by"]), source["moved_by"]
+        assert source["bundle_sha256"] != BUNDLE
+    else:
+        assert source["moved_by"] is None
+        assert source["bundle_sha256"] == BUNDLE
 
 
 def test_the_new_authorization_is_registered_as_current_and_nothing_moved_under_it():
+    """Nothing this authorization AUTHORIZED has moved out from under it.
+
+    It authorized eleven markets. A later order may move a market this
+    authorization never covered -- PTF-DETROIT-ANN-ARBOR-LAUNCH-PREP-031
+    proposed a twelfth -- and the registry names it, which is the mechanism
+    working. What must never happen is one of the ELEVEN moving unnamed, and
+    that is what this asserts.
+    """
     reg = _load(PINS / "supersessions.json")["authorizations"]
     assert AUTH_ID in reg
     assert reg[AUTH_ID]["work_order"] == WORK_ORDER
-    assert reg[AUTH_ID]["moved_by_later_work"] == {}
+    authorized = set(live_pin()["participating_markets"])
+    moved = reg[AUTH_ID]["moved_by_later_work"]
+    assert set(moved) & authorized == set(), (
+        "a market this authorization deployed moved out from under it")
+    from pettripfinder import epochs
+    for market_id, work_order in moved.items():
+        assert market_id not in authorized
+        assert epochs.is_work_order(work_order), (market_id, work_order)
 
 
 # --------------------------------------------------------------------------
