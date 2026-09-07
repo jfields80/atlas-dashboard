@@ -1,0 +1,89 @@
+{
+ "schema": "ptf-failure-closure/1.0",
+ "work_order": "PTF-DETROIT-ANN-ARBOR-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-032",
+ "fix_commit_sha": "acd6e62caa2cd318e6a8fa7335c45d2922c52575",
+ "base_sha": "83191d6c298835c8483d3e0d159cd61880800064",
+ "head": "HEAD",
+ "head_sha": "acd6e62caa2cd318e6a8fa7335c45d2922c52575",
+ "original_true_new_node_ids": [
+  "tests/pettripfinder/test_toledo_oh_promotion_002.py::test_the_packet_numbers_are_derived_from_artifacts_not_typed",
+  "tests/pettripfinder/test_factory_throughput_001.py::TestTheHarness::test_the_committed_inventory_reproduces_from_the_suite"
+ ],
+ "baseline_source_sha": "f75aa95",
+ "changed_files": [
+  {
+   "path": "launch_packages/pettripfinder/reports/factory_throughput_001_test_inventory.json",
+   "status": "M",
+   "classes": [
+    "GENERATED_REPORT_ONLY"
+   ],
+   "why": "matched prefix:launch_packages/pettripfinder/reports/"
+  },
+  {
+   "path": "tests/pettripfinder/test_toledo_oh_promotion_002.py",
+   "status": "M",
+   "classes": [
+    "TEST_EXPECTATION_CHANGE"
+   ],
+   "why": "no registration container is declared for this module"
+  }
+ ],
+ "change_classes": [
+  "TEST_EXPECTATION_CHANGE",
+  "GENERATED_REPORT_ONLY"
+ ],
+ "required_validations": {
+  "lanes": [],
+  "markets": [
+   "toledo-oh"
+  ],
+  "modules": [
+   "tests/pettripfinder/contracts/test_census_partition.py",
+   "tests/pettripfinder/contracts/test_compat_readers.py",
+   "tests/pettripfinder/contracts/test_market_authorities.py",
+   "tests/pettripfinder/contracts/test_market_geography.py",
+   "tests/pettripfinder/contracts/test_market_state_pins.py",
+   "tests/pettripfinder/test_deployment_authorization_047.py",
+   "tests/pettripfinder/test_factory_throughput_001.py",
+   "tests/pettripfinder/test_global_assembler.py",
+   "tests/pettripfinder/test_grand_rapids_launch_participation_032.py",
+   "tests/pettripfinder/test_identity_routing.py",
+   "tests/pettripfinder/test_market_authority_sharding.py",
+   "tests/pettripfinder/test_market_isolation.py",
+   "tests/pettripfinder/test_market_ownership.py",
+   "tests/pettripfinder/test_per_market_release_contracts.py",
+   "tests/pettripfinder/test_policy_schema_migration.py",
+   "tests/pettripfinder/test_renderer_real_records.py",
+   "tests/pettripfinder/test_toledo_oh_launch_003.py",
+   "tests/pettripfinder/test_toledo_oh_new_market_001.py",
+   "tests/pettripfinder/test_toledo_oh_promotion_002.py"
+  ],
+  "assembly_required": false
+ },
+ "targeted_result": {
+  "collected": 1198,
+  "passed": 1183,
+  "skipped": 15,
+  "failed": 0,
+  "seconds": 173.3
+ },
+ "node_id_results": {
+  "tests/pettripfinder/test_toledo_oh_promotion_002.py::test_the_packet_numbers_are_derived_from_artifacts_not_typed": "CLOSED",
+  "tests/pettripfinder/test_factory_throughput_001.py::TestTheHarness::test_the_committed_inventory_reproduces_from_the_suite": "CLOSED"
+ },
+ "against_baseline": {
+  "baseline_source_sha": "f75aa95",
+  "PRE_EXISTING": [],
+  "TRUE_NEW": [],
+  "counts": {
+   "PRE_EXISTING": 0,
+   "TRUE_NEW": 0,
+   "RESOLVED": 0
+  },
+  "RESOLVED": []
+ },
+ "FULL_REGRESSION_REQUIRED": "NO",
+ "full_regression_reason": "every changed file classifies into a narrow class (GENERATED_REPORT_ONLY, TEST_EXPECTATION_CHANGE); no row of the matrix makes a broad regression mandatory",
+ "all_original_failures_accounted_for": true,
+ "rationale": "Both TRUE_NEW are deployment epoch pins: a rollback-target check that drifted as production moved on, and the derived test inventory behind it."
+}
