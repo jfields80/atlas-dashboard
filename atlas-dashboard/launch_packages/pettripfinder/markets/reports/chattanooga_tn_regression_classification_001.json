@@ -62,9 +62,30 @@
  },
  "market_local_true_new_failure": 0,
  "broad_regression": {
-  "validation_matrix_verdict": "FULL_REGRESSION_REQUIRED = YES",
-  "why": "regression_delta classifies by PATH. This order's new market scripts fall under scripts/pettripfinder/ (GENERIC_RUNTIME_CHANGE), its proposed census under an authority prefix (AUTHORITY_CHANGE / ROUTING_SEMANTIC_CHANGE), and markets/proposed/ is a path no rule claims (UNCLASSIFIED). The strictest row wins, as designed -- teaching the factory a new directory can only make it slower.",
-  "the_order_directs": "finish and commit all market-local work FIRST, then run the broad lane rather than competing for RAM. That is what happened: this classification and the commit precede the broad run.",
-  "status": "LAUNCHED_AFTER_COMMIT -- see chattanooga_tn_broad_regression_001.json"
+  "status": "COMPLETE",
+  "ran_at": "HEAD 70e9904, after the market-local work was committed as the order directs",
+  "wall_clock_seconds": 6151.62,
+  "wall_clock_minutes": 102.5,
+  "failed": 160,
+  "passed": 17131,
+  "skipped": 228,
+  "xfailed": 13,
+  "classified_against": "launch_packages/pettripfinder/regression_baselines/f75aa95.json",
+  "classifier_verdict": {
+   "PRE_EXISTING": 160,
+   "EXPECTED_EPOCH_CHANGE": 0,
+   "TEST_HARNESS_FLAKE": 0,
+   "TRUE_NEW_FAILURE": 0
+  },
+  "proof_is_set_identity_not_counts": {
+   "baseline_failing_nodes": 160,
+   "this_run_failing_nodes": 160,
+   "only_in_this_run": [],
+   "only_in_baseline": [],
+   "sets_identical": true,
+   "why_this_matters": "160 == 160 would be worth nothing on its own; two different sets of the same size would read as clean. The proof is that every failing node id in this run is in the committed baseline and every baseline node failed here, with nothing on either side."
+  },
+  "true_new_failure": 0,
+  "validation_matrix_verdict": "FULL_REGRESSION_REQUIRED = YES -- satisfied"
  }
 }
