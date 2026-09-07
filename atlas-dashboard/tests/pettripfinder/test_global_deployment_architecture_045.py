@@ -78,7 +78,11 @@ SCRATCH = Path(chr(67) + ":/t/ptf045t")
 EXPECTED_MARKETS = ("cincinnati-oh", "cleveland-akron-canton-oh", "columbus-oh",
                     "dayton-oh", "grand-rapids-holland-mi", "indianapolis-in",
                     "louisville-ky", "milwaukee-wi", "pittsburgh-pa",
-                    "st-louis-mo")
+                    "st-louis-mo", "toledo-oh")
+# toledo-oh joined as the ELEVENTH at PTF-TOLEDO-OH-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-003
+# (deploy 6a9e047690ec8bdaf99bcad2), 17 profiles and 21 routes. The list stays
+# EXPLICIT rather than derived from the pin: a test that derives both sides of
+# its own comparison asserts nothing.
 # indianapolis 56 -> 67 and pittsburgh 26 -> 53 moved at
 # PTF-INDIANAPOLIS-DEPLOYMENT-AUTHORIZATION-015 (deploy 6a9713fc);
 # cleveland 99 -> 120 at PTF-CLEVELAND-AKRON-CANTON-DEPLOYMENT-

@@ -79,8 +79,13 @@ FIVE = ("cleveland-akron-canton-oh", "columbus-oh", "dayton-oh",
 #: The founder flipped it after PTF-CINCINNATI-PROMOTION-AND-APPLICATION-003
 #: promoted the market to 130 and proved the promotion moved no byte of the live
 #: bundle while participation stayed off.
+#: toledo-oh is the ELEVENTH, admitted at PTF-TOLEDO-OH-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-003. It had been the standing example
+#: of the source-ready-but-unauthorized state for exactly one order, which is
+#: why it appears in NOT_READY's comment below; Detroit now carries that role
+#: alone, and carries it more strongly, since Detroit assembles cleanly at 121.
 LIVE = tuple(sorted(FIVE + ("st-louis-mo", "louisville-ky", "indianapolis-in",
-                            "grand-rapids-holland-mi", "cincinnati-oh")))
+                            "grand-rapids-holland-mi", "cincinnati-oh",
+                            "toledo-oh")))
 # indianapolis 56 -> 67 and pittsburgh 26 -> 53 at PTF-INDIANAPOLIS-
 # DEPLOYMENT-AUTHORIZATION-015; cleveland 99 -> 120 at PTF-CLEVELAND-AKRON-
 # CANTON-DEPLOYMENT-AUTHORIZATION-006. Every other market unchanged.
@@ -95,6 +100,8 @@ ADMITTED_AT_019 = "indianapolis-in"
 ADMITTED_AT_032 = "grand-rapids-holland-mi"
 #: PTF-CINCINNATI-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-004 admitted the tenth.
 ADMITTED_AT_004 = "cincinnati-oh"
+#: PTF-TOLEDO-OH-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-003 admitted the eleventh.
+ADMITTED_AT_003 = "toledo-oh"
 WITHHELD_BY_046 = "indianapolis-in"
 # grand-rapids-holland-mi joined this list in the lineage merge, when the
 # assembler first ran on a branch carrying it and could not reach its final
@@ -112,7 +119,11 @@ WITHHELD_BY_046 = "indianapolis-in"
 #: excludes two markets rather than one. Detroit's exclusion is unchanged,
 #: which is the half of this assertion that says a new market disturbed no
 #: old one.
-NOT_READY = ("detroit-ann-arbor-mi", "toledo-oh")
+#: toledo-oh LEFT this list at PTF-TOLEDO-OH-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-003, by founder decision rather than by
+#: gaining data -- the way Cincinnati and Grand Rapids did. The bundle
+#: excludes one market again, and Detroit's exclusion is unchanged, which
+#: is the half of this assertion that says a launch disturbed no old market.
+NOT_READY = ("detroit-ann-arbor-mi",)
 #: Genuinely cannot assemble: a configured market with no policy package.
 #: EMPTY as of PTF-DETROIT-ANN-ARBOR-TROY-IDENTITY-AND-BUNDLE-030. Detroit
 #: left this list the way Grand Rapids did: not by gaining data, but
@@ -219,18 +230,18 @@ def test_the_record_is_committed_and_names_its_decision():
     assert doc["schema"] == LP.PARTICIPATION_SCHEMA
     decision = doc["decision"]
     assert decision["decided_by"] == "founder"
-    # The CURRENT decision is the Cincinnati launch. Each reissue moves these
+    # The CURRENT decision is the Toledo launch. Each reissue moves these
     # three lines and nothing else in this module: the lineage assertions below
     # keep proving every ancestor, including the one this replaced.
-    assert "Cincinnati" in decision["reason"]
+    assert "Toledo" in decision["reason"]
     # supersedes names the IMMEDIATE predecessor, and the flat lineage list
     # carries every ancestor with its sha256. Both are needed: an authorization
     # signed two reissues back can only be matched through the lineage, which
     # is what that block's own what_this_is says it is for.
-    assert decision["work_order"] ==         "PTF-CINCINNATI-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-004"
-    assert decision["supersedes"]["work_order"] ==         "PTF-GRAND-RAPIDS-LAUNCH-PARTICIPATION-032"
-    # The set 004 inherited: the nine that were live before Cincinnati.
-    assert decision["supersedes"]["founder_authorized"] ==         sorted(set(LIVE) - {ADMITTED_AT_004})
+    assert decision["work_order"] ==         "PTF-TOLEDO-OH-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-003"
+    assert decision["supersedes"]["work_order"] ==         "PTF-CINCINNATI-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-004"
+    # The set 003 inherited: the ten that were live before Toledo.
+    assert decision["supersedes"]["founder_authorized"] ==         sorted(set(LIVE) - {ADMITTED_AT_003})
 
     records = decision["lineage"]["records"]
     # 046 is still the oldest ancestor and its withholding is still walkable
