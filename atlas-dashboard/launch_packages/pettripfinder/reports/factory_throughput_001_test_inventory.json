@@ -11,12 +11,12 @@
  ],
  "modules_scanned": 394,
  "modules_with_pins": 267,
- "sites": 1585,
+ "sites": 1587,
  "by_class": {
   "CURRENT_STATE_INVARIANT": 157,
   "HISTORICAL_COHORT_INVARIANT": 844,
   "HISTORICAL_ARTIFACT_INVARIANT": 186,
-  "DEPLOYMENT_EPOCH_INVARIANT": 141,
+  "DEPLOYMENT_EPOCH_INVARIANT": 143,
   "GENERIC_SCHEMA_INVARIANT": 194,
   "CROSS_MARKET_INVARIANT": 63
  },
@@ -21430,13 +21430,13 @@
    ],
    "default_class": "HISTORICAL_COHORT_INVARIANT",
    "default_reason": "work-order-numbered module",
-   "site_count": 7,
+   "site_count": 9,
    "by_class": {
-    "DEPLOYMENT_EPOCH_INVARIANT": 7
+    "DEPLOYMENT_EPOCH_INVARIANT": 9
    },
    "sites": [
     {
-     "line": 141,
+     "line": 198,
      "test": "test_one_digest_runs_from_authorization_to_live",
      "kind": "hash",
      "literal": "895248738c79bc27f26da5bba1d2a490361ce6bd4959698adf3fb6f892aad8b0",
@@ -21447,7 +21447,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 142,
+     "line": 199,
      "test": "test_one_digest_runs_from_authorization_to_live",
      "kind": "hash",
      "literal": "dfdac840be527d5431d0752e702b55fd41d3ee0d2f3635bed6796044d869d56a",
@@ -21458,7 +21458,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 143,
+     "line": 200,
      "test": "test_one_digest_runs_from_authorization_to_live",
      "kind": "hash",
      "literal": "dfdac840be527d5431d0752e702b55fd41d3ee0d2f3635bed6796044d869d56a",
@@ -21469,7 +21469,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 158,
+     "line": 215,
      "test": "test_the_promotion_packets_bundle_is_NOT_what_deployed",
      "kind": "hash",
      "literal": "ca59f3710abde7504dc6c312992e0e2c9db70eccbff737cd12be6ec72708ff1f",
@@ -21480,7 +21480,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 159,
+     "line": 216,
      "test": "test_the_promotion_packets_bundle_is_NOT_what_deployed",
      "kind": "hash",
      "literal": "895248738c79bc27f26da5bba1d2a490361ce6bd4959698adf3fb6f892aad8b0",
@@ -21491,7 +21491,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 163,
+     "line": 220,
      "test": "test_the_promotion_packets_bundle_is_NOT_what_deployed",
      "kind": "hash",
      "literal": "895248738c79bc27f26da5bba1d2a490361ce6bd4959698adf3fb6f892aad8b0",
@@ -21502,7 +21502,29 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 189,
+     "line": 255,
+     "test": "test_source_is_back_in_sync_with_production",
+     "kind": "hash",
+     "literal": "895248738c79bc27f26da5bba1d2a490361ce6bd4959698adf3fb6f892aad8b0",
+     "reads_package": false,
+     "has_len": false,
+     "source": "live[\"bundle_sha256\"] == BUNDLE",
+     "class": "DEPLOYMENT_EPOCH_INVARIANT",
+     "reason": "hash of a bundle / sitemap / authorization"
+    },
+    {
+     "line": 261,
+     "test": "test_source_is_back_in_sync_with_production",
+     "kind": "hash",
+     "literal": "895248738c79bc27f26da5bba1d2a490361ce6bd4959698adf3fb6f892aad8b0",
+     "reads_package": false,
+     "has_len": false,
+     "source": "source[\"bundle_sha256\"] != BUNDLE",
+     "class": "DEPLOYMENT_EPOCH_INVARIANT",
+     "reason": "hash of a bundle / sitemap / authorization"
+    },
+    {
+     "line": 264,
      "test": "test_source_is_back_in_sync_with_production",
      "kind": "hash",
      "literal": "895248738c79bc27f26da5bba1d2a490361ce6bd4959698adf3fb6f892aad8b0",
