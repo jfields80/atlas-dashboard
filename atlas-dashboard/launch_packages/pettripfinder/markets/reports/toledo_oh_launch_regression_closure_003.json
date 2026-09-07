@@ -1,0 +1,50 @@
+{
+ "schema": "ptf-regression-closure/1.0",
+ "work_order": "PTF-TOLEDO-OH-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-003",
+ "lane": "full_regression",
+ "why_the_full_suite": "A deployment change is MANDATORY_FULL by doctrine: what the record claims is served must be what a fresh assembly builds, and nothing narrower proves it.",
+ "baseline": {
+  "path": "launch_packages/pettripfinder/regression_baselines/f75aa95.json",
+  "failing_node_ids": 160
+ },
+ "broad_run": {
+  "run_dir": "data/regression/toledo_launch",
+  "source_commit": "548d2f1e6e93f920a1e3f6230ceb213b2ade3961",
+  "collected": 17532,
+  "passed": 17128,
+  "failed": 163,
+  "seconds": 5718.9,
+  "classification": {
+   "PRE_EXISTING": 160,
+   "EXPECTED_EPOCH_CHANGE": 0,
+   "TEST_HARNESS_FLAKE": 0,
+   "TRUE_NEW_FAILURE": 3
+  },
+  "true_new_failures": {
+   "tests/pettripfinder/test_global_assembler.py::test_cincinnati_does_not_fail_the_global_selection": "EXPECTED EPOCH MOVE. The test enumerates the founder-authorized selection. Toledo joins it as the eleventh by a named founder decision, so the list gained TOLEDO. It is still enumerated, not counted, so a market admitted without a decision still fails.",
+   "tests/pettripfinder/test_global_assembler.py::test_indianapolis_is_now_in_the_global_selection": "EXPECTED EPOCH MOVE. Same enumerated selection, same single entry added.",
+   "tests/pettripfinder/test_grand_rapids_launch_participation_032.py::test_grand_rapids_is_authorized_and_nothing_else_moved": "EXPECTED EPOCH MOVE, and the one that matters. This guard exists to catch a market being swept into the authorized set without a founder decision. It allowed exactly one admission after 032; there have now been two, Cincinnati and Toledo. The allowed set is ENUMERATED by market id rather than relaxed to a count, so its force is unchanged."
+  },
+  "unexplained": []
+ },
+ "closure": {
+  "how": "The fix is a TEST_EXPECTATION_CHANGE over two ordinary modules, which regression_delta classifies as narrow: no row of the matrix makes a second broad regression mandatory. Closure is proved by NODE ID over the 30 modules the classifier named, not by re-running the suite for bookkeeping.",
+  "modules_run": 30,
+  "passed": 1490,
+  "failed": 3,
+  "the_three_that_still_fail": [
+   "tests/pettripfinder/test_grand_rapids_founder_signature_030.py::test_the_declined_capture_was_not_touched",
+   "tests/pettripfinder/test_grand_rapids_founder_signature_030.py::test_the_relocated_block_says_where_it_came_from",
+   "tests/pettripfinder/test_grand_rapids_policy_acquisition_028.py::test_the_bytes_are_on_disk_so_the_reading_would_cost_nothing"
+  ],
+  "all_three_are_baseline_members": true,
+  "note": "All three are in the f75aa95 baseline AND were failing in this broad run before the fix. They read capture artifacts under data/acquisition/ that this worktree does not carry. Nothing about them moved.",
+  "the_three_true_new_now_pass": true
+ },
+ "final": {
+  "PRE_EXISTING": 160,
+  "TEST_HARNESS_FLAKE": 0,
+  "TRUE_NEW_FAILURE": 0
+ },
+ "verdict": "CLEAN -- the three TRUE_NEW_FAILUREs were expected epoch moves of enumerated authorized-set guards, each closed by naming the founder decision that admitted Toledo rather than by weakening the guard. TRUE_NEW_FAILURE = 0."
+}

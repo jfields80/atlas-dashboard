@@ -223,9 +223,12 @@ def test_grand_rapids_is_authorized_and_nothing_else_moved():
         LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH)
     assert "detroit-ann-arbor-mi" not in LP.authorized_market_ids()
     # Nothing was swept in: every market admitted after 032 was admitted by a
-    # named founder decision, and there has been exactly one.
+    # named founder decision, and there have been exactly two -- Cincinnati at
+    # PTF-CINCINNATI-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-004 and Toledo at
+    # PTF-TOLEDO-OH-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-003. The set is ENUMERATED rather
+    # than counted, so a market admitted without a decision still fails here.
     assert set(LP.authorized_market_ids()) - set(AUTHORIZED_AT_032) <= {
-        "cincinnati-oh"}
+        "cincinnati-oh", "toledo-oh"}
 
 
 def test_every_registered_market_still_carries_an_explicit_row():

@@ -50,6 +50,7 @@ COLUMBUS = "columbus-oh"
 CLEVELAND = "cleveland-akron-canton-oh"
 DAYTON = "dayton-oh"
 CINCINNATI = "cincinnati-oh"
+TOLEDO = "toledo-oh"
 INDIANAPOLIS = "indianapolis-in"
 GRAND_RAPIDS = "grand-rapids-holland-mi"
 DETROIT = "detroit-ann-arbor-mi"
@@ -364,7 +365,13 @@ def test_cincinnati_does_not_fail_the_global_selection(markets):
          # PTF-CINCINNATI-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-004: the tenth,
          # admitted by the same lever after PTF-CINCINNATI-PROMOTION-AND-
          # APPLICATION-003 took it to 130 published profiles.
-         CINCINNATI])
+         CINCINNATI,
+         # PTF-TOLEDO-OH-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-003: the ELEVENTH,
+         # admitted by the same lever after PTF-TOLEDO-OH-PROMOTION-AND-
+         # APPLICATION-002 built the market from zero to 17 published. Toledo
+         # was the standing example of "assemblable and withheld" for exactly
+         # one order; Detroit carries that role alone now.
+         TOLEDO])
 
 
 def test_indianapolis_is_registered_above_threshold_and_source_ready(markets):
@@ -404,7 +411,11 @@ def test_indianapolis_is_now_in_the_global_selection(markets):
          # admitted by the same lever. Participation was always the separate,
          # recorded decision, which is why this list grows without a single
          # source fact about the other nine markets changing.
-         CINCINNATI])
+         CINCINNATI,
+         # PTF-TOLEDO-OH-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-003: the eleventh, and the
+         # same point once more -- no source fact about the other ten changed
+         # for Toledo to join.
+         TOLEDO])
 
 
 def test_participation_is_a_founder_decision_layered_on_source_readiness(markets):
