@@ -1,0 +1,168 @@
+{
+ "schema": "ptf-founder-authorization-packet/1.0",
+ "what_this_is": "The exact, UNEXECUTED founder authorization packet PTF-DETROIT-ANN-ARBOR-LAUNCH-PREP-031 prepared for PTF-DETROIT-ANN-ARBOR-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-032. It is a PROPOSAL, not an authorization: no file was written under deploy/netlify/deployment_authorizations/, no deployment record exists, nothing was deployed, and the live deployment pins are untouched. Order 032 is where a founder decision turns this into an authorization and consumes it.",
+ "prepared_by": "PTF-DETROIT-ANN-ARBOR-LAUNCH-PREP-031",
+ "authorizes_nothing": true,
+ "next_work_order": "PTF-DETROIT-ANN-ARBOR-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-032",
+
+ "what_the_founder_is_being_asked_to_decide": "Whether detroit-ann-arbor-mi launches as the TWELFTH PetTripFinder market at 121 published pet-friendly profiles. The market's authority has been complete since PTF-DETROIT-ANN-ARBOR-HARDENED-SYNC-029; order 031 verified it on the current deployed lineage, audited it for wrong-authority defects, and proved the exact bundle a launch would produce. Nothing about the acquisition was reopened and no new acquisition was performed.",
+
+ "binding": {
+  "what_this_is": "Every field order 032 must re-check against the repository before deploying. A disagreement on any one of them refuses the deploy.",
+  "source_commit": "ad3ffb268399590d41d5f3b54d77ee30a36a9f4b",
+  "source_commit_note": "The commit that PROPOSED the Detroit participation row. The candidate was reassembled from a clean detached worktree at exactly this commit, with no working-tree edits, and reproduced byte for byte.",
+  "binding_identity": "bundle_sha256",
+  "bundle_sha256": "92b39c81c31988a1d3f778d239ebf5c794cecec4318f524f0d58298aaae8c881",
+  "sitemap_sha256": "ad71bdfaef134ccd35c02b31fb35feb016015fdf85e648f63cd11968af4e4d40",
+  "candidate_manifest": {
+   "path": "deploy/netlify/global_deployment_manifest_candidate_031.json",
+   "sha256": "06be3d228a33e4819480ec1522987fbb6859fd8bec5836bb46fce0356183eee8"
+  },
+  "production_context": "production",
+  "target_site": "pettripfinder-prod",
+  "production_url": "https://pettripfinder.com",
+  "total_profiles": 924,
+  "total_html_pages": 5646,
+  "total_files": 5664,
+  "sitemap_route_count": 1099,
+  "control_files": {
+   "headers_source": "deploy/netlify/headers.production",
+   "headers_sha256": "cc96c4373564958c8036100207649601547017457fad868cbbd995efef1a6af5",
+   "redirects_source": "deploy/netlify/redirects",
+   "redirects_sha256": "db33b892554509f8534667a1bf773cbce23b9b5371c17bf8da8d33a6ec331f8a",
+   "measurement_config_source": "deploy/netlify/measurement.json",
+   "measurement_config_sha256": "cec583ff9b0601063307fe612c758140e6343ded3fa15f7f578f0726c8a9d604"
+  },
+  "measurement": {
+   "enabled": false,
+   "provider_kind": "none"
+  }
+ },
+
+ "production_baseline": {
+  "what_this_is": "What production serves right now. Order 032 must confirm production has not moved off this before deploying.",
+  "deployment_id": "6a9e047690ec8bdaf99bcad2",
+  "deployment_record": "deploy/netlify/deployment_records/ptf-deploy-toledo-003-6a9e047690ec8bdaf99bcad2.json",
+  "authorization_id": "ptf-auth-toledo-003-895248738c79",
+  "deployed_by": "PTF-TOLEDO-OH-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-003",
+  "bundle_sha256": "895248738c79bc27f26da5bba1d2a490361ce6bd4959698adf3fb6f892aad8b0",
+  "sitemap_sha256": "dfdac840be527d5431d0752e702b55fd41d3ee0d2f3635bed6796044d869d56a",
+  "markets": 11,
+  "published_profiles": 803,
+  "sitemap_routes": 966,
+  "total_html_pages": 4920,
+  "total_files": 4938,
+  "reproduced_by_this_order": "A pre-flip assembly of the committed source at d335c50 reproduced 895248738c79bc27 exactly, which is how order 031 proved source and production were in sync before Detroit moved."
+ },
+
+ "rollback_target": {
+  "deployment_id": "6a9e047690ec8bdaf99bcad2",
+  "deployment_record": "deploy/netlify/deployment_records/ptf-deploy-toledo-003-6a9e047690ec8bdaf99bcad2.json",
+  "bundle_sha256": "895248738c79bc27f26da5bba1d2a490361ce6bd4959698adf3fb6f892aad8b0",
+  "markets": 11,
+  "published_profiles": 803,
+  "why": "The deployment currently live. This candidate ADDS to it and changes no byte of any market already in it, so rolling back returns production to the exact eleven-market bundle it serves today."
+ },
+
+ "participation_flip": {
+  "market_id": "detroit-ann-arbor-mi",
+  "from": "SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH",
+  "to": "FOUNDER_AUTHORIZED_FOR_LAUNCH",
+  "record": "deploy/netlify/launch_participation.json",
+  "record_sha256": "057ead0385db06bbe239ce3b51ddf69cb32374d758e6ce8e9136271e1475ebdd",
+  "currently_marked": "PROPOSED, NOT DECIDED",
+  "what_order_032_must_do": "Record the founder's actual decision on this row: replace decided_by 'proposed-by-launch-prep-031 (NO FOUNDER DECISION RECORDED)' with the founder, replace decided_on 'PENDING' with a real ISO date, remove proposed_not_decided, and rewrite the reason as a decision rather than a proposal. Changing those fields changes the record's sha256 but NOT the composed bundle, because the assembler reads only launch_status -- so the bundle digest above still binds. Order 032 must nevertheless reassemble and confirm that, never assume it.",
+  "markets_before": 11,
+  "markets_after": 12,
+  "no_other_market_status_moves": true
+ },
+
+ "market_deltas": {
+  "what_this_is": "Published profile counts, live versus candidate. Detroit is the only non-zero delta.",
+  "detroit-ann-arbor-mi": {"live": 0, "candidate": 121, "delta": 121},
+  "cincinnati-oh": {"live": 130, "candidate": 130, "delta": 0},
+  "cleveland-akron-canton-oh": {"live": 120, "candidate": 120, "delta": 0},
+  "columbus-oh": {"live": 88, "candidate": 88, "delta": 0},
+  "dayton-oh": {"live": 54, "candidate": 54, "delta": 0},
+  "grand-rapids-holland-mi": {"live": 43, "candidate": 43, "delta": 0},
+  "indianapolis-in": {"live": 82, "candidate": 82, "delta": 0},
+  "louisville-ky": {"live": 53, "candidate": 53, "delta": 0},
+  "milwaukee-wi": {"live": 73, "candidate": 73, "delta": 0},
+  "pittsburgh-pa": {"live": 61, "candidate": 61, "delta": 0},
+  "st-louis-mo": {"live": 82, "candidate": 82, "delta": 0},
+  "toledo-oh": {"live": 17, "candidate": 17, "delta": 0}
+ },
+
+ "baseline_preservation": {
+  "files_byte_identical": 4937,
+  "files_added": 726,
+  "files_changed": 1,
+  "files_removed": 0,
+  "added_attribution": "all 726 added files are under a detroit-ann-arbor-mi path",
+  "changed_attribution": "sitemap.xml only, and the change is a PURE INSERTION of 133 <url> lines with zero lines deleted. The two global market-listing pages do NOT change: Detroit carries show_in_navigation=false and show_in_sitemap=false, exactly as live Louisville, Cincinnati and Toledo do.",
+  "sitemap_routes_added": 133,
+  "sitemap_routes_removed": 0,
+  "unexpected_prior_market_change": false
+ },
+
+ "detroit_source_authority": {
+  "what_this_is": "Re-derived by order 031 from Detroit's own committed files, not copied from the prior order's report.",
+  "census": 247,
+  "published_pet_friendly": 121,
+  "verified_no_pets": 81,
+  "resolved": 202,
+  "unresolved": 45,
+  "profiles": 121,
+  "hotel_routes": 121,
+  "published_corridor_routes": 10,
+  "release_contract_disagreements": 0,
+  "all_market_contract_disagreements": 0,
+  "arithmetic": "121 + 81 = 202 resolved; 247 - 202 = 45 unresolved; the partition, census, policy package, exclusion shard and seed shard agree on every one of these as exact SET identities, not merely as matching counts."
+ },
+
+ "safety_audit": {
+  "what_this_is": "The narrow wrong-authority audit order 031 ran against the owned evidence. No acquisition was performed.",
+  "pf_no_pets_overlap": 0,
+  "wrong_building_policy_binding": 0,
+  "duplicate_published_premises": "1, and it is the standing Troy same-campus ruling (EVEN Hotel and Hotel Indigo at 575 W Big Beaver), not a defect",
+  "shared_page_positional_binding": 0,
+  "amenity_chip_only_pf_classification": 0,
+  "amenity_chip_note": "Every pets_allowed classification is bound to a first-party or brand-official property page (PT1_FIRST_PARTY or PT2_BRAND, all PUBLICATION_GRADE_EVIDENCE). Zero aggregator or listing-site evidence hosts appear anywhere in the package. 119 of 121 rows carry structured companion facts (weight, count, fee) from the same page; the 2 that do not are first-party pages, which matches live Cleveland and live Louisville exactly.",
+  "service_animal_only_pf_classification": 0,
+  "cross_market_published_key_collision": 0,
+  "route_slug_collision_within_market": 0,
+  "genuine_defects_found": 0
+ },
+
+ "founder_rulings_preserved": {
+  "what_this_is": "Order 031 reopened none of these. Each was verified as still standing in committed source.",
+  "troy_same_campus": "EVEN Hotel Detroit North Troy and Hotel Indigo Detroit North Troy remain DISTINCT published identities sharing 575 W Big Beaver, Troy 48084 and one phone number. This is the only shared premise among the 121 published rows.",
+  "doubletree_ann_arbor_north": "PUBLISHED_PET_FRIENDLY, unchanged",
+  "royal_park": "PUBLISHED_PET_FRIENDLY on partial policy, unchanged",
+  "the_siren": "PUBLISHED_PET_FRIENDLY on partial policy, unchanged",
+  "westin_book_cadillac": "HELD at AWAITING_POLICY_OBSERVATION; publishes nothing",
+  "roberts_riverwalk": "HELD at AWAITING_POLICY_OBSERVATION; publishes nothing",
+  "acquisition": "CLOSED. No Bright Data, no Firecrawl, no Places, no new capture of any kind."
+ },
+
+ "not_in_this_candidate": {
+  "fort-wayne-in": "not registered for launch; census 58 / PF 1; PROMOTION_READY NO. Absent from the candidate.",
+  "lexington-ky": "shadow only, never promoted to source. Absent from the candidate."
+ },
+
+ "what_order_032_must_not_assume": [
+  "That the bundle digest survives the participation record's decision fields changing. It should, because the assembler reads only launch_status, but 032 must reassemble and prove it rather than trust this packet.",
+  "That production is still at 6a9e0476. Verify the live target before deploying; if production has moved, this packet's baseline is stale and the authorization must be re-derived.",
+  "That the numbers in this packet are authority. They are a RECORD of what order 031 derived. Every one of them is re-derivable from the committed source and must be re-derived.",
+  "That `netlify deploy` may run without --no-build. Without it the CLI runs a git build and uploads nothing.",
+  "That the .netlify/ directory the CLI scaffolds is harmless. It is gitignored and it fails the assembler gate; remove it before any lane."
+ ],
+
+ "status_at_the_close_of_031": {
+  "SOURCE_READY": "YES",
+  "LAUNCH_READY": "YES",
+  "DEPLOYMENT_READY": "YES",
+  "FOUNDER_AUTHORIZATION_REQUIRED": "YES -- no founder decision has been recorded and no deployment authorization exists",
+  "DEPLOYED": "NO"
+ }
+}
