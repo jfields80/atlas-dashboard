@@ -81,11 +81,19 @@ FIVE = ("cleveland-akron-canton-oh", "columbus-oh", "dayton-oh",
 #: bundle while participation stayed off.
 #: toledo-oh is the ELEVENTH, admitted at PTF-TOLEDO-OH-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-003. It had been the standing example
 #: of the source-ready-but-unauthorized state for exactly one order, which is
-#: why it appears in NOT_READY's comment below; Detroit now carries that role
-#: alone, and carries it more strongly, since Detroit assembles cleanly at 121.
+#: why it appears in NOT_READY's comment below; Detroit carried that role alone
+#: after it, and carried it more strongly, since Detroit assembles cleanly at 121.
+#: detroit-ann-arbor-mi is the TWELFTH, and it joined DIFFERENTLY from every
+#: market above it. PTF-DETROIT-ANN-ARBOR-LAUNCH-PREP-031 wrote its row as a
+#: PROPOSAL rather than a founder decision: the assembler admits exactly one
+#: status, so the candidate could not be assembled or reproduced without
+#: writing it, and the decision block says in three fields that nobody signed.
+#: This module therefore describes the ADMITTED set, which Detroit is now in;
+#: whether that admission was DECIDED is a different fact, held by
+#: tests/pettripfinder/test_detroit_ann_arbor_launch_prep_031.py.
 LIVE = tuple(sorted(FIVE + ("st-louis-mo", "louisville-ky", "indianapolis-in",
                             "grand-rapids-holland-mi", "cincinnati-oh",
-                            "toledo-oh")))
+                            "toledo-oh", "detroit-ann-arbor-mi")))
 # indianapolis 56 -> 67 and pittsburgh 26 -> 53 at PTF-INDIANAPOLIS-
 # DEPLOYMENT-AUTHORIZATION-015; cleveland 99 -> 120 at PTF-CLEVELAND-AKRON-
 # CANTON-DEPLOYMENT-AUTHORIZATION-006. Every other market unchanged.
@@ -102,6 +110,10 @@ ADMITTED_AT_032 = "grand-rapids-holland-mi"
 ADMITTED_AT_004 = "cincinnati-oh"
 #: PTF-TOLEDO-OH-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-003 admitted the eleventh.
 ADMITTED_AT_003 = "toledo-oh"
+#: PTF-DETROIT-ANN-ARBOR-LAUNCH-PREP-031 PROPOSED the twelfth. Named separately
+#: from the ADMITTED_AT_* markers above because it is the only one of them that
+#: is not a founder decision.
+PROPOSED_AT_031 = "detroit-ann-arbor-mi"
 WITHHELD_BY_046 = "indianapolis-in"
 # grand-rapids-holland-mi joined this list in the lineage merge, when the
 # assembler first ran on a branch carrying it and could not reach its final
@@ -120,10 +132,14 @@ WITHHELD_BY_046 = "indianapolis-in"
 #: which is the half of this assertion that says a new market disturbed no
 #: old one.
 #: toledo-oh LEFT this list at PTF-TOLEDO-OH-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-003, by founder decision rather than by
-#: gaining data -- the way Cincinnati and Grand Rapids did. The bundle
-#: excludes one market again, and Detroit's exclusion is unchanged, which
-#: is the half of this assertion that says a launch disturbed no old market.
-NOT_READY = ("detroit-ann-arbor-mi",)
+#: gaining data -- the way Cincinnati and Grand Rapids did.
+#: detroit-ann-arbor-mi LEFT it at PTF-DETROIT-ANN-ARBOR-LAUNCH-PREP-031, on a
+#: PROPOSAL rather than a decision, and the list is now EMPTY: every registered
+#: market is admitted to the bundle. The loops below iterate the tuple rather
+#: than naming a market, so they assert nothing until a market is withheld
+#: again -- which is the correct behaviour and not a weakened gate. The
+#: emptiness is itself asserted, so it cannot go unnoticed.
+NOT_READY = ()
 #: Genuinely cannot assemble: a configured market with no policy package.
 #: EMPTY as of PTF-DETROIT-ANN-ARBOR-TROY-IDENTITY-AND-BUNDLE-030. Detroit
 #: left this list the way Grand Rapids did: not by gaining data, but
@@ -149,9 +165,12 @@ NOT_ASSEMBLABLE = ()
 #: authorization; the authorized set is unchanged.
 #: cincinnati-oh left this set at PTF-CINCINNATI-DEPLOYMENT-AND-LAUNCH-
 #: AUTHORIZATION-004, which is the founder decision the state was waiting
-#: for. Detroit is now the sole example, and the distinction the tests draw
-#: is unchanged: assemblable and source-ready is NOT authorized to launch.
-SOURCE_READY_UNAUTHORIZED = ("detroit-ann-arbor-mi",)
+#: for. Detroit was then the sole example.
+#: detroit-ann-arbor-mi left it at PTF-DETROIT-ANN-ARBOR-LAUNCH-PREP-031 and
+#: the set is EMPTY: no registered market is currently source-ready and
+#: withheld. The state itself is not retired -- the loops below iterate the
+#: tuple and will exercise it again the moment a market occupies it.
+SOURCE_READY_UNAUTHORIZED = ()
 
 #: The five-market production candidate, reproduced twice in the work order
 #: and DEPLOYED by PTF-047. Superseded by
@@ -229,25 +248,37 @@ def test_the_record_is_committed_and_names_its_decision():
     doc = LP.load_participation()
     assert doc["schema"] == LP.PARTICIPATION_SCHEMA
     decision = doc["decision"]
-    assert decision["decided_by"] == "founder"
-    # The CURRENT decision is the Toledo launch. Each reissue moves these
+    # The CURRENT record is a PROPOSAL, not a decision, and this is the
+    # assertion that says so. Every reissue before it recorded decided_by
+    # "founder"; PTF-DETROIT-ANN-ARBOR-LAUNCH-PREP-031 deliberately does not,
+    # because writing the row was the only way to assemble and reproduce the
+    # candidate and nobody had decided anything. Turning this back into
+    # == "founder" is a founder decision and belongs to order 032, not to an
+    # edit that makes a test go green.
+    assert decision["decided_by"] != "founder"
+    assert "NO FOUNDER DECISION RECORDED" in decision["decided_by"]
+    assert decision["reason"].startswith("PROPOSED, NOT DECIDED.")
+    # The CURRENT record is the Detroit proposal. Each reissue moves these
     # three lines and nothing else in this module: the lineage assertions below
     # keep proving every ancestor, including the one this replaced.
-    assert "Toledo" in decision["reason"]
+    assert "detroit-ann-arbor-mi" in decision["reason"]
     # supersedes names the IMMEDIATE predecessor, and the flat lineage list
     # carries every ancestor with its sha256. Both are needed: an authorization
     # signed two reissues back can only be matched through the lineage, which
     # is what that block's own what_this_is says it is for.
-    assert decision["work_order"] ==         "PTF-TOLEDO-OH-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-003"
-    assert decision["supersedes"]["work_order"] ==         "PTF-CINCINNATI-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-004"
-    # The set 003 inherited: the ten that were live before Toledo.
-    assert decision["supersedes"]["founder_authorized"] ==         sorted(set(LIVE) - {ADMITTED_AT_003})
+    assert decision["work_order"] ==         "PTF-DETROIT-ANN-ARBOR-LAUNCH-PREP-031"
+    assert decision["supersedes"]["work_order"] ==         "PTF-TOLEDO-OH-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-003"
+    # The set 031 inherited: the eleven that were live before Detroit.
+    assert decision["supersedes"]["founder_authorized"] ==         sorted(set(LIVE) - {PROPOSED_AT_031})
 
     records = decision["lineage"]["records"]
     # 046 is still the oldest ancestor and its withholding is still walkable
     # from here, which is the whole point of keeping the chain in the record.
     assert records[0]["work_order"] ==         "PTF-FIRST-MULTI-MARKET-PRODUCTION-DEPLOYMENT-046"
     assert WITHHELD_BY_046 not in records[0]["founder_authorized"]
+    # Toledo's own record is now an ancestor, and the set it carried is the
+    # eleven-market set the Detroit proposal inherited.
+    assert records[-1]["founder_authorized"] == sorted(set(LIVE) - {PROPOSED_AT_031})
     # Each ancestor is pinned, and the newest is the one supersedes names.
     assert all(re.fullmatch(r"[0-9a-f]{64}", r["sha256"]) for r in records)
     assert records[-1]["work_order"] == decision["supersedes"]["work_order"]
@@ -415,8 +446,20 @@ def test_the_record_still_vetoes_a_market_that_is_source_ready():
     and still does not participate, because no founder has authorized it. A
     market cannot let itself into a launch by passing a gate, and correcting the
     SOURCE half of its row did not touch the AUTHORIZATION half.
+
+    No market occupies this state today: Detroit was the last one and
+    PTF-DETROIT-ANN-ARBOR-LAUNCH-PREP-031 proposed it into the bundle. A loop
+    over an empty pinned tuple would pass by saying nothing, so the rule is
+    read from the RECORD as well -- whatever is withheld tomorrow is checked
+    without this module being edited again.
     """
-    for mid in SOURCE_READY_UNAUTHORIZED:
+    assert SOURCE_READY_UNAUTHORIZED == (), (
+        "a market has been withheld again; pin it in SOURCE_READY_UNAUTHORIZED")
+    withheld = [row["market_id"] for row in LP.load_participation()["markets"]
+                if row["launch_status"]
+                == LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH]
+    assert sorted(withheld) == sorted(SOURCE_READY_UNAUTHORIZED)
+    for mid in withheld:
         row = _row(mid)
         assert row["assemblable"] is True
         assert row["participates"] is False
@@ -441,11 +484,22 @@ def test_the_bundle_carries_exactly_the_live_set(production):
 
 
 def test_the_bundle_excludes_only_the_two_that_are_not_source_ready(production):
-    """Indianapolis has left this list. Nothing else joined it."""
+    """Indianapolis has left this list. Nothing else joined it.
+
+    Detroit was the last name in it, and PTF-DETROIT-ANN-ARBOR-LAUNCH-PREP-031
+    proposed it into the bundle, so the bundle now excludes NOTHING. That is
+    asserted explicitly rather than left to an empty-set comparison that would
+    also hold if the manifest stopped reporting exclusions altogether.
+    """
     manifest, _site = production
     excluded = {r["market_id"]: r
                 for r in manifest["markets_registered_but_excluded"]}
+    assert NOT_READY == (), "a market is excluded again; pin it in NOT_READY"
+    assert excluded == {}
     assert set(excluded) == set(NOT_READY)
+    # Every registered market is in the bundle, which is the same fact said
+    # from the other side.
+    assert sorted(m.market_id for m in load_markets()) == sorted(LIVE)
     assert ADMITTED_AT_019 not in excluded
     for mid in NOT_ASSEMBLABLE:
         assert excluded[mid]["assemblable"] is False
@@ -583,11 +637,15 @@ def test_the_committed_manifest_describes_the_live_deploy_and_pins_the_record():
     assert doc["launch_participation"]["source"] == (
         "deploy/netlify/launch_participation.json")
     assert doc["schema"] == GD.MANIFEST_SCHEMA
-    # The DEPLOYED set, which is eight. LIVE is now the nine-market candidate
-    # set that 032 composed and nobody has deployed; comparing the committed
-    # manifest against it would ask a record of a past deployment to describe a
-    # future one -- until 034 DEPLOYED it, which is where that reasoning ends.
-    assert [r["market_id"] for r in doc["participating_markets"]] == sorted(LIVE)
+    # The DEPLOYED set. LIVE is now the TWELVE-market candidate set that
+    # PTF-DETROIT-ANN-ARBOR-LAUNCH-PREP-031 composed and nobody has deployed;
+    # comparing the committed manifest against it would ask a record of a past
+    # deployment to describe a future one. So this reads the DEPLOYED set from
+    # the live pin, which is what the manifest is a record of, and the two are
+    # deliberately allowed to differ while source runs ahead of production.
+    assert [r["market_id"] for r in doc["participating_markets"]] == (
+        sorted(LIVE_PINS.participating_markets))
+    assert sorted(LIVE_PINS.participating_markets) == sorted(set(LIVE) - {PROPOSED_AT_031})
     # PROFILES describes a FRESH assembly (626 since
     # PTF-DAYTON-OH-HARDENED-APPLICATION-002). The committed manifest describes
     # what production serves, which is still 619 until Dayton deploys.

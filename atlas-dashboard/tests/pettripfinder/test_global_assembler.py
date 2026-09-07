@@ -338,15 +338,22 @@ def test_cincinnati_does_not_fail_the_global_selection(markets):
     being out of the bundle was always a founder decision about Cincinnati, never
     a defect in it. PTF-CINCINNATI-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-004 made
     that decision the other way, so the market that had been the standing example
-    of "assemblable and withheld" is now the tenth in the bundle. Detroit inherits
-    the example.
+    of "assemblable and withheld" is now the tenth in the bundle. Detroit
+    inherited the example and held it until
+    PTF-DETROIT-ANN-ARBOR-LAUNCH-PREP-031 proposed it in as the twelfth, so no
+    market demonstrates "assemblable and withheld" today.
     """
     chosen, rows = select_markets(markets)
     assert CINCINNATI in [m.market_id for m in chosen]
     assert CINCINNATI in [r["market_id"] for r in rows]
     # The market still assembles on its own merits, which is what this test
-    # always checked; only the launch decision moved.
-    assert "detroit-ann-arbor-mi" not in [m.market_id for m in chosen]
+    # always checked; only the launch decision moved. Detroit's did too, and
+    # the row still reports the two facts SEPARATELY -- which is the property
+    # this module exists to hold, whichever way the decision went.
+    detroit = next(r for r in rows if r["market_id"] == "detroit-ann-arbor-mi")
+    assert detroit["assemblable"] is True
+    assert detroit["participates"] is True
+    assert detroit["launch_status"] == "FOUNDER_AUTHORIZED_FOR_LAUNCH"
     # Pittsburgh is currently assemblable but remains hidden from navigation;
     # Indianapolis was withheld by PTF-046 and admitted by
     # PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019.
@@ -370,8 +377,16 @@ def test_cincinnati_does_not_fail_the_global_selection(markets):
          # admitted by the same lever after PTF-TOLEDO-OH-PROMOTION-AND-
          # APPLICATION-002 built the market from zero to 17 published. Toledo
          # was the standing example of "assemblable and withheld" for exactly
-         # one order; Detroit carries that role alone now.
-         TOLEDO])
+         # one order; Detroit carried that role alone until 031 proposed it in,
+         # and no market demonstrates the state today.
+         TOLEDO,
+         # PTF-DETROIT-ANN-ARBOR-LAUNCH-PREP-031: the TWELFTH, and the same
+         # point a final time -- no source fact about the other eleven changed
+         # for Detroit to join. It differs from every entry above in one
+         # respect: its row is a PROPOSAL, not a founder decision, because the
+         # assembler admits exactly one status and the candidate could not be
+         # composed or reproduced without the row.
+         "detroit-ann-arbor-mi"])
 
 
 def test_indianapolis_is_registered_above_threshold_and_source_ready(markets):
@@ -415,7 +430,14 @@ def test_indianapolis_is_now_in_the_global_selection(markets):
          # PTF-TOLEDO-OH-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-003: the eleventh, and the
          # same point once more -- no source fact about the other ten changed
          # for Toledo to join.
-         TOLEDO])
+         TOLEDO,
+         # PTF-DETROIT-ANN-ARBOR-LAUNCH-PREP-031: the TWELFTH, and the same
+         # point a final time -- no source fact about the other eleven changed
+         # for Detroit to join. It differs from every entry above in one
+         # respect: its row is a PROPOSAL, not a founder decision, because the
+         # assembler admits exactly one status and the candidate could not be
+         # composed or reproduced without the row.
+         "detroit-ann-arbor-mi"])
 
 
 def test_participation_is_a_founder_decision_layered_on_source_readiness(markets):

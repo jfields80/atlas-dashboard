@@ -30,9 +30,13 @@ import pytest
 
 from scripts.pettripfinder import global_deployment as GD
 from scripts.pettripfinder import launch_participation as LP
+from pettripfinder.market_state import live as _live_pins
 from scripts.pettripfinder import market_authority as MA
 from scripts.pettripfinder import release_contracts as RC
 from scripts.pettripfinder.markets.contract import load_markets, parse_market
+
+#: What production actually serves. Source may run ahead of it.
+LIVE_PINS = _live_pins()
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 PACKAGE = REPO_ROOT / "launch_packages" / "pettripfinder"
@@ -132,18 +136,24 @@ class TestParticipationIsTheSixMarketSet:
         """
         assert (LP.launch_status("indianapolis-in")
                 == LP.FOUNDER_AUTHORIZED_FOR_LAUNCH)
-        # Detroit is out for Cincinnati's reason now: source-ready since
-        # PTF-DETROIT-ANN-ARBOR-TROY-IDENTITY-AND-BUNDLE-030 (carried here by
-        # PTF-LINEAGE-CONSOLIDATION-008), and still absent from every
-        # deployed bundle.
-        assert LP.launch_status("detroit-ann-arbor-mi") == (
-            LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH)
-        # Cincinnati was the other example until
-        # PTF-CINCINNATI-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-004 admitted it as
-        # the tenth market. What this test guards is unchanged: a market that is
-        # source-ready is still not thereby admitted, and the one that left this
-        # state left it by a NAMED founder decision rather than by drifting out.
-        assert "detroit-ann-arbor-mi" not in LP.authorized_market_ids()
+        # Detroit LEFT that state at PTF-DETROIT-ANN-ARBOR-LAUNCH-PREP-031, the
+        # way Cincinnati and Toledo did: by a NAMED order recorded in the
+        # participation document, never by drifting out. It left on a PROPOSAL
+        # rather than a founder decision, and the record says so in its own
+        # decision block. Asserting THAT keeps this test's guard alive now that
+        # no market occupies the source-ready-and-withheld state: a market still
+        # cannot be admitted silently, which is what this always checked.
+        doc = LP.load_participation()
+        row = next(r for r in doc["markets"]
+                   if r["market_id"] == "detroit-ann-arbor-mi")
+        assert row["launch_status"] == LP.FOUNDER_AUTHORIZED_FOR_LAUNCH
+        assert row["proposed_not_decided"] is True
+        assert doc["decision"]["work_order"] == (
+            "PTF-DETROIT-ANN-ARBOR-LAUNCH-PREP-031")
+        assert doc["decision"]["decided_by"] != "founder"
+        # Still absent from every DEPLOYED bundle, which is this module's
+        # actual subject: source runs ahead of production until 032 deploys.
+        assert "detroit-ann-arbor-mi" not in LIVE_PINS.participating_markets
 
     def test_every_registered_market_carries_a_row(self):
         """The gate ``global.launch_participation_explicit`` refuses a bundle

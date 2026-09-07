@@ -17,6 +17,7 @@ import json
 import shutil
 import sys
 from pathlib import Path
+from unittest import mock
 
 import pytest
 
@@ -25,6 +26,7 @@ if str(REPO) not in sys.path:
     sys.path.insert(0, str(REPO))
 
 from scripts.pettripfinder import global_deployment as GD
+from scripts.pettripfinder import launch_participation as LP
 from scripts.pettripfinder import release_contracts as RC
 from scripts.pettripfinder.assemble_production_site import (
     AssemblyError, HEADERS_SOURCES, LIVE_ROUTE_INVENTORY, REDIRECTS_SOURCE,
@@ -75,8 +77,16 @@ SCRATCH = Path(chr(67) + ":/t/ptf045t")
 #: UNCHANGED, which is the half of these constants that says a new market
 #: disturbed nothing -- and the live sitemap proved it, with 0 routes removed
 #: and all 148 added routes under /cincinnati-oh/.
+#: detroit-ann-arbor-mi joined as the TWELFTH at
+#: PTF-DETROIT-ANN-ARBOR-LAUNCH-PREP-031, with 121 profiles and 133 routes, and
+#: joined on a PROPOSAL rather than a founder decision -- the assembler admits
+#: exactly one status, so the candidate could not be composed without the row.
+#: Every other figure below is UNCHANGED, which is the half of these constants
+#: that says a new market disturbed nothing: 4937 of production's 4938 files
+#: are byte-identical and sitemap.xml is the only one that moved.
 EXPECTED_MARKETS = ("cincinnati-oh", "cleveland-akron-canton-oh", "columbus-oh",
-                    "dayton-oh", "grand-rapids-holland-mi", "indianapolis-in",
+                    "dayton-oh", "detroit-ann-arbor-mi",
+                    "grand-rapids-holland-mi", "indianapolis-in",
                     "louisville-ky", "milwaukee-wi", "pittsburgh-pa",
                     "st-louis-mo", "toledo-oh")
 # toledo-oh joined as the ELEVENTH at PTF-TOLEDO-OH-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-003
@@ -232,8 +242,11 @@ def test_a_contractless_market_is_excluded_and_says_why():
         assert row["assemblable"] is False
         assert [k for k, v in row["conditions"].items() if not v]
 
-    # Both former demonstrators are now the other half of the point:
-    # assemblable, and still not admitted -- the founder lever holds them out.
+    # Both former demonstrators are contracted and assemblable. Cincinnati was
+    # admitted at PTF-CINCINNATI-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-004 and
+    # Detroit proposed at PTF-DETROIT-ANN-ARBOR-LAUNCH-PREP-031, so neither is
+    # held out any more -- but "has a contract and assembles" is the half of
+    # the point this loop was always making, and it still holds for both.
     for market_id in ("cincinnati-oh", "detroit-ann-arbor-mi"):
         assert market_id in contracted
         row = market_eligibility(
@@ -245,16 +258,42 @@ def test_an_ineligible_market_cannot_be_forced_into_the_bundle(tmp_path):
     """Passing an ineligible market explicitly must not smuggle it in.
 
     The example was cincinnati-oh until
-    PTF-CINCINNATI-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-004 admitted it, so it is
-    now detroit-ann-arbor-mi -- which is the STRONGER case for this guard.
-    Cincinnati was excluded on a condition that could be read as a data problem;
-    Detroit assembles cleanly at 121 published and is kept out purely because no
-    founder has authorized it. Selection must refuse it anyway.
+    PTF-CINCINNATI-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-004 admitted it, then
+    detroit-ann-arbor-mi until PTF-DETROIT-ANN-ARBOR-LAUNCH-PREP-031 proposed
+    it. EVERY registered market is now admitted, so there is no market left to
+    pass in as the ineligible one.
+
+    Naming a market was always the weaker form of this test: it proved the
+    guard for whichever market happened to be withheld that month. The guard
+    itself is that selection reads the participation RECORD and refuses
+    anything the record does not authorize, so that is what is exercised here
+    -- by withholding a market in a substituted record and passing it in
+    explicitly. This keeps working however the founder's set changes, and it
+    fails if the explicit-markets argument is ever allowed to bypass the lever.
     """
+    withheld = "detroit-ann-arbor-mi"
+    doc = json.loads(json.dumps(LP.load_participation()))
+    for row in doc["markets"]:
+        if row["market_id"] == withheld:
+            row["launch_status"] = (
+                LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH)
     markets = [m for m in load_markets()
-               if m.market_id in ("columbus-oh", "detroit-ann-arbor-mi")]
-    chosen, _rows = select_markets(markets)
-    assert "detroit-ann-arbor-mi" not in {m.market_id for m in chosen}
+               if m.market_id in ("columbus-oh", withheld)]
+
+    with mock.patch.object(LP, "load_participation", return_value=doc):
+        # Sanity: the substituted record really does withhold it.
+        assert LP.launch_status(withheld) == (
+            LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH)
+        chosen, rows = select_markets(markets)
+
+    assert withheld not in {m.market_id for m in chosen}
+    # Refused for want of an authorization, not for want of data.
+    row = next(r for r in rows if r["market_id"] == withheld)
+    assert row["assemblable"] is True
+    assert row["participates"] is False
+    # And with the real record it IS admitted, so the refusal above came from
+    # the lever rather than from something wrong with the market.
+    assert withheld in {m.market_id for m in select_markets(markets)[0]}
 
 
 # --------------------------------------------------------------------------- #

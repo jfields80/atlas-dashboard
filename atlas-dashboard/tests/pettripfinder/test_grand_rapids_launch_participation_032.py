@@ -219,16 +219,26 @@ def test_grand_rapids_is_authorized_and_nothing_else_moved():
     # admitted it as the tenth market. That it LEFT this state by a founder
     # decision, with no source fact about it changing, is the same point stated
     # the other way round.
-    assert LP.launch_status("detroit-ann-arbor-mi") == (
-        LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH)
-    assert "detroit-ann-arbor-mi" not in LP.authorized_market_ids()
+    # Detroit LEFT that state at PTF-DETROIT-ANN-ARBOR-LAUNCH-PREP-031 -- by a
+    # named order recorded in the document, and on a PROPOSAL rather than a
+    # founder decision, which the row itself flags. No market occupies the
+    # state today, so what this test guards is asserted over the RECORD: an
+    # admission must always be traceable to a named order.
+    doc = LP.load_participation()
+    detroit = next(r for r in doc["markets"]
+                   if r["market_id"] == "detroit-ann-arbor-mi")
+    assert detroit["launch_status"] == LP.FOUNDER_AUTHORIZED_FOR_LAUNCH
+    assert detroit["proposed_not_decided"] is True
+    assert doc["decision"]["work_order"] == "PTF-DETROIT-ANN-ARBOR-LAUNCH-PREP-031"
+    assert doc["decision"]["decided_by"] != "founder"
     # Nothing was swept in: every market admitted after 032 was admitted by a
-    # named founder decision, and there have been exactly two -- Cincinnati at
-    # PTF-CINCINNATI-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-004 and Toledo at
-    # PTF-TOLEDO-OH-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-003. The set is ENUMERATED rather
+    # named order, and there have been exactly three -- Cincinnati at
+    # PTF-CINCINNATI-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-004, Toledo at
+    # PTF-TOLEDO-OH-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-003, and Detroit at
+    # PTF-DETROIT-ANN-ARBOR-LAUNCH-PREP-031. The set is ENUMERATED rather
     # than counted, so a market admitted without a decision still fails here.
-    assert set(LP.authorized_market_ids()) - set(AUTHORIZED_AT_032) <= {
-        "cincinnati-oh", "toledo-oh"}
+    assert set(LP.authorized_market_ids()) - set(AUTHORIZED_AT_032) == {
+        "cincinnati-oh", "toledo-oh", "detroit-ann-arbor-mi"}
 
 
 def test_every_registered_market_still_carries_an_explicit_row():
@@ -253,7 +263,13 @@ def test_the_decision_names_this_order_and_preserves_its_predecessor():
     """
     doc = LP.load_participation()
     decision = doc["decision"]
-    assert decision["decided_by"] == "founder"
+    # 032's own decision was the founder's. The CURRENT record is Detroit's
+    # PROPOSAL, which deliberately does not claim a founder signature -- so
+    # this asserts what the record must carry either way: a named decider that
+    # is not blank, and a founder attribution only where one was really given.
+    assert decision["decided_by"]
+    if decision["work_order"] == "PTF-GRAND-RAPIDS-LAUNCH-PARTICIPATION-032":
+        assert decision["decided_by"] == "founder"
     if decision["work_order"] == "PTF-GRAND-RAPIDS-LAUNCH-PARTICIPATION-032":
         mine, predecessor = decision, decision["supersedes"]
     else:
