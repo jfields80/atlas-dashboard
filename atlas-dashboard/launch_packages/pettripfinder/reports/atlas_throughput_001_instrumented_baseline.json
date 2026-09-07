@@ -1,0 +1,780 @@
+{
+ "schema": "ptf-throughput-run-profile/1.0",
+ "run_id": "20260907T172348-28920",
+ "git_head": "2163c4ed23b7315954f896c99729ca95c08eabfc",
+ "wrapped": [
+  {
+   "module": "scripts.pettripfinder.assemble_netlify_bundle",
+   "attr": "assemble",
+   "kind": "market_bundle"
+  },
+  {
+   "module": "scripts.pettripfinder.assemble_production_site",
+   "attr": "assemble",
+   "kind": "production_site"
+  },
+  {
+   "module": "scripts.generate_pettripfinder_columbus_site",
+   "attr": "run",
+   "kind": "columbus_site"
+  },
+  {
+   "module": "scripts.generate_pettripfinder_pilot",
+   "attr": "run_pilot",
+   "kind": "columbus_pilot"
+  },
+  {
+   "module": "scripts.generate_pettripfinder_pilot",
+   "attr": "load_launch_package",
+   "kind": "pilot_load_launch_package"
+  },
+  {
+   "module": "scripts.pettripfinder.listing_dataset_builder",
+   "attr": "build_listing_dataset",
+   "kind": "listing_dataset"
+  },
+  {
+   "module": "engines.website_generation.assembly.assembly_engine.AssemblyEngine",
+   "attr": "assemble",
+   "kind": "wge_assembly_engine"
+  }
+ ],
+ "wrap_skipped": [],
+ "total_wall_s": 7955.454,
+ "collection_s": 50.18,
+ "execution_s": 7905.274,
+ "collected": 17408,
+ "counts": {
+  "passed": 17015,
+  "skipped": 231,
+  "failed": 162
+ },
+ "exit_status": 1,
+ "phase_seconds": {
+  "test_setup": 1156.8,
+  "test_call": 6692.2,
+  "test_teardown": 11.6,
+  "fixture_setup_recorded": 1137.9,
+  "assembly_outer_calls": 1874.1,
+  "assembly_by_kind": {}
+ },
+ "cpu_seconds": {
+  "user": 5096.9,
+  "system": 706.2,
+  "children_user": 0.0,
+  "children_system": 0.0
+ },
+ "peak_working_set_mb": 7538.1,
+ "io_bytes": {
+  "read": 9356129671,
+  "write": 820573276
+ },
+ "recorder_errors": 0,
+ "top_nodes": [
+  {
+   "node": "tests/website_generation/integration/test_pettripfinder_demo_media.py::TestDeterminism::test_repeated_real_build_identical",
+   "seconds": 1280.1,
+   "setup": 0.3352,
+   "call": 1279.7495,
+   "outcome": "passed"
+  },
+  {
+   "node": "tests/website_generation/integration/test_pettripfinder_demo_media.py::TestZeroImageFallback::test_no_media_mapping_yields_zero_img",
+   "seconds": 964.2,
+   "setup": 0.4118,
+   "call": 963.7808,
+   "outcome": "passed"
+  },
+  {
+   "node": "tests/website_generation/integration/test_pettripfinder_demo_media.py::TestBundle::test_two_content_addressed_assets_materialized",
+   "seconds": 425.1,
+   "setup": 0.0559,
+   "call": 425.0802,
+   "outcome": "passed"
+  },
+  {
+   "node": "tests/website_generation/integration/test_pettripfinder_demo_media.py::TestRealPilotIngestion::test_no_filesystem_path_in_dataset",
+   "seconds": 407.7,
+   "setup": 0.2857,
+   "call": 407.3718,
+   "outcome": "passed"
+  },
+  {
+   "node": "tests/website_generation/integration/test_pettripfinder_demo_media.py::TestRequestSafety::test_every_img_src_is_bundled_local",
+   "seconds": 404.3,
+   "setup": 0.0496,
+   "call": 404.2442,
+   "outcome": "passed"
+  },
+  {
+   "node": "tests/website_generation/integration/test_pettripfinder_demo_media.py::TestBundle::test_no_duplicated_bytes",
+   "seconds": 378.5,
+   "setup": 0.2288,
+   "call": 378.2305,
+   "outcome": "passed"
+  },
+  {
+   "node": "tests/website_generation/integration/test_pettripfinder_demo_media.py::TestGeneratedHtml::test_configured_card_and_profile_render_img",
+   "seconds": 366.6,
+   "setup": 0.3058,
+   "call": 366.3169,
+   "outcome": "passed"
+  },
+  {
+   "node": "tests/website_generation/integration/test_pettripfinder_demo_media.py::TestRealPilotIngestion::test_asset_hashes_match_committed_bytes",
+   "seconds": 363.2,
+   "setup": 0.2171,
+   "call": 362.9392,
+   "outcome": "passed"
+  },
+  {
+   "node": "tests/website_generation/integration/test_pettripfinder_demo_media.py::TestRealPilotIngestion::test_configured_listings_gain_hero_refs",
+   "seconds": 353.2,
+   "setup": 0.0064,
+   "call": 353.207,
+   "outcome": "passed"
+  },
+  {
+   "node": "tests/website_generation/integration/test_pettripfinder_demo_media.py::TestGeneratedHtml::test_img_tags_sitewide_are_exactly_the_two_demo_illustrations",
+   "seconds": 346.3,
+   "setup": 0.0412,
+   "call": 346.2447,
+   "outcome": "passed"
+  },
+  {
+   "node": "tests/website_generation/integration/test_pettripfinder_demo_media.py::TestGeneratedHtml::test_imageless_listing_stays_text_only",
+   "seconds": 340.3,
+   "setup": 0.0829,
+   "call": 340.227,
+   "outcome": "passed"
+  },
+  {
+   "node": "tests/pettripfinder/test_global_deployment_architecture_045.py::test_the_context_is_recorded_in_the_manifest",
+   "seconds": 323.5,
+   "setup": 323.4587,
+   "call": 0.0002,
+   "outcome": "passed"
+  },
+  {
+   "node": "tests/pettripfinder/test_global_deployment_architecture_045.py::test_production_is_indexable_and_preview_is_not",
+   "seconds": 305.4,
+   "setup": 0.0042,
+   "call": 305.409,
+   "outcome": "passed"
+  },
+  {
+   "node": "tests/pettripfinder/test_launch_participation_046.py::test_the_bundle_carries_exactly_the_live_set",
+   "seconds": 304.3,
+   "setup": 304.2773,
+   "call": 0.0003,
+   "outcome": "passed"
+  },
+  {
+   "node": "tests/pettripfinder/test_per_market_release_contracts.py::TestEveryMarketAssembles::test_all_gates_pass[columbus-oh]",
+   "seconds": 302.9,
+   "setup": 302.8948,
+   "call": 0.0075,
+   "outcome": "passed"
+  },
+  {
+   "node": "tests/pettripfinder/test_prod005_netlify_config.py::TestAssembler::test_both_contexts_succeed",
+   "seconds": 61.6,
+   "setup": 61.6064,
+   "call": 0.0006,
+   "outcome": "passed"
+  },
+  {
+   "node": "tests/pettripfinder/test_prod005_netlify_config.py::TestAssembler::test_deterministic_and_atomic_replace",
+   "seconds": 60.9,
+   "setup": 0.0047,
+   "call": 60.8843,
+   "outcome": "passed"
+  },
+  {
+   "node": "tests/pettripfinder/test_prod004_verified_only.py::test_build_is_deterministic",
+   "seconds": 47.5,
+   "setup": 0.0003,
+   "call": 47.4817,
+   "outcome": "passed"
+  },
+  {
+   "node": "tests/pettripfinder/test_homepage_market_awareness.py::TestColumbusProductionBundle::test_the_frozen_bundle_hash_is_unchanged",
+   "seconds": 30.2,
+   "setup": 0.0042,
+   "call": 30.2403,
+   "outcome": "passed"
+  },
+  {
+   "node": "tests/pettripfinder/test_two_market_compat.py::test_columbus_assembler_succeeds_with_two_markets",
+   "seconds": 28.6,
+   "setup": 0.0004,
+   "call": 28.565,
+   "outcome": "passed"
+  },
+  {
+   "node": "tests/pettripfinder/test_prod004_verified_only.py::test_exactly_the_committed_public_hotel_profiles",
+   "seconds": 27.9,
+   "setup": 27.873,
+   "call": 0.016,
+   "outcome": "passed"
+  },
+  {
+   "node": "tests/website_generation/integration/test_pettripfinder_pilot_chain.py::TestEndToEnd::test_repository_materializes",
+   "seconds": 27.0,
+   "setup": 24.1537,
+   "call": 2.8143,
+   "outcome": "passed"
+  },
+  {
+   "node": "tests/pettripfinder/test_atlas_throughput_001.py::TestPluginEndToEnd::test_the_child_run_reports_its_own_outcomes_unchanged",
+   "seconds": 25.5,
+   "setup": 25.529,
+   "call": 0.0003,
+   "outcome": "passed"
+  },
+  {
+   "node": "tests/pettripfinder/test_atlas_throughput_001.py::TestPluginEndToEnd::test_without_an_output_path_the_plugin_is_inert",
+   "seconds": 24.8,
+   "setup": 0.0039,
+   "call": 24.7492,
+   "outcome": "passed"
+  },
+  {
+   "node": "tests/pettripfinder/test_generate_columbus_site.py::test_build_succeeds_and_reports_launch_ready",
+   "seconds": 24.7,
+   "setup": 24.7418,
+   "call": 0.0057,
+   "outcome": "passed"
+  }
+ ],
+ "top_fixtures": [
+  {
+   "fixture": "production",
+   "scope": "module",
+   "seconds": 627.7,
+   "setups": 2
+  },
+  {
+   "fixture": "market_bundles",
+   "scope": "module",
+   "seconds": 302.9,
+   "setups": 1
+  },
+  {
+   "fixture": "assembled",
+   "scope": "module",
+   "seconds": 61.6,
+   "setups": 1
+  },
+  {
+   "fixture": "build",
+   "scope": "module",
+   "seconds": 27.9,
+   "setups": 1
+  },
+  {
+   "fixture": "tmp_path",
+   "scope": "function",
+   "seconds": 26.1,
+   "setups": 10
+  },
+  {
+   "fixture": "child_run",
+   "scope": "module",
+   "seconds": 25.5,
+   "setups": 1
+  },
+  {
+   "fixture": "built_site",
+   "scope": "module",
+   "seconds": 24.7,
+   "setups": 1
+  },
+  {
+   "fixture": "routing_delta_from_shards",
+   "scope": "module",
+   "seconds": 19.7,
+   "setups": 1
+  },
+  {
+   "fixture": "simulation",
+   "scope": "module",
+   "seconds": 5.8,
+   "setups": 1
+  },
+  {
+   "fixture": "package",
+   "scope": "module",
+   "seconds": 5.1,
+   "setups": 1
+  },
+  {
+   "fixture": "queues",
+   "scope": "module",
+   "seconds": 3.7,
+   "setups": 1
+  },
+  {
+   "fixture": "replay_repo",
+   "scope": "function",
+   "seconds": 2.7,
+   "setups": 5
+  },
+  {
+   "fixture": "repo",
+   "scope": "function",
+   "seconds": 1.5,
+   "setups": 19
+  },
+  {
+   "fixture": "dry_run",
+   "scope": "function",
+   "seconds": 0.5,
+   "setups": 4
+  },
+  {
+   "fixture": "st_louis",
+   "scope": "module",
+   "seconds": 0.3,
+   "setups": 1
+  },
+  {
+   "fixture": "columbus_home",
+   "scope": "module",
+   "seconds": 0.2,
+   "setups": 1
+  },
+  {
+   "fixture": "rows",
+   "scope": "function",
+   "seconds": 0.2,
+   "setups": 1
+  },
+  {
+   "fixture": "indianapolis",
+   "scope": "module",
+   "seconds": 0.2,
+   "setups": 1
+  },
+  {
+   "fixture": "live",
+   "scope": "module",
+   "seconds": 0.2,
+   "setups": 1
+  },
+  {
+   "fixture": "client",
+   "scope": "function",
+   "seconds": 0.2,
+   "setups": 3
+  }
+ ],
+ "assembly": {
+  "total_invocations_outer": 56,
+  "insignificant_calls_under_1s": 404,
+  "total_invocations_including_nested": 542,
+  "unique_inputs": 19,
+  "repeated_identical_builds": 37,
+  "seconds_spent_on_repeated_identical_builds": 793.5,
+  "by_market": {
+   "(all-market/none)": 45,
+   "columbus-oh": 1,
+   "cleveland-akron-canton-oh": 1,
+   "dayton-oh": 1,
+   "pittsburgh-pa": 1,
+   "indianapolis-in": 1,
+   "milwaukee-wi": 1,
+   "st-louis-mo": 1,
+   "louisville-ky": 1,
+   "grand-rapids-holland-mi": 1,
+   "cincinnati-oh": 1,
+   "detroit-ann-arbor-mi": 1
+  },
+  "by_kind": {
+   "pilot_load_launch_package": 18,
+   "market_bundle": 17,
+   "wge_assembly_engine": 12,
+   "columbus_site": 5,
+   "production_site": 3,
+   "listing_dataset": 1
+  },
+  "seconds_by_kind": {
+   "production_site": 930.0,
+   "market_bundle": 484.0,
+   "wge_assembly_engine": 153.0,
+   "pilot_load_launch_package": 147.9,
+   "columbus_site": 117.3,
+   "listing_dataset": 41.9
+  },
+  "top_input_keys_by_build_count": [
+   {
+    "assembly_kind": "pilot_load_launch_package",
+    "dependency_input_hash": "3af892d5af195d0b77e3169b51bd6c6bdb363c432dd9dc06c6db93ca0d74f4a8",
+    "market": null,
+    "context": null,
+    "builds": 18,
+    "repeated_builds": 17,
+    "seconds_total": 147.9,
+    "seconds_repeated": 142.8,
+    "output_hashes": [
+     "None"
+    ],
+    "callers": [
+     "tests/pettripfinder/acquisition/test_normalization_041.py::test_the_simulation_derives_73_and_27",
+     "tests/pettripfinder/acquisition/test_normalization_041.py::test_the_simulation_wrote_nothing_to_the_repository",
+     "tests/pettripfinder/acquisition/test_publication_037.py::test_the_derived_inventory_no_longer_loses_a_row_to_the_collision",
+     "tests/pettripfinder/test_listing_renderability_boundary.py::TestRealSeedBoundary::test_real_build_excludes_exactly_the_pending_rows",
+     "tests/pettripfinder/test_publication_guard.py::TestGenerationDefenceInDepth::test_the_shared_launch_package_loader_passes_today",
+     "tests/website_generation/integration/test_pettripfinder_demo_media.py::TestRealPilotIngestion::test_configured_listings_gain_hero_refs",
+     "tests/website_generation/integration/test_pettripfinder_demo_media.py::TestRealPilotIngestion::test_asset_hashes_match_committed_bytes",
+     "tests/website_generation/integration/test_pettripfinder_demo_media.py::TestRealPilotIngestion::test_no_filesystem_path_in_dataset",
+     "tests/website_generation/integration/test_pettripfinder_demo_media.py::TestGeneratedHtml::test_configured_card_and_profile_render_img",
+     "tests/website_generation/integration/test_pettripfinder_demo_media.py::TestGeneratedHtml::test_imageless_listing_stays_text_only",
+     "tests/website_generation/integration/test_pettripfinder_demo_media.py::TestGeneratedHtml::test_img_tags_sitewide_are_exactly_the_two_demo_illustrations",
+     "tests/website_generation/integration/test_pettripfinder_demo_media.py::TestBundle::test_two_content_addressed_assets_materialized",
+     "tests/website_generation/integration/test_pettripfinder_demo_media.py::TestBundle::test_no_duplicated_bytes",
+     "tests/website_generation/integration/test_pettripfinder_demo_media.py::TestRequestSafety::test_every_img_src_is_bundled_local",
+     "tests/website_generation/integration/test_pettripfinder_demo_media.py::TestDeterminism::test_repeated_real_build_identical",
+     "tests/website_generation/integration/test_pettripfinder_demo_media.py::TestDeterminism::test_repeated_real_build_identical",
+     "tests/website_generation/integration/test_pettripfinder_demo_media.py::TestZeroImageFallback::test_no_media_mapping_yields_zero_img",
+     "tests/website_generation/integration/test_pettripfinder_launch_package.py::TestRealPackageReadiness::test_load_launch_package_helper_matches_direct_reads"
+    ]
+   },
+   {
+    "assembly_kind": "wge_assembly_engine",
+    "dependency_input_hash": "3af892d5af195d0b77e3169b51bd6c6bdb363c432dd9dc06c6db93ca0d74f4a8",
+    "market": null,
+    "context": null,
+    "builds": 12,
+    "repeated_builds": 11,
+    "seconds_total": 153.0,
+    "seconds_repeated": 133.6,
+    "output_hashes": [
+     "None"
+    ],
+    "callers": [
+     "tests/website_generation/integration/test_pettripfinder_demo_media.py::TestRealPilotIngestion::test_configured_listings_gain_hero_refs",
+     "tests/website_generation/integration/test_pettripfinder_demo_media.py::TestRealPilotIngestion::test_asset_hashes_match_committed_bytes",
+     "tests/website_generation/integration/test_pettripfinder_demo_media.py::TestRealPilotIngestion::test_no_filesystem_path_in_dataset",
+     "tests/website_generation/integration/test_pettripfinder_demo_media.py::TestGeneratedHtml::test_configured_card_and_profile_render_img",
+     "tests/website_generation/integration/test_pettripfinder_demo_media.py::TestGeneratedHtml::test_imageless_listing_stays_text_only",
+     "tests/website_generation/integration/test_pettripfinder_demo_media.py::TestGeneratedHtml::test_img_tags_sitewide_are_exactly_the_two_demo_illustrations",
+     "tests/website_generation/integration/test_pettripfinder_demo_media.py::TestBundle::test_two_content_addressed_assets_materialized",
+     "tests/website_generation/integration/test_pettripfinder_demo_media.py::TestBundle::test_no_duplicated_bytes",
+     "tests/website_generation/integration/test_pettripfinder_demo_media.py::TestRequestSafety::test_every_img_src_is_bundled_local",
+     "tests/website_generation/integration/test_pettripfinder_demo_media.py::TestDeterminism::test_repeated_real_build_identical",
+     "tests/website_generation/integration/test_pettripfinder_demo_media.py::TestDeterminism::test_repeated_real_build_identical",
+     "tests/website_generation/integration/test_pettripfinder_demo_media.py::TestZeroImageFallback::test_no_media_mapping_yields_zero_img"
+    ]
+   },
+   {
+    "assembly_kind": "columbus_site",
+    "dependency_input_hash": null,
+    "market": null,
+    "context": null,
+    "builds": 5,
+    "repeated_builds": 4,
+    "seconds_total": 117.3,
+    "seconds_repeated": 92.6,
+    "output_hashes": [
+     "None"
+    ],
+    "callers": [
+     "tests/pettripfinder/test_generate_columbus_site.py::test_build_succeeds_and_reports_launch_ready",
+     "tests/pettripfinder/test_prod004_verified_only.py::test_exactly_the_committed_public_hotel_profiles",
+     "tests/pettripfinder/test_prod004_verified_only.py::test_build_is_deterministic",
+     "tests/pettripfinder/test_prod004_verified_only.py::test_build_is_deterministic",
+     "tests/pettripfinder/test_two_market_compat.py::test_columbus_site_generation_succeeds_with_two_markets"
+    ]
+   },
+   {
+    "assembly_kind": "market_bundle",
+    "dependency_input_hash": null,
+    "market": null,
+    "context": "production",
+    "builds": 5,
+    "repeated_builds": 4,
+    "seconds_total": 150.5,
+    "seconds_repeated": 120.2,
+    "output_hashes": [
+     "e853ec0ab5d5a6b27b49d38d24a4cdac136fa67d92ff3f1c533dbb3f39c36a4e"
+    ],
+    "callers": [
+     "tests/pettripfinder/test_homepage_market_awareness.py::TestColumbusProductionBundle::test_the_frozen_bundle_hash_is_unchanged",
+     "tests/pettripfinder/test_prod005_netlify_config.py::TestAssembler::test_both_contexts_succeed",
+     "tests/pettripfinder/test_prod005_netlify_config.py::TestAssembler::test_deterministic_and_atomic_replace",
+     "tests/pettripfinder/test_prod005_netlify_config.py::TestAssembler::test_deterministic_and_atomic_replace",
+     "tests/pettripfinder/test_two_market_compat.py::test_columbus_assembler_succeeds_with_two_markets"
+    ]
+   },
+   {
+    "assembly_kind": "production_site",
+    "dependency_input_hash": "3af892d5af195d0b77e3169b51bd6c6bdb363c432dd9dc06c6db93ca0d74f4a8",
+    "market": null,
+    "context": "production",
+    "builds": 2,
+    "repeated_builds": 1,
+    "seconds_total": 627.7,
+    "seconds_repeated": 304.3,
+    "output_hashes": [
+     "ca59f3710abde7504dc6c312992e0e2c9db70eccbff737cd12be6ec72708ff1f"
+    ],
+    "callers": [
+     "tests/pettripfinder/test_global_deployment_architecture_045.py::test_the_context_is_recorded_in_the_manifest",
+     "tests/pettripfinder/test_launch_participation_046.py::test_the_bundle_carries_exactly_the_live_set"
+    ]
+   },
+   {
+    "assembly_kind": "production_site",
+    "dependency_input_hash": "3af892d5af195d0b77e3169b51bd6c6bdb363c432dd9dc06c6db93ca0d74f4a8",
+    "market": null,
+    "context": "preview",
+    "builds": 1,
+    "repeated_builds": 0,
+    "seconds_total": 302.2,
+    "seconds_repeated": 0,
+    "output_hashes": [
+     "fb38371b4e0c98172ce47024f8520d4ff32a37215531dc6d09cd0960bfeb18d3"
+    ],
+    "callers": [
+     "tests/pettripfinder/test_global_deployment_architecture_045.py::test_production_is_indexable_and_preview_is_not"
+    ]
+   },
+   {
+    "assembly_kind": "market_bundle",
+    "dependency_input_hash": "8d82013dbc1d50991e93fb7b81a6f7283aba0d64d90976144c34c0f91ca5dbbf",
+    "market": "columbus-oh",
+    "context": "production",
+    "builds": 1,
+    "repeated_builds": 0,
+    "seconds_total": 30.9,
+    "seconds_repeated": 0,
+    "output_hashes": [
+     "e853ec0ab5d5a6b27b49d38d24a4cdac136fa67d92ff3f1c533dbb3f39c36a4e"
+    ],
+    "callers": [
+     "tests/pettripfinder/test_per_market_release_contracts.py::TestEveryMarketAssembles::test_all_gates_pass[columbus-oh]"
+    ]
+   },
+   {
+    "assembly_kind": "market_bundle",
+    "dependency_input_hash": "7b1f0285d661484656b7356aec1c014aec7892114a13513a2677b066c4be74ea",
+    "market": "cleveland-akron-canton-oh",
+    "context": "production",
+    "builds": 1,
+    "repeated_builds": 0,
+    "seconds_total": 39.4,
+    "seconds_repeated": 0,
+    "output_hashes": [
+     "b9bc75ef3a33aa4978fd5fefda3367a981a0870a9f6e443ca3ec05d9e316f61a"
+    ],
+    "callers": [
+     "tests/pettripfinder/test_per_market_release_contracts.py::TestEveryMarketAssembles::test_all_gates_pass[columbus-oh]"
+    ]
+   },
+   {
+    "assembly_kind": "market_bundle",
+    "dependency_input_hash": "003ca274f8d2d26f559770469b401d4a61f9e78e05d52c6076e06157d1474170",
+    "market": "dayton-oh",
+    "context": "production",
+    "builds": 1,
+    "repeated_builds": 0,
+    "seconds_total": 19.0,
+    "seconds_repeated": 0,
+    "output_hashes": [
+     "d29445aaf0be0a0c716ca847cc88290599151d77d18fc5188ded242c8aeff4dc"
+    ],
+    "callers": [
+     "tests/pettripfinder/test_per_market_release_contracts.py::TestEveryMarketAssembles::test_all_gates_pass[columbus-oh]"
+    ]
+   },
+   {
+    "assembly_kind": "market_bundle",
+    "dependency_input_hash": "656c0412644d5065441ecf7656473c74143043c2f46bd90bb131e9cbf9220d54",
+    "market": "pittsburgh-pa",
+    "context": "production",
+    "builds": 1,
+    "repeated_builds": 0,
+    "seconds_total": 19.8,
+    "seconds_repeated": 0,
+    "output_hashes": [
+     "e7c699abb63e70a59550b799035f1752d2ea5c90c55a2c0b875b5f3bc9dee13e"
+    ],
+    "callers": [
+     "tests/pettripfinder/test_per_market_release_contracts.py::TestEveryMarketAssembles::test_all_gates_pass[columbus-oh]"
+    ]
+   },
+   {
+    "assembly_kind": "market_bundle",
+    "dependency_input_hash": "dc836ec61aef8cc111c078f9c19e97ebd5408525f80afdb861fcafa687753eee",
+    "market": "indianapolis-in",
+    "context": "production",
+    "builds": 1,
+    "repeated_builds": 0,
+    "seconds_total": 26.4,
+    "seconds_repeated": 0,
+    "output_hashes": [
+     "c60140d0ecded0f4cbedbc983f5edb73157c80e29b564289a72b3b68b7cd9e24"
+    ],
+    "callers": [
+     "tests/pettripfinder/test_per_market_release_contracts.py::TestEveryMarketAssembles::test_all_gates_pass[columbus-oh]"
+    ]
+   },
+   {
+    "assembly_kind": "market_bundle",
+    "dependency_input_hash": "f6bb8200c5723d7d2409900b7c57e10f597224026aa8783ea8c57304170477f2",
+    "market": "milwaukee-wi",
+    "context": "production",
+    "builds": 1,
+    "repeated_builds": 0,
+    "seconds_total": 22.9,
+    "seconds_repeated": 0,
+    "output_hashes": [
+     "549d33ab85c399129f1e73e46ae3cc8d41260644653115996dddc29be957c0b8"
+    ],
+    "callers": [
+     "tests/pettripfinder/test_per_market_release_contracts.py::TestEveryMarketAssembles::test_all_gates_pass[columbus-oh]"
+    ]
+   },
+   {
+    "assembly_kind": "market_bundle",
+    "dependency_input_hash": "b102716993076b3c7be938785cbaacaf1c56155d14ee4340ac5df6ccdec1985b",
+    "market": "st-louis-mo",
+    "context": "production",
+    "builds": 1,
+    "repeated_builds": 0,
+    "seconds_total": 26.5,
+    "seconds_repeated": 0,
+    "output_hashes": [
+     "9f1cc3f28a5676ed8c0cd4090ba40cd63722b877d58d4cb00e9193e95269435e"
+    ],
+    "callers": [
+     "tests/pettripfinder/test_per_market_release_contracts.py::TestEveryMarketAssembles::test_all_gates_pass[columbus-oh]"
+    ]
+   },
+   {
+    "assembly_kind": "market_bundle",
+    "dependency_input_hash": "4f4eb2ac6bd5f66b45716deff5d11c2cb094543273f3019aeddd0dcbdf559ab3",
+    "market": "louisville-ky",
+    "context": "production",
+    "builds": 1,
+    "repeated_builds": 0,
+    "seconds_total": 17.7,
+    "seconds_repeated": 0,
+    "output_hashes": [
+     "eb9d76a5f3caf3c5f0a1f604df7c12b2b6c01b2267347d5cba7ff7db5b64e5e3"
+    ],
+    "callers": [
+     "tests/pettripfinder/test_per_market_release_contracts.py::TestEveryMarketAssembles::test_all_gates_pass[columbus-oh]"
+    ]
+   },
+   {
+    "assembly_kind": "market_bundle",
+    "dependency_input_hash": "c05544b07af3208c242551301e6c6d4b6cbf9c49ff8d3d3de485a4794b337214",
+    "market": "grand-rapids-holland-mi",
+    "context": "production",
+    "builds": 1,
+    "repeated_builds": 0,
+    "seconds_total": 16.2,
+    "seconds_repeated": 0,
+    "output_hashes": [
+     "02bddf1c86242afbef159f09545c0241a0dcf176258b90232f82a94439f59f45"
+    ],
+    "callers": [
+     "tests/pettripfinder/test_per_market_release_contracts.py::TestEveryMarketAssembles::test_all_gates_pass[columbus-oh]"
+    ]
+   },
+   {
+    "assembly_kind": "market_bundle",
+    "dependency_input_hash": "53379bdce7e0b1951c9bede00364240451f4c28eb5104cea646abcfc1b1d0034",
+    "market": "cincinnati-oh",
+    "context": "production",
+    "builds": 1,
+    "repeated_builds": 0,
+    "seconds_total": 41.3,
+    "seconds_repeated": 0,
+    "output_hashes": [
+     "12b2d76fbbcfcabf6001615704bc340add2c21c121fe6f0af95559205298cf13"
+    ],
+    "callers": [
+     "tests/pettripfinder/test_per_market_release_contracts.py::TestEveryMarketAssembles::test_all_gates_pass[columbus-oh]"
+    ]
+   },
+   {
+    "assembly_kind": "market_bundle",
+    "dependency_input_hash": "e607e52d0e0657f730b684f06000c083ccef25686a3892a6fff420685290a122",
+    "market": "detroit-ann-arbor-mi",
+    "context": "production",
+    "builds": 1,
+    "repeated_builds": 0,
+    "seconds_total": 42.7,
+    "seconds_repeated": 0,
+    "output_hashes": [
+     "c497770003f65529dbcd1c522a1bda8ffac699e58e6c5425562d0cde01a210aa"
+    ],
+    "callers": [
+     "tests/pettripfinder/test_per_market_release_contracts.py::TestEveryMarketAssembles::test_all_gates_pass[columbus-oh]"
+    ]
+   },
+   {
+    "assembly_kind": "market_bundle",
+    "dependency_input_hash": null,
+    "market": null,
+    "context": "preview",
+    "builds": 1,
+    "repeated_builds": 0,
+    "seconds_total": 30.8,
+    "seconds_repeated": 0,
+    "output_hashes": [
+     "b111e58753ae916dc0a7cfbfcbea8fca630d523af67b88ee343b6099ed2d08ad"
+    ],
+    "callers": [
+     "tests/pettripfinder/test_prod005_netlify_config.py::TestAssembler::test_both_contexts_succeed"
+    ]
+   },
+   {
+    "assembly_kind": "listing_dataset",
+    "dependency_input_hash": "3af892d5af195d0b77e3169b51bd6c6bdb363c432dd9dc06c6db93ca0d74f4a8",
+    "market": null,
+    "context": null,
+    "builds": 1,
+    "repeated_builds": 0,
+    "seconds_total": 41.9,
+    "seconds_repeated": 0,
+    "output_hashes": [
+     "None"
+    ],
+    "callers": [
+     "tests/website_generation/integration/test_pettripfinder_demo_media.py::TestZeroImageFallback::test_no_media_mapping_yields_zero_img"
+    ]
+   }
+  ],
+  "cold_vs_repeat": [
+   {
+    "key": "pilot_load_launch_package|3af892d5af195d0b77e3169b51bd6c6bdb363c432dd9dc06c6db93ca0d74f4a8|None|None",
+    "cold_seconds": 5.1,
+    "repeat_seconds_mean": 8.4
+   },
+   {
+    "key": "wge_assembly_engine|3af892d5af195d0b77e3169b51bd6c6bdb363c432dd9dc06c6db93ca0d74f4a8|None|None",
+    "cold_seconds": 19.4,
+    "repeat_seconds_mean": 12.1
+   },
+   {
+    "key": "columbus_site|None|None|None",
+    "cold_seconds": 24.7,
+    "repeat_seconds_mean": 23.1
+   },
+   {
+    "key": "market_bundle|None|None|production",
+    "cold_seconds": 30.2,
+    "repeat_seconds_mean": 30.1
+   },
+   {
+    "key": "production_site|3af892d5af195d0b77e3169b51bd6c6bdb363c432dd9dc06c6db93ca0d74f4a8|None|production",
+    "cold_seconds": 323.5,
+    "repeat_seconds_mean": 304.3
+   }
+  ]
+ }
+}

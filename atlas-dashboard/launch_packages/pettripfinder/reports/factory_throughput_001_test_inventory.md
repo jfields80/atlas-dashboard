@@ -1,12 +1,12 @@
 # PetTripFinder test pin inventory (A1)
 
-Schema `ptf-test-pin-inventory/1.0`. 390 modules scanned, 263 carry pins, 1539 sites.
+Schema `ptf-test-pin-inventory/1.0`. 391 modules scanned, 264 carry pins, 1549 sites.
 
 | class | sites |
 |---|---|
 | CURRENT_STATE_INVARIANT | 157 |
-| HISTORICAL_COHORT_INVARIANT | 824 |
-| HISTORICAL_ARTIFACT_INVARIANT | 183 |
+| HISTORICAL_COHORT_INVARIANT | 830 |
+| HISTORICAL_ARTIFACT_INVARIANT | 187 |
 | DEPLOYMENT_EPOCH_INVARIANT | 120 |
 | GENERIC_SCHEMA_INVARIANT | 194 |
 | CROSS_MARKET_INVARIANT | 61 |
@@ -40,6 +40,7 @@ Schema `ptf-test-pin-inventory/1.0`. 390 modules scanned, 263 carry pins, 1539 s
 - `tests/pettripfinder/discovery/test_resolution_fetch_plan.py`
 - `tests/pettripfinder/policy/test_authority_safety.py`
 - `tests/pettripfinder/policy/test_m10_code_and_address_override.py`
+- `tests/pettripfinder/test_atlas_throughput_001.py`
 - `tests/pettripfinder/test_build_capture_queue.py`
 - `tests/pettripfinder/test_cincinnati_founder_application_004.py`
 - `tests/pettripfinder/test_cincinnati_hilton_close_marriott_retry_015.py`
@@ -210,6 +211,7 @@ Schema `ptf-test-pin-inventory/1.0`. 390 modules scanned, 263 carry pins, 1539 s
 | `policy/test_authority_safety.py` |  | GENERIC_SCHEMA_INVARIANT | 3 | CURRENT_STATE 1, GENERIC_SCHEMA 2 |
 | `policy/test_drury_and_sonesta.py` |  | GENERIC_SCHEMA_INVARIANT | 2 | GENERIC_SCHEMA 2 |
 | `policy/test_m10_code_and_address_override.py` |  | GENERIC_SCHEMA_INVARIANT | 1 | CURRENT_STATE 1 |
+| `test_atlas_throughput_001.py` |  | HISTORICAL_COHORT_INVARIANT | 10 | HISTORICAL_ARTIFACT 4, HISTORICAL_COHORT 6 |
 | `test_build_capture_queue.py` |  | HISTORICAL_COHORT_INVARIANT | 4 | HISTORICAL_COHORT 4 |
 | `test_cincinnati_brightdata_pilot_014.py` | cincinnati-oh | HISTORICAL_COHORT_INVARIANT | 9 | CROSS_MARKET 4, HISTORICAL_ARTIFACT 1, HISTORICAL_COHORT 4 |
 | `test_cincinnati_capture_pass1_001.py` | cincinnati-oh | HISTORICAL_COHORT_INVARIANT | 11 | HISTORICAL_ARTIFACT 3, HISTORICAL_COHORT 8 |

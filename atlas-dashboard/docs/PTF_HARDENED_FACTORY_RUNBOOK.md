@@ -261,6 +261,32 @@ were required, the per-node verdict, and the full-regression decision with its
 reason. A committed artifact that does not account for every original node id
 fails its own test.
 
+## Profiling a run (ATLAS-THROUGHPUT-001)
+
+`scripts/pettripfinder/throughput_profile.py` is an opt-in pytest plugin. It is
+loaded only when named on the command line and is inert without an output
+path, so the harness is untouched when it is absent:
+
+```
+python -m pytest tests -q -p no:cacheprovider -o junit_family=xunit2 \
+    --junitxml=data/regression/<run>/full_regression.xml \
+    -p scripts.pettripfinder.throughput_profile \
+    --ptf-profile-out data/regression/<run>/profile.jsonl \
+    --ptf-inventory-out data/regression/<run>/inventory.json
+python -m scripts.pettripfinder.throughput_baseline run --profile data/regression/<run>/profile.jsonl --out <report.json>
+python -m scripts.pettripfinder.throughput_baseline junit --out <report.json> <label>=data/regression/<run>/full_regression.xml
+```
+
+The JSONL carries one row per test (setup / call / teardown seconds, peak
+working set), per slow fixture setup, per assembly call (kind, market, elapsed,
+output hash, `market_input_hash`, `dependency_input_hash`), plus collection and
+session rows. `throughput_baseline run` turns it into the phase table, the
+top-node and top-fixture rankings, and the count and cost of assemblies that
+rebuilt byte-identical inputs. `throughput_baseline junit` profiles any kept
+junit file the same way, so past broad runs are evidence too. The measured
+baseline and its findings are in
+`launch_packages/pettripfinder/reports/atlas_throughput_001_baseline_report.md`.
+
 ## Factory freeze rule
 
 Shared or generic code (`scripts/pettripfinder/acquisition/*`, `brightdata/*`,

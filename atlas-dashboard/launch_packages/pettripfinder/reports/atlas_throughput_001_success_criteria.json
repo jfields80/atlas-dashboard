@@ -1,0 +1,146 @@
+{
+ "schema": "atlas-throughput-success-criteria/1.0",
+ "work_order": "ATLAS-THROUGHPUT-001",
+ "frozen_at_commit_base": "2163c4ed23b7315954f896c99729ca95c08eabfc",
+ "what_this_is": "The proof targets the factory throughput redesign must meet. Every row is a TARGET, stored here so a later order can measure against it; none is claimed. A row's status moves to ACHIEVED only by a committed measurement artifact that names the run, the market and the instrument, never by editing this file.",
+ "unit_conventions": {
+  "minutes": "wall-clock minutes of the named interval, measured by the instrument named in the row",
+  "count": "an integer count over the named population"
+ },
+ "targets": [
+  {
+   "id": "LARGE_NEW_MARKET_SOURCE_READY_MINUTES",
+   "population": "a LARGE new market (Nashville-sized: >= 150 census identities)",
+   "interval": "first acquisition action -> SOURCE_READY (shadow market PROMOTION_READY = YES with 0 blockers)",
+   "target": 180,
+   "comparison": "<=",
+   "unit": "minutes",
+   "current_evidence": "Nashville 001: 125 active minutes to PROMOTION_READY over 181 census (launch_packages/pettripfinder/markets/reports/nashville_tn_speed_benchmark_004.json on worker/ptf-nashville-new-market-001); Chattanooga 001: ~300 active minutes over 102 census (chattanooga_tn_factory_speed_001.json). Neither is SOURCE_READY in the release sense: neither was promoted.",
+   "instrument": "the market's speed benchmark report plus the throughput_profile plugin over the validation lanes it runs",
+   "status": "TARGET_NOT_CLAIMED"
+  },
+  {
+   "id": "RELEASE_LANE_ADMISSION_TO_VERIFIED_LIVE_MINUTES",
+   "population": "one market admitted to the serialized release lane",
+   "interval": "lane admission (promotion order starts) -> targeted live verification complete",
+   "target": 60,
+   "comparison": "<=",
+   "unit": "minutes",
+   "steady_state_target": 45,
+   "current_evidence": "Toledo promotion 002 + launch 003 ran FOUR broad regressions (toledo_full 7476 s, toledo_full2 6293 s, toledo_full3 6743 s, toledo_launch 5714 s) inside the lane: 437 minutes of regression alone, measured from the junit files (atlas_throughput_001_broad_run_profiles.json).",
+   "instrument": "throughput_profile plugin session rows for every validation the lane runs; deployment record timestamps for deploy and live verification",
+   "status": "TARGET_NOT_CLAIMED"
+  },
+  {
+   "id": "CONCURRENT_WORKERS_KEEP_PROGRESS",
+   "population": "two other market workers active while release work runs",
+   "interval": "the whole release lane",
+   "target": 2,
+   "comparison": ">=",
+   "unit": "count of other workers whose acquisition lanes complete at their solo rate within a stated tolerance",
+   "current_evidence": "Not measurable today: a broad run peaks at 7.6 GB working set and drove system free memory to 46 MB on a 16 GB box (atlas_throughput_001_sampler_cha_full.json). Chattanooga's own report records its OSM index build at ~70 minutes 'while another market's full broad regression held the CPU'.",
+   "instrument": "process sampler CSV over the release lane plus each worker's speed benchmark",
+   "status": "TARGET_NOT_CLAIMED"
+  },
+  {
+   "id": "FOUNDER_ACTIVE_MINUTES_PER_LAUNCH",
+   "population": "one launched market",
+   "interval": "founder decisions: packet review, rulings, launch decision, deploy authorization",
+   "target": 30,
+   "comparison": "<=",
+   "unit": "minutes",
+   "current_evidence": "UNKNOWN. No committed artifact timestamps founder active time; founder packets record item counts (Nashville 25 items, Chattanooga 26) but not minutes.",
+   "instrument": "founder packet open/close timestamps recorded by the review tool (to be added by a later order)",
+   "status": "TARGET_NOT_CLAIMED"
+  },
+  {
+   "id": "DATA_ONLY_CHANGE_BROAD_REGRESSIONS_DURING_ACQUISITION",
+   "population": "an ordinary proven data-only market change (shadow market, no shared module, no authority of another market)",
+   "interval": "acquisition",
+   "target": 0,
+   "comparison": "==",
+   "unit": "count of broad regressions",
+   "current_evidence": "Nashville 001 ran 0 broad regressions during acquisition BY CHOICE, but the classifier would have demanded one: regression_delta classifies its 45 changed paths as GENERIC_RUNTIME_CHANGE x18, ROUTING_SEMANTIC_CHANGE x4, AUTHORITY_CHANGE x1, UNCLASSIFIED x2 -> FULL_REGRESSION_REQUIRED = YES with 25 driver paths (atlas_throughput_001_classifier_audit.json).",
+   "instrument": "regression_delta classify over the change surface; count of full_regression lane runs in data/regression",
+   "status": "TARGET_NOT_CLAIMED"
+  },
+  {
+   "id": "DATA_ONLY_CHANGE_BROAD_REGRESSIONS_AFTER_DEPLOYMENT",
+   "population": "an ordinary proven data-only market change",
+   "interval": "after deployment",
+   "target": 0,
+   "comparison": "==",
+   "unit": "count of broad regressions",
+   "current_evidence": "Toledo launch 003 ran one broad regression AFTER deploying (toledo_launch, 5714 s) because the deployment record is DEPLOYMENT_CHANGE = mandatory full.",
+   "instrument": "as above",
+   "status": "TARGET_NOT_CLAIMED"
+  },
+  {
+   "id": "BROAD_REGRESSION_ONLY_WHEN_SELECTED_DEPENDENCIES_REQUIRE_IT",
+   "population": "every change",
+   "interval": "always",
+   "target": 0,
+   "comparison": "==",
+   "unit": "count of broad regressions whose driver set contains no path reachable by the production runtime, the assembler, a shared contract or shared test infrastructure",
+   "current_evidence": "The classifier decides by PATH PREFIX. All 25 Nashville drivers and 21 Toledo-001 drivers are market-named helpers, discovery configs and proposed/shadow artifacts that no production module imports or reads (atlas_throughput_001_classifier_audit.json; market-local case study in the baseline report).",
+   "instrument": "regression_delta classify plus an ownership/dependency proof (ATLAS-THROUGHPUT-002)",
+   "status": "TARGET_NOT_CLAIMED"
+  },
+  {
+   "id": "UNINTENDED_LIVE_MARKET_REMOVAL",
+   "population": "every deploy",
+   "target": 0, "comparison": "==", "unit": "count",
+   "current_evidence": "Gated today by launch_participation_explicit/agrees_with_source (assembler), verify_manifest and verify_authorization (deploy-time); the lineage guard test_deployment_authorization_047::test_the_lineage_is_ordered_and_ends_before_the_current_record (atlas_throughput_001_safety_invariants.md H6).",
+   "instrument": "the existing gates; a candidate-vs-previous-deploy market-set diff in the release coordinator",
+   "status": "TARGET_NOT_CLAIMED"
+  },
+  {
+   "id": "UNINTENDED_HOTEL_OR_ROUTE_REMOVAL",
+   "population": "every deploy",
+   "target": 0, "comparison": "==", "unit": "count",
+   "current_evidence": "Route-level preservation is gated only for the 132 Columbus routes of 2026-08-09 (deploy/netlify/live_production_routes.txt); the other live markets are protected by count gates and hand-recorded live_verification_results (H7).",
+   "instrument": "previous deploy's sitemap vs candidate sitemap, route set difference == {} (procedural today)",
+   "status": "TARGET_NOT_CLAIMED"
+  },
+  {
+   "id": "WRONG_IDENTITY_BINDING",
+   "population": "every published record",
+   "target": 0, "comparison": "==", "unit": "count",
+   "current_evidence": "Build-time check is a normalize_name join (site_data.verified_public_hotels); identity_key canonicality is tested for 3-8 markets, not 11 (H1).",
+   "instrument": "the H1 minimum node set (JSON-only) run in the critical lane",
+   "status": "TARGET_NOT_CLAIMED"
+  },
+  {
+   "id": "WRONG_POLICY_BINDING",
+   "population": "every published record",
+   "target": 0, "comparison": "==", "unit": "count",
+   "current_evidence": "No build-time or deploy-time gate; first-party binding is a write-time rule and a test (H2).",
+   "instrument": "the H2 minimum node set run in the critical lane",
+   "status": "TARGET_NOT_CLAIMED"
+  },
+  {
+   "id": "CRITICAL_REGRESSION",
+   "population": "every release",
+   "target": 0, "comparison": "==", "unit": "count of TRUE_NEW_FAILURE in the critical safety lane",
+   "current_evidence": "The 160-node known baseline contains 0 nodes in the IDENTITY/POLICY/ARTIFACT/RELEASE critical groups: 150 ENVIRONMENT (gitignored data/ corpora absent in a fresh worktree) and 10 HISTORICAL_COUNT/PIN (atlas_throughput_001_failure_baseline_audit.json).",
+   "instrument": "regression_lanes classify against the committed baseline",
+   "status": "TARGET_NOT_CLAIMED"
+  },
+  {
+   "id": "SILENT_UNRESOLVED_SUPPRESSION",
+   "population": "every release",
+   "target": 0, "comparison": "==", "unit": "count of failures excused without a named class and a named work order",
+   "current_evidence": "Every failing node in a broad run gets exactly one of PRE_EXISTING / EXPECTED_EPOCH_CHANGE / TEST_HARNESS_FLAKE / TRUE_NEW_FAILURE (regression_lanes.classify); the demo-media module is deselected in the committed baselines but NOT by the lane runner, which is a documented, not silent, difference.",
+   "instrument": "regression_lanes classify output committed per order",
+   "status": "TARGET_NOT_CLAIMED"
+  },
+  {
+   "id": "FACTORY_PROOF_LAUNCHES_PER_8H_DAY",
+   "population": "one 8-hour operating day, three genuinely new markets (small/medium, medium, large)",
+   "target": 3, "comparison": ">=", "unit": "count of qualified launches",
+   "current_evidence": "Not attempted. The serialized release lane alone cost Toledo 437 minutes of broad regression across four runs.",
+   "instrument": "the three-market experiment defined in atlas_throughput_001_three_market_experiment.json",
+   "status": "TARGET_NOT_CLAIMED"
+  }
+ ]
+}
