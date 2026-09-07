@@ -206,11 +206,27 @@ class TestTheRowIsAProposalNotADecision:
 
 
 class TestNothingWasAuthorized:
-    """A preparation order that wrote an authorization would be a deploy order."""
+    """A preparation order that wrote an authorization would be a deploy order.
+
+    This order wrote none, and that was the point of it. The founder has since
+    authorized and deployed the candidate under
+    PTF-DETROIT-ANN-ARBOR-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-032, so four of
+    these assertions describe a window that has closed. They are superseded BY
+    NAME rather than deleted: what this order did -- and deliberately did not do
+    -- stays on the record.
+
+    The one that survives unchanged is the candidate manifest's own flag. It is
+    a statement about the artifact as this order wrote it, not about the world,
+    and a later deployment does not make it false.
+    """
 
     def test_the_candidate_records_itself_as_unauthorized(self, candidate):
         assert candidate["deployment_authorized"] is False
 
+    @epochs.superseded(
+        by=AUTHORIZING_ORDER,
+        what="no authorization existed for the candidate bundle; the founder "
+             "has since authorized it as ptf-auth-detroit-032-92b39c81c319")
     def test_no_authorization_exists_for_the_candidate_bundle(self):
         authorizations = sorted(
             (DEPLOY / "deployment_authorizations").glob("*.json"))
@@ -218,12 +234,20 @@ class TestNothingWasAuthorized:
             doc = json.loads(path.read_text(encoding="utf-8"))
             assert CANDIDATE_BUNDLE not in json.dumps(doc), path.name
 
+    @epochs.superseded(
+        by=AUTHORIZING_ORDER,
+        what="no deployment record existed for the candidate bundle; it has "
+             "since been deployed as 6a9eda5a9bf4b1345d8e41dd")
     def test_no_deployment_record_exists_for_the_candidate_bundle(self):
         records = sorted((DEPLOY / "deployment_records").glob("*.json"))
         for path in records:
             doc = json.loads(path.read_text(encoding="utf-8"))
             assert doc.get("bundle_sha256") != CANDIDATE_BUNDLE, path.name
 
+    @epochs.superseded(
+        by=AUTHORIZING_ORDER,
+        what="the live pin described the Toledo deployment at 803 profiles; it "
+             "now describes the Detroit deployment at 924")
     def test_the_live_pin_block_still_describes_the_toledo_deployment(self):
         live = json.loads(PINS.read_text(encoding="utf-8"))["live"]
         assert live["deploy_id"] == LIVE_DEPLOY_ID
@@ -232,12 +256,35 @@ class TestNothingWasAuthorized:
         assert live["sitemap_route_count"] == 966
         assert MARKET not in live["participating_markets"]
 
+    @epochs.superseded(
+        by=AUTHORIZING_ORDER,
+        what="source ran ahead of production by this order's proposal; the "
+             "deployment brought the two back into sync")
     def test_the_source_pin_is_ahead_of_production_by_this_order(self):
         source = json.loads(PINS.read_text(encoding="utf-8"))["source"]
         assert source["ahead_of_production"] is True
         assert source["moved_by"] == "PTF-DETROIT-ANN-ARBOR-LAUNCH-PREP-031"
         assert source["bundle_sha256"] == CANDIDATE_BUNDLE
         assert source["total_profiles"] == 924
+
+    def test_what_this_order_prepared_is_what_production_now_serves(self):
+        """The other side of the four above, and the reason they may be retired.
+
+        Every digest this order prepared reached production unchanged. If a
+        launch had deployed something else, retiring the assertions above would
+        have hidden it; asserting the equality here means it cannot be.
+        """
+        live = json.loads(PINS.read_text(encoding="utf-8"))["live"]
+        if live["deploy_id"] == LIVE_DEPLOY_ID:
+            return  # not yet deployed; the assertions above still stand
+        assert live["bundle_sha256"] == CANDIDATE_BUNDLE
+        assert live["sitemap_sha256"] == CANDIDATE_SITEMAP
+        assert live["total_profiles"] == 924
+        assert live["sitemap_route_count"] == 1099
+        assert MARKET in live["participating_markets"]
+        assert live["profile_counts"][MARKET] == PUBLISHED
+        for market_id, count in LIVE_PROFILE_COUNTS.items():
+            assert live["profile_counts"][market_id] == count, market_id
 
 
 class TestDetroitSourceAuthorityAgrees:

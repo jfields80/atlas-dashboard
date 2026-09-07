@@ -164,9 +164,15 @@ class TestParticipationIsTheSixMarketSet:
             assert doc["decision"]["work_order"] == DETROIT_AUTHORIZING_ORDER
             assert doc["decision"]["decided_by"] == "founder"
             assert doc["decision"]["decided_on"]
-        # Still absent from every DEPLOYED bundle, which is this module's
-        # actual subject: source runs ahead of production until 032 deploys.
-        assert "detroit-ann-arbor-mi" not in LIVE_PINS.participating_markets
+        # Detroit was absent from every DEPLOYED bundle until 032 shipped it,
+        # which is this module's actual subject. It is live now, so what
+        # survives is the rule rather than the roster: a market reaches
+        # production only through a founder authorization and a deployment
+        # record that names it. Asserting THAT keeps working as markets launch.
+        if "detroit-ann-arbor-mi" in LIVE_PINS.participating_markets:
+            assert LIVE_PINS.deployed_by == DETROIT_AUTHORIZING_ORDER
+            assert LIVE_PINS.authorization_id
+            assert LIVE_PINS.deployment_record_id
 
     def test_every_registered_market_carries_a_row(self):
         """The gate ``global.launch_participation_explicit`` refuses a bundle

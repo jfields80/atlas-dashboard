@@ -57,8 +57,38 @@ def record() -> dict:
     return _load(DEPLOY / "deployment_records" / ("%s.json" % RECORD_ID))
 
 
-def live_pin() -> dict:
+def current_live_pin() -> dict:
+    """What production serves RIGHT NOW. Moved by every later deployment."""
     return _load(PINS / "deployment_state.json")["live"]
+
+
+def live_pin() -> dict:
+    """The deployment state AS OF THIS LAUNCH.
+
+    While Toledo was the live deploy this was simply the pin. A later launch
+    moves the pin -- PTF-DETROIT-ANN-ARBOR-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-032
+    shipped Detroit as the twelfth market -- and reading it here would ask this
+    suite to describe a deployment it is not about. The facts are unchanged and
+    are preserved in Toledo's own deployment record, which is immutable evidence
+    of what was deployed at the time, so they are read from there instead. The
+    assertions below are untouched: they say the same things about the same
+    launch, from the source that actually owns them.
+    """
+    pin = current_live_pin()
+    if pin["deploy_id"] == DEPLOY_ID:
+        return pin
+    r = record()
+    return {
+        "deploy_id": r["deployment_id"],
+        "previous_deploy_id": r["previous_deployment_id"],
+        "rollback_target": r["rollback_target"],
+        "bundle_sha256": r["bundle_sha256"],
+        "sitemap_sha256": r["sitemap_sha256"],
+        "participating_markets": sorted(r["profile_counts"]),
+        "profile_counts": r["profile_counts"],
+        "total_profiles": r["total_profiles"],
+        "sitemap_route_count": r["sitemap_route_count"],
+    }
 
 
 # --------------------------------------------------------------------------
@@ -193,11 +223,31 @@ def test_the_authorization_was_consumed_in_order():
 
 
 def test_one_digest_runs_from_authorization_to_live():
+    """One digest, from the authorization through to the bytes production served.
+
+    The global manifest is CURRENT state and describes whatever is live now, so
+    it belongs in this chain only while this launch is the live deploy. Once a
+    later launch replaces it -- Detroit did, at
+    PTF-DETROIT-ANN-ARBOR-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-032 -- the manifest
+    is asserted to describe THAT deployment instead, which is the same rule
+    (the manifest never describes a deployment other than the live one) applied
+    to a moved epoch rather than dropped.
+    """
     a, r = auth(), record()
     manifest = _load(DEPLOY / "global_deployment_manifest.json")
     pin = live_pin()
+    current = current_live_pin()
     live = r["live_verification_results"]
-    for doc in (a, r, manifest, pin):
+
+    chain = [a, r, pin]
+    if current["deploy_id"] == DEPLOY_ID:
+        chain.append(manifest)
+    else:
+        assert manifest["bundle_sha256"] == current["bundle_sha256"]
+        assert manifest["sitemap_sha256"] == current["sitemap_sha256"]
+        assert manifest["bundle_sha256"] != BUNDLE
+
+    for doc in chain:
         assert doc["bundle_sha256"] == BUNDLE
         assert doc["sitemap_sha256"] == SITEMAP
     assert live["live_sitemap_sha256"] == SITEMAP
@@ -254,9 +304,20 @@ def test_source_is_back_in_sync_with_production():
     """
     source = _load(PINS / "deployment_state.json")["source"]
     live = live_pin()
-    # Production still serves exactly what this launch deployed.
+    # This launch's deployment served exactly this launch's bundle.
     assert live["bundle_sha256"] == BUNDLE
     assert live["deploy_id"] == DEPLOY_ID
+    current = current_live_pin()
+    if current["deploy_id"] != DEPLOY_ID:
+        # A later launch has replaced it. Source-vs-production is that
+        # deployment's business, not this one's; what this suite still owns is
+        # that the replacement NAMES itself rather than drifting in.
+        from pettripfinder import epochs
+        assert epochs.is_work_order(current["deployed_by"])
+        assert current["previous_deploy_id"] == DEPLOY_ID, (
+            "the deployment that replaced this one does not name it as its "
+            "predecessor")
+        return
     if source["ahead_of_production"]:
         # Ahead is allowed only with a work order that says who moved it.
         from pettripfinder import epochs
@@ -280,6 +341,7 @@ def test_the_new_authorization_is_registered_as_current_and_nothing_moved_under_
     assert AUTH_ID in reg
     assert reg[AUTH_ID]["work_order"] == WORK_ORDER
     authorized = set(live_pin()["participating_markets"])
+    assert len(authorized) == AFTER["markets"]
     moved = reg[AUTH_ID]["moved_by_later_work"]
     assert set(moved) & authorized == set(), (
         "a market this authorization deployed moved out from under it")

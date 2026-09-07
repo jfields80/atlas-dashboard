@@ -647,15 +647,15 @@ def test_the_committed_manifest_describes_the_live_deploy_and_pins_the_record():
     assert doc["launch_participation"]["source"] == (
         "deploy/netlify/launch_participation.json")
     assert doc["schema"] == GD.MANIFEST_SCHEMA
-    # The DEPLOYED set. LIVE is now the TWELVE-market candidate set that
-    # PTF-DETROIT-ANN-ARBOR-LAUNCH-PREP-031 composed and nobody has deployed;
-    # comparing the committed manifest against it would ask a record of a past
-    # deployment to describe a future one. So this reads the DEPLOYED set from
-    # the live pin, which is what the manifest is a record of, and the two are
-    # deliberately allowed to differ while source runs ahead of production.
+    # The DEPLOYED set, read from the live pin -- which is what the manifest is
+    # a record of. The two are deliberately allowed to differ whenever source
+    # runs ahead of production; asking a record of a past deployment to describe
+    # a future one is the mistake this avoids. Since
+    # PTF-DETROIT-ANN-ARBOR-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-032 deployed
+    # Detroit they agree again, and the twelve-market set IS the live set.
     assert [r["market_id"] for r in doc["participating_markets"]] == (
         sorted(LIVE_PINS.participating_markets))
-    assert sorted(LIVE_PINS.participating_markets) == sorted(set(LIVE) - {PROPOSED_AT_031})
+    assert sorted(LIVE_PINS.participating_markets) == sorted(LIVE)
     # PROFILES describes a FRESH assembly (626 since
     # PTF-DAYTON-OH-HARDENED-APPLICATION-002). The committed manifest describes
     # what production serves, which is still 619 until Dayton deploys.
@@ -671,11 +671,15 @@ def test_the_committed_manifest_describes_the_live_deploy_and_pins_the_record():
     excluded = {r["market_id"]: r for r in doc["excluded_markets"]}
     assert ADMITTED_AT_019 not in excluded
     # The manifest describes the CURRENT deploy. Cincinnati left the excluded
-    # set at PTF-CINCINNATI-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-004, which
-    # admitted it as the tenth market, so Detroit is the only market registered
-    # and excluded. It is excluded for the reason this module cares about:
-    # assemblable at 121 published, and not authorized to launch.
-    assert set(excluded) == {"detroit-ann-arbor-mi"}
+    # set at PTF-CINCINNATI-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-004 and Detroit
+    # left it at PTF-DETROIT-ANN-ARBOR-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-032,
+    # both by founder decision. The set is EMPTY: every registered market is
+    # live. An empty comparison would also hold if the manifest stopped
+    # reporting exclusions, so the two facts are asserted from both sides --
+    # nothing is excluded, and every registered market is in the deployed set.
+    assert set(excluded) == set(NOT_READY) == set()
+    assert sorted(m.market_id for m in load_markets()) == sorted(
+        LIVE_PINS.participating_markets)
 
 
 def test_a_changed_record_invalidates_the_manifest():
