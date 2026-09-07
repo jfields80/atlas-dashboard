@@ -1,0 +1,43 @@
+{
+ "schema": "ptf-suite-inventory-repin/1.0",
+ "work_order": "PTF-NASHVILLE-TN-NEW-MARKET-001",
+ "market_id": "nashville-tn",
+ "phase": "21b -- re-pinning the suite-derived test inventory",
+ "pinned_file": "launch_packages/pettripfinder/reports/factory_throughput_001_test_inventory.json",
+ "change_class": "GENERATED_REPORT_ONLY",
+ "what_moved_it": "this order added its own market gate module to the suite; the report describes what the suite contains and the suite now contains one more module",
+ "proof": {
+  "modules_removed": [],
+  "modules_altered": [],
+  "modules_added": [
+   "tests/pettripfinder/test_nashville_tn_new_market_001.py"
+  ],
+  "modules_added_that_this_order_does_not_own": [],
+  "proof_holds": true,
+  "rule": "the pin is rewritten ONLY when nothing was removed, nothing that exists in both changed, and every added module is Nashville-named. Otherwise this writes nothing and the failure stays TRUE_NEW for a human."
+ },
+ "counts_before": {
+  "modules_scanned": 393,
+  "sites": 1562,
+  "by_class": {
+   "CURRENT_STATE_INVARIANT": 157,
+   "HISTORICAL_COHORT_INVARIANT": 833,
+   "HISTORICAL_ARTIFACT_INVARIANT": 186,
+   "DEPLOYMENT_EPOCH_INVARIANT": 129,
+   "GENERIC_SCHEMA_INVARIANT": 194,
+   "CROSS_MARKET_INVARIANT": 63
+  }
+ },
+ "counts_after": {
+  "modules_scanned": 394,
+  "sites": 1572,
+  "by_class": {
+   "CROSS_MARKET_INVARIANT": 64,
+   "CURRENT_STATE_INVARIANT": 157,
+   "DEPLOYMENT_EPOCH_INVARIANT": 131,
+   "GENERIC_SCHEMA_INVARIANT": 194,
+   "HISTORICAL_ARTIFACT_INVARIANT": 189,
+   "HISTORICAL_COHORT_INVARIANT": 837
+  }
+ }
+}

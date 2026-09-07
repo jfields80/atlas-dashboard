@@ -1,0 +1,250 @@
+{
+ "schema": "ptf-regression-classification/1.0",
+ "work_order": "PTF-NASHVILLE-TN-NEW-MARKET-001",
+ "market_id": "nashville-tn",
+ "phase": "21 -- regression, classified by node id",
+ "base_commit": "d335c509e8e4b0f54796d07c4bd4abdff00cb801",
+ "the_markets_own_gates": {
+  "module": "tests/pettripfinder/test_nashville_tn_new_market_001.py",
+  "lanes_that_claim_it": [
+   "full_regression"
+  ],
+  "why_not_market_targeted": "regression_lanes.MARKET_PREFIXES has no nashville-tn row, so --market nashville-tn selects only the per-market contract modules. That table's own comment records toledo-oh being added by the PROMOTION order, not the new-market order: registering a prefix is a shared-code edit and an unregistered market has no market_targeted lane to be in.",
+  "how_it_was_run": "directly, as the lane 'nashville_gates', so no market_targeted total is allowed to imply these gates ran inside it",
+  "registering_the_prefix_belongs_to": "PTF-NASHVILLE-TN-PROMOTION-AND-APPLICATION-002"
+ },
+ "byte_identity_proof": {
+  "what_it_proves": "the bytes every STILL-FAILING assertion reads are identical to the bytes at the base commit, so a re-run at the base could only reproduce the same failures",
+  "modified_or_deleted_paths": [
+   "M\tatlas-dashboard/launch_packages/pettripfinder/reports/factory_throughput_001_test_inventory.json"
+  ],
+  "deletions_renames_or_type_changes": [],
+  "modified_paths_a_failing_module_reads": [],
+  "added_paths_matching_a_watched_glob": [],
+  "watched_globs": [
+   "hotel_policy_facts*.json"
+  ],
+  "failing_modules": [
+   "tests/pettripfinder/acquisition/test_identity_binding_027.py",
+   "tests/pettripfinder/acquisition/test_normalization_041.py",
+   "tests/pettripfinder/acquisition/test_vocabulary_normalization_043.py",
+   "tests/pettripfinder/test_louisville_authority.py",
+   "tests/pettripfinder/test_nashville_tn_new_market_001.py"
+  ],
+  "proof_holds": true
+ },
+ "lanes_run": [
+  "nashville_gates",
+  "market_targeted",
+  "policy_schema",
+  "identity_routing",
+  "cross_market",
+  "release_contract"
+ ],
+ "lanes_not_run": [
+  "assembly",
+  "deployment_architecture",
+  "full_regression"
+ ],
+ "why_those_lanes_were_not_run": "this order runs no production assembly, creates no deployment authorization and registers no market, so the assembly and deployment-architecture lanes have nothing of this order's to exercise. The full-regression lane belongs to the promotion order, which will run it against the then-current lineage.",
+ "paths_added_by_this_order": 43,
+ "missing_gitignored_fixture_directories": {
+  "identity_routing": [
+   "hilton-milwaukee-023",
+   "independent-url-discovery-014",
+   "locator-fresh-proof-019a",
+   "milwaukee-final-026"
+  ]
+ },
+ "counts": {
+  "failing_node_ids": 25,
+  "by_class": {
+   "MISSING_GITIGNORED_FIXTURE_IN_A_FRESH_WORKTREE": 14,
+   "PRE_EXISTING": 10,
+   "SELF_REFERENTIAL_GATE_CLOSED_BY_RERUN": 1
+  },
+  "by_lane": {
+   "nashville_gates": 1,
+   "market_targeted": 0,
+   "policy_schema": 5,
+   "identity_routing": 14,
+   "cross_market": 5,
+   "release_contract": 0
+  },
+  "TRUE_NEW_FAILURE": 0
+ },
+ "failure_set_identity": {
+  "measured": true,
+  "what_it_is": "the same lanes were run twice and the FAILING NODE IDS are compared as SETS, never as counts: a matching total can hide one failure arriving as another departs",
+  "run_1": "data/regression/nashville_2",
+  "run_2": "data/regression/nashville_3",
+  "sets_identical": true,
+  "only_in_run_1": [],
+  "only_in_run_2": [],
+  "what_it_proves": "everything this order did between the two runs changed no test's outcome"
+ },
+ "failures": [
+  {
+   "node_id": "tests/pettripfinder/acquisition/test_identity_binding_027.py::test_a_branded_property_still_binds_on_its_code",
+   "module": "tests/pettripfinder/acquisition/test_identity_binding_027.py",
+   "class": "MISSING_GITIGNORED_FIXTURE_IN_A_FRESH_WORKTREE",
+   "why": "the module reads a capture artifact under the gitignored data/acquisition tree that a closed order produced; this worktree has never had that directory, and this order neither created nor removed it"
+  },
+  {
+   "node_id": "tests/pettripfinder/acquisition/test_identity_binding_027.py::test_a_codeless_hotel_binds_on_street_and_name_without_a_path[P3-saint-kate-street-and-name]",
+   "module": "tests/pettripfinder/acquisition/test_identity_binding_027.py",
+   "class": "MISSING_GITIGNORED_FIXTURE_IN_A_FRESH_WORKTREE",
+   "why": "the module reads a capture artifact under the gitignored data/acquisition tree that a closed order produced; this worktree has never had that directory, and this order neither created nor removed it"
+  },
+  {
+   "node_id": "tests/pettripfinder/acquisition/test_identity_binding_027.py::test_a_codeless_hotel_binds_on_street_and_name_without_a_path[P4-ingleside-street-and-name]",
+   "module": "tests/pettripfinder/acquisition/test_identity_binding_027.py",
+   "class": "MISSING_GITIGNORED_FIXTURE_IN_A_FRESH_WORKTREE",
+   "why": "the module reads a capture artifact under the gitignored data/acquisition tree that a closed order produced; this worktree has never had that directory, and this order neither created nor removed it"
+  },
+  {
+   "node_id": "tests/pettripfinder/acquisition/test_identity_binding_027.py::test_a_codeless_hotel_binds_on_street_and_name_without_a_path[P5-marc-street-and-name]",
+   "module": "tests/pettripfinder/acquisition/test_identity_binding_027.py",
+   "class": "MISSING_GITIGNORED_FIXTURE_IN_A_FRESH_WORKTREE",
+   "why": "the module reads a capture artifact under the gitignored data/acquisition tree that a closed order produced; this worktree has never had that directory, and this order neither created nor removed it"
+  },
+  {
+   "node_id": "tests/pettripfinder/acquisition/test_identity_binding_027.py::test_a_matching_canonical_path_and_name_still_binds",
+   "module": "tests/pettripfinder/acquisition/test_identity_binding_027.py",
+   "class": "MISSING_GITIGNORED_FIXTURE_IN_A_FRESH_WORKTREE",
+   "why": "the module reads a capture artifact under the gitignored data/acquisition tree that a closed order produced; this worktree has never had that directory, and this order neither created nor removed it"
+  },
+  {
+   "node_id": "tests/pettripfinder/acquisition/test_identity_binding_027.py::test_a_validated_discovered_policy_url_does_not_confirm_an_identity",
+   "module": "tests/pettripfinder/acquisition/test_identity_binding_027.py",
+   "class": "MISSING_GITIGNORED_FIXTURE_IN_A_FRESH_WORKTREE",
+   "why": "the module reads a capture artifact under the gitignored data/acquisition tree that a closed order produced; this worktree has never had that directory, and this order neither created nor removed it"
+  },
+  {
+   "node_id": "tests/pettripfinder/acquisition/test_identity_binding_027.py::test_agreement_only_on_common_lodging_words_does_not_bind",
+   "module": "tests/pettripfinder/acquisition/test_identity_binding_027.py",
+   "class": "MISSING_GITIGNORED_FIXTURE_IN_A_FRESH_WORKTREE",
+   "why": "the module reads a capture artifact under the gitignored data/acquisition tree that a closed order produced; this worktree has never had that directory, and this order neither created nor removed it"
+  },
+  {
+   "node_id": "tests/pettripfinder/acquisition/test_identity_binding_027.py::test_every_newly_bound_capture_is_explained",
+   "module": "tests/pettripfinder/acquisition/test_identity_binding_027.py",
+   "class": "MISSING_GITIGNORED_FIXTURE_IN_A_FRESH_WORKTREE",
+   "why": "the module reads a capture artifact under the gitignored data/acquisition tree that a closed order produced; this worktree has never had that directory, and this order neither created nor removed it"
+  },
+  {
+   "node_id": "tests/pettripfinder/acquisition/test_identity_binding_027.py::test_nothing_that_bound_before_stops_binding",
+   "module": "tests/pettripfinder/acquisition/test_identity_binding_027.py",
+   "class": "MISSING_GITIGNORED_FIXTURE_IN_A_FRESH_WORKTREE",
+   "why": "the module reads a capture artifact under the gitignored data/acquisition tree that a closed order produced; this worktree has never had that directory, and this order neither created nor removed it"
+  },
+  {
+   "node_id": "tests/pettripfinder/acquisition/test_identity_binding_027.py::test_same_domain_is_not_an_identity",
+   "module": "tests/pettripfinder/acquisition/test_identity_binding_027.py",
+   "class": "MISSING_GITIGNORED_FIXTURE_IN_A_FRESH_WORKTREE",
+   "why": "the module reads a capture artifact under the gitignored data/acquisition tree that a closed order produced; this worktree has never had that directory, and this order neither created nor removed it"
+  },
+  {
+   "node_id": "tests/pettripfinder/acquisition/test_identity_binding_027.py::test_the_fixed_corpus_is_complete_and_the_gate_agrees_with_all_of_it",
+   "module": "tests/pettripfinder/acquisition/test_identity_binding_027.py",
+   "class": "MISSING_GITIGNORED_FIXTURE_IN_A_FRESH_WORKTREE",
+   "why": "the module reads a capture artifact under the gitignored data/acquisition tree that a closed order produced; this worktree has never had that directory, and this order neither created nor removed it"
+  },
+  {
+   "node_id": "tests/pettripfinder/acquisition/test_identity_binding_027.py::test_the_same_name_in_another_state_does_not_bind[A1-same-name-wrong-city]",
+   "module": "tests/pettripfinder/acquisition/test_identity_binding_027.py",
+   "class": "MISSING_GITIGNORED_FIXTURE_IN_A_FRESH_WORKTREE",
+   "why": "the module reads a capture artifact under the gitignored data/acquisition tree that a closed order produced; this worktree has never had that directory, and this order neither created nor removed it"
+  },
+  {
+   "node_id": "tests/pettripfinder/acquisition/test_identity_binding_027.py::test_the_same_name_in_another_state_does_not_bind[A2-same-name-wrong-city-faqs]",
+   "module": "tests/pettripfinder/acquisition/test_identity_binding_027.py",
+   "class": "MISSING_GITIGNORED_FIXTURE_IN_A_FRESH_WORKTREE",
+   "why": "the module reads a capture artifact under the gitignored data/acquisition tree that a closed order produced; this worktree has never had that directory, and this order neither created nor removed it"
+  },
+  {
+   "node_id": "tests/pettripfinder/acquisition/test_identity_binding_027.py::test_two_hotels_at_one_street_are_separated_by_the_name",
+   "module": "tests/pettripfinder/acquisition/test_identity_binding_027.py",
+   "class": "MISSING_GITIGNORED_FIXTURE_IN_A_FRESH_WORKTREE",
+   "why": "the module reads a capture artifact under the gitignored data/acquisition tree that a closed order produced; this worktree has never had that directory, and this order neither created nor removed it"
+  },
+  {
+   "node_id": "tests/pettripfinder/acquisition/test_normalization_041.py::test_a_second_projection_would_change_nothing",
+   "module": "tests/pettripfinder/acquisition/test_normalization_041.py",
+   "class": "PRE_EXISTING",
+   "why": "the assertion reads committed bytes this order did not change -- the one file it modified is named by no failing module's source -- and no file this order added is reachable by the module's only glob; a re-run at d335c50 could only reproduce it"
+  },
+  {
+   "node_id": "tests/pettripfinder/acquisition/test_normalization_041.py::test_no_other_market_moved",
+   "module": "tests/pettripfinder/acquisition/test_normalization_041.py",
+   "class": "PRE_EXISTING",
+   "why": "the assertion reads committed bytes this order did not change -- the one file it modified is named by no failing module's source -- and no file this order added is reachable by the module's only glob; a re-run at d335c50 could only reproduce it"
+  },
+  {
+   "node_id": "tests/pettripfinder/acquisition/test_normalization_041.py::test_the_stale_contract_is_refused_even_if_copied_into_the_live_directory",
+   "module": "tests/pettripfinder/acquisition/test_normalization_041.py",
+   "class": "PRE_EXISTING",
+   "why": "the assertion reads committed bytes this order did not change -- the one file it modified is named by no failing module's source -- and no file this order added is reachable by the module's only glob; a re-run at d335c50 could only reproduce it"
+  },
+  {
+   "node_id": "tests/pettripfinder/acquisition/test_normalization_041.py::test_the_store_and_the_reader_now_agree",
+   "module": "tests/pettripfinder/acquisition/test_normalization_041.py",
+   "class": "PRE_EXISTING",
+   "why": "the assertion reads committed bytes this order did not change -- the one file it modified is named by no failing module's source -- and no file this order added is reachable by the module's only glob; a re-run at d335c50 could only reproduce it"
+  },
+  {
+   "node_id": "tests/pettripfinder/acquisition/test_vocabulary_normalization_043.py::test_every_other_market_still_verifies_and_is_untouched",
+   "module": "tests/pettripfinder/acquisition/test_vocabulary_normalization_043.py",
+   "class": "PRE_EXISTING",
+   "why": "the assertion reads committed bytes this order did not change -- the one file it modified is named by no failing module's source -- and no file this order added is reachable by the module's only glob; a re-run at d335c50 could only reproduce it"
+  },
+  {
+   "node_id": "tests/pettripfinder/test_louisville_authority.py::TestPass1Capture::test_quotes_are_contiguous_in_gitignored_artifacts",
+   "module": "tests/pettripfinder/test_louisville_authority.py",
+   "class": "PRE_EXISTING",
+   "why": "the assertion reads committed bytes this order did not change -- the one file it modified is named by no failing module's source -- and no file this order added is reachable by the module's only glob; a re-run at d335c50 could only reproduce it"
+  },
+  {
+   "node_id": "tests/pettripfinder/test_louisville_authority.py::TestPass2Capture::test_quotes_are_contiguous_in_gitignored_artifacts",
+   "module": "tests/pettripfinder/test_louisville_authority.py",
+   "class": "PRE_EXISTING",
+   "why": "the assertion reads committed bytes this order did not change -- the one file it modified is named by no failing module's source -- and no file this order added is reachable by the module's only glob; a re-run at d335c50 could only reproduce it"
+  },
+  {
+   "node_id": "tests/pettripfinder/test_louisville_authority.py::TestPass3Capture::test_artifact_hashes_and_identity_signals",
+   "module": "tests/pettripfinder/test_louisville_authority.py",
+   "class": "PRE_EXISTING",
+   "why": "the assertion reads committed bytes this order did not change -- the one file it modified is named by no failing module's source -- and no file this order added is reachable by the module's only glob; a re-run at d335c50 could only reproduce it"
+  },
+  {
+   "node_id": "tests/pettripfinder/test_louisville_authority.py::TestPass4Capture::test_artifacts_exist_on_disk_and_hash_match",
+   "module": "tests/pettripfinder/test_louisville_authority.py",
+   "class": "PRE_EXISTING",
+   "why": "the assertion reads committed bytes this order did not change -- the one file it modified is named by no failing module's source -- and no file this order added is reachable by the module's only glob; a re-run at d335c50 could only reproduce it"
+  },
+  {
+   "node_id": "tests/pettripfinder/test_louisville_authority.py::TestPass4Capture::test_quotes_are_contiguous_in_their_text_artifacts",
+   "module": "tests/pettripfinder/test_louisville_authority.py",
+   "class": "PRE_EXISTING",
+   "why": "the assertion reads committed bytes this order did not change -- the one file it modified is named by no failing module's source -- and no file this order added is reachable by the module's only glob; a re-run at d335c50 could only reproduce it"
+  },
+  {
+   "node_id": "tests/pettripfinder/test_nashville_tn_new_market_001.py::test_the_regression_classification_reports_no_true_new_failure",
+   "module": "tests/pettripfinder/test_nashville_tn_new_market_001.py",
+   "class": "SELF_REFERENTIAL_GATE_CLOSED_BY_RERUN",
+   "why": "executed against the report this module had just written",
+   "rerun_after_the_report_was_written": "PASSED"
+  }
+ ],
+ "self_referential_gate_closure": {
+  "what_it_is": "a gate in this order's own module that reads THIS report cannot be classified from a lane log captured before the report existed: the gate fails because the report says TRUE_NEW and the report says TRUE_NEW because the gate failed. Nothing here is waved through. Each such gate is RE-EXECUTED against the finished report and the re-run decides; a failing re-run stays TRUE_NEW_FAILURE.",
+  "nodes": [
+   {
+    "node_id": "tests/pettripfinder/test_nashville_tn_new_market_001.py::test_the_regression_classification_reports_no_true_new_failure",
+    "rerun_after_the_report_was_written": "PASSED",
+    "class": "SELF_REFERENTIAL_GATE_CLOSED_BY_RERUN",
+    "why": "executed against the report this module had just written"
+   }
+  ]
+ }
+}

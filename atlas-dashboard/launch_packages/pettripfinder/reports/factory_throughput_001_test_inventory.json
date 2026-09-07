@@ -9,16 +9,16 @@
   "GENERIC_SCHEMA_INVARIANT",
   "CROSS_MARKET_INVARIANT"
  ],
- "modules_scanned": 393,
- "modules_with_pins": 266,
- "sites": 1562,
+ "modules_scanned": 394,
+ "modules_with_pins": 267,
+ "sites": 1572,
  "by_class": {
   "CURRENT_STATE_INVARIANT": 157,
-  "HISTORICAL_COHORT_INVARIANT": 833,
-  "HISTORICAL_ARTIFACT_INVARIANT": 186,
-  "DEPLOYMENT_EPOCH_INVARIANT": 129,
+  "HISTORICAL_COHORT_INVARIANT": 837,
+  "HISTORICAL_ARTIFACT_INVARIANT": 189,
+  "DEPLOYMENT_EPOCH_INVARIANT": 131,
   "GENERIC_SCHEMA_INVARIANT": 194,
-  "CROSS_MARKET_INVARIANT": 63
+  "CROSS_MARKET_INVARIANT": 64
  },
  "modules_asserting_whole_package_counts": [
   "tests/pettripfinder/acquisition/test_authority_build_036.py",
@@ -14943,7 +14943,7 @@
      "literal": 2,
      "reads_package": false,
      "has_len": false,
-     "source": "cleveland_home.count(\"<em>Cleveland–Akron–Canton</em>\") == 2",
+     "source": "cleveland_home.count(\"<em>Cleveland\u2013Akron\u2013Canton</em>\") == 2",
      "class": "GENERIC_SCHEMA_INVARIANT",
      "reason": "module default"
     }
@@ -19069,6 +19069,134 @@
      "source": "len(rows) == 15",
      "class": "HISTORICAL_COHORT_INVARIANT",
      "reason": "whole-package count in a closed order's suite"
+    }
+   ]
+  },
+  {
+   "module": "tests/pettripfinder/test_nashville_tn_new_market_001.py",
+   "market": null,
+   "lanes": [
+    "full_regression"
+   ],
+   "default_class": "HISTORICAL_COHORT_INVARIANT",
+   "default_reason": "work-order-numbered module",
+   "site_count": 10,
+   "by_class": {
+    "CROSS_MARKET_INVARIANT": 1,
+    "DEPLOYMENT_EPOCH_INVARIANT": 2,
+    "HISTORICAL_ARTIFACT_INVARIANT": 3,
+    "HISTORICAL_COHORT_INVARIANT": 4
+   },
+   "sites": [
+    {
+     "line": 134,
+     "test": "test_production_truth_is_unchanged_by_this_order",
+     "kind": "count",
+     "literal": 11,
+     "reads_package": false,
+     "has_len": true,
+     "source": "len(live[\"participating_markets\"]) == 11",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 135,
+     "test": "test_production_truth_is_unchanged_by_this_order",
+     "kind": "count",
+     "literal": 803,
+     "reads_package": false,
+     "has_len": false,
+     "source": "live[\"total_profiles\"] == 803",
+     "class": "DEPLOYMENT_EPOCH_INVARIANT",
+     "reason": "bundle / sitemap / route total"
+    },
+    {
+     "line": 136,
+     "test": "test_production_truth_is_unchanged_by_this_order",
+     "kind": "count",
+     "literal": 966,
+     "reads_package": false,
+     "has_len": false,
+     "source": "live[\"sitemap_route_count\"] == 966",
+     "class": "DEPLOYMENT_EPOCH_INVARIANT",
+     "reason": "bundle / sitemap / route total"
+    },
+    {
+     "line": 147,
+     "test": "test_discovery_config_loads_and_is_tennessee_only",
+     "kind": "count",
+     "literal": 20,
+     "reads_package": false,
+     "has_len": true,
+     "source": "len(cfg.cells) >= 20",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 188,
+     "test": "test_proposed_contract_parses_against_the_real_contract_module",
+     "kind": "count",
+     "literal": 15,
+     "reads_package": false,
+     "has_len": true,
+     "source": "len(cfg.corridors) >= 15",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 322,
+     "test": "test_no_cross_market_identity_collision",
+     "kind": "count",
+     "literal": 10,
+     "reads_package": false,
+     "has_len": true,
+     "source": "len(scan[\"censuses_scanned\"]) >= 10",
+     "class": "CROSS_MARKET_INVARIANT",
+     "reason": "names another market or isolation"
+    },
+    {
+     "line": 341,
+     "test": "test_refusals_were_reprobed_rather_than_inherited",
+     "kind": "count",
+     "literal": 12,
+     "reads_package": false,
+     "has_len": true,
+     "source": "len(probe) >= 12",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 380,
+     "test": "test_hilton_came_from_its_own_city_pages_not_a_sitemap_walk",
+     "kind": "count",
+     "literal": 10,
+     "reads_package": true,
+     "has_len": false,
+     "source": "doc[\"hilton\"][\"cities_served\"] >= 10",
+     "class": "HISTORICAL_ARTIFACT_INVARIANT",
+     "reason": "count read from a committed artifact"
+    },
+    {
+     "line": 381,
+     "test": "test_hilton_came_from_its_own_city_pages_not_a_sitemap_walk",
+     "kind": "count",
+     "literal": 10,
+     "reads_package": true,
+     "has_len": false,
+     "source": "doc[\"counts\"][\"hilton_bna_codes\"] >= 10",
+     "class": "HISTORICAL_ARTIFACT_INVARIANT",
+     "reason": "count read from a committed artifact"
+    },
+    {
+     "line": 795,
+     "test": "test_the_attended_pass_read_two_origins_not_one_hundred_and_fifty_four",
+     "kind": "count",
+     "literal": 100,
+     "reads_package": true,
+     "has_len": false,
+     "source": "doc[\"counts\"][\"pages_read\"] >= 100",
+     "class": "HISTORICAL_ARTIFACT_INVARIANT",
+     "reason": "count read from a committed artifact"
     }
    ]
   },

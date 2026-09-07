@@ -1,0 +1,52 @@
+{
+ "schema": "ptf-shadow-market/1.0",
+ "work_order": "PTF-NASHVILLE-TN-NEW-MARKET-001",
+ "market_id": "nashville-tn",
+ "phase": "18 and 19 -- shadow package and readiness",
+ "status": "SHADOW -- nothing here is in shared production source",
+ "projected": {
+  "census": 181,
+  "pet_friendly": 80,
+  "verified_no_pets": 19,
+  "resolved": 99,
+  "unresolved": 82,
+  "profiles": 80,
+  "corridors_declared": 19,
+  "corridors_with_at_least_one_identity": 14,
+  "corridors_that_would_publish": 6
+ },
+ "artifacts": {
+  "proposed_market_contract": "launch_packages/pettripfinder/markets/proposed/nashville-tn.json",
+  "proposed_census": "launch_packages/pettripfinder/identity_census_proposed/nashville-tn.json",
+  "discovery_config": "scripts/pettripfinder/discovery/config/nashville_tn.json",
+  "routing": "launch_packages/pettripfinder/markets/reports/nashville_tn_routing_001.json",
+  "clean_authority": "launch_packages/pettripfinder/markets/reports/nashville_tn_clean_authority_001.json",
+  "founder_packet": "launch_packages/pettripfinder/markets/reports/nashville_tn_founder_packet_001.json",
+  "paid_readiness": "launch_packages/pettripfinder/markets/reports/nashville_tn_paid_readiness_001.json"
+ },
+ "promotion_ready": "YES",
+ "promotion_ready_because": {
+  "deterministic_clean_census_for_promoted_rows": "every admitted row carries a street or a phone, a postal code claimed by exactly one corridor, and the observations that admitted it",
+  "cross_market_collision": 0,
+  "duplicate_premises": "same-street rows are reported SAME_CAMPUS_DISTINCT_ENTITY and never aliased",
+  "clean_first_party_policy_evidence": 99,
+  "held_ambiguity_excluded": 91,
+  "geography_deterministic_or_held": "the postal partition is deterministic -- 31 admitted ZIPs, each claimed by exactly one corridor -- and the five fringe corridors that claim NO postal code are explicitly HELD, so no held row is admitted and none is silently excluded either",
+  "remaining_acquisition_optional": true,
+  "publication_minimum": 5
+ },
+ "blockers": [],
+ "required_before_promotion": [
+  "the founder rules on the 5 HELD fringe corridors -- Franklin/Cool Springs, Mount Juliet, Hendersonville, Smyrna/La Vergne and Lebanon (packet group B). Each is a one-line move of postal codes and each is fully reversible.",
+  "the founder confirms Brentwood (37027) and Goodlettsville (37072), which THIS order admitted on first-party evidence rather than assumption (packet group B)",
+  "the founder rules on 2 rebrand successors and 92 merge conflicts, each one address carrying two brand identities (packet group A)",
+  "PTF-NASHVILLE-TN-PROMOTION-AND-APPLICATION-002 INTEGRATES THE THEN-CURRENT DEPLOYED CANONICAL LINEAGE BEFORE ANY OF THIS IS PROMOTED. This order is pinned to d335c50, which was the deployed tip when it started; production serves eleven live markets and Detroit holds the serialized launch lane, so the lineage may have moved underneath it."
+ ],
+ "not_blockers_because": "none of these changes an ADMITTED row's address, corridor or policy. Each decides which NAME a building trades under, or whether a fringe corridor is in scope at all, and every affected row is already excluded from the clean inventory. A ruling can only ADD rows to this market; none can invalidate one it already has.",
+ "optional_coverage_expansion": [
+  "ATTENDED_BROWSER for the Marriott and Hilton wall",
+  "FIRECRAWL for any candidate row left unattempted",
+  "PLACES for address fills on map-only rows",
+  "BRIGHT_DATA only if the attended lane fails"
+ ]
+}
