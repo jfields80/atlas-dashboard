@@ -46,6 +46,11 @@ if str(REPO) not in sys.path:
 from scripts.pettripfinder import launch_participation as LP
 from scripts.pettripfinder import release_contracts as RC
 from scripts.pettripfinder.site_data import normalize_name
+from pettripfinder import epochs
+
+#: The order that turned this order's proposal into a founder decision.
+AUTHORIZING_ORDER = (
+    "PTF-DETROIT-ANN-ARBOR-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-032")
 
 PKG = REPO / "launch_packages" / "pettripfinder"
 DEPLOY = REPO / "deploy" / "netlify"
@@ -111,38 +116,75 @@ def participation():
 
 
 class TestTheRowIsAProposalNotADecision:
-    """The one place the schema leaves room to tell them apart."""
+    """The one place the schema left room to tell them apart.
+
+    This order wrote Detroit's row as a proposal because the assembler admits
+    exactly one status and the candidate could not otherwise be composed. The
+    four assertions that said "nobody signed this" were true of THIS epoch and
+    are false of the record now: PTF-DETROIT-ANN-ARBOR-DEPLOYMENT-AND-LAUNCH-
+    AUTHORIZATION-032 is the founder authorization instrument that signed it.
+    They are superseded BY NAME rather than deleted or quietly inverted, so the
+    proposal state this order really did write stays on the record.
+    """
 
     def test_detroit_is_admitted_because_that_is_the_only_admitting_status(
             self, participation):
         assert LP.launch_status(MARKET, participation) == (
             LP.FOUNDER_AUTHORIZED_FOR_LAUNCH)
 
+    @epochs.superseded(
+        by=AUTHORIZING_ORDER,
+        what="decided_by named this order and disclaimed a founder decision; "
+             "the founder has since signed the record")
     def test_decided_by_does_not_claim_the_founder(self, participation):
         decided_by = participation["decision"]["decided_by"]
         assert "NO FOUNDER DECISION RECORDED" in decided_by
         # "founder" alone would read as a signature in the founder's name.
         assert decided_by.strip().lower() != "founder"
 
+    @epochs.superseded(
+        by=AUTHORIZING_ORDER,
+        what="decided_on read PENDING; the founder decision now carries a date")
     def test_decided_on_carries_no_date(self, participation):
         decided_on = participation["decision"]["decided_on"]
         assert decided_on.startswith("PENDING")
         assert not re.search(r"\d{4}-\d{2}-\d{2}", decided_on)
 
+    @epochs.superseded(
+        by=AUTHORIZING_ORDER,
+        what="the reason opened with PROPOSED, NOT DECIDED; it now records the "
+             "founder decision")
     def test_the_reason_opens_by_saying_it_is_proposed(self, participation):
         assert participation["decision"]["reason"].startswith(
             "PROPOSED, NOT DECIDED.")
 
+    @epochs.superseded(
+        by=AUTHORIZING_ORDER,
+        what="the row carried proposed_not_decided: true, which the signature "
+             "removed because it is no longer true")
     def test_the_row_itself_is_flagged(self, participation):
         row = [r for r in participation["markets"]
                if r["market_id"] == MARKET][0]
         assert row.get("proposed_not_decided") is True
 
     def test_the_proposal_names_the_order_that_would_decide_it(self, participation):
-        proposal = participation["decision"]["proposal"]
-        assert proposal["is_a_founder_decision"] is False
-        assert proposal["authorization_required_from"] == (
-            "PTF-DETROIT-ANN-ARBOR-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-032")
+        """Still asserted, from whichever side of the signature the record is on.
+
+        Before the signature the proposal block named the order that would
+        decide it. After it, the signed decision IS that order and names this
+        one as the preparer. Either way the chain from preparation to decision
+        is on the record, which is what this always checked.
+        """
+        decision = participation["decision"]
+        proposal = decision.get("proposal")
+        if proposal is not None:
+            assert proposal["is_a_founder_decision"] is False
+            assert proposal["authorization_required_from"] == AUTHORIZING_ORDER
+            return
+        assert decision["work_order"] == AUTHORIZING_ORDER
+        assert decision["decided_by"] == "founder"
+        assert decision["prepared_by"]["work_order"] == (
+            "PTF-DETROIT-ANN-ARBOR-LAUNCH-PREP-031")
 
     def test_no_other_market_status_moved(self, participation):
         authorized = set(LP.authorized_market_ids(participation))

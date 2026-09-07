@@ -228,9 +228,16 @@ def test_grand_rapids_is_authorized_and_nothing_else_moved():
     detroit = next(r for r in doc["markets"]
                    if r["market_id"] == "detroit-ann-arbor-mi")
     assert detroit["launch_status"] == LP.FOUNDER_AUTHORIZED_FOR_LAUNCH
-    assert detroit["proposed_not_decided"] is True
-    assert doc["decision"]["work_order"] == "PTF-DETROIT-ANN-ARBOR-LAUNCH-PREP-031"
-    assert doc["decision"]["decided_by"] != "founder"
+    # Traceable to a NAMED order: 031 proposed it unsigned, and
+    # PTF-DETROIT-ANN-ARBOR-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-032 signed it.
+    # An admission with no order behind it is what this refuses.
+    assert doc["decision"]["work_order"] in (
+        "PTF-DETROIT-ANN-ARBOR-LAUNCH-PREP-031",
+        "PTF-DETROIT-ANN-ARBOR-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-032")
+    if detroit.get("proposed_not_decided"):
+        assert doc["decision"]["decided_by"] != "founder"
+    else:
+        assert doc["decision"]["decided_by"] == "founder"
     # Nothing was swept in: every market admitted after 032 was admitted by a
     # named order, and there have been exactly three -- Cincinnati at
     # PTF-CINCINNATI-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-004, Toledo at

@@ -30,6 +30,7 @@ import pytest
 
 from scripts.pettripfinder import global_deployment as GD
 from scripts.pettripfinder import launch_participation as LP
+from pettripfinder import epochs
 from pettripfinder.market_state import live as _live_pins
 from scripts.pettripfinder import market_authority as MA
 from scripts.pettripfinder import release_contracts as RC
@@ -37,6 +38,10 @@ from scripts.pettripfinder.markets.contract import load_markets, parse_market
 
 #: What production actually serves. Source may run ahead of it.
 LIVE_PINS = _live_pins()
+
+#: The order that signed Detroit into the launch.
+DETROIT_AUTHORIZING_ORDER = (
+    "PTF-DETROIT-ANN-ARBOR-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-032")
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 PACKAGE = REPO_ROOT / "launch_packages" / "pettripfinder"
@@ -147,10 +152,18 @@ class TestParticipationIsTheSixMarketSet:
         row = next(r for r in doc["markets"]
                    if r["market_id"] == "detroit-ann-arbor-mi")
         assert row["launch_status"] == LP.FOUNDER_AUTHORIZED_FOR_LAUNCH
-        assert row["proposed_not_decided"] is True
-        assert doc["decision"]["work_order"] == (
-            "PTF-DETROIT-ANN-ARBOR-LAUNCH-PREP-031")
-        assert doc["decision"]["decided_by"] != "founder"
+        # Traceable to a NAMED order either way. 031 proposed it unsigned and
+        # PTF-DETROIT-ANN-ARBOR-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-032 signed
+        # it; what must never happen is an admission with no order behind it.
+        assert epochs.is_work_order(doc["decision"]["work_order"])
+        assert doc["decision"]["work_order"] in (
+            "PTF-DETROIT-ANN-ARBOR-LAUNCH-PREP-031", DETROIT_AUTHORIZING_ORDER)
+        if row.get("proposed_not_decided"):
+            assert doc["decision"]["decided_by"] != "founder"
+        else:
+            assert doc["decision"]["work_order"] == DETROIT_AUTHORIZING_ORDER
+            assert doc["decision"]["decided_by"] == "founder"
+            assert doc["decision"]["decided_on"]
         # Still absent from every DEPLOYED bundle, which is this module's
         # actual subject: source runs ahead of production until 032 deploys.
         assert "detroit-ann-arbor-mi" not in LIVE_PINS.participating_markets

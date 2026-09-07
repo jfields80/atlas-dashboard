@@ -244,29 +244,39 @@ def _row(market_id):
 # The record.
 # --------------------------------------------------------------------------- #
 
+def _row_in_record(doc, market_id):
+    return next(r for r in doc["markets"] if r["market_id"] == market_id)
+
+
 def test_the_record_is_committed_and_names_its_decision():
     doc = LP.load_participation()
     assert doc["schema"] == LP.PARTICIPATION_SCHEMA
     decision = doc["decision"]
-    # The CURRENT record is a PROPOSAL, not a decision, and this is the
-    # assertion that says so. Every reissue before it recorded decided_by
-    # "founder"; PTF-DETROIT-ANN-ARBOR-LAUNCH-PREP-031 deliberately does not,
-    # because writing the row was the only way to assemble and reproduce the
-    # candidate and nobody had decided anything. Turning this back into
-    # == "founder" is a founder decision and belongs to order 032, not to an
-    # edit that makes a test go green.
-    assert decision["decided_by"] != "founder"
-    assert "NO FOUNDER DECISION RECORDED" in decision["decided_by"]
-    assert decision["reason"].startswith("PROPOSED, NOT DECIDED.")
-    # The CURRENT record is the Detroit proposal. Each reissue moves these
-    # three lines and nothing else in this module: the lineage assertions below
+    # PTF-DETROIT-ANN-ARBOR-LAUNCH-PREP-031 left this record a PROPOSAL and the
+    # assertion here said so, with a comment saying that turning it back into
+    # == "founder" was a founder decision belonging to order 032 rather than to
+    # an edit that makes a test go green. Order 032 is that decision, and it
+    # signed the record -- so the assertion returns to its original form.
+    assert decision["decided_by"] == "founder"
+    assert decision["decided_on"]
+    # A signed record must not still be flagged as an unsigned proposal.
+    assert "proposal" not in decision
+    detroit = _row_in_record(doc, "detroit-ann-arbor-mi")
+    assert "proposed_not_decided" not in detroit
+    # The preparation is still named, so the chain from proposal to decision
+    # stays walkable from the record itself.
+    assert decision["prepared_by"]["work_order"] == (
+        "PTF-DETROIT-ANN-ARBOR-LAUNCH-PREP-031")
+    # The CURRENT record is the Detroit launch decision. Each reissue moves
+    # these lines and nothing else in this module: the lineage assertions below
     # keep proving every ancestor, including the one this replaced.
-    assert "detroit-ann-arbor-mi" in decision["reason"]
+    assert "detroit-ann-arbor-mi" in decision["reason"].lower() or (
+        "Detroit" in decision["reason"])
     # supersedes names the IMMEDIATE predecessor, and the flat lineage list
     # carries every ancestor with its sha256. Both are needed: an authorization
     # signed two reissues back can only be matched through the lineage, which
     # is what that block's own what_this_is says it is for.
-    assert decision["work_order"] ==         "PTF-DETROIT-ANN-ARBOR-LAUNCH-PREP-031"
+    assert decision["work_order"] ==         "PTF-DETROIT-ANN-ARBOR-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-032"
     assert decision["supersedes"]["work_order"] ==         "PTF-TOLEDO-OH-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-003"
     # The set 031 inherited: the eleven that were live before Detroit.
     assert decision["supersedes"]["founder_authorized"] ==         sorted(set(LIVE) - {PROPOSED_AT_031})

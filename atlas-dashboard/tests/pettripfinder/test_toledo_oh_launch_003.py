@@ -141,8 +141,11 @@ def test_detroit_fort_wayne_and_lexington_are_still_out():
     row = next(r for r in doc["markets"]
                if r["market_id"] == "detroit-ann-arbor-mi")
     if row["launch_status"] == "FOUNDER_AUTHORIZED_FOR_LAUNCH":
+        # Admitted by a LATER order than this one -- 031 proposed it and 032
+        # signed it -- never by this launch, which named Toledo and nothing
+        # else. That is the guard: no market rides in on another's decision.
         assert doc["decision"]["work_order"] != WORK_ORDER
-        assert row.get("proposed_not_decided") is True
+        assert MARKET in doc["decision"].get("founder_authorized", [MARKET])
     for unregistered in ("fort-wayne-in", "lexington-ky"):
         assert not (PACKAGE / "markets" / ("%s.json" % unregistered)).is_file()
         assert unregistered not in live
