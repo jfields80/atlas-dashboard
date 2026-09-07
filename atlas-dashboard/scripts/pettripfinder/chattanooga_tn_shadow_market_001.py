@@ -178,6 +178,25 @@ def audit_read(row, census_row):
                 ("class", "PAGE_POSTAL_DISAGREES_WITH_CENSUS"),
                 ("why", "the page states postal %s and the census row states %s"
                         % (page_postal, census_row["postal_code"]))]))
+        # This market's own geography class. A read bound to an admitted
+        # TENNESSEE identity whose PAGE states a Georgia address is either the
+        # wrong building or a border row that slipped the census gate, and
+        # either way it must not publish. It is checked here as well as in the
+        # census because the census decides MEMBERSHIP from the merged node
+        # while the audit decides PUBLICATION from this one page.
+        page_region = str(((ident.get("signals") or {}).get("region") or "")).upper()
+        page_is_georgia = page_region in ("GA", "GEORGIA") or page_postal[:2] == "30"
+        row_is_tennessee = (census_row.get("state") or "").upper() in ("TN", "TENNESSEE")
+        if page_is_georgia and row_is_tennessee:
+            problems.append(OrderedDict([
+                ("class", "TENNESSEE_GEORGIA_GEOGRAPHY_MISMATCH"),
+                ("why", "the page states a GEORGIA address (%s %s) while the census row it is "
+                        "bound to is a Tennessee identity in %s. This market admits Tennessee "
+                        "only, and a read that disagrees with its own row about which STATE the "
+                        "building stands in cannot publish."
+                        % (page_region or "region not stated",
+                           page_postal or "no postal",
+                           census_row.get("postal_code") or "no postal"))]))
     return problems
 
 
@@ -695,10 +714,14 @@ def paid_readiness(ladder, firecrawl, audited, census_doc):
         ("verdict", OrderedDict([
             ("required_for_promotion", []),
             ("optional_coverage_expansion",
-             ["ATTENDED_BROWSER for the Marriott and Hilton wall",
-              "FIRECRAWL for any candidate row left unattempted",
-              "PLACES for address fills on map-only rows",
-              "BRIGHT_DATA only if the attended lane fails"]),
+             ["PLACES for address fills on the map-only rows that still carry no street",
+              "BRIGHT_DATA only if a later attended pass fails, and only under a measured cap",
+              "a re-probe of IHG, Choice, Red Roof, Best Western and Extended Stay America, "
+              "whose refusals go stale in days",
+              "ATTENDED_BROWSER for anything a re-probe reopens -- the Marriott and Hilton wall "
+              "itself is already walked, 48 pages, all identity-confirmed",
+              "FIRECRAWL for any candidate row a later routing repair creates; this order left "
+              "none unattempted"]),
             ("publication_minimum", minimum),
             ("clean_rows_now", published_ready),
             ("clears_minimum", published_ready >= minimum),
@@ -728,7 +751,8 @@ def build():
             "AMENITY_CHIP_OR_BRAND_SURFACE", "ACCEPTANCE_INFERRED_WITHOUT_A_STATEMENT",
             "SERVICE_ANIMAL_LANGUAGE_READ_AS_PET_ACCEPTANCE",
             "REFUSAL_INFERRED_FROM_A_STRUCTURED_FLAG_ALONE", "NOT_IN_THE_PROPOSED_CENSUS",
-            "PAGE_POSTAL_DISAGREES_WITH_CENSUS"]),
+            "PAGE_POSTAL_DISAGREES_WITH_CENSUS",
+             "TENNESSEE_GEORGIA_GEOGRAPHY_MISMATCH"]),
         ("counts", OrderedDict([
             ("reads_audited", len(audited)),
             ("clean_pet_friendly", len(clean_pf)),

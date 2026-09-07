@@ -1,0 +1,70 @@
+{
+ "schema": "ptf-regression-classification/1.0",
+ "work_order": "PTF-CHATTANOOGA-TN-NEW-MARKET-001",
+ "market_id": "chattanooga-tn",
+ "phase": "22 -- regression, Regression V2",
+ "base_commit": "d335c50",
+ "head_commit": "4e058a3",
+ "how_this_is_proved": "Not by counting. Each lane was run at HEAD and again in a SCRATCH WORKTREE at the base commit, sharing the same gitignored data tree through a directory junction so the ONLY difference between the two runs is tracked code. The failing NODE-ID SETS are then compared. A set that is identical on both sides cannot contain a failure this order caused.",
+ "lanes": {
+  "policy_schema": {
+   "head_failures": 5,
+   "base_failures": 5,
+   "only_in_head": [],
+   "only_in_base": [],
+   "sets_identical": true,
+   "nodes": [
+    "tests/pettripfinder/acquisition/test_normalization_041.py::test_a_second_projection_would_change_nothing",
+    "tests/pettripfinder/acquisition/test_normalization_041.py::test_no_other_market_moved",
+    "tests/pettripfinder/acquisition/test_normalization_041.py::test_the_stale_contract_is_refused_even_if_copied_into_the_live_directory",
+    "tests/pettripfinder/acquisition/test_normalization_041.py::test_the_store_and_the_reader_now_agree",
+    "tests/pettripfinder/acquisition/test_vocabulary_normalization_043.py::test_every_other_market_still_verifies_and_is_untouched"
+   ],
+   "class": "PRE_EXISTING -- historical suites restating a closed order's whole-market counts (Cleveland's exclusion count moved from 40 to 51 in a later order and these modules were never migrated onto the pin)"
+  },
+  "identity_routing": {
+   "head_failures": 14,
+   "base_failures": 14,
+   "only_in_head": [],
+   "only_in_base": [],
+   "sets_identical": true,
+   "nodes": [
+    "tests/pettripfinder/acquisition/test_identity_binding_027.py::test_a_branded_property_still_binds_on_its_code",
+    "tests/pettripfinder/acquisition/test_identity_binding_027.py::test_a_codeless_hotel_binds_on_street_and_name_without_a_path[P3-saint-kate-street-and-name]",
+    "tests/pettripfinder/acquisition/test_identity_binding_027.py::test_a_codeless_hotel_binds_on_street_and_name_without_a_path[P4-ingleside-street-and-name]",
+    "tests/pettripfinder/acquisition/test_identity_binding_027.py::test_a_codeless_hotel_binds_on_street_and_name_without_a_path[P5-marc-street-and-name]",
+    "tests/pettripfinder/acquisition/test_identity_binding_027.py::test_a_matching_canonical_path_and_name_still_binds",
+    "tests/pettripfinder/acquisition/test_identity_binding_027.py::test_a_validated_discovered_policy_url_does_not_confirm_an_identity",
+    "tests/pettripfinder/acquisition/test_identity_binding_027.py::test_agreement_only_on_common_lodging_words_does_not_bind",
+    "tests/pettripfinder/acquisition/test_identity_binding_027.py::test_every_newly_bound_capture_is_explained",
+    "tests/pettripfinder/acquisition/test_identity_binding_027.py::test_nothing_that_bound_before_stops_binding",
+    "tests/pettripfinder/acquisition/test_identity_binding_027.py::test_same_domain_is_not_an_identity",
+    "tests/pettripfinder/acquisition/test_identity_binding_027.py::test_the_fixed_corpus_is_complete_and_the_gate_agrees_with_all_of_it",
+    "tests/pettripfinder/acquisition/test_identity_binding_027.py::test_the_same_name_in_another_state_does_not_bind[A1-same-name-wrong-city]",
+    "tests/pettripfinder/acquisition/test_identity_binding_027.py::test_the_same_name_in_another_state_does_not_bind[A2-same-name-wrong-city-faqs]",
+    "tests/pettripfinder/acquisition/test_identity_binding_027.py::test_two_hotels_at_one_street_are_separated_by_the_name"
+   ],
+   "class": "MISSING_GITIGNORED_FIXTURE_IN_A_FRESH_WORKTREE -- every node is in test_identity_binding_027.py, which reads rendered.html files under data/acquisition/independent-url-discovery-014/ that a fresh worktree never had"
+  },
+  "release_contract": {
+   "head_failures": 0,
+   "passed": 521,
+   "deselected": 50,
+   "class": "CLEAN -- every release contract verifies against its own authority"
+  }
+ },
+ "one_failure_this_order_did_cause_and_closed": {
+  "node": "tests/pettripfinder/acquisition/test_store_integration_025.py::test_every_run_on_disk_is_classified",
+  "why_it_failed": "this order created two new directories under data/acquisition/ (chattanooga_tn_free_static_001 and chattanooga_tn_firecrawl_001) and the gate refuses to let any run on disk stay undecided",
+  "fix": "both run ids registered in OTHER_MARKET_RUNS with what they are and what they cost",
+  "change_class": "BOOKKEEPING_REGISTRATION_CHANGE (the Cincinnati SAFE DELTA precedent)",
+  "verified": "the module now reports 25 passed and the node passes"
+ },
+ "market_local_true_new_failure": 0,
+ "broad_regression": {
+  "validation_matrix_verdict": "FULL_REGRESSION_REQUIRED = YES",
+  "why": "regression_delta classifies by PATH. This order's new market scripts fall under scripts/pettripfinder/ (GENERIC_RUNTIME_CHANGE), its proposed census under an authority prefix (AUTHORITY_CHANGE / ROUTING_SEMANTIC_CHANGE), and markets/proposed/ is a path no rule claims (UNCLASSIFIED). The strictest row wins, as designed -- teaching the factory a new directory can only make it slower.",
+  "the_order_directs": "finish and commit all market-local work FIRST, then run the broad lane rather than competing for RAM. That is what happened: this classification and the commit precede the broad run.",
+  "status": "LAUNCHED_AFTER_COMMIT -- see chattanooga_tn_broad_regression_001.json"
+ }
+}
