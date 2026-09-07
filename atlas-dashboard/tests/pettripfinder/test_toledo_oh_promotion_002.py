@@ -41,6 +41,7 @@ RULINGS = PACKAGE / "toledo_oh_founder_rulings_001.json"
 HOLDS = PACKAGE / "toledo_oh_identity_holds_002.json"
 RELEASE = REPO_ROOT / "deploy" / "netlify" / "release_contracts" / "toledo-oh.json"
 PINS = REPO_ROOT / "tests" / "pettripfinder" / "pins"
+DEPLOY = REPO_ROOT / "deploy" / "netlify"
 
 #: The founder's governing promotion set, after TOLEDO-R1A and TOLEDO-R3.
 GOVERNING = {"census": 54, "pet_friendly": 17, "verified_no_pets": 9, "corridors": 13}
@@ -350,10 +351,17 @@ def test_the_packet_numbers_are_derived_from_artifacts_not_typed():
     assert would["census"] == state["census"] == GOVERNING["census"]
     assert would["published_profiles"] == state["profiles"] == GOVERNING["pet_friendly"]
     assert would["verified_no_pets"] == state["verified_no_pets"] == GOVERNING["verified_no_pets"]
-    # The packet binds the deploy that was live when it was prepared. PTF-TOLEDO-OH-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-003
-    # deployed on top of it, so that deploy is now previous_deploy_id.
-    live = _load(PINS / "deployment_state.json")["live"]
-    assert doc["rollback_target"] in (live["deploy_id"], live["previous_deploy_id"])
+    # The packet binds the deploy that was live when it was PREPARED, which is
+    # a fixed historical fact: the deployment Toledo's own launch went on top
+    # of. This read it as "the live deploy or the one before it", which held
+    # only while Toledo was live -- PTF-DETROIT-ANN-ARBOR-DEPLOYMENT-AND-LAUNCH-
+    # AUTHORIZATION-032 deployed Detroit and pushed it a third place back. The
+    # fact is read from Toledo's own deployment record instead, where it cannot
+    # drift as production moves on.
+    toledo_record = _load(
+        DEPLOY / "deployment_records"
+        / "ptf-deploy-toledo-003-6a9e047690ec8bdaf99bcad2.json")
+    assert doc["rollback_target"] == toledo_record["previous_deployment_id"]
 
 
 RUN3 = REPORTS / "toledo_oh_regression_run3_classify_002.json"

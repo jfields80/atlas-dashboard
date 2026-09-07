@@ -11,12 +11,12 @@
  ],
  "modules_scanned": 394,
  "modules_with_pins": 267,
- "sites": 1587,
+ "sites": 1593,
  "by_class": {
   "CURRENT_STATE_INVARIANT": 157,
-  "HISTORICAL_COHORT_INVARIANT": 844,
+  "HISTORICAL_COHORT_INVARIANT": 845,
   "HISTORICAL_ARTIFACT_INVARIANT": 186,
-  "DEPLOYMENT_EPOCH_INVARIANT": 143,
+  "DEPLOYMENT_EPOCH_INVARIANT": 148,
   "GENERIC_SCHEMA_INVARIANT": 194,
   "CROSS_MARKET_INVARIANT": 63
  },
@@ -11633,14 +11633,14 @@
    ],
    "default_class": "HISTORICAL_COHORT_INVARIANT",
    "default_reason": "work-order-numbered module",
-   "site_count": 23,
+   "site_count": 28,
    "by_class": {
-    "DEPLOYMENT_EPOCH_INVARIANT": 12,
-    "HISTORICAL_COHORT_INVARIANT": 11
+    "DEPLOYMENT_EPOCH_INVARIANT": 16,
+    "HISTORICAL_COHORT_INVARIANT": 12
    },
    "sites": [
     {
-     "line": 177,
+     "line": 235,
      "test": "test_no_authorization_exists_for_the_candidate_bundle",
      "kind": "hash",
      "literal": "92b39c81c31988a1d3f778d239ebf5c794cecec4318f524f0d58298aaae8c881",
@@ -11651,7 +11651,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 183,
+     "line": 245,
      "test": "test_no_deployment_record_exists_for_the_candidate_bundle",
      "kind": "hash",
      "literal": "92b39c81c31988a1d3f778d239ebf5c794cecec4318f524f0d58298aaae8c881",
@@ -11662,7 +11662,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 188,
+     "line": 254,
      "test": "test_the_live_pin_block_still_describes_the_toledo_deployment",
      "kind": "hash",
      "literal": "895248738c79bc27f26da5bba1d2a490361ce6bd4959698adf3fb6f892aad8b0",
@@ -11673,7 +11673,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 189,
+     "line": 255,
      "test": "test_the_live_pin_block_still_describes_the_toledo_deployment",
      "kind": "count",
      "literal": 803,
@@ -11684,7 +11684,7 @@
      "reason": "bundle / sitemap / route total"
     },
     {
-     "line": 190,
+     "line": 256,
      "test": "test_the_live_pin_block_still_describes_the_toledo_deployment",
      "kind": "count",
      "literal": 966,
@@ -11695,7 +11695,7 @@
      "reason": "bundle / sitemap / route total"
     },
     {
-     "line": 197,
+     "line": 267,
      "test": "test_the_source_pin_is_ahead_of_production_by_this_order",
      "kind": "hash",
      "literal": "92b39c81c31988a1d3f778d239ebf5c794cecec4318f524f0d58298aaae8c881",
@@ -11706,7 +11706,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 198,
+     "line": 268,
      "test": "test_the_source_pin_is_ahead_of_production_by_this_order",
      "kind": "count",
      "literal": 924,
@@ -11717,7 +11717,62 @@
      "reason": "bundle / sitemap / route total"
     },
     {
-     "line": 206,
+     "line": 280,
+     "test": "test_what_this_order_prepared_is_what_production_now_serves",
+     "kind": "hash",
+     "literal": "92b39c81c31988a1d3f778d239ebf5c794cecec4318f524f0d58298aaae8c881",
+     "reads_package": false,
+     "has_len": false,
+     "source": "live[\"bundle_sha256\"] == CANDIDATE_BUNDLE",
+     "class": "DEPLOYMENT_EPOCH_INVARIANT",
+     "reason": "hash of a bundle / sitemap / authorization"
+    },
+    {
+     "line": 281,
+     "test": "test_what_this_order_prepared_is_what_production_now_serves",
+     "kind": "hash",
+     "literal": "ad71bdfaef134ccd35c02b31fb35feb016015fdf85e648f63cd11968af4e4d40",
+     "reads_package": false,
+     "has_len": false,
+     "source": "live[\"sitemap_sha256\"] == CANDIDATE_SITEMAP",
+     "class": "DEPLOYMENT_EPOCH_INVARIANT",
+     "reason": "hash of a bundle / sitemap / authorization"
+    },
+    {
+     "line": 282,
+     "test": "test_what_this_order_prepared_is_what_production_now_serves",
+     "kind": "count",
+     "literal": 924,
+     "reads_package": false,
+     "has_len": false,
+     "source": "live[\"total_profiles\"] == 924",
+     "class": "DEPLOYMENT_EPOCH_INVARIANT",
+     "reason": "bundle / sitemap / route total"
+    },
+    {
+     "line": 283,
+     "test": "test_what_this_order_prepared_is_what_production_now_serves",
+     "kind": "count",
+     "literal": 1099,
+     "reads_package": false,
+     "has_len": false,
+     "source": "live[\"sitemap_route_count\"] == 1099",
+     "class": "DEPLOYMENT_EPOCH_INVARIANT",
+     "reason": "bundle / sitemap / route total"
+    },
+    {
+     "line": 285,
+     "test": "test_what_this_order_prepared_is_what_production_now_serves",
+     "kind": "count",
+     "literal": 121,
+     "reads_package": false,
+     "has_len": false,
+     "source": "live[\"profile_counts\"][MARKET] == PUBLISHED",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 295,
      "test": "test_census_and_partition_agree_on_the_identity_universe",
      "kind": "count",
      "literal": 247,
@@ -11728,7 +11783,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 207,
+     "line": 296,
      "test": "test_census_and_partition_agree_on_the_identity_universe",
      "kind": "count",
      "literal": 247,
@@ -11739,7 +11794,7 @@
      "reason": "whole-package count in a closed order's suite"
     },
     {
-     "line": 208,
+     "line": 297,
      "test": "test_census_and_partition_agree_on_the_identity_universe",
      "kind": "count",
      "literal": 247,
@@ -11750,7 +11805,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 209,
+     "line": 298,
      "test": "test_census_and_partition_agree_on_the_identity_universe",
      "kind": "count",
      "literal": 247,
@@ -11761,7 +11816,7 @@
      "reason": "whole-package count in a closed order's suite"
     },
     {
-     "line": 231,
+     "line": 320,
      "test": "test_the_published_set_is_the_policy_package_is_the_seed_shard",
      "kind": "count",
      "literal": 121,
@@ -11772,7 +11827,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 242,
+     "line": 331,
      "test": "test_the_exclusion_shard_is_exactly_the_verified_no_pets_partition",
      "kind": "count",
      "literal": 81,
@@ -11783,7 +11838,7 @@
      "reason": "whole-package count in a closed order's suite"
     },
     {
-     "line": 332,
+     "line": 421,
      "test": "test_route_slugs_are_unique_within_the_market",
      "kind": "count",
      "literal": 121,
@@ -11794,7 +11849,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 379,
+     "line": 468,
      "test": "test_the_candidate_pins_the_reproduced_bundle",
      "kind": "hash",
      "literal": "92b39c81c31988a1d3f778d239ebf5c794cecec4318f524f0d58298aaae8c881",
@@ -11805,7 +11860,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 380,
+     "line": 469,
      "test": "test_the_candidate_pins_the_reproduced_bundle",
      "kind": "hash",
      "literal": "ad71bdfaef134ccd35c02b31fb35feb016015fdf85e648f63cd11968af4e4d40",
@@ -11816,7 +11871,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 387,
+     "line": 476,
      "test": "test_the_candidate_composes_twelve_markets_and_924_profiles",
      "kind": "count",
      "literal": 924,
@@ -11827,7 +11882,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 388,
+     "line": 477,
      "test": "test_the_candidate_composes_twelve_markets_and_924_profiles",
      "kind": "count",
      "literal": 924,
@@ -11838,7 +11893,7 @@
      "reason": "whole-package count in a closed order's suite"
     },
     {
-     "line": 389,
+     "line": 478,
      "test": "test_the_candidate_composes_twelve_markets_and_924_profiles",
      "kind": "count",
      "literal": 12,
@@ -11849,7 +11904,7 @@
      "reason": "whole-package count in a closed order's suite"
     },
     {
-     "line": 414,
+     "line": 503,
      "test": "test_the_routes_grow_by_exactly_detroits_own_surface",
      "kind": "count",
      "literal": 1099,
@@ -11860,7 +11915,7 @@
      "reason": "bundle / sitemap / route total"
     },
     {
-     "line": 415,
+     "line": 504,
      "test": "test_the_routes_grow_by_exactly_detroits_own_surface",
      "kind": "count",
      "literal": 133,
@@ -11871,7 +11926,7 @@
      "reason": "bundle / sitemap / route total"
     },
     {
-     "line": 440,
+     "line": 529,
      "test": "test_the_baseline_and_rollback_target_are_the_toledo_deployment",
      "kind": "hash",
      "literal": "895248738c79bc27f26da5bba1d2a490361ce6bd4959698adf3fb6f892aad8b0",
@@ -11882,7 +11937,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 441,
+     "line": 530,
      "test": "test_the_baseline_and_rollback_target_are_the_toledo_deployment",
      "kind": "count",
      "literal": 803,
@@ -14133,7 +14188,7 @@
      "reason": "module default"
     },
     {
-     "line": 287,
+     "line": 294,
      "test": "test_the_decision_names_this_order_and_preserves_its_predecessor",
      "kind": "count",
      "literal": 8,
@@ -14144,7 +14199,7 @@
      "reason": "module default"
     },
     {
-     "line": 295,
+     "line": 302,
      "test": "test_the_candidate_is_nine_markets_and_560_profiles",
      "kind": "count",
      "literal": 9,
@@ -14155,7 +14210,7 @@
      "reason": "module default"
     },
     {
-     "line": 296,
+     "line": 303,
      "test": "test_the_candidate_is_nine_markets_and_560_profiles",
      "kind": "count",
      "literal": 560,
@@ -14166,7 +14221,7 @@
      "reason": "module default"
     },
     {
-     "line": 297,
+     "line": 304,
      "test": "test_the_candidate_is_nine_markets_and_560_profiles",
      "kind": "count",
      "literal": 688,
@@ -14177,7 +14232,7 @@
      "reason": "bundle / sitemap / route total"
     },
     {
-     "line": 302,
+     "line": 309,
      "test": "test_the_candidate_is_nine_markets_and_560_profiles",
      "kind": "count",
      "literal": 560,
@@ -14188,7 +14243,7 @@
      "reason": "module default"
     },
     {
-     "line": 335,
+     "line": 342,
      "test": "test_the_candidate_pins_its_own_hashes_and_the_record_it_used",
      "kind": "hash",
      "literal": "5fc4ae2c555d83a9986d3d071df1013cc1a9f2fcff5d509d26c49278c84defb6",
@@ -14199,7 +14254,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 336,
+     "line": 343,
      "test": "test_the_candidate_pins_its_own_hashes_and_the_record_it_used",
      "kind": "hash",
      "literal": "b48aab5fd46232fd03cbdd2e764d6362214938697e56a3d32b2a499b58432a0b",
@@ -14210,7 +14265,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 337,
+     "line": 344,
      "test": "test_the_candidate_pins_its_own_hashes_and_the_record_it_used",
      "kind": "hash",
      "literal": "e9998c51d13559333ef9bd63f287e8858b73eb0011401a9606a58871f6ba74cc",
@@ -14221,7 +14276,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 355,
+     "line": 362,
      "test": "test_the_rollback_target_is_the_deployment_this_candidate_replaced",
      "kind": "hash",
      "literal": "e9998c51d13559333ef9bd63f287e8858b73eb0011401a9606a58871f6ba74cc",
@@ -14232,7 +14287,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 357,
+     "line": 364,
      "test": "test_the_rollback_target_is_the_deployment_this_candidate_replaced",
      "kind": "count",
      "literal": 517,
@@ -14243,7 +14298,7 @@
      "reason": "module default"
     },
     {
-     "line": 391,
+     "line": 398,
      "test": "test_the_candidate_never_edited_the_committed_manifest",
      "kind": "hash",
      "literal": "5fc4ae2c555d83a9986d3d071df1013cc1a9f2fcff5d509d26c49278c84defb6",
@@ -17705,7 +17760,7 @@
    },
    "sites": [
     {
-     "line": 565,
+     "line": 575,
      "test": "test_every_required_gate_ran_and_passed",
      "kind": "count",
      "literal": 27,
@@ -17716,7 +17771,7 @@
      "reason": "module default"
     },
     {
-     "line": 586,
+     "line": 596,
      "test": "test_columbus_live_routes_and_milwaukee_are_preserved",
      "kind": "count",
      "literal": 132,
@@ -17727,7 +17782,7 @@
      "reason": "module default"
     },
     {
-     "line": 589,
+     "line": 599,
      "test": "test_columbus_live_routes_and_milwaukee_are_preserved",
      "kind": "count",
      "literal": 73,
@@ -17738,7 +17793,7 @@
      "reason": "module default"
     },
     {
-     "line": 595,
+     "line": 605,
      "test": "test_the_candidate_is_the_pinned_artifact",
      "kind": "hash",
      "literal": "8ea6131e9fe8689fc23d3a362ae12ffaa2155c687737c6f5fcde03b5a22c42b8",
@@ -17749,7 +17804,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 596,
+     "line": 606,
      "test": "test_the_candidate_is_the_pinned_artifact",
      "kind": "hash",
      "literal": "a324b1bf5023fc4e8f618d192de5eb994d093ed890db4219678223079e06852d",
@@ -17760,7 +17815,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 597,
+     "line": 607,
      "test": "test_the_candidate_is_the_pinned_artifact",
      "kind": "hash",
      "literal": "70747f09fdfe18ccc18e13a3155cc6287404e3ddfe5bb5784d0f03cc30348967",
@@ -17771,7 +17826,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 598,
+     "line": 608,
      "test": "test_the_candidate_is_the_pinned_artifact",
      "kind": "hash",
      "literal": "2077ad2895c9273ddc9deed62295058f88915e20cb6fcd4072433d1c17dff741",
@@ -17782,7 +17837,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 658,
+     "line": 668,
      "test": "test_the_committed_manifest_describes_the_live_deploy_and_pins_the_record",
      "kind": "hash",
      "literal": "e9998c51d13559333ef9bd63f287e8858b73eb0011401a9606a58871f6ba74cc",
@@ -17793,7 +17848,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 701,
+     "line": 715,
      "test": "test_the_withdrawn_candidate_is_not_the_committed_one",
      "kind": "hash",
      "literal": "8ea6131e9fe8689fc23d3a362ae12ffaa2155c687737c6f5fcde03b5a22c42b8",
@@ -20088,7 +20143,7 @@
    },
    "sites": [
     {
-     "line": 100,
+     "line": 105,
      "test": "test_it_still_binds_the_artifact_that_went_live",
      "kind": "hash",
      "literal": "2077ad2895c9273ddc9deed62295058f88915e20cb6fcd4072433d1c17dff741",
@@ -20099,7 +20154,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 101,
+     "line": 106,
      "test": "test_it_still_binds_the_artifact_that_went_live",
      "kind": "count",
      "literal": 415,
@@ -20110,7 +20165,7 @@
      "reason": "bundle / sitemap / route total"
     },
     {
-     "line": 102,
+     "line": 107,
      "test": "test_it_still_binds_the_artifact_that_went_live",
      "kind": "count",
      "literal": 515,
@@ -20121,7 +20176,7 @@
      "reason": "bundle / sitemap / route total"
     },
     {
-     "line": 168,
+     "line": 173,
      "test": "test_it_records_a_six_market_415_profile_release",
      "kind": "count",
      "literal": 415,
@@ -20132,7 +20187,7 @@
      "reason": "bundle / sitemap / route total"
     },
     {
-     "line": 169,
+     "line": 174,
      "test": "test_it_records_a_six_market_415_profile_release",
      "kind": "count",
      "literal": 515,
@@ -20143,7 +20198,7 @@
      "reason": "bundle / sitemap / route total"
     },
     {
-     "line": 189,
+     "line": 194,
      "test": "test_every_st_louis_route_served_the_deployed_bytes",
      "kind": "count",
      "literal": 82,
@@ -20154,7 +20209,7 @@
      "reason": "module default"
     },
     {
-     "line": 245,
+     "line": 250,
      "test": "test_the_live_sitemap_is_the_one_the_manifest_pins",
      "kind": "count",
      "literal": 515,
@@ -20165,7 +20220,7 @@
      "reason": "module default"
     },
     {
-     "line": 250,
+     "line": 255,
      "test": "test_the_live_sitemap_is_the_one_the_manifest_pins",
      "kind": "count",
      "literal": 99,
@@ -20176,7 +20231,7 @@
      "reason": "module default"
     },
     {
-     "line": 256,
+     "line": 261,
      "test": "test_every_market_serves_the_profiles_its_contract_promises",
      "kind": "count",
      "literal": 415,
@@ -20187,7 +20242,7 @@
      "reason": "module default"
     },
     {
-     "line": 271,
+     "line": 276,
      "test": "test_the_manifest_verifies_and_is_a_later_bundle_than_this_one",
      "kind": "hash",
      "literal": "2077ad2895c9273ddc9deed62295058f88915e20cb6fcd4072433d1c17dff741",
@@ -20198,7 +20253,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 275,
+     "line": 280,
      "test": "test_the_manifest_verifies_and_is_a_later_bundle_than_this_one",
      "kind": "hash",
      "literal": "2077ad2895c9273ddc9deed62295058f88915e20cb6fcd4072433d1c17dff741",
@@ -20209,7 +20264,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 283,
+     "line": 288,
      "test": "test_this_record_is_untouched_by_the_deploy_that_replaced_it",
      "kind": "hash",
      "literal": "2077ad2895c9273ddc9deed62295058f88915e20cb6fcd4072433d1c17dff741",
@@ -20220,7 +20275,7 @@
      "reason": "names another market or isolation"
     },
     {
-     "line": 365,
+     "line": 384,
      "test": "test_the_deploy_lineage_reads_back_in_order",
      "kind": "hash",
      "literal": "2077ad2895c9273ddc9deed62295058f88915e20cb6fcd4072433d1c17dff741",
@@ -20231,7 +20286,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 366,
+     "line": 385,
      "test": "test_the_deploy_lineage_reads_back_in_order",
      "kind": "hash",
      "literal": "70747f09fdfe18ccc18e13a3155cc6287404e3ddfe5bb5784d0f03cc30348967",
@@ -21316,7 +21371,7 @@
    },
    "sites": [
     {
-     "line": 89,
+     "line": 94,
      "test": "test_the_registry_grew_by_exactly_one",
      "kind": "count",
      "literal": 12,
@@ -21327,7 +21382,7 @@
      "reason": "module default"
     },
     {
-     "line": 93,
+     "line": 98,
      "test": "test_the_authority_shard_exists_and_is_discoverable",
      "kind": "count",
      "literal": 82,
@@ -21338,7 +21393,7 @@
      "reason": "module default"
     },
     {
-     "line": 94,
+     "line": 99,
      "test": "test_the_authority_shard_exists_and_is_discoverable",
      "kind": "count",
      "literal": 37,
@@ -21349,7 +21404,7 @@
      "reason": "module default"
     },
     {
-     "line": 181,
+     "line": 200,
      "test": "test_the_record_names_what_it_supersedes",
      "kind": "hash",
      "literal": "e766944e49a6610b25eb9ab36deca363fdcf72bafce4bd82d933eb0b78f64eab",
@@ -21360,7 +21415,7 @@
      "reason": "hash"
     },
     {
-     "line": 196,
+     "line": 215,
      "test": "test_the_012_record_still_describes_what_it_deployed",
      "kind": "hash",
      "literal": "70747f09fdfe18ccc18e13a3155cc6287404e3ddfe5bb5784d0f03cc30348967",
@@ -21371,7 +21426,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 198,
+     "line": 217,
      "test": "test_the_012_record_still_describes_what_it_deployed",
      "kind": "count",
      "literal": 333,
@@ -21430,13 +21485,24 @@
    ],
    "default_class": "HISTORICAL_COHORT_INVARIANT",
    "default_reason": "work-order-numbered module",
-   "site_count": 9,
+   "site_count": 10,
    "by_class": {
-    "DEPLOYMENT_EPOCH_INVARIANT": 9
+    "DEPLOYMENT_EPOCH_INVARIANT": 10
    },
    "sites": [
     {
-     "line": 198,
+     "line": 248,
+     "test": "test_one_digest_runs_from_authorization_to_live",
+     "kind": "hash",
+     "literal": "895248738c79bc27f26da5bba1d2a490361ce6bd4959698adf3fb6f892aad8b0",
+     "reads_package": true,
+     "has_len": false,
+     "source": "manifest[\"bundle_sha256\"] != BUNDLE",
+     "class": "DEPLOYMENT_EPOCH_INVARIANT",
+     "reason": "hash of a bundle / sitemap / authorization"
+    },
+    {
+     "line": 251,
      "test": "test_one_digest_runs_from_authorization_to_live",
      "kind": "hash",
      "literal": "895248738c79bc27f26da5bba1d2a490361ce6bd4959698adf3fb6f892aad8b0",
@@ -21447,7 +21513,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 199,
+     "line": 252,
      "test": "test_one_digest_runs_from_authorization_to_live",
      "kind": "hash",
      "literal": "dfdac840be527d5431d0752e702b55fd41d3ee0d2f3635bed6796044d869d56a",
@@ -21458,7 +21524,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 200,
+     "line": 253,
      "test": "test_one_digest_runs_from_authorization_to_live",
      "kind": "hash",
      "literal": "dfdac840be527d5431d0752e702b55fd41d3ee0d2f3635bed6796044d869d56a",
@@ -21469,7 +21535,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 215,
+     "line": 268,
      "test": "test_the_promotion_packets_bundle_is_NOT_what_deployed",
      "kind": "hash",
      "literal": "ca59f3710abde7504dc6c312992e0e2c9db70eccbff737cd12be6ec72708ff1f",
@@ -21480,7 +21546,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 216,
+     "line": 269,
      "test": "test_the_promotion_packets_bundle_is_NOT_what_deployed",
      "kind": "hash",
      "literal": "895248738c79bc27f26da5bba1d2a490361ce6bd4959698adf3fb6f892aad8b0",
@@ -21491,7 +21557,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 220,
+     "line": 273,
      "test": "test_the_promotion_packets_bundle_is_NOT_what_deployed",
      "kind": "hash",
      "literal": "895248738c79bc27f26da5bba1d2a490361ce6bd4959698adf3fb6f892aad8b0",
@@ -21502,7 +21568,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 255,
+     "line": 308,
      "test": "test_source_is_back_in_sync_with_production",
      "kind": "hash",
      "literal": "895248738c79bc27f26da5bba1d2a490361ce6bd4959698adf3fb6f892aad8b0",
@@ -21513,7 +21579,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 261,
+     "line": 325,
      "test": "test_source_is_back_in_sync_with_production",
      "kind": "hash",
      "literal": "895248738c79bc27f26da5bba1d2a490361ce6bd4959698adf3fb6f892aad8b0",
@@ -21524,7 +21590,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 264,
+     "line": 328,
      "test": "test_source_is_back_in_sync_with_production",
      "kind": "hash",
      "literal": "895248738c79bc27f26da5bba1d2a490361ce6bd4959698adf3fb6f892aad8b0",
@@ -21671,7 +21737,7 @@
    },
    "sites": [
     {
-     "line": 173,
+     "line": 174,
      "test": "test_ruling_R1A_bowling_green_is_in_and_the_corridor_was_not_widened",
      "kind": "count",
      "literal": 3,
@@ -21682,7 +21748,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 176,
+     "line": 177,
      "test": "test_ruling_R1A_bowling_green_is_in_and_the_corridor_was_not_widened",
      "kind": "count",
      "literal": 2,
@@ -21693,7 +21759,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 188,
+     "line": 189,
      "test": "test_ruling_R2_holds_every_two_identity_address_out_of_publication",
      "kind": "count",
      "literal": 5,
@@ -21704,7 +21770,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 204,
+     "line": 205,
      "test": "test_ruling_R3_holds_both_fremont_pike_reads_and_preserves_both_captures",
      "kind": "count",
      "literal": 2,
@@ -21715,7 +21781,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 242,
+     "line": 243,
      "test": "test_production_is_untouched_by_this_order",
      "kind": "count",
      "literal": 10,
@@ -21726,7 +21792,7 @@
      "reason": "names another market or isolation"
     },
     {
-     "line": 319,
+     "line": 320,
      "test": "test_run_ones_nine_new_failures_are_each_explained_and_none_were_scoped_away",
      "kind": "count",
      "literal": 9,
@@ -21737,7 +21803,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 382,
+     "line": 390,
      "test": "test_the_third_run_grew_only_the_passing_count_and_only_by_this_orders_gates",
      "kind": "count",
      "literal": 7,
