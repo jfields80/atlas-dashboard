@@ -3,14 +3,14 @@
  "what_this_is": "The CURRENT deployment pins, in two blocks that are two different facts. `live` is what production serves: the deployment record's own numbers, moved ONLY by a deployment-authorization order. `source` is what a FRESH assembly of the committed source produces: moved by an application order, which puts source AHEAD of production until the next deploy. When the two agree, ahead_of_production is false and moved_by is null. Consumed historical authorizations are never restated here; they live in deploy/netlify/deployment_authorizations and are immutable evidence of what was authorized at the time (see supersessions.json).",
  "reviewed_by": "PTF-FACTORY-THROUGHPUT-HARDENING-001",
  "live": {
-  "deploy_id": "6a9d33f5dc8c3d1cf9464376",
-  "deployed_by": "PTF-CINCINNATI-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-004",
-  "authorization_id": "ptf-auth-cincinnati-004-ca59f3710abd",
-  "deployment_record_id": "ptf-deploy-cincinnati-004-6a9d33f5dc8c3d1cf9464376",
-  "previous_deploy_id": "6a9ca921843f2cba2ddf8da1",
-  "source_commit": "eb3a41651d02f3ca529919b57d9c2cc911ee0eba",
-  "bundle_sha256": "ca59f3710abde7504dc6c312992e0e2c9db70eccbff737cd12be6ec72708ff1f",
-  "sitemap_sha256": "5b7399e864f3f7e4ddc87c38a4e1c3be168d02377d2d3e4621aec13c982a9706",
+  "deploy_id": "6a9e047690ec8bdaf99bcad2",
+  "deployed_by": "PTF-TOLEDO-OH-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-003",
+  "authorization_id": "ptf-auth-toledo-003-895248738c79",
+  "deployment_record_id": "ptf-deploy-toledo-003-6a9e047690ec8bdaf99bcad2",
+  "previous_deploy_id": "6a9d33f5dc8c3d1cf9464376",
+  "source_commit": "85c66eea46a64df871af4d1dd51ddb1b8fdcffc7",
+  "bundle_sha256": "895248738c79bc27f26da5bba1d2a490361ce6bd4959698adf3fb6f892aad8b0",
+  "sitemap_sha256": "dfdac840be527d5431d0752e702b55fd41d3ee0d2f3635bed6796044d869d56a",
   "participating_markets": [
    "cincinnati-oh",
    "cleveland-akron-canton-oh",
@@ -21,7 +21,8 @@
    "louisville-ky",
    "milwaukee-wi",
    "pittsburgh-pa",
-   "st-louis-mo"
+   "st-louis-mo",
+   "toledo-oh"
   ],
   "profile_counts": {
    "cincinnati-oh": 130,
@@ -33,20 +34,21 @@
    "louisville-ky": 53,
    "milwaukee-wi": 73,
    "pittsburgh-pa": 61,
-   "st-louis-mo": 82
+   "st-louis-mo": 82,
+   "toledo-oh": 17
   },
-  "total_profiles": 786,
-  "sitemap_route_count": 945,
-  "total_html_pages": 4815,
-  "total_files": 4833,
-  "rollback_target": "6a9ca921843f2cba2ddf8da1",
-  "note": "Production serves deploy 6a9d33f5dc8c3d1cf9464376. CINCINNATI IS LIVE AT 130, joining as the tenth market: 656 -> 786 profiles, 797 -> 945 routes, 0 routes removed and every previously live route still served. detroit-ann-arbor-mi remains out. Rolling back goes to 6a9ca921843f2cba2ddf8da1, the Louisville deploy this replaced -- NOT to 6a9c3a14, which would also un-deploy Louisville."
+  "total_profiles": 803,
+  "sitemap_route_count": 966,
+  "total_html_pages": 4920,
+  "total_files": 4938,
+  "rollback_target": "6a9d33f5dc8c3d1cf9464376",
+  "note": "Toledo is live as the ELEVENTH market at 17 published profiles over a 54-identity census built from zero by PTF-TOLEDO-OH-NEW-MARKET-001 and promoted by PTF-TOLEDO-OH-PROMOTION-AND-APPLICATION-002. Production moved 786 -> 803 profiles and 945 -> 966 routes; every previously live market kept its exact profile count and no route was removed. detroit-ann-arbor-mi remains registered and withheld. The promotion packet pinned the PRE-FLIP bundle ca59f3710abde750, in which Toledo contributed nothing; that digest is untouched and is not what deployed. The founder was shown both and bound the authorization to the reassembled candidate 895248738c79bc27."
  },
  "source": {
   "ahead_of_production": false,
   "moved_by": null,
-  "bundle_sha256": "ca59f3710abde7504dc6c312992e0e2c9db70eccbff737cd12be6ec72708ff1f",
-  "sitemap_sha256": "5b7399e864f3f7e4ddc87c38a4e1c3be168d02377d2d3e4621aec13c982a9706",
+  "bundle_sha256": "895248738c79bc27f26da5bba1d2a490361ce6bd4959698adf3fb6f892aad8b0",
+  "sitemap_sha256": "dfdac840be527d5431d0752e702b55fd41d3ee0d2f3635bed6796044d869d56a",
   "participating_markets": [
    "cincinnati-oh",
    "cleveland-akron-canton-oh",
@@ -57,7 +59,8 @@
    "louisville-ky",
    "milwaukee-wi",
    "pittsburgh-pa",
-   "st-louis-mo"
+   "st-louis-mo",
+   "toledo-oh"
   ],
   "profile_counts": {
    "cincinnati-oh": 130,
@@ -69,14 +72,13 @@
    "louisville-ky": 53,
    "milwaukee-wi": 73,
    "pittsburgh-pa": 61,
-   "st-louis-mo": 82
+   "st-louis-mo": 82,
+   "toledo-oh": 17
   },
-  "total_profiles": 786,
-  "sitemap_route_count": 945,
-  "total_html_pages": 4815,
-  "total_files": 4833,
-  "source_commit": "eb3a41651d02f3ca529919b57d9c2cc911ee0eba",
-  "deployment_authorized": true,
-  "note": "Source and production are IN SYNC. Deploy 6a9d33f5dc8c3d1cf9464376 serves exactly this bundle, assembled from eb3a416."
+  "total_profiles": 803,
+  "sitemap_route_count": 966,
+  "total_html_pages": 4920,
+  "total_files": 4938,
+  "note": "In sync with production: what production serves IS a fresh assembly of the committed source at 85c66ee. No application order has moved a market since."
  }
 }

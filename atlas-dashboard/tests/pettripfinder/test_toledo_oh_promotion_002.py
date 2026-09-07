@@ -25,6 +25,8 @@ from scripts.pettripfinder import launch_participation as LP
 from scripts.pettripfinder.markets import contract as MC
 from scripts.pettripfinder.site_data import normalize_name
 
+from . import epochs
+
 REPO_ROOT = Path(__file__).resolve().parents[2]
 PACKAGE = REPO_ROOT / "launch_packages" / "pettripfinder"
 REPORTS = PACKAGE / "markets" / "reports"
@@ -214,6 +216,7 @@ def test_ruling_R3_holds_both_fremont_pike_reads_and_preserves_both_captures():
     assert row["identity_key"] not in published and row["identity_key"] not in refused
 
 
+@epochs.superseded(by='PTF-TOLEDO-OH-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-003', what="Toledo's participation read SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH and the decision block named another order. The launch flipped it to FOUNDER_AUTHORIZED_FOR_LAUNCH on the founder's explicit decision, which is what launching a market means. That exactly one market gained and none was lost is asserted in the launch suite.")
 def test_the_promotion_did_not_flip_launch_participation():
     assert LP.launch_status(MARKET) == "SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH"
     decision = _load(REPO_ROOT / "deploy" / "netlify" / "launch_participation.json")["decision"]
@@ -221,6 +224,7 @@ def test_the_promotion_did_not_flip_launch_participation():
         "this order may record source readiness; it may not author a launch decision")
 
 
+@epochs.superseded(by='PTF-TOLEDO-OH-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-003', what='No file existed under deploy/netlify/deployment_authorizations and the packet was PROPOSED_UNEXECUTED with authorized_by null. The launch created ptf-auth-toledo-003-895248738c79 and consumed it PREPARED -> AUTHORIZED -> DEPLOYED. The packet itself is untouched and still reads PROPOSED_UNEXECUTED.')
 def test_no_deployment_authorization_was_created():
     authz = REPO_ROOT / "deploy" / "netlify" / "deployment_authorizations"
     assert not list(authz.glob("*toledo*")), "only a founder creates an authorization"
@@ -231,6 +235,7 @@ def test_no_deployment_authorization_was_created():
         assert doc["authorized_by"] is None and doc["authorized_at"] is None
 
 
+@epochs.superseded(by='PTF-TOLEDO-OH-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-003', what="Production served 10 markets, 786 profiles and 945 routes at deploy 6a9d33f5dc8c3d1cf9464376, and Toledo was not among them. This order was forbidden to move any of that and did not. The LAUNCH order deployed 6a9e047690ec8bdaf99bcad2, which is what launching Toledo means. The claim that this promotion itself moved nothing is preserved by the launch suite's delta gate: every previously live market moved by exactly zero.")
 def test_production_is_untouched_by_this_order():
     live = _load(PINS / "deployment_state.json")["live"]
     assert live["deploy_id"] == "6a9d33f5dc8c3d1cf9464376"
@@ -325,6 +330,7 @@ def test_deployment_ready_is_yes_and_every_gate_is_recorded():
     assert gates["toledo_does_not_participate"] is True
 
 
+@epochs.superseded(by='PTF-TOLEDO-OH-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-003', what='DEPLOYMENT_READY = YES while no authorization existed and participation had not moved. The launch pulled both founder levers. The launch suite asserts the consumed chain in their place.')
 def test_deployment_ready_is_not_an_authorization_and_not_a_launch():
     """The two founder levers this order is forbidden to pull stay unpulled."""
     doc = _load(PACKET)
@@ -344,7 +350,10 @@ def test_the_packet_numbers_are_derived_from_artifacts_not_typed():
     assert would["census"] == state["census"] == GOVERNING["census"]
     assert would["published_profiles"] == state["profiles"] == GOVERNING["pet_friendly"]
     assert would["verified_no_pets"] == state["verified_no_pets"] == GOVERNING["verified_no_pets"]
-    assert doc["rollback_target"] == _load(PINS / "deployment_state.json")["live"]["deploy_id"]
+    # The packet binds the deploy that was live when it was prepared. PTF-TOLEDO-OH-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-003
+    # deployed on top of it, so that deploy is now previous_deploy_id.
+    live = _load(PINS / "deployment_state.json")["live"]
+    assert doc["rollback_target"] in (live["deploy_id"], live["previous_deploy_id"])
 
 
 RUN3 = REPORTS / "toledo_oh_regression_run3_classify_002.json"

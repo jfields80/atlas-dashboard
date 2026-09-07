@@ -9,14 +9,14 @@
   "GENERIC_SCHEMA_INVARIANT",
   "CROSS_MARKET_INVARIANT"
  ],
- "modules_scanned": 392,
- "modules_with_pins": 265,
- "sites": 1555,
+ "modules_scanned": 393,
+ "modules_with_pins": 266,
+ "sites": 1562,
  "by_class": {
   "CURRENT_STATE_INVARIANT": 157,
   "HISTORICAL_COHORT_INVARIANT": 833,
   "HISTORICAL_ARTIFACT_INVARIANT": 186,
-  "DEPLOYMENT_EPOCH_INVARIANT": 122,
+  "DEPLOYMENT_EPOCH_INVARIANT": 129,
   "GENERIC_SCHEMA_INVARIANT": 194,
   "CROSS_MARKET_INVARIANT": 63
  },
@@ -21151,6 +21151,99 @@
    ]
   },
   {
+   "module": "tests/pettripfinder/test_toledo_oh_launch_003.py",
+   "market": "toledo-oh",
+   "lanes": [
+    "market_targeted",
+    "full_regression"
+   ],
+   "default_class": "HISTORICAL_COHORT_INVARIANT",
+   "default_reason": "work-order-numbered module",
+   "site_count": 7,
+   "by_class": {
+    "DEPLOYMENT_EPOCH_INVARIANT": 7
+   },
+   "sites": [
+    {
+     "line": 141,
+     "test": "test_one_digest_runs_from_authorization_to_live",
+     "kind": "hash",
+     "literal": "895248738c79bc27f26da5bba1d2a490361ce6bd4959698adf3fb6f892aad8b0",
+     "reads_package": true,
+     "has_len": false,
+     "source": "doc[\"bundle_sha256\"] == BUNDLE",
+     "class": "DEPLOYMENT_EPOCH_INVARIANT",
+     "reason": "hash of a bundle / sitemap / authorization"
+    },
+    {
+     "line": 142,
+     "test": "test_one_digest_runs_from_authorization_to_live",
+     "kind": "hash",
+     "literal": "dfdac840be527d5431d0752e702b55fd41d3ee0d2f3635bed6796044d869d56a",
+     "reads_package": true,
+     "has_len": false,
+     "source": "doc[\"sitemap_sha256\"] == SITEMAP",
+     "class": "DEPLOYMENT_EPOCH_INVARIANT",
+     "reason": "hash of a bundle / sitemap / authorization"
+    },
+    {
+     "line": 143,
+     "test": "test_one_digest_runs_from_authorization_to_live",
+     "kind": "hash",
+     "literal": "dfdac840be527d5431d0752e702b55fd41d3ee0d2f3635bed6796044d869d56a",
+     "reads_package": false,
+     "has_len": false,
+     "source": "live[\"live_sitemap_sha256\"] == SITEMAP",
+     "class": "DEPLOYMENT_EPOCH_INVARIANT",
+     "reason": "hash of a bundle / sitemap / authorization"
+    },
+    {
+     "line": 158,
+     "test": "test_the_promotion_packets_bundle_is_NOT_what_deployed",
+     "kind": "hash",
+     "literal": "ca59f3710abde7504dc6c312992e0e2c9db70eccbff737cd12be6ec72708ff1f",
+     "reads_package": false,
+     "has_len": false,
+     "source": "packet[\"bundle_sha256\"] == PRE_FLIP_BUNDLE",
+     "class": "DEPLOYMENT_EPOCH_INVARIANT",
+     "reason": "hash of a bundle / sitemap / authorization"
+    },
+    {
+     "line": 159,
+     "test": "test_the_promotion_packets_bundle_is_NOT_what_deployed",
+     "kind": "hash",
+     "literal": "895248738c79bc27f26da5bba1d2a490361ce6bd4959698adf3fb6f892aad8b0",
+     "reads_package": false,
+     "has_len": false,
+     "source": "packet[\"bundle_sha256\"] != BUNDLE",
+     "class": "DEPLOYMENT_EPOCH_INVARIANT",
+     "reason": "hash of a bundle / sitemap / authorization"
+    },
+    {
+     "line": 163,
+     "test": "test_the_promotion_packets_bundle_is_NOT_what_deployed",
+     "kind": "hash",
+     "literal": "895248738c79bc27f26da5bba1d2a490361ce6bd4959698adf3fb6f892aad8b0",
+     "reads_package": false,
+     "has_len": false,
+     "source": "auth()[\"bundle_sha256\"] == BUNDLE",
+     "class": "DEPLOYMENT_EPOCH_INVARIANT",
+     "reason": "hash of a bundle / sitemap / authorization"
+    },
+    {
+     "line": 189,
+     "test": "test_source_is_back_in_sync_with_production",
+     "kind": "hash",
+     "literal": "895248738c79bc27f26da5bba1d2a490361ce6bd4959698adf3fb6f892aad8b0",
+     "reads_package": false,
+     "has_len": false,
+     "source": "source[\"bundle_sha256\"] == BUNDLE",
+     "class": "DEPLOYMENT_EPOCH_INVARIANT",
+     "reason": "hash of a bundle / sitemap / authorization"
+    }
+   ]
+  },
+  {
    "module": "tests/pettripfinder/test_toledo_oh_new_market_001.py",
    "market": "toledo-oh",
    "lanes": [
@@ -21168,7 +21261,7 @@
    },
    "sites": [
     {
-     "line": 118,
+     "line": 119,
      "test": "test_production_truth_is_unchanged_by_this_order",
      "kind": "count",
      "literal": 10,
@@ -21179,7 +21272,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 119,
+     "line": 120,
      "test": "test_production_truth_is_unchanged_by_this_order",
      "kind": "count",
      "literal": 786,
@@ -21190,7 +21283,7 @@
      "reason": "bundle / sitemap / route total"
     },
     {
-     "line": 120,
+     "line": 121,
      "test": "test_production_truth_is_unchanged_by_this_order",
      "kind": "count",
      "literal": 945,
@@ -21201,7 +21294,7 @@
      "reason": "bundle / sitemap / route total"
     },
     {
-     "line": 131,
+     "line": 132,
      "test": "test_discovery_config_loads_and_is_ohio_only",
      "kind": "count",
      "literal": 12,
@@ -21212,7 +21305,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 153,
+     "line": 154,
      "test": "test_proposed_contract_parses_against_the_real_contract_module",
      "kind": "count",
      "literal": 10,
@@ -21223,7 +21316,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 220,
+     "line": 221,
      "test": "test_no_cross_market_identity_collision",
      "kind": "count",
      "literal": 10,
@@ -21234,7 +21327,7 @@
      "reason": "names another market or isolation"
     },
     {
-     "line": 234,
+     "line": 235,
      "test": "test_refusals_were_reprobed_rather_than_inherited",
      "kind": "count",
      "literal": 7,
@@ -21245,7 +21338,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 243,
+     "line": 244,
      "test": "test_hilton_came_from_its_own_city_page_not_a_sitemap_walk",
      "kind": "count",
      "literal": 10,
@@ -21256,7 +21349,7 @@
      "reason": "count read from a committed artifact"
     },
     {
-     "line": 244,
+     "line": 245,
      "test": "test_hilton_came_from_its_own_city_page_not_a_sitemap_walk",
      "kind": "count",
      "literal": 10,
@@ -21285,7 +21378,7 @@
    },
    "sites": [
     {
-     "line": 171,
+     "line": 173,
      "test": "test_ruling_R1A_bowling_green_is_in_and_the_corridor_was_not_widened",
      "kind": "count",
      "literal": 3,
@@ -21296,7 +21389,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 174,
+     "line": 176,
      "test": "test_ruling_R1A_bowling_green_is_in_and_the_corridor_was_not_widened",
      "kind": "count",
      "literal": 2,
@@ -21307,7 +21400,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 186,
+     "line": 188,
      "test": "test_ruling_R2_holds_every_two_identity_address_out_of_publication",
      "kind": "count",
      "literal": 5,
@@ -21318,7 +21411,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 202,
+     "line": 204,
      "test": "test_ruling_R3_holds_both_fremont_pike_reads_and_preserves_both_captures",
      "kind": "count",
      "literal": 2,
@@ -21329,7 +21422,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 237,
+     "line": 242,
      "test": "test_production_is_untouched_by_this_order",
      "kind": "count",
      "literal": 10,
@@ -21340,7 +21433,7 @@
      "reason": "names another market or isolation"
     },
     {
-     "line": 314,
+     "line": 319,
      "test": "test_run_ones_nine_new_failures_are_each_explained_and_none_were_scoped_away",
      "kind": "count",
      "literal": 9,
@@ -21351,7 +21444,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 373,
+     "line": 382,
      "test": "test_the_third_run_grew_only_the_passing_count_and_only_by_this_orders_gates",
      "kind": "count",
      "literal": 7,

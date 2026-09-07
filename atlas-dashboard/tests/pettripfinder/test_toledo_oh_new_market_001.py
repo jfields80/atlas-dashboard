@@ -110,6 +110,7 @@ def test_toledo_has_no_release_contract_and_no_launch_participation():
         assert MARKET not in json.dumps(_load(participation))
 
 
+@epochs.superseded(by='PTF-TOLEDO-OH-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-003', what='Production served 10 markets, 786 profiles and 945 routes at deploy 6a9d33f5dc8c3d1cf9464376. The new-market order changed none of it, which is the claim this gate made. The LAUNCH order deployed 6a9e047690ec8bdaf99bcad2 at 11 markets / 803 profiles / 966 routes.')
 def test_production_truth_is_unchanged_by_this_order():
     """The ten live markets, 786 profiles and 945 routes this order started from."""
     live = _load(REPO_ROOT / "tests" / "pettripfinder" / "pins"
