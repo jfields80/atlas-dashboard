@@ -1,0 +1,39 @@
+{
+ "schema": "ptf-factory-speed/1.0",
+ "work_order": "PTF-CHATTANOOGA-TN-NEW-MARKET-001",
+ "market_id": "chattanooga-tn",
+ "phase": "23 -- factory speed",
+ "active_minutes_approx": 300,
+ "census_size": 102,
+ "total_candidates": 185,
+ "free_requests": {
+  "lead_lanes": 195,
+  "competitor_lane": 159,
+  "static_policy_lane": 81,
+  "attended_same_origin_fetches": 48,
+  "osm_network_requests": 0
+ },
+ "official_routes": 64,
+ "competitor_leads": 150,
+ "static_captures": 81,
+ "firecrawl": {
+  "candidates": 28,
+  "calls": 28,
+  "credits": 28,
+  "publication_grade": 20
+ },
+ "attended_pages": 48,
+ "clean_pet_friendly": 48,
+ "clean_verified_no_pets": 8,
+ "founder_items": 26,
+ "founder_blockers": 0,
+ "usd_spent": 0.0,
+ "the_bottleneck": "The Tennessee OSM index build: about 70 minutes of wall clock for a 189 MB extract, run while another market's full broad regression held the CPU. It is a one-time cost per region and it overlapped the free lead lanes, so it did not gate the market; the second longest single wait was the destination bureau's own Crawl-delay of 2 seconds over about 190 pages, roughly 7 minutes, and that is politeness rather than inefficiency.",
+ "what_made_this_fast": [
+  "the Tennessee extract was already on disk in the Nashville worktree; no download",
+  "the committed Dayton brand harvest gave 19 Marriott Chattanooga-area routes at ZERO requests",
+  "Hilton's own city page gave 20 CTYHOCN codes, addresses and slugs in ONE request",
+  "the attended lane read 48 walled property pages in TWO same-origin navigations",
+  "dumping the attended results into the page's own DOM and reading them with get_page_text beat chunked JavaScript returns, which truncate at about 1 KB"
+ ]
+}

@@ -1,0 +1,55 @@
+{
+ "schema": "ptf-paid-readiness/1.0",
+ "work_order": "PTF-CHATTANOOGA-TN-NEW-MARKET-001",
+ "market_id": "chattanooga-tn",
+ "phase": "17 -- paid readiness",
+ "shared_ledgers": {
+  "read": [
+   "ptf_paid_attempt_ledger_001.json",
+   "ptf_discovery_attempt_ledger_001.json"
+  ],
+  "written": "NONE",
+  "chattanooga_rows_in_either": 0,
+  "double_buy_risk": "NONE -- no page in this market has ever been bought"
+ },
+ "firecrawl": {
+  "attempted_this_order": 28,
+  "credits_before": 442,
+  "credits_after": 414,
+  "credits_delta": 28,
+  "rows_remaining": 0,
+  "cost_shape": "one plan credit on a successful fetch, zero when the origin refuses every engine; no USD at any point",
+  "required_for_promotion": false,
+  "why": "the market already exceeds its own publication minimum without them"
+ },
+ "bright_data": {
+  "candidate_rows": 55,
+  "what_they_are": "Marriott and Hilton property pages, a measured Firecrawl capability wall (PTF-FIRECRAWL-HARD-LANES-003)",
+  "measured_rate": "NOT MEASURED FOR THIS MARKET -- no Bright Data call has been made for Chattanooga, so no rate may be quoted from another market's run",
+  "expected_attempts": 55,
+  "expected_cost": "UNQUOTED. A cost must be measured against a live balance delta, never from a per-row constant (PTF-DETROIT-BRIGHTDATA-PILOT-013 breached a cap by trusting one)",
+  "hard_cap": "NONE SET -- this order is not authorised to run Bright Data and did not",
+  "required_for_promotion": false,
+  "cheaper_lane_first": "ATTENDED_BROWSER is free and settles the same rows; it should be exhausted before any USD is considered"
+ },
+ "places_paid_identity_discovery": {
+  "candidate_rows": 16,
+  "what_they_are": "map-source rows with coordinates inside the market and no street address",
+  "existing_paid_attempts_for_chattanooga": 0,
+  "expected_cost": "UNQUOTED -- no Places call has been made for this market",
+  "hard_cap": "NONE SET -- this order is not authorised to run Places and did not",
+  "required_for_promotion": false
+ },
+ "verdict": {
+  "required_for_promotion": [],
+  "optional_coverage_expansion": [
+   "ATTENDED_BROWSER for the Marriott and Hilton wall",
+   "FIRECRAWL for any candidate row left unattempted",
+   "PLACES for address fills on map-only rows",
+   "BRIGHT_DATA only if the attended lane fails"
+  ],
+  "publication_minimum": 5,
+  "clean_rows_now": 56,
+  "clears_minimum": true
+ }
+}

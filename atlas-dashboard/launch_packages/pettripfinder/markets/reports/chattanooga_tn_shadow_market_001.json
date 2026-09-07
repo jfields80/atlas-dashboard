@@ -1,0 +1,51 @@
+{
+ "schema": "ptf-shadow-market/1.0",
+ "work_order": "PTF-CHATTANOOGA-TN-NEW-MARKET-001",
+ "market_id": "chattanooga-tn",
+ "phase": "18 and 19 -- shadow package and readiness",
+ "status": "SHADOW -- nothing here is in shared production source",
+ "projected": {
+  "census": 102,
+  "pet_friendly": 48,
+  "verified_no_pets": 8,
+  "resolved": 56,
+  "unresolved": 46,
+  "profiles": 48,
+  "corridors_declared": 10,
+  "corridors_with_at_least_one_identity": 7,
+  "corridors_that_would_publish": 4
+ },
+ "artifacts": {
+  "proposed_market_contract": "launch_packages/pettripfinder/markets/proposed/chattanooga-tn.json",
+  "proposed_census": "launch_packages/pettripfinder/identity_census_proposed/chattanooga-tn.json",
+  "discovery_config": "scripts/pettripfinder/discovery/config/chattanooga_tn.json",
+  "routing": "launch_packages/pettripfinder/markets/reports/chattanooga_tn_routing_001.json",
+  "clean_authority": "launch_packages/pettripfinder/markets/reports/chattanooga_tn_clean_authority_001.json",
+  "founder_packet": "launch_packages/pettripfinder/markets/reports/chattanooga_tn_founder_packet_001.json",
+  "paid_readiness": "launch_packages/pettripfinder/markets/reports/chattanooga_tn_paid_readiness_001.json"
+ },
+ "promotion_ready": "YES",
+ "promotion_ready_because": {
+  "deterministic_clean_census_for_promoted_rows": "every admitted row carries a street or a phone, a postal code claimed by exactly one corridor, and the observations that admitted it",
+  "cross_market_collision": 0,
+  "duplicate_premises": "same-street rows are reported SAME_CAMPUS_DISTINCT_ENTITY and never aliased",
+  "clean_first_party_policy_evidence": 56,
+  "held_ambiguity_excluded": 19,
+  "geography_deterministic_or_held": "the postal partition is deterministic and every admitted row is Tennessee; the north Georgia belt is explicitly held",
+  "remaining_acquisition_optional": true,
+  "publication_minimum": 5
+ },
+ "blockers": [],
+ "required_before_promotion": [
+  "the founder rules on the north Georgia state-line belt (packet group B)",
+  "the founder rules on 3 rebrand successors and 34 merge conflicts, each one address carrying two brand identities (packet group A)",
+  "the promotion order MERGES the THEN-CURRENT deployed canonical lineage before any of this is promoted. This order is pinned to d335c50, the Toledo launch, which was production truth when it started: 11 markets, 803 profiles, 966 routes, deploy 6a9e0476. Nashville, Lexington and Fort Wayne are shadow markets on branches this worktree has never seen, and production may have moved since. Nothing here may be promoted onto a stale base."
+ ],
+ "not_blockers_because": "none of these changes an admitted row's address, corridor or policy. Each decides which NAME a building trades under or whether one fringe corridor is in scope, and every affected row is already excluded from the clean inventory.",
+ "optional_coverage_expansion": [
+  "ATTENDED_BROWSER for the Marriott and Hilton wall",
+  "FIRECRAWL for any candidate row left unattempted",
+  "PLACES for address fills on map-only rows",
+  "BRIGHT_DATA only if the attended lane fails"
+ ]
+}

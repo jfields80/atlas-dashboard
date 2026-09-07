@@ -1,0 +1,65 @@
+{
+ "schema": "ptf-parallel-safety/1.0",
+ "work_order": "PTF-CHATTANOOGA-TN-NEW-MARKET-001",
+ "market_id": "chattanooga-tn",
+ "phase": "21 -- parallel safety",
+ "base_commit": "d335c50",
+ "what_this_proves": "This order is MARKET-LOCAL. The proof is not that the diff is empty -- it is that nothing the base commit ALREADY HAD is different now. A pure addition cannot disturb the bytes a pre-existing assertion reads.",
+ "tracked_files_modified_deleted_or_renamed": [
+  "atlas-dashboard/scripts/pettripfinder/discovery/config/osm_extracts.json"
+ ],
+ "tracked_files_added_or_untracked": [
+  "atlas-dashboard/launch_packages/pettripfinder/identity_census_proposed/chattanooga-tn.json",
+  "atlas-dashboard/launch_packages/pettripfinder/markets/proposed/chattanooga-tn.json",
+  "atlas-dashboard/launch_packages/pettripfinder/markets/reports/chattanooga_tn_attended_capture_001.json",
+  "atlas-dashboard/launch_packages/pettripfinder/markets/reports/chattanooga_tn_census_reconciliation_001.json",
+  "atlas-dashboard/launch_packages/pettripfinder/markets/reports/chattanooga_tn_clean_authority_001.json",
+  "atlas-dashboard/launch_packages/pettripfinder/markets/reports/chattanooga_tn_competitor_gap_001.json",
+  "atlas-dashboard/launch_packages/pettripfinder/markets/reports/chattanooga_tn_evidence_audit_001.json",
+  "atlas-dashboard/launch_packages/pettripfinder/markets/reports/chattanooga_tn_firecrawl_pass_001.json",
+  "atlas-dashboard/launch_packages/pettripfinder/markets/reports/chattanooga_tn_founder_packet_001.json",
+  "atlas-dashboard/launch_packages/pettripfinder/markets/reports/chattanooga_tn_free_static_capture_001.json",
+  "atlas-dashboard/launch_packages/pettripfinder/markets/reports/chattanooga_tn_ladder_plan_001.json",
+  "atlas-dashboard/launch_packages/pettripfinder/markets/reports/chattanooga_tn_lead_sources_001.json",
+  "atlas-dashboard/launch_packages/pettripfinder/markets/reports/chattanooga_tn_paid_readiness_001.json",
+  "atlas-dashboard/launch_packages/pettripfinder/markets/reports/chattanooga_tn_routing_001.json",
+  "atlas-dashboard/launch_packages/pettripfinder/markets/reports/chattanooga_tn_shadow_market_001.json",
+  "atlas-dashboard/scripts/pettripfinder/chattanooga_tn_attended_capture_001.py",
+  "atlas-dashboard/scripts/pettripfinder/chattanooga_tn_census_reconciliation_001.py",
+  "atlas-dashboard/scripts/pettripfinder/chattanooga_tn_competitor_gap_001.py",
+  "atlas-dashboard/scripts/pettripfinder/chattanooga_tn_firecrawl_pass_001.py",
+  "atlas-dashboard/scripts/pettripfinder/chattanooga_tn_free_static_capture_001.py",
+  "atlas-dashboard/scripts/pettripfinder/chattanooga_tn_lead_sources_001.py",
+  "atlas-dashboard/scripts/pettripfinder/chattanooga_tn_routing_001.py",
+  "atlas-dashboard/scripts/pettripfinder/chattanooga_tn_shadow_market_001.py",
+  "atlas-dashboard/scripts/pettripfinder/discovery/config/chattanooga_tn.json",
+  "atlas-dashboard/scripts/pettripfinder/discovery/config/osm_extracts.json"
+ ],
+ "checks": {
+  "nashville_files_changed": 0,
+  "lexington_files_changed": 0,
+  "fort_wayne_files_changed": 0,
+  "detroit_files_changed": 0,
+  "any_other_market_files_changed": 0,
+  "live_authority_changed": 0,
+  "shared_globals_changed": 0,
+  "shared_pins_changed": 0,
+  "deployment_files_changed": 0,
+  "shared_ledgers_written": 0,
+  "production_assembly_run": false,
+  "market_registry_written": 0,
+  "registered_census_written": 0
+ },
+ "the_one_tracked_file_this_order_changed": {
+  "path": "scripts/pettripfinder/discovery/config/osm_extracts.json",
+  "change": "an 11-line APPEND registering the Geofabrik Tennessee extract for chattanooga-tn",
+  "removed_or_rewritten_bytes": 0,
+  "why_it_is_safe": "the file is a registry of which regional extract covers which market. Adding a row teaches the factory a new region; it changes no existing row, and every other market's lookup is by its own market id."
+ },
+ "where_the_shadow_lives": {
+  "contract": "launch_packages/pettripfinder/markets/proposed/chattanooga-tn.json",
+  "census": "launch_packages/pettripfinder/identity_census_proposed/chattanooga-tn.json",
+  "why": "markets/*.json IS the registry and identity_census/ is contract-pinned; writing either would REGISTER the market, which this order must not do. Promotion is a MOVE of those two files."
+ },
+ "verdict": "PARALLEL_SAFE"
+}

@@ -116,6 +116,12 @@ OTHER_MARKET_RUNS = {
     # replayed offline through the current reader at $0. Belongs to
     # pittsburgh-pa and must never reach Milwaukee's projection.
     "pittsburgh_pa_factory_recensus_001",
+    # PTF-CHATTANOOGA-TN-NEW-MARKET-001: the free first-party static pass (81
+    # routes, $0) and the Firecrawl rung (28 attempts, 28 plan credits, no USD).
+    # Both belong to chattanooga-tn, a SHADOW market that is not registered, and
+    # must never reach Milwaukee's projection.
+    "chattanooga_tn_free_static_001",
+    "chattanooga_tn_firecrawl_001",
     # PTF-PITTSBURGH-IDENTITY-AND-RECAPTURE-006: one attended-Chrome re-capture
     # of SpringHill Suites Pittsburgh Airport, taken for $0.00 to settle a
     # contradiction between a published record and the property's own page.

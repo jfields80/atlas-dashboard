@@ -1,0 +1,1578 @@
+{
+ "schema": "ptf-census-reconciliation/1.0",
+ "work_order": "PTF-CHATTANOOGA-TN-NEW-MARKET-001",
+ "market_id": "chattanooga-tn",
+ "phase": "5, 6, 8 and 9 -- census reconciliation into one identity graph",
+ "what_decides_an_identity": "Street identity (house number + distinctive street words + ZIP), a normalised phone, or a brand property code inside its own family. Never a name alone, and never Chattanooga, downtown, airport, Hamilton Place, Lookout Mountain or a directional token. A name match whose addresses disagree is reported, never merged.",
+ "what_decides_membership": "The proposed market contract's postal partition AND the row's own state. A Georgia address is NORTH_GEORGIA_FRINGE_HOLD, never a silent OUTSIDE_MARKET, so the founder packet can rule on it.",
+ "this_runs_twice": "census -> routing -> capture -> census. A property code SELECTS a row; only the page ADMITS it.",
+ "lane_yields": {
+  "OSM_LOCAL_EXTRACT": 114,
+  "BRAND_INVENTORY_OWNED": 32,
+  "BRAND_INVENTORY_CITY_PAGE": 23,
+  "BRAND_INVENTORY_SITEMAP": 26,
+  "CVB_DESTINATION_ROSTER": 130,
+  "LEAD_SOURCE": 0,
+  "PROPERTY_PAGE": 88
+ },
+ "observations_total": 413,
+ "nodes_after_hard_key_merge": 185,
+ "merge_conflicts": [
+  {
+   "observation": {
+    "lane": "CVB_DESTINATION_ROSTER",
+    "tier": 2,
+    "source_url": "https://www.visitchattanooga.com/listing/aloft-chattanooga-hamilton-place/7442/",
+    "name": "Aloft Chattanooga Hamilton Place",
+    "street": "2090 Hamilton Pl. Blvd.",
+    "city": "Chattanooga",
+    "region": "TN",
+    "postal": "37421",
+    "phone": "(423) 206-5400",
+    "route": "https://www.visitchattanooga.com/listing/aloft-chattanooga-hamilton-place/7442/",
+    "merge_alias": "aloft chattanooga hamilton place",
+    "lat": 35.0353485,
+    "lng": -85.1620255,
+    "lead_note": "schema.org @type=Hotel on the bureau's own listing page"
+   },
+   "claimed_by": [
+    "Aloft",
+    "Aloft Chattanooga Hamilton Place"
+   ],
+   "why": "the observation's street identity, phone or property code matches more than one already-established node"
+  },
+  {
+   "observation": {
+    "lane": "CVB_DESTINATION_ROSTER",
+    "tier": 2,
+    "source_url": "https://www.visitchattanooga.com/listing/candlewood-suites-chattanooga-hamilton-place/9079/",
+    "name": "Candlewood Suites Chattanooga Hamilton Place",
+    "street": "7524 Shallowford Rd.",
+    "city": "Chattanooga",
+    "region": "TN",
+    "postal": "37421",
+    "phone": "(423) 443-3525",
+    "route": "https://www.visitchattanooga.com/listing/candlewood-suites-chattanooga-hamilton-place/9079/",
+    "merge_alias": "candlewood suites chattanooga hamilton place",
+    "lat": 35.0369829,
+    "lng": -85.1450814,
+    "lead_note": "schema.org @type=Hotel on the bureau's own listing page"
+   },
+   "claimed_by": [
+    "Candlewood Suites Chattanooga - Hamilton Place",
+    "Holiday Inn Express Chattanooga - Hamilton Place"
+   ],
+   "why": "the observation's street identity, phone or property code matches more than one already-established node"
+  },
+  {
+   "observation": {
+    "lane": "CVB_DESTINATION_ROSTER",
+    "tier": 2,
+    "source_url": "https://www.visitchattanooga.com/listing/days-inn-chattanooga-hamilton-place/920/",
+    "name": "Days Inn Chattanooga/Hamilton Place",
+    "street": "2350 Shallowford Village Dr.",
+    "city": "Chattanooga",
+    "region": "TN",
+    "postal": "37421",
+    "phone": "(423) 664-1016",
+    "route": "https://www.visitchattanooga.com/listing/days-inn-chattanooga-hamilton-place/920/",
+    "merge_alias": "days inn chattanooga hamilton place",
+    "lat": 35.0455359,
+    "lng": -85.1543703,
+    "lead_note": "schema.org @type=Hotel on the bureau's own listing page"
+   },
+   "claimed_by": [
+    "Days Inn",
+    "Days Inn Chattanooga Hamilton Place"
+   ],
+   "why": "the observation's street identity, phone or property code matches more than one already-established node"
+  },
+  {
+   "observation": {
+    "lane": "CVB_DESTINATION_ROSTER",
+    "tier": 2,
+    "source_url": "https://www.visitchattanooga.com/listing/drury-plaza-hotel-chattanooga-hamilton-place/8885/",
+    "name": "Drury Plaza Hotel Chattanooga Hamilton Place",
+    "street": "7301 Shallowford Rd.",
+    "city": "Chattanooga",
+    "region": "TN",
+    "postal": "37421",
+    "phone": "(800) 378-7946",
+    "route": "https://www.visitchattanooga.com/listing/drury-plaza-hotel-chattanooga-hamilton-place/8885/",
+    "merge_alias": "drury plaza hotel chattanooga hamilton place",
+    "lat": 35.0419843,
+    "lng": -85.1533242,
+    "lead_note": "schema.org @type=Hotel on the bureau's own listing page"
+   },
+   "claimed_by": [
+    "Drury Plaza Hotel",
+    "Drury Plaza Hotel Chattanooga Hamilton Place"
+   ],
+   "why": "the observation's street identity, phone or property code matches more than one already-established node"
+  },
+  {
+   "observation": {
+    "lane": "CVB_DESTINATION_ROSTER",
+    "tier": 2,
+    "source_url": "https://www.visitchattanooga.com/listing/fairfield-inn-%26-suites-chattanooga/2217/",
+    "name": "Fairfield Inn & Suites Chattanooga",
+    "street": "2345 Shallowford Village Dr.",
+    "city": "Chattanooga",
+    "region": "TN",
+    "postal": "37421",
+    "phone": "(423) 499-3800",
+    "route": "https://www.visitchattanooga.com/listing/fairfield-inn-%26-suites-chattanooga/2217/",
+    "merge_alias": "fairfield inn and suites chattanooga",
+    "lat": 35.0454305,
+    "lng": -85.1561095,
+    "lead_note": "schema.org @type=Hotel on the bureau's own listing page"
+   },
+   "claimed_by": [
+    "Fairfield Inn And Suites Chattanooga",
+    "Fairfield by Marriott Inn & Suites Chattanooga"
+   ],
+   "why": "the observation's street identity, phone or property code matches more than one already-established node"
+  },
+  {
+   "observation": {
+    "lane": "CVB_DESTINATION_ROSTER",
+    "tier": 2,
+    "source_url": "https://www.visitchattanooga.com/listing/springhill-suites-chattanooga-downtown-cameron-harbor/2195/",
+    "name": "SpringHill Suites Chattanooga Downtown/Cameron Harbor",
+    "street": "495 Riverfront Pkwy.",
+    "city": "Chattanooga",
+    "region": "TN",
+    "postal": "37402",
+    "phone": "(423) 834-9306",
+    "route": "https://www.visitchattanooga.com/listing/springhill-suites-chattanooga-downtown-cameron-harbor/2195/",
+    "merge_alias": "springhill suites chattanooga downtown cameron harbor",
+    "lat": 35.0540758,
+    "lng": -85.3206029,
+    "lead_note": "schema.org @type=Hotel on the bureau's own listing page"
+   },
+   "claimed_by": [
+    "SpringHill Suites Chattanooga Downtown/Cameron Harbor",
+    "Springhill Suites Chattanooga Downtown Cameron Harbor"
+   ],
+   "why": "the observation's street identity, phone or property code matches more than one already-established node"
+  },
+  {
+   "observation": {
+    "lane": "CVB_DESTINATION_ROSTER",
+    "tier": 2,
+    "source_url": "https://www.visitchattanooga.com/listing/the-westin-chattanooga/3930/",
+    "name": "The Westin Chattanooga",
+    "street": "801 Pine St.",
+    "city": "Chattanooga",
+    "region": "TN",
+    "postal": "37402",
+    "phone": "(423) 531-4653",
+    "route": "https://www.visitchattanooga.com/listing/the-westin-chattanooga/3930/",
+    "merge_alias": "the westin chattanooga",
+    "lat": 35.047222,
+    "lng": -85.313087,
+    "lead_note": "schema.org @type=Hotel on the bureau's own listing page"
+   },
+   "claimed_by": [
+    "The Westin Chattanooga"
+   ],
+   "why": "the observation's street identity, phone or property code matches more than one already-established node"
+  },
+  {
+   "observation": {
+    "lane": "CVB_DESTINATION_ROSTER",
+    "tier": 2,
+    "source_url": "https://www.visitchattanooga.com/listing/towneplace-suites-chattanooga-south-east-ridge/9436/",
+    "name": "Towneplace Suites Chattanooga South/East Ridge",
+    "street": "6801 Ringgold Rd",
+    "city": "Chattanooga",
+    "region": "TN",
+    "postal": "37412",
+    "phone": "(423) 933-2700",
+    "route": "https://www.visitchattanooga.com/listing/towneplace-suites-chattanooga-south-east-ridge/9436/",
+    "merge_alias": "towneplace suites chattanooga south east ridge",
+    "lat": 34.988327,
+    "lng": -85.19047,
+    "lead_note": "schema.org @type=Hotel on the bureau's own listing page"
+   },
+   "claimed_by": [
+    "TownePlace Suites by Marriott",
+    "Towneplace Suites Chattanooga South East Ridge"
+   ],
+   "why": "the observation's street identity, phone or property code matches more than one already-established node"
+  },
+  {
+   "observation": {
+    "lane": "PROPERTY_PAGE_STATIC",
+    "tier": 1,
+    "source_url": "https://www.wyndhamhotels.com/days-inn/chattanooga-tennessee/days-inn-chattanooga-lookout-mountain-west/overview",
+    "name": "Days Inn by Wyndham Chattanooga Lookout Mountain West",
+    "street": "3801 Cummings Hwy",
+    "postal": "37419",
+    "phone": "+1-423-954-7644",
+    "brand": "WYNDHAM",
+    "route": "https://www.wyndhamhotels.com/days-inn/chattanooga-tennessee/days-inn-chattanooga-lookout-mountain-west/overview",
+    "merge_alias": "days inn by wyndham chattanooga lookout mountain west",
+    "read_for_identity_key": "days inn by wyndham chattanooga lookout mountain west",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "claimed_by": [
+    "Days Inn by Wyndham Chattanooga Lookout Mountain West"
+   ],
+   "why": "the observation's street identity, phone or property code matches more than one already-established node"
+  },
+  {
+   "observation": {
+    "lane": "PROPERTY_PAGE_STATIC",
+    "tier": 1,
+    "source_url": "https://www.wyndhamhotels.com/days-inn/chattanooga-tennessee/days-inn-chattanooga-hamilton-place/overview",
+    "name": "Days Inn by Wyndham Chattanooga/Hamilton Place",
+    "street": "2350 Shallowford Village Dr",
+    "postal": "37421",
+    "phone": "+1-423-664-1016",
+    "brand": "WYNDHAM",
+    "route": "https://www.wyndhamhotels.com/days-inn/chattanooga-tennessee/days-inn-chattanooga-hamilton-place/overview",
+    "merge_alias": "days inn chattanooga hamilton place",
+    "read_for_identity_key": "days inn chattanooga hamilton place",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "claimed_by": [
+    "Days Inn Chattanooga Hamilton Place",
+    "Days Inn Chattanooga/Hamilton Place"
+   ],
+   "why": "the observation's street identity, phone or property code matches more than one already-established node"
+  },
+  {
+   "observation": {
+    "lane": "PROPERTY_PAGE_STATIC",
+    "tier": 1,
+    "source_url": "https://www.wyndhamhotels.com/laquinta/hixson-tennessee/la-quinta-chattanooga-north-hixson/overview",
+    "name": "La Quinta Inn & Suites by Wyndham Chattanooga North - Hixson",
+    "street": "5000 New Country Dr.",
+    "postal": "37343",
+    "phone": "+1-423-402-9306",
+    "brand": "WYNDHAM",
+    "route": "https://www.wyndhamhotels.com/laquinta/hixson-tennessee/la-quinta-chattanooga-north-hixson/overview",
+    "merge_alias": "la quinta chattanooga north hixson",
+    "read_for_identity_key": "la quinta chattanooga north hixson",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "claimed_by": [
+    "La Quinta Chattanooga North Hixson",
+    "La Quinta Inn & Suites/Hixson"
+   ],
+   "why": "the observation's street identity, phone or property code matches more than one already-established node"
+  },
+  {
+   "observation": {
+    "lane": "PROPERTY_PAGE_STATIC",
+    "tier": 1,
+    "source_url": "https://www.sonesta.com/sonesta-select/tn/chattanooga/sonesta-select-chattanooga-hamilton-place",
+    "name": "Sonesta Select Chattanooga Hamilton Place",
+    "street": "2210 Bams Drive",
+    "postal": "37421",
+    "phone": "(423) 499-4400",
+    "brand": "SONESTA",
+    "route": "https://www.sonesta.com/sonesta-select/tn/chattanooga/sonesta-select-chattanooga-hamilton-place",
+    "merge_alias": "sonesta select chattanooga hamilton place",
+    "read_for_identity_key": "sonesta select chattanooga hamilton place",
+    "binding_method": "CANONICAL_PATH_AND_NAME",
+    "content_sha256": "e85e1508883bf2089805ebfde64b7f4993b6a4ba1035995a46d313c47cfcbffa"
+   },
+   "claimed_by": [
+    "Sonesta Select Chattanooga Hamilton Place",
+    "Sonesta Select Chattanooga at Hamilton Place"
+   ],
+   "why": "the observation's street identity, phone or property code matches more than one already-established node"
+  },
+  {
+   "observation": {
+    "lane": "PROPERTY_PAGE_STATIC",
+    "tier": 1,
+    "source_url": "https://www.wyndhamhotels.com/super-8/chattanooga-tennessee/super-8-chattanooga-east-hamilton-place/overview",
+    "name": "Super 8 by Wyndham Chattanooga East/Hamilton Place",
+    "street": "6914 Shallowford Road",
+    "postal": "37421",
+    "phone": "+1-423-892-5050",
+    "brand": "WYNDHAM",
+    "route": "https://www.wyndhamhotels.com/super-8/chattanooga-tennessee/super-8-chattanooga-east-hamilton-place/overview",
+    "merge_alias": "super 8 chattanooga east hamilton place",
+    "read_for_identity_key": "super 8 chattanooga east hamilton place",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "claimed_by": [
+    "Knights Inn Chattanooga/Airport Area",
+    "Super 8 Chattanooga East Hamilton Place"
+   ],
+   "why": "the observation's street identity, phone or property code matches more than one already-established node"
+  },
+  {
+   "observation": {
+    "lane": "PROPERTY_PAGE_STATIC",
+    "tier": 1,
+    "source_url": "https://www.wyndhamhotels.com/super-8/fort-oglethorpe-georgia/super-8-ft-oglethorpe-ga-chatt-tn-area/overview",
+    "name": "Super 8 by Wyndham Ft. Oglethorpe GA/Chatt TN Area",
+    "street": "2044 Lafayette Road",
+    "postal": "30742",
+    "phone": "+1-706-956-4430",
+    "brand": "WYNDHAM",
+    "route": "https://www.wyndhamhotels.com/super-8/fort-oglethorpe-georgia/super-8-ft-oglethorpe-ga-chatt-tn-area/overview",
+    "merge_alias": "super 8 ft oglethorpe ga chatt tn area",
+    "read_for_identity_key": "super 8 ft oglethorpe ga chatt tn area",
+    "binding_method": "CANONICAL_PATH_AND_NAME"
+   },
+   "claimed_by": [
+    "Super 8 Ft Oglethorpe Ga Chatt Tn Area",
+    "Super 8 by Wyndham/Fort Oglethorpe"
+   ],
+   "why": "the observation's street identity, phone or property code matches more than one already-established node"
+  },
+  {
+   "observation": {
+    "lane": "PROPERTY_PAGE_FIRECRAWL",
+    "tier": 1,
+    "source_url": "https://www.ihg.com/candlewood/hotels/us/en/chattanooga/chasf/hoteldetail",
+    "name": "Candlewood Suites Chattanooga - Hamilton Place",
+    "street": "7524 Shallowford Road, Building 2",
+    "postal": "37421",
+    "phone": "1-423-4433525",
+    "brand": "IHG",
+    "property_code": "chasf",
+    "route": "https://www.ihg.com/candlewood/hotels/us/en/chattanooga/chasf/hoteldetail",
+    "merge_alias": "candlewood suites chattanooga hamilton place",
+    "read_for_identity_key": "candlewood suites chattanooga hamilton place",
+    "binding_method": "CANONICAL_PATH_AND_NAME",
+    "content_sha256": "385478e43756bd9e464c9913eba6c5a1118bafb7a31f3cfd760fce4ce38b59f6"
+   },
+   "claimed_by": [
+    "Candlewood Suites Chattanooga - Hamilton Place",
+    "Holiday Inn Express Chattanooga - Hamilton Place"
+   ],
+   "why": "the observation's street identity, phone or property code matches more than one already-established node"
+  },
+  {
+   "observation": {
+    "lane": "PROPERTY_PAGE_FIRECRAWL",
+    "tier": 1,
+    "source_url": "https://www.wyndhamhotels.com/days-inn/chattanooga-tennessee/days-inn-chattanooga-hamilton-place/overview",
+    "name": "Days Inn by Wyndham Chattanooga/Hamilton Place",
+    "street": "2350 Shallowford Village Dr",
+    "postal": "37421",
+    "phone": "1-423-6641016",
+    "brand": "WYNDHAM",
+    "route": "https://www.wyndhamhotels.com/days-inn/chattanooga-tennessee/days-inn-chattanooga-hamilton-place/overview",
+    "merge_alias": "days inn chattanooga hamilton place",
+    "read_for_identity_key": "days inn chattanooga hamilton place",
+    "binding_method": "CANONICAL_PATH_AND_NAME",
+    "content_sha256": "51e9372893858c3b583f808c6c9fd44b971506fe40e8d8da509db48afce389ff"
+   },
+   "claimed_by": [
+    "Days Inn Chattanooga Hamilton Place",
+    "Days Inn by Wyndham Chattanooga/Hamilton Place"
+   ],
+   "why": "the observation's street identity, phone or property code matches more than one already-established node"
+  },
+  {
+   "observation": {
+    "lane": "PROPERTY_PAGE_FIRECRAWL",
+    "tier": 1,
+    "source_url": "https://www.wyndhamhotels.com/laquinta/hixson-tennessee/la-quinta-chattanooga-north-hixson/overview",
+    "name": "La Quinta Inn & Suites by Wyndham Chattanooga North - Hixson",
+    "street": "5000 New Country Drive",
+    "postal": "37343",
+    "phone": "1-423-3082333",
+    "brand": "WYNDHAM",
+    "route": "https://www.wyndhamhotels.com/laquinta/hixson-tennessee/la-quinta-chattanooga-north-hixson/overview",
+    "merge_alias": "la quinta chattanooga north hixson",
+    "read_for_identity_key": "la quinta chattanooga north hixson",
+    "binding_method": "CANONICAL_PATH_AND_NAME",
+    "content_sha256": "eb78cec851ec5db747d93252d88107f1d180f19dec342bd7efef903e1fbb8a92"
+   },
+   "claimed_by": [
+    "La Quinta Inn & Suites by Wyndham Chattanooga North - Hixson",
+    "La Quinta Inn & Suites/Hixson"
+   ],
+   "why": "the observation's street identity, phone or property code matches more than one already-established node"
+  },
+  {
+   "observation": {
+    "lane": "PROPERTY_PAGE_FIRECRAWL",
+    "tier": 1,
+    "source_url": "https://www.wyndhamhotels.com/super-8/chattanooga-tennessee/super-8-chattanooga-east-hamilton-place/overview",
+    "name": "Super 8 by Wyndham Chattanooga East/Hamilton Place",
+    "street": "6914 Shallowford Road",
+    "postal": "37421",
+    "phone": "423-8925050",
+    "brand": "WYNDHAM",
+    "route": "https://www.wyndhamhotels.com/super-8/chattanooga-tennessee/super-8-chattanooga-east-hamilton-place/overview",
+    "merge_alias": "super 8 chattanooga east hamilton place",
+    "read_for_identity_key": "super 8 chattanooga east hamilton place",
+    "binding_method": "CANONICAL_PATH_AND_NAME",
+    "content_sha256": "125fafc68c2818370236557ac8eaf80eaab88f460a0dc77775768c0395a11483"
+   },
+   "claimed_by": [
+    "Super 8 Chattanooga East Hamilton Place",
+    "Super 8 by Wyndham Chattanooga East/Hamilton Place"
+   ],
+   "why": "the observation's street identity, phone or property code matches more than one already-established node"
+  },
+  {
+   "observation": {
+    "lane": "PROPERTY_PAGE_FIRECRAWL",
+    "tier": 1,
+    "source_url": "https://www.wyndhamhotels.com/super-8/fort-oglethorpe-georgia/super-8-ft-oglethorpe-ga-chatt-tn-area/overview",
+    "name": "Super 8 by Wyndham Ft. Oglethorpe GA/Chatt TN Area",
+    "street": "2044 Lafayette Road",
+    "postal": "30742",
+    "phone": "706-8611744",
+    "brand": "WYNDHAM",
+    "route": "https://www.wyndhamhotels.com/super-8/fort-oglethorpe-georgia/super-8-ft-oglethorpe-ga-chatt-tn-area/overview",
+    "merge_alias": "super 8 ft oglethorpe ga chatt tn area",
+    "read_for_identity_key": "super 8 ft oglethorpe ga chatt tn area",
+    "binding_method": "CANONICAL_PATH_AND_NAME",
+    "content_sha256": "34cf7184f3cb3b948a435ae90d949cfff59fd9f8ca60f7359ce3e7864a204085"
+   },
+   "claimed_by": [
+    "Super 8 by Wyndham Ft. Oglethorpe GA/Chatt TN Area",
+    "Super 8 by Wyndham/Fort Oglethorpe"
+   ],
+   "why": "the observation's street identity, phone or property code matches more than one already-established node"
+  },
+  {
+   "observation": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "tier": 1,
+    "source_url": "https://www.marriott.com/en-us/hotels/chaak/overview/",
+    "name": "The Edwin Hotel, Autograph Collection",
+    "street": "102 Walnut Street",
+    "city": "Chattanooga",
+    "region": "TN",
+    "postal": "37403",
+    "phone": "+14237135900",
+    "brand": "MARRIOTT",
+    "property_code": "chaak",
+    "route": "https://www.marriott.com/en-us/hotels/chaak/overview/",
+    "merge_alias": "the edwin hotel autograph collection",
+    "binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+    "market_verdict": "IN_MARKET"
+   },
+   "claimed_by": [
+    "The Edwin Hotel Autograph Collection",
+    "The Edwin Hotel, Autograph Collection"
+   ],
+   "why": "the observation's street identity, phone or property code matches more than one already-established node"
+  },
+  {
+   "observation": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "tier": 1,
+    "source_url": "https://www.marriott.com/en-us/hotels/chaal/overview/",
+    "name": "Aloft by Marriott Chattanooga Hamilton Place",
+    "street": "2090 Hamilton Place Blvd.",
+    "city": "Chattanooga",
+    "region": "TN",
+    "postal": "37421",
+    "phone": "+14232065400",
+    "brand": "MARRIOTT",
+    "property_code": "chaal",
+    "route": "https://www.marriott.com/en-us/hotels/chaal/overview/",
+    "merge_alias": "aloft by marriott chattanooga hamilton place",
+    "binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+    "market_verdict": "IN_MARKET"
+   },
+   "claimed_by": [
+    "Aloft Chattanooga Hamilton Place"
+   ],
+   "why": "the observation's street identity, phone or property code matches more than one already-established node"
+  },
+  {
+   "observation": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "tier": 1,
+    "source_url": "https://www.marriott.com/en-us/hotels/chacc/overview/",
+    "name": "Courtyard by Marriott Cleveland TN",
+    "street": "4385 Frontage Road Northwest",
+    "city": "Cleveland",
+    "region": "TN",
+    "postal": "37312",
+    "phone": "+14232505661",
+    "brand": "MARRIOTT",
+    "property_code": "chacc",
+    "route": "https://www.marriott.com/en-us/hotels/chacc/overview/",
+    "merge_alias": "courtyard by marriott cleveland tn",
+    "binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+    "market_verdict": "OUTSIDE_MARKET"
+   },
+   "claimed_by": [
+    "Courtyard Cleveland",
+    "Courtyard Cleveland Tn"
+   ],
+   "why": "the observation's street identity, phone or property code matches more than one already-established node"
+  },
+  {
+   "observation": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "tier": 1,
+    "source_url": "https://www.marriott.com/en-us/hotels/chacl/overview/",
+    "name": "Fairfield by Marriott Cleveland",
+    "street": "2815 Westside Drive NW",
+    "city": "Cleveland",
+    "region": "TN",
+    "postal": "37312",
+    "phone": "+14236642501",
+    "brand": "MARRIOTT",
+    "property_code": "chacl",
+    "route": "https://www.marriott.com/en-us/hotels/chacl/overview/",
+    "merge_alias": "fairfield by marriott cleveland",
+    "binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+    "market_verdict": "OUTSIDE_MARKET"
+   },
+   "claimed_by": [
+    "Fairfield Cleveland",
+    "Fairfield Inn & Suites by Marriott/Cleveland"
+   ],
+   "why": "the observation's street identity, phone or property code matches more than one already-established node"
+  },
+  {
+   "observation": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "tier": 1,
+    "source_url": "https://www.marriott.com/en-us/hotels/chacy/overview/",
+    "name": "Courtyard by Marriott Chattanooga Downtown",
+    "street": "200 Chestnut Street",
+    "city": "Chattanooga",
+    "region": "TN",
+    "postal": "37402",
+    "phone": "+14237550871",
+    "brand": "MARRIOTT",
+    "property_code": "chacy",
+    "route": "https://www.marriott.com/en-us/hotels/chacy/overview/",
+    "merge_alias": "courtyard by marriott chattanooga downtown",
+    "binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+    "market_verdict": "IN_MARKET"
+   },
+   "claimed_by": [
+    "Courtyard Chattanooga Downtown"
+   ],
+   "why": "the observation's street identity, phone or property code matches more than one already-established node"
+  },
+  {
+   "observation": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "tier": 1,
+    "source_url": "https://www.marriott.com/en-us/hotels/chadw/overview/",
+    "name": "The Dwell Hotel, a Member of Design Hotels",
+    "street": "120 East 10th Street",
+    "city": "Chattanooga",
+    "region": "TN",
+    "postal": "37402",
+    "phone": "+14232677866",
+    "brand": "MARRIOTT",
+    "property_code": "chadw",
+    "route": "https://www.marriott.com/en-us/hotels/chadw/overview/",
+    "merge_alias": "the dwell hotel a member of design hotels",
+    "binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+    "market_verdict": "IN_MARKET"
+   },
+   "claimed_by": [
+    "The Dwell Hotel",
+    "The Dwell Hotel A Member Of Design Hotels"
+   ],
+   "why": "the observation's street identity, phone or property code matches more than one already-established node"
+  },
+  {
+   "observation": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "tier": 1,
+    "source_url": "https://www.marriott.com/en-us/hotels/chael/overview/",
+    "name": "Element by Marriott Chattanooga East",
+    "street": "2312 Center Street",
+    "city": "Chattanooga",
+    "region": "TN",
+    "postal": "37421",
+    "phone": "+14237085095",
+    "brand": "MARRIOTT",
+    "property_code": "chael",
+    "route": "https://www.marriott.com/en-us/hotels/chael/overview/",
+    "merge_alias": "element by marriott chattanooga east",
+    "binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+    "market_verdict": "IN_MARKET"
+   },
+   "claimed_by": [
+    "Element Chattanooga East",
+    "Element by Westin Chattanooga East/Hamilton Place"
+   ],
+   "why": "the observation's street identity, phone or property code matches more than one already-established node"
+  },
+  {
+   "observation": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "tier": 1,
+    "source_url": "https://www.marriott.com/en-us/hotels/chaer/overview/",
+    "name": "TownePlace Suites by Marriott Chattanooga South/East Ridge",
+    "street": "6801 Ringgold Road",
+    "city": "Chattanooga",
+    "region": "TN",
+    "postal": "37412",
+    "phone": "+14239332700",
+    "brand": "MARRIOTT",
+    "property_code": "chaer",
+    "route": "https://www.marriott.com/en-us/hotels/chaer/overview/",
+    "merge_alias": "towneplace suites by marriott chattanooga south east ridge",
+    "binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+    "market_verdict": "IN_MARKET"
+   },
+   "claimed_by": [
+    "Towneplace Suites Chattanooga South East Ridge",
+    "Towneplace Suites Chattanooga South/East Ridge"
+   ],
+   "why": "the observation's street identity, phone or property code matches more than one already-established node"
+  },
+  {
+   "observation": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "tier": 1,
+    "source_url": "https://www.marriott.com/en-us/hotels/chafi/overview/",
+    "name": "Fairfield by Marriott Inn & Suites Chattanooga",
+    "street": "2345 Shallowford Village Drive",
+    "city": "Chattanooga",
+    "region": "TN",
+    "postal": "37421",
+    "phone": "+14234993800",
+    "brand": "MARRIOTT",
+    "property_code": "chafi",
+    "route": "https://www.marriott.com/en-us/hotels/chafi/overview/",
+    "merge_alias": "fairfield by marriott inn and suites chattanooga",
+    "binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+    "market_verdict": "IN_MARKET"
+   },
+   "claimed_by": [
+    "Fairfield Inn And Suites Chattanooga",
+    "Fairfield by Marriott Inn & Suites Chattanooga"
+   ],
+   "why": "the observation's street identity, phone or property code matches more than one already-established node"
+  },
+  {
+   "observation": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "tier": 1,
+    "source_url": "https://www.marriott.com/en-us/hotels/chahp/overview/",
+    "name": "Residence Inn by Marriott Chattanooga Near Hamilton Place",
+    "street": "2340 Center Street",
+    "city": "Chattanooga",
+    "region": "TN",
+    "postal": "37421",
+    "phone": "+14234687700",
+    "brand": "MARRIOTT",
+    "property_code": "chahp",
+    "route": "https://www.marriott.com/en-us/hotels/chahp/overview/",
+    "merge_alias": "residence inn by marriott chattanooga near hamilton place",
+    "binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+    "market_verdict": "IN_MARKET"
+   },
+   "claimed_by": [
+    "Residence Inn Chattanooga Near Hamilton Place"
+   ],
+   "why": "the observation's street identity, phone or property code matches more than one already-established node"
+  },
+  {
+   "observation": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "tier": 1,
+    "source_url": "https://www.marriott.com/en-us/hotels/chaow/overview/",
+    "name": "SpringHill Suites by Marriott Chattanooga North/Ooltewah",
+    "street": "8876 Old Lee Highway",
+    "city": "Ooltewah",
+    "region": "TN",
+    "postal": "37363",
+    "phone": "+14233015669",
+    "brand": "MARRIOTT",
+    "property_code": "chaow",
+    "route": "https://www.marriott.com/en-us/hotels/chaow/overview/",
+    "merge_alias": "springhill suites by marriott chattanooga north ooltewah",
+    "binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+    "market_verdict": "IN_MARKET"
+   },
+   "claimed_by": [
+    "SpringHill Suites Chattanooga North/Ooltewah",
+    "Springhill Suites Chattanooga North Ooltewah"
+   ],
+   "why": "the observation's street identity, phone or property code matches more than one already-established node"
+  },
+  {
+   "observation": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "tier": 1,
+    "source_url": "https://www.marriott.com/en-us/hotels/chaox/overview/",
+    "name": "Moxy Chattanooga Downtown",
+    "street": "1220 King Street",
+    "city": "Chattanooga",
+    "region": "TN",
+    "postal": "37403",
+    "phone": "+14236641180",
+    "brand": "MARRIOTT",
+    "property_code": "chaox",
+    "route": "https://www.marriott.com/en-us/hotels/chaox/overview/",
+    "merge_alias": "moxy chattanooga downtown",
+    "binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+    "market_verdict": "IN_MARKET"
+   },
+   "claimed_by": [
+    "Moxy Chattanooga Downtown"
+   ],
+   "why": "the observation's street identity, phone or property code matches more than one already-established node"
+  },
+  {
+   "observation": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "tier": 1,
+    "source_url": "https://www.marriott.com/en-us/hotels/chari/overview/",
+    "name": "Residence Inn by Marriott Chattanooga Downtown",
+    "street": "215 Chestnut Street",
+    "city": "Chattanooga",
+    "region": "TN",
+    "postal": "37402",
+    "phone": "+14232660600",
+    "brand": "MARRIOTT",
+    "property_code": "chari",
+    "route": "https://www.marriott.com/en-us/hotels/chari/overview/",
+    "merge_alias": "residence inn by marriott chattanooga downtown",
+    "binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+    "market_verdict": "IN_MARKET"
+   },
+   "claimed_by": [
+    "Residence Inn Chattanooga Downtown"
+   ],
+   "why": "the observation's street identity, phone or property code matches more than one already-established node"
+  },
+  {
+   "observation": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "tier": 1,
+    "source_url": "https://www.marriott.com/en-us/hotels/chase/overview/",
+    "name": "Fairfield by Marriott Inn & Suites Chattanooga South/East Ridge",
+    "street": "1453 North Mack Smith Road",
+    "city": "East Ridge",
+    "region": "TN",
+    "postal": "37412",
+    "phone": "+14234994080",
+    "brand": "MARRIOTT",
+    "property_code": "chase",
+    "route": "https://www.marriott.com/en-us/hotels/chase/overview/",
+    "merge_alias": "fairfield by marriott inn and suites chattanooga south east ridge",
+    "binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+    "market_verdict": "IN_MARKET"
+   },
+   "claimed_by": [
+    "Fairfield Inn & Suites Chattanooga South/East Ridge",
+    "Fairfield Inn And Suites Chattanooga South East Ridge"
+   ],
+   "why": "the observation's street identity, phone or property code matches more than one already-established node"
+  },
+  {
+   "observation": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "tier": 1,
+    "source_url": "https://www.marriott.com/en-us/hotels/chash/overview/",
+    "name": "SpringHill Suites by Marriott Chattanooga Downtown/Cameron Harbor",
+    "street": "495 Riverfront Parkway",
+    "city": "Chattanooga",
+    "region": "TN",
+    "postal": "37402",
+    "phone": "+14238349300",
+    "brand": "MARRIOTT",
+    "property_code": "chash",
+    "route": "https://www.marriott.com/en-us/hotels/chash/overview/",
+    "merge_alias": "springhill suites by marriott chattanooga downtown cameron harbor",
+    "binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+    "market_verdict": "IN_MARKET"
+   },
+   "claimed_by": [
+    "SpringHill Suites Chattanooga Downtown/Cameron Harbor",
+    "Springhill Suites Chattanooga Downtown Cameron Harbor"
+   ],
+   "why": "the observation's street identity, phone or property code matches more than one already-established node"
+  },
+  {
+   "observation": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "tier": 1,
+    "source_url": "https://www.marriott.com/en-us/hotels/chatf/overview/",
+    "name": "Fairfield by Marriott Inn & Suites Chattanooga I-24/Lookout Mountain",
+    "street": "40 Starview Lane",
+    "city": "Chattanooga",
+    "region": "TN",
+    "postal": "37419",
+    "phone": "+14236644222",
+    "brand": "MARRIOTT",
+    "property_code": "chatf",
+    "route": "https://www.marriott.com/en-us/hotels/chatf/overview/",
+    "merge_alias": "fairfield by marriott inn and suites chattanooga i 24 lookout mountain",
+    "binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+    "market_verdict": "IN_MARKET"
+   },
+   "claimed_by": [
+    "Fairfield Inn & Suites Chattanooga I-24/Lookout Mountain",
+    "Fairfield Inn And Suites Chattanooga I 24 Lookout Mountain"
+   ],
+   "why": "the observation's street identity, phone or property code matches more than one already-established node"
+  },
+  {
+   "observation": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "tier": 1,
+    "source_url": "https://www.marriott.com/en-us/hotels/chats/overview/",
+    "name": "TownePlace Suites by Marriott Chattanooga Near Hamilton Place",
+    "street": "7010 McCutcheon Road",
+    "city": "Chattanooga",
+    "region": "TN",
+    "postal": "37421",
+    "phone": "+14238349444",
+    "brand": "MARRIOTT",
+    "property_code": "chats",
+    "route": "https://www.marriott.com/en-us/hotels/chats/overview/",
+    "merge_alias": "towneplace suites by marriott chattanooga near hamilton place",
+    "binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+    "market_verdict": "IN_MARKET"
+   },
+   "claimed_by": [
+    "TownePlace Suites Chattanooga Hamilton Place",
+    "Towneplace Suites Chattanooga Near Hamilton Place"
+   ],
+   "why": "the observation's street identity, phone or property code matches more than one already-established node"
+  },
+  {
+   "observation": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "tier": 1,
+    "source_url": "https://www.marriott.com/en-us/hotels/chatx/overview/",
+    "name": "Kinley Chattanooga Southside, a Tribute Portfolio Hotel",
+    "street": "1409 Market Street",
+    "city": "Chattanooga",
+    "region": "TN",
+    "postal": "37402",
+    "phone": "+14235984500",
+    "brand": "MARRIOTT",
+    "property_code": "chatx",
+    "route": "https://www.marriott.com/en-us/hotels/chatx/overview/",
+    "merge_alias": "kinley chattanooga southside a tribute portfolio hotel",
+    "binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+    "market_verdict": "IN_MARKET"
+   },
+   "claimed_by": [
+    "Kinley Chattanooga",
+    "Kinley Chattanooga Southside A Tribute Portfolio Hotel"
+   ],
+   "why": "the observation's street identity, phone or property code matches more than one already-established node"
+  },
+  {
+   "observation": {
+    "lane": "PROPERTY_PAGE_ATTENDED",
+    "tier": 1,
+    "source_url": "https://www.marriott.com/en-us/hotels/chawi/overview/",
+    "name": "The Westin Chattanooga",
+    "street": "801 Pine Street",
+    "city": "Chattanooga",
+    "region": "TN",
+    "postal": "37402",
+    "phone": "+14235314653",
+    "brand": "MARRIOTT",
+    "property_code": "chawi",
+    "route": "https://www.marriott.com/en-us/hotels/chawi/overview/",
+    "merge_alias": "the westin chattanooga",
+    "binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+    "market_verdict": "IN_MARKET"
+   },
+   "claimed_by": [
+    "The Westin Chattanooga"
+   ],
+   "why": "the observation's street identity, phone or property code matches more than one already-established node"
+  }
+ ],
+ "zipless_second_pass": {
+  "merged": [],
+  "ambiguous": []
+ },
+ "spelling_third_pass": {
+  "what_it_is": "address_key is exact on both the street words and the postal code, so it never merges two buildings -- and never merges ONE building whose sources wrote 'Two Carter Plaza' and '2 Carter Plaza', 'Cummings Highway' and 'Cummings Hwy.', or put the same street in two postal codes. This pass merges only on a normalised street key, with exactly one candidate, agreeing cities, and a corroborating postal code, phone or brand vocabulary.",
+  "merged": [
+   {
+    "absorbed": "Super 8 by Wyndham Chattanooga Lookout Mountain TN",
+    "into": "Super 8 by Wyndham Chattanooga Lookout Mountain TN",
+    "street": "20 Birmingham Highway",
+    "postal_code": "37419",
+    "loose_key": "20|birmingham",
+    "why": "the two sources spelled one building's street differently ('20 Birmingham Highway' and '20 Birmingham Hwy.'); exactly one building matched on the normalised street, the cities do not disagree, and the postal code and the brand vocabulary in both names corroborates"
+   },
+   {
+    "absorbed": "Chattanooga Marriott Downtown",
+    "into": "Chattanooga Marriott Downtown",
+    "street": "2 Carter Plaza",
+    "postal_code": "37402",
+    "loose_key": "2|carter",
+    "why": "the two sources spelled one building's street differently ('2 Carter Plaza' and 'Two Carter Plaza'); exactly one building matched on the normalised street, the cities do not disagree, and the postal code corroborates"
+   },
+   {
+    "absorbed": "Days Inn by Wyndham Chattanooga Lookout Mountain West",
+    "into": "Days Inn by Wyndham Chattanooga Lookout Mountain West",
+    "street": "3801 Cummings Highway",
+    "postal_code": "37419",
+    "loose_key": "3801|cummings",
+    "why": "the two sources spelled one building's street differently ('3801 Cummings Highway' and '3801 Cummings Hwy.'); exactly one building matched on the normalised street, the cities do not disagree, and the postal code and the brand vocabulary in both names corroborates"
+   },
+   {
+    "absorbed": "Caption by Hyatt Chattanooga Downtown",
+    "into": "Caption by Hyatt Chattanooga Downtown",
+    "street": "105 West Main Street",
+    "postal_code": "37408",
+    "loose_key": "105|main",
+    "why": "the two sources spelled one building's street differently ('105 West Main Street' and '105 W. Main St'); exactly one building matched on the normalised street, the cities do not disagree, and the brand vocabulary in both names corroborates"
+   },
+   {
+    "absorbed": "Courtyard Cleveland",
+    "into": "Courtyard by Marriott Cleveland TN",
+    "street": "4385 Frontage Road Northwest",
+    "postal_code": "37312",
+    "loose_key": "4385|frontage",
+    "why": "the two sources spelled one building's street differently ('4385 Frontage Road Northwest' and '4385 Frontage Rd. NW'); exactly one building matched on the normalised street, the cities do not disagree, and the postal code and the phone and the brand vocabulary in both names corroborates"
+   },
+   {
+    "absorbed": "Fairfield Inn & Suites by Marriott/Cleveland",
+    "into": "Fairfield Inn & Suites by Marriott/Cleveland",
+    "street": "2815 Westside Drive NW",
+    "postal_code": "37312",
+    "loose_key": "2815|westside",
+    "why": "the two sources spelled one building's street differently ('2815 Westside Drive NW' and '2815 Westside Dr. NW'); exactly one building matched on the normalised street, the cities do not disagree, and the postal code and the phone and the brand vocabulary in both names corroborates"
+   },
+   {
+    "absorbed": "Element by Westin Chattanooga East/Hamilton Place",
+    "into": "Element by Westin Chattanooga East/Hamilton Place",
+    "street": "2312 Center Street",
+    "postal_code": "37421",
+    "loose_key": "2312|center",
+    "why": "the two sources spelled one building's street differently ('2312 Center Street' and '2312 Center St'); exactly one building matched on the normalised street, the cities do not disagree, and the postal code and the phone and the brand vocabulary in both names corroborates"
+   },
+   {
+    "absorbed": "Kinley Chattanooga",
+    "into": "Kinley Chattanooga Southside, a Tribute Portfolio Hotel",
+    "street": "1409 Market Street",
+    "postal_code": "37402",
+    "loose_key": "1409|market",
+    "why": "the two sources spelled one building's street differently ('1409 Market Street' and '1409 Market St.'); exactly one building matched on the normalised street, the cities do not disagree, and the postal code and the phone and the brand vocabulary in both names corroborates"
+   },
+   {
+    "absorbed": "La Quinta Inn & Suites/Hixson",
+    "into": "La Quinta Inn & Suites by Wyndham Chattanooga North - Hixson",
+    "street": "5000 New Country Dr.",
+    "postal_code": "37343",
+    "loose_key": "5000|new country",
+    "why": "the two sources spelled one building's street differently ('5000 New Country Dr.' and '5000 New Country Dr.'); exactly one building matched on the normalised street, the cities do not disagree, and the postal code and the brand vocabulary in both names corroborates"
+   },
+   {
+    "absorbed": "Super 8 by Wyndham/Fort Oglethorpe",
+    "into": "Super 8 by Wyndham Ft. Oglethorpe GA/Chatt TN Area",
+    "street": "2044 Lafayette Road",
+    "postal_code": "30742",
+    "loose_key": "2044|lafayette",
+    "why": "the two sources spelled one building's street differently ('2044 Lafayette Road' and '2044 Lafayette Rd.'); exactly one building matched on the normalised street, the cities do not disagree, and the postal code and the brand vocabulary in both names corroborates"
+   }
+  ],
+  "ambiguous": []
+ },
+ "name_attachment": {
+  "bound": 46,
+  "ambiguous": 5,
+  "unbound": 31,
+  "bindings": [
+   {
+    "observation_name": "WoodSpring Suites",
+    "bound_to": "WoodSpring Suites Chattanooga",
+    "score": 0.8
+   },
+   {
+    "observation_name": "Knights Inn Lookout Mountain",
+    "bound_to": "Knights Inn/Lookout Mountain",
+    "score": 0.9
+   },
+   {
+    "observation_name": "The Westin",
+    "bound_to": "The Westin Chattanooga",
+    "score": 0.8
+   },
+   {
+    "observation_name": "Hotel Indigo Chattanooga - Downtown",
+    "bound_to": "Hotel Indigo Chattanooga Downtown",
+    "score": 1.0
+   },
+   {
+    "observation_name": "MainStay Suites",
+    "bound_to": "MainStay Suites",
+    "score": 0.8
+   },
+   {
+    "observation_name": "Staybridge Suites",
+    "bound_to": "Staybridge Suites/Hamilton Place",
+    "score": 0.8
+   },
+   {
+    "observation_name": "Quality Inn Hixson",
+    "bound_to": "Quality Inn/Hixson",
+    "score": 0.9
+   },
+   {
+    "observation_name": "Budgetel Inn and Suites",
+    "bound_to": "Chattanooga's Budgetel",
+    "score": 0.8
+   },
+   {
+    "observation_name": "Wingate By Wyndham - Chattanooga",
+    "bound_to": "Wingate by Wyndham/Hamilton Place",
+    "score": 0.9
+   },
+   {
+    "observation_name": "Red Roof Inn Chattanooga - Lookout Mountain",
+    "bound_to": "Red Roof Inn/Lookout Mountain",
+    "score": 1.0
+   },
+   {
+    "observation_name": "Holiday Inn Express Hotel & Suites Chattanooga-Hixson",
+    "bound_to": "Holiday Inn Express & Suites/Hixson",
+    "score": 0.9
+   },
+   {
+    "observation_name": "Holiday Inn Hotel & Suites Chattanooga Downtown",
+    "bound_to": "Holiday Inn Hotel & Suites/Downtown",
+    "score": 1.0
+   },
+   {
+    "observation_name": "The Westin",
+    "bound_to": "The Westin Chattanooga",
+    "score": 0.8
+   },
+   {
+    "observation_name": "Red Roof PLUS+ & Suites Chattanooga - Downtown",
+    "bound_to": "Red Roof PLUS+ & Suites/Downtown",
+    "score": 1.0
+   },
+   {
+    "observation_name": "Kinley",
+    "bound_to": "Kinley Chattanooga Southside, a Tribute Portfolio Hotel",
+    "score": 0.8
+   },
+   {
+    "observation_name": "The Edwin Hotel Autograph Collection",
+    "bound_to": "The Edwin Hotel, Autograph Collection",
+    "score": 0.8
+   },
+   {
+    "observation_name": "Aloft Chattanooga Hamilton Place",
+    "bound_to": "Aloft by Marriott Chattanooga Hamilton Place",
+    "score": 1.0
+   },
+   {
+    "observation_name": "Courtyard Chattanooga Downtown",
+    "bound_to": "Courtyard by Marriott Chattanooga Downtown",
+    "score": 1.0
+   },
+   {
+    "observation_name": "The Dwell Hotel A Member Of Design Hotels",
+    "bound_to": "The Dwell Hotel, a Member of Design Hotels",
+    "score": 0.8
+   },
+   {
+    "observation_name": "Towneplace Suites Chattanooga South East Ridge",
+    "bound_to": "TownePlace Suites by Marriott Chattanooga South/East Ridge",
+    "score": 1.0
+   },
+   {
+    "observation_name": "Fairfield Inn And Suites Chattanooga",
+    "bound_to": "Fairfield by Marriott Inn & Suites Chattanooga",
+    "score": 0.9
+   },
+   {
+    "observation_name": "Residence Inn Chattanooga Near Hamilton Place",
+    "bound_to": "Residence Inn by Marriott Chattanooga Near Hamilton Place",
+    "score": 1.0
+   },
+   {
+    "observation_name": "Springhill Suites Chattanooga North Ooltewah",
+    "bound_to": "SpringHill Suites by Marriott Chattanooga North/Ooltewah",
+    "score": 1.0
+   },
+   {
+    "observation_name": "Moxy Chattanooga Downtown",
+    "bound_to": "Moxy Chattanooga Downtown",
+    "score": 1.0
+   },
+   {
+    "observation_name": "Residence Inn Chattanooga Downtown",
+    "bound_to": "Residence Inn by Marriott Chattanooga Downtown",
+    "score": 1.0
+   },
+   {
+    "observation_name": "Fairfield Inn And Suites Chattanooga South East Ridge",
+    "bound_to": "Fairfield by Marriott Inn & Suites Chattanooga South/East Ridge",
+    "score": 1.0
+   },
+   {
+    "observation_name": "Springhill Suites Chattanooga Downtown Cameron Harbor",
+    "bound_to": "SpringHill Suites by Marriott Chattanooga Downtown/Cameron Harbor",
+    "score": 1.0
+   },
+   {
+    "observation_name": "Fairfield Inn And Suites Chattanooga I 24 Lookout Mountain",
+    "bound_to": "Fairfield by Marriott Inn & Suites Chattanooga I-24/Lookout Mountain",
+    "score": 1.0
+   },
+   {
+    "observation_name": "Towneplace Suites Chattanooga Near Hamilton Place",
+    "bound_to": "TownePlace Suites by Marriott Chattanooga Near Hamilton Place",
+    "score": 1.0
+   },
+   {
+    "observation_name": "The Westin Chattanooga",
+    "bound_to": "The Westin Chattanooga",
+    "score": 0.9
+   },
+   {
+    "observation_name": "Drury Plaza Hotel Chattanooga Hamilton Place",
+    "bound_to": "Drury Plaza Hotel Chattanooga Hamilton Place",
+    "score": 1.0
+   },
+   {
+    "observation_name": "Woodspring Suites Chattanooga",
+    "bound_to": "WoodSpring Suites Chattanooga",
+    "score": 0.9
+   },
+   {
+    "observation_name": "La Quinta Chattanooga Hamilton Place",
+    "bound_to": "La Quinta Inn & Suites by Wyndham Chattanooga-Hamilton Place",
+    "score": 1.0
+   },
+   {
+    "observation_name": "La Quinta Chattanooga East Ridge",
+    "bound_to": "La Quinta Inn & Suites by Wyndham Chattanooga - East Ridge",
+    "score": 1.0
+   },
+   {
+    "observation_name": "La Quinta Chattanooga Lookout Mtn",
+    "bound_to": "La Quinta Inn & Suites by Wyndham Chattanooga - Lookout Mtn",
+    "score": 1.0
+   },
+   {
+    "observation_name": "La Quinta Inn Suites Chattanooga Downtown South",
+    "bound_to": "La Quinta Inn & Suites by Wyndham Chattanooga Downtown/South",
+    "score": 1.0
+   },
+   {
+    "observation_name": "Days Inn Hotel Bo Chattanooga Downtown",
+    "bound_to": "Hotel Bo, a Days Inn by Wyndham Chattanooga Downtown",
+    "score": 1.0
+   },
+   {
+    "observation_name": "Days Inn Chattanooga Lookout Mountain West",
+    "bound_to": "Days Inn by Wyndham Chattanooga Lookout Mountain West",
+    "score": 1.0
+   },
+   {
+    "observation_name": "Days Inn Chattanooga Hamilton Place",
+    "bound_to": "Days Inn by Wyndham Chattanooga/Hamilton Place",
+    "score": 1.0
+   },
+   {
+    "observation_name": "Days Inn And Suites Chattanooga Downtown Lookout Mountain",
+    "bound_to": "Days Inn by Wyndham Chattanooga Lookout Mountain West",
+    "score": 1.0
+   },
+   {
+    "observation_name": "Days Inn Chattanooga Airport",
+    "bound_to": "Days Inn by Wyndham Chattanooga/Hamilton Place",
+    "score": 1.0
+   },
+   {
+    "observation_name": "Super 8 Chattanooga Lookout Mountain Tn",
+    "bound_to": "Super 8 by Wyndham Chattanooga Lookout Mountain TN",
+    "score": 1.0
+   },
+   {
+    "observation_name": "Super 8 Chattanooga Ooltewah",
+    "bound_to": "Super 8 by Wyndham Chattanooga/Ooltewah",
+    "score": 0.9
+   },
+   {
+    "observation_name": "Super 8 Chattanooga East Ridge",
+    "bound_to": "Super 8 by Wyndham Chattanooga/East Ridge",
+    "score": 1.0
+   },
+   {
+    "observation_name": "Super 8 Chattanooga East Hamilton Place",
+    "bound_to": "Super 8 by Wyndham Chattanooga East/Hamilton Place",
+    "score": 1.0
+   },
+   {
+    "observation_name": "Wingate By Wyndham Chattanooga",
+    "bound_to": "Wingate by Wyndham/Hamilton Place",
+    "score": 0.9
+   }
+  ],
+  "ambiguous_rows": [
+   {
+    "name": "Red Roof Inn",
+    "candidates": [
+     "Red Roof Inn/Hamilton Place",
+     "Red Roof Inn/Lookout Mountain"
+    ]
+   },
+   {
+    "name": "Quality Inn",
+    "candidates": [
+     "Quality Inn Hamilton Place",
+     "Quality Inn & Suites/Lookout Mountain",
+     "Quality Inn/Hixson"
+    ]
+   },
+   {
+    "name": "Quality Inn & Suites",
+    "candidates": [
+     "Quality Inn Hamilton Place",
+     "Quality Inn & Suites/Lookout Mountain",
+     "Quality Inn/Hixson"
+    ]
+   },
+   {
+    "name": "Holiday Inn Express",
+    "candidates": [
+     "Holiday Inn Express Chattanooga - Hamilton Place",
+     "Holiday Inn Express & Suites/Downtown",
+     "Holiday Inn Express & Suites/Hixson",
+     "Holiday Inn Express & Suites/Ooltewah"
+    ]
+   },
+   {
+    "name": "InTown Suites Extended Stay Chattanooga TN - Airport",
+    "candidates": [
+     "InTown Suites/Brainerd",
+     "InTown Suites/Hamilton Place"
+    ]
+   }
+  ],
+  "unbound_rows_with_a_same_brand_candidate": [
+   {
+    "name": "The Chatt Inn",
+    "rejected_candidates": [
+     {
+      "candidate": "Super 8 by Wyndham Ft. Oglethorpe GA/Chatt TN Area",
+      "why": "brand vocabulary overlap 0.25 is below the 0.75 bar"
+     }
+    ]
+   },
+   {
+    "name": "Microtel Inn & Suites",
+    "rejected_candidates": [
+     {
+      "candidate": "Microtel Inn & Suites by Wyndham Chattanooga/Near Hamilton P",
+      "why": "brand vocabulary overlap 0.33 is below the 0.75 bar"
+     }
+    ]
+   },
+   {
+    "name": "Country Inn & Suites By Carlson, Chattanooga North at Highway 153",
+    "rejected_candidates": [
+     {
+      "candidate": "Country Inn & Suites By Radisson/Lookout Mountain",
+      "why": "the name states the area ['north'] and the building's own evidence states ['lookout', 'mountain', 'valley', 'west']"
+     }
+    ]
+   },
+   {
+    "name": "Clarion Inn",
+    "rejected_candidates": [
+     {
+      "candidate": "Clarion Inn Near Lookout Mountain",
+      "why": "brand vocabulary overlap 0.50 is below the 0.75 bar"
+     }
+    ]
+   },
+   {
+    "name": "Bluff View Inn",
+    "rejected_candidates": [
+     {
+      "candidate": "Scenic View Log Cabins",
+      "why": "brand vocabulary overlap 0.20 is below the 0.75 bar"
+     },
+     {
+      "candidate": "The Homes of Bluff View Inn",
+      "why": "brand vocabulary overlap 0.67 is below the 0.75 bar"
+     }
+    ]
+   },
+   {
+    "name": "The Read House Historic Inn And Suites",
+    "rejected_candidates": [
+     {
+      "candidate": "The Heinsman Guest House",
+      "why": "brand vocabulary overlap 0.20 is below the 0.75 bar"
+     },
+     {
+      "candidate": "The Read House",
+      "why": "brand vocabulary overlap 0.67 is below the 0.75 bar"
+     },
+     {
+      "candidate": "The Smoke House Mountain Lodge & Cabins",
+      "why": "brand vocabulary overlap 0.20 is below the 0.75 bar"
+     }
+    ]
+   },
+   {
+    "name": "Holiday Inn Express & Suites Ooltewah Springs-Chattanooga",
+    "rejected_candidates": [
+     {
+      "candidate": "Holiday Inn Express Chattanooga - Hamilton Place",
+      "why": "the name states ['ooltewah'] and the building's own city is ['chattanooga']"
+     },
+     {
+      "candidate": "Stay Express Inn",
+      "why": "the name states ['ooltewah'] and the building's own city is ['chattanooga']"
+     },
+     {
+      "candidate": "Holiday Inn Express &amp; Suites Chattanooga-Lookout Mtn",
+      "why": "the name states ['ooltewah'] and the building's own city is ['chattanooga']"
+     },
+     {
+      "candidate": "Holiday Inn Express &amp; Suites Chattanooga (East Ridge)",
+      "why": "the name states ['ooltewah'] and the building's own city is ['east ridge']"
+     },
+     {
+      "candidate": "Holiday Inn Express & Suites/Downtown",
+      "why": "the name states ['ooltewah'] and the building's own city is ['chattanooga']"
+     },
+     {
+      "candidate": "Holiday Inn Express & Suites/Hixson",
+      "why": "the name states ['ooltewah'] and the building's own city is ['hixson']"
+     }
+    ]
+   },
+   {
+    "name": "America's Best Inn Chattanooga Hamilton",
+    "rejected_candidates": [
+     {
+      "candidate": "Best Western Royal Inn",
+      "why": "the name states the area ['hamilton'] and the building's own evidence states ['lookout', 'valley', 'west']"
+     },
+     {
+      "candidate": "Best Western Heritage Inn",
+      "why": "brand vocabulary overlap 0.33 is below the 0.75 bar"
+     },
+     {
+      "candidate": "Best Western Kimball Inn",
+      "why": "the name states ['chattanooga'] and the building's own city is ['kimball']"
+     }
+    ]
+   },
+   {
+    "name": "InTown Suites Extended Stay Chattanooga TN - Gunbarrel",
+    "rejected_candidates": [
+     {
+      "candidate": "InTown Suites/Brainerd",
+      "why": "the name states the area ['gunbarrel'] and the building's own evidence states ['airport', 'brainerd', 'hamilton', 'place']"
+     },
+     {
+      "candidate": "InTown Suites/Hamilton Place",
+      "why": "the name states the area ['gunbarrel'] and the building's own evidence states ['airport', 'hamilton', 'place']"
+     }
+    ]
+   },
+   {
+    "name": "Americas Best Value Inn Chattanooga N",
+    "rejected_candidates": [
+     {
+      "candidate": "Best Western Royal Inn",
+      "why": "brand vocabulary overlap 0.17 is below the 0.75 bar"
+     },
+     {
+      "candidate": "Best Western Heritage Inn",
+      "why": "brand vocabulary overlap 0.17 is below the 0.75 bar"
+     },
+     {
+      "candidate": "Best Western Kimball Inn",
+      "why": "the name states ['chattanooga'] and the building's own city is ['kimball']"
+     }
+    ]
+   },
+   {
+    "name": "Baymont Inn And Suites Ringgold",
+    "rejected_candidates": [
+     {
+      "candidate": "Baymont by Wyndham Chattanooga/Eastridge",
+      "why": "the name states ['ringgold'] and the building's own city is ['east ridge']"
+     }
+    ]
+   },
+   {
+    "name": "Baymont Inn And Suites Chattanooga",
+    "rejected_candidates": [
+     {
+      "candidate": "Baymont by Wyndham Chattanooga/Eastridge",
+      "why": "the name states ['chattanooga'] and the building's own city is ['east ridge']"
+     }
+    ]
+   },
+   {
+    "name": "Days Inn Chattanooga Ringgold Ga",
+    "rejected_candidates": [
+     {
+      "candidate": "Hotel Bo, a Days Inn by Wyndham Chattanooga Downtown",
+      "why": "the name states ['ringgold'] and the building's own city is ['chattanooga']"
+     },
+     {
+      "candidate": "Days Inn by Wyndham Chattanooga Lookout Mountain West",
+      "why": "the name states ['ringgold'] and the building's own city is ['chattanooga']"
+     },
+     {
+      "candidate": "Days Inn by Wyndham Chattanooga/Hamilton Place",
+      "why": "the name states ['ringgold'] and the building's own city is ['chattanooga']"
+     },
+     {
+      "candidate": "SpringHill Suites by Marriott Chattanooga South/Ringgold, GA",
+      "why": "brand vocabulary overlap 0.33 is below the 0.75 bar"
+     },
+     {
+      "candidate": "Super 8 by Wyndham Ft. Oglethorpe GA/Chatt TN Area",
+      "why": "the name states ['ringgold'] and the building's own city is ['fort oglethorpe', 'ft oglethorpe']"
+     }
+    ]
+   },
+   {
+    "name": "Days Inn Chattanooga East Ridge",
+    "rejected_candidates": [
+     {
+      "candidate": "Hotel Bo, a Days Inn by Wyndham Chattanooga Downtown",
+      "why": "the name states ['east ridge'] and the building's own city is ['chattanooga']"
+     },
+     {
+      "candidate": "Days Inn by Wyndham Chattanooga Lookout Mountain West",
+      "why": "the name states ['east ridge'] and the building's own city is ['chattanooga']"
+     },
+     {
+      "candidate": "Days Inn by Wyndham Chattanooga/Hamilton Place",
+      "why": "the name states ['east ridge'] and the building's own city is ['chattanooga']"
+     }
+    ]
+   },
+   {
+    "name": "Microtel Inn Chattanooga Hamilton Place",
+    "rejected_candidates": [
+     {
+      "candidate": "Microtel Inn & Suites by Wyndham Chattanooga/Near Hamilton P",
+      "why": "brand vocabulary overlap 0.33 is below the 0.75 bar"
+     }
+    ]
+   }
+  ]
+ },
+ "classification_counts": {
+  "IDENTITY_REVIEW_REQUIRED": 13,
+  "NAME_ONLY_UNRESOLVED": 24,
+  "NON_LODGING": 13,
+  "NORTH_GEORGIA_FRINGE_HOLD": 11,
+  "OUTSIDE_MARKET": 19,
+  "SAME_IDENTITY_REBRAND_SUCCESSOR": 3,
+  "TRUE_HOTEL_IDENTITY": 102
+ },
+ "corridor_counts": {
+  "chattanooga-tn__downtown-chattanooga": 24,
+  "chattanooga-tn__east-ridge-i75-exit1": 10,
+  "chattanooga-tn__hamilton-place-airport": 35,
+  "chattanooga-tn__hixson-northgate": 5,
+  "chattanooga-tn__lookout-valley-i24-west": 17,
+  "chattanooga-tn__ooltewah-collegedale": 6,
+  "chattanooga-tn__southside-choo-choo": 5
+ },
+ "tennessee_georgia_border_audit": {
+  "rule": "This market admits Tennessee municipalities only. A property whose OWN source states a Georgia address is held, whatever its marketing name says.",
+  "held": 11,
+  "rows": [
+   {
+    "canonical_name": "Chanticleer Inn Bed & Breakfast",
+    "city": "Lookout Mountain",
+    "state": "GA",
+    "postal_code": "30750",
+    "official_url": "https://www.visitchattanooga.com/listing/chanticleer-inn-bed-%26-breakfast/6571/"
+   },
+   {
+    "canonical_name": "Cloudland at McLemore Resort",
+    "city": "Rising Fawn",
+    "state": "GA",
+    "postal_code": "30738",
+    "official_url": "https://www.visitchattanooga.com/listing/cloudland-at-mclemore-resort/8578/"
+   },
+   {
+    "canonical_name": "Econo Lodge Inn & Suites",
+    "city": "Fort Oglethorpe",
+    "state": "GA",
+    "postal_code": "30742",
+    "official_url": "https://www.visitchattanooga.com/listing/econo-lodge-inn-%26-suites/3924/"
+   },
+   {
+    "canonical_name": "Garden Walk Bed & Breakfast Inn",
+    "city": "Lookout Mountain",
+    "state": "GA",
+    "postal_code": "30750",
+    "official_url": "https://www.visitchattanooga.com/listing/garden-walk-bed-%26-breakfast-inn/938/"
+   },
+   {
+    "canonical_name": "Hampton Inn/Ringgold-Ft. Oglethorpe",
+    "city": "Ringgold",
+    "state": "GA",
+    "postal_code": "30736",
+    "official_url": "https://www.visitchattanooga.com/listing/hampton-inn-ringgold-ft-oglethorpe/1423/"
+   },
+   {
+    "canonical_name": "Hidden Hollow Resort, Inc.",
+    "city": "Chickamauga",
+    "state": "GA",
+    "postal_code": "30707",
+    "official_url": "https://www.visitchattanooga.com/listing/hidden-hollow-resort-inc/973/"
+   },
+   {
+    "canonical_name": "Holiday Travel Park Chattanooga",
+    "city": "Rossville",
+    "state": "GA",
+    "postal_code": "30741",
+    "official_url": "https://www.visitchattanooga.com/listing/holiday-travel-park-chattanooga/1554/"
+   },
+   {
+    "canonical_name": "Scenic View Log Cabins",
+    "city": "Rising Fawn",
+    "state": "GA",
+    "postal_code": "30738",
+    "official_url": "https://www.visitchattanooga.com/listing/scenic-view-log-cabins/1151/"
+   },
+   {
+    "canonical_name": "SpringHill Suites by Marriott Chattanooga South/Ringgold, GA",
+    "city": "Ringgold",
+    "state": "GA",
+    "postal_code": "30736",
+    "official_url": "https://www.marriott.com/en-us/hotels/chago-springhill-suites-chattanooga-south-ringgold-ga/"
+   },
+   {
+    "canonical_name": "Super 8 by Wyndham Ft. Oglethorpe GA/Chatt TN Area",
+    "city": "Fort Oglethorpe",
+    "state": "GA",
+    "postal_code": "30742",
+    "official_url": "https://www.wyndhamhotels.com/super-8/fort-oglethorpe-georgia/super-8-ft-oglethorpe-ga-chatt-tn-area/overview"
+   },
+   {
+    "canonical_name": "Super 8 by Wyndham Ringgold/Chattanooga Area",
+    "city": "Ringgold",
+    "state": "GA",
+    "postal_code": "30736",
+    "official_url": "https://www.wyndhamhotels.com/super-8/ringgold-georgia/super-8-ringgold/overview"
+   }
+  ]
+ },
+ "city_fill": {
+  "filled": [],
+  "unfilled": []
+ }
+}
