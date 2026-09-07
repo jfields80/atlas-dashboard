@@ -1,10 +1,10 @@
 {
  "schema": "ptf-failure-closure/1.0",
  "work_order": "PTF-DETROIT-ANN-ARBOR-LAUNCH-PREP-031",
- "fix_commit_sha": "1dd542b3eafeb831adcfdf150571dc430cbe52c0",
- "base_sha": "2e2bd4d2df2c005048c4560a3ff544a883a73388",
+ "fix_commit_sha": "2183d353fbffcf9958b4ec0daddd49d211ca0c41",
+ "base_sha": "108c044849460b10d24e232f954045a634869ef4",
  "head": "HEAD",
- "head_sha": "1dd542b3eafeb831adcfdf150571dc430cbe52c0",
+ "head_sha": "2183d353fbffcf9958b4ec0daddd49d211ca0c41",
  "original_true_new_node_ids": [
   "tests/pettripfinder/test_toledo_oh_launch_003.py::test_detroit_fort_wayne_and_lexington_are_still_out",
   "tests/pettripfinder/test_toledo_oh_launch_003.py::test_exactly_one_market_joined_and_none_left",
@@ -15,6 +15,86 @@
  "baseline_source_sha": "f75aa95",
  "changed_files": [
   {
+   "path": "launch_packages/pettripfinder/detroit_ann_arbor_launch_authorization_packet_031.json",
+   "status": "A",
+   "classes": [
+    "GENERATED_REPORT_ONLY"
+   ],
+   "why": "matched glob:launch_packages/pettripfinder/*_packet_*.json"
+  },
+  {
+   "path": "launch_packages/pettripfinder/reports/detroit_launch_prep_031_closure.json",
+   "status": "A",
+   "classes": [
+    "GENERATED_REPORT_ONLY"
+   ],
+   "why": "matched prefix:launch_packages/pettripfinder/reports/"
+  },
+  {
+   "path": "launch_packages/pettripfinder/reports/factory_throughput_001_test_inventory.json",
+   "status": "M",
+   "classes": [
+    "GENERATED_REPORT_ONLY"
+   ],
+   "why": "matched prefix:launch_packages/pettripfinder/reports/"
+  },
+  {
+   "path": "tests/pettripfinder/pins/supersessions.json",
+   "status": "M",
+   "classes": [
+    "TEST_EXPECTATION_CHANGE"
+   ],
+   "why": "matched prefix:tests/"
+  },
+  {
+   "path": "tests/pettripfinder/test_global_assembler.py",
+   "status": "M",
+   "classes": [
+    "TEST_EXPECTATION_CHANGE"
+   ],
+   "why": "no registration container is declared for this module"
+  },
+  {
+   "path": "tests/pettripfinder/test_global_deployment_architecture_045.py",
+   "status": "M",
+   "classes": [
+    "TEST_EXPECTATION_CHANGE"
+   ],
+   "why": "no registration container is declared for this module"
+  },
+  {
+   "path": "tests/pettripfinder/test_grand_rapids_launch_participation_032.py",
+   "status": "M",
+   "classes": [
+    "TEST_EXPECTATION_CHANGE"
+   ],
+   "why": "no registration container is declared for this module"
+  },
+  {
+   "path": "tests/pettripfinder/test_launch_participation_046.py",
+   "status": "M",
+   "classes": [
+    "TEST_EXPECTATION_CHANGE"
+   ],
+   "why": "no registration container is declared for this module"
+  },
+  {
+   "path": "tests/pettripfinder/test_production_deploy_012.py",
+   "status": "M",
+   "classes": [
+    "TEST_EXPECTATION_CHANGE"
+   ],
+   "why": "no registration container is declared for this module"
+  },
+  {
+   "path": "tests/pettripfinder/test_st_louis_production_safety_001.py",
+   "status": "M",
+   "classes": [
+    "TEST_EXPECTATION_CHANGE"
+   ],
+   "why": "no registration container is declared for this module"
+  },
+  {
    "path": "tests/pettripfinder/test_toledo_oh_launch_003.py",
    "status": "M",
    "classes": [
@@ -24,30 +104,60 @@
   }
  ],
  "change_classes": [
-  "TEST_EXPECTATION_CHANGE"
+  "TEST_EXPECTATION_CHANGE",
+  "GENERATED_REPORT_ONLY"
  ],
  "required_validations": {
   "lanes": [],
   "markets": [
+   "grand-rapids-holland-mi",
+   "st-louis-mo",
    "toledo-oh"
   ],
   "modules": [
+   "tests/pettripfinder/acquisition/test_marriott_closure_022.py",
+   "tests/pettripfinder/acquisition/test_observation_rederivation_018.py",
+   "tests/pettripfinder/acquisition/test_store_integration_025.py",
+   "tests/pettripfinder/acquisition/test_store_reader_sync_030.py",
    "tests/pettripfinder/contracts/test_census_partition.py",
    "tests/pettripfinder/contracts/test_compat_readers.py",
    "tests/pettripfinder/contracts/test_market_authorities.py",
    "tests/pettripfinder/contracts/test_market_geography.py",
    "tests/pettripfinder/contracts/test_market_state_pins.py",
+   "tests/pettripfinder/test_census_promotion.py",
+   "tests/pettripfinder/test_cleveland_hardened_application_002.py",
+   "tests/pettripfinder/test_cleveland_hardened_application_005.py",
    "tests/pettripfinder/test_deployment_authorization_047.py",
    "tests/pettripfinder/test_factory_throughput_001.py",
    "tests/pettripfinder/test_global_assembler.py",
+   "tests/pettripfinder/test_global_deployment_architecture_045.py",
+   "tests/pettripfinder/test_grand_rapids_census_pin_024.py",
+   "tests/pettripfinder/test_grand_rapids_cross_run_ledger_sync_018.py",
+   "tests/pettripfinder/test_grand_rapids_founder_rulings_020.py",
+   "tests/pettripfinder/test_grand_rapids_founder_signature_021.py",
+   "tests/pettripfinder/test_grand_rapids_founder_signature_030.py",
+   "tests/pettripfinder/test_grand_rapids_holland_market_001.py",
+   "tests/pettripfinder/test_grand_rapids_identity_reconciliation_029.py",
    "tests/pettripfinder/test_grand_rapids_launch_participation_032.py",
+   "tests/pettripfinder/test_grand_rapids_places_batch_027.py",
+   "tests/pettripfinder/test_grand_rapids_places_pilot_026.py",
+   "tests/pettripfinder/test_grand_rapids_policy_acquisition_028.py",
+   "tests/pettripfinder/test_grand_rapids_review_prep_019.py",
+   "tests/pettripfinder/test_grand_rapids_source_promotion_022.py",
+   "tests/pettripfinder/test_grand_rapids_target_recovery_025.py",
+   "tests/pettripfinder/test_grand_rapids_weight_semantics_023.py",
    "tests/pettripfinder/test_identity_routing.py",
+   "tests/pettripfinder/test_indianapolis_identity_address_cleanup_012.py",
+   "tests/pettripfinder/test_launch_participation_046.py",
    "tests/pettripfinder/test_market_authority_sharding.py",
    "tests/pettripfinder/test_market_isolation.py",
    "tests/pettripfinder/test_market_ownership.py",
    "tests/pettripfinder/test_per_market_release_contracts.py",
    "tests/pettripfinder/test_policy_schema_migration.py",
+   "tests/pettripfinder/test_production_deploy_012.py",
    "tests/pettripfinder/test_renderer_real_records.py",
+   "tests/pettripfinder/test_st_louis_market_001.py",
+   "tests/pettripfinder/test_st_louis_production_safety_001.py",
    "tests/pettripfinder/test_toledo_oh_launch_003.py",
    "tests/pettripfinder/test_toledo_oh_new_market_001.py",
    "tests/pettripfinder/test_toledo_oh_promotion_002.py"
@@ -55,11 +165,11 @@
   "assembly_required": false
  },
  "targeted_result": {
-  "collected": 1198,
-  "passed": 1182,
-  "skipped": 15,
-  "failed": 1,
-  "seconds": 167.3
+  "collected": 1897,
+  "passed": 1843,
+  "skipped": 18,
+  "failed": 36,
+  "seconds": 1569.9
  },
  "node_id_results": {
   "tests/pettripfinder/test_toledo_oh_launch_003.py::test_detroit_fort_wayne_and_lexington_are_still_out": "CLOSED",
@@ -70,19 +180,54 @@
  },
  "against_baseline": {
   "baseline_source_sha": "f75aa95",
-  "PRE_EXISTING": [],
-  "TRUE_NEW": [
-   "tests/pettripfinder/test_factory_throughput_001.py::TestTheHarness::test_the_committed_inventory_reproduces_from_the_suite"
+  "PRE_EXISTING": [
+   "tests/pettripfinder/acquisition/test_marriott_closure_022.py::test_the_020_capture_still_exists_on_disk",
+   "tests/pettripfinder/acquisition/test_marriott_closure_022.py::test_the_fresh_capture_replays_offline",
+   "tests/pettripfinder/acquisition/test_observation_rederivation_018.py::test_every_new_value_reproduces_from_the_persisted_evidence_block[avid-hotels-oak-creek]",
+   "tests/pettripfinder/acquisition/test_observation_rederivation_018.py::test_every_new_value_reproduces_from_the_persisted_evidence_block[candlewood-suites-milwaukee-airport-oak-creek]",
+   "tests/pettripfinder/acquisition/test_observation_rederivation_018.py::test_every_new_value_reproduces_from_the_persisted_evidence_block[candlewood-suites-milwaukee-brown-deer]",
+   "tests/pettripfinder/acquisition/test_observation_rederivation_018.py::test_every_new_value_reproduces_from_the_persisted_evidence_block[cobblestone-hotel-suites-waukesha-west-milwaukee]",
+   "tests/pettripfinder/acquisition/test_observation_rederivation_018.py::test_every_new_value_reproduces_from_the_persisted_evidence_block[crowne-plaza-milwaukee-airport]",
+   "tests/pettripfinder/acquisition/test_observation_rederivation_018.py::test_every_new_value_reproduces_from_the_persisted_evidence_block[holiday-inn-brookfield-milwaukee]",
+   "tests/pettripfinder/acquisition/test_observation_rederivation_018.py::test_every_new_value_reproduces_from_the_persisted_evidence_block[holiday-inn-express-suites-milwaukee-west-allis]",
+   "tests/pettripfinder/acquisition/test_observation_rederivation_018.py::test_every_new_value_reproduces_from_the_persisted_evidence_block[holiday-inn-milwaukee-riverfront]",
+   "tests/pettripfinder/acquisition/test_observation_rederivation_018.py::test_every_new_value_reproduces_from_the_persisted_evidence_block[kimpton-journeyman-hotel]",
+   "tests/pettripfinder/acquisition/test_observation_rederivation_018.py::test_every_quote_is_contiguous_within_the_block_it_cites[avid-hotels-oak-creek]",
+   "tests/pettripfinder/acquisition/test_observation_rederivation_018.py::test_every_quote_is_contiguous_within_the_block_it_cites[candlewood-suites-milwaukee-airport-oak-creek]",
+   "tests/pettripfinder/acquisition/test_observation_rederivation_018.py::test_every_quote_is_contiguous_within_the_block_it_cites[candlewood-suites-milwaukee-brown-deer]",
+   "tests/pettripfinder/acquisition/test_observation_rederivation_018.py::test_every_quote_is_contiguous_within_the_block_it_cites[cobblestone-hotel-suites-waukesha-west-milwaukee]",
+   "tests/pettripfinder/acquisition/test_observation_rederivation_018.py::test_every_quote_is_contiguous_within_the_block_it_cites[crowne-plaza-milwaukee-airport]",
+   "tests/pettripfinder/acquisition/test_observation_rederivation_018.py::test_every_quote_is_contiguous_within_the_block_it_cites[holiday-inn-brookfield-milwaukee]",
+   "tests/pettripfinder/acquisition/test_observation_rederivation_018.py::test_every_quote_is_contiguous_within_the_block_it_cites[holiday-inn-express-suites-milwaukee-west-allis]",
+   "tests/pettripfinder/acquisition/test_observation_rederivation_018.py::test_every_quote_is_contiguous_within_the_block_it_cites[holiday-inn-milwaukee-riverfront]",
+   "tests/pettripfinder/acquisition/test_observation_rederivation_018.py::test_every_quote_is_contiguous_within_the_block_it_cites[kimpton-journeyman-hotel]",
+   "tests/pettripfinder/acquisition/test_store_integration_025.py::test_the_builder_without_extras_still_projects_the_router_run_alone",
+   "tests/pettripfinder/acquisition/test_store_reader_sync_030.py::test_018s_attribution_is_kept_where_the_reading_agrees",
+   "tests/pettripfinder/acquisition/test_store_reader_sync_030.py::test_a_superseded_identity_is_read_from_its_superseding_capture",
+   "tests/pettripfinder/acquisition/test_store_reader_sync_030.py::test_every_selected_observation_has_a_persisted_block",
+   "tests/pettripfinder/acquisition/test_store_reader_sync_030.py::test_router_rows_no_longer_need_a_named_overlay",
+   "tests/pettripfinder/acquisition/test_store_reader_sync_030.py::test_selection_is_unchanged_and_owns_no_reading",
+   "tests/pettripfinder/acquisition/test_store_reader_sync_030.py::test_the_evidence_hash_on_every_moved_row_matches_the_file",
+   "tests/pettripfinder/acquisition/test_store_reader_sync_030.py::test_the_integration_added_and_removed_nothing",
+   "tests/pettripfinder/acquisition/test_store_reader_sync_030.py::test_the_market_counters_did_not_move",
+   "tests/pettripfinder/acquisition/test_store_reader_sync_030.py::test_the_projection_covers_every_production_family",
+   "tests/pettripfinder/acquisition/test_store_reader_sync_030.py::test_the_router_journal_still_says_what_its_reader_said",
+   "tests/pettripfinder/acquisition/test_store_reader_sync_030.py::test_the_row_count_moves_only_when_an_observation_is_added",
+   "tests/pettripfinder/acquisition/test_store_reader_sync_030.py::test_the_whole_projection_needs_no_provider_call",
+   "tests/pettripfinder/test_grand_rapids_founder_signature_030.py::test_the_declined_capture_was_not_touched",
+   "tests/pettripfinder/test_grand_rapids_founder_signature_030.py::test_the_relocated_block_says_where_it_came_from",
+   "tests/pettripfinder/test_grand_rapids_policy_acquisition_028.py::test_the_bytes_are_on_disk_so_the_reading_would_cost_nothing"
   ],
+  "TRUE_NEW": [],
   "counts": {
-   "PRE_EXISTING": 0,
-   "TRUE_NEW": 1,
+   "PRE_EXISTING": 36,
+   "TRUE_NEW": 0,
    "RESOLVED": 0
   },
   "RESOLVED": []
  },
- "FULL_REGRESSION_REQUIRED": "NO",
- "full_regression_reason": "every changed file classifies into a narrow class (TEST_EXPECTATION_CHANGE); no row of the matrix makes a broad regression mandatory",
+ "FULL_REGRESSION_REQUIRED": "YES",
+ "full_regression_reason": "tests/pettripfinder/pins/supersessions.json (TEST_EXPECTATION_CHANGE): tests/pettripfinder/pins/supersessions.json is shared current state",
  "all_original_failures_accounted_for": true,
- "rationale": "The five TRUE_NEW are Toledo-launch epoch pins scoped to their closed epoch; the change surface is TEST_EXPECTATION_CHANGE in one module and the broad run already proved the rest."
+ "rationale": "Final closure over the whole order's change surface: five Toledo-launch epoch pins scoped to their closed epoch, plus the derived inventory regenerated behind them."
 }
