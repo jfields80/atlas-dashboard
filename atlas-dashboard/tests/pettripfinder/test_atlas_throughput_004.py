@@ -497,6 +497,24 @@ class TestBoundaries:
                 assert field in e
         assert (cache.root / "telemetry.jsonl").read_text(encoding="utf-8").count("\n") >= 2
 
+    def test_an_exercised_run_fills_only_what_the_lanes_deferred(self):
+        deferred = "tests/pettripfinder/test_per_market_release_contracts.py::TestEveryMarketAssembles::test_all_gates_pass[dayton-oh]"
+        lane_node = "tests/pettripfinder/test_launch_participation_046.py::test_the_candidate_is_the_pinned_artifact"
+        lane_failed = "tests/pettripfinder/test_x.py::test_lane_says_failed"
+        untouched = "tests/pettripfinder/test_y.py::test_nobody_ran_me"
+        lanes = {lane_node: "passed", lane_failed: "failed"}
+        replay = {deferred: "passed", lane_failed: "passed", lane_node: "failed"}
+        closure = RD.prove_closure([deferred, lane_node, lane_failed, untouched], lanes,
+                                   OrderedDict([("replay.xml", replay)]))
+        assert closure["results"] == {deferred: RD.CLOSED, lane_node: RD.CLOSED,
+                                      lane_failed: RD.STILL_FAILING, untouched: RD.NOT_EXERCISED}
+        assert closure["sources"][deferred] == "replay.xml"
+        assert closure["sources"][lane_node] == RD.LANE_SOURCE          # a lane result is never overridden
+        assert closure["sources"][lane_failed] == RD.LANE_SOURCE
+        assert closure["all_accounted_for"] is False
+        assert RD.prove_closure([deferred], {}, None)["results"][deferred] == RD.NOT_EXERCISED
+
+
 
 # --------------------------------------------------------------------------- #
 # The real thing: cold -> warm across processes.

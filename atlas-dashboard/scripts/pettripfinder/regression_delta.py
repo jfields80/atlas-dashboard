@@ -1666,23 +1666,43 @@ STILL_FAILING = "STILL_FAILING"
 NOT_EXERCISED = "NOT_EXERCISED"
 
 
+LANE_SOURCE = "lane"
+
+
+def _status_verdict(status: Optional[str]) -> str:
+    if status is None or status == "skipped":
+        return NOT_EXERCISED
+    return CLOSED if status == "passed" else STILL_FAILING
+
+
 def prove_closure(required_closed: Sequence[str],
-                  statuses: Mapping[str, str]) -> Dict:
-    """Account for every node id the broad regression called TRUE_NEW."""
+                  statuses: Mapping[str, str],
+                  exercised: Optional[Mapping[str, Mapping[str, str]]] = None) -> Dict:
+    """Account for every node id the broad regression called TRUE_NEW.
+
+    ``exercised`` maps a run label (the junit path of a run the caller made
+    at the fix commit, e.g. an ordered one-process replay) to that run's
+    statuses. It fills ONLY a node id the lanes left NOT_EXERCISED -- the
+    classes ``regression_lanes.DEFERRED_TO_FULL_REGRESSION`` keeps out of
+    every lane -- and never overrides a lane result. ``sources`` records
+    which run proved each node id."""
     results: "OrderedDict[str, str]" = OrderedDict()
+    sources: "OrderedDict[str, str]" = OrderedDict()
     for nodeid in required_closed:
-        status = statuses.get(nodeid)
-        if status is None:
-            results[nodeid] = NOT_EXERCISED
-        elif status == "passed":
-            results[nodeid] = CLOSED
-        elif status == "skipped":
-            results[nodeid] = NOT_EXERCISED
-        else:
-            results[nodeid] = STILL_FAILING
+        verdict = _status_verdict(statuses.get(nodeid))
+        source = LANE_SOURCE
+        if verdict == NOT_EXERCISED:
+            for label, run_statuses in (exercised or {}).items():
+                candidate = _status_verdict(run_statuses.get(nodeid))
+                if candidate != NOT_EXERCISED:
+                    verdict, source = candidate, label
+                    break
+        results[nodeid] = verdict
+        sources[nodeid] = source if verdict != NOT_EXERCISED else ""
     return OrderedDict((
         ("required_closed", list(required_closed)),
         ("results", results),
+        ("sources", sources),
         ("closed", [n for n, v in results.items() if v == CLOSED]),
         ("still_failing", [n for n, v in results.items() if v == STILL_FAILING]),
         ("not_exercised", [n for n, v in results.items() if v == NOT_EXERCISED]),
@@ -1720,8 +1740,13 @@ def resolved_against_baseline(statuses: Mapping[str, str],
 
 def validate(base: str, head: str = WORKTREE, *, baseline: Optional[Mapping] = None,
              out: Optional[Path] = None, require_closed: Sequence[str] = (),
-             plan_only: bool = False) -> Dict:
-    """Classify, plan, run and prove -- the whole delta-scoped validation."""
+             plan_only: bool = False, exercised_junit: Sequence[Path] = (),
+             exercised_at: str = "") -> Dict:
+    """Classify, plan, run and prove -- the whole delta-scoped validation.
+
+    ``exercised_junit``: junit files of runs the caller made at the fix
+    commit; their statuses prove only the required node ids the lanes defer
+    (see ``prove_closure``). ``exercised_at`` names the commit they ran at."""
     classification = classify_change(base, head)
     plan = plan_for(classification)
     doc: "OrderedDict[str, object]" = OrderedDict((
@@ -1752,8 +1777,20 @@ def validate(base: str, head: str = WORKTREE, *, baseline: Optional[Mapping] = N
     else:
         doc["against_baseline"] = None
         true_new_ok = result["failed"] == 0
+    exercised: "OrderedDict[str, Dict[str, str]]" = OrderedDict()
+    exercised_runs = []
+    for xml_path in exercised_junit:
+        cases = LANES_MODULE._junit_cases(Path(xml_path))
+        label = Path(xml_path).as_posix()
+        exercised[label] = cases
+        exercised_runs.append(OrderedDict((
+            ("junit", label), ("at", exercised_at), ("cases", len(cases)),
+            ("passed", sum(1 for v in cases.values() if v == "passed")),
+            ("failed", sum(1 for v in cases.values() if v not in ("passed", "skipped"))),
+        )))
+    doc["exercised_runs"] = exercised_runs
     if require_closed:
-        closure = prove_closure(require_closed, statuses)
+        closure = prove_closure(require_closed, statuses, exercised)
         doc["closure"] = closure
         closure_ok = closure["all_accounted_for"]
     else:
@@ -1879,6 +1916,8 @@ def closure_document(delta: Mapping, *, order: str, fix_commit: str,
             ("seconds", run.get("seconds")),
         ))),
         ("node_id_results", closure.get("results", OrderedDict())),
+        ("node_id_sources", closure.get("sources", OrderedDict())),
+        ("exercised_runs", list(delta.get("exercised_runs") or [])),
         ("against_baseline", delta.get("against_baseline")),
         ("FULL_REGRESSION_REQUIRED", delta["FULL_REGRESSION_REQUIRED"]),
         ("full_regression_reason", delta["full_regression_reason"]),
@@ -1942,6 +1981,10 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     s.add_argument("--order", default="", help="work order id for the artifact")
     s.add_argument("--fix-commit", default="", help="the fix's commit sha")
     s.add_argument("--rationale", default="")
+    s.add_argument("--exercised-junit", action="append", default=[],
+                   help="junit of a run made at the fix commit; proves only the "
+                        "required node ids the lanes defer to the full regression")
+    s.add_argument("--exercised-at", default="", help="the commit that run was made at")
 
     args = p.parse_args(argv)
 
@@ -1983,7 +2026,9 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         out = Path(args.out) if args.out else None
         doc = validate(args.base, args.head, baseline=baseline, out=out,
                        require_closed=args.require_closed,
-                       plan_only=args.plan_only)
+                       plan_only=args.plan_only,
+                       exercised_junit=[Path(p) for p in args.exercised_junit],
+                       exercised_at=args.exercised_at)
         if out is not None:
             _write_json(out / "delta.json", doc)
         if args.closure_out:
