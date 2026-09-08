@@ -306,6 +306,25 @@ def run(output: str, *, market: MarketConfig = None) -> int:
     # otherwise this build's named production market is used.
     market = resolve_market(market)
     print("PetTripFinder Columbus -- AES-SITE-001 public site build")
+    # ATLAS-THROUGHPUT-002: the market scoping and the module build state are
+    # applied on EVERY call (they are what later renderers read); the
+    # generation itself is answered from the session cache when this process
+    # has already generated this market from byte-identical inputs.
+    state = _prepare_build(market)
+    from scripts.pettripfinder.assembly_session_cache import CACHE
+    import dataclasses
+    key_args = {"market_id": market.market_id,
+                "market": dataclasses.asdict(market),
+                "output_is_package_only": market.market_id != PRODUCTION_MARKET_ID}
+    rc, _event = CACHE.reuse_or_build(
+        "generator_site", key_args, Path(output),
+        lambda: _generate(output, market, state))
+    return rc
+
+
+def _prepare_build(market: MarketConfig) -> Dict:
+    """Load and scope the launch package to ``market`` and set the module-level
+    build state every renderer reads. Returns everything ``_generate`` needs."""
     package = load_launch_package()
 
     # PTF-MULTI-MARKET-INVENTORY-SCOPING-001. Market selection happens HERE,
@@ -365,6 +384,21 @@ def run(output: str, *, market: MarketConfig = None) -> int:
     # and the booking action keeps its official-URL destination.
     _affiliate_providers = load_affiliate_providers()
     _affiliate_shard = load_market_destinations_document(market.market_id)
+    return {"package": package, "measurement": measurement, "build_id": _build_id,
+            "go_adapter_js": _go_adapter_js, "affiliate_providers": _affiliate_providers,
+            "affiliate_shard": _affiliate_shard, "present": _present}
+
+
+def _generate(output: str, market: MarketConfig, state: Dict) -> int:
+    """The generation proper: the base chain, materialization and every
+    enriched surface, into ``output``. Always a real build."""
+    package = state["package"]
+    measurement = state["measurement"]
+    _build_id = state["build_id"]
+    _go_adapter_js = state["go_adapter_js"]
+    _affiliate_providers = state["affiliate_providers"]
+    _affiliate_shard = state["affiliate_shard"]
+    _present = state["present"]
     print("Market scope: %s -- %d owned inventory rows, %d categor%s" % (
         market.market_id, len(package["seed_businesses"]),
         len(package["categories"]), "y" if len(package["categories"]) == 1 else "ies"))

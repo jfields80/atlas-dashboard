@@ -463,6 +463,11 @@ class AssemblyWrap:
             error = None
             result = None
             try:
+                from scripts.pettripfinder import assembly_session_cache as _ASC
+                events_before = len(_ASC.EVENTS)
+            except Exception:
+                _ASC, events_before = None, 0
+            try:
                 result = original(*args, **kwargs)
                 return result
             except BaseException as exc:
@@ -495,6 +500,25 @@ class AssemblyWrap:
                         ("peak_working_set_mb", peak_working_set_mb()),
                         ("working_set_mb", working_set_mb()),
                     ))
+                    # ATLAS-THROUGHPUT-002: what the session cache decided
+                    # during this call. A REUSE_HIT is reported as a hit with
+                    # the seconds it took AND the seconds it avoided; it is
+                    # never reported as free work.
+                    if _ASC is not None:
+                        new_events = _ASC.EVENTS[events_before:]
+                        mine = [e for e in new_events if e["assembly_kind"] in (
+                            kind, {"market_bundle": "market_bundle", "production_site": "production_site",
+                                   "columbus_site": "generator_site"}.get(kind, kind))]
+                        own = mine[0] if mine else (new_events[0] if new_events and depth == 0 else None)
+                        if own is not None:
+                            row["cache"] = own["verdict"]
+                            row["input_key"] = own["input_key"]
+                            row["reused_seconds_avoided"] = own["reused_seconds_avoided"]
+                        row["cache_events"] = [OrderedDict((
+                            ("verdict", e["verdict"]), ("assembly_kind", e["assembly_kind"]),
+                            ("input_key", e["input_key"]), ("seconds", e["seconds"]),
+                            ("reused_seconds_avoided", e["reused_seconds_avoided"]),
+                            ("args", e["args"]))) for e in new_events]
                     if market_id:
                         fp = wrapper_self.fingerprints.market(market_id)
                         row["market_input_hash"] = fp["sha256"]
@@ -751,6 +775,11 @@ def pytest_sessionfinish(session, exitstatus):
         return
     try:
         now = time.monotonic()
+        try:
+            from scripts.pettripfinder import assembly_session_cache as _ASC
+            rec.write("assembly_session_cache", **_ASC.summary())
+        except Exception:
+            rec.errors += 1
         rec.write("session_finish",
                   seconds=round(now - _State.session_started, 3),
                   collection_seconds=(round(_State.collection_finished - _State.session_started, 3)

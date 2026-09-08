@@ -114,13 +114,15 @@ BOOKKEEPING_REGISTRATION_CHANGE = "BOOKKEEPING_REGISTRATION_CHANGE"
 DOCUMENTATION_ONLY = "DOCUMENTATION_ONLY"
 GENERATED_REPORT_ONLY = "GENERATED_REPORT_ONLY"
 BASELINE_MANIFEST_ONLY = "BASELINE_MANIFEST_ONLY"
+MARKET_LOCAL_TOOLING = "MARKET_LOCAL_TOOLING"
 UNCLASSIFIED = "UNCLASSIFIED"
 
 CHANGE_CLASSES: Tuple[str, ...] = (
     AUTHORITY_CHANGE, GENERIC_RUNTIME_CHANGE, SCHEMA_CHANGE,
     ROUTING_SEMANTIC_CHANGE, DEPLOYMENT_CHANGE, TEST_EXPECTATION_CHANGE,
     BOOKKEEPING_REGISTRATION_CHANGE, DOCUMENTATION_ONLY,
-    GENERATED_REPORT_ONLY, BASELINE_MANIFEST_ONLY, UNCLASSIFIED,
+    GENERATED_REPORT_ONLY, BASELINE_MANIFEST_ONLY, MARKET_LOCAL_TOOLING,
+    UNCLASSIFIED,
 )
 
 REQUIRED = "required"
@@ -305,11 +307,38 @@ VALIDATION_MATRIX: "OrderedDict[str, OrderedDict]" = OrderedDict((
                 "the next run does, and the classifier self-test is the only "
                 "thing that reads it"),
     ))),
+    (MARKET_LOCAL_TOOLING, OrderedDict((
+        ("surface", "a shadow market's own tooling and proposed artifacts, "
+                    "inside ONE declared execution zone "
+                    "(launch_packages/pettripfinder/market_local_ownership.json) "
+                    "and proven isolated on all five conditions of "
+                    "market_local_isolation: namespace, imports, write roots, "
+                    "reverse reachability, registration"),
+        ("lanes", ()),
+        ("owning_modules", True),
+        ("owning_directory", False),
+        ("reverse_dependents", True),
+        ("market_targeted", True),
+        ("assembly", NOT_REQUIRED),
+        ("full_regression", NOT_REQUIRED),
+        ("condition", ""),
+        ("why", "ATLAS-THROUGHPUT-001 measured that a helper no production "
+                "module imports, that writes only its own market's proposed "
+                "and report paths, and that describes a market the assembler "
+                "cannot select, cost a 2-hour broad regression by path prefix "
+                "alone; the proof replaces the prefix with the five facts, and "
+                "any fact that cannot be established leaves the path in its "
+                "prefix class"),
+    ))),
     (UNCLASSIFIED, OrderedDict((
         ("surface", "unknown -- no rule claims this path"),
         ("lanes", tuple(l for l in LANES_MODULE.LANES
                         if l != LANES_MODULE.FULL_REGRESSION
-                        and l != LANES_MODULE.MARKET_TARGETED)),
+                        and l != LANES_MODULE.MARKET_TARGETED
+                        # the broad-audit lane is carried by full_regression,
+                        # which this row already requires (ATLAS-THROUGHPUT-002
+                        # kept this row byte-identical to V2-001's)
+                        and l != LANES_MODULE.WEBSITE_GENERATION_INTEGRATION)),
         ("owning_modules", True),
         ("owning_directory", False),
         ("reverse_dependents", True),
@@ -375,6 +404,13 @@ PATH_RULES: Tuple[Tuple[str, str, Tuple[str, ...]], ...] = (
      (AUTHORITY_CHANGE,)),
     ("prefix", "launch_packages/pettripfinder/markets/discovered_policy_urls/",
      (AUTHORITY_CHANGE,)),
+    # ATLAS-THROUGHPUT-002: a PROPOSED census is not authority -- nothing in
+    # the publication path reads identity_census_proposed/ -- but it is not
+    # known either, so it stays a full regression unless the market-local
+    # proof claims it. Listed BEFORE the identity_census prefix, which used to
+    # swallow it.
+    ("prefix", "launch_packages/pettripfinder/identity_census_proposed/",
+     (UNCLASSIFIED,)),
     ("prefix", "launch_packages/pettripfinder/identity_census",
      (AUTHORITY_CHANGE, ROUTING_SEMANTIC_CHANGE)),
     ("glob", "launch_packages/pettripfinder/hotel_policy_facts*.json",
@@ -465,6 +501,49 @@ PATH_RULES: Tuple[Tuple[str, str, Tuple[str, ...]], ...] = (
     ("glob", "../*.md", (DOCUMENTATION_ONLY,)),
     ("glob", "../.gitignore", (DOCUMENTATION_ONLY,)),
     ("prefix", "../", (UNCLASSIFIED,)),
+)
+
+#: ATLAS-THROUGHPUT-002: the ONLY path rules whose verdict the market-local
+#: proof may replace. Every one of them is a prefix or a filename glob -- a
+#: class assigned by WHERE a file sits or WHAT it is called, never by what it
+#: contains -- which is exactly the over-breadth 001 measured. An authority
+#: rule, a deployment rule, the contracts / acquisition / brightdata prefixes
+#: and the classifier's own files are not here and can never be narrowed.
+MARKET_LOCAL_REFINABLE_RULES: Tuple[str, ...] = (
+    "prefix:scripts/pettripfinder/",
+    "prefix:scripts/pettripfinder/discovery/",
+    "glob:scripts/pettripfinder/*polic*.py",
+    "glob:scripts/pettripfinder/*reader*.py",
+    "glob:scripts/pettripfinder/*render*.py",
+    "glob:scripts/pettripfinder/*identity*.py",
+    "glob:scripts/pettripfinder/*routing*.py",
+    "glob:scripts/pettripfinder/census_*.py",
+    "glob:scripts/pettripfinder/*corridor*.py",
+    "glob:scripts/pettripfinder/*deploy*.py",
+    "prefix:launch_packages/pettripfinder/identity_census_proposed/",
+    "prefix:launch_packages/pettripfinder/markets/reports/",
+    "prefix:docs/",
+    "no rule",
+)
+
+#: ATLAS-THROUGHPUT-002: a change set that touches any of these carries a
+#: change to the thing that DECIDES scope -- the classifier, the lanes, the
+#: ownership registry, the proof, or shared test infrastructure. No path in
+#: such a change set may be narrowed to MARKET_LOCAL_TOOLING: the selector
+#: cannot authorize its own narrowing.
+NARROWING_BLOCKERS: Tuple[Tuple[str, str], ...] = (
+    ("glob", "scripts/pettripfinder/regression_delta.py"),
+    ("glob", "scripts/pettripfinder/regression_lanes.py"),
+    ("glob", "scripts/pettripfinder/regression_inventory.py"),
+    ("glob", "scripts/pettripfinder/market_local_ownership.py"),
+    ("glob", "scripts/pettripfinder/market_local_isolation.py"),
+    ("glob", "scripts/pettripfinder/assembly_session_cache.py"),
+    ("glob", "scripts/pettripfinder/throughput_profile.py"),
+    ("glob", "launch_packages/pettripfinder/market_local_ownership.json"),
+    ("glob", "launch_packages/pettripfinder/regression_validation_matrix.json"),
+    ("glob", "conftest.py"),
+    ("glob", "pytest.ini"),
+    ("glob", "requirements*.txt"),
 )
 
 #: Test paths whose expectations are SHARED current state. A change to one of
@@ -588,6 +667,20 @@ def is_shared_test_state(relpath: str) -> bool:
     """Does this test path hold expectations OTHER suites depend on?"""
     rel = _posix(relpath)
     return any(_matches(kind, pattern, rel) for kind, pattern in SHARED_TEST_STATE)
+
+
+def is_narrowing_blocker(relpath: str) -> bool:
+    """Does a change to this path forbid MARKET_LOCAL_TOOLING for the whole
+    change set it travels in? Shared test state counts too."""
+    rel = _posix(relpath)
+    if any(_matches(kind, pattern, rel) for kind, pattern in NARROWING_BLOCKERS):
+        return True
+    return is_shared_test_state(rel)
+
+
+def is_market_local_refinable(rule: str) -> bool:
+    """May the market-local proof replace the verdict of ``rule``?"""
+    return rule in MARKET_LOCAL_REFINABLE_RULES
 
 
 # --------------------------------------------------------------------------- #
@@ -764,6 +857,13 @@ def resolve_sha(rev: str) -> str:
     return _git("rev-parse", rev).strip()
 
 
+#: ATLAS-THROUGHPUT-002: the old path of every rename in the last
+#: :func:`changed_files` call, ``new path -> old path``. A rename is classified
+#: on BOTH paths; this is how the second one reaches the classifier without
+#: changing the ``path -> status`` shape every caller reads.
+RENAMED_FROM: Dict[str, str] = {}
+
+
 def changed_files(base: str, head: str = WORKTREE) -> "OrderedDict[str, str]":
     """``repo-relative path -> git status letter`` between two revisions.
 
@@ -774,8 +874,13 @@ def changed_files(base: str, head: str = WORKTREE) -> "OrderedDict[str, str]":
     """
     prefix = _repo_prefix()
     out: "OrderedDict[str, str]" = OrderedDict()
+    RENAMED_FROM.clear()
 
-    def _add(status: str, git_path: str) -> None:
+    def _strip(git_path: str) -> str:
+        path = git_path.replace("\\", "/")
+        return path[len(prefix):] if path.startswith(prefix) else "../" + path
+
+    def _add(status: str, git_path: str, old_git_path: Optional[str] = None) -> None:
         path = git_path.replace("\\", "/")
         if path.startswith(prefix):
             out.setdefault(path[len(prefix):], status)
@@ -785,21 +890,26 @@ def changed_files(base: str, head: str = WORKTREE) -> "OrderedDict[str, str]":
             # rather than dropped -- a file this module cannot see is a file
             # it cannot require a full regression for.
             out.setdefault("../" + path, status)
+        if old_git_path is not None:
+            RENAMED_FROM[_strip(git_path)] = _strip(old_git_path)
 
     if head == WORKTREE:
-        raw = _git("diff", "--name-status", base, "--")
+        raw = _git("diff", "--name-status", "-M", base, "--")
         untracked = _git("ls-files", "--others", "--exclude-standard")
         for line in untracked.splitlines():
             if line.strip():
                 _add("A", line.strip())
     else:
-        raw = _git("diff", "--name-status", "%s..%s" % (base, head), "--")
+        raw = _git("diff", "--name-status", "-M", "%s..%s" % (base, head), "--")
     for line in raw.splitlines():
         if not line.strip():
             continue
         parts = line.split("\t")
         status = parts[0][:1]
-        _add(status, parts[-1])
+        if status in ("R", "C") and len(parts) >= 3:
+            _add(status, parts[2], parts[1])
+        else:
+            _add(status, parts[-1])
     return OrderedDict(sorted(out.items()))
 
 
@@ -839,15 +949,52 @@ def _market_for_test_path(relpath: str) -> Optional[str]:
     return LANES_MODULE.market_for(rel[len("tests/pettripfinder/"):])
 
 
+def _market_local_refinement(relpath: str, status: str, rule: str, base: str,
+                             head: str, renamed_from: Optional[str]) -> Tuple[bool, Dict]:
+    """ATLAS-THROUGHPUT-002: ``(narrowed, proof)``. The proof is the full
+    five-condition document from :mod:`market_local_isolation`; ``narrowed``
+    is True only when it passed for the path AND, for a rename, for the old
+    path too. Never called when the change set carries a narrowing blocker."""
+    from scripts.pettripfinder import market_local_isolation as ISO
+    proof = ISO.prove(relpath, base, head, status=status, old_path=renamed_from)
+    if not proof["passed"]:
+        return False, proof
+    if renamed_from and _posix(renamed_from) != _posix(relpath):
+        # K: shared -> local is evaluated on BOTH paths; the old path must
+        # have been local too, or the rename is a widening in disguise.
+        old_classes, old_rule = classify_path(renamed_from)
+        if not is_market_local_refinable(old_rule):
+            proof["failed_conditions"] = ["namespace"]
+            proof["conditions"]["namespace"] = OrderedDict((
+                ("pass", False),
+                ("why", "renamed from %s, whose rule %s is not refinable" % (renamed_from, old_rule))))
+            proof["passed"] = False
+            return False, proof
+        old_proof = ISO.prove(renamed_from, base, base, status="M")
+        if not old_proof["passed"]:
+            proof["passed"] = False
+            proof["failed_conditions"] = ["namespace"]
+            proof["conditions"]["namespace"] = OrderedDict((
+                ("pass", False),
+                ("why", "renamed from %s, which fails the proof at %s on %s"
+                        % (renamed_from, base, ", ".join(old_proof["failed_conditions"])))))
+            return False, proof
+    return True, proof
+
+
 def classify_change(base: str, head: str = WORKTREE,
                     paths: Optional[Mapping[str, str]] = None) -> Dict:
-    """Classify every changed path, refining test files by syntax tree."""
+    """Classify every changed path, refining test files by syntax tree and
+    market-local paths by the five-condition isolation proof."""
     files = OrderedDict(paths) if paths is not None else changed_files(base, head)
+    renamed = dict(RENAMED_FROM) if paths is None else {}
+    blockers = [p for p in files if is_narrowing_blocker(p)]
     rows: List[Dict] = []
     for relpath, status in files.items():
         classes, rule = classify_path(relpath)
         why = "matched %s" % rule
         shared = False
+        proof: Optional[Dict] = None
         if classes == (TEST_EXPECTATION_CHANGE,) and relpath.endswith(".py"):
             refined, refined_why = refine_test_change(
                 relpath, read_at(base, relpath), read_at(head, relpath))
@@ -855,7 +1002,29 @@ def classify_change(base: str, head: str = WORKTREE,
             why = refined_why
         if TEST_EXPECTATION_CHANGE in classes:
             shared = is_shared_test_state(relpath)
+        old_path = renamed.get(relpath)
+        already_narrow = classes in ((GENERATED_REPORT_ONLY,), (DOCUMENTATION_ONLY,),
+                                     (BASELINE_MANIFEST_ONLY,), (BOOKKEEPING_REGISTRATION_CHANGE,))
+        if is_market_local_refinable(rule) and paths is None and not already_narrow:
+            if blockers:
+                why += "; market-local narrowing blocked: the change set touches %s" % ", ".join(blockers[:3])
+            elif all(c in (GENERIC_RUNTIME_CHANGE, ROUTING_SEMANTIC_CHANGE, SCHEMA_CHANGE,
+                           DEPLOYMENT_CHANGE, UNCLASSIFIED) for c in classes):
+                narrowed, proof = _market_local_refinement(relpath, status, rule, base, head, old_path)
+                if narrowed:
+                    classes = (MARKET_LOCAL_TOOLING,)
+                    why = ("isolation proof passed for zone %s on all five conditions"
+                           % proof["zone"])
+                elif proof is not None and proof.get("zone"):
+                    why += "; market-local proof FAILED on %s: %s" % (
+                        ", ".join(proof["failed_conditions"]),
+                        "; ".join(proof["conditions"][c]["why"][:120]
+                                  for c in proof["failed_conditions"]))
+                elif proof is not None:
+                    why += "; not market-local: %s" % proof["conditions"]["namespace"]["why"]
         markets = _markets_named(relpath)
+        if proof is not None and proof.get("zone"):
+            markets = tuple(dict.fromkeys(list(markets) + [proof["zone"]]))
         if not markets and relpath.endswith(".py"):
             market = _market_for_test_path(relpath)
             if market:
@@ -869,11 +1038,18 @@ def classify_change(base: str, head: str = WORKTREE,
         rows.append(OrderedDict((
             ("path", relpath),
             ("status", status),
+            ("renamed_from", old_path),
             ("classes", list(classes)),
             ("rule", rule),
             ("why", why),
             ("shared_test_state", shared),
             ("markets", list(markets)),
+            ("market_local_proof", (OrderedDict((
+                ("zone", proof["zone"]), ("passed", proof["passed"]),
+                ("failed_conditions", proof["failed_conditions"]),
+                ("conditions", OrderedDict((k, OrderedDict((("pass", v["pass"]), ("why", v["why"]))))
+                                           for k, v in proof["conditions"].items())),
+            )) if proof is not None else None)),
         )))
     classes_seen: List[str] = []
     for row in rows:
@@ -888,6 +1064,7 @@ def classify_change(base: str, head: str = WORKTREE,
         ("head", head),
         ("head_sha", resolve_sha(head)),
         ("changed_file_count", len(rows)),
+        ("narrowing_blockers", blockers),
         ("changed_files", rows),
         ("change_classes", ordered),
     ))
@@ -998,6 +1175,19 @@ def plan_for(classification: Mapping) -> Dict:
                 LANES_MODULE.MARKET_TARGETED, market=market):
             if module not in modules:
                 modules.append(module)
+        # ATLAS-THROUGHPUT-002: a zone's own test modules are the market's
+        # targeted suite even when regression_lanes.MARKET_PREFIXES has no row
+        # for it (an unregistered market has none by design).
+        try:
+            from scripts.pettripfinder import market_local_ownership as OWN
+            zone = OWN.load_registry().zone_for(market)
+        except Exception:                                    # malformed: no extra modules
+            zone = None
+        if zone is not None:
+            for path in sorted(PTF_TESTS.rglob("test_*.py")):
+                rel = "tests/pettripfinder/" + LANES_MODULE._relpath(path)
+                if any(OWN._glob_match(p, rel) for p in zone.owned_tests) and rel not in modules:
+                    modules.append(rel)
     for lane in lanes:
         for module in LANES_MODULE.modules_in_lane(lane):
             if module not in modules:
@@ -1222,6 +1412,11 @@ def matrix_document() -> Dict:
                         for k, p, c in PATH_RULES]),
         ("shared_test_state", [OrderedDict((("kind", k), ("pattern", p)))
                                for k, p in SHARED_TEST_STATE]),
+        ("market_local_refinable_rules", list(MARKET_LOCAL_REFINABLE_RULES)),
+        ("narrowing_blockers", [OrderedDict((("kind", k), ("pattern", p)))
+                                for k, p in NARROWING_BLOCKERS]),
+        ("market_local_ownership_registry",
+         "launch_packages/pettripfinder/market_local_ownership.json"),
     ))
 
 

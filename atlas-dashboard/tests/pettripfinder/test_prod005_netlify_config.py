@@ -484,10 +484,14 @@ class TestAssembler:
         stale = out / "site"
         stale.mkdir(parents=True)
         (stale / "STALE_SENTINEL.txt").write_text("stale", encoding="utf-8")
-        m1 = assemble("production", str(out))
-        assert not (out / "site" / "STALE_SENTINEL.txt").exists()   # replaced
-        h1 = json.loads((out / "file_hash_manifest.json").read_text(encoding="utf-8"))["bundle_sha256"]
-        m2 = assemble("production", str(out))
+        # ATLAS-THROUGHPUT-002: this test's claim IS two cold executions;
+        # the session cache is bypassed so both builds really run.
+        from scripts.pettripfinder.assembly_session_cache import cold
+        with cold():
+            m1 = assemble("production", str(out))
+            assert not (out / "site" / "STALE_SENTINEL.txt").exists()   # replaced
+            h1 = json.loads((out / "file_hash_manifest.json").read_text(encoding="utf-8"))["bundle_sha256"]
+            m2 = assemble("production", str(out))
         h2 = json.loads((out / "file_hash_manifest.json").read_text(encoding="utf-8"))["bundle_sha256"]
         assert m1["bundle_sha256"] == m2["bundle_sha256"] == h1 == h2
 

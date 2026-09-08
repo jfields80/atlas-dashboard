@@ -12,6 +12,7 @@
   "DOCUMENTATION_ONLY",
   "GENERATED_REPORT_ONLY",
   "BASELINE_MANIFEST_ONLY",
+  "MARKET_LOCAL_TOOLING",
   "UNCLASSIFIED"
  ],
  "mandatory_full_regression": [
@@ -26,7 +27,8 @@
   "BOOKKEEPING_REGISTRATION_CHANGE",
   "DOCUMENTATION_ONLY",
   "GENERATED_REPORT_ONLY",
-  "BASELINE_MANIFEST_ONLY"
+  "BASELINE_MANIFEST_ONLY",
+  "MARKET_LOCAL_TOOLING"
  ],
  "rows": [
   {
@@ -184,6 +186,19 @@
    "why": "a manifest records what a past run did; it cannot change what the next run does, and the classifier self-test is the only thing that reads it"
   },
   {
+   "change_class": "MARKET_LOCAL_TOOLING",
+   "surface": "a shadow market's own tooling and proposed artifacts, inside ONE declared execution zone (launch_packages/pettripfinder/market_local_ownership.json) and proven isolated on all five conditions of market_local_isolation: namespace, imports, write roots, reverse reachability, registration",
+   "required_lanes": [],
+   "owning_modules": true,
+   "owning_directory": false,
+   "reverse_dependents": true,
+   "market_targeted": true,
+   "assembly": "not_required",
+   "full_regression": "not_required",
+   "condition": "",
+   "why": "ATLAS-THROUGHPUT-001 measured that a helper no production module imports, that writes only its own market's proposed and report paths, and that describes a market the assembler cannot select, cost a 2-hour broad regression by path prefix alone; the proof replaces the prefix with the five facts, and any fact that cannot be established leaves the path in its prefix class"
+  },
+  {
    "change_class": "UNCLASSIFIED",
    "surface": "unknown -- no rule claims this path",
    "required_lanes": [
@@ -308,6 +323,13 @@
    "pattern": "launch_packages/pettripfinder/markets/discovered_policy_urls/",
    "classes": [
     "AUTHORITY_CHANGE"
+   ]
+  },
+  {
+   "kind": "prefix",
+   "pattern": "launch_packages/pettripfinder/identity_census_proposed/",
+   "classes": [
+    "UNCLASSIFIED"
    ]
   },
   {
@@ -635,5 +657,72 @@
    "kind": "glob",
    "pattern": "tests/pettripfinder/**/reader_freeze.py"
   }
- ]
+ ],
+ "market_local_refinable_rules": [
+  "prefix:scripts/pettripfinder/",
+  "prefix:scripts/pettripfinder/discovery/",
+  "glob:scripts/pettripfinder/*polic*.py",
+  "glob:scripts/pettripfinder/*reader*.py",
+  "glob:scripts/pettripfinder/*render*.py",
+  "glob:scripts/pettripfinder/*identity*.py",
+  "glob:scripts/pettripfinder/*routing*.py",
+  "glob:scripts/pettripfinder/census_*.py",
+  "glob:scripts/pettripfinder/*corridor*.py",
+  "glob:scripts/pettripfinder/*deploy*.py",
+  "prefix:launch_packages/pettripfinder/identity_census_proposed/",
+  "prefix:launch_packages/pettripfinder/markets/reports/",
+  "prefix:docs/",
+  "no rule"
+ ],
+ "narrowing_blockers": [
+  {
+   "kind": "glob",
+   "pattern": "scripts/pettripfinder/regression_delta.py"
+  },
+  {
+   "kind": "glob",
+   "pattern": "scripts/pettripfinder/regression_lanes.py"
+  },
+  {
+   "kind": "glob",
+   "pattern": "scripts/pettripfinder/regression_inventory.py"
+  },
+  {
+   "kind": "glob",
+   "pattern": "scripts/pettripfinder/market_local_ownership.py"
+  },
+  {
+   "kind": "glob",
+   "pattern": "scripts/pettripfinder/market_local_isolation.py"
+  },
+  {
+   "kind": "glob",
+   "pattern": "scripts/pettripfinder/assembly_session_cache.py"
+  },
+  {
+   "kind": "glob",
+   "pattern": "scripts/pettripfinder/throughput_profile.py"
+  },
+  {
+   "kind": "glob",
+   "pattern": "launch_packages/pettripfinder/market_local_ownership.json"
+  },
+  {
+   "kind": "glob",
+   "pattern": "launch_packages/pettripfinder/regression_validation_matrix.json"
+  },
+  {
+   "kind": "glob",
+   "pattern": "conftest.py"
+  },
+  {
+   "kind": "glob",
+   "pattern": "pytest.ini"
+  },
+  {
+   "kind": "glob",
+   "pattern": "requirements*.txt"
+  }
+ ],
+ "market_local_ownership_registry": "launch_packages/pettripfinder/market_local_ownership.json"
 }

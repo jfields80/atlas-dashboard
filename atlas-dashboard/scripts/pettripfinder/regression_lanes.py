@@ -94,11 +94,42 @@ RELEASE_CONTRACT = "release_contract"
 CROSS_MARKET = "cross_market"
 ASSEMBLY = "assembly"
 DEPLOYMENT_ARCHITECTURE = "deployment_architecture"
+WEBSITE_GENERATION_INTEGRATION = "website_generation_integration"
 FULL_REGRESSION = "full_regression"
 
 LANES: Tuple[str, ...] = (
     MARKET_TARGETED, POLICY_SCHEMA, IDENTITY_ROUTING, RELEASE_CONTRACT,
-    CROSS_MARKET, ASSEMBLY, DEPLOYMENT_ARCHITECTURE, FULL_REGRESSION,
+    CROSS_MARKET, ASSEMBLY, DEPLOYMENT_ARCHITECTURE,
+    WEBSITE_GENERATION_INTEGRATION, FULL_REGRESSION,
+)
+
+#: ATLAS-THROUGHPUT-002. The website-generation integration suites drive the
+#: REAL launch package through the whole engine chain (load -> ingest ->
+#: dataset -> IA -> compile -> render -> assemble). ATLAS-THROUGHPUT-001
+#: measured tests/website_generation/integration/test_pettripfinder_demo_media.py
+#: at 3,489-5,630 s per broad run (57-71 % of the run) and a 6.4-7.6 GB
+#: working set, and found it selected by every lane-runner broad run while
+#: the committed baselines deselect it.
+#:
+#: Its role: BROAD AUDIT. It protects the website-generation chain's contract
+#: with the launch package -- media ingestion (HERO_IMAGE refs, content-
+#: addressed assets), sitewide <img> safety (no remote/data src), zero-image
+#: fallback, and build determinism -- against a change to that chain, to the
+#: launch package's shared inputs (seed CSV, categories, demo_media.json), or
+#: to the assembler/renderer. It is NOT a market test: no market-local helper
+#: can reach it (the isolation proof forbids writes outside the market's own
+#: roots), so a MARKET_LOCAL_TOOLING plan never selects it. It stays in
+#: ``full_regression`` (every mandatory-full class runs it) and is runnable on
+#: its own with ``run --lane website_generation_integration``.
+WEBSITE_GENERATION_INTEGRATION_MODULES: Tuple[str, ...] = (
+    "tests/website_generation/integration/test_pettripfinder_demo_media.py",
+    "tests/website_generation/integration/test_pettripfinder_pilot_chain.py",
+    "tests/website_generation/integration/test_pettripfinder_launch_package.py",
+    "tests/website_generation/integration/test_listing_collection_chain.py",
+    "tests/website_generation/integration/test_publishable_wave1_chain.py",
+    "tests/website_generation/integration/test_real_component_chain.py",
+    "tests/website_generation/integration/test_visible_media.py",
+    "tests/website_generation/integration/test_local_demo_harness.py",
 )
 
 #: The sequence a market-scoped change runs, in order. ``assemble`` is not a
@@ -314,6 +345,8 @@ def modules_in_lane(lane: str, *, market: Optional[str] = None) -> List[str]:
         raise ValueError("unknown lane %r; lanes are %s" % (lane, ", ".join(LANES)))
     if lane == FULL_REGRESSION:
         return ["tests"]
+    if lane == WEBSITE_GENERATION_INTEGRATION:
+        return [m for m in WEBSITE_GENERATION_INTEGRATION_MODULES if (REPO_ROOT / m).is_file()]
     out: List[str] = []
     for path in sorted(PTF_TESTS.rglob("test_*.py")):
         rel = _relpath(path)
@@ -339,6 +372,8 @@ def describe() -> Dict:
         market = market_for(rel)
         if market:
             markets[market].append(rel)
+    table[WEBSITE_GENERATION_INTEGRATION] = list(
+        modules_in_lane(WEBSITE_GENERATION_INTEGRATION))
     return OrderedDict((
         ("schema", "ptf-test-lanes/1.0"),
         ("lanes", table),

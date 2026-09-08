@@ -208,11 +208,23 @@ def pytest_collection_modifyitems(config, items):
 
     wanted_market = config.getoption("--ptf-market")
     ptf_root = LANES.PTF_TESTS.resolve()
+    repo_root = LANES.REPO_ROOT.resolve()
+    wge_modules = set(LANES.WEBSITE_GENERATION_INTEGRATION_MODULES)
     keep, drop = [], []
     for item in items:
         try:
             rel = Path(str(item.fspath)).resolve().relative_to(ptf_root).as_posix()
         except ValueError:
+            # ATLAS-THROUGHPUT-002: the website-generation integration suites
+            # carry their own lane marker so `-m website_generation_integration`
+            # selects exactly what the lane runner runs.
+            try:
+                repo_rel = Path(str(item.fspath)).resolve().relative_to(repo_root).as_posix()
+            except ValueError:
+                repo_rel = ""
+            if repo_rel in wge_modules:
+                item.add_marker(getattr(pytest.mark, LANES.WEBSITE_GENERATION_INTEGRATION))
+                item.add_marker(getattr(pytest.mark, LANES.FULL_REGRESSION))
             if wanted_market:
                 drop.append(item)
             else:

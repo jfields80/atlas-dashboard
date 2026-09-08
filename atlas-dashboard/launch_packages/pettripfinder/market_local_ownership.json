@@ -1,0 +1,172 @@
+{
+ "schema": "ptf-market-local-ownership/1.0",
+ "work_order": "ATLAS-THROUGHPUT-002",
+ "what_this_is": "The ONE registry of market-local execution zones. A path is MARKET_LOCAL_TOOLING only when it falls inside exactly one zone declared here AND scripts/pettripfinder/market_local_isolation.py proves all five isolation conditions for the change. Registering a zone grants nothing by itself: an unregistered path, a malformed entry, a path two zones claim, a shared write, a shared reverse import, an unresolved dynamic dependency or a registered (production-reachable) market all fail the proof and keep the path in its Regression V2 prefix class. This file is itself shared test infrastructure: a change to it blocks the narrowing for the whole change set that carries it.",
+ "shared_import_allowlist": {
+  "what": "Shared modules a market-local helper may IMPORT (read/consume). Importing a shared module never makes the helper reachable from production; a CHANGE to any of these modules is classified on its own path and stays broad.",
+  "modules": [
+   "scripts.pettripfinder.markets",
+   "scripts.pettripfinder.markets.contract",
+   "scripts.pettripfinder.site_data",
+   "scripts.pettripfinder.hotel_exclusions",
+   "scripts.pettripfinder.census_location",
+   "scripts.pettripfinder.regression_inventory",
+   "scripts.pettripfinder.regression_lanes",
+   "scripts.pettripfinder.contracts",
+   "scripts.pettripfinder.contracts.census",
+   "scripts.pettripfinder.contracts.partition",
+   "scripts.pettripfinder.contracts.identity_key",
+   "scripts.pettripfinder.contracts.market_geography",
+   "scripts.pettripfinder.contracts.coverage",
+   "scripts.pettripfinder.contracts.enums",
+   "scripts.pettripfinder.contracts.policy_schema",
+   "scripts.pettripfinder.contracts.evidence",
+   "scripts.pettripfinder.acquisition",
+   "scripts.pettripfinder.acquisition.direct_http_capture",
+   "scripts.pettripfinder.acquisition.firecrawl_capture",
+   "scripts.pettripfinder.acquisition.ladder",
+   "scripts.pettripfinder.acquisition.market_observation_store",
+   "scripts.pettripfinder.acquisition.registry",
+   "scripts.pettripfinder.acquisition.zero_cost_recovery",
+   "scripts.pettripfinder.acquisition.readers",
+   "scripts.pettripfinder.acquisition.paid_attempt_ledger",
+   "scripts.pettripfinder.acquisition.discovery_attempt_ledger",
+   "scripts.pettripfinder.brightdata",
+   "scripts.pettripfinder.brightdata.browser_capture",
+   "scripts.pettripfinder.brightdata.unlocker_capture",
+   "scripts.pettripfinder.brightdata.marriott_surface",
+   "scripts.pettripfinder.brightdata.policy_reading",
+   "scripts.pettripfinder.brightdata.policy_surface",
+   "scripts.pettripfinder.brightdata.policy_locator",
+   "scripts.pettripfinder.discovery",
+   "scripts.pettripfinder.discovery.identity_dedup",
+   "scripts.pettripfinder.discovery.runner",
+   "scripts.pettripfinder.discovery.constants",
+   "scripts.pettripfinder.discovery.market_config",
+   "scripts.pettripfinder.discovery.osm_extract",
+   "scripts.pettripfinder.discovery.census_duplicate_scan"
+  ],
+  "third_party": ["osmium", "requests", "bs4", "lxml"]
+ },
+ "shared_write_allowlist": {
+  "what": "Shared roots every zone may write. Each is a generated-report location Regression V2 already classifies GENERATED_REPORT_ONLY (a report is an output, never an input to authority), or the gitignored data/ tree.",
+  "roots": [
+   "data/",
+   "launch_packages/pettripfinder/reports/",
+   "launch_packages/pettripfinder/markets/reports/"
+  ]
+ },
+ "allowed_subprocess": {
+  "what": "The only subprocess a market-local helper may spawn: read-only git plumbing/porcelain, and pytest over the repository (a helper that runs the market's own lanes). The argv must resolve statically to a literal head; anything else is an unresolved dynamic dependency and fails the proof.",
+  "git_readonly_subcommands": ["status", "diff", "rev-parse", "show", "ls-files", "ls-tree", "log", "grep", "hash-object", "check-ignore", "describe", "branch", "merge-base"],
+  "python_modules": ["pytest", "scripts.pettripfinder.regression_lanes", "scripts.pettripfinder.regression_delta"]
+ },
+ "never_local": {
+  "what": "Paths no zone may claim, whatever a glob says. Kept explicit so a future owned_paths glob cannot widen into authority, deployment, shared runtime or shared test infrastructure.",
+  "prefixes": [
+   "deploy/",
+   "launch_packages/pettripfinder/markets/authority/",
+   "launch_packages/pettripfinder/identity_census/",
+   "launch_packages/pettripfinder/markets/coverage/",
+   "launch_packages/pettripfinder/markets/name_corrections/",
+   "launch_packages/pettripfinder/markets/founder_overrides/",
+   "scripts/pettripfinder/contracts/",
+   "scripts/pettripfinder/acquisition/",
+   "scripts/pettripfinder/brightdata/",
+   "tests/pettripfinder/pins/",
+   "tests/pettripfinder/fixtures/",
+   "tests/pettripfinder/contracts/"
+  ],
+  "globs": [
+   "launch_packages/pettripfinder/markets/*.json",
+   "launch_packages/pettripfinder/hotel_policy_facts*.json",
+   "launch_packages/pettripfinder/hotel_exclusions*.json",
+   "launch_packages/pettripfinder/identity_routing*.json",
+   "launch_packages/pettripfinder/*seed_businesses*.csv",
+   "launch_packages/pettripfinder/ptf_global_authority_manifest.json",
+   "launch_packages/pettripfinder/*_final_partition_*.json",
+   "launch_packages/pettripfinder/*_census_*.json",
+   "launch_packages/pettripfinder/*deployment_packet*.json",
+   "launch_packages/pettripfinder/market_local_ownership.json",
+   "scripts/pettripfinder/regression_delta.py",
+   "scripts/pettripfinder/regression_lanes.py",
+   "scripts/pettripfinder/market_local_ownership.py",
+   "scripts/pettripfinder/market_local_isolation.py",
+   "scripts/pettripfinder/assembly_session_cache.py",
+   "scripts/pettripfinder/throughput_profile.py",
+   "scripts/pettripfinder/throughput_baseline.py",
+   "scripts/pettripfinder/assemble_*.py",
+   "scripts/pettripfinder/discovery/*.py",
+   "scripts/pettripfinder/discovery/**/*.py",
+   "scripts/pettripfinder/discovery/config/osm_extracts.json",
+   "scripts/pettripfinder/discovery/config/overpass_endpoints.json",
+   "scripts/pettripfinder/discovery/config/provider_terms.json",
+   "scripts/generate_pettripfinder_*.py",
+   "tests/**/conftest.py",
+   "tests/pettripfinder/epochs.py",
+   "tests/pettripfinder/market_state.py",
+   "conftest.py",
+   "pytest.ini"
+  ]
+ },
+ "zone_template": {
+  "what": "Every zone below is an instance of this shape with <id> = market id (e.g. nashville-tn) and <us> = its underscore form (nashville_tn). The proof substitutes both.",
+  "owned_paths": [
+   "scripts/pettripfinder/<us>_*.py",
+   "scripts/pettripfinder/discovery/config/<us>.json",
+   "tests/pettripfinder/test_<us>_*.py",
+   "launch_packages/pettripfinder/markets/proposed/<id>.json",
+   "launch_packages/pettripfinder/identity_census_proposed/<id>.json",
+   "launch_packages/pettripfinder/markets/reports/<us>_*.json",
+   "launch_packages/pettripfinder/<us>_osm_extracts_*.json",
+   "launch_packages/pettripfinder/<us>_founder_rulings_*.json",
+   "docs/work_items/PTF-<ID>-*.md"
+  ],
+  "allowed_write_roots": [
+   "launch_packages/pettripfinder/markets/proposed/<id>.json",
+   "launch_packages/pettripfinder/identity_census_proposed/<id>.json",
+   "launch_packages/pettripfinder/markets/reports/<us>_*.json",
+   "launch_packages/pettripfinder/<us>_osm_extracts_*.json",
+   "launch_packages/pettripfinder/<us>_founder_rulings_*.json"
+  ],
+  "allowed_read_roots": ["launch_packages/pettripfinder/", "deploy/netlify/", "scripts/pettripfinder/discovery/config/", "data/"],
+  "owned_tests": ["tests/pettripfinder/test_<us>_*.py"]
+ },
+ "zones": [
+  {
+   "market_id": "nashville-tn",
+   "execution_zone": "SHADOW",
+   "production_runtime_included": "NO",
+   "use_template": true,
+   "note": "PTF-NASHVILLE-TN-NEW-MARKET-001: 181 census / 80 PF / 19 no-pets, promotion-ready, never registered (branch worker/ptf-nashville-new-market-001)."
+  },
+  {
+   "market_id": "chattanooga-tn",
+   "execution_zone": "SHADOW",
+   "production_runtime_included": "NO",
+   "use_template": true,
+   "note": "PTF-CHATTANOOGA-TN-NEW-MARKET-001 (branch worker/ptf-chattanooga-new-market-001)."
+  },
+  {
+   "market_id": "lexington-ky",
+   "execution_zone": "SHADOW",
+   "production_runtime_included": "NO",
+   "use_template": true,
+   "note": "PTF-LEXINGTON-KY-NEW-MARKET-001 / POLICY-ACQUISITION-002 (branch worker/ptf-lexington-new-market-001)."
+  },
+  {
+   "market_id": "fort-wayne-in",
+   "execution_zone": "SHADOW",
+   "production_runtime_included": "NO",
+   "use_template": true,
+   "note": "PTF-FORT-WAYNE-NEW-MARKET-001 (branch worker/ptf-fort-wayne-new-market-001)."
+  },
+  {
+   "market_id": "toledo-oh",
+   "execution_zone": "SHADOW_UNTIL_REGISTERED",
+   "production_runtime_included": "NO",
+   "use_template": true,
+   "note": "Toledo's helpers were market-local while the market was unregistered (PTF-TOLEDO-OH-NEW-MARKET-001 at 133b937). The moment launch_packages/pettripfinder/markets/toledo-oh.json exists at the head being classified, condition 5 (registration) fails and every toledo_oh_* path returns to its prefix class. The zone is kept so the classifier proves that transition rather than assuming it."
+  }
+ ]
+}

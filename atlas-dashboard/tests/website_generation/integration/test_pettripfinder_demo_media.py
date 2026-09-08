@@ -141,6 +141,22 @@ def _real_chain(tmp_path, *, with_media: bool):
     return dataset, rendered, bundle, cas
 
 
+@pytest.fixture(scope="module")
+def with_media_chain(tmp_path_factory):
+    """ATLAS-THROUGHPUT-002 -- the CONSUMER-REUSE claim.
+
+    One real with-media chain, built once per module and read by every test
+    below whose claim is about the RESULT of the chain (ingestion refs, HTML,
+    bundle contents, request safety). ATLAS-THROUGHPUT-001 measured each of
+    these tests rebuilding the same committed launch package at 280-425 s a
+    time -- nine identical builds. The tests that claim COLD EXECUTION keep
+    their own builds: ``TestDeterminism`` builds twice on purpose and
+    ``TestZeroImageFallback`` builds the no-media variant.
+    """
+    root = tmp_path_factory.mktemp("with_media_chain")
+    return _real_chain(root, with_media=True)
+
+
 # --------------------------------------------------------------------------- #
 # A. Manifest / config
 # --------------------------------------------------------------------------- #
@@ -211,8 +227,8 @@ class TestDemoMediaManifest:
 # --------------------------------------------------------------------------- #
 
 class TestRealPilotIngestion:
-    def test_configured_listings_gain_hero_refs(self, tmp_path):
-        dataset, _, _, _ = _real_chain(tmp_path, with_media=True)
+    def test_configured_listings_gain_hero_refs(self, with_media_chain):
+        dataset, _, _, _ = with_media_chain
         by_slug = {l.slug: l for l in dataset.listings}
         for slug in IMAGED_SLUGS:
             (ref,) = by_slug[slug].assets
@@ -224,8 +240,8 @@ class TestRealPilotIngestion:
             assert (ref.width, ref.height) == (1200, 800)
         assert by_slug[IMAGELESS_SLUG].assets == ()
 
-    def test_asset_hashes_match_committed_bytes(self, tmp_path):
-        dataset, _, _, _ = _real_chain(tmp_path, with_media=True)
+    def test_asset_hashes_match_committed_bytes(self, with_media_chain):
+        dataset, _, _, _ = with_media_chain
         by_slug = {l.slug: l for l in dataset.listings}
         park = (LAUNCH_PACKAGE_DIR / "media" / "park-demo.png").read_bytes()
         dining = (LAUNCH_PACKAGE_DIR / "media" / "dining-demo.png").read_bytes()
@@ -250,8 +266,8 @@ class TestGeneratedHtml:
     def _html(self, rendered, route):
         return next(p for p in rendered.page_details if p.route == route).html
 
-    def test_configured_card_and_profile_render_img(self, tmp_path):
-        dataset, rendered, _, _ = _real_chain(tmp_path, with_media=True)
+    def test_configured_card_and_profile_render_img(self, with_media_chain):
+        dataset, rendered, _, _ = with_media_chain
         park_hash = next(
             l.assets[0].asset_hash for l in dataset.listings
             if l.slug == "scioto-audubon-metro-park"
@@ -265,14 +281,14 @@ class TestGeneratedHtml:
         assert "ac-profile--primary-image" in profile
         assert 'alt="Pet-friendly park travel illustration"' in category
 
-    def test_imageless_listing_stays_text_only(self, tmp_path):
-        _, rendered, _, _ = _real_chain(tmp_path, with_media=True)
+    def test_imageless_listing_stays_text_only(self, with_media_chain):
+        _, rendered, _, _ = with_media_chain
         for route in ("/pet-friendly-hotels/", "/pet-friendly-hotels/%s/" % IMAGELESS_SLUG):
             html = self._html(rendered, route)
             assert "<img" not in html
             assert "card-image" not in html and "primary-image" not in html
 
-    def test_img_tags_sitewide_are_exactly_the_two_demo_illustrations(self, tmp_path):
+    def test_img_tags_sitewide_are_exactly_the_two_demo_illustrations(self, with_media_chain):
         # 2 imaged listings x (1 category card + 1 profile primary) = 4, plus
         # J.20 related-listing repetition: the Scioto Audubon card appears on
         # every OTHER park profile and the Land-Grant card on every OTHER
@@ -286,7 +302,7 @@ class TestGeneratedHtml:
         # should not make this test wrong.
         by_category = _expected_by_category()
         expected = 4 + (by_category["pet-friendly-parks"] - 1)                      + (by_category["pet-friendly-restaurants"] - 1)
-        _, rendered, _, _ = _real_chain(tmp_path, with_media=True)
+        _, rendered, _, _ = with_media_chain
         total = sum(len(_IMG_TAG_RE.findall(p.html)) for p in rendered.page_details)
         assert total == expected
 
@@ -296,8 +312,8 @@ class TestGeneratedHtml:
 # --------------------------------------------------------------------------- #
 
 class TestBundle:
-    def test_two_content_addressed_assets_materialized(self, tmp_path):
-        _, _, bundle, cas = _real_chain(tmp_path, with_media=True)
+    def test_two_content_addressed_assets_materialized(self, with_media_chain, tmp_path):
+        _, _, bundle, cas = with_media_chain
         assert len(bundle.assets) == 2
         for asset in bundle.assets:
             assert asset.path == "assets/media/%s.png" % asset.asset_hash
@@ -314,8 +330,8 @@ class TestBundle:
         for f in files:
             assert sha256_of_bytes(f.read_bytes()) == f.name.split(".")[0]
 
-    def test_no_duplicated_bytes(self, tmp_path):
-        _, _, bundle, _ = _real_chain(tmp_path, with_media=True)
+    def test_no_duplicated_bytes(self, with_media_chain):
+        _, _, bundle, _ = with_media_chain
         hashes = [a.asset_hash for a in bundle.assets]
         assert len(hashes) == len(set(hashes))
 
@@ -325,8 +341,8 @@ class TestBundle:
 # --------------------------------------------------------------------------- #
 
 class TestRequestSafety:
-    def test_every_img_src_is_bundled_local(self, tmp_path):
-        _, rendered, bundle, _ = _real_chain(tmp_path, with_media=True)
+    def test_every_img_src_is_bundled_local(self, with_media_chain):
+        _, rendered, bundle, _ = with_media_chain
         for page in rendered.page_details:
             for img in _IMG_TAG_RE.findall(page.html):
                 src = _SRC_RE.search(img).group(1)

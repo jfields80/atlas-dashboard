@@ -788,6 +788,27 @@ def assemble(output: str, *, context: str = "production",
             "context must be one of %s, got %r -- a deployable bundle states "
             "which context it is FOR, and inferring it is how a preview "
             "noindex reaches production" % (list(VALID_CONTEXTS), context))
+    # ATLAS-THROUGHPUT-002: one composed site per (context, base_url, market
+    # selection, keep_fragments, byte-identical inputs) per process. A second
+    # request is a verified copy of the first; the composition, its gates and
+    # its manifest were all computed from the same bytes.
+    from scripts.pettripfinder.assembly_session_cache import CACHE
+    key_args = {
+        "context": context, "base_url": base_url,
+        "markets": ([m.market_id for m in markets] if markets is not None else "<registry>"),
+        "keep_fragments": keep_fragments,
+    }
+    manifest, _event = CACHE.reuse_or_build(
+        "production_site", key_args, Path(output),
+        lambda: _assemble_uncached(output, context=context, base_url=base_url,
+                                   markets=markets, keep_fragments=keep_fragments))
+    return manifest
+
+
+def _assemble_uncached(output: str, *, context: str, base_url: str,
+                       markets: Optional[Sequence[MarketConfig]],
+                       keep_fragments: bool) -> Dict:
+    """The composition proper. Always a real build into ``output``."""
     out_root = Path(output)
     work = out_root / ".assemble_work"
     bundle = work / "site"

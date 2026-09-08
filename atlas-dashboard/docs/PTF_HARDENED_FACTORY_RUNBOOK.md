@@ -215,6 +215,71 @@ the export drifts from the module).
 | `DOCUMENTATION_ONLY` | not required | not required |
 | `GENERATED_REPORT_ONLY` | not required | not required |
 | `BASELINE_MANIFEST_ONLY` | not required | not required |
+| `MARKET_LOCAL_TOOLING` | not required | not required — granted ONLY by the five-condition isolation proof below; every failure leaves the path in its prefix class |
+
+### MARKET_LOCAL_TOOLING (ATLAS-THROUGHPUT-002)
+
+ATLAS-THROUGHPUT-001 measured that `prefix:scripts/pettripfinder/` →
+`GENERIC_RUNTIME_CHANGE` claimed every `<market>_*.py` helper of a shadow
+market, so Nashville, Toledo 001, Lexington and Chattanooga each owed a
+~2-hour broad regression for files no production module imports. The
+classifier now has a notion of a market-local zone:
+
+- `launch_packages/pettripfinder/market_local_ownership.json` — the ONE
+  registry of zones (owned paths, allowed shared imports, allowed write
+  roots, owned tests, `production_runtime_included`), plus the `never_local`
+  fence no zone may cross. `python -m scripts.pettripfinder.market_local_ownership --owner <path>`.
+- `scripts/pettripfinder/market_local_isolation.py` — the proof, run by
+  `classify` on every path whose rule is in
+  `regression_delta.MARKET_LOCAL_REFINABLE_RULES`: (1) exactly one zone owns
+  the path (old AND new path of a rename); (2) every import is stdlib, an
+  allow-listed shared module, or the zone's own; (3) every write target
+  resolves statically inside the zone's roots (an unresolvable target FAILS);
+  (4) nothing outside the zone names the module, no shared code enumerates
+  the directory a data file sits in, every subprocess is read-only git or
+  pytest; (5) the market is unregistered at the head being classified.
+  `python -m scripts.pettripfinder.market_local_isolation --base <sha> --head <sha> <path>`.
+- A change set that touches the classifier, the lanes, the registry, the
+  proof, the session cache, `conftest.py`, `pytest.ini` or any shared test
+  state (`regression_delta.NARROWING_BLOCKERS`) gets NO narrowing at all:
+  the selector cannot authorize its own narrowing.
+- The routing / policy / identity filename globs are refinable: a helper
+  called `<market>_routing_001.py` is not `ROUTING_SEMANTIC_CHANGE` for its
+  name when the proof passes; a change to `identity_routing.py` or to
+  `discovery/config/osm_extracts.json` (shared, inside the fence) still is.
+- What it owes: the zone's own test modules, the per-market contract rows,
+  every test module whose source names the changed one. Never assembly,
+  never `full_regression`, and therefore never the website-generation
+  integration lane.
+- What it does NOT change: `AUTHORITY_CHANGE`, `GENERIC_RUNTIME_CHANGE`,
+  `SCHEMA_CHANGE`, `ROUTING_SEMANTIC_CHANGE`, `DEPLOYMENT_CHANGE` and
+  `UNCLASSIFIED` rows are byte-for-byte what V2-001 committed. A promotion
+  (registry, package, contract, participation) is `AUTHORITY_CHANGE` /
+  `DEPLOYMENT_CHANGE` and still costs the full suite until
+  ATLAS-THROUGHPUT-003 establishes the critical fast lane.
+
+The website-generation integration suites (`tests/website_generation/integration/`,
+above all `test_pettripfinder_demo_media.py`, measured at 57–71 % of every
+broad run) are the `website_generation_integration` lane: a BROAD AUDIT of
+the engine chain over the real launch package. They run inside every
+`full_regression` and on their own with
+`regression_lanes.py run --lane website_generation_integration`; a
+market-local plan never selects them.
+
+### Session-local assembly reuse (ATLAS-THROUGHPUT-002)
+
+`scripts/pettripfinder/assembly_session_cache.py`: within ONE process, the
+generator, the per-market bundle and the whole-site compose answer a second
+request for the same input key (build args + the content hash of every file
+under `launch_packages/pettripfinder`, `deploy/netlify`, `scripts`,
+`engines`, `repositories`, `templates`, `static`, plus the patched registry /
+census directory, `PTF_*` environment and the builders' module state) with a
+verified copy of the first build. A failed build stores nothing; a stored
+copy is re-hashed before reuse; each consumer gets its own copy. A test whose
+claim IS a cold execution wraps the calls in `assembly_session_cache.cold()`;
+`PTF_ASSEMBLY_REUSE=0` disables reuse process-wide. The profiler reports
+every decision as `BUILD_EXECUTED` or `REUSE_HIT` with the seconds avoided.
+The production CLI runs one assembly per process and is unaffected.
 
 A narrow class still owes work: the owning test modules, every test module
 whose source names the changed module (an over-inclusive reverse-import scan),

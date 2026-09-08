@@ -277,6 +277,20 @@ def profile_run(rows: Sequence[Mapping], top: int = 25) -> Dict[str, Any]:
         )))
     outer = [a for a in assemblies if a.get("nesting_depth", 0) == 0
              and float(a.get("elapsed_seconds") or 0.0) >= 1.0]
+    # ATLAS-THROUGHPUT-002: BUILD_EXECUTED vs REUSE_HIT, from the cache's own
+    # events (every wrapped call carries the events it produced) and from the
+    # session summary row the plugin writes at the end.
+    cache_rows = [r for r in rows if r["kind"] == "assembly_session_cache"]
+    cache_summary = cache_rows[-1] if cache_rows else None
+    verdicts: Counter = Counter()
+    avoided = 0.0
+    by_kind_verdict: Dict[str, Counter] = defaultdict(Counter)
+    for a in assemblies:
+        for e in a.get("cache_events") or []:
+            verdicts[e["verdict"]] += 1
+            by_kind_verdict[e["assembly_kind"]][e["verdict"]] += 1
+            if e["verdict"] == "REUSE_HIT":
+                avoided += float(e.get("reused_seconds_avoided") or 0.0)
     by_market_calls: Counter = Counter()
     for a in outer:
         by_market_calls[a.get("market") or "(all-market/none)"] += 1
@@ -336,6 +350,14 @@ def profile_run(rows: Sequence[Mapping], top: int = 25) -> Dict[str, Any]:
                  for k in {a.get("assembly_kind") for a in outer}), key=lambda kv: -kv[1]))),
             ("top_input_keys_by_build_count", dup_rows[:20]),
             ("cold_vs_repeat", cold_vs_repeat[:20]),
+        ))),
+        ("session_cache", OrderedDict((
+            ("events_seen_in_wrapped_calls", OrderedDict(verdicts)),
+            ("by_kind", OrderedDict((k, OrderedDict(v)) for k, v in by_kind_verdict.items())),
+            ("reused_seconds_avoided_in_wrapped_calls", round(avoided, 1)),
+            ("session_summary", OrderedDict((k, v) for k, v in (cache_summary or {}).items()
+                                            if k not in ("schema", "run_id", "kind", "ts", "per_key"))),
+            ("per_key", (cache_summary or {}).get("per_key")),
         ))),
     ))
 
