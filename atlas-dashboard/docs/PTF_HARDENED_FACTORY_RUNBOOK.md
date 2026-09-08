@@ -378,6 +378,42 @@ fingerprint once stored a Dayton withdrawal render under the committed Dayton ke
 later production assembly in the same pytest session came out four profiles short.
 `TestSessionCacheIsolation` pins it.
 
+### The release coordinator (ATLAS-THROUGHPUT-005)
+
+A release is composed, never re-derived from whatever the branch happens to hold:
+
+```
+CURRENT VERIFIED LIVE RELEASE + ONE AUTHORIZED SEALED PACKAGE DELTA
++ REUSABLE VALIDATED MARKET BUNDLES = ONE EXACT FINAL STAGED CANDIDATE
+```
+
+`scripts/pettripfinder/release_coordinator.py` is the only writer of staged release manifests.
+
+**Source ready is not live, and the branch is not the baseline.** `LiveTruth` reads CURRENT
+VERIFIED LIVE RELEASE through `release_index.current_verified_live`; every unchanged market is
+inherited from `data/release_store/` by fragment digest. A stale worktree contributes exactly one
+sealed package delta, so it cannot remove a market that went live after it forked. Seed the store
+once from a whole-site assembly whose composed digest equals the live deployment record's, then
+`plan` reports which markets are inherited and which would be rebuilt.
+
+**Final participation is an input, not a later flip.** Membership is read from the participation
+document and hashed into the candidate before its digest exists. There is no build, authorize,
+flip, rebuild path: a pre-flip candidate is a different artifact with a different digest, and its
+authorization refuses the post-flip one. Adding or removing a market relative to live requires an
+explicit authority naming that market; absence is never read as a removal.
+
+**Authorization binds four digests** — candidate, deployment artifact, parent release, intended
+delta — and lives outside the candidate bytes. Before activation the parent guard re-checks that
+the authorized parent is still live; if another release landed first the answer is `STALE_PARENT`
+and the candidate must be re-staged, not re-signed.
+
+**Activation is idempotent by operation id, and UNKNOWN is not FAILED.** A timeout means reconcile
+the host before anything else: the activation may have landed. Rollback restores an exact prior
+verified release from durable storage, never a rebuild, and refuses when a newer release is live.
+
+`REAL_PRODUCTION_ACTIVATION` is DISABLED. The only host adapter is a simulator; the production
+deployer does not import the coordinator.
+
 ### Session-local assembly reuse (ATLAS-THROUGHPUT-002)
 
 `scripts/pettripfinder/assembly_session_cache.py`: within ONE process, the

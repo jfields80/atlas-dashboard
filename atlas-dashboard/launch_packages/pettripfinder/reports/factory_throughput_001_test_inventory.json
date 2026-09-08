@@ -9,14 +9,14 @@
   "GENERIC_SCHEMA_INVARIANT",
   "CROSS_MARKET_INVARIANT"
  ],
- "modules_scanned": 394,
- "modules_with_pins": 267,
- "sites": 1560,
+ "modules_scanned": 395,
+ "modules_with_pins": 268,
+ "sites": 1563,
  "by_class": {
   "CURRENT_STATE_INVARIANT": 157,
-  "HISTORICAL_COHORT_INVARIANT": 837,
+  "HISTORICAL_COHORT_INVARIANT": 839,
   "HISTORICAL_ARTIFACT_INVARIANT": 189,
-  "DEPLOYMENT_EPOCH_INVARIANT": 121,
+  "DEPLOYMENT_EPOCH_INVARIANT": 122,
   "GENERIC_SCHEMA_INVARIANT": 194,
   "CROSS_MARKET_INVARIANT": 62
  },
@@ -7475,13 +7475,62 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 522,
+     "line": 567,
      "test": "test_case_2_a_second_process_hits_the_persistent_cache",
      "kind": "count",
      "literal": 10,
      "reads_package": false,
      "has_len": false,
      "source": "warm[\"total_seconds\"] < 10",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    }
+   ]
+  },
+  {
+   "module": "tests/pettripfinder/test_atlas_throughput_005.py",
+   "market": null,
+   "lanes": [
+    "full_regression"
+   ],
+   "default_class": "HISTORICAL_COHORT_INVARIANT",
+   "default_reason": "work-order-numbered module",
+   "site_count": 3,
+   "by_class": {
+    "DEPLOYMENT_EPOCH_INVARIANT": 1,
+    "HISTORICAL_COHORT_INVARIANT": 2
+   },
+   "sites": [
+    {
+     "line": 116,
+     "test": "test_case_2_an_unrelated_live_market_is_carried_at_its_live_numbers",
+     "kind": "count",
+     "literal": 82,
+     "reads_package": false,
+     "has_len": false,
+     "source": "indy[\"profile_count\"] == 82",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 497,
+     "test": "test_case_29_each_release_stages_from_the_latest_live_parent",
+     "kind": "count",
+     "literal": 2,
+     "reads_package": false,
+     "has_len": true,
+     "source": "len(host.deploys) == 2",
+     "class": "DEPLOYMENT_EPOCH_INVARIANT",
+     "reason": "bundle / sitemap / route total"
+    },
+    {
+     "line": 661,
+     "test": "test_the_candidate_staged_inside_the_time_budget",
+     "kind": "count",
+     "literal": 900,
+     "reads_package": false,
+     "has_len": false,
+     "source": "pilot[\"data_only\"][\"total_seconds\"] <= 900",
      "class": "HISTORICAL_COHORT_INVARIANT",
      "reason": "count in a closed order's suite"
     }

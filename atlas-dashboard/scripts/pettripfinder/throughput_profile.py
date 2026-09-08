@@ -791,6 +791,17 @@ def pytest_sessionfinish(session, exitstatus):
                     rec.write("bundle_cache_request", **event)
         except Exception:
             rec.errors += 1
+        try:
+            # ATLAS-THROUGHPUT-005: what this session did to releases -- staged
+            # candidates, authorizations, activations, rollbacks, and every
+            # stale-parent refusal.
+            _RC = sys.modules.get("scripts.pettripfinder.release_coordinator")
+            if _RC is not None and _RC.EVENTS:
+                rec.write("release_coordinator", **_RC.summary())
+                for event in _RC.EVENTS:
+                    rec.write("release_operation", **event)
+        except Exception:
+            rec.errors += 1
         rec.write("session_finish",
                   seconds=round(now - _State.session_started, 3),
                   collection_seconds=(round(_State.collection_finished - _State.session_started, 3)

@@ -647,6 +647,9 @@ NARROWING_BLOCKERS: Tuple[Tuple[str, str], ...] = (
     # ATLAS-THROUGHPUT-004: the persistent bundle cache and its declared closure.
     ("glob", "scripts/pettripfinder/bundle_cache.py"),
     ("glob", "launch_packages/pettripfinder/bundle_cache_closure.json"),
+    # ATLAS-THROUGHPUT-005: the release coordinator decides what a release IS.
+    # A change here can never be narrowed by a market-local proof.
+    ("glob", "scripts/pettripfinder/release_coordinator.py"),
 )
 
 #: Test paths whose expectations are SHARED current state. A change to one of
@@ -1257,8 +1260,32 @@ def fast_data_only_release(market_id: str, rows: Sequence[Mapping], head: str) -
         ("FULL_REGRESSION_REQUIRED", "YES"),
         ("MARKET_BUILD_REQUIRED", "YES"),
         ("bundle_cache", None),
+        ("CANDIDATE_STAGING_AVAILABLE", "UNKNOWN"),
+        ("release_coordinator", None),
         ("why", ""),
     ))
+    # ATLAS-THROUGHPUT-005: can this change even reach a staged candidate? A
+    # verified live parent and a seeded release store are what let the
+    # coordinator inherit the unchanged markets instead of rebuilding them.
+    # Reported, never decisive: staging availability is not release safety.
+    try:
+        from scripts.pettripfinder import release_coordinator as RC
+        live = RC.LiveTruth.read()
+        store = RC.ReleaseStore()
+        fragments = store.fragment_digests(live.digest())
+        block["release_coordinator"] = OrderedDict((
+            ("coordinator_version", RC.COORDINATOR_VERSION),
+            ("live_verified", live.verified),
+            ("parent_release_digest", live.digest()),
+            ("participating_markets", len(live.participating_markets)),
+            ("fragments_in_release_store", len(fragments)),
+            ("REAL_PRODUCTION_ACTIVATION", RC.REAL_PRODUCTION_ACTIVATION),
+        ))
+        block["CANDIDATE_STAGING_AVAILABLE"] = (
+            "YES" if live.verified and len(fragments) >= len(live.participating_markets) else "NO")
+    except Exception as exc:                             # the coordinator is optional here
+        block["release_coordinator"] = OrderedDict((("available", False), ("why", str(exc)[:160])))
+        block["CANDIDATE_STAGING_AVAILABLE"] = "NO"
     covering = []
     for package_path in SMP.list_packages(market_id):
         try:
