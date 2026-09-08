@@ -718,6 +718,22 @@ class TestFastLane:
 # --------------------------------------------------------------------------- #
 
 class TestStaging:
+    def test_a_staged_build_leaves_no_build_state_behind(self, corrected_package, tmp_path, monkeypatch):
+        """The 003 migration audit's one TRUE_NEW class: a staged Dayton build
+        left the /go/ route prefix set for whatever ran next in the process."""
+        from scripts.pettripfinder import commercial_actions as CA
+        from scripts.pettripfinder.approved_hotel_profile import set_market_labels
+
+        assert CA.go_market_prefix() == ""
+        with STAGING.overlay(tmp_path / "stage_state"):
+            CA.set_go_market_prefix("dayton-oh")
+            set_market_labels(label="Dayton", state="Ohio", metro_default="Dayton, OH")
+        assert CA.go_market_prefix() == ""
+        assert CA.go_route("drury-inn-suites-columbus-grove-city", CA.ACTION_OFFICIAL_WEBSITE) == \
+            "/go/drury-inn-suites-columbus-grove-city/official-website/"
+        for module_name, attribute in STAGING.BUILD_STATE_ATTRIBUTES:
+            assert hasattr(__import__(module_name, fromlist=[attribute]), attribute), (module_name, attribute)
+
     def test_staging_writes_only_into_the_stage_and_restores_every_constant(self, corrected_package, tmp_path):
         from scripts.pettripfinder import site_data
         from scripts.pettripfinder.markets import contract as MC

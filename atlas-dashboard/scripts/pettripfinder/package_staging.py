@@ -175,14 +175,52 @@ def _patch_targets(stage: Path) -> List[Tuple[str, str, Any]]:
     ]
 
 
+#: The generator's process-wide BUILD STATE: what ``_prepare_build`` sets for
+#: the market it builds (categories, labels, the /go/ route prefix, the
+#: measurement config). A staged build of one market must not leave another
+#: market's state behind for whatever runs next in the same process -- the
+#: 003 migration audit found exactly that: a Dayton build left
+#: ``_GO_MARKET_PREFIX = "dayton-oh"`` and three Columbus /go/ route tests
+#: later in the session read a prefixed route.
+BUILD_STATE_ATTRIBUTES: Tuple[Tuple[str, str], ...] = (
+    ("scripts.pettripfinder.site_pages", "PUBLISHED_CATEGORIES"),
+    ("scripts.pettripfinder.site_pages", "COMPARISON_ROUTE"),
+    ("scripts.pettripfinder.approved_hotel_profile", "MARKET_LABEL"),
+    ("scripts.pettripfinder.approved_hotel_profile", "MARKET_STATE"),
+    ("scripts.pettripfinder.approved_hotel_profile", "MARKET_METRO_DEFAULT"),
+    ("scripts.pettripfinder.approved_hotel_profile", "PUBLISHED_CATEGORIES"),
+    ("scripts.pettripfinder.commercial_actions", "_GO_MARKET_PREFIX"),
+    ("scripts.pettripfinder.measurement", "_CONFIG"),
+)
+
+
+@contextmanager
+def preserved_build_state() -> Iterator[None]:
+    """Snapshot the generator's build state and put it back afterwards."""
+    import importlib
+    saved: List[Tuple[Any, str, Any]] = []
+    for module_name, attribute in BUILD_STATE_ATTRIBUTES:
+        module = importlib.import_module(module_name)
+        if hasattr(module, attribute):
+            saved.append((module, attribute, getattr(module, attribute)))
+    try:
+        yield
+    finally:
+        for module, attribute, value in reversed(saved):
+            setattr(module, attribute, value)
+
+
 @contextmanager
 def overlay(stage_root: Path) -> Iterator[Path]:
-    """Point the build path at ``stage_root``; restore everything on exit."""
+    """Point the build path at ``stage_root``; restore everything on exit,
+    including the generator's build state."""
     import importlib
     stage = Path(stage_root)
     saved: List[Tuple[Any, str, Any]] = []
     env_key = "PTF_IDENTITY_CENSUS_DIR"
     env_saved = os.environ.get(env_key)
+    state = preserved_build_state()
+    state.__enter__()
     try:
         for module_name, attribute, value in _patch_targets(stage):
             module = importlib.import_module(module_name)
@@ -199,6 +237,7 @@ def overlay(stage_root: Path) -> Iterator[Path]:
             os.environ.pop(env_key, None)
         else:
             os.environ[env_key] = env_saved
+        state.__exit__(None, None, None)
 
 
 # --------------------------------------------------------------------------- #
@@ -359,5 +398,6 @@ def build_changed_market(package: Mapping, stage_root: Path, output_root: Path, 
     ))
 
 
-__all__ = ["StagingError", "SHARED_CONTRACT_SECTIONS", "stage_package", "overlay",
+__all__ = ["StagingError", "SHARED_CONTRACT_SECTIONS", "BUILD_STATE_ATTRIBUTES", "preserved_build_state",
+           "stage_package", "overlay",
            "shared_contract_sections", "derive_staged_contract", "build_changed_market"]
