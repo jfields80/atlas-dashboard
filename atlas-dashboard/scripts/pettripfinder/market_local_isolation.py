@@ -499,8 +499,12 @@ def clear_memo() -> None:
     _GIT_MEMO.clear()
 
 
-def _git(*args: str, cwd: Path = REPO_ROOT) -> str:
-    proc = subprocess.run(["git", *args], cwd=str(cwd), capture_output=True, text=True,
+def _git(*args: str, cwd: Optional[Path] = None) -> str:
+    # ``REPO_ROOT`` is read at CALL time, never bound as a default: a test
+    # that points this module at a scratch repository must have its git
+    # questions answered there too, or a consumer in the scratch tree goes
+    # unseen (found by the ATLAS-THROUGHPUT-002 replay run).
+    proc = subprocess.run(["git", *args], cwd=str(cwd or REPO_ROOT), capture_output=True, text=True,
                           encoding="utf-8", errors="replace")
     return proc.stdout if proc.returncode == 0 else ""
 
