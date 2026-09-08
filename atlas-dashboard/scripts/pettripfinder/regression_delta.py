@@ -1749,23 +1749,66 @@ def prove_closure(required_closed: Sequence[str],
 
 
 def classify_against_baseline(failing: Sequence[str],
-                              baseline: Mapping) -> Dict:
+                              baseline: Mapping,
+                              messages: Optional[Mapping[str, str]] = None) -> Dict:
     """PRE_EXISTING / RESOLVED / TRUE_NEW for a delta run.
 
     RESOLVED is scoped to what the delta run actually EXERCISED, because a
     narrow run cannot claim a node it never collected started passing.
+
+    ATLAS-THROUGHPUT-007: when the baseline carries ``failure_signatures`` and
+    the caller supplies this run's failure ``messages``, a baselined node whose
+    failure has a DIFFERENT normalized signature is TRUE_NEW. The baseline
+    records that a test fails, not a licence for it to fail in new ways. With
+    no messages the classification is by node id alone, exactly as before.
     """
+    from scripts.pettripfinder import ci_validation as CI
+
     pre = set(baseline["failing_node_ids"])
+    signatures = dict(baseline.get("failure_signatures") or {})
     failing_set = set(failing)
-    pre_existing = sorted(failing_set & pre)
-    true_new = sorted(failing_set - pre)
+    pre_existing: List[str] = []
+    true_new: List[str] = []
+    changed: List["OrderedDict[str, Any]"] = []
+    for node in sorted(failing_set):
+        if node not in pre:
+            true_new.append(node)
+            continue
+        expected = signatures.get(node)
+        actual = CI.failure_signature((messages or {}).get(node, "")) if messages else None
+        if expected and actual and actual != expected:
+            true_new.append(node)
+            changed.append(OrderedDict((("node_id", node),
+                                        ("why", "same node, different failure signature"),
+                                        ("baseline_signature", expected),
+                                        ("actual_signature", actual))))
+        else:
+            pre_existing.append(node)
     return OrderedDict((
         ("baseline_source_sha", baseline["source_sha"]),
         ("PRE_EXISTING", pre_existing),
         ("TRUE_NEW", true_new),
+        ("CHANGED_SIGNATURE", changed),
+        ("signature_checked", bool(messages and signatures)),
         ("counts", OrderedDict((("PRE_EXISTING", len(pre_existing)),
-                                ("TRUE_NEW", len(true_new))))),
+                                ("TRUE_NEW", len(true_new)),
+                                ("CHANGED_SIGNATURE", len(changed))))),
     ))
+
+
+def baseline_now_passing(failing: Sequence[str], baseline: Mapping,
+                         collected: Optional[Sequence[str]] = None) -> List[str]:
+    """Baselined nodes that did NOT fail in this run.
+
+    Reported, never erased: a legacy failure that starts passing is a fact about
+    the tree worth knowing, and quietly dropping it from the baseline is how a
+    baseline stops describing anything. Scoped to what was collected when the
+    caller knows it, since an unexercised node has not started passing.
+    """
+    pre = set(baseline["failing_node_ids"])
+    if collected is not None:
+        pre &= set(collected)
+    return sorted(pre - set(failing))
 
 
 def resolved_against_baseline(statuses: Mapping[str, str],

@@ -588,20 +588,47 @@ class TestShardPlan:
         assert "test count" in manifest["not_balanced_by"]
 
     def test_the_critical_path_is_named(self, manifest):
-        critical = manifest["critical_path"]
-        assert critical["module"].endswith("test_pettripfinder_demo_media.py")
-        assert critical["seconds"] > manifest["measured_total_seconds"] / 4
-        assert manifest["projected_wall_seconds"] == critical["seconds"]
+        """The manifest must always name its slowest indivisible module and
+        never project a wall below it.
 
-    def test_more_shards_would_not_help(self):
-        from pathlib import Path as _P
+        Before ATLAS-THROUGHPUT-007 that module WAS the critical path: demo-media
+        at 1,375.7 s exceeded a perfect quarter of the suite, so the wall equalled
+        it exactly. 007 split demo-media, and the plan became work-bound instead:
+        the wall is now the balanced share, which is ABOVE the slowest module.
+        Both states satisfy the property this asserts, which is why it is written
+        as the property."""
+        critical = manifest["critical_path"]
+        assert critical["module"] and critical["seconds"] > 0
+        assert manifest["projected_wall_seconds"] >= critical["seconds"]
+        share = manifest["measured_total_seconds"] / manifest["shard_count"]
+        assert manifest["projected_wall_seconds"] >= share * 0.98
+
+    def test_the_plan_is_work_bound_after_the_007_split(self, manifest):
+        """A single module no longer dictates the wall clock."""
+        critical = manifest["critical_path"]
+        share = manifest["measured_total_seconds"] / manifest["shard_count"]
+        assert critical["seconds"] < share, (
+            "the slowest module is below the balanced share, so adding work to "
+            "the plan -- not splitting another module -- is what moves the wall now")
+
+    def test_no_number_of_shards_beats_the_slowest_module(self):
+        """The enduring property: a sharded run waits for its slowest
+        indivisible unit, however many runners it is given.
+
+        Before 007 this bit at four shards, because demo-media alone exceeded a
+        quarter of the suite. After the split it bites later -- but it still
+        bites, and that is what a plan must never pretend otherwise about."""
         profile = REPO_PROFILE
         if not profile.is_file():
             pytest.skip("no committed profiler run")
         measurements = CI.load_measurements(profile)
-        four = CI.plan_shards(measurements, shard_count=4)["projected_wall_seconds"]
-        eight = CI.plan_shards(measurements, shard_count=8)["projected_wall_seconds"]
-        assert four == eight, "the wall clock is bounded by one indivisible module"
+        slowest = max(m.seconds for m in measurements.values())
+        for count in (4, 8, 16, 64):
+            wall = CI.plan_shards(measurements, shard_count=count)["projected_wall_seconds"]
+            assert wall >= round(slowest, 1) - 0.05, count
+        # With more shards than heavy modules the wall IS the slowest module.
+        assert abs(CI.plan_shards(measurements, shard_count=64)["projected_wall_seconds"]
+                   - slowest) < 0.05
 
     def test_every_module_lands_in_exactly_one_shard(self, manifest):
         seen = {}

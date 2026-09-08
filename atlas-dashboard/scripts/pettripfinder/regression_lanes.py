@@ -123,6 +123,11 @@ LANES: Tuple[str, ...] = (
 #: its own with ``run --lane website_generation_integration``.
 WEBSITE_GENERATION_INTEGRATION_MODULES: Tuple[str, ...] = (
     "tests/website_generation/integration/test_pettripfinder_demo_media.py",
+    # ATLAS-THROUGHPUT-007 split the determinism and zero-image claims out of
+    # the demo-media module so the remote shard floor is the 530 s determinism
+    # pair rather than a 1,375.7 s module. Same lane, same claims.
+    "tests/website_generation/integration/test_pettripfinder_demo_media_determinism.py",
+    "tests/website_generation/integration/test_pettripfinder_demo_media_fallback.py",
     "tests/website_generation/integration/test_pettripfinder_pilot_chain.py",
     "tests/website_generation/integration/test_pettripfinder_launch_package.py",
     "tests/website_generation/integration/test_listing_collection_chain.py",
@@ -531,22 +536,44 @@ def _rerun(node_ids: Sequence[str], *, out: Path,
 
 def classify(run: Mapping, baseline: Mapping, *,
              expected_epoch_change: Iterable[str] = (),
-             rerun_results: Optional[Mapping[str, str]] = None) -> Dict:
+             rerun_results: Optional[Mapping[str, str]] = None,
+             messages: Optional[Mapping[str, str]] = None) -> Dict:
     """Every failing node id in ``run`` gets exactly one class.
 
     ``rerun_results`` is ``nodeid -> status`` from an isolated re-run of the
     candidates; a node that passed there is a harness flake. Without a
     re-run, nothing is called a flake.
+
+    ATLAS-THROUGHPUT-007: ``messages`` is ``nodeid -> failure text`` for this
+    run. When the baseline carries ``failure_signatures``, a baselined node
+    whose failure normalizes to a DIFFERENT signature is TRUE_NEW rather than
+    PRE_EXISTING -- the baseline records that a test fails, not a licence for
+    it to fail in new ways. Without messages the behaviour is unchanged, so
+    every earlier run's classification still means what it meant.
     """
+    from scripts.pettripfinder import ci_validation as CI
+
     if baseline.get("schema") != SCHEMA_BASELINE:
         raise ValueError("baseline is not a %s document" % SCHEMA_BASELINE)
     pre = set(baseline["failing_node_ids"])
+    signatures = dict(baseline.get("failure_signatures") or {})
     expected = set(expected_epoch_change)
     rerun = dict(rerun_results or {})
+    messages = dict(messages or {})
     classes: "OrderedDict[str, List[str]]" = OrderedDict((c, []) for c in CLASSES)
+    changed_signature: List["OrderedDict[str, str]"] = []
     for nodeid in run["failing_node_ids"]:
         if nodeid in pre:
-            classes[PRE_EXISTING].append(nodeid)
+            expected_sig = signatures.get(nodeid)
+            actual_sig = (CI.failure_signature(messages[nodeid])
+                          if (messages and nodeid in messages) else None)
+            if expected_sig and actual_sig and actual_sig != expected_sig:
+                classes[TRUE_NEW_FAILURE].append(nodeid)
+                changed_signature.append(OrderedDict((
+                    ("node_id", nodeid),
+                    ("why", "same node, different failure signature"))))
+            else:
+                classes[PRE_EXISTING].append(nodeid)
         elif nodeid in expected:
             classes[EXPECTED_EPOCH_CHANGE].append(nodeid)
         elif rerun.get(nodeid) == "passed":
@@ -562,6 +589,8 @@ def classify(run: Mapping, baseline: Mapping, *,
         ("failed", run["failed"]),
         ("counts", OrderedDict((c, len(v)) for c, v in classes.items())),
         ("classes", classes),
+        ("changed_signature", changed_signature),
+        ("signature_checked", bool(messages and signatures)),
         ("baseline_failures_now_passing", resolved),
         ("clean", not classes[TRUE_NEW_FAILURE]),
     ))

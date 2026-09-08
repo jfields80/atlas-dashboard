@@ -9,12 +9,12 @@
   "GENERIC_SCHEMA_INVARIANT",
   "CROSS_MARKET_INVARIANT"
  ],
- "modules_scanned": 396,
- "modules_with_pins": 269,
- "sites": 1565,
+ "modules_scanned": 397,
+ "modules_with_pins": 270,
+ "sites": 1566,
  "by_class": {
-  "CURRENT_STATE_INVARIANT": 157,
-  "HISTORICAL_COHORT_INVARIANT": 840,
+  "CURRENT_STATE_INVARIANT": 155,
+  "HISTORICAL_COHORT_INVARIANT": 843,
   "HISTORICAL_ARTIFACT_INVARIANT": 190,
   "DEPLOYMENT_EPOCH_INVARIANT": 122,
   "GENERIC_SCHEMA_INVARIANT": 194,
@@ -82,7 +82,6 @@
   "tests/pettripfinder/test_grand_rapids_review_prep_019.py",
   "tests/pettripfinder/test_grand_rapids_source_promotion_022.py",
   "tests/pettripfinder/test_identity_evidence.py",
-  "tests/pettripfinder/test_identity_routing.py",
   "tests/pettripfinder/test_ihg_recertification_011.py",
   "tests/pettripfinder/test_indianapolis_backlog_cost_plan_015.py",
   "tests/pettripfinder/test_indianapolis_founder_review_013.py",
@@ -7325,10 +7324,10 @@
    ],
    "default_class": "HISTORICAL_COHORT_INVARIANT",
    "default_reason": "work-order-numbered module",
-   "site_count": 4,
+   "site_count": 5,
    "by_class": {
     "HISTORICAL_ARTIFACT_INVARIANT": 1,
-    "HISTORICAL_COHORT_INVARIANT": 3
+    "HISTORICAL_COHORT_INVARIANT": 4
    },
    "sites": [
     {
@@ -7365,7 +7364,18 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 745,
+     "line": 637,
+     "test": "test_the_suite_separates_cold_claims_from_consumer_reuse",
+     "kind": "count",
+     "literal": 2,
+     "reads_package": false,
+     "has_len": false,
+     "source": "determinism.count(\"with_media=True\") == 2",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 772,
      "test": "test_the_key_covers_the_inputs_the_order_names",
      "kind": "count",
      "literal": 1500,
@@ -7571,6 +7581,43 @@
      "source": "manifest[\"measured_total_seconds\"] > 3000",
      "class": "HISTORICAL_ARTIFACT_INVARIANT",
      "reason": "count read from a committed artifact"
+    }
+   ]
+  },
+  {
+   "module": "tests/pettripfinder/test_atlas_throughput_007.py",
+   "market": null,
+   "lanes": [
+    "full_regression"
+   ],
+   "default_class": "HISTORICAL_COHORT_INVARIANT",
+   "default_reason": "work-order-numbered module",
+   "site_count": 2,
+   "by_class": {
+    "HISTORICAL_COHORT_INVARIANT": 2
+   },
+   "sites": [
+    {
+     "line": 108,
+     "test": "test_a_count_pin_cannot_tell_growth_from_loss",
+     "kind": "count",
+     "literal": 2,
+     "reads_package": false,
+     "has_len": true,
+     "source": "len(epochs.cohort(grown, self._selector())) == 2",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 141,
+     "test": "test_the_baseline_now_carries_a_signature_for_every_node",
+     "kind": "count",
+     "literal": 160,
+     "reads_package": false,
+     "has_len": true,
+     "source": "len(nodes) == 160",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
     }
    ]
   },
@@ -15422,9 +15469,8 @@
    ],
    "default_class": "GENERIC_SCHEMA_INVARIANT",
    "default_reason": "unlisted module",
-   "site_count": 10,
+   "site_count": 8,
    "by_class": {
-    "CURRENT_STATE_INVARIANT": 2,
     "GENERIC_SCHEMA_INVARIANT": 8
    },
    "sites": [
@@ -15462,29 +15508,7 @@
      "reason": "module default"
     },
     {
-     "line": 447,
-     "test": "test_routing_does_not_enter_seed_inventory",
-     "kind": "count",
-     "literal": 89,
-     "reads_package": true,
-     "has_len": true,
-     "source": "len(hotels) == 89",
-     "class": "CURRENT_STATE_INVARIANT",
-     "reason": "whole-package count in a generic module"
-    },
-    {
-     "line": 452,
-     "test": "test_routing_does_not_change_published_count",
-     "kind": "count",
-     "literal": 88,
-     "reads_package": true,
-     "has_len": true,
-     "source": "len(pkg[\"hotels\"]) == 88",
-     "class": "CURRENT_STATE_INVARIANT",
-     "reason": "whole-package count in a generic module"
-    },
-    {
-     "line": 598,
+     "line": 620,
      "test": "test_routing_carries_more_than_one_market",
      "kind": "count",
      "literal": 20,
@@ -15495,7 +15519,7 @@
      "reason": "module default"
     },
     {
-     "line": 612,
+     "line": 634,
      "test": "test_routing_carries_more_than_one_market",
      "kind": "count",
      "literal": 37,
@@ -15506,7 +15530,7 @@
      "reason": "module default"
     },
     {
-     "line": 613,
+     "line": 635,
      "test": "test_routing_carries_more_than_one_market",
      "kind": "count",
      "literal": 9,
@@ -15517,7 +15541,7 @@
      "reason": "module default"
     },
     {
-     "line": 642,
+     "line": 664,
      "test": "test_routing_carries_more_than_one_market",
      "kind": "count",
      "literal": 51,
@@ -15528,7 +15552,7 @@
      "reason": "module default"
     },
     {
-     "line": 772,
+     "line": 794,
      "test": "test_disabling_routing_restores_the_prior_queue",
      "kind": "count",
      "literal": 77,

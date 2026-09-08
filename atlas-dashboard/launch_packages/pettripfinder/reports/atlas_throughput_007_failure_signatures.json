@@ -1,0 +1,39 @@
+{
+ "schema": "ptf-007-failure-signatures/1.0",
+ "baseline": "launch_packages/pettripfinder/regression_baselines/f75aa95.json",
+ "nodes": 160,
+ "signatures": 160,
+ "record_fields": [
+  "node_id",
+  "normalized_failure_signature",
+  "category",
+  "domain",
+  "environment",
+  "reason",
+  "recorded_at",
+  "recorded_from",
+  "review_by",
+  "excerpt"
+ ],
+ "normalization_removes": [
+  "memory addresses",
+  "absolute paths",
+  "temp directories",
+  "timestamps",
+  "run ids"
+ ],
+ "normalization_preserves": "the semantic error identity -- the asserted values, the exception type",
+ "provenance": "ATLAS-THROUGHPUT-007. A node is PRE_EXISTING only when its node id is in failing_node_ids AND its normalized signature matches the value here; the same node failing for a materially different reason is TRUE_NEW. Signatures were captured from the 006 migration audit, which failed on exactly these 160 node ids, so they record how each one fails today. Normalization removes addresses, absolute paths, temp paths, run ids and timestamps and preserves the semantic error identity.",
+ "consumers": [
+  "regression_delta.classify_against_baseline (messages=)",
+  "regression_lanes.classify (messages=)",
+  "ci_validation.classify_failures"
+ ],
+ "rules": {
+  "same node, same signature": "PRE_EXISTING",
+  "same node, different signature": "TRUE_NEW",
+  "different node, any signature": "TRUE_NEW unless separately baselined",
+  "baselined node not failing": "BASELINE_NOW_PASSING -- reported, never erased",
+  "no messages supplied": "node-id classification, exactly as before 007"
+ }
+}

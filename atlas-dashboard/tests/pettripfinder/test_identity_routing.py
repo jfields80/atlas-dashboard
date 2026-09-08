@@ -439,17 +439,39 @@ def test_no_committed_route_is_already_seed_inventory(routes):
 # --------------------------------------------------------------------------- #
 
 def test_routing_does_not_enter_seed_inventory():
+    """CURRENT_STATE_INVARIANT (ATLAS-THROUGHPUT-007).
+
+    The literal 89 asserted a count, not the claim. The claim is that routing
+    contributes nothing to seed inventory, so the generated seed CSV must carry
+    exactly the hotel rows the market's OWN authority shard declares -- no more.
+    That fails the moment routing adds a row, which is the defect this guards,
+    and it survives Columbus lawfully gaining a hotel, which is not a defect.
+    """
     rows = list(csv.DictReader((LP / "seed_businesses.csv").open(encoding="utf-8")))
-    # Scoped by market: the seed is multi-market now. Columbus's 89 hotel rows
-    # must be untouched by routing, which is what this has always asserted.
     hotels = [r for r in rows if r["category"] == "pet-friendly-hotels"
               and r.get("market_id") == "columbus-oh"]
-    assert len(hotels) == 89, "seed hotel rows must be untouched by routing"
+    shard_hotels = [r for r in MA.load_market_seed_rows("columbus-oh")
+                    if r["category"] == "pet-friendly-hotels"]
+    assert len(hotels) == len(shard_hotels), (
+        "the seed CSV's Columbus hotel rows must be exactly its authority shard's; "
+        "routing must never add one")
+    assert {r["name"] for r in hotels} == {r["name"] for r in shard_hotels}
 
 
 def test_routing_does_not_change_published_count():
+    """CURRENT_STATE_INVARIANT (ATLAS-THROUGHPUT-007).
+
+    The claim is "routing does not change what Columbus publishes", not "Columbus
+    publishes 88". Reading the reviewed current-state pin instead of a literal
+    means a lawful promotion moves one number in one place, and this test keeps
+    asserting the thing it was written to assert. A routing change that DID move
+    the published count still fails, because the pin is reviewed evidence rather
+    than a copy of the build's own output.
+    """
+    from pettripfinder.market_state import current as _market_state
+
     pkg = json.loads((LP / "hotel_policy_facts.json").read_text(encoding="utf-8"))
-    assert len(pkg["hotels"]) == 88
+    assert len(pkg["hotels"]) == _market_state("columbus-oh").profiles
 
 
 def test_routing_does_not_change_the_release_held_count():

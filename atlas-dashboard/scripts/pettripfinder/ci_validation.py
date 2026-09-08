@@ -713,10 +713,14 @@ def classify_failures(failing: Mapping[str, str], baseline: Mapping) -> "Ordered
             changed.append(OrderedDict((("node_id", node), ("why", "same node, different failure"))))
         else:
             pre_existing.append(node)
+    now_passing = sorted(baseline_nodes - set(failing))
     return OrderedDict((
         ("PRE_EXISTING", pre_existing), ("TRUE_NEW", true_new),
         ("changed_signature", changed),
-        ("counts", OrderedDict((("PRE_EXISTING", len(pre_existing)), ("TRUE_NEW", len(true_new))))),
+        ("BASELINE_NOW_PASSING", now_passing),
+        ("signature_checked", bool(signatures)),
+        ("counts", OrderedDict((("PRE_EXISTING", len(pre_existing)), ("TRUE_NEW", len(true_new)),
+                                ("BASELINE_NOW_PASSING", len(now_passing))))),
     ))
 
 

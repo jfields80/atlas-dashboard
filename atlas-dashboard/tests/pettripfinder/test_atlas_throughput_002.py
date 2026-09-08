@@ -613,18 +613,45 @@ class TestDemoMediaLane:
                                                  "markets": [], "market_local_proof": None, "renamed_from": None}]}
             assert RD.plan_for(classification)["full_regression_required"], change_class
 
+    #: ATLAS-THROUGHPUT-007 split the cold claims into their own modules so the
+    #: shard floor is the determinism pair, not the whole demo suite.
+    DETERMINISM = ("tests/website_generation/integration/"
+                   "test_pettripfinder_demo_media_determinism.py")
+    FALLBACK = ("tests/website_generation/integration/"
+                "test_pettripfinder_demo_media_fallback.py")
+
     def test_the_suite_separates_cold_claims_from_consumer_reuse(self):
-        src = (REPO_ROOT / self.DEMO).read_text(encoding="utf-8")
-        assert "def with_media_chain(tmp_path_factory)" in src
-        assert src.count("_real_chain(tmp_path, with_media=True)") == 1      # the fixture only... plus the two cold builds below
-        assert '_real_chain(tmp_path / "a", with_media=True)' in src and '_real_chain(tmp_path / "b", with_media=True)' in src
-        assert "_real_chain(tmp_path, with_media=False)" in src
+        """The 002 claim, unchanged, in its 007 shape.
+
+        Consumer assertions share ONE chain; the claims that need their own
+        execution have their own MODULE and keep their builds. What must never
+        appear is a second with-media build inside the consumer module.
+        """
+        consumers = (REPO_ROOT / self.DEMO).read_text(encoding="utf-8")
+        assert "def with_media_chain(tmp_path_factory)" in consumers
+        assert "real_chain(root, with_media=True)" in consumers    # the fixture builds it
+        assert consumers.count("with_media=True") == 1             # exactly one build here
+        assert "with_media=False" not in consumers                 # the no-media claim moved out
+
+        determinism = (REPO_ROOT / self.DETERMINISM).read_text(encoding="utf-8")
+        assert determinism.count("with_media=True") == 2, "determinism keeps TWO cold builds"
+        fallback = (REPO_ROOT / self.FALLBACK).read_text(encoding="utf-8")
+        assert fallback.count("with_media=False") == 1, "the fallback keeps its own build"
+
+    def test_the_lane_holds_every_demo_module(self):
+        modules = RL.modules_in_lane(RL.WEBSITE_GENERATION_INTEGRATION)
+        for module in (self.DEMO, self.DETERMINISM, self.FALLBACK):
+            assert module in modules, module
 
     def test_the_marker_is_applied_at_collection(self):
         proc = subprocess.run([sys.executable, "-m", "pytest", self.DEMO, "--collect-only", "-q",
                                "-m", RL.WEBSITE_GENERATION_INTEGRATION, "-p", "no:cacheprovider"],
                               cwd=str(REPO_ROOT), capture_output=True, text=True, timeout=300)
-        assert "18 tests collected" in proc.stdout or "18/18 tests collected" in proc.stdout, proc.stdout[-500:]
+        # 007 moved the determinism and fallback claims into sibling modules, so
+        # this module now collects 16 of the suite's 20 tests. The claim here is
+        # that the lane MARKER is applied at collection, not the total.
+        assert "16 tests collected" in proc.stdout or "16/16 tests collected" in proc.stdout, \
+            proc.stdout[-500:]
 
 
 # --------------------------------------------------------------------------- #
