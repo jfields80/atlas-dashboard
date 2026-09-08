@@ -108,6 +108,28 @@ NON_BUILD_MODULES: Tuple[str, ...] = (
 )
 
 
+
+def _frozen_tree_fingerprint(ASC) -> Callable[[], "OrderedDict[str, Any]"]:
+    """The session cache's ``input_fingerprint`` with the repository tree walk
+    taken ONCE and the dynamic inputs computed on every call.
+
+    The 004 migration audit found the whole fingerprint frozen before the
+    staging overlay was entered: the dynamic part then described the
+    committed repository, so the staged Dayton WITHDRAWAL render (four
+    pet-friendly records fewer) was remembered under the very key the
+    production assembly later asked for, and 51 tests downstream read a
+    786 -> 782 profile bundle. The tree walk is the expensive, read-heavy
+    part the tracer must not see; the overlay's redirections are cheap and
+    are exactly what distinguishes a staged build from a committed one."""
+    roots = [ASC.REPO_ROOT / r for r in ASC.INPUT_ROOTS]
+    sha, count = ASC.tree_fingerprint(roots)
+
+    def fingerprint() -> "OrderedDict[str, Any]":
+        return OrderedDict((("repo_inputs_sha256", sha), ("repo_input_files", count),
+                            ("dynamic", ASC._dynamic_inputs())))
+    return fingerprint
+
+
 class BundleCacheError(RuntimeError):
     """The cache refused (fail closed); a caller may still build cold."""
 
@@ -757,13 +779,15 @@ class BundleCache:
         tracer = _ReadTracer(self.repo_root, ignore=[work, self.root])
         # The 002 session cache fingerprints the whole tree before every
         # decision; those reads are ITS closure, not the build's. Take the
-        # fingerprint once, untraced, and hand the session cache that value
-        # while the build is traced.
+        # TREE walk once, untraced, and hand the session cache that value
+        # while the build is traced -- but only the tree walk: the dynamic
+        # inputs (the overlay's census dir, PTF_* env, module state) must be
+        # read live, under the overlay, or a staged render is remembered
+        # under the committed key (see _frozen_tree_fingerprint).
         from scripts.pettripfinder import assembly_session_cache as ASC
         original_fingerprint = ASC.input_fingerprint
         if builder is None:
-            fingerprint = ASC.input_fingerprint()
-            ASC.input_fingerprint = lambda: fingerprint
+            ASC.input_fingerprint = _frozen_tree_fingerprint(ASC)
         try:
             with tracer:
                 first = build(package, work / "sa", output, context=context, cold=True, repo_root=self.repo_root)

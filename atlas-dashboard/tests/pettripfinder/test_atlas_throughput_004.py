@@ -503,6 +503,33 @@ class TestBoundaries:
 # --------------------------------------------------------------------------- #
 
 @pytest.mark.slow
+
+class TestSessionCacheIsolation:
+    """The 004 migration audit's 51 TRUE_NEW failures: a staged build's
+    render remembered by the 002 session cache under the COMMITTED key."""
+
+    def test_a_staged_build_is_remembered_under_its_overlay_key_not_the_committed_one(self, dayton):
+        from scripts.pettripfinder import assembly_session_cache as ASC
+        from scripts.pettripfinder import census_location as CL
+        root = SHORT_ROOT / "iso"
+        shutil.rmtree(root, ignore_errors=True)
+        before = {e.key for e in ASC.CACHE.entries()}
+        cache = BC.BundleCache(root / "cache", run_id="test")
+        result = cache.build_or_reuse(dayton, work_dir=root / "w", require_determinism=False)
+        assert result["cache_status"] == BC.MISS
+        new = [e for e in ASC.CACHE.entries() if e.key not in before]
+        assert new, "the staged build runs through the session cache"
+        committed = CL.COMMITTED_CENSUS_DIR.resolve().as_posix()
+        for entry in new:
+            dynamic = entry.key_doc["inputs"]["dynamic"]
+            assert dynamic["census_dir"] != committed, entry.kind
+            assert "PTF_IDENTITY_CENSUS_DIR" in dynamic["env"], entry.kind
+        # And the committed key is untouched: what production would ask for
+        # is not in the session cache at all.
+        live_key, _doc = ASC.session_key(new[0].kind, new[0].key_doc["args"])
+        assert live_key not in {e.key for e in ASC.CACHE.entries()}
+
+
 class TestCrossRun:
     def test_case_2_a_second_process_hits_the_persistent_cache(self, dayton):
         root = SHORT_ROOT / "cr"
