@@ -61,6 +61,13 @@
   "git_readonly_subcommands": ["status", "diff", "rev-parse", "show", "ls-files", "ls-tree", "log", "grep", "hash-object", "check-ignore", "describe", "branch", "merge-base"],
   "python_modules": ["pytest", "scripts.pettripfinder.regression_lanes", "scripts.pettripfinder.regression_delta"]
  },
+ "reachability_scan_exclusions": {
+  "what": "Files the reverse-reachability scan ignores because their PURPOSE is to name market-local paths: the classifier's own self-tests, which classify the real market branches and therefore spell out helper stems and proposed-artifact paths as test data. A mention there is not a runtime, harness or deployment coupling. Nothing else may be listed here; a runtime module that names a helper is exactly what the scan exists to find.",
+  "paths": [
+   "tests/pettripfinder/test_atlas_throughput_002.py",
+   "tests/pettripfinder/test_regression_delta_001.py"
+  ]
+ },
  "never_local": {
   "what": "Paths no zone may claim, whatever a glob says. Kept explicit so a future owned_paths glob cannot widen into authority, deployment, shared runtime or shared test infrastructure.",
   "prefixes": [

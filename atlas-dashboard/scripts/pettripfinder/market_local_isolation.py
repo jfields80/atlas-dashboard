@@ -846,7 +846,8 @@ def prove(relpath: str, base: str, head: str, status: str = "M",
     needles = [stem] if is_python else [rel, "/".join(rel.split("/")[-2:])]
     for needle in needles:
         hits = [h for h in mentions_at(scan_rev, needle)
-                if h != rel and not any(OWN._glob_match(p, h) for p in zone.owned_paths)]
+                if h != rel and not any(OWN._glob_match(p, h) for p in zone.owned_paths)
+                and h not in registry.reachability_scan_exclusions]
         if hits:
             problems.append("%s is named by %s" % (needle, ", ".join(hits[:6])))
     if not is_python and status != "D":

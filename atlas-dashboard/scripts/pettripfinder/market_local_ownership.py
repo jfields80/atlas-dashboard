@@ -86,6 +86,9 @@ class Registry:
     never_local_prefixes: Tuple[str, ...]
     never_local_globs: Tuple[str, ...]
     zones: Tuple[Zone, ...] = field(default_factory=tuple)
+    #: Test modules whose purpose is to name market-local paths (the
+    #: classifier's own self-tests); the reachability scan ignores them.
+    reachability_scan_exclusions: Tuple[str, ...] = field(default_factory=tuple)
 
     def zone_for(self, market_id: str) -> Optional[Zone]:
         for zone in self.zones:
@@ -259,7 +262,13 @@ def parse_registry(doc: Dict) -> Registry:
         never_local_prefixes=_str_list(never, "prefixes", "never_local"),
         never_local_globs=_str_list(never, "globs", "never_local"),
         zones=tuple(zones),
+        reachability_scan_exclusions=(
+            _str_list(doc["reachability_scan_exclusions"], "paths", "reachability_scan_exclusions")
+            if isinstance(doc.get("reachability_scan_exclusions"), dict) else ()),
     )
+    for path in registry.reachability_scan_exclusions:
+        if not path.startswith("tests/") or not path.endswith(".py"):
+            raise OwnershipError("reachability_scan_exclusions may name test modules only, not %r" % path)
     # No zone may own a never-local path by construction: probe every owned
     # pattern's literal prefix against the fence.
     for zone in registry.zones:
