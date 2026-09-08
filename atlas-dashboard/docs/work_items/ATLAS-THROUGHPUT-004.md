@@ -36,3 +36,16 @@ short on Windows (260-character paths). A hit materialises `<work>/out/site/`, r
 A cache hit proves artifact identity: these bytes are what these declared inputs produce, validated under
 this policy. It does not authorise a release (003's lane does), it does not compose the whole site (005),
 and the production assembler and deployer do not read it.
+
+## Migration audit
+
+One broad run over the committed change set (`data/regression/atlas-throughput-004-audit`, 17,589
+collected, 56 min, profiler and session cache on) classified 160 PRE_EXISTING = the f75aa95 set and
+51 TRUE_NEW, all reading ONE production assembly of 782 profiles instead of 786. The bundle cache had
+frozen the 002 session cache's whole input fingerprint before the staging overlay was entered, so a
+staged Dayton withdrawal render was remembered under the committed Dayton key and served later in
+the same pytest session. Fixed by freezing only the tree walk (`_frozen_tree_fingerprint`), pinned by
+`TestSessionCacheIsolation`, replayed in the audit's order (355 passed) and closed by node id through
+Regression V2 (`failure_closures/atlas-throughput-004-1.json`; the 46 per-market node ids the lanes
+defer are proven by the replay's junit via `--exercised-junit`). V2's verdict for the fix,
+FULL_REGRESSION_REQUIRED = YES, is recorded, not executed: the order permits one broad run.

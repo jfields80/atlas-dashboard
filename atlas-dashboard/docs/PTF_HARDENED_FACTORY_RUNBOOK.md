@@ -194,6 +194,26 @@ and passed** in the delta run, and no node outside the baseline failed. A node
 that was never collected is `NOT_EXERCISED`, not closed — absence is not
 evidence, which is why no step here compares counts.
 
+**A node the lanes defer.** Every lane except `full_regression` deselects the
+classes in `regression_lanes.DEFERRED_TO_FULL_REGRESSION` (today:
+`TestEveryMarketAssembles`, which assembles every market's bundle). A
+`TRUE_NEW` node in one of them comes back `NOT_EXERCISED` from the delta run
+no matter what the fix did. Prove it with a run you make yourself at the fix
+commit — in the order that produced the failure when the failure was
+order-dependent — and hand its junit to `validate`:
+
+```
+python -m pytest <the module that leaked> <the failing modules> -q \
+    -o junit_family=xunit2 --junitxml=data/regression/<order>-replay/replay.xml
+python -m scripts.pettripfinder.regression_delta validate ... \
+    --exercised-junit data/regression/<order>-replay/replay.xml --exercised-at <sha>
+```
+
+An exercised run fills **only** node ids the lanes left `NOT_EXERCISED`; it
+never overrides a lane result, and the closure artifact records which run
+proved each node (`node_id_sources`, `exercised_runs`). ATLAS-THROUGHPUT-004's
+51 were closed this way: 5 by the lanes, 46 by an ordered one-process replay.
+
 ### The change classes
 
 `classify` reads file paths and, for test modules, the two versions' syntax
