@@ -9,12 +9,12 @@
   "GENERIC_SCHEMA_INVARIANT",
   "CROSS_MARKET_INVARIANT"
  ],
- "modules_scanned": 393,
- "modules_with_pins": 266,
- "sites": 1558,
+ "modules_scanned": 394,
+ "modules_with_pins": 267,
+ "sites": 1560,
  "by_class": {
   "CURRENT_STATE_INVARIANT": 157,
-  "HISTORICAL_COHORT_INVARIANT": 835,
+  "HISTORICAL_COHORT_INVARIANT": 837,
   "HISTORICAL_ARTIFACT_INVARIANT": 189,
   "DEPLOYMENT_EPOCH_INVARIANT": 121,
   "GENERIC_SCHEMA_INVARIANT": 194,
@@ -7394,7 +7394,7 @@
    },
    "sites": [
     {
-     "line": 450,
+     "line": 455,
      "test": "test_current_verified_live_agrees_across_record_manifest_and_pin",
      "kind": "count",
      "literal": 9,
@@ -7405,7 +7405,7 @@
      "reason": "names another market or isolation"
     },
     {
-     "line": 517,
+     "line": 522,
      "test": "test_case_17_the_stale_pittsburgh_like_package_cannot_remove_newer_indianapolis_like_state",
      "kind": "count",
      "literal": 786,
@@ -7416,7 +7416,7 @@
      "reason": "bundle / sitemap / route total"
     },
     {
-     "line": 550,
+     "line": 555,
      "test": "test_the_index_is_o_data_and_fast_at_a_hundred_markets",
      "kind": "count",
      "literal": 30,
@@ -7427,7 +7427,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 732,
+     "line": 753,
      "test": "test_staging_writes_only_into_the_stage_and_restores_every_constant",
      "kind": "count",
      "literal": 50,
@@ -7438,7 +7438,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 900,
+     "line": 921,
      "test": "test_the_committed_report_records_the_measurements",
      "kind": "count",
      "literal": 100,
@@ -7447,6 +7447,43 @@
      "source": "doc[\"index_benchmark\"][-1][\"markets\"] >= 100",
      "class": "HISTORICAL_ARTIFACT_INVARIANT",
      "reason": "count read from a committed artifact"
+    }
+   ]
+  },
+  {
+   "module": "tests/pettripfinder/test_atlas_throughput_004.py",
+   "market": null,
+   "lanes": [
+    "full_regression"
+   ],
+   "default_class": "HISTORICAL_COHORT_INVARIANT",
+   "default_reason": "work-order-numbered module",
+   "site_count": 2,
+   "by_class": {
+    "HISTORICAL_COHORT_INVARIANT": 2
+   },
+   "sites": [
+    {
+     "line": 498,
+     "test": "test_telemetry_records_every_request",
+     "kind": "count",
+     "literal": 2,
+     "reads_package": false,
+     "has_len": false,
+     "source": "(cache.root / \"telemetry.jsonl\").read_text(encoding=\"utf-8\").count(\"\\n\") >= 2",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 522,
+     "test": "test_case_2_a_second_process_hits_the_persistent_cache",
+     "kind": "count",
+     "literal": 10,
+     "reads_package": false,
+     "has_len": false,
+     "source": "warm[\"total_seconds\"] < 10",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
     }
    ]
   },

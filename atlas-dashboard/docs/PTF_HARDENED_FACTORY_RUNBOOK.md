@@ -308,6 +308,47 @@ the engine chain over the real launch package. They run inside every
 `regression_lanes.py run --lane website_generation_integration`; a
 market-local plan never selects them.
 
+### Persistent market-bundle cache (ATLAS-THROUGHPUT-004)
+
+`scripts/pettripfinder/bundle_cache.py` makes a validated market bundle
+reusable ACROSS runs. The rule: if every declared build input is identical
+and the exact output bytes were validated under a compatible policy, do not
+rebuild — and a hit is a proof, never an assumption.
+
+- BUILD INPUT KEY = sha256 of a canonical manifest: package digest and section
+  digests, the staged render tree, the 43 shared data files + the market's
+  affiliate shard and the 177 repository modules a build reads/loads
+  (`launch_packages/pettripfinder/bundle_cache_closure.json`, MEASURED by
+  tracing two real builds), builder/assembler sources, toolchain (Python,
+  platform, requirement lockfiles, installed package versions), build
+  arguments, locale, `PTF_*` environment. The output digest is never an
+  input; the validation policy version sits OUTSIDE the byte key.
+- Storage under `data/bundle_cache/` (`PTF_BUNDLE_CACHE_ROOT`): immutable
+  `objects/<bundle sha>.zip`, `index/<key>.json`, `receipts/<digest>.json`,
+  per-key `locks/`, `quarantine/`, `tmp/`, `telemetry.jsonl`.
+- TRUSTED only when the build succeeded, its gates passed, the archive
+  round-trips to the built digest, no undeclared repository file was read
+  (an `open()`/`open_code` tracer decides), determinism was proven by a
+  second cold build, no evidence is revoked or expired. Anything less is an
+  UNTRUSTED row that never satisfies a lookup.
+- A lookup re-extracts and re-hashes the bytes, re-reads the receipt and
+  checks it binds this key, this digest, this policy and these dependency
+  digests, then revocation and freshness. Corrupt, partial, zero-byte,
+  mismatched or receipt-less entries are quarantined and rebuilt.
+- `cold_required=True` bypasses the cache (BYPASS_COLD_REQUIRED) for a
+  determinism claim; `PTF_BUNDLE_CACHE_FORBID_BUILD=1` makes a miss raise
+  (the cross-process proof). Statuses: MISS, HIT, HIT_AFTER_WAIT, REVALIDATE,
+  INVALID_CORRUPT, INVALID_REVOKED, INVALID_POLICY_VERSION,
+  BYPASS_COLD_REQUIRED.
+- A hit is artifact identity, not release safety: the FAST lane's rules
+  A–I and L–O still run (`run_fast_lane(..., bundle_cache=…)` lets J be the
+  hit and K inherit the bundle receipt's determinism);
+  `PRODUCTION_RELEASE_CONSUMPTION = DISABLED` in
+  `fast_release_activation.json` — the production assembler and the deployer
+  do not read the cache until 005.
+- Retention: `gc_plan()` is a DRY RUN; the live and rollback releases are
+  never only in this cache.
+
 ### Session-local assembly reuse (ATLAS-THROUGHPUT-002)
 
 `scripts/pettripfinder/assembly_session_cache.py`: within ONE process, the

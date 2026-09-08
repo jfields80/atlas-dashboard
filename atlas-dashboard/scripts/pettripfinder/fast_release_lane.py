@@ -224,8 +224,16 @@ def run_fast_lane(package: Mapping, *, work_dir: Path,
                   revocations: Optional[Mapping[str, Mapping]] = None,
                   activation: Optional[Mapping] = None,
                   ledger_lookup: Optional[Callable[[Mapping], Optional[bool]]] = None,
-                  participates: Optional[bool] = None) -> "OrderedDict[str, Any]":
+                  participates: Optional[bool] = None,
+                  bundle_cache: Any = None) -> "OrderedDict[str, Any]":
     """Run rules A-O over ``package`` and return the receipt.
+
+    ``bundle_cache`` (ATLAS-THROUGHPUT-004, a ``bundle_cache.BundleCache``)
+    lets rule J be satisfied by a TRUSTED persistent bundle whose input key
+    matches this package -- MARKET_BUILD_REQUIRED = NO -- and rule K by the
+    determinism proof that bundle's receipt carries. Without it (the
+    default) J and K are the two cold builds 003 specified. A cache hit is
+    artifact identity, never release safety: rules A-I and L-O still run.
 
     ``live`` may be supplied (a test fixture, or one index shared by several
     packages); otherwise it is read from the committed records. ``build`` and
@@ -398,8 +406,47 @@ def run_fast_lane(package: Mapping, *, work_dir: Path,
     # ---- J, K: build the changed market, twice, cold ---------------------- #
     t = time.perf_counter()
     build_a: Optional[Mapping] = None
-    if not build:
+    cached: Optional[Mapping] = None
+    if build and bundle_cache is not None:
+        try:
+            cached = bundle_cache.build_or_reuse(package, work_dir=work / "bc", cold_required=False,
+                                                 require_determinism=determinism, revocations=revocations, now=now)
+        except Exception as exc:
+            cached = None
+            results["J"] = _result("J", FAIL, t, problems=["persistent cache request failed: %s" % str(exc)[:300]])
+    if cached is not None:
+        reused = cached["cache_status"] in ("HIT", "HIT_AFTER_WAIT", "REVALIDATE")
+        j_problems = [] if reused or cached.get("trust_state") == "TRUSTED" else \
+            ["cached build not trusted: %s" % cached.get("untrusted_because")]
+        results["J"] = _result("J", PASS if not j_problems else FAIL, t,
+                               detail=(("MARKET_BUILD_REQUIRED", "NO" if reused else "YES"),
+                                       ("cache_status", cached["cache_status"]),
+                                       ("build_input_key", cached["build_input_key"]),
+                                       ("bundle_sha256", cached["bundle_sha256"]),
+                                       ("file_count", cached.get("file_count")),
+                                       ("receipt_digest", cached.get("receipt_digest")),
+                                       ("builder_invocations", cached.get("builder_invocations")),
+                                       ("build_seconds", cached.get("build_seconds")),
+                                       ("lookup_seconds", cached.get("lookup_seconds"))),
+                               problems=j_problems)
+        t = time.perf_counter()
+        determinism_result = (cached.get("determinism") or {}).get("result")
+        if reused:
+            receipt_doc = bundle_cache.read_receipt(str(cached.get("receipt_digest") or "")) or {}
+            determinism_result = ((receipt_doc.get("results") or {}).get("determinism") or {}).get("result")
+        k_ok = determinism and determinism_result == "BYTE_IDENTICAL"
+        results["K"] = _result("K", PASS if k_ok else (UNKNOWN if not determinism else FAIL), t,
+                               detail=(("result", determinism_result or UNKNOWN),
+                                       ("inherited_from_bundle_receipt", bool(reused)),
+                                       ("output_digest_a", cached["bundle_sha256"]),
+                                       ("output_digest_b", cached["bundle_sha256"] if determinism_result == "BYTE_IDENTICAL" else None),
+                                       ("cold_builds_executed", cached.get("builder_invocations")),
+                                       ("reuse_hits", 1 if reused else 0)),
+                               problems=[] if k_ok else ["determinism %s" % (determinism_result or "not proven")])
+    elif not build:
         results["J"] = _result("J", UNKNOWN, t, problems=["changed-market build not executed (build=False)"])
+    elif "J" in results:
+        pass
     else:
         try:
             # Short directory names on purpose: a Windows path is limited to 260
@@ -422,7 +469,9 @@ def run_fast_lane(package: Mapping, *, work_dir: Path,
         except Exception as exc:
             results["J"] = _result("J", FAIL, t, problems=["build failed: %s" % str(exc)[:400]])
     t = time.perf_counter()
-    if not determinism or build_a is None:
+    if "K" in results:
+        pass
+    elif not determinism or build_a is None:
         results["K"] = _result("K", UNKNOWN, t,
                                problems=["determinism not executed" if determinism else
                                          "determinism proof not executed (determinism=False)"])

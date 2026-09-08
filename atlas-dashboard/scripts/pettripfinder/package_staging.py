@@ -33,6 +33,7 @@ from __future__ import annotations
 import json
 import os
 import shutil
+import threading
 import time
 from collections import OrderedDict
 from contextlib import contextmanager
@@ -124,21 +125,32 @@ def stage_package(package: Mapping, stage_root: Path, *,
         _write_json(affiliate_target, empty_document(market_id))
     written[affiliate_target.relative_to(stage).as_posix()] = SMP.sha256_bytes(affiliate_target.read_bytes())
 
-    # Same-campus resolutions are shared identity state the guard reads.
-    resolutions = repo / "launch_packages" / "pettripfinder" / "identity_resolutions.json"
-    if resolutions.is_file():
-        target = lp / "identity_resolutions.json"
-        shutil.copyfile(resolutions, target)
-        written[target.relative_to(stage).as_posix()] = SMP.sha256_bytes(target.read_bytes())
+    # Same-campus resolutions are shared identity state the guard reads;
+    # blueprint / categories / locations / pilot config and content are the
+    # generator's base package (shared, copied verbatim so the pilot loader
+    # reads them from the stage).
+    for name in ("identity_resolutions.json", "blueprint.json", "categories.json", "locations.json",
+                 "pilot_config.json", "pilot_content.json"):
+        source = repo / "launch_packages" / "pettripfinder" / name
+        if source.is_file():
+            target = lp / name
+            shutil.copyfile(source, target)
+            written[target.relative_to(stage).as_posix()] = SMP.sha256_bytes(target.read_bytes())
 
     # The three generated globals and the authority manifest, from the staged
     # shard(s) -- exactly what ``build_global_authority --write`` would emit.
     authority_dir = lp / "markets" / "authority"
-    for target, text in (
+    # Under the overlay: the registry the shard walk checks against is the
+    # STAGED registry (which carries the package's market), never the
+    # committed one -- a shadow or fixture market is registered in staging only.
+    with overlay(stage):
+        rendered = (
             (lp / "identity_routing.json", MA.render_json(MA.assemble_routing_document(authority_dir))),
             (lp / "hotel_exclusions.json", MA.render_json(MA.assemble_exclusions_document(authority_dir))),
             (lp / "seed_businesses.csv", MA.render_seed_csv(MA.assemble_seed_rows(authority_dir))),
-            (lp / "ptf_global_authority_manifest.json", MA.render_json(MA.build_manifest(authority_dir)))):
+            (lp / "ptf_global_authority_manifest.json", MA.render_json(MA.build_manifest(authority_dir))),
+        )
+    for target, text in rendered:
         _write_text(target, text)
         written[target.relative_to(stage).as_posix()] = SMP.sha256_bytes(target.read_bytes())
     return written
@@ -172,6 +184,13 @@ def _patch_targets(stage: Path) -> List[Tuple[str, str, Any]]:
         ("scripts.pettripfinder.assemble_production_site", "PACKAGE_DIR", lp),
         ("scripts.pettripfinder.assemble_production_site", "CENSUS_DIR", lp / "identity_census"),
         ("scripts.pettripfinder.market_reports", "MARKETS_DIR", lp / "markets"),
+        # ATLAS-THROUGHPUT-004: the generator's base package (seed CSV,
+        # blueprint, categories, locations, pilot config/content) is read
+        # through the pilot loader's own constant, imported by name into the
+        # production generator -- both must point at the stage, or an
+        # unregistered market's rows come from the committed CSV.
+        ("scripts.generate_pettripfinder_pilot", "LAUNCH_PACKAGE_DIR", lp),
+        ("scripts.generate_pettripfinder_columbus_site", "LAUNCH_PACKAGE_DIR", lp),
     ]
 
 
@@ -210,6 +229,13 @@ def preserved_build_state() -> Iterator[None]:
             setattr(module, attribute, value)
 
 
+#: The overlay rewrites process-wide module constants, so only one staging
+#: tree may be overlaid at a time; concurrent requests (the bundle cache's
+#: per-key workers) serialise here. Re-entrant: build_changed_market overlays
+#: around a stage_package that overlays for its own globals.
+_OVERLAY_LOCK = threading.RLock()
+
+
 @contextmanager
 def overlay(stage_root: Path) -> Iterator[Path]:
     """Point the build path at ``stage_root``; restore everything on exit,
@@ -218,6 +244,7 @@ def overlay(stage_root: Path) -> Iterator[Path]:
     stage = Path(stage_root)
     saved: List[Tuple[Any, str, Any]] = []
     env_key = "PTF_IDENTITY_CENSUS_DIR"
+    _OVERLAY_LOCK.acquire()
     env_saved = os.environ.get(env_key)
     state = preserved_build_state()
     state.__enter__()
@@ -238,6 +265,7 @@ def overlay(stage_root: Path) -> Iterator[Path]:
         else:
             os.environ[env_key] = env_saved
         state.__exit__(None, None, None)
+        _OVERLAY_LOCK.release()
 
 
 # --------------------------------------------------------------------------- #

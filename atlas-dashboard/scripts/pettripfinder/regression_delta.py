@@ -517,6 +517,7 @@ PATH_RULES: Tuple[Tuple[str, str, Tuple[str, ...]], ...] = (
     ("prefix", "launch_packages/pettripfinder/markets/staging/", (MARKET_DATA_PACKAGE,)),
     ("prefix", "launch_packages/pettripfinder/markets/receipts/", (MARKET_DATA_PACKAGE,)),
     ("glob", "launch_packages/pettripfinder/fast_release_activation.json", (DEPLOYMENT_CHANGE,)),
+    ("glob", "launch_packages/pettripfinder/bundle_cache_closure.json", (DEPLOYMENT_CHANGE,)),
     ("glob", "launch_packages/pettripfinder/evidence_revocations.json", (AUTHORITY_CHANGE,)),
     ("glob", "launch_packages/pettripfinder/markets/*.json", (AUTHORITY_CHANGE,)),
 
@@ -643,6 +644,9 @@ NARROWING_BLOCKERS: Tuple[Tuple[str, str], ...] = (
     ("glob", "scripts/pettripfinder/first_party_binding.py"),
     ("glob", "scripts/pettripfinder/fast_release_lane.py"),
     ("glob", "launch_packages/pettripfinder/fast_release_activation.json"),
+    # ATLAS-THROUGHPUT-004: the persistent bundle cache and its declared closure.
+    ("glob", "scripts/pettripfinder/bundle_cache.py"),
+    ("glob", "launch_packages/pettripfinder/bundle_cache_closure.json"),
 )
 
 #: Test paths whose expectations are SHARED current state. A change to one of
@@ -1251,6 +1255,8 @@ def fast_data_only_release(market_id: str, rows: Sequence[Mapping], head: str) -
         ("activation", activation.get("FAST_PATH_PRODUCTION_ACTIVATION")),
         ("activation_allowed", FL.production_activation_allowed(market_id, activation)),
         ("FULL_REGRESSION_REQUIRED", "YES"),
+        ("MARKET_BUILD_REQUIRED", "YES"),
+        ("bundle_cache", None),
         ("why", ""),
     ))
     covering = []
@@ -1266,6 +1272,22 @@ def fast_data_only_release(market_id: str, rows: Sequence[Mapping], head: str) -
         block["why"] = ("no sealed package under markets/packages/%s covers the head bytes of %s; "
                         "the broad regression stays required" % (market_id, data_paths or "the change"))
         return block
+    # ATLAS-THROUGHPUT-004: a TRUSTED persistent bundle for the covering
+    # package means MARKET_BUILD_REQUIRED = NO. Artifact identity only -- the
+    # FAST lane's release-safety rules still decide the release.
+    try:
+        from scripts.pettripfinder import bundle_cache as BC
+        cache = BC.BundleCache()
+        for package in covering:
+            probe = cache.probe(package)
+            if probe.get("trusted"):
+                block["MARKET_BUILD_REQUIRED"] = "NO"
+                block["bundle_cache"] = probe
+                break
+        else:
+            block["bundle_cache"] = cache.probe(covering[-1])
+    except Exception as exc:                            # the cache is optional here
+        block["bundle_cache"] = OrderedDict((("trusted", False), ("why", str(exc)[:160])))
     for package in covering:
         receipts = FL.eligible_receipts(market_id, package["package_digest"])
         if receipts:

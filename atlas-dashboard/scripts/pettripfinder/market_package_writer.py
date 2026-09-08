@@ -250,6 +250,7 @@ def build_sealed_package(inputs: PackageInputs, *, sealed_at: str) -> "OrderedDi
     # ---- routing authority ------------------------------------------------- #
     routes = [dict(r) for r in inputs.official_routes]
     route_by_key: Dict[str, Mapping] = {}
+    retired_outside_census: List[str] = []
     try:
         IR.validate_authority(build_routing_shard(market_id, routes))
     except Exception as exc:
@@ -260,10 +261,19 @@ def build_sealed_package(inputs: PackageInputs, *, sealed_at: str) -> "OrderedDi
         if route.get("market_id") != market_id:
             issues.append(Issue("official_routes[%d].market_id" % index, "INVALID_MARKET_ASSIGNMENT",
                                 "route declares %r, package is for %r" % (route.get("market_id"), market_id)))
+        usable = route.get("status") in IR.USABLE_STATUSES
         if key and census_keys and key not in census_keys:
-            issues.append(Issue("official_routes[%d]" % index, "ROUTE_IDENTITY_NOT_IN_CENSUS",
-                                "route binds %r, which the census does not carry" % key))
-        if key and route.get("status") in IR.USABLE_STATUSES:
+            if usable:
+                issues.append(Issue("official_routes[%d]" % index, "ROUTE_IDENTITY_NOT_IN_CENSUS",
+                                    "an ACTIVE route binds %r, which the census does not carry" % key))
+            else:
+                # A retired or held route for a candidate the census never
+                # admitted (a restaurant, a venue) is acquisition history,
+                # not a dangling reference: it binds nothing the site
+                # publishes. Counted, never refused. (ATLAS-THROUGHPUT-004:
+                # 003 over-read Cleveland's four ROUTING_RETIRED rows.)
+                retired_outside_census.append(key)
+        if key and usable:
             route_by_key[key] = route
 
     # ---- seed rows (the display join) ------------------------------------- #
@@ -507,26 +517,40 @@ def build_sealed_package(inputs: PackageInputs, *, sealed_at: str) -> "OrderedDi
         raise PackageWriteError(_dedupe(issues))
 
     # ---- assemble the body (nothing above wrote a byte) ------------------- #
-    scorecard = OrderedDict(inputs.coverage_scorecard)
-    scorecard.setdefault("census_count", len(census_keys))
-    scorecard.setdefault("published_pet_friendly", len(pf_records))
-    scorecard.setdefault("verified_no_pets", sum(1 for e in exclusions
-                                                 if e.get("exclusion_state") == HE.VERIFIED_NO_PETS))
-    scorecard.setdefault("out_of_category", sum(1 for e in exclusions
-                                                if e.get("exclusion_state") == HE.OUT_OF_CURRENT_CATEGORY))
-    scorecard.setdefault("unresolved", len(unresolved_rows))
-    scorecard.setdefault("public_routes", len(public_routes))
-    scorecard.setdefault("evidence_references", len(references))
+    fresh: "OrderedDict[str, Any]" = OrderedDict((
+        ("census_count", len(census_keys)),
+        ("published_pet_friendly", len(pf_records)),
+        ("verified_no_pets", sum(1 for e in exclusions if e.get("exclusion_state") == HE.VERIFIED_NO_PETS)),
+        ("out_of_category", sum(1 for e in exclusions if e.get("exclusion_state") == HE.OUT_OF_CURRENT_CATEGORY)),
+        ("unresolved", len(unresolved_rows)),
+        ("public_routes", len(public_routes)),
+    ))
+    if retired_outside_census:                      # recorded only when present
+        fresh["retired_routes_outside_census"] = len(retired_outside_census)
+    fresh["evidence_references"] = len(references)
     # Whether the reference table came from an independent capture manifest
     # (the acquisition run's own record of what it fetched) or was derived from
     # the records themselves. A derived table can prove that one artifact binds
     # one identity; only a supplied one can prove a record cites a page that
     # was actually captured for it.
-    scorecard.setdefault("evidence_references_source",
-                         "supplied_capture_manifest" if inputs.evidence_references is not None
-                         else "derived_from_records")
-    scorecard.setdefault("evidence_artifacts_available", sum(1 for r in references if r["artifact_available"]))
-    scorecard.setdefault("paid_evidence_references", sum(1 for r in references if r.get("paid_reservation")))
+    fresh["evidence_references_source"] = ("supplied_capture_manifest" if inputs.evidence_references is not None
+                                           else "derived_from_records")
+    fresh["evidence_artifacts_available"] = sum(1 for r in references if r["artifact_available"])
+    fresh["paid_evidence_references"] = sum(1 for r in references if r.get("paid_reservation"))
+    if inputs.coverage_scorecard:
+        # A RE-DERIVATION (the lane's rule L, a revalidation) carries the
+        # package's own scorecard: keep it byte-for-byte so an additive writer
+        # field cannot change a sealed package's digest, but refuse a count
+        # that no longer agrees with the sections.
+        scorecard = OrderedDict(inputs.coverage_scorecard)
+        for key, value in fresh.items():
+            if key in scorecard and key != "evidence_references_source" and scorecard[key] != value:
+                issues.append(Issue("coverage_scorecard.%s" % key, "SCORECARD_MISMATCH",
+                                    "scorecard says %r, the sections derive %r" % (scorecard[key], value)))
+        if issues:
+            raise PackageWriteError(_dedupe(issues))
+    else:
+        scorecard = fresh
     scorecard["counts_by_partition_state"] = OrderedDict(sorted(reconciliation.counts_by_state.items()))
 
     body: "OrderedDict[str, Any]" = OrderedDict((
@@ -834,12 +858,15 @@ def inputs_from_committed_market(market_id: str, *, execution_zone: str,
                                  launch_package: Optional[Path] = None,
                                  source_sha: Optional[str] = None) -> PackageInputs:
     """A registered market's committed authority, read as package inputs."""
+    from scripts.pettripfinder.site_data import published_facts_path
+
     lp = Path(launch_package) if launch_package else LAUNCH_PACKAGE
     us = market_id.replace("-", "_")
     paths: "OrderedDict[str, Path]" = OrderedDict((
         ("market", lp / "markets" / ("%s.json" % market_id)),
         ("census", lp / "identity_census" / ("%s.json" % market_id)),
-        ("policy_package", lp / ("hotel_policy_facts_%s.json" % market_id)),
+        # Columbus keeps the unsuffixed package name; site_data owns that rule.
+        ("policy_package", lp / published_facts_path(market_id).name),
         ("exclusions", lp / "markets" / "authority" / market_id / "hotel_exclusions.json"),
         ("routing", lp / "markets" / "authority" / market_id / "identity_routing.json"),
         ("seed", lp / "markets" / "authority" / market_id / "seed_businesses.csv"),

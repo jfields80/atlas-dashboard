@@ -1,0 +1,230 @@
+{
+ "schema": "atlas-throughput-004-invalidation-matrix/1.0",
+ "policy": [
+  {
+   "change": "MARKET AUTHORITY CHANGED",
+   "expected": "changed market miss",
+   "proof": "policy_mutation / route_mutation / geography_mutation",
+   "actual": "MISS (key moved: package + section digests)"
+  },
+  {
+   "change": "ROUTES CHANGED",
+   "expected": "relevant market miss",
+   "proof": "route_mutation",
+   "actual": "MISS"
+  },
+  {
+   "change": "POLICY CHANGED",
+   "expected": "relevant market miss",
+   "proof": "policy_mutation",
+   "actual": "MISS"
+  },
+  {
+   "change": "GEOGRAPHY / IDENTITY CHANGED",
+   "expected": "relevant market miss",
+   "proof": "geography_mutation",
+   "actual": "MISS"
+  },
+  {
+   "change": "EVIDENCE REFERENCE CHANGED",
+   "expected": "follow the render/validation dependency",
+   "proof": "evidence_manifest_digest is in the key; a reference change is a new package",
+   "actual": "MISS by key"
+  },
+  {
+   "change": "SHARED TEMPLATE CHANGED",
+   "expected": "every dependent market miss",
+   "proof": "template_mutation; multi-market after_shared_template_change",
+   "actual": "MISS for A, B and C"
+  },
+  {
+   "change": "SHARED RUNTIME CHANGED",
+   "expected": "every dependent market miss",
+   "proof": "shared_runtime_mutation",
+   "actual": "MISS"
+  },
+  {
+   "change": "BUILDER CHANGED",
+   "expected": "dependent bundles miss",
+   "proof": "builder_mutation",
+   "actual": "MISS"
+  },
+  {
+   "change": "SCHEMA / CONTRACT CHANGE",
+   "expected": "per compatibility",
+   "proof": "contract_versions + declared closure digest in the key",
+   "actual": "MISS (no compatibility table yet: fail closed)"
+  },
+  {
+   "change": "BUILD ARGUMENT CHANGED",
+   "expected": "relevant miss",
+   "proof": "build_arguments in the key",
+   "actual": "MISS"
+  },
+  {
+   "change": "LOCKFILE / TOOLCHAIN CHANGE",
+   "expected": "affected closure miss",
+   "proof": "lockfile_mutation",
+   "actual": "MISS"
+  },
+  {
+   "change": "MARKET TOOLING ONLY CHANGED",
+   "expected": "HIT remains valid",
+   "proof": "market_tooling_only_mutation",
+   "actual": "HIT"
+  },
+  {
+   "change": "TEST-ONLY CHANGE",
+   "expected": "bytes reusable",
+   "proof": "tests/ is outside the closure",
+   "actual": "HIT (receipt unaffected: the bundle policy does not run tests)"
+  },
+  {
+   "change": "VALIDATION POLICY / RULE CHANGED",
+   "expected": "bytes valid, old receipt cannot satisfy new policy",
+   "proof": "validation_policy_version_change_compatible",
+   "actual": "REVALIDATE (no build) then HIT; incompatible => INVALID_POLICY_VERSION"
+  },
+  {
+   "change": "PARTICIPATION CHANGE",
+   "expected": "bundle may remain valid",
+   "proof": "launch_participation.json is not in the closure (the market bundle does not read it)",
+   "actual": "HIT; the release manifest must change (005)"
+  },
+  {
+   "change": "EVIDENCE EXPIRED / REVOKED",
+   "expected": "no stale approval",
+   "proof": "revoked_entry; evidence revocation and expiry in verify()",
+   "actual": "INVALID_REVOKED => rebuild, which is UNTRUSTED while the evidence stays revoked"
+  }
+ ],
+ "measured": [
+  {
+   "case": "baseline_unchanged",
+   "expected": "HIT",
+   "actual": "HIT",
+   "match": true,
+   "seconds": 4.542
+  },
+  {
+   "case": "policy_mutation",
+   "expected": "MISS",
+   "actual": "MISS",
+   "match": true,
+   "seconds": 1.317
+  },
+  {
+   "case": "route_mutation",
+   "expected": "MISS",
+   "actual": "MISS",
+   "match": true,
+   "seconds": 1.323
+  },
+  {
+   "case": "geography_mutation",
+   "expected": "MISS",
+   "actual": "MISS",
+   "match": true,
+   "seconds": 1.29
+  },
+  {
+   "case": "shadow_repo_unchanged",
+   "expected": "HIT",
+   "actual": "HIT",
+   "match": true,
+   "seconds": 5.236
+  },
+  {
+   "case": "template_mutation",
+   "expected": "MISS",
+   "actual": "MISS",
+   "match": true,
+   "seconds": 1.271
+  },
+  {
+   "case": "builder_mutation",
+   "expected": "MISS",
+   "actual": "MISS",
+   "match": true,
+   "seconds": 2.653
+  },
+  {
+   "case": "shared_runtime_mutation",
+   "expected": "MISS",
+   "actual": "MISS",
+   "match": true,
+   "seconds": 2.616
+  },
+  {
+   "case": "market_tooling_only_mutation",
+   "expected": "HIT",
+   "actual": "HIT",
+   "match": true,
+   "seconds": 5.157
+  },
+  {
+   "case": "lockfile_mutation",
+   "expected": "MISS",
+   "actual": "MISS",
+   "match": true,
+   "seconds": 1.273
+  },
+  {
+   "case": "validation_policy_version_change_compatible",
+   "expected": "REVALIDATE",
+   "actual": "REVALIDATE",
+   "match": true,
+   "seconds": 3.271
+  },
+  {
+   "case": "corrupt_artifact",
+   "expected": "MISS",
+   "actual": "MISS",
+   "match": true,
+   "seconds": 1.332
+  },
+  {
+   "case": "missing_artifact",
+   "expected": "MISS",
+   "actual": "MISS",
+   "match": true,
+   "seconds": 1.295
+  },
+  {
+   "case": "zero_byte_artifact",
+   "expected": "MISS",
+   "actual": "MISS",
+   "match": true,
+   "seconds": 1.276
+  },
+  {
+   "case": "missing_receipt",
+   "expected": "MISS",
+   "actual": "MISS",
+   "match": true,
+   "seconds": 3.835
+  },
+  {
+   "case": "wrong_receipt",
+   "expected": "MISS",
+   "actual": "MISS",
+   "match": true,
+   "seconds": 3.657
+  },
+  {
+   "case": "malformed_metadata",
+   "expected": "MISS",
+   "actual": "MISS",
+   "match": true,
+   "seconds": 1.257
+  },
+  {
+   "case": "revoked_entry",
+   "expected": "MISS",
+   "actual": "MISS",
+   "match": true,
+   "seconds": 1.248
+  }
+ ],
+ "all_match": true
+}

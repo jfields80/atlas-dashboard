@@ -780,6 +780,17 @@ def pytest_sessionfinish(session, exitstatus):
             rec.write("assembly_session_cache", **_ASC.summary())
         except Exception:
             rec.errors += 1
+        try:
+            # ATLAS-THROUGHPUT-004: the persistent bundle cache's request
+            # telemetry (MISS / HIT / HIT_AFTER_WAIT / REVALIDATE / INVALID_* /
+            # BYPASS_COLD_REQUIRED), when the session touched it.
+            _BC = sys.modules.get("scripts.pettripfinder.bundle_cache")
+            if _BC is not None and _BC.EVENTS:
+                rec.write("bundle_cache", **_BC.summary())
+                for event in _BC.EVENTS:
+                    rec.write("bundle_cache_request", **event)
+        except Exception:
+            rec.errors += 1
         rec.write("session_finish",
                   seconds=round(now - _State.session_started, 3),
                   collection_seconds=(round(_State.collection_finished - _State.session_started, 3)

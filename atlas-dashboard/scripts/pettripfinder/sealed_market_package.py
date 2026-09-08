@@ -202,11 +202,17 @@ def is_sha256(value: Any) -> bool:
 
 
 def normalise_sha256(value: str) -> str:
-    """``sha256:<hex>`` for either spelling the repository uses."""
+    """``sha256:<hex>`` for every spelling the repository uses: bare hex,
+    ``sha256:`` + hex, and the Cleveland work-browser pass's
+    ``sha256:xxxxxxxx-xxxxxxxx-...`` (eight dash-separated groups of the same
+    64 hex digits). The digest is the digest; the punctuation is not."""
     text = str(value or "").strip().lower()
-    if _SHA256_BARE.match(text):
-        return "sha256:" + text
-    return text
+    if text.startswith("sha256:"):
+        text = text[7:]
+    grouped = text.replace("-", "")
+    if _SHA256_BARE.match(grouped) and (text == grouped or re.match(r"^(?:[0-9a-f]{8}-){7}[0-9a-f]{8}$", text)):
+        return "sha256:" + grouped
+    return str(value or "").strip().lower()
 
 
 def body_of(document: Mapping) -> "OrderedDict[str, Any]":

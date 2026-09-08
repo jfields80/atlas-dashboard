@@ -295,10 +295,15 @@ class TestTypedWriter:
     def test_the_writer_reports_which_live_markets_do_not_satisfy_the_contracts(self, live):
         """Legacy facts, not failures of the writer: recorded for the report."""
         verdicts = {}
-        for market_id in ("cleveland-akron-canton-oh", "pittsburgh-pa"):
+        for market_id in ("cleveland-akron-canton-oh", "pittsburgh-pa", "grand-rapids-holland-mi"):
             inputs = PILOT.frozen_inputs(market_id, live)
             verdicts[market_id] = _writer_codes(inputs)
-        assert "ROUTE_IDENTITY_NOT_IN_CENSUS" in verdicts["cleveland-akron-canton-oh"]
+        # ATLAS-THROUGHPUT-004 corrected 003's over-reading of Cleveland's four
+        # ROUTING_RETIRED rows (acquisition history, not dangling references)
+        # and accepted the dash-spelled artifact hashes: Cleveland now seals.
+        assert verdicts["cleveland-akron-canton-oh"] == ()
+        # An ACTIVE route outside the census is still a dangling reference.
+        assert "ROUTE_IDENTITY_NOT_IN_CENSUS" in verdicts["grand-rapids-holland-mi"]
         assert "PUBLICATION_BLOCKED" in verdicts["pittsburgh-pa"]
 
 
