@@ -349,6 +349,15 @@ rebuild — and a hit is a proof, never an assumption.
 - Retention: `gc_plan()` is a DRY RUN; the live and rollback releases are
   never only in this cache.
 
+**Session-cache isolation (the 004 migration audit's lesson).** A staged build runs under
+`package_staging.overlay`, and the 002 session cache's key must be computed INSIDE that
+overlay: its dynamic inputs (the overlay census dir, `PTF_*` env, module state) are what
+distinguish a staged render from the committed one. The bundle cache freezes only the
+tree walk while a build is traced (`_frozen_tree_fingerprint`); freezing the whole
+fingerprint once stored a Dayton withdrawal render under the committed Dayton key and a
+later production assembly in the same pytest session came out four profiles short.
+`TestSessionCacheIsolation` pins it.
+
 ### Session-local assembly reuse (ATLAS-THROUGHPUT-002)
 
 `scripts/pettripfinder/assembly_session_cache.py`: within ONE process, the
