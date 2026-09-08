@@ -308,7 +308,7 @@ directory. No market authority, no participation, no deployment.
    contract, participation, pins, ledgers or deployment records changed (the pilot package lives under the
    market's own `markets/packages/` directory; it is inert data no build reads).
 10. WAS THE FAST PATH USED TO DEPLOY? **NO**.
-11. MIGRATION AUDIT TRUE_NEW_FAILURE = **0 (1 found, closed by node id)**
+11. MIGRATION AUDIT TRUE_NEW_FAILURE = **0** (3 found -- one cause, the staged build's leaked /go/ prefix -- closed by node id at df1ec32; PRE_EXISTING 160 = the f75aa95 set exactly)
 12. IS ATLAS-THROUGHPUT-004 READY? **YES** — the input packet is complete and measured; 004 is not started.
 
 STOP. 004 not started. No market promoted. Nothing deployed.
