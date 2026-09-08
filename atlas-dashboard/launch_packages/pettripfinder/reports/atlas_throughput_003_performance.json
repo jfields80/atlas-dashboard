@@ -1,0 +1,91 @@
+{
+ "schema": "atlas-throughput-003-performance/1.0",
+ "machine": "the 16 GB Windows 10 build machine (8 cores)",
+ "target": {
+  "p50_seconds": 300,
+  "initial_proof_seconds": 900
+ },
+ "P2_dayton_withdrawal": {
+  "PACKAGE_WRITE_TIME_s": 0.07,
+  "PACKAGE_VALIDATION_TIME_s": 0.24,
+  "GLOBAL_INDEX_TIME_s": 4.939,
+  "CHANGED_MARKET_BUILD_TIME_s": 28.656,
+  "DETERMINISM_TIME_s": 31.889,
+  "TOTAL_FAST_LANE_TIME_s": 60.872,
+  "TOTAL_INCLUDING_LIVE_INDEX_s": 65.737,
+  "PEAK_MEMORY_MB": 103.8,
+  "RULES_EXECUTED": 15,
+  "ASSEMBLY_EXECUTIONS": 4,
+  "REUSE_HITS": 0
+ },
+ "P1_dayton_frozen": {
+  "TOTAL_FAST_LANE_TIME_s": 73.601,
+  "verdict": "NOT ELIGIBLE (C)"
+ },
+ "P3_nashville_writer_seconds": 0.029,
+ "P4_toledo_writer_seconds": 0.009,
+ "pilot_total_seconds": 144.158,
+ "pilot_peak_working_set_mb": 132.9,
+ "index_benchmark": [
+  {
+   "markets": 11,
+   "participating": 10,
+   "profiles": 786,
+   "compose_and_compare_seconds": 0.0687,
+   "digest_seconds": 0.0295,
+   "total_seconds": 0.0982,
+   "findings": 0
+  },
+  {
+   "markets": 25,
+   "participating": 24,
+   "profiles": 1964,
+   "compose_and_compare_seconds": 0.1621,
+   "digest_seconds": 0.0563,
+   "total_seconds": 0.2185,
+   "findings": 0
+  },
+  {
+   "markets": 50,
+   "participating": 49,
+   "profiles": 3848,
+   "compose_and_compare_seconds": 0.314,
+   "digest_seconds": 0.1114,
+   "total_seconds": 0.4255,
+   "findings": 0
+  },
+  {
+   "markets": 100,
+   "participating": 99,
+   "profiles": 7778,
+   "compose_and_compare_seconds": 0.5759,
+   "digest_seconds": 0.2366,
+   "total_seconds": 0.8126,
+   "findings": 0
+  },
+  {
+   "markets": 200,
+   "participating": 199,
+   "profiles": 15638,
+   "compose_and_compare_seconds": 1.0498,
+   "digest_seconds": 0.493,
+   "total_seconds": 1.5429,
+   "findings": 0
+  }
+ ],
+ "targeted_tests": {
+  "module": "tests/pettripfinder/test_atlas_throughput_003.py",
+  "counts": {
+   "PASS": 69,
+   "FAIL": 0,
+   "SKIP": 0
+  },
+  "seconds": 81.4
+ },
+ "old_broad_path": {
+  "wall_seconds_001": 7955.454,
+  "wall_seconds_002_audit": 3814.696,
+  "selected_tests": 17408,
+  "peak_working_set_mb": 7538.1
+ }
+}

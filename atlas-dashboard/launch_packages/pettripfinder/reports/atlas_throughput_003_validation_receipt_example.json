@@ -1,0 +1,513 @@
+{
+ "schema": "ptf-fast-release-receipt/1.0",
+ "lane": "FAST_DATA_ONLY_RELEASE",
+ "PACKAGE_ID": "pkg-dayton-oh-813f7f9f089b89c7",
+ "PACKAGE_DIGEST": "sha256:813f7f9f089b89c74abe5bc4e6509b6256392572a9f99fc3c834f2ede5e2d7c3",
+ "MARKET_ID": "dayton-oh",
+ "PARENT_RELEASE": {
+  "live_deploy_id": "6a9d33f5dc8c3d1cf9464376",
+  "rollback_target": "6a9ca921843f2cba2ddf8da1",
+  "source_commit": "eb3a41651d02f3ca529919b57d9c2cc911ee0eba",
+  "live_index_digest": "sha256:fbbda87df4a906a0c648f132f89d51cb0925f97378fd380d8e2dc8eccfb14e48"
+ },
+ "CHANGE_CLASS": "MARKET_AUTHORITY_DATA_ONLY",
+ "DEPENDENCY_DIGEST": "sha256:42bb2c2ad42fb857f6e8496fb6e98305bfb678d6b3df76af86c31a63510edd50",
+ "VALIDATION_POLICY_VERSION": "ptf-fast-data-only-release/1.0",
+ "RULES_EXECUTED": [
+  {
+   "rule": "A",
+   "name": "package schema valid"
+  },
+  {
+   "rule": "B",
+   "name": "identity valid"
+  },
+  {
+   "rule": "C",
+   "name": "first-party policy binding valid"
+  },
+  {
+   "rule": "D",
+   "name": "policy semantics valid"
+  },
+  {
+   "rule": "E",
+   "name": "route references valid"
+  },
+  {
+   "rule": "F",
+   "name": "market partition valid"
+  },
+  {
+   "rule": "G",
+   "name": "proposed whole-release identity/route indexes contain no forbidden collision"
+  },
+  {
+   "rule": "H",
+   "name": "every unrelated live market/member is preserved"
+  },
+  {
+   "rule": "I",
+   "name": "every removal is explicitly intended"
+  },
+  {
+   "rule": "J",
+   "name": "changed-market artifact builds successfully"
+  },
+  {
+   "rule": "K",
+   "name": "changed-market output deterministic"
+  },
+  {
+   "rule": "L",
+   "name": "package/artifact hashes internally consistent"
+  },
+  {
+   "rule": "M",
+   "name": "required evidence freshness/revocation rules satisfied"
+  },
+  {
+   "rule": "N",
+   "name": "rollback/current-live preservation metadata valid"
+  },
+  {
+   "rule": "O",
+   "name": "paid acquisitions used by the package satisfy reservation provenance"
+  }
+ ],
+ "RESULTS": {
+  "A": {
+   "rule": "A",
+   "name": "package schema valid",
+   "status": "PASS",
+   "seconds": 0.016,
+   "detail": {
+    "schema": "ptf-sealed-market-package/1.0",
+    "package_id": "pkg-dayton-oh-813f7f9f089b89c7",
+    "package_digest": "sha256:813f7f9f089b89c74abe5bc4e6509b6256392572a9f99fc3c834f2ede5e2d7c3"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "B": {
+   "rule": "B",
+   "name": "identity valid",
+   "status": "PASS",
+   "seconds": 0.084,
+   "detail": {
+    "identity_records": 129,
+    "census_count": 129,
+    "declared_relations": 0,
+    "writer_seconds": 0.082
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "C": {
+   "rule": "C",
+   "name": "first-party policy binding valid",
+   "status": "PASS",
+   "seconds": 0.138,
+   "detail": {
+    "records_evaluated": 73,
+    "eligible": 73,
+    "ineligible": 0,
+    "classes": {}
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "D": {
+   "rule": "D",
+   "name": "policy semantics valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "pet_friendly_records": 50,
+    "verified_no_pets_records": 23,
+    "policy_schema": "1.3"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "E": {
+   "rule": "E",
+   "name": "route references valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "official_routes": 9,
+    "public_routes": 65
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "F": {
+   "rule": "F",
+   "name": "market partition valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "partition_count": 129,
+    "unresolved_rows": 56,
+    "counts_by_partition_state": {
+     "ACCESS_BLOCKED": 4,
+     "AWAITING_CENSUS_REVIEW": 1,
+     "AWAITING_OFFICIAL_URL": 15,
+     "AWAITING_POLICY_ARTIFACT": 9,
+     "AWAITING_POLICY_OBSERVATION": 15,
+     "AWAITING_ROUTING_REPLACEMENT": 8,
+     "AWAITING_ROUTING_REVIEW": 4,
+     "PUBLISHED_PET_FRIENDLY": 50,
+     "VERIFIED_NO_PETS": 23
+    }
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "G": {
+   "rule": "G",
+   "name": "proposed whole-release identity/route indexes contain no forbidden collision",
+   "status": "PASS",
+   "seconds": 0.074,
+   "detail": {
+    "live_digest": "sha256:fbbda87df4a906a0c648f132f89d51cb0925f97378fd380d8e2dc8eccfb14e48",
+    "proposed_digest": "sha256:ebd488c1cbb3d6df1ba69557aeccd771b92bf9f06bef01185006062aa9e81139",
+    "proposed_participating": [
+     "cincinnati-oh",
+     "cleveland-akron-canton-oh",
+     "columbus-oh",
+     "dayton-oh",
+     "grand-rapids-holland-mi",
+     "indianapolis-in",
+     "louisville-ky",
+     "milwaukee-wi",
+     "pittsburgh-pa",
+     "st-louis-mo"
+    ],
+    "proposed_total_profiles": 782,
+    "legacy_collisions_outside_package": 0,
+    "compare_seconds": 0.0573
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "H": {
+   "rule": "H",
+   "name": "every unrelated live market/member is preserved",
+   "status": "PASS",
+   "seconds": 0.074,
+   "detail": {
+    "live_participating": [
+     "cincinnati-oh",
+     "cleveland-akron-canton-oh",
+     "columbus-oh",
+     "dayton-oh",
+     "grand-rapids-holland-mi",
+     "indianapolis-in",
+     "louisville-ky",
+     "milwaukee-wi",
+     "pittsburgh-pa",
+     "st-louis-mo"
+    ],
+    "live_total_profiles": 786,
+    "finding_counts": {}
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "I": {
+   "rule": "I",
+   "name": "every removal is explicitly intended",
+   "status": "PASS",
+   "seconds": 0.074,
+   "detail": {
+    "intended_delta": {
+     "market_id": "dayton-oh",
+     "add_property_ids": [],
+     "update_property_ids": [],
+     "remove_property_ids": [
+      "staybridge suites miamisburg",
+      "the hotel at dayton south",
+      "holiday inn express and suites dayton huber heights",
+      "holiday inn express and suites washington court house"
+     ],
+     "add_routes": [],
+     "change_routes": [],
+     "remove_routes": [
+      "/pet-friendly-hotels/dayton-oh/holiday-inn-express-suites-dayton-huber-heights/",
+      "/pet-friendly-hotels/dayton-oh/holiday-inn-express-suites-washington-court-house/",
+      "/pet-friendly-hotels/dayton-oh/kettering-centerville/",
+      "/pet-friendly-hotels/dayton-oh/staybridge-suites-miamisburg/",
+      "/pet-friendly-hotels/dayton-oh/the-hotel-at-dayton-south/",
+      "/pet-friendly-hotels/dayton-oh/washington-court-house/"
+     ],
+     "expected_profile_delta": -4,
+     "expected_market_count_delta": 0,
+     "expected_participation_delta": []
+    },
+    "actual_delta": {
+     "add_property_ids": [],
+     "update_property_ids": [],
+     "remove_property_ids": [
+      "holiday inn express and suites dayton huber heights",
+      "holiday inn express and suites washington court house",
+      "staybridge suites miamisburg",
+      "the hotel at dayton south"
+     ],
+     "add_routes": [],
+     "remove_routes": [
+      "/pet-friendly-hotels/dayton-oh/holiday-inn-express-suites-dayton-huber-heights/",
+      "/pet-friendly-hotels/dayton-oh/holiday-inn-express-suites-washington-court-house/",
+      "/pet-friendly-hotels/dayton-oh/kettering-centerville/",
+      "/pet-friendly-hotels/dayton-oh/staybridge-suites-miamisburg/",
+      "/pet-friendly-hotels/dayton-oh/the-hotel-at-dayton-south/",
+      "/pet-friendly-hotels/dayton-oh/washington-court-house/"
+     ],
+     "profile_delta": -4,
+     "verified_no_pets_delta": -1,
+     "market_count_delta": 0
+    },
+    "removal_authority": {
+     "ruling_ref": "ATLAS-THROUGHPUT-003 pilot withdrawal (frozen copy, never promoted)",
+     "reason": "five records fail the first-party gate under the owning reader: three bare acceptance labels, one fee sentence cited as the acceptance, one bare machine field cited as the refusal"
+    }
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "J": {
+   "rule": "J",
+   "name": "changed-market artifact builds successfully",
+   "status": "PASS",
+   "seconds": 28.656,
+   "detail": {
+    "bundle_sha256": "6340911b0605e4e2731df9bea2efc0164e5201329219315445960fd202051296",
+    "file_count": 334,
+    "html_count": 318,
+    "staged_input_digest": "sha256:a6ba205ac580b5cac65fecfca32d14eb3203dc00ef6d3c1c9e6dcb11b5dbd143",
+    "contract_sha256": "sha256:4f41240398cfe0a5f68ae27af624989861c84b30236505878a899a4369c07ef3",
+    "release_name": "package-dayton-oh-nogit-4bab64b0-2c8c574d",
+    "cache_events": [
+     {
+      "verdict": "BUILD_EXECUTED",
+      "assembly_kind": "generator_site",
+      "input_key": "cb2131910339b94cac1dc534efc52d3ce25faaf63e16717f770d56ecd3033383",
+      "seconds": 7.92
+     },
+     {
+      "verdict": "BUILD_EXECUTED",
+      "assembly_kind": "market_bundle",
+      "input_key": "f87ea485e12e8fc514d4f49e88d74ef4a882c266790422d878924acbdc0161c0",
+      "seconds": 23.539
+     }
+    ],
+    "build_seconds": 28.655
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "K": {
+   "rule": "K",
+   "name": "changed-market output deterministic",
+   "status": "PASS",
+   "seconds": 31.889,
+   "detail": {
+    "input_digest": "sha256:a6ba205ac580b5cac65fecfca32d14eb3203dc00ef6d3c1c9e6dcb11b5dbd143",
+    "output_digest_a": "6340911b0605e4e2731df9bea2efc0164e5201329219315445960fd202051296",
+    "output_digest_b": "6340911b0605e4e2731df9bea2efc0164e5201329219315445960fd202051296",
+    "result": "BYTE_IDENTICAL",
+    "cold_builds_executed": 4,
+    "reuse_hits": 0,
+    "build_seconds": 31.889
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "L": {
+   "rule": "L",
+   "name": "package/artifact hashes internally consistent",
+   "status": "PASS",
+   "seconds": 0.001,
+   "detail": {
+    "package_digest": "sha256:813f7f9f089b89c74abe5bc4e6509b6256392572a9f99fc3c834f2ede5e2d7c3",
+    "rederived_digest": "sha256:813f7f9f089b89c74abe5bc4e6509b6256392572a9f99fc3c834f2ede5e2d7c3",
+    "evidence_references": 73,
+    "artifacts_available": 0,
+    "artifacts_checked": 0,
+    "dependency_inputs": 7,
+    "dependency_digest": "sha256:42bb2c2ad42fb857f6e8496fb6e98305bfb678d6b3df76af86c31a63510edd50"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "M": {
+   "rule": "M",
+   "name": "required evidence freshness/revocation rules satisfied",
+   "status": "PASS",
+   "seconds": 0.001,
+   "detail": {
+    "max_age_days": 365,
+    "references": 73,
+    "revoked_registry_size": 0,
+    "earliest_expiry": "2027-08-10T00:00:00Z"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "N": {
+   "rule": "N",
+   "name": "rollback/current-live preservation metadata valid",
+   "status": "PASS",
+   "seconds": 0.012,
+   "detail": {
+    "live": {
+     "live_deploy_id": "6a9d33f5dc8c3d1cf9464376",
+     "previous_deploy_id": "6a9ca921843f2cba2ddf8da1",
+     "rollback_target": "6a9ca921843f2cba2ddf8da1",
+     "source_commit": "eb3a41651d02f3ca529919b57d9c2cc911ee0eba",
+     "bundle_sha256": "ca59f3710abde7504dc6c312992e0e2c9db70eccbff737cd12be6ec72708ff1f",
+     "sitemap_sha256": "5b7399e864f3f7e4ddc87c38a4e1c3be168d02377d2d3e4621aec13c982a9706",
+     "participating_markets": [
+      "cincinnati-oh",
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "grand-rapids-holland-mi",
+      "indianapolis-in",
+      "louisville-ky",
+      "milwaukee-wi",
+      "pittsburgh-pa",
+      "st-louis-mo"
+     ],
+     "profile_counts": {
+      "cincinnati-oh": 130,
+      "cleveland-akron-canton-oh": 120,
+      "columbus-oh": 88,
+      "dayton-oh": 54,
+      "grand-rapids-holland-mi": 43,
+      "indianapolis-in": 82,
+      "louisville-ky": 53,
+      "milwaukee-wi": 73,
+      "pittsburgh-pa": 61,
+      "st-louis-mo": 82
+     },
+     "total_profiles": 786,
+     "sitemap_route_count": 945,
+     "deployment_record": "ptf-deploy-cincinnati-004-6a9d33f5dc8c3d1cf9464376.json",
+     "authorization_id": "ptf-auth-cincinnati-004-ca59f3710abd",
+     "rollback_record": "ptf-deploy-louisville-003-6a9ca921843f2cba2ddf8da1.json",
+     "rollback_markets": [
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "grand-rapids-holland-mi",
+      "indianapolis-in",
+      "louisville-ky",
+      "milwaukee-wi",
+      "pittsburgh-pa",
+      "st-louis-mo"
+     ],
+     "problems": []
+    },
+    "stale_parent": false
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "O": {
+   "rule": "O",
+   "name": "paid acquisitions used by the package satisfy reservation provenance",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "paid_references": 0,
+    "ledger_cross_checked": 0,
+    "ledger_unknown": 0
+   },
+   "problems": [],
+   "problem_count": 0
+  }
+ },
+ "TIMESTAMPS": {
+  "started_at": "2026-09-08T04:57:47Z",
+  "finished_at": "2026-09-08T04:58:48Z",
+  "seconds": 60.872
+ },
+ "ARTIFACT_DIGESTS": {
+  "changed_market_bundle_sha256_a": "6340911b0605e4e2731df9bea2efc0164e5201329219315445960fd202051296",
+  "changed_market_bundle_sha256_b": "6340911b0605e4e2731df9bea2efc0164e5201329219315445960fd202051296",
+  "staged_input_digest": "sha256:a6ba205ac580b5cac65fecfca32d14eb3203dc00ef6d3c1c9e6dcb11b5dbd143",
+  "staged_contract_sha256": "sha256:4f41240398cfe0a5f68ae27af624989861c84b30236505878a899a4369c07ef3"
+ },
+ "GLOBAL_INDEX_DIGEST": {
+  "live": "sha256:fbbda87df4a906a0c648f132f89d51cb0925f97378fd380d8e2dc8eccfb14e48",
+  "proposed": "sha256:ebd488c1cbb3d6df1ba69557aeccd771b92bf9f06bef01185006062aa9e81139"
+ },
+ "PACKAGE_INDEX_DIGEST": "sha256:93c46ad423f9b1eceafbd714d2776a61fb624a44974627615c28d19590cd3e50",
+ "INTENDED_DELTA_DIGEST": "sha256:c7b7fb29b5c91001d788562887aa32d0e41276989651f02749fab68ef7fbe940",
+ "DETERMINISM_RESULT": "BYTE_IDENTICAL",
+ "FIRST_PARTY_BINDING_RESULT": "PASS",
+ "COLLISION_RESULT": "PASS",
+ "REMOVAL_RESULT": "PASS",
+ "LEGACY_EXCEPTIONS": [],
+ "ENVIRONMENT": {
+  "python": "3.13.5",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "builder_version": "ptf-market-package-writer/1.0",
+  "contract_versions": {
+   "market": "ptf-market/1.1",
+   "census": "ptf-market-identity-census/1.1",
+   "partition": "ptf-market-final-partition/1.1",
+   "policy_schema": "1.3",
+   "evidence": "contracts.evidence PUBLICATION_GRADE_REQUIRED=evidence_ref,field,quote,source_url,source_grade,artifact_class,artifact_sha256,artifact_kind,captured_at",
+   "identity_key": "ptf_identity_key/1.0",
+   "identity_routing": "ptf-identity-routing/1.0",
+   "hotel_exclusions": "ptf-hotel-exclusions/1.0",
+   "sealed_market_package": "ptf-sealed-market-package/1.0"
+  },
+  "created_from_source_sha": "e982aad42549141223fb65a92b658be14b9d7071",
+  "peak_working_set_mb": 103.8
+ },
+ "EXPIRY_REVOCATION_CONDITIONS": {
+  "valid_while": [
+   "the live deployment is 6a9d33f5dc8c3d1cf9464376",
+   "the live index digest is sha256:fbbda87df4a906a0c648f132f89d51cb0925f97378fd380d8e2dc8eccfb14e48",
+   "no referenced artifact is added to evidence_revocations.json",
+   "the evidence is younger than 365 days",
+   "the owning contracts are at the versions recorded in ENVIRONMENT",
+   "the sealed package bytes are unchanged (digest above)"
+  ],
+  "earliest_evidence_expiry": "2027-08-10T00:00:00Z",
+  "evidence_max_age_days": 365
+ },
+ "UNKNOWN_RULES": [],
+ "FAILED_RULES": [],
+ "FAST_DATA_ONLY_RELEASE_ELIGIBLE": "YES",
+ "FULL_REGRESSION_REQUIRED_BY_LANE": "NO",
+ "FAST_PATH_PRODUCTION_ACTIVATION": "DISABLED",
+ "PRODUCTION_ACTIVATION_ALLOWED": "NO",
+ "PERFORMANCE": {
+  "total_seconds": 60.872,
+  "per_rule_seconds": {
+   "A": 0.016,
+   "B": 0.084,
+   "C": 0.138,
+   "D": 0.0,
+   "E": 0.0,
+   "F": 0.0,
+   "G": 0.074,
+   "H": 0.074,
+   "I": 0.074,
+   "J": 28.656,
+   "K": 31.889,
+   "L": 0.001,
+   "M": 0.001,
+   "N": 0.012,
+   "O": 0.0
+  },
+  "changed_market_build_seconds": 28.655,
+  "determinism_build_seconds": 31.889
+ },
+ "RECEIPT_DIGEST": "sha256:324148f81b55bc5072dc60570fa2f3823c61872c0b85433f727b8f85a628d290"
+}

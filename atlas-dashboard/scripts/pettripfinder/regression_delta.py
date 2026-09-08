@@ -115,6 +115,19 @@ DOCUMENTATION_ONLY = "DOCUMENTATION_ONLY"
 GENERATED_REPORT_ONLY = "GENERATED_REPORT_ONLY"
 BASELINE_MANIFEST_ONLY = "BASELINE_MANIFEST_ONLY"
 MARKET_LOCAL_TOOLING = "MARKET_LOCAL_TOOLING"
+#: ATLAS-THROUGHPUT-003: a sealed market package, a staging tree or a
+#: validation receipt under a market's own packages/staging/receipts
+#: directories -- inert data no production module reads.
+MARKET_DATA_PACKAGE = "MARKET_DATA_PACKAGE"
+#: ATLAS-THROUGHPUT-003: a change set that is ONE registered market's
+#: authority data and nothing else. Granted to a whole change set, never to a
+#: path: every AUTHORITY_CHANGE row must be that market's own authority file
+#: (or a derived global whose diff names only that market) and no other class
+#: may be present. Its full regression is CONDITIONAL on a committed
+#: FAST_DATA_ONLY_RELEASE receipt for a sealed package covering exactly these
+#: bytes AND production activation for the market -- otherwise it is exactly
+#: AUTHORITY_CHANGE.
+MARKET_AUTHORITY_DATA_ONLY = "MARKET_AUTHORITY_DATA_ONLY"
 UNCLASSIFIED = "UNCLASSIFIED"
 
 CHANGE_CLASSES: Tuple[str, ...] = (
@@ -122,7 +135,28 @@ CHANGE_CLASSES: Tuple[str, ...] = (
     ROUTING_SEMANTIC_CHANGE, DEPLOYMENT_CHANGE, TEST_EXPECTATION_CHANGE,
     BOOKKEEPING_REGISTRATION_CHANGE, DOCUMENTATION_ONLY,
     GENERATED_REPORT_ONLY, BASELINE_MANIFEST_ONLY, MARKET_LOCAL_TOOLING,
+    MARKET_DATA_PACKAGE, MARKET_AUTHORITY_DATA_ONLY,
     UNCLASSIFIED,
+)
+
+#: ATLAS-THROUGHPUT-003: the release surfaces a plan distinguishes. Every
+#: change class maps to exactly one surface (``release_surface_of``); the
+#: surfaces are what the FAST_DATA_ONLY_RELEASE decision is stated over.
+SURFACE_MARKET_LOCAL_TOOLING = "MARKET_LOCAL_TOOLING"
+SURFACE_MARKET_DATA_PACKAGE = "MARKET_DATA_PACKAGE"
+SURFACE_MARKET_AUTHORITY_DATA_ONLY = "MARKET_AUTHORITY_DATA_ONLY"
+SURFACE_SHARED_SCHEMA_CHANGE = "SHARED_SCHEMA_CHANGE"
+SURFACE_SHARED_RUNTIME_CHANGE = "SHARED_RUNTIME_CHANGE"
+SURFACE_ASSEMBLER_CHANGE = "ASSEMBLER_CHANGE"
+SURFACE_DEPLOYMENT_CHANGE = "DEPLOYMENT_CHANGE"
+SURFACE_CLASSIFIER_TEST_INFRA_CHANGE = "CLASSIFIER_TEST_INFRA_CHANGE"
+SURFACE_UNKNOWN_MIXED = "UNKNOWN_MIXED"
+SURFACE_NARROW_NON_RELEASE = "NARROW_NON_RELEASE"
+RELEASE_SURFACES: Tuple[str, ...] = (
+    SURFACE_MARKET_LOCAL_TOOLING, SURFACE_MARKET_DATA_PACKAGE,
+    SURFACE_MARKET_AUTHORITY_DATA_ONLY, SURFACE_SHARED_SCHEMA_CHANGE,
+    SURFACE_SHARED_RUNTIME_CHANGE, SURFACE_ASSEMBLER_CHANGE, SURFACE_DEPLOYMENT_CHANGE,
+    SURFACE_CLASSIFIER_TEST_INFRA_CHANGE, SURFACE_UNKNOWN_MIXED, SURFACE_NARROW_NON_RELEASE,
 )
 
 REQUIRED = "required"
@@ -330,6 +364,56 @@ VALIDATION_MATRIX: "OrderedDict[str, OrderedDict]" = OrderedDict((
                 "any fact that cannot be established leaves the path in its "
                 "prefix class"),
     ))),
+    (MARKET_DATA_PACKAGE, OrderedDict((
+        ("surface", "a sealed market package, a staging tree or a validation "
+                    "receipt under launch_packages/pettripfinder/markets/"
+                    "{packages,staging,receipts}/<market>/ -- immutable data "
+                    "named by digest that no production module reads"),
+        ("lanes", ()),
+        ("owning_modules", True),
+        ("owning_directory", False),
+        ("reverse_dependents", True),
+        ("market_targeted", True),
+        ("assembly", NOT_REQUIRED),
+        ("full_regression", NOT_REQUIRED),
+        ("condition", ""),
+        ("why", "ATLAS-THROUGHPUT-003: a package is the INPUT to the fast "
+                "release lane, never to a build -- the assembler, the "
+                "generator and the deployer read committed authority only; "
+                "the reverse-dependent scan finds every test that pins one, "
+                "and a package that is not a package fails the lane's rule A"),
+    ))),
+    (MARKET_AUTHORITY_DATA_ONLY, OrderedDict((
+        ("surface", "a change set that is ONE registered market's own "
+                    "authority data and nothing else: its registry entry, "
+                    "census, policy package, partition, shard and release "
+                    "contract, plus the derived globals where the diff names "
+                    "only that market"),
+        ("lanes", (LANES_MODULE.POLICY_SCHEMA, LANES_MODULE.IDENTITY_ROUTING,
+                   LANES_MODULE.RELEASE_CONTRACT, LANES_MODULE.CROSS_MARKET)),
+        ("owning_modules", True),
+        ("owning_directory", False),
+        ("reverse_dependents", True),
+        ("market_targeted", True),
+        ("assembly", REQUIRED),
+        ("full_regression", CONDITIONAL),
+        ("condition", "not required ONLY when a committed FAST_DATA_ONLY_RELEASE "
+                      "receipt says FAST_DATA_ONLY_RELEASE_ELIGIBLE = YES for a "
+                      "sealed package whose dependency digests cover the exact "
+                      "bytes of every changed authority file, that receipt has "
+                      "no UNKNOWN rule, and fast_release_activation.json "
+                      "ENABLES the market; required otherwise, exactly as "
+                      "AUTHORITY_CHANGE"),
+        ("why", "ATLAS-THROUGHPUT-003: the fifteen rules of the fast lane "
+                "prove the release hazards a data-only change can cause "
+                "(identity, first-party binding, policy semantics, routes, "
+                "partition, whole-release collisions, preservation, intended "
+                "delta, build, determinism, hashes, freshness, live state, "
+                "paid provenance) directly and in minutes; the broad suite "
+                "proves them indirectly in hours. Until the receipt exists and "
+                "activation is granted the row is AUTHORITY_CHANGE by another "
+                "name"),
+    ))),
     (UNCLASSIFIED, OrderedDict((
         ("surface", "unknown -- no rule claims this path"),
         ("lanes", tuple(l for l in LANES_MODULE.LANES
@@ -427,6 +511,13 @@ PATH_RULES: Tuple[Tuple[str, str, Tuple[str, ...]], ...] = (
      (AUTHORITY_CHANGE, ROUTING_SEMANTIC_CHANGE)),
     ("glob", "launch_packages/pettripfinder/*_census_*.json",
      (AUTHORITY_CHANGE, ROUTING_SEMANTIC_CHANGE)),
+    # -- ATLAS-THROUGHPUT-003: sealed packages, staging trees and receipts live
+    #    inside a market's own zone; the two policy files are release policy.
+    ("prefix", "launch_packages/pettripfinder/markets/packages/", (MARKET_DATA_PACKAGE,)),
+    ("prefix", "launch_packages/pettripfinder/markets/staging/", (MARKET_DATA_PACKAGE,)),
+    ("prefix", "launch_packages/pettripfinder/markets/receipts/", (MARKET_DATA_PACKAGE,)),
+    ("glob", "launch_packages/pettripfinder/fast_release_activation.json", (DEPLOYMENT_CHANGE,)),
+    ("glob", "launch_packages/pettripfinder/evidence_revocations.json", (AUTHORITY_CHANGE,)),
     ("glob", "launch_packages/pettripfinder/markets/*.json", (AUTHORITY_CHANGE,)),
 
     # -- generated artifacts, AFTER the authority rules ----------------------
@@ -544,6 +635,14 @@ NARROWING_BLOCKERS: Tuple[Tuple[str, str], ...] = (
     ("glob", "conftest.py"),
     ("glob", "pytest.ini"),
     ("glob", "requirements*.txt"),
+    # ATLAS-THROUGHPUT-003: the fast lane and everything it decides with.
+    ("glob", "scripts/pettripfinder/sealed_market_package.py"),
+    ("glob", "scripts/pettripfinder/market_package_writer.py"),
+    ("glob", "scripts/pettripfinder/package_staging.py"),
+    ("glob", "scripts/pettripfinder/release_index.py"),
+    ("glob", "scripts/pettripfinder/first_party_binding.py"),
+    ("glob", "scripts/pettripfinder/fast_release_lane.py"),
+    ("glob", "launch_packages/pettripfinder/fast_release_activation.json"),
 )
 
 #: Test paths whose expectations are SHARED current state. A change to one of
@@ -982,6 +1081,250 @@ def _market_local_refinement(relpath: str, status: str, rule: str, base: str,
     return True, proof
 
 
+# --------------------------------------------------------------------------- #
+# ATLAS-THROUGHPUT-003: MARKET_AUTHORITY_DATA_ONLY, release surfaces and the
+# FAST_DATA_ONLY_RELEASE requirement.
+# --------------------------------------------------------------------------- #
+
+#: The authority files ONE market owns, with <id> / <us> substituted.
+MARKET_AUTHORITY_DATA_PATTERNS: Tuple[str, ...] = (
+    "launch_packages/pettripfinder/markets/<id>.json",
+    "launch_packages/pettripfinder/identity_census/<id>.json",
+    "launch_packages/pettripfinder/hotel_policy_facts_<id>.json",
+    "launch_packages/pettripfinder/markets/authority/<id>/*",
+    "launch_packages/pettripfinder/<us>_final_partition_*.json",
+    "deploy/netlify/release_contracts/<id>.json",
+)
+
+#: Files DERIVED from every market's shard by build_global_authority; a
+#: data-only change regenerates them, and the diff may name only the market.
+DERIVED_AUTHORITY_GLOBALS: Tuple[str, ...] = (
+    "launch_packages/pettripfinder/identity_routing.json",
+    "launch_packages/pettripfinder/hotel_exclusions.json",
+    "launch_packages/pettripfinder/seed_businesses.csv",
+    "launch_packages/pettripfinder/ptf_global_authority_manifest.json",
+)
+
+#: Classes a data-only change set may carry beside its authority rows.
+_DATA_ONLY_COMPANIONS = frozenset({GENERATED_REPORT_ONLY, DOCUMENTATION_ONLY,
+                                   BASELINE_MANIFEST_ONLY, MARKET_DATA_PACKAGE})
+
+_DERIVED_LINE_OK = re.compile(r"sha256|build_marker|generated|\"count\"|_hash\"|\"as_of\"|^[+-]\s*[\[\]{},]*\s*$")
+
+
+def _registered_market_ids_at(head: str) -> Tuple[str, ...]:
+    """Every market id the registry carries at ``head`` (worktree or git)."""
+    if head == WORKTREE:
+        directory = REPO_ROOT / "launch_packages" / "pettripfinder" / "markets"
+        return tuple(sorted(p.stem for p in directory.glob("*.json")))
+    listing = _git("ls-tree", "--name-only", head, "%slaunch_packages/pettripfinder/markets/" % _repo_prefix())
+    return tuple(sorted(Path(line.strip()).stem for line in listing.splitlines()
+                        if line.strip().endswith(".json")))
+
+
+def market_authority_owner(relpath: str, markets: Sequence[str]) -> Optional[str]:
+    """Which registered market's own authority file ``relpath`` is, if any."""
+    rel = _posix(relpath)
+    for market_id in markets:
+        us = market_id.replace("-", "_")
+        for pattern in MARKET_AUTHORITY_DATA_PATTERNS:
+            candidate = pattern.replace("<id>", market_id).replace("<us>", us)
+            if _matches("glob", candidate, rel):
+                return market_id
+        if market_id == "columbus-oh" and rel == "launch_packages/pettripfinder/hotel_policy_facts.json":
+            return market_id
+    # Partition tables name files whose stem is not the market's underscore form.
+    try:
+        from scripts.pettripfinder.build_market_manifest import _PARTITION_FILES
+        from scripts.pettripfinder.assemble_production_site import _partition_path
+        for market_id in markets:
+            name = _PARTITION_FILES.get(market_id)
+            if name and rel == "launch_packages/pettripfinder/" + name:
+                return market_id
+            path = _partition_path(market_id)
+            if path is not None and rel == "launch_packages/pettripfinder/" + Path(path).name:
+                return market_id
+    except Exception:                                    # pragma: no cover
+        pass
+    return None
+
+
+def _derived_global_names_only(relpath: str, base: str, head: str, market_id: str,
+                               markets: Sequence[str]) -> Tuple[bool, str]:
+    """A derived global's diff may name only ``market_id``."""
+    prefix = _repo_prefix()
+    if head == WORKTREE:
+        raw = _git("diff", base, "--", prefix + relpath)
+    else:
+        raw = _git("diff", base, head, "--", prefix + relpath)
+    others = [m for m in markets if m != market_id]
+    us = market_id.replace("-", "_")
+    for line in raw.splitlines():
+        if not line or line[0] not in "+-" or line.startswith(("+++", "---")):
+            continue
+        if market_id in line or us in line:
+            continue
+        if any(o in line for o in others):
+            return False, "diff of %s names another market: %s" % (relpath, line.strip()[:80])
+        if _DERIVED_LINE_OK.search(line):
+            continue
+        return False, "diff of %s carries a line that names no market: %s" % (relpath, line.strip()[:80])
+    return True, "diff names only %s" % market_id
+
+
+def _market_authority_data_only(rows: Sequence[Mapping], base: str, head: str,
+                                blockers: Sequence[str]) -> Tuple[Optional[str], str]:
+    """``(market_id, why)`` when the WHOLE change set is one market's data."""
+    if blockers:
+        return None, "narrowing blocked by %s" % list(blockers)[:3]
+    authority_rows = [r for r in rows if AUTHORITY_CHANGE in r["classes"]]
+    if not authority_rows:
+        return None, "no authority change"
+    for row in rows:
+        if AUTHORITY_CHANGE in row["classes"]:
+            extra = set(row["classes"]) - {AUTHORITY_CHANGE, ROUTING_SEMANTIC_CHANGE}
+            if extra:
+                return None, "%s is also %s" % (row["path"], sorted(extra))
+        elif not set(row["classes"]) <= _DATA_ONLY_COMPANIONS:
+            return None, "%s is %s, not market data" % (row["path"], row["classes"])
+    try:
+        markets = _registered_market_ids_at(head)
+    except Exception as exc:
+        return None, "registry unreadable at %s: %s" % (head, str(exc)[:80])
+    owners: Dict[str, str] = {}
+    derived: List[str] = []
+    for row in authority_rows:
+        owner = market_authority_owner(row["path"], markets)
+        if owner is not None:
+            owners[row["path"]] = owner
+        elif _posix(row["path"]) in DERIVED_AUTHORITY_GLOBALS:
+            derived.append(row["path"])
+        else:
+            return None, "%s is shared authority, not one market's" % row["path"]
+    if len(set(owners.values())) != 1:
+        return None, ("authority rows belong to %s markets: %s"
+                      % (len(set(owners.values())), sorted(set(owners.values()))))
+    market_id = next(iter(owners.values()))
+    for path in derived:
+        ok, why = _derived_global_names_only(path, base, head, market_id, markets)
+        if not ok:
+            return None, why
+    return market_id, ("every authority row is %s's own data (%d file(s), %d derived global(s))"
+                       % (market_id, len(owners), len(derived)))
+
+
+def _bytes_at(rev: str, relpath: str) -> Optional[bytes]:
+    if rev == WORKTREE:
+        path = REPO_ROOT / relpath
+        return path.read_bytes() if path.is_file() else None
+    try:
+        return subprocess.run(["git", "show", "%s:%s%s" % (rev, _repo_prefix(), _posix(relpath))],
+                              cwd=str(REPO_ROOT), capture_output=True, check=True).stdout
+    except subprocess.CalledProcessError:
+        return None
+
+
+def fast_data_only_release(market_id: str, rows: Sequence[Mapping], head: str) -> Dict:
+    """The FAST_DATA_ONLY_RELEASE requirement for a data-only change set, and
+    whether a committed proof satisfies it. Fail closed on every gap."""
+    import hashlib
+    from scripts.pettripfinder import fast_release_lane as FL
+    from scripts.pettripfinder import sealed_market_package as SMP
+
+    data_paths = [r["path"] for r in rows if AUTHORITY_CHANGE in r["classes"]
+                  and market_authority_owner(r["path"], (market_id,)) == market_id
+                  and not _posix(r["path"]).startswith("deploy/netlify/release_contracts/")]
+    derived_paths = [r["path"] for r in rows if AUTHORITY_CHANGE in r["classes"] and r["path"] not in data_paths]
+    head_digests: "OrderedDict[str, Optional[str]]" = OrderedDict()
+    for path in data_paths:
+        data = _bytes_at(head, path)
+        head_digests[path] = "sha256:" + hashlib.sha256(data).hexdigest() if data is not None else None
+    activation = FL.load_activation()
+    block: "OrderedDict[str, object]" = OrderedDict((
+        ("market_id", market_id),
+        ("FAST_DATA_ONLY_RELEASE_REQUIRED", "YES"),
+        ("data_only_paths", data_paths),
+        ("derived_paths", derived_paths),
+        ("head_digests", head_digests),
+        ("package_id", None), ("package_digest", None), ("receipt", None),
+        ("receipt_eligible", False),
+        ("activation", activation.get("FAST_PATH_PRODUCTION_ACTIVATION")),
+        ("activation_allowed", FL.production_activation_allowed(market_id, activation)),
+        ("FULL_REGRESSION_REQUIRED", "YES"),
+        ("why", ""),
+    ))
+    covering = []
+    for package_path in SMP.list_packages(market_id):
+        try:
+            package = SMP.read_sealed(package_path)
+        except SMP.PackageContractError:
+            continue
+        digests = set(package["dependency_input_digests"].values())
+        if data_paths and all(d is not None and d in digests for d in head_digests.values()):
+            covering.append(package)
+    if not covering:
+        block["why"] = ("no sealed package under markets/packages/%s covers the head bytes of %s; "
+                        "the broad regression stays required" % (market_id, data_paths or "the change"))
+        return block
+    for package in covering:
+        receipts = FL.eligible_receipts(market_id, package["package_digest"])
+        if receipts:
+            block["package_id"] = package["package_id"]
+            block["package_digest"] = package["package_digest"]
+            receipt_path = receipts[-1]
+            try:
+                block["receipt"] = receipt_path.relative_to(REPO_ROOT).as_posix()
+            except ValueError:                           # a receipts dir outside the tree (tests)
+                block["receipt"] = receipt_path.as_posix()
+            block["receipt_eligible"] = True
+            break
+    else:
+        block["package_id"] = covering[-1]["package_id"]
+        block["package_digest"] = covering[-1]["package_digest"]
+        block["why"] = ("sealed package %s covers the change but no committed receipt says "
+                        "FAST_DATA_ONLY_RELEASE_ELIGIBLE = YES for it" % covering[-1]["package_id"])
+        return block
+    if not block["activation_allowed"]:
+        block["why"] = ("receipt %s is ELIGIBLE for %s, but FAST_PATH_PRODUCTION_ACTIVATION is %s "
+                        "and %s is not in the pilot allowlist; the broad regression stays required"
+                        % (block["receipt"], block["package_id"], block["activation"], market_id))
+        return block
+    block["FULL_REGRESSION_REQUIRED"] = "NO"
+    block["why"] = ("receipt %s proves %s FAST_DATA_ONLY_RELEASE_ELIGIBLE = YES and activation "
+                    "is granted for %s" % (block["receipt"], block["package_id"], market_id))
+    return block
+
+
+_ASSEMBLER_GLOBS = ("scripts/pettripfinder/assemble_*.py", "scripts/pettripfinder/build_market_manifest.py",
+                    "scripts/pettripfinder/release_contracts.py", "scripts/generate_pettripfinder_*.py",
+                    "scripts/pettripfinder/market_package.py", "scripts/pettripfinder/global_deployment.py")
+
+
+def release_surface_of(row: Mapping) -> str:
+    """The release surface one classified row belongs to."""
+    classes = set(row["classes"])
+    path = _posix(row["path"])
+    if is_narrowing_blocker(path) or is_shared_test_state(path):
+        return SURFACE_CLASSIFIER_TEST_INFRA_CHANGE
+    if MARKET_LOCAL_TOOLING in classes:
+        return SURFACE_MARKET_LOCAL_TOOLING
+    if MARKET_DATA_PACKAGE in classes:
+        return SURFACE_MARKET_DATA_PACKAGE
+    if MARKET_AUTHORITY_DATA_ONLY in classes:
+        return SURFACE_MARKET_AUTHORITY_DATA_ONLY
+    if UNCLASSIFIED in classes or AUTHORITY_CHANGE in classes:
+        return SURFACE_UNKNOWN_MIXED
+    if any(_matches("glob", g, path) for g in _ASSEMBLER_GLOBS):
+        return SURFACE_ASSEMBLER_CHANGE
+    if SCHEMA_CHANGE in classes:
+        return SURFACE_SHARED_SCHEMA_CHANGE
+    if DEPLOYMENT_CHANGE in classes:
+        return SURFACE_DEPLOYMENT_CHANGE
+    if GENERIC_RUNTIME_CHANGE in classes or ROUTING_SEMANTIC_CHANGE in classes:
+        return SURFACE_SHARED_RUNTIME_CHANGE
+    return SURFACE_NARROW_NON_RELEASE
+
+
 def classify_change(base: str, head: str = WORKTREE,
                     paths: Optional[Mapping[str, str]] = None) -> Dict:
     """Classify every changed path, refining test files by syntax tree and
@@ -1051,12 +1394,30 @@ def classify_change(base: str, head: str = WORKTREE,
                                            for k, v in proof["conditions"].items())),
             )) if proof is not None else None)),
         )))
+    # ATLAS-THROUGHPUT-003: a change set that is ONE market's authority data
+    # and nothing else is MARKET_AUTHORITY_DATA_ONLY -- a whole-set verdict.
+    data_only_market: Optional[str] = None
+    data_only_why = "not evaluated (explicit path list)"
+    fast_block: Optional[Dict] = None
+    if paths is None:
+        data_only_market, data_only_why = _market_authority_data_only(rows, base, head, blockers)
+        if data_only_market is not None:
+            fast_block = fast_data_only_release(data_only_market, rows, head)
+            for row in rows:
+                if AUTHORITY_CHANGE in row["classes"]:
+                    row["classes"] = [MARKET_AUTHORITY_DATA_ONLY]
+                    row["why"] += "; MARKET_AUTHORITY_DATA_ONLY: %s" % data_only_why
+                    if data_only_market not in row["markets"]:
+                        row["markets"] = list(row["markets"]) + [data_only_market]
+    for row in rows:
+        row["release_surface"] = release_surface_of(row)
     classes_seen: List[str] = []
     for row in rows:
         for cls in row["classes"]:
             if cls not in classes_seen:
                 classes_seen.append(cls)
     ordered = [c for c in CHANGE_CLASSES if c in classes_seen]
+    surfaces = [s for s in RELEASE_SURFACES if any(r["release_surface"] == s for r in rows)]
     return OrderedDict((
         ("schema", SCHEMA_CLASSIFICATION),
         ("base", base),
@@ -1067,6 +1428,9 @@ def classify_change(base: str, head: str = WORKTREE,
         ("narrowing_blockers", blockers),
         ("changed_files", rows),
         ("change_classes", ordered),
+        ("release_surfaces", surfaces),
+        ("market_authority_data_only", OrderedDict((("market_id", data_only_market), ("why", data_only_why)))),
+        ("fast_data_only_release", fast_block),
     ))
 
 
@@ -1153,7 +1517,15 @@ def plan_for(classification: Mapping) -> Dict:
                         markets.append(market)
             assembly = _need(assembly, matrix["assembly"])
             decision = matrix["full_regression"]
-            if decision == CONDITIONAL:
+            if decision == CONDITIONAL and cls == MARKET_AUTHORITY_DATA_ONLY:
+                # ATLAS-THROUGHPUT-003: conditional on a committed ELIGIBLE
+                # receipt for a sealed package covering these bytes AND
+                # production activation. Anything less is AUTHORITY_CHANGE.
+                block = classification.get("fast_data_only_release") or {}
+                decision = NOT_REQUIRED if block.get("FULL_REGRESSION_REQUIRED") == "NO" else REQUIRED
+                detail = block.get("why") or ("no FAST_DATA_ONLY_RELEASE proof recorded for %s"
+                                              % row["path"])
+            elif decision == CONDITIONAL:
                 decision = REQUIRED if row["shared_test_state"] else NOT_REQUIRED
                 detail = ("%s is shared current state" % row["path"]
                           if row["shared_test_state"]
@@ -1198,6 +1570,7 @@ def plan_for(classification: Mapping) -> Dict:
     modules = [m for m in modules
                if not any(m != d and m.startswith(d + "/") for d in directories)]
 
+    fast_block = classification.get("fast_data_only_release")
     return OrderedDict((
         ("lanes", lanes),
         ("markets", markets),
@@ -1206,6 +1579,10 @@ def plan_for(classification: Mapping) -> Dict:
         ("assembly_required", assembly == REQUIRED),
         ("full_regression_required", full == REQUIRED),
         ("full_regression_decision", full),
+        ("release_surfaces", list(classification.get("release_surfaces") or ())),
+        ("FAST_DATA_ONLY_RELEASE_REQUIRED",
+         "YES" if fast_block and fast_block.get("FAST_DATA_ONLY_RELEASE_REQUIRED") == "YES" else "NO"),
+        ("fast_data_only_release", fast_block),
         ("reasons", reasons),
     ))
 
@@ -1417,6 +1794,29 @@ def matrix_document() -> Dict:
                                 for k, p in NARROWING_BLOCKERS]),
         ("market_local_ownership_registry",
          "launch_packages/pettripfinder/market_local_ownership.json"),
+        # ATLAS-THROUGHPUT-003.
+        ("release_surfaces", list(RELEASE_SURFACES)),
+        ("release_surface_matrix", [
+            OrderedDict((("release_surface", s),
+                         ("FAST_DATA_ONLY_RELEASE_REQUIRED", "YES" if s == SURFACE_MARKET_AUTHORITY_DATA_ONLY else "NO"),
+                         ("FULL_REGRESSION_REQUIRED", fr),
+                         ("why", why)))
+            for s, fr, why in (
+                (SURFACE_MARKET_LOCAL_TOOLING, "NO", "five-condition isolation proof (ATLAS-THROUGHPUT-002)"),
+                (SURFACE_MARKET_DATA_PACKAGE, "NO", "inert data named by digest; the fast lane's input, never a build's"),
+                (SURFACE_MARKET_AUTHORITY_DATA_ONLY, "CONDITIONAL",
+                 "NO only with a committed ELIGIBLE receipt covering the exact bytes and production activation; YES otherwise"),
+                (SURFACE_SHARED_SCHEMA_CHANGE, "YES", "a contract change moves what every market derives"),
+                (SURFACE_SHARED_RUNTIME_CHANGE, "YES", "shared runtime every market executes"),
+                (SURFACE_ASSEMBLER_CHANGE, "YES", "the assembler is the proof the fast lane's rule J relies on"),
+                (SURFACE_DEPLOYMENT_CHANGE, "YES", "deployment doctrine is proven by a fresh assembly"),
+                (SURFACE_CLASSIFIER_TEST_INFRA_CHANGE, "YES", "the selector cannot authorize its own narrowing"),
+                (SURFACE_UNKNOWN_MIXED, "YES", "an unclaimed path or a mixed set is the broad suite by definition"),
+                (SURFACE_NARROW_NON_RELEASE, "NO", "prose, reports, baselines, bookkeeping and owned test expectations"),
+            )]),
+        ("market_authority_data_patterns", list(MARKET_AUTHORITY_DATA_PATTERNS)),
+        ("derived_authority_globals", list(DERIVED_AUTHORITY_GLOBALS)),
+        ("fast_release_activation", "launch_packages/pettripfinder/fast_release_activation.json"),
     ))
 
 

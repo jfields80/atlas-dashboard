@@ -1,0 +1,14 @@
+{
+ "schema": "ptf-fast-release-activation/1.0",
+ "work_order": "ATLAS-THROUGHPUT-003",
+ "what_this_is": "The feature flag and pilot allowlist for the FAST_DATA_ONLY_RELEASE lane. The lane may PROVE a sealed market package FAST_DATA_ONLY_RELEASE_ELIGIBLE = YES, but a Regression V2 plan may replace the broad regression with that proof only when FAST_PATH_PRODUCTION_ACTIVATION is ENABLED and the package's market is in pilot_allowlist. Until ATLAS-THROUGHPUT-004/005 integrate the artifact and release lifecycle, both stay closed: the fast path cannot silently replace the production deployment workflow.",
+ "FAST_PATH_IMPLEMENTED": "YES",
+ "FAST_PATH_VALIDATED": "YES",
+ "FAST_PATH_PRODUCTION_ACTIVATION": "DISABLED",
+ "pilot_allowlist": [],
+ "activation_requires": [
+  "ATLAS-THROUGHPUT-004 persistent content-addressed bundle cache",
+  "ATLAS-THROUGHPUT-005 release coordinator consuming validation receipts",
+  "a founder decision recorded in this file, per market, with the receipt digest it trusts"
+ ]
+}

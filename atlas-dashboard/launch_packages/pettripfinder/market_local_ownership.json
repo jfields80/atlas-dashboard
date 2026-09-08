@@ -118,7 +118,7 @@
   ]
  },
  "zone_template": {
-  "what": "Every zone below is an instance of this shape with <id> = market id (e.g. nashville-tn) and <us> = its underscore form (nashville_tn). The proof substitutes both.",
+  "what": "Every zone below is an instance of this shape with <id> = market id (e.g. nashville-tn) and <us> = its underscore form (nashville_tn). The proof substitutes both. ATLAS-THROUGHPUT-003 added markets/packages/<id>/, markets/staging/<id>/ and markets/receipts/<id>/: a market's sealed packages, its staged proposed authority and its validation receipts are local BY CONSTRUCTION -- they live inside the zone, never at the package root, so a shadow order that keeps its proposed state there is never broadened by a shared write.",
   "owned_paths": [
    "scripts/pettripfinder/<us>_*.py",
    "scripts/pettripfinder/discovery/config/<us>.json",
@@ -126,6 +126,9 @@
    "launch_packages/pettripfinder/markets/proposed/<id>.json",
    "launch_packages/pettripfinder/identity_census_proposed/<id>.json",
    "launch_packages/pettripfinder/markets/reports/<us>_*.json",
+   "launch_packages/pettripfinder/markets/packages/<id>/**/*",
+   "launch_packages/pettripfinder/markets/staging/<id>/**/*",
+   "launch_packages/pettripfinder/markets/receipts/<id>/**/*",
    "launch_packages/pettripfinder/<us>_osm_extracts_*.json",
    "launch_packages/pettripfinder/<us>_founder_rulings_*.json",
    "docs/work_items/PTF-<ID>-*.md"
@@ -134,6 +137,9 @@
    "launch_packages/pettripfinder/markets/proposed/<id>.json",
    "launch_packages/pettripfinder/identity_census_proposed/<id>.json",
    "launch_packages/pettripfinder/markets/reports/<us>_*.json",
+   "launch_packages/pettripfinder/markets/packages/<id>/",
+   "launch_packages/pettripfinder/markets/staging/<id>/",
+   "launch_packages/pettripfinder/markets/receipts/<id>/",
    "launch_packages/pettripfinder/<us>_osm_extracts_*.json",
    "launch_packages/pettripfinder/<us>_founder_rulings_*.json"
   ],

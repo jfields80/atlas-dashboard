@@ -1,15 +1,15 @@
 # PetTripFinder test pin inventory (A1)
 
-Schema `ptf-test-pin-inventory/1.0`. 392 modules scanned, 265 carry pins, 1553 sites.
+Schema `ptf-test-pin-inventory/1.0`. 393 modules scanned, 266 carry pins, 1558 sites.
 
 | class | sites |
 |---|---|
 | CURRENT_STATE_INVARIANT | 157 |
-| HISTORICAL_COHORT_INVARIANT | 833 |
-| HISTORICAL_ARTIFACT_INVARIANT | 188 |
-| DEPLOYMENT_EPOCH_INVARIANT | 120 |
+| HISTORICAL_COHORT_INVARIANT | 835 |
+| HISTORICAL_ARTIFACT_INVARIANT | 189 |
+| DEPLOYMENT_EPOCH_INVARIANT | 121 |
 | GENERIC_SCHEMA_INVARIANT | 194 |
-| CROSS_MARKET_INVARIANT | 61 |
+| CROSS_MARKET_INVARIANT | 62 |
 
 ## Modules asserting whole-package counts
 
@@ -213,6 +213,7 @@ Schema `ptf-test-pin-inventory/1.0`. 392 modules scanned, 265 carry pins, 1553 s
 | `policy/test_m10_code_and_address_override.py` |  | GENERIC_SCHEMA_INVARIANT | 1 | CURRENT_STATE 1 |
 | `test_atlas_throughput_001.py` |  | HISTORICAL_COHORT_INVARIANT | 10 | HISTORICAL_ARTIFACT 4, HISTORICAL_COHORT 6 |
 | `test_atlas_throughput_002.py` |  | HISTORICAL_COHORT_INVARIANT | 4 | HISTORICAL_ARTIFACT 1, HISTORICAL_COHORT 3 |
+| `test_atlas_throughput_003.py` |  | HISTORICAL_COHORT_INVARIANT | 5 | CROSS_MARKET 1, DEPLOYMENT_EPOCH 1, HISTORICAL_ARTIFACT 1, HISTORICAL_COHORT 2 |
 | `test_build_capture_queue.py` |  | HISTORICAL_COHORT_INVARIANT | 4 | HISTORICAL_COHORT 4 |
 | `test_cincinnati_brightdata_pilot_014.py` | cincinnati-oh | HISTORICAL_COHORT_INVARIANT | 9 | CROSS_MARKET 4, HISTORICAL_ARTIFACT 1, HISTORICAL_COHORT 4 |
 | `test_cincinnati_capture_pass1_001.py` | cincinnati-oh | HISTORICAL_COHORT_INVARIANT | 11 | HISTORICAL_ARTIFACT 3, HISTORICAL_COHORT 8 |

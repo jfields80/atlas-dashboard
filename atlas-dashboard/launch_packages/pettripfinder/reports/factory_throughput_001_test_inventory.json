@@ -9,16 +9,16 @@
   "GENERIC_SCHEMA_INVARIANT",
   "CROSS_MARKET_INVARIANT"
  ],
- "modules_scanned": 392,
- "modules_with_pins": 265,
- "sites": 1553,
+ "modules_scanned": 393,
+ "modules_with_pins": 266,
+ "sites": 1558,
  "by_class": {
   "CURRENT_STATE_INVARIANT": 157,
-  "HISTORICAL_COHORT_INVARIANT": 833,
-  "HISTORICAL_ARTIFACT_INVARIANT": 188,
-  "DEPLOYMENT_EPOCH_INVARIANT": 120,
+  "HISTORICAL_COHORT_INVARIANT": 835,
+  "HISTORICAL_ARTIFACT_INVARIANT": 189,
+  "DEPLOYMENT_EPOCH_INVARIANT": 121,
   "GENERIC_SCHEMA_INVARIANT": 194,
-  "CROSS_MARKET_INVARIANT": 61
+  "CROSS_MARKET_INVARIANT": 62
  },
  "modules_asserting_whole_package_counts": [
   "tests/pettripfinder/acquisition/test_authority_build_036.py",
@@ -7372,6 +7372,79 @@
      "reads_package": true,
      "has_len": false,
      "source": "doc[\"repo_input_files\"] > 1500",
+     "class": "HISTORICAL_ARTIFACT_INVARIANT",
+     "reason": "count read from a committed artifact"
+    }
+   ]
+  },
+  {
+   "module": "tests/pettripfinder/test_atlas_throughput_003.py",
+   "market": null,
+   "lanes": [
+    "full_regression"
+   ],
+   "default_class": "HISTORICAL_COHORT_INVARIANT",
+   "default_reason": "work-order-numbered module",
+   "site_count": 5,
+   "by_class": {
+    "CROSS_MARKET_INVARIANT": 1,
+    "DEPLOYMENT_EPOCH_INVARIANT": 1,
+    "HISTORICAL_ARTIFACT_INVARIANT": 1,
+    "HISTORICAL_COHORT_INVARIANT": 2
+   },
+   "sites": [
+    {
+     "line": 450,
+     "test": "test_current_verified_live_agrees_across_record_manifest_and_pin",
+     "kind": "count",
+     "literal": 9,
+     "reads_package": false,
+     "has_len": true,
+     "source": "len(state.rollback_markets) == 9",
+     "class": "CROSS_MARKET_INVARIANT",
+     "reason": "names another market or isolation"
+    },
+    {
+     "line": 517,
+     "test": "test_case_17_the_stale_pittsburgh_like_package_cannot_remove_newer_indianapolis_like_state",
+     "kind": "count",
+     "literal": 786,
+     "reads_package": false,
+     "has_len": false,
+     "source": "receipt[\"RESULTS\"][\"G\"][\"detail\"][\"proposed_total_profiles\"] == 786",
+     "class": "DEPLOYMENT_EPOCH_INVARIANT",
+     "reason": "bundle / sitemap / route total"
+    },
+    {
+     "line": 550,
+     "test": "test_the_index_is_o_data_and_fast_at_a_hundred_markets",
+     "kind": "count",
+     "literal": 30,
+     "reads_package": true,
+     "has_len": false,
+     "source": "rows[-1][\"total_seconds\"] < 30",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 732,
+     "test": "test_staging_writes_only_into_the_stage_and_restores_every_constant",
+     "kind": "count",
+     "literal": 50,
+     "reads_package": false,
+     "has_len": false,
+     "source": "contract[\"policy_package\"][\"expected_record_count\"] == 50",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 900,
+     "test": "test_the_committed_report_records_the_measurements",
+     "kind": "count",
+     "literal": 100,
+     "reads_package": true,
+     "has_len": false,
+     "source": "doc[\"index_benchmark\"][-1][\"markets\"] >= 100",
      "class": "HISTORICAL_ARTIFACT_INVARIANT",
      "reason": "count read from a committed artifact"
     }

@@ -216,6 +216,48 @@ the export drifts from the module).
 | `GENERATED_REPORT_ONLY` | not required | not required |
 | `BASELINE_MANIFEST_ONLY` | not required | not required |
 | `MARKET_LOCAL_TOOLING` | not required | not required — granted ONLY by the five-condition isolation proof below; every failure leaves the path in its prefix class |
+| `MARKET_DATA_PACKAGE` | not required | not required — a sealed package, staging tree or receipt under `markets/{packages,staging,receipts}/<market>/`; inert data no build reads (ATLAS-THROUGHPUT-003) |
+| `MARKET_AUTHORITY_DATA_ONLY` | required | conditional — a whole change set that is ONE registered market's authority data and nothing else; **not required ONLY** when a committed `FAST_DATA_ONLY_RELEASE` receipt says ELIGIBLE = YES for a sealed package covering the exact bytes AND `fast_release_activation.json` enables the market (it is DISABLED); otherwise exactly `AUTHORITY_CHANGE` |
+
+### FAST_DATA_ONLY_RELEASE (ATLAS-THROUGHPUT-003)
+
+A data-only change to one market's authority owes fifteen direct checks
+(rules A–O of `scripts/pettripfinder/fast_release_lane.py`) over a SEALED
+MARKET PACKAGE (`scripts/pettripfinder/sealed_market_package.py`, written
+only by `scripts/pettripfinder/market_package_writer.py`, which rejects
+before serialization on every owning contract):
+
+- A package schema/seal, B identity (canonical keys, same-premises proof or
+  declared relation), C first-party binding (`first_party_binding.py`: eight
+  checks per record, competitor evidence is LEAD ONLY, a fee / count /
+  weight / amenity chip / service-animal sentence alone establishes
+  nothing), D policy semantics (policy schema + evidence contracts,
+  fee/deposit conflation), E route references, F partition reconciliation,
+  G whole-release identity/route collisions and H unrelated-member
+  preservation over the O(data) `release_index.py` (CURRENT_VERIFIED_LIVE
+  from the deployed record + manifest + pin, never a render), I intended
+  delta accounting (every add / update / removal / route change declared,
+  removals with a ruling), J the real per-market assembler over a staged
+  tree (`package_staging.py`; committed authority untouched), K the same
+  build a second time COLD (`assembly_session_cache.cold()`; two cache hits
+  never pass), L hashes (seal re-derives, evidence index, artifacts),
+  M evidence age and `evidence_revocations.json`, N the package's parent
+  live state equals the live records and the rollback chain verifies,
+  O every paid capture carries a reservation key that re-derives.
+- UNKNOWN ⇒ NOT ELIGIBLE. The receipt (`markets/receipts/<market>/`) names
+  every rule, digest and expiry condition; `FAST_DATA_ONLY_RELEASE_ELIGIBLE`
+  is YES only when all fifteen are PASS.
+- `classify` grants `MARKET_AUTHORITY_DATA_ONLY` to a change set only when
+  every authority row is one market's own file (or a derived global whose
+  diff names only that market), no shared runtime / schema / assembler /
+  deployment / test-infra row is present, and nothing is UNCLASSIFIED. The
+  plan's `FAST_DATA_ONLY_RELEASE_REQUIRED` is then YES, and
+  `FULL_REGRESSION_REQUIRED` is NO only with the committed ELIGIBLE receipt
+  and activation. `FAST_PATH_PRODUCTION_ACTIVATION = DISABLED` until 004/005.
+- Every row also carries a `release_surface`: MARKET_LOCAL_TOOLING,
+  MARKET_DATA_PACKAGE, MARKET_AUTHORITY_DATA_ONLY, SHARED_SCHEMA_CHANGE,
+  SHARED_RUNTIME_CHANGE, ASSEMBLER_CHANGE, DEPLOYMENT_CHANGE,
+  CLASSIFIER_TEST_INFRA_CHANGE, UNKNOWN_MIXED or NARROW_NON_RELEASE.
 
 ### MARKET_LOCAL_TOOLING (ATLAS-THROUGHPUT-002)
 
