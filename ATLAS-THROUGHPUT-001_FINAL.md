@@ -144,7 +144,25 @@ experiment, 002 input packet. Tools: `scripts/pettripfinder/throughput_profile.p
 
 ## GIT
 
-GIT_PENDING
+Two commits on `worker/atlas-throughput-001` over base `2163c4e`:
+
+1. `463438537c75cfee71f127a1b6600de68b88446e` — "ATLAS-THROUGHPUT-001 baseline
+   and instrumentation": the plugin, the analysis CLI, 28 targeted tests, the
+   regenerated test-pin inventory, the runbook section, the order text, the
+   thirteen `atlas_throughput_001_*` reports and this FINAL.
+2. the closure commit (branch tip at push) — the durable closure artifact
+   `failure_closures/atlas-throughput-001-1.json`, report §18 and this section.
+
+Regression proof: ONE instrumented broad run (17,408 collected, 160
+PRE_EXISTING = the f75aa95 set exactly, 2 TRUE_NEW both instrumentation /
+dirty-worktree artifacts fixed at cause), then Regression V2's delta-scoped
+validation over the classifier's plan (4,552 collected, 24 PRE_EXISTING,
+**0 TRUE_NEW**, both nodes **CLOSED** by node id). No second broad run.
+Pushed to `origin/worker/atlas-throughput-001` with the upstream corrected
+from the inherited `origin/worker/ptf-hardened-lineage-consolidation-008`;
+origin == HEAD; tree clean. Committed content: instrumentation, analytical
+tooling, baseline reports, proof criteria, 002 planning. No market
+authority, no shared production semantic change.
 
 ---
 

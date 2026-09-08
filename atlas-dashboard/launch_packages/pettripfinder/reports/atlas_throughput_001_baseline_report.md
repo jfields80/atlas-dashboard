@@ -582,4 +582,34 @@ invariant map, (6) release-coordinator inputs from the release-model audit.
 
 ## 18. Closure of the two TRUE_NEW nodes (Phase 19)
 
-CLOSURE_PENDING
+Both TRUE_NEW nodes were fixed at cause (§8) and committed as
+`463438537c75cfee71f127a1b6600de68b88446e`. Regression V2 was then applied
+exactly as the runbook's post-broad fix rule prescribes:
+
+```
+regression_delta.validate("2163c4e", "4634385…", baseline=f75aa95.json,
+    require_closed=[the two node ids], out=data/regression/atlas-throughput-001-delta)
+```
+
+- Classification: `throughput_profile.py` and `throughput_baseline.py` are
+  GENERIC_RUNTIME_CHANGE (prefix `scripts/pettripfinder/`) →
+  FULL_REGRESSION_REQUIRED = **YES** by the classifier. The order authorizes
+  exactly ONE broad run, which had already been spent as the instrumented
+  baseline; a second was not started. This is itself a measured instance of
+  finding A4: two files that no production module imports (a `-p`-only
+  plugin and a read-only CLI) cost the classifier's full verdict.
+- Delta run (the plan the classifier owes: policy_schema, identity_routing,
+  release_contract, cross_market, assembly, deployment_architecture lanes +
+  owning modules + reverse dependents; `TestEveryMarketAssembles` deselected
+  as every non-full lane does): 4,552 collected, 4,475 passed, 53 skipped,
+  24 failed, 1,901 s. Against f75aa95 by node id: PRE_EXISTING 24, **TRUE_NEW 0**,
+  RESOLVED 0.
+- Closure by node id: `test_prod005_netlify_config.py::TestAssembler::test_reuses_existing_generator`
+  **CLOSED**; `acquisition/test_normalization_041.py::test_the_simulation_wrote_nothing_to_the_repository`
+  **CLOSED** (also re-run alone on the committed tree: passed). The
+  wrap-order node was additionally re-run WITH the plugin loaded: passed.
+- Durable artifact: `launch_packages/pettripfinder/failure_closures/atlas-throughput-001-1.json`
+  (`all_original_failures_accounted_for: true`, `clean: true`).
+
+TRUE_NEW_FAILURE = 0 relative to the f75aa95 baseline for both the
+instrumented broad run (after closure) and the delta run.
