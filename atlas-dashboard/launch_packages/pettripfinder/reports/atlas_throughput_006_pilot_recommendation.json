@@ -1,0 +1,39 @@
+{
+ "schema": "ptf-006-pilot-recommendation/1.0",
+ "decision": "THE FOUNDER CHOOSES. 006 deploys nothing and selects nothing.",
+ "production_gate": {
+  "schema": "ptf-release-production-gate/1.0",
+  "work_order": "ATLAS-THROUGHPUT-006",
+  "what_this_is": "The explicit allowlist that gates REAL production activation by the release coordinator. ATLAS-THROUGHPUT-006 built the remote validation lane, the trusted artifact handoff, the release queue and a real host adapter, and left this gate EMPTY on purpose. A market is activated for real only when the founder adds it here, names the candidate digest they authorised, and the coordinator's own guards still pass at the moment of the call. There is no implicit opt-in: an empty allowlist means no market can be deployed by this machinery, whatever else is green.",
+  "RELEASE_COORDINATOR_PRODUCTION_ENABLED": "NO",
+  "RELEASE_COORDINATOR_PRODUCTION_ALLOWED_MARKETS": [],
+  "requires_for_each_activation": [
+   "the market appears in RELEASE_COORDINATOR_PRODUCTION_ALLOWED_MARKETS",
+   "RELEASE_COORDINATOR_PRODUCTION_ENABLED is YES",
+   "a founder authorization binding the exact candidate digest, deployment artifact digest, parent release digest and intended delta digest",
+   "the live release is still the authorized parent at the moment of the host call",
+   "the package receipt (003 rules A-O) and the bundle validation receipt (004) both verify",
+   "a CI validation receipt when the change class requires one, or NOT_REQUIRED_BY_POLICY when it does not",
+   "the candidate still hashes to its own release manifest"
+  ],
+  "pilot_note": "ATLAS-THROUGHPUT-006 produces a RECOMMENDATION for a first pilot market and deploys nothing. The founder chooses the market and authorises the pilot separately.",
+  "supersedes": null
+ },
+ "recommended": "dayton-oh",
+ "why": [
+  "it is the only market with a committed sealed package on this branch (pkg-dayton-oh-813f7f9f089b89c7), so it is the only one whose release can be composed today",
+  "it is ALREADY LIVE, so a pilot exercises the machinery without admitting a new market to production: the delta is a withdrawal of four properties, not a launch",
+  "its candidate is already staged, gated, diffed and FAST-lane eligible (005), and its bundle is in the 004 cache as TRUSTED",
+  "the blast radius is one market's four profiles and six routes, and the rollback target is the current live release held byte-identical in durable storage"
+ ],
+ "alternatives_considered": {
+  "lexington-ky": "PROMOTION_READY in shadow, but has no sealed package on this branch and is not registered here; launching a NEW market is a larger first pilot",
+  "nashville-tn": "same: shadow-ready, unregistered on this branch",
+  "chattanooga-tn": "same"
+ },
+ "blockers_before_any_pilot": [
+  "the production gate is empty and must be opened per market by the founder",
+  "REMOTE_EXECUTION_NOT_PROVEN: if the pilot's change class needs a broad run, there is no remote receipt to satisfy it yet (a data-only pilot needs none)",
+  "this worktree predates Toledo's launch, so its committed live records are one release behind production; a real pilot must run from a tree whose CURRENT VERIFIED LIVE is actually current"
+ ]
+}

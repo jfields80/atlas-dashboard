@@ -1,0 +1,48 @@
+{
+ "schema": "ptf-ci-node-completeness/1.0",
+ "proved_over": "the ATLAS-THROUGHPUT-005 migration audit's junit, partitioned by the committed shard manifest and verified by the same ci_report code the workflow runs",
+ "planned": 17643,
+ "executed": 17643,
+ "excluded": 0,
+ "unassigned_cases": 0,
+ "complete": true,
+ "shards": [
+  {
+   "shard": 1,
+   "cases": 18,
+   "seconds": 1375.7,
+   "failures": 0
+  },
+  {
+   "shard": 2,
+   "cases": 46,
+   "seconds": 750.0,
+   "failures": 0
+  },
+  {
+   "shard": 3,
+   "cases": 8673,
+   "seconds": 748.8,
+   "failures": 63
+  },
+  {
+   "shard": 4,
+   "cases": 8906,
+   "seconds": 748.9,
+   "failures": 97
+  }
+ ],
+ "PRE_EXISTING": 160,
+ "TRUE_NEW": 0,
+ "defect_found_by_this_contract": "the first simulation left 11,600 of 17,643 cases unassigned because the shard lookup derived a module from the junit classname without stripping the test CLASS. The completeness contract failed the run and named the missing nodes; the fix routes every case through the same node-id reconstruction the receipt uses.",
+ "failure_modes": [
+  "SHARD_MISSING",
+  "SHARD_TIMEOUT",
+  "SHARD_CANCELLED",
+  "COLLECTION_ERROR",
+  "NODE_MISSING",
+  "NODE_DUPLICATED",
+  "NODE_UNPLANNED",
+  "ARTIFACT_MISSING"
+ ]
+}

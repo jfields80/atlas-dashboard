@@ -650,6 +650,16 @@ NARROWING_BLOCKERS: Tuple[Tuple[str, str], ...] = (
     # ATLAS-THROUGHPUT-005: the release coordinator decides what a release IS.
     # A change here can never be narrowed by a market-local proof.
     ("glob", "scripts/pettripfinder/release_coordinator.py"),
+    # ATLAS-THROUGHPUT-006: these decide WHAT RUNS and WHAT MAY DEPLOY. A change
+    # here can never be narrowed by the very selection it controls.
+    ("glob", "scripts/pettripfinder/ci_validation.py"),
+    ("glob", "scripts/pettripfinder/ci_report.py"),
+    ("glob", "scripts/pettripfinder/artifact_handoff.py"),
+    ("glob", "scripts/pettripfinder/release_queue.py"),
+    ("glob", "scripts/pettripfinder/live_verification.py"),
+    ("glob", "launch_packages/pettripfinder/release_production_gate.json"),
+    ("glob", "launch_packages/pettripfinder/reports/atlas_throughput_006_shard_manifest.json"),
+    ("glob", ".github/workflows/*.yml"),
 )
 
 #: Test paths whose expectations are SHARED current state. A change to one of

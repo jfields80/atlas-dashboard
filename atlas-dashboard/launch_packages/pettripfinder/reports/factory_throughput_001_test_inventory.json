@@ -9,13 +9,13 @@
   "GENERIC_SCHEMA_INVARIANT",
   "CROSS_MARKET_INVARIANT"
  ],
- "modules_scanned": 395,
- "modules_with_pins": 268,
- "sites": 1563,
+ "modules_scanned": 396,
+ "modules_with_pins": 269,
+ "sites": 1565,
  "by_class": {
   "CURRENT_STATE_INVARIANT": 157,
-  "HISTORICAL_COHORT_INVARIANT": 839,
-  "HISTORICAL_ARTIFACT_INVARIANT": 189,
+  "HISTORICAL_COHORT_INVARIANT": 840,
+  "HISTORICAL_ARTIFACT_INVARIANT": 190,
   "DEPLOYMENT_EPOCH_INVARIANT": 122,
   "GENERIC_SCHEMA_INVARIANT": 194,
   "CROSS_MARKET_INVARIANT": 62
@@ -7533,6 +7533,44 @@
      "source": "pilot[\"data_only\"][\"total_seconds\"] <= 900",
      "class": "HISTORICAL_COHORT_INVARIANT",
      "reason": "count in a closed order's suite"
+    }
+   ]
+  },
+  {
+   "module": "tests/pettripfinder/test_atlas_throughput_006.py",
+   "market": null,
+   "lanes": [
+    "full_regression"
+   ],
+   "default_class": "HISTORICAL_COHORT_INVARIANT",
+   "default_reason": "work-order-numbered module",
+   "site_count": 2,
+   "by_class": {
+    "HISTORICAL_ARTIFACT_INVARIANT": 1,
+    "HISTORICAL_COHORT_INVARIANT": 1
+   },
+   "sites": [
+    {
+     "line": 369,
+     "test": "test_case_23_supersession_is_explicit_and_refused_once_work_started",
+     "kind": "count",
+     "literal": 2,
+     "reads_package": false,
+     "has_len": true,
+     "source": "len(queue.entries()) == 2",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 586,
+     "test": "test_the_plan_is_measured_not_guessed",
+     "kind": "count",
+     "literal": 3000,
+     "reads_package": true,
+     "has_len": false,
+     "source": "manifest[\"measured_total_seconds\"] > 3000",
+     "class": "HISTORICAL_ARTIFACT_INVARIANT",
+     "reason": "count read from a committed artifact"
     }
    ]
   },

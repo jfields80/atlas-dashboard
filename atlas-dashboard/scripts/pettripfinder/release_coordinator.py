@@ -146,8 +146,17 @@ ACTIVATION_FAILED = "ACTIVATION_FAILED"
 ACTIVATION_UNKNOWN = "ACTIVATION_UNKNOWN"
 ACTIVATION_REFUSED = "ACTIVATION_REFUSED"
 
-#: 005 ships the machine, not the deploy.
+#: 005 shipped the machine, not the deploy. 006 added a real host adapter and
+#: an explicit, EMPTY allowlist in front of it; the default stays DISABLED and
+#: only the gate file can change that, per market.
 REAL_PRODUCTION_ACTIVATION = "DISABLED"
+PRODUCTION_GATE_PATH = SMP.LAUNCH_PACKAGE / "release_production_gate.json"
+PRODUCTION_GATE_SCHEMA = "ptf-release-production-gate/1.0"
+
+#: Refusals 006 adds.
+PRODUCTION_GATE_CLOSED = "PRODUCTION_GATE_CLOSED"
+MARKET_NOT_IN_PILOT_ALLOWLIST = "MARKET_NOT_IN_PILOT_ALLOWLIST"
+BROAD_VALIDATION_REFUSED = "BROAD_VALIDATION_REFUSED"
 
 
 #: Every release operation this process performed, in order. The 002 profiler
@@ -1738,14 +1747,114 @@ def rollback(*, to_release_digest: str, expected_current: str, host: SimulatedHo
 # Status and CLI.
 # --------------------------------------------------------------------------- #
 
+def load_production_gate(path: Optional[Path] = None) -> "OrderedDict[str, Any]":
+    """The explicit allowlist in front of real production activation.
+
+    A missing gate file is a CLOSED gate, never an open one: the absence of a
+    permission is not a permission.
+    """
+    path = Path(path) if path is not None else PRODUCTION_GATE_PATH
+    if not path.is_file():
+        return OrderedDict((("schema", PRODUCTION_GATE_SCHEMA),
+                            ("RELEASE_COORDINATOR_PRODUCTION_ENABLED", "NO"),
+                            ("RELEASE_COORDINATOR_PRODUCTION_ALLOWED_MARKETS", []),
+                            ("why", "no gate file at %s; a missing permission is not a permission"
+                             % path.name)))
+    return _read_json(path)
+
+
+def production_activation_allowed(market_id: Optional[str],
+                                  gate: Optional[Mapping] = None) -> Tuple[bool, str]:
+    """``(allowed, why)`` for ONE market, from the committed gate."""
+    gate = gate if gate is not None else load_production_gate()
+    if str(gate.get("RELEASE_COORDINATOR_PRODUCTION_ENABLED", "NO")).upper() != "YES":
+        return False, "%s: RELEASE_COORDINATOR_PRODUCTION_ENABLED is %r" % (
+            PRODUCTION_GATE_CLOSED, gate.get("RELEASE_COORDINATOR_PRODUCTION_ENABLED"))
+    allowed = list(gate.get("RELEASE_COORDINATOR_PRODUCTION_ALLOWED_MARKETS") or ())
+    if not allowed:
+        return False, "%s: the pilot allowlist is empty" % PRODUCTION_GATE_CLOSED
+    if market_id not in allowed:
+        return False, "%s: %s is not in %s" % (MARKET_NOT_IN_PILOT_ALLOWLIST, market_id, allowed)
+    return True, "%s is in the pilot allowlist and production activation is enabled" % market_id
+
+
+def deployment_eligible(candidate: Candidate, *, auth: Optional[Mapping] = None,
+                        live: Optional[LiveTruth] = None,
+                        required: Optional[Mapping] = None,
+                        ci_receipt: Optional[Mapping] = None,
+                        gate: Optional[Mapping] = None,
+                        superseded_by: Optional[str] = None) -> "OrderedDict[str, Any]":
+    """Everything that must be true before this candidate could go live.
+
+    Provenance is the whole answer: the candidate digest, its parent, its
+    intended delta, the package and bundle receipts it was composed from, the
+    FAST lane's verdict, a CI receipt WHEN THE CHANGE CLASS REQUIRES ONE, the
+    founder's authorization, and the production gate. A data-only release that
+    owes no broad run is not missing a CI receipt -- its remote validation
+    state is NOT_REQUIRED_BY_POLICY, which is a decision, not a gap.
+    """
+    from scripts.pettripfinder import ci_validation as CI
+
+    manifest = candidate.manifest
+    market_id = (manifest.get("intended_delta") or {}).get("market_id")
+    reasons: List[str] = []
+
+    reasons.extend("%s: %s" % (CANDIDATE_CORRUPT, p) for p in candidate.verify_bytes())
+    if auth is None:
+        reasons.append("%s: no founder authorization binds this candidate" % NOT_AUTHORIZED)
+    else:
+        reasons.extend(authorization_problems(auth, candidate, live=live,
+                                              superseded_by=superseded_by))
+
+    receipt = candidate.receipt or {}
+    fast_state = receipt.get("FAST_DATA_ONLY_RELEASE_ELIGIBLE")
+    broad = CI.broad_validation_state(required or OrderedDict((("shards_required", []),)),
+                                      ci_receipt,
+                                      source_commit=manifest.get("source_commit"),
+                                      candidate_digest=candidate.digest)
+    if broad["state"] == "REFUSED":
+        reasons.extend("%s: %s" % (BROAD_VALIDATION_REFUSED, p) for p in broad["problems"])
+
+    allowed, why = production_activation_allowed(market_id, gate)
+    if not allowed:
+        reasons.append(why)
+
+    receipts = OrderedDict((
+        ("package_receipt", any(m.get("package_digest") for m in manifest.get("markets") or ())),
+        ("bundle_validation_receipt",
+         any(m.get("validation_receipt_digest") for m in manifest.get("markets") or ())),
+        ("fast_lane_receipt", fast_state),
+        ("ci_validation_receipt", broad["state"]),
+        ("authorization", bool(auth)),
+    ))
+    return OrderedDict((
+        ("candidate_digest", candidate.digest),
+        ("deployment_artifact_digest", candidate.bundle_sha256),
+        ("parent_release_digest", manifest.get("parent_release_digest")),
+        ("intended_delta_digest", manifest.get("intended_delta_digest")),
+        ("market", market_id),
+        ("receipts", receipts),
+        ("remote_broad_validation", broad),
+        ("production_gate", why),
+        ("DEPLOYMENT_ELIGIBLE", "YES" if not reasons else "NO"),
+        ("reasons", reasons),
+    ))
+
+
 def activation_status() -> "OrderedDict[str, str]":
     return OrderedDict((
         ("RELEASE_COORDINATOR_IMPLEMENTED", "YES"),
         ("RELEASE_COORDINATOR_VALIDATED", "YES"),
         ("FINAL_CANDIDATE_LIFECYCLE_VALIDATED", "YES"),
         ("REAL_PRODUCTION_ACTIVATION", REAL_PRODUCTION_ACTIVATION),
-        ("note", "005 ships the release machine and a host simulator. No market was promoted, "
-                 "no participation changed, nothing was deployed."),
+        ("PRODUCTION_GATE", OrderedDict((
+            ("enabled", load_production_gate().get("RELEASE_COORDINATOR_PRODUCTION_ENABLED")),
+            ("allowed_markets", list(load_production_gate().get(
+                "RELEASE_COORDINATOR_PRODUCTION_ALLOWED_MARKETS") or ())),
+        ))),
+        ("note", "005 shipped the release machine and a host simulator; 006 added a real host "
+                 "adapter behind an explicit EMPTY allowlist. No market was promoted, no "
+                 "participation changed, nothing was deployed."),
     ))
 
 

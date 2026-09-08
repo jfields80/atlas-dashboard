@@ -1,0 +1,18 @@
+{
+ "schema": "ptf-release-production-gate/1.0",
+ "work_order": "ATLAS-THROUGHPUT-006",
+ "what_this_is": "The explicit allowlist that gates REAL production activation by the release coordinator. ATLAS-THROUGHPUT-006 built the remote validation lane, the trusted artifact handoff, the release queue and a real host adapter, and left this gate EMPTY on purpose. A market is activated for real only when the founder adds it here, names the candidate digest they authorised, and the coordinator's own guards still pass at the moment of the call. There is no implicit opt-in: an empty allowlist means no market can be deployed by this machinery, whatever else is green.",
+ "RELEASE_COORDINATOR_PRODUCTION_ENABLED": "NO",
+ "RELEASE_COORDINATOR_PRODUCTION_ALLOWED_MARKETS": [],
+ "requires_for_each_activation": [
+  "the market appears in RELEASE_COORDINATOR_PRODUCTION_ALLOWED_MARKETS",
+  "RELEASE_COORDINATOR_PRODUCTION_ENABLED is YES",
+  "a founder authorization binding the exact candidate digest, deployment artifact digest, parent release digest and intended delta digest",
+  "the live release is still the authorized parent at the moment of the host call",
+  "the package receipt (003 rules A-O) and the bundle validation receipt (004) both verify",
+  "a CI validation receipt when the change class requires one, or NOT_REQUIRED_BY_POLICY when it does not",
+  "the candidate still hashes to its own release manifest"
+ ],
+ "pilot_note": "ATLAS-THROUGHPUT-006 produces a RECOMMENDATION for a first pilot market and deploys nothing. The founder chooses the market and authorises the pilot separately.",
+ "supersedes": null
+}

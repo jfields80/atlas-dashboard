@@ -1,0 +1,83 @@
+{
+ "schema": "ptf-release-queue-contract/1.0",
+ "entry_schema": "ptf-release-queue-entry/1.0",
+ "states": [
+  "QUEUED",
+  "VALIDATING",
+  "NEEDS_REPAIR",
+  "CANDIDATE_STAGED",
+  "AWAITING_AUTHORIZATION",
+  "AUTHORIZED",
+  "ACTIVATING",
+  "VERIFYING",
+  "LIVE",
+  "FAILED",
+  "ABANDONED",
+  "SUPERSEDED"
+ ],
+ "transitions": {
+  "QUEUED": [
+   "VALIDATING",
+   "SUPERSEDED",
+   "ABANDONED"
+  ],
+  "VALIDATING": [
+   "CANDIDATE_STAGED",
+   "NEEDS_REPAIR",
+   "FAILED",
+   "ABANDONED"
+  ],
+  "NEEDS_REPAIR": [
+   "VALIDATING",
+   "SUPERSEDED",
+   "ABANDONED"
+  ],
+  "CANDIDATE_STAGED": [
+   "AWAITING_AUTHORIZATION",
+   "VALIDATING",
+   "FAILED",
+   "ABANDONED"
+  ],
+  "AWAITING_AUTHORIZATION": [
+   "AUTHORIZED",
+   "CANDIDATE_STAGED",
+   "ABANDONED",
+   "FAILED"
+  ],
+  "AUTHORIZED": [
+   "ACTIVATING",
+   "CANDIDATE_STAGED",
+   "ABANDONED",
+   "FAILED"
+  ],
+  "ACTIVATING": [
+   "VERIFYING",
+   "FAILED",
+   "AUTHORIZED"
+  ],
+  "VERIFYING": [
+   "LIVE",
+   "FAILED"
+  ],
+  "LIVE": [],
+  "FAILED": [
+   "VALIDATING",
+   "ABANDONED"
+  ],
+  "ABANDONED": [],
+  "SUPERSEDED": []
+ },
+ "keyed_by": [
+  "market_id",
+  "package_digest"
+ ],
+ "idempotent": "the same package submitted twice is one entry with a resubmission count",
+ "supersession": "explicit only, and refused once the older entry has started work",
+ "activation_lease": {
+  "schema": "ptf-activation-lease/1.0",
+  "protects": "the CURRENT LIVE -> NEXT LIVE transition only",
+  "does_not_protect": "market research, sealing, cache lookups or candidate planning",
+  "ttl": "a crashed holder cannot block the factory forever; expiry is recorded, not silent"
+ },
+ "restage": "AUTHORIZED -> CANDIDATE_STAGED is a legal transition: when the live parent moves, the candidate is restaged and its authorization does not follow it"
+}

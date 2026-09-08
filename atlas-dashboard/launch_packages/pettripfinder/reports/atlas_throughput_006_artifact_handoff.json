@@ -1,0 +1,50 @@
+{
+ "schema": "ptf-artifact-handoff-proof/1.0",
+ "candidate": "25b69be224b34ff4",
+ "round_trip": {
+  "staged_deployment_digest": "437439f275b2f276fa2969adbc0ddc694f0cf1ce23bffcf9e19dd44c24745427",
+  "handoff_deployment_digest": "437439f275b2f276fa2969adbc0ddc694f0cf1ce23bffcf9e19dd44c24745427",
+  "received_deployment_digest": "437439f275b2f276fa2969adbc0ddc694f0cf1ce23bffcf9e19dd44c24745427",
+  "candidate_digest_staged": "sha256:25b69be224b34ff42a4b96845173e50834f0f4c80773774d5416df985b0e6b96",
+  "candidate_digest_received": "sha256:25b69be224b34ff42a4b96845173e50834f0f4c80773774d5416df985b0e6b96",
+  "archive_sha256": "sha256:2ffc97fb13dcf7fbc7033d02aa28decd14ba4b64f3532077621ad2a4f49ff4fd",
+  "archive_sha256_repackaged": "sha256:2ffc97fb13dcf7fbc7033d02aa28decd14ba4b64f3532077621ad2a4f49ff4fd",
+  "archive_is_deterministic": true,
+  "identical": true,
+  "problems": []
+ },
+ "cross_platform": {
+  "files": 4807,
+  "crlf_files": 0,
+  "crlf_examples": [],
+  "case_collisions": [],
+  "paths_over_180_chars": 0,
+  "longest_path": 122,
+  "backslash_members": [],
+  "executable_bits": 0,
+  "neutralised_by": "the archive stores bytes and a fixed mode, and the receiver proves the digest; line endings, path case and file modes cannot drift in transit",
+  "residual_risk": "a receiver that REBUILDS instead of carrying would hit every one of these; substitution_problems is what refuses that artifact"
+ },
+ "evidence_carried": [
+  "authorization.json",
+  "fast_lane_receipt.json",
+  "gates.json",
+  "release_diff.json",
+  "release_manifest.json",
+  "telemetry.json"
+ ],
+ "evidence_absent": [],
+ "archive_bytes": 18403806,
+ "site_file_count": 4807,
+ "rule": "NO BUILDER MAY RUN BETWEEN VALIDATION, AUTHORIZATION AND DEPLOYMENT",
+ "ci_may": [
+  "COPY",
+  "EXTRACT",
+  "HASH",
+  "READ",
+  "TEST"
+ ],
+ "ci_may_not": [
+  "rebuild a replacement candidate and call it equivalent"
+ ]
+}
