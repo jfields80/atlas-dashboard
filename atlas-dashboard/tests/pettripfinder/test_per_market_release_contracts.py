@@ -103,13 +103,20 @@ DETROIT = "detroit-ann-arbor-mi"
 #: PTF-TOLEDO-OH-PROMOTION-AND-APPLICATION-002 registers Toledo, built from
 #: zero by PTF-TOLEDO-OH-NEW-MARKET-001 and promoted at 17 published profiles.
 TOLEDO = "toledo-oh"
+#: PTF-LEXINGTON-KY-PROMOTION-AND-NEW-LANE-LAUNCH-PREP-003 registers Lexington,
+#: built from zero by PTF-LEXINGTON-KY-NEW-MARKET-001 and read by
+#: PTF-LEXINGTON-KY-POLICY-ACQUISITION-002, and carried across into the
+#: registered contracts at 20 published profiles. It is the first market to
+#: cross from the pre-redesign factory into the ATLAS-THROUGHPUT release lane.
+LEXINGTON = "lexington-ky"
 
 # DETROIT joins at PTF-DETROIT-ANN-ARBOR-HARDENED-SYNC-029, which brought its
 # hardened market onto this lineage: 121 published, 81 verified no-pets, a
 # release contract verifying with zero disagreements. It is releasable and
 # NOT launch-authorized -- two different facts, and this tuple is the first.
 MARKETS = (COLUMBUS, CLEVELAND, DAYTON, PITTSBURGH, INDIANAPOLIS, MILWAUKEE,
-           ST_LOUIS, LOUISVILLE, GRAND_RAPIDS, CINCINNATI, DETROIT, TOLEDO)
+           ST_LOUIS, LOUISVILLE, GRAND_RAPIDS, CINCINNATI, DETROIT, TOLEDO,
+           LEXINGTON)
 
 #: The reconciliation each market's committed authority is expected to state, as
 #: (confirmed, published, verified_no_pets, resolved, unresolved). ``None`` means
@@ -150,6 +157,16 @@ EXPECTED_RECONCILIATION = {
     # opposite policies. Toledo records no OUT_OF_CURRENT_CATEGORY identities,
     # so resolved is published + verified-no-pets.
     TOLEDO: _pinned_reconciliation(TOLEDO),
+    # PTF-LEXINGTON-KY-PROMOTION-AND-NEW-LANE-LAUNCH-PREP-003: 57 registered
+    # identities, 20 published, 10 verified-no-pets, 30 resolved and 27
+    # unresolved. The shadow this was carried across from stated 61 / 28 / 14,
+    # and the count gate reproduced all of it EXACTLY before any row moved;
+    # fifteen rows are then held by the registered identity, cross-market,
+    # first-party evidence and paid-provenance gates and publish nothing, each
+    # named in lexington_ky_identity_holds_003.json. Lexington records no
+    # OUT_OF_CURRENT_CATEGORY identity, so resolved is published +
+    # verified-no-pets.
+    LEXINGTON: _pinned_reconciliation(LEXINGTON),
     # 163 identities, 43 published, 20 verified-no-pets, 63 resolved and 100
     # unresolved. The census is the 163-row recensus, promoted into the pinned
     # path by PTF-GRAND-RAPIDS-CENSUS-PIN-AND-RELEASE-CONTRACT-024; the
@@ -551,7 +568,17 @@ class TestContractAgreesWithItsOwnAuthority:
                              # property's own page. Every number above is
                              # unchanged, which is the half that proves the
                              # scoping.
-                             TOLEDO: 9}
+                             TOLEDO: 9,
+                             # PTF-LEXINGTON-KY-PROMOTION-AND-NEW-LANE-LAUNCH-
+                             # PREP-003. Lexington arrives with 10
+                             # verified-no-pets exclusions. The shadow read 14
+                             # refusals; one is held because Cleveland already
+                             # publishes its identity key, two because a
+                             # service-animal sentence is not a refusal, and
+                             # one because its paid capture carries no
+                             # reservation. Every number above is unchanged,
+                             # which is the half that proves the scoping.
+                             LEXINGTON: 10}
         registry = json.loads(
             (REPO_ROOT / "launch_packages" / "pettripfinder" / "hotel_exclusions.json")
             .read_text(encoding="utf-8-sig"))["exclusions"]

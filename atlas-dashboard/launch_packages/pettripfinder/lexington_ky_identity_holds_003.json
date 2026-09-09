@@ -1,0 +1,232 @@
+{
+ "schema": "ptf-market-identity-holds/1.0",
+ "work_order": "PTF-LEXINGTON-KY-PROMOTION-AND-NEW-LANE-LAUNCH-PREP-003",
+ "market_id": "lexington-ky",
+ "as_of": "2026-09-08",
+ "note": "Shadow identities the registered identity contract cannot admit. Nothing here was researched by this order and nothing here publishes: every held row was already unresolved in the shadow. A hold is reversible by a founder ruling; a rename is not this order's to make.",
+ "count": 15,
+ "counts_by_class": {
+  "CROSS_MARKET_IDENTITY_COLLISION": 1,
+  "IDENTITY_HOLD": 3,
+  "MODERN_EVIDENCE_GATE_HOLD": 5,
+  "PAID_PROVENANCE_HOLD": 6
+ },
+ "holds": [
+  {
+   "identity_key_proposed": "holiday inn express",
+   "shadow_identity_key": "holiday-inn-express--1935-stanton-way",
+   "canonical_name": "Holiday Inn Express",
+   "address": "1935 Stanton Way",
+   "corridor": "lexington-ky__griffin-gate-newtown",
+   "classification": "IDENTITY_HOLD",
+   "why": "two active Lexington premises trade under the name 'Holiday Inn Express'. The shadow separated them with a street-address discriminator; ptf_identity_key/1.0 derives the registered key from the canonical name alone, so both rows would claim one identity. This row is UNRESOLVED in the shadow and publishes nothing, and the sibling at 2255 Buena Vista Road is admitted under this key because it carries this market's published refusal and states its own address on its own record.",
+   "published_anything": false,
+   "next_action": "a founder ruling on a distinguishing name that ADDS geography rather than changing the chain, after which this row may be admitted"
+  },
+  {
+   "identity_key_proposed": "red roof inn",
+   "shadow_identity_key": "red-roof-inn--1980-haggard-court",
+   "canonical_name": "Red Roof Inn",
+   "address": "1980 Haggard Court",
+   "corridor": "lexington-ky__i75-winchester-road",
+   "classification": "IDENTITY_HOLD",
+   "why": "two active Lexington premises trade under the name 'Red Roof Inn'. The shadow separated them with a street-address discriminator; ptf_identity_key/1.0 derives the registered key from the canonical name alone, so both rows would claim one identity. This row is UNRESOLVED in the shadow and publishes nothing, and no row in this group carries a published fact, so there is no non-arbitrary row to admit and all of them are held.",
+   "published_anything": false,
+   "next_action": "a founder ruling on a distinguishing name that ADDS geography rather than changing the chain, after which this row may be admitted"
+  },
+  {
+   "identity_key_proposed": "red roof inn",
+   "shadow_identity_key": "red-roof-inn--2651-wilhite-drive",
+   "canonical_name": "Red Roof Inn",
+   "address": "2651 Wilhite Drive",
+   "corridor": "lexington-ky__nicholasville-road-south",
+   "classification": "IDENTITY_HOLD",
+   "why": "two active Lexington premises trade under the name 'Red Roof Inn'. The shadow separated them with a street-address discriminator; ptf_identity_key/1.0 derives the registered key from the canonical name alone, so both rows would claim one identity. This row is UNRESOLVED in the shadow and publishes nothing, and no row in this group carries a published fact, so there is no non-arbitrary row to admit and all of them are held.",
+   "published_anything": false,
+   "next_action": "a founder ruling on a distinguishing name that ADDS geography rather than changing the chain, after which this row may be admitted"
+  },
+  {
+   "identity_key_proposed": "holiday inn express",
+   "shadow_identity_key": "holiday-inn-express--2255-buena-vista-road",
+   "canonical_name": "Holiday Inn Express",
+   "address": "2255 Buena Vista Road",
+   "corridor": "lexington-ky__hamburg",
+   "classification": "CROSS_MARKET_IDENTITY_COLLISION",
+   "why": "cleveland-akron-canton-oh already publishes the identity key 'holiday inn express' as VERIFIED_NO_PETS. A published identity key is globally unique in this repository and the exclusions contract refuses the second row by name, so admitting this one would either fail the build or overwrite a live market's record. The shadow's CLEAN_VERIFIED_NO_PETS read is preserved verbatim in lexington_ky_clean_inventory_002.json and nothing about it is disputed; only its ADMISSION is held.",
+   "published_anything": false,
+   "colliding_market": "cleveland-akron-canton-oh",
+   "colliding_state": "VERIFIED_NO_PETS",
+   "next_action": "a founder ruling on a distinguishing canonical name that ADDS geography for one of the two rows, or a contract change that scopes the published identity key by market"
+  },
+  {
+   "identity_key_proposed": "clarion hotel conference center lexington north",
+   "shadow_identity_key": "clarion-hotel-conference-center-lexington-north--1950-newtown-pike",
+   "canonical_name": "Clarion Hotel Conference Center Lexington North",
+   "address": "1950 Newtown Pike",
+   "corridor": "lexington-ky__griffin-gate-newtown",
+   "classification": "MODERN_EVIDENCE_GATE_HOLD",
+   "gate_classification": "AMENITY_CHIP_ONLY",
+   "failed_checks": [
+    "OPERATIVE_QUOTE"
+   ],
+   "why": "the ATLAS-THROUGHPUT-003 first-party evidence gate refuses this row: an amenity label states no policy: 'Pets Allowed: Yes'. The shadow's read is preserved verbatim in lexington_ky_clean_inventory_002.json and is not disputed; what the modern gate refuses is that this QUOTE establishes this POLICY. Holding it is the only correct move -- lowering the gate to keep the count would publish a policy no operator stated.",
+   "published_anything": false,
+   "shadow_policy_class": "CLEAN_PET_FRIENDLY",
+   "next_action": "re-capture the operative policy text from the property's own page; an amenity label, a fee sentence and a service-animal sentence each establish nothing on their own"
+  },
+  {
+   "identity_key_proposed": "econo lodge",
+   "shadow_identity_key": "econo-lodge--5527-athens-boonesboro-road",
+   "canonical_name": "Econo Lodge",
+   "address": "5527 Athens Boonesboro Road",
+   "corridor": "lexington-ky__richmond-road-i75-south",
+   "classification": "MODERN_EVIDENCE_GATE_HOLD",
+   "gate_classification": "AMENITY_CHIP_ONLY",
+   "failed_checks": [
+    "OPERATIVE_QUOTE"
+   ],
+   "why": "the ATLAS-THROUGHPUT-003 first-party evidence gate refuses this row: an amenity label states no policy: 'Pets Allowed: Yes'. The shadow's read is preserved verbatim in lexington_ky_clean_inventory_002.json and is not disputed; what the modern gate refuses is that this QUOTE establishes this POLICY. Holding it is the only correct move -- lowering the gate to keep the count would publish a policy no operator stated.",
+   "published_anything": false,
+   "shadow_policy_class": "CLEAN_PET_FRIENDLY",
+   "next_action": "re-capture the operative policy text from the property's own page; an amenity label, a fee sentence and a service-animal sentence each establish nothing on their own"
+  },
+  {
+   "identity_key_proposed": "hilton lexington downtown",
+   "shadow_identity_key": "hilton-lexington-downtown--369-west-vine-street",
+   "canonical_name": "Hilton Lexington/Downtown",
+   "address": "369 West Vine Street",
+   "corridor": "lexington-ky__downtown",
+   "classification": "MODERN_EVIDENCE_GATE_HOLD",
+   "gate_classification": "SERVICE_ANIMAL_ONLY",
+   "failed_checks": [
+    "OPERATIVE_QUOTE"
+   ],
+   "why": "the ATLAS-THROUGHPUT-003 first-party evidence gate refuses this row: a service-animal sentence is not a refusal unless the reader reads one: 'PetsPets allowed: No | Service animals only'. The shadow's read is preserved verbatim in lexington_ky_clean_inventory_002.json and is not disputed; what the modern gate refuses is that this QUOTE establishes this POLICY. Holding it is the only correct move -- lowering the gate to keep the count would publish a policy no operator stated.",
+   "published_anything": false,
+   "shadow_policy_class": "CLEAN_VERIFIED_NO_PETS",
+   "next_action": "re-capture the operative policy text from the property's own page; an amenity label, a fee sentence and a service-animal sentence each establish nothing on their own"
+  },
+  {
+   "identity_key_proposed": "sleep inn",
+   "shadow_identity_key": "sleep-inn--1920-plaudit-place",
+   "canonical_name": "Sleep Inn",
+   "address": "1920 Plaudit Place",
+   "corridor": "lexington-ky__hamburg",
+   "classification": "MODERN_EVIDENCE_GATE_HOLD",
+   "gate_classification": "AMENITY_CHIP_ONLY",
+   "failed_checks": [
+    "OPERATIVE_QUOTE"
+   ],
+   "why": "the ATLAS-THROUGHPUT-003 first-party evidence gate refuses this row: an amenity label states no policy: 'Pets Allowed: Yes'. The shadow's read is preserved verbatim in lexington_ky_clean_inventory_002.json and is not disputed; what the modern gate refuses is that this QUOTE establishes this POLICY. Holding it is the only correct move -- lowering the gate to keep the count would publish a policy no operator stated.",
+   "published_anything": false,
+   "shadow_policy_class": "CLEAN_PET_FRIENDLY",
+   "next_action": "re-capture the operative policy text from the property's own page; an amenity label, a fee sentence and a service-animal sentence each establish nothing on their own"
+  },
+  {
+   "identity_key_proposed": "the sire hotel",
+   "shadow_identity_key": "the-sire-hotel--120-west-second-street",
+   "canonical_name": "The Sire Hotel",
+   "address": "120 West Second Street",
+   "corridor": "lexington-ky__downtown",
+   "classification": "MODERN_EVIDENCE_GATE_HOLD",
+   "gate_classification": "SERVICE_ANIMAL_ONLY",
+   "failed_checks": [
+    "OPERATIVE_QUOTE"
+   ],
+   "why": "the ATLAS-THROUGHPUT-003 first-party evidence gate refuses this row: a service-animal sentence is not a refusal unless the reader reads one: 'PetsPets allowed: No | Service animals only'. The shadow's read is preserved verbatim in lexington_ky_clean_inventory_002.json and is not disputed; what the modern gate refuses is that this QUOTE establishes this POLICY. Holding it is the only correct move -- lowering the gate to keep the count would publish a policy no operator stated.",
+   "published_anything": false,
+   "shadow_policy_class": "CLEAN_VERIFIED_NO_PETS",
+   "next_action": "re-capture the operative policy text from the property's own page; an amenity label, a fee sentence and a service-animal sentence each establish nothing on their own"
+  },
+  {
+   "identity_key_proposed": "days inn",
+   "shadow_identity_key": "days-inn--1987-north-broadway",
+   "canonical_name": "Days Inn",
+   "address": "1987 North Broadway",
+   "corridor": "lexington-ky__i75-winchester-road",
+   "classification": "PAID_PROVENANCE_HOLD",
+   "gate_classification": "NO_RESERVATION_IN_PAID_ATTEMPT_LEDGER",
+   "capture_lane": "FIRECRAWL",
+   "why": "this row's evidence was bought through the FIRECRAWL lane, and ptf_paid_attempt_ledger_001.json has no attempt for it. ATLAS-THROUGHPUT-003 rule O requires a paid capture to name the reservation that bought it, including the hash of the request envelope; the committed Lexington record carries no envelope hash, so a reservation can only be invented, never derived. The READ is not in doubt -- it passed the first-party evidence gate. What is missing is the provenance record.",
+   "published_anything": false,
+   "shadow_policy_class": "CLEAN_PET_FRIENDLY",
+   "next_action": "ingest run lexington_ky_firecrawl_002 into ptf_paid_attempt_ledger_001.json through acquisition.paid_attempt_ledger.build_attempt, recording the request envelope hash; this hold then clears with no re-capture and no new policy decision",
+   "reversible_without_recapture": true
+  },
+  {
+   "identity_key_proposed": "holiday inn express and suites lexington dtwn area keeneland",
+   "shadow_identity_key": "holiday-inn-express-suites-lexington-dtwn-area-keeneland--1780-sharkey-way",
+   "canonical_name": "Holiday Inn Express & Suites Lexington Dtwn Area-Keeneland",
+   "address": "1780 Sharkey Way",
+   "corridor": "lexington-ky__griffin-gate-newtown",
+   "classification": "PAID_PROVENANCE_HOLD",
+   "gate_classification": "NO_RESERVATION_IN_PAID_ATTEMPT_LEDGER",
+   "capture_lane": "FIRECRAWL",
+   "why": "this row's evidence was bought through the FIRECRAWL lane, and ptf_paid_attempt_ledger_001.json has no attempt for it. ATLAS-THROUGHPUT-003 rule O requires a paid capture to name the reservation that bought it, including the hash of the request envelope; the committed Lexington record carries no envelope hash, so a reservation can only be invented, never derived. The READ is not in doubt -- it passed the first-party evidence gate. What is missing is the provenance record.",
+   "published_anything": false,
+   "shadow_policy_class": "CLEAN_VERIFIED_NO_PETS",
+   "next_action": "ingest run lexington_ky_firecrawl_002 into ptf_paid_attempt_ledger_001.json through acquisition.paid_attempt_ledger.build_attempt, recording the request envelope hash; this hold then clears with no re-capture and no new policy decision",
+   "reversible_without_recapture": true
+  },
+  {
+   "identity_key_proposed": "holiday inn lexington hamburg",
+   "shadow_identity_key": "holiday-inn-lexington-hamburg--1976-justice-drive",
+   "canonical_name": "Holiday Inn Lexington - Hamburg",
+   "address": "1976 Justice Drive",
+   "corridor": "lexington-ky__hamburg",
+   "classification": "PAID_PROVENANCE_HOLD",
+   "gate_classification": "NO_RESERVATION_IN_PAID_ATTEMPT_LEDGER",
+   "capture_lane": "FIRECRAWL",
+   "why": "this row's evidence was bought through the FIRECRAWL lane, and ptf_paid_attempt_ledger_001.json has no attempt for it. ATLAS-THROUGHPUT-003 rule O requires a paid capture to name the reservation that bought it, including the hash of the request envelope; the committed Lexington record carries no envelope hash, so a reservation can only be invented, never derived. The READ is not in doubt -- it passed the first-party evidence gate. What is missing is the provenance record.",
+   "published_anything": false,
+   "shadow_policy_class": "CLEAN_PET_FRIENDLY",
+   "next_action": "ingest run lexington_ky_firecrawl_002 into ptf_paid_attempt_ledger_001.json through acquisition.paid_attempt_ledger.build_attempt, recording the request envelope hash; this hold then clears with no re-capture and no new policy decision",
+   "reversible_without_recapture": true
+  },
+  {
+   "identity_key_proposed": "la quinta inn and suites lexington south hamburg",
+   "shadow_identity_key": "la-quinta-inn-suites-lexington-south-hamburg--100-canebrake-drive",
+   "canonical_name": "La Quinta Inn & Suites Lexington South / Hamburg",
+   "address": "100 Canebrake Drive",
+   "corridor": "lexington-ky__richmond-road-i75-south",
+   "classification": "PAID_PROVENANCE_HOLD",
+   "gate_classification": "NO_RESERVATION_IN_PAID_ATTEMPT_LEDGER",
+   "capture_lane": "FIRECRAWL",
+   "why": "this row's evidence was bought through the FIRECRAWL lane, and ptf_paid_attempt_ledger_001.json has no attempt for it. ATLAS-THROUGHPUT-003 rule O requires a paid capture to name the reservation that bought it, including the hash of the request envelope; the committed Lexington record carries no envelope hash, so a reservation can only be invented, never derived. The READ is not in doubt -- it passed the first-party evidence gate. What is missing is the provenance record.",
+   "published_anything": false,
+   "shadow_policy_class": "CLEAN_PET_FRIENDLY",
+   "next_action": "ingest run lexington_ky_firecrawl_002 into ptf_paid_attempt_ledger_001.json through acquisition.paid_attempt_ledger.build_attempt, recording the request envelope hash; this hold then clears with no re-capture and no new policy decision",
+   "reversible_without_recapture": true
+  },
+  {
+   "identity_key_proposed": "la quinta inn lexington",
+   "shadow_identity_key": "la-quinta-inn-lexington--1920-stanton-way",
+   "canonical_name": "La Quinta Inn - Lexington",
+   "address": "1920 Stanton Way",
+   "corridor": "lexington-ky__griffin-gate-newtown",
+   "classification": "PAID_PROVENANCE_HOLD",
+   "gate_classification": "NO_RESERVATION_IN_PAID_ATTEMPT_LEDGER",
+   "capture_lane": "FIRECRAWL",
+   "why": "this row's evidence was bought through the FIRECRAWL lane, and ptf_paid_attempt_ledger_001.json has no attempt for it. ATLAS-THROUGHPUT-003 rule O requires a paid capture to name the reservation that bought it, including the hash of the request envelope; the committed Lexington record carries no envelope hash, so a reservation can only be invented, never derived. The READ is not in doubt -- it passed the first-party evidence gate. What is missing is the provenance record.",
+   "published_anything": false,
+   "shadow_policy_class": "CLEAN_PET_FRIENDLY",
+   "next_action": "ingest run lexington_ky_firecrawl_002 into ptf_paid_attempt_ledger_001.json through acquisition.paid_attempt_ledger.build_attempt, recording the request envelope hash; this hold then clears with no re-capture and no new policy decision",
+   "reversible_without_recapture": true
+  },
+  {
+   "identity_key_proposed": "super 8 by wyndham lexington winchester rd",
+   "shadow_identity_key": "super-8-by-wyndham-lexington-winchester-rd--2351-buena-vista-road",
+   "canonical_name": "Super 8 by Wyndham Lexington Winchester Rd",
+   "address": "2351 Buena Vista Road",
+   "corridor": "lexington-ky__hamburg",
+   "classification": "PAID_PROVENANCE_HOLD",
+   "gate_classification": "NO_RESERVATION_IN_PAID_ATTEMPT_LEDGER",
+   "capture_lane": "FIRECRAWL",
+   "why": "this row's evidence was bought through the FIRECRAWL lane, and ptf_paid_attempt_ledger_001.json has no attempt for it. ATLAS-THROUGHPUT-003 rule O requires a paid capture to name the reservation that bought it, including the hash of the request envelope; the committed Lexington record carries no envelope hash, so a reservation can only be invented, never derived. The READ is not in doubt -- it passed the first-party evidence gate. What is missing is the provenance record.",
+   "published_anything": false,
+   "shadow_policy_class": "CLEAN_PET_FRIENDLY",
+   "next_action": "ingest run lexington_ky_firecrawl_002 into ptf_paid_attempt_ledger_001.json through acquisition.paid_attempt_ledger.build_attempt, recording the request envelope hash; this hold then clears with no re-capture and no new policy decision",
+   "reversible_without_recapture": true
+  }
+ ]
+}

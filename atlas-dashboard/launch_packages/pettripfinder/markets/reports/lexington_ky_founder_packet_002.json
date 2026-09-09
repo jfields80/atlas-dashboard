@@ -1,0 +1,144 @@
+{
+ "schema": "ptf-founder-packet/2.0",
+ "work_order": "PTF-LEXINGTON-KY-POLICY-ACQUISITION-002",
+ "market_id": "lexington-ky",
+ "as_of": "2026-09-06",
+ "supersedes": "lexington_ky_founder_packet_001.json",
+ "one_packet_no_row_by_row_loop": true,
+ "carried_forward_from_001": "Groups A (identity holds), B (geography / fringe), C (closure), E (competitor leads) and F (cross-market collision) are unchanged and still non-blocking. Group D of packet 001 -- 'no publication-grade policy evidence exists yet', the single promotion blocker -- is CLOSED by this order.",
+ "blocking_groups": [],
+ "non_blocking_groups": [
+  "A_identity_findings_created_by_this_order",
+  "B_policy_findings_created_by_this_order",
+  "A_identity_alias_successor_duplicate_same_campus",
+  "B_geography_fringe",
+  "C_closure_conversion_non_lodging",
+  "E_evidence_conflict",
+  "F_cross_market_identity_collision"
+ ],
+ "groups_added_by_this_order": {
+  "A_identity_findings_created_by_this_order": {
+   "count": 3,
+   "items": [
+    {
+     "identity": "Four Points by Sheraton - Lexington, 1938 Stanton Way",
+     "evidence": {
+      "prior_state": "BRAND_INVENTORY_SILENT -- present in OSM with an address, absent from Marriott's global property sitemap",
+      "new_evidence": "Choice's own Lexington city page places TWO Choice properties at that address: Quality Inn in Building A (ky365) and MainStay Suites in Building B (ky153), each with its own live property page",
+      "near_miss_caught": "The attended binder first matched this Marriott-branded census row to the QUALITY INN page purely on the street number, and would have published one hotel's policy under another hotel's name. A brand-family check now blocks that; same address is not same hotel."
+     },
+     "proposed_action": "founder ruling on whether the Four Points row is a successor/conversion, a stale OSM row, or a distinct premises",
+     "recommendation": "HOLD. Positive evidence that another operator trades at that address is still not proof this row closed, and brand-roster absence alone never is.",
+     "census_effect": "stays in the census, excluded from the clean cohort",
+     "authority_effect": "none",
+     "routing_effect": "no route bound",
+     "reversibility": "fully reversible",
+     "blocks_promotion": "NO"
+    },
+    {
+     "identity": "Five census rows carried a WRONG official route",
+     "evidence": {
+      "shared_bad_url": "Sleep Inn, Econo Lodge, Comfort Inn & Suites and Comfort Inn all carried the SAME OSM website tag pointing at a Comfort Inn in WINCHESTER -- a different town, outside this market",
+      "cross_brand_url": "Country Inn & Suites carried a radissonhotels.com tag although the property is a Choice brand",
+      "repair": "all five re-bound on the address each property's own page states, via Choice's own Lexington city page"
+     },
+     "proposed_action": "accept the repaired routes",
+     "recommendation": "ACCEPT. A shared URL is decided by the page's own address, and all five now resolve to distinct, correct properties.",
+     "census_effect": "none",
+     "authority_effect": "five rows became readable and are now in the clean cohort",
+     "routing_effect": "five routes repaired",
+     "reversibility": "fully reversible",
+     "blocks_promotion": "NO"
+    },
+    {
+     "identity": "identity_key collisions inherited from order 001",
+     "evidence": {
+      "defect": "identity_key was derived from the hotel NAME alone, so two hotels called 'Holiday Inn Express' and two called 'Red Roof Inn' collapsed into one key each",
+      "found_by": "a Firecrawl policy page whose stated address did not match the census row an identity_key lookup returned",
+      "repair": "0 collisions remain; 61 rows now carry 61 distinct keys",
+      "evidence_damage": "NONE -- only one artifact directory existed per colliding pair and the paid call bound to the correct hotel on its stated address"
+     },
+     "proposed_action": "accept the repaired keys",
+     "recommendation": "ACCEPT. The key now carries the row's own street address, or its OSM element id when it states none.",
+     "census_effect": "none -- 61 rows before and after",
+     "authority_effect": "keys are now unique, which a promotion requires",
+     "routing_effect": "none",
+     "reversibility": "fully reversible",
+     "blocks_promotion": "NO"
+    }
+   ]
+  },
+  "B_policy_findings_created_by_this_order": {
+   "count": 3,
+   "items": [
+    {
+     "identity": "21c Museum Hotel Lexington, 167 West Main Street",
+     "evidence": "Five surfaces read (/lexington/, /lexington/stay/, /lexington/contact/, and two that 404). NONE contains the word 'pet' at all.",
+     "proposed_action": "leave SOURCE_SILENT",
+     "recommendation": "HOLD out of the clean cohort. Source silence is not a withholding and is not a refusal; nothing is asserted about this hotel's policy.",
+     "census_effect": "none",
+     "authority_effect": "none",
+     "routing_effect": "none",
+     "reversibility": "n/a",
+     "blocks_promotion": "NO"
+    },
+    {
+     "identity": "Two Firecrawl calls that produced nothing",
+     "evidence": "Ramada Conference Center and Days Inn by Wyndham Lexington Southeast returned FIRECRAWL_FAILED. Both are inside the 10 authorized calls and the 10 credits spent.",
+     "proposed_action": "leave unresolved; they are candidates for a later attended pass",
+     "recommendation": "ACCEPT as unresolved. Firecrawl cost is bimodal and a failure is a real outcome, not a defect to retry blindly.",
+     "census_effect": "none",
+     "authority_effect": "none",
+     "routing_effect": "none",
+     "reversibility": "n/a",
+     "blocks_promotion": "NO"
+    },
+    {
+     "identity": "Four Choice Lexington properties absent from the census",
+     "evidence": "ky270 (2400 Buena Vista Road), ky401 (757 Newtown Springs Dr.), ky365 (1938 Stanton Way Bldg A) and ky153 (1938 Stanton Way Bldg B) are live Choice properties in Lexington that the OSM census does not contain. Each already has a read policy.",
+     "proposed_action": "admit them in a later CENSUS order, not this one",
+     "recommendation": "HOLD. This is a policy order; admitting new identities is census work and would bypass the geography and duplicate checks the census pipeline performs.",
+     "census_effect": "none now; +4 candidates for a later census order",
+     "authority_effect": "none",
+     "routing_effect": "none",
+     "reversibility": "fully reversible",
+     "blocks_promotion": "NO"
+    }
+   ]
+  }
+ },
+ "wrong_evidence_audit": {
+  "what_this_is": "The wrong-evidence audit. Each of these WAS present in the captured material and each was refused as policy evidence.",
+  "amenity_chip_refused": [
+   "Hilton's JSON-LD LocationFeatureSpecification named 'Pets not allowed'",
+   "Choice's JSON-LD chip named 'No Pets Allowed' -- a first extraction pass matched this chip instead of the policy block and was replaced before anything was classified",
+   "Extended Stay America's visible surface offered ONLY 'Pet-friendly' chips and a site-wide 'Pet-Friendly Hotels' nav link; the publication-grade statement was the FAQ answer that names the property"
+  ],
+  "bare_structured_flag_refused": [
+   "Best Western's \"petsAllowed\": false with no prose. The row was settled instead by 'PET POLICY -- Pets are not accepted.' under the page's own Hotel Policies heading."
+  ],
+  "service_animal_language_refused": [
+   "'Service animals only' (Hilton lexdthf, lexgpup) and 'Only service animals are permitted' (Choice ky421) are stripped before any decision, so they can never decide one. Those rows were settled by 'Pets allowed: No'."
+  ],
+  "area_restriction_not_a_refusal": [
+   "Hyatt Regency Lexington states 'Pets are not allowed in the public areas, food service areas and pool' INSIDE a policy headed 'We Are Pet Friendly'. Taking the first regex match would have published a pet-friendly hotel as verified-no-pets. This is the single most dangerous read in the order."
+  ],
+  "labelled_form_precedence": [
+   "'Pets Allowed: No' contains the substring 'Pets Allowed'. A naive acceptance pattern read seven unambiguous refusals as 'states both acceptance and refusal'. The labelled form is now tested first and is decisive."
+  ],
+  "cross_brand_address_match_refused": [
+   "A Marriott-branded census row at 1938 Stanton Way matched a Quality Inn page at the same street number. Same address is not same hotel; the brand family must agree."
+  ],
+  "no_row_admitted_on": [
+   "a fee",
+   "a pet count",
+   "a weight limit",
+   "an amenity chip",
+   "a bare structured flag",
+   "service-animal language",
+   "source silence",
+   "competitor directory text"
+  ]
+ },
+ "total_holds": 18
+}

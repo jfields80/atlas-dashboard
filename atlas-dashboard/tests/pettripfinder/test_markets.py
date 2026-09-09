@@ -530,6 +530,12 @@ def test_production_markets_dir_loads_and_is_single_market_columbus():
          # registered census/routing-only -- no policy authority, nothing
          # published -- staged for hardened zero-cost discovery.
          "grand-rapids-holland-mi", "indianapolis-in",
+         # PTF-LEXINGTON-KY-PROMOTION-AND-NEW-LANE-LAUNCH-PREP-003 registered
+         # Lexington, the first market carried across from the pre-redesign
+         # factory into the ATLAS-THROUGHPUT release lane. The list is a record
+         # of which markets exist, and it grows; Columbus still resolves BY
+         # NAME below, which is what this test is actually about.
+         "lexington-ky",
          # PTF-LOUISVILLE-PUBLICATION-008 registered Louisville: its contract
          # left markets/pending/ in the same step that gave it a participation
          # row. The list is a record of which markets exist, and it grows.

@@ -218,6 +218,13 @@ def _partition_path(market_id: str) -> Optional[Path]:
         # the glob matches nothing and the assembler would read "no partition"
         # for a market that has one.
         "toledo-oh": "toledo_oh_final_partition_001.json",
+        # PTF-LEXINGTON-KY-PROMOTION-AND-NEW-LANE-LAUNCH-PREP-003. Named
+        # explicitly for the same reason as Toledo, and this market could not
+        # rely on the glob at all: "lexington-ky" strips to "lexington-ky" (the
+        # -oh replacement does not apply), while the partition this order writes
+        # is lexington_ky_final_partition_001.json, so the glob matches nothing
+        # and the assembler would read "no partition" for a market that has one.
+        "lexington-ky": "lexington_ky_final_partition_001.json",
     }
     name = table.get(market_id)
     if name:

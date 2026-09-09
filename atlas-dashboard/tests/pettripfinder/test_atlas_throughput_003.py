@@ -24,6 +24,7 @@ from pathlib import Path
 
 import pytest
 
+from pettripfinder import market_state as MS
 from scripts.pettripfinder import atlas_throughput_003_pilot as PILOT
 from scripts.pettripfinder import fast_release_lane as FL
 from scripts.pettripfinder import first_party_binding as FPB
@@ -447,12 +448,27 @@ class TestSamePremises:
 
 class TestReleaseIndex:
     def test_current_verified_live_agrees_across_record_manifest_and_pin(self, live):
+        """DEPLOYMENT_EPOCH_INVARIANT, and it moves when production moves.
+
+        This assertion was written at the Cincinnati epoch -- deploy 6a9d33f5,
+        786 profiles, ten markets -- and read three sources that had to AGREE.
+        PTF-LEXINGTON-KY-PROMOTION-AND-NEW-LANE-LAUNCH-PREP-003 integrated this
+        engineering onto the Toledo-live lineage, where production is deploy
+        6a9e0476 at 803 profiles over eleven markets. The literal is therefore
+        read from the committed pin rather than restated: what the test is
+        actually about is the AGREEMENT of the record, the manifest and the pin,
+        and that is exactly what still runs. Pinning a number the pin file
+        already states would only mean editing it twice.
+        """
         idx, state, problems = live
         assert problems == []
-        assert state.deploy_id == "6a9d33f5dc8c3d1cf9464376" and state.total_profiles == 786
-        assert idx.total_profiles == 786 and len(idx.participating) == 10
+        pinned = MS.live()
+        assert state.deploy_id == pinned.deploy_id
+        assert state.total_profiles == pinned.total_profiles
+        assert idx.total_profiles == pinned.total_profiles
+        assert len(idx.participating) == len(pinned.participating_markets)
         assert state.rollback_target == state.previous_deploy_id and state.rollback_record
-        assert len(state.rollback_markets) == 9
+        assert len(state.rollback_markets) == len(pinned.participating_markets) - 1
 
     def test_a_zero_delta_package_compares_clean(self, live, dayton_package):
         idx = live[0]
@@ -519,7 +535,15 @@ class TestReleaseIndex:
         assert any("indianapolis" in p or "profile_counts" in p or "live_deploy_id" in p
                    for p in receipt["RESULTS"]["N"]["problems"])
         assert receipt["RESULTS"]["H"]["status"] == FL.PASS          # Indianapolis (82) preserved from CURRENT live
-        assert receipt["RESULTS"]["G"]["detail"]["proposed_total_profiles"] == 786
+        # The proposed release is CURRENT live with the stale package's market
+        # replaced; its total is therefore live's, whatever epoch live is at.
+        # 786 when this was written at the Cincinnati epoch, 803 since
+        # PTF-LEXINGTON-KY-PROMOTION-AND-NEW-LANE-LAUNCH-PREP-003 integrated
+        # this engineering onto the Toledo-live lineage. The point of the case
+        # is unchanged and still checked above: a package one deploy behind
+        # cannot remove newer state.
+        assert (receipt["RESULTS"]["G"]["detail"]["proposed_total_profiles"]
+                == MS.live().total_profiles)
         assert receipt["FAST_DATA_ONLY_RELEASE_ELIGIBLE"] == FL.NO
         assert receipt["RESULTS"]["J"]["status"] == FL.UNKNOWN            # nothing was rebuilt to find out
 

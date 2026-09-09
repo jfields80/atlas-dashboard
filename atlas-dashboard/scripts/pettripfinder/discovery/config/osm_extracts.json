@@ -35,6 +35,17 @@
       "markets": ["cleveland-akron-canton-oh"],
       "license": "ODbL 1.0 (OpenStreetMap contributors)",
       "notes": "Covers every Cleveland-Akron-Canton discovery cell: all twenty-four lie inside the market's geographic_bounds (40.70..41.80 N, -82.05..-81.00 W) -- Cuyahoga/Lake/Summit/Portage/Stark/Medina county territory, well inside the Ohio extract. Registered by PTF-CLEVELAND-AKRON-CANTON-HARDENED-REVALIDATION-001 after the public Overpass endpoints rate-limited the recensus at 2 of 48 cells. The index is built with the market's geographic_bounds as a bbox. data/ is gitignored: neither the extract nor the index is committed; the cells they answer are, through the discovery cache, with endpoint_id local_extract:geofabrik-ohio in their provenance."
+    },
+    {
+      "extract_id": "geofabrik-kentucky",
+      "region": "Kentucky, US",
+      "url": "https://download.geofabrik.de/north-america/us/kentucky-latest.osm.pbf",
+      "md5_url": "https://download.geofabrik.de/north-america/us/kentucky-latest.osm.pbf.md5",
+      "local_pbf": "data/osm_extracts/kentucky-latest.osm.pbf",
+      "index_path": "data/osm_extracts/geofabrik-kentucky.lexington-ky.index.json",
+      "markets": ["lexington-ky"],
+      "license": "ODbL 1.0 (OpenStreetMap contributors)",
+      "notes": "Covers every Lexington discovery cell: all thirteen lie inside the market's geographic_bounds (37.85..38.28 N, -84.80..-84.25 W) -- Fayette county territory plus the Scott/Jessamine/Woodford observation cells, well inside the Kentucky extract. Registered by PTF-LEXINGTON-KY-NEW-MARKET-001 after the approved public Overpass endpoints answered 2 of 26 planned cells and then all went to cooldown together (overpass-api.de HTTP_RATE_LIMITED, kumi.systems TIMEOUT x3 taking its private.coffee sibling with it by shared failure domain). Two further PTF market orders were running free discovery concurrently against the same public endpoints, which is exactly the contention this local lane exists to remove. The index is built with the market's geographic_bounds as a bbox, so a state extract of a few hundred MB reduces to a few hundred lodging elements. data/ is gitignored: neither the extract nor the index is committed; the cells they answer are, through the discovery cache, with endpoint_id local_extract:geofabrik-kentucky in their provenance. This row is additive and names lexington-ky alone: it changes no other market's lane."
     }
   ]
 }

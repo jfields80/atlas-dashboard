@@ -1,0 +1,71 @@
+{
+ "schema": "ptf-promotion-readiness/1.0",
+ "work_order": "PTF-LEXINGTON-KY-NEW-MARKET-001",
+ "market_id": "lexington-ky",
+ "as_of": "2026-09-06",
+ "PROMOTION_READY": "NO",
+ "criteria": {
+  "deterministic_census_for_clean_rows": {
+   "met": true,
+   "why": "every one of the 91 candidates carries exactly one classification and one county-polygon placement; 0 rows are geography-UNRESOLVED"
+  },
+  "no_duplicate_premises": {
+   "met": true,
+   "why": "1 DUPLICATE_LISTING found and folded; no two clean rows share a street address"
+  },
+  "no_unresolved_cross_market_collision_in_clean_cohort": {
+   "met": true,
+   "why": "0 collisions; Louisville explicitly excludes Lexington"
+  },
+  "publication_grade_first_party_evidence": {
+   "met": false,
+   "why": "ZERO publication-grade policy observations exist. The direct static lane returned only channel failures, and neither the Firecrawl cohort nor the attended lane has been run."
+  },
+  "held_ambiguity_excluded": {
+   "met": true,
+   "why": "8 held rows are outside the clean cohort by construction"
+  },
+  "deterministic_geography_or_explicit_hold": {
+   "met": true,
+   "why": "county polygons decide membership; the 3 fringe towns are an explicit hold with an empty explicit_hotel_admissions mechanism ready for them"
+  },
+  "known_later_release_contract_inputs": {
+   "met": true,
+   "why": "census, corridors, routes and partition inputs all exist in this shadow"
+  },
+  "remaining_acquisition_optional": {
+   "met": false,
+   "why": "policy acquisition is REQUIRED, not optional: with 0 clean rows the market would publish 0 profiles"
+  }
+ },
+ "exact_blockers": [
+  "ZERO publication-grade policy observations. 61 confirmed identities and 45 bound routes exist, but no hotel in Lexington has a first-party pet policy read yet, so a promotion would publish 0 profiles."
+ ],
+ "what_is_NOT_a_blocker": [
+  "the 8 identity holds -- excluded from the clean cohort by construction",
+  "the 22 outside-market rows -- decided on county polygons, not guessed",
+  "the 16 unrouted rows -- routing is not required to promote a row that has no policy",
+  "the 10-row Firecrawl cohort -- bounded, costed and unspent"
+ ],
+ "next_order_required_before_promotion": "PTF-LEXINGTON-KY-POLICY-ACQUISITION-002: attended browser for the Marriott/Hilton capability wall (35 of 45 routed rows), plus the 10-row Firecrawl cohort (worst case 10 credits) that the committed planner already identified.",
+ "paid_readiness_summary": {
+  "rows_assessed": 61,
+  "firecrawl_candidates": 10,
+  "firecrawl_candidates_by_family": {
+   "CHOICE": 1,
+   "IHG": 3,
+   "WYNDHAM": 6
+  },
+  "probe_eligible_unmeasured_families": 2,
+  "reasons": {
+   "BRAND_EXCLUDED_FROM_ACQUISITION": 3,
+   "FIRECRAWL_KNOWN_CAPABILITY_WALL": 12,
+   "FIRECRAWL_ROUTED_FOR_FAMILY": 10,
+   "FIRECRAWL_UNMEASURED_FOR_FAMILY": 2,
+   "NO_ROUTE_FREE_LANE_EXHAUSTED": 16,
+   "PRIOR_OUTCOME_DOES_NOT_ESCALATE": 2,
+   "PROPERTY_CODE_UNPARSEABLE_ROUTING_REPAIR_REQUIRED": 12,
+   "URL_IS_NOT_A_PROPERTY_PAGE": 4
+  }
+ }
+}

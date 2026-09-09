@@ -541,7 +541,24 @@ def test_current_live_inventory_preserves_all_assemblable_market_profiles(market
                       # _LAUNCH and does not enter the bundle. Every other count
                       # is unchanged -- the half of this assertion saying a new
                       # market disturbed no old one.
-                      "toledo-oh": 17}
+                      "toledo-oh": 17,
+                      # PTF-LEXINGTON-KY-PROMOTION-AND-NEW-LANE-LAUNCH-
+                      # PREP-003: Lexington registers with 20 published
+                      # profiles over a 57-identity census, carried across
+                      # from the 61-identity shadow PTF-LEXINGTON-KY-NEW-
+                      # MARKET-001 built from zero. Twenty, not the
+                      # shadow's 28: fifteen rows are held by the
+                      # registered identity, cross-market, first-party
+                      # evidence and paid-provenance gates, each named in
+                      # lexington_ky_identity_holds_003.json. Like
+                      # Cincinnati, Detroit and Toledo above, appearing
+                      # here is a statement about the SOURCE and not an
+                      # admission: Lexington is recorded SOURCE_READY_BUT_
+                      # NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH and does not
+                      # enter the bundle. Every other count is unchanged --
+                      # the half of this assertion saying a new market
+                      # disturbed no old one.
+                      "lexington-ky": 20}
     # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: 469 + Indianapolis's 16 further
     # founder-signed profiles (8 -> 24). Every other market's count above is
     # unchanged, so the whole of this movement is Indianapolis's.

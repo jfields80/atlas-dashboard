@@ -52,7 +52,36 @@ FIXTURE_SUFFIX = " Fixture"
 # --------------------------------------------------------------------------- #
 
 def dayton_package() -> "OrderedDict[str, Any]":
-    return SMP.read_sealed(SMP.list_packages("dayton-oh")[-1])
+    """The committed Dayton package sealed against the CURRENT verified live.
+
+    It used to be ``list_packages(...)[-1]``, which is the last path in
+    ALPHABETICAL order and therefore an arbitrary package. That was invisible
+    while exactly one existed. PTF-LEXINGTON-KY-PROMOTION-AND-NEW-LANE-LAUNCH-
+    PREP-003 integrated this engineering onto the Toledo-live lineage and
+    re-sealed the fixture at the new parent, so two exist -- and the arbitrary
+    pick returned the one whose parent is a SUPERSEDED release, which rule N is
+    built to fail and which then made every downstream bundle UNTRUSTED.
+
+    A package sealed against a parent that is no longer live is stale BY
+    DEFINITION, so the selection is by parent and not by name. The stale package
+    stays committed: it is the record of an earlier release, and 003's
+    stale-parent cases want one.
+    """
+    from scripts.pettripfinder import release_index as RI
+
+    paths = SMP.list_packages("dayton-oh")
+    if not paths:
+        raise FileNotFoundError("no committed dayton-oh sealed package")
+    documents = [SMP.read_sealed(path) for path in paths]
+    try:
+        live_deploy = RI.current_verified_live().deploy_id
+    except Exception:                                                  # noqa: BLE001
+        live_deploy = ""
+    current = [d for d in documents
+               if (d.get("parent_live_state") or {}).get("live_deploy_id") == live_deploy]
+    if current:
+        return current[-1]
+    return documents[-1]
 
 
 def cleveland_inputs(live) -> W.PackageInputs:
