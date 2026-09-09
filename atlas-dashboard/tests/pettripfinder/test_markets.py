@@ -540,7 +540,13 @@ def test_production_markets_dir_loads_and_is_single_market_columbus():
          # left markets/pending/ in the same step that gave it a participation
          # row. The list is a record of which markets exist, and it grows.
          "louisville-ky",
-         "milwaukee-wi", "pittsburgh-pa", "st-louis-mo", "toledo-oh"]
+         "milwaukee-wi",
+         # PTF-NASHVILLE-TN-PROMOTION-AND-NEW-LANE-LAUNCH-PREP-002 registered
+         # Nashville, the second market carried across into the redesigned
+         # release lane. Same note as Lexington above: the list records which
+         # markets EXIST, and it grows.
+         "nashville-tn",
+         "pittsburgh-pa", "st-louis-mo", "toledo-oh"]
     market = market_by_id(markets, "columbus-oh")
     assert market.market_id == "columbus-oh"
     assert market.route_mode == "legacy_unprefixed"

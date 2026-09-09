@@ -558,7 +558,24 @@ def test_current_live_inventory_preserves_all_assemblable_market_profiles(market
                       # enter the bundle. Every other count is unchanged --
                       # the half of this assertion saying a new market
                       # disturbed no old one.
-                      "lexington-ky": 20}
+                      "lexington-ky": 20,
+                      # PTF-NASHVILLE-TN-PROMOTION-AND-NEW-LANE-LAUNCH-
+                      # PREP-002: Nashville registers with EIGHT published
+                      # profiles over a 180-identity census, carried across
+                      # from the 181-identity shadow PTF-NASHVILLE-TN-NEW-
+                      # MARKET-001 built from zero. Eight, not the shadow's
+                      # 80: 88 rows are held, and 84 of those are held on
+                      # NO_CAPTURE_HASH because the attended lane recorded a
+                      # page's byte LENGTH instead of its hash and nothing
+                      # committed can supply one. Each is named in
+                      # nashville_tn_identity_holds_002.json. Like Cincinnati,
+                      # Detroit, Toledo and Lexington above, appearing here is
+                      # a statement about the SOURCE and not an admission:
+                      # Nashville is recorded SOURCE_READY_BUT_NOT_FOUNDER_
+                      # AUTHORIZED_FOR_LAUNCH and does not enter the bundle.
+                      # Every other count is unchanged -- the half of this
+                      # assertion saying a new market disturbed no old one.
+                      "nashville-tn": 8}
     # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: 469 + Indianapolis's 16 further
     # founder-signed profiles (8 -> 24). Every other market's count above is
     # unchanged, so the whole of this movement is Indianapolis's.

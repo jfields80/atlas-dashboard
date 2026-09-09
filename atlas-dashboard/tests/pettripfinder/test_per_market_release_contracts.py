@@ -109,6 +109,13 @@ TOLEDO = "toledo-oh"
 #: registered contracts at 20 published profiles. It is the first market to
 #: cross from the pre-redesign factory into the ATLAS-THROUGHPUT release lane.
 LEXINGTON = "lexington-ky"
+#: PTF-NASHVILLE-TN-PROMOTION-AND-NEW-LANE-LAUNCH-PREP-002 registered the
+#: fourteenth market. Nashville is releasable and NOT launch-authorized, the
+#: same two facts Detroit, Toledo and Lexington each arrived with -- and it
+#: makes the distinction between them sharper than any market so far: 180
+#: registered identities and EIGHT published, because 88 rows are held by the
+#: modern evidence and provenance gates.
+NASHVILLE = "nashville-tn"
 
 # DETROIT joins at PTF-DETROIT-ANN-ARBOR-HARDENED-SYNC-029, which brought its
 # hardened market onto this lineage: 121 published, 81 verified no-pets, a
@@ -116,7 +123,7 @@ LEXINGTON = "lexington-ky"
 # NOT launch-authorized -- two different facts, and this tuple is the first.
 MARKETS = (COLUMBUS, CLEVELAND, DAYTON, PITTSBURGH, INDIANAPOLIS, MILWAUKEE,
            ST_LOUIS, LOUISVILLE, GRAND_RAPIDS, CINCINNATI, DETROIT, TOLEDO,
-           LEXINGTON)
+           LEXINGTON, NASHVILLE)
 
 #: The reconciliation each market's committed authority is expected to state, as
 #: (confirmed, published, verified_no_pets, resolved, unresolved). ``None`` means
@@ -167,6 +174,7 @@ EXPECTED_RECONCILIATION = {
     # OUT_OF_CURRENT_CATEGORY identity, so resolved is published +
     # verified-no-pets.
     LEXINGTON: _pinned_reconciliation(LEXINGTON),
+    NASHVILLE: _pinned_reconciliation(NASHVILLE),
     # 163 identities, 43 published, 20 verified-no-pets, 63 resolved and 100
     # unresolved. The census is the 163-row recensus, promoted into the pinned
     # path by PTF-GRAND-RAPIDS-CENSUS-PIN-AND-RELEASE-CONTRACT-024; the
@@ -578,7 +586,7 @@ class TestContractAgreesWithItsOwnAuthority:
                              # one because its paid capture carries no
                              # reservation. Every number above is unchanged,
                              # which is the half that proves the scoping.
-                             LEXINGTON: 10}
+                             LEXINGTON: 10, NASHVILLE: 5}
         registry = json.loads(
             (REPO_ROOT / "launch_packages" / "pettripfinder" / "hotel_exclusions.json")
             .read_text(encoding="utf-8-sig"))["exclusions"]

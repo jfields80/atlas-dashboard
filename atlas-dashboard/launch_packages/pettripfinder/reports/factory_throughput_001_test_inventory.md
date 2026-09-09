@@ -1,15 +1,15 @@
 # PetTripFinder test pin inventory (A1)
 
-Schema `ptf-test-pin-inventory/1.0`. 404 modules scanned, 277 carry pins, 1645 sites.
+Schema `ptf-test-pin-inventory/1.0`. 405 modules scanned, 278 carry pins, 1653 sites.
 
 | class | sites |
 |---|---|
 | CURRENT_STATE_INVARIANT | 155 |
-| HISTORICAL_COHORT_INVARIANT | 880 |
-| HISTORICAL_ARTIFACT_INVARIANT | 201 |
+| HISTORICAL_COHORT_INVARIANT | 884 |
+| HISTORICAL_ARTIFACT_INVARIANT | 204 |
 | DEPLOYMENT_EPOCH_INVARIANT | 146 |
 | GENERIC_SCHEMA_INVARIANT | 194 |
-| CROSS_MARKET_INVARIANT | 69 |
+| CROSS_MARKET_INVARIANT | 70 |
 
 ## Modules asserting whole-package counts
 
@@ -348,6 +348,7 @@ Schema `ptf-test-pin-inventory/1.0`. 404 modules scanned, 277 carry pins, 1645 s
 | `test_markets.py` |  | GENERIC_SCHEMA_INVARIANT | 3 | GENERIC_SCHEMA 3 |
 | `test_measurement.py` |  | CURRENT_STATE_INVARIANT | 2 | CURRENT_STATE 2 |
 | `test_milwaukee_market_001.py` | milwaukee-wi | HISTORICAL_COHORT_INVARIANT | 5 | HISTORICAL_COHORT 5 |
+| `test_nashville_tn_new_market_001.py` |  | HISTORICAL_COHORT_INVARIANT | 8 | CROSS_MARKET 1, HISTORICAL_ARTIFACT 3, HISTORICAL_COHORT 4 |
 | `test_official_capture_extension.py` |  | HISTORICAL_COHORT_INVARIANT | 1 | HISTORICAL_ARTIFACT 1 |
 | `test_per_market_release_contracts.py` |  | CURRENT_STATE_INVARIANT | 5 | CURRENT_STATE 4, DEPLOYMENT_EPOCH 1 |
 | `test_pittsburgh_market_001.py` | pittsburgh-pa | HISTORICAL_COHORT_INVARIANT | 2 | HISTORICAL_COHORT 2 |

@@ -593,6 +593,14 @@ def read_source():
             ("street_identity", str(row.get("street_identity") or "")),
             ("phone_key", str(row.get("phone_key") or "")),
             ("lanes", list(row.get("lanes") or ())),
+            # The observations that ADMITTED the row, carried across verbatim.
+            # Dropping them was a defect of this module's first pass: a
+            # registered identity whose admitting evidence is only in a report
+            # cannot be audited from the census, and the shadow's own gate
+            # (test_every_admitted_identity_has_hard_evidence_and_a_corridor)
+            # is what caught it. Toledo's registered census carries the same
+            # field for the same reason.
+            ("evidence", list(row.get("evidence") or ())),
         ])
         ident["_clean"] = clean
         ident["_hold"] = None

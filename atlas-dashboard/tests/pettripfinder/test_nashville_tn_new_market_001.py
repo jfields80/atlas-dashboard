@@ -39,13 +39,19 @@ from scripts.pettripfinder.discovery.market_config import load_market_config
 from scripts.pettripfinder.markets import contract as MC
 from scripts.pettripfinder.site_data import normalize_name
 
-#: The order that WOULD discharge the boundary gates below. It has not run.
-#: Nothing here is marked superseded by it: PTF-NASHVILLE-TN-NEW-MARKET-001
-#: stops at the serialized boundary, so every one of those gates is a LIVE
-#: assertion about the state this order left behind. The promotion order is the
-#: one that retires them, and it must first integrate the then-current deployed
-#: canonical lineage.
-PROMOTION = "PTF-NASHVILLE-TN-PROMOTION-AND-APPLICATION-002"
+#: The order that DID discharge the boundary gates below. It ran, under the name
+#: PTF-NASHVILLE-TN-PROMOTION-AND-NEW-LANE-LAUNCH-PREP-002 rather than the one
+#: the shadow order predicted, and it registered Nashville: the market contract
+#: and the census MOVED out of markets/proposed/ and identity_census_proposed/,
+#: an authority shard and a release contract now exist, and the participation
+#: record carries a nashville-tn row.
+#:
+#: The five boundary gates are therefore RETIRED below rather than deleted. Each
+#: is kept as a record of what the shadow order promised and a pointer to the
+#: order that discharged it, because a gate that vanishes leaves no evidence it
+#: was ever honoured. Every other gate in this file describes how the market was
+#: BUILT, is still true of the moved artifact, and still runs.
+PROMOTION = "PTF-NASHVILLE-TN-PROMOTION-AND-NEW-LANE-LAUNCH-PREP-002"
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 PACKAGE = REPO_ROOT / "launch_packages" / "pettripfinder"
@@ -88,52 +94,83 @@ def _load(path: Path):
 # order crossed it.
 # --------------------------------------------------------------------------- #
 
-def test_nashville_is_not_a_registered_market():
-    """markets/*.json IS the registry. Nashville must not be in it."""
-    registered = {p.stem for p in (PACKAGE / "markets").glob("*.json")}
-    assert MARKET not in registered
-    assert MARKET not in {m.market_id for m in MC.load_markets()}
+#: The five gates below were LIVE assertions until PROMOTION ran. They are
+#: retired by name, with what each one guarded and what discharged it, and one
+#: gate replaces the whole group: the promotion must have moved the artifacts
+#: rather than copied them, because a market that exists in BOTH the proposed
+#: and the registered location is two markets as far as every glob is concerned.
+RETIRED_BOUNDARY_GATES = {
+    "test_nashville_is_not_a_registered_market":
+        "markets/nashville-tn.json now exists, written by %s." % PROMOTION,
+    "test_nashville_has_no_authority_shard_and_no_registered_census":
+        "the authority shard, the registered census and the policy package now "
+        "exist, written by %s." % PROMOTION,
+    "test_nashville_is_absent_from_every_current_state_pin":
+        "pins/market_state.json carries a nashville-tn pin (180 / 8 / 5), added "
+        "by %s. The deployment pins do NOT carry it and must not: Nashville is "
+        "registered, not live." % PROMOTION,
+    "test_nashville_has_no_release_contract_and_no_launch_participation":
+        "deploy/netlify/release_contracts/nashville-tn.json now exists and the "
+        "participation record carries a nashville-tn row reading "
+        "SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH, written by %s."
+        % PROMOTION,
+    "test_production_truth_is_unchanged_by_this_order":
+        "this pinned deploy 6a9e0476 at 11 / 803 / 966, which "
+        "PTF-LEXINGTON-KY-FRESH-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006 "
+        "superseded with 6aa17212 at 12 / 823 / 991. The statement it was "
+        "making -- a new-market order must not quietly register market N+1 -- "
+        "is now made by the deployment pins themselves and by "
+        "test_registering_nashville_moved_no_live_market below.",
+}
 
 
-def test_nashville_has_no_authority_shard_and_no_registered_census():
-    assert not (PACKAGE / "markets" / "authority" / MARKET).exists()
-    assert not (PACKAGE / "identity_census" / ("%s.json" % MARKET)).exists()
-    assert not (PACKAGE / ("hotel_policy_facts_%s.json" % MARKET)).exists()
+def test_the_boundary_gates_this_order_promised_were_discharged_not_deleted():
+    """Every retired gate names the order that discharged it and why.
 
-
-def test_nashville_is_absent_from_every_current_state_pin():
-    pins = REPO_ROOT / "tests" / "pettripfinder" / "pins"
-    market_state = _load(pins / "market_state.json")
-    deployment = _load(pins / "deployment_state.json")
-    assert MARKET not in market_state["markets"]
-    for block in ("live", "source"):
-        assert MARKET not in deployment[block]["participating_markets"]
-        assert MARKET not in deployment[block]["profile_counts"]
-
-
-def test_nashville_has_no_release_contract_and_no_launch_participation():
-    assert not (REPO_ROOT / "deploy" / "netlify" / "release_contracts"
-                / ("%s.json" % MARKET)).is_file()
-    participation = REPO_ROOT / "deploy" / "netlify" / "launch_participation.json"
-    if participation.is_file():
-        assert MARKET not in json.dumps(_load(participation))
-
-
-def test_production_truth_is_unchanged_by_this_order():
-    """The eleven live markets, 803 profiles and 966 routes this order started from.
-
-    This is the production truth PTF-NASHVILLE-TN-NEW-MARKET-001 recorded at its
-    precheck and did not move. It is deliberately a whole-market statement rather
-    than a Nashville one: a new-market order's most dangerous failure is not a
-    wrong hotel, it is quietly registering market N+1 and invalidating the
-    deployment record for the markets that are already live.
+    A boundary gate that simply disappears leaves no evidence it was ever
+    honoured; retiring it by name is how PTF-LEXINGTON-KY-FRESH-FOUNDER-
+    AUTHORIZATION-AND-LIVE-LAUNCH-006 closed the twelve its launch falsified,
+    and this file follows it.
     """
-    live = _load(REPO_ROOT / "tests" / "pettripfinder" / "pins"
-                 / "deployment_state.json")["live"]
-    assert live["deploy_id"] == "6a9e047690ec8bdaf99bcad2"
-    assert len(live["participating_markets"]) == 11
-    assert live["total_profiles"] == 803
-    assert live["sitemap_route_count"] == 966
+    assert len(RETIRED_BOUNDARY_GATES) == 5
+    for name, why in RETIRED_BOUNDARY_GATES.items():
+        assert name.startswith("test_")
+        assert PROMOTION in why or "SUPERSED" in why.upper() or "superseded" in why
+
+
+def test_the_promotion_registered_the_market_exactly_once():
+    """The registry is markets/*.json, and Nashville is in it once.
+
+    The proposed contract and census are RETAINED as the record of the shadow
+    build -- they are not the registry, ``load_markets()`` does not read
+    ``markets/proposed/``, and deleting them would destroy the only committed
+    statement of what the market looked like before the modern gates ran. What
+    must be true is that the REGISTRY carries exactly one Nashville.
+    """
+    assert (PACKAGE / "markets" / ("%s.json" % MARKET)).is_file()
+    assert (PACKAGE / "identity_census" / ("%s.json" % MARKET)).is_file()
+    ids = [m.market_id for m in MC.load_markets()]
+    assert ids.count(MARKET) == 1
+    registered = _load(PACKAGE / "identity_census" / ("%s.json" % MARKET))
+    assert registered["status"] == "REGISTERED"
+    assert registered["count"] == len(registered["hotels"])
+
+
+def test_registering_nashville_moved_no_live_market():
+    """The half of the retired production-truth gate that is still true.
+
+    Registering a market must not touch a market that is already live. The
+    deployment pins are the record of what production serves, and Nashville
+    must be absent from BOTH blocks: registered is not live.
+    """
+    deployment = _load(REPO_ROOT / "tests" / "pettripfinder" / "pins"
+                       / "deployment_state.json")
+    for block in ("live", "source"):
+        assert MARKET not in deployment[block]["participating_markets"], block
+        assert MARKET not in deployment[block]["profile_counts"], block
+    live = deployment["live"]
+    assert len(live["participating_markets"]) == len(live["profile_counts"])
+    assert live["total_profiles"] == sum(live["profile_counts"].values())
 
 
 # --------------------------------------------------------------------------- #
@@ -462,11 +499,21 @@ def test_no_competitor_row_entered_the_census_on_competitor_evidence_alone():
 # The census.
 # --------------------------------------------------------------------------- #
 
-def test_the_proposed_census_is_marked_proposed():
+def test_the_census_declares_which_side_of_the_boundary_it_is_on():
+    """The status is not decoration: it says whether this file IS the registry.
+
+    Before PROMOTION the census lived in ``identity_census_proposed/`` and read
+    PROPOSED_NOT_REGISTERED; after it, in ``identity_census/`` reading
+    REGISTERED. A file whose status disagrees with its directory is the one
+    thing this gate exists to refuse, in either direction.
+    """
     doc = _load(PROPOSED_CENSUS)
-    assert doc["status"] == "PROPOSED_NOT_REGISTERED"
     assert doc["market_id"] == MARKET
     assert doc["count"] == len(doc["hotels"])
+    expected = "REGISTERED" if REGISTERED else "PROPOSED_NOT_REGISTERED"
+    assert doc["status"] == expected
+    in_registry_dir = PROPOSED_CENSUS.parent.name == "identity_census"
+    assert in_registry_dir == (doc["status"] == "REGISTERED")
 
 
 def test_every_admitted_identity_has_hard_evidence_and_a_corridor():
@@ -501,15 +548,32 @@ def test_every_admitted_identity_has_hard_evidence_and_a_corridor():
 
 
 def test_no_identity_record_carries_a_pet_policy():
-    """Identity evidence never establishes a policy. Fail loudly if it leaks."""
+    """Identity evidence never establishes a policy. Fail loudly if it leaks.
+
+    ``policy_state`` is the one field allowed to say what the POLICY layer
+    decided, and only on a registered census: PROMOTION marks the thirteen rows
+    whose first-party read survived the modern gates POLICY_CONFIRMED or
+    VERIFIED_NO_PETS, and every other row stays POLICY_NOT_VERIFIED. What may
+    never appear -- in any row, in either file, on either side of the boundary
+    -- is a policy FIELD sitting in an identity record or in an identity
+    observation. That is the leak this gate was written for and it is unchanged.
+    """
     from scripts.pettripfinder.identity_evidence import POLICY_FIELD_NAMES
     doc = _load(PROPOSED_CENSUS)
+    allowed = ({"POLICY_NOT_VERIFIED", "POLICY_CONFIRMED", "VERIFIED_NO_PETS"}
+               if REGISTERED else {"POLICY_NOT_VERIFIED"})
     for h in doc["hotels"] + doc["non_admitted"]:
-        assert h["policy_state"] == "POLICY_NOT_VERIFIED", h["canonical_name"]
+        assert h["policy_state"] in allowed, (h["canonical_name"], h["policy_state"])
         leaked = POLICY_FIELD_NAMES & set(h)
         assert not leaked, (h["canonical_name"], sorted(leaked))
-        for obs in h["evidence"]:
+        for obs in h.get("evidence") or ():
             assert not (POLICY_FIELD_NAMES & set(obs)), h["canonical_name"]
+    if REGISTERED:
+        verified = [h for h in doc["hotels"] if h["policy_state"] != "POLICY_NOT_VERIFIED"]
+        published = _load(PACKAGE / ("hotel_policy_facts_%s.json" % MARKET))["hotels"]
+        refused = _load(PACKAGE / "markets" / "authority" / MARKET
+                        / "hotel_exclusions.json")["exclusions"]
+        assert len(verified) == len(published) + len(refused)
 
 
 def test_identity_keys_are_unique_and_normalised():
@@ -606,10 +670,28 @@ def test_a_name_binding_never_crossed_a_town_or_an_area():
 # --------------------------------------------------------------------------- #
 
 def test_every_route_is_bound_to_the_identity_it_serves():
+    """A route serves a census identity, resolved the way the factory joins.
+
+    The routing report keys each route by the name the LANE captured it under;
+    a census row may carry that as an alias of its fuller canonical name, so
+    the join goes through the alias table -- the same one
+    ``nashville_tn_registration_002`` uses. One route resolves to no registered
+    identity and that is not a drift: WoodSpring Suites Hermitage is HELD out of
+    the registered census (no committed source states its city), so this gate
+    allows exactly the routes whose identity the holds file names.
+    """
     doc = _load(ROUTING)
-    census_keys = {h["identity_key"] for h in _load(PROPOSED_CENSUS)["hotels"]}
+    census = _load(PROPOSED_CENSUS)["hotels"]
+    census_keys = {h["identity_key"] for h in census}
+    for h in census:
+        census_keys.update(h.get("identity_key_aliases") or ())
+    held = set()
+    holds = PACKAGE / "nashville_tn_identity_holds_002.json"
+    if REGISTERED and holds.is_file():
+        held = {h["identity_key_proposed"] for h in _load(holds)["holds"]}
     for r in doc["routes"]:
-        assert r["identity_key"] in census_keys, r["canonical_name"]
+        assert r["identity_key"] in census_keys or r["identity_key"] in held, \
+            r["canonical_name"]
         if r.get("url"):
             # http, not just https: an independent Nashville hotel publishes
             # its own site on whichever scheme it chose, and rewriting that

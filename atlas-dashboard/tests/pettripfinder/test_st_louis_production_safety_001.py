@@ -84,9 +84,14 @@ class TestStLouisIsNowRegistered:
         PTF-LEXINGTON-KY-PROMOTION-AND-NEW-LANE-LAUNCH-PREP-003 made it 13,
         again the same way -- and this one arrived carrying fifteen HELD rows,
         which is the point the count cannot make on its own: a registration is
-        one market, not one market's worth of published facts."""
+        one market, not one market's worth of published facts.
+        PTF-NASHVILLE-TN-PROMOTION-AND-NEW-LANE-LAUNCH-PREP-002 made it 14, and
+        makes that point harder still: Nashville registers 180 identities and
+        publishes EIGHT, because 88 rows are held -- 84 of them by a lane that
+        recorded a page's byte length instead of its hash. One market joined the
+        registry; almost none of its inventory joined the site."""
         assert "st-louis-mo" in MA.registered_market_ids()
-        assert len(load_markets()) == 13
+        assert len(load_markets()) == 14
 
     def test_the_authority_shard_exists_and_is_discoverable(self):
         assert "st-louis-mo" in MA.sharded_market_ids()

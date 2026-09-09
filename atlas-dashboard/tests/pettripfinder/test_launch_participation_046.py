@@ -131,7 +131,13 @@ WITHHELD_BY_046 = "indianapolis-in"
 #: gaining data -- the way Cincinnati and Grand Rapids did. The bundle
 #: excludes one market again, and Detroit's exclusion is unchanged, which
 #: is the half of this assertion that says a launch disturbed no old market.
-NOT_READY = ("detroit-ann-arbor-mi",)
+#: nashville-tn JOINS this list at PTF-NASHVILLE-TN-PROMOTION-AND-NEW-LANE-
+#: LAUNCH-PREP-002, for Detroit's reason and not Grand Rapids': its source
+#: assembles cleanly at eight published profiles and no founder has authorized
+#: it. The bundle excludes two markets again, and Detroit's exclusion is
+#: unchanged, which is the half of this assertion that says a registration
+#: disturbed no old market.
+NOT_READY = ("detroit-ann-arbor-mi", "nashville-tn")
 #: Genuinely cannot assemble: a configured market with no policy package.
 #: EMPTY as of PTF-DETROIT-ANN-ARBOR-TROY-IDENTITY-AND-BUNDLE-030. Detroit
 #: left this list the way Grand Rapids did: not by gaining data, but
@@ -159,7 +165,12 @@ NOT_ASSEMBLABLE = ()
 #: AUTHORIZATION-004, which is the founder decision the state was waiting
 #: for. Detroit is now the sole example, and the distinction the tests draw
 #: is unchanged: assemblable and source-ready is NOT authorized to launch.
-SOURCE_READY_UNAUTHORIZED = ("detroit-ann-arbor-mi",)
+#: nashville-tn joins Detroit here at PTF-NASHVILLE-TN-PROMOTION-AND-NEW-LANE-
+#: LAUNCH-PREP-002. The distinction the tests draw is unchanged and Nashville
+#: is the sharpest example of it yet: a market can be assemblable, source-ready
+#: and still publish almost nothing, because 88 of its 99 clean reads are held
+#: by the modern evidence and provenance gates.
+SOURCE_READY_UNAUTHORIZED = ("detroit-ann-arbor-mi", "nashville-tn")
 
 #: The five-market production candidate, reproduced twice in the work order
 #: and DEPLOYED by PTF-047. Superseded by
