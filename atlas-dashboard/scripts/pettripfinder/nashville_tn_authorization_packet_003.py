@@ -175,6 +175,17 @@ def main(argv=None) -> int:
              or lane["cache_reuse"]["changed_market"]["probe"].get("build_input_key")),
             ("fast_lane_receipt_digest", receipt["receipt_digest"]),
             ("no_abbreviated_identifier_appears_in_this_document", True),
+            ("what_the_package_digest_is_pinned_to",
+             "created_from_source_sha is a FIELD of the sealed package, so the package digest is "
+             "bound to the commit that holds the authority. The digest above was measured at "
+             "a83505e23c5a66c1ef4ef41ab31a40af129796fd, the commit that wrote the recovered "
+             "authority. Re-sealing at the later report-and-test commit "
+             "cd0a3ff3dc3adae54e40ce06d12fdb7bc315a267 gives "
+             "sha256:727581ef0bb9cbe208f9f12b845b250e49b8d9c9f7ea26ebd558f975980d05cf with all "
+             "SEVEN dependency input digests identical -- the authority did not move, only the "
+             "commit did. The CANDIDATE digest is unaffected either way: the assembler does not "
+             "read the package, which the third assembly proved by producing a byte-identical "
+             "bundle at the later commit."),
         ))),
 
         ("this_document_is_not_byte_stable", OrderedDict((
