@@ -254,7 +254,21 @@ the smallest (Lexington), and a data order for Cleveland's 12 non-operative poli
 
 ## GIT
 
-GIT_PLACEHOLDER
+Branch `worker/atlas-throughput-001` in worktree `C:\Atlas-Throughput-V1` (no new worktree), continued from
+the pushed 007 head `ab1e7a5`. Proof tooling, measurement artifacts, reports and ONE non-semantic coordinator
+fix strictly necessary to run the proof. No market authority, no participation, no promotion, no deployment,
+no paid call.
+
+| commit | subject |
+|---|---|
+| `249d121` | ATLAS-THROUGHPUT-008 live three-market factory proof and the CONTINUE decision |
+| `<this>` | ATLAS-THROUGHPUT-008 fill the FINAL report's git section |
+
+The coordinator change is the defect this proof found: a package-built fragment now enters durable release
+storage so release N+1 can inherit release N's own work. It is pinned by a regression test in the 005 suite.
+Untracked measurement directories under `C:\ptf008` are gitignored scratch, never inputs.
+
+**origin == HEAD, tree clean**, verified after the push and stated in the delivery message.
 
 ---
 
