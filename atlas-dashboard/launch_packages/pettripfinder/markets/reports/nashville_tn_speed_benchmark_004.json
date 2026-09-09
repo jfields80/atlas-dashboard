@@ -1,0 +1,106 @@
+{
+ "schema": "ptf-market-speed-benchmark/1.0",
+ "work_order": "PTF-NASHVILLE-TN-NEW-MARKET-001",
+ "market_id": "nashville-tn",
+ "phase": "22 -- speed benchmark",
+ "what_this_is": "every figure is read from a committed report on disk; a missing report is an error rather than a zero",
+ "active_minutes": 125,
+ "target_minutes": {
+  "low": 180,
+  "high": 300
+ },
+ "census_size": 181,
+ "free_http_requests": {
+  "owned_evidence": 0,
+  "brand_city_pages": 53,
+  "brand_sitemaps": 188,
+  "lead_sources": 213,
+  "free_static_capture": 164,
+  "total": 618
+ },
+ "other_free_lanes": {
+  "geofabrik_extract_downloads": 1,
+  "overpass_requests_before_the_lane_moved_local": 2,
+  "osm_candidates": 308
+ },
+ "brand_routes": {
+  "from_city_pages": 11,
+  "hilton_bna_codes": 60,
+  "from_sitemaps": 55
+ },
+ "competitor_leads": {
+  "bringfido_hotel_cohort": 349,
+  "short_term_rental_rows_excluded": 250,
+  "destination_org_lodging_leads": 123,
+  "competitor_only_rows": 244,
+  "competitor_only_true_hotels": 0
+ },
+ "static_captures": {
+  "targets": 164,
+  "by_outcome": {
+   "ACCESS_DENIED": 117,
+   "IDENTITY_MISMATCH": 4,
+   "NAVIGATION_FAILED": 7,
+   "POLICY_NOT_FOUND": 19,
+   "UNEXPECTED_PAGE": 2,
+   "UNHYDRATED": 6,
+   "VALID": 9
+  },
+  "by_classification": {
+   "ACCESS_BLOCKED_PLAIN_CLIENT": 117,
+   "BLOCK_FOUND_BUT_SILENT": 3,
+   "CLEAN_PET_FRIENDLY_CANDIDATE": 6,
+   "IDENTITY_MISMATCH": 2,
+   "IDENTITY_TEXT_BOUND_POLICY_SILENT": 19,
+   "NEEDS_ATTENDED_RENDER": 6,
+   "NO_PETS_READ_TEXT_BOUND": 1,
+   "SOURCE_SILENT_STATIC": 1,
+   "TRANSPORT_FAILED": 7,
+   "UNEXPECTED_PAGE": 2
+  }
+ },
+ "firecrawl": {
+  "candidates": 17,
+  "planned": 17,
+  "attempted": 17,
+  "credits_before": 459,
+  "credits_after": 442,
+  "credits_spent": 17,
+  "by_class": {
+   "FIRECRAWL_FAILED": 2,
+   "FIRECRAWL_PUBLICATION_GRADE": 15
+  }
+ },
+ "attended": {
+  "pages_read": 154,
+  "navigations": 2,
+  "identity_confirmed": 154,
+  "in_market": 93,
+  "outside_market": 61
+ },
+ "result": {
+  "clean_pet_friendly": 80,
+  "clean_verified_no_pets": 19,
+  "resolved": 99,
+  "unresolved": 82,
+  "reads_held_by_the_audit": 11,
+  "founder_items": 25,
+  "founder_groups": {
+   "A_IDENTITY": 15,
+   "B_GEOGRAPHY": 6,
+   "C_CATEGORY": 2,
+   "D_POLICY": 1,
+   "F_CROSS_MARKET": 1
+  },
+  "promotion_blockers": 0,
+  "promotion_ready": "YES"
+ },
+ "spend": {
+  "usd": 0.0,
+  "firecrawl_plan_credits": 17,
+  "paid_provider_calls": 0,
+  "required_for_promotion": []
+ },
+ "did_nashville_reach_promotion_ready_within_3_to_5_hours": "YES",
+ "bottleneck_if_any": "none. The two lanes that could have dominated were both avoided rather than endured: the public Overpass API rate-limited every mirror after two of fifty-eight cells and the lane moved to a local extract, and the Marriott/Hilton wall was walked by same-origin fetch batching -- 154 property pages in TWO navigations instead of 154."
+}

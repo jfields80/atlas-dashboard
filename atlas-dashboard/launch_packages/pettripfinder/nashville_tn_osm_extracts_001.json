@@ -1,0 +1,24 @@
+{
+ "schema": "ptf-osm-extracts/1.0",
+ "what_this_is": "PTF-NASHVILLE-TN-NEW-MARKET-001 market-local OSM extract registry. Passed to osm_extract_cli.py with --registry so the SHARED registry (scripts/pettripfinder/discovery/config/osm_extracts.json) stays untouched while other market orders run concurrently. That shared file is unmodified by this order.",
+ "why_a_local_extract": "This market's first free discovery lane was the public Overpass API. It answered two of fifty-eight cells and then rate-limited every approved mirror into a fifteen-minute cooldown, which at that rate is hours of wall clock for a lane that costs nothing to run locally. Geofabrik's Tennessee extract answers every cell offline, in one download, with no public server asked again. Pittsburgh's HARDENED-RECENSUS-001 wrote this lane for exactly this failure, and Lexington's rule is the one followed here: register the Geofabrik extract BEFORE leaning on Overpass.",
+ "provenance": "Geofabrik publishes per-state extracts of OpenStreetMap under the ODbL at https://download.geofabrik.de/north-america/us.html; each *.osm.pbf has a sibling *.osm.pbf.md5. Attribution: (c) OpenStreetMap contributors, ODbL 1.0.",
+ "extracts": [
+  {
+   "extract_id": "geofabrik-tennessee",
+   "region": "Tennessee, US",
+   "url": "https://download.geofabrik.de/north-america/us/tennessee-latest.osm.pbf",
+   "md5_url": "https://download.geofabrik.de/north-america/us/tennessee-latest.osm.pbf.md5",
+   "local_pbf": "data/osm_extracts/tennessee-latest.osm.pbf",
+   "index_path": "data/osm_extracts/geofabrik-tennessee.nashville-tn.index.json",
+   "markets": [
+    "nashville-tn"
+   ],
+   "license": "ODbL 1.0 (OpenStreetMap contributors)",
+   "notes": "No committed extract covers Tennessee: the shared registry holds Pennsylvania, Michigan and Ohio only, and no registered market is in this state. The index is reduced to this market's own discovery bounding box (35.85 to 36.42 N, -87.05 to -86.40 W), so it holds Greater Nashville and nothing else.",
+   "verified_md5": "3bdab2be1615a0d1defa867d675eff6c",
+   "verified_at": "2026-09-07",
+   "verification": "the extract was downloaded (189,257,509 bytes) and its md5 computed and compared against Geofabrik's own sibling .md5 file BEFORE any index was built. An unverified extract builds no index: the download step exits non-zero on a mismatch rather than indexing bytes nobody checked."
+  }
+ ]
+}

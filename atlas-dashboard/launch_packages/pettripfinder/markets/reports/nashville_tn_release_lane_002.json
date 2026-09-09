@@ -1,0 +1,878 @@
+{
+ "schema": "ptf-market-release-lane/1.0",
+ "work_order": "PTF-NASHVILLE-TN-PROMOTION-AND-NEW-LANE-LAUNCH-PREP-002",
+ "market_id": "nashville-tn",
+ "nothing_deployed": true,
+ "nothing_activated": true,
+ "parent_live_state": {
+  "live_deploy_id": "6aa172121d37bb4013eb44a4",
+  "rollback_target": "6a9e047690ec8bdaf99bcad2",
+  "source_commit": "b446d1bcce910b745e21e7d3a7a44488d26a6944",
+  "participating_markets": [
+   "cincinnati-oh",
+   "cleveland-akron-canton-oh",
+   "columbus-oh",
+   "dayton-oh",
+   "grand-rapids-holland-mi",
+   "indianapolis-in",
+   "lexington-ky",
+   "louisville-ky",
+   "milwaukee-wi",
+   "pittsburgh-pa",
+   "st-louis-mo",
+   "toledo-oh"
+  ],
+  "profile_counts": {
+   "cincinnati-oh": 130,
+   "cleveland-akron-canton-oh": 120,
+   "columbus-oh": 88,
+   "dayton-oh": 54,
+   "grand-rapids-holland-mi": 43,
+   "indianapolis-in": 82,
+   "lexington-ky": 20,
+   "louisville-ky": 53,
+   "milwaukee-wi": 73,
+   "pittsburgh-pa": 61,
+   "st-louis-mo": 82,
+   "toledo-oh": 17
+  },
+  "total_profiles": 823,
+  "sitemap_route_count": 991,
+  "live_index_digest": "sha256:a07b839ac48c3cfe898a132746648dc17d43d6e2c0b9f48199509312bd5a54de"
+ },
+ "first_party_gate": {
+  "records_evaluated": 13,
+  "eligible": 13,
+  "ineligible": 0,
+  "passed": true,
+  "classes": {},
+  "failures": []
+ },
+ "sealed_package": {
+  "package_id": "pkg-nashville-tn-38632a36658c7aea",
+  "package_digest": "sha256:38632a36658c7aea8cc93760d91b18cfc83e5f2dcc426b4008629873d8319358",
+  "build_input_key": null,
+  "sealed_at": "2026-09-09T00:00:00Z",
+  "pet_friendly_records": 8,
+  "verified_no_pets_records": 5,
+  "census_count": 180,
+  "evidence_references": 13,
+  "unresolved": 0,
+  "founder_holds": 0,
+  "coverage_scorecard": {
+   "census_count": 180,
+   "published_pet_friendly": 8,
+   "verified_no_pets": 5,
+   "out_of_category": 0,
+   "unresolved": 167,
+   "public_routes": 14,
+   "evidence_references": 13,
+   "evidence_references_source": "derived_from_records",
+   "evidence_artifacts_available": 0,
+   "paid_evidence_references": 13,
+   "counts_by_partition_state": {
+    "AWAITING_FOUNDER_DECISION": 3,
+    "AWAITING_POLICY_ARTIFACT": 87,
+    "AWAITING_POLICY_OBSERVATION": 40,
+    "AWAITING_ROUTING_REVIEW": 37,
+    "PUBLISHED_PET_FRIENDLY": 8,
+    "VERIFIED_NO_PETS": 5
+   }
+  }
+ },
+ "intended_delta": {
+  "market_id": "nashville-tn",
+  "add_property_ids": [],
+  "update_property_ids": [],
+  "remove_property_ids": [],
+  "add_routes": [
+   "/pet-friendly-hotels/nashville-tn/",
+   "/pet-friendly-hotels/nashville-tn/avid-hotels-nashville-airport/",
+   "/pet-friendly-hotels/nashville-tn/baymont-by-wyndham-nashville/",
+   "/pet-friendly-hotels/nashville-tn/comfort-inn-suites-nashville-bellevue-area/",
+   "/pet-friendly-hotels/nashville-tn/days-inn-by-wyndham-nashville-north-opryland-area/",
+   "/pet-friendly-hotels/nashville-tn/holiday-inn-express-suites-nashville-southeast-antioch/",
+   "/pet-friendly-hotels/nashville-tn/la-quinta-inn-suites-by-wyndham-nashville-airport/",
+   "/pet-friendly-hotels/nashville-tn/la-quinta-inn-suites-by-wyndham-nashville-downtown-stadium/",
+   "/pet-friendly-hotels/nashville-tn/quality-inn-goodlettsville/"
+  ],
+  "change_routes": [],
+  "remove_routes": [],
+  "expected_profile_delta": 0,
+  "expected_verified_no_pets_delta": 0,
+  "expected_market_count_delta": 1,
+  "expected_participation_delta": [
+   {
+    "market_id": "nashville-tn",
+    "from": false,
+    "to": true
+   }
+  ],
+  "joining_market_profiles": 8,
+  "joining_market_verified_no_pets": 5
+ },
+ "registration_change_classification": {
+  "base": "a87503297170b1248897bd87e5d651c79088cc80",
+  "changed_file_count": 66,
+  "change_classes": [
+   "AUTHORITY_CHANGE",
+   "GENERIC_RUNTIME_CHANGE",
+   "ROUTING_SEMANTIC_CHANGE",
+   "DEPLOYMENT_CHANGE",
+   "TEST_EXPECTATION_CHANGE",
+   "DOCUMENTATION_ONLY",
+   "GENERATED_REPORT_ONLY",
+   "UNCLASSIFIED"
+  ],
+  "MARKET_AUTHORITY_DATA_ONLY": {
+   "market_id": null,
+   "why": "narrowing blocked by ['launch_packages/pettripfinder/bundle_cache_closure.json']"
+  },
+  "FAST_DATA_ONLY_RELEASE": null,
+  "FULL_REGRESSION_REQUIRED": "YES",
+  "why_it_widens": "deploy/netlify/launch_participation.json (DEPLOYMENT_CHANGE): deployment doctrine: what the record claims is served must be what a fresh assembly builds, and nothing narrower proves it; deploy/netlify/release_contracts/nashville-tn.json (DEPLOYMENT_CHANGE): deployment doctrine: what the record claims is served must be what a fresh assembly builds, and nothing narrower proves it; launch_packages/pettripfinder/bundle_cache_closure.json (DEPLOYMENT_CHANGE): deployment doctrine: what the record claims is served must be what a fresh assembly builds, and nothing narrower proves it; launch_packages/pettripfinder/hotel_exclusions.json (AUTHORITY_CHANGE): authority is what the site publishes; a wrong row reaches a reader, and the per-market contract rows and cross-market isolation gates are the only proof it did not leak; launch_packages/pettripfinder/hotel_policy_facts_nashville-tn.json (AUTHORITY_CHANGE): authority is what the site publishes; a wrong row reaches a reader, and the per-market contract rows and cross-market isolation gates are the only proof it did not leak; launch_packages/pettripfinder/identity_census/nashville-tn.json (AUTHORITY_CHANGE): authority is what the site publishes; a wrong row reaches a reader, and the per-market contract rows and cross-market isolation gates are the only proof it did not leak",
+  "narrowing_blockers": [
+   "launch_packages/pettripfinder/bundle_cache_closure.json"
+  ],
+  "lanes": [
+   "deployment_architecture",
+   "release_contract",
+   "assembly",
+   "policy_schema",
+   "identity_routing",
+   "cross_market"
+  ],
+  "modules": 224,
+  "assembly_required": true,
+  "this_is_the_registration_not_the_routine_release": "a market is registered once. The routine question is answered by fast_lane_receipt.change_class and .full_regression_required_by_lane above."
+ },
+ "fast_lane_receipt": {
+  "receipt_digest": "sha256:0e787979aa317182bb9cba1a4ebb4badb9c12b4e88104d87e1da1129fc5506ad",
+  "eligible": "YES",
+  "change_class": "MARKET_AUTHORITY_DATA_ONLY",
+  "full_regression_required_by_lane": "NO",
+  "rules": {
+   "A": "PASS",
+   "B": "PASS",
+   "C": "PASS",
+   "D": "PASS",
+   "E": "PASS",
+   "F": "PASS",
+   "G": "PASS",
+   "H": "PASS",
+   "I": "PASS",
+   "J": "PASS",
+   "K": "PASS",
+   "L": "PASS",
+   "M": "PASS",
+   "N": "PASS",
+   "O": "PASS"
+  },
+  "unknown_rules": [],
+  "failed_rules": [],
+  "intended_delta_digest": "sha256:ca822fbf97aca632258b8ae5c3f8d1ee09fed18bb6c90c6772737291e2af9493",
+  "artifact_digests": {
+   "changed_market_bundle_sha256_a": "86c9a093c128c2a7ad1ae340cf364bf7dd0902e6a433aacc7ad02263ce319647",
+   "changed_market_bundle_sha256_b": "86c9a093c128c2a7ad1ae340cf364bf7dd0902e6a433aacc7ad02263ce319647",
+   "staged_input_digest": "sha256:b2166842678b381508a7c5d8051f3cd37e97da6ec81a33cb3572634fcd7cf7aa",
+   "staged_contract_sha256": "sha256:c619d00f7f3c80d0d338466d819058156c2790c7928438bc828ee295c0e3b50d"
+  },
+  "determinism_result": "BYTE_IDENTICAL",
+  "fast_path_production_activation": "DISABLED",
+  "production_activation_allowed": "NO",
+  "performance": {
+   "total_seconds": 14.962,
+   "per_rule_seconds": {
+    "A": 0.025,
+    "B": 0.094,
+    "C": 0.008,
+    "D": 0.0,
+    "E": 0.0,
+    "F": 0.0,
+    "G": 0.062,
+    "H": 0.062,
+    "I": 0.062,
+    "J": 8.125,
+    "K": 6.482,
+    "L": 0.0,
+    "M": 0.0,
+    "N": 0.012,
+    "O": 0.0
+   },
+   "changed_market_build_seconds": 7.805,
+   "determinism_build_seconds": 6.482
+  }
+ },
+ "fast_lane_receipt_document": {
+  "schema": "ptf-fast-release-receipt/1.0",
+  "lane": "FAST_DATA_ONLY_RELEASE",
+  "PACKAGE_ID": "pkg-nashville-tn-38632a36658c7aea",
+  "PACKAGE_DIGEST": "sha256:38632a36658c7aea8cc93760d91b18cfc83e5f2dcc426b4008629873d8319358",
+  "MARKET_ID": "nashville-tn",
+  "PARENT_RELEASE": {
+   "live_deploy_id": "6aa172121d37bb4013eb44a4",
+   "rollback_target": "6a9e047690ec8bdaf99bcad2",
+   "source_commit": "b446d1bcce910b745e21e7d3a7a44488d26a6944",
+   "live_index_digest": "sha256:a07b839ac48c3cfe898a132746648dc17d43d6e2c0b9f48199509312bd5a54de"
+  },
+  "CHANGE_CLASS": "MARKET_AUTHORITY_DATA_ONLY",
+  "DEPENDENCY_DIGEST": "sha256:4cd4f954b0b788da88a215aae4c81d3e6547047783831e93c5e7567954a38a9f",
+  "VALIDATION_POLICY_VERSION": "ptf-fast-data-only-release/1.0",
+  "RULES_EXECUTED": [
+   {
+    "rule": "A",
+    "name": "package schema valid"
+   },
+   {
+    "rule": "B",
+    "name": "identity valid"
+   },
+   {
+    "rule": "C",
+    "name": "first-party policy binding valid"
+   },
+   {
+    "rule": "D",
+    "name": "policy semantics valid"
+   },
+   {
+    "rule": "E",
+    "name": "route references valid"
+   },
+   {
+    "rule": "F",
+    "name": "market partition valid"
+   },
+   {
+    "rule": "G",
+    "name": "proposed whole-release identity/route indexes contain no forbidden collision"
+   },
+   {
+    "rule": "H",
+    "name": "every unrelated live market/member is preserved"
+   },
+   {
+    "rule": "I",
+    "name": "every removal is explicitly intended"
+   },
+   {
+    "rule": "J",
+    "name": "changed-market artifact builds successfully"
+   },
+   {
+    "rule": "K",
+    "name": "changed-market output deterministic"
+   },
+   {
+    "rule": "L",
+    "name": "package/artifact hashes internally consistent"
+   },
+   {
+    "rule": "M",
+    "name": "required evidence freshness/revocation rules satisfied"
+   },
+   {
+    "rule": "N",
+    "name": "rollback/current-live preservation metadata valid"
+   },
+   {
+    "rule": "O",
+    "name": "paid acquisitions used by the package satisfy reservation provenance"
+   }
+  ],
+  "RESULTS": {
+   "A": {
+    "rule": "A",
+    "name": "package schema valid",
+    "status": "PASS",
+    "seconds": 0.025,
+    "detail": {
+     "schema": "ptf-sealed-market-package/1.0",
+     "package_id": "pkg-nashville-tn-38632a36658c7aea",
+     "package_digest": "sha256:38632a36658c7aea8cc93760d91b18cfc83e5f2dcc426b4008629873d8319358"
+    },
+    "problems": [],
+    "problem_count": 0
+   },
+   "B": {
+    "rule": "B",
+    "name": "identity valid",
+    "status": "PASS",
+    "seconds": 0.094,
+    "detail": {
+     "identity_records": 180,
+     "census_count": 180,
+     "declared_relations": 0,
+     "writer_seconds": 0.093
+    },
+    "problems": [],
+    "problem_count": 0
+   },
+   "C": {
+    "rule": "C",
+    "name": "first-party policy binding valid",
+    "status": "PASS",
+    "seconds": 0.008,
+    "detail": {
+     "records_evaluated": 13,
+     "eligible": 13,
+     "ineligible": 0,
+     "classes": {}
+    },
+    "problems": [],
+    "problem_count": 0
+   },
+   "D": {
+    "rule": "D",
+    "name": "policy semantics valid",
+    "status": "PASS",
+    "seconds": 0.0,
+    "detail": {
+     "pet_friendly_records": 8,
+     "verified_no_pets_records": 5,
+     "policy_schema": "1.3"
+    },
+    "problems": [],
+    "problem_count": 0
+   },
+   "E": {
+    "rule": "E",
+    "name": "route references valid",
+    "status": "PASS",
+    "seconds": 0.0,
+    "detail": {
+     "official_routes": 0,
+     "public_routes": 14
+    },
+    "problems": [],
+    "problem_count": 0
+   },
+   "F": {
+    "rule": "F",
+    "name": "market partition valid",
+    "status": "PASS",
+    "seconds": 0.0,
+    "detail": {
+     "partition_count": 180,
+     "unresolved_rows": 167,
+     "counts_by_partition_state": {
+      "AWAITING_FOUNDER_DECISION": 3,
+      "AWAITING_POLICY_ARTIFACT": 87,
+      "AWAITING_POLICY_OBSERVATION": 40,
+      "AWAITING_ROUTING_REVIEW": 37,
+      "PUBLISHED_PET_FRIENDLY": 8,
+      "VERIFIED_NO_PETS": 5
+     }
+    },
+    "problems": [],
+    "problem_count": 0
+   },
+   "G": {
+    "rule": "G",
+    "name": "proposed whole-release identity/route indexes contain no forbidden collision",
+    "status": "PASS",
+    "seconds": 0.062,
+    "detail": {
+     "live_digest": "sha256:a07b839ac48c3cfe898a132746648dc17d43d6e2c0b9f48199509312bd5a54de",
+     "proposed_digest": "sha256:3288089a0e845d25a0c9610cfcef60ddbcf4755eb2606cae55e6f2f8fbb0363f",
+     "proposed_participating": [
+      "cincinnati-oh",
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "grand-rapids-holland-mi",
+      "indianapolis-in",
+      "lexington-ky",
+      "louisville-ky",
+      "milwaukee-wi",
+      "nashville-tn",
+      "pittsburgh-pa",
+      "st-louis-mo",
+      "toledo-oh"
+     ],
+     "proposed_total_profiles": 831,
+     "legacy_collisions_outside_package": 0,
+     "compare_seconds": 0.06
+    },
+    "problems": [],
+    "problem_count": 0
+   },
+   "H": {
+    "rule": "H",
+    "name": "every unrelated live market/member is preserved",
+    "status": "PASS",
+    "seconds": 0.062,
+    "detail": {
+     "live_participating": [
+      "cincinnati-oh",
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "grand-rapids-holland-mi",
+      "indianapolis-in",
+      "lexington-ky",
+      "louisville-ky",
+      "milwaukee-wi",
+      "pittsburgh-pa",
+      "st-louis-mo",
+      "toledo-oh"
+     ],
+     "live_total_profiles": 823,
+     "finding_counts": {}
+    },
+    "problems": [],
+    "problem_count": 0
+   },
+   "I": {
+    "rule": "I",
+    "name": "every removal is explicitly intended",
+    "status": "PASS",
+    "seconds": 0.062,
+    "detail": {
+     "intended_delta": {
+      "market_id": "nashville-tn",
+      "add_property_ids": [],
+      "update_property_ids": [],
+      "remove_property_ids": [],
+      "add_routes": [
+       "/pet-friendly-hotels/nashville-tn/",
+       "/pet-friendly-hotels/nashville-tn/avid-hotels-nashville-airport/",
+       "/pet-friendly-hotels/nashville-tn/baymont-by-wyndham-nashville/",
+       "/pet-friendly-hotels/nashville-tn/comfort-inn-suites-nashville-bellevue-area/",
+       "/pet-friendly-hotels/nashville-tn/days-inn-by-wyndham-nashville-north-opryland-area/",
+       "/pet-friendly-hotels/nashville-tn/holiday-inn-express-suites-nashville-southeast-antioch/",
+       "/pet-friendly-hotels/nashville-tn/la-quinta-inn-suites-by-wyndham-nashville-airport/",
+       "/pet-friendly-hotels/nashville-tn/la-quinta-inn-suites-by-wyndham-nashville-downtown-stadium/",
+       "/pet-friendly-hotels/nashville-tn/quality-inn-goodlettsville/"
+      ],
+      "change_routes": [],
+      "remove_routes": [],
+      "expected_profile_delta": 0,
+      "expected_market_count_delta": 1,
+      "expected_participation_delta": [
+       {
+        "market_id": "nashville-tn",
+        "from": false,
+        "to": true
+       }
+      ]
+     },
+     "actual_delta": {
+      "add_property_ids": [],
+      "update_property_ids": [],
+      "remove_property_ids": [],
+      "add_routes": [
+       "/pet-friendly-hotels/nashville-tn/",
+       "/pet-friendly-hotels/nashville-tn/avid-hotels-nashville-airport/",
+       "/pet-friendly-hotels/nashville-tn/baymont-by-wyndham-nashville/",
+       "/pet-friendly-hotels/nashville-tn/comfort-inn-suites-nashville-bellevue-area/",
+       "/pet-friendly-hotels/nashville-tn/days-inn-by-wyndham-nashville-north-opryland-area/",
+       "/pet-friendly-hotels/nashville-tn/holiday-inn-express-suites-nashville-southeast-antioch/",
+       "/pet-friendly-hotels/nashville-tn/la-quinta-inn-suites-by-wyndham-nashville-airport/",
+       "/pet-friendly-hotels/nashville-tn/la-quinta-inn-suites-by-wyndham-nashville-downtown-stadium/",
+       "/pet-friendly-hotels/nashville-tn/quality-inn-goodlettsville/"
+      ],
+      "remove_routes": [],
+      "profile_delta": 0,
+      "verified_no_pets_delta": 0,
+      "market_count_delta": 1
+     },
+     "removal_authority": {}
+    },
+    "problems": [],
+    "problem_count": 0
+   },
+   "J": {
+    "rule": "J",
+    "name": "changed-market artifact builds successfully",
+    "status": "PASS",
+    "seconds": 8.125,
+    "detail": {
+     "bundle_sha256": "86c9a093c128c2a7ad1ae340cf364bf7dd0902e6a433aacc7ad02263ce319647",
+     "file_count": 71,
+     "html_count": 55,
+     "staged_input_digest": "sha256:b2166842678b381508a7c5d8051f3cd37e97da6ec81a33cb3572634fcd7cf7aa",
+     "contract_sha256": "sha256:c619d00f7f3c80d0d338466d819058156c2790c7928438bc828ee295c0e3b50d",
+     "release_name": "package-nashville-tn-a875032-76bfff72-41f390d4",
+     "cache_events": [
+      {
+       "verdict": "BUILD_EXECUTED",
+       "assembly_kind": "generator_site",
+       "input_key": "4a4473f1dd346957a2d1b2b08f8e2823533b1ca7b3cce7aa215d9c56ed25d7fe",
+       "seconds": 0.997
+      },
+      {
+       "verdict": "BUILD_EXECUTED",
+       "assembly_kind": "market_bundle",
+       "input_key": "50e01eb6c569721ba188159e18b5fbe27cb509c651625d4c8ae8ea8fb821d333",
+       "seconds": 4.145
+      }
+     ],
+     "build_seconds": 7.805
+    },
+    "problems": [],
+    "problem_count": 0
+   },
+   "K": {
+    "rule": "K",
+    "name": "changed-market output deterministic",
+    "status": "PASS",
+    "seconds": 6.482,
+    "detail": {
+     "input_digest": "sha256:b2166842678b381508a7c5d8051f3cd37e97da6ec81a33cb3572634fcd7cf7aa",
+     "output_digest_a": "86c9a093c128c2a7ad1ae340cf364bf7dd0902e6a433aacc7ad02263ce319647",
+     "output_digest_b": "86c9a093c128c2a7ad1ae340cf364bf7dd0902e6a433aacc7ad02263ce319647",
+     "result": "BYTE_IDENTICAL",
+     "cold_builds_executed": 4,
+     "reuse_hits": 0,
+     "build_seconds": 6.482
+    },
+    "problems": [],
+    "problem_count": 0
+   },
+   "L": {
+    "rule": "L",
+    "name": "package/artifact hashes internally consistent",
+    "status": "PASS",
+    "seconds": 0.0,
+    "detail": {
+     "package_digest": "sha256:38632a36658c7aea8cc93760d91b18cfc83e5f2dcc426b4008629873d8319358",
+     "rederived_digest": "sha256:38632a36658c7aea8cc93760d91b18cfc83e5f2dcc426b4008629873d8319358",
+     "evidence_references": 13,
+     "artifacts_available": 0,
+     "artifacts_checked": 0,
+     "dependency_inputs": 7,
+     "dependency_digest": "sha256:4cd4f954b0b788da88a215aae4c81d3e6547047783831e93c5e7567954a38a9f"
+    },
+    "problems": [],
+    "problem_count": 0
+   },
+   "M": {
+    "rule": "M",
+    "name": "required evidence freshness/revocation rules satisfied",
+    "status": "PASS",
+    "seconds": 0.0,
+    "detail": {
+     "max_age_days": 365,
+     "references": 13,
+     "revoked_registry_size": 0,
+     "earliest_expiry": "2027-09-07T00:00:00Z"
+    },
+    "problems": [],
+    "problem_count": 0
+   },
+   "N": {
+    "rule": "N",
+    "name": "rollback/current-live preservation metadata valid",
+    "status": "PASS",
+    "seconds": 0.012,
+    "detail": {
+     "live": {
+      "live_deploy_id": "6aa172121d37bb4013eb44a4",
+      "previous_deploy_id": "6a9e047690ec8bdaf99bcad2",
+      "rollback_target": "6a9e047690ec8bdaf99bcad2",
+      "source_commit": "b446d1bcce910b745e21e7d3a7a44488d26a6944",
+      "bundle_sha256": "67fe8617b79febb9b2248895441c31ac65931cf9fdcfa4da4f8014ee190cde78",
+      "sitemap_sha256": "dd0d87f2da07615776016690af64452d42cafc24d3c82e310b5f44efc6f7e611",
+      "participating_markets": [
+       "cincinnati-oh",
+       "cleveland-akron-canton-oh",
+       "columbus-oh",
+       "dayton-oh",
+       "grand-rapids-holland-mi",
+       "indianapolis-in",
+       "lexington-ky",
+       "louisville-ky",
+       "milwaukee-wi",
+       "pittsburgh-pa",
+       "st-louis-mo",
+       "toledo-oh"
+      ],
+      "profile_counts": {
+       "cincinnati-oh": 130,
+       "cleveland-akron-canton-oh": 120,
+       "columbus-oh": 88,
+       "dayton-oh": 54,
+       "grand-rapids-holland-mi": 43,
+       "indianapolis-in": 82,
+       "lexington-ky": 20,
+       "louisville-ky": 53,
+       "milwaukee-wi": 73,
+       "pittsburgh-pa": 61,
+       "st-louis-mo": 82,
+       "toledo-oh": 17
+      },
+      "total_profiles": 823,
+      "sitemap_route_count": 991,
+      "deployment_record": "ptf-deploy-lexington-006-6aa172121d37bb4013eb44a4.json",
+      "authorization_id": "ptf-auth-lexington-006-67fe8617b79f",
+      "rollback_record": "ptf-deploy-toledo-003-6a9e047690ec8bdaf99bcad2.json",
+      "rollback_markets": [
+       "cincinnati-oh",
+       "cleveland-akron-canton-oh",
+       "columbus-oh",
+       "dayton-oh",
+       "grand-rapids-holland-mi",
+       "indianapolis-in",
+       "louisville-ky",
+       "milwaukee-wi",
+       "pittsburgh-pa",
+       "st-louis-mo",
+       "toledo-oh"
+      ],
+      "problems": []
+     },
+     "stale_parent": false
+    },
+    "problems": [],
+    "problem_count": 0
+   },
+   "O": {
+    "rule": "O",
+    "name": "paid acquisitions used by the package satisfy reservation provenance",
+    "status": "PASS",
+    "seconds": 0.0,
+    "detail": {
+     "paid_references": 13,
+     "ledger_cross_checked": 13,
+     "ledger_unknown": 0
+    },
+    "problems": [],
+    "problem_count": 0
+   }
+  },
+  "TIMESTAMPS": {
+   "started_at": "2026-09-09T17:42:35Z",
+   "finished_at": "2026-09-09T17:42:50Z",
+   "seconds": 14.962
+  },
+  "ARTIFACT_DIGESTS": {
+   "changed_market_bundle_sha256_a": "86c9a093c128c2a7ad1ae340cf364bf7dd0902e6a433aacc7ad02263ce319647",
+   "changed_market_bundle_sha256_b": "86c9a093c128c2a7ad1ae340cf364bf7dd0902e6a433aacc7ad02263ce319647",
+   "staged_input_digest": "sha256:b2166842678b381508a7c5d8051f3cd37e97da6ec81a33cb3572634fcd7cf7aa",
+   "staged_contract_sha256": "sha256:c619d00f7f3c80d0d338466d819058156c2790c7928438bc828ee295c0e3b50d"
+  },
+  "GLOBAL_INDEX_DIGEST": {
+   "live": "sha256:a07b839ac48c3cfe898a132746648dc17d43d6e2c0b9f48199509312bd5a54de",
+   "proposed": "sha256:3288089a0e845d25a0c9610cfcef60ddbcf4755eb2606cae55e6f2f8fbb0363f"
+  },
+  "PACKAGE_INDEX_DIGEST": "sha256:bbcab94778fe5240d0696e949c3d40f33f5e46b07323bbe1a5bbb0efa1db5b42",
+  "INTENDED_DELTA_DIGEST": "sha256:ca822fbf97aca632258b8ae5c3f8d1ee09fed18bb6c90c6772737291e2af9493",
+  "DETERMINISM_RESULT": "BYTE_IDENTICAL",
+  "FIRST_PARTY_BINDING_RESULT": "PASS",
+  "COLLISION_RESULT": "PASS",
+  "REMOVAL_RESULT": "PASS",
+  "LEGACY_EXCEPTIONS": [],
+  "ENVIRONMENT": {
+   "python": "3.13.5",
+   "platform": "Windows-10-10.0.19045-SP0",
+   "builder_version": "ptf-market-package-writer/1.0",
+   "contract_versions": {
+    "market": "ptf-market/1.1",
+    "census": "ptf-market-identity-census/1.1",
+    "partition": "ptf-market-final-partition/1.1",
+    "policy_schema": "1.3",
+    "evidence": "contracts.evidence PUBLICATION_GRADE_REQUIRED=evidence_ref,field,quote,source_url,source_grade,artifact_class,artifact_sha256,artifact_kind,captured_at",
+    "identity_key": "ptf_identity_key/1.0",
+    "identity_routing": "ptf-identity-routing/1.0",
+    "hotel_exclusions": "ptf-hotel-exclusions/1.0",
+    "sealed_market_package": "ptf-sealed-market-package/1.0"
+   },
+   "created_from_source_sha": "a87503297170b1248897bd87e5d651c79088cc80",
+   "peak_working_set_mb": 67.4
+  },
+  "EXPIRY_REVOCATION_CONDITIONS": {
+   "valid_while": [
+    "the live deployment is 6aa172121d37bb4013eb44a4",
+    "the live index digest is sha256:a07b839ac48c3cfe898a132746648dc17d43d6e2c0b9f48199509312bd5a54de",
+    "no referenced artifact is added to evidence_revocations.json",
+    "the evidence is younger than 365 days",
+    "the owning contracts are at the versions recorded in ENVIRONMENT",
+    "the sealed package bytes are unchanged (digest above)"
+   ],
+   "earliest_evidence_expiry": "2027-09-07T00:00:00Z",
+   "evidence_max_age_days": 365
+  },
+  "UNKNOWN_RULES": [],
+  "FAILED_RULES": [],
+  "FAST_DATA_ONLY_RELEASE_ELIGIBLE": "YES",
+  "FULL_REGRESSION_REQUIRED_BY_LANE": "NO",
+  "FAST_PATH_PRODUCTION_ACTIVATION": "DISABLED",
+  "PRODUCTION_ACTIVATION_ALLOWED": "NO",
+  "PERFORMANCE": {
+   "total_seconds": 14.962,
+   "per_rule_seconds": {
+    "A": 0.025,
+    "B": 0.094,
+    "C": 0.008,
+    "D": 0.0,
+    "E": 0.0,
+    "F": 0.0,
+    "G": 0.062,
+    "H": 0.062,
+    "I": 0.062,
+    "J": 8.125,
+    "K": 6.482,
+    "L": 0.0,
+    "M": 0.0,
+    "N": 0.012,
+    "O": 0.0
+   },
+   "changed_market_build_seconds": 7.805,
+   "determinism_build_seconds": 6.482
+  },
+  "RECEIPT_DIGEST": "sha256:0e787979aa317182bb9cba1a4ebb4badb9c12b4e88104d87e1da1129fc5506ad"
+ },
+ "release_diff": {
+  "live_digest": "sha256:a07b839ac48c3cfe898a132746648dc17d43d6e2c0b9f48199509312bd5a54de",
+  "proposed_digest": "sha256:3288089a0e845d25a0c9610cfcef60ddbcf4755eb2606cae55e6f2f8fbb0363f",
+  "live_participating": [
+   "cincinnati-oh",
+   "cleveland-akron-canton-oh",
+   "columbus-oh",
+   "dayton-oh",
+   "grand-rapids-holland-mi",
+   "indianapolis-in",
+   "lexington-ky",
+   "louisville-ky",
+   "milwaukee-wi",
+   "pittsburgh-pa",
+   "st-louis-mo",
+   "toledo-oh"
+  ],
+  "proposed_participating": [
+   "cincinnati-oh",
+   "cleveland-akron-canton-oh",
+   "columbus-oh",
+   "dayton-oh",
+   "grand-rapids-holland-mi",
+   "indianapolis-in",
+   "lexington-ky",
+   "louisville-ky",
+   "milwaukee-wi",
+   "nashville-tn",
+   "pittsburgh-pa",
+   "st-louis-mo",
+   "toledo-oh"
+  ],
+  "live_total_profiles": 823,
+  "proposed_total_profiles": 831,
+  "package_market": "nashville-tn",
+  "actual_delta": {
+   "add_property_ids": [],
+   "update_property_ids": [],
+   "remove_property_ids": [],
+   "add_routes": [
+    "/pet-friendly-hotels/nashville-tn/",
+    "/pet-friendly-hotels/nashville-tn/avid-hotels-nashville-airport/",
+    "/pet-friendly-hotels/nashville-tn/baymont-by-wyndham-nashville/",
+    "/pet-friendly-hotels/nashville-tn/comfort-inn-suites-nashville-bellevue-area/",
+    "/pet-friendly-hotels/nashville-tn/days-inn-by-wyndham-nashville-north-opryland-area/",
+    "/pet-friendly-hotels/nashville-tn/holiday-inn-express-suites-nashville-southeast-antioch/",
+    "/pet-friendly-hotels/nashville-tn/la-quinta-inn-suites-by-wyndham-nashville-airport/",
+    "/pet-friendly-hotels/nashville-tn/la-quinta-inn-suites-by-wyndham-nashville-downtown-stadium/",
+    "/pet-friendly-hotels/nashville-tn/quality-inn-goodlettsville/"
+   ],
+   "remove_routes": [],
+   "profile_delta": 0,
+   "verified_no_pets_delta": 0,
+   "market_count_delta": 1
+  },
+  "finding_counts": {},
+  "findings": [],
+  "passed": true,
+  "seconds": 0.0586
+ },
+ "candidate": {
+  "candidate_index_digest": "sha256:3288089a0e845d25a0c9610cfcef60ddbcf4755eb2606cae55e6f2f8fbb0363f",
+  "markets": [
+   "cincinnati-oh",
+   "cleveland-akron-canton-oh",
+   "columbus-oh",
+   "dayton-oh",
+   "grand-rapids-holland-mi",
+   "indianapolis-in",
+   "lexington-ky",
+   "louisville-ky",
+   "milwaukee-wi",
+   "nashville-tn",
+   "pittsburgh-pa",
+   "st-louis-mo",
+   "toledo-oh"
+  ],
+  "market_count": 13,
+  "profile_counts": {
+   "cincinnati-oh": 130,
+   "cleveland-akron-canton-oh": 120,
+   "columbus-oh": 88,
+   "dayton-oh": 54,
+   "grand-rapids-holland-mi": 43,
+   "indianapolis-in": 82,
+   "lexington-ky": 20,
+   "louisville-ky": 53,
+   "milwaukee-wi": 73,
+   "nashville-tn": 8,
+   "pittsburgh-pa": 61,
+   "st-louis-mo": 82,
+   "toledo-oh": 17
+  },
+  "route_count": 955,
+  "parent_route_count": 946,
+  "nashville_routes": [
+   "/pet-friendly-hotels/nashville-tn/",
+   "/pet-friendly-hotels/nashville-tn/avid-hotels-nashville-airport/",
+   "/pet-friendly-hotels/nashville-tn/baymont-by-wyndham-nashville/",
+   "/pet-friendly-hotels/nashville-tn/comfort-inn-suites-nashville-bellevue-area/",
+   "/pet-friendly-hotels/nashville-tn/days-inn-by-wyndham-nashville-north-opryland-area/",
+   "/pet-friendly-hotels/nashville-tn/holiday-inn-express-suites-nashville-southeast-antioch/",
+   "/pet-friendly-hotels/nashville-tn/la-quinta-inn-suites-by-wyndham-nashville-airport/",
+   "/pet-friendly-hotels/nashville-tn/la-quinta-inn-suites-by-wyndham-nashville-downtown-stadium/",
+   "/pet-friendly-hotels/nashville-tn/quality-inn-goodlettsville/"
+  ]
+ },
+ "cache_reuse": {
+  "changed_market": {
+   "market_id": "nashville-tn",
+   "probe": {
+    "build_input_key": "sha256:73ba49930470756d8f596f3b40788f4dd3d7a550f8299f65be5caceb9e0ef957",
+    "trusted": false,
+    "package_id": "pkg-nashville-tn-38632a36658c7aea",
+    "why": "no entry for this input key"
+   },
+   "bundle_reused": false,
+   "bundle_rebuilt": true
+  },
+  "unchanged_live_markets": {
+   "count": 12,
+   "bundles_reused": 0,
+   "bundles_rebuilt": 0,
+   "why": "the lane renders only the changed market; every other live market is carried by its committed release index entry, so none of them was built, reused from a bundle, or rebuilt",
+   "markets": [
+    "cincinnati-oh",
+    "cleveland-akron-canton-oh",
+    "columbus-oh",
+    "dayton-oh",
+    "grand-rapids-holland-mi",
+    "indianapolis-in",
+    "lexington-ky",
+    "louisville-ky",
+    "milwaukee-wi",
+    "pittsburgh-pa",
+    "st-louis-mo",
+    "toledo-oh"
+   ]
+  },
+  "UNCHANGED_MARKETS_REBUILT": 0
+ },
+ "timings": {
+  "live_parent_read_s": 4.8,
+  "package_inputs_s": 0.07,
+  "package_seal_s": 0.1,
+  "first_party_gate_s": 0.02,
+  "fast_lane_s": 14.99,
+  "candidate_compose_s": 0.06,
+  "classification_s": 2.26,
+  "cache_lookup_s": 0.6,
+  "total_s": 22.89
+ }
+}

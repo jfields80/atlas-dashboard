@@ -1,0 +1,694 @@
+{
+ "market": "Greater Nashville, Tennessee",
+ "schema_version": "1.3",
+ "market_id": "nashville-tn",
+ "work_order": "PTF-NASHVILLE-TN-PROMOTION-AND-NEW-LANE-LAUNCH-PREP-002",
+ "as_of": "2026-09-09",
+ "note": "Nashville's published pet-friendly authority. Every fact was decided by the reader PTF-NASHVILLE-TN-NEW-MARKET-001 ran against a first-party page, carries the quote that supports it, and names the lane and the document hash it came from. withheld_facts carries that order's deliberate decisions forward so a blank can never read as a zero.",
+ "hotels": [
+  {
+   "key": "avid hotels nashville airport",
+   "identity_key": "avid hotels nashville airport",
+   "name": "avid hotels Nashville Airport",
+   "market_id": "nashville-tn",
+   "schema_version": "1.3",
+   "facts": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 40.0,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "pet_fee": {
+     "amount_cents": 4500,
+     "currency": "USD",
+     "scope": "per_pet",
+     "basis": "per_night"
+    },
+    "pet_count_limit": 2
+   },
+   "computation_class": "COMPUTATION_SAFE_ARBITRARY_ALLOWED_PET_COUNT",
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pets allowed",
+     "source_url": "https://www.ihg.com/avidhotels/hotels/us/en/nashville/bnaav/hoteldetail",
+     "value": "true",
+     "evidence_ref": "ev:c35f93ca54440133",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:b588f7ee5f0a6071b3dc10ad38b94aecd4ba1b1c16b7238d6b07c2e768854b14",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-07T16:20:31.331316+00:00",
+     "capture_method": "firecrawl_rendered_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "45 USD per night per pet",
+     "source_url": "https://www.ihg.com/avidhotels/hotels/us/en/nashville/bnaav/hoteldetail",
+     "value": "{\"amount_cents\": 4500, \"basis\": \"per_night\", \"currency\": \"USD\", \"scope\": \"per_pet\"}",
+     "evidence_ref": "ev:c923a2dfe7551527",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:b588f7ee5f0a6071b3dc10ad38b94aecd4ba1b1c16b7238d6b07c2e768854b14",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-07T16:20:31.331316+00:00",
+     "capture_method": "firecrawl_rendered_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "weight_limit",
+     "quote": "weight limit is 40 pounds",
+     "source_url": "https://www.ihg.com/avidhotels/hotels/us/en/nashville/bnaav/hoteldetail",
+     "value": "{\"operator\": \"lte\", \"scope\": \"per_pet\", \"unit\": \"lb\", \"value\": 40.0}",
+     "evidence_ref": "ev:d7372bb9de319dc2",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:b588f7ee5f0a6071b3dc10ad38b94aecd4ba1b1c16b7238d6b07c2e768854b14",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-07T16:20:31.331316+00:00",
+     "capture_method": "firecrawl_rendered_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "up to 2 pets",
+     "source_url": "https://www.ihg.com/avidhotels/hotels/us/en/nashville/bnaav/hoteldetail",
+     "value": "2",
+     "evidence_ref": "ev:3247159321eb7e95",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:b588f7ee5f0a6071b3dc10ad38b94aecd4ba1b1c16b7238d6b07c2e768854b14",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-07T16:20:31.331316+00:00",
+     "capture_method": "firecrawl_rendered_fetch",
+     "source_grade": "PT2_BRAND"
+    }
+   ],
+   "source_url": "https://www.ihg.com/avidhotels/hotels/us/en/nashville/bnaav/hoteldetail",
+   "corridor": "nashville-tn__airport-donelson",
+   "verified_at": "2026-09-07T16:20:31.331316+00:00",
+   "capture_lane": "FIRECRAWL",
+   "withheld_facts": {},
+   "reviewer_id": "PTF-FOUNDER-001",
+   "reviewed_at": "2026-09-09",
+   "review_basis": "Set-level founder authorisation to REGISTER, not to launch. Founder work order PTF-NASHVILLE-TN-PROMOTION-AND-NEW-LANE-LAUNCH-PREP-002 directs this order to convert Nashville's existing shadow work into a registered authority package, to preserve every Nashville semantic policy decision exactly, and to infer no new Nashville policy decision. The promotion set is the clean cohort PTF-NASHVILLE-TN-NEW-MARKET-001 committed -- 80 CLEAN_PET_FRIENDLY and 19 CLEAN_VERIFIED_NO_PETS -- carried across unchanged and then filtered ONLY by the modern production gates, each removal named. The agent did not attribute a per-row reading to the founder. Launch participation is a separate founder decision this order does not take.",
+   "work_order": "PTF-NASHVILLE-TN-PROMOTION-AND-NEW-LANE-LAUNCH-PREP-002"
+  },
+  {
+   "key": "baymont by wyndham nashville",
+   "identity_key": "baymont by wyndham nashville",
+   "name": "Baymont by Wyndham Nashville",
+   "market_id": "nashville-tn",
+   "schema_version": "1.3",
+   "facts": {
+    "pets_allowed": true,
+    "pet_fee": {
+     "amount_cents": 2500,
+     "currency": "USD",
+     "scope": "per_pet",
+     "basis": "per_night"
+    }
+   },
+   "computation_class": "COMPUTATION_SAFE_ONE_PET_ONLY",
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pets Allowed",
+     "source_url": "https://www.wyndhamhotels.com/baymont/nashville-tennessee/baymont-nashville/overview",
+     "value": "true",
+     "evidence_ref": "ev:fc48d73fe91b7d11",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:482c6e68622cf6ae581cd863842bf0b9b08d8e7de4b3a9f7238445cba0b18e4c",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-07T16:20:45.505261+00:00",
+     "capture_method": "firecrawl_rendered_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "25 USD nightly per pet",
+     "source_url": "https://www.wyndhamhotels.com/baymont/nashville-tennessee/baymont-nashville/overview",
+     "value": "{\"amount_cents\": 2500, \"basis\": \"per_night\", \"currency\": \"USD\", \"scope\": \"per_pet\"}",
+     "evidence_ref": "ev:4033477590c115a0",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:482c6e68622cf6ae581cd863842bf0b9b08d8e7de4b3a9f7238445cba0b18e4c",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-07T16:20:45.505261+00:00",
+     "capture_method": "firecrawl_rendered_fetch",
+     "source_grade": "PT2_BRAND"
+    }
+   ],
+   "source_url": "https://www.wyndhamhotels.com/baymont/nashville-tennessee/baymont-nashville/overview",
+   "corridor": "nashville-tn__airport-donelson",
+   "verified_at": "2026-09-07T16:20:45.505261+00:00",
+   "capture_lane": "FIRECRAWL",
+   "withheld_facts": {},
+   "reviewer_id": "PTF-FOUNDER-001",
+   "reviewed_at": "2026-09-09",
+   "review_basis": "Set-level founder authorisation to REGISTER, not to launch. Founder work order PTF-NASHVILLE-TN-PROMOTION-AND-NEW-LANE-LAUNCH-PREP-002 directs this order to convert Nashville's existing shadow work into a registered authority package, to preserve every Nashville semantic policy decision exactly, and to infer no new Nashville policy decision. The promotion set is the clean cohort PTF-NASHVILLE-TN-NEW-MARKET-001 committed -- 80 CLEAN_PET_FRIENDLY and 19 CLEAN_VERIFIED_NO_PETS -- carried across unchanged and then filtered ONLY by the modern production gates, each removal named. The agent did not attribute a per-row reading to the founder. Launch participation is a separate founder decision this order does not take.",
+   "work_order": "PTF-NASHVILLE-TN-PROMOTION-AND-NEW-LANE-LAUNCH-PREP-002"
+  },
+  {
+   "key": "comfort inn and suites nashville bellevue area",
+   "identity_key": "comfort inn and suites nashville bellevue area",
+   "name": "Comfort Inn & Suites Nashville - Bellevue Area",
+   "market_id": "nashville-tn",
+   "schema_version": "1.3",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted"
+    },
+    "pet_fee": {
+     "amount_cents": 5000,
+     "currency": "USD",
+     "scope": "per_pet"
+    },
+    "pet_count_limit": 2
+   },
+   "computation_class": "CONDITIONALLY_SAFE",
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pets Allowed",
+     "source_url": "https://www.choicehotels.com/tennessee/nashville/comfort-inn-hotels/tn790",
+     "value": "true",
+     "evidence_ref": "ev:9d47cb02d03f18b3",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:3cc3e4dae621d9e9d5903e8ded266ca8f5d0212720640c9e076cb611ae9b560e",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-07T16:21:45.848065+00:00",
+     "capture_method": "firecrawl_rendered_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "Pet Fee of 50.00 USD",
+     "source_url": "https://www.choicehotels.com/tennessee/nashville/comfort-inn-hotels/tn790",
+     "value": "{\"amount_cents\": 5000, \"currency\": \"USD\", \"scope\": \"per_pet\"}",
+     "evidence_ref": "ev:14004a0939170c1d",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:3cc3e4dae621d9e9d5903e8ded266ca8f5d0212720640c9e076cb611ae9b560e",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-07T16:21:45.848065+00:00",
+     "capture_method": "firecrawl_rendered_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "Maximum of 2 Pets",
+     "source_url": "https://www.choicehotels.com/tennessee/nashville/comfort-inn-hotels/tn790",
+     "value": "2",
+     "evidence_ref": "ev:a9fee0afd57c08c8",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:3cc3e4dae621d9e9d5903e8ded266ca8f5d0212720640c9e076cb611ae9b560e",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-07T16:21:45.848065+00:00",
+     "capture_method": "firecrawl_rendered_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "species",
+     "quote": "Dogs only",
+     "source_url": "https://www.choicehotels.com/tennessee/nashville/comfort-inn-hotels/tn790",
+     "value": "{\"dogs\": \"accepted\"}",
+     "evidence_ref": "ev:00a2061bb156c9ae",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:3cc3e4dae621d9e9d5903e8ded266ca8f5d0212720640c9e076cb611ae9b560e",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-07T16:21:45.848065+00:00",
+     "capture_method": "firecrawl_rendered_fetch",
+     "source_grade": "PT2_BRAND"
+    }
+   ],
+   "source_url": "https://www.choicehotels.com/tennessee/nashville/comfort-inn-hotels/tn790",
+   "corridor": "nashville-tn__west-nashville-belle-meade",
+   "verified_at": "2026-09-07T16:21:45.848065+00:00",
+   "capture_lane": "FIRECRAWL",
+   "withheld_facts": {
+    "fee_basis": "withheld by PTF-NASHVILLE-TN-NEW-MARKET-001"
+   },
+   "reviewer_id": "PTF-FOUNDER-001",
+   "reviewed_at": "2026-09-09",
+   "review_basis": "Set-level founder authorisation to REGISTER, not to launch. Founder work order PTF-NASHVILLE-TN-PROMOTION-AND-NEW-LANE-LAUNCH-PREP-002 directs this order to convert Nashville's existing shadow work into a registered authority package, to preserve every Nashville semantic policy decision exactly, and to infer no new Nashville policy decision. The promotion set is the clean cohort PTF-NASHVILLE-TN-NEW-MARKET-001 committed -- 80 CLEAN_PET_FRIENDLY and 19 CLEAN_VERIFIED_NO_PETS -- carried across unchanged and then filtered ONLY by the modern production gates, each removal named. The agent did not attribute a per-row reading to the founder. Launch participation is a separate founder decision this order does not take.",
+   "work_order": "PTF-NASHVILLE-TN-PROMOTION-AND-NEW-LANE-LAUNCH-PREP-002"
+  },
+  {
+   "key": "days inn by wyndham nashville north opryland area",
+   "identity_key": "days inn by wyndham nashville north opryland area",
+   "name": "Days Inn by Wyndham Nashville North/Opryland Area",
+   "market_id": "nashville-tn",
+   "schema_version": "1.3",
+   "facts": {
+    "pets_allowed": true,
+    "pet_fee": {
+     "amount_cents": 2000,
+     "currency": "USD",
+     "scope": "per_pet",
+     "basis": "per_night"
+    },
+    "pet_count_limit": 1
+   },
+   "computation_class": "COMPUTATION_SAFE_ARBITRARY_ALLOWED_PET_COUNT",
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "pet is allowed",
+     "source_url": "https://www.wyndhamhotels.com/days-inn/nashville-tennessee/days-inn-by-wyndham-nashville-north-opryland-area/overview",
+     "value": "true",
+     "evidence_ref": "ev:85f61412246170e7",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:71ee60e5058bfcedaa29371dbf5e183ceaeb3f03bf4fd8f571a10c671ebb0842",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-07T16:23:03.338018+00:00",
+     "capture_method": "firecrawl_rendered_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "20 USD per night. Pet",
+     "source_url": "https://www.wyndhamhotels.com/days-inn/nashville-tennessee/days-inn-by-wyndham-nashville-north-opryland-area/overview",
+     "value": "{\"amount_cents\": 2000, \"basis\": \"per_night\", \"currency\": \"USD\", \"scope\": \"per_pet\"}",
+     "evidence_ref": "ev:0a2728c422d65ba7",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:71ee60e5058bfcedaa29371dbf5e183ceaeb3f03bf4fd8f571a10c671ebb0842",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-07T16:23:03.338018+00:00",
+     "capture_method": "firecrawl_rendered_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "one pet is allowed",
+     "source_url": "https://www.wyndhamhotels.com/days-inn/nashville-tennessee/days-inn-by-wyndham-nashville-north-opryland-area/overview",
+     "value": "1",
+     "evidence_ref": "ev:ee2c1ccf249ecb04",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:71ee60e5058bfcedaa29371dbf5e183ceaeb3f03bf4fd8f571a10c671ebb0842",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-07T16:23:03.338018+00:00",
+     "capture_method": "firecrawl_rendered_fetch",
+     "source_grade": "PT2_BRAND"
+    }
+   ],
+   "source_url": "https://www.wyndhamhotels.com/days-inn/nashville-tennessee/days-inn-by-wyndham-nashville-north-opryland-area/overview",
+   "corridor": "nashville-tn__east-nashville",
+   "verified_at": "2026-09-07T16:23:03.338018+00:00",
+   "capture_lane": "FIRECRAWL",
+   "withheld_facts": {},
+   "reviewer_id": "PTF-FOUNDER-001",
+   "reviewed_at": "2026-09-09",
+   "review_basis": "Set-level founder authorisation to REGISTER, not to launch. Founder work order PTF-NASHVILLE-TN-PROMOTION-AND-NEW-LANE-LAUNCH-PREP-002 directs this order to convert Nashville's existing shadow work into a registered authority package, to preserve every Nashville semantic policy decision exactly, and to infer no new Nashville policy decision. The promotion set is the clean cohort PTF-NASHVILLE-TN-NEW-MARKET-001 committed -- 80 CLEAN_PET_FRIENDLY and 19 CLEAN_VERIFIED_NO_PETS -- carried across unchanged and then filtered ONLY by the modern production gates, each removal named. The agent did not attribute a per-row reading to the founder. Launch participation is a separate founder decision this order does not take.",
+   "work_order": "PTF-NASHVILLE-TN-PROMOTION-AND-NEW-LANE-LAUNCH-PREP-002"
+  },
+  {
+   "key": "holiday inn express and suites nashville southeast antioch",
+   "identity_key": "holiday inn express and suites nashville southeast antioch",
+   "name": "Holiday Inn Express & Suites Nashville Southeast - Antioch",
+   "market_id": "nashville-tn",
+   "schema_version": "1.3",
+   "facts": {
+    "pets_allowed": true,
+    "pet_fee": {
+     "amount_cents": 5000,
+     "currency": "USD",
+     "scope": "per_pet",
+     "basis": "per_night"
+    },
+    "pet_count_limit": 2
+   },
+   "computation_class": "COMPUTATION_SAFE_ARBITRARY_ALLOWED_PET_COUNT",
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "pets allowed",
+     "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/nashville/bnacr/hoteldetail",
+     "value": "true",
+     "evidence_ref": "ev:01e3f6e41cf25eb9",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:5ea9e2018ffdf98963eab87a18cdbf1ca0698e0a41f7f29f880aa497d402d4a3",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-07T16:23:46.035594+00:00",
+     "capture_method": "firecrawl_rendered_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "Pet fee per night: 50 USD",
+     "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/nashville/bnacr/hoteldetail",
+     "value": "{\"amount_cents\": 5000, \"basis\": \"per_night\", \"currency\": \"USD\", \"scope\": \"per_pet\"}",
+     "evidence_ref": "ev:759b1950512e1b33",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:5ea9e2018ffdf98963eab87a18cdbf1ca0698e0a41f7f29f880aa497d402d4a3",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-07T16:23:46.035594+00:00",
+     "capture_method": "firecrawl_rendered_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "2 pets allowed",
+     "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/nashville/bnacr/hoteldetail",
+     "value": "2",
+     "evidence_ref": "ev:63ef79ecb5e915bc",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:5ea9e2018ffdf98963eab87a18cdbf1ca0698e0a41f7f29f880aa497d402d4a3",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-07T16:23:46.035594+00:00",
+     "capture_method": "firecrawl_rendered_fetch",
+     "source_grade": "PT2_BRAND"
+    }
+   ],
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/nashville/bnacr/hoteldetail",
+   "corridor": "nashville-tn__south-nashville-antioch",
+   "verified_at": "2026-09-07T16:23:46.035594+00:00",
+   "capture_lane": "FIRECRAWL",
+   "withheld_facts": {},
+   "reviewer_id": "PTF-FOUNDER-001",
+   "reviewed_at": "2026-09-09",
+   "review_basis": "Set-level founder authorisation to REGISTER, not to launch. Founder work order PTF-NASHVILLE-TN-PROMOTION-AND-NEW-LANE-LAUNCH-PREP-002 directs this order to convert Nashville's existing shadow work into a registered authority package, to preserve every Nashville semantic policy decision exactly, and to infer no new Nashville policy decision. The promotion set is the clean cohort PTF-NASHVILLE-TN-NEW-MARKET-001 committed -- 80 CLEAN_PET_FRIENDLY and 19 CLEAN_VERIFIED_NO_PETS -- carried across unchanged and then filtered ONLY by the modern production gates, each removal named. The agent did not attribute a per-row reading to the founder. Launch participation is a separate founder decision this order does not take.",
+   "work_order": "PTF-NASHVILLE-TN-PROMOTION-AND-NEW-LANE-LAUNCH-PREP-002"
+  },
+  {
+   "key": "la quinta inn and suites by wyndham nashville airport",
+   "identity_key": "la quinta inn and suites by wyndham nashville airport",
+   "name": "La Quinta Inn & Suites by Wyndham Nashville Airport",
+   "market_id": "nashville-tn",
+   "schema_version": "1.3",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "pet_fee": {
+     "amount_cents": 2500,
+     "currency": "USD",
+     "scope": "per_pet",
+     "basis": "per_night"
+    },
+    "pet_count_limit": 2
+   },
+   "computation_class": "COMPUTATION_SAFE_ARBITRARY_ALLOWED_PET_COUNT",
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pets Allowed",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/nashville-tennessee/la-quinta-nashville-airport/overview",
+     "value": "true",
+     "evidence_ref": "ev:0edb80be0e702879",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:0dcb1cc330373c671a19bb14d7a6181b7f42a60e2e7f7008a4ee1c0f3fe0fcad",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-07T16:24:20.229406+00:00",
+     "capture_method": "firecrawl_rendered_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "25 USD nightly",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/nashville-tennessee/la-quinta-nashville-airport/overview",
+     "value": "{\"amount_cents\": 2500, \"basis\": \"per_night\", \"currency\": \"USD\", \"scope\": \"per_pet\"}",
+     "evidence_ref": "ev:ceca2e8c8705e951",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:0dcb1cc330373c671a19bb14d7a6181b7f42a60e2e7f7008a4ee1c0f3fe0fcad",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-07T16:24:20.229406+00:00",
+     "capture_method": "firecrawl_rendered_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "Max 75 USD per stay",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/nashville-tennessee/la-quinta-nashville-airport/overview",
+     "value": "{\"amount_cents\": 2500, \"basis\": \"per_night\", \"currency\": \"USD\", \"scope\": \"per_pet\"}",
+     "evidence_ref": "ev:4d0e418a28750599",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:0dcb1cc330373c671a19bb14d7a6181b7f42a60e2e7f7008a4ee1c0f3fe0fcad",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-07T16:24:20.229406+00:00",
+     "capture_method": "firecrawl_rendered_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "weight_limit",
+     "quote": "75lbs or less",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/nashville-tennessee/la-quinta-nashville-airport/overview",
+     "value": "{\"operator\": \"lte\", \"scope\": \"per_pet\", \"unit\": \"lb\", \"value\": 75.0}",
+     "evidence_ref": "ev:f690068bb2725b2b",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:0dcb1cc330373c671a19bb14d7a6181b7f42a60e2e7f7008a4ee1c0f3fe0fcad",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-07T16:24:20.229406+00:00",
+     "capture_method": "firecrawl_rendered_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "up to 2 pets",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/nashville-tennessee/la-quinta-nashville-airport/overview",
+     "value": "2",
+     "evidence_ref": "ev:049c37be92878e57",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:0dcb1cc330373c671a19bb14d7a6181b7f42a60e2e7f7008a4ee1c0f3fe0fcad",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-07T16:24:20.229406+00:00",
+     "capture_method": "firecrawl_rendered_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "species",
+     "quote": "Cats and dogs only",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/nashville-tennessee/la-quinta-nashville-airport/overview",
+     "value": "{\"cats\": \"accepted\", \"dogs\": \"accepted\"}",
+     "evidence_ref": "ev:5ade6900d54e79b0",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:0dcb1cc330373c671a19bb14d7a6181b7f42a60e2e7f7008a4ee1c0f3fe0fcad",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-07T16:24:20.229406+00:00",
+     "capture_method": "firecrawl_rendered_fetch",
+     "source_grade": "PT2_BRAND"
+    }
+   ],
+   "source_url": "https://www.wyndhamhotels.com/laquinta/nashville-tennessee/la-quinta-nashville-airport/overview",
+   "corridor": "nashville-tn__airport-donelson",
+   "verified_at": "2026-09-07T16:24:20.229406+00:00",
+   "capture_lane": "FIRECRAWL",
+   "withheld_facts": {},
+   "reviewer_id": "PTF-FOUNDER-001",
+   "reviewed_at": "2026-09-09",
+   "review_basis": "Set-level founder authorisation to REGISTER, not to launch. Founder work order PTF-NASHVILLE-TN-PROMOTION-AND-NEW-LANE-LAUNCH-PREP-002 directs this order to convert Nashville's existing shadow work into a registered authority package, to preserve every Nashville semantic policy decision exactly, and to infer no new Nashville policy decision. The promotion set is the clean cohort PTF-NASHVILLE-TN-NEW-MARKET-001 committed -- 80 CLEAN_PET_FRIENDLY and 19 CLEAN_VERIFIED_NO_PETS -- carried across unchanged and then filtered ONLY by the modern production gates, each removal named. The agent did not attribute a per-row reading to the founder. Launch participation is a separate founder decision this order does not take.",
+   "work_order": "PTF-NASHVILLE-TN-PROMOTION-AND-NEW-LANE-LAUNCH-PREP-002"
+  },
+  {
+   "key": "la quinta inn and suites by wyndham nashville downtown stadium",
+   "identity_key": "la quinta inn and suites by wyndham nashville downtown stadium",
+   "name": "La Quinta Inn & Suites by Wyndham Nashville Downtown/Stadium",
+   "market_id": "nashville-tn",
+   "schema_version": "1.3",
+   "facts": {
+    "pets_allowed": true,
+    "species": {
+     "dogs": "accepted",
+     "cats": "accepted"
+    },
+    "weight_limit": {
+     "value": 75.0,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "pet_fee": {
+     "amount_cents": 2500,
+     "currency": "USD",
+     "scope": "per_pet",
+     "basis": "per_night"
+    },
+    "pet_count_limit": 2
+   },
+   "computation_class": "COMPUTATION_SAFE_ARBITRARY_ALLOWED_PET_COUNT",
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pets Allowed",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/nashville-tennessee/la-quinta-inn-and-suites-nashville-downtown-stadium/overview",
+     "value": "true",
+     "evidence_ref": "ev:c8fc1ffe5e330f33",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:875703642915d20bde0e8d0d1519cf33b7d9390369e68c2a6bb1fa748fa7996b",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-07T16:24:37.295067+00:00",
+     "capture_method": "firecrawl_rendered_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "25 USD nightly",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/nashville-tennessee/la-quinta-inn-and-suites-nashville-downtown-stadium/overview",
+     "value": "{\"amount_cents\": 2500, \"basis\": \"per_night\", \"currency\": \"USD\", \"scope\": \"per_pet\"}",
+     "evidence_ref": "ev:4fdef9a301a92379",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:875703642915d20bde0e8d0d1519cf33b7d9390369e68c2a6bb1fa748fa7996b",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-07T16:24:37.295067+00:00",
+     "capture_method": "firecrawl_rendered_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "Max 75 USD per stay",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/nashville-tennessee/la-quinta-inn-and-suites-nashville-downtown-stadium/overview",
+     "value": "{\"amount_cents\": 2500, \"basis\": \"per_night\", \"currency\": \"USD\", \"scope\": \"per_pet\"}",
+     "evidence_ref": "ev:a6f9a5fc2bba2004",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:875703642915d20bde0e8d0d1519cf33b7d9390369e68c2a6bb1fa748fa7996b",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-07T16:24:37.295067+00:00",
+     "capture_method": "firecrawl_rendered_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "weight_limit",
+     "quote": "75lbs or less",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/nashville-tennessee/la-quinta-inn-and-suites-nashville-downtown-stadium/overview",
+     "value": "{\"operator\": \"lte\", \"scope\": \"per_pet\", \"unit\": \"lb\", \"value\": 75.0}",
+     "evidence_ref": "ev:15e03f7fe41ba3e3",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:875703642915d20bde0e8d0d1519cf33b7d9390369e68c2a6bb1fa748fa7996b",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-07T16:24:37.295067+00:00",
+     "capture_method": "firecrawl_rendered_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "up to 2 pets",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/nashville-tennessee/la-quinta-inn-and-suites-nashville-downtown-stadium/overview",
+     "value": "2",
+     "evidence_ref": "ev:99ac89109db2ec51",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:875703642915d20bde0e8d0d1519cf33b7d9390369e68c2a6bb1fa748fa7996b",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-07T16:24:37.295067+00:00",
+     "capture_method": "firecrawl_rendered_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "species",
+     "quote": "Cats and dogs only",
+     "source_url": "https://www.wyndhamhotels.com/laquinta/nashville-tennessee/la-quinta-inn-and-suites-nashville-downtown-stadium/overview",
+     "value": "{\"cats\": \"accepted\", \"dogs\": \"accepted\"}",
+     "evidence_ref": "ev:1b2fef02332c12d5",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:875703642915d20bde0e8d0d1519cf33b7d9390369e68c2a6bb1fa748fa7996b",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-07T16:24:37.295067+00:00",
+     "capture_method": "firecrawl_rendered_fetch",
+     "source_grade": "PT2_BRAND"
+    }
+   ],
+   "source_url": "https://www.wyndhamhotels.com/laquinta/nashville-tennessee/la-quinta-inn-and-suites-nashville-downtown-stadium/overview",
+   "corridor": "nashville-tn__downtown-broadway",
+   "verified_at": "2026-09-07T16:24:37.295067+00:00",
+   "capture_lane": "FIRECRAWL",
+   "withheld_facts": {},
+   "reviewer_id": "PTF-FOUNDER-001",
+   "reviewed_at": "2026-09-09",
+   "review_basis": "Set-level founder authorisation to REGISTER, not to launch. Founder work order PTF-NASHVILLE-TN-PROMOTION-AND-NEW-LANE-LAUNCH-PREP-002 directs this order to convert Nashville's existing shadow work into a registered authority package, to preserve every Nashville semantic policy decision exactly, and to infer no new Nashville policy decision. The promotion set is the clean cohort PTF-NASHVILLE-TN-NEW-MARKET-001 committed -- 80 CLEAN_PET_FRIENDLY and 19 CLEAN_VERIFIED_NO_PETS -- carried across unchanged and then filtered ONLY by the modern production gates, each removal named. The agent did not attribute a per-row reading to the founder. Launch participation is a separate founder decision this order does not take.",
+   "work_order": "PTF-NASHVILLE-TN-PROMOTION-AND-NEW-LANE-LAUNCH-PREP-002"
+  },
+  {
+   "key": "quality inn goodlettsville",
+   "identity_key": "quality inn goodlettsville",
+   "name": "Quality Inn Goodlettsville",
+   "market_id": "nashville-tn",
+   "schema_version": "1.3",
+   "facts": {
+    "pets_allowed": true,
+    "weight_limit": {
+     "value": 25.0,
+     "unit": "lb",
+     "operator": "lte",
+     "scope": "per_pet"
+    },
+    "pet_fee": {
+     "amount_cents": 2000,
+     "currency": "USD",
+     "scope": "per_pet"
+    },
+    "pet_count_limit": 1
+   },
+   "computation_class": "CONDITIONALLY_SAFE",
+   "evidence": [
+    {
+     "field": "pets_allowed",
+     "quote": "Pets Allowed",
+     "source_url": "https://www.choicehotels.com/tennessee/goodlettsville/quality-inn-hotels/tn233",
+     "value": "true",
+     "evidence_ref": "ev:f2106316321fa4a2",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:c5a08653997ff04835f022a6d3be64827511abafc1e6aff81320588c4f7984e3",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-07T16:24:51.934560+00:00",
+     "capture_method": "firecrawl_rendered_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "pet_fee",
+     "quote": "pet fee of 20 USD",
+     "source_url": "https://www.choicehotels.com/tennessee/goodlettsville/quality-inn-hotels/tn233",
+     "value": "{\"amount_cents\": 2000, \"currency\": \"USD\", \"scope\": \"per_pet\"}",
+     "evidence_ref": "ev:b9a2b88ad2cc29dd",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:c5a08653997ff04835f022a6d3be64827511abafc1e6aff81320588c4f7984e3",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-07T16:24:51.934560+00:00",
+     "capture_method": "firecrawl_rendered_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "weight_limit",
+     "quote": "25lbs or less",
+     "source_url": "https://www.choicehotels.com/tennessee/goodlettsville/quality-inn-hotels/tn233",
+     "value": "{\"operator\": \"lte\", \"scope\": \"per_pet\", \"unit\": \"lb\", \"value\": 25.0}",
+     "evidence_ref": "ev:1953ea1bdaabd071",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:c5a08653997ff04835f022a6d3be64827511abafc1e6aff81320588c4f7984e3",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-07T16:24:51.934560+00:00",
+     "capture_method": "firecrawl_rendered_fetch",
+     "source_grade": "PT2_BRAND"
+    },
+    {
+     "field": "pet_count_limit",
+     "quote": "one pet per room",
+     "source_url": "https://www.choicehotels.com/tennessee/goodlettsville/quality-inn-hotels/tn233",
+     "value": "1",
+     "evidence_ref": "ev:542cf18d34222cd8",
+     "artifact_class": "PUBLICATION_GRADE_EVIDENCE",
+     "artifact_sha256": "sha256:c5a08653997ff04835f022a6d3be64827511abafc1e6aff81320588c4f7984e3",
+     "artifact_kind": "rendered_html",
+     "captured_at": "2026-09-07T16:24:51.934560+00:00",
+     "capture_method": "firecrawl_rendered_fetch",
+     "source_grade": "PT2_BRAND"
+    }
+   ],
+   "source_url": "https://www.choicehotels.com/tennessee/goodlettsville/quality-inn-hotels/tn233",
+   "corridor": "nashville-tn__madison-rivergate-goodlettsville",
+   "verified_at": "2026-09-07T16:24:51.934560+00:00",
+   "capture_lane": "FIRECRAWL",
+   "withheld_facts": {
+    "fee_basis": "withheld by PTF-NASHVILLE-TN-NEW-MARKET-001"
+   },
+   "reviewer_id": "PTF-FOUNDER-001",
+   "reviewed_at": "2026-09-09",
+   "review_basis": "Set-level founder authorisation to REGISTER, not to launch. Founder work order PTF-NASHVILLE-TN-PROMOTION-AND-NEW-LANE-LAUNCH-PREP-002 directs this order to convert Nashville's existing shadow work into a registered authority package, to preserve every Nashville semantic policy decision exactly, and to infer no new Nashville policy decision. The promotion set is the clean cohort PTF-NASHVILLE-TN-NEW-MARKET-001 committed -- 80 CLEAN_PET_FRIENDLY and 19 CLEAN_VERIFIED_NO_PETS -- carried across unchanged and then filtered ONLY by the modern production gates, each removal named. The agent did not attribute a per-row reading to the founder. Launch participation is a separate founder decision this order does not take.",
+   "work_order": "PTF-NASHVILLE-TN-PROMOTION-AND-NEW-LANE-LAUNCH-PREP-002"
+  }
+ ]
+}
