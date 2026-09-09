@@ -18,6 +18,8 @@ from pathlib import Path
 
 import pytest
 
+from pettripfinder import epochs
+
 from scripts.pettripfinder import fast_release_lane as FL
 from scripts.pettripfinder import launch_participation as LP
 from scripts.pettripfinder import market_package_writer as W
@@ -44,6 +46,18 @@ def _load(path):
     return json.loads(Path(path).read_text(encoding="utf-8-sig"))
 
 
+def _inputs_pinned_to(package, lane):
+    """Package inputs for a re-derivation, pinned to the commit the package names."""
+    live = RI.live_index()
+    inputs = W.inputs_from_committed_market(
+        MARKET_ID, execution_zone=SMP.ZONE_REGISTERED_LIVE,
+        intended_delta=OrderedDict((("market_id", MARKET_ID),)),
+        parent_live_state=lane.parent_from_live(live),
+        source_sha=package["created_from_source_sha"])
+    inputs.intended_delta = lane.joining_delta(inputs)
+    return inputs
+
+
 @pytest.fixture(scope="module")
 def packet():
     return _load(REPORTS / "lexington_deployment_authorization_006_PROPOSED.json")
@@ -65,26 +79,50 @@ class TestTheFreshPackageIsReproducible:
         assert SMP.sha256_text(SMP.canonical_json(body)) == package["package_digest"]
         assert SMP.validate(package) == ()
 
-    def test_it_re_derives_from_the_tree_pinned_to_the_commit_it_names(self, package):
-        """The claim that matters, and it is executed rather than asserted.
+    def test_re_derivation_is_epoch_bound_and_the_seal_is_not(self, package):
+        """The distinction the 004 halt was really about, now demonstrated.
 
-        The pin is not a guess: ``created_from_source_sha`` is a field of the
-        artifact, so the package tells the reader which commit reproduces it.
+        When this package was sealed, re-deriving it from the committed tree --
+        pinned to the commit ``created_from_source_sha`` names -- reproduced the
+        digest exactly with a byte-identical body. That was true while the
+        Toledo release was still live.
+
+        PTF-LEXINGTON-KY-FRESH-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006 shipped
+        this package, so live moved. A sealed package embeds
+        ``parent_live_state``, and a re-derivation today reads the NEW parent, so
+        the bodies no longer match. Re-derivation is therefore EPOCH-BOUND: it
+        holds only while the parent the package names is still live.
+
+        The seal is not. It recomputes over the package's OWN committed body
+        forever, which is precisely why committing the package was the right
+        answer to the halt and re-deriving it was not. This test asserts both
+        halves rather than skipping, because the contrast IS the lesson.
         """
         import scripts.pettripfinder.lexington_ky_release_lane_003 as L
 
-        live = RI.live_index()
-        inputs = W.inputs_from_committed_market(
-            MARKET_ID, execution_zone=SMP.ZONE_REGISTERED_LIVE,
-            intended_delta=OrderedDict((("market_id", MARKET_ID),)),
-            parent_live_state=L.parent_from_live(live),
-            source_sha=package["created_from_source_sha"])
-        inputs.intended_delta = L.joining_delta(inputs)
-        rebuilt = W.build_sealed_package(inputs, sealed_at=L.SEALED_AT)
-        assert rebuilt["package_digest"] == package["package_digest"]
+        # Permanent: the seal recomputes over its own body.
         body = OrderedDict((k, v) for k, v in package.items() if k not in SMP.SEAL_FIELDS)
-        fresh = OrderedDict((k, v) for k, v in rebuilt.items() if k not in SMP.SEAL_FIELDS)
-        assert SMP.canonical_json(fresh) == SMP.canonical_json(body)
+        assert SMP.sha256_text(SMP.canonical_json(body)) == package["package_digest"]
+
+        # Epoch-bound: the package names the parent it was sealed against, and
+        # that parent is no longer live.
+        live = RI.current_verified_live()
+        sealed_parent = package["parent_live_state"]["live_deploy_id"]
+        assert sealed_parent == PARENT_DEPLOY
+        assert live.deploy_id != sealed_parent, (
+            "while the sealed parent is still live, re-derivation must still reproduce "
+            "the digest; this assertion is the trigger to restore the full re-derivation "
+            "check rather than to weaken it")
+
+        # And the re-derivation now differs for exactly that reason: the parent.
+        rebuilt = W.build_sealed_package(
+            _inputs_pinned_to(package, L), sealed_at=L.SEALED_AT)
+        assert rebuilt["package_digest"] != package["package_digest"]
+        assert rebuilt["parent_live_state"]["live_deploy_id"] == live.deploy_id
+        without_parent = lambda d: OrderedDict(  # noqa: E731
+            (k, v) for k, v in d.items()
+            if k not in SMP.SEAL_FIELDS and k != "parent_live_state")
+        assert SMP.canonical_json(without_parent(rebuilt)) ==             SMP.canonical_json(without_parent(package)),             "only the parent may differ; anything else means the MARKET moved"
 
     def test_the_package_describes_the_committed_authority(self, package):
         policy = _load(PKG / ("hotel_policy_facts_%s.json" % MARKET_ID))
@@ -207,11 +245,15 @@ class TestNothingIsAuthorizedActivatedOrDeployed:
         assert packet["nothing_activated"] is True
         assert packet["nothing_deployed"] is True
 
+    @epochs.superseded(by='PTF-LEXINGTON-KY-FRESH-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006',
+                       what='the re-authorization prep created no authorization. The launch that consumed its packet created ptf-auth-lexington-006-67fe8617b79f.')
     def test_no_authorization_file_exists_for_lexington(self):
         for path in (DEPLOY / "deployment_authorizations").glob("*.json"):
             assert MARKET_ID not in path.name
             assert MARKET_ID not in _load(path).get("participating_markets", [])
 
+    @epochs.superseded(by='PTF-LEXINGTON-KY-FRESH-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006',
+                       what='the prep left participation withheld. The launch flipped it.')
     def test_participation_is_still_withheld(self):
         assert LP.launch_status(MARKET_ID) == \
             "SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH"
@@ -231,6 +273,8 @@ class TestNothingIsAuthorizedActivatedOrDeployed:
         assert gate["RELEASE_COORDINATOR_PRODUCTION_ENABLED"] == "NO"
         assert gate["RELEASE_COORDINATOR_PRODUCTION_ALLOWED_MARKETS"] == []
 
+    @epochs.superseded(by='PTF-LEXINGTON-KY-FRESH-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006',
+                       what='the prep left production on the Toledo release at 11 / 803 / 966. The launch moved it to 12 / 823 / 991.')
     def test_live_production_is_unchanged(self):
         live = RI.current_verified_live()
         assert live.deploy_id == PARENT_DEPLOY

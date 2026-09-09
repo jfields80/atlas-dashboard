@@ -20,6 +20,8 @@ from pathlib import Path
 
 import pytest
 
+from pettripfinder import epochs
+
 from scripts.pettripfinder import fast_release_lane as FL
 from scripts.pettripfinder import launch_participation as LP
 from scripts.pettripfinder import release_index as RI
@@ -60,15 +62,21 @@ def package():
 class TestNothingHappened:
     """The whole point of a halt."""
 
+    @epochs.superseded(by='PTF-LEXINGTON-KY-FRESH-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006',
+                       what='the HALT left no Lexington authorization. The later launch created one against the FRESH reproducible package, which is exactly the remedy the halt demanded.')
     def test_no_deployment_authorization_exists_for_lexington(self):
         for path in (DEPLOY / "deployment_authorizations").glob("*.json"):
             assert MARKET_ID not in path.name
             assert MARKET_ID not in _load(path).get("participating_markets", [])
 
+    @epochs.superseded(by='PTF-LEXINGTON-KY-FRESH-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006',
+                       what='the HALT left participation withheld. The later launch flipped it on a fresh founder decision bound to the reproducible package.')
     def test_lexington_participation_is_still_withheld(self):
         assert LP.launch_status(MARKET_ID) == \
             "SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH"
 
+    @epochs.superseded(by='PTF-LEXINGTON-KY-FRESH-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006',
+                       what='the HALT left the Toledo decision standing. The later launch replaced it and carries Toledo in the lineage.')
     def test_the_founder_decision_block_still_names_toledo(self):
         doc = _load(DEPLOY / "launch_participation.json")
         assert doc["decision"]["work_order"] == \
@@ -87,11 +95,15 @@ class TestNothingHappened:
         assert gate["RELEASE_COORDINATOR_PRODUCTION_ENABLED"] == "NO"
         assert gate["RELEASE_COORDINATOR_PRODUCTION_ALLOWED_MARKETS"] == []
 
+    @epochs.superseded(by='PTF-LEXINGTON-KY-FRESH-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006',
+                       what='the HALT deployed nothing. The later launch deployed 6aa172121d37bb4013eb44a4 and wrote its record.')
     def test_no_deployment_record_names_lexington(self):
         for path in (DEPLOY / "deployment_records").glob("*.json"):
             record = _load(path)
             assert MARKET_ID not in record.get("participating_markets", []), path.name
 
+    @epochs.superseded(by='PTF-LEXINGTON-KY-FRESH-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006',
+                       what='the HALT left production on the Toledo release. The later launch published Lexington as the twelfth market; the Toledo release is now the ROLLBACK TARGET, which is the fact this assertion becomes.')
     def test_live_production_is_still_the_toledo_release(self):
         live = RI.current_verified_live()
         assert live.deploy_id == PARENT_DEPLOY

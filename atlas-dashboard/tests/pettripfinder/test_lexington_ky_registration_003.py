@@ -21,6 +21,8 @@ from pathlib import Path
 
 import pytest
 
+from pettripfinder import epochs
+
 from scripts.pettripfinder import hotel_exclusions as HE
 from scripts.pettripfinder import launch_participation as LP
 from scripts.pettripfinder import market_authority as MA
@@ -257,10 +259,14 @@ class TestThePublishedAuthority:
 
 class TestNothingIsLiveAndNothingIsAuthorized:
 
+    @epochs.superseded(by='PTF-LEXINGTON-KY-FRESH-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006',
+                       what="Lexington was registered and WITHHELD. The launch flipped participation to FOUNDER_AUTHORIZED_FOR_LAUNCH, which is what launching a registered market means. That it was withheld at registration time is what this order proved, and the withholding is still provable from the participation record's own supersedes block.")
     def test_lexington_is_registered_and_explicitly_withheld_from_launch(self):
         assert LP.launch_status(MARKET_ID) == \
             "SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH"
 
+    @epochs.superseded(by='PTF-LEXINGTON-KY-FRESH-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006',
+                       what="the founder decision block named Toledo. The launch is the founder's next decision and names Lexington; the Toledo decision it replaced is carried in the lineage under its own sha256, which is where a superseded decision leaves its history.")
     def test_the_founder_decision_block_still_names_toledo_and_not_lexington(self):
         doc = _load(DEPLOY / "launch_participation.json")
         assert MARKET_ID not in doc["decision"]["reason"]
@@ -269,6 +275,8 @@ class TestNothingIsLiveAndNothingIsAuthorized:
         assert MARKET_ID not in authorized
         assert "toledo-oh" in authorized
 
+    @epochs.superseded(by='PTF-LEXINGTON-KY-FRESH-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006',
+                       what='no Lexington authorization existed. The launch created ptf-auth-lexington-006-67fe8617b79f, which only a founder decision may do and which this order was careful not to.')
     def test_no_deployment_authorization_exists_for_lexington(self):
         for path in (DEPLOY / "deployment_authorizations").glob("*.json"):
             assert MARKET_ID not in path.name

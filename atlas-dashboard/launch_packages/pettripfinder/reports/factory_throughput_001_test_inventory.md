@@ -1,13 +1,13 @@
 # PetTripFinder test pin inventory (A1)
 
-Schema `ptf-test-pin-inventory/1.0`. 403 modules scanned, 276 carry pins, 1625 sites.
+Schema `ptf-test-pin-inventory/1.0`. 404 modules scanned, 277 carry pins, 1645 sites.
 
 | class | sites |
 |---|---|
 | CURRENT_STATE_INVARIANT | 155 |
-| HISTORICAL_COHORT_INVARIANT | 871 |
-| HISTORICAL_ARTIFACT_INVARIANT | 198 |
-| DEPLOYMENT_EPOCH_INVARIANT | 138 |
+| HISTORICAL_COHORT_INVARIANT | 880 |
+| HISTORICAL_ARTIFACT_INVARIANT | 201 |
+| DEPLOYMENT_EPOCH_INVARIANT | 146 |
 | GENERIC_SCHEMA_INVARIANT | 194 |
 | CROSS_MARKET_INVARIANT | 69 |
 
@@ -83,6 +83,7 @@ Schema `ptf-test-pin-inventory/1.0`. 403 modules scanned, 276 carry pins, 1625 s
 - `tests/pettripfinder/test_indianapolis_pass1_capture.py`
 - `tests/pettripfinder/test_indianapolis_pass2_capture.py`
 - `tests/pettripfinder/test_indianapolis_recovery_005.py`
+- `tests/pettripfinder/test_lexington_ky_launch_006.py`
 - `tests/pettripfinder/test_lexington_ky_launch_halt_004.py`
 - `tests/pettripfinder/test_lexington_ky_reauthorization_005.py`
 - `tests/pettripfinder/test_lexington_ky_registration_003.py`
@@ -329,6 +330,7 @@ Schema `ptf-test-pin-inventory/1.0`. 403 modules scanned, 276 carry pins, 1625 s
 | `test_indianapolis_url_recovery_006.py` | indianapolis-in | HISTORICAL_COHORT_INVARIANT | 2 | CROSS_MARKET 1, HISTORICAL_COHORT 1 |
 | `test_inventory_validation.py` |  | CURRENT_STATE_INVARIANT | 3 | CURRENT_STATE 3 |
 | `test_launch_participation_046.py` |  | DEPLOYMENT_EPOCH_INVARIANT | 9 | DEPLOYMENT_EPOCH 9 |
+| `test_lexington_ky_launch_006.py` |  | HISTORICAL_COHORT_INVARIANT | 20 | DEPLOYMENT_EPOCH 8, HISTORICAL_ARTIFACT 3, HISTORICAL_COHORT 9 |
 | `test_lexington_ky_launch_halt_004.py` |  | HISTORICAL_COHORT_INVARIANT | 11 | CROSS_MARKET 3, DEPLOYMENT_EPOCH 3, HISTORICAL_COHORT 5 |
 | `test_lexington_ky_reauthorization_005.py` |  | HISTORICAL_COHORT_INVARIANT | 13 | CROSS_MARKET 2, DEPLOYMENT_EPOCH 3, HISTORICAL_ARTIFACT 4, HISTORICAL_COHORT 4 |
 | `test_lexington_ky_registration_003.py` |  | HISTORICAL_COHORT_INVARIANT | 14 | CROSS_MARKET 1, DEPLOYMENT_EPOCH 2, HISTORICAL_ARTIFACT 1, HISTORICAL_COHORT 10 |
