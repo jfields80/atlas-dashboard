@@ -1457,10 +1457,15 @@ def main(argv=None) -> int:
                               newline="\n")
     seed_path = str(MA.seed_shard_path(MARKET_ID))
     os.makedirs(os.path.dirname(seed_path), exist_ok=True)
+    # The authority module owns the committed CSV style -- LF line endings,
+    # minimal quoting, the frozen column order -- so the shard is rendered by
+    # it rather than by a local DictWriter. A local writer emits CRLF, which
+    # made this the only seed shard in the repository with CRLF; git normalised
+    # it on commit, so the working tree and the committed blob disagreed and
+    # the package's `seed` dependency digest did not reproduce from a fresh
+    # checkout.
     with open(seed_path, "w", encoding="utf-8", newline="") as fh:
-        w = csv.DictWriter(fh, fieldnames=list(seed_rows[0].keys()))
-        w.writeheader()
-        w.writerows(seed_rows)
+        fh.write(MA.render_seed_csv(seed_rows))
     print("written.")
     return 0
 
