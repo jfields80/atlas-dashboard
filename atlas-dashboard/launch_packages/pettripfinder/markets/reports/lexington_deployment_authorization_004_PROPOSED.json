@@ -1,0 +1,452 @@
+{
+ "schema": "ptf-deployment-authorization-proposal/1.0",
+ "status": "AWAITING_FOUNDER_AUTHORIZATION",
+ "what_this_is": "A prepared, UNSIGNED deployment authorization for founder review. It is deliberately NOT written to deploy/netlify/deployment_authorizations/, because a file in that directory IS an authorization and only a founder creates one. Nothing has been deployed, no launch-participation flag has moved in this repository, and no production activation flag has been enabled.",
+ "would_become": "PTF-LEXINGTON-KY-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-004",
+ "prepared_by": "PTF-LEXINGTON-KY-PROMOTION-AND-NEW-LANE-LAUNCH-PREP-003",
+ "authorized_by": null,
+ "authorized_at": null,
+ "source_commit": "6e97780538e71d32a9e3c36db1e3ae3fdc98e2bd",
+ "source_branch": "worker/ptf-lexington-new-lane-launch-003",
+ "binding_identity": "bundle_sha256",
+ "the_four_digests_this_authorization_binds": {
+  "parent_release_digest": "895248738c79bc27f26da5bba1d2a490361ce6bd4959698adf3fb6f892aad8b0",
+  "final_candidate_digest": "67fe8617b79febb9b2248895441c31ac65931cf9fdcfa4da4f8014ee190cde78",
+  "intended_delta_digest": "sha256:82e57491638b8fc471e691ba6ddbc376e11d371b1599740361af10c7fd6a76db",
+  "deployment_artifact_digest": "67fe8617b79febb9b2248895441c31ac65931cf9fdcfa4da4f8014ee190cde78",
+  "candidate_sitemap_sha256": "dd0d87f2da07615776016690af64452d42cafc24d3c82e310b5f44efc6f7e611",
+  "sealed_package_digest": "sha256:e5d26fd63bb2d2e2d3d632134cc40cd832d1a4d4c5e1b82f003aa58dc52c5380",
+  "fast_lane_receipt_digest": "sha256:d72b64ffd74bb60c5cdf40835e44781142dec55494cd6166bd773d31ab463404"
+ },
+ "parent_release": {
+  "live_deploy_id": "6a9e047690ec8bdaf99bcad2",
+  "bundle_sha256": "895248738c79bc27f26da5bba1d2a490361ce6bd4959698adf3fb6f892aad8b0",
+  "sitemap_sha256": "dfdac840be527d5431d0752e702b55fd41d3ee0d2f3635bed6796044d869d56a",
+  "source_commit": "85c66eea46a64df871af4d1dd51ddb1b8fdcffc7",
+  "authorization_id": "ptf-auth-toledo-003-895248738c79",
+  "markets": 11,
+  "participating_markets": [
+   "cincinnati-oh",
+   "cleveland-akron-canton-oh",
+   "columbus-oh",
+   "dayton-oh",
+   "grand-rapids-holland-mi",
+   "indianapolis-in",
+   "louisville-ky",
+   "milwaukee-wi",
+   "pittsburgh-pa",
+   "st-louis-mo",
+   "toledo-oh"
+  ],
+  "profiles": 803,
+  "routes": 966,
+  "toledo_present": true
+ },
+ "lexington": {
+  "registered_census": 57,
+  "shadow_census": 61,
+  "published_pet_friendly": 20,
+  "verified_no_pets": 10,
+  "held_rows": 15,
+  "held_by_class": {
+   "CROSS_MARKET_IDENTITY_COLLISION": 1,
+   "IDENTITY_HOLD": 3,
+   "MODERN_EVIDENCE_GATE_HOLD": 5,
+   "PAID_PROVENANCE_HOLD": 6
+  },
+  "unresolved": 27,
+  "partition_states": {
+   "AWAITING_POLICY_ARTIFACT": 11,
+   "AWAITING_POLICY_OBSERVATION": 3,
+   "AWAITING_ROUTING_REVIEW": 13,
+   "PUBLISHED_PET_FRIENDLY": 20,
+   "VERIFIED_NO_PETS": 10
+  },
+  "published_corridors": [
+   "lexington-ky__downtown",
+   "lexington-ky__inner-versailles-road",
+   "lexington-ky__hamburg"
+  ],
+  "routes_added": 24
+ },
+ "held_rows": [
+  {
+   "identity_key_proposed": "holiday inn express",
+   "shadow_identity_key": "holiday-inn-express--1935-stanton-way",
+   "canonical_name": "Holiday Inn Express",
+   "address": "1935 Stanton Way",
+   "corridor": "lexington-ky__griffin-gate-newtown",
+   "classification": "IDENTITY_HOLD",
+   "why": "two active Lexington premises trade under the name 'Holiday Inn Express'. The shadow separated them with a street-address discriminator; ptf_identity_key/1.0 derives the registered key from the canonical name alone, so both rows would claim one identity. This row is UNRESOLVED in the shadow and publishes nothing, and the sibling at 2255 Buena Vista Road is admitted under this key because it carries this market's published refusal and states its own address on its own record.",
+   "published_anything": false,
+   "next_action": "a founder ruling on a distinguishing name that ADDS geography rather than changing the chain, after which this row may be admitted"
+  },
+  {
+   "identity_key_proposed": "red roof inn",
+   "shadow_identity_key": "red-roof-inn--1980-haggard-court",
+   "canonical_name": "Red Roof Inn",
+   "address": "1980 Haggard Court",
+   "corridor": "lexington-ky__i75-winchester-road",
+   "classification": "IDENTITY_HOLD",
+   "why": "two active Lexington premises trade under the name 'Red Roof Inn'. The shadow separated them with a street-address discriminator; ptf_identity_key/1.0 derives the registered key from the canonical name alone, so both rows would claim one identity. This row is UNRESOLVED in the shadow and publishes nothing, and no row in this group carries a published fact, so there is no non-arbitrary row to admit and all of them are held.",
+   "published_anything": false,
+   "next_action": "a founder ruling on a distinguishing name that ADDS geography rather than changing the chain, after which this row may be admitted"
+  },
+  {
+   "identity_key_proposed": "red roof inn",
+   "shadow_identity_key": "red-roof-inn--2651-wilhite-drive",
+   "canonical_name": "Red Roof Inn",
+   "address": "2651 Wilhite Drive",
+   "corridor": "lexington-ky__nicholasville-road-south",
+   "classification": "IDENTITY_HOLD",
+   "why": "two active Lexington premises trade under the name 'Red Roof Inn'. The shadow separated them with a street-address discriminator; ptf_identity_key/1.0 derives the registered key from the canonical name alone, so both rows would claim one identity. This row is UNRESOLVED in the shadow and publishes nothing, and no row in this group carries a published fact, so there is no non-arbitrary row to admit and all of them are held.",
+   "published_anything": false,
+   "next_action": "a founder ruling on a distinguishing name that ADDS geography rather than changing the chain, after which this row may be admitted"
+  },
+  {
+   "identity_key_proposed": "holiday inn express",
+   "shadow_identity_key": "holiday-inn-express--2255-buena-vista-road",
+   "canonical_name": "Holiday Inn Express",
+   "address": "2255 Buena Vista Road",
+   "corridor": "lexington-ky__hamburg",
+   "classification": "CROSS_MARKET_IDENTITY_COLLISION",
+   "why": "cleveland-akron-canton-oh already publishes the identity key 'holiday inn express' as VERIFIED_NO_PETS. A published identity key is globally unique in this repository and the exclusions contract refuses the second row by name, so admitting this one would either fail the build or overwrite a live market's record. The shadow's CLEAN_VERIFIED_NO_PETS read is preserved verbatim in lexington_ky_clean_inventory_002.json and nothing about it is disputed; only its ADMISSION is held.",
+   "published_anything": false,
+   "colliding_market": "cleveland-akron-canton-oh",
+   "colliding_state": "VERIFIED_NO_PETS",
+   "next_action": "a founder ruling on a distinguishing canonical name that ADDS geography for one of the two rows, or a contract change that scopes the published identity key by market"
+  },
+  {
+   "identity_key_proposed": "clarion hotel conference center lexington north",
+   "shadow_identity_key": "clarion-hotel-conference-center-lexington-north--1950-newtown-pike",
+   "canonical_name": "Clarion Hotel Conference Center Lexington North",
+   "address": "1950 Newtown Pike",
+   "corridor": "lexington-ky__griffin-gate-newtown",
+   "classification": "MODERN_EVIDENCE_GATE_HOLD",
+   "gate_classification": "AMENITY_CHIP_ONLY",
+   "failed_checks": [
+    "OPERATIVE_QUOTE"
+   ],
+   "why": "the ATLAS-THROUGHPUT-003 first-party evidence gate refuses this row: an amenity label states no policy: 'Pets Allowed: Yes'. The shadow's read is preserved verbatim in lexington_ky_clean_inventory_002.json and is not disputed; what the modern gate refuses is that this QUOTE establishes this POLICY. Holding it is the only correct move -- lowering the gate to keep the count would publish a policy no operator stated.",
+   "published_anything": false,
+   "shadow_policy_class": "CLEAN_PET_FRIENDLY",
+   "next_action": "re-capture the operative policy text from the property's own page; an amenity label, a fee sentence and a service-animal sentence each establish nothing on their own"
+  },
+  {
+   "identity_key_proposed": "econo lodge",
+   "shadow_identity_key": "econo-lodge--5527-athens-boonesboro-road",
+   "canonical_name": "Econo Lodge",
+   "address": "5527 Athens Boonesboro Road",
+   "corridor": "lexington-ky__richmond-road-i75-south",
+   "classification": "MODERN_EVIDENCE_GATE_HOLD",
+   "gate_classification": "AMENITY_CHIP_ONLY",
+   "failed_checks": [
+    "OPERATIVE_QUOTE"
+   ],
+   "why": "the ATLAS-THROUGHPUT-003 first-party evidence gate refuses this row: an amenity label states no policy: 'Pets Allowed: Yes'. The shadow's read is preserved verbatim in lexington_ky_clean_inventory_002.json and is not disputed; what the modern gate refuses is that this QUOTE establishes this POLICY. Holding it is the only correct move -- lowering the gate to keep the count would publish a policy no operator stated.",
+   "published_anything": false,
+   "shadow_policy_class": "CLEAN_PET_FRIENDLY",
+   "next_action": "re-capture the operative policy text from the property's own page; an amenity label, a fee sentence and a service-animal sentence each establish nothing on their own"
+  },
+  {
+   "identity_key_proposed": "hilton lexington downtown",
+   "shadow_identity_key": "hilton-lexington-downtown--369-west-vine-street",
+   "canonical_name": "Hilton Lexington/Downtown",
+   "address": "369 West Vine Street",
+   "corridor": "lexington-ky__downtown",
+   "classification": "MODERN_EVIDENCE_GATE_HOLD",
+   "gate_classification": "SERVICE_ANIMAL_ONLY",
+   "failed_checks": [
+    "OPERATIVE_QUOTE"
+   ],
+   "why": "the ATLAS-THROUGHPUT-003 first-party evidence gate refuses this row: a service-animal sentence is not a refusal unless the reader reads one: 'PetsPets allowed: No | Service animals only'. The shadow's read is preserved verbatim in lexington_ky_clean_inventory_002.json and is not disputed; what the modern gate refuses is that this QUOTE establishes this POLICY. Holding it is the only correct move -- lowering the gate to keep the count would publish a policy no operator stated.",
+   "published_anything": false,
+   "shadow_policy_class": "CLEAN_VERIFIED_NO_PETS",
+   "next_action": "re-capture the operative policy text from the property's own page; an amenity label, a fee sentence and a service-animal sentence each establish nothing on their own"
+  },
+  {
+   "identity_key_proposed": "sleep inn",
+   "shadow_identity_key": "sleep-inn--1920-plaudit-place",
+   "canonical_name": "Sleep Inn",
+   "address": "1920 Plaudit Place",
+   "corridor": "lexington-ky__hamburg",
+   "classification": "MODERN_EVIDENCE_GATE_HOLD",
+   "gate_classification": "AMENITY_CHIP_ONLY",
+   "failed_checks": [
+    "OPERATIVE_QUOTE"
+   ],
+   "why": "the ATLAS-THROUGHPUT-003 first-party evidence gate refuses this row: an amenity label states no policy: 'Pets Allowed: Yes'. The shadow's read is preserved verbatim in lexington_ky_clean_inventory_002.json and is not disputed; what the modern gate refuses is that this QUOTE establishes this POLICY. Holding it is the only correct move -- lowering the gate to keep the count would publish a policy no operator stated.",
+   "published_anything": false,
+   "shadow_policy_class": "CLEAN_PET_FRIENDLY",
+   "next_action": "re-capture the operative policy text from the property's own page; an amenity label, a fee sentence and a service-animal sentence each establish nothing on their own"
+  },
+  {
+   "identity_key_proposed": "the sire hotel",
+   "shadow_identity_key": "the-sire-hotel--120-west-second-street",
+   "canonical_name": "The Sire Hotel",
+   "address": "120 West Second Street",
+   "corridor": "lexington-ky__downtown",
+   "classification": "MODERN_EVIDENCE_GATE_HOLD",
+   "gate_classification": "SERVICE_ANIMAL_ONLY",
+   "failed_checks": [
+    "OPERATIVE_QUOTE"
+   ],
+   "why": "the ATLAS-THROUGHPUT-003 first-party evidence gate refuses this row: a service-animal sentence is not a refusal unless the reader reads one: 'PetsPets allowed: No | Service animals only'. The shadow's read is preserved verbatim in lexington_ky_clean_inventory_002.json and is not disputed; what the modern gate refuses is that this QUOTE establishes this POLICY. Holding it is the only correct move -- lowering the gate to keep the count would publish a policy no operator stated.",
+   "published_anything": false,
+   "shadow_policy_class": "CLEAN_VERIFIED_NO_PETS",
+   "next_action": "re-capture the operative policy text from the property's own page; an amenity label, a fee sentence and a service-animal sentence each establish nothing on their own"
+  },
+  {
+   "identity_key_proposed": "days inn",
+   "shadow_identity_key": "days-inn--1987-north-broadway",
+   "canonical_name": "Days Inn",
+   "address": "1987 North Broadway",
+   "corridor": "lexington-ky__i75-winchester-road",
+   "classification": "PAID_PROVENANCE_HOLD",
+   "gate_classification": "NO_RESERVATION_IN_PAID_ATTEMPT_LEDGER",
+   "capture_lane": "FIRECRAWL",
+   "why": "this row's evidence was bought through the FIRECRAWL lane, and ptf_paid_attempt_ledger_001.json has no attempt for it. ATLAS-THROUGHPUT-003 rule O requires a paid capture to name the reservation that bought it, including the hash of the request envelope; the committed Lexington record carries no envelope hash, so a reservation can only be invented, never derived. The READ is not in doubt -- it passed the first-party evidence gate. What is missing is the provenance record.",
+   "published_anything": false,
+   "shadow_policy_class": "CLEAN_PET_FRIENDLY",
+   "next_action": "ingest run lexington_ky_firecrawl_002 into ptf_paid_attempt_ledger_001.json through acquisition.paid_attempt_ledger.build_attempt, recording the request envelope hash; this hold then clears with no re-capture and no new policy decision",
+   "reversible_without_recapture": true
+  },
+  {
+   "identity_key_proposed": "holiday inn express and suites lexington dtwn area keeneland",
+   "shadow_identity_key": "holiday-inn-express-suites-lexington-dtwn-area-keeneland--1780-sharkey-way",
+   "canonical_name": "Holiday Inn Express & Suites Lexington Dtwn Area-Keeneland",
+   "address": "1780 Sharkey Way",
+   "corridor": "lexington-ky__griffin-gate-newtown",
+   "classification": "PAID_PROVENANCE_HOLD",
+   "gate_classification": "NO_RESERVATION_IN_PAID_ATTEMPT_LEDGER",
+   "capture_lane": "FIRECRAWL",
+   "why": "this row's evidence was bought through the FIRECRAWL lane, and ptf_paid_attempt_ledger_001.json has no attempt for it. ATLAS-THROUGHPUT-003 rule O requires a paid capture to name the reservation that bought it, including the hash of the request envelope; the committed Lexington record carries no envelope hash, so a reservation can only be invented, never derived. The READ is not in doubt -- it passed the first-party evidence gate. What is missing is the provenance record.",
+   "published_anything": false,
+   "shadow_policy_class": "CLEAN_VERIFIED_NO_PETS",
+   "next_action": "ingest run lexington_ky_firecrawl_002 into ptf_paid_attempt_ledger_001.json through acquisition.paid_attempt_ledger.build_attempt, recording the request envelope hash; this hold then clears with no re-capture and no new policy decision",
+   "reversible_without_recapture": true
+  },
+  {
+   "identity_key_proposed": "holiday inn lexington hamburg",
+   "shadow_identity_key": "holiday-inn-lexington-hamburg--1976-justice-drive",
+   "canonical_name": "Holiday Inn Lexington - Hamburg",
+   "address": "1976 Justice Drive",
+   "corridor": "lexington-ky__hamburg",
+   "classification": "PAID_PROVENANCE_HOLD",
+   "gate_classification": "NO_RESERVATION_IN_PAID_ATTEMPT_LEDGER",
+   "capture_lane": "FIRECRAWL",
+   "why": "this row's evidence was bought through the FIRECRAWL lane, and ptf_paid_attempt_ledger_001.json has no attempt for it. ATLAS-THROUGHPUT-003 rule O requires a paid capture to name the reservation that bought it, including the hash of the request envelope; the committed Lexington record carries no envelope hash, so a reservation can only be invented, never derived. The READ is not in doubt -- it passed the first-party evidence gate. What is missing is the provenance record.",
+   "published_anything": false,
+   "shadow_policy_class": "CLEAN_PET_FRIENDLY",
+   "next_action": "ingest run lexington_ky_firecrawl_002 into ptf_paid_attempt_ledger_001.json through acquisition.paid_attempt_ledger.build_attempt, recording the request envelope hash; this hold then clears with no re-capture and no new policy decision",
+   "reversible_without_recapture": true
+  },
+  {
+   "identity_key_proposed": "la quinta inn and suites lexington south hamburg",
+   "shadow_identity_key": "la-quinta-inn-suites-lexington-south-hamburg--100-canebrake-drive",
+   "canonical_name": "La Quinta Inn & Suites Lexington South / Hamburg",
+   "address": "100 Canebrake Drive",
+   "corridor": "lexington-ky__richmond-road-i75-south",
+   "classification": "PAID_PROVENANCE_HOLD",
+   "gate_classification": "NO_RESERVATION_IN_PAID_ATTEMPT_LEDGER",
+   "capture_lane": "FIRECRAWL",
+   "why": "this row's evidence was bought through the FIRECRAWL lane, and ptf_paid_attempt_ledger_001.json has no attempt for it. ATLAS-THROUGHPUT-003 rule O requires a paid capture to name the reservation that bought it, including the hash of the request envelope; the committed Lexington record carries no envelope hash, so a reservation can only be invented, never derived. The READ is not in doubt -- it passed the first-party evidence gate. What is missing is the provenance record.",
+   "published_anything": false,
+   "shadow_policy_class": "CLEAN_PET_FRIENDLY",
+   "next_action": "ingest run lexington_ky_firecrawl_002 into ptf_paid_attempt_ledger_001.json through acquisition.paid_attempt_ledger.build_attempt, recording the request envelope hash; this hold then clears with no re-capture and no new policy decision",
+   "reversible_without_recapture": true
+  },
+  {
+   "identity_key_proposed": "la quinta inn lexington",
+   "shadow_identity_key": "la-quinta-inn-lexington--1920-stanton-way",
+   "canonical_name": "La Quinta Inn - Lexington",
+   "address": "1920 Stanton Way",
+   "corridor": "lexington-ky__griffin-gate-newtown",
+   "classification": "PAID_PROVENANCE_HOLD",
+   "gate_classification": "NO_RESERVATION_IN_PAID_ATTEMPT_LEDGER",
+   "capture_lane": "FIRECRAWL",
+   "why": "this row's evidence was bought through the FIRECRAWL lane, and ptf_paid_attempt_ledger_001.json has no attempt for it. ATLAS-THROUGHPUT-003 rule O requires a paid capture to name the reservation that bought it, including the hash of the request envelope; the committed Lexington record carries no envelope hash, so a reservation can only be invented, never derived. The READ is not in doubt -- it passed the first-party evidence gate. What is missing is the provenance record.",
+   "published_anything": false,
+   "shadow_policy_class": "CLEAN_PET_FRIENDLY",
+   "next_action": "ingest run lexington_ky_firecrawl_002 into ptf_paid_attempt_ledger_001.json through acquisition.paid_attempt_ledger.build_attempt, recording the request envelope hash; this hold then clears with no re-capture and no new policy decision",
+   "reversible_without_recapture": true
+  },
+  {
+   "identity_key_proposed": "super 8 by wyndham lexington winchester rd",
+   "shadow_identity_key": "super-8-by-wyndham-lexington-winchester-rd--2351-buena-vista-road",
+   "canonical_name": "Super 8 by Wyndham Lexington Winchester Rd",
+   "address": "2351 Buena Vista Road",
+   "corridor": "lexington-ky__hamburg",
+   "classification": "PAID_PROVENANCE_HOLD",
+   "gate_classification": "NO_RESERVATION_IN_PAID_ATTEMPT_LEDGER",
+   "capture_lane": "FIRECRAWL",
+   "why": "this row's evidence was bought through the FIRECRAWL lane, and ptf_paid_attempt_ledger_001.json has no attempt for it. ATLAS-THROUGHPUT-003 rule O requires a paid capture to name the reservation that bought it, including the hash of the request envelope; the committed Lexington record carries no envelope hash, so a reservation can only be invented, never derived. The READ is not in doubt -- it passed the first-party evidence gate. What is missing is the provenance record.",
+   "published_anything": false,
+   "shadow_policy_class": "CLEAN_PET_FRIENDLY",
+   "next_action": "ingest run lexington_ky_firecrawl_002 into ptf_paid_attempt_ledger_001.json through acquisition.paid_attempt_ledger.build_attempt, recording the request envelope hash; this hold then clears with no re-capture and no new policy decision",
+   "reversible_without_recapture": true
+  }
+ ],
+ "release_delta": {
+  "parent_market_count": 11,
+  "candidate_market_count": 12,
+  "parent_profile_count": 803,
+  "candidate_profile_count": 823,
+  "parent_route_count": 966,
+  "candidate_route_count": 991,
+  "markets_added": [
+   "lexington-ky"
+  ],
+  "markets_updated": [],
+  "markets_removed": [],
+  "unexpected_profile_changes": 0,
+  "unexpected_route_changes": 0,
+  "unexpected_market_changes": 0,
+  "release_index_findings": []
+ },
+ "bundle_reuse": {
+  "unchanged_markets_rebuilt": 0,
+  "unchanged_markets": {
+   "count": 11,
+   "bundles_reused": 0,
+   "bundles_rebuilt": 0,
+   "why": "the lane renders only the changed market; every other live market is carried by its committed release index entry, so none of them was built, reused from a bundle, or rebuilt",
+   "markets": [
+    "cincinnati-oh",
+    "cleveland-akron-canton-oh",
+    "columbus-oh",
+    "dayton-oh",
+    "grand-rapids-holland-mi",
+    "indianapolis-in",
+    "louisville-ky",
+    "milwaukee-wi",
+    "pittsburgh-pa",
+    "st-louis-mo",
+    "toledo-oh"
+   ]
+  },
+  "changed_market": {
+   "market_id": "lexington-ky",
+   "probe": {
+    "build_input_key": "sha256:a66f8c4d3b392b62047fded27b682f08ea951b924ad4a6b37292797147d33f9b",
+    "trusted": false,
+    "package_id": "pkg-lexington-ky-e5d26fd63bb2d2e2",
+    "why": "no entry for this input key"
+   },
+   "bundle_reused": false,
+   "bundle_rebuilt": true
+  }
+ },
+ "validation": {
+  "one_time_integration_audit": {
+   "why": "this order integrated the ATLAS-THROUGHPUT 001-008 engineering onto the Toledo-live lineage, which Regression V2 classifies as a shared change requiring a FULL regression. Exactly one was run.",
+   "collected": 17874,
+   "failures": 164,
+   "PRE_EXISTING": 160,
+   "TRUE_NEW_FAILURE": 4,
+   "TRUE_NEW_FAILURE_AFTER_CLOSURE": 0,
+   "closed_node_ids": [
+    "tests/pettripfinder/test_atlas_throughput_003.py::TestReleaseIndex::test_case_17_the_stale_pittsburgh_like_package_cannot_remove_newer_indianapolis_like_state",
+    "tests/pettripfinder/test_atlas_throughput_003.py::TestReleaseIndex::test_current_verified_live_agrees_across_record_manifest_and_pin",
+    "tests/pettripfinder/test_atlas_throughput_004.py::TestBoundaries::test_the_fast_lane_reports_market_build_required_no_on_a_trusted_bundle",
+    "tests/pettripfinder/test_atlas_throughput_004.py::TestCrossRun::test_case_2_a_second_process_hits_the_persistent_cache"
+   ],
+   "second_broad_run_required": false,
+   "baseline": "f75aa95.json",
+   "seconds": [
+    {
+     "lane": "full_regression",
+     "modules": 1,
+     "seconds": 4588.5,
+     "exit_code": 1
+    }
+   ]
+  },
+  "routine_lexington_release": {
+   "change_class": "MARKET_AUTHORITY_DATA_ONLY",
+   "FAST_DATA_ONLY_RELEASE": "YES",
+   "FULL_REGRESSION_REQUIRED": "NO",
+   "REMOTE_BROAD_JOBS_REQUIRED": 0,
+   "rules": {
+    "A": "PASS",
+    "B": "PASS",
+    "C": "PASS",
+    "D": "PASS",
+    "E": "PASS",
+    "F": "PASS",
+    "G": "PASS",
+    "H": "PASS",
+    "I": "PASS",
+    "J": "PASS",
+    "K": "PASS",
+    "L": "PASS",
+    "M": "PASS",
+    "N": "PASS",
+    "O": "PASS"
+   },
+   "unknown_rules": [],
+   "failed_rules": []
+  },
+  "first_party_evidence_gate": {
+   "records_evaluated": 30,
+   "eligible": 30,
+   "ineligible": 0
+  }
+ },
+ "performance_seconds": {
+  "live_parent_read_s": 4.15,
+  "package_inputs_s": 0.04,
+  "package_seal_s": 0.02,
+  "first_party_gate_s": 0.03,
+  "fast_lane_s": 20.07,
+  "candidate_compose_s": 0.06,
+  "classification_s": 2.52,
+  "cache_lookup_s": 0.48,
+  "total_s": 27.37
+ },
+ "rollback": {
+  "target_deployment_id": "6a9e047690ec8bdaf99bcad2",
+  "target_release_digest": "895248738c79bc27f26da5bba1d2a490361ce6bd4959698adf3fb6f892aad8b0",
+  "target_sitemap_sha256": "dfdac840be527d5431d0752e702b55fd41d3ee0d2f3635bed6796044d869d56a",
+  "target_markets": 11,
+  "target_profiles": 803,
+  "target_routes": 966,
+  "target_is_current_verified_parent": true,
+  "stale_rollback_guard": "the rollback target is the CURRENT live deployment read from the committed deployment record, not the parent's own rollback_target (6a9d33f5dc8c3d1cf9464376), which is the Cincinnati deploy Toledo replaced. Rolling back to that would un-deploy Toledo.",
+  "never_roll_back_to": "6a9d33f5dc8c3d1cf9464376"
+ },
+ "what_the_founder_would_be_authorizing": {
+  "one_field_change": "deploy/netlify/launch_participation.json, the lexington-ky row: launch_status SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH -> FOUNDER_AUTHORIZED_FOR_LAUNCH, plus the founder's own decision block. Nothing else in this repository changes to produce the candidate digest above.",
+  "effect": "Lexington joins as the twelfth market at 20 published profiles; every other live market moves by exactly zero.",
+  "not_authorized_here": [
+   "production activation flags",
+   "any netlify deploy",
+   "any live verification",
+   "Nashville, Chattanooga or Fort Wayne participation",
+   "Detroit participation"
+  ]
+ },
+ "deployment_ready_gates": {
+  "integration_audit_true_new_closed": true,
+  "fast_release_lane_eligible": true,
+  "fast_lane_no_unknown_rules": true,
+  "fast_lane_no_failed_rules": true,
+  "first_party_evidence_gate_clean": true,
+  "release_diff_has_no_unexpected_finding": true,
+  "no_unrelated_live_market_moved": true,
+  "candidate_includes_every_live_market": true,
+  "candidate_includes_lexington": true,
+  "toledo_present_in_parent_and_candidate": true,
+  "no_source_ready_market_auto_participated": true,
+  "assembly_gates_pass": true,
+  "no_broken_links": true,
+  "release_contract_grants_no_deployment": true,
+  "committed_participation_still_withholds_lexington": true,
+  "every_held_row_recorded_by_name": true,
+  "production_activation_still_disabled": true
+ },
+ "DEPLOYMENT_READY": "YES",
+ "LAUNCH_AUTHORIZATION_REQUIRED": "YES",
+ "nothing_deployed": true,
+ "nothing_activated": true
+}
