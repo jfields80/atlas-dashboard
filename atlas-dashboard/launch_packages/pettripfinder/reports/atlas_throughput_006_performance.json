@@ -1,0 +1,131 @@
+{
+ "schema": "ptf-006-performance/1.0",
+ "measured": [
+  {
+   "measure": "market-local validation (002)",
+   "value": "~318 s",
+   "note": "representative market-local lane"
+  },
+  {
+   "measure": "FAST data-only release safety (003)",
+   "value": "60.9 s",
+   "note": "standalone lane"
+  },
+  {
+   "measure": "FAST lane inside a 005 candidate",
+   "value": "5.5 s",
+   "note": "rules A-O with the 004 cache supplied"
+  },
+  {
+   "measure": "warm validated bundle reuse (004)",
+   "value": "3.7 s / 8.4 s",
+   "note": "Dayton / Cleveland, builder invocations 0"
+  },
+  {
+   "measure": "whole-site compose (005 seed)",
+   "value": "547.4 s",
+   "note": "every market rebuilt"
+  },
+  {
+   "measure": "data-only candidate staging (005)",
+   "value": "178.0 s",
+   "note": "9 of 10 markets inherited, 0 rebuilt"
+  },
+  {
+   "measure": "candidate handoff round trip (006)",
+   "value": "measured below",
+   "note": "package, receive, re-hash"
+  },
+  {
+   "measure": "local broad regression (005 audit)",
+   "value": "3,669.9 s",
+   "note": "one process, founder's desktop blocked"
+  },
+  {
+   "measure": "remote broad, projected wall (006)",
+   "value": "1375.7 s",
+   "note": "slowest of four measured shards"
+  },
+  {
+   "measure": "remote broad, aggregate runner time",
+   "value": "3621.7 s",
+   "note": "what the runners bill"
+  },
+  {
+   "measure": "ordinary DATA_ONLY release, remote broad jobs",
+   "value": "0",
+   "note": "REMOTE_BROAD_JOBS = 0"
+  }
+ ],
+ "remote_broad": {
+  "projected_wall_seconds": 1375.7,
+  "projected_aggregate_seconds": 3621.7,
+  "local_broad_seconds": 3669.9,
+  "wall_clock_improvement": 2.67,
+  "EXECUTED": false,
+  "why_not": "REMOTE_EXECUTION_NOT_PROVEN -- no GitHub CLI or API token in this environment"
+ },
+ "data_only_path": {
+  "REMOTE_BROAD_JOBS": 0,
+  "dispatch": "NONE",
+  "why": "FAST_DATA_ONLY_RELEASE proved this package on its own evidence; Regression V2 says FULL_REGRESSION_REQUIRED = NO"
+ },
+ "shared_change_dispatch": {
+  "SHARED_RUNTIME": {
+   "REMOTE_BROAD_JOBS": 4,
+   "shards": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "scope": "ALL"
+  },
+  "SHARED_SCHEMA": {
+   "REMOTE_BROAD_JOBS": 4,
+   "shards": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "scope": "ALL"
+  },
+  "ASSEMBLER": {
+   "REMOTE_BROAD_JOBS": 4,
+   "shards": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "scope": "ALL"
+  },
+  "DEPLOYMENT": {
+   "REMOTE_BROAD_JOBS": 4,
+   "shards": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "scope": "DEPLOYMENT"
+  },
+  "UNKNOWN": {
+   "REMOTE_BROAD_JOBS": 4,
+   "shards": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "scope": "ALL"
+  }
+ },
+ "not_yet_measured": [
+  "founder active time per release",
+  "queue wait",
+  "CI wait",
+  "activation and verification against production"
+ ]
+}

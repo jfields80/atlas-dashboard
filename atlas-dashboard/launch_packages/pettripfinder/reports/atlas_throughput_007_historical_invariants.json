@@ -1,0 +1,39 @@
+{
+ "schema": "ptf-007-historical-invariants/1.0",
+ "classes": [
+  {
+   "class": "CURRENT_STATE_INVARIANT",
+   "means": "what the market publishes TODAY",
+   "owner": "tests/pettripfinder/market_state.py -- current(market_id), live()",
+   "source_of_truth": "the reviewed pins in tests/pettripfinder/pins/market_state.json",
+   "moves_when": "a lawful promotion changes the market",
+   "example": "test_identity_routing.test_routing_does_not_change_published_count"
+  },
+  {
+   "class": "HISTORICAL_COHORT_INVARIANT",
+   "means": "these NAMED identities existed at epoch X",
+   "owner": "tests/pettripfinder/epochs.py -- cohort, by_identity_keys, assert_cohort_size",
+   "source_of_truth": "the order's own ledger rows, selected by identity",
+   "moves_when": "never, except by an approved supersession",
+   "example": "test_louisville_authority signed-cohort selections"
+  },
+  {
+   "class": "HISTORICAL_ARTIFACT_INVARIANT",
+   "means": "release R contained these exact bytes",
+   "owner": "the committed digests: bundle_sha256, sitemap_sha256, receipt digests",
+   "source_of_truth": "deployment records and authorizations",
+   "moves_when": "never; a new release is a new artifact",
+   "example": "test_global_deployment_architecture_045 DISABLED_BUILD_BUNDLE_SHA256"
+  },
+  {
+   "class": "DEPLOYMENT_EPOCH_INVARIANT",
+   "means": "deployment R had these market counts",
+   "owner": "tests/pettripfinder/pins/deployment_state.json via market_state.live()",
+   "source_of_truth": "the newest DEPLOYED record, reconciled by release_index",
+   "moves_when": "a new release is authorized and deployed",
+   "example": "test_global_deployment_architecture_045 EXPECTED_TOTAL"
+  }
+ ],
+ "rule": "Do not replace an old hardcoded count with today's hardcoded count. Decide which of the four a test MEANT, then read that class's owner.",
+ "no_new_terminology": true
+}

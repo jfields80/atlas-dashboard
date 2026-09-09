@@ -94,11 +94,47 @@ RELEASE_CONTRACT = "release_contract"
 CROSS_MARKET = "cross_market"
 ASSEMBLY = "assembly"
 DEPLOYMENT_ARCHITECTURE = "deployment_architecture"
+WEBSITE_GENERATION_INTEGRATION = "website_generation_integration"
 FULL_REGRESSION = "full_regression"
 
 LANES: Tuple[str, ...] = (
     MARKET_TARGETED, POLICY_SCHEMA, IDENTITY_ROUTING, RELEASE_CONTRACT,
-    CROSS_MARKET, ASSEMBLY, DEPLOYMENT_ARCHITECTURE, FULL_REGRESSION,
+    CROSS_MARKET, ASSEMBLY, DEPLOYMENT_ARCHITECTURE,
+    WEBSITE_GENERATION_INTEGRATION, FULL_REGRESSION,
+)
+
+#: ATLAS-THROUGHPUT-002. The website-generation integration suites drive the
+#: REAL launch package through the whole engine chain (load -> ingest ->
+#: dataset -> IA -> compile -> render -> assemble). ATLAS-THROUGHPUT-001
+#: measured tests/website_generation/integration/test_pettripfinder_demo_media.py
+#: at 3,489-5,630 s per broad run (57-71 % of the run) and a 6.4-7.6 GB
+#: working set, and found it selected by every lane-runner broad run while
+#: the committed baselines deselect it.
+#:
+#: Its role: BROAD AUDIT. It protects the website-generation chain's contract
+#: with the launch package -- media ingestion (HERO_IMAGE refs, content-
+#: addressed assets), sitewide <img> safety (no remote/data src), zero-image
+#: fallback, and build determinism -- against a change to that chain, to the
+#: launch package's shared inputs (seed CSV, categories, demo_media.json), or
+#: to the assembler/renderer. It is NOT a market test: no market-local helper
+#: can reach it (the isolation proof forbids writes outside the market's own
+#: roots), so a MARKET_LOCAL_TOOLING plan never selects it. It stays in
+#: ``full_regression`` (every mandatory-full class runs it) and is runnable on
+#: its own with ``run --lane website_generation_integration``.
+WEBSITE_GENERATION_INTEGRATION_MODULES: Tuple[str, ...] = (
+    "tests/website_generation/integration/test_pettripfinder_demo_media.py",
+    # ATLAS-THROUGHPUT-007 split the determinism and zero-image claims out of
+    # the demo-media module so the remote shard floor is the 530 s determinism
+    # pair rather than a 1,375.7 s module. Same lane, same claims.
+    "tests/website_generation/integration/test_pettripfinder_demo_media_determinism.py",
+    "tests/website_generation/integration/test_pettripfinder_demo_media_fallback.py",
+    "tests/website_generation/integration/test_pettripfinder_pilot_chain.py",
+    "tests/website_generation/integration/test_pettripfinder_launch_package.py",
+    "tests/website_generation/integration/test_listing_collection_chain.py",
+    "tests/website_generation/integration/test_publishable_wave1_chain.py",
+    "tests/website_generation/integration/test_real_component_chain.py",
+    "tests/website_generation/integration/test_visible_media.py",
+    "tests/website_generation/integration/test_local_demo_harness.py",
 )
 
 #: The sequence a market-scoped change runs, in order. ``assemble`` is not a
@@ -316,6 +352,8 @@ def modules_in_lane(lane: str, *, market: Optional[str] = None) -> List[str]:
         raise ValueError("unknown lane %r; lanes are %s" % (lane, ", ".join(LANES)))
     if lane == FULL_REGRESSION:
         return ["tests"]
+    if lane == WEBSITE_GENERATION_INTEGRATION:
+        return [m for m in WEBSITE_GENERATION_INTEGRATION_MODULES if (REPO_ROOT / m).is_file()]
     out: List[str] = []
     for path in sorted(PTF_TESTS.rglob("test_*.py")):
         rel = _relpath(path)
@@ -341,6 +379,8 @@ def describe() -> Dict:
         market = market_for(rel)
         if market:
             markets[market].append(rel)
+    table[WEBSITE_GENERATION_INTEGRATION] = list(
+        modules_in_lane(WEBSITE_GENERATION_INTEGRATION))
     return OrderedDict((
         ("schema", "ptf-test-lanes/1.0"),
         ("lanes", table),
@@ -498,22 +538,44 @@ def _rerun(node_ids: Sequence[str], *, out: Path,
 
 def classify(run: Mapping, baseline: Mapping, *,
              expected_epoch_change: Iterable[str] = (),
-             rerun_results: Optional[Mapping[str, str]] = None) -> Dict:
+             rerun_results: Optional[Mapping[str, str]] = None,
+             messages: Optional[Mapping[str, str]] = None) -> Dict:
     """Every failing node id in ``run`` gets exactly one class.
 
     ``rerun_results`` is ``nodeid -> status`` from an isolated re-run of the
     candidates; a node that passed there is a harness flake. Without a
     re-run, nothing is called a flake.
+
+    ATLAS-THROUGHPUT-007: ``messages`` is ``nodeid -> failure text`` for this
+    run. When the baseline carries ``failure_signatures``, a baselined node
+    whose failure normalizes to a DIFFERENT signature is TRUE_NEW rather than
+    PRE_EXISTING -- the baseline records that a test fails, not a licence for
+    it to fail in new ways. Without messages the behaviour is unchanged, so
+    every earlier run's classification still means what it meant.
     """
+    from scripts.pettripfinder import ci_validation as CI
+
     if baseline.get("schema") != SCHEMA_BASELINE:
         raise ValueError("baseline is not a %s document" % SCHEMA_BASELINE)
     pre = set(baseline["failing_node_ids"])
+    signatures = dict(baseline.get("failure_signatures") or {})
     expected = set(expected_epoch_change)
     rerun = dict(rerun_results or {})
+    messages = dict(messages or {})
     classes: "OrderedDict[str, List[str]]" = OrderedDict((c, []) for c in CLASSES)
+    changed_signature: List["OrderedDict[str, str]"] = []
     for nodeid in run["failing_node_ids"]:
         if nodeid in pre:
-            classes[PRE_EXISTING].append(nodeid)
+            expected_sig = signatures.get(nodeid)
+            actual_sig = (CI.failure_signature(messages[nodeid])
+                          if (messages and nodeid in messages) else None)
+            if expected_sig and actual_sig and actual_sig != expected_sig:
+                classes[TRUE_NEW_FAILURE].append(nodeid)
+                changed_signature.append(OrderedDict((
+                    ("node_id", nodeid),
+                    ("why", "same node, different failure signature"))))
+            else:
+                classes[PRE_EXISTING].append(nodeid)
         elif nodeid in expected:
             classes[EXPECTED_EPOCH_CHANGE].append(nodeid)
         elif rerun.get(nodeid) == "passed":
@@ -529,6 +591,8 @@ def classify(run: Mapping, baseline: Mapping, *,
         ("failed", run["failed"]),
         ("counts", OrderedDict((c, len(v)) for c, v in classes.items())),
         ("classes", classes),
+        ("changed_signature", changed_signature),
+        ("signature_checked", bool(messages and signatures)),
         ("baseline_failures_now_passing", resolved),
         ("clean", not classes[TRUE_NEW_FAILURE]),
     ))

@@ -317,15 +317,39 @@ def assemble(context: str, output: str, contract: Optional[Dict] = None,
     Returns the deployment manifest dict. Raises ``AssembleError`` (fail-closed)
     on an unsafe path, a package/identity mismatch, or any failed release gate --
     leaving any pre-existing output untouched.
+
+    ATLAS-THROUGHPUT-002: within one process, a second request for the same
+    context, market, contract and byte-identical inputs is answered from the
+    session cache with a verified copy of the first bundle (the pre-generation
+    gates are pure functions of those same inputs, so a hit is a build whose
+    gates already passed). The output path is still validated on every call.
     """
     if context not in VALID_CONTEXTS:
         raise AssembleError("context must be one of %s, got %r" % (VALID_CONTEXTS, context))
-
     out_root = validate_output_path(output)
+    _market = resolve_market(market)
+    from scripts.pettripfinder.assembly_session_cache import CACHE
+    import dataclasses
+    key_args = {
+        "context": context,
+        "market_id": _market.market_id,
+        "market": dataclasses.asdict(_market),
+        "contract": (json.dumps(contract, sort_keys=True, default=str)
+                     if contract is not None else "<committed>"),
+    }
+    manifest, _event = CACHE.reuse_or_build(
+        "market_bundle", key_args, out_root,
+        lambda: _assemble_uncached(context, out_root, contract, _market))
+    return manifest
+
+
+def _assemble_uncached(context: str, out_root: Path, contract: Optional[Dict],
+                       _market: MarketConfig) -> Dict:
+    """The assembly proper. Always a real build into ``out_root``."""
+    gates_prelude = None  # noqa: F841 -- keeps the original structure below readable
     # The market is resolved BEFORE the contract, because the market is what
     # selects the contract. Reversing that order is how one market's numbers
     # came to gate another market's build.
-    _market = resolve_market(market)
     contract = contract if contract is not None else load_release_contract(_market.market_id)
 
     gates: "OrderedDict[str, Dict]" = OrderedDict()

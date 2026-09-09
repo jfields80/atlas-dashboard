@@ -1,0 +1,78 @@
+{
+ "schema": "ptf-008-quality/1.0",
+ "safety_assertions": {
+  "HANDOFF_BYTE_IDENTICAL": true,
+  "LIVE_MARKETS_PRESERVED": true,
+  "PAID_PROVIDER_CALLS": 0,
+  "REAL_DEPLOYMENTS": 0,
+  "STALE_PARENT_ACTIVATION": 0,
+  "UNCHANGED_MARKET_REBUILDS": 0,
+  "UNEXPECTED_CHANGES": 0,
+  "UNEXPECTED_MARKET_REMOVAL": 0,
+  "UNEXPECTED_PROFILE_REMOVAL": 0,
+  "UNEXPECTED_ROUTE_REMOVAL": 0,
+  "VERIFICATION_PASSED": false,
+  "WRONG_ARTIFACT_DEPLOY": 0
+ },
+ "per_release_diff": [
+  {
+   "label": "R1",
+   "diff": {
+    "markets_added": [],
+    "markets_removed": [],
+    "markets_updated": [
+     "dayton-oh"
+    ],
+    "profiles_after": 782,
+    "profiles_before": 786,
+    "routes_after": 939,
+    "routes_before": 945,
+    "unexpected_changes": []
+   }
+  },
+  {
+   "label": "R2",
+   "diff": {
+    "markets_added": [],
+    "markets_removed": [],
+    "markets_updated": [],
+    "profiles_after": 786,
+    "profiles_before": 786,
+    "routes_after": 939,
+    "routes_before": 945,
+    "unexpected_changes": []
+   }
+  }
+ ],
+ "stale_parent_proof": {
+  "host_untouched": true,
+  "outcome": "ACTIVATION_REFUSED",
+  "refusals": [
+   "STALE_PARENT: authorized parent 637e228fc74392b6 but f7c64621936b6df0 is live"
+  ],
+  "scenario": "release 1's candidate re-offered after releases 2 and 3 moved live"
+ },
+ "verification": [
+  {
+   "label": "R1",
+   "verification": {
+    "checks": 9,
+    "failing": [],
+    "passed": true,
+    "seconds": 0.022
+   }
+  },
+  {
+   "label": "R2",
+   "verification": {
+    "checks": 9,
+    "failing": [
+     "host_deployment_id",
+     "release_marker"
+    ],
+    "passed": false,
+    "seconds": 0.027
+   }
+  }
+ ]
+}

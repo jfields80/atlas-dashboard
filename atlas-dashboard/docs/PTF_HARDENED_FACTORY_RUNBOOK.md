@@ -194,6 +194,26 @@ and passed** in the delta run, and no node outside the baseline failed. A node
 that was never collected is `NOT_EXERCISED`, not closed — absence is not
 evidence, which is why no step here compares counts.
 
+**A node the lanes defer.** Every lane except `full_regression` deselects the
+classes in `regression_lanes.DEFERRED_TO_FULL_REGRESSION` (today:
+`TestEveryMarketAssembles`, which assembles every market's bundle). A
+`TRUE_NEW` node in one of them comes back `NOT_EXERCISED` from the delta run
+no matter what the fix did. Prove it with a run you make yourself at the fix
+commit — in the order that produced the failure when the failure was
+order-dependent — and hand its junit to `validate`:
+
+```
+python -m pytest <the module that leaked> <the failing modules> -q \
+    -o junit_family=xunit2 --junitxml=data/regression/<order>-replay/replay.xml
+python -m scripts.pettripfinder.regression_delta validate ... \
+    --exercised-junit data/regression/<order>-replay/replay.xml --exercised-at <sha>
+```
+
+An exercised run fills **only** node ids the lanes left `NOT_EXERCISED`; it
+never overrides a lane result, and the closure artifact records which run
+proved each node (`node_id_sources`, `exercised_runs`). ATLAS-THROUGHPUT-004's
+51 were closed this way: 5 by the lanes, 46 by an ordered one-process replay.
+
 ### The change classes
 
 `classify` reads file paths and, for test modules, the two versions' syntax
@@ -215,6 +235,199 @@ the export drifts from the module).
 | `DOCUMENTATION_ONLY` | not required | not required |
 | `GENERATED_REPORT_ONLY` | not required | not required |
 | `BASELINE_MANIFEST_ONLY` | not required | not required |
+| `MARKET_LOCAL_TOOLING` | not required | not required — granted ONLY by the five-condition isolation proof below; every failure leaves the path in its prefix class |
+| `MARKET_DATA_PACKAGE` | not required | not required — a sealed package, staging tree or receipt under `markets/{packages,staging,receipts}/<market>/`; inert data no build reads (ATLAS-THROUGHPUT-003) |
+| `MARKET_AUTHORITY_DATA_ONLY` | required | conditional — a whole change set that is ONE registered market's authority data and nothing else; **not required ONLY** when a committed `FAST_DATA_ONLY_RELEASE` receipt says ELIGIBLE = YES for a sealed package covering the exact bytes AND `fast_release_activation.json` enables the market (it is DISABLED); otherwise exactly `AUTHORITY_CHANGE` |
+
+### FAST_DATA_ONLY_RELEASE (ATLAS-THROUGHPUT-003)
+
+A data-only change to one market's authority owes fifteen direct checks
+(rules A–O of `scripts/pettripfinder/fast_release_lane.py`) over a SEALED
+MARKET PACKAGE (`scripts/pettripfinder/sealed_market_package.py`, written
+only by `scripts/pettripfinder/market_package_writer.py`, which rejects
+before serialization on every owning contract):
+
+- A package schema/seal, B identity (canonical keys, same-premises proof or
+  declared relation), C first-party binding (`first_party_binding.py`: eight
+  checks per record, competitor evidence is LEAD ONLY, a fee / count /
+  weight / amenity chip / service-animal sentence alone establishes
+  nothing), D policy semantics (policy schema + evidence contracts,
+  fee/deposit conflation), E route references, F partition reconciliation,
+  G whole-release identity/route collisions and H unrelated-member
+  preservation over the O(data) `release_index.py` (CURRENT_VERIFIED_LIVE
+  from the deployed record + manifest + pin, never a render), I intended
+  delta accounting (every add / update / removal / route change declared,
+  removals with a ruling), J the real per-market assembler over a staged
+  tree (`package_staging.py`; committed authority untouched), K the same
+  build a second time COLD (`assembly_session_cache.cold()`; two cache hits
+  never pass), L hashes (seal re-derives, evidence index, artifacts),
+  M evidence age and `evidence_revocations.json`, N the package's parent
+  live state equals the live records and the rollback chain verifies,
+  O every paid capture carries a reservation key that re-derives.
+- UNKNOWN ⇒ NOT ELIGIBLE. The receipt (`markets/receipts/<market>/`) names
+  every rule, digest and expiry condition; `FAST_DATA_ONLY_RELEASE_ELIGIBLE`
+  is YES only when all fifteen are PASS.
+- `classify` grants `MARKET_AUTHORITY_DATA_ONLY` to a change set only when
+  every authority row is one market's own file (or a derived global whose
+  diff names only that market), no shared runtime / schema / assembler /
+  deployment / test-infra row is present, and nothing is UNCLASSIFIED. The
+  plan's `FAST_DATA_ONLY_RELEASE_REQUIRED` is then YES, and
+  `FULL_REGRESSION_REQUIRED` is NO only with the committed ELIGIBLE receipt
+  and activation. `FAST_PATH_PRODUCTION_ACTIVATION = DISABLED` until 004/005.
+- Every row also carries a `release_surface`: MARKET_LOCAL_TOOLING,
+  MARKET_DATA_PACKAGE, MARKET_AUTHORITY_DATA_ONLY, SHARED_SCHEMA_CHANGE,
+  SHARED_RUNTIME_CHANGE, ASSEMBLER_CHANGE, DEPLOYMENT_CHANGE,
+  CLASSIFIER_TEST_INFRA_CHANGE, UNKNOWN_MIXED or NARROW_NON_RELEASE.
+
+### MARKET_LOCAL_TOOLING (ATLAS-THROUGHPUT-002)
+
+ATLAS-THROUGHPUT-001 measured that `prefix:scripts/pettripfinder/` →
+`GENERIC_RUNTIME_CHANGE` claimed every `<market>_*.py` helper of a shadow
+market, so Nashville, Toledo 001, Lexington and Chattanooga each owed a
+~2-hour broad regression for files no production module imports. The
+classifier now has a notion of a market-local zone:
+
+- `launch_packages/pettripfinder/market_local_ownership.json` — the ONE
+  registry of zones (owned paths, allowed shared imports, allowed write
+  roots, owned tests, `production_runtime_included`), plus the `never_local`
+  fence no zone may cross. `python -m scripts.pettripfinder.market_local_ownership --owner <path>`.
+- `scripts/pettripfinder/market_local_isolation.py` — the proof, run by
+  `classify` on every path whose rule is in
+  `regression_delta.MARKET_LOCAL_REFINABLE_RULES`: (1) exactly one zone owns
+  the path (old AND new path of a rename); (2) every import is stdlib, an
+  allow-listed shared module, or the zone's own; (3) every write target
+  resolves statically inside the zone's roots (an unresolvable target FAILS);
+  (4) nothing outside the zone names the module, no shared code enumerates
+  the directory a data file sits in, every subprocess is read-only git or
+  pytest; (5) the market is unregistered at the head being classified.
+  `python -m scripts.pettripfinder.market_local_isolation --base <sha> --head <sha> <path>`.
+- A change set that touches the classifier, the lanes, the registry, the
+  proof, the session cache, `conftest.py`, `pytest.ini` or any shared test
+  state (`regression_delta.NARROWING_BLOCKERS`) gets NO narrowing at all:
+  the selector cannot authorize its own narrowing.
+- The routing / policy / identity filename globs are refinable: a helper
+  called `<market>_routing_001.py` is not `ROUTING_SEMANTIC_CHANGE` for its
+  name when the proof passes; a change to `identity_routing.py` or to
+  `discovery/config/osm_extracts.json` (shared, inside the fence) still is.
+- What it owes: the zone's own test modules, the per-market contract rows,
+  every test module whose source names the changed one. Never assembly,
+  never `full_regression`, and therefore never the website-generation
+  integration lane.
+- What it does NOT change: `AUTHORITY_CHANGE`, `GENERIC_RUNTIME_CHANGE`,
+  `SCHEMA_CHANGE`, `ROUTING_SEMANTIC_CHANGE`, `DEPLOYMENT_CHANGE` and
+  `UNCLASSIFIED` rows are byte-for-byte what V2-001 committed. A promotion
+  (registry, package, contract, participation) is `AUTHORITY_CHANGE` /
+  `DEPLOYMENT_CHANGE` and still costs the full suite until
+  ATLAS-THROUGHPUT-003 establishes the critical fast lane.
+
+The website-generation integration suites (`tests/website_generation/integration/`,
+above all `test_pettripfinder_demo_media.py`, measured at 57–71 % of every
+broad run) are the `website_generation_integration` lane: a BROAD AUDIT of
+the engine chain over the real launch package. They run inside every
+`full_regression` and on their own with
+`regression_lanes.py run --lane website_generation_integration`; a
+market-local plan never selects them.
+
+### Persistent market-bundle cache (ATLAS-THROUGHPUT-004)
+
+`scripts/pettripfinder/bundle_cache.py` makes a validated market bundle
+reusable ACROSS runs. The rule: if every declared build input is identical
+and the exact output bytes were validated under a compatible policy, do not
+rebuild — and a hit is a proof, never an assumption.
+
+- BUILD INPUT KEY = sha256 of a canonical manifest: package digest and section
+  digests, the staged render tree, the 43 shared data files + the market's
+  affiliate shard and the 177 repository modules a build reads/loads
+  (`launch_packages/pettripfinder/bundle_cache_closure.json`, MEASURED by
+  tracing two real builds), builder/assembler sources, toolchain (Python,
+  platform, requirement lockfiles, installed package versions), build
+  arguments, locale, `PTF_*` environment. The output digest is never an
+  input; the validation policy version sits OUTSIDE the byte key.
+- Storage under `data/bundle_cache/` (`PTF_BUNDLE_CACHE_ROOT`): immutable
+  `objects/<bundle sha>.zip`, `index/<key>.json`, `receipts/<digest>.json`,
+  per-key `locks/`, `quarantine/`, `tmp/`, `telemetry.jsonl`.
+- TRUSTED only when the build succeeded, its gates passed, the archive
+  round-trips to the built digest, no undeclared repository file was read
+  (an `open()`/`open_code` tracer decides), determinism was proven by a
+  second cold build, no evidence is revoked or expired. Anything less is an
+  UNTRUSTED row that never satisfies a lookup.
+- A lookup re-extracts and re-hashes the bytes, re-reads the receipt and
+  checks it binds this key, this digest, this policy and these dependency
+  digests, then revocation and freshness. Corrupt, partial, zero-byte,
+  mismatched or receipt-less entries are quarantined and rebuilt.
+- `cold_required=True` bypasses the cache (BYPASS_COLD_REQUIRED) for a
+  determinism claim; `PTF_BUNDLE_CACHE_FORBID_BUILD=1` makes a miss raise
+  (the cross-process proof). Statuses: MISS, HIT, HIT_AFTER_WAIT, REVALIDATE,
+  INVALID_CORRUPT, INVALID_REVOKED, INVALID_POLICY_VERSION,
+  BYPASS_COLD_REQUIRED.
+- A hit is artifact identity, not release safety: the FAST lane's rules
+  A–I and L–O still run (`run_fast_lane(..., bundle_cache=…)` lets J be the
+  hit and K inherit the bundle receipt's determinism);
+  `PRODUCTION_RELEASE_CONSUMPTION = DISABLED` in
+  `fast_release_activation.json` — the production assembler and the deployer
+  do not read the cache until 005.
+- Retention: `gc_plan()` is a DRY RUN; the live and rollback releases are
+  never only in this cache.
+
+**Session-cache isolation (the 004 migration audit's lesson).** A staged build runs under
+`package_staging.overlay`, and the 002 session cache's key must be computed INSIDE that
+overlay: its dynamic inputs (the overlay census dir, `PTF_*` env, module state) are what
+distinguish a staged render from the committed one. The bundle cache freezes only the
+tree walk while a build is traced (`_frozen_tree_fingerprint`); freezing the whole
+fingerprint once stored a Dayton withdrawal render under the committed Dayton key and a
+later production assembly in the same pytest session came out four profiles short.
+`TestSessionCacheIsolation` pins it.
+
+### The release coordinator (ATLAS-THROUGHPUT-005)
+
+A release is composed, never re-derived from whatever the branch happens to hold:
+
+```
+CURRENT VERIFIED LIVE RELEASE + ONE AUTHORIZED SEALED PACKAGE DELTA
++ REUSABLE VALIDATED MARKET BUNDLES = ONE EXACT FINAL STAGED CANDIDATE
+```
+
+`scripts/pettripfinder/release_coordinator.py` is the only writer of staged release manifests.
+
+**Source ready is not live, and the branch is not the baseline.** `LiveTruth` reads CURRENT
+VERIFIED LIVE RELEASE through `release_index.current_verified_live`; every unchanged market is
+inherited from `data/release_store/` by fragment digest. A stale worktree contributes exactly one
+sealed package delta, so it cannot remove a market that went live after it forked. Seed the store
+once from a whole-site assembly whose composed digest equals the live deployment record's, then
+`plan` reports which markets are inherited and which would be rebuilt.
+
+**Final participation is an input, not a later flip.** Membership is read from the participation
+document and hashed into the candidate before its digest exists. There is no build, authorize,
+flip, rebuild path: a pre-flip candidate is a different artifact with a different digest, and its
+authorization refuses the post-flip one. Adding or removing a market relative to live requires an
+explicit authority naming that market; absence is never read as a removal.
+
+**Authorization binds four digests** — candidate, deployment artifact, parent release, intended
+delta — and lives outside the candidate bytes. Before activation the parent guard re-checks that
+the authorized parent is still live; if another release landed first the answer is `STALE_PARENT`
+and the candidate must be re-staged, not re-signed.
+
+**Activation is idempotent by operation id, and UNKNOWN is not FAILED.** A timeout means reconcile
+the host before anything else: the activation may have landed. Rollback restores an exact prior
+verified release from durable storage, never a rebuild, and refuses when a newer release is live.
+
+`REAL_PRODUCTION_ACTIVATION` is DISABLED. The only host adapter is a simulator; the production
+deployer does not import the coordinator.
+
+### Session-local assembly reuse (ATLAS-THROUGHPUT-002)
+
+`scripts/pettripfinder/assembly_session_cache.py`: within ONE process, the
+generator, the per-market bundle and the whole-site compose answer a second
+request for the same input key (build args + the content hash of every file
+under `launch_packages/pettripfinder`, `deploy/netlify`, `scripts`,
+`engines`, `repositories`, `templates`, `static`, plus the patched registry /
+census directory, `PTF_*` environment and the builders' module state) with a
+verified copy of the first build. A failed build stores nothing; a stored
+copy is re-hashed before reuse; each consumer gets its own copy. A test whose
+claim IS a cold execution wraps the calls in `assembly_session_cache.cold()`;
+`PTF_ASSEMBLY_REUSE=0` disables reuse process-wide. The profiler reports
+every decision as `BUILD_EXECUTED` or `REUSE_HIT` with the seconds avoided.
+The production CLI runs one assembly per process and is unaffected.
 
 A narrow class still owes work: the owning test modules, every test module
 whose source names the changed module (an over-inclusive reverse-import scan),
@@ -260,6 +473,32 @@ ids, the fix commit, the changed files and their classes, the validations that
 were required, the per-node verdict, and the full-regression decision with its
 reason. A committed artifact that does not account for every original node id
 fails its own test.
+
+## Profiling a run (ATLAS-THROUGHPUT-001)
+
+`scripts/pettripfinder/throughput_profile.py` is an opt-in pytest plugin. It is
+loaded only when named on the command line and is inert without an output
+path, so the harness is untouched when it is absent:
+
+```
+python -m pytest tests -q -p no:cacheprovider -o junit_family=xunit2 \
+    --junitxml=data/regression/<run>/full_regression.xml \
+    -p scripts.pettripfinder.throughput_profile \
+    --ptf-profile-out data/regression/<run>/profile.jsonl \
+    --ptf-inventory-out data/regression/<run>/inventory.json
+python -m scripts.pettripfinder.throughput_baseline run --profile data/regression/<run>/profile.jsonl --out <report.json>
+python -m scripts.pettripfinder.throughput_baseline junit --out <report.json> <label>=data/regression/<run>/full_regression.xml
+```
+
+The JSONL carries one row per test (setup / call / teardown seconds, peak
+working set), per slow fixture setup, per assembly call (kind, market, elapsed,
+output hash, `market_input_hash`, `dependency_input_hash`), plus collection and
+session rows. `throughput_baseline run` turns it into the phase table, the
+top-node and top-fixture rankings, and the count and cost of assemblies that
+rebuilt byte-identical inputs. `throughput_baseline junit` profiles any kept
+junit file the same way, so past broad runs are evidence too. The measured
+baseline and its findings are in
+`launch_packages/pettripfinder/reports/atlas_throughput_001_baseline_report.md`.
 
 ## Factory freeze rule
 

@@ -1,0 +1,36 @@
+{
+ "schema": "ptf-release-authorization-contract/1.0",
+ "authorization_schema": "ptf-release-authorization/1.0",
+ "binds": [
+  "candidate_digest",
+  "deployment_artifact_digest",
+  "parent_release_digest",
+  "intended_delta_digest",
+  "participating_markets",
+  "participation_sha256"
+ ],
+ "refuses_when": [
+  "the candidate digest differs",
+  "the bundle digest differs",
+  "the parent release differs",
+  "the intended delta differs",
+  "membership changed",
+  "the candidate was superseded",
+  "the candidate no longer hashes to its manifest",
+  "the live release is no longer the authorized parent"
+ ],
+ "does_not_invalidate_on": [
+  "an unrelated report or note changing",
+  "an acquisition helper changing while the candidate bytes are identical"
+ ],
+ "external_to_candidate": "the record is written beside the candidate, never into the hashed bytes",
+ "example": {
+  "authorization_id": "rel-auth-25b69be224b34ff4",
+  "candidate_digest": "sha256:25b69be224b34ff42a4b96845173e50834f0f4c80773774d5416df985b0e6b96",
+  "decided_by": "ATLAS-THROUGHPUT-005 pilot (simulated)",
+  "deployment_artifact_digest": "437439f275b2f276fa2969adbc0ddc694f0cf1ce23bffcf9e19dd44c24745427",
+  "intended_delta_digest": "sha256:c7b7fb29b5c91001d788562887aa32d0e41276989651f02749fab68ef7fbe940",
+  "parent_release_digest": "sha256:637e228fc74392b6c7617735d3a38cd282ad71f02b8e7413a144ae509ff73201",
+  "state": "VALID"
+ }
+}

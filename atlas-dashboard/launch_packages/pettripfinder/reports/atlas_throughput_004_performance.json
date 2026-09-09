@@ -1,0 +1,270 @@
+{
+ "schema": "atlas-throughput-004-performance/1.0",
+ "benchmark": {
+  "COLD_BUILD_TIME_s": {
+   "dayton": 20.026,
+   "cleveland": 45.892
+  },
+  "DETERMINISM_SECOND_BUILD_s": {
+   "dayton": 17.964,
+   "cleveland": 42.076
+  },
+  "WARM_CACHE_LOOKUP_TIME_s": {
+   "dayton": 2.834,
+   "cleveland": 7.372
+  },
+  "ARTIFACT_HASH_VERIFICATION_TIME_s": {
+   "dayton": 2.818,
+   "cleveland": 7.357
+  },
+  "CACHE_INDEX_LOOKUP_TIME_s": "included in lookup (one JSON read)",
+  "MANIFEST_TIME_s": {
+   "dayton": 0.897,
+   "cleveland": 0.982
+  },
+  "WARM_TOTAL_IN_PROCESS_s": {
+   "dayton": 3.732,
+   "cleveland": 8.355
+  },
+  "WARM_PROCESS_WALL_s": {
+   "dayton": 4.212,
+   "cleveland": 8.839
+  },
+  "REVALIDATION_ONLY_TIME_s": 3.271,
+  "CACHE_PUBLICATION_TIME_s": {
+   "dayton": 3.061,
+   "cleveland": 8.047
+  },
+  "BYTES_REUSED": {
+   "dayton": 1405426,
+   "cleveland": 2900407
+  },
+  "DISK_SPACE_BYTES": 4179146,
+  "PEAK_MEMORY_MB_pilot_process": 224.9,
+  "BUILD_EXECUTIONS_AVOIDED": 3,
+  "multi_market_release": {
+   "MARKETS": 3,
+   "COLD_BUILDS": 1,
+   "CACHE_HITS": 2,
+   "REVALIDATIONS": 0,
+   "GLOBAL_REBUILDS": "not in scope (005): the whole-site compose",
+   "TOTAL_TIME_s": 103.936
+  }
+ },
+ "pilot_total_seconds": 371.934,
+ "telemetry": {
+  "events": 10,
+  "by_status": {
+   "MISS": 7,
+   "HIT_AFTER_WAIT": 1,
+   "HIT": 2
+  },
+  "build_seconds": 137.553,
+  "bytes_reused": 2941278
+ },
+ "targeted_tests": {
+  "module": "tests/pettripfinder/test_atlas_throughput_004.py",
+  "counts": {
+   "PASS": 39,
+   "FAIL": 0,
+   "SKIP": 0
+  },
+  "results": [
+   {
+    "node": "tests.pettripfinder.test_atlas_throughput_004.TestBuildInputManifest::test_the_manifest_carries_every_declared_input_and_is_canonical",
+    "status": "PASS",
+    "seconds": 1.492
+   },
+   {
+    "node": "tests.pettripfinder.test_atlas_throughput_004.TestBuildInputManifest::test_the_output_digest_is_not_an_input_and_policy_is_outside_the_byte_key",
+    "status": "PASS",
+    "seconds": 1.047
+   },
+   {
+    "node": "tests.pettripfinder.test_atlas_throughput_004.TestBuildInputManifest::test_every_declared_input_changes_the_key",
+    "status": "PASS",
+    "seconds": 0.573
+   },
+   {
+    "node": "tests.pettripfinder.test_atlas_throughput_004.TestBuildInputManifest::test_an_unknown_or_missing_closure_module_fails_closed",
+    "status": "PASS",
+    "seconds": 0.477
+   },
+   {
+    "node": "tests.pettripfinder.test_atlas_throughput_004.TestBuildInputManifest::test_the_committed_closure_is_the_measured_one",
+    "status": "PASS",
+    "seconds": 0.014
+   },
+   {
+    "node": "tests.pettripfinder.test_atlas_throughput_004.TestPublicationAndLookup::test_case_1_cold_build_publishes_a_trusted_entry",
+    "status": "PASS",
+    "seconds": 0.709
+   },
+   {
+    "node": "tests.pettripfinder.test_atlas_throughput_004.TestPublicationAndLookup::test_case_3_and_4_a_hit_invokes_no_builder_and_verifies_the_digest",
+    "status": "PASS",
+    "seconds": 1.226
+   },
+   {
+    "node": "tests.pettripfinder.test_atlas_throughput_004.TestPublicationAndLookup::test_case_19_a_failed_build_is_never_published_trusted",
+    "status": "PASS",
+    "seconds": 0.593
+   },
+   {
+    "node": "tests.pettripfinder.test_atlas_throughput_004.TestPublicationAndLookup::test_a_build_with_failing_gates_or_undeclared_reads_is_untrusted",
+    "status": "PASS",
+    "seconds": 1.769
+   },
+   {
+    "node": "tests.pettripfinder.test_atlas_throughput_004.TestPublicationAndLookup::test_case_23_an_unknown_dependency_fails_closed",
+    "status": "PASS",
+    "seconds": 1.224
+   },
+   {
+    "node": "tests.pettripfinder.test_atlas_throughput_004.TestPublicationAndLookup::test_case_18_cold_required_bypasses_the_cache",
+    "status": "PASS",
+    "seconds": 1.355
+   },
+   {
+    "node": "tests.pettripfinder.test_atlas_throughput_004.TestPublicationAndLookup::test_the_artifact_is_immutable_under_its_digest",
+    "status": "PASS",
+    "seconds": 1.359
+   },
+   {
+    "node": "tests.pettripfinder.test_atlas_throughput_004.TestPublicationAndLookup::test_a_planted_artifact_is_not_a_trusted_entry",
+    "status": "PASS",
+    "seconds": 0.559
+   },
+   {
+    "node": "tests.pettripfinder.test_atlas_throughput_004.TestCorruption::test_cases_12_13_14_15_corrupt_or_incomplete_cache_data_fails_closed[flip-True]",
+    "status": "PASS",
+    "seconds": 1.355
+   },
+   {
+    "node": "tests.pettripfinder.test_atlas_throughput_004.TestCorruption::test_cases_12_13_14_15_corrupt_or_incomplete_cache_data_fails_closed[delete-True]",
+    "status": "PASS",
+    "seconds": 1.367
+   },
+   {
+    "node": "tests.pettripfinder.test_atlas_throughput_004.TestCorruption::test_cases_12_13_14_15_corrupt_or_incomplete_cache_data_fails_closed[zero-True]",
+    "status": "PASS",
+    "seconds": 1.388
+   },
+   {
+    "node": "tests.pettripfinder.test_atlas_throughput_004.TestCorruption::test_cases_12_13_14_15_corrupt_or_incomplete_cache_data_fails_closed[receipt-True]",
+    "status": "PASS",
+    "seconds": 1.377
+   },
+   {
+    "node": "tests.pettripfinder.test_atlas_throughput_004.TestCorruption::test_cases_12_13_14_15_corrupt_or_incomplete_cache_data_fails_closed[receipt_other-True]",
+    "status": "PASS",
+    "seconds": 1.444
+   },
+   {
+    "node": "tests.pettripfinder.test_atlas_throughput_004.TestCorruption::test_cases_12_13_14_15_corrupt_or_incomplete_cache_data_fails_closed[index-True]",
+    "status": "PASS",
+    "seconds": 1.371
+   },
+   {
+    "node": "tests.pettripfinder.test_atlas_throughput_004.TestCorruption::test_metadata_digest_mismatch_and_wrong_input_key_are_misses",
+    "status": "PASS",
+    "seconds": 1.422
+   },
+   {
+    "node": "tests.pettripfinder.test_atlas_throughput_004.TestCorruption::test_case_20_an_interrupted_publication_is_not_visible",
+    "status": "PASS",
+    "seconds": 1.169
+   },
+   {
+    "node": "tests.pettripfinder.test_atlas_throughput_004.TestCorruption::test_receipt_binding_requires_key_digest_policy_and_dependencies",
+    "status": "PASS",
+    "seconds": 0.696
+   },
+   {
+    "node": "tests.pettripfinder.test_atlas_throughput_004.TestConcurrency::test_case_16_and_17_same_key_builds_once_different_keys_proceed",
+    "status": "PASS",
+    "seconds": 3.566
+   },
+   {
+    "node": "tests.pettripfinder.test_atlas_throughput_004.TestConcurrency::test_a_stale_lock_from_a_dead_holder_is_broken",
+    "status": "PASS",
+    "seconds": 1.106
+   },
+   {
+    "node": "tests.pettripfinder.test_atlas_throughput_004.TestInvalidation::test_cases_5_6_7_policy_route_geography_changes_invalidate",
+    "status": "PASS",
+    "seconds": 6.116
+   },
+   {
+    "node": "tests.pettripfinder.test_atlas_throughput_004.TestInvalidation::test_cases_8_9_10_template_builder_and_tooling_changes",
+    "status": "PASS",
+    "seconds": 8.799
+   },
+   {
+    "node": "tests.pettripfinder.test_atlas_throughput_004.TestInvalidation::test_case_22_a_shared_dependency_change_invalidates_every_dependent",
+    "status": "PASS",
+    "seconds": 7.721
+   },
+   {
+    "node": "tests.pettripfinder.test_atlas_throughput_004.TestInvalidation::test_case_11_a_validation_rule_change_revalidates_without_rebuilding",
+    "status": "PASS",
+    "seconds": 2.651
+   },
+   {
+    "node": "tests.pettripfinder.test_atlas_throughput_004.TestInvalidation::test_case_24_revoked_or_expired_evidence_cannot_rely_on_a_stale_receipt",
+    "status": "PASS",
+    "seconds": 4.41
+   },
+   {
+    "node": "tests.pettripfinder.test_atlas_throughput_004.TestInvalidation::test_a_test_only_change_keeps_the_bytes_reusable",
+    "status": "PASS",
+    "seconds": 0.001
+   },
+   {
+    "node": "tests.pettripfinder.test_atlas_throughput_004.TestBoundaries::test_case_25_a_cache_hit_never_sets_a_release_authorized_or_live",
+    "status": "PASS",
+    "seconds": 1.238
+   },
+   {
+    "node": "tests.pettripfinder.test_atlas_throughput_004.TestBoundaries::test_the_production_assembler_and_deployer_do_not_import_the_cache",
+    "status": "PASS",
+    "seconds": 0.002
+   },
+   {
+    "node": "tests.pettripfinder.test_atlas_throughput_004.TestBoundaries::test_the_fast_lane_reports_market_build_required_no_on_a_trusted_bundle",
+    "status": "PASS",
+    "seconds": 6.368
+   },
+   {
+    "node": "tests.pettripfinder.test_atlas_throughput_004.TestBoundaries::test_regression_v2_reports_market_build_required_from_the_cache",
+    "status": "PASS",
+    "seconds": 2.62
+   },
+   {
+    "node": "tests.pettripfinder.test_atlas_throughput_004.TestBoundaries::test_the_closure_file_and_cache_module_block_narrowing",
+    "status": "PASS",
+    "seconds": 0.003
+   },
+   {
+    "node": "tests.pettripfinder.test_atlas_throughput_004.TestBoundaries::test_gc_is_a_dry_run_that_protects_release_bundles",
+    "status": "PASS",
+    "seconds": 0.75
+   },
+   {
+    "node": "tests.pettripfinder.test_atlas_throughput_004.TestBoundaries::test_telemetry_records_every_request",
+    "status": "PASS",
+    "seconds": 1.36
+   },
+   {
+    "node": "tests.pettripfinder.test_atlas_throughput_004.TestCrossRun::test_case_2_a_second_process_hits_the_persistent_cache",
+    "status": "PASS",
+    "seconds": 48.623
+   },
+   {
+    "node": "tests.pettripfinder.test_atlas_throughput_004.TestCommittedPilot::test_the_pilot_report_proves_the_acceptance_criteria",
+    "status": "PASS",
+    "seconds": 0.002
+   }
+  ]
+ }
+}

@@ -134,9 +134,14 @@ def test_non_hotel_path_unchanged():
     # The full generator still routes parks/restaurants through enrich_place_profile;
     # the PTF-PROD-002 change is confined to the hotel loop.
     from scripts import generate_pettripfinder_columbus_site as gen
-    src = inspect.getsource(gen.run)
+    # ATLAS-THROUGHPUT-002 split ``run`` into ``_prepare_build`` (market
+    # scoping + module build state) and ``_generate`` (the generation proper,
+    # answered from the session cache when its inputs are byte-identical);
+    # the non-hotel and hotel rendering paths live in ``_generate``.
+    src = inspect.getsource(gen._generate)
     assert "enrich_place_profile" in src           # non-hotel path intact
     assert "render_production_hotel_profile" in src  # hotels via approved renderer
+    assert "_generate(" in inspect.getsource(gen.run)  # run still routes through it
 
 
 # 11. No fabricated distances, ever (production carries no coordinates).

@@ -1,0 +1,48 @@
+{
+ "schema": "ptf-007-shard-rebalance/1.0",
+ "before": {
+  "slowest_shard_seconds": 1349.7,
+  "aggregate_seconds": 3625.3,
+  "critical_path": "tests/website_generation/integration/test_pettripfinder_demo_media.py",
+  "critical_path_seconds": 1349.7
+ },
+ "after": {
+  "slowest_shard_seconds": 847.2,
+  "aggregate_seconds": 3388.9,
+  "critical_path": "tests/pettripfinder/test_global_deployment_architecture_045.py",
+  "critical_path_seconds": 770.9
+ },
+ "shards_after": [
+  {
+   "shard": 1,
+   "seconds": 847.2,
+   "tests": 3978,
+   "modules": 146,
+   "heaviest": "test_global_deployment_architecture_045.py"
+  },
+  {
+   "shard": 2,
+   "seconds": 847.2,
+   "tests": 4382,
+   "modules": 154,
+   "heaviest": "test_pettripfinder_demo_media_determinism.py"
+  },
+  {
+   "shard": 3,
+   "seconds": 847.2,
+   "tests": 4903,
+   "modules": 154,
+   "heaviest": "test_per_market_release_contracts.py"
+  },
+  {
+   "shard": 4,
+   "seconds": 847.2,
+   "tests": 4458,
+   "modules": 154,
+   "heaviest": "test_pettripfinder_demo_media.py"
+  }
+ ],
+ "local_broad_seconds": 3439.2,
+ "manifest_regenerated": "launch_packages/pettripfinder/reports/atlas_throughput_006_shard_manifest.json",
+ "measured_from": "the ATLAS-THROUGHPUT-007 migration audit's own profiler run (full suite)"
+}

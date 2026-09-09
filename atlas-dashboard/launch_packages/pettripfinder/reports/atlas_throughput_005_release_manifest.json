@@ -1,0 +1,156 @@
+{
+ "schema": "ptf-release-manifest-contract/1.0",
+ "manifest_schema": "ptf-release-manifest/1.0",
+ "canonical_serialisation": "sealed_market_package.canonical_json; the release digest is sha256 over the canonical manifest",
+ "membership_rule": "participation is an ARGUMENT to release_manifest(); by the time the document exists the decision is inside the bytes that get hashed",
+ "fields": [
+  {
+   "field": "schema / release_schema_version",
+   "shape": "ptf-release-manifest/1.0",
+   "why": "the manifest's own contract version"
+  },
+  {
+   "field": "coordinator_version",
+   "shape": "ptf-release-coordinator/1.0",
+   "why": "which coordinator composed it"
+  },
+  {
+   "field": "created_at",
+   "shape": "ISO-8601 Z",
+   "why": "when it was staged"
+  },
+  {
+   "field": "parent_release_digest",
+   "shape": "sha256:...",
+   "why": "the release this one is composed FROM"
+  },
+  {
+   "field": "source_commit",
+   "shape": "40 hex",
+   "why": "the tree that staged it (never the membership authority)"
+  },
+  {
+   "field": "context / base_url / anchor_market",
+   "shape": "production | preview",
+   "why": "what the bundle is FOR"
+  },
+  {
+   "field": "participating_markets",
+   "shape": "sorted market ids",
+   "why": "FINAL membership, present before hashing"
+  },
+  {
+   "field": "participation_sha256",
+   "shape": "sha256 of the participation document",
+   "why": "the founder decision that admits them"
+  },
+  {
+   "field": "markets[]",
+   "shape": "market_id, package_digest, build_input_key, bundle_digest, validation_receipt_digest, fragment_source, fragment_digest, profile_count, route_count",
+   "why": "one row per participating market: where its bytes came from and what it publishes"
+  },
+  {
+   "field": "intended_delta / intended_delta_digest",
+   "shape": "the package's declared delta",
+   "why": "what this release means to change"
+  },
+  {
+   "field": "global_artifacts",
+   "shape": "{path: sha256}",
+   "why": "every release-global file this release regenerated"
+  },
+  {
+   "field": "global_index_digest",
+   "shape": "sha256:...",
+   "why": "the composed release index (003's lightweight index)"
+  },
+  {
+   "field": "deployment_artifact_digest",
+   "shape": "sha256 hex",
+   "why": "bundle_digest(file_hashes(site)) \u2014 the deployable identity"
+  },
+  {
+   "field": "sitemap_sha256 / total_profiles / sitemap_route_count / total_html_pages / total_files",
+   "shape": "counts",
+   "why": "what the artifact contains"
+  },
+  {
+   "field": "validation_policy_version",
+   "shape": "ptf-bundle-validation/1.0",
+   "why": "the bundle validation policy the reused bundles were validated under"
+  },
+  {
+   "field": "assembler_digest / builder_digest",
+   "shape": "sha256 of the module sources",
+   "why": "what composed it"
+  },
+  {
+   "field": "status",
+   "shape": "SOURCE_READY | CANDIDATE_STAGED | FOUNDER_AUTHORIZED | LIVE | FAILED | ABANDONED",
+   "why": "where in the lifecycle it is"
+  }
+ ],
+ "example_candidate_digest": "sha256:25b69be224b34ff42a4b96845173e50834f0f4c80773774d5416df985b0e6b96",
+ "example": [
+  {
+   "fragment_source": "RELEASE_STORE_FRAGMENT",
+   "market_id": "cincinnati-oh",
+   "profile_count": 130,
+   "route_count": 147
+  },
+  {
+   "fragment_source": "RELEASE_STORE_FRAGMENT",
+   "market_id": "cleveland-akron-canton-oh",
+   "profile_count": 120,
+   "route_count": 130
+  },
+  {
+   "fragment_source": "RELEASE_STORE_FRAGMENT",
+   "market_id": "columbus-oh",
+   "profile_count": 88,
+   "route_count": 98
+  },
+  {
+   "fragment_source": "PACKAGE_BUNDLE",
+   "market_id": "dayton-oh",
+   "profile_count": 50,
+   "route_count": 62
+  },
+  {
+   "fragment_source": "RELEASE_STORE_FRAGMENT",
+   "market_id": "grand-rapids-holland-mi",
+   "profile_count": 43,
+   "route_count": 49
+  },
+  {
+   "fragment_source": "RELEASE_STORE_FRAGMENT",
+   "market_id": "indianapolis-in",
+   "profile_count": 82,
+   "route_count": 97
+  },
+  {
+   "fragment_source": "RELEASE_STORE_FRAGMENT",
+   "market_id": "louisville-ky",
+   "profile_count": 53,
+   "route_count": 58
+  },
+  {
+   "fragment_source": "RELEASE_STORE_FRAGMENT",
+   "market_id": "milwaukee-wi",
+   "profile_count": 73,
+   "route_count": 81
+  },
+  {
+   "fragment_source": "RELEASE_STORE_FRAGMENT",
+   "market_id": "pittsburgh-pa",
+   "profile_count": 61,
+   "route_count": 76
+  },
+  {
+   "fragment_source": "RELEASE_STORE_FRAGMENT",
+   "market_id": "st-louis-mo",
+   "profile_count": 82,
+   "route_count": 98
+  }
+ ]
+}

@@ -1,0 +1,162 @@
+{
+ "schema": "ptf-007-performance/1.0",
+ "work_order": "ATLAS-THROUGHPUT-007",
+ "broad_audit": {
+  "006": {
+   "wall_seconds": 3674.531,
+   "collected": 17699,
+   "passed": 17308,
+   "failed": 160,
+   "skipped": 231,
+   "PRE_EXISTING": 160,
+   "TRUE_NEW": 0,
+   "peak_working_set_mb": 8801.5
+  },
+  "007": {
+   "wall_seconds": 3439.186,
+   "collected": 17721,
+   "passed": 17330,
+   "failed": 160,
+   "skipped": 231,
+   "PRE_EXISTING": 160,
+   "TRUE_NEW": 0,
+   "peak_working_set_mb": 8635.7
+  },
+  "wall_delta_seconds": -235.3
+ },
+ "demo_media": {
+  "before_seconds": 1349.7,
+  "before_modules": 1,
+  "after_seconds": 1083.8,
+  "after_modules": {
+   "test_pettripfinder_demo_media_determinism.py": 534.0,
+   "test_pettripfinder_demo_media.py": 290.7,
+   "test_pettripfinder_demo_media_fallback.py": 259.1
+  },
+  "slowest_after_seconds": 534.0,
+  "real_chain_builds_before": 5,
+  "real_chain_builds_after": 4,
+  "claims_before": 8,
+  "claims_after": 10,
+  "claims_removed": 0
+ },
+ "top_10_modules_after": [
+  {
+   "module": "tests/pettripfinder/test_global_deployment_architecture_045.py",
+   "seconds": 770.9,
+   "tests": 46,
+   "peak_mb": 584.9
+  },
+  {
+   "module": "tests/website_generation/integration/test_pettripfinder_demo_media_determinism.py",
+   "seconds": 534.0,
+   "tests": 2,
+   "peak_mb": 8635.7
+  },
+  {
+   "module": "tests/pettripfinder/test_per_market_release_contracts.py",
+   "seconds": 357.6,
+   "tests": 240,
+   "peak_mb": 643.0
+  },
+  {
+   "module": "tests/website_generation/integration/test_pettripfinder_demo_media.py",
+   "seconds": 290.7,
+   "tests": 16,
+   "peak_mb": 7346.2
+  },
+  {
+   "module": "tests/website_generation/integration/test_pettripfinder_demo_media_fallback.py",
+   "seconds": 259.1,
+   "tests": 2,
+   "peak_mb": 8635.7
+  },
+  {
+   "module": "tests/pettripfinder/test_atlas_throughput_004.py",
+   "seconds": 144.3,
+   "tests": 41,
+   "peak_mb": 437.0
+  },
+  {
+   "module": "tests/pettripfinder/test_prod005_netlify_config.py",
+   "seconds": 115.9,
+   "tests": 50,
+   "peak_mb": 643.0
+  },
+  {
+   "module": "tests/pettripfinder/test_atlas_throughput_003.py",
+   "seconds": 79.9,
+   "tests": 70,
+   "peak_mb": 437.0
+  },
+  {
+   "module": "tests/pettripfinder/test_atlas_throughput_002.py",
+   "seconds": 79.1,
+   "tests": 73,
+   "peak_mb": 437.0
+  },
+  {
+   "module": "tests/pettripfinder/test_prod004_verified_only.py",
+   "seconds": 69.5,
+   "tests": 15,
+   "peak_mb": 643.0
+  }
+ ],
+ "shards": {
+  "before_wall_seconds": 1349.7,
+  "after_wall_seconds": 847.2,
+  "after_aggregate_seconds": 3388.9,
+  "floor_module_after": "tests/pettripfinder/test_global_deployment_architecture_045.py",
+  "floor_seconds_after": 770.9,
+  "work_bound": true
+ },
+ "reuse": {
+  "session_cache_reuse_hits": 27,
+  "session_seconds_avoided": 1071.5
+ },
+ "factory_stages": [
+  {
+   "stage": "market-local validation (002)",
+   "measured": "~318 s"
+  },
+  {
+   "stage": "FAST release safety (003)",
+   "measured": "60.9 s standalone, 5.5 s in a 005 candidate"
+  },
+  {
+   "stage": "warm validated bundle reuse (004)",
+   "measured": "3.7 s Dayton, 8.4 s Cleveland, 0 builder invocations"
+  },
+  {
+   "stage": "whole-site compose (005)",
+   "measured": "547.4 s"
+  },
+  {
+   "stage": "data-only candidate staging (005)",
+   "measured": "178.0 s"
+  },
+  {
+   "stage": "candidate handoff round trip (006)",
+   "measured": "byte-identical, deterministic archive"
+  },
+  {
+   "stage": "local broad audit (007)",
+   "measured": "3439.2 s"
+  },
+  {
+   "stage": "projected remote broad wall (007)",
+   "measured": "847.2 s, NOT EXECUTED"
+  },
+  {
+   "stage": "ordinary data-only release, remote broad jobs",
+   "measured": "0"
+  }
+ ],
+ "not_yet_measured": [
+  "founder active time per release",
+  "queue wait",
+  "CI wait",
+  "production activation",
+  "HTTP live verification against production"
+ ]
+}

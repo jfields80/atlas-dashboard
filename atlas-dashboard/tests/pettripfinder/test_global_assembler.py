@@ -614,8 +614,11 @@ def test_combined_bundle_assembles_with_every_gate_passing(short_out):
 
 @needs_build
 def test_assembly_is_byte_identical_when_run_twice(short_out):
-    first = gasm.assemble(str(short_out / "1"))
-    second = gasm.assemble(str(short_out / "2"))
+    # ATLAS-THROUGHPUT-002: determinism is a claim about two COLD composes.
+    from scripts.pettripfinder.assembly_session_cache import cold
+    with cold():
+        first = gasm.assemble(str(short_out / "1"))
+        second = gasm.assemble(str(short_out / "2"))
     assert first["bundle_sha256"] == second["bundle_sha256"]
     assert gasm.file_hashes(short_out / "1" / "site") == \
         gasm.file_hashes(short_out / "2" / "site")

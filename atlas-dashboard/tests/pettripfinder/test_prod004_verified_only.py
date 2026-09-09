@@ -296,8 +296,12 @@ def test_build_is_deterministic(tmp_path_factory):
     from scripts.generate_pettripfinder_columbus_site import run
     a = tmp_path_factory.mktemp("da") / "s"
     b = tmp_path_factory.mktemp("db") / "s"
-    run(str(a))
-    run(str(b))
+    # ATLAS-THROUGHPUT-002: two COLD generations are the claim; bypass the
+    # session cache so the second is a real build, not a copy of the first.
+    from scripts.pettripfinder.assembly_session_cache import cold
+    with cold():
+        run(str(a))
+        run(str(b))
 
     def man(root):
         return {os.path.relpath(f, root).replace(os.sep, "/"): Path(f).read_bytes()

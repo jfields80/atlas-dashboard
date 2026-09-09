@@ -1,0 +1,67 @@
+{
+ "schema": "ptf-failure-closure/1.0",
+ "work_order": "ATLAS-THROUGHPUT-002",
+ "fix_commit_sha": "WORKTREE",
+ "base_sha": "74152bd259d5b0c034b00dce4699d222f6969db5",
+ "head": "WORKTREE",
+ "head_sha": "WORKTREE",
+ "original_true_new_node_ids": [
+  "tests/pettripfinder/test_prod002_integration.py::test_non_hotel_path_unchanged"
+ ],
+ "baseline_source_sha": "f75aa95",
+ "changed_files": [
+  {
+   "path": "launch_packages/pettripfinder/reports/atlas_throughput_002_migration_audit.json",
+   "status": "A",
+   "classes": [
+    "GENERATED_REPORT_ONLY"
+   ],
+   "why": "matched prefix:launch_packages/pettripfinder/reports/"
+  },
+  {
+   "path": "tests/pettripfinder/test_prod002_integration.py",
+   "status": "M",
+   "classes": [
+    "TEST_EXPECTATION_CHANGE"
+   ],
+   "why": "no registration container is declared for this module"
+  }
+ ],
+ "change_classes": [
+  "TEST_EXPECTATION_CHANGE",
+  "GENERATED_REPORT_ONLY"
+ ],
+ "required_validations": {
+  "lanes": [],
+  "markets": [],
+  "modules": [
+   "tests/pettripfinder/test_prod002_integration.py"
+  ],
+  "assembly_required": false
+ },
+ "targeted_result": {
+  "collected": 13,
+  "passed": 13,
+  "skipped": 0,
+  "failed": 0,
+  "seconds": 25.0
+ },
+ "node_id_results": {
+  "tests/pettripfinder/test_prod002_integration.py::test_non_hotel_path_unchanged": "CLOSED"
+ },
+ "against_baseline": {
+  "baseline_source_sha": "f75aa95",
+  "PRE_EXISTING": [],
+  "TRUE_NEW": [],
+  "counts": {
+   "PRE_EXISTING": 0,
+   "TRUE_NEW": 0,
+   "RESOLVED": 0
+  },
+  "RESOLVED": []
+ },
+ "FULL_REGRESSION_REQUIRED": "NO",
+ "full_regression_reason": "every changed file classifies into a narrow class (GENERATED_REPORT_ONLY, TEST_EXPECTATION_CHANGE); no row of the matrix makes a broad regression mandatory",
+ "all_original_failures_accounted_for": true,
+ "rationale": "The generator split moved the rendering paths into _generate; the source-inspection test follows the body it inspects. A TEST_EXPECTATION_CHANGE confined to its own module: closed by node id, no second audit."
+}

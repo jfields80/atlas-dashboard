@@ -1,0 +1,146 @@
+{
+ "schema": "atlas-throughput-003-safety-matrix/1.0",
+ "columns": [
+  "hazard",
+  "SAFETY CLAIM",
+  "OLD PROOF",
+  "OLD APPROXIMATE COST",
+  "NEW FAST RULE",
+  "NEW COST",
+  "NEW DETECTION QUALITY",
+  "BROAD STILL REQUIRED?"
+ ],
+ "rows": [
+  {
+   "hazard": "H1",
+   "claim": "PROPERTY IDENTITY CORRECTNESS",
+   "old_proof": "name-only join at build (verified_public_hotels); identity_key canonicality tested for 3–8 markets; no all-market collision test",
+   "old_cost": "broad suite 7,955 s / 3,815 s",
+   "new_rule": "B (canonical keys, uniqueness, census contract, same-premises proof or declared relation) + writer MISSING_IDENTITY/DUPLICATE_IDENTITY + G over the whole release keyed by ptf_identity_key(name)",
+   "new_cost": "0.158 s",
+   "new_detection_quality": "SUPERIOR — fixture: 15 live records with bare-brand identity keys (tru ×3, hampton ×2, holiday inn express and suites ×2) the broad suite passes; case 8, 10",
+   "broad_still_required": "NO for a data-only package"
+  },
+  {
+   "hazard": "H2",
+   "claim": "FIRST-PARTY POLICY BINDING",
+   "old_proof": "none at build or deploy; source_grade self-declared; policy_schema has no source_url rule",
+   "old_cost": "not proven by the broad suite",
+   "new_rule": "C: eight checks per record (identity, source class, URL, capture hash, timestamp, operative quote via the owning reader, parsed facts, authority status); competitor = LEAD ONLY",
+   "new_cost": "0.138 s",
+   "new_detection_quality": "SUPERIOR — fixture: 5 live Dayton records (3 amenity chips, 1 fee-only acceptance, 1 structured no-pets) refused; cases 2–5",
+   "broad_still_required": "NO"
+  },
+  {
+   "hazard": "H3",
+   "claim": "POLICY RECORD CONTRACT VALIDITY",
+   "old_proof": "validate_record write-time + tests only; PolicyRenderError needs a render",
+   "old_cost": "ASSEMBLY-ONE per market inside the broad suite",
+   "new_rule": "D: policy_schema.validate_record + evidence.validate + publication_blockers + fee/deposit conflation on every record; J renders the changed market",
+   "new_cost": "0.0 s + J",
+   "new_detection_quality": "EQUIVALENT (same contracts, now a gate) + case 6",
+   "broad_still_required": "NO"
+  },
+  {
+   "hazard": "H4",
+   "claim": "DUPLICATE / SAME-PREMISES / COLLISION",
+   "old_proof": "exclusions contract at authority assembly; census.validate not a gate; premises test skips address-less rows",
+   "old_cost": "JSON-only tests inside the broad suite",
+   "new_rule": "B same-premises (co_located_distinct or declared relation; address-less rows not a collision) + G cross-market collisions + writer DUPLICATE_IDENTITY",
+   "new_cost": "0.158 s",
+   "new_detection_quality": "SUPERIOR — fixtures: St. Louis 6 bare-brand duplicates beside full identities; Indianapolis 13 unproven pairs; case 9 admits Marriott indsw / IHG indsw",
+   "broad_still_required": "NO"
+  },
+  {
+   "hazard": "H5",
+   "claim": "MARKET / PARTITION INTEGRITY",
+   "old_proof": "partition.reconcile in tests for some markets; census↔partition equality untested for 3 markets; dangling routes report-only",
+   "old_cost": "broad suite",
+   "new_rule": "E (routes bind census identities, first-party domains) + F (partition validate + reconcile + state agreement)",
+   "new_cost": "0.0 s",
+   "new_detection_quality": "SUPERIOR — fixtures: Louisville partition 69/33 rows apart from its census; Cleveland/Grand Rapids dangling routing records; case 7, 20",
+   "broad_still_required": "NO"
+  },
+  {
+   "hazard": "H6",
+   "claim": "PROPOSED RELEASE MEMBERSHIP PRESERVATION",
+   "old_proof": "participation gates + 046::test_the_bundle_carries_exactly_the_live_set (ASSEMBLY-ALL)",
+   "old_cost": "one 10-market compose ≈ 400 s inside the broad suite",
+   "new_rule": "H: every live market and member present in the proposed index; membership change only by declared intent",
+   "new_cost": "0.074 s",
+   "new_detection_quality": "EQUIVALENT in detection, no render — case 11",
+   "broad_still_required": "NO"
+  },
+  {
+   "hazard": "H7",
+   "claim": "ROUTE PRESERVATION",
+   "old_proof": "live_routes_preserved for 132 Columbus routes only; counts for the other 9",
+   "old_cost": "ASSEMBLY-ALL",
+   "new_rule": "H (unrelated routes) + I (package routes vs declared intent, corridor minimum consequences)",
+   "new_cost": "0.074 s",
+   "new_detection_quality": "SUPERIOR — fixture: two corridor routes silently lost by a withdrawal; cases 13, 14",
+   "broad_still_required": "NO"
+  },
+  {
+   "hazard": "H8",
+   "claim": "INTENDED DELTA ACCOUNTING",
+   "old_proof": "none (hand-recorded in packets)",
+   "old_cost": "—",
+   "new_rule": "I: adds / updates / removals / routes / profile, market-count, participation and no-pets deltas vs intent; removal_authority required",
+   "new_cost": "0.074 s",
+   "new_detection_quality": "SUPERIOR — case 12, 13 (no prior mechanism)",
+   "broad_still_required": "NO"
+  },
+  {
+   "hazard": "H9",
+   "claim": "DETERMINISM",
+   "old_proof": "test_assembly_is_byte_identical_when_run_twice SKIPPED by default",
+   "old_cost": "ASSEMBLY-ALL ×2 when enabled (~800 s)",
+   "new_rule": "K: two COLD builds of the changed market, digests equal, cache events prove BUILD_EXECUTED ×2 / REUSE_HIT 0",
+   "new_cost": "31.889 s",
+   "new_detection_quality": "SUPERIOR — blocking, not skipped; cases 15, 16",
+   "broad_still_required": "NO"
+  },
+  {
+   "hazard": "H10",
+   "claim": "ARTIFACT INTEGRITY",
+   "old_proof": "bundle_digest bound at authorization; package layer tests",
+   "old_cost": "broad suite",
+   "new_rule": "A (seal re-derives) + L (evidence index, one artifact one identity, artifact bytes + quote contiguity when available, re-derivation from sections, dependency digests)",
+   "new_cost": "0.017 s",
+   "new_detection_quality": "SUPERIOR — cases 18, 19",
+   "broad_still_required": "NO"
+  },
+  {
+   "hazard": "H11",
+   "claim": "CANDIDATE / AUTHORIZATION INTEGRITY",
+   "old_proof": "verify_authorization binds bundle sha + commit",
+   "old_cost": "JSON-only, deploy-time",
+   "new_rule": "invariant defined, not redesigned: an authorization must bind an exact package digest + receipt digest + parent live digest (receipt fields PACKAGE_DIGEST, PARENT_RELEASE, RECEIPT_DIGEST); consumed by 004/005",
+   "new_cost": "—",
+   "new_detection_quality": "EQUIVALENT (interface only)",
+   "broad_still_required": "YES until 005"
+  },
+  {
+   "hazard": "H12",
+   "claim": "ROLLBACK / LIVE MARKET-SET PRESERVATION",
+   "old_proof": "verify_target manual + network; rollback target's market set unchecked",
+   "old_cost": "manual",
+   "new_rule": "N: newest record ↔ manifest ↔ pin ↔ authorization agree; rollback target is the previous DEPLOYED record with its own market set; package parent == live",
+   "new_cost": "0.012 s",
+   "new_detection_quality": "SUPERIOR — generic chain check + case 17 (stale parent)",
+   "broad_still_required": "NO"
+  },
+  {
+   "hazard": "H13",
+   "claim": "PAID REQUEST COORDINATION",
+   "old_proof": "ledgers reached only under --only-cohort; every paid call site bypasses them",
+   "old_cost": "—",
+   "new_rule": "O: every paid capture in the package carries a reservation whose attempt_id re-derives (paid_attempt_ledger.attempt_id) and an envelope hash; ledger cross-check when available; UNKNOWN ⇒ NOT ELIGIBLE",
+   "new_cost": "0.0 s",
+   "new_detection_quality": "contract enforced at the package boundary (cases 21, 22); call sites still uncoordinated: firecrawl_capture.fetch, brightdata/browser_capture, unlocker_capture, spider_capture, direct_http_capture, discovery/google_places",
+   "broad_still_required": "n/a (not a release-time proof either way)"
+  }
+ ],
+ "verdict": "For a DATA-ONLY market package every hazard the broad suite proves indirectly is proven directly by a rule; superiority is claimed only where a concrete defect fixture exists (named per row). Shared runtime, schema, assembler, deployment and classifier changes still owe the broad suite: the fast lane relies on them being what the last broad run proved."
+}

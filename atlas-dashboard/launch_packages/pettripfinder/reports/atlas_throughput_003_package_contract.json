@@ -1,0 +1,135 @@
+{
+ "schema": "atlas-throughput-003-package-contract/1.0",
+ "package_schema": "ptf-sealed-market-package/1.0",
+ "builder_version": "ptf-market-package-writer/1.0",
+ "owning_module": "scripts/pettripfinder/sealed_market_package.py",
+ "writer_module": "scripts/pettripfinder/market_package_writer.py",
+ "body_fields": [
+  "schema",
+  "market_id",
+  "created_from_source_sha",
+  "execution_zone",
+  "census",
+  "identity_records",
+  "market",
+  "official_routes",
+  "pet_friendly_records",
+  "verified_no_pets_records",
+  "seed_rows",
+  "partition",
+  "evidence_references",
+  "evidence_hashes",
+  "unresolved_rows",
+  "founder_holds",
+  "intended_delta",
+  "parent_live_state",
+  "dependency_input_digests",
+  "builder_version",
+  "contract_versions",
+  "coverage_scorecard",
+  "validation_state"
+ ],
+ "seal_fields": [
+  "package_id",
+  "package_digest",
+  "sealed_at"
+ ],
+ "digest": "sha256 over canonical JSON (sorted keys, no whitespace, UTF-8) of every body field; package_id = pkg-<market_id>-<digest[:16]>; sealed_at is outside the digest",
+ "execution_zones": [
+  "SHADOW",
+  "SHADOW_UNTIL_REGISTERED",
+  "REGISTERED_LIVE",
+  "FROZEN_COPY"
+ ],
+ "evidence_reference_fields": [
+  "evidence_ref",
+  "identity_key",
+  "artifact_sha256",
+  "source_url",
+  "captured_at",
+  "artifact_kind",
+  "capture_lane",
+  "source_grade",
+  "artifact_available"
+ ],
+ "evidence_reference_optional": [
+  "artifact_path",
+  "paid_reservation",
+  "byte_length",
+  "final_url"
+ ],
+ "paid_reservation_fields": [
+  "provider",
+  "lane",
+  "run_id",
+  "attempt_id",
+  "request_envelope_sha256"
+ ],
+ "intended_delta_fields": [
+  "market_id",
+  "add_property_ids",
+  "update_property_ids",
+  "remove_property_ids",
+  "add_routes",
+  "change_routes",
+  "remove_routes",
+  "expected_profile_delta",
+  "expected_market_count_delta",
+  "expected_participation_delta",
+  "expected_verified_no_pets_delta (optional)",
+  "removal_authority {ruling_ref, reason} (required with any removal)"
+ ],
+ "parent_live_state_fields": [
+  "live_deploy_id",
+  "rollback_target",
+  "source_commit",
+  "participating_markets",
+  "profile_counts",
+  "total_profiles",
+  "sitemap_route_count",
+  "live_index_digest"
+ ],
+ "relation_types": [
+  "NONE",
+  "CO_LOCATED_DISTINCT",
+  "REBRAND_OF",
+  "SUPERSEDES"
+ ],
+ "contract_versions_validated_against": {
+  "market": "ptf-market/1.1",
+  "census": "ptf-market-identity-census/1.1",
+  "partition": "ptf-market-final-partition/1.1",
+  "policy_schema": "1.3",
+  "evidence": "contracts.evidence PUBLICATION_GRADE_REQUIRED=evidence_ref,field,quote,source_url,source_grade,artifact_class,artifact_sha256,artifact_kind,captured_at",
+  "identity_key": "ptf_identity_key/1.0",
+  "identity_routing": "ptf-identity-routing/1.0",
+  "hotel_exclusions": "ptf-hotel-exclusions/1.0",
+  "sealed_market_package": "ptf-sealed-market-package/1.0"
+ },
+ "storage": {
+  "packages": "launch_packages/pettripfinder/markets/packages/<market_id>/<package_id>.json",
+  "staging": "launch_packages/pettripfinder/markets/staging/<market_id>/ (transient)",
+  "receipts": "launch_packages/pettripfinder/markets/receipts/<market_id>/<package_id>-<receipt digest16>.json"
+ },
+ "immutability": "write_sealed refuses a different document at an existing path; read_sealed refuses a document whose digest or id does not re-derive or whose filename is not its id; a correction is a new package with a new id",
+ "writer_rejections": {
+  "invalid fee enum / currency / basis": "POLICY_BAD_ENUM, POLICY_MISSING_CURRENCY, POLICY_NOT_INT_CENTS (contracts.policy_schema)",
+  "invalid pet-count / weight structures": "POLICY_BAD_COUNT, POLICY_NOT_QUANTITY / POLICY_* (contracts.policy_schema)",
+  "fee / deposit / other-charge conflation": "FEE_DEPOSIT_CONFLATION (pet_fee.refundable: true; legacy deposit/fee keys)",
+  "missing required identity": "MISSING_IDENTITY, IDENTITY_NOT_CANONICAL, DUPLICATE_IDENTITY",
+  "invalid policy status": "INVALID_POLICY_STATUS, CONFLICTING_STATUS",
+  "missing evidence binding": "MISSING_EVIDENCE_BINDING, EVIDENCE_MISSING_REQUIRED, PUBLICATION_BLOCKED",
+  "policy / evidence identity mismatch": "POLICY_EVIDENCE_IDENTITY_MISMATCH (one artifact, one identity)",
+  "invalid market assignment": "INVALID_MARKET_ASSIGNMENT, WRONG_MARKET",
+  "invalid route reference": "INVALID_ROUTE, ROUTING_CONTRACT, ROUTE_IDENTITY_NOT_IN_CENSUS",
+  "orphan partition": "ORPHAN_PARTITION, PARTITION_*, UNRESOLVED_PROMOTED_CLEAN",
+  "unsupported enum values": "CENSUS_BAD_ENUM, EXCLUSION_CONTRACT, ROUTING_CONTRACT, POLICY_BAD_ENUM",
+  "malformed unknown / not-applicable": "POLICY_SENTINEL_FOR_SILENCE, POLICY_NULL_FOR_SILENCE, SENTINEL_VALUE",
+  "same premises": "SAME_PREMISES_DUPLICATE, SAME_PREMISES_UNPROVEN (hotel_exclusions.co_located_distinct or a declared relation)",
+  "display join": "NO_DISPLAY_ROW, AMBIGUOUS_DISPLAY_ROW (site_data.verified_public_hotels fails closed)"
+ },
+ "pilot_package": {
+  "package": "launch_packages/pettripfinder/markets/packages/dayton-oh/pkg-dayton-oh-813f7f9f089b89c7.json",
+  "receipt": "launch_packages/pettripfinder/markets/receipts/dayton-oh/pkg-dayton-oh-813f7f9f089b89c7-324148f81b55bc50.json"
+ }
+}

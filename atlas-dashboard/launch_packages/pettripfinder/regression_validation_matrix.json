@@ -12,6 +12,9 @@
   "DOCUMENTATION_ONLY",
   "GENERATED_REPORT_ONLY",
   "BASELINE_MANIFEST_ONLY",
+  "MARKET_LOCAL_TOOLING",
+  "MARKET_DATA_PACKAGE",
+  "MARKET_AUTHORITY_DATA_ONLY",
   "UNCLASSIFIED"
  ],
  "mandatory_full_regression": [
@@ -26,7 +29,9 @@
   "BOOKKEEPING_REGISTRATION_CHANGE",
   "DOCUMENTATION_ONLY",
   "GENERATED_REPORT_ONLY",
-  "BASELINE_MANIFEST_ONLY"
+  "BASELINE_MANIFEST_ONLY",
+  "MARKET_LOCAL_TOOLING",
+  "MARKET_DATA_PACKAGE"
  ],
  "rows": [
   {
@@ -184,6 +189,50 @@
    "why": "a manifest records what a past run did; it cannot change what the next run does, and the classifier self-test is the only thing that reads it"
   },
   {
+   "change_class": "MARKET_LOCAL_TOOLING",
+   "surface": "a shadow market's own tooling and proposed artifacts, inside ONE declared execution zone (launch_packages/pettripfinder/market_local_ownership.json) and proven isolated on all five conditions of market_local_isolation: namespace, imports, write roots, reverse reachability, registration",
+   "required_lanes": [],
+   "owning_modules": true,
+   "owning_directory": false,
+   "reverse_dependents": true,
+   "market_targeted": true,
+   "assembly": "not_required",
+   "full_regression": "not_required",
+   "condition": "",
+   "why": "ATLAS-THROUGHPUT-001 measured that a helper no production module imports, that writes only its own market's proposed and report paths, and that describes a market the assembler cannot select, cost a 2-hour broad regression by path prefix alone; the proof replaces the prefix with the five facts, and any fact that cannot be established leaves the path in its prefix class"
+  },
+  {
+   "change_class": "MARKET_DATA_PACKAGE",
+   "surface": "a sealed market package, a staging tree or a validation receipt under launch_packages/pettripfinder/markets/{packages,staging,receipts}/<market>/ -- immutable data named by digest that no production module reads",
+   "required_lanes": [],
+   "owning_modules": true,
+   "owning_directory": false,
+   "reverse_dependents": true,
+   "market_targeted": true,
+   "assembly": "not_required",
+   "full_regression": "not_required",
+   "condition": "",
+   "why": "ATLAS-THROUGHPUT-003: a package is the INPUT to the fast release lane, never to a build -- the assembler, the generator and the deployer read committed authority only; the reverse-dependent scan finds every test that pins one, and a package that is not a package fails the lane's rule A"
+  },
+  {
+   "change_class": "MARKET_AUTHORITY_DATA_ONLY",
+   "surface": "a change set that is ONE registered market's own authority data and nothing else: its registry entry, census, policy package, partition, shard and release contract, plus the derived globals where the diff names only that market",
+   "required_lanes": [
+    "policy_schema",
+    "identity_routing",
+    "release_contract",
+    "cross_market"
+   ],
+   "owning_modules": true,
+   "owning_directory": false,
+   "reverse_dependents": true,
+   "market_targeted": true,
+   "assembly": "required",
+   "full_regression": "conditional",
+   "condition": "not required ONLY when a committed FAST_DATA_ONLY_RELEASE receipt says FAST_DATA_ONLY_RELEASE_ELIGIBLE = YES for a sealed package whose dependency digests cover the exact bytes of every changed authority file, that receipt has no UNKNOWN rule, and fast_release_activation.json ENABLES the market; required otherwise, exactly as AUTHORITY_CHANGE",
+   "why": "ATLAS-THROUGHPUT-003: the fifteen rules of the fast lane prove the release hazards a data-only change can cause (identity, first-party binding, policy semantics, routes, partition, whole-release collisions, preservation, intended delta, build, determinism, hashes, freshness, live state, paid provenance) directly and in minutes; the broad suite proves them indirectly in hours. Until the receipt exists and activation is granted the row is AUTHORITY_CHANGE by another name"
+  },
+  {
    "change_class": "UNCLASSIFIED",
    "surface": "unknown -- no rule claims this path",
    "required_lanes": [
@@ -312,6 +361,13 @@
   },
   {
    "kind": "prefix",
+   "pattern": "launch_packages/pettripfinder/identity_census_proposed/",
+   "classes": [
+    "UNCLASSIFIED"
+   ]
+  },
+  {
+   "kind": "prefix",
    "pattern": "launch_packages/pettripfinder/identity_census",
    "classes": [
     "AUTHORITY_CHANGE",
@@ -368,6 +424,48 @@
    "classes": [
     "AUTHORITY_CHANGE",
     "ROUTING_SEMANTIC_CHANGE"
+   ]
+  },
+  {
+   "kind": "prefix",
+   "pattern": "launch_packages/pettripfinder/markets/packages/",
+   "classes": [
+    "MARKET_DATA_PACKAGE"
+   ]
+  },
+  {
+   "kind": "prefix",
+   "pattern": "launch_packages/pettripfinder/markets/staging/",
+   "classes": [
+    "MARKET_DATA_PACKAGE"
+   ]
+  },
+  {
+   "kind": "prefix",
+   "pattern": "launch_packages/pettripfinder/markets/receipts/",
+   "classes": [
+    "MARKET_DATA_PACKAGE"
+   ]
+  },
+  {
+   "kind": "glob",
+   "pattern": "launch_packages/pettripfinder/fast_release_activation.json",
+   "classes": [
+    "DEPLOYMENT_CHANGE"
+   ]
+  },
+  {
+   "kind": "glob",
+   "pattern": "launch_packages/pettripfinder/bundle_cache_closure.json",
+   "classes": [
+    "DEPLOYMENT_CHANGE"
+   ]
+  },
+  {
+   "kind": "glob",
+   "pattern": "launch_packages/pettripfinder/evidence_revocations.json",
+   "classes": [
+    "AUTHORITY_CHANGE"
    ]
   },
   {
@@ -635,5 +733,233 @@
    "kind": "glob",
    "pattern": "tests/pettripfinder/**/reader_freeze.py"
   }
- ]
+ ],
+ "market_local_refinable_rules": [
+  "prefix:scripts/pettripfinder/",
+  "prefix:scripts/pettripfinder/discovery/",
+  "glob:scripts/pettripfinder/*polic*.py",
+  "glob:scripts/pettripfinder/*reader*.py",
+  "glob:scripts/pettripfinder/*render*.py",
+  "glob:scripts/pettripfinder/*identity*.py",
+  "glob:scripts/pettripfinder/*routing*.py",
+  "glob:scripts/pettripfinder/census_*.py",
+  "glob:scripts/pettripfinder/*corridor*.py",
+  "glob:scripts/pettripfinder/*deploy*.py",
+  "prefix:launch_packages/pettripfinder/identity_census_proposed/",
+  "prefix:launch_packages/pettripfinder/markets/reports/",
+  "prefix:docs/",
+  "no rule"
+ ],
+ "narrowing_blockers": [
+  {
+   "kind": "glob",
+   "pattern": "scripts/pettripfinder/regression_delta.py"
+  },
+  {
+   "kind": "glob",
+   "pattern": "scripts/pettripfinder/regression_lanes.py"
+  },
+  {
+   "kind": "glob",
+   "pattern": "scripts/pettripfinder/regression_inventory.py"
+  },
+  {
+   "kind": "glob",
+   "pattern": "scripts/pettripfinder/market_local_ownership.py"
+  },
+  {
+   "kind": "glob",
+   "pattern": "scripts/pettripfinder/market_local_isolation.py"
+  },
+  {
+   "kind": "glob",
+   "pattern": "scripts/pettripfinder/assembly_session_cache.py"
+  },
+  {
+   "kind": "glob",
+   "pattern": "scripts/pettripfinder/throughput_profile.py"
+  },
+  {
+   "kind": "glob",
+   "pattern": "launch_packages/pettripfinder/market_local_ownership.json"
+  },
+  {
+   "kind": "glob",
+   "pattern": "launch_packages/pettripfinder/regression_validation_matrix.json"
+  },
+  {
+   "kind": "glob",
+   "pattern": "conftest.py"
+  },
+  {
+   "kind": "glob",
+   "pattern": "pytest.ini"
+  },
+  {
+   "kind": "glob",
+   "pattern": "requirements*.txt"
+  },
+  {
+   "kind": "glob",
+   "pattern": "scripts/pettripfinder/sealed_market_package.py"
+  },
+  {
+   "kind": "glob",
+   "pattern": "scripts/pettripfinder/market_package_writer.py"
+  },
+  {
+   "kind": "glob",
+   "pattern": "scripts/pettripfinder/package_staging.py"
+  },
+  {
+   "kind": "glob",
+   "pattern": "scripts/pettripfinder/release_index.py"
+  },
+  {
+   "kind": "glob",
+   "pattern": "scripts/pettripfinder/first_party_binding.py"
+  },
+  {
+   "kind": "glob",
+   "pattern": "scripts/pettripfinder/fast_release_lane.py"
+  },
+  {
+   "kind": "glob",
+   "pattern": "launch_packages/pettripfinder/fast_release_activation.json"
+  },
+  {
+   "kind": "glob",
+   "pattern": "scripts/pettripfinder/bundle_cache.py"
+  },
+  {
+   "kind": "glob",
+   "pattern": "launch_packages/pettripfinder/bundle_cache_closure.json"
+  },
+  {
+   "kind": "glob",
+   "pattern": "scripts/pettripfinder/release_coordinator.py"
+  },
+  {
+   "kind": "glob",
+   "pattern": "scripts/pettripfinder/ci_validation.py"
+  },
+  {
+   "kind": "glob",
+   "pattern": "scripts/pettripfinder/ci_report.py"
+  },
+  {
+   "kind": "glob",
+   "pattern": "scripts/pettripfinder/artifact_handoff.py"
+  },
+  {
+   "kind": "glob",
+   "pattern": "scripts/pettripfinder/release_queue.py"
+  },
+  {
+   "kind": "glob",
+   "pattern": "scripts/pettripfinder/live_verification.py"
+  },
+  {
+   "kind": "glob",
+   "pattern": "launch_packages/pettripfinder/release_production_gate.json"
+  },
+  {
+   "kind": "glob",
+   "pattern": "launch_packages/pettripfinder/reports/atlas_throughput_006_shard_manifest.json"
+  },
+  {
+   "kind": "glob",
+   "pattern": ".github/workflows/*.yml"
+  }
+ ],
+ "market_local_ownership_registry": "launch_packages/pettripfinder/market_local_ownership.json",
+ "release_surfaces": [
+  "MARKET_LOCAL_TOOLING",
+  "MARKET_DATA_PACKAGE",
+  "MARKET_AUTHORITY_DATA_ONLY",
+  "SHARED_SCHEMA_CHANGE",
+  "SHARED_RUNTIME_CHANGE",
+  "ASSEMBLER_CHANGE",
+  "DEPLOYMENT_CHANGE",
+  "CLASSIFIER_TEST_INFRA_CHANGE",
+  "UNKNOWN_MIXED",
+  "NARROW_NON_RELEASE"
+ ],
+ "release_surface_matrix": [
+  {
+   "release_surface": "MARKET_LOCAL_TOOLING",
+   "FAST_DATA_ONLY_RELEASE_REQUIRED": "NO",
+   "FULL_REGRESSION_REQUIRED": "NO",
+   "why": "five-condition isolation proof (ATLAS-THROUGHPUT-002)"
+  },
+  {
+   "release_surface": "MARKET_DATA_PACKAGE",
+   "FAST_DATA_ONLY_RELEASE_REQUIRED": "NO",
+   "FULL_REGRESSION_REQUIRED": "NO",
+   "why": "inert data named by digest; the fast lane's input, never a build's"
+  },
+  {
+   "release_surface": "MARKET_AUTHORITY_DATA_ONLY",
+   "FAST_DATA_ONLY_RELEASE_REQUIRED": "YES",
+   "FULL_REGRESSION_REQUIRED": "CONDITIONAL",
+   "why": "NO only with a committed ELIGIBLE receipt covering the exact bytes and production activation; YES otherwise"
+  },
+  {
+   "release_surface": "SHARED_SCHEMA_CHANGE",
+   "FAST_DATA_ONLY_RELEASE_REQUIRED": "NO",
+   "FULL_REGRESSION_REQUIRED": "YES",
+   "why": "a contract change moves what every market derives"
+  },
+  {
+   "release_surface": "SHARED_RUNTIME_CHANGE",
+   "FAST_DATA_ONLY_RELEASE_REQUIRED": "NO",
+   "FULL_REGRESSION_REQUIRED": "YES",
+   "why": "shared runtime every market executes"
+  },
+  {
+   "release_surface": "ASSEMBLER_CHANGE",
+   "FAST_DATA_ONLY_RELEASE_REQUIRED": "NO",
+   "FULL_REGRESSION_REQUIRED": "YES",
+   "why": "the assembler is the proof the fast lane's rule J relies on"
+  },
+  {
+   "release_surface": "DEPLOYMENT_CHANGE",
+   "FAST_DATA_ONLY_RELEASE_REQUIRED": "NO",
+   "FULL_REGRESSION_REQUIRED": "YES",
+   "why": "deployment doctrine is proven by a fresh assembly"
+  },
+  {
+   "release_surface": "CLASSIFIER_TEST_INFRA_CHANGE",
+   "FAST_DATA_ONLY_RELEASE_REQUIRED": "NO",
+   "FULL_REGRESSION_REQUIRED": "YES",
+   "why": "the selector cannot authorize its own narrowing"
+  },
+  {
+   "release_surface": "UNKNOWN_MIXED",
+   "FAST_DATA_ONLY_RELEASE_REQUIRED": "NO",
+   "FULL_REGRESSION_REQUIRED": "YES",
+   "why": "an unclaimed path or a mixed set is the broad suite by definition"
+  },
+  {
+   "release_surface": "NARROW_NON_RELEASE",
+   "FAST_DATA_ONLY_RELEASE_REQUIRED": "NO",
+   "FULL_REGRESSION_REQUIRED": "NO",
+   "why": "prose, reports, baselines, bookkeeping and owned test expectations"
+  }
+ ],
+ "market_authority_data_patterns": [
+  "launch_packages/pettripfinder/markets/<id>.json",
+  "launch_packages/pettripfinder/identity_census/<id>.json",
+  "launch_packages/pettripfinder/hotel_policy_facts_<id>.json",
+  "launch_packages/pettripfinder/markets/authority/<id>/*",
+  "launch_packages/pettripfinder/<us>_final_partition_*.json",
+  "deploy/netlify/release_contracts/<id>.json"
+ ],
+ "derived_authority_globals": [
+  "launch_packages/pettripfinder/identity_routing.json",
+  "launch_packages/pettripfinder/hotel_exclusions.json",
+  "launch_packages/pettripfinder/seed_businesses.csv",
+  "launch_packages/pettripfinder/ptf_global_authority_manifest.json"
+ ],
+ "fast_release_activation": "launch_packages/pettripfinder/fast_release_activation.json"
 }

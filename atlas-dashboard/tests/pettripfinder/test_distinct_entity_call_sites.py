@@ -99,7 +99,9 @@ def test_the_inventory_finds_the_known_authority_aware_callers():
         "scripts/generate_pettripfinder_pilot.py",
         "scripts/promote_import_candidates.py",
         "tests/pettripfinder/test_listing_renderability_boundary.py",
-        "tests/website_generation/integration/test_pettripfinder_demo_media.py",
+        # ATLAS-THROUGHPUT-007 moved the real chain into a shared helper, so the
+        # authority-aware call site moved with it. Same call, one place.
+        "tests/website_generation/integration/pettripfinder_demo_chain.py",
         "tests/website_generation/integration/test_pettripfinder_launch_package.py",
     }
     assert expected <= found, "stopped seeing known call sites: %s" % sorted(expected - found)

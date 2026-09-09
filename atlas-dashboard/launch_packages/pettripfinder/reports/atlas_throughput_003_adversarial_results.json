@@ -1,0 +1,508 @@
+{
+ "schema": "atlas-throughput-003-adversarial-results/1.0",
+ "module": "tests/pettripfinder/test_atlas_throughput_003.py",
+ "counts": {
+  "PASS": 69,
+  "FAIL": 0,
+  "SKIP": 0
+ },
+ "matrix": [
+  {
+   "case": 1,
+   "claim": "valid sealed data-only package ⇒ PASS",
+   "tests": "TestFastLane::test_case_1_the_corrected_dayton_package_passes_every_non_build_rule; TestFastLane::test_case_15_identical_changed_market_builds_are_deterministic_and_cold; TestCommittedPilot",
+   "outcome": "PASS"
+  },
+  {
+   "case": 2,
+   "claim": "wrong hotel evidence ⇒ FAIL",
+   "tests": "TestFirstPartyGate::test_case_2_wrong_hotel_page_bound_to_the_right_record; test_same_brand_wrong_property",
+   "outcome": "FAIL (WRONG_PROPERTY)"
+  },
+  {
+   "case": 3,
+   "claim": "competitor-only policy evidence ⇒ FAIL",
+   "tests": "TestFirstPartyGate::test_case_3_competitor_only_evidence_is_lead_only",
+   "outcome": "FAIL (LEAD_ONLY; writer PUBLICATION_BLOCKED)"
+  },
+  {
+   "case": 4,
+   "claim": "fee-only acceptance inference ⇒ FAIL",
+   "tests": "TestFirstPartyGate::test_case_4_fee_present_acceptance_absent",
+   "outcome": "FAIL (FEE_ONLY)"
+  },
+  {
+   "case": 5,
+   "claim": "service-animal-only acceptance ⇒ FAIL",
+   "tests": "TestFirstPartyGate::test_case_5_service_animals_only",
+   "outcome": "FAIL (SERVICE_ANIMAL_ONLY)"
+  },
+  {
+   "case": 6,
+   "claim": "invalid fee basis/enum ⇒ FAIL",
+   "tests": "TestTypedWriter::test_case_6_invalid_fee_basis_enum_and_currency",
+   "outcome": "FAIL (POLICY_BAD_ENUM …)"
+  },
+  {
+   "case": 7,
+   "claim": "orphaned partition ⇒ FAIL",
+   "tests": "TestTypedWriter::test_case_7_orphaned_partition",
+   "outcome": "FAIL (ORPHAN_PARTITION)"
+  },
+  {
+   "case": 8,
+   "claim": "duplicate identity ⇒ FAIL",
+   "tests": "TestTypedWriter::test_case_8_duplicate_identity",
+   "outcome": "FAIL (DUPLICATE_IDENTITY)"
+  },
+  {
+   "case": 9,
+   "claim": "legitimate same-campus distinct hotel ⇒ PASS",
+   "tests": "TestSamePremises::test_case_9_legitimate_same_campus_distinct_hotels_pass; test_a_declared_relation_admits_a_pair…",
+   "outcome": "PASS"
+  },
+  {
+   "case": 10,
+   "claim": "cross-market canonical identity collision ⇒ FAIL",
+   "tests": "TestReleaseIndex::test_case_10_cross_market_canonical_identity_collision",
+   "outcome": "FAIL (CROSS_MARKET_IDENTITY_COLLISION + OWNERSHIP_MOVEMENT)"
+  },
+  {
+   "case": 11,
+   "claim": "unintended unrelated-market removal ⇒ FAIL",
+   "tests": "TestReleaseIndex::test_case_11_an_unrelated_live_market_cannot_disappear",
+   "outcome": "FAIL (MISSING_LIVE_MARKET / MISSING_UNRELATED_PROFILE / ROUTE)"
+  },
+  {
+   "case": 12,
+   "claim": "intended explicit removal ⇒ PASS only under authority",
+   "tests": "TestReleaseIndex::test_case_12_and_13…; TestSealedPackageContract::test_a_removal_without_a_ruling_cannot_even_seal",
+   "outcome": "PASS with removal_authority; refused without"
+  },
+  {
+   "case": 13,
+   "claim": "unintended route loss ⇒ FAIL",
+   "tests": "TestReleaseIndex::test_case_12_and_13_removals_and_route_loss_must_be_declared",
+   "outcome": "FAIL (UNINTENDED_ROUTE_CHANGE on the two corridor routes)"
+  },
+  {
+   "case": 14,
+   "claim": "wrong-market route ownership ⇒ FAIL",
+   "tests": "TestTypedWriter::test_case_14_invalid_market_assignment…; TestReleaseIndex::test_case_14_a_route_claimed_by_two_markets_is_a_duplicate",
+   "outcome": "FAIL (INVALID_MARKET_ASSIGNMENT / DUPLICATE_ROUTE)"
+  },
+  {
+   "case": 15,
+   "claim": "identical changed-market build ⇒ deterministic PASS",
+   "tests": "TestFastLane::test_case_15_identical_changed_market_builds_are_deterministic_and_cold",
+   "outcome": "PASS (BYTE_IDENTICAL, 2 cold builds, 0 reuse hits)"
+  },
+  {
+   "case": 16,
+   "claim": "nondeterministic changed-market build ⇒ FAIL",
+   "tests": "TestFastLane::test_case_16_a_nondeterministic_build_fails_the_gate; test_two_cache_hits_can_never_pass…",
+   "outcome": "FAIL (DIFFERENT; a warm build fails J and K)"
+  },
+  {
+   "case": 17,
+   "claim": "stale parent/live state ⇒ NOT FAST-ELIGIBLE",
+   "tests": "TestReleaseIndex::test_case_17_the_stale_pittsburgh_like_package…",
+   "outcome": "NOT ELIGIBLE (rule N; H passes from CURRENT live; nothing rebuilt)"
+  },
+  {
+   "case": 18,
+   "claim": "malformed package digest ⇒ FAIL",
+   "tests": "TestSealedPackageContract::test_case_18_a_malformed_or_tampered_digest_fails",
+   "outcome": "FAIL (rule A; read_sealed refuses)"
+  },
+  {
+   "case": 19,
+   "claim": "evidence hash mismatch ⇒ FAIL",
+   "tests": "TestTypedWriter::test_case_19_evidence_hash_mismatch_and_missing_binding",
+   "outcome": "FAIL (MISSING_EVIDENCE_BINDING; rule L on artifact bytes)"
+  },
+  {
+   "case": 20,
+   "claim": "unresolved row incorrectly promoted clean ⇒ FAIL",
+   "tests": "TestTypedWriter::test_case_20_an_unresolved_row_promoted_clean",
+   "outcome": "FAIL (UNRESOLVED_PROMOTED_CLEAN)"
+  },
+  {
+   "case": 21,
+   "claim": "paid evidence without reservation provenance ⇒ FAIL",
+   "tests": "TestFastLane::test_case_21_paid_evidence_without_reservation_provenance_fails",
+   "outcome": "FAIL (rule O)"
+  },
+  {
+   "case": 22,
+   "claim": "correctly reserved paid evidence ⇒ PASS, no provider call",
+   "tests": "TestFastLane::test_case_22_a_correctly_reserved_paid_capture_passes_without_a_provider_call",
+   "outcome": "PASS (attempt_id re-derives; ledger cross-checked); UNKNOWN ledger ⇒ NOT ELIGIBLE"
+  },
+  {
+   "case": 23,
+   "claim": "unknown dependency ⇒ NOT FAST-ELIGIBLE / broad",
+   "tests": "TestRegressionV2Extension::test_case_23_an_unknown_dependency_is_not_data_only",
+   "outcome": "not data-only; UNKNOWN_MIXED; full regression"
+  },
+  {
+   "case": 24,
+   "claim": "shared runtime change ⇒ NOT DATA-ONLY",
+   "tests": "TestRegressionV2Extension::test_case_24_a_shared_runtime_change_is_not_data_only",
+   "outcome": "SHARED_RUNTIME_CHANGE / SHARED_SCHEMA_CHANGE; full regression"
+  },
+  {
+   "case": 25,
+   "claim": "shared assembler change ⇒ NOT DATA-ONLY",
+   "tests": "TestRegressionV2Extension::test_case_25_a_shared_assembler_change_is_not_data_only",
+   "outcome": "ASSEMBLER_CHANGE; full regression"
+  }
+ ],
+ "test_results": [
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestSealedPackageContract::test_the_package_carries_every_field_the_order_names",
+   "status": "PASS",
+   "seconds": 4.814
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestSealedPackageContract::test_the_digest_re_derives_and_the_id_derives_from_the_digest",
+   "status": "PASS",
+   "seconds": 0.014
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestSealedPackageContract::test_the_writer_is_deterministic_and_the_seal_time_is_outside_the_digest",
+   "status": "PASS",
+   "seconds": 0.136
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestSealedPackageContract::test_a_sealed_package_is_never_rewritten_in_place",
+   "status": "PASS",
+   "seconds": 0.179
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestSealedPackageContract::test_case_18_a_malformed_or_tampered_digest_fails",
+   "status": "PASS",
+   "seconds": 0.207
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestSealedPackageContract::test_a_correction_is_a_new_package_identity",
+   "status": "PASS",
+   "seconds": 0.168
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestSealedPackageContract::test_a_removal_without_a_ruling_cannot_even_seal",
+   "status": "PASS",
+   "seconds": 0.148
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestTypedWriter::test_case_6_invalid_fee_basis_enum_and_currency",
+   "status": "PASS",
+   "seconds": 0.12
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestTypedWriter::test_invalid_pet_count_and_weight_structures",
+   "status": "PASS",
+   "seconds": 0.136
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestTypedWriter::test_fee_deposit_conflation",
+   "status": "PASS",
+   "seconds": 0.087
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestTypedWriter::test_missing_identity_and_invalid_policy_status",
+   "status": "PASS",
+   "seconds": 0.13
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestTypedWriter::test_case_19_evidence_hash_mismatch_and_missing_binding",
+   "status": "PASS",
+   "seconds": 0.44
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestTypedWriter::test_policy_evidence_identity_mismatch",
+   "status": "PASS",
+   "seconds": 0.088
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestTypedWriter::test_case_14_invalid_market_assignment_and_wrong_market_route",
+   "status": "PASS",
+   "seconds": 0.118
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestTypedWriter::test_case_7_orphaned_partition",
+   "status": "PASS",
+   "seconds": 0.096
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestTypedWriter::test_case_20_an_unresolved_row_promoted_clean",
+   "status": "PASS",
+   "seconds": 0.05
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestTypedWriter::test_case_8_duplicate_identity",
+   "status": "PASS",
+   "seconds": 0.125
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestTypedWriter::test_unsupported_enums_and_sentinels",
+   "status": "PASS",
+   "seconds": 0.116
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestTypedWriter::test_the_writer_seals_the_committed_dayton_authority_as_is",
+   "status": "PASS",
+   "seconds": 0.001
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestTypedWriter::test_the_writer_reports_which_live_markets_do_not_satisfy_the_contracts",
+   "status": "PASS",
+   "seconds": 0.228
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestFirstPartyGate::test_case_2_wrong_hotel_page_bound_to_the_right_record",
+   "status": "PASS",
+   "seconds": 0.003
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestFirstPartyGate::test_same_brand_wrong_property",
+   "status": "PASS",
+   "seconds": 0.003
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestFirstPartyGate::test_case_3_competitor_only_evidence_is_lead_only",
+   "status": "PASS",
+   "seconds": 0.039
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestFirstPartyGate::test_case_4_fee_present_acceptance_absent",
+   "status": "PASS",
+   "seconds": 0.001
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestFirstPartyGate::test_case_5_service_animals_only",
+   "status": "PASS",
+   "seconds": 0.001
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestFirstPartyGate::test_amenity_chip_only",
+   "status": "PASS",
+   "seconds": 0.001
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestFirstPartyGate::test_structured_no_pets_with_insufficient_context",
+   "status": "PASS",
+   "seconds": 0.001
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestFirstPartyGate::test_valid_operative_policy_and_valid_explicit_refusal",
+   "status": "PASS",
+   "seconds": 0.001
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestFirstPartyGate::test_the_gate_refuses_five_live_dayton_records_and_says_why",
+   "status": "PASS",
+   "seconds": 0.128
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestFirstPartyGate::test_the_eight_checks_are_all_present_on_every_verdict",
+   "status": "PASS",
+   "seconds": 0.003
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestFirstPartyGate::test_an_unreviewed_record_has_no_authority_status",
+   "status": "PASS",
+   "seconds": 0.003
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestSamePremises::test_case_9_legitimate_same_campus_distinct_hotels_pass",
+   "status": "PASS",
+   "seconds": 0.001
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestSamePremises::test_a_declared_relation_admits_a_pair_the_mechanical_rule_cannot_prove",
+   "status": "PASS",
+   "seconds": 0.001
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestSamePremises::test_an_accidental_duplicate_on_one_premises_fails",
+   "status": "PASS",
+   "seconds": 0.001
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestSamePremises::test_an_address_less_identity_is_not_a_collision",
+   "status": "PASS",
+   "seconds": 0.001
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestReleaseIndex::test_current_verified_live_agrees_across_record_manifest_and_pin",
+   "status": "PASS",
+   "seconds": 0.001
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestReleaseIndex::test_a_zero_delta_package_compares_clean",
+   "status": "PASS",
+   "seconds": 0.068
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestReleaseIndex::test_case_10_cross_market_canonical_identity_collision",
+   "status": "PASS",
+   "seconds": 0.072
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestReleaseIndex::test_case_14_a_route_claimed_by_two_markets_is_a_duplicate",
+   "status": "PASS",
+   "seconds": 0.079
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestReleaseIndex::test_case_11_an_unrelated_live_market_cannot_disappear",
+   "status": "PASS",
+   "seconds": 0.186
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestReleaseIndex::test_case_17_the_stale_pittsburgh_like_package_cannot_remove_newer_indianapolis_like_state",
+   "status": "PASS",
+   "seconds": 0.418
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestReleaseIndex::test_case_12_and_13_removals_and_route_loss_must_be_declared",
+   "status": "PASS",
+   "seconds": 1.166
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestReleaseIndex::test_the_index_is_o_data_and_fast_at_a_hundred_markets",
+   "status": "PASS",
+   "seconds": 1.033
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestReleaseIndex::test_the_rollback_chain_is_checked_generically",
+   "status": "PASS",
+   "seconds": 0.008
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestFastLane::test_case_1_the_corrected_dayton_package_passes_every_non_build_rule",
+   "status": "PASS",
+   "seconds": 0.283
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestFastLane::test_the_frozen_live_copy_fails_the_first_party_gate_and_nothing_else",
+   "status": "PASS",
+   "seconds": 0.314
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestFastLane::test_the_receipt_carries_every_field_the_order_names",
+   "status": "PASS",
+   "seconds": 0.338
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestFastLane::test_case_15_identical_changed_market_builds_are_deterministic_and_cold",
+   "status": "PASS",
+   "seconds": 62.211
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestFastLane::test_case_16_a_nondeterministic_build_fails_the_gate",
+   "status": "PASS",
+   "seconds": 0.294
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestFastLane::test_two_cache_hits_can_never_pass_the_determinism_gate",
+   "status": "PASS",
+   "seconds": 0.296
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestFastLane::test_freshness_and_revocation",
+   "status": "PASS",
+   "seconds": 0.575
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestFastLane::test_case_21_paid_evidence_without_reservation_provenance_fails",
+   "status": "PASS",
+   "seconds": 0.357
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestFastLane::test_case_22_a_correctly_reserved_paid_capture_passes_without_a_provider_call",
+   "status": "PASS",
+   "seconds": 0.997
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestFastLane::test_the_writer_makes_a_paid_dependency_visible",
+   "status": "PASS",
+   "seconds": 0.074
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestFastLane::test_the_lane_never_builds_an_unchanged_market",
+   "status": "PASS",
+   "seconds": 0.262
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestStaging::test_staging_writes_only_into_the_stage_and_restores_every_constant",
+   "status": "PASS",
+   "seconds": 0.528
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestRegressionV2Extension::test_the_new_classes_have_rows_and_the_mandatory_set_is_unchanged",
+   "status": "PASS",
+   "seconds": 0.001
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestRegressionV2Extension::test_packages_staging_and_receipts_are_market_data_and_market_owned",
+   "status": "PASS",
+   "seconds": 0.012
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestRegressionV2Extension::test_a_one_market_data_only_change_set_is_recognised",
+   "status": "PASS",
+   "seconds": 0.008
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestRegressionV2Extension::test_case_23_an_unknown_dependency_is_not_data_only",
+   "status": "PASS",
+   "seconds": 0.001
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestRegressionV2Extension::test_case_24_a_shared_runtime_change_is_not_data_only",
+   "status": "PASS",
+   "seconds": 0.001
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestRegressionV2Extension::test_case_25_a_shared_assembler_change_is_not_data_only",
+   "status": "PASS",
+   "seconds": 0.001
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestRegressionV2Extension::test_two_markets_or_a_blocker_are_not_data_only",
+   "status": "PASS",
+   "seconds": 0.006
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestRegressionV2Extension::test_the_fast_requirement_fails_closed_without_a_package_receipt_or_activation",
+   "status": "PASS",
+   "seconds": 2.078
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestRegressionV2Extension::test_the_committed_activation_is_disabled_with_an_empty_allowlist",
+   "status": "PASS",
+   "seconds": 0.002
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestRegressionV2Extension::test_this_work_orders_own_change_set_is_broad",
+   "status": "PASS",
+   "seconds": 2.057
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestRegressionV2Extension::test_the_committed_matrix_carries_the_release_surfaces",
+   "status": "PASS",
+   "seconds": 0.002
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestCommittedPilot::test_the_pilot_package_and_receipt_are_committed_under_the_market_and_agree",
+   "status": "PASS",
+   "seconds": 0.034
+  },
+  {
+   "node": "tests.pettripfinder.test_atlas_throughput_003.TestCommittedPilot::test_the_committed_report_records_the_measurements",
+   "status": "PASS",
+   "seconds": 0.004
+  }
+ ]
+}

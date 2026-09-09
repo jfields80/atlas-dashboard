@@ -1,0 +1,25 @@
+{
+ "schema": "ptf-007-demo-media-redesign/1.0",
+ "pattern": [
+  "ONE cold end-to-end chain, reused by every claim about its RESULT",
+  "the determinism claim keeps TWO independent executions",
+  "the zero-image claim keeps its own execution, because its INPUT differs",
+  "one shared chain helper so three modules assert against one implementation"
+ ],
+ "split_rationale": "splitting only helps when the modules do not each rebuild the same fixture. These three build DIFFERENT things, so the split lowers the shard floor without duplicating work.",
+ "builds_before": 5,
+ "builds_after": 4,
+ "seconds_before": 1349.7,
+ "aggregate_after": 1133.4,
+ "floor_after": 558.2,
+ "aggregate_change_pct": -16.0,
+ "floor_change_pct": -58.6,
+ "targets": {
+  "preferred_600s": true,
+  "strong_450s": false
+ },
+ "claims_removed": 0,
+ "claims_added": 2,
+ "tests_before": 18,
+ "tests_after": 20
+}

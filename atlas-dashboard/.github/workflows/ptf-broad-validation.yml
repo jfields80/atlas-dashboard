@@ -1,0 +1,223 @@
+# ATLAS-THROUGHPUT-006 -- remote broad validation for the PetTripFinder factory.
+#
+# WHY THIS EXISTS
+# ---------------
+# A broad audit occupies the founder's desktop for about an hour while every
+# market worker waits. This workflow moves that proof to a runner. It does NOT
+# move the waste with it: most releases must never reach this file at all. A
+# proven data-only market authority change is validated by the FAST lane
+# (ATLAS-THROUGHPUT-003) and requests ZERO jobs here; only a shared runtime,
+# shared schema, assembler, deployment or unclassified change owes a broad run.
+# `scripts/pettripfinder/ci_validation.py dispatch` is what decides, and it
+# reads Regression V2's existing plan rather than inventing a second policy.
+#
+# TRIGGERS
+# --------
+# workflow_dispatch ONLY, on purpose. Committing this file starts nothing and
+# spends nothing; a human (or the dispatcher) asks for a run. There is no push
+# or pull_request trigger, because an automatic broad run on every commit is
+# precisely the habit this order exists to end.
+#
+# SHARDS
+# ------
+# Four jobs, balanced by MEASURED duration from a real profiled broad run and
+# committed as launch_packages/pettripfinder/reports/
+# atlas_throughput_006_shard_manifest.json. The split is at module granularity
+# because a module's session fixtures are the expensive part -- the
+# website-generation chain peaks near 9 GB, and splitting it would run that
+# twice. Measured on the ATLAS-THROUGHPUT-005 audit:
+#
+#   shard 1  1375.7 s   the website-generation demo-media chain (the critical path)
+#   shard 2   750.0 s   the global deployment architecture suite
+#   shard 3   748.0 s   300 modules, heaviest is the per-market release contracts
+#   shard 4   748.0 s   302 modules
+#
+# Wall clock is bounded by shard 1: no four-way split can beat its slowest
+# indivisible module, and adding shards buys nothing until that module is
+# itself divisible. That is a finding for ATLAS-THROUGHPUT-007, not a defect.
+#
+# COMPLETENESS
+# ------------
+# A sharded run is only a run if every planned node id is accounted for exactly
+# once. The final job re-collects the suite, unions the shards' junit, and
+# fails on a missing node, an unintended duplicate, a collection error, a
+# missing shard or a shard that timed out. Partial green is not green.
+
+name: PTF broad validation
+
+on:
+  workflow_dispatch:
+    inputs:
+      shards:
+        description: 'Comma-separated shard ids to run (default: all four)'
+        required: false
+        default: '1,2,3,4'
+      candidate_digest:
+        description: 'Release candidate digest this run validates (optional)'
+        required: false
+        default: ''
+      reason:
+        description: 'Why a broad run is required (change class, or an explicit audit)'
+        required: false
+        default: 'manual audit'
+
+permissions:
+  contents: read
+
+concurrency:
+  # One broad validation per ref. A second dispatch supersedes a queued one
+  # rather than doubling the runner bill.
+  group: ptf-broad-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  PYTHONUTF8: '1'
+  PIP_DISABLE_PIP_VERSION_CHECK: '1'
+  # Deterministic tests only. No acquisition provider is reachable from CI and
+  # none may be called: no Firecrawl, no Bright Data, no browser research, no
+  # paid provider of any kind.
+  PTF_CI: '1'
+  PTF_CI_ENVIRONMENT: github-actions
+
+jobs:
+  plan:
+    name: Plan (shards + collection)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    outputs:
+      shards: ${{ steps.plan.outputs.shards }}
+      planned_nodes: ${{ steps.plan.outputs.planned_nodes }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+      - name: Install dependencies
+        run: |
+          python -m pip install -r requirements-dev.txt
+      - name: Collect the planned node ids
+        id: plan
+        working-directory: atlas-dashboard
+        run: |
+          python - <<'PY'
+          import json, os, sys
+          sys.path.insert(0, ".")
+          from scripts.pettripfinder import ci_validation as CI
+          nodes, errors = CI.collect_node_ids()
+          if errors:
+              print("COLLECTION ERRORS:", errors[:5])
+              raise SystemExit(1)
+          with open("planned_nodes.json", "w", encoding="utf-8") as fh:
+              json.dump(sorted(nodes), fh)
+          requested = os.environ.get("REQUESTED_SHARDS", "1,2,3,4")
+          shards = [int(s) for s in requested.split(",") if s.strip()]
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
+              fh.write("shards=%s\n" % json.dumps(shards))
+              fh.write("planned_nodes=%d\n" % len(nodes))
+          print("planned node ids:", len(nodes))
+          PY
+        env:
+          REQUESTED_SHARDS: ${{ github.event.inputs.shards }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: planned-nodes
+          path: atlas-dashboard/planned_nodes.json
+          retention-days: 7
+
+  shard:
+    name: Shard ${{ matrix.shard }}
+    needs: plan
+    runs-on: ubuntu-latest
+    # Shard 1 is the critical path at ~23 minutes measured locally; the ceiling
+    # is generous because a TIMEOUT must fail the run loudly, not silently
+    # truncate the suite.
+    timeout-minutes: 75
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: ${{ fromJSON(needs.plan.outputs.shards) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+      - name: Install dependencies
+        run: python -m pip install -r requirements-dev.txt
+      - name: Select this shard's modules
+        working-directory: atlas-dashboard
+        run: |
+          python - <<'PY'
+          import json, os, sys
+          sys.path.insert(0, ".")
+          manifest = json.load(open(
+              "launch_packages/pettripfinder/reports/atlas_throughput_006_shard_manifest.json",
+              encoding="utf-8-sig"))
+          shard_id = int(os.environ["SHARD"])
+          shard = next(s for s in manifest["shards"] if int(s["shard"]) == shard_id)
+          with open("shard_modules.txt", "w", encoding="utf-8") as fh:
+              fh.write("\n".join(shard["modules"]))
+          print("shard %s: %d modules, %.1f s measured"
+                % (shard_id, len(shard["modules"]), shard["seconds"]))
+          PY
+        env:
+          SHARD: ${{ matrix.shard }}
+      - name: Run the shard
+        working-directory: atlas-dashboard
+        run: |
+          mkdir -p ci-out
+          xargs -a shard_modules.txt python -m pytest \
+            -q -p no:cacheprovider \
+            -o junit_family=xunit2 \
+            --junitxml=ci-out/shard-${{ matrix.shard }}.xml \
+            -p scripts.pettripfinder.throughput_profile \
+            --ptf-profile-out ci-out/profile-${{ matrix.shard }}.jsonl
+        # A non-zero exit is EXPECTED while the f75aa95 baseline failures stand.
+        # The run's verdict is decided by node-id classification in `verify`,
+        # never by this exit status -- which is why the baseline is not hidden.
+        continue-on-error: true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: shard-${{ matrix.shard }}
+          path: atlas-dashboard/ci-out/
+          retention-days: 7
+          if-no-files-found: error
+
+  verify:
+    name: Verify completeness and emit the receipt
+    needs: [plan, shard]
+    # `always()` so a MISSING or TIMED-OUT shard reaches this job and fails it
+    # explicitly. A shard that never reported must not look like a shard that
+    # passed.
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+      - name: Install dependencies
+        run: python -m pip install -r requirements-dev.txt
+      - uses: actions/download-artifact@v4
+        with:
+          path: atlas-dashboard/ci-artifacts
+      - name: Node-id completeness and the validation receipt
+        working-directory: atlas-dashboard
+        run: |
+          python -m scripts.pettripfinder.ci_report \
+            --planned ci-artifacts/planned-nodes/planned_nodes.json \
+            --artifacts ci-artifacts \
+            --shards-required '${{ needs.plan.outputs.shards }}' \
+            --candidate-digest '${{ github.event.inputs.candidate_digest }}' \
+            --source-commit '${{ github.sha }}' \
+            --ci-run-id '${{ github.run_id }}' \
+            --reason '${{ github.event.inputs.reason }}' \
+            --out ci-receipt.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ci-validation-receipt
+          path: atlas-dashboard/ci-receipt.json
+          retention-days: 30

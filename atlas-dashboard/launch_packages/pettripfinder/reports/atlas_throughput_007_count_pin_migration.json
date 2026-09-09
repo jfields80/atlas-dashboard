@@ -1,0 +1,46 @@
+{
+ "schema": "ptf-007-count-pin-migration/1.0",
+ "selected_cohort": "the genuinely naive CURRENT-STATE counts in tests/pettripfinder/test_identity_routing.py",
+ "migrated": [
+  {
+   "test": "test_routing_does_not_change_published_count",
+   "was": "assert len(pkg[\"hotels\"]) == 88",
+   "now": "assert len(pkg[\"hotels\"]) == market_state.current(\"columbus-oh\").profiles",
+   "class": "CURRENT_STATE_INVARIANT",
+   "why": "the claim is that ROUTING does not change the published count, not that Columbus publishes 88"
+  },
+  {
+   "test": "test_routing_does_not_enter_seed_inventory",
+   "was": "assert len(hotels) == 89",
+   "now": "the seed CSV's Columbus hotel rows must equal its authority shard's, by count AND by name",
+   "class": "CURRENT_STATE_INVARIANT",
+   "why": "the claim is that routing contributes nothing to seed inventory; the literal asserted a total instead, and the name check is strictly stronger"
+  }
+ ],
+ "deliberately_not_migrated": [
+  {
+   "what": "the per-market ROUTE counts in the same module (Columbus 20, Cleveland 37, Dayton 9, Cincinnati 51)",
+   "why": "each carries a documented ledger of every order that moved it. That history is worth more than the noise it costs, and rewriting it would be exactly the 'replace an old hardcoded count with today's hardcoded count' error"
+  },
+  {
+   "what": "the historical ledger totals in the acquisition suites",
+   "why": "they are HISTORICAL_COHORT facts about a closed order's own run, already baselined, and they do not break when a market grows"
+  }
+ ],
+ "already_correct_before_007": [
+  {
+   "module": "tests/pettripfinder/test_global_deployment_architecture_045.py",
+   "finding": "every release count already derives from the reviewed pins (SOURCE_PINS.total_profiles, .total_html_pages, .sitemap_route_count, .bundle_sha256). No migration needed; a test now records that so a later order does not 'fix' it."
+  },
+  {
+   "module": "tests/pettripfinder/test_louisville_authority.py",
+   "finding": "current-state assertions already read market_state.current and epochs cohorts; its remaining literals are its own order's ledger totals"
+  }
+ ],
+ "cohort_safety_proved": [
+  "adding valid hotels leaves a named cohort unchanged",
+  "deleting a cohort member fails",
+  "substituting a wrong identity fails",
+  "a compensating swap that a bare total cannot see is caught"
+ ]
+}

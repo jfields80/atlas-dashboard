@@ -1,0 +1,67 @@
+{
+ "schema": "ptf-ci-receipt-contract/1.0",
+ "receipt_schema": "ptf-ci-validation-receipt/1.0",
+ "binds": [
+  "ci_run_id",
+  "source_commit",
+  "candidate_digest",
+  "parent_release_digest",
+  "change_class",
+  "dependency_digest",
+  "shards_required",
+  "shards_completed",
+  "node_ids_expected/executed/excluded",
+  "node_completeness",
+  "counts",
+  "pre_existing_failures",
+  "true_new_failures",
+  "artifact_digests",
+  "environment",
+  "started_at",
+  "ended_at",
+  "result",
+  "receipt_digest"
+ ],
+ "refusals": [
+  "RECEIPT_INCOMPLETE",
+  "RECEIPT_WRONG_CANDIDATE",
+  "RECEIPT_WRONG_COMMIT",
+  "RECEIPT_WRONG_DEPENDENCY_DIGEST",
+  "RECEIPT_STALE",
+  "RECEIPT_SHARDS_INCOMPLETE",
+  "RECEIPT_NODES_INCOMPLETE",
+  "RECEIPT_TRUE_NEW"
+ ],
+ "max_age_seconds": 604800,
+ "not_required_state": "NOT_REQUIRED_BY_POLICY",
+ "example": {
+  "ci_run_id": "local-shard-simulation",
+  "source_commit": "5da74f3aae4c71d63411777b11b87c9cd4ede2bf",
+  "shards_required": [
+   "1",
+   "2",
+   "3",
+   "4"
+  ],
+  "shards_completed": [
+   "1",
+   "2",
+   "3",
+   "4"
+  ],
+  "node_ids_expected": 17643,
+  "node_ids_executed": 17643,
+  "result": "PASS",
+  "receipt_digest": "sha256:dcf41e6a653857cf78178525c3994da77fa7885d6af9611d4ebbe3de03c060e5"
+ },
+ "legacy_baseline": {
+  "identity": "node id AND normalised failure signature",
+  "same_node_new_failure": "TRUE_NEW -- the baseline records that a test fails, not a licence for it to fail in new ways",
+  "normalised_away": [
+   "addresses",
+   "absolute paths",
+   "temp paths",
+   "timestamps"
+  ]
+ }
+}

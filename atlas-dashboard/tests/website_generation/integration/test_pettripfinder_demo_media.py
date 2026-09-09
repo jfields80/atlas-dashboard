@@ -1,23 +1,38 @@
 """PetTripFinder real demo-media activation tests (AES-WEB-002M.3).
 
-Drives the *real* launch package (``launch_packages/pettripfinder/`` --
-its committed ``demo_media.json`` manifest and repository-owned
-deterministic demo PNGs) through the real M.2 ingestion path and the full
-engine chain, proving the mission matrix:
+Drives the *real* launch package (``launch_packages/pettripfinder/`` -- its
+committed ``demo_media.json`` manifest and repository-owned deterministic demo
+PNGs) through the real M.2 ingestion path and the full engine chain, proving
+the mission matrix:
 
 A. manifest/config validation
 B. real pilot ingestion (HERO_IMAGE refs on configured listings only)
 C. generated HTML (card + profile images; image-less listing untouched)
 D. bundle (asset tuple, content-addressed paths, materialized bytes)
 E. request safety (no remote/data/protocol-relative srcs)
-F. determinism (repeated build identity)
-G. zero-image fallback (no manifest -> zero <img>, generation succeeds)
+
+Claims F (determinism) and G (zero-image fallback) live in their own modules --
+``test_pettripfinder_demo_media_determinism.py`` and
+``..._fallback.py`` -- because each needs a DIFFERENT execution of the chain
+rather than a different assertion about this one.
+
+**Why the split, and why this module now builds once.**
+ATLAS-THROUGHPUT-001 found each of these tests rebuilding the same committed
+launch package at 280-425 s a time. 002 introduced the module fixture below and
+cut nine builds to five. 006 then measured what remained: 1,375.7 s, 38% of the
+entire broad suite, and the floor under every sharded remote run, because no
+split into jobs can finish faster than its slowest indivisible module.
+
+007 removed the last redundant build here. Every claim in this module is about
+the RESULT of one with-media chain, so there is exactly one, and the claim that
+used to build a second identical chain (``no filesystem path in the dataset``)
+now reads the shared one -- and checks more than it used to, because it can now
+also assert that the fixture's own temp root never leaked in.
 """
 
 from __future__ import annotations
 
 import pathlib
-import re
 import sys
 
 import pytest
@@ -26,119 +41,46 @@ _REPO_ROOT = pathlib.Path(__file__).resolve().parents[3]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
-from engines.website_generation.assembly.assembly_engine import AssemblyEngine  # noqa: E402
-from engines.website_generation.brand.brand_engine import BrandEngine  # noqa: E402
-from engines.website_generation.components.component_engine import ComponentEngine  # noqa: E402
-from engines.website_generation.components.registry import build_default_registry  # noqa: E402
-from engines.website_generation.contracts.artifacts import (  # noqa: E402
-    ArtifactKind,
-    BusinessSpec,
-    sha256_of_bytes,
-)
+from engines.website_generation.contracts.artifacts import sha256_of_bytes  # noqa: E402
 from engines.website_generation.contracts.enums import AssetRole  # noqa: E402
-from engines.website_generation.contracts.versions import SCHEMA_VERSIONS  # noqa: E402
-from engines.website_generation.ia.information_architecture_engine import (  # noqa: E402
-    InformationArchitectureEngine,
-)
-from engines.website_generation.layouts.layout_engine import LayoutEngine  # noqa: E402
-from engines.website_generation.rendering.renderer import Renderer  # noqa: E402
-from engines.website_generation.seo.seo_engine import SEOEngine  # noqa: E402
 from repositories.artifact_store_repository import ArtifactStoreRepository  # noqa: E402
 from repositories.site_bundle_repository import SiteBundleRepository  # noqa: E402
-from scripts.generate_pettripfinder_pilot import (  # noqa: E402
-    LAUNCH_PACKAGE_DIR,
-    build_content_package,
-    load_launch_package,
-)
-from scripts.pettripfinder import market_authority as MA  # noqa: E402
-from scripts.pettripfinder.listing_dataset_builder import build_listing_dataset  # noqa: E402
-from scripts.pettripfinder.publication_guard import distinct_entity_groups  # noqa: E402
+from scripts.generate_pettripfinder_pilot import LAUNCH_PACKAGE_DIR  # noqa: E402
 from scripts.pettripfinder.media_ingestion import (  # noqa: E402
     MediaIngestionError,
     ingest_demo_media,
     load_demo_media_manifest,
 )
+_HERE = pathlib.Path(__file__).resolve().parent
+if str(_HERE) not in sys.path:
+    sys.path.insert(0, str(_HERE))
 
-def _expected_by_category():
-    """Seeded listings per category, summed from the per-market authority
-    shards (PTF-MARKET-AUTHORITY-SHARDING-001)."""
-    counts = {}
-    for market_id in MA.sharded_market_ids():
-        for row in MA.load_market_seed_rows(market_id):
-            counts[row["category"]] = counts.get(row["category"], 0) + 1
-    return counts
-
-
-_IMG_TAG_RE = re.compile(r"<img [^>]*>")
-_SRC_RE = re.compile(r'src="([^"]*)"')
-
-# The committed manifest's intent (kept in sync with demo_media.json --
-# these tests fail loudly if the manifest and this expectation diverge).
-# Inventory Wave 2: the fake Riverbend sample park was replaced by 14 real
-# parks; the park demo illustration moved to Scioto Audubon Metro Park.
-# Inventory Wave 3: the fake Barkside sample restaurant was replaced by 13
-# real restaurants; the dining demo illustration moved to Land-Grant.
-IMAGED_SLUGS = {"scioto-audubon-metro-park", "land-grant-brewing-company"}
-# Inventory Wave 1: the example.com sample hotel row was replaced by 20
-# real researched hotels, none of which carries authorized media yet -- any
-# of them proves the imageless text-only fallback; one is pinned here.
-IMAGELESS_SLUG = "hyatt-regency-columbus"
+from pettripfinder_demo_chain import (  # noqa: E402
+    IMAGED_SLUGS,
+    IMAGELESS_SLUG,
+    IMG_TAG_RE,
+    SRC_RE,
+    expected_by_category,
+    real_chain,
+)
 
 
-def _real_chain(tmp_path, *, with_media: bool):
-    """The runner's exact chain (load -> optional ingest -> build -> IA ->
-    compile -> render -> assemble), media-optional."""
-    package = load_launch_package()
-    media_by_key = {}
-    cas = None
-    if with_media:
-        entries = load_demo_media_manifest(LAUNCH_PACKAGE_DIR)
-        cas = ArtifactStoreRepository(tmp_path / "cas")
-        media_by_key = ingest_demo_media(entries, LAUNCH_PACKAGE_DIR, cas)
-    result = build_listing_dataset(
-        seed_businesses=package["seed_businesses"],
-        categories=package["categories"],
-        locations=package["locations"],
-        media_by_key=media_by_key,
-        distinct_entity_groups=distinct_entity_groups(),
-    )
-    assert result.ok
-    dataset = result.dataset
+@pytest.fixture(scope="module")
+def with_media_chain(tmp_path_factory):
+    """ATLAS-THROUGHPUT-002 -- the CONSUMER-REUSE claim, completed in 007.
 
-    pilot_config = package["pilot_config"]
-    spec = BusinessSpec(
-        schema_version=SCHEMA_VERSIONS[ArtifactKind.BUSINESS_SPEC],
-        artifact_kind=ArtifactKind.BUSINESS_SPEC,
-        source_hashes={},
-        business_name=pilot_config["project_name"],
-        niche=pilot_config["niche"],
-        audience=pilot_config["audience"],
-        value_proposition=pilot_config["value_proposition"],
-        directory_taxonomy=tuple(c["name"] for c in pilot_config["launch_categories"]),
-        monetization_model=pilot_config["monetization_model"],
-        geography=pilot_config["geography"],
-    )
-    brand = BrandEngine().resolve(spec)
-    editorial_pages = tuple((p["route"], p["title"]) for p in pilot_config["editorial_pages"])
-    site = InformationArchitectureEngine().plan(
-        spec, brand, listing_dataset=dataset, editorial_pages=editorial_pages,
-    )
-    category_routes = {c.slug: "/%s/" % c.slug for c in dataset.categories}
-    content = build_content_package(
-        package["pilot_content"], category_routes, dataset, dict(editorial_pages),
-    )
-    registry = build_default_registry()
-    compilation = ComponentEngine().compile(
-        site, content, listing_dataset=dataset, brand_package=brand, registry=registry,
-    )
-    layout = LayoutEngine(registry).compose(compilation.component_manifest, brand)
-    rendered = Renderer(registry).render(
-        layout, compilation.component_manifest, compilation.content_package, brand,
-        render_data=compilation.render_data,
-    )
-    seo = SEOEngine().compile(site, compilation.content_package, spec, base_url=pilot_config["base_url"])
-    bundle = AssemblyEngine().assemble(rendered, seo, brand, listing_dataset=dataset)
-    return dataset, rendered, bundle, cas
+    One real with-media chain, built once per module and read by every test
+    below, because every one of them asserts about the RESULT of the chain
+    (ingestion refs, HTML, bundle contents, request safety) rather than about
+    the act of building it. The claims that need their own execution -- two
+    independent builds for determinism, a no-media build for the fallback --
+    live in their own modules and keep their own builds.
+
+    Yields ``(dataset, rendered, bundle, cas, root)``.
+    """
+    root = tmp_path_factory.mktemp("with_media_chain")
+    dataset, rendered, bundle, cas = real_chain(root, with_media=True)
+    return dataset, rendered, bundle, cas, root
 
 
 # --------------------------------------------------------------------------- #
@@ -211,8 +153,8 @@ class TestDemoMediaManifest:
 # --------------------------------------------------------------------------- #
 
 class TestRealPilotIngestion:
-    def test_configured_listings_gain_hero_refs(self, tmp_path):
-        dataset, _, _, _ = _real_chain(tmp_path, with_media=True)
+    def test_configured_listings_gain_hero_refs(self, with_media_chain):
+        dataset, _, _, _, _ = with_media_chain
         by_slug = {l.slug: l for l in dataset.listings}
         for slug in IMAGED_SLUGS:
             (ref,) = by_slug[slug].assets
@@ -224,22 +166,30 @@ class TestRealPilotIngestion:
             assert (ref.width, ref.height) == (1200, 800)
         assert by_slug[IMAGELESS_SLUG].assets == ()
 
-    def test_asset_hashes_match_committed_bytes(self, tmp_path):
-        dataset, _, _, _ = _real_chain(tmp_path, with_media=True)
+    def test_asset_hashes_match_committed_bytes(self, with_media_chain):
+        dataset, _, _, _, _ = with_media_chain
         by_slug = {l.slug: l for l in dataset.listings}
         park = (LAUNCH_PACKAGE_DIR / "media" / "park-demo.png").read_bytes()
         dining = (LAUNCH_PACKAGE_DIR / "media" / "dining-demo.png").read_bytes()
         assert by_slug["scioto-audubon-metro-park"].assets[0].asset_hash == sha256_of_bytes(park)
         assert by_slug["land-grant-brewing-company"].assets[0].asset_hash == sha256_of_bytes(dining)
 
-    def test_no_filesystem_path_in_dataset(self, tmp_path):
+    def test_no_filesystem_path_in_dataset(self, with_media_chain):
+        """ATLAS-THROUGHPUT-007: this used to build a SECOND identical chain
+        (262 s measured) to assert about a dataset the module had already
+        built. It now reads the shared one and checks strictly more -- the
+        fixture's own temp root is a filesystem path that must not have leaked
+        in either, which the private build could never have caught, because it
+        was checking a tree it had just created for itself."""
         from engines.website_generation.contracts.artifacts import canonical_artifact_json
 
-        dataset, _, _, _ = _real_chain(tmp_path, with_media=True)
+        dataset, _, _, _, root = with_media_chain
         text = canonical_artifact_json(dataset)
         assert "media/park-demo.png" not in text
         assert "launch_packages" not in text
         assert "\\\\" not in text
+        assert str(root) not in text
+        assert root.name not in text
 
 
 # --------------------------------------------------------------------------- #
@@ -250,8 +200,8 @@ class TestGeneratedHtml:
     def _html(self, rendered, route):
         return next(p for p in rendered.page_details if p.route == route).html
 
-    def test_configured_card_and_profile_render_img(self, tmp_path):
-        dataset, rendered, _, _ = _real_chain(tmp_path, with_media=True)
+    def test_configured_card_and_profile_render_img(self, with_media_chain):
+        dataset, rendered, _, _, _ = with_media_chain
         park_hash = next(
             l.assets[0].asset_hash for l in dataset.listings
             if l.slug == "scioto-audubon-metro-park"
@@ -265,14 +215,14 @@ class TestGeneratedHtml:
         assert "ac-profile--primary-image" in profile
         assert 'alt="Pet-friendly park travel illustration"' in category
 
-    def test_imageless_listing_stays_text_only(self, tmp_path):
-        _, rendered, _, _ = _real_chain(tmp_path, with_media=True)
+    def test_imageless_listing_stays_text_only(self, with_media_chain):
+        _, rendered, _, _, _ = with_media_chain
         for route in ("/pet-friendly-hotels/", "/pet-friendly-hotels/%s/" % IMAGELESS_SLUG):
             html = self._html(rendered, route)
             assert "<img" not in html
             assert "card-image" not in html and "primary-image" not in html
 
-    def test_img_tags_sitewide_are_exactly_the_two_demo_illustrations(self, tmp_path):
+    def test_img_tags_sitewide_are_exactly_the_two_demo_illustrations(self, with_media_chain):
         # 2 imaged listings x (1 category card + 1 profile primary) = 4, plus
         # J.20 related-listing repetition: the Scioto Audubon card appears on
         # every OTHER park profile and the Land-Grant card on every OTHER
@@ -284,10 +234,11 @@ class TestGeneratedHtml:
         # the behaviour under test; the sibling counts are just how many
         # listings the markets happen to seed, and a market adding one park
         # should not make this test wrong.
-        by_category = _expected_by_category()
-        expected = 4 + (by_category["pet-friendly-parks"] - 1)                      + (by_category["pet-friendly-restaurants"] - 1)
-        _, rendered, _, _ = _real_chain(tmp_path, with_media=True)
-        total = sum(len(_IMG_TAG_RE.findall(p.html)) for p in rendered.page_details)
+        by_category = expected_by_category()
+        expected = (4 + (by_category["pet-friendly-parks"] - 1)
+                    + (by_category["pet-friendly-restaurants"] - 1))
+        _, rendered, _, _, _ = with_media_chain
+        total = sum(len(IMG_TAG_RE.findall(p.html)) for p in rendered.page_details)
         assert total == expected
 
 
@@ -296,8 +247,8 @@ class TestGeneratedHtml:
 # --------------------------------------------------------------------------- #
 
 class TestBundle:
-    def test_two_content_addressed_assets_materialized(self, tmp_path):
-        _, _, bundle, cas = _real_chain(tmp_path, with_media=True)
+    def test_two_content_addressed_assets_materialized(self, with_media_chain, tmp_path):
+        _, _, bundle, cas, _ = with_media_chain
         assert len(bundle.assets) == 2
         for asset in bundle.assets:
             assert asset.path == "assets/media/%s.png" % asset.asset_hash
@@ -314,8 +265,8 @@ class TestBundle:
         for f in files:
             assert sha256_of_bytes(f.read_bytes()) == f.name.split(".")[0]
 
-    def test_no_duplicated_bytes(self, tmp_path):
-        _, _, bundle, _ = _real_chain(tmp_path, with_media=True)
+    def test_no_duplicated_bytes(self, with_media_chain):
+        _, _, bundle, _, _ = with_media_chain
         hashes = [a.asset_hash for a in bundle.assets]
         assert len(hashes) == len(set(hashes))
 
@@ -325,38 +276,11 @@ class TestBundle:
 # --------------------------------------------------------------------------- #
 
 class TestRequestSafety:
-    def test_every_img_src_is_bundled_local(self, tmp_path):
-        _, rendered, bundle, _ = _real_chain(tmp_path, with_media=True)
+    def test_every_img_src_is_bundled_local(self, with_media_chain):
+        _, rendered, bundle, _, _ = with_media_chain
         for page in rendered.page_details:
-            for img in _IMG_TAG_RE.findall(page.html):
-                src = _SRC_RE.search(img).group(1)
+            for img in IMG_TAG_RE.findall(page.html):
+                src = SRC_RE.search(img).group(1)
                 assert src.startswith("/assets/media/")
                 assert not src.startswith(("http://", "https://", "//", "data:"))
                 assert src.lstrip("/") in bundle.file_map
-
-
-# --------------------------------------------------------------------------- #
-# F. Determinism
-# --------------------------------------------------------------------------- #
-
-class TestDeterminism:
-    def test_repeated_real_build_identical(self, tmp_path):
-        _, rendered_a, bundle_a, _ = _real_chain(tmp_path / "a", with_media=True)
-        _, rendered_b, bundle_b, _ = _real_chain(tmp_path / "b", with_media=True)
-        assert bundle_a.bundle_hash == bundle_b.bundle_hash
-        assert bundle_a.assets == bundle_b.assets
-        for pa, pb in zip(rendered_a.page_details, rendered_b.page_details):
-            assert pa.html == pb.html
-
-
-# --------------------------------------------------------------------------- #
-# G. Zero-image fallback
-# --------------------------------------------------------------------------- #
-
-class TestZeroImageFallback:
-    def test_no_media_mapping_yields_zero_img(self, tmp_path):
-        dataset, rendered, bundle, _ = _real_chain(tmp_path, with_media=False)
-        assert all(l.assets == () for l in dataset.listings)
-        assert bundle.assets == ()
-        for page in rendered.page_details:
-            assert "<img" not in page.html

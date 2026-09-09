@@ -9,16 +9,16 @@
   "GENERIC_SCHEMA_INVARIANT",
   "CROSS_MARKET_INVARIANT"
  ],
- "modules_scanned": 393,
- "modules_with_pins": 266,
- "sites": 1562,
+ "modules_scanned": 400,
+ "modules_with_pins": 273,
+ "sites": 1589,
  "by_class": {
-  "CURRENT_STATE_INVARIANT": 157,
-  "HISTORICAL_COHORT_INVARIANT": 833,
-  "HISTORICAL_ARTIFACT_INVARIANT": 186,
-  "DEPLOYMENT_EPOCH_INVARIANT": 129,
+  "CURRENT_STATE_INVARIANT": 155,
+  "HISTORICAL_COHORT_INVARIANT": 852,
+  "HISTORICAL_ARTIFACT_INVARIANT": 193,
+  "DEPLOYMENT_EPOCH_INVARIANT": 131,
   "GENERIC_SCHEMA_INVARIANT": 194,
-  "CROSS_MARKET_INVARIANT": 63
+  "CROSS_MARKET_INVARIANT": 64
  },
  "modules_asserting_whole_package_counts": [
   "tests/pettripfinder/acquisition/test_authority_build_036.py",
@@ -48,6 +48,7 @@
   "tests/pettripfinder/discovery/test_resolution_fetch_plan.py",
   "tests/pettripfinder/policy/test_authority_safety.py",
   "tests/pettripfinder/policy/test_m10_code_and_address_override.py",
+  "tests/pettripfinder/test_atlas_throughput_001.py",
   "tests/pettripfinder/test_build_capture_queue.py",
   "tests/pettripfinder/test_cincinnati_founder_application_004.py",
   "tests/pettripfinder/test_cincinnati_hilton_close_marriott_retry_015.py",
@@ -81,7 +82,6 @@
   "tests/pettripfinder/test_grand_rapids_review_prep_019.py",
   "tests/pettripfinder/test_grand_rapids_source_promotion_022.py",
   "tests/pettripfinder/test_identity_evidence.py",
-  "tests/pettripfinder/test_identity_routing.py",
   "tests/pettripfinder/test_ihg_recertification_011.py",
   "tests/pettripfinder/test_indianapolis_backlog_cost_plan_015.py",
   "tests/pettripfinder/test_indianapolis_founder_review_013.py",
@@ -7187,6 +7187,437 @@
      "source": "len(pkg[\"hotels\"]) >= 80",
      "class": "CURRENT_STATE_INVARIANT",
      "reason": "whole-package count in a generic module"
+    }
+   ]
+  },
+  {
+   "module": "tests/pettripfinder/test_atlas_throughput_001.py",
+   "market": null,
+   "lanes": [
+    "full_regression"
+   ],
+   "default_class": "HISTORICAL_COHORT_INVARIANT",
+   "default_reason": "work-order-numbered module",
+   "site_count": 10,
+   "by_class": {
+    "HISTORICAL_ARTIFACT_INVARIANT": 4,
+    "HISTORICAL_COHORT_INVARIANT": 6
+   },
+   "sites": [
+    {
+     "line": 152,
+     "test": "test_the_wrapper_records_market_hashes_and_passes_the_result_through",
+     "kind": "count",
+     "literal": 64,
+     "reads_package": false,
+     "has_len": true,
+     "source": "len(row[\"dependency_input_hash\"]) == 64",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 262,
+     "test": "test_the_inventory_names_every_item_with_fixtures_and_params",
+     "kind": "count",
+     "literal": 2,
+     "reads_package": true,
+     "has_len": false,
+     "source": "doc[\"parametrized_items\"] == 2",
+     "class": "HISTORICAL_ARTIFACT_INVARIANT",
+     "reason": "count read from a committed artifact"
+    },
+    {
+     "line": 300,
+     "test": "test_overhead_is_suite_time_minus_case_time_and_categories_roll_up",
+     "kind": "count",
+     "literal": 4,
+     "reads_package": true,
+     "has_len": false,
+     "source": "doc[\"collected\"] == 4",
+     "class": "HISTORICAL_ARTIFACT_INVARIANT",
+     "reason": "count read from a committed artifact"
+    },
+    {
+     "line": 369,
+     "test": "test_repeated_identical_inputs_are_counted_and_costed",
+     "kind": "count",
+     "literal": 3,
+     "reads_package": false,
+     "has_len": false,
+     "source": "a[\"total_invocations_outer\"] == 3",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 370,
+     "test": "test_repeated_identical_inputs_are_counted_and_costed",
+     "kind": "count",
+     "literal": 4,
+     "reads_package": false,
+     "has_len": false,
+     "source": "a[\"total_invocations_including_nested\"] == 4",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 375,
+     "test": "test_repeated_identical_inputs_are_counted_and_costed",
+     "kind": "count",
+     "literal": 2,
+     "reads_package": false,
+     "has_len": false,
+     "source": "a[\"top_input_keys_by_build_count\"][0][\"builds\"] == 2",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 386,
+     "test": "test_phases_and_cpu_are_derived_not_typed",
+     "kind": "count",
+     "literal": 300,
+     "reads_package": true,
+     "has_len": false,
+     "source": "doc[\"peak_working_set_mb\"] == 300",
+     "class": "HISTORICAL_ARTIFACT_INVARIANT",
+     "reason": "count read from a committed artifact"
+    },
+    {
+     "line": 404,
+     "test": "test_the_process_tree_peak_walks_parent_ids",
+     "kind": "count",
+     "literal": 2,
+     "reads_package": true,
+     "has_len": false,
+     "source": "doc[\"samples_with_root\"] == 2",
+     "class": "HISTORICAL_ARTIFACT_INVARIANT",
+     "reason": "count read from a committed artifact"
+    },
+    {
+     "line": 440,
+     "test": "test_every_baseline_failure_is_grouped_exactly_once",
+     "kind": "count",
+     "literal": 160,
+     "reads_package": true,
+     "has_len": true,
+     "source": "sum(doc[\"counts\"].values()) == len(baseline[\"failing_node_ids\"]) == 160",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "whole-package count in a closed order's suite"
+    },
+    {
+     "line": 474,
+     "test": "test_the_junit_profile_report_was_produced_by_this_module",
+     "kind": "count",
+     "literal": 10,
+     "reads_package": true,
+     "has_len": true,
+     "source": "len(doc[\"runs\"]) >= 10",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "whole-package count in a closed order's suite"
+    }
+   ]
+  },
+  {
+   "module": "tests/pettripfinder/test_atlas_throughput_002.py",
+   "market": null,
+   "lanes": [
+    "full_regression"
+   ],
+   "default_class": "HISTORICAL_COHORT_INVARIANT",
+   "default_reason": "work-order-numbered module",
+   "site_count": 5,
+   "by_class": {
+    "HISTORICAL_ARTIFACT_INVARIANT": 1,
+    "HISTORICAL_COHORT_INVARIANT": 4
+   },
+   "sites": [
+    {
+     "line": 336,
+     "test": "test_case_a_nashville_helpers_are_market_local",
+     "kind": "count",
+     "literal": 15,
+     "reads_package": false,
+     "has_len": true,
+     "source": "len(helpers) >= 15",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 357,
+     "test": "test_case_b_chattanooga_helpers_are_market_local",
+     "kind": "count",
+     "literal": 6,
+     "reads_package": false,
+     "has_len": true,
+     "source": "len(helpers) >= 6",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 364,
+     "test": "test_case_c_lexington_helpers_are_market_local",
+     "kind": "count",
+     "literal": 10,
+     "reads_package": false,
+     "has_len": true,
+     "source": "len(helpers) >= 10",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 637,
+     "test": "test_the_suite_separates_cold_claims_from_consumer_reuse",
+     "kind": "count",
+     "literal": 2,
+     "reads_package": false,
+     "has_len": false,
+     "source": "determinism.count(\"with_media=True\") == 2",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 772,
+     "test": "test_the_key_covers_the_inputs_the_order_names",
+     "kind": "count",
+     "literal": 1500,
+     "reads_package": true,
+     "has_len": false,
+     "source": "doc[\"repo_input_files\"] > 1500",
+     "class": "HISTORICAL_ARTIFACT_INVARIANT",
+     "reason": "count read from a committed artifact"
+    }
+   ]
+  },
+  {
+   "module": "tests/pettripfinder/test_atlas_throughput_003.py",
+   "market": null,
+   "lanes": [
+    "full_regression"
+   ],
+   "default_class": "HISTORICAL_COHORT_INVARIANT",
+   "default_reason": "work-order-numbered module",
+   "site_count": 5,
+   "by_class": {
+    "CROSS_MARKET_INVARIANT": 1,
+    "DEPLOYMENT_EPOCH_INVARIANT": 1,
+    "HISTORICAL_ARTIFACT_INVARIANT": 1,
+    "HISTORICAL_COHORT_INVARIANT": 2
+   },
+   "sites": [
+    {
+     "line": 455,
+     "test": "test_current_verified_live_agrees_across_record_manifest_and_pin",
+     "kind": "count",
+     "literal": 9,
+     "reads_package": false,
+     "has_len": true,
+     "source": "len(state.rollback_markets) == 9",
+     "class": "CROSS_MARKET_INVARIANT",
+     "reason": "names another market or isolation"
+    },
+    {
+     "line": 522,
+     "test": "test_case_17_the_stale_pittsburgh_like_package_cannot_remove_newer_indianapolis_like_state",
+     "kind": "count",
+     "literal": 786,
+     "reads_package": false,
+     "has_len": false,
+     "source": "receipt[\"RESULTS\"][\"G\"][\"detail\"][\"proposed_total_profiles\"] == 786",
+     "class": "DEPLOYMENT_EPOCH_INVARIANT",
+     "reason": "bundle / sitemap / route total"
+    },
+    {
+     "line": 555,
+     "test": "test_the_index_is_o_data_and_fast_at_a_hundred_markets",
+     "kind": "count",
+     "literal": 30,
+     "reads_package": true,
+     "has_len": false,
+     "source": "rows[-1][\"total_seconds\"] < 30",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 753,
+     "test": "test_staging_writes_only_into_the_stage_and_restores_every_constant",
+     "kind": "count",
+     "literal": 50,
+     "reads_package": false,
+     "has_len": false,
+     "source": "contract[\"policy_package\"][\"expected_record_count\"] == 50",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 921,
+     "test": "test_the_committed_report_records_the_measurements",
+     "kind": "count",
+     "literal": 100,
+     "reads_package": true,
+     "has_len": false,
+     "source": "doc[\"index_benchmark\"][-1][\"markets\"] >= 100",
+     "class": "HISTORICAL_ARTIFACT_INVARIANT",
+     "reason": "count read from a committed artifact"
+    }
+   ]
+  },
+  {
+   "module": "tests/pettripfinder/test_atlas_throughput_004.py",
+   "market": null,
+   "lanes": [
+    "full_regression"
+   ],
+   "default_class": "HISTORICAL_COHORT_INVARIANT",
+   "default_reason": "work-order-numbered module",
+   "site_count": 2,
+   "by_class": {
+    "HISTORICAL_COHORT_INVARIANT": 2
+   },
+   "sites": [
+    {
+     "line": 498,
+     "test": "test_telemetry_records_every_request",
+     "kind": "count",
+     "literal": 2,
+     "reads_package": false,
+     "has_len": false,
+     "source": "(cache.root / \"telemetry.jsonl\").read_text(encoding=\"utf-8\").count(\"\\n\") >= 2",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 567,
+     "test": "test_case_2_a_second_process_hits_the_persistent_cache",
+     "kind": "count",
+     "literal": 10,
+     "reads_package": false,
+     "has_len": false,
+     "source": "warm[\"total_seconds\"] < 10",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    }
+   ]
+  },
+  {
+   "module": "tests/pettripfinder/test_atlas_throughput_005.py",
+   "market": null,
+   "lanes": [
+    "full_regression"
+   ],
+   "default_class": "HISTORICAL_COHORT_INVARIANT",
+   "default_reason": "work-order-numbered module",
+   "site_count": 3,
+   "by_class": {
+    "DEPLOYMENT_EPOCH_INVARIANT": 1,
+    "HISTORICAL_COHORT_INVARIANT": 2
+   },
+   "sites": [
+    {
+     "line": 116,
+     "test": "test_case_2_an_unrelated_live_market_is_carried_at_its_live_numbers",
+     "kind": "count",
+     "literal": 82,
+     "reads_package": false,
+     "has_len": false,
+     "source": "indy[\"profile_count\"] == 82",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 522,
+     "test": "test_case_29_each_release_stages_from_the_latest_live_parent",
+     "kind": "count",
+     "literal": 2,
+     "reads_package": false,
+     "has_len": true,
+     "source": "len(host.deploys) == 2",
+     "class": "DEPLOYMENT_EPOCH_INVARIANT",
+     "reason": "bundle / sitemap / route total"
+    },
+    {
+     "line": 686,
+     "test": "test_the_candidate_staged_inside_the_time_budget",
+     "kind": "count",
+     "literal": 900,
+     "reads_package": false,
+     "has_len": false,
+     "source": "pilot[\"data_only\"][\"total_seconds\"] <= 900",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    }
+   ]
+  },
+  {
+   "module": "tests/pettripfinder/test_atlas_throughput_006.py",
+   "market": null,
+   "lanes": [
+    "full_regression"
+   ],
+   "default_class": "HISTORICAL_COHORT_INVARIANT",
+   "default_reason": "work-order-numbered module",
+   "site_count": 2,
+   "by_class": {
+    "HISTORICAL_ARTIFACT_INVARIANT": 1,
+    "HISTORICAL_COHORT_INVARIANT": 1
+   },
+   "sites": [
+    {
+     "line": 369,
+     "test": "test_case_23_supersession_is_explicit_and_refused_once_work_started",
+     "kind": "count",
+     "literal": 2,
+     "reads_package": false,
+     "has_len": true,
+     "source": "len(queue.entries()) == 2",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 586,
+     "test": "test_the_plan_is_measured_not_guessed",
+     "kind": "count",
+     "literal": 3000,
+     "reads_package": true,
+     "has_len": false,
+     "source": "manifest[\"measured_total_seconds\"] > 3000",
+     "class": "HISTORICAL_ARTIFACT_INVARIANT",
+     "reason": "count read from a committed artifact"
+    }
+   ]
+  },
+  {
+   "module": "tests/pettripfinder/test_atlas_throughput_007.py",
+   "market": null,
+   "lanes": [
+    "full_regression"
+   ],
+   "default_class": "HISTORICAL_COHORT_INVARIANT",
+   "default_reason": "work-order-numbered module",
+   "site_count": 2,
+   "by_class": {
+    "HISTORICAL_COHORT_INVARIANT": 2
+   },
+   "sites": [
+    {
+     "line": 108,
+     "test": "test_a_count_pin_cannot_tell_growth_from_loss",
+     "kind": "count",
+     "literal": 2,
+     "reads_package": false,
+     "has_len": true,
+     "source": "len(epochs.cohort(grown, self._selector())) == 2",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 141,
+     "test": "test_the_baseline_now_carries_a_signature_for_every_node",
+     "kind": "count",
+     "literal": 160,
+     "reads_package": false,
+     "has_len": true,
+     "source": "len(nodes) == 160",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
     }
    ]
   },
@@ -14943,7 +15374,7 @@
      "literal": 2,
      "reads_package": false,
      "has_len": false,
-     "source": "cleveland_home.count(\"<em>Cleveland–Akron–Canton</em>\") == 2",
+     "source": "cleveland_home.count(\"<em>Cleveland\u2013Akron\u2013Canton</em>\") == 2",
      "class": "GENERIC_SCHEMA_INVARIANT",
      "reason": "module default"
     }
@@ -15038,9 +15469,8 @@
    ],
    "default_class": "GENERIC_SCHEMA_INVARIANT",
    "default_reason": "unlisted module",
-   "site_count": 10,
+   "site_count": 8,
    "by_class": {
-    "CURRENT_STATE_INVARIANT": 2,
     "GENERIC_SCHEMA_INVARIANT": 8
    },
    "sites": [
@@ -15078,29 +15508,7 @@
      "reason": "module default"
     },
     {
-     "line": 447,
-     "test": "test_routing_does_not_enter_seed_inventory",
-     "kind": "count",
-     "literal": 89,
-     "reads_package": true,
-     "has_len": true,
-     "source": "len(hotels) == 89",
-     "class": "CURRENT_STATE_INVARIANT",
-     "reason": "whole-package count in a generic module"
-    },
-    {
-     "line": 452,
-     "test": "test_routing_does_not_change_published_count",
-     "kind": "count",
-     "literal": 88,
-     "reads_package": true,
-     "has_len": true,
-     "source": "len(pkg[\"hotels\"]) == 88",
-     "class": "CURRENT_STATE_INVARIANT",
-     "reason": "whole-package count in a generic module"
-    },
-    {
-     "line": 598,
+     "line": 620,
      "test": "test_routing_carries_more_than_one_market",
      "kind": "count",
      "literal": 20,
@@ -15111,7 +15519,7 @@
      "reason": "module default"
     },
     {
-     "line": 612,
+     "line": 634,
      "test": "test_routing_carries_more_than_one_market",
      "kind": "count",
      "literal": 37,
@@ -15122,7 +15530,7 @@
      "reason": "module default"
     },
     {
-     "line": 613,
+     "line": 635,
      "test": "test_routing_carries_more_than_one_market",
      "kind": "count",
      "literal": 9,
@@ -15133,7 +15541,7 @@
      "reason": "module default"
     },
     {
-     "line": 642,
+     "line": 664,
      "test": "test_routing_carries_more_than_one_market",
      "kind": "count",
      "literal": 51,
@@ -15144,7 +15552,7 @@
      "reason": "module default"
     },
     {
-     "line": 772,
+     "line": 794,
      "test": "test_disabling_routing_restores_the_prior_queue",
      "kind": "count",
      "literal": 77,

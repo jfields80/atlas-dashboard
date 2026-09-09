@@ -1,0 +1,222 @@
+{
+ "schema": "ptf-release-coordinator-contract/1.0",
+ "work_order": "ATLAS-THROUGHPUT-005",
+ "coordinator_version": "ptf-release-coordinator/1.0",
+ "equation": "CURRENT VERIFIED LIVE RELEASE + ONE AUTHORIZED SEALED MARKET PACKAGE DELTA + REUSABLE VALIDATED MARKET BUNDLES = ONE EXACT FINAL STAGED CANDIDATE",
+ "module": "scripts/pettripfinder/release_coordinator.py",
+ "operations": [
+  "plan",
+  "stage",
+  "authorize",
+  "activate",
+  "verify",
+  "reconcile",
+  "rollback",
+  "inspect"
+ ],
+ "lifecycle": [
+  "SOURCE_READY",
+  "CANDIDATE_STAGED",
+  "FOUNDER_AUTHORIZED",
+  "LIVE",
+  "FAILED",
+  "ABANDONED"
+ ],
+ "delta_kinds": [
+  "UPDATE",
+  "ADD",
+  "REMOVE",
+  "NO_DELTA"
+ ],
+ "fragment_sources": [
+  "PACKAGE_BUNDLE",
+  "RELEASE_STORE_FRAGMENT",
+  "REBUILT_FROM_COMMITTED_AUTHORITY"
+ ],
+ "refusals": [
+  "AUTHORIZATION_REVOKED",
+  "BUNDLE_DIGEST_MISMATCH",
+  "CANDIDATE_CORRUPT",
+  "CANDIDATE_DIGEST_MISMATCH",
+  "CANDIDATE_SUPERSEDED",
+  "FRAGMENT_UNAVAILABLE",
+  "GATES_FAILED",
+  "INTENDED_DELTA_MISMATCH",
+  "LIVE_NOT_VERIFIED",
+  "NOT_AUTHORIZED",
+  "PARENT_DIGEST_MISMATCH",
+  "RELEASE_NOT_CURRENT",
+  "STALE_PARENT",
+  "UNAUTHORIZED_ADDITION",
+  "UNAUTHORIZED_REMOVAL",
+  "UNKNOWN_GLOBAL_DEPENDENCY"
+ ],
+ "activation_outcomes": [
+  "ACTIVATED",
+  "ACTIVATION_FAILED",
+  "ACTIVATION_UNKNOWN",
+  "ACTIVATION_REFUSED"
+ ],
+ "global_artifacts": {
+  "index.html": {
+   "class": "REGENERATE",
+   "depends_on": "membership and navigation: build_global_home over the visible markets"
+  },
+  "pet-friendly-hotels/index.html": {
+   "class": "REGENERATE",
+   "depends_on": "membership and per-market published counts"
+  },
+  "sitemap.xml": {
+   "class": "REGENERATE",
+   "depends_on": "every indexable route in the composed bundle"
+  },
+  "llms.txt": {
+   "class": "REGENERATE",
+   "depends_on": "membership and base_url"
+  },
+  "robots.txt": {
+   "class": "INCREMENTAL",
+   "depends_on": "base_url only; identical bytes for an unchanged base_url"
+  },
+  "_headers": {
+   "class": "INCREMENTAL",
+   "depends_on": "copied from the tracked context source and hashed"
+  },
+  "_redirects": {
+   "class": "INCREMENTAL",
+   "depends_on": "copied from the tracked source and hashed"
+  },
+  "about/index.html": {
+   "class": "REUSE",
+   "depends_on": "the anchor market's shell page, inherited with the anchor fragment"
+  },
+  "contact/index.html": {
+   "class": "REUSE",
+   "depends_on": "the anchor market's shell page"
+  },
+  "methodology/index.html": {
+   "class": "REUSE",
+   "depends_on": "the anchor market's shell page"
+  }
+ },
+ "live_representations": [
+  {
+   "path": "deploy/netlify/deployment_records/<newest DEPLOYED>.json",
+   "claims": [
+    "deployment_id",
+    "previous_deployment_id",
+    "rollback_target",
+    "source_commit",
+    "bundle_sha256",
+    "sitemap_sha256",
+    "participating_markets",
+    "profile_counts",
+    "total_profiles",
+    "sitemap_route_count",
+    "authorization_id",
+    "final_status"
+   ],
+   "owner": "scripts/pettripfinder/deployment_authorization.py",
+   "role": "PRIMARY -- the newest DEPLOYED record is what production served"
+  },
+  {
+   "path": "deploy/netlify/global_deployment_manifest.json",
+   "claims": [
+    "bundle_sha256",
+    "participating_markets",
+    "published_profiles",
+    "total_published_profiles",
+    "sitemap_route_count",
+    "source_commit",
+    "launch_participation.sha256",
+    "release_contract sha256 per market"
+   ],
+   "owner": "scripts/pettripfinder/global_deployment.py",
+   "role": "CROSS-CHECK -- disagreement with the record is a problem, not a tiebreak"
+  },
+  {
+   "path": "tests/pettripfinder/pins/deployment_state.json",
+   "claims": [
+    "live.deploy_id",
+    "live.bundle_sha256",
+    "live.rollback_target",
+    "live.total_profiles",
+    "live.sitemap_route_count",
+    "live.participating_markets",
+    "source.* (the branch, deliberately allowed to be ahead)"
+   ],
+   "owner": "tests/pettripfinder/market_state.py",
+   "role": "CROSS-CHECK -- the suite's mirror of live; its source block is NOT live"
+  },
+  {
+   "path": "deploy/netlify/deployment_authorizations/<record.authorization_id>.json",
+   "claims": [
+    "bundle_sha256",
+    "authorization_status",
+    "participating_markets",
+    "launch_participation_sha256",
+    "rollback_target",
+    "authorized_by",
+    "authorized_at"
+   ],
+   "owner": "scripts/pettripfinder/deployment_authorization.py",
+   "role": "CROSS-CHECK -- the consumed authorization must bind the deployed bundle"
+  },
+  {
+   "path": "deploy/netlify/launch_participation.json",
+   "claims": [
+    "markets[].launch_status",
+    "decision.decided_by",
+    "decision.decided_on"
+   ],
+   "owner": "scripts/pettripfinder/launch_participation.py",
+   "role": "MEMBERSHIP AUTHORITY -- who may participate; hashed into every candidate"
+  },
+  {
+   "path": "launch_packages/pettripfinder/markets/packages/<market>/<package>.json",
+   "claims": [
+    "parent_live_state.live_deploy_id",
+    "parent_live_state.rollback_target",
+    "parent_live_state.participating_markets",
+    "parent_live_state.profile_counts",
+    "parent_live_state.total_profiles",
+    "parent_live_state.sitemap_route_count",
+    "parent_live_state.live_index_digest"
+   ],
+   "owner": "scripts/pettripfinder/sealed_market_package.py",
+   "role": "SNAPSHOT -- what live was when the package sealed; rule N compares it to now"
+  },
+  {
+   "path": "deploy/netlify/live_production_routes.txt",
+   "claims": [
+    "every route production serves"
+   ],
+   "owner": "scripts/pettripfinder/assemble_production_site.py (_run_migration_gate)",
+   "role": "CROSS-CHECK -- the composed candidate must preserve every listed route"
+  },
+  {
+   "path": "tests/pettripfinder/pins/market_state.json",
+   "claims": [
+    "per-market census / pet_friendly / profiles / corridor_routes"
+   ],
+   "owner": "tests/pettripfinder/market_state.py",
+   "role": "CROSS-CHECK -- reviewed per-market numbers, not a live record"
+  }
+ ],
+ "release_store": {
+  "root": "data/release_store/",
+  "layout": [
+   "releases/<release digest>.json",
+   "fragments/<fragment digest>.zip",
+   "bundles/<bundle digest>.zip"
+  ],
+  "why": "the current live release and the rollback target must never live only in an evictable cache; a release store is not a cache"
+ },
+ "activation_status": {
+  "RELEASE_COORDINATOR_IMPLEMENTED": "YES",
+  "RELEASE_COORDINATOR_VALIDATED": "YES",
+  "FINAL_CANDIDATE_LIFECYCLE_VALIDATED": "YES",
+  "REAL_PRODUCTION_ACTIVATION": "DISABLED",
+  "note": "005 ships the release machine and a host simulator. No market was promoted, no participation changed, nothing was deployed."
+ }
+}

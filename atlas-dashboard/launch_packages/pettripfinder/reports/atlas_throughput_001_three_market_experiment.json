@@ -1,0 +1,50 @@
+{
+ "schema": "atlas-throughput-three-market-experiment/1.0",
+ "work_order": "ATLAS-THROUGHPUT-001",
+ "status": "DEFINED_NOT_EXECUTED",
+ "what_this_is": "The final throughput experiment ATLAS-THROUGHPUT-00N will run: three genuinely new markets acquired, validated, promoted, deployed and live-verified in one 8-hour operating day. Defined here so the measurement cannot be shaped after the fact. No market named here may have been pre-completed; a market whose shadow package already exists on any branch at the time the experiment starts is disqualified as a NEW acquisition for that day.",
+ "size_classification": {
+  "basis": "identity census size at census reconciliation (identity_census_proposed/<market>.json count), the same figure the speed benchmarks report",
+  "SMALL_MEDIUM": {"census_min": 40, "census_max": 90, "precedent": "Toledo 54 (135 min to promotion-ready), Fort Wayne 58"},
+  "MEDIUM": {"census_min": 91, "census_max": 149, "precedent": "Chattanooga 102 (~300 active minutes), Dayton 129, Lexington 61 is below this band"},
+  "LARGE": {"census_min": 150, "census_max": null, "precedent": "Nashville 181 (125 active minutes to promotion-ready), Cincinnati 257, Indianapolis 264"}
+ },
+ "markets": {
+  "rule": "three markets, one per band, chosen at experiment start from a list of candidate metros with NO existing branch, proposed census, shadow package, or committed report; the choice is recorded in the experiment's opening artifact with the git ref of every branch at that moment",
+  "independence_proof": "for each market: git log --all -- 'atlas-dashboard/**/<market_us>_*' and '<market-id>*' returns nothing before the opening artifact's timestamp; scripts/pettripfinder/discovery/config/<market_us>.json does not exist"
+ },
+ "minimum_thresholds_to_count_as_a_qualified_launch": {
+  "census_reconciliation": "identity census reconciled against at least two independent lead lanes (OSM extract + one official/brand lane) with every soft row classified and every OUTSIDE_MARKET row carrying its ZIP or state reason",
+  "verified_pet_friendly_min": {"SMALL_MEDIUM": 12, "MEDIUM": 25, "LARGE": 50, "basis": "each below the precedent market of its band (Toledo 17, Chattanooga 48, Nashville 80) so the bar is reachable in a day without buying evidence"},
+  "resolved_min_share_of_census": 0.30,
+  "allowed_unresolved": "unlimited in count, but every unresolved row must carry a ladder next-lane and a reason; no unresolved row may be silently dropped from the census; promotion proceeds with unresolved rows exactly as Toledo 002 and Nashville 001 did",
+  "founder_queue_disclosure": "the founder packet must list every hold, every identity/geography/category ruling requested, and every unresolved count BEFORE promotion; a packet item ruled after launch is a defect of the experiment, not a fast launch",
+  "policy_lanes_allowed": "owned evidence, brand city pages, brand sitemaps, CVB partner sitemaps, free static capture, attended same-origin fetch, Firecrawl within a per-market credit cap recorded in the paid-readiness report; Bright Data and Google Places only with a written cap and the cross-run ledger consulted",
+  "clean_record_rule": "every published record validates under policy_schema.validate_record inside the applier (Toledo 002 precedent) and carries a first-party evidence entry"
+ },
+ "measurement_method": {
+  "instrument": "scripts/pettripfinder/throughput_profile.py on every pytest invocation (-p scripts.pettripfinder.throughput_profile --ptf-profile-out); the process sampler for RAM/CPU over the whole day; the market speed-benchmark report for lane-by-lane acquisition time; deployment records for deploy and live-verification timestamps",
+  "clock": "wall-clock ISO timestamps recorded at the START and END of every interval by the tool that performs it, never typed afterwards; a missing timestamp is UNKNOWN, not zero",
+  "intervals": {
+   "ACQUISITION_TIME": "first lead-lane request -> shadow market PROMOTION_READY = YES",
+   "VALIDATION_TIME": "sum of every pytest session's session_finish.seconds attributable to the market (targeted lanes, delta runs, broad runs), from the plugin",
+   "QUEUE_TIME": "PROMOTION_READY -> release-lane admission (the promotion order's first timestamp)",
+   "FOUNDER_WAIT": "founder packet written -> first founder ruling timestamp",
+   "FOUNDER_ACTIVE_TIME": "sum of founder ruling sessions (packet open -> rulings signed), self-reported per session in the rulings artifact",
+   "PROMOTION_TIME": "release-lane admission -> source promoted commit (registry, package, contract, pins)",
+   "ASSEMBLY_TIME": "every assembly row's elapsed_seconds in the plugin for the promotion + deployment orders",
+   "DEPLOY_TIME": "netlify deploy start -> deploy id returned (deployment record command timestamps)",
+   "LIVE_VERIFICATION_TIME": "deploy id returned -> live_verification_results complete",
+   "RAM": "peak_process_tree_working_set_mb from the sampler over the day, and per pytest session peak_working_set_mb",
+   "CPU": "cpu_seconds from every session_finish row plus the sampler's cpu_s series",
+   "PROVIDER_COST": "Firecrawl credit delta, Bright Data USD, Places requests, from the paid-readiness and ledger reports; the account balance is read live before and after, never estimated",
+   "AI_CI_COST": "tokens/minutes per order where the tool reports them; otherwise UNKNOWN",
+   "UNRESOLVED_COUNT": "the promoted census's unresolved count",
+   "COVERAGE": "published / census and (published + verified_no_pets) / census"
+  },
+  "concurrency_proof": "while one market holds the release lane, the other two must show acquisition lane completions (report timestamps) at no worse than 1.5x their measured solo duration; the sampler must show system free memory never below 512 MB",
+  "success": "all three markets FOUNDER_AUTHORIZED_FOR_LAUNCH and live-verified (every route 200, 0 routes removed vs the previous deploy) within 8 hours of the opening artifact, with 0 TRUE_NEW_FAILURE in the critical lane and 0 unintended removals",
+  "failure_is_a_result": "an unmet threshold is recorded with its interval; the experiment is never re-run on the same markets"
+ },
+ "not_to_be_done_in_001": "this file defines; ATLAS-THROUGHPUT-002 builds the ownership manifest and market-local zone the experiment needs; the experiment itself is a later order"
+}

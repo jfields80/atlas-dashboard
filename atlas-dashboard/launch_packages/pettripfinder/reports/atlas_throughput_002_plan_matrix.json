@@ -1,0 +1,4665 @@
+{
+ "schema": "atlas-throughput-plan-matrix/1.0",
+ "work_order": "ATLAS-THROUGHPUT-002",
+ "old_classifier": "scripts/pettripfinder/regression_delta.py at 0a623a0 (PTF-FACTORY-REGRESSION-V2-001 rules)",
+ "new_classifier": "scripts/pettripfinder/regression_delta.py at this order's head",
+ "branches": [
+  {
+   "branch": "nashville-new-market-001",
+   "git_branch": "worker/ptf-nashville-new-market-001",
+   "base": "d335c50",
+   "head": "4f3dd7b",
+   "changed_paths": 45,
+   "old": {
+    "change_classes": [
+     "AUTHORITY_CHANGE",
+     "GENERIC_RUNTIME_CHANGE",
+     "ROUTING_SEMANTIC_CHANGE",
+     "TEST_EXPECTATION_CHANGE",
+     "DOCUMENTATION_ONLY",
+     "GENERATED_REPORT_ONLY",
+     "UNCLASSIFIED"
+    ],
+    "files_by_class": {
+     "DOCUMENTATION_ONLY": 1,
+     "AUTHORITY_CHANGE": 1,
+     "ROUTING_SEMANTIC_CHANGE": 4,
+     "UNCLASSIFIED": 2,
+     "GENERATED_REPORT_ONLY": 22,
+     "GENERIC_RUNTIME_CHANGE": 18,
+     "TEST_EXPECTATION_CHANGE": 1
+    },
+    "FULL_REGRESSION_REQUIRED": "YES",
+    "assembly_required": true,
+    "lanes": [
+     "policy_schema",
+     "identity_routing",
+     "release_contract",
+     "cross_market",
+     "assembly",
+     "deployment_architecture",
+     "website_generation_integration"
+    ],
+    "modules": 141,
+    "drivers": 21,
+    "driver_paths": [
+     "launch_packages/pettripfinder/identity_census_proposed/nashville-tn.json",
+     "launch_packages/pettripfinder/markets/proposed/nashville-tn.json",
+     "launch_packages/pettripfinder/nashville_tn_osm_extracts_001.json",
+     "scripts/pettripfinder/discovery/config/nashville_tn.json",
+     "scripts/pettripfinder/nashville_tn_attended_capture_001.py",
+     "scripts/pettripfinder/nashville_tn_brand_city_pages_001.py",
+     "scripts/pettripfinder/nashville_tn_brand_sitemaps_001.py",
+     "scripts/pettripfinder/nashville_tn_census_reconciliation_001.py",
+     "scripts/pettripfinder/nashville_tn_corridor_explicit_002.py",
+     "scripts/pettripfinder/nashville_tn_firecrawl_pass_001.py",
+     "scripts/pettripfinder/nashville_tn_free_static_capture_001.py",
+     "scripts/pettripfinder/nashville_tn_geography_001.py",
+     "scripts/pettripfinder/nashville_tn_ladder_plan_001.py",
+     "scripts/pettripfinder/nashville_tn_lead_sources_001.py",
+     "scripts/pettripfinder/nashville_tn_owned_evidence_001.py",
+     "scripts/pettripfinder/nashville_tn_parallel_safety_001.py",
+     "scripts/pettripfinder/nashville_tn_regression_classification_001.py",
+     "scripts/pettripfinder/nashville_tn_routing_001.py",
+     "scripts/pettripfinder/nashville_tn_shadow_market_001.py",
+     "scripts/pettripfinder/nashville_tn_speed_benchmark_004.py",
+     "scripts/pettripfinder/nashville_tn_test_inventory_repin_003.py"
+    ]
+   },
+   "new": {
+    "change_classes": [
+     "TEST_EXPECTATION_CHANGE",
+     "DOCUMENTATION_ONLY",
+     "GENERATED_REPORT_ONLY",
+     "MARKET_LOCAL_TOOLING",
+     "UNCLASSIFIED"
+    ],
+    "files_by_class": {
+     "DOCUMENTATION_ONLY": 1,
+     "MARKET_LOCAL_TOOLING": 20,
+     "GENERATED_REPORT_ONLY": 22,
+     "UNCLASSIFIED": 1,
+     "TEST_EXPECTATION_CHANGE": 1
+    },
+    "narrowing_blockers": [],
+    "FULL_REGRESSION_REQUIRED": "YES",
+    "assembly_required": true,
+    "lanes": [
+     "policy_schema",
+     "identity_routing",
+     "release_contract",
+     "cross_market",
+     "assembly",
+     "deployment_architecture"
+    ],
+    "modules": 133,
+    "selected_modules": [
+     "tests/pettripfinder/acquisition/test_acquisition_ladder.py",
+     "tests/pettripfinder/acquisition/test_discovery_attempt_ledger.py",
+     "tests/pettripfinder/acquisition/test_double_buy_url_level_p4.py",
+     "tests/pettripfinder/acquisition/test_identity_binding_027.py",
+     "tests/pettripfinder/acquisition/test_lane_qualification.py",
+     "tests/pettripfinder/acquisition/test_market_routing.py",
+     "tests/pettripfinder/acquisition/test_normalization_041.py",
+     "tests/pettripfinder/acquisition/test_paid_attempt_ledger.py",
+     "tests/pettripfinder/acquisition/test_paid_lane_provenance.py",
+     "tests/pettripfinder/acquisition/test_parser_semantics_017.py",
+     "tests/pettripfinder/acquisition/test_retry_policy.py",
+     "tests/pettripfinder/acquisition/test_vocabulary_normalization_043.py",
+     "tests/pettripfinder/brightdata/test_property_code_patterns.py",
+     "tests/pettripfinder/brightdata/test_street_agreement_006.py",
+     "tests/pettripfinder/contracts/test_census_partition.py",
+     "tests/pettripfinder/contracts/test_closure.py",
+     "tests/pettripfinder/contracts/test_compat_readers.py",
+     "tests/pettripfinder/contracts/test_coverage.py",
+     "tests/pettripfinder/contracts/test_fee_computation.py",
+     "tests/pettripfinder/contracts/test_identity_key.py",
+     "tests/pettripfinder/contracts/test_market_authorities.py",
+     "tests/pettripfinder/contracts/test_market_geography.py",
+     "tests/pettripfinder/contracts/test_market_state_pins.py",
+     "tests/pettripfinder/contracts/test_service_animal.py",
+     "tests/pettripfinder/contracts/test_validators.py",
+     "tests/pettripfinder/discovery/test_census_duplicate_scan.py",
+     "tests/pettripfinder/discovery/test_census_projection.py",
+     "tests/pettripfinder/discovery/test_census_recandidacy.py",
+     "tests/pettripfinder/discovery/test_census_url_recovery.py",
+     "tests/pettripfinder/discovery/test_deduplicate.py",
+     "tests/pettripfinder/discovery/test_duplicates.py",
+     "tests/pettripfinder/discovery/test_identity_dedup.py",
+     "tests/pettripfinder/discovery/test_identity_observation.py",
+     "tests/pettripfinder/discovery/test_identity_resolution.py",
+     "tests/pettripfinder/discovery/test_lodging_dedup.py",
+     "tests/pettripfinder/discovery/test_lodging_resolution_cli.py",
+     "tests/pettripfinder/discovery/test_lodging_scope.py",
+     "tests/pettripfinder/discovery/test_market_membership.py",
+     "tests/pettripfinder/discovery/test_property_code_seam.py",
+     "tests/pettripfinder/discovery/test_property_identity.py",
+     "tests/pettripfinder/discovery/test_shared_brand_url_repair.py",
+     "tests/pettripfinder/policy/test_adversarial_fixtures.py",
+     "tests/pettripfinder/policy/test_authority_safety.py",
+     "tests/pettripfinder/policy/test_drury_and_sonesta.py",
+     "tests/pettripfinder/policy/test_m10_code_and_address_override.py",
+     "tests/pettripfinder/policy/test_m10_diacritic_folding.py",
+     "tests/pettripfinder/policy/test_policy_membrane.py",
+     "tests/pettripfinder/policy/test_policy_observation.py",
+     "tests/pettripfinder/policy/test_readiness_and_bundle.py",
+     "tests/pettripfinder/test_affiliate_destinations.py",
+     "tests/pettripfinder/test_atlas_throughput_001.py",
+     "tests/pettripfinder/test_atlas_throughput_002.py",
+     "tests/pettripfinder/test_census_location.py",
+     "tests/pettripfinder/test_census_promotion.py",
+     "tests/pettripfinder/test_choice_refusal_contradiction_005.py",
+     "tests/pettripfinder/test_cleveland_authority.py",
+     "tests/pettripfinder/test_combined_weight_and_restriction_rows.py",
+     "tests/pettripfinder/test_commercial_actions.py",
+     "tests/pettripfinder/test_coverage_audit.py",
+     "tests/pettripfinder/test_dayton_authority.py",
+     "tests/pettripfinder/test_deployment_012.py",
+     "tests/pettripfinder/test_deployment_authorization_047.py",
+     "tests/pettripfinder/test_dual_weight_and_additive_fees.py",
+     "tests/pettripfinder/test_export_authority_guard.py",
+     "tests/pettripfinder/test_factory_throughput_001.py",
+     "tests/pettripfinder/test_fee_forms.py",
+     "tests/pettripfinder/test_fee_tiers.py",
+     "tests/pettripfinder/test_generate_columbus_site.py",
+     "tests/pettripfinder/test_generic_fee_reader_usd_suffix_010.py",
+     "tests/pettripfinder/test_global_assembler.py",
+     "tests/pettripfinder/test_global_deployment_architecture_045.py",
+     "tests/pettripfinder/test_grand_rapids_launch_participation_032.py",
+     "tests/pettripfinder/test_homepage_market_awareness.py",
+     "tests/pettripfinder/test_hotel_exclusions.py",
+     "tests/pettripfinder/test_hotel_exclusions_co_located_004.py",
+     "tests/pettripfinder/test_hotel_profile.py",
+     "tests/pettripfinder/test_identity_evidence.py",
+     "tests/pettripfinder/test_identity_routing.py",
+     "tests/pettripfinder/test_inventory_validation.py",
+     "tests/pettripfinder/test_launch_participation_046.py",
+     "tests/pettripfinder/test_listing_dataset_builder.py",
+     "tests/pettripfinder/test_listing_renderability_boundary.py",
+     "tests/pettripfinder/test_louisville_authority.py",
+     "tests/pettripfinder/test_louisville_publication_008.py",
+     "tests/pettripfinder/test_market_authority_sharding.py",
+     "tests/pettripfinder/test_market_isolation.py",
+     "tests/pettripfinder/test_market_ownership.py",
+     "tests/pettripfinder/test_market_policy_package_009.py",
+     "tests/pettripfinder/test_markets.py",
+     "tests/pettripfinder/test_measurement.py",
+     "tests/pettripfinder/test_per_market_release_contracts.py",
+     "tests/pettripfinder/test_pet_evidence_vocabulary.py",
+     "tests/pettripfinder/test_policy_precision.py",
+     "tests/pettripfinder/test_policy_schema_migration.py",
+     "tests/pettripfinder/test_prod002_integration.py",
+     "tests/pettripfinder/test_prod003_launch_safety.py",
+     "tests/pettripfinder/test_prod003_package_preview.py",
+     "tests/pettripfinder/test_prod003_paired_approval.py",
+     "tests/pettripfinder/test_prod003_promotion_readpath.py",
+     "tests/pettripfinder/test_prod003_tiered_fee_approval.py",
+     "tests/pettripfinder/test_prod003_worker_approvals.py",
+     "tests/pettripfinder/test_prod003_worker_promotion.py",
+     "tests/pettripfinder/test_prod004_verified_only.py",
+     "tests/pettripfinder/test_prod005_netlify_config.py",
+     "tests/pettripfinder/test_production_deploy_012.py",
+     "tests/pettripfinder/test_profile_fee_dimensions.py",
+     "tests/pettripfinder/test_promote_attested_candidates.py",
+     "tests/pettripfinder/test_promotion_preserves_structured_facts.py",
+     "tests/pettripfinder/test_promotion_resolution.py",
+     "tests/pettripfinder/test_prose_fee_ladder.py",
+     "tests/pettripfinder/test_prose_pet_facts.py",
+     "tests/pettripfinder/test_publication_cleanup_008b.py",
+     "tests/pettripfinder/test_publication_guard.py",
+     "tests/pettripfinder/test_publication_schema_decisions_010.py",
+     "tests/pettripfinder/test_reader_tiered_fee_hardening_010.py",
+     "tests/pettripfinder/test_refundability_binding.py",
+     "tests/pettripfinder/test_register_publish_011.py",
+     "tests/pettripfinder/test_renderer_real_records.py",
+     "tests/pettripfinder/test_routing_property_code_scope.py",
+     "tests/pettripfinder/test_seed_matches_official_source.py",
+     "tests/pettripfinder/test_service_animal_correction_011.py",
+     "tests/pettripfinder/test_service_animal_reattestation_012.py",
+     "tests/pettripfinder/test_site_data.py",
+     "tests/pettripfinder/test_site_enrichment.py",
+     "tests/pettripfinder/test_site_pages.py",
+     "tests/pettripfinder/test_site_shell_markup.py",
+     "tests/pettripfinder/test_sonesta_identity_and_scope.py",
+     "tests/pettripfinder/test_st_louis_production_safety_001.py",
+     "tests/pettripfinder/test_structured_data.py",
+     "tests/pettripfinder/test_structured_fact_rendering.py",
+     "tests/pettripfinder/test_two_market_compat.py",
+     "tests/pettripfinder/test_weight_exclusivity.py",
+     "tests/pettripfinder/test_wyndham_extraction.py"
+    ],
+    "drivers": 1,
+    "driver_paths": [
+     "launch_packages/pettripfinder/nashville_tn_osm_extracts_001.json"
+    ]
+   },
+   "market_local_paths": [
+    "launch_packages/pettripfinder/identity_census_proposed/nashville-tn.json",
+    "launch_packages/pettripfinder/markets/proposed/nashville-tn.json",
+    "scripts/pettripfinder/discovery/config/nashville_tn.json",
+    "scripts/pettripfinder/nashville_tn_attended_capture_001.py",
+    "scripts/pettripfinder/nashville_tn_brand_city_pages_001.py",
+    "scripts/pettripfinder/nashville_tn_brand_sitemaps_001.py",
+    "scripts/pettripfinder/nashville_tn_census_reconciliation_001.py",
+    "scripts/pettripfinder/nashville_tn_corridor_explicit_002.py",
+    "scripts/pettripfinder/nashville_tn_firecrawl_pass_001.py",
+    "scripts/pettripfinder/nashville_tn_free_static_capture_001.py",
+    "scripts/pettripfinder/nashville_tn_geography_001.py",
+    "scripts/pettripfinder/nashville_tn_ladder_plan_001.py",
+    "scripts/pettripfinder/nashville_tn_lead_sources_001.py",
+    "scripts/pettripfinder/nashville_tn_owned_evidence_001.py",
+    "scripts/pettripfinder/nashville_tn_parallel_safety_001.py",
+    "scripts/pettripfinder/nashville_tn_regression_classification_001.py",
+    "scripts/pettripfinder/nashville_tn_routing_001.py",
+    "scripts/pettripfinder/nashville_tn_shadow_market_001.py",
+    "scripts/pettripfinder/nashville_tn_speed_benchmark_004.py",
+    "scripts/pettripfinder/nashville_tn_test_inventory_repin_003.py"
+   ],
+   "files": [
+    {
+     "path": "../PTF-NASHVILLE-TN-NEW-MARKET-001_FINAL.md",
+     "status": "A",
+     "old_classes": [
+      "DOCUMENTATION_ONLY"
+     ],
+     "new_classes": [
+      "DOCUMENTATION_ONLY"
+     ],
+     "changed": false,
+     "why": "matched glob:../*.md",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/identity_census_proposed/nashville-tn.json",
+     "status": "A",
+     "old_classes": [
+      "AUTHORITY_CHANGE",
+      "ROUTING_SEMANTIC_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone nashville-tn on all five conditions",
+     "proof": {
+      "zone": "nashville-tn",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/proposed/nashville-tn.json",
+     "status": "A",
+     "old_classes": [
+      "UNCLASSIFIED"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone nashville-tn on all five conditions",
+     "proof": {
+      "zone": "nashville-tn",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/nashville_tn_attended_capture_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/nashville_tn_brand_city_pages_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/nashville_tn_brand_sitemaps_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/nashville_tn_census_reconciliation_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/nashville_tn_clean_authority_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/nashville_tn_competitor_gap_matrix_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/nashville_tn_corridor_explicit_002.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/nashville_tn_evidence_audit_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/nashville_tn_firecrawl_pass_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/nashville_tn_founder_packet_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/nashville_tn_free_static_capture_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/nashville_tn_ladder_plan_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/nashville_tn_lead_sources_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/nashville_tn_owned_evidence_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/nashville_tn_paid_readiness_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/nashville_tn_parallel_safety_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/nashville_tn_regression_classification_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/nashville_tn_routing_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/nashville_tn_shadow_market_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/nashville_tn_speed_benchmark_004.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/nashville_tn_test_inventory_repin_003.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/nashville_tn_osm_extracts_001.json",
+     "status": "A",
+     "old_classes": [
+      "UNCLASSIFIED"
+     ],
+     "new_classes": [
+      "UNCLASSIFIED"
+     ],
+     "changed": false,
+     "why": "matched no rule; market-local proof FAILED on reachability: directory launch_packages/pettripfinder is enumerated by shared code: tests/pettripfinder/test_build_capture_queue.py: \"",
+     "proof": {
+      "zone": "nashville-tn",
+      "passed": false,
+      "failed_conditions": [
+       "reachability"
+      ]
+     }
+    },
+    {
+     "path": "launch_packages/pettripfinder/reports/factory_throughput_001_test_inventory.json",
+     "status": "M",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/reports/",
+     "proof": null
+    },
+    {
+     "path": "scripts/pettripfinder/discovery/config/nashville_tn.json",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE",
+      "ROUTING_SEMANTIC_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone nashville-tn on all five conditions",
+     "proof": {
+      "zone": "nashville-tn",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/nashville_tn_attended_capture_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone nashville-tn on all five conditions",
+     "proof": {
+      "zone": "nashville-tn",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/nashville_tn_brand_city_pages_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone nashville-tn on all five conditions",
+     "proof": {
+      "zone": "nashville-tn",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/nashville_tn_brand_sitemaps_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone nashville-tn on all five conditions",
+     "proof": {
+      "zone": "nashville-tn",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/nashville_tn_census_reconciliation_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone nashville-tn on all five conditions",
+     "proof": {
+      "zone": "nashville-tn",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/nashville_tn_corridor_explicit_002.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE",
+      "ROUTING_SEMANTIC_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone nashville-tn on all five conditions",
+     "proof": {
+      "zone": "nashville-tn",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/nashville_tn_firecrawl_pass_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone nashville-tn on all five conditions",
+     "proof": {
+      "zone": "nashville-tn",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/nashville_tn_free_static_capture_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone nashville-tn on all five conditions",
+     "proof": {
+      "zone": "nashville-tn",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/nashville_tn_geography_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone nashville-tn on all five conditions",
+     "proof": {
+      "zone": "nashville-tn",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/nashville_tn_ladder_plan_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone nashville-tn on all five conditions",
+     "proof": {
+      "zone": "nashville-tn",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/nashville_tn_lead_sources_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone nashville-tn on all five conditions",
+     "proof": {
+      "zone": "nashville-tn",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/nashville_tn_owned_evidence_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone nashville-tn on all five conditions",
+     "proof": {
+      "zone": "nashville-tn",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/nashville_tn_parallel_safety_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone nashville-tn on all five conditions",
+     "proof": {
+      "zone": "nashville-tn",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/nashville_tn_regression_classification_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone nashville-tn on all five conditions",
+     "proof": {
+      "zone": "nashville-tn",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/nashville_tn_routing_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE",
+      "ROUTING_SEMANTIC_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone nashville-tn on all five conditions",
+     "proof": {
+      "zone": "nashville-tn",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/nashville_tn_shadow_market_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone nashville-tn on all five conditions",
+     "proof": {
+      "zone": "nashville-tn",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/nashville_tn_speed_benchmark_004.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone nashville-tn on all five conditions",
+     "proof": {
+      "zone": "nashville-tn",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/nashville_tn_test_inventory_repin_003.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone nashville-tn on all five conditions",
+     "proof": {
+      "zone": "nashville-tn",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "tests/pettripfinder/test_nashville_tn_new_market_001.py",
+     "status": "A",
+     "old_classes": [
+      "TEST_EXPECTATION_CHANGE"
+     ],
+     "new_classes": [
+      "TEST_EXPECTATION_CHANGE"
+     ],
+     "changed": false,
+     "why": "added or deleted module: there is no prior shape to compare against",
+     "proof": null
+    }
+   ]
+  },
+  {
+   "branch": "chattanooga-new-market-001",
+   "git_branch": "worker/ptf-chattanooga-new-market-001",
+   "base": "d335c50",
+   "head": "4e058a3",
+   "changed_paths": 28,
+   "old": {
+    "change_classes": [
+     "AUTHORITY_CHANGE",
+     "GENERIC_RUNTIME_CHANGE",
+     "ROUTING_SEMANTIC_CHANGE",
+     "BOOKKEEPING_REGISTRATION_CHANGE",
+     "GENERATED_REPORT_ONLY",
+     "UNCLASSIFIED"
+    ],
+    "files_by_class": {
+     "AUTHORITY_CHANGE": 1,
+     "ROUTING_SEMANTIC_CHANGE": 4,
+     "UNCLASSIFIED": 1,
+     "GENERATED_REPORT_ONLY": 15,
+     "GENERIC_RUNTIME_CHANGE": 10,
+     "BOOKKEEPING_REGISTRATION_CHANGE": 1
+    },
+    "FULL_REGRESSION_REQUIRED": "YES",
+    "assembly_required": true,
+    "lanes": [
+     "policy_schema",
+     "identity_routing",
+     "release_contract",
+     "cross_market",
+     "assembly",
+     "deployment_architecture",
+     "website_generation_integration"
+    ],
+    "modules": 132,
+    "drivers": 12,
+    "driver_paths": [
+     "launch_packages/pettripfinder/identity_census_proposed/chattanooga-tn.json",
+     "launch_packages/pettripfinder/markets/proposed/chattanooga-tn.json",
+     "scripts/pettripfinder/chattanooga_tn_attended_capture_001.py",
+     "scripts/pettripfinder/chattanooga_tn_census_reconciliation_001.py",
+     "scripts/pettripfinder/chattanooga_tn_competitor_gap_001.py",
+     "scripts/pettripfinder/chattanooga_tn_firecrawl_pass_001.py",
+     "scripts/pettripfinder/chattanooga_tn_free_static_capture_001.py",
+     "scripts/pettripfinder/chattanooga_tn_lead_sources_001.py",
+     "scripts/pettripfinder/chattanooga_tn_routing_001.py",
+     "scripts/pettripfinder/chattanooga_tn_shadow_market_001.py",
+     "scripts/pettripfinder/discovery/config/chattanooga_tn.json",
+     "scripts/pettripfinder/discovery/config/osm_extracts.json"
+    ]
+   },
+   "new": {
+    "change_classes": [
+     "GENERIC_RUNTIME_CHANGE",
+     "ROUTING_SEMANTIC_CHANGE",
+     "BOOKKEEPING_REGISTRATION_CHANGE",
+     "GENERATED_REPORT_ONLY",
+     "MARKET_LOCAL_TOOLING"
+    ],
+    "files_by_class": {
+     "MARKET_LOCAL_TOOLING": 11,
+     "GENERATED_REPORT_ONLY": 15,
+     "GENERIC_RUNTIME_CHANGE": 1,
+     "ROUTING_SEMANTIC_CHANGE": 1,
+     "BOOKKEEPING_REGISTRATION_CHANGE": 1
+    },
+    "narrowing_blockers": [],
+    "FULL_REGRESSION_REQUIRED": "YES",
+    "assembly_required": true,
+    "lanes": [
+     "policy_schema",
+     "identity_routing",
+     "release_contract",
+     "cross_market",
+     "assembly",
+     "deployment_architecture"
+    ],
+    "modules": 124,
+    "selected_modules": [
+     "tests/pettripfinder/acquisition",
+     "tests/pettripfinder/brightdata/test_property_code_patterns.py",
+     "tests/pettripfinder/brightdata/test_street_agreement_006.py",
+     "tests/pettripfinder/contracts/test_census_partition.py",
+     "tests/pettripfinder/contracts/test_closure.py",
+     "tests/pettripfinder/contracts/test_compat_readers.py",
+     "tests/pettripfinder/contracts/test_coverage.py",
+     "tests/pettripfinder/contracts/test_fee_computation.py",
+     "tests/pettripfinder/contracts/test_identity_key.py",
+     "tests/pettripfinder/contracts/test_market_authorities.py",
+     "tests/pettripfinder/contracts/test_market_geography.py",
+     "tests/pettripfinder/contracts/test_market_state_pins.py",
+     "tests/pettripfinder/contracts/test_service_animal.py",
+     "tests/pettripfinder/contracts/test_validators.py",
+     "tests/pettripfinder/discovery/test_census_duplicate_scan.py",
+     "tests/pettripfinder/discovery/test_census_projection.py",
+     "tests/pettripfinder/discovery/test_census_recandidacy.py",
+     "tests/pettripfinder/discovery/test_census_url_recovery.py",
+     "tests/pettripfinder/discovery/test_deduplicate.py",
+     "tests/pettripfinder/discovery/test_duplicates.py",
+     "tests/pettripfinder/discovery/test_identity_dedup.py",
+     "tests/pettripfinder/discovery/test_identity_observation.py",
+     "tests/pettripfinder/discovery/test_identity_resolution.py",
+     "tests/pettripfinder/discovery/test_lodging_dedup.py",
+     "tests/pettripfinder/discovery/test_lodging_resolution_cli.py",
+     "tests/pettripfinder/discovery/test_lodging_scope.py",
+     "tests/pettripfinder/discovery/test_market_membership.py",
+     "tests/pettripfinder/discovery/test_osm_extract_cli.py",
+     "tests/pettripfinder/discovery/test_property_code_seam.py",
+     "tests/pettripfinder/discovery/test_property_identity.py",
+     "tests/pettripfinder/discovery/test_shared_brand_url_repair.py",
+     "tests/pettripfinder/policy/test_adversarial_fixtures.py",
+     "tests/pettripfinder/policy/test_authority_safety.py",
+     "tests/pettripfinder/policy/test_drury_and_sonesta.py",
+     "tests/pettripfinder/policy/test_m10_code_and_address_override.py",
+     "tests/pettripfinder/policy/test_m10_diacritic_folding.py",
+     "tests/pettripfinder/policy/test_policy_membrane.py",
+     "tests/pettripfinder/policy/test_policy_observation.py",
+     "tests/pettripfinder/policy/test_readiness_and_bundle.py",
+     "tests/pettripfinder/test_affiliate_destinations.py",
+     "tests/pettripfinder/test_atlas_throughput_002.py",
+     "tests/pettripfinder/test_census_location.py",
+     "tests/pettripfinder/test_census_promotion.py",
+     "tests/pettripfinder/test_choice_refusal_contradiction_005.py",
+     "tests/pettripfinder/test_cleveland_authority.py",
+     "tests/pettripfinder/test_cleveland_hardened_revalidation_001.py",
+     "tests/pettripfinder/test_combined_weight_and_restriction_rows.py",
+     "tests/pettripfinder/test_commercial_actions.py",
+     "tests/pettripfinder/test_coverage_audit.py",
+     "tests/pettripfinder/test_dayton_authority.py",
+     "tests/pettripfinder/test_deployment_012.py",
+     "tests/pettripfinder/test_deployment_authorization_047.py",
+     "tests/pettripfinder/test_dual_weight_and_additive_fees.py",
+     "tests/pettripfinder/test_export_authority_guard.py",
+     "tests/pettripfinder/test_factory_throughput_001.py",
+     "tests/pettripfinder/test_fee_forms.py",
+     "tests/pettripfinder/test_fee_tiers.py",
+     "tests/pettripfinder/test_generate_columbus_site.py",
+     "tests/pettripfinder/test_generic_fee_reader_usd_suffix_010.py",
+     "tests/pettripfinder/test_global_assembler.py",
+     "tests/pettripfinder/test_global_deployment_architecture_045.py",
+     "tests/pettripfinder/test_grand_rapids_launch_participation_032.py",
+     "tests/pettripfinder/test_homepage_market_awareness.py",
+     "tests/pettripfinder/test_hotel_exclusions.py",
+     "tests/pettripfinder/test_hotel_exclusions_co_located_004.py",
+     "tests/pettripfinder/test_hotel_profile.py",
+     "tests/pettripfinder/test_identity_evidence.py",
+     "tests/pettripfinder/test_identity_routing.py",
+     "tests/pettripfinder/test_inventory_validation.py",
+     "tests/pettripfinder/test_launch_participation_046.py",
+     "tests/pettripfinder/test_listing_dataset_builder.py",
+     "tests/pettripfinder/test_listing_renderability_boundary.py",
+     "tests/pettripfinder/test_louisville_authority.py",
+     "tests/pettripfinder/test_louisville_publication_008.py",
+     "tests/pettripfinder/test_market_authority_sharding.py",
+     "tests/pettripfinder/test_market_isolation.py",
+     "tests/pettripfinder/test_market_ownership.py",
+     "tests/pettripfinder/test_market_policy_package_009.py",
+     "tests/pettripfinder/test_markets.py",
+     "tests/pettripfinder/test_measurement.py",
+     "tests/pettripfinder/test_per_market_release_contracts.py",
+     "tests/pettripfinder/test_pet_evidence_vocabulary.py",
+     "tests/pettripfinder/test_policy_precision.py",
+     "tests/pettripfinder/test_policy_schema_migration.py",
+     "tests/pettripfinder/test_prod002_integration.py",
+     "tests/pettripfinder/test_prod003_launch_safety.py",
+     "tests/pettripfinder/test_prod003_package_preview.py",
+     "tests/pettripfinder/test_prod003_paired_approval.py",
+     "tests/pettripfinder/test_prod003_promotion_readpath.py",
+     "tests/pettripfinder/test_prod003_tiered_fee_approval.py",
+     "tests/pettripfinder/test_prod003_worker_approvals.py",
+     "tests/pettripfinder/test_prod003_worker_promotion.py",
+     "tests/pettripfinder/test_prod004_verified_only.py",
+     "tests/pettripfinder/test_prod005_netlify_config.py",
+     "tests/pettripfinder/test_production_deploy_012.py",
+     "tests/pettripfinder/test_profile_fee_dimensions.py",
+     "tests/pettripfinder/test_promote_attested_candidates.py",
+     "tests/pettripfinder/test_promotion_preserves_structured_facts.py",
+     "tests/pettripfinder/test_promotion_resolution.py",
+     "tests/pettripfinder/test_prose_fee_ladder.py",
+     "tests/pettripfinder/test_prose_pet_facts.py",
+     "tests/pettripfinder/test_publication_cleanup_008b.py",
+     "tests/pettripfinder/test_publication_guard.py",
+     "tests/pettripfinder/test_publication_schema_decisions_010.py",
+     "tests/pettripfinder/test_reader_tiered_fee_hardening_010.py",
+     "tests/pettripfinder/test_refundability_binding.py",
+     "tests/pettripfinder/test_register_publish_011.py",
+     "tests/pettripfinder/test_regression_delta_001.py",
+     "tests/pettripfinder/test_renderer_real_records.py",
+     "tests/pettripfinder/test_routing_property_code_scope.py",
+     "tests/pettripfinder/test_seed_matches_official_source.py",
+     "tests/pettripfinder/test_service_animal_correction_011.py",
+     "tests/pettripfinder/test_service_animal_reattestation_012.py",
+     "tests/pettripfinder/test_site_data.py",
+     "tests/pettripfinder/test_site_enrichment.py",
+     "tests/pettripfinder/test_site_pages.py",
+     "tests/pettripfinder/test_site_shell_markup.py",
+     "tests/pettripfinder/test_sonesta_identity_and_scope.py",
+     "tests/pettripfinder/test_st_louis_production_safety_001.py",
+     "tests/pettripfinder/test_structured_data.py",
+     "tests/pettripfinder/test_structured_fact_rendering.py",
+     "tests/pettripfinder/test_two_market_compat.py",
+     "tests/pettripfinder/test_weight_exclusivity.py",
+     "tests/pettripfinder/test_wyndham_extraction.py"
+    ],
+    "drivers": 1,
+    "driver_paths": [
+     "scripts/pettripfinder/discovery/config/osm_extracts.json"
+    ]
+   },
+   "market_local_paths": [
+    "launch_packages/pettripfinder/identity_census_proposed/chattanooga-tn.json",
+    "launch_packages/pettripfinder/markets/proposed/chattanooga-tn.json",
+    "scripts/pettripfinder/chattanooga_tn_attended_capture_001.py",
+    "scripts/pettripfinder/chattanooga_tn_census_reconciliation_001.py",
+    "scripts/pettripfinder/chattanooga_tn_competitor_gap_001.py",
+    "scripts/pettripfinder/chattanooga_tn_firecrawl_pass_001.py",
+    "scripts/pettripfinder/chattanooga_tn_free_static_capture_001.py",
+    "scripts/pettripfinder/chattanooga_tn_lead_sources_001.py",
+    "scripts/pettripfinder/chattanooga_tn_routing_001.py",
+    "scripts/pettripfinder/chattanooga_tn_shadow_market_001.py",
+    "scripts/pettripfinder/discovery/config/chattanooga_tn.json"
+   ],
+   "files": [
+    {
+     "path": "launch_packages/pettripfinder/identity_census_proposed/chattanooga-tn.json",
+     "status": "A",
+     "old_classes": [
+      "AUTHORITY_CHANGE",
+      "ROUTING_SEMANTIC_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone chattanooga-tn on all five conditions",
+     "proof": {
+      "zone": "chattanooga-tn",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/proposed/chattanooga-tn.json",
+     "status": "A",
+     "old_classes": [
+      "UNCLASSIFIED"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone chattanooga-tn on all five conditions",
+     "proof": {
+      "zone": "chattanooga-tn",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/chattanooga_tn_attended_capture_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/chattanooga_tn_census_reconciliation_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/chattanooga_tn_clean_authority_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/chattanooga_tn_competitor_gap_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/chattanooga_tn_evidence_audit_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/chattanooga_tn_factory_speed_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/chattanooga_tn_firecrawl_pass_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/chattanooga_tn_founder_packet_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/chattanooga_tn_free_static_capture_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/chattanooga_tn_ladder_plan_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/chattanooga_tn_lead_sources_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/chattanooga_tn_paid_readiness_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/chattanooga_tn_parallel_safety_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/chattanooga_tn_routing_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/chattanooga_tn_shadow_market_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "scripts/pettripfinder/chattanooga_tn_attended_capture_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone chattanooga-tn on all five conditions",
+     "proof": {
+      "zone": "chattanooga-tn",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/chattanooga_tn_census_reconciliation_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone chattanooga-tn on all five conditions",
+     "proof": {
+      "zone": "chattanooga-tn",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/chattanooga_tn_competitor_gap_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone chattanooga-tn on all five conditions",
+     "proof": {
+      "zone": "chattanooga-tn",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/chattanooga_tn_firecrawl_pass_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone chattanooga-tn on all five conditions",
+     "proof": {
+      "zone": "chattanooga-tn",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/chattanooga_tn_free_static_capture_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone chattanooga-tn on all five conditions",
+     "proof": {
+      "zone": "chattanooga-tn",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/chattanooga_tn_lead_sources_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone chattanooga-tn on all five conditions",
+     "proof": {
+      "zone": "chattanooga-tn",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/chattanooga_tn_routing_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE",
+      "ROUTING_SEMANTIC_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone chattanooga-tn on all five conditions",
+     "proof": {
+      "zone": "chattanooga-tn",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/chattanooga_tn_shadow_market_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone chattanooga-tn on all five conditions",
+     "proof": {
+      "zone": "chattanooga-tn",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/discovery/config/chattanooga_tn.json",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE",
+      "ROUTING_SEMANTIC_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone chattanooga-tn on all five conditions",
+     "proof": {
+      "zone": "chattanooga-tn",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/discovery/config/osm_extracts.json",
+     "status": "M",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE",
+      "ROUTING_SEMANTIC_CHANGE"
+     ],
+     "new_classes": [
+      "GENERIC_RUNTIME_CHANGE",
+      "ROUTING_SEMANTIC_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched prefix:scripts/pettripfinder/discovery/; not market-local: inside the never_local fence",
+     "proof": {
+      "zone": null,
+      "passed": false,
+      "failed_conditions": [
+       "namespace",
+       "imports",
+       "writes",
+       "reachability",
+       "registration"
+      ]
+     }
+    },
+    {
+     "path": "tests/pettripfinder/acquisition/test_store_integration_025.py",
+     "status": "M",
+     "old_classes": [
+      "BOOKKEEPING_REGISTRATION_CHANGE"
+     ],
+     "new_classes": [
+      "BOOKKEEPING_REGISTRATION_CHANGE"
+     ],
+     "changed": false,
+     "why": "only the elements of declared registration container(s) OTHER_MARKET_RUNS changed; no def, class, import or other module-level statement differs",
+     "proof": null
+    }
+   ]
+  },
+  {
+   "branch": "lexington-new-market-001+002",
+   "git_branch": "worker/ptf-lexington-new-market-001",
+   "base": "2163c4e",
+   "head": "f1e0435",
+   "changed_paths": 36,
+   "old": {
+    "change_classes": [
+     "GENERIC_RUNTIME_CHANGE",
+     "SCHEMA_CHANGE",
+     "ROUTING_SEMANTIC_CHANGE",
+     "GENERATED_REPORT_ONLY"
+    ],
+    "files_by_class": {
+     "GENERATED_REPORT_ONLY": 19,
+     "GENERIC_RUNTIME_CHANGE": 17,
+     "ROUTING_SEMANTIC_CHANGE": 4,
+     "SCHEMA_CHANGE": 1
+    },
+    "FULL_REGRESSION_REQUIRED": "YES",
+    "assembly_required": true,
+    "lanes": [
+     "policy_schema",
+     "identity_routing",
+     "release_contract",
+     "cross_market",
+     "assembly",
+     "deployment_architecture"
+    ],
+    "modules": 134,
+    "drivers": 17,
+    "driver_paths": [
+     "scripts/pettripfinder/discovery/config/lexington_ky.json",
+     "scripts/pettripfinder/discovery/config/osm_extracts.json",
+     "scripts/pettripfinder/lexington_ky_attended_policy_pass_002.py",
+     "scripts/pettripfinder/lexington_ky_brand_city_page_lane_001.py",
+     "scripts/pettripfinder/lexington_ky_brand_directory_harvest_001.py",
+     "scripts/pettripfinder/lexington_ky_brand_directory_harvest_002.py",
+     "scripts/pettripfinder/lexington_ky_census_reconciliation_001.py",
+     "scripts/pettripfinder/lexington_ky_clean_inventory_002.py",
+     "scripts/pettripfinder/lexington_ky_competitor_census_challenge_001.py",
+     "scripts/pettripfinder/lexington_ky_county_boundary_001.py",
+     "scripts/pettripfinder/lexington_ky_firecrawl_pass_002.py",
+     "scripts/pettripfinder/lexington_ky_founder_and_readiness_002.py",
+     "scripts/pettripfinder/lexington_ky_free_census_001.py",
+     "scripts/pettripfinder/lexington_ky_identity_key_repair_002.py",
+     "scripts/pettripfinder/lexington_ky_paid_readiness_001.py",
+     "scripts/pettripfinder/lexington_ky_routing_and_static_capture_001.py",
+     "scripts/pettripfinder/lexington_ky_shadow_market_and_founder_packet_001.py"
+    ]
+   },
+   "new": {
+    "change_classes": [
+     "GENERIC_RUNTIME_CHANGE",
+     "ROUTING_SEMANTIC_CHANGE",
+     "GENERATED_REPORT_ONLY",
+     "MARKET_LOCAL_TOOLING"
+    ],
+    "files_by_class": {
+     "GENERATED_REPORT_ONLY": 19,
+     "MARKET_LOCAL_TOOLING": 16,
+     "GENERIC_RUNTIME_CHANGE": 1,
+     "ROUTING_SEMANTIC_CHANGE": 1
+    },
+    "narrowing_blockers": [],
+    "FULL_REGRESSION_REQUIRED": "YES",
+    "assembly_required": true,
+    "lanes": [
+     "policy_schema",
+     "identity_routing",
+     "release_contract",
+     "cross_market",
+     "assembly",
+     "deployment_architecture"
+    ],
+    "modules": 134,
+    "selected_modules": [
+     "tests/pettripfinder/acquisition/test_acquisition_ladder.py",
+     "tests/pettripfinder/acquisition/test_discovery_attempt_ledger.py",
+     "tests/pettripfinder/acquisition/test_double_buy_url_level_p4.py",
+     "tests/pettripfinder/acquisition/test_identity_binding_027.py",
+     "tests/pettripfinder/acquisition/test_lane_qualification.py",
+     "tests/pettripfinder/acquisition/test_market_routing.py",
+     "tests/pettripfinder/acquisition/test_normalization_041.py",
+     "tests/pettripfinder/acquisition/test_paid_attempt_ledger.py",
+     "tests/pettripfinder/acquisition/test_paid_lane_provenance.py",
+     "tests/pettripfinder/acquisition/test_parser_semantics_017.py",
+     "tests/pettripfinder/acquisition/test_retry_policy.py",
+     "tests/pettripfinder/acquisition/test_vocabulary_normalization_043.py",
+     "tests/pettripfinder/brightdata/test_property_code_patterns.py",
+     "tests/pettripfinder/brightdata/test_street_agreement_006.py",
+     "tests/pettripfinder/contracts/test_census_partition.py",
+     "tests/pettripfinder/contracts/test_closure.py",
+     "tests/pettripfinder/contracts/test_compat_readers.py",
+     "tests/pettripfinder/contracts/test_coverage.py",
+     "tests/pettripfinder/contracts/test_fee_computation.py",
+     "tests/pettripfinder/contracts/test_identity_key.py",
+     "tests/pettripfinder/contracts/test_market_authorities.py",
+     "tests/pettripfinder/contracts/test_market_geography.py",
+     "tests/pettripfinder/contracts/test_market_state_pins.py",
+     "tests/pettripfinder/contracts/test_service_animal.py",
+     "tests/pettripfinder/contracts/test_validators.py",
+     "tests/pettripfinder/discovery/test_census_duplicate_scan.py",
+     "tests/pettripfinder/discovery/test_census_projection.py",
+     "tests/pettripfinder/discovery/test_census_recandidacy.py",
+     "tests/pettripfinder/discovery/test_census_url_recovery.py",
+     "tests/pettripfinder/discovery/test_deduplicate.py",
+     "tests/pettripfinder/discovery/test_duplicates.py",
+     "tests/pettripfinder/discovery/test_identity_dedup.py",
+     "tests/pettripfinder/discovery/test_identity_observation.py",
+     "tests/pettripfinder/discovery/test_identity_resolution.py",
+     "tests/pettripfinder/discovery/test_lodging_dedup.py",
+     "tests/pettripfinder/discovery/test_lodging_resolution_cli.py",
+     "tests/pettripfinder/discovery/test_lodging_scope.py",
+     "tests/pettripfinder/discovery/test_market_membership.py",
+     "tests/pettripfinder/discovery/test_osm_extract_cli.py",
+     "tests/pettripfinder/discovery/test_property_code_seam.py",
+     "tests/pettripfinder/discovery/test_property_identity.py",
+     "tests/pettripfinder/discovery/test_shared_brand_url_repair.py",
+     "tests/pettripfinder/policy/test_adversarial_fixtures.py",
+     "tests/pettripfinder/policy/test_authority_safety.py",
+     "tests/pettripfinder/policy/test_drury_and_sonesta.py",
+     "tests/pettripfinder/policy/test_m10_code_and_address_override.py",
+     "tests/pettripfinder/policy/test_m10_diacritic_folding.py",
+     "tests/pettripfinder/policy/test_policy_membrane.py",
+     "tests/pettripfinder/policy/test_policy_observation.py",
+     "tests/pettripfinder/policy/test_readiness_and_bundle.py",
+     "tests/pettripfinder/test_affiliate_destinations.py",
+     "tests/pettripfinder/test_atlas_throughput_002.py",
+     "tests/pettripfinder/test_census_location.py",
+     "tests/pettripfinder/test_census_promotion.py",
+     "tests/pettripfinder/test_choice_refusal_contradiction_005.py",
+     "tests/pettripfinder/test_cleveland_authority.py",
+     "tests/pettripfinder/test_cleveland_hardened_revalidation_001.py",
+     "tests/pettripfinder/test_combined_weight_and_restriction_rows.py",
+     "tests/pettripfinder/test_commercial_actions.py",
+     "tests/pettripfinder/test_coverage_audit.py",
+     "tests/pettripfinder/test_dayton_authority.py",
+     "tests/pettripfinder/test_deployment_012.py",
+     "tests/pettripfinder/test_deployment_authorization_047.py",
+     "tests/pettripfinder/test_dual_weight_and_additive_fees.py",
+     "tests/pettripfinder/test_export_authority_guard.py",
+     "tests/pettripfinder/test_factory_throughput_001.py",
+     "tests/pettripfinder/test_fee_forms.py",
+     "tests/pettripfinder/test_fee_tiers.py",
+     "tests/pettripfinder/test_generate_columbus_site.py",
+     "tests/pettripfinder/test_generic_fee_reader_usd_suffix_010.py",
+     "tests/pettripfinder/test_global_assembler.py",
+     "tests/pettripfinder/test_global_deployment_architecture_045.py",
+     "tests/pettripfinder/test_grand_rapids_launch_participation_032.py",
+     "tests/pettripfinder/test_homepage_market_awareness.py",
+     "tests/pettripfinder/test_hotel_exclusions.py",
+     "tests/pettripfinder/test_hotel_exclusions_co_located_004.py",
+     "tests/pettripfinder/test_hotel_profile.py",
+     "tests/pettripfinder/test_identity_evidence.py",
+     "tests/pettripfinder/test_identity_routing.py",
+     "tests/pettripfinder/test_inventory_validation.py",
+     "tests/pettripfinder/test_launch_participation_046.py",
+     "tests/pettripfinder/test_listing_dataset_builder.py",
+     "tests/pettripfinder/test_listing_renderability_boundary.py",
+     "tests/pettripfinder/test_louisville_authority.py",
+     "tests/pettripfinder/test_louisville_publication_008.py",
+     "tests/pettripfinder/test_market_authority_sharding.py",
+     "tests/pettripfinder/test_market_isolation.py",
+     "tests/pettripfinder/test_market_ownership.py",
+     "tests/pettripfinder/test_market_policy_package_009.py",
+     "tests/pettripfinder/test_markets.py",
+     "tests/pettripfinder/test_measurement.py",
+     "tests/pettripfinder/test_per_market_release_contracts.py",
+     "tests/pettripfinder/test_pet_evidence_vocabulary.py",
+     "tests/pettripfinder/test_policy_precision.py",
+     "tests/pettripfinder/test_policy_schema_migration.py",
+     "tests/pettripfinder/test_prod002_integration.py",
+     "tests/pettripfinder/test_prod003_launch_safety.py",
+     "tests/pettripfinder/test_prod003_package_preview.py",
+     "tests/pettripfinder/test_prod003_paired_approval.py",
+     "tests/pettripfinder/test_prod003_promotion_readpath.py",
+     "tests/pettripfinder/test_prod003_tiered_fee_approval.py",
+     "tests/pettripfinder/test_prod003_worker_approvals.py",
+     "tests/pettripfinder/test_prod003_worker_promotion.py",
+     "tests/pettripfinder/test_prod004_verified_only.py",
+     "tests/pettripfinder/test_prod005_netlify_config.py",
+     "tests/pettripfinder/test_production_deploy_012.py",
+     "tests/pettripfinder/test_profile_fee_dimensions.py",
+     "tests/pettripfinder/test_promote_attested_candidates.py",
+     "tests/pettripfinder/test_promotion_preserves_structured_facts.py",
+     "tests/pettripfinder/test_promotion_resolution.py",
+     "tests/pettripfinder/test_prose_fee_ladder.py",
+     "tests/pettripfinder/test_prose_pet_facts.py",
+     "tests/pettripfinder/test_publication_cleanup_008b.py",
+     "tests/pettripfinder/test_publication_guard.py",
+     "tests/pettripfinder/test_publication_schema_decisions_010.py",
+     "tests/pettripfinder/test_reader_tiered_fee_hardening_010.py",
+     "tests/pettripfinder/test_refundability_binding.py",
+     "tests/pettripfinder/test_register_publish_011.py",
+     "tests/pettripfinder/test_renderer_real_records.py",
+     "tests/pettripfinder/test_routing_property_code_scope.py",
+     "tests/pettripfinder/test_seed_matches_official_source.py",
+     "tests/pettripfinder/test_service_animal_correction_011.py",
+     "tests/pettripfinder/test_service_animal_reattestation_012.py",
+     "tests/pettripfinder/test_site_data.py",
+     "tests/pettripfinder/test_site_enrichment.py",
+     "tests/pettripfinder/test_site_pages.py",
+     "tests/pettripfinder/test_site_shell_markup.py",
+     "tests/pettripfinder/test_sonesta_identity_and_scope.py",
+     "tests/pettripfinder/test_st_louis_production_safety_001.py",
+     "tests/pettripfinder/test_structured_data.py",
+     "tests/pettripfinder/test_structured_fact_rendering.py",
+     "tests/pettripfinder/test_two_market_compat.py",
+     "tests/pettripfinder/test_weight_exclusivity.py",
+     "tests/pettripfinder/test_wyndham_extraction.py"
+    ],
+    "drivers": 1,
+    "driver_paths": [
+     "scripts/pettripfinder/discovery/config/osm_extracts.json"
+    ]
+   },
+   "market_local_paths": [
+    "scripts/pettripfinder/discovery/config/lexington_ky.json",
+    "scripts/pettripfinder/lexington_ky_attended_policy_pass_002.py",
+    "scripts/pettripfinder/lexington_ky_brand_city_page_lane_001.py",
+    "scripts/pettripfinder/lexington_ky_brand_directory_harvest_001.py",
+    "scripts/pettripfinder/lexington_ky_brand_directory_harvest_002.py",
+    "scripts/pettripfinder/lexington_ky_census_reconciliation_001.py",
+    "scripts/pettripfinder/lexington_ky_clean_inventory_002.py",
+    "scripts/pettripfinder/lexington_ky_competitor_census_challenge_001.py",
+    "scripts/pettripfinder/lexington_ky_county_boundary_001.py",
+    "scripts/pettripfinder/lexington_ky_firecrawl_pass_002.py",
+    "scripts/pettripfinder/lexington_ky_founder_and_readiness_002.py",
+    "scripts/pettripfinder/lexington_ky_free_census_001.py",
+    "scripts/pettripfinder/lexington_ky_identity_key_repair_002.py",
+    "scripts/pettripfinder/lexington_ky_paid_readiness_001.py",
+    "scripts/pettripfinder/lexington_ky_routing_and_static_capture_001.py",
+    "scripts/pettripfinder/lexington_ky_shadow_market_and_founder_packet_001.py"
+   ],
+   "files": [
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/lexington_ky_attended_policy_pass_002.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/lexington_ky_brand_city_page_lane_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/lexington_ky_brand_directory_harvest_002.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/lexington_ky_census_reconciliation_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/lexington_ky_clean_inventory_002.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/lexington_ky_competitor_census_challenge_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/lexington_ky_county_boundaries_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/lexington_ky_firecrawl_pass_002.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/lexington_ky_founder_packet_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/lexington_ky_founder_packet_002.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/lexington_ky_identity_key_repair_002.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/lexington_ky_paid_readiness_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/lexington_ky_parallel_safety_and_benchmark_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/lexington_ky_parallel_safety_and_benchmark_002.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/lexington_ky_promotion_readiness_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/lexington_ky_promotion_readiness_002.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/lexington_ky_routing_and_static_capture_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/lexington_ky_shadow_market_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/lexington_ky_shadow_market_002.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "scripts/pettripfinder/discovery/config/lexington_ky.json",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE",
+      "ROUTING_SEMANTIC_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone lexington-ky on all five conditions",
+     "proof": {
+      "zone": "lexington-ky",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/discovery/config/osm_extracts.json",
+     "status": "M",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE",
+      "ROUTING_SEMANTIC_CHANGE"
+     ],
+     "new_classes": [
+      "GENERIC_RUNTIME_CHANGE",
+      "ROUTING_SEMANTIC_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched prefix:scripts/pettripfinder/discovery/; not market-local: inside the never_local fence",
+     "proof": {
+      "zone": null,
+      "passed": false,
+      "failed_conditions": [
+       "namespace",
+       "imports",
+       "writes",
+       "reachability",
+       "registration"
+      ]
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/lexington_ky_attended_policy_pass_002.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE",
+      "SCHEMA_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone lexington-ky on all five conditions",
+     "proof": {
+      "zone": "lexington-ky",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/lexington_ky_brand_city_page_lane_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone lexington-ky on all five conditions",
+     "proof": {
+      "zone": "lexington-ky",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/lexington_ky_brand_directory_harvest_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone lexington-ky on all five conditions",
+     "proof": {
+      "zone": "lexington-ky",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/lexington_ky_brand_directory_harvest_002.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone lexington-ky on all five conditions",
+     "proof": {
+      "zone": "lexington-ky",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/lexington_ky_census_reconciliation_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone lexington-ky on all five conditions",
+     "proof": {
+      "zone": "lexington-ky",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/lexington_ky_clean_inventory_002.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone lexington-ky on all five conditions",
+     "proof": {
+      "zone": "lexington-ky",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/lexington_ky_competitor_census_challenge_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone lexington-ky on all five conditions",
+     "proof": {
+      "zone": "lexington-ky",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/lexington_ky_county_boundary_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone lexington-ky on all five conditions",
+     "proof": {
+      "zone": "lexington-ky",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/lexington_ky_firecrawl_pass_002.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone lexington-ky on all five conditions",
+     "proof": {
+      "zone": "lexington-ky",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/lexington_ky_founder_and_readiness_002.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone lexington-ky on all five conditions",
+     "proof": {
+      "zone": "lexington-ky",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/lexington_ky_free_census_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone lexington-ky on all five conditions",
+     "proof": {
+      "zone": "lexington-ky",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/lexington_ky_identity_key_repair_002.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE",
+      "ROUTING_SEMANTIC_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone lexington-ky on all five conditions",
+     "proof": {
+      "zone": "lexington-ky",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/lexington_ky_paid_readiness_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone lexington-ky on all five conditions",
+     "proof": {
+      "zone": "lexington-ky",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/lexington_ky_routing_and_static_capture_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE",
+      "ROUTING_SEMANTIC_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone lexington-ky on all five conditions",
+     "proof": {
+      "zone": "lexington-ky",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/lexington_ky_shadow_market_and_founder_packet_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone lexington-ky on all five conditions",
+     "proof": {
+      "zone": "lexington-ky",
+      "passed": true,
+      "failed_conditions": []
+     }
+    }
+   ]
+  },
+  {
+   "branch": "toledo-new-market-001",
+   "git_branch": "worker/ptf-toledo-new-market-001 @133b937",
+   "base": "2163c4e",
+   "head": "133b937",
+   "changed_paths": 37,
+   "old": {
+    "change_classes": [
+     "AUTHORITY_CHANGE",
+     "GENERIC_RUNTIME_CHANGE",
+     "ROUTING_SEMANTIC_CHANGE",
+     "TEST_EXPECTATION_CHANGE",
+     "DOCUMENTATION_ONLY",
+     "GENERATED_REPORT_ONLY",
+     "UNCLASSIFIED"
+    ],
+    "files_by_class": {
+     "DOCUMENTATION_ONLY": 1,
+     "AUTHORITY_CHANGE": 1,
+     "ROUTING_SEMANTIC_CHANGE": 3,
+     "UNCLASSIFIED": 3,
+     "GENERATED_REPORT_ONLY": 17,
+     "GENERIC_RUNTIME_CHANGE": 14,
+     "TEST_EXPECTATION_CHANGE": 1
+    },
+    "FULL_REGRESSION_REQUIRED": "YES",
+    "assembly_required": true,
+    "lanes": [
+     "policy_schema",
+     "identity_routing",
+     "release_contract",
+     "cross_market",
+     "assembly",
+     "deployment_architecture",
+     "website_generation_integration"
+    ],
+    "modules": 140,
+    "drivers": 18,
+    "driver_paths": [
+     "launch_packages/pettripfinder/identity_census_proposed/toledo-oh.json",
+     "launch_packages/pettripfinder/markets/proposed/toledo-oh.json",
+     "launch_packages/pettripfinder/toledo_oh_founder_rulings_001.json",
+     "launch_packages/pettripfinder/toledo_oh_osm_extracts_001.json",
+     "scripts/pettripfinder/discovery/config/toledo_oh.json",
+     "scripts/pettripfinder/toledo_oh_attended_capture_001.py",
+     "scripts/pettripfinder/toledo_oh_brand_city_pages_001.py",
+     "scripts/pettripfinder/toledo_oh_brand_inventory_001.py",
+     "scripts/pettripfinder/toledo_oh_census_reconciliation_001.py",
+     "scripts/pettripfinder/toledo_oh_firecrawl_pass_001.py",
+     "scripts/pettripfinder/toledo_oh_free_static_capture_001.py",
+     "scripts/pettripfinder/toledo_oh_ladder_plan_001.py",
+     "scripts/pettripfinder/toledo_oh_lead_sources_001.py",
+     "scripts/pettripfinder/toledo_oh_owned_evidence_001.py",
+     "scripts/pettripfinder/toledo_oh_parallel_safety_001.py",
+     "scripts/pettripfinder/toledo_oh_regression_classification_001.py",
+     "scripts/pettripfinder/toledo_oh_routing_001.py",
+     "scripts/pettripfinder/toledo_oh_shadow_market_001.py"
+    ]
+   },
+   "new": {
+    "change_classes": [
+     "TEST_EXPECTATION_CHANGE",
+     "DOCUMENTATION_ONLY",
+     "GENERATED_REPORT_ONLY",
+     "MARKET_LOCAL_TOOLING",
+     "UNCLASSIFIED"
+    ],
+    "files_by_class": {
+     "DOCUMENTATION_ONLY": 1,
+     "MARKET_LOCAL_TOOLING": 16,
+     "GENERATED_REPORT_ONLY": 17,
+     "UNCLASSIFIED": 2,
+     "TEST_EXPECTATION_CHANGE": 1
+    },
+    "narrowing_blockers": [],
+    "FULL_REGRESSION_REQUIRED": "YES",
+    "assembly_required": true,
+    "lanes": [
+     "policy_schema",
+     "identity_routing",
+     "release_contract",
+     "cross_market",
+     "assembly",
+     "deployment_architecture"
+    ],
+    "modules": 132,
+    "selected_modules": [
+     "tests/pettripfinder/acquisition/test_acquisition_ladder.py",
+     "tests/pettripfinder/acquisition/test_discovery_attempt_ledger.py",
+     "tests/pettripfinder/acquisition/test_double_buy_url_level_p4.py",
+     "tests/pettripfinder/acquisition/test_identity_binding_027.py",
+     "tests/pettripfinder/acquisition/test_lane_qualification.py",
+     "tests/pettripfinder/acquisition/test_market_routing.py",
+     "tests/pettripfinder/acquisition/test_normalization_041.py",
+     "tests/pettripfinder/acquisition/test_paid_attempt_ledger.py",
+     "tests/pettripfinder/acquisition/test_paid_lane_provenance.py",
+     "tests/pettripfinder/acquisition/test_parser_semantics_017.py",
+     "tests/pettripfinder/acquisition/test_retry_policy.py",
+     "tests/pettripfinder/acquisition/test_vocabulary_normalization_043.py",
+     "tests/pettripfinder/brightdata/test_property_code_patterns.py",
+     "tests/pettripfinder/brightdata/test_street_agreement_006.py",
+     "tests/pettripfinder/contracts/test_census_partition.py",
+     "tests/pettripfinder/contracts/test_closure.py",
+     "tests/pettripfinder/contracts/test_compat_readers.py",
+     "tests/pettripfinder/contracts/test_coverage.py",
+     "tests/pettripfinder/contracts/test_fee_computation.py",
+     "tests/pettripfinder/contracts/test_identity_key.py",
+     "tests/pettripfinder/contracts/test_market_authorities.py",
+     "tests/pettripfinder/contracts/test_market_geography.py",
+     "tests/pettripfinder/contracts/test_market_state_pins.py",
+     "tests/pettripfinder/contracts/test_service_animal.py",
+     "tests/pettripfinder/contracts/test_validators.py",
+     "tests/pettripfinder/discovery/test_census_duplicate_scan.py",
+     "tests/pettripfinder/discovery/test_census_projection.py",
+     "tests/pettripfinder/discovery/test_census_recandidacy.py",
+     "tests/pettripfinder/discovery/test_census_url_recovery.py",
+     "tests/pettripfinder/discovery/test_deduplicate.py",
+     "tests/pettripfinder/discovery/test_duplicates.py",
+     "tests/pettripfinder/discovery/test_identity_dedup.py",
+     "tests/pettripfinder/discovery/test_identity_observation.py",
+     "tests/pettripfinder/discovery/test_identity_resolution.py",
+     "tests/pettripfinder/discovery/test_lodging_dedup.py",
+     "tests/pettripfinder/discovery/test_lodging_resolution_cli.py",
+     "tests/pettripfinder/discovery/test_lodging_scope.py",
+     "tests/pettripfinder/discovery/test_market_membership.py",
+     "tests/pettripfinder/discovery/test_property_code_seam.py",
+     "tests/pettripfinder/discovery/test_property_identity.py",
+     "tests/pettripfinder/discovery/test_shared_brand_url_repair.py",
+     "tests/pettripfinder/policy/test_adversarial_fixtures.py",
+     "tests/pettripfinder/policy/test_authority_safety.py",
+     "tests/pettripfinder/policy/test_drury_and_sonesta.py",
+     "tests/pettripfinder/policy/test_m10_code_and_address_override.py",
+     "tests/pettripfinder/policy/test_m10_diacritic_folding.py",
+     "tests/pettripfinder/policy/test_policy_membrane.py",
+     "tests/pettripfinder/policy/test_policy_observation.py",
+     "tests/pettripfinder/policy/test_readiness_and_bundle.py",
+     "tests/pettripfinder/test_affiliate_destinations.py",
+     "tests/pettripfinder/test_atlas_throughput_002.py",
+     "tests/pettripfinder/test_census_location.py",
+     "tests/pettripfinder/test_census_promotion.py",
+     "tests/pettripfinder/test_choice_refusal_contradiction_005.py",
+     "tests/pettripfinder/test_cleveland_authority.py",
+     "tests/pettripfinder/test_combined_weight_and_restriction_rows.py",
+     "tests/pettripfinder/test_commercial_actions.py",
+     "tests/pettripfinder/test_coverage_audit.py",
+     "tests/pettripfinder/test_dayton_authority.py",
+     "tests/pettripfinder/test_deployment_012.py",
+     "tests/pettripfinder/test_deployment_authorization_047.py",
+     "tests/pettripfinder/test_dual_weight_and_additive_fees.py",
+     "tests/pettripfinder/test_export_authority_guard.py",
+     "tests/pettripfinder/test_factory_throughput_001.py",
+     "tests/pettripfinder/test_fee_forms.py",
+     "tests/pettripfinder/test_fee_tiers.py",
+     "tests/pettripfinder/test_generate_columbus_site.py",
+     "tests/pettripfinder/test_generic_fee_reader_usd_suffix_010.py",
+     "tests/pettripfinder/test_global_assembler.py",
+     "tests/pettripfinder/test_global_deployment_architecture_045.py",
+     "tests/pettripfinder/test_grand_rapids_launch_participation_032.py",
+     "tests/pettripfinder/test_homepage_market_awareness.py",
+     "tests/pettripfinder/test_hotel_exclusions.py",
+     "tests/pettripfinder/test_hotel_exclusions_co_located_004.py",
+     "tests/pettripfinder/test_hotel_profile.py",
+     "tests/pettripfinder/test_identity_evidence.py",
+     "tests/pettripfinder/test_identity_routing.py",
+     "tests/pettripfinder/test_inventory_validation.py",
+     "tests/pettripfinder/test_launch_participation_046.py",
+     "tests/pettripfinder/test_listing_dataset_builder.py",
+     "tests/pettripfinder/test_listing_renderability_boundary.py",
+     "tests/pettripfinder/test_louisville_authority.py",
+     "tests/pettripfinder/test_louisville_publication_008.py",
+     "tests/pettripfinder/test_market_authority_sharding.py",
+     "tests/pettripfinder/test_market_isolation.py",
+     "tests/pettripfinder/test_market_ownership.py",
+     "tests/pettripfinder/test_market_policy_package_009.py",
+     "tests/pettripfinder/test_markets.py",
+     "tests/pettripfinder/test_measurement.py",
+     "tests/pettripfinder/test_per_market_release_contracts.py",
+     "tests/pettripfinder/test_pet_evidence_vocabulary.py",
+     "tests/pettripfinder/test_policy_precision.py",
+     "tests/pettripfinder/test_policy_schema_migration.py",
+     "tests/pettripfinder/test_prod002_integration.py",
+     "tests/pettripfinder/test_prod003_launch_safety.py",
+     "tests/pettripfinder/test_prod003_package_preview.py",
+     "tests/pettripfinder/test_prod003_paired_approval.py",
+     "tests/pettripfinder/test_prod003_promotion_readpath.py",
+     "tests/pettripfinder/test_prod003_tiered_fee_approval.py",
+     "tests/pettripfinder/test_prod003_worker_approvals.py",
+     "tests/pettripfinder/test_prod003_worker_promotion.py",
+     "tests/pettripfinder/test_prod004_verified_only.py",
+     "tests/pettripfinder/test_prod005_netlify_config.py",
+     "tests/pettripfinder/test_production_deploy_012.py",
+     "tests/pettripfinder/test_profile_fee_dimensions.py",
+     "tests/pettripfinder/test_promote_attested_candidates.py",
+     "tests/pettripfinder/test_promotion_preserves_structured_facts.py",
+     "tests/pettripfinder/test_promotion_resolution.py",
+     "tests/pettripfinder/test_prose_fee_ladder.py",
+     "tests/pettripfinder/test_prose_pet_facts.py",
+     "tests/pettripfinder/test_publication_cleanup_008b.py",
+     "tests/pettripfinder/test_publication_guard.py",
+     "tests/pettripfinder/test_publication_schema_decisions_010.py",
+     "tests/pettripfinder/test_reader_tiered_fee_hardening_010.py",
+     "tests/pettripfinder/test_refundability_binding.py",
+     "tests/pettripfinder/test_register_publish_011.py",
+     "tests/pettripfinder/test_renderer_real_records.py",
+     "tests/pettripfinder/test_routing_property_code_scope.py",
+     "tests/pettripfinder/test_seed_matches_official_source.py",
+     "tests/pettripfinder/test_service_animal_correction_011.py",
+     "tests/pettripfinder/test_service_animal_reattestation_012.py",
+     "tests/pettripfinder/test_site_data.py",
+     "tests/pettripfinder/test_site_enrichment.py",
+     "tests/pettripfinder/test_site_pages.py",
+     "tests/pettripfinder/test_site_shell_markup.py",
+     "tests/pettripfinder/test_sonesta_identity_and_scope.py",
+     "tests/pettripfinder/test_st_louis_production_safety_001.py",
+     "tests/pettripfinder/test_structured_data.py",
+     "tests/pettripfinder/test_structured_fact_rendering.py",
+     "tests/pettripfinder/test_two_market_compat.py",
+     "tests/pettripfinder/test_weight_exclusivity.py",
+     "tests/pettripfinder/test_wyndham_extraction.py"
+    ],
+    "drivers": 2,
+    "driver_paths": [
+     "launch_packages/pettripfinder/toledo_oh_founder_rulings_001.json",
+     "launch_packages/pettripfinder/toledo_oh_osm_extracts_001.json"
+    ]
+   },
+   "market_local_paths": [
+    "launch_packages/pettripfinder/identity_census_proposed/toledo-oh.json",
+    "launch_packages/pettripfinder/markets/proposed/toledo-oh.json",
+    "scripts/pettripfinder/discovery/config/toledo_oh.json",
+    "scripts/pettripfinder/toledo_oh_attended_capture_001.py",
+    "scripts/pettripfinder/toledo_oh_brand_city_pages_001.py",
+    "scripts/pettripfinder/toledo_oh_brand_inventory_001.py",
+    "scripts/pettripfinder/toledo_oh_census_reconciliation_001.py",
+    "scripts/pettripfinder/toledo_oh_firecrawl_pass_001.py",
+    "scripts/pettripfinder/toledo_oh_free_static_capture_001.py",
+    "scripts/pettripfinder/toledo_oh_ladder_plan_001.py",
+    "scripts/pettripfinder/toledo_oh_lead_sources_001.py",
+    "scripts/pettripfinder/toledo_oh_owned_evidence_001.py",
+    "scripts/pettripfinder/toledo_oh_parallel_safety_001.py",
+    "scripts/pettripfinder/toledo_oh_regression_classification_001.py",
+    "scripts/pettripfinder/toledo_oh_routing_001.py",
+    "scripts/pettripfinder/toledo_oh_shadow_market_001.py"
+   ],
+   "files": [
+    {
+     "path": "docs/work_items/PTF-TOLEDO-OH-PROMOTION-AND-APPLICATION-002.md",
+     "status": "A",
+     "old_classes": [
+      "DOCUMENTATION_ONLY"
+     ],
+     "new_classes": [
+      "DOCUMENTATION_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:docs/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/identity_census_proposed/toledo-oh.json",
+     "status": "A",
+     "old_classes": [
+      "AUTHORITY_CHANGE",
+      "ROUTING_SEMANTIC_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone toledo-oh on all five conditions",
+     "proof": {
+      "zone": "toledo-oh",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/proposed/toledo-oh.json",
+     "status": "A",
+     "old_classes": [
+      "UNCLASSIFIED"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone toledo-oh on all five conditions",
+     "proof": {
+      "zone": "toledo-oh",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/toledo_oh_attended_capture_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/toledo_oh_brand_city_pages_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/toledo_oh_census_reconciliation_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/toledo_oh_clean_authority_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/toledo_oh_competitor_gap_matrix_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/toledo_oh_evidence_audit_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/toledo_oh_firecrawl_pass_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/toledo_oh_founder_packet_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/toledo_oh_free_static_capture_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/toledo_oh_ladder_plan_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/toledo_oh_lead_sources_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/toledo_oh_owned_evidence_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/toledo_oh_paid_readiness_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/toledo_oh_parallel_safety_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/toledo_oh_regression_classification_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/toledo_oh_routing_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/toledo_oh_shadow_market_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/toledo_oh_founder_rulings_001.json",
+     "status": "A",
+     "old_classes": [
+      "UNCLASSIFIED"
+     ],
+     "new_classes": [
+      "UNCLASSIFIED"
+     ],
+     "changed": false,
+     "why": "matched no rule; market-local proof FAILED on reachability: directory launch_packages/pettripfinder is enumerated by shared code: tests/pettripfinder/test_build_capture_queue.py: \"",
+     "proof": {
+      "zone": "toledo-oh",
+      "passed": false,
+      "failed_conditions": [
+       "reachability"
+      ]
+     }
+    },
+    {
+     "path": "launch_packages/pettripfinder/toledo_oh_osm_extracts_001.json",
+     "status": "A",
+     "old_classes": [
+      "UNCLASSIFIED"
+     ],
+     "new_classes": [
+      "UNCLASSIFIED"
+     ],
+     "changed": false,
+     "why": "matched no rule; market-local proof FAILED on reachability: directory launch_packages/pettripfinder is enumerated by shared code: tests/pettripfinder/test_build_capture_queue.py: \"",
+     "proof": {
+      "zone": "toledo-oh",
+      "passed": false,
+      "failed_conditions": [
+       "reachability"
+      ]
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/discovery/config/toledo_oh.json",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE",
+      "ROUTING_SEMANTIC_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone toledo-oh on all five conditions",
+     "proof": {
+      "zone": "toledo-oh",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/toledo_oh_attended_capture_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone toledo-oh on all five conditions",
+     "proof": {
+      "zone": "toledo-oh",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/toledo_oh_brand_city_pages_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone toledo-oh on all five conditions",
+     "proof": {
+      "zone": "toledo-oh",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/toledo_oh_brand_inventory_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone toledo-oh on all five conditions",
+     "proof": {
+      "zone": "toledo-oh",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/toledo_oh_census_reconciliation_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone toledo-oh on all five conditions",
+     "proof": {
+      "zone": "toledo-oh",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/toledo_oh_firecrawl_pass_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone toledo-oh on all five conditions",
+     "proof": {
+      "zone": "toledo-oh",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/toledo_oh_free_static_capture_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone toledo-oh on all five conditions",
+     "proof": {
+      "zone": "toledo-oh",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/toledo_oh_ladder_plan_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone toledo-oh on all five conditions",
+     "proof": {
+      "zone": "toledo-oh",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/toledo_oh_lead_sources_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone toledo-oh on all five conditions",
+     "proof": {
+      "zone": "toledo-oh",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/toledo_oh_owned_evidence_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone toledo-oh on all five conditions",
+     "proof": {
+      "zone": "toledo-oh",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/toledo_oh_parallel_safety_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone toledo-oh on all five conditions",
+     "proof": {
+      "zone": "toledo-oh",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/toledo_oh_regression_classification_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone toledo-oh on all five conditions",
+     "proof": {
+      "zone": "toledo-oh",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/toledo_oh_routing_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE",
+      "ROUTING_SEMANTIC_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone toledo-oh on all five conditions",
+     "proof": {
+      "zone": "toledo-oh",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "scripts/pettripfinder/toledo_oh_shadow_market_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "MARKET_LOCAL_TOOLING"
+     ],
+     "changed": true,
+     "why": "isolation proof passed for zone toledo-oh on all five conditions",
+     "proof": {
+      "zone": "toledo-oh",
+      "passed": true,
+      "failed_conditions": []
+     }
+    },
+    {
+     "path": "tests/pettripfinder/test_toledo_oh_new_market_001.py",
+     "status": "A",
+     "old_classes": [
+      "TEST_EXPECTATION_CHANGE"
+     ],
+     "new_classes": [
+      "TEST_EXPECTATION_CHANGE"
+     ],
+     "changed": false,
+     "why": "added or deleted module: there is no prior shape to compare against",
+     "proof": null
+    }
+   ]
+  },
+  {
+   "branch": "toledo-promotion-002-and-launch-003",
+   "git_branch": "worker/ptf-toledo-promotion-002",
+   "base": "2163c4e",
+   "head": "d335c50",
+   "changed_paths": 82,
+   "old": {
+    "change_classes": [
+     "AUTHORITY_CHANGE",
+     "GENERIC_RUNTIME_CHANGE",
+     "ROUTING_SEMANTIC_CHANGE",
+     "DEPLOYMENT_CHANGE",
+     "TEST_EXPECTATION_CHANGE",
+     "DOCUMENTATION_ONLY",
+     "GENERATED_REPORT_ONLY",
+     "UNCLASSIFIED"
+    ],
+    "files_by_class": {
+     "DOCUMENTATION_ONLY": 2,
+     "DEPLOYMENT_CHANGE": 7,
+     "AUTHORITY_CHANGE": 11,
+     "ROUTING_SEMANTIC_CHANGE": 4,
+     "GENERATED_REPORT_ONLY": 22,
+     "UNCLASSIFIED": 4,
+     "GENERIC_RUNTIME_CHANGE": 23,
+     "TEST_EXPECTATION_CHANGE": 15
+    },
+    "FULL_REGRESSION_REQUIRED": "YES",
+    "assembly_required": true,
+    "lanes": [
+     "deployment_architecture",
+     "release_contract",
+     "assembly",
+     "policy_schema",
+     "identity_routing",
+     "cross_market",
+     "website_generation_integration"
+    ],
+    "modules": 234,
+    "drivers": 46,
+    "driver_paths": [
+     "deploy/netlify/deployment_authorizations/ptf-auth-toledo-003-895248738c79.json",
+     "deploy/netlify/deployment_records/ptf-deploy-toledo-003-6a9e047690ec8bdaf99bcad2.json",
+     "deploy/netlify/global_deployment_manifest.json",
+     "deploy/netlify/launch_participation.json",
+     "deploy/netlify/release_contracts/toledo-oh.json",
+     "launch_packages/pettripfinder/hotel_exclusions.json",
+     "launch_packages/pettripfinder/hotel_policy_facts_toledo-oh.json",
+     "launch_packages/pettripfinder/identity_census/toledo-oh.json",
+     "launch_packages/pettripfinder/markets/authority/toledo-oh/affiliate_destinations.json",
+     "launch_packages/pettripfinder/markets/authority/toledo-oh/hotel_exclusions.json",
+     "launch_packages/pettripfinder/markets/authority/toledo-oh/identity_routing.json",
+     "launch_packages/pettripfinder/markets/authority/toledo-oh/seed_businesses.csv",
+     "launch_packages/pettripfinder/markets/toledo-oh.json",
+     "launch_packages/pettripfinder/ptf_global_authority_manifest.json",
+     "launch_packages/pettripfinder/seed_businesses.csv",
+     "launch_packages/pettripfinder/toledo_oh_final_partition_001.json",
+     "launch_packages/pettripfinder/toledo_oh_founder_rulings_001.json",
+     "launch_packages/pettripfinder/toledo_oh_identity_holds_002.json",
+     "launch_packages/pettripfinder/toledo_oh_osm_extracts_001.json",
+     "launch_packages/pettripfinder/toledo_oh_promotion_halt_002.json",
+     "scripts/pettripfinder/assemble_production_site.py",
+     "scripts/pettripfinder/discovery/config/toledo_oh.json",
+     "scripts/pettripfinder/regression_lanes.py",
+     "scripts/pettripfinder/toledo_oh_attended_capture_001.py",
+     "scripts/pettripfinder/toledo_oh_brand_city_pages_001.py",
+     "scripts/pettripfinder/toledo_oh_brand_inventory_001.py",
+     "scripts/pettripfinder/toledo_oh_census_reconciliation_001.py",
+     "scripts/pettripfinder/toledo_oh_deployment_packet_002.py",
+     "scripts/pettripfinder/toledo_oh_firecrawl_pass_001.py",
+     "scripts/pettripfinder/toledo_oh_free_static_capture_001.py",
+     "scripts/pettripfinder/toledo_oh_ladder_plan_001.py",
+     "scripts/pettripfinder/toledo_oh_launch_authorization_003.py",
+     "scripts/pettripfinder/toledo_oh_launch_participation_003.py",
+     "scripts/pettripfinder/toledo_oh_lead_sources_001.py",
+     "scripts/pettripfinder/toledo_oh_live_verification_003.py",
+     "scripts/pettripfinder/toledo_oh_owned_evidence_001.py",
+     "scripts/pettripfinder/toledo_oh_parallel_safety_001.py",
+     "scripts/pettripfinder/toledo_oh_promotion_application_002.py",
+     "scripts/pettripfinder/toledo_oh_regression_classification_001.py",
+     "scripts/pettripfinder/toledo_oh_regression_classification_002.py",
+     "scripts/pettripfinder/toledo_oh_release_contract_002.py",
+     "scripts/pettripfinder/toledo_oh_routing_001.py",
+     "scripts/pettripfinder/toledo_oh_shadow_market_001.py",
+     "tests/pettripfinder/pins/deployment_state.json",
+     "tests/pettripfinder/pins/market_state.json",
+     "tests/pettripfinder/pins/supersessions.json"
+    ]
+   },
+   "new": {
+    "change_classes": [
+     "AUTHORITY_CHANGE",
+     "GENERIC_RUNTIME_CHANGE",
+     "ROUTING_SEMANTIC_CHANGE",
+     "DEPLOYMENT_CHANGE",
+     "TEST_EXPECTATION_CHANGE",
+     "DOCUMENTATION_ONLY",
+     "GENERATED_REPORT_ONLY",
+     "UNCLASSIFIED"
+    ],
+    "files_by_class": {
+     "DOCUMENTATION_ONLY": 2,
+     "DEPLOYMENT_CHANGE": 7,
+     "AUTHORITY_CHANGE": 11,
+     "ROUTING_SEMANTIC_CHANGE": 4,
+     "GENERATED_REPORT_ONLY": 22,
+     "UNCLASSIFIED": 4,
+     "GENERIC_RUNTIME_CHANGE": 23,
+     "TEST_EXPECTATION_CHANGE": 15
+    },
+    "narrowing_blockers": [
+     "scripts/pettripfinder/regression_lanes.py",
+     "tests/pettripfinder/pins/deployment_state.json",
+     "tests/pettripfinder/pins/market_state.json",
+     "tests/pettripfinder/pins/supersessions.json"
+    ],
+    "FULL_REGRESSION_REQUIRED": "YES",
+    "assembly_required": true,
+    "lanes": [
+     "deployment_architecture",
+     "release_contract",
+     "assembly",
+     "policy_schema",
+     "identity_routing",
+     "cross_market"
+    ],
+    "modules": 226,
+    "selected_modules": [
+     "tests/pettripfinder/acquisition/test_acquisition_ladder.py",
+     "tests/pettripfinder/acquisition/test_acquisition_router.py",
+     "tests/pettripfinder/acquisition/test_authority_build_036.py",
+     "tests/pettripfinder/acquisition/test_discovery_attempt_ledger.py",
+     "tests/pettripfinder/acquisition/test_double_buy_url_level_p4.py",
+     "tests/pettripfinder/acquisition/test_founder_decision_040.py",
+     "tests/pettripfinder/acquisition/test_identity_binding_027.py",
+     "tests/pettripfinder/acquisition/test_lane_qualification.py",
+     "tests/pettripfinder/acquisition/test_market_routing.py",
+     "tests/pettripfinder/acquisition/test_marriott_closure_022.py",
+     "tests/pettripfinder/acquisition/test_milwaukee_policy_proposals_001.py",
+     "tests/pettripfinder/acquisition/test_normalization_041.py",
+     "tests/pettripfinder/acquisition/test_observation_rederivation_018.py",
+     "tests/pettripfinder/acquisition/test_paid_attempt_ledger.py",
+     "tests/pettripfinder/acquisition/test_paid_lane_provenance.py",
+     "tests/pettripfinder/acquisition/test_parser_semantics_017.py",
+     "tests/pettripfinder/acquisition/test_publication_037.py",
+     "tests/pettripfinder/acquisition/test_publication_042.py",
+     "tests/pettripfinder/acquisition/test_retry_policy.py",
+     "tests/pettripfinder/acquisition/test_store_integration_025.py",
+     "tests/pettripfinder/acquisition/test_store_reader_sync_030.py",
+     "tests/pettripfinder/acquisition/test_vocabulary_normalization_043.py",
+     "tests/pettripfinder/brightdata/test_brightdata_marriott_pilot_001.py",
+     "tests/pettripfinder/brightdata/test_property_code_patterns.py",
+     "tests/pettripfinder/brightdata/test_street_agreement_006.py",
+     "tests/pettripfinder/contracts/test_census_partition.py",
+     "tests/pettripfinder/contracts/test_closure.py",
+     "tests/pettripfinder/contracts/test_compat_readers.py",
+     "tests/pettripfinder/contracts/test_coverage.py",
+     "tests/pettripfinder/contracts/test_fee_computation.py",
+     "tests/pettripfinder/contracts/test_identity_key.py",
+     "tests/pettripfinder/contracts/test_market_authorities.py",
+     "tests/pettripfinder/contracts/test_market_geography.py",
+     "tests/pettripfinder/contracts/test_market_state_pins.py",
+     "tests/pettripfinder/contracts/test_service_animal.py",
+     "tests/pettripfinder/contracts/test_validators.py",
+     "tests/pettripfinder/discovery/test_census_duplicate_scan.py",
+     "tests/pettripfinder/discovery/test_census_projection.py",
+     "tests/pettripfinder/discovery/test_census_recandidacy.py",
+     "tests/pettripfinder/discovery/test_census_url_recovery.py",
+     "tests/pettripfinder/discovery/test_deduplicate.py",
+     "tests/pettripfinder/discovery/test_duplicates.py",
+     "tests/pettripfinder/discovery/test_identity_dedup.py",
+     "tests/pettripfinder/discovery/test_identity_observation.py",
+     "tests/pettripfinder/discovery/test_identity_resolution.py",
+     "tests/pettripfinder/discovery/test_lodging_dedup.py",
+     "tests/pettripfinder/discovery/test_lodging_resolution_cli.py",
+     "tests/pettripfinder/discovery/test_lodging_scope.py",
+     "tests/pettripfinder/discovery/test_market_membership.py",
+     "tests/pettripfinder/discovery/test_membrane.py",
+     "tests/pettripfinder/discovery/test_property_code_seam.py",
+     "tests/pettripfinder/discovery/test_property_identity.py",
+     "tests/pettripfinder/discovery/test_provider_zero.py",
+     "tests/pettripfinder/discovery/test_revalidate.py",
+     "tests/pettripfinder/discovery/test_shared_brand_url_repair.py",
+     "tests/pettripfinder/importer/test_aggregate_approval_promotion.py",
+     "tests/pettripfinder/importer/test_batch_runner.py",
+     "tests/pettripfinder/importer/test_domain_packs.py",
+     "tests/pettripfinder/importer/test_service_pack_aggregate.py",
+     "tests/pettripfinder/importer/test_veterinary_aggregate.py",
+     "tests/pettripfinder/importer/test_workflow.py",
+     "tests/pettripfinder/policy/test_adversarial_fixtures.py",
+     "tests/pettripfinder/policy/test_authority_safety.py",
+     "tests/pettripfinder/policy/test_drury_and_sonesta.py",
+     "tests/pettripfinder/policy/test_m10_code_and_address_override.py",
+     "tests/pettripfinder/policy/test_m10_diacritic_folding.py",
+     "tests/pettripfinder/policy/test_policy_membrane.py",
+     "tests/pettripfinder/policy/test_policy_observation.py",
+     "tests/pettripfinder/policy/test_readiness_and_bundle.py",
+     "tests/pettripfinder/test_affiliate_destinations.py",
+     "tests/pettripfinder/test_atlas_throughput_001.py",
+     "tests/pettripfinder/test_atlas_throughput_002.py",
+     "tests/pettripfinder/test_census_location.py",
+     "tests/pettripfinder/test_census_promotion.py",
+     "tests/pettripfinder/test_choice_refusal_contradiction_005.py",
+     "tests/pettripfinder/test_cincinnati_brightdata_pilot_014.py",
+     "tests/pettripfinder/test_cincinnati_capture_pass1_001.py",
+     "tests/pettripfinder/test_cincinnati_founder_application_004.py",
+     "tests/pettripfinder/test_cincinnati_founder_review_queue_002.py",
+     "tests/pettripfinder/test_cincinnati_free_brand_probe_005.py",
+     "tests/pettripfinder/test_cincinnati_free_lane_application_010.py",
+     "tests/pettripfinder/test_cincinnati_free_lane_scale_006.py",
+     "tests/pettripfinder/test_cincinnati_hilton_close_marriott_retry_015.py",
+     "tests/pettripfinder/test_cincinnati_independent_probe_009.py",
+     "tests/pettripfinder/test_cincinnati_mainstay_census_split_013.py",
+     "tests/pettripfinder/test_cincinnati_mainstay_identity_012.py",
+     "tests/pettripfinder/test_cincinnati_marriott_scale_batch_016.py",
+     "tests/pettripfinder/test_cincinnati_species_key_rebind_011.py",
+     "tests/pettripfinder/test_cincinnati_url_routing_progress_001.py",
+     "tests/pettripfinder/test_cincinnati_zip_integrity_002.py",
+     "tests/pettripfinder/test_cleveland_authority.py",
+     "tests/pettripfinder/test_cleveland_final_partition_002.py",
+     "tests/pettripfinder/test_cleveland_hardened_application_002.py",
+     "tests/pettripfinder/test_cleveland_hardened_application_005.py",
+     "tests/pettripfinder/test_cleveland_pass3_capture_results.py",
+     "tests/pettripfinder/test_cleveland_pass4_capture_results.py",
+     "tests/pettripfinder/test_cleveland_work_browser_001.py",
+     "tests/pettripfinder/test_combined_weight_and_restriction_rows.py",
+     "tests/pettripfinder/test_commercial_actions.py",
+     "tests/pettripfinder/test_coverage_audit.py",
+     "tests/pettripfinder/test_dayton_authority.py",
+     "tests/pettripfinder/test_dayton_hardened_application_002.py",
+     "tests/pettripfinder/test_dayton_hardened_revalidation_001.py",
+     "tests/pettripfinder/test_dayton_pass_a_artifact_verification.py",
+     "tests/pettripfinder/test_dayton_recovery_002.py",
+     "tests/pettripfinder/test_dayton_work_browser_001.py",
+     "tests/pettripfinder/test_deployment_012.py",
+     "tests/pettripfinder/test_deployment_authorization_047.py",
+     "tests/pettripfinder/test_detroit_ann_arbor_capture_pass2_001.py",
+     "tests/pettripfinder/test_detroit_ann_arbor_capture_pass3_001.py",
+     "tests/pettripfinder/test_detroit_ann_arbor_market_001.py",
+     "tests/pettripfinder/test_distinct_entity_call_sites.py",
+     "tests/pettripfinder/test_dual_weight_and_additive_fees.py",
+     "tests/pettripfinder/test_export_authority_guard.py",
+     "tests/pettripfinder/test_factory_throughput_001.py",
+     "tests/pettripfinder/test_fee_forms.py",
+     "tests/pettripfinder/test_fee_tiers.py",
+     "tests/pettripfinder/test_generate_columbus_site.py",
+     "tests/pettripfinder/test_generic_fee_reader_usd_suffix_010.py",
+     "tests/pettripfinder/test_global_assembler.py",
+     "tests/pettripfinder/test_global_deployment_architecture_045.py",
+     "tests/pettripfinder/test_grand_rapids_census_pin_024.py",
+     "tests/pettripfinder/test_grand_rapids_cross_run_ledger_sync_018.py",
+     "tests/pettripfinder/test_grand_rapids_founder_rulings_020.py",
+     "tests/pettripfinder/test_grand_rapids_founder_signature_021.py",
+     "tests/pettripfinder/test_grand_rapids_founder_signature_030.py",
+     "tests/pettripfinder/test_grand_rapids_holland_market_001.py",
+     "tests/pettripfinder/test_grand_rapids_identity_reconciliation_029.py",
+     "tests/pettripfinder/test_grand_rapids_launch_participation_032.py",
+     "tests/pettripfinder/test_grand_rapids_places_batch_027.py",
+     "tests/pettripfinder/test_grand_rapids_places_pilot_026.py",
+     "tests/pettripfinder/test_grand_rapids_policy_acquisition_028.py",
+     "tests/pettripfinder/test_grand_rapids_review_prep_019.py",
+     "tests/pettripfinder/test_grand_rapids_source_promotion_022.py",
+     "tests/pettripfinder/test_grand_rapids_target_recovery_025.py",
+     "tests/pettripfinder/test_grand_rapids_weight_semantics_023.py",
+     "tests/pettripfinder/test_homepage_market_awareness.py",
+     "tests/pettripfinder/test_hotel_exclusions.py",
+     "tests/pettripfinder/test_hotel_exclusions_co_located_004.py",
+     "tests/pettripfinder/test_hotel_profile.py",
+     "tests/pettripfinder/test_identity_evidence.py",
+     "tests/pettripfinder/test_identity_routing.py",
+     "tests/pettripfinder/test_ihg_recertification_011.py",
+     "tests/pettripfinder/test_indianapolis_acquisition_012.py",
+     "tests/pettripfinder/test_indianapolis_acquisition_016.py",
+     "tests/pettripfinder/test_indianapolis_authority_promotion_017.py",
+     "tests/pettripfinder/test_indianapolis_backlog_cost_plan_015.py",
+     "tests/pettripfinder/test_indianapolis_decision_application.py",
+     "tests/pettripfinder/test_indianapolis_decision_reconciliation.py",
+     "tests/pettripfinder/test_indianapolis_final_cleanup_018.py",
+     "tests/pettripfinder/test_indianapolis_founder_review_013.py",
+     "tests/pettripfinder/test_indianapolis_founder_rulings_013.py",
+     "tests/pettripfinder/test_indianapolis_hilton_fresh_session.py",
+     "tests/pettripfinder/test_indianapolis_home2_reparse_014.py",
+     "tests/pettripfinder/test_indianapolis_identity_address_cleanup_012.py",
+     "tests/pettripfinder/test_indianapolis_identity_routing_repair_001.py",
+     "tests/pettripfinder/test_indianapolis_market_001.py",
+     "tests/pettripfinder/test_indianapolis_pass1_capture.py",
+     "tests/pettripfinder/test_indianapolis_pass2_capture.py",
+     "tests/pettripfinder/test_indianapolis_pass2_founder_decision.py",
+     "tests/pettripfinder/test_indianapolis_pass3a_capture.py",
+     "tests/pettripfinder/test_indianapolis_pass3a_founder_decision.py",
+     "tests/pettripfinder/test_indianapolis_promotion_and_assembly_014.py",
+     "tests/pettripfinder/test_inventory_validation.py",
+     "tests/pettripfinder/test_launch_participation_046.py",
+     "tests/pettripfinder/test_listing_dataset_builder.py",
+     "tests/pettripfinder/test_listing_renderability_boundary.py",
+     "tests/pettripfinder/test_louisville_authority.py",
+     "tests/pettripfinder/test_louisville_publication_008.py",
+     "tests/pettripfinder/test_market_authority_sharding.py",
+     "tests/pettripfinder/test_market_factory_cli.py",
+     "tests/pettripfinder/test_market_isolation.py",
+     "tests/pettripfinder/test_market_ownership.py",
+     "tests/pettripfinder/test_market_policy_package_009.py",
+     "tests/pettripfinder/test_markets.py",
+     "tests/pettripfinder/test_measurement.py",
+     "tests/pettripfinder/test_media_ingestion.py",
+     "tests/pettripfinder/test_milwaukee_market_001.py",
+     "tests/pettripfinder/test_per_market_release_contracts.py",
+     "tests/pettripfinder/test_pet_evidence_vocabulary.py",
+     "tests/pettripfinder/test_pittsburgh_market_001.py",
+     "tests/pettripfinder/test_pittsburgh_pass3_decision_application_001a.py",
+     "tests/pettripfinder/test_pittsburgh_pass4_decision_application_001.py",
+     "tests/pettripfinder/test_policy_precision.py",
+     "tests/pettripfinder/test_policy_schema_migration.py",
+     "tests/pettripfinder/test_prod002_integration.py",
+     "tests/pettripfinder/test_prod003_launch_safety.py",
+     "tests/pettripfinder/test_prod003_package_preview.py",
+     "tests/pettripfinder/test_prod003_paired_approval.py",
+     "tests/pettripfinder/test_prod003_promotion_readpath.py",
+     "tests/pettripfinder/test_prod003_tiered_fee_approval.py",
+     "tests/pettripfinder/test_prod003_worker_approvals.py",
+     "tests/pettripfinder/test_prod003_worker_promotion.py",
+     "tests/pettripfinder/test_prod004_verified_only.py",
+     "tests/pettripfinder/test_prod005_netlify_config.py",
+     "tests/pettripfinder/test_production_deploy_012.py",
+     "tests/pettripfinder/test_profile_fee_dimensions.py",
+     "tests/pettripfinder/test_promote_attested_candidates.py",
+     "tests/pettripfinder/test_promotion_preserves_structured_facts.py",
+     "tests/pettripfinder/test_promotion_resolution.py",
+     "tests/pettripfinder/test_prose_fee_ladder.py",
+     "tests/pettripfinder/test_prose_pet_facts.py",
+     "tests/pettripfinder/test_publication_cleanup_008b.py",
+     "tests/pettripfinder/test_publication_guard.py",
+     "tests/pettripfinder/test_publication_schema_decisions_010.py",
+     "tests/pettripfinder/test_reader_tiered_fee_hardening_010.py",
+     "tests/pettripfinder/test_refundability_binding.py",
+     "tests/pettripfinder/test_register_publish_011.py",
+     "tests/pettripfinder/test_regression_delta_001.py",
+     "tests/pettripfinder/test_renderer_real_records.py",
+     "tests/pettripfinder/test_routing_property_code_scope.py",
+     "tests/pettripfinder/test_seed_matches_official_source.py",
+     "tests/pettripfinder/test_service_animal_correction_011.py",
+     "tests/pettripfinder/test_service_animal_reattestation_012.py",
+     "tests/pettripfinder/test_site_data.py",
+     "tests/pettripfinder/test_site_enrichment.py",
+     "tests/pettripfinder/test_site_pages.py",
+     "tests/pettripfinder/test_site_shell_markup.py",
+     "tests/pettripfinder/test_sonesta_identity_and_scope.py",
+     "tests/pettripfinder/test_st_louis_market_001.py",
+     "tests/pettripfinder/test_st_louis_production_safety_001.py",
+     "tests/pettripfinder/test_structured_data.py",
+     "tests/pettripfinder/test_structured_fact_rendering.py",
+     "tests/pettripfinder/test_two_market_compat.py",
+     "tests/pettripfinder/test_weight_exclusivity.py",
+     "tests/pettripfinder/test_wyndham_extraction.py"
+    ],
+    "drivers": 46,
+    "driver_paths": [
+     "deploy/netlify/deployment_authorizations/ptf-auth-toledo-003-895248738c79.json",
+     "deploy/netlify/deployment_records/ptf-deploy-toledo-003-6a9e047690ec8bdaf99bcad2.json",
+     "deploy/netlify/global_deployment_manifest.json",
+     "deploy/netlify/launch_participation.json",
+     "deploy/netlify/release_contracts/toledo-oh.json",
+     "launch_packages/pettripfinder/hotel_exclusions.json",
+     "launch_packages/pettripfinder/hotel_policy_facts_toledo-oh.json",
+     "launch_packages/pettripfinder/identity_census/toledo-oh.json",
+     "launch_packages/pettripfinder/markets/authority/toledo-oh/affiliate_destinations.json",
+     "launch_packages/pettripfinder/markets/authority/toledo-oh/hotel_exclusions.json",
+     "launch_packages/pettripfinder/markets/authority/toledo-oh/identity_routing.json",
+     "launch_packages/pettripfinder/markets/authority/toledo-oh/seed_businesses.csv",
+     "launch_packages/pettripfinder/markets/toledo-oh.json",
+     "launch_packages/pettripfinder/ptf_global_authority_manifest.json",
+     "launch_packages/pettripfinder/seed_businesses.csv",
+     "launch_packages/pettripfinder/toledo_oh_final_partition_001.json",
+     "launch_packages/pettripfinder/toledo_oh_founder_rulings_001.json",
+     "launch_packages/pettripfinder/toledo_oh_identity_holds_002.json",
+     "launch_packages/pettripfinder/toledo_oh_osm_extracts_001.json",
+     "launch_packages/pettripfinder/toledo_oh_promotion_halt_002.json",
+     "scripts/pettripfinder/assemble_production_site.py",
+     "scripts/pettripfinder/discovery/config/toledo_oh.json",
+     "scripts/pettripfinder/regression_lanes.py",
+     "scripts/pettripfinder/toledo_oh_attended_capture_001.py",
+     "scripts/pettripfinder/toledo_oh_brand_city_pages_001.py",
+     "scripts/pettripfinder/toledo_oh_brand_inventory_001.py",
+     "scripts/pettripfinder/toledo_oh_census_reconciliation_001.py",
+     "scripts/pettripfinder/toledo_oh_deployment_packet_002.py",
+     "scripts/pettripfinder/toledo_oh_firecrawl_pass_001.py",
+     "scripts/pettripfinder/toledo_oh_free_static_capture_001.py",
+     "scripts/pettripfinder/toledo_oh_ladder_plan_001.py",
+     "scripts/pettripfinder/toledo_oh_launch_authorization_003.py",
+     "scripts/pettripfinder/toledo_oh_launch_participation_003.py",
+     "scripts/pettripfinder/toledo_oh_lead_sources_001.py",
+     "scripts/pettripfinder/toledo_oh_live_verification_003.py",
+     "scripts/pettripfinder/toledo_oh_owned_evidence_001.py",
+     "scripts/pettripfinder/toledo_oh_parallel_safety_001.py",
+     "scripts/pettripfinder/toledo_oh_promotion_application_002.py",
+     "scripts/pettripfinder/toledo_oh_regression_classification_001.py",
+     "scripts/pettripfinder/toledo_oh_regression_classification_002.py",
+     "scripts/pettripfinder/toledo_oh_release_contract_002.py",
+     "scripts/pettripfinder/toledo_oh_routing_001.py",
+     "scripts/pettripfinder/toledo_oh_shadow_market_001.py",
+     "tests/pettripfinder/pins/deployment_state.json",
+     "tests/pettripfinder/pins/market_state.json",
+     "tests/pettripfinder/pins/supersessions.json"
+    ]
+   },
+   "market_local_paths": [],
+   "files": [
+    {
+     "path": "../.gitignore",
+     "status": "M",
+     "old_classes": [
+      "DOCUMENTATION_ONLY"
+     ],
+     "new_classes": [
+      "DOCUMENTATION_ONLY"
+     ],
+     "changed": false,
+     "why": "matched glob:../.gitignore",
+     "proof": null
+    },
+    {
+     "path": "deploy/netlify/deployment_authorizations/ptf-auth-toledo-003-895248738c79.json",
+     "status": "A",
+     "old_classes": [
+      "DEPLOYMENT_CHANGE"
+     ],
+     "new_classes": [
+      "DEPLOYMENT_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched prefix:deploy/",
+     "proof": null
+    },
+    {
+     "path": "deploy/netlify/deployment_records/ptf-deploy-toledo-003-6a9e047690ec8bdaf99bcad2.json",
+     "status": "A",
+     "old_classes": [
+      "DEPLOYMENT_CHANGE"
+     ],
+     "new_classes": [
+      "DEPLOYMENT_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched prefix:deploy/",
+     "proof": null
+    },
+    {
+     "path": "deploy/netlify/global_deployment_manifest.json",
+     "status": "M",
+     "old_classes": [
+      "DEPLOYMENT_CHANGE"
+     ],
+     "new_classes": [
+      "DEPLOYMENT_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched prefix:deploy/",
+     "proof": null
+    },
+    {
+     "path": "deploy/netlify/launch_participation.json",
+     "status": "M",
+     "old_classes": [
+      "DEPLOYMENT_CHANGE"
+     ],
+     "new_classes": [
+      "DEPLOYMENT_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched prefix:deploy/",
+     "proof": null
+    },
+    {
+     "path": "deploy/netlify/release_contracts/toledo-oh.json",
+     "status": "A",
+     "old_classes": [
+      "DEPLOYMENT_CHANGE"
+     ],
+     "new_classes": [
+      "DEPLOYMENT_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched prefix:deploy/",
+     "proof": null
+    },
+    {
+     "path": "docs/work_items/PTF-TOLEDO-OH-PROMOTION-AND-APPLICATION-002.md",
+     "status": "A",
+     "old_classes": [
+      "DOCUMENTATION_ONLY"
+     ],
+     "new_classes": [
+      "DOCUMENTATION_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:docs/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/hotel_exclusions.json",
+     "status": "M",
+     "old_classes": [
+      "AUTHORITY_CHANGE"
+     ],
+     "new_classes": [
+      "AUTHORITY_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched glob:launch_packages/pettripfinder/hotel_exclusions*.json",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/hotel_policy_facts_toledo-oh.json",
+     "status": "A",
+     "old_classes": [
+      "AUTHORITY_CHANGE"
+     ],
+     "new_classes": [
+      "AUTHORITY_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched glob:launch_packages/pettripfinder/hotel_policy_facts*.json",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/identity_census/toledo-oh.json",
+     "status": "A",
+     "old_classes": [
+      "AUTHORITY_CHANGE",
+      "ROUTING_SEMANTIC_CHANGE"
+     ],
+     "new_classes": [
+      "AUTHORITY_CHANGE",
+      "ROUTING_SEMANTIC_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/identity_census",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/authority/toledo-oh/affiliate_destinations.json",
+     "status": "A",
+     "old_classes": [
+      "AUTHORITY_CHANGE"
+     ],
+     "new_classes": [
+      "AUTHORITY_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/authority/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/authority/toledo-oh/hotel_exclusions.json",
+     "status": "A",
+     "old_classes": [
+      "AUTHORITY_CHANGE"
+     ],
+     "new_classes": [
+      "AUTHORITY_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/authority/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/authority/toledo-oh/identity_routing.json",
+     "status": "A",
+     "old_classes": [
+      "AUTHORITY_CHANGE"
+     ],
+     "new_classes": [
+      "AUTHORITY_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/authority/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/authority/toledo-oh/seed_businesses.csv",
+     "status": "A",
+     "old_classes": [
+      "AUTHORITY_CHANGE"
+     ],
+     "new_classes": [
+      "AUTHORITY_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/authority/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/toledo_deployment_authorization_003_PROPOSED.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/toledo_oh_attended_capture_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/toledo_oh_brand_city_pages_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/toledo_oh_census_reconciliation_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/toledo_oh_clean_authority_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/toledo_oh_competitor_gap_matrix_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/toledo_oh_evidence_audit_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/toledo_oh_firecrawl_pass_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/toledo_oh_founder_packet_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/toledo_oh_free_static_capture_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/toledo_oh_ladder_plan_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/toledo_oh_launch_regression_closure_003.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/toledo_oh_lead_sources_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/toledo_oh_owned_evidence_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/toledo_oh_paid_readiness_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/toledo_oh_parallel_safety_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/toledo_oh_regression_classification_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/toledo_oh_regression_classification_002.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/toledo_oh_regression_run3_classify_002.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/toledo_oh_routing_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/reports/toledo_oh_shadow_market_001.json",
+     "status": "A",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/markets/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/markets/toledo-oh.json",
+     "status": "A",
+     "old_classes": [
+      "AUTHORITY_CHANGE"
+     ],
+     "new_classes": [
+      "AUTHORITY_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched glob:launch_packages/pettripfinder/markets/*.json",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/ptf_global_authority_manifest.json",
+     "status": "M",
+     "old_classes": [
+      "AUTHORITY_CHANGE"
+     ],
+     "new_classes": [
+      "AUTHORITY_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched glob:launch_packages/pettripfinder/ptf_global_authority_manifest.json",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/reports/factory_throughput_001_test_inventory.json",
+     "status": "M",
+     "old_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "new_classes": [
+      "GENERATED_REPORT_ONLY"
+     ],
+     "changed": false,
+     "why": "matched prefix:launch_packages/pettripfinder/reports/",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/seed_businesses.csv",
+     "status": "M",
+     "old_classes": [
+      "AUTHORITY_CHANGE"
+     ],
+     "new_classes": [
+      "AUTHORITY_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched glob:launch_packages/pettripfinder/*seed_businesses*.csv",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/toledo_oh_final_partition_001.json",
+     "status": "A",
+     "old_classes": [
+      "AUTHORITY_CHANGE",
+      "ROUTING_SEMANTIC_CHANGE"
+     ],
+     "new_classes": [
+      "AUTHORITY_CHANGE",
+      "ROUTING_SEMANTIC_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched glob:launch_packages/pettripfinder/*_final_partition_*.json",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/toledo_oh_founder_rulings_001.json",
+     "status": "A",
+     "old_classes": [
+      "UNCLASSIFIED"
+     ],
+     "new_classes": [
+      "UNCLASSIFIED"
+     ],
+     "changed": false,
+     "why": "matched no rule; market-local narrowing blocked: the change set touches scripts/pettripfinder/regression_lanes.py, tests/pettripfinder/pins/deployment_state.json, tests/pettripfinder/pins/market_state.json",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/toledo_oh_identity_holds_002.json",
+     "status": "A",
+     "old_classes": [
+      "UNCLASSIFIED"
+     ],
+     "new_classes": [
+      "UNCLASSIFIED"
+     ],
+     "changed": false,
+     "why": "matched no rule; market-local narrowing blocked: the change set touches scripts/pettripfinder/regression_lanes.py, tests/pettripfinder/pins/deployment_state.json, tests/pettripfinder/pins/market_state.json",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/toledo_oh_osm_extracts_001.json",
+     "status": "A",
+     "old_classes": [
+      "UNCLASSIFIED"
+     ],
+     "new_classes": [
+      "UNCLASSIFIED"
+     ],
+     "changed": false,
+     "why": "matched no rule; market-local narrowing blocked: the change set touches scripts/pettripfinder/regression_lanes.py, tests/pettripfinder/pins/deployment_state.json, tests/pettripfinder/pins/market_state.json",
+     "proof": null
+    },
+    {
+     "path": "launch_packages/pettripfinder/toledo_oh_promotion_halt_002.json",
+     "status": "A",
+     "old_classes": [
+      "UNCLASSIFIED"
+     ],
+     "new_classes": [
+      "UNCLASSIFIED"
+     ],
+     "changed": false,
+     "why": "matched no rule; market-local narrowing blocked: the change set touches scripts/pettripfinder/regression_lanes.py, tests/pettripfinder/pins/deployment_state.json, tests/pettripfinder/pins/market_state.json",
+     "proof": null
+    },
+    {
+     "path": "scripts/pettripfinder/assemble_production_site.py",
+     "status": "M",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE",
+      "DEPLOYMENT_CHANGE"
+     ],
+     "new_classes": [
+      "GENERIC_RUNTIME_CHANGE",
+      "DEPLOYMENT_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched glob:scripts/pettripfinder/assemble_*.py",
+     "proof": null
+    },
+    {
+     "path": "scripts/pettripfinder/discovery/config/toledo_oh.json",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE",
+      "ROUTING_SEMANTIC_CHANGE"
+     ],
+     "new_classes": [
+      "GENERIC_RUNTIME_CHANGE",
+      "ROUTING_SEMANTIC_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched prefix:scripts/pettripfinder/discovery/; market-local narrowing blocked: the change set touches scripts/pettripfinder/regression_lanes.py, tests/pettripfinder/pins/deployment_state.json, tests/pettripfinder/pins/market_state.json",
+     "proof": null
+    },
+    {
+     "path": "scripts/pettripfinder/regression_lanes.py",
+     "status": "M",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched prefix:scripts/pettripfinder/; market-local narrowing blocked: the change set touches scripts/pettripfinder/regression_lanes.py, tests/pettripfinder/pins/deployment_state.json, tests/pettripfinder/pins/market_state.json",
+     "proof": null
+    },
+    {
+     "path": "scripts/pettripfinder/toledo_oh_attended_capture_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched prefix:scripts/pettripfinder/; market-local narrowing blocked: the change set touches scripts/pettripfinder/regression_lanes.py, tests/pettripfinder/pins/deployment_state.json, tests/pettripfinder/pins/market_state.json",
+     "proof": null
+    },
+    {
+     "path": "scripts/pettripfinder/toledo_oh_brand_city_pages_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched prefix:scripts/pettripfinder/; market-local narrowing blocked: the change set touches scripts/pettripfinder/regression_lanes.py, tests/pettripfinder/pins/deployment_state.json, tests/pettripfinder/pins/market_state.json",
+     "proof": null
+    },
+    {
+     "path": "scripts/pettripfinder/toledo_oh_brand_inventory_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched prefix:scripts/pettripfinder/; market-local narrowing blocked: the change set touches scripts/pettripfinder/regression_lanes.py, tests/pettripfinder/pins/deployment_state.json, tests/pettripfinder/pins/market_state.json",
+     "proof": null
+    },
+    {
+     "path": "scripts/pettripfinder/toledo_oh_census_reconciliation_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched prefix:scripts/pettripfinder/; market-local narrowing blocked: the change set touches scripts/pettripfinder/regression_lanes.py, tests/pettripfinder/pins/deployment_state.json, tests/pettripfinder/pins/market_state.json",
+     "proof": null
+    },
+    {
+     "path": "scripts/pettripfinder/toledo_oh_deployment_packet_002.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE",
+      "DEPLOYMENT_CHANGE"
+     ],
+     "new_classes": [
+      "GENERIC_RUNTIME_CHANGE",
+      "DEPLOYMENT_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched glob:scripts/pettripfinder/*deploy*.py; market-local narrowing blocked: the change set touches scripts/pettripfinder/regression_lanes.py, tests/pettripfinder/pins/deployment_state.json, tests/pettripfinder/pins/market_state.json",
+     "proof": null
+    },
+    {
+     "path": "scripts/pettripfinder/toledo_oh_firecrawl_pass_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched prefix:scripts/pettripfinder/; market-local narrowing blocked: the change set touches scripts/pettripfinder/regression_lanes.py, tests/pettripfinder/pins/deployment_state.json, tests/pettripfinder/pins/market_state.json",
+     "proof": null
+    },
+    {
+     "path": "scripts/pettripfinder/toledo_oh_free_static_capture_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched prefix:scripts/pettripfinder/; market-local narrowing blocked: the change set touches scripts/pettripfinder/regression_lanes.py, tests/pettripfinder/pins/deployment_state.json, tests/pettripfinder/pins/market_state.json",
+     "proof": null
+    },
+    {
+     "path": "scripts/pettripfinder/toledo_oh_ladder_plan_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched prefix:scripts/pettripfinder/; market-local narrowing blocked: the change set touches scripts/pettripfinder/regression_lanes.py, tests/pettripfinder/pins/deployment_state.json, tests/pettripfinder/pins/market_state.json",
+     "proof": null
+    },
+    {
+     "path": "scripts/pettripfinder/toledo_oh_launch_authorization_003.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched prefix:scripts/pettripfinder/; market-local narrowing blocked: the change set touches scripts/pettripfinder/regression_lanes.py, tests/pettripfinder/pins/deployment_state.json, tests/pettripfinder/pins/market_state.json",
+     "proof": null
+    },
+    {
+     "path": "scripts/pettripfinder/toledo_oh_launch_participation_003.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched prefix:scripts/pettripfinder/; market-local narrowing blocked: the change set touches scripts/pettripfinder/regression_lanes.py, tests/pettripfinder/pins/deployment_state.json, tests/pettripfinder/pins/market_state.json",
+     "proof": null
+    },
+    {
+     "path": "scripts/pettripfinder/toledo_oh_lead_sources_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched prefix:scripts/pettripfinder/; market-local narrowing blocked: the change set touches scripts/pettripfinder/regression_lanes.py, tests/pettripfinder/pins/deployment_state.json, tests/pettripfinder/pins/market_state.json",
+     "proof": null
+    },
+    {
+     "path": "scripts/pettripfinder/toledo_oh_live_verification_003.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched prefix:scripts/pettripfinder/; market-local narrowing blocked: the change set touches scripts/pettripfinder/regression_lanes.py, tests/pettripfinder/pins/deployment_state.json, tests/pettripfinder/pins/market_state.json",
+     "proof": null
+    },
+    {
+     "path": "scripts/pettripfinder/toledo_oh_owned_evidence_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched prefix:scripts/pettripfinder/; market-local narrowing blocked: the change set touches scripts/pettripfinder/regression_lanes.py, tests/pettripfinder/pins/deployment_state.json, tests/pettripfinder/pins/market_state.json",
+     "proof": null
+    },
+    {
+     "path": "scripts/pettripfinder/toledo_oh_parallel_safety_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched prefix:scripts/pettripfinder/; market-local narrowing blocked: the change set touches scripts/pettripfinder/regression_lanes.py, tests/pettripfinder/pins/deployment_state.json, tests/pettripfinder/pins/market_state.json",
+     "proof": null
+    },
+    {
+     "path": "scripts/pettripfinder/toledo_oh_promotion_application_002.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched prefix:scripts/pettripfinder/; market-local narrowing blocked: the change set touches scripts/pettripfinder/regression_lanes.py, tests/pettripfinder/pins/deployment_state.json, tests/pettripfinder/pins/market_state.json",
+     "proof": null
+    },
+    {
+     "path": "scripts/pettripfinder/toledo_oh_regression_classification_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched prefix:scripts/pettripfinder/; market-local narrowing blocked: the change set touches scripts/pettripfinder/regression_lanes.py, tests/pettripfinder/pins/deployment_state.json, tests/pettripfinder/pins/market_state.json",
+     "proof": null
+    },
+    {
+     "path": "scripts/pettripfinder/toledo_oh_regression_classification_002.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched prefix:scripts/pettripfinder/; market-local narrowing blocked: the change set touches scripts/pettripfinder/regression_lanes.py, tests/pettripfinder/pins/deployment_state.json, tests/pettripfinder/pins/market_state.json",
+     "proof": null
+    },
+    {
+     "path": "scripts/pettripfinder/toledo_oh_release_contract_002.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched prefix:scripts/pettripfinder/; market-local narrowing blocked: the change set touches scripts/pettripfinder/regression_lanes.py, tests/pettripfinder/pins/deployment_state.json, tests/pettripfinder/pins/market_state.json",
+     "proof": null
+    },
+    {
+     "path": "scripts/pettripfinder/toledo_oh_routing_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE",
+      "ROUTING_SEMANTIC_CHANGE"
+     ],
+     "new_classes": [
+      "GENERIC_RUNTIME_CHANGE",
+      "ROUTING_SEMANTIC_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched glob:scripts/pettripfinder/*routing*.py; market-local narrowing blocked: the change set touches scripts/pettripfinder/regression_lanes.py, tests/pettripfinder/pins/deployment_state.json, tests/pettripfinder/pins/market_state.json",
+     "proof": null
+    },
+    {
+     "path": "scripts/pettripfinder/toledo_oh_shadow_market_001.py",
+     "status": "A",
+     "old_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "new_classes": [
+      "GENERIC_RUNTIME_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched prefix:scripts/pettripfinder/; market-local narrowing blocked: the change set touches scripts/pettripfinder/regression_lanes.py, tests/pettripfinder/pins/deployment_state.json, tests/pettripfinder/pins/market_state.json",
+     "proof": null
+    },
+    {
+     "path": "tests/pettripfinder/pins/deployment_state.json",
+     "status": "M",
+     "old_classes": [
+      "TEST_EXPECTATION_CHANGE"
+     ],
+     "new_classes": [
+      "TEST_EXPECTATION_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched prefix:tests/",
+     "proof": null
+    },
+    {
+     "path": "tests/pettripfinder/pins/market_state.json",
+     "status": "M",
+     "old_classes": [
+      "TEST_EXPECTATION_CHANGE"
+     ],
+     "new_classes": [
+      "TEST_EXPECTATION_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched prefix:tests/",
+     "proof": null
+    },
+    {
+     "path": "tests/pettripfinder/pins/supersessions.json",
+     "status": "M",
+     "old_classes": [
+      "TEST_EXPECTATION_CHANGE"
+     ],
+     "new_classes": [
+      "TEST_EXPECTATION_CHANGE"
+     ],
+     "changed": false,
+     "why": "matched prefix:tests/",
+     "proof": null
+    },
+    {
+     "path": "tests/pettripfinder/test_global_assembler.py",
+     "status": "M",
+     "old_classes": [
+      "TEST_EXPECTATION_CHANGE"
+     ],
+     "new_classes": [
+      "TEST_EXPECTATION_CHANGE"
+     ],
+     "changed": false,
+     "why": "no registration container is declared for this module",
+     "proof": null
+    },
+    {
+     "path": "tests/pettripfinder/test_global_deployment_architecture_045.py",
+     "status": "M",
+     "old_classes": [
+      "TEST_EXPECTATION_CHANGE"
+     ],
+     "new_classes": [
+      "TEST_EXPECTATION_CHANGE"
+     ],
+     "changed": false,
+     "why": "no registration container is declared for this module",
+     "proof": null
+    },
+    {
+     "path": "tests/pettripfinder/test_grand_rapids_launch_participation_032.py",
+     "status": "M",
+     "old_classes": [
+      "TEST_EXPECTATION_CHANGE"
+     ],
+     "new_classes": [
+      "TEST_EXPECTATION_CHANGE"
+     ],
+     "changed": false,
+     "why": "no registration container is declared for this module",
+     "proof": null
+    },
+    {
+     "path": "tests/pettripfinder/test_launch_participation_046.py",
+     "status": "M",
+     "old_classes": [
+      "TEST_EXPECTATION_CHANGE"
+     ],
+     "new_classes": [
+      "TEST_EXPECTATION_CHANGE"
+     ],
+     "changed": false,
+     "why": "no registration container is declared for this module",
+     "proof": null
+    },
+    {
+     "path": "tests/pettripfinder/test_market_authority_sharding.py",
+     "status": "M",
+     "old_classes": [
+      "TEST_EXPECTATION_CHANGE"
+     ],
+     "new_classes": [
+      "TEST_EXPECTATION_CHANGE"
+     ],
+     "changed": false,
+     "why": "no registration container is declared for this module",
+     "proof": null
+    },
+    {
+     "path": "tests/pettripfinder/test_markets.py",
+     "status": "M",
+     "old_classes": [
+      "TEST_EXPECTATION_CHANGE"
+     ],
+     "new_classes": [
+      "TEST_EXPECTATION_CHANGE"
+     ],
+     "changed": false,
+     "why": "no registration container is declared for this module",
+     "proof": null
+    },
+    {
+     "path": "tests/pettripfinder/test_per_market_release_contracts.py",
+     "status": "M",
+     "old_classes": [
+      "TEST_EXPECTATION_CHANGE"
+     ],
+     "new_classes": [
+      "TEST_EXPECTATION_CHANGE"
+     ],
+     "changed": false,
+     "why": "no registration container is declared for this module",
+     "proof": null
+    },
+    {
+     "path": "tests/pettripfinder/test_st_louis_production_safety_001.py",
+     "status": "M",
+     "old_classes": [
+      "TEST_EXPECTATION_CHANGE"
+     ],
+     "new_classes": [
+      "TEST_EXPECTATION_CHANGE"
+     ],
+     "changed": false,
+     "why": "no registration container is declared for this module",
+     "proof": null
+    },
+    {
+     "path": "tests/pettripfinder/test_toledo_oh_launch_003.py",
+     "status": "A",
+     "old_classes": [
+      "TEST_EXPECTATION_CHANGE"
+     ],
+     "new_classes": [
+      "TEST_EXPECTATION_CHANGE"
+     ],
+     "changed": false,
+     "why": "added or deleted module: there is no prior shape to compare against",
+     "proof": null
+    },
+    {
+     "path": "tests/pettripfinder/test_toledo_oh_new_market_001.py",
+     "status": "A",
+     "old_classes": [
+      "TEST_EXPECTATION_CHANGE"
+     ],
+     "new_classes": [
+      "TEST_EXPECTATION_CHANGE"
+     ],
+     "changed": false,
+     "why": "added or deleted module: there is no prior shape to compare against",
+     "proof": null
+    },
+    {
+     "path": "tests/pettripfinder/test_toledo_oh_promotion_002.py",
+     "status": "A",
+     "old_classes": [
+      "TEST_EXPECTATION_CHANGE"
+     ],
+     "new_classes": [
+      "TEST_EXPECTATION_CHANGE"
+     ],
+     "changed": false,
+     "why": "added or deleted module: there is no prior shape to compare against",
+     "proof": null
+    },
+    {
+     "path": "tests/pettripfinder/test_two_market_compat.py",
+     "status": "M",
+     "old_classes": [
+      "TEST_EXPECTATION_CHANGE"
+     ],
+     "new_classes": [
+      "TEST_EXPECTATION_CHANGE"
+     ],
+     "changed": false,
+     "why": "no registration container is declared for this module",
+     "proof": null
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,51 @@
+{
+ "schema": "ptf-ci-policy-contract/1.0",
+ "ci_policy_version": "ptf-ci-policy/1.0",
+ "provider": {
+  "chosen": "GitHub Actions",
+  "why": "the repository's only remote is github.com/jfields80/atlas-dashboard and no CI configuration existed; Actions is the provider that needs no new account",
+  "workflow": ".github/workflows/ptf-broad-validation.yml",
+  "trigger": "workflow_dispatch ONLY -- committing the workflow starts nothing and spends nothing",
+  "REMOTE_EXECUTION_NOT_PROVEN": true,
+  "why_not_proven": "the GitHub CLI is not installed in this environment and no API token is available, so whether Actions is enabled for the repository and what it would bill could not be established from this checkout. Provisioning paid infrastructure needs founder authorisation, so no run was dispatched."
+ },
+ "principle": "remote CI is for required broad audits, not for every release: a proven data-only market authority change requests ZERO remote jobs",
+ "surface_policy": [
+  {
+   "surface": "SHARED_SCHEMA_CHANGE",
+   "scope": "ALL",
+   "why": "a schema is read by every market and every renderer"
+  },
+  {
+   "surface": "SHARED_RUNTIME_CHANGE",
+   "scope": "ALL",
+   "why": "shared runtime is what eleven markets derive from"
+  },
+  {
+   "surface": "ASSEMBLER_CHANGE",
+   "scope": "ALL",
+   "why": "the assembler composes every market's bytes, and the modules that prove per-market output are spread across every shard by the duration balance"
+  },
+  {
+   "surface": "DEPLOYMENT_CHANGE",
+   "scope": "DEPLOYMENT",
+   "why": "manifests, participation, authorizations and records: only the shards holding deployment-architecture modules"
+  },
+  {
+   "surface": "CLASSIFIER_TEST_INFRA_CHANGE",
+   "scope": "ALL",
+   "why": "the classifier decides what runs, so it cannot narrow its own validation"
+  }
+ ],
+ "scopes": {
+  "NONE": "no remote job; the FAST lane already proved the release",
+  "DEPLOYMENT": "only the shards holding deployment-architecture modules",
+  "ALL": "every shard"
+ },
+ "no_paid_providers_in_ci": [
+  "Firecrawl",
+  "Bright Data",
+  "browser research",
+  "any paid acquisition provider"
+ ]
+}

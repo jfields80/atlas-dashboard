@@ -1,0 +1,297 @@
+{
+ "schema": "atlas-throughput-cold-reuse-parity/1.0",
+ "work_order": "ATLAS-THROUGHPUT-002",
+ "what_this_is": "Each supported reuse path built COLD, then requested again with identical inputs in the same process (REUSE), then forced cold again; the reused copy is compared byte for byte with the cold build and the returned manifests compared as documents.",
+ "paths": [
+  {
+   "path": "generator_site (Columbus)",
+   "cold_seconds": 25.7,
+   "reuse_seconds": 7.2,
+   "forced_cold_seconds": 25.5,
+   "files": 668,
+   "files_identical": true,
+   "cold_vs_cold_identical": true,
+   "manifest_identical": true
+  },
+  {
+   "path": "market_bundle (Columbus, production)",
+   "cold_seconds": 26.4,
+   "reuse_seconds": 2.2,
+   "forced_cold_seconds": 39.2,
+   "files": 670,
+   "files_identical": true,
+   "cold_vs_cold_identical": true,
+   "manifest_identical": true,
+   "bundle_sha256": "e853ec0ab5d5a6b27b49d38d24a4cdac136fa67d92ff3f1c533dbb3f39c36a4e"
+  },
+  {
+   "path": "production_site (10 markets, production)",
+   "cold_seconds": 409.8,
+   "reuse_seconds": 8.8,
+   "preview_compose_seconds_with_fragment_reuse": 340.9,
+   "files": 4835,
+   "files_identical": true,
+   "manifest_identical": true,
+   "bundle_sha256": "ca59f3710abde7504dc6c312992e0e2c9db70eccbff737cd12be6ec72708ff1f",
+   "preview_bundle_sha256": "fb38371b4e0c98172ce47024f8520d4ff32a37215531dc6d09cd0960bfeb18d3"
+  }
+ ],
+ "session_cache_summary": {
+  "enabled": true,
+  "keys": 13,
+  "build_count": 16,
+  "reuse_count": 15,
+  "build_seconds": 804.777,
+  "reused_seconds_avoided": 504.952
+ },
+ "events": [
+  {
+   "verdict": "BUILD_EXECUTED",
+   "kind": "generator_site",
+   "seconds": 13.311,
+   "reused_seconds_avoided": null,
+   "context": null,
+   "market": "columbus-oh"
+  },
+  {
+   "verdict": "REUSE_HIT",
+   "kind": "generator_site",
+   "seconds": 1.099,
+   "reused_seconds_avoided": 12.212,
+   "context": null,
+   "market": "columbus-oh"
+  },
+  {
+   "verdict": "BUILD_EXECUTED",
+   "kind": "generator_site",
+   "seconds": 13.536,
+   "reused_seconds_avoided": null,
+   "context": null,
+   "market": "columbus-oh"
+  },
+  {
+   "verdict": "REUSE_HIT",
+   "kind": "generator_site",
+   "seconds": 1.232,
+   "reused_seconds_avoided": 12.304,
+   "context": null,
+   "market": "columbus-oh"
+  },
+  {
+   "verdict": "BUILD_EXECUTED",
+   "kind": "market_bundle",
+   "seconds": 19.849,
+   "reused_seconds_avoided": null,
+   "context": "production",
+   "market": "columbus-oh"
+  },
+  {
+   "verdict": "REUSE_HIT",
+   "kind": "market_bundle",
+   "seconds": 1.156,
+   "reused_seconds_avoided": 18.693,
+   "context": "production",
+   "market": "columbus-oh"
+  },
+  {
+   "verdict": "BUILD_EXECUTED",
+   "kind": "generator_site",
+   "seconds": 12.494,
+   "reused_seconds_avoided": null,
+   "context": null,
+   "market": "columbus-oh"
+  },
+  {
+   "verdict": "BUILD_EXECUTED",
+   "kind": "market_bundle",
+   "seconds": 32.528,
+   "reused_seconds_avoided": null,
+   "context": "production",
+   "market": "columbus-oh"
+  },
+  {
+   "verdict": "BUILD_EXECUTED",
+   "kind": "generator_site",
+   "seconds": 24.274,
+   "reused_seconds_avoided": null,
+   "context": null,
+   "market": "cincinnati-oh"
+  },
+  {
+   "verdict": "BUILD_EXECUTED",
+   "kind": "generator_site",
+   "seconds": 22.542,
+   "reused_seconds_avoided": null,
+   "context": null,
+   "market": "cleveland-akron-canton-oh"
+  },
+  {
+   "verdict": "REUSE_HIT",
+   "kind": "generator_site",
+   "seconds": 0.996,
+   "reused_seconds_avoided": 11.498,
+   "context": null,
+   "market": "columbus-oh"
+  },
+  {
+   "verdict": "BUILD_EXECUTED",
+   "kind": "generator_site",
+   "seconds": 9.239,
+   "reused_seconds_avoided": null,
+   "context": null,
+   "market": "dayton-oh"
+  },
+  {
+   "verdict": "BUILD_EXECUTED",
+   "kind": "generator_site",
+   "seconds": 7.133,
+   "reused_seconds_avoided": null,
+   "context": null,
+   "market": "grand-rapids-holland-mi"
+  },
+  {
+   "verdict": "BUILD_EXECUTED",
+   "kind": "generator_site",
+   "seconds": 14.102,
+   "reused_seconds_avoided": null,
+   "context": null,
+   "market": "indianapolis-in"
+  },
+  {
+   "verdict": "BUILD_EXECUTED",
+   "kind": "generator_site",
+   "seconds": 8.62,
+   "reused_seconds_avoided": null,
+   "context": null,
+   "market": "louisville-ky"
+  },
+  {
+   "verdict": "BUILD_EXECUTED",
+   "kind": "generator_site",
+   "seconds": 12.094,
+   "reused_seconds_avoided": null,
+   "context": null,
+   "market": "milwaukee-wi"
+  },
+  {
+   "verdict": "BUILD_EXECUTED",
+   "kind": "generator_site",
+   "seconds": 10.259,
+   "reused_seconds_avoided": null,
+   "context": null,
+   "market": "pittsburgh-pa"
+  },
+  {
+   "verdict": "BUILD_EXECUTED",
+   "kind": "generator_site",
+   "seconds": 14.331,
+   "reused_seconds_avoided": null,
+   "context": null,
+   "market": "st-louis-mo"
+  },
+  {
+   "verdict": "BUILD_EXECUTED",
+   "kind": "production_site",
+   "seconds": 329.633,
+   "reused_seconds_avoided": null,
+   "context": "production",
+   "market": null
+  },
+  {
+   "verdict": "REUSE_HIT",
+   "kind": "production_site",
+   "seconds": 6.889,
+   "reused_seconds_avoided": 322.744,
+   "context": "production",
+   "market": null
+  },
+  {
+   "verdict": "REUSE_HIT",
+   "kind": "generator_site",
+   "seconds": 1.2,
+   "reused_seconds_avoided": 23.075,
+   "context": null,
+   "market": "cincinnati-oh"
+  },
+  {
+   "verdict": "REUSE_HIT",
+   "kind": "generator_site",
+   "seconds": 1.151,
+   "reused_seconds_avoided": 21.391,
+   "context": null,
+   "market": "cleveland-akron-canton-oh"
+  },
+  {
+   "verdict": "REUSE_HIT",
+   "kind": "generator_site",
+   "seconds": 1.021,
+   "reused_seconds_avoided": 11.473,
+   "context": null,
+   "market": "columbus-oh"
+  },
+  {
+   "verdict": "REUSE_HIT",
+   "kind": "generator_site",
+   "seconds": 0.538,
+   "reused_seconds_avoided": 8.701,
+   "context": null,
+   "market": "dayton-oh"
+  },
+  {
+   "verdict": "REUSE_HIT",
+   "kind": "generator_site",
+   "seconds": 0.386,
+   "reused_seconds_avoided": 6.747,
+   "context": null,
+   "market": "grand-rapids-holland-mi"
+  },
+  {
+   "verdict": "REUSE_HIT",
+   "kind": "generator_site",
+   "seconds": 0.754,
+   "reused_seconds_avoided": 13.348,
+   "context": null,
+   "market": "indianapolis-in"
+  },
+  {
+   "verdict": "REUSE_HIT",
+   "kind": "generator_site",
+   "seconds": 0.473,
+   "reused_seconds_avoided": 8.147,
+   "context": null,
+   "market": "louisville-ky"
+  },
+  {
+   "verdict": "REUSE_HIT",
+   "kind": "generator_site",
+   "seconds": 0.687,
+   "reused_seconds_avoided": 11.407,
+   "context": null,
+   "market": "milwaukee-wi"
+  },
+  {
+   "verdict": "REUSE_HIT",
+   "kind": "generator_site",
+   "seconds": 0.594,
+   "reused_seconds_avoided": 9.665,
+   "context": null,
+   "market": "pittsburgh-pa"
+  },
+  {
+   "verdict": "REUSE_HIT",
+   "kind": "generator_site",
+   "seconds": 0.784,
+   "reused_seconds_avoided": 13.547,
+   "context": null,
+   "market": "st-louis-mo"
+  },
+  {
+   "verdict": "BUILD_EXECUTED",
+   "kind": "production_site",
+   "seconds": 260.832,
+   "reused_seconds_avoided": null,
+   "context": "preview",
+   "market": null
+  }
+ ]
+}

@@ -1,0 +1,20 @@
+{
+ "schema": "ptf-007-quarantine-policy/1.0",
+ "quarantined_in_007": 0,
+ "why_none": "no failure needed it. All 160 are baselined with a node id and now a signature, which is a stronger record than a quarantine: they still RUN, still report, and a change in how they fail is caught.",
+ "required_fields_if_ever_used": [
+  "node_id",
+  "normalized_failure_signature",
+  "reason",
+  "environment_condition",
+  "owner",
+  "expiry_or_review",
+  "expected_behaviour"
+ ],
+ "rules": [
+  "never silently skip",
+  "never reclassify UNKNOWN as environment-only to reduce a failure count",
+  "an expired quarantine fails the run rather than lapsing quietly"
+ ],
+ "mechanism": "ci_validation.verify_completeness accepts explicit exclusions with a reason and counts them against the planned node set, so a quarantined node is accounted for, not missing"
+}

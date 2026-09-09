@@ -1,0 +1,44 @@
+{
+ "schema": "ptf-008-decision/1.0",
+ "qualified_packages": 1,
+ "not_qualified": {
+  "cleveland-akron-canton-oh": "FAST rule C (first-party policy binding) FAILED: 12 of 171 records ineligible -- 4 AMENITY_CHIP_ONLY, 8 QUOTE_NOT_OPERATIVE. A live market's LEGACY evidence does not meet the modern gate.",
+  "fixture-dayton-oh": "unregistered market: the composer cannot derive owned routes for a market outside the registry, and registration is a market-authority change."
+ },
+ "verified_live": 0,
+ "simulated": 2,
+ "release_lane_service_seconds": {
+  "qualified_release_R1": 300.361,
+  "observed_range_across_runs": "300.4 - 582.2 s",
+  "target_seconds": 3600,
+  "preferred_seconds": 2700,
+  "meets_target": true,
+  "meets_preferred": true
+ },
+ "broad_jobs": {
+  "qualified_data_only_release": 0,
+  "release_failing_the_evidence_gate": 4
+ },
+ "correctness": {
+  "UNEXPECTED_MARKET_REMOVAL": 0,
+  "UNEXPECTED_PROFILE_REMOVAL": 0,
+  "UNEXPECTED_ROUTE_REMOVAL": 0,
+  "UNEXPECTED_CHANGES": 0,
+  "UNCHANGED_MARKET_REBUILDS": 0,
+  "STALE_PARENT_ACTIVATION": 0,
+  "WRONG_ARTIFACT_DEPLOY": 0,
+  "REAL_DEPLOYMENTS": 0,
+  "PAID_PROVIDER_CALLS": 0
+ },
+ "defects_found_by_this_proof": [
+  "package fragments were not persisted to durable release storage, so release N+1 rebuilt that market from committed authority and silently reverted release N's delta. Caught by the parent-route gate; fixed and pinned.",
+  "the release manifest's per-market counts derive from the LIVE release index rather than the actual parent release, so a chained release misreports its own profile count (786 where its bytes carry 782). Reporting defect, not a byte defect; recorded for the next data order."
+ ],
+ "the_measured_constraint": "market READINESS, not the release lane. Of three intended markets none is registered; of three attempted packages one qualified. The lane processed that one in 5 minutes with every safety assertion clean.",
+ "factory_technically_works": true,
+ "business_economics_proven": false,
+ "DECISION": "CONTINUE",
+ "why": "Every measured constraint is production work -- registering markets and bringing legacy evidence up to the modern gate -- not architecture. The lane met its timing target by an order of magnitude, rebuilt nothing it should not have, and refused everything it should have. Authorising another architecture sprint would be building past the bottleneck.",
+ "next_action": "MARKET PRODUCTION: a promotion order per market, starting with the smallest (Lexington), and a data order for Cleveland's 12 non-operative policy records.",
+ "do_not": "do not open ATLAS-THROUGHPUT-009; nothing in the architecture is the measured bottleneck"
+}

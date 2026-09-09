@@ -1,15 +1,15 @@
 # PetTripFinder test pin inventory (A1)
 
-Schema `ptf-test-pin-inventory/1.0`. 390 modules scanned, 263 carry pins, 1539 sites.
+Schema `ptf-test-pin-inventory/1.0`. 400 modules scanned, 273 carry pins, 1589 sites.
 
 | class | sites |
 |---|---|
-| CURRENT_STATE_INVARIANT | 157 |
-| HISTORICAL_COHORT_INVARIANT | 824 |
-| HISTORICAL_ARTIFACT_INVARIANT | 183 |
-| DEPLOYMENT_EPOCH_INVARIANT | 120 |
+| CURRENT_STATE_INVARIANT | 155 |
+| HISTORICAL_COHORT_INVARIANT | 852 |
+| HISTORICAL_ARTIFACT_INVARIANT | 193 |
+| DEPLOYMENT_EPOCH_INVARIANT | 131 |
 | GENERIC_SCHEMA_INVARIANT | 194 |
-| CROSS_MARKET_INVARIANT | 61 |
+| CROSS_MARKET_INVARIANT | 64 |
 
 ## Modules asserting whole-package counts
 
@@ -40,6 +40,7 @@ Schema `ptf-test-pin-inventory/1.0`. 390 modules scanned, 263 carry pins, 1539 s
 - `tests/pettripfinder/discovery/test_resolution_fetch_plan.py`
 - `tests/pettripfinder/policy/test_authority_safety.py`
 - `tests/pettripfinder/policy/test_m10_code_and_address_override.py`
+- `tests/pettripfinder/test_atlas_throughput_001.py`
 - `tests/pettripfinder/test_build_capture_queue.py`
 - `tests/pettripfinder/test_cincinnati_founder_application_004.py`
 - `tests/pettripfinder/test_cincinnati_hilton_close_marriott_retry_015.py`
@@ -73,7 +74,6 @@ Schema `ptf-test-pin-inventory/1.0`. 390 modules scanned, 263 carry pins, 1539 s
 - `tests/pettripfinder/test_grand_rapids_review_prep_019.py`
 - `tests/pettripfinder/test_grand_rapids_source_promotion_022.py`
 - `tests/pettripfinder/test_identity_evidence.py`
-- `tests/pettripfinder/test_identity_routing.py`
 - `tests/pettripfinder/test_ihg_recertification_011.py`
 - `tests/pettripfinder/test_indianapolis_backlog_cost_plan_015.py`
 - `tests/pettripfinder/test_indianapolis_founder_review_013.py`
@@ -210,6 +210,13 @@ Schema `ptf-test-pin-inventory/1.0`. 390 modules scanned, 263 carry pins, 1539 s
 | `policy/test_authority_safety.py` |  | GENERIC_SCHEMA_INVARIANT | 3 | CURRENT_STATE 1, GENERIC_SCHEMA 2 |
 | `policy/test_drury_and_sonesta.py` |  | GENERIC_SCHEMA_INVARIANT | 2 | GENERIC_SCHEMA 2 |
 | `policy/test_m10_code_and_address_override.py` |  | GENERIC_SCHEMA_INVARIANT | 1 | CURRENT_STATE 1 |
+| `test_atlas_throughput_001.py` |  | HISTORICAL_COHORT_INVARIANT | 10 | HISTORICAL_ARTIFACT 4, HISTORICAL_COHORT 6 |
+| `test_atlas_throughput_002.py` |  | HISTORICAL_COHORT_INVARIANT | 5 | HISTORICAL_ARTIFACT 1, HISTORICAL_COHORT 4 |
+| `test_atlas_throughput_003.py` |  | HISTORICAL_COHORT_INVARIANT | 5 | CROSS_MARKET 1, DEPLOYMENT_EPOCH 1, HISTORICAL_ARTIFACT 1, HISTORICAL_COHORT 2 |
+| `test_atlas_throughput_004.py` |  | HISTORICAL_COHORT_INVARIANT | 2 | HISTORICAL_COHORT 2 |
+| `test_atlas_throughput_005.py` |  | HISTORICAL_COHORT_INVARIANT | 3 | DEPLOYMENT_EPOCH 1, HISTORICAL_COHORT 2 |
+| `test_atlas_throughput_006.py` |  | HISTORICAL_COHORT_INVARIANT | 2 | HISTORICAL_ARTIFACT 1, HISTORICAL_COHORT 1 |
+| `test_atlas_throughput_007.py` |  | HISTORICAL_COHORT_INVARIANT | 2 | HISTORICAL_COHORT 2 |
 | `test_build_capture_queue.py` |  | HISTORICAL_COHORT_INVARIANT | 4 | HISTORICAL_COHORT 4 |
 | `test_cincinnati_brightdata_pilot_014.py` | cincinnati-oh | HISTORICAL_COHORT_INVARIANT | 9 | CROSS_MARKET 4, HISTORICAL_ARTIFACT 1, HISTORICAL_COHORT 4 |
 | `test_cincinnati_capture_pass1_001.py` | cincinnati-oh | HISTORICAL_COHORT_INVARIANT | 11 | HISTORICAL_ARTIFACT 3, HISTORICAL_COHORT 8 |
@@ -285,7 +292,7 @@ Schema `ptf-test-pin-inventory/1.0`. 390 modules scanned, 263 carry pins, 1539 s
 | `test_homepage_market_awareness.py` |  | GENERIC_SCHEMA_INVARIANT | 6 | DEPLOYMENT_EPOCH 1, GENERIC_SCHEMA 5 |
 | `test_hotel_profile.py` |  | CURRENT_STATE_INVARIANT | 1 | CURRENT_STATE 1 |
 | `test_identity_evidence.py` |  | GENERIC_SCHEMA_INVARIANT | 3 | CROSS_MARKET 1, CURRENT_STATE 1, GENERIC_SCHEMA 1 |
-| `test_identity_routing.py` |  | GENERIC_SCHEMA_INVARIANT | 10 | CURRENT_STATE 2, GENERIC_SCHEMA 8 |
+| `test_identity_routing.py` |  | GENERIC_SCHEMA_INVARIANT | 8 | GENERIC_SCHEMA 8 |
 | `test_ihg_recertification_011.py` |  | HISTORICAL_COHORT_INVARIANT | 10 | HISTORICAL_ARTIFACT 4, HISTORICAL_COHORT 6 |
 | `test_indianapolis_acquisition_012.py` | indianapolis-in | HISTORICAL_COHORT_INVARIANT | 1 | HISTORICAL_COHORT 1 |
 | `test_indianapolis_acquisition_016.py` | indianapolis-in | HISTORICAL_COHORT_INVARIANT | 14 | HISTORICAL_ARTIFACT 5, HISTORICAL_COHORT 9 |
@@ -365,5 +372,8 @@ Schema `ptf-test-pin-inventory/1.0`. 390 modules scanned, 263 carry pins, 1539 s
 | `test_st_louis_market_001.py` | st-louis-mo | HISTORICAL_COHORT_INVARIANT | 1 | HISTORICAL_COHORT 1 |
 | `test_st_louis_production_safety_001.py` | st-louis-mo | DEPLOYMENT_EPOCH_INVARIANT | 6 | DEPLOYMENT_EPOCH 6 |
 | `test_structured_data.py` |  | CURRENT_STATE_INVARIANT | 2 | CURRENT_STATE 2 |
+| `test_toledo_oh_launch_003.py` | toledo-oh | HISTORICAL_COHORT_INVARIANT | 7 | DEPLOYMENT_EPOCH 7 |
+| `test_toledo_oh_new_market_001.py` | toledo-oh | HISTORICAL_COHORT_INVARIANT | 9 | CROSS_MARKET 1, DEPLOYMENT_EPOCH 2, HISTORICAL_ARTIFACT 2, HISTORICAL_COHORT 4 |
+| `test_toledo_oh_promotion_002.py` | toledo-oh | HISTORICAL_COHORT_INVARIANT | 7 | CROSS_MARKET 1, HISTORICAL_ARTIFACT 1, HISTORICAL_COHORT 5 |
 | `test_two_market_compat.py` |  | GENERIC_SCHEMA_INVARIANT | 4 | CROSS_MARKET 1, GENERIC_SCHEMA 3 |
 | `test_worker_artifact_backup.py` |  | GENERIC_SCHEMA_INVARIANT | 6 | GENERIC_SCHEMA 6 |

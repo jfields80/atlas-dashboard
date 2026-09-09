@@ -1,0 +1,39 @@
+{
+ "schema": "ptf-http-verification-contract/1.0",
+ "verification_schema": "ptf-live-http-verification/1.0",
+ "checks": [
+  "release_marker",
+  "host_deployment_id",
+  "membership",
+  "changed_market_hub",
+  "changed_market_profiles",
+  "sitemap_includes_changed_market",
+  "unrelated_market_sample",
+  "unrelated_route_count",
+  "asset_integrity"
+ ],
+ "outcomes": [
+  "OK",
+  "FAILED",
+  "UNKNOWN"
+ ],
+ "timeout_semantics": "a timeout is UNKNOWN: not a pass, not a failure, and never grounds for a rollback until the host is reconciled",
+ "retries": "bounded with exponential backoff",
+ "host_adapter": {
+  "schema": "ptf-host-adapter/1.0",
+  "host": "netlify",
+  "site": "pettripfinder-prod",
+  "site_id_source": "the NETLIFY_SITE_ID environment variable at deploy time; never a committed .netlify/state.json",
+  "production_url": "https://pettripfinder.com",
+  "deploy_command": "netlify deploy --prod --no-build --dir <candidate>/site --site <site>",
+  "no_build_required": "without --no-build the CLI runs a git build and uploads nothing from --dir, so the deployed bytes would not be the tested bytes",
+  "deploy_id_shape": "24 hex characters",
+  "per_deploy_url": "https://<deploy-id>--<site>.netlify.app",
+  "upload_and_publish": "ONE operation for --prod: the host offers no separate activate step to hold, so the coordinator's parent guard runs immediately before the call",
+  "rollback": "publish an earlier deploy (restore); the host does not undo, which is why the previous release lives in durable release storage",
+  "scaffolding_side_effect": "the CLI writes a gitignored .netlify/ that fails the assembler gate; remove it after every deploy",
+  "enabled": false,
+  "authorised_markets": []
+ },
+ "run_against": "a local or staged origin; production only under a separately authorised pilot"
+}
