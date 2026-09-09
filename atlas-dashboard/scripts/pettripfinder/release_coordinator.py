@@ -817,6 +817,14 @@ def stage(*, package: Optional[Mapping] = None, delta_kind: str = UPDATE,
         if package is not None and market_id == delta_market:
             row, tree = _fragment_from_package(package, dest, cache=cache, work=work / "bundle",
                                                context=context, now=moment)
+            # ATLAS-THROUGHPUT-008 found this: a fragment that came from a
+            # PACKAGE was never put into durable release storage, so the NEXT
+            # release could not inherit it and silently rebuilt that market
+            # from committed authority -- reverting the delta this release had
+            # just made. The parent-route gate caught it, but a lane that
+            # cannot chain releases is not a lane. Storing it here is what
+            # makes release N+1 able to inherit release N's own work.
+            row["fragment_digest"] = store.put_fragment(market_id, tree)["digest"]
             if row.get("cache_status") in (BC.HIT, BC.HIT_AFTER_WAIT, BC.REVALIDATE):
                 cache_hits += 1
             else:

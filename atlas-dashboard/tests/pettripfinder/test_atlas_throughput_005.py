@@ -280,6 +280,31 @@ class TestReuseAndDelta:
             assert cls in (RC.REUSE, RC.REGENERATE, RC.INCREMENTAL)
         assert RC.UNKNOWN not in [c for c, _ in RC.GLOBAL_ARTIFACTS.values()]
 
+    def test_a_package_fragment_is_stored_so_the_next_release_can_inherit_it(self, tmp_path):
+        """ATLAS-THROUGHPUT-008 found this by chaining three releases.
+
+        A fragment built from a sealed PACKAGE was not written to durable
+        release storage, so the NEXT release could not inherit it and rebuilt
+        that market from committed authority -- silently reverting the delta the
+        previous release had just made. The parent-route gate caught it, but a
+        lane that cannot chain releases is not a lane.
+        """
+        import inspect
+
+        source = inspect.getsource(RC.stage)
+        assert 'store.put_fragment(market_id, tree)["digest"]' in source
+
+        store = RC.ReleaseStore(tmp_path / "store")
+        tree = tmp_path / "frag" / "pet-friendly-hotels" / "x"
+        tree.mkdir(parents=True)
+        (tree / "index.html").write_text("<html>x</html>", encoding="utf-8")
+        digest = store.put_fragment("dayton-oh", tmp_path / "frag")["digest"]
+        assert store.has_fragment(digest)
+        release = OrderedDict((("markets", [OrderedDict((("market_id", "dayton-oh"),
+                                                         ("fragment_digest", digest)))]),))
+        store.put_release(release)
+        assert store.fragment_digests(RC.digest_of(release))["dayton-oh"] == digest
+
 
 # --------------------------------------------------------------------------- #
 # 14-20: immutability and authorization.
