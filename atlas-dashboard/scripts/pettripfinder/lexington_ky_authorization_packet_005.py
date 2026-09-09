@@ -84,6 +84,8 @@ def main(argv=None) -> int:
     ap.add_argument("--candidate-manifest", required=True)
     ap.add_argument("--build-input-key", required=True)
     ap.add_argument("--service-seconds", type=float, required=True)
+    ap.add_argument("--assemblies", type=int, required=True,
+                    help="how many independent assemblies have produced this candidate digest")
     ap.add_argument("--out", default=os.path.join(
         REPORTS, "lexington_deployment_authorization_006_PROPOSED.json"))
     args = ap.parse_args(argv)
@@ -281,7 +283,7 @@ def main(argv=None) -> int:
         ))),
 
         ("candidate_reproducibility", OrderedDict((
-            ("independent_assemblies", 4),
+            ("independent_assemblies", args.assemblies),
             ("all_byte_identical", True),
             ("latest_assembled_at_commit", manifest["generated_from_commit"]),
             ("digest", manifest["bundle_sha256"]),
@@ -317,9 +319,12 @@ def main(argv=None) -> int:
                  "rev-parse", "origin/worker/ptf-lexington-new-lane-launch-003")),
             ("uncommitted_at_generation",
              [line[3:] for line in git("status", "--porcelain").splitlines()]),
-            ("note", "this packet and its writer are the uncommitted paths above; the commit "
-                     "that carries them leaves the tree clean, which is verified outside this "
-                     "document"),
+            ("note", "this document is not byte-stable across regenerations and does not "
+                     "claim to be: three fields record the MOMENT it was written -- the commit "
+                     "the assembly ran at, git HEAD, and whatever was uncommitted just then. "
+                     "Every digest and count it BINDS is stable, which is the property that "
+                     "matters. An empty uncommitted list means it was regenerated against a "
+                     "clean tree."),
         ))),
 
         ("what_the_founder_would_be_authorizing", OrderedDict((

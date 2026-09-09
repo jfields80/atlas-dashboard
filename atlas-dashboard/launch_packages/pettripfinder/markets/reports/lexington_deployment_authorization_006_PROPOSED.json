@@ -347,13 +347,13 @@
   }
  },
  "candidate_reproducibility": {
-  "independent_assemblies": 4,
+  "independent_assemblies": 5,
   "all_byte_identical": true,
-  "latest_assembled_at_commit": "7b8fc96cbea477c518d3a48d186c8464f35a26f0",
+  "latest_assembled_at_commit": "6b5fa732f5b09e2093c8d59020f0f57c44b6d9b6",
   "digest": "67fe8617b79febb9b2248895441c31ac65931cf9fdcfa4da4f8014ee190cde78"
  },
  "performance_seconds": {
-  "routine_release_through_candidate_staging": 24.424,
+  "routine_release_through_candidate_staging": 24.137,
   "fast_lane_total": 20.297,
   "note": "full twelve-market bundle assembly is a separate launch step, not part of the data-only release path"
  },
@@ -369,14 +369,14 @@
   "stale_rollback_guard": "the rollback target is the CURRENT live deployment, not the live deploy's own rollback_target (6a9d33f5dc8c3d1cf9464376), which is the Cincinnati deploy Toledo replaced; restoring that would un-deploy Toledo."
  },
  "git": {
-  "head": "7b8fc96cbea477c518d3a48d186c8464f35a26f0",
+  "head": "6b5fa732f5b09e2093c8d59020f0f57c44b6d9b6",
   "branch": "worker/ptf-lexington-new-lane-launch-003",
   "origin_equals_head_at_generation": true,
   "uncommitted_at_generation": [
-   "atlas-dashboard/launch_packages/pettripfinder/markets/reports/lexington_deployment_authorization_006_PROPOSED.json",
+   "tlas-dashboard/launch_packages/pettripfinder/markets/reports/lexington_deployment_authorization_006_PROPOSED.json",
    "atlas-dashboard/scripts/pettripfinder/lexington_ky_authorization_packet_005.py"
   ],
-  "note": "this packet and its writer are the uncommitted paths above; the commit that carries them leaves the tree clean, which is verified outside this document"
+  "note": "this document is not byte-stable across regenerations and does not claim to be: three fields record the MOMENT it was written -- the commit the assembly ran at, git HEAD, and whatever was uncommitted just then. Every digest and count it BINDS is stable, which is the property that matters. An empty uncommitted list means it was regenerated against a clean tree."
  },
  "what_the_founder_would_be_authorizing": {
   "one_field_change": "deploy/netlify/launch_participation.json, the lexington-ky row: launch_status SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH -> FOUNDER_AUTHORIZED_FOR_LAUNCH, plus the founder's own decision block.",

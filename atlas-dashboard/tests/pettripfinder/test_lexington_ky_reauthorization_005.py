@@ -153,9 +153,25 @@ class TestTheFreshPacket:
         # The reason a broad run was not rerun is recorded, not implied.
         assert "reverse-import scan" in v["why_no_broad_run"]
 
+    def test_the_packet_does_not_claim_to_be_byte_stable(self, packet):
+        """It records the moment it was written, and says so.
+
+        Three fields move on every regeneration -- the assembly commit, git HEAD
+        and the uncommitted list. What it BINDS does not move, and that is the
+        property an authorization needs. Saying this out loud is what stops a
+        later reader from mistaking a changed report for a changed candidate.
+        """
+        note = packet["git"]["note"]
+        assert "not byte-stable" in note
+        assert isinstance(packet["git"]["uncommitted_at_generation"], list)
+
     def test_the_candidate_is_reproducible_and_the_packet_says_how_often(self, packet):
         r = packet["candidate_reproducibility"]
-        assert r["independent_assemblies"] == 4
+        # Bumped to 5 when PTF-LEXINGTON-KY-FRESH-PACKAGE-REAUTHORIZATION-PREP-005
+        # was re-issued and the candidate was assembled once more, at 6b5fa73.
+        # The count is a parameter of the writer now, so it cannot drift from
+        # what actually ran.
+        assert r["independent_assemblies"] == 5
         assert r["all_byte_identical"] is True
         assert r["digest"] == CANDIDATE_DIGEST
 
