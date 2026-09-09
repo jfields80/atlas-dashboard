@@ -1,0 +1,5081 @@
+{
+ "schema": "ptf-evidence-recapture/1.0",
+ "work_order": "PTF-NASHVILLE-TN-EVIDENCE-RECOVERY-003",
+ "market_id": "nashville-tn",
+ "run_id": "nashville_tn_recovery_attended_003",
+ "lane": "ATTENDED_BROWSER (a person in a real Chrome session; free)",
+ "authorization": "the operator selected the browser in session and authorised this pass",
+ "paid_provider_calls": 0,
+ "usd_spent": 0.0,
+ "firecrawl_credits": 0,
+ "navigations": 2,
+ "pages_fetched": 84,
+ "why_attended": "measured, not assumed. nashville_tn_static_probe_003 fetched both hosts live and got HTTP 403 from each; ptf_firecrawl_hard_lanes_003 measured Hilton 0 of 3 acquired with the policy surface ABSENT on every one and Marriott 1 of 4 for 7 scrape calls, so Firecrawl would buy refusals. The attended same-origin lane is the rung that reads these two families and it costs nothing.",
+ "how_the_batch_ran": "TWO navigations for 84 property pages: one tab per ORIGIN, then a same-origin fetch loop. No credential was entered, no interstitial was solved and no detection was evaded.",
+ "durable_capture_contract": "sha256 is computed over the ArrayBuffer the fetch returned, in the SAME call that takes the quote, so the hash and the quote cannot come from different documents. The legacy lane recorded a byte LENGTH, which identifies nothing and cannot be recomputed.",
+ "transcription_proof": {
+  "why": "the browser cannot reach this machine's loopback, so the payload came back through the page-text channel. A transcription is exactly the step that silently corrupts a hash, so the PAGE computed sha256 over each rendered JSON chunk and every chunk was verified against it before use.",
+  "chunks": [
+   {
+    "chunk": "mar_chunk0.json",
+    "brand": "MARRIOTT",
+    "rows": 25,
+    "page_digest": "963eee8e9ba1024766453872af148f84d892c647c2187a4903f582401ccc316b",
+    "recomputed": "963eee8e9ba1024766453872af148f84d892c647c2187a4903f582401ccc316b",
+    "verified": true
+   },
+   {
+    "chunk": "mar_chunk1.json",
+    "brand": "MARRIOTT",
+    "rows": 25,
+    "page_digest": "ca4a8bed469f3c097d6e8df7fead8f939a14f649de25991f47d767bcf08099d3",
+    "recomputed": "ca4a8bed469f3c097d6e8df7fead8f939a14f649de25991f47d767bcf08099d3",
+    "verified": true
+   },
+   {
+    "chunk": "hil_chunk0.json",
+    "brand": "HILTON",
+    "rows": 17,
+    "page_digest": "ab50131a7dd9f63f6e3dcc63bed527c1e50e7171a24ecd172609edec33a160bf",
+    "recomputed": "ab50131a7dd9f63f6e3dcc63bed527c1e50e7171a24ecd172609edec33a160bf",
+    "verified": true
+   },
+   {
+    "chunk": "hil_chunk1.json",
+    "brand": "HILTON",
+    "rows": 17,
+    "page_digest": "8ab752f2ea92321f70defabf68b9241cd8e76219720ba30e5dfd545bcfef3be5",
+    "recomputed": "8ab752f2ea92321f70defabf68b9241cd8e76219720ba30e5dfd545bcfef3be5",
+    "verified": true
+   }
+  ],
+  "all_verified": true
+ },
+ "distinct_page_hashes": 84,
+ "hash_collisions": 0,
+ "counts": {
+  "QUOTE_NOT_OPERATIVE": 1,
+  "VALID": 83
+ },
+ "counts_by_brand": {
+  "HILTON / QUOTE_NOT_OPERATIVE": 1,
+  "HILTON / VALID": 33,
+  "MARRIOTT / VALID": 50
+ },
+ "rows": [
+  {
+   "identity_key": "ac hotel nashville brentwood",
+   "canonical_name": "Ac Hotel Nashville Brentwood",
+   "brand": "MARRIOTT",
+   "property_code": "bnaab",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnaab-ac-hotel-nashville-brentwood/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnaab-ac-hotel-nashville-brentwood/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "35012865c9bd15d434a83b5688b8061e4eaf8b59944fd04c1d5d8999108b2dbb",
+   "byte_length": 315049,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "AC Hotel Nashville Brentwood",
+    "address_on_page": "5007 Maryland Way",
+    "locality": "Brentwood",
+    "region": "Tennessee",
+    "postal_code": "37027",
+    "phone_on_page": "+16153709865",
+    "property_code_on_page": "bnaab"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Welcome 50USD non-refundable per room per night Non-Refundable Pet Fee Per Night: $50.00 Maximum Pet Weight: 100.0lbs Maximum Number of Pets in Room: 2",
+   "exact_quote": "Pets Welcome",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Welcome",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 100.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets Welcome 50USD non-refundable per room per night Non-Refundable Pet Fee Per Night: $50.00 Maximum Pet Weight: 100.0lbs Maximum Number of Pets in Room: 2",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "weight_limit": 100.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "old_byte_length": 314617,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "aloft by marriott nashville airport",
+   "canonical_name": "Aloft by Marriott Nashville Airport",
+   "brand": "MARRIOTT",
+   "property_code": "bnaaa",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnaaa-aloft-nashville-airport/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnaaa-aloft-nashville-airport/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "69bb833f38b79090f9cc0c47a9c8497ce376e62995e7269f1e4b7ac06a86e59a",
+   "byte_length": 344073,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "Aloft by Marriott Nashville Airport",
+    "address_on_page": "608 McGavock Pike",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37214",
+    "phone_on_page": "+16292536060",
+    "property_code_on_page": "bnaaa"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Welcome Pets Allowed - Pet Fee Charge of $50.00 per Night (Maximum of $150 per stay) Maximum Pet Weight: 25.0lbs Maximum Number of Pets in Room: 2",
+   "exact_quote": "Pets Welcome",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Welcome",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 25.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets Welcome Pets Allowed - Pet Fee Charge of $50.00 per Night (Maximum of $150 per stay) Maximum Pet Weight: 25.0lbs Maximum Number of Pets in Room: 2",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "weight_limit": 25.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "old_byte_length": 343649,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "aloft by marriott nashville west end",
+   "canonical_name": "Aloft by Marriott Nashville West End",
+   "brand": "MARRIOTT",
+   "property_code": "bnawl",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnawl-aloft-nashville-west-end/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnawl-aloft-nashville-west-end/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "effd10bc58ee86dbaeec59f179e74c77b0b6cf27ad6f145b787cd5c57cda3888",
+   "byte_length": 318748,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "Aloft by Marriott Nashville West End",
+    "address_on_page": "1719 West End Avenue",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37203",
+    "phone_on_page": "+16153294200",
+    "property_code_on_page": "bnawl"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Welcome Pet Friendly Maximum Number of Pets in Room: 2 Maximum Pet Weight: 40.0lbs Maximum Number of Pets in Room: 2",
+   "exact_quote": "Pets Welcome",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Welcome",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 40.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets Welcome Pet Friendly Maximum Number of Pets in Room: 2 Maximum Pet Weight: 40.0lbs Maximum Number of Pets in Room: 2",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "weight_limit": 40.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "old_byte_length": 318310,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "canopy by hilton nashville downtown the gulch",
+   "canonical_name": "Canopy by Hilton Nashville Downtown The Gulch",
+   "brand": "HILTON",
+   "property_code": "bnaglpy",
+   "requested_url": "https://www.hilton.com/en/hotels/bnaglpy-canopy-nashville-downtown-the-gulch/",
+   "final_url": "https://www.hilton.com/en/hotels/bnaglpy-canopy-nashville-downtown-the-gulch/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "907e8bba21a1fcea19662a48ca1d06a44f5c219136b5d615f3984cce2d4cea39",
+   "byte_length": 243645,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "",
+    "address_on_page": "920 Division Street",
+    "locality": "",
+    "region": "TN",
+    "postal_code": "37203",
+    "phone_on_page": "",
+    "property_code_on_page": "bnaglpy"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "policy_block": "Pets allowed, $50.00 non-refundable fee, 75 lbs maximum, 50.00 non refundable pet fee per stay",
+   "exact_quote": "Pets allowed, $50",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets allowed, $50",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb"
+   },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets allowed, $50.00 non-refundable fee, 75 lbs maximum, 50.00 non refundable pet fee per stay",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "old_byte_length": 243541,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "courtyard by marriott nashville airport",
+   "canonical_name": "Courtyard by Marriott Nashville Airport",
+   "brand": "MARRIOTT",
+   "property_code": "bnaca",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnaca-courtyard-nashville-airport/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnaca-courtyard-nashville-airport/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "36a06e3fe6844e28145afed018c0bc10ee5860c9f44b229314908a563457f2c9",
+   "byte_length": 346880,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "Courtyard by Marriott Nashville Airport",
+    "address_on_page": "2508 Elm Hill Pike",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37214",
+    "phone_on_page": "+16158839500",
+    "property_code_on_page": "bnaca"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Welcome Pet fee $20/day with $100/stay nonrefundable clean fee excludes Service Animals Non-Refundable Pet Fee Per Stay: $100.00 Non-Refundable Pet Fee Per Night: $20.00 Maximum Pet Weight: 80.0lbs Maximum Number of Pets in Room: 1",
+   "exact_quote": "Pets Welcome",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Welcome",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 80.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 1
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets Welcome Pet fee $20/day with $100/stay nonrefundable clean fee excludes Service Animals Non-Refundable Pet Fee Per Stay: $100.00 Non-Refundable Pet Fee Per Night: $20.00 Maximum Pet Weight: 80.0lbs Maximum Number of Pets in Room: 1",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "weight_limit": 80.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 1
+   },
+   "old_byte_length": 346428,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "courtyard by marriott nashville at opryland",
+   "canonical_name": "Courtyard by Marriott Nashville at Opryland",
+   "brand": "MARRIOTT",
+   "property_code": "bnaco",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnaco-courtyard-nashville-at-opryland/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnaco-courtyard-nashville-at-opryland/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "ec798a7842975be75d12214de97f7e5b9b85b34556c103178dafdf57dd1d60ae",
+   "byte_length": 328915,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "Courtyard by Marriott Nashville at Opryland",
+    "address_on_page": "125 Music City Circle",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37214",
+    "phone_on_page": "+16158829133",
+    "property_code_on_page": "bnaco"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Not Allowed No pets allowed/Service Dogs allowed",
+   "exact_quote": "Pets Not Allowed",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Not Allowed",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": false
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_VERIFIED_NO_PETS",
+   "old_operative_quote": "Pets Not Allowed No pets allowed/Service Dogs allowed",
+   "old_parsed_facts": {
+    "pets_allowed": false
+   },
+   "old_byte_length": 328488,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "courtyard by marriott nashville brentwood",
+   "canonical_name": "Courtyard by Marriott Nashville Brentwood",
+   "brand": "MARRIOTT",
+   "property_code": "bnabr",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnabr-courtyard-nashville-brentwood/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnabr-courtyard-nashville-brentwood/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "ee142a38d2e63bb4504ed21704f8aabd9ad31e3807bf4b1aba523004458557bf",
+   "byte_length": 338360,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "Courtyard by Marriott Nashville Brentwood",
+    "address_on_page": "103 East Park Drive",
+    "locality": "Brentwood",
+    "region": "Tennessee",
+    "postal_code": "37027",
+    "phone_on_page": "+16153719200",
+    "property_code_on_page": "bnabr"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Welcome Pet fee $20/day with $100/stay nonrefundable clean fee excludes Service Animals Non-Refundable Pet Fee Per Stay: $100.00 Non-Refundable Pet Fee Per Night: $20.00 Maximum Pet Weight: 35.0lbs Maximum Number of Pets in Room: 2",
+   "exact_quote": "Pets Welcome",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Welcome",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 35.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets Welcome Pet fee $20/day with $100/stay nonrefundable clean fee excludes Service Animals Non-Refundable Pet Fee Per Stay: $100.00 Non-Refundable Pet Fee Per Night: $20.00 Maximum Pet Weight: 35.0lbs Maximum Number of Pets in Room: 2",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "weight_limit": 35.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "old_byte_length": 337933,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "courtyard by marriott nashville downtown",
+   "canonical_name": "Courtyard by Marriott Nashville Downtown",
+   "brand": "MARRIOTT",
+   "property_code": "bnadt",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnadt-courtyard-nashville-downtown/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnadt-courtyard-nashville-downtown/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "b9c2b89b4b9664f70013a9b9d385c63c9ca54f71eb4301aa6925dc192e3f94ee",
+   "byte_length": 321828,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "Courtyard by Marriott Nashville Downtown",
+    "address_on_page": "170 4th Avenue North",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37219",
+    "phone_on_page": "+16152560900",
+    "property_code_on_page": "bnadt"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Not Allowed Parking Valet Daily: $70.00 Additional Parking Information Valet parking only. Restrictions may apply based on vehicle size & valet prices may vary. Gannons Join us at Gannons, our on-site restaurant in Downtown Nashville. Indulge in fresh oysters, curated cocktails and live jazz on 4th Ave, near Printer's Alle",
+   "exact_quote": "Pets Not Allowed",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Not Allowed",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": false
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_VERIFIED_NO_PETS",
+   "old_operative_quote": "Pets Not Allowed",
+   "old_parsed_facts": {
+    "pets_allowed": false
+   },
+   "old_byte_length": 321396,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "courtyard by marriott nashville goodlettsville",
+   "canonical_name": "Courtyard by Marriott Nashville Goodlettsville",
+   "brand": "MARRIOTT",
+   "property_code": "bnagv",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnagv-courtyard-nashville-goodlettsville/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnagv-courtyard-nashville-goodlettsville/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "65f36e6ead6b996778b194686caf6a1f68d5b47eb28802a67a977f709e0f84ae",
+   "byte_length": 337177,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "Courtyard by Marriott Nashville Goodlettsville",
+    "address_on_page": "865 Conference Drive",
+    "locality": "Goodlettsville",
+    "region": "Tennessee",
+    "postal_code": "37072",
+    "phone_on_page": "+16158513000",
+    "property_code_on_page": "bnagv"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Welcome 1 pet (dog or cat) welcome with 75 USD non-refundable Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 1",
+   "exact_quote": "Pets Welcome",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Welcome",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 1,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ]
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets Welcome 1 pet (dog or cat) welcome with 75 USD non-refundable Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 1",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 1
+   },
+   "old_byte_length": 336748,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "courtyard by marriott nashville green hills",
+   "canonical_name": "Courtyard by Marriott Nashville Green Hills",
+   "brand": "MARRIOTT",
+   "property_code": "bnagh",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnagh-courtyard-nashville-green-hills/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnagh-courtyard-nashville-green-hills/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "f271a72c4854a3e7f5fa017571ac92ba146b65ad183d1f4906df6aa3d70b39e3",
+   "byte_length": 328052,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "Courtyard by Marriott Nashville Green Hills",
+    "address_on_page": "3800 Bedford Avenue",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37215",
+    "phone_on_page": "+16152987700",
+    "property_code_on_page": "bnagh"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Welcome Pets allowed Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 2",
+   "exact_quote": "Pets Welcome",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Welcome",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets Welcome Pets allowed Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 2",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "old_byte_length": 327622,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "courtyard by marriott nashville vanderbilt west end",
+   "canonical_name": "Courtyard by Marriott Nashville Vanderbilt/West End",
+   "brand": "MARRIOTT",
+   "property_code": "bnawe",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnawe-courtyard-nashville-vanderbilt-west-end/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnawe-courtyard-nashville-vanderbilt-west-end/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "cdfe14e85e10e17ef2aa33eead3d3c907029778a7980927d5623cbe739e0abe3",
+   "byte_length": 345007,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "Courtyard by Marriott Nashville Vanderbilt/West End",
+    "address_on_page": "1901 West End Avenue",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37203",
+    "phone_on_page": "+16153279900",
+    "property_code_on_page": "bnawe"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Not Allowed Service Animals permitted",
+   "exact_quote": "Pets Not Allowed",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Not Allowed",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": false
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_VERIFIED_NO_PETS",
+   "old_operative_quote": "Pets Not Allowed Service Animals permitted",
+   "old_parsed_facts": {
+    "pets_allowed": false
+   },
+   "old_byte_length": 344545,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "delta hotels nashville airport",
+   "canonical_name": "Delta Hotels Nashville Airport",
+   "brand": "MARRIOTT",
+   "property_code": "bnada",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnada-delta-hotels-nashville-airport/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnada-delta-hotels-nashville-airport/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "2fc4f3aaff556c5743d82350dad4607a7abbd4ca919b1d5d7f27a0be675a9b92",
+   "byte_length": 341873,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "Delta Hotels Nashville Airport",
+    "address_on_page": "733 Briley Parkway",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37217",
+    "phone_on_page": "+16153615900",
+    "property_code_on_page": "bnada"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Welcome 2 pets max per room with 75USD non-refundable fee per room per stay Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 2",
+   "exact_quote": "Pets Welcome",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Welcome",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets Welcome 2 pets max per room with 75USD non-refundable fee per room per stay Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 2",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "old_byte_length": 341448,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "doubletree by hilton hotel nashville downtown",
+   "canonical_name": "DoubleTree by Hilton Hotel Nashville Downtown",
+   "brand": "HILTON",
+   "property_code": "bnadudt",
+   "requested_url": "https://www.hilton.com/en/hotels/bnadudt-doubletree-nashville-downtown/",
+   "final_url": "https://www.hilton.com/en/hotels/bnadudt-doubletree-nashville-downtown/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "c47761f926caa6aa8b157f3cd9196f2a6384a93ce6d676a7ba422c027829e23f",
+   "byte_length": 314822,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "",
+    "address_on_page": "315 4th Avenue North",
+    "locality": "",
+    "region": "TN",
+    "postal_code": "37219",
+    "phone_on_page": "",
+    "property_code_on_page": "bnadudt"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "policy_block": "Pets allowed, $125.00 non-refundable fee",
+   "exact_quote": "Pets allowed, $125",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets allowed, $125",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 12500,
+    "fee_currency": "USD",
+    "fee_scope": "per_pet",
+    "fee_refundable": false
+   },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets allowed, $125.00 non-refundable fee",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 12500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "old_byte_length": 314965,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "doubletree suites by hilton hotel nashville airport",
+   "canonical_name": "DoubleTree Suites by Hilton Hotel Nashville Airport",
+   "brand": "HILTON",
+   "property_code": "bnaebdt",
+   "requested_url": "https://www.hilton.com/en/hotels/bnaebdt-doubletree-suites-nashville-airport/",
+   "final_url": "https://www.hilton.com/en/hotels/bnaebdt-doubletree-suites-nashville-airport/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "4855fa94f23ef47a64046b72d51f335f38ee6d4166f459d9b9e766fd67cc1190",
+   "byte_length": 288294,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "",
+    "address_on_page": "2424 Atrium Way",
+    "locality": "",
+    "region": "TN",
+    "postal_code": "37214",
+    "phone_on_page": "",
+    "property_code_on_page": "bnaebdt"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "policy_block": "Pets allowed, $50.00 non-refundable fee, 75 lbs maximum, Pet fee of $50.00 per 7 Day Stay",
+   "exact_quote": "Pets allowed, $50",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets allowed, $50",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb"
+   },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets allowed, $50.00 non-refundable fee, 75 lbs maximum, Pet fee of $50.00 per 7 Day Stay",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "old_byte_length": 288178,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "drift nashville a member of design hotels",
+   "canonical_name": "Drift Nashville, a Member of Design Hotels",
+   "brand": "MARRIOTT",
+   "property_code": "bnadh",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnadh-drift-nashville-a-member-of-design-hotels/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnadh-drift-nashville-a-member-of-design-hotels/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "135f3d16d82dc1f103a10e7b3ff27da6a897b8bf9e2d7570b5c27de9accb7cb0",
+   "byte_length": 295059,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "Drift Nashville, a Member of Design Hotels™",
+    "address_on_page": "10 Interstate Drive",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37213",
+    "phone_on_page": "+16153988233",
+    "property_code_on_page": "bnadh"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Not Allowed Parking On-Site Parking Daily: $30.00",
+   "exact_quote": "Pets Not Allowed",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Not Allowed",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": false
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_VERIFIED_NO_PETS",
+   "old_operative_quote": "Pets Not Allowed",
+   "old_parsed_facts": {
+    "pets_allowed": false
+   },
+   "old_byte_length": 294508,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "element by marriott nashville airport",
+   "canonical_name": "Element by Marriott Nashville Airport",
+   "brand": "MARRIOTT",
+   "property_code": "bnael",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnael-element-nashville-airport/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnael-element-nashville-airport/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "2e0e3ca4dc64e9cd4d2b98966f02a51fdaad3ccb994c5529ab19d9261266e9ea",
+   "byte_length": 352943,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "Element by Marriott Nashville Airport",
+    "address_on_page": "2825 Elm Hill Pike",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37214",
+    "phone_on_page": "+16158949791",
+    "property_code_on_page": "bnael"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Welcome Pet friendly, one pet allowed per room Non-Refundable Pet Fee Per Night: $50.00 Maximum Pet Weight: 100.0lbs Maximum Number of Pets in Room: 2",
+   "exact_quote": "Pets Welcome",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Welcome",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 100.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets Welcome Pet friendly, one pet allowed per room Non-Refundable Pet Fee Per Night: $50.00 Maximum Pet Weight: 100.0lbs Maximum Number of Pets in Room: 2",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "weight_limit": 100.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "old_byte_length": 352511,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "element by marriott nashville vanderbilt west end",
+   "canonical_name": "Element by Marriott Nashville Vanderbilt West End",
+   "brand": "MARRIOTT",
+   "property_code": "bnaew",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnaew-element-nashville-vanderbilt-west-end/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnaew-element-nashville-vanderbilt-west-end/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "2b508566a9bd98d484d4969df92bf059805d7b0e09858d017709c11f286d5a66",
+   "byte_length": 370128,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "Element by Marriott Nashville Vanderbilt West End",
+    "address_on_page": "4 City Boulevard",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37209",
+    "phone_on_page": "+16153208400",
+    "property_code_on_page": "bnaew"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Welcome Dogs or cats only. $50 fee per night / max $150 fee per stay. Non-Refundable Pet Fee Per Night: $50.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 1",
+   "exact_quote": "Pets Welcome",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Welcome",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 50.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 1,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ]
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets Welcome Dogs or cats only. $50 fee per night / max $150 fee per stay. Non-Refundable Pet Fee Per Night: $50.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 1",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "weight_limit": 50.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 1
+   },
+   "old_byte_length": 369678,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "embassy suites by hilton nashville airport",
+   "canonical_name": "Embassy Suites by Hilton Nashville Airport",
+   "brand": "HILTON",
+   "property_code": "bnanaes",
+   "requested_url": "https://www.hilton.com/en/hotels/bnanaes-embassy-suites-nashville-airport/",
+   "final_url": "https://www.hilton.com/en/hotels/bnanaes-embassy-suites-nashville-airport/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "040bf894533d205658ba700c574636683b634854a05bd85cf37577c8e53e0d3c",
+   "byte_length": 279898,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "",
+    "address_on_page": "10 Century Boulevard",
+    "locality": "",
+    "region": "TN",
+    "postal_code": "37214",
+    "phone_on_page": "",
+    "property_code_on_page": "bnanaes"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "policy_block": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+   "exact_quote": "Pets allowed, $75",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets allowed, $75",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ]
+   },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ],
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "old_byte_length": 279782,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "embassy suites by hilton nashville at vanderbilt",
+   "canonical_name": "Embassy Suites by Hilton Nashville at Vanderbilt",
+   "brand": "HILTON",
+   "property_code": "bnaeses",
+   "requested_url": "https://www.hilton.com/en/hotels/bnaeses-embassy-suites-nashville-at-vanderbilt/",
+   "final_url": "https://www.hilton.com/en/hotels/bnaeses-embassy-suites-nashville-at-vanderbilt/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "ff2752b8b1ffb6df13f487affc8904e82f66d5c243d2e06a120be97415b07af5",
+   "byte_length": 311033,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "",
+    "address_on_page": "1811 Broadway",
+    "locality": "",
+    "region": "TN",
+    "postal_code": "37203",
+    "phone_on_page": "",
+    "property_code_on_page": "bnaeses"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "policy_block": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+   "exact_quote": "Pets allowed, $75",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets allowed, $75",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ]
+   },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ],
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "old_byte_length": 310917,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "embassy suites by hilton nashville downtown",
+   "canonical_name": "Embassy Suites by Hilton Nashville Downtown",
+   "brand": "HILTON",
+   "property_code": "bnadees",
+   "requested_url": "https://www.hilton.com/en/hotels/bnadees-embassy-suites-nashville-downtown/",
+   "final_url": "https://www.hilton.com/en/hotels/bnadees-embassy-suites-nashville-downtown/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "4841db5491ea2d00fe703decb86a3ac7ad08c7d139ba06682d545fb01510aab6",
+   "byte_length": 309106,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "",
+    "address_on_page": "708 Demonbreun Street",
+    "locality": "",
+    "region": "TN",
+    "postal_code": "37203",
+    "phone_on_page": "",
+    "property_code_on_page": "bnadees"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "policy_block": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+   "exact_quote": "Pets allowed, $75",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets allowed, $75",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ]
+   },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ],
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "old_byte_length": 308997,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "fairfield by marriott inn and suites nashville airport",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Nashville Airport",
+   "brand": "MARRIOTT",
+   "property_code": "bnaaf",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnaaf-fairfield-inn-and-suites-nashville-airport/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnaaf-fairfield-inn-and-suites-nashville-airport/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "9b040cde0133651814426bdcf263b3eefbef9ebe19c328f41fb283a092d8afd9",
+   "byte_length": 323657,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "Fairfield by Marriott Inn & Suites Nashville Airport",
+    "address_on_page": "511 Royal Parkway",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37214",
+    "phone_on_page": "+16159303730",
+    "property_code_on_page": "bnaaf"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Welcome We are a Pet Friendly hotel. Maximum Number of Pets in Room: 2",
+   "exact_quote": "Pets Welcome",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Welcome",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets Welcome We are a Pet Friendly hotel. Maximum Number of Pets in Room: 2",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_count_limit": 2
+   },
+   "old_byte_length": 323213,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "fairfield by marriott inn and suites nashville antioch",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Nashville Antioch",
+   "brand": "MARRIOTT",
+   "property_code": "bnaof",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnaof-fairfield-inn-and-suites-antioch/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnaof-fairfield-inn-and-suites-antioch/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "1764219ef1998049a50ccaa75b9dfe40340bb492d6fe723e8efe9ee2b432197c",
+   "byte_length": 303539,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "Fairfield by Marriott Inn & Suites Nashville Antioch",
+    "address_on_page": "510 Collins Park Drive",
+    "locality": "Antioch",
+    "region": "Tennessee",
+    "postal_code": "37013",
+    "phone_on_page": "",
+    "property_code_on_page": "bnaof"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Welcome $75/night per pet Maximum Pet Weight: 50.0lbs",
+   "exact_quote": "Pets Welcome",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Welcome",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 50.0,
+    "weight_limit_unit": "lb"
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets Welcome $75/night per pet Maximum Pet Weight: 50.0lbs",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "weight_limit": 50.0,
+    "weight_limit_unit": "lb"
+   },
+   "old_byte_length": 304139,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "fairfield by marriott inn and suites nashville at opryland",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Nashville at Opryland",
+   "brand": "MARRIOTT",
+   "property_code": "bnaop",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnaop-fairfield-inn-and-suites-nashville-at-opryland/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnaop-fairfield-inn-and-suites-nashville-at-opryland/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "d3f72c1116fe182f9d5968ee682d04bc2cdb7ab56a5d2dc12fb12aef0f436af7",
+   "byte_length": 326285,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "Fairfield by Marriott Inn & Suites Nashville at Opryland",
+    "address_on_page": "211 Music City Circle",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37214",
+    "phone_on_page": "+16158728939",
+    "property_code_on_page": "bnaop"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Not Allowed No pets allowed except for service animals",
+   "exact_quote": "Pets Not Allowed",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Not Allowed",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": false
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_VERIFIED_NO_PETS",
+   "old_operative_quote": "Pets Not Allowed No pets allowed except for service animals",
+   "old_parsed_facts": {
+    "pets_allowed": false
+   },
+   "old_byte_length": 325839,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "fairfield by marriott inn and suites nashville bellevue",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Nashville Bellevue",
+   "brand": "MARRIOTT",
+   "property_code": "bnasw",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnasw-fairfield-inn-and-suites-nashville-bellevue/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnasw-fairfield-inn-and-suites-nashville-bellevue/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "31f561c792a44e897a2bc40b2fe36af2d970cbde65a56369469d09bb8f18190f",
+   "byte_length": 314349,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "Fairfield by Marriott Inn & Suites Nashville Bellevue",
+    "address_on_page": "7636 Highway 70 South",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37221",
+    "phone_on_page": "+16156160436",
+    "property_code_on_page": "bnasw"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Not Allowed Parking Complimentary On-Site Parking More Ways to Enjoy Your Stay Fitness Fitness Center Continue your fitness during your stay with us at our on-site fitness center.",
+   "exact_quote": "Pets Not Allowed",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Not Allowed",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": false
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_VERIFIED_NO_PETS",
+   "old_operative_quote": "Pets Not Allowed",
+   "old_parsed_facts": {
+    "pets_allowed": false
+   },
+   "old_byte_length": 313903,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "fairfield by marriott inn and suites nashville downtown the gulch",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Nashville Downtown/The Gulch",
+   "brand": "MARRIOTT",
+   "property_code": "bnafn",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnafn-fairfield-inn-and-suites-nashville-downtown-the-gulch/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnafn-fairfield-inn-and-suites-nashville-downtown-the-gulch/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "b6fd7008d56e13875c11bd8f0667b67bbfdfddc508e20fae921696c0031ddd40",
+   "byte_length": 323892,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "Fairfield by Marriott Inn & Suites Nashville Downtown/The Gulch",
+    "address_on_page": "901 Division Street",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37203",
+    "phone_on_page": "+16156901740",
+    "property_code_on_page": "bnafn"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Not Allowed No pets-ADA service animals only / USD 250 clean-up fine for unauthorized pets",
+   "exact_quote": "Pets Not Allowed",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Not Allowed",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": false
+   },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "Service Animals permitted"
+   },
+   "old_shadow_class": "CLEAN_VERIFIED_NO_PETS",
+   "old_operative_quote": "Pets Not Allowed No pets-ADA service animals only / USD 250 clean-up fine for unauthorized pets",
+   "old_parsed_facts": {
+    "pets_allowed": false
+   },
+   "old_byte_length": 323427,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "fairfield by marriott inn and suites nashville metrocenter",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Nashville MetroCenter",
+   "brand": "MARRIOTT",
+   "property_code": "bnafm",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnafm-fairfield-inn-and-suites-nashville-metrocenter/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnafm-fairfield-inn-and-suites-nashville-metrocenter/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "2de28bff6660c63b9de293d0d1c41c6701f35058eadf976f588f495eb8beb38d",
+   "byte_length": 335343,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "Fairfield by Marriott Inn & Suites Nashville MetroCenter",
+    "address_on_page": "100 French Landing Drive",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37228",
+    "phone_on_page": "+16154324677",
+    "property_code_on_page": "bnafm"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Not Allowed No Pets Allowed:ADA Service Animals Only - Emotional Support not ADA approved",
+   "exact_quote": "Pets Not Allowed",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Not Allowed",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": false
+   },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "Service Animals permitted"
+   },
+   "old_shadow_class": "CLEAN_VERIFIED_NO_PETS",
+   "old_operative_quote": "Pets Not Allowed No Pets Allowed:ADA Service Animals Only - Emotional Support not ADA approved",
+   "old_parsed_facts": {
+    "pets_allowed": false
+   },
+   "old_byte_length": 334893,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "fairfield by marriott inn and suites nashville near vanderbilt",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Nashville Near Vanderbilt",
+   "brand": "MARRIOTT",
+   "property_code": "bnafo",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnafo-fairfield-inn-and-suites-nashville-near-vanderbilt/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnafo-fairfield-inn-and-suites-nashville-near-vanderbilt/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "d0e99c369e3a230f371536b4109a27e593ea4bb81c2c28492a4c56382de57987",
+   "byte_length": 334705,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "Fairfield by Marriott Inn & Suites Nashville Near Vanderbilt",
+    "address_on_page": "109 29th Avenue North",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37203",
+    "phone_on_page": "+16292162331",
+    "property_code_on_page": "bnafo"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Welcome $50 Per Pet Per Stay plus $10 per night.. Non-Refundable Pet Fee Per Stay: $50.00 Non-Refundable Pet Fee Per Night: $10.00 Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 2",
+   "exact_quote": "Pets Welcome",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Welcome",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 1000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets Welcome $50 Per Pet Per Stay plus $10 per night.. Non-Refundable Pet Fee Per Stay: $50.00 Non-Refundable Pet Fee Per Night: $10.00 Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 2",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "old_byte_length": 334257,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "four points by sheraton nashville airport",
+   "canonical_name": "Four Points by Sheraton Nashville Airport",
+   "brand": "MARRIOTT",
+   "property_code": "bnapa",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnapa-four-points-nashville-airport/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnapa-four-points-nashville-airport/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "64c7f45666659bc6cf8d73a06a115e24d23b9553606d98616580cbc311b27cf9",
+   "byte_length": 315154,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "Four Points by Sheraton Nashville Airport",
+    "address_on_page": "800 Royal Parkway",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37214",
+    "phone_on_page": "+16158849777",
+    "property_code_on_page": "bnapa"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Not Allowed Parking On-Site Parking Daily: $10.00 Long Term Parking Four Points Lounge",
+   "exact_quote": "Pets Not Allowed",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Not Allowed",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": false
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_VERIFIED_NO_PETS",
+   "old_operative_quote": "Pets Not Allowed",
+   "old_parsed_facts": {
+    "pets_allowed": false
+   },
+   "old_byte_length": 314710,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "four points by sheraton nashville brentwood",
+   "canonical_name": "Four Points by Sheraton Nashville - Brentwood",
+   "brand": "MARRIOTT",
+   "property_code": "bnasb",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnasb-sheraton-nashville-brentwood/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnasb-sheraton-nashville-brentwood/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "5483ca5d2bf056881992c4e2ba6389214ad55f63e5dde3f3b7583306c1616bcf",
+   "byte_length": 346903,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "Sheraton Nashville Brentwood",
+    "address_on_page": "760 Old Hickory Boulevard",
+    "locality": "Brentwood",
+    "region": "Tennessee",
+    "postal_code": "37027",
+    "phone_on_page": "+16159645500",
+    "property_code_on_page": "bnasb"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Welcome non-refundable fee Non-Refundable Pet Fee Per Stay: $100.00 Maximum Number of Pets in Room: 1",
+   "exact_quote": "Pets Welcome",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Welcome",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "pet_count_limit": 1
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets Welcome non-refundable fee Non-Refundable Pet Fee Per Stay: $100.00 Maximum Number of Pets in Room: 1",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_count_limit": 1
+   },
+   "old_byte_length": 346470,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "gaylord opryland resort and convention center",
+   "canonical_name": "Gaylord Opryland Resort And Convention Center",
+   "brand": "MARRIOTT",
+   "property_code": "bnago",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnago-gaylord-opryland-resort-and-convention-center/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnago-gaylord-opryland-resort-and-convention-center/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "52dc1e5075a887f56b09062b228f98bceeb8cdef9d64e791a2289c4eff548873",
+   "byte_length": 537622,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "Gaylord Opryland Resort & Convention Center",
+    "address_on_page": "2800 Opryland Drive",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37214",
+    "phone_on_page": "+16158891000",
+    "property_code_on_page": "bnago"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Not Allowed Parking On-Site Parking Daily: $37.00 Valet Daily: $55.00 Electric Car Charging Station Additional Parking Information Prices subject to tax. General Information Policies and Payments Accepts: Credit Cards Contactless mobile payments Services 24-hour Front Desk Property has elevators Vending Machine Languages s",
+   "exact_quote": "Pets Not Allowed",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Not Allowed",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": false
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_VERIFIED_NO_PETS",
+   "old_operative_quote": "Pets Not Allowed",
+   "old_parsed_facts": {
+    "pets_allowed": false
+   },
+   "old_byte_length": 537114,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "hampton inn and suites by hilton nashville north skyline",
+   "canonical_name": "Hampton Inn & Suites by Hilton Nashville North Skyline",
+   "brand": "HILTON",
+   "property_code": "bnaskhx",
+   "requested_url": "https://www.hilton.com/en/hotels/bnaskhx-hampton-suites-nashville-north-skyline/",
+   "final_url": "https://www.hilton.com/en/hotels/bnaskhx-hampton-suites-nashville-north-skyline/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "3d2845b25daa1a4482e3b9ef9b3dbf9a27885a3708c4dee3dfcf1d48afd454c3",
+   "byte_length": 297580,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "",
+    "address_on_page": "3451 Dickerson Pike",
+    "locality": "",
+    "region": "TN",
+    "postal_code": "37207",
+    "phone_on_page": "",
+    "property_code_on_page": "bnaskhx"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "policy_block": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75 1-4 nights $125 5+ nights 2 pet minimum Dog and Cats only",
+   "exact_quote": "Pets allowed, $75",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets allowed, $75",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ]
+   },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75 1-4 nights $125 5+ nights 2 pet minimum Dog and Cats only",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "species_allowed": [
+     "dog",
+     "cat"
+    ],
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "old_byte_length": 297466,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "hampton inn and suites nashville airport",
+   "canonical_name": "Hampton Inn & Suites Nashville / Airport",
+   "brand": "HILTON",
+   "property_code": "bnahshx",
+   "requested_url": "https://www.hilton.com/en/hotels/bnahshx-hampton-suites-nashville-airport/",
+   "final_url": "https://www.hilton.com/en/hotels/bnahshx-hampton-suites-nashville-airport/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "9ae418b64408cfe15809563b7af797fe1a54e81856e79817cd4a55174261fb41",
+   "byte_length": 276568,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "",
+    "address_on_page": "583 Donelson Pike",
+    "locality": "",
+    "region": "TN",
+    "postal_code": "37214",
+    "phone_on_page": "",
+    "property_code_on_page": "bnahshx"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "policy_block": "Pets allowed, $75.00 non-refundable fee, $75 fee(1-nights) batsman, dog/cat only",
+   "exact_quote": "Pets allowed, $75",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets allowed, $75",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ]
+   },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets allowed, $75.00 non-refundable fee, $75 fee(1-nights) batsman, dog/cat only",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ],
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "old_byte_length": 276452,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "hampton inn and suites nashville at opryland",
+   "canonical_name": "Hampton Inn & Suites Nashville at Opryland",
+   "brand": "HILTON",
+   "property_code": "bnaophx",
+   "requested_url": "https://www.hilton.com/en/hotels/bnaophx-hampton-suites-nashville-at-opryland/",
+   "final_url": "https://www.hilton.com/en/hotels/bnaophx-hampton-suites-nashville-at-opryland/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "d050a268adc93d9f109ab427aff9f5e2a3560f0b86c71e2e22a8bc98f9c04d07",
+   "byte_length": 274569,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "",
+    "address_on_page": "230 Rudy Circle",
+    "locality": "",
+    "region": "TN",
+    "postal_code": "37214",
+    "phone_on_page": "",
+    "property_code_on_page": "bnaophx"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "policy_block": "Pets allowed, $50.00 non-refundable fee, $50(1-4n),$75(5+n) 2petsMax,dog/cat only",
+   "exact_quote": "Pets allowed, $50",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets allowed, $50",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ]
+   },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets allowed, $50.00 non-refundable fee, $50(1-4n),$75(5+n) 2petsMax,dog/cat only",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ],
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "old_byte_length": 274457,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "hampton inn and suites nashville downtown",
+   "canonical_name": "Hampton Inn & Suites Nashville Downtown",
+   "brand": "HILTON",
+   "property_code": "bnadthx",
+   "requested_url": "https://www.hilton.com/en/hotels/bnadthx-hampton-suites-nashville-downtown/",
+   "final_url": "https://www.hilton.com/en/hotels/bnadthx-hampton-suites-nashville-downtown/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "e8eb4ea34633d545ea1d34fb3bd7e5fde43c013ed76ca23c25572685f551c75f",
+   "byte_length": 273758,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "",
+    "address_on_page": "310 4th Avenue South",
+    "locality": "",
+    "region": "TN",
+    "postal_code": "37201",
+    "phone_on_page": "",
+    "property_code_on_page": "bnadthx"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "policy_block": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petMax,dog/cat only",
+   "exact_quote": "Pets allowed, $75",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets allowed, $75",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ]
+   },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petMax,dog/cat only",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ],
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "old_byte_length": 273656,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "hampton inn and suites nashville downtown capitol view",
+   "canonical_name": "Hampton Inn & Suites Nashville Downtown Capitol View",
+   "brand": "HILTON",
+   "property_code": "bnadchx",
+   "requested_url": "https://www.hilton.com/en/hotels/bnadchx-hampton-suites-nashville-downtown-capitol-view/",
+   "final_url": "https://www.hilton.com/en/hotels/bnadchx-hampton-suites-nashville-downtown-capitol-view/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "88be46ffb1d2d57b865b361cb90270856f5f6bda9730d488a8748b26d3e49936",
+   "byte_length": 287094,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "",
+    "address_on_page": "530 11th Avenue North",
+    "locality": "",
+    "region": "TN",
+    "postal_code": "37203",
+    "phone_on_page": "",
+    "property_code_on_page": "bnadchx"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "policy_block": "Pets allowed, $75.00 non-refundable fee, $75 1-4 nights/$125 5+nights,2 pets max, dog/cat only",
+   "exact_quote": "Pets allowed, $75",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets allowed, $75",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ]
+   },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets allowed, $75.00 non-refundable fee, $75 1-4 nights/$125 5+nights,2 pets max, dog/cat only",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ],
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "old_byte_length": 286982,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "hampton inn and suites nashville goodlettsville",
+   "canonical_name": "Hampton Inn & Suites Nashville/Goodlettsville",
+   "brand": "HILTON",
+   "property_code": "bnagohx",
+   "requested_url": "https://www.hilton.com/en/hotels/bnagohx-hampton-suites-nashville-goodlettsville/",
+   "final_url": "https://www.hilton.com/en/hotels/bnagohx-hampton-suites-nashville-goodlettsville/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "e80a194f0744abffaca27f39c956527bf9cf73d74744491cc694585dadd1ba21",
+   "byte_length": 273100,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "",
+    "address_on_page": "860 Conference Drive",
+    "locality": "",
+    "region": "TN",
+    "postal_code": "37072",
+    "phone_on_page": "",
+    "property_code_on_page": "bnagohx"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "policy_block": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat onl",
+   "exact_quote": "Pets allowed, $75",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets allowed, $75",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ]
+   },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat onl",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2,
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "old_byte_length": 272994,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "hampton inn by hilton nashville airport century place",
+   "canonical_name": "Hampton Inn by Hilton Nashville Airport Century Place",
+   "brand": "HILTON",
+   "property_code": "bnallhx",
+   "requested_url": "https://www.hilton.com/en/hotels/bnallhx-hampton-nashville-airport-century-place/",
+   "final_url": "https://www.hilton.com/en/hotels/bnallhx-hampton-nashville-airport-century-place/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "41c518ff46974a6afdac61f1ca687a3440b106f0bb2cf4a9c7953dde751b9be3",
+   "byte_length": 302687,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "",
+    "address_on_page": "1 Century Boulevard",
+    "locality": "",
+    "region": "TN",
+    "postal_code": "37214",
+    "phone_on_page": "",
+    "property_code_on_page": "bnallhx"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "policy_block": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum",
+   "exact_quote": "Pets allowed, $75",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets allowed, $75",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb"
+   },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "old_byte_length": 302551,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "hilton bna nashville airport terminal",
+   "canonical_name": "Hilton Bna Nashville Airport Terminal",
+   "brand": "HILTON",
+   "property_code": "bnahhhh",
+   "requested_url": "https://www.hilton.com/en/hotels/bnahhhh-hilton-bna-nashville-airport-terminal/",
+   "final_url": "https://www.hilton.com/en/hotels/bnahhhh-hilton-bna-nashville-airport-terminal/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "c1db8dd9f4f08592b00acc6af2913ef0b2b997c7e25d6ce4877eb5c3cce7d9ba",
+   "byte_length": 315442,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "",
+    "address_on_page": "2 Terminal Drive",
+    "locality": "",
+    "region": "TN",
+    "postal_code": "37214",
+    "phone_on_page": "",
+    "property_code_on_page": "bnahhhh"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "policy_block": "Pets allowed, $50.00 non-refundable fee, 50 lbs maximum, We offer a dog park at Hilton BNA! In our grand plaza, right outside our front doors we offer a friendly dog park.",
+   "exact_quote": "Pets allowed, $50",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets allowed, $50",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 50.0,
+    "weight_limit_unit": "lb"
+   },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets allowed, $50.00 non-refundable fee, 50 lbs maximum, We offer a dog park at Hilton BNA! In our grand plaza, right outside our front doors we offer a friendly dog park.",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "weight_limit": 50.0,
+    "weight_limit_unit": "lb",
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "old_byte_length": 315308,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "hilton brentwood nashville suites",
+   "canonical_name": "Hilton Brentwood/Nashville Suites",
+   "brand": "HILTON",
+   "property_code": "bnabwhf",
+   "requested_url": "https://www.hilton.com/en/hotels/bnabwhf-hilton-brentwood-nashville-suites/",
+   "final_url": "https://www.hilton.com/en/hotels/bnabwhf-hilton-brentwood-nashville-suites/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "e5fd7deb0bc2dcaba95c07d869a63ff138a4bb5da1f6287fd7454048c5cb8345",
+   "byte_length": 308752,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "",
+    "address_on_page": "9000 Overlook Boulevard",
+    "locality": "",
+    "region": "TN",
+    "postal_code": "37027",
+    "phone_on_page": "",
+    "property_code_on_page": "bnabwhf"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "policy_block": "Service animals only",
+   "exact_quote": "",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Service animals only",
+     "verdict": "SERVICE_ANIMAL_ONLY"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": false
+   },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "old_shadow_class": "CLEAN_VERIFIED_NO_PETS",
+   "old_operative_quote": "Service animals only",
+   "old_parsed_facts": {
+    "pets_allowed": false,
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "old_byte_length": 308628,
+   "outcome": "QUOTE_NOT_OPERATIVE"
+  },
+  {
+   "identity_key": "hilton garden inn nashville brentwood",
+   "canonical_name": "Hilton Garden Inn Nashville Brentwood",
+   "brand": "HILTON",
+   "property_code": "bnabrgi",
+   "requested_url": "https://www.hilton.com/en/hotels/bnabrgi-hilton-garden-inn-nashville-brentwood/",
+   "final_url": "https://www.hilton.com/en/hotels/bnabrgi-hilton-garden-inn-nashville-brentwood/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "3a46812bae8d8733e8e92a1cd49b3db7696932125624cbde9d9c998d08ddfa6f",
+   "byte_length": 282170,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "",
+    "address_on_page": "217 Centerview Drive",
+    "locality": "",
+    "region": "TN",
+    "postal_code": "37027",
+    "phone_on_page": "",
+    "property_code_on_page": "bnabrgi"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "policy_block": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75 1-4 nights/$125 5+ nights. Two pets maximum. Dogs/cats only.",
+   "exact_quote": "Pets allowed, $75",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets allowed, $75",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 50.0,
+    "weight_limit_unit": "lb",
+    "species_allowed": [
+     "dog",
+     "cat"
+    ]
+   },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75 1-4 nights/$125 5+ nights. Two pets maximum. Dogs/cats only.",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "weight_limit": 50.0,
+    "weight_limit_unit": "lb",
+    "species_allowed": [
+     "dog",
+     "cat"
+    ],
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "old_byte_length": 282062,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "hilton garden inn nashville downtown convention center",
+   "canonical_name": "Hilton Garden Inn Nashville Downtown/Convention Center",
+   "brand": "HILTON",
+   "property_code": "bnaccgi",
+   "requested_url": "https://www.hilton.com/en/hotels/bnaccgi-hilton-garden-inn-nashville-downtown-convention-center/",
+   "final_url": "https://www.hilton.com/en/hotels/bnaccgi-hilton-garden-inn-nashville-downtown-convention-center/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "2ab6ab7e2601d78da3ff97b0b68d8088a5879ed7ef3974c38879f4ef540dc116",
+   "byte_length": 304055,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "",
+    "address_on_page": "305 Korean Veterans Boulevard",
+    "locality": "",
+    "region": "TN",
+    "postal_code": "37201",
+    "phone_on_page": "",
+    "property_code_on_page": "bnaccgi"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "policy_block": "Pets allowed, $75.00 non-refundable fee, $75(1-4n), $125(5+n) 2petsMax",
+   "exact_quote": "Pets allowed, $75",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets allowed, $75",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "pet_count_limit": 2
+   },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n), $125(5+n) 2petsMax",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "pet_count_limit": 2,
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "old_byte_length": 303939,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "hilton garden inn nashville opryland",
+   "canonical_name": "Hilton Garden Inn Nashville Opryland",
+   "brand": "HILTON",
+   "property_code": "bnadrgi",
+   "requested_url": "https://www.hilton.com/en/hotels/bnadrgi-hilton-garden-inn-nashville-opryland/",
+   "final_url": "https://www.hilton.com/en/hotels/bnadrgi-hilton-garden-inn-nashville-opryland/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "1d7a35633eb58757c4492d7eb02097252fd27d31d0b918e6760432b0b1ea91be",
+   "byte_length": 295372,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "",
+    "address_on_page": "124 Music City Circle",
+    "locality": "",
+    "region": "TN",
+    "postal_code": "37214",
+    "phone_on_page": "",
+    "property_code_on_page": "bnadrgi"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "policy_block": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum",
+   "exact_quote": "Pets allowed, $75",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets allowed, $75",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb"
+   },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "old_byte_length": 295258,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "hilton garden inn nashville vanderbilt",
+   "canonical_name": "Hilton Garden Inn Nashville Vanderbilt",
+   "brand": "HILTON",
+   "property_code": "bnanvgi",
+   "requested_url": "https://www.hilton.com/en/hotels/bnanvgi-hilton-garden-inn-nashville-vanderbilt/",
+   "final_url": "https://www.hilton.com/en/hotels/bnanvgi-hilton-garden-inn-nashville-vanderbilt/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "208a3a89e0e15faa3fa220843e9bda322dfd15d91aacf4c20dea7f8ddf54fc8b",
+   "byte_length": 306017,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "",
+    "address_on_page": "1715 Broadway",
+    "locality": "",
+    "region": "TN",
+    "postal_code": "37203",
+    "phone_on_page": "",
+    "property_code_on_page": "bnanvgi"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "policy_block": "Pets allowed, $75.00 non-refundable fee, $75 for 1-4 nights, $125 for 5+ nights",
+   "exact_quote": "Pets allowed, $75",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets allowed, $75",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_scope": "per_pet",
+    "fee_refundable": false
+   },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets allowed, $75.00 non-refundable fee, $75 for 1-4 nights, $125 for 5+ nights",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "old_byte_length": 305887,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "hilton nashville downtown",
+   "canonical_name": "Hilton Nashville Downtown",
+   "brand": "HILTON",
+   "property_code": "bnanshf",
+   "requested_url": "https://www.hilton.com/en/hotels/bnanshf-hilton-nashville-downtown/",
+   "final_url": "https://www.hilton.com/en/hotels/bnanshf-hilton-nashville-downtown/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "889e0b1dfa0db71d3485df181c4708c0c635fcd7bd8f1757a3fd1e6bd58c1ce9",
+   "byte_length": 316748,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "",
+    "address_on_page": "121 Fourth Avenue South",
+    "locality": "",
+    "region": "TN",
+    "postal_code": "37201",
+    "phone_on_page": "",
+    "property_code_on_page": "bnanshf"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "policy_block": "Pets allowed, $50.00 non-refundable fee, 75 lbs maximum",
+   "exact_quote": "Pets allowed, $50",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets allowed, $50",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb"
+   },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets allowed, $50.00 non-refundable fee, 75 lbs maximum",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "old_byte_length": 316736,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "home2 suites by hilton nashville airport tn",
+   "canonical_name": "Home2 Suites by Hilton Nashville-Airport, TN",
+   "brand": "HILTON",
+   "property_code": "bnaapht",
+   "requested_url": "https://www.hilton.com/en/hotels/bnaapht-home2-suites-nashville-airport-tn/",
+   "final_url": "https://www.hilton.com/en/hotels/bnaapht-home2-suites-nashville-airport-tn/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "d49fc6d9644ffcdef0a77df3bfe5b78172db77413876240e671f37c22ffdbb15",
+   "byte_length": 275843,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "",
+    "address_on_page": "832 Royal Parkway",
+    "locality": "",
+    "region": "TN",
+    "postal_code": "37214",
+    "phone_on_page": "",
+    "property_code_on_page": "bnaapht"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "policy_block": "Pets allowed, $75.00 non-refundable fee, 80 lbs maximum",
+   "exact_quote": "Pets allowed, $75",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets allowed, $75",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 80.0,
+    "weight_limit_unit": "lb"
+   },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets allowed, $75.00 non-refundable fee, 80 lbs maximum",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "weight_limit": 80.0,
+    "weight_limit_unit": "lb",
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "old_byte_length": 275721,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "home2 suites by hilton nashville metrocenter",
+   "canonical_name": "Home2 Suites by Hilton Nashville MetroCenter",
+   "brand": "HILTON",
+   "property_code": "bnamcht",
+   "requested_url": "https://www.hilton.com/en/hotels/bnamcht-home2-suites-nashville-metrocenter/",
+   "final_url": "https://www.hilton.com/en/hotels/bnamcht-home2-suites-nashville-metrocenter/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "440c6997f61c585790105e3b793ea1f0154319b558b7ef18553bdbd4e7ab64f4",
+   "byte_length": 275536,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "",
+    "address_on_page": "410 Dominican Drive",
+    "locality": "",
+    "region": "TN",
+    "postal_code": "37228",
+    "phone_on_page": "",
+    "property_code_on_page": "bnamcht"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "policy_block": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum",
+   "exact_quote": "Pets allowed, $75",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets allowed, $75",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb"
+   },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "old_byte_length": 275409,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "home2 suites by hilton nashville near opryland",
+   "canonical_name": "Home2 Suites by Hilton Nashville near Opryland",
+   "brand": "HILTON",
+   "property_code": "bnateht",
+   "requested_url": "https://www.hilton.com/en/hotels/bnateht-home2-suites-nashville-near-opryland/",
+   "final_url": "https://www.hilton.com/en/hotels/bnateht-home2-suites-nashville-near-opryland/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "4464f3efa11f262276c09d29696398da4ae1fbfe4f8a23ed80a7310065c6ba4d",
+   "byte_length": 262977,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "",
+    "address_on_page": "2525 McGavock Pike",
+    "locality": "",
+    "region": "TN",
+    "postal_code": "37214",
+    "phone_on_page": "",
+    "property_code_on_page": "bnateht"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "policy_block": "Pets allowed, $50.00 non-refundable fee, 75 lbs maximum, $50(1-4 nights), $75(5+ nights) 2pets max, dog/cat only",
+   "exact_quote": "Pets allowed, $50",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets allowed, $50",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ]
+   },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets allowed, $50.00 non-refundable fee, 75 lbs maximum, $50(1-4 nights), $75(5+ nights) 2pets max, dog/cat only",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ],
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "old_byte_length": 262861,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "home2 suites by hilton nashville vanderbilt tn",
+   "canonical_name": "Home2 Suites by Hilton Nashville Vanderbilt, TN",
+   "brand": "HILTON",
+   "property_code": "bnahtht",
+   "requested_url": "https://www.hilton.com/en/hotels/bnahtht-home2-suites-nashville-vanderbilt-tn/",
+   "final_url": "https://www.hilton.com/en/hotels/bnahtht-home2-suites-nashville-vanderbilt-tn/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "d7bfe97ac8cc744b8ccf41b21f688001de76585b826fe7bfc3da26afe3457389",
+   "byte_length": 274236,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "",
+    "address_on_page": "1800 Division Street",
+    "locality": "",
+    "region": "TN",
+    "postal_code": "37203",
+    "phone_on_page": "",
+    "property_code_on_page": "bnahtht"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "policy_block": "Pets allowed, $75.00 non-refundable fee, $75 2petsMax,dog/cat only",
+   "exact_quote": "Pets allowed, $75",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets allowed, $75",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ]
+   },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets allowed, $75.00 non-refundable fee, $75 2petsMax,dog/cat only",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ],
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "old_byte_length": 274045,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "homewood suites by hilton nashville airport",
+   "canonical_name": "Homewood Suites by Hilton Nashville-Airport",
+   "brand": "HILTON",
+   "property_code": "bnahwhw",
+   "requested_url": "https://www.hilton.com/en/hotels/bnahwhw-homewood-suites-nashville-airport/",
+   "final_url": "https://www.hilton.com/en/hotels/bnahwhw-homewood-suites-nashville-airport/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "0e82c7bcdc1788c3dd31dd53b9bbcc348de450f73eb88ee881bfd03fcca7dba3",
+   "byte_length": 274724,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "",
+    "address_on_page": "2640 Elm Hill Pike",
+    "locality": "",
+    "region": "TN",
+    "postal_code": "37214",
+    "phone_on_page": "",
+    "property_code_on_page": "bnahwhw"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "policy_block": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, 2 pets Max, dogs/cats only.",
+   "exact_quote": "Pets allowed, $75",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets allowed, $75",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ]
+   },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, 2 pets Max, dogs/cats only.",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ],
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "old_byte_length": 274606,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "homewood suites by hilton nashville brentwood",
+   "canonical_name": "Homewood Suites by Hilton Nashville Brentwood",
+   "brand": "HILTON",
+   "property_code": "bnabthw",
+   "requested_url": "https://www.hilton.com/en/hotels/bnabthw-homewood-suites-nashville-brentwood/",
+   "final_url": "https://www.hilton.com/en/hotels/bnabthw-homewood-suites-nashville-brentwood/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "31d0d11293ae5ac31eb83e4838693d9f43361de28c445fc39d5c7e27ca56f080",
+   "byte_length": 274596,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "",
+    "address_on_page": "5107 Peter Taylor Park",
+    "locality": "",
+    "region": "TN",
+    "postal_code": "37027",
+    "phone_on_page": "",
+    "property_code_on_page": "bnabthw"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "policy_block": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75 (1-4n), $125(5+n) 2 pets Max, dog/cat only.",
+   "exact_quote": "Pets allowed, $75",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets allowed, $75",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ]
+   },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75 (1-4n), $125(5+n) 2 pets Max, dog/cat only.",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ],
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "old_byte_length": 274484,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "homewood suites by hilton nashville downtown",
+   "canonical_name": "Homewood Suites by Hilton Nashville-Downtown",
+   "brand": "HILTON",
+   "property_code": "bnadwhw",
+   "requested_url": "https://www.hilton.com/en/hotels/bnadwhw-homewood-suites-nashville-downtown/",
+   "final_url": "https://www.hilton.com/en/hotels/bnadwhw-homewood-suites-nashville-downtown/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "2a28a161d8af8c8c1c3128e7abe6fd9152de454c1cbe93ca346ab1e792dcf043",
+   "byte_length": 312239,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "",
+    "address_on_page": "706 Church Street",
+    "locality": "",
+    "region": "TN",
+    "postal_code": "37203",
+    "phone_on_page": "",
+    "property_code_on_page": "bnadwhw"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "policy_block": "Pets allowed, $50.00 non-refundable fee, $50(1-4n),$75(5+n) 2petsMax,dog/cat only",
+   "exact_quote": "Pets allowed, $50",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets allowed, $50",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ]
+   },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets allowed, $50.00 non-refundable fee, $50(1-4n),$75(5+n) 2petsMax,dog/cat only",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ],
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "old_byte_length": 312127,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "homewood suites by hilton nashville downtown the gulch",
+   "canonical_name": "Homewood Suites by Hilton Nashville Downtown The Gulch",
+   "brand": "HILTON",
+   "property_code": "bnadshw",
+   "requested_url": "https://www.hilton.com/en/hotels/bnadshw-homewood-suites-nashville-downtown-the-gulch/",
+   "final_url": "https://www.hilton.com/en/hotels/bnadshw-homewood-suites-nashville-downtown-the-gulch/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "d28b0e6525050c80e2d178a3c1da2e8af600139224f6f97ad060442c4f7c1adf",
+   "byte_length": 289385,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "",
+    "address_on_page": "610 Overton Street",
+    "locality": "",
+    "region": "TN",
+    "postal_code": "37203",
+    "phone_on_page": "",
+    "property_code_on_page": "bnadshw"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "policy_block": "Pets allowed, $50.00 non-refundable fee",
+   "exact_quote": "Pets allowed, $50",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets allowed, $50",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_scope": "per_pet",
+    "fee_refundable": false
+   },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets allowed, $50.00 non-refundable fee",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "old_byte_length": 289279,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "hotel fraye nashville curio collection by hilton",
+   "canonical_name": "Hotel Fraye Nashville, Curio Collection by Hilton",
+   "brand": "HILTON",
+   "property_code": "bnamoqq",
+   "requested_url": "https://www.hilton.com/en/hotels/bnamoqq-hotel-fraye-nashville-midtown/",
+   "final_url": "https://www.hilton.com/en/hotels/bnamoqq-hotel-fraye-nashville-midtown/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "729e860df272629c5413609548bad999c667f68f4b09342f2905424e5391840f",
+   "byte_length": 247605,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "",
+    "address_on_page": "1810 Broadway",
+    "locality": "",
+    "region": "TN",
+    "postal_code": "37203",
+    "phone_on_page": "",
+    "property_code_on_page": "bnamoqq"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "policy_block": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, Service animals welcome.",
+   "exact_quote": "Pets allowed, $75",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets allowed, $75",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb"
+   },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, Service animals welcome.",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "old_byte_length": 247655,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "hutton hotel nashville a tribute portfolio hotel",
+   "canonical_name": "Hutton Hotel, Nashville, a Tribute Portfolio Hotel",
+   "brand": "MARRIOTT",
+   "property_code": "bnawu",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnawu-hutton-hotel-nashville-a-tribute-portfolio-hotel/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnawu-hutton-hotel-nashville-a-tribute-portfolio-hotel/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "914e04361abbc66cdbafaf0d71c640e671cb82f286cbc6bac7b2825b927eaf1a",
+   "byte_length": 380647,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "Hutton Hotel, Nashville, a Tribute Portfolio Hotel",
+    "address_on_page": "1808 West End Ave",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37203",
+    "phone_on_page": "+16153409333",
+    "property_code_on_page": "bnawu"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Welcome. Pets allowed. $100 pet fee applies to maximum of 2 pets per stay. Non-Refundable Pet Fee Per Stay: $100.00 Maximum Number of Pets in Room: 2",
+   "exact_quote": "Pets Welcome",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Welcome",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "pet_count_limit": 2
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets Welcome. Pets allowed. $100 pet fee applies to maximum of 2 pets per stay. Non-Refundable Pet Fee Per Stay: $100.00",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD",
+    "fee_refundable": false
+   },
+   "old_byte_length": 380170,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "jw marriott nashville",
+   "canonical_name": "Jw Marriott Nashville",
+   "brand": "MARRIOTT",
+   "property_code": "bnajw",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnajw-jw-marriott-nashville/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnajw-jw-marriott-nashville/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "3d3ca315ca8dcc9ed1adb3d72128e94ccd79844031d5d42054fa638af5d8aab7",
+   "byte_length": 492660,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "JW Marriott Nashville",
+    "address_on_page": "201 8th Avenue South",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37203",
+    "phone_on_page": "+16152918600",
+    "property_code_on_page": "bnajw"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Welcome. Up to two dogs allowed per room, maximum 50lbs each. $150 pet fee per dog. Non-Refundable Pet Fee Per Stay: $150.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+   "exact_quote": "Pets Welcome",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Welcome",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 15000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 50.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets Welcome. Up to two dogs allowed per room, maximum 50lbs each. $150 pet fee per dog. Non-Refundable Pet Fee Per Stay: $150.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 15000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "weight_limit": 50.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "old_byte_length": 492113,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "motto by hilton nashville downtown",
+   "canonical_name": "Motto by Hilton Nashville Downtown",
+   "brand": "HILTON",
+   "property_code": "bnairua",
+   "requested_url": "https://www.hilton.com/en/hotels/bnairua-motto-nashville-downtown/",
+   "final_url": "https://www.hilton.com/en/hotels/bnairua-motto-nashville-downtown/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "44678382e37143617df57ed975955333c6ddb23918e3b452dff8a4b055400989",
+   "byte_length": 239299,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "",
+    "address_on_page": "311 3rd Avenue S",
+    "locality": "",
+    "region": "TN",
+    "postal_code": "37201",
+    "phone_on_page": "",
+    "property_code_on_page": "bnairua"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "policy_block": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75 1-4 nights/$125 5+ nights, 2 pet max, dogs/cats only. Additional details available at the front desk. Walking distance to park/walking trail.",
+   "exact_quote": "Pets allowed, $75",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets allowed, $75",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 50.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ]
+   },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75 1-4 nights/$125 5+ nights, 2 pet max, dogs/cats only. Additional details available at the front desk. Walking distance to park/walking trail.",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "weight_limit": 50.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ],
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "old_byte_length": 239010,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "moxy nashville downtown",
+   "canonical_name": "Moxy Nashville Downtown",
+   "brand": "MARRIOTT",
+   "property_code": "bnaox",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnaox-moxy-nashville-downtown/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnaox-moxy-nashville-downtown/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "086f260cc8db1f88473650340073e1a2e6e521af0074618a7b9773a0989b6b86",
+   "byte_length": 327566,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "Moxy Nashville Downtown",
+    "address_on_page": "110 3rd Avenue South",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37201",
+    "phone_on_page": "+16159862091",
+    "property_code_on_page": "bnaox"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Welcome $75 Non-Refundable Fee Maximum Number of Pets in Room: 2",
+   "exact_quote": "Pets Welcome",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Welcome",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets Welcome $75 Non-Refundable Fee Maximum Number of Pets in Room: 2",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "pet_count_limit": 2
+   },
+   "old_byte_length": 327136,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "moxy nashville vanderbilt area",
+   "canonical_name": "Moxy Nashville Vanderbilt Area",
+   "brand": "MARRIOTT",
+   "property_code": "bnaov",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnaov-moxy-nashville-vanderbilt-area/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnaov-moxy-nashville-vanderbilt-area/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "f4598cedb89a72099dfd5eb7e4b4231e8168979da6c39a779e699fe000133a53",
+   "byte_length": 317972,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "Moxy Nashville Vanderbilt Area",
+    "address_on_page": "1911 Belcourt Avenue",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37212",
+    "phone_on_page": "+16153851911",
+    "property_code_on_page": "bnaov"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Welcome 2 pets 50lbs per pet maximum per room. Non-Refundable Pet Fee Per Night: $50.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+   "exact_quote": "Pets Welcome",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Welcome",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 50.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets Welcome 2 pets 50lbs per pet maximum per room. Non-Refundable Pet Fee Per Night: $50.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "weight_limit": 50.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "old_byte_length": 317544,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "nashville marriott at vanderbilt university",
+   "canonical_name": "Nashville Marriott at Vanderbilt University",
+   "brand": "MARRIOTT",
+   "property_code": "bnaav",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnaav-nashville-marriott-at-vanderbilt-university/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnaav-nashville-marriott-at-vanderbilt-university/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "a473781dad4e6dec7a62f545dba7adb4129f0fe0c7ee7b5a4f8ef885c912ce21",
+   "byte_length": 382938,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "Nashville Marriott at Vanderbilt University",
+    "address_on_page": "2555 West End Avenue",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37203",
+    "phone_on_page": "+16153211300",
+    "property_code_on_page": "bnaav"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Welcome. Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+   "exact_quote": "Pets Welcome",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Welcome",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 50.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets Welcome. Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "weight_limit": 50.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "old_byte_length": 382485,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "renaissance nashville hotel",
+   "canonical_name": "Renaissance Nashville Hotel",
+   "brand": "MARRIOTT",
+   "property_code": "bnash",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnash-renaissance-nashville-hotel/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnash-renaissance-nashville-hotel/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "5a08eef292cd600e4bae7e6692d066a90b8dc0cb392623c03006932081329fc4",
+   "byte_length": 412907,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "Renaissance Nashville Hotel",
+    "address_on_page": "611 Commerce Street",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37203",
+    "phone_on_page": "+16152558400",
+    "property_code_on_page": "bnash"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Welcome $50/day, max $150/stay. Pet needs to be confined if left alone in room Non-Refundable Pet Fee Per Night: $50.00 Maximum Number of Pets in Room: 2",
+   "exact_quote": "Pets Welcome",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Welcome",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "pet_count_limit": 2
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets Welcome $50/day, max $150/stay. Pet needs to be confined if left alone in room Non-Refundable Pet Fee Per Night: $50.00 Maximum Number of Pets in Room: 2",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_count_limit": 2
+   },
+   "old_byte_length": 412477,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "residence inn by marriott nashville airport",
+   "canonical_name": "Residence Inn by Marriott Nashville Airport",
+   "brand": "MARRIOTT",
+   "property_code": "bnabn",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnabn-residence-inn-nashville-airport/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnabn-residence-inn-nashville-airport/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "ee4013d1a05ae2e6e4c387646864c9c55a2dddd39a903feffb0f888f93014fb8",
+   "byte_length": 338205,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "Residence Inn by Marriott Nashville Airport",
+    "address_on_page": "2300 Elm Hill Pike",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37214",
+    "phone_on_page": "+16158898600",
+    "property_code_on_page": "bnabn"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Welcome Pet fee $20/day with $100/stay nonrefundable clean fee excludes Service Animals Non-Refundable Pet Fee Per Stay: $100.00 Non-Refundable Pet Fee Per Night: $20.00 Maximum Pet Weight: 35.0lbs Maximum Number of Pets in Room: 2",
+   "exact_quote": "Pets Welcome",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Welcome",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 35.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets Welcome Pet fee $20/day with $100/stay nonrefundable clean fee excludes Service Animals Non-Refundable Pet Fee Per Stay: $100.00 Non-Refundable Pet Fee Per Night: $20.00 Maximum Pet Weight: 35.0lbs Maximum Number of Pets in Room: 2",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "weight_limit": 35.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "old_byte_length": 337775,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "residence inn by marriott nashville at opryland",
+   "canonical_name": "Residence Inn by Marriott Nashville at Opryland",
+   "brand": "MARRIOTT",
+   "property_code": "bnaol",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnaol-residence-inn-nashville-at-opryland/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnaol-residence-inn-nashville-at-opryland/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "4f7a70e39ee711b5e97840cbdb78005c3f758814ddd5a4b342b72768c23633c0",
+   "byte_length": 333574,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "Residence Inn by Marriott Nashville at Opryland",
+    "address_on_page": "2500 Music Valley Drive",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37214",
+    "phone_on_page": "+16152650345",
+    "property_code_on_page": "bnaol"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Welcome 2 pets 20 pounds max per room-USD 150 fee first pet and USD 20 fee second pet Non-Refundable Pet Fee Per Stay: $150.00 Maximum Pet Weight: 20.0lbs Maximum Number of Pets in Room: 2",
+   "exact_quote": "Pets Welcome",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Welcome",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 15000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 20.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets Welcome 2 pets 20 pounds max per room-USD 150 fee first pet and USD 20 fee second pet Non-Refundable Pet Fee Per Stay: $150.00 Maximum Pet Weight: 20.0lbs Maximum Number of Pets in Room: 2",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 15000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "weight_limit": 20.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "old_byte_length": 333146,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "residence inn by marriott nashville green hills",
+   "canonical_name": "Residence Inn by Marriott Nashville Green Hills",
+   "brand": "MARRIOTT",
+   "property_code": "bnagn",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnagn-residence-inn-nashville-green-hills/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnagn-residence-inn-nashville-green-hills/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "84093fd9813b1a1cb35342c610af37d4f8fc348f1bb1b1e200524b72b308e8af",
+   "byte_length": 327696,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "Residence Inn by Marriott Nashville Green Hills",
+    "address_on_page": "3807 Cleghorn Avenue",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37215",
+    "phone_on_page": "+16152791414",
+    "property_code_on_page": "bnagn"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Welcome 2 pets 50 pounds max per room with USD 150 non-refundable fee per room per stay Non-Refundable Pet Fee Per Stay: $150.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+   "exact_quote": "Pets Welcome",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Welcome",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 15000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 50.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets Welcome 2 pets 50 pounds max per room with USD 150 non-refundable fee per room per stay Non-Refundable Pet Fee Per Stay: $150.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 15000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "weight_limit": 50.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "old_byte_length": 327258,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "residence inn by marriott nashville metro center",
+   "canonical_name": "Residence Inn by Marriott Nashville Metro Center",
+   "brand": "MARRIOTT",
+   "property_code": "bnarm",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnarm-residence-inn-nashville-metro-center/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnarm-residence-inn-nashville-metro-center/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "e36b6f43a078cd502fee9c50a20f6dceffb52a88a45e1254495130f80cf35656",
+   "byte_length": 334662,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "Residence Inn by Marriott Nashville Metro Center",
+    "address_on_page": "251 Venture Circle",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37228",
+    "phone_on_page": "+16159142500",
+    "property_code_on_page": "bnarm"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Welcome Dogs only - additional pet: USD 25 per stay Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 2",
+   "exact_quote": "Pets Welcome",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Welcome",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets Welcome Dogs only - additional pet: USD 25 per stay Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 2",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "old_byte_length": 334212,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "residence inn by marriott nashville vanderbilt west end",
+   "canonical_name": "Residence Inn by Marriott Nashville Vanderbilt/West End",
+   "brand": "MARRIOTT",
+   "property_code": "bnavb",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnavb-residence-inn-nashville-vanderbilt-west-end/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnavb-residence-inn-nashville-vanderbilt-west-end/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "6a9244f7ffd5a28cd492fabe8a6a85061a88fa3ce020cf590d2e3349e152ee10",
+   "byte_length": 353700,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "Residence Inn by Marriott Nashville Vanderbilt/West End",
+    "address_on_page": "1801 Hayes Street",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37203",
+    "phone_on_page": "+16159889920",
+    "property_code_on_page": "bnavb"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Welcome $100/stay nonrefundable clean fee excludes Service Animals Non-Refundable Pet Fee Per Stay: $100.00 Maximum Number of Pets in Room: 2",
+   "exact_quote": "Pets Welcome",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Welcome",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "pet_count_limit": 2
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets Welcome $100/stay nonrefundable clean fee excludes Service Animals Non-Refundable Pet Fee Per Stay: $100.00 Maximum Number of Pets in Room: 2",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_count_limit": 2
+   },
+   "old_byte_length": 353255,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "sheraton grand nashville downtown",
+   "canonical_name": "Sheraton Grand Nashville Downtown",
+   "brand": "MARRIOTT",
+   "property_code": "bnand",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnand-sheraton-grand-nashville-downtown/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnand-sheraton-grand-nashville-downtown/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "d10d039638545e58dae1329f2ef9c551eb03591337e267990a577e72cb945bc2",
+   "byte_length": 445039,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "Sheraton Grand Nashville Downtown",
+    "address_on_page": "623 Union Street",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37219",
+    "phone_on_page": "+16152592000",
+    "property_code_on_page": "bnand"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Welcome. Dogs stay free at Sheraton Grand Nashville Downtown. Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 2",
+   "exact_quote": "Pets Welcome",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Welcome",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets Welcome. Dogs stay free at Sheraton Grand Nashville Downtown. Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 2",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "old_byte_length": 445634,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "sheraton music city nashville airport",
+   "canonical_name": "Sheraton Music City Nashville Airport",
+   "brand": "MARRIOTT",
+   "property_code": "bnasi",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnasi-sheraton-music-city-nashville-airport/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnasi-sheraton-music-city-nashville-airport/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "678bbae58aca53d8ad54bc617cff816beb6ccad6af003c78725138b7c4359030",
+   "byte_length": 416566,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "Sheraton Music City Nashville Airport",
+    "address_on_page": "777 McGavock Pike",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37214",
+    "phone_on_page": "+16158852200",
+    "property_code_on_page": "bnasi"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Welcome 1 pet 40 pounds max per room with USD 100 non-refundable fee per room per stay Non-Refundable Pet Fee Per Stay: $100.00 Maximum Pet Weight: 40.0lbs Maximum Number of Pets in Room: 1",
+   "exact_quote": "Pets Welcome",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Welcome",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 40.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 1
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets Welcome 1 pet 40 pounds max per room with USD 100 non-refundable fee per room per stay Non-Refundable Pet Fee Per Stay: $100.00 Maximum Pet Weight: 40.0lbs Maximum Number of Pets in Room: 1",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "weight_limit": 40.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 1
+   },
+   "old_byte_length": 416118,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "spark by hilton nashville at opryland",
+   "canonical_name": "Spark by Hilton Nashville at Opryland",
+   "brand": "HILTON",
+   "property_code": "bnamepe",
+   "requested_url": "https://www.hilton.com/en/hotels/bnamepe-spark-nashville-at-opryland/",
+   "final_url": "https://www.hilton.com/en/hotels/bnamepe-spark-nashville-at-opryland/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "c40330474cef2d05e959b0af6193b115520a8b1ce067d796b97c1b322b9637f5",
+   "byte_length": 269468,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "",
+    "address_on_page": "2516 Music Valley Drive",
+    "locality": "",
+    "region": "TN",
+    "postal_code": "37214",
+    "phone_on_page": "",
+    "property_code_on_page": "bnamepe"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "policy_block": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum",
+   "exact_quote": "Pets allowed, $75",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets allowed, $75",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb"
+   },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "old_byte_length": 269366,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "springhill suites by marriott nashville brentwood",
+   "canonical_name": "SpringHill Suites by Marriott Nashville Brentwood",
+   "brand": "MARRIOTT",
+   "property_code": "bnawo",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnawo-springhill-suites-nashville-brentwood/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnawo-springhill-suites-nashville-brentwood/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "ca8dca00ac286b5da84ea6fe27962f8eeb023cc0600dcb2fab09ec10f815d48e",
+   "byte_length": 328786,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "SpringHill Suites by Marriott Nashville Brentwood",
+    "address_on_page": "7109 Town Center Way",
+    "locality": "Brentwood",
+    "region": "Tennessee",
+    "postal_code": "37027",
+    "phone_on_page": "+16152650335",
+    "property_code_on_page": "bnawo"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Welcome Pets Allowed/Accepted at this Hotel with fee Non-Refundable Pet Fee Per Stay: $150.00 Maximum Pet Weight: 35.0lbs Maximum Number of Pets in Room: 2",
+   "exact_quote": "Pets Welcome",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Welcome",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 15000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 35.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets Welcome Pets Allowed/Accepted at this Hotel with fee Non-Refundable Pet Fee Per Stay: $150.00 Maximum Pet Weight: 35.0lbs Maximum Number of Pets in Room: 2",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "weight_limit": 35.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "old_byte_length": 328335,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "springhill suites by marriott nashville metrocenter",
+   "canonical_name": "SpringHill Suites by Marriott Nashville MetroCenter",
+   "brand": "MARRIOTT",
+   "property_code": "bnasm",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnasm-springhill-suites-nashville-metrocenter/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnasm-springhill-suites-nashville-metrocenter/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "1ead28056f7ab94a6316a52da9191643db97a2fec4352ac6dd6db96941bed2a1",
+   "byte_length": 352323,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "SpringHill Suites by Marriott Nashville MetroCenter",
+    "address_on_page": "250 Athens Way",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37228",
+    "phone_on_page": "+16152445474",
+    "property_code_on_page": "bnasm"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Not Allowed Only certified service animals are allowed.",
+   "exact_quote": "Pets Not Allowed",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Not Allowed",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": false
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_VERIFIED_NO_PETS",
+   "old_operative_quote": "Pets Not Allowed Only certified service animals are allowed.",
+   "old_parsed_facts": {
+    "pets_allowed": false
+   },
+   "old_byte_length": 350840,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "springhill suites by marriott nashville vanderbilt west end",
+   "canonical_name": "SpringHill Suites by Marriott Nashville Vanderbilt/West End",
+   "brand": "MARRIOTT",
+   "property_code": "bnavw",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnavw-springhill-suites-nashville-vanderbilt-west-end/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnavw-springhill-suites-nashville-vanderbilt-west-end/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "651e5940de2f7db5a215c62053196907fe4ac85f395d1c5d2f9a2969f114ebee",
+   "byte_length": 352920,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "SpringHill Suites by Marriott Nashville Vanderbilt/West End",
+    "address_on_page": "1800 West End Avenue",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37203",
+    "phone_on_page": "+16159889930",
+    "property_code_on_page": "bnavw"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Not Allowed Parking On-Site Parking Daily: $40.00 Additional Parking Information 10 minute parking accessible from West End Avenue <img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAKCAYAAACE2W/HAAAAFklEQVR42mN8/fpLPQMZgHFU48jWCAD/vyDle0zFdgAAAABJRU5ErkJggg==\" data-src=\"https://cache.marriott.com/is/image/marri",
+   "exact_quote": "Pets Not Allowed",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Not Allowed",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": false
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_VERIFIED_NO_PETS",
+   "old_operative_quote": "Pets Not Allowed",
+   "old_parsed_facts": {
+    "pets_allowed": false
+   },
+   "old_byte_length": 352475,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "tempo by hilton nashville downtown",
+   "canonical_name": "Tempo by Hilton Nashville Downtown",
+   "brand": "HILTON",
+   "property_code": "bnapopo",
+   "requested_url": "https://www.hilton.com/en/hotels/bnapopo-tempo-nashville-downtown/",
+   "final_url": "https://www.hilton.com/en/hotels/bnapopo-tempo-nashville-downtown/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "630dd48815615fd29c8c6946e42c1be9a36f27cb8222117aded0f80ca140aa26",
+   "byte_length": 243288,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "",
+    "address_on_page": "127 Rosa L Parks Blvd.",
+    "locality": "",
+    "region": "TN",
+    "postal_code": "37203",
+    "phone_on_page": "",
+    "property_code_on_page": "bnapopo"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "policy_block": "Pets allowed, 95 lbs maximum",
+   "exact_quote": "Pets allowed, 95 lbs maximum",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets allowed, 95 lbs maximum",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 95.0,
+    "weight_limit_unit": "lb"
+   },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets allowed, 95 lbs maximum",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "weight_limit": 95.0,
+    "weight_limit_unit": "lb",
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "old_byte_length": 243215,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "the inn at opryland a gaylord hotel",
+   "canonical_name": "The Inn at Opryland, A Gaylord Hotel",
+   "brand": "MARRIOTT",
+   "property_code": "bnagi",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnagi-the-inn-at-opryland-a-gaylord-hotel/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnagi-the-inn-at-opryland-a-gaylord-hotel/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "dac4f397896124c415e5ef064208bf35456d34b6370cb65a38bd2f668a2c6d76",
+   "byte_length": 337519,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "The Inn at Opryland, A Gaylord Hotel",
+    "address_on_page": "2401 Music Valley Drive",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37214",
+    "phone_on_page": "+16158890800",
+    "property_code_on_page": "bnagi"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Not Allowed Parking Complimentary On-Site Parking",
+   "exact_quote": "Pets Not Allowed",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Not Allowed",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": false
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_VERIFIED_NO_PETS",
+   "old_operative_quote": "Pets Not Allowed",
+   "old_parsed_facts": {
+    "pets_allowed": false
+   },
+   "old_byte_length": 337093,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "the joseph a luxury collection hotel nashville",
+   "canonical_name": "The Joseph, a Luxury Collection Hotel, Nashville",
+   "brand": "MARRIOTT",
+   "property_code": "bnalj",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnalj-the-joseph-a-luxury-collection-hotel-nashville/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnalj-the-joseph-a-luxury-collection-hotel-nashville/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "b4637090ca8d38d5df1fbd7fccebfe5b9bfaacf7e06ca6354783bf2f94da0afa",
+   "byte_length": 450954,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "The Joseph, a Luxury Collection Hotel, Nashville",
+    "address_on_page": "401 Korean Veterans Boulevard",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37203",
+    "phone_on_page": "+16152481990",
+    "property_code_on_page": "bnalj"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Welcome. The Joseph welcomes dogs only - up to 2 per room for a $150 non-refundable fee. Non-Refundable Pet Fee Per Stay: $150.00 Maximum Number of Pets in Room: 2",
+   "exact_quote": "Pets Welcome",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Welcome",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 15000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets Welcome. The Joseph welcomes dogs only - up to 2 per room for a $150 non-refundable fee. Non-Refundable Pet Fee Per Stay: $150.00 Maximum Number of Pets in Room: 2",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 15000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "pet_count_limit": 2
+   },
+   "old_byte_length": 451500,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "the printing house hotel nashville downtown tapestry by hilton",
+   "canonical_name": "The Printing House Hotel Nashville Downtown, Tapestry by Hilton",
+   "brand": "HILTON",
+   "property_code": "bnaupup",
+   "requested_url": "https://www.hilton.com/en/hotels/bnaupup-the-printing-house-hotel-nashville-downtown/",
+   "final_url": "https://www.hilton.com/en/hotels/bnaupup-the-printing-house-hotel-nashville-downtown/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "a33aa6a12e3013df46eaaf065d90af64f2afd1424acd4286ae3b47a5335708ed",
+   "byte_length": 233240,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "",
+    "address_on_page": "501 3rd Avenue South",
+    "locality": "",
+    "region": "TN",
+    "postal_code": "37210",
+    "phone_on_page": "",
+    "property_code_on_page": "bnaupup"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "policy_block": "Pets allowed, $25.00 non-refundable fee, 75 lbs maximum",
+   "exact_quote": "Pets allowed, $25",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets allowed, $25",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb"
+   },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets allowed, $25.00 non-refundable fee, 75 lbs maximum",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "old_byte_length": 233138,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "the union station nashville yards autograph collection",
+   "canonical_name": "The Union Station Nashville Yards, Autograph Collection",
+   "brand": "MARRIOTT",
+   "property_code": "bnaak",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnaak-the-union-station-nashville-yards-autograph-collection/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnaak-the-union-station-nashville-yards-autograph-collection/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "f29d6f3b8ea796b9c7ea2909f86f5edefa5e68e9d9d5bf47604c4ea4e7b6a589",
+   "byte_length": 399783,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "The Union Station Nashville Yards, Autograph Collection",
+    "address_on_page": "1001 Broadway",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37203",
+    "phone_on_page": "+16157261001",
+    "property_code_on_page": "bnaak"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Welcome. 2 dogs 65 pounds max per room with USD 100 non-refundable fee per dog, per stay Non-Refundable Pet Fee Per Stay: $100.00 Maximum Pet Weight: 65.0lbs Maximum Number of Pets in Room: 2",
+   "exact_quote": "Pets Welcome",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Welcome",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 65.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets Welcome. 2 dogs 65 pounds max per room with USD 100 non-refundable fee per dog, per stay Non-Refundable Pet Fee Per Stay: $100.00 Maximum Pet Weight: 65.0lbs Maximum Number of Pets in Room: 2",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "weight_limit": 65.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "old_byte_length": 399290,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "the westin nashville",
+   "canonical_name": "The Westin Nashville",
+   "brand": "MARRIOTT",
+   "property_code": "bnawi",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnawi-the-westin-nashville/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnawi-the-westin-nashville/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "a78726ae0cf7033bc4aabf193c61021448ff8f373ec9dafe2570d58c4e13340a",
+   "byte_length": 445188,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "The Westin Nashville",
+    "address_on_page": "807 Clark Place",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37203",
+    "phone_on_page": "+16152482800",
+    "property_code_on_page": "bnawi"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Welcome. $50 per night or $150 max per stay Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+   "exact_quote": "Pets Welcome",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Welcome",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 50.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets Welcome. $50 per night or $150 max per stay Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "weight_limit": 50.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "old_byte_length": 444777,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "towneplace suites by marriott nashville airport",
+   "canonical_name": "TownePlace Suites by Marriott Nashville Airport",
+   "brand": "MARRIOTT",
+   "property_code": "bnats",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnats-towneplace-suites-nashville-airport/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnats-towneplace-suites-nashville-airport/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "32f2839ed987dc003d6af9929e3561a3b6b6ab583a24dbc0dd85d153617b9848",
+   "byte_length": 328766,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "TownePlace Suites by Marriott Nashville Airport",
+    "address_on_page": "2700 Elm Hill Pike",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37214",
+    "phone_on_page": "+16152323830",
+    "property_code_on_page": "bnats"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Welcome Non refundable fee of $100 for 1st pet, $50 for 2nd. Max of two pets per room. Non-Refundable Pet Fee Per Stay: $100.00 Maximum Pet Weight: 40.0lbs Maximum Number of Pets in Room: 2",
+   "exact_quote": "Pets Welcome",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Welcome",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 40.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets Welcome Non refundable fee of $100 for 1st pet, $50 for 2nd. Max of two pets per room. Non-Refundable Pet Fee Per Stay: $100.00 Maximum Pet Weight: 40.0lbs Maximum Number of Pets in Room: 2",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "weight_limit": 40.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "old_byte_length": 328317,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "towneplace suites by marriott nashville brentwood",
+   "canonical_name": "TownePlace Suites by Marriott Nashville Brentwood",
+   "brand": "MARRIOTT",
+   "property_code": "bnabt",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnabt-towneplace-suites-nashville-brentwood/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnabt-towneplace-suites-nashville-brentwood/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "a6b9b02ef3a575a0873edc73ca3aca7dc1c44812ceebe6909e93ddb7b66b50b8",
+   "byte_length": 301985,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "TownePlace Suites by Marriott Nashville Brentwood",
+    "address_on_page": "108 Brentwood Boulevard",
+    "locality": "Brentwood",
+    "region": "Tennessee",
+    "postal_code": "37027",
+    "phone_on_page": "+16153705800",
+    "property_code_on_page": "bnabt"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Welcome 2 pets 75lbs max per pet per room - 150USD non-refundable fee per room per stay Non-Refundable Pet Fee Per Stay: $150.00 Maximum Pet Weight: 75.0lbs",
+   "exact_quote": "Pets Welcome",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Welcome",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 15000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb"
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets Welcome 2 pets 75lbs max per pet per room - 150USD non-refundable fee per room per stay Non-Refundable Pet Fee Per Stay: $150.00 Maximum Pet Weight: 75.0lbs",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb"
+   },
+   "old_byte_length": 301558,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "towneplace suites by marriott nashville downtown capitol district",
+   "canonical_name": "TownePlace Suites by Marriott Nashville Downtown/Capitol District",
+   "brand": "MARRIOTT",
+   "property_code": "bnatd",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnatd-towneplace-suites-nashville-downtown-capitol-district/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnatd-towneplace-suites-nashville-downtown-capitol-district/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "35127aedff3092d509882bec3d29f4559754b19384fe088462f62619553f47ff",
+   "byte_length": 378099,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "TownePlace Suites by Marriott Nashville Downtown/Capitol District",
+    "address_on_page": "310 Gay Street",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37201",
+    "phone_on_page": "+16155518880",
+    "property_code_on_page": "bnatd"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Welcome. Pet fee $20/day with $100/stay nonrefundable clean fee excludes Service Animals Non-Refundable Pet Fee Per Stay: $100.00 Non-Refundable Pet Fee Per Night: $20.00 Maximum Pet Weight: 25.0lbs Maximum Number of Pets in Room: 2",
+   "exact_quote": "Pets Welcome",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Welcome",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 25.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets Welcome. Pet fee $20/day with $100/stay nonrefundable clean fee excludes Service Animals Non-Refundable Pet Fee Per Stay: $100.00 Non-Refundable Pet Fee Per Night: $20.00 Maximum Pet Weight: 25.0lbs Maximum Number of Pets in Room: 2",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "weight_limit": 25.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "old_byte_length": 377618,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "towneplace suites by marriott nashville goodlettsville",
+   "canonical_name": "TownePlace Suites by Marriott Nashville Goodlettsville",
+   "brand": "MARRIOTT",
+   "property_code": "bnatg",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnatg-towneplace-suites-nashville-goodlettsville/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnatg-towneplace-suites-nashville-goodlettsville/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "c8faa49afe9de0816354ed8a5b882d728a035e891a939e7c021a69732c01e5cd",
+   "byte_length": 332386,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "TownePlace Suites by Marriott Nashville Goodlettsville",
+    "address_on_page": "830 Conference Drive",
+    "locality": "Goodlettsville",
+    "region": "Tennessee",
+    "postal_code": "37072",
+    "phone_on_page": "+16158595050",
+    "property_code_on_page": "bnatg"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Welcome 1 pet 75 pounds or less welcome with USD 100 non-refundable fee per stay Non-Refundable Pet Fee Per Stay: $100.00 Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 1",
+   "exact_quote": "Pets Welcome",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Welcome",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 1
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets Welcome 1 pet 75 pounds or less welcome with USD 100 non-refundable fee per stay Non-Refundable Pet Fee Per Stay: $100.00 Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 1",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 1
+   },
+   "old_byte_length": 331942,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "towneplace suites by marriott nashville midtown",
+   "canonical_name": "TownePlace Suites by Marriott Nashville Midtown",
+   "brand": "MARRIOTT",
+   "property_code": "bnatw",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnatw-towneplace-suites-nashville-midtown/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnatw-towneplace-suites-nashville-midtown/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "86730b876cddff46159b035f5043cb674b5bb4d0f1965499ff53b51934290687",
+   "byte_length": 318858,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "TownePlace Suites by Marriott Nashville Midtown",
+    "address_on_page": "1500 Charlotte Avenue",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37203",
+    "phone_on_page": "+16158003610",
+    "property_code_on_page": "bnatw"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Welcome $75 one-time non-refundable cleaning fee upon departure. Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 2",
+   "exact_quote": "Pets Welcome",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Welcome",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets Welcome $75 one-time non-refundable cleaning fee upon departure. Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 2",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "old_byte_length": 318415,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "tru by hilton goodlettsville nashville",
+   "canonical_name": "Tru by Hilton Goodlettsville Nashville",
+   "brand": "HILTON",
+   "property_code": "bnagvru",
+   "requested_url": "https://www.hilton.com/en/hotels/bnagvru-tru-goodlettsville-nashville/",
+   "final_url": "https://www.hilton.com/en/hotels/bnagvru-tru-goodlettsville-nashville/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "3f7fd5aaaeb30f701b2ff6dea91578e398c77f825304ad43c343a8ac27e83ea7",
+   "byte_length": 292989,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "",
+    "address_on_page": "831 Conference Drive",
+    "locality": "",
+    "region": "TN",
+    "postal_code": "37072",
+    "phone_on_page": "",
+    "property_code_on_page": "bnagvru"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "policy_block": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n), $125(5+n) 2 pets max, dog/cat only",
+   "exact_quote": "Pets allowed, $75",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets allowed, $75",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ]
+   },
+   "service_animal_statement": {
+    "stated": true,
+    "charges_stated": "not_addressed",
+    "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+   },
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n), $125(5+n) 2 pets max, dog/cat only",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog",
+     "cat"
+    ],
+    "service_animal_statement": {
+     "stated": true,
+     "quote": "When your reservation is submitted, the hotel will be notified that you are traveling with a service animal."
+    }
+   },
+   "old_byte_length": 292865,
+   "outcome": "VALID"
+  },
+  {
+   "identity_key": "w nashville",
+   "canonical_name": "W Nashville",
+   "brand": "MARRIOTT",
+   "property_code": "bnawn",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnawn-w-nashville/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/bnawn-w-nashville/overview/",
+   "http_status": 200,
+   "capture_lane": "ATTENDED_BROWSER",
+   "run_id": "nashville_tn_recovery_attended_003",
+   "captured_at": "2026-09-09T21:20:00+00:00",
+   "page_sha256": "cdd45c64a65743ee865292d310ca71cce581aef9935adee9778e61372d946596",
+   "byte_length": 419113,
+   "artifact_committed": false,
+   "identity_signals": {
+    "name_on_page": "W Nashville",
+    "address_on_page": "300 12th Avenue South",
+    "locality": "Nashville",
+    "region": "Tennessee",
+    "postal_code": "37203",
+    "phone_on_page": "+16153799000",
+    "property_code_on_page": "bnawn"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_STRUCTURED_DATA",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "policy_block": "Pet Policy Pets Welcome. W Nashville welcomes dogs 60lbs or less (max 2) $200 non-refundable fee per stay Non-Refundable Pet Fee Per Stay: $200.00 Maximum Pet Weight: 60.0lbs Maximum Number of Pets in Room: 2",
+   "exact_quote": "Pets Welcome",
+   "quote_candidates_the_gate_judged": [
+    {
+     "quote": "Pets Welcome",
+     "verdict": "ELIGIBLE"
+    }
+   ],
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 20000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_scope": "per_pet",
+    "fee_refundable": false,
+    "weight_limit": 60.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "service_animal_statement": null,
+   "old_shadow_class": "CLEAN_PET_FRIENDLY",
+   "old_operative_quote": "Pets Welcome. W Nashville welcomes dogs 60lbs or less (max 2) $200 non-refundable fee per stay Non-Refundable Pet Fee Per Stay: $200.00 Maximum Pet Weight: 60.0lbs Maximum Number of Pets in Room: 2",
+   "old_parsed_facts": {
+    "pets_allowed": true,
+    "pet_fee": 20000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "weight_limit": 60.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "old_byte_length": 418235,
+   "outcome": "VALID"
+  }
+ ]
+}

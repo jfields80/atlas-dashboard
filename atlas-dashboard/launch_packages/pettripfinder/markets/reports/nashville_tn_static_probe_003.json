@@ -1,0 +1,118 @@
+{
+ "schema": "ptf-static-probe/1.0",
+ "work_order": "PTF-NASHVILLE-TN-EVIDENCE-RECOVERY-003",
+ "market_id": "nashville-tn",
+ "lane": "DIRECT_STATIC (free)",
+ "why_probe_at_all": "the committed static report measured Marriott 50/50 and Hilton 47/47 ACCESS_DENIED on 2026-09-07. A refusal goes stale in days, and this order exists because an earlier one trusted a stored fact instead of a durable one. So the rung is probed live, bounded to 2 request(s) per host.",
+ "paid_provider_calls": 0,
+ "usd_spent": 0.0,
+ "free_http_requests": 5,
+ "verdict_by_host": {
+  "www.marriott.com": {
+   "cohort_rows": 50,
+   "probed": 2,
+   "static_lane_usable": false,
+   "observed": [
+    "ACCESS_DENIED"
+   ],
+   "http_status": [
+    403
+   ]
+  },
+  "www.hilton.com": {
+   "cohort_rows": 34,
+   "probed": 2,
+   "static_lane_usable": false,
+   "observed": [
+    "ACCESS_DENIED"
+   ],
+   "http_status": [
+    403
+   ]
+  },
+  "www.woodspring.com": {
+   "cohort_rows": 1,
+   "probed": 1,
+   "static_lane_usable": true,
+   "observed": [
+    "FETCHED"
+   ],
+   "http_status": [
+    200
+   ]
+  }
+ },
+ "probes": [
+  {
+   "host": "www.marriott.com",
+   "identity_key": "ac hotel nashville brentwood",
+   "canonical_name": "Ac Hotel Nashville Brentwood",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnaab-ac-hotel-nashville-brentwood/overview/",
+   "rows_on_this_host_in_the_cohort": 50,
+   "outcome": "ACCESS_DENIED",
+   "http_status": 403,
+   "final_url": "https://www.marriott.com/en-us/hotels/bnaab-ac-hotel-nashville-brentwood/overview/",
+   "byte_length": null,
+   "content_sha256": "",
+   "detail": "HTTP Error 403: Forbidden",
+   "seconds": 0.23
+  },
+  {
+   "host": "www.marriott.com",
+   "identity_key": "aloft by marriott nashville airport",
+   "canonical_name": "Aloft by Marriott Nashville Airport",
+   "requested_url": "https://www.marriott.com/en-us/hotels/bnaaa-aloft-nashville-airport/overview/",
+   "rows_on_this_host_in_the_cohort": 50,
+   "outcome": "ACCESS_DENIED",
+   "http_status": 403,
+   "final_url": "https://www.marriott.com/en-us/hotels/bnaaa-aloft-nashville-airport/overview/",
+   "byte_length": null,
+   "content_sha256": "",
+   "detail": "HTTP Error 403: Forbidden",
+   "seconds": 0.24
+  },
+  {
+   "host": "www.hilton.com",
+   "identity_key": "canopy by hilton nashville downtown the gulch",
+   "canonical_name": "Canopy by Hilton Nashville Downtown The Gulch",
+   "requested_url": "https://www.hilton.com/en/hotels/bnaglpy-canopy-nashville-downtown-the-gulch/",
+   "rows_on_this_host_in_the_cohort": 34,
+   "outcome": "ACCESS_DENIED",
+   "http_status": 403,
+   "final_url": "https://www.hilton.com/en/hotels/bnaglpy-canopy-nashville-downtown-the-gulch/",
+   "byte_length": null,
+   "content_sha256": "",
+   "detail": "HTTP Error 403: Forbidden",
+   "seconds": 0.49
+  },
+  {
+   "host": "www.hilton.com",
+   "identity_key": "doubletree by hilton hotel nashville downtown",
+   "canonical_name": "DoubleTree by Hilton Hotel Nashville Downtown",
+   "requested_url": "https://www.hilton.com/en/hotels/bnadudt-doubletree-nashville-downtown/",
+   "rows_on_this_host_in_the_cohort": 34,
+   "outcome": "ACCESS_DENIED",
+   "http_status": 403,
+   "final_url": "https://www.hilton.com/en/hotels/bnadudt-doubletree-nashville-downtown/",
+   "byte_length": null,
+   "content_sha256": "",
+   "detail": "HTTP Error 403: Forbidden",
+   "seconds": 0.21
+  },
+  {
+   "host": "www.woodspring.com",
+   "identity_key": "woodspring suites nashville airport",
+   "canonical_name": "Woodspring Suites Nashville Airport",
+   "requested_url": "https://www.woodspring.com/extended-stay-hotels/locations/tennessee/nashville/woodspring-suites-nashville-airport",
+   "rows_on_this_host_in_the_cohort": 1,
+   "outcome": "FETCHED",
+   "http_status": 200,
+   "final_url": "https://www.woodspring.com/extended-stay-hotels/locations/tennessee/nashville/woodspring-suites-nashville-airport",
+   "byte_length": 257533,
+   "content_sha256": "a3de0ca0f461b5e718d75135db70c693994a8aa509a82b70fa53c883f5bfd83f",
+   "seconds": 0.22,
+   "mentions_pet": true,
+   "excerpt": "<!DOCTYPE html><html lang=\"en\" data-scroll-behavior=\"smooth\" style=\"scroll-behavior:smooth\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"preload\" as=\"image\" imageSrcSet=\"/_next/image?url=%2Fws-suites-logo.png&amp;w=256&amp;q=75 1x, /_next/image?url=%2Fws-suites-logo.png&amp;w=384&amp;q=75 2x\"/><link rel=\"preload\" as=\"image\" imageSrcSe"
+  }
+ ]
+}
