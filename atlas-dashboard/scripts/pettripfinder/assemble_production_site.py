@@ -225,6 +225,19 @@ def _partition_path(market_id: str) -> Optional[Path]:
         # is lexington_ky_final_partition_001.json, so the glob matches nothing
         # and the assembler would read "no partition" for a market that has one.
         "lexington-ky": "lexington_ky_final_partition_001.json",
+        # PTF-NASHVILLE-TN-PROMOTION-AND-NEW-LANE-LAUNCH-PREP-002. The same
+        # trap, caught the same way -- by a composed assembly refusing, not by
+        # reading the code. "nashville-tn" strips to "nashville", so the glob
+        # looks for nashville_final_partition_*.json while the committed file
+        # is nashville_tn_final_partition_001.json. Nothing matched,
+        # final_partition_present read False, and a market with a valid
+        # partition and eight published profiles came out NOT ASSEMBLABLE --
+        # which then failed global.launch_participation_agrees_with_source,
+        # because the participation record said source-ready and the assembler
+        # disagreed. Every market since Indianapolis is named here for exactly
+        # this reason, and no market should be added to the registry without an
+        # entry.
+        "nashville-tn": "nashville_tn_final_partition_001.json",
     }
     name = table.get(market_id)
     if name:
