@@ -176,6 +176,21 @@ OTHER_MARKET_RUNS = {
     # timestamp and never a pet policy. $0.00, no provider, cincinnati-oh, and
     # it wrote nothing to authority.
     "cincinnati_oh_brand_inventory_002",
+    # PTF-NASHVILLE-TN-EVIDENCE-RECOVERY-003: the free static half of the
+    # evidence recovery. Two WoodSpring pages re-fetched by a plain first-party
+    # GET and written to disk with the sha256 of the bytes received, after a
+    # bounded five-request probe measured Marriott and Hilton still refusing
+    # that client with HTTP 403. $0.00, no provider, no plan credit,
+    # nashville-tn, and it wrote nothing to authority by itself -- the applier
+    # did, from the committed report.
+    #
+    # The ATTENDED half of the same recovery has no directory here on purpose:
+    # its 84 pages were fetched inside the operator's browser, so the bytes
+    # never reached this machine. What is durable for those rows is committed
+    # rather than on disk -- the sha256 of each document, computed in the page
+    # in the same call that took the quote, in
+    # markets/reports/nashville_tn_attended_recapture_003.json.
+    "nashville_tn_recovery_static_003",
 }
 
 

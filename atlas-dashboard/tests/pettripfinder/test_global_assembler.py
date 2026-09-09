@@ -575,7 +575,16 @@ def test_current_live_inventory_preserves_all_assemblable_market_profiles(market
                       # AUTHORIZED_FOR_LAUNCH and does not enter the bundle.
                       # Every other count is unchanged -- the half of this
                       # assertion saying a new market disturbed no old one.
-                      "nashville-tn": 8}
+                      # PTF-NASHVILLE-TN-EVIDENCE-RECOVERY-003: 8 -> 79. Not
+                      # new research and not a new gate -- the 84 rows held on
+                      # NO_CAPTURE_HASH had their exact first-party pages
+                      # re-fetched and hashed, and 83 of them cleared the gate
+                      # on evidence that can now be reproduced. All 84 current
+                      # reads agree with the shadow's classification, so no
+                      # policy changed; only the proof did. Every other
+                      # market's count is unchanged, which is the half of this
+                      # assertion saying a recovery disturbed no old market.
+                      "nashville-tn": 79}
     # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: 469 + Indianapolis's 16 further
     # founder-signed profiles (8 -> 24). Every other market's count above is
     # unchanged, so the whole of this movement is Indianapolis's.

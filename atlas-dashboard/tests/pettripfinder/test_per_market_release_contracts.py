@@ -586,7 +586,18 @@ class TestContractAgreesWithItsOwnAuthority:
                              # one because its paid capture carries no
                              # reservation. Every number above is unchanged,
                              # which is the half that proves the scoping.
-                             LEXINGTON: 10, NASHVILLE: 5}
+                             LEXINGTON: 10,
+                             # NASHVILLE 5 -> 18 at
+                             # PTF-NASHVILLE-TN-EVIDENCE-RECOVERY-003, which
+                             # re-fetched and re-hashed the 14 refusals held on
+                             # NO_CAPTURE_HASH and recovered 13 of them. The
+                             # fourteenth publishes the single sentence
+                             # "Service animals only", which the gate refuses
+                             # as SERVICE_ANIMAL_ONLY and this order did not
+                             # argue with. Every number above is unchanged,
+                             # which is the half of this assertion that proves
+                             # the scoping.
+                             NASHVILLE: 18}
         registry = json.loads(
             (REPO_ROOT / "launch_packages" / "pettripfinder" / "hotel_exclusions.json")
             .read_text(encoding="utf-8-sig"))["exclusions"]

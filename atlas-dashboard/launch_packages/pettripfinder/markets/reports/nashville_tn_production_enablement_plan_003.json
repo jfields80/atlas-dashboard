@@ -1,0 +1,85 @@
+{
+ "schema": "ptf-production-enablement-plan/1.0",
+ "status": "PROPOSED_NOT_APPLIED",
+ "work_order": "PTF-NASHVILLE-TN-EVIDENCE-RECOVERY-003",
+ "market_id": "nashville-tn",
+ "what_this_is": "The exact flag change that would open the redesigned production lane for Nashville alone. It is NOT applied: applying it would make Nashville deployable by the release coordinator before a founder authorization exists, which is the ordering these flags were built to prevent.",
+ "applied": false,
+ "scope": "NASHVILLE_ONLY",
+ "global_enablement_refused": "no flag is set to a value that admits every market. Both allowlists are empty today, so the coordinator refuses all fourteen registered markets including the twelve that are live; the proposal adds exactly one market id to each.",
+ "current_state": {
+  "FAST_PATH_IMPLEMENTED": "YES",
+  "FAST_PATH_VALIDATED": "YES",
+  "FAST_PATH_PRODUCTION_ACTIVATION": "DISABLED",
+  "PERSISTENT_CACHE_IMPLEMENTED": "YES",
+  "PERSISTENT_CACHE_VALIDATED": "YES",
+  "PRODUCTION_RELEASE_CONSUMPTION": "DISABLED",
+  "pilot_allowlist": [],
+  "RELEASE_COORDINATOR_PRODUCTION_ENABLED": "NO",
+  "RELEASE_COORDINATOR_PRODUCTION_ALLOWED_MARKETS": []
+ },
+ "proposed_changes": [
+  {
+   "file": "launch_packages/pettripfinder/fast_release_activation.json",
+   "field": "FAST_PATH_PRODUCTION_ACTIVATION",
+   "current": "DISABLED",
+   "proposed": "ENABLED",
+   "permits": "a Regression V2 plan may replace the broad regression with a fast-lane receipt -- but only for a market that is ALSO in pilot_allowlist, so this field alone opens nothing"
+  },
+  {
+   "file": "launch_packages/pettripfinder/fast_release_activation.json",
+   "field": "pilot_allowlist",
+   "current": [],
+   "proposed": [
+    "nashville-tn"
+   ],
+   "permits": "the fast path for Nashville and no other market"
+  },
+  {
+   "file": "launch_packages/pettripfinder/fast_release_activation.json",
+   "field": "PRODUCTION_RELEASE_CONSUMPTION",
+   "current": "DISABLED",
+   "proposed": "ENABLED_FOR_PILOT_ALLOWLIST",
+   "permits": "the production assembler and deployer to consume a validated bundle from the persistent cache for an allowlisted market. Leaving it DISABLED is also safe: Nashville is a market that has never been built, so there is no cache entry to consume and the lane builds it cold either way. The measured cost of building it cold is in this order's performance report.",
+   "optional": true
+  },
+  {
+   "file": "launch_packages/pettripfinder/release_production_gate.json",
+   "field": "RELEASE_COORDINATOR_PRODUCTION_ENABLED",
+   "current": "NO",
+   "proposed": "YES",
+   "permits": "the release coordinator to make a REAL host call -- but only for a market in RELEASE_COORDINATOR_PRODUCTION_ALLOWED_MARKETS, and only with a founder authorization binding the exact digests"
+  },
+  {
+   "file": "launch_packages/pettripfinder/release_production_gate.json",
+   "field": "RELEASE_COORDINATOR_PRODUCTION_ALLOWED_MARKETS",
+   "current": [],
+   "proposed": [
+    "nashville-tn"
+   ],
+   "permits": "real production activation for Nashville and no other market"
+  }
+ ],
+ "digests_the_activation_must_be_bound_to": {
+  "final_candidate_digest": "c12b410ec8331dbf7a50581027ad60291cac95f626de5a6a846b0d77524e0e11",
+  "fast_lane_receipt_digest": "sha256:600afcf7829f6d3b6994417bcd783b9f8e33554f76575d50a30713c5f69d599b",
+  "sealed_package_digest": "sha256:8cdb83d4413cd48713113f32230877ba52998861e811d01bd06855f10a47b478"
+ },
+ "guards_that_still_run_after_the_change": [
+  "the market appears in RELEASE_COORDINATOR_PRODUCTION_ALLOWED_MARKETS",
+  "RELEASE_COORDINATOR_PRODUCTION_ENABLED is YES",
+  "a founder authorization binding the exact candidate digest, deployment artifact digest, parent release digest and intended delta digest",
+  "the live release is still the authorized parent at the moment of the host call",
+  "the package receipt (003 rules A-O) and the bundle validation receipt (004) both verify",
+  "a CI validation receipt when the change class requires one, or NOT_REQUIRED_BY_POLICY when it does not",
+  "the candidate still hashes to its own release manifest"
+ ],
+ "order_of_operations": [
+  "1. the founder authorizes the exact candidate digest",
+  "2. the launch_participation row for nashville-tn flips to FOUNDER_AUTHORIZED_FOR_LAUNCH",
+  "3. these flags are applied, narrowed to nashville-tn",
+  "4. the coordinator re-reads CURRENT VERIFIED LIVE and refuses if it moved",
+  "5. only then is a host call made"
+ ],
+ "nothing_enabled_by_this_order": true
+}
