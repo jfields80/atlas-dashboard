@@ -1,0 +1,126 @@
+{
+ "schema": "ptf-registration-audit/1.0",
+ "work_order": "PTF-NASHVILLE-TN-PROMOTION-AND-NEW-LANE-LAUNCH-PREP-002",
+ "what_this_audited": "the REGISTRATION of nashville-tn on the Lexington-live production lineage: a DEPLOYMENT_CHANGE and an AUTHORITY_CHANGE that Regression V2 refuses to narrow. It is NOT the routine Nashville data release, which the fast release lane classifies and measures on its own, and it is NOT a factory integration: the ATLAS-THROUGHPUT engineering was already on this lineage before this order started.",
+ "registration_commit": "039866e51d858a3b70fe5935f301e59e67f2ab5f",
+ "parent_commit": "a87503297170b1248897bd87e5d651c79088cc80",
+ "change_surface": {
+  "classes": [
+   "AUTHORITY_CHANGE",
+   "GENERIC_RUNTIME_CHANGE",
+   "ROUTING_SEMANTIC_CHANGE",
+   "DEPLOYMENT_CHANGE",
+   "TEST_EXPECTATION_CHANGE",
+   "DOCUMENTATION_ONLY",
+   "GENERATED_REPORT_ONLY",
+   "UNCLASSIFIED"
+  ],
+  "changed_file_count": 79,
+  "narrowing_blockers": [
+   "launch_packages/pettripfinder/bundle_cache_closure.json",
+   "tests/pettripfinder/pins/market_state.json"
+  ]
+ },
+ "broad_runs_executed": 1,
+ "remote_broad_jobs": 0,
+ "baseline": "f75aa95.json",
+ "baseline_source_sha": "f75aa95",
+ "baseline_failure_count": 160,
+ "collected": 18095,
+ "passed": 17651,
+ "skipped": 253,
+ "failures": 191,
+ "counts": {
+  "PRE_EXISTING": 160,
+  "EXPECTED_EPOCH_CHANGE": 0,
+  "TEST_HARNESS_FLAKE": 0,
+  "TRUE_NEW_FAILURE": 31
+ },
+ "PRE_EXISTING": 160,
+ "TRUE_NEW_REPORTED_BY_THE_CLASSIFIER": 31,
+ "baseline_failures_now_passing": [],
+ "the_classifier_cannot_see_this": {
+  "what": "the committed baseline manifest is older than the parent commit, so a node the PARENT already fails is reported TRUE_NEW. The split below is measured by running the named nodes at a87503297170b1248897bd87e5d651c79088cc80.",
+  "PRE_EXISTING_AT_PARENT": {
+   "count": 16,
+   "not_closed_here": "these fail at the parent too and are none of this order's doing. They are reported rather than absorbed: silently folding sixteen real failures into a PRE_EXISTING bucket is exactly the thing a baseline exists to prevent. Re-pinning the baseline at the Lexington-live commit is a separate order's work.",
+   "nodes": [
+    "tests/pettripfinder/test_atlas_throughput_003.py::TestReleaseIndex::test_the_index_is_o_data_and_fast_at_a_hundred_markets",
+    "tests/pettripfinder/test_atlas_throughput_004.py::TestBoundaries::test_the_fast_lane_reports_market_build_required_no_on_a_trusted_bundle",
+    "tests/pettripfinder/test_global_assembler.py::test_cincinnati_does_not_fail_the_global_selection",
+    "tests/pettripfinder/test_global_assembler.py::test_indianapolis_is_now_in_the_global_selection",
+    "tests/pettripfinder/test_indianapolis_authority_promotion_017.py::TestTheCrossMarketCollision::test_the_other_bare_names_are_clean",
+    "tests/pettripfinder/test_indianapolis_authority_promotion_017.py::TestTheCrossMarketCollision::test_the_scan_finds_nothing_else",
+    "tests/pettripfinder/test_toledo_oh_launch_003.py::test_detroit_fort_wayne_and_lexington_are_still_out",
+    "tests/pettripfinder/test_toledo_oh_launch_003.py::test_exactly_one_market_joined_and_none_left",
+    "tests/pettripfinder/test_toledo_oh_launch_003.py::test_one_digest_runs_from_authorization_to_live",
+    "tests/pettripfinder/test_toledo_oh_launch_003.py::test_production_grew_by_exactly_toledo",
+    "tests/pettripfinder/test_toledo_oh_launch_003.py::test_rollback_target_is_what_production_actually_served",
+    "tests/pettripfinder/test_toledo_oh_launch_003.py::test_source_is_back_in_sync_with_production",
+    "tests/pettripfinder/test_toledo_oh_launch_003.py::test_toledo_participates_in_the_composed_bundle",
+    "tests/pettripfinder/test_toledo_oh_promotion_002.py::test_the_packet_numbers_are_derived_from_artifacts_not_typed",
+    "tests/research_workers/test_marriott_short_property_link.py::TestNothingElseMoved::test_the_columbus_seed_still_parses_end_to_end",
+    "tests/research_workers/test_property_code_redroof_choice.py::TestLiveSeedUrlsAllParse::test_every_columbus_seed_url_with_a_known_shape_still_resolves"
+   ]
+  },
+  "CAUSED_BY_THIS_ORDER": {
+   "count": 7,
+   "nodes": [
+    "tests/pettripfinder/contracts/test_market_state_pins.py::TestPinDocuments::test_market_pins_cover_exactly_the_markets_with_release_contracts",
+    "tests/pettripfinder/test_factory_throughput_001.py::TestTheHarness::test_the_committed_inventory_reproduces_from_the_suite",
+    "tests/pettripfinder/test_global_assembler.py::test_current_live_inventory_preserves_all_assemblable_market_profiles",
+    "tests/pettripfinder/test_launch_participation_046.py::test_the_bundle_excludes_only_the_two_that_are_not_source_ready",
+    "tests/pettripfinder/test_markets.py::test_production_markets_dir_loads_and_is_single_market_columbus",
+    "tests/pettripfinder/test_per_market_release_contracts.py::TestContractRegistry::test_every_market_with_verified_inventory_has_a_contract",
+    "tests/pettripfinder/test_st_louis_production_safety_001.py::TestStLouisIsNowRegistered::test_the_registry_grew_by_exactly_one"
+   ]
+  },
+  "IMPORTED_SUITE_FALSIFIED_BY_PROMOTION": {
+   "count": 8,
+   "nodes": [
+    "tests/pettripfinder/test_nashville_tn_new_market_001.py::test_every_admitted_identity_has_hard_evidence_and_a_corridor",
+    "tests/pettripfinder/test_nashville_tn_new_market_001.py::test_every_route_is_bound_to_the_identity_it_serves",
+    "tests/pettripfinder/test_nashville_tn_new_market_001.py::test_nashville_has_no_authority_shard_and_no_registered_census",
+    "tests/pettripfinder/test_nashville_tn_new_market_001.py::test_nashville_has_no_release_contract_and_no_launch_participation",
+    "tests/pettripfinder/test_nashville_tn_new_market_001.py::test_nashville_is_not_a_registered_market",
+    "tests/pettripfinder/test_nashville_tn_new_market_001.py::test_no_identity_record_carries_a_pet_policy",
+    "tests/pettripfinder/test_nashville_tn_new_market_001.py::test_production_truth_is_unchanged_by_this_order",
+    "tests/pettripfinder/test_nashville_tn_new_market_001.py::test_the_proposed_census_is_marked_proposed"
+   ]
+  }
+ },
+ "closure": {
+  "what_this_is": "every node this order actually moved, fixed at its cause and re-run BY NODE ID. Regression V2 exists so this does not cost a second broad regression: the proof is the node the run named, not a repeat of the run.",
+  "closure_run": "data\\regression\\nash002_closure",
+  "closure_run_collected": 10,
+  "closure_run_failed": 0,
+  "closed_by_rerun": [
+   "tests/pettripfinder/contracts/test_market_state_pins.py::TestPinDocuments::test_market_pins_cover_exactly_the_markets_with_release_contracts",
+   "tests/pettripfinder/test_factory_throughput_001.py::TestTheHarness::test_the_committed_inventory_reproduces_from_the_suite",
+   "tests/pettripfinder/test_global_assembler.py::test_current_live_inventory_preserves_all_assemblable_market_profiles",
+   "tests/pettripfinder/test_launch_participation_046.py::test_the_bundle_excludes_only_the_two_that_are_not_source_ready",
+   "tests/pettripfinder/test_markets.py::test_production_markets_dir_loads_and_is_single_market_columbus",
+   "tests/pettripfinder/test_nashville_tn_new_market_001.py::test_every_admitted_identity_has_hard_evidence_and_a_corridor",
+   "tests/pettripfinder/test_nashville_tn_new_market_001.py::test_every_route_is_bound_to_the_identity_it_serves",
+   "tests/pettripfinder/test_nashville_tn_new_market_001.py::test_no_identity_record_carries_a_pet_policy",
+   "tests/pettripfinder/test_per_market_release_contracts.py::TestContractRegistry::test_every_market_with_verified_inventory_has_a_contract",
+   "tests/pettripfinder/test_st_louis_production_safety_001.py::TestStLouisIsNowRegistered::test_the_registry_grew_by_exactly_one"
+  ],
+  "retired_by_name": {
+   "tests/pettripfinder/test_nashville_tn_new_market_001.py::test_nashville_is_not_a_registered_market": "markets/nashville-tn.json now exists; the registry carries the market this gate required to be absent from it",
+   "tests/pettripfinder/test_nashville_tn_new_market_001.py::test_nashville_has_no_authority_shard_and_no_registered_census": "the authority shard, the registered census and the policy package now exist",
+   "tests/pettripfinder/test_nashville_tn_new_market_001.py::test_nashville_has_no_release_contract_and_no_launch_participation": "the release contract exists and the participation record carries a nashville-tn row reading SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH",
+   "tests/pettripfinder/test_nashville_tn_new_market_001.py::test_production_truth_is_unchanged_by_this_order": "it pinned deploy 6a9e0476 at 11/803/966, which the Lexington launch superseded with 6aa17212 at 12/823/991. Its live half is now made by test_registering_nashville_moved_no_live_market",
+   "tests/pettripfinder/test_nashville_tn_new_market_001.py::test_the_proposed_census_is_marked_proposed": "renamed to test_the_census_declares_which_side_of_the_boundary_it_is_on, which asserts the status AGREES WITH THE DIRECTORY in either direction rather than pinning one value"
+  },
+  "why_a_retired_gate_is_not_a_closed_one": "a retired gate cannot be re-run: its premise is false and it no longer exists. Counting it as passing would let a deleted assertion read as an honoured one, so it is listed separately with the reason the promotion falsified it.",
+  "outstanding": [],
+  "second_broad_run_required": false
+ },
+ "seconds": {
+  "broad_run_s": 4974.4,
+  "closure_run_s": 0
+ },
+ "TRUE_NEW_FAILURE_AFTER_CLOSURE": 0,
+ "nothing_deselected_relaxed_or_deleted_to_make_a_count": true
+}

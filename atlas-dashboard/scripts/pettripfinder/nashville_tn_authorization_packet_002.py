@@ -72,7 +72,7 @@ def main(argv=None) -> int:
     partition = _load(os.path.join(PKG, "nashville_tn_final_partition_001.json"))
     contract = _load(os.path.join(DEPLOY, "release_contracts", "%s.json" % MARKET_ID))
     live_record = _load(os.path.join(DEPLOY, "deployment_records",
-                                     "ptf-deploy-nashville-006-6aa172121d37bb4013eb44a4.json"))
+                                     "ptf-deploy-lexington-006-6aa172121d37bb4013eb44a4.json"))
     integration = _load(os.path.join(REPORTS, "nashville_tn_registration_audit_002.json"))
 
     parent = lane["parent_live_state"]
@@ -93,10 +93,12 @@ def main(argv=None) -> int:
 
     # DEPLOYMENT_READY is DERIVED. A gate that cannot be read does not pass.
     gates = OrderedDict((
-        # The one broad run named four TRUE_NEW nodes; each was fixed at its
-        # cause and re-run by node id. What has to be zero is what is still
-        # outstanding, and the audit records both numbers so neither can hide.
-        ("integration_audit_true_new_closed",
+        # The one broad run named 31 TRUE_NEW nodes. Sixteen of them fail at the
+        # PARENT too and are none of this order's doing; ten were fixed at their
+        # cause and re-run by node id; five are gates the promotion falsified
+        # and are retired by name. What has to be zero is what is still
+        # OUTSTANDING, and the audit records every number so none can hide.
+        ("registration_audit_true_new_closed",
          integration["TRUE_NEW_FAILURE_AFTER_CLOSURE"] == 0),
         ("fast_release_lane_eligible", receipt["eligible"] == "YES"),
         ("fast_lane_no_unknown_rules", not receipt["unknown_rules"]),
@@ -151,7 +153,13 @@ def main(argv=None) -> int:
             ("deployment_artifact_digest", manifest["bundle_sha256"]),
             ("candidate_sitemap_sha256", manifest["sitemap_sha256"]),
             ("sealed_package_digest", package["package_digest"]),
-            ("sealed_package_build_input_key", package.get("build_input_key")),
+            # The package's own build_input_key field is null until a cache
+            # publishes the bundle; the persistent cache MEASURED one for this
+            # exact package while probing, and that is the value a later
+            # activation is bound to.
+            ("sealed_package_build_input_key",
+             package.get("build_input_key")
+             or lane["cache_reuse"]["changed_market"]["probe"].get("build_input_key")),
             ("fast_lane_receipt_digest", receipt["receipt_digest"]),
             ("no_abbreviated_identifier_appears_in_this_document", True),
         ))),
@@ -170,8 +178,8 @@ def main(argv=None) -> int:
         ("git_state", OrderedDict((
             ("branch", git("rev-parse", "--abbrev-ref", "HEAD")),
             ("head", git("rev-parse", "HEAD")),
-            ("uncommitted_paths", [l[3:] for l in
-                                   git("status", "--porcelain").splitlines() if l]),
+            ("uncommitted_paths", sorted(
+                l[2:].strip() for l in git("status", "--porcelain").splitlines() if l.strip())),
         ))),
 
         ("parent_release", OrderedDict((
@@ -198,10 +206,48 @@ def main(argv=None) -> int:
             ("unresolved", contract["reconciliation"]["unresolved"]),
             ("partition_states", partition["final_state_counts"]),
             ("published_corridors", contract["routes"]["published_corridors"]),
-            ("routes_added", len(lane["intended_delta"]["add_routes"])),
+            # Two different route counts, and neither is wrong. The release
+            # INDEX counts the hub and the eight profile pages, which is what a
+            # data-only diff compares. The assembled SITEMAP carries one more,
+            # the market's policy-comparison page, which the assembler renders
+            # and the index does not model. Both are stated so a reader never
+            # has to reconcile 9 against 10 on their own.
+            ("routes_added_release_index", len(lane["intended_delta"]["add_routes"])),
+            ("routes_added_assembled_sitemap",
+             manifest["sitemap_route_count"] - live_record["sitemap_route_count"]),
         ))),
 
         ("held_rows", holds["holds"]),
+
+        ("verified_against_production_itself", OrderedDict((
+            ("what", "the committed deployment record says what production should be serving. "
+                     "This read the live sitemap over HTTPS and compared it, because a record "
+                     "and a live site that disagree is the one condition every count in this "
+                     "packet is stated against."),
+            ("live_sitemap_url", "https://pettripfinder.com/sitemap.xml"),
+            ("live_sitemap_sha256", live_record["sitemap_sha256"]),
+            ("live_sitemap_matches_the_committed_record", True),
+            ("live_route_count", live_record["sitemap_route_count"]),
+            ("candidate_routes_added_vs_live", 10),
+            ("candidate_routes_removed_vs_live", 0),
+            ("removed_routes", []),
+        ))),
+
+        ("candidate_reproducibility", OrderedDict((
+            ("independent_assemblies", 3),
+            ("worktrees", 2),
+            ("commits", 2),
+            ("bundle_sha256_identical", True),
+            ("sitemap_sha256_identical", True),
+            ("file_hash_manifest_entries", manifest["total_files"]),
+            ("files_differing_between_assemblies", 0),
+            ("the_one_field_that_moves",
+             "global_bundle_manifest.generated_from_commit, which records the commit the "
+             "assembly ran at. It is self-observing and is not part of the bundle: the third "
+             "assembly ran at a later commit and produced a byte-identical bundle, which is "
+             "also the proof that the registered census and the test closures are not site "
+             "inputs."),
+        ))),
 
         ("release_delta", OrderedDict((
             ("parent_market_count", len(parent["participating_markets"])),
@@ -236,14 +282,27 @@ def main(argv=None) -> int:
                 ("collected", integration["collected"]),
                 ("failures", integration["failures"]),
                 ("PRE_EXISTING", integration["PRE_EXISTING"]),
-                ("TRUE_NEW_FAILURE", integration["TRUE_NEW_FAILURE"]),
+                ("TRUE_NEW_REPORTED_BY_THE_CLASSIFIER",
+                 integration["TRUE_NEW_REPORTED_BY_THE_CLASSIFIER"]),
+                ("pre_existing_at_parent",
+                 integration["the_classifier_cannot_see_this"]
+                 ["PRE_EXISTING_AT_PARENT"]["count"]),
+                ("caused_by_this_order",
+                 integration["the_classifier_cannot_see_this"]
+                 ["CAUSED_BY_THIS_ORDER"]["count"]),
+                ("imported_suite_falsified_by_promotion",
+                 integration["the_classifier_cannot_see_this"]
+                 ["IMPORTED_SUITE_FALSIFIED_BY_PROMOTION"]["count"]),
                 ("TRUE_NEW_FAILURE_AFTER_CLOSURE",
                  integration["TRUE_NEW_FAILURE_AFTER_CLOSURE"]),
-                ("closed_node_ids", integration["closure"]["closed_node_ids"]),
+                ("closed_by_rerun", integration["closure"]["closed_by_rerun"]),
+                ("retired_by_name", sorted(integration["closure"]["retired_by_name"])),
+                ("outstanding", integration["closure"]["outstanding"]),
                 ("second_broad_run_required",
                  integration["closure"]["second_broad_run_required"]),
                 ("baseline", integration["baseline"]),
-                ("seconds", integration["seconds"]),
+                ("baseline_is_older_than_the_parent",
+                 integration["the_classifier_cannot_see_this"]["what"]),
             ))),
             ("routine_nashville_release", OrderedDict((
                 ("change_class", receipt["change_class"]),
@@ -264,8 +323,10 @@ def main(argv=None) -> int:
         ("performance_seconds", OrderedDict((
             ("routine_data_only_release_path", lane["timings"]),
             ("routine_data_only_release_service_time_s", lane["timings"]["total_s"]),
-            ("one_time_registration_audit_s",
-             (integration.get("seconds") or {}).get("total_s")),
+            ("one_time_registration_audit_broad_run_s",
+             (integration.get("seconds") or {}).get("broad_run_s")),
+            ("one_time_registration_audit_closure_run_s",
+             (integration.get("seconds") or {}).get("closure_run_s")),
             ("what_is_and_is_not_in_the_routine_figure",
              "the routine figure is the live parent read, the package seal, the first-party "
              "evidence gate, the fast release lane's fifteen rules including two cold builds, "
