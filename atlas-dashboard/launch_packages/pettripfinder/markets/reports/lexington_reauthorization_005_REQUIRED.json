@@ -1,0 +1,142 @@
+{
+ "schema": "ptf-reauthorization-required/1.0",
+ "status": "HALTED_AWAITING_FRESH_FOUNDER_AUTHORIZATION",
+ "what_this_is": "The founder authorized a Lexington launch under PTF-LEXINGTON-KY-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-004 and named seven digests. Six verified exactly and one -- the sealed package digest -- could not be reproduced. The founder ruled STOP AND RE-AUTHORIZE ON A FRESH DIGEST. Nothing was authorized, no production activation flag was touched, and nothing was deployed.",
+ "would_become": "PTF-LEXINGTON-KY-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-005",
+ "halted_by": "PTF-LEXINGTON-KY-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-004",
+ "authorized_by": null,
+ "authorized_at": null,
+ "source_commit": "260ba6c4a0409e6c12b8e7337f7f87687c29d3db",
+ "what_the_founder_authorized_in_004": {
+  "parent_deployment": "6a9e047690ec8bdaf99bcad2",
+  "parent_release_digest": "895248738c79bc27f26da5bba1d2a490361ce6bd4959698adf3fb6f892aad8b0",
+  "sealed_package_digest": "sha256:e5d26fd63bb2d2e2d3d632134cc40cd832d1a4d4c5e1b82f003aa58dc52c5380",
+  "build_input_key": "sha256:a66f8c4d3b392b62047fded27b682f08ea951b924ad4a6b37292797147d33f9b",
+  "intended_delta_digest": "sha256:82e57491638b8fc471e691ba6ddbc376e11d371b1599740361af10c7fd6a76db",
+  "final_candidate_digest": "67fe8617b79febb9b2248895441c31ac65931cf9fdcfa4da4f8014ee190cde78",
+  "deployment_artifact_digest": "67fe8617b79febb9b2248895441c31ac65931cf9fdcfa4da4f8014ee190cde78",
+  "candidate_sitemap_digest": "dd0d87f2da07615776016690af64452d42cafc24d3c82e310b5f44efc6f7e611"
+ },
+ "verification_of_those_values": {
+  "parent_deployment": true,
+  "parent_release_digest": true,
+  "parent_counts_11_803_966": true,
+  "toledo_present": true,
+  "final_candidate_digest": true,
+  "deployment_artifact_digest": true,
+  "candidate_sitemap_digest": true,
+  "intended_delta_digest": true,
+  "sealed_package_digest": false
+ },
+ "verification_failed_on": [
+  "sealed_package_digest"
+ ],
+ "why_the_sealed_package_digest_did_not_reproduce": {
+  "cause_1_created_from_source_sha": {
+   "what": "a sealed package embeds the git HEAD it was sealed at",
+   "sealed_at_commit": "fa08b22e153ea746394a88a1c511e6283519dde3",
+   "current_commit": "260ba6c4a0409e6c12b8e7337f7f87687c29d3db",
+   "effect": "every re-derivation after any commit produces a different digest"
+  },
+  "cause_2_raw_byte_dependency_digests": {
+   "what": "dependency_input_digests hashes the RAW BYTES of each authority file",
+   "file": "markets/authority/lexington-ky/seed_businesses.csv",
+   "detail": "csv.DictWriter terminates rows with CRLF; git normalises the file to LF on commit, so identical rows hash differently either side of a checkout",
+   "precedent": "the per-market release contract met this defect and switched to the line-ending-independent content_sha256; the sealed-package writer still hashes raw bytes"
+  },
+  "proof_the_content_did_not_move": {
+   "reproducing_both_conditions_recovers_the_authorized_digest": true,
+   "authority_documents_reproduce_byte_for_byte": 6,
+   "census": 57,
+   "published_pet_friendly": 20,
+   "verified_no_pets": 10,
+   "held_rows": 15,
+   "intended_delta_digest_unchanged": true,
+   "coverage_scorecard_unchanged": true
+  },
+  "remedy_for_a_later_order": "make dependency_input_digests line-ending independent and stop embedding the commit sha in the sealed body. NOT done here: changing a shared release writer after an authorization is the late widening the release lane exists to prevent."
+ },
+ "what_this_order_did_instead": {
+  "sealed_one_package_at_the_current_commit": true,
+  "committed_it_under_the_market": true,
+  "why": "a committed package is READ and its seal re-validated against its own body, never re-derived from a moving tree, so the next authorization can bind a digest that cannot drift",
+  "re_read_seal_validates": true
+ },
+ "the_fresh_values_to_authorize": {
+  "market_id": "lexington-ky",
+  "parent_deployment": "6a9e047690ec8bdaf99bcad2",
+  "parent_release_digest": "895248738c79bc27f26da5bba1d2a490361ce6bd4959698adf3fb6f892aad8b0",
+  "parent_sitemap_digest": "dfdac840be527d5431d0752e702b55fd41d3ee0d2f3635bed6796044d869d56a",
+  "parent_markets_profiles_routes": [
+   11,
+   803,
+   966
+  ],
+  "sealed_package_id": "pkg-lexington-ky-a29e4a966e1b68b9",
+  "sealed_package_digest": "sha256:a29e4a966e1b68b918c1b0f34db21ff5525691fc5e7581fb58190cc1031310b0",
+  "sealed_package_path": "launch_packages/pettripfinder/markets/packages/lexington-ky/pkg-lexington-ky-a29e4a966e1b68b9.json",
+  "build_input_key_note": "a build input key is a property of a BUILD, not of the package; the fast lane receipt below records the one this validation used",
+  "intended_delta_digest": "sha256:82e57491638b8fc471e691ba6ddbc376e11d371b1599740361af10c7fd6a76db",
+  "fast_lane_receipt_digest": "sha256:33f4e8e0e0cc9bc72097920ac1ccb3bc89895bfa200b4bf95128d83cd9e50b64",
+  "fast_lane_receipt_path": "launch_packages/pettripfinder/markets/receipts/lexington-ky/pkg-lexington-ky-a29e4a966e1b68b9-33f4e8e0e0cc9bc7.json",
+  "final_candidate_digest": "67fe8617b79febb9b2248895441c31ac65931cf9fdcfa4da4f8014ee190cde78",
+  "deployment_artifact_digest": "67fe8617b79febb9b2248895441c31ac65931cf9fdcfa4da4f8014ee190cde78",
+  "candidate_sitemap_digest": "dd0d87f2da07615776016690af64452d42cafc24d3c82e310b5f44efc6f7e611",
+  "candidate_markets_profiles_routes": [
+   12,
+   823,
+   991
+  ],
+  "rollback_deployment": "6a9e047690ec8bdaf99bcad2",
+  "rollback_release_digest": "895248738c79bc27f26da5bba1d2a490361ce6bd4959698adf3fb6f892aad8b0",
+  "never_roll_back_to": "6a9d33f5dc8c3d1cf9464376"
+ },
+ "candidate_digest_stability": {
+  "independent_assemblies": 3,
+  "all_byte_identical": true,
+  "digest": "67fe8617b79febb9b2248895441c31ac65931cf9fdcfa4da4f8014ee190cde78",
+  "note": "the candidate digest -- the one that decides what is SERVED -- is stable and reproducible. Only the sealed package's provenance digest drifts."
+ },
+ "validation_carried_forward": {
+  "FAST_DATA_ONLY_RELEASE_ELIGIBLE": "YES",
+  "rules": {
+   "A": "PASS",
+   "B": "PASS",
+   "C": "PASS",
+   "D": "PASS",
+   "E": "PASS",
+   "F": "PASS",
+   "G": "PASS",
+   "H": "PASS",
+   "I": "PASS",
+   "J": "PASS",
+   "K": "PASS",
+   "L": "PASS",
+   "M": "PASS",
+   "N": "PASS",
+   "O": "PASS"
+  },
+  "unknown_rules": [],
+  "failed_rules": [],
+  "change_class": "MARKET_AUTHORITY_DATA_ONLY",
+  "FULL_REGRESSION_REQUIRED": "NO",
+  "REMOTE_BROAD_JOBS_REQUIRED": 0,
+  "determinism": "BYTE_IDENTICAL",
+  "integration_audit_true_new_after_closure": 0,
+  "PRODUCTION_ACTIVATION_ALLOWED": "NO"
+ },
+ "holds_untouched": {
+  "count": 15,
+  "by_class": {
+   "CROSS_MARKET_IDENTITY_COLLISION": 1,
+   "IDENTITY_HOLD": 3,
+   "MODERN_EVIDENCE_GATE_HOLD": 5,
+   "PAID_PROVENANCE_HOLD": 6
+  },
+  "any_promoted": false
+ },
+ "nothing_authorized": true,
+ "nothing_activated": true,
+ "nothing_deployed": true,
+ "participation_still_withheld": true
+}

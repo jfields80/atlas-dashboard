@@ -1,0 +1,544 @@
+{
+ "schema": "ptf-fast-release-receipt/1.0",
+ "lane": "FAST_DATA_ONLY_RELEASE",
+ "PACKAGE_ID": "pkg-lexington-ky-a29e4a966e1b68b9",
+ "PACKAGE_DIGEST": "sha256:a29e4a966e1b68b918c1b0f34db21ff5525691fc5e7581fb58190cc1031310b0",
+ "MARKET_ID": "lexington-ky",
+ "PARENT_RELEASE": {
+  "live_deploy_id": "6a9e047690ec8bdaf99bcad2",
+  "rollback_target": "6a9d33f5dc8c3d1cf9464376",
+  "source_commit": "85c66eea46a64df871af4d1dd51ddb1b8fdcffc7",
+  "live_index_digest": "sha256:1f1fef35e88678e90e35c886eeeb094893ab5520c37791858f7bcbeb7fadbbd3"
+ },
+ "CHANGE_CLASS": "MARKET_AUTHORITY_DATA_ONLY",
+ "DEPENDENCY_DIGEST": "sha256:f88765faa45475a8fcf0e24655b2a715062a97d5506b66dffe5b53bbe6446735",
+ "VALIDATION_POLICY_VERSION": "ptf-fast-data-only-release/1.0",
+ "RULES_EXECUTED": [
+  {
+   "rule": "A",
+   "name": "package schema valid"
+  },
+  {
+   "rule": "B",
+   "name": "identity valid"
+  },
+  {
+   "rule": "C",
+   "name": "first-party policy binding valid"
+  },
+  {
+   "rule": "D",
+   "name": "policy semantics valid"
+  },
+  {
+   "rule": "E",
+   "name": "route references valid"
+  },
+  {
+   "rule": "F",
+   "name": "market partition valid"
+  },
+  {
+   "rule": "G",
+   "name": "proposed whole-release identity/route indexes contain no forbidden collision"
+  },
+  {
+   "rule": "H",
+   "name": "every unrelated live market/member is preserved"
+  },
+  {
+   "rule": "I",
+   "name": "every removal is explicitly intended"
+  },
+  {
+   "rule": "J",
+   "name": "changed-market artifact builds successfully"
+  },
+  {
+   "rule": "K",
+   "name": "changed-market output deterministic"
+  },
+  {
+   "rule": "L",
+   "name": "package/artifact hashes internally consistent"
+  },
+  {
+   "rule": "M",
+   "name": "required evidence freshness/revocation rules satisfied"
+  },
+  {
+   "rule": "N",
+   "name": "rollback/current-live preservation metadata valid"
+  },
+  {
+   "rule": "O",
+   "name": "paid acquisitions used by the package satisfy reservation provenance"
+  }
+ ],
+ "RESULTS": {
+  "A": {
+   "rule": "A",
+   "name": "package schema valid",
+   "status": "PASS",
+   "seconds": 0.005,
+   "detail": {
+    "schema": "ptf-sealed-market-package/1.0",
+    "package_id": "pkg-lexington-ky-a29e4a966e1b68b9",
+    "package_digest": "sha256:a29e4a966e1b68b918c1b0f34db21ff5525691fc5e7581fb58190cc1031310b0"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "B": {
+   "rule": "B",
+   "name": "identity valid",
+   "status": "PASS",
+   "seconds": 0.017,
+   "detail": {
+    "identity_records": 57,
+    "census_count": 57,
+    "declared_relations": 0,
+    "writer_seconds": 0.016
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "C": {
+   "rule": "C",
+   "name": "first-party policy binding valid",
+   "status": "PASS",
+   "seconds": 0.027,
+   "detail": {
+    "records_evaluated": 30,
+    "eligible": 30,
+    "ineligible": 0,
+    "classes": {}
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "D": {
+   "rule": "D",
+   "name": "policy semantics valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "pet_friendly_records": 20,
+    "verified_no_pets_records": 10,
+    "policy_schema": "1.3"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "E": {
+   "rule": "E",
+   "name": "route references valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "official_routes": 0,
+    "public_routes": 25
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "F": {
+   "rule": "F",
+   "name": "market partition valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "partition_count": 57,
+    "unresolved_rows": 27,
+    "counts_by_partition_state": {
+     "AWAITING_POLICY_ARTIFACT": 11,
+     "AWAITING_POLICY_OBSERVATION": 3,
+     "AWAITING_ROUTING_REVIEW": 13,
+     "PUBLISHED_PET_FRIENDLY": 20,
+     "VERIFIED_NO_PETS": 10
+    }
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "G": {
+   "rule": "G",
+   "name": "proposed whole-release identity/route indexes contain no forbidden collision",
+   "status": "PASS",
+   "seconds": 0.097,
+   "detail": {
+    "live_digest": "sha256:1f1fef35e88678e90e35c886eeeb094893ab5520c37791858f7bcbeb7fadbbd3",
+    "proposed_digest": "sha256:8bc580e758eaabadb3838866984fe9f54d2bca29f25127fbe364236241e61672",
+    "proposed_participating": [
+     "cincinnati-oh",
+     "cleveland-akron-canton-oh",
+     "columbus-oh",
+     "dayton-oh",
+     "grand-rapids-holland-mi",
+     "indianapolis-in",
+     "lexington-ky",
+     "louisville-ky",
+     "milwaukee-wi",
+     "pittsburgh-pa",
+     "st-louis-mo",
+     "toledo-oh"
+    ],
+    "proposed_total_profiles": 823,
+    "legacy_collisions_outside_package": 0,
+    "compare_seconds": 0.095
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "H": {
+   "rule": "H",
+   "name": "every unrelated live market/member is preserved",
+   "status": "PASS",
+   "seconds": 0.097,
+   "detail": {
+    "live_participating": [
+     "cincinnati-oh",
+     "cleveland-akron-canton-oh",
+     "columbus-oh",
+     "dayton-oh",
+     "grand-rapids-holland-mi",
+     "indianapolis-in",
+     "louisville-ky",
+     "milwaukee-wi",
+     "pittsburgh-pa",
+     "st-louis-mo",
+     "toledo-oh"
+    ],
+    "live_total_profiles": 803,
+    "finding_counts": {}
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "I": {
+   "rule": "I",
+   "name": "every removal is explicitly intended",
+   "status": "PASS",
+   "seconds": 0.097,
+   "detail": {
+    "intended_delta": {
+     "market_id": "lexington-ky",
+     "add_property_ids": [],
+     "update_property_ids": [],
+     "remove_property_ids": [],
+     "add_routes": [
+      "/pet-friendly-hotels/lexington-ky/",
+      "/pet-friendly-hotels/lexington-ky/double-tree-hilton/",
+      "/pet-friendly-hotels/lexington-ky/downtown/",
+      "/pet-friendly-hotels/lexington-ky/embassy-suites/",
+      "/pet-friendly-hotels/lexington-ky/extended-stay-america-lexington-nicholasville-road/",
+      "/pet-friendly-hotels/lexington-ky/fairfield-inn-suites-lexington-north/",
+      "/pet-friendly-hotels/lexington-ky/griffin-gate-marriott-resort-spa/",
+      "/pet-friendly-hotels/lexington-ky/hamburg/",
+      "/pet-friendly-hotels/lexington-ky/hampton-inn-lexington-medical-center/",
+      "/pet-friendly-hotels/lexington-ky/hampton-inn-lexington-south-keeneland-airport/",
+      "/pet-friendly-hotels/lexington-ky/hampton-inn/",
+      "/pet-friendly-hotels/lexington-ky/hilton-garden-inn/",
+      "/pet-friendly-hotels/lexington-ky/home2-suites/",
+      "/pet-friendly-hotels/lexington-ky/homewood-suites-by-hilton-lexington-hamburg/",
+      "/pet-friendly-hotels/lexington-ky/hyatt-place-lexington/",
+      "/pet-friendly-hotels/lexington-ky/hyatt-regency-lexington/",
+      "/pet-friendly-hotels/lexington-ky/inner-versailles-road/",
+      "/pet-friendly-hotels/lexington-ky/residence-inn-lexington-city-center/",
+      "/pet-friendly-hotels/lexington-ky/residence-inn/",
+      "/pet-friendly-hotels/lexington-ky/springhill-suites/",
+      "/pet-friendly-hotels/lexington-ky/the-campbell-house/",
+      "/pet-friendly-hotels/lexington-ky/towneplace-suites-lexington-keeneland-airport/",
+      "/pet-friendly-hotels/lexington-ky/towneplace-suites/",
+      "/pet-friendly-hotels/lexington-ky/tru/"
+     ],
+     "change_routes": [],
+     "remove_routes": [],
+     "expected_profile_delta": 0,
+     "expected_market_count_delta": 1,
+     "expected_participation_delta": [
+      {
+       "market_id": "lexington-ky",
+       "from": false,
+       "to": true
+      }
+     ]
+    },
+    "actual_delta": {
+     "add_property_ids": [],
+     "update_property_ids": [],
+     "remove_property_ids": [],
+     "add_routes": [
+      "/pet-friendly-hotels/lexington-ky/",
+      "/pet-friendly-hotels/lexington-ky/double-tree-hilton/",
+      "/pet-friendly-hotels/lexington-ky/downtown/",
+      "/pet-friendly-hotels/lexington-ky/embassy-suites/",
+      "/pet-friendly-hotels/lexington-ky/extended-stay-america-lexington-nicholasville-road/",
+      "/pet-friendly-hotels/lexington-ky/fairfield-inn-suites-lexington-north/",
+      "/pet-friendly-hotels/lexington-ky/griffin-gate-marriott-resort-spa/",
+      "/pet-friendly-hotels/lexington-ky/hamburg/",
+      "/pet-friendly-hotels/lexington-ky/hampton-inn-lexington-medical-center/",
+      "/pet-friendly-hotels/lexington-ky/hampton-inn-lexington-south-keeneland-airport/",
+      "/pet-friendly-hotels/lexington-ky/hampton-inn/",
+      "/pet-friendly-hotels/lexington-ky/hilton-garden-inn/",
+      "/pet-friendly-hotels/lexington-ky/home2-suites/",
+      "/pet-friendly-hotels/lexington-ky/homewood-suites-by-hilton-lexington-hamburg/",
+      "/pet-friendly-hotels/lexington-ky/hyatt-place-lexington/",
+      "/pet-friendly-hotels/lexington-ky/hyatt-regency-lexington/",
+      "/pet-friendly-hotels/lexington-ky/inner-versailles-road/",
+      "/pet-friendly-hotels/lexington-ky/residence-inn-lexington-city-center/",
+      "/pet-friendly-hotels/lexington-ky/residence-inn/",
+      "/pet-friendly-hotels/lexington-ky/springhill-suites/",
+      "/pet-friendly-hotels/lexington-ky/the-campbell-house/",
+      "/pet-friendly-hotels/lexington-ky/towneplace-suites-lexington-keeneland-airport/",
+      "/pet-friendly-hotels/lexington-ky/towneplace-suites/",
+      "/pet-friendly-hotels/lexington-ky/tru/"
+     ],
+     "remove_routes": [],
+     "profile_delta": 0,
+     "verified_no_pets_delta": 0,
+     "market_count_delta": 1
+    },
+    "removal_authority": {}
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "J": {
+   "rule": "J",
+   "name": "changed-market artifact builds successfully",
+   "status": "PASS",
+   "seconds": 10.827,
+   "detail": {
+    "bundle_sha256": "5c62db2fc5729637a7e11a7adf6324875b95defafc5236f9da940340fa8a0484",
+    "file_count": 126,
+    "html_count": 110,
+    "staged_input_digest": "sha256:551714b35c65b2c06d3befdc9e46f58cf601f5b1a48bd620e18ec2dc7450187b",
+    "contract_sha256": "sha256:33ad2f2853359e36ca020de9b0be76a03840825851ca75154d912b5dae19b637",
+    "release_name": "package-lexington-ky-nogit-925cf342-228363ef",
+    "cache_events": [
+     {
+      "verdict": "BUILD_EXECUTED",
+      "assembly_kind": "generator_site",
+      "input_key": "efd87a5f2175fdffd841867cca6b0707055f61422ca916fad3bc078a9883f8b2",
+      "seconds": 2.758
+     },
+     {
+      "verdict": "BUILD_EXECUTED",
+      "assembly_kind": "market_bundle",
+      "input_key": "dc4e949dabdff74f6b2b6d3b28453ab8c9e6a354d3b4c369fbf0f33e2c11d9ec",
+      "seconds": 6.751
+     }
+    ],
+    "build_seconds": 10.52
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "K": {
+   "rule": "K",
+   "name": "changed-market output deterministic",
+   "status": "PASS",
+   "seconds": 9.137,
+   "detail": {
+    "input_digest": "sha256:551714b35c65b2c06d3befdc9e46f58cf601f5b1a48bd620e18ec2dc7450187b",
+    "output_digest_a": "5c62db2fc5729637a7e11a7adf6324875b95defafc5236f9da940340fa8a0484",
+    "output_digest_b": "5c62db2fc5729637a7e11a7adf6324875b95defafc5236f9da940340fa8a0484",
+    "result": "BYTE_IDENTICAL",
+    "cold_builds_executed": 4,
+    "reuse_hits": 0,
+    "build_seconds": 9.137
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "L": {
+   "rule": "L",
+   "name": "package/artifact hashes internally consistent",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "package_digest": "sha256:a29e4a966e1b68b918c1b0f34db21ff5525691fc5e7581fb58190cc1031310b0",
+    "rederived_digest": "sha256:a29e4a966e1b68b918c1b0f34db21ff5525691fc5e7581fb58190cc1031310b0",
+    "evidence_references": 30,
+    "artifacts_available": 0,
+    "artifacts_checked": 0,
+    "dependency_inputs": 7,
+    "dependency_digest": "sha256:f88765faa45475a8fcf0e24655b2a715062a97d5506b66dffe5b53bbe6446735"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "M": {
+   "rule": "M",
+   "name": "required evidence freshness/revocation rules satisfied",
+   "status": "PASS",
+   "seconds": 0.001,
+   "detail": {
+    "max_age_days": 365,
+    "references": 30,
+    "revoked_registry_size": 0,
+    "earliest_expiry": "2027-09-06T00:00:00Z"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "N": {
+   "rule": "N",
+   "name": "rollback/current-live preservation metadata valid",
+   "status": "PASS",
+   "seconds": 0.022,
+   "detail": {
+    "live": {
+     "live_deploy_id": "6a9e047690ec8bdaf99bcad2",
+     "previous_deploy_id": "6a9d33f5dc8c3d1cf9464376",
+     "rollback_target": "6a9d33f5dc8c3d1cf9464376",
+     "source_commit": "85c66eea46a64df871af4d1dd51ddb1b8fdcffc7",
+     "bundle_sha256": "895248738c79bc27f26da5bba1d2a490361ce6bd4959698adf3fb6f892aad8b0",
+     "sitemap_sha256": "dfdac840be527d5431d0752e702b55fd41d3ee0d2f3635bed6796044d869d56a",
+     "participating_markets": [
+      "cincinnati-oh",
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "grand-rapids-holland-mi",
+      "indianapolis-in",
+      "louisville-ky",
+      "milwaukee-wi",
+      "pittsburgh-pa",
+      "st-louis-mo",
+      "toledo-oh"
+     ],
+     "profile_counts": {
+      "cincinnati-oh": 130,
+      "cleveland-akron-canton-oh": 120,
+      "columbus-oh": 88,
+      "dayton-oh": 54,
+      "grand-rapids-holland-mi": 43,
+      "indianapolis-in": 82,
+      "louisville-ky": 53,
+      "milwaukee-wi": 73,
+      "pittsburgh-pa": 61,
+      "st-louis-mo": 82,
+      "toledo-oh": 17
+     },
+     "total_profiles": 803,
+     "sitemap_route_count": 966,
+     "deployment_record": "ptf-deploy-toledo-003-6a9e047690ec8bdaf99bcad2.json",
+     "authorization_id": "ptf-auth-toledo-003-895248738c79",
+     "rollback_record": "ptf-deploy-cincinnati-004-6a9d33f5dc8c3d1cf9464376.json",
+     "rollback_markets": [
+      "cincinnati-oh",
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "grand-rapids-holland-mi",
+      "indianapolis-in",
+      "louisville-ky",
+      "milwaukee-wi",
+      "pittsburgh-pa",
+      "st-louis-mo"
+     ],
+     "problems": []
+    },
+    "stale_parent": false
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "O": {
+   "rule": "O",
+   "name": "paid acquisitions used by the package satisfy reservation provenance",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "paid_references": 0,
+    "ledger_cross_checked": 0,
+    "ledger_unknown": 0
+   },
+   "problems": [],
+   "problem_count": 0
+  }
+ },
+ "TIMESTAMPS": {
+  "started_at": "2026-09-09T06:59:01Z",
+  "finished_at": "2026-09-09T06:59:21Z",
+  "seconds": 20.297
+ },
+ "ARTIFACT_DIGESTS": {
+  "changed_market_bundle_sha256_a": "5c62db2fc5729637a7e11a7adf6324875b95defafc5236f9da940340fa8a0484",
+  "changed_market_bundle_sha256_b": "5c62db2fc5729637a7e11a7adf6324875b95defafc5236f9da940340fa8a0484",
+  "staged_input_digest": "sha256:551714b35c65b2c06d3befdc9e46f58cf601f5b1a48bd620e18ec2dc7450187b",
+  "staged_contract_sha256": "sha256:33ad2f2853359e36ca020de9b0be76a03840825851ca75154d912b5dae19b637"
+ },
+ "GLOBAL_INDEX_DIGEST": {
+  "live": "sha256:1f1fef35e88678e90e35c886eeeb094893ab5520c37791858f7bcbeb7fadbbd3",
+  "proposed": "sha256:8bc580e758eaabadb3838866984fe9f54d2bca29f25127fbe364236241e61672"
+ },
+ "PACKAGE_INDEX_DIGEST": "sha256:6fe07d8e6b1df64a9431f6b1b5cd2ff6392d9ddfd0d452b0bf7f3ac2923a1ec3",
+ "INTENDED_DELTA_DIGEST": "sha256:82e57491638b8fc471e691ba6ddbc376e11d371b1599740361af10c7fd6a76db",
+ "DETERMINISM_RESULT": "BYTE_IDENTICAL",
+ "FIRST_PARTY_BINDING_RESULT": "PASS",
+ "COLLISION_RESULT": "PASS",
+ "REMOVAL_RESULT": "PASS",
+ "LEGACY_EXCEPTIONS": [],
+ "ENVIRONMENT": {
+  "python": "3.13.5",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "builder_version": "ptf-market-package-writer/1.0",
+  "contract_versions": {
+   "market": "ptf-market/1.1",
+   "census": "ptf-market-identity-census/1.1",
+   "partition": "ptf-market-final-partition/1.1",
+   "policy_schema": "1.3",
+   "evidence": "contracts.evidence PUBLICATION_GRADE_REQUIRED=evidence_ref,field,quote,source_url,source_grade,artifact_class,artifact_sha256,artifact_kind,captured_at",
+   "identity_key": "ptf_identity_key/1.0",
+   "identity_routing": "ptf-identity-routing/1.0",
+   "hotel_exclusions": "ptf-hotel-exclusions/1.0",
+   "sealed_market_package": "ptf-sealed-market-package/1.0"
+  },
+  "created_from_source_sha": "260ba6c4a0409e6c12b8e7337f7f87687c29d3db",
+  "peak_working_set_mb": 61.9
+ },
+ "EXPIRY_REVOCATION_CONDITIONS": {
+  "valid_while": [
+   "the live deployment is 6a9e047690ec8bdaf99bcad2",
+   "the live index digest is sha256:1f1fef35e88678e90e35c886eeeb094893ab5520c37791858f7bcbeb7fadbbd3",
+   "no referenced artifact is added to evidence_revocations.json",
+   "the evidence is younger than 365 days",
+   "the owning contracts are at the versions recorded in ENVIRONMENT",
+   "the sealed package bytes are unchanged (digest above)"
+  ],
+  "earliest_evidence_expiry": "2027-09-06T00:00:00Z",
+  "evidence_max_age_days": 365
+ },
+ "UNKNOWN_RULES": [],
+ "FAILED_RULES": [],
+ "FAST_DATA_ONLY_RELEASE_ELIGIBLE": "YES",
+ "FULL_REGRESSION_REQUIRED_BY_LANE": "NO",
+ "FAST_PATH_PRODUCTION_ACTIVATION": "DISABLED",
+ "PRODUCTION_ACTIVATION_ALLOWED": "NO",
+ "PERFORMANCE": {
+  "total_seconds": 20.297,
+  "per_rule_seconds": {
+   "A": 0.005,
+   "B": 0.017,
+   "C": 0.027,
+   "D": 0.0,
+   "E": 0.0,
+   "F": 0.0,
+   "G": 0.097,
+   "H": 0.097,
+   "I": 0.097,
+   "J": 10.827,
+   "K": 9.137,
+   "L": 0.0,
+   "M": 0.001,
+   "N": 0.022,
+   "O": 0.0
+  },
+  "changed_market_build_seconds": 10.52,
+  "determinism_build_seconds": 9.137
+ },
+ "RECEIPT_DIGEST": "sha256:33f4e8e0e0cc9bc72097920ac1ccb3bc89895bfa200b4bf95128d83cd9e50b64"
+}
