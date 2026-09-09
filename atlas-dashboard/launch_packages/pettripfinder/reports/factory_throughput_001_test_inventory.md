@@ -1,15 +1,15 @@
 # PetTripFinder test pin inventory (A1)
 
-Schema `ptf-test-pin-inventory/1.0`. 400 modules scanned, 273 carry pins, 1589 sites.
+Schema `ptf-test-pin-inventory/1.0`. 403 modules scanned, 276 carry pins, 1625 sites.
 
 | class | sites |
 |---|---|
 | CURRENT_STATE_INVARIANT | 155 |
-| HISTORICAL_COHORT_INVARIANT | 852 |
-| HISTORICAL_ARTIFACT_INVARIANT | 193 |
-| DEPLOYMENT_EPOCH_INVARIANT | 131 |
+| HISTORICAL_COHORT_INVARIANT | 871 |
+| HISTORICAL_ARTIFACT_INVARIANT | 198 |
+| DEPLOYMENT_EPOCH_INVARIANT | 138 |
 | GENERIC_SCHEMA_INVARIANT | 194 |
-| CROSS_MARKET_INVARIANT | 64 |
+| CROSS_MARKET_INVARIANT | 69 |
 
 ## Modules asserting whole-package counts
 
@@ -83,6 +83,9 @@ Schema `ptf-test-pin-inventory/1.0`. 400 modules scanned, 273 carry pins, 1589 s
 - `tests/pettripfinder/test_indianapolis_pass1_capture.py`
 - `tests/pettripfinder/test_indianapolis_pass2_capture.py`
 - `tests/pettripfinder/test_indianapolis_recovery_005.py`
+- `tests/pettripfinder/test_lexington_ky_launch_halt_004.py`
+- `tests/pettripfinder/test_lexington_ky_reauthorization_005.py`
+- `tests/pettripfinder/test_lexington_ky_registration_003.py`
 - `tests/pettripfinder/test_listing_renderability_boundary.py`
 - `tests/pettripfinder/test_louisville_authority.py`
 - `tests/pettripfinder/test_louisville_final_006.py`
@@ -212,7 +215,7 @@ Schema `ptf-test-pin-inventory/1.0`. 400 modules scanned, 273 carry pins, 1589 s
 | `policy/test_m10_code_and_address_override.py` |  | GENERIC_SCHEMA_INVARIANT | 1 | CURRENT_STATE 1 |
 | `test_atlas_throughput_001.py` |  | HISTORICAL_COHORT_INVARIANT | 10 | HISTORICAL_ARTIFACT 4, HISTORICAL_COHORT 6 |
 | `test_atlas_throughput_002.py` |  | HISTORICAL_COHORT_INVARIANT | 5 | HISTORICAL_ARTIFACT 1, HISTORICAL_COHORT 4 |
-| `test_atlas_throughput_003.py` |  | HISTORICAL_COHORT_INVARIANT | 5 | CROSS_MARKET 1, DEPLOYMENT_EPOCH 1, HISTORICAL_ARTIFACT 1, HISTORICAL_COHORT 2 |
+| `test_atlas_throughput_003.py` |  | HISTORICAL_COHORT_INVARIANT | 3 | HISTORICAL_ARTIFACT 1, HISTORICAL_COHORT 2 |
 | `test_atlas_throughput_004.py` |  | HISTORICAL_COHORT_INVARIANT | 2 | HISTORICAL_COHORT 2 |
 | `test_atlas_throughput_005.py` |  | HISTORICAL_COHORT_INVARIANT | 3 | DEPLOYMENT_EPOCH 1, HISTORICAL_COHORT 2 |
 | `test_atlas_throughput_006.py` |  | HISTORICAL_COHORT_INVARIANT | 2 | HISTORICAL_ARTIFACT 1, HISTORICAL_COHORT 1 |
@@ -326,6 +329,9 @@ Schema `ptf-test-pin-inventory/1.0`. 400 modules scanned, 273 carry pins, 1589 s
 | `test_indianapolis_url_recovery_006.py` | indianapolis-in | HISTORICAL_COHORT_INVARIANT | 2 | CROSS_MARKET 1, HISTORICAL_COHORT 1 |
 | `test_inventory_validation.py` |  | CURRENT_STATE_INVARIANT | 3 | CURRENT_STATE 3 |
 | `test_launch_participation_046.py` |  | DEPLOYMENT_EPOCH_INVARIANT | 9 | DEPLOYMENT_EPOCH 9 |
+| `test_lexington_ky_launch_halt_004.py` |  | HISTORICAL_COHORT_INVARIANT | 11 | CROSS_MARKET 3, DEPLOYMENT_EPOCH 3, HISTORICAL_COHORT 5 |
+| `test_lexington_ky_reauthorization_005.py` |  | HISTORICAL_COHORT_INVARIANT | 13 | CROSS_MARKET 2, DEPLOYMENT_EPOCH 3, HISTORICAL_ARTIFACT 4, HISTORICAL_COHORT 4 |
+| `test_lexington_ky_registration_003.py` |  | HISTORICAL_COHORT_INVARIANT | 14 | CROSS_MARKET 1, DEPLOYMENT_EPOCH 2, HISTORICAL_ARTIFACT 1, HISTORICAL_COHORT 10 |
 | `test_listing_dataset_builder.py` |  | CURRENT_STATE_INVARIANT | 3 | CURRENT_STATE 3 |
 | `test_listing_renderability_boundary.py` |  | CURRENT_STATE_INVARIANT | 4 | CURRENT_STATE 4 |
 | `test_louisville_authority.py` | louisville-ky | CURRENT_STATE_INVARIANT | 44 | CURRENT_STATE 44 |

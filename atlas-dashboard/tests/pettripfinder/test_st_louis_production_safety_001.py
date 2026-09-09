@@ -80,9 +80,13 @@ class TestStLouisIsNowRegistered:
         the founder's to issue and is owed, not silently assumed.
         PTF-TOLEDO-OH-PROMOTION-AND-APPLICATION-002 made it 12 the same way:
         Toledo arrived with a contract, a shard and a participation row that
-        records source readiness and withholds authorization."""
+        records source readiness and withholds authorization.
+        PTF-LEXINGTON-KY-PROMOTION-AND-NEW-LANE-LAUNCH-PREP-003 made it 13,
+        again the same way -- and this one arrived carrying fifteen HELD rows,
+        which is the point the count cannot make on its own: a registration is
+        one market, not one market's worth of published facts."""
         assert "st-louis-mo" in MA.registered_market_ids()
-        assert len(load_markets()) == 12
+        assert len(load_markets()) == 13
 
     def test_the_authority_shard_exists_and_is_discoverable(self):
         assert "st-louis-mo" in MA.sharded_market_ids()

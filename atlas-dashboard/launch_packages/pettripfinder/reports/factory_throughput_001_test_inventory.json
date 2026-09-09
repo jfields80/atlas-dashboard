@@ -9,16 +9,16 @@
   "GENERIC_SCHEMA_INVARIANT",
   "CROSS_MARKET_INVARIANT"
  ],
- "modules_scanned": 400,
- "modules_with_pins": 273,
- "sites": 1589,
+ "modules_scanned": 403,
+ "modules_with_pins": 276,
+ "sites": 1625,
  "by_class": {
   "CURRENT_STATE_INVARIANT": 155,
-  "HISTORICAL_COHORT_INVARIANT": 852,
-  "HISTORICAL_ARTIFACT_INVARIANT": 193,
-  "DEPLOYMENT_EPOCH_INVARIANT": 131,
+  "HISTORICAL_COHORT_INVARIANT": 871,
+  "HISTORICAL_ARTIFACT_INVARIANT": 198,
+  "DEPLOYMENT_EPOCH_INVARIANT": 138,
   "GENERIC_SCHEMA_INVARIANT": 194,
-  "CROSS_MARKET_INVARIANT": 64
+  "CROSS_MARKET_INVARIANT": 69
  },
  "modules_asserting_whole_package_counts": [
   "tests/pettripfinder/acquisition/test_authority_build_036.py",
@@ -91,6 +91,9 @@
   "tests/pettripfinder/test_indianapolis_pass1_capture.py",
   "tests/pettripfinder/test_indianapolis_pass2_capture.py",
   "tests/pettripfinder/test_indianapolis_recovery_005.py",
+  "tests/pettripfinder/test_lexington_ky_launch_halt_004.py",
+  "tests/pettripfinder/test_lexington_ky_reauthorization_005.py",
+  "tests/pettripfinder/test_lexington_ky_registration_003.py",
   "tests/pettripfinder/test_listing_renderability_boundary.py",
   "tests/pettripfinder/test_louisville_authority.py",
   "tests/pettripfinder/test_louisville_final_006.py",
@@ -7395,38 +7398,14 @@
    ],
    "default_class": "HISTORICAL_COHORT_INVARIANT",
    "default_reason": "work-order-numbered module",
-   "site_count": 5,
+   "site_count": 3,
    "by_class": {
-    "CROSS_MARKET_INVARIANT": 1,
-    "DEPLOYMENT_EPOCH_INVARIANT": 1,
     "HISTORICAL_ARTIFACT_INVARIANT": 1,
     "HISTORICAL_COHORT_INVARIANT": 2
    },
    "sites": [
     {
-     "line": 455,
-     "test": "test_current_verified_live_agrees_across_record_manifest_and_pin",
-     "kind": "count",
-     "literal": 9,
-     "reads_package": false,
-     "has_len": true,
-     "source": "len(state.rollback_markets) == 9",
-     "class": "CROSS_MARKET_INVARIANT",
-     "reason": "names another market or isolation"
-    },
-    {
-     "line": 522,
-     "test": "test_case_17_the_stale_pittsburgh_like_package_cannot_remove_newer_indianapolis_like_state",
-     "kind": "count",
-     "literal": 786,
-     "reads_package": false,
-     "has_len": false,
-     "source": "receipt[\"RESULTS\"][\"G\"][\"detail\"][\"proposed_total_profiles\"] == 786",
-     "class": "DEPLOYMENT_EPOCH_INVARIANT",
-     "reason": "bundle / sitemap / route total"
-    },
-    {
-     "line": 555,
+     "line": 579,
      "test": "test_the_index_is_o_data_and_fast_at_a_hundred_markets",
      "kind": "count",
      "literal": 30,
@@ -7437,7 +7416,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 753,
+     "line": 777,
      "test": "test_staging_writes_only_into_the_stage_and_restores_every_constant",
      "kind": "count",
      "literal": 50,
@@ -7448,7 +7427,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 921,
+     "line": 945,
      "test": "test_the_committed_report_records_the_measurements",
      "kind": "count",
      "literal": 100,
@@ -12831,7 +12810,7 @@
    },
    "sites": [
     {
-     "line": 612,
+     "line": 629,
      "test": "test_combined_bundle_assembles_with_every_gate_passing",
      "kind": "count",
      "literal": 176,
@@ -17943,6 +17922,477 @@
    ]
   },
   {
+   "module": "tests/pettripfinder/test_lexington_ky_launch_halt_004.py",
+   "market": null,
+   "lanes": [
+    "full_regression"
+   ],
+   "default_class": "HISTORICAL_COHORT_INVARIANT",
+   "default_reason": "work-order-numbered module",
+   "site_count": 11,
+   "by_class": {
+    "CROSS_MARKET_INVARIANT": 3,
+    "DEPLOYMENT_EPOCH_INVARIANT": 3,
+    "HISTORICAL_COHORT_INVARIANT": 5
+   },
+   "sites": [
+    {
+     "line": 79,
+     "test": "test_the_founder_decision_block_still_names_toledo",
+     "kind": "count",
+     "literal": 11,
+     "reads_package": false,
+     "has_len": true,
+     "source": "len(authorized) == 11",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 98,
+     "test": "test_live_production_is_still_the_toledo_release",
+     "kind": "hash",
+     "literal": "895248738c79bc27f26da5bba1d2a490361ce6bd4959698adf3fb6f892aad8b0",
+     "reads_package": false,
+     "has_len": false,
+     "source": "live.bundle_sha256 == PARENT_DIGEST",
+     "class": "DEPLOYMENT_EPOCH_INVARIANT",
+     "reason": "hash of a bundle / sitemap / authorization"
+    },
+    {
+     "line": 99,
+     "test": "test_live_production_is_still_the_toledo_release",
+     "kind": "count",
+     "literal": 11,
+     "reads_package": false,
+     "has_len": true,
+     "source": "len(live.participating_markets) == 11",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 100,
+     "test": "test_live_production_is_still_the_toledo_release",
+     "kind": "count",
+     "literal": 803,
+     "reads_package": false,
+     "has_len": false,
+     "source": "live.total_profiles == 803",
+     "class": "DEPLOYMENT_EPOCH_INVARIANT",
+     "reason": "bundle / sitemap / route total"
+    },
+    {
+     "line": 101,
+     "test": "test_live_production_is_still_the_toledo_release",
+     "kind": "count",
+     "literal": 966,
+     "reads_package": false,
+     "has_len": false,
+     "source": "live.sitemap_route_count == 966",
+     "class": "DEPLOYMENT_EPOCH_INVARIANT",
+     "reason": "bundle / sitemap / route total"
+    },
+    {
+     "line": 142,
+     "test": "test_the_content_the_digest_describes_did_not_move",
+     "kind": "count",
+     "literal": 20,
+     "reads_package": true,
+     "has_len": true,
+     "source": "len(package[\"pet_friendly_records\"]) == len(policy[\"hotels\"]) == 20",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "whole-package count in a closed order's suite"
+    },
+    {
+     "line": 143,
+     "test": "test_the_content_the_digest_describes_did_not_move",
+     "kind": "count",
+     "literal": 10,
+     "reads_package": true,
+     "has_len": true,
+     "source": "len(package[\"verified_no_pets_records\"]) == len(exclusions[\"exclusions\"]) == 10",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "whole-package count in a closed order's suite"
+    },
+    {
+     "line": 144,
+     "test": "test_the_content_the_digest_describes_did_not_move",
+     "kind": "count",
+     "literal": 57,
+     "reads_package": true,
+     "has_len": false,
+     "source": "package[\"census\"][\"count\"] == census[\"count\"] == 57",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 156,
+     "test": "test_the_candidate_digest_is_stable_across_three_assemblies",
+     "kind": "hash",
+     "literal": "67fe8617b79febb9b2248895441c31ac65931cf9fdcfa4da4f8014ee190cde78",
+     "reads_package": false,
+     "has_len": false,
+     "source": "stability[\"digest\"] == AUTHORIZED_004_CANDIDATE_DIGEST",
+     "class": "CROSS_MARKET_INVARIANT",
+     "reason": "names another market or isolation"
+    },
+    {
+     "line": 205,
+     "test": "test_the_holds_are_untouched_and_none_was_promoted",
+     "kind": "count",
+     "literal": 15,
+     "reads_package": false,
+     "has_len": false,
+     "source": "holds[\"count\"] == 15",
+     "class": "CROSS_MARKET_INVARIANT",
+     "reason": "names another market or isolation"
+    },
+    {
+     "line": 206,
+     "test": "test_the_holds_are_untouched_and_none_was_promoted",
+     "kind": "count",
+     "literal": 15,
+     "reads_package": false,
+     "has_len": false,
+     "source": "report[\"holds_untouched\"][\"count\"] == 15",
+     "class": "CROSS_MARKET_INVARIANT",
+     "reason": "names another market or isolation"
+    }
+   ]
+  },
+  {
+   "module": "tests/pettripfinder/test_lexington_ky_reauthorization_005.py",
+   "market": null,
+   "lanes": [
+    "full_regression"
+   ],
+   "default_class": "HISTORICAL_COHORT_INVARIANT",
+   "default_reason": "work-order-numbered module",
+   "site_count": 13,
+   "by_class": {
+    "CROSS_MARKET_INVARIANT": 2,
+    "DEPLOYMENT_EPOCH_INVARIANT": 3,
+    "HISTORICAL_ARTIFACT_INVARIANT": 4,
+    "HISTORICAL_COHORT_INVARIANT": 4
+   },
+   "sites": [
+    {
+     "line": 93,
+     "test": "test_the_package_describes_the_committed_authority",
+     "kind": "count",
+     "literal": 20,
+     "reads_package": true,
+     "has_len": true,
+     "source": "len(package[\"pet_friendly_records\"]) == len(policy[\"hotels\"]) == 20",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "whole-package count in a closed order's suite"
+    },
+    {
+     "line": 94,
+     "test": "test_the_package_describes_the_committed_authority",
+     "kind": "count",
+     "literal": 10,
+     "reads_package": true,
+     "has_len": true,
+     "source": "len(package[\"verified_no_pets_records\"]) == len(exclusions[\"exclusions\"]) == 10",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "whole-package count in a closed order's suite"
+    },
+    {
+     "line": 95,
+     "test": "test_the_package_describes_the_committed_authority",
+     "kind": "count",
+     "literal": 57,
+     "reads_package": true,
+     "has_len": false,
+     "source": "package[\"census\"][\"count\"] == census[\"count\"] == 57",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 120,
+     "test": "test_it_binds_every_digest_the_order_asked_for",
+     "kind": "hash",
+     "literal": "895248738c79bc27f26da5bba1d2a490361ce6bd4959698adf3fb6f892aad8b0",
+     "reads_package": false,
+     "has_len": false,
+     "source": "bound[\"parent_release_digest\"] == PARENT_DIGEST",
+     "class": "HISTORICAL_ARTIFACT_INVARIANT",
+     "reason": "hash pinned by a closed order"
+    },
+    {
+     "line": 122,
+     "test": "test_it_binds_every_digest_the_order_asked_for",
+     "kind": "hash",
+     "literal": "67fe8617b79febb9b2248895441c31ac65931cf9fdcfa4da4f8014ee190cde78",
+     "reads_package": false,
+     "has_len": false,
+     "source": "bound[\"final_candidate_digest\"] == CANDIDATE_DIGEST",
+     "class": "HISTORICAL_ARTIFACT_INVARIANT",
+     "reason": "hash pinned by a closed order"
+    },
+    {
+     "line": 123,
+     "test": "test_it_binds_every_digest_the_order_asked_for",
+     "kind": "hash",
+     "literal": "67fe8617b79febb9b2248895441c31ac65931cf9fdcfa4da4f8014ee190cde78",
+     "reads_package": false,
+     "has_len": false,
+     "source": "bound[\"deployment_artifact_digest\"] == CANDIDATE_DIGEST",
+     "class": "DEPLOYMENT_EPOCH_INVARIANT",
+     "reason": "hash of a bundle / sitemap / authorization"
+    },
+    {
+     "line": 124,
+     "test": "test_it_binds_every_digest_the_order_asked_for",
+     "kind": "hash",
+     "literal": "dd0d87f2da07615776016690af64452d42cafc24d3c82e310b5f44efc6f7e611",
+     "reads_package": false,
+     "has_len": false,
+     "source": "bound[\"candidate_sitemap_digest\"] == SITEMAP_DIGEST",
+     "class": "DEPLOYMENT_EPOCH_INVARIANT",
+     "reason": "hash of a bundle / sitemap / authorization"
+    },
+    {
+     "line": 146,
+     "test": "test_the_validation_was_narrow_and_says_why",
+     "kind": "count",
+     "literal": 15,
+     "reads_package": false,
+     "has_len": true,
+     "source": "len(v[\"rules\"]) == 15",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 176,
+     "test": "test_the_candidate_is_reproducible_and_the_packet_says_how_often",
+     "kind": "hash",
+     "literal": "67fe8617b79febb9b2248895441c31ac65931cf9fdcfa4da4f8014ee190cde78",
+     "reads_package": false,
+     "has_len": false,
+     "source": "r[\"digest\"] == CANDIDATE_DIGEST",
+     "class": "HISTORICAL_ARTIFACT_INVARIANT",
+     "reason": "hash pinned by a closed order"
+    },
+    {
+     "line": 180,
+     "test": "test_the_holds_are_carried_forward_untouched",
+     "kind": "count",
+     "literal": 15,
+     "reads_package": false,
+     "has_len": false,
+     "source": "packet[\"lexington\"][\"held_rows\"] == holds[\"count\"] == 15",
+     "class": "CROSS_MARKET_INVARIANT",
+     "reason": "names another market or isolation"
+    },
+    {
+     "line": 181,
+     "test": "test_the_holds_are_carried_forward_untouched",
+     "kind": "count",
+     "literal": 15,
+     "reads_package": false,
+     "has_len": true,
+     "source": "len(packet[\"held_rows\"]) == 15",
+     "class": "CROSS_MARKET_INVARIANT",
+     "reason": "names another market or isolation"
+    },
+    {
+     "line": 192,
+     "test": "test_the_rollback_target_is_the_current_parent_not_the_one_it_replaced",
+     "kind": "hash",
+     "literal": "895248738c79bc27f26da5bba1d2a490361ce6bd4959698adf3fb6f892aad8b0",
+     "reads_package": false,
+     "has_len": false,
+     "source": "r[\"target_release_digest\"] == PARENT_DIGEST",
+     "class": "HISTORICAL_ARTIFACT_INVARIANT",
+     "reason": "hash pinned by a closed order"
+    },
+    {
+     "line": 237,
+     "test": "test_live_production_is_unchanged",
+     "kind": "hash",
+     "literal": "895248738c79bc27f26da5bba1d2a490361ce6bd4959698adf3fb6f892aad8b0",
+     "reads_package": false,
+     "has_len": false,
+     "source": "live.bundle_sha256 == PARENT_DIGEST",
+     "class": "DEPLOYMENT_EPOCH_INVARIANT",
+     "reason": "hash of a bundle / sitemap / authorization"
+    }
+   ]
+  },
+  {
+   "module": "tests/pettripfinder/test_lexington_ky_registration_003.py",
+   "market": null,
+   "lanes": [
+    "full_regression"
+   ],
+   "default_class": "HISTORICAL_COHORT_INVARIANT",
+   "default_reason": "work-order-numbered module",
+   "site_count": 14,
+   "by_class": {
+    "CROSS_MARKET_INVARIANT": 1,
+    "DEPLOYMENT_EPOCH_INVARIANT": 2,
+    "HISTORICAL_ARTIFACT_INVARIANT": 1,
+    "HISTORICAL_COHORT_INVARIANT": 10
+   },
+   "sites": [
+    {
+     "line": 90,
+     "test": "test_the_clean_cohort_is_carried_across_row_for_row",
+     "kind": "count",
+     "literal": 42,
+     "reads_package": true,
+     "has_len": true,
+     "source": "len(rows) == 42",
+     "class": "CROSS_MARKET_INVARIANT",
+     "reason": "names another market or isolation"
+    },
+    {
+     "line": 117,
+     "test": "test_the_holds_document_names_every_held_row_and_its_class",
+     "kind": "count",
+     "literal": 15,
+     "reads_package": false,
+     "has_len": false,
+     "source": "holds[\"count\"] == 15",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 155,
+     "test": "test_the_market_contract_parses_and_states_its_membership_basis",
+     "kind": "count",
+     "literal": 7,
+     "reads_package": false,
+     "has_len": true,
+     "source": "len(cfg.corridors) == 7",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 168,
+     "test": "test_the_census_validates_and_every_identity_key_is_canonical",
+     "kind": "count",
+     "literal": 57,
+     "reads_package": true,
+     "has_len": false,
+     "source": "census[\"count\"] == 57",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 169,
+     "test": "test_the_census_validates_and_every_identity_key_is_canonical",
+     "kind": "count",
+     "literal": 61,
+     "reads_package": true,
+     "has_len": false,
+     "source": "census[\"shadow_confirmed_identities\"] == 61",
+     "class": "HISTORICAL_ARTIFACT_INVARIANT",
+     "reason": "count read from a committed artifact"
+    },
+    {
+     "line": 189,
+     "test": "test_the_partition_names_every_census_identity_once",
+     "kind": "count",
+     "literal": 20,
+     "reads_package": true,
+     "has_len": false,
+     "source": "counts[\"PUBLISHED_PET_FRIENDLY\"] == 20",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 190,
+     "test": "test_the_partition_names_every_census_identity_once",
+     "kind": "count",
+     "literal": 10,
+     "reads_package": true,
+     "has_len": false,
+     "source": "counts[\"VERIFIED_NO_PETS\"] == 10",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 193,
+     "test": "test_the_partition_names_every_census_identity_once",
+     "kind": "count",
+     "literal": 11,
+     "reads_package": true,
+     "has_len": false,
+     "source": "counts[\"AWAITING_POLICY_ARTIFACT\"] == 11",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 200,
+     "test": "test_the_policy_package_validates",
+     "kind": "count",
+     "literal": 20,
+     "reads_package": true,
+     "has_len": true,
+     "source": "len(policy[\"hotels\"]) == 20",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "whole-package count in a closed order's suite"
+    },
+    {
+     "line": 205,
+     "test": "test_the_exclusion_shard_validates",
+     "kind": "count",
+     "literal": 10,
+     "reads_package": true,
+     "has_len": true,
+     "source": "len(exclusions[\"exclusions\"]) == 10",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "whole-package count in a closed order's suite"
+    },
+    {
+     "line": 215,
+     "test": "test_every_published_row_carries_first_party_evidence",
+     "kind": "count",
+     "literal": 71,
+     "reads_package": false,
+     "has_len": true,
+     "source": "len(entry[\"artifact_sha256\"]) == 71",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 281,
+     "test": "test_the_release_contract_grants_no_deployment",
+     "kind": "count",
+     "literal": 20,
+     "reads_package": false,
+     "has_len": false,
+     "source": "contract[\"reconciliation\"][\"published_pet_friendly\"] == 20",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 350,
+     "test": "test_the_release_diff_carries_no_unexpected_finding",
+     "kind": "count",
+     "literal": 803,
+     "reads_package": false,
+     "has_len": false,
+     "source": "diff[\"live_total_profiles\"] == 803",
+     "class": "DEPLOYMENT_EPOCH_INVARIANT",
+     "reason": "bundle / sitemap / route total"
+    },
+    {
+     "line": 351,
+     "test": "test_the_release_diff_carries_no_unexpected_finding",
+     "kind": "count",
+     "literal": 823,
+     "reads_package": false,
+     "has_len": false,
+     "source": "diff[\"proposed_total_profiles\"] == 823",
+     "class": "DEPLOYMENT_EPOCH_INVARIANT",
+     "reason": "bundle / sitemap / route total"
+    }
+   ]
+  },
+  {
    "module": "tests/pettripfinder/test_listing_dataset_builder.py",
    "market": null,
    "lanes": [
@@ -19337,7 +19787,7 @@
    },
    "sites": [
     {
-     "line": 541,
+     "line": 547,
      "test": "test_production_markets_dir_loads_and_is_single_market_columbus",
      "kind": "count",
      "literal": 10,
@@ -19348,7 +19798,7 @@
      "reason": "module default"
     },
     {
-     "line": 547,
+     "line": 553,
      "test": "test_production_markets_dir_loads_and_is_single_market_columbus",
      "kind": "count",
      "literal": 6,
@@ -19359,7 +19809,7 @@
      "reason": "module default"
     },
     {
-     "line": 548,
+     "line": 554,
      "test": "test_production_markets_dir_loads_and_is_single_market_columbus",
      "kind": "count",
      "literal": 5,
@@ -19523,7 +19973,7 @@
    },
    "sites": [
     {
-     "line": 570,
+     "line": 597,
      "test": "test_columbus_now_states_the_universe_it_could_not_before",
      "kind": "count",
      "literal": 112,
@@ -19534,7 +19984,7 @@
      "reason": "module default"
     },
     {
-     "line": 659,
+     "line": 686,
      "test": "test_columbus_profile_count_never_appears_in_another_contract",
      "kind": "count",
      "literal": 88,
@@ -19545,7 +19995,7 @@
      "reason": "module default"
     },
     {
-     "line": 661,
+     "line": 688,
      "test": "test_columbus_profile_count_never_appears_in_another_contract",
      "kind": "count",
      "literal": 88,
@@ -19556,7 +20006,7 @@
      "reason": "module default"
     },
     {
-     "line": 663,
+     "line": 690,
      "test": "test_columbus_profile_count_never_appears_in_another_contract",
      "kind": "count",
      "literal": 88,
@@ -19567,7 +20017,7 @@
      "reason": "module default"
     },
     {
-     "line": 665,
+     "line": 692,
      "test": "test_columbus_profile_count_never_appears_in_another_contract",
      "kind": "count",
      "literal": 88,

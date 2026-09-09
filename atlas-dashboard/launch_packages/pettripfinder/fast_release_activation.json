@@ -14,5 +14,13 @@
   "ATLAS-THROUGHPUT-004 persistent content-addressed bundle cache",
   "ATLAS-THROUGHPUT-005 release coordinator consuming validation receipts",
   "a founder decision recorded in this file, per market, with the receipt digest it trusts"
- ]
+ ],
+ "production_release_consumption_note": "PRODUCTION_RELEASE_CONSUMPTION stays DISABLED and is deliberately NOT opened: it governs consuming a cached validated bundle, and Lexington has never been built, so the cache probe was a MISS and the lane built it cold. Opening a flag this launch does not need would widen the blast radius for nothing.",
+ "consumed": {
+  "work_order": "PTF-LEXINGTON-KY-FRESH-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006",
+  "market_id": "lexington-ky",
+  "candidate_digest": "67fe8617b79febb9b2248895441c31ac65931cf9fdcfa4da4f8014ee190cde78",
+  "host_deployment_id": "6aa172121d37bb4013eb44a4",
+  "why_closed": "same lifecycle as the coordinator gate: opened for one candidate, consumed by its activation, closed. The redesigned factory itself is NOT disabled -- FAST_PATH_IMPLEMENTED and FAST_PATH_VALIDATED stay YES and the lane remains the normal validation path; what closes is the standing permission to ACTIVATE production without a fresh founder decision."
+ }
 }

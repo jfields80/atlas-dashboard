@@ -77,8 +77,14 @@ SCRATCH = Path(chr(67) + ":/t/ptf045t")
 #: and all 148 added routes under /cincinnati-oh/.
 EXPECTED_MARKETS = ("cincinnati-oh", "cleveland-akron-canton-oh", "columbus-oh",
                     "dayton-oh", "grand-rapids-holland-mi", "indianapolis-in",
-                    "louisville-ky", "milwaukee-wi", "pittsburgh-pa",
-                    "st-louis-mo", "toledo-oh")
+                    "lexington-ky", "louisville-ky", "milwaukee-wi",
+                    "pittsburgh-pa", "st-louis-mo", "toledo-oh")
+# lexington-ky joined as the TWELFTH at PTF-LEXINGTON-KY-FRESH-FOUNDER-
+# AUTHORIZATION-AND-LIVE-LAUNCH-006 (deploy 6aa172121d37bb4013eb44a4), 20
+# profiles and 25 routes, with 0 routes removed and every one of the 991 live
+# routes byte-identical to the authorized bundle. Every other figure below is
+# UNCHANGED, which is the half of these constants that says a new market
+# disturbed nothing.
 # toledo-oh joined as the ELEVENTH at PTF-TOLEDO-OH-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-003
 # (deploy 6a9e047690ec8bdaf99bcad2), 17 profiles and 21 routes. The list stays
 # EXPLICIT rather than derived from the pin: a test that derives both sides of
