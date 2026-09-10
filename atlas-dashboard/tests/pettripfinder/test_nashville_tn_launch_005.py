@@ -40,6 +40,7 @@ from scripts.pettripfinder import deployment_authorization as DA
 from scripts.pettripfinder import launch_participation as LP
 from scripts.pettripfinder import release_coordinator as RC
 from scripts.pettripfinder import release_index as RI
+from pettripfinder.conftest import manifest_problems_other_than_the_lapsed_pin
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 PKG = REPO_ROOT / "launch_packages" / "pettripfinder"
@@ -111,11 +112,27 @@ class TestNashvilleIsLive:
             assert LP.launch_status(market) != LP.FOUNDER_AUTHORIZED_FOR_LAUNCH
 
     def test_participation_carries_the_founder_decision_for_nashville_only(self):
+        """Read from wherever the record now keeps it.
+
+        This decision was the CURRENT block until PTF-CHARLOTTE-NC-ZERO-TO-LIVE-
+        BENCHMARK-001 registered a market and reissued the record. A reissue
+        moves a decision into the lineage; it does not change it, which is what
+        the lineage is for. The facts asserted are the same ones.
+        """
         assert LP.launch_status(MARKET) == LP.FOUNDER_AUTHORIZED_FOR_LAUNCH
         doc = _load(DEPLOY / "launch_participation.json")
-        assert doc["decision"]["work_order"] == \
-            "PTF-NASHVILLE-TN-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-005"
-        assert doc["decision"]["markets_moved"] == [MARKET]
+        decision = doc["decision"]
+        if decision["work_order"] != \
+                "PTF-NASHVILLE-TN-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-005":
+            # Superseded, and by a write that authorized nothing: this launch is
+            # still the newest FOUNDER decision in the chain.
+            newest = LP.decision_chain(doc)["records"][-1]
+            assert newest["work_order"] == \
+                "PTF-NASHVILLE-TN-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-005"
+            assert MARKET in newest["founder_authorized"]
+            assert newest["founder_authorized"] == LP.authorized_market_ids()
+        else:
+            assert decision["markets_moved"] == [MARKET]
         row = next(r for r in doc["markets"] if r["market_id"] == MARKET)
         assert row["founder_decision"]["authorized_candidate_digest"] == CANDIDATE
         assert row["founder_decision"]["authorized_package_digest"] == PACKAGE
@@ -148,9 +165,21 @@ class TestTheAuthorizationBindsTheAuthorizedCandidate:
         assert DEPLOY_ID in history[2]["note"]
 
     def test_it_verifies_against_the_repository_it_names(self, auth):
+        """Everything still agrees except the pin a later registration lapsed.
+
+        PTF-CHARLOTTE-NC-ZERO-TO-LIVE-BENCHMARK-001 registered a fifteenth
+        market, which reissues the participation record, which this
+        authorization binds by sha256. That is the design working and is the
+        same lapse conftest documents at length: the live bundle is untouched
+        and the next deployment issues a new authorization. The filter drops
+        ONLY complaints about the participation record, so a changed contract or
+        a moved control file would still come through and still fail.
+        """
         manifest = _load(DEPLOY / "global_deployment_manifest.json")
-        assert DA.verify_authorization(auth, manifest) == []
-        assert DA.manifest_authorization_problems(manifest) == []
+        assert manifest_problems_other_than_the_lapsed_pin(
+            DA.verify_authorization(auth, manifest)) == []
+        assert manifest_problems_other_than_the_lapsed_pin(
+            DA.manifest_authorization_problems(manifest)) == []
         assert manifest["deployment_authorized"] is True
 
     def test_the_packet_that_proposed_this_launch_bound_the_same_digests(self):

@@ -256,7 +256,14 @@ def test_the_decision_names_this_order_and_preserves_its_predecessor():
     """
     doc = LP.load_participation()
     decision = doc["decision"]
-    assert decision["decided_by"] == "founder"
+    # A LAUNCH decision is the founder's; a REGISTRATION write is not, and
+    # PTF-CHARLOTTE-NC-ZERO-TO-LIVE-BENCHMARK-001 is the first of those to hold
+    # the current block. Either way it must have moved no authorization, which
+    # is the fact this test cares about -- 032's own decision is read from the
+    # lineage below and is unchanged by who wrote the record after it.
+    assert decision["decided_by"] in ("founder", decision["work_order"])
+    if decision["decided_by"] != "founder":
+        assert decision["founder_authorized_set_unchanged"] is True
     if decision["work_order"] == "PTF-GRAND-RAPIDS-LAUNCH-PARTICIPATION-032":
         mine, predecessor = decision, decision["supersedes"]
     else:

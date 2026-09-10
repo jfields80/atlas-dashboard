@@ -595,7 +595,22 @@ def test_current_live_inventory_preserves_all_assemblable_market_profiles(market
                       # policy changed; only the proof did. Every other
                       # market's count is unchanged, which is the half of this
                       # assertion saying a recovery disturbed no old market.
-                      "nashville-tn": 79}
+                      "nashville-tn": 79,
+                      # PTF-CHARLOTTE-NC-ZERO-TO-LIVE-BENCHMARK-001: Charlotte
+                      # registers with 106 published profiles over a
+                      # 268-identity census, and it is the first market in this
+                      # dict built from zero ENTIRELY on the redesigned factory
+                      # -- no proposed shadow to carry across, so there is no
+                      # shadow count to reconcile against. 121 rows are held by
+                      # the evidence and provenance gates and publish nothing.
+                      # Like Cincinnati, Detroit, Toledo, Lexington and
+                      # Nashville above, appearing here is a statement about the
+                      # SOURCE and not an admission: Charlotte is recorded
+                      # SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH and
+                      # does not enter the bundle. Every other count is
+                      # unchanged -- the half of this assertion saying a new
+                      # market disturbed no old one.
+                      "charlotte-nc": 106}
     # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: 469 + Indianapolis's 16 further
     # founder-signed profiles (8 -> 24). Every other market's count above is
     # unchanged, so the whole of this movement is Indianapolis's.

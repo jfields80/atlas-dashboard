@@ -89,9 +89,13 @@ class TestStLouisIsNowRegistered:
         makes that point harder still: Nashville registers 180 identities and
         publishes EIGHT, because 88 rows are held -- 84 of them by a lane that
         recorded a page's byte length instead of its hash. One market joined the
-        registry; almost none of its inventory joined the site."""
+        registry; almost none of its inventory joined the site.
+        PTF-CHARLOTTE-NC-ZERO-TO-LIVE-BENCHMARK-001 made it 15, and makes the
+        same point a third way: Charlotte registers 268 identities and
+        publishes 106, with 121 unresolved -- one market joined the registry,
+        and rather less than half of its inventory joined the site."""
         assert "st-louis-mo" in MA.registered_market_ids()
-        assert len(load_markets()) == 14
+        assert len(load_markets()) == 15
 
     def test_the_authority_shard_exists_and_is_discoverable(self):
         assert "st-louis-mo" in MA.sharded_market_ids()

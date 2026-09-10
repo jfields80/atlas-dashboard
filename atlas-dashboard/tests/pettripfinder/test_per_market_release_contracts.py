@@ -116,14 +116,22 @@ LEXINGTON = "lexington-ky"
 #: registered identities and EIGHT published, because 88 rows are held by the
 #: modern evidence and provenance gates.
 NASHVILLE = "nashville-tn"
+#: PTF-CHARLOTTE-NC-ZERO-TO-LIVE-BENCHMARK-001 registered the fifteenth market,
+#: and the first built from zero entirely on the redesigned factory -- no
+#: proposed shadow, no promotion, the census written straight to the registered
+#: path. It arrives releasable and NOT launch-authorized, like Detroit, Toledo,
+#: Lexington and Nashville before it: 268 registered identities, 106 published,
+#: 41 verified-no-pets, and 121 rows the evidence and provenance gates hold.
+CHARLOTTE = "charlotte-nc"
 
 # DETROIT joins at PTF-DETROIT-ANN-ARBOR-HARDENED-SYNC-029, which brought its
 # hardened market onto this lineage: 121 published, 81 verified no-pets, a
 # release contract verifying with zero disagreements. It is releasable and
 # NOT launch-authorized -- two different facts, and this tuple is the first.
+#: PTF-CHARLOTTE-NC-ZERO-TO-LIVE-BENCHMARK-001 added CHARLOTTE.
 MARKETS = (COLUMBUS, CLEVELAND, DAYTON, PITTSBURGH, INDIANAPOLIS, MILWAUKEE,
            ST_LOUIS, LOUISVILLE, GRAND_RAPIDS, CINCINNATI, DETROIT, TOLEDO,
-           LEXINGTON, NASHVILLE)
+           LEXINGTON, NASHVILLE, CHARLOTTE)
 
 #: The reconciliation each market's committed authority is expected to state, as
 #: (confirmed, published, verified_no_pets, resolved, unresolved). ``None`` means
@@ -175,6 +183,11 @@ EXPECTED_RECONCILIATION = {
     # verified-no-pets.
     LEXINGTON: _pinned_reconciliation(LEXINGTON),
     NASHVILLE: _pinned_reconciliation(NASHVILLE),
+    # PTF-CHARLOTTE-NC-ZERO-TO-LIVE-BENCHMARK-001: 268 registered identities,
+    # 106 published, 41 verified-no-pets, 147 resolved and 121 unresolved.
+    # Charlotte records no OUT_OF_CURRENT_CATEGORY identity, so resolved is
+    # published + verified-no-pets and unresolved is the remainder.
+    CHARLOTTE: _pinned_reconciliation(CHARLOTTE),
     # 163 identities, 43 published, 20 verified-no-pets, 63 resolved and 100
     # unresolved. The census is the 163-row recensus, promoted into the pinned
     # path by PTF-GRAND-RAPIDS-CENSUS-PIN-AND-RELEASE-CONTRACT-024; the
@@ -597,7 +610,18 @@ class TestContractAgreesWithItsOwnAuthority:
                              # argue with. Every number above is unchanged,
                              # which is the half of this assertion that proves
                              # the scoping.
-                             NASHVILLE: 18}
+                             NASHVILLE: 18,
+                             # PTF-CHARLOTTE-NC-ZERO-TO-LIVE-BENCHMARK-001
+                             # wrote 41, the largest first refusal set any
+                             # market has arrived with, and every one of them
+                             # is a first-party read: 43 rows reached the
+                             # exclusion shard and two were withdrawn, because
+                             # the only sentence their pages state is "Service
+                             # animals only", which the gate refuses as
+                             # SERVICE_ANIMAL_ONLY. Every number above is
+                             # unchanged, which is the half of this assertion
+                             # that proves the scoping.
+                             CHARLOTTE: 41}
         registry = json.loads(
             (REPO_ROOT / "launch_packages" / "pettripfinder" / "hotel_exclusions.json")
             .read_text(encoding="utf-8-sig"))["exclusions"]

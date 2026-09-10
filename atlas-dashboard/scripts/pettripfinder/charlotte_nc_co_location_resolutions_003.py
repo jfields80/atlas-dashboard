@@ -137,6 +137,14 @@ def build():
         slug_a = normalize_name(a["canonical_name"]).replace(" ", "-")
         rows.append(OrderedDict((
             ("resolution_id", "res-%s-%s" % (MARKET_ID, slug_a))[:96],
+            # SCOPED TO THIS MARKET. `identity_resolutions.json` is a GLOBAL
+            # file and Milwaukee, St. Louis and Detroit all scope their rows
+            # with market_id; only the Columbus BrewDog pair is deliberately
+            # unscoped. Leaving these unscoped made seven Charlotte rulings
+            # look like global records and broke the Columbus-unchanged claim,
+            # which asserts that its one resolution is still the ONLY unscoped
+            # record in the file.
+            ("market_id", MARKET_ID),
             ("resolution_type", PG.SAME_CAMPUS),
             ("address_key", key),
             ("identities", [

@@ -63,7 +63,11 @@ REVIEWED_MARKETS = (
 )
 
 #: Registered, source-ready, and deliberately not authorized.
-REVIEWED_WITHHELD = ("detroit-ann-arbor-mi",)
+#: PTF-CHARLOTTE-NC-ZERO-TO-LIVE-BENCHMARK-001 added charlotte-nc, which is the
+#: first market to join this list AFTER the manifest below was composed -- see
+#: test_the_withheld_list_is_exactly_the_registered_remainder for what that
+#: costs and why it is not a review decision.
+REVIEWED_WITHHELD = ("charlotte-nc", "detroit-ann-arbor-mi")
 
 
 @pytest.fixture(scope="module")
@@ -124,8 +128,21 @@ class TestTheReviewedListAgreesWithEveryDerivedOne:
     def test_the_withheld_list_is_exactly_the_registered_remainder(self, manifest):
         registered = {m.market_id for m in load_markets()}
         assert registered - set(REVIEWED_MARKETS) == set(REVIEWED_WITHHELD)
+        # The manifest is a HISTORICAL artifact, composed by the last deploy. It
+        # can only name markets that existed then, so a market registered since
+        # is absent from BOTH its lists. That absence is a fact about deploy
+        # order and not a review decision, which is why the comparison is scoped
+        # to what the manifest knew rather than relaxed.
+        known = {row["market_id"] for row in manifest["participating_markets"]} | \
+                {row["market_id"] for row in manifest["excluded_markets"]}
         assert sorted(row["market_id"] for row in manifest["excluded_markets"]) == \
-            sorted(REVIEWED_WITHHELD)
+            sorted(set(REVIEWED_WITHHELD) & known)
+        # And a withheld market the manifest never knew must still be withheld
+        # and must serve nothing, or its absence would be hiding a live market.
+        for market_id in sorted(set(REVIEWED_WITHHELD) - known):
+            assert LP.launch_status(market_id) == \
+                LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH, market_id
+            assert market_id not in RI.current_verified_live().participating_markets
 
 
 class TestEachMarketContributesWhatItsContractStates:
@@ -162,7 +179,16 @@ class TestTheManifestPinsTheRecordItWasComposedUnder:
     def test_it_names_the_participation_record_and_its_hash(self, manifest):
         pin = manifest["launch_participation"]
         assert pin["source"] == "deploy/netlify/launch_participation.json"
-        assert pin["sha256"] == LP.participation_sha256()
+        # The manifest pins the record it was COMPOSED under. Registering a
+        # market REISSUES that record -- the lapsed-pin doctrine conftest
+        # states at length -- so the pin equals the current record until a
+        # registration lands and is an ANCESTOR of it afterwards. Either is
+        # legal; a sha that is neither would mean the manifest was composed
+        # under a record no longer in this document's own lineage.
+        ancestors = [r["sha256"] for r in LP.decision_chain()["records"]]
+        assert pin["sha256"] in [LP.participation_sha256()] + ancestors
+        # The authorized set, though, may NOT drift: a registration adds a
+        # withheld market and moves no lever.
         assert pin["founder_authorized"] == LP.authorized_market_ids()
 
     def test_a_changed_record_invalidates_it(self, manifest):

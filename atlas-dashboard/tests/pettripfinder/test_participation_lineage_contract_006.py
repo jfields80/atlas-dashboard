@@ -226,21 +226,42 @@ class TestTheContractRefusesWhatTheNashvilleLaunchWrote:
                    for p in LP.decision_problems(second, path=first_path))
 
 
-class TestTheCommittedRecordAndItsOneDocumentedException:
+class TestTheCommittedRecordAndTheExceptionThatIsNowClosed:
+    """The documented exception ENDED at PTF-CHARLOTTE-NC-ZERO-TO-LIVE-
+    BENCHMARK-001.
+
+    PTF-NASHVILLE-TN-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-005 rebuilt the
+    decision block instead of extending it and dropped the chain. It could not
+    be put back at the time: the participation record is sha256-bound into the
+    LIVE deployment authorization, so any edit had to wait for a write that had
+    its own reason to exist. PTF-NASHVILLE-POST-LAUNCH-TEST-HARNESS-CLEANUP-006
+    therefore committed a REPAIR RECORD beside it, naming the exact sha256 it
+    covered and the exact block the next write had to carry.
+
+    Registering Charlotte was that next write, and it carried exactly that
+    block. So these tests now assert the closure rather than the exception: the
+    chain is in the record itself, and the repair record is spent history whose
+    prescription can be checked against what was actually written.
+    """
 
     def test_the_committed_record_loads_and_its_chain_is_reachable(self):
         doc = LP.load_participation()
         chain = LP.decision_chain(doc)
         assert chain["supersedes"]["work_order"] == \
-            "PTF-LEXINGTON-KY-FRESH-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006"
-        assert len(chain["records"]) >= 8
+            "PTF-NASHVILLE-TN-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-005"
+        assert len(chain["records"]) >= 9
         assert chain["records"][0]["work_order"] == \
             "PTF-FIRST-MULTI-MARKET-PRODUCTION-DEPLOYMENT-046"
 
-    def test_it_is_the_repair_record_carrying_it_and_that_is_recorded(self):
-        """Honest about where the chain lives, so nobody thinks it was fine."""
-        assert LP.decision_chain()["carried_by"] == LP.LINEAGE_REPAIR_PATH.name
-        assert "supersedes" not in LP.load_participation()["decision"]
+    def test_the_record_carries_its_own_chain_again(self):
+        """Honest about where the chain lives -- and it lives at home again."""
+        decision = LP.load_participation()["decision"]
+        assert LP.decision_chain()["carried_by"] == LP.PARTICIPATION_PATH.name
+        assert decision["supersedes"]
+        assert decision["lineage"]["records"]
+        # And no repair record covers the current file any more, which is what
+        # "closed" means: the cover was per-sha256 and this is a new record.
+        assert LP._repair_covers(LP.PARTICIPATION_PATH) is None
 
     def test_a_stale_repair_record_does_not_excuse_a_missing_chain(self, tmp_path):
         """The exception is per-record, not a standing licence.
@@ -256,10 +277,15 @@ class TestTheCommittedRecordAndItsOneDocumentedException:
         )["current_participation_sha256"]
         assert LP.decision_problems(doc, path=other)
 
-    def test_the_repair_names_the_block_the_next_write_must_carry(self):
+    def test_the_repair_named_the_block_the_next_write_had_to_carry(self):
         repair = json.loads(LP.LINEAGE_REPAIR_PATH.read_text(encoding="utf-8-sig"))
         nxt = repair["what_the_next_participation_write_must_carry"]
-        assert nxt["supersedes"]["sha256"] == LP.participation_sha256()
+        # The record it prescribed FOR is the one the next write superseded, so
+        # the sha it names is now the newest ancestor rather than the current
+        # file. That is the prescription being spent, not being wrong.
+        assert nxt["supersedes"]["sha256"] == \
+            LP.decision_chain()["records"][-1]["sha256"]
+        assert nxt["supersedes"]["sha256"] != LP.participation_sha256()
         assert nxt["supersedes"]["work_order"] == \
             "PTF-NASHVILLE-TN-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-005"
         records = nxt["lineage"]["records"]
@@ -269,17 +295,22 @@ class TestTheCommittedRecordAndItsOneDocumentedException:
         counts = [len(r["founder_authorized"]) for r in records]
         assert counts == sorted(counts)
 
-    def test_the_next_write_would_produce_exactly_that_block(self):
-        """extend_decision, run against the committed record, agrees with the
-        repair. The two were derived independently -- one from git, one from the
-        contract -- so agreeing is evidence rather than a tautology.
+    def test_the_write_that_closed_it_carried_exactly_that_block(self):
+        """The committed decision agrees with the repair's prescription.
+
+        The two were derived independently -- the repair from git, the write
+        from ``extend_decision`` reading the contract -- so agreeing is evidence
+        rather than a tautology. This ASSERTED A PREDICTION until the write
+        happened; it now asserts the outcome, which is the stronger claim: the
+        chain that came back is the chain that was lost, and not merely a
+        well-formed one.
         """
-        current = LP.load_participation()
-        block = LP.extend_decision(
-            current, LP.participation_sha256(), path=LP.PARTICIPATION_PATH,
-            work_order="PTF-NASHVILLE-POST-LAUNCH-TEST-HARNESS-CLEANUP-006",
-            decided_by="founder", decided_on="2026-09-10", reason="a later launch")
+        decision = LP.load_participation()["decision"]
         expected = json.loads(LP.LINEAGE_REPAIR_PATH.read_text(
             encoding="utf-8-sig"))["what_the_next_participation_write_must_carry"]
-        assert block["supersedes"] == expected["supersedes"]
-        assert block["lineage"]["records"] == expected["lineage"]["records"]
+        assert decision["supersedes"] == expected["supersedes"]
+        assert decision["lineage"]["records"] == expected["lineage"]["records"]
+        # The write that carried it was a registration, not a launch: it is
+        # named, and it moved no authorization.
+        assert decision["work_order"] == "PTF-CHARLOTTE-NC-ZERO-TO-LIVE-BENCHMARK-001"
+        assert LP.authorized_market_ids() == decision["supersedes"]["founder_authorized"]

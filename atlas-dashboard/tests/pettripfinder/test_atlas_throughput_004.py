@@ -542,10 +542,20 @@ class TestSessionCacheIsolation:
             dynamic = entry.key_doc["inputs"]["dynamic"]
             assert dynamic["census_dir"] != committed, entry.kind
             assert "PTF_IDENTITY_CENSUS_DIR" in dynamic["env"], entry.kind
-        # And the committed key is untouched: what production would ask for
-        # is not in the session cache at all.
+        # And the committed key is untouched: what production would ask for is
+        # not among the entries THIS BUILD added.
+        #
+        # Scoped to `new` rather than to the whole cache, which is the property
+        # actually claimed and the only one that survives company. The session
+        # cache is process-local, so any earlier test in the same pytest process
+        # that assembled from the COMMITTED census legitimately leaves the live
+        # key in it -- test_launch_participation_046 renders the whole
+        # multi-market site and does exactly that. Read against the whole cache
+        # this passed alone and failed in a suite, which is a statement about
+        # what ran first and not about the staged build.
+        # (PTF-CHARLOTTE-NC-ZERO-TO-LIVE-BENCHMARK-001)
         live_key, _doc = ASC.session_key(new[0].kind, new[0].key_doc["args"])
-        assert live_key not in {e.key for e in ASC.CACHE.entries()}
+        assert live_key not in {e.key for e in new}
 
 
 class TestCrossRun:

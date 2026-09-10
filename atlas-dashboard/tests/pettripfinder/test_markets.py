@@ -523,8 +523,14 @@ def test_production_markets_dir_loads_and_is_single_market_columbus():
     # PTF-ST-LOUIS-REGISTER-PUBLISH-011: st-louis-mo registered WITH its policy
     # authority already signed -- 82 published, 37 verified-no-pets. Columbus
     # resolution by name is unchanged, which is the whole point of this test.
+    # PTF-CHARLOTTE-NC-ZERO-TO-LIVE-BENCHMARK-001: charlotte-nc registered
+    # WITH its policy authority -- 268 identities, 106 published, 41
+    # verified-no-pets -- and is the first registered market whose admitted
+    # geography crosses a state line (NC and SC). Columbus resolution by name
+    # is unchanged, which is the whole point of this test.
     assert sorted(m.market_id for m in markets) == \
-        ["cincinnati-oh", "cleveland-akron-canton-oh", "columbus-oh",
+        ["charlotte-nc", "cincinnati-oh", "cleveland-akron-canton-oh",
+         "columbus-oh",
          "dayton-oh", "detroit-ann-arbor-mi",
          # PTF-GRAND-RAPIDS-HOLLAND-STAGE-001: grand-rapids-holland-mi is
          # registered census/routing-only -- no policy authority, nothing

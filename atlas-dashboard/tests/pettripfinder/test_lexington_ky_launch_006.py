@@ -111,12 +111,19 @@ class TestLexingtonWentLiveAndStayed:
 
     def test_participation_still_carries_the_founder_decision(self):
         assert LP.launch_status(MARKET) == LP.FOUNDER_AUTHORIZED_FOR_LAUNCH
-        # The CURRENT decision block is Nashville's. What this launch decided is
-        # an ancestor now, and the chain is where an ancestor lives.
+        # The CURRENT decision block is the Charlotte registration, and the
+        # Nashville launch before it. What THIS launch decided is an ancestor
+        # now, and the chain is where an ancestor lives -- which is the whole
+        # point of keeping one: the record moves on, the decision does not.
+        # Read by work order rather than by position, so the next reissue moves
+        # nothing here.
         chain = epochs.participation_decision_chain()
-        assert chain["supersedes"]["work_order"] == \
-            "PTF-LEXINGTON-KY-FRESH-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006"
-        assert MARKET in chain["supersedes"]["founder_authorized"]
+        mine = next(r for r in chain["records"]
+                    if r["work_order"] ==
+                    "PTF-LEXINGTON-KY-FRESH-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006")
+        assert MARKET in mine["founder_authorized"]
+        # And it is still an ancestor of the record that stands today.
+        assert mine["sha256"] != LP.participation_sha256()
         assert LP.launch_status("detroit-ann-arbor-mi") != LP.FOUNDER_AUTHORIZED_FOR_LAUNCH
 
 
