@@ -346,12 +346,12 @@ class TestTheCandidateIsLive:
         assert auth["total_profiles"] == 461
         assert auth["global_gate_count"] == 27
         # The participation it signed is an ANCESTOR of the current record.
-        import json as _json
-        current = _json.loads(
-            (REPO / auth["launch_participation_source"]).read_text(encoding="utf-8"))
+        # Read through the contract: PTF-NASHVILLE-TN-FOUNDER-AUTHORIZATION-AND-
+        # LIVE-LAUNCH-005 dropped the chain from the decision block, and it
+        # lives in the repair record beside it until the next write.
         assert auth["launch_participation_sha256"] != LP.participation_sha256()
         assert auth["launch_participation_sha256"] in {
-            r["sha256"] for r in current["decision"]["lineage"]["records"]}
+            r["sha256"] for r in LP.decision_chain()["records"]}
 
     def test_the_market_is_live_and_the_record_says_so(self):
         """PTF-LOUISVILLE-PRODUCTION-DEPLOY-010 deployed this bundle. What

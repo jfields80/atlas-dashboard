@@ -371,7 +371,16 @@ def test_cincinnati_does_not_fail_the_global_selection(markets):
          # APPLICATION-002 built the market from zero to 17 published. Toledo
          # was the standing example of "assemblable and withheld" for exactly
          # one order; Detroit carries that role alone now.
-         TOLEDO])
+         TOLEDO,
+         # PTF-LEXINGTON-KY-FRESH-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006:
+         # the TWELFTH, and the first market to reach production through the
+         # redesigned release lane.
+         "lexington-ky",
+         # PTF-NASHVILLE-TN-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-005: the
+         # THIRTEENTH, admitted after PTF-NASHVILLE-TN-EVIDENCE-RECOVERY-003
+         # took it from 8 publishable rows to 79 by re-reading and hashing the
+         # pages, not by lowering a gate.
+         "nashville-tn"])
 
 
 def test_indianapolis_is_registered_above_threshold_and_source_ready(markets):
@@ -415,7 +424,9 @@ def test_indianapolis_is_now_in_the_global_selection(markets):
          # PTF-TOLEDO-OH-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-003: the eleventh, and the
          # same point once more -- no source fact about the other ten changed
          # for Toledo to join.
-         TOLEDO])
+         TOLEDO,
+         # The twelfth and thirteenth, on the same lever and the same terms.
+         "lexington-ky", "nashville-tn"])
 
 
 def test_participation_is_a_founder_decision_layered_on_source_readiness(markets):

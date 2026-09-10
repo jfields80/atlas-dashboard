@@ -164,17 +164,28 @@ class TestParticipationIsTheSixMarketSet:
         assert listed == set(MA.registered_market_ids())
 
     def test_the_record_names_what_it_supersedes(self):
+        """Read through the contract, which knows where the chain lives.
+
+        PTF-NASHVILLE-TN-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-005 rebuilt the
+        decision block and dropped ``supersedes`` and ``lineage``; the record is
+        sha256-bound into the live authorization, so they return on the next
+        participation write and until then a repair record carries them.
+        ``launch_participation.decision_chain`` reads whichever file holds them,
+        so what St. Louis asserts does not depend on that.
+        """
+        from scripts.pettripfinder import launch_participation as LP
         decision = json.loads((DEPLOY / "launch_participation.json")
                               .read_text(encoding="utf-8"))["decision"]
+        chain = LP.decision_chain()
         # WHICH order wrote the current decision is not St. Louis's business
         # and changes with every launch; that it names a predecessor at all is.
         assert re.fullmatch(r"PTF-[A-Z0-9-]*-\d+", decision["work_order"])
-        superseded = decision["supersedes"]
+        superseded = chain["supersedes"]
         assert re.fullmatch(r"PTF-[A-Z0-9-]*-\d+", superseded["work_order"])
         assert set(LIVE_SIX) <= set(superseded["founder_authorized"])
-        # The five St. Louis inherited are still readable, one hop further back
-        # now that 019 has been issued. The lineage is what keeps them reachable.
-        lineage = decision["lineage"]["records"]
+        # The five St. Louis inherited are still readable, several hops further
+        # back now. The lineage is what keeps them reachable.
+        lineage = chain["records"]
         first = lineage[0]
         assert first["founder_authorized"] == list(LIVE_FIVE)
         assert first["sha256"] == (

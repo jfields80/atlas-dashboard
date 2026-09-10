@@ -182,6 +182,7 @@ def main(argv=None) -> int:
         raise SystemExit("choose --write-participation, --authorize or --check")
 
     from scripts.pettripfinder import deployment_authorization as DA
+    from scripts.pettripfinder import market_authority as MA
     from scripts.pettripfinder import global_deployment as GD
     from scripts.pettripfinder import launch_participation as LP
     from scripts.pettripfinder import release_index as RI
@@ -285,6 +286,19 @@ def main(argv=None) -> int:
         raise SystemExit("REFUSING: manifest does not verify: %s" % manifest_problems)
 
     # 3. THE AUTHORIZATION, built by the contract that owns it.
+    # Read the two counts BEFORE the authorization is built, and bind them to
+    # names. Composed inline inside the note, the shard path made the whole
+    # authorization expression read to
+    # test_market_authority_sharding._writes_a_global_artifact as a name bound
+    # to a generated global, so writing the authorization looked like writing
+    # the shard. Reading a shard is not writing one, and a note argument is a
+    # poor place to hide either.
+    published_profiles = manifest["participating_markets"][
+        [r["market_id"] for r in manifest["participating_markets"]].index(MARKET_ID)
+    ]["published_profiles"]
+    verified_no_pets = _load(
+        MA.exclusions_shard_path(MARKET_ID))["count"]
+
     authorization_id = "ptf-auth-nashville-005-%s" % bundle["bundle_sha256"][:12]
     authorized_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
     auth = DA.build_authorization(
@@ -304,11 +318,7 @@ def main(argv=None) -> int:
               "deployment -- not that deployment's own rollback_target %s, which is the Toledo "
               "deploy Lexington replaced and would un-deploy Lexington. Four Nashville rows "
               "remain held by the modern gates and none is promoted by this launch."
-              % (manifest["participating_markets"][
-                     [r["market_id"] for r in manifest["participating_markets"]].index(MARKET_ID)
-                 ]["published_profiles"],
-                 _load(PKG / "markets" / "authority" / MARKET_ID
-                       / "hotel_exclusions.json")["count"],
+              % (published_profiles, verified_no_pets,
                  live["live_deploy_id"], live["rollback_target"])))
 
     path = DEPLOY / "deployment_authorizations" / ("%s.json" % authorization_id)

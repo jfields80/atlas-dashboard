@@ -223,14 +223,15 @@ def test_grand_rapids_is_authorized_and_nothing_else_moved():
         LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH)
     assert "detroit-ann-arbor-mi" not in LP.authorized_market_ids()
     # Nothing was swept in: every market admitted after 032 was admitted by a
-    # named founder decision, and there have been exactly three -- Cincinnati at
+    # named founder decision, and there have been exactly four -- Cincinnati at
     # PTF-CINCINNATI-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-004, Toledo at
-    # PTF-TOLEDO-OH-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-003 and Lexington at
-    # PTF-LEXINGTON-KY-FRESH-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006. The set
-    # is ENUMERATED rather than counted, so a market admitted without a decision
-    # still fails here.
+    # PTF-TOLEDO-OH-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-003, Lexington at
+    # PTF-LEXINGTON-KY-FRESH-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006 and
+    # Nashville at PTF-NASHVILLE-TN-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-005.
+    # The set is ENUMERATED rather than counted, so a market admitted without a
+    # decision still fails here.
     assert set(LP.authorized_market_ids()) - set(AUTHORIZED_AT_032) <= {
-        "cincinnati-oh", "toledo-oh", "lexington-ky"}
+        "cincinnati-oh", "toledo-oh", "lexington-ky", "nashville-tn"}
 
 
 def test_every_registered_market_still_carries_an_explicit_row():
@@ -259,7 +260,10 @@ def test_the_decision_names_this_order_and_preserves_its_predecessor():
     if decision["work_order"] == "PTF-GRAND-RAPIDS-LAUNCH-PARTICIPATION-032":
         mine, predecessor = decision, decision["supersedes"]
     else:
-        records = decision["lineage"]["records"]
+        # Read through the contract rather than the raw block: the Nashville
+        # launch dropped the chain from the record, and until the next
+        # participation write it lives in the repair record beside it.
+        records = LP.decision_chain(doc)["records"]
         mine = next(r for r in records
                     if r["work_order"] == "PTF-GRAND-RAPIDS-LAUNCH-PARTICIPATION-032")
         predecessor = next(

@@ -350,10 +350,17 @@ def test_the_packet_numbers_are_derived_from_artifacts_not_typed():
     assert would["census"] == state["census"] == GOVERNING["census"]
     assert would["published_profiles"] == state["profiles"] == GOVERNING["pet_friendly"]
     assert would["verified_no_pets"] == state["verified_no_pets"] == GOVERNING["verified_no_pets"]
-    # The packet binds the deploy that was live when it was prepared. PTF-TOLEDO-OH-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-003
-    # deployed on top of it, so that deploy is now previous_deploy_id.
-    live = _load(PINS / "deployment_state.json")["live"]
-    assert doc["rollback_target"] in (live["deploy_id"], live["previous_deploy_id"])
+    # The packet binds the deploy that was live when it was prepared, and
+    # releases have landed on top of it since -- Toledo's own, then Lexington's,
+    # then Nashville's. Naming the two newest deploys was right while there were
+    # two; it is a claim that has to be rewritten after every launch. What the
+    # packet actually has to be, and stays, is a REAL deployed release: the
+    # chain of records reaches it.
+    records = sorted((REPO_ROOT / "deploy" / "netlify" / "deployment_records")
+                     .glob("*.json"))
+    deployed = {_load(p)["deployment_id"] for p in records
+                if _load(p).get("final_status") == "DEPLOYED"}
+    assert doc["rollback_target"] in deployed
 
 
 RUN3 = REPORTS / "toledo_oh_regression_run3_classify_002.json"

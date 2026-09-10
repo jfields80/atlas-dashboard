@@ -165,10 +165,19 @@ def test_registering_nashville_moved_no_live_market():
     """
     deployment = _load(REPO_ROOT / "tests" / "pettripfinder" / "pins"
                        / "deployment_state.json")
-    for block in ("live", "source"):
-        assert MARKET not in deployment[block]["participating_markets"], block
-        assert MARKET not in deployment[block]["profile_counts"], block
     live = deployment["live"]
+    # Nashville IS live now, admitted by PTF-NASHVILLE-TN-FOUNDER-AUTHORIZATION-
+    # AND-LIVE-LAUNCH-005 -- a founder decision, three orders after this one.
+    # What THIS order has to keep proving is that REGISTERING it published
+    # nothing, and the record of that is the deploy that was live when it
+    # registered: the market is absent from that release and from every one
+    # before it. A later launch cannot make a past release contain it.
+    assert live["deployed_by"] ==         "PTF-NASHVILLE-TN-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-005"
+    parent = _load(REPO_ROOT / "deploy" / "netlify" / "deployment_records"
+                   / live["rollback_record"])
+    assert MARKET not in parent["participating_markets"]
+    assert MARKET not in parent["profile_counts"]
+    # And the pin stays internally consistent through the admission.
     assert len(live["participating_markets"]) == len(live["profile_counts"])
     assert live["total_profiles"] == sum(live["profile_counts"].values())
 

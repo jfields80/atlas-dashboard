@@ -148,13 +148,15 @@ WITHHELD_BY_046 = "indianapolis-in"
 #: gaining data -- the way Cincinnati and Grand Rapids did. The bundle
 #: excludes one market again, and Detroit's exclusion is unchanged, which
 #: is the half of this assertion that says a launch disturbed no old market.
-#: nashville-tn JOINS this list at PTF-NASHVILLE-TN-PROMOTION-AND-NEW-LANE-
+#: nashville-tn JOINED this list at PTF-NASHVILLE-TN-PROMOTION-AND-NEW-LANE-
 #: LAUNCH-PREP-002, for Detroit's reason and not Grand Rapids': its source
-#: assembles cleanly at eight published profiles and no founder has authorized
-#: it. The bundle excludes two markets again, and Detroit's exclusion is
-#: unchanged, which is the half of this assertion that says a registration
-#: disturbed no old market.
-NOT_READY = ("detroit-ann-arbor-mi", "nashville-tn")
+#: assembled cleanly at eight published profiles and no founder had authorized
+#: it. It LEFT at PTF-NASHVILLE-TN-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-005,
+#: by founder decision -- the way Cincinnati, Toledo, Lexington and Grand Rapids
+#: did. The bundle excludes one market again, and Detroit's exclusion is
+#: unchanged through both moves, which is the half of this assertion that says
+#: neither a registration nor a launch disturbed an old market.
+NOT_READY = ("detroit-ann-arbor-mi",)
 #: Genuinely cannot assemble: a configured market with no policy package.
 #: EMPTY as of PTF-DETROIT-ANN-ARBOR-TROY-IDENTITY-AND-BUNDLE-030. Detroit
 #: left this list the way Grand Rapids did: not by gaining data, but
@@ -491,7 +493,13 @@ def test_the_bundle_carries_exactly_the_live_set(production):
 
 
 def test_the_bundle_excludes_only_the_two_that_are_not_source_ready(production):
-    """Indianapolis has left this list. Nothing else joined it."""
+    """Indianapolis left this list, and so did Nashville. Nothing joined it.
+
+    The name still counts, and the count has moved twice. It is kept anyway:
+    PTF-TOLEDO-OH-PROMOTION-AND-APPLICATION-002 records this node id in its
+    classification, and renaming a node silently orphans every record that
+    names it. The list below is what actually carries the claim.
+    """
     manifest, _site = production
     excluded = {r["market_id"]: r
                 for r in manifest["markets_registered_but_excluded"]}
