@@ -191,3 +191,99 @@ Every identity reconciles to exactly one state and nothing is silently omitted.
 
 *(Benchmark timings, validation results and the authorization block are recorded
 in `launch_packages/pettripfinder/markets/reports/charlotte_nc_authorization_packet_009.json`.)*
+
+---
+
+## VALIDATION
+
+    FIRST-PARTY EVIDENCE GATE   147 evaluated, 147 eligible, 0 ineligible
+    FAST RELEASE LANE           A-O all PASS -- 15/15, 0 UNKNOWN, 0 FAILED
+    DETERMINISM                 BYTE_IDENTICAL
+    FRESH_PACKAGE_REPRODUCIBLE  YES
+    FINAL_CANDIDATE_REPRODUCIBLE YES (two whole-site builds, 707s and 738s,
+                                same bundle and same sitemap digest)
+    UNCHANGED_MARKETS_REBUILT   0
+    RELEASE DIFF                passed, 0 findings
+    CONTRACTS                   verify_all() clean for all 15 markets
+
+### THE CANDIDATE
+
+    PARENT DEPLOY ID       6aa212a8ba9f174305c0441a
+    PARENT RELEASE DIGEST  c12b410ec8331dbf7a50581027ad60291cac95f626de5a6a846b0d77524e0e11
+    SEALED PACKAGE DIGEST  sha256:7f23f2ef24195f2a1058c57910827f4f36c0d209fe7c1675cde4f519d66c7c1a
+    INTENDED DELTA DIGEST  sha256:b2a566eb38e3bc6278da0b3ccc992b8abb85073edc436a85de9a7c679f131914
+    FAST RECEIPT DIGEST    sha256:55105679c646fa9fcf318f550c43a34b44dc3854e1e416ec5ad1b2429434cb55
+    CANDIDATE DIGEST       c9ca8c2d94a6489ce41268626531a5e834c494e0bf08bbe67faa7052a2166696
+    DEPLOYMENT ARTIFACT    c9ca8c2d94a6489ce41268626531a5e834c494e0bf08bbe67faa7052a2166696
+    CANDIDATE SITEMAP      6a610e928176dac61d385527625be867a4321416108db07b05ee5d4caec4071a
+    ROLLBACK TARGET        6aa172121d37bb4013eb44a4
+
+    PROJECTED LIVE         14 markets / 1008 profiles / 1197 routes
+    DELTA                  +1 market, +106 profiles, +119 routes
+    REMOVED                0 markets, 0 profiles, 0 routes
+    UNEXPECTED CHANGES     0 / 0 / 0
+
+## REGRESSION — NOT CLOSED
+
+Registration classifies `AUTHORITY_CHANGE` + `DEPLOYMENT_CHANGE`, so
+`FULL_REGRESSION_REQUIRED = YES`. ONE broad run, 5296.8 s, classified by node id
+against the committed `f75aa95` baseline:
+
+    COLLECTED              18233
+    PASSED                 17792
+    SKIPPED                  253
+    FAILED                   188
+    PRE_EXISTING             160
+    TRUE_NEW_FAILURE          28   <-- closure NOT complete
+
+Two of the 28 were a REAL defect and are now fixed: the current-state pin and
+the derived release contract still carried `verified_no_pets = 43` from before
+the two service-animal holds were demoted, while the shard held 41.
+`test_market_state_pins` caught the disagreement between the pin and the shard,
+which is exactly what it is for. Charlotte's authoritative counts are now
+consistent at census 268 / pet-friendly 106 / verified-no-pets 41 / resolved 147
+/ unresolved 121, and all 93 pin-contract tests pass.
+
+**The remaining 26 are not closed, and this order does not claim they are
+benign.** They cluster in four places and each cluster needs its own closure
+before authorization:
+
+| cluster | nodes | what it looks like |
+|---|---|---|
+| participation lineage + launch suites | 11 | the participation record was REISSUED, so suites asserting the previous decision block and the repair record that covered it no longer match |
+| market-count and registry pins | 6 | a fifteenth registered market moved counts several suites restate |
+| cross-market identity/collision scans | 4 | Charlotte's names entering the global authority need checking, not assuming |
+| acquisition run registration + Columbus seed parsing | 5 | new run directories are unregistered, and the global seed grew |
+
+**CHARLOTTE_FOUNDER_AUTHORIZATION_READY = NO.**
+`TRUE_NEW_FAILURE_AFTER_CLOSURE` is 26, not 0. Every production gate that
+measures the CANDIDATE passes; what is not finished is the one-time registration
+closure the broad run exists to force.
+
+## BENCHMARK
+
+    BENCHMARK_START                       2026-09-10T13:12:23Z
+    ZERO -> CANDIDATE PASSING EVERY GATE  132 minutes
+    ZERO -> BROAD REGRESSION CLASSIFIED   223 minutes
+    FOUNDER ACTIVE MINUTES                0
+    PROVIDER COST                         $0.00
+    FIRECRAWL CREDITS                     0
+    PAID PROVIDER CALLS                   0
+    FREE HTTP REQUESTS                    517
+    ATTENDED BROWSER PAGES                171 in THREE navigations
+
+    STAGE                        minutes
+    geography + contracts             12
+    owned evidence + brand lanes      22
+    attended capture (3 families)     28
+    OSM extracts, index, discovery    36  (overlapped)
+    census + identity                 20
+    routing + clean set               10
+    registration + release contract   18
+    sealed package + FAST lane        14
+    candidate assembly (x2)           24
+    broad regression                  88
+
+    BENCHMARK_TARGET_4H_AUTH_READY = FAIL
+      -- the candidate was gate-clean at 2h12m, but authorization requires
+         TRUE_NEW_FAILURE_AFTER_CLOSURE = 0 and 26 nodes are still open.
