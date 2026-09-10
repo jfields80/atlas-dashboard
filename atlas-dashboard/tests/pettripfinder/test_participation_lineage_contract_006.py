@@ -226,7 +226,7 @@ class TestTheContractRefusesWhatTheNashvilleLaunchWrote:
                    for p in LP.decision_problems(second, path=first_path))
 
 
-class TestTheCommittedRecordAndTheExceptionThatIsNowClosed:
+class TestTheCommittedRecordAndItsOneDocumentedException:
     """The documented exception ENDED at PTF-CHARLOTTE-NC-ZERO-TO-LIVE-
     BENCHMARK-001.
 
@@ -277,7 +277,7 @@ class TestTheCommittedRecordAndTheExceptionThatIsNowClosed:
         )["current_participation_sha256"]
         assert LP.decision_problems(doc, path=other)
 
-    def test_the_repair_named_the_block_the_next_write_had_to_carry(self):
+    def test_the_repair_names_the_block_the_next_write_must_carry(self):
         repair = json.loads(LP.LINEAGE_REPAIR_PATH.read_text(encoding="utf-8-sig"))
         nxt = repair["what_the_next_participation_write_must_carry"]
         # The record it prescribed FOR is the one the next write superseded, so
@@ -295,7 +295,7 @@ class TestTheCommittedRecordAndTheExceptionThatIsNowClosed:
         counts = [len(r["founder_authorized"]) for r in records]
         assert counts == sorted(counts)
 
-    def test_the_write_that_closed_it_carried_exactly_that_block(self):
+    def test_the_next_write_would_produce_exactly_that_block(self):
         """The committed decision agrees with the repair's prescription.
 
         The two were derived independently -- the repair from git, the write
