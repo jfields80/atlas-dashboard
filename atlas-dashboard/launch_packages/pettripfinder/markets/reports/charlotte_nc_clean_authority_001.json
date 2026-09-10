@@ -10,15 +10,16 @@
  "counts": {
   "reads_evaluated": 174,
   "clean_pet_friendly": 106,
-  "clean_verified_no_pets": 43,
-  "resolved_census_identities": 149,
-  "unresolved_census_identities": 119,
+  "clean_verified_no_pets": 41,
+  "resolved_census_identities": 147,
+  "unresolved_census_identities": 121,
   "census_count": 268,
-  "rejected": 25,
+  "rejected": 27,
   "rejected_by_class": {
    "CENSUS_ROW_NOT_ADMITTED": 23,
    "IDENTITY_HOLD": 1,
-   "POLICY_NOT_FOUND": 1
+   "POLICY_NOT_FOUND": 1,
+   "SERVICE_ANIMAL_ONLY": 2
   },
   "pf_by_brand": {
    "DRURY": 3,
@@ -52,7 +53,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltad-ac-hotel-charlotte-city-center/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltad-ac-hotel-charlotte-city-center/overview/",
-   "document_sha256": "",
+   "document_sha256": "ee3f1ebf55ee224e35049d3b99c6aab1380a6f6348c0ca9a6389c25630776c4d",
    "document_bytes": 337692,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -131,7 +132,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltat-ac-hotel-charlotte-southpark/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltat-ac-hotel-charlotte-southpark/overview/",
-   "document_sha256": "",
+   "document_sha256": "42d6fce35d4706dc8c1bdc68fc8132dfb64e35cc0ae8921edfbfe44f99930e42",
    "document_bytes": 329794,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -153,7 +154,11 @@
    "pets_allowed": true,
    "extraction": {
     "pets_allowed": true,
-    "pet_count_limit": 2
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_night"
    },
    "evidence": [
     {
@@ -167,7 +172,28 @@
      "quote": "Pets Welcome $150 maximum per stay. Non-Refundable Pet Fee Per Night: $50.00 Maximum Number of Pets in Room: 2",
      "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
      "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets Welcome $150 maximum per stay. Non-Refundable Pet Fee Per Night: $50.00 Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets Welcome $150 maximum per stay. Non-Refundable Pet Fee Per Night: $50.00 Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
       "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets Welcome $150 maximum per stay. Non-Refundable Pet Fee Per Night: $50.00 Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
      ]
     }
    ]
@@ -177,7 +203,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltap-aloft-charlotte-airport/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltap-aloft-charlotte-airport/overview/",
-   "document_sha256": "",
+   "document_sha256": "c4b82c346aca1b04b063a6587a20bca778a06232cd09210b55e1e615a150dfe5",
    "document_bytes": 329788,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -199,8 +225,12 @@
    "pets_allowed": true,
    "extraction": {
     "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
     "weight_limit": 40.0,
     "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_night",
     "weight_limit_unit": "lb"
    },
    "evidence": [
@@ -209,6 +239,20 @@
      "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
      "field_refs": [
       "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets Welcome maximum 2 pets (40lbs) Non-Refundable Pet Fee Per Night: $50.00 Maximum Pet Weight: 40.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets Welcome maximum 2 pets (40lbs) Non-Refundable Pet Fee Per Night: $50.00 Maximum Pet Weight: 40.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
      ]
     },
     {
@@ -224,6 +268,13 @@
      "field_refs": [
       "pet_count_limit"
      ]
+    },
+    {
+     "quote": "Pets Welcome maximum 2 pets (40lbs) Non-Refundable Pet Fee Per Night: $50.00 Maximum Pet Weight: 40.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
     }
    ]
   },
@@ -232,7 +283,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltal-aloft-charlotte-ballantyne/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltal-aloft-charlotte-ballantyne/overview/",
-   "document_sha256": "",
+   "document_sha256": "6cdafc6bd6f55e029a583498cff762341bfbf359fff00373ca3821cef0b65436",
    "document_bytes": 343529,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -287,7 +338,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltul-aloft-charlotte-city-center/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltul-aloft-charlotte-city-center/overview/",
-   "document_sha256": "",
+   "document_sha256": "1e485959e72dbd29d0792395fb938164cae6ec8197392e54f6b46a96462f05e3",
    "document_bytes": 322939,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -551,7 +602,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltpypy-canopy-charlotte-southpark/",
    "final_url": "https://www.hilton.com/en/hotels/cltpypy-canopy-charlotte-southpark/",
-   "document_sha256": "",
+   "document_sha256": "7ae5bb7fa6f1be24205a90636863d33477d8abe0bc05e632cb1c89af01d2efd8",
    "document_bytes": 226255,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -622,7 +673,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltcc-charlotte-marriott-city-center/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltcc-charlotte-marriott-city-center/overview/",
-   "document_sha256": "",
+   "document_sha256": "7358c540c19f07e46654b5ee10d69f89215d038d534a6fbe6727a7ce5005c7d3",
    "document_bytes": 376364,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -644,8 +695,12 @@
    "pets_allowed": true,
    "extraction": {
     "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
     "weight_limit": 50.0,
     "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
     "weight_limit_unit": "lb"
    },
    "evidence": [
@@ -654,6 +709,20 @@
      "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
      "field_refs": [
       "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets Welcome Dogs may not be left alone in room Non-Refundable Pet Fee Per Stay: $50.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets Welcome Dogs may not be left alone in room Non-Refundable Pet Fee Per Stay: $50.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
      ]
     },
     {
@@ -669,6 +738,13 @@
      "field_refs": [
       "pet_count_limit"
      ]
+    },
+    {
+     "quote": "Pets Welcome Dogs may not be left alone in room Non-Refundable Pet Fee Per Stay: $50.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
     }
    ]
   },
@@ -677,7 +753,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltph-charlotte-marriott-southpark/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltph-charlotte-marriott-southpark/overview/",
-   "document_sha256": "",
+   "document_sha256": "653f081c5a55d3fc1b95022bf5bbb7f9f36417490adef2ccc47af5dbfe872e87",
    "document_bytes": 377386,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -699,7 +775,11 @@
    "pets_allowed": true,
    "extraction": {
     "pets_allowed": true,
-    "pet_count_limit": 2
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_stay"
    },
    "evidence": [
     {
@@ -713,7 +793,28 @@
      "quote": "Pets Welcome $150 maximum per stay. Non-Refundable Pet Fee Per Stay: $75.00 Maximum Number of Pets in Room: 2",
      "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
      "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets Welcome $150 maximum per stay. Non-Refundable Pet Fee Per Stay: $75.00 Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets Welcome $150 maximum per stay. Non-Refundable Pet Fee Per Stay: $75.00 Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
       "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets Welcome $150 maximum per stay. Non-Refundable Pet Fee Per Stay: $75.00 Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
      ]
     }
    ]
@@ -723,7 +824,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltca-courtyard-charlotte-airport-north/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltca-courtyard-charlotte-airport-north/overview/",
-   "document_sha256": "",
+   "document_sha256": "0b967478a8c6b00b52062d73b475526284ff61698705ca97c28495d786c29677",
    "document_bytes": 343179,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -745,8 +846,12 @@
    "pets_allowed": true,
    "extraction": {
     "pets_allowed": true,
+    "pet_fee": 4500,
+    "fee_currency": "USD",
     "weight_limit": 60.0,
     "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
     "weight_limit_unit": "lb"
    },
    "evidence": [
@@ -755,6 +860,20 @@
      "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
      "field_refs": [
       "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets Welcome Pets cannot be left unattended in the room. Non-Refundable Pet Fee Per Stay: $45.00 Maximum Pet Weight: 60.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets Welcome Pets cannot be left unattended in the room. Non-Refundable Pet Fee Per Stay: $45.00 Maximum Pet Weight: 60.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
      ]
     },
     {
@@ -770,6 +889,13 @@
      "field_refs": [
       "pet_count_limit"
      ]
+    },
+    {
+     "quote": "Pets Welcome Pets cannot be left unattended in the room. Non-Refundable Pet Fee Per Stay: $45.00 Maximum Pet Weight: 60.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
     }
    ]
   },
@@ -778,7 +904,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltaw-courtyard-charlotte-arrowood/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltaw-courtyard-charlotte-arrowood/overview/",
-   "document_sha256": "",
+   "document_sha256": "0f2d4a23c53fc01a3b1c5dcf457d026e434c7f0b8a66625c2eaf4b1136c4592a",
    "document_bytes": 335660,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -804,6 +930,7 @@
     "fee_currency": "USD",
     "weight_limit": 40.0,
     "fee_refundable": false,
+    "fee_basis": "per_stay",
     "weight_limit_unit": "lb"
    },
    "evidence": [
@@ -849,7 +976,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltcg-courtyard-charlotte-gastonia/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltcg-courtyard-charlotte-gastonia/overview/",
-   "document_sha256": "",
+   "document_sha256": "f73ad27b5b6b6c40329a1f244f857635e9e10482dc5f096994f8d6c0553f085f",
    "document_bytes": 318957,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -904,7 +1031,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltno-courtyard-charlotte-northlake/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltno-courtyard-charlotte-northlake/overview/",
-   "document_sha256": "",
+   "document_sha256": "c0ba612a305d0ce265e8ce5b1001b8f9b54f427a9cbe5e2e8ea27731c8ff2e9a",
    "document_bytes": 331995,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -925,7 +1052,11 @@
    "operative_quote": "Pets Welcome Non-Refundable Pet Fee Per Stay: $100.00",
    "pets_allowed": true,
    "extraction": {
-    "pets_allowed": true
+    "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "fee_basis": "per_stay"
    },
    "evidence": [
     {
@@ -933,6 +1064,27 @@
      "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
      "field_refs": [
       "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets Welcome Non-Refundable Pet Fee Per Stay: $100.00",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets Welcome Non-Refundable Pet Fee Per Stay: $100.00",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets Welcome Non-Refundable Pet Fee Per Stay: $100.00",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
      ]
     }
    ]
@@ -942,7 +1094,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltex-courtyard-charlotte-southpark/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltex-courtyard-charlotte-southpark/overview/",
-   "document_sha256": "",
+   "document_sha256": "a4db30d9c0d5d9c9736f1c3a5ebebe470ad7a63dbd247ed22454c05dcf79c671",
    "document_bytes": 341419,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -968,6 +1120,7 @@
     "fee_currency": "USD",
     "weight_limit": 50.0,
     "fee_refundable": false,
+    "fee_basis": "per_stay",
     "weight_limit_unit": "lb"
    },
    "evidence": [
@@ -1013,7 +1166,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltcedt-doubletree-south-charlotte-tyvola/",
    "final_url": "https://www.hilton.com/en/hotels/cltcedt-doubletree-south-charlotte-tyvola/",
-   "document_sha256": "",
+   "document_sha256": "36eecf39526eacc1b8c9f1be34195b43f86b437b69ce763e86935e48ef3875b8",
    "document_bytes": 279935,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -1349,7 +1502,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/clteu-element-charlotte-uptown/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/clteu-element-charlotte-uptown/overview/",
-   "document_sha256": "",
+   "document_sha256": "9b3daf4729b168e3be7c7f881e41bc1702bf8b2ace6991d282be75ca8e18124a",
    "document_bytes": 321293,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -1371,8 +1524,12 @@
    "pets_allowed": true,
    "extraction": {
     "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
     "weight_limit": 50.0,
     "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_night",
     "weight_limit_unit": "lb"
    },
    "evidence": [
@@ -1381,6 +1538,20 @@
      "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
      "field_refs": [
       "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets Welcome 2 pets maximum per room up to 50 pounds. Non-Refundable Pet Fee Per Night: $50.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets Welcome 2 pets maximum per room up to 50 pounds. Non-Refundable Pet Fee Per Night: $50.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
      ]
     },
     {
@@ -1396,6 +1567,13 @@
      "field_refs": [
       "pet_count_limit"
      ]
+    },
+    {
+     "quote": "Pets Welcome 2 pets maximum per room up to 50 pounds. Non-Refundable Pet Fee Per Night: $50.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
     }
    ]
   },
@@ -1404,7 +1582,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/clttyes-embassy-suites-charlotte/",
    "final_url": "https://www.hilton.com/en/hotels/clttyes-embassy-suites-charlotte/",
-   "document_sha256": "",
+   "document_sha256": "085d2b47bafa8e0ab9f68795e44d488f7b7b8009ffa3e6cc89194b72960b5cf0",
    "document_bytes": 283660,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -1486,7 +1664,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/clttbes-embassy-suites-charlotte-ayrsley/",
    "final_url": "https://www.hilton.com/en/hotels/clttbes-embassy-suites-charlotte-ayrsley/",
-   "document_sha256": "",
+   "document_sha256": "ed9e3967b53297c12582b74ba782a4f0a8b5ece39eac7e308f10490c491b7c9c",
    "document_bytes": 285103,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -1567,7 +1745,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltmles-embassy-suites-charlotte-uptown/",
    "final_url": "https://www.hilton.com/en/hotels/cltmles-embassy-suites-charlotte-uptown/",
-   "document_sha256": "",
+   "document_sha256": "faa8c2a494872c70af7c8da57b518e0d15cf140508ff5d6a8a19c021a444308d",
    "document_bytes": 277425,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -1657,7 +1835,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltfm-fairfield-inn-and-suites-charlotte-matthews/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltfm-fairfield-inn-and-suites-charlotte-matthews/overview/",
-   "document_sha256": "",
+   "document_sha256": "d7da3c7e9d1e2a5ea5fd6a08992681b4ce193f36bafd5026815097dfeea2c1c3",
    "document_bytes": 325285,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -1679,8 +1857,12 @@
    "pets_allowed": true,
    "extraction": {
     "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
     "weight_limit": 25.0,
     "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_night",
     "weight_limit_unit": "lb"
    },
    "evidence": [
@@ -1689,6 +1871,20 @@
      "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
      "field_refs": [
       "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets Welcome $50 per pet per night (max 2 pets per night under 25lbs) Non-Refundable Pet Fee Per Night: $50.00 Maximum Pet Weight: 25.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets Welcome $50 per pet per night (max 2 pets per night under 25lbs) Non-Refundable Pet Fee Per Night: $50.00 Maximum Pet Weight: 25.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
      ]
     },
     {
@@ -1704,6 +1900,13 @@
      "field_refs": [
       "pet_count_limit"
      ]
+    },
+    {
+     "quote": "Pets Welcome $50 per pet per night (max 2 pets per night under 25lbs) Non-Refundable Pet Fee Per Night: $50.00 Maximum Pet Weight: 25.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
     }
    ]
   },
@@ -1712,7 +1915,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltpv-fairfield-inn-and-suites-charlotte-pineville/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltpv-fairfield-inn-and-suites-charlotte-pineville/overview/",
-   "document_sha256": "",
+   "document_sha256": "6144e0e6dc12d7b65921f95e96ec1679d9c58198566bfcbeae8cc4b53f113231",
    "document_bytes": 336952,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -1734,8 +1937,12 @@
    "pets_allowed": true,
    "extraction": {
     "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
     "weight_limit": 75.0,
     "pet_count_limit": 1,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
     "weight_limit_unit": "lb"
    },
    "evidence": [
@@ -1744,6 +1951,20 @@
      "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
      "field_refs": [
       "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets Welcome The fee for stays of 5 plus nights at our pet friendly Pineville hotel is $125. Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 1",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets Welcome The fee for stays of 5 plus nights at our pet friendly Pineville hotel is $125. Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 1",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
      ]
     },
     {
@@ -1759,6 +1980,13 @@
      "field_refs": [
       "pet_count_limit"
      ]
+    },
+    {
+     "quote": "Pets Welcome The fee for stays of 5 plus nights at our pet friendly Pineville hotel is $125. Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 1",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
     }
    ]
   },
@@ -1767,7 +1995,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltfo-four-points-charlotte-lake-norman/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltfo-four-points-charlotte-lake-norman/overview/",
-   "document_sha256": "",
+   "document_sha256": "9241ed54d7fd3d298ff25399830ac32dcca3bc447d0aa153131e70e5574c5d54",
    "document_bytes": 330625,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -1822,7 +2050,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltak-grand-bohemian-charlotte-autograph-collection/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltak-grand-bohemian-charlotte-autograph-collection/overview/",
-   "document_sha256": "",
+   "document_sha256": "9ae9edb74f46e231b24b593eaaaa1acce0c6b5d4e5c64b74e2c196cd2808a515",
    "document_bytes": 364862,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -1849,6 +2077,7 @@
     "weight_limit": 30.0,
     "pet_count_limit": 2,
     "fee_refundable": false,
+    "fee_basis": "per_stay",
     "weight_limit_unit": "lb"
    },
    "evidence": [
@@ -1901,7 +2130,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltnlhx-hampton-suites-charlotte-north-i-485/",
    "final_url": "https://www.hilton.com/en/hotels/cltnlhx-hampton-suites-charlotte-north-i-485/",
-   "document_sha256": "",
+   "document_sha256": "069414af2831100ec4cb5308a5f396051550d3752be17900cdebfa8840f2e420",
    "document_bytes": 274971,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -1991,7 +2220,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/clthshx-hampton-suites-charlotte-arrowood-rd/",
    "final_url": "https://www.hilton.com/en/hotels/clthshx-hampton-suites-charlotte-arrowood-rd/",
-   "document_sha256": "",
+   "document_sha256": "a972a3c81967606c38d6d9ce6001986cffab13d45c2244adda15212549ea9a38",
    "document_bytes": 273114,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -2053,7 +2282,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/clttohx-hampton-suites-charlotte-ballantyne/",
    "final_url": "https://www.hilton.com/en/hotels/clttohx-hampton-suites-charlotte-ballantyne/",
-   "document_sha256": "",
+   "document_sha256": "6826c3130f165310c5baf3b8a8f77b917c37a3a08cf0dc2a5348f6a3fa021e12",
    "document_bytes": 265779,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -2134,7 +2363,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltsphx-hampton-suites-charlotte-southpark-at-phillips-place/",
    "final_url": "https://www.hilton.com/en/hotels/cltsphx-hampton-suites-charlotte-southpark-at-phillips-place/",
-   "document_sha256": "",
+   "document_sha256": "50cf553e89a74112bfa8431639ebb3969d6318c756829312d8bf865c2df8c212",
    "document_bytes": 274743,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -2224,7 +2453,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltsthx-hampton-suites-charlotte-steele-creek/",
    "final_url": "https://www.hilton.com/en/hotels/cltsthx-hampton-suites-charlotte-steele-creek/",
-   "document_sha256": "",
+   "document_sha256": "f0d6861ef86e638309e1d3a6958821b3fcf603120aa1caa505c7c8f7e9ea19ff",
    "document_bytes": 300300,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -2286,7 +2515,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltkghx-hampton-suites-concord-charlotte/",
    "final_url": "https://www.hilton.com/en/hotels/cltkghx-hampton-suites-concord-charlotte/",
-   "document_sha256": "",
+   "document_sha256": "7312ca6d940a85e9f21eed8985ca431016d0aa3acb66ec220e3bf2f9421c60ea",
    "document_bytes": 296530,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -2356,7 +2585,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltfmhx-hampton-suites-fort-mill/",
    "final_url": "https://www.hilton.com/en/hotels/cltfmhx-hampton-suites-fort-mill/",
-   "document_sha256": "",
+   "document_sha256": "2d88c45d7551097c64d543ec4dfc5edd8b97ef7090f3cbc513ae19bda7e8686a",
    "document_bytes": 273025,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -2437,7 +2666,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/clthvhx-hampton-suites-huntersville/",
    "final_url": "https://www.hilton.com/en/hotels/clthvhx-hampton-suites-huntersville/",
-   "document_sha256": "",
+   "document_sha256": "62905850df40bf029f3eaa86b66ebd3db19d4586ddb07e5ece8a1ad17e0b19b8",
    "document_bytes": 278812,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -2527,7 +2756,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltblhx-hampton-charlotte-belmont-at-montcross/",
    "final_url": "https://www.hilton.com/en/hotels/cltblhx-hampton-charlotte-belmont-at-montcross/",
-   "document_sha256": "",
+   "document_sha256": "4e320cee2c6849fa4ebbb91917dfb72e9b8c36cf6903493996e7d889beb593f0",
    "document_bytes": 293878,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -2617,7 +2846,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltmhhx-hampton-charlotte-matthews/",
    "final_url": "https://www.hilton.com/en/hotels/cltmhhx-hampton-charlotte-matthews/",
-   "document_sha256": "",
+   "document_sha256": "f474382facc2f03bfabd76e2a8990b16ca608f98ee48dc48226c6f24fae14fc1",
    "document_bytes": 271016,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -2679,7 +2908,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltcrhx-hampton-charlotte-north-lake-norman/",
    "final_url": "https://www.hilton.com/en/hotels/cltcrhx-hampton-charlotte-north-lake-norman/",
-   "document_sha256": "",
+   "document_sha256": "26031d2216af8f415ee32829b25f812f4af320097e2ca36c7d5b94c6283d82a3",
    "document_bytes": 294439,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -2769,7 +2998,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltuvhx-hampton-charlotte-university-place/",
    "final_url": "https://www.hilton.com/en/hotels/cltuvhx-hampton-charlotte-university-place/",
-   "document_sha256": "",
+   "document_sha256": "f0fd864caa61d6ab6bfbc6f219367a651123bc237fb5bf9a7b13ce9d20980568",
    "document_bytes": 272296,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -2850,7 +3079,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltuthx-hampton-charlotte-uptown/",
    "final_url": "https://www.hilton.com/en/hotels/cltuthx-hampton-charlotte-uptown/",
-   "document_sha256": "",
+   "document_sha256": "f6fd82e455925e86d786785ac7600e635cfb8d8fccf40055fd4bc874a6974e76",
    "document_bytes": 271970,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -2921,7 +3150,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltcdhx-hampton-concord-kannapolis/",
    "final_url": "https://www.hilton.com/en/hotels/cltcdhx-hampton-concord-kannapolis/",
-   "document_sha256": "",
+   "document_sha256": "06f682380ea5e93c48708571da7c03d427540d799f0cec5ff3e51d5260a65ab7",
    "document_bytes": 272858,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -2983,7 +3212,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltachh-hilton-charlotte-airport/",
    "final_url": "https://www.hilton.com/en/hotels/cltachh-hilton-charlotte-airport/",
-   "document_sha256": "",
+   "document_sha256": "0e82e45cc8e3072777879e0dd17b9448f70437c020413c65f59366b6a23937ff",
    "document_bytes": 288042,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -3054,7 +3283,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltrtgi-hilton-garden-inn-charlotte-airport/",
    "final_url": "https://www.hilton.com/en/hotels/cltrtgi-hilton-garden-inn-charlotte-airport/",
-   "document_sha256": "",
+   "document_sha256": "397578df9456c6598f231ee35bf525db4f18af61a11a560f52ba30881fa4639f",
    "document_bytes": 303199,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -3135,7 +3364,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltaygi-hilton-garden-inn-charlotte-ayrsley/",
    "final_url": "https://www.hilton.com/en/hotels/cltaygi-hilton-garden-inn-charlotte-ayrsley/",
-   "document_sha256": "",
+   "document_sha256": "3903a0502709d76c8bc5d8fb1713ba6df0c52f92ca8b029b983a3a312b5aa852",
    "document_bytes": 304438,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -3216,7 +3445,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltcogi-hilton-garden-inn-charlotte-concord/",
    "final_url": "https://www.hilton.com/en/hotels/cltcogi-hilton-garden-inn-charlotte-concord/",
-   "document_sha256": "",
+   "document_sha256": "574f2dfcd3f0c0497641e044ef139b91ea02824e39306ad0d8dd098f9e0ff3f9",
    "document_bytes": 271276,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -3297,7 +3526,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltnhgi-hilton-garden-inn-charlotte-north/",
    "final_url": "https://www.hilton.com/en/hotels/cltnhgi-hilton-garden-inn-charlotte-north/",
-   "document_sha256": "",
+   "document_sha256": "7e9786744f7cfa48e0a773fa768f556f6e8b57c62f5de6f0655cb0bd2182f8bb",
    "document_bytes": 295733,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -3378,7 +3607,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltphgi-hilton-garden-inn-charlotte-pineville/",
    "final_url": "https://www.hilton.com/en/hotels/cltphgi-hilton-garden-inn-charlotte-pineville/",
-   "document_sha256": "",
+   "document_sha256": "4a4c4941e1327422ccaef100354443ae67f5d5c619db31ea70f52057a81642e6",
    "document_bytes": 303243,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -3457,7 +3686,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltskgi-hilton-garden-inn-charlotte-southpark/",
    "final_url": "https://www.hilton.com/en/hotels/cltskgi-hilton-garden-inn-charlotte-southpark/",
-   "document_sha256": "",
+   "document_sha256": "d864378b4b545c869474913fd11a1857540b55c60e8d9912335d6345c77721e0",
    "document_bytes": 285297,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -3530,7 +3759,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltupgi-hilton-garden-inn-charlotte-uptown/",
    "final_url": "https://www.hilton.com/en/hotels/cltupgi-hilton-garden-inn-charlotte-uptown/",
-   "document_sha256": "",
+   "document_sha256": "25da586f2e7c31801c3326276d56658ff73ab7738b15cd851882c45ac89a1e52",
    "document_bytes": 305173,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -3612,7 +3841,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltcwgi-hilton-garden-inn-charlotte-waverly/",
    "final_url": "https://www.hilton.com/en/hotels/cltcwgi-hilton-garden-inn-charlotte-waverly/",
-   "document_sha256": "",
+   "document_sha256": "fc9d6786d7e9fcec0b7f62b244f1621cbafd8067e4747c34b23ec23501a960da",
    "document_bytes": 279800,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -3691,7 +3920,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltgagi-hilton-garden-inn-gastonia/",
    "final_url": "https://www.hilton.com/en/hotels/cltgagi-hilton-garden-inn-gastonia/",
-   "document_sha256": "",
+   "document_sha256": "f3122cd5f2290a1ef5e739da141f92cc91dff98ac9f2bf6842cabb31f25134d0",
    "document_bytes": 282345,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -3753,7 +3982,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/clttdgi-hilton-garden-inn-steele-creek-charlotte/",
    "final_url": "https://www.hilton.com/en/hotels/clttdgi-hilton-garden-inn-steele-creek-charlotte/",
-   "document_sha256": "",
+   "document_sha256": "e0414125713cba0400e1044103f8f113577851f573730bef4ea909f7117f6e62",
    "document_bytes": 255583,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -3976,7 +4205,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltaiht-home2-suites-charlotte-airport/",
    "final_url": "https://www.hilton.com/en/hotels/cltaiht-home2-suites-charlotte-airport/",
-   "document_sha256": "",
+   "document_sha256": "c9165a5ec5b28fb75cd00430d26b940f1edb40f94cb8a102f1c0239e5d70c0a1",
    "document_bytes": 274839,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -4057,7 +4286,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltlaht-home2-suites-charlotte-airport-lake-pointe/",
    "final_url": "https://www.hilton.com/en/hotels/cltlaht-home2-suites-charlotte-airport-lake-pointe/",
-   "document_sha256": "",
+   "document_sha256": "d8e55abe8a16486292081d092d5925542bf58967e4161785238e6bd23ffe3670",
    "document_bytes": 225180,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -4136,7 +4365,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltbtht-home2-suites-charlotte-belmont/",
    "final_url": "https://www.hilton.com/en/hotels/cltbtht-home2-suites-charlotte-belmont/",
-   "document_sha256": "",
+   "document_sha256": "c41865896493ffe3e0e68a165bbf1822267d0cf192ac9680f2852bbecc298d2a",
    "document_bytes": 274181,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -4217,7 +4446,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/clttght-home2-suites-charlotte-i-77-tyvola-rd/",
    "final_url": "https://www.hilton.com/en/hotels/clttght-home2-suites-charlotte-i-77-tyvola-rd/",
-   "document_sha256": "",
+   "document_sha256": "7128e2a1cba22b61d81a5dd172bb30a9a5cdacc05f4a7df838c4500fdf7c0785",
    "document_bytes": 271549,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -4298,7 +4527,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltnoht-home2-suites-charlotte-northlake/",
    "final_url": "https://www.hilton.com/en/hotels/cltnoht-home2-suites-charlotte-northlake/",
-   "document_sha256": "",
+   "document_sha256": "05f6c76aa8943c1fcdd23ab45dca7563ccb0f7abc9c9a84709a009896b981c00",
    "document_bytes": 264856,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -4379,7 +4608,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltpght-home2-suites-charlotte-piper-glen/",
    "final_url": "https://www.hilton.com/en/hotels/cltpght-home2-suites-charlotte-piper-glen/",
-   "document_sha256": "",
+   "document_sha256": "89352903cf3ea8ff47750f0b2e0e92008630b485f5f8b7fd99a87e7236e0be85",
    "document_bytes": 274436,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -4460,7 +4689,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltcuht-home2-suites-charlotte-university-research-park/",
    "final_url": "https://www.hilton.com/en/hotels/cltcuht-home2-suites-charlotte-university-research-park/",
-   "document_sha256": "",
+   "document_sha256": "e4bbf591304c38bcc316c099311393fefd74b92876e9e7dc09f763a6e3a035c5",
    "document_bytes": 274209,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -4550,7 +4779,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltowht-home2-suites-charlotte-uptown/",
    "final_url": "https://www.hilton.com/en/hotels/cltowht-home2-suites-charlotte-uptown/",
-   "document_sha256": "",
+   "document_sha256": "ea2bd77238dde41d2a487fcd7ee0357179a3cde59907531d2a9f8018051d76b5",
    "document_bytes": 277197,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -4629,7 +4858,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltonht-home2-suites-concord-charlotte/",
    "final_url": "https://www.hilton.com/en/hotels/cltonht-home2-suites-concord-charlotte/",
-   "document_sha256": "",
+   "document_sha256": "835df5eb82862b0ba7bda9375c52b3da4e1381d567cfdf91de80ef10dc13ef1f",
    "document_bytes": 281931,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -4708,7 +4937,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltftht-home2-suites-fort-mill/",
    "final_url": "https://www.hilton.com/en/hotels/cltftht-home2-suites-fort-mill/",
-   "document_sha256": "",
+   "document_sha256": "d3515359610ad4ffc253546b7aba9668fe4b9a6df2986d98ac68fe50da707e00",
    "document_bytes": 263260,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -4789,7 +5018,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltalhw-homewood-suites-charlotte-ayrsley-nc/",
    "final_url": "https://www.hilton.com/en/hotels/cltalhw-homewood-suites-charlotte-ayrsley-nc/",
-   "document_sha256": "",
+   "document_sha256": "6bfeb4c9cd144e62611810bd04b66112e4f420bceac835b8ddfe39f46040a7ef",
    "document_bytes": 274695,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -4870,7 +5099,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltbahw-homewood-suites-charlotte-ballantyne-nc/",
    "final_url": "https://www.hilton.com/en/hotels/cltbahw-homewood-suites-charlotte-ballantyne-nc/",
-   "document_sha256": "",
+   "document_sha256": "1ef0f91a99265788368152cce0787c2dd2c7f35cae0f3380b5fda82578aee677",
    "document_bytes": 260846,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -4951,7 +5180,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltsohw-homewood-suites-charlotte-southpark/",
    "final_url": "https://www.hilton.com/en/hotels/cltsohw-homewood-suites-charlotte-southpark/",
-   "document_sha256": "",
+   "document_sha256": "bcf261417aa9233477cd364c53505e9fc785481835d89ca766d9a7ba505e9481",
    "document_bytes": 281213,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -5032,7 +5261,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltuchw-homewood-suites-charlotte-uptown-first-ward/",
    "final_url": "https://www.hilton.com/en/hotels/cltuchw-homewood-suites-charlotte-uptown-first-ward/",
-   "document_sha256": "",
+   "document_sha256": "ef8cb66294907817c4735d007fea3ced5bdd4702b0845d45560776f7736d67f4",
    "document_bytes": 292215,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -5122,7 +5351,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltdshw-homewood-suites-davidson/",
    "final_url": "https://www.hilton.com/en/hotels/cltdshw-homewood-suites-davidson/",
-   "document_sha256": "",
+   "document_sha256": "f41935e51650eabf4f5a82f605c716c693b125a3a8c153ef444bbac1ab5b99dd",
    "document_bytes": 300824,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -5279,7 +5508,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltmd-le-meridien-charlotte/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltmd-le-meridien-charlotte/overview/",
-   "document_sha256": "",
+   "document_sha256": "ca62842d3958ea5ba077aa6e49f0ff7d339865ac40eff20724d9e515f95f11c9",
    "document_bytes": 392977,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -5301,11 +5530,12 @@
    "pets_allowed": true,
    "extraction": {
     "pets_allowed": true,
-    "pet_fee": 15000,
+    "pet_fee": 5000,
     "fee_currency": "USD",
     "weight_limit": 80.0,
     "pet_count_limit": 2,
     "fee_refundable": false,
+    "fee_basis": "per_night",
     "weight_limit_unit": "lb"
    },
    "evidence": [
@@ -5358,7 +5588,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltdx-moxy-charlotte-downtown/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltdx-moxy-charlotte-downtown/overview/",
-   "document_sha256": "",
+   "document_sha256": "7d0ba1dc5cafdda5d630c96ca7b371eb49818ad8744e107c867598ba4d600af3",
    "document_bytes": 319806,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -5380,8 +5610,12 @@
    "pets_allowed": true,
    "extraction": {
     "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
     "weight_limit": 35.0,
     "pet_count_limit": 1,
+    "fee_refundable": false,
+    "fee_basis": "per_night",
     "weight_limit_unit": "lb"
    },
    "evidence": [
@@ -5390,6 +5624,20 @@
      "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
      "field_refs": [
       "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets Welcome Non-Refundable Pet Fee Per Night: $50.00 Maximum Pet Weight: 35.0lbs Maximum Number of Pets in Room: 1",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets Welcome Non-Refundable Pet Fee Per Night: $50.00 Maximum Pet Weight: 35.0lbs Maximum Number of Pets in Room: 1",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
      ]
     },
     {
@@ -5405,6 +5653,13 @@
      "field_refs": [
       "pet_count_limit"
      ]
+    },
+    {
+     "quote": "Pets Welcome Non-Refundable Pet Fee Per Night: $50.00 Maximum Pet Weight: 35.0lbs Maximum Number of Pets in Room: 1",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
     }
    ]
   },
@@ -5413,7 +5668,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltrp-renaissance-charlotte-southpark-hotel/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltrp-renaissance-charlotte-southpark-hotel/overview/",
-   "document_sha256": "",
+   "document_sha256": "d3808eab32d045afb7d88faedb25c2e10943d60b3b20ee2bc70f1d0d9e522f43",
    "document_bytes": 374356,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -5435,7 +5690,11 @@
    "pets_allowed": true,
    "extraction": {
     "pets_allowed": true,
-    "pet_count_limit": 2
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_night"
    },
    "evidence": [
     {
@@ -5449,7 +5708,28 @@
      "quote": "Pets Welcome $150 maximum per stay. Non-Refundable Pet Fee Per Night: $50.00 Maximum Number of Pets in Room: 2",
      "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
      "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets Welcome $150 maximum per stay. Non-Refundable Pet Fee Per Night: $50.00 Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets Welcome $150 maximum per stay. Non-Refundable Pet Fee Per Night: $50.00 Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
       "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets Welcome $150 maximum per stay. Non-Refundable Pet Fee Per Night: $50.00 Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
      ]
     }
    ]
@@ -5459,7 +5739,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltwe-residence-inn-charlotte-airport/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltwe-residence-inn-charlotte-airport/overview/",
-   "document_sha256": "",
+   "document_sha256": "88e5e37042ad2aaefe3ea39f71042627b1813650524134bbac40431b1622cf71",
    "document_bytes": 332956,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -5486,6 +5766,7 @@
     "weight_limit": 80.0,
     "pet_count_limit": 2,
     "fee_refundable": false,
+    "fee_basis": "per_stay",
     "weight_limit_unit": "lb"
    },
    "evidence": [
@@ -5538,7 +5819,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltrd-residence-inn-charlotte-city-center/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltrd-residence-inn-charlotte-city-center/overview/",
-   "document_sha256": "",
+   "document_sha256": "f16684e62c325a38ade4c282496a01d5ca23ac95d5d6a69082f195dfed1c8e21",
    "document_bytes": 328176,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -5560,8 +5841,12 @@
    "pets_allowed": true,
    "extraction": {
     "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD",
     "weight_limit": 50.0,
     "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
     "weight_limit_unit": "lb"
    },
    "evidence": [
@@ -5570,6 +5855,20 @@
      "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
      "field_refs": [
       "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets Welcome Pets welcome with a $100 non-refundable cleaning fee per stay Non-Refundable Pet Fee Per Stay: $100.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets Welcome Pets welcome with a $100 non-refundable cleaning fee per stay Non-Refundable Pet Fee Per Stay: $100.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
      ]
     },
     {
@@ -5585,6 +5884,13 @@
      "field_refs": [
       "pet_count_limit"
      ]
+    },
+    {
+     "quote": "Pets Welcome Pets welcome with a $100 non-refundable cleaning fee per stay Non-Refundable Pet Fee Per Stay: $100.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
     }
    ]
   },
@@ -5593,7 +5899,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltcn-residence-inn-charlotte-concord/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltcn-residence-inn-charlotte-concord/overview/",
-   "document_sha256": "",
+   "document_sha256": "ec38df1ecc7a087198557e89f069f8aa1382c7abcd571c3ba52fcc4265be8135",
    "document_bytes": 327261,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -5615,11 +5921,12 @@
    "pets_allowed": true,
    "extraction": {
     "pets_allowed": true,
-    "pet_fee": 15000,
+    "pet_fee": 10000,
     "fee_currency": "USD",
     "weight_limit": 35.0,
     "pet_count_limit": 2,
     "fee_refundable": false,
+    "fee_basis": "per_stay",
     "weight_limit_unit": "lb"
    },
    "evidence": [
@@ -5672,7 +5979,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltrn-residence-inn-charlotte-lake-norman/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltrn-residence-inn-charlotte-lake-norman/overview/",
-   "document_sha256": "",
+   "document_sha256": "e4809cd7e24bb80157d103c88cb0ec4dc5906f0fad4e534fcbee791c33d69239",
    "document_bytes": 325190,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -5694,11 +6001,12 @@
    "pets_allowed": true,
    "extraction": {
     "pets_allowed": true,
-    "pet_fee": 15000,
+    "pet_fee": 10000,
     "fee_currency": "USD",
     "weight_limit": 35.0,
     "pet_count_limit": 2,
     "fee_refundable": false,
+    "fee_basis": "per_stay",
     "weight_limit_unit": "lb"
    },
    "evidence": [
@@ -5751,7 +6059,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/clton-residence-inn-charlotte-northlake/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/clton-residence-inn-charlotte-northlake/overview/",
-   "document_sha256": "",
+   "document_sha256": "0f028a1e76b324a95a22f4453a35a645dbde9e50c601d4331ca7958b81ac7af7",
    "document_bytes": 334198,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -5773,8 +6081,12 @@
    "pets_allowed": true,
    "extraction": {
     "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD",
     "weight_limit": 50.0,
     "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
     "weight_limit_unit": "lb"
    },
    "evidence": [
@@ -5783,6 +6095,20 @@
      "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
      "field_refs": [
       "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets Welcome Pets Welcome. Max 2 pets per room. Non-refundable cleaning fee will apply. Non-Refundable Pet Fee Per Stay: $100.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets Welcome Pets Welcome. Max 2 pets per room. Non-refundable cleaning fee will apply. Non-Refundable Pet Fee Per Stay: $100.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
      ]
     },
     {
@@ -5798,6 +6124,13 @@
      "field_refs": [
       "pet_count_limit"
      ]
+    },
+    {
+     "quote": "Pets Welcome Pets Welcome. Max 2 pets per room. Non-refundable cleaning fee will apply. Non-Refundable Pet Fee Per Stay: $100.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
     }
    ]
   },
@@ -5806,7 +6139,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltpg-residence-inn-charlotte-piper-glen/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltpg-residence-inn-charlotte-piper-glen/overview/",
-   "document_sha256": "",
+   "document_sha256": "e211540eed301a942798cdfe35ab4a3268eec3060ab5bb754334737a557a179d",
    "document_bytes": 329511,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -5828,11 +6161,12 @@
    "pets_allowed": true,
    "extraction": {
     "pets_allowed": true,
-    "pet_fee": 15000,
+    "pet_fee": 10000,
     "fee_currency": "USD",
     "weight_limit": 35.0,
     "pet_count_limit": 2,
     "fee_refundable": false,
+    "fee_basis": "per_stay",
     "weight_limit_unit": "lb"
    },
    "evidence": [
@@ -5885,7 +6219,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltsp-residence-inn-charlotte-southpark/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltsp-residence-inn-charlotte-southpark/overview/",
-   "document_sha256": "",
+   "document_sha256": "619757b09dbb25c5c55ad5ec1d5c34c68372bfa9a440aeea3165992f41fd723d",
    "document_bytes": 329942,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -5907,8 +6241,12 @@
    "pets_allowed": true,
    "extraction": {
     "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD",
     "weight_limit": 40.0,
     "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
     "weight_limit_unit": "lb"
    },
    "evidence": [
@@ -5917,6 +6255,20 @@
      "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
      "field_refs": [
       "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets Welcome Nonrefundable fee does not include tax. Non-Refundable Pet Fee Per Stay: $100.00 Maximum Pet Weight: 40.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets Welcome Nonrefundable fee does not include tax. Non-Refundable Pet Fee Per Stay: $100.00 Maximum Pet Weight: 40.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
      ]
     },
     {
@@ -5932,6 +6284,13 @@
      "field_refs": [
       "pet_count_limit"
      ]
+    },
+    {
+     "quote": "Pets Welcome Nonrefundable fee does not include tax. Non-Refundable Pet Fee Per Stay: $100.00 Maximum Pet Weight: 40.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
     }
    ]
   },
@@ -5940,7 +6299,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltwr-residence-inn-charlotte-steele-creek/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltwr-residence-inn-charlotte-steele-creek/overview/",
-   "document_sha256": "",
+   "document_sha256": "212e2d55a2692f3321588f1e398812494b91088ede2d4b543df10e97248e6b3e",
    "document_bytes": 323090,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -5962,8 +6321,12 @@
    "pets_allowed": true,
    "extraction": {
     "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD",
     "weight_limit": 80.0,
     "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
     "weight_limit_unit": "lb"
    },
    "evidence": [
@@ -5972,6 +6335,20 @@
      "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
      "field_refs": [
       "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets Welcome USD100 cleaning fee applies. Max 2 pets per room with 80 pound max weight. Non-Refundable Pet Fee Per Stay: $100.00 Maximum Pet Weight: 80.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets Welcome USD100 cleaning fee applies. Max 2 pets per room with 80 pound max weight. Non-Refundable Pet Fee Per Stay: $100.00 Maximum Pet Weight: 80.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
      ]
     },
     {
@@ -5987,6 +6364,13 @@
      "field_refs": [
       "pet_count_limit"
      ]
+    },
+    {
+     "quote": "Pets Welcome USD100 cleaning fee applies. Max 2 pets per room with 80 pound max weight. Non-Refundable Pet Fee Per Stay: $100.00 Maximum Pet Weight: 80.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
     }
    ]
   },
@@ -5995,7 +6379,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltru-residence-inn-charlotte-uptown/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltru-residence-inn-charlotte-uptown/overview/",
-   "document_sha256": "",
+   "document_sha256": "560fe58fb61a02d8fcd495e3a2588e75b32c8babf194188fe3e0cc94ea0cca55",
    "document_bytes": 321574,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -6022,6 +6406,7 @@
     "weight_limit": 150.0,
     "pet_count_limit": 2,
     "fee_refundable": false,
+    "fee_basis": "per_stay",
     "weight_limit_unit": "lb"
    },
    "evidence": [
@@ -6074,7 +6459,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltsc-sheraton-charlotte-airport-hotel/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltsc-sheraton-charlotte-airport-hotel/overview/",
-   "document_sha256": "",
+   "document_sha256": "b875d6aa066512fb56b48cb3b0aac0ee277fe240399d78fc545fb7a8f77d8881",
    "document_bytes": 339662,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -6096,8 +6481,12 @@
    "pets_allowed": true,
    "extraction": {
     "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
     "weight_limit": 80.0,
     "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
     "weight_limit_unit": "lb"
    },
    "evidence": [
@@ -6106,6 +6495,20 @@
      "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
      "field_refs": [
       "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets Welcome Dogs up to 80 pounds and cats are allowed. Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 80.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets Welcome Dogs up to 80 pounds and cats are allowed. Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 80.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
      ]
     },
     {
@@ -6121,6 +6524,13 @@
      "field_refs": [
       "pet_count_limit"
      ]
+    },
+    {
+     "quote": "Pets Welcome Dogs up to 80 pounds and cats are allowed. Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 80.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
     }
    ]
   },
@@ -6129,7 +6539,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltws-sheraton-charlotte-hotel/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltws-sheraton-charlotte-hotel/overview/",
-   "document_sha256": "",
+   "document_sha256": "0bfd06ba914d0f502dc4408ce530b8c38a395be8ae0ae27f5c16ac2c72e7a9bf",
    "document_bytes": 392774,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -6151,11 +6561,12 @@
    "pets_allowed": true,
    "extraction": {
     "pets_allowed": true,
-    "pet_fee": 15000,
+    "pet_fee": 10000,
     "fee_currency": "USD",
     "weight_limit": 80.0,
     "pet_count_limit": 2,
     "fee_refundable": false,
+    "fee_basis": "per_stay",
     "weight_limit_unit": "lb"
    },
    "evidence": [
@@ -6208,7 +6619,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltpppe-spark-charlotte-airport-north/",
    "final_url": "https://www.hilton.com/en/hotels/cltpppe-spark-charlotte-airport-north/",
-   "document_sha256": "",
+   "document_sha256": "fccd6b9a59cacd9614255ac620ce45c75f4af2cff6500cac073cc1b207c58428",
    "document_bytes": 247844,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -6279,7 +6690,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/clttlpe-spark-charlotte-i-77-tyvola/",
    "final_url": "https://www.hilton.com/en/hotels/clttlpe-spark-charlotte-i-77-tyvola/",
-   "document_sha256": "",
+   "document_sha256": "1a31e0b2b52c2d3df358e1b75318560e2be24f8a12d44b06e9acbbcb332c77ba",
    "document_bytes": 270628,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -6350,7 +6761,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltso-springhill-suites-charlotte-southwest/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltso-springhill-suites-charlotte-southwest/overview/",
-   "document_sha256": "",
+   "document_sha256": "b4b7d8736df5b52286d7829a413b67c3eab7726c185686dfd3e5bc1c3db0838d",
    "document_bytes": 331958,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -6375,7 +6786,8 @@
     "pet_fee": 5000,
     "fee_currency": "USD",
     "pet_count_limit": 2,
-    "fee_refundable": false
+    "fee_refundable": false,
+    "fee_basis": "per_stay"
    },
    "evidence": [
     {
@@ -6569,7 +6981,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltbn-the-mecklen-hotel-charlotte-a-tribute-portfolio-hotel/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltbn-the-mecklen-hotel-charlotte-a-tribute-portfolio-hotel/overview/",
-   "document_sha256": "",
+   "document_sha256": "c907ebb5346fe08a463bee64d43ecbfde11abb9c2a07cd4f54a207bf7df45461",
    "document_bytes": 302103,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -6624,7 +7036,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltcw-the-westin-charlotte/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltcw-the-westin-charlotte/overview/",
-   "document_sha256": "",
+   "document_sha256": "49021f7bd70424e2fe10fe551792cb7cee464d39f7cb9c11748cac692e907c62",
    "document_bytes": 424579,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -6646,8 +7058,12 @@
    "pets_allowed": true,
    "extraction": {
     "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
     "weight_limit": 50.0,
     "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_night",
     "weight_limit_unit": "lb"
    },
    "evidence": [
@@ -6656,6 +7072,20 @@
      "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
      "field_refs": [
       "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets Welcome. Dog snacks included. Dogs maay not be left alone in room. Non-Refundable Pet Fee Per Night: $50.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets Welcome. Dog snacks included. Dogs maay not be left alone in room. Non-Refundable Pet Fee Per Night: $50.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
      ]
     },
     {
@@ -6671,6 +7101,13 @@
      "field_refs": [
       "pet_count_limit"
      ]
+    },
+    {
+     "quote": "Pets Welcome. Dog snacks included. Dogs maay not be left alone in room. Non-Refundable Pet Fee Per Night: $50.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
     }
    ]
   },
@@ -6679,7 +7116,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltmi-towneplace-suites-charlotte-fort-mill/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltmi-towneplace-suites-charlotte-fort-mill/overview/",
-   "document_sha256": "",
+   "document_sha256": "6c733a5ad4648ace2cb43b7e0e111dce7de483cb0cb7a40204ccc7e0adbbf315",
    "document_bytes": 335392,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -6701,8 +7138,12 @@
    "pets_allowed": true,
    "extraction": {
     "pets_allowed": true,
+    "pet_fee": 15000,
+    "fee_currency": "USD",
     "weight_limit": 75.0,
     "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
     "weight_limit_unit": "lb"
    },
    "evidence": [
@@ -6711,6 +7152,20 @@
      "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
      "field_refs": [
       "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets Welcome We welcome pets to our hotel. 2 pets up to 75 pounds per room permitted. Non-Refundable Pet Fee Per Stay: $150.00 Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets Welcome We welcome pets to our hotel. 2 pets up to 75 pounds per room permitted. Non-Refundable Pet Fee Per Stay: $150.00 Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
      ]
     },
     {
@@ -6726,6 +7181,13 @@
      "field_refs": [
       "pet_count_limit"
      ]
+    },
+    {
+     "quote": "Pets Welcome We welcome pets to our hotel. 2 pets up to 75 pounds per room permitted. Non-Refundable Pet Fee Per Stay: $150.00 Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
     }
    ]
   },
@@ -6734,7 +7196,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltst-towneplace-suites-charlotte-loso-airport/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltst-towneplace-suites-charlotte-loso-airport/overview/",
-   "document_sha256": "",
+   "document_sha256": "38013178787e181d80dda09129577b8b4bbf8dbd162381be175d71cab3a97d9c",
    "document_bytes": 318172,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -6756,11 +7218,12 @@
    "pets_allowed": true,
    "extraction": {
     "pets_allowed": true,
-    "pet_fee": 15000,
+    "pet_fee": 10000,
     "fee_currency": "USD",
     "weight_limit": 35.0,
     "pet_count_limit": 2,
     "fee_refundable": false,
+    "fee_basis": "per_stay",
     "weight_limit_unit": "lb"
    },
    "evidence": [
@@ -6813,7 +7276,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/clttn-towneplace-suites-fort-mill-at-carowinds-blvd/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/clttn-towneplace-suites-fort-mill-at-carowinds-blvd/overview/",
-   "document_sha256": "",
+   "document_sha256": "91295c92ecce40ea1b411bbb1dae25fcefce969c235cc3ff04c961e7d231d9bb",
    "document_bytes": 328766,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -6835,8 +7298,12 @@
    "pets_allowed": true,
    "extraction": {
     "pets_allowed": true,
+    "pet_fee": 15000,
+    "fee_currency": "USD",
     "weight_limit": 100.0,
     "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
     "weight_limit_unit": "lb"
    },
    "evidence": [
@@ -6845,6 +7312,20 @@
      "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
      "field_refs": [
       "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets Welcome 100lbs maximum with $30 per day fee, $200 maximum Non-Refundable Pet Fee Per Stay: $150.00 Maximum Pet Weight: 100.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets Welcome 100lbs maximum with $30 per day fee, $200 maximum Non-Refundable Pet Fee Per Stay: $150.00 Maximum Pet Weight: 100.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
      ]
     },
     {
@@ -6860,6 +7341,13 @@
      "field_refs": [
       "pet_count_limit"
      ]
+    },
+    {
+     "quote": "Pets Welcome 100lbs maximum with $30 per day fee, $200 maximum Non-Refundable Pet Fee Per Stay: $150.00 Maximum Pet Weight: 100.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
     }
    ]
   },
@@ -6868,7 +7356,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltruru-tru-charlotte-airport-lake-pointe/",
    "final_url": "https://www.hilton.com/en/hotels/cltruru-tru-charlotte-airport-lake-pointe/",
-   "document_sha256": "",
+   "document_sha256": "3b915c074f178b8f4411a7ccbc9b3f295b81341cc243e47f7915c13bdd4a46f3",
    "document_bytes": 272191,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -6958,7 +7446,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltcaru-tru-charlotte-ayrsley/",
    "final_url": "https://www.hilton.com/en/hotels/cltcaru-tru-charlotte-ayrsley/",
-   "document_sha256": "",
+   "document_sha256": "344fe044051980f01c5ee87bbce4ada37560c949a01d40d4867206a56414a044",
    "document_bytes": 302584,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -7039,7 +7527,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/clttvru-tru-charlotte-tyvola-i-77/",
    "final_url": "https://www.hilton.com/en/hotels/clttvru-tru-charlotte-tyvola-i-77/",
-   "document_sha256": "",
+   "document_sha256": "77eee5b8f89f134d3f62dbb977cf0f8c2976b8fc882ae9f830ee9024ab51d572",
    "document_bytes": 297473,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -7110,7 +7598,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltddru-tru-concord-charlotte/",
    "final_url": "https://www.hilton.com/en/hotels/cltddru-tru-concord-charlotte/",
-   "document_sha256": "",
+   "document_sha256": "2af29261b4e29c3ef5b8c82cb24e81485afb1501996ecaed7234b4b39f02f13e",
    "document_bytes": 279858,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -7189,7 +7677,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltguru-tru-fort-mill/",
    "final_url": "https://www.hilton.com/en/hotels/cltguru-tru-fort-mill/",
-   "document_sha256": "",
+   "document_sha256": "48267d8671e18f75f4e620ca9eafe0ee67372a901a3554035e7a5517d4aa25cb",
    "document_bytes": 268086,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -7271,7 +7759,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltgsru-tru-gastonia/",
    "final_url": "https://www.hilton.com/en/hotels/cltgsru-tru-gastonia/",
-   "document_sha256": "",
+   "document_sha256": "a0af36bd63c954f5750849587febb286d048f05e6f286a59a604de9c357433bc",
    "document_bytes": 271822,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -7333,7 +7821,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltmu-unc-charlotte-marriott-hotel-and-conference-center/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltmu-unc-charlotte-marriott-hotel-and-conference-center/overview/",
-   "document_sha256": "",
+   "document_sha256": "163b2fb9041753ae68a98ff2648aa5c6ac1c1996853e79a4bf11e1c2ee02de71",
    "document_bytes": 379882,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -7355,8 +7843,12 @@
    "pets_allowed": true,
    "extraction": {
     "pets_allowed": true,
+    "pet_fee": 15000,
+    "fee_currency": "USD",
     "weight_limit": 50.0,
     "pet_count_limit": 1,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
     "weight_limit_unit": "lb"
    },
    "evidence": [
@@ -7365,6 +7857,20 @@
      "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
      "field_refs": [
       "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets Welcome. One dog per room under 50 lbs. Non-Refundable Pet Fee Per Stay: $150.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 1",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets Welcome. One dog per room under 50 lbs. Non-Refundable Pet Fee Per Stay: $150.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 1",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
      ]
     },
     {
@@ -7380,6 +7886,13 @@
      "field_refs": [
       "pet_count_limit"
      ]
+    },
+    {
+     "quote": "Pets Welcome. One dog per room under 50 lbs. Non-Refundable Pet Fee Per Stay: $150.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 1",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
     }
    ]
   }
@@ -7390,7 +7903,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltae-ac-hotel-charlotte-ballantyne/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltae-ac-hotel-charlotte-ballantyne/overview/",
-   "document_sha256": "",
+   "document_sha256": "071ee0585cf77c040705a3193081496949362993e32886ed361a4df68a982f1c",
    "document_bytes": 329329,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -7466,7 +7979,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltsw-courtyard-charlotte-airport-loso/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltsw-courtyard-charlotte-airport-loso/overview/",
-   "document_sha256": "",
+   "document_sha256": "f1265ecfaf66031d0af290a8aba182b525986ec11ec161df2139105ca00aa74f",
    "document_bytes": 339231,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -7504,7 +8017,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltbl-courtyard-charlotte-ballantyne/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltbl-courtyard-charlotte-ballantyne/overview/",
-   "document_sha256": "",
+   "document_sha256": "82f7bd1b14d8e3ff31784a3abbc0af948c8aad08d6176b81c7d5e0f989c372aa",
    "document_bytes": 325908,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -7542,7 +8055,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltup-courtyard-charlotte-city-center/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltup-courtyard-charlotte-city-center/overview/",
-   "document_sha256": "",
+   "document_sha256": "c95ccd2e67ca003ded173cefc85ad4363f9a03d969da243486452d021cb15e44",
    "document_bytes": 329677,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -7580,7 +8093,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltco-courtyard-charlotte-concord/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltco-courtyard-charlotte-concord/overview/",
-   "document_sha256": "",
+   "document_sha256": "67745676d30fa1991676bacaacf696d073d23d715c14e86881577930be462150",
    "document_bytes": 328439,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -7618,7 +8131,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltft-courtyard-charlotte-fort-mill-sc/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltft-courtyard-charlotte-fort-mill-sc/overview/",
-   "document_sha256": "",
+   "document_sha256": "8713cd33d895f24c9394a8fa6853204196563ba204209dc1ea6c29725ed5ad0b",
    "document_bytes": 343093,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -7656,7 +8169,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltln-courtyard-charlotte-lake-norman/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltln-courtyard-charlotte-lake-norman/overview/",
-   "document_sha256": "",
+   "document_sha256": "3a6dc48f1a2e3e06f77a06ff322a7b2c4c8657bbb0a5039eb925b7c5c4a2e4ed",
    "document_bytes": 317461,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -7694,7 +8207,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltcm-courtyard-charlotte-matthews/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltcm-courtyard-charlotte-matthews/overview/",
-   "document_sha256": "",
+   "document_sha256": "8771c869d295723b22382b59c6de4c840c642b1bea6dce90ae282b638cb77c58",
    "document_bytes": 330479,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -7732,7 +8245,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltct-courtyard-charlotte-steele-creek/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltct-courtyard-charlotte-steele-creek/overview/",
-   "document_sha256": "",
+   "document_sha256": "c4443b7aac417a4325c66f396af68de153970db1103f56215894ef053ed4041d",
    "document_bytes": 328881,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -7770,7 +8283,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltcd-courtyard-charlotte-waverly/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltcd-courtyard-charlotte-waverly/overview/",
-   "document_sha256": "",
+   "document_sha256": "138a6f527357bcc2a6d615a3c7c2e202872c1ce33b5993777c78e85f2711be0d",
    "document_bytes": 327966,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -7805,86 +8318,10 @@
   },
   {
    "lane": "ATTENDED_BROWSER",
-   "brand": "HILTON",
-   "source_url": "https://www.hilton.com/en/hotels/cltctdt-doubletree-charlotte-city-center/",
-   "final_url": "https://www.hilton.com/en/hotels/cltctdt-doubletree-charlotte-city-center/",
-   "document_sha256": "",
-   "document_bytes": 300085,
-   "captured_at": "2026-09-10",
-   "identity_signals": {
-    "name_on_page": "DoubleTree by Hilton Charlotte City Center",
-    "address_on_page": "230 North College Street",
-    "postal_code": "28202",
-    "locality": "Charlotte",
-    "region": "NC",
-    "phone_on_page": "+1 704-335-5400",
-    "property_code_on_page": "cltctdt"
-   },
-   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
-   "property_code": "cltctdt",
-   "identity_key": "doubletree by hilton charlotte city center",
-   "canonical_name": "DoubleTree by Hilton Charlotte City Center",
-   "corridor": "charlotte-nc__uptown-center-city",
-   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
-   "operative_quote": "Service animals only",
-   "pets_allowed": false,
-   "extraction": {
-    "pets_allowed": false
-   },
-   "evidence": [
-    {
-     "quote": "Service animals only",
-     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
-     "field_refs": [
-      "pets_allowed"
-     ]
-    }
-   ]
-  },
-  {
-   "lane": "ATTENDED_BROWSER",
-   "brand": "HILTON",
-   "source_url": "https://www.hilton.com/en/hotels/cltapdt-doubletree-charlotte-airport/",
-   "final_url": "https://www.hilton.com/en/hotels/cltapdt-doubletree-charlotte-airport/",
-   "document_sha256": "",
-   "document_bytes": 280706,
-   "captured_at": "2026-09-10",
-   "identity_signals": {
-    "name_on_page": "DoubleTree by Hilton Hotel Charlotte Airport",
-    "address_on_page": "2600 Yorkmont  Road",
-    "postal_code": "28208",
-    "locality": "Charlotte",
-    "region": "NC",
-    "phone_on_page": "+1 704-357-9100",
-    "property_code_on_page": "cltapdt"
-   },
-   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
-   "property_code": "cltapdt",
-   "identity_key": "doubletree by hilton hotel charlotte airport",
-   "canonical_name": "DoubleTree by Hilton Hotel Charlotte Airport",
-   "corridor": "charlotte-nc__airport-west",
-   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
-   "operative_quote": "Service animals only",
-   "pets_allowed": false,
-   "extraction": {
-    "pets_allowed": false
-   },
-   "evidence": [
-    {
-     "quote": "Service animals only",
-     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
-     "field_refs": [
-      "pets_allowed"
-     ]
-    }
-   ]
-  },
-  {
-   "lane": "ATTENDED_BROWSER",
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltfs-fairfield-inn-and-suites-charlotte-airport/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltfs-fairfield-inn-and-suites-charlotte-airport/overview/",
-   "document_sha256": "",
+   "document_sha256": "8e25e0a2813b6047031782eb46ae82748ee14f5176727936ea3f0cdbaf4bf758",
    "document_bytes": 327132,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -7922,7 +8359,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltfa-fairfield-inn-and-suites-charlotte-arrowood/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltfa-fairfield-inn-and-suites-charlotte-arrowood/overview/",
-   "document_sha256": "",
+   "document_sha256": "7dacb5042f0bf222c3352988fb5109516254c138dd9e890f0d4042deffb98a7a",
    "document_bytes": 322356,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -7960,7 +8397,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltfh-fairfield-inn-and-suites-charlotte-belmont/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltfh-fairfield-inn-and-suites-charlotte-belmont/overview/",
-   "document_sha256": "",
+   "document_sha256": "e1579fdb130ca5e7a7969fa54968a644cb5e38605ca179c3b516f252180ebee0",
    "document_bytes": 325683,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -7998,7 +8435,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltfn-fairfield-inn-and-suites-charlotte-university-research-park/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltfn-fairfield-inn-and-suites-charlotte-university-research-park/overview/",
-   "document_sha256": "",
+   "document_sha256": "afd8969693c35154592f596ed821388a1ae8c3f6be53175f81dc1c823c08d621",
    "document_bytes": 322513,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -8036,7 +8473,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltut-fairfield-inn-and-suites-charlotte-uptown/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltut-fairfield-inn-and-suites-charlotte-uptown/overview/",
-   "document_sha256": "",
+   "document_sha256": "495f0fc3ac9317164da026414f96d17d229ade9d1085fb3a6b581aa6fc4171c8",
    "document_bytes": 338267,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -8074,7 +8511,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltgs-fairfield-inn-charlotte-gastonia/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltgs-fairfield-inn-charlotte-gastonia/overview/",
-   "document_sha256": "",
+   "document_sha256": "fbadd3cfb09d0d69f9bb1bfef6902c434bd327088145dfa7678f4372822e7747",
    "document_bytes": 326864,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -8112,7 +8549,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/clthb-fairfield-inn-charlotte-northlake/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/clthb-fairfield-inn-charlotte-northlake/overview/",
-   "document_sha256": "",
+   "document_sha256": "c7994a8032ad53a1dc3dab978d9b4524b7aa5ef9b61956f0eaa8c33e6a414979",
    "document_bytes": 325230,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -8150,7 +8587,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltpa-four-points-charlotte-airport/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltpa-four-points-charlotte-airport/overview/",
-   "document_sha256": "",
+   "document_sha256": "d4ee21a559c86ca0d50ba82f299324974cb8d25724c32b02b40ba316f6d3192a",
    "document_bytes": 308368,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -8188,7 +8625,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltvf-four-points-charlotte-pineville/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltvf-four-points-charlotte-pineville/overview/",
-   "document_sha256": "",
+   "document_sha256": "75bd9a052404ef2b595662267bf6ea145ad8eb38e6d836f395d05cdc0fac8d60",
    "document_bytes": 317378,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -8644,7 +9081,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltjw-jw-marriott-charlotte/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltjw-jw-marriott-charlotte/overview/",
-   "document_sha256": "",
+   "document_sha256": "806a99ffd245d03e2ec480cbf117f185897ad5c9221c83ce97030610630c2812",
    "document_bytes": 459982,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -8682,7 +9119,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/clthp-springhill-suites-charlotte-airport-lake-pointe/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/clthp-springhill-suites-charlotte-airport-lake-pointe/overview/",
-   "document_sha256": "",
+   "document_sha256": "b565213708690891e5fbeb0c4ac1c5ffab13066f05ad7c371fc87c7155b33464",
    "document_bytes": 325063,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -8720,7 +9157,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltas-springhill-suites-charlotte-arrowood/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltas-springhill-suites-charlotte-arrowood/overview/",
-   "document_sha256": "",
+   "document_sha256": "3e556be44f164b280a6991c2240c75c36aa831ae39a62e263d5b938eea1d886c",
    "document_bytes": 290779,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -8758,7 +9195,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltsr-springhill-suites-charlotte-at-carowinds/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltsr-springhill-suites-charlotte-at-carowinds/overview/",
-   "document_sha256": "",
+   "document_sha256": "d51e3430e038f238af80e857547a75f955bc6c1b226278133af6ce0722489d32",
    "document_bytes": 343335,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -8796,7 +9233,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltbt-springhill-suites-charlotte-ballantyne/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltbt-springhill-suites-charlotte-ballantyne/overview/",
-   "document_sha256": "",
+   "document_sha256": "57346dc9db2a55b3a13ea0c4701509da0cbe7dcdd2529315b553428afedf9dd7",
    "document_bytes": 331613,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -8834,7 +9271,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltsd-springhill-suites-charlotte-city-center/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltsd-springhill-suites-charlotte-city-center/overview/",
-   "document_sha256": "",
+   "document_sha256": "5bab2bea8f0893ec51f4f488448b7c49e1a9c7217a09476b9070537f1c4cd7db",
    "document_bytes": 318660,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -8872,7 +9309,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/clthc-springhill-suites-charlotte-concord-mills-speedway/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/clthc-springhill-suites-charlotte-concord-mills-speedway/overview/",
-   "document_sha256": "",
+   "document_sha256": "e247a856ad01e88ce8dde73c2fe93b6a28a20060c5dd3c5bda327125c2385eab",
    "document_bytes": 311735,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -8910,7 +9347,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltsu-springhill-suites-charlotte-huntersville/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltsu-springhill-suites-charlotte-huntersville/overview/",
-   "document_sha256": "",
+   "document_sha256": "259f309d18abb80c90904a1e4ec4cd563d395bfad7371251e3b65a23682eb4a1",
    "document_bytes": 313276,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -8948,7 +9385,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltsh-springhill-suites-charlotte-university-research-park/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltsh-springhill-suites-charlotte-university-research-park/overview/",
-   "document_sha256": "",
+   "document_sha256": "307562403a60ce7ac34fc9e32eb95b8061758785e35cb7a3178409f48de4f4ee",
    "document_bytes": 316932,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -8986,7 +9423,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltlc-the-ballantyne-a-luxury-collection-hotel-charlotte/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltlc-the-ballantyne-a-luxury-collection-hotel-charlotte/overview/",
-   "document_sha256": "",
+   "document_sha256": "32fbff83d3919407cebf38f3e21771eed8f0f0e0b0ed5c7b7ab5a353c2081802",
    "document_bytes": 533351,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -9024,9 +9461,32 @@
   {
    "lane": "ATTENDED_BROWSER",
    "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/cltapdt-doubletree-charlotte-airport/",
+   "final_url": "https://www.hilton.com/en/hotels/cltapdt-doubletree-charlotte-airport/",
+   "document_sha256": "67c7aa5c79672fa2d433ae2b0771c30f3252241219ea09a62c4965fac79e7797",
+   "document_bytes": 280706,
+   "captured_at": "2026-09-10",
+   "identity_signals": {
+    "name_on_page": "DoubleTree by Hilton Hotel Charlotte Airport",
+    "address_on_page": "2600 Yorkmont  Road",
+    "postal_code": "28208",
+    "locality": "Charlotte",
+    "region": "NC",
+    "phone_on_page": "+1 704-357-9100",
+    "property_code_on_page": "cltapdt"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "cltapdt",
+   "classification": "SERVICE_ANIMAL_ONLY",
+   "why": "the only words this page publishes about animals are a service-animal carve-out. That is a legal access category, not a refusal of pets, and it cannot establish a verified-no-pets record on its own",
+   "quote": "Service animals only"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltathx-hampton-suites-charlotte-airport/",
    "final_url": "https://www.hilton.com/en/hotels/cltathx-hampton-suites-charlotte-airport/",
-   "document_sha256": "",
+   "document_sha256": "f8c334f625a1fcd65139eb22e0d205ed6b0503e56b2098bc32b3c2bf55b198d1",
    "document_bytes": 292974,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -9049,7 +9509,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltcces-embassy-suites-charlotte-concord-golf-resort-and-spa/",
    "final_url": "https://www.hilton.com/en/hotels/cltcces-embassy-suites-charlotte-concord-golf-resort-and-spa/",
-   "document_sha256": "",
+   "document_sha256": "e63ffff1e6958a7ef234fb427053ed8bd8fae91474741c0ae8a306bdc976f316",
    "document_bytes": 329561,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -9072,7 +9532,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltcmht-home2-suites-charlotte-mooresville/",
    "final_url": "https://www.hilton.com/en/hotels/cltcmht-home2-suites-charlotte-mooresville/",
-   "document_sha256": "",
+   "document_sha256": "47c94b2403a40e5384577dafcd0d177794d56dd0108e5fa40e98b9ea981aad8e",
    "document_bytes": 273109,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -9095,7 +9555,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltcnhw-homewood-suites-concord-charlotte/",
    "final_url": "https://www.hilton.com/en/hotels/cltcnhw-homewood-suites-concord-charlotte/",
-   "document_sha256": "",
+   "document_sha256": "6e175afb71043fbc6287b2ceeb937d234a88eed8a4dcfa4483ab7854a5131b42",
    "document_bytes": 290810,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -9116,9 +9576,32 @@
   {
    "lane": "ATTENDED_BROWSER",
    "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/cltctdt-doubletree-charlotte-city-center/",
+   "final_url": "https://www.hilton.com/en/hotels/cltctdt-doubletree-charlotte-city-center/",
+   "document_sha256": "803a0046f32632dd5fc577e6fabbf43d21f64891f6bb65cac0276906c84c58df",
+   "document_bytes": 300085,
+   "captured_at": "2026-09-10",
+   "identity_signals": {
+    "name_on_page": "DoubleTree by Hilton Charlotte City Center",
+    "address_on_page": "230 North College Street",
+    "postal_code": "28202",
+    "locality": "Charlotte",
+    "region": "NC",
+    "phone_on_page": "+1 704-335-5400",
+    "property_code_on_page": "cltctdt"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "cltctdt",
+   "classification": "SERVICE_ANIMAL_ONLY",
+   "why": "the only words this page publishes about animals are a service-animal carve-out. That is a legal access category, not a refusal of pets, and it cannot establish a verified-no-pets record on its own",
+   "quote": "Service animals only"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltdtdt-doubletree-suites-charlotte-southpark/",
    "final_url": "https://www.hilton.com/en/hotels/cltdtdt-doubletree-suites-charlotte-southpark/",
-   "document_sha256": "",
+   "document_sha256": "15819425b1adf90e556cd38773c020d8771bdcb9823810a7b883222d85da65a7",
    "document_bytes": 290068,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -9141,7 +9624,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/clthhhf-hilton-charlotte-uptown/",
    "final_url": "https://www.hilton.com/en/hotels/clthhhf-hilton-charlotte-uptown/",
-   "document_sha256": "",
+   "document_sha256": "49c08a361b1bd07341f99b2ac6aa50aa5ddc28c2a1bcb57cea8e0c67228ccab4",
    "document_bytes": 307847,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -9164,7 +9647,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/clthuhf-hilton-charlotte-university-place/",
    "final_url": "https://www.hilton.com/en/hotels/clthuhf-hilton-charlotte-university-place/",
-   "document_sha256": "",
+   "document_sha256": "6be93202f655bedcb0c1b6e8fb9d502b422d43713e310d4f2ee5d83d7169d770",
    "document_bytes": 318162,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -9187,7 +9670,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltkape-spark-kannapolis/",
    "final_url": "https://www.hilton.com/en/hotels/cltkape-spark-kannapolis/",
-   "document_sha256": "",
+   "document_sha256": "be4988b578556d1f250f7d2f972df231dd124ad63530fe70e20b5f5c09a17dec",
    "document_bytes": 266459,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -9210,7 +9693,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltlchx-hampton-lincolnton/",
    "final_url": "https://www.hilton.com/en/hotels/cltlchx-hampton-lincolnton/",
-   "document_sha256": "",
+   "document_sha256": "4c9102a3f222ffa6c38fd38e3757465a176daa84738631a21951896ffe9f5685",
    "document_bytes": 286796,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -9233,7 +9716,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltlphx-hampton-suites-charlotte-airport-lake-pointe/",
    "final_url": "https://www.hilton.com/en/hotels/cltlphx-hampton-suites-charlotte-airport-lake-pointe/",
-   "document_sha256": "",
+   "document_sha256": "3aa2c1260f63f18f9b1eefad37000dd67c3daaffe584f7c59588ce659af0baac",
    "document_bytes": 275930,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -9256,7 +9739,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltmogi-hilton-garden-inn-charlotte-mooresville/",
    "final_url": "https://www.hilton.com/en/hotels/cltmogi-hilton-garden-inn-charlotte-mooresville/",
-   "document_sha256": "",
+   "document_sha256": "21efb8632b40bce34b63c6d33e126fa9f7e0cb4b2a1330552f93ad4f11cc1626",
    "document_bytes": 300580,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -9279,7 +9762,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltorru-tru-mooresville/",
    "final_url": "https://www.hilton.com/en/hotels/cltorru-tru-mooresville/",
-   "document_sha256": "",
+   "document_sha256": "f95ab82adac2740731302bba8c2bb449119a8dc21aebc5869999d57305268ee4",
    "document_bytes": 257217,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -9302,7 +9785,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltrhru-tru-rock-hill/",
    "final_url": "https://www.hilton.com/en/hotels/cltrhru-tru-rock-hill/",
-   "document_sha256": "",
+   "document_sha256": "3139896edfb35224feab14be648a595f2b5052faafd2fe746c8951960ad0e221",
    "document_bytes": 268971,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -9325,7 +9808,7 @@
    "brand": "HILTON",
    "source_url": "https://www.hilton.com/en/hotels/cltvshx-hampton-suites-york/",
    "final_url": "https://www.hilton.com/en/hotels/cltvshx-hampton-suites-york/",
-   "document_sha256": "",
+   "document_sha256": "6ff1bd136587e95d048d7b5334aaf81b77552cdde8d18ad5bf45386b9aa146ad",
    "document_bytes": 214068,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -9348,7 +9831,7 @@
    "brand": "MARRIOTT",
    "source_url": "https://www.marriott.com/en-us/hotels/cltxe-city-express-charlotte-south-end/overview/",
    "final_url": "https://www.marriott.com/en-us/hotels/cltxe-city-express-charlotte-south-end/overview/",
-   "document_sha256": "",
+   "document_sha256": "e3dac5d7e6a5d7c157879e977c5f8d3bfc6ab8623f39a6879158e3942e9b735b",
    "document_bytes": 297055,
    "captured_at": "2026-09-10",
    "identity_signals": {
@@ -9863,6 +10346,20 @@
    "brand": "WYNDHAM",
    "corridor": "charlotte-nc__tyvola-yorkmont",
    "official_url": "https://www.wyndhamhotels.com/days-inn/charlotte-north-carolina/days-inn-charlotte-woodlawn-near-carowinds/overview"
+  },
+  {
+   "identity_key": "doubletree by hilton charlotte city center",
+   "canonical_name": "DoubleTree by Hilton Charlotte City Center",
+   "brand": "HILTON",
+   "corridor": "charlotte-nc__uptown-center-city",
+   "official_url": "https://www.hilton.com/en/hotels/cltctdt-doubletree-charlotte-city-center/"
+  },
+  {
+   "identity_key": "doubletree by hilton hotel charlotte airport",
+   "canonical_name": "DoubleTree by Hilton Hotel Charlotte Airport",
+   "brand": "HILTON",
+   "corridor": "charlotte-nc__airport-west",
+   "official_url": "https://www.hilton.com/en/hotels/cltapdt-doubletree-charlotte-airport/"
   },
   {
    "identity_key": "econo lodge and suites lake norman",

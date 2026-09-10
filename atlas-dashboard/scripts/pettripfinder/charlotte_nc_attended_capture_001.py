@@ -74,6 +74,9 @@ _NOT_ALLOWED = re.compile(r"pets?\s+not\s+allowed", re.I)
 _ALLOWED = re.compile(r"pets?\s+(welcome|allowed)", re.I)
 
 _FEE = re.compile(r"\$?\s*([0-9]+(?:\.[0-9]{2})?)\s*(?:non-?refundable)?\s*(?:pet\s*)?fee", re.I)
+#: Marriott's own labelled field. Group 1 is the basis, group 2 the amount.
+_LABELLED_FEE = re.compile(
+    r"Pet\s+Fee\s+Per\s+(Night|Stay)\s*:\s*\$?\s*([0-9]+(?:\.[0-9]{2})?)", re.I)
 _MAXPETS = re.compile(r"(?:maximum\s+number\s+of\s+pets(?:\s+in\s+room)?:?\s*|(\d+)\s*pets?\s*max)"
                       r"\s*(\d+)?", re.I)
 _WEIGHT = re.compile(r"(\d+(?:\.\d+)?)\s*(?:lbs?|pounds)", re.I)
@@ -102,10 +105,25 @@ def parse_marriott_row(row):
     if pets is not None:
         ext["pets_allowed"] = pets
     if pets:
-        m = _FEE.search(text)
-        if m:
-            ext["pet_fee"] = int(round(float(m.group(1)) * 100))
+        # THE LABELLED FIELD, NEVER THE FIRST DOLLAR SIGN. Marriott's row reads
+        # "Non-refundable fee of USD 50 per room per night up to maximum charge
+        # of USD 150 Non-Refundable Pet Fee Per Night: $50.00". A generic
+        # "$N ... fee" search matches "150 Non-Refundable Pet Fee" and publishes
+        # the CAP as the fee -- three times the real nightly rate. The
+        # first-party binding gate caught exactly that on Le Meridien and the
+        # Sheraton. So the labelled "Pet Fee Per Night/Stay: $X" wins, and a
+        # "maximum charge" is recorded as a cap, not as the fee.
+        labelled = _LABELLED_FEE.search(text)
+        if labelled:
+            ext["pet_fee"] = int(round(float(labelled.group(2)) * 100))
             ext["fee_currency"] = "USD"
+            ext["fee_basis"] = "per_night" if labelled.group(1).lower() == "night" else "per_stay"
+        else:
+            m = _FEE.search(text)
+            if m:
+                ext["pet_fee"] = int(round(float(m.group(1)) * 100))
+                ext["fee_currency"] = "USD"
+        if "pet_fee" in ext:
             ext["fee_refundable"] = not re.search(r"non-?refundable", text, re.I)
         w = _WEIGHT.search(text)
         if w:
@@ -199,6 +217,11 @@ def build(rows_path):
             ("brand", "HILTON"), ("property_code", r["code"].lower()),
             ("requested_url", r["url"]), ("final_url", r["url"]),
             ("captured_at", CAPTURED_AT), ("document_bytes", r.get("bytes")),
+            # The sha256 of the DOCUMENT the quote was read from, computed in
+            # the same JS call as the quote itself. Nashville's evidence
+            # recovery order exists because an attended pass kept only a byte
+            # length; a length cannot bind a quote to a page.
+            ("document_sha256", r.get("page_sha256") or ""),
             # The NAME the property's own page states, not the map source's
             # bare label. Without it the census keeps OpenStreetMap's "Hilton
             # Garden Inn" and "Hampton Inn & Suites", two identities collide on
@@ -227,6 +250,7 @@ def build(rows_path):
             ("brand", "MARRIOTT"), ("property_code", r["code"]),
             ("requested_url", r["url"]), ("final_url", r["url"]),
             ("captured_at", CAPTURED_AT), ("document_bytes", r.get("bytes")),
+            ("document_sha256", r.get("page_sha256") or ""),
             ("identity_signals", OrderedDict([
                 ("name_on_page", r.get("name")), ("address_on_page", r.get("street")),
                 ("locality", r.get("city")), ("region", r.get("region")),

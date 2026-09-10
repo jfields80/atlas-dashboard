@@ -91,12 +91,27 @@ def build():
     for key, rows in sorted(by_street.items()):
         if len(rows) < 2:
             continue
+        # EVERY shared address needs a ruling, not only the ones where an
+        # exclusion would block a listing. Two PET-FRIENDLY hotels in one
+        # building hit a different mechanism with the same cause: the listing
+        # dataset builder dedupes by street address and keeps ONE row, so the
+        # renderer writes one profile page and every link to the other dangles
+        # ("missing hotel profile file for X"). That is the Detroit Troy case
+        # (PTF-DETROIT-ANN-ARBOR-TROY-IDENTITY-AND-BUNDLE-030), and it is a
+        # CONFIGURATION fix: the dedup is doing exactly what it should to an
+        # UNREVIEWED shared address. Charlotte has four such pairs -- Courtyard
+        # and Residence Inn at Northlake, Holiday Inn and Candlewood at Fort
+        # Mill, Homewood Suites and its neighbour at SouthPark, Tru and its
+        # neighbour at Concord -- plus one pet-friendly/no-pets pair at 2220
+        # West Tyvola Road.
         pf = [r for kind, r in rows if kind == "pet_friendly"]
         np_ = [r for kind, r in rows if kind == "verified_no_pets"]
-        if not pf or not np_:
+        pairs = [(a, b) for a in pf for b in np_]
+        pairs += [(pf[i], pf[j]) for i in range(len(pf)) for j in range(i + 1, len(pf))]
+        if not pairs:
             continue
-        for a in pf:
-            for b in np_:
+        for a, b in pairs:
+            if True:
                 verdict, why = HE.co_located_distinct(
                     {"canonical_name": a["canonical_name"],
                      "official_url": a.get("official_url", ""),

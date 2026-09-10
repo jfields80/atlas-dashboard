@@ -1275,6 +1275,7 @@ def build():
     for node in nodes:
         klass, why = classify(node, zips, name_counts, street_counts)
         z = (node.postal or "")[:5]
+        sk = street_identity(node.street, node.postal)
         # Every key any lane used for this building. A read captured under the
         # brand roster's name for a property must still find its census row
         # after the merge renamed it, or a clean read is silently orphaned.
@@ -1288,8 +1289,30 @@ def build():
         _corridor = explicit.get(_key) or zips.get(z, "")
         _basis = ("explicit" if explicit.get(_key)
                   else "postal_code" if z in zips else "")
+        # The REGISTERED census contract requires four fields a shadow census
+        # never needed: a slug, the market id, and the two axes it separates on
+        # purpose -- IDENTITY (is this a real, distinct property?) and LODGING
+        # (is it in category?). They are derived here rather than added by a
+        # later promotion, because Charlotte's census IS the registered one
+        # from the moment it is written.
+        _slug = re.sub(r"[^a-z0-9]+", "-", _key).strip("-")
+        _identity_state = ("IDENTITY_CONFIRMED" if klass == TRUE_HOTEL_IDENTITY
+                           else "IDENTITY_PROVISIONAL"
+                           if klass in (SAME_CAMPUS_DISTINCT_ENTITY,
+                                        SAME_IDENTITY_REBRAND_SUCCESSOR, OUTSIDE_MARKET)
+                           else "IDENTITY_UNRESOLVED")
+        _lodging_state = ("NOT_LODGING" if klass == NON_LODGING
+                          else "LODGING_CONFIRMED" if klass == TRUE_HOTEL_IDENTITY
+                          else "NEEDS_REVIEW" if klass == IDENTITY_REVIEW_REQUIRED
+                          else "LODGING_BY_NAME")
+        _collision = ("SHARED_ADDRESS" if sk and street_counts.get(sk, 0) > 1 else "NONE")
         rows.append(OrderedDict([
             ("identity_key", _key),
+            ("slug", _slug),
+            ("market_id", MARKET_ID),
+            ("identity_state", _identity_state),
+            ("lodging_state", _lodging_state),
+            ("collision_state", _collision),
             ("identity_key_aliases", [a for a in aliases if a]),
             ("canonical_name", node.name),
             ("classification", klass),

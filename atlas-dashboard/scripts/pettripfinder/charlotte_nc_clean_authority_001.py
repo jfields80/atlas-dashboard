@@ -255,6 +255,19 @@ def build():
                    "the page served and its identity confirmed, but it published no operative "
                    "pet statement on this read; a silence settles nothing")
             continue
+        # A SERVICE-ANIMAL SENTENCE IS NOT A REFUSAL. Two Charlotte DoubleTrees
+        # publish a petsInfo node whose entire description is "Service animals
+        # only" with petsAllowed false. A legal access category is not a pet
+        # policy, and a bare structured boolean is not the page's own operative
+        # statement either -- the first-party binding gate refuses both. These
+        # rows are HELD, not published as verified-no-pets.
+        if (ext.get("pets_allowed") is False
+                and re.fullmatch(r"\s*service\s+animals?\s+only\.?\s*", quote, re.I)):
+            reject("SERVICE_ANIMAL_ONLY",
+                   "the only words this page publishes about animals are a service-animal "
+                   "carve-out. That is a legal access category, not a refusal of pets, and it "
+                   "cannot establish a verified-no-pets record on its own")
+            continue
         if "pets_allowed" not in ext:
             reject("QUOTE_NOT_OPERATIVE",
                    "the quoted words state no acceptance and no refusal. A fee, a weight, a "

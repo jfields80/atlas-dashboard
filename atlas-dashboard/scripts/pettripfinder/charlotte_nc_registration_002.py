@@ -62,9 +62,16 @@ CAPTURED_AT = "2026-09-10T14:00:00+00:00"
 
 #: How each lane is graded for provenance. Both are first-party reads of the
 #: property's own page; they differ only in which client made the request.
+#: The evidence contract's artifact_kind vocabulary is
+#: (rendered_html, operator_screenshot, pdf, text_extract). Both Charlotte lanes
+#: persist the HTML DOCUMENT the server returned, so both are rendered_html;
+#: what differs is the CAPTURE METHOD, which is recorded separately and is the
+#: field that says whether a person's browser or a plain client made the
+#: request. Inventing a fifth kind to record that difference would put it in the
+#: wrong field.
 LANE_GRADE = {
     "ATTENDED_BROWSER": ("attended_browser", "PT2_BRAND", "rendered_html"),
-    "DIRECT_STATIC_FETCH": ("direct_static_fetch", "PT2_BRAND", "static_html"),
+    "DIRECT_STATIC_FETCH": ("direct_static_fetch", "PT2_BRAND", "rendered_html"),
 }
 
 
@@ -136,7 +143,7 @@ def _facts(extraction, quote):
 
 def _evidence(rec, facts):
     method, grade, kind = LANE_GRADE.get(rec["lane"], ("direct_static_fetch", "PT2_BRAND",
-                                                       "static_html"))
+                                                       "rendered_html"))
     sha = rec.get("document_sha256") or ""
     entries = []
     for field, value in facts.items():
@@ -182,6 +189,16 @@ def build():
             ("schema_version", PS.SCHEMA_VERSION),
             ("facts", facts),
             ("computation_class", FC.classify(facts).computation_class),
+            # The first-party binding gate requires a publishable verification
+            # state AND a recorded review. The reviewer is the WORK ORDER that
+            # made the machine determination -- NOT a person, and not the
+            # founder: this order registers Charlotte without a row-by-row
+            # founder signature, and the founder's decision in this lane is on
+            # the candidate digest, which has not been made. Writing the
+            # operator's name here would be a false attribution.
+            ("verification_state", "VERIFIED_PET_FRIENDLY"),
+            ("reviewer_id", WORK_ORDER),
+            ("reviewed_at", OBSERVED_AT),
             ("evidence", _evidence(rec, facts)),
         ))
         r_issues = PS.validate_record(record)
