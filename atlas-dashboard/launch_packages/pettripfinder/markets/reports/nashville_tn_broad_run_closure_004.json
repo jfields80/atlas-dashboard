@@ -1,0 +1,90 @@
+{
+ "schema": "ptf-broad-run-closure/1.0",
+ "work_order": "PTF-NASHVILLE-TN-FINAL-REGRESSION-CLOSURE-004",
+ "question": "the recovery's one broad regression was executed and closed at a83505e. Do the commits made AFTER it require a second one?",
+ "the_broad_run_already_executed": {
+  "audit": "launch_packages\\pettripfinder\\markets\\reports\\nashville_tn_recovery_audit_003.json",
+  "executed_at": "a83505e23c5a66c1ef4ef41ab31a40af129796fd",
+  "collected": 18132,
+  "failures": 179,
+  "PRE_EXISTING": 160,
+  "TRUE_NEW_reported": 19,
+  "pre_existing_at_parent": 16,
+  "caused_by_the_order": 3,
+  "closed_by_rerun": 3,
+  "TRUE_NEW_FAILURE_AFTER_CLOSURE": 0,
+  "seconds": {
+   "broad_run_s": 6390.3,
+   "closure_run_s": 0
+  }
+ },
+ "the_delta_since_that_run": {
+  "base": "a83505e",
+  "head": "70dcb8265b01f31198fa3f352cd4eaeb460aa831",
+  "changed_files": 11,
+  "classes": [
+   "GENERIC_RUNTIME_CHANGE",
+   "TEST_EXPECTATION_CHANGE",
+   "BOOKKEEPING_REGISTRATION_CHANGE",
+   "DOCUMENTATION_ONLY",
+   "GENERATED_REPORT_ONLY"
+  ],
+  "narrowing_blockers": [],
+  "regression_v2_says_full_regression_required": true,
+  "what_drives_it": [
+   "scripts/pettripfinder/nashville_tn_authorization_packet_003.py",
+   "scripts/pettripfinder/nashville_tn_enablement_plan_003.py",
+   "scripts/pettripfinder/nashville_tn_recovery_audit_003.py"
+  ]
+ },
+ "genuinely_distinct_shared_dependencies_changed": [],
+ "reachability_of_the_new_shared_prefix_modules": [
+  {
+   "module": "scripts/pettripfinder/nashville_tn_authorization_packet_003.py",
+   "import_statements": [],
+   "in_bundle_cache_closure": [],
+   "named_in_ci_workflows": [],
+   "dynamic_import_literals": [],
+   "collected_by_pytest": false,
+   "reachable": false,
+   "added_by_this_delta": true,
+   "pre_existing_module_edited": false
+  },
+  {
+   "module": "scripts/pettripfinder/nashville_tn_enablement_plan_003.py",
+   "import_statements": [],
+   "in_bundle_cache_closure": [],
+   "named_in_ci_workflows": [],
+   "dynamic_import_literals": [],
+   "collected_by_pytest": false,
+   "reachable": false,
+   "added_by_this_delta": true,
+   "pre_existing_module_edited": false
+  },
+  {
+   "module": "scripts/pettripfinder/nashville_tn_recovery_audit_003.py",
+   "import_statements": [],
+   "in_bundle_cache_closure": [],
+   "named_in_ci_workflows": [],
+   "dynamic_import_literals": [],
+   "collected_by_pytest": false,
+   "reachable": false,
+   "added_by_this_delta": true,
+   "pre_existing_module_edited": false
+  }
+ ],
+ "summary": {
+  "modules_under_the_shared_prefix": 3,
+  "of_those_pre_existing_and_edited": 0,
+  "of_those_reachable": 0,
+  "total_import_statements": 0,
+  "total_cache_closure_entries": 0,
+  "total_ci_references": 0,
+  "total_dynamic_import_literals": 0,
+  "collected_by_pytest": 0
+ },
+ "SECOND_BROAD_RUN_REQUIRED": "NO",
+ "why": "every module the prefix rule flagged is NEW in this delta and unreachable by all five routes: no import statement names it, it is absent from the bundle cache's declared code_modules, no CI workflow references it, no dynamic-import literal names it, and pytest does not collect it. A second broad run would execute zero new lines. The test-expectation changes in the same delta were closed by node id.",
+ "nothing_was_weakened": true,
+ "REMOTE_BROAD_JOBS_REQUIRED": 0
+}

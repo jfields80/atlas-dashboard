@@ -1,0 +1,105 @@
+{
+ "schema": "ptf-pin-scope-determination/1.0",
+ "work_order": "PTF-NASHVILLE-TN-FINAL-REGRESSION-CLOSURE-004",
+ "market_id": "nashville-tn",
+ "question": "is a change to tests/pettripfinder/pins/market_state.json a legitimate shared semantic change requiring one broad regression (A), or a generated current-state view already covered by the sealed package and the fast release contract (B)?",
+ "measurement_1_is_it_generated": {
+  "writers_found": 0,
+  "writers": [],
+  "fixture_writes_not_counted": 2,
+  "fixture_writes": [
+   {
+    "path": "tests/pettripfinder/test_atlas_throughput_002.py",
+    "line": 439,
+    "call": "write_text",
+    "target_rooted_at": "pkg",
+    "source": "(pkg / \"tests\" / \"pettripfinder\" / \"pins\" / \"market_state.json\").write_text(\"{}\")",
+    "why_not_a_writer": "the target is built under the local name 'pkg', a throwaway tree the test creates; it writes a stub pin to exercise the classifier, not the repository's pin"
+   },
+   {
+    "path": "tests/pettripfinder/test_atlas_throughput_002.py",
+    "line": 497,
+    "call": "write_text",
+    "target_rooted_at": "pkg",
+    "source": "(pkg / \"tests\" / \"pettripfinder\" / \"pins\" / \"market_state.json\").write_text('{\"x\": 1}')",
+    "why_not_a_writer": "the target is built under the local name 'pkg', a throwaway tree the test creates; it writes a stub pin to exercise the classifier, not the repository's pin"
+   }
+  ],
+  "readers_found": 40,
+  "conclusion": "the pin has 0 writer(s) and 40 reading test modules. The 2 write call(s) that mention the filename all target a throwaway tree a test builds to exercise the classifier, so none is a generation path. With no writer, the file is an authored, reviewed expectation -- which its own owning module states in as many words: 'It is not a derivation. Nothing here opens a policy package, a census or a manifest.'",
+  "supports_B": false
+ },
+ "measurement_2_blast_radius": {
+  "probe_failed": 18,
+  "control_failed": 9,
+  "in_the_committed_baseline": 5,
+  "controlled_by_the_pin_entry": 9,
+  "nodes": [
+   "tests/pettripfinder/contracts/test_market_state_pins.py::TestMarketPinsAgreeWithTheSource::test_exclusion_shard_holds_exactly_the_pinned_refusals[nashville-tn]",
+   "tests/pettripfinder/contracts/test_market_state_pins.py::TestMarketPinsAgreeWithTheSource::test_policy_package_holds_exactly_the_pinned_records[nashville-tn]",
+   "tests/pettripfinder/contracts/test_market_state_pins.py::TestMarketPinsAgreeWithTheSource::test_release_contract_reconciliation_matches_the_pin[nashville-tn]",
+   "tests/pettripfinder/test_factory_throughput_001.py::TestCurrentStateDetectsUnauthorisedChange::test_every_market_pin_is_held_to_its_release_contract",
+   "tests/pettripfinder/test_global_assembler.py::test_current_live_inventory_preserves_all_assemblable_market_profiles",
+   "tests/pettripfinder/test_per_market_release_contracts.py::TestContractAgreesWithItsOwnAuthority::test_derivation_matches_the_reviewed_figures[nashville-tn]",
+   "tests/pettripfinder/test_per_market_release_contracts.py::TestContractAgreesWithItsOwnAuthority::test_reconciliation_matches_the_reviewed_figures[nashville-tn]",
+   "tests/pettripfinder/test_per_market_release_contracts.py::TestEveryMarketAssembles::test_manifest_carries_the_reconciliation_and_the_caveat[nashville-tn]",
+   "tests/pettripfinder/test_per_market_release_contracts.py::TestEveryMarketAssembles::test_route_count_is_this_markets_own[nashville-tn]"
+  ],
+  "probe_summary": "18 failed, 1799 passed, 39 skipped, 1 warning in 1872.10s (0:31:12)",
+  "control_summary": "9 failed, 1808 passed, 39 skipped, 1 warning in 1832.91s (0:30:32)"
+ },
+ "measurement_3_reach": {
+  "parameterised_by_this_market": 7,
+  "registry_wide": 2,
+  "registry_wide_nodes": [
+   "tests/pettripfinder/test_factory_throughput_001.py::TestCurrentStateDetectsUnauthorisedChange::test_every_market_pin_is_held_to_its_release_contract",
+   "tests/pettripfinder/test_global_assembler.py::test_current_live_inventory_preserves_all_assemblable_market_profiles"
+  ],
+  "why_it_matters": "a node parameterised by this market could in principle be narrowed to it. A registry-wide node cannot: its answer is a statement about every pinned market at once, so moving one market's entry moves an assertion that is not about that market."
+ },
+ "measurement_4_coverage": {
+  "fast_lane_rules": {
+   "A": "PASS",
+   "B": "PASS",
+   "C": "PASS",
+   "D": "PASS",
+   "E": "PASS",
+   "F": "PASS",
+   "G": "PASS",
+   "H": "PASS",
+   "I": "PASS",
+   "J": "PASS",
+   "K": "PASS",
+   "L": "PASS",
+   "M": "PASS",
+   "N": "PASS",
+   "O": "PASS"
+  },
+  "all_pass": true,
+  "what_the_lane_reads": "the sealed package for ONE market, and release INDEXES derived from committed authority for the comparison rules. It never opens the pin.",
+  "what_the_pin_cross_check_reads": "every market's release contract, policy package, exclusion shard, census and partition, and holds the reviewed number against each. That is tests/pettripfinder/contracts/test_market_state_pins.py, which is not one of the fifteen rules and is not run by the lane.",
+  "lane_evaluates_the_pin": false
+ },
+ "classifier_behaviour_is_deliberate_and_tested": {
+  "rule": "regression_delta.SHARED_TEST_STATE, prefix tests/pettripfinder/pins/",
+  "asserted_by": "tests/pettripfinder/test_regression_delta_001.py::test_a_shared_pin_makes_the_conditional_row_a_yes, which asserts full_regression_required is True for this exact path and False for a market-OWNED test file, so the distinction is designed rather than incidental",
+  "also_declared_by": "scripts/pettripfinder/release_coordinator.py lists the pin in its own claim table with role 'CROSS-CHECK -- reviewed per-market numbers, not a live record'",
+  "narrowing_mechanism_that_exists_and_does_not_apply": "regression_delta.REGISTRATION_CONTAINERS narrows a shared test file when its elements name THINGS THAT EXIST -- a run directory, a file, an id. Its own note draws the line this question turns on: 'Adding a number to an expectations table can [change an assertion's answer].' The pin is an expectations table of numbers."
+ },
+ "VERDICT": "A",
+ "verdict_why": {
+  "B_requires_all_three": [
+   "a generation path exists",
+   "no cross-market reach",
+   "the fast lane evaluates the same invariants"
+  ],
+  "generation_path_exists": false,
+  "crosses_markets": true,
+  "fast_lane_evaluates_the_pin": false
+ },
+ "classifier_correction": {
+  "made": false,
+  "why_not": "the classification is not objectively wrong. It is conservative and correct: the pin is authored rather than generated, its movement demonstrably changes registry-wide assertions, and no fast-lane rule evaluates it. Correcting it would mean falsifying a test written to assert this behaviour, which is a change to shared safety semantics and cannot self-authorize."
+ },
+ "nothing_was_weakened": true
+}
