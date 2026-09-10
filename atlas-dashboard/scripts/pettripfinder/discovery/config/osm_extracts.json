@@ -10,7 +10,9 @@
       "md5_url": "https://download.geofabrik.de/north-america/us/pennsylvania-latest.osm.pbf.md5",
       "local_pbf": "data/osm_extracts/pennsylvania-latest.osm.pbf",
       "index_path": "data/osm_extracts/geofabrik-pennsylvania.pittsburgh-pa.index.json",
-      "markets": ["pittsburgh-pa"],
+      "markets": [
+        "pittsburgh-pa"
+      ],
       "license": "ODbL 1.0 (OpenStreetMap contributors)",
       "notes": "Covers every Pittsburgh discovery cell (all fifteen lie inside Allegheny/Butler/Westmoreland counties). The index is built with the market's geographic_bounds as a bbox, so a state extract of a few hundred MB reduces to a few hundred lodging elements. data/ is gitignored: neither the extract nor the index is committed; the cells they answer are, through the discovery cache, with endpoint_id local_extract:geofabrik-pennsylvania in their provenance."
     },
@@ -21,7 +23,9 @@
       "md5_url": "https://download.geofabrik.de/north-america/us/michigan-latest.osm.pbf.md5",
       "local_pbf": "data/osm_extracts/michigan-latest.osm.pbf",
       "index_path": "data/osm_extracts/geofabrik-michigan.grand-rapids-holland-mi.index.json",
-      "markets": ["grand-rapids-holland-mi"],
+      "markets": [
+        "grand-rapids-holland-mi"
+      ],
       "license": "ODbL 1.0 (OpenStreetMap contributors)",
       "notes": "Covers every Grand Rapids-Holland discovery cell: all ten lie inside the market's geographic_bounds (42.75..43.15 N, -86.25..-85.45 W) -- Kent/Ottawa/Allegan county territory, well inside the Michigan extract. Registered by PTF-GRAND-RAPIDS-HOLLAND-LOCAL-OSM-FALLBACK-004 after public Overpass stopped making acceptable forward progress at 8 of 20 cells. The index is built with the market's geographic_bounds as a bbox, so a state extract of a few hundred MB reduces to a few hundred lodging elements. data/ is gitignored: neither the extract nor the index is committed; the cells they answer are, through the discovery cache, with endpoint_id local_extract:geofabrik-michigan in their provenance."
     },
@@ -32,7 +36,9 @@
       "md5_url": "https://download.geofabrik.de/north-america/us/ohio-latest.osm.pbf.md5",
       "local_pbf": "data/osm_extracts/ohio-latest.osm.pbf",
       "index_path": "data/osm_extracts/geofabrik-ohio.cleveland-akron-canton-oh.index.json",
-      "markets": ["cleveland-akron-canton-oh"],
+      "markets": [
+        "cleveland-akron-canton-oh"
+      ],
       "license": "ODbL 1.0 (OpenStreetMap contributors)",
       "notes": "Covers every Cleveland-Akron-Canton discovery cell: all twenty-four lie inside the market's geographic_bounds (40.70..41.80 N, -82.05..-81.00 W) -- Cuyahoga/Lake/Summit/Portage/Stark/Medina county territory, well inside the Ohio extract. Registered by PTF-CLEVELAND-AKRON-CANTON-HARDENED-REVALIDATION-001 after the public Overpass endpoints rate-limited the recensus at 2 of 48 cells. The index is built with the market's geographic_bounds as a bbox. data/ is gitignored: neither the extract nor the index is committed; the cells they answer are, through the discovery cache, with endpoint_id local_extract:geofabrik-ohio in their provenance."
     },
@@ -43,9 +49,35 @@
       "md5_url": "https://download.geofabrik.de/north-america/us/kentucky-latest.osm.pbf.md5",
       "local_pbf": "data/osm_extracts/kentucky-latest.osm.pbf",
       "index_path": "data/osm_extracts/geofabrik-kentucky.lexington-ky.index.json",
-      "markets": ["lexington-ky"],
+      "markets": [
+        "lexington-ky"
+      ],
       "license": "ODbL 1.0 (OpenStreetMap contributors)",
       "notes": "Covers every Lexington discovery cell: all thirteen lie inside the market's geographic_bounds (37.85..38.28 N, -84.80..-84.25 W) -- Fayette county territory plus the Scott/Jessamine/Woodford observation cells, well inside the Kentucky extract. Registered by PTF-LEXINGTON-KY-NEW-MARKET-001 after the approved public Overpass endpoints answered 2 of 26 planned cells and then all went to cooldown together (overpass-api.de HTTP_RATE_LIMITED, kumi.systems TIMEOUT x3 taking its private.coffee sibling with it by shared failure domain). Two further PTF market orders were running free discovery concurrently against the same public endpoints, which is exactly the contention this local lane exists to remove. The index is built with the market's geographic_bounds as a bbox, so a state extract of a few hundred MB reduces to a few hundred lodging elements. data/ is gitignored: neither the extract nor the index is committed; the cells they answer are, through the discovery cache, with endpoint_id local_extract:geofabrik-kentucky in their provenance. This row is additive and names lexington-ky alone: it changes no other market's lane."
+    },
+    {
+      "extract_id": "geofabrik-north-carolina",
+      "region": "North Carolina, US",
+      "url": "https://download.geofabrik.de/north-america/us/north-carolina-latest.osm.pbf",
+      "md5_url": "https://download.geofabrik.de/north-america/us/north-carolina-latest.osm.pbf.md5",
+      "local_pbf": "data/osm_extracts/north-carolina-latest.osm.pbf",
+      "index_path": "data/osm_extracts/geofabrik-north-carolina.charlotte-nc.index.json",
+      "markets": [
+        "charlotte-nc"
+      ],
+      "license": "ODbL 1.0 (OpenStreetMap contributors)",
+      "notes": "Covers the NORTH CAROLINA part of every Charlotte discovery cell -- twenty-eight of thirty-four, all of Mecklenburg County plus Cabarrus, Gaston, Iredell, Union and Lincoln. Registered by PTF-CHARLOTTE-NC-ZERO-TO-LIVE-BENCHMARK-001 as the FIRST lane rather than as a fallback, following the Lexington rule: register the extract before leaning on Overpass. The index is built with the market's geographic_bounds as a bbox, so a 428 MB state extract reduces to a few hundred lodging elements. data/ is gitignored: neither the extract nor the index is committed; the cells they answer are, through the discovery cache, with endpoint_id local_extract:geofabrik-north-carolina in their provenance. Charlotte is the first PetTripFinder market whose traveler geography crosses a STATE line, so it is also the first to need a second extract -- see geofabrik-south-carolina, which this row deliberately does not shadow."
+    },
+    {
+      "extract_id": "geofabrik-south-carolina",
+      "region": "South Carolina, US",
+      "url": "https://download.geofabrik.de/north-america/us/south-carolina-latest.osm.pbf",
+      "md5_url": "https://download.geofabrik.de/north-america/us/south-carolina-latest.osm.pbf.md5",
+      "local_pbf": "data/osm_extracts/south-carolina-latest.osm.pbf",
+      "index_path": "data/osm_extracts/geofabrik-south-carolina.charlotte-nc.index.json",
+      "markets": [],
+      "license": "ODbL 1.0 (OpenStreetMap contributors)",
+      "notes": "Answers the SOUTH CAROLINA cells of the Charlotte market -- Fort Mill, Tega Cay, Baxter Village, Carowinds, Indian Land and the Rock Hill observation cell -- built with the same charlotte-nc geographic_bounds bbox. `markets` is deliberately EMPTY: ExtractRegistry.for_market returns the first row naming a market, so two rows naming charlotte-nc would make the resolution silently ambiguous. Charlotte's South Carolina cells are answered by naming this index explicitly (`discovery_cli run --osm-extract-index data/osm_extracts/geofabrik-south-carolina.charlotte-nc.index.json`), which records endpoint_id local_extract:geofabrik-south-carolina in the cell's provenance -- the truth about which file answered it. Registered by PTF-CHARLOTTE-NC-ZERO-TO-LIVE-BENCHMARK-001."
     }
   ]
 }
