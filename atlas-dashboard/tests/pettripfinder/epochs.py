@@ -39,6 +39,7 @@ genuinely closed epoch marks each superseded assertion; it does not vanish.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 from dataclasses import dataclass, field
@@ -304,6 +305,52 @@ def moved_by_later_work(authorization_id: str) -> Dict[str, str]:
 
 def markets_moved_since(authorization_id: str) -> FrozenSet[str]:
     return frozenset(moved_by_later_work(authorization_id))
+
+
+# --------------------------------------------------------------------------- #
+# The participation decision lineage, wherever it currently lives.
+# --------------------------------------------------------------------------- #
+
+#: Where the block belongs, and where it is until the next participation write.
+_LINEAGE_REPAIR = (Path(__file__).resolve().parents[1].parent / "launch_packages"
+                   / "pettripfinder" / "markets" / "reports"
+                   / "nashville_tn_participation_lineage_defect_005.json")
+
+
+def participation_decision_chain() -> Dict:
+    """``{"supersedes": ..., "records": [...]}`` for the CURRENT decision.
+
+    An authorization signed several reissues back can only be matched to the
+    participation record it bound through this chain, so what it asserts must
+    not depend on which file happens to hold it.
+
+    PTF-NASHVILLE-TN-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-005 rebuilt the
+    ``decision`` block instead of extending it and dropped ``supersedes`` and
+    ``lineage``. The participation record is sha256-bound into the LIVE
+    deployment authorization, so putting them back would make the authorization
+    production runs under stop verifying against its own repository; the block
+    returns on the next participation write, when a new authorization binds the
+    new hash. Until then it lives in the repair record that launch committed,
+    derived from git rather than transcribed. The chain is unbroken either way,
+    which is why this reads whichever file is currently carrying it.
+    """
+    decision = json.loads(
+        (Path(__file__).resolve().parents[1].parent / "deploy" / "netlify"
+         / "launch_participation.json").read_text(encoding="utf-8-sig"))["decision"]
+    if "lineage" in decision and "supersedes" in decision:
+        return {"supersedes": decision["supersedes"],
+                "records": decision["lineage"]["records"],
+                "carried_by": "the participation record"}
+    repair = json.loads(_LINEAGE_REPAIR.read_text(encoding="utf-8-sig"))
+    if repair["current_participation_sha256"] != hashlib.sha256(
+            (Path(__file__).resolve().parents[1].parent / "deploy" / "netlify"
+             / "launch_participation.json").read_bytes()).hexdigest():
+        raise ValueError("%s describes a different participation record; the repair is "
+                         "stale and the chain cannot be trusted" % _LINEAGE_REPAIR.name)
+    should = repair["what_the_current_file_should_have_carried"]
+    return {"supersedes": should["supersedes"],
+            "records": should["lineage"]["records"],
+            "carried_by": _LINEAGE_REPAIR.name}
 
 
 __all__ = [

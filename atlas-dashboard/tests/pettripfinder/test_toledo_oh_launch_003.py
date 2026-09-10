@@ -66,29 +66,47 @@ def live_pin() -> dict:
 # --------------------------------------------------------------------------
 
 def test_toledo_participates_in_the_composed_bundle():
+    """Still authorized, and its decision is now an ancestor of the current one.
+
+    Two launches have followed. The CURRENT decision block names the newest of
+    them, so what has to stay provable here is that this launch's decision is in
+    the chain and that Toledo never left the authorized set.
+    """
+    from pettripfinder import epochs
     from scripts.pettripfinder import launch_participation as LP
     assert LP.launch_status(MARKET) == LP.FOUNDER_AUTHORIZED_FOR_LAUNCH
-    decision = _load(DEPLOY / "launch_participation.json")["decision"]
-    assert decision["work_order"] == WORK_ORDER
-    assert decision["decided_by"] == "founder"
+    chain = epochs.participation_decision_chain()
+    mine = [r for r in chain["records"] if r["work_order"] == WORK_ORDER]
+    assert len(mine) == 1, "this launch's decision is not in the chain"
+    assert MARKET in mine[0]["founder_authorized"]
+    assert mine[0]["founder_authorized"] == sorted(record()["participating_markets"])
 
 
 def test_exactly_one_market_joined_and_none_left():
-    """A launch record that quietly carried a second market is the worst defect."""
-    decision = _load(DEPLOY / "launch_participation.json")["decision"]
-    before = set(decision["supersedes"]["founder_authorized"])
-    after = set(live_pin()["participating_markets"])
+    """A launch record that quietly carried a second market is the worst defect.
+
+    Measured record-to-record. The live pin has moved on twice since, so asking
+    it what THIS launch added would answer about a later one.
+    """
+    before = set(_load(DEPLOY / "deployment_records"
+                       / ("ptf-deploy-cincinnati-004-%s.json" % PREVIOUS_DEPLOY)
+                       )["participating_markets"])
+    after = set(record()["participating_markets"])
     assert sorted(after - before) == [MARKET]
     assert sorted(before - after) == []
     assert len(before) == BEFORE["markets"] and len(after) == AFTER["markets"]
 
 
-def test_detroit_fort_wayne_and_lexington_are_still_out():
+def test_detroit_fort_wayne_and_lexington_were_all_out_at_this_launch():
+    """Lexington joined LATER, at PTF-LEXINGTON-KY-FRESH-FOUNDER-AUTHORIZATION-
+    AND-LIVE-LAUNCH-006, and Nashville later still. That this launch did not
+    let either in is a fact about this launch, and stays true afterwards.
+    """
     from scripts.pettripfinder import launch_participation as LP
     assert LP.launch_status("detroit-ann-arbor-mi") != LP.FOUNDER_AUTHORIZED_FOR_LAUNCH
-    for unregistered in ("fort-wayne-in", "lexington-ky"):
-        assert not (PACKAGE / "markets" / ("%s.json" % unregistered)).is_file()
-        assert unregistered not in live_pin()["participating_markets"]
+    assert not (PACKAGE / "markets" / "fort-wayne-in.json").is_file()
+    for later in ("fort-wayne-in", "lexington-ky", "nashville-tn"):
+        assert later not in record()["participating_markets"]
 
 
 # --------------------------------------------------------------------------
@@ -106,10 +124,10 @@ def test_every_previously_live_market_moved_by_exactly_zero():
 
 
 def test_production_grew_by_exactly_toledo():
-    pin = live_pin()
-    assert pin["total_profiles"] == AFTER["profiles"] == BEFORE["profiles"] + TOLEDO["profiles"]
-    assert pin["sitemap_route_count"] == AFTER["routes"] == BEFORE["routes"] + TOLEDO["routes"]
-    assert len(pin["participating_markets"]) == AFTER["markets"]
+    r = record()
+    assert r["total_profiles"] == AFTER["profiles"] == BEFORE["profiles"] + TOLEDO["profiles"]
+    assert r["sitemap_route_count"] == AFTER["routes"] == BEFORE["routes"] + TOLEDO["routes"]
+    assert len(r["participating_markets"]) == AFTER["markets"]
 
 
 def test_no_route_the_previous_deploy_served_was_removed():
@@ -133,15 +151,25 @@ def test_the_authorization_was_consumed_in_order():
 
 
 def test_one_digest_runs_from_authorization_to_live():
+    """One digest, from the authorization through the record to what the live
+    check actually fetched.
+
+    The manifest and the live pin describe whatever is newest, so they are not
+    part of this claim any more. What replaces them is stronger: the record that
+    superseded this one names this deploy as its parent, so the chain is still
+    walkable from here to the present.
+    """
     a, r = auth(), record()
-    manifest = _load(DEPLOY / "global_deployment_manifest.json")
-    pin = live_pin()
     live = r["live_verification_results"]
-    for doc in (a, r, manifest, pin):
+    for doc in (a, r):
         assert doc["bundle_sha256"] == BUNDLE
         assert doc["sitemap_sha256"] == SITEMAP
     assert live["live_sitemap_sha256"] == SITEMAP
     assert live["sitemap_exact_match_to_authorized"] is True
+    successors = [_load(p) for p in sorted((DEPLOY / "deployment_records").glob("*.json"))
+                  if _load(p).get("previous_deployment_id") == DEPLOY_ID]
+    assert len(successors) == 1, "exactly one release should build on this one"
+    assert successors[0]["rollback_target"] == DEPLOY_ID
 
 
 def test_the_promotion_packets_bundle_is_NOT_what_deployed():
@@ -170,7 +198,10 @@ def test_rollback_target_is_what_production_actually_served():
     assert a["rollback_target"] == PREVIOUS_DEPLOY
     assert r["rollback_target"] == PREVIOUS_DEPLOY
     assert r["previous_deployment_id"] == PREVIOUS_DEPLOY
-    assert live_pin()["previous_deploy_id"] == PREVIOUS_DEPLOY
+    # And the deploy it named really is the one Cincinnati's launch produced.
+    assert _load(DEPLOY / "deployment_records"
+                 / ("ptf-deploy-cincinnati-004-%s.json" % PREVIOUS_DEPLOY)
+                 )["deployment_id"] == PREVIOUS_DEPLOY
 
 
 def test_the_record_is_final_and_names_its_authorization():
@@ -183,10 +214,18 @@ def test_the_record_is_final_and_names_its_authorization():
 
 
 def test_source_is_back_in_sync_with_production():
-    source = _load(PINS / "deployment_state.json")["source"]
+    """This launch put source back in sync, and it has stayed in sync since.
+
+    The digest the two blocks agree on is whatever the newest launch shipped;
+    asserting Toledo's would say that no market may ever be added again. What
+    this launch actually established is the AGREEMENT, and that is what holds.
+    """
+    pins = _load(PINS / "deployment_state.json")
+    source, live = pins["source"], pins["live"]
     assert source["ahead_of_production"] is False
     assert source["moved_by"] is None
-    assert source["bundle_sha256"] == BUNDLE
+    assert source["bundle_sha256"] == live["bundle_sha256"]
+    assert record()["bundle_sha256"] == BUNDLE
 
 
 def test_the_new_authorization_is_registered_as_current_and_nothing_moved_under_it():

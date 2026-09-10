@@ -78,7 +78,13 @@ SCRATCH = Path(chr(67) + ":/t/ptf045t")
 EXPECTED_MARKETS = ("cincinnati-oh", "cleveland-akron-canton-oh", "columbus-oh",
                     "dayton-oh", "grand-rapids-holland-mi", "indianapolis-in",
                     "lexington-ky", "louisville-ky", "milwaukee-wi",
-                    "pittsburgh-pa", "st-louis-mo", "toledo-oh")
+                    "nashville-tn", "pittsburgh-pa", "st-louis-mo", "toledo-oh")
+# nashville-tn joined as the THIRTEENTH at PTF-NASHVILLE-TN-FOUNDER-
+# AUTHORIZATION-AND-LIVE-LAUNCH-005 (deploy 6aa212a8ba9f174305c0441a), 79
+# profiles and 87 routes, with 0 routes removed and every one of the 1078 live
+# routes byte-identical to the authorized bundle. Every other figure below is
+# UNCHANGED, which is the half of these constants that says a new market
+# disturbed nothing.
 # lexington-ky joined as the TWELFTH at PTF-LEXINGTON-KY-FRESH-FOUNDER-
 # AUTHORIZATION-AND-LIVE-LAUNCH-006 (deploy 6aa172121d37bb4013eb44a4), 20
 # profiles and 25 routes, with 0 routes removed and every one of the 991 live

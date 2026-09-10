@@ -1,7 +1,7 @@
 {
  "schema": "ptf-supersession-registry/1.0",
  "what_this_is": "Which later work orders moved a market out from under a CONSUMED historical deployment authorization. An authorization is immutable evidence of what was authorized and deployed at the time; later legitimate source growth must NOT make its historical hash read as corrupt. So a test that re-verifies a historical authorization skips exactly the markets named here -- named, never blanket -- and still binds every market that was not moved. A market may only be listed with the work order that moved it.",
- "reviewed_by": "PTF-LEXINGTON-KY-FRESH-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006",
+ "reviewed_by": "PTF-NASHVILLE-TN-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-005",
  "authorizations": {
   "ptf-auth-047-a324b1bf5023": {
    "work_order": "PTF-FIRST-MULTI-MARKET-AUTHORIZATION-AND-DEPLOYMENT-047",
@@ -56,7 +56,12 @@
   "ptf-auth-lexington-006-67fe8617b79f": {
    "work_order": "PTF-LEXINGTON-KY-FRESH-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006",
    "moved_by_later_work": {},
-   "note": "The current live authorization. Nothing has moved out from under it: it was authorized against exactly the source that deployed, b446d1b, and the bundle it binds is the bundle production serves. It admitted lexington-ky as the TWELFTH market at 20 profiles and moved no other market. It is also the first launch in this repository to follow a founder HALT: PTF-LEXINGTON-KY-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-004 was stopped because the sealed package digest it named could not be reproduced, and this authorization binds the reproducible package PTF-LEXINGTON-KY-FRESH-PACKAGE-REAUTHORIZATION-PREP-005 committed under the market."
+   "note": "Historical. It was the live authorization until PTF-NASHVILLE-TN-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-005 shipped Nashville as deploy 6aa212a8ba9f174305c0441a. Nothing moved out from under it: Nashville was REGISTERED after it was signed and is absent from both its contracts and its participating markets, so adding a market did not disturb a single pin it bound. All twelve still hash exactly."
+  },
+  "ptf-auth-nashville-005-c12b410ec833": {
+   "work_order": "PTF-NASHVILLE-TN-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-005",
+   "moved_by_later_work": {},
+   "note": "The CURRENT live authorization. It binds all thirteen release contracts exactly, because production was authorized against what source holds and no application order has moved a market since. Registered with an EMPTY moved list rather than left unregistered: an unregistered authorization binds everything by default, so the two read alike today, and only the explicit entry says that emptiness was checked. The next application order that re-authors a market lists it here."
   }
  }
 }

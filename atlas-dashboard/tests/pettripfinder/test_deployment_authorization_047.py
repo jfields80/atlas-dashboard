@@ -202,12 +202,17 @@ def test_the_participation_record_it_bound_is_the_one_it_named(auth):
     longer is: 046 -> 011 -> 011(Louisville) -> 019. So the record now carries
     its full lineage and the authorization is matched against that, which is
     the property this test was always really asserting -- an authorization can
-    be traced to the participation it signed, however many reissues later."""
-    import json as _json
+    be traced to the participation it signed, however many reissues later.
+
+    PTF-NASHVILLE-TN-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-005 rebuilt the
+    decision block instead of extending it and dropped the lineage. The
+    participation record is sha256-bound into the LIVE authorization, so it
+    cannot be edited until the next participation write; until then the chain
+    is read from the repair record that launch committed beside it, derived
+    from git rather than transcribed. The property asserted here is
+    unchanged."""
     assert auth["launch_participation_sha256"] != LP.participation_sha256()
-    current = _json.loads(
-        (REPO / auth["launch_participation_source"]).read_text(encoding="utf-8"))
-    lineage = current["decision"]["lineage"]["records"]
+    lineage = epochs.participation_decision_chain()["records"]
     signed = [r for r in lineage
               if r["sha256"] == auth["launch_participation_sha256"]]
     assert len(signed) == 1, "the signed participation record is not in the lineage"
@@ -218,14 +223,12 @@ def test_the_participation_record_it_bound_is_the_one_it_named(auth):
 
 
 def test_the_lineage_is_ordered_and_ends_before_the_current_record(auth):
-    import json as _json
-    current = _json.loads(
-        (REPO / auth["launch_participation_source"]).read_text(encoding="utf-8"))
-    lineage = current["decision"]["lineage"]["records"]
+    chain = epochs.participation_decision_chain()
+    lineage = chain["records"]
     shas = [r["sha256"] for r in lineage]
     assert len(shas) == len(set(shas)), "a lineage may not repeat a record"
     assert LP.participation_sha256() not in shas
-    assert current["decision"]["supersedes"]["sha256"] == shas[-1]
+    assert chain["supersedes"]["sha256"] == shas[-1]
     counts = [len(r["founder_authorized"]) for r in lineage]
     assert counts == sorted(counts), "the authorized set only ever grew"
 

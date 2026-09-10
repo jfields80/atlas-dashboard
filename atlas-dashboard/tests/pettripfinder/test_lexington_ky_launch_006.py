@@ -21,6 +21,7 @@ from pathlib import Path
 
 import pytest
 
+from pettripfinder import epochs
 from scripts.pettripfinder import deployment_authorization as DA
 from scripts.pettripfinder import launch_participation as LP
 from scripts.pettripfinder import release_coordinator as RC
@@ -59,41 +60,63 @@ def record():
     return _load(DEPLOY / "deployment_records" / ("%s.json" % RECORD_ID))
 
 
-class TestLexingtonIsLive:
+class TestLexingtonWentLiveAndStayed:
+    """Lexington was the live release until PTF-NASHVILLE-TN-FOUNDER-
+    AUTHORIZATION-AND-LIVE-LAUNCH-005 shipped the thirteenth market.
 
-    def test_the_live_release_is_the_lexington_deploy(self):
+    What this launch did is a fact about a past deploy, so it is read from that
+    deploy's OWN record. Asking ``current_verified_live`` would make these tests
+    describe whichever release is newest, which is a different claim and one
+    that every later launch falsifies again.
+    """
+
+    def test_the_release_it_shipped_is_recorded_as_it_shipped(self, record):
+        assert record["deployment_id"] == DEPLOY_ID
+        assert record["bundle_sha256"] == CANDIDATE
+        assert record["sitemap_sha256"] == SITEMAP
+        assert (len(record["participating_markets"]), record["total_profiles"],
+                record["sitemap_route_count"]) == (12, 823, 991)
+        assert MARKET in record["participating_markets"]
+        assert record["profile_counts"][MARKET] == 20
+        assert record["final_status"] == DA.DEPLOYED
+
+    def test_it_is_the_parent_the_next_launch_built_on(self):
+        """The chain, asserted from the successor rather than from a pin."""
         live = RI.current_verified_live()
-        assert live.deploy_id == DEPLOY_ID
-        assert live.bundle_sha256 == CANDIDATE
-        assert live.sitemap_sha256 == SITEMAP
-        assert (len(live.participating_markets), live.total_profiles,
-                live.sitemap_route_count) == (12, 823, 991)
+        assert live.rollback_target == DEPLOY_ID
+        assert live.deploy_id != DEPLOY_ID, "a successor should have replaced it"
         assert MARKET in live.participating_markets
         assert live.profile_counts[MARKET] == 20
         assert not live.problems
 
-    def test_toledo_and_every_other_market_survived_unchanged(self):
-        live = RI.current_verified_live()
+    def test_toledo_and_every_other_market_survived_unchanged(self, record):
         parent = _load(DEPLOY / "deployment_records"
                        / "ptf-deploy-toledo-003-6a9e047690ec8bdaf99bcad2.json")
-        assert "toledo-oh" in live.participating_markets
+        assert "toledo-oh" in record["participating_markets"]
         for market, was in parent["profile_counts"].items():
-            assert live.profile_counts[market] == was, market
-        assert set(live.participating_markets) - set(parent["profile_counts"]) == {MARKET}
+            assert record["profile_counts"][market] == was, market
+        assert set(record["participating_markets"]) - set(parent["profile_counts"]) \
+            == {MARKET}
 
-    def test_no_unauthorized_market_joined(self):
-        live = RI.current_verified_live()
+    def test_no_unauthorized_market_joined_at_this_launch(self, record):
+        """Nashville joined LATER, on its own founder decision.
+
+        It is named here deliberately: this launch must be provable not to have
+        let it in, and that has to stay provable after a different launch did.
+        """
         for market in ("nashville-tn", "chattanooga-tn", "fort-wayne-in",
                        "detroit-ann-arbor-mi"):
-            assert market not in live.participating_markets
+            assert market not in record["participating_markets"]
+        assert "nashville-tn" in RI.current_verified_live().participating_markets
 
-    def test_participation_records_the_founder_decision(self):
+    def test_participation_still_carries_the_founder_decision(self):
         assert LP.launch_status(MARKET) == LP.FOUNDER_AUTHORIZED_FOR_LAUNCH
-        doc = _load(DEPLOY / "launch_participation.json")
-        assert doc["decision"]["work_order"] == \
+        # The CURRENT decision block is Nashville's. What this launch decided is
+        # an ancestor now, and the chain is where an ancestor lives.
+        chain = epochs.participation_decision_chain()
+        assert chain["supersedes"]["work_order"] == \
             "PTF-LEXINGTON-KY-FRESH-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006"
-        assert doc["decision"]["supersedes"]["work_order"] == \
-            "PTF-TOLEDO-OH-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-003"
+        assert MARKET in chain["supersedes"]["founder_authorized"]
         assert LP.launch_status("detroit-ann-arbor-mi") != LP.FOUNDER_AUTHORIZED_FOR_LAUNCH
 
 
@@ -137,14 +160,22 @@ class TestTheRollbackTargetIsTheToledoRelease:
         assert record["rollback_target"] != NEVER_ROLL_BACK_TO
         assert record["previous_deployment_id"] == PARENT_DEPLOY
 
-    def test_the_live_pin_agrees_and_the_verifier_is_silent(self):
+    def test_the_record_chain_agrees_and_the_verifier_is_silent(self, record):
+        """Read from the chain of records, not from the live pin.
+
+        The live pin moved on to the Nashville release. What this launch has to
+        keep proving is that ITS rollback target was the Toledo deploy -- the
+        pin carried the Cincinnati value into this launch and the verifier
+        caught it -- and that the chain onward from here is still unbroken.
+        """
+        assert record["rollback_target"] == PARENT_DEPLOY
+        assert record["rollback_target"] != NEVER_ROLL_BACK_TO
+        parent = _load(DEPLOY / "deployment_records"
+                       / "ptf-deploy-toledo-003-6a9e047690ec8bdaf99bcad2.json")
+        assert parent["deployment_id"] == PARENT_DEPLOY
+        assert len(parent["participating_markets"]) == 11
         live = RI.current_verified_live()
-        assert live.rollback_target == PARENT_DEPLOY
-        assert live.rollback_record == \
-            "ptf-deploy-toledo-003-6a9e047690ec8bdaf99bcad2.json"
-        assert len(live.rollback_markets) == 11
-        # The pin carried the Cincinnati value into this launch. Zero problems
-        # is the assertion that it no longer does.
+        assert live.rollback_record == ("ptf-deploy-lexington-006-%s.json" % DEPLOY_ID)
         assert list(live.problems) == []
 
 
@@ -204,13 +235,19 @@ class TestTheGateWasOpenedNarrowlyAndClosed:
             allowed, _why = RC.production_activation_allowed(market)
             assert allowed is False, market
 
-    def test_the_opening_is_recorded_as_consumed_by_this_launch(self):
-        gate = _load(PKG / "release_production_gate.json")
+    def test_the_opening_is_still_recorded_as_consumed_by_this_launch(self):
+        """The FAST-lane flag still names this launch. The coordinator gate has
+        since been opened and closed again for Nashville, and names this launch
+        as the opening it superseded -- the same fact from the other side.
+        """
         fast = _load(PKG / "fast_release_activation.json")
-        for doc in (gate, fast):
-            assert doc["consumed"]["market_id"] == MARKET
-            assert doc["consumed"]["candidate_digest"] == CANDIDATE
-            assert doc["consumed"]["host_deployment_id"] == DEPLOY_ID
+        assert fast["consumed"]["market_id"] == MARKET
+        assert fast["consumed"]["candidate_digest"] == CANDIDATE
+        assert fast["consumed"]["host_deployment_id"] == DEPLOY_ID
+        gate = _load(PKG / "release_production_gate.json")
+        assert gate["consumed"]["market_id"] == "nashville-tn"
+        assert gate["consumed"]["supersedes"] == \
+            "PTF-LEXINGTON-KY-FRESH-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006"
 
     def test_the_factory_itself_was_not_disabled(self):
         """Closing a launch permission is not the same as switching the lane off."""

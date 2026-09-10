@@ -17,12 +17,14 @@
  "supersedes": null,
  "candidate_binding_note": "This gate allowlists a MARKET; it has no candidate-digest allowlist, and the loader (release_coordinator.load_production_gate / production_activation_allowed) reads only RELEASE_COORDINATOR_PRODUCTION_ENABLED and RELEASE_COORDINATOR_PRODUCTION_ALLOWED_MARKETS. The exact-candidate binding is NOT weaker for that: release_coordinator.authorization_problems refuses any candidate whose digest is not the one the authorization binds (CANDIDATE_DIGEST_MISMATCH) and any bundle that is not the authorized artifact (BUNDLE_DIGEST_MISMATCH). The digest above is recorded for audit, not as a control -- writing a field nothing reads and calling it a gate would be worse than having none.",
  "consumed": {
-  "work_order": "PTF-LEXINGTON-KY-FRESH-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006",
-  "market_id": "lexington-ky",
-  "candidate_digest": "67fe8617b79febb9b2248895441c31ac65931cf9fdcfa4da4f8014ee190cde78",
-  "host_deployment_id": "6aa172121d37bb4013eb44a4",
-  "opened_at": "2026-09-09 immediately before activation",
-  "closed_at": "2026-09-09 immediately after live verification passed",
-  "why_closed": "the opening was candidate-specific by design. It authorised ONE market and ONE candidate; that candidate is now live and verified, so the permission has done its job. Leaving it open would convert a single launch decision into a standing one, which is exactly what an empty allowlist prevents."
+  "work_order": "PTF-NASHVILLE-TN-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-005",
+  "market_id": "nashville-tn",
+  "authorization_id": "ptf-auth-nashville-005-c12b410ec833",
+  "candidate_digest": "c12b410ec8331dbf7a50581027ad60291cac95f626de5a6a846b0d77524e0e11",
+  "host_deployment_id": "6aa212a8ba9f174305c0441a",
+  "opened_at": "2026-09-10T02:12:32+00:00",
+  "closed_at": "2026-09-10T02:25:33+00:00",
+  "why_closed": "the opening was candidate-specific by design. It authorised ONE market and ONE candidate; that candidate is now live and verified, so the permission has done its job. Closing it restores the empty allowlist, which is what stops a single launch decision from becoming a standing one. The lane itself is untouched: FAST_PATH_IMPLEMENTED and FAST_PATH_VALIDATED stay YES and nothing is disabled.",
+  "supersedes": "PTF-LEXINGTON-KY-FRESH-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006"
  }
 }

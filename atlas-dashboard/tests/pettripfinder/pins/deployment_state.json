@@ -1,16 +1,16 @@
 {
  "schema": "ptf-deployment-state-pins/1.0",
  "what_this_is": "The CURRENT deployment pins, in two blocks that are two different facts. `live` is what production serves: the deployment record's own numbers, moved ONLY by a deployment-authorization order. `source` is what a FRESH assembly of the committed source produces: moved by an application order, which puts source AHEAD of production until the next deploy. When the two agree, ahead_of_production is false and moved_by is null. Consumed historical authorizations are never restated here; they live in deploy/netlify/deployment_authorizations and are immutable evidence of what was authorized at the time (see supersessions.json).",
- "reviewed_by": "PTF-FACTORY-THROUGHPUT-HARDENING-001",
+ "reviewed_by": "PTF-NASHVILLE-TN-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-005",
  "live": {
-  "deploy_id": "6aa172121d37bb4013eb44a4",
-  "deployed_by": "PTF-LEXINGTON-KY-FRESH-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006",
-  "authorization_id": "ptf-auth-lexington-006-67fe8617b79f",
-  "deployment_record_id": "ptf-deploy-lexington-006-6aa172121d37bb4013eb44a4",
-  "previous_deploy_id": "6a9e047690ec8bdaf99bcad2",
-  "source_commit": "b446d1bcce910b745e21e7d3a7a44488d26a6944",
-  "bundle_sha256": "67fe8617b79febb9b2248895441c31ac65931cf9fdcfa4da4f8014ee190cde78",
-  "sitemap_sha256": "dd0d87f2da07615776016690af64452d42cafc24d3c82e310b5f44efc6f7e611",
+  "deploy_id": "6aa212a8ba9f174305c0441a",
+  "deployed_by": "PTF-NASHVILLE-TN-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-005",
+  "authorization_id": "ptf-auth-nashville-005-c12b410ec833",
+  "deployment_record_id": "ptf-deploy-nashville-005-6aa212a8ba9f174305c0441a",
+  "previous_deploy_id": "6aa172121d37bb4013eb44a4",
+  "source_commit": "aee8a21e6c13881543601a4fcd54350b6a64bb19",
+  "bundle_sha256": "c12b410ec8331dbf7a50581027ad60291cac95f626de5a6a846b0d77524e0e11",
+  "sitemap_sha256": "13f5335fc1a055ce06de5ce66c7921da55308110e94c0b0f18806853c1662bc4",
   "participating_markets": [
    "cincinnati-oh",
    "cleveland-akron-canton-oh",
@@ -21,6 +21,7 @@
    "lexington-ky",
    "louisville-ky",
    "milwaukee-wi",
+   "nashville-tn",
    "pittsburgh-pa",
    "st-louis-mo",
    "toledo-oh"
@@ -35,23 +36,24 @@
    "lexington-ky": 20,
    "louisville-ky": 53,
    "milwaukee-wi": 73,
+   "nashville-tn": 79,
    "pittsburgh-pa": 61,
    "st-louis-mo": 82,
    "toledo-oh": 17
   },
-  "total_profiles": 823,
-  "sitemap_route_count": 991,
-  "total_html_pages": 5025,
-  "total_files": 5043,
-  "rollback_target": "6a9e047690ec8bdaf99bcad2",
-  "note": "LEXINGTON IS LIVE AT 20. Deploy 6aa172121d37bb4013eb44a4 published the twelfth market on 2026-09-09 by PTF-LEXINGTON-KY-FRESH-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006, which followed the founder's own HALT of the 004 attempt over an unreproducible sealed package digest. All 991 live routes are byte-identical to the authorized bundle, 25 added and 0 removed against the Toledo deploy read from its own address. Rollback is the exact prior Toledo release 6a9e047690ec8bdaf99bcad2 -- never the Cincinnati deploy Toledo replaced, which is what the previous value of rollback_target still named until this launch corrected it. Lexington's fifteen held rows are unresolved and publish nothing.",
-  "rollback_record": "ptf-deploy-toledo-003-6a9e047690ec8bdaf99bcad2.json"
+  "total_profiles": 902,
+  "sitemap_route_count": 1078,
+  "total_html_pages": 5506,
+  "total_files": 5524,
+  "rollback_target": "6aa172121d37bb4013eb44a4",
+  "note": "NASHVILLE IS LIVE AT 79. Deploy 6aa212a8ba9f174305c0441a published the THIRTEENTH market by PTF-NASHVILLE-TN-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-005, on the candidate the founder authorized by digest. All 1078 live routes returned 200 and are byte-identical to the authorized bundle; 87 routes were added and 0 removed against the Lexington deploy read from its own address, and every unrelated market kept its exact route and profile count. Rollback is the exact prior Lexington release 6aa172121d37bb4013eb44a4. Nashville's four held rows publish nothing: all 79 live Nashville profiles are in the published authority set, so no held identity reached production under any slug.",
+  "rollback_record": "ptf-deploy-lexington-006-6aa172121d37bb4013eb44a4.json"
  },
  "source": {
   "ahead_of_production": false,
   "moved_by": null,
-  "bundle_sha256": "67fe8617b79febb9b2248895441c31ac65931cf9fdcfa4da4f8014ee190cde78",
-  "sitemap_sha256": "dd0d87f2da07615776016690af64452d42cafc24d3c82e310b5f44efc6f7e611",
+  "bundle_sha256": "c12b410ec8331dbf7a50581027ad60291cac95f626de5a6a846b0d77524e0e11",
+  "sitemap_sha256": "13f5335fc1a055ce06de5ce66c7921da55308110e94c0b0f18806853c1662bc4",
   "participating_markets": [
    "cincinnati-oh",
    "cleveland-akron-canton-oh",
@@ -62,6 +64,7 @@
    "lexington-ky",
    "louisville-ky",
    "milwaukee-wi",
+   "nashville-tn",
    "pittsburgh-pa",
    "st-louis-mo",
    "toledo-oh"
@@ -76,14 +79,15 @@
    "lexington-ky": 20,
    "louisville-ky": 53,
    "milwaukee-wi": 73,
+   "nashville-tn": 79,
    "pittsburgh-pa": 61,
    "st-louis-mo": 82,
    "toledo-oh": 17
   },
-  "total_profiles": 823,
-  "sitemap_route_count": 991,
-  "total_html_pages": 5025,
-  "total_files": 5043,
-  "note": "IN SYNC with production. PTF-LEXINGTON-KY-FRESH-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006 shipped exactly this source as deploy 6aa172121d37bb4013eb44a4, so moved_by is null and every field equals the live block above. It goes ahead again the next time an application order moves source that no deployment has shipped."
+  "total_profiles": 902,
+  "sitemap_route_count": 1078,
+  "total_html_pages": 5506,
+  "total_files": 5524,
+  "note": "IN SYNC with production. PTF-NASHVILLE-TN-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-005 shipped exactly this source as deploy 6aa212a8ba9f174305c0441a, so moved_by is null and ahead_of_production is false. The next application order that moves any market's authority moves this block and not the live one."
  }
 }

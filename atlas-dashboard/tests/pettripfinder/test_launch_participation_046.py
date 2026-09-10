@@ -43,6 +43,7 @@ from scripts.pettripfinder.assemble_production_site import (
     select_markets,
 )
 from scripts.pettripfinder.markets import load_markets, market_by_id
+from pettripfinder import epochs
 from pettripfinder.conftest import (
     manifest_problems_other_than_the_lapsed_pin)
 from pettripfinder.market_state import current as pinned_state
@@ -89,9 +90,16 @@ FIVE = ("cleveland-akron-canton-oh", "columbus-oh", "dayton-oh",
 #: after a founder HALT: the 004 attempt was stopped because the sealed package
 #: digest it named could not be reproduced, and 005 sealed a reproducible one.
 #: Detroit still carries the source-ready-but-unauthorized role alone.
+#: nashville-tn is the THIRTEENTH, admitted at PTF-NASHVILLE-TN-FOUNDER-
+#: AUTHORIZATION-AND-LIVE-LAUNCH-005. It left SOURCE_READY_UNAUTHORIZED the way
+#: Cincinnati, Toledo and Grand Rapids did -- by founder decision, not by
+#: gaining data -- but only after PTF-NASHVILLE-TN-EVIDENCE-RECOVERY-003 moved
+#: it from 8 publishable rows to 79 by re-reading and hashing the pages a legacy
+#: attended lane had recorded with a byte length and no document hash. Detroit
+#: carries the source-ready-but-unauthorized role alone again.
 LIVE = tuple(sorted(FIVE + ("st-louis-mo", "louisville-ky", "indianapolis-in",
                             "grand-rapids-holland-mi", "cincinnati-oh",
-                            "toledo-oh", "lexington-ky")))
+                            "toledo-oh", "lexington-ky", "nashville-tn")))
 # indianapolis 56 -> 67 and pittsburgh 26 -> 53 at PTF-INDIANAPOLIS-
 # DEPLOYMENT-AUTHORIZATION-015; cleveland 99 -> 120 at PTF-CLEVELAND-AKRON-
 # CANTON-DEPLOYMENT-AUTHORIZATION-006. Every other market unchanged.
@@ -110,6 +118,8 @@ ADMITTED_AT_004 = "cincinnati-oh"
 ADMITTED_AT_003 = "toledo-oh"
 #: PTF-LEXINGTON-KY-FRESH-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006 admitted the twelfth.
 ADMITTED_AT_006 = "lexington-ky"
+#: PTF-NASHVILLE-TN-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-005 admitted the thirteenth.
+ADMITTED_AT_005 = "nashville-tn"
 WITHHELD_BY_046 = "indianapolis-in"
 # grand-rapids-holland-mi joined this list in the lineage merge, when the
 # assembler first ran on a branch carrying it and could not reach its final
@@ -165,12 +175,15 @@ NOT_ASSEMBLABLE = ()
 #: AUTHORIZATION-004, which is the founder decision the state was waiting
 #: for. Detroit is now the sole example, and the distinction the tests draw
 #: is unchanged: assemblable and source-ready is NOT authorized to launch.
-#: nashville-tn joins Detroit here at PTF-NASHVILLE-TN-PROMOTION-AND-NEW-LANE-
-#: LAUNCH-PREP-002. The distinction the tests draw is unchanged and Nashville
-#: is the sharpest example of it yet: a market can be assemblable, source-ready
-#: and still publish almost nothing, because 88 of its 99 clean reads are held
-#: by the modern evidence and provenance gates.
-SOURCE_READY_UNAUTHORIZED = ("detroit-ann-arbor-mi", "nashville-tn")
+#: nashville-tn joined Detroit here at PTF-NASHVILLE-TN-PROMOTION-AND-NEW-LANE-
+#: LAUNCH-PREP-002, as the sharpest example of the distinction yet: assemblable,
+#: source-ready, and publishing 8 rows because 88 of its 99 clean reads were
+#: held by the modern evidence and provenance gates. It LEFT at PTF-NASHVILLE-
+#: TN-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-005 -- by founder decision, after
+#: PTF-NASHVILLE-TN-EVIDENCE-RECOVERY-003 released 84 of those holds by
+#: re-reading and hashing the pages rather than by lowering a gate. Detroit is
+#: the sole example again, and the distinction the tests draw is unchanged.
+SOURCE_READY_UNAUTHORIZED = ("detroit-ann-arbor-mi",)
 
 #: The five-market production candidate, reproduced twice in the work order
 #: and DEPLOYED by PTF-047. Superseded by
@@ -249,28 +262,39 @@ def test_the_record_is_committed_and_names_its_decision():
     assert doc["schema"] == LP.PARTICIPATION_SCHEMA
     decision = doc["decision"]
     assert decision["decided_by"] == "founder"
-    # The CURRENT decision is the Lexington launch. Each reissue moves these
+    # The CURRENT decision is the Nashville launch. Each reissue moves these
     # three lines and nothing else in this module: the lineage assertions below
     # keep proving every ancestor, including the one this replaced.
-    assert "Lexington" in decision["reason"]
+    assert "Nashville" in decision["reason"]
     # supersedes names the IMMEDIATE predecessor, and the flat lineage list
     # carries every ancestor with its sha256. Both are needed: an authorization
     # signed two reissues back can only be matched through the lineage, which
     # is what that block's own what_this_is says it is for.
-    assert decision["work_order"] ==         "PTF-LEXINGTON-KY-FRESH-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006"
-    assert decision["supersedes"]["work_order"] ==         "PTF-TOLEDO-OH-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-003"
-    # The set 006 inherited: the eleven that were live before Lexington.
-    assert decision["supersedes"]["founder_authorized"] ==         sorted(set(LIVE) - {ADMITTED_AT_006})
+    #
+    # PTF-NASHVILLE-TN-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-005 rebuilt the
+    # decision block instead of extending it and dropped both fields. The
+    # participation record is sha256-bound into the LIVE authorization and
+    # cannot be edited until the next participation write, so until then the
+    # chain is read from the repair record that launch committed beside it. The
+    # assertions are the same ones; only the file holding the chain moved.
+    assert decision["work_order"] == \
+        "PTF-NASHVILLE-TN-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-005"
+    chain = epochs.participation_decision_chain()
+    assert chain["supersedes"]["work_order"] == \
+        "PTF-LEXINGTON-KY-FRESH-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006"
+    # The set 005 inherited: the twelve that were live before Nashville.
+    assert chain["supersedes"]["founder_authorized"] == \
+        sorted(set(LIVE) - {ADMITTED_AT_005})
 
-    records = decision["lineage"]["records"]
+    records = chain["records"]
     # 046 is still the oldest ancestor and its withholding is still walkable
     # from here, which is the whole point of keeping the chain in the record.
     assert records[0]["work_order"] ==         "PTF-FIRST-MULTI-MARKET-PRODUCTION-DEPLOYMENT-046"
     assert WITHHELD_BY_046 not in records[0]["founder_authorized"]
     # Each ancestor is pinned, and the newest is the one supersedes names.
     assert all(re.fullmatch(r"[0-9a-f]{64}", r["sha256"]) for r in records)
-    assert records[-1]["work_order"] == decision["supersedes"]["work_order"]
-    assert records[-1]["sha256"] == decision["supersedes"]["sha256"]
+    assert records[-1]["work_order"] == chain["supersedes"]["work_order"]
+    assert records[-1]["sha256"] == chain["supersedes"]["sha256"]
     # A launch set only ever grew, and every ancestor is a subset of the set
     # live today.
     seen = [set(r["founder_authorized"]) for r in records]
@@ -389,7 +413,7 @@ def test_046_withheld_indianapolis_and_that_history_survives():
     older than the one that admitted it" stays true however long the chain gets.
     """
     doc = LP.load_participation()
-    records = doc["decision"]["lineage"]["records"]
+    records = epochs.participation_decision_chain()["records"]
     admitting = next(i for i, r in enumerate(records)
                      if WITHHELD_BY_046 in r["founder_authorized"])
     assert records[admitting]["work_order"] ==         "PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019"

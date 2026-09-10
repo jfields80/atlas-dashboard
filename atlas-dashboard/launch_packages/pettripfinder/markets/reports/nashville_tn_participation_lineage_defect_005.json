@@ -1,0 +1,333 @@
+{
+ "schema": "ptf-participation-lineage-defect/1.0",
+ "work_order": "PTF-NASHVILLE-TN-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-005",
+ "severity": "the record is incomplete; nothing live is wrong",
+ "what_broke": "--write-participation rebuilt the decision block instead of extending it, so decision.supersedes and decision.lineage were dropped. The lineage is how a deployment authorization signed several reissues back is matched to the participation record it bound; without it that match cannot be made at all.",
+ "why_it_is_not_repaired_here": "launch_participation.json is bound by sha256 into the LIVE deployment authorization ptf-auth-nashville-005-c12b410ec833. Rewriting it now would make the authorization production is running under stop verifying against its own repository. The block goes back on the next participation write, when a new authorization binds the new hash.",
+ "current_participation_sha256": "25ed588190ce2e5ae8bd68a15d786ac57d25863461bacc1a02b0f7749fc03265",
+ "what_the_current_file_should_have_carried": {
+  "supersedes": {
+   "work_order": "PTF-LEXINGTON-KY-FRESH-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006",
+   "sha256": "869207af015b7d5d74c8d6bb329688604e16066772cd2e6b628da04c7eebefd1",
+   "founder_authorized": [
+    "cincinnati-oh",
+    "cleveland-akron-canton-oh",
+    "columbus-oh",
+    "dayton-oh",
+    "grand-rapids-holland-mi",
+    "indianapolis-in",
+    "lexington-ky",
+    "louisville-ky",
+    "milwaukee-wi",
+    "pittsburgh-pa",
+    "st-louis-mo",
+    "toledo-oh"
+   ]
+  },
+  "lineage": {
+   "what_this_is": "Every participation record this one descends from, oldest first, so a deployment authorization can still be matched to the record it signed after more than one reissue. supersedes names only the immediate predecessor; with four reissues behind it that is no longer enough to walk the chain.",
+   "records": [
+    {
+     "work_order": "PTF-FIRST-MULTI-MARKET-PRODUCTION-DEPLOYMENT-046",
+     "sha256": "e766944e49a6610b25eb9ab36deca363fdcf72bafce4bd82d933eb0b78f64eab",
+     "founder_authorized": [
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "milwaukee-wi",
+      "pittsburgh-pa"
+     ]
+    },
+    {
+     "work_order": "PTF-ST-LOUIS-REGISTER-PUBLISH-011",
+     "sha256": "2ac7c804ba49eba80ad22f8ae7c8d77e02a3d39cb02ed475da763d7309282f30",
+     "founder_authorized": [
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "milwaukee-wi",
+      "pittsburgh-pa",
+      "st-louis-mo"
+     ]
+    },
+    {
+     "work_order": "PTF-ST-LOUIS-REGISTER-PUBLISH-011",
+     "sha256": "ff307b41a0316b6017db3ef439a0ef1822141bfc4ef68d3be1d600e72a86930c",
+     "founder_authorized": [
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "louisville-ky",
+      "milwaukee-wi",
+      "pittsburgh-pa",
+      "st-louis-mo"
+     ]
+    },
+    {
+     "work_order": "PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019",
+     "sha256": "f522f422b3b4afff73eef26ad13bc175dbe814b1cca112778a7b6d600b573031",
+     "founder_authorized": [
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "indianapolis-in",
+      "louisville-ky",
+      "milwaukee-wi",
+      "pittsburgh-pa",
+      "st-louis-mo"
+     ]
+    },
+    {
+     "work_order": "PTF-GRAND-RAPIDS-LAUNCH-PARTICIPATION-032",
+     "sha256": "6d227508c6a8ce291f800769147caca52451d6c0db51288a5b33838aa278b10f",
+     "founder_authorized": [
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "grand-rapids-holland-mi",
+      "indianapolis-in",
+      "louisville-ky",
+      "milwaukee-wi",
+      "pittsburgh-pa",
+      "st-louis-mo"
+     ]
+    },
+    {
+     "work_order": "PTF-CINCINNATI-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-004",
+     "sha256": "70b04528727399c06da96782d3203ff71041f89a194badf2369cc3f343de8a59",
+     "founder_authorized": [
+      "cincinnati-oh",
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "grand-rapids-holland-mi",
+      "indianapolis-in",
+      "louisville-ky",
+      "milwaukee-wi",
+      "pittsburgh-pa",
+      "st-louis-mo"
+     ]
+    },
+    {
+     "work_order": "PTF-TOLEDO-OH-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-003",
+     "sha256": "de9e8b9a5264d1adbdabc4bef0adebabd849ec6bbb04b7481b75e1fc027c1d06",
+     "founder_authorized": [
+      "cincinnati-oh",
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "grand-rapids-holland-mi",
+      "indianapolis-in",
+      "louisville-ky",
+      "milwaukee-wi",
+      "pittsburgh-pa",
+      "st-louis-mo",
+      "toledo-oh"
+     ]
+    },
+    {
+     "work_order": "PTF-LEXINGTON-KY-FRESH-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006",
+     "sha256": "869207af015b7d5d74c8d6bb329688604e16066772cd2e6b628da04c7eebefd1",
+     "founder_authorized": [
+      "cincinnati-oh",
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "grand-rapids-holland-mi",
+      "indianapolis-in",
+      "lexington-ky",
+      "louisville-ky",
+      "milwaukee-wi",
+      "pittsburgh-pa",
+      "st-louis-mo",
+      "toledo-oh"
+     ]
+    }
+   ]
+  }
+ },
+ "what_the_next_participation_write_must_carry": {
+  "supersedes": {
+   "work_order": "PTF-NASHVILLE-TN-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-005",
+   "sha256": "25ed588190ce2e5ae8bd68a15d786ac57d25863461bacc1a02b0f7749fc03265",
+   "founder_authorized": [
+    "cincinnati-oh",
+    "cleveland-akron-canton-oh",
+    "columbus-oh",
+    "dayton-oh",
+    "grand-rapids-holland-mi",
+    "indianapolis-in",
+    "lexington-ky",
+    "louisville-ky",
+    "milwaukee-wi",
+    "nashville-tn",
+    "pittsburgh-pa",
+    "st-louis-mo",
+    "toledo-oh"
+   ]
+  },
+  "lineage": {
+   "what_this_is": "Every participation record this one descends from, oldest first, so a deployment authorization can still be matched to the record it signed after more than one reissue. supersedes names only the immediate predecessor; with four reissues behind it that is no longer enough to walk the chain.",
+   "records": [
+    {
+     "work_order": "PTF-FIRST-MULTI-MARKET-PRODUCTION-DEPLOYMENT-046",
+     "sha256": "e766944e49a6610b25eb9ab36deca363fdcf72bafce4bd82d933eb0b78f64eab",
+     "founder_authorized": [
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "milwaukee-wi",
+      "pittsburgh-pa"
+     ]
+    },
+    {
+     "work_order": "PTF-ST-LOUIS-REGISTER-PUBLISH-011",
+     "sha256": "2ac7c804ba49eba80ad22f8ae7c8d77e02a3d39cb02ed475da763d7309282f30",
+     "founder_authorized": [
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "milwaukee-wi",
+      "pittsburgh-pa",
+      "st-louis-mo"
+     ]
+    },
+    {
+     "work_order": "PTF-ST-LOUIS-REGISTER-PUBLISH-011",
+     "sha256": "ff307b41a0316b6017db3ef439a0ef1822141bfc4ef68d3be1d600e72a86930c",
+     "founder_authorized": [
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "louisville-ky",
+      "milwaukee-wi",
+      "pittsburgh-pa",
+      "st-louis-mo"
+     ]
+    },
+    {
+     "work_order": "PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019",
+     "sha256": "f522f422b3b4afff73eef26ad13bc175dbe814b1cca112778a7b6d600b573031",
+     "founder_authorized": [
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "indianapolis-in",
+      "louisville-ky",
+      "milwaukee-wi",
+      "pittsburgh-pa",
+      "st-louis-mo"
+     ]
+    },
+    {
+     "work_order": "PTF-GRAND-RAPIDS-LAUNCH-PARTICIPATION-032",
+     "sha256": "6d227508c6a8ce291f800769147caca52451d6c0db51288a5b33838aa278b10f",
+     "founder_authorized": [
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "grand-rapids-holland-mi",
+      "indianapolis-in",
+      "louisville-ky",
+      "milwaukee-wi",
+      "pittsburgh-pa",
+      "st-louis-mo"
+     ]
+    },
+    {
+     "work_order": "PTF-CINCINNATI-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-004",
+     "sha256": "70b04528727399c06da96782d3203ff71041f89a194badf2369cc3f343de8a59",
+     "founder_authorized": [
+      "cincinnati-oh",
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "grand-rapids-holland-mi",
+      "indianapolis-in",
+      "louisville-ky",
+      "milwaukee-wi",
+      "pittsburgh-pa",
+      "st-louis-mo"
+     ]
+    },
+    {
+     "work_order": "PTF-TOLEDO-OH-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-003",
+     "sha256": "de9e8b9a5264d1adbdabc4bef0adebabd849ec6bbb04b7481b75e1fc027c1d06",
+     "founder_authorized": [
+      "cincinnati-oh",
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "grand-rapids-holland-mi",
+      "indianapolis-in",
+      "louisville-ky",
+      "milwaukee-wi",
+      "pittsburgh-pa",
+      "st-louis-mo",
+      "toledo-oh"
+     ]
+    },
+    {
+     "work_order": "PTF-LEXINGTON-KY-FRESH-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006",
+     "sha256": "869207af015b7d5d74c8d6bb329688604e16066772cd2e6b628da04c7eebefd1",
+     "founder_authorized": [
+      "cincinnati-oh",
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "grand-rapids-holland-mi",
+      "indianapolis-in",
+      "lexington-ky",
+      "louisville-ky",
+      "milwaukee-wi",
+      "pittsburgh-pa",
+      "st-louis-mo",
+      "toledo-oh"
+     ]
+    },
+    {
+     "work_order": "PTF-NASHVILLE-TN-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-005",
+     "sha256": "25ed588190ce2e5ae8bd68a15d786ac57d25863461bacc1a02b0f7749fc03265",
+     "founder_authorized": [
+      "cincinnati-oh",
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "grand-rapids-holland-mi",
+      "indianapolis-in",
+      "lexington-ky",
+      "louisville-ky",
+      "milwaukee-wi",
+      "nashville-tn",
+      "pittsburgh-pa",
+      "st-louis-mo",
+      "toledo-oh"
+     ]
+    }
+   ]
+  },
+  "note": "supersedes names the Nashville decision because that is the one the next write replaces, and the Nashville record joins the lineage at the same moment it stops being current."
+ },
+ "derivation": {
+  "ancestors_read_from": "a0fbf7f",
+  "lexington_record_measured_at": "c6849f4",
+  "lexington_sha256_is_what_its_authorization_bound": true,
+  "how": "each record's sha256 is the real hash of the participation file at the commit that wrote that decision. Nothing here is transcribed."
+ },
+ "contract_checked_before_writing": {
+  "no_repeated_record": true,
+  "authorized_set_only_grew": true,
+  "current_record_absent_from_its_own_lineage": true,
+  "checked_by": "the same assertions as test_deployment_authorization_047::test_the_lineage_is_ordered_and_ends_before_the_current_record"
+ },
+ "authorizations_that_need_this_lineage_to_be_matchable": [
+  "PTF-FIRST-MULTI-MARKET-PRODUCTION-DEPLOYMENT-046",
+  "PTF-ST-LOUIS-REGISTER-PUBLISH-011",
+  "PTF-ST-LOUIS-REGISTER-PUBLISH-011",
+  "PTF-INDIANAPOLIS-LAUNCH-PARTICIPATION-019",
+  "PTF-GRAND-RAPIDS-LAUNCH-PARTICIPATION-032",
+  "PTF-CINCINNATI-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-004",
+  "PTF-TOLEDO-OH-DEPLOYMENT-AND-LAUNCH-AUTHORIZATION-003",
+  "PTF-LEXINGTON-KY-FRESH-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006"
+ ]
+}

@@ -60,7 +60,9 @@ PARTICIPATION = DEPLOY / "launch_participation.json"
 PACKET = REPORTS / "nashville_deployment_authorization_004_PROPOSED.json"
 
 TARGET_SITE = "pettripfinder-prod"
-TARGET_DOMAIN = "pettripfinder.com"
+#: The base URL the manifest itself states, not the bare host.
+#: verify_authorization compares this against the artifact and refuses a mismatch.
+TARGET_DOMAIN = "https://pettripfinder.com"
 
 AUTHORIZATION_SOURCE = (
     "Founder work order " + WORK_ORDER + ': "I explicitly AUTHORIZE the CURRENT committed and '
@@ -87,6 +89,39 @@ def git(*args):
     out = subprocess.run(["git"] + list(args), cwd=str(_REPO),
                          capture_output=True, text=True)
     return out.stdout.strip() if out.returncode == 0 else ""
+
+
+def _flip(participation, bound, before):
+    """Move exactly this market to FOUNDER_AUTHORIZED_FOR_LAUNCH, and no other.
+
+    The `before` snapshot is what makes "and no other" checkable rather than
+    intended: every market's status is compared afterwards, so a decision that
+    quietly admitted a second market would raise here instead of shipping.
+    """
+    from scripts.pettripfinder import launch_participation as LP
+    moved = []
+    for row in participation["markets"]:
+        if row["market_id"] != MARKET_ID:
+            continue
+        if row["launch_status"] != LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH:
+            raise SystemExit("REFUSING: %s is %r, not the source-ready state a founder decision "
+                             "moves from" % (MARKET_ID, row["launch_status"]))
+        row["launch_status"] = LP.FOUNDER_AUTHORIZED_FOR_LAUNCH
+        row["founder_decision"] = OrderedDict((
+            ("work_order", WORK_ORDER),
+            ("decided_by", "founder"),
+            ("authorized_candidate_digest", bound["final_candidate_digest"]),
+            ("authorized_package_digest", bound["sealed_package_digest"]),
+        ))
+        moved.append(MARKET_ID)
+    if moved != [MARKET_ID]:
+        raise SystemExit("REFUSING: expected to move exactly %s, moved %s" % (MARKET_ID, moved))
+    after = {r["market_id"]: r["launch_status"] for r in participation["markets"]}
+    changed = sorted(m for m in after if before.get(m) != after[m])
+    if changed != [MARKET_ID]:
+        raise SystemExit("REFUSING: %d market(s) changed status, expected only %s: %s"
+                         % (len(changed), MARKET_ID, changed))
+    return changed
 
 
 def participation_decision(bundle):
@@ -186,36 +221,44 @@ def main(argv=None) -> int:
     # 1. PARTICIPATION -- the founder's decision, written first because the
     #    bundle hashes it and the authorization re-checks it.
     participation = _load(PARTICIPATION)
-    before = {row["market_id"]: row["launch_status"] for row in participation["markets"]}
-    moved = []
-    for row in participation["markets"]:
-        if row["market_id"] != MARKET_ID:
-            continue
-        if row["launch_status"] != LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH:
-            raise SystemExit("REFUSING: %s is %r, not the source-ready state a founder decision "
-                             "moves from" % (MARKET_ID, row["launch_status"]))
-        row["launch_status"] = LP.FOUNDER_AUTHORIZED_FOR_LAUNCH
-        row["founder_decision"] = OrderedDict((
-            ("work_order", WORK_ORDER),
-            ("decided_by", "founder"),
-            ("authorized_candidate_digest", bound["final_candidate_digest"]),
-            ("authorized_package_digest", bound["sealed_package_digest"]),
-        ))
-        moved.append(MARKET_ID)
-    if moved != [MARKET_ID]:
-        raise SystemExit("REFUSING: expected to move exactly %s, moved %s" % (MARKET_ID, moved))
-    participation["decision"] = participation_decision(bundle)
 
-    after = {row["market_id"]: row["launch_status"] for row in participation["markets"]}
-    changed = sorted(m for m in after if before.get(m) != after[m])
-    if changed != [MARKET_ID]:
-        raise SystemExit("REFUSING: %d market(s) changed status, expected only %s: %s"
-                         % (len(changed), MARKET_ID, changed))
+    if args.authorize:
+        # Phase 2 does NOT re-make the decision. It checks that the decision
+        # already committed is the one being authorized, and that it moved only
+        # this market. Re-flipping here would rewrite the very bytes the
+        # candidate was assembled against.
+        row = next((r for r in participation["markets"] if r["market_id"] == MARKET_ID), None)
+        if row is None:
+            raise SystemExit("REFUSING: %s has no participation row" % MARKET_ID)
+        if row["launch_status"] != LP.FOUNDER_AUTHORIZED_FOR_LAUNCH:
+            raise SystemExit(
+                "REFUSING: %s is %r. Run --write-participation and commit it before "
+                "authorizing." % (MARKET_ID, row["launch_status"]))
+        decision = row.get("founder_decision") or {}
+        if decision.get("authorized_candidate_digest") != bound["final_candidate_digest"]:
+            raise SystemExit(
+                "REFUSING: the committed founder decision names candidate %r, the packet binds "
+                "%r" % (decision.get("authorized_candidate_digest"),
+                        bound["final_candidate_digest"]))
+        if participation["decision"].get("work_order") != WORK_ORDER:
+            raise SystemExit("REFUSING: the committed decision block is not this work order's")
+        authorized_now = sorted(r["market_id"] for r in participation["markets"]
+                                if r["launch_status"] == LP.FOUNDER_AUTHORIZED_FOR_LAUNCH)
+        expected = sorted(r["market_id"] for r in bundle["participating_markets"])
+        if authorized_now != expected:
+            raise SystemExit(
+                "REFUSING: the committed participation authorizes %s but the candidate "
+                "participates %s" % (authorized_now, expected))
+        changed = [MARKET_ID]
+    else:
+        before = {r["market_id"]: r["launch_status"] for r in participation["markets"]}
+        changed = _flip(participation, bound, before)
+        participation["decision"] = participation_decision(bundle)
 
     if args.check:
         print("would move  :", changed)
         print("bundle      :", bundle["bundle_sha256"], "MATCHES the authorized digest")
-        print("parent       :", live["live_deploy_id"], "unchanged")
+        print("parent      :", live["live_deploy_id"], "unchanged")
         print("nothing written (--check)")
         return 0
 
