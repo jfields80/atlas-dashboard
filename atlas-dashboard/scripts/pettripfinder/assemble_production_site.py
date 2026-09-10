@@ -173,6 +173,13 @@ def _partition_path(market_id: str) -> Optional[Path]:
         # this worth an explicit entry: a market can be perfectly buildable
         # on its own and still be invisible to the composed build.
         "detroit-ann-arbor-mi": "detroit_ann_arbor_final_partition_001.json",
+        # PTF-CHARLOTTE-NC-ZERO-TO-LIVE-BENCHMARK-001. Charlotte fails the glob
+        # for the Detroit reason -- it strips the last segment and keeps the
+        # hyphen, looking for "charlotte_final_partition_*" while the committed
+        # file is "charlotte_nc_final_partition_007.json" with the state in it.
+        # Named rather than globbed, per the rule above: a named entry is a
+        # decision and a glob hit is a coincidence.
+        "charlotte-nc": "charlotte_nc_final_partition_007.json",
         # St. Louis names its partitions with the FULL market id
         # (``st_louis_mo_final_partition_007``), which the prefix glob above
         # cannot reach: it strips the trailing segment and looks for
