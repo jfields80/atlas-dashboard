@@ -45,7 +45,7 @@ from scripts.pettripfinder.assemble_production_site import (
 from scripts.pettripfinder.markets import load_markets, market_by_id
 from pettripfinder import epochs
 from pettripfinder.conftest import (
-    manifest_problems_other_than_the_lapsed_pin)
+    assembly_scratch, manifest_problems_other_than_the_lapsed_pin)
 from pettripfinder.market_state import current as pinned_state
 from pettripfinder.market_state import live as _live_pins
 from pettripfinder.market_state import source_assembly as _source_pins
@@ -59,7 +59,9 @@ from pettripfinder.market_state import source_assembly as _source_pins
 LIVE_PINS = _live_pins()
 SOURCE_PINS = _source_pins()
 
-SCRATCH = Path(chr(67) + ":/t/ptf046t")
+#: A build root THIS PROCESS owns; see
+#: ``pettripfinder.conftest.assembly_scratch``.
+SCRATCH = assembly_scratch("p46")
 
 FIVE = ("cleveland-akron-canton-oh", "columbus-oh", "dayton-oh",
         "milwaukee-wi", "pittsburgh-pa")
@@ -97,9 +99,14 @@ FIVE = ("cleveland-akron-canton-oh", "columbus-oh", "dayton-oh",
 #: it from 8 publishable rows to 79 by re-reading and hashing the pages a legacy
 #: attended lane had recorded with a byte length and no document hash. Detroit
 #: carries the source-ready-but-unauthorized role alone again.
-LIVE = tuple(sorted(FIVE + ("st-louis-mo", "louisville-ky", "indianapolis-in",
-                            "grand-rapids-holland-mi", "cincinnati-oh",
-                            "toledo-oh", "lexington-ky", "nashville-tn")))
+#: PTF-NASHVILLE-POST-LAUNCH-TEST-HARNESS-CLEANUP-006: the reviewed live list
+#: lives in ONE place now, and test_release_composition_contract_006 holds it to
+#: the participation record, the composed manifest and what production serves --
+#: without rendering a site. FIVE stays below because the 046 assertions about
+#: the ORIGINAL five-market candidate are about that cohort, not about today.
+from pettripfinder.test_release_composition_contract_006 import (  # noqa: E402
+    REVIEWED_MARKETS as LIVE)
+assert set(FIVE) < set(LIVE), "the original five must still be live"
 # indianapolis 56 -> 67 and pittsburgh 26 -> 53 at PTF-INDIANAPOLIS-
 # DEPLOYMENT-AUTHORIZATION-015; cleveland 99 -> 120 at PTF-CLEVELAND-AKRON-
 # CANTON-DEPLOYMENT-AUTHORIZATION-006. Every other market unchanged.

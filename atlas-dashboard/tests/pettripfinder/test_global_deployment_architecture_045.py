@@ -33,7 +33,7 @@ from scripts.pettripfinder.assemble_production_site import (
 )
 from scripts.pettripfinder.markets import load_markets
 from pettripfinder.conftest import (
-    manifest_problems_other_than_the_lapsed_pin)
+    assembly_scratch, manifest_problems_other_than_the_lapsed_pin)
 from pettripfinder.market_state import current as pinned_state
 from pettripfinder.market_state import live as _live_pins
 from pettripfinder.market_state import source_assembly as _source_pins
@@ -47,10 +47,12 @@ from pettripfinder.market_state import source_assembly as _source_pins
 LIVE_PINS = _live_pins()
 SOURCE_PINS = _source_pins()
 
-#: Short root: the generated tree nests deeply enough that a long path trips
-#: the Windows 260-character limit mid-build, which surfaces as a missing file
-#: rather than as a path error.
-SCRATCH = Path(chr(67) + ":/t/ptf045t")
+#: A build root THIS PROCESS owns. It was one fixed path until
+#: PTF-NASHVILLE-POST-LAUNCH-TEST-HARNESS-CLEANUP-006, which meant a second
+#: pytest run on the machine -- the baseline-worktree run the regression rule
+#: prescribes -- built into and deleted the same directory. See
+#: ``pettripfinder.conftest.assembly_scratch`` for what that cost.
+SCRATCH = assembly_scratch("p45")
 
 #: PTF-046: the founder withheld indianapolis-in (8 profiles, source-ready)
 #: from the first multi-market launch; see deploy/netlify/launch_participation.json
@@ -75,16 +77,22 @@ SCRATCH = Path(chr(67) + ":/t/ptf045t")
 #: UNCHANGED, which is the half of these constants that says a new market
 #: disturbed nothing -- and the live sitemap proved it, with 0 routes removed
 #: and all 148 added routes under /cincinnati-oh/.
-EXPECTED_MARKETS = ("cincinnati-oh", "cleveland-akron-canton-oh", "columbus-oh",
-                    "dayton-oh", "grand-rapids-holland-mi", "indianapolis-in",
-                    "lexington-ky", "louisville-ky", "milwaukee-wi",
-                    "nashville-tn", "pittsburgh-pa", "st-louis-mo", "toledo-oh")
 # nashville-tn joined as the THIRTEENTH at PTF-NASHVILLE-TN-FOUNDER-
 # AUTHORIZATION-AND-LIVE-LAUNCH-005 (deploy 6aa212a8ba9f174305c0441a), 79
 # profiles and 87 routes, with 0 routes removed and every one of the 1078 live
 # routes byte-identical to the authorized bundle. Every other figure below is
 # UNCHANGED, which is the half of these constants that says a new market
 # disturbed nothing.
+#
+# PTF-NASHVILLE-POST-LAUNCH-TEST-HARNESS-CLEANUP-006: the list is still
+# EXPLICIT and still reviewed -- a test that derives both sides of its own
+# comparison asserts nothing -- but it now lives in ONE place, and
+# test_release_composition_contract_006 holds it to the participation record,
+# the composed manifest and what production actually serves, without rendering
+# a site. So a founder launch decision edits one line, and proving that line
+# right no longer costs a full assembly.
+from pettripfinder.test_release_composition_contract_006 import (  # noqa: E402
+    REVIEWED_MARKETS as EXPECTED_MARKETS)
 # lexington-ky joined as the TWELFTH at PTF-LEXINGTON-KY-FRESH-FOUNDER-
 # AUTHORIZATION-AND-LIVE-LAUNCH-006 (deploy 6aa172121d37bb4013eb44a4), 20
 # profiles and 25 routes, with 0 routes removed and every one of the 991 live

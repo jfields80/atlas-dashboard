@@ -41,6 +41,26 @@ PARTICIPATION_PATH = (REPO_ROOT / "deploy" / "netlify"
                       / "launch_participation.json")
 PARTICIPATION_SCHEMA = "ptf-launch-participation/1.0"
 
+#: Where a documented, time-boxed gap in the decision chain is recorded. See
+#: :func:`decision_problems`.
+LINEAGE_REPAIR_PATH = (REPO_ROOT / "launch_packages" / "pettripfinder" / "markets"
+                       / "reports"
+                       / "nashville_tn_participation_lineage_defect_005.json")
+
+#: What every decision block must carry. The first four were always checked.
+#: ``supersedes`` and ``lineage`` were not, and
+#: PTF-NASHVILLE-TN-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-005 dropped them by
+#: rebuilding the block from scratch instead of extending the committed one.
+#: Nothing complained, because nothing asked -- which is the actual defect.
+DECISION_REQUIRED = ("work_order", "decided_by", "decided_on", "reason")
+DECISION_CHAIN_REQUIRED = ("supersedes", "lineage")
+
+LINEAGE_NOTE = (
+    "Every participation record this one descends from, oldest first, so a "
+    "deployment authorization can still be matched to the record it signed "
+    "after more than one reissue. supersedes names only the immediate "
+    "predecessor, which stops being enough at the second reissue.")
+
 #: The founder has authorized this market for the composed production bundle.
 #: The ONLY status that admits a market.
 FOUNDER_AUTHORIZED_FOR_LAUNCH = "FOUNDER_AUTHORIZED_FOR_LAUNCH"
@@ -105,12 +125,173 @@ def load_participation(path: Optional[Path] = None) -> Dict:
                 "%s: %s has launch_status %r, expected one of %s"
                 % (path.name, mid, status, list(LAUNCH_STATUSES)))
     decision = doc.get("decision") or {}
-    for key in ("work_order", "decided_by", "decided_on", "reason"):
+    for key in DECISION_REQUIRED:
         if not decision.get(key):
             raise LaunchParticipationError(
                 "%s: decision.%s is required -- a participation set with no "
                 "recorded decision is a list nobody owns" % (path.name, key))
+    problems = decision_problems(doc, path=path)
+    if problems:
+        raise LaunchParticipationError(
+            "%s: the decision chain is broken:\n  %s" % (path.name, "\n  ".join(problems)))
     return doc
+
+
+# --------------------------------------------------------------------------- #
+# The decision chain.
+# --------------------------------------------------------------------------- #
+
+def _authorized_of(doc: Mapping) -> List[str]:
+    return sorted(row["market_id"] for row in doc["markets"]
+                  if row["launch_status"] == FOUNDER_AUTHORIZED_FOR_LAUNCH)
+
+
+def decision_record(doc: Mapping, sha256: str) -> "OrderedDict[str, object]":
+    """One lineage record for the decision ``doc`` holds, pinned at ``sha256``.
+
+    The sha is the hash of the participation file AS THAT DECISION WROTE IT,
+    which is what a deployment authorization signed. It is never recomputed
+    from a later state of the file.
+    """
+    return OrderedDict((
+        ("work_order", doc["decision"]["work_order"]),
+        ("sha256", sha256),
+        ("founder_authorized", _authorized_of(doc)),
+    ))
+
+
+def extend_decision(previous: Mapping, previous_sha256: str, *, work_order: str,
+                    decided_by: str, decided_on: str, reason: str,
+                    path: Optional[Path] = None,
+                    **extra: object) -> "OrderedDict[str, object]":
+    """The next decision block, built by EXTENDING ``previous`` -- never afresh.
+
+    This exists because writing the block from scratch is exactly how
+    ``supersedes`` and ``lineage`` were lost. A writer that calls this cannot
+    drop them: the predecessor becomes the newest ancestor and the chain it
+    carried comes forward whole. ``extra`` keys are the decision's own fields
+    (which markets moved, what was withheld) and are written between the reason
+    and the chain, so the chain is always the last thing in the block and is
+    visibly not the writer's to invent.
+
+    Pass ``path`` when extending a record on disk. If that record is the one a
+    repair record covers -- because an earlier launch dropped its chain -- the
+    ancestors come from the repair, so the very next write puts the chain back
+    instead of starting a new one-link chain that quietly loses eight orders.
+    """
+    prior = previous.get("decision") or {}
+    ancestors = (prior.get("lineage") or {}).get("records")
+    if ancestors is None and path is not None and _repair_covers(path) is not None:
+        ancestors = decision_chain(previous, path)["records"]
+    records = [OrderedDict(r) for r in (ancestors or [])]
+    predecessor = decision_record(previous, previous_sha256)
+    if any(r["sha256"] == predecessor["sha256"] for r in records):
+        raise LaunchParticipationError(
+            "the predecessor %s is already an ancestor; a decision may not "
+            "supersede itself" % predecessor["sha256"])
+    records.append(predecessor)
+
+    block: "OrderedDict[str, object]" = OrderedDict((
+        ("work_order", work_order),
+        ("decided_by", decided_by),
+        ("decided_on", decided_on),
+        ("reason", reason),
+    ))
+    for key, value in extra.items():
+        block[key] = value
+    block["supersedes"] = predecessor
+    block["lineage"] = OrderedDict((
+        ("what_this_is", (prior.get("lineage") or {}).get("what_this_is") or LINEAGE_NOTE),
+        ("records", records),
+    ))
+    return block
+
+
+def _repair_covers(path: Path) -> Optional[Dict]:
+    """The repair record, when it describes exactly the file at ``path``.
+
+    A repair record is the ONE way a decision block may lack its chain: the
+    participation record is sha256-bound into the live deployment
+    authorization, so a block dropped by an already-shipped launch cannot be
+    put back until the next write. The repair must name the exact record it
+    covers -- a stale one proves nothing and is treated as absent.
+    """
+    if not LINEAGE_REPAIR_PATH.is_file():
+        return None
+    doc = json.loads(LINEAGE_REPAIR_PATH.read_text(encoding="utf-8-sig"))
+    if doc.get("current_participation_sha256") != participation_sha256(path):
+        return None
+    should = doc.get("what_the_current_file_should_have_carried") or {}
+    if not should.get("supersedes") or not (should.get("lineage") or {}).get("records"):
+        return None
+    return doc
+
+
+def decision_chain(doc: Optional[Mapping] = None, path: Optional[Path] = None) -> Dict:
+    """``{"supersedes", "records", "carried_by"}`` for the current decision.
+
+    Reads whichever file currently carries the chain, so what callers assert
+    does not depend on which one that is.
+    """
+    path = path or PARTICIPATION_PATH
+    doc = doc if doc is not None else json.loads(path.read_text(encoding="utf-8-sig"))
+    decision = doc.get("decision") or {}
+    if decision.get("supersedes") and (decision.get("lineage") or {}).get("records"):
+        return {"supersedes": decision["supersedes"],
+                "records": decision["lineage"]["records"],
+                "carried_by": path.name}
+    repair = _repair_covers(path)
+    if repair is None:
+        raise LaunchParticipationError(
+            "%s carries no decision chain and no repair record covers it" % path.name)
+    should = repair["what_the_current_file_should_have_carried"]
+    return {"supersedes": should["supersedes"],
+            "records": should["lineage"]["records"],
+            "carried_by": LINEAGE_REPAIR_PATH.name}
+
+
+def decision_problems(doc: Mapping, path: Optional[Path] = None) -> List[str]:
+    """Everything wrong with the decision chain, or an empty list.
+
+    The FIRST decision has no predecessor and needs no chain. Every later one
+    does, and these are the rules a deployment authorization relies on when it
+    matches itself to the record it signed several reissues back.
+    """
+    path = path or PARTICIPATION_PATH
+    decision = doc.get("decision") or {}
+    problems: List[str] = []
+    carried = bool(decision.get("supersedes")) and bool(
+        (decision.get("lineage") or {}).get("records"))
+    if not carried:
+        if _repair_covers(path) is None:
+            missing = [k for k in DECISION_CHAIN_REQUIRED if not decision.get(k)]
+            return ["decision.%s is missing and no repair record covers this "
+                    "participation record -- an authorization signed before the "
+                    "last reissue can no longer be matched to what it bound" % key
+                    for key in missing]
+        return []
+
+    supersedes = decision["supersedes"]
+    records = decision["lineage"]["records"]
+    shas = [r.get("sha256") for r in records]
+    if len(shas) != len(set(shas)):
+        problems.append("decision.lineage repeats a record")
+    if any(not isinstance(s, str) or len(s) != 64 for s in shas):
+        problems.append("decision.lineage has a record with no sha256")
+    counts = [len(r.get("founder_authorized") or []) for r in records]
+    if counts != sorted(counts):
+        problems.append("decision.lineage shrinks the authorized set: %s" % counts)
+    if path.is_file() and participation_sha256(path) in shas:
+        problems.append("decision.lineage contains the CURRENT record; a decision "
+                        "may not be its own ancestor")
+    if shas and supersedes.get("sha256") != shas[-1]:
+        problems.append("decision.supersedes names %r but the newest ancestor is %r"
+                        % (supersedes.get("sha256"), shas[-1]))
+    lost = set(supersedes.get("founder_authorized") or []) - set(_authorized_of(doc))
+    if lost:
+        problems.append("this decision drops market(s) the previous one authorized: %s"
+                        % sorted(lost))
+    return problems
 
 
 def launch_status(market_id: str, doc: Optional[Mapping] = None) -> str:

@@ -188,7 +188,18 @@ MARKET_PREFIXES: "OrderedDict[str, Tuple[str, ...]]" = OrderedDict((
 #: 528s on the c854469 baseline -- 24 of the old chunk's 27 minutes). They read
 #: their pins from pins/deployment_state.json, run once in the final broad
 #: regression, and the flow's assembly step produces the same facts earlier.
+#:
+#: PTF-NASHVILLE-POST-LAUNCH-TEST-HARNESS-CLEANUP-006 adds the three modules
+#: that carry what 045 and 046 used to prove by rendering. They belong here for
+#: the same reason as the rest -- they hold a row, or a derivation, for EVERY
+#: market -- and they cost seconds because none of them builds anything. That is
+#: what makes leaving 045 and 046 out of this lane safe rather than merely
+#: cheap: the composition claims are still selected by a market-targeted run;
+#: only the claims that genuinely need rendered bytes are deferred.
 PER_MARKET_CONTRACT_MODULES: Tuple[str, ...] = (
+    "test_release_composition_contract_006.py",
+    "test_participation_lineage_contract_006.py",
+    "test_assembly_scratch_isolation_006.py",
     "contracts/test_market_authorities.py",
     "contracts/test_market_state_pins.py",
     "contracts/test_census_partition.py",
@@ -299,6 +310,9 @@ LANE_MEMBERSHIP: "OrderedDict[str, Tuple[str, ...]]" = OrderedDict((
     (DEPLOYMENT_ARCHITECTURE, (
         "test_global_deployment_architecture_045.py",
         "test_launch_participation_046.py", "test_deployment_authorization_047.py",
+        "test_release_composition_contract_006.py",
+        "test_participation_lineage_contract_006.py",
+        "test_assembly_scratch_isolation_006.py",
         "test_grand_rapids_launch_participation_032.py", "test_deployment_012.py",
         "test_production_deploy_012.py", "test_register_publish_011.py",
         "test_louisville_publication_008.py", "test_publication_cleanup_008b.py",

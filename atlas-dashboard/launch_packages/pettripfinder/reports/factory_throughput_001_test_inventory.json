@@ -9,14 +9,14 @@
   "GENERIC_SCHEMA_INVARIANT",
   "CROSS_MARKET_INVARIANT"
  ],
- "modules_scanned": 405,
- "modules_with_pins": 278,
- "sites": 1653,
+ "modules_scanned": 409,
+ "modules_with_pins": 281,
+ "sites": 1680,
  "by_class": {
   "CURRENT_STATE_INVARIANT": 155,
-  "HISTORICAL_COHORT_INVARIANT": 884,
-  "HISTORICAL_ARTIFACT_INVARIANT": 204,
-  "DEPLOYMENT_EPOCH_INVARIANT": 146,
+  "HISTORICAL_COHORT_INVARIANT": 897,
+  "HISTORICAL_ARTIFACT_INVARIANT": 208,
+  "DEPLOYMENT_EPOCH_INVARIANT": 156,
   "GENERIC_SCHEMA_INVARIANT": 194,
   "CROSS_MARKET_INVARIANT": 70
  },
@@ -101,6 +101,7 @@
   "tests/pettripfinder/test_market_ownership.py",
   "tests/pettripfinder/test_market_recensus_sandbox.py",
   "tests/pettripfinder/test_milwaukee_market_001.py",
+  "tests/pettripfinder/test_nashville_tn_launch_005.py",
   "tests/pettripfinder/test_policy_precision.py",
   "tests/pettripfinder/test_prod003_promotion_readpath.py",
   "tests/pettripfinder/test_prod005_netlify_config.py",
@@ -4215,7 +4216,7 @@
    },
    "sites": [
     {
-     "line": 236,
+     "line": 251,
      "test": "test_the_hilton_production_rows_entered",
      "kind": "count",
      "literal": 10,
@@ -4226,7 +4227,7 @@
      "reason": "whole-package count in a closed order's suite"
     },
     {
-     "line": 250,
+     "line": 265,
      "test": "test_the_marriott_production_rows_entered",
      "kind": "count",
      "literal": 17,
@@ -4237,7 +4238,7 @@
      "reason": "whole-package count in a closed order's suite"
     },
     {
-     "line": 446,
+     "line": 461,
      "test": "test_the_builder_without_extras_still_projects_the_router_run_alone",
      "kind": "count",
      "literal": 58,
@@ -7191,6 +7192,34 @@
      "source": "len(pkg[\"hotels\"]) >= 80",
      "class": "CURRENT_STATE_INVARIANT",
      "reason": "whole-package count in a generic module"
+    }
+   ]
+  },
+  {
+   "module": "tests/pettripfinder/test_assembly_scratch_isolation_006.py",
+   "market": null,
+   "lanes": [
+    "market_targeted",
+    "deployment_architecture",
+    "full_regression"
+   ],
+   "default_class": "DEPLOYMENT_EPOCH_INVARIANT",
+   "default_reason": "deployment-architecture lane",
+   "site_count": 1,
+   "by_class": {
+    "DEPLOYMENT_EPOCH_INVARIANT": 1
+   },
+   "sites": [
+    {
+     "line": 79,
+     "test": "test_the_root_stays_short_enough_for_a_deep_windows_tree",
+     "kind": "count",
+     "literal": 200,
+     "reads_package": false,
+     "has_len": true,
+     "source": "len(str(deepest)) < 200",
+     "class": "DEPLOYMENT_EPOCH_INVARIANT",
+     "reason": "module default"
     }
    ]
   },
@@ -12811,7 +12840,7 @@
    },
    "sites": [
     {
-     "line": 646,
+     "line": 655,
      "test": "test_combined_bundle_assembles_with_every_gate_passing",
      "kind": "count",
      "literal": 176,
@@ -12838,7 +12867,7 @@
    },
    "sites": [
     {
-     "line": 275,
+     "line": 289,
      "test": "test_the_live_route_inventory_is_committed",
      "kind": "count",
      "literal": 132,
@@ -12849,7 +12878,7 @@
      "reason": "module default"
     },
     {
-     "line": 414,
+     "line": 428,
      "test": "test_milwaukee_contributes_exactly_73_profiles",
      "kind": "count",
      "literal": 81,
@@ -12860,7 +12889,7 @@
      "reason": "module default"
     },
     {
-     "line": 555,
+     "line": 569,
      "test": "test_every_045_gate_still_runs_and_passes",
      "kind": "count",
      "literal": 27,
@@ -12871,7 +12900,7 @@
      "reason": "module default"
     },
     {
-     "line": 564,
+     "line": 578,
      "test": "test_the_disabled_bundle_is_the_pinned_candidate_byte_for_byte",
      "kind": "hash",
      "literal": "8ea6131e9fe8689fc23d3a362ae12ffaa2155c687737c6f5fcde03b5a22c42b8",
@@ -12882,7 +12911,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 565,
+     "line": 579,
      "test": "test_the_disabled_bundle_is_the_pinned_candidate_byte_for_byte",
      "kind": "hash",
      "literal": "a324b1bf5023fc4e8f618d192de5eb994d093ed890db4219678223079e06852d",
@@ -12893,7 +12922,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 568,
+     "line": 582,
      "test": "test_the_disabled_bundle_is_the_pinned_candidate_byte_for_byte",
      "kind": "hash",
      "literal": "e9998c51d13559333ef9bd63f287e8858b73eb0011401a9606a58871f6ba74cc",
@@ -12904,7 +12933,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 638,
+     "line": 652,
      "test": "test_the_committed_manifest_pins_the_measurement_config_and_is_authorized_only_by_record",
      "kind": "hash",
      "literal": "e9998c51d13559333ef9bd63f287e8858b73eb0011401a9606a58871f6ba74cc",
@@ -12915,7 +12944,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 659,
+     "line": 673,
      "test": "test_participation_and_inventory_are_unchanged",
      "kind": "count",
      "literal": 132,
@@ -15354,7 +15383,7 @@
      "literal": 2,
      "reads_package": false,
      "has_len": false,
-     "source": "cleveland_home.count(\"<em>Cleveland\u2013Akron\u2013Canton</em>\") == 2",
+     "source": "cleveland_home.count(\"<em>Cleveland–Akron–Canton</em>\") == 2",
      "class": "GENERIC_SCHEMA_INVARIANT",
      "reason": "module default"
     }
@@ -17822,7 +17851,7 @@
    },
    "sites": [
     {
-     "line": 530,
+     "line": 561,
      "test": "test_every_required_gate_ran_and_passed",
      "kind": "count",
      "literal": 27,
@@ -17833,7 +17862,7 @@
      "reason": "module default"
     },
     {
-     "line": 551,
+     "line": 582,
      "test": "test_columbus_live_routes_and_milwaukee_are_preserved",
      "kind": "count",
      "literal": 132,
@@ -17844,7 +17873,7 @@
      "reason": "module default"
     },
     {
-     "line": 554,
+     "line": 585,
      "test": "test_columbus_live_routes_and_milwaukee_are_preserved",
      "kind": "count",
      "literal": 73,
@@ -17855,7 +17884,7 @@
      "reason": "module default"
     },
     {
-     "line": 560,
+     "line": 591,
      "test": "test_the_candidate_is_the_pinned_artifact",
      "kind": "hash",
      "literal": "8ea6131e9fe8689fc23d3a362ae12ffaa2155c687737c6f5fcde03b5a22c42b8",
@@ -17866,7 +17895,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 561,
+     "line": 592,
      "test": "test_the_candidate_is_the_pinned_artifact",
      "kind": "hash",
      "literal": "a324b1bf5023fc4e8f618d192de5eb994d093ed890db4219678223079e06852d",
@@ -17877,7 +17906,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 562,
+     "line": 593,
      "test": "test_the_candidate_is_the_pinned_artifact",
      "kind": "hash",
      "literal": "70747f09fdfe18ccc18e13a3155cc6287404e3ddfe5bb5784d0f03cc30348967",
@@ -17888,7 +17917,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 563,
+     "line": 594,
      "test": "test_the_candidate_is_the_pinned_artifact",
      "kind": "hash",
      "literal": "2077ad2895c9273ddc9deed62295058f88915e20cb6fcd4072433d1c17dff741",
@@ -17899,7 +17928,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 619,
+     "line": 650,
      "test": "test_the_committed_manifest_describes_the_live_deploy_and_pins_the_record",
      "kind": "hash",
      "literal": "e9998c51d13559333ef9bd63f287e8858b73eb0011401a9606a58871f6ba74cc",
@@ -17910,7 +17939,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 662,
+     "line": 693,
      "test": "test_the_withdrawn_candidate_is_not_the_committed_one",
      "kind": "hash",
      "literal": "8ea6131e9fe8689fc23d3a362ae12ffaa2155c687737c6f5fcde03b5a22c42b8",
@@ -17930,38 +17959,49 @@
    ],
    "default_class": "HISTORICAL_COHORT_INVARIANT",
    "default_reason": "work-order-numbered module",
-   "site_count": 20,
+   "site_count": 21,
    "by_class": {
     "DEPLOYMENT_EPOCH_INVARIANT": 8,
     "HISTORICAL_ARTIFACT_INVARIANT": 3,
-    "HISTORICAL_COHORT_INVARIANT": 9
+    "HISTORICAL_COHORT_INVARIANT": 10
    },
    "sites": [
     {
-     "line": 67,
-     "test": "test_the_live_release_is_the_lexington_deploy",
+     "line": 75,
+     "test": "test_the_release_it_shipped_is_recorded_as_it_shipped",
      "kind": "hash",
      "literal": "67fe8617b79febb9b2248895441c31ac65931cf9fdcfa4da4f8014ee190cde78",
      "reads_package": false,
      "has_len": false,
-     "source": "live.bundle_sha256 == CANDIDATE",
+     "source": "record[\"bundle_sha256\"] == CANDIDATE",
      "class": "DEPLOYMENT_EPOCH_INVARIANT",
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 68,
-     "test": "test_the_live_release_is_the_lexington_deploy",
+     "line": 76,
+     "test": "test_the_release_it_shipped_is_recorded_as_it_shipped",
      "kind": "hash",
      "literal": "dd0d87f2da07615776016690af64452d42cafc24d3c82e310b5f44efc6f7e611",
      "reads_package": false,
      "has_len": false,
-     "source": "live.sitemap_sha256 == SITEMAP",
+     "source": "record[\"sitemap_sha256\"] == SITEMAP",
      "class": "DEPLOYMENT_EPOCH_INVARIANT",
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 72,
-     "test": "test_the_live_release_is_the_lexington_deploy",
+     "line": 80,
+     "test": "test_the_release_it_shipped_is_recorded_as_it_shipped",
+     "kind": "count",
+     "literal": 20,
+     "reads_package": false,
+     "has_len": false,
+     "source": "record[\"profile_counts\"][MARKET] == 20",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 89,
+     "test": "test_it_is_the_parent_the_next_launch_built_on",
      "kind": "count",
      "literal": 20,
      "reads_package": false,
@@ -17971,7 +18011,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 104,
+     "line": 127,
      "test": "test_it_is_consumed_and_binds_the_candidate",
      "kind": "hash",
      "literal": "67fe8617b79febb9b2248895441c31ac65931cf9fdcfa4da4f8014ee190cde78",
@@ -17982,7 +18022,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 105,
+     "line": 128,
      "test": "test_it_is_consumed_and_binds_the_candidate",
      "kind": "hash",
      "literal": "dd0d87f2da07615776016690af64452d42cafc24d3c82e310b5f44efc6f7e611",
@@ -17993,7 +18033,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 128,
+     "line": 151,
      "test": "test_the_packet_that_proposed_this_launch_bound_the_same_digests",
      "kind": "hash",
      "literal": "67fe8617b79febb9b2248895441c31ac65931cf9fdcfa4da4f8014ee190cde78",
@@ -18004,7 +18044,7 @@
      "reason": "hash pinned by a closed order"
     },
     {
-     "line": 129,
+     "line": 152,
      "test": "test_the_packet_that_proposed_this_launch_bound_the_same_digests",
      "kind": "hash",
      "literal": "895248738c79bc27f26da5bba1d2a490361ce6bd4959698adf3fb6f892aad8b0",
@@ -18015,18 +18055,18 @@
      "reason": "hash pinned by a closed order"
     },
     {
-     "line": 145,
-     "test": "test_the_live_pin_agrees_and_the_verifier_is_silent",
+     "line": 176,
+     "test": "test_the_record_chain_agrees_and_the_verifier_is_silent",
      "kind": "count",
      "literal": 11,
      "reads_package": false,
      "has_len": true,
-     "source": "len(live.rollback_markets) == 11",
+     "source": "len(parent[\"participating_markets\"]) == 11",
      "class": "HISTORICAL_COHORT_INVARIANT",
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 163,
+     "line": 194,
      "test": "test_the_live_bytes_are_the_authorized_bytes",
      "kind": "count",
      "literal": 991,
@@ -18037,7 +18077,7 @@
      "reason": "bundle / sitemap / route total"
     },
     {
-     "line": 164,
+     "line": 195,
      "test": "test_the_live_bytes_are_the_authorized_bytes",
      "kind": "count",
      "literal": 991,
@@ -18048,7 +18088,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 165,
+     "line": 196,
      "test": "test_the_live_bytes_are_the_authorized_bytes",
      "kind": "count",
      "literal": 991,
@@ -18059,7 +18099,7 @@
      "reason": "bundle / sitemap / route total"
     },
     {
-     "line": 171,
+     "line": 202,
      "test": "test_nothing_was_removed_and_the_check_read_the_previous_deploy",
      "kind": "count",
      "literal": 966,
@@ -18070,7 +18110,7 @@
      "reason": "bundle / sitemap / route total"
     },
     {
-     "line": 172,
+     "line": 203,
      "test": "test_nothing_was_removed_and_the_check_read_the_previous_deploy",
      "kind": "count",
      "literal": 25,
@@ -18081,7 +18121,7 @@
      "reason": "bundle / sitemap / route total"
     },
     {
-     "line": 181,
+     "line": 212,
      "test": "test_lexington_surfaces_and_the_held_rows_do_not",
      "kind": "count",
      "literal": 25,
@@ -18092,7 +18132,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 182,
+     "line": 213,
      "test": "test_lexington_surfaces_and_the_held_rows_do_not",
      "kind": "count",
      "literal": 25,
@@ -18103,7 +18143,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 183,
+     "line": 214,
      "test": "test_lexington_surfaces_and_the_held_rows_do_not",
      "kind": "count",
      "literal": 3,
@@ -18114,18 +18154,18 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 212,
-     "test": "test_the_opening_is_recorded_as_consumed_by_this_launch",
+     "line": 245,
+     "test": "test_the_opening_is_still_recorded_as_consumed_by_this_launch",
      "kind": "hash",
      "literal": "67fe8617b79febb9b2248895441c31ac65931cf9fdcfa4da4f8014ee190cde78",
-     "reads_package": true,
+     "reads_package": false,
      "has_len": false,
-     "source": "doc[\"consumed\"][\"candidate_digest\"] == CANDIDATE",
+     "source": "fast[\"consumed\"][\"candidate_digest\"] == CANDIDATE",
      "class": "HISTORICAL_ARTIFACT_INVARIANT",
      "reason": "hash pinned by a closed order"
     },
     {
-     "line": 230,
+     "line": 267,
      "test": "test_fifteen_rows_are_still_held_in_four_classes",
      "kind": "count",
      "literal": 15,
@@ -18136,7 +18176,7 @@
      "reason": "count in a closed order's suite"
     },
     {
-     "line": 242,
+     "line": 279,
      "test": "test_the_launch_published_twenty_not_the_shadows_twenty_eight",
      "kind": "count",
      "literal": 20,
@@ -18147,7 +18187,7 @@
      "reason": "whole-package count in a closed order's suite"
     },
     {
-     "line": 243,
+     "line": 280,
      "test": "test_the_launch_published_twenty_not_the_shadows_twenty_eight",
      "kind": "count",
      "literal": 10,
@@ -20169,6 +20209,287 @@
    ]
   },
   {
+   "module": "tests/pettripfinder/test_nashville_tn_launch_005.py",
+   "market": null,
+   "lanes": [
+    "full_regression"
+   ],
+   "default_class": "HISTORICAL_COHORT_INVARIANT",
+   "default_reason": "work-order-numbered module",
+   "site_count": 24,
+   "by_class": {
+    "DEPLOYMENT_EPOCH_INVARIANT": 8,
+    "HISTORICAL_ARTIFACT_INVARIANT": 4,
+    "HISTORICAL_COHORT_INVARIANT": 12
+   },
+   "sites": [
+    {
+     "line": 88,
+     "test": "test_the_live_release_is_the_nashville_deploy",
+     "kind": "hash",
+     "literal": "c12b410ec8331dbf7a50581027ad60291cac95f626de5a6a846b0d77524e0e11",
+     "reads_package": false,
+     "has_len": false,
+     "source": "live.bundle_sha256 == CANDIDATE",
+     "class": "DEPLOYMENT_EPOCH_INVARIANT",
+     "reason": "hash of a bundle / sitemap / authorization"
+    },
+    {
+     "line": 89,
+     "test": "test_the_live_release_is_the_nashville_deploy",
+     "kind": "hash",
+     "literal": "13f5335fc1a055ce06de5ce66c7921da55308110e94c0b0f18806853c1662bc4",
+     "reads_package": false,
+     "has_len": false,
+     "source": "live.sitemap_sha256 == SITEMAP",
+     "class": "DEPLOYMENT_EPOCH_INVARIANT",
+     "reason": "hash of a bundle / sitemap / authorization"
+    },
+    {
+     "line": 93,
+     "test": "test_the_live_release_is_the_nashville_deploy",
+     "kind": "count",
+     "literal": 79,
+     "reads_package": false,
+     "has_len": false,
+     "source": "live.profile_counts[MARKET] == 79",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 120,
+     "test": "test_participation_carries_the_founder_decision_for_nashville_only",
+     "kind": "hash",
+     "literal": "c12b410ec8331dbf7a50581027ad60291cac95f626de5a6a846b0d77524e0e11",
+     "reads_package": false,
+     "has_len": false,
+     "source": "row[\"founder_decision\"][\"authorized_candidate_digest\"] == CANDIDATE",
+     "class": "HISTORICAL_ARTIFACT_INVARIANT",
+     "reason": "hash pinned by a closed order"
+    },
+    {
+     "line": 128,
+     "test": "test_it_is_consumed_and_binds_the_candidate",
+     "kind": "hash",
+     "literal": "c12b410ec8331dbf7a50581027ad60291cac95f626de5a6a846b0d77524e0e11",
+     "reads_package": false,
+     "has_len": false,
+     "source": "auth[\"bundle_sha256\"] == CANDIDATE",
+     "class": "DEPLOYMENT_EPOCH_INVARIANT",
+     "reason": "hash of a bundle / sitemap / authorization"
+    },
+    {
+     "line": 129,
+     "test": "test_it_is_consumed_and_binds_the_candidate",
+     "kind": "hash",
+     "literal": "13f5335fc1a055ce06de5ce66c7921da55308110e94c0b0f18806853c1662bc4",
+     "reads_package": false,
+     "has_len": false,
+     "source": "auth[\"sitemap_sha256\"] == SITEMAP",
+     "class": "DEPLOYMENT_EPOCH_INVARIANT",
+     "reason": "hash of a bundle / sitemap / authorization"
+    },
+    {
+     "line": 132,
+     "test": "test_it_is_consumed_and_binds_the_candidate",
+     "kind": "count",
+     "literal": 13,
+     "reads_package": false,
+     "has_len": true,
+     "source": "len(auth[\"founder_authorized_markets\"]) == 13",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 160,
+     "test": "test_the_packet_that_proposed_this_launch_bound_the_same_digests",
+     "kind": "hash",
+     "literal": "c12b410ec8331dbf7a50581027ad60291cac95f626de5a6a846b0d77524e0e11",
+     "reads_package": false,
+     "has_len": false,
+     "source": "bound[\"final_candidate_digest\"] == CANDIDATE",
+     "class": "HISTORICAL_ARTIFACT_INVARIANT",
+     "reason": "hash pinned by a closed order"
+    },
+    {
+     "line": 161,
+     "test": "test_the_packet_that_proposed_this_launch_bound_the_same_digests",
+     "kind": "hash",
+     "literal": "c12b410ec8331dbf7a50581027ad60291cac95f626de5a6a846b0d77524e0e11",
+     "reads_package": false,
+     "has_len": false,
+     "source": "bound[\"deployment_artifact_digest\"] == CANDIDATE",
+     "class": "DEPLOYMENT_EPOCH_INVARIANT",
+     "reason": "hash of a bundle / sitemap / authorization"
+    },
+    {
+     "line": 162,
+     "test": "test_the_packet_that_proposed_this_launch_bound_the_same_digests",
+     "kind": "hash",
+     "literal": "13f5335fc1a055ce06de5ce66c7921da55308110e94c0b0f18806853c1662bc4",
+     "reads_package": false,
+     "has_len": false,
+     "source": "bound[\"candidate_sitemap_sha256\"] == SITEMAP",
+     "class": "DEPLOYMENT_EPOCH_INVARIANT",
+     "reason": "hash of a bundle / sitemap / authorization"
+    },
+    {
+     "line": 163,
+     "test": "test_the_packet_that_proposed_this_launch_bound_the_same_digests",
+     "kind": "hash",
+     "literal": "67fe8617b79febb9b2248895441c31ac65931cf9fdcfa4da4f8014ee190cde78",
+     "reads_package": false,
+     "has_len": false,
+     "source": "bound[\"parent_release_digest\"] == PARENT_DIGEST",
+     "class": "HISTORICAL_ARTIFACT_INVARIANT",
+     "reason": "hash pinned by a closed order"
+    },
+    {
+     "line": 195,
+     "test": "test_the_live_pin_agrees_and_the_verifier_is_silent",
+     "kind": "count",
+     "literal": 12,
+     "reads_package": false,
+     "has_len": true,
+     "source": "len(live.rollback_markets) == 12",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 233,
+     "test": "test_every_live_route_was_byte_identical_to_the_authorized_bundle",
+     "kind": "hash",
+     "literal": "13f5335fc1a055ce06de5ce66c7921da55308110e94c0b0f18806853c1662bc4",
+     "reads_package": false,
+     "has_len": false,
+     "source": "verification[\"live_sitemap_sha256\"] == SITEMAP",
+     "class": "DEPLOYMENT_EPOCH_INVARIANT",
+     "reason": "hash of a bundle / sitemap / authorization"
+    },
+    {
+     "line": 234,
+     "test": "test_every_live_route_was_byte_identical_to_the_authorized_bundle",
+     "kind": "count",
+     "literal": 1078,
+     "reads_package": false,
+     "has_len": false,
+     "source": "live[\"routes\"] == live[\"authorized_routes\"] == 1078",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 243,
+     "test": "test_nothing_was_removed_and_the_previous_deploy_was_read_from_its_own_address",
+     "kind": "count",
+     "literal": 991,
+     "reads_package": false,
+     "has_len": false,
+     "source": "versus[\"previous_route_count\"] == 991",
+     "class": "DEPLOYMENT_EPOCH_INVARIANT",
+     "reason": "bundle / sitemap / route total"
+    },
+    {
+     "line": 253,
+     "test": "test_nashville_surfaces_at_its_authority_and_not_beyond",
+     "kind": "count",
+     "literal": 87,
+     "reads_package": false,
+     "has_len": false,
+     "source": "nashville[\"live_routes\"] == 87",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 254,
+     "test": "test_nashville_surfaces_at_its_authority_and_not_beyond",
+     "kind": "count",
+     "literal": 79,
+     "reads_package": false,
+     "has_len": false,
+     "source": "nashville[\"live_profiles\"] == 79",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 255,
+     "test": "test_nashville_surfaces_at_its_authority_and_not_beyond",
+     "kind": "count",
+     "literal": 79,
+     "reads_package": false,
+     "has_len": false,
+     "source": "nashville[\"published_in_authority\"] == 79",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 256,
+     "test": "test_nashville_surfaces_at_its_authority_and_not_beyond",
+     "kind": "count",
+     "literal": 79,
+     "reads_package": false,
+     "has_len": false,
+     "source": "nashville[\"published_in_partition\"] == 79",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 267,
+     "test": "test_four_rows_are_still_held_in_three_classes",
+     "kind": "count",
+     "literal": 4,
+     "reads_package": false,
+     "has_len": false,
+     "source": "holds[\"count\"] == 4",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 293,
+     "test": "test_the_live_profile_set_is_exactly_the_published_set",
+     "kind": "count",
+     "literal": 79,
+     "reads_package": false,
+     "has_len": true,
+     "source": "len(published) == 79",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 302,
+     "test": "test_the_launch_published_seventy_nine_not_the_shadows_eighty",
+     "kind": "count",
+     "literal": 79,
+     "reads_package": true,
+     "has_len": true,
+     "source": "len(facts[\"hotels\"]) == 79",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "whole-package count in a closed order's suite"
+    },
+    {
+     "line": 303,
+     "test": "test_the_launch_published_seventy_nine_not_the_shadows_eighty",
+     "kind": "count",
+     "literal": 18,
+     "reads_package": true,
+     "has_len": true,
+     "source": "len(exclusions[\"exclusions\"]) == 18",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "whole-package count in a closed order's suite"
+    },
+    {
+     "line": 324,
+     "test": "test_the_opening_is_recorded_as_consumed_and_names_what_it_replaced",
+     "kind": "hash",
+     "literal": "c12b410ec8331dbf7a50581027ad60291cac95f626de5a6a846b0d77524e0e11",
+     "reads_package": false,
+     "has_len": false,
+     "source": "consumed[\"candidate_digest\"] == CANDIDATE",
+     "class": "HISTORICAL_ARTIFACT_INVARIANT",
+     "reason": "hash pinned by a closed order"
+    }
+   ]
+  },
+  {
    "module": "tests/pettripfinder/test_nashville_tn_new_market_001.py",
    "market": null,
    "lanes": [
@@ -20300,6 +20621,34 @@
    ]
   },
   {
+   "module": "tests/pettripfinder/test_participation_lineage_contract_006.py",
+   "market": null,
+   "lanes": [
+    "market_targeted",
+    "deployment_architecture",
+    "full_regression"
+   ],
+   "default_class": "DEPLOYMENT_EPOCH_INVARIANT",
+   "default_reason": "deployment-architecture lane",
+   "site_count": 1,
+   "by_class": {
+    "DEPLOYMENT_EPOCH_INVARIANT": 1
+   },
+   "sites": [
+    {
+     "line": 236,
+     "test": "test_the_committed_record_loads_and_its_chain_is_reachable",
+     "kind": "count",
+     "literal": 8,
+     "reads_package": false,
+     "has_len": true,
+     "source": "len(chain[\"records\"]) >= 8",
+     "class": "DEPLOYMENT_EPOCH_INVARIANT",
+     "reason": "module default"
+    }
+   ]
+  },
+  {
    "module": "tests/pettripfinder/test_per_market_release_contracts.py",
    "market": null,
    "lanes": [
@@ -20316,7 +20665,7 @@
    },
    "sites": [
     {
-     "line": 597,
+     "line": 616,
      "test": "test_columbus_now_states_the_universe_it_could_not_before",
      "kind": "count",
      "literal": 112,
@@ -20327,7 +20676,7 @@
      "reason": "module default"
     },
     {
-     "line": 686,
+     "line": 705,
      "test": "test_columbus_profile_count_never_appears_in_another_contract",
      "kind": "count",
      "literal": 88,
@@ -20338,7 +20687,7 @@
      "reason": "module default"
     },
     {
-     "line": 688,
+     "line": 707,
      "test": "test_columbus_profile_count_never_appears_in_another_contract",
      "kind": "count",
      "literal": 88,
@@ -20349,7 +20698,7 @@
      "reason": "module default"
     },
     {
-     "line": 690,
+     "line": 709,
      "test": "test_columbus_profile_count_never_appears_in_another_contract",
      "kind": "count",
      "literal": 88,
@@ -20360,7 +20709,7 @@
      "reason": "module default"
     },
     {
-     "line": 692,
+     "line": 711,
      "test": "test_columbus_profile_count_never_appears_in_another_contract",
      "kind": "count",
      "literal": 88,
@@ -22366,7 +22715,7 @@
    },
    "sites": [
     {
-     "line": 141,
+     "line": 165,
      "test": "test_one_digest_runs_from_authorization_to_live",
      "kind": "hash",
      "literal": "895248738c79bc27f26da5bba1d2a490361ce6bd4959698adf3fb6f892aad8b0",
@@ -22377,7 +22726,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 142,
+     "line": 166,
      "test": "test_one_digest_runs_from_authorization_to_live",
      "kind": "hash",
      "literal": "dfdac840be527d5431d0752e702b55fd41d3ee0d2f3635bed6796044d869d56a",
@@ -22388,7 +22737,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 143,
+     "line": 167,
      "test": "test_one_digest_runs_from_authorization_to_live",
      "kind": "hash",
      "literal": "dfdac840be527d5431d0752e702b55fd41d3ee0d2f3635bed6796044d869d56a",
@@ -22399,7 +22748,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 158,
+     "line": 186,
      "test": "test_the_promotion_packets_bundle_is_NOT_what_deployed",
      "kind": "hash",
      "literal": "ca59f3710abde7504dc6c312992e0e2c9db70eccbff737cd12be6ec72708ff1f",
@@ -22410,7 +22759,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 159,
+     "line": 187,
      "test": "test_the_promotion_packets_bundle_is_NOT_what_deployed",
      "kind": "hash",
      "literal": "895248738c79bc27f26da5bba1d2a490361ce6bd4959698adf3fb6f892aad8b0",
@@ -22421,7 +22770,7 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 163,
+     "line": 191,
      "test": "test_the_promotion_packets_bundle_is_NOT_what_deployed",
      "kind": "hash",
      "literal": "895248738c79bc27f26da5bba1d2a490361ce6bd4959698adf3fb6f892aad8b0",
@@ -22432,13 +22781,13 @@
      "reason": "hash of a bundle / sitemap / authorization"
     },
     {
-     "line": 189,
+     "line": 228,
      "test": "test_source_is_back_in_sync_with_production",
      "kind": "hash",
      "literal": "895248738c79bc27f26da5bba1d2a490361ce6bd4959698adf3fb6f892aad8b0",
      "reads_package": false,
      "has_len": false,
-     "source": "source[\"bundle_sha256\"] == BUNDLE",
+     "source": "record()[\"bundle_sha256\"] == BUNDLE",
      "class": "DEPLOYMENT_EPOCH_INVARIANT",
      "reason": "hash of a bundle / sitemap / authorization"
     }
