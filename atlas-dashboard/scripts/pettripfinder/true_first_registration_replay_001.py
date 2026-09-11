@@ -1,7 +1,7 @@
 """PTF-FINAL-FRESH-MARKET-REGISTRATION-REENGINEERING-001 -- the TRUE FIRST
 REGISTRATION replay of Raleigh on the corrected factory.
 
-    python scripts/pettripfinder/raleigh_nc_true_first_registration_replay_001.py \\
+    python scripts/pettripfinder/true_first_registration_replay_001.py \\
         --code-sha <AUDITED_SHA> --label focused_benchmark|true_first_replay [--keep]
 
 WHAT THIS MEASURES
