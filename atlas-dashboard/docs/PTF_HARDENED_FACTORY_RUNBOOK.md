@@ -238,6 +238,117 @@ the export drifts from the module).
 | `MARKET_LOCAL_TOOLING` | not required | not required — granted ONLY by the five-condition isolation proof below; every failure leaves the path in its prefix class |
 | `MARKET_DATA_PACKAGE` | not required | not required — a sealed package, staging tree or receipt under `markets/{packages,staging,receipts}/<market>/`; inert data no build reads (ATLAS-THROUGHPUT-003) |
 | `MARKET_AUTHORITY_DATA_ONLY` | required | conditional — a whole change set that is ONE registered market's authority data and nothing else; **not required ONLY** when a committed `FAST_DATA_ONLY_RELEASE` receipt says ELIGIBLE = YES for a sealed package covering the exact bytes AND `fast_release_activation.json` enables the market (it is DISABLED); otherwise exactly `AUTHORITY_CHANGE` |
+| `NEW_MARKET_REGISTRATION_DATA_ONLY` | not required | conditional — a whole change set that is exactly ONE previously absent market's registration and nothing else; **not required ONLY** when `registration_data_only.evaluate` passes every check of the bounded registration safety union below; otherwise every path keeps its path class, and three of them are `DEPLOYMENT_CHANGE` |
+
+### NEW_MARKET_REGISTRATION_DATA_ONLY (PTF-NEW-MARKET-REGISTRATION-DATA-ONLY-POLICY-001)
+
+A registration writes four documents that belong to every market — the
+participation record, the market's release contract, the build closure and
+the market-state pin — and PTF-CHARLOTTE-CONTROLLED-REGISTRATION-REPLAY-003
+measured that the ordinary workflow writes them in seven seconds and is then
+charged a broad regression by their PATH classes. The path classes are right:
+any of those documents can change what production serves. A registration is
+the one operation where the change to all four is mechanically bounded — one
+row, one contract instance, two declared inputs, one pin block — and where
+every changed field can be checked directly. The committed contract is
+`launch_packages/pettripfinder/registration_data_only_contract.json`
+(regenerate with `registration_data_only contract --out …`; a contract test
+fails if the export drifts from the module), and its field-level eligibility
+matrix says, for every document and field, whether it is a registration fact
+(`DATA_NARROWABLE`), checked against an independent derivation
+(`DERIVED_CHECKED_INDEPENDENTLY`), behavior-bearing (`BEHAVIOR_WIDENS`), or
+protected (`PROTECTED_INDEPENDENTLY`).
+
+The class is granted to a WHOLE change set, never to a path, never because a
+filename looks like a registration, a market is named, a count grew or
+narrow validation was requested. `classify` runs the proof on every change
+set; anything UNKNOWN is a failure. The eleven checks:
+
+1. **change_set** — the registry gained exactly one market; every changed
+   path is one registration role for that market (participation row,
+   release contract, build closure, pin, market document, authority shard,
+   its own census / policy package / partition, the derived globals) or a
+   narrow companion (report, prose, baseline manifest, the market's OWN
+   sealed package / receipt); no test, no code, no other market's data, no
+   protected release state; the only narrowing blockers present are the two
+   the registration owns (the closure and the pin).
+2. **participation** — a REISSUE: base rows byte-identical, exactly one new
+   row at `SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH` with no other
+   keys, `decided_by` is the writing work order and never the founder,
+   `markets_added = [<new>]`, the authorized set equals the base's,
+   `supersedes` is the sha256 of the exact base bytes, and `lineage.records`
+   is the base chain (repair-resolved) plus the base record;
+   `decision_problems` is empty.
+3. **release_contract** — a new instance with exactly the registration key
+   shape; `canonical`, `minimum_release_gates`, `forbidden_output_tokens` and
+   `publish` EQUAL the single value every base contract carries;
+   `deployment_authorization` grants nothing; every count agrees with
+   `release_contracts.derive_authority`; an unknown key widens.
+4. **build_closure** — `shared_data_inputs` gains exactly the market's contract
+   and market document; `remeasured_by` gains one note; `code_modules`,
+   `per_market_data_inputs` and every other key are unchanged.
+5. **derived_globals** — the committed globals are byte-identical to a
+   regeneration from the shards (`build_global_authority --check`) and no
+   other market's shard changed, so their diff IS the new market's rows.
+6. **sealed_package** — a committed package under `markets/packages/<market>/`
+   whose `dependency_input_digests` are exactly the head bytes of the seven
+   authority files, sealed for `REGISTERED_LIVE`, declaring one joining market
+   whose `add_routes` are its own derived surface, against the current live
+   parent (rule N).
+7. **fast_receipt** — a committed receipt for that package: 15/15 PASS,
+   0 UNKNOWN, 0 FAILED, re-deriving its digest, bound to the same parent
+   (deploy id, rollback target, source commit, live index digest), the same
+   intended delta and dependency digest, the current lane version, the
+   package's builder and contract versions, and two equal cold-build digests.
+8. **expected_release** — EXPECTED = trusted live parent + the sealed package;
+   ACTUAL = every registered market's committed authority with the new market
+   participating; compared as COMPLETE SETS of markets, participation flags,
+   profile identity keys, record digests, routes, ownership, corridor and
+   market routes — never as totals, so one profile removed and one added
+   fails at equal counts. Aggregates (parent + 1 market, parent + package
+   profiles, parent + package routes) are checked as well.
+9. **identity_routes** — `release_index.compare` over both releases: no
+   cross-market identity collision, no duplicate route, no ownership
+   movement, every live member preserved, every change declared.
+10. **market_state_pin** — every base block byte-identical; one new block whose
+    eight counts equal what the SEALED PACKAGE derives (census count, records,
+    refusals, partition states, indexed profiles and corridor routes) and
+    what the release contract states; `deployment_state.json` untouched.
+11. **release_integrity** — nothing under deployment authorizations, records,
+    the global manifest, the activation flag, the production gate or the
+    deployment pin moved; the live parent is verified; the authorized set is
+    unchanged.
+
+When all eleven pass: `CHANGE_CLASS = NEW_MARKET_REGISTRATION_DATA_ONLY`,
+`FULL_REGRESSION_REQUIRED = NO`, `REMOTE_BROAD_JOBS_REQUIRED = 0`,
+`UNCHANGED_MARKETS_REBUILT = 0`, and the registration reaches
+**AUTHORIZATION_READY**. It authorizes nothing: the founder authorization,
+the current-parent guard, the exact-bytes deployment, targeted live
+verification and the rollback guard are untouched and still owed by the
+deployment order. The plan runs no lane, no reverse-dependent scan (the four
+documents are named by 137 test modules — the broad run by another name) and
+no whole-site assembly (rule J builds the joining market twice cold; no
+other market's input moved).
+
+The ordinary registration workflow, end to end:
+
+```
+python scripts/pettripfinder/market_registration_cli.py --market <id> --authority <proposed> --write
+python -m scripts.pettripfinder.build_global_authority --write
+python scripts/pettripfinder/<market>_release_contract_NNN.py          # the contract instance
+python scripts/pettripfinder/<market>_participation_registration_NNN.py --write   # row + closure
+# state the market's reviewed block in tests/pettripfinder/pins/market_state.json
+python -m scripts.pettripfinder.registration_release_lane seal --market <id>   # package + FAST receipt
+python -m scripts.pettripfinder.regression_delta classify --base <sha> --out <classify.json>
+python -m scripts.pettripfinder.registration_release_lane packet --market <id> --classification <classify.json>
+```
+
+Measured on Charlotte (PTF-NEW-MARKET-REGISTRATION-DATA-ONLY-POLICY-001): the
+registration writes in seconds, the lane in about a hundred (the two cold
+builds of the joining market), the classification with its proof in about
+ten. Shared runtime, schema, assembler, deployment implementation and test
+infrastructure changes remain broad; a registration that also edits a test
+expectation is not a registration and costs the full suite.
 
 ### FAST_DATA_ONLY_RELEASE (ATLAS-THROUGHPUT-003)
 

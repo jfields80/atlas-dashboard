@@ -52,6 +52,19 @@ THE THREE PARTS
     says whether assembly and a full regression are mandatory. The decision
     over a whole change is the STRICTEST row any changed file selects.
 
+WHOLE-SET NARROWINGS
+--------------------
+Two classes are granted to a CHANGE SET rather than to a path, each only on a
+mechanical proof that fails closed: :data:`MARKET_AUTHORITY_DATA_ONLY`
+(ATLAS-THROUGHPUT-003, one registered market's authority data, a sealed
+package, an eligible FAST receipt and production activation) and
+:data:`NEW_MARKET_REGISTRATION_DATA_ONLY` (PTF-NEW-MARKET-REGISTRATION-DATA-
+ONLY-POLICY-001, exactly one previously absent market's registration, every
+changed field of the four shared documents proven by
+:mod:`registration_data_only`). Neither is selected by a filename, a market
+name, a count or a request; anything the proof cannot establish leaves every
+path in its path class.
+
 WHAT THIS MODULE MAY NEVER DO
 -----------------------------
 Skip a full regression it is not certain about. Three separate rules enforce
@@ -128,6 +141,17 @@ MARKET_DATA_PACKAGE = "MARKET_DATA_PACKAGE"
 #: bytes AND production activation for the market -- otherwise it is exactly
 #: AUTHORITY_CHANGE.
 MARKET_AUTHORITY_DATA_ONLY = "MARKET_AUTHORITY_DATA_ONLY"
+#: PTF-NEW-MARKET-REGISTRATION-DATA-ONLY-POLICY-001: a change set that is
+#: exactly ONE previously absent market's registration and nothing else --
+#: its registry document, authority shard, release contract instance,
+#: participation row, two build-closure inputs, market-state pin block and
+#: the derived globals -- proven BY FIELD by :mod:`registration_data_only`
+#: against a sealed package, an eligible FAST receipt and an independently
+#: derived expected release. Granted to a whole change set, never to a path.
+#: Its full regression is CONDITIONAL on that proof; anything UNKNOWN leaves
+#: every path in its path class, which is DEPLOYMENT_CHANGE for the four
+#: documents a registration must touch.
+NEW_MARKET_REGISTRATION_DATA_ONLY = "NEW_MARKET_REGISTRATION_DATA_ONLY"
 UNCLASSIFIED = "UNCLASSIFIED"
 
 CHANGE_CLASSES: Tuple[str, ...] = (
@@ -136,6 +160,7 @@ CHANGE_CLASSES: Tuple[str, ...] = (
     BOOKKEEPING_REGISTRATION_CHANGE, DOCUMENTATION_ONLY,
     GENERATED_REPORT_ONLY, BASELINE_MANIFEST_ONLY, MARKET_LOCAL_TOOLING,
     MARKET_DATA_PACKAGE, MARKET_AUTHORITY_DATA_ONLY,
+    NEW_MARKET_REGISTRATION_DATA_ONLY,
     UNCLASSIFIED,
 )
 
@@ -145,6 +170,7 @@ CHANGE_CLASSES: Tuple[str, ...] = (
 SURFACE_MARKET_LOCAL_TOOLING = "MARKET_LOCAL_TOOLING"
 SURFACE_MARKET_DATA_PACKAGE = "MARKET_DATA_PACKAGE"
 SURFACE_MARKET_AUTHORITY_DATA_ONLY = "MARKET_AUTHORITY_DATA_ONLY"
+SURFACE_NEW_MARKET_REGISTRATION_DATA_ONLY = "NEW_MARKET_REGISTRATION_DATA_ONLY"
 SURFACE_SHARED_SCHEMA_CHANGE = "SHARED_SCHEMA_CHANGE"
 SURFACE_SHARED_RUNTIME_CHANGE = "SHARED_RUNTIME_CHANGE"
 SURFACE_ASSEMBLER_CHANGE = "ASSEMBLER_CHANGE"
@@ -154,7 +180,8 @@ SURFACE_UNKNOWN_MIXED = "UNKNOWN_MIXED"
 SURFACE_NARROW_NON_RELEASE = "NARROW_NON_RELEASE"
 RELEASE_SURFACES: Tuple[str, ...] = (
     SURFACE_MARKET_LOCAL_TOOLING, SURFACE_MARKET_DATA_PACKAGE,
-    SURFACE_MARKET_AUTHORITY_DATA_ONLY, SURFACE_SHARED_SCHEMA_CHANGE,
+    SURFACE_MARKET_AUTHORITY_DATA_ONLY, SURFACE_NEW_MARKET_REGISTRATION_DATA_ONLY,
+    SURFACE_SHARED_SCHEMA_CHANGE,
     SURFACE_SHARED_RUNTIME_CHANGE, SURFACE_ASSEMBLER_CHANGE, SURFACE_DEPLOYMENT_CHANGE,
     SURFACE_CLASSIFIER_TEST_INFRA_CHANGE, SURFACE_UNKNOWN_MIXED, SURFACE_NARROW_NON_RELEASE,
 )
@@ -414,6 +441,44 @@ VALIDATION_MATRIX: "OrderedDict[str, OrderedDict]" = OrderedDict((
                 "activation is granted the row is AUTHORITY_CHANGE by another "
                 "name"),
     ))),
+    (NEW_MARKET_REGISTRATION_DATA_ONLY, OrderedDict((
+        ("surface", "a change set that is exactly ONE previously absent market's "
+                    "registration and nothing else: its registry document, its "
+                    "authority shard, its release contract instance, its "
+                    "participation row (a reissue), its two build-closure input "
+                    "declarations, its market-state pin block, and the derived "
+                    "globals -- each proven BY FIELD, never by path"),
+        ("lanes", ()),
+        ("owning_modules", True),
+        ("owning_directory", False),
+        ("reverse_dependents", False),
+        ("market_targeted", False),
+        ("assembly", NOT_REQUIRED),
+        ("full_regression", CONDITIONAL),
+        ("condition", "not required ONLY when registration_data_only.evaluate answers "
+                      "ELIGIBLE = YES: one market joined the registry; every changed "
+                      "path is a registration role or a narrow companion; the "
+                      "participation row, release contract, build closure and pin "
+                      "pass their field policies; a committed sealed package is "
+                      "sealed from exactly the head bytes; a committed FAST receipt "
+                      "for it is 15/15 PASS with 0 UNKNOWN and binds the same parent, "
+                      "delta, builder and lane versions; and the expected release "
+                      "(trusted live parent + package) equals the committed candidate "
+                      "as complete sets of markets, profiles, routes, ownership and "
+                      "participation. Required otherwise -- every path then keeps its "
+                      "path class, and three of them are DEPLOYMENT_CHANGE"),
+        ("why", "PTF-NEW-MARKET-REGISTRATION-DATA-ONLY-POLICY-001: a registration "
+                "writes four shared documents whose PATH classes are right (any of "
+                "them can change what production serves) but whose registration "
+                "change is mechanically bounded to one row, one instance, two "
+                "declarations and one block. The bounded registration safety "
+                "union proves each field directly and the FAST lane proves the "
+                "joining market's release hazards directly; the reverse-dependent "
+                "scan is not run because the four documents are named by 137 test "
+                "modules, which is the broad run by another name, and the assembly "
+                "is not run because rule J builds the joining market and no other "
+                "market's bytes can move when no other market's input did"),
+    ))),
     (UNCLASSIFIED, OrderedDict((
         ("surface", "unknown -- no rule claims this path"),
         ("lanes", tuple(l for l in LANES_MODULE.LANES
@@ -462,6 +527,11 @@ PATH_RULES: Tuple[Tuple[str, str, Tuple[str, ...]], ...] = (
     ("prefix", "launch_packages/pettripfinder/failure_closures/",
      (GENERATED_REPORT_ONLY,)),
     ("glob", "launch_packages/pettripfinder/regression_validation_matrix.json",
+     (GENERIC_RUNTIME_CHANGE,)),
+    # PTF-NEW-MARKET-REGISTRATION-DATA-ONLY-POLICY-001: the registration
+    # contract decides what a registration may narrow; editing it is editing
+    # the classifier.
+    ("glob", "launch_packages/pettripfinder/registration_data_only_contract.json",
      (GENERIC_RUNTIME_CHANGE,)),
 
     # -- deployment, before the generic launch_packages rules ----------------
@@ -660,6 +730,10 @@ NARROWING_BLOCKERS: Tuple[Tuple[str, str], ...] = (
     ("glob", "launch_packages/pettripfinder/release_production_gate.json"),
     ("glob", "launch_packages/pettripfinder/reports/atlas_throughput_006_shard_manifest.json"),
     ("glob", ".github/workflows/*.yml"),
+    # PTF-NEW-MARKET-REGISTRATION-DATA-ONLY-POLICY-001: the registration proof
+    # and its contract decide what a registration may narrow.
+    ("glob", "scripts/pettripfinder/registration_data_only.py"),
+    ("glob", "launch_packages/pettripfinder/registration_data_only_contract.json"),
 )
 
 #: Test paths whose expectations are SHARED current state. A change to one of
@@ -1363,6 +1437,12 @@ def release_surface_of(row: Mapping) -> str:
     """The release surface one classified row belongs to."""
     classes = set(row["classes"])
     path = _posix(row["path"])
+    # PTF-NEW-MARKET-REGISTRATION-DATA-ONLY-POLICY-001: the class is assigned
+    # only after the whole-set proof, which is what lets the two registration-
+    # owned blockers (closure, pin) sit on this surface rather than the
+    # classifier's.
+    if NEW_MARKET_REGISTRATION_DATA_ONLY in classes:
+        return SURFACE_NEW_MARKET_REGISTRATION_DATA_ONLY
     if is_narrowing_blocker(path) or is_shared_test_state(path):
         return SURFACE_CLASSIFIER_TEST_INFRA_CHANGE
     if MARKET_LOCAL_TOOLING in classes:
@@ -1453,12 +1533,35 @@ def classify_change(base: str, head: str = WORKTREE,
                                            for k, v in proof["conditions"].items())),
             )) if proof is not None else None)),
         )))
+    # PTF-NEW-MARKET-REGISTRATION-DATA-ONLY-POLICY-001: a change set that is
+    # exactly one previously absent market's registration, proven by field,
+    # is NEW_MARKET_REGISTRATION_DATA_ONLY -- a whole-set verdict evaluated
+    # BEFORE the authority-only one, because a registration always carries
+    # the two blockers that would otherwise end every narrowing. The proof
+    # itself decides whether those two blockers are the registration's own.
+    registration_block: Optional[Dict] = None
+    if paths is None:
+        from scripts.pettripfinder import registration_data_only as REG
+        registration_block = REG.evaluate(rows, base, head, blockers=blockers)
+        if registration_block["ELIGIBLE"] == "YES":
+            market_id = registration_block["market_id"]
+            narrowed = set(registration_block["registration_paths"])
+            for row in rows:
+                if _posix(row["path"]) in narrowed:
+                    row["classes"] = [NEW_MARKET_REGISTRATION_DATA_ONLY]
+                    row["why"] += ("; NEW_MARKET_REGISTRATION_DATA_ONLY: %s registration proven by field "
+                                   "(%s)" % (market_id, registration_block["registration_paths"] and
+                                             "every check PASS"))
+                    if market_id not in row["markets"]:
+                        row["markets"] = list(row["markets"]) + [market_id]
     # ATLAS-THROUGHPUT-003: a change set that is ONE market's authority data
     # and nothing else is MARKET_AUTHORITY_DATA_ONLY -- a whole-set verdict.
     data_only_market: Optional[str] = None
     data_only_why = "not evaluated (explicit path list)"
     fast_block: Optional[Dict] = None
-    if paths is None:
+    if registration_block is not None and registration_block["ELIGIBLE"] == "YES":
+        data_only_why = "not evaluated: the change set is a proven registration"
+    elif paths is None:
         data_only_market, data_only_why = _market_authority_data_only(rows, base, head, blockers)
         if data_only_market is not None:
             fast_block = fast_data_only_release(data_only_market, rows, head)
@@ -1490,6 +1593,7 @@ def classify_change(base: str, head: str = WORKTREE,
         ("release_surfaces", surfaces),
         ("market_authority_data_only", OrderedDict((("market_id", data_only_market), ("why", data_only_why)))),
         ("fast_data_only_release", fast_block),
+        ("new_market_registration_data_only", registration_block),
     ))
 
 
@@ -1584,6 +1688,16 @@ def plan_for(classification: Mapping) -> Dict:
                 decision = NOT_REQUIRED if block.get("FULL_REGRESSION_REQUIRED") == "NO" else REQUIRED
                 detail = block.get("why") or ("no FAST_DATA_ONLY_RELEASE proof recorded for %s"
                                               % row["path"])
+            elif decision == CONDITIONAL and cls == NEW_MARKET_REGISTRATION_DATA_ONLY:
+                # PTF-NEW-MARKET-REGISTRATION-DATA-ONLY-POLICY-001: conditional
+                # on the registration proof having passed every check. The
+                # class is only ever assigned after that proof, so a row that
+                # carries it without the block is a defect, and it costs the
+                # broad run rather than being trusted.
+                block = classification.get("new_market_registration_data_only") or {}
+                decision = NOT_REQUIRED if block.get("FULL_REGRESSION_REQUIRED") == "NO" else REQUIRED
+                detail = block.get("why") or ("no registration-data-only proof recorded for %s"
+                                              % row["path"])
             elif decision == CONDITIONAL:
                 decision = REQUIRED if row["shared_test_state"] else NOT_REQUIRED
                 detail = ("%s is shared current state" % row["path"]
@@ -1630,6 +1744,8 @@ def plan_for(classification: Mapping) -> Dict:
                if not any(m != d and m.startswith(d + "/") for d in directories)]
 
     fast_block = classification.get("fast_data_only_release")
+    registration_block = classification.get("new_market_registration_data_only")
+    registration_proven = bool(registration_block and registration_block.get("ELIGIBLE") == "YES")
     return OrderedDict((
         ("lanes", lanes),
         ("markets", markets),
@@ -1642,6 +1758,14 @@ def plan_for(classification: Mapping) -> Dict:
         ("FAST_DATA_ONLY_RELEASE_REQUIRED",
          "YES" if fast_block and fast_block.get("FAST_DATA_ONLY_RELEASE_REQUIRED") == "YES" else "NO"),
         ("fast_data_only_release", fast_block),
+        # PTF-NEW-MARKET-REGISTRATION-DATA-ONLY-POLICY-001: when the proof
+        # passed, the blocking work IS the proof (the bounded registration
+        # safety union, recorded check by check in the block) and the remote
+        # broad job count is zero; the class reaches AUTHORIZATION_READY and
+        # authorizes nothing.
+        ("NEW_MARKET_REGISTRATION_DATA_ONLY", "YES" if registration_proven else "NO"),
+        ("REMOTE_BROAD_JOBS_REQUIRED", 0 if registration_proven else None),
+        ("new_market_registration_data_only", registration_block),
         ("reasons", reasons),
     ))
 
@@ -1945,6 +2069,9 @@ def matrix_document() -> Dict:
                 (SURFACE_MARKET_DATA_PACKAGE, "NO", "inert data named by digest; the fast lane's input, never a build's"),
                 (SURFACE_MARKET_AUTHORITY_DATA_ONLY, "CONDITIONAL",
                  "NO only with a committed ELIGIBLE receipt covering the exact bytes and production activation; YES otherwise"),
+                (SURFACE_NEW_MARKET_REGISTRATION_DATA_ONLY, "CONDITIONAL",
+                 "NO only when registration_data_only.evaluate passes every check of the bounded registration "
+                 "safety union for exactly one previously absent market; YES otherwise, in the path classes"),
                 (SURFACE_SHARED_SCHEMA_CHANGE, "YES", "a contract change moves what every market derives"),
                 (SURFACE_SHARED_RUNTIME_CHANGE, "YES", "shared runtime every market executes"),
                 (SURFACE_ASSEMBLER_CHANGE, "YES", "the assembler is the proof the fast lane's rule J relies on"),
@@ -1956,6 +2083,9 @@ def matrix_document() -> Dict:
         ("market_authority_data_patterns", list(MARKET_AUTHORITY_DATA_PATTERNS)),
         ("derived_authority_globals", list(DERIVED_AUTHORITY_GLOBALS)),
         ("fast_release_activation", "launch_packages/pettripfinder/fast_release_activation.json"),
+        # PTF-NEW-MARKET-REGISTRATION-DATA-ONLY-POLICY-001.
+        ("registration_data_only_contract",
+         "launch_packages/pettripfinder/registration_data_only_contract.json"),
     ))
 
 

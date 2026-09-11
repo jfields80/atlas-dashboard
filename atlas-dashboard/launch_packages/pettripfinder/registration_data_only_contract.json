@@ -1,0 +1,358 @@
+{
+ "schema": "ptf-registration-data-only-contract/1.0",
+ "work_order": "PTF-NEW-MARKET-REGISTRATION-DATA-ONLY-POLICY-001",
+ "proof_version": "ptf-registration-data-only/1.0",
+ "change_class": "NEW_MARKET_REGISTRATION_DATA_ONLY",
+ "what_this_is": "The one permitted registration operation Regression V2 may narrow: exactly ONE previously absent market joins the registry, the participation record, the build closure and the market-state pin, with a sealed package and an eligible FAST receipt, and every changed field is proven by this contract's field policy. Granted to a whole change set, never to a path; UNKNOWN is a failure; the class reaches AUTHORIZATION_READY and authorizes nothing.",
+ "registration_roles": [
+  {
+   "role": "participation_row",
+   "path": "deploy/netlify/launch_participation.json",
+   "required": true,
+   "statuses": [
+    "M"
+   ]
+  },
+  {
+   "role": "release_contract",
+   "path": "deploy/netlify/release_contracts/<id>.json",
+   "required": true,
+   "statuses": [
+    "A"
+   ]
+  },
+  {
+   "role": "build_closure",
+   "path": "launch_packages/pettripfinder/bundle_cache_closure.json",
+   "required": true,
+   "statuses": [
+    "M"
+   ]
+  },
+  {
+   "role": "market_state_pin",
+   "path": "tests/pettripfinder/pins/market_state.json",
+   "required": true,
+   "statuses": [
+    "M"
+   ]
+  },
+  {
+   "role": "market_document",
+   "path": "launch_packages/pettripfinder/markets/<id>.json",
+   "required": true,
+   "statuses": [
+    "A"
+   ]
+  },
+  {
+   "role": "authority_shard",
+   "path": "launch_packages/pettripfinder/markets/authority/<id>/*",
+   "required": true,
+   "statuses": [
+    "A",
+    "M"
+   ]
+  },
+  {
+   "role": "identity_census",
+   "path": "launch_packages/pettripfinder/identity_census/<id>.json",
+   "required": false,
+   "statuses": [
+    "A",
+    "M"
+   ]
+  },
+  {
+   "role": "policy_package",
+   "path": "launch_packages/pettripfinder/hotel_policy_facts_<id>.json",
+   "required": false,
+   "statuses": [
+    "A",
+    "M"
+   ]
+  },
+  {
+   "role": "final_partition",
+   "path": "launch_packages/pettripfinder/<us>_final_partition_*.json",
+   "required": false,
+   "statuses": [
+    "A",
+    "M"
+   ]
+  },
+  {
+   "role": "derived_global",
+   "path": "launch_packages/pettripfinder/identity_routing.json",
+   "required": false,
+   "statuses": [
+    "M"
+   ]
+  },
+  {
+   "role": "derived_global",
+   "path": "launch_packages/pettripfinder/hotel_exclusions.json",
+   "required": false,
+   "statuses": [
+    "M"
+   ]
+  },
+  {
+   "role": "derived_global",
+   "path": "launch_packages/pettripfinder/seed_businesses.csv",
+   "required": false,
+   "statuses": [
+    "M"
+   ]
+  },
+  {
+   "role": "derived_global",
+   "path": "launch_packages/pettripfinder/ptf_global_authority_manifest.json",
+   "required": false,
+   "statuses": [
+    "M"
+   ]
+  }
+ ],
+ "companion_classes": [
+  "BASELINE_MANIFEST_ONLY",
+  "DOCUMENTATION_ONLY",
+  "GENERATED_REPORT_ONLY",
+  "MARKET_DATA_PACKAGE"
+ ],
+ "registration_owned_blockers": [
+  "launch_packages/pettripfinder/bundle_cache_closure.json",
+  "tests/pettripfinder/pins/market_state.json"
+ ],
+ "protected_paths": [
+  "deploy/netlify/deployment_authorizations/",
+  "deploy/netlify/deployment_records/",
+  "deploy/netlify/global_deployment_manifest.json",
+  "launch_packages/pettripfinder/fast_release_activation.json",
+  "launch_packages/pettripfinder/release_production_gate.json",
+  "tests/pettripfinder/pins/deployment_state.json",
+  "tests/pettripfinder/pins/supersessions.json"
+ ],
+ "checks": [
+  "change_set",
+  "participation",
+  "release_contract",
+  "build_closure",
+  "derived_globals",
+  "sealed_package",
+  "fast_receipt",
+  "expected_release",
+  "identity_routes",
+  "market_state_pin",
+  "release_integrity"
+ ],
+ "field_policies": {
+  "DATA_NARROWABLE": "a registration fact; narrowable when it takes the permitted value",
+  "DERIVED_CHECKED_INDEPENDENTLY": "checked against an independent derivation (the sealed package, the base record's bytes, the shards, derive_authority)",
+  "BEHAVIOR_WIDENS": "behavior-bearing; any change ends the narrowing",
+  "PROTECTED_INDEPENDENTLY": "keeps its own independent protection; any change ends the narrowing"
+ },
+ "field_level_eligibility_matrix": [
+  {
+   "document": "deploy/netlify/launch_participation.json",
+   "field": "markets[<new>] (market_id, launch_status, note)",
+   "policy": "DATA_NARROWABLE",
+   "rule": "exactly one new row at SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH"
+  },
+  {
+   "document": "deploy/netlify/launch_participation.json",
+   "field": "markets[<existing>]",
+   "policy": "PROTECTED_INDEPENDENTLY",
+   "rule": "byte-identical to the base row"
+  },
+  {
+   "document": "deploy/netlify/launch_participation.json",
+   "field": "markets[*].launch_status = FOUNDER_AUTHORIZED_FOR_LAUNCH",
+   "policy": "PROTECTED_INDEPENDENTLY",
+   "rule": "never written by a registration; the authorized set must equal the base's"
+  },
+  {
+   "document": "deploy/netlify/launch_participation.json",
+   "field": "decision.work_order / decided_by / decided_on / reason",
+   "policy": "DATA_NARROWABLE",
+   "rule": "decided_by must be the writing work order and must not name the founder"
+  },
+  {
+   "document": "deploy/netlify/launch_participation.json",
+   "field": "decision.markets_added / founder_authorized_set_unchanged",
+   "policy": "DATA_NARROWABLE",
+   "rule": "[<new>] and true"
+  },
+  {
+   "document": "deploy/netlify/launch_participation.json",
+   "field": "decision.supersedes",
+   "policy": "DERIVED_CHECKED_INDEPENDENTLY",
+   "rule": "sha256 of the exact base bytes, base work order, base authorized set"
+  },
+  {
+   "document": "deploy/netlify/launch_participation.json",
+   "field": "decision.lineage.records",
+   "policy": "DERIVED_CHECKED_INDEPENDENTLY",
+   "rule": "the base chain (repair-resolved) plus the base record"
+  },
+  {
+   "document": "deploy/netlify/launch_participation.json",
+   "field": "decision.<any other key>",
+   "policy": "BEHAVIOR_WIDENS",
+   "rule": "unknown decision field widens"
+  },
+  {
+   "document": "deploy/netlify/launch_participation.json",
+   "field": "schema / what_this_is / launch_statuses",
+   "policy": "BEHAVIOR_WIDENS",
+   "rule": "semantics; any change widens"
+  },
+  {
+   "document": "deploy/netlify/release_contracts/<new>.json",
+   "field": "schema / market_id / contract_id / product",
+   "policy": "DATA_NARROWABLE",
+   "rule": "the registration shape for <new>"
+  },
+  {
+   "document": "deploy/netlify/release_contracts/<new>.json",
+   "field": "release_name_prefix / description / *.note",
+   "policy": "DATA_NARROWABLE",
+   "rule": "free text"
+  },
+  {
+   "document": "deploy/netlify/release_contracts/<new>.json",
+   "field": "identity_census / reconciliation / policy_package / public_surface / routes",
+   "policy": "DERIVED_CHECKED_INDEPENDENTLY",
+   "rule": "recognized sub-keys only; every count agrees with release_contracts.derive_authority"
+  },
+  {
+   "document": "deploy/netlify/release_contracts/<new>.json",
+   "field": "canonical / minimum_release_gates / forbidden_output_tokens / publish",
+   "policy": "BEHAVIOR_WIDENS",
+   "rule": "must EQUAL the single value every base contract carries"
+  },
+  {
+   "document": "deploy/netlify/release_contracts/<new>.json",
+   "field": "deployment_authorization.grants_deployment / asserts_market_complete",
+   "policy": "BEHAVIOR_WIDENS",
+   "rule": "must be false / false, as every base contract states"
+  },
+  {
+   "document": "deploy/netlify/release_contracts/<new>.json",
+   "field": "<any other top-level key>",
+   "policy": "BEHAVIOR_WIDENS",
+   "rule": "unknown configuration widens"
+  },
+  {
+   "document": "deploy/netlify/release_contracts/<existing>.json",
+   "field": "*",
+   "policy": "PROTECTED_INDEPENDENTLY",
+   "rule": "an existing contract may not change"
+  },
+  {
+   "document": "launch_packages/pettripfinder/bundle_cache_closure.json",
+   "field": "shared_data_inputs",
+   "policy": "DATA_NARROWABLE",
+   "rule": "base inputs plus exactly the market's contract and market document, sorted"
+  },
+  {
+   "document": "launch_packages/pettripfinder/bundle_cache_closure.json",
+   "field": "remeasured_by",
+   "policy": "DATA_NARROWABLE",
+   "rule": "one appended note"
+  },
+  {
+   "document": "launch_packages/pettripfinder/bundle_cache_closure.json",
+   "field": "code_modules / per_market_data_inputs / schema / measured_from / staged_tree_note / what_this_is",
+   "policy": "BEHAVIOR_WIDENS",
+   "rule": "build controls; any change widens"
+  },
+  {
+   "document": "tests/pettripfinder/pins/market_state.json",
+   "field": "markets[<new>].census/pet_friendly/verified_no_pets/resolved/unresolved/out_of_category/profiles/corridor_routes",
+   "policy": "DERIVED_CHECKED_INDEPENDENTLY",
+   "rule": "equal to what the sealed package derives; equal to the release contract"
+  },
+  {
+   "document": "tests/pettripfinder/pins/market_state.json",
+   "field": "markets[<new>].last_moved_by / reviewed_by",
+   "policy": "DATA_NARROWABLE",
+   "rule": "a work-order id"
+  },
+  {
+   "document": "tests/pettripfinder/pins/market_state.json",
+   "field": "markets[<existing>]",
+   "policy": "PROTECTED_INDEPENDENTLY",
+   "rule": "byte-identical to the base block"
+  },
+  {
+   "document": "tests/pettripfinder/pins/market_state.json",
+   "field": "schema / what_this_is / fields",
+   "policy": "BEHAVIOR_WIDENS",
+   "rule": "semantics; any change widens"
+  },
+  {
+   "document": "tests/pettripfinder/pins/deployment_state.json",
+   "field": "*",
+   "policy": "PROTECTED_INDEPENDENTLY",
+   "rule": "the live pin never moves at registration"
+  },
+  {
+   "document": "launch_packages/pettripfinder/markets/<new>.json",
+   "field": "*",
+   "policy": "DATA_NARROWABLE",
+   "rule": "the new market's own registry document (sealed into the package)"
+  },
+  {
+   "document": "launch_packages/pettripfinder/markets/authority/<new>/*",
+   "field": "*",
+   "policy": "DATA_NARROWABLE",
+   "rule": "the new market's own shard (sealed into the package)"
+  },
+  {
+   "document": "launch_packages/pettripfinder/{identity_census/<new>.json,hotel_policy_facts_<new>.json,<new>_final_partition_*.json}",
+   "field": "*",
+   "policy": "DATA_NARROWABLE",
+   "rule": "the new market's own authority (sealed into the package)"
+  },
+  {
+   "document": "launch_packages/pettripfinder/{identity_routing.json,hotel_exclusions.json,seed_businesses.csv,ptf_global_authority_manifest.json}",
+   "field": "*",
+   "policy": "DERIVED_CHECKED_INDEPENDENTLY",
+   "rule": "byte-identical to a regeneration from the shards; no other shard changed"
+  },
+  {
+   "document": "launch_packages/pettripfinder/markets/authority/<existing>/*",
+   "field": "*",
+   "policy": "PROTECTED_INDEPENDENTLY",
+   "rule": "another market's shard may not change"
+  },
+  {
+   "document": "deploy/netlify/deployment_authorizations/*, deployment_records/*, global_deployment_manifest.json",
+   "field": "*",
+   "policy": "PROTECTED_INDEPENDENTLY",
+   "rule": "founder authorization and deployment records never move at registration"
+  },
+  {
+   "document": "launch_packages/pettripfinder/{fast_release_activation.json,release_production_gate.json}",
+   "field": "*",
+   "policy": "PROTECTED_INDEPENDENTLY",
+   "rule": "activation and the production gate never move at registration"
+  },
+  {
+   "document": "tests/**, scripts/**, *.py",
+   "field": "*",
+   "policy": "BEHAVIOR_WIDENS",
+   "rule": "code and test expectations are never registration data"
+  }
+ ],
+ "verdict": {
+  "ELIGIBLE": "YES only when every check is PASS",
+  "FULL_REGRESSION_REQUIRED": "NO when eligible",
+  "REMOTE_BROAD_JOBS_REQUIRED": 0,
+  "UNCHANGED_MARKETS_REBUILT": 0,
+  "reaches": "AUTHORIZATION_READY",
+  "does_not": "authorize deployment, move a live pin, enable activation, or relax the current-parent, exact-bytes or rollback guards"
+ },
+ "fallback": "any UNKNOWN or failed check leaves every path in its path class; the existing DEPLOYMENT_CHANGE / AUTHORITY_CHANGE rows then require the broad regression"
+}

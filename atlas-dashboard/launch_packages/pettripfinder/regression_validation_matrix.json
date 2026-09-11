@@ -15,6 +15,7 @@
   "MARKET_LOCAL_TOOLING",
   "MARKET_DATA_PACKAGE",
   "MARKET_AUTHORITY_DATA_ONLY",
+  "NEW_MARKET_REGISTRATION_DATA_ONLY",
   "UNCLASSIFIED"
  ],
  "mandatory_full_regression": [
@@ -233,6 +234,19 @@
    "why": "ATLAS-THROUGHPUT-003: the fifteen rules of the fast lane prove the release hazards a data-only change can cause (identity, first-party binding, policy semantics, routes, partition, whole-release collisions, preservation, intended delta, build, determinism, hashes, freshness, live state, paid provenance) directly and in minutes; the broad suite proves them indirectly in hours. Until the receipt exists and activation is granted the row is AUTHORITY_CHANGE by another name"
   },
   {
+   "change_class": "NEW_MARKET_REGISTRATION_DATA_ONLY",
+   "surface": "a change set that is exactly ONE previously absent market's registration and nothing else: its registry document, its authority shard, its release contract instance, its participation row (a reissue), its two build-closure input declarations, its market-state pin block, and the derived globals -- each proven BY FIELD, never by path",
+   "required_lanes": [],
+   "owning_modules": true,
+   "owning_directory": false,
+   "reverse_dependents": false,
+   "market_targeted": false,
+   "assembly": "not_required",
+   "full_regression": "conditional",
+   "condition": "not required ONLY when registration_data_only.evaluate answers ELIGIBLE = YES: one market joined the registry; every changed path is a registration role or a narrow companion; the participation row, release contract, build closure and pin pass their field policies; a committed sealed package is sealed from exactly the head bytes; a committed FAST receipt for it is 15/15 PASS with 0 UNKNOWN and binds the same parent, delta, builder and lane versions; and the expected release (trusted live parent + package) equals the committed candidate as complete sets of markets, profiles, routes, ownership and participation. Required otherwise -- every path then keeps its path class, and three of them are DEPLOYMENT_CHANGE",
+   "why": "PTF-NEW-MARKET-REGISTRATION-DATA-ONLY-POLICY-001: a registration writes four shared documents whose PATH classes are right (any of them can change what production serves) but whose registration change is mechanically bounded to one row, one instance, two declarations and one block. The bounded registration safety union proves each field directly and the FAST lane proves the joining market's release hazards directly; the reverse-dependent scan is not run because the four documents are named by 137 test modules, which is the broad run by another name, and the assembly is not run because rule J builds the joining market and no other market's bytes can move when no other market's input did"
+  },
+  {
    "change_class": "UNCLASSIFIED",
    "surface": "unknown -- no rule claims this path",
    "required_lanes": [
@@ -278,6 +292,13 @@
   {
    "kind": "glob",
    "pattern": "launch_packages/pettripfinder/regression_validation_matrix.json",
+   "classes": [
+    "GENERIC_RUNTIME_CHANGE"
+   ]
+  },
+  {
+   "kind": "glob",
+   "pattern": "launch_packages/pettripfinder/registration_data_only_contract.json",
    "classes": [
     "GENERIC_RUNTIME_CHANGE"
    ]
@@ -870,6 +891,14 @@
   {
    "kind": "glob",
    "pattern": ".github/workflows/*.yml"
+  },
+  {
+   "kind": "glob",
+   "pattern": "scripts/pettripfinder/registration_data_only.py"
+  },
+  {
+   "kind": "glob",
+   "pattern": "launch_packages/pettripfinder/registration_data_only_contract.json"
   }
  ],
  "market_local_ownership_registry": "launch_packages/pettripfinder/market_local_ownership.json",
@@ -877,6 +906,7 @@
   "MARKET_LOCAL_TOOLING",
   "MARKET_DATA_PACKAGE",
   "MARKET_AUTHORITY_DATA_ONLY",
+  "NEW_MARKET_REGISTRATION_DATA_ONLY",
   "SHARED_SCHEMA_CHANGE",
   "SHARED_RUNTIME_CHANGE",
   "ASSEMBLER_CHANGE",
@@ -903,6 +933,12 @@
    "FAST_DATA_ONLY_RELEASE_REQUIRED": "YES",
    "FULL_REGRESSION_REQUIRED": "CONDITIONAL",
    "why": "NO only with a committed ELIGIBLE receipt covering the exact bytes and production activation; YES otherwise"
+  },
+  {
+   "release_surface": "NEW_MARKET_REGISTRATION_DATA_ONLY",
+   "FAST_DATA_ONLY_RELEASE_REQUIRED": "NO",
+   "FULL_REGRESSION_REQUIRED": "CONDITIONAL",
+   "why": "NO only when registration_data_only.evaluate passes every check of the bounded registration safety union for exactly one previously absent market; YES otherwise, in the path classes"
   },
   {
    "release_surface": "SHARED_SCHEMA_CHANGE",
@@ -961,5 +997,6 @@
   "launch_packages/pettripfinder/seed_businesses.csv",
   "launch_packages/pettripfinder/ptf_global_authority_manifest.json"
  ],
- "fast_release_activation": "launch_packages/pettripfinder/fast_release_activation.json"
+ "fast_release_activation": "launch_packages/pettripfinder/fast_release_activation.json",
+ "registration_data_only_contract": "launch_packages/pettripfinder/registration_data_only_contract.json"
 }
