@@ -1,0 +1,73 @@
+{
+ "schema": "ptf-failure-closure/1.0",
+ "work_order": "PTF-NEW-MARKET-REGISTRATION-DATA-ONLY-POLICY-001",
+ "fix_commit_sha": "43317c25efc410ec4f153a2b2f78cca6c1d0eb94",
+ "base_sha": "fb49974110b5fdf8049a810426646a9fb4761632",
+ "head": "WORKTREE",
+ "head_sha": "WORKTREE",
+ "original_true_new_node_ids": [
+  "tests/pettripfinder/test_factory_throughput_001.py::TestTheHarness::test_the_committed_inventory_reproduces_from_the_suite"
+ ],
+ "baseline_source_sha": "f75aa95",
+ "changed_files": [
+  {
+   "path": "launch_packages/pettripfinder/reports/factory_throughput_001_test_inventory.json",
+   "status": "M",
+   "classes": [
+    "GENERATED_REPORT_ONLY"
+   ],
+   "why": "matched prefix:launch_packages/pettripfinder/reports/"
+  },
+  {
+   "path": "launch_packages/pettripfinder/reports/factory_throughput_001_test_inventory.md",
+   "status": "M",
+   "classes": [
+    "GENERATED_REPORT_ONLY"
+   ],
+   "why": "matched prefix:launch_packages/pettripfinder/reports/"
+  }
+ ],
+ "change_classes": [
+  "GENERATED_REPORT_ONLY"
+ ],
+ "required_validations": {
+  "lanes": [],
+  "markets": [],
+  "modules": [
+   "tests/pettripfinder/test_factory_throughput_001.py"
+  ],
+  "assembly_required": false
+ },
+ "targeted_result": {
+  "collected": 34,
+  "passed": 33,
+  "skipped": 1,
+  "failed": 0,
+  "seconds": 12.1
+ },
+ "node_id_results": {
+  "tests/pettripfinder/test_factory_throughput_001.py::TestTheHarness::test_the_committed_inventory_reproduces_from_the_suite": "CLOSED"
+ },
+ "node_id_sources": {
+  "tests/pettripfinder/test_factory_throughput_001.py::TestTheHarness::test_the_committed_inventory_reproduces_from_the_suite": "lane"
+ },
+ "exercised_runs": [],
+ "against_baseline": {
+  "baseline_source_sha": "f75aa95",
+  "PRE_EXISTING": [],
+  "TRUE_NEW": [],
+  "CHANGED_SIGNATURE": [],
+  "signature_checked": false,
+  "counts": {
+   "PRE_EXISTING": 0,
+   "TRUE_NEW": 0,
+   "CHANGED_SIGNATURE": 0,
+   "RESOLVED": 0
+  },
+  "RESOLVED": []
+ },
+ "FULL_REGRESSION_REQUIRED": "NO",
+ "full_regression_reason": "every changed file classifies into a narrow class (GENERATED_REPORT_ONLY); no row of the matrix makes a broad regression mandatory",
+ "all_original_failures_accounted_for": true,
+ "rationale": "The one node the migration audit returned beyond the parent run's failure set: the committed test inventory counts assertion sites by class, and the focused battery added two HISTORICAL_COHORT_INVARIANT sites. Regenerating the inventory is a GENERATED_REPORT_ONLY change; no audited module moved."
+}
