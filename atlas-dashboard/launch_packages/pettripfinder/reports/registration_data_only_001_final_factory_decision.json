@@ -1,0 +1,40 @@
+{
+ "schema": "ptf-final-factory-decision/1.0",
+ "work_order": "PTF-NEW-MARKET-REGISTRATION-DATA-ONLY-POLICY-001",
+ "decided_at": "2026-09-11T18:08:58Z",
+ "FINAL_CORRECTION_COMPLETE": "YES",
+ "MIGRATION_AUDITS_USED": 1,
+ "MIGRATION_AUDIT_TRUE_NEW": 0,
+ "AUDITED_CODE_SHA": "87e8de3de0fb459cb8a8c09babdffe983c72337c (shared code byte-identical to the audited commit fb49974110b5fdf8049a810426646a9fb4761632; the two commits between them regenerate one test inventory and add one closure artifact)",
+ "CONTROLLED_REPLAY": "PASS",
+ "CONTROLLED_REPLAY_RECEIPT": "launch_packages/pettripfinder/markets/reports/charlotte_nc_controlled_registration_replay_004.json",
+ "REGISTRATION_TO_AUTHORIZATION_READY_SECONDS": 121.79,
+ "NORMAL_NEW_MARKET_REGISTRATION_REQUIRES_BROAD": "NO",
+ "NORMAL_NEW_MARKET_REGISTRATION_TIME": "2 minutes 2 seconds (121.79 s) registration -> AUTHORIZATION_READY; 7.5 s of writing, 93 s of FAST rules A-O, 9 s of classification with the eleven-check proof",
+ "FACTORY_STATUS": "CONTINUE_WITH_ONE_FINAL_FRESH_CITY_PROOF",
+ "FINAL_FRESH_CITY_PROOF_ALLOWED": "YES",
+ "fresh_city_started_by_this_order": false,
+ "fresh_city_benchmark_contract": {
+  "ZERO_TO_VERIFIED_LIVE": "<= 3 hours 30 minutes",
+  "registration_and_test_closure": "<= 10 minutes, target <= 5",
+  "broad_runs_caused_solely_by_registration": 0,
+  "remote_broad_jobs_caused_solely_by_registration": 0,
+  "unchanged_market_rebuilds": 0,
+  "shared_code_or_test_repair_during_the_run": "none",
+  "clock": "never restarted",
+  "pause_if": "the fresh city exceeds 6 hours primarily due to testing/registration",
+  "retire_if": "the fresh city exceeds 10 hours",
+  "known_hazards_for_the_fresh_city": [
+   "a market whose partition filename does not match the assembler's glob needs a named entry in assemble_production_site._partition_path -- shared code, broad; name the partition <us>_final_partition_NNN.json so the glob resolves it, or accept the broad run before registration",
+   "loose files at the launch_packages/pettripfinder root (<city>_proposed_authority_NNN.json, identity_resolutions.json) are UNCLASSIFIED / unrule'd and cost a broad run in whichever order commits them; commit them in the acquisition phase, not with the registration, and prefer markets/reports/ for run outputs",
+   "eleven test modules enumerate markets by hand (NOT_READY, SOURCE_READY_UNAUTHORIZED and similar tables edited by the Charlotte closure); under a narrow registration they go stale silently until the next broad run -- a test-hygiene debt, not a release-safety gap, and a registration that edits them is not data-only",
+   "the registration lane's own inputs (the market document, the proposed authority, the pin block) are stated, not derived; the proof holds each to the sealed package, so a wrong statement fails the registration rather than passing it"
+  ]
+ },
+ "what_this_decision_does_not_do": [
+  "start the fresh city",
+  "deploy anything",
+  "authorize anything",
+  "move any live pin"
+ ]
+}

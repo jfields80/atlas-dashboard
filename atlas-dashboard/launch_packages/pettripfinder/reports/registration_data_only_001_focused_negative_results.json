@@ -1,0 +1,211 @@
+{
+ "schema": "ptf-focused-negative-results/1.0",
+ "work_order": "PTF-NEW-MARKET-REGISTRATION-DATA-ONLY-POLICY-001",
+ "suite": "tests/pettripfinder/test_registration_data_only_001.py",
+ "run": {
+  "passed": 63,
+  "failed": 0,
+  "seconds": 44.18,
+  "code": "347f5fc4 (pre-audit implementation, unchanged through the audit commit fb499741)"
+ },
+ "cases": {
+  "1": {
+   "case": "exactly one valid new market => narrow eligible",
+   "tests": [
+    "TestTheLegitimateRegistration::test_case_01_exactly_one_valid_new_market_is_eligible"
+   ],
+   "result": "PASS"
+  },
+  "2": {
+   "case": "two new markets in one operation => broad",
+   "tests": [
+    "TestMembership::test_case_02_two_new_markets_in_one_operation_default_broad"
+   ],
+   "result": "PASS"
+  },
+  "3": {
+   "case": "existing market silently removed => FAIL",
+   "tests": [
+    "TestMembership::test_case_03_existing_market_silently_removed_fails"
+   ],
+   "result": "PASS"
+  },
+  "4": {
+   "case": "existing profile removed while count remains equal => FAIL",
+   "tests": [
+    "TestMembership::test_case_04_profile_removed_and_added_at_equal_count_fails"
+   ],
+   "result": "PASS"
+  },
+  "5": {
+   "case": "existing route removed while count remains equal => FAIL",
+   "tests": [
+    "TestMembership::test_case_05_route_removed_and_added_at_equal_count_fails"
+   ],
+   "result": "PASS"
+  },
+  "6": {
+   "case": "participation lineage broken => FAIL",
+   "tests": [
+    "TestParticipation::test_case_06_participation_lineage_broken_fails"
+   ],
+   "result": "PASS"
+  },
+  "7": {
+   "case": "participation decision retrieved by position/wrong identity => FAIL",
+   "tests": [
+    "TestParticipation::test_case_07_decision_by_position_or_wrong_identity_fails"
+   ],
+   "result": "PASS"
+  },
+  "8": {
+   "case": "registration writer impersonates founder => FAIL",
+   "tests": [
+    "TestParticipation::test_case_08_registration_writer_impersonates_founder_fails"
+   ],
+   "result": "PASS"
+  },
+  "9": {
+   "case": "founder authorization fabricated => FAIL",
+   "tests": [
+    "TestParticipation::test_case_09_founder_authorization_fabricated_fails"
+   ],
+   "result": "PASS"
+  },
+  "10": {
+   "case": "release contract behavior-setting change => BROAD",
+   "tests": [
+    "TestBehaviorBearingFields::test_case_10_release_contract_behavior_setting_change_is_broad",
+    "TestBehaviorBearingFields::test_case_10_a_count_that_disagrees_with_the_derivation_fails"
+   ],
+   "result": "PASS"
+  },
+  "11": {
+   "case": "build closure execution-setting change => BROAD",
+   "tests": [
+    "TestBehaviorBearingFields::test_case_11_build_closure_execution_setting_change_is_broad"
+   ],
+   "result": "PASS"
+  },
+  "12": {
+   "case": "current-state derived count wrong => FAIL",
+   "tests": [
+    "TestTheCurrentStatePin::test_case_12_current_state_derived_count_wrong_fails"
+   ],
+   "result": "PASS"
+  },
+  "13": {
+   "case": "circular expected-count validation attempt => FAIL",
+   "tests": [
+    "TestTheCurrentStatePin::test_case_13_circular_expected_count_validation_fails"
+   ],
+   "result": "PASS"
+  },
+  "14": {
+   "case": "cross-market identity collision => FAIL",
+   "tests": [
+    "TestCollisions::test_case_14_cross_market_identity_collision_fails"
+   ],
+   "result": "PASS"
+  },
+  "15": {
+   "case": "route ownership collision => FAIL",
+   "tests": [
+    "TestCollisions::test_case_15_route_ownership_collision_fails"
+   ],
+   "result": "PASS"
+  },
+  "16": {
+   "case": "stale parent => FAIL",
+   "tests": [
+    "TestBinding::test_case_16_stale_parent_fails"
+   ],
+   "result": "PASS"
+  },
+  "17": {
+   "case": "stale/wrong validation receipt => FAIL",
+   "tests": [
+    "TestBinding::test_case_17_stale_or_wrong_validation_receipt_fails",
+    "TestBinding::test_case_17_a_corrupt_receipt_fails",
+    "TestBinding::test_case_17_a_receipt_with_an_unknown_rule_is_not_eligible",
+    "TestBinding::test_case_17_a_missing_receipt_fails"
+   ],
+   "result": "PASS"
+  },
+  "18": {
+   "case": "package mismatch => FAIL",
+   "tests": [
+    "TestBinding::test_case_18_package_mismatch_fails"
+   ],
+   "result": "PASS"
+  },
+  "19": {
+   "case": "candidate mismatch => FAIL",
+   "tests": [
+    "TestBinding::test_case_19_candidate_mismatch_fails"
+   ],
+   "result": "PASS"
+  },
+  "20": {
+   "case": "unknown changed field => BROAD",
+   "tests": [
+    "TestBehaviorBearingFields::test_case_20_unknown_changed_field_is_broad"
+   ],
+   "result": "PASS"
+  },
+  "21": {
+   "case": "shared runtime changed => BROAD",
+   "tests": [
+    "TestEverythingElseIsBroad::test_cases_21_to_25_are_not_eligible"
+   ],
+   "result": "PASS"
+  },
+  "22": {
+   "case": "schema changed => BROAD",
+   "tests": [
+    "TestEverythingElseIsBroad::test_cases_21_to_25_are_not_eligible"
+   ],
+   "result": "PASS"
+  },
+  "23": {
+   "case": "assembler implementation changed => BROAD",
+   "tests": [
+    "TestEverythingElseIsBroad::test_cases_21_to_25_are_not_eligible"
+   ],
+   "result": "PASS"
+  },
+  "24": {
+   "case": "deployment implementation changed => BROAD",
+   "tests": [
+    "TestEverythingElseIsBroad::test_cases_21_to_25_are_not_eligible"
+   ],
+   "result": "PASS"
+  },
+  "25": {
+   "case": "classifier/test-infrastructure changed outside this migration => BROAD",
+   "tests": [
+    "TestEverythingElseIsBroad::test_cases_21_to_25_are_not_eligible"
+   ],
+   "result": "PASS"
+  },
+  "26": {
+   "case": "legitimate derived registration-only movement => NEW_MARKET_REGISTRATION_DATA_ONLY",
+   "tests": [
+    "TestTheLegitimateRegistration::test_case_26_legitimate_movement_classifies_as_the_class"
+   ],
+   "result": "PASS"
+  }
+ },
+ "also_proved": [
+  "the committed contract equals the module's",
+  "the class is CONDITIONAL and neither fixed set moved",
+  "path classes unchanged: participation/contract/closure DEPLOYMENT_CHANGE, pin TEST_EXPECTATION_CHANGE",
+  "the proof and its contract are narrowing blockers",
+  "an UNKNOWN check is a failure, never a pass",
+  "the class is never selected by name, count or request",
+  "this order's own change set is broad",
+  "a registration missing a required output is not a registration",
+  "another market's shard / contract / package, the deployment pin and an unclassified loose file widen"
+ ],
+ "FOCUSED_NEGATIVE_TESTS": "PASS"
+}

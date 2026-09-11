@@ -1,0 +1,175 @@
+{
+ "schema": "ptf-independent-expected-release-report/1.0",
+ "work_order": "PTF-NEW-MARKET-REGISTRATION-DATA-ONLY-POLICY-001",
+ "method": "EXPECTED = trusted current parent (release_index.live_index over the committed authority of the 13 live markets, checked against the deployed record, the global manifest and the deployment pin) + the SEALED Charlotte package (index_from_package). ACTUAL = every registered market's committed authority with Charlotte participating (index_from_committed). Compared as COMPLETE SETS: market ids, participation flags, profile identity keys, record digests, routes, ownership, corridor routes, market routes, verified-no-pets and census counts. Aggregates are checked in addition, never instead.",
+ "circularity_guard": "the expected pin block and the expected release are derived from the sealed package and the live parent; the candidate's own derivation is only ever the ACTUAL side. A package that keeps the declared digests but drops a record fails re-seal and covers nothing (test case 13).",
+ "controlled_fixture_run": {
+  "replay_base_commit": "1e40d33f4dda6ddd4ff5099522fdf47f47b85e3f",
+  "code_sha": "347f5fc401404df505c78063e65d9ce67d9561fa",
+  "parent": {
+   "live_deploy_id": "6aa212a8ba9f174305c0441a",
+   "markets": 13,
+   "profiles": 902,
+   "sitemap_routes": 1078,
+   "index_routes": 1032
+  },
+  "package": {
+   "package_id": "pkg-charlotte-nc-a2968cc09330c85d",
+   "package_digest": "sha256:a2968cc09330c85db404325572129de3e22376a3693b43636ce385c7b4e118cb",
+   "profiles": 106,
+   "verified_no_pets": 41,
+   "census": 268
+  },
+  "expected_release": {
+   "expected_digest": "sha256:cdc7ef568e5496c5ff7e38e3ae59d840cc520a255862476927224651f43d5e8b",
+   "actual_digest": "sha256:ce8e6df65cc8c6480b5a30529867616b59ac8aa3765e3de2aa0e2104eee86622",
+   "actual_markets": 14,
+   "actual_profiles": 1008,
+   "actual_routes": 1150,
+   "unexpected_market_changes": 0,
+   "unexpected_profile_changes": 0,
+   "unexpected_route_changes": 0
+  },
+  "checks": {
+   "change_set": "PASS",
+   "participation": "PASS",
+   "release_contract": "PASS",
+   "build_closure": "PASS",
+   "derived_globals": "PASS",
+   "sealed_package": "PASS",
+   "fast_receipt": "PASS",
+   "expected_release": "PASS",
+   "identity_routes": "PASS",
+   "market_state_pin": "PASS",
+   "release_integrity": "PASS"
+  },
+  "check_details": {
+   "change_set": {
+    "status": "PASS",
+    "why": "every changed path is one registration role for charlotte-nc or a narrow companion, and the only blockers are the two the registration owns"
+   },
+   "participation": {
+    "status": "PASS",
+    "why": "one row added at SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH by a non-founder writer; every other row, the authorized set and the chain are carried forward exactly"
+   },
+   "release_contract": {
+    "status": "PASS",
+    "why": "a new contract instance: shared release rules identical to every base contract, data fields recognized, numbers agree with derive_authority"
+   },
+   "build_closure": {
+    "status": "PASS",
+    "why": "the closure gains exactly the market's two declared inputs and one note; code modules, per-market inputs and every build control are unchanged"
+   },
+   "derived_globals": {
+    "status": "PASS",
+    "why": "the committed globals are byte-identical to a regeneration from the shards and no other market's shard changed, so their diff is exactly charlotte-nc's contribution"
+   },
+   "sealed_package": {
+    "status": "PASS",
+    "why": "package pkg-charlotte-nc-a2968cc09330c85d is sealed from exactly the head bytes, for REGISTERED_LIVE, declaring one joining market against the current live parent"
+   },
+   "fast_receipt": {
+    "status": "PASS",
+    "why": "receipt pkg-charlotte-nc-a2968cc09330c85d-47e0b04c943d167d.json: 15/15 PASS, 0 UNKNOWN, 0 FAILED, bound to the package, the live parent, the intended delta and the current lane and builder versions"
+   },
+   "expected_release": {
+    "status": "PASS",
+    "why": "EXPECTED (live parent + sealed package) and ACTUAL (committed authority) agree as complete sets: 14 markets, 1008 profiles, 1150 routes; 0 unexpected changes"
+   },
+   "identity_routes": {
+    "status": "PASS",
+    "why": "release_index.compare is clean over both the expected and the actual release: no cross-market identity collision, no duplicate route, no ownership movement, every live member preserved, every change declared"
+   },
+   "market_state_pin": {
+    "status": "PASS",
+    "why": "the pin gains exactly one block whose eight counts equal what the sealed package derives, agrees with the release contract, and every other block is byte-identical"
+   },
+   "release_integrity": {
+    "status": "PASS",
+    "why": "no deployment authorization, record, manifest, activation flag, production gate or deployment pin moved; the live parent is verified and the authorized set is unchanged"
+   }
+  }
+ },
+ "committed_tree_run": {
+  "base": "11373275",
+  "head": "WORKTREE",
+  "package_id": "pkg-charlotte-nc-610f656b844938a2",
+  "expected_release": {
+   "expected_digest": "sha256:2ee9c1d501d52e5f44b0bf1332e4fe96c546eb212099a7f8d7e045a1d1094149",
+   "actual_digest": "sha256:ce8e6df65cc8c6480b5a30529867616b59ac8aa3765e3de2aa0e2104eee86622",
+   "actual_markets": 14,
+   "actual_profiles": 1008,
+   "actual_routes": 1150,
+   "unexpected_market_changes": 0,
+   "unexpected_profile_changes": 0,
+   "unexpected_route_changes": 0
+  },
+  "expected_release_detail": {
+   "expected_digest": "sha256:2ee9c1d501d52e5f44b0bf1332e4fe96c546eb212099a7f8d7e045a1d1094149",
+   "actual_digest": "sha256:ce8e6df65cc8c6480b5a30529867616b59ac8aa3765e3de2aa0e2104eee86622",
+   "aggregate": {
+    "parent_markets": 13,
+    "parent_profiles": 902,
+    "parent_routes": 1032,
+    "package_profiles": 106,
+    "package_routes": 118,
+    "expected_markets": 14,
+    "expected_profiles": 1008,
+    "expected_routes": 1150
+   },
+   "expected_markets": 14,
+   "actual_markets": 14,
+   "expected_profiles": 1008,
+   "actual_profiles": 1008,
+   "expected_routes": 1150,
+   "actual_routes": 1150,
+   "unexpected_market_changes": 0,
+   "unexpected_profile_changes": 0,
+   "unexpected_route_changes": 0,
+   "complete_sets_equal": true
+  },
+  "identity_routes": {
+   "expected": {
+    "passed": true,
+    "finding_counts": {},
+    "live_digest": "sha256:b078d97eb0d69904db2573af555d5bba158785080c0ea61a084a005a9c2c79fa",
+    "proposed_digest": "sha256:2ee9c1d501d52e5f44b0bf1332e4fe96c546eb212099a7f8d7e045a1d1094149",
+    "seconds": 0.069
+   },
+   "actual": {
+    "passed": true,
+    "finding_counts": {},
+    "live_digest": "sha256:b078d97eb0d69904db2573af555d5bba158785080c0ea61a084a005a9c2c79fa",
+    "proposed_digest": "sha256:ce8e6df65cc8c6480b5a30529867616b59ac8aa3765e3de2aa0e2104eee86622",
+    "seconds": 0.0659
+   }
+  },
+  "market_state_pin": {
+   "pinned": {
+    "census": 268,
+    "pet_friendly": 106,
+    "verified_no_pets": 41,
+    "resolved": 147,
+    "unresolved": 121,
+    "out_of_category": 0,
+    "profiles": 106,
+    "corridor_routes": 11,
+    "last_moved_by": "PTF-CHARLOTTE-NC-ZERO-TO-LIVE-BENCHMARK-001"
+   },
+   "expected_from_package": {
+    "census": 268,
+    "pet_friendly": 106,
+    "verified_no_pets": 41,
+    "resolved": 147,
+    "unresolved": 121,
+    "out_of_category": 0,
+    "profiles": 106,
+    "corridor_routes": 11
+   },
+   "reviewed_by": "PTF-CHARLOTTE-NC-ZERO-TO-LIVE-BENCHMARK-001",
+   "blocks_base": 14,
+   "blocks_head": 15
+  }
+ },
+ "INDEPENDENT_EXPECTED_RELEASE_CHECK": "PASS"
+}

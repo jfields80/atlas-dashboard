@@ -1,0 +1,79 @@
+{
+ "schema": "ptf-migration-audit-report/1.0",
+ "work_order": "PTF-NEW-MARKET-REGISTRATION-DATA-ONLY-POLICY-001",
+ "what_this_is": "The ONE full broad migration audit this order pays for changing Regression V2's narrowing behaviour. It validates the CLASSIFIER CHANGE; it is not part of an ordinary registration.",
+ "audited_commit": "fb49974110b5fdf8049a810426646a9fb4761632",
+ "code_frozen_before_start": true,
+ "focused_tests_complete_before_start": true,
+ "command": "python scripts/pettripfinder/regression_lanes.py run --lane full_regression --out data/regression/migration-audit-001",
+ "started": "2026-09-11T16:38:44Z",
+ "wall_seconds": 5056.05,
+ "wall": "1:24:16",
+ "run": {
+  "collected": 18332,
+  "passed": 17911,
+  "skipped": 253,
+  "failed": 168
+ },
+ "baseline_policy": "regression_lanes.classify against regression_baselines/f75aa95.json by node id (the committed baseline policy), then failure-set IDENTITY against the audited parent's own broad run (charlotte-close, d5cbdbbb, 168 failing), then a worktree proof at the parent commit for anything the parent run predates",
+ "against_f75aa95": {
+  "PRE_EXISTING": 160,
+  "EXPECTED_EPOCH_CHANGE": 0,
+  "TEST_HARNESS_FLAKE": 0,
+  "TRUE_NEW_FAILURE": 8
+ },
+ "true_new_vs_f75aa95": [
+  "tests/pettripfinder/test_atlas_throughput_003.py::TestReleaseIndex::test_the_index_is_o_data_and_fast_at_a_hundred_markets",
+  "tests/pettripfinder/test_atlas_throughput_004.py::TestBoundaries::test_the_fast_lane_reports_market_build_required_no_on_a_trusted_bundle",
+  "tests/pettripfinder/test_factory_throughput_001.py::TestTheHarness::test_the_committed_inventory_reproduces_from_the_suite",
+  "tests/pettripfinder/test_indianapolis_authority_promotion_017.py::TestTheCrossMarketCollision::test_the_other_bare_names_are_clean",
+  "tests/pettripfinder/test_indianapolis_authority_promotion_017.py::TestTheCrossMarketCollision::test_the_scan_finds_nothing_else",
+  "tests/pettripfinder/test_regression_delta_001.py::test_the_committed_closures_all_verify",
+  "tests/research_workers/test_marriott_short_property_link.py::TestNothingElseMoved::test_the_columbus_seed_still_parses_end_to_end",
+  "tests/research_workers/test_property_code_redroof_choice.py::TestLiveSeedUrlsAllParse::test_every_columbus_seed_url_with_a_known_shape_still_resolves"
+ ],
+ "of_which_in_the_parent_runs_failure_set": [
+  "tests/pettripfinder/test_atlas_throughput_003.py::TestReleaseIndex::test_the_index_is_o_data_and_fast_at_a_hundred_markets",
+  "tests/pettripfinder/test_atlas_throughput_004.py::TestBoundaries::test_the_fast_lane_reports_market_build_required_no_on_a_trusted_bundle",
+  "tests/pettripfinder/test_indianapolis_authority_promotion_017.py::TestTheCrossMarketCollision::test_the_other_bare_names_are_clean",
+  "tests/pettripfinder/test_indianapolis_authority_promotion_017.py::TestTheCrossMarketCollision::test_the_scan_finds_nothing_else",
+  "tests/research_workers/test_marriott_short_property_link.py::TestNothingElseMoved::test_the_columbus_seed_still_parses_end_to_end",
+  "tests/research_workers/test_property_code_redroof_choice.py::TestLiveSeedUrlsAllParse::test_every_columbus_seed_url_with_a_known_shape_still_resolves"
+ ],
+ "failing_not_in_parent_run": [
+  "tests/pettripfinder/test_factory_throughput_001.py::TestTheHarness::test_the_committed_inventory_reproduces_from_the_suite",
+  "tests/pettripfinder/test_regression_delta_001.py::test_the_committed_closures_all_verify"
+ ],
+ "parent_failures_now_passing": {
+  "nodes": [
+   "tests/pettripfinder/acquisition/test_normalization_041.py::test_the_simulation_wrote_nothing_to_the_repository",
+   "tests/pettripfinder/acquisition/test_store_integration_025.py::test_every_run_on_disk_is_classified"
+  ],
+  "why": "test_store_integration_025 reads data/acquisition/ on disk (empty in this fresh worktree; the parent run's worktree carried Nashville run directories) and test_normalization_041 failed in the parent run only because the operator wrote to the tree during that run"
+ },
+ "pre_existing_at_parent_commit": {
+  "tests/pettripfinder/test_regression_delta_001.py::test_the_committed_closures_all_verify": "fails at 42cb937f (proved in a worktree at that commit before this order's audit): the Charlotte closure artifact 011 carries node_id_accounting where the test reads node_id_results"
+ },
+ "closed_by_node_id_under_the_post_broad_fix_rule": {
+  "node": "tests/pettripfinder/test_factory_throughput_001.py::TestTheHarness::test_the_committed_inventory_reproduces_from_the_suite",
+  "cause": "the committed test inventory counts assertion sites by class; the focused battery added two HISTORICAL_COHORT_INVARIANT sites (897 -> 899)",
+  "fix": "regenerated launch_packages/pettripfinder/reports/factory_throughput_001_test_inventory.{json,md} -- GENERATED_REPORT_ONLY",
+  "classification": "regression_delta classify --base fb499741: GENERATED_REPORT_ONLY, FULL_REGRESSION_REQUIRED = NO",
+  "delta_run": {
+   "collected": 34,
+   "passed": 33,
+   "skipped": 1,
+   "failed": 0,
+   "seconds": 12.1
+  },
+  "verdict": {
+   "tests/pettripfinder/test_factory_throughput_001.py::TestTheHarness::test_the_committed_inventory_reproduces_from_the_suite": "CLOSED"
+  },
+  "closure_artifact": "launch_packages/pettripfinder/failure_closures/ptf-new-market-registration-data-only-policy-001-1.json",
+  "audited_implementation_changed": false
+ },
+ "MIGRATION_AUDITS_RUN": 1,
+ "MIGRATION_AUDIT_TRUE_NEW": 0,
+ "DID_AUDIT_REQUIRE_POST_AUDIT_CODE_CHANGE": "NO -- one generated report regenerated; scripts/, tests/ and every module of the audited implementation are byte-identical between fb499741 and 87e8de3d (git diff --stat: three report files)",
+ "AUDITED_CODE_SHA": "fb49974110b5fdf8049a810426646a9fb4761632 (code) == 87e8de3de0fb459cb8a8c09babdffe983c72337c (code + two report commits)"
+}
