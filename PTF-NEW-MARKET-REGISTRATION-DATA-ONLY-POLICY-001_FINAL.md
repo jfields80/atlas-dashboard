@@ -177,9 +177,10 @@ Production is still 13 markets / 902 profiles / 1078 routes on deploy
 
      1. CHANGE CLASS IMPLEMENTED .................. NEW_MARKET_REGISTRATION_DATA_ONLY
      2. PRODUCTION MODULES CHANGED ................ 3
-     3. TOTAL FILES CHANGED ....................... 25 (3 modules, 1 test module, 1 harness, matrix,
-                                                    contract, runbook, package, receipt, lane report,
-                                                    inventory json+md, closure, 8 artifacts, this report)
+     3. TOTAL FILES CHANGED ....................... 22 (git diff --stat 42cb937f..HEAD: 3 modules,
+                                                    1 test module, 1 harness, matrix, contract, runbook,
+                                                    package, receipt, lane report, inventory json+md,
+                                                    closure, 7 artifacts, this report)
      4. IMPLEMENTATION ENGINEERING WALL TIME ...... ~1 hour (cap 8)
      5. PARTICIPATION ROW NARROWING ............... PASS
      6. RELEASE CONTRACT NARROWING ................ PASS
