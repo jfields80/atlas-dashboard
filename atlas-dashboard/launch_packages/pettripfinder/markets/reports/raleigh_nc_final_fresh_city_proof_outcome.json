@@ -1,0 +1,130 @@
+{
+ "schema": "ptf-fresh-city-proof-outcome/1.0",
+ "work_order": "PTF-RALEIGH-NC-FINAL-FRESH-CITY-PROOF-001",
+ "market_id": "raleigh-nc",
+ "verdict": "FINAL_FRESH_CITY_PROOF = FAIL",
+ "factory_status": "PAUSE",
+ "stopped_at": "PHASE 7 -- registration classification",
+ "nothing_deployed": true,
+ "nothing_activated": true,
+ "no_broad_regression_was_run": true,
+ "no_shared_code_or_test_was_repaired": true,
+
+ "what_failed": {
+  "requirement": "PHASE 7 requires CHANGE_CLASS = NEW_MARKET_REGISTRATION_DATA_ONLY with LOCAL BROAD REGRESSIONS REQUESTED = 0 and REMOTE BROAD JOBS REQUIRED = 0.",
+  "observed": "regression_delta.classify over this order's change set returns FULL_REGRESSION_REQUIRED = YES, and registration_data_only.evaluate returns ELIGIBLE = NO at its FIRST gate, change_set, so the other ten gates were never evaluated.",
+  "base": "e3c27772f5480dc34978098239f86b2be994b532 (the branch's own starting HEAD, the commit this order's change is measured against)",
+  "the_order_says": "If registration requests broad: STOP. Do not run the broad regression. Do not fix the classifier. Do not edit shared tests.",
+  "so_this_order_stopped": true
+ },
+
+ "why_the_change_set_is_not_a_registration": {
+  "summary": "NEW_MARKET_REGISTRATION_DATA_ONLY admits a change set in which every changed path is one registration ROLE for one previously absent market, or a narrow companion. A market built FROM ZERO necessarily changes four kinds of path the policy's allowlist does not recognise. None of them is avoidable inside the frozen design, and none of them is a repair: they are what building a new city IS.",
+  "categories": [
+   {
+    "category": "the market's own acquisition and release scripts",
+    "paths": [
+     "scripts/pettripfinder/raleigh_nc_geography_001.py",
+     "scripts/pettripfinder/raleigh_nc_brand_inventory_001.py",
+     "scripts/pettripfinder/raleigh_nc_attended_capture_001.py",
+     "scripts/pettripfinder/raleigh_nc_census_reconciliation_001.py",
+     "scripts/pettripfinder/raleigh_nc_co_location_resolutions_003.py",
+     "scripts/pettripfinder/raleigh_nc_clean_authority_001.py",
+     "scripts/pettripfinder/raleigh_nc_registration_002.py",
+     "scripts/pettripfinder/raleigh_nc_release_contract_004.py",
+     "scripts/pettripfinder/raleigh_nc_release_lane_005.py",
+     "scripts/pettripfinder/raleigh_nc_coverage_reconciliation_006.py",
+     "scripts/pettripfinder/raleigh_nc_final_partition_007.py",
+     "scripts/pettripfinder/raleigh_nc_candidate_assembly_008.py",
+     "scripts/pettripfinder/raleigh_nc_authorization_packet_009.py",
+     "scripts/pettripfinder/raleigh_nc_participation_registration_010.py"
+    ],
+    "classifier_verdict": "GENERIC_RUNTIME_CHANGE -- 'is code or a test expectation, not registration data'",
+    "why_it_is_not_avoidable": "Every live market in this repository carries the same set under the same prefix (charlotte_nc_*, nashville_tn_*, toledo_oh_*, lexington_ky_*). A market's acquisition lane, its census reconciliation and its release lane ARE per-market scripts in this factory; there is no market-scoped directory for them and no generic runner that would let a new city add none. The prefix scripts/pettripfinder/ is read as shared runtime, so a new city's own files are indistinguishable from an edit to the assembler."
+   },
+   {
+    "category": "the market's discovery configuration",
+    "paths": [
+     "scripts/pettripfinder/discovery/config/raleigh_nc.json",
+     "scripts/pettripfinder/discovery/config/osm_extracts.json"
+    ],
+    "classifier_verdict": "GENERIC_RUNTIME_CHANGE, ROUTING_SEMANTIC_CHANGE",
+    "why_it_is_not_avoidable": "Every registered market has a discovery config at this exact path; the OSM extract registry is where the factory's own documentation says a region is added ('Adding a region is a row here'). Both are data, and both live under a code prefix."
+   },
+   {
+    "category": "the cross-market co-location ruling",
+    "paths": ["launch_packages/pettripfinder/identity_resolutions.json"],
+    "classifier_verdict": "UNCLASSIFIED",
+    "why_it_is_not_avoidable": "10600 Little Brier Creek Lane, 27617 is a DUAL-BRAND CAMPUS: Courtyard by Marriott Raleigh-Durham Airport/Brier Creek states 'Pets Not Allowed' and the Residence Inn at the same street address states 'Pets Welcome'. The exclusion contract matches on street identity, so without a co_located_distinct ruling the publication guard bars a real, clean, pet-friendly hotel. The ruling file is shared across markets by design. The only alternative was to publish neither -- to lower coverage to fit the classifier, which this order refuses."
+   },
+   {
+    "category": "the proposed authority document",
+    "paths": ["launch_packages/pettripfinder/raleigh_nc_proposed_authority_002.json"],
+    "classifier_verdict": "UNCLASSIFIED",
+    "why_it_is_not_avoidable": "It is the ptf-market-proposed-authority/1.0 document market_registration_cli READS to write the shard -- the literal input of the ordinary registration command. The policy recognises the shard it writes but not the document it reads."
+   }
+  ]
+ },
+
+ "what_the_controlled_replay_actually_measured": {
+  "claim_entering_this_proof": "an ordinary registration reaches AUTHORIZATION_READY in 121.79 s, 0 broad, 0 remote, 0 rebuilt",
+  "what_that_run_was": "PTF-CHARLOTTE-CONTROLLED-REGISTRATION-REPLAY re-registered a market whose acquisition scripts, discovery config and co-location rulings were ALREADY COMMITTED. Its change set therefore contained only the registration data documents, which is exactly the shape the policy admits.",
+  "what_this_run_is": "a market registered from zero, whose change set necessarily contains the scripts, the config and the ruling as well.",
+  "conclusion": "NEW_MARKET_REGISTRATION_DATA_ONLY is proved for a RE-registration and is not proved for a FIRST registration. The replay did not measure the case the factory exists to serve. This is a gap in what was measured, not a defect introduced by this order."
+ },
+
+ "what_did_pass": {
+  "note": "Everything downstream of the classification succeeded on the frozen code, on the first attempt, with no repair. The failure is narrow and it is at the classifier, not in the build.",
+  "first_party_evidence_gate": "86 evaluated, 86 eligible, 0 ineligible",
+  "fast_release_lane": "15/15 PASS, 0 UNKNOWN, 0 FAILED",
+  "fast_lane_change_class": "MARKET_AUTHORITY_DATA_ONLY",
+  "fast_lane_full_regression_required": "NO",
+  "determinism": "BYTE_IDENTICAL across two independent builds",
+  "release_diff_findings": 0,
+  "unchanged_markets_rebuilt": 0,
+  "candidate": "14 markets, 965 profiles, 1101 routes",
+  "the_contradiction": "The FAST lane, reading the SEALED PACKAGE, classes this work MARKET_AUTHORITY_DATA_ONLY and requires no broad run. The registration classifier, reading the FILE PATHS, requires a full one. The two disagree about the same change, and the order forbids reconciling them inside this benchmark."
+ },
+
+ "raleigh_is_built_and_is_not_published": {
+  "registered_census": 90,
+  "published_pet_friendly": 63,
+  "verified_no_pets": 23,
+  "resolved": 86,
+  "unresolved": 4,
+  "corridors_that_publish": 5,
+  "corridors_registered": 16,
+  "sealed_package_digest": "sha256:ad2a1f021e4ebc962cdbb0c8c8a60ccd344fa05b897b04385ea0be9c41261d68",
+  "fast_lane_receipt_digest": "sha256:5e759e601f388ed5af2d7d2ac484ce467c6a4f8c449b36325a8c8540187a451d",
+  "intended_delta_digest": "sha256:e93147c2a7b8dfd482bca74941a7148302b48b1ccd6b342e65f7fdc591d917d5",
+  "candidate_release_index_digest": "sha256:c5df1052b7736f979c23eb45a8eb9a8de3380fbc9c7884e58f5029a2b67d1910",
+  "parent_release_index_digest": "sha256:b7be3484adb40f63ba8977b579b2601fbb1a7e80d4a8e53f16489c7cc0e15f56",
+  "launch_participation": "SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH -- unchanged, never flipped",
+  "the_market_is_source_ready_and_withheld": true
+ },
+
+ "acquisition_cost": {
+  "usd_spent": 0.0,
+  "paid_provider_calls": 0,
+  "firecrawl_credits": 0,
+  "free_http_requests": 57,
+  "attended_browser_pages": 112,
+  "origin_navigations": {"hilton.com": 1, "marriott.com": 1, "ihg.com": 17},
+  "owned_evidence_reused_at_zero_requests": "the committed national brand directory harvest (17,928 routes, as of 2026-09-02): 60 Raleigh-area Marriott routes read at zero requests"
+ },
+
+ "the_lane_that_did_not_complete": {
+  "lane": "OSM_OVERPASS via the md5-verified Geofabrik North Carolina extract",
+  "what_happened": "The extract downloaded (428,073,563 bytes, md5 53d605e3a4e7e99dc29b137885c4d051, verified against Geofabrik's published sibling). osm_extract_cli build-index ran for over an hour on pyosmium's area-assembly pass and the process terminated without writing an index.",
+  "consequence": "The census rests on the brand lanes and on first-party property pages. It is complete for the major families and it is NOT a complete count of independent lodging in Wake County.",
+  "this_is_reported_not_repaired": "Fixing it would be shared-infrastructure work, which the freeze forbids inside this benchmark."
+ },
+
+ "recommendation_for_after_the_pause": {
+  "note": "Stated for the founder's decision. Nothing here was done.",
+  "options": [
+   "Teach the registration policy the four path categories a first registration genuinely owns: scripts/pettripfinder/<market>_*.py, scripts/pettripfinder/discovery/config/<market>.json, the proposed-authority document, and a co_located_distinct row added to identity_resolutions.json for the registering market only. Each is checkable by FIELD, which is the standard the policy already sets for the four documents it does admit.",
+   "Or re-measure the controlled replay on a market built from zero rather than on a re-registration, and accept whatever the honest number is."
+  ]
+ }
+}
