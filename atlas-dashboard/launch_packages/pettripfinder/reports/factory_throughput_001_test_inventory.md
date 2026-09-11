@@ -1,13 +1,13 @@
 # PetTripFinder test pin inventory (A1)
 
-Schema `ptf-test-pin-inventory/1.0`. 405 modules scanned, 278 carry pins, 1653 sites.
+Schema `ptf-test-pin-inventory/1.0`. 410 modules scanned, 282 carry pins, 1682 sites.
 
 | class | sites |
 |---|---|
 | CURRENT_STATE_INVARIANT | 155 |
-| HISTORICAL_COHORT_INVARIANT | 884 |
-| HISTORICAL_ARTIFACT_INVARIANT | 204 |
-| DEPLOYMENT_EPOCH_INVARIANT | 146 |
+| HISTORICAL_COHORT_INVARIANT | 899 |
+| HISTORICAL_ARTIFACT_INVARIANT | 208 |
+| DEPLOYMENT_EPOCH_INVARIANT | 156 |
 | GENERIC_SCHEMA_INVARIANT | 194 |
 | CROSS_MARKET_INVARIANT | 70 |
 
@@ -93,6 +93,7 @@ Schema `ptf-test-pin-inventory/1.0`. 405 modules scanned, 278 carry pins, 1653 s
 - `tests/pettripfinder/test_market_ownership.py`
 - `tests/pettripfinder/test_market_recensus_sandbox.py`
 - `tests/pettripfinder/test_milwaukee_market_001.py`
+- `tests/pettripfinder/test_nashville_tn_launch_005.py`
 - `tests/pettripfinder/test_policy_precision.py`
 - `tests/pettripfinder/test_prod003_promotion_readpath.py`
 - `tests/pettripfinder/test_prod005_netlify_config.py`
@@ -214,6 +215,7 @@ Schema `ptf-test-pin-inventory/1.0`. 405 modules scanned, 278 carry pins, 1653 s
 | `policy/test_authority_safety.py` |  | GENERIC_SCHEMA_INVARIANT | 3 | CURRENT_STATE 1, GENERIC_SCHEMA 2 |
 | `policy/test_drury_and_sonesta.py` |  | GENERIC_SCHEMA_INVARIANT | 2 | GENERIC_SCHEMA 2 |
 | `policy/test_m10_code_and_address_override.py` |  | GENERIC_SCHEMA_INVARIANT | 1 | CURRENT_STATE 1 |
+| `test_assembly_scratch_isolation_006.py` |  | DEPLOYMENT_EPOCH_INVARIANT | 1 | DEPLOYMENT_EPOCH 1 |
 | `test_atlas_throughput_001.py` |  | HISTORICAL_COHORT_INVARIANT | 10 | HISTORICAL_ARTIFACT 4, HISTORICAL_COHORT 6 |
 | `test_atlas_throughput_002.py` |  | HISTORICAL_COHORT_INVARIANT | 5 | HISTORICAL_ARTIFACT 1, HISTORICAL_COHORT 4 |
 | `test_atlas_throughput_003.py` |  | HISTORICAL_COHORT_INVARIANT | 3 | HISTORICAL_ARTIFACT 1, HISTORICAL_COHORT 2 |
@@ -330,7 +332,7 @@ Schema `ptf-test-pin-inventory/1.0`. 405 modules scanned, 278 carry pins, 1653 s
 | `test_indianapolis_url_recovery_006.py` | indianapolis-in | HISTORICAL_COHORT_INVARIANT | 2 | CROSS_MARKET 1, HISTORICAL_COHORT 1 |
 | `test_inventory_validation.py` |  | CURRENT_STATE_INVARIANT | 3 | CURRENT_STATE 3 |
 | `test_launch_participation_046.py` |  | DEPLOYMENT_EPOCH_INVARIANT | 9 | DEPLOYMENT_EPOCH 9 |
-| `test_lexington_ky_launch_006.py` |  | HISTORICAL_COHORT_INVARIANT | 20 | DEPLOYMENT_EPOCH 8, HISTORICAL_ARTIFACT 3, HISTORICAL_COHORT 9 |
+| `test_lexington_ky_launch_006.py` |  | HISTORICAL_COHORT_INVARIANT | 21 | DEPLOYMENT_EPOCH 8, HISTORICAL_ARTIFACT 3, HISTORICAL_COHORT 10 |
 | `test_lexington_ky_launch_halt_004.py` |  | HISTORICAL_COHORT_INVARIANT | 11 | CROSS_MARKET 3, DEPLOYMENT_EPOCH 3, HISTORICAL_COHORT 5 |
 | `test_lexington_ky_reauthorization_005.py` |  | HISTORICAL_COHORT_INVARIANT | 13 | CROSS_MARKET 2, DEPLOYMENT_EPOCH 3, HISTORICAL_ARTIFACT 4, HISTORICAL_COHORT 4 |
 | `test_lexington_ky_registration_003.py` |  | HISTORICAL_COHORT_INVARIANT | 14 | CROSS_MARKET 1, DEPLOYMENT_EPOCH 2, HISTORICAL_ARTIFACT 1, HISTORICAL_COHORT 10 |
@@ -348,8 +350,10 @@ Schema `ptf-test-pin-inventory/1.0`. 405 modules scanned, 278 carry pins, 1653 s
 | `test_markets.py` |  | GENERIC_SCHEMA_INVARIANT | 3 | GENERIC_SCHEMA 3 |
 | `test_measurement.py` |  | CURRENT_STATE_INVARIANT | 2 | CURRENT_STATE 2 |
 | `test_milwaukee_market_001.py` | milwaukee-wi | HISTORICAL_COHORT_INVARIANT | 5 | HISTORICAL_COHORT 5 |
+| `test_nashville_tn_launch_005.py` |  | HISTORICAL_COHORT_INVARIANT | 24 | DEPLOYMENT_EPOCH 8, HISTORICAL_ARTIFACT 4, HISTORICAL_COHORT 12 |
 | `test_nashville_tn_new_market_001.py` |  | HISTORICAL_COHORT_INVARIANT | 8 | CROSS_MARKET 1, HISTORICAL_ARTIFACT 3, HISTORICAL_COHORT 4 |
 | `test_official_capture_extension.py` |  | HISTORICAL_COHORT_INVARIANT | 1 | HISTORICAL_ARTIFACT 1 |
+| `test_participation_lineage_contract_006.py` |  | DEPLOYMENT_EPOCH_INVARIANT | 1 | DEPLOYMENT_EPOCH 1 |
 | `test_per_market_release_contracts.py` |  | CURRENT_STATE_INVARIANT | 5 | CURRENT_STATE 4, DEPLOYMENT_EPOCH 1 |
 | `test_pittsburgh_market_001.py` | pittsburgh-pa | HISTORICAL_COHORT_INVARIANT | 2 | HISTORICAL_COHORT 2 |
 | `test_pittsburgh_pass4_claude_capture_001.py` | pittsburgh-pa | HISTORICAL_COHORT_INVARIANT | 4 | HISTORICAL_ARTIFACT 3, HISTORICAL_COHORT 1 |
@@ -370,6 +374,7 @@ Schema `ptf-test-pin-inventory/1.0`. 405 modules scanned, 278 carry pins, 1653 s
 | `test_publication_schema_decisions_010.py` |  | HISTORICAL_COHORT_INVARIANT | 12 | DEPLOYMENT_EPOCH 1, HISTORICAL_COHORT 11 |
 | `test_reader_tiered_fee_hardening_010.py` |  | HISTORICAL_COHORT_INVARIANT | 3 | CROSS_MARKET 1, HISTORICAL_COHORT 2 |
 | `test_register_publish_011.py` |  | DEPLOYMENT_EPOCH_INVARIANT | 7 | DEPLOYMENT_EPOCH 7 |
+| `test_registration_data_only_001.py` |  | HISTORICAL_COHORT_INVARIANT | 2 | HISTORICAL_COHORT 2 |
 | `test_regression_delta_001.py` |  | HISTORICAL_COHORT_INVARIANT | 3 | HISTORICAL_COHORT 3 |
 | `test_renderer_real_records.py` |  | GENERIC_SCHEMA_INVARIANT | 7 | CURRENT_STATE 2, GENERIC_SCHEMA 5 |
 | `test_routing_property_code_scope.py` |  | GENERIC_SCHEMA_INVARIANT | 3 | GENERIC_SCHEMA 3 |
