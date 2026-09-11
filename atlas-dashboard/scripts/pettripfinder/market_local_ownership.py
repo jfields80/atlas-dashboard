@@ -46,6 +46,13 @@ SCHEMA = "ptf-market-local-ownership/1.0"
 SHADOW = "SHADOW"
 SHADOW_UNTIL_REGISTERED = "SHADOW_UNTIL_REGISTERED"
 EXECUTION_ZONES = (SHADOW, SHADOW_UNTIL_REGISTERED)
+#: PTF-FINAL-FRESH-MARKET-REGISTRATION-REENGINEERING-001: the execution zone
+#: of a market being registered BY THE CHANGE SET UNDER CLASSIFICATION. It is
+#: never written into the committed registry (the registry is a narrowing
+#: blocker, so a fresh market could not add its row without ending every
+#: narrowing); it is INSTANTIATED from ``zone_template`` for the one market
+#: ``registration_data_only`` proves the change set registers.
+FRESH_MARKET_REGISTRATION = "FRESH_MARKET_REGISTRATION"
 
 _MARKET_ID = re.compile(r"^[a-z][a-z0-9]+(-[a-z0-9]+)*-[a-z]{2}$")
 
@@ -89,6 +96,15 @@ class Registry:
     #: Test modules whose purpose is to name market-local paths (the
     #: classifier's own self-tests); the reachability scan ignores them.
     reachability_scan_exclusions: Tuple[str, ...] = field(default_factory=tuple)
+    #: PTF-FINAL-FRESH-MARKET-REGISTRATION-REENGINEERING-001: the modules of
+    #: the registration/release transaction a helper of a market being
+    #: registered by the same change set may import, and may run with
+    #: ``python -m``; and the modules that are never admitted that way.
+    transaction_imports: Tuple[str, ...] = field(default_factory=tuple)
+    transaction_python_modules: Tuple[str, ...] = field(default_factory=tuple)
+    never_transaction_imports: Tuple[str, ...] = field(default_factory=tuple)
+    #: The template a fresh market's zone is instantiated from.
+    zone_template: Dict = field(default_factory=dict)
 
     def zone_for(self, market_id: str) -> Optional[Zone]:
         for zone in self.zones:
@@ -252,6 +268,28 @@ def parse_registry(doc: Dict) -> Registry:
             allowed_read_roots=read_roots, owned_tests=tests,
             note=str(entry.get("note", "")),
         ))
+    fresh = doc.get("fresh_market_registration")
+    if fresh is not None:
+        if not isinstance(fresh, dict):
+            raise OwnershipError("fresh_market_registration must be an object")
+        if fresh.get("execution_zone") != FRESH_MARKET_REGISTRATION:
+            raise OwnershipError("fresh_market_registration.execution_zone must be %r" % FRESH_MARKET_REGISTRATION)
+        tx_imports = _str_list(fresh, "transaction_imports", "fresh_market_registration")
+        tx_python = _str_list(fresh, "transaction_python_modules", "fresh_market_registration")
+        never_tx = _str_list(fresh, "never_transaction_imports", "fresh_market_registration")
+        crossed = sorted(set(tx_imports) & set(never_tx))
+        if crossed:
+            raise OwnershipError("fresh_market_registration admits a never-admitted module: %s" % crossed)
+        for module in tx_imports + tx_python:
+            if not module.startswith("scripts.pettripfinder."):
+                raise OwnershipError("transaction module %r is not a factory module" % module)
+            leaf = module.split(".")[-1]
+            if leaf.startswith(("assemble_", "generate_", "build_market_manifest", "global_deployment")) \
+                    or leaf == "market_package" or "render" in leaf or "reader" in leaf or "polic" in leaf \
+                    or "routing" in leaf or "identity" in leaf or "deploy" in leaf:
+                raise OwnershipError("transaction module %r is site runtime, never a transaction import" % module)
+    else:
+        tx_imports, tx_python, never_tx = (), (), ()
     registry = Registry(
         schema=SCHEMA,
         shared_import_allowlist=_str_list(imports, "modules", "shared_import_allowlist"),
@@ -265,6 +303,10 @@ def parse_registry(doc: Dict) -> Registry:
         reachability_scan_exclusions=(
             _str_list(doc["reachability_scan_exclusions"], "paths", "reachability_scan_exclusions")
             if isinstance(doc.get("reachability_scan_exclusions"), dict) else ()),
+        transaction_imports=tx_imports,
+        transaction_python_modules=tx_python,
+        never_transaction_imports=never_tx,
+        zone_template=dict(template),
     )
     for path in registry.reachability_scan_exclusions:
         if not path.startswith("tests/") or not path.endswith(".py"):
@@ -313,6 +355,49 @@ def owner_of(relpath: str, registry: Optional[Registry] = None) -> Tuple[Optiona
         return None, "claimed by %d zones: %s" % (
             len(owners), ", ".join(z.market_id for z in owners))
     return owners[0], "owned by zone %s" % owners[0].market_id
+
+
+def registration_zone(market_id: str, registry: Optional[Registry] = None) -> Zone:
+    """PTF-FINAL-FRESH-MARKET-REGISTRATION-REENGINEERING-001: the zone of a
+    market that the change set under classification registers.
+
+    The committed zone when the registry carries one (a SHADOW_UNTIL_REGISTERED
+    market crossing over); otherwise the ``zone_template`` instance for
+    ``market_id`` -- the audited shape, substituted mechanically, with
+    ``production_runtime_included`` NO. The registry itself is never edited:
+    ownership follows the registration's own market id. Raises
+    :class:`OwnershipError` for a malformed id or an unusable template."""
+    registry = registry or load_registry()
+    if not _MARKET_ID.match(market_id or ""):
+        raise OwnershipError("%r is not a market id" % (market_id,))
+    committed = registry.zone_for(market_id)
+    if committed is not None:
+        if committed.production_runtime_included:
+            raise OwnershipError("zone %s declares production_runtime_included = YES" % market_id)
+        return committed
+    template = registry.zone_template
+    if not template:
+        raise OwnershipError("the registry carries no zone_template")
+    owned = _substitute(_str_list(template, "owned_paths", "zone_template"), market_id)
+    write_roots = _substitute(_str_list(template, "allowed_write_roots", "zone_template"), market_id)
+    read_roots = _substitute(_str_list(template, "allowed_read_roots", "zone_template"), market_id)
+    tests = _substitute(_str_list(template, "owned_tests", "zone_template"), market_id)
+    for pattern in owned + write_roots + tests:
+        if "<" in pattern or ">" in pattern:
+            raise OwnershipError("unsubstituted placeholder in %r" % pattern)
+        if market_id not in pattern and market_id.replace("-", "_") not in pattern \
+                and market_id.upper() not in pattern:
+            raise OwnershipError("template pattern %r does not name %s" % (pattern, market_id))
+        literal = pattern.split("*", 1)[0]
+        if any(literal.startswith(p) for p in registry.never_local_prefixes):
+            raise OwnershipError("template pattern %r lies inside the never_local fence" % pattern)
+    return Zone(
+        market_id=market_id, execution_zone=FRESH_MARKET_REGISTRATION,
+        production_runtime_included=False,
+        owned_paths=owned, allowed_write_roots=write_roots,
+        allowed_read_roots=read_roots, owned_tests=tests,
+        note="instantiated from zone_template for the market this change set registers",
+    )
 
 
 def describe(registry: Optional[Registry] = None) -> Dict:

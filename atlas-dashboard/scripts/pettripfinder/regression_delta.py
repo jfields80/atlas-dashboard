@@ -152,6 +152,17 @@ MARKET_AUTHORITY_DATA_ONLY = "MARKET_AUTHORITY_DATA_ONLY"
 #: every path in its path class, which is DEPLOYMENT_CHANGE for the four
 #: documents a registration must touch.
 NEW_MARKET_REGISTRATION_DATA_ONLY = "NEW_MARKET_REGISTRATION_DATA_ONLY"
+#: PTF-FINAL-FRESH-MARKET-REGISTRATION-REENGINEERING-001: a change set that
+#: is exactly ONE previously absent market's FIRST registration -- its own
+#: acquisition/release helpers, discovery configuration, typed registration
+#: inputs and registration artifacts -- partitioned by
+#: ``registration_data_only`` into MARKET_LOCAL_ACQUISITION (each path proven
+#: by the five-condition isolation proof in registration mode),
+#: NEW_MARKET_REGISTRATION_DATA_ONLY (each document proven by field) and
+#: PERMITTED_DERIVED_REGISTRATION_OUTPUT, with SHARED_BEHAVIOR_CHANGE = 0 and
+#: UNKNOWN = 0. Granted to a whole change set, never to a path; CONDITIONAL on
+#: the composite proof; UNKNOWN leaves every path in its path class.
+COMPOSITE_FRESH_MARKET_DATA_ONLY = "COMPOSITE_FRESH_MARKET_DATA_ONLY"
 UNCLASSIFIED = "UNCLASSIFIED"
 
 CHANGE_CLASSES: Tuple[str, ...] = (
@@ -160,7 +171,7 @@ CHANGE_CLASSES: Tuple[str, ...] = (
     BOOKKEEPING_REGISTRATION_CHANGE, DOCUMENTATION_ONLY,
     GENERATED_REPORT_ONLY, BASELINE_MANIFEST_ONLY, MARKET_LOCAL_TOOLING,
     MARKET_DATA_PACKAGE, MARKET_AUTHORITY_DATA_ONLY,
-    NEW_MARKET_REGISTRATION_DATA_ONLY,
+    NEW_MARKET_REGISTRATION_DATA_ONLY, COMPOSITE_FRESH_MARKET_DATA_ONLY,
     UNCLASSIFIED,
 )
 
@@ -171,6 +182,7 @@ SURFACE_MARKET_LOCAL_TOOLING = "MARKET_LOCAL_TOOLING"
 SURFACE_MARKET_DATA_PACKAGE = "MARKET_DATA_PACKAGE"
 SURFACE_MARKET_AUTHORITY_DATA_ONLY = "MARKET_AUTHORITY_DATA_ONLY"
 SURFACE_NEW_MARKET_REGISTRATION_DATA_ONLY = "NEW_MARKET_REGISTRATION_DATA_ONLY"
+SURFACE_COMPOSITE_FRESH_MARKET_DATA_ONLY = "COMPOSITE_FRESH_MARKET_DATA_ONLY"
 SURFACE_SHARED_SCHEMA_CHANGE = "SHARED_SCHEMA_CHANGE"
 SURFACE_SHARED_RUNTIME_CHANGE = "SHARED_RUNTIME_CHANGE"
 SURFACE_ASSEMBLER_CHANGE = "ASSEMBLER_CHANGE"
@@ -181,6 +193,7 @@ SURFACE_NARROW_NON_RELEASE = "NARROW_NON_RELEASE"
 RELEASE_SURFACES: Tuple[str, ...] = (
     SURFACE_MARKET_LOCAL_TOOLING, SURFACE_MARKET_DATA_PACKAGE,
     SURFACE_MARKET_AUTHORITY_DATA_ONLY, SURFACE_NEW_MARKET_REGISTRATION_DATA_ONLY,
+    SURFACE_COMPOSITE_FRESH_MARKET_DATA_ONLY,
     SURFACE_SHARED_SCHEMA_CHANGE,
     SURFACE_SHARED_RUNTIME_CHANGE, SURFACE_ASSEMBLER_CHANGE, SURFACE_DEPLOYMENT_CHANGE,
     SURFACE_CLASSIFIER_TEST_INFRA_CHANGE, SURFACE_UNKNOWN_MIXED, SURFACE_NARROW_NON_RELEASE,
@@ -478,6 +491,47 @@ VALIDATION_MATRIX: "OrderedDict[str, OrderedDict]" = OrderedDict((
                 "modules, which is the broad run by another name, and the assembly "
                 "is not run because rule J builds the joining market and no other "
                 "market's bytes can move when no other market's input did"),
+    ))),
+    (COMPOSITE_FRESH_MARKET_DATA_ONLY, OrderedDict((
+        ("surface", "a change set that is exactly ONE previously absent market's "
+                    "FIRST registration: the registration surface above PLUS the "
+                    "market's own acquisition/release helpers, reports, discovery "
+                    "config, proposed-authority input and co-location ruling -- "
+                    "every changed path in exactly one of five buckets "
+                    "(MARKET_LOCAL_ACQUISITION, NEW_MARKET_REGISTRATION_DATA_ONLY, "
+                    "PERMITTED_DERIVED_REGISTRATION_OUTPUT, SHARED_BEHAVIOR_CHANGE, "
+                    "UNKNOWN), the last two empty"),
+        ("lanes", ()),
+        ("owning_modules", True),
+        ("owning_directory", False),
+        ("reverse_dependents", False),
+        ("market_targeted", False),
+        ("assembly", NOT_REQUIRED),
+        ("full_regression", CONDITIONAL),
+        ("condition", "not required ONLY when registration_data_only.evaluate answers "
+                      "ELIGIBLE = YES with CHANGE_CLASS = COMPOSITE_FRESH_MARKET_DATA_ONLY: "
+                      "the partition accounts for every changed path (sum of buckets == "
+                      "changed paths, SHARED_BEHAVIOR_CHANGE = 0, UNKNOWN = 0); every "
+                      "market-local path passes namespace, imports, writes, reachability "
+                      "and registration in registration mode (a helper importing or "
+                      "running site runtime, writing outside its zone and the set's own "
+                      "registration data, named by shared code, or belonging to a market "
+                      "registered at the base is REJECTED for that reason); the discovery "
+                      "config loads for exactly the new market and the OSM registry gains "
+                      "exactly one row with every existing row identical; the registration "
+                      "input is the CLI's own schema for exactly the new market and binds "
+                      "to the written shard; every co-location ruling is additive, for the "
+                      "new market, DISTINCT under the exclusion contract and collides with "
+                      "nothing; and all eleven registration checks pass unchanged. Required "
+                      "otherwise -- every path then keeps its path class"),
+        ("why", "PTF-FINAL-FRESH-MARKET-REGISTRATION-REENGINEERING-001: Raleigh, built "
+                "from zero with nothing shared changed, was charged a full regression "
+                "because its helpers were code by prefix, its configs runtime by prefix, "
+                "its input and ruling unclassified, and the market-local proof was "
+                "switched off by the registration's own blocker before it ran. A fresh "
+                "market is two independently provable zones plus derived outputs; this "
+                "row proves each path by its owning proof and narrows only the exact "
+                "union"),
     ))),
     (UNCLASSIFIED, OrderedDict((
         ("surface", "unknown -- no rule claims this path"),
@@ -1443,6 +1497,8 @@ def release_surface_of(row: Mapping) -> str:
     # classifier's.
     if NEW_MARKET_REGISTRATION_DATA_ONLY in classes:
         return SURFACE_NEW_MARKET_REGISTRATION_DATA_ONLY
+    if COMPOSITE_FRESH_MARKET_DATA_ONLY in classes:
+        return SURFACE_COMPOSITE_FRESH_MARKET_DATA_ONLY
     if is_narrowing_blocker(path) or is_shared_test_state(path):
         return SURFACE_CLASSIFIER_TEST_INFRA_CHANGE
     if MARKET_LOCAL_TOOLING in classes:
@@ -1545,15 +1601,24 @@ def classify_change(base: str, head: str = WORKTREE,
         registration_block = REG.evaluate(rows, base, head, blockers=blockers)
         if registration_block["ELIGIBLE"] == "YES":
             market_id = registration_block["market_id"]
-            narrowed = set(registration_block["registration_paths"])
+            whole_set_class = registration_block.get("CHANGE_CLASS") or NEW_MARKET_REGISTRATION_DATA_ONLY
+            if whole_set_class not in (NEW_MARKET_REGISTRATION_DATA_ONLY, COMPOSITE_FRESH_MARKET_DATA_ONLY):
+                whole_set_class = NEW_MARKET_REGISTRATION_DATA_ONLY
+            narrowed = set(registration_block.get("narrowed_paths") or registration_block["registration_paths"])
+            buckets = ((registration_block.get("checks") or {}).get("change_set") or {}).get("detail", {}).get("buckets") or {}
             for row in rows:
-                if _posix(row["path"]) in narrowed:
-                    row["classes"] = [NEW_MARKET_REGISTRATION_DATA_ONLY]
-                    row["why"] += ("; NEW_MARKET_REGISTRATION_DATA_ONLY: %s registration proven by field "
-                                   "(%s)" % (market_id, registration_block["registration_paths"] and
-                                             "every check PASS"))
+                rel = _posix(row["path"])
+                if rel in narrowed:
+                    row["classes"] = [whole_set_class]
+                    row["why"] += ("; %s: %s registration proven by field, every check PASS%s"
+                                   % (whole_set_class, market_id,
+                                      (" [bucket %s]" % buckets[rel]) if rel in buckets else ""))
                     if market_id not in row["markets"]:
                         row["markets"] = list(row["markets"]) + [market_id]
+                elif rel in buckets:
+                    row["composite_bucket"] = buckets[rel]
+                if rel in buckets:
+                    row["composite_bucket"] = buckets[rel]
     # ATLAS-THROUGHPUT-003: a change set that is ONE market's authority data
     # and nothing else is MARKET_AUTHORITY_DATA_ONLY -- a whole-set verdict.
     data_only_market: Optional[str] = None
@@ -1688,14 +1753,18 @@ def plan_for(classification: Mapping) -> Dict:
                 decision = NOT_REQUIRED if block.get("FULL_REGRESSION_REQUIRED") == "NO" else REQUIRED
                 detail = block.get("why") or ("no FAST_DATA_ONLY_RELEASE proof recorded for %s"
                                               % row["path"])
-            elif decision == CONDITIONAL and cls == NEW_MARKET_REGISTRATION_DATA_ONLY:
+            elif decision == CONDITIONAL and cls in (NEW_MARKET_REGISTRATION_DATA_ONLY,
+                                                    COMPOSITE_FRESH_MARKET_DATA_ONLY):
                 # PTF-NEW-MARKET-REGISTRATION-DATA-ONLY-POLICY-001: conditional
                 # on the registration proof having passed every check. The
                 # class is only ever assigned after that proof, so a row that
                 # carries it without the block is a defect, and it costs the
                 # broad run rather than being trusted.
                 block = classification.get("new_market_registration_data_only") or {}
-                decision = NOT_REQUIRED if block.get("FULL_REGRESSION_REQUIRED") == "NO" else REQUIRED
+                decision = (NOT_REQUIRED if block.get("FULL_REGRESSION_REQUIRED") == "NO"
+                            and block.get("ELIGIBLE") == "YES"
+                            and (block.get("CHANGE_CLASS") or NEW_MARKET_REGISTRATION_DATA_ONLY) == cls
+                            else REQUIRED)
                 detail = block.get("why") or ("no registration-data-only proof recorded for %s"
                                               % row["path"])
             elif decision == CONDITIONAL:
@@ -1746,6 +1815,15 @@ def plan_for(classification: Mapping) -> Dict:
     fast_block = classification.get("fast_data_only_release")
     registration_block = classification.get("new_market_registration_data_only")
     registration_proven = bool(registration_block and registration_block.get("ELIGIBLE") == "YES")
+    if registration_proven:
+        # PTF-FINAL-FRESH-MARKET-REGISTRATION-REENGINEERING-001: a fresh
+        # market's own test modules, if it wrote any, are part of its zone and
+        # run with the plan; they are market-local paths of the same set.
+        for rel in registration_block.get("market_local_paths") or ():
+            if rel.startswith("tests/") and rel.endswith(".py") and (REPO_ROOT / rel).is_file() \
+                    and rel not in modules:
+                modules.append(rel)
+        modules = sorted(modules)
     return OrderedDict((
         ("lanes", lanes),
         ("markets", markets),
@@ -1764,6 +1842,9 @@ def plan_for(classification: Mapping) -> Dict:
         # broad job count is zero; the class reaches AUTHORIZATION_READY and
         # authorizes nothing.
         ("NEW_MARKET_REGISTRATION_DATA_ONLY", "YES" if registration_proven else "NO"),
+        ("COMPOSITE_FRESH_MARKET_DATA_ONLY",
+         "YES" if registration_proven and registration_block.get("CHANGE_CLASS") == COMPOSITE_FRESH_MARKET_DATA_ONLY else "NO"),
+        ("REGISTRATION_CHANGE_CLASS", registration_block.get("CHANGE_CLASS") if registration_proven else None),
         ("REMOTE_BROAD_JOBS_REQUIRED", 0 if registration_proven else None),
         ("new_market_registration_data_only", registration_block),
         ("reasons", reasons),
@@ -2072,6 +2153,11 @@ def matrix_document() -> Dict:
                 (SURFACE_NEW_MARKET_REGISTRATION_DATA_ONLY, "CONDITIONAL",
                  "NO only when registration_data_only.evaluate passes every check of the bounded registration "
                  "safety union for exactly one previously absent market; YES otherwise, in the path classes"),
+                (SURFACE_COMPOSITE_FRESH_MARKET_DATA_ONLY, "CONDITIONAL",
+                 "NO only when registration_data_only.evaluate partitions every changed path into the three narrow "
+                 "buckets (SHARED_BEHAVIOR_CHANGE = 0, UNKNOWN = 0), proves each market-local path on all five "
+                 "isolation conditions in registration mode, each typed input by field, and every registration "
+                 "check; YES otherwise, in the path classes"),
                 (SURFACE_SHARED_SCHEMA_CHANGE, "YES", "a contract change moves what every market derives"),
                 (SURFACE_SHARED_RUNTIME_CHANGE, "YES", "shared runtime every market executes"),
                 (SURFACE_ASSEMBLER_CHANGE, "YES", "the assembler is the proof the fast lane's rule J relies on"),

@@ -26,6 +26,34 @@ and from the repository around it -- never from its name alone.
 
 UNKNOWN is a failure. A path whose write target cannot be resolved, whose
 subprocess argv is dynamic, or whose registry entry is malformed is NOT local.
+
+REGISTRATION MODE (PTF-FINAL-FRESH-MARKET-REGISTRATION-REENGINEERING-001)
+------------------------------------------------------------------------
+A market built from zero carries its acquisition and release helpers in the
+SAME change set as its registration, and at the head of that change set the
+market IS registered -- so condition 5, read literally, fails every helper of
+every fresh market, which is exactly what Raleigh measured. ``prove`` takes a
+``registration`` context -- ``{"market_id", "proven_paths"}`` -- that the
+composite proof in :mod:`registration_data_only` supplies for the ONE market
+it proves the change set registers. Under it, and only under it:
+
+    1  the zone is ``market_local_ownership.registration_zone`` (the committed
+       zone, or the zone_template instance for the registering market);
+    2  the registry's ``transaction_imports`` are importable, and its
+       ``transaction_python_modules`` runnable with ``python -m``;
+    3  a write may resolve to a path the same change set proves as
+       registration data (``proven_paths``);
+    4  a mention by one of the registering market's own registration DATA
+       documents is not a consumer;
+    5  the market must be UNREGISTERED at the base and registered at the head
+       by this change set (``market_id`` equals the registering market).
+
+Every other verdict is unchanged: an unresolvable write, a dynamic import, a
+subprocess that is not read-only git / pytest / a transaction module, a mention
+by shared code or by another market, a market registered at the BASE -- all
+still fail. The context is a claim the composite proof must itself prove
+(exactly one market joined the registry, every path accounted for); a helper
+cannot supply it.
 """
 
 from __future__ import annotations
@@ -710,7 +738,8 @@ def _module_of_import(node: ast.AST) -> List[str]:
     return []
 
 
-def _import_allowed(module: str, zone: OWN.Zone, registry: OWN.Registry) -> Tuple[bool, str]:
+def _import_allowed(module: str, zone: OWN.Zone, registry: OWN.Registry,
+                    transaction: bool = False) -> Tuple[bool, str]:
     candidates = module.split("|")
     verdicts = []
     for cand in candidates:
@@ -723,6 +752,9 @@ def _import_allowed(module: str, zone: OWN.Zone, registry: OWN.Registry) -> Tupl
             return True, "allow-listed shared module"
         if root in registry.third_party_allowlist:
             return True, "allow-listed third-party package"
+        if transaction and cand in registry.transaction_imports \
+                and cand not in registry.never_transaction_imports:
+            return True, "registration-transaction module (registration mode)"
         if cand == "<relative>":
             verdicts.append("relative import")
         else:
@@ -730,25 +762,57 @@ def _import_allowed(module: str, zone: OWN.Zone, registry: OWN.Registry) -> Tupl
     return False, verdicts[0] if verdicts else "not allow-listed"
 
 
+def _registration_owner(rel: str, market_id: str, registry: OWN.Registry) -> Tuple[Optional[OWN.Zone], str]:
+    """Registration mode's namespace: the registering market's zone owns the
+    path, the never_local fence still stands, and no OTHER committed zone
+    claims it."""
+    if registry.is_never_local(rel):
+        return None, "inside the never_local fence"
+    try:
+        zone = OWN.registration_zone(market_id, registry)
+    except OWN.OwnershipError as exc:
+        return None, "no registration zone: %s" % exc
+    if not any(OWN._glob_match(p, rel) for p in zone.owned_paths):
+        return None, "not owned by the registering market's zone %s" % market_id
+    others = [z.market_id for z in registry.owners_of(rel) if z.market_id != market_id]
+    if others:
+        return None, "claimed by another zone: %s" % ", ".join(others)
+    return zone, "owned by the registering market's zone %s (%s)" % (market_id, zone.execution_zone)
+
+
 def prove(relpath: str, base: str, head: str, status: str = "M",
-          old_path: Optional[str] = None, registry: Optional[OWN.Registry] = None) -> Dict:
+          old_path: Optional[str] = None, registry: Optional[OWN.Registry] = None,
+          registration: Optional[Dict] = None) -> Dict:
     """The proof document for one changed path. ``passed`` is True only when
-    all five conditions hold; every failure carries its reason."""
+    all five conditions hold; every failure carries its reason.
+
+    ``registration`` -- ``{"market_id": str, "proven_paths": [...]}`` -- puts
+    the proof in REGISTRATION MODE (see the module docstring). It is supplied
+    only by :mod:`registration_data_only` for the one market it proves the
+    change set registers; without it every verdict is the shadow-zone one."""
     rel = OWN._posix(relpath)
     conditions: "OrderedDict[str, Dict]" = OrderedDict()
+    reg_market = str((registration or {}).get("market_id") or "") or None
+    proven = frozenset(OWN._posix(p) for p in ((registration or {}).get("proven_paths") or ()))
+    if registration is not None and not reg_market:
+        for name in CONDITIONS:
+            conditions[name] = _fail("registration mode without a market id")
+        return _doc(rel, base, head, status, old_path, None, conditions, reg_market)
     try:
         registry = registry or OWN.load_registry()
     except OWN.OwnershipError as exc:
         for name in CONDITIONS:
             conditions[name] = _fail("registry malformed: %s" % exc)
-        return _doc(rel, base, head, status, old_path, None, conditions)
+        return _doc(rel, base, head, status, old_path, None, conditions, reg_market)
 
     # 1 -- namespace (old and new path of a rename must agree)
-    zone, why = OWN.owner_of(rel, registry)
+    owner = (lambda path: _registration_owner(OWN._posix(path), reg_market, registry)) if reg_market \
+        else (lambda path: OWN.owner_of(path, registry))
+    zone, why = owner(rel)
     if zone is None:
         conditions["namespace"] = _fail(why)
     elif old_path and OWN._posix(old_path) != rel:
-        old_zone, old_why = OWN.owner_of(old_path, registry)
+        old_zone, old_why = owner(old_path)
         if old_zone is None or old_zone.market_id != zone.market_id:
             conditions["namespace"] = _fail("renamed from %s (%s)" % (old_path, old_why))
         else:
@@ -758,7 +822,7 @@ def prove(relpath: str, base: str, head: str, status: str = "M",
     if zone is None:
         for name in CONDITIONS[1:]:
             conditions[name] = _fail("not evaluated: no single owner")
-        return _doc(rel, base, head, status, old_path, None, conditions)
+        return _doc(rel, base, head, status, old_path, None, conditions, reg_market)
 
     head_text = read_at(head, rel) if status != "D" else None
     base_text = read_at(base, old_path or rel) if status != "A" else None
@@ -782,7 +846,7 @@ def prove(relpath: str, base: str, head: str, status: str = "M",
             seen: List[str] = []
             for node in ast.walk(tree):
                 for module in _module_of_import(node):
-                    ok, reason = _import_allowed(module, zone, registry)
+                    ok, reason = _import_allowed(module, zone, registry, transaction=bool(reg_market))
                     shown = module.split("|")[0]
                     seen.append("%s (%s)" % (shown, reason))
                     if not ok:
@@ -832,6 +896,8 @@ def prove(relpath: str, base: str, head: str, status: str = "M",
                                               for r in allowed_writes if r.endswith("/"))) \
                         or (is_dir_op and _dir_allowed(path, allowed_writes)):
                     resolved_targets.append(probe)
+                elif proven and _proven_write(path, exact, is_dir_op, proven, zone):
+                    resolved_targets.append(probe + " (registration data proven by the same change set)")
                 else:
                     problems.append("line %d %s: %s is outside the zone's write roots" % (lineno, kind, probe))
         if problems:
@@ -851,7 +917,8 @@ def prove(relpath: str, base: str, head: str, status: str = "M",
     for needle in needles:
         hits = [h for h in mentions_at(scan_rev, needle)
                 if h != rel and not any(OWN._glob_match(p, h) for p in zone.owned_paths)
-                and h not in registry.reachability_scan_exclusions]
+                and h not in registry.reachability_scan_exclusions
+                and not (h in proven and not h.endswith(".py"))]
         if hits:
             problems.append("%s is named by %s" % (needle, ", ".join(hits[:6])))
     if not is_python and status != "D":
@@ -884,7 +951,9 @@ def prove(relpath: str, base: str, head: str, status: str = "M",
                     problems.append("line %d: git subcommand %r is not read-only / not resolvable"
                                     % (lineno, subs or None))
             elif head_argv[0] == "<python>" and len(head_argv) >= 3 and head_argv[1] == "-m" \
-                    and head_argv[2] in registry.python_modules:
+                    and (head_argv[2] in registry.python_modules
+                         or (reg_market and head_argv[2] in registry.transaction_python_modules
+                             and head_argv[2] not in registry.never_transaction_imports)):
                 pass
             else:
                 problems.append("line %d: subprocess %r is not allow-listed" % (lineno, head_argv[:3]))
@@ -896,6 +965,24 @@ def prove(relpath: str, base: str, head: str, status: str = "M",
     # 5 -- registration / production reachability
     if zone.production_runtime_included:
         conditions["registration"] = _fail("zone declares production_runtime_included = YES")
+    elif reg_market:
+        # Registration mode: the market must be ABSENT at the base and present
+        # at the head -- registered by this change set and nothing earlier.
+        # Whether the head registration is a proven one is the composite
+        # proof's own verdict; this condition binds the helper to it.
+        at_base = registered_market_ids_at(base)
+        at_head = registered_market_ids_at(head if status != "D" else base)
+        if zone.market_id != reg_market:
+            conditions["registration"] = _fail("zone %s is not the registering market %s" % (zone.market_id, reg_market))
+        elif zone.market_id in at_base:
+            conditions["registration"] = _fail("%s was already registered at the base %s; production was "
+                                               "reachable before this change set" % (zone.market_id, base))
+        elif zone.market_id not in at_head and status != "D":
+            conditions["registration"] = _fail("%s is not registered at %s; nothing to bind the helper to"
+                                               % (zone.market_id, head))
+        else:
+            conditions["registration"] = _ok("%s is unregistered at %s and registered at %s by this change "
+                                             "set (registration mode)" % (zone.market_id, base, head))
     else:
         registered = registered_market_ids_at(head if status != "D" else base)
         if zone.market_id in registered:
@@ -904,7 +991,33 @@ def prove(relpath: str, base: str, head: str, status: str = "M",
         else:
             conditions["registration"] = _ok("%s is unregistered at %s" % (zone.market_id, head))
 
-    return _doc(rel, base, head, status, old_path, zone, conditions)
+    return _doc(rel, base, head, status, old_path, zone, conditions, reg_market)
+
+
+_BARE_ROOTS = ("", "launch_packages", "launch_packages/pettripfinder", "deploy", "deploy/netlify",
+               "scripts", "scripts/pettripfinder", "scripts/pettripfinder/discovery", "tests",
+               "tests/pettripfinder", "launch_packages/pettripfinder/markets")
+
+
+def _proven_write(path: str, exact: bool, is_dir_op: bool, proven: "frozenset", zone: OWN.Zone) -> bool:
+    """Registration mode, condition 3: a write target is admitted when it IS a
+    path the same change set proves as registration data (exact), when a
+    statically-known prefix that is more than a bare root leads only into such
+    paths and names the market, or when a directory operation creates the
+    directory a proven path lives in. A bare root plus a dynamic tail is never
+    admitted: it could name anything."""
+    norm = path.rstrip("/")
+    if exact and not is_dir_op:
+        return norm in proven
+    if is_dir_op:
+        return any(posixpath.dirname(q) == norm for q in proven)
+    if norm in _BARE_ROOTS:
+        return False
+    names_market = zone.market_id in norm or zone.market_us in norm
+    under = [q for q in proven if q.startswith(norm)]
+    if not under:
+        return False
+    return names_market or norm.count("/") >= 2
 
 
 def _ok(why: str, **extra) -> Dict:
@@ -919,13 +1032,15 @@ def _fail(why: str, **extra) -> Dict:
     return d
 
 
-def _doc(rel, base, head, status, old_path, zone, conditions) -> Dict:
+def _doc(rel, base, head, status, old_path, zone, conditions, registration_market=None) -> Dict:
     passed = bool(conditions) and all(c["pass"] for c in conditions.values()) \
         and set(conditions) == set(CONDITIONS)
     return OrderedDict((
         ("schema", SCHEMA),
         ("path", rel), ("status", status), ("old_path", old_path),
         ("base", base), ("head", head),
+        ("mode", "registration" if registration_market else "shadow"),
+        ("registration_market", registration_market),
         ("zone", zone.market_id if zone else None),
         ("execution_zone", zone.execution_zone if zone else None),
         ("passed", passed),

@@ -76,6 +76,51 @@ ELIGIBLE = YES means the registration reaches AUTHORIZATION_READY without a
 broad regression and with zero remote broad jobs. It authorizes nothing: the
 founder authorization, the current-parent guard, the exact-bytes deployment
 and the rollback guard are untouched and still owed by the deployment order.
+
+THE COMPOSITE FRESH-MARKET CLASS (PTF-FINAL-FRESH-MARKET-REGISTRATION-REENGINEERING-001)
+----------------------------------------------------------------------------------------
+PTF-RALEIGH-NC-FINAL-FRESH-CITY-PROOF-001 built a market from zero and was
+answered FULL_REGRESSION_REQUIRED = YES at this module's first gate, although
+nothing shared had changed. The eleven checks above were validated on a
+RE-registration, whose acquisition helpers, discovery configuration,
+proposed-authority input and co-location ruling were already committed. A
+TRUE FIRST registration creates them, and the gate had no bucket for any of
+them: the helpers were "code", the configs were "runtime" by prefix, the
+input and the ruling were UNCLASSIFIED, and the market-local proof that would
+have claimed the helpers had been switched off by the registration's own
+blocker before it ran.
+
+A fresh-market branch is not one change. It is TWO independently provable
+zones plus their permitted derived outputs, and the gate now PARTITIONS every
+changed path into exactly one of five buckets:
+
+    MARKET_LOCAL_ACQUISITION               the market's own helpers, discovery
+                                           config and reports: each proven by
+                                           market_local_isolation in
+                                           REGISTRATION MODE on all five
+                                           conditions (never by its name)
+    NEW_MARKET_REGISTRATION_DATA_ONLY      the registration roles above, plus
+                                           three typed inputs proven by field:
+                                           the proposed-authority document the
+                                           registration CLI reads, one additive
+                                           co-location ruling, one additive
+                                           OSM-extract registry row
+    PERMITTED_DERIVED_REGISTRATION_OUTPUT  the regenerated globals and the
+                                           narrow companions (reports, package,
+                                           receipt, prose, baselines)
+    SHARED_BEHAVIOR_CHANGE                 anything that changes shared
+                                           behaviour, and every helper the
+                                           isolation proof REJECTS -- with the
+                                           condition it failed
+    UNKNOWN                                a path no bucket claims
+
+The change set narrows ONLY when SHARED_BEHAVIOR_CHANGE and UNKNOWN are both
+empty, the bucket sizes sum to the changed-path count, and every remaining
+check passes. When the set carries a market-local or typed-input path the
+class is COMPOSITE_FRESH_MARKET_DATA_ONLY; when it is a bare re-registration
+the class is NEW_MARKET_REGISTRATION_DATA_ONLY, exactly as before. Four checks
+were added -- market_local_zone, discovery_config, registration_input,
+identity_resolutions -- and none of the eleven was weakened.
 """
 
 from __future__ import annotations
@@ -97,7 +142,7 @@ REPO_ROOT = SMP.REPO_ROOT
 WORKTREE = "WORKTREE"
 
 SCHEMA = "ptf-registration-data-only-proof/1.0"
-PROOF_VERSION = "ptf-registration-data-only/1.0"
+PROOF_VERSION = "ptf-registration-data-only/2.0"
 CONTRACT_SCHEMA = "ptf-registration-data-only-contract/1.0"
 CONTRACT_PATH = SMP.LAUNCH_PACKAGE / "registration_data_only_contract.json"
 
@@ -149,6 +194,39 @@ ROLE_PATTERNS: Tuple[Tuple[str, str, bool, Tuple[str, ...]], ...] = (
     (ROLE_DERIVED_GLOBAL, "launch_packages/pettripfinder/ptf_global_authority_manifest.json", False, ("M",)),
 )
 
+#: PTF-FINAL-FRESH-MARKET-REGISTRATION-REENGINEERING-001: the three typed
+#: inputs a FIRST registration creates, each proven by its own field check.
+#: ``(role, pattern, required, allowed statuses)`` as ROLE_PATTERNS.
+ROLE_REGISTRATION_INPUT = "registration_input"
+ROLE_IDENTITY_RULING = "identity_resolution_ruling"
+ROLE_DISCOVERY_REGISTRY_ROW = "discovery_registry_row"
+ROLE_DISCOVERY_MARKET_CONFIG = "discovery_market_config"
+ROLE_MARKET_LOCAL = "market_local"
+REGISTRATION_INPUT_PATTERN = "launch_packages/pettripfinder/<us>_proposed_authority_*.json"
+IDENTITY_RESOLUTIONS_PATH = "launch_packages/pettripfinder/identity_resolutions.json"
+OSM_EXTRACTS_PATH = "scripts/pettripfinder/discovery/config/osm_extracts.json"
+DISCOVERY_CONFIG_PATTERN = "scripts/pettripfinder/discovery/config/<us>.json"
+FRESH_MARKET_ROLE_PATTERNS: Tuple[Tuple[str, str, bool, Tuple[str, ...]], ...] = (
+    (ROLE_REGISTRATION_INPUT, REGISTRATION_INPUT_PATTERN, False, ("A",)),
+    (ROLE_IDENTITY_RULING, IDENTITY_RESOLUTIONS_PATH, False, ("M",)),
+    (ROLE_DISCOVERY_REGISTRY_ROW, OSM_EXTRACTS_PATH, False, ("M",)),
+    (ROLE_DISCOVERY_MARKET_CONFIG, DISCOVERY_CONFIG_PATTERN, False, ("A",)),
+)
+
+#: The five buckets every changed path lands in, exactly one each.
+BUCKET_MARKET_LOCAL = "MARKET_LOCAL_ACQUISITION"
+BUCKET_REGISTRATION = "NEW_MARKET_REGISTRATION_DATA_ONLY"
+BUCKET_DERIVED = "PERMITTED_DERIVED_REGISTRATION_OUTPUT"
+BUCKET_SHARED = "SHARED_BEHAVIOR_CHANGE"
+BUCKET_UNKNOWN = "UNKNOWN"
+BUCKETS: Tuple[str, ...] = (BUCKET_MARKET_LOCAL, BUCKET_REGISTRATION, BUCKET_DERIVED,
+                            BUCKET_SHARED, BUCKET_UNKNOWN)
+NARROW_BUCKETS = frozenset({BUCKET_MARKET_LOCAL, BUCKET_REGISTRATION, BUCKET_DERIVED})
+
+#: The two whole-set classes this proof can grant.
+CLASS_REGISTRATION = "NEW_MARKET_REGISTRATION_DATA_ONLY"
+CLASS_COMPOSITE = "COMPOSITE_FRESH_MARKET_DATA_ONLY"
+
 #: Change classes that may travel beside a registration without widening it.
 #: A companion under markets/{packages,receipts,staging}/ must be the
 #: registering market's own.
@@ -198,6 +276,17 @@ PROTECTED_PREFIXES: Tuple[str, ...] = (
 )
 
 CHECKS: Tuple[str, ...] = (
+    "change_set",
+    # PTF-FINAL-FRESH-MARKET-REGISTRATION-REENGINEERING-001: the zone proofs
+    # a first registration owes, before the registration's own eleven.
+    "market_local_zone", "discovery_config", "registration_input", "identity_resolutions",
+    "participation", "release_contract", "build_closure", "derived_globals",
+    "sealed_package", "fast_receipt", "expected_release", "identity_routes",
+    "market_state_pin", "release_integrity",
+)
+#: The checks whose semantics predate the composite class. Kept as a set so
+#: the composite class can be shown to have weakened none of them.
+ORIGINAL_CHECKS: Tuple[str, ...] = (
     "change_set", "participation", "release_contract", "build_closure", "derived_globals",
     "sealed_package", "fast_receipt", "expected_release", "identity_routes",
     "market_state_pin", "release_integrity",
@@ -285,11 +374,19 @@ def role_of(relpath: str, market_id: str) -> Optional[Tuple[str, bool, Tuple[str
     registering market's registration paths."""
     rel = _posix(relpath)
     us = market_id.replace("-", "_")
-    for role, pattern, required, statuses in ROLE_PATTERNS:
+    for role, pattern, required, statuses in ROLE_PATTERNS + FRESH_MARKET_ROLE_PATTERNS:
         candidate = pattern.replace("<id>", market_id).replace("<us>", us)
         if _glob_match(candidate, rel):
             return role, required, statuses
     return None
+
+
+def bucket_of_role(role: str) -> str:
+    if role == ROLE_MARKET_LOCAL or role == ROLE_DISCOVERY_MARKET_CONFIG:
+        return BUCKET_MARKET_LOCAL
+    if role in (ROLE_DERIVED_GLOBAL, ROLE_COMPANION):
+        return BUCKET_DERIVED
+    return BUCKET_REGISTRATION
 
 
 def classify_change_set(rows: Sequence[Mapping], *, base: str, head: str,
@@ -322,48 +419,534 @@ def classify_change_set(rows: Sequence[Mapping], *, base: str, head: str,
         return OrderedDict((("market_id", market_id), ("roles", OrderedDict()),
                             ("result", _result(False, "the change set touches narrowing blocker(s) a registration "
                                                       "does not own: %s" % foreign[:3], **detail))))
+    # PTF-FINAL-FRESH-MARKET-REGISTRATION-REENGINEERING-001: the partition.
+    # Every changed path lands in exactly one bucket; the market-local
+    # candidates are proven one by one by the isolation proof in registration
+    # mode, with the registration data of the SAME change set as the paths a
+    # helper may have written.
+    from scripts.pettripfinder import market_local_isolation as ISO
+    from scripts.pettripfinder import market_local_ownership as OWN
     roles: "OrderedDict[str, str]" = OrderedDict()
+    buckets: "OrderedDict[str, str]" = OrderedDict()
+    reasons: "OrderedDict[str, str]" = OrderedDict()
+    proofs: "OrderedDict[str, Any]" = OrderedDict()
     problems: List[str] = []
+    zone = None
+    registry = None
+    try:
+        registry = OWN.load_registry()
+        zone = OWN.registration_zone(market_id, registry)
+    except OWN.OwnershipError as exc:
+        problems.append("no registration zone for %s: %s" % (market_id, str(exc)[:120]))
+    candidates: List[Tuple[str, str]] = []
     for row in rows:
         rel = _posix(row["path"])
         status = str(row.get("status") or "")[:1]
         classes = set(row.get("classes") or ())
         if any(rel.startswith(p) for p in PROTECTED_PREFIXES):
+            buckets[rel] = BUCKET_SHARED
+            reasons[rel] = "protected release state"
             problems.append("%s is protected release state" % rel)
             continue
         found = role_of(rel, market_id)
         if found is not None:
             role, _required, statuses = found
             if status not in statuses:
+                buckets[rel] = BUCKET_SHARED
+                reasons[rel] = "status %r is not a registration write (%s)" % (status, "/".join(statuses))
                 problems.append("%s: status %r is not a registration write (%s)" % (rel, status, "/".join(statuses)))
                 continue
             roles[rel] = role
+            buckets[rel] = bucket_of_role(role)
+            reasons[rel] = "registration role %s" % role
+            if role == ROLE_DISCOVERY_MARKET_CONFIG:
+                candidates.append((rel, status))
             continue
-        if rel.startswith("tests/") or rel.endswith(".py"):
-            problems.append("%s is code or a test expectation, not registration data" % rel)
-            continue
+        # A narrow companion (a report, prose, a baseline, the market's own
+        # package / receipt) keeps the semantics the audited registration
+        # class gave it; only a path that is NOT a companion and is owned by
+        # the registering market's zone -- its helpers, its discovery config,
+        # its own tests -- goes to the isolation proof.
         if classes and classes <= COMPANION_CLASSES:
             if "MARKET_DATA_PACKAGE" in classes and not (
                     _glob_match("launch_packages/pettripfinder/markets/packages/%s/**" % market_id, rel)
                     or _glob_match("launch_packages/pettripfinder/markets/receipts/%s/**" % market_id, rel)
                     or _glob_match("launch_packages/pettripfinder/markets/staging/%s/**" % market_id, rel)):
+                buckets[rel] = BUCKET_SHARED
+                reasons[rel] = "another market's package data"
                 problems.append("%s is another market's package data" % rel)
                 continue
             roles[rel] = ROLE_COMPANION
+            buckets[rel] = BUCKET_DERIVED
+            reasons[rel] = "narrow companion (%s)" % "/".join(sorted(classes))
             continue
+        if zone is not None and not registry.is_never_local(rel) \
+                and any(OWN._glob_match(pat, rel) for pat in zone.owned_paths):
+            candidates.append((rel, status))
+            continue
+        if rel.startswith("tests/") or rel.endswith(".py") or rel.startswith("scripts/"):
+            buckets[rel] = BUCKET_SHARED
+            reasons[rel] = "code or a test expectation outside the registering market's zone"
+            problems.append("%s is code or a test expectation, not registration data" % rel)
+            continue
+        buckets[rel] = BUCKET_UNKNOWN
+        reasons[rel] = "no bucket claims this path (%s)" % ("/".join(sorted(classes)) or "no class")
         problems.append("%s is not a registration path for %s (%s)" % (rel, market_id, sorted(classes) or "no class"))
+    # The paths a helper may have written: every accounted non-code path of
+    # this change set (registration data, derived output, the zone's own data).
+    proven_paths = sorted(set(rel for rel, b in buckets.items() if b in NARROW_BUCKETS and not rel.endswith(".py"))
+                          | set(rel for rel, _s in candidates if not rel.endswith(".py")))
+    context = OrderedDict((("market_id", market_id), ("proven_paths", proven_paths)))
+    for rel, status in candidates:
+        try:
+            proof = ISO.prove(rel, base, head, status=status or "M", registry=registry, registration=context)
+        except Exception as exc:                       # an unreadable helper is not local
+            proof = OrderedDict((("passed", False), ("failed_conditions", ["unknown"]),
+                                 ("conditions", OrderedDict((("unknown", OrderedDict((("pass", False),
+                                  ("why", "%s: %s" % (type(exc).__name__, str(exc)[:160]))))),)))))
+        proofs[rel] = OrderedDict((
+            ("passed", bool(proof.get("passed"))),
+            ("mode", proof.get("mode")), ("zone", proof.get("zone")),
+            ("failed_conditions", list(proof.get("failed_conditions") or ())),
+            ("conditions", OrderedDict((k, OrderedDict((("pass", v.get("pass")), ("why", str(v.get("why"))[:400]))))
+                                       for k, v in (proof.get("conditions") or {}).items())),
+        ))
+        if proof.get("passed"):
+            roles.setdefault(rel, ROLE_MARKET_LOCAL)
+            buckets[rel] = BUCKET_MARKET_LOCAL
+            reasons[rel] = "isolation proof passed in registration mode (zone %s)" % proof.get("zone")
+        else:
+            failed = ", ".join(proof.get("failed_conditions") or ["unknown"])
+            why = "; ".join(str((proof.get("conditions") or {}).get(c, {}).get("why", ""))[:160]
+                            for c in (proof.get("failed_conditions") or []))
+            roles.pop(rel, None)
+            buckets[rel] = BUCKET_SHARED
+            reasons[rel] = "rejected by the isolation proof on %s: %s" % (failed, why)
+            problems.append("%s is not market-local: %s failed (%s)" % (rel, failed, why[:200]))
     present = {role for role in roles.values()}
     missing = [role for role, _p, required, _s in ROLE_PATTERNS if required and role not in present]
     if missing:
         problems.append("required registration output(s) absent from the change set: %s" % sorted(set(missing)))
+    counts = OrderedDict((b, sum(1 for v in buckets.values() if v == b)) for b in BUCKETS)
+    total = len(rows)
+    accounted = len(buckets)
+    if accounted != total or sum(counts.values()) != total:
+        problems.append("path accounting is incomplete: %d of %d changed paths bucketed" % (accounted, total))
+    partition = OrderedDict((b, sorted(p for p, v in buckets.items() if v == b)) for b in BUCKETS)
+    fresh = bool(partition[BUCKET_MARKET_LOCAL]) or any(
+        roles.get(p) in (ROLE_REGISTRATION_INPUT, ROLE_IDENTITY_RULING, ROLE_DISCOVERY_REGISTRY_ROW,
+                         ROLE_DISCOVERY_MARKET_CONFIG) for p in roles)
     detail["roles"] = OrderedDict(sorted(roles.items()))
+    detail["buckets"] = OrderedDict(sorted(buckets.items()))
+    detail["bucket_reasons"] = OrderedDict(sorted(reasons.items()))
+    detail["partition"] = partition
+    detail["accounting"] = OrderedDict((
+        ("TOTAL_CHANGED_PATHS", total),
+        ("MARKET_LOCAL_ACQUISITION_PATHS", counts[BUCKET_MARKET_LOCAL]),
+        ("REGISTRATION_DATA_PATHS", counts[BUCKET_REGISTRATION]),
+        ("DERIVED_PATHS", counts[BUCKET_DERIVED]),
+        ("SHARED_BEHAVIOR_PATHS", counts[BUCKET_SHARED]),
+        ("UNKNOWN_PATHS", counts[BUCKET_UNKNOWN]),
+        ("sum_of_buckets", sum(counts.values())),
+        ("sum_equals_total", sum(counts.values()) == total and accounted == total),
+    ))
+    detail["market_local_proofs"] = proofs
+    detail["proven_paths"] = proven_paths
+    detail["change_class"] = CLASS_COMPOSITE if fresh else CLASS_REGISTRATION
+    detail["zone"] = OrderedDict((("market_id", zone.market_id), ("execution_zone", zone.execution_zone)))if zone else None
     if problems:
         return OrderedDict((("market_id", market_id), ("roles", roles),
                             ("result", _result(False, "; ".join(problems[:6]), problems=problems, **detail))))
     return OrderedDict((("market_id", market_id), ("roles", roles),
-                        ("result", _result(True, "every changed path is one registration role for %s or a "
-                                                 "narrow companion, and the only blockers are the two the "
-                                                 "registration owns" % market_id, **detail))))
+                        ("result", _result(True, "every one of %d changed paths is in exactly one narrow bucket for %s "
+                                                 "(%d market-local, %d registration data, %d derived; 0 shared, 0 "
+                                                 "unknown), and the only blockers are the two the registration owns"
+                                                 % (total, market_id, counts[BUCKET_MARKET_LOCAL],
+                                                    counts[BUCKET_REGISTRATION], counts[BUCKET_DERIVED]), **detail))))
+
+
+# --------------------------------------------------------------------------- #
+# 1a-1d. PTF-FINAL-FRESH-MARKET-REGISTRATION-REENGINEERING-001: the zone
+# proofs a FIRST registration owes.
+# --------------------------------------------------------------------------- #
+
+def check_market_local_zone(gate: Mapping) -> "OrderedDict[str, Any]":
+    """Every market-local candidate of the partition passed the isolation
+    proof in registration mode (namespace, imports, writes, reachability,
+    registration). The gate already refused the set if one failed; this check
+    records the proofs so the verdict names each helper and each condition."""
+    detail_in = gate.get("result", {}).get("detail") or {}
+    proofs = detail_in.get("market_local_proofs") or {}
+    partition = detail_in.get("partition") or {}
+    local = list(partition.get(BUCKET_MARKET_LOCAL) or ())
+    failed = OrderedDict((p, d) for p, d in proofs.items() if not d.get("passed"))
+    detail = OrderedDict((
+        ("market_local_paths", local), ("proofs_run", len(proofs)),
+        ("proofs_passed", sum(1 for d in proofs.values() if d.get("passed"))),
+        ("rejected", OrderedDict((p, OrderedDict((("failed_conditions", d.get("failed_conditions")),
+                                                   ("why", "; ".join(str(d["conditions"][c]["why"])
+                                                                     for c in d.get("failed_conditions") or ()
+                                                                     if c in d.get("conditions", {}))))))
+                                 for p, d in failed.items())),
+        ("conditions", ["namespace", "imports", "writes", "reachability", "registration"]),
+        ("mode", "registration"),
+    ))
+    if failed:
+        return _result(False, "%d market-local candidate(s) rejected by the isolation proof: %s"
+                       % (len(failed), "; ".join("%s (%s)" % (p, ", ".join(d.get("failed_conditions") or []))
+                                                 for p, d in list(failed.items())[:4])), **detail)
+    unproven = [p for p in local if p not in proofs]
+    if unproven:
+        return _result(False, "market-local path(s) carry no proof: %s" % unproven[:4], **detail)
+    if not local:
+        return _result(True, "no market-local path in the change set (a bare re-registration)", **detail)
+    return _result(True, "every one of %d market-local path(s) passed all five isolation conditions in "
+                         "registration mode" % len(local), **detail)
+
+
+def _discovery_row_key(row: Mapping) -> str:
+    return str(row.get("extract_id") or "")
+
+
+def check_discovery_config(rows: Sequence[Mapping], base: str, head: str, market_id: str) -> "OrderedDict[str, Any]":
+    """Field-level: the new market's own discovery config loads through the
+    discovery reader for exactly that market; the shared OSM-extract registry
+    gains exactly one row for exactly that market and every pre-existing row is
+    semantically identical; no discovery code or provider configuration
+    changed. A changed existing row, an unknown top-level field, or a second
+    market widens."""
+    from scripts.pettripfinder.discovery import market_config as MC
+    from scripts.pettripfinder.discovery import osm_extract as OSM
+    us = market_id.replace("-", "_")
+    config_rel = DISCOVERY_CONFIG_PATTERN.replace("<us>", us)
+    changed = OrderedDict((_posix(r["path"]), str(r.get("status") or "")[:1]) for r in rows)
+    problems: List[str] = []
+    other = [p for p in changed if p.startswith("scripts/pettripfinder/discovery/")
+             and p not in (config_rel, OSM_EXTRACTS_PATH)]
+    if other:
+        problems.append("discovery code or provider configuration changed: %s" % other[:3])
+    detail: "OrderedDict[str, Any]" = OrderedDict((("market_config", None), ("registry_row", None)))
+    if config_rel in changed:
+        if changed[config_rel] != "A":
+            problems.append("%s: status %r is not a new-market config write" % (config_rel, changed[config_rel]))
+        data = bytes_at(head, config_rel)
+        if data is None:
+            problems.append("%s is absent at %s" % (config_rel, head))
+        else:
+            try:
+                with tempfile.TemporaryDirectory() as scratch:
+                    (Path(scratch) / (us + ".json")).write_bytes(data)
+                    cfg = MC.load_market_config(market_id, config_dir=Path(scratch))
+                doc = _json(data.decode("utf-8-sig"))
+                if doc.get("market_id") != market_id:
+                    problems.append("discovery config market_id is %r, not %r" % (doc.get("market_id"), market_id))
+                if not cfg.cells:
+                    problems.append("discovery config declares no cells")
+                detail["market_config"] = OrderedDict((("path", config_rel), ("market_id", doc.get("market_id")),
+                                                       ("cells", len(cfg.cells)),
+                                                       ("municipalities", len(cfg.included_municipalities))))
+            except Exception as exc:
+                problems.append("discovery config does not load through the discovery reader: %s: %s"
+                                % (type(exc).__name__, str(exc)[:120]))
+    if OSM_EXTRACTS_PATH in changed:
+        if changed[OSM_EXTRACTS_PATH] != "M":
+            problems.append("%s: status %r is not an additive registry write" % (OSM_EXTRACTS_PATH, changed[OSM_EXTRACTS_PATH]))
+        base_data, head_data = bytes_at(base, OSM_EXTRACTS_PATH), bytes_at(head, OSM_EXTRACTS_PATH)
+        if base_data is None or head_data is None:
+            problems.append("the OSM-extract registry is unreadable at the base or the head")
+        else:
+            try:
+                base_doc = _json(base_data.decode("utf-8-sig"))
+                head_doc = _json(head_data.decode("utf-8-sig"))
+                OSM.ExtractRegistry.from_document(base_doc, source="base")
+                OSM.ExtractRegistry.from_document(head_doc, source="head")
+            except Exception as exc:
+                problems.append("the OSM-extract registry does not validate: %s: %s" % (type(exc).__name__, str(exc)[:120]))
+                base_doc, head_doc = {}, {}
+            for key in set(base_doc) | set(head_doc):
+                if key == "extracts":
+                    continue
+                if _plain(base_doc.get(key)) != _plain(head_doc.get(key)):
+                    problems.append("registry.%s changed (semantics; a registration adds a row and nothing else)" % key)
+            base_rows = OrderedDict((_discovery_row_key(r), r) for r in base_doc.get("extracts") or ())
+            head_rows = OrderedDict((_discovery_row_key(r), r) for r in head_doc.get("extracts") or ())
+            for key, row in base_rows.items():
+                if key not in head_rows:
+                    problems.append("existing registry row %s removed" % key)
+                elif _plain(head_rows[key]) != _plain(row):
+                    problems.append("existing registry row %s changed: %s" % (
+                        key, sorted(f for f in set(row) | set(head_rows[key]) if row.get(f) != head_rows[key].get(f))[:4]))
+            new_keys = [k for k in head_rows if k not in base_rows]
+            if len(new_keys) != 1:
+                problems.append("the registry must gain exactly one row; it gained %s" % (new_keys or "nothing"))
+            for key in new_keys:
+                row = head_rows[key]
+                if list(row.get("markets") or ()) != [market_id]:
+                    problems.append("new registry row %s serves %s, not exactly [%s]" % (key, row.get("markets"), market_id))
+                if any(r.get("index_path") == row.get("index_path") for k, r in head_rows.items() if k != key):
+                    problems.append("new registry row %s reuses another row's index_path (one output root per extract per market)" % key)
+                if not str(row.get("url") or "").startswith("https://"):
+                    problems.append("new registry row %s url is not https" % key)
+                if not str(row.get("local_pbf") or "").startswith("data/") or not str(row.get("index_path") or "").startswith("data/"):
+                    problems.append("new registry row %s must keep its extract and index under data/ (gitignored)" % key)
+                detail["registry_row"] = OrderedDict((("extract_id", key), ("markets", row.get("markets")),
+                                                      ("index_path", row.get("index_path")),
+                                                      ("existing_rows_identical", len(base_rows)),
+                                                      ("head_rows", len(head_rows))))
+    if problems:
+        return _result(False, "; ".join(problems[:5]), problems=problems, **detail)
+    if detail["market_config"] is None and detail["registry_row"] is None:
+        return _result(True, "no discovery configuration in the change set", **detail)
+    return _result(True, "the discovery config loads for exactly %s%s; no discovery code or provider "
+                         "configuration changed" % (market_id, (" and the OSM-extract registry gains exactly one row for it "
+                                                                 "with every existing row semantically identical"
+                                                                 if detail["registry_row"] else "")), **detail)
+
+
+def _newest_input_at(head: str, market_id: str) -> Optional[str]:
+    us = market_id.replace("-", "_")
+    if head == WORKTREE:
+        found = sorted(SMP.LAUNCH_PACKAGE.glob("%s_proposed_authority_*.json" % us))
+        return ("launch_packages/pettripfinder/" + found[-1].name) if found else None
+    from scripts.pettripfinder import regression_delta as RD
+    try:
+        listing = RD._git("ls-tree", "--name-only", head, RD._repo_prefix() + "launch_packages/pettripfinder/")
+    except Exception:
+        return None
+    names = sorted(Path(line.strip()).name for line in listing.splitlines()
+                   if Path(line.strip()).name.startswith(us + "_proposed_authority_") and line.strip().endswith(".json"))
+    return ("launch_packages/pettripfinder/" + names[-1]) if names else None
+
+
+def check_registration_input(rows: Sequence[Mapping], head: str, market_id: str) -> "OrderedDict[str, Any]":
+    """NEW_MARKET_REGISTRATION_INPUT: the ptf-market-proposed-authority/1.0
+    document market_registration_cli reads is DATA when it belongs to exactly
+    one new market, carries the schema the CLI's own loader accepts, reconciles
+    its own counts, reconciles with the market's identity census, and binds
+    to the written shard (the CLI's own verify). Unknown or malformed: FAIL."""
+    from scripts.pettripfinder import market_registration_cli as MRC
+    from scripts.pettripfinder.site_data import normalize_name
+    us = market_id.replace("-", "_")
+    pattern = REGISTRATION_INPUT_PATTERN.replace("<us>", us)
+    in_set = [(_posix(r["path"]), str(r.get("status") or "")[:1]) for r in rows if _glob_match(pattern, _posix(r["path"]))]
+    problems: List[str] = []
+    if len(in_set) > 1:
+        problems.append("more than one registration input in the change set: %s" % [p for p, _s in in_set])
+    for rel, status in in_set:
+        if status != "A":
+            problems.append("%s: status %r; a registration input is created, never edited" % (rel, status))
+    other_inputs = [_posix(r["path"]) for r in rows
+                    if _glob_match("launch_packages/pettripfinder/*_proposed_authority_*.json", _posix(r["path"]))
+                    and not _glob_match(pattern, _posix(r["path"]))]
+    if other_inputs:
+        problems.append("another market's registration input changed: %s" % other_inputs[:3])
+    for impl in ("scripts/pettripfinder/market_registration_cli.py", "scripts/pettripfinder/market_proposed_authority_cli.py"):
+        if any(_posix(r["path"]) == impl for r in rows):
+            problems.append("the registration input's reader/writer changed: %s" % impl)
+    rel = in_set[0][0] if in_set else _newest_input_at(head, market_id)
+    detail: "OrderedDict[str, Any]" = OrderedDict((("path", rel), ("in_change_set", bool(in_set)), ("schema", None)))
+    if rel is None:
+        problems.append("no registration input (%s) exists at %s" % (pattern, head))
+        return _result(False, "; ".join(problems), problems=problems, **detail)
+    data = bytes_at(head, rel)
+    if data is None:
+        problems.append("%s is absent at %s" % (rel, head))
+        return _result(False, "; ".join(problems), problems=problems, **detail)
+    with tempfile.TemporaryDirectory() as scratch:
+        path = Path(scratch) / Path(rel).name
+        path.write_bytes(data)
+        try:
+            doc = MRC.load_authority(path)
+        except Exception as exc:
+            problems.append("the registration CLI's loader refuses the input: %s" % str(exc)[:160])
+            return _result(False, "; ".join(problems), problems=problems, **detail)
+        detail["schema"] = doc.get("schema")
+        if doc.get("market_id") != market_id:
+            problems.append("input market_id is %r, not %r" % (doc.get("market_id"), market_id))
+        pf = list(doc.get("pet_friendly") or ())
+        np_ = list(doc.get("verified_no_pets") or ())
+        if doc.get("pet_friendly_count") != len(pf):
+            problems.append("pet_friendly_count %r != %d rows" % (doc.get("pet_friendly_count"), len(pf)))
+        if doc.get("verified_no_pets_count") != len(np_):
+            problems.append("verified_no_pets_count %r != %d rows" % (doc.get("verified_no_pets_count"), len(np_)))
+        if doc.get("authority_total") != len(pf) + len(np_):
+            problems.append("authority_total %r != %d" % (doc.get("authority_total"), len(pf) + len(np_)))
+        for kind, records in (("pet_friendly", pf), ("verified_no_pets", np_)):
+            for i, rec in enumerate(records):
+                for field in ("identity_key", "normalized_name", "canonical_name", "official_url", "source_url", "observed_at"):
+                    if not rec.get(field):
+                        problems.append("%s[%d] carries no %s" % (kind, i, field))
+                        break
+                if rec.get("market_id") not in (None, market_id):
+                    problems.append("%s[%d] belongs to %r" % (kind, i, rec.get("market_id")))
+        # source identities reconcile: every record's identity key is an
+        # admitted identity of the market's committed census at the head.
+        census_data = bytes_at(head, "launch_packages/pettripfinder/identity_census/%s.json" % market_id)
+        if census_data is None:
+            problems.append("the market's identity census is absent at %s" % head)
+        else:
+            try:
+                census = _json(census_data.decode("utf-8-sig"))
+                keys = {h.get("identity_key") for h in census.get("hotels") or ()}
+                keys |= {a for h in census.get("hotels") or () for a in (h.get("identity_key_aliases") or ())}
+                names = {normalize_name(str(h.get("canonical_name") or "")) for h in census.get("hotels") or ()}
+                missing = [rec.get("identity_key") for rec in pf + np_
+                           if rec.get("identity_key") not in keys
+                           and normalize_name(str(rec.get("canonical_name") or "")) not in names]
+                if missing:
+                    problems.append("%d input identities are not in the census: %s" % (len(missing), missing[:3]))
+                detail["census_identities"] = len(keys)
+            except Exception as exc:
+                problems.append("the census does not parse: %s" % str(exc)[:120])
+        detail["pet_friendly"] = len(pf)
+        detail["verified_no_pets"] = len(np_)
+        # digest binding: the written shard states exactly this input's sets.
+        if head == WORKTREE:
+            try:
+                shard_problems = MRC.verify(market_id, path)
+            except Exception as exc:
+                shard_problems = ["verify raised %s: %s" % (type(exc).__name__, str(exc)[:120])]
+            if shard_problems:
+                problems.append("the shard does not bind to the input: %s" % shard_problems[:2])
+            detail["shard_binding"] = "verified by market_registration_cli.verify" if not shard_problems else shard_problems
+        else:
+            seed = bytes_at(head, "launch_packages/pettripfinder/markets/authority/%s/seed_businesses.csv" % market_id)
+            excl = bytes_at(head, "launch_packages/pettripfinder/markets/authority/%s/hotel_exclusions.json" % market_id)
+            if seed is None or excl is None:
+                problems.append("the shard is absent at %s" % head)
+            else:
+                import csv
+                import io
+                seed_names = {normalize_name(r.get("name") or "") for r in csv.DictReader(io.StringIO(seed.decode("utf-8-sig")))}
+                excl_names = {r.get("normalized_name") for r in (_json(excl.decode("utf-8-sig")).get("exclusions") or ())}
+                pf_names = {r.get("normalized_name") for r in pf}
+                np_names = {normalize_name(r.get("canonical_name") or "") for r in np_}
+                if seed_names != pf_names:
+                    problems.append("seed shard disagrees with the input's pet-friendly set: %s" % sorted(seed_names ^ pf_names)[:3])
+                if excl_names != np_names:
+                    problems.append("exclusion shard disagrees with the input's verified-no-pets set: %s" % sorted(excl_names ^ np_names)[:3])
+                detail["shard_binding"] = "seed and exclusion shards read at %s state the input's sets" % head
+    detail["input_digest"] = "sha256:" + _sha256(data)
+    if problems:
+        return _result(False, "; ".join(problems[:5]), problems=problems, **detail)
+    return _result(True, "the registration input is a %s document for exactly %s, its counts reconcile, every "
+                         "identity is in the census, and the written shard binds to it" % (detail["schema"], market_id),
+                   **detail)
+
+
+def check_identity_resolutions(rows: Sequence[Mapping], base: str, head: str, market_id: str) -> "OrderedDict[str, Any]":
+    """Field-level: identity_resolutions.json may gain rulings for exactly the
+    registering market. Every pre-existing ruling byte-identical and in place;
+    every new ruling validates under the publication guard's own contract,
+    names exact properties of the market's committed authority, satisfies the
+    exclusion contract's co_located_distinct proof pairwise, and collides with
+    no ruling's slugs or names. No ruling: PASS."""
+    from scripts.pettripfinder import hotel_exclusions as HE
+    from scripts.pettripfinder import publication_guard as PG
+    from scripts.pettripfinder.site_data import normalize_name
+    changed = OrderedDict((_posix(r["path"]), str(r.get("status") or "")[:1]) for r in rows)
+    detail: "OrderedDict[str, Any]" = OrderedDict((("in_change_set", IDENTITY_RESOLUTIONS_PATH in changed),))
+    if IDENTITY_RESOLUTIONS_PATH not in changed:
+        return _result(True, "no identity-resolution ruling in the change set", **detail)
+    problems: List[str] = []
+    if changed[IDENTITY_RESOLUTIONS_PATH] != "M":
+        problems.append("identity_resolutions.json status %r is not an additive ruling write" % changed[IDENTITY_RESOLUTIONS_PATH])
+    base_data, head_data = bytes_at(base, IDENTITY_RESOLUTIONS_PATH), bytes_at(head, IDENTITY_RESOLUTIONS_PATH)
+    if base_data is None or head_data is None:
+        problems.append("identity_resolutions.json is unreadable at the base or the head")
+        return _result(False, "; ".join(problems), problems=problems, **detail)
+    try:
+        base_doc = _json(base_data.decode("utf-8-sig"))
+        head_doc = _json(head_data.decode("utf-8-sig"))
+        PG.validate_resolutions(head_doc)
+        PG.validate_resolutions(base_doc)
+    except Exception as exc:
+        problems.append("the rulings do not validate under the publication guard: %s" % str(exc)[:160])
+        return _result(False, "; ".join(problems), problems=problems, **detail)
+    for key in set(base_doc) | set(head_doc):
+        if key == "resolutions":
+            continue
+        if _plain(base_doc.get(key)) != _plain(head_doc.get(key)):
+            problems.append("identity_resolutions.%s changed" % key)
+    base_rows = list(base_doc.get("resolutions") or ())
+    head_rows = list(head_doc.get("resolutions") or ())
+    if _plain(head_rows[:len(base_rows)]) != _plain(base_rows):
+        problems.append("a pre-existing ruling changed or moved (the first %d rulings must be the base rulings)" % len(base_rows))
+    new_rows = head_rows[len(base_rows):]
+    if not new_rows:
+        problems.append("no ruling was added")
+    # the market's own committed identities at the head
+    known: Dict[str, str] = {}
+    excl = bytes_at(head, "launch_packages/pettripfinder/markets/authority/%s/hotel_exclusions.json" % market_id)
+    facts = None
+    try:
+        from scripts.pettripfinder.site_data import published_facts_path
+        facts = bytes_at(head, "launch_packages/pettripfinder/" + published_facts_path(market_id).name)
+    except Exception:
+        facts = None
+    census = bytes_at(head, "launch_packages/pettripfinder/identity_census/%s.json" % market_id)
+    records: List[Dict] = []
+    if excl is not None:
+        records.extend(_json(excl.decode("utf-8-sig")).get("exclusions") or ())
+    if census is not None:
+        records.extend(_json(census.decode("utf-8-sig")).get("hotels") or ())
+    if facts is not None:
+        records.extend(OrderedDict((("canonical_name", h.get("name")), ("official_url", (h.get("facts") or {}).get("official_url"))))
+                       for h in _json(facts.decode("utf-8-sig")).get("hotels") or ())
+    for rec in records:
+        name = normalize_name(str(rec.get("canonical_name") or ""))
+        if name:
+            known[name] = str(rec.get("official_url") or "")
+    added: List[Dict[str, Any]] = []
+    for i, row in enumerate(new_rows):
+        where = "new ruling %d (%s)" % (i, row.get("resolution_id"))
+        if row.get("market_id") != market_id:
+            problems.append("%s belongs to %r, not %r" % (where, row.get("market_id"), market_id))
+        if PG.resolution_hash(row) != row.get("resolution_hash"):
+            problems.append("%s: resolution_hash does not re-derive" % where)
+        if row.get("resolution_type") != PG.SAME_CAMPUS:
+            problems.append("%s: resolution_type %r is not the one permitted type" % (where, row.get("resolution_type")))
+        idents = list(row.get("identities") or ())
+        if len(idents) < 2:
+            problems.append("%s names fewer than two identities" % where)
+        for ident in idents:
+            name = normalize_name(str(ident.get("canonical_name") or ""))
+            if name not in known:
+                problems.append("%s names %r, which is not an identity of %s's committed authority"
+                                % (where, ident.get("canonical_name"), market_id))
+            elif known[name] and ident.get("official_url") and HE.canonical_url(known[name]) != HE.canonical_url(ident["official_url"]):
+                problems.append("%s: %r carries a different official URL than the committed identity"
+                                % (where, ident.get("canonical_name")))
+        for a_i in range(len(idents)):
+            for b_i in range(a_i + 1, len(idents)):
+                a, b = idents[a_i], idents[b_i]
+                verdict, why = HE.co_located_distinct(
+                    OrderedDict((("canonical_name", a.get("canonical_name")), ("official_url", a.get("official_url")))),
+                    OrderedDict((("canonical_name", b.get("canonical_name")), ("official_url", b.get("official_url")))))
+                if verdict != HE.CO_LOCATED_DISTINCT:
+                    problems.append("%s: %r / %r are %s under the exclusion contract (%s)"
+                                    % (where, a.get("canonical_name"), b.get("canonical_name"), verdict, why))
+        added.append(OrderedDict((("resolution_id", row.get("resolution_id")), ("address_key", row.get("address_key")),
+                                  ("identities", [i.get("slug") for i in idents]))))
+    # global collision scan over every ruling at the head
+    slug_owner: Dict[str, str] = {}
+    name_owner: Dict[str, str] = {}
+    for row in head_rows:
+        for ident in row.get("identities") or ():
+            slug, name = str(ident.get("slug") or ""), normalize_name(str(ident.get("canonical_name") or ""))
+            if slug in slug_owner and slug_owner[slug] != name:
+                problems.append("slug %r is claimed by two different identities across rulings" % slug)
+            slug_owner.setdefault(slug, name)
+            if name in name_owner and name_owner[name] != slug:
+                problems.append("identity %r carries two slugs across rulings" % ident.get("canonical_name"))
+            name_owner.setdefault(name, slug)
+    detail.update(OrderedDict((("base_rulings", len(base_rows)), ("head_rulings", len(head_rows)),
+                               ("added", added), ("committed_identities_checked", len(known)))))
+    if problems:
+        return _result(False, "; ".join(problems[:5]), problems=problems, **detail)
+    return _result(True, "%d additive ruling(s) for %s validate under the publication guard, name exact committed "
+                         "identities, are DISTINCT pairwise under the exclusion contract, and every pre-existing "
+                         "ruling is byte-identical; no slug or name collides" % (len(new_rows), market_id), **detail)
 
 
 # --------------------------------------------------------------------------- #
@@ -1180,7 +1763,12 @@ def evaluate(rows: Sequence[Mapping], base: str, head: str = WORKTREE, *,
     market_id = gate["market_id"]
     checks["change_set"] = gate["result"]
     roles = gate["roles"]
-    registration_paths = [p for p, role in roles.items() if role != ROLE_COMPANION]
+    gate_detail = gate["result"].get("detail") or {}
+    partition = gate_detail.get("partition") or OrderedDict((b, []) for b in BUCKETS)
+    registration_paths = [p for p, role in roles.items()
+                          if role not in (ROLE_COMPANION, ROLE_MARKET_LOCAL, ROLE_DISCOVERY_MARKET_CONFIG)]
+    market_local_paths = list(partition.get(BUCKET_MARKET_LOCAL) or ())
+    change_class = gate_detail.get("change_class") or CLASS_REGISTRATION
 
     package: Optional[Mapping] = None
     live_idx: Optional[RI.ReleaseIndex] = None
@@ -1195,6 +1783,11 @@ def evaluate(rows: Sequence[Mapping], base: str, head: str = WORKTREE, *,
                 raise RegistrationProofError("%s is absent at %s" % (rel, rev))
             return data
 
+        checks["market_local_zone"] = _run("market_local_zone", lambda: check_market_local_zone(gate))
+        checks["discovery_config"] = _run("discovery_config", lambda: check_discovery_config(rows, base, head, market_id))
+        checks["registration_input"] = _run("registration_input", lambda: check_registration_input(rows, head, market_id))
+        checks["identity_resolutions"] = _run("identity_resolutions", lambda: check_identity_resolutions(
+            rows, base, head, market_id))
         checks["participation"] = _run("participation", lambda: check_participation(
             _read(base, PARTICIPATION_PATH), _read(head, PARTICIPATION_PATH), market_id))
 
@@ -1258,9 +1851,12 @@ def evaluate(rows: Sequence[Mapping], base: str, head: str = WORKTREE, *,
     unknown = [n for n, c in checks.items() if c["status"] == UNKNOWN]
     failed = [n for n, c in checks.items() if c["status"] == FAIL]
     if eligible:
-        why = ("every registration-data-only check passed for %s: the change set is one market's registration, "
-               "proven by field, with a sealed package, an eligible FAST receipt, and an independently derived "
-               "expected release that the committed candidate matches as complete sets" % market_id)
+        why = ("every %s check passed for %s: the change set is one market's %s, proven by field, with a sealed "
+               "package, an eligible FAST receipt, and an independently derived expected release that the "
+               "committed candidate matches as complete sets"
+               % (change_class, market_id,
+                  "first registration (market-local zone + registration zone + derived outputs)"
+                  if change_class == CLASS_COMPOSITE else "registration"))
     else:
         first = failed[0] if failed else (unknown[0] if unknown else "change_set")
         why = "%s: %s" % (first, checks[first]["why"])
@@ -1270,8 +1866,14 @@ def evaluate(rows: Sequence[Mapping], base: str, head: str = WORKTREE, *,
         ("proof_version", PROOF_VERSION),
         ("market_id", market_id),
         ("base", base), ("head", head),
+        ("CHANGE_CLASS", change_class if eligible else None),
+        ("candidate_change_class", change_class),
         ("registration_paths", registration_paths),
+        ("market_local_paths", market_local_paths),
+        ("narrowed_paths", sorted(set(registration_paths) | set(market_local_paths))),
         ("companion_paths", [p for p, role in roles.items() if role == ROLE_COMPANION]),
+        ("partition", partition),
+        ("accounting", gate_detail.get("accounting")),
         ("checks", checks),
         ("failed_checks", failed), ("unknown_checks", unknown),
         ("ELIGIBLE", YES if eligible else NO),
@@ -1355,7 +1957,34 @@ def field_level_eligibility_matrix() -> List["OrderedDict[str, str]"]:
          FIELD_PROTECTED, "founder authorization and deployment records never move at registration"),
         ("launch_packages/pettripfinder/{fast_release_activation.json,release_production_gate.json}", "*",
          FIELD_PROTECTED, "activation and the production gate never move at registration"),
-        ("tests/**, scripts/**, *.py", "*", FIELD_BEHAVIOR, "code and test expectations are never registration data"),
+        ("tests/**, scripts/**, *.py", "*", FIELD_BEHAVIOR, "code and test expectations are never registration data "
+                                                            "-- unless the path is the registering market's own and "
+                                                            "passes all five isolation conditions in registration mode"),
+        # PTF-FINAL-FRESH-MARKET-REGISTRATION-REENGINEERING-001: the composite zones
+        ("scripts/pettripfinder/<new_us>_*.py, markets/reports/<new_us>_*.json, markets/{packages,staging,receipts}/<new>/**",
+         "*", FIELD_DERIVED, "MARKET_LOCAL_ACQUISITION: proven by market_local_isolation in registration mode -- "
+                             "namespace (the registering market's template zone), imports (stdlib / allow-list / "
+                             "transaction modules), writes (zone roots / this change set's registration data), "
+                             "reachability (nothing shared names it; subprocesses read-only), registration "
+                             "(unregistered at the base, registered by this set)"),
+        ("scripts/pettripfinder/<new_us>_*.py", "imports assemble_* / generate_* / renderers / readers / policy / routing",
+         FIELD_BEHAVIOR, "a helper that imports or runs site runtime is rejected for that dependency"),
+        (DISCOVERY_CONFIG_PATTERN, "*", FIELD_DERIVED, "loads through discovery.market_config for exactly <new>; also market-local"),
+        (OSM_EXTRACTS_PATH, "extracts[<new row>]", FIELD_DATA, "exactly one new row, markets == [<new>], its own index_path"),
+        (OSM_EXTRACTS_PATH, "extracts[<existing>]", FIELD_PROTECTED, "semantically identical to the base row"),
+        (OSM_EXTRACTS_PATH, "schema / what_this_is / provenance", FIELD_BEHAVIOR, "semantics; any change widens"),
+        ("scripts/pettripfinder/discovery/**", "*", FIELD_BEHAVIOR, "discovery code and provider configuration; any change widens"),
+        (REGISTRATION_INPUT_PATTERN, "schema / market_id", FIELD_DATA, "ptf-market-proposed-authority/1.0 for exactly <new>"),
+        (REGISTRATION_INPUT_PATTERN, "pet_friendly[] / verified_no_pets[] / *_count / authority_total", FIELD_DERIVED,
+         "counts reconcile; every identity is in <new>'s census; the shard binds (market_registration_cli.verify)"),
+        ("launch_packages/pettripfinder/<other_us>_proposed_authority_*.json", "*", FIELD_PROTECTED, "another market's input may not change"),
+        ("scripts/pettripfinder/market_registration_cli.py, market_proposed_authority_cli.py", "*", FIELD_BEHAVIOR,
+         "the input's reader and writer; any change widens"),
+        (IDENTITY_RESOLUTIONS_PATH, "resolutions[<new>]", FIELD_DERIVED,
+         "market_id == <new>; validates under publication_guard; names exact committed identities; DISTINCT pairwise "
+         "under hotel_exclusions.co_located_distinct; resolution_hash re-derives; no slug/name collision"),
+        (IDENTITY_RESOLUTIONS_PATH, "resolutions[<existing>]", FIELD_PROTECTED, "byte-identical and in place"),
+        (IDENTITY_RESOLUTIONS_PATH, "schema / contract / market / note", FIELD_BEHAVIOR, "semantics; any change widens"),
     ]
     return [OrderedDict((("document", d), ("field", f), ("policy", p), ("rule", r))) for d, f, p, r in rows]
 
@@ -1365,8 +1994,19 @@ def contract_document() -> "OrderedDict[str, Any]":
     return OrderedDict((
         ("schema", CONTRACT_SCHEMA),
         ("work_order", "PTF-NEW-MARKET-REGISTRATION-DATA-ONLY-POLICY-001"),
+        ("extended_by", "PTF-FINAL-FRESH-MARKET-REGISTRATION-REENGINEERING-001"),
         ("proof_version", PROOF_VERSION),
         ("change_class", "NEW_MARKET_REGISTRATION_DATA_ONLY"),
+        ("composite_change_class", CLASS_COMPOSITE),
+        ("composite_buckets", list(BUCKETS)),
+        ("narrow_buckets", sorted(NARROW_BUCKETS)),
+        ("composite_rule", "the change set narrows only when SHARED_BEHAVIOR_CHANGE = 0 and UNKNOWN = 0, the bucket "
+                           "sizes sum to the changed-path count, every market-local path passes all five isolation "
+                           "conditions in registration mode, and every typed input passes its field check"),
+        ("fresh_market_roles", [OrderedDict((("role", role), ("path", pattern), ("required", required),
+                                             ("statuses", list(statuses))))
+                                for role, pattern, required, statuses in FRESH_MARKET_ROLE_PATTERNS]),
+        ("original_checks_unchanged", list(ORIGINAL_CHECKS)),
         ("what_this_is", "The one permitted registration operation Regression V2 may narrow: exactly ONE "
                          "previously absent market joins the registry, the participation record, the build "
                          "closure and the market-state pin, with a sealed package and an eligible FAST receipt, "
@@ -1447,4 +2087,6 @@ __all__ = [
     "check_sealed_package", "check_fast_receipt", "expected_and_actual", "compare_complete",
     "check_expected_release", "check_identity_routes", "expected_pin_block", "check_market_state_pin",
     "check_release_integrity", "evaluate", "field_level_eligibility_matrix", "contract_document",
+    "check_market_local_zone", "check_discovery_config", "check_registration_input", "check_identity_resolutions",
+    "BUCKETS", "CLASS_COMPOSITE", "CLASS_REGISTRATION", "FRESH_MARKET_ROLE_PATTERNS", "bucket_of_role",
 ]

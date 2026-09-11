@@ -239,6 +239,7 @@ the export drifts from the module).
 | `MARKET_DATA_PACKAGE` | not required | not required — a sealed package, staging tree or receipt under `markets/{packages,staging,receipts}/<market>/`; inert data no build reads (ATLAS-THROUGHPUT-003) |
 | `MARKET_AUTHORITY_DATA_ONLY` | required | conditional — a whole change set that is ONE registered market's authority data and nothing else; **not required ONLY** when a committed `FAST_DATA_ONLY_RELEASE` receipt says ELIGIBLE = YES for a sealed package covering the exact bytes AND `fast_release_activation.json` enables the market (it is DISABLED); otherwise exactly `AUTHORITY_CHANGE` |
 | `NEW_MARKET_REGISTRATION_DATA_ONLY` | not required | conditional — a whole change set that is exactly ONE previously absent market's registration and nothing else; **not required ONLY** when `registration_data_only.evaluate` passes every check of the bounded registration safety union below; otherwise every path keeps its path class, and three of them are `DEPLOYMENT_CHANGE` |
+| `COMPOSITE_FRESH_MARKET_DATA_ONLY` | not required | conditional — a whole change set that is exactly ONE previously absent market's FIRST registration: its own helpers, discovery config, typed inputs and registration artifacts, every changed path in exactly one of five buckets; **not required ONLY** when the partition has `SHARED_BEHAVIOR_CHANGE = 0` and `UNKNOWN = 0`, every market-local path passes the five isolation conditions in registration mode, every typed input passes its field check, and all eleven registration checks pass; otherwise every path keeps its path class |
 
 ### NEW_MARKET_REGISTRATION_DATA_ONLY (PTF-NEW-MARKET-REGISTRATION-DATA-ONLY-POLICY-001)
 
@@ -330,15 +331,17 @@ documents are named by 137 test modules — the broad run by another name) and
 no whole-site assembly (rule J builds the joining market twice cold; no
 other market's input moved).
 
-The ordinary registration workflow, end to end:
+The ordinary registration workflow, end to end (as corrected by
+PTF-FINAL-FRESH-MARKET-REGISTRATION-REENGINEERING-001 — every step after the
+contract is a generic command; no market writes a participation helper and
+nobody hand-edits the pin):
 
 ```
 python scripts/pettripfinder/market_registration_cli.py --market <id> --authority <proposed> --write
 python -m scripts.pettripfinder.build_global_authority --write
-python scripts/pettripfinder/<market>_release_contract_NNN.py          # the contract instance
-python scripts/pettripfinder/<market>_participation_registration_NNN.py --write   # row + closure
-# state the market's reviewed block in tests/pettripfinder/pins/market_state.json
-python -m scripts.pettripfinder.registration_release_lane seal --market <id>   # package + FAST receipt
+python scripts/pettripfinder/<market>_release_contract_NNN.py          # the contract instance (market-local)
+python -m scripts.pettripfinder.registration_release_lane register --market <id> --work-order <ORDER>   # row + closure
+python -m scripts.pettripfinder.registration_release_lane seal --market <id> --work-order <ORDER>       # package + FAST receipt + pin block
 python -m scripts.pettripfinder.regression_delta classify --base <sha> --out <classify.json>
 python -m scripts.pettripfinder.registration_release_lane packet --market <id> --classification <classify.json>
 ```
@@ -349,6 +352,70 @@ builds of the joining market), the classification with its proof in about
 ten. Shared runtime, schema, assembler, deployment implementation and test
 infrastructure changes remain broad; a registration that also edits a test
 expectation is not a registration and costs the full suite.
+
+### COMPOSITE_FRESH_MARKET_DATA_ONLY (PTF-FINAL-FRESH-MARKET-REGISTRATION-REENGINEERING-001)
+
+`NEW_MARKET_REGISTRATION_DATA_ONLY` was validated on a RE-registration: the
+Charlotte replay's base already carried Charlotte's acquisition helpers,
+discovery config, proposed-authority document and co-location ruling, so the
+change set was the registration documents alone. PTF-RALEIGH-NC-FINAL-FRESH-
+CITY-PROOF-001 built a market FROM ZERO — 42 changed paths, nothing shared
+touched — and was answered `FULL_REGRESSION_REQUIRED = YES` at the first gate:
+fourteen `raleigh_nc_*.py` helpers were `GENERIC_RUNTIME_CHANGE` by prefix, the
+two discovery configs `ROUTING_SEMANTIC_CHANGE` by prefix, the proposed
+authority and the ruling `UNCLASSIFIED`, and the market-local proof that would
+have claimed the helpers never ran, because the registration's own blocker
+(`bundle_cache_closure.json`) switched it off first.
+
+A fresh-market branch is TWO independently provable zones plus their derived
+outputs. `registration_data_only.classify_change_set` now PARTITIONS every
+changed path into exactly one bucket, and the set narrows only as the exact
+union:
+
+| bucket | what lands there | how it is proven |
+|---|---|---|
+| `MARKET_LOCAL_ACQUISITION` | the registering market's own helpers, discovery config and tests (`zone_template` instance for its id — the registry is never edited) | `market_local_isolation.prove(..., registration=…)` in REGISTRATION MODE: namespace, imports (stdlib / allow-list / the registry's `transaction_imports` — never the assembler, generator, deployer, renderers, readers, policy/routing/identity runtime), writes (zone roots / the same set's registration data), reachability (nothing shared names it; subprocesses read-only or a transaction module), registration (UNREGISTERED at the base, registered by this set). A helper that fails any condition is REJECTED for that reason and the set is broad |
+| `NEW_MARKET_REGISTRATION_DATA_ONLY` | the eleven registration roles PLUS three typed inputs: `<us>_proposed_authority_*.json` (`registration_input`), one additive row in `identity_resolutions.json` (`identity_resolution_ruling`), one additive row in `discovery/config/osm_extracts.json` (`discovery_registry_row`) | the four new checks below and the eleven original checks, unchanged |
+| `PERMITTED_DERIVED_REGISTRATION_OUTPUT` | the regenerated globals; the narrow companions (reports, prose, baselines, the market's own package / receipt) | exactly as the registration class already proved them |
+| `SHARED_BEHAVIOR_CHANGE` | any shared code, test, protected path, other market's data, or a helper the isolation proof rejected | ends the narrowing, with the reason recorded per path |
+| `UNKNOWN` | a path no bucket claims | ends the narrowing |
+
+The four checks added in front of the eleven (`ORIGINAL_CHECKS` is kept as a
+set so the composite class can be shown to have weakened none of them):
+
+- **market_local_zone** — every market-local candidate passed all five
+  conditions; each rejection names the helper and the condition.
+- **discovery_config** — `discovery/config/<us>.json` loads through
+  `discovery.market_config` for exactly the new market; `osm_extracts.json`
+  validates under `discovery.osm_extract`, gains exactly one row whose
+  `markets == [<new>]` with its own `index_path`, and every pre-existing row is
+  semantically identical; no discovery code or provider configuration changed.
+- **registration_input** — the document `market_registration_cli` reads is its
+  own `ptf-market-proposed-authority/1.0` schema for exactly the new market,
+  its counts reconcile, every identity is in the market's census, and the
+  written shard binds to it (`market_registration_cli.verify`); the reader and
+  writer are unchanged; no other market's input moved.
+- **identity_resolutions** — every pre-existing ruling byte-identical and in
+  place; every new ruling belongs to the new market, validates under
+  `publication_guard.validate_resolutions`, re-derives its `resolution_hash`,
+  names exact committed identities, is `DISTINCT` pairwise under
+  `hotel_exclusions.co_located_distinct`, and collides with no ruling's slug or
+  name.
+
+The verdict carries `partition`, `accounting` (`TOTAL_CHANGED_PATHS`, the
+five bucket counts, `sum_equals_total`) and `CHANGE_CLASS`. A bare
+re-registration (no market-local path, no typed input) is still
+`NEW_MARKET_REGISTRATION_DATA_ONLY`. The market-state block is written by
+`registration_release_lane seal --work-order <ORDER>` from the SEALED PACKAGE
+and refused unless the release contract states the same numbers; the proof
+still holds it to the package independently. The frozen Raleigh change set
+(`e3c27772..13809c36`) is a committed fixture of the classifier's own tests:
+45 paths accounted, 0 UNKNOWN, three helpers REJECTED for real dependencies
+(one runs the assembler as a subprocess, one imports it and writes an
+unresolvable scratch path, one writes an unresolvable path) — which is why the
+participation helper, the release-lane helper and the readiness-packet helper
+of every earlier market are replaced by the generic `register`, `seal` and
+`packet` commands above.
 
 ### FAST_DATA_ONLY_RELEASE (ATLAS-THROUGHPUT-003)
 

@@ -1,8 +1,70 @@
 {
  "schema": "ptf-registration-data-only-contract/1.0",
  "work_order": "PTF-NEW-MARKET-REGISTRATION-DATA-ONLY-POLICY-001",
- "proof_version": "ptf-registration-data-only/1.0",
+ "extended_by": "PTF-FINAL-FRESH-MARKET-REGISTRATION-REENGINEERING-001",
+ "proof_version": "ptf-registration-data-only/2.0",
  "change_class": "NEW_MARKET_REGISTRATION_DATA_ONLY",
+ "composite_change_class": "COMPOSITE_FRESH_MARKET_DATA_ONLY",
+ "composite_buckets": [
+  "MARKET_LOCAL_ACQUISITION",
+  "NEW_MARKET_REGISTRATION_DATA_ONLY",
+  "PERMITTED_DERIVED_REGISTRATION_OUTPUT",
+  "SHARED_BEHAVIOR_CHANGE",
+  "UNKNOWN"
+ ],
+ "narrow_buckets": [
+  "MARKET_LOCAL_ACQUISITION",
+  "NEW_MARKET_REGISTRATION_DATA_ONLY",
+  "PERMITTED_DERIVED_REGISTRATION_OUTPUT"
+ ],
+ "composite_rule": "the change set narrows only when SHARED_BEHAVIOR_CHANGE = 0 and UNKNOWN = 0, the bucket sizes sum to the changed-path count, every market-local path passes all five isolation conditions in registration mode, and every typed input passes its field check",
+ "fresh_market_roles": [
+  {
+   "role": "registration_input",
+   "path": "launch_packages/pettripfinder/<us>_proposed_authority_*.json",
+   "required": false,
+   "statuses": [
+    "A"
+   ]
+  },
+  {
+   "role": "identity_resolution_ruling",
+   "path": "launch_packages/pettripfinder/identity_resolutions.json",
+   "required": false,
+   "statuses": [
+    "M"
+   ]
+  },
+  {
+   "role": "discovery_registry_row",
+   "path": "scripts/pettripfinder/discovery/config/osm_extracts.json",
+   "required": false,
+   "statuses": [
+    "M"
+   ]
+  },
+  {
+   "role": "discovery_market_config",
+   "path": "scripts/pettripfinder/discovery/config/<us>.json",
+   "required": false,
+   "statuses": [
+    "A"
+   ]
+  }
+ ],
+ "original_checks_unchanged": [
+  "change_set",
+  "participation",
+  "release_contract",
+  "build_closure",
+  "derived_globals",
+  "sealed_package",
+  "fast_receipt",
+  "expected_release",
+  "identity_routes",
+  "market_state_pin",
+  "release_integrity"
+ ],
  "what_this_is": "The one permitted registration operation Regression V2 may narrow: exactly ONE previously absent market joins the registry, the participation record, the build closure and the market-state pin, with a sealed package and an eligible FAST receipt, and every changed field is proven by this contract's field policy. Granted to a whole change set, never to a path; UNKNOWN is a failure; the class reaches AUTHORIZATION_READY and authorizes nothing.",
  "registration_roles": [
   {
@@ -135,6 +197,10 @@
  ],
  "checks": [
   "change_set",
+  "market_local_zone",
+  "discovery_config",
+  "registration_input",
+  "identity_resolutions",
   "participation",
   "release_contract",
   "build_closure",
@@ -343,7 +409,91 @@
    "document": "tests/**, scripts/**, *.py",
    "field": "*",
    "policy": "BEHAVIOR_WIDENS",
-   "rule": "code and test expectations are never registration data"
+   "rule": "code and test expectations are never registration data -- unless the path is the registering market's own and passes all five isolation conditions in registration mode"
+  },
+  {
+   "document": "scripts/pettripfinder/<new_us>_*.py, markets/reports/<new_us>_*.json, markets/{packages,staging,receipts}/<new>/**",
+   "field": "*",
+   "policy": "DERIVED_CHECKED_INDEPENDENTLY",
+   "rule": "MARKET_LOCAL_ACQUISITION: proven by market_local_isolation in registration mode -- namespace (the registering market's template zone), imports (stdlib / allow-list / transaction modules), writes (zone roots / this change set's registration data), reachability (nothing shared names it; subprocesses read-only), registration (unregistered at the base, registered by this set)"
+  },
+  {
+   "document": "scripts/pettripfinder/<new_us>_*.py",
+   "field": "imports assemble_* / generate_* / renderers / readers / policy / routing",
+   "policy": "BEHAVIOR_WIDENS",
+   "rule": "a helper that imports or runs site runtime is rejected for that dependency"
+  },
+  {
+   "document": "scripts/pettripfinder/discovery/config/<us>.json",
+   "field": "*",
+   "policy": "DERIVED_CHECKED_INDEPENDENTLY",
+   "rule": "loads through discovery.market_config for exactly <new>; also market-local"
+  },
+  {
+   "document": "scripts/pettripfinder/discovery/config/osm_extracts.json",
+   "field": "extracts[<new row>]",
+   "policy": "DATA_NARROWABLE",
+   "rule": "exactly one new row, markets == [<new>], its own index_path"
+  },
+  {
+   "document": "scripts/pettripfinder/discovery/config/osm_extracts.json",
+   "field": "extracts[<existing>]",
+   "policy": "PROTECTED_INDEPENDENTLY",
+   "rule": "semantically identical to the base row"
+  },
+  {
+   "document": "scripts/pettripfinder/discovery/config/osm_extracts.json",
+   "field": "schema / what_this_is / provenance",
+   "policy": "BEHAVIOR_WIDENS",
+   "rule": "semantics; any change widens"
+  },
+  {
+   "document": "scripts/pettripfinder/discovery/**",
+   "field": "*",
+   "policy": "BEHAVIOR_WIDENS",
+   "rule": "discovery code and provider configuration; any change widens"
+  },
+  {
+   "document": "launch_packages/pettripfinder/<us>_proposed_authority_*.json",
+   "field": "schema / market_id",
+   "policy": "DATA_NARROWABLE",
+   "rule": "ptf-market-proposed-authority/1.0 for exactly <new>"
+  },
+  {
+   "document": "launch_packages/pettripfinder/<us>_proposed_authority_*.json",
+   "field": "pet_friendly[] / verified_no_pets[] / *_count / authority_total",
+   "policy": "DERIVED_CHECKED_INDEPENDENTLY",
+   "rule": "counts reconcile; every identity is in <new>'s census; the shard binds (market_registration_cli.verify)"
+  },
+  {
+   "document": "launch_packages/pettripfinder/<other_us>_proposed_authority_*.json",
+   "field": "*",
+   "policy": "PROTECTED_INDEPENDENTLY",
+   "rule": "another market's input may not change"
+  },
+  {
+   "document": "scripts/pettripfinder/market_registration_cli.py, market_proposed_authority_cli.py",
+   "field": "*",
+   "policy": "BEHAVIOR_WIDENS",
+   "rule": "the input's reader and writer; any change widens"
+  },
+  {
+   "document": "launch_packages/pettripfinder/identity_resolutions.json",
+   "field": "resolutions[<new>]",
+   "policy": "DERIVED_CHECKED_INDEPENDENTLY",
+   "rule": "market_id == <new>; validates under publication_guard; names exact committed identities; DISTINCT pairwise under hotel_exclusions.co_located_distinct; resolution_hash re-derives; no slug/name collision"
+  },
+  {
+   "document": "launch_packages/pettripfinder/identity_resolutions.json",
+   "field": "resolutions[<existing>]",
+   "policy": "PROTECTED_INDEPENDENTLY",
+   "rule": "byte-identical and in place"
+  },
+  {
+   "document": "launch_packages/pettripfinder/identity_resolutions.json",
+   "field": "schema / contract / market / note",
+   "policy": "BEHAVIOR_WIDENS",
+   "rule": "semantics; any change widens"
   }
  ],
  "verdict": {

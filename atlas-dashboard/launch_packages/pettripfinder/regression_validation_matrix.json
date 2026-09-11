@@ -16,6 +16,7 @@
   "MARKET_DATA_PACKAGE",
   "MARKET_AUTHORITY_DATA_ONLY",
   "NEW_MARKET_REGISTRATION_DATA_ONLY",
+  "COMPOSITE_FRESH_MARKET_DATA_ONLY",
   "UNCLASSIFIED"
  ],
  "mandatory_full_regression": [
@@ -245,6 +246,19 @@
    "full_regression": "conditional",
    "condition": "not required ONLY when registration_data_only.evaluate answers ELIGIBLE = YES: one market joined the registry; every changed path is a registration role or a narrow companion; the participation row, release contract, build closure and pin pass their field policies; a committed sealed package is sealed from exactly the head bytes; a committed FAST receipt for it is 15/15 PASS with 0 UNKNOWN and binds the same parent, delta, builder and lane versions; and the expected release (trusted live parent + package) equals the committed candidate as complete sets of markets, profiles, routes, ownership and participation. Required otherwise -- every path then keeps its path class, and three of them are DEPLOYMENT_CHANGE",
    "why": "PTF-NEW-MARKET-REGISTRATION-DATA-ONLY-POLICY-001: a registration writes four shared documents whose PATH classes are right (any of them can change what production serves) but whose registration change is mechanically bounded to one row, one instance, two declarations and one block. The bounded registration safety union proves each field directly and the FAST lane proves the joining market's release hazards directly; the reverse-dependent scan is not run because the four documents are named by 137 test modules, which is the broad run by another name, and the assembly is not run because rule J builds the joining market and no other market's bytes can move when no other market's input did"
+  },
+  {
+   "change_class": "COMPOSITE_FRESH_MARKET_DATA_ONLY",
+   "surface": "a change set that is exactly ONE previously absent market's FIRST registration: the registration surface above PLUS the market's own acquisition/release helpers, reports, discovery config, proposed-authority input and co-location ruling -- every changed path in exactly one of five buckets (MARKET_LOCAL_ACQUISITION, NEW_MARKET_REGISTRATION_DATA_ONLY, PERMITTED_DERIVED_REGISTRATION_OUTPUT, SHARED_BEHAVIOR_CHANGE, UNKNOWN), the last two empty",
+   "required_lanes": [],
+   "owning_modules": true,
+   "owning_directory": false,
+   "reverse_dependents": false,
+   "market_targeted": false,
+   "assembly": "not_required",
+   "full_regression": "conditional",
+   "condition": "not required ONLY when registration_data_only.evaluate answers ELIGIBLE = YES with CHANGE_CLASS = COMPOSITE_FRESH_MARKET_DATA_ONLY: the partition accounts for every changed path (sum of buckets == changed paths, SHARED_BEHAVIOR_CHANGE = 0, UNKNOWN = 0); every market-local path passes namespace, imports, writes, reachability and registration in registration mode (a helper importing or running site runtime, writing outside its zone and the set's own registration data, named by shared code, or belonging to a market registered at the base is REJECTED for that reason); the discovery config loads for exactly the new market and the OSM registry gains exactly one row with every existing row identical; the registration input is the CLI's own schema for exactly the new market and binds to the written shard; every co-location ruling is additive, for the new market, DISTINCT under the exclusion contract and collides with nothing; and all eleven registration checks pass unchanged. Required otherwise -- every path then keeps its path class",
+   "why": "PTF-FINAL-FRESH-MARKET-REGISTRATION-REENGINEERING-001: Raleigh, built from zero with nothing shared changed, was charged a full regression because its helpers were code by prefix, its configs runtime by prefix, its input and ruling unclassified, and the market-local proof was switched off by the registration's own blocker before it ran. A fresh market is two independently provable zones plus derived outputs; this row proves each path by its owning proof and narrows only the exact union"
   },
   {
    "change_class": "UNCLASSIFIED",
@@ -907,6 +921,7 @@
   "MARKET_DATA_PACKAGE",
   "MARKET_AUTHORITY_DATA_ONLY",
   "NEW_MARKET_REGISTRATION_DATA_ONLY",
+  "COMPOSITE_FRESH_MARKET_DATA_ONLY",
   "SHARED_SCHEMA_CHANGE",
   "SHARED_RUNTIME_CHANGE",
   "ASSEMBLER_CHANGE",
@@ -939,6 +954,12 @@
    "FAST_DATA_ONLY_RELEASE_REQUIRED": "NO",
    "FULL_REGRESSION_REQUIRED": "CONDITIONAL",
    "why": "NO only when registration_data_only.evaluate passes every check of the bounded registration safety union for exactly one previously absent market; YES otherwise, in the path classes"
+  },
+  {
+   "release_surface": "COMPOSITE_FRESH_MARKET_DATA_ONLY",
+   "FAST_DATA_ONLY_RELEASE_REQUIRED": "NO",
+   "FULL_REGRESSION_REQUIRED": "CONDITIONAL",
+   "why": "NO only when registration_data_only.evaluate partitions every changed path into the three narrow buckets (SHARED_BEHAVIOR_CHANGE = 0, UNKNOWN = 0), proves each market-local path on all five isolation conditions in registration mode, each typed input by field, and every registration check; YES otherwise, in the path classes"
   },
   {
    "release_surface": "SHARED_SCHEMA_CHANGE",

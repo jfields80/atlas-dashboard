@@ -3,10 +3,24 @@ release lane: seal the registering market, prove it on the FAST lane, commit
 the package and the receipt where Regression V2 reads them, and -- once the
 classifier has answered -- prepare the UNSIGNED authorization-readiness packet.
 
-    python -m scripts.pettripfinder.registration_release_lane seal --market <id>
+    python -m scripts.pettripfinder.registration_release_lane register --market <id> --work-order <ORDER>
+    python -m scripts.pettripfinder.registration_release_lane seal --market <id> --work-order <ORDER>
     python -m scripts.pettripfinder.regression_delta classify --base <sha> --out <classify.json>
     python -m scripts.pettripfinder.registration_release_lane packet --market <id> \
         --classification <classify.json>
+
+PTF-FINAL-FRESH-MARKET-REGISTRATION-REENGINEERING-001 added ``register`` and
+the market-state block to ``seal``, so that the whole registration transaction
+-- shard, globals, contract, participation row, build closure, package,
+receipt, PIN BLOCK -- is ordinary generic commands and no fresh market has to
+write a participation helper that imports the assembler, or hand-edit a test
+expectation to be classified. ``register`` reissues the participation record
+with ONE row at SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH (the chain
+extended, the writer named, the founder never), and declares the market's two
+build-closure inputs. ``seal --work-order`` writes the market's block into
+``tests/pettripfinder/pins/market_state.json`` from the SEALED PACKAGE, and
+refuses unless the release contract states the same eight numbers; the
+registration proof then holds that block to the package independently.
 
 WHY THIS IS GENERIC
 -------------------
@@ -49,6 +63,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import sys
 import time
 from collections import OrderedDict
@@ -125,9 +140,157 @@ def joining_delta(inputs: W.PackageInputs) -> "OrderedDict[str, Any]":
     ))
 
 
+PIN_PATH = _DASH / "tests" / "pettripfinder" / "pins" / "market_state.json"
+CLOSURE_PATH = SMP.LAUNCH_PACKAGE / "bundle_cache_closure.json"
+_WORK_ORDER = re.compile(r"^PTF-[A-Z0-9]+(?:-[A-Z0-9]+)*-\d{3}[A-Z]?$")
+
+
+def _require_work_order(work_order: str) -> str:
+    if not _WORK_ORDER.match(work_order or ""):
+        raise SystemExit("--work-order %r is not a work-order id (PTF-...-NNN)" % (work_order,))
+    return work_order
+
+
+def pin_block_from_package(package: Mapping, market_id: str, work_order: str) -> "OrderedDict[str, Any]":
+    """The market-state block the sealed package derives, cross-held to the
+    release contract's own reconciliation: the two must agree or nothing is
+    written. Import is local so the lane never loads the classifier's proof
+    unless it writes a pin."""
+    from scripts.pettripfinder import registration_data_only as REG
+    from scripts.pettripfinder import release_contracts as RC
+    block = REG.expected_pin_block(package)
+    contract = RC.load_contract(market_id)
+    rec = contract.get("reconciliation") or {}
+    stated = OrderedDict((
+        ("census", (contract.get("identity_census") or {}).get("expected_count")),
+        ("pet_friendly", rec.get("published_pet_friendly")),
+        ("verified_no_pets", rec.get("verified_no_pets")),
+        ("resolved", rec.get("resolved")), ("unresolved", rec.get("unresolved")),
+        ("profiles", (contract.get("public_surface") or {}).get("public_hotel_profile_count")),
+        ("corridor_routes", (contract.get("routes") or {}).get("published_corridor_route_count")),
+    ))
+    disagreements = [k for k, v in stated.items() if v != block.get(k)]
+    if disagreements:
+        raise SystemExit("the release contract and the sealed package disagree on %s: contract %s, package %s"
+                         % (disagreements, {k: stated[k] for k in disagreements}, {k: block[k] for k in disagreements}))
+    block["last_moved_by"] = work_order
+    return block
+
+
+def write_pin_block(market_id: str, block: Mapping, work_order: str, pin_path: Optional[Path] = None) -> str:
+    """Add ONE market block to the reviewed pin; refuse to move an existing one."""
+    path = pin_path or PIN_PATH
+    doc = _read(path)
+    if market_id in (doc.get("markets") or {}):
+        raise SystemExit("%s is already pinned; a registration adds a block and never moves one" % market_id)
+    doc["reviewed_by"] = work_order
+    markets: "OrderedDict[str, Any]" = OrderedDict()
+    for key in sorted(list(doc["markets"]) + [market_id]):
+        markets[key] = OrderedDict(block) if key == market_id else doc["markets"][key]
+    doc["markets"] = markets
+    _write(path, doc)
+    return "pinned %s: census %s / pet-friendly %s / verified-no-pets %s / corridor routes %s" % (
+        market_id, block["census"], block["pet_friendly"], block["verified_no_pets"], block["corridor_routes"])
+
+
+def register(market_id: str, *, work_order: str, out: Path, decided_on: Optional[str] = None) -> Dict:
+    """Participation row + build closure for a registered, releasable, NOT
+    authorized market. Refuses if the market has no shard or contract, if it
+    already has a row, or if the reissued record fails the chain contract."""
+    from scripts.pettripfinder import launch_participation as LP
+    from scripts.pettripfinder import release_contracts as RC
+    from scripts.pettripfinder.market_authority import load_markets, sharded_market_ids
+    _require_work_order(work_order)
+    if market_id not in {m.market_id for m in load_markets()}:
+        raise SystemExit("%s is not registered (no launch_packages/pettripfinder/markets/%s.json)" % (market_id, market_id))
+    if market_id not in sharded_market_ids():
+        raise SystemExit("%s has no authority shard; run market_registration_cli --write first" % market_id)
+    contract = RC.load_contract(market_id)
+    rec = contract.get("reconciliation") or {}
+    disagreements = RC.contract_disagreements(contract, RC.derive_authority(market_id))
+    if disagreements:
+        raise SystemExit("the release contract disagrees with the derived authority: %s" % disagreements[:3])
+
+    path = LP.PARTICIPATION_PATH
+    prior = json.loads(path.read_text(encoding="utf-8-sig"), object_pairs_hook=OrderedDict)
+    prior_sha = LP.participation_sha256(path)
+    before = sorted(LP.authorized_market_ids(prior))
+    if any(m["market_id"] == market_id for m in prior["markets"]):
+        raise SystemExit("%s already has a participation row; a registration adds one and never rewrites it" % market_id)
+    row = OrderedDict((
+        ("market_id", market_id),
+        ("launch_status", LP.SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH),
+        ("note", "Registered by %s: %s registered identities, %s published pet-friendly, %s verified-no-pets. "
+                 "Source-ready and awaiting a founder launch decision."
+                 % (work_order, (contract.get("identity_census") or {}).get("expected_count"),
+                    rec.get("published_pet_friendly"), rec.get("verified_no_pets"))),
+    ))
+    doc = json.loads(json.dumps(prior), object_pairs_hook=OrderedDict)
+    doc["markets"] = sorted(list(doc["markets"]) + [row], key=lambda m: m["market_id"])
+    doc["decision"] = LP.extend_decision(
+        prior, prior_sha, work_order=work_order, decided_by=work_order,
+        decided_on=decided_on or time.strftime("%Y-%m-%d", time.gmtime()),
+        reason="%s is registered, releasable and NOT authorized. This write records that third fact explicitly so "
+               "the market is not merely absent from the participation document, which the assembler and the "
+               "composition contract both read as UNLISTED. The founder-authorized set is unchanged; the "
+               "founder's %s decision, if it comes, is a separate write." % (market_id, market_id),
+        path=path, markets_added=[market_id], founder_authorized_set_unchanged=True)
+    text = json.dumps(doc, indent=1, ensure_ascii=False) + "\n"
+    # Validate the bytes this WOULD write (the record on disk is the
+    # predecessor, which the new block names as its newest ancestor).
+    scratch = path.with_name(path.name + ".candidate")
+    try:
+        scratch.write_text(text, encoding="utf-8", newline="\n")
+        problems = LP.decision_problems(doc, path=scratch)
+    finally:
+        if scratch.exists():
+            scratch.unlink()
+    if problems:
+        raise SystemExit("the reissued participation record fails its chain contract: %s" % problems[:3])
+    path.write_text(text, encoding="utf-8", newline="\n")
+    after = sorted(LP.authorized_market_ids(LP.load_participation()))
+    if after != before:
+        raise SystemExit("the founder-authorized set moved: %s -> %s" % (before, after))
+
+    closure = _read(CLOSURE_PATH)
+    inputs = ("deploy/netlify/release_contracts/%s.json" % market_id,
+              "launch_packages/pettripfinder/markets/%s.json" % market_id)
+    for rel in inputs:
+        if not (_DASH / rel).is_file():
+            raise SystemExit("declared input does not exist: %s" % rel)
+    shared = list(closure["shared_data_inputs"])
+    added = [rel for rel in inputs if rel not in shared]
+    if added:
+        closure["shared_data_inputs"] = sorted(shared + added)
+        closure["remeasured_by"] = list(closure.get("remeasured_by") or []) + [
+            "%s: the closure enumerates every REGISTERED market's market document and release contract by "
+            "name, so registering %s extends it by exactly two paths. Until they are declared the bundle "
+            "cache calls them undeclared reads and publishes every bundle UNTRUSTED. That is the guard "
+            "working; an unlisted input is an input nobody proved constant." % (work_order, market_id)]
+        _write(CLOSURE_PATH, closure)
+    report = OrderedDict((
+        ("schema", "ptf-registration-participation/1.0"),
+        ("work_order", work_order), ("market_id", market_id), ("as_of", _now()),
+        ("participation", OrderedDict((
+            ("row", row), ("prior_sha256", prior_sha), ("new_sha256", LP.participation_sha256(path)),
+            ("founder_authorized_before", before), ("founder_authorized_after", after),
+            ("founder_authorized_set_unchanged", before == after),
+            ("decision_chain_records", len((doc["decision"].get("lineage") or {}).get("records") or ())),
+            ("decision_problems", problems)))),
+        ("build_closure", OrderedDict((("inputs_declared", list(inputs)), ("inputs_added", added)))),
+        ("nothing_deployed", True), ("nothing_authorized", True),
+    ))
+    _write(out, report)
+    print("participation  :", row["launch_status"], "| authorized set unchanged:", before == after)
+    print("build closure  : added", added or "nothing (already declared)")
+    print("written        :", out.relative_to(_DASH).as_posix() if str(out).startswith(str(_DASH)) else out)
+    return report
+
+
 def seal(market_id: str, *, sealed_at: str, work_dir: Path, out: Path,
          paid_reservations: Optional[Mapping[str, Mapping]] = None,
-         packages_dir: Optional[Path] = None, receipts_dir: Optional[Path] = None) -> Dict:
+         packages_dir: Optional[Path] = None, receipts_dir: Optional[Path] = None,
+         work_order: Optional[str] = None, pin_path: Optional[Path] = None) -> Dict:
     timings: "OrderedDict[str, float]" = OrderedDict()
     t0 = time.monotonic()
 
@@ -180,6 +343,17 @@ def seal(market_id: str, *, sealed_at: str, work_dir: Path, out: Path,
 
     eligible = receipt["FAST_DATA_ONLY_RELEASE_ELIGIBLE"] == FL.YES
     rel = lambda p: Path(p).relative_to(_DASH).as_posix() if str(p).startswith(str(_DASH)) else str(p)  # noqa: E731
+
+    # PTF-FINAL-FRESH-MARKET-REGISTRATION-REENGINEERING-001: the market-state
+    # block, written by the transaction from the sealed package and held to
+    # the release contract. Only for an ELIGIBLE, reproducible seal.
+    pin_written = None
+    if work_order and eligible and candidate_reproducible:
+        t = time.monotonic()
+        block = pin_block_from_package(package, market_id, _require_work_order(work_order))
+        pin_written = write_pin_block(market_id, block, work_order, pin_path)
+        timings["market_state_pin_s"] = round(time.monotonic() - t, 2)
+        timings["total_s"] = round(time.monotonic() - t0, 2)
     doc = OrderedDict((
         ("schema", LANE_SCHEMA),
         ("market_id", market_id),
@@ -222,9 +396,13 @@ def seal(market_id: str, *, sealed_at: str, work_dir: Path, out: Path,
         ("CANDIDATE_REPRODUCIBLE", "YES" if candidate_reproducible else "NO"),
         ("UNCHANGED_MARKETS_REBUILT", 0),
         ("unchanged_markets", list(parent["participating_markets"])),
+        ("market_state_pin", OrderedDict((("written", pin_written is not None), ("work_order", work_order),
+                                          ("result", pin_written)))),
         ("timings", timings),
     ))
     _write(out, doc)
+    if pin_written:
+        print("market state   :", pin_written)
     print("package        :", package["package_id"], "reproducible", doc["PACKAGE_REPRODUCIBLE"])
     print("fast lane      :", receipt["FAST_DATA_ONLY_RELEASE_ELIGIBLE"], "| rules passed",
           doc["fast_lane_receipt"]["rules_passed"], "| unknown", receipt["UNKNOWN_RULES"],
@@ -267,7 +445,8 @@ def packet(market_id: str, *, classification_path: Path, lane_report: Path, out:
             ("base", classification.get("base_sha")), ("head", classification.get("head_sha")),
             ("change_classes", classification.get("change_classes")),
             ("release_surfaces", classification.get("release_surfaces")),
-            ("CHANGE_CLASS", "NEW_MARKET_REGISTRATION_DATA_ONLY" if ready else "/".join(classification.get("change_classes") or [])),
+            ("CHANGE_CLASS", (proof.get("CHANGE_CLASS") or "NEW_MARKET_REGISTRATION_DATA_ONLY") if ready
+             else "/".join(classification.get("change_classes") or [])),
             ("FULL_REGRESSION_REQUIRED", classification.get("FULL_REGRESSION_REQUIRED")),
             ("REMOTE_BROAD_JOBS_REQUIRED", plan.get("REMOTE_BROAD_JOBS_REQUIRED")),
             ("plan_modules", plan.get("module_count")), ("assembly_required", plan.get("assembly_required")),
@@ -329,6 +508,14 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     s.add_argument("--out", default=None)
     s.add_argument("--paid-reservations", default=None,
                    help="JSON file: artifact sha256 -> reservation, for markets with paid captures")
+    s.add_argument("--work-order", default=None,
+                   help="the registering work order; when given, the market-state pin block is written from the "
+                        "sealed package (and held to the release contract)")
+    s = sub.add_parser("register", help="participation row (SOURCE_READY, unauthorized) + build-closure inputs")
+    s.add_argument("--market", required=True)
+    s.add_argument("--work-order", required=True)
+    s.add_argument("--decided-on", default=None)
+    s.add_argument("--out", default=None)
     s = sub.add_parser("packet", help="write the UNSIGNED authorization-readiness packet")
     s.add_argument("--market", required=True)
     s.add_argument("--classification", required=True)
@@ -338,13 +525,17 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     args = p.parse_args(argv)
 
     us = args.market.replace("-", "_")
+    if args.command == "register":
+        register(args.market, work_order=args.work_order, decided_on=args.decided_on,
+                 out=Path(args.out) if args.out else REPORTS / ("%s_registration_participation.json" % us))
+        return 0
     if args.command == "seal":
         reservations = _read(Path(args.paid_reservations)) if args.paid_reservations else None
         seal(args.market,
              sealed_at=args.sealed_at or _now(),
              work_dir=Path(args.work) if args.work else _DASH / "data" / "registration_release_lane" / args.market,
              out=Path(args.out) if args.out else REPORTS / ("%s_registration_release_lane.json" % us),
-             paid_reservations=reservations)
+             paid_reservations=reservations, work_order=args.work_order)
         return 0
     packet(args.market, classification_path=Path(args.classification),
            lane_report=Path(args.lane_report) if args.lane_report else REPORTS / ("%s_registration_release_lane.json" % us),

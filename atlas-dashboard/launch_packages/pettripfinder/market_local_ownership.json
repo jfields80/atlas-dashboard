@@ -46,7 +46,12 @@
    "scripts.pettripfinder.discovery.osm_extract",
    "scripts.pettripfinder.discovery.census_duplicate_scan"
   ],
-  "third_party": ["osmium", "requests", "bs4", "lxml"]
+  "third_party": [
+   "osmium",
+   "requests",
+   "bs4",
+   "lxml"
+  ]
  },
  "shared_write_allowlist": {
   "what": "Shared roots every zone may write. Each is a generated-report location Regression V2 already classifies GENERATED_REPORT_ONLY (a report is an output, never an input to authority), or the gitignored data/ tree.",
@@ -58,15 +63,34 @@
  },
  "allowed_subprocess": {
   "what": "The only subprocess a market-local helper may spawn: read-only git plumbing/porcelain, and pytest over the repository (a helper that runs the market's own lanes). The argv must resolve statically to a literal head; anything else is an unresolved dynamic dependency and fails the proof.",
-  "git_readonly_subcommands": ["status", "diff", "rev-parse", "show", "ls-files", "ls-tree", "log", "grep", "hash-object", "check-ignore", "describe", "branch", "merge-base"],
-  "python_modules": ["pytest", "scripts.pettripfinder.regression_lanes", "scripts.pettripfinder.regression_delta"]
+  "git_readonly_subcommands": [
+   "status",
+   "diff",
+   "rev-parse",
+   "show",
+   "ls-files",
+   "ls-tree",
+   "log",
+   "grep",
+   "hash-object",
+   "check-ignore",
+   "describe",
+   "branch",
+   "merge-base"
+  ],
+  "python_modules": [
+   "pytest",
+   "scripts.pettripfinder.regression_lanes",
+   "scripts.pettripfinder.regression_delta"
+  ]
  },
  "reachability_scan_exclusions": {
   "what": "Files the reverse-reachability scan ignores because their PURPOSE is to name market-local paths: the classifier's own self-tests, which classify the real market branches and therefore spell out helper stems and proposed-artifact paths as test data. A mention there is not a runtime, harness or deployment coupling. Nothing else may be listed here; a runtime module that names a helper is exactly what the scan exists to find.",
   "paths": [
    "tests/pettripfinder/test_atlas_throughput_001.py",
    "tests/pettripfinder/test_atlas_throughput_002.py",
-   "tests/pettripfinder/test_regression_delta_001.py"
+   "tests/pettripfinder/test_regression_delta_001.py",
+   "tests/pettripfinder/test_composite_fresh_market_001.py"
   ]
  },
  "never_local": {
@@ -143,8 +167,53 @@
    "launch_packages/pettripfinder/<us>_osm_extracts_*.json",
    "launch_packages/pettripfinder/<us>_founder_rulings_*.json"
   ],
-  "allowed_read_roots": ["launch_packages/pettripfinder/", "deploy/netlify/", "scripts/pettripfinder/discovery/config/", "data/"],
-  "owned_tests": ["tests/pettripfinder/test_<us>_*.py"]
+  "allowed_read_roots": [
+   "launch_packages/pettripfinder/",
+   "deploy/netlify/",
+   "scripts/pettripfinder/discovery/config/",
+   "data/"
+  ],
+  "owned_tests": [
+   "tests/pettripfinder/test_<us>_*.py"
+  ]
+ },
+ "fresh_market_registration": {
+  "what": "PTF-FINAL-FRESH-MARKET-REGISTRATION-REENGINEERING-001: the REGISTRATION MODE of the five-condition proof. A market built from zero carries its own acquisition and release helpers in the same change set as its registration. Those helpers are proven on the same five conditions as a shadow zone's, with exactly these extensions, each admitted ONLY while registration_data_only proves the SAME change set registers exactly that one market: (1) the zone is the zone_template instance for the registering market when the registry has no row for it -- ownership is decided by the registration's own market id, never by a registry edit, because this registry is a narrowing blocker; (2) a helper may import the modules of the registration/release TRANSACTION listed below, because every committed write those modules make is a registration path the composite proof holds by field -- the assembler, the generator, the deployer, the renderers, the readers and the policy/routing/identity runtime are NOT listed and never will be: a helper that imports one of them is rejected for that dependency; (3) a write target may resolve to a path the same change set proves as registration data (the census, the policy package, the partition, the proposed authority, the contract, the shard, the ruling, the discovery config); (4) a mention of the helper by one of the registering market's own registration DATA documents (a contract's provenance note) is not a consumer; (5) condition five passes when the market was UNREGISTERED at the base and is registered at the head by this very change set. A helper of a market registered at the base still fails condition five, exactly as before.",
+  "execution_zone": "FRESH_MARKET_REGISTRATION",
+  "transaction_imports": [
+   "scripts.pettripfinder.release_contracts",
+   "scripts.pettripfinder.launch_participation",
+   "scripts.pettripfinder.market_authority",
+   "scripts.pettripfinder.publication_guard",
+   "scripts.pettripfinder.bundle_cache",
+   "scripts.pettripfinder.sealed_market_package",
+   "scripts.pettripfinder.market_package_writer",
+   "scripts.pettripfinder.package_staging",
+   "scripts.pettripfinder.fast_release_lane",
+   "scripts.pettripfinder.first_party_binding",
+   "scripts.pettripfinder.release_index",
+   "scripts.pettripfinder.registration_release_lane",
+   "scripts.pettripfinder.regression_delta",
+   "scripts.pettripfinder.market_registration_cli",
+   "scripts.pettripfinder.market_proposed_authority_cli",
+   "scripts.pettripfinder.build_global_authority",
+   "scripts.pettripfinder.markets.assignment",
+   "scripts.pettripfinder.markets.routes"
+  ],
+  "transaction_python_modules": [
+   "scripts.pettripfinder.market_registration_cli",
+   "scripts.pettripfinder.build_global_authority",
+   "scripts.pettripfinder.registration_release_lane",
+   "scripts.pettripfinder.release_contracts"
+  ],
+  "never_transaction_imports": [
+   "scripts.pettripfinder.assemble_production_site",
+   "scripts.pettripfinder.assemble_netlify_bundle",
+   "scripts.pettripfinder.build_market_manifest",
+   "scripts.pettripfinder.global_deployment",
+   "scripts.pettripfinder.market_package",
+   "scripts.generate_pettripfinder_site"
+  ]
  },
  "zones": [
   {
