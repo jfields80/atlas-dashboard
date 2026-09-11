@@ -1,0 +1,232 @@
+{
+ "schema": "ptf-controlled-registration-replay/1.0",
+ "work_order": "PTF-CHARLOTTE-CONTROLLED-REGISTRATION-REPLAY-003",
+ "what_this_is": "A controlled, non-production replay: the FINAL AUDITED shared code taking a PRE-CHARLOTTE production state through the ORDINARY new-market registration workflow, to measure whether an ordinary registration still costs a broad regression. Nothing was deployed, nothing was authorized, no live pin moved, and no shared code was edited.",
+ "CONTROLLED_REPLAY": "FAIL",
+ "REGISTRATION_REPLAY_PROVEN": "NO",
+ "failed_criterion": "5 -- Regression V2 answered FULL_REGRESSION_REQUIRED = YES for an ordinary new-market registration, so the required broad-regression count is not zero. The broad run was NOT executed, per the order.",
+ "preconditions": {
+  "owning_branch": "worker/ptf-charlotte-registration-replay-001",
+  "head": "42cb937fbdff33430b864ad4c4217f4128cc6879",
+  "origin_equals_head": true,
+  "tree_clean_at_start": true,
+  "FINAL_TRUE_NEW_FAILURE_AFTER_CLOSURE": 0,
+  "charlotte_census": 268,
+  "charlotte_pet_friendly": 106,
+  "charlotte_verified_no_pets": 41,
+  "fast_lane": "15/15 PASS",
+  "fresh_package_reproducible": "YES",
+  "final_candidate_reproducible": "YES",
+  "unexpected_deltas": "0 / 0 / 0",
+  "all_preconditions_met": true
+ },
+ "isolation": {
+  "staging_worktree": "C:/t/replay -- detached, never pushed, removed on completion",
+  "production_touched": false,
+  "deployed": false,
+  "authorized": false,
+  "live_pin_moved": false,
+  "charlotte_authority_branch_modified": false
+ },
+ "replay_input_state": {
+  "shared_code_from": "42cb937f -- the final Charlotte-audited implementation",
+  "market_state_from": "11373275 -- the commit before Charlotte was registered",
+  "replay_base_commit": "f11bb374c575fe290e192e2cd9da6795053f0125",
+  "live_markets": 13,
+  "live_profiles": 902,
+  "live_routes": 1078,
+  "charlotte_in_registry_at_start": false,
+  "charlotte_in_participation_at_start": false,
+  "sealed_inputs_reused_not_reacquired": [
+   "launch_packages/pettripfinder/identity_census/charlotte-nc.json -- 268 identities",
+   "launch_packages/pettripfinder/charlotte_nc_proposed_authority_002.json -- 106 pet-friendly, 41 verified-no-pets",
+   "launch_packages/pettripfinder/hotel_policy_facts_charlotte-nc.json",
+   "launch_packages/pettripfinder/charlotte_nc_final_partition_007.json",
+   "launch_packages/pettripfinder/identity_resolutions.json -- the seven co-location rulings",
+   "launch_packages/pettripfinder/markets/charlotte-nc.json -- the geography contract, held aside and installed by the replay"
+  ]
+ },
+ "shared_code_freeze": {
+  "files": 1988,
+  "digest_before": "sha256:f090876bed5cbc83ba4adb1a62f5091e0472913268bcc216b122117e3325ebe1",
+  "digest_after": "sha256:f090876bed5cbc83ba4adb1a62f5091e0472913268bcc216b122117e3325ebe1",
+  "SHARED_CODE_CHANGED": "NO",
+  "scope": "scripts/, tests/ excluding tests/pettripfinder/pins/, core/, engines/, services/, routes/, models/, repositories/, database/, conftest.py, pytest.ini, config.py, app.py"
+ },
+ "workflow_admitted": [
+  "install the market document -- the geography contract the market authored before registration",
+  "scripts/pettripfinder/market_registration_cli.py --market charlotte-nc --authority <proposed authority> --write",
+  "python -m scripts.pettripfinder.build_global_authority --write",
+  "scripts/pettripfinder/charlotte_nc_release_contract_004.py",
+  "scripts/pettripfinder/charlotte_nc_participation_registration_010.py --write",
+  "state the market's reviewed block in tests/pettripfinder/pins/market_state.json",
+  "python -m scripts.pettripfinder.regression_delta classify --base <replay base> --head WORKTREE"
+ ],
+ "timings": {
+  "REGISTRATION_REPLAY_START": "2026-09-11T12:46:41Z",
+  "stopped_at": "2026-09-11T12:46:50Z",
+  "total_seconds": 9.03,
+  "per_step": [
+   {
+    "step": "1 install market document",
+    "seconds": 0.0,
+    "returncode": 0,
+    "peak_working_set_mb": 0.0
+   },
+   {
+    "step": "2 registration writer (shard)",
+    "seconds": 0.27,
+    "returncode": 0,
+    "peak_working_set_mb": 26.9
+   },
+   {
+    "step": "3 regenerate derived globals",
+    "seconds": 1.35,
+    "returncode": 0,
+    "peak_working_set_mb": 32.4
+   },
+   {
+    "step": "4 release contract",
+    "seconds": 1.41,
+    "returncode": 0,
+    "peak_working_set_mb": 42.6
+   },
+   {
+    "step": "5 participation + closure",
+    "seconds": 3.9,
+    "returncode": 0,
+    "peak_working_set_mb": 27.4
+   },
+   {
+    "step": "6 market state pin",
+    "seconds": 0.01,
+    "returncode": 0,
+    "peak_working_set_mb": 0.0
+   },
+   {
+    "step": "7 Regression V2 classify",
+    "seconds": 2.09,
+    "returncode": 0,
+    "peak_working_set_mb": 23.5
+   }
+  ],
+  "peak_working_set_mb": 42.6,
+  "builder_invocations": 0,
+  "unchanged_markets_rebuilt": 0,
+  "local_broad_regressions_run": 0,
+  "remote_broad_jobs_requested": 0,
+  "tests_executed": 0
+ },
+ "regression_v2": {
+  "mode": "normal -- narrow mode was NOT forced",
+  "changed_file_count": 13,
+  "change_classes": [
+   "AUTHORITY_CHANGE",
+   "DEPLOYMENT_CHANGE",
+   "TEST_EXPECTATION_CHANGE",
+   "GENERATED_REPORT_ONLY"
+  ],
+  "release_surfaces": [
+   "DEPLOYMENT_CHANGE",
+   "CLASSIFIER_TEST_INFRA_CHANGE",
+   "UNKNOWN_MIXED",
+   "NARROW_NON_RELEASE"
+  ],
+  "narrowing_blockers": [
+   "launch_packages/pettripfinder/bundle_cache_closure.json",
+   "tests/pettripfinder/pins/market_state.json"
+  ],
+  "market_authority_data_only": {
+   "market_id": null,
+   "why": "narrowing blocked by ['launch_packages/pettripfinder/bundle_cache_closure.json', 'tests/pettripfinder/pins/market_state.json']"
+  },
+  "fast_data_only_release": null,
+  "FULL_REGRESSION_REQUIRED": "YES",
+  "modules_the_plan_selects": 226,
+  "assembly_required": true,
+  "NEW_MARKET_REGISTRATION_DATA_ONLY_exists": false,
+  "why_no_such_class": "regression_delta.CLASSES carries no new-market registration class. The nearest narrow class is MARKET_AUTHORITY_DATA_ONLY, whose full-regression answer is CONDITIONAL on a committed FAST_DATA_ONLY_RELEASE receipt AND on fast_release_activation.json enabling the market. That file reads FAST_PATH_PRODUCTION_ACTIVATION = DISABLED with an empty pilot_allowlist. The class also requires the WHOLE change set to be one market's authority data, which a registration never is.",
+  "broad_regression_executed": false,
+  "broad_regression_not_run_because": "the order forbids running it -- a request for a broad regression IS the failure"
+ },
+ "the_four_unavoidable_wideners": [
+  {
+   "path": "deploy/netlify/launch_participation.json",
+   "class": "DEPLOYMENT_CHANGE",
+   "full_regression": "REQUIRED",
+   "why_unavoidable": "a registered market with no participation row reads UNLISTED, fails verify_participation, and the assembler then refuses the whole build"
+  },
+  {
+   "path": "deploy/netlify/release_contracts/charlotte-nc.json",
+   "class": "DEPLOYMENT_CHANGE",
+   "full_regression": "REQUIRED",
+   "why_unavoidable": "every market with verified inventory must carry a release contract, and the contract registry asserts it"
+  },
+  {
+   "path": "launch_packages/pettripfinder/bundle_cache_closure.json",
+   "class": "DEPLOYMENT_CHANGE",
+   "full_regression": "REQUIRED",
+   "why_unavoidable": "the closure enumerates every registered market's market document and release contract by name; an undeclared input publishes every bundle UNTRUSTED, including markets the new one never touched"
+  },
+  {
+   "path": "tests/pettripfinder/pins/market_state.json",
+   "class": "TEST_EXPECTATION_CHANGE",
+   "full_regression": "narrowing blocker",
+   "why_unavoidable": "a registered market must state its reviewed counts, and the pin is a SHARED current-state fact -- a shared pin is not narrowable"
+  }
+ ],
+ "registration_correctness": {
+  "charlotte_registered": true,
+  "registered_markets_after": 15,
+  "charlotte_census": 268,
+  "charlotte_pet_friendly": 106,
+  "charlotte_verified_no_pets": 41,
+  "charlotte_launch_status": "SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH",
+  "founder_authorized_set": 13,
+  "founder_authorized_set_unchanged": true,
+  "participation_decision_chain_records": 9,
+  "participation_decision_problems": [],
+  "verify_participation": {
+   "unlisted": [],
+   "unregistered": [],
+   "source_disagreement": []
+  },
+  "live_state_unmoved": "13 markets / 902 profiles / 1078 routes, 0 problems",
+  "nashville_preserved": true,
+  "lexington_preserved": true,
+  "toledo_preserved": true,
+  "byte_identical_to_the_audited_registration": [
+   "launch_packages/pettripfinder/markets/charlotte-nc.json",
+   "launch_packages/pettripfinder/markets/authority/charlotte-nc/seed_businesses.csv",
+   "launch_packages/pettripfinder/markets/authority/charlotte-nc/hotel_exclusions.json",
+   "launch_packages/pettripfinder/markets/authority/charlotte-nc/identity_routing.json",
+   "launch_packages/pettripfinder/markets/authority/charlotte-nc/affiliate_destinations.json",
+   "deploy/netlify/release_contracts/charlotte-nc.json",
+   "launch_packages/pettripfinder/seed_businesses.csv",
+   "launch_packages/pettripfinder/hotel_exclusions.json",
+   "launch_packages/pettripfinder/ptf_global_authority_manifest.json"
+  ],
+  "differing_only_by_date_or_work_order_name": [
+   "deploy/netlify/launch_participation.json -- decided_on 2026-09-10 to 2026-09-11",
+   "tests/pettripfinder/pins/market_state.json -- reviewed_by and last_moved_by",
+   "launch_packages/pettripfinder/markets/reports/charlotte_nc_participation_registration_010.json -- as_of"
+  ]
+ },
+ "not_measured_because_the_replay_stopped_at_the_gate": {
+  "fast_lane_rules": "NOT MEASURED",
+  "package_reproducible": "NOT MEASURED",
+  "candidate_reproducible": "NOT MEASURED",
+  "replay_candidate_markets_profiles_routes": "NOT MEASURED",
+  "unexpected_market_profile_route_deltas": "NOT MEASURED",
+  "why": "Regression V2 demanded a broad regression, which the order forbids running, so the replay stops there and its verdict is already FAIL. The same measurements are recorded PASSING in the owning audit at launch_packages/pettripfinder/markets/reports/charlotte_nc_authorization_packet_009.json and are deliberately NOT restated here as replay measurements."
+ },
+ "integrity": {
+  "classifier_exemption_created": false,
+  "hard_coded_market_total_workaround_created": false,
+  "failure_suppression_or_xfail_created": false,
+  "baseline_addition_created": false,
+  "shared_test_or_code_repairs_required": "YES -- and NONE were made; the replay stopped instead",
+  "orphaned_background_jobs": 0
+ },
+ "recommended_factory_status": "PAUSE"
+}
