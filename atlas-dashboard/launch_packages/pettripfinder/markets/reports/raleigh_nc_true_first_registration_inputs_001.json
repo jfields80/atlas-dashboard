@@ -1,0 +1,57 @@
+{
+ "schema": "ptf-true-first-registration-inputs/1.0",
+ "work_order": "PTF-FINAL-FRESH-MARKET-REGISTRATION-REENGINEERING-001",
+ "market_id": "raleigh-nc",
+ "what_this_is": "The manifest the true-first-registration replay harness (scripts/pettripfinder/true_first_registration_replay_001.py) reads: the frozen Raleigh branch the already-captured source inputs come from, the acquisition-phase deliverable it installs byte-for-byte (the market's own helpers and the reports that needed a network or a browser), the offline build steps it EXECUTES, the market-local contract step, and the four frozen helpers the corrected generic lane replaces. It lives in the market's own report zone so that no shared module names a market helper; the harness itself names none.",
+ "frozen_sha": "b613d72d61518888eea8b241714c89f78e7a9e86",
+ "install_helpers": [
+  "scripts/pettripfinder/raleigh_nc_geography_001.py",
+  "scripts/pettripfinder/raleigh_nc_brand_inventory_001.py",
+  "scripts/pettripfinder/raleigh_nc_attended_capture_001.py",
+  "scripts/pettripfinder/raleigh_nc_census_reconciliation_001.py",
+  "scripts/pettripfinder/raleigh_nc_clean_authority_001.py",
+  "scripts/pettripfinder/raleigh_nc_co_location_resolutions_003.py",
+  "scripts/pettripfinder/raleigh_nc_registration_002.py",
+  "scripts/pettripfinder/raleigh_nc_coverage_reconciliation_006.py",
+  "scripts/pettripfinder/raleigh_nc_final_partition_007.py",
+  "scripts/pettripfinder/raleigh_nc_release_contract_004.py"
+ ],
+ "install_captured": [
+  "launch_packages/pettripfinder/markets/reports/raleigh_nc_geography_001.json",
+  "launch_packages/pettripfinder/markets/reports/raleigh_nc_corridor_registry_001.json",
+  "launch_packages/pettripfinder/markets/reports/raleigh_nc_brand_inventory_001.json",
+  "launch_packages/pettripfinder/markets/reports/raleigh_nc_attended_capture_001.json",
+  "launch_packages/pettripfinder/markets/reports/raleigh_nc_census_reconciliation_001.json",
+  "launch_packages/pettripfinder/markets/reports/raleigh_nc_competitor_gap_matrix_001.json",
+  "launch_packages/pettripfinder/markets/reports/raleigh_nc_clean_authority_001.json",
+  "launch_packages/pettripfinder/identity_census/raleigh-nc.json",
+  "launch_packages/pettripfinder/markets/raleigh-nc.json",
+  "scripts/pettripfinder/discovery/config/raleigh_nc.json",
+  "scripts/pettripfinder/discovery/config/osm_extracts.json"
+ ],
+ "build_steps": [
+  {"name": "B build policy package + proposed authority", "argv": ["scripts/pettripfinder/raleigh_nc_registration_002.py", "--write"]},
+  {"name": "C build final partition", "argv": ["scripts/pettripfinder/raleigh_nc_final_partition_007.py"]},
+  {"name": "D co-location ruling", "argv": ["scripts/pettripfinder/raleigh_nc_co_location_resolutions_003.py", "--write"]}
+ ],
+ "regenerated": [
+  "launch_packages/pettripfinder/hotel_policy_facts_raleigh-nc.json",
+  "launch_packages/pettripfinder/raleigh_nc_proposed_authority_002.json",
+  "launch_packages/pettripfinder/raleigh_nc_final_partition_007.json",
+  "launch_packages/pettripfinder/identity_resolutions.json"
+ ],
+ "registration_input": "launch_packages/pettripfinder/raleigh_nc_proposed_authority_002.json",
+ "contract_step": {"name": "3 release contract (market-local helper)", "argv": ["scripts/pettripfinder/raleigh_nc_release_contract_004.py"]},
+ "not_installed": {
+  "scripts/pettripfinder/raleigh_nc_release_lane_005.py": "replaced by the generic registration_release_lane seal; the frozen helper writes an unresolvable path and is rejected by the isolation proof",
+  "scripts/pettripfinder/raleigh_nc_authorization_packet_009.py": "replaced by the generic registration_release_lane packet",
+  "scripts/pettripfinder/raleigh_nc_participation_registration_010.py": "replaced by the generic registration_release_lane register; the frozen helper imports the assembler and writes an unresolvable scratch path, and is rejected by the isolation proof for exactly those reasons",
+  "scripts/pettripfinder/raleigh_nc_candidate_assembly_008.py": "a proof the FAST lane's rule K already carries; the frozen helper runs the assembler as a subprocess and is rejected for that"
+ },
+ "freeze_exclude_prefixes": [
+  "tests/pettripfinder/pins/",
+  "scripts/pettripfinder/raleigh_nc_",
+  "scripts/pettripfinder/discovery/config/raleigh_nc.json",
+  "scripts/pettripfinder/discovery/config/osm_extracts.json"
+ ]
+}

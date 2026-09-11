@@ -36,7 +36,7 @@ and then the registration transaction runs, unchanged, step by step:
 
     1  market_registration_cli --write            (the authority shard)
     2  build_global_authority --write             (the derived globals)
-    3  raleigh_nc_release_contract_004            (the contract instance, market-local)
+    3  <market>_release_contract_NNN              (the contract instance, market-local)
     4  registration_release_lane register         (participation row + build closure)
     5  registration_release_lane seal             (package + FAST receipt + pin block)
     6  regression_delta classify                  (Regression V2, normal mode)
@@ -49,15 +49,21 @@ worktree is removed on completion unless --keep is given.
 WHAT IS NOT INSTALLED, AND WHY
 ------------------------------
 Four helpers of the frozen Raleigh branch are not part of the corrected
-ordinary workflow and are not installed: raleigh_nc_release_lane_005 (the
-generic ``seal`` replaces it), raleigh_nc_authorization_packet_009 (the generic
-``packet``), raleigh_nc_participation_registration_010 (the generic
-``register``; the frozen helper imports the assembler and writes an
-unresolvable scratch path, and is REJECTED by the isolation proof for exactly
-those reasons), and raleigh_nc_candidate_assembly_008 (a proof the FAST lane's
-rule K already carries; the frozen helper runs the assembler as a subprocess
-and is rejected for that). The frozen change set itself is a committed fixture
-of the classifier's tests, where those rejections are asserted by name.
+ordinary workflow and are not installed: the market's own release-lane,
+readiness-packet and participation helpers (the generic ``seal``, ``packet``
+and ``register`` replace them; the frozen participation helper imports the
+assembler and writes an unresolvable scratch path, and is REJECTED by the
+isolation proof for exactly those reasons) and its candidate-assembly helper
+(a proof the FAST lane's rule K already carries; the frozen helper runs the
+assembler as a subprocess and is rejected for that). The frozen change set
+itself is a committed fixture of the classifier's tests, where those
+rejections are asserted by name.
+
+Every market-specific path this harness touches comes from a MANIFEST in the
+market's own report zone (``--manifest``), so that no shared module names a
+market helper: the reverse-reachability scan would otherwise find this file
+naming every helper and reject each one -- which is what the first run of this
+harness measured.
 """
 from __future__ import annotations
 
@@ -73,7 +79,7 @@ import time
 from collections import OrderedDict
 from ctypes import wintypes
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Sequence
+from typing import Any, Dict, List, Mapping, Optional, Sequence
 
 _DASH = Path(os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..")))
 _GIT_ROOT = _DASH.parent
@@ -81,62 +87,30 @@ _GIT_ROOT = _DASH.parent
 ORDER = "PTF-FINAL-FRESH-MARKET-REGISTRATION-REENGINEERING-001"
 MARKET = "raleigh-nc"
 US = "raleigh_nc"
-#: The frozen Raleigh branch tip BEFORE its three forensic reports.
-DEFAULT_FROZEN_SHA = "b613d72d61518888eea8b241714c89f78e7a9e86"
 DEFAULT_STAGE = Path(r"C:\t\replay-raleigh")
 RECEIPT_SCHEMA = "ptf-true-first-registration-replay/1.0"
+MANIFEST_SCHEMA = "ptf-true-first-registration-inputs/1.0"
 REPORTS = _DASH / "launch_packages" / "pettripfinder" / "markets" / "reports"
+DEFAULT_MANIFEST = REPORTS / "raleigh_nc_true_first_registration_inputs_001.json"
 ACCEPTANCE_CEILING_SECONDS = 300
 COMPOSITE = "COMPOSITE_FRESH_MARKET_DATA_ONLY"
 
-#: The acquisition phase's deliverable, installed from the frozen branch.
-INSTALL_HELPERS = (
-    "scripts/pettripfinder/raleigh_nc_geography_001.py",
-    "scripts/pettripfinder/raleigh_nc_brand_inventory_001.py",
-    "scripts/pettripfinder/raleigh_nc_attended_capture_001.py",
-    "scripts/pettripfinder/raleigh_nc_census_reconciliation_001.py",
-    "scripts/pettripfinder/raleigh_nc_clean_authority_001.py",
-    "scripts/pettripfinder/raleigh_nc_co_location_resolutions_003.py",
-    "scripts/pettripfinder/raleigh_nc_registration_002.py",
-    "scripts/pettripfinder/raleigh_nc_coverage_reconciliation_006.py",
-    "scripts/pettripfinder/raleigh_nc_final_partition_007.py",
-    "scripts/pettripfinder/raleigh_nc_release_contract_004.py",
-)
-INSTALL_CAPTURED = (
-    "launch_packages/pettripfinder/markets/reports/raleigh_nc_geography_001.json",
-    "launch_packages/pettripfinder/markets/reports/raleigh_nc_corridor_registry_001.json",
-    "launch_packages/pettripfinder/markets/reports/raleigh_nc_brand_inventory_001.json",
-    "launch_packages/pettripfinder/markets/reports/raleigh_nc_attended_capture_001.json",
-    "launch_packages/pettripfinder/markets/reports/raleigh_nc_census_reconciliation_001.json",
-    "launch_packages/pettripfinder/markets/reports/raleigh_nc_competitor_gap_matrix_001.json",
-    "launch_packages/pettripfinder/markets/reports/raleigh_nc_clean_authority_001.json",
-    "launch_packages/pettripfinder/identity_census/raleigh-nc.json",
-    "launch_packages/pettripfinder/markets/raleigh-nc.json",
-    "scripts/pettripfinder/discovery/config/raleigh_nc.json",
-    "scripts/pettripfinder/discovery/config/osm_extracts.json",
-)
-#: Outputs the build steps REGENERATE; compared with the frozen bytes.
-REGENERATED = (
-    "launch_packages/pettripfinder/hotel_policy_facts_raleigh-nc.json",
-    "launch_packages/pettripfinder/raleigh_nc_proposed_authority_002.json",
-    "launch_packages/pettripfinder/raleigh_nc_final_partition_007.json",
-    "launch_packages/pettripfinder/identity_resolutions.json",
-)
-NOT_INSTALLED = (
-    "scripts/pettripfinder/raleigh_nc_release_lane_005.py",
-    "scripts/pettripfinder/raleigh_nc_authorization_packet_009.py",
-    "scripts/pettripfinder/raleigh_nc_participation_registration_010.py",
-    "scripts/pettripfinder/raleigh_nc_candidate_assembly_008.py",
-)
+def load_manifest(path: Path) -> Dict[str, Any]:
+    doc = json.loads(path.read_text(encoding="utf-8-sig"), object_pairs_hook=OrderedDict)
+    if doc.get("schema") != MANIFEST_SCHEMA or doc.get("market_id") != MARKET:
+        raise SystemExit("%s is not a %s manifest for %s" % (path, MANIFEST_SCHEMA, MARKET))
+    for key in ("frozen_sha", "install_helpers", "install_captured", "build_steps", "regenerated",
+                "registration_input", "contract_step", "not_installed", "freeze_exclude_prefixes"):
+        if key not in doc:
+            raise SystemExit("manifest lacks %s" % key)
+    return doc
+
 
 FREEZE_DIRS = ("scripts", "tests", "core", "engines", "services", "routes",
                "models", "repositories", "database")
 FREEZE_FILES = ("conftest.py", "pytest.ini", "config.py", "app.py")
-#: Paths the registration itself is allowed to create or move inside the
-#: frozen dirs: the market's own zone, the pin, the OSM registry row.
-FREEZE_EXCLUDE_PREFIXES = ("tests/pettripfinder/pins/", "scripts/pettripfinder/raleigh_nc_",
-                           "scripts/pettripfinder/discovery/config/raleigh_nc.json",
-                           "scripts/pettripfinder/discovery/config/osm_extracts.json")
+#: The market's own module prefix, excluded from the python digest.
+ZONE_PY_PREFIX = "scripts/pettripfinder/%s_" % US
 
 
 # --------------------------------------------------------------------------- #
@@ -162,7 +136,7 @@ def _git_bytes(cwd: Path, rev: str, rel: str) -> bytes:
     return proc.stdout
 
 
-def shared_code_digest(root: Path):
+def shared_code_digest(root: Path, exclude_prefixes: Sequence[str]):
     """``(files, digest, python_digest)`` over the frozen dirs, minus the paths
     a registration owns; ``python_digest`` covers every ``*.py`` outside the
     market's own zone and must never move."""
@@ -186,10 +160,10 @@ def shared_code_digest(root: Path):
     digest, py_digest = hashlib.sha256(), hashlib.sha256()
     count = 0
     for rel, path in sorted(entries()):
-        if rel.endswith(".py") and not rel.startswith("scripts/pettripfinder/raleigh_nc_"):
+        if rel.endswith(".py") and not rel.startswith(ZONE_PY_PREFIX):
             py_digest.update(rel.encode("utf-8"))
             py_digest.update(hashlib.sha256(path.read_bytes()).digest())
-        if any(rel.startswith(x) for x in FREEZE_EXCLUDE_PREFIXES):
+        if any(rel.startswith(x) for x in exclude_prefixes):
             continue
         digest.update(rel.encode("utf-8"))
         digest.update(hashlib.sha256(path.read_bytes()).digest())
@@ -322,21 +296,22 @@ def remove_workspace(stage: Path) -> None:
         subprocess.run(["git", "worktree", "prune"], cwd=str(_GIT_ROOT), capture_output=True)
 
 
-def install_acquisition(dash: Path, frozen: str) -> Dict[str, Any]:
+def install_acquisition(dash: Path, frozen: str, manifest: Mapping) -> Dict[str, Any]:
     """The acquisition phase's deliverable, byte-for-byte from the frozen branch."""
     installed = []
-    for rel in INSTALL_HELPERS + INSTALL_CAPTURED:
+    for rel in list(manifest["install_helpers"]) + list(manifest["install_captured"]):
         data = _git_bytes(_GIT_ROOT, frozen, rel)
         target = dash / rel
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_bytes(data)
         installed.append(OrderedDict((("path", rel), ("sha256", hashlib.sha256(data).hexdigest()))))
-    return OrderedDict((("frozen_sha", frozen), ("installed", installed), ("not_installed", list(NOT_INSTALLED))))
+    return OrderedDict((("frozen_sha", frozen), ("installed", installed),
+                        ("not_installed", OrderedDict(manifest["not_installed"]))))
 
 
-def compare_regenerated(dash: Path, frozen: str) -> Dict[str, Any]:
+def compare_regenerated(dash: Path, frozen: str, regenerated: Sequence[str]) -> Dict[str, Any]:
     out: "OrderedDict[str, Any]" = OrderedDict()
-    for rel in REGENERATED:
+    for rel in regenerated:
         frozen_bytes = _git_bytes(_GIT_ROOT, frozen, rel)
         here = (dash / rel).read_bytes() if (dash / rel).is_file() else b""
         verdict: "OrderedDict[str, Any]" = OrderedDict((("byte_identical", frozen_bytes == here),))
@@ -372,14 +347,17 @@ def _read(path: Path) -> Any:
 def main(argv: Optional[Sequence[str]] = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--code-sha", required=True, help="the AUDITED shared code, frozen for the whole replay")
-    ap.add_argument("--frozen-sha", default=DEFAULT_FROZEN_SHA, help="the frozen Raleigh branch (source inputs)")
+    ap.add_argument("--manifest", default=str(DEFAULT_MANIFEST), help="the market's replay-inputs manifest")
+    ap.add_argument("--frozen-sha", default=None, help="override the manifest's frozen branch (source inputs)")
     ap.add_argument("--stage", default=str(DEFAULT_STAGE))
     ap.add_argument("--out", default=str(REPORTS / "raleigh_nc_true_first_registration_replay_001.json"))
     ap.add_argument("--label", default="true_first_replay", help="focused_benchmark or true_first_replay")
     ap.add_argument("--keep", action="store_true")
     args = ap.parse_args(argv)
     stage = Path(args.stage)
-    frozen = _git(_GIT_ROOT, "rev-parse", args.frozen_sha)
+    manifest = load_manifest(Path(args.manifest))
+    frozen = _git(_GIT_ROOT, "rev-parse", args.frozen_sha or manifest["frozen_sha"])
+    exclude = tuple(manifest["freeze_exclude_prefixes"])
 
     print("REPLAY_WORKSPACE building at %s" % stage)
     workspace = build_workspace(stage, args.code_sha)
@@ -387,7 +365,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     base = workspace["replay_base_commit"]
     keep = args.keep
     try:
-        before_count, before_digest, before_py = shared_code_digest(dash)
+        before_count, before_digest, before_py = shared_code_digest(dash, exclude)
         pre = probe(dash, STATE_PROBE)
         print("shared code frozen at %d files %s | python %s" % (before_count, before_digest, before_py))
         print("pre-state:", json.dumps(pre))
@@ -402,14 +380,11 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
 
         # -- the acquisition phase's deliverable, then the offline build steps
         acquisition = timed("A install captured acquisition inputs + helpers",
-                            lambda: install_acquisition(dash, frozen))
-        run("B build policy package + proposed authority",
-            ["scripts/pettripfinder/raleigh_nc_registration_002.py", "--write"], cwd=dash)
-        run("C build final partition", ["scripts/pettripfinder/raleigh_nc_final_partition_007.py"], cwd=dash)
-        run("D co-location ruling", ["scripts/pettripfinder/raleigh_nc_co_location_resolutions_003.py", "--write"],
-            cwd=dash)
+                            lambda: install_acquisition(dash, frozen, manifest))
+        for step in manifest["build_steps"]:
+            run(step["name"], list(step["argv"]), cwd=dash)
         regenerated = timed("E compare regenerated outputs with the frozen branch",
-                            lambda: compare_regenerated(dash, frozen))
+                            lambda: compare_regenerated(dash, frozen, list(manifest["regenerated"])))
         build_seconds = round(sum(s["seconds"] for s in STEPS), 2)
 
         started_at = _now()
@@ -417,10 +392,9 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         print("\nREGISTRATION_ADMITTED %s   base=%s" % (started_at, base))
         run("1 registration writer (shard)",
             ["scripts/pettripfinder/market_registration_cli.py", "--market", MARKET, "--authority",
-             "launch_packages/pettripfinder/raleigh_nc_proposed_authority_002.json", "--write"], cwd=dash)
+             str(manifest["registration_input"]), "--write"], cwd=dash)
         run("2 regenerate derived globals", ["-m", "scripts.pettripfinder.build_global_authority", "--write"], cwd=dash)
-        run("3 release contract (market-local helper)",
-            ["scripts/pettripfinder/raleigh_nc_release_contract_004.py"], cwd=dash)
+        run(manifest["contract_step"]["name"], list(manifest["contract_step"]["argv"]), cwd=dash)
         run("4 participation row + build closure",
             ["-m", "scripts.pettripfinder.registration_release_lane", "register", "--market", MARKET,
              "--work-order", ORDER], cwd=dash)
@@ -442,14 +416,15 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         elapsed = round(time.time() - start, 2)
         stopped_at = _now()
 
-        after_count, after_digest, after_py = shared_code_digest(dash)
+        after_count, after_digest, after_py = shared_code_digest(dash, exclude)
         post = probe(dash, STATE_PROBE)
         remote = probe(dash, REMOTE_PROBE.replace("sys.argv[1]", repr(str(classify_out))))
         lane_report = _read(dash / "launch_packages" / "pettripfinder" / "markets" / "reports"
                             / ("%s_registration_release_lane.json" % US))
         packet = _read(packet_out) if packet_out.is_file() else None
-        changed = _git(stage, "status", "--porcelain").splitlines()
-        changed_paths = sorted(line[3:].strip().replace("atlas-dashboard/", "", 1) for line in changed)
+        changed = _git(stage, "status", "--porcelain", "-uall").splitlines()
+        changed_paths = sorted(line[3:].strip().replace("atlas-dashboard/", "", 1) for line in changed
+                               if not line[3:].strip().startswith("atlas-dashboard/data/"))
 
         proof = classification.get("new_market_registration_data_only") or {}
         plan = classification.get("plan") or {}
@@ -517,6 +492,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             ("failed_criteria", [k for k, v in criteria.items() if not v]),
             ("workspace", workspace),
             ("frozen_source", frozen),
+            ("manifest", str(Path(args.manifest).resolve().relative_to(_DASH).as_posix())
+             if str(Path(args.manifest).resolve()).startswith(str(_DASH)) else args.manifest),
             ("acquisition_deliverable", acquisition),
             ("regenerated_outputs_vs_frozen", regenerated),
             ("shared_code_freeze", OrderedDict((("files", before_count), ("digest_before", before_digest),
