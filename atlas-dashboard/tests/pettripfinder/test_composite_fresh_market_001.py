@@ -358,7 +358,8 @@ class TestRegistrationModeIsolation:
         assert proof["mode"] == "registration" and proof["zone"] == "zed-zz"
         assert proof["execution_zone"] == OWN.FRESH_MARKET_REGISTRATION
         shadow = ISO.prove(rel, "HEAD", ISO.WORKTREE, status="A", registry=registry)
-        assert not shadow["passed"] and shadow["failed_conditions"] == ["namespace"]   # no zone row: unowned
+        assert not shadow["passed"] and shadow["zone"] is None                       # no zone row: unowned
+        assert shadow["conditions"]["namespace"]["why"] == "no zone owns this path"
 
     def test_case_02_a_helper_that_imports_the_assembler_is_rejected(self, scratch):
         root, pkg, registry = scratch

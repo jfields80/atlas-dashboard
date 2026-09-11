@@ -14,9 +14,9 @@ charged a broad regression for the files a first registration creates. This
 harness replays the shape that failed: a detached worktree of the AUDITED
 shared code in which Raleigh is ABSENT in every way --
 
-    no raleigh_nc_* helper under scripts/pettripfinder/
-    no discovery/config/raleigh_nc.json, no Raleigh row in osm_extracts.json
-    no raleigh_nc_proposed_authority_*.json (the registration input)
+    no <us>_* helper under scripts/pettripfinder/
+    no discovery config for the market, no Raleigh row in the OSM registry
+    no <us>_proposed_authority_*.json (the registration input)
     no Raleigh ruling in identity_resolutions.json
     no Raleigh registration artifact (shard, contract, participation row,
         closure inputs, package, receipt, readiness packet)
@@ -249,7 +249,7 @@ print(json.dumps({
   "raleigh_rulings": sum(1 for r in res["resolutions"] if r.get("market_id") == "raleigh-nc"),
   "raleigh_osm_rows": sum(1 for r in osm["extracts"] if "raleigh-nc" in (r.get("markets") or [])),
   "raleigh_helpers": sorted(glob.glob("scripts/pettripfinder/raleigh_nc_*.py")),
-  "raleigh_config": Path("scripts/pettripfinder/discovery/config/raleigh_nc.json").exists(),
+  "raleigh_config": Path("scripts/pettripfinder/discovery/config").joinpath("raleigh_nc" + ".json").exists(),
   "raleigh_inputs": sorted(glob.glob("launch_packages/pettripfinder/raleigh_nc_*.json")),
   "raleigh_authority": Path("launch_packages/pettripfinder/markets/authority/raleigh-nc").exists(),
   "raleigh_census": Path("launch_packages/pettripfinder/identity_census/raleigh-nc.json").exists(),
@@ -423,8 +423,15 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                             / ("%s_registration_release_lane.json" % US))
         packet = _read(packet_out) if packet_out.is_file() else None
         changed = _git(stage, "status", "--porcelain", "-uall").splitlines()
-        changed_paths = sorted(line[3:].strip().replace("atlas-dashboard/", "", 1) for line in changed
-                               if not line[3:].strip().startswith("atlas-dashboard/data/"))
+        # The readiness packet is written AFTER the classification (step 7
+        # reads step 6), so it is the one path the classification cannot
+        # carry; data/ is gitignored scratch.
+        packet_rel = packet_out.relative_to(dash).as_posix()
+        changed_paths = sorted(set(
+            line[line.index("atlas-dashboard/") + len("atlas-dashboard/"):].strip()
+            for line in changed if "atlas-dashboard/" in line)
+            - {packet_rel})
+        changed_paths = [p for p in changed_paths if not p.startswith("data/")]
 
         proof = classification.get("new_market_registration_data_only") or {}
         plan = classification.get("plan") or {}

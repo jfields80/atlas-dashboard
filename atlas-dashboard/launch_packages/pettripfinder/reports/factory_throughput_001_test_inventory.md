@@ -1,12 +1,12 @@
 # PetTripFinder test pin inventory (A1)
 
-Schema `ptf-test-pin-inventory/1.0`. 410 modules scanned, 282 carry pins, 1682 sites.
+Schema `ptf-test-pin-inventory/1.0`. 411 modules scanned, 283 carry pins, 1690 sites.
 
 | class | sites |
 |---|---|
 | CURRENT_STATE_INVARIANT | 155 |
-| HISTORICAL_COHORT_INVARIANT | 899 |
-| HISTORICAL_ARTIFACT_INVARIANT | 208 |
+| HISTORICAL_COHORT_INVARIANT | 905 |
+| HISTORICAL_ARTIFACT_INVARIANT | 210 |
 | DEPLOYMENT_EPOCH_INVARIANT | 156 |
 | GENERIC_SCHEMA_INVARIANT | 194 |
 | CROSS_MARKET_INVARIANT | 70 |
@@ -57,6 +57,7 @@ Schema `ptf-test-pin-inventory/1.0`. 410 modules scanned, 282 carry pins, 1682 s
 - `tests/pettripfinder/test_cleveland_pass1_artifact_verification.py`
 - `tests/pettripfinder/test_cleveland_pass3_capture_results.py`
 - `tests/pettripfinder/test_cleveland_pass4_capture_results.py`
+- `tests/pettripfinder/test_composite_fresh_market_001.py`
 - `tests/pettripfinder/test_dayton_hardened_application_002.py`
 - `tests/pettripfinder/test_dayton_pass_b_founder_decisions.py`
 - `tests/pettripfinder/test_dayton_recovery_002.py`
@@ -253,6 +254,7 @@ Schema `ptf-test-pin-inventory/1.0`. 410 modules scanned, 282 carry pins, 1682 s
 | `test_cleveland_pass4_capture_results.py` | cleveland-akron-canton-oh | HISTORICAL_COHORT_INVARIANT | 6 | HISTORICAL_ARTIFACT 1, HISTORICAL_COHORT 5 |
 | `test_cleveland_work_browser_001.py` | cleveland-akron-canton-oh | HISTORICAL_COHORT_INVARIANT | 9 | HISTORICAL_ARTIFACT 3, HISTORICAL_COHORT 6 |
 | `test_combined_weight_and_restriction_rows.py` |  | GENERIC_SCHEMA_INVARIANT | 1 | GENERIC_SCHEMA 1 |
+| `test_composite_fresh_market_001.py` |  | HISTORICAL_COHORT_INVARIANT | 8 | HISTORICAL_ARTIFACT 2, HISTORICAL_COHORT 6 |
 | `test_coverage_audit.py` |  | GENERIC_SCHEMA_INVARIANT | 2 | GENERIC_SCHEMA 2 |
 | `test_dayton_artifact_cohort_verification.py` | dayton-oh | HISTORICAL_COHORT_INVARIANT | 4 | HISTORICAL_ARTIFACT 1, HISTORICAL_COHORT 3 |
 | `test_dayton_authority.py` | dayton-oh | CURRENT_STATE_INVARIANT | 9 | CROSS_MARKET 2, CURRENT_STATE 7 |

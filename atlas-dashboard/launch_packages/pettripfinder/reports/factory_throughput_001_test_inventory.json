@@ -9,13 +9,13 @@
   "GENERIC_SCHEMA_INVARIANT",
   "CROSS_MARKET_INVARIANT"
  ],
- "modules_scanned": 410,
- "modules_with_pins": 282,
- "sites": 1682,
+ "modules_scanned": 411,
+ "modules_with_pins": 283,
+ "sites": 1690,
  "by_class": {
   "CURRENT_STATE_INVARIANT": 155,
-  "HISTORICAL_COHORT_INVARIANT": 899,
-  "HISTORICAL_ARTIFACT_INVARIANT": 208,
+  "HISTORICAL_COHORT_INVARIANT": 905,
+  "HISTORICAL_ARTIFACT_INVARIANT": 210,
   "DEPLOYMENT_EPOCH_INVARIANT": 156,
   "GENERIC_SCHEMA_INVARIANT": 194,
   "CROSS_MARKET_INVARIANT": 70
@@ -65,6 +65,7 @@
   "tests/pettripfinder/test_cleveland_pass1_artifact_verification.py",
   "tests/pettripfinder/test_cleveland_pass3_capture_results.py",
   "tests/pettripfinder/test_cleveland_pass4_capture_results.py",
+  "tests/pettripfinder/test_composite_fresh_market_001.py",
   "tests/pettripfinder/test_dayton_hardened_application_002.py",
   "tests/pettripfinder/test_dayton_pass_b_founder_decisions.py",
   "tests/pettripfinder/test_dayton_recovery_002.py",
@@ -10331,6 +10332,110 @@
      "source": "len(drury) == 3",
      "class": "GENERIC_SCHEMA_INVARIANT",
      "reason": "module default"
+    }
+   ]
+  },
+  {
+   "module": "tests/pettripfinder/test_composite_fresh_market_001.py",
+   "market": null,
+   "lanes": [
+    "full_regression"
+   ],
+   "default_class": "HISTORICAL_COHORT_INVARIANT",
+   "default_reason": "work-order-numbered module",
+   "site_count": 8,
+   "by_class": {
+    "HISTORICAL_ARTIFACT_INVARIANT": 2,
+    "HISTORICAL_COHORT_INVARIANT": 6
+   },
+   "sites": [
+    {
+     "line": 178,
+     "test": "test_every_one_of_the_42_paths_is_in_exactly_one_bucket",
+     "kind": "count",
+     "literal": 42,
+     "reads_package": true,
+     "has_len": true,
+     "source": "acc[\"TOTAL_CHANGED_PATHS\"] == 42 == len(rows)",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "whole-package count in a closed order's suite"
+    },
+    {
+     "line": 182,
+     "test": "test_every_one_of_the_42_paths_is_in_exactly_one_bucket",
+     "kind": "count",
+     "literal": 42,
+     "reads_package": false,
+     "has_len": true,
+     "source": "sum(len(v) for v in detail[\"partition\"].values()) == 42",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 215,
+     "test": "test_the_partition_is_the_expected_one",
+     "kind": "count",
+     "literal": 14,
+     "reads_package": false,
+     "has_len": true,
+     "source": "len(registration) == 14",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 222,
+     "test": "test_the_partition_is_the_expected_one",
+     "kind": "count",
+     "literal": 13,
+     "reads_package": false,
+     "has_len": true,
+     "source": "len(derived) == 13",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 244,
+     "test": "test_the_frozen_set_does_not_narrow_and_says_why",
+     "kind": "count",
+     "literal": 3,
+     "reads_package": false,
+     "has_len": true,
+     "source": "sum(1 for p in problems if \"is not market-local\" in p) == 3",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 543,
+     "test": "test_case_21_a_required_output_missing_from_the_accounting_fails",
+     "kind": "count",
+     "literal": 41,
+     "reads_package": false,
+     "has_len": false,
+     "source": "gate[\"result\"][\"detail\"][\"accounting\"][\"TOTAL_CHANGED_PATHS\"] == 41",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 813,
+     "test": "test_a_committed_replay_receipt_passes_every_criterion",
+     "kind": "count",
+     "literal": 300,
+     "reads_package": true,
+     "has_len": false,
+     "source": "doc[\"timings\"][\"REGISTRATION_TO_AUTHORIZATION_READY_SECONDS\"] <= 300",
+     "class": "HISTORICAL_ARTIFACT_INVARIANT",
+     "reason": "count read from a committed artifact"
+    },
+    {
+     "line": 818,
+     "test": "test_a_committed_replay_receipt_passes_every_criterion",
+     "kind": "count",
+     "literal": 15,
+     "reads_package": true,
+     "has_len": false,
+     "source": "doc[\"lane\"][\"fast_lane_receipt\"][\"rules_passed\"] == 15",
+     "class": "HISTORICAL_ARTIFACT_INVARIANT",
+     "reason": "count read from a committed artifact"
     }
    ]
   },
