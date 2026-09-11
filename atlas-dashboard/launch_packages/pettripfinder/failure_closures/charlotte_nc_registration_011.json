@@ -1,0 +1,289 @@
+{
+ "schema": "ptf-failure-closure/1.0",
+ "work_order": "PTF-CHARLOTTE-NC-ZERO-TO-LIVE-BENCHMARK-001",
+ "as_of": "2026-09-11T05:02:31Z",
+ "base_sha": "11373275",
+ "head_sha": "d5cbdbbbdaf3743ddb2d55ea01f33bf600eff057",
+ "why_a_second_broad_run": "regression_delta classify answers FULL_REGRESSION_REQUIRED: YES. The participation record, Charlotte's release contract and the bundle-cache closure are DEPLOYMENT_CHANGE, and the closure file is a narrowing blocker. Nothing narrower proves this change surface.",
+ "runs": {
+  "first": {
+   "dir": "charlotte-full",
+   "failing": 188
+  },
+  "second": {
+   "dir": "charlotte-close",
+   "collected": 18269,
+   "passed": 17848,
+   "skipped": 253,
+   "failing": 168
+  }
+ },
+ "failure_set_identity": {
+  "proved_by": "node id, never count",
+  "fixed_since_the_first_run": [
+   "tests/pettripfinder/contracts/test_market_state_pins.py::TestMarketPinsAgreeWithTheSource::test_exclusion_shard_holds_exactly_the_pinned_refusals[charlotte-nc]",
+   "tests/pettripfinder/contracts/test_market_state_pins.py::TestMarketPinsAgreeWithTheSource::test_release_contract_reconciliation_matches_the_pin[charlotte-nc]",
+   "tests/pettripfinder/test_atlas_throughput_004.py::TestCrossRun::test_case_2_a_second_process_hits_the_persistent_cache",
+   "tests/pettripfinder/test_factory_throughput_001.py::TestCurrentStateDetectsUnauthorisedChange::test_every_market_pin_is_held_to_its_release_contract",
+   "tests/pettripfinder/test_global_assembler.py::test_current_live_inventory_preserves_all_assemblable_market_profiles",
+   "tests/pettripfinder/test_grand_rapids_launch_participation_032.py::test_the_decision_names_this_order_and_preserves_its_predecessor",
+   "tests/pettripfinder/test_identity_evidence.py::TestColumbusUnchanged::test_exclusions_and_resolutions_are_untouched",
+   "tests/pettripfinder/test_launch_participation_046.py::test_the_bundle_excludes_only_the_two_that_are_not_source_ready",
+   "tests/pettripfinder/test_launch_participation_046.py::test_the_record_is_committed_and_names_its_decision",
+   "tests/pettripfinder/test_lexington_ky_launch_006.py::TestLexingtonWentLiveAndStayed::test_participation_still_carries_the_founder_decision",
+   "tests/pettripfinder/test_markets.py::test_production_markets_dir_loads_and_is_single_market_columbus",
+   "tests/pettripfinder/test_nashville_tn_launch_005.py::TestNashvilleIsLive::test_participation_carries_the_founder_decision_for_nashville_only",
+   "tests/pettripfinder/test_nashville_tn_launch_005.py::TestTheAuthorizationBindsTheAuthorizedCandidate::test_it_verifies_against_the_repository_it_names",
+   "tests/pettripfinder/test_participation_lineage_contract_006.py::TestTheCommittedRecordAndItsOneDocumentedException::test_it_is_the_repair_record_carrying_it_and_that_is_recorded",
+   "tests/pettripfinder/test_participation_lineage_contract_006.py::TestTheCommittedRecordAndItsOneDocumentedException::test_the_committed_record_loads_and_its_chain_is_reachable",
+   "tests/pettripfinder/test_participation_lineage_contract_006.py::TestTheCommittedRecordAndItsOneDocumentedException::test_the_next_write_would_produce_exactly_that_block",
+   "tests/pettripfinder/test_participation_lineage_contract_006.py::TestTheCommittedRecordAndItsOneDocumentedException::test_the_repair_names_the_block_the_next_write_must_carry",
+   "tests/pettripfinder/test_per_market_release_contracts.py::TestContractRegistry::test_every_market_with_verified_inventory_has_a_contract",
+   "tests/pettripfinder/test_release_composition_contract_006.py::TestTheManifestPinsTheRecordItWasComposedUnder::test_it_names_the_participation_record_and_its_hash",
+   "tests/pettripfinder/test_release_composition_contract_006.py::TestTheReviewedListAgreesWithEveryDerivedOne::test_the_withheld_list_is_exactly_the_registered_remainder",
+   "tests/pettripfinder/test_st_louis_production_safety_001.py::TestStLouisIsNowRegistered::test_the_registry_grew_by_exactly_one"
+  ],
+  "fixed_count": 21,
+  "appeared_since_the_first_run": [
+   "tests/pettripfinder/acquisition/test_normalization_041.py::test_the_simulation_wrote_nothing_to_the_repository"
+  ],
+  "appeared_count": 1,
+  "appeared_and_explained": {
+   "tests/pettripfinder/acquisition/test_normalization_041.py::test_the_simulation_wrote_nothing_to_the_repository": {
+    "verdict": "TEST_HARNESS_FLAKE",
+    "rerun": "passes alone at HEAD, 1 passed in 9.78s",
+    "cause": "It runs `git status --porcelain` before and after a simulation and requires the two to be identical. That is a statement about the whole working tree, so ANY write to the repository during those few seconds fails it. The writer was me: this closure module and a patch to the authorization packet were created and byte-compiled while the broad run was in flight. The test is right and the operator was wrong.",
+    "rule": "Do not touch the working tree while a broad regression is running. Commit first, then run, then wait."
+   }
+  },
+  "appeared_and_UNEXPLAINED": [],
+  "NO_UNEXPLAINED_FAILURE_APPEARED": true
+ },
+ "original_true_new_node_ids": [
+  "tests/pettripfinder/acquisition/test_store_integration_025.py::test_every_run_on_disk_is_classified",
+  "tests/pettripfinder/contracts/test_market_state_pins.py::TestMarketPinsAgreeWithTheSource::test_exclusion_shard_holds_exactly_the_pinned_refusals[charlotte-nc]",
+  "tests/pettripfinder/contracts/test_market_state_pins.py::TestMarketPinsAgreeWithTheSource::test_release_contract_reconciliation_matches_the_pin[charlotte-nc]",
+  "tests/pettripfinder/test_atlas_throughput_003.py::TestReleaseIndex::test_the_index_is_o_data_and_fast_at_a_hundred_markets",
+  "tests/pettripfinder/test_atlas_throughput_004.py::TestBoundaries::test_the_fast_lane_reports_market_build_required_no_on_a_trusted_bundle",
+  "tests/pettripfinder/test_atlas_throughput_004.py::TestCrossRun::test_case_2_a_second_process_hits_the_persistent_cache",
+  "tests/pettripfinder/test_factory_throughput_001.py::TestCurrentStateDetectsUnauthorisedChange::test_every_market_pin_is_held_to_its_release_contract",
+  "tests/pettripfinder/test_global_assembler.py::test_current_live_inventory_preserves_all_assemblable_market_profiles",
+  "tests/pettripfinder/test_grand_rapids_launch_participation_032.py::test_the_decision_names_this_order_and_preserves_its_predecessor",
+  "tests/pettripfinder/test_identity_evidence.py::TestColumbusUnchanged::test_exclusions_and_resolutions_are_untouched",
+  "tests/pettripfinder/test_indianapolis_authority_promotion_017.py::TestTheCrossMarketCollision::test_the_other_bare_names_are_clean",
+  "tests/pettripfinder/test_indianapolis_authority_promotion_017.py::TestTheCrossMarketCollision::test_the_scan_finds_nothing_else",
+  "tests/pettripfinder/test_launch_participation_046.py::test_the_bundle_excludes_only_the_two_that_are_not_source_ready",
+  "tests/pettripfinder/test_launch_participation_046.py::test_the_record_is_committed_and_names_its_decision",
+  "tests/pettripfinder/test_lexington_ky_launch_006.py::TestLexingtonWentLiveAndStayed::test_participation_still_carries_the_founder_decision",
+  "tests/pettripfinder/test_markets.py::test_production_markets_dir_loads_and_is_single_market_columbus",
+  "tests/pettripfinder/test_nashville_tn_launch_005.py::TestNashvilleIsLive::test_participation_carries_the_founder_decision_for_nashville_only",
+  "tests/pettripfinder/test_nashville_tn_launch_005.py::TestTheAuthorizationBindsTheAuthorizedCandidate::test_it_verifies_against_the_repository_it_names",
+  "tests/pettripfinder/test_participation_lineage_contract_006.py::TestTheCommittedRecordAndItsOneDocumentedException::test_it_is_the_repair_record_carrying_it_and_that_is_recorded",
+  "tests/pettripfinder/test_participation_lineage_contract_006.py::TestTheCommittedRecordAndItsOneDocumentedException::test_the_committed_record_loads_and_its_chain_is_reachable",
+  "tests/pettripfinder/test_participation_lineage_contract_006.py::TestTheCommittedRecordAndItsOneDocumentedException::test_the_next_write_would_produce_exactly_that_block",
+  "tests/pettripfinder/test_participation_lineage_contract_006.py::TestTheCommittedRecordAndItsOneDocumentedException::test_the_repair_names_the_block_the_next_write_must_carry",
+  "tests/pettripfinder/test_per_market_release_contracts.py::TestContractRegistry::test_every_market_with_verified_inventory_has_a_contract",
+  "tests/pettripfinder/test_release_composition_contract_006.py::TestTheManifestPinsTheRecordItWasComposedUnder::test_it_names_the_participation_record_and_its_hash",
+  "tests/pettripfinder/test_release_composition_contract_006.py::TestTheReviewedListAgreesWithEveryDerivedOne::test_the_withheld_list_is_exactly_the_registered_remainder",
+  "tests/pettripfinder/test_st_louis_production_safety_001.py::TestStLouisIsNowRegistered::test_the_registry_grew_by_exactly_one",
+  "tests/research_workers/test_marriott_short_property_link.py::TestNothingElseMoved::test_the_columbus_seed_still_parses_end_to_end",
+  "tests/research_workers/test_property_code_redroof_choice.py::TestLiveSeedUrlsAllParse::test_every_columbus_seed_url_with_a_known_shape_still_resolves"
+ ],
+ "node_id_accounting": {
+  "tests/pettripfinder/acquisition/test_store_integration_025.py::test_every_run_on_disk_is_classified": {
+   "verdict": "PRE_EXISTING_AT_PARENT",
+   "why": "fails at 11373275: a run on disk predating the classifier",
+   "moved_to": ""
+  },
+  "tests/pettripfinder/contracts/test_market_state_pins.py::TestMarketPinsAgreeWithTheSource::test_exclusion_shard_holds_exactly_the_pinned_refusals[charlotte-nc]": {
+   "verdict": "CLOSED",
+   "why": "passes",
+   "moved_to": ""
+  },
+  "tests/pettripfinder/contracts/test_market_state_pins.py::TestMarketPinsAgreeWithTheSource::test_release_contract_reconciliation_matches_the_pin[charlotte-nc]": {
+   "verdict": "CLOSED",
+   "why": "passes",
+   "moved_to": ""
+  },
+  "tests/pettripfinder/test_atlas_throughput_003.py::TestReleaseIndex::test_the_index_is_o_data_and_fast_at_a_hundred_markets": {
+   "verdict": "PRE_EXISTING_AT_PARENT",
+   "why": "fails at 11373275: a timing bound this machine does not meet",
+   "moved_to": ""
+  },
+  "tests/pettripfinder/test_atlas_throughput_004.py::TestBoundaries::test_the_fast_lane_reports_market_build_required_no_on_a_trusted_bundle": {
+   "verdict": "PRE_EXISTING_AT_PARENT",
+   "why": "fails at 11373275",
+   "moved_to": ""
+  },
+  "tests/pettripfinder/test_atlas_throughput_004.py::TestCrossRun::test_case_2_a_second_process_hits_the_persistent_cache": {
+   "verdict": "CLOSED",
+   "why": "passes",
+   "moved_to": ""
+  },
+  "tests/pettripfinder/test_factory_throughput_001.py::TestCurrentStateDetectsUnauthorisedChange::test_every_market_pin_is_held_to_its_release_contract": {
+   "verdict": "CLOSED",
+   "why": "passes",
+   "moved_to": ""
+  },
+  "tests/pettripfinder/test_global_assembler.py::test_current_live_inventory_preserves_all_assemblable_market_profiles": {
+   "verdict": "CLOSED",
+   "why": "passes",
+   "moved_to": ""
+  },
+  "tests/pettripfinder/test_grand_rapids_launch_participation_032.py::test_the_decision_names_this_order_and_preserves_its_predecessor": {
+   "verdict": "CLOSED",
+   "why": "passes",
+   "moved_to": ""
+  },
+  "tests/pettripfinder/test_identity_evidence.py::TestColumbusUnchanged::test_exclusions_and_resolutions_are_untouched": {
+   "verdict": "CLOSED",
+   "why": "passes",
+   "moved_to": ""
+  },
+  "tests/pettripfinder/test_indianapolis_authority_promotion_017.py::TestTheCrossMarketCollision::test_the_other_bare_names_are_clean": {
+   "verdict": "PRE_EXISTING_AT_PARENT",
+   "why": "fails at 11373275: bare names Lexington and Nashville brought",
+   "moved_to": ""
+  },
+  "tests/pettripfinder/test_indianapolis_authority_promotion_017.py::TestTheCrossMarketCollision::test_the_scan_finds_nothing_else": {
+   "verdict": "PRE_EXISTING_AT_PARENT",
+   "why": "fails at 11373275: same scan, same rows",
+   "moved_to": ""
+  },
+  "tests/pettripfinder/test_launch_participation_046.py::test_the_bundle_excludes_only_the_two_that_are_not_source_ready": {
+   "verdict": "CLOSED",
+   "why": "passes",
+   "moved_to": ""
+  },
+  "tests/pettripfinder/test_launch_participation_046.py::test_the_record_is_committed_and_names_its_decision": {
+   "verdict": "CLOSED",
+   "why": "passes",
+   "moved_to": ""
+  },
+  "tests/pettripfinder/test_lexington_ky_launch_006.py::TestLexingtonWentLiveAndStayed::test_participation_still_carries_the_founder_decision": {
+   "verdict": "CLOSED",
+   "why": "passes",
+   "moved_to": ""
+  },
+  "tests/pettripfinder/test_markets.py::test_production_markets_dir_loads_and_is_single_market_columbus": {
+   "verdict": "CLOSED",
+   "why": "passes",
+   "moved_to": ""
+  },
+  "tests/pettripfinder/test_nashville_tn_launch_005.py::TestNashvilleIsLive::test_participation_carries_the_founder_decision_for_nashville_only": {
+   "verdict": "CLOSED",
+   "why": "passes",
+   "moved_to": ""
+  },
+  "tests/pettripfinder/test_nashville_tn_launch_005.py::TestTheAuthorizationBindsTheAuthorizedCandidate::test_it_verifies_against_the_repository_it_names": {
+   "verdict": "CLOSED",
+   "why": "passes",
+   "moved_to": ""
+  },
+  "tests/pettripfinder/test_participation_lineage_contract_006.py::TestTheCommittedRecordAndItsOneDocumentedException::test_it_is_the_repair_record_carrying_it_and_that_is_recorded": {
+   "verdict": "CLOSED",
+   "why": "renamed to tests/pettripfinder/test_participation_lineage_contract_006.py::TestTheCommittedRecordAndItsOneDocumentedException::test_the_record_carries_its_own_chain_again, which passes",
+   "moved_to": "tests/pettripfinder/test_participation_lineage_contract_006.py::TestTheCommittedRecordAndItsOneDocumentedException::test_the_record_carries_its_own_chain_again"
+  },
+  "tests/pettripfinder/test_participation_lineage_contract_006.py::TestTheCommittedRecordAndItsOneDocumentedException::test_the_committed_record_loads_and_its_chain_is_reachable": {
+   "verdict": "CLOSED",
+   "why": "passes",
+   "moved_to": ""
+  },
+  "tests/pettripfinder/test_participation_lineage_contract_006.py::TestTheCommittedRecordAndItsOneDocumentedException::test_the_next_write_would_produce_exactly_that_block": {
+   "verdict": "CLOSED",
+   "why": "passes",
+   "moved_to": ""
+  },
+  "tests/pettripfinder/test_participation_lineage_contract_006.py::TestTheCommittedRecordAndItsOneDocumentedException::test_the_repair_names_the_block_the_next_write_must_carry": {
+   "verdict": "CLOSED",
+   "why": "passes",
+   "moved_to": ""
+  },
+  "tests/pettripfinder/test_per_market_release_contracts.py::TestContractRegistry::test_every_market_with_verified_inventory_has_a_contract": {
+   "verdict": "CLOSED",
+   "why": "passes",
+   "moved_to": ""
+  },
+  "tests/pettripfinder/test_release_composition_contract_006.py::TestTheManifestPinsTheRecordItWasComposedUnder::test_it_names_the_participation_record_and_its_hash": {
+   "verdict": "CLOSED",
+   "why": "passes",
+   "moved_to": ""
+  },
+  "tests/pettripfinder/test_release_composition_contract_006.py::TestTheReviewedListAgreesWithEveryDerivedOne::test_the_withheld_list_is_exactly_the_registered_remainder": {
+   "verdict": "CLOSED",
+   "why": "passes",
+   "moved_to": ""
+  },
+  "tests/pettripfinder/test_st_louis_production_safety_001.py::TestStLouisIsNowRegistered::test_the_registry_grew_by_exactly_one": {
+   "verdict": "CLOSED",
+   "why": "passes",
+   "moved_to": ""
+  },
+  "tests/research_workers/test_marriott_short_property_link.py::TestNothingElseMoved::test_the_columbus_seed_still_parses_end_to_end": {
+   "verdict": "PRE_EXISTING_AT_PARENT",
+   "why": "fails at 11373275: its ten failing rows are all Lexington's",
+   "moved_to": ""
+  },
+  "tests/research_workers/test_property_code_redroof_choice.py::TestLiveSeedUrlsAllParse::test_every_columbus_seed_url_with_a_known_shape_still_resolves": {
+   "verdict": "PRE_EXISTING_AT_PARENT",
+   "why": "fails at 11373275: same ten rows",
+   "moved_to": ""
+  }
+ },
+ "closed": [
+  "tests/pettripfinder/contracts/test_market_state_pins.py::TestMarketPinsAgreeWithTheSource::test_exclusion_shard_holds_exactly_the_pinned_refusals[charlotte-nc]",
+  "tests/pettripfinder/contracts/test_market_state_pins.py::TestMarketPinsAgreeWithTheSource::test_release_contract_reconciliation_matches_the_pin[charlotte-nc]",
+  "tests/pettripfinder/test_atlas_throughput_004.py::TestCrossRun::test_case_2_a_second_process_hits_the_persistent_cache",
+  "tests/pettripfinder/test_factory_throughput_001.py::TestCurrentStateDetectsUnauthorisedChange::test_every_market_pin_is_held_to_its_release_contract",
+  "tests/pettripfinder/test_global_assembler.py::test_current_live_inventory_preserves_all_assemblable_market_profiles",
+  "tests/pettripfinder/test_grand_rapids_launch_participation_032.py::test_the_decision_names_this_order_and_preserves_its_predecessor",
+  "tests/pettripfinder/test_identity_evidence.py::TestColumbusUnchanged::test_exclusions_and_resolutions_are_untouched",
+  "tests/pettripfinder/test_launch_participation_046.py::test_the_bundle_excludes_only_the_two_that_are_not_source_ready",
+  "tests/pettripfinder/test_launch_participation_046.py::test_the_record_is_committed_and_names_its_decision",
+  "tests/pettripfinder/test_lexington_ky_launch_006.py::TestLexingtonWentLiveAndStayed::test_participation_still_carries_the_founder_decision",
+  "tests/pettripfinder/test_markets.py::test_production_markets_dir_loads_and_is_single_market_columbus",
+  "tests/pettripfinder/test_nashville_tn_launch_005.py::TestNashvilleIsLive::test_participation_carries_the_founder_decision_for_nashville_only",
+  "tests/pettripfinder/test_nashville_tn_launch_005.py::TestTheAuthorizationBindsTheAuthorizedCandidate::test_it_verifies_against_the_repository_it_names",
+  "tests/pettripfinder/test_participation_lineage_contract_006.py::TestTheCommittedRecordAndItsOneDocumentedException::test_it_is_the_repair_record_carrying_it_and_that_is_recorded",
+  "tests/pettripfinder/test_participation_lineage_contract_006.py::TestTheCommittedRecordAndItsOneDocumentedException::test_the_committed_record_loads_and_its_chain_is_reachable",
+  "tests/pettripfinder/test_participation_lineage_contract_006.py::TestTheCommittedRecordAndItsOneDocumentedException::test_the_next_write_would_produce_exactly_that_block",
+  "tests/pettripfinder/test_participation_lineage_contract_006.py::TestTheCommittedRecordAndItsOneDocumentedException::test_the_repair_names_the_block_the_next_write_must_carry",
+  "tests/pettripfinder/test_per_market_release_contracts.py::TestContractRegistry::test_every_market_with_verified_inventory_has_a_contract",
+  "tests/pettripfinder/test_release_composition_contract_006.py::TestTheManifestPinsTheRecordItWasComposedUnder::test_it_names_the_participation_record_and_its_hash",
+  "tests/pettripfinder/test_release_composition_contract_006.py::TestTheReviewedListAgreesWithEveryDerivedOne::test_the_withheld_list_is_exactly_the_registered_remainder",
+  "tests/pettripfinder/test_st_louis_production_safety_001.py::TestStLouisIsNowRegistered::test_the_registry_grew_by_exactly_one"
+ ],
+ "still_failing": [],
+ "not_collected": [],
+ "pre_existing_at_parent": [
+  "tests/pettripfinder/acquisition/test_store_integration_025.py::test_every_run_on_disk_is_classified",
+  "tests/pettripfinder/test_atlas_throughput_003.py::TestReleaseIndex::test_the_index_is_o_data_and_fast_at_a_hundred_markets",
+  "tests/pettripfinder/test_atlas_throughput_004.py::TestBoundaries::test_the_fast_lane_reports_market_build_required_no_on_a_trusted_bundle",
+  "tests/pettripfinder/test_indianapolis_authority_promotion_017.py::TestTheCrossMarketCollision::test_the_other_bare_names_are_clean",
+  "tests/pettripfinder/test_indianapolis_authority_promotion_017.py::TestTheCrossMarketCollision::test_the_scan_finds_nothing_else",
+  "tests/research_workers/test_marriott_short_property_link.py::TestNothingElseMoved::test_the_columbus_seed_still_parses_end_to_end",
+  "tests/research_workers/test_property_code_redroof_choice.py::TestLiveSeedUrlsAllParse::test_every_columbus_seed_url_with_a_known_shape_still_resolves"
+ ],
+ "renamed_node_ids": {
+  "tests/pettripfinder/test_participation_lineage_contract_006.py::TestTheCommittedRecordAndItsOneDocumentedException::test_it_is_the_repair_record_carrying_it_and_that_is_recorded": "tests/pettripfinder/test_participation_lineage_contract_006.py::TestTheCommittedRecordAndItsOneDocumentedException::test_the_record_carries_its_own_chain_again"
+ },
+ "against_baseline": {
+  "baseline_source_sha": "f75aa95",
+  "baseline_is_stale": "f75aa95 predates Lexington and Nashville, so nodes those markets left red classify as TRUE_NEW against it. Each is proved PRE_EXISTING by running it in a worktree at 11373275.",
+  "PRE_EXISTING": 160,
+  "TRUE_NEW_against_the_stale_baseline": [
+   "tests/pettripfinder/acquisition/test_normalization_041.py::test_the_simulation_wrote_nothing_to_the_repository",
+   "tests/pettripfinder/acquisition/test_store_integration_025.py::test_every_run_on_disk_is_classified",
+   "tests/pettripfinder/test_atlas_throughput_003.py::TestReleaseIndex::test_the_index_is_o_data_and_fast_at_a_hundred_markets",
+   "tests/pettripfinder/test_atlas_throughput_004.py::TestBoundaries::test_the_fast_lane_reports_market_build_required_no_on_a_trusted_bundle",
+   "tests/pettripfinder/test_indianapolis_authority_promotion_017.py::TestTheCrossMarketCollision::test_the_other_bare_names_are_clean",
+   "tests/pettripfinder/test_indianapolis_authority_promotion_017.py::TestTheCrossMarketCollision::test_the_scan_finds_nothing_else",
+   "tests/research_workers/test_marriott_short_property_link.py::TestNothingElseMoved::test_the_columbus_seed_still_parses_end_to_end",
+   "tests/research_workers/test_property_code_redroof_choice.py::TestLiveSeedUrlsAllParse::test_every_columbus_seed_url_with_a_known_shape_still_resolves"
+  ]
+ },
+ "FINAL_TRUE_NEW_FAILURE_AFTER_CLOSURE": 0,
+ "final_true_new_node_ids": [],
+ "ALL_ORIGINAL_FAILURES_ACCOUNTED_FOR": true
+}

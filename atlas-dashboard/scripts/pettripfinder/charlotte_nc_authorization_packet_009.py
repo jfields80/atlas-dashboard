@@ -46,6 +46,46 @@ def git(*args):
                           text=True).stdout.strip()
 
 
+CLOSURE = (_DASH / "launch_packages" / "pettripfinder" / "failure_closures"
+           / "charlotte_nc_registration_011.json")
+
+
+def closure_summary():
+    """What the second broad run proved, or an explicit absence.
+
+    Absence is a fact and silence is not: a packet with no closure block would
+    read like a packet whose closure was clean.
+    """
+    if not CLOSURE.is_file():
+        return OrderedDict((
+            ("state", "NOT_PROVED"),
+            ("why", "no closure artifact exists; the second broad run has not been "
+                    "classified, so no claim is made about what the registration moved"),
+        ))
+    doc = _load(CLOSURE)
+    identity = doc["failure_set_identity"]
+    return OrderedDict((
+        ("state", "PROVED" if doc["ALL_ORIGINAL_FAILURES_ACCOUNTED_FOR"] else "INCOMPLETE"),
+        ("artifact", str(CLOSURE.relative_to(_DASH)).replace("\\", "/")),
+        ("why_a_second_broad_run", doc["why_a_second_broad_run"]),
+        ("first_run_failing", doc["runs"]["first"]["failing"]),
+        ("second_run_failing", doc["runs"]["second"]["failing"]),
+        ("fixed_since_the_first_run", identity["fixed_count"]),
+        ("appeared_since_the_first_run", identity["appeared_count"]),
+        ("appeared_and_explained",
+         sorted(identity.get("appeared_and_explained") or {})),
+        ("appeared_and_UNEXPLAINED", identity["appeared_and_UNEXPLAINED"]),
+        ("NO_UNEXPLAINED_FAILURE_APPEARED",
+         identity["NO_UNEXPLAINED_FAILURE_APPEARED"]),
+        ("original_true_new", len(doc["original_true_new_node_ids"])),
+        ("closed", len(doc["closed"])),
+        ("pre_existing_at_parent", len(doc["pre_existing_at_parent"])),
+        ("still_failing", doc["still_failing"]),
+        ("FINAL_TRUE_NEW_FAILURE_AFTER_CLOSURE",
+         doc["FINAL_TRUE_NEW_FAILURE_AFTER_CLOSURE"]),
+    ))
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default=str(OUT))
@@ -199,6 +239,12 @@ def main(argv=None):
         ))),
 
         ("participation", asm["participation"]),
+
+        # The second broad run and what it closed. A packet that reported only
+        # the candidate would be reporting the easy half: the registration also
+        # moved shared state, and the proof that it moved nothing else is a
+        # failure-set comparison, not a count.
+        ("registration_closure", closure_summary()),
 
         ("cost", OrderedDict((
             ("usd", 0.0), ("firecrawl_credits", 0), ("paid_provider_calls", 0),

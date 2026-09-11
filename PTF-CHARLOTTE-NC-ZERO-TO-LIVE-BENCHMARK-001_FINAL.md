@@ -200,8 +200,10 @@ in `launch_packages/pettripfinder/markets/reports/charlotte_nc_authorization_pac
     FAST RELEASE LANE           A-O all PASS -- 15/15, 0 UNKNOWN, 0 FAILED
     DETERMINISM                 BYTE_IDENTICAL
     FRESH_PACKAGE_REPRODUCIBLE  YES
-    FINAL_CANDIDATE_REPRODUCIBLE YES (two whole-site builds, 707s and 738s,
-                                same bundle and same sitemap digest)
+    FINAL_CANDIDATE_REPRODUCIBLE YES (two whole-site builds, 684s and 696s,
+                                same bundle and same sitemap digest; re-run
+                                after the registration closure and byte-
+                                identical to the pre-closure measurement)
     UNCHANGED_MARKETS_REBUILT   0
     RELEASE DIFF                passed, 0 findings
     CONTRACTS                   verify_all() clean for all 15 markets
@@ -223,67 +225,171 @@ in `launch_packages/pettripfinder/markets/reports/charlotte_nc_authorization_pac
     REMOVED                0 markets, 0 profiles, 0 routes
     UNEXPECTED CHANGES     0 / 0 / 0
 
-## REGRESSION — NOT CLOSED
+## REGRESSION — CLOSED
 
 Registration classifies `AUTHORITY_CHANGE` + `DEPLOYMENT_CHANGE`, so
-`FULL_REGRESSION_REQUIRED = YES`. ONE broad run, 5296.8 s, classified by node id
-against the committed `f75aa95` baseline:
+`FULL_REGRESSION_REQUIRED = YES`. It said so twice: once for the registration
+itself, and again for the closure, because declaring Charlotte's two inputs
+edits `bundle_cache_closure.json`, which is a narrowing blocker. The second run
+is the machine's requirement, not a preference.
 
-    COLLECTED              18233
-    PASSED                 17792
-    SKIPPED                  253
-    FAILED                   188
-    PRE_EXISTING             160
-    TRUE_NEW_FAILURE          28   <-- closure NOT complete
+    RUN            COLLECTED   PASSED   FAILED   SECONDS
+    charlotte-full     18233    17792      188    5268.6
+    charlotte-close    18269    17848      168    4959.2
 
-Two of the 28 were a REAL defect and are now fixed: the current-state pin and
-the derived release contract still carried `verified_no_pets = 43` from before
-the two service-animal holds were demoted, while the shard held 41.
-`test_market_state_pins` caught the disagreement between the pin and the shard,
-which is exactly what it is for. Charlotte's authoritative counts are now
-consistent at census 268 / pet-friendly 106 / verified-no-pets 41 / resolved 147
-/ unresolved 121, and all 93 pin-contract tests pass.
+Closure is proved by node id and by failure-set IDENTITY, never by count:
 
-**The remaining 26 are not closed, and this order does not claim they are
-benign.** They cluster in four places and each cluster needs its own closure
-before authorization:
+    FIXED SINCE THE FIRST RUN                 21
+    APPEARED SINCE THE FIRST RUN               1   (explained below)
+    ORIGINAL TRUE_NEW ACCOUNTED FOR         28/28
+      closed                                  21
+      pre-existing at the parent commit        7
+      still failing                            0
+      never collected                          0
+    FINAL_TRUE_NEW_FAILURE_AFTER_CLOSURE       0
 
-| cluster | nodes | what it looks like |
-|---|---|---|
-| participation lineage + launch suites | 11 | the participation record was REISSUED, so suites asserting the previous decision block and the repair record that covered it no longer match |
-| market-count and registry pins | 6 | a fifteenth registered market moved counts several suites restate |
-| cross-market identity/collision scans | 4 | Charlotte's names entering the global authority need checking, not assuming |
-| acquisition run registration + Columbus seed parsing | 5 | new run directories are unregistered, and the global seed grew |
+The artifact is
+`launch_packages/pettripfinder/failure_closures/charlotte_nc_registration_011.json`.
 
-**CHARLOTTE_FOUNDER_AUTHORIZATION_READY = NO.**
-`TRUE_NEW_FAILURE_AFTER_CLOSURE` is 26, not 0. Every production gate that
-measures the CANDIDATE passes; what is not finished is the one-time registration
-closure the broad run exists to force.
+### The seven that were never Charlotte's
+
+The committed `f75aa95` baseline predates Lexington and Nashville, so those
+markets' debt classifies as TRUE_NEW against it and looked like Charlotte's.
+Each was run in a worktree at the parent commit `11373275` and fails there too:
+the acquisition run classifier, a throughput timing bound, a trusted-bundle
+boundary, both Indianapolis cross-market collision scans, and both Columbus seed
+parsers, whose ten failing rows are all Lexington's.
+
+**A stale baseline turns another market's debt into your regression.** Proving
+seven nodes at the parent commit cost minutes and removed a quarter of the list.
+
+### The two missed registration steps
+
+Twenty-one nodes had two causes, and both were steps the registration owed and
+had not paid.
+
+**The participation row.** A registered market with no row reads `UNLISTED`, and
+a registered market with no EXPLICIT status fails `verify_participation`.
+Charlotte now carries a row at
+`SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH`. The record is REISSUED and
+never edited: its decision block carried no chain of its own and was legal only
+because a repair record covered it at one exact sha256, so a hand-added row
+broke the document outright and the assembler then read EVERY market as
+`UNLISTED`. Written through `extend_decision(..., path=...)`, the chain came
+back whole, 8 records to 9, which closes the one exception the lineage contract
+documented. The repair named the exact block the next write had to carry; this
+was that write and it carried exactly that block.
+
+**The build closure.** `bundle_cache_closure.json` enumerates every registered
+market's market document and release contract BY NAME, because a per-market
+build reads all of them while resolving the registry. Charlotte's two were
+undeclared, so every bundle published `UNTRUSTED`, including a cold DAYTON
+build, a market Charlotte never touched, which is how it was found. That is the
+guard working: an unlisted input is an input nobody proved constant.
+
+### Who wrote the record is not who authorized the set
+
+Every earlier reissue was a founder launch, so three suites asserted
+`decided_by == "founder"` and said two things at once. A registration is the
+first reissue that is NOT a founder decision. Signing it in the founder's name
+would misstate who decided, so the writer names itself and the suites assert the
+thing that matters: a non-founder writer hands the authorized set on exactly as
+it received it. It is unchanged at thirteen markets.
+
+### The one that appeared, and whose fault it was
+
+`test_normalization_041::test_the_simulation_wrote_nothing_to_the_repository`
+runs `git status --porcelain` before and after a simulation and requires the two
+to match. That is a statement about the whole working tree, so any write during
+those seconds fails it. The writer was the operator: the closure module and a
+packet patch were created and byte-compiled while the broad run was in flight.
+It passes alone. The test is right and the operator was wrong.
+
+**Do not touch the working tree while a broad regression is running.**
+
+### One moved node id, declared
+
+Closure is proved BY node id, so a rename costs the proof. Three renames were
+reverted for that reason. One was kept:
+`test_it_is_the_repair_record_carrying_it_and_that_is_recorded` asserted the
+chain lives in the repair record, and it does not any more. A test whose NAME
+states the opposite of its assertion is worse than a moved id, so the move is
+declared in the closure artifact rather than hidden.
+
+### What did not move
+
+The candidate was re-assembled twice after every change above and is
+byte-identical to the one measured before it: bundle
+`c9ca8c2d94a6489ce41268626531a5e834c494e0bf08bbe67faa7052a2166696`, sitemap
+`6a610e928176dac61d385527625be867a4321416108db07b05ee5d4caec4071a`, 14 markets /
+1008 profiles / 1197 routes, `FINAL_CANDIDATE_REPRODUCIBLE = YES`, and the
+committed participation record restored byte-for-byte. Charlotte's own counts
+are unchanged at census 268 / pet-friendly 106 / verified-no-pets 41 / resolved
+147 / unresolved 121. FAST is 15/15 PASS, determinism BYTE_IDENTICAL, release
+diff 0 findings, `UNCHANGED_MARKETS_REBUILT = 0`.
 
 ## BENCHMARK
 
     BENCHMARK_START                       2026-09-10T13:12:23Z
-    ZERO -> CANDIDATE PASSING EVERY GATE  132 minutes
-    ZERO -> BROAD REGRESSION CLASSIFIED   223 minutes
-    FOUNDER ACTIVE MINUTES                0
-    PROVIDER COST                         $0.00
-    FIRECRAWL CREDITS                     0
-    PAID PROVIDER CALLS                   0
-    FREE HTTP REQUESTS                    517
-    ATTENDED BROWSER PAGES                171 in THREE navigations
+    AUTHORIZATION_READY_AT                2026-09-11T05:02:00Z
 
-    STAGE                        minutes
-    geography + contracts             12
-    owned evidence + brand lanes      22
-    attended capture (3 families)     28
-    OSM extracts, index, discovery    36  (overlapped)
-    census + identity                 20
-    routing + clean set               10
-    registration + release contract   18
-    sealed package + FAST lane        14
-    candidate assembly (x2)           24
-    broad regression                  88
+    ZERO -> CANDIDATE PASSING EVERY GATE     132 minutes
+    ZERO -> FIRST BROAD RUN CLASSIFIED       223 minutes
+    ZERO -> AUTHORIZATION READY (WALL)       950 minutes
+    FOUNDER ACTIVE MINUTES                     0
+
+Machine and factory service time, summed from each run's own recorded duration:
+
+    STAGE                                 minutes
+    geography + contracts                      12
+    owned evidence + brand lanes               22
+    attended capture (3 families)              28
+    OSM extracts, index, discovery             36  (overlapped)
+    census + identity                          20
+    routing + clean set                        10
+    registration + release contract            18
+    sealed package + FAST lane                 14
+    candidate assembly (x2)                    24
+    broad regression #1                        88
+    ------------------------------------------------
+    subtotal, zero to first classification    223
+
+    targeted closure runs (x2)                 47
+    baseline proofs at the parent commit         2
+    candidate re-assembly (x2)                 23
+    broad regression #2                        83
+    ------------------------------------------------
+    closure subtotal                          155
+
+    MACHINE + FACTORY SERVICE TIME            378 minutes  (6h18m)
+    ACTUAL WALL TIME                          950 minutes  (15h50m)
+
+The gap between the two is idle, not work: the machine runs one pytest process
+at a time, so a 90-minute broad run is 90 minutes of waiting, and the second run
+straddled a night. **The clock was not manipulated.** Both numbers are reported
+because only one of them is the factory's.
 
     BENCHMARK_TARGET_4H_AUTH_READY = FAIL
-      -- the candidate was gate-clean at 2h12m, but authorization requires
-         TRUE_NEW_FAILURE_AFTER_CLOSURE = 0 and 26 nodes are still open.
+      -- the candidate was gate-clean at 2h12m, well inside the target. What
+         blew it was registration closure: two broad runs at 88 and 83 minutes,
+         with everything else serialized behind them. No coverage was lowered
+         and no evidence was weakened to get there.
+
+## AUTHORIZATION GATE
+
+**CHARLOTTE_FOUNDER_AUTHORIZATION_READY = YES.**
+
+`FINAL_TRUE_NEW_FAILURE_AFTER_CLOSURE = 0`. Every production gate that measures
+the candidate passes, and the one-time registration closure the broad run exists
+to force is complete and durably recorded.
+
+Nothing is authorized and nothing is deployed. Production is still 13 markets /
+902 profiles / 1078 routes on deploy `6aa212a8ba9f174305c0441a`. Charlotte's
+committed participation row reads
+`SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH`, the founder-authorized set
+is unchanged at thirteen, and the prepared authorization at
+`launch_packages/pettripfinder/markets/reports/charlotte_nc_authorization_packet_009.json`
+is UNSIGNED: `authorized_by` and `authorized_at` are both null.
+
+**This benchmark order is not a founder approval and must not be read as one.**
+Phase 27 begins only on an explicit founder authorization.
