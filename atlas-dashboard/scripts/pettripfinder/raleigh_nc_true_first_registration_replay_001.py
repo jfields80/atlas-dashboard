@@ -240,7 +240,7 @@ def timed(name: str, fn):
     detail = fn()
     seconds = time.time() - started
     STEPS.append(OrderedDict((("step", name), ("argv", []), ("seconds", round(seconds, 2)),
-                              ("returncode", 0), ("peak_working_set_mb", 0.0), ("output_tail", str(detail)[:1500])))
+                              ("returncode", 0), ("peak_working_set_mb", 0.0), ("output_tail", str(detail)[:1500]))))
     print("\n--- %-44s %7.2fs  %s" % (name, seconds, str(detail)[:300]))
     return detail
 
