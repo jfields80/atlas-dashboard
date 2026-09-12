@@ -7,8 +7,9 @@ WHAT WAS WRONG
 hand-maintained table of thirteen market ids followed by a filename glob that
 stripped the last segment of the market id. Every market since Indianapolis
 needed a table entry, because the glob could not spell a modern partition
-name (``raleigh_nc_final_partition_007.json`` for ``raleigh-nc``). A table
-entry is a shared-code DEPLOYMENT_CHANGE and therefore a broad regression, so
+name: it looked for ``<first segment>_final_partition_*`` while the committed
+file is named for the WHOLE market id, underscored, with its own sequence
+number. A table entry is a shared-code DEPLOYMENT_CHANGE and a broad run, so
 a freshly registered market -- AUTHORIZATION_READY, sealed, FAST 15/15,
 0 broad -- was still not assemblable into the whole-site artifact without
 editing the assembler. Raleigh stopped at exactly that line.
@@ -22,12 +23,22 @@ The market's own release contract, ``deploy/netlify/release_contracts/
 reconciliation, and it is now bound the same way::
 
     "final_partition": {
-      "path": "launch_packages/pettripfinder/raleigh_nc_final_partition_007.json",
+      "path": "launch_packages/pettripfinder/<market id, underscored>_final_"
+              "partition_<nnn>.json",
       "schema": "ptf-market-final-partition/1.1",
       "expected_sha256": "<content sha256, CRLF-normalised like the policy package>",
-      "expected_count": 90,
+      "expected_count": "<the identity count the partition itself carries>",
       "note": "..."
     }
+
+NO MARKET IS NAMED IN AN EXAMPLE HERE, ON PURPOSE. A shared module that spells
+a market helper's stem -- and a partition's filename is its helper's stem --
+makes that helper fail the market-local isolation proof's reachability
+condition, which is how the first run of this module was caught: one docstring
+line naming a real partition file turned a registering market's own helper
+into a SHARED_BEHAVIOR_CHANGE and cost the registration its narrowing. The
+frozen table below names committed DATA files of markets already registered,
+which is a different thing and the whole point of the table.
 
 The chain is
 
