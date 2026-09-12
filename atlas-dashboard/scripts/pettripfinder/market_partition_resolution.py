@@ -125,6 +125,8 @@ AMBIGUOUS_REFERENCE = "AMBIGUOUS_REFERENCE"
 REFERENCE_NOT_FOUND = "REFERENCE_NOT_FOUND"
 WRONG_MARKET_PARTITION = "WRONG_MARKET_PARTITION"
 WRONG_PARTITION_SCHEMA = "WRONG_PARTITION_SCHEMA"
+UNREADABLE_PARTITION = "UNREADABLE_PARTITION"
+UNREADABLE_CONTRACT = "UNREADABLE_CONTRACT"
 REFERENCE_DIGEST_MISMATCH = "REFERENCE_DIGEST_MISMATCH"
 REFERENCE_COUNT_MISMATCH = "REFERENCE_COUNT_MISMATCH"
 CONTRACT_TABLE_DISAGREEMENT = "CONTRACT_TABLE_DISAGREEMENT"
@@ -134,6 +136,7 @@ FAILURE_CODES: Tuple[str, ...] = (
     EMPTY_MARKET_ID, UNREGISTERED_MARKET, NO_RELEASE_CONTRACT,
     MISSING_PARTITION_REFERENCE, MALFORMED_REFERENCE, AMBIGUOUS_REFERENCE,
     REFERENCE_NOT_FOUND, WRONG_MARKET_PARTITION, WRONG_PARTITION_SCHEMA,
+    UNREADABLE_PARTITION, UNREADABLE_CONTRACT,
     REFERENCE_DIGEST_MISMATCH, REFERENCE_COUNT_MISMATCH,
     CONTRACT_TABLE_DISAGREEMENT, LEGACY_PARTITION_MISSING,
 )
@@ -283,9 +286,16 @@ def parse_reference(market_id: str, block: Any) -> "OrderedDict[str, Any]":
                         ("schema", block.get("schema"))))
 
 
-def _read_partition(path: Path) -> Tuple[bytes, Dict[str, Any]]:
-    raw = path.read_bytes()
-    return raw, json.loads(raw.decode("utf-8-sig"))
+def _read_partition(market_id: str, path: Path, rel: str) -> Tuple[bytes, Dict[str, Any]]:
+    """The referenced bytes and document. A file that cannot be read or parsed
+    is a named refusal, not a traceback out of the assembler's selection."""
+    try:
+        raw = path.read_bytes()
+        return raw, json.loads(raw.decode("utf-8-sig"))
+    except (OSError, UnicodeDecodeError, ValueError) as exc:
+        raise PartitionResolutionError(
+            UNREADABLE_PARTITION, market_id,
+            "%s could not be read as JSON: %s" % (rel, str(exc)[:160]))
 
 
 def verify_reference(market_id: str, reference: Mapping[str, Any], package_dir: Path) -> Tuple[Path, Tuple[str, ...]]:
@@ -296,7 +306,7 @@ def verify_reference(market_id: str, reference: Mapping[str, Any], package_dir: 
         raise PartitionResolutionError(
             REFERENCE_NOT_FOUND, market_id,
             "the contract references %s but no such file is committed" % reference["path"])
-    raw, doc = _read_partition(path)
+    raw, doc = _read_partition(market_id, path, reference["path"])
     if not isinstance(doc, Mapping):
         raise PartitionResolutionError(
             WRONG_PARTITION_SCHEMA, market_id, "%s is not a JSON object" % reference["path"])
@@ -388,7 +398,17 @@ def resolve_registered_market_partition(market_id: str, *, package_dir: Optional
     try:
         contract = RC.load_contract(mid)
     except RC.ReleaseContractError as exc:
+        # A market with no contract, a wrong schema or a contract that names
+        # another market. Legacy markets may still resolve by the table below;
+        # a modern one has nothing to resolve from and is refused there.
         contract_error = str(exc)
+    except (OSError, UnicodeDecodeError, ValueError) as exc:
+        # A contract that exists but cannot be read is NOT an absent contract:
+        # falling through to the legacy table here would let a corrupt
+        # document resolve as though it had said nothing.
+        raise PartitionResolutionError(
+            UNREADABLE_CONTRACT, mid,
+            "%s could not be read: %s" % (contract_path.name, str(exc)[:160]))
 
     block = contract.get(CONTRACT_BLOCK) if contract is not None else None
     if block is not None:

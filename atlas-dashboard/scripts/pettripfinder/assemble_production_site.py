@@ -169,6 +169,11 @@ def _resolve_partition(market_id: str) -> Tuple[Optional[Path], str, str]:
         return resolution.path, resolution.source, ""
     except MPR.PartitionResolutionError as exc:
         return None, MPR.SOURCE_UNRESOLVED, str(exc)
+    except Exception as exc:                                      # noqa: BLE001
+        # Selection must fail closed and SAY WHY. An unexpected error here
+        # would otherwise abort the whole composed build with a traceback
+        # instead of one market reading "not assemblable, because ...".
+        return None, MPR.SOURCE_UNRESOLVED, "partition could not be resolved: %s" % exc
 
 
 def published_hotels(market: MarketConfig) -> List[Dict]:

@@ -474,6 +474,27 @@ class TestEveryRefusal:
                                          ("expected_count", 3))))
         assert _code(fx, MODERN) == MPR.MALFORMED_REFERENCE
 
+    def test_an_unreadable_partition_or_contract_is_a_named_refusal_not_a_traceback(self, fx):
+        fx.register(MODERN)
+        fx.partition(MODERN)
+        fx.contract(MODERN)
+        (fx.pkg / "westlake_xx_final_partition_001.json").write_text("{not json", encoding="utf-8")
+        MPR._CACHE.clear()
+        assert _code(fx, MODERN) == MPR.UNREADABLE_PARTITION
+        # A CORRUPT contract must not fall through to the legacy table: a
+        # document that cannot be read has not said "nothing".
+        legacy = "nashville-tn"
+        fx.register(legacy)
+        fx.partition(legacy, "nashville_tn_final_partition_001.json")
+        (fx.contracts / (legacy + ".json")).write_text("{not json", encoding="utf-8")
+        MPR._CACHE.clear()
+        assert _code(fx, legacy) == MPR.UNREADABLE_CONTRACT
+        # and the assembler reports it rather than aborting the composition
+        row = gasm.market_eligibility(fx.market_config(legacy))
+        assert row["conditions"]["final_partition_present"] is False
+        assert row["partition_source"] == MPR.SOURCE_UNRESOLVED
+        assert MPR.UNREADABLE_CONTRACT in row["partition_error"]
+
     def test_a_legacy_market_whose_file_is_missing_fails(self, fx):
         fx.register("milwaukee-wi")
         fx.contract("milwaukee-wi", with_block=False)
