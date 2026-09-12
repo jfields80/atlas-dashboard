@@ -1,0 +1,3126 @@
+{
+ "schema": "ptf-market-clean-authority/1.0",
+ "work_order": "PTF-WILMINGTON-NC-NORMAL-PRODUCTION-001",
+ "market_id": "wilmington-nc",
+ "phase": "13/14 -- policy classification and the clean set",
+ "as_of": "2026-09-12",
+ "status": "PROPOSED_NOT_PUBLISHED",
+ "what_is_excluded": "Everything that is not an operative first-party statement of acceptance or refusal, bound to an ADMITTED census identity by the street identity the page itself states. A read that joins no census row, joins a withheld row, states no policy, or states only a fee / weight / count / amenity chip / service-animal sentence is reported in `rejected` with its class and publishes nothing.",
+ "one_identity_classified_once": "The join is on street identity, so two brands at one address cannot both settle it: the census already withheld those buildings as a founder ruling, and a second read of an already-settled identity is reported DUPLICATE_READ_FOR_ONE_IDENTITY.",
+ "counts": {
+  "reads_evaluated": 54,
+  "clean_pet_friendly": 29,
+  "clean_verified_no_pets": 14,
+  "resolved_census_identities": 43,
+  "unresolved_census_identities": 30,
+  "census_count": 73,
+  "rejected": 11,
+  "rejected_by_class": {
+   "CENSUS_ROW_NOT_ADMITTED": 4,
+   "FIRST_PARTY_CONFLICT": 2,
+   "SERVICE_ANIMAL_ONLY": 5
+  },
+  "pf_by_brand": {
+   "EXTENDED_STAY": 1,
+   "HILTON": 14,
+   "IHG": 2,
+   "INDEPENDENT": 4,
+   "MARRIOTT": 8
+  },
+  "pf_by_corridor": {
+   "wilmington-nc__carolina-beach-kure-beach": 4,
+   "wilmington-nc__downtown-wilmington": 5,
+   "wilmington-nc__ilm-airport-mayfaire": 9,
+   "wilmington-nc__leland": 3,
+   "wilmington-nc__midtown-uncw": 5,
+   "wilmington-nc__monkey-junction": 2,
+   "wilmington-nc__ogden-porters-neck": 1
+  }
+ },
+ "clean_pet_friendly": [
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/ilmal-aloft-wilmington-at-coastline-center/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/ilmal-aloft-wilmington-at-coastline-center/overview/",
+   "document_sha256": "a7f681c41287967458cda78312667839faad3ffb59002b3449719e451eb50988",
+   "document_bytes": 466792,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Aloft by Marriott Wilmington at Coastline Center",
+    "address_on_page": "501 Nutt Street",
+    "postal_code": "28401",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "+19103777600",
+    "property_code_on_page": "ilmal"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "ilmal",
+   "identity_key": "aloft by marriott wilmington at coastline center",
+   "canonical_name": "Aloft by Marriott Wilmington at Coastline Center",
+   "corridor": "wilmington-nc__downtown-wilmington",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Welcome | 2 pets 40 pounds max per room--cannot be left alone in room/USD 25 per night fee | Non-Refundable Pet Fee Per Night: $25.00 | Maximum Pet Weight: 40.0lbs | Maximum Number of Pets in Room: 2",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "weight_limit": 40.0,
+    "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_night",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Welcome | 2 pets 40 pounds max per room--cannot be left alone in room/USD 25 per night fee | Non-Refundable Pet Fee Per Night: $25.00 | Maximum Pet Weight: 40.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | 2 pets 40 pounds max per room--cannot be left alone in room/USD 25 per night fee | Non-Refundable Pet Fee Per Night: $25.00 | Maximum Pet Weight: 40.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | 2 pets 40 pounds max per room--cannot be left alone in room/USD 25 per night fee | Non-Refundable Pet Fee Per Night: $25.00 | Maximum Pet Weight: 40.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | 2 pets 40 pounds max per room--cannot be left alone in room/USD 25 per night fee | Non-Refundable Pet Fee Per Night: $25.00 | Maximum Pet Weight: 40.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | 2 pets 40 pounds max per room--cannot be left alone in room/USD 25 per night fee | Non-Refundable Pet Fee Per Night: $25.00 | Maximum Pet Weight: 40.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | 2 pets 40 pounds max per room--cannot be left alone in room/USD 25 per night fee | Non-Refundable Pet Fee Per Night: $25.00 | Maximum Pet Weight: 40.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/ilmaw-arrive-wilmington-a-member-of-design-hotels/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/ilmaw-arrive-wilmington-a-member-of-design-hotels/overview/",
+   "document_sha256": "dd0d1effe0758d8353297dc261a9dcb487101691fc9c52512d2042d7a14ce78e",
+   "document_bytes": 495938,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "ARRIVE Wilmington, A Member of Design Hotels™",
+    "address_on_page": "101 S 2nd St.",
+    "postal_code": "28401",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "+18887254737",
+    "property_code_on_page": "ilmaw"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "ilmaw",
+   "identity_key": "arrive wilmington a member of design hotels",
+   "canonical_name": "ARRIVE Wilmington, A Member of Design Hotels",
+   "corridor": "wilmington-nc__downtown-wilmington",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Welcome | 1 pet 30lbs max per pet per room with non-refundable fee. | Maximum Pet Weight: 30.0lbs | Maximum Number of Pets in Room: 1",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 30.0,
+    "pet_count_limit": 1,
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Welcome | 1 pet 30lbs max per pet per room with non-refundable fee. | Maximum Pet Weight: 30.0lbs | Maximum Number of Pets in Room: 1",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | 1 pet 30lbs max per pet per room with non-refundable fee. | Maximum Pet Weight: 30.0lbs | Maximum Number of Pets in Room: 1",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | 1 pet 30lbs max per pet per room with non-refundable fee. | Maximum Pet Weight: 30.0lbs | Maximum Number of Pets in Room: 1",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "INDEPENDENT",
+   "source_url": "https://www.carolinabeachinn.com/pet-policy",
+   "final_url": "https://www.carolinabeachinn.com/pet-policy",
+   "document_sha256": "efb5fc105174842147325884eaccca6adc5eb320fd902752a8bbe17acd6d8a5f",
+   "document_bytes": 157917,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Carolina Beach Inn",
+    "address_on_page": "205 Harper Ave",
+    "postal_code": "28428",
+    "locality": "Carolina Beach",
+    "region": "NC",
+    "phone_on_page": null,
+    "property_code_on_page": null
+   },
+   "identity_binding_method": "ADDRESS_ON_THE_PROPERTYS_OWN_SITE",
+   "property_code": null,
+   "identity_key": "carolina beach inn",
+   "canonical_name": "Carolina Beach Inn",
+   "corridor": "wilmington-nc__carolina-beach-kure-beach",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "Carolina Beach Inn is a 100% Pet-Friendly property. Our Pet Policy is simple: bring them along for your stay! We welcome friendly dogs, cats and birds. Non-refundable pet fee of $45 per night or a flat rate of $105 for 3 or more nights. (includes up to 2 pets).",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "quote": "Carolina Beach Inn is a 100% Pet-Friendly property. Our Pet Policy is simple: bring them along for your stay! We welcome friendly dogs, cats and birds. Non-refundable pet fee of $45 per night or a flat rate of $105 for 3 or more nights. (includes up to 2 pets).",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Carolina Beach Inn is a 100% Pet-Friendly property. Our Pet Policy is simple: bring them along for your stay! We welcome friendly dogs, cats and birds. Non-refundable pet fee of $45 per night or a flat rate of $105 for 3 or more nights. (includes up to 2 pets).",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/ilmel-element-wilmington/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/ilmel-element-wilmington/overview/",
+   "document_sha256": "73a2aa1cbabfa13e81e587909ebac9b2a00365e722da3669d254bc12953ae03a",
+   "document_bytes": 521778,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Element by Marriott Wilmington",
+    "address_on_page": "1055 International Dr.",
+    "postal_code": "28405",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "+19108348900",
+    "property_code_on_page": "ilmel"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "ilmel",
+   "identity_key": "element by marriott wilmington",
+   "canonical_name": "Element by Marriott Wilmington",
+   "corridor": "wilmington-nc__ilm-airport-mayfaire",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Welcome | 2 pets allowed–Wt. limit is 100lbs. Non-refundable $100 fee is added at check-in | Maximum Pet Weight: 100.0lbs | Maximum Number of Pets in Room: 2",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 100.0,
+    "pet_count_limit": 2,
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Welcome | 2 pets allowed–Wt. limit is 100lbs. Non-refundable $100 fee is added at check-in | Maximum Pet Weight: 100.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | 2 pets allowed–Wt. limit is 100lbs. Non-refundable $100 fee is added at check-in | Maximum Pet Weight: 100.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | 2 pets allowed–Wt. limit is 100lbs. Non-refundable $100 fee is added at check-in | Maximum Pet Weight: 100.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/ilmcces-embassy-suites-wilmington-riverfront/",
+   "final_url": "https://www.hilton.com/en/hotels/ilmcces-embassy-suites-wilmington-riverfront/",
+   "document_sha256": "45ef6da73991fff282ffe66435829b92896523265885e27506d9951cb0587fa7",
+   "document_bytes": 304749,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Embassy Suites by Hilton Wilmington Riverfront",
+    "address_on_page": "9 Estell Lee Place",
+    "postal_code": "28401",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "+1 910-765-1131",
+    "property_code_on_page": "ilmcces"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "ilmcces",
+   "identity_key": "embassy suites by hilton wilmington riverfront",
+   "canonical_name": "Embassy Suites by Hilton Wilmington Riverfront",
+   "corridor": "wilmington-nc__downtown-wilmington",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "fee_refundable": false,
+    "fee_basis": "per_stay"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "EXTENDED_STAY",
+   "source_url": "https://www.extendedstayamerica.com/hotels/nc/wilmington/new-centre-drive",
+   "final_url": "https://www.extendedstayamerica.com/hotels/nc/wilmington/new-centre-drive",
+   "document_sha256": "05d09d9aace59d55d9d0dd4e2aad3f89356b029bc57b0899416989fccbf4b49b",
+   "document_bytes": 784511,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Extended Stay America - Wilmington - New Centre Drive",
+    "address_on_page": "4929 New Centre Dr.",
+    "postal_code": "28403",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "+19107934508",
+    "property_code_on_page": null
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PHONE",
+   "property_code": null,
+   "identity_key": "extended stay america wilmington new centre drive",
+   "canonical_name": "Extended Stay America - Wilmington - New Centre Drive",
+   "corridor": "wilmington-nc__midtown-uncw",
+   "surface": "the property's own FAQPage JSON-LD answer to 'Is X pet friendly?'",
+   "operative_quote": "Yes. Extended Stay America Wilmington - New Centre Drive offers pet-friendly rooms, so you can bring your furry companion along for your stay.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true
+   },
+   "evidence": [
+    {
+     "quote": "Yes. Extended Stay America Wilmington - New Centre Drive offers pet-friendly rooms, so you can bring your furry companion along for your stay.",
+     "location": "the property's own FAQPage JSON-LD answer to 'Is X pet friendly?'",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/ilmdohx-hampton-wilmington-downtown/",
+   "final_url": "https://www.hilton.com/en/hotels/ilmdohx-hampton-wilmington-downtown/",
+   "document_sha256": "688b5acedaa008ecf8622b3922bf214355c94a906ae9d85f2e4d5f90f94daff6",
+   "document_bytes": 274875,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn Wilmington Downtown",
+    "address_on_page": "225 Grace Street",
+    "postal_code": "28401",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "+1 910-251-3930",
+    "property_code_on_page": "ilmdohx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "ilmdohx",
+   "identity_key": "hampton inn wilmington downtown",
+   "canonical_name": "Hampton Inn Wilmington Downtown",
+   "corridor": "wilmington-nc__downtown-wilmington",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n)2petMax,dog/cat only",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "fee_refundable": false,
+    "fee_basis": "per_stay"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n)2petMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n)2petMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n)2petMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n)2petMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n)2petMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n)2petMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/ilmmdhx-hampton-wilmington-medical-park/",
+   "final_url": "https://www.hilton.com/en/hotels/ilmmdhx-hampton-wilmington-medical-park/",
+   "document_sha256": "35161b2259150178f8ca7c4a09df9dd83f8e2239326032e521f02f8e7374586e",
+   "document_bytes": 273527,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn Wilmington-Medical Park",
+    "address_on_page": "2320 S. 17th Street",
+    "postal_code": "28401",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "+1 910-796-8881",
+    "property_code_on_page": "ilmmdhx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "ilmmdhx",
+   "identity_key": "hampton inn wilmington medical park",
+   "canonical_name": "Hampton Inn Wilmington-Medical Park",
+   "corridor": "wilmington-nc__downtown-wilmington",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax- 75lbs max",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": 75.0,
+    "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax- 75lbs max",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax- 75lbs max",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax- 75lbs max",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax- 75lbs max",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax- 75lbs max",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax- 75lbs max",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/ilmewhx-hampton-wilmington-university-area-smith-creek-station/",
+   "final_url": "https://www.hilton.com/en/hotels/ilmewhx-hampton-wilmington-university-area-smith-creek-station/",
+   "document_sha256": "d3263196d1cc14fccaf9bdb2f5411447585ee14021605fb5147145f40de9ffd6",
+   "document_bytes": 278477,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn Wilmington-University Area/Smith Creek Station",
+    "address_on_page": "124 Old Eastwood Road",
+    "postal_code": "28403",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "+1 910-791-9899",
+    "property_code_on_page": "ilmewhx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "ilmewhx",
+   "identity_key": "hampton inn wilmington university area smith creek station",
+   "canonical_name": "Hampton Inn Wilmington-University Area/Smith Creek Station",
+   "corridor": "wilmington-nc__midtown-uncw",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $125.00 non-refundable fee, $75(1-4n) <OR> $125(5+n) 2pets Max,dog/cat onl",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $125.00 non-refundable fee, $75(1-4n) <OR> $125(5+n) 2pets Max,dog/cat onl",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $125.00 non-refundable fee, $75(1-4n) <OR> $125(5+n) 2pets Max,dog/cat onl",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/ilmtcgi-hilton-garden-inn-wilmington-mayfaire-town-center/",
+   "final_url": "https://www.hilton.com/en/hotels/ilmtcgi-hilton-garden-inn-wilmington-mayfaire-town-center/",
+   "document_sha256": "c7c5545fb6c4d579c841fa3b2d7593a9f455646292fcaa37f8256b3efb2954db",
+   "document_bytes": 310779,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Hilton Garden Inn Wilmington Mayfaire Town Center",
+    "address_on_page": "6745 Rock Spring Road",
+    "postal_code": "28405",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "+1 910-509-4046",
+    "property_code_on_page": "ilmtcgi"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "ilmtcgi",
+   "identity_key": "hilton garden inn wilmington mayfaire town center",
+   "canonical_name": "Hilton Garden Inn Wilmington Mayfaire Town Center",
+   "corridor": "wilmington-nc__ilm-airport-mayfaire",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": 75.0,
+    "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "IHG",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/leland/ilmll/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/leland/ilmll/hoteldetail",
+   "document_sha256": "d36b969b23382f3395ef904d3e4d6df36e0bc1b364fa41703c75a16739d0637c",
+   "document_bytes": 259217,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Holiday Inn Express Leland - Wilmington Area",
+    "address_on_page": "1020 Grandiflora Drive",
+    "postal_code": "28451",
+    "locality": "Leland",
+    "region": "NC",
+    "phone_on_page": "1-910-3833300",
+    "property_code_on_page": "ilmll"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "ilmll",
+   "identity_key": "holiday inn express leland wilmington area",
+   "canonical_name": "Holiday Inn Express Leland - Wilmington Area",
+   "corridor": "wilmington-nc__leland",
+   "surface": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+   "operative_quote": "Pets are welcome at Holiday Inn Express Leland - Wilmington Area. Pet policy description. Pet Fee: 75.00 nonrefundable, for up to 4 nights; 125.00 nonrefundable, for greater than 4 nights. Limited to 2 pets per room, 75 pounds max, per pet. Pet fee per night: 75 USD Pet weight limit: 75 2 pets allowed Pets allowed: Only dogs and cats allowed Pet policy",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 75.0,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets are welcome at Holiday Inn Express Leland - Wilmington Area. Pet policy description. Pet Fee: 75.00 nonrefundable, for up to 4 nights; 125.00 nonrefundable, for greater than 4 nights. Limited to 2 pets per room, 75 pounds max, per pet. Pet fee per night: 75 USD Pet weight limit: 75 2 pets allowed Pets allowed: Only dogs and cats allowed Pet policy",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Holiday Inn Express Leland - Wilmington Area. Pet policy description. Pet Fee: 75.00 nonrefundable, for up to 4 nights; 125.00 nonrefundable, for greater than 4 nights. Limited to 2 pets per room, 75 pounds max, per pet. Pet fee per night: 75 USD Pet weight limit: 75 2 pets allowed Pets allowed: Only dogs and cats allowed Pet policy",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Holiday Inn Express Leland - Wilmington Area. Pet policy description. Pet Fee: 75.00 nonrefundable, for up to 4 nights; 125.00 nonrefundable, for greater than 4 nights. Limited to 2 pets per room, 75 pounds max, per pet. Pet fee per night: 75 USD Pet weight limit: 75 2 pets allowed Pets allowed: Only dogs and cats allowed Pet policy",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Holiday Inn Express Leland - Wilmington Area. Pet policy description. Pet Fee: 75.00 nonrefundable, for up to 4 nights; 125.00 nonrefundable, for greater than 4 nights. Limited to 2 pets per room, 75 pounds max, per pet. Pet fee per night: 75 USD Pet weight limit: 75 2 pets allowed Pets allowed: Only dogs and cats allowed Pet policy",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/ilmmpht-home2-suites-wilmington-medical-park-downtown/",
+   "final_url": "https://www.hilton.com/en/hotels/ilmmpht-home2-suites-wilmington-medical-park-downtown/",
+   "document_sha256": "e87e5005edfc22455e901c556702d36b5bd15b1a72936f834b9efc350edb3b03",
+   "document_bytes": 270244,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Home2 Suites by Hilton Wilmington Medical Park Downtown",
+    "address_on_page": "2177 Stonecrop Drive",
+    "postal_code": "28412",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "+1 910-523-5384",
+    "property_code_on_page": "ilmmpht"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "ilmmpht",
+   "identity_key": "home2 suites by hilton wilmington medical park downtown",
+   "canonical_name": "Home2 Suites by Hilton Wilmington Medical Park Downtown",
+   "corridor": "wilmington-nc__monkey-junction",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75.00 Fee 1-5 nights 6 nights and beyond $125.00",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": 75.0,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75.00 Fee 1-5 nights 6 nights and beyond $125.00",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75.00 Fee 1-5 nights 6 nights and beyond $125.00",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75.00 Fee 1-5 nights 6 nights and beyond $125.00",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75.00 Fee 1-5 nights 6 nights and beyond $125.00",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75.00 Fee 1-5 nights 6 nights and beyond $125.00",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/ilmwmht-home2-suites-wilmington-wrightsville-beach/",
+   "final_url": "https://www.hilton.com/en/hotels/ilmwmht-home2-suites-wilmington-wrightsville-beach/",
+   "document_sha256": "a7b050b6e7add7c334a17b87cd4f44600a0f111a54023a6d8306711db142a36c",
+   "document_bytes": 276408,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Home2 Suites by Hilton Wilmington Wrightsville Beach",
+    "address_on_page": "5518 Market Street",
+    "postal_code": "28403",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "+1 910-395-8000",
+    "property_code_on_page": "ilmwmht"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "ilmwmht",
+   "identity_key": "home2 suites by hilton wilmington wrightsville beach",
+   "canonical_name": "Home2 Suites by Hilton Wilmington Wrightsville Beach",
+   "corridor": "wilmington-nc__midtown-uncw",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "fee_refundable": false,
+    "fee_basis": "per_stay"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/ilmmthw-homewood-suites-wilmington-mayfaire-nc/",
+   "final_url": "https://www.hilton.com/en/hotels/ilmmthw-homewood-suites-wilmington-mayfaire-nc/",
+   "document_sha256": "71236fdfee7c5c49a7ad6f9b9d1927e74576154ae99d490cec0135ace10a1573",
+   "document_bytes": 275025,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Homewood Suites by Hilton Wilmington/Mayfaire, NC",
+    "address_on_page": "6732 Swan Mill Road",
+    "postal_code": "28405",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "+1 910-791-7272",
+    "property_code_on_page": "ilmmthw"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "ilmmthw",
+   "identity_key": "homewood suites by hilton wilmington mayfaire nc",
+   "canonical_name": "Homewood Suites by Hilton Wilmington/Mayfaire, NC",
+   "corridor": "wilmington-nc__ilm-airport-mayfaire",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, $75 for 1-4 Nights, $125 for 5+Nights/2 Pets Max",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_stay"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75 for 1-4 Nights, $125 for 5+Nights/2 Pets Max",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75 for 1-4 Nights, $125 for 5+Nights/2 Pets Max",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75 for 1-4 Nights, $125 for 5+Nights/2 Pets Max",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75 for 1-4 Nights, $125 for 5+Nights/2 Pets Max",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75 for 1-4 Nights, $125 for 5+Nights/2 Pets Max",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/ilmliup-hotel-lela-wilmington/",
+   "final_url": "https://www.hilton.com/en/hotels/ilmliup-hotel-lela-wilmington/",
+   "document_sha256": "838b911a94e29092a3e6b76d2ef5ab3266bc61a792e295d26e661e6f87d7bdf1",
+   "document_bytes": 238992,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Hotel Lela Wilmington, Tapestry Collection by Hilton",
+    "address_on_page": "5001 Market Street",
+    "postal_code": "28405",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "+1 910-202-8494",
+    "property_code_on_page": "ilmliup"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "ilmliup",
+   "identity_key": "hotel lela wilmington tapestry collection by hilton",
+   "canonical_name": "Hotel Lela Wilmington, Tapestry Collection by Hilton",
+   "corridor": "wilmington-nc__ilm-airport-mayfaire",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4 nights), $125(5+ nights) 2 pets Max, dog/cat only",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": 50.0,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4 nights), $125(5+ nights) 2 pets Max, dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4 nights), $125(5+ nights) 2 pets Max, dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4 nights), $125(5+ nights) 2 pets Max, dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4 nights), $125(5+ nights) 2 pets Max, dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4 nights), $125(5+ nights) 2 pets Max, dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4 nights), $125(5+ nights) 2 pets Max, dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4 nights), $125(5+ nights) 2 pets Max, dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://piratescovehotel.com/",
+   "final_url": "https://piratescovehotel.com/",
+   "document_sha256": "1c1e06326416cd90873c7f281bd4bd6a615e1807180be46b3e651d2b72cb33de",
+   "document_bytes": 165532,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Pirates Cove Hotel",
+    "address_on_page": "701 N Lake Park Blvd",
+    "postal_code": "28428",
+    "locality": "Carolina Beach",
+    "region": "NC",
+    "phone_on_page": "910-458-5414",
+    "property_code_on_page": null
+   },
+   "identity_binding_method": "STREET_AND_CITY_ON_THE_PROPERTYS_OWN_SITE__CAROLINA_BEACH_IS_ONE_POSTAL_CODE",
+   "property_code": null,
+   "identity_key": "pirates cove hotel",
+   "canonical_name": "Pirates Cove Hotel",
+   "corridor": "wilmington-nc__carolina-beach-kure-beach",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "For pet owners, the hotel provides designated pet-friendly rooms on the first floor, featuring ceramic tile floors for easy maintenance, and a dog park located at the rear of the property.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true
+   },
+   "evidence": [
+    {
+     "quote": "For pet owners, the hotel provides designated pet-friendly rooms on the first floor, featuring ceramic tile floors for easy maintenance, and a dog park located at the rear of the property.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/ilmri-residence-inn-wilmington-landfall/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/ilmri-residence-inn-wilmington-landfall/overview/",
+   "document_sha256": "369c951451c3ce5e5e44b9169b85c52aa7275ffe6cc80c3785898ec07cec2e22",
+   "document_bytes": 479367,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Residence Inn by Marriott Wilmington Landfall",
+    "address_on_page": "1200 Culbreth Drive",
+    "postal_code": "28405",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "+19102560098",
+    "property_code_on_page": "ilmri"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "ilmri",
+   "identity_key": "residence inn by marriott wilmington landfall",
+   "canonical_name": "Residence Inn by Marriott Wilmington Landfall",
+   "corridor": "wilmington-nc__ilm-airport-mayfaire",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Welcome | Max. two pets per room, total combined weight limit of 75 lbs, must use stairs. | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD",
+    "weight_limit": 75.0,
+    "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Welcome | Max. two pets per room, total combined weight limit of 75 lbs, must use stairs. | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | Max. two pets per room, total combined weight limit of 75 lbs, must use stairs. | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | Max. two pets per room, total combined weight limit of 75 lbs, must use stairs. | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | Max. two pets per room, total combined weight limit of 75 lbs, must use stairs. | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | Max. two pets per room, total combined weight limit of 75 lbs, must use stairs. | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | Max. two pets per room, total combined weight limit of 75 lbs, must use stairs. | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "INDEPENDENT",
+   "source_url": "https://www.seabirdskb.com/pet-policy",
+   "final_url": "https://www.seabirdskb.com/pet-policy",
+   "document_sha256": "96494b35cf1f247c30c56f73525078a87c6a72dc8707a7e4346ee82621657547",
+   "document_bytes": 121916,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "SeaBirds Motel at Kure Beach",
+    "address_on_page": "118 Fort Fisher Blvd S",
+    "postal_code": "28449",
+    "locality": "Kure Beach",
+    "region": "NC",
+    "phone_on_page": "910-622-8393",
+    "property_code_on_page": null
+   },
+   "identity_binding_method": "ADDRESS_AND_PHONE_ON_THE_PROPERTYS_OWN_SITE",
+   "property_code": null,
+   "identity_key": "seabirds motel at kure beach",
+   "canonical_name": "SeaBirds Motel at Kure Beach",
+   "corridor": "wilmington-nc__carolina-beach-kure-beach",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "Seabirds is a 100% Pet-Friendly property. Our Pet Policy is simple: bring them along for your stay! We welcome friendly dogs, cats and birds. Non-refundable pet fee of $45 per night (includes up to 2 pets).",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 4500,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_night",
+    "fee_scope": "per_room"
+   },
+   "evidence": [
+    {
+     "quote": "Seabirds is a 100% Pet-Friendly property. Our Pet Policy is simple: bring them along for your stay! We welcome friendly dogs, cats and birds. Non-refundable pet fee of $45 per night (includes up to 2 pets).",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Seabirds is a 100% Pet-Friendly property. Our Pet Policy is simple: bring them along for your stay! We welcome friendly dogs, cats and birds. Non-refundable pet fee of $45 per night (includes up to 2 pets).",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Seabirds is a 100% Pet-Friendly property. Our Pet Policy is simple: bring them along for your stay! We welcome friendly dogs, cats and birds. Non-refundable pet fee of $45 per night (includes up to 2 pets).",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Seabirds is a 100% Pet-Friendly property. Our Pet Policy is simple: bring them along for your stay! We welcome friendly dogs, cats and birds. Non-refundable pet fee of $45 per night (includes up to 2 pets).",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Seabirds is a 100% Pet-Friendly property. Our Pet Policy is simple: bring them along for your stay! We welcome friendly dogs, cats and birds. Non-refundable pet fee of $45 per night (includes up to 2 pets).",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/ilmmipe-spark-wilmington/",
+   "final_url": "https://www.hilton.com/en/hotels/ilmmipe-spark-wilmington/",
+   "document_sha256": "7eb8e6e6e7f50fac0c68dd9b080e1aa4d0b77acd0d44727ca4d75be0ca57b1f3",
+   "document_bytes": 285962,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Spark by Hilton Wilmington",
+    "address_on_page": "4721 Market Street",
+    "postal_code": "28405",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "+1 910-793-9300",
+    "property_code_on_page": "ilmmipe"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "ilmmipe",
+   "identity_key": "spark by hilton wilmington",
+   "canonical_name": "Spark by Hilton Wilmington",
+   "corridor": "wilmington-nc__ilm-airport-mayfaire",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, 75.00 for 1-4 nights 125.00 for 5 plus nights",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": 75.0,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, 75.00 for 1-4 nights 125.00 for 5 plus nights",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, 75.00 for 1-4 nights 125.00 for 5 plus nights",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, 75.00 for 1-4 nights 125.00 for 5 plus nights",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, 75.00 for 1-4 nights 125.00 for 5 plus nights",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, 75.00 for 1-4 nights 125.00 for 5 plus nights",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/ilmcbpe-spark-wilmington-carolina-beach-rd/",
+   "final_url": "https://www.hilton.com/en/hotels/ilmcbpe-spark-wilmington-carolina-beach-rd/",
+   "document_sha256": "014278fcbec0437f1f9cae09ea9d81ce25cce50d80a23ff95a980089d879a166",
+   "document_bytes": 269673,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Spark by Hilton Wilmington Carolina Beach Rd",
+    "address_on_page": "5600 Carolina Beach Rd",
+    "postal_code": "28412",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "+1 910-796-0770",
+    "property_code_on_page": "ilmcbpe"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "ilmcbpe",
+   "identity_key": "spark by hilton wilmington carolina beach rd",
+   "canonical_name": "Spark by Hilton Wilmington Carolina Beach Rd",
+   "corridor": "wilmington-nc__monkey-junction",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4n), $125(5+n) per pet. 2 pets max, cat/dog only. Additional details available at the front desk.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": 50.0,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4n), $125(5+n) per pet. 2 pets max, cat/dog only. Additional details available at the front desk.",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4n), $125(5+n) per pet. 2 pets max, cat/dog only. Additional details available at the front desk.",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4n), $125(5+n) per pet. 2 pets max, cat/dog only. Additional details available at the front desk.",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4n), $125(5+n) per pet. 2 pets max, cat/dog only. Additional details available at the front desk.",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4n), $125(5+n) per pet. 2 pets max, cat/dog only. Additional details available at the front desk.",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4n), $125(5+n) per pet. 2 pets max, cat/dog only. Additional details available at the front desk.",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4n), $125(5+n) per pet. 2 pets max, cat/dog only. Additional details available at the front desk.",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/ilmsh-springhill-suites-wilmington-wrightsville-beach/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/ilmsh-springhill-suites-wilmington-wrightsville-beach/overview/",
+   "document_sha256": "87f50737033c875b0a5d491d32e12a0216fee572e8b2e8dcecf5bce8a5739cbb",
+   "document_bytes": 516903,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "SpringHill Suites by Marriott Wilmington Wrightsville Beach",
+    "address_on_page": "1014 Ashes Drive",
+    "postal_code": "28405",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "+19102399975",
+    "property_code_on_page": "ilmsh"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "ilmsh",
+   "identity_key": "springhill suites by marriott wilmington wrightsville beach",
+   "canonical_name": "SpringHill Suites by Marriott Wilmington Wrightsville Beach",
+   "corridor": "wilmington-nc__ilm-airport-mayfaire",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Welcome | Contact the hotel with any questions. | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD",
+    "weight_limit": 75.0,
+    "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Welcome | Contact the hotel with any questions. | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | Contact the hotel with any questions. | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | Contact the hotel with any questions. | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | Contact the hotel with any questions. | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | Contact the hotel with any questions. | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | Contact the hotel with any questions. | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "IHG",
+   "source_url": "https://www.ihg.com/staybridge/hotels/us/en/wilmington/ilmsb/hoteldetail",
+   "final_url": "https://www.ihg.com/staybridge/hotels/us/en/wilmington/ilmsb/hoteldetail",
+   "document_sha256": "ed7a05688023572ca635cc85b3dfb988dd01139c705e210371b250310de6528a",
+   "document_bytes": 198742,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Staybridge Suites Wilmington - Wrightsville Bch",
+    "address_on_page": "5010 New Centre Drive",
+    "postal_code": "28403",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "1-910-2028500",
+    "property_code_on_page": "ilmsb"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "ilmsb",
+   "identity_key": "staybridge suites wilmington wrightsville bch",
+   "canonical_name": "Staybridge Suites Wilmington - Wrightsville Bch",
+   "corridor": "wilmington-nc__midtown-uncw",
+   "surface": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+   "operative_quote": "Pets are welcome at Staybridge Suites Wilmington - Wrightsville Bch. Our Pet Policy: Pets allowed with nonrefundable fee. Two pets allowed per room.\n\n50.00 for 1 night. 75.00 for 2 to 6 nights. 150.00 for 7 nights and beyond. \n\nGuide dogs and service animals are exempt. \n\nPets must be secured or out of the room for housekeeping service.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true
+   },
+   "evidence": [
+    {
+     "quote": "Pets are welcome at Staybridge Suites Wilmington - Wrightsville Bch. Our Pet Policy: Pets allowed with nonrefundable fee. Two pets allowed per room.\n\n50.00 for 1 night. 75.00 for 2 to 6 nights. 150.00 for 7 nights and beyond. \n\nGuide dogs and service animals are exempt. \n\nPets must be secured or out of the room for housekeeping service.",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/ilmlr-studiores-leland/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/ilmlr-studiores-leland/overview/",
+   "document_sha256": "a22435086c3dd97fcb0d8d2f9f08805509fb01672c821b24b02cd133947441f4",
+   "document_bytes": 466427,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "StudioRes by Marriott Leland",
+    "address_on_page": "1500 Brunswick Village Boulevard",
+    "postal_code": "28451",
+    "locality": "Leland",
+    "region": "NC",
+    "phone_on_page": "+19108307360",
+    "property_code_on_page": "ilmlr"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "ilmlr",
+   "identity_key": "studiores by marriott leland",
+   "canonical_name": "StudioRes by Marriott Leland",
+   "corridor": "wilmington-nc__leland",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy: | Pets Welcome | Pets Welcome | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 15000,
+    "fee_currency": "USD",
+    "weight_limit": 75.0,
+    "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy: | Pets Welcome | Pets Welcome | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy: | Pets Welcome | Pets Welcome | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pet Policy: | Pets Welcome | Pets Welcome | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pet Policy: | Pets Welcome | Pets Welcome | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy: | Pets Welcome | Pets Welcome | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy: | Pets Welcome | Pets Welcome | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/ilmrs-studiores-wilmington/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/ilmrs-studiores-wilmington/overview/",
+   "document_sha256": "d02441caaf54cbafa9919e3e80598a1853d17da8bca9cd4e175862596cde90a5",
+   "document_bytes": 443996,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "StudioRes by Marriott Wilmington",
+    "address_on_page": "6951 Cape Harbor Drive",
+    "postal_code": "28411",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "+14722443790",
+    "property_code_on_page": "ilmrs"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "ilmrs",
+   "identity_key": "studiores by marriott wilmington",
+   "canonical_name": "StudioRes by Marriott Wilmington",
+   "corridor": "wilmington-nc__ogden-porters-neck",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy: | Pets Welcome | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 15000,
+    "fee_currency": "USD",
+    "weight_limit": 75.0,
+    "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy: | Pets Welcome | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy: | Pets Welcome | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pet Policy: | Pets Welcome | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pet Policy: | Pets Welcome | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy: | Pets Welcome | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy: | Pets Welcome | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://www.thesanddunes.com/rooms/policies",
+   "final_url": "https://www.thesanddunes.com/rooms/policies",
+   "document_sha256": "c8ac425440f280ff194ae80a06008706caed6cb89ea6066ee0c21c09b85fbc8e",
+   "document_bytes": 31085,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "The Sand Dunes Motel",
+    "address_on_page": "133 Fort Fisher Boulevard South",
+    "postal_code": "28449",
+    "locality": "Kure Beach",
+    "region": "NC",
+    "phone_on_page": "(910) 458-4500",
+    "property_code_on_page": null
+   },
+   "identity_binding_method": "ADDRESS_AND_PHONE_ON_THE_PROPERTYS_OWN_SITE",
+   "property_code": null,
+   "identity_key": "the sand dunes motel",
+   "canonical_name": "The Sand Dunes Motel",
+   "corridor": "wilmington-nc__carolina-beach-kure-beach",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "PETS & SERVICE ANIMALS We now accept dogs only. Guests are allowed two dogs per room and they cannot be over 80 pounds combined.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 80.0,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ],
+    "weight_basis": "combined",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "PETS & SERVICE ANIMALS We now accept dogs only. Guests are allowed two dogs per room and they cannot be over 80 pounds combined.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "PETS & SERVICE ANIMALS We now accept dogs only. Guests are allowed two dogs per room and they cannot be over 80 pounds combined.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "PETS & SERVICE ANIMALS We now accept dogs only. Guests are allowed two dogs per room and they cannot be over 80 pounds combined.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "PETS & SERVICE ANIMALS We now accept dogs only. Guests are allowed two dogs per room and they cannot be over 80 pounds combined.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "PETS & SERVICE ANIMALS We now accept dogs only. Guests are allowed two dogs per room and they cannot be over 80 pounds combined.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "weight_basis"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/ilmts-towneplace-suites-wilmington-wrightsville-beach/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/ilmts-towneplace-suites-wilmington-wrightsville-beach/overview/",
+   "document_sha256": "3602f92bd38b6d462c575b26b3bd8206bd6dec46c2783c8fba8247497c36500e",
+   "document_bytes": 484478,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "TownePlace Suites by Marriott Wilmington/Wrightsville Beach",
+    "address_on_page": "305 Eastwood Rd",
+    "postal_code": "28403",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "+19103323326",
+    "property_code_on_page": "ilmts"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "ilmts",
+   "identity_key": "towneplace suites by marriott wilmington wrightsville beach",
+   "canonical_name": "TownePlace Suites by Marriott Wilmington/Wrightsville Beach",
+   "corridor": "wilmington-nc__midtown-uncw",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Welcome | 2 pets 50 lbs max - must be confined for housekeeping services | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 2",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": 50.0,
+    "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Welcome | 2 pets 50 lbs max - must be confined for housekeeping services | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | 2 pets 50 lbs max - must be confined for housekeeping services | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | 2 pets 50 lbs max - must be confined for housekeeping services | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | 2 pets 50 lbs max - must be confined for housekeeping services | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | 2 pets 50 lbs max - must be confined for housekeeping services | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | 2 pets 50 lbs max - must be confined for housekeeping services | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/ilmaaru-tru-leland-wilmington/",
+   "final_url": "https://www.hilton.com/en/hotels/ilmaaru-tru-leland-wilmington/",
+   "document_sha256": "eabdc0622df9759b2f9f10a527f8e2ff5d4bcca641dadde64f54848e7d5487b9",
+   "document_bytes": 275088,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Tru by Hilton Leland Wilmington",
+    "address_on_page": "1462 Olde Waterford Way",
+    "postal_code": "28451",
+    "locality": "Leland",
+    "region": "NC",
+    "phone_on_page": "+1 910-523-5101",
+    "property_code_on_page": "ilmaaru"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "ilmaaru",
+   "identity_key": "tru by hilton leland wilmington",
+   "canonical_name": "Tru by Hilton Leland Wilmington",
+   "corridor": "wilmington-nc__leland",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat only, Maximum weight 75 pounds or greater",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": 75.0,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat only, Maximum weight 75 pounds or greater",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat only, Maximum weight 75 pounds or greater",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat only, Maximum weight 75 pounds or greater",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat only, Maximum weight 75 pounds or greater",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat only, Maximum weight 75 pounds or greater",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat only, Maximum weight 75 pounds or greater",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat only, Maximum weight 75 pounds or greater",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/ilmturu-tru-wilmington/",
+   "final_url": "https://www.hilton.com/en/hotels/ilmturu-tru-wilmington/",
+   "document_sha256": "ddc11ab7f4170af3871978567daaa958f09683f5e4e62988d23fac73c17de7b7",
+   "document_bytes": 287908,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Tru by Hilton Wilmington",
+    "address_on_page": "5001-A Market St",
+    "postal_code": "28405",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "+1 910-202-8292",
+    "property_code_on_page": "ilmturu"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "ilmturu",
+   "identity_key": "tru by hilton wilmington",
+   "canonical_name": "Tru by Hilton Wilmington",
+   "corridor": "wilmington-nc__ilm-airport-mayfaire",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4 nights), $125(5+ nights) 2 pets Max, dog/cat only",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": 50.0,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4 nights), $125(5+ nights) 2 pets Max, dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4 nights), $125(5+ nights) 2 pets Max, dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4 nights), $125(5+ nights) 2 pets Max, dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4 nights), $125(5+ nights) 2 pets Max, dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4 nights), $125(5+ nights) 2 pets Max, dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4 nights), $125(5+ nights) 2 pets Max, dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4 nights), $125(5+ nights) 2 pets Max, dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/ilmmmru-tru-wilmington-wrightsville-beach/",
+   "final_url": "https://www.hilton.com/en/hotels/ilmmmru-tru-wilmington-wrightsville-beach/",
+   "document_sha256": "7fb67642dde9078fa03cbadaf2f301281305b4b76ca95bf0004cbb637d6b86a8",
+   "document_bytes": 279296,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Tru by Hilton Wilmington Wrightsville Beach",
+    "address_on_page": "1010 Ashes Drive",
+    "postal_code": "28405",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "+1 910-212-6868",
+    "property_code_on_page": "ilmmmru"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "ilmmmru",
+   "identity_key": "tru by hilton wilmington wrightsville beach",
+   "canonical_name": "Tru by Hilton Wilmington Wrightsville Beach",
+   "corridor": "wilmington-nc__ilm-airport-mayfaire",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n), $125(5+n) 2 pet Max, dog/cat only",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": 75.0,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n), $125(5+n) 2 pet Max, dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n), $125(5+n) 2 pet Max, dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n), $125(5+n) 2 pet Max, dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n), $125(5+n) 2 pet Max, dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n), $125(5+n) 2 pet Max, dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n), $125(5+n) 2 pet Max, dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n), $125(5+n) 2 pet Max, dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  }
+ ],
+ "clean_verified_no_pets": [
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "WYNDHAM",
+   "source_url": "https://www.wyndhamhotels.com/baymont/wilmington-north-carolina/baymont-wilmington/overview",
+   "final_url": "https://www.wyndhamhotels.com/baymont/wilmington-north-carolina/baymont-wilmington/overview",
+   "document_sha256": "49fd003290872d6e2735094b1c491a407a8b2e7c38bfecae8caa987a415a3522",
+   "document_bytes": 520618,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Baymont by Wyndham Wilmington",
+    "address_on_page": "4926 Market St",
+    "postal_code": "28405",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "910-791-8850",
+    "property_code_on_page": null
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": null,
+   "identity_key": "baymont by wyndham wilmington",
+   "canonical_name": "Baymont by Wyndham Wilmington",
+   "corridor": "wilmington-nc__ilm-airport-mayfaire",
+   "surface": "the client-rendered .pet-policy-desc element on the property's own page",
+   "operative_quote": "ADA-defined service animals are welcome at this hotel. Sorry no other pets are allowed",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "ADA-defined service animals are welcome at this hotel. Sorry no other pets are allowed",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/ilmcb-courtyard-carolina-beach-oceanfront/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/ilmcb-courtyard-carolina-beach-oceanfront/overview/",
+   "document_sha256": "4ec77fcfd1f0957aca9b0ea955a16c7147ee947d82bb95b916e91b70617e86d6",
+   "document_bytes": 619494,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Courtyard by Marriott Carolina Beach Oceanfront",
+    "address_on_page": "100 Charlotte Avenue",
+    "postal_code": "28428",
+    "locality": "Carolina Beach",
+    "region": "NC",
+    "phone_on_page": "+19104582030",
+    "property_code_on_page": "ilmcb"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "ilmcb",
+   "identity_key": "courtyard by marriott carolina beach oceanfront",
+   "canonical_name": "Courtyard by Marriott Carolina Beach Oceanfront",
+   "corridor": "wilmington-nc__carolina-beach-kure-beach",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Not Allowed",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Not Allowed",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/ilmwc-courtyard-wilmington-downtown-historic-district/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/ilmwc-courtyard-wilmington-downtown-historic-district/overview/",
+   "document_sha256": "526feb98359baa9c93a4270da7ae6403ee1ed242b0130c72288a33bd44a0c9a9",
+   "document_bytes": 264228,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Courtyard by Marriott Wilmington Downtown/Historic District",
+    "address_on_page": "229 North 2nd Street",
+    "postal_code": "28401",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "+19106322900",
+    "property_code_on_page": "ilmwc"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "ilmwc",
+   "identity_key": "courtyard by marriott wilmington downtown historic district",
+   "canonical_name": "Courtyard by Marriott Wilmington Downtown/Historic District",
+   "corridor": "wilmington-nc__downtown-wilmington",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Not Allowed",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Not Allowed",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/ilmcy-courtyard-wilmington-wrightsville-beach/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/ilmcy-courtyard-wilmington-wrightsville-beach/overview/",
+   "document_sha256": "7e797523136a340be40700b2dbe2116cbd1ca8c97481c8ec4674a6ccc92d9479",
+   "document_bytes": 1041839,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Courtyard by Marriott Wilmington/Wrightsville Beach",
+    "address_on_page": "151 Van Campen Boulevard",
+    "postal_code": "28403",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "+19103958224",
+    "property_code_on_page": "ilmcy"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "ilmcy",
+   "identity_key": "courtyard by marriott wilmington wrightsville beach",
+   "canonical_name": "Courtyard by Marriott Wilmington/Wrightsville Beach",
+   "corridor": "wilmington-nc__midtown-uncw",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Not Allowed",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Not Allowed",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/ilmwe-fairfield-inn-and-suites-wilmington-wrightsville-beach/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/ilmwe-fairfield-inn-and-suites-wilmington-wrightsville-beach/overview/",
+   "document_sha256": "a1d5d2e97fb860bef8190bb396d5a44214f6193873a9054ede44169fcee161f3",
+   "document_bytes": 569572,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Fairfield by Marriott Inn & Suites Wilmington/Wrightsville Beach",
+    "address_on_page": "307 Eastwood Road",
+    "postal_code": "28403",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "+19107918082",
+    "property_code_on_page": "ilmwe"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "ilmwe",
+   "identity_key": "fairfield by marriott inn and suites wilmington wrightsville beach",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Wilmington/Wrightsville Beach",
+   "corridor": "wilmington-nc__midtown-uncw",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Not Allowed",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Not Allowed",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "IHG",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/wilmington/ilmuc/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/wilmington/ilmuc/hoteldetail",
+   "document_sha256": "7bb546cd105f46c62088bcc6e75445a6e22b0fceaa9952efcb6f90c1c87f2bc9",
+   "document_bytes": 275292,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Holiday Inn Express & Suites Wilmington-University Ctr",
+    "address_on_page": "160 Van Campen Blvd.",
+    "postal_code": "28403",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "1-910-3923227",
+    "property_code_on_page": "ilmuc"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "ilmuc",
+   "identity_key": "holiday inn express and suites wilmington university ctr",
+   "canonical_name": "Holiday Inn Express & Suites Wilmington-University Ctr",
+   "corridor": "wilmington-nc__midtown-uncw",
+   "surface": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+   "operative_quote": "No, pets are not allowed at Holiday Inn Express & Suites Wilmington-University Ctr.",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "No, pets are not allowed at Holiday Inn Express & Suites Wilmington-University Ctr.",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "IHG",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/wilmington/ilmmd/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/wilmington/ilmmd/hoteldetail",
+   "document_sha256": "0f95dfc9dd01d5246798c6cc2521c63aa81afeb727e34aedf8c85496e2714cb4",
+   "document_bytes": 281263,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Holiday Inn Express & Suites Wilmington West - Medical Park",
+    "address_on_page": "839 Medical Center Drive",
+    "postal_code": "28401",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "1-910-6604297",
+    "property_code_on_page": "ilmmd"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "ilmmd",
+   "identity_key": "holiday inn express and suites wilmington west medical park",
+   "canonical_name": "Holiday Inn Express & Suites Wilmington West - Medical Park",
+   "corridor": "wilmington-nc__downtown-wilmington",
+   "surface": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+   "operative_quote": "No, pets are not allowed at Holiday Inn Express & Suites Wilmington West - Medical Park.",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "No, pets are not allowed at Holiday Inn Express & Suites Wilmington West - Medical Park.",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "IHG",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/wilmington/ilmgt/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/wilmington/ilmgt/hoteldetail",
+   "document_sha256": "874e7423e345d483be9deaad1e738cbca5739f79298c1eda5684a870dfbbcff7",
+   "document_bytes": 268771,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Holiday Inn Express Wilmington - Porters Neck",
+    "address_on_page": "168 Porter's Neck Road",
+    "postal_code": "28411",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "1-910-6864341",
+    "property_code_on_page": "ilmgt"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "ilmgt",
+   "identity_key": "holiday inn express wilmington porters neck",
+   "canonical_name": "Holiday Inn Express Wilmington - Porters Neck",
+   "corridor": "wilmington-nc__ogden-porters-neck",
+   "surface": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+   "operative_quote": "No, pets are not allowed at Holiday Inn Express Wilmington - Porters Neck.",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "No, pets are not allowed at Holiday Inn Express Wilmington - Porters Neck.",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "IHG",
+   "source_url": "https://www.ihg.com/holidayinnresorts/hotels/us/en/wrightsville-beach/wrgnc/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnresorts/hotels/us/en/wrightsville-beach/wrgnc/hoteldetail",
+   "document_sha256": "d14d7e1190eb4aa63142e4fc2b4c1b0cbda803c63d627438b7309e8cf6353338",
+   "document_bytes": 286382,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Holiday Inn Resort Lumina on Wrightsville Beach",
+    "address_on_page": "1706 N. Lumina Ave",
+    "postal_code": "28480",
+    "locality": "Wrightsville Beach",
+    "region": "NC",
+    "phone_on_page": "1-910-2562231",
+    "property_code_on_page": "wrgnc"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "wrgnc",
+   "identity_key": "holiday inn resort lumina on wrightsville beach",
+   "canonical_name": "Holiday Inn Resort Lumina on Wrightsville Beach",
+   "corridor": "wilmington-nc__wrightsville-beach",
+   "surface": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+   "operative_quote": "No, pets are not allowed at Holiday Inn Resort Lumina on Wrightsville Beach.",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "No, pets are not allowed at Holiday Inn Resort Lumina on Wrightsville Beach.",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "WYNDHAM",
+   "source_url": "https://www.wyndhamhotels.com/hojo/wilmington-north-carolina/howard-johnson-express-inn-wilmington/overview",
+   "final_url": "https://www.wyndhamhotels.com/hojo/wilmington-north-carolina/howard-johnson-express-inn-wilmington/overview",
+   "document_sha256": "007e637897e43444061bd9f14f69b0352bad461708e0bf4bfaafdd738a235501",
+   "document_bytes": 529651,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Howard Johnson by Wyndham Wilmington",
+    "address_on_page": "3901 Market St",
+    "postal_code": "28403",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "1-910-3431727",
+    "property_code_on_page": null
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": null,
+   "identity_key": "howard johnson by wyndham wilmington",
+   "canonical_name": "Howard Johnson by Wyndham Wilmington",
+   "corridor": "wilmington-nc__midtown-uncw",
+   "surface": "the client-rendered .pet-policy-desc element on the property's own page",
+   "operative_quote": "ADA defined service animals are welcome at this hotel. Sorry no other pets are allowed.",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "ADA defined service animals are welcome at this hotel. Sorry no other pets are allowed.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://www.thesandpeddler.com/",
+   "final_url": "https://www.thesandpeddler.com/",
+   "document_sha256": "174fb52282534937592397e3009c06cd9bb3e1cbefee235d1e1ee2e5bd487d0b",
+   "document_bytes": 45298,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Sandpeddler Inn & Suites",
+    "address_on_page": "15 Nathan Street",
+    "postal_code": "28480",
+    "locality": "Wrightsville Beach",
+    "region": "NC",
+    "phone_on_page": "910-256-2028",
+    "property_code_on_page": null
+   },
+   "identity_binding_method": "ADDRESS_AND_PHONE_ON_THE_PROPERTYS_OWN_SITE",
+   "property_code": null,
+   "identity_key": "sandpeddler inn and suites",
+   "canonical_name": "Sandpeddler Inn & Suites",
+   "corridor": "wilmington-nc__wrightsville-beach",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "No pets permitted",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "No pets permitted",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://thesurfsuites.com/policies-faqs/",
+   "final_url": "https://thesurfsuites.com/policies-faqs/",
+   "document_sha256": "d411ee9ad000a8c604b67c9f887f8738c5683e1b855d4c5a906bbacc46bbd8c3",
+   "document_bytes": 159979,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "The Surf Suites",
+    "address_on_page": "711 S Lumina Ave",
+    "postal_code": "28480",
+    "locality": "Wrightsville Beach",
+    "region": "NC",
+    "phone_on_page": "910-256-2275",
+    "property_code_on_page": null
+   },
+   "identity_binding_method": "ADDRESS_AND_PHONE_ON_THE_PROPERTYS_OWN_SITE",
+   "property_code": null,
+   "identity_key": "the surf suites",
+   "canonical_name": "The Surf Suites",
+   "corridor": "wilmington-nc__wrightsville-beach",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "NO pets allowed!",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "NO pets allowed!",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/ilmss-trailborn-surf-and-sound-outdoor-collection-bonvoy/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/ilmss-trailborn-surf-and-sound-outdoor-collection-bonvoy/overview/",
+   "document_sha256": "2b02e6f41c202acbde8091c0515463d22220bd024b6ac09b3e3640d7051939e8",
+   "document_bytes": 628092,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Trailborn Surf and Sound, Outdoor Collection by Marriott Bonvoy",
+    "address_on_page": "275 Waynick Blvd",
+    "postal_code": "28480",
+    "locality": "Wrightsville Beach",
+    "region": "NC",
+    "phone_on_page": "+18776848024",
+    "property_code_on_page": "ilmss"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "ilmss",
+   "identity_key": "trailborn surf and sound outdoor collection by marriott bonvoy",
+   "canonical_name": "Trailborn Surf and Sound, Outdoor Collection by Marriott Bonvoy",
+   "corridor": "wilmington-nc__wrightsville-beach",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Not Allowed",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Not Allowed",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "WYNDHAM",
+   "source_url": "https://www.wyndhamhotels.com/wingate/wilmington-north-carolina/wingate-by-wyndham-wilmington/overview",
+   "final_url": "https://www.wyndhamhotels.com/wingate/wilmington-north-carolina/wingate-by-wyndham-wilmington/overview",
+   "document_sha256": "00a5b93223cf5de65efcce6562b322f4cb0f49e660917655b282002d8c8b921b",
+   "document_bytes": 575982,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Wingate by Wyndham Wilmington",
+    "address_on_page": "5126 Market Street Bus 17",
+    "postal_code": "28405",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "1 910 395 7011",
+    "property_code_on_page": null
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": null,
+   "identity_key": "wingate by wyndham wilmington",
+   "canonical_name": "Wingate by Wyndham Wilmington",
+   "corridor": "wilmington-nc__ilm-airport-mayfaire",
+   "surface": "the client-rendered .pet-policy-desc element on the property's own page",
+   "operative_quote": "ADA defined service animals are welcome at this hotel. Sorry no other pets are allowed. Dollar 250.00 penalty for bringing in a pet.",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "ADA defined service animals are welcome at this hotel. Sorry no other pets are allowed. Dollar 250.00 penalty for bringing in a pet.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  }
+ ],
+ "rejected": [
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/ilmwrup-hotel-ballast-wilmington/",
+   "final_url": "https://www.hilton.com/en/hotels/ilmwrup-hotel-ballast-wilmington/",
+   "document_sha256": "a3d478eabf506518f5132cd1be2a791e7b894d5ba2f6a47f024bb075387476d3",
+   "document_bytes": 243127,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Hotel Ballast Wilmington, Tapestry Collection by Hilton",
+    "address_on_page": "301 N. Water Street",
+    "postal_code": "28401",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "+1 910-763-5900",
+    "property_code_on_page": "ilmwrup"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "ilmwrup",
+   "classification": "SERVICE_ANIMAL_ONLY",
+   "why": "the only words this page publishes about animals are a service-animal carve-out. That is a legal access category, not a refusal of pets, and it cannot establish a verified-no-pets record on its own",
+   "quote": "Service animals only"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/ilmwidt-doubletree-wilmington/",
+   "final_url": "https://www.hilton.com/en/hotels/ilmwidt-doubletree-wilmington/",
+   "document_sha256": "6e88cdbe5f70a8abaa80ea517e596096d6b94fa9f12841caa2e48c44ed7dd6e4",
+   "document_bytes": 269114,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "DoubleTree by Hilton Wilmington",
+    "address_on_page": "5032 Market Street",
+    "postal_code": "28405",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "+1 910-392-1101",
+    "property_code_on_page": "ilmwidt"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "ilmwidt",
+   "classification": "SERVICE_ANIMAL_ONLY",
+   "why": "the only words this page publishes about animals are a service-animal carve-out. That is a legal access category, not a refusal of pets, and it cannot establish a verified-no-pets record on its own",
+   "quote": "Service animals only"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/ilmwvhx-hampton-suites-wilmington-wrightsville-beach/",
+   "final_url": "https://www.hilton.com/en/hotels/ilmwvhx-hampton-suites-wilmington-wrightsville-beach/",
+   "document_sha256": "aabe8e7928cfa41931293b042ef4e45a272a3bc8a47216098b10533b6853c9c0",
+   "document_bytes": 277982,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn & Suites Wilmington/Wrightsville Beach",
+    "address_on_page": "1989 Eastwood Road",
+    "postal_code": "28403",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "+1 910-256-9600",
+    "property_code_on_page": "ilmwvhx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "ilmwvhx",
+   "classification": "SERVICE_ANIMAL_ONLY",
+   "why": "the only words this page publishes about animals are a service-animal carve-out. That is a legal access category, not a refusal of pets, and it cannot establish a verified-no-pets record on its own",
+   "quote": "Service animals only"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/ilmhahx-hampton-suites-carolina-beach-oceanfront/",
+   "final_url": "https://www.hilton.com/en/hotels/ilmhahx-hampton-suites-carolina-beach-oceanfront/",
+   "document_sha256": "da0c78f9f335e80aba6c92e9e4d7e24a86ac67be981fe3f35ebeaa915eb595cf",
+   "document_bytes": 299727,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn & Suites Carolina Beach Oceanfront",
+    "address_on_page": "1 Harper Avenue",
+    "postal_code": "28428",
+    "locality": "Carolina Beach",
+    "region": "NC",
+    "phone_on_page": "+1 910-707-1770",
+    "property_code_on_page": "ilmhahx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "ilmhahx",
+   "classification": "SERVICE_ANIMAL_ONLY",
+   "why": "the only words this page publishes about animals are a service-animal carve-out. That is a legal access category, not a refusal of pets, and it cannot establish a verified-no-pets record on its own",
+   "quote": "Service animals only"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/ilmgsup-golden-sands-carolina-beach-oceanfront/",
+   "final_url": "https://www.hilton.com/en/hotels/ilmgsup-golden-sands-carolina-beach-oceanfront/",
+   "document_sha256": "7b002ac15c26c87159c607493528154911c1810321c7df792faaff7cf4b879a1",
+   "document_bytes": 225908,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Golden Sands Carolina Beach Oceanfront Tapestry by Hilton",
+    "address_on_page": "1211 S. Lake Park Blvd.",
+    "postal_code": "28428",
+    "locality": "Carolina Beach",
+    "region": "NC",
+    "phone_on_page": "+1 910-458-8334",
+    "property_code_on_page": "ilmgsup"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "ilmgsup",
+   "classification": "SERVICE_ANIMAL_ONLY",
+   "why": "the only words this page publishes about animals are a service-animal carve-out. That is a legal access category, not a refusal of pets, and it cannot establish a verified-no-pets record on its own",
+   "quote": "Service animals only"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/ilmsphx-hampton-suites-southport/",
+   "final_url": "https://www.hilton.com/en/hotels/ilmsphx-hampton-suites-southport/",
+   "document_sha256": "da58b5d2ca0ba44128321efc2d4a9b161654d2c79ceb3981f4cd2ab4e2a227d5",
+   "document_bytes": 273144,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn & Suites Southport",
+    "address_on_page": "4820 Port Loop Road",
+    "postal_code": "28461",
+    "locality": "Southport",
+    "region": "NC",
+    "phone_on_page": "+1 910-477-9830",
+    "property_code_on_page": "ilmsphx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "ilmsphx",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (postal code 28461 is claimed by no corridor of the Wilmington contract; Southport, Oak Island, Bolivia, Hampstead, Topsa); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $75.00 non-refundable fee, 45 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/ilmfs-fairfield-inn-and-suites-southport/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/ilmfs-fairfield-inn-and-suites-southport/overview/",
+   "document_sha256": "8820162a617537663ee4cc22d775986cac3f8f3e596d8b18ea4a48103533f4f5",
+   "document_bytes": 327413,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Fairfield by Marriott Inn & Suites Southport",
+    "address_on_page": "5181 Southport Supply Road SE",
+    "postal_code": "28461",
+    "locality": "Southport",
+    "region": "NC",
+    "phone_on_page": "+19104540016",
+    "property_code_on_page": "ilmfs"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "ilmfs",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (postal code 28461 is claimed by no corridor of the Wilmington contract; Southport, Oak Island, Bolivia, Hampstead, Topsa); a read cannot promote a row the identity graph withheld",
+   "quote": "Pet Policy | Pets Not Allowed"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "WYNDHAM",
+   "source_url": "https://www.wyndhamhotels.com/wingate/southport-north-carolina/wingate-by-wyndham-southport/overview",
+   "final_url": "https://www.wyndhamhotels.com/wingate/southport-north-carolina/wingate-by-wyndham-southport/overview",
+   "document_sha256": "87b7bbc1fe73a4f5835736fb179caf579d769061592bc352b0e3b233dc64bc6e",
+   "document_bytes": 584026,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Wingate by Wyndham Southport",
+    "address_on_page": "1511 North Howe Street",
+    "postal_code": "28461",
+    "locality": "Southport",
+    "region": "NC",
+    "phone_on_page": "1 910 454 0086",
+    "property_code_on_page": "30565"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "30565",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (postal code 28461 is claimed by no corridor of the Wilmington contract; Southport, Oak Island, Bolivia, Hampstead, Topsa); a read cannot promote a row the identity graph withheld",
+   "quote": "ADA defined service animals are welcome at this hotel. Sorry no other pets are allowed."
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "IHG",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/bolivia/sptex/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/bolivia/sptex/hoteldetail",
+   "document_sha256": "0d112606fc065f9566c37a7eefd0774247f9844075d284eee8b5bc1cef27d1cf",
+   "document_bytes": 259542,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Holiday Inn Express & Suites Southport - Oak Island Area",
+    "address_on_page": "3400 Southport Supply Road",
+    "postal_code": "28422",
+    "locality": "Bolivia",
+    "region": "NC",
+    "phone_on_page": "1-910-2539100",
+    "property_code_on_page": "sptex"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "sptex",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (postal code 28422 is claimed by no corridor of the Wilmington contract; Southport, Oak Island, Bolivia, Hampstead, Topsa); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets are welcome at Holiday Inn Express & Suites Southport - Oak Island Area. Pet policy description. Sniff no further because we are a pet loving hotel and welcome you and your fur babies to Southport, NC. Must contact hotel in advance for availability. First floor only. Pet fee per night: 75 USD Pet weight limit: 60 2 pets allowed Pets allowed: Only dogs and cats allowed Pet policy"
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://www.admiralsquartersmotel.com/rooms/policies",
+   "final_url": "https://www.admiralsquartersmotel.com/rooms/policies",
+   "document_sha256": "6bcf4be4132ff20368a73c708aa6d9eca01ca2117acd0a1d1a0b2a79da5d7beb",
+   "document_bytes": 31061,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "The Admiral's Quarters",
+    "address_on_page": "129 Fort Fisher Boulevard South",
+    "postal_code": "28449",
+    "locality": "Kure Beach",
+    "region": "NC",
+    "phone_on_page": "(910) 458-5050",
+    "property_code_on_page": null
+   },
+   "identity_binding_method": "ADDRESS_AND_PHONE_ON_THE_PROPERTYS_OWN_SITE",
+   "property_code": null,
+   "classification": "FIRST_PARTY_CONFLICT",
+   "why": "the property's own site states both acceptance and refusal: the home page (sha256 4449883234ed5c6772fd45c703823766c56c0e18b14ec4ab39113ec8d4d291f2) states 'While we welcome service animals, unfortunately pets (including emotional support animals) are not permitted at our hotel.' and the policies page states 'We now accept dogs only.'. Two first-party statements that disagree publish neither",
+   "quote": "PETS & SERVICE ANIMALS We now accept dogs only. Guests are allowed two dogs per room and they cannot be over 80 pounds combined."
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://www.frontstreetinn.com/policies",
+   "final_url": "https://www.frontstreetinn.com/policies",
+   "document_sha256": "a57af71edc31dd1afdbcf9efad5dd2057a7a5aa5a4a80893a97818c7b04537ab",
+   "document_bytes": 693214,
+   "captured_at": "2026-09-12",
+   "identity_signals": {
+    "name_on_page": "Front Street Inn",
+    "address_on_page": "215 S Front St",
+    "postal_code": "28401",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "(910) 762-6442",
+    "property_code_on_page": null
+   },
+   "identity_binding_method": "ADDRESS_AND_PHONE_ON_THE_PROPERTYS_OWN_SITE",
+   "property_code": null,
+   "classification": "FIRST_PARTY_CONFLICT",
+   "why": "the property's own site states both acceptance and refusal: the FAQ page (sha256 a6a3653e978cbede8a1ceeccf9e2bef83d74bba3ff138f6cea5f8c02c661478f) states 'We allow well behaved dogs in Hemingway, Bistro, O'Keefe and The Coastal Cottage.' while the policies page states 'We no longer accept pets'.. Two first-party statements that disagree publish neither",
+   "quote": "Pets: We no longer accept pets (other than service animals in compliance with ADA Guidance from the Dept of Justice)"
+  }
+ ],
+ "unresolved_census_identities": [
+  {
+   "identity_key": "best western plus",
+   "canonical_name": "Best Western Plus",
+   "brand": "",
+   "corridor": "wilmington-nc__ilm-airport-mayfaire",
+   "official_url": ""
+  },
+  {
+   "identity_key": "best western plus coastline inn",
+   "canonical_name": "Best Western Plus Coastline Inn",
+   "brand": "",
+   "corridor": "wilmington-nc__downtown-wilmington",
+   "official_url": ""
+  },
+  {
+   "identity_key": "best western plus westgate inn and suites",
+   "canonical_name": "Best Western Plus Westgate Inn & Suites",
+   "brand": "",
+   "corridor": "wilmington-nc__leland",
+   "official_url": ""
+  },
+  {
+   "identity_key": "comfort inn university",
+   "canonical_name": "Comfort Inn University",
+   "brand": "",
+   "corridor": "wilmington-nc__midtown-uncw",
+   "official_url": ""
+  },
+  {
+   "identity_key": "country inn and suites wilmington nc",
+   "canonical_name": "Country Inn & Suites, Wilmington, NC",
+   "brand": "",
+   "corridor": "wilmington-nc__ilm-airport-mayfaire",
+   "official_url": ""
+  },
+  {
+   "identity_key": "dolphin lane motel",
+   "canonical_name": "Dolphin Lane Motel",
+   "brand": "",
+   "corridor": "wilmington-nc__carolina-beach-kure-beach",
+   "official_url": ""
+  },
+  {
+   "identity_key": "doubletree by hilton wilmington",
+   "canonical_name": "DoubleTree by Hilton Wilmington",
+   "brand": "HILTON",
+   "corridor": "wilmington-nc__ilm-airport-mayfaire",
+   "official_url": "https://www.hilton.com/en/hotels/ilmwidt-doubletree-wilmington/"
+  },
+  {
+   "identity_key": "front street inn",
+   "canonical_name": "Front Street Inn",
+   "brand": "",
+   "corridor": "wilmington-nc__downtown-wilmington",
+   "official_url": "https://www.frontstreetinn.com/policies"
+  },
+  {
+   "identity_key": "golden sands carolina beach oceanfront tapestry by hilton",
+   "canonical_name": "Golden Sands Carolina Beach Oceanfront Tapestry by Hilton",
+   "brand": "HILTON",
+   "corridor": "wilmington-nc__carolina-beach-kure-beach",
+   "official_url": "https://www.hilton.com/en/hotels/ilmgsup-golden-sands-carolina-beach-oceanfront/"
+  },
+  {
+   "identity_key": "hampton inn and suites carolina beach oceanfront",
+   "canonical_name": "Hampton Inn & Suites Carolina Beach Oceanfront",
+   "brand": "HILTON",
+   "corridor": "wilmington-nc__carolina-beach-kure-beach",
+   "official_url": "https://www.hilton.com/en/hotels/ilmhahx-hampton-suites-carolina-beach-oceanfront/"
+  },
+  {
+   "identity_key": "hampton inn and suites wilmington wrightsville beach",
+   "canonical_name": "Hampton Inn & Suites Wilmington/Wrightsville Beach",
+   "brand": "HILTON",
+   "corridor": "wilmington-nc__midtown-uncw",
+   "official_url": "https://www.hilton.com/en/hotels/ilmwvhx-hampton-suites-wilmington-wrightsville-beach/"
+  },
+  {
+   "identity_key": "hotel ballast wilmington tapestry collection by hilton",
+   "canonical_name": "Hotel Ballast Wilmington, Tapestry Collection by Hilton",
+   "brand": "HILTON",
+   "corridor": "wilmington-nc__downtown-wilmington",
+   "official_url": "https://www.hilton.com/en/hotels/ilmwrup-hotel-ballast-wilmington/"
+  },
+  {
+   "identity_key": "mainstay suites wilmington university area",
+   "canonical_name": "MainStay Suites Wilmington - University Area",
+   "brand": "",
+   "corridor": "wilmington-nc__ilm-airport-mayfaire",
+   "official_url": ""
+  },
+  {
+   "identity_key": "motel 6 wilmington nc market street",
+   "canonical_name": "Motel 6 Wilmington, NC - Market Street",
+   "brand": "",
+   "corridor": "wilmington-nc__ilm-airport-mayfaire",
+   "official_url": ""
+  },
+  {
+   "identity_key": "oceaneer motel",
+   "canonical_name": "Oceaneer Motel",
+   "brand": "",
+   "corridor": "wilmington-nc__carolina-beach-kure-beach",
+   "official_url": ""
+  },
+  {
+   "identity_key": "red carpet inn wilmington",
+   "canonical_name": "Red Carpet Inn Wilmington",
+   "brand": "",
+   "corridor": "wilmington-nc__midtown-uncw",
+   "official_url": ""
+  },
+  {
+   "identity_key": "red roof inn wilmington",
+   "canonical_name": "Red Roof Inn Wilmington",
+   "brand": "",
+   "corridor": "wilmington-nc__ilm-airport-mayfaire",
+   "official_url": ""
+  },
+  {
+   "identity_key": "riverview suites wilmington",
+   "canonical_name": "Riverview Suites Wilmington",
+   "brand": "",
+   "corridor": "wilmington-nc__downtown-wilmington",
+   "official_url": ""
+  },
+  {
+   "identity_key": "rodeway inn and suites wilmington north",
+   "canonical_name": "Rodeway Inn & Suites Wilmington North",
+   "brand": "",
+   "corridor": "wilmington-nc__ilm-airport-mayfaire",
+   "official_url": ""
+  },
+  {
+   "identity_key": "sea ranch motel",
+   "canonical_name": "Sea Ranch Motel",
+   "brand": "",
+   "corridor": "wilmington-nc__carolina-beach-kure-beach",
+   "official_url": ""
+  },
+  {
+   "identity_key": "seven seas inn",
+   "canonical_name": "Seven Seas Inn",
+   "brand": "",
+   "corridor": "wilmington-nc__carolina-beach-kure-beach",
+   "official_url": ""
+  },
+  {
+   "identity_key": "shell island resort",
+   "canonical_name": "Shell Island Resort",
+   "brand": "",
+   "corridor": "wilmington-nc__wrightsville-beach",
+   "official_url": "https://www.shellisland.com/"
+  },
+  {
+   "identity_key": "south wind motel",
+   "canonical_name": "South Wind Motel",
+   "brand": "",
+   "corridor": "wilmington-nc__carolina-beach-kure-beach",
+   "official_url": ""
+  },
+  {
+   "identity_key": "summer sands",
+   "canonical_name": "Summer Sands",
+   "brand": "",
+   "corridor": "wilmington-nc__wrightsville-beach",
+   "official_url": ""
+  },
+  {
+   "identity_key": "the admiral s quarters",
+   "canonical_name": "The Admiral's Quarters",
+   "brand": "",
+   "corridor": "wilmington-nc__carolina-beach-kure-beach",
+   "official_url": "https://www.admiralsquartersmotel.com/rooms/policies"
+  },
+  {
+   "identity_key": "the carolinian inn",
+   "canonical_name": "The Carolinian Inn",
+   "brand": "",
+   "corridor": "wilmington-nc__midtown-uncw",
+   "official_url": ""
+  },
+  {
+   "identity_key": "the savannah inn",
+   "canonical_name": "The Savannah Inn",
+   "brand": "",
+   "corridor": "wilmington-nc__carolina-beach-kure-beach",
+   "official_url": ""
+  },
+  {
+   "identity_key": "the waterway",
+   "canonical_name": "The Waterway",
+   "brand": "",
+   "corridor": "wilmington-nc__midtown-uncw",
+   "official_url": ""
+  },
+  {
+   "identity_key": "travel inn",
+   "canonical_name": "Travel Inn",
+   "brand": "",
+   "corridor": "wilmington-nc__midtown-uncw",
+   "official_url": ""
+  },
+  {
+   "identity_key": "woodspring suites wilmington",
+   "canonical_name": "WoodSpring Suites Wilmington",
+   "brand": "",
+   "corridor": "wilmington-nc__monkey-junction",
+   "official_url": ""
+  }
+ ]
+}

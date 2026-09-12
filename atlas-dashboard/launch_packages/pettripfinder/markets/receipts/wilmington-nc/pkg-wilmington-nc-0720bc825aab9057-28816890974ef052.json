@@ -1,0 +1,587 @@
+{
+ "schema": "ptf-fast-release-receipt/1.0",
+ "lane": "FAST_DATA_ONLY_RELEASE",
+ "PACKAGE_ID": "pkg-wilmington-nc-0720bc825aab9057",
+ "PACKAGE_DIGEST": "sha256:0720bc825aab90573b816221f45d270a6423f2ed9cae1437a228bbdcc8f08aa2",
+ "MARKET_ID": "wilmington-nc",
+ "PARENT_RELEASE": {
+  "live_deploy_id": "6aa5ce23d51fa8544146ebac",
+  "rollback_target": "6aa5ad211250a04bc0bc6f7f",
+  "source_commit": "9158e1b0d23a037292f05e6d74d63219c81f584f",
+  "live_index_digest": "sha256:86bfb2db49eed19b047f46e4a2d64ba5a2ec7a5f0a21d7d2ff4bc66ea4bd746f"
+ },
+ "CHANGE_CLASS": "MARKET_AUTHORITY_DATA_ONLY",
+ "DEPENDENCY_DIGEST": "sha256:c9afb5b30697106f1950f87e1afd74076927d0ebf18284677988ad78b348035e",
+ "VALIDATION_POLICY_VERSION": "ptf-fast-data-only-release/1.0",
+ "RULES_EXECUTED": [
+  {
+   "rule": "A",
+   "name": "package schema valid"
+  },
+  {
+   "rule": "B",
+   "name": "identity valid"
+  },
+  {
+   "rule": "C",
+   "name": "first-party policy binding valid"
+  },
+  {
+   "rule": "D",
+   "name": "policy semantics valid"
+  },
+  {
+   "rule": "E",
+   "name": "route references valid"
+  },
+  {
+   "rule": "F",
+   "name": "market partition valid"
+  },
+  {
+   "rule": "G",
+   "name": "proposed whole-release identity/route indexes contain no forbidden collision"
+  },
+  {
+   "rule": "H",
+   "name": "every unrelated live market/member is preserved"
+  },
+  {
+   "rule": "I",
+   "name": "every removal is explicitly intended"
+  },
+  {
+   "rule": "J",
+   "name": "changed-market artifact builds successfully"
+  },
+  {
+   "rule": "K",
+   "name": "changed-market output deterministic"
+  },
+  {
+   "rule": "L",
+   "name": "package/artifact hashes internally consistent"
+  },
+  {
+   "rule": "M",
+   "name": "required evidence freshness/revocation rules satisfied"
+  },
+  {
+   "rule": "N",
+   "name": "rollback/current-live preservation metadata valid"
+  },
+  {
+   "rule": "O",
+   "name": "paid acquisitions used by the package satisfy reservation provenance"
+  }
+ ],
+ "RESULTS": {
+  "A": {
+   "rule": "A",
+   "name": "package schema valid",
+   "status": "PASS",
+   "seconds": 0.01,
+   "detail": {
+    "schema": "ptf-sealed-market-package/1.0",
+    "package_id": "pkg-wilmington-nc-0720bc825aab9057",
+    "package_digest": "sha256:0720bc825aab90573b816221f45d270a6423f2ed9cae1437a228bbdcc8f08aa2"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "B": {
+   "rule": "B",
+   "name": "identity valid",
+   "status": "PASS",
+   "seconds": 0.038,
+   "detail": {
+    "identity_records": 73,
+    "census_count": 73,
+    "declared_relations": 0,
+    "writer_seconds": 0.038
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "C": {
+   "rule": "C",
+   "name": "first-party policy binding valid",
+   "status": "PASS",
+   "seconds": 0.09,
+   "detail": {
+    "records_evaluated": 43,
+    "eligible": 43,
+    "ineligible": 0,
+    "classes": {}
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "D": {
+   "rule": "D",
+   "name": "policy semantics valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "pet_friendly_records": 29,
+    "verified_no_pets_records": 14,
+    "policy_schema": "1.3"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "E": {
+   "rule": "E",
+   "name": "route references valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "official_routes": 0,
+    "public_routes": 36
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "F": {
+   "rule": "F",
+   "name": "market partition valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "partition_count": 73,
+    "unresolved_rows": 30,
+    "counts_by_partition_state": {
+     "ACCESS_BLOCKED": 12,
+     "AWAITING_OFFICIAL_URL": 10,
+     "AWAITING_POLICY_OBSERVATION": 8,
+     "PUBLISHED_PET_FRIENDLY": 29,
+     "VERIFIED_NO_PETS": 14
+    }
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "G": {
+   "rule": "G",
+   "name": "proposed whole-release identity/route indexes contain no forbidden collision",
+   "status": "PASS",
+   "seconds": 0.086,
+   "detail": {
+    "live_digest": "sha256:86bfb2db49eed19b047f46e4a2d64ba5a2ec7a5f0a21d7d2ff4bc66ea4bd746f",
+    "proposed_digest": "sha256:d872496c113b55f6be89a024dd2d218f2623747e7839bbc54a53e1bb373281b0",
+    "proposed_participating": [
+     "charlotte-nc",
+     "cincinnati-oh",
+     "cleveland-akron-canton-oh",
+     "columbus-oh",
+     "dayton-oh",
+     "grand-rapids-holland-mi",
+     "indianapolis-in",
+     "lexington-ky",
+     "louisville-ky",
+     "milwaukee-wi",
+     "nashville-tn",
+     "piedmont-triad-nc",
+     "pittsburgh-pa",
+     "raleigh-nc",
+     "st-louis-mo",
+     "toledo-oh",
+     "wilmington-nc"
+    ],
+    "proposed_total_profiles": 1154,
+    "legacy_collisions_outside_package": 0,
+    "compare_seconds": 0.0827
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "H": {
+   "rule": "H",
+   "name": "every unrelated live market/member is preserved",
+   "status": "PASS",
+   "seconds": 0.086,
+   "detail": {
+    "live_participating": [
+     "charlotte-nc",
+     "cincinnati-oh",
+     "cleveland-akron-canton-oh",
+     "columbus-oh",
+     "dayton-oh",
+     "grand-rapids-holland-mi",
+     "indianapolis-in",
+     "lexington-ky",
+     "louisville-ky",
+     "milwaukee-wi",
+     "nashville-tn",
+     "piedmont-triad-nc",
+     "pittsburgh-pa",
+     "raleigh-nc",
+     "st-louis-mo",
+     "toledo-oh"
+    ],
+    "live_total_profiles": 1125,
+    "finding_counts": {}
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "I": {
+   "rule": "I",
+   "name": "every removal is explicitly intended",
+   "status": "PASS",
+   "seconds": 0.086,
+   "detail": {
+    "intended_delta": {
+     "market_id": "wilmington-nc",
+     "add_property_ids": [],
+     "update_property_ids": [],
+     "remove_property_ids": [],
+     "add_routes": [
+      "/pet-friendly-hotels/wilmington-nc/",
+      "/pet-friendly-hotels/wilmington-nc/aloft-by-marriott-wilmington-at-coastline-center/",
+      "/pet-friendly-hotels/wilmington-nc/arrive-wilmington-a-member-of-design-hotels/",
+      "/pet-friendly-hotels/wilmington-nc/carolina-beach-inn/",
+      "/pet-friendly-hotels/wilmington-nc/downtown-wilmington/",
+      "/pet-friendly-hotels/wilmington-nc/element-by-marriott-wilmington/",
+      "/pet-friendly-hotels/wilmington-nc/embassy-suites-by-hilton-wilmington-riverfront/",
+      "/pet-friendly-hotels/wilmington-nc/extended-stay-america-wilmington-new-centre-drive/",
+      "/pet-friendly-hotels/wilmington-nc/hampton-inn-wilmington-downtown/",
+      "/pet-friendly-hotels/wilmington-nc/hampton-inn-wilmington-medical-park/",
+      "/pet-friendly-hotels/wilmington-nc/hampton-inn-wilmington-university-area-smith-creek-station/",
+      "/pet-friendly-hotels/wilmington-nc/hilton-garden-inn-wilmington-mayfaire-town-center/",
+      "/pet-friendly-hotels/wilmington-nc/holiday-inn-express-leland-wilmington-area/",
+      "/pet-friendly-hotels/wilmington-nc/home2-suites-by-hilton-wilmington-medical-park-downtown/",
+      "/pet-friendly-hotels/wilmington-nc/home2-suites-by-hilton-wilmington-wrightsville-beach/",
+      "/pet-friendly-hotels/wilmington-nc/homewood-suites-by-hilton-wilmington-mayfaire-nc/",
+      "/pet-friendly-hotels/wilmington-nc/hotel-lela-wilmington-tapestry-collection-by-hilton/",
+      "/pet-friendly-hotels/wilmington-nc/ilm-airport-mayfaire/",
+      "/pet-friendly-hotels/wilmington-nc/midtown-uncw/",
+      "/pet-friendly-hotels/wilmington-nc/pirates-cove-hotel/",
+      "/pet-friendly-hotels/wilmington-nc/residence-inn-by-marriott-wilmington-landfall/",
+      "/pet-friendly-hotels/wilmington-nc/seabirds-motel-at-kure-beach/",
+      "/pet-friendly-hotels/wilmington-nc/spark-by-hilton-wilmington-carolina-beach-rd/",
+      "/pet-friendly-hotels/wilmington-nc/spark-by-hilton-wilmington/",
+      "/pet-friendly-hotels/wilmington-nc/springhill-suites-by-marriott-wilmington-wrightsville-beach/",
+      "/pet-friendly-hotels/wilmington-nc/staybridge-suites-wilmington-wrightsville-bch/",
+      "/pet-friendly-hotels/wilmington-nc/studiores-by-marriott-leland/",
+      "/pet-friendly-hotels/wilmington-nc/studiores-by-marriott-wilmington/",
+      "/pet-friendly-hotels/wilmington-nc/the-sand-dunes-motel/",
+      "/pet-friendly-hotels/wilmington-nc/towneplace-suites-by-marriott-wilmington-wrightsville-beach/",
+      "/pet-friendly-hotels/wilmington-nc/tru-by-hilton-leland-wilmington/",
+      "/pet-friendly-hotels/wilmington-nc/tru-by-hilton-wilmington-wrightsville-beach/",
+      "/pet-friendly-hotels/wilmington-nc/tru-by-hilton-wilmington/"
+     ],
+     "change_routes": [],
+     "remove_routes": [],
+     "expected_profile_delta": 0,
+     "expected_market_count_delta": 1,
+     "expected_participation_delta": [
+      {
+       "market_id": "wilmington-nc",
+       "from": false,
+       "to": true
+      }
+     ]
+    },
+    "actual_delta": {
+     "add_property_ids": [],
+     "update_property_ids": [],
+     "remove_property_ids": [],
+     "add_routes": [
+      "/pet-friendly-hotels/wilmington-nc/",
+      "/pet-friendly-hotels/wilmington-nc/aloft-by-marriott-wilmington-at-coastline-center/",
+      "/pet-friendly-hotels/wilmington-nc/arrive-wilmington-a-member-of-design-hotels/",
+      "/pet-friendly-hotels/wilmington-nc/carolina-beach-inn/",
+      "/pet-friendly-hotels/wilmington-nc/downtown-wilmington/",
+      "/pet-friendly-hotels/wilmington-nc/element-by-marriott-wilmington/",
+      "/pet-friendly-hotels/wilmington-nc/embassy-suites-by-hilton-wilmington-riverfront/",
+      "/pet-friendly-hotels/wilmington-nc/extended-stay-america-wilmington-new-centre-drive/",
+      "/pet-friendly-hotels/wilmington-nc/hampton-inn-wilmington-downtown/",
+      "/pet-friendly-hotels/wilmington-nc/hampton-inn-wilmington-medical-park/",
+      "/pet-friendly-hotels/wilmington-nc/hampton-inn-wilmington-university-area-smith-creek-station/",
+      "/pet-friendly-hotels/wilmington-nc/hilton-garden-inn-wilmington-mayfaire-town-center/",
+      "/pet-friendly-hotels/wilmington-nc/holiday-inn-express-leland-wilmington-area/",
+      "/pet-friendly-hotels/wilmington-nc/home2-suites-by-hilton-wilmington-medical-park-downtown/",
+      "/pet-friendly-hotels/wilmington-nc/home2-suites-by-hilton-wilmington-wrightsville-beach/",
+      "/pet-friendly-hotels/wilmington-nc/homewood-suites-by-hilton-wilmington-mayfaire-nc/",
+      "/pet-friendly-hotels/wilmington-nc/hotel-lela-wilmington-tapestry-collection-by-hilton/",
+      "/pet-friendly-hotels/wilmington-nc/ilm-airport-mayfaire/",
+      "/pet-friendly-hotels/wilmington-nc/midtown-uncw/",
+      "/pet-friendly-hotels/wilmington-nc/pirates-cove-hotel/",
+      "/pet-friendly-hotels/wilmington-nc/residence-inn-by-marriott-wilmington-landfall/",
+      "/pet-friendly-hotels/wilmington-nc/seabirds-motel-at-kure-beach/",
+      "/pet-friendly-hotels/wilmington-nc/spark-by-hilton-wilmington-carolina-beach-rd/",
+      "/pet-friendly-hotels/wilmington-nc/spark-by-hilton-wilmington/",
+      "/pet-friendly-hotels/wilmington-nc/springhill-suites-by-marriott-wilmington-wrightsville-beach/",
+      "/pet-friendly-hotels/wilmington-nc/staybridge-suites-wilmington-wrightsville-bch/",
+      "/pet-friendly-hotels/wilmington-nc/studiores-by-marriott-leland/",
+      "/pet-friendly-hotels/wilmington-nc/studiores-by-marriott-wilmington/",
+      "/pet-friendly-hotels/wilmington-nc/the-sand-dunes-motel/",
+      "/pet-friendly-hotels/wilmington-nc/towneplace-suites-by-marriott-wilmington-wrightsville-beach/",
+      "/pet-friendly-hotels/wilmington-nc/tru-by-hilton-leland-wilmington/",
+      "/pet-friendly-hotels/wilmington-nc/tru-by-hilton-wilmington-wrightsville-beach/",
+      "/pet-friendly-hotels/wilmington-nc/tru-by-hilton-wilmington/"
+     ],
+     "remove_routes": [],
+     "profile_delta": 0,
+     "verified_no_pets_delta": 0,
+     "market_count_delta": 1
+    },
+    "removal_authority": {}
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "J": {
+   "rule": "J",
+   "name": "changed-market artifact builds successfully",
+   "status": "PASS",
+   "seconds": 21.22,
+   "detail": {
+    "bundle_sha256": "0a92441b159bc4f5d5b7908d9fe3589748debeeacc3c0337f9e347c4e8ce1a64",
+    "file_count": 200,
+    "html_count": 184,
+    "staged_input_digest": "sha256:fb0d81119b652da03568b4ed6d76f461d9cb8f95b109449434e80a2ececc45ae",
+    "contract_sha256": "sha256:5dbaecc9ffce7d1e1a26045f9bae74a9c80b9d6821d8ff5832689f38382b2f3a",
+    "release_name": "package-wilmington-nc-6b2c7da-e9b28f0c-3896e5b4",
+    "cache_events": [
+     {
+      "verdict": "BUILD_EXECUTED",
+      "assembly_kind": "generator_site",
+      "input_key": "7b687aab67d61a52fe583d797d10f26ae829964ed46ac04d7b3c444351106c83",
+      "seconds": 8.001
+     },
+     {
+      "verdict": "BUILD_EXECUTED",
+      "assembly_kind": "market_bundle",
+      "input_key": "0b3b9f969162551c0109618e16e67c0b1715e9fae44174117dc6794a97a26ae7",
+      "seconds": 14.577
+     }
+    ],
+    "build_seconds": 20.907
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "K": {
+   "rule": "K",
+   "name": "changed-market output deterministic",
+   "status": "PASS",
+   "seconds": 14.188,
+   "detail": {
+    "input_digest": "sha256:fb0d81119b652da03568b4ed6d76f461d9cb8f95b109449434e80a2ececc45ae",
+    "output_digest_a": "0a92441b159bc4f5d5b7908d9fe3589748debeeacc3c0337f9e347c4e8ce1a64",
+    "output_digest_b": "0a92441b159bc4f5d5b7908d9fe3589748debeeacc3c0337f9e347c4e8ce1a64",
+    "result": "BYTE_IDENTICAL",
+    "cold_builds_executed": 4,
+    "reuse_hits": 0,
+    "build_seconds": 14.188
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "L": {
+   "rule": "L",
+   "name": "package/artifact hashes internally consistent",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "package_digest": "sha256:0720bc825aab90573b816221f45d270a6423f2ed9cae1437a228bbdcc8f08aa2",
+    "rederived_digest": "sha256:0720bc825aab90573b816221f45d270a6423f2ed9cae1437a228bbdcc8f08aa2",
+    "evidence_references": 43,
+    "artifacts_available": 0,
+    "artifacts_checked": 0,
+    "dependency_inputs": 7,
+    "dependency_digest": "sha256:c9afb5b30697106f1950f87e1afd74076927d0ebf18284677988ad78b348035e"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "M": {
+   "rule": "M",
+   "name": "required evidence freshness/revocation rules satisfied",
+   "status": "PASS",
+   "seconds": 0.001,
+   "detail": {
+    "max_age_days": 365,
+    "references": 43,
+    "revoked_registry_size": 0,
+    "earliest_expiry": "2027-09-12T00:00:00Z"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "N": {
+   "rule": "N",
+   "name": "rollback/current-live preservation metadata valid",
+   "status": "PASS",
+   "seconds": 0.016,
+   "detail": {
+    "live": {
+     "live_deploy_id": "6aa5ce23d51fa8544146ebac",
+     "previous_deploy_id": "6aa5ad211250a04bc0bc6f7f",
+     "rollback_target": "6aa5ad211250a04bc0bc6f7f",
+     "source_commit": "9158e1b0d23a037292f05e6d74d63219c81f584f",
+     "bundle_sha256": "5d6ced6ed2630d899595cef7d6c2e82dd43cfc15b56e2b48f22f0960afd4f225",
+     "sitemap_sha256": "aa857f2a275cd58ba1cbc6d9b124165abf4ca52876d20c78ae1e1fae0d83b0c0",
+     "participating_markets": [
+      "charlotte-nc",
+      "cincinnati-oh",
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "grand-rapids-holland-mi",
+      "indianapolis-in",
+      "lexington-ky",
+      "louisville-ky",
+      "milwaukee-wi",
+      "nashville-tn",
+      "piedmont-triad-nc",
+      "pittsburgh-pa",
+      "raleigh-nc",
+      "st-louis-mo",
+      "toledo-oh"
+     ],
+     "profile_counts": {
+      "charlotte-nc": 106,
+      "cincinnati-oh": 130,
+      "cleveland-akron-canton-oh": 120,
+      "columbus-oh": 88,
+      "dayton-oh": 54,
+      "grand-rapids-holland-mi": 43,
+      "indianapolis-in": 82,
+      "lexington-ky": 20,
+      "louisville-ky": 53,
+      "milwaukee-wi": 73,
+      "nashville-tn": 79,
+      "piedmont-triad-nc": 54,
+      "pittsburgh-pa": 61,
+      "raleigh-nc": 63,
+      "st-louis-mo": 82,
+      "toledo-oh": 17
+     },
+     "total_profiles": 1125,
+     "sitemap_route_count": 1327,
+     "deployment_record": "ptf-deploy-piedmont-triad-002-6aa5ce23d51fa8544146ebac.json",
+     "authorization_id": "ptf-auth-piedmont-triad-002-5d6ced6ed263",
+     "rollback_record": "ptf-deploy-charlotte-003-6aa5ad211250a04bc0bc6f7f.json",
+     "rollback_markets": [
+      "charlotte-nc",
+      "cincinnati-oh",
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "grand-rapids-holland-mi",
+      "indianapolis-in",
+      "lexington-ky",
+      "louisville-ky",
+      "milwaukee-wi",
+      "nashville-tn",
+      "pittsburgh-pa",
+      "raleigh-nc",
+      "st-louis-mo",
+      "toledo-oh"
+     ],
+     "problems": []
+    },
+    "stale_parent": false
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "O": {
+   "rule": "O",
+   "name": "paid acquisitions used by the package satisfy reservation provenance",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "paid_references": 0,
+    "ledger_cross_checked": 0,
+    "ledger_unknown": 0
+   },
+   "problems": [],
+   "problem_count": 0
+  }
+ },
+ "TIMESTAMPS": {
+  "started_at": "2026-09-12T22:58:15Z",
+  "finished_at": "2026-09-12T22:58:51Z",
+  "seconds": 36.008
+ },
+ "ARTIFACT_DIGESTS": {
+  "changed_market_bundle_sha256_a": "0a92441b159bc4f5d5b7908d9fe3589748debeeacc3c0337f9e347c4e8ce1a64",
+  "changed_market_bundle_sha256_b": "0a92441b159bc4f5d5b7908d9fe3589748debeeacc3c0337f9e347c4e8ce1a64",
+  "staged_input_digest": "sha256:fb0d81119b652da03568b4ed6d76f461d9cb8f95b109449434e80a2ececc45ae",
+  "staged_contract_sha256": "sha256:5dbaecc9ffce7d1e1a26045f9bae74a9c80b9d6821d8ff5832689f38382b2f3a"
+ },
+ "GLOBAL_INDEX_DIGEST": {
+  "live": "sha256:86bfb2db49eed19b047f46e4a2d64ba5a2ec7a5f0a21d7d2ff4bc66ea4bd746f",
+  "proposed": "sha256:d872496c113b55f6be89a024dd2d218f2623747e7839bbc54a53e1bb373281b0"
+ },
+ "PACKAGE_INDEX_DIGEST": "sha256:1316df6a17cc430bc53e2412c2ba903c0c15af3a3663b8ffa428e5059bb76d68",
+ "INTENDED_DELTA_DIGEST": "sha256:5b9eb66b5215d676e08368f1224131a5fa609d7803dd6c7761617057d6931ef5",
+ "DETERMINISM_RESULT": "BYTE_IDENTICAL",
+ "FIRST_PARTY_BINDING_RESULT": "PASS",
+ "COLLISION_RESULT": "PASS",
+ "REMOVAL_RESULT": "PASS",
+ "LEGACY_EXCEPTIONS": [],
+ "ENVIRONMENT": {
+  "python": "3.13.5",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "builder_version": "ptf-market-package-writer/1.0",
+  "contract_versions": {
+   "market": "ptf-market/1.1",
+   "census": "ptf-market-identity-census/1.1",
+   "partition": "ptf-market-final-partition/1.1",
+   "policy_schema": "1.3",
+   "evidence": "contracts.evidence PUBLICATION_GRADE_REQUIRED=evidence_ref,field,quote,source_url,source_grade,artifact_class,artifact_sha256,artifact_kind,captured_at",
+   "identity_key": "ptf_identity_key/1.0",
+   "identity_routing": "ptf-identity-routing/1.0",
+   "hotel_exclusions": "ptf-hotel-exclusions/1.0",
+   "sealed_market_package": "ptf-sealed-market-package/1.0"
+  },
+  "created_from_source_sha": "6b2c7dad4f0889bafda957f8ae56432d35489b86",
+  "peak_working_set_mb": 72.6
+ },
+ "EXPIRY_REVOCATION_CONDITIONS": {
+  "valid_while": [
+   "the live deployment is 6aa5ce23d51fa8544146ebac",
+   "the live index digest is sha256:86bfb2db49eed19b047f46e4a2d64ba5a2ec7a5f0a21d7d2ff4bc66ea4bd746f",
+   "no referenced artifact is added to evidence_revocations.json",
+   "the evidence is younger than 365 days",
+   "the owning contracts are at the versions recorded in ENVIRONMENT",
+   "the sealed package bytes are unchanged (digest above)"
+  ],
+  "earliest_evidence_expiry": "2027-09-12T00:00:00Z",
+  "evidence_max_age_days": 365
+ },
+ "UNKNOWN_RULES": [],
+ "FAILED_RULES": [],
+ "FAST_DATA_ONLY_RELEASE_ELIGIBLE": "YES",
+ "FULL_REGRESSION_REQUIRED_BY_LANE": "NO",
+ "FAST_PATH_PRODUCTION_ACTIVATION": "DISABLED",
+ "PRODUCTION_ACTIVATION_ALLOWED": "NO",
+ "PERFORMANCE": {
+  "total_seconds": 36.008,
+  "per_rule_seconds": {
+   "A": 0.01,
+   "B": 0.038,
+   "C": 0.09,
+   "D": 0.0,
+   "E": 0.0,
+   "F": 0.0,
+   "G": 0.086,
+   "H": 0.086,
+   "I": 0.086,
+   "J": 21.22,
+   "K": 14.188,
+   "L": 0.0,
+   "M": 0.001,
+   "N": 0.016,
+   "O": 0.0
+  },
+  "changed_market_build_seconds": 20.907,
+  "determinism_build_seconds": 14.188
+ },
+ "RECEIPT_DIGEST": "sha256:28816890974ef052115c51be031b7bb97ba82721d753b3f16e36b52f3e88ffc1"
+}
