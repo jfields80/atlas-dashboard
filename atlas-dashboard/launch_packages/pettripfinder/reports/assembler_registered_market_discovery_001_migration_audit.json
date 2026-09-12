@@ -1,0 +1,49 @@
+{
+ "schema": "ptf-migration-audit-report/1.0",
+ "work_order": "PTF-FINAL-ASSEMBLER-REGISTERED-MARKET-DISCOVERY-001",
+ "what_this_is": "The ONE full broad migration audit this order pays for changing how the whole-site assembler resolves a registered market's final partition. It validates the ASSEMBLER LOOKUP CHANGE; it is not part of an ordinary registration.",
+ "audited_commit": "50093f847872adad99901e616fd52e9ed64674bd",
+ "code_frozen_before_start": true,
+ "targeted_tests_complete_before_start": "the 15-module targeted set at the audited commit: 4 failed / 750 passed / 4 skipped, and the SAME four fail at the parent ce5c2502 (identical node-id sets, TRUE_NEW 0)",
+ "command": "python scripts/pettripfinder/regression_lanes.py run --lane full_regression --out data/regression/migration-audit-assembler-001",
+ "started": "2026-09-12T04:38:22Z",
+ "wall_seconds": 5068.63,
+ "wall": "1:24:28",
+ "run": {
+  "collected": 18436,
+  "passed": 18015,
+  "skipped": 253,
+  "failed": 168
+ },
+ "baseline_policy": "regression_lanes.classify against regression_baselines/f75aa95.json by node id (the committed baseline policy), then failure-set IDENTITY against the audited parent's own broad run (PTF-FINAL-FRESH-MARKET-REGISTRATION-REENGINEERING-001 migration-audit-final-001 at 091242a4, 167 failing)",
+ "against_f75aa95": {
+  "PRE_EXISTING": 160,
+  "EXPECTED_EPOCH_CHANGE": 0,
+  "TEST_HARNESS_FLAKE": 0,
+  "TRUE_NEW_FAILURE": 8
+ },
+ "true_new_vs_f75aa95": [],
+ "failure_set_identity": {
+  "parent_failing": 167,
+  "audit_failing": 168,
+  "audit_minus_parent": 1,
+  "parent_minus_audit": 0,
+  "nodes_failing_here_and_not_in_the_parent_run": [
+   "tests.pettripfinder.test_toledo_oh_promotion_002::test_the_assembler_names_toledos_partition_explicitly"
+  ],
+  "parent_failures_now_passing": []
+ },
+ "MIGRATION_AUDITS_RUN": 1,
+ "MIGRATION_AUDIT_TRUE_NEW": 1,
+ "the_one_true_new_node": {
+  "node_id": "tests/pettripfinder/test_toledo_oh_promotion_002.py::test_the_assembler_names_toledos_partition_explicitly",
+  "state_in_the_parent_audit": "PASSED",
+  "assertion": "'\"toledo-oh\": \"toledo_oh_final_partition_001.json\"' in the TEXT of scripts/pettripfinder/assemble_production_site.py",
+  "mechanism": "The test greps the assembler's SOURCE for the table entry as a dict literal. This order removed the table from the assembler; Toledo's entry now lives in market_partition_resolution.LEGACY_PARTITION_TABLE as a tuple pair, so the literal string is absent and the assertion is false.",
+  "is_the_behaviour_it_protects_still_true": "YES, and proven three independent ways: market_partition_resolution resolves toledo-oh to toledo_oh_final_partition_001.json (pinned by name in the resolver's own test's FROZEN_LEGACY table); the whole-site control build at this audited commit is byte-identical to live production across all 5524 files, Toledo's 17 profiles included; and the resolution report records toledo-oh as LEGACY_TABLE, never UNRESOLVED.",
+  "what_repairing_it_would_be": "a TEST_EXPECTATION_CHANGE: point the assertion at the resolver's frozen table instead of the assembler's source text",
+  "why_it_was_not_repaired": "Phase 8 of this order forbids any post-audit code or test correction and forbids a second broad audit. The correction was NOT made and no second audit was run."
+ },
+ "DID_AUDIT_REQUIRE_POST_AUDIT_CODE_CHANGE": "YES -- one stale test expectation. Under this order's Phase 8 rule that is FINAL ENGINEERING ATTEMPT = FAIL.",
+ "AUDITED_CODE_SHA": "50093f847872adad99901e616fd52e9ed64674bd"
+}
