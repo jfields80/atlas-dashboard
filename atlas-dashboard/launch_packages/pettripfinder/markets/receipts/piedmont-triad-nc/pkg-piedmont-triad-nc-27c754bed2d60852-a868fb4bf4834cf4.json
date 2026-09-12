@@ -1,0 +1,634 @@
+{
+ "schema": "ptf-fast-release-receipt/1.0",
+ "lane": "FAST_DATA_ONLY_RELEASE",
+ "PACKAGE_ID": "pkg-piedmont-triad-nc-27c754bed2d60852",
+ "PACKAGE_DIGEST": "sha256:27c754bed2d608521cd47cea8611c46efc18e2a430d5a5f290b4d8cef135e432",
+ "MARKET_ID": "piedmont-triad-nc",
+ "PARENT_RELEASE": {
+  "live_deploy_id": "6aa5ad211250a04bc0bc6f7f",
+  "rollback_target": "6aa593019a24fc17a07566a4",
+  "source_commit": "c65e9f28b16fe77c55a0a8d2497ed18c519efeed",
+  "live_index_digest": "sha256:3d58c14137333f4c4d968d842f5b5fa54a9236ee3e363fe20cad07141788b93c"
+ },
+ "CHANGE_CLASS": "MARKET_AUTHORITY_DATA_ONLY",
+ "DEPENDENCY_DIGEST": "sha256:dbdf939eb74d491c7e2f21c023a6ed4a3ee5da4829c37908e4d3b99b654ffd4b",
+ "VALIDATION_POLICY_VERSION": "ptf-fast-data-only-release/1.0",
+ "RULES_EXECUTED": [
+  {
+   "rule": "A",
+   "name": "package schema valid"
+  },
+  {
+   "rule": "B",
+   "name": "identity valid"
+  },
+  {
+   "rule": "C",
+   "name": "first-party policy binding valid"
+  },
+  {
+   "rule": "D",
+   "name": "policy semantics valid"
+  },
+  {
+   "rule": "E",
+   "name": "route references valid"
+  },
+  {
+   "rule": "F",
+   "name": "market partition valid"
+  },
+  {
+   "rule": "G",
+   "name": "proposed whole-release identity/route indexes contain no forbidden collision"
+  },
+  {
+   "rule": "H",
+   "name": "every unrelated live market/member is preserved"
+  },
+  {
+   "rule": "I",
+   "name": "every removal is explicitly intended"
+  },
+  {
+   "rule": "J",
+   "name": "changed-market artifact builds successfully"
+  },
+  {
+   "rule": "K",
+   "name": "changed-market output deterministic"
+  },
+  {
+   "rule": "L",
+   "name": "package/artifact hashes internally consistent"
+  },
+  {
+   "rule": "M",
+   "name": "required evidence freshness/revocation rules satisfied"
+  },
+  {
+   "rule": "N",
+   "name": "rollback/current-live preservation metadata valid"
+  },
+  {
+   "rule": "O",
+   "name": "paid acquisitions used by the package satisfy reservation provenance"
+  }
+ ],
+ "RESULTS": {
+  "A": {
+   "rule": "A",
+   "name": "package schema valid",
+   "status": "PASS",
+   "seconds": 0.019,
+   "detail": {
+    "schema": "ptf-sealed-market-package/1.0",
+    "package_id": "pkg-piedmont-triad-nc-27c754bed2d60852",
+    "package_digest": "sha256:27c754bed2d608521cd47cea8611c46efc18e2a430d5a5f290b4d8cef135e432"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "B": {
+   "rule": "B",
+   "name": "identity valid",
+   "status": "PASS",
+   "seconds": 0.07,
+   "detail": {
+    "identity_records": 122,
+    "census_count": 122,
+    "declared_relations": 0,
+    "writer_seconds": 0.069
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "C": {
+   "rule": "C",
+   "name": "first-party policy binding valid",
+   "status": "PASS",
+   "seconds": 0.236,
+   "detail": {
+    "records_evaluated": 80,
+    "eligible": 80,
+    "ineligible": 0,
+    "classes": {}
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "D": {
+   "rule": "D",
+   "name": "policy semantics valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "pet_friendly_records": 54,
+    "verified_no_pets_records": 26,
+    "policy_schema": "1.3"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "E": {
+   "rule": "E",
+   "name": "route references valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "official_routes": 0,
+    "public_routes": 65
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "F": {
+   "rule": "F",
+   "name": "market partition valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "partition_count": 122,
+    "unresolved_rows": 42,
+    "counts_by_partition_state": {
+     "ACCESS_BLOCKED": 21,
+     "AWAITING_OFFICIAL_URL": 19,
+     "AWAITING_POLICY_OBSERVATION": 2,
+     "PUBLISHED_PET_FRIENDLY": 54,
+     "VERIFIED_NO_PETS": 26
+    }
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "G": {
+   "rule": "G",
+   "name": "proposed whole-release identity/route indexes contain no forbidden collision",
+   "status": "PASS",
+   "seconds": 0.099,
+   "detail": {
+    "live_digest": "sha256:3d58c14137333f4c4d968d842f5b5fa54a9236ee3e363fe20cad07141788b93c",
+    "proposed_digest": "sha256:e3476589beecf440462a1037acc9edc8d65aa8cb3c7313fa8d6c201bea8bbdac",
+    "proposed_participating": [
+     "charlotte-nc",
+     "cincinnati-oh",
+     "cleveland-akron-canton-oh",
+     "columbus-oh",
+     "dayton-oh",
+     "grand-rapids-holland-mi",
+     "indianapolis-in",
+     "lexington-ky",
+     "louisville-ky",
+     "milwaukee-wi",
+     "nashville-tn",
+     "piedmont-triad-nc",
+     "pittsburgh-pa",
+     "raleigh-nc",
+     "st-louis-mo",
+     "toledo-oh"
+    ],
+    "proposed_total_profiles": 1125,
+    "legacy_collisions_outside_package": 0,
+    "compare_seconds": 0.0892
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "H": {
+   "rule": "H",
+   "name": "every unrelated live market/member is preserved",
+   "status": "PASS",
+   "seconds": 0.099,
+   "detail": {
+    "live_participating": [
+     "charlotte-nc",
+     "cincinnati-oh",
+     "cleveland-akron-canton-oh",
+     "columbus-oh",
+     "dayton-oh",
+     "grand-rapids-holland-mi",
+     "indianapolis-in",
+     "lexington-ky",
+     "louisville-ky",
+     "milwaukee-wi",
+     "nashville-tn",
+     "pittsburgh-pa",
+     "raleigh-nc",
+     "st-louis-mo",
+     "toledo-oh"
+    ],
+    "live_total_profiles": 1071,
+    "finding_counts": {}
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "I": {
+   "rule": "I",
+   "name": "every removal is explicitly intended",
+   "status": "PASS",
+   "seconds": 0.099,
+   "detail": {
+    "intended_delta": {
+     "market_id": "piedmont-triad-nc",
+     "add_property_ids": [],
+     "update_property_ids": [],
+     "remove_property_ids": [],
+     "add_routes": [
+      "/pet-friendly-hotels/piedmont-triad-nc/",
+      "/pet-friendly-hotels/piedmont-triad-nc/courtyard-by-marriott-greensboro/",
+      "/pet-friendly-hotels/piedmont-triad-nc/courtyard-by-marriott-winston-salem-university/",
+      "/pet-friendly-hotels/piedmont-triad-nc/days-inn-by-wyndham-greensboro-airport/",
+      "/pet-friendly-hotels/piedmont-triad-nc/doubletree-by-hilton-greensboro-airport/",
+      "/pet-friendly-hotels/piedmont-triad-nc/doubletree-by-hilton-hotel-winston-salem-university/",
+      "/pet-friendly-hotels/piedmont-triad-nc/downtown-winston-salem/",
+      "/pet-friendly-hotels/piedmont-triad-nc/drury-inn-suites-greensboro/",
+      "/pet-friendly-hotels/piedmont-triad-nc/embassy-suites-by-hilton-greensboro-airport/",
+      "/pet-friendly-hotels/piedmont-triad-nc/embassy-suites-by-hilton-winston-salem/",
+      "/pet-friendly-hotels/piedmont-triad-nc/fairfield-by-marriott-inn-suites-winston-salem-hanes-mall/",
+      "/pet-friendly-hotels/piedmont-triad-nc/fairfield-inn-greensboro-airport/",
+      "/pet-friendly-hotels/piedmont-triad-nc/four-points-by-sheraton-greensboro-airport/",
+      "/pet-friendly-hotels/piedmont-triad-nc/greensboro-coliseum-wendover/",
+      "/pet-friendly-hotels/piedmont-triad-nc/hampton-inn-and-suites-winston-salem-university-area-nc/",
+      "/pet-friendly-hotels/piedmont-triad-nc/hampton-inn-greensboro-airport/",
+      "/pet-friendly-hotels/piedmont-triad-nc/hampton-inn-greensboro-east/",
+      "/pet-friendly-hotels/piedmont-triad-nc/hampton-inn-high-point/",
+      "/pet-friendly-hotels/piedmont-triad-nc/hampton-inn-kernersville/",
+      "/pet-friendly-hotels/piedmont-triad-nc/hampton-inn-suites-greensboro-coliseum-area/",
+      "/pet-friendly-hotels/piedmont-triad-nc/hampton-inn-suites-greensboro-downtown/",
+      "/pet-friendly-hotels/piedmont-triad-nc/hampton-inn-suites-winston-salem-downtown/",
+      "/pet-friendly-hotels/piedmont-triad-nc/hampton-inn-winston-salem-hanes-mall/",
+      "/pet-friendly-hotels/piedmont-triad-nc/hilton-garden-inn-greensboro-airport/",
+      "/pet-friendly-hotels/piedmont-triad-nc/hilton-garden-inn-greensboro/",
+      "/pet-friendly-hotels/piedmont-triad-nc/hilton-garden-inn-winston-salem-hanes-mall/",
+      "/pet-friendly-hotels/piedmont-triad-nc/holiday-inn-express-suites-greensboro-airport-area/",
+      "/pet-friendly-hotels/piedmont-triad-nc/holiday-inn-express-suites-greensboro-i-40-wendover/",
+      "/pet-friendly-hotels/piedmont-triad-nc/holiday-inn-express-suites-high-point-south/",
+      "/pet-friendly-hotels/piedmont-triad-nc/home2-suites-by-hilton-greensboro-airport-nc/",
+      "/pet-friendly-hotels/piedmont-triad-nc/home2-suites-by-hilton-winston-salem-hanes-mall/",
+      "/pet-friendly-hotels/piedmont-triad-nc/homewood-suites-by-hilton-greensboro-wendover/",
+      "/pet-friendly-hotels/piedmont-triad-nc/homewood-suites-by-hilton-greensboro/",
+      "/pet-friendly-hotels/piedmont-triad-nc/homewood-suites-by-hilton-winston-salem/",
+      "/pet-friendly-hotels/piedmont-triad-nc/hotel-indigo-winston-salem-downtown/",
+      "/pet-friendly-hotels/piedmont-triad-nc/kimpton-cardinal-hotel/",
+      "/pet-friendly-hotels/piedmont-triad-nc/la-quinta-inn-suites-by-wyndham-greensboro-arpt-high-point/",
+      "/pet-friendly-hotels/piedmont-triad-nc/la-quinta-inn-suites-by-wyndham-greensboro-highpoint/",
+      "/pet-friendly-hotels/piedmont-triad-nc/la-quinta-inn-suites-by-wyndham-winston-salem/",
+      "/pet-friendly-hotels/piedmont-triad-nc/pti-airport/",
+      "/pet-friendly-hotels/piedmont-triad-nc/residence-inn-by-marriott-greensboro-airport/",
+      "/pet-friendly-hotels/piedmont-triad-nc/residence-inn-by-marriott-winston-salem-hanes-mall/",
+      "/pet-friendly-hotels/piedmont-triad-nc/spark-by-hilton-clemmons/",
+      "/pet-friendly-hotels/piedmont-triad-nc/spark-by-hilton-greensboro/",
+      "/pet-friendly-hotels/piedmont-triad-nc/spark-by-hilton-winston-salem-university/",
+      "/pet-friendly-hotels/piedmont-triad-nc/springhill-suites-by-marriott-high-point-downtown/",
+      "/pet-friendly-hotels/piedmont-triad-nc/springhill-suites-by-marriott-winston-salem-hanes-mall/",
+      "/pet-friendly-hotels/piedmont-triad-nc/studiores-by-marriott-greensboro-airport/",
+      "/pet-friendly-hotels/piedmont-triad-nc/super-8-by-wyndham-clemmons-bermuda-run-winston-salem-i-40/",
+      "/pet-friendly-hotels/piedmont-triad-nc/super-8-by-wyndham-greensboro-coliseum-conv/",
+      "/pet-friendly-hotels/piedmont-triad-nc/super-8-by-wyndham-greensboro/",
+      "/pet-friendly-hotels/piedmont-triad-nc/super-8-by-wyndham-high-point-greensboro/",
+      "/pet-friendly-hotels/piedmont-triad-nc/towneplace-suites-by-marriott-greensboro-coliseum-area/",
+      "/pet-friendly-hotels/piedmont-triad-nc/towneplace-suites-by-marriott-kernersville/",
+      "/pet-friendly-hotels/piedmont-triad-nc/tru-by-hilton-greensboro/",
+      "/pet-friendly-hotels/piedmont-triad-nc/wingate-by-wyndham-greensboro-coliseum/",
+      "/pet-friendly-hotels/piedmont-triad-nc/winston-salem-hanes-mall/",
+      "/pet-friendly-hotels/piedmont-triad-nc/winston-salem-marriott/",
+      "/pet-friendly-hotels/piedmont-triad-nc/wyndham-garden-greensboro/"
+     ],
+     "change_routes": [],
+     "remove_routes": [],
+     "expected_profile_delta": 0,
+     "expected_market_count_delta": 1,
+     "expected_participation_delta": [
+      {
+       "market_id": "piedmont-triad-nc",
+       "from": false,
+       "to": true
+      }
+     ]
+    },
+    "actual_delta": {
+     "add_property_ids": [],
+     "update_property_ids": [],
+     "remove_property_ids": [],
+     "add_routes": [
+      "/pet-friendly-hotels/piedmont-triad-nc/",
+      "/pet-friendly-hotels/piedmont-triad-nc/courtyard-by-marriott-greensboro/",
+      "/pet-friendly-hotels/piedmont-triad-nc/courtyard-by-marriott-winston-salem-university/",
+      "/pet-friendly-hotels/piedmont-triad-nc/days-inn-by-wyndham-greensboro-airport/",
+      "/pet-friendly-hotels/piedmont-triad-nc/doubletree-by-hilton-greensboro-airport/",
+      "/pet-friendly-hotels/piedmont-triad-nc/doubletree-by-hilton-hotel-winston-salem-university/",
+      "/pet-friendly-hotels/piedmont-triad-nc/downtown-winston-salem/",
+      "/pet-friendly-hotels/piedmont-triad-nc/drury-inn-suites-greensboro/",
+      "/pet-friendly-hotels/piedmont-triad-nc/embassy-suites-by-hilton-greensboro-airport/",
+      "/pet-friendly-hotels/piedmont-triad-nc/embassy-suites-by-hilton-winston-salem/",
+      "/pet-friendly-hotels/piedmont-triad-nc/fairfield-by-marriott-inn-suites-winston-salem-hanes-mall/",
+      "/pet-friendly-hotels/piedmont-triad-nc/fairfield-inn-greensboro-airport/",
+      "/pet-friendly-hotels/piedmont-triad-nc/four-points-by-sheraton-greensboro-airport/",
+      "/pet-friendly-hotels/piedmont-triad-nc/greensboro-coliseum-wendover/",
+      "/pet-friendly-hotels/piedmont-triad-nc/hampton-inn-and-suites-winston-salem-university-area-nc/",
+      "/pet-friendly-hotels/piedmont-triad-nc/hampton-inn-greensboro-airport/",
+      "/pet-friendly-hotels/piedmont-triad-nc/hampton-inn-greensboro-east/",
+      "/pet-friendly-hotels/piedmont-triad-nc/hampton-inn-high-point/",
+      "/pet-friendly-hotels/piedmont-triad-nc/hampton-inn-kernersville/",
+      "/pet-friendly-hotels/piedmont-triad-nc/hampton-inn-suites-greensboro-coliseum-area/",
+      "/pet-friendly-hotels/piedmont-triad-nc/hampton-inn-suites-greensboro-downtown/",
+      "/pet-friendly-hotels/piedmont-triad-nc/hampton-inn-suites-winston-salem-downtown/",
+      "/pet-friendly-hotels/piedmont-triad-nc/hampton-inn-winston-salem-hanes-mall/",
+      "/pet-friendly-hotels/piedmont-triad-nc/hilton-garden-inn-greensboro-airport/",
+      "/pet-friendly-hotels/piedmont-triad-nc/hilton-garden-inn-greensboro/",
+      "/pet-friendly-hotels/piedmont-triad-nc/hilton-garden-inn-winston-salem-hanes-mall/",
+      "/pet-friendly-hotels/piedmont-triad-nc/holiday-inn-express-suites-greensboro-airport-area/",
+      "/pet-friendly-hotels/piedmont-triad-nc/holiday-inn-express-suites-greensboro-i-40-wendover/",
+      "/pet-friendly-hotels/piedmont-triad-nc/holiday-inn-express-suites-high-point-south/",
+      "/pet-friendly-hotels/piedmont-triad-nc/home2-suites-by-hilton-greensboro-airport-nc/",
+      "/pet-friendly-hotels/piedmont-triad-nc/home2-suites-by-hilton-winston-salem-hanes-mall/",
+      "/pet-friendly-hotels/piedmont-triad-nc/homewood-suites-by-hilton-greensboro-wendover/",
+      "/pet-friendly-hotels/piedmont-triad-nc/homewood-suites-by-hilton-greensboro/",
+      "/pet-friendly-hotels/piedmont-triad-nc/homewood-suites-by-hilton-winston-salem/",
+      "/pet-friendly-hotels/piedmont-triad-nc/hotel-indigo-winston-salem-downtown/",
+      "/pet-friendly-hotels/piedmont-triad-nc/kimpton-cardinal-hotel/",
+      "/pet-friendly-hotels/piedmont-triad-nc/la-quinta-inn-suites-by-wyndham-greensboro-arpt-high-point/",
+      "/pet-friendly-hotels/piedmont-triad-nc/la-quinta-inn-suites-by-wyndham-greensboro-highpoint/",
+      "/pet-friendly-hotels/piedmont-triad-nc/la-quinta-inn-suites-by-wyndham-winston-salem/",
+      "/pet-friendly-hotels/piedmont-triad-nc/pti-airport/",
+      "/pet-friendly-hotels/piedmont-triad-nc/residence-inn-by-marriott-greensboro-airport/",
+      "/pet-friendly-hotels/piedmont-triad-nc/residence-inn-by-marriott-winston-salem-hanes-mall/",
+      "/pet-friendly-hotels/piedmont-triad-nc/spark-by-hilton-clemmons/",
+      "/pet-friendly-hotels/piedmont-triad-nc/spark-by-hilton-greensboro/",
+      "/pet-friendly-hotels/piedmont-triad-nc/spark-by-hilton-winston-salem-university/",
+      "/pet-friendly-hotels/piedmont-triad-nc/springhill-suites-by-marriott-high-point-downtown/",
+      "/pet-friendly-hotels/piedmont-triad-nc/springhill-suites-by-marriott-winston-salem-hanes-mall/",
+      "/pet-friendly-hotels/piedmont-triad-nc/studiores-by-marriott-greensboro-airport/",
+      "/pet-friendly-hotels/piedmont-triad-nc/super-8-by-wyndham-clemmons-bermuda-run-winston-salem-i-40/",
+      "/pet-friendly-hotels/piedmont-triad-nc/super-8-by-wyndham-greensboro-coliseum-conv/",
+      "/pet-friendly-hotels/piedmont-triad-nc/super-8-by-wyndham-greensboro/",
+      "/pet-friendly-hotels/piedmont-triad-nc/super-8-by-wyndham-high-point-greensboro/",
+      "/pet-friendly-hotels/piedmont-triad-nc/towneplace-suites-by-marriott-greensboro-coliseum-area/",
+      "/pet-friendly-hotels/piedmont-triad-nc/towneplace-suites-by-marriott-kernersville/",
+      "/pet-friendly-hotels/piedmont-triad-nc/tru-by-hilton-greensboro/",
+      "/pet-friendly-hotels/piedmont-triad-nc/wingate-by-wyndham-greensboro-coliseum/",
+      "/pet-friendly-hotels/piedmont-triad-nc/winston-salem-hanes-mall/",
+      "/pet-friendly-hotels/piedmont-triad-nc/winston-salem-marriott/",
+      "/pet-friendly-hotels/piedmont-triad-nc/wyndham-garden-greensboro/"
+     ],
+     "remove_routes": [],
+     "profile_delta": 0,
+     "verified_no_pets_delta": 0,
+     "market_count_delta": 1
+    },
+    "removal_authority": {}
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "J": {
+   "rule": "J",
+   "name": "changed-market artifact builds successfully",
+   "status": "PASS",
+   "seconds": 26.405,
+   "detail": {
+    "bundle_sha256": "aa77f97dacb2bc8089bde4bce0cbdab1c88f97e7c2b6924a749238fef46c2b48",
+    "file_count": 350,
+    "html_count": 334,
+    "staged_input_digest": "sha256:5206be54ec07198007e21ff5d1a327fdb191b154c1da5589b544442ba69d1437",
+    "contract_sha256": "sha256:76f1ba61f9a390ba7fc2ac9b2b373ec0675fad6417ae69c12e07625e447360ae",
+    "release_name": "package-piedmont-triad-nc-393cbff-b087c99d-19b5095d",
+    "cache_events": [
+     {
+      "verdict": "BUILD_EXECUTED",
+      "assembly_kind": "generator_site",
+      "input_key": "255aaf4fcd50cad1331f2b5829b98f857b82ee7796cb902c0f6a2d8bcded0814",
+      "seconds": 7.863
+     },
+     {
+      "verdict": "BUILD_EXECUTED",
+      "assembly_kind": "market_bundle",
+      "input_key": "e8bfada1d49ff8c09e317bc0ff1012c1ec88d15edb52c2db60ae6fbea9a3dd0c",
+      "seconds": 18.234
+     }
+    ],
+    "build_seconds": 26.027
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "K": {
+   "rule": "K",
+   "name": "changed-market output deterministic",
+   "status": "PASS",
+   "seconds": 24.13,
+   "detail": {
+    "input_digest": "sha256:5206be54ec07198007e21ff5d1a327fdb191b154c1da5589b544442ba69d1437",
+    "output_digest_a": "aa77f97dacb2bc8089bde4bce0cbdab1c88f97e7c2b6924a749238fef46c2b48",
+    "output_digest_b": "aa77f97dacb2bc8089bde4bce0cbdab1c88f97e7c2b6924a749238fef46c2b48",
+    "result": "BYTE_IDENTICAL",
+    "cold_builds_executed": 4,
+    "reuse_hits": 0,
+    "build_seconds": 24.13
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "L": {
+   "rule": "L",
+   "name": "package/artifact hashes internally consistent",
+   "status": "PASS",
+   "seconds": 0.001,
+   "detail": {
+    "package_digest": "sha256:27c754bed2d608521cd47cea8611c46efc18e2a430d5a5f290b4d8cef135e432",
+    "rederived_digest": "sha256:27c754bed2d608521cd47cea8611c46efc18e2a430d5a5f290b4d8cef135e432",
+    "evidence_references": 80,
+    "artifacts_available": 0,
+    "artifacts_checked": 0,
+    "dependency_inputs": 7,
+    "dependency_digest": "sha256:dbdf939eb74d491c7e2f21c023a6ed4a3ee5da4829c37908e4d3b99b654ffd4b"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "M": {
+   "rule": "M",
+   "name": "required evidence freshness/revocation rules satisfied",
+   "status": "PASS",
+   "seconds": 0.001,
+   "detail": {
+    "max_age_days": 365,
+    "references": 80,
+    "revoked_registry_size": 0,
+    "earliest_expiry": "2027-09-12T00:00:00Z"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "N": {
+   "rule": "N",
+   "name": "rollback/current-live preservation metadata valid",
+   "status": "PASS",
+   "seconds": 0.017,
+   "detail": {
+    "live": {
+     "live_deploy_id": "6aa5ad211250a04bc0bc6f7f",
+     "previous_deploy_id": "6aa593019a24fc17a07566a4",
+     "rollback_target": "6aa593019a24fc17a07566a4",
+     "source_commit": "c65e9f28b16fe77c55a0a8d2497ed18c519efeed",
+     "bundle_sha256": "606d6088460a48c7787fac6deb1befcc12e39d6ee384342cc13d8ab43ad8a815",
+     "sitemap_sha256": "3c6713782208a486f96d7177663625d56606f2bc0bd6bdc353a9b7111af45e6d",
+     "participating_markets": [
+      "charlotte-nc",
+      "cincinnati-oh",
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "grand-rapids-holland-mi",
+      "indianapolis-in",
+      "lexington-ky",
+      "louisville-ky",
+      "milwaukee-wi",
+      "nashville-tn",
+      "pittsburgh-pa",
+      "raleigh-nc",
+      "st-louis-mo",
+      "toledo-oh"
+     ],
+     "profile_counts": {
+      "charlotte-nc": 106,
+      "cincinnati-oh": 130,
+      "cleveland-akron-canton-oh": 120,
+      "columbus-oh": 88,
+      "dayton-oh": 54,
+      "grand-rapids-holland-mi": 43,
+      "indianapolis-in": 82,
+      "lexington-ky": 20,
+      "louisville-ky": 53,
+      "milwaukee-wi": 73,
+      "nashville-tn": 79,
+      "pittsburgh-pa": 61,
+      "raleigh-nc": 63,
+      "st-louis-mo": 82,
+      "toledo-oh": 17
+     },
+     "total_profiles": 1071,
+     "sitemap_route_count": 1267,
+     "deployment_record": "ptf-deploy-charlotte-003-6aa5ad211250a04bc0bc6f7f.json",
+     "authorization_id": "ptf-auth-charlotte-003-606d6088460a",
+     "rollback_record": "ptf-deploy-raleigh-003-6aa593019a24fc17a07566a4.json",
+     "rollback_markets": [
+      "cincinnati-oh",
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "grand-rapids-holland-mi",
+      "indianapolis-in",
+      "lexington-ky",
+      "louisville-ky",
+      "milwaukee-wi",
+      "nashville-tn",
+      "pittsburgh-pa",
+      "raleigh-nc",
+      "st-louis-mo",
+      "toledo-oh"
+     ],
+     "problems": []
+    },
+    "stale_parent": false
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "O": {
+   "rule": "O",
+   "name": "paid acquisitions used by the package satisfy reservation provenance",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "paid_references": 0,
+    "ledger_cross_checked": 0,
+    "ledger_unknown": 0
+   },
+   "problems": [],
+   "problem_count": 0
+  }
+ },
+ "TIMESTAMPS": {
+  "started_at": "2026-09-12T21:34:36Z",
+  "finished_at": "2026-09-12T21:35:27Z",
+  "seconds": 51.15
+ },
+ "ARTIFACT_DIGESTS": {
+  "changed_market_bundle_sha256_a": "aa77f97dacb2bc8089bde4bce0cbdab1c88f97e7c2b6924a749238fef46c2b48",
+  "changed_market_bundle_sha256_b": "aa77f97dacb2bc8089bde4bce0cbdab1c88f97e7c2b6924a749238fef46c2b48",
+  "staged_input_digest": "sha256:5206be54ec07198007e21ff5d1a327fdb191b154c1da5589b544442ba69d1437",
+  "staged_contract_sha256": "sha256:76f1ba61f9a390ba7fc2ac9b2b373ec0675fad6417ae69c12e07625e447360ae"
+ },
+ "GLOBAL_INDEX_DIGEST": {
+  "live": "sha256:3d58c14137333f4c4d968d842f5b5fa54a9236ee3e363fe20cad07141788b93c",
+  "proposed": "sha256:e3476589beecf440462a1037acc9edc8d65aa8cb3c7313fa8d6c201bea8bbdac"
+ },
+ "PACKAGE_INDEX_DIGEST": "sha256:e93291c5d7d913d81d1ae7c81c7e85329df6c5b216ab7593c9f2f56c90376d89",
+ "INTENDED_DELTA_DIGEST": "sha256:bc6a2c87de686841a4dbfb1731b2e31a3439b231f902187dc65bf3bb075be6ca",
+ "DETERMINISM_RESULT": "BYTE_IDENTICAL",
+ "FIRST_PARTY_BINDING_RESULT": "PASS",
+ "COLLISION_RESULT": "PASS",
+ "REMOVAL_RESULT": "PASS",
+ "LEGACY_EXCEPTIONS": [],
+ "ENVIRONMENT": {
+  "python": "3.13.5",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "builder_version": "ptf-market-package-writer/1.0",
+  "contract_versions": {
+   "market": "ptf-market/1.1",
+   "census": "ptf-market-identity-census/1.1",
+   "partition": "ptf-market-final-partition/1.1",
+   "policy_schema": "1.3",
+   "evidence": "contracts.evidence PUBLICATION_GRADE_REQUIRED=evidence_ref,field,quote,source_url,source_grade,artifact_class,artifact_sha256,artifact_kind,captured_at",
+   "identity_key": "ptf_identity_key/1.0",
+   "identity_routing": "ptf-identity-routing/1.0",
+   "hotel_exclusions": "ptf-hotel-exclusions/1.0",
+   "sealed_market_package": "ptf-sealed-market-package/1.0"
+  },
+  "created_from_source_sha": "393cbffeca5e076d7011bde73fbb2700b2dd656e",
+  "peak_working_set_mb": 97.4
+ },
+ "EXPIRY_REVOCATION_CONDITIONS": {
+  "valid_while": [
+   "the live deployment is 6aa5ad211250a04bc0bc6f7f",
+   "the live index digest is sha256:3d58c14137333f4c4d968d842f5b5fa54a9236ee3e363fe20cad07141788b93c",
+   "no referenced artifact is added to evidence_revocations.json",
+   "the evidence is younger than 365 days",
+   "the owning contracts are at the versions recorded in ENVIRONMENT",
+   "the sealed package bytes are unchanged (digest above)"
+  ],
+  "earliest_evidence_expiry": "2027-09-12T00:00:00Z",
+  "evidence_max_age_days": 365
+ },
+ "UNKNOWN_RULES": [],
+ "FAILED_RULES": [],
+ "FAST_DATA_ONLY_RELEASE_ELIGIBLE": "YES",
+ "FULL_REGRESSION_REQUIRED_BY_LANE": "NO",
+ "FAST_PATH_PRODUCTION_ACTIVATION": "DISABLED",
+ "PRODUCTION_ACTIVATION_ALLOWED": "NO",
+ "PERFORMANCE": {
+  "total_seconds": 51.15,
+  "per_rule_seconds": {
+   "A": 0.019,
+   "B": 0.07,
+   "C": 0.236,
+   "D": 0.0,
+   "E": 0.0,
+   "F": 0.0,
+   "G": 0.099,
+   "H": 0.099,
+   "I": 0.099,
+   "J": 26.405,
+   "K": 24.13,
+   "L": 0.001,
+   "M": 0.001,
+   "N": 0.017,
+   "O": 0.0
+  },
+  "changed_market_build_seconds": 26.027,
+  "determinism_build_seconds": 24.13
+ },
+ "RECEIPT_DIGEST": "sha256:a868fb4bf4834cf4668442484bb2baa855856c250704d1fb3ff093a4498694d5"
+}
