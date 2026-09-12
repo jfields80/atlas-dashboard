@@ -1,0 +1,642 @@
+{
+ "schema": "ptf-fast-release-receipt/1.0",
+ "lane": "FAST_DATA_ONLY_RELEASE",
+ "PACKAGE_ID": "pkg-raleigh-nc-0acacc0707bd2b47",
+ "PACKAGE_DIGEST": "sha256:0acacc0707bd2b47da30e16b443a8a2a1d6aa20f9a48ef66a811ec463d017465",
+ "MARKET_ID": "raleigh-nc",
+ "PARENT_RELEASE": {
+  "live_deploy_id": "6aa212a8ba9f174305c0441a",
+  "rollback_target": "6aa172121d37bb4013eb44a4",
+  "source_commit": "aee8a21e6c13881543601a4fcd54350b6a64bb19",
+  "live_index_digest": "sha256:b7be3484adb40f63ba8977b579b2601fbb1a7e80d4a8e53f16489c7cc0e15f56"
+ },
+ "CHANGE_CLASS": "MARKET_AUTHORITY_DATA_ONLY",
+ "DEPENDENCY_DIGEST": "sha256:16efec294d79e95871d4e6851987ad1dc29cff1f6e65971e8b0361447d7ae571",
+ "VALIDATION_POLICY_VERSION": "ptf-fast-data-only-release/1.0",
+ "RULES_EXECUTED": [
+  {
+   "rule": "A",
+   "name": "package schema valid"
+  },
+  {
+   "rule": "B",
+   "name": "identity valid"
+  },
+  {
+   "rule": "C",
+   "name": "first-party policy binding valid"
+  },
+  {
+   "rule": "D",
+   "name": "policy semantics valid"
+  },
+  {
+   "rule": "E",
+   "name": "route references valid"
+  },
+  {
+   "rule": "F",
+   "name": "market partition valid"
+  },
+  {
+   "rule": "G",
+   "name": "proposed whole-release identity/route indexes contain no forbidden collision"
+  },
+  {
+   "rule": "H",
+   "name": "every unrelated live market/member is preserved"
+  },
+  {
+   "rule": "I",
+   "name": "every removal is explicitly intended"
+  },
+  {
+   "rule": "J",
+   "name": "changed-market artifact builds successfully"
+  },
+  {
+   "rule": "K",
+   "name": "changed-market output deterministic"
+  },
+  {
+   "rule": "L",
+   "name": "package/artifact hashes internally consistent"
+  },
+  {
+   "rule": "M",
+   "name": "required evidence freshness/revocation rules satisfied"
+  },
+  {
+   "rule": "N",
+   "name": "rollback/current-live preservation metadata valid"
+  },
+  {
+   "rule": "O",
+   "name": "paid acquisitions used by the package satisfy reservation provenance"
+  }
+ ],
+ "RESULTS": {
+  "A": {
+   "rule": "A",
+   "name": "package schema valid",
+   "status": "PASS",
+   "seconds": 0.014,
+   "detail": {
+    "schema": "ptf-sealed-market-package/1.0",
+    "package_id": "pkg-raleigh-nc-0acacc0707bd2b47",
+    "package_digest": "sha256:0acacc0707bd2b47da30e16b443a8a2a1d6aa20f9a48ef66a811ec463d017465"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "B": {
+   "rule": "B",
+   "name": "identity valid",
+   "status": "PASS",
+   "seconds": 0.057,
+   "detail": {
+    "identity_records": 90,
+    "census_count": 90,
+    "declared_relations": 0,
+    "writer_seconds": 0.057
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "C": {
+   "rule": "C",
+   "name": "first-party policy binding valid",
+   "status": "PASS",
+   "seconds": 0.234,
+   "detail": {
+    "records_evaluated": 86,
+    "eligible": 86,
+    "ineligible": 0,
+    "classes": {}
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "D": {
+   "rule": "D",
+   "name": "policy semantics valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "pet_friendly_records": 63,
+    "verified_no_pets_records": 23,
+    "policy_schema": "1.3"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "E": {
+   "rule": "E",
+   "name": "route references valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "official_routes": 0,
+    "public_routes": 77
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "F": {
+   "rule": "F",
+   "name": "market partition valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "partition_count": 90,
+    "unresolved_rows": 4,
+    "counts_by_partition_state": {
+     "AWAITING_POLICY_OBSERVATION": 4,
+     "PUBLISHED_PET_FRIENDLY": 63,
+     "VERIFIED_NO_PETS": 23
+    }
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "G": {
+   "rule": "G",
+   "name": "proposed whole-release identity/route indexes contain no forbidden collision",
+   "status": "PASS",
+   "seconds": 0.086,
+   "detail": {
+    "live_digest": "sha256:b7be3484adb40f63ba8977b579b2601fbb1a7e80d4a8e53f16489c7cc0e15f56",
+    "proposed_digest": "sha256:90513eea910411a1f0352fd403b2c353152107f46c2b469245dc4f7ca4695a0c",
+    "proposed_participating": [
+     "cincinnati-oh",
+     "cleveland-akron-canton-oh",
+     "columbus-oh",
+     "dayton-oh",
+     "grand-rapids-holland-mi",
+     "indianapolis-in",
+     "lexington-ky",
+     "louisville-ky",
+     "milwaukee-wi",
+     "nashville-tn",
+     "pittsburgh-pa",
+     "raleigh-nc",
+     "st-louis-mo",
+     "toledo-oh"
+    ],
+    "proposed_total_profiles": 965,
+    "legacy_collisions_outside_package": 0,
+    "compare_seconds": 0.0777
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "H": {
+   "rule": "H",
+   "name": "every unrelated live market/member is preserved",
+   "status": "PASS",
+   "seconds": 0.086,
+   "detail": {
+    "live_participating": [
+     "cincinnati-oh",
+     "cleveland-akron-canton-oh",
+     "columbus-oh",
+     "dayton-oh",
+     "grand-rapids-holland-mi",
+     "indianapolis-in",
+     "lexington-ky",
+     "louisville-ky",
+     "milwaukee-wi",
+     "nashville-tn",
+     "pittsburgh-pa",
+     "st-louis-mo",
+     "toledo-oh"
+    ],
+    "live_total_profiles": 902,
+    "finding_counts": {}
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "I": {
+   "rule": "I",
+   "name": "every removal is explicitly intended",
+   "status": "PASS",
+   "seconds": 0.086,
+   "detail": {
+    "intended_delta": {
+     "market_id": "raleigh-nc",
+     "add_property_ids": [],
+     "update_property_ids": [],
+     "remove_property_ids": [],
+     "add_routes": [
+      "/pet-friendly-hotels/raleigh-nc/",
+      "/pet-friendly-hotels/raleigh-nc/aloft-by-marriott-raleigh-durham-airport-brier-creek/",
+      "/pet-friendly-hotels/raleigh-nc/aloft-by-marriott-raleigh/",
+      "/pet-friendly-hotels/raleigh-nc/brier-creek-rdu-raleigh/",
+      "/pet-friendly-hotels/raleigh-nc/candlewood-suites-apex-raleigh-area/",
+      "/pet-friendly-hotels/raleigh-nc/candlewood-suites-raleigh-crabtree/",
+      "/pet-friendly-hotels/raleigh-nc/candlewood-suites-wake-forest-raleigh-area/",
+      "/pet-friendly-hotels/raleigh-nc/cary/",
+      "/pet-friendly-hotels/raleigh-nc/courtyard-by-marriott-raleigh-cary/",
+      "/pet-friendly-hotels/raleigh-nc/courtyard-by-marriott-raleigh-midtown/",
+      "/pet-friendly-hotels/raleigh-nc/crabtree-valley/",
+      "/pet-friendly-hotels/raleigh-nc/crynchx-hampton-raleigh-cary/",
+      "/pet-friendly-hotels/raleigh-nc/downtown-raleigh/",
+      "/pet-friendly-hotels/raleigh-nc/embassy-suites-by-hilton-raleigh-crabtree/",
+      "/pet-friendly-hotels/raleigh-nc/embassy-suites-by-hilton-raleigh-durham-airport-brier-creek/",
+      "/pet-friendly-hotels/raleigh-nc/embassy-suites-by-hilton-raleigh-durham-research-triangle/",
+      "/pet-friendly-hotels/raleigh-nc/fairfield-by-marriott-inn-suites-raleigh-capital-blvd-i-540/",
+      "/pet-friendly-hotels/raleigh-nc/fairfield-by-marriott-inn-suites-raleigh-crabtree-valley/",
+      "/pet-friendly-hotels/raleigh-nc/four-points-by-sheraton-raleigh-durham-airport/",
+      "/pet-friendly-hotels/raleigh-nc/hampton-inn-by-hilton-raleigh-cary-alston-town-center/",
+      "/pet-friendly-hotels/raleigh-nc/holiday-inn-express-raleigh-durham-airport/",
+      "/pet-friendly-hotels/raleigh-nc/holiday-inn-express-suites-raleigh-north-wake-forest/",
+      "/pet-friendly-hotels/raleigh-nc/holiday-inn-express-suites-raleigh-sw-nc-state/",
+      "/pet-friendly-hotels/raleigh-nc/holiday-inn-express-suites-raleigh-west-lenovo-center/",
+      "/pet-friendly-hotels/raleigh-nc/holiday-inn-raleigh-durham-airport/",
+      "/pet-friendly-hotels/raleigh-nc/home2-suites-by-hilton-raleigh-cary/",
+      "/pet-friendly-hotels/raleigh-nc/home2-suites-by-hilton-raleigh-crabtree/",
+      "/pet-friendly-hotels/raleigh-nc/home2-suites-by-hilton-raleigh-durham-airport-rtp/",
+      "/pet-friendly-hotels/raleigh-nc/home2-suites-by-hilton-raleigh-north-i-540/",
+      "/pet-friendly-hotels/raleigh-nc/home2-suites-by-hilton-raleigh-west-lenovo-center/",
+      "/pet-friendly-hotels/raleigh-nc/homewood-suites-by-hilton-raleigh-cary-i-40/",
+      "/pet-friendly-hotels/raleigh-nc/homewood-suites-by-hilton-raleigh-cary/",
+      "/pet-friendly-hotels/raleigh-nc/homewood-suites-by-hilton-raleigh-crabtree-valley/",
+      "/pet-friendly-hotels/raleigh-nc/homewood-suites-by-hilton-raleigh-downtown/",
+      "/pet-friendly-hotels/raleigh-nc/hotel-indigo-raleigh-downtown/",
+      "/pet-friendly-hotels/raleigh-nc/morrisville-rdu-rtp/",
+      "/pet-friendly-hotels/raleigh-nc/oberlin-hotel-raleigh-curio-collection-by-hilton/",
+      "/pet-friendly-hotels/raleigh-nc/rduahgi-hilton-garden-inn-raleigh-durham-airport/",
+      "/pet-friendly-hotels/raleigh-nc/rduanhx-hampton-suites-raleigh-durham-airport-brier-creek/",
+      "/pet-friendly-hotels/raleigh-nc/rduawhx-hampton-suites-raleigh-crabtree-valley/",
+      "/pet-friendly-hotels/raleigh-nc/rduclhx-hampton-raleigh-clayton-i/",
+      "/pet-friendly-hotels/raleigh-nc/rducvgi-hilton-garden-inn-raleigh-crabtree-valley/",
+      "/pet-friendly-hotels/raleigh-nc/rducyhx-hampton-suites-raleigh-cary-lenovo-center/",
+      "/pet-friendly-hotels/raleigh-nc/rdudwhx-hampton-suites-raleigh-downtown/",
+      "/pet-friendly-hotels/raleigh-nc/rdugnhx-hampton-raleigh-garner/",
+      "/pet-friendly-hotels/raleigh-nc/rduhhhx-hampton-raleigh-capital-blvd-north/",
+      "/pet-friendly-hotels/raleigh-nc/rduhshx-hampton-suites-holly-springs/",
+      "/pet-friendly-hotels/raleigh-nc/rduknhx-hampton-suites-knightdale-raleigh/",
+      "/pet-friendly-hotels/raleigh-nc/rdumvhx-hampton-raleigh-durham-airport/",
+      "/pet-friendly-hotels/raleigh-nc/rdunegi-hilton-garden-inn-raleigh-capital-blvd-i/",
+      "/pet-friendly-hotels/raleigh-nc/rdunhhf-hilton-north-raleigh-midtown/",
+      "/pet-friendly-hotels/raleigh-nc/rdurcgi-hilton-garden-inn-raleigh-cary/",
+      "/pet-friendly-hotels/raleigh-nc/rdurdhx-hampton-suites-raleigh-midtown/",
+      "/pet-friendly-hotels/raleigh-nc/rduwfhx-hampton-raleigh-town-of-wake-forest/",
+      "/pet-friendly-hotels/raleigh-nc/residence-inn-by-marriott-cary-raleigh/",
+      "/pet-friendly-hotels/raleigh-nc/residence-inn-by-marriott-raleigh-crabtree-valley/",
+      "/pet-friendly-hotels/raleigh-nc/residence-inn-by-marriott-raleigh-downtown/",
+      "/pet-friendly-hotels/raleigh-nc/residence-inn-by-marriott-raleigh-durham-airport-brier-creek/",
+      "/pet-friendly-hotels/raleigh-nc/springhill-suites-by-marriott-raleigh-apex/",
+      "/pet-friendly-hotels/raleigh-nc/springhill-suites-by-marriott-raleigh-garner/",
+      "/pet-friendly-hotels/raleigh-nc/staybridge-suites-raleigh-durham-apt-morrisville/",
+      "/pet-friendly-hotels/raleigh-nc/the-casso-raleigh-a-tribute-portfolio-hotel/",
+      "/pet-friendly-hotels/raleigh-nc/the-westin-raleigh-durham-airport/",
+      "/pet-friendly-hotels/raleigh-nc/towneplace-suites-by-marriott-raleigh-cary-weston-parkway/",
+      "/pet-friendly-hotels/raleigh-nc/towneplace-suites-by-marriott-raleigh-durham-airport-morrisville/",
+      "/pet-friendly-hotels/raleigh-nc/towneplace-suites-by-marriott-raleigh-university-area/",
+      "/pet-friendly-hotels/raleigh-nc/tru-by-hilton-raleigh-durham-airport/",
+      "/pet-friendly-hotels/raleigh-nc/tru-by-hilton-raleigh-garner/",
+      "/pet-friendly-hotels/raleigh-nc/tru-by-hilton-wake-forest-raleigh-north/"
+     ],
+     "change_routes": [],
+     "remove_routes": [],
+     "expected_profile_delta": 0,
+     "expected_market_count_delta": 1,
+     "expected_participation_delta": [
+      {
+       "market_id": "raleigh-nc",
+       "from": false,
+       "to": true
+      }
+     ]
+    },
+    "actual_delta": {
+     "add_property_ids": [],
+     "update_property_ids": [],
+     "remove_property_ids": [],
+     "add_routes": [
+      "/pet-friendly-hotels/raleigh-nc/",
+      "/pet-friendly-hotels/raleigh-nc/aloft-by-marriott-raleigh-durham-airport-brier-creek/",
+      "/pet-friendly-hotels/raleigh-nc/aloft-by-marriott-raleigh/",
+      "/pet-friendly-hotels/raleigh-nc/brier-creek-rdu-raleigh/",
+      "/pet-friendly-hotels/raleigh-nc/candlewood-suites-apex-raleigh-area/",
+      "/pet-friendly-hotels/raleigh-nc/candlewood-suites-raleigh-crabtree/",
+      "/pet-friendly-hotels/raleigh-nc/candlewood-suites-wake-forest-raleigh-area/",
+      "/pet-friendly-hotels/raleigh-nc/cary/",
+      "/pet-friendly-hotels/raleigh-nc/courtyard-by-marriott-raleigh-cary/",
+      "/pet-friendly-hotels/raleigh-nc/courtyard-by-marriott-raleigh-midtown/",
+      "/pet-friendly-hotels/raleigh-nc/crabtree-valley/",
+      "/pet-friendly-hotels/raleigh-nc/crynchx-hampton-raleigh-cary/",
+      "/pet-friendly-hotels/raleigh-nc/downtown-raleigh/",
+      "/pet-friendly-hotels/raleigh-nc/embassy-suites-by-hilton-raleigh-crabtree/",
+      "/pet-friendly-hotels/raleigh-nc/embassy-suites-by-hilton-raleigh-durham-airport-brier-creek/",
+      "/pet-friendly-hotels/raleigh-nc/embassy-suites-by-hilton-raleigh-durham-research-triangle/",
+      "/pet-friendly-hotels/raleigh-nc/fairfield-by-marriott-inn-suites-raleigh-capital-blvd-i-540/",
+      "/pet-friendly-hotels/raleigh-nc/fairfield-by-marriott-inn-suites-raleigh-crabtree-valley/",
+      "/pet-friendly-hotels/raleigh-nc/four-points-by-sheraton-raleigh-durham-airport/",
+      "/pet-friendly-hotels/raleigh-nc/hampton-inn-by-hilton-raleigh-cary-alston-town-center/",
+      "/pet-friendly-hotels/raleigh-nc/holiday-inn-express-raleigh-durham-airport/",
+      "/pet-friendly-hotels/raleigh-nc/holiday-inn-express-suites-raleigh-north-wake-forest/",
+      "/pet-friendly-hotels/raleigh-nc/holiday-inn-express-suites-raleigh-sw-nc-state/",
+      "/pet-friendly-hotels/raleigh-nc/holiday-inn-express-suites-raleigh-west-lenovo-center/",
+      "/pet-friendly-hotels/raleigh-nc/holiday-inn-raleigh-durham-airport/",
+      "/pet-friendly-hotels/raleigh-nc/home2-suites-by-hilton-raleigh-cary/",
+      "/pet-friendly-hotels/raleigh-nc/home2-suites-by-hilton-raleigh-crabtree/",
+      "/pet-friendly-hotels/raleigh-nc/home2-suites-by-hilton-raleigh-durham-airport-rtp/",
+      "/pet-friendly-hotels/raleigh-nc/home2-suites-by-hilton-raleigh-north-i-540/",
+      "/pet-friendly-hotels/raleigh-nc/home2-suites-by-hilton-raleigh-west-lenovo-center/",
+      "/pet-friendly-hotels/raleigh-nc/homewood-suites-by-hilton-raleigh-cary-i-40/",
+      "/pet-friendly-hotels/raleigh-nc/homewood-suites-by-hilton-raleigh-cary/",
+      "/pet-friendly-hotels/raleigh-nc/homewood-suites-by-hilton-raleigh-crabtree-valley/",
+      "/pet-friendly-hotels/raleigh-nc/homewood-suites-by-hilton-raleigh-downtown/",
+      "/pet-friendly-hotels/raleigh-nc/hotel-indigo-raleigh-downtown/",
+      "/pet-friendly-hotels/raleigh-nc/morrisville-rdu-rtp/",
+      "/pet-friendly-hotels/raleigh-nc/oberlin-hotel-raleigh-curio-collection-by-hilton/",
+      "/pet-friendly-hotels/raleigh-nc/rduahgi-hilton-garden-inn-raleigh-durham-airport/",
+      "/pet-friendly-hotels/raleigh-nc/rduanhx-hampton-suites-raleigh-durham-airport-brier-creek/",
+      "/pet-friendly-hotels/raleigh-nc/rduawhx-hampton-suites-raleigh-crabtree-valley/",
+      "/pet-friendly-hotels/raleigh-nc/rduclhx-hampton-raleigh-clayton-i/",
+      "/pet-friendly-hotels/raleigh-nc/rducvgi-hilton-garden-inn-raleigh-crabtree-valley/",
+      "/pet-friendly-hotels/raleigh-nc/rducyhx-hampton-suites-raleigh-cary-lenovo-center/",
+      "/pet-friendly-hotels/raleigh-nc/rdudwhx-hampton-suites-raleigh-downtown/",
+      "/pet-friendly-hotels/raleigh-nc/rdugnhx-hampton-raleigh-garner/",
+      "/pet-friendly-hotels/raleigh-nc/rduhhhx-hampton-raleigh-capital-blvd-north/",
+      "/pet-friendly-hotels/raleigh-nc/rduhshx-hampton-suites-holly-springs/",
+      "/pet-friendly-hotels/raleigh-nc/rduknhx-hampton-suites-knightdale-raleigh/",
+      "/pet-friendly-hotels/raleigh-nc/rdumvhx-hampton-raleigh-durham-airport/",
+      "/pet-friendly-hotels/raleigh-nc/rdunegi-hilton-garden-inn-raleigh-capital-blvd-i/",
+      "/pet-friendly-hotels/raleigh-nc/rdunhhf-hilton-north-raleigh-midtown/",
+      "/pet-friendly-hotels/raleigh-nc/rdurcgi-hilton-garden-inn-raleigh-cary/",
+      "/pet-friendly-hotels/raleigh-nc/rdurdhx-hampton-suites-raleigh-midtown/",
+      "/pet-friendly-hotels/raleigh-nc/rduwfhx-hampton-raleigh-town-of-wake-forest/",
+      "/pet-friendly-hotels/raleigh-nc/residence-inn-by-marriott-cary-raleigh/",
+      "/pet-friendly-hotels/raleigh-nc/residence-inn-by-marriott-raleigh-crabtree-valley/",
+      "/pet-friendly-hotels/raleigh-nc/residence-inn-by-marriott-raleigh-downtown/",
+      "/pet-friendly-hotels/raleigh-nc/residence-inn-by-marriott-raleigh-durham-airport-brier-creek/",
+      "/pet-friendly-hotels/raleigh-nc/springhill-suites-by-marriott-raleigh-apex/",
+      "/pet-friendly-hotels/raleigh-nc/springhill-suites-by-marriott-raleigh-garner/",
+      "/pet-friendly-hotels/raleigh-nc/staybridge-suites-raleigh-durham-apt-morrisville/",
+      "/pet-friendly-hotels/raleigh-nc/the-casso-raleigh-a-tribute-portfolio-hotel/",
+      "/pet-friendly-hotels/raleigh-nc/the-westin-raleigh-durham-airport/",
+      "/pet-friendly-hotels/raleigh-nc/towneplace-suites-by-marriott-raleigh-cary-weston-parkway/",
+      "/pet-friendly-hotels/raleigh-nc/towneplace-suites-by-marriott-raleigh-durham-airport-morrisville/",
+      "/pet-friendly-hotels/raleigh-nc/towneplace-suites-by-marriott-raleigh-university-area/",
+      "/pet-friendly-hotels/raleigh-nc/tru-by-hilton-raleigh-durham-airport/",
+      "/pet-friendly-hotels/raleigh-nc/tru-by-hilton-raleigh-garner/",
+      "/pet-friendly-hotels/raleigh-nc/tru-by-hilton-wake-forest-raleigh-north/"
+     ],
+     "remove_routes": [],
+     "profile_delta": 0,
+     "verified_no_pets_delta": 0,
+     "market_count_delta": 1
+    },
+    "removal_authority": {}
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "J": {
+   "rule": "J",
+   "name": "changed-market artifact builds successfully",
+   "status": "PASS",
+   "seconds": 41.879,
+   "detail": {
+    "bundle_sha256": "25802a6fac7d51e16994d273f30ddef65f8f3ef09196ea6fe3dbdd7fadb3c8c2",
+    "file_count": 404,
+    "html_count": 388,
+    "staged_input_digest": "sha256:895c7aedb3c12e173a6a997c452ac321295f2eddc9cf40ccbfe34721054261ef",
+    "contract_sha256": "sha256:dcb8f157189e7e96647fb92b88cdd01a14b8c74c21e4645288b9c35994976880",
+    "release_name": "package-raleigh-nc-50093f8-83ba7f64-8e738163",
+    "cache_events": [
+     {
+      "verdict": "BUILD_EXECUTED",
+      "assembly_kind": "generator_site",
+      "input_key": "cb4b74f7cdc430be5cb24a9efc7428e8d25c1fb7438ada274824ffde9a8a49ab",
+      "seconds": 12.616
+     },
+     {
+      "verdict": "BUILD_EXECUTED",
+      "assembly_kind": "market_bundle",
+      "input_key": "e7edbd8490ddfbba089e2776d113fc43e7c473cb8e610f15aa0da3a35c2354ac",
+      "seconds": 24.775
+     }
+    ],
+    "build_seconds": 41.548
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "K": {
+   "rule": "K",
+   "name": "changed-market output deterministic",
+   "status": "PASS",
+   "seconds": 30.648,
+   "detail": {
+    "input_digest": "sha256:895c7aedb3c12e173a6a997c452ac321295f2eddc9cf40ccbfe34721054261ef",
+    "output_digest_a": "25802a6fac7d51e16994d273f30ddef65f8f3ef09196ea6fe3dbdd7fadb3c8c2",
+    "output_digest_b": "25802a6fac7d51e16994d273f30ddef65f8f3ef09196ea6fe3dbdd7fadb3c8c2",
+    "result": "BYTE_IDENTICAL",
+    "cold_builds_executed": 4,
+    "reuse_hits": 0,
+    "build_seconds": 30.648
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "L": {
+   "rule": "L",
+   "name": "package/artifact hashes internally consistent",
+   "status": "PASS",
+   "seconds": 0.002,
+   "detail": {
+    "package_digest": "sha256:0acacc0707bd2b47da30e16b443a8a2a1d6aa20f9a48ef66a811ec463d017465",
+    "rederived_digest": "sha256:0acacc0707bd2b47da30e16b443a8a2a1d6aa20f9a48ef66a811ec463d017465",
+    "evidence_references": 86,
+    "artifacts_available": 0,
+    "artifacts_checked": 0,
+    "dependency_inputs": 7,
+    "dependency_digest": "sha256:16efec294d79e95871d4e6851987ad1dc29cff1f6e65971e8b0361447d7ae571"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "M": {
+   "rule": "M",
+   "name": "required evidence freshness/revocation rules satisfied",
+   "status": "PASS",
+   "seconds": 0.002,
+   "detail": {
+    "max_age_days": 365,
+    "references": 86,
+    "revoked_registry_size": 0,
+    "earliest_expiry": "2027-09-11T00:00:00Z"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "N": {
+   "rule": "N",
+   "name": "rollback/current-live preservation metadata valid",
+   "status": "PASS",
+   "seconds": 0.031,
+   "detail": {
+    "live": {
+     "live_deploy_id": "6aa212a8ba9f174305c0441a",
+     "previous_deploy_id": "6aa172121d37bb4013eb44a4",
+     "rollback_target": "6aa172121d37bb4013eb44a4",
+     "source_commit": "aee8a21e6c13881543601a4fcd54350b6a64bb19",
+     "bundle_sha256": "c12b410ec8331dbf7a50581027ad60291cac95f626de5a6a846b0d77524e0e11",
+     "sitemap_sha256": "13f5335fc1a055ce06de5ce66c7921da55308110e94c0b0f18806853c1662bc4",
+     "participating_markets": [
+      "cincinnati-oh",
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "grand-rapids-holland-mi",
+      "indianapolis-in",
+      "lexington-ky",
+      "louisville-ky",
+      "milwaukee-wi",
+      "nashville-tn",
+      "pittsburgh-pa",
+      "st-louis-mo",
+      "toledo-oh"
+     ],
+     "profile_counts": {
+      "cincinnati-oh": 130,
+      "cleveland-akron-canton-oh": 120,
+      "columbus-oh": 88,
+      "dayton-oh": 54,
+      "grand-rapids-holland-mi": 43,
+      "indianapolis-in": 82,
+      "lexington-ky": 20,
+      "louisville-ky": 53,
+      "milwaukee-wi": 73,
+      "nashville-tn": 79,
+      "pittsburgh-pa": 61,
+      "st-louis-mo": 82,
+      "toledo-oh": 17
+     },
+     "total_profiles": 902,
+     "sitemap_route_count": 1078,
+     "deployment_record": "ptf-deploy-nashville-005-6aa212a8ba9f174305c0441a.json",
+     "authorization_id": "ptf-auth-nashville-005-c12b410ec833",
+     "rollback_record": "ptf-deploy-lexington-006-6aa172121d37bb4013eb44a4.json",
+     "rollback_markets": [
+      "cincinnati-oh",
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "grand-rapids-holland-mi",
+      "indianapolis-in",
+      "lexington-ky",
+      "louisville-ky",
+      "milwaukee-wi",
+      "pittsburgh-pa",
+      "st-louis-mo",
+      "toledo-oh"
+     ],
+     "problems": []
+    },
+    "stale_parent": false
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "O": {
+   "rule": "O",
+   "name": "paid acquisitions used by the package satisfy reservation provenance",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "paid_references": 0,
+    "ledger_cross_checked": 0,
+    "ledger_unknown": 0
+   },
+   "problems": [],
+   "problem_count": 0
+  }
+ },
+ "TIMESTAMPS": {
+  "started_at": "2026-09-12T03:28:19Z",
+  "finished_at": "2026-09-12T03:29:33Z",
+  "seconds": 73.126
+ },
+ "ARTIFACT_DIGESTS": {
+  "changed_market_bundle_sha256_a": "25802a6fac7d51e16994d273f30ddef65f8f3ef09196ea6fe3dbdd7fadb3c8c2",
+  "changed_market_bundle_sha256_b": "25802a6fac7d51e16994d273f30ddef65f8f3ef09196ea6fe3dbdd7fadb3c8c2",
+  "staged_input_digest": "sha256:895c7aedb3c12e173a6a997c452ac321295f2eddc9cf40ccbfe34721054261ef",
+  "staged_contract_sha256": "sha256:dcb8f157189e7e96647fb92b88cdd01a14b8c74c21e4645288b9c35994976880"
+ },
+ "GLOBAL_INDEX_DIGEST": {
+  "live": "sha256:b7be3484adb40f63ba8977b579b2601fbb1a7e80d4a8e53f16489c7cc0e15f56",
+  "proposed": "sha256:90513eea910411a1f0352fd403b2c353152107f46c2b469245dc4f7ca4695a0c"
+ },
+ "PACKAGE_INDEX_DIGEST": "sha256:adf839af102c395a61b7d6c124b4c8a93b2fe5edb607a119348c76ca738d38c9",
+ "INTENDED_DELTA_DIGEST": "sha256:e93147c2a7b8dfd482bca74941a7148302b48b1ccd6b342e65f7fdc591d917d5",
+ "DETERMINISM_RESULT": "BYTE_IDENTICAL",
+ "FIRST_PARTY_BINDING_RESULT": "PASS",
+ "COLLISION_RESULT": "PASS",
+ "REMOVAL_RESULT": "PASS",
+ "LEGACY_EXCEPTIONS": [],
+ "ENVIRONMENT": {
+  "python": "3.13.5",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "builder_version": "ptf-market-package-writer/1.0",
+  "contract_versions": {
+   "market": "ptf-market/1.1",
+   "census": "ptf-market-identity-census/1.1",
+   "partition": "ptf-market-final-partition/1.1",
+   "policy_schema": "1.3",
+   "evidence": "contracts.evidence PUBLICATION_GRADE_REQUIRED=evidence_ref,field,quote,source_url,source_grade,artifact_class,artifact_sha256,artifact_kind,captured_at",
+   "identity_key": "ptf_identity_key/1.0",
+   "identity_routing": "ptf-identity-routing/1.0",
+   "hotel_exclusions": "ptf-hotel-exclusions/1.0",
+   "sealed_market_package": "ptf-sealed-market-package/1.0"
+  },
+  "created_from_source_sha": "50093f847872adad99901e616fd52e9ed64674bd",
+  "peak_working_set_mb": 105.5
+ },
+ "EXPIRY_REVOCATION_CONDITIONS": {
+  "valid_while": [
+   "the live deployment is 6aa212a8ba9f174305c0441a",
+   "the live index digest is sha256:b7be3484adb40f63ba8977b579b2601fbb1a7e80d4a8e53f16489c7cc0e15f56",
+   "no referenced artifact is added to evidence_revocations.json",
+   "the evidence is younger than 365 days",
+   "the owning contracts are at the versions recorded in ENVIRONMENT",
+   "the sealed package bytes are unchanged (digest above)"
+  ],
+  "earliest_evidence_expiry": "2027-09-11T00:00:00Z",
+  "evidence_max_age_days": 365
+ },
+ "UNKNOWN_RULES": [],
+ "FAILED_RULES": [],
+ "FAST_DATA_ONLY_RELEASE_ELIGIBLE": "YES",
+ "FULL_REGRESSION_REQUIRED_BY_LANE": "NO",
+ "FAST_PATH_PRODUCTION_ACTIVATION": "DISABLED",
+ "PRODUCTION_ACTIVATION_ALLOWED": "NO",
+ "PERFORMANCE": {
+  "total_seconds": 73.126,
+  "per_rule_seconds": {
+   "A": 0.014,
+   "B": 0.057,
+   "C": 0.234,
+   "D": 0.0,
+   "E": 0.0,
+   "F": 0.0,
+   "G": 0.086,
+   "H": 0.086,
+   "I": 0.086,
+   "J": 41.879,
+   "K": 30.648,
+   "L": 0.002,
+   "M": 0.002,
+   "N": 0.031,
+   "O": 0.0
+  },
+  "changed_market_build_seconds": 41.548,
+  "determinism_build_seconds": 30.648
+ },
+ "RECEIPT_DIGEST": "sha256:3044b0bd76788da5aad0a57bdf7a6c169599dbfac344902227e807edd0412410"
+}

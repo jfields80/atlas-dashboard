@@ -78,6 +78,19 @@
       "markets": [],
       "license": "ODbL 1.0 (OpenStreetMap contributors)",
       "notes": "Answers the SOUTH CAROLINA cells of the Charlotte market -- Fort Mill, Tega Cay, Baxter Village, Carowinds, Indian Land and the Rock Hill observation cell -- built with the same charlotte-nc geographic_bounds bbox. `markets` is deliberately EMPTY: ExtractRegistry.for_market returns the first row naming a market, so two rows naming charlotte-nc would make the resolution silently ambiguous. Charlotte's South Carolina cells are answered by naming this index explicitly (`discovery_cli run --osm-extract-index data/osm_extracts/geofabrik-south-carolina.charlotte-nc.index.json`), which records endpoint_id local_extract:geofabrik-south-carolina in the cell's provenance -- the truth about which file answered it. Registered by PTF-CHARLOTTE-NC-ZERO-TO-LIVE-BENCHMARK-001."
+    },
+    {
+      "extract_id": "geofabrik-north-carolina-raleigh",
+      "region": "North Carolina, US",
+      "url": "https://download.geofabrik.de/north-america/us/north-carolina-latest.osm.pbf",
+      "md5_url": "https://download.geofabrik.de/north-america/us/north-carolina-latest.osm.pbf.md5",
+      "local_pbf": "data/osm_extracts/north-carolina-latest.osm.pbf",
+      "index_path": "data/osm_extracts/geofabrik-north-carolina.raleigh-nc.index.json",
+      "markets": [
+        "raleigh-nc"
+      ],
+      "license": "ODbL 1.0 (OpenStreetMap contributors)",
+      "notes": "PTF-RALEIGH-NC-FINAL-FRESH-CITY-PROOF-001. The SAME North Carolina extract file the Charlotte row names, registered a second time under its own extract_id and its own index_path because an index is reduced to ONE market's bounds: a single row reused across two markets would let the first index built answer the second market's cells as empty. One output root per extract per market. Covers every Raleigh discovery cell (Wake County in full, plus the observation ring into Durham, Orange, Johnston and Franklin counties). data/ is gitignored: neither the extract nor the index is committed; the cells they answer are, through the discovery cache, with endpoint_id local_extract:geofabrik-north-carolina-raleigh in their provenance."
     }
   ]
 }
