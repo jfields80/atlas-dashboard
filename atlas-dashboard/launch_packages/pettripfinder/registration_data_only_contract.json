@@ -293,6 +293,12 @@
   },
   {
    "document": "deploy/netlify/release_contracts/<new>.json",
+   "field": "final_partition (optional; path / schema / expected_sha256 / expected_count / note)",
+   "policy": "DERIVED_CHECKED_INDEPENDENTLY",
+   "rule": "the market's own <us>_final_partition_*.json role file; path, schema, content digest and count agree with the committed file (release_contracts.final_partition_disagreements); the whole-site assembler resolves the partition from this block, never from a table"
+  },
+  {
+   "document": "deploy/netlify/release_contracts/<new>.json",
    "field": "canonical / minimum_release_gates / forbidden_output_tokens / publish",
    "policy": "BEHAVIOR_WIDENS",
    "rule": "must EQUAL the single value every base contract carries"

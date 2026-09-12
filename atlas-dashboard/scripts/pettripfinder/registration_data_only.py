@@ -125,13 +125,14 @@ identity_resolutions -- and none of the eleven was weakened.
 
 from __future__ import annotations
 
+import fnmatch
 import hashlib
 import json
 import tempfile
 import time
 from collections import OrderedDict
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Mapping, Optional, Sequence, Tuple
+from typing import Any, Callable, Dict, Iterable, List, Mapping, Optional, Sequence, Tuple
 
 from scripts.pettripfinder import launch_participation as LP
 from scripts.pettripfinder import release_contracts as RC
@@ -240,6 +241,26 @@ CONTRACT_KEYS: Tuple[str, ...] = (
     "policy_package", "public_surface", "routes", "minimum_release_gates",
     "forbidden_output_tokens", "publish",
 )
+#: PTF-FINAL-ASSEMBLER-REGISTERED-MARKET-DISCOVERY-001: the one OPTIONAL
+#: top-level key a registration contract may carry, and the key it follows.
+#: ``final_partition`` references the market's partition of record (path +
+#: content digest) so the whole-site assembler resolves it from the contract
+#: instead of a table in its own source. Optional in the SHAPE check because
+#: the committed fixtures of this proof predate it; the registration lane's
+#: ``register`` step refuses a registering market whose partition is not
+#: owned by its contract, so no registration completes without it.
+CONTRACT_OPTIONAL_KEYS: "OrderedDict[str, str]" = OrderedDict((("final_partition", "policy_package"),))
+
+
+def contract_key_order(present: Iterable[str]) -> List[str]:
+    """The exact key order a registration contract must have, given which
+    optional keys it carries."""
+    expected = list(CONTRACT_KEYS)
+    present = set(present)
+    for optional, follows in CONTRACT_OPTIONAL_KEYS.items():
+        if optional in present:
+            expected.insert(expected.index(follows) + 1, optional)
+    return expected
 #: Behavior-bearing blocks: they must EQUAL the single value every contract at
 #: the base carries. Two base values means nothing can be proven.
 CONTRACT_SHARED_BLOCKS: Tuple[str, ...] = (
@@ -252,6 +273,12 @@ CONTRACT_SUBKEYS: "OrderedDict[str, Tuple[Tuple[str, ...], Tuple[str, ...]]]" = 
                          "resolved", "unresolved"), ("note", "out_of_current_category"))),
     ("policy_package", (("path", "expected_sha256", "expected_schema_version",
                          "expected_record_count", "identity_authority", "note"), ())),
+    # Optional at the top level (CONTRACT_OPTIONAL_KEYS); when present it
+    # carries exactly these sub-keys and its path must be the market's own
+    # final_partition role file. Its digest is verified against the committed
+    # file by release_contracts.final_partition_disagreements (through
+    # ``verify``), so the reference is DERIVED, never typed.
+    ("final_partition", (("path", "schema", "expected_sha256", "expected_count", "note"), ())),
     ("public_surface", (("seed_hotel_rows", "public_hotel_profile_count",
                          "excluded_public_profile_count", "held_hotel_exclusion"), ())),
     ("routes", (("market_slug", "route_mode", "hotel_route_count",
@@ -1078,9 +1105,10 @@ def check_release_contract(head_bytes: bytes, market_id: str, base_contracts: Ma
                            *, verify: Optional[Callable[[str], List[str]]] = None) -> "OrderedDict[str, Any]":
     doc = _json(head_bytes.decode("utf-8-sig"))
     problems: List[str] = []
-    if list(doc.keys()) != list(CONTRACT_KEYS):
-        unknown = sorted(set(doc) - set(CONTRACT_KEYS))
-        missing = sorted(set(CONTRACT_KEYS) - set(doc))
+    expected_keys = contract_key_order(doc.keys())
+    if list(doc.keys()) != expected_keys:
+        unknown = sorted(set(doc) - set(expected_keys))
+        missing = sorted(set(expected_keys) - set(doc))
         problems.append("contract keys are not exactly the registration shape (unknown %s, missing %s)"
                         % (unknown, missing))
     if doc.get("schema") != RC.CONTRACT_SCHEMA:
@@ -1116,6 +1144,8 @@ def check_release_contract(head_bytes: bytes, market_id: str, base_contracts: Ma
         problems.append("public_surface.held_hotel_exclusion must be the rule text (a string)")
     for block, (required, optional) in CONTRACT_SUBKEYS.items():
         section = doc.get(block)
+        if block in CONTRACT_OPTIONAL_KEYS and block not in doc:
+            continue
         if not isinstance(section, Mapping):
             problems.append("%s is not an object" % block)
             continue
@@ -1131,6 +1161,17 @@ def check_release_contract(head_bytes: bytes, market_id: str, base_contracts: Ma
         problems.append("policy_package.path is %r" % pkg.get("path"))
     if pkg.get("identity_authority") is not True:
         problems.append("policy_package.identity_authority must be true")
+    if "final_partition" in doc:
+        # The referenced file must be the registering market's own
+        # final_partition role file (ROLE_PATTERNS), so the reference and the
+        # partition it names are proven by the same change set.
+        ref = doc.get("final_partition") or {}
+        role = "launch_packages/pettripfinder/%s_final_partition_*.json" % market_id.replace("-", "_")
+        if not isinstance(ref.get("path"), str) or not fnmatch.fnmatchcase(ref.get("path"), role) \
+                or ref.get("path").endswith("_package.json"):
+            problems.append("final_partition.path is %r, not this market's %s" % (ref.get("path"), role))
+        if not isinstance(ref.get("expected_sha256"), str) or len(ref.get("expected_sha256")) != 64:
+            problems.append("final_partition.expected_sha256 must be a 64-hex content digest")
     routes = doc.get("routes") or {}
     if routes.get("market_slug") != market_id:
         problems.append("routes.market_slug is %r" % routes.get("market_slug"))
@@ -1926,6 +1967,10 @@ def field_level_eligibility_matrix() -> List["OrderedDict[str, str]"]:
         ("deploy/netlify/release_contracts/<new>.json", "release_name_prefix / description / *.note", FIELD_DATA, "free text"),
         ("deploy/netlify/release_contracts/<new>.json", "identity_census / reconciliation / policy_package / public_surface / routes",
          FIELD_DERIVED, "recognized sub-keys only; every count agrees with release_contracts.derive_authority"),
+        ("deploy/netlify/release_contracts/<new>.json", "final_partition (optional; path / schema / expected_sha256 / expected_count / note)",
+         FIELD_DERIVED, "the market's own <us>_final_partition_*.json role file; path, schema, content digest and count "
+                        "agree with the committed file (release_contracts.final_partition_disagreements); the "
+                        "whole-site assembler resolves the partition from this block, never from a table"),
         ("deploy/netlify/release_contracts/<new>.json", "canonical / minimum_release_gates / forbidden_output_tokens / publish",
          FIELD_BEHAVIOR, "must EQUAL the single value every base contract carries"),
         ("deploy/netlify/release_contracts/<new>.json", "deployment_authorization.grants_deployment / asserts_market_complete",

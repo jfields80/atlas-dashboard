@@ -835,11 +835,14 @@ def _source_sha(repo_root: Path) -> str:
 def committed_partition_path(market_id: str, launch_package: Optional[Path] = None) -> Optional[Path]:
     """The partition of record for a registered market.
 
-    Three tables name partitions (ATLAS-THROUGHPUT-001 release model,
+    Three tables named partitions (ATLAS-THROUGHPUT-001 release model,
     observation 1). The manifest builder's table is the one the release
-    contract's ``unresolved`` count is derived from, so it wins; the
-    assembler's table (used only for "a partition is present") is the
-    fallback; the newest committed file is the last resort.
+    contract's ``unresolved`` count is derived from, so it wins; second is the
+    assembler's lookup, which since PTF-FINAL-ASSEMBLER-REGISTERED-MARKET-
+    DISCOVERY-001 is ``market_partition_resolution`` (the market's own release
+    contract, or the frozen legacy table) rather than a table in the
+    assembler; the caller's newest-file glob remains the last resort for
+    fixtures that commit no contract.
     """
     from scripts.pettripfinder.build_market_manifest import _PARTITION_FILES
     from scripts.pettripfinder.assemble_production_site import _partition_path

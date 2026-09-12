@@ -69,6 +69,7 @@ from scripts.pettripfinder.markets.contract import (                         # n
 )
 from scripts.pettripfinder.market_ownership import owned_by                  # noqa: E402
 from scripts.pettripfinder import launch_participation as LP                 # noqa: E402
+from scripts.pettripfinder import market_partition_resolution as MPR         # noqa: E402
 from scripts.pettripfinder.site_data import (                                # noqa: E402
     load_published_hotel_policy_facts, read_production_rows,
     verified_public_hotels,
@@ -140,119 +141,34 @@ class AssemblyError(RuntimeError):
 # --------------------------------------------------------------------------- #
 
 def _partition_path(market_id: str) -> Optional[Path]:
-    """The market's committed final partition, if it commits one."""
-    # Partition filenames are historical (``cleveland_final_partition_002``),
-    # so a glob on the market id alone would miss them. An explicit table names
-    # the partition where the glob cannot be trusted.
-    #
-    # PTF-INDIANAPOLIS-PROMOTION-REMEDIATION-005 moved this table AHEAD of the
-    # glob. It used to be a fallback consulted only when the glob found
-    # nothing, which silently made the glob authoritative wherever it happened
-    # to match -- and for Indianapolis it matched the wrong file (see the
-    # entry below). A named entry is a decision; a glob hit is a coincidence,
-    # and the decision must win. Every market that already had an entry
-    # resolves to the same file as before, because each entry names what its
-    # glob was already finding or what the glob was missing entirely.
-    table = {
-        "columbus-oh": "columbus_final_partition_001.json",
-        "cleveland-akron-canton-oh": "cleveland_final_partition_002.json",
-        "dayton-oh": "dayton_final_partition_001.json",
-        "cincinnati-oh": "cincinnati_final_partition_001.json",
-        # PTF-LOUISVILLE-MARKET-REBUILD-002: same mechanism, same reason --
-        # "louisville-ky" strips to "louisville-ky" -> "louisville" only by
-        # luck of the suffix, and the market commits exactly one partition.
-        "louisville-ky": "louisville_final_partition_001.json",
-        # PTF-DETROIT-ANN-ARBOR-TROY-IDENTITY-AND-BUNDLE-030. Detroit needs
-        # the table for exactly the reason Grand Rapids did, and it failed
-        # exactly as silently: the glob strips the last segment and keeps
-        # hyphens, looking for "detroit-ann-arbor_final_partition_*", while
-        # the committed file is "detroit_ann_arbor_final_partition_001.json"
-        # with underscores. Nothing matched, so final_partition_present read
-        # False and the market was NOT ASSEMBLABLE -- while its own bundle
-        # assembled cleanly with every gate passing. That gap is what makes
-        # this worth an explicit entry: a market can be perfectly buildable
-        # on its own and still be invisible to the composed build.
-        "detroit-ann-arbor-mi": "detroit_ann_arbor_final_partition_001.json",
-        # PTF-CHARLOTTE-NC-ZERO-TO-LIVE-BENCHMARK-001. Charlotte fails the glob
-        # for the Detroit reason -- it strips the last segment and keeps the
-        # hyphen, looking for "charlotte_final_partition_*" while the committed
-        # file is "charlotte_nc_final_partition_007.json" with the state in it.
-        # Named rather than globbed, per the rule above: a named entry is a
-        # decision and a glob hit is a coincidence.
-        "charlotte-nc": "charlotte_nc_final_partition_007.json",
-        # St. Louis names its partitions with the FULL market id
-        # (``st_louis_mo_final_partition_007``), which the prefix glob above
-        # cannot reach: it strips the trailing segment and looks for
-        # ``st-louis_...``. It is named here rather than by widening the glob
-        # because this market commits FIVE partitions, one per founder sitting,
-        # and the glob takes the first match in sorted order -- which would have
-        # silently pinned 001, the partition from before any founder signed.
-        "st-louis-mo": "st_louis_mo_final_partition_007.json",
-        # Grand Rapids needs the table for the SAME reason and one more.
-        # The glob strips the last segment and hyphenates:
-        # "grand-rapids-holland-mi" -> "grand-rapids-holland_final_partition_*",
-        # which no file matches because the filenames use underscores. It never
-        # matched, so this market silently read as "no final partition" and was
-        # not assemblable at all until PTF-GRAND-RAPIDS-LAUNCH-PARTICIPATION-032
-        # went looking for why.
-        #
-        # And like St. Louis it commits more than one, so the entry names the
-        # partition rather than letting sorted-order pick: 001 is the
-        # PAID-ACQUISITION-AUTHORIZATION-009 partition from before any founder
-        # signed, still carrying 42 rows as AWAITING_FOUNDER_DECISION. 002 is
-        # rebuilt from the signed authority -- 43 published, 20 verified-no-pets.
-        # Pinning 001 would assemble a market whose published hotels its own
-        # partition says are waiting to be looked at.
-        "grand-rapids-holland-mi": "grand_rapids_holland_mi_final_partition_002.json",
-        # PTF-INDIANAPOLIS-PROMOTION-REMEDIATION-005. Indianapolis is the worst
-        # case of this trap so far, because the glob DID match -- just the wrong
-        # file. "indianapolis-in" strips to "indianapolis", and the glob
-        # "indianapolis_final_partition_*" matches exactly one file:
-        # indianapolis_final_partition_001.json, the 153-row partition from
-        # PTF-INDIANAPOLIS-DECISION-APPLICATION-001. Every partition written
-        # since then is named with the market id -- indianapolis_IN_final_...
-        # -- so none of them matched, and the assembler silently pinned a
-        # partition from before the census was ever promoted. It never read as
-        # "no partition" the way Detroit and Grand Rapids did; it read as a
-        # confident wrong answer, through the 067-profile deployment and every
-        # order after it. Named explicitly here so sorted order can never
-        # choose again.
-        "indianapolis-in": "indianapolis_in_final_partition_023.json",
-        # PTF-TOLEDO-OH-PROMOTION-AND-APPLICATION-002. Named explicitly like
-        # every market since Indianapolis, and this one could not rely on the
-        # glob even if it wanted to: "toledo-oh" strips to "toledo", and the
-        # partition this order writes is toledo_OH_final_partition_001.json, so
-        # the glob matches nothing and the assembler would read "no partition"
-        # for a market that has one.
-        "toledo-oh": "toledo_oh_final_partition_001.json",
-        # PTF-LEXINGTON-KY-PROMOTION-AND-NEW-LANE-LAUNCH-PREP-003. Named
-        # explicitly for the same reason as Toledo, and this market could not
-        # rely on the glob at all: "lexington-ky" strips to "lexington-ky" (the
-        # -oh replacement does not apply), while the partition this order writes
-        # is lexington_ky_final_partition_001.json, so the glob matches nothing
-        # and the assembler would read "no partition" for a market that has one.
-        "lexington-ky": "lexington_ky_final_partition_001.json",
-        # PTF-NASHVILLE-TN-PROMOTION-AND-NEW-LANE-LAUNCH-PREP-002. The same
-        # trap, caught the same way -- by a composed assembly refusing, not by
-        # reading the code. "nashville-tn" strips to "nashville", so the glob
-        # looks for nashville_final_partition_*.json while the committed file
-        # is nashville_tn_final_partition_001.json. Nothing matched,
-        # final_partition_present read False, and a market with a valid
-        # partition and eight published profiles came out NOT ASSEMBLABLE --
-        # which then failed global.launch_participation_agrees_with_source,
-        # because the participation record said source-ready and the assembler
-        # disagreed. Every market since Indianapolis is named here for exactly
-        # this reason, and no market should be added to the registry without an
-        # entry.
-        "nashville-tn": "nashville_tn_final_partition_001.json",
-    }
-    name = table.get(market_id)
-    if name:
-        path = PACKAGE_DIR / name
-        return path if path.is_file() else None
-    matches = sorted(PACKAGE_DIR.glob("%s_final_partition_*.json"
-                                      % market_id.rsplit("-", 1)[0].replace("-oh", "")))
-    return matches[0] if matches else None
+    """The market's committed final partition, if one is owned by its
+    registration; None when the resolver refuses (the reason is reported by
+    :func:`market_eligibility`, which asks the resolver directly).
+
+    PTF-FINAL-ASSEMBLER-REGISTERED-MARKET-DISCOVERY-001. This used to be a
+    hand-maintained table of thirteen market ids followed by a glob that
+    stripped the last segment of the id. Every market since Indianapolis
+    needed a table entry -- Toledo, Lexington, Nashville and Charlotte each
+    added theirs in a launch-prep order -- because the glob could not spell a
+    modern partition name, and Raleigh, AUTHORIZATION_READY with 0 broad,
+    stopped at exactly that line: the one-line entry is a DEPLOYMENT_CHANGE
+    and therefore a broad regression. The table and the glob are gone from
+    here. ``market_partition_resolution`` reads the market's own release
+    contract (``final_partition.path`` + ``expected_sha256``) and verifies the
+    file is that market's; the fifteen markets registered before contracts
+    carried the reference resolve through a FROZEN legacy table that the
+    resolver's own test pins by key set. A new market needs no edit here.
+    """
+    return MPR.partition_path_or_none(market_id, package_dir=PACKAGE_DIR)
+
+
+def _resolve_partition(market_id: str) -> Tuple[Optional[Path], str, str]:
+    """``(path, source, error)`` -- the resolver's answer, or why it refused."""
+    try:
+        resolution = MPR.resolve_registered_market_partition(market_id, package_dir=PACKAGE_DIR)
+        return resolution.path, resolution.source, ""
+    except MPR.PartitionResolutionError as exc:
+        return None, MPR.SOURCE_UNRESOLVED, str(exc)
 
 
 def published_hotels(market: MarketConfig) -> List[Dict]:
@@ -291,7 +207,7 @@ def market_eligibility(market: MarketConfig) -> "OrderedDict[str, object]":
     mistaken for one whose source is broken.
     """
     census = CENSUS_DIR / ("%s.json" % market.market_id)
-    partition = _partition_path(market.market_id)
+    partition, partition_source, partition_error = _resolve_partition(market.market_id)
     try:
         hotels = published_hotels(market)
         published, inventory_error = len(hotels), ""
@@ -319,6 +235,13 @@ def market_eligibility(market: MarketConfig) -> "OrderedDict[str, object]":
         ("participates", assemblable and authorized),
         ("show_in_navigation", market.show_in_navigation),
         ("inventory_error", inventory_error),
+        # PTF-FINAL-ASSEMBLER-REGISTERED-MARKET-DISCOVERY-001: which path the
+        # partition lookup took (CONTRACT / LEGACY_TABLE / UNRESOLVED), the
+        # file it chose, and -- when it refused -- the resolver's own reason,
+        # so "final_partition_present: false" is never silent.
+        ("partition_source", partition_source),
+        ("partition_path", partition.name if partition is not None else None),
+        ("partition_error", partition_error),
     ])
 
 
@@ -852,6 +775,7 @@ def _assemble_uncached(output: str, *, context: str, base_url: str,
     if not chosen:
         raise AssemblyError("no market satisfies the assembly conditions: %s"
                             % json.dumps(eligibility))
+    eligibility_by_id = {r["market_id"]: r for r in eligibility}
     anchor = anchor_market(chosen)
 
     if work.exists():
@@ -1058,7 +982,19 @@ def _assemble_uncached(output: str, *, context: str, base_url: str,
                 ("release_contract",
                  "deploy/netlify/release_contracts/%s.json" % m.market_id),
                 ("contract_disagreements", _contract_disagreements(m.market_id)),
+                ("partition_source", eligibility_by_id[m.market_id]["partition_source"]),
+                ("partition", eligibility_by_id[m.market_id]["partition_path"]),
             ]) for m in chosen]),
+        # PTF-FINAL-ASSEMBLER-REGISTERED-MARKET-DISCOVERY-001: how every
+        # registered market's partition was resolved, counted by source, so a
+        # legacy-table resolution is observable in the artifact's own record.
+        ("partition_resolution", OrderedDict([
+            ("counts", OrderedDict(
+                (source, sum(1 for r in eligibility if r["partition_source"] == source))
+                for source in (MPR.SOURCE_CONTRACT, MPR.SOURCE_LEGACY_TABLE, MPR.SOURCE_UNRESOLVED))),
+            ("by_market", OrderedDict(
+                (r["market_id"], r["partition_source"]) for r in eligibility)),
+        ])),
         ("all_gates_pass", not failing),
         ("gates", dict(gates)),
         # Phase E assembles; it does not authorize a deploy.

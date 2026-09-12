@@ -9,7 +9,8 @@
  "remeasured_by": [
   "PTF-LEXINGTON-KY-PROMOTION-AND-NEW-LANE-LAUNCH-PREP-003: re-measured on the Toledo-live lineage. The closure enumerates every REGISTERED market's contract and release contract by name, so registering a market extends it. This measurement added four paths the tracer actually observed a staged Dayton build read -- toledo-oh's pair, which existed before this order and was never added, and lexington-ky's pair, which this order registers. Until they were declared the cache called them undeclared reads and published every bundle UNTRUSTED, which is the guard working: an unlisted input is an input nobody proved constant.",
   "PTF-NASHVILLE-TN-PROMOTION-AND-NEW-LANE-LAUNCH-PREP-002: the closure enumerates every REGISTERED market's contract and release contract by name, so registering Nashville extends it by exactly two paths. Until they are declared the cache calls them undeclared reads and publishes every bundle UNTRUSTED, which is the guard working: an unlisted input is an input nobody proved constant.",
-  "PTF-CHARLOTTE-NC-ZERO-TO-LIVE-BENCHMARK-001: the closure enumerates every REGISTERED market's market document and release contract by name, so registering Charlotte extends it by exactly two paths. Until they are declared the bundle cache calls them undeclared reads and publishes every bundle UNTRUSTED -- including bundles of markets Charlotte never touched, which is how it was found: a cold DAYTON build read UNTRUSTED. That is the guard working; an unlisted input is an input nobody proved constant."
+  "PTF-CHARLOTTE-NC-ZERO-TO-LIVE-BENCHMARK-001: the closure enumerates every REGISTERED market's market document and release contract by name, so registering Charlotte extends it by exactly two paths. Until they are declared the bundle cache calls them undeclared reads and publishes every bundle UNTRUSTED -- including bundles of markets Charlotte never touched, which is how it was found: a cold DAYTON build read UNTRUSTED. That is the guard working; an unlisted input is an input nobody proved constant.",
+  "PTF-FINAL-ASSEMBLER-REGISTERED-MARKET-DISCOVERY-001: the whole-site assembler resolves a market's final partition through scripts/pettripfinder/market_partition_resolution.py (registered market -> release contract -> final_partition reference; frozen legacy table for the fifteen pre-reference markets), so the per-market assembler loads one more module. Declared here because an undeclared module read publishes every bundle UNTRUSTED. No data input moved: the resolver reads the market's release contract (already declared) and its partition, both under the staged tree during a package build."
  ],
  "staged_tree_note": "Files under the staging root (the package's own authority, the registry copies, the derived contract) are covered by the staged input digest, not listed here.",
  "shared_data_inputs": [
@@ -228,6 +229,7 @@
   "scripts/pettripfinder/market_ownership.py",
   "scripts/pettripfinder/market_package.py",
   "scripts/pettripfinder/market_package_writer.py",
+  "scripts/pettripfinder/market_partition_resolution.py",
   "scripts/pettripfinder/market_reports.py",
   "scripts/pettripfinder/markets/__init__.py",
   "scripts/pettripfinder/markets/assignment.py",

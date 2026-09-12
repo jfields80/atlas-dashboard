@@ -289,6 +289,138 @@ def derive_authority(market_id: str) -> DerivedAuthority:
 
 
 # --------------------------------------------------------------------------- #
+# The final partition reference (PTF-FINAL-ASSEMBLER-REGISTERED-MARKET-
+# DISCOVERY-001).
+#
+# A contract binds its market's census and policy package by path and digest.
+# The final partition is the third leg of the same reconciliation, and the
+# whole-site assembler used to find it through a hand-maintained table in its
+# own source -- one shared-code edit per new market. The contract now names it,
+# and ``market_partition_resolution`` resolves through this block. The block is
+# WRITTEN from the committed file (never typed) and VERIFIED against it.
+# --------------------------------------------------------------------------- #
+
+FINAL_PARTITION_BLOCK = "final_partition"
+PARTITION_SCHEMA_PREFIX = "ptf-market-final-partition/"
+_PARTITION_DIR = "launch_packages/pettripfinder"
+
+
+def _partition_content_sha256(data: bytes) -> str:
+    # The policy package's rule (assemble_netlify_bundle.content_sha256): a
+    # BOM and a CR before LF are checkout artifacts, not content. Restated
+    # here so a contract helper can write the block without importing build
+    # code, and so the resolver and this writer hash identically.
+    import hashlib
+    if data[:3] == b"\xef\xbb\xbf":
+        data = data[3:]
+    return hashlib.sha256(data.replace(b"\r\n", b"\n")).hexdigest()
+
+
+def committed_partition_candidates(market_id: str) -> List[str]:
+    """The ``<us>_final_partition_*.json`` files this market commits, sorted.
+    The registration contract's ``final_partition`` role spells the name; a
+    staged ``_package.json`` is never a committed candidate."""
+    us = market_id.replace("-", "_")
+    directory = REPO_ROOT / _PARTITION_DIR
+    return sorted(p.name for p in directory.glob("%s_final_partition_*.json" % us)
+                  if not p.name.endswith("_package.json"))
+
+
+def final_partition_block(market_id: str, partition_name: Optional[str] = None, *,
+                          note: Optional[str] = None) -> "OrderedDict[str, object]":
+    """The contract's ``final_partition`` block, derived from the committed
+    file. With one committed candidate the choice is forced; with several the
+    helper must NAME the partition of record (``partition_name``), because a
+    sorted-order pick is the coincidence this block exists to replace."""
+    mid = (market_id or "").strip()
+    if not mid:
+        raise ReleaseContractError("market_id is required to reference a partition")
+    if partition_name is None:
+        candidates = committed_partition_candidates(mid)
+        if not candidates:
+            raise ReleaseContractError(
+                "market %r commits no %s/%s_final_partition_*.json to reference"
+                % (mid, _PARTITION_DIR, mid.replace("-", "_")))
+        if len(candidates) > 1:
+            raise ReleaseContractError(
+                "market %r commits %d partitions %s; name the partition of record explicitly "
+                "(final_partition_block(market_id, partition_name=...))" % (mid, len(candidates), candidates))
+        partition_name = candidates[0]
+    name = str(partition_name).replace("\\", "/").split("/")[-1]
+    path = REPO_ROOT / _PARTITION_DIR / name
+    if not path.is_file():
+        raise ReleaseContractError("partition %s is not committed for market %r" % (name, mid))
+    raw = path.read_bytes()
+    doc = json.loads(raw.decode("utf-8-sig"))
+    schema = str(doc.get("schema") or "")
+    if not schema.startswith(PARTITION_SCHEMA_PREFIX):
+        raise ReleaseContractError("%s declares schema %r, not a %s* partition"
+                                   % (name, schema, PARTITION_SCHEMA_PREFIX))
+    if str(doc.get("market_id") or "") != mid:
+        raise ReleaseContractError("%s declares market_id %r; it is not market %r's partition"
+                                   % (name, doc.get("market_id"), mid))
+    return OrderedDict([
+        ("path", "%s/%s" % (_PARTITION_DIR, name)),
+        ("schema", schema),
+        ("expected_sha256", _partition_content_sha256(raw)),
+        ("expected_count", doc.get("count")),
+        ("note", note or (
+            "The partition of record for this market, referenced by path and content digest so "
+            "the whole-site assembler resolves it from THIS contract rather than from a table in "
+            "its own source. Written from the committed file by "
+            "release_contracts.final_partition_block; verified by market_partition_resolution: "
+            "the file must exist, declare this market_id, hash to expected_sha256 and carry "
+            "expected_count identities. Regenerating the partition means reissuing this block.")),
+    ])
+
+
+def final_partition_disagreements(contract: Dict, market_id: str) -> List[str]:
+    """Every way the contract's ``final_partition`` block disagrees with the
+    committed file it references. Empty when the block is absent: a contract
+    written before the reference existed is a legacy contract, resolved by the
+    frozen legacy table, and states nothing to disagree with."""
+    block = contract.get(FINAL_PARTITION_BLOCK)
+    if block is None:
+        return []
+    problems: List[str] = []
+    if not isinstance(block, dict):
+        return ["final_partition: must be an object, got %s" % type(block).__name__]
+    rel = block.get("path")
+    if not isinstance(rel, str) or not rel.startswith(_PARTITION_DIR + "/") \
+            or "/" in rel[len(_PARTITION_DIR) + 1:] or not rel.endswith(".json"):
+        return ["final_partition.path: %r must name one .json file under %s/" % (rel, _PARTITION_DIR)]
+    path = REPO_ROOT / rel
+    if not path.is_file():
+        return ["final_partition.path missing: %s" % rel]
+    raw = path.read_bytes()
+    try:
+        doc = json.loads(raw.decode("utf-8-sig"))
+    except ValueError as exc:
+        return ["final_partition.path: %s is not JSON (%s)" % (rel, exc)]
+    schema = str(doc.get("schema") or "")
+    if not schema.startswith(PARTITION_SCHEMA_PREFIX):
+        problems.append("final_partition: %s declares schema %r" % (rel, schema))
+    if block.get("schema") is not None and block.get("schema") != schema:
+        problems.append("final_partition.schema: contract states %r, file declares %r"
+                        % (block.get("schema"), schema))
+    if str(doc.get("market_id") or "") != market_id:
+        problems.append("final_partition: %s declares market_id %r, contract is %r"
+                        % (rel, doc.get("market_id"), market_id))
+    # Indianapolis's pre-existing block states path + count only; a digest is
+    # checked when stated (and the registration proof requires one for any
+    # market registered after the legacy table was frozen).
+    if "expected_sha256" in block:
+        actual = _partition_content_sha256(raw)
+        if block.get("expected_sha256") != actual:
+            problems.append("final_partition.expected_sha256: contract states %r, file hashes %r"
+                            % (block.get("expected_sha256"), actual))
+    if "expected_count" in block and block.get("expected_count") != doc.get("count"):
+        problems.append("final_partition.expected_count: contract states %r, file carries %r"
+                        % (block.get("expected_count"), doc.get("count")))
+    return problems
+
+
+# --------------------------------------------------------------------------- #
 # Cross-checks against additional committed reconciliation artifacts
 # --------------------------------------------------------------------------- #
 
@@ -412,6 +544,11 @@ def contract_disagreements(contract: Dict, derived: DerivedAuthority) -> List[st
 
     for check in contract.get("reconciliation_cross_checks") or []:
         problems.extend(_cross_check(contract, check))
+
+    # PTF-FINAL-ASSEMBLER-REGISTERED-MARKET-DISCOVERY-001: a contract that
+    # references its partition must reference the committed bytes of THIS
+    # market's partition. Absent block = legacy contract = nothing stated.
+    problems.extend(final_partition_disagreements(contract, derived.market_id))
 
     # Internal arithmetic. Checked separately from the derivation comparison so a
     # contract that is self-inconsistent is reported as such rather than as a

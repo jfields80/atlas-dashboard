@@ -9,12 +9,12 @@
   "GENERIC_SCHEMA_INVARIANT",
   "CROSS_MARKET_INVARIANT"
  ],
- "modules_scanned": 411,
- "modules_with_pins": 283,
- "sites": 1690,
+ "modules_scanned": 412,
+ "modules_with_pins": 284,
+ "sites": 1692,
  "by_class": {
   "CURRENT_STATE_INVARIANT": 155,
-  "HISTORICAL_COHORT_INVARIANT": 905,
+  "HISTORICAL_COHORT_INVARIANT": 907,
   "HISTORICAL_ARTIFACT_INVARIANT": 210,
   "DEPLOYMENT_EPOCH_INVARIANT": 156,
   "GENERIC_SCHEMA_INVARIANT": 194,
@@ -12945,7 +12945,7 @@
    },
    "sites": [
     {
-     "line": 681,
+     "line": 550,
      "test": "test_combined_bundle_assembles_with_every_gate_passing",
      "kind": "count",
      "literal": 176,
@@ -22269,6 +22269,43 @@
      "source": "RC.load_contract(MARKET)[\"routes\"][\n            \"published_corridor_route_count\"] == 15",
      "class": "DEPLOYMENT_EPOCH_INVARIANT",
      "reason": "bundle / sitemap / route total"
+    }
+   ]
+  },
+  {
+   "module": "tests/pettripfinder/test_registered_market_partition_resolution_001.py",
+   "market": null,
+   "lanes": [
+    "full_regression"
+   ],
+   "default_class": "HISTORICAL_COHORT_INVARIANT",
+   "default_reason": "work-order-numbered module",
+   "site_count": 2,
+   "by_class": {
+    "HISTORICAL_COHORT_INVARIANT": 2
+   },
+   "sites": [
+    {
+     "line": 245,
+     "test": "test_a_second_synthetic_market_resolves_generically",
+     "kind": "count",
+     "literal": 7,
+     "reads_package": false,
+     "has_len": false,
+     "source": "res.reference[\"expected_count\"] == 7",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
+    },
+    {
+     "line": 465,
+     "test": "test_the_block_is_written_from_the_committed_file",
+     "kind": "count",
+     "literal": 3,
+     "reads_package": false,
+     "has_len": false,
+     "source": "block[\"expected_count\"] == 3",
+     "class": "HISTORICAL_COHORT_INVARIANT",
+     "reason": "count in a closed order's suite"
     }
    ]
   },

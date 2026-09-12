@@ -183,6 +183,10 @@ def _patch_targets(stage: Path) -> List[Tuple[str, str, Any]]:
         ("scripts.pettripfinder.assemble_netlify_bundle", "REPO_ROOT", stage),
         ("scripts.pettripfinder.assemble_production_site", "PACKAGE_DIR", lp),
         ("scripts.pettripfinder.assemble_production_site", "CENSUS_DIR", lp / "identity_census"),
+        # PTF-FINAL-ASSEMBLER-REGISTERED-MARKET-DISCOVERY-001: the partition
+        # resolver's standalone default; the assembler passes its own
+        # (patched) PACKAGE_DIR explicitly, this keeps direct callers honest.
+        ("scripts.pettripfinder.market_partition_resolution", "PACKAGE_DIR", lp),
         ("scripts.pettripfinder.market_reports", "MARKETS_DIR", lp / "markets"),
         # ATLAS-THROUGHPUT-004: the generator's base package (seed CSV,
         # blueprint, categories, locations, pilot config/content) is read

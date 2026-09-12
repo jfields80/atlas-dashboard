@@ -466,151 +466,20 @@ def test_current_live_inventory_preserves_all_assemblable_market_profiles(market
     # APPLICATION-005 (21 pending hardened-order records applied); every
     # other market's count is unchanged.
     # DAYTON 47 -> 54 at PTF-DAYTON-OH-HARDENED-APPLICATION-002.
-    assert counts == {COLUMBUS: 88, CLEVELAND: 120, DAYTON: 54,
-                      # PTF-PITTSBURGH-HARDENED-SYNC-004: 26 -> 46. Applied
-                      # the 32 founder decisions signed 2026-08-26 on a branch
-                      # that never merged, onto the REGISTERED 96-identity
-                      # census; the 115-row shadow recensus was not promoted.
-                      # PTF-PITTSBURGH-FOUNDER-HOLD-RESOLUTION-005: 46 -> 51.
-                      # Four census adds plus two founder-ruled holds published,
-                      # less SpringHill Suites Pittsburgh Airport WITHDRAWN --
-                      # its page states pets are not allowed.
-                      # PTF-PITTSBURGH-IDENTITY-AND-RECAPTURE-006: 51 -> 52.
-                      # PTF-PITTSBURGH-IDENTITY-CLOSE-007: 52 -> 53.
-                      # PTF-PITTSBURGH-PROMOTION-AND-APPLICATION-002: 53 -> 61.
-                      # The eight publication-grade rows
-                      # PTF-PITTSBURGH-PARALLEL-REVALIDATION-001 left pending,
-                      # promoted over the unmoved 103-identity census. Same
-                      # half of the assertion, same conclusion -- nothing else
-                      # above moved.
-                      "pittsburgh-pa": 61,
-                      # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: 8 -> 24 founder-signed profiles over
-                      # the promoted 257-identity census. 24 -> 54 at
-                      # PTF-INDIANAPOLIS-56-PROFILE-AUTHORITY-PROMOTION-017 (54) and
-    # PTF-INDIANAPOLIS-FINAL-ZERO-COST-CLEANUP-018 (+2), which promoted the
-                      # 013/014/016 signatures and withheld two of the 56 signed rows: one whose
-                      # identity the membrane refuses without a founder ruling, and one whose
-                      # bare-brand key Cleveland already owns.
-                      INDIANAPOLIS: PROMOTED_PET_FRIENDLY,
-                      "milwaukee-wi": 73,
-                      # PTF-ST-LOUIS-REGISTER-PUBLISH-011: 82 founder-signed
-                      # profiles. Every other count above is unchanged, which
-                      # is the half of this assertion that says a new market
-                      # did not disturb an old one.
-                      "st-louis-mo": 82,
-                      # PTF-LOUISVILLE-PUBLICATION-008: 46 founder-signed
-                      # profiles over a 166-identity census.
-                      # LOUISVILLE 46 -> 53 at
-                      # PTF-LOUISVILLE-PROMOTION-AND-APPLICATION-002, which
-                      # promoted the reader-validated rows from
-                      # PTF-LOUISVILLE-PARALLEL-REVALIDATION-001 over the same
-                      # unmoved 166-identity census. Same half of the
-                      # assertion, same conclusion -- nothing above moved.
-                      "louisville-ky": 53,
-                      # PTF-GRAND-RAPIDS-LAUNCH-PARTICIPATION-032: 43
-                      # founder-signed profiles over the pinned 163-identity
-                      # census, signed across 021 and 030. Same half of the
-                      # assertion, same conclusion -- nothing above moved.
-                      GRAND_RAPIDS: 43,
-                      # PTF-CINCINNATI-HARDENED-SYNC-002: 21 founder-signed
-                      # profiles over a 256-identity census, decided
-                      # 2026-08-17 and stranded on a pre-hardening branch
-                      # until this sync replayed them. Same half of the
-                      # assertion, same conclusion -- nothing above moved.
-                      # Assemblable is not the same as launching: the work
-                      # order that brought these here explicitly does not
-                      # touch launch participation, where Cincinnati's status
-                      # is still the founder's to set.
-                      # 99 -> 130 at PTF-CINCINNATI-PROMOTION-AND-APPLICATION-003,
-                      # which promoted the reader-validated clean inventory left
-                      # pending by PTF-CINCINNATI-PARALLEL-REVALIDATION-002 over
-                      # the same unmoved 257-identity census. Same half of the
-                      # assertion, same conclusion -- nothing above moved, and
-                      # Cincinnati still does not participate in the launch.
-                      CINCINNATI: 130,
-                      # PTF-DETROIT-ANN-ARBOR-TROY-IDENTITY-AND-BUNDLE-030:
-                      # Detroit becomes ASSEMBLABLE, and this assertion is
-                      # what noticed. It gained no data here: 121 profiles
-                      # were already published and its own bundle already
-                      # assembled with every gate passing. _partition_path
-                      # globbed for a HYPHENATED name that the UNDERSCORED
-                      # partition file could never match, so
-                      # final_partition_present read False. Registering the
-                      # path let the assembler see what was already there.
-                      # Like Cincinnati above, appearing here is a statement
-                      # about the SOURCE, not an admission: Detroit is still
-                      # not founder-authorized and does not enter the bundle.
-                      # Every other count is unchanged -- the half of this
-                      # assertion saying a new market disturbed no old one.
-                      DETROIT: 121,
-                      # PTF-TOLEDO-OH-PROMOTION-AND-APPLICATION-002: Toledo
-                      # registers with 17 published profiles over a 54-identity
-                      # census, built from zero by PTF-TOLEDO-OH-NEW-MARKET-001.
-                      # Like Cincinnati and Detroit above, appearing here is a
-                      # statement about the SOURCE and not an admission: Toledo
-                      # is recorded SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR
-                      # _LAUNCH and does not enter the bundle. Every other count
-                      # is unchanged -- the half of this assertion saying a new
-                      # market disturbed no old one.
-                      "toledo-oh": 17,
-                      # PTF-LEXINGTON-KY-PROMOTION-AND-NEW-LANE-LAUNCH-
-                      # PREP-003: Lexington registers with 20 published
-                      # profiles over a 57-identity census, carried across
-                      # from the 61-identity shadow PTF-LEXINGTON-KY-NEW-
-                      # MARKET-001 built from zero. Twenty, not the
-                      # shadow's 28: fifteen rows are held by the
-                      # registered identity, cross-market, first-party
-                      # evidence and paid-provenance gates, each named in
-                      # lexington_ky_identity_holds_003.json. Like
-                      # Cincinnati, Detroit and Toledo above, appearing
-                      # here is a statement about the SOURCE and not an
-                      # admission: Lexington is recorded SOURCE_READY_BUT_
-                      # NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH and does not
-                      # enter the bundle. Every other count is unchanged --
-                      # the half of this assertion saying a new market
-                      # disturbed no old one.
-                      "lexington-ky": 20,
-                      # PTF-NASHVILLE-TN-PROMOTION-AND-NEW-LANE-LAUNCH-
-                      # PREP-002: Nashville registers with EIGHT published
-                      # profiles over a 180-identity census, carried across
-                      # from the 181-identity shadow PTF-NASHVILLE-TN-NEW-
-                      # MARKET-001 built from zero. Eight, not the shadow's
-                      # 80: 88 rows are held, and 84 of those are held on
-                      # NO_CAPTURE_HASH because the attended lane recorded a
-                      # page's byte LENGTH instead of its hash and nothing
-                      # committed can supply one. Each is named in
-                      # nashville_tn_identity_holds_002.json. Like Cincinnati,
-                      # Detroit, Toledo and Lexington above, appearing here is
-                      # a statement about the SOURCE and not an admission:
-                      # Nashville is recorded SOURCE_READY_BUT_NOT_FOUNDER_
-                      # AUTHORIZED_FOR_LAUNCH and does not enter the bundle.
-                      # Every other count is unchanged -- the half of this
-                      # assertion saying a new market disturbed no old one.
-                      # PTF-NASHVILLE-TN-EVIDENCE-RECOVERY-003: 8 -> 79. Not
-                      # new research and not a new gate -- the 84 rows held on
-                      # NO_CAPTURE_HASH had their exact first-party pages
-                      # re-fetched and hashed, and 83 of them cleared the gate
-                      # on evidence that can now be reproduced. All 84 current
-                      # reads agree with the shadow's classification, so no
-                      # policy changed; only the proof did. Every other
-                      # market's count is unchanged, which is the half of this
-                      # assertion saying a recovery disturbed no old market.
-                      "nashville-tn": 79,
-                      # PTF-CHARLOTTE-NC-ZERO-TO-LIVE-BENCHMARK-001: Charlotte
-                      # registers with 106 published profiles over a
-                      # 268-identity census, and it is the first market in this
-                      # dict built from zero ENTIRELY on the redesigned factory
-                      # -- no proposed shadow to carry across, so there is no
-                      # shadow count to reconcile against. 121 rows are held by
-                      # the evidence and provenance gates and publish nothing.
-                      # Like Cincinnati, Detroit, Toledo, Lexington and
-                      # Nashville above, appearing here is a statement about the
-                      # SOURCE and not an admission: Charlotte is recorded
-                      # SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH and
-                      # does not enter the bundle. Every other count is
-                      # unchanged -- the half of this assertion saying a new
-                      # market disturbed no old one.
-                      "charlotte-nc": 106}
+    # PTF-FINAL-ASSEMBLER-REGISTERED-MARKET-DISCOVERY-001. This used to be a
+    # hand-written dict of every assemblable market's count, extended by one
+    # line per launch order (Cincinnati 99 -> 130, Detroit 121, Toledo 17,
+    # Lexington 20, Nashville 8 -> 79, Charlotte 106, ...). Now that the
+    # assembler resolves a registered market's partition from the market's own
+    # release contract, a registration makes its market assemblable WITHOUT a
+    # shared-code edit -- and a dict typed here would go stale on exactly that
+    # registration. The expectation is therefore the REVIEWED PIN
+    # (tests/pettripfinder/pins/market_state.json): the assemblable set must be
+    # precisely the pinned set, market for market, count for count. The pin is
+    # written by the registration lane from the sealed package and held to the
+    # release contract, so this assertion still says "a new market disturbed no
+    # old one" -- it just reads the reviewed number instead of restating it.
+    assert counts == {m: pinned_state(m).profiles for m in pinned_market_ids()}
     # PTF-INDIANAPOLIS-FOUNDER-PROMOTION-004: 469 + Indianapolis's 16 further
     # founder-signed profiles (8 -> 24). Every other market's count above is
     # unchanged, so the whole of this movement is Indianapolis's.

@@ -210,6 +210,18 @@ def register(market_id: str, *, work_order: str, out: Path, decided_on: Optional
     disagreements = RC.contract_disagreements(contract, RC.derive_authority(market_id))
     if disagreements:
         raise SystemExit("the release contract disagrees with the derived authority: %s" % disagreements[:3])
+    # PTF-FINAL-ASSEMBLER-REGISTERED-MARKET-DISCOVERY-001: a registering
+    # market's partition must be owned by its contract, or the whole-site
+    # assembler cannot see it. The resolver is the assembler's own lookup;
+    # refusing here is what keeps a new market off the frozen legacy table.
+    from scripts.pettripfinder import market_partition_resolution as MPR
+    try:
+        partition = MPR.resolve_registered_market_partition(market_id)
+    except MPR.PartitionResolutionError as exc:
+        raise SystemExit("the market's partition is not owned by its registration: %s" % exc)
+    if partition.source != MPR.SOURCE_CONTRACT and market_id not in MPR.LEGACY_MARKET_IDS:
+        raise SystemExit("%s resolved its partition by %s; a registering market must reference it in its "
+                         "release contract" % (market_id, partition.source))
 
     path = LP.PARTICIPATION_PATH
     prior = json.loads(path.read_text(encoding="utf-8-sig"), object_pairs_hook=OrderedDict)
@@ -278,6 +290,7 @@ def register(market_id: str, *, work_order: str, out: Path, decided_on: Optional
             ("decision_chain_records", len((doc["decision"].get("lineage") or {}).get("records") or ())),
             ("decision_problems", problems)))),
         ("build_closure", OrderedDict((("inputs_declared", list(inputs)), ("inputs_added", added)))),
+        ("partition_resolution", partition.as_row()),
         ("nothing_deployed", True), ("nothing_authorized", True),
     ))
     _write(out, report)
