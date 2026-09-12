@@ -1,0 +1,107 @@
+{
+ "schema": "ptf-candidate-assembly/1.0",
+ "work_order": "PTF-RALEIGH-NC-FINAL-PRODUCTION-LAUNCH-002",
+ "market_id": "raleigh-nc",
+ "as_of": "2026-09-12T00:55:41Z",
+ "FINAL_CANDIDATE_REPRODUCIBLE": "BLOCKED",
+ "status": "BLOCKED_AT_PHASE_9_WHOLE_SITE_ASSEMBLY",
+ "what_this_is": "The whole-site deployment artifact a Raleigh launch would bind could NOT be assembled on the final audited factory, and this order was forbidden to edit shared factory code to make it assemblable. Every fact below is read from the code and the attempted build, not typed.",
+ "attempted_build": {
+  "assembled_at_commit": "726232df819a4552a7fc01727317a4289964aee7",
+  "throwaway_worktree": "C:\\t\\ral002",
+  "participation_staged": "raleigh-nc launch_status flipped to FOUNDER_AUTHORIZED_FOR_LAUNCH for the build only; committed record restored (git checkout) and unchanged",
+  "command": "python -m scripts.pettripfinder.assemble_production_site --output C:\\t\\ral002cand2\\a",
+  "driver_log": [
+   "assembling a 00:37:26Z",
+   "build a rc=1 577.2s bundle= sitemap= profiles=0 routes=None",
+   "assembling b 00:47:11Z"
+  ],
+  "returncode": 1,
+  "seconds": 577.2,
+  "fragments_built": [
+   "cincinnati-oh",
+   "cleveland-akron-canton-oh",
+   "columbus-oh",
+   "dayton-oh",
+   "grand-rapids-holland-mi",
+   "indianapolis-in",
+   "lexington-ky",
+   "louisville-ky",
+   "milwaukee-wi",
+   "nashville-tn",
+   "pittsburgh-pa",
+   "st-louis-mo",
+   "toledo-oh"
+  ],
+  "fragment_count": 13,
+  "raleigh_fragment_built": false,
+  "no_global_manifest_written": true,
+  "note": "The driver was stopped before its second build; the assembler's own stdout tail was therefore not captured. The mechanism is proven directly below by the assembler's eligibility function."
+ },
+ "mechanism": {
+  "assembler_market_eligibility": {
+   "market_id": "raleigh-nc",
+   "published_count": 63,
+   "minimum_published_hotels": 5,
+   "conditions": {
+    "census_present": true,
+    "final_partition_present": false,
+    "policy_authority_present": true,
+    "meets_minimum_published": true
+   },
+   "assemblable": false,
+   "launch_status": "SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH",
+   "founder_authorized_for_launch": false,
+   "participates": false,
+   "show_in_navigation": false,
+   "inventory_error": ""
+  },
+  "assembler_partition_path_result": null,
+  "writer_committed_partition_path_result": null,
+  "committed_partition_files": [
+   "raleigh_nc_final_partition_007.json"
+  ],
+  "assembler_glob_used_for_this_market": "raleigh_final_partition_*.json",
+  "assembler_named_table_markets": [
+   "charlotte-nc",
+   "cincinnati-oh",
+   "cleveland-akron-canton-oh",
+   "columbus-oh",
+   "dayton-oh",
+   "detroit-ann-arbor-mi",
+   "grand-rapids-holland-mi",
+   "indianapolis-in",
+   "lexington-ky",
+   "louisville-ky",
+   "nashville-tn",
+   "st-louis-mo",
+   "toledo-oh"
+  ],
+  "raleigh_in_assembler_table": false,
+  "manifest_table_markets": [
+   "cincinnati-oh",
+   "cleveland-akron-canton-oh",
+   "columbus-oh",
+   "dayton-oh",
+   "pittsburgh-pa"
+  ],
+  "why": "assemble_production_site._partition_path resolves a market's partition by an explicit named table first and a glob second; the glob strips the last id segment, so for raleigh-nc it looks for raleigh_final_partition_*.json while the committed, contract-conformant file is raleigh_nc_final_partition_007.json. final_partition_present reads False, the market is NOT ASSEMBLABLE, no raleigh-nc fragment is built, and a candidate staged with Raleigh participating fails global.launch_participation_agrees_with_source (the assembler's own Nashville comment records the identical trap). The modern registration lane never hits this: market_package_writer falls back to the <us>_final_partition_*.json glob, so the sealed package, FAST rule J and the release-index candidate all resolved the partition.",
+  "how_every_prior_market_resolved_it": "one named entry in assemble_production_site._partition_path (Toledo, Lexington, Nashville, Charlotte each added theirs in their launch-prep order)",
+  "what_that_edit_classifies_as": {
+   "path": "scripts/pettripfinder/assemble_production_site.py",
+   "classes": [
+    "DEPLOYMENT_CHANGE",
+    "GENERIC_RUNTIME_CHANGE"
+   ],
+   "rule": "glob:scripts/pettripfinder/assemble_*.py",
+   "composite_bucket_it_would_land_in": "SHARED_BEHAVIOR_CHANGE",
+   "consequence": "FULL_REGRESSION_REQUIRED = YES -- a broad run"
+  },
+  "why_not_done_here": "The order forbids editing factory code, forbids running a broad regression, and says STOP if one is requested. A data-only rename of the partition to the glob's spelling was rejected because the registration contract's final_partition role is <us>_final_partition_*.json and the market-local helper writes that name; the rename would be UNKNOWN to the composite proof."
+ },
+ "digests": {
+  "bundle_sha256": null,
+  "sitemap_sha256": null,
+  "why_null": "no whole-site bundle was produced; nothing is invented"
+ }
+}
