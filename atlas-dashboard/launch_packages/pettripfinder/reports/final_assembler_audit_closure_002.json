@@ -1,0 +1,107 @@
+{
+ "schema": "ptf-audit-closure-report/1.0",
+ "work_order": "PTF-FINAL-ASSEMBLER-AUDIT-CLOSURE-002",
+ "closes": "PTF-FINAL-ASSEMBLER-REGISTERED-MARKET-DISCOVERY-001",
+ "what_this_is": "The single procedural failure left by the assembler correction: one test that asserted the assembler's SOURCE TEXT contained a table entry the correction intentionally moved. The assertion is restated against behaviour, and ONE final broad audit closes it.",
+ "audited_commit": "168aa5536ef0d1524ed383270a94b8fde1b75ba4",
+ "PRODUCTION_CODE_CHANGED": "NO -- scripts/ is byte-identical to the previously audited commit 50093f84 (git diff --stat 50093f84 168aa553 -- scripts = 0 lines)",
+ "files_changed_by_the_correction": [
+  "atlas-dashboard/tests/pettripfinder/test_toledo_oh_promotion_002.py",
+  "atlas-dashboard/launch_packages/pettripfinder/reports/factory_throughput_001_test_inventory.json (generated; two line numbers)"
+ ],
+ "phase_1_precheck": {
+  "toledo_resolves_to": "toledo_oh_final_partition_001.json",
+  "resolution_source": "LEGACY_TABLE",
+  "assembler_lookup_agrees": true,
+  "partition_content_digest_parent_equals_head": true,
+  "partition_content_digest": "6c77eadc2ab80e438b0656fb4e75a0f905aedc4cec2b9914a6faa23a00535315",
+  "production_output_at_the_audited_sha_equals_live": true,
+  "files_compared": 5524,
+  "toledo_pages_identical": true,
+  "toledo_pages": 21,
+  "toledo_profiles": 17,
+  "the_failing_assertion_checked": "implementation LOCATION (a string in a source file), not behaviour"
+ },
+ "phase_2_correction": {
+  "node_id": "tests/pettripfinder/test_toledo_oh_promotion_002.py::test_the_assembler_names_toledos_partition_explicitly",
+  "node_id_unchanged": true,
+  "old_assertion": "'\"toledo-oh\": \"toledo_oh_final_partition_001.json\"' in the text of scripts/pettripfinder/assemble_production_site.py",
+  "new_safety_claim": "Toledo resolves, through the public resolver's supported contract/legacy path, to exactly toledo_oh_final_partition_001.json; the mapping is still declared in the frozen legacy table; the assembler's own lookup returns the same path; and a glob built from the market id with its last segment stripped still matches nothing.",
+  "negative_proof": "verified by IN-MEMORY mutation, no file edited: mapping removed -> PartitionResolutionError; mapping repointed at another market's partition -> AssertionError; contract reference disagreeing with the table -> PartitionResolutionError; unmutated -> PASSED"
+ },
+ "phase_3_targeted": {
+  "modules": "resolver, toledo promotion, grand rapids partition lookup, global assembler, factory throughput",
+  "result": "158 passed, 8 skipped, 0 failed",
+  "PRODUCTION_MODULE_DIFF": 0
+ },
+ "phase_4_final_audit": {
+  "command": "python scripts/pettripfinder/regression_lanes.py run --lane full_regression --out data/regression/final-audit-closure-002",
+  "wall": "1:30:59",
+  "wall_seconds": 5459.83,
+  "run": {
+   "collected": 18436,
+   "passed": 18016,
+   "skipped": 253,
+   "failed": 167
+  },
+  "against_f75aa95": {
+   "PRE_EXISTING": 160,
+   "EXPECTED_EPOCH_CHANGE": 0,
+   "TEST_HARNESS_FLAKE": 0,
+   "TRUE_NEW_FAILURE": 7
+  },
+  "true_new_vs_f75aa95_is_exactly_the_parent_audits_own_set": true,
+  "failure_set_identity_vs_the_parent_audit": {
+   "parent_failing": 167,
+   "this_audit_failing": 167,
+   "failing_here_and_not_there": [],
+   "parent_failures_now_passing": []
+  },
+  "the_corrected_node_in_this_audit": "PASSED",
+  "BROAD_AUDITS_RUN": 1,
+  "TRUE_NEW_FAILURE": 0
+ },
+ "phase_5_reverified_factory_claims": {
+  "measured_at": "168aa5536ef0d1524ed383270a94b8fde1b75ba4",
+  "FUTURE_NEW_MARKET_REQUIRES_ASSEMBLER_CODE_EDIT": "NO -- the future-market fixture passed inside this audit",
+  "FUTURE_NEW_MARKET_REQUIRES_STATIC_TABLE_ENTRY": "NO -- same fixture; the frozen table is unchanged",
+  "RALEIGH_CHANGE_CLASS": "COMPOSITE_FRESH_MARKET_DATA_ONLY",
+  "RALEIGH_LOCAL_BROAD_REQUESTED": 0,
+  "RALEIGH_LOCAL_BROAD_RUN": 0,
+  "RALEIGH_REMOTE_BROAD": 0,
+  "RALEIGH_UNCHANGED_MARKETS_REBUILT": 0,
+  "RALEIGH_FAST": "15/15",
+  "RALEIGH_PACKAGE_REPRODUCIBLE": "YES",
+  "RALEIGH_CANDIDATE_REPRODUCIBLE": "YES",
+  "RALEIGH_PROJECTED": {
+   "markets": 14,
+   "profiles": 965,
+   "routes": 1101
+  },
+  "RALEIGH_UNEXPECTED_DELTAS": "0 / 0 / 0",
+  "registration_to_authorization_ready_seconds": 109.29,
+  "raleigh_partition_resolution": {
+   "market_id": "raleigh-nc",
+   "source": "CONTRACT",
+   "partition": "raleigh_nc_final_partition_007.json",
+   "path": "launch_packages/pettripfinder/raleigh_nc_final_partition_007.json",
+   "legacy_entry": null,
+   "verified": [
+    "exists",
+    "schema",
+    "market_id",
+    "sha256",
+    "count"
+   ]
+  },
+  "seven_dependency_input_digests_identical_to_the_previous_run": true,
+  "changed_market_bundle_sha256_identical_to_the_previous_run": "25802a6fac7d51e16994d273f30ddef65f8f3ef09196ea6fe3dbdd7fadb3c8c2",
+  "whole_site_deployment_artifact": "61ca6a2ef2f170c0ede36cdce03cbf36ee3ae498371d25b79e85e30cc20dc046 -- built TWICE at fa125e27 and identical across all 5907 files; not rebuilt here because no production code changed since",
+  "shared_code_changed_during_the_replay": false
+ },
+ "FACTORY_STATUS": "RESUME_MARKET_PRODUCTION",
+ "RALEIGH_FOUNDER_AUTHORIZATION_READY": "YES",
+ "nothing_deployed": true,
+ "nothing_authorized": true,
+ "no_live_pin_moved": true
+}
