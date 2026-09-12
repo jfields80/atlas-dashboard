@@ -1,6 +1,6 @@
 {
  "schema": "ptf-release-production-gate/1.0",
- "work_order": "PTF-PIEDMONT-TRIAD-NC-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-002",
+ "work_order": "PTF-WILMINGTON-NC-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-002",
  "what_this_is": "The explicit allowlist that gates REAL production activation by the release coordinator. ATLAS-THROUGHPUT-006 built the remote validation lane, the trusted artifact handoff, the release queue and a real host adapter, and left this gate EMPTY on purpose. A market is activated for real only when the founder adds it here, names the candidate digest they authorised, and the coordinator's own guards still pass at the moment of the call. There is no implicit opt-in: an empty allowlist means no market can be deployed by this machinery, whatever else is green.",
  "RELEASE_COORDINATOR_PRODUCTION_ENABLED": "NO",
  "RELEASE_COORDINATOR_PRODUCTION_ALLOWED_MARKETS": [],
@@ -75,6 +75,23 @@
    "consumed_at": "2026-09-12T22:15:17+00:00",
    "host_deployment_id": "6aa5ce23d51fa8544146ebac",
    "deployment_record_id": "ptf-deploy-piedmont-triad-002-6aa5ce23d51fa8544146ebac",
+   "outcome": "DEPLOYED and verified live; the gate is closed again by the same work order that opened it."
+  },
+  {
+   "work_order": "PTF-WILMINGTON-NC-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-002",
+   "market_id": "wilmington-nc",
+   "authorization_id": "ptf-auth-wilmington-002-a0f92c7fd5e0",
+   "candidate_digest": "a0f92c7fd5e052e0cf03ad8a9cfacfe9968547ad13dd546829f42ce4f39dcb05",
+   "deployment_artifact_digest": "a0f92c7fd5e052e0cf03ad8a9cfacfe9968547ad13dd546829f42ce4f39dcb05",
+   "parent_release_digest": "5d6ced6ed2630d899595cef7d6c2e82dd43cfc15b56e2b48f22f0960afd4f225",
+   "package_digest": "sha256:0720bc825aab90573b816221f45d270a6423f2ed9cae1437a228bbdcc8f08aa2",
+   "intended_delta_digest": "sha256:5b9eb66b5215d676e08368f1224131a5fa609d7803dd6c7761617057d6931ef5",
+   "opened_at": "2026-09-12T23:37:14+00:00",
+   "scope": "ONE market and ONE candidate. wilmington-nc only; no other source-ready market is allowed, and release_coordinator.authorization_problems still refuses any candidate whose digest is not the one the authorization binds.",
+   "lifecycle": "This entry is CONSUMED and the allowlist emptied by this same work order once the deployment is verified live. It is not left open.",
+   "consumed_at": "2026-09-12T23:41:18+00:00",
+   "host_deployment_id": "6aa5e2623de160fcdf416577",
+   "deployment_record_id": "ptf-deploy-wilmington-002-6aa5e2623de160fcdf416577",
    "outcome": "DEPLOYED and verified live; the gate is closed again by the same work order that opened it."
   }
  ]

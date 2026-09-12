@@ -1,16 +1,16 @@
 {
  "schema": "ptf-deployment-state-pins/1.0",
  "what_this_is": "The CURRENT deployment pins, in two blocks that are two different facts. `live` is what production serves: the deployment record's own numbers, moved ONLY by a deployment-authorization order. `source` is what a FRESH assembly of the committed source produces: moved by an application order, which puts source AHEAD of production until the next deploy. When the two agree, ahead_of_production is false and moved_by is null. Consumed historical authorizations are never restated here; they live in deploy/netlify/deployment_authorizations and are immutable evidence of what was authorized at the time (see supersessions.json).",
- "reviewed_by": "PTF-PIEDMONT-TRIAD-NC-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-002",
+ "reviewed_by": "PTF-WILMINGTON-NC-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-002",
  "live": {
-  "deploy_id": "6aa5ce23d51fa8544146ebac",
-  "deployed_by": "PTF-PIEDMONT-TRIAD-NC-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-002",
-  "authorization_id": "ptf-auth-piedmont-triad-002-5d6ced6ed263",
-  "deployment_record_id": "ptf-deploy-piedmont-triad-002-6aa5ce23d51fa8544146ebac",
-  "previous_deploy_id": "6aa5ad211250a04bc0bc6f7f",
-  "source_commit": "9158e1b0d23a037292f05e6d74d63219c81f584f",
-  "bundle_sha256": "5d6ced6ed2630d899595cef7d6c2e82dd43cfc15b56e2b48f22f0960afd4f225",
-  "sitemap_sha256": "aa857f2a275cd58ba1cbc6d9b124165abf4ca52876d20c78ae1e1fae0d83b0c0",
+  "deploy_id": "6aa5e2623de160fcdf416577",
+  "deployed_by": "PTF-WILMINGTON-NC-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-002",
+  "authorization_id": "ptf-auth-wilmington-002-a0f92c7fd5e0",
+  "deployment_record_id": "ptf-deploy-wilmington-002-6aa5e2623de160fcdf416577",
+  "previous_deploy_id": "6aa5ce23d51fa8544146ebac",
+  "source_commit": "7709953fac20326181abb04d5d4f2f33eee869c2",
+  "bundle_sha256": "a0f92c7fd5e052e0cf03ad8a9cfacfe9968547ad13dd546829f42ce4f39dcb05",
+  "sitemap_sha256": "9344e961269df8fa6143a7ba21cb2734b3369d25294928b38d70bab037a963c8",
   "participating_markets": [
    "charlotte-nc",
    "cincinnati-oh",
@@ -27,7 +27,8 @@
    "pittsburgh-pa",
    "raleigh-nc",
    "st-louis-mo",
-   "toledo-oh"
+   "toledo-oh",
+   "wilmington-nc"
   ],
   "profile_counts": {
    "charlotte-nc": 106,
@@ -45,21 +46,22 @@
    "pittsburgh-pa": 61,
    "raleigh-nc": 63,
    "st-louis-mo": 82,
-   "toledo-oh": 17
+   "toledo-oh": 17,
+   "wilmington-nc": 29
   },
-  "total_profiles": 1125,
-  "sitemap_route_count": 1327,
-  "total_html_pages": 6867,
-  "total_files": 6885,
-  "rollback_target": "6aa5ad211250a04bc0bc6f7f",
-  "note": "The Piedmont Triad (Greensboro - Winston-Salem - High Point), North Carolina joined as the SIXTEENTH market at 54 published profiles, registered from zero as COMPOSITE_FRESH_MARKET_DATA_ONLY. The live sitemap hashes to the authorized candidate and all 1327 live routes return 200. Rollback is the deployment the Triad replaced (Charlotte-live, 15 markets), not that deployment's own rollback target.",
-  "rollback_record": "ptf-deploy-charlotte-003-6aa5ad211250a04bc0bc6f7f.json"
+  "total_profiles": 1154,
+  "sitemap_route_count": 1361,
+  "total_html_pages": 7046,
+  "total_files": 7064,
+  "rollback_target": "6aa5ce23d51fa8544146ebac",
+  "note": "Wilmington, North Carolina joined as the SEVENTEENTH market at 29 published profiles, registered from zero as COMPOSITE_FRESH_MARKET_DATA_ONLY. The live sitemap hashes to the authorized candidate and all 1361 live routes return 200. Rollback is the deployment Wilmington replaced (Piedmont-Triad-live, 16 markets), not that deployment's own rollback target.",
+  "rollback_record": "ptf-deploy-piedmont-triad-002-6aa5ce23d51fa8544146ebac.json"
  },
  "source": {
   "ahead_of_production": false,
   "moved_by": null,
-  "bundle_sha256": "5d6ced6ed2630d899595cef7d6c2e82dd43cfc15b56e2b48f22f0960afd4f225",
-  "sitemap_sha256": "aa857f2a275cd58ba1cbc6d9b124165abf4ca52876d20c78ae1e1fae0d83b0c0",
+  "bundle_sha256": "a0f92c7fd5e052e0cf03ad8a9cfacfe9968547ad13dd546829f42ce4f39dcb05",
+  "sitemap_sha256": "9344e961269df8fa6143a7ba21cb2734b3369d25294928b38d70bab037a963c8",
   "participating_markets": [
    "charlotte-nc",
    "cincinnati-oh",
@@ -76,7 +78,8 @@
    "pittsburgh-pa",
    "raleigh-nc",
    "st-louis-mo",
-   "toledo-oh"
+   "toledo-oh",
+   "wilmington-nc"
   ],
   "profile_counts": {
    "charlotte-nc": 106,
@@ -94,12 +97,13 @@
    "pittsburgh-pa": 61,
    "raleigh-nc": 63,
    "st-louis-mo": 82,
-   "toledo-oh": 17
+   "toledo-oh": 17,
+   "wilmington-nc": 29
   },
-  "total_profiles": 1125,
-  "sitemap_route_count": 1327,
-  "total_html_pages": 6867,
-  "total_files": 6885,
+  "total_profiles": 1154,
+  "sitemap_route_count": 1361,
+  "total_html_pages": 7046,
+  "total_files": 7064,
   "note": "A fresh assembly of the committed source produces exactly what production serves: the same bundle digest, from the same committed authority."
  }
 }
