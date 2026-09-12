@@ -107,7 +107,9 @@ class Fixture:
         monkeypatch.setattr(MC, "MARKETS_DIR", self.markets)
         monkeypatch.setattr(RC, "RELEASE_CONTRACTS_DIR", self.contracts)
         monkeypatch.setattr(RC, "REPO_ROOT", self.root)
-        monkeypatch.setattr(MPR, "PACKAGE_DIR", self.pkg)
+        # No MPR path constant to patch: the resolver derives its package
+        # directory from release_contracts.REPO_ROOT at call time, patched
+        # above, exactly as package_staging's overlay redirects it.
         monkeypatch.setattr(gasm, "PACKAGE_DIR", self.pkg)
         monkeypatch.setattr(gasm, "CENSUS_DIR", self.pkg / "identity_census")
         # The inventory side of market_eligibility: an empty production CSV and

@@ -97,9 +97,21 @@ from scripts.pettripfinder import release_contracts as RC
 from scripts.pettripfinder.markets import contract as MC
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-#: Where committed partitions live. The assembler passes its own (overlay-
-#: patched) constant explicitly; this is the default for standalone callers.
-PACKAGE_DIR = REPO_ROOT / "launch_packages" / "pettripfinder"
+
+
+def default_package_dir() -> Path:
+    """Where committed partitions live, resolved AT CALL TIME from the
+    contract module's repository root.
+
+    Deliberately not a module constant. ``package_staging`` builds a market
+    from a staging tree by pointing every path constant on the build path at
+    that tree, and one constant nobody remembered to add to its list is how a
+    staged build silently reads committed authority instead. Deriving the
+    directory from ``release_contracts.REPO_ROOT`` -- which the overlay
+    already redirects, because the contracts themselves live under it -- means
+    this module follows a staging tree with no entry of its own to maintain.
+    """
+    return Path(RC.REPO_ROOT) / "launch_packages" / "pettripfinder"
 
 #: The repository-relative prefix every partition reference must carry.
 PACKAGE_PREFIX = "launch_packages/pettripfinder/"
@@ -374,7 +386,7 @@ def resolve_registered_market_partition(market_id: str, *, package_dir: Optional
     mid = (market_id or "").strip()
     if not mid:
         raise PartitionResolutionError(EMPTY_MARKET_ID, market_id or "", "a market id is required")
-    pkg = Path(package_dir) if package_dir else PACKAGE_DIR
+    pkg = Path(package_dir) if package_dir else default_package_dir()
     if not is_registered(mid, markets_dir):
         directory = Path(markets_dir) if markets_dir else MC.MARKETS_DIR
         raise PartitionResolutionError(
@@ -487,7 +499,7 @@ def resolution_report(market_ids: Sequence[str], *, package_dir: Optional[Path] 
 
 __all__ = [
     "CONTRACT_BLOCK", "FAILURE_CODES", "LEGACY_MARKET_IDS", "LEGACY_PARTITION_TABLE",
-    "PACKAGE_DIR", "PACKAGE_PREFIX", "PARTITION_SCHEMA_PREFIX",
+    "PACKAGE_PREFIX", "PARTITION_SCHEMA_PREFIX", "default_package_dir",
     "PartitionResolution", "PartitionResolutionError",
     "SOURCE_CONTRACT", "SOURCE_LEGACY_TABLE", "SOURCE_UNRESOLVED",
     "content_sha256", "is_registered", "parse_reference", "partition_path_or_none",

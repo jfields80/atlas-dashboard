@@ -184,9 +184,11 @@ def _patch_targets(stage: Path) -> List[Tuple[str, str, Any]]:
         ("scripts.pettripfinder.assemble_production_site", "PACKAGE_DIR", lp),
         ("scripts.pettripfinder.assemble_production_site", "CENSUS_DIR", lp / "identity_census"),
         # PTF-FINAL-ASSEMBLER-REGISTERED-MARKET-DISCOVERY-001: the partition
-        # resolver's standalone default; the assembler passes its own
-        # (patched) PACKAGE_DIR explicitly, this keeps direct callers honest.
-        ("scripts.pettripfinder.market_partition_resolution", "PACKAGE_DIR", lp),
+        # resolver needs NO entry here. It derives its package directory from
+        # release_contracts.REPO_ROOT at call time (patched two lines below),
+        # so it follows a staging tree without a constant to maintain -- and
+        # the assembler imports it lazily, so a staged per-market build never
+        # loads it at all.
         ("scripts.pettripfinder.market_reports", "MARKETS_DIR", lp / "markets"),
         # ATLAS-THROUGHPUT-004: the generator's base package (seed CSV,
         # blueprint, categories, locations, pilot config/content) is read

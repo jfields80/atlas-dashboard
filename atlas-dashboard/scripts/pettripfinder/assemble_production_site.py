@@ -69,7 +69,6 @@ from scripts.pettripfinder.markets.contract import (                         # n
 )
 from scripts.pettripfinder.market_ownership import owned_by                  # noqa: E402
 from scripts.pettripfinder import launch_participation as LP                 # noqa: E402
-from scripts.pettripfinder import market_partition_resolution as MPR         # noqa: E402
 from scripts.pettripfinder.site_data import (                                # noqa: E402
     load_published_hotel_policy_facts, read_production_rows,
     verified_public_hotels,
@@ -159,11 +158,26 @@ def _partition_path(market_id: str) -> Optional[Path]:
     carried the reference resolve through a FROZEN legacy table that the
     resolver's own test pins by key set. A new market needs no edit here.
     """
-    return MPR.partition_path_or_none(market_id, package_dir=PACKAGE_DIR)
+    return _resolve_partition(market_id)[0]
+
+
+#: The resolution sources this module reports, restated so a caller reading an
+#: eligibility row or the bundle manifest needs no import of its own.
+PARTITION_SOURCE_UNRESOLVED = "UNRESOLVED"
+PARTITION_SOURCES = ("CONTRACT", "LEGACY_TABLE", PARTITION_SOURCE_UNRESOLVED)
 
 
 def _resolve_partition(market_id: str) -> Tuple[Optional[Path], str, str]:
-    """``(path, source, error)`` -- the resolver's answer, or why it refused."""
+    """``(path, source, error)`` -- the resolver's answer, or why it refused.
+
+    The import is LOCAL on purpose. ``package_staging`` imports this module to
+    build ONE market from a staging tree, and that build never selects
+    markets; a module-scope import would pull the resolver into every staged
+    build's loaded set, where the bundle cache would rightly call it an
+    undeclared dependency and publish the bundle UNTRUSTED. Loading it where
+    it is used keeps the per-market build's closure exactly what it was.
+    """
+    from scripts.pettripfinder import market_partition_resolution as MPR
     try:
         resolution = MPR.resolve_registered_market_partition(market_id, package_dir=PACKAGE_DIR)
         return resolution.path, resolution.source, ""
@@ -173,7 +187,7 @@ def _resolve_partition(market_id: str) -> Tuple[Optional[Path], str, str]:
         # Selection must fail closed and SAY WHY. An unexpected error here
         # would otherwise abort the whole composed build with a traceback
         # instead of one market reading "not assemblable, because ...".
-        return None, MPR.SOURCE_UNRESOLVED, "partition could not be resolved: %s" % exc
+        return None, PARTITION_SOURCE_UNRESOLVED, "partition could not be resolved: %s" % exc
 
 
 def published_hotels(market: MarketConfig) -> List[Dict]:
@@ -996,7 +1010,7 @@ def _assemble_uncached(output: str, *, context: str, base_url: str,
         ("partition_resolution", OrderedDict([
             ("counts", OrderedDict(
                 (source, sum(1 for r in eligibility if r["partition_source"] == source))
-                for source in (MPR.SOURCE_CONTRACT, MPR.SOURCE_LEGACY_TABLE, MPR.SOURCE_UNRESOLVED))),
+                for source in PARTITION_SOURCES)),
             ("by_market", OrderedDict(
                 (r["market_id"], r["partition_source"]) for r in eligibility)),
         ])),
