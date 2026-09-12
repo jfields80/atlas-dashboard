@@ -1,0 +1,73 @@
+{
+ "schema": "ptf-regression-classification-record/1.0",
+ "work_order": "PTF-CHARLOTTE-NC-FINAL-LAUNCH-PREP-002",
+ "market_id": "charlotte-nc",
+ "what_this_is": "Regression V2 in NORMAL mode over the actual Charlotte change set of this order (base c7330450 = the Raleigh-live launch commit, head = the worktree after the re-seal). Nothing forced the class.",
+ "base_sha": "c7330450ef0cd71d9a7c9369619c1d5e11fa7e03",
+ "head": "WORKTREE",
+ "changed_files": [
+  {
+   "path": "launch_packages/pettripfinder/markets/packages/charlotte-nc/pkg-charlotte-nc-e09bf4526a010668.json",
+   "status": "A",
+   "classes": [
+    "MARKET_DATA_PACKAGE"
+   ]
+  },
+  {
+   "path": "launch_packages/pettripfinder/markets/receipts/charlotte-nc/pkg-charlotte-nc-e09bf4526a010668-364aea0199da94b1.json",
+   "status": "A",
+   "classes": [
+    "MARKET_DATA_PACKAGE"
+   ]
+  },
+  {
+   "path": "launch_packages/pettripfinder/markets/reports/charlotte_nc_registration_release_lane.json",
+   "status": "M",
+   "classes": [
+    "GENERATED_REPORT_ONLY"
+   ]
+  }
+ ],
+ "change_classes": [
+  "GENERATED_REPORT_ONLY",
+  "MARKET_DATA_PACKAGE"
+ ],
+ "narrowing_blockers": [],
+ "FULL_REGRESSION_REQUIRED": "NO",
+ "full_regression_reason": "every changed file classifies into a narrow class (GENERATED_REPORT_ONLY, MARKET_DATA_PACKAGE); no row of the matrix makes a broad regression mandatory",
+ "plan": {
+  "module_count": 0,
+  "lanes": [],
+  "assembly_required": false,
+  "NEW_MARKET_REGISTRATION_DATA_ONLY": "NO",
+  "COMPOSITE_FRESH_MARKET_DATA_ONLY": "NO",
+  "REMOTE_BROAD_JOBS_REQUIRED": null
+ },
+ "registration_proof": {
+  "proof_version": "ptf-registration-data-only/2.0",
+  "ELIGIBLE": "NO",
+  "CHANGE_CLASS": null,
+  "why": "change_set: exactly one previously absent market must be registered; the registry gained nothing",
+  "evaluated_checks_failed": [
+   "change_set"
+  ],
+  "checks_not_evaluated": [
+   "market_local_zone",
+   "discovery_config",
+   "registration_input",
+   "identity_resolutions",
+   "participation",
+   "release_contract",
+   "build_closure",
+   "derived_globals",
+   "sealed_package",
+   "fast_receipt",
+   "expected_release",
+   "identity_routes",
+   "market_state_pin",
+   "release_integrity"
+  ],
+  "reading": "Charlotte has been registered since PTF-CHARLOTTE-NC-ZERO-TO-LIVE-BENCHMARK-001; its source branch 42cb937f is an ancestor of the base. The registry gains nothing in this set, so the fresh-market registration proof -- and with it COMPOSITE_FRESH_MARKET_DATA_ONLY -- is not applicable. The classifier's own verdict for the set is narrow: 0 modules, no broad regression."
+ },
+ "classification_seconds": 4.7859319
+}
