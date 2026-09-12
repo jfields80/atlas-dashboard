@@ -318,7 +318,7 @@ frozen branch), and the ordinary registration transaction: shard, globals,
 the market-local contract helper, `register`, `seal --work-order`, `classify`,
 `packet`.
 
-    SHARED AUDITED CODE UNCHANGED         YES (1991 frozen files; python digest equal before and after)
+    SHARED AUDITED CODE UNCHANGED         YES (1993 frozen files; python digest equal before and after)
     COMPLETE FIRST-MARKET DIFF ACCOUNTED  41/41   (11 market-local / 15 registration data / 15 derived / 0 shared / 0 unknown)
     CHANGE CLASS                          COMPOSITE_FRESH_MARKET_DATA_ONLY  (change classes: GENERATED_REPORT_ONLY,
                                           MARKET_DATA_PACKAGE, COMPOSITE_FRESH_MARKET_DATA_ONLY)
@@ -332,7 +332,7 @@ the market-local contract helper, `register`, `seal --work-order`, `classify`,
     UNEXPECTED DELTAS                     0 / 0 / 0
     REGISTRATION -> AUTHORIZATION_READY   100.0 s  (shard 0.2, globals 1.5, contract 1.3, register 1.4, seal + FAST + pin 79.6,
                                           classify 15.5, packet 0.4)
-    ORPHANED JOBS                         0;  SHARED / TEST REPAIR  none;  receipt machine-readable, 31/31 criteria true
+    ORPHANED JOBS                         0;  SHARED / TEST REPAIR  none;  receipt machine-readable, 30/30 criteria true
     TRUE_FIRST_REGISTRATION_REPLAY        PASS
 
 ## FINAL DECISION
