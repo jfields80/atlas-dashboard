@@ -594,6 +594,70 @@ class TestTheContractBlock:
 
 
 # --------------------------------------------------------------------------- #
+# The staged-build path: no constant of its own to forget.
+# --------------------------------------------------------------------------- #
+
+class TestUnderAStagingOverlay:
+    def test_the_resolver_follows_a_staging_tree_with_no_patch_entry(self, tmp_path):
+        """package_staging redirects every path constant on the build path at a
+        staging tree. The resolver holds no such constant: it derives its
+        package directory from release_contracts.REPO_ROOT at call time, which
+        the overlay already redirects. A market therefore resolves to the
+        STAGED partition, and the default is restored on exit."""
+        import shutil
+        from scripts.pettripfinder import package_staging as PS
+
+        stage = tmp_path / "stage"
+        lp = stage / "launch_packages" / "pettripfinder"
+        (lp / "markets").mkdir(parents=True)
+        (stage / "deploy" / "netlify" / "release_contracts").mkdir(parents=True)
+        market, partition = "nashville-tn", "nashville_tn_final_partition_001.json"
+        shutil.copyfile(REAL_PKG / "markets" / ("%s.json" % market), lp / "markets" / ("%s.json" % market))
+        shutil.copyfile(REAL_PKG / partition, lp / partition)
+        shutil.copyfile(REAL_CONTRACTS / ("%s.json" % market),
+                        stage / "deploy" / "netlify" / "release_contracts" / ("%s.json" % market))
+
+        outside = MPR.default_package_dir()
+        assert outside == REAL_PKG
+        MPR._CACHE.clear()
+        with PS.overlay(stage):
+            assert MPR.default_package_dir() == lp
+            res = MPR.resolve_registered_market_partition(market)
+            assert res.name == partition
+            assert res.path == lp / partition          # the STAGED file, not the committed one
+        MPR._CACHE.clear()
+        assert MPR.default_package_dir() == outside
+
+    def test_the_staged_build_path_never_loads_the_resolver(self):
+        """The assembler imports this module inside the one function that
+        resolves a partition, so a staged per-market build -- which imports the
+        assembler but never selects markets -- does not load it. That is what
+        keeps the resolver out of bundle_cache_closure.code_modules, and an
+        undeclared load would publish every staged bundle UNTRUSTED."""
+        import ast
+        import importlib
+        import sys as _sys
+        from scripts.pettripfinder import package_staging as PS
+
+        tree = ast.parse(Path(gasm.__file__).read_text(encoding="utf-8"))
+        top_level = {a.name for n in tree.body if isinstance(n, ast.Import) for a in n.names}
+        top_level |= {n.module for n in tree.body if isinstance(n, ast.ImportFrom) and n.module}
+        top_level |= {"%s.%s" % (n.module, a.name) for n in tree.body
+                      if isinstance(n, ast.ImportFrom) and n.module for a in n.names}
+        assert "scripts.pettripfinder.market_partition_resolution" not in top_level
+
+        loaded = set(_sys.modules)
+        for module_name, _attr, _value in PS._patch_targets(Path("C:/nonexistent-stage")):
+            importlib.import_module(module_name)
+        assert "scripts.pettripfinder.market_partition_resolution" not in (set(_sys.modules) - loaded)
+
+    def test_the_committed_closure_declares_no_partition_resolver(self):
+        closure = _json(REAL_PKG / "bundle_cache_closure.json")
+        assert "scripts/pettripfinder/assemble_production_site.py" in closure["code_modules"]
+        assert "scripts/pettripfinder/market_partition_resolution.py" not in closure["code_modules"]
+
+
+# --------------------------------------------------------------------------- #
 # Performance: the generic resolution is negligible.
 # --------------------------------------------------------------------------- #
 
