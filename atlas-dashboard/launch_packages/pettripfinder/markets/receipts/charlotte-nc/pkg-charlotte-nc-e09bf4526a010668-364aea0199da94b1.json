@@ -1,0 +1,747 @@
+{
+ "schema": "ptf-fast-release-receipt/1.0",
+ "lane": "FAST_DATA_ONLY_RELEASE",
+ "PACKAGE_ID": "pkg-charlotte-nc-e09bf4526a010668",
+ "PACKAGE_DIGEST": "sha256:e09bf4526a010668a3499083542c6eee6e7eb86cbd19fa198acb82963ecdde2c",
+ "MARKET_ID": "charlotte-nc",
+ "PARENT_RELEASE": {
+  "live_deploy_id": "6aa593019a24fc17a07566a4",
+  "rollback_target": "6aa212a8ba9f174305c0441a",
+  "source_commit": "fa125e27706f2071d2b35387a0d537795f92f6fe",
+  "live_index_digest": "sha256:8a5ba9103d9ef0eda8edc75be3bbf09dc1e43a7e3dbca8fd2402e254101cc17c"
+ },
+ "CHANGE_CLASS": "MARKET_AUTHORITY_DATA_ONLY",
+ "DEPENDENCY_DIGEST": "sha256:fd7cb29b5ad2a4ee4373e7f7eb89ea6363f22f24bea1456adbd842e25f5c79c3",
+ "VALIDATION_POLICY_VERSION": "ptf-fast-data-only-release/1.0",
+ "RULES_EXECUTED": [
+  {
+   "rule": "A",
+   "name": "package schema valid"
+  },
+  {
+   "rule": "B",
+   "name": "identity valid"
+  },
+  {
+   "rule": "C",
+   "name": "first-party policy binding valid"
+  },
+  {
+   "rule": "D",
+   "name": "policy semantics valid"
+  },
+  {
+   "rule": "E",
+   "name": "route references valid"
+  },
+  {
+   "rule": "F",
+   "name": "market partition valid"
+  },
+  {
+   "rule": "G",
+   "name": "proposed whole-release identity/route indexes contain no forbidden collision"
+  },
+  {
+   "rule": "H",
+   "name": "every unrelated live market/member is preserved"
+  },
+  {
+   "rule": "I",
+   "name": "every removal is explicitly intended"
+  },
+  {
+   "rule": "J",
+   "name": "changed-market artifact builds successfully"
+  },
+  {
+   "rule": "K",
+   "name": "changed-market output deterministic"
+  },
+  {
+   "rule": "L",
+   "name": "package/artifact hashes internally consistent"
+  },
+  {
+   "rule": "M",
+   "name": "required evidence freshness/revocation rules satisfied"
+  },
+  {
+   "rule": "N",
+   "name": "rollback/current-live preservation metadata valid"
+  },
+  {
+   "rule": "O",
+   "name": "paid acquisitions used by the package satisfy reservation provenance"
+  }
+ ],
+ "RESULTS": {
+  "A": {
+   "rule": "A",
+   "name": "package schema valid",
+   "status": "PASS",
+   "seconds": 0.05,
+   "detail": {
+    "schema": "ptf-sealed-market-package/1.0",
+    "package_id": "pkg-charlotte-nc-e09bf4526a010668",
+    "package_digest": "sha256:e09bf4526a010668a3499083542c6eee6e7eb86cbd19fa198acb82963ecdde2c"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "B": {
+   "rule": "B",
+   "name": "identity valid",
+   "status": "PASS",
+   "seconds": 0.271,
+   "detail": {
+    "identity_records": 268,
+    "census_count": 268,
+    "declared_relations": 0,
+    "writer_seconds": 0.266
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "C": {
+   "rule": "C",
+   "name": "first-party policy binding valid",
+   "status": "PASS",
+   "seconds": 0.321,
+   "detail": {
+    "records_evaluated": 147,
+    "eligible": 147,
+    "ineligible": 0,
+    "classes": {}
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "D": {
+   "rule": "D",
+   "name": "policy semantics valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "pet_friendly_records": 106,
+    "verified_no_pets_records": 41,
+    "policy_schema": "1.3"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "E": {
+   "rule": "E",
+   "name": "route references valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "official_routes": 0,
+    "public_routes": 123
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "F": {
+   "rule": "F",
+   "name": "market partition valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "partition_count": 268,
+    "unresolved_rows": 121,
+    "counts_by_partition_state": {
+     "AWAITING_ATTENDED_CAPTURE": 6,
+     "AWAITING_OFFICIAL_URL": 107,
+     "AWAITING_POLICY_OBSERVATION": 8,
+     "PUBLISHED_PET_FRIENDLY": 106,
+     "VERIFIED_NO_PETS": 41
+    }
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "G": {
+   "rule": "G",
+   "name": "proposed whole-release identity/route indexes contain no forbidden collision",
+   "status": "PASS",
+   "seconds": 0.085,
+   "detail": {
+    "live_digest": "sha256:8a5ba9103d9ef0eda8edc75be3bbf09dc1e43a7e3dbca8fd2402e254101cc17c",
+    "proposed_digest": "sha256:80e2aa2b285f704808ef68f38982e2e22a76aaf5e2676559999fe66c14aaa757",
+    "proposed_participating": [
+     "charlotte-nc",
+     "cincinnati-oh",
+     "cleveland-akron-canton-oh",
+     "columbus-oh",
+     "dayton-oh",
+     "grand-rapids-holland-mi",
+     "indianapolis-in",
+     "lexington-ky",
+     "louisville-ky",
+     "milwaukee-wi",
+     "nashville-tn",
+     "pittsburgh-pa",
+     "raleigh-nc",
+     "st-louis-mo",
+     "toledo-oh"
+    ],
+    "proposed_total_profiles": 1071,
+    "legacy_collisions_outside_package": 0,
+    "compare_seconds": 0.0736
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "H": {
+   "rule": "H",
+   "name": "every unrelated live market/member is preserved",
+   "status": "PASS",
+   "seconds": 0.085,
+   "detail": {
+    "live_participating": [
+     "cincinnati-oh",
+     "cleveland-akron-canton-oh",
+     "columbus-oh",
+     "dayton-oh",
+     "grand-rapids-holland-mi",
+     "indianapolis-in",
+     "lexington-ky",
+     "louisville-ky",
+     "milwaukee-wi",
+     "nashville-tn",
+     "pittsburgh-pa",
+     "raleigh-nc",
+     "st-louis-mo",
+     "toledo-oh"
+    ],
+    "live_total_profiles": 965,
+    "finding_counts": {}
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "I": {
+   "rule": "I",
+   "name": "every removal is explicitly intended",
+   "status": "PASS",
+   "seconds": 0.085,
+   "detail": {
+    "intended_delta": {
+     "market_id": "charlotte-nc",
+     "add_property_ids": [],
+     "update_property_ids": [],
+     "remove_property_ids": [],
+     "add_routes": [
+      "/pet-friendly-hotels/charlotte-nc/",
+      "/pet-friendly-hotels/charlotte-nc/ac-hotel-charlotte-city-center/",
+      "/pet-friendly-hotels/charlotte-nc/ac-hotel-charlotte-southpark/",
+      "/pet-friendly-hotels/charlotte-nc/airport-west/",
+      "/pet-friendly-hotels/charlotte-nc/aloft-by-marriott-charlotte-airport/",
+      "/pet-friendly-hotels/charlotte-nc/aloft-by-marriott-charlotte-ballantyne/",
+      "/pet-friendly-hotels/charlotte-nc/aloft-by-marriott-charlotte-city-center/",
+      "/pet-friendly-hotels/charlotte-nc/arrowood-steele-creek/",
+      "/pet-friendly-hotels/charlotte-nc/avid-hotels-fort-mill-carowinds-blvd/",
+      "/pet-friendly-hotels/charlotte-nc/ballantyne-piper-glen/",
+      "/pet-friendly-hotels/charlotte-nc/belmont-gastonia-i85-southwest/",
+      "/pet-friendly-hotels/charlotte-nc/candlewood-suites-charlotte-arrowood/",
+      "/pet-friendly-hotels/charlotte-nc/candlewood-suites-fort-mill-amusement-park-area/",
+      "/pet-friendly-hotels/charlotte-nc/candlewood-suites-huntersville-lake-norman-area/",
+      "/pet-friendly-hotels/charlotte-nc/canopy-by-hilton-charlotte-southpark/",
+      "/pet-friendly-hotels/charlotte-nc/charlotte-marriott-city-center/",
+      "/pet-friendly-hotels/charlotte-nc/charlotte-marriott-southpark/",
+      "/pet-friendly-hotels/charlotte-nc/concord-speedway-i85-northeast/",
+      "/pet-friendly-hotels/charlotte-nc/courtyard-by-marriott-charlotte-airport-north/",
+      "/pet-friendly-hotels/charlotte-nc/courtyard-by-marriott-charlotte-arrowood/",
+      "/pet-friendly-hotels/charlotte-nc/courtyard-by-marriott-charlotte-gastonia/",
+      "/pet-friendly-hotels/charlotte-nc/courtyard-by-marriott-charlotte-northlake/",
+      "/pet-friendly-hotels/charlotte-nc/courtyard-by-marriott-charlotte-southpark/",
+      "/pet-friendly-hotels/charlotte-nc/doubletree-by-hilton-south-charlotte-tyvola/",
+      "/pet-friendly-hotels/charlotte-nc/drury-inn-suites-charlotte-arrowood/",
+      "/pet-friendly-hotels/charlotte-nc/drury-inn-suites-charlotte-northlake/",
+      "/pet-friendly-hotels/charlotte-nc/drury-inn-suites-charlotte-university-place/",
+      "/pet-friendly-hotels/charlotte-nc/element-by-marriott-charlotte-uptown/",
+      "/pet-friendly-hotels/charlotte-nc/embassy-suites-by-hilton-charlotte-ayrsley/",
+      "/pet-friendly-hotels/charlotte-nc/embassy-suites-by-hilton-charlotte-uptown/",
+      "/pet-friendly-hotels/charlotte-nc/embassy-suites-by-hilton-charlotte/",
+      "/pet-friendly-hotels/charlotte-nc/fairfield-by-marriott-inn-suites-charlotte-matthews/",
+      "/pet-friendly-hotels/charlotte-nc/fairfield-by-marriott-inn-suites-charlotte-pineville/",
+      "/pet-friendly-hotels/charlotte-nc/fort-mill-carowinds-i77-south/",
+      "/pet-friendly-hotels/charlotte-nc/four-points-by-sheraton-charlotte-lake-norman/",
+      "/pet-friendly-hotels/charlotte-nc/grand-bohemian-charlotte-autograph-collection/",
+      "/pet-friendly-hotels/charlotte-nc/hampton-inn-charlotte-belmont-montcross/",
+      "/pet-friendly-hotels/charlotte-nc/hampton-inn-charlotte-matthews/",
+      "/pet-friendly-hotels/charlotte-nc/hampton-inn-charlotte-north-lake-norman/",
+      "/pet-friendly-hotels/charlotte-nc/hampton-inn-charlotte-university-place/",
+      "/pet-friendly-hotels/charlotte-nc/hampton-inn-charlotte-uptown/",
+      "/pet-friendly-hotels/charlotte-nc/hampton-inn-concord-kannapolis/",
+      "/pet-friendly-hotels/charlotte-nc/hampton-inn-suites-by-hilton-charlotte-north-i-485/",
+      "/pet-friendly-hotels/charlotte-nc/hampton-inn-suites-charlotte-arrowood-rd/",
+      "/pet-friendly-hotels/charlotte-nc/hampton-inn-suites-charlotte-ballantyne/",
+      "/pet-friendly-hotels/charlotte-nc/hampton-inn-suites-charlotte-southpark-at-phillips-place/",
+      "/pet-friendly-hotels/charlotte-nc/hampton-inn-suites-charlotte-steele-creek/",
+      "/pet-friendly-hotels/charlotte-nc/hampton-inn-suites-concord-charlotte/",
+      "/pet-friendly-hotels/charlotte-nc/hampton-inn-suites-fort-mill/",
+      "/pet-friendly-hotels/charlotte-nc/hampton-inn-suites-huntersville/",
+      "/pet-friendly-hotels/charlotte-nc/hilton-charlotte-airport/",
+      "/pet-friendly-hotels/charlotte-nc/hilton-garden-inn-charlotte-airport/",
+      "/pet-friendly-hotels/charlotte-nc/hilton-garden-inn-charlotte-ayrsley/",
+      "/pet-friendly-hotels/charlotte-nc/hilton-garden-inn-charlotte-concord/",
+      "/pet-friendly-hotels/charlotte-nc/hilton-garden-inn-charlotte-north/",
+      "/pet-friendly-hotels/charlotte-nc/hilton-garden-inn-charlotte-pineville/",
+      "/pet-friendly-hotels/charlotte-nc/hilton-garden-inn-charlotte-southpark/",
+      "/pet-friendly-hotels/charlotte-nc/hilton-garden-inn-charlotte-uptown/",
+      "/pet-friendly-hotels/charlotte-nc/hilton-garden-inn-charlotte-waverly/",
+      "/pet-friendly-hotels/charlotte-nc/hilton-garden-inn-gastonia/",
+      "/pet-friendly-hotels/charlotte-nc/hilton-garden-inn-steele-creek-charlotte/",
+      "/pet-friendly-hotels/charlotte-nc/holiday-inn-express-charlotte-west-gastonia/",
+      "/pet-friendly-hotels/charlotte-nc/holiday-inn-express-suites-charlotte-arpt-belmont-by-ihg/",
+      "/pet-friendly-hotels/charlotte-nc/holiday-inn-express-suites-charlotte-ballantyne/",
+      "/pet-friendly-hotels/charlotte-nc/holiday-inn-fort-mill-amusement-park-area/",
+      "/pet-friendly-hotels/charlotte-nc/home2-suites-by-hilton-charlotte-airport-lake-pointe/",
+      "/pet-friendly-hotels/charlotte-nc/home2-suites-by-hilton-charlotte-airport/",
+      "/pet-friendly-hotels/charlotte-nc/home2-suites-by-hilton-charlotte-belmont/",
+      "/pet-friendly-hotels/charlotte-nc/home2-suites-by-hilton-charlotte-i-77-tyvola-rd/",
+      "/pet-friendly-hotels/charlotte-nc/home2-suites-by-hilton-charlotte-northlake/",
+      "/pet-friendly-hotels/charlotte-nc/home2-suites-by-hilton-charlotte-piper-glen/",
+      "/pet-friendly-hotels/charlotte-nc/home2-suites-by-hilton-charlotte-university-research-park/",
+      "/pet-friendly-hotels/charlotte-nc/home2-suites-by-hilton-charlotte-uptown/",
+      "/pet-friendly-hotels/charlotte-nc/home2-suites-by-hilton-concord-charlotte/",
+      "/pet-friendly-hotels/charlotte-nc/home2-suites-by-hilton-fort-mill/",
+      "/pet-friendly-hotels/charlotte-nc/homewood-suites-by-hilton-charlotte-ayrsley-nc/",
+      "/pet-friendly-hotels/charlotte-nc/homewood-suites-by-hilton-charlotte-ballantyne-nc/",
+      "/pet-friendly-hotels/charlotte-nc/homewood-suites-by-hilton-charlotte-southpark/",
+      "/pet-friendly-hotels/charlotte-nc/homewood-suites-by-hilton-charlotte-uptown-first-ward/",
+      "/pet-friendly-hotels/charlotte-nc/homewood-suites-by-hilton-davidson/",
+      "/pet-friendly-hotels/charlotte-nc/independent-sphc-concord-suites/",
+      "/pet-friendly-hotels/charlotte-nc/kimpton-tryon-park-hotel/",
+      "/pet-friendly-hotels/charlotte-nc/lake-norman-huntersville-cornelius-davidson/",
+      "/pet-friendly-hotels/charlotte-nc/le-meridien-charlotte/",
+      "/pet-friendly-hotels/charlotte-nc/moxy-charlotte-downtown/",
+      "/pet-friendly-hotels/charlotte-nc/renaissance-charlotte-southpark-hotel/",
+      "/pet-friendly-hotels/charlotte-nc/residence-inn-by-marriott-charlotte-airport/",
+      "/pet-friendly-hotels/charlotte-nc/residence-inn-by-marriott-charlotte-city-center/",
+      "/pet-friendly-hotels/charlotte-nc/residence-inn-by-marriott-charlotte-concord/",
+      "/pet-friendly-hotels/charlotte-nc/residence-inn-by-marriott-charlotte-lake-norman/",
+      "/pet-friendly-hotels/charlotte-nc/residence-inn-by-marriott-charlotte-northlake/",
+      "/pet-friendly-hotels/charlotte-nc/residence-inn-by-marriott-charlotte-piper-glen/",
+      "/pet-friendly-hotels/charlotte-nc/residence-inn-by-marriott-charlotte-southpark/",
+      "/pet-friendly-hotels/charlotte-nc/residence-inn-by-marriott-charlotte-steele-creek/",
+      "/pet-friendly-hotels/charlotte-nc/residence-inn-by-marriott-charlotte-uptown/",
+      "/pet-friendly-hotels/charlotte-nc/sheraton-charlotte-airport-hotel/",
+      "/pet-friendly-hotels/charlotte-nc/sheraton-charlotte-hotel/",
+      "/pet-friendly-hotels/charlotte-nc/southpark-myers-park/",
+      "/pet-friendly-hotels/charlotte-nc/spark-by-hilton-charlotte-airport-north/",
+      "/pet-friendly-hotels/charlotte-nc/spark-by-hilton-charlotte-tyvola-i-77/",
+      "/pet-friendly-hotels/charlotte-nc/springhill-suites-by-marriott-charlotte-southwest/",
+      "/pet-friendly-hotels/charlotte-nc/staybridge-suites-charlotte-arpt-area-tyvola/",
+      "/pet-friendly-hotels/charlotte-nc/staybridge-suites-charlotte-ballantyne/",
+      "/pet-friendly-hotels/charlotte-nc/the-mecklen-hotel-charlotte-a-tribute-portfolio-hotel/",
+      "/pet-friendly-hotels/charlotte-nc/the-westin-charlotte/",
+      "/pet-friendly-hotels/charlotte-nc/towneplace-suites-by-marriott-charlotte-fort-mill/",
+      "/pet-friendly-hotels/charlotte-nc/towneplace-suites-by-marriott-charlotte-loso-airport/",
+      "/pet-friendly-hotels/charlotte-nc/towneplace-suites-by-marriott-fort-mill-at-carowinds-blvd/",
+      "/pet-friendly-hotels/charlotte-nc/tru-by-hilton-charlotte-airport-lake-pointe/",
+      "/pet-friendly-hotels/charlotte-nc/tru-by-hilton-charlotte-ayrsley/",
+      "/pet-friendly-hotels/charlotte-nc/tru-by-hilton-charlotte-tyvola-i-77/",
+      "/pet-friendly-hotels/charlotte-nc/tru-by-hilton-concord-charlotte/",
+      "/pet-friendly-hotels/charlotte-nc/tru-by-hilton-fort-mill/",
+      "/pet-friendly-hotels/charlotte-nc/tru-by-hilton-gastonia/",
+      "/pet-friendly-hotels/charlotte-nc/tyvola-yorkmont/",
+      "/pet-friendly-hotels/charlotte-nc/unc-charlotte-marriott-hotel-and-conference-center/",
+      "/pet-friendly-hotels/charlotte-nc/university-city-research-park/",
+      "/pet-friendly-hotels/charlotte-nc/uptown-center-city/"
+     ],
+     "change_routes": [],
+     "remove_routes": [],
+     "expected_profile_delta": 0,
+     "expected_market_count_delta": 1,
+     "expected_participation_delta": [
+      {
+       "market_id": "charlotte-nc",
+       "from": false,
+       "to": true
+      }
+     ]
+    },
+    "actual_delta": {
+     "add_property_ids": [],
+     "update_property_ids": [],
+     "remove_property_ids": [],
+     "add_routes": [
+      "/pet-friendly-hotels/charlotte-nc/",
+      "/pet-friendly-hotels/charlotte-nc/ac-hotel-charlotte-city-center/",
+      "/pet-friendly-hotels/charlotte-nc/ac-hotel-charlotte-southpark/",
+      "/pet-friendly-hotels/charlotte-nc/airport-west/",
+      "/pet-friendly-hotels/charlotte-nc/aloft-by-marriott-charlotte-airport/",
+      "/pet-friendly-hotels/charlotte-nc/aloft-by-marriott-charlotte-ballantyne/",
+      "/pet-friendly-hotels/charlotte-nc/aloft-by-marriott-charlotte-city-center/",
+      "/pet-friendly-hotels/charlotte-nc/arrowood-steele-creek/",
+      "/pet-friendly-hotels/charlotte-nc/avid-hotels-fort-mill-carowinds-blvd/",
+      "/pet-friendly-hotels/charlotte-nc/ballantyne-piper-glen/",
+      "/pet-friendly-hotels/charlotte-nc/belmont-gastonia-i85-southwest/",
+      "/pet-friendly-hotels/charlotte-nc/candlewood-suites-charlotte-arrowood/",
+      "/pet-friendly-hotels/charlotte-nc/candlewood-suites-fort-mill-amusement-park-area/",
+      "/pet-friendly-hotels/charlotte-nc/candlewood-suites-huntersville-lake-norman-area/",
+      "/pet-friendly-hotels/charlotte-nc/canopy-by-hilton-charlotte-southpark/",
+      "/pet-friendly-hotels/charlotte-nc/charlotte-marriott-city-center/",
+      "/pet-friendly-hotels/charlotte-nc/charlotte-marriott-southpark/",
+      "/pet-friendly-hotels/charlotte-nc/concord-speedway-i85-northeast/",
+      "/pet-friendly-hotels/charlotte-nc/courtyard-by-marriott-charlotte-airport-north/",
+      "/pet-friendly-hotels/charlotte-nc/courtyard-by-marriott-charlotte-arrowood/",
+      "/pet-friendly-hotels/charlotte-nc/courtyard-by-marriott-charlotte-gastonia/",
+      "/pet-friendly-hotels/charlotte-nc/courtyard-by-marriott-charlotte-northlake/",
+      "/pet-friendly-hotels/charlotte-nc/courtyard-by-marriott-charlotte-southpark/",
+      "/pet-friendly-hotels/charlotte-nc/doubletree-by-hilton-south-charlotte-tyvola/",
+      "/pet-friendly-hotels/charlotte-nc/drury-inn-suites-charlotte-arrowood/",
+      "/pet-friendly-hotels/charlotte-nc/drury-inn-suites-charlotte-northlake/",
+      "/pet-friendly-hotels/charlotte-nc/drury-inn-suites-charlotte-university-place/",
+      "/pet-friendly-hotels/charlotte-nc/element-by-marriott-charlotte-uptown/",
+      "/pet-friendly-hotels/charlotte-nc/embassy-suites-by-hilton-charlotte-ayrsley/",
+      "/pet-friendly-hotels/charlotte-nc/embassy-suites-by-hilton-charlotte-uptown/",
+      "/pet-friendly-hotels/charlotte-nc/embassy-suites-by-hilton-charlotte/",
+      "/pet-friendly-hotels/charlotte-nc/fairfield-by-marriott-inn-suites-charlotte-matthews/",
+      "/pet-friendly-hotels/charlotte-nc/fairfield-by-marriott-inn-suites-charlotte-pineville/",
+      "/pet-friendly-hotels/charlotte-nc/fort-mill-carowinds-i77-south/",
+      "/pet-friendly-hotels/charlotte-nc/four-points-by-sheraton-charlotte-lake-norman/",
+      "/pet-friendly-hotels/charlotte-nc/grand-bohemian-charlotte-autograph-collection/",
+      "/pet-friendly-hotels/charlotte-nc/hampton-inn-charlotte-belmont-montcross/",
+      "/pet-friendly-hotels/charlotte-nc/hampton-inn-charlotte-matthews/",
+      "/pet-friendly-hotels/charlotte-nc/hampton-inn-charlotte-north-lake-norman/",
+      "/pet-friendly-hotels/charlotte-nc/hampton-inn-charlotte-university-place/",
+      "/pet-friendly-hotels/charlotte-nc/hampton-inn-charlotte-uptown/",
+      "/pet-friendly-hotels/charlotte-nc/hampton-inn-concord-kannapolis/",
+      "/pet-friendly-hotels/charlotte-nc/hampton-inn-suites-by-hilton-charlotte-north-i-485/",
+      "/pet-friendly-hotels/charlotte-nc/hampton-inn-suites-charlotte-arrowood-rd/",
+      "/pet-friendly-hotels/charlotte-nc/hampton-inn-suites-charlotte-ballantyne/",
+      "/pet-friendly-hotels/charlotte-nc/hampton-inn-suites-charlotte-southpark-at-phillips-place/",
+      "/pet-friendly-hotels/charlotte-nc/hampton-inn-suites-charlotte-steele-creek/",
+      "/pet-friendly-hotels/charlotte-nc/hampton-inn-suites-concord-charlotte/",
+      "/pet-friendly-hotels/charlotte-nc/hampton-inn-suites-fort-mill/",
+      "/pet-friendly-hotels/charlotte-nc/hampton-inn-suites-huntersville/",
+      "/pet-friendly-hotels/charlotte-nc/hilton-charlotte-airport/",
+      "/pet-friendly-hotels/charlotte-nc/hilton-garden-inn-charlotte-airport/",
+      "/pet-friendly-hotels/charlotte-nc/hilton-garden-inn-charlotte-ayrsley/",
+      "/pet-friendly-hotels/charlotte-nc/hilton-garden-inn-charlotte-concord/",
+      "/pet-friendly-hotels/charlotte-nc/hilton-garden-inn-charlotte-north/",
+      "/pet-friendly-hotels/charlotte-nc/hilton-garden-inn-charlotte-pineville/",
+      "/pet-friendly-hotels/charlotte-nc/hilton-garden-inn-charlotte-southpark/",
+      "/pet-friendly-hotels/charlotte-nc/hilton-garden-inn-charlotte-uptown/",
+      "/pet-friendly-hotels/charlotte-nc/hilton-garden-inn-charlotte-waverly/",
+      "/pet-friendly-hotels/charlotte-nc/hilton-garden-inn-gastonia/",
+      "/pet-friendly-hotels/charlotte-nc/hilton-garden-inn-steele-creek-charlotte/",
+      "/pet-friendly-hotels/charlotte-nc/holiday-inn-express-charlotte-west-gastonia/",
+      "/pet-friendly-hotels/charlotte-nc/holiday-inn-express-suites-charlotte-arpt-belmont-by-ihg/",
+      "/pet-friendly-hotels/charlotte-nc/holiday-inn-express-suites-charlotte-ballantyne/",
+      "/pet-friendly-hotels/charlotte-nc/holiday-inn-fort-mill-amusement-park-area/",
+      "/pet-friendly-hotels/charlotte-nc/home2-suites-by-hilton-charlotte-airport-lake-pointe/",
+      "/pet-friendly-hotels/charlotte-nc/home2-suites-by-hilton-charlotte-airport/",
+      "/pet-friendly-hotels/charlotte-nc/home2-suites-by-hilton-charlotte-belmont/",
+      "/pet-friendly-hotels/charlotte-nc/home2-suites-by-hilton-charlotte-i-77-tyvola-rd/",
+      "/pet-friendly-hotels/charlotte-nc/home2-suites-by-hilton-charlotte-northlake/",
+      "/pet-friendly-hotels/charlotte-nc/home2-suites-by-hilton-charlotte-piper-glen/",
+      "/pet-friendly-hotels/charlotte-nc/home2-suites-by-hilton-charlotte-university-research-park/",
+      "/pet-friendly-hotels/charlotte-nc/home2-suites-by-hilton-charlotte-uptown/",
+      "/pet-friendly-hotels/charlotte-nc/home2-suites-by-hilton-concord-charlotte/",
+      "/pet-friendly-hotels/charlotte-nc/home2-suites-by-hilton-fort-mill/",
+      "/pet-friendly-hotels/charlotte-nc/homewood-suites-by-hilton-charlotte-ayrsley-nc/",
+      "/pet-friendly-hotels/charlotte-nc/homewood-suites-by-hilton-charlotte-ballantyne-nc/",
+      "/pet-friendly-hotels/charlotte-nc/homewood-suites-by-hilton-charlotte-southpark/",
+      "/pet-friendly-hotels/charlotte-nc/homewood-suites-by-hilton-charlotte-uptown-first-ward/",
+      "/pet-friendly-hotels/charlotte-nc/homewood-suites-by-hilton-davidson/",
+      "/pet-friendly-hotels/charlotte-nc/independent-sphc-concord-suites/",
+      "/pet-friendly-hotels/charlotte-nc/kimpton-tryon-park-hotel/",
+      "/pet-friendly-hotels/charlotte-nc/lake-norman-huntersville-cornelius-davidson/",
+      "/pet-friendly-hotels/charlotte-nc/le-meridien-charlotte/",
+      "/pet-friendly-hotels/charlotte-nc/moxy-charlotte-downtown/",
+      "/pet-friendly-hotels/charlotte-nc/renaissance-charlotte-southpark-hotel/",
+      "/pet-friendly-hotels/charlotte-nc/residence-inn-by-marriott-charlotte-airport/",
+      "/pet-friendly-hotels/charlotte-nc/residence-inn-by-marriott-charlotte-city-center/",
+      "/pet-friendly-hotels/charlotte-nc/residence-inn-by-marriott-charlotte-concord/",
+      "/pet-friendly-hotels/charlotte-nc/residence-inn-by-marriott-charlotte-lake-norman/",
+      "/pet-friendly-hotels/charlotte-nc/residence-inn-by-marriott-charlotte-northlake/",
+      "/pet-friendly-hotels/charlotte-nc/residence-inn-by-marriott-charlotte-piper-glen/",
+      "/pet-friendly-hotels/charlotte-nc/residence-inn-by-marriott-charlotte-southpark/",
+      "/pet-friendly-hotels/charlotte-nc/residence-inn-by-marriott-charlotte-steele-creek/",
+      "/pet-friendly-hotels/charlotte-nc/residence-inn-by-marriott-charlotte-uptown/",
+      "/pet-friendly-hotels/charlotte-nc/sheraton-charlotte-airport-hotel/",
+      "/pet-friendly-hotels/charlotte-nc/sheraton-charlotte-hotel/",
+      "/pet-friendly-hotels/charlotte-nc/southpark-myers-park/",
+      "/pet-friendly-hotels/charlotte-nc/spark-by-hilton-charlotte-airport-north/",
+      "/pet-friendly-hotels/charlotte-nc/spark-by-hilton-charlotte-tyvola-i-77/",
+      "/pet-friendly-hotels/charlotte-nc/springhill-suites-by-marriott-charlotte-southwest/",
+      "/pet-friendly-hotels/charlotte-nc/staybridge-suites-charlotte-arpt-area-tyvola/",
+      "/pet-friendly-hotels/charlotte-nc/staybridge-suites-charlotte-ballantyne/",
+      "/pet-friendly-hotels/charlotte-nc/the-mecklen-hotel-charlotte-a-tribute-portfolio-hotel/",
+      "/pet-friendly-hotels/charlotte-nc/the-westin-charlotte/",
+      "/pet-friendly-hotels/charlotte-nc/towneplace-suites-by-marriott-charlotte-fort-mill/",
+      "/pet-friendly-hotels/charlotte-nc/towneplace-suites-by-marriott-charlotte-loso-airport/",
+      "/pet-friendly-hotels/charlotte-nc/towneplace-suites-by-marriott-fort-mill-at-carowinds-blvd/",
+      "/pet-friendly-hotels/charlotte-nc/tru-by-hilton-charlotte-airport-lake-pointe/",
+      "/pet-friendly-hotels/charlotte-nc/tru-by-hilton-charlotte-ayrsley/",
+      "/pet-friendly-hotels/charlotte-nc/tru-by-hilton-charlotte-tyvola-i-77/",
+      "/pet-friendly-hotels/charlotte-nc/tru-by-hilton-concord-charlotte/",
+      "/pet-friendly-hotels/charlotte-nc/tru-by-hilton-fort-mill/",
+      "/pet-friendly-hotels/charlotte-nc/tru-by-hilton-gastonia/",
+      "/pet-friendly-hotels/charlotte-nc/tyvola-yorkmont/",
+      "/pet-friendly-hotels/charlotte-nc/unc-charlotte-marriott-hotel-and-conference-center/",
+      "/pet-friendly-hotels/charlotte-nc/university-city-research-park/",
+      "/pet-friendly-hotels/charlotte-nc/uptown-center-city/"
+     ],
+     "remove_routes": [],
+     "profile_delta": 0,
+     "verified_no_pets_delta": 0,
+     "market_count_delta": 1
+    },
+    "removal_authority": {}
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "J": {
+   "rule": "J",
+   "name": "changed-market artifact builds successfully",
+   "status": "PASS",
+   "seconds": 75.432,
+   "detail": {
+    "bundle_sha256": "3c1c3ad80a9194e9056fee2fec6e6f8573d78c419d67b33ee38b793d1c6f7773",
+    "file_count": 670,
+    "html_count": 654,
+    "staged_input_digest": "sha256:c0ef4b11d446daf4431cdafd56eb32b14e934be75670f2352a03f1842309bbd7",
+    "contract_sha256": "sha256:8be3874982045e2c0106ac96738f28db7d184bdbc64494cf7e31a0cb206cb216",
+    "release_name": "package-charlotte-nc-c733045-2624f7df-206e473a",
+    "cache_events": [
+     {
+      "verdict": "BUILD_EXECUTED",
+      "assembly_kind": "generator_site",
+      "input_key": "afeed11d9b37d6a3680e0971cff1a7f6d8889d17fb77fb474542d6c1c29a8653",
+      "seconds": 26.463
+     },
+     {
+      "verdict": "BUILD_EXECUTED",
+      "assembly_kind": "market_bundle",
+      "input_key": "ee6f389dc54a84cd2200e2a6a118cb62e80d4ab5eb0ca1779effac268c321892",
+      "seconds": 44.567
+     }
+    ],
+    "build_seconds": 75.101
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "K": {
+   "rule": "K",
+   "name": "changed-market output deterministic",
+   "status": "PASS",
+   "seconds": 43.424,
+   "detail": {
+    "input_digest": "sha256:c0ef4b11d446daf4431cdafd56eb32b14e934be75670f2352a03f1842309bbd7",
+    "output_digest_a": "3c1c3ad80a9194e9056fee2fec6e6f8573d78c419d67b33ee38b793d1c6f7773",
+    "output_digest_b": "3c1c3ad80a9194e9056fee2fec6e6f8573d78c419d67b33ee38b793d1c6f7773",
+    "result": "BYTE_IDENTICAL",
+    "cold_builds_executed": 4,
+    "reuse_hits": 0,
+    "build_seconds": 43.424
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "L": {
+   "rule": "L",
+   "name": "package/artifact hashes internally consistent",
+   "status": "PASS",
+   "seconds": 0.001,
+   "detail": {
+    "package_digest": "sha256:e09bf4526a010668a3499083542c6eee6e7eb86cbd19fa198acb82963ecdde2c",
+    "rederived_digest": "sha256:e09bf4526a010668a3499083542c6eee6e7eb86cbd19fa198acb82963ecdde2c",
+    "evidence_references": 147,
+    "artifacts_available": 0,
+    "artifacts_checked": 0,
+    "dependency_inputs": 7,
+    "dependency_digest": "sha256:fd7cb29b5ad2a4ee4373e7f7eb89ea6363f22f24bea1456adbd842e25f5c79c3"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "M": {
+   "rule": "M",
+   "name": "required evidence freshness/revocation rules satisfied",
+   "status": "PASS",
+   "seconds": 0.002,
+   "detail": {
+    "max_age_days": 365,
+    "references": 147,
+    "revoked_registry_size": 0,
+    "earliest_expiry": "2027-09-10T00:00:00Z"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "N": {
+   "rule": "N",
+   "name": "rollback/current-live preservation metadata valid",
+   "status": "PASS",
+   "seconds": 0.024,
+   "detail": {
+    "live": {
+     "live_deploy_id": "6aa593019a24fc17a07566a4",
+     "previous_deploy_id": "6aa212a8ba9f174305c0441a",
+     "rollback_target": "6aa212a8ba9f174305c0441a",
+     "source_commit": "fa125e27706f2071d2b35387a0d537795f92f6fe",
+     "bundle_sha256": "61ca6a2ef2f170c0ede36cdce03cbf36ee3ae498371d25b79e85e30cc20dc046",
+     "sitemap_sha256": "55996aa7707e57888ce3545bfb0e55d3ec1c558204264bc4dfcbaf9573f0a72a",
+     "participating_markets": [
+      "cincinnati-oh",
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "grand-rapids-holland-mi",
+      "indianapolis-in",
+      "lexington-ky",
+      "louisville-ky",
+      "milwaukee-wi",
+      "nashville-tn",
+      "pittsburgh-pa",
+      "raleigh-nc",
+      "st-louis-mo",
+      "toledo-oh"
+     ],
+     "profile_counts": {
+      "cincinnati-oh": 130,
+      "cleveland-akron-canton-oh": 120,
+      "columbus-oh": 88,
+      "dayton-oh": 54,
+      "grand-rapids-holland-mi": 43,
+      "indianapolis-in": 82,
+      "lexington-ky": 20,
+      "louisville-ky": 53,
+      "milwaukee-wi": 73,
+      "nashville-tn": 79,
+      "pittsburgh-pa": 61,
+      "raleigh-nc": 63,
+      "st-louis-mo": 82,
+      "toledo-oh": 17
+     },
+     "total_profiles": 965,
+     "sitemap_route_count": 1148,
+     "deployment_record": "ptf-deploy-raleigh-003-6aa593019a24fc17a07566a4.json",
+     "authorization_id": "ptf-auth-raleigh-003-61ca6a2ef2f1",
+     "rollback_record": "ptf-deploy-nashville-005-6aa212a8ba9f174305c0441a.json",
+     "rollback_markets": [
+      "cincinnati-oh",
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "grand-rapids-holland-mi",
+      "indianapolis-in",
+      "lexington-ky",
+      "louisville-ky",
+      "milwaukee-wi",
+      "nashville-tn",
+      "pittsburgh-pa",
+      "st-louis-mo",
+      "toledo-oh"
+     ],
+     "problems": []
+    },
+    "stale_parent": false
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "O": {
+   "rule": "O",
+   "name": "paid acquisitions used by the package satisfy reservation provenance",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "paid_references": 0,
+    "ledger_cross_checked": 0,
+    "ledger_unknown": 0
+   },
+   "problems": [],
+   "problem_count": 0
+  }
+ },
+ "TIMESTAMPS": {
+  "started_at": "2026-09-12T18:52:26Z",
+  "finished_at": "2026-09-12T18:54:26Z",
+  "seconds": 119.971
+ },
+ "ARTIFACT_DIGESTS": {
+  "changed_market_bundle_sha256_a": "3c1c3ad80a9194e9056fee2fec6e6f8573d78c419d67b33ee38b793d1c6f7773",
+  "changed_market_bundle_sha256_b": "3c1c3ad80a9194e9056fee2fec6e6f8573d78c419d67b33ee38b793d1c6f7773",
+  "staged_input_digest": "sha256:c0ef4b11d446daf4431cdafd56eb32b14e934be75670f2352a03f1842309bbd7",
+  "staged_contract_sha256": "sha256:8be3874982045e2c0106ac96738f28db7d184bdbc64494cf7e31a0cb206cb216"
+ },
+ "GLOBAL_INDEX_DIGEST": {
+  "live": "sha256:8a5ba9103d9ef0eda8edc75be3bbf09dc1e43a7e3dbca8fd2402e254101cc17c",
+  "proposed": "sha256:80e2aa2b285f704808ef68f38982e2e22a76aaf5e2676559999fe66c14aaa757"
+ },
+ "PACKAGE_INDEX_DIGEST": "sha256:b13225b7de398ef50072b40b80410668853c657a3a866198da6cc6a9cebff138",
+ "INTENDED_DELTA_DIGEST": "sha256:b2a566eb38e3bc6278da0b3ccc992b8abb85073edc436a85de9a7c679f131914",
+ "DETERMINISM_RESULT": "BYTE_IDENTICAL",
+ "FIRST_PARTY_BINDING_RESULT": "PASS",
+ "COLLISION_RESULT": "PASS",
+ "REMOVAL_RESULT": "PASS",
+ "LEGACY_EXCEPTIONS": [],
+ "ENVIRONMENT": {
+  "python": "3.13.5",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "builder_version": "ptf-market-package-writer/1.0",
+  "contract_versions": {
+   "market": "ptf-market/1.1",
+   "census": "ptf-market-identity-census/1.1",
+   "partition": "ptf-market-final-partition/1.1",
+   "policy_schema": "1.3",
+   "evidence": "contracts.evidence PUBLICATION_GRADE_REQUIRED=evidence_ref,field,quote,source_url,source_grade,artifact_class,artifact_sha256,artifact_kind,captured_at",
+   "identity_key": "ptf_identity_key/1.0",
+   "identity_routing": "ptf-identity-routing/1.0",
+   "hotel_exclusions": "ptf-hotel-exclusions/1.0",
+   "sealed_market_package": "ptf-sealed-market-package/1.0"
+  },
+  "created_from_source_sha": "c7330450ef0cd71d9a7c9369619c1d5e11fa7e03",
+  "peak_working_set_mb": 187.4
+ },
+ "EXPIRY_REVOCATION_CONDITIONS": {
+  "valid_while": [
+   "the live deployment is 6aa593019a24fc17a07566a4",
+   "the live index digest is sha256:8a5ba9103d9ef0eda8edc75be3bbf09dc1e43a7e3dbca8fd2402e254101cc17c",
+   "no referenced artifact is added to evidence_revocations.json",
+   "the evidence is younger than 365 days",
+   "the owning contracts are at the versions recorded in ENVIRONMENT",
+   "the sealed package bytes are unchanged (digest above)"
+  ],
+  "earliest_evidence_expiry": "2027-09-10T00:00:00Z",
+  "evidence_max_age_days": 365
+ },
+ "UNKNOWN_RULES": [],
+ "FAILED_RULES": [],
+ "FAST_DATA_ONLY_RELEASE_ELIGIBLE": "YES",
+ "FULL_REGRESSION_REQUIRED_BY_LANE": "NO",
+ "FAST_PATH_PRODUCTION_ACTIVATION": "DISABLED",
+ "PRODUCTION_ACTIVATION_ALLOWED": "NO",
+ "PERFORMANCE": {
+  "total_seconds": 119.971,
+  "per_rule_seconds": {
+   "A": 0.05,
+   "B": 0.271,
+   "C": 0.321,
+   "D": 0.0,
+   "E": 0.0,
+   "F": 0.0,
+   "G": 0.085,
+   "H": 0.085,
+   "I": 0.085,
+   "J": 75.432,
+   "K": 43.424,
+   "L": 0.001,
+   "M": 0.002,
+   "N": 0.024,
+   "O": 0.0
+  },
+  "changed_market_build_seconds": 75.101,
+  "determinism_build_seconds": 43.424
+ },
+ "RECEIPT_DIGEST": "sha256:364aea0199da94b1c12049ecbb57ba0781096fccbebfb10afe90d034b617767e"
+}
