@@ -1,0 +1,51 @@
+{
+ "schema": "ptf-live-verification-receipt/1.0",
+ "work_order": "PTF-RALEIGH-NC-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-003",
+ "what_this_is": "The targeted post-activation verification of the Raleigh launch, read from the HOST, not from the repository. No broad regression was run after deployment, by order.",
+ "market_id": "raleigh-nc",
+ "host_deployment_id": "6aa593019a24fc17a07566a4",
+ "authorization_id": "ptf-auth-raleigh-003-61ca6a2ef2f1",
+ "deployment_record_id": "ptf-deploy-raleigh-003-6aa593019a24fc17a07566a4",
+ "timings": {
+  "founder_authorization_processing_seconds": 34,
+  "final_parent_check_seconds": 0.5,
+  "deploy_start": "2026-09-12T17:58:54Z",
+  "deploy_complete": "2026-09-12T17:59:47Z",
+  "deployment_seconds": 53,
+  "host_published_at": "2026-09-12T17:59:44.109Z",
+  "live_verification_seconds": 41,
+  "authorization_to_verified_live_seconds": 336,
+  "authorization_to_verified_live": "5 min 36 s"
+ },
+ "checks": {
+  "1_exact_authorized_candidate_is_live": true,
+  "2_host_deployment_id_matches": true,
+  "3_raleigh_market_hub_reachable": true,
+  "4_representative_raleigh_profiles_reachable": "5 sampled, all 200",
+  "5_raleigh_publishing_corridors_reachable": "5 declared, 5 in the live sitemap; 2 sampled, both 200",
+  "6_raleigh_policy_comparison_reachable": true,
+  "7_raleigh_in_sitemap": "70 routes",
+  "8_expected_production_counts": "14 markets / 965 profiles / 1148 sitemap routes (1101 release-index basis)",
+  "9_raleigh_live_profiles": 63,
+  "10_nashville_still_live": "87 routes, unchanged",
+  "11_lexington_still_live": "25 routes, unchanged",
+  "12_toledo_still_live": "21 routes, unchanged",
+  "13_representative_unrelated_markets_preserved": "cincinnati hub, category root, about, contact, methodology, robots, llms all 200",
+  "14_unexpected_market_changes": 0,
+  "15_unexpected_profile_changes": 0,
+  "16_unexpected_route_changes": 0,
+  "17_critical_broken_links": 0,
+  "18_rollback_target_is_the_exact_pre_raleigh_verified_parent": "6aa212a8ba9f174305c0441a",
+  "ALL_CRITICAL_CHECKS_PASS": true
+ },
+ "evidence": {
+  "live_sitemap_sha256": "55996aa7707e57888ce3545bfb0e55d3ec1c558204264bc4dfcbaf9573f0a72a",
+  "authorized_sitemap_sha256": "55996aa7707e57888ce3545bfb0e55d3ec1c558204264bc4dfcbaf9573f0a72a",
+  "live_bundle_sha256": "61ca6a2ef2f170c0ede36cdce03cbf36ee3ae498371d25b79e85e30cc20dc046",
+  "files_uploaded_by_the_host": 385,
+  "files_the_host_already_held": 5522,
+  "why_that_number_matters": "The host requested only the files whose content it did not already have. 5522 of the candidate's 5907 files were already on the CDN unchanged, which is the same statement as the pre-deploy comparison: every previously live market's bytes are untouched."
+ },
+ "no_broad_regression_after_deployment": true,
+ "rollback_used": false
+}

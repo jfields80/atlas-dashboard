@@ -4,10 +4,10 @@
  "context": "production",
  "base_url": "https://pettripfinder.com",
  "anchor_market": "columbus-oh",
- "source_commit": "aee8a21e6c13881543601a4fcd54350b6a64bb19",
+ "source_commit": "fa125e27706f2071d2b35387a0d537795f92f6fe",
  "binding_identity": "bundle_sha256",
- "bundle_sha256": "c12b410ec8331dbf7a50581027ad60291cac95f626de5a6a846b0d77524e0e11",
- "sitemap_sha256": "13f5335fc1a055ce06de5ce66c7921da55308110e94c0b0f18806853c1662bc4",
+ "bundle_sha256": "61ca6a2ef2f170c0ede36cdce03cbf36ee3ae498371d25b79e85e30cc20dc046",
+ "sitemap_sha256": "55996aa7707e57888ce3545bfb0e55d3ec1c558204264bc4dfcbaf9573f0a72a",
  "control_files": {
   "headers_source": "deploy/netlify/headers.production",
   "headers_sha256": "cc96c4373564958c8036100207649601547017457fad868cbbd995efef1a6af5",
@@ -22,7 +22,7 @@
  },
  "launch_participation": {
   "source": "deploy/netlify/launch_participation.json",
-  "sha256": "25ed588190ce2e5ae8bd68a15d786ac57d25863461bacc1a02b0f7749fc03265",
+  "sha256": "2ceba3f24362e682f7fd84ecb6be6dc95682f8ad08e939fba1b3e95b2d2753a0",
   "founder_authorized": [
    "cincinnati-oh",
    "cleveland-akron-canton-oh",
@@ -35,6 +35,7 @@
    "milwaukee-wi",
    "nashville-tn",
    "pittsburgh-pa",
+   "raleigh-nc",
    "st-louis-mo",
    "toledo-oh"
   ]
@@ -118,6 +119,13 @@
    "contract_disagreements": []
   },
   {
+   "market_id": "raleigh-nc",
+   "published_profiles": 63,
+   "release_contract": "deploy/netlify/release_contracts/raleigh-nc.json",
+   "release_contract_sha256": "713904f65ee780adc7b55c44a4e69ca796731963677af86253d5e98bf264311a",
+   "contract_disagreements": []
+  },
+  {
    "market_id": "st-louis-mo",
    "published_profiles": 82,
    "release_contract": "deploy/netlify/release_contracts/st-louis-mo.json",
@@ -132,11 +140,18 @@
    "contract_disagreements": []
   }
  ],
- "total_published_profiles": 902,
- "total_html_pages": 5506,
- "total_files": 5524,
- "sitemap_route_count": 1078,
+ "total_published_profiles": 965,
+ "total_html_pages": 5889,
+ "total_files": 5907,
+ "sitemap_route_count": 1148,
  "excluded_markets": [
+  {
+   "market_id": "charlotte-nc",
+   "launch_status": "SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH",
+   "why": [
+    "founder_authorized_for_launch"
+   ]
+  },
   {
    "market_id": "detroit-ann-arbor-mi",
    "launch_status": "SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH",
@@ -177,11 +192,6 @@
  "gates_missing": [],
  "gates_failing": [],
  "all_required_gates_pass": true,
- "deployment_authorized": true,
- "deployment_authorization": {
-  "path": "deploy/netlify/deployment_authorizations/ptf-auth-nashville-005-c12b410ec833.json",
-  "authorization_id": "ptf-auth-nashville-005-c12b410ec833",
-  "bundle_sha256": "c12b410ec8331dbf7a50581027ad60291cac95f626de5a6a846b0d77524e0e11"
- },
- "deployment_authorization_note": "deployment_authorized mirrors the referenced authorization record; verify_manifest re-verifies that record against this manifest and the repository, and the record's own status says whether it may still be deployed or has been consumed."
+ "deployment_authorized": false,
+ "deployment_authorization_note": "Assembly is not authorization. A later work order whose purpose is deployment authorizes THIS source_commit and THIS bundle_sha256, and nothing else."
 }

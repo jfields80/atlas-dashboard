@@ -1,6 +1,6 @@
 {
  "schema": "ptf-release-production-gate/1.0",
- "work_order": "ATLAS-THROUGHPUT-006",
+ "work_order": "PTF-RALEIGH-NC-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-003",
  "what_this_is": "The explicit allowlist that gates REAL production activation by the release coordinator. ATLAS-THROUGHPUT-006 built the remote validation lane, the trusted artifact handoff, the release queue and a real host adapter, and left this gate EMPTY on purpose. A market is activated for real only when the founder adds it here, names the candidate digest they authorised, and the coordinator's own guards still pass at the moment of the call. There is no implicit opt-in: an empty allowlist means no market can be deployed by this machinery, whatever else is green.",
  "RELEASE_COORDINATOR_PRODUCTION_ENABLED": "NO",
  "RELEASE_COORDINATOR_PRODUCTION_ALLOWED_MARKETS": [],
@@ -16,15 +16,32 @@
  "pilot_note": "ATLAS-THROUGHPUT-006 produces a RECOMMENDATION for a first pilot market and deploys nothing. The founder chooses the market and authorises the pilot separately.",
  "supersedes": null,
  "candidate_binding_note": "This gate allowlists a MARKET; it has no candidate-digest allowlist, and the loader (release_coordinator.load_production_gate / production_activation_allowed) reads only RELEASE_COORDINATOR_PRODUCTION_ENABLED and RELEASE_COORDINATOR_PRODUCTION_ALLOWED_MARKETS. The exact-candidate binding is NOT weaker for that: release_coordinator.authorization_problems refuses any candidate whose digest is not the one the authorization binds (CANDIDATE_DIGEST_MISMATCH) and any bundle that is not the authorized artifact (BUNDLE_DIGEST_MISMATCH). The digest above is recorded for audit, not as a control -- writing a field nothing reads and calling it a gate would be worse than having none.",
- "consumed": {
-  "work_order": "PTF-NASHVILLE-TN-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-005",
-  "market_id": "nashville-tn",
-  "authorization_id": "ptf-auth-nashville-005-c12b410ec833",
-  "candidate_digest": "c12b410ec8331dbf7a50581027ad60291cac95f626de5a6a846b0d77524e0e11",
-  "host_deployment_id": "6aa212a8ba9f174305c0441a",
-  "opened_at": "2026-09-10T02:12:32+00:00",
-  "closed_at": "2026-09-10T02:25:33+00:00",
-  "why_closed": "the opening was candidate-specific by design. It authorised ONE market and ONE candidate; that candidate is now live and verified, so the permission has done its job. Closing it restores the empty allowlist, which is what stops a single launch decision from becoming a standing one. The lane itself is untouched: FAST_PATH_IMPLEMENTED and FAST_PATH_VALIDATED stay YES and nothing is disabled.",
-  "supersedes": "PTF-LEXINGTON-KY-FRESH-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006"
- }
+ "previously_consumed": [
+  {
+   "work_order": "PTF-NASHVILLE-TN-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-005",
+   "market_id": "nashville-tn",
+   "authorization_id": "ptf-auth-nashville-005-c12b410ec833",
+   "candidate_digest": "c12b410ec8331dbf7a50581027ad60291cac95f626de5a6a846b0d77524e0e11",
+   "host_deployment_id": "6aa212a8ba9f174305c0441a",
+   "opened_at": "2026-09-10T02:12:32+00:00",
+   "closed_at": "2026-09-10T02:25:33+00:00",
+   "why_closed": "the opening was candidate-specific by design. It authorised ONE market and ONE candidate; that candidate is now live and verified, so the permission has done its job. Closing it restores the empty allowlist, which is what stops a single launch decision from becoming a standing one. The lane itself is untouched: FAST_PATH_IMPLEMENTED and FAST_PATH_VALIDATED stay YES and nothing is disabled.",
+   "supersedes": "PTF-LEXINGTON-KY-FRESH-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-006"
+  },
+  {
+   "work_order": "PTF-RALEIGH-NC-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-003",
+   "market_id": "raleigh-nc",
+   "authorization_id": "ptf-auth-raleigh-003-61ca6a2ef2f1",
+   "candidate_digest": "61ca6a2ef2f170c0ede36cdce03cbf36ee3ae498371d25b79e85e30cc20dc046",
+   "deployment_artifact_digest": "61ca6a2ef2f170c0ede36cdce03cbf36ee3ae498371d25b79e85e30cc20dc046",
+   "parent_release_digest": "c12b410ec8331dbf7a50581027ad60291cac95f626de5a6a846b0d77524e0e11",
+   "opened_at": "2026-09-12T17:55:55+00:00",
+   "scope": "ONE market and ONE candidate. raleigh-nc only; no other source-ready market is allowed, and release_coordinator.authorization_problems still refuses any candidate whose digest is not the one the authorization binds.",
+   "lifecycle": "This entry is CONSUMED and the allowlist emptied by this same work order once the deployment is verified live. It is not left open.",
+   "consumed_at": "2026-09-12T18:07:39+00:00",
+   "host_deployment_id": "6aa593019a24fc17a07566a4",
+   "deployment_record_id": "ptf-deploy-raleigh-003-6aa593019a24fc17a07566a4",
+   "outcome": "DEPLOYED and verified live; the gate is closed again by the same work order that opened it."
+  }
+ ]
 }
