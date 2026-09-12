@@ -245,10 +245,37 @@ def test_production_is_untouched_by_this_order():
 
 
 def test_the_assembler_names_toledos_partition_explicitly():
-    """The glob would compute 'toledo' and match nothing."""
-    src = (REPO_ROOT / "scripts" / "pettripfinder"
-           / "assemble_production_site.py").read_text(encoding="utf-8")
-    assert '"toledo-oh": "toledo_oh_final_partition_001.json"' in src
+    """The glob would compute 'toledo' and match nothing.
+
+    This assertion used to read the TEXT of assemble_production_site.py and
+    look for the table entry as a dict literal. PTF-FINAL-ASSEMBLER-REGISTERED-
+    MARKET-DISCOVERY-001 removed that table: a registered market's partition is
+    resolved from the market's own release contract, and the markets registered
+    before that reference existed -- Toledo among them -- resolve through the
+    resolver's FROZEN legacy table. Toledo's partition never moved, so the
+    claim worth protecting was never about where a string lives in a file. It
+    is stated against behaviour here instead, and it still fails if Toledo
+    cannot resolve, resolves to the wrong file, loses its explicit mapping, or
+    gains a contract reference that disagrees with that mapping -- the last
+    because the resolver refuses rather than choosing a side, which makes this
+    call raise.
+    """
+    from scripts.pettripfinder import assemble_production_site as gasm
+    from scripts.pettripfinder import market_partition_resolution as MPR
+
+    resolution = MPR.resolve_registered_market_partition(MARKET)
+    assert resolution.name == PARTITION.name
+    assert resolution.path == PARTITION and PARTITION.is_file()
+    assert resolution.source in (MPR.SOURCE_CONTRACT, MPR.SOURCE_LEGACY_TABLE)
+    # The mapping is a DECISION that is still declared, not inferred.
+    assert MPR.LEGACY_PARTITION_TABLE[MARKET] == PARTITION.name
+    # And the assembler's own lookup -- what market_eligibility reads -- agrees.
+    assert gasm._partition_path(MARKET) == PARTITION
+    # Why it has to be declared at all, which is what this test has always
+    # said: a glob built from the market id with its last segment stripped
+    # matches nothing.
+    assert not sorted(PACKAGE.glob("%s_final_partition_*.json"
+                                   % MARKET.rsplit("-", 1)[0]))
 
 
 @pytest.mark.parametrize("other", [
