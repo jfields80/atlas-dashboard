@@ -1,0 +1,618 @@
+{
+ "schema": "ptf-fast-release-receipt/1.0",
+ "lane": "FAST_DATA_ONLY_RELEASE",
+ "PACKAGE_ID": "pkg-asheville-nc-af7b78b6abf82d8a",
+ "PACKAGE_DIGEST": "sha256:af7b78b6abf82d8a7624afc9bf2f475dbac64f134e005a590679ed3a681ca0c1",
+ "MARKET_ID": "asheville-nc",
+ "PARENT_RELEASE": {
+  "live_deploy_id": "6aa5e2623de160fcdf416577",
+  "rollback_target": "6aa5ce23d51fa8544146ebac",
+  "source_commit": "7709953fac20326181abb04d5d4f2f33eee869c2",
+  "live_index_digest": "sha256:6a56b6df8b4d90123699e346550ea8e0c9c7cfa68f76ec1aed164d5a6d2a4185"
+ },
+ "CHANGE_CLASS": "MARKET_AUTHORITY_DATA_ONLY",
+ "DEPENDENCY_DIGEST": "sha256:441b35b68fc4aee6e2cb3d6efa8543fe3636addf1a87010824d95829351118fa",
+ "VALIDATION_POLICY_VERSION": "ptf-fast-data-only-release/1.0",
+ "RULES_EXECUTED": [
+  {
+   "rule": "A",
+   "name": "package schema valid"
+  },
+  {
+   "rule": "B",
+   "name": "identity valid"
+  },
+  {
+   "rule": "C",
+   "name": "first-party policy binding valid"
+  },
+  {
+   "rule": "D",
+   "name": "policy semantics valid"
+  },
+  {
+   "rule": "E",
+   "name": "route references valid"
+  },
+  {
+   "rule": "F",
+   "name": "market partition valid"
+  },
+  {
+   "rule": "G",
+   "name": "proposed whole-release identity/route indexes contain no forbidden collision"
+  },
+  {
+   "rule": "H",
+   "name": "every unrelated live market/member is preserved"
+  },
+  {
+   "rule": "I",
+   "name": "every removal is explicitly intended"
+  },
+  {
+   "rule": "J",
+   "name": "changed-market artifact builds successfully"
+  },
+  {
+   "rule": "K",
+   "name": "changed-market output deterministic"
+  },
+  {
+   "rule": "L",
+   "name": "package/artifact hashes internally consistent"
+  },
+  {
+   "rule": "M",
+   "name": "required evidence freshness/revocation rules satisfied"
+  },
+  {
+   "rule": "N",
+   "name": "rollback/current-live preservation metadata valid"
+  },
+  {
+   "rule": "O",
+   "name": "paid acquisitions used by the package satisfy reservation provenance"
+  }
+ ],
+ "RESULTS": {
+  "A": {
+   "rule": "A",
+   "name": "package schema valid",
+   "status": "PASS",
+   "seconds": 0.014,
+   "detail": {
+    "schema": "ptf-sealed-market-package/1.0",
+    "package_id": "pkg-asheville-nc-af7b78b6abf82d8a",
+    "package_digest": "sha256:af7b78b6abf82d8a7624afc9bf2f475dbac64f134e005a590679ed3a681ca0c1"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "B": {
+   "rule": "B",
+   "name": "identity valid",
+   "status": "PASS",
+   "seconds": 0.059,
+   "detail": {
+    "identity_records": 96,
+    "census_count": 96,
+    "declared_relations": 0,
+    "writer_seconds": 0.058
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "C": {
+   "rule": "C",
+   "name": "first-party policy binding valid",
+   "status": "PASS",
+   "seconds": 0.147,
+   "detail": {
+    "records_evaluated": 56,
+    "eligible": 56,
+    "ineligible": 0,
+    "classes": {}
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "D": {
+   "rule": "D",
+   "name": "policy semantics valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "pet_friendly_records": 41,
+    "verified_no_pets_records": 15,
+    "policy_schema": "1.3"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "E": {
+   "rule": "E",
+   "name": "route references valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "official_routes": 0,
+    "public_routes": 48
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "F": {
+   "rule": "F",
+   "name": "market partition valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "partition_count": 96,
+    "unresolved_rows": 40,
+    "counts_by_partition_state": {
+     "ACCESS_BLOCKED": 23,
+     "AWAITING_OFFICIAL_URL": 10,
+     "AWAITING_POLICY_OBSERVATION": 7,
+     "PUBLISHED_PET_FRIENDLY": 41,
+     "VERIFIED_NO_PETS": 15
+    }
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "G": {
+   "rule": "G",
+   "name": "proposed whole-release identity/route indexes contain no forbidden collision",
+   "status": "PASS",
+   "seconds": 0.096,
+   "detail": {
+    "live_digest": "sha256:6a56b6df8b4d90123699e346550ea8e0c9c7cfa68f76ec1aed164d5a6d2a4185",
+    "proposed_digest": "sha256:8f7ea9e7ca49abdd6e500637c5e6c89aab4989ece4927115f1e4ee36cf440ff4",
+    "proposed_participating": [
+     "asheville-nc",
+     "charlotte-nc",
+     "cincinnati-oh",
+     "cleveland-akron-canton-oh",
+     "columbus-oh",
+     "dayton-oh",
+     "grand-rapids-holland-mi",
+     "indianapolis-in",
+     "lexington-ky",
+     "louisville-ky",
+     "milwaukee-wi",
+     "nashville-tn",
+     "piedmont-triad-nc",
+     "pittsburgh-pa",
+     "raleigh-nc",
+     "st-louis-mo",
+     "toledo-oh",
+     "wilmington-nc"
+    ],
+    "proposed_total_profiles": 1195,
+    "legacy_collisions_outside_package": 0,
+    "compare_seconds": 0.0902
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "H": {
+   "rule": "H",
+   "name": "every unrelated live market/member is preserved",
+   "status": "PASS",
+   "seconds": 0.096,
+   "detail": {
+    "live_participating": [
+     "charlotte-nc",
+     "cincinnati-oh",
+     "cleveland-akron-canton-oh",
+     "columbus-oh",
+     "dayton-oh",
+     "grand-rapids-holland-mi",
+     "indianapolis-in",
+     "lexington-ky",
+     "louisville-ky",
+     "milwaukee-wi",
+     "nashville-tn",
+     "piedmont-triad-nc",
+     "pittsburgh-pa",
+     "raleigh-nc",
+     "st-louis-mo",
+     "toledo-oh",
+     "wilmington-nc"
+    ],
+    "live_total_profiles": 1154,
+    "finding_counts": {}
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "I": {
+   "rule": "I",
+   "name": "every removal is explicitly intended",
+   "status": "PASS",
+   "seconds": 0.096,
+   "detail": {
+    "intended_delta": {
+     "market_id": "asheville-nc",
+     "add_property_ids": [],
+     "update_property_ids": [],
+     "remove_property_ids": [],
+     "add_routes": [
+      "/pet-friendly-hotels/asheville-nc/",
+      "/pet-friendly-hotels/asheville-nc/ac-hotel-asheville-downtown/",
+      "/pet-friendly-hotels/asheville-nc/aloft-by-marriott-asheville-downtown/",
+      "/pet-friendly-hotels/asheville-nc/autocamp-asheville/",
+      "/pet-friendly-hotels/asheville-nc/biltmore-south-asheville/",
+      "/pet-friendly-hotels/asheville-nc/candlewood-suites-asheville-downtown/",
+      "/pet-friendly-hotels/asheville-nc/doubletree-by-hilton-asheville-downtown/",
+      "/pet-friendly-hotels/asheville-nc/doubletree-by-hilton-hotel-asheville-biltmore/",
+      "/pet-friendly-hotels/asheville-nc/downtown-asheville/",
+      "/pet-friendly-hotels/asheville-nc/downtown-inn-suites/",
+      "/pet-friendly-hotels/asheville-nc/element-by-marriott-asheville-downtown/",
+      "/pet-friendly-hotels/asheville-nc/embassy-suites-by-hilton-asheville-downtown/",
+      "/pet-friendly-hotels/asheville-nc/extended-stay-america-asheville-tunnel-rd/",
+      "/pet-friendly-hotels/asheville-nc/four-points-by-sheraton-asheville-downtown/",
+      "/pet-friendly-hotels/asheville-nc/grand-bohemian-lodge-asheville-autograph-collection/",
+      "/pet-friendly-hotels/asheville-nc/hampton-inn-asheville-tunnel-rd/",
+      "/pet-friendly-hotels/asheville-nc/hampton-inn-black-mountain/",
+      "/pet-friendly-hotels/asheville-nc/hampton-inn-suites-asheville-airport/",
+      "/pet-friendly-hotels/asheville-nc/hampton-inn-suites-asheville-biltmore-area/",
+      "/pet-friendly-hotels/asheville-nc/hampton-inn-suites-asheville-biltmore-village/",
+      "/pet-friendly-hotels/asheville-nc/haywood-park-hotel-ascend-hotel-collection/",
+      "/pet-friendly-hotels/asheville-nc/hilton-asheville-biltmore-park/",
+      "/pet-friendly-hotels/asheville-nc/hilton-garden-inn-asheville-downtown/",
+      "/pet-friendly-hotels/asheville-nc/hilton-garden-inn-asheville-south/",
+      "/pet-friendly-hotels/asheville-nc/holiday-inn-asheville-biltmore-west/",
+      "/pet-friendly-hotels/asheville-nc/holiday-inn-asheville-east-blue-ridge-pkwy/",
+      "/pet-friendly-hotels/asheville-nc/holiday-inn-express-asheville-woodfin/",
+      "/pet-friendly-hotels/asheville-nc/holiday-inn-express-suites-asheville-sw-outlet-ctr-area/",
+      "/pet-friendly-hotels/asheville-nc/home2-suites-by-hilton-asheville-airport/",
+      "/pet-friendly-hotels/asheville-nc/home2-suites-by-hilton-asheville-biltmore-village/",
+      "/pet-friendly-hotels/asheville-nc/homewood-suites-by-hilton-asheville-tunnel-road/",
+      "/pet-friendly-hotels/asheville-nc/hotel-indigo-asheville-downtown/",
+      "/pet-friendly-hotels/asheville-nc/kimpton-hotel-arras/",
+      "/pet-friendly-hotels/asheville-nc/renaissance-asheville-downtown-hotel/",
+      "/pet-friendly-hotels/asheville-nc/residence-inn-by-marriott-asheville-biltmore/",
+      "/pet-friendly-hotels/asheville-nc/spark-by-hilton-asheville-blue-ridge-parkway/",
+      "/pet-friendly-hotels/asheville-nc/the-flat-iron-hotel-a-member-of-design-hotels/",
+      "/pet-friendly-hotels/asheville-nc/the-foundry-hotel-asheville-curio-collection-by-hilton/",
+      "/pet-friendly-hotels/asheville-nc/the-omni-grove-park-inn-spa/",
+      "/pet-friendly-hotels/asheville-nc/the-radical-asheville-tapestry-collection-by-hilton/",
+      "/pet-friendly-hotels/asheville-nc/the-windsor-boutique-hotel/",
+      "/pet-friendly-hotels/asheville-nc/towneplace-suites-by-marriott-asheville-downtown/",
+      "/pet-friendly-hotels/asheville-nc/towneplace-suites-by-marriott-asheville-west/",
+      "/pet-friendly-hotels/asheville-nc/tru-by-hilton-asheville-blue-ridge-parkway/",
+      "/pet-friendly-hotels/asheville-nc/tunnel-road-east-asheville/",
+      "/pet-friendly-hotels/asheville-nc/west-asheville/"
+     ],
+     "change_routes": [],
+     "remove_routes": [],
+     "expected_profile_delta": 0,
+     "expected_market_count_delta": 1,
+     "expected_participation_delta": [
+      {
+       "market_id": "asheville-nc",
+       "from": false,
+       "to": true
+      }
+     ]
+    },
+    "actual_delta": {
+     "add_property_ids": [],
+     "update_property_ids": [],
+     "remove_property_ids": [],
+     "add_routes": [
+      "/pet-friendly-hotels/asheville-nc/",
+      "/pet-friendly-hotels/asheville-nc/ac-hotel-asheville-downtown/",
+      "/pet-friendly-hotels/asheville-nc/aloft-by-marriott-asheville-downtown/",
+      "/pet-friendly-hotels/asheville-nc/autocamp-asheville/",
+      "/pet-friendly-hotels/asheville-nc/biltmore-south-asheville/",
+      "/pet-friendly-hotels/asheville-nc/candlewood-suites-asheville-downtown/",
+      "/pet-friendly-hotels/asheville-nc/doubletree-by-hilton-asheville-downtown/",
+      "/pet-friendly-hotels/asheville-nc/doubletree-by-hilton-hotel-asheville-biltmore/",
+      "/pet-friendly-hotels/asheville-nc/downtown-asheville/",
+      "/pet-friendly-hotels/asheville-nc/downtown-inn-suites/",
+      "/pet-friendly-hotels/asheville-nc/element-by-marriott-asheville-downtown/",
+      "/pet-friendly-hotels/asheville-nc/embassy-suites-by-hilton-asheville-downtown/",
+      "/pet-friendly-hotels/asheville-nc/extended-stay-america-asheville-tunnel-rd/",
+      "/pet-friendly-hotels/asheville-nc/four-points-by-sheraton-asheville-downtown/",
+      "/pet-friendly-hotels/asheville-nc/grand-bohemian-lodge-asheville-autograph-collection/",
+      "/pet-friendly-hotels/asheville-nc/hampton-inn-asheville-tunnel-rd/",
+      "/pet-friendly-hotels/asheville-nc/hampton-inn-black-mountain/",
+      "/pet-friendly-hotels/asheville-nc/hampton-inn-suites-asheville-airport/",
+      "/pet-friendly-hotels/asheville-nc/hampton-inn-suites-asheville-biltmore-area/",
+      "/pet-friendly-hotels/asheville-nc/hampton-inn-suites-asheville-biltmore-village/",
+      "/pet-friendly-hotels/asheville-nc/haywood-park-hotel-ascend-hotel-collection/",
+      "/pet-friendly-hotels/asheville-nc/hilton-asheville-biltmore-park/",
+      "/pet-friendly-hotels/asheville-nc/hilton-garden-inn-asheville-downtown/",
+      "/pet-friendly-hotels/asheville-nc/hilton-garden-inn-asheville-south/",
+      "/pet-friendly-hotels/asheville-nc/holiday-inn-asheville-biltmore-west/",
+      "/pet-friendly-hotels/asheville-nc/holiday-inn-asheville-east-blue-ridge-pkwy/",
+      "/pet-friendly-hotels/asheville-nc/holiday-inn-express-asheville-woodfin/",
+      "/pet-friendly-hotels/asheville-nc/holiday-inn-express-suites-asheville-sw-outlet-ctr-area/",
+      "/pet-friendly-hotels/asheville-nc/home2-suites-by-hilton-asheville-airport/",
+      "/pet-friendly-hotels/asheville-nc/home2-suites-by-hilton-asheville-biltmore-village/",
+      "/pet-friendly-hotels/asheville-nc/homewood-suites-by-hilton-asheville-tunnel-road/",
+      "/pet-friendly-hotels/asheville-nc/hotel-indigo-asheville-downtown/",
+      "/pet-friendly-hotels/asheville-nc/kimpton-hotel-arras/",
+      "/pet-friendly-hotels/asheville-nc/renaissance-asheville-downtown-hotel/",
+      "/pet-friendly-hotels/asheville-nc/residence-inn-by-marriott-asheville-biltmore/",
+      "/pet-friendly-hotels/asheville-nc/spark-by-hilton-asheville-blue-ridge-parkway/",
+      "/pet-friendly-hotels/asheville-nc/the-flat-iron-hotel-a-member-of-design-hotels/",
+      "/pet-friendly-hotels/asheville-nc/the-foundry-hotel-asheville-curio-collection-by-hilton/",
+      "/pet-friendly-hotels/asheville-nc/the-omni-grove-park-inn-spa/",
+      "/pet-friendly-hotels/asheville-nc/the-radical-asheville-tapestry-collection-by-hilton/",
+      "/pet-friendly-hotels/asheville-nc/the-windsor-boutique-hotel/",
+      "/pet-friendly-hotels/asheville-nc/towneplace-suites-by-marriott-asheville-downtown/",
+      "/pet-friendly-hotels/asheville-nc/towneplace-suites-by-marriott-asheville-west/",
+      "/pet-friendly-hotels/asheville-nc/tru-by-hilton-asheville-blue-ridge-parkway/",
+      "/pet-friendly-hotels/asheville-nc/tunnel-road-east-asheville/",
+      "/pet-friendly-hotels/asheville-nc/west-asheville/"
+     ],
+     "remove_routes": [],
+     "profile_delta": 0,
+     "verified_no_pets_delta": 0,
+     "market_count_delta": 1
+    },
+    "removal_authority": {}
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "J": {
+   "rule": "J",
+   "name": "changed-market artifact builds successfully",
+   "status": "PASS",
+   "seconds": 19.76,
+   "detail": {
+    "bundle_sha256": "fba0a31324dc05d4b4d10d407750e5815d78047acf86e868952677e946964cdd",
+    "file_count": 272,
+    "html_count": 256,
+    "staged_input_digest": "sha256:d63da793f6ec13b09df8608e01f509afa628e0fd6193d3353c6edb0cc485c71a",
+    "contract_sha256": "sha256:190981aef6919b8f97808f82679c4a6cf2469949db53ea6165f4a2ac65bd5c42",
+    "release_name": "package-asheville-nc-168e023-f2e5ef29-d6800d87",
+    "cache_events": [
+     {
+      "verdict": "BUILD_EXECUTED",
+      "assembly_kind": "generator_site",
+      "input_key": "bb1dbda0285c2d066077fb9cc88a8646854f10d5f10b9505f7a231312e42f95b",
+      "seconds": 5.676
+     },
+     {
+      "verdict": "BUILD_EXECUTED",
+      "assembly_kind": "market_bundle",
+      "input_key": "0f42538788c7ea6a2905d5255f0a67b850917ac33739d69ecbe4b5d92c5bb990",
+      "seconds": 13.364
+     }
+    ],
+    "build_seconds": 19.443
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "K": {
+   "rule": "K",
+   "name": "changed-market output deterministic",
+   "status": "PASS",
+   "seconds": 18.432,
+   "detail": {
+    "input_digest": "sha256:d63da793f6ec13b09df8608e01f509afa628e0fd6193d3353c6edb0cc485c71a",
+    "output_digest_a": "fba0a31324dc05d4b4d10d407750e5815d78047acf86e868952677e946964cdd",
+    "output_digest_b": "fba0a31324dc05d4b4d10d407750e5815d78047acf86e868952677e946964cdd",
+    "result": "BYTE_IDENTICAL",
+    "cold_builds_executed": 4,
+    "reuse_hits": 0,
+    "build_seconds": 18.432
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "L": {
+   "rule": "L",
+   "name": "package/artifact hashes internally consistent",
+   "status": "PASS",
+   "seconds": 0.001,
+   "detail": {
+    "package_digest": "sha256:af7b78b6abf82d8a7624afc9bf2f475dbac64f134e005a590679ed3a681ca0c1",
+    "rederived_digest": "sha256:af7b78b6abf82d8a7624afc9bf2f475dbac64f134e005a590679ed3a681ca0c1",
+    "evidence_references": 56,
+    "artifacts_available": 0,
+    "artifacts_checked": 0,
+    "dependency_inputs": 7,
+    "dependency_digest": "sha256:441b35b68fc4aee6e2cb3d6efa8543fe3636addf1a87010824d95829351118fa"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "M": {
+   "rule": "M",
+   "name": "required evidence freshness/revocation rules satisfied",
+   "status": "PASS",
+   "seconds": 0.001,
+   "detail": {
+    "max_age_days": 365,
+    "references": 56,
+    "revoked_registry_size": 0,
+    "earliest_expiry": "2027-09-13T00:00:00Z"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "N": {
+   "rule": "N",
+   "name": "rollback/current-live preservation metadata valid",
+   "status": "PASS",
+   "seconds": 0.021,
+   "detail": {
+    "live": {
+     "live_deploy_id": "6aa5e2623de160fcdf416577",
+     "previous_deploy_id": "6aa5ce23d51fa8544146ebac",
+     "rollback_target": "6aa5ce23d51fa8544146ebac",
+     "source_commit": "7709953fac20326181abb04d5d4f2f33eee869c2",
+     "bundle_sha256": "a0f92c7fd5e052e0cf03ad8a9cfacfe9968547ad13dd546829f42ce4f39dcb05",
+     "sitemap_sha256": "9344e961269df8fa6143a7ba21cb2734b3369d25294928b38d70bab037a963c8",
+     "participating_markets": [
+      "charlotte-nc",
+      "cincinnati-oh",
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "grand-rapids-holland-mi",
+      "indianapolis-in",
+      "lexington-ky",
+      "louisville-ky",
+      "milwaukee-wi",
+      "nashville-tn",
+      "piedmont-triad-nc",
+      "pittsburgh-pa",
+      "raleigh-nc",
+      "st-louis-mo",
+      "toledo-oh",
+      "wilmington-nc"
+     ],
+     "profile_counts": {
+      "charlotte-nc": 106,
+      "cincinnati-oh": 130,
+      "cleveland-akron-canton-oh": 120,
+      "columbus-oh": 88,
+      "dayton-oh": 54,
+      "grand-rapids-holland-mi": 43,
+      "indianapolis-in": 82,
+      "lexington-ky": 20,
+      "louisville-ky": 53,
+      "milwaukee-wi": 73,
+      "nashville-tn": 79,
+      "piedmont-triad-nc": 54,
+      "pittsburgh-pa": 61,
+      "raleigh-nc": 63,
+      "st-louis-mo": 82,
+      "toledo-oh": 17,
+      "wilmington-nc": 29
+     },
+     "total_profiles": 1154,
+     "sitemap_route_count": 1361,
+     "deployment_record": "ptf-deploy-wilmington-002-6aa5e2623de160fcdf416577.json",
+     "authorization_id": "ptf-auth-wilmington-002-a0f92c7fd5e0",
+     "rollback_record": "ptf-deploy-piedmont-triad-002-6aa5ce23d51fa8544146ebac.json",
+     "rollback_markets": [
+      "charlotte-nc",
+      "cincinnati-oh",
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "grand-rapids-holland-mi",
+      "indianapolis-in",
+      "lexington-ky",
+      "louisville-ky",
+      "milwaukee-wi",
+      "nashville-tn",
+      "piedmont-triad-nc",
+      "pittsburgh-pa",
+      "raleigh-nc",
+      "st-louis-mo",
+      "toledo-oh"
+     ],
+     "problems": []
+    },
+    "stale_parent": false
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "O": {
+   "rule": "O",
+   "name": "paid acquisitions used by the package satisfy reservation provenance",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "paid_references": 0,
+    "ledger_cross_checked": 0,
+    "ledger_unknown": 0
+   },
+   "problems": [],
+   "problem_count": 0
+  }
+ },
+ "TIMESTAMPS": {
+  "started_at": "2026-09-13T01:20:35Z",
+  "finished_at": "2026-09-13T01:21:14Z",
+  "seconds": 38.68
+ },
+ "ARTIFACT_DIGESTS": {
+  "changed_market_bundle_sha256_a": "fba0a31324dc05d4b4d10d407750e5815d78047acf86e868952677e946964cdd",
+  "changed_market_bundle_sha256_b": "fba0a31324dc05d4b4d10d407750e5815d78047acf86e868952677e946964cdd",
+  "staged_input_digest": "sha256:d63da793f6ec13b09df8608e01f509afa628e0fd6193d3353c6edb0cc485c71a",
+  "staged_contract_sha256": "sha256:190981aef6919b8f97808f82679c4a6cf2469949db53ea6165f4a2ac65bd5c42"
+ },
+ "GLOBAL_INDEX_DIGEST": {
+  "live": "sha256:6a56b6df8b4d90123699e346550ea8e0c9c7cfa68f76ec1aed164d5a6d2a4185",
+  "proposed": "sha256:8f7ea9e7ca49abdd6e500637c5e6c89aab4989ece4927115f1e4ee36cf440ff4"
+ },
+ "PACKAGE_INDEX_DIGEST": "sha256:7d3cb74a291b6db5f9c26b00a008dce71008c3ba80f8290fd707a1c8307eb32f",
+ "INTENDED_DELTA_DIGEST": "sha256:ba28aa005a5def9528dd1e26373548e9e3690e37b13e1a83748f0dd31881b527",
+ "DETERMINISM_RESULT": "BYTE_IDENTICAL",
+ "FIRST_PARTY_BINDING_RESULT": "PASS",
+ "COLLISION_RESULT": "PASS",
+ "REMOVAL_RESULT": "PASS",
+ "LEGACY_EXCEPTIONS": [],
+ "ENVIRONMENT": {
+  "python": "3.13.5",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "builder_version": "ptf-market-package-writer/1.0",
+  "contract_versions": {
+   "market": "ptf-market/1.1",
+   "census": "ptf-market-identity-census/1.1",
+   "partition": "ptf-market-final-partition/1.1",
+   "policy_schema": "1.3",
+   "evidence": "contracts.evidence PUBLICATION_GRADE_REQUIRED=evidence_ref,field,quote,source_url,source_grade,artifact_class,artifact_sha256,artifact_kind,captured_at",
+   "identity_key": "ptf_identity_key/1.0",
+   "identity_routing": "ptf-identity-routing/1.0",
+   "hotel_exclusions": "ptf-hotel-exclusions/1.0",
+   "sealed_market_package": "ptf-sealed-market-package/1.0"
+  },
+  "created_from_source_sha": "168e0234d68716b0cc429db63d80cab6c0b50a91",
+  "peak_working_set_mb": 85.5
+ },
+ "EXPIRY_REVOCATION_CONDITIONS": {
+  "valid_while": [
+   "the live deployment is 6aa5e2623de160fcdf416577",
+   "the live index digest is sha256:6a56b6df8b4d90123699e346550ea8e0c9c7cfa68f76ec1aed164d5a6d2a4185",
+   "no referenced artifact is added to evidence_revocations.json",
+   "the evidence is younger than 365 days",
+   "the owning contracts are at the versions recorded in ENVIRONMENT",
+   "the sealed package bytes are unchanged (digest above)"
+  ],
+  "earliest_evidence_expiry": "2027-09-13T00:00:00Z",
+  "evidence_max_age_days": 365
+ },
+ "UNKNOWN_RULES": [],
+ "FAILED_RULES": [],
+ "FAST_DATA_ONLY_RELEASE_ELIGIBLE": "YES",
+ "FULL_REGRESSION_REQUIRED_BY_LANE": "NO",
+ "FAST_PATH_PRODUCTION_ACTIVATION": "DISABLED",
+ "PRODUCTION_ACTIVATION_ALLOWED": "NO",
+ "PERFORMANCE": {
+  "total_seconds": 38.68,
+  "per_rule_seconds": {
+   "A": 0.014,
+   "B": 0.059,
+   "C": 0.147,
+   "D": 0.0,
+   "E": 0.0,
+   "F": 0.0,
+   "G": 0.096,
+   "H": 0.096,
+   "I": 0.096,
+   "J": 19.76,
+   "K": 18.432,
+   "L": 0.001,
+   "M": 0.001,
+   "N": 0.021,
+   "O": 0.0
+  },
+  "changed_market_build_seconds": 19.443,
+  "determinism_build_seconds": 18.432
+ },
+ "RECEIPT_DIGEST": "sha256:c717db2ac1fadd61af07303fcce3e30540e928b66054a09e0fd8f4d15b862534"
+}

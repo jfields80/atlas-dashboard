@@ -1,0 +1,4461 @@
+{
+ "schema": "ptf-market-clean-authority/1.0",
+ "work_order": "PTF-ASHEVILLE-NC-NORMAL-PRODUCTION-001",
+ "market_id": "asheville-nc",
+ "phase": "13/14 -- policy classification and the clean set",
+ "as_of": "2026-09-13",
+ "status": "PROPOSED_NOT_PUBLISHED",
+ "what_is_excluded": "Everything that is not an operative first-party statement of acceptance or refusal, bound to an ADMITTED census identity by the street identity the page itself states. A read that joins no census row, joins a withheld row, states no policy, or states only a fee / weight / count / amenity chip / service-animal sentence is reported in `rejected` with its class and publishes nothing.",
+ "one_identity_classified_once": "The join is on street identity, so two brands at one address cannot both settle it: the census already withheld those buildings as a founder ruling, and a second read of an already-settled identity is reported DUPLICATE_READ_FOR_ONE_IDENTITY.",
+ "counts": {
+  "reads_evaluated": 85,
+  "clean_pet_friendly": 41,
+  "clean_verified_no_pets": 15,
+  "resolved_census_identities": 56,
+  "unresolved_census_identities": 40,
+  "census_count": 96,
+  "rejected": 29,
+  "rejected_by_class": {
+   "CENSUS_ROW_NOT_ADMITTED": 20,
+   "POLICY_NOT_FOUND": 2,
+   "QUOTE_NOT_OPERATIVE": 5,
+   "SERVICE_ANIMAL_ONLY": 2
+  },
+  "pf_by_brand": {
+   "EXTENDED_STAY": 1,
+   "HILTON": 19,
+   "IHG": 7,
+   "INDEPENDENT": 4,
+   "MARRIOTT": 10
+  },
+  "pf_by_corridor": {
+   "asheville-nc__arden-avl-airport": 2,
+   "asheville-nc__biltmore-south-asheville": 6,
+   "asheville-nc__black-mountain": 1,
+   "asheville-nc__downtown-asheville": 17,
+   "asheville-nc__north-asheville-grove-park": 3,
+   "asheville-nc__tunnel-road-east-asheville": 7,
+   "asheville-nc__west-asheville": 5
+  }
+ },
+ "clean_pet_friendly": [
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/avlac-ac-hotel-asheville-downtown/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/avlac-ac-hotel-asheville-downtown/overview/",
+   "document_sha256": "f6ac3801c374a8a01bce5beb44dc6f5d038cb325e26292354d98596f98854f8d",
+   "document_bytes": 555573,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "AC Hotel Asheville Downtown",
+    "address_on_page": "10 Broadway Street",
+    "postal_code": "28801",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "+18282582522",
+    "property_code_on_page": "avlac"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "avlac",
+   "identity_key": "ac hotel asheville downtown",
+   "canonical_name": "AC Hotel Asheville Downtown",
+   "corridor": "asheville-nc__downtown-asheville",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Welcome | Pet fee $25 non-refundable fee per day (Pet cannot be left unattended in room) | Non-Refundable Pet Fee Per Night: $25.00 | Maximum Number of Pets in Room: 2",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_night"
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Welcome | Pet fee $25 non-refundable fee per day (Pet cannot be left unattended in room) | Non-Refundable Pet Fee Per Night: $25.00 | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | Pet fee $25 non-refundable fee per day (Pet cannot be left unattended in room) | Non-Refundable Pet Fee Per Night: $25.00 | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | Pet fee $25 non-refundable fee per day (Pet cannot be left unattended in room) | Non-Refundable Pet Fee Per Night: $25.00 | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | Pet fee $25 non-refundable fee per day (Pet cannot be left unattended in room) | Non-Refundable Pet Fee Per Night: $25.00 | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | Pet fee $25 non-refundable fee per day (Pet cannot be left unattended in room) | Non-Refundable Pet Fee Per Night: $25.00 | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/avlal-aloft-asheville-downtown/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/avlal-aloft-asheville-downtown/overview/",
+   "document_sha256": "4ce68e67345511e89bf1c52aa675f397d03f17bf28e2ee546427c703303e7eb8",
+   "document_bytes": 593716,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Aloft by Marriott Asheville Downtown",
+    "address_on_page": "51 Biltmore Avenue",
+    "postal_code": "28801",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "+18282322838",
+    "property_code_on_page": "avlal"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "avlal",
+   "identity_key": "aloft by marriott asheville downtown",
+   "canonical_name": "Aloft by Marriott Asheville Downtown",
+   "corridor": "asheville-nc__downtown-asheville",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Welcome | Pets are allowed with no pet fee. Waivers must be signed upon arrival. | Maximum Number of Pets in Room: 2",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Welcome | Pets are allowed with no pet fee. Waivers must be signed upon arrival. | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | Pets are allowed with no pet fee. Waivers must be signed upon arrival. | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/avlavou-autocamp-asheville/",
+   "final_url": "https://www.hilton.com/en/hotels/avlavou-autocamp-asheville/",
+   "document_sha256": "2ac11115bf187b716e2b25fd2b193b5d40a95b5290f4210c894b18b27b55853f",
+   "document_bytes": 224090,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "AutoCamp Asheville",
+    "address_on_page": "125 Amberglow Road",
+    "postal_code": "28804",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "+1 844-395-5163",
+    "property_code_on_page": "avlavou"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "avlavou",
+   "identity_key": "autocamp asheville",
+   "canonical_name": "AutoCamp Asheville",
+   "corridor": "asheville-nc__north-asheville-grove-park",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, 0 lbs maximum, Dogs allowed, maximum 2 dogs per accommodation.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_refundable": false,
+    "fee_basis": "per_stay"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 0 lbs maximum, Dogs allowed, maximum 2 dogs per accommodation.",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 0 lbs maximum, Dogs allowed, maximum 2 dogs per accommodation.",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 0 lbs maximum, Dogs allowed, maximum 2 dogs per accommodation.",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 0 lbs maximum, Dogs allowed, maximum 2 dogs per accommodation.",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "IHG",
+   "source_url": "https://www.ihg.com/candlewood/hotels/us/en/asheville/avltu/hoteldetail",
+   "final_url": "https://www.ihg.com/candlewood/hotels/us/en/asheville/avltu/hoteldetail",
+   "document_sha256": "ee82d00b187574022d98223c334a145126ae624a66acd9468b0973601bf14d25",
+   "document_bytes": 289875,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Candlewood Suites Asheville Downtown",
+    "address_on_page": "49 Tunnel Road",
+    "postal_code": "28805",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "1-828-2200300",
+    "property_code_on_page": "avltu"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "avltu",
+   "identity_key": "candlewood suites asheville downtown",
+   "canonical_name": "Candlewood Suites Asheville Downtown",
+   "corridor": "asheville-nc__tunnel-road-east-asheville",
+   "surface": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+   "operative_quote": "Pets are welcome at Candlewood Suites Asheville Downtown.\nPet policy description. The pet fee is 30 USD per night for up to two pets and reduces to 25 USD per night when you stay longer than 7 nights.\nPets must be secured in a proper pet crate when leaving the hotel premises.\nPet fee per night: 30 USD\nPet weight limit: 80\n2 pets allowed\nPets allowed: Only dogs and cats allowed",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 80.0,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets are welcome at Candlewood Suites Asheville Downtown.\nPet policy description. The pet fee is 30 USD per night for up to two pets and reduces to 25 USD per night when you stay longer than 7 nights.\nPets must be secured in a proper pet crate when leaving the hotel premises.\nPet fee per night: 30 USD\nPet weight limit: 80\n2 pets allowed\nPets allowed: Only dogs and cats allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Candlewood Suites Asheville Downtown.\nPet policy description. The pet fee is 30 USD per night for up to two pets and reduces to 25 USD per night when you stay longer than 7 nights.\nPets must be secured in a proper pet crate when leaving the hotel premises.\nPet fee per night: 30 USD\nPet weight limit: 80\n2 pets allowed\nPets allowed: Only dogs and cats allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Candlewood Suites Asheville Downtown.\nPet policy description. The pet fee is 30 USD per night for up to two pets and reduces to 25 USD per night when you stay longer than 7 nights.\nPets must be secured in a proper pet crate when leaving the hotel premises.\nPet fee per night: 30 USD\nPet weight limit: 80\n2 pets allowed\nPets allowed: Only dogs and cats allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Candlewood Suites Asheville Downtown.\nPet policy description. The pet fee is 30 USD per night for up to two pets and reduces to 25 USD per night when you stay longer than 7 nights.\nPets must be secured in a proper pet crate when leaving the hotel premises.\nPet fee per night: 30 USD\nPet weight limit: 80\n2 pets allowed\nPets allowed: Only dogs and cats allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/avlildt-doubletree-asheville-downtown/",
+   "final_url": "https://www.hilton.com/en/hotels/avlildt-doubletree-asheville-downtown/",
+   "document_sha256": "4c88bb91363999367e8aeed6a16ab1285a0b4eb9944062fe226246be6fa80473",
+   "document_bytes": 289621,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "DoubleTree by Hilton Asheville Downtown",
+    "address_on_page": "199 Haywood Street",
+    "postal_code": "28801",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "+1 828-505-8500",
+    "property_code_on_page": "avlildt"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "avlildt",
+   "identity_key": "doubletree by hilton asheville downtown",
+   "canonical_name": "DoubleTree by Hilton Asheville Downtown",
+   "corridor": "asheville-nc__downtown-asheville",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": 75.0,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/avlbmdt-doubletree-asheville-biltmore/",
+   "final_url": "https://www.hilton.com/en/hotels/avlbmdt-doubletree-asheville-biltmore/",
+   "document_sha256": "17fc5d9b202ff3e6bc088acb439f62d5f07815bc6cc27083848cabab704f02c5",
+   "document_bytes": 280356,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "DoubleTree by Hilton Hotel Asheville - Biltmore",
+    "address_on_page": "115 Hendersonville Road",
+    "postal_code": "28803",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "+1 828-274-1800",
+    "property_code_on_page": "avlbmdt"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "avlbmdt",
+   "identity_key": "doubletree by hilton hotel asheville biltmore",
+   "canonical_name": "DoubleTree by Hilton Hotel Asheville - Biltmore",
+   "corridor": "asheville-nc__biltmore-south-asheville",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, Walking areas & treat at check in. 2 pets max per room.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": 75.0,
+    "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, Walking areas & treat at check in. 2 pets max per room.",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, Walking areas & treat at check in. 2 pets max per room.",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, Walking areas & treat at check in. 2 pets max per room.",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, Walking areas & treat at check in. 2 pets max per room.",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, Walking areas & treat at check in. 2 pets max per room.",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, Walking areas & treat at check in. 2 pets max per room.",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://www.downtowninnandsuites.com/index.php?option=com_sppagebuilder&view=page&id=22&Itemid=696",
+   "final_url": "https://www.downtowninnandsuites.com/index.php?option=com_sppagebuilder&view=page&id=22&Itemid=696",
+   "document_sha256": "b65557d848ca156f576d8a09928443b7be2da9786dd50cb1953dd8b04d25bc95",
+   "document_bytes": 19023,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Downtown Inn & Suites",
+    "address_on_page": "120 Patton Avenue",
+    "postal_code": "28801",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": null,
+    "property_code_on_page": null
+   },
+   "identity_binding_method": "ADDRESS_ON_THE_PROPERTYS_OWN_SITE",
+   "property_code": null,
+   "identity_key": "downtown inn and suites",
+   "canonical_name": "Downtown Inn & Suites",
+   "corridor": "asheville-nc__downtown-asheville",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "Pets Welcome! We are a pet friendly hotel. Please register your pet at the front desk when you check in. There is a $15 fee per pet per night.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 1500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet"
+   },
+   "evidence": [
+    {
+     "quote": "Pets Welcome! We are a pet friendly hotel. Please register your pet at the front desk when you check in. There is a $15 fee per pet per night.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets Welcome! We are a pet friendly hotel. Please register your pet at the front desk when you check in. There is a $15 fee per pet per night.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets Welcome! We are a pet friendly hotel. Please register your pet at the front desk when you check in. There is a $15 fee per pet per night.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "fee_currency"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/avlel-element-asheville-downtown/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/avlel-element-asheville-downtown/overview/",
+   "document_sha256": "c9c0fb98d6eee9c79b11f30053beea47d7abaf1177f8315dccc2d30844c9c4df",
+   "document_bytes": 493392,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Element by Marriott Asheville Downtown",
+    "address_on_page": "62 College Place",
+    "postal_code": "28801",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "+18285755881",
+    "property_code_on_page": "avlel"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "avlel",
+   "identity_key": "element by marriott asheville downtown",
+   "canonical_name": "Element by Marriott Asheville Downtown",
+   "corridor": "asheville-nc__downtown-asheville",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Welcome | 2 pets max per room with a non-refundable fee | Non-Refundable Pet Fee Per Night: $50.00 | Maximum Number of Pets in Room: 2",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_night"
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Welcome | 2 pets max per room with a non-refundable fee | Non-Refundable Pet Fee Per Night: $50.00 | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | 2 pets max per room with a non-refundable fee | Non-Refundable Pet Fee Per Night: $50.00 | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | 2 pets max per room with a non-refundable fee | Non-Refundable Pet Fee Per Night: $50.00 | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | 2 pets max per room with a non-refundable fee | Non-Refundable Pet Fee Per Night: $50.00 | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | 2 pets max per room with a non-refundable fee | Non-Refundable Pet Fee Per Night: $50.00 | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/avleses-embassy-suites-asheville-downtown/",
+   "final_url": "https://www.hilton.com/en/hotels/avleses-embassy-suites-asheville-downtown/",
+   "document_sha256": "07570763899645b33d0acbb45e68708933521bd5dac99c88f11d77d2b3f83d63",
+   "document_bytes": 304471,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Embassy Suites by Hilton Asheville Downtown",
+    "address_on_page": "192 Haywood Street",
+    "postal_code": "28801",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "+1 828-407-0422",
+    "property_code_on_page": "avleses"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "avleses",
+   "identity_key": "embassy suites by hilton asheville downtown",
+   "canonical_name": "Embassy Suites by Hilton Asheville Downtown",
+   "corridor": "asheville-nc__downtown-asheville",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4n) $125(5+n)dog/cat only 2 max",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": 50.0,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4n) $125(5+n)dog/cat only 2 max",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4n) $125(5+n)dog/cat only 2 max",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4n) $125(5+n)dog/cat only 2 max",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4n) $125(5+n)dog/cat only 2 max",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4n) $125(5+n)dog/cat only 2 max",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4n) $125(5+n)dog/cat only 2 max",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "EXTENDED_STAY",
+   "source_url": "https://www.extendedstayamerica.com/hotels/nc/asheville/tunnel-rd",
+   "final_url": "https://www.extendedstayamerica.com/hotels/nc/asheville/tunnel-rd",
+   "document_sha256": "3718e9a5af101a88ecc8de637884f4a92791b3e3b41701dcb3605fd97bd9bf87",
+   "document_bytes": 397527,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Extended Stay America - Asheville - Tunnel Rd.",
+    "address_on_page": "6 Kenilworth Knoll",
+    "postal_code": "28805",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "1-828-253-3483",
+    "property_code_on_page": null
+   },
+   "identity_binding_method": "ADDRESS_AND_PHONE_ON_THE_PROPERTYS_OWN_PAGE",
+   "property_code": null,
+   "identity_key": "extended stay america asheville tunnel rd",
+   "canonical_name": "Extended Stay America - Asheville - Tunnel Rd.",
+   "corridor": "asheville-nc__tunnel-road-east-asheville",
+   "surface": "the property's own page, Pet Policy block",
+   "operative_quote": "Pet Policy A maximum of two pets are allowed in each suite.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy A maximum of two pets are allowed in each suite.",
+     "location": "the property's own page, Pet Policy block",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy A maximum of two pets are allowed in each suite.",
+     "location": "the property's own page, Pet Policy block",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/avlfp-four-points-asheville-downtown/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/avlfp-four-points-asheville-downtown/overview/",
+   "document_sha256": "aec0a2a540139a6ae979151c6722325763b29e137db9bef87186066c101c3f27",
+   "document_bytes": 526974,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Four Points by Sheraton Asheville Downtown",
+    "address_on_page": "22 Woodfin Street",
+    "postal_code": "28801",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "+18282531851",
+    "property_code_on_page": "avlfp"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "avlfp",
+   "identity_key": "four points by sheraton asheville downtown",
+   "canonical_name": "Four Points by Sheraton Asheville Downtown",
+   "corridor": "asheville-nc__downtown-asheville",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Welcome | $75 plus tax one time non refundable fee | Maximum Number of Pets in Room: 2",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Welcome | $75 plus tax one time non refundable fee | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | $75 plus tax one time non refundable fee | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/avlak-grand-bohemian-lodge-asheville-autograph-collection/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/avlak-grand-bohemian-lodge-asheville-autograph-collection/overview/",
+   "document_sha256": "13732a2f033c9794c5ae23e28ffd7730c8d806f409a366cc8a997f4c19725c04",
+   "document_bytes": 493734,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Grand Bohemian Lodge Asheville, Autograph Collection",
+    "address_on_page": "11 Boston Way",
+    "postal_code": "28803",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "+18285052949",
+    "property_code_on_page": "avlak"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "avlak",
+   "identity_key": "grand bohemian lodge asheville autograph collection",
+   "canonical_name": "Grand Bohemian Lodge Asheville, Autograph Collection",
+   "corridor": "asheville-nc__biltmore-south-asheville",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Welcome | Non-refundable 150 USD fee for 1 dog, addl. 50 USD fee for 2nd per room per stay | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Number of Pets in Room: 2",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Welcome | Non-refundable 150 USD fee for 1 dog, addl. 50 USD fee for 2nd per room per stay | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | Non-refundable 150 USD fee for 1 dog, addl. 50 USD fee for 2nd per room per stay | Non-Refundable Pet Fee Per Stay: $150.00 | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/avlaphx-hampton-suites-asheville-airport/",
+   "final_url": "https://www.hilton.com/en/hotels/avlaphx-hampton-suites-asheville-airport/",
+   "document_sha256": "1fccf672c0c9bf0439ffd03523f4feff983a5dd6da00e91b826855d03ddfd04d",
+   "document_bytes": 276367,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn & Suites Asheville Airport",
+    "address_on_page": "18 Rockwood Road",
+    "postal_code": "28732",
+    "locality": "Fletcher",
+    "region": "NC",
+    "phone_on_page": "+1 828-687-0806",
+    "property_code_on_page": "avlaphx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "avlaphx",
+   "identity_key": "hampton inn and suites asheville airport",
+   "canonical_name": "Hampton Inn & Suites Asheville Airport",
+   "corridor": "asheville-nc__arden-avl-airport",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "fee_refundable": false,
+    "fee_basis": "per_stay"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/avlbahx-hampton-suites-asheville-biltmore-area/",
+   "final_url": "https://www.hilton.com/en/hotels/avlbahx-hampton-suites-asheville-biltmore-area/",
+   "document_sha256": "5f13e18db315e7fa85cb26bd4fa8539968a28d599145c037ffc4cd31d9017fe9",
+   "document_bytes": 277642,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn & Suites Asheville Biltmore Area",
+    "address_on_page": "835 Brevard Road",
+    "postal_code": "28806",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "+1 828-575-9593",
+    "property_code_on_page": "avlbahx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "avlbahx",
+   "identity_key": "hampton inn and suites asheville biltmore area",
+   "canonical_name": "Hampton Inn & Suites Asheville Biltmore Area",
+   "corridor": "asheville-nc__west-asheville",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": 75.0,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/avlbvhx-hampton-suites-asheville-biltmore-village/",
+   "final_url": "https://www.hilton.com/en/hotels/avlbvhx-hampton-suites-asheville-biltmore-village/",
+   "document_sha256": "9f0bd11f41b54308b4eb5f3db0a05ad6039947a29fead80099824df1c867886f",
+   "document_bytes": 276877,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn & Suites Asheville Biltmore Village",
+    "address_on_page": "117 Hendersonville Road",
+    "postal_code": "28803",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "+1 828-277-1800",
+    "property_code_on_page": "avlbvhx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "avlbvhx",
+   "identity_key": "hampton inn and suites asheville biltmore village",
+   "canonical_name": "Hampton Inn & Suites Asheville Biltmore Village",
+   "corridor": "asheville-nc__biltmore-south-asheville",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": 75.0,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/avltuhx-hampton-asheville-tunnel-rd/",
+   "final_url": "https://www.hilton.com/en/hotels/avltuhx-hampton-asheville-tunnel-rd/",
+   "document_sha256": "923a036844a5009622aa66700f04575b159aabe0115b75de7ecde4aa04fcc384",
+   "document_bytes": 275391,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn Asheville-Tunnel Rd.",
+    "address_on_page": "204 Tunnel Road",
+    "postal_code": "28805",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "+1 828-255-9220",
+    "property_code_on_page": "avltuhx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "avltuhx",
+   "identity_key": "hampton inn asheville tunnel rd",
+   "canonical_name": "Hampton Inn Asheville-Tunnel Rd.",
+   "corridor": "asheville-nc__tunnel-road-east-asheville",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_stay"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/avlmohx-hampton-black-mountain/",
+   "final_url": "https://www.hilton.com/en/hotels/avlmohx-hampton-black-mountain/",
+   "document_sha256": "8a4135e7e5cbe97fd89308ebf2e255f986e2c427f7c07017085a30b8411eb738",
+   "document_bytes": 273306,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn Black Mountain",
+    "address_on_page": "306 Black Mountain Avenue",
+    "postal_code": "28711",
+    "locality": "Black Mountain",
+    "region": "NC",
+    "phone_on_page": "+1 828-669-1000",
+    "property_code_on_page": "avlmohx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "avlmohx",
+   "identity_key": "hampton inn black mountain",
+   "canonical_name": "Hampton Inn Black Mountain",
+   "corridor": "asheville-nc__black-mountain",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_stay"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://www.haywoodpark.com/faq/home-faq-list/is-the-haywood-park-hotel--atrium-a-pet-friendly-hotel",
+   "final_url": "https://www.haywoodpark.com/faq/home-faq-list/is-the-haywood-park-hotel--atrium-a-pet-friendly-hotel",
+   "document_sha256": "66f573914f4d6b5652975b70498b7bcbd0cb007c19b68799df8e20b4346eb989",
+   "document_bytes": 48209,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Haywood Park Hotel, Ascend Hotel Collection",
+    "address_on_page": "1 Battery Park Avenue",
+    "postal_code": "28801",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "(828) 232-8217",
+    "property_code_on_page": null
+   },
+   "identity_binding_method": "ADDRESS_AND_PHONE_ON_THE_PROPERTYS_OWN_SITE__PAGE_SPELLS_THE_NUMBER_ONE",
+   "property_code": null,
+   "identity_key": "haywood park hotel ascend hotel collection",
+   "canonical_name": "Haywood Park Hotel, Ascend Hotel Collection",
+   "corridor": "asheville-nc__downtown-asheville",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "Hotel accepts dogs only, with a one-time pet fee per stay of $ 75.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "species_allowed": [
+     "dog"
+    ]
+   },
+   "evidence": [
+    {
+     "quote": "Hotel accepts dogs only, with a one-time pet fee per stay of $ 75.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Hotel accepts dogs only, with a one-time pet fee per stay of $ 75.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/avlbphf-hilton-asheville-biltmore-park/",
+   "final_url": "https://www.hilton.com/en/hotels/avlbphf-hilton-asheville-biltmore-park/",
+   "document_sha256": "641f2151ad372720b4dbb08f3724336ebecb82d3a5ea821b9c6e0549962038af",
+   "document_bytes": 314816,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hilton Asheville Biltmore Park",
+    "address_on_page": "43 Town Square Blvd",
+    "postal_code": "28803",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "+1 828-209-2700",
+    "property_code_on_page": "avlbphf"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "avlbphf",
+   "identity_key": "hilton asheville biltmore park",
+   "canonical_name": "Hilton Asheville Biltmore Park",
+   "corridor": "asheville-nc__biltmore-south-asheville",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": 75.0,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/avladgi-hilton-garden-inn-asheville-downtown/",
+   "final_url": "https://www.hilton.com/en/hotels/avladgi-hilton-garden-inn-asheville-downtown/",
+   "document_sha256": "301559695a8ef7091951788b20ac0ceede1356c14a034e3d90d4d7bc19698a1f",
+   "document_bytes": 275367,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hilton Garden Inn Asheville Downtown",
+    "address_on_page": "309 College Street",
+    "postal_code": "28801",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "+1 828-255-0001",
+    "property_code_on_page": "avladgi"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "avladgi",
+   "identity_key": "hilton garden inn asheville downtown",
+   "canonical_name": "Hilton Garden Inn Asheville Downtown",
+   "corridor": "asheville-nc__downtown-asheville",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4 nights), $125(5+ nights) 2 pets max per room, dog/cat only. Guest is responsible for any damages by pet in the room.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": 75.0,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4 nights), $125(5+ nights) 2 pets max per room, dog/cat only. Guest is responsible for any damages by pet in the room.",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4 nights), $125(5+ nights) 2 pets max per room, dog/cat only. Guest is responsible for any damages by pet in the room.",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4 nights), $125(5+ nights) 2 pets max per room, dog/cat only. Guest is responsible for any damages by pet in the room.",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4 nights), $125(5+ nights) 2 pets max per room, dog/cat only. Guest is responsible for any damages by pet in the room.",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4 nights), $125(5+ nights) 2 pets max per room, dog/cat only. Guest is responsible for any damages by pet in the room.",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4 nights), $125(5+ nights) 2 pets max per room, dog/cat only. Guest is responsible for any damages by pet in the room.",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4 nights), $125(5+ nights) 2 pets max per room, dog/cat only. Guest is responsible for any damages by pet in the room.",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/avlgigi-hilton-garden-inn-asheville-south/",
+   "final_url": "https://www.hilton.com/en/hotels/avlgigi-hilton-garden-inn-asheville-south/",
+   "document_sha256": "0e31e52dfba5286abf53f04401b71cb52cca9c1b313113974f13b27d7bebffbd",
+   "document_bytes": 267406,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hilton Garden Inn Asheville South",
+    "address_on_page": "9 Rocky Ridge Road",
+    "postal_code": "28806",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "+1 828-633-6024",
+    "property_code_on_page": "avlgigi"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "avlgigi",
+   "identity_key": "hilton garden inn asheville south",
+   "canonical_name": "Hilton Garden Inn Asheville South",
+   "corridor": "asheville-nc__west-asheville",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, 100 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": 100.0,
+    "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 100 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 100 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 100 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 100 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 100 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 100 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "IHG",
+   "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/asheville/avlpp/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinn/hotels/us/en/asheville/avlpp/hoteldetail",
+   "document_sha256": "77f9bac2f291f73433d9f0af9315b5c452eadd384f01f4972175aed160265e44",
+   "document_bytes": 295765,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Holiday Inn Asheville - Biltmore West",
+    "address_on_page": "435 Smokey Park Highway",
+    "postal_code": "28806",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "1-828-6652161",
+    "property_code_on_page": "avlpp"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "avlpp",
+   "identity_key": "holiday inn asheville biltmore west",
+   "canonical_name": "Holiday Inn Asheville - Biltmore West",
+   "corridor": "asheville-nc__west-asheville",
+   "surface": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+   "operative_quote": "Pets are welcome at Holiday Inn Asheville - Biltmore West.\nPet policy description. 41 pet friendly rooms available with advance reservation.\n30 dollar fee, per pet, per room, per night.\nPet walking area onsite.\nPet fee per night: 30 USD\nPet weight limit: No weight limit per pet\n2 pets allowed\nPets allowed: Only dogs and cats allowed",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 3000,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "fee_basis": "per_night"
+   },
+   "evidence": [
+    {
+     "quote": "Pets are welcome at Holiday Inn Asheville - Biltmore West.\nPet policy description. 41 pet friendly rooms available with advance reservation.\n30 dollar fee, per pet, per room, per night.\nPet walking area onsite.\nPet fee per night: 30 USD\nPet weight limit: No weight limit per pet\n2 pets allowed\nPets allowed: Only dogs and cats allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Holiday Inn Asheville - Biltmore West.\nPet policy description. 41 pet friendly rooms available with advance reservation.\n30 dollar fee, per pet, per room, per night.\nPet walking area onsite.\nPet fee per night: 30 USD\nPet weight limit: No weight limit per pet\n2 pets allowed\nPets allowed: Only dogs and cats allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Holiday Inn Asheville - Biltmore West.\nPet policy description. 41 pet friendly rooms available with advance reservation.\n30 dollar fee, per pet, per room, per night.\nPet walking area onsite.\nPet fee per night: 30 USD\nPet weight limit: No weight limit per pet\n2 pets allowed\nPets allowed: Only dogs and cats allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Holiday Inn Asheville - Biltmore West.\nPet policy description. 41 pet friendly rooms available with advance reservation.\n30 dollar fee, per pet, per room, per night.\nPet walking area onsite.\nPet fee per night: 30 USD\nPet weight limit: No weight limit per pet\n2 pets allowed\nPets allowed: Only dogs and cats allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Holiday Inn Asheville - Biltmore West.\nPet policy description. 41 pet friendly rooms available with advance reservation.\n30 dollar fee, per pet, per room, per night.\nPet walking area onsite.\nPet fee per night: 30 USD\nPet weight limit: No weight limit per pet\n2 pets allowed\nPets allowed: Only dogs and cats allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "IHG",
+   "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/asheville/avlea/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinn/hotels/us/en/asheville/avlea/hoteldetail",
+   "document_sha256": "9c584b7317309a701f02f41a7625abb1ad403217baf734fbac2e5d38a2dd545e",
+   "document_bytes": 295965,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Holiday Inn Asheville East-Blue Ridge PKWY",
+    "address_on_page": "1450 Tunnel Road",
+    "postal_code": "28805",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "1-828-2985611",
+    "property_code_on_page": "avlea"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "avlea",
+   "identity_key": "holiday inn asheville east blue ridge pkwy",
+   "canonical_name": "Holiday Inn Asheville East-Blue Ridge PKWY",
+   "corridor": "asheville-nc__tunnel-road-east-asheville",
+   "surface": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+   "operative_quote": "Pets are welcome at Holiday Inn Asheville East-Blue Ridge PKWY.\nPet policy description. Must book King Pet Friendly or 2 Queen Pet Friendly. Pet Friendly rms may sell out. Pets must be registered. No pet should be left unattended. Owner assumes financial responsibility for all damage or noise complaint. 50 per night fee, max 150 per wk.\nPet fee per night: 50 USD\nPet weight limit: 50\n2 pets allowed\nPets allowed: Only dogs and cats allowed",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "weight_limit": 50.0,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "fee_basis": "per_night",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets are welcome at Holiday Inn Asheville East-Blue Ridge PKWY.\nPet policy description. Must book King Pet Friendly or 2 Queen Pet Friendly. Pet Friendly rms may sell out. Pets must be registered. No pet should be left unattended. Owner assumes financial responsibility for all damage or noise complaint. 50 per night fee, max 150 per wk.\nPet fee per night: 50 USD\nPet weight limit: 50\n2 pets allowed\nPets allowed: Only dogs and cats allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Holiday Inn Asheville East-Blue Ridge PKWY.\nPet policy description. Must book King Pet Friendly or 2 Queen Pet Friendly. Pet Friendly rms may sell out. Pets must be registered. No pet should be left unattended. Owner assumes financial responsibility for all damage or noise complaint. 50 per night fee, max 150 per wk.\nPet fee per night: 50 USD\nPet weight limit: 50\n2 pets allowed\nPets allowed: Only dogs and cats allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Holiday Inn Asheville East-Blue Ridge PKWY.\nPet policy description. Must book King Pet Friendly or 2 Queen Pet Friendly. Pet Friendly rms may sell out. Pets must be registered. No pet should be left unattended. Owner assumes financial responsibility for all damage or noise complaint. 50 per night fee, max 150 per wk.\nPet fee per night: 50 USD\nPet weight limit: 50\n2 pets allowed\nPets allowed: Only dogs and cats allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Holiday Inn Asheville East-Blue Ridge PKWY.\nPet policy description. Must book King Pet Friendly or 2 Queen Pet Friendly. Pet Friendly rms may sell out. Pets must be registered. No pet should be left unattended. Owner assumes financial responsibility for all damage or noise complaint. 50 per night fee, max 150 per wk.\nPet fee per night: 50 USD\nPet weight limit: 50\n2 pets allowed\nPets allowed: Only dogs and cats allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Holiday Inn Asheville East-Blue Ridge PKWY.\nPet policy description. Must book King Pet Friendly or 2 Queen Pet Friendly. Pet Friendly rms may sell out. Pets must be registered. No pet should be left unattended. Owner assumes financial responsibility for all damage or noise complaint. 50 per night fee, max 150 per wk.\nPet fee per night: 50 USD\nPet weight limit: 50\n2 pets allowed\nPets allowed: Only dogs and cats allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Holiday Inn Asheville East-Blue Ridge PKWY.\nPet policy description. Must book King Pet Friendly or 2 Queen Pet Friendly. Pet Friendly rms may sell out. Pets must be registered. No pet should be left unattended. Owner assumes financial responsibility for all damage or noise complaint. 50 per night fee, max 150 per wk.\nPet fee per night: 50 USD\nPet weight limit: 50\n2 pets allowed\nPets allowed: Only dogs and cats allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "IHG",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/asheville/avlbm/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/asheville/avlbm/hoteldetail",
+   "document_sha256": "0ed61fbf7b6dedaf2e6e8856841e66feb8ab0b51aec559ddae56b07a2244bba1",
+   "document_bytes": 299638,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Holiday Inn Express & Suites Asheville SW - Outlet Ctr Area",
+    "address_on_page": "12 Rocky Ridge Road",
+    "postal_code": "28806",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "1-828-6656519",
+    "property_code_on_page": "avlbm"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "avlbm",
+   "identity_key": "holiday inn express and suites asheville sw outlet ctr area",
+   "canonical_name": "Holiday Inn Express & Suites Asheville SW - Outlet Ctr Area",
+   "corridor": "asheville-nc__west-asheville",
+   "surface": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+   "operative_quote": "Pets are welcome at Holiday Inn Express & Suites Asheville SW - Outlet Ctr Area.\nPet policy description. Dogs are welcome with a non refundable pet fee of 30 USD per dog per day. Up to two dogs per room, with a weight limit of 35 lbs. Please request a dog friendly room and advise the front desk during check in. Dogs are not allowed to be left unattended.\nPet fee per night: 30 USD\nPet weight limit: 35\n2 pets allowed\nPets allowed: Only dogs allowed",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 3000,
+    "fee_currency": "USD",
+    "weight_limit": 35.0,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ],
+    "fee_refundable": false,
+    "fee_basis": "per_night",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets are welcome at Holiday Inn Express & Suites Asheville SW - Outlet Ctr Area.\nPet policy description. Dogs are welcome with a non refundable pet fee of 30 USD per dog per day. Up to two dogs per room, with a weight limit of 35 lbs. Please request a dog friendly room and advise the front desk during check in. Dogs are not allowed to be left unattended.\nPet fee per night: 30 USD\nPet weight limit: 35\n2 pets allowed\nPets allowed: Only dogs allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Holiday Inn Express & Suites Asheville SW - Outlet Ctr Area.\nPet policy description. Dogs are welcome with a non refundable pet fee of 30 USD per dog per day. Up to two dogs per room, with a weight limit of 35 lbs. Please request a dog friendly room and advise the front desk during check in. Dogs are not allowed to be left unattended.\nPet fee per night: 30 USD\nPet weight limit: 35\n2 pets allowed\nPets allowed: Only dogs allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Holiday Inn Express & Suites Asheville SW - Outlet Ctr Area.\nPet policy description. Dogs are welcome with a non refundable pet fee of 30 USD per dog per day. Up to two dogs per room, with a weight limit of 35 lbs. Please request a dog friendly room and advise the front desk during check in. Dogs are not allowed to be left unattended.\nPet fee per night: 30 USD\nPet weight limit: 35\n2 pets allowed\nPets allowed: Only dogs allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Holiday Inn Express & Suites Asheville SW - Outlet Ctr Area.\nPet policy description. Dogs are welcome with a non refundable pet fee of 30 USD per dog per day. Up to two dogs per room, with a weight limit of 35 lbs. Please request a dog friendly room and advise the front desk during check in. Dogs are not allowed to be left unattended.\nPet fee per night: 30 USD\nPet weight limit: 35\n2 pets allowed\nPets allowed: Only dogs allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Holiday Inn Express & Suites Asheville SW - Outlet Ctr Area.\nPet policy description. Dogs are welcome with a non refundable pet fee of 30 USD per dog per day. Up to two dogs per room, with a weight limit of 35 lbs. Please request a dog friendly room and advise the front desk during check in. Dogs are not allowed to be left unattended.\nPet fee per night: 30 USD\nPet weight limit: 35\n2 pets allowed\nPets allowed: Only dogs allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Holiday Inn Express & Suites Asheville SW - Outlet Ctr Area.\nPet policy description. Dogs are welcome with a non refundable pet fee of 30 USD per dog per day. Up to two dogs per room, with a weight limit of 35 lbs. Please request a dog friendly room and advise the front desk during check in. Dogs are not allowed to be left unattended.\nPet fee per night: 30 USD\nPet weight limit: 35\n2 pets allowed\nPets allowed: Only dogs allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Holiday Inn Express & Suites Asheville SW - Outlet Ctr Area.\nPet policy description. Dogs are welcome with a non refundable pet fee of 30 USD per dog per day. Up to two dogs per room, with a weight limit of 35 lbs. Please request a dog friendly room and advise the front desk during check in. Dogs are not allowed to be left unattended.\nPet fee per night: 30 USD\nPet weight limit: 35\n2 pets allowed\nPets allowed: Only dogs allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "IHG",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/asheville/avlrm/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/asheville/avlrm/hoteldetail",
+   "document_sha256": "365e7454b19eaca3ed1ca0dd9241e2673c0febe5a92b8c4c1c06e4127058540f",
+   "document_bytes": 267497,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Holiday Inn Express Asheville - Woodfin",
+    "address_on_page": "4 Reynolds Mountain Boulevard",
+    "postal_code": "28804",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "1-828-3679650",
+    "property_code_on_page": "avlrm"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "avlrm",
+   "identity_key": "holiday inn express asheville woodfin",
+   "canonical_name": "Holiday Inn Express Asheville - Woodfin",
+   "corridor": "asheville-nc__north-asheville-grove-park",
+   "surface": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+   "operative_quote": "Pets are welcome at Holiday Inn Express Asheville - Woodfin.\nPet policy description. Pets are allowed. 50 USD per night per pet. Weight limit is 50 pounds. Maximum of 2 pets per room. Pet friendly room required to bring a pet.\nPet fee per night: 50 USD\nPet damage deposit: 50 USD\nPet weight limit: 50\n2 pets allowed\nPets allowed: Only dogs and cats allowed",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "weight_limit": 50.0,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "fee_basis": "per_night",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets are welcome at Holiday Inn Express Asheville - Woodfin.\nPet policy description. Pets are allowed. 50 USD per night per pet. Weight limit is 50 pounds. Maximum of 2 pets per room. Pet friendly room required to bring a pet.\nPet fee per night: 50 USD\nPet damage deposit: 50 USD\nPet weight limit: 50\n2 pets allowed\nPets allowed: Only dogs and cats allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Holiday Inn Express Asheville - Woodfin.\nPet policy description. Pets are allowed. 50 USD per night per pet. Weight limit is 50 pounds. Maximum of 2 pets per room. Pet friendly room required to bring a pet.\nPet fee per night: 50 USD\nPet damage deposit: 50 USD\nPet weight limit: 50\n2 pets allowed\nPets allowed: Only dogs and cats allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Holiday Inn Express Asheville - Woodfin.\nPet policy description. Pets are allowed. 50 USD per night per pet. Weight limit is 50 pounds. Maximum of 2 pets per room. Pet friendly room required to bring a pet.\nPet fee per night: 50 USD\nPet damage deposit: 50 USD\nPet weight limit: 50\n2 pets allowed\nPets allowed: Only dogs and cats allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Holiday Inn Express Asheville - Woodfin.\nPet policy description. Pets are allowed. 50 USD per night per pet. Weight limit is 50 pounds. Maximum of 2 pets per room. Pet friendly room required to bring a pet.\nPet fee per night: 50 USD\nPet damage deposit: 50 USD\nPet weight limit: 50\n2 pets allowed\nPets allowed: Only dogs and cats allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Holiday Inn Express Asheville - Woodfin.\nPet policy description. Pets are allowed. 50 USD per night per pet. Weight limit is 50 pounds. Maximum of 2 pets per room. Pet friendly room required to bring a pet.\nPet fee per night: 50 USD\nPet damage deposit: 50 USD\nPet weight limit: 50\n2 pets allowed\nPets allowed: Only dogs and cats allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Holiday Inn Express Asheville - Woodfin.\nPet policy description. Pets are allowed. 50 USD per night per pet. Weight limit is 50 pounds. Maximum of 2 pets per room. Pet friendly room required to bring a pet.\nPet fee per night: 50 USD\nPet damage deposit: 50 USD\nPet weight limit: 50\n2 pets allowed\nPets allowed: Only dogs and cats allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/avlaaht-home2-suites-asheville-airport/",
+   "final_url": "https://www.hilton.com/en/hotels/avlaaht-home2-suites-asheville-airport/",
+   "document_sha256": "c987518823532f9f41aee5fe82c175b80a4fd1e934981c463a139ee043913423",
+   "document_bytes": 266854,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Home2 Suites by Hilton Asheville Airport",
+    "address_on_page": "390 Airport Road",
+    "postal_code": "28704",
+    "locality": "Arden",
+    "region": "NC",
+    "phone_on_page": "+1 828-676-1776",
+    "property_code_on_page": "avlaaht"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "avlaaht",
+   "identity_key": "home2 suites by hilton asheville airport",
+   "canonical_name": "Home2 Suites by Hilton Asheville Airport",
+   "corridor": "asheville-nc__arden-avl-airport",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n), $125(5+n) 2pets Max, dog/cat only",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": 75.0,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n), $125(5+n) 2pets Max, dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n), $125(5+n) 2pets Max, dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n), $125(5+n) 2pets Max, dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n), $125(5+n) 2pets Max, dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n), $125(5+n) 2pets Max, dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n), $125(5+n) 2pets Max, dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n), $125(5+n) 2pets Max, dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/avlvlht-home2-suites-asheville-biltmore-village/",
+   "final_url": "https://www.hilton.com/en/hotels/avlvlht-home2-suites-asheville-biltmore-village/",
+   "document_sha256": "01fae9ba440baf0f35343f31b2954ba812acd7114d093730196ca74677968f58",
+   "document_bytes": 298168,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Home2 Suites by Hilton Asheville Biltmore Village",
+    "address_on_page": "61 Thompson Street",
+    "postal_code": "28803",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "+1 828-348-1560",
+    "property_code_on_page": "avlvlht"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "avlvlht",
+   "identity_key": "home2 suites by hilton asheville biltmore village",
+   "canonical_name": "Home2 Suites by Hilton Asheville Biltmore Village",
+   "corridor": "asheville-nc__biltmore-south-asheville",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $125.00 non-refundable fee, 125 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 125.0,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $125.00 non-refundable fee, 125 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $125.00 non-refundable fee, 125 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $125.00 non-refundable fee, 125 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $125.00 non-refundable fee, 125 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/avlhwhw-homewood-suites-asheville-tunnel-road/",
+   "final_url": "https://www.hilton.com/en/hotels/avlhwhw-homewood-suites-asheville-tunnel-road/",
+   "document_sha256": "71ef85db1ad0b8cdd73b53c34349a4e3ed72346a284ba0f213c60891bb02286b",
+   "document_bytes": 269061,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Homewood Suites by Hilton Asheville-Tunnel Road",
+    "address_on_page": "88 Tunnel Road",
+    "postal_code": "28805",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "+1 828-252-5400",
+    "property_code_on_page": "avlhwhw"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "avlhwhw",
+   "identity_key": "homewood suites by hilton asheville tunnel road",
+   "canonical_name": "Homewood Suites by Hilton Asheville-Tunnel Road",
+   "corridor": "asheville-nc__tunnel-road-east-asheville",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "fee_refundable": false,
+    "fee_basis": "per_stay"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "IHG",
+   "source_url": "https://www.ihg.com/hotelindigo/hotels/us/en/asheville/avlin/hoteldetail",
+   "final_url": "https://www.ihg.com/hotelindigo/hotels/us/en/asheville/avlin/hoteldetail",
+   "document_sha256": "8061786d5cb6e8855a163285dfe72bf0352b46eea3776c3d82b8557e426f3676",
+   "document_bytes": 351771,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hotel Indigo Asheville Downtown",
+    "address_on_page": "151 Haywood Street",
+    "postal_code": "28801",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "1-828-2390239",
+    "property_code_on_page": "avlin"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "avlin",
+   "identity_key": "hotel indigo asheville downtown",
+   "canonical_name": "Hotel Indigo Asheville Downtown",
+   "corridor": "asheville-nc__downtown-asheville",
+   "surface": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+   "operative_quote": "Pets are welcome at Hotel Indigo Asheville Downtown.\nPet policy description. Upon arrival, a non refundable fee of 75 dollars plux tax will be applied to your account. This fee excludes trained service animals but does apply for Emotional Support Animals. Well behaved pets up to 125lbs are welcome.\nPet fee per night: 75 USD\nPet damage deposit: 75 USD\nPet weight limit: 125\n1 pets allowed\nPets allowed: Only dogs and cats allowed",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 125.0,
+    "pet_count_limit": 1,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets are welcome at Hotel Indigo Asheville Downtown.\nPet policy description. Upon arrival, a non refundable fee of 75 dollars plux tax will be applied to your account. This fee excludes trained service animals but does apply for Emotional Support Animals. Well behaved pets up to 125lbs are welcome.\nPet fee per night: 75 USD\nPet damage deposit: 75 USD\nPet weight limit: 125\n1 pets allowed\nPets allowed: Only dogs and cats allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Hotel Indigo Asheville Downtown.\nPet policy description. Upon arrival, a non refundable fee of 75 dollars plux tax will be applied to your account. This fee excludes trained service animals but does apply for Emotional Support Animals. Well behaved pets up to 125lbs are welcome.\nPet fee per night: 75 USD\nPet damage deposit: 75 USD\nPet weight limit: 125\n1 pets allowed\nPets allowed: Only dogs and cats allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Hotel Indigo Asheville Downtown.\nPet policy description. Upon arrival, a non refundable fee of 75 dollars plux tax will be applied to your account. This fee excludes trained service animals but does apply for Emotional Support Animals. Well behaved pets up to 125lbs are welcome.\nPet fee per night: 75 USD\nPet damage deposit: 75 USD\nPet weight limit: 125\n1 pets allowed\nPets allowed: Only dogs and cats allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Hotel Indigo Asheville Downtown.\nPet policy description. Upon arrival, a non refundable fee of 75 dollars plux tax will be applied to your account. This fee excludes trained service animals but does apply for Emotional Support Animals. Well behaved pets up to 125lbs are welcome.\nPet fee per night: 75 USD\nPet damage deposit: 75 USD\nPet weight limit: 125\n1 pets allowed\nPets allowed: Only dogs and cats allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "IHG",
+   "source_url": "https://www.ihg.com/kimptonhotels/hotels/us/en/hotel-arras-asheville-nc/avlpa/hoteldetail",
+   "final_url": "https://www.ihg.com/kimptonhotels/hotels/us/en/hotel-arras-asheville-nc/avlpa/hoteldetail",
+   "document_sha256": "cca68e8f0e301c6836f2ae74713cfff9e47428164c17fc2dffcb9ef1d66bf9d8",
+   "document_bytes": 276485,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Kimpton Hotel Arras",
+    "address_on_page": "7 Patton Avenue",
+    "postal_code": "28801",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "1-828-2550303",
+    "property_code_on_page": "avlpa"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "avlpa",
+   "identity_key": "kimpton hotel arras",
+   "canonical_name": "Kimpton Hotel Arras",
+   "corridor": "asheville-nc__downtown-asheville",
+   "surface": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+   "operative_quote": "Pets are welcome at Kimpton Hotel Arras.\nPet policy description. We accept all pets, no additional charge for pets, no deposit required. No size or weight limit. No limit to number of pets allowed.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true
+   },
+   "evidence": [
+    {
+     "quote": "Pets are welcome at Kimpton Hotel Arras.\nPet policy description. We accept all pets, no additional charge for pets, no deposit required. No size or weight limit. No limit to number of pets allowed.",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/avlbr-renaissance-asheville-downtown-hotel/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/avlbr-renaissance-asheville-downtown-hotel/overview/",
+   "document_sha256": "cee3f6f23ea13f93bc758c8cb50b2c62e0c48c9d0347f086b10612a36bc9bac6",
+   "document_bytes": 498224,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Renaissance Asheville Downtown Hotel",
+    "address_on_page": "31 Woodfin Street",
+    "postal_code": "28801",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "+18282528211",
+    "property_code_on_page": "avlbr"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "avlbr",
+   "identity_key": "renaissance asheville downtown hotel",
+   "canonical_name": "Renaissance Asheville Downtown Hotel",
+   "corridor": "asheville-nc__downtown-asheville",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Welcome | Welcome to our Pet Friendly Hotel in Asheville! Pets cannot be left unattended. | Non-Refundable Pet Fee Per Night: $50.00 | Maximum Pet Weight: 60.0lbs | Maximum Number of Pets in Room: 2",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "weight_limit": 60.0,
+    "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_night",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Welcome | Welcome to our Pet Friendly Hotel in Asheville! Pets cannot be left unattended. | Non-Refundable Pet Fee Per Night: $50.00 | Maximum Pet Weight: 60.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | Welcome to our Pet Friendly Hotel in Asheville! Pets cannot be left unattended. | Non-Refundable Pet Fee Per Night: $50.00 | Maximum Pet Weight: 60.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | Welcome to our Pet Friendly Hotel in Asheville! Pets cannot be left unattended. | Non-Refundable Pet Fee Per Night: $50.00 | Maximum Pet Weight: 60.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | Welcome to our Pet Friendly Hotel in Asheville! Pets cannot be left unattended. | Non-Refundable Pet Fee Per Night: $50.00 | Maximum Pet Weight: 60.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | Welcome to our Pet Friendly Hotel in Asheville! Pets cannot be left unattended. | Non-Refundable Pet Fee Per Night: $50.00 | Maximum Pet Weight: 60.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | Welcome to our Pet Friendly Hotel in Asheville! Pets cannot be left unattended. | Non-Refundable Pet Fee Per Night: $50.00 | Maximum Pet Weight: 60.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/avlri-residence-inn-asheville-biltmore/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/avlri-residence-inn-asheville-biltmore/overview/",
+   "document_sha256": "94e9ac8a4a5e6240b5bd2f1ea5b4d593f9737e7d54e8fdb41e1d3d5e023a7676",
+   "document_bytes": 503470,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Residence Inn by Marriott Asheville Biltmore",
+    "address_on_page": "701 Biltmore Avenue",
+    "postal_code": "28803",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "+18282813361",
+    "property_code_on_page": "avlri"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "avlri",
+   "identity_key": "residence inn by marriott asheville biltmore",
+   "canonical_name": "Residence Inn by Marriott Asheville Biltmore",
+   "corridor": "asheville-nc__biltmore-south-asheville",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Welcome | Pets 100 pounds or less allowed with USD 75 non-refundable fee per stay | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 100.0lbs",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": 100.0,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Welcome | Pets 100 pounds or less allowed with USD 75 non-refundable fee per stay | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 100.0lbs",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | Pets 100 pounds or less allowed with USD 75 non-refundable fee per stay | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 100.0lbs",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | Pets 100 pounds or less allowed with USD 75 non-refundable fee per stay | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 100.0lbs",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | Pets 100 pounds or less allowed with USD 75 non-refundable fee per stay | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 100.0lbs",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | Pets 100 pounds or less allowed with USD 75 non-refundable fee per stay | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 100.0lbs",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/avlaepe-spark-asheville-blue-ridge-parkway/",
+   "final_url": "https://www.hilton.com/en/hotels/avlaepe-spark-asheville-blue-ridge-parkway/",
+   "document_sha256": "7871d141405d842cb28600c19a375c466837cfcf768d64b12a1ba5782c7e76c3",
+   "document_bytes": 269506,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Spark by Hilton Asheville Blue Ridge Parkway",
+    "address_on_page": "1435 Tunnel Road",
+    "postal_code": "28805",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "+1 828-298-4000",
+    "property_code_on_page": "avlaepe"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "avlaepe",
+   "identity_key": "spark by hilton asheville blue ridge parkway",
+   "canonical_name": "Spark by Hilton Asheville Blue Ridge Parkway",
+   "corridor": "asheville-nc__tunnel-road-east-asheville",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4 nights), $125(5+ Nights) 2 pets Maximum- dog/cat only",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "fee_refundable": false,
+    "fee_basis": "per_stay"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4 nights), $125(5+ Nights) 2 pets Maximum- dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4 nights), $125(5+ Nights) 2 pets Maximum- dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4 nights), $125(5+ Nights) 2 pets Maximum- dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4 nights), $125(5+ Nights) 2 pets Maximum- dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4 nights), $125(5+ Nights) 2 pets Maximum- dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4 nights), $125(5+ Nights) 2 pets Maximum- dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/avlfh-the-flat-iron-hotel-a-member-of-design-hotels/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/avlfh-the-flat-iron-hotel-a-member-of-design-hotels/overview/",
+   "document_sha256": "a89e4071c89a57af3231eb777e98a633fc54fe8b4b49c4fa5d79c56c40c3c972",
+   "document_bytes": 521729,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "The Flat Iron Hotel, a Member of Design Hotels™",
+    "address_on_page": "20 Battery Park Ave",
+    "postal_code": "28801",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "+18285792106",
+    "property_code_on_page": "avlfh"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "avlfh",
+   "identity_key": "the flat iron hotel a member of design hotels",
+   "canonical_name": "The Flat Iron Hotel, a Member of Design Hotels",
+   "corridor": "asheville-nc__downtown-asheville",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Welcome | 2 pets 75lbs max per pet per room with non-refundable fee | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 75.0,
+    "pet_count_limit": 2,
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Welcome | 2 pets 75lbs max per pet per room with non-refundable fee | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | 2 pets 75lbs max per pet per room with non-refundable fee | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | 2 pets 75lbs max per pet per room with non-refundable fee | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/avlcuqq-the-foundry-hotel-asheville/",
+   "final_url": "https://www.hilton.com/en/hotels/avlcuqq-the-foundry-hotel-asheville/",
+   "document_sha256": "c72ae0e6243ace9fa8f8fd188ce35c29dc26341ea166bdfd93cbd4a90bf7ca27",
+   "document_bytes": 239096,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "The Foundry Hotel Asheville, Curio Collection by Hilton",
+    "address_on_page": "51 South Market Street",
+    "postal_code": "28801",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "+1 828-552-8545",
+    "property_code_on_page": "avlcuqq"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "avlcuqq",
+   "identity_key": "the foundry hotel asheville curio collection by hilton",
+   "canonical_name": "The Foundry Hotel Asheville, Curio Collection by Hilton",
+   "corridor": "asheville-nc__downtown-asheville",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, Dogs Only",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "species_allowed": [
+     "dog"
+    ],
+    "fee_refundable": false,
+    "fee_basis": "per_stay"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, Dogs Only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, Dogs Only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, Dogs Only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, Dogs Only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, Dogs Only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "INDEPENDENT",
+   "source_url": "https://www.omnihotels.com/hotels/asheville-grove-park/property-details/policies",
+   "final_url": "https://www.omnihotels.com/hotels/asheville-grove-park/property-details/policies",
+   "document_sha256": "c54df86f0a67d860c695cb252c59ab94cf3612adc49021690d2251935907d171",
+   "document_bytes": 1122207,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "The Omni Grove Park Inn & Spa",
+    "address_on_page": "290 Macon Avenue",
+    "postal_code": "28804",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": null,
+    "property_code_on_page": null
+   },
+   "identity_binding_method": "ADDRESS_ON_THE_PROPERTYS_OWN_POLICY_PAGE",
+   "property_code": null,
+   "identity_key": "the omni grove park inn and spa",
+   "canonical_name": "The Omni Grove Park Inn & Spa",
+   "corridor": "asheville-nc__north-asheville-grove-park",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "Registered dog guests are welcome at The Omni Grove Park Inn & Spa. Pet rooms are limited and are based on availability. Two dogs up to 60 lbs. each may be registered to a room, if a valid credit card is on file. Please note that our pet policy extends only to dogs. No other animals are allowed. Guests are required to sign a document accepting complete financial responsibility for any damage, personal injury or disturbance caused by the dog(s). Each room with a dog(s) will be charged a cleaning charge of $350 per stay (the charge is per room not per dog).",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 35000,
+    "fee_currency": "USD",
+    "weight_limit": 60.0,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ],
+    "fee_basis": "per_stay",
+    "fee_scope": "per_room",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Registered dog guests are welcome at The Omni Grove Park Inn & Spa. Pet rooms are limited and are based on availability. Two dogs up to 60 lbs. each may be registered to a room, if a valid credit card is on file. Please note that our pet policy extends only to dogs. No other animals are allowed. Guests are required to sign a document accepting complete financial responsibility for any damage, personal injury or disturbance caused by the dog(s). Each room with a dog(s) will be charged a cleaning charge of $350 per stay (the charge is per room not per dog).",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Registered dog guests are welcome at The Omni Grove Park Inn & Spa. Pet rooms are limited and are based on availability. Two dogs up to 60 lbs. each may be registered to a room, if a valid credit card is on file. Please note that our pet policy extends only to dogs. No other animals are allowed. Guests are required to sign a document accepting complete financial responsibility for any damage, personal injury or disturbance caused by the dog(s). Each room with a dog(s) will be charged a cleaning charge of $350 per stay (the charge is per room not per dog).",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Registered dog guests are welcome at The Omni Grove Park Inn & Spa. Pet rooms are limited and are based on availability. Two dogs up to 60 lbs. each may be registered to a room, if a valid credit card is on file. Please note that our pet policy extends only to dogs. No other animals are allowed. Guests are required to sign a document accepting complete financial responsibility for any damage, personal injury or disturbance caused by the dog(s). Each room with a dog(s) will be charged a cleaning charge of $350 per stay (the charge is per room not per dog).",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Registered dog guests are welcome at The Omni Grove Park Inn & Spa. Pet rooms are limited and are based on availability. Two dogs up to 60 lbs. each may be registered to a room, if a valid credit card is on file. Please note that our pet policy extends only to dogs. No other animals are allowed. Guests are required to sign a document accepting complete financial responsibility for any damage, personal injury or disturbance caused by the dog(s). Each room with a dog(s) will be charged a cleaning charge of $350 per stay (the charge is per room not per dog).",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Registered dog guests are welcome at The Omni Grove Park Inn & Spa. Pet rooms are limited and are based on availability. Two dogs up to 60 lbs. each may be registered to a room, if a valid credit card is on file. Please note that our pet policy extends only to dogs. No other animals are allowed. Guests are required to sign a document accepting complete financial responsibility for any damage, personal injury or disturbance caused by the dog(s). Each room with a dog(s) will be charged a cleaning charge of $350 per stay (the charge is per room not per dog).",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Registered dog guests are welcome at The Omni Grove Park Inn & Spa. Pet rooms are limited and are based on availability. Two dogs up to 60 lbs. each may be registered to a room, if a valid credit card is on file. Please note that our pet policy extends only to dogs. No other animals are allowed. Guests are required to sign a document accepting complete financial responsibility for any damage, personal injury or disturbance caused by the dog(s). Each room with a dog(s) will be charged a cleaning charge of $350 per stay (the charge is per room not per dog).",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/avlupup-the-radical-asheville/",
+   "final_url": "https://www.hilton.com/en/hotels/avlupup-the-radical-asheville/",
+   "document_sha256": "9d07e94f1d91168ab63ba2a6ae89c6ff05522b2d6a53b3cf7aabd1b254d64f7b",
+   "document_bytes": 227981,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "The Radical Asheville, Tapestry Collection by Hilton",
+    "address_on_page": "95 Roberts Street",
+    "postal_code": "28801",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "+1 828-412-0200",
+    "property_code_on_page": "avlupup"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "avlupup",
+   "identity_key": "the radical asheville tapestry collection by hilton",
+   "canonical_name": "The Radical Asheville, Tapestry Collection by Hilton",
+   "corridor": "asheville-nc__downtown-asheville",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": 50.0,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://windsorasheville.com/faq",
+   "final_url": "https://windsorasheville.com/faq",
+   "document_sha256": "b108d645712911d1ec5e39d16b1d7786f8ad83702893cb8396177065347f1c7e",
+   "document_bytes": 146120,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "The Windsor Boutique Hotel",
+    "address_on_page": "36 Broadway",
+    "postal_code": "28801",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "+1 844 494 6376",
+    "property_code_on_page": null
+   },
+   "identity_binding_method": "ADDRESS_AND_PHONE_ON_THE_PROPERTYS_OWN_SITE",
+   "property_code": null,
+   "identity_key": "the windsor boutique hotel",
+   "canonical_name": "The Windsor Boutique Hotel",
+   "corridor": "asheville-nc__downtown-asheville",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "We’re happy to welcome dogs in our designated pet-friendly King Suites! A fee of $50 per pet, per night applies and includes the use of a dog bed along with food and water bowls during your stay.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 5000,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet"
+   },
+   "evidence": [
+    {
+     "quote": "We’re happy to welcome dogs in our designated pet-friendly King Suites! A fee of $50 per pet, per night applies and includes the use of a dog bed along with food and water bowls during your stay.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "We’re happy to welcome dogs in our designated pet-friendly King Suites! A fee of $50 per pet, per night applies and includes the use of a dog bed along with food and water bowls during your stay.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "We’re happy to welcome dogs in our designated pet-friendly King Suites! A fee of $50 per pet, per night applies and includes the use of a dog bed along with food and water bowls during your stay.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "fee_currency"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/avlts-towneplace-suites-asheville-downtown/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/avlts-towneplace-suites-asheville-downtown/overview/",
+   "document_sha256": "27fec702bec983638ff639b3b35cd777904c34ebecd27f5595d721b3ada80a25",
+   "document_bytes": 473092,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "TownePlace Suites by Marriott Asheville Downtown",
+    "address_on_page": "39 Elm Street",
+    "postal_code": "28801",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "+18284074200",
+    "property_code_on_page": "avlts"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "avlts",
+   "identity_key": "towneplace suites by marriott asheville downtown",
+   "canonical_name": "TownePlace Suites by Marriott Asheville Downtown",
+   "corridor": "asheville-nc__downtown-asheville",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Welcome | 2 pets 75bs maximum per room | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 2",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_stay"
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Welcome | 2 pets 75bs maximum per room | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | 2 pets 75bs maximum per room | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | 2 pets 75bs maximum per room | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | 2 pets 75bs maximum per room | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | 2 pets 75bs maximum per room | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 50.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/avlta-towneplace-suites-asheville-west/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/avlta-towneplace-suites-asheville-west/overview/",
+   "document_sha256": "9208f05ee7a5519ab74f4c1d329289af186e3cd3917e2544912d17f0dd182e94",
+   "document_bytes": 424025,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "TownePlace Suites by Marriott Asheville West",
+    "address_on_page": "141 South Bear Creek Road",
+    "postal_code": "28806",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "+18285759900",
+    "property_code_on_page": "avlta"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "avlta",
+   "identity_key": "towneplace suites by marriott asheville west",
+   "canonical_name": "TownePlace Suites by Marriott Asheville West",
+   "corridor": "asheville-nc__west-asheville",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Welcome | 2 pets maximum per room with 75USD Non Refundable fee per room per stay | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Number of Pets in Room: 2",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "fee_scope": "per_room"
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Welcome | 2 pets maximum per room with 75USD Non Refundable fee per room per stay | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | 2 pets maximum per room with 75USD Non Refundable fee per room per stay | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | 2 pets maximum per room with 75USD Non Refundable fee per room per stay | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | 2 pets maximum per room with 75USD Non Refundable fee per room per stay | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | 2 pets maximum per room with 75USD Non Refundable fee per room per stay | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/avletru-tru-asheville-blue-ridge-parkway/",
+   "final_url": "https://www.hilton.com/en/hotels/avletru-tru-asheville-blue-ridge-parkway/",
+   "document_sha256": "b715bb2495201ab098cbce4b08074acf475cda6a19b8976aee601a2065ac79ec",
+   "document_bytes": 272440,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Tru by Hilton Asheville Blue Ridge Parkway",
+    "address_on_page": "1500 Tunnel Road",
+    "postal_code": "28805",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "+1 828-417-9700",
+    "property_code_on_page": "avletru"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "avletru",
+   "identity_key": "tru by hilton asheville blue ridge parkway",
+   "canonical_name": "Tru by Hilton Asheville Blue Ridge Parkway",
+   "corridor": "asheville-nc__tunnel-road-east-asheville",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMaxdog/cat only",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "fee_refundable": false,
+    "fee_basis": "per_stay"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMaxdog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMaxdog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMaxdog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMaxdog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMaxdog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMaxdog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  }
+ ],
+ "clean_verified_no_pets": [
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/avlab-ac-hotel-asheville-biltmore-village/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/avlab-ac-hotel-asheville-biltmore-village/overview/",
+   "document_sha256": "bd91fd430e4495baba47db47889894a5fe05771f292f386feaf76d33a172d073",
+   "document_bytes": 1029648,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "AC Hotel Asheville Biltmore Village",
+    "address_on_page": "186 Hendersonville Road",
+    "postal_code": "28803",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "+18282770026",
+    "property_code_on_page": "avlab"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "avlab",
+   "identity_key": "ac hotel asheville biltmore village",
+   "canonical_name": "AC Hotel Asheville Biltmore Village",
+   "corridor": "asheville-nc__biltmore-south-asheville",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Not Allowed",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Not Allowed",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "WYNDHAM",
+   "source_url": "https://www.wyndhamhotels.com/baymont/asheville-north-carolina/baymont-asheville-biltmore/overview",
+   "final_url": "https://www.wyndhamhotels.com/baymont/asheville-north-carolina/baymont-asheville-biltmore/overview",
+   "document_sha256": "72ff93ce77c5fd2891d28fcfc831429963394e64f0490cc99042694f7f4acd3c",
+   "document_bytes": 549599,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Baymont by Wyndham Asheville/Biltmore Village",
+    "address_on_page": "204 Hendersonville Rd",
+    "postal_code": "28803",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "1-828-2742022",
+    "property_code_on_page": "17936"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "17936",
+   "identity_key": "baymont by wyndham asheville biltmore village",
+   "canonical_name": "Baymont by Wyndham Asheville/Biltmore Village",
+   "corridor": "asheville-nc__biltmore-south-asheville",
+   "surface": "the client-rendered .pet-policy-desc element on the property's own page",
+   "operative_quote": "ADA defined service animals are welcome at this hotel. Sorry no other pets are allowed.",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "ADA defined service animals are welcome at this hotel. Sorry no other pets are allowed.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/avlcy-courtyard-asheville/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/avlcy-courtyard-asheville/overview/",
+   "document_sha256": "885bc970424b9a05a8824636ccecee79a88463379c4c1347aabcddccb95204bb",
+   "document_bytes": 349058,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Courtyard by Marriott Asheville",
+    "address_on_page": "One Buckstone Place",
+    "postal_code": "28805",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "+18282810041",
+    "property_code_on_page": "avlcy"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "avlcy",
+   "identity_key": "courtyard by marriott asheville",
+   "canonical_name": "Courtyard by Marriott Asheville",
+   "corridor": "asheville-nc__tunnel-road-east-asheville",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Not Allowed",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Not Allowed",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/avlar-courtyard-asheville-airport/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/avlar-courtyard-asheville-airport/overview/",
+   "document_sha256": "1f446285bcee2916e6ddb095a8ec14a91c153071bb44184ce4fe5c06ae19daf9",
+   "document_bytes": 485086,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Courtyard by Marriott Asheville Airport",
+    "address_on_page": "360 Rockwood Road",
+    "postal_code": "28704",
+    "locality": "Arden",
+    "region": "NC",
+    "phone_on_page": "+18286845000",
+    "property_code_on_page": "avlar"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "avlar",
+   "identity_key": "courtyard by marriott asheville airport",
+   "canonical_name": "Courtyard by Marriott Asheville Airport",
+   "corridor": "asheville-nc__arden-avl-airport",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Not Allowed",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Not Allowed",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/avlcb-courtyard-asheville-biltmore-village/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/avlcb-courtyard-asheville-biltmore-village/overview/",
+   "document_sha256": "3cb1de54bfd7a6647852a552cf29fc6d85de562b39e887b36a441b4959fe3dd8",
+   "document_bytes": 558909,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Courtyard by Marriott Asheville Biltmore Village",
+    "address_on_page": "26 Meadow Road",
+    "postal_code": "28803",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "+18287825000",
+    "property_code_on_page": "avlcb"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "avlcb",
+   "identity_key": "courtyard by marriott asheville biltmore village",
+   "canonical_name": "Courtyard by Marriott Asheville Biltmore Village",
+   "corridor": "asheville-nc__biltmore-south-asheville",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Not Allowed | No pets with the exception of service animals",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Not Allowed | No pets with the exception of service animals",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/avlff-fairfield-inn-and-suites-asheville-airport-fletcher/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/avlff-fairfield-inn-and-suites-asheville-airport-fletcher/overview/",
+   "document_sha256": "430d9b840c03cb91dc924be820e4d9a970ab76e9a46a34f924a621b2f257674c",
+   "document_bytes": 580684,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Fairfield by Marriott Inn & Suites Asheville Airport/Fletcher",
+    "address_on_page": "155 Underwood Road",
+    "postal_code": "28732",
+    "locality": "Fletcher",
+    "region": "NC",
+    "phone_on_page": "+18286841144",
+    "property_code_on_page": "avlff"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "avlff",
+   "identity_key": "fairfield by marriott inn and suites asheville airport fletcher",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Asheville Airport/Fletcher",
+   "corridor": "asheville-nc__arden-avl-airport",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Not Allowed",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Not Allowed",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/avlbs-fairfield-inn-and-suites-asheville-outlets/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/avlbs-fairfield-inn-and-suites-asheville-outlets/overview/",
+   "document_sha256": "02d2eeb1f35b2cc8cd31a2d178e39a9c554b8597a9b24e77c12384dc2596dbfb",
+   "document_bytes": 577786,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Fairfield by Marriott Inn & Suites Asheville Outlets",
+    "address_on_page": "11 Rocky Ridge Road",
+    "postal_code": "28806",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "+18286654242",
+    "property_code_on_page": "avlbs"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "avlbs",
+   "identity_key": "fairfield by marriott inn and suites asheville outlets",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Asheville Outlets",
+   "corridor": "asheville-nc__west-asheville",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Not Allowed | No Pets",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Not Allowed | No Pets",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/avlfa-fairfield-inn-and-suites-asheville-tunnel-road/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/avlfa-fairfield-inn-and-suites-asheville-tunnel-road/overview/",
+   "document_sha256": "0ac28a2ad37b33790015f361129038b2f0e111594441f655a8245758771cd6fb",
+   "document_bytes": 355907,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Fairfield by Marriott Inn & Suites Asheville Tunnel Road",
+    "address_on_page": "184 Tunnel Road",
+    "postal_code": "28805",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "+18282742001",
+    "property_code_on_page": "avlfa"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "avlfa",
+   "identity_key": "fairfield by marriott inn and suites asheville tunnel road",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Asheville Tunnel Road",
+   "corridor": "asheville-nc__tunnel-road-east-asheville",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Not Allowed | No Pets Allowed:Service Animals Only",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Not Allowed | No Pets Allowed:Service Animals Only",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/avlfw-fairfield-inn-and-suites-asheville-weaverville/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/avlfw-fairfield-inn-and-suites-asheville-weaverville/overview/",
+   "document_sha256": "73d402b852c069a3ace0f41dadae966c597418a4dbca1282c9f31d22db32e85c",
+   "document_bytes": 602735,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Fairfield by Marriott Inn & Suites Asheville Weaverville",
+    "address_on_page": "25 Fairfield Approach Drive",
+    "postal_code": "28787",
+    "locality": "Weaverville",
+    "region": "NC",
+    "phone_on_page": "+18286459000",
+    "property_code_on_page": "avlfw"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "avlfw",
+   "identity_key": "fairfield by marriott inn and suites asheville weaverville",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Asheville Weaverville",
+   "corridor": "asheville-nc__weaverville",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Not Allowed | Pets not allowed. Service animals only.",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Not Allowed | Pets not allowed. Service animals only.",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "IHG",
+   "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/arden/avlar/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinn/hotels/us/en/arden/avlar/hoteldetail",
+   "document_sha256": "318a59f10cc46fb17b4848f1dc3539ca472313682bcb88c90ae2ec3639c5826c",
+   "document_bytes": 292165,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Holiday Inn & Suites Arden - Asheville Airport",
+    "address_on_page": "9 Brian Boulevard",
+    "postal_code": "28704",
+    "locality": "Arden",
+    "region": "NC",
+    "phone_on_page": "1-828-6846000",
+    "property_code_on_page": "avlar"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "avlar",
+   "identity_key": "holiday inn and suites arden asheville airport",
+   "canonical_name": "Holiday Inn & Suites Arden - Asheville Airport",
+   "corridor": "asheville-nc__arden-avl-airport",
+   "surface": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+   "operative_quote": "No, pets are not allowed at Holiday Inn & Suites Arden - Asheville Airport.",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "No, pets are not allowed at Holiday Inn & Suites Arden - Asheville Airport.",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "IHG",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/asheville/avlnc/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/asheville/avlnc/hoteldetail",
+   "document_sha256": "144db2717f4539e3d0ae747c175c9d0c6eb62ba173bcb9e351042c9fafdf6640",
+   "document_bytes": 295067,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Holiday Inn Express & Suites Asheville Downtown",
+    "address_on_page": "42 Tunnel Road",
+    "postal_code": "28805",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "1-828-2255550",
+    "property_code_on_page": "avlnc"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "avlnc",
+   "identity_key": "holiday inn express and suites asheville downtown",
+   "canonical_name": "Holiday Inn Express & Suites Asheville Downtown",
+   "corridor": "asheville-nc__tunnel-road-east-asheville",
+   "surface": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+   "operative_quote": "No, pets are not allowed at Holiday Inn Express & Suites Asheville Downtown.",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "No, pets are not allowed at Holiday Inn Express & Suites Asheville Downtown.",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "WYNDHAM",
+   "source_url": "https://www.wyndhamhotels.com/laquinta/asheville-north-carolina/la-quinta-inn-suites-downtown-asheville/overview",
+   "final_url": "https://www.wyndhamhotels.com/laquinta/asheville-north-carolina/la-quinta-inn-suites-downtown-asheville/overview",
+   "document_sha256": "996844fafc6cc0c24064c9348136801064bb0b4440bfa7b4ab705f4aba559618",
+   "document_bytes": 616412,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "La Quinta Inn & Suites by Wyndham Downtown Asheville",
+    "address_on_page": "199 Tunnel Road",
+    "postal_code": "28805",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "828-2544311",
+    "property_code_on_page": "06851"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "06851",
+   "identity_key": "la quinta inn and suites by wyndham downtown asheville",
+   "canonical_name": "La Quinta Inn & Suites by Wyndham Downtown Asheville",
+   "corridor": "asheville-nc__tunnel-road-east-asheville",
+   "surface": "the client-rendered .pet-policy-desc element on the property's own page",
+   "operative_quote": "Service Animals - ADA defined service animals are welcome free of charge. Sorry no other pets are allowed.",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "Service Animals - ADA defined service animals are welcome free of charge. Sorry no other pets are allowed.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/avlox-moxy-asheville-downtown/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/avlox-moxy-asheville-downtown/overview/",
+   "document_sha256": "33731827a768f5775cf10708be6c00b74deac62696ac67a8f7fc5efe67d317f6",
+   "document_bytes": 495124,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Moxy Asheville Downtown",
+    "address_on_page": "61 Biltmore Avenue",
+    "postal_code": "28801",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "+18289490179",
+    "property_code_on_page": "avlox"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "avlox",
+   "identity_key": "moxy asheville downtown",
+   "canonical_name": "Moxy Asheville Downtown",
+   "corridor": "asheville-nc__downtown-asheville",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Not Allowed",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Not Allowed",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/avlsh-springhill-suites-asheville/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/avlsh-springhill-suites-asheville/overview/",
+   "document_sha256": "16f9a2f7c09ca497181f987e03917f22847367dbc91b2d3f3a28e7cbfd61cfb7",
+   "document_bytes": 494078,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "SpringHill Suites by Marriott Asheville",
+    "address_on_page": "Two Buckstone Place",
+    "postal_code": "28805",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "+18282534666",
+    "property_code_on_page": "avlsh"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "avlsh",
+   "identity_key": "springhill suites by marriott asheville",
+   "canonical_name": "SpringHill Suites by Marriott Asheville",
+   "corridor": "asheville-nc__tunnel-road-east-asheville",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Not Allowed",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Not Allowed",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "WYNDHAM",
+   "source_url": "https://www.wyndhamhotels.com/wingate/fletcher-north-carolina/wingate-fletcher-asheville-apt/overview",
+   "final_url": "https://www.wyndhamhotels.com/wingate/fletcher-north-carolina/wingate-fletcher-asheville-apt/overview",
+   "document_sha256": "781e9740b68e55e1652d94361af514faad5a3f20d68d652853d8d43adecec0f6",
+   "document_bytes": 583381,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Wingate by Wyndham Fletcher at Asheville Airport",
+    "address_on_page": "31 Airport Park Rd",
+    "postal_code": "28732",
+    "locality": "Fletcher",
+    "region": "NC",
+    "phone_on_page": "828-6844311",
+    "property_code_on_page": "52580"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "52580",
+   "identity_key": "wingate by wyndham fletcher at asheville airport",
+   "canonical_name": "Wingate by Wyndham Fletcher at Asheville Airport",
+   "corridor": "asheville-nc__arden-avl-airport",
+   "surface": "the client-rendered .pet-policy-desc element on the property's own page",
+   "operative_quote": "ADA defined service animals are welcome at this hotel. Sorry no other pets are allowed.",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "ADA defined service animals are welcome at this hotel. Sorry no other pets are allowed.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  }
+ ],
+ "rejected": [
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/avlzdlx-zelda-dearest/",
+   "final_url": "https://www.hilton.com/en/hotels/avlzdlx-zelda-dearest/",
+   "document_sha256": "839c83bc2d047dd3c96dd2305680c828eb3a5291d6d1b874658a1a1aa35a28a5",
+   "document_bytes": 200137,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Zelda Dearest, an SLH Hotel",
+    "address_on_page": "150 South Lexington Ave",
+    "postal_code": "28801",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "+1 828-514-2489",
+    "property_code_on_page": "avlzdlx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "avlzdlx",
+   "classification": "SERVICE_ANIMAL_ONLY",
+   "why": "the only words this page publishes about animals are a service-animal carve-out. That is a legal access category, not a refusal of pets, and it cannot establish a verified-no-pets record on its own",
+   "quote": "Service animals only"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/avlhvht-home2-suites-hendersonville/",
+   "final_url": "https://www.hilton.com/en/hotels/avlhvht-home2-suites-hendersonville/",
+   "document_sha256": "7f37a031e13583cf5e9966ce5d5293dd10de1824bfa07bec6e6d586152994402",
+   "document_bytes": 271309,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Home2 Suites by Hilton Hendersonville",
+    "address_on_page": "146 Sugarloaf Road",
+    "postal_code": "28792",
+    "locality": "Hendersonville",
+    "region": "NC",
+    "phone_on_page": "+1 828-388-7800",
+    "property_code_on_page": "avlhvht"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "avlhvht",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (postal code 28792 is claimed by no corridor of the Asheville contract; Hendersonville, Flat Rock, Mills River, Waynesvil); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/avlhnhx-hampton-hendersonville/",
+   "final_url": "https://www.hilton.com/en/hotels/avlhnhx-hampton-hendersonville/",
+   "document_sha256": "8c168a6ce098167e3b76995717add64bc40cfae2ecaa0dcc6e956abcb79c90e6",
+   "document_bytes": 275769,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn Hendersonville",
+    "address_on_page": "155 Sugarloaf Road",
+    "postal_code": "28792",
+    "locality": "Hendersonville",
+    "region": "NC",
+    "phone_on_page": "+1 828-697-2333",
+    "property_code_on_page": "avlhnhx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "avlhnhx",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (postal code 28792 is claimed by no corridor of the Asheville contract; Hendersonville, Flat Rock, Mills River, Waynesvil); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $50.00 non-refundable fee, 75 lbs maximum, $50(1-4n),$75(5+n) 2petsMax,dog/cat only"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/bvdnchx-hampton-brevard/",
+   "final_url": "https://www.hilton.com/en/hotels/bvdnchx-hampton-brevard/",
+   "document_sha256": "cade2b64cfb2a7b111dd550de38eaa4f9c27919712b9ee9d00cbbc5d3169f4bf",
+   "document_bytes": 275470,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn Brevard",
+    "address_on_page": "275 Forest Gate Dr.",
+    "postal_code": "28768",
+    "locality": "Pisgah Forest",
+    "region": "NC",
+    "phone_on_page": "+1 828-883-4800",
+    "property_code_on_page": "bvdnchx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "bvdnchx",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (postal code 28768 is claimed by no corridor of the Asheville contract; Hendersonville, Flat Rock, Mills River, Waynesvil); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $50.00 non-refundable fee, 75 lbs maximum, $50/per pet(1-4 nights), $75/per pet(5+nights) 2 pets max"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/avlwyup-waynesville-inn-and-golf-club/",
+   "final_url": "https://www.hilton.com/en/hotels/avlwyup-waynesville-inn-and-golf-club/",
+   "document_sha256": "d663829b3b10d1ddea53c42526044598ff4d667fae066a08e7f45ab3da39cc89",
+   "document_bytes": 241324,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Waynesville Inn and Golf Club, Tapestry Collection by Hilton",
+    "address_on_page": "176 Country Club Dr.",
+    "postal_code": "28786",
+    "locality": "Waynesville",
+    "region": "NC",
+    "phone_on_page": "+1 828-456-3551",
+    "property_code_on_page": "avlwyup"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "avlwyup",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (postal code 28786 is claimed by no corridor of the Asheville contract; Hendersonville, Flat Rock, Mills River, Waynesvil); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $75.00 non-refundable fee, 70 lbs maximum"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/casnchx-hampton-suites-cashiers-sapphire-valley/",
+   "final_url": "https://www.hilton.com/en/hotels/casnchx-hampton-suites-cashiers-sapphire-valley/",
+   "document_sha256": "99754988712a0c05f4282d49d6627f6e6fb2f084565267367b4b98666caddb1f",
+   "document_bytes": 283335,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn & Suites Cashiers-Sapphire Valley",
+    "address_on_page": "3245 US Highway 64 East",
+    "postal_code": "28774",
+    "locality": "Sapphire",
+    "region": "NC",
+    "phone_on_page": "+1 828-743-4545",
+    "property_code_on_page": "casnchx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "casnchx",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (postal code 28774 is claimed by no corridor of the Asheville contract; Hendersonville, Flat Rock, Mills River, Waynesvil); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n), $125(5+n) 2petsMax, dog/cat only"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/tysbcgv-hilton-vacation-club-bent-creek-golf-village-gatlinburg/",
+   "final_url": "https://www.hilton.com/en/hotels/tysbcgv-hilton-vacation-club-bent-creek-golf-village-gatlinburg/",
+   "document_sha256": "edf980cb62a962cc10ab91b21a76f2c1cca1cd6976f7f24a97a1db581122847a",
+   "document_bytes": 272364,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hilton Vacation Club Bent Creek Golf Village Gatlinburg",
+    "address_on_page": "3919 East Parkway",
+    "postal_code": "37738",
+    "locality": "Gatlinburg",
+    "region": "TN",
+    "phone_on_page": "+1 865-436-2875",
+    "property_code_on_page": "tysbcgv"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "tysbcgv",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (the row's own state is TN; every corridor of this market is in North Carolina); a read cannot promote a row the identity graph withheld",
+   "quote": "Service animals only"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/gktpvdt-the-park-vista-gatlinburg/",
+   "final_url": "https://www.hilton.com/en/hotels/gktpvdt-the-park-vista-gatlinburg/",
+   "document_sha256": "339ceb7722fb9e553e6f9e1403b7b46d65a6d99f2cffd7b18ddf1bdb0918dd5d",
+   "document_bytes": 287682,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "The Park Vista - a DoubleTree by Hilton Hotel - Gatlinburg",
+    "address_on_page": "705 Cherokee Orchard Road",
+    "postal_code": "37738",
+    "locality": "Gatlinburg",
+    "region": "TN",
+    "phone_on_page": "+1 865-436-9211",
+    "property_code_on_page": "gktpvdt"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "gktpvdt",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (the row's own state is TN; every corridor of this market is in North Carolina); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $60.00 non-refundable fee, $60 Fee is PER PET PER DAY Maximum two pets per room dogs and/or cats"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/tyssngv-hilton-vacation-club-mountainloft-gatlinburg/",
+   "final_url": "https://www.hilton.com/en/hotels/tyssngv-hilton-vacation-club-mountainloft-gatlinburg/",
+   "document_sha256": "0fa3a42658e70e5e2f2c20d91833a3a2c330444b2dd2df7d38ec21f1956882c9",
+   "document_bytes": 261851,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hilton Vacation Club MountainLoft Gatlinburg",
+    "address_on_page": "110 Mountainloft Drive",
+    "postal_code": "37738",
+    "locality": "Gatlinburg",
+    "region": "TN",
+    "phone_on_page": "+1 865-436-4367",
+    "property_code_on_page": "tyssngv"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "tyssngv",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (the row's own state is TN; every corridor of this market is in North Carolina); a read cannot promote a row the identity graph withheld",
+   "quote": "Service animals only"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/gatnthx-hampton-gatlinburg-historic-nature-trail/",
+   "final_url": "https://www.hilton.com/en/hotels/gatnthx-hampton-gatlinburg-historic-nature-trail/",
+   "document_sha256": "69d0738c4b078ab251520ae64c60a4009b6a69aefb344188be55de0429b48582",
+   "document_bytes": 272954,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn Gatlinburg Historic Nature Trail",
+    "address_on_page": "520 Airport Rd",
+    "postal_code": "37738",
+    "locality": "Gatlinburg",
+    "region": "TN",
+    "phone_on_page": "+1 865-436-4933",
+    "property_code_on_page": "gatnthx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "gatnthx",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (the row's own state is TN; every corridor of this market is in North Carolina); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat only"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/gkteses-embassy-suites-gatlinburg-resort/",
+   "final_url": "https://www.hilton.com/en/hotels/gkteses-embassy-suites-gatlinburg-resort/",
+   "document_sha256": "b5f0b7f5899415c929862e0347a5bd6e6cb1c54fb5411fa6e4a89923135786fc",
+   "document_bytes": 288305,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Embassy Suites by Hilton Gatlinburg Resort",
+    "address_on_page": "604 Airport Rd",
+    "postal_code": "37738",
+    "locality": "Gatlinburg",
+    "region": "TN",
+    "phone_on_page": "+1 865-436-2095",
+    "property_code_on_page": "gkteses"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "gkteses",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (the row's own state is TN; every corridor of this market is in North Carolina); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/tysrwlx-historic-rocky-waters-inn/",
+   "final_url": "https://www.hilton.com/en/hotels/tysrwlx-historic-rocky-waters-inn/",
+   "document_sha256": "0fee831c38e38a7334857feb02b71b93507f285b493028481012a8604038f1ef",
+   "document_bytes": 208330,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Historic Rocky Waters Inn, an SLH Hotel",
+    "address_on_page": "333 Parkway",
+    "postal_code": "37738",
+    "locality": "Gatlinburg",
+    "region": "TN",
+    "phone_on_page": "+1 865-436-2559",
+    "property_code_on_page": "tysrwlx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "tysrwlx",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (the row's own state is TN; every corridor of this market is in North Carolina); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $150.00 non-refundable fee, 100 lbs maximum, 1 Dog allowed max 100 lbs charge of USD150 flat per reservation"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/fknnchx-hampton-franklin/",
+   "final_url": "https://www.hilton.com/en/hotels/fknnchx-hampton-franklin/",
+   "document_sha256": "6f6f74c65814d1af01b78c225053b1c7b98d406cd1037dce07382a83be4b7dc3",
+   "document_bytes": 289406,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn Franklin",
+    "address_on_page": "244 Cunningham Road",
+    "postal_code": "28734",
+    "locality": "Franklin",
+    "region": "NC",
+    "phone_on_page": "+1 828-369-0600",
+    "property_code_on_page": "fknnchx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "fknnchx",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (postal code 28734 is claimed by no corridor of the Asheville contract; Hendersonville, Flat Rock, Mills River, Waynesvil); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat only"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/gatbghx-hampton-gatlinburg/",
+   "final_url": "https://www.hilton.com/en/hotels/gatbghx-hampton-gatlinburg/",
+   "document_sha256": "4de5f6123a643f5e15d0f9dd5e93bbb49028817d282137d39bbeeb89b7d38175",
+   "document_bytes": 271670,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn Gatlinburg",
+    "address_on_page": "967 Parkway",
+    "postal_code": "37738",
+    "locality": "Gatlinburg",
+    "region": "TN",
+    "phone_on_page": "+1 865-436-4878",
+    "property_code_on_page": "gatbghx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "gatbghx",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (the row's own state is TN; every corridor of this market is in North Carolina); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n)$125(5+n) per pet dog/cat only 2 pet max"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/gatgigi-hilton-garden-inn-gatlinburg/",
+   "final_url": "https://www.hilton.com/en/hotels/gatgigi-hilton-garden-inn-gatlinburg/",
+   "document_sha256": "9d987899de25f5cba14800992954c4c7d6aa6b097ec31971f85c754dd1a54eeb",
+   "document_bytes": 277151,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hilton Garden Inn Gatlinburg",
+    "address_on_page": "635 River Road",
+    "postal_code": "37738",
+    "locality": "Gatlinburg",
+    "region": "TN",
+    "phone_on_page": "+1 865-436-0048",
+    "property_code_on_page": "gatgigi"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "gatgigi",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (the row's own state is TN; every corridor of this market is in North Carolina); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75/stay for 2 pets 1-4 night $125/stay for 2 pets 5+ nights"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/avlfchx-hampton-suites-forest-city/",
+   "final_url": "https://www.hilton.com/en/hotels/avlfchx-hampton-suites-forest-city/",
+   "document_sha256": "a0273f8fe1c21d34f01eefafbf9970cfe5e72b917294bcd9b01c34d82b455362",
+   "document_bytes": 289136,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn & Suites Forest City",
+    "address_on_page": "227 Sparks Drive",
+    "postal_code": "28043",
+    "locality": "Forest City",
+    "region": "NC",
+    "phone_on_page": "+1 828-382-1001",
+    "property_code_on_page": "avlfchx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "avlfchx",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (postal code 28043 is claimed by no corridor of the Asheville contract; Hendersonville, Flat Rock, Mills River, Waynesvil); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/avlmrhx-hampton-marion/",
+   "final_url": "https://www.hilton.com/en/hotels/avlmrhx-hampton-marion/",
+   "document_sha256": "97a7288cde58601a906c6f2ab795f723dfd580d8465a210ee3fd078e2c64eac5",
+   "document_bytes": 273229,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn Marion",
+    "address_on_page": "3560 U.S. 221 South",
+    "postal_code": "28752",
+    "locality": "Marion",
+    "region": "NC",
+    "phone_on_page": "+1 828-652-5100",
+    "property_code_on_page": "avlmrhx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "avlmrhx",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (postal code 28752 is claimed by no corridor of the Asheville contract; Hendersonville, Flat Rock, Mills River, Waynesvil); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75 plus tax per stay for (1 to 4 nights) and $125 plus tax per stay (5 plus nights). 2 Pets Max. Dog and Cats only. Non-Refundable"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/avlhv-fairfield-inn-and-suites-hendersonville-flat-rock/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/avlhv-fairfield-inn-and-suites-hendersonville-flat-rock/overview/",
+   "document_sha256": "382df4507e1bdcb89d714f2eacca0170e3125615ce58061fcb1cea0cb302f025",
+   "document_bytes": 478076,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Fairfield by Marriott Inn & Suites Hendersonville Flat Rock",
+    "address_on_page": "836 Upward Road",
+    "postal_code": "28731",
+    "locality": "Flat Rock",
+    "region": "NC",
+    "phone_on_page": "+18285135100",
+    "property_code_on_page": "avlhv"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "avlhv",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (postal code 28731 is claimed by no corridor of the Asheville contract; Hendersonville, Flat Rock, Mills River, Waynesvil); a read cannot promote a row the identity graph withheld",
+   "quote": "Pet Policy | Pets Not Allowed"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "WYNDHAM",
+   "source_url": "https://www.wyndhamhotels.com/days-inn/hendersonville-north-carolina/days-inn-hendersonville/overview",
+   "final_url": "https://www.wyndhamhotels.com/days-inn/hendersonville-north-carolina/days-inn-hendersonville/overview",
+   "document_sha256": "780b56219580ccb831e0610109871832436c55db027b6eca51ed728ab054bcab",
+   "document_bytes": 544876,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Days Inn by Wyndham Hendersonville",
+    "address_on_page": "102 Mitchelle Drive",
+    "postal_code": "28792",
+    "locality": "Hendersonville",
+    "region": "NC",
+    "phone_on_page": "828-6975999",
+    "property_code_on_page": "04318"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "04318",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (postal code 28792 is claimed by no corridor of the Asheville contract; Hendersonville, Flat Rock, Mills River, Waynesvil); a read cannot promote a row the identity graph withheld",
+   "quote": "Service Animals - ADA-defined service animals welcome. / Fees - / 30USD per pet. Pet Sanitation Fee 75USD if required. / Contact hotel for additional details and availability."
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "WYNDHAM",
+   "source_url": "https://www.wyndhamhotels.com/days-inn/asheville-north-carolina/days-inn-asheville-downtown-north/overview",
+   "final_url": "https://www.wyndhamhotels.com/days-inn/asheville-north-carolina/days-inn-asheville-downtown-north/overview",
+   "document_sha256": "9c86eb01471ee64908ba64525e7a6b7214be81c67528f5b28e40b79bb764f83f",
+   "document_bytes": 502164,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Days Inn by Wyndham Asheville Downtown North",
+    "address_on_page": "3 Reynolds Mountain Blvd",
+    "postal_code": "28804",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "+1-828-645-9191",
+    "property_code_on_page": "05833"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "05833",
+   "classification": "POLICY_NOT_FOUND",
+   "why": "the page served and its identity confirmed, but it published no operative pet statement on this read; a silence settles nothing",
+   "quote": ""
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "WYNDHAM",
+   "source_url": "https://www.wyndhamhotels.com/days-inn/candler-north-carolina/days-inn-asheville-west/overview",
+   "final_url": "https://www.wyndhamhotels.com/days-inn/candler-north-carolina/days-inn-asheville-west/overview",
+   "document_sha256": "53ebd81a9d748d6c5d908acaa4fea0c4f380fc2e012fcae2f73530feba8a6a57",
+   "document_bytes": 550678,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Days Inn by Wyndham Asheville West",
+    "address_on_page": "2551 Smoky Park Hwy",
+    "postal_code": "28715",
+    "locality": "Candler",
+    "region": "NC",
+    "phone_on_page": "1-866-6652031",
+    "property_code_on_page": "06116"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "06116",
+   "classification": "QUOTE_NOT_OPERATIVE",
+   "why": "the quoted words state no acceptance and no refusal. A fee, a weight, a count, an amenity chip or a service-animal sentence alone establishes nothing under the first-party binding contract",
+   "quote": "ADA-defined service animals are welcome free of charge. Max 2 dogs and cats only max weight of 100 Ibs each for 15.00 USD plus tax/pet/night. Weekly pet rate package available. Contact hotel for additional details and availability."
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "WYNDHAM",
+   "source_url": "https://www.wyndhamhotels.com/super-8/black-mountain-north-carolina/super-8-black-mountain-asheville-east/overview",
+   "final_url": "https://www.wyndhamhotels.com/super-8/black-mountain-north-carolina/super-8-black-mountain-asheville-east/overview",
+   "document_sha256": "d615ca938ed202cbca932a46a78326fbc39920cf9b04af6a67b32b46f5b8e34b",
+   "document_bytes": 489513,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Super 8 by Wyndham Black Mountain/Asheville East",
+    "address_on_page": "101 Flat Creek Road",
+    "postal_code": "28711",
+    "locality": "Black Mountain",
+    "region": "NC",
+    "phone_on_page": "+1-828-357-4150",
+    "property_code_on_page": "02770"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "02770",
+   "classification": "POLICY_NOT_FOUND",
+   "why": "the page served and its identity confirmed, but it published no operative pet statement on this read; a silence settles nothing",
+   "quote": ""
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "WYNDHAM",
+   "source_url": "https://www.wyndhamhotels.com/super-8/asheville-north-carolina/super-8-asheville-biltmore/overview",
+   "final_url": "https://www.wyndhamhotels.com/super-8/asheville-north-carolina/super-8-asheville-biltmore/overview",
+   "document_sha256": "a8d9cb734182f4f072758f0f4e1a6eea1c73d8f7161808b1f16eaadfe12c3588",
+   "document_bytes": 481817,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Super 8 by Wyndham Asheville/Biltmore",
+    "address_on_page": "1415 Tunnel Rd",
+    "postal_code": "28805",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "828-7745420",
+    "property_code_on_page": "54194"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "54194",
+   "classification": "QUOTE_NOT_OPERATIVE",
+   "why": "the quoted words state no acceptance and no refusal. A fee, a weight, a count, an amenity chip or a service-animal sentence alone establishes nothing under the first-party binding contract",
+   "quote": "Maximum of 2 pets per room for a charge of 10.00 USD per night. Sanitation fee is 150.00 USD if applicable. ADA defined service animals are welcome at this hotel."
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "IHG",
+   "source_url": "https://www.ihg.com/crowneplaza/hotels/us/en/asheville/avlss/hoteldetail",
+   "final_url": "https://www.ihg.com/crowneplaza/hotels/us/en/asheville/avlss/hoteldetail",
+   "document_sha256": "463ac369b56ab77a67d4f06b19f8ddb820253628347b3b6f9989ca08cec01efe",
+   "document_bytes": 298603,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Crowne Plaza Resort Asheville",
+    "address_on_page": "1 Resort Drive",
+    "postal_code": "28806",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": "1-828-2543211",
+    "property_code_on_page": "avlss"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "avlss",
+   "classification": "SERVICE_ANIMAL_ONLY",
+   "why": "the first-party binding gate's reader does not read this quote as operative: a service-animal statement is a legal access category, never a pet acceptance: 'Pets are welcome at Crowne Plaza Resort Asheville. Pet policy description. Pet owners are guaranteed a ground level gues",
+   "quote": "Pets are welcome at Crowne Plaza Resort Asheville.\nPet policy description. Pet owners are guaranteed a ground level guest room with a private patio for easy access to grassy areas and our 125 acre grounds! Pets are not permitted in our Suites or Junior Suite room types. Emotional Support Animals must adhere to pet policy.\nPet fee per night: 35 USD\nPet weight limit: No weight limit per pet\n4 pets allowed\nPets allowed: All pets allowed"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "IHG",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/flat-rock/hdves/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/flat-rock/hdves/hoteldetail",
+   "document_sha256": "a31aca6fe54df35ce5c614bb5cd2c4517d4d2aca2b232635b90ad9085856e86d",
+   "document_bytes": 254136,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Holiday Inn Express & Suites Hendersonville SE - Flat Rock",
+    "address_on_page": "107 Upward Crossing Dr.",
+    "postal_code": "28731",
+    "locality": "Flat Rock",
+    "region": "NC",
+    "phone_on_page": "1-828-6988899",
+    "property_code_on_page": "hdves"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "hdves",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (postal code 28731 is claimed by no corridor of the Asheville contract; Hendersonville, Flat Rock, Mills River, Waynesvil); a read cannot promote a row the identity graph withheld",
+   "quote": "No, pets are not allowed at Holiday Inn Express & Suites Hendersonville SE - Flat Rock."
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "IHG",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/brevard/avlbv/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/brevard/avlbv/hoteldetail",
+   "document_sha256": "d677e80178adbf9f786a0590f2af772b99c20ae9d75e8b7fba53aa23aea22318",
+   "document_bytes": 259323,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Holiday Inn Express & Suites Brevard – City Center",
+    "address_on_page": "185 Old Hendersonville Hwy",
+    "postal_code": "28712",
+    "locality": "Brevard",
+    "region": "NC",
+    "phone_on_page": "1-828-3488745",
+    "property_code_on_page": "avlbv"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "avlbv",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (postal code 28712 is claimed by no corridor of the Asheville contract; Hendersonville, Flat Rock, Mills River, Waynesvil); a read cannot promote a row the identity graph withheld",
+   "quote": "No, pets are not allowed at Holiday Inn Express & Suites Brevard – City Center."
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://www.woodspring.com/extended-stay-hotels/locations/north-carolina/asheville-brevard/woodspring-suites-asheville",
+   "final_url": "https://www.woodspring.com/extended-stay-hotels/locations/north-carolina/asheville-brevard/woodspring-suites-asheville",
+   "document_sha256": "ac51d9afce60b12144ed037522e884f0c7247230c9a99c9e4359c76cee3fa5a2",
+   "document_bytes": 235871,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "WoodSpring Suites Asheville - Biltmore West",
+    "address_on_page": "40 Monte Vista Road",
+    "postal_code": "28806",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": null,
+    "property_code_on_page": null
+   },
+   "identity_binding_method": "ADDRESS_ON_THE_BRANDS_OWN_PROPERTY_PAGE",
+   "property_code": null,
+   "classification": "QUOTE_NOT_OPERATIVE",
+   "why": "the quoted words state no acceptance and no refusal. A fee, a weight, a count, an amenity chip or a service-animal sentence alone establishes nothing under the first-party binding contract",
+   "quote": "Limit 2 dogs, under 75lbs."
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://therestorationhotel.com/hotel-faqs/",
+   "final_url": "https://therestorationhotel.com/hotel-faqs/",
+   "document_sha256": "d9ca0d1516800af994be17b51ff88dd58038bde86cb4d82f2ba906c71e6e6077",
+   "document_bytes": 357646,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "The Restoration Asheville",
+    "address_on_page": "68 Patton Avenue",
+    "postal_code": "28801",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": null,
+    "property_code_on_page": null
+   },
+   "identity_binding_method": "ADDRESS_ON_THE_PROPERTYS_OWN_SITE",
+   "property_code": null,
+   "classification": "QUOTE_NOT_OPERATIVE",
+   "why": "the quoted words state no acceptance and no refusal. A fee, a weight, a count, an amenity chip or a service-animal sentence alone establishes nothing under the first-party binding contract",
+   "quote": "The Restoration welcomes well-behaved dogs at both The Restoration Charleston and The Restoration Asheville."
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://www.bunnhouse.com/faq",
+   "final_url": "https://www.bunnhouse.com/faq",
+   "document_sha256": "09f58d3027b04e9594f278adb02627c4e0afa9199a05e65d4fd06fe49b6dd794",
+   "document_bytes": 171530,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Bunn House",
+    "address_on_page": "15 Clayton Street",
+    "postal_code": "28801",
+    "locality": "Asheville",
+    "region": "NC",
+    "phone_on_page": null,
+    "property_code_on_page": null
+   },
+   "identity_binding_method": "ADDRESS_ON_THE_PROPERTYS_OWN_SITE",
+   "property_code": null,
+   "classification": "QUOTE_NOT_OPERATIVE",
+   "why": "the quoted words state no acceptance and no refusal. A fee, a weight, a count, an amenity chip or a service-animal sentence alone establishes nothing under the first-party binding contract",
+   "quote": "Although we love our animals, we do not allow pets at the Bunn House."
+  }
+ ],
+ "unresolved_census_identities": [
+  {
+   "identity_key": "acorn motel",
+   "canonical_name": "Acorn Motel",
+   "brand": "",
+   "corridor": "asheville-nc__black-mountain",
+   "official_url": ""
+  },
+  {
+   "identity_key": "apple blossom motel",
+   "canonical_name": "Apple Blossom Motel",
+   "brand": "",
+   "corridor": "asheville-nc__black-mountain",
+   "official_url": ""
+  },
+  {
+   "identity_key": "artful way hotel",
+   "canonical_name": "Artful Way Hotel",
+   "brand": "",
+   "corridor": "asheville-nc__downtown-asheville",
+   "official_url": "https://www.artfulwayhotel.com/"
+  },
+  {
+   "identity_key": "best western",
+   "canonical_name": "Best Western",
+   "brand": "",
+   "corridor": "asheville-nc__tunnel-road-east-asheville",
+   "official_url": ""
+  },
+  {
+   "identity_key": "brookstone lodge near biltmore village ascend hotel collection",
+   "canonical_name": "Brookstone Lodge Near Biltmore Village, Ascend Hotel Collection",
+   "brand": "",
+   "corridor": "asheville-nc__biltmore-south-asheville",
+   "official_url": ""
+  },
+  {
+   "identity_key": "budget motel",
+   "canonical_name": "Budget Motel",
+   "brand": "",
+   "corridor": "asheville-nc__arden-avl-airport",
+   "official_url": ""
+  },
+  {
+   "identity_key": "bunn house",
+   "canonical_name": "Bunn House",
+   "brand": "",
+   "corridor": "asheville-nc__downtown-asheville",
+   "official_url": "https://www.bunnhouse.com/faq"
+  },
+  {
+   "identity_key": "cambria hotel downtown asheville",
+   "canonical_name": "Cambria Hotel Downtown Asheville",
+   "brand": "",
+   "corridor": "asheville-nc__downtown-asheville",
+   "official_url": ""
+  },
+  {
+   "identity_key": "clarion pointe biltmore village",
+   "canonical_name": "Clarion Pointe Biltmore Village",
+   "brand": "",
+   "corridor": "asheville-nc__biltmore-south-asheville",
+   "official_url": ""
+  },
+  {
+   "identity_key": "comfort inn biltmore west",
+   "canonical_name": "Comfort Inn Biltmore West",
+   "brand": "",
+   "corridor": "asheville-nc__west-asheville",
+   "official_url": ""
+  },
+  {
+   "identity_key": "comfort suites",
+   "canonical_name": "Comfort Suites",
+   "brand": "",
+   "corridor": "asheville-nc__west-asheville",
+   "official_url": ""
+  },
+  {
+   "identity_key": "country inn and suites asheville west nc",
+   "canonical_name": "Country Inn & Suites, Asheville West, NC",
+   "brand": "",
+   "corridor": "asheville-nc__west-asheville",
+   "official_url": ""
+  },
+  {
+   "identity_key": "crowne plaza resort asheville",
+   "canonical_name": "Crowne Plaza Resort Asheville",
+   "brand": "IHG",
+   "corridor": "asheville-nc__west-asheville",
+   "official_url": "https://www.ihg.com/crowneplaza/hotels/us/en/asheville/avlss/hoteldetail"
+  },
+  {
+   "identity_key": "days inn by wyndham asheville downtown north",
+   "canonical_name": "Days Inn by Wyndham Asheville Downtown North",
+   "brand": "WYNDHAM",
+   "corridor": "asheville-nc__north-asheville-grove-park",
+   "official_url": "https://www.wyndhamhotels.com/days-inn/asheville-north-carolina/days-inn-asheville-downtown-north/overview"
+  },
+  {
+   "identity_key": "days inn by wyndham asheville west",
+   "canonical_name": "Days Inn by Wyndham Asheville West",
+   "brand": "WYNDHAM",
+   "corridor": "asheville-nc__candler-asheville-west",
+   "official_url": "https://www.wyndhamhotels.com/days-inn/candler-north-carolina/days-inn-asheville-west/overview"
+  },
+  {
+   "identity_key": "econo lodge asheville airport",
+   "canonical_name": "Econo Lodge Asheville Airport",
+   "brand": "",
+   "corridor": "asheville-nc__arden-avl-airport",
+   "official_url": ""
+  },
+  {
+   "identity_key": "econo lodge biltmore",
+   "canonical_name": "Econo Lodge Biltmore",
+   "brand": "",
+   "corridor": "asheville-nc__tunnel-road-east-asheville",
+   "official_url": ""
+  },
+  {
+   "identity_key": "glo best western asheville tunnel road",
+   "canonical_name": "Glo Best Western Asheville Tunnel Road",
+   "brand": "",
+   "corridor": "asheville-nc__tunnel-road-east-asheville",
+   "official_url": ""
+  },
+  {
+   "identity_key": "in town motor lodge",
+   "canonical_name": "In Town Motor Lodge",
+   "brand": "",
+   "corridor": "asheville-nc__tunnel-road-east-asheville",
+   "official_url": ""
+  },
+  {
+   "identity_key": "lantern lodge asheville",
+   "canonical_name": "Lantern Lodge Asheville",
+   "brand": "",
+   "corridor": "asheville-nc__biltmore-south-asheville",
+   "official_url": "https://www.lanternlodgeasheville.com/"
+  },
+  {
+   "identity_key": "mount vue",
+   "canonical_name": "Mount Vue",
+   "brand": "",
+   "corridor": "asheville-nc__tunnel-road-east-asheville",
+   "official_url": ""
+  },
+  {
+   "identity_key": "plantation motel",
+   "canonical_name": "Plantation Motel",
+   "brand": "",
+   "corridor": "asheville-nc__candler-asheville-west",
+   "official_url": ""
+  },
+  {
+   "identity_key": "red roof inn asheville west",
+   "canonical_name": "Red Roof Inn Asheville West",
+   "brand": "",
+   "corridor": "asheville-nc__west-asheville",
+   "official_url": ""
+  },
+  {
+   "identity_key": "rock haven terrace motel",
+   "canonical_name": "Rock Haven Terrace Motel",
+   "brand": "",
+   "corridor": "asheville-nc__west-asheville",
+   "official_url": ""
+  },
+  {
+   "identity_key": "rodeway inn",
+   "canonical_name": "Rodeway Inn",
+   "brand": "",
+   "corridor": "asheville-nc__west-asheville",
+   "official_url": ""
+  },
+  {
+   "identity_key": "rodeway inn and suites near outlet mall asheville",
+   "canonical_name": "Rodeway Inn & Suites Near Outlet Mall - Asheville",
+   "brand": "",
+   "corridor": "asheville-nc__west-asheville",
+   "official_url": ""
+  },
+  {
+   "identity_key": "sleep inn asheville biltmore west",
+   "canonical_name": "Sleep Inn Asheville - Biltmore West",
+   "brand": "",
+   "corridor": "asheville-nc__west-asheville",
+   "official_url": ""
+  },
+  {
+   "identity_key": "super 8 by wyndham asheville biltmore",
+   "canonical_name": "Super 8 by Wyndham Asheville/Biltmore",
+   "brand": "WYNDHAM",
+   "corridor": "asheville-nc__tunnel-road-east-asheville",
+   "official_url": "https://www.wyndhamhotels.com/super-8/asheville-north-carolina/super-8-asheville-biltmore/overview"
+  },
+  {
+   "identity_key": "super 8 by wyndham black mountain asheville east",
+   "canonical_name": "Super 8 by Wyndham Black Mountain/Asheville East",
+   "brand": "WYNDHAM",
+   "corridor": "asheville-nc__black-mountain",
+   "official_url": "https://www.wyndhamhotels.com/super-8/black-mountain-north-carolina/super-8-black-mountain-asheville-east/overview"
+  },
+  {
+   "identity_key": "the asheville inn",
+   "canonical_name": "The Asheville Inn",
+   "brand": "",
+   "corridor": "asheville-nc__west-asheville",
+   "official_url": ""
+  },
+  {
+   "identity_key": "the inn on biltmore estate",
+   "canonical_name": "The Inn on Biltmore Estate",
+   "brand": "",
+   "corridor": "asheville-nc__biltmore-south-asheville",
+   "official_url": ""
+  },
+  {
+   "identity_key": "the log cabin motor court",
+   "canonical_name": "The Log Cabin Motor Court",
+   "brand": "",
+   "corridor": "asheville-nc__north-asheville-grove-park",
+   "official_url": ""
+  },
+  {
+   "identity_key": "the monte vista hotel",
+   "canonical_name": "The Monte Vista Hotel",
+   "brand": "",
+   "corridor": "asheville-nc__black-mountain",
+   "official_url": ""
+  },
+  {
+   "identity_key": "the mountaineer inn",
+   "canonical_name": "The Mountaineer Inn",
+   "brand": "",
+   "corridor": "asheville-nc__tunnel-road-east-asheville",
+   "official_url": ""
+  },
+  {
+   "identity_key": "the restoration asheville",
+   "canonical_name": "The Restoration Asheville",
+   "brand": "",
+   "corridor": "asheville-nc__downtown-asheville",
+   "official_url": "https://therestorationhotel.com/hotel-faqs/"
+  },
+  {
+   "identity_key": "thunderbird motel",
+   "canonical_name": "Thunderbird Motel",
+   "brand": "",
+   "corridor": "asheville-nc__tunnel-road-east-asheville",
+   "official_url": ""
+  },
+  {
+   "identity_key": "village hotel on biltmore estate",
+   "canonical_name": "Village Hotel on Biltmore Estate",
+   "brand": "",
+   "corridor": "asheville-nc__biltmore-south-asheville",
+   "official_url": ""
+  },
+  {
+   "identity_key": "whispering pines motel",
+   "canonical_name": "Whispering Pines Motel",
+   "brand": "",
+   "corridor": "asheville-nc__west-asheville",
+   "official_url": ""
+  },
+  {
+   "identity_key": "woodspring suites asheville biltmore west",
+   "canonical_name": "WoodSpring Suites Asheville - Biltmore West",
+   "brand": "",
+   "corridor": "asheville-nc__west-asheville",
+   "official_url": "https://www.woodspring.com/extended-stay-hotels/locations/north-carolina/asheville-brevard/woodspring-suites-asheville"
+  },
+  {
+   "identity_key": "zelda dearest an slh hotel",
+   "canonical_name": "Zelda Dearest, an SLH Hotel",
+   "brand": "HILTON",
+   "corridor": "asheville-nc__downtown-asheville",
+   "official_url": "https://www.hilton.com/en/hotels/avlzdlx-zelda-dearest/"
+  }
+ ]
+}
