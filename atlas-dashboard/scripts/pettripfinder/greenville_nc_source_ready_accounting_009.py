@@ -32,11 +32,11 @@ TIMINGS = OrderedDict([
     ("geography_written", "2026-09-13T16:10:22Z"),
     ("osm_lane_seconds", 405.8),
     ("brand_lane_free_requests", 85),
-    ("attended_and_static_reads", "2026-09-13T16:11Z-16:33Z"),
-    ("source_ready_inputs_committed", "SEE_COMMIT"),
-    ("shadow_package_sealed_and_fast", "SEE_SHADOW_REPORT"),
-    ("independent_reproduction", "SEE_REPRODUCTION"),
-    ("ZERO_TO_SOURCE_READY", "SEE_FINAL"),
+    ("attended_and_static_reads", "2026-09-13T16:11Z-16:30Z"),
+    ("source_ready_inputs_committed", "2026-09-13T16:33:56Z (d1df9fae)"),
+    ("shadow_package_sealed_and_fast", "2026-09-13T16:33:58Z-16:34:20Z"),
+    ("independent_reproduction", "2026-09-13T16:35Z (clean git worktree at d1df9fae: digest-only seal by a separate process, then geography, capture, census, clean set, partition, staged policy package / authority and staged shard rebuilt from the raw captures -- zero content difference against the commit; every launch_packages input byte-identical; the discovery config differs only by the worktree's CRLF checkout of an eol-unattributed file; same digest a third time)"),
+    ("ZERO_TO_SOURCE_READY", "29 min 14 s (16:05:06Z -> 16:34:20Z, FAST-passed sealed shadow package)"),
 ])
 
 
@@ -50,8 +50,17 @@ def _coords_for(h, hotels):
     census row on the SAME street name (house number removed, directional kept) whose
     house number is nearest. Reporting only -- never membership."""
     import re
-    if h.get("latitude") is not None:
-        return h["latitude"], h["longitude"], "the row's own map pin"
+    def pin(row):
+        if row.get("latitude") is not None:
+            return row["latitude"], row["longitude"]
+        # A map row folded in by a later merge pass keeps its pin on its observation.
+        for o in row.get("evidence") or ():
+            if o.get("lat") is not None:
+                return o["lat"], o["lng"]
+        return None
+
+    if pin(h):
+        return pin(h) + ("the row's own map pin",)
 
     def split(street):
         m = re.match(r"\s*(\d+)\s+(.*)", street or "")
@@ -67,7 +76,7 @@ def _coords_for(h, hotels):
     num, name = split(h.get("street"))
     best = None
     for o in hotels:
-        if o is h or o.get("latitude") is None:
+        if o is h or pin(o) is None:
             continue
         on, oname = split(o.get("street"))
         if oname and oname == name and num is not None:
@@ -75,8 +84,8 @@ def _coords_for(h, hotels):
             if best is None or d < best[0]:
                 best = (d, o)
     if best:
-        return (best[1]["latitude"], best[1]["longitude"],
-                "the pin of %s on the same street (%d house numbers away)" % (best[1]["canonical_name"], best[0]))
+        return pin(best[1]) + (
+            "the pin of %s on the same street (%d house numbers away)" % (best[1]["canonical_name"], best[0]),)
     return None, None, "no pin in the evidence and no pinned census row on the same street"
 
 
