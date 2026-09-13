@@ -1,0 +1,2766 @@
+{
+ "schema": "ptf-market-clean-authority/1.0",
+ "work_order": "PTF-FAYETTEVILLE-NC-NORMAL-PRODUCTION-001",
+ "market_id": "fayetteville-nc",
+ "phase": "13/14 -- policy classification and the clean set",
+ "as_of": "2026-09-13",
+ "status": "PROPOSED_NOT_PUBLISHED",
+ "what_is_excluded": "Everything that is not an operative first-party statement of acceptance or refusal, bound to an ADMITTED census identity by the street identity the page itself states. A read that joins no census row, joins a withheld row, states no policy, or states only a fee / weight / count / amenity chip / service-animal sentence is reported in `rejected` with its class and publishes nothing.",
+ "one_identity_classified_once": "The join is on street identity, so two brands at one address cannot both settle it: the census already withheld those buildings as a founder ruling, and a second read of an already-settled identity is reported DUPLICATE_READ_FOR_ONE_IDENTITY.",
+ "counts": {
+  "reads_evaluated": 50,
+  "clean_pet_friendly": 26,
+  "clean_verified_no_pets": 10,
+  "resolved_census_identities": 36,
+  "unresolved_census_identities": 20,
+  "census_count": 56,
+  "rejected": 14,
+  "rejected_by_class": {
+   "CENSUS_ROW_NOT_ADMITTED": 12,
+   "QUOTE_NOT_OPERATIVE": 1,
+   "SERVICE_ANIMAL_ONLY": 1
+  },
+  "pf_by_brand": {
+   "EXTENDED_STAY": 5,
+   "HILTON": 11,
+   "IHG": 1,
+   "MARRIOTT": 2,
+   "RED_ROOF": 2,
+   "WYNDHAM": 5
+  },
+  "pf_by_corridor": {
+   "fayetteville-nc__cross-creek-skibo": 14,
+   "fayetteville-nc__downtown-fayetteville": 1,
+   "fayetteville-nc__fay-airport-south": 1,
+   "fayetteville-nc__i-95-central-eastover": 7,
+   "fayetteville-nc__north-fayetteville": 1,
+   "fayetteville-nc__spring-lake-fort-liberty": 2
+  }
+ },
+ "clean_pet_friendly": [
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "WYNDHAM",
+   "source_url": "https://www.wyndhamhotels.com/baymont/fayetteville-north-carolina/baymont-fayetteville-nc/overview",
+   "final_url": "https://www.wyndhamhotels.com/baymont/fayetteville-north-carolina/baymont-fayetteville-nc/overview",
+   "document_sha256": "057ddb5b5edfc0beb7f9371b70b59b53c7a3e3b81b40f762568648460d3aaa62",
+   "document_bytes": 553526,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Baymont by Wyndham Fayetteville NC",
+    "address_on_page": "1922 Cedar Creek Rd",
+    "postal_code": "28312",
+    "locality": "Fayetteville",
+    "region": "NC",
+    "phone_on_page": "910-210-0100",
+    "property_code_on_page": "52121"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "52121",
+   "identity_key": "baymont by wyndham fayetteville nc",
+   "canonical_name": "Baymont by Wyndham Fayetteville NC",
+   "corridor": "fayetteville-nc__i-95-central-eastover",
+   "surface": "the client-rendered .pet-policy-desc element on the property's own page",
+   "operative_quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. / Fees - Non-refundable 15 USD nightly per pet. / Other Information - Pets cannot be left unattended in room.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 1500,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet"
+   },
+   "evidence": [
+    {
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. / Fees - Non-refundable 15 USD nightly per pet. / Other Information - Pets cannot be left unattended in room.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. / Fees - Non-refundable 15 USD nightly per pet. / Other Information - Pets cannot be left unattended in room.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. / Fees - Non-refundable 15 USD nightly per pet. / Other Information - Pets cannot be left unattended in room.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. / Fees - Non-refundable 15 USD nightly per pet. / Other Information - Pets cannot be left unattended in room.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. / Fees - Non-refundable 15 USD nightly per pet. / Other Information - Pets cannot be left unattended in room.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "IHG",
+   "source_url": "https://www.ihg.com/candlewood/hotels/us/en/fayetteville/faysq/hoteldetail",
+   "final_url": "https://www.ihg.com/candlewood/hotels/us/en/fayetteville/faysq/hoteldetail",
+   "document_sha256": "bad2be5733352a0d1a468a6df3ad98fc5d44ce2f2e21792ad71a530a83e73ac6",
+   "document_bytes": 272770,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Candlewood Suites Fayetteville Fort Bragg",
+    "address_on_page": "4108 Legend Avenue",
+    "postal_code": "28303",
+    "locality": "Fayetteville",
+    "region": "NC",
+    "phone_on_page": "1-910-8680873",
+    "property_code_on_page": "faysq"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "faysq",
+   "identity_key": "candlewood suites fayetteville fort bragg",
+   "canonical_name": "Candlewood Suites Fayetteville Fort Bragg",
+   "corridor": "fayetteville-nc__cross-creek-skibo",
+   "surface": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+   "operative_quote": "Pets are welcome at Candlewood Suites Fayetteville Fort Bragg.\nPet policy description. 25 non refundable pet fee per night with a max of 150 per stay. Pet must weigh less than 80lbs. Max 2 pets per room. Call hotel for details. Complete up to date vaccinations required. Additional charges may be charged for damages or excessive cleaning.\nPet fee per night: 25 USD\nPet weight limit: 75\n2 pets allowed\nPets allowed: All pets allowed",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "quote": "Pets are welcome at Candlewood Suites Fayetteville Fort Bragg.\nPet policy description. 25 non refundable pet fee per night with a max of 150 per stay. Pet must weigh less than 80lbs. Max 2 pets per room. Call hotel for details. Complete up to date vaccinations required. Additional charges may be charged for damages or excessive cleaning.\nPet fee per night: 25 USD\nPet weight limit: 75\n2 pets allowed\nPets allowed: All pets allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Candlewood Suites Fayetteville Fort Bragg.\nPet policy description. 25 non refundable pet fee per night with a max of 150 per stay. Pet must weigh less than 80lbs. Max 2 pets per room. Call hotel for details. Complete up to date vaccinations required. Additional charges may be charged for damages or excessive cleaning.\nPet fee per night: 25 USD\nPet weight limit: 75\n2 pets allowed\nPets allowed: All pets allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "WYNDHAM",
+   "source_url": "https://www.wyndhamhotels.com/days-inn/fayetteville-north-carolina/days-inn-fayetteville-south-i-95-exit-49/overview",
+   "final_url": "https://www.wyndhamhotels.com/days-inn/fayetteville-north-carolina/days-inn-fayetteville-south-i-95-exit-49/overview",
+   "document_sha256": "fe76353797536d470691205c73fa53b504c299fbd5078e0fe1f124d76d87e846",
+   "document_bytes": 538823,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Days Inn by Wyndham Fayetteville-South/I-95 Exit 49",
+    "address_on_page": "2111 Cedar Creek Rd",
+    "postal_code": "28312",
+    "locality": "Fayetteville",
+    "region": "NC",
+    "phone_on_page": "910-3239850",
+    "property_code_on_page": "30925"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "30925",
+   "identity_key": "days inn by wyndham fayetteville south i 95 exit 49",
+   "canonical_name": "Days Inn by Wyndham Fayetteville-South/I-95 Exit 49",
+   "corridor": "fayetteville-nc__i-95-central-eastover",
+   "surface": "the client-rendered .pet-policy-desc element on the property's own page",
+   "operative_quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Dogs only. 50lbs or less per pet. / Fees - Non-refundable 25 USD nightly per pet. / Other Information - Pets cannot be left unattended in room.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "weight_limit": 50.0,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "dog"
+    ],
+    "fee_refundable": false,
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Dogs only. 50lbs or less per pet. / Fees - Non-refundable 25 USD nightly per pet. / Other Information - Pets cannot be left unattended in room.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Dogs only. 50lbs or less per pet. / Fees - Non-refundable 25 USD nightly per pet. / Other Information - Pets cannot be left unattended in room.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Dogs only. 50lbs or less per pet. / Fees - Non-refundable 25 USD nightly per pet. / Other Information - Pets cannot be left unattended in room.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Dogs only. 50lbs or less per pet. / Fees - Non-refundable 25 USD nightly per pet. / Other Information - Pets cannot be left unattended in room.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Dogs only. 50lbs or less per pet. / Fees - Non-refundable 25 USD nightly per pet. / Other Information - Pets cannot be left unattended in room.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Dogs only. 50lbs or less per pet. / Fees - Non-refundable 25 USD nightly per pet. / Other Information - Pets cannot be left unattended in room.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Dogs only. 50lbs or less per pet. / Fees - Non-refundable 25 USD nightly per pet. / Other Information - Pets cannot be left unattended in room.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/fayfbes-embassy-suites-fayetteville-fort-bragg/",
+   "final_url": "https://www.hilton.com/en/hotels/fayfbes-embassy-suites-fayetteville-fort-bragg/",
+   "document_sha256": "b95a81e6749da4a6c18ddd9c7fb1cd3f29f30a0b752a90ebdc38f4d9fa47a5f4",
+   "document_bytes": 308344,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Embassy Suites by Hilton Fayetteville Fort Bragg",
+    "address_on_page": "4760 Lake Valley Drive",
+    "postal_code": "28303",
+    "locality": "Fayetteville",
+    "region": "NC",
+    "phone_on_page": "+1 910-826-3600",
+    "property_code_on_page": "fayfbes"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "fayfbes",
+   "identity_key": "embassy suites by hilton fayetteville fort bragg",
+   "canonical_name": "Embassy Suites by Hilton Fayetteville Fort Bragg",
+   "corridor": "fayetteville-nc__cross-creek-skibo",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": 75.0,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "EXTENDED_STAY",
+   "source_url": "https://www.extendedstayamerica.com/hotels/nc/fayetteville/fayetteville",
+   "final_url": "https://www.extendedstayamerica.com/hotels/nc/fayetteville/fayetteville",
+   "document_sha256": "6fcb6fe51abf27c80c4b26eb6bf13440aaaa2b93a9c5ebfa31485032a3ada823",
+   "document_bytes": 390082,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Extended Stay America - Fayetteville",
+    "address_on_page": "770 W Rowan St",
+    "postal_code": "28301",
+    "locality": "Fayetteville",
+    "region": "NC",
+    "phone_on_page": "+19104883000",
+    "property_code_on_page": null
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PHONE_ON_THE_PROPERTYS_OWN_PAGE",
+   "property_code": null,
+   "identity_key": "extended stay america fayetteville",
+   "canonical_name": "Extended Stay America - Fayetteville",
+   "corridor": "fayetteville-nc__downtown-fayetteville",
+   "surface": "the property's own page, Pet Policy block",
+   "operative_quote": "Pet Policy A maximum of two pets are allowed in each suite.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy A maximum of two pets are allowed in each suite.",
+     "location": "the property's own page, Pet Policy block",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy A maximum of two pets are allowed in each suite.",
+     "location": "the property's own page, Pet Policy block",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "EXTENDED_STAY",
+   "source_url": "https://www.extendedstayamerica.com/hotels/nc/fayetteville/fort-bragg",
+   "final_url": "https://www.extendedstayamerica.com/hotels/nc/fayetteville/fort-bragg",
+   "document_sha256": "21849630b781daf4232d6271c4ceb40f9dd461920c10c6501aed69dcd168402b",
+   "document_bytes": 511645,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Extended Stay America - Fayetteville - Cliffdale",
+    "address_on_page": "6820 Cliffdale Rd",
+    "postal_code": "28314",
+    "locality": "Fayetteville",
+    "region": "NC",
+    "phone_on_page": "+19108648360",
+    "property_code_on_page": null
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PHONE_ON_THE_PROPERTYS_OWN_PAGE",
+   "property_code": null,
+   "identity_key": "extended stay america fayetteville cliffdale",
+   "canonical_name": "Extended Stay America - Fayetteville - Cliffdale",
+   "corridor": "fayetteville-nc__cross-creek-skibo",
+   "surface": "the property's own page, Pet Policy block",
+   "operative_quote": "Pet Policy A maximum of two pets are allowed in each suite.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy A maximum of two pets are allowed in each suite.",
+     "location": "the property's own page, Pet Policy block",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy A maximum of two pets are allowed in each suite.",
+     "location": "the property's own page, Pet Policy block",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "EXTENDED_STAY",
+   "source_url": "https://www.extendedstayamerica.com/hotels/nc/fayetteville/cross-creek-mall",
+   "final_url": "https://www.extendedstayamerica.com/hotels/nc/fayetteville/cross-creek-mall",
+   "document_sha256": "377e973f8dca62f378316efa68efd2772f408a1506ab1c265a667effaa4fa129",
+   "document_bytes": 411315,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Extended Stay America - Fayetteville - Fort Bragg",
+    "address_on_page": "4105 Sycamore Dairy Rd.",
+    "postal_code": "28303",
+    "locality": "Fayetteville",
+    "region": "NC",
+    "phone_on_page": "+19108685662",
+    "property_code_on_page": null
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PHONE_ON_THE_PROPERTYS_OWN_PAGE",
+   "property_code": null,
+   "identity_key": "extended stay america fayetteville fort bragg",
+   "canonical_name": "Extended Stay America - Fayetteville - Fort Bragg",
+   "corridor": "fayetteville-nc__cross-creek-skibo",
+   "surface": "the property's own page, Pet Policy block",
+   "operative_quote": "Pet Policy A maximum of two pets are allowed in each suite.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy A maximum of two pets are allowed in each suite.",
+     "location": "the property's own page, Pet Policy block",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy A maximum of two pets are allowed in each suite.",
+     "location": "the property's own page, Pet Policy block",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "EXTENDED_STAY",
+   "source_url": "https://www.extendedstayamerica.com/hotels/nc/fayetteville/owen-dr",
+   "final_url": "https://www.extendedstayamerica.com/hotels/nc/fayetteville/owen-dr",
+   "document_sha256": "4c5dab26b7efb6f2cadc93662e2ee0ec33b0a7c6b09a1f9f514108021536772b",
+   "document_bytes": 413107,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Extended Stay America - Fayetteville - Owen Dr.",
+    "address_on_page": "408 Owen Dr.",
+    "postal_code": "28304",
+    "locality": "Fayetteville",
+    "region": "NC",
+    "phone_on_page": "+19104852747",
+    "property_code_on_page": null
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PHONE_ON_THE_PROPERTYS_OWN_PAGE",
+   "property_code": null,
+   "identity_key": "extended stay america fayetteville owen dr",
+   "canonical_name": "Extended Stay America - Fayetteville - Owen Dr.",
+   "corridor": "fayetteville-nc__cross-creek-skibo",
+   "surface": "the property's own page, Pet Policy block",
+   "operative_quote": "Pet Policy A maximum of two pets are allowed in each suite.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy A maximum of two pets are allowed in each suite.",
+     "location": "the property's own page, Pet Policy block",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy A maximum of two pets are allowed in each suite.",
+     "location": "the property's own page, Pet Policy block",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "EXTENDED_STAY",
+   "source_url": "https://www.extendedstayamerica.com/hotels/nc/fayetteville/west",
+   "final_url": "https://www.extendedstayamerica.com/hotels/nc/fayetteville/west",
+   "document_sha256": "5cb69763878d5aa48feefd9d053a85fb45daf457b5d9342acd35202917924491",
+   "document_bytes": 500278,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Extended Stay America - Fayetteville - West",
+    "address_on_page": "1381 Walter Reed Rd",
+    "postal_code": "28304",
+    "locality": "Fayetteville",
+    "region": "NC",
+    "phone_on_page": "+19104332672",
+    "property_code_on_page": null
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PHONE_ON_THE_PROPERTYS_OWN_PAGE",
+   "property_code": null,
+   "identity_key": "extended stay america fayetteville west",
+   "canonical_name": "Extended Stay America - Fayetteville - West",
+   "corridor": "fayetteville-nc__cross-creek-skibo",
+   "surface": "the property's own page, Pet Policy block",
+   "operative_quote": "Pet Policy A maximum of two pets are allowed in each suite.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy A maximum of two pets are allowed in each suite.",
+     "location": "the property's own page, Pet Policy block",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy A maximum of two pets are allowed in each suite.",
+     "location": "the property's own page, Pet Policy block",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/faycehx-hampton-suites-fayetteville/",
+   "final_url": "https://www.hilton.com/en/hotels/faycehx-hampton-suites-fayetteville/",
+   "document_sha256": "d6d7a72653c01c38d0995a613dfaf3f03596b0ed01d1e3f26a870f3cbe5f57f2",
+   "document_bytes": 274251,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn & Suites Fayetteville",
+    "address_on_page": "2065 Cedar Creek Road",
+    "postal_code": "28312",
+    "locality": "Fayetteville",
+    "region": "NC",
+    "phone_on_page": "+1 910-635-3200",
+    "property_code_on_page": "faycehx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "faycehx",
+   "identity_key": "hampton inn and suites fayetteville",
+   "canonical_name": "Hampton Inn & Suites Fayetteville",
+   "corridor": "fayetteville-nc__i-95-central-eastover",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": 75.0,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/faycchx-hampton-fayetteville-fort-bragg/",
+   "final_url": "https://www.hilton.com/en/hotels/faycchx-hampton-fayetteville-fort-bragg/",
+   "document_sha256": "432da6ea9209580ab0c272f325ba8379f915d4172e1f4859b27dbf1b182be2a9",
+   "document_bytes": 277684,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn Fayetteville Fort Bragg",
+    "address_on_page": "1700 Skibo Road",
+    "postal_code": "28303",
+    "locality": "Fayetteville",
+    "region": "NC",
+    "phone_on_page": "+1 910-487-4006",
+    "property_code_on_page": "faycchx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "faycchx",
+   "identity_key": "hampton inn fayetteville fort bragg",
+   "canonical_name": "Hampton Inn Fayetteville Fort Bragg",
+   "corridor": "fayetteville-nc__cross-creek-skibo",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n)$125(5+n)2petsMax,dog/cat Only",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": 75.0,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n)$125(5+n)2petsMax,dog/cat Only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n)$125(5+n)2petsMax,dog/cat Only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n)$125(5+n)2petsMax,dog/cat Only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n)$125(5+n)2petsMax,dog/cat Only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n)$125(5+n)2petsMax,dog/cat Only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n)$125(5+n)2petsMax,dog/cat Only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n)$125(5+n)2petsMax,dog/cat Only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/fayslhx-hampton-spring-lake-fayetteville/",
+   "final_url": "https://www.hilton.com/en/hotels/fayslhx-hampton-spring-lake-fayetteville/",
+   "document_sha256": "e5992bf15f998baeae047ffddbe02eaa793283e2dda59a0a84bc280e999e0745",
+   "document_bytes": 273292,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn Spring Lake Fayetteville",
+    "address_on_page": "1050 North Bragg Blvd.",
+    "postal_code": "28390",
+    "locality": "Spring Lake",
+    "region": "NC",
+    "phone_on_page": "+1 910-438-0945",
+    "property_code_on_page": "fayslhx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "fayslhx",
+   "identity_key": "hampton inn spring lake fayetteville",
+   "canonical_name": "Hampton Inn Spring Lake Fayetteville",
+   "corridor": "fayetteville-nc__spring-lake-fort-liberty",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": 75.0,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "WYNDHAM",
+   "source_url": "https://www.wyndhamhotels.com/hawthorn-extended-stay/fayetteville-north-carolina/hawthorn-extended-stay-fayetteville/overview",
+   "final_url": "https://www.wyndhamhotels.com/hawthorn-extended-stay/fayetteville-north-carolina/hawthorn-extended-stay-fayetteville/overview",
+   "document_sha256": "8b97c0d694eb249d1b04a276370c8dc8eb9d2e24b1d49c20d88b5f43f434f03b",
+   "document_bytes": 538458,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hawthorn Extended Stay by Wyndham Fayetteville",
+    "address_on_page": "2910 Sigman St",
+    "postal_code": "28303",
+    "locality": "Fayetteville",
+    "region": "NC",
+    "phone_on_page": "919-7215798",
+    "property_code_on_page": "58722"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "58722",
+   "identity_key": "hawthorn extended stay by wyndham fayetteville",
+   "canonical_name": "Hawthorn Extended Stay by Wyndham Fayetteville",
+   "corridor": "fayetteville-nc__cross-creek-skibo",
+   "surface": "the client-rendered .pet-policy-desc element on the property's own page",
+   "operative_quote": "Service Animals - ADA-defined service animals welcome./ Pets Allowed. 2 pets max. 75 lbs or less per pet. / Fees - 25USD per pet per night. / Other Information - Contact hotel for additional details and availability.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "weight_limit": 75.0,
+    "pet_count_limit": 2,
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Service Animals - ADA-defined service animals welcome./ Pets Allowed. 2 pets max. 75 lbs or less per pet. / Fees - 25USD per pet per night. / Other Information - Contact hotel for additional details and availability.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals welcome./ Pets Allowed. 2 pets max. 75 lbs or less per pet. / Fees - 25USD per pet per night. / Other Information - Contact hotel for additional details and availability.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals welcome./ Pets Allowed. 2 pets max. 75 lbs or less per pet. / Fees - 25USD per pet per night. / Other Information - Contact hotel for additional details and availability.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals welcome./ Pets Allowed. 2 pets max. 75 lbs or less per pet. / Fees - 25USD per pet per night. / Other Information - Contact hotel for additional details and availability.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals welcome./ Pets Allowed. 2 pets max. 75 lbs or less per pet. / Fees - 25USD per pet per night. / Other Information - Contact hotel for additional details and availability.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/faynhgi-hilton-garden-inn-fayetteville-fort-bragg/",
+   "final_url": "https://www.hilton.com/en/hotels/faynhgi-hilton-garden-inn-fayetteville-fort-bragg/",
+   "document_sha256": "341c6066dac9b73f210c16c26f1f11091e52eeeac8945ab018af6004f76d5037",
+   "document_bytes": 283587,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hilton Garden Inn Fayetteville Fort Bragg",
+    "address_on_page": "4025 Sycamore Dairy Road",
+    "postal_code": "28303",
+    "locality": "Fayetteville",
+    "region": "NC",
+    "phone_on_page": "+1 910-860-3600",
+    "property_code_on_page": "faynhgi"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "faynhgi",
+   "identity_key": "hilton garden inn fayetteville fort bragg",
+   "canonical_name": "Hilton Garden Inn Fayetteville Fort Bragg",
+   "corridor": "fayetteville-nc__cross-creek-skibo",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": 75.0,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/faysdht-home2-suites-fayetteville-fort-bragg/",
+   "final_url": "https://www.hilton.com/en/hotels/faysdht-home2-suites-fayetteville-fort-bragg/",
+   "document_sha256": "e656f7471f7fedfc165e60255783c8e02e59337214cf483dde8859a6d0eaff25",
+   "document_bytes": 272937,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Home2 Suites by Hilton Fayetteville Fort Bragg",
+    "address_on_page": "4035 Sycamore Dairy Road",
+    "postal_code": "28303",
+    "locality": "Fayetteville",
+    "region": "NC",
+    "phone_on_page": "+1 910-223-1170",
+    "property_code_on_page": "faysdht"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "faysdht",
+   "identity_key": "home2 suites by hilton fayetteville fort bragg",
+   "canonical_name": "Home2 Suites by Hilton Fayetteville Fort Bragg",
+   "corridor": "fayetteville-nc__cross-creek-skibo",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, $75 1-4 nights/$125 5+nights, 2 pets max",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_stay"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75 1-4 nights/$125 5+nights, 2 pets max",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75 1-4 nights/$125 5+nights, 2 pets max",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75 1-4 nights/$125 5+nights, 2 pets max",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75 1-4 nights/$125 5+nights, 2 pets max",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75 1-4 nights/$125 5+nights, 2 pets max",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/fayteht-home2-suites-fayetteville-north/",
+   "final_url": "https://www.hilton.com/en/hotels/fayteht-home2-suites-fayetteville-north/",
+   "document_sha256": "03ea9a655c5aa0105e37218228adb3f7d434b4c071caeb4675c45294478c2c61",
+   "document_bytes": 275542,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Home2 Suites by Hilton Fayetteville North",
+    "address_on_page": "6309 Ramsey Street",
+    "postal_code": "28311",
+    "locality": "Fayetteville",
+    "region": "NC",
+    "phone_on_page": "+1 910-436-5558",
+    "property_code_on_page": "fayteht"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "fayteht",
+   "identity_key": "home2 suites by hilton fayetteville north",
+   "canonical_name": "Home2 Suites by Hilton Fayetteville North",
+   "corridor": "fayetteville-nc__north-fayetteville",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": 75.0,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/faylahw-homewood-suites-fayetteville/",
+   "final_url": "https://www.hilton.com/en/hotels/faylahw-homewood-suites-fayetteville/",
+   "document_sha256": "cf71c4f0a7af14b6e62fc9faac22f973f73fbe786f0c49f4d4535c29fad60752",
+   "document_bytes": 272382,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Homewood Suites by Hilton Fayetteville",
+    "address_on_page": "4028 Legend Avenue",
+    "postal_code": "28303",
+    "locality": "Fayetteville",
+    "region": "NC",
+    "phone_on_page": "+1 910-672-7800",
+    "property_code_on_page": "faylahw"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "faylahw",
+   "identity_key": "homewood suites by hilton fayetteville",
+   "canonical_name": "Homewood Suites by Hilton Fayetteville",
+   "corridor": "fayetteville-nc__cross-creek-skibo",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n)2petsMax,dog/cat Only",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "fee_refundable": false,
+    "fee_basis": "per_stay"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n)2petsMax,dog/cat Only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n)2petsMax,dog/cat Only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n)2petsMax,dog/cat Only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n)2petsMax,dog/cat Only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n)2petsMax,dog/cat Only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n)2petsMax,dog/cat Only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "WYNDHAM",
+   "source_url": "https://www.wyndhamhotels.com/laquinta/fayetteville-north-carolina/la-quinta-inn-and-suites-fayetteville-i-95/overview",
+   "final_url": "https://www.wyndhamhotels.com/laquinta/fayetteville-north-carolina/la-quinta-inn-and-suites-fayetteville-i-95/overview",
+   "document_sha256": "27ec5a9ae03a43a163ae32075ac5a0f1ac486d79cc0252b0ea955d0d56e0786e",
+   "document_bytes": 628791,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "La Quinta Inn & Suites by Wyndham Fayetteville I-95",
+    "address_on_page": "1725 Jim Johnson Road",
+    "postal_code": "28312",
+    "locality": "Fayetteville",
+    "region": "NC",
+    "phone_on_page": "910-4856866",
+    "property_code_on_page": "14870"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "14870",
+   "identity_key": "la quinta inn and suites by wyndham fayetteville i 95",
+   "canonical_name": "La Quinta Inn & Suites by Wyndham Fayetteville I-95",
+   "corridor": "fayetteville-nc__i-95-central-eastover",
+   "surface": "the client-rendered .pet-policy-desc element on the property's own page",
+   "operative_quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "weight_limit": 75.0,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "fee_refundable": false,
+    "fee_basis": "per_night",
+    "fee_scope": "per_room",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals are welcome free of charge. / Pets Allowed - 2 pets max. Cats and dogs only. 75lbs or less per pet. / Fees - Non-refundable 25 USD nightly for up to 2 pets. Max 75 USD per stay. / Other Information - Contact hotel for additional details and availability.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "RED_ROOF",
+   "source_url": "https://www.redroof.com/property/nc/fayetteville/rri452",
+   "final_url": "https://www.redroof.com/property/nc/fayetteville/rri452",
+   "document_sha256": "faeb2900bd7d190cc5fd2a61f8e78b2a9cd45619b9096ebc6a63e722057870df",
+   "document_bytes": 333636,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Red Roof Inn & Suites Fayetteville - Fort Bragg",
+    "address_on_page": "3136 Bordeaux Park Dr",
+    "postal_code": "28306",
+    "locality": "Fayetteville",
+    "region": "NC",
+    "phone_on_page": "1-937-328-4222",
+    "property_code_on_page": null
+   },
+   "identity_binding_method": "HOTEL_JSONLD_STREET_AND_PAGE_POSTAL_CODE_AND_PROPERTY_CODE",
+   "property_code": null,
+   "identity_key": "red roof inn and suites fayetteville fort bragg",
+   "canonical_name": "Red Roof Inn & Suites Fayetteville - Fort Bragg",
+   "corridor": "fayetteville-nc__fay-airport-south",
+   "surface": "the property's own page, Pet Policy sentence",
+   "operative_quote": "Pet Policy: One, well-behaved domestic pet (cat or dog) Stays Free! Pets must be declared at check-in. Up to 2 pets allowed per room. Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay. Pet not to exceed 80 pounds. Service and emotional support animals are always welcome.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 80.0,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy: One, well-behaved domestic pet (cat or dog) Stays Free! Pets must be declared at check-in. Up to 2 pets allowed per room. Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay. Pet not to exceed 80 pounds. Service and emotional support animals are always welcome.",
+     "location": "the property's own page, Pet Policy sentence",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy: One, well-behaved domestic pet (cat or dog) Stays Free! Pets must be declared at check-in. Up to 2 pets allowed per room. Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay. Pet not to exceed 80 pounds. Service and emotional support animals are always welcome.",
+     "location": "the property's own page, Pet Policy sentence",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy: One, well-behaved domestic pet (cat or dog) Stays Free! Pets must be declared at check-in. Up to 2 pets allowed per room. Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay. Pet not to exceed 80 pounds. Service and emotional support animals are always welcome.",
+     "location": "the property's own page, Pet Policy sentence",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy: One, well-behaved domestic pet (cat or dog) Stays Free! Pets must be declared at check-in. Up to 2 pets allowed per room. Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay. Pet not to exceed 80 pounds. Service and emotional support animals are always welcome.",
+     "location": "the property's own page, Pet Policy sentence",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "RED_ROOF",
+   "source_url": "https://www.redroof.com/property/nc/fayetteville/rri341",
+   "final_url": "https://www.redroof.com/property/nc/fayetteville/rri341",
+   "document_sha256": "2855a55b6c4186c354ca2360cad30b4c9f0276e72dc9ca29103a7e197dd2fcde",
+   "document_bytes": 377260,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Red Roof Inn Fayetteville I-95",
+    "address_on_page": "1902 Cedar Creek Rd",
+    "postal_code": "28312",
+    "locality": "Fayetteville",
+    "region": "NC",
+    "phone_on_page": "1-937-328-1839",
+    "property_code_on_page": null
+   },
+   "identity_binding_method": "HOTEL_JSONLD_STREET_AND_PAGE_POSTAL_CODE_AND_PROPERTY_CODE",
+   "property_code": null,
+   "identity_key": "red roof inn fayetteville i 95",
+   "canonical_name": "Red Roof Inn Fayetteville I-95",
+   "corridor": "fayetteville-nc__i-95-central-eastover",
+   "surface": "the property's own page, Pet Policy sentence",
+   "operative_quote": "Pet Policy: One, well-behaved domestic pet (cat or dog) Stays Free! Pets must be declared at check-in. Up to 2 pets allowed per room. Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay. Pet not to exceed 80 pounds. Service and emotional support animals are always welcome.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 80.0,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy: One, well-behaved domestic pet (cat or dog) Stays Free! Pets must be declared at check-in. Up to 2 pets allowed per room. Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay. Pet not to exceed 80 pounds. Service and emotional support animals are always welcome.",
+     "location": "the property's own page, Pet Policy sentence",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy: One, well-behaved domestic pet (cat or dog) Stays Free! Pets must be declared at check-in. Up to 2 pets allowed per room. Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay. Pet not to exceed 80 pounds. Service and emotional support animals are always welcome.",
+     "location": "the property's own page, Pet Policy sentence",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy: One, well-behaved domestic pet (cat or dog) Stays Free! Pets must be declared at check-in. Up to 2 pets allowed per room. Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay. Pet not to exceed 80 pounds. Service and emotional support animals are always welcome.",
+     "location": "the property's own page, Pet Policy sentence",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy: One, well-behaved domestic pet (cat or dog) Stays Free! Pets must be declared at check-in. Up to 2 pets allowed per room. Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay. Pet not to exceed 80 pounds. Service and emotional support animals are always welcome.",
+     "location": "the property's own page, Pet Policy sentence",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/fayri-residence-inn-fayetteville-cross-creek/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/fayri-residence-inn-fayetteville-cross-creek/overview/",
+   "document_sha256": "a8ed46c76428e45ff7b36a938d0e2f728f6a10b92db5d6f4b1b743e8d18fd29d",
+   "document_bytes": 550199,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Residence Inn by Marriott Fayetteville Cross Creek",
+    "address_on_page": "1468 Skibo Road",
+    "postal_code": "28303",
+    "locality": "Fayetteville",
+    "region": "NC",
+    "phone_on_page": "+19108689005",
+    "property_code_on_page": "fayri"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "fayri",
+   "identity_key": "residence inn by marriott fayetteville cross creek",
+   "canonical_name": "Residence Inn by Marriott Fayetteville Cross Creek",
+   "corridor": "fayetteville-nc__cross-creek-skibo",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Welcome | 2 pets 75 lbs max per room with fee of USD 75 plus tax per room per stay | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": 75.0,
+    "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "fee_scope": "per_room",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Welcome | 2 pets 75 lbs max per room with fee of USD 75 plus tax per room per stay | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | 2 pets 75 lbs max per room with fee of USD 75 plus tax per room per stay | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | 2 pets 75 lbs max per room with fee of USD 75 plus tax per room per stay | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | 2 pets 75 lbs max per room with fee of USD 75 plus tax per room per stay | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | 2 pets 75 lbs max per room with fee of USD 75 plus tax per room per stay | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | 2 pets 75 lbs max per room with fee of USD 75 plus tax per room per stay | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 75.0lbs | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/faysrpe-spark-spring-lake-fayetteville/",
+   "final_url": "https://www.hilton.com/en/hotels/faysrpe-spark-spring-lake-fayetteville/",
+   "document_sha256": "15de56ad0a0b9c53d6c3c8fb71707f6d0c2d2dff648f7bfc0dc3ebd4399bffc9",
+   "document_bytes": 267769,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Spark by Hilton Spring Lake Fayetteville",
+    "address_on_page": "103 Brook Lane",
+    "postal_code": "28390",
+    "locality": "Spring Lake",
+    "region": "NC",
+    "phone_on_page": "+1 910-436-1900",
+    "property_code_on_page": "faysrpe"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "faysrpe",
+   "identity_key": "spark by hilton spring lake fayetteville",
+   "canonical_name": "Spark by Hilton Spring Lake Fayetteville",
+   "corridor": "fayetteville-nc__spring-lake-fort-liberty",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": 75.0,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/fayts-towneplace-suites-fayetteville-cross-creek/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/fayts-towneplace-suites-fayetteville-cross-creek/overview/",
+   "document_sha256": "bffc93ec14fb683b6cc9460c79f669821c05d8787fbd50248ad4646231d35957",
+   "document_bytes": 554394,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "TownePlace Suites by Marriott Fayetteville Cross Creek",
+    "address_on_page": "1464 Skibo Road",
+    "postal_code": "28303",
+    "locality": "Fayetteville",
+    "region": "NC",
+    "phone_on_page": "+19107641100",
+    "property_code_on_page": "fayts"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "fayts",
+   "identity_key": "towneplace suites by marriott fayetteville cross creek",
+   "canonical_name": "TownePlace Suites by Marriott Fayetteville Cross Creek",
+   "corridor": "fayetteville-nc__cross-creek-skibo",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Welcome | 3 domestic pets 100 pounds max per room with USD $75 fee per room per stay | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 100.0lbs | Maximum Number of Pets in Room: 3",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": 100.0,
+    "pet_count_limit": 3,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "fee_scope": "per_room",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Welcome | 3 domestic pets 100 pounds max per room with USD $75 fee per room per stay | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 100.0lbs | Maximum Number of Pets in Room: 3",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | 3 domestic pets 100 pounds max per room with USD $75 fee per room per stay | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 100.0lbs | Maximum Number of Pets in Room: 3",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | 3 domestic pets 100 pounds max per room with USD $75 fee per room per stay | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 100.0lbs | Maximum Number of Pets in Room: 3",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | 3 domestic pets 100 pounds max per room with USD $75 fee per room per stay | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 100.0lbs | Maximum Number of Pets in Room: 3",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | 3 domestic pets 100 pounds max per room with USD $75 fee per room per stay | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 100.0lbs | Maximum Number of Pets in Room: 3",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | 3 domestic pets 100 pounds max per room with USD $75 fee per room per stay | Non-Refundable Pet Fee Per Stay: $75.00 | Maximum Pet Weight: 100.0lbs | Maximum Number of Pets in Room: 3",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "WYNDHAM",
+   "source_url": "https://www.wyndhamhotels.com/travelodge/fayetteville-north-carolina/travelodge-by-wyndham-fayetteville/overview",
+   "final_url": "https://www.wyndhamhotels.com/travelodge/fayetteville-north-carolina/travelodge-by-wyndham-fayetteville/overview",
+   "document_sha256": "fa7791e41c4273e57a4aca2767a6b2702c28129128997e82ce817659406380d4",
+   "document_bytes": 539573,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Travelodge by Wyndham Fayetteville",
+    "address_on_page": "2076 Cedar Creek Rd",
+    "postal_code": "28312",
+    "locality": "Fayetteville",
+    "region": "NC",
+    "phone_on_page": "910-9001250",
+    "property_code_on_page": "54561"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "54561",
+   "identity_key": "travelodge by wyndham fayetteville",
+   "canonical_name": "Travelodge by Wyndham Fayetteville",
+   "corridor": "fayetteville-nc__i-95-central-eastover",
+   "surface": "the client-rendered .pet-policy-desc element on the property's own page",
+   "operative_quote": "Maximum 2 pets allowed up to 50lbs each for no charge. Additional pets require non-refundable charge of 20.00 USD per pet per night. Pet Sanitation Fee is 50.00 USD if applicable. ADA defined service animals are welcome at this hotel",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 50.0,
+    "pet_count_limit": 2,
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Maximum 2 pets allowed up to 50lbs each for no charge. Additional pets require non-refundable charge of 20.00 USD per pet per night. Pet Sanitation Fee is 50.00 USD if applicable. ADA defined service animals are welcome at this hotel",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Maximum 2 pets allowed up to 50lbs each for no charge. Additional pets require non-refundable charge of 20.00 USD per pet per night. Pet Sanitation Fee is 50.00 USD if applicable. ADA defined service animals are welcome at this hotel",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Maximum 2 pets allowed up to 50lbs each for no charge. Additional pets require non-refundable charge of 20.00 USD per pet per night. Pet Sanitation Fee is 50.00 USD if applicable. ADA defined service animals are welcome at this hotel",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/fayetru-tru-fayetteville-fort-bragg/",
+   "final_url": "https://www.hilton.com/en/hotels/fayetru-tru-fayetteville-fort-bragg/",
+   "document_sha256": "ec758597c8ad4b7d8913c4e953073234af7f07b86555b8d87970ae09e74c909d",
+   "document_bytes": 275027,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Tru by Hilton Fayetteville Fort Bragg",
+    "address_on_page": "507 N McPherson Church Rd.",
+    "postal_code": "28303",
+    "locality": "Fayetteville",
+    "region": "NC",
+    "phone_on_page": "+1 910-375-1677",
+    "property_code_on_page": "fayetru"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "fayetru",
+   "identity_key": "tru by hilton fayetteville fort bragg",
+   "canonical_name": "Tru by Hilton Fayetteville Fort Bragg",
+   "corridor": "fayetteville-nc__cross-creek-skibo",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n) $125(5+n) 2pets Max, dog/cat only",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": 75.0,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n) $125(5+n) 2pets Max, dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n) $125(5+n) 2pets Max, dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n) $125(5+n) 2pets Max, dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n) $125(5+n) 2pets Max, dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n) $125(5+n) 2pets Max, dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n) $125(5+n) 2pets Max, dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n) $125(5+n) 2pets Max, dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/fayruru-tru-fayetteville-i-95/",
+   "final_url": "https://www.hilton.com/en/hotels/fayruru-tru-fayetteville-i-95/",
+   "document_sha256": "258cad9e9099c55a23e2e8698a50a3eebe3471fb5a9a813c8e0e8460652b0f11",
+   "document_bytes": 279594,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Tru by Hilton Fayetteville I 95",
+    "address_on_page": "2055 Cedar Creek Road",
+    "postal_code": "28312",
+    "locality": "Fayetteville",
+    "region": "NC",
+    "phone_on_page": "+1 910-475-1570",
+    "property_code_on_page": "fayruru"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "fayruru",
+   "identity_key": "tru by hilton fayetteville i 95",
+   "canonical_name": "Tru by Hilton Fayetteville I 95",
+   "corridor": "fayetteville-nc__i-95-central-eastover",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2pets Max,dog/cat",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": 75.0,
+    "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2pets Max,dog/cat",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2pets Max,dog/cat",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2pets Max,dog/cat",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2pets Max,dog/cat",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2pets Max,dog/cat",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2pets Max,dog/cat",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  }
+ ],
+ "clean_verified_no_pets": [
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/faych-courtyard-fayetteville/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/faych-courtyard-fayetteville/overview/",
+   "document_sha256": "9e339bc08de1be7d1bc598b785c68335e9228667b9ad57d27ae0025c08c29ee2",
+   "document_bytes": 564284,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Courtyard by Marriott Fayetteville",
+    "address_on_page": "4192 Sycamore Dairy Road",
+    "postal_code": "28303",
+    "locality": "Fayetteville",
+    "region": "NC",
+    "phone_on_page": "+19104875557",
+    "property_code_on_page": "faych"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "faych",
+   "identity_key": "courtyard by marriott fayetteville",
+   "canonical_name": "Courtyard by Marriott Fayetteville",
+   "corridor": "fayetteville-nc__cross-creek-skibo",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Not Allowed | No pets with exception of service animals",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Not Allowed | No pets with exception of service animals",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/faycs-courtyard-fayetteville-fort-bragg-spring-lake/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/faycs-courtyard-fayetteville-fort-bragg-spring-lake/overview/",
+   "document_sha256": "bbed4eb186ada92931d86d6502669848a31ca9c857ca6375e0ac45877c6ae155",
+   "document_bytes": 435483,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Courtyard By Marriott Fayetteville Fort Bragg Spring Lake",
+    "address_on_page": "120 North 5th Street",
+    "postal_code": "28390",
+    "locality": "Spring Lake",
+    "region": "NC",
+    "phone_on_page": "+19105657008",
+    "property_code_on_page": "faycs"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "faycs",
+   "identity_key": "courtyard by marriott fayetteville fort bragg spring lake",
+   "canonical_name": "Courtyard By Marriott Fayetteville Fort Bragg Spring Lake",
+   "corridor": "fayetteville-nc__spring-lake-fort-liberty",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Not Allowed | No Pets Allowed:Service Animals Only",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Not Allowed | No Pets Allowed:Service Animals Only",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/fayfn-fairfield-inn-and-suites-fayetteville-north/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/fayfn-fairfield-inn-and-suites-fayetteville-north/overview/",
+   "document_sha256": "7d6a1e86f2d4f5104d5833201cfdeaed3f35962124d705b343e3eaacd2a16d78",
+   "document_bytes": 584631,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Fairfield by Marriott Inn & Suites Fayetteville North",
+    "address_on_page": "4249 Ramsey Street",
+    "postal_code": "28311",
+    "locality": "Fayetteville",
+    "region": "NC",
+    "phone_on_page": "+19102237867",
+    "property_code_on_page": "fayfn"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "fayfn",
+   "identity_key": "fairfield by marriott inn and suites fayetteville north",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Fayetteville North",
+   "corridor": "fayetteville-nc__north-fayetteville",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Not Allowed",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Not Allowed",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/fayfp-four-points-fayetteville-fort-bragg/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/fayfp-four-points-fayetteville-fort-bragg/overview/",
+   "document_sha256": "28def3951590e9ab0164f7b2c3032369f8b035d825c998be39b28b81fe187421",
+   "document_bytes": 1011486,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Four Points by Sheraton Fayetteville Fort Bragg",
+    "address_on_page": "1706 Skibo Road",
+    "postal_code": "28303",
+    "locality": "Fayetteville",
+    "region": "NC",
+    "phone_on_page": "+19108676777",
+    "property_code_on_page": "fayfp"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "fayfp",
+   "identity_key": "four points by sheraton fayetteville fort bragg",
+   "canonical_name": "Four Points by Sheraton Fayetteville Fort Bragg",
+   "corridor": "fayetteville-nc__cross-creek-skibo",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Not Allowed",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Not Allowed",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "IHG",
+   "source_url": "https://www.ihg.com/holidayinn/hotels/us/en/fayetteville/faycd/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinn/hotels/us/en/fayetteville/faycd/hoteldetail",
+   "document_sha256": "af48307ff0ae9c097465e4653160222e1e97dcf6b289386c51b1f8bef0a0590a",
+   "document_bytes": 276332,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Holiday Inn & Suites Fayetteville W-Fort Bragg Area",
+    "address_on_page": "2501 Two Bale Lane",
+    "postal_code": "28304",
+    "locality": "Fayetteville",
+    "region": "NC",
+    "phone_on_page": "1-910-4915352",
+    "property_code_on_page": "faycd"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "faycd",
+   "identity_key": "holiday inn and suites fayetteville w fort bragg area",
+   "canonical_name": "Holiday Inn & Suites Fayetteville W-Fort Bragg Area",
+   "corridor": "fayetteville-nc__cross-creek-skibo",
+   "surface": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+   "operative_quote": "No, pets are not allowed at Holiday Inn & Suites Fayetteville W-Fort Bragg Area.",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "No, pets are not allowed at Holiday Inn & Suites Fayetteville W-Fort Bragg Area.",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "IHG",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/fayetteville/faycr/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/fayetteville/faycr/hoteldetail",
+   "document_sha256": "236e40762bdcf1c016faf850a796d3ab4b221d0955c65f65039a31f823428991",
+   "document_bytes": 260265,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Holiday Inn Express & Suites Fayetteville South",
+    "address_on_page": "1894 Cedar Creek Road",
+    "postal_code": "28312",
+    "locality": "Fayetteville",
+    "region": "NC",
+    "phone_on_page": "1-910-3210555",
+    "property_code_on_page": "faycr"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "faycr",
+   "identity_key": "holiday inn express and suites fayetteville south",
+   "canonical_name": "Holiday Inn Express & Suites Fayetteville South",
+   "corridor": "fayetteville-nc__i-95-central-eastover",
+   "surface": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+   "operative_quote": "No, pets are not allowed at Holiday Inn Express & Suites Fayetteville South.",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "No, pets are not allowed at Holiday Inn Express & Suites Fayetteville South.",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "IHG",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/hope-mills/fayhm/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/hope-mills/fayhm/hoteldetail",
+   "document_sha256": "83a02b7ee405956766892daad9e8f2247fffb3cf05bf5a644023b52dd4e4123a",
+   "document_bytes": 290581,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Holiday Inn Express & Suites Hope Mills-Fayetteville Arpt",
+    "address_on_page": "3111 N. Main Street",
+    "postal_code": "28348",
+    "locality": "Hope Mills",
+    "region": "NC",
+    "phone_on_page": "1-910-4299990",
+    "property_code_on_page": "fayhm"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "fayhm",
+   "identity_key": "holiday inn express and suites hope mills fayetteville arpt",
+   "canonical_name": "Holiday Inn Express & Suites Hope Mills-Fayetteville Arpt",
+   "corridor": "fayetteville-nc__hope-mills",
+   "surface": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+   "operative_quote": "No, pets are not allowed at Holiday Inn Express & Suites Hope Mills-Fayetteville Arpt.",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "No, pets are not allowed at Holiday Inn Express & Suites Hope Mills-Fayetteville Arpt.",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "IHG",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/fayetteville/faysd/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/fayetteville/faysd/hoteldetail",
+   "document_sha256": "f65db87b8f68758913ef04871c73f90a2695e7a963b370b8d72065408cd28f22",
+   "document_bytes": 282732,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Holiday Inn Express Fayetteville - Fort Bragg",
+    "address_on_page": "4182 Sycamore Dairy Rd",
+    "postal_code": "28303",
+    "locality": "Fayetteville",
+    "region": "NC",
+    "phone_on_page": "1-910-8269200",
+    "property_code_on_page": "faysd"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "faysd",
+   "identity_key": "holiday inn express fayetteville fort bragg",
+   "canonical_name": "Holiday Inn Express Fayetteville - Fort Bragg",
+   "corridor": "fayetteville-nc__cross-creek-skibo",
+   "surface": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+   "operative_quote": "No, pets are not allowed at Holiday Inn Express Fayetteville - Fort Bragg.",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "No, pets are not allowed at Holiday Inn Express Fayetteville - Fort Bragg.",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/fayfb-springhill-suites-fayetteville-fort-bragg/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/fayfb-springhill-suites-fayetteville-fort-bragg/overview/",
+   "document_sha256": "f32ec22e55e5bfb294db7c5ad42675029cbf2f3778fe932e02107b163067db2d",
+   "document_bytes": 594527,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "SpringHill Suites by Marriott Fayetteville Fort Bragg",
+    "address_on_page": "4750 Lake Valley Drive",
+    "postal_code": "28303",
+    "locality": "Fayetteville",
+    "region": "NC",
+    "phone_on_page": "+19108603000",
+    "property_code_on_page": "fayfb"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "fayfb",
+   "identity_key": "springhill suites by marriott fayetteville fort bragg",
+   "canonical_name": "SpringHill Suites by Marriott Fayetteville Fort Bragg",
+   "corridor": "fayetteville-nc__cross-creek-skibo",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Not Allowed",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Not Allowed",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/fayse-springhill-suites-fayetteville-i-95/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/fayse-springhill-suites-fayetteville-i-95/overview/",
+   "document_sha256": "6b3ca4d19af71da6e32b5165c8730abc0f2a5931b2b8f6bbda83b1b304b740a1",
+   "document_bytes": 572603,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "SpringHill Suites by Marriott Fayetteville I 95",
+    "address_on_page": "520 Judson Church Road",
+    "postal_code": "28312",
+    "locality": "Fayetteville",
+    "region": "NC",
+    "phone_on_page": "+19103218080",
+    "property_code_on_page": "fayse"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "fayse",
+   "identity_key": "springhill suites by marriott fayetteville i 95",
+   "canonical_name": "SpringHill Suites by Marriott Fayetteville I 95",
+   "corridor": "fayetteville-nc__i-95-central-eastover",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Not Allowed | No pets allowed – service animals only",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Not Allowed | No pets allowed – service animals only",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  }
+ ],
+ "rejected": [
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/faydtdt-doubletree-fayetteville/",
+   "final_url": "https://www.hilton.com/en/hotels/faydtdt-doubletree-fayetteville/",
+   "document_sha256": "d8703deadedfbaf5d0705007a509e907050c6c70f5e0b5b0ed50c9a05bbe0430",
+   "document_bytes": 303668,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "DoubleTree by Hilton Hotel Fayetteville",
+    "address_on_page": "1965 Cedar Creek Road",
+    "postal_code": "28312",
+    "locality": "Fayetteville",
+    "region": "NC",
+    "phone_on_page": "+1 910-323-8282",
+    "property_code_on_page": "faydtdt"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "faydtdt",
+   "classification": "SERVICE_ANIMAL_ONLY",
+   "why": "the only words this page publishes about animals are a service-animal carve-out. That is a legal access category, not a refusal of pets, and it cannot establish a verified-no-pets record on its own",
+   "quote": "Service animals only"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/dnchhhx-hampton-dunn/",
+   "final_url": "https://www.hilton.com/en/hotels/dnchhhx-hampton-dunn/",
+   "document_sha256": "a18c2c3ca187d60d4c739f45440d2527652d26c3ddb5216b93b49fbe4317384d",
+   "document_bytes": 271760,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn Dunn",
+    "address_on_page": "100 Jesse Tart Circle",
+    "postal_code": "28334",
+    "locality": "Dunn",
+    "region": "NC",
+    "phone_on_page": "+1 910-892-4333",
+    "property_code_on_page": "dnchhhx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "dnchhhx",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (postal code 28334 is claimed by no corridor of the Fayetteville contract; Fort Liberty on-post (28307 / 28308 / 28310), ); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4 nights), $125(5+ nights) 2 pets max, dog/cat only, 75-pound max weight combined"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/faybnhx-hampton-benson/",
+   "final_url": "https://www.hilton.com/en/hotels/faybnhx-hampton-benson/",
+   "document_sha256": "ace94a0aac59ccba66459481f13712245b2f618c068334d5180d8d8fee401336",
+   "document_bytes": 270908,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn Benson",
+    "address_on_page": "100 Water Place Landing",
+    "postal_code": "27504",
+    "locality": "Benson",
+    "region": "NC",
+    "phone_on_page": "+1 919-701-8000",
+    "property_code_on_page": "faybnhx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "faybnhx",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (postal code 27504 is claimed by no corridor of the Fayetteville contract; Fort Liberty on-post (28307 / 28308 / 28310), ); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $50.00 non-refundable fee, $50(1-3n), $75(3+n) 2 pets Max, dog/cat only"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/fayspgi-garden-inn-southern-pines-pinehurst/",
+   "final_url": "https://www.hilton.com/en/hotels/fayspgi-garden-inn-southern-pines-pinehurst/",
+   "document_sha256": "c595ccc658eb097fdaa2c008c5434c607896b6fd140c99fea1c29de1f906c8d2",
+   "document_bytes": 280901,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hilton Garden Inn Southern Pines Pinehurst",
+    "address_on_page": "155 South Hill Road",
+    "postal_code": "28315",
+    "locality": "Aberdeen",
+    "region": "NC",
+    "phone_on_page": "+1 910-692-0801",
+    "property_code_on_page": "fayspgi"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "fayspgi",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (postal code 28315 is claimed by no corridor of the Fayetteville contract; Fort Liberty on-post (28307 / 28308 / 28310), ); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n), $125(5+n) 2pets Max, dog/cat"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/snpnchx-hampton-suites-southern-pines-pinehurst/",
+   "final_url": "https://www.hilton.com/en/hotels/snpnchx-hampton-suites-southern-pines-pinehurst/",
+   "document_sha256": "7792b98515f8937b4d97fae12040815962dfec7a3d9874fa61e01e54b16bda14",
+   "document_bytes": 294007,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn & Suites Southern Pines-Pinehurst",
+    "address_on_page": "200 Columbus Drive",
+    "postal_code": "28315",
+    "locality": "Aberdeen",
+    "region": "NC",
+    "phone_on_page": "+1 910-693-4330",
+    "property_code_on_page": "snpnchx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "snpnchx",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (postal code 28315 is claimed by no corridor of the Fayetteville contract; Fort Liberty on-post (28307 / 28308 / 28310), ); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $50.00 non-refundable fee, $50(1-4n),$100(5+n)2petsMax,dog/cat only"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/lrnbghx-hampton-laurinburg/",
+   "final_url": "https://www.hilton.com/en/hotels/lrnbghx-hampton-laurinburg/",
+   "document_sha256": "e8df703c7bc352afdaa4e3e2fa2871b56c12bd36bc7d78244038021b9a81e90d",
+   "document_bytes": 271583,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn Laurinburg",
+    "address_on_page": "115 Hampton Circle",
+    "postal_code": "28352",
+    "locality": "Laurinburg",
+    "region": "NC",
+    "phone_on_page": "+1 910-277-1516",
+    "property_code_on_page": "lrnbghx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "lrnbghx",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (postal code 28352 is claimed by no corridor of the Fayetteville contract; Fort Liberty on-post (28307 / 28308 / 28310), ); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $50.00 non-refundable fee, $50(1-4n),$75(5+n) 2petsMax,dog/cat only"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/sopnchw-homewood-suites-olmsted-village-near-pinehurst/",
+   "final_url": "https://www.hilton.com/en/hotels/sopnchw-homewood-suites-olmsted-village-near-pinehurst/",
+   "document_sha256": "5a1f2e45eed9e3745a739cfd103919235165ba1e27aa5b5f6fbceb75cdbe4dd7",
+   "document_bytes": 286090,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Homewood Suites by Hilton Olmsted Village (near Pinehurst)",
+    "address_on_page": "250 Central Park Avenue",
+    "postal_code": "28374",
+    "locality": "Pinehurst",
+    "region": "NC",
+    "phone_on_page": "+1 910-255-0300",
+    "property_code_on_page": "sopnchw"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "sopnchw",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (postal code 28374 is claimed by no corridor of the Fayetteville contract; Fort Liberty on-post (28307 / 28308 / 28310), ); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $125.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/faythht-home2-suites-lumberton/",
+   "final_url": "https://www.hilton.com/en/hotels/faythht-home2-suites-lumberton/",
+   "document_sha256": "bfd41098692b0b47094fb288a2d14b348b05cee96ade6fe59a11f5734afc5adc",
+   "document_bytes": 265444,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Home2 Suites by Hilton Lumberton",
+    "address_on_page": "220 Jackson Ct",
+    "postal_code": "28358",
+    "locality": "Lumberton",
+    "region": "NC",
+    "phone_on_page": "+1 910-887-2900",
+    "property_code_on_page": "faythht"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "faythht",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (postal code 28358 is claimed by no corridor of the Fayetteville contract; Fort Liberty on-post (28307 / 28308 / 28310), ); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n), $125(5+n) 2pets Max, dog/cat only"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/fayedru-tru-lumberton/",
+   "final_url": "https://www.hilton.com/en/hotels/fayedru-tru-lumberton/",
+   "document_sha256": "ce4a07cd9ca9a7f1f72ae318a58dac34a1a7c732b7faf1f0529aeee01d5104b8",
+   "document_bytes": 271928,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Tru by Hilton Lumberton",
+    "address_on_page": "220 Jackson Ct",
+    "postal_code": "28358",
+    "locality": "Lumberton",
+    "region": "NC",
+    "phone_on_page": "+1 910-887-2900",
+    "property_code_on_page": "fayedru"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "fayedru",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (postal code 28358 is claimed by no corridor of the Fayetteville contract; Fort Liberty on-post (28307 / 28308 / 28310), ); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n), $125(5+n) 2pets Max, dog/cat only"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/lbtwahx-hampton-lumberton/",
+   "final_url": "https://www.hilton.com/en/hotels/lbtwahx-hampton-lumberton/",
+   "document_sha256": "a991d952d66cf4726a5848106082e2c7f622e142cba592dca21aae60e673983b",
+   "document_bytes": 270033,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn Lumberton",
+    "address_on_page": "204 Wintergreen Drive",
+    "postal_code": "28358",
+    "locality": "Lumberton",
+    "region": "NC",
+    "phone_on_page": "+1 910-738-3332",
+    "property_code_on_page": "lbtwahx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "lbtwahx",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (postal code 28358 is claimed by no corridor of the Fayetteville contract; Fort Liberty on-post (28307 / 28308 / 28310), ); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75,$125(5+n) 2 pets, dog/cat only"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "WYNDHAM",
+   "source_url": "https://www.wyndhamhotels.com/days-inn/fayetteville-north-carolina/days-inn-and-suites-by-wyndham-fort-bragg-cross-creek-mall/overview",
+   "final_url": "https://www.wyndhamhotels.com/days-inn/fayetteville-north-carolina/days-inn-and-suites-by-wyndham-fort-bragg-cross-creek-mall/overview",
+   "document_sha256": "dd1fa85dd0f70882ed74e235fe436e9f4f0e17c8203f12fa2fabcb7c6f2f9fa3",
+   "document_bytes": 591464,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Days Inn & Suites by Wyndham Fort Bragg/Cross Creek Mall",
+    "address_on_page": "1720 Skibo Road",
+    "postal_code": "28308",
+    "locality": "Fayetteville",
+    "region": "NC",
+    "phone_on_page": "910-8677659",
+    "property_code_on_page": "48157"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "48157",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (postal code 28308 is claimed by no corridor of the Fayetteville contract; Fort Liberty on-post (28307 / 28308 / 28310), ); a read cannot promote a row the identity graph withheld",
+   "quote": "Service Animals - ADA-defined service animals welcome. Pets allowed - 2 pets max. 150lbs or less maximum./Fees - 25UD per pet/per night./Other Information - Contact hotel for additional details and availability."
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "WYNDHAM",
+   "source_url": "https://www.wyndhamhotels.com/super-8/fayetteville-north-carolina/super-8-fayetteville-nc/overview",
+   "final_url": "https://www.wyndhamhotels.com/super-8/fayetteville-north-carolina/super-8-fayetteville-nc/overview",
+   "document_sha256": "57bccf2e6984df11b40e39198728a156958bac07db072140457694e719f10d49",
+   "document_bytes": 546850,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Super 8 by Wyndham Fayetteville",
+    "address_on_page": "1875 Cedar Creek Rd",
+    "postal_code": "28312",
+    "locality": "Fayetteville",
+    "region": "NC",
+    "phone_on_page": "910-3233826",
+    "property_code_on_page": "08692"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "08692",
+   "classification": "QUOTE_NOT_OPERATIVE",
+   "why": "the quoted words state no acceptance and no refusal. A fee, a weight, a count, an amenity chip or a service-animal sentence alone establishes nothing under the first-party binding contract",
+   "quote": "This hotel charges 10 USD per pet per night. Up to 2 pets per room. Limited pet-friendly rooms are available. Contact the hotel directly for policy details. Credit Card at Check-In or 100 USD refundable deposit at check-in without credit card. ADA defined service animals are welcome at this hotel."
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "IHG",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/lumberton/fayum/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/lumberton/fayum/hoteldetail",
+   "document_sha256": "9cd3a92bc4b616674f4050edb7a1e1cb1899b8545197050ffa605734b539b14b",
+   "document_bytes": 250372,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Holiday Inn Express & Suites Lumberton",
+    "address_on_page": "302 Wintergreen Drive",
+    "postal_code": "28358",
+    "locality": "Lumberton",
+    "region": "NC",
+    "phone_on_page": "1-910-5936234",
+    "property_code_on_page": "fayum"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "fayum",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (postal code 28358 is claimed by no corridor of the Fayetteville contract; Fort Liberty on-post (28307 / 28308 / 28310), ); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets are welcome at Holiday Inn Express & Suites Lumberton.\nPet fee per night: 50 USD\nPet damage deposit: 50 USD\nPet weight limit: 110\n2 pets allowed\nPets allowed: Only dogs and cats allowed"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "IHG",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/benson/faybx/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/benson/faybx/hoteldetail",
+   "document_sha256": "edfdb275fffe0dab147a4d6c083e7d4abece052bc2293e6581e218361340e1fb",
+   "document_bytes": 312205,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Holiday Inn Express & Suites Benson",
+    "address_on_page": "101 Water Place Landing",
+    "postal_code": "27504",
+    "locality": "Benson",
+    "region": "NC",
+    "phone_on_page": "1-919-7012000",
+    "property_code_on_page": "faybx"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "faybx",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (postal code 27504 is claimed by no corridor of the Fayetteville contract; Fort Liberty on-post (28307 / 28308 / 28310), ); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets are welcome at Holiday Inn Express & Suites Benson.\nPet policy description. Pets welcome with paid pet fee of 50 dollars per stay and are required to be kept on leash in all public areas\nPet fee per night: 50 USD\nPet weight limit: 50\n2 pets allowed\nPets allowed: Only dogs and cats allowed"
+  }
+ ],
+ "unresolved_census_identities": [
+  {
+   "identity_key": "affordable suites fayetteville fort bragg nc hotel",
+   "canonical_name": "Affordable Suites Fayetteville / Fort Bragg NC Hotel",
+   "brand": "",
+   "corridor": "fayetteville-nc__cross-creek-skibo",
+   "official_url": ""
+  },
+  {
+   "identity_key": "ambassador inn",
+   "canonical_name": "Ambassador Inn",
+   "brand": "",
+   "corridor": "fayetteville-nc__fay-airport-south",
+   "official_url": ""
+  },
+  {
+   "identity_key": "cloverleaf motel",
+   "canonical_name": "Cloverleaf Motel",
+   "brand": "",
+   "corridor": "fayetteville-nc__i-95-central-eastover",
+   "official_url": ""
+  },
+  {
+   "identity_key": "comfort inn fayetteville i 95",
+   "canonical_name": "Comfort Inn Fayetteville I-95",
+   "brand": "",
+   "corridor": "fayetteville-nc__i-95-central-eastover",
+   "official_url": ""
+  },
+  {
+   "identity_key": "comfort inn near ft bragg",
+   "canonical_name": "Comfort Inn Near Ft. Bragg",
+   "brand": "",
+   "corridor": "fayetteville-nc__cross-creek-skibo",
+   "official_url": ""
+  },
+  {
+   "identity_key": "deluxe inn fayetteville",
+   "canonical_name": "Deluxe Inn Fayetteville",
+   "brand": "",
+   "corridor": "fayetteville-nc__i-95-central-eastover",
+   "official_url": ""
+  },
+  {
+   "identity_key": "doubletree by hilton hotel fayetteville",
+   "canonical_name": "DoubleTree by Hilton Hotel Fayetteville",
+   "brand": "HILTON",
+   "corridor": "fayetteville-nc__i-95-central-eastover",
+   "official_url": "https://www.hilton.com/en/hotels/faydtdt-doubletree-fayetteville/"
+  },
+  {
+   "identity_key": "eastover inn",
+   "canonical_name": "Eastover Inn",
+   "brand": "",
+   "corridor": "fayetteville-nc__i-95-central-eastover",
+   "official_url": ""
+  },
+  {
+   "identity_key": "everhome suites",
+   "canonical_name": "Everhome Suites",
+   "brand": "",
+   "corridor": "fayetteville-nc__cross-creek-skibo",
+   "official_url": ""
+  },
+  {
+   "identity_key": "knights inn fayetteville",
+   "canonical_name": "Knights Inn Fayetteville",
+   "brand": "",
+   "corridor": "fayetteville-nc__cross-creek-skibo",
+   "official_url": ""
+  },
+  {
+   "identity_key": "mt rose hotel",
+   "canonical_name": "Mt Rose Hotel",
+   "brand": "",
+   "corridor": "fayetteville-nc__fay-airport-south",
+   "official_url": ""
+  },
+  {
+   "identity_key": "oyo hotel fayetteville s eastern boulevard",
+   "canonical_name": "OYO Hotel Fayetteville S Eastern Boulevard",
+   "brand": "",
+   "corridor": "fayetteville-nc__downtown-fayetteville",
+   "official_url": ""
+  },
+  {
+   "identity_key": "oyo hotel wade fayetteville i 95 south",
+   "canonical_name": "OYO Hotel Wade/Fayetteville I-95 South",
+   "brand": "",
+   "corridor": "fayetteville-nc__wade-i-95-north",
+   "official_url": ""
+  },
+  {
+   "identity_key": "red lion inn and suites fayetteville at cross creek mall",
+   "canonical_name": "Red Lion Inn & Suites Fayetteville at Cross Creek Mall",
+   "brand": "",
+   "corridor": "fayetteville-nc__cross-creek-skibo",
+   "official_url": ""
+  },
+  {
+   "identity_key": "regency inn",
+   "canonical_name": "Regency Inn",
+   "brand": "",
+   "corridor": "fayetteville-nc__downtown-fayetteville",
+   "official_url": ""
+  },
+  {
+   "identity_key": "sleep inn",
+   "canonical_name": "Sleep Inn",
+   "brand": "",
+   "corridor": "fayetteville-nc__i-95-central-eastover",
+   "official_url": ""
+  },
+  {
+   "identity_key": "sleep inn and suites near ft bragg",
+   "canonical_name": "Sleep Inn & Suites Near Ft. Bragg",
+   "brand": "",
+   "corridor": "fayetteville-nc__spring-lake-fort-liberty",
+   "official_url": ""
+  },
+  {
+   "identity_key": "studio 6 fayetteville nc fort bragg area",
+   "canonical_name": "Studio 6 Fayetteville, NC - Fort Bragg Area",
+   "brand": "",
+   "corridor": "fayetteville-nc__cross-creek-skibo",
+   "official_url": ""
+  },
+  {
+   "identity_key": "super 8 by wyndham fayetteville",
+   "canonical_name": "Super 8 by Wyndham Fayetteville",
+   "brand": "WYNDHAM",
+   "corridor": "fayetteville-nc__i-95-central-eastover",
+   "official_url": "https://www.wyndhamhotels.com/super-8/fayetteville-north-carolina/super-8-fayetteville-nc/overview"
+  },
+  {
+   "identity_key": "tropical motel",
+   "canonical_name": "Tropical Motel",
+   "brand": "",
+   "corridor": "fayetteville-nc__cross-creek-skibo",
+   "official_url": ""
+  }
+ ]
+}
