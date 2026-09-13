@@ -1,0 +1,1452 @@
+{
+ "schema": "ptf-attended-capture/1.0",
+ "work_order": "PTF-GREENVILLE-NC-PARALLEL-SOURCE-READY-001",
+ "market_id": "greenville-nc",
+ "phase": "9-13 -- attended browser pass over Hilton, Marriott, Wyndham, IHG and Red Roof",
+ "as_of": "2026-09-13",
+ "lane": "ATTENDED_BROWSER (a person in a real Chrome session; free) + DIRECT_STATIC_FETCH",
+ "authorization": "the operator's work order authorises the attended lane; no credential entered",
+ "paid_provider_calls": 0,
+ "usd_spent": 0.0,
+ "firecrawl_credits": 0,
+ "lanes_refused_this_run": {
+  "CHOICE": "the plain client timed out on the sitemap and choicehotels.com is not a permitted navigation in the attended session this run; every Choice-flagged building (Comfort Inn & Suites, Quality Inn, Econo Lodge) is ACCESS_BLOCKED",
+  "BEST_WESTERN": "the sitemap 403'd a plain client; the Best Western property route the attended session tried redirected to the brand's hotel-search page -- no property page was served; Best Western Plus Suites Greenville is ACCESS_BLOCKED",
+  "MOTEL6": "motel6.com timed out a plain client and is not a permitted navigation in the attended session this run; Motel 6 (810 S Memorial Dr) is ACCESS_BLOCKED",
+  "RADISSON": "the sitemap 403'd a plain client and the attended session rendered an empty 2,833-byte shell for radissonhotels.com/en-us/hotels/country-inn-winterville-nc; Country Inn & Suites Winterville is ACCESS_BLOCKED",
+  "HYATT": "403 to a plain client on the sitemap; no Hyatt property was found in the market by any lane",
+  "SONESTA": "the sitemap answered and holds no Greenville route; Knights Inn's own brand site (knightsinn.com) served only a chain page",
+  "WOODSPRING": "the sitemap answered and lists no Greenville NC property",
+  "EXTENDED_STAY": "the sitemap answered and lists no Greenville NC property",
+  "INTOWN_SUITES": "the property's own page (intownsuites.com/extended-stay-hotels/north-carolina/greenville-nc/arlington-blvd/) served a plain client and answers 'Are Pets Allowed At InTown Suites Greenville NC? No pets allowed at InTown Suites Greenville NC' beside the street 2111 W Arlington Blvd -- but the page states NO postal code, so the read cannot bind by the page's own street identity; held, never published",
+  "AFFORDABLE_SUITES": "the attended session served the property page (Hotel JSON-LD 101 Dansey Road 27834), whose only pet wording is a 'Pet-Friendly Rooms' amenity chip -- never operative",
+  "INDEPENDENT_SITES": "the5thstreetinn.com served its home page (LocalBusiness JSON-LD 1105 E 5th St 27858) with no pet wording; Camelot Inn, Economy Inn, Greenville Motel and Knights Inn have no first-party property site any lane found",
+  "BRINGFIDO": "not navigated; competitor names came from a web search result page (names only)",
+  "CVB": "visitgreenvillenc.com's Hotels & Motels category renders client-side, so its own sitemap.xml and each lodging listing page were read by a plain client (greenville_nc_destination_roster_001.json)"
+ },
+ "wyndham_retired_routes": [
+  "https://www.wyndhamhotels.com/wingate/greenville-north-carolina/wingate-by-wyndham-greenville/overview",
+  "https://www.wyndhamhotels.com/travelodge/greenville-north-carolina/travelodge-greenville/overview",
+  "https://www.wyndhamhotels.com/days-inn/kinston-north-carolina/days-inn-kinston/overview",
+  "https://www.wyndhamhotels.com/baymont/chocowinity-north-carolina/baymont-inn-suites-chocowinitywashington/overview"
+ ],
+ "wyndham_routes_not_read_outside_by_route_city": [],
+ "no_bot_check_was_answered": "every page served a plain navigation or same-origin fetch in the operator's own session.",
+ "counts": {
+  "pages_read": 40,
+  "by_brand": {
+   "HILTON": 24,
+   "IHG": 6,
+   "MARRIOTT": 4,
+   "RED_ROOF": 2,
+   "WYNDHAM": 4
+  },
+  "identity_confirmed": 40,
+  "in_market": 15,
+  "outside_market": 25,
+  "in_market_pets_allowed_true": 9,
+  "in_market_pets_allowed_false": 6
+ },
+ "rows": [
+  {
+   "brand": "HILTON",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": "pgvevgi",
+   "requested_url": "https://www.hilton.com/en/hotels/pgvevgi-hilton-garden-inn-greenville-university-area/",
+   "final_url": "https://www.hilton.com/en/hotels/pgvevgi-hilton-garden-inn-greenville-university-area/",
+   "captured_at": "2026-09-13",
+   "document_bytes": 297255,
+   "document_sha256": "f44505c3a80767bea6fb27f6844d3ca3bbee6a730deaa9ae3642d90ed536e97e",
+   "identity_signals": {
+    "name_on_page": "Hilton Garden Inn Greenville University Area",
+    "address_on_page": "423 Evans St",
+    "postal_code": "27858",
+    "locality": "Greenville",
+    "region": "NC",
+    "phone_on_page": "+1 252-864-2000",
+    "property_code_on_page": "pgvevgi"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "exact_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum",
+   "operative_excerpt_sha256": "893934e2a5001b0855811e612b4b6973c9c59e3651b8ee5c367b9ef693c0ece7",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb"
+   },
+   "in_market": true,
+   "corridor": "greenville-nc__downtown-ecu",
+   "market_verdict": "IN_MARKET"
+  },
+  {
+   "brand": "HILTON",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": "pgvmbhw",
+   "requested_url": "https://www.hilton.com/en/hotels/pgvmbhw-homewood-suites-greenville/",
+   "final_url": "https://www.hilton.com/en/hotels/pgvmbhw-homewood-suites-greenville/",
+   "captured_at": "2026-09-13",
+   "document_bytes": 294009,
+   "document_sha256": "2c891a4fd7b93812c2ec56cdcb7c93ec4cfbff8104c8de72e25e1db94b65f689",
+   "identity_signals": {
+    "name_on_page": "Homewood Suites by Hilton Greenville",
+    "address_on_page": "420 Moye Blvd",
+    "postal_code": "27834",
+    "locality": "Greenville",
+    "region": "NC",
+    "phone_on_page": "+1 252-751-6150",
+    "property_code_on_page": "pgvmbhw"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "exact_quote": "Pets allowed, $100.00 non-refundable fee, 75 lbs maximum, $75 fee per stay, 2 pets Max, dog/cat only",
+   "operative_excerpt_sha256": "d0b81ece592d1497eab4c81763851baf87df1ea8813ecbc8993994f11163aac7",
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "in_market": true,
+   "corridor": "greenville-nc__convention-center-medical-district",
+   "market_verdict": "IN_MARKET"
+  },
+  {
+   "brand": "HILTON",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": "pgvnchf",
+   "requested_url": "https://www.hilton.com/en/hotels/pgvnchf-hilton-greenville/",
+   "final_url": "https://www.hilton.com/en/hotels/pgvnchf-hilton-greenville/",
+   "captured_at": "2026-09-13",
+   "document_bytes": 288229,
+   "document_sha256": "9691943d65b66661109d6ace959df8d35d99e18719b25f77f56fafec1d28a353",
+   "identity_signals": {
+    "name_on_page": "Hilton Greenville",
+    "address_on_page": "207 SW Greenville Blvd",
+    "postal_code": "27834",
+    "locality": "Greenville",
+    "region": "NC",
+    "phone_on_page": "+1 252-355-5000",
+    "property_code_on_page": "pgvnchf"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "exact_quote": "Service animals only",
+   "operative_excerpt_sha256": "e9b21ad3dffded4f28aa0b807632aba880843f7f307bc9478e2ff4a37547cdf9",
+   "extraction": {
+    "pets_allowed": false
+   },
+   "in_market": true,
+   "corridor": "greenville-nc__convention-center-medical-district",
+   "market_verdict": "IN_MARKET"
+  },
+  {
+   "brand": "HILTON",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": "pgvgvhx",
+   "requested_url": "https://www.hilton.com/en/hotels/pgvgvhx-hampton-greenville/",
+   "final_url": "https://www.hilton.com/en/hotels/pgvgvhx-hampton-greenville/",
+   "captured_at": "2026-09-13",
+   "document_bytes": 276302,
+   "document_sha256": "74cfb33967c8cd52905d5eecf91f339df64abc342a760fb45bb6b0c91e96f333",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn Greenville",
+    "address_on_page": "305 SW Greenville Boulevard",
+    "postal_code": "27834",
+    "locality": "Greenville",
+    "region": "NC",
+    "phone_on_page": "+1 252-355-7400",
+    "property_code_on_page": "pgvgvhx"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "exact_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75 per pet, per stay 2 pets Max, dog/cat only",
+   "operative_excerpt_sha256": "8bcc2e56db927d27379dd7a5700864779f26e7f7081bef0d67322ed04ea22265",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "in_market": true,
+   "corridor": "greenville-nc__convention-center-medical-district",
+   "market_verdict": "IN_MARKET"
+  },
+  {
+   "brand": "HILTON",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": "whtnchx",
+   "requested_url": "https://www.hilton.com/en/hotels/whtnchx-hampton-washington/",
+   "final_url": "https://www.hilton.com/en/hotels/whtnchx-hampton-washington/",
+   "captured_at": "2026-09-13",
+   "document_bytes": 269734,
+   "document_sha256": "8f82a37c6b86a83a85a5ebfd2eceddfa01958b01bf482d688d9b4b9e4c948eeb",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn Washington",
+    "address_on_page": "2085 West 15th Street",
+    "postal_code": "27889",
+    "locality": "Washington",
+    "region": "NC",
+    "phone_on_page": "+1 252-940-4556",
+    "property_code_on_page": "whtnchx"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "exact_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75 (1-4 nights), $125 (5 +nights) 2 pets max, dog/cat only",
+   "operative_excerpt_sha256": "96852a15dbf9d2e07cb3be54453d3bbd2c80095f2a86774c1a4bbc98531b7428",
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "in_market": false,
+   "corridor": "",
+   "market_verdict": "OUTSIDE_MARKET"
+  },
+  {
+   "brand": "HILTON",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": "wilnchx",
+   "requested_url": "https://www.hilton.com/en/hotels/wilnchx-hampton-williamston/",
+   "final_url": "https://www.hilton.com/en/hotels/wilnchx-hampton-williamston/",
+   "captured_at": "2026-09-13",
+   "document_bytes": 273849,
+   "document_sha256": "5d85ef92daa8a4ae80b361af888c2d461e43f571740b63b20090570831b34a46",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn Williamston",
+    "address_on_page": "1099 Hampton Court",
+    "postal_code": "27892",
+    "locality": "Williamston",
+    "region": "NC",
+    "phone_on_page": "+1 252-809-1100",
+    "property_code_on_page": "wilnchx"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "exact_quote": "Pets allowed, $50.00 non-refundable fee, $50(1-4n),$75(5+n) 2petsMax,dog/cat only",
+   "operative_excerpt_sha256": "8a962fa7f1788bd6de13759de48d9a0122d2df61ef7e02588aefa13bd27e820c",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "in_market": false,
+   "corridor": "",
+   "market_verdict": "OUTSIDE_MARKET"
+  },
+  {
+   "brand": "HILTON",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": "isonchx",
+   "requested_url": "https://www.hilton.com/en/hotels/isonchx-hampton-kinston/",
+   "final_url": "https://www.hilton.com/en/hotels/isonchx-hampton-kinston/",
+   "captured_at": "2026-09-13",
+   "document_bytes": 270319,
+   "document_sha256": "5a1d2cb54d9c8f5d787c2ef894a0b4f663d7a777c6b3230ba95b9c11261b8cc1",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn Kinston",
+    "address_on_page": "1382 Highway 258 South",
+    "postal_code": "28504",
+    "locality": "Kinston",
+    "region": "NC",
+    "phone_on_page": "+1 252-468-0420",
+    "property_code_on_page": "isonchx"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "exact_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75 per pet, per stay (1-4n),$125(5+n) 2petsMax,dog/cat only",
+   "operative_excerpt_sha256": "a5e48fce9dbb122bf082aeaa098bd12c0d915444d1ef76ae44e3ed098f2647bc",
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "in_market": false,
+   "corridor": "",
+   "market_verdict": "OUTSIDE_MARKET"
+  },
+  {
+   "brand": "HILTON",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": "rwimiru",
+   "requested_url": "https://www.hilton.com/en/hotels/rwimiru-tru-rocky-mount/",
+   "final_url": "https://www.hilton.com/en/hotels/rwimiru-tru-rocky-mount/",
+   "captured_at": "2026-09-13",
+   "document_bytes": 276576,
+   "document_sha256": "0548d6fe6e7633f0cda1223dfeeb5a03372e5e8cd1178a6452e98c806eeeb099",
+   "identity_signals": {
+    "name_on_page": "Tru by Hilton Rocky Mount",
+    "address_on_page": "255 Gateway Blvd",
+    "postal_code": "27804",
+    "locality": "Rocky Mount",
+    "region": "NC",
+    "phone_on_page": "+1 252-618-0022",
+    "property_code_on_page": "rwimiru"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "exact_quote": "Pets allowed, $89.00 non-refundable fee, $89 - 2petsMax,dog/cat only",
+   "operative_excerpt_sha256": "6e4842240139dfb1e801a15c95374bbd9df4ef61bdabfa213d11e263f28c56b7",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 8900,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_refundable": false,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "in_market": false,
+   "corridor": "",
+   "market_verdict": "OUTSIDE_MARKET"
+  },
+  {
+   "brand": "HILTON",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": "rwinchx",
+   "requested_url": "https://www.hilton.com/en/hotels/rwinchx-hampton-rocky-mount/",
+   "final_url": "https://www.hilton.com/en/hotels/rwinchx-hampton-rocky-mount/",
+   "captured_at": "2026-09-13",
+   "document_bytes": 274465,
+   "document_sha256": "f017a114f6a8fa41ef9880a91447f2ff6e43c31013584a95a7258651699a102f",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn Rocky Mount",
+    "address_on_page": "530 N. Winstead Avenue",
+    "postal_code": "27804",
+    "locality": "Rocky Mount",
+    "region": "NC",
+    "phone_on_page": "+1 252-937-6333",
+    "property_code_on_page": "rwinchx"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "exact_quote": "Pets allowed, $50.00 non-refundable fee, $50 per pet (1-4n),$75(5+n) 2petsMax,dog/cat only",
+   "operative_excerpt_sha256": "8a1cd4697380a403d331e6fb39f04319f2aeb3e5119ae5f1a64537ec11c9ce8d",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "in_market": false,
+   "corridor": "",
+   "market_verdict": "OUTSIDE_MARKET"
+  },
+  {
+   "brand": "HILTON",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": "rwidtdt",
+   "requested_url": "https://www.hilton.com/en/hotels/rwidtdt-doubletree-rocky-mount/",
+   "final_url": "https://www.hilton.com/en/hotels/rwidtdt-doubletree-rocky-mount/",
+   "captured_at": "2026-09-13",
+   "document_bytes": 303305,
+   "document_sha256": "21dcf1cd8dbd14bd0d042546077756e9cde89ea8ac5271065d94267d61d7ceef",
+   "identity_signals": {
+    "name_on_page": "DoubleTree by Hilton Hotel Rocky Mount",
+    "address_on_page": "651 N. Winstead Avenue",
+    "postal_code": "27804",
+    "locality": "Rocky Mount",
+    "region": "NC",
+    "phone_on_page": "+1 252-937-6888",
+    "property_code_on_page": "rwidtdt"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "exact_quote": "Pets allowed, $75.00 non-refundable fee, 1-4 nights $75.00, 5+ nights $125.00",
+   "operative_excerpt_sha256": "cc7784485697a351194cb7283aaa48c62c2394597d89173102f6420c8fb4db19",
+   "extraction": {
+    "pets_allowed": true
+   },
+   "in_market": false,
+   "corridor": "",
+   "market_verdict": "OUTSIDE_MARKET"
+  },
+  {
+   "brand": "HILTON",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": "rwirmhw",
+   "requested_url": "https://www.hilton.com/en/hotels/rwirmhw-homewood-suites-rocky-mount/",
+   "final_url": "https://www.hilton.com/en/hotels/rwirmhw-homewood-suites-rocky-mount/",
+   "captured_at": "2026-09-13",
+   "document_bytes": 274304,
+   "document_sha256": "3b47ed8f5526a11ada13b6d8e1d85b1f4ab1c37f504127765083cad1314ec024",
+   "identity_signals": {
+    "name_on_page": "Homewood Suites by Hilton Rocky Mount",
+    "address_on_page": "231 Gateway Blvd",
+    "postal_code": "27804",
+    "locality": "Rocky Mount",
+    "region": "NC",
+    "phone_on_page": "+1 252-451-4004",
+    "property_code_on_page": "rwirmhw"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "exact_quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n)2petsMax,dog/cat only",
+   "operative_excerpt_sha256": "d9475f1093e3492c2cd3ac9ffe59dbc678fc05b06de8187f15317792b6a030df",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "in_market": false,
+   "corridor": "",
+   "market_verdict": "OUTSIDE_MARKET"
+  },
+  {
+   "brand": "HILTON",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": "isogohw",
+   "requested_url": "https://www.hilton.com/en/hotels/isogohw-homewood-suites-goldsboro/",
+   "final_url": "https://www.hilton.com/en/hotels/isogohw-homewood-suites-goldsboro/",
+   "captured_at": "2026-09-13",
+   "document_bytes": 290978,
+   "document_sha256": "5db4eceb3b16c5efce4c148cc1a1f766ace47cecbf2b6e871bc68a315b873aba",
+   "identity_signals": {
+    "name_on_page": "Homewood Suites by Hilton Goldsboro",
+    "address_on_page": "3120 Wayne Memorial Drive",
+    "postal_code": "27534",
+    "locality": "Goldsboro",
+    "region": "NC",
+    "phone_on_page": "+1 919-947-0054",
+    "property_code_on_page": "isogohw"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "exact_quote": "Pets allowed, $100.00 non-refundable fee, 75 lbs maximum",
+   "operative_excerpt_sha256": "fd834e9fb8dfe7c59e303034696897d74886138b82379088a5466ea976daebc3",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb"
+   },
+   "in_market": false,
+   "corridor": "",
+   "market_verdict": "OUTSIDE_MARKET"
+  },
+  {
+   "brand": "HILTON",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": "gsbhtht",
+   "requested_url": "https://www.hilton.com/en/hotels/gsbhtht-home2-suites-goldsboro/",
+   "final_url": "https://www.hilton.com/en/hotels/gsbhtht-home2-suites-goldsboro/",
+   "captured_at": "2026-09-13",
+   "document_bytes": 235443,
+   "document_sha256": "01c293ae0f28f031d7f5022fa4fe9f17d4d5d0d47905922e59298fc06181e677",
+   "identity_signals": {
+    "name_on_page": "Home2 Suites by Hilton Goldsboro",
+    "address_on_page": "2613 North Park Drive",
+    "postal_code": "27534",
+    "locality": "Goldsboro",
+    "region": "NC",
+    "phone_on_page": "+1 919-947-1622",
+    "property_code_on_page": "gsbhtht"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "exact_quote": "Pets allowed, $75.00 non-refundable fee, $75 (2petsMax,dog/cat only)",
+   "operative_excerpt_sha256": "fb8a7cd47e8351b27dc125e43ce6996dcffd2fe623355414b8b3f3def07bb278",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_refundable": false,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "in_market": false,
+   "corridor": "",
+   "market_verdict": "OUTSIDE_MARKET"
+  },
+  {
+   "brand": "HILTON",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": "gsbnchx",
+   "requested_url": "https://www.hilton.com/en/hotels/gsbnchx-hampton-goldsboro/",
+   "final_url": "https://www.hilton.com/en/hotels/gsbnchx-hampton-goldsboro/",
+   "captured_at": "2026-09-13",
+   "document_bytes": 274022,
+   "document_sha256": "89455a788fc899e910381d26ea0d546c90bbd380ebc2b9e6aa68b9fdba207621",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn Goldsboro",
+    "address_on_page": "905 N. Spence Avenue",
+    "postal_code": "27534",
+    "locality": "Goldsboro",
+    "region": "NC",
+    "phone_on_page": "+1 919-778-1800",
+    "property_code_on_page": "gsbnchx"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "exact_quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petMax,dog/cat only",
+   "operative_excerpt_sha256": "bb008e4b06059bc28829b6631b96a465057eddf1e19359d0f8b1d0656996ec5f",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "in_market": false,
+   "corridor": "",
+   "market_verdict": "OUTSIDE_MARKET"
+  },
+  {
+   "brand": "HILTON",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": "rduwlhx",
+   "requested_url": "https://www.hilton.com/en/hotels/rduwlhx-hampton-wilson/",
+   "final_url": "https://www.hilton.com/en/hotels/rduwlhx-hampton-wilson/",
+   "captured_at": "2026-09-13",
+   "document_bytes": 292345,
+   "document_sha256": "5505d17edc9ded1c00086642de813557f9a2780e021b30da3b17f3bb7b4e24ea",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn by Hilton Wilson",
+    "address_on_page": "2806 Wolf Trap Drive",
+    "postal_code": "27896",
+    "locality": "Wilson",
+    "region": "NC",
+    "phone_on_page": "+1 252-243-4040",
+    "property_code_on_page": "rduwlhx"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "exact_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, 2 pets Max dog/cat only",
+   "operative_excerpt_sha256": "15947f25db12f90f20def5473cfa2f32946f6016bb515df90c967db202f5ae1a",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_refundable": false,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "in_market": false,
+   "corridor": "",
+   "market_verdict": "OUTSIDE_MARKET"
+  },
+  {
+   "brand": "HILTON",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": "nbrnchx",
+   "requested_url": "https://www.hilton.com/en/hotels/nbrnchx-hampton-new-bern/",
+   "final_url": "https://www.hilton.com/en/hotels/nbrnchx-hampton-new-bern/",
+   "captured_at": "2026-09-13",
+   "document_bytes": 271215,
+   "document_sha256": "3326fe3d5e9ea9fcac0203211ffe59724d39326a51faf00e1c2da0693c366f90",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn New Bern",
+    "address_on_page": "200 Hotel Drive",
+    "postal_code": "28562",
+    "locality": "New Bern",
+    "region": "NC",
+    "phone_on_page": "+1 252-637-2111",
+    "property_code_on_page": "nbrnchx"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "exact_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1 to 4 Nights),$125(5+ Nights) 2 Pets Max, Dog/Cat Only",
+   "operative_excerpt_sha256": "d100646aa9692729ebbd76f3ab1f4424f45b9521dd55e8307e44f0e5ccfc830b",
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "in_market": false,
+   "corridor": "",
+   "market_verdict": "OUTSIDE_MARKET"
+  },
+  {
+   "brand": "HILTON",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": "rwiheru",
+   "requested_url": "https://www.hilton.com/en/hotels/rwiheru-tru-wilson/",
+   "final_url": "https://www.hilton.com/en/hotels/rwiheru-tru-wilson/",
+   "captured_at": "2026-09-13",
+   "document_bytes": 269432,
+   "document_sha256": "f73c182092d82cd5ca57da9b98f2c17f967156af2abadb883e1d0568f39cb704",
+   "identity_signals": {
+    "name_on_page": "Tru by Hilton Wilson",
+    "address_on_page": "3319 Heritage Drive W.",
+    "postal_code": "27896",
+    "locality": "Wilson",
+    "region": "NC",
+    "phone_on_page": "+1 252-296-8007",
+    "property_code_on_page": "rwiheru"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "exact_quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4n) 2 pets Max, dog/cat only",
+   "operative_excerpt_sha256": "b818145d301192e728a1c870748f4c6f24268c3836e136ff48d849874d393e80",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_refundable": false,
+    "weight_limit": 50.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "in_market": false,
+   "corridor": "",
+   "market_verdict": "OUTSIDE_MARKET"
+  },
+  {
+   "brand": "HILTON",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": "ewnmsdt",
+   "requested_url": "https://www.hilton.com/en/hotels/ewnmsdt-doubletree-new-bern-riverfront/",
+   "final_url": "https://www.hilton.com/en/hotels/ewnmsdt-doubletree-new-bern-riverfront/",
+   "captured_at": "2026-09-13",
+   "document_bytes": 283780,
+   "document_sha256": "fc445c04b2dacc0ac0907cd7c5699bf3e7078d5352966cde4d122427861fd0e9",
+   "identity_signals": {
+    "name_on_page": "DoubleTree by Hilton Hotel New Bern Riverfront",
+    "address_on_page": "100 Middle Street",
+    "postal_code": "28560",
+    "locality": "New Bern",
+    "region": "NC",
+    "phone_on_page": "+1 252-658-9000",
+    "property_code_on_page": "ewnmsdt"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "exact_quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum",
+   "operative_excerpt_sha256": "93444b616f07a72e961e7dc3196a6d20a9b655f7de6127cc6903d452203e62f9",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_refundable": false,
+    "weight_limit": 50.0,
+    "weight_limit_unit": "lb"
+   },
+   "in_market": false,
+   "corridor": "",
+   "market_verdict": "OUTSIDE_MARKET"
+  },
+  {
+   "brand": "HILTON",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": "cltriup",
+   "requested_url": "https://www.hilton.com/en/hotels/cltriup-tryon-riverfront-inn-new-bern/",
+   "final_url": "https://www.hilton.com/en/hotels/cltriup-tryon-riverfront-inn-new-bern/",
+   "captured_at": "2026-09-13",
+   "document_bytes": 258421,
+   "document_sha256": "f794487ce47464e86f3f6f81c24c7e408415720681eba358eec3441497972273",
+   "identity_signals": {
+    "name_on_page": "Tryon Riverfront Inn New Bern, Tapestry Collection by Hilton",
+    "address_on_page": "100 Craven St.",
+    "postal_code": "28560",
+    "locality": "New Bern",
+    "region": "NC",
+    "phone_on_page": "+1 252-649-0950",
+    "property_code_on_page": "cltriup"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "exact_quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum",
+   "operative_excerpt_sha256": "93444b616f07a72e961e7dc3196a6d20a9b655f7de6127cc6903d452203e62f9",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_refundable": false,
+    "weight_limit": 50.0,
+    "weight_limit_unit": "lb"
+   },
+   "in_market": false,
+   "corridor": "",
+   "market_verdict": "OUTSIDE_MARKET"
+  },
+  {
+   "brand": "HILTON",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": "rwiwnht",
+   "requested_url": "https://www.hilton.com/en/hotels/rwiwnht-home2-suites-wilson-downtown/",
+   "final_url": "https://www.hilton.com/en/hotels/rwiwnht-home2-suites-wilson-downtown/",
+   "captured_at": "2026-09-13",
+   "document_bytes": 219835,
+   "document_sha256": "117cc856b77163f872e75c8d3d1dc4dc95a229d3808d6e99d37bdb574c79b9e7",
+   "identity_signals": {
+    "name_on_page": "Home2 Suites by Hilton Wilson Downtown",
+    "address_on_page": "409 Goldsboro Street South",
+    "postal_code": "27893",
+    "locality": "Wilson",
+    "region": "NC",
+    "phone_on_page": "+1 252-769-4663",
+    "property_code_on_page": "rwiwnht"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "exact_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+) 2petsMax,dog/cat only",
+   "operative_excerpt_sha256": "099aee8a1ea5c2acb7c8bac897d2bf797935d474a29f3ba5f03b2eb673c9d28c",
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "in_market": false,
+   "corridor": "",
+   "market_verdict": "OUTSIDE_MARKET"
+  },
+  {
+   "brand": "HILTON",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": "wlnhshx",
+   "requested_url": "https://www.hilton.com/en/hotels/wlnhshx-hampton-suites-wilson-i-95/",
+   "final_url": "https://www.hilton.com/en/hotels/wlnhshx-hampton-suites-wilson-i-95/",
+   "captured_at": "2026-09-13",
+   "document_bytes": 291412,
+   "document_sha256": "c1471d0a4cb22387260bff1c731e00a762f464aac0b29b8d1c09e783c9d2698b",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn & Suites Wilson I-95",
+    "address_on_page": "5606 Lamm Road",
+    "postal_code": "27896",
+    "locality": "Wilson",
+    "region": "NC",
+    "phone_on_page": "+1 252-291-0330",
+    "property_code_on_page": "wlnhshx"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "exact_quote": "Pets allowed, $75.00 non-refundable fee, $75 2 pets Max,dog/cat only",
+   "operative_excerpt_sha256": "f210047a981c6fe2e9936a85df7f3d81b8a819690c5d7b8df373dd04d27ec98e",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_refundable": false,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "in_market": false,
+   "corridor": "",
+   "market_verdict": "OUTSIDE_MARKET"
+  },
+  {
+   "brand": "HILTON",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": "oajwbgi",
+   "requested_url": "https://www.hilton.com/en/hotels/oajwbgi-hilton-garden-inn-jacksonville/",
+   "final_url": "https://www.hilton.com/en/hotels/oajwbgi-hilton-garden-inn-jacksonville/",
+   "captured_at": "2026-09-13",
+   "document_bytes": 270968,
+   "document_sha256": "96f8c543a1e020749548dfeda4078c2686b3a84c5eaa89f4a6a644be3f34f917",
+   "identity_signals": {
+    "name_on_page": "Hilton Garden Inn Jacksonville",
+    "address_on_page": "1016 Jacksonville Parkway",
+    "postal_code": "28546",
+    "locality": "Jacksonville",
+    "region": "NC",
+    "phone_on_page": "+1 910-346-2400",
+    "property_code_on_page": "oajwbgi"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "exact_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl",
+   "operative_excerpt_sha256": "c5b33091c01629da24246a375b5a419136fcc71d8d2a5f96548093f9c3bb12f0",
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "in_market": false,
+   "corridor": "",
+   "market_verdict": "OUTSIDE_MARKET"
+  },
+  {
+   "brand": "HILTON",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": "oajnchx",
+   "requested_url": "https://www.hilton.com/en/hotels/oajnchx-hampton-suites-jacksonville/",
+   "final_url": "https://www.hilton.com/en/hotels/oajnchx-hampton-suites-jacksonville/",
+   "captured_at": "2026-09-13",
+   "document_bytes": 274404,
+   "document_sha256": "9e66afb0e507bd21e14a0ce9e1dbe966a9307f20e9fd2772a98eb2397fe16d49",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn & Suites Jacksonville",
+    "address_on_page": "1032 Hampton Inn Way",
+    "postal_code": "28546",
+    "locality": "Jacksonville",
+    "region": "NC",
+    "phone_on_page": "+1 910-347-3400",
+    "property_code_on_page": "oajnchx"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "exact_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only, 75 pound max weight combined",
+   "operative_excerpt_sha256": "4445940e06e9a895194a2023cc7a008c13a4898d9d706ab4ca1a9edb30987680",
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "weight_basis": "combined",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "in_market": false,
+   "corridor": "",
+   "market_verdict": "OUTSIDE_MARKET"
+  },
+  {
+   "brand": "HILTON",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": "ednnchx",
+   "requested_url": "https://www.hilton.com/en/hotels/ednnchx-hampton-edenton/",
+   "final_url": "https://www.hilton.com/en/hotels/ednnchx-hampton-edenton/",
+   "captured_at": "2026-09-13",
+   "document_bytes": 276983,
+   "document_sha256": "69b2a689f8ff4b747fec5f6f9e0e3a76419bfb29551bfd6c62588bf0359d4231",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn Edenton",
+    "address_on_page": "115 Hampton Drive",
+    "postal_code": "27932",
+    "locality": "Edenton",
+    "region": "NC",
+    "phone_on_page": "+1 252-482-3500",
+    "property_code_on_page": "ednnchx"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "surface": "__NEXT_DATA__ petsInfo node",
+   "exact_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2pets (medium size) Max weight on both 75 lbs,dog/cat (maximum weight combined total on both pets)",
+   "operative_excerpt_sha256": "3f0348efd26e936c1ad97d442685055f56725874b67c8485ace54173e720702e",
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 75.0,
+    "weight_limit_unit": "lb",
+    "weight_basis": "combined"
+   },
+   "in_market": false,
+   "corridor": "",
+   "market_verdict": "OUTSIDE_MARKET"
+  },
+  {
+   "brand": "MARRIOTT",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": "pgvcy",
+   "requested_url": "https://www.marriott.com/en-us/hotels/pgvcy-courtyard-greenville/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/pgvcy-courtyard-greenville/overview/",
+   "captured_at": "2026-09-13",
+   "document_bytes": 1017344,
+   "document_sha256": "fc52e1937393e359782dcfa58a31a0714d7e30096ec08dc02a82f697e65464c1",
+   "identity_signals": {
+    "name_on_page": "Courtyard by Marriott Greenville",
+    "address_on_page": "2225 Stantonsburg Road (US 264)",
+    "postal_code": "27834",
+    "locality": "Greenville",
+    "region": "NC",
+    "phone_on_page": "+12523292900",
+    "property_code_on_page": "pgvcy"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "exact_quote": "Pet Policy | Pets Not Allowed",
+   "operative_excerpt_sha256": "b2e3ffd6cd03865d619ced7dd44a0b6e49b8e5e17325c271ab93c28943d75d51",
+   "extraction": {
+    "pets_allowed": false
+   },
+   "in_market": true,
+   "corridor": "greenville-nc__convention-center-medical-district",
+   "market_verdict": "IN_MARKET"
+  },
+  {
+   "brand": "MARRIOTT",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": "pgvgv",
+   "requested_url": "https://www.marriott.com/en-us/hotels/pgvgv-fairfield-inn-and-suites-greenville/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/pgvgv-fairfield-inn-and-suites-greenville/overview/",
+   "captured_at": "2026-09-13",
+   "document_bytes": 573643,
+   "document_sha256": "ff2b189a86586e36694d1d9cb79898dc1f80e8d2e132d599b16bc7740d405303",
+   "identity_signals": {
+    "name_on_page": "Fairfield by Marriott Inn & Suites Greenville",
+    "address_on_page": "908 Moye Boulevard",
+    "postal_code": "27834",
+    "locality": "Greenville",
+    "region": "NC",
+    "phone_on_page": "+12523530606",
+    "property_code_on_page": "pgvgv"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "exact_quote": "Pet Policy | Pets Not Allowed",
+   "operative_excerpt_sha256": "b2e3ffd6cd03865d619ced7dd44a0b6e49b8e5e17325c271ab93c28943d75d51",
+   "extraction": {
+    "pets_allowed": false
+   },
+   "in_market": true,
+   "corridor": "greenville-nc__convention-center-medical-district",
+   "market_verdict": "IN_MARKET"
+  },
+  {
+   "brand": "MARRIOTT",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": "pgvri",
+   "requested_url": "https://www.marriott.com/en-us/hotels/pgvri-residence-inn-greenville/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/pgvri-residence-inn-greenville/overview/",
+   "captured_at": "2026-09-13",
+   "document_bytes": 485629,
+   "document_sha256": "917347bff489a773639916ae0d1453e324bb300f4ebf8e2ed15ae71e94b85f18",
+   "identity_signals": {
+    "name_on_page": "Residence Inn by Marriott Greenville",
+    "address_on_page": "1820 West 5th Street",
+    "postal_code": "27834",
+    "locality": "Greenville",
+    "region": "NC",
+    "phone_on_page": "+12523648999",
+    "property_code_on_page": "pgvri"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "exact_quote": "Pet Policy | Pets Welcome | Pets allowed. $100 USD non-refundable deposit. | Non-Refundable Pet Fee Per Stay: $100.00 | Maximum Pet Weight: 45.0lbs | Maximum Number of Pets in Room: 2",
+   "operative_excerpt_sha256": "32df8976337aa3d2fec7dfb72b42d906879978300f67b730ead82a10c8b8c237",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 10000,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_refundable": false,
+    "weight_limit": 45.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "in_market": true,
+   "corridor": "greenville-nc__convention-center-medical-district",
+   "market_verdict": "IN_MARKET"
+  },
+  {
+   "brand": "MARRIOTT",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": "pgvks",
+   "requested_url": "https://www.marriott.com/en-us/hotels/pgvks-fairfield-inn-and-suites-kinston/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/pgvks-fairfield-inn-and-suites-kinston/overview/",
+   "captured_at": "2026-09-13",
+   "document_bytes": 539629,
+   "document_sha256": "71c7bac9d715622b97795b8d67d5d7b6a093752eaa5759aa2dfda68209c5e031",
+   "identity_signals": {
+    "name_on_page": "Fairfield by Marriott Inn & Suites Kinston",
+    "address_on_page": "667 Sheffield Drive",
+    "postal_code": "28504",
+    "locality": "Kinston",
+    "region": "NC",
+    "phone_on_page": "+12522087878",
+    "property_code_on_page": "pgvks"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "exact_quote": "Pet Policy | Pets Not Allowed",
+   "operative_excerpt_sha256": "b2e3ffd6cd03865d619ced7dd44a0b6e49b8e5e17325c271ab93c28943d75d51",
+   "extraction": {
+    "pets_allowed": false
+   },
+   "in_market": false,
+   "corridor": "",
+   "market_verdict": "OUTSIDE_MARKET"
+  },
+  {
+   "brand": "WYNDHAM",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": "31780",
+   "requested_url": "https://www.wyndhamhotels.com/microtel/greenville-north-carolina/microtel-inn-and-suites-university-medical-park/overview",
+   "final_url": "https://www.wyndhamhotels.com/microtel/greenville-north-carolina/microtel-inn-and-suites-university-medical-park/overview",
+   "captured_at": "2026-09-13",
+   "document_bytes": 596815,
+   "document_sha256": "4ee4a926a42facfc1251009e31ebf43a7a007c4b4daafaff6c123f8400d11c27",
+   "identity_signals": {
+    "name_on_page": "Microtel Inn & Suites by Wyndham Greenville/University Med",
+    "address_on_page": "450 Moye Boulevard",
+    "postal_code": "27835",
+    "locality": "Greenville",
+    "region": "NC",
+    "phone_on_page": "252-758-7282",
+    "property_code_on_page": "31780"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "surface": "client-rendered .pet-policy-desc element",
+   "exact_quote": "ADA defined service animals are welcome at this hotel. Sorry no other pets are allowed.",
+   "operative_excerpt_sha256": "689e327cf1683b74b7194c939c04e6edcdf379b1591ede3df681743871d85ace",
+   "extraction": {
+    "pets_allowed": false
+   },
+   "in_market": true,
+   "corridor": "greenville-nc__convention-center-medical-district",
+   "market_verdict": "IN_MARKET"
+  },
+  {
+   "brand": "WYNDHAM",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": "18666",
+   "requested_url": "https://www.wyndhamhotels.com/baymont/greenville-north-carolina/baymont-inn-and-suites-greenville/overview",
+   "final_url": "https://www.wyndhamhotels.com/baymont/greenville-north-carolina/baymont-inn-and-suites-greenville/overview",
+   "captured_at": "2026-09-13",
+   "document_bytes": 594744,
+   "document_sha256": "b5b969b837468f94014be2c47391b4867760cb62bfacc30378ade6ba13be4c77",
+   "identity_signals": {
+    "name_on_page": "Baymont by Wyndham Greenville",
+    "address_on_page": "3439 South Memorial Drive",
+    "postal_code": "27834",
+    "locality": "Greenville",
+    "region": "NC",
+    "phone_on_page": "1-252-3648980",
+    "property_code_on_page": "18666"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "surface": "client-rendered .pet-policy-desc element",
+   "exact_quote": "Pets with a maximum weight of 25 lbs. welcome with fee. Contact hotel directly for details. ADA defined service animals are also welcome at this hotel.",
+   "operative_excerpt_sha256": "65414554cfc04853a82f2033d607e279add025d25b03548cffb77307a5fd6725",
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 25.0,
+    "weight_limit_unit": "lb"
+   },
+   "in_market": true,
+   "corridor": "greenville-nc__convention-center-medical-district",
+   "market_verdict": "IN_MARKET"
+  },
+  {
+   "brand": "WYNDHAM",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": "03196",
+   "requested_url": "https://www.wyndhamhotels.com/super-8/greenville-north-carolina/super-8-greenville/overview",
+   "final_url": "https://www.wyndhamhotels.com/super-8/greenville-north-carolina/super-8-greenville/overview",
+   "captured_at": "2026-09-13",
+   "document_bytes": 582447,
+   "document_sha256": "192d40f632984e171c30d6fa9969cc233e3b5c47db24edbd58333c7db37446b7",
+   "identity_signals": {
+    "name_on_page": "Super 8 by Wyndham Greenville",
+    "address_on_page": "1004 South Memorial Drive",
+    "postal_code": "27834",
+    "locality": "Greenville",
+    "region": "NC",
+    "phone_on_page": "252-7588888",
+    "property_code_on_page": "03196"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "surface": "client-rendered .pet-policy-desc element",
+   "exact_quote": "ADA defined service animals are welcome at this hotel. Sorry no other pets are allowed.",
+   "operative_excerpt_sha256": "689e327cf1683b74b7194c939c04e6edcdf379b1591ede3df681743871d85ace",
+   "extraction": {
+    "pets_allowed": false
+   },
+   "in_market": true,
+   "corridor": "greenville-nc__convention-center-medical-district",
+   "market_verdict": "IN_MARKET"
+  },
+  {
+   "brand": "WYNDHAM",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": "05373",
+   "requested_url": "https://www.wyndhamhotels.com/days-inn/washington-north-carolina/days-inn-washington-nc/overview",
+   "final_url": "https://www.wyndhamhotels.com/days-inn/washington-north-carolina/days-inn-washington-nc/overview",
+   "captured_at": "2026-09-13",
+   "document_bytes": 586992,
+   "document_sha256": "20439635613d8546d70501ba844527b73acbd09ba220436a232815f95979adb2",
+   "identity_signals": {
+    "name_on_page": "Days Inn by Wyndham Washington",
+    "address_on_page": "916 Carolina Ave",
+    "postal_code": "27889",
+    "locality": "Washington",
+    "region": "NC",
+    "phone_on_page": "252-9466141",
+    "property_code_on_page": "05373"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "surface": "client-rendered .pet-policy-desc element",
+   "exact_quote": "Up to 2 pets with a max weight of 55 lbs each are allowed for a non-refundable charge of 20.00 USD per pet per night. Pet Sanitation Fee is 100.00 USD if applicable. ADA defined service animals are welcome at this hotel.",
+   "operative_excerpt_sha256": "99aa6b72b2c796a053ff226ffc05fab93335e43083f8496b49df332a940e2174",
+   "extraction": {},
+   "in_market": false,
+   "corridor": "",
+   "market_verdict": "OUTSIDE_MARKET"
+  },
+  {
+   "brand": "IHG",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": "isogr",
+   "requested_url": "https://www.ihg.com/staybridge/hotels/us/en/greenville/isogr/hoteldetail",
+   "final_url": "https://www.ihg.com/staybridge/hotels/us/en/greenville/isogr/hoteldetail",
+   "captured_at": "2026-09-13",
+   "document_bytes": 198375,
+   "document_sha256": "3a31d82a8afcd3a562becfe359819f8e1e86b1d54b55b46fb7b83d9b28ff40ff",
+   "identity_signals": {
+    "name_on_page": "Staybridge Suites Greenville - Medical Center",
+    "address_on_page": "930 Cross Winds Street",
+    "postal_code": "27834",
+    "locality": "Greenville",
+    "region": "NC",
+    "phone_on_page": "1-252-6060119",
+    "property_code_on_page": "isogr"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "surface": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+   "exact_quote": "Pets are welcome at Staybridge Suites Greenville - Medical Center. Our Pet Policy: 1 to 6 night stay 75.00 USD fee plus tax, nonrefundable\n7 to 30 night stay 150.00 USD fee plus tax, nonrefundable\nPet agreement must be signed at check in.  If guest leaves the property and pet is unattended in the room, pet must be in a crate or carrier.",
+   "operative_excerpt_sha256": "4bca0025d007c0480b4d0af2c3e2a2ba245c3f728c84cc543df0f75c234109fb",
+   "extraction": {
+    "pets_allowed": true
+   },
+   "in_market": true,
+   "corridor": "greenville-nc__convention-center-medical-district",
+   "market_verdict": "IN_MARKET"
+  },
+  {
+   "brand": "IHG",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": "grnnc",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/greenville/grnnc/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/greenville/grnnc/hoteldetail",
+   "captured_at": "2026-09-13",
+   "document_bytes": 300796,
+   "document_sha256": "850928a88114d5028a26e3f96deb34f32cd69c8e57da0bc8b9001a328b690b82",
+   "identity_signals": {
+    "name_on_page": "Holiday Inn Express Greenville",
+    "address_on_page": "909 Moye Blvd",
+    "postal_code": "27834",
+    "locality": "Greenville",
+    "region": "NC",
+    "phone_on_page": "1-252-7548300",
+    "property_code_on_page": "grnnc"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "surface": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+   "exact_quote": "No, pets are not allowed at Holiday Inn Express Greenville.",
+   "operative_excerpt_sha256": "7ac1e04d8a6393b902ce1049e622859cc0cc496c5820f36e643464e95cd5e6da",
+   "extraction": {
+    "pets_allowed": false
+   },
+   "in_market": true,
+   "corridor": "greenville-nc__convention-center-medical-district",
+   "market_verdict": "IN_MARKET"
+  },
+  {
+   "brand": "IHG",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": "pgvhi",
+   "requested_url": "https://www.ihg.com/holidayinn/hotels/us/en/greenville/pgvhi/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinn/hotels/us/en/greenville/pgvhi/hoteldetail",
+   "captured_at": "2026-09-13",
+   "document_bytes": 284484,
+   "document_sha256": "c84912d408b4c566bd3abb988466fd41891482d2b9f714875327617e28a6e523",
+   "identity_signals": {
+    "name_on_page": "Holiday Inn Greenville",
+    "address_on_page": "203 Southwest Greenville Boulevard",
+    "postal_code": "27834",
+    "locality": "Greenville",
+    "region": "NC",
+    "phone_on_page": "1-252-3558300",
+    "property_code_on_page": "pgvhi"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "surface": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+   "exact_quote": "Pets are welcome at Holiday Inn Greenville.\nPet policy description. Contact the hotel for pet friendly rooms.\nPet fee per night: 75 USD\nPet damage deposit: 75 USD\nPet weight limit: 50\n2 pets allowed\nPets allowed: Only dogs and cats allowed",
+   "operative_excerpt_sha256": "61d54cd0fe0bc2073ffbb5577c3742c4756f9b5b54af36a9b03260aee72092f5",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "weight_limit": 50.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "in_market": true,
+   "corridor": "greenville-nc__convention-center-medical-district",
+   "market_verdict": "IN_MARKET"
+  },
+  {
+   "brand": "IHG",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": "grnsb",
+   "requested_url": "https://www.ihg.com/candlewood/hotels/us/en/greenville/grnsb/hoteldetail",
+   "final_url": "https://www.ihg.com/candlewood/hotels/us/en/greenville/grnsb/hoteldetail",
+   "captured_at": "2026-09-13",
+   "document_bytes": 295591,
+   "document_sha256": "fdd6dce6cd54c44c871b8394b1d3e44880c777d3ccc12cf8457a8ea02861da8a",
+   "identity_signals": {
+    "name_on_page": "Candlewood Suites Greenville NC",
+    "address_on_page": "1055 Waterford Commons Drive",
+    "postal_code": "27834",
+    "locality": "Greenville",
+    "region": "NC",
+    "phone_on_page": "1-252-3173000",
+    "property_code_on_page": "grnsb"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "surface": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+   "exact_quote": "Pets are welcome at Candlewood Suites Greenville NC.\nPet policy description. We have designated pet friendly Dog and Cat Suites, subject to availability. After booking online, call the Hotel to verify availability. The fees are 75 for 6 nights, 150 for 7 plus nights. One pet weighing less than 80 lbs. Vaccinations required.\nPet damage deposit: 75 USD\nPet weight limit: 80\n1 pets allowed\nPets allowed: Only dogs and cats allowed",
+   "operative_excerpt_sha256": "80d3e8fbdc8422753be748a78fd29d76342725628871b123a11ca6fbd18880e5",
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 80.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 1,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "in_market": true,
+   "corridor": "greenville-nc__convention-center-medical-district",
+   "market_verdict": "IN_MARKET"
+  },
+  {
+   "brand": "IHG",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": "pgvnc",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/williamston/pgvnc/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/williamston/pgvnc/hoteldetail",
+   "captured_at": "2026-09-13",
+   "document_bytes": 269767,
+   "document_sha256": "5cf811e35d963c351228416812de544ebf003b840056887b6c9aae3b5d049bd0",
+   "identity_signals": {
+    "name_on_page": "Holiday Inn Express Williamston",
+    "address_on_page": "1071 Cantle Court",
+    "postal_code": "27892",
+    "locality": "Williamston",
+    "region": "NC",
+    "phone_on_page": "1-252-7990100",
+    "property_code_on_page": "pgvnc"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "surface": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+   "exact_quote": "Pets are welcome at Holiday Inn Express Williamston.\nPet policy description. 35.00 non refundable pet fee per night for the first pet, 25.00 non refundable fee per night for a second pet, limit 2 pets in one room. There is a 50 pound limit per pet. Must comply with our hotel pet policy.\nPet fee per night: 35 USD\nPet weight limit: 50\n2 pets allowed\nPets allowed: All pets allowed",
+   "operative_excerpt_sha256": "ca5de1ff2bcc9d492c889444bfc748ff52c4bac01324dd3d8f03fce730a89c77",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 3500,
+    "fee_currency": "USD",
+    "fee_basis": "per_night",
+    "fee_refundable": false,
+    "weight_limit": 50.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "in_market": false,
+   "corridor": "",
+   "market_verdict": "OUTSIDE_MARKET"
+  },
+  {
+   "brand": "IHG",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": "isonn",
+   "requested_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/kinston/isonn/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/kinston/isonn/hoteldetail",
+   "captured_at": "2026-09-13",
+   "document_bytes": 272054,
+   "document_sha256": "bf78c7bfd2959b47bea60e839fab7bc1eed24afb4848e416c6f1d827c4e41ed6",
+   "identity_signals": {
+    "name_on_page": "Holiday Inn Express & Suites Kinston",
+    "address_on_page": "1156 Hill Farm Road",
+    "postal_code": "28504",
+    "locality": "Kinston",
+    "region": "NC",
+    "phone_on_page": "1-252-5598888",
+    "property_code_on_page": "isonn"
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "surface": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+   "exact_quote": "No, pets are not allowed at Holiday Inn Express & Suites Kinston.",
+   "operative_excerpt_sha256": "dc0efd10559d2d8e5a1ce6e27c208e82ffab96178246028de0eda91cb6c61ecc",
+   "extraction": {
+    "pets_allowed": false
+   },
+   "in_market": false,
+   "corridor": "",
+   "market_verdict": "OUTSIDE_MARKET"
+  },
+  {
+   "brand": "RED_ROOF",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": null,
+   "requested_url": "https://www.redroof.com/property/nc/greenville/rri1234",
+   "final_url": "https://www.redroof.com/property/nc/greenville/rri1234",
+   "captured_at": "2026-09-13",
+   "document_bytes": 398454,
+   "document_sha256": "d2359104243df5930a4b6a26c365d093686d8bd8bc8f2c354bab7cf9fa151588",
+   "identity_signals": {
+    "name_on_page": "Red Roof Inn Greenville, NC",
+    "address_on_page": "301 Greenville Blvd SE",
+    "postal_code": "27858",
+    "locality": "Greenville",
+    "region": "NC",
+    "phone_on_page": "1-937-328-4819",
+    "property_code_on_page": null
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "HOTEL_JSONLD_STREET_AND_PAGE_POSTAL_CODE_AND_PROPERTY_CODE",
+   "surface": "the property's own page, Pet Policy sentence",
+   "exact_quote": "Pet Policy: One, well-behaved domestic pet (cat or dog) Stays Free! Pets must be declared at check-in. Up to 2 pets allowed per room. Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay. Pet not to exceed 80 pounds. Service and emotional support animals are always welcome.",
+   "operative_excerpt_sha256": "117ca1f3c326ebc6e1196a7c4adceec2941ed5653c0ac90db2db3f0452fd3dc4",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "weight_limit": 80.0,
+    "weight_limit_unit": "lb",
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "in_market": true,
+   "corridor": "greenville-nc__downtown-ecu",
+   "market_verdict": "IN_MARKET",
+   "brand_page_seed": "red-roof-rri1234"
+  },
+  {
+   "brand": "RED_ROOF",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": null,
+   "requested_url": "https://www.redroof.com/property/nc/washington/rri1374",
+   "final_url": "https://www.redroof.com/property/nc/washington/rri1374",
+   "captured_at": "2026-09-13",
+   "document_bytes": 404323,
+   "document_sha256": "8e033c4aeb6a8a495885b735f09c53441f979b20920ad1a5214cad62ce23e4f6",
+   "identity_signals": {
+    "name_on_page": "Red Roof Inn Washington, NC",
+    "address_on_page": "1031 Carolina Ave",
+    "postal_code": "27889",
+    "locality": "Washington",
+    "region": "NC",
+    "phone_on_page": "1-937-249-5544",
+    "property_code_on_page": null
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "HOTEL_JSONLD_STREET_AND_PAGE_POSTAL_CODE_AND_PROPERTY_CODE",
+   "surface": "the property's own page, Pet Policy sentence",
+   "exact_quote": "Pet Policy: One, well-behaved domestic pet (cat or dog) Stays Free! Pets must be declared at check-in. Up to 2 pets allowed per room. Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay. Pet not to exceed 80 pounds. Service and emotional support animals are always welcome.",
+   "operative_excerpt_sha256": "117ca1f3c326ebc6e1196a7c4adceec2941ed5653c0ac90db2db3f0452fd3dc4",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "weight_limit": 80.0,
+    "weight_limit_unit": "lb",
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "in_market": false,
+   "corridor": "",
+   "market_verdict": "OUTSIDE_MARKET",
+   "brand_page_seed": "red-roof-rri1374"
+  }
+ ]
+}
