@@ -87,7 +87,7 @@ POLICY_SILENT = {
     "four seasons hotel": "the hotel's own pages show only a 'Pet Friendly Stays' label -- never operative",
 }
 #: Held reads, by identity key, with the class the clean-authority helper gave.
-HELD_CLASSES = ("SERVICE_ANIMAL_ONLY", "FIRST_PARTY_CONFLICT", "QUOTE_NOT_OPERATIVE", "POLICY_NOT_FOUND", "FEE_ONLY")
+HELD_CLASSES = ("SERVICE_ANIMAL_ONLY", "FIRST_PARTY_CONFLICT", "QUOTE_NOT_OPERATIVE", "POLICY_NOT_FOUND", "FEE_ONLY", "CO_LOCATION_RULING_REQUIRED")
 #: Chain words in a census name that identify a refused family when the census
 #: row carries no brand (a map-only row).
 NAME_FAMILY = (

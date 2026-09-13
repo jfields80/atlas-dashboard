@@ -318,6 +318,33 @@ def build():
         rec["evidence"] = entries
         (pf if keep.get("pets_allowed") else nopets).append(rec)
 
+    # ATLANTA: TWO PET-FRIENDLY HOTELS IN ONE BUILDING. Hilton Garden Inn and Homewood
+    # Suites Atlanta Midtown share 97 10th Street NW; Tru and Home2 Suites Atlanta NW
+    # Kennesaw share 2975 Ring Road NW. The shared listing builder dedupes an UNREVIEWED
+    # shared street address to one row, so one profile is never rendered and every link
+    # to it dangles (FAST rule J: "missing hotel profile file"). The cure is a
+    # same-campus ruling in the SHARED identity_resolutions.json -- a shared file this
+    # shadow order may not edit -- so BOTH records of every such pair are held here with
+    # the class that names the registration order's task. Nothing about either policy is
+    # in doubt.
+    by_street = Counter(address_key(r["identity_signals"].get("address_on_page") or "",
+                                    (r["identity_signals"].get("postal_code") or "")[:5]) for r in pf)
+    co_located = [r for r in pf if by_street[address_key(r["identity_signals"].get("address_on_page") or "",
+                                                         (r["identity_signals"].get("postal_code") or "")[:5])] > 1]
+    for r in co_located:
+        row = OrderedDict((k, r[k]) for k in ("lane", "brand", "source_url", "final_url", "document_sha256",
+                                              "document_bytes", "captured_at", "identity_signals",
+                                              "identity_binding_method", "property_code"))
+        row["classification"] = "CO_LOCATION_RULING_REQUIRED"
+        row["why"] = ("a second pet-friendly hotel states the same street identity (a dual-brand building); the "
+                      "shared listing builder keeps one row per unreviewed address, so a same-campus resolution in "
+                      "identity_resolutions.json (shared state, registration-order work) must be recorded before "
+                      "either profile publishes. The operative quote is retained: %r" % r["operative_quote"][:160])
+        row["quote"] = r["operative_quote"]
+        row["identity_key"] = r["identity_key"]
+        rejected.append(row)
+    pf = [r for r in pf if r not in co_located]
+
     pf.sort(key=lambda x: x["identity_key"])
     nopets.sort(key=lambda x: x["identity_key"])
     resolved = {r["identity_key"] for r in pf} | {r["identity_key"] for r in nopets}
