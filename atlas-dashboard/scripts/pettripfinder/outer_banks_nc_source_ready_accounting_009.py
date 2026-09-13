@@ -39,7 +39,10 @@ TIMINGS = OrderedDict([
     ("attended_browser_evidence", "Hilton 5, Marriott 2, IHG 2 (same-origin, digests verified); Choice closed with bot-challenge shells; Tranquil House Inn 1"),
     ("destination_roster", "Outer Banks Visitors Bureau sitemap + every /listing/ page at the site's Crawl-delay: 2 (lodging slugs first, then the rest)"),
     ("static_first_party_lanes", "Wyndham property service 2.7 s (6 routes: 4 read, 2 retired); static home pages 7.4 s (40 targets); policy-page lane ~50 s (38 sites)"),
-    ("ZERO_TO_SOURCE_READY", "RECORDED_BY_THE_SEAL_STEP"),
+    ("source_ready_inputs_committed", "2026-09-13T23:40:12Z (e636dcd5)"),
+    ("shadow_package_sealed_and_fast", "23:40:19Z-23:40:53Z (sealed twice in-process, FAST 15/15)"),
+    ("independent_reproduction", "23:41:12Z-23:41:52Z (clean git worktree at e636dcd5: separate-process digest-only seal = same digest; geography, capture, census, clean set, partition, staged authority and staged shard rebuilt from committed captures -- zero content difference, the discovery config differs only by the worktree's CRLF checkout of an eol-unattributed file; same digest a third time)"),
+    ("ZERO_TO_SOURCE_READY", "1 h 18 min 13 s (22:22:40Z -> 23:40:53Z, FAST-passed sealed shadow package)"),
 ])
 
 

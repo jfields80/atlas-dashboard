@@ -1,0 +1,1034 @@
+{
+ "schema": "ptf-market-source-ready-accounting/1.0",
+ "work_order": "PTF-OUTER-BANKS-NC-PARALLEL-SOURCE-READY-001",
+ "market_id": "outer-banks-nc",
+ "display_market": "Outer Banks, North Carolina",
+ "state": "SOURCE_READY -- SHADOW_UNTIL_REGISTERED",
+ "release_queue": "Fayetteville (founder-authorized, host deploy blocked) -> Jacksonville -> Greenville -> Atlanta -> Outer Banks",
+ "timings": {
+  "OUTER_BANKS_START_TIMESTAMP": "2026-09-13T22:22:40Z",
+  "precheck_and_template_read": "22:22:40Z-22:28Z (worktree, branch, HEAD e312caa6 = the Asheville-live parent, tree clean; Greenville / Atlanta shadow chains read)",
+  "geography_and_corridor_model": "22:28Z-22:29:06Z (8 corridors: 4 CORE / 2 CORRIDOR / 2 FRINGE, 10 admitted ZIPs; Hatteras Island + Ocracoke OUTSIDE, preserved for hatteras-ocracoke-nc)",
+  "osm_lane": "417.8 s (North Carolina extract, hard link of the 2026-09-10 snapshot; 220 hotel / motel / guest_house elements)",
+  "brand_inventory_lane": "100 free requests (Marriott NC sitemap page, 21 Hilton city pages, Wyndham sitemap walk, family probes)",
+  "attended_browser_evidence": "Hilton 5, Marriott 2, IHG 2 (same-origin, digests verified); Choice closed with bot-challenge shells; Tranquil House Inn 1",
+  "destination_roster": "Outer Banks Visitors Bureau sitemap + every /listing/ page at the site's Crawl-delay: 2 (lodging slugs first, then the rest)",
+  "static_first_party_lanes": "Wyndham property service 2.7 s (6 routes: 4 read, 2 retired); static home pages 7.4 s (40 targets); policy-page lane ~50 s (38 sites)",
+  "source_ready_inputs_committed": "2026-09-13T23:40:12Z (e636dcd5)",
+  "shadow_package_sealed_and_fast": "23:40:19Z-23:40:53Z (sealed twice in-process, FAST 15/15)",
+  "independent_reproduction": "23:41:12Z-23:41:52Z (clean git worktree at e636dcd5: separate-process digest-only seal = same digest; geography, capture, census, clean set, partition, staged authority and staged shard rebuilt from committed captures -- zero content difference, the discovery config differs only by the worktree's CRLF checkout of an eol-unattributed file; same digest a third time)",
+  "ZERO_TO_SOURCE_READY": "1 h 18 min 13 s (22:22:40Z -> 23:40:53Z, FAST-passed sealed shadow package)"
+ },
+ "accounting": {
+  "TOTAL_DISCOVERED": 209,
+  "total_discovered_note": "Distinct candidate identities in the identity graph after merging every lane. Not counted: 122 unnamed map elements, 2 retired Wyndham routes, the Hilton national-navigation codes the city pages carry for other states, and non-lodging bureau listing pages.",
+  "classification_counts": {
+   "IDENTITY_REVIEW_REQUIRED": 3,
+   "NAME_ONLY_UNRESOLVED": 2,
+   "NON_LODGING": 71,
+   "OUTSIDE_MARKET": 78,
+   "TRUE_HOTEL_IDENTITY": 55
+  },
+  "PROPOSED_CENSUS": 55,
+  "VALID_PET_FRIENDLY": 26,
+  "VALID_VERIFIED_NO_PETS": 5,
+  "RESOLVED": 31,
+  "UNRESOLVED": 24,
+  "partition_counts_by_state": {
+   "ACCESS_BLOCKED": 5,
+   "AWAITING_OFFICIAL_URL": 2,
+   "AWAITING_POLICY_OBSERVATION": 17,
+   "PUBLISHED_PET_FRIENDLY": 26,
+   "VERIFIED_NO_PETS": 5
+  },
+  "every_census_identity_has_exactly_one_disposition": true,
+  "every_census_identity_key_unique": true
+ },
+ "holds_by_class": {
+  "IDENTITY_HOLDS": {
+   "count": 5,
+   "identity_review_required": [
+    "Ocean Villas",
+    "Ocean Villas II",
+    "Pierhouse B&B"
+   ],
+   "name_only_unresolved": [
+    "Ocean House Motel",
+    "Ocean Side Court"
+   ],
+   "rebrand_unresolved": [],
+   "note": "Not census identities and never published: lodging-category-unconfirmed rows (Ocean Villas I/II, Pierhouse B&B) and map names with no address of their own."
+  },
+  "ROUTING_HOLDS": {
+   "count": 2,
+   "identities": [
+    "Cameron House Inn",
+    "Inn at Corolla Light"
+   ]
+  },
+  "ACCESS_BLOCKED": {
+   "count": 5,
+   "by_cause": {
+    "OWN_SITE": 3,
+    "BRAND_FAMILY": 2
+   },
+   "identities": [
+    "Burrus House Inn Waterfront Suites",
+    "Comfort Inn On The Ocean",
+    "Comfort Inn South Oceanfront",
+    "Island House of Wanchese B&B",
+    "White Doe Inn Bed and Breakfast"
+   ]
+  },
+  "EVIDENCE_HOLDS": {
+   "count": 17,
+   "identities": [
+    "Cavalier by the Sea",
+    "Colington Creek Inn",
+    "Cypress House Inn",
+    "Cypress Moon Inn",
+    "Dare Haven Motel",
+    "Driftin' Sands Motel",
+    "Fin N' Feather Waterside Inn",
+    "First Colony Inn",
+    "Holiday Inn Express Kitty Hawk – Outer Banks",
+    "Islander Motel",
+    "Nags Head Beach Inn",
+    "Ocean Sands Beach Boutique Inn",
+    "Sandspur Ocean Cottages",
+    "The Manteo House",
+    "The Pearl Hotel",
+    "The Roanoke Bungalow",
+    "The Tranquil House Inn"
+   ],
+   "rejected_reads_by_class": {
+    "CENSUS_ROW_NOT_ADMITTED": 1,
+    "FIRST_PARTY_CONFLICT": 2,
+    "QUOTE_NOT_OPERATIVE": 3
+   }
+  },
+  "GEOGRAPHY_HOLDS": {
+   "count": 0,
+   "identities": []
+  },
+  "PAID_HOLDS": {
+   "count": 2,
+   "note": "The ACCESS_BLOCKED identities whose brand family (Choice) served only bot-challenge shells are the paid-lane candidates. Same rows as ACCESS_BLOCKED, not an additional disposition; PAID PROVIDER BUDGET was $0 and no paid lane was used or reserved."
+  },
+  "FOUNDER_HOLDS": {
+   "count": 0,
+   "note": "No row requires a founder ruling. Conflicts, single-suite exceptions and reads the shared reader does not interpret are EVIDENCE holds."
+  },
+  "CLOSED_OR_RETIRED": {
+   "count": 2,
+   "wyndham_retired_routes": [
+    "https://www.wyndhamhotels.com/baymont/kitty-hawk-north-carolina/baymont-inn-and-suites-kitty-hawk-outer-banks/overview",
+    "https://www.wyndhamhotels.com/days-inn/kill-devil-hills-north-carolina/days-inn-and-suites-kill-devil-hills-mariner/overview"
+   ],
+   "note": "Wyndham routes that redirect to the brand's search: Baymont Kitty Hawk and Days Inn & Suites Kill Devil Hills Mariner (the building now trades as Mariner Inn & Suites on its own site). Routes, not census identities."
+  },
+  "OUTSIDE": {
+   "count": 78,
+   "future_submarket_hatteras_ocracoke": 76,
+   "future_submarket_identities": [
+    "Anchorage Inn & Marina",
+    "Avon Cottages",
+    "Avon Motel",
+    "Avon Pier & RV Park",
+    "Blackbeard's Lodge",
+    "Bluff Shoal Motel",
+    "Breakwater Inn",
+    "Brindley Beach Vacations - Frisco",
+    "Brindley Beach Vacations - Salvo",
+    "Camp Hatteras RV Resort and Campground",
+    "Cape Hatteras Motel",
+    "Cape Hatteras/Outer Banks KOA Resort",
+    "Cape Pines Motel",
+    "Captain's Landing Hotel",
+    "Dolphin Realty",
+    "Frisco Oceanfront RV Resort",
+    "Frisco Woods Campground",
+    "Harborside Motel",
+    "Hatteras Harbor Efficiencies",
+    "Hatteras Harbor Marina",
+    "Hatteras Island Inn",
+    "Hatteras Marlin Motel",
+    "Hatteras Realty (Avon)",
+    "Hatteras Realty (Hatteras)",
+    "Hatteras Realty (Waves)",
+    "Hatteras Sands Campground",
+    "Island Hide-A-Way",
+    "Kees Vacations",
+    "Lazy Days Campground",
+    "Lighthouse View Oceanfront Lodging",
+    "Midgett Realty - Avon",
+    "Midgett Realty - Hatteras",
+    "Midgett Realty - Rodanthe",
+    "Moondance Beach House",
+    "Ocean Waves Campground",
+    "Offshore Beach Club",
+    "Oscar's House Bed and Breakfast",
+    "Ottav Realty LLC",
+    "Outer Banks Motel",
+    "Pam's Pelican B&B",
+    "Pamlico Station Hotel",
+    "Pony Island Motel",
+    "Pony Island Motel",
+    "Resort Realty - Waves",
+    "Rodanthe Sunset Retreat",
+    "Rodanthe Watersports & Campground",
+    "SEAcret Treasure",
+    "Salvo Inn Motel",
+    "Sand Dollar Motel",
+    "Sands of Time Campground",
+    "Sea Gull Motel",
+    "Sea Sound Motel",
+    "Silver Lake Motel & Inn",
+    "Silver Lake Motel and Inn",
+    "St. Clair Landing Family Campground",
+    "Sun Realty - Avon",
+    "Sun Realty - Salvo",
+    "Surf or Sound Realty - Avon",
+    "Surf or Sound Realty - Salvo",
+    "Swell Motel",
+    "The Atlantic Inn",
+    "The Castle on Silver Lake",
+    "The Cove B&B",
+    "The Hatteras Cabanas",
+    "The Inn on Pamlico Sound",
+    "The Ocracoke Harbor Inn",
+    "Thurston House Inn",
+    "Tower Circle",
+    "Tower Circle Motel",
+    "Village Cottages",
+    "Village Marina & Motel",
+    "Village Marina Motel",
+    "Villas of Hatteras Landing",
+    "Watermen's Retreat",
+    "Waves Village Watersports Resort",
+    "Yaupon Inn"
+   ]
+  },
+  "NON_HOTEL": {
+   "count": 71,
+   "by_kind": {
+    "CAMPGROUND_RV": 6,
+    "CONDO_UNITS": 5,
+    "COTTAGE_COLLECTION": 13,
+    "OTHER_NON_HOTEL": 2,
+    "TIMESHARE_VACATION_OWNERSHIP": 4,
+    "VACATION_RENTAL_HOUSE_OR_AGENCY": 41
+   },
+   "identities": [
+    "Atlantic Realty of the Outer Banks",
+    "Barrier Island Station",
+    "Barrier Island Station at Kitty Hawk",
+    "Beach Realty - Kitty Hawk",
+    "Beechland Campground",
+    "Brindley Beach Vacations - Duck",
+    "Brindley Beach Vacations - Kitty Hawk",
+    "Cahoon's Cottages",
+    "Carolina Designs Realty",
+    "Carolina Shores Vacation Rentals",
+    "Clemons Cottage",
+    "Coast 'N Currents Realty",
+    "Coastal Carolina Vacations and Sales",
+    "Coggins Cottage",
+    "Cola Vaughan Realty",
+    "Cottages on Roanoke Island",
+    "Cove Realty",
+    "Cove Studio",
+    "Croatan Cottage",
+    "DolphinInnOBX.com Beach House",
+    "First Flight Rentals",
+    "Friends of Elizabeth II Guest House",
+    "Gator RV Park",
+    "Great Escapes Vacations & Sales",
+    "Haven on the Banks",
+    "Hilton Vacation Club Beachwoods Kitty Hawk",
+    "JP Cottages",
+    "Joe & Kay's Campground",
+    "Joe Lamb Jr. & Associates Vacation Rentals",
+    "Kitty Hawk Pier",
+    "Kitty Hawk RV Park",
+    "Moon Glow",
+    "Nags Head Fishing Pier Cottages",
+    "OBX Beach Paradise Vacations",
+    "OBX Campground",
+    "Ocean Pines",
+    "Oceanside Cottage Court",
+    "On Wings of Eagles",
+    "Outer Banks Beach Club Resort",
+    "Outer Banks Blue Realty Services",
+    "Outer Banks Resort Rentals",
+    "Pelican Cottages",
+    "Pirate's Cove Realty",
+    "Rentals On The Ocean",
+    "Resort Realty - Duck",
+    "Resort Realty - Kitty Hawk",
+    "Resort Realty - Nags Head",
+    "Saltaire Cottages",
+    "Sandbar Beach Rentals",
+    "Sea Breezes Cottage",
+    "Sea Dunes J-5",
+    "Sea Scape Beach & Golf Villas",
+    "Sea Spray Cottages",
+    "Seaside Vacations",
+    "Shoreline OBX Vacation Rentals",
+    "Southern Shores Realty",
+    "Stan White Realty - Duck",
+    "Stan White Realty - Nags Head",
+    "Starry Banner",
+    "Sun Realty - Duck",
+    "Sun Realty - Kill Devil Hills",
+    "Sun Realty - Kitty Hawk",
+    "The East Coast Host",
+    "The Refuge on Roanoke Island",
+    "The Tides OBX",
+    "Twiddy & Company Realtors",
+    "Village Realty",
+    "Villas at Spa Koru",
+    "Whalebone Ocean Cottages",
+    "Wright Cottage Court",
+    "Wright House"
+   ]
+  }
+ },
+ "corridor_coverage": [
+  {
+   "corridor_id": "outer-banks-nc__kitty-hawk-southern-shores-duck",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "27949"
+   ],
+   "census": 4,
+   "pet_friendly": 2,
+   "verified_no_pets": 0,
+   "unresolved": 2,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "outer-banks-nc__kill-devil-hills",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "27948"
+   ],
+   "census": 18,
+   "pet_friendly": 10,
+   "verified_no_pets": 2,
+   "unresolved": 6,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "outer-banks-nc__nags-head",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "27959"
+   ],
+   "census": 17,
+   "pet_friendly": 9,
+   "verified_no_pets": 2,
+   "unresolved": 6,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "outer-banks-nc__manteo-roanoke-island",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "27954"
+   ],
+   "census": 13,
+   "pet_friendly": 4,
+   "verified_no_pets": 1,
+   "unresolved": 8,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "outer-banks-nc__wanchese",
+   "geography_class": "CORRIDOR",
+   "postal_codes": [
+    "27981"
+   ],
+   "census": 1,
+   "pet_friendly": 0,
+   "verified_no_pets": 0,
+   "unresolved": 1,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "outer-banks-nc__corolla",
+   "geography_class": "CORRIDOR",
+   "postal_codes": [
+    "27927"
+   ],
+   "census": 2,
+   "pet_friendly": 1,
+   "verified_no_pets": 0,
+   "unresolved": 1,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "outer-banks-nc__manns-harbor",
+   "geography_class": "FRINGE",
+   "postal_codes": [
+    "27953"
+   ],
+   "census": 0,
+   "pet_friendly": 0,
+   "verified_no_pets": 0,
+   "unresolved": 0,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "outer-banks-nc__point-harbor",
+   "geography_class": "FRINGE",
+   "postal_codes": [
+    "27964",
+    "27966",
+    "27941"
+   ],
+   "census": 0,
+   "pet_friendly": 0,
+   "verified_no_pets": 0,
+   "unresolved": 0,
+   "corridor_page_publishes": false
+  }
+ ],
+ "corridor_pages_meeting_threshold": 2,
+ "town_coverage": {
+  "what_it_is": "Coverage for the order's named towns. Reporting only; membership and corridor come from the postal partition.",
+  "towns": {
+   "Duck": {
+    "census": 1,
+    "pet_friendly": 1,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": [
+     {
+      "canonical_name": "The Sanderling Resort",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "basis": "own stated municipality"
+     }
+    ]
+   },
+   "Southern Shores": {
+    "census": 0,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": []
+   },
+   "Kitty Hawk": {
+    "census": 3,
+    "pet_friendly": 1,
+    "verified_no_pets": 0,
+    "unresolved": 2,
+    "identities": [
+     {
+      "canonical_name": "Cypress Moon Inn",
+      "state": "UNRESOLVED",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "Hilton Garden Inn Outer Banks/Kitty Hawk",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "Holiday Inn Express Kitty Hawk – Outer Banks",
+      "state": "UNRESOLVED",
+      "basis": "own stated municipality"
+     }
+    ]
+   },
+   "Kill Devil Hills": {
+    "census": 18,
+    "pet_friendly": 10,
+    "verified_no_pets": 2,
+    "unresolved": 6,
+    "identities": [
+     {
+      "canonical_name": "Cavalier by the Sea",
+      "state": "UNRESOLVED",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "Colington Creek Inn",
+      "state": "UNRESOLVED",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "Comfort Inn On The Ocean",
+      "state": "UNRESOLVED",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "Cypress House Inn",
+      "state": "UNRESOLVED",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "Days Inn by Wyndham Kill Devil Hills Oceanfront - Wilbur",
+      "state": "VERIFIED_NO_PETS",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "Driftin' Sands Motel",
+      "state": "UNRESOLVED",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "Home2 Suites by Hilton Outer Banks Kill Devil Hills",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "John Yancey Oceanfront Inn",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "Mariner Inn & Suites",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "Ocean Sands Beach Boutique Inn",
+      "state": "UNRESOLVED",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "Outer Banks Motor Lodge",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "Ramada Plaza by Wyndham Nags Head Oceanfront",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "Sea Ranch Resort",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "See Sea Motel",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "Shutters on the Banks",
+      "state": "VERIFIED_NO_PETS",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "Spark by Hilton Outer Banks Kill Devil Hills",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "TownePlace Suites by Marriott Outer Banks Kill Devil Hills",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "Travelodge by Wyndham Outer Banks/Kill Devil Hills",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "basis": "own stated municipality"
+     }
+    ]
+   },
+   "Nags Head": {
+    "census": 17,
+    "pet_friendly": 9,
+    "verified_no_pets": 2,
+    "unresolved": 6,
+    "identities": [
+     {
+      "canonical_name": "Blue Heron Motel",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "Colonial Inn",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "Comfort Inn South Oceanfront",
+      "state": "UNRESOLVED",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "Dolphin Oceanfront Motel",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "Fairfield by Marriott Inn & Suites Nags Head",
+      "state": "VERIFIED_NO_PETS",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "Fin N' Feather Waterside Inn",
+      "state": "UNRESOLVED",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "First Colony Inn",
+      "state": "UNRESOLVED",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "Holiday Inn Express Nags Head Oceanfront",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "Islander Motel",
+      "state": "UNRESOLVED",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "Mia's Boutique Hotel",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "Nags Head Beach Inn",
+      "state": "UNRESOLVED",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "Oasis Suites Hotel",
+      "state": "VERIFIED_NO_PETS",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "Sandspur Ocean Cottages",
+      "state": "UNRESOLVED",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "Sea Foam Motel",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "Seahorse Inn & Cottages",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "Surf Side Hotel",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "Tar Heel Motel",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "basis": "own stated municipality"
+     }
+    ]
+   },
+   "Manteo / Roanoke Island": {
+    "census": 13,
+    "pet_friendly": 4,
+    "verified_no_pets": 1,
+    "unresolved": 8,
+    "identities": [
+     {
+      "canonical_name": "Burrus House Inn Waterfront Suites",
+      "state": "UNRESOLVED",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "Cameron House Inn",
+      "state": "UNRESOLVED",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "Dare Haven Motel",
+      "state": "UNRESOLVED",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "Heart of Manteo Motor Lodge",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "Hotel Manteo, Trademark Collection by Wyndham",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "Roanoke Island Inn",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "Scarborough Inn",
+      "state": "VERIFIED_NO_PETS",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "The Island Guesthouse & Motel",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "The Manteo House",
+      "state": "UNRESOLVED",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "The Pearl Hotel",
+      "state": "UNRESOLVED",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "The Roanoke Bungalow",
+      "state": "UNRESOLVED",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "The Tranquil House Inn",
+      "state": "UNRESOLVED",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "White Doe Inn Bed and Breakfast",
+      "state": "UNRESOLVED",
+      "basis": "own stated municipality"
+     }
+    ]
+   },
+   "Wanchese": {
+    "census": 1,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 1,
+    "identities": [
+     {
+      "canonical_name": "Island House of Wanchese B&B",
+      "state": "UNRESOLVED",
+      "basis": "own stated municipality"
+     }
+    ]
+   },
+   "Corolla": {
+    "census": 2,
+    "pet_friendly": 1,
+    "verified_no_pets": 0,
+    "unresolved": 1,
+    "identities": [
+     {
+      "canonical_name": "Hampton Inn & Suites Outer Banks/ Corolla",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "basis": "own stated municipality"
+     },
+     {
+      "canonical_name": "Inn at Corolla Light",
+      "state": "UNRESOLVED",
+      "basis": "own stated municipality"
+     }
+    ]
+   },
+   "Manns Harbor": {
+    "census": 0,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": []
+   },
+   "Point Harbor / Powells Point": {
+    "census": 0,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": []
+   }
+  },
+  "unplaced": {
+   "census": 0,
+   "pet_friendly": 0,
+   "verified_no_pets": 0,
+   "unresolved": 0,
+   "identities": []
+  }
+ },
+ "lane_yields": {
+  "osm_elements": 220,
+  "brand_inventory_leads": 53,
+  "brand_family_dispositions": {
+   "MARRIOTT_STATE_SITEMAP": "STATE_SITEMAP_ANSWERED_THIS_CLIENT",
+   "WYNDHAM": "SITEMAP_ANSWERED_THIS_CLIENT",
+   "SONESTA": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "DRURY": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "WOODSPRING": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "INTOWN": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "LOEWS": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "CHOICE": "SITEMAP_UNREACHABLE__TimeoutError",
+   "IHG": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "BEST_WESTERN": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "RED_ROOF": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "MOTEL6": "SITEMAP_UNREACHABLE__TimeoutError",
+   "EXTENDED_STAY": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "HYATT": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "RADISSON": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "OMNI": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "FOUR_SEASONS": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403"
+  },
+  "destination_roster": {
+   "coverage": "EVERY_LISTING_PAGE_IN_THE_SITEMAP",
+   "listing_pages_read": 1290,
+   "lodging_listings": 174,
+   "by_subcategory": {
+    "Bed & Breakfasts / Inns": 13,
+    "Campgrounds / RV Parks": 18,
+    "Condos/Townhouses": 10,
+    "Cottage Courts": 12,
+    "Hotels & Motels": 57,
+    "Vacation Rentals": 64
+   }
+  },
+  "census_lane_observations": {
+   "OSM_OVERPASS": 98,
+   "BRAND_INVENTORY_OWNED": 0,
+   "BRAND_INVENTORY_CITY_PAGE": 6,
+   "BRAND_INVENTORY_STATE_SITEMAP": 2,
+   "BRAND_INVENTORY_SITEMAP": 4,
+   "DESTINATION_ORGANIZATION": 174,
+   "COMPETITOR_LEAD": 12,
+   "PROPERTY_PAGE": 37
+  },
+  "first_party_reads": {
+   "pages_read": 37,
+   "by_brand": {
+    "HILTON": 5,
+    "IHG": 2,
+    "INDEPENDENT": 24,
+    "MARRIOTT": 2,
+    "WYNDHAM": 4
+   },
+   "identity_confirmed": 37,
+   "in_market": 37,
+   "outside_market": 0,
+   "in_market_pets_allowed_true": 29,
+   "in_market_pets_allowed_false": 8,
+   "in_market_first_party_conflicts": 2
+  },
+  "wyndham_property_service": {
+   "routes": 6,
+   "read": 4,
+   "retired": 2,
+   "errors": 0
+  },
+  "clean_set": {
+   "reads_evaluated": 37,
+   "clean_pet_friendly": 26,
+   "clean_verified_no_pets": 5,
+   "resolved_census_identities": 31,
+   "unresolved_census_identities": 24,
+   "census_count": 55,
+   "rejected": 6,
+   "rejected_by_class": {
+    "CENSUS_ROW_NOT_ADMITTED": 1,
+    "FIRST_PARTY_CONFLICT": 2,
+    "QUOTE_NOT_OPERATIVE": 3
+   },
+   "pf_by_brand": {
+    "HILTON": 4,
+    "IHG": 1,
+    "INDEPENDENT": 17,
+    "MARRIOTT": 1,
+    "WYNDHAM": 3
+   },
+   "pf_by_corridor": {
+    "outer-banks-nc__corolla": 1,
+    "outer-banks-nc__kill-devil-hills": 10,
+    "outer-banks-nc__kitty-hawk-southern-shores-duck": 2,
+    "outer-banks-nc__manteo-roanoke-island": 4,
+    "outer-banks-nc__nags-head": 9
+   }
+  }
+ },
+ "competitor_gap_challenge": {
+  "competitor_rows_observed": 12,
+  "also_seen_by_a_first_party_lane": 12,
+  "competitor_only": 0,
+  "competitor_only_by_class": {},
+  "matched_by_class": {
+   "TRUE_HOTEL_IDENTITY": 12
+  }
+ },
+ "owned_evidence": {
+  "OWNED_IDENTITIES": "0 -- no committed census held any Outer Banks identity.",
+  "OWNED_ROUTES": "0 -- the committed national harvest carries no Outer Banks route.",
+  "OWNED_VALID_POLICY_EVIDENCE": "0 -- every policy record here is a new first-party capture of this order."
+ },
+ "package": {
+  "SHADOW_PACKAGE_CREATED": "YES",
+  "execution_zone": "SHADOW_UNTIL_REGISTERED",
+  "package_id": "pkg-outer-banks-nc-a1672c70bb080fd3",
+  "PACKAGE_DIGEST": "sha256:a1672c70bb080fd37932238964d9eff3127bb6fa1a24aeb7597f737c72b8202f",
+  "created_from_source_sha": "e636dcd5169a97a04ab655252df1f4fef0877916",
+  "package_path": "launch_packages/pettripfinder/markets/staging/outer-banks-nc/shadow_packages/outer-banks-nc/pkg-outer-banks-nc-a1672c70bb080fd3.json",
+  "BUILD_INPUT_KEY": {
+   "staged_input_digest": "sha256:6262aa5c85521521c8e9878909fb5a35c6d8e81dd724dbe0d926159ac6f1d7d1",
+   "changed_market_bundle_sha256": "3e02b44f25a1e150f91a667db6c4b31dc7cf27489bca7e3de28d60dd991ae414",
+   "contract_sha256": "sha256:d9e25a20a88fde86120c6fc5b5e6d43ccdaf4e951a3da4545a0c29a73a7acaf0",
+   "dependency_input_digests": {
+    "market": "sha256:b2924674a652f328f390db4e68661ab1f9a53ee697eb8fa9f1bf2e4a1dbef245",
+    "census": "sha256:aefdb87cb5ad9d8cf7881faaae778b3decaf01486e207b71e2de55492461972b",
+    "policy_package": "sha256:c9e9520dc7cf260450f94874d99d3b3b54128212889857553fa828fceb4c9a5a",
+    "exclusions": "sha256:4646ca720e8115aa60ef4a02391a05b6cc224c51f29b3acf274a20a670af716f",
+    "routing": "sha256:ca31207056b7ea36ad4c44e1b10cbdb246b6d79719daa9e07f74d63c16713763",
+    "seed": "sha256:092a774ec3345ac1e39e815ad4fb583cf2426ff15ee8d68b0b96e7ce9a11cc4f",
+    "partition": "sha256:0ff9ac766ba2689d6a0117be788e424aa279d0f727493ca00d117c241ad5cf65"
+   }
+  },
+  "INTENDED_DELTA": {
+   "market_id": "outer-banks-nc",
+   "add_property_ids": [
+    "blue heron motel",
+    "colonial inn",
+    "dolphin oceanfront motel",
+    "hampton inn and suites outer banks corolla",
+    "heart of manteo motor lodge",
+    "hilton garden inn outer banks kitty hawk",
+    "holiday inn express nags head oceanfront",
+    "home2 suites by hilton outer banks kill devil hills",
+    "hotel manteo trademark collection by wyndham",
+    "john yancey oceanfront inn",
+    "mariner inn and suites",
+    "mia s boutique hotel",
+    "outer banks motor lodge",
+    "ramada plaza by wyndham nags head oceanfront",
+    "roanoke island inn",
+    "sea foam motel",
+    "sea ranch resort",
+    "seahorse inn and cottages",
+    "see sea motel",
+    "spark by hilton outer banks kill devil hills",
+    "surf side hotel",
+    "tar heel motel",
+    "the island guesthouse and motel",
+    "the sanderling resort",
+    "towneplace suites by marriott outer banks kill devil hills",
+    "travelodge by wyndham outer banks kill devil hills"
+   ],
+   "update_property_ids": [],
+   "remove_property_ids": [],
+   "add_routes": [
+    "/pet-friendly-hotels/outer-banks-nc/",
+    "/pet-friendly-hotels/outer-banks-nc/blue-heron-motel/",
+    "/pet-friendly-hotels/outer-banks-nc/colonial-inn/",
+    "/pet-friendly-hotels/outer-banks-nc/dolphin-oceanfront-motel/",
+    "/pet-friendly-hotels/outer-banks-nc/hampton-inn-suites-outer-banks-corolla/",
+    "/pet-friendly-hotels/outer-banks-nc/heart-of-manteo-motor-lodge/",
+    "/pet-friendly-hotels/outer-banks-nc/hilton-garden-inn-outer-banks-kitty-hawk/",
+    "/pet-friendly-hotels/outer-banks-nc/holiday-inn-express-nags-head-oceanfront/",
+    "/pet-friendly-hotels/outer-banks-nc/home2-suites-by-hilton-outer-banks-kill-devil-hills/",
+    "/pet-friendly-hotels/outer-banks-nc/hotel-manteo-trademark-collection-by-wyndham/",
+    "/pet-friendly-hotels/outer-banks-nc/john-yancey-oceanfront-inn/",
+    "/pet-friendly-hotels/outer-banks-nc/kill-devil-hills/",
+    "/pet-friendly-hotels/outer-banks-nc/mariner-inn-suites/",
+    "/pet-friendly-hotels/outer-banks-nc/mia-s-boutique-hotel/",
+    "/pet-friendly-hotels/outer-banks-nc/nags-head/",
+    "/pet-friendly-hotels/outer-banks-nc/outer-banks-motor-lodge/",
+    "/pet-friendly-hotels/outer-banks-nc/ramada-plaza-by-wyndham-nags-head-oceanfront/",
+    "/pet-friendly-hotels/outer-banks-nc/roanoke-island-inn/",
+    "/pet-friendly-hotels/outer-banks-nc/sea-foam-motel/",
+    "/pet-friendly-hotels/outer-banks-nc/sea-ranch-resort/",
+    "/pet-friendly-hotels/outer-banks-nc/seahorse-inn-cottages/",
+    "/pet-friendly-hotels/outer-banks-nc/see-sea-motel/",
+    "/pet-friendly-hotels/outer-banks-nc/spark-by-hilton-outer-banks-kill-devil-hills/",
+    "/pet-friendly-hotels/outer-banks-nc/surf-side-hotel/",
+    "/pet-friendly-hotels/outer-banks-nc/tar-heel-motel/",
+    "/pet-friendly-hotels/outer-banks-nc/the-island-guesthouse-motel/",
+    "/pet-friendly-hotels/outer-banks-nc/the-sanderling-resort/",
+    "/pet-friendly-hotels/outer-banks-nc/towneplace-suites-by-marriott-outer-banks-kill-devil-hills/",
+    "/pet-friendly-hotels/outer-banks-nc/travelodge-by-wyndham-outer-banks-kill-devil-hills/"
+   ],
+   "change_routes": [],
+   "remove_routes": [],
+   "expected_profile_delta": 26,
+   "expected_verified_no_pets_delta": 5,
+   "expected_market_count_delta": 1,
+   "expected_participation_delta": [
+    {
+     "market_id": "outer-banks-nc",
+     "from": false,
+     "to": true
+    }
+   ],
+   "joining_market_profiles": 26,
+   "joining_market_verified_no_pets": 5,
+   "shadow_until_registered": "declared against a live release that carries no index for this market; the registration order's re-seal restates the delta through registration_release_lane.joining_delta"
+  },
+  "VALIDATION_RECEIPT": {
+   "path": "launch_packages/pettripfinder/markets/staging/outer-banks-nc/shadow_receipts/outer-banks-nc/pkg-outer-banks-nc-a1672c70bb080fd3-a6157892ab6435bc.json",
+   "digest": "sha256:a6157892ab6435bcdc574b48a616cec6102d9811d6c86fc29f766f600baf0583",
+   "eligible": "YES",
+   "rules": {
+    "A": "PASS",
+    "B": "PASS",
+    "C": "PASS",
+    "D": "PASS",
+    "E": "PASS",
+    "F": "PASS",
+    "G": "PASS",
+    "H": "PASS",
+    "I": "PASS",
+    "J": "PASS",
+    "K": "PASS",
+    "L": "PASS",
+    "M": "PASS",
+    "N": "PASS",
+    "O": "PASS"
+   },
+   "unknown": [],
+   "failed": [],
+   "determinism": "BYTE_IDENTICAL"
+  },
+  "COVERAGE_SCORECARD": {
+   "census_count": 55,
+   "published_pet_friendly": 26,
+   "verified_no_pets": 5,
+   "out_of_category": 0,
+   "unresolved": 24,
+   "public_routes": 31,
+   "evidence_references": 31,
+   "evidence_references_source": "derived_from_records",
+   "evidence_artifacts_available": 0,
+   "paid_evidence_references": 0,
+   "counts_by_partition_state": {
+    "ACCESS_BLOCKED": 5,
+    "AWAITING_OFFICIAL_URL": 2,
+    "AWAITING_POLICY_OBSERVATION": 17,
+    "PUBLISHED_PET_FRIENDLY": 26,
+    "VERIFIED_NO_PETS": 5
+   }
+  },
+  "parent_binding": "parent_live_state names the CURRENT live release (Asheville, deploy 6aa60a3e...). That is what this package was validated against. Once Fayetteville is live, FAST rule N fails this package BY DESIGN; the registration order -- after Fayetteville, Jacksonville, Greenville AND Atlanta are live -- re-seals the same committed inputs against that parent as a NEW package id. Nothing here is a production candidate, and no whole-site build was assembled."
+ },
+ "factory_code_changed": "NO -- every changed path is an outer_banks_nc_* helper, the market's discovery config, or a document under the market's own proposed / staging / report paths",
+ "shared_factory_notes_recorded_not_repaired": [
+  "The shared first-party reader does not read 'No guest pets allowed.' (Tranquil House Inn), 'Although pets cannot stay at the inn ...' (Cypress Moon Inn) or 'we welcome well behaved dogs and cats in select rooms' (Ocean Sands) as operative; those rows are held with the gate's class, never reworded."
+ ],
+ "broad_regression_run": "NO",
+ "final_production_candidate_created": "NO -- FAST composes the release index in memory only",
+ "founder_authorization_created": "NO",
+ "deployed": "NO",
+ "shared_state_touched": "NO -- launch_participation.json, bundle_cache_closure.json, the market_state pin, the generated globals, release contracts, identity_resolutions.json and the market registry are unchanged",
+ "next_order": [
+  "Wait until Netlify is restored and Fayetteville, Jacksonville, Greenville and Atlanta are live; read that live parent.",
+  "Rebase worker/ptf-outer-banks-nc-market-001 onto it; copy markets/proposed/outer-banks-nc.json -> markets/outer-banks-nc.json, identity_census_proposed/outer-banks-nc.json -> identity_census/outer-banks-nc.json and the staged launch_package documents (hotel_policy_facts_outer-banks-nc.json, partition, authority shard) into their registered paths.",
+  "market_registration_cli --write, build_global_authority --write then --check, release contract, registration_release_lane register + seal --work-order (a NEW package id against the new parent; this shadow package's FAST rule N fails by design once the parent moves).",
+  "regression_delta classify (expect COMPOSITE_FRESH_MARKET_DATA_ONLY), compose and reproduce the candidate, prepare the founder packet, deploy only on founder authorization.",
+  "Before sealing, re-probe Choice (Comfort Inn On The Ocean, Comfort Inn South Oceanfront), Burrus House and White Doe Inn."
+ ]
+}
