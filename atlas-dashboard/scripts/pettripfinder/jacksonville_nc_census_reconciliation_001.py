@@ -1765,7 +1765,7 @@ def main(argv=None) -> int:
     gaps = gap_matrix(rows, lanes)
     for path, doc in ((args.census_out, census), (args.report_out, report), (args.gap_out, gaps)):
         os.makedirs(os.path.dirname(path), exist_ok=True)
-        with open(path, "w", encoding="utf-8") as fh:
+        with open(path, "w", encoding="utf-8", newline="\n") as fh:
             json.dump(doc, fh, indent=1)
             fh.write("\n")
     print("lane yields         :", dict(report["lane_yields"]))

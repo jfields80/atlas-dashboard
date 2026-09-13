@@ -369,7 +369,7 @@ def main(argv=None):
     args = ap.parse_args(argv)
     rep = build()
     os.makedirs(os.path.dirname(args.out), exist_ok=True)
-    with open(args.out, "w", encoding="utf-8") as fh:
+    with open(args.out, "w", encoding="utf-8", newline="\n") as fh:
         json.dump(rep, fh, indent=1, ensure_ascii=False)
         fh.write("\n")
     c = rep["counts"]
