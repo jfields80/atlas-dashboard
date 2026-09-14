@@ -1,0 +1,784 @@
+{
+ "schema": "ptf-market-source-ready-accounting/1.0",
+ "work_order": "PTF-HICKORY-NC-PARALLEL-SOURCE-READY-001",
+ "market_id": "hickory-nc",
+ "display_market": "Hickory – Newton – Conover, North Carolina",
+ "state": "SOURCE_READY -- SHADOW_UNTIL_REGISTERED",
+ "release_queue": "Greenville (LIVE, the current parent 595bfeeb) -> handled separately; Hickory waits in the source-ready queue",
+ "timings": {
+  "HICKORY_START_TIMESTAMP": "2026-09-14T02:51:52Z (2026-09-13T22:51:52-04:00)",
+  "precheck_and_template_read": "02:51Z-02:58Z (worktree, branch, HEAD ec764bef, tree clean; the branch had no commits and was fast-forwarded to the Greenville-live commit 595bfeeb before any work; the Pinehurst - Southern Pines shadow chain read as the template)",
+  "geography_and_corridor_model": "by 03:05Z (9 corridors: 3 CORE / 2 CORRIDOR / 4 FRINGE, 12 admitted ZIPs; Lenoir preserved as future submarket; Morganton, Statesville, Taylorsville, Lincolnton, Denver and Boone OUTSIDE by name)",
+  "osm_lane": "421.5 s, run detached beside the other lanes (North Carolina extract, hard link of the 2026-09-10 snapshot; 110 hotel / motel / chalet / apartment elements in the observation box)",
+  "brand_inventory_lane": "97 free requests (Marriott NC sitemap page, 18 Hilton city pages, Wyndham sitemap walk of 61 documents, family probes)",
+  "destination_roster": "Visit Hickory Metro listing service: token + 4 sub-category queries (5 requests, 39 listings)",
+  "static_evidence": "Wyndham property service 1.8 s (15 routes: 7 read, 8 retired); static home pages 1.3 s (10 targets: 5 served, 5 refused 403); policy-page lane 1.4 s (5 sites, 10 documents)",
+  "browser_evidence": "03:07Z-03:17Z: Marriott 3, Hilton 3, IHG 3 (same-origin fetch, payload digests verified); Best Western 1, Red Roof 1, Motel 6 / Studio 6 2 (hashed in the same call); Affordable Suites and The Trott House Inn own sites (plain client 403); 2nd Street Inn and The Dragonfly Inn own sites; Choice served an empty document",
+  "identity_policy_adjudication_and_reconciliation": "03:12Z-03:20Z (census three passes, non-hotel and rebrand rulings, clean set, staged authority, partition)",
+  "source_ready_inputs_committed": "2026-09-14T03:20:50Z (61dd835a); the clean-worktree rebuild found the staged launch_package census copy stale by two source-authority lines, so the first seal (pkg-hickory-nc-5f172c50, never committed) was discarded and the copy re-staged (3400a148)",
+  "shadow_package_sealed_and_fast": "03:23:00Z-03:23:47Z (sealed twice in-process, FAST 15/15)",
+  "independent_reproduction": "03:23:50Z-03:24:17Z (clean git worktree at 3400a148: geography, brand pages, capture, census, clean set, staged authority, partition and staged shard rebuilt from committed captures -- zero content difference, the discovery config differs only by the worktree's CRLF checkout of an eol-unattributed file; separate-process digest-only seal = the same digest)",
+  "ZERO_TO_SOURCE_READY": "31 min 55 s (02:51:52Z -> 03:23:47Z, FAST-passed sealed shadow package)",
+  "peak_memory": "not instrumented on this run (the OSM two-pass read and the FAST cold builds were the heaviest steps; no step was memory-constrained)"
+ },
+ "accounting": {
+  "TOTAL_DISCOVERED": 137,
+  "total_discovered_note": "Distinct candidate identities in the identity graph after merging every lane. Not counted: 25 unnamed map elements, 8 retired Wyndham routes, the Hilton national-navigation codes the city pages carry for other states, and non-lodging bureau listing pages.",
+  "classification_counts": {
+   "IDENTITY_REVIEW_REQUIRED": 4,
+   "NAME_ONLY_UNRESOLVED": 4,
+   "NON_LODGING": 15,
+   "OUTSIDE_MARKET": 90,
+   "SAME_IDENTITY_REBRAND_SUCCESSOR": 2,
+   "TRUE_HOTEL_IDENTITY": 22
+  },
+  "PROPOSED_CENSUS": 22,
+  "VALID_PET_FRIENDLY": 9,
+  "VALID_VERIFIED_NO_PETS": 4,
+  "RESOLVED": 13,
+  "UNRESOLVED": 9,
+  "partition_counts_by_state": {
+   "AWAITING_OFFICIAL_URL": 4,
+   "AWAITING_POLICY_OBSERVATION": 5,
+   "PUBLISHED_PET_FRIENDLY": 9,
+   "VERIFIED_NO_PETS": 4
+  },
+  "every_census_identity_has_exactly_one_disposition": true,
+  "every_census_identity_key_unique": true
+ },
+ "holds_by_class": {
+  "IDENTITY_HOLDS": {
+   "count": 10,
+   "identity_review_required": [
+    "Henry River Mill Village",
+    "Quality Suites",
+    "Sleep Inn",
+    "The Lodge At Rock Barn"
+   ],
+   "name_only_unresolved": [
+    "Budget Inn Express Hickory",
+    "Comfort Inn Conover-Hickory",
+    "Econo Lodge",
+    "MainStay Suites Conover-Hickory"
+   ],
+   "rebrand_unresolved": [
+    "Comfort Inn & Main Stay Suites",
+    "Motel 6 Hickory, NC"
+   ],
+   "note": "Not census identities and never published. Choice rows: Sleep Inn (1179 13th Avenue Drive SE) and Quality Suites (1125 13th Avenue Drive SE) -- their bare names are registered keys of Charlotte and Louisville and Choice served an empty page, so no first-party name clears the collision; Comfort Inn & MainStay Suites (1607 Fairgrove Church Road, Conover) -- one bureau listing, two Choice flags in search summaries, the map's retired La Quinta. Motel 6 / Studio 6 Hickory -- two G6 property ids at one street (484 US-70 SW), co-location unproven. Lodging category unconfirmed: The Lodge at Rock Barn (member club; its lodging page 404s), Henry River Mill Village (attraction offering 'overnight accommodations' with no room inventory). Name-only: the map's 'Econo Lodge' pin beside the Red Roof Inn, and competitor names Comfort Inn Conover-Hickory, MainStay Suites Conover-Hickory and Budget Inn Express Hickory (a booking slug for the Motel 6)."
+  },
+  "ROUTING_HOLDS": {
+   "count": 4,
+   "identities": [
+    "Claremont Inn & Suites",
+    "Fran Mar Motel",
+    "Gateway Extended Stay",
+    "Lowman's Motor Court"
+   ]
+  },
+  "ACCESS_BLOCKED": {
+   "count": 0,
+   "by_cause": {},
+   "identities": []
+  },
+  "EVIDENCE_HOLDS": {
+   "count": 5,
+   "identities": [
+    "2nd Street Inn",
+    "Baymont by Wyndham Hickory",
+    "Best Western Hickory",
+    "Courtyard by Marriott Hickory",
+    "The Dragonfly Inn"
+   ],
+   "rejected_reads_by_class": {
+    "CENSUS_ROW_NOT_ADMITTED": 4,
+    "FIRST_PARTY_CONFLICT": 1,
+    "QUOTE_NOT_OPERATIVE": 2
+   }
+  },
+  "GEOGRAPHY_HOLDS": {
+   "count": 0,
+   "identities": []
+  },
+  "PAID_HOLDS": {
+   "count": 0,
+   "note": "No census identity is ACCESS_BLOCKED: the three Choice buildings (Sleep Inn, Quality Suites, Comfort Inn & MainStay Suites) are identity holds outside the census, and they are the paid-lane candidates only after their identities clear. PAID PROVIDER BUDGET was $0 and no paid lane was used or reserved."
+  },
+  "FOUNDER_HOLDS": {
+   "count": 0,
+   "note": "No row requires a founder ruling. Conflicts, single-suite exceptions and reads the shared reader does not interpret are EVIDENCE holds."
+  },
+  "CLOSED_OR_RETIRED": {
+   "count": 8,
+   "wyndham_retired_routes": [
+    "https://www.wyndhamhotels.com/baymont/statesville-north-carolina/baymont-inn-and-suites-statesville/overview",
+    "https://www.wyndhamhotels.com/days-inn/lenoir-north-carolina/days-inn-lenoir/overview",
+    "https://www.wyndhamhotels.com/days-inn/morganton-north-carolina/days-inn-and-suites-morganton-nc/overview",
+    "https://www.wyndhamhotels.com/laquinta/conover-north-carolina/la-quinta-hickory/overview",
+    "https://www.wyndhamhotels.com/ramada/conover-hickory-area-north-carolina/ramada-conover-hickory-area/overview",
+    "https://www.wyndhamhotels.com/ramada/statesville-north-carolina/ramada-statesville/overview",
+    "https://www.wyndhamhotels.com/super-8/claremont-north-carolina/super-8-claremont/overview",
+    "https://www.wyndhamhotels.com/super-8/statesville-north-carolina/super-8-statesville/overview"
+   ],
+   "note": "Wyndham routes that redirect to the brand's search: La Quinta Hickory (1607 Fairgrove Church Road, Conover -- the bureau now lists Comfort Inn & MainStay Suites there), Ramada Conover-Hickory Area, Super 8 Claremont (the map now names Claremont Inn & Suites at 3054 North Oxford Street), and outside the market Baymont Statesville, Days Inn Lenoir, Days Inn & Suites Morganton, Ramada Statesville and Super 8 Statesville. Routes, not census identities."
+  },
+  "OUTSIDE": {
+   "count": 90,
+   "future_submarket": {
+    "market_id": "lenoir-nc",
+    "identities": [
+     "American Motel",
+     "Comfort Inn",
+     "Days Inn by Wyndham Lenoir",
+     "Hampton Inn & Suites",
+     "Hampton Inn & Suites Lenoir",
+     "Thousand Trails Green Mountain Park"
+    ]
+   }
+  },
+  "NON_HOTEL": {
+   "count": 15,
+   "by_kind": {
+    "APARTMENT_COMMUNITY": 8,
+    "CAMPGROUND_RV": 3,
+    "CLUB_TOWNHOMES": 1,
+    "RETREAT_OR_CLUB": 2,
+    "VACATION_RENTAL": 1
+   },
+   "identities": [
+    "Ardmore at Aclove",
+    "Catholic Conference Center",
+    "Flying Squirrel Cottages",
+    "Indian Springs Campground",
+    "Lake Hickory RV Resort",
+    "Lake James State Park - Paddy's Creek Area",
+    "Mimosa Gardens",
+    "Mimosa Gardens",
+    "Mimosa Gardens",
+    "Mimosa Gardens",
+    "Mimosa Gardens",
+    "Mimosa Gardens",
+    "Mimosa Gardens",
+    "Rock Barn Country Club and Spa",
+    "The Townhomes at Rock Barn"
+   ]
+  }
+ },
+ "corridor_coverage": [
+  {
+   "corridor_id": "hickory-nc__hickory",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "28601",
+    "28602",
+    "28603"
+   ],
+   "census": 16,
+   "pet_friendly": 7,
+   "verified_no_pets": 2,
+   "unresolved": 7,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "hickory-nc__conover",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "28613"
+   ],
+   "census": 3,
+   "pet_friendly": 2,
+   "verified_no_pets": 1,
+   "unresolved": 0,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "hickory-nc__newton",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "28658"
+   ],
+   "census": 1,
+   "pet_friendly": 0,
+   "verified_no_pets": 1,
+   "unresolved": 0,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "hickory-nc__claremont",
+   "geography_class": "CORRIDOR",
+   "postal_codes": [
+    "28610"
+   ],
+   "census": 1,
+   "pet_friendly": 0,
+   "verified_no_pets": 0,
+   "unresolved": 1,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "hickory-nc__granite-falls-sawmills",
+   "geography_class": "CORRIDOR",
+   "postal_codes": [
+    "28630"
+   ],
+   "census": 0,
+   "pet_friendly": 0,
+   "verified_no_pets": 0,
+   "unresolved": 0,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "hickory-nc__hildebran-icard",
+   "geography_class": "FRINGE",
+   "postal_codes": [
+    "28637",
+    "28666"
+   ],
+   "census": 1,
+   "pet_friendly": 0,
+   "verified_no_pets": 0,
+   "unresolved": 1,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "hickory-nc__maiden",
+   "geography_class": "FRINGE",
+   "postal_codes": [
+    "28650"
+   ],
+   "census": 0,
+   "pet_friendly": 0,
+   "verified_no_pets": 0,
+   "unresolved": 0,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "hickory-nc__catawba",
+   "geography_class": "FRINGE",
+   "postal_codes": [
+    "28609"
+   ],
+   "census": 0,
+   "pet_friendly": 0,
+   "verified_no_pets": 0,
+   "unresolved": 0,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "hickory-nc__hudson",
+   "geography_class": "FRINGE",
+   "postal_codes": [
+    "28638"
+   ],
+   "census": 0,
+   "pet_friendly": 0,
+   "verified_no_pets": 0,
+   "unresolved": 0,
+   "corridor_page_publishes": false
+  }
+ ],
+ "corridor_pages_meeting_threshold": 1,
+ "town_coverage": {
+  "what_it_is": "Coverage for the order's named areas. Reporting only; membership and corridor come from the postal partition. A Hickory row reports under I-40 Hickory, US-321 Hickory or downtown when its own street names those roads (13th Avenue Drive, Lenoir-Rhyne Boulevard, US-70 are the I-40 exit 125-126 service roads), else by its pin.",
+  "towns": {
+   "Hickory downtown / central": {
+    "census": 2,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 2,
+    "identities": [
+     {
+      "canonical_name": "2nd Street Inn",
+      "state": "UNRESOLVED",
+      "street": "13 2nd Street NE",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "The Dragonfly Inn",
+      "state": "UNRESOLVED",
+      "street": "224 3rd Ave NW",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     }
+    ]
+   },
+   "I-40 Hickory": {
+    "census": 12,
+    "pet_friendly": 6,
+    "verified_no_pets": 2,
+    "unresolved": 4,
+    "identities": [
+     {
+      "canonical_name": "Baymont by Wyndham Hickory",
+      "state": "UNRESOLVED",
+      "street": "1120 13th Avenue Dr Southeast",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Best Western Hickory",
+      "state": "UNRESOLVED",
+      "street": "1520 13th Avenue Drive SE",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Courtyard by Marriott Hickory",
+      "state": "UNRESOLVED",
+      "street": "1946 13th Avenue Drive SE",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Crowne Plaza Hickory",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1385 Lenoir Rhyne Blvd. Se",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Days Inn & Suites by Wyndham Hickory",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1725 13th Ave Drive Northwest",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Fairfield by Marriott Inn & Suites Hickory",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1950 13th Avenue Drive SE",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Fran Mar Motel",
+      "state": "UNRESOLVED",
+      "street": "2710 US Highway 70 SouthWest",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Hampton Inn Hickory",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1956 13th Avenue Drive SE",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Hilton Garden Inn Hickory",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1320 17th Street Drive Southeast",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Holiday Inn Express Hickory-Hickory Mart",
+      "state": "VERIFIED_NO_PETS",
+      "street": "2250 US Highway 70 SE",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Home2 Suites by Hilton Hickory",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1655 14th Avenue Dr SE",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Red Roof Inn Hickory",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1184 Lenoir Rhyne Blvd SE",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     }
+    ]
+   },
+   "US-321 Hickory": {
+    "census": 0,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": []
+   },
+   "Long View / Mountain View": {
+    "census": 0,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": []
+   },
+   "Hickory (other)": {
+    "census": 2,
+    "pet_friendly": 1,
+    "verified_no_pets": 0,
+    "unresolved": 1,
+    "identities": [
+     {
+      "canonical_name": "Gateway Extended Stay",
+      "state": "UNRESOLVED",
+      "street": "915 Hotel Drive SW",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "TownePlace Suites by Marriott Hickory",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1540 23rd St Lane SE",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     }
+    ]
+   },
+   "Conover": {
+    "census": 3,
+    "pet_friendly": 2,
+    "verified_no_pets": 1,
+    "unresolved": 0,
+    "identities": [
+     {
+      "canonical_name": "Affordable Suites of America Hickory/Conover",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1225 Fed Ex Drive SW",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Days Inn by Wyndham Conover-Hickory",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1710 Fairgrove Church Road",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Holiday Inn Express & Suites Conover (Hickory Area)",
+      "state": "VERIFIED_NO_PETS",
+      "street": "104 10th Street, Nw",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     }
+    ]
+   },
+   "Newton": {
+    "census": 1,
+    "pet_friendly": 0,
+    "verified_no_pets": 1,
+    "unresolved": 0,
+    "identities": [
+     {
+      "canonical_name": "The Trott House Inn",
+      "state": "VERIFIED_NO_PETS",
+      "street": "802 North Main Avenue",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     }
+    ]
+   },
+   "Claremont": {
+    "census": 1,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 1,
+    "identities": [
+     {
+      "canonical_name": "Claremont Inn & Suites",
+      "state": "UNRESOLVED",
+      "street": "3054 North Oxford Street",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     }
+    ]
+   },
+   "Granite Falls / Sawmills": {
+    "census": 0,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": []
+   },
+   "Hildebran / Icard": {
+    "census": 1,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 1,
+    "identities": [
+     {
+      "canonical_name": "Lowman's Motor Court",
+      "state": "UNRESOLVED",
+      "street": "109 US Highway 70 E",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     }
+    ]
+   },
+   "Maiden": {
+    "census": 0,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": []
+   },
+   "Catawba": {
+    "census": 0,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": []
+   },
+   "Hudson": {
+    "census": 0,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": []
+   }
+  },
+  "unplaced": {
+   "census": 0,
+   "pet_friendly": 0,
+   "verified_no_pets": 0,
+   "unresolved": 0,
+   "identities": []
+  }
+ },
+ "lane_yields": {
+  "osm_elements": 110,
+  "brand_inventory_leads": 102,
+  "brand_family_dispositions": {
+   "MARRIOTT_STATE_SITEMAP": "STATE_SITEMAP_ANSWERED_THIS_CLIENT",
+   "WYNDHAM": "SITEMAP_ANSWERED_THIS_CLIENT",
+   "SONESTA": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "DRURY": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "WOODSPRING": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "INTOWN": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "LOEWS": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "CHOICE": "SITEMAP_UNREACHABLE__TimeoutError",
+   "IHG": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "BEST_WESTERN": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "RED_ROOF": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "MOTEL6": "SITEMAP_UNREACHABLE__TimeoutError",
+   "EXTENDED_STAY": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "HYATT": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "RADISSON": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "OMNI": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "FOUR_SEASONS": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403"
+  },
+  "destination_roster": {
+   "coverage": "EVERY_PLACES_TO_STAY_SUBCATEGORY",
+   "listing_pages_read": null,
+   "lodging_listings": 39,
+   "by_subcategory": {
+    "Alternative": 1,
+    "Bed and Breakfast": 5,
+    "Campgrounds & RV": 8,
+    "Entertainment": 1,
+    "Hotel": 21,
+    "Museums & Historical Sites": 1,
+    "Parks": 2
+   }
+  },
+  "census_lane_observations": {
+   "OSM_OVERPASS": 85,
+   "BRAND_INVENTORY_OWNED": 0,
+   "BRAND_INVENTORY_CITY_PAGE": 34,
+   "BRAND_INVENTORY_STATE_SITEMAP": 6,
+   "BRAND_INVENTORY_SITEMAP": 7,
+   "DESTINATION_ORGANIZATION": 39,
+   "REGIONAL_VISITOR_CENTER": 0,
+   "COMPETITOR_LEAD": 11,
+   "PROPERTY_PAGE": 24
+  },
+  "first_party_reads": {
+   "pages_read": 20,
+   "by_brand": {
+    "BEST_WESTERN": 1,
+    "HILTON": 3,
+    "IHG": 3,
+    "INDEPENDENT": 2,
+    "MARRIOTT": 3,
+    "RED_ROOF": 1,
+    "WYNDHAM": 7
+   },
+   "identity_confirmed": 20,
+   "in_market": 16,
+   "outside_market": 4,
+   "in_market_pets_allowed_true": 10,
+   "in_market_pets_allowed_false": 4,
+   "in_market_first_party_conflicts": 1
+  },
+  "wyndham_property_service": {
+   "routes": 15,
+   "read": 7,
+   "retired": 8,
+   "errors": 0
+  },
+  "clean_set": {
+   "reads_evaluated": 20,
+   "clean_pet_friendly": 9,
+   "clean_verified_no_pets": 4,
+   "resolved_census_identities": 13,
+   "unresolved_census_identities": 9,
+   "census_count": 22,
+   "rejected": 7,
+   "rejected_by_class": {
+    "CENSUS_ROW_NOT_ADMITTED": 4,
+    "FIRST_PARTY_CONFLICT": 1,
+    "QUOTE_NOT_OPERATIVE": 2
+   },
+   "pf_by_brand": {
+    "HILTON": 3,
+    "IHG": 1,
+    "INDEPENDENT": 1,
+    "MARRIOTT": 1,
+    "RED_ROOF": 1,
+    "WYNDHAM": 2
+   },
+   "pf_by_corridor": {
+    "hickory-nc__conover": 2,
+    "hickory-nc__hickory": 7
+   }
+  }
+ },
+ "competitor_gap_challenge": {
+  "competitor_rows_observed": 11,
+  "also_seen_by_a_first_party_lane": 8,
+  "competitor_only": 3,
+  "competitor_only_by_class": {
+   "NAME_ONLY_UNRESOLVED": 3
+  },
+  "matched_by_class": {
+   "IDENTITY_REVIEW_REQUIRED": 1,
+   "SAME_IDENTITY_REBRAND_SUCCESSOR": 1,
+   "TRUE_HOTEL_IDENTITY": 6
+  }
+ },
+ "competitor_gap_reconciliation": {
+  "leads": {
+   "Comfort Inn Conover-Hickory": "REVIEW -- one of two Choice flags at 1607 Fairgrove Church Road (rebrand / dual-brand hold)",
+   "MainStay Suites Conover-Hickory": "REVIEW -- the other Choice flag at the same premises",
+   "Hilton Garden Inn Hickory": "EXACT MATCH",
+   "Motel 6 Hickory NC": "EXACT MATCH -- confirmed on the brand's own page (484 US-70 SW); identity hold with Studio 6",
+   "Red Roof Inn Hickory": "EXACT MATCH",
+   "Crowne Plaza Hotel Hickory": "ALIAS -- Crowne Plaza Hickory",
+   "Days Inn & Suites by Wyndham Hickory": "EXACT MATCH",
+   "Days Inn by Wyndham Conover-Hickory": "EXACT MATCH",
+   "Sleep Inn Hickory South": "ALIAS -- Sleep Inn, 1179 13th Avenue Drive SE (identity hold)",
+   "Studio 6 Hickory NC": "EXACT MATCH -- confirmed on the brand's own page; identity hold with Motel 6",
+   "Holiday Inn Express Hotel & Suites Conover - Hickory Area": "ALIAS -- Holiday Inn Express & Suites Conover (Hickory Area)",
+   "Budget Inn Express Hickory": "REBRAND -- a booking slug for the Motel 6 Hickory listing; name only"
+  },
+  "true_missing_identity_found": "Motel 6 Hickory and Studio 6 Hickory: absent from OSM, the bureau and every brand roster this order read; returned through the brand's own city and property pages",
+  "raw_count_parity_chased": false
+ },
+ "owned_evidence": {
+  "OWNED_IDENTITIES": "0 -- no registered census (identity_census/*.json) carries a row in any Hickory-market postal code; the committed reports mention Hickory only in other markets' geography notes.",
+  "OWNED_ROUTES": "0 -- the committed national brand harvest (dayton_oh_brand_directory_harvest_001.json) yields no Hickory-area lead; every route was derived from the brand's own current inventory by this order.",
+  "OWNED_VALID_POLICY_EVIDENCE": "0 -- no earlier order read a Hickory-area property page; every record is a new first-party capture of this order."
+ },
+ "package": {
+  "SHADOW_PACKAGE_CREATED": "YES",
+  "execution_zone": "SHADOW_UNTIL_REGISTERED",
+  "package_id": "pkg-hickory-nc-40470cd4656e71cb",
+  "PACKAGE_DIGEST": "sha256:40470cd4656e71cba17f03e51c541f8fa97d028b9958a97499306b53488ef61d",
+  "created_from_source_sha": "3400a1482c3e7a5636b5dfd521975bd394544cbc",
+  "package_path": "launch_packages/pettripfinder/markets/staging/hickory-nc/shadow_packages/hickory-nc/pkg-hickory-nc-40470cd4656e71cb.json",
+  "BUILD_INPUT_KEY": {
+   "staged_input_digest": "sha256:ef805940ba13fe7504d17b74b8771999995483bb25e05fc3edf1597a62bf3d9f",
+   "changed_market_bundle_sha256": "f4aa0b29f482fcd3196c6e64b97040dc3f21a2badbab9f7e938a69b5c1e50bd9",
+   "contract_sha256": "sha256:6fb3f6cbc4a8626f1fd170ad4e2e259aaa1636dc939dd851a72f163a6a92a63b",
+   "dependency_input_digests": {
+    "market": "sha256:31227400af74f59d15da9ca8047bc1cd611ebb8cb2c544d599f936486724fd42",
+    "census": "sha256:add60da4d0ed2f3e49d93900a433439831c2255528ff3a610522d68284ddcec7",
+    "policy_package": "sha256:0dd2cb04f2db80e87dabc5280531bda21dfe3f6553c14cb7e8d34da996899d0d",
+    "exclusions": "sha256:9a865a89b15412fc554d77087a9045c6070e3e8aa60726d61c21d32deeac73b0",
+    "routing": "sha256:0d82daef77b56881bd271fd3c6e9bd2697d604a14e684667ef65bae30f711d51",
+    "seed": "sha256:6ef2fd3269661a9c6b916049af616b4d19b1b0b40c9a1834eca73f47786994ba",
+    "partition": "sha256:8cdb425741c3fe663fb88c091efb2e5b3c6a5118fd7bc6d3fa7b12dde02599a9"
+   }
+  },
+  "INTENDED_DELTA": {
+   "market_id": "hickory-nc",
+   "add_property_ids": [
+    "affordable suites of america hickory conover",
+    "crowne plaza hickory",
+    "days inn and suites by wyndham hickory",
+    "days inn by wyndham conover hickory",
+    "hampton inn hickory",
+    "hilton garden inn hickory",
+    "home2 suites by hilton hickory",
+    "red roof inn hickory",
+    "towneplace suites by marriott hickory"
+   ],
+   "update_property_ids": [],
+   "remove_property_ids": [],
+   "add_routes": [
+    "/pet-friendly-hotels/hickory-nc/",
+    "/pet-friendly-hotels/hickory-nc/affordable-suites-of-america-hickory-conover/",
+    "/pet-friendly-hotels/hickory-nc/crowne-plaza-hickory/",
+    "/pet-friendly-hotels/hickory-nc/days-inn-by-wyndham-conover-hickory/",
+    "/pet-friendly-hotels/hickory-nc/days-inn-suites-by-wyndham-hickory/",
+    "/pet-friendly-hotels/hickory-nc/hampton-inn-hickory/",
+    "/pet-friendly-hotels/hickory-nc/hickory/",
+    "/pet-friendly-hotels/hickory-nc/hilton-garden-inn-hickory/",
+    "/pet-friendly-hotels/hickory-nc/home2-suites-by-hilton-hickory/",
+    "/pet-friendly-hotels/hickory-nc/red-roof-inn-hickory/",
+    "/pet-friendly-hotels/hickory-nc/towneplace-suites-by-marriott-hickory/"
+   ],
+   "change_routes": [],
+   "remove_routes": [],
+   "expected_profile_delta": 9,
+   "expected_verified_no_pets_delta": 4,
+   "expected_market_count_delta": 1,
+   "expected_participation_delta": [
+    {
+     "market_id": "hickory-nc",
+     "from": false,
+     "to": true
+    }
+   ],
+   "joining_market_profiles": 9,
+   "joining_market_verified_no_pets": 4,
+   "shadow_until_registered": "declared against a live release that carries no index for this market; the registration order's re-seal restates the delta through registration_release_lane.joining_delta"
+  },
+  "VALIDATION_RECEIPT": {
+   "path": "launch_packages/pettripfinder/markets/staging/hickory-nc/shadow_receipts/hickory-nc/pkg-hickory-nc-40470cd4656e71cb-71a33da73a895cdf.json",
+   "digest": "sha256:71a33da73a895cdf8a651899418b2abb1f003131d19bfc10dbb88202e5edbc47",
+   "eligible": "YES",
+   "rules": {
+    "A": "PASS",
+    "B": "PASS",
+    "C": "PASS",
+    "D": "PASS",
+    "E": "PASS",
+    "F": "PASS",
+    "G": "PASS",
+    "H": "PASS",
+    "I": "PASS",
+    "J": "PASS",
+    "K": "PASS",
+    "L": "PASS",
+    "M": "PASS",
+    "N": "PASS",
+    "O": "PASS"
+   },
+   "unknown": [],
+   "failed": [],
+   "determinism": "BYTE_IDENTICAL"
+  },
+  "COVERAGE_SCORECARD": {
+   "census_count": 22,
+   "published_pet_friendly": 9,
+   "verified_no_pets": 4,
+   "out_of_category": 0,
+   "unresolved": 9,
+   "public_routes": 11,
+   "evidence_references": 13,
+   "evidence_references_source": "derived_from_records",
+   "evidence_artifacts_available": 0,
+   "paid_evidence_references": 0,
+   "counts_by_partition_state": {
+    "AWAITING_OFFICIAL_URL": 4,
+    "AWAITING_POLICY_OBSERVATION": 5,
+    "PUBLISHED_PET_FRIENDLY": 9,
+    "VERIFIED_NO_PETS": 4
+   }
+  },
+  "parent_binding": "parent_live_state names the CURRENT live release (Greenville, deploy 6aa75f87...). That is what this package was validated against. Once the next queued market is live, FAST rule N fails this package BY DESIGN; the registration order -- when Hickory reaches the front of the release queue -- re-seals the same committed inputs against that parent as a NEW package id. Nothing here is a production candidate, and no whole-site build was assembled."
+ },
+ "factory_code_changed": "NO -- every changed path is a hickory_nc_* helper, the market's discovery config, or a document under the market's own proposed / staging / report paths",
+ "shared_factory_notes_recorded_not_repaired": [
+  "The shared first-party reader classifies Baymont Hickory's 'Up to 2 pets with a maximum weight of 25 lbs are welcome for a non-refundable charge of 20.00 USD per night with a refundable 100.00 USD deposit. ADA defined service animals are welcome at this hotel.' as SERVICE_ANIMAL_ONLY; held as an evidence hold, never reworded.",
+  "Courtyard Hickory's own Pet Policy row prints 'Pets Welcome' above 'Pets Not Allowed' (FIRST_PARTY_CONFLICT); held."
+ ],
+ "broad_regression_run": "NO",
+ "final_production_candidate_created": "NO -- FAST composes the release index in memory only",
+ "founder_authorization_created": "NO",
+ "deployed": "NO",
+ "shared_state_touched": "NO -- launch_participation.json, bundle_cache_closure.json, the market_state pin, the generated globals, release contracts, identity_resolutions.json and the market registry are unchanged",
+ "next_order": [
+  "When Hickory reaches the front of the release queue, read CURRENT VERIFIED LIVE and rebase this branch onto it.",
+  "Copy markets/proposed/hickory-nc.json -> markets/hickory-nc.json, identity_census_proposed/hickory-nc.json -> identity_census/hickory-nc.json and the staged launch_package documents into their registered paths.",
+  "market_registration_cli --write, build_global_authority --write then --check, release contract, registration_release_lane register + seal --work-order (a NEW package id against the new parent; this shadow package's FAST rule N fails by design once the parent moves).",
+  "regression_delta classify (expect COMPOSITE_FRESH_MARKET_DATA_ONLY), compose and reproduce the candidate, prepare the founder packet, deploy only on founder authorization.",
+  "Before sealing: re-probe Choice (Sleep Inn, Quality Suites, Comfort Inn / MainStay Suites Conover -- names that clear the cross-market key collisions and the Fairgrove Church Road premises split), open Motel 6 / Studio 6 Hickory's client-rendered pet policy, and seek first-party routes for Gateway Extended Stay, Fran Mar Motel, Lowman's Motor Court and Claremont Inn & Suites."
+ ]
+}

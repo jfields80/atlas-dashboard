@@ -1,6 +1,6 @@
 """PTF-HICKORY-NC-PARALLEL-SOURCE-READY-001 -- complete accounting.
 
-Cloned from the Atlanta GA accounting helper. Every discovered candidate, every
+Cloned from the Pinehurst - Southern Pines NC accounting helper. Every discovered candidate, every
 census identity in exactly one disposition, every hold by class, per-corridor and
 per-town coverage, lane yields, the vacation-rental filter's refusals, the shadow
 package's identity, its independent reproduction, measured timings and the release
@@ -31,19 +31,20 @@ OUT = os.path.join(REPORTS, "hickory_nc_source_ready_accounting_009.json")
 
 #: Measured wall-clock facts of this run (UTC), recorded as observed.
 TIMINGS = OrderedDict([
-    ("PINEHURST_SOUTHERN_PINES_START_TIMESTAMP", "2026-09-14T01:31:50Z (2026-09-13T21:31:50-04:00)"),
-    ("precheck_and_template_read", "01:31Z-01:40Z (worktree, branch, HEAD e312caa6, tree clean; the Boone - Blowing Rock shadow chain read as the template)"),
-    ("geography_and_corridor_model", "by 01:52Z (7 corridors: 3 CORE / 2 CORRIDOR / 2 FRINGE, 11 admitted ZIPs; Robbins, Sanford, Fayetteville, Raeford, Rockingham, Laurinburg and Montgomery County OUTSIDE by name)"),
-    ("osm_lane", "438.7 s (North Carolina extract, hard link of the 2026-09-10 snapshot; 40 hotel / motel / guest_house / chalet / apartment elements)"),
-    ("brand_inventory_lane", "96 free requests (Marriott NC sitemap page, 17 Hilton city pages, Wyndham sitemap walk, family probes)"),
-    ("destination_roster", "Pinehurst, Southern Pines, Aberdeen Area CVB: the lodging page and the one partner-index query it declares (2 requests, 49 lodging listings)"),
-    ("live_parent_moved", "~01:57Z check (before any commit): Fayetteville went live (ec764bef, deploy 6aa750d8); the branch (no commits yet) was fast-forwarded to ec764bef so the package binds to the CURRENT live parent"),
-    ("attended_browser_evidence", "Marriott 4 and IHG 1 (same-origin fetch, payload digests verified), Best Western 1 (hashed in the same call as the quote); Hilton 3 reused from the Fayetteville order's attended payload; Choice closed with a bot-challenge shell; four independents' own sites read (identity only)"),
-    ("static_first_party_lanes", "Wyndham property service 3.1 s (7 routes: 3 read, 4 retired); static home pages 2.5 s (22 targets); policy-page lane 13.6 s (22 sites, 87 documents)"),
-    ("source_ready_inputs_committed", "2026-09-14T02:03:14Z (9690624b)"),
-    ("shadow_package_sealed_and_fast", "02:03:21Z-02:03:47Z (sealed twice in-process, FAST 15/15)"),
-    ("independent_reproduction", "02:04Z-02:06Z (clean git worktree at 9690624b: separate-process digest-only seal = same digest; geography, brand pages, capture, census, clean set, staged authority, partition and staged shard rebuilt from committed captures -- zero content difference, the discovery config differs only by the worktree's CRLF checkout of an eol-unattributed file; same digest a third time)"),
-    ("ZERO_TO_SOURCE_READY", "31 min 57 s (01:31:50Z -> 02:03:47Z, FAST-passed sealed shadow package)"),
+    ("HICKORY_START_TIMESTAMP", "2026-09-14T02:51:52Z (2026-09-13T22:51:52-04:00)"),
+    ("precheck_and_template_read", "02:51Z-02:58Z (worktree, branch, HEAD ec764bef, tree clean; the branch had no commits and was fast-forwarded to the Greenville-live commit 595bfeeb before any work; the Pinehurst - Southern Pines shadow chain read as the template)"),
+    ("geography_and_corridor_model", "by 03:05Z (9 corridors: 3 CORE / 2 CORRIDOR / 4 FRINGE, 12 admitted ZIPs; Lenoir preserved as future submarket; Morganton, Statesville, Taylorsville, Lincolnton, Denver and Boone OUTSIDE by name)"),
+    ("osm_lane", "421.5 s, run detached beside the other lanes (North Carolina extract, hard link of the 2026-09-10 snapshot; 110 hotel / motel / chalet / apartment elements in the observation box)"),
+    ("brand_inventory_lane", "97 free requests (Marriott NC sitemap page, 18 Hilton city pages, Wyndham sitemap walk of 61 documents, family probes)"),
+    ("destination_roster", "Visit Hickory Metro listing service: token + 4 sub-category queries (5 requests, 39 listings)"),
+    ("static_evidence", "Wyndham property service 1.8 s (15 routes: 7 read, 8 retired); static home pages 1.3 s (10 targets: 5 served, 5 refused 403); policy-page lane 1.4 s (5 sites, 10 documents)"),
+    ("browser_evidence", "03:07Z-03:17Z: Marriott 3, Hilton 3, IHG 3 (same-origin fetch, payload digests verified); Best Western 1, Red Roof 1, Motel 6 / Studio 6 2 (hashed in the same call); Affordable Suites and The Trott House Inn own sites (plain client 403); 2nd Street Inn and The Dragonfly Inn own sites; Choice served an empty document"),
+    ("identity_policy_adjudication_and_reconciliation", "03:12Z-03:20Z (census three passes, non-hotel and rebrand rulings, clean set, staged authority, partition)"),
+    ("source_ready_inputs_committed", "2026-09-14T03:20:50Z (61dd835a); the clean-worktree rebuild found the staged launch_package census copy stale by two source-authority lines, so the first seal (pkg-hickory-nc-5f172c50, never committed) was discarded and the copy re-staged (3400a148)"),
+    ("shadow_package_sealed_and_fast", "03:23:00Z-03:23:47Z (sealed twice in-process, FAST 15/15)"),
+    ("independent_reproduction", "03:23:50Z-03:24:17Z (clean git worktree at 3400a148: geography, brand pages, capture, census, clean set, staged authority, partition and staged shard rebuilt from committed captures -- zero content difference, the discovery config differs only by the worktree's CRLF checkout of an eol-unattributed file; separate-process digest-only seal = the same digest)"),
+    ("ZERO_TO_SOURCE_READY", "31 min 55 s (02:51:52Z -> 03:23:47Z, FAST-passed sealed shadow package)"),
+    ("peak_memory", "not instrumented on this run (the OSM two-pass read and the FAST cold builds were the heaviest steps; no step was memory-constrained)"),
 ])
 
 def _load(path):
@@ -69,9 +70,8 @@ def town_coverage(hotels, pf, np_):
     Shores and Duck share one postal code and one corridor."""
     from scripts.pettripfinder import hickory_nc_geography_001 as GEO
     towns = OrderedDict((a, []) for a in (
-        "Pinehurst village / resort district", "Pinehurst Moore Regional medical / business ring",
-        "Southern Pines downtown", "US-1 corridor", "Aberdeen US-15-501 / NC-5", "Whispering Pines / Carthage",
-        "Vass / Cameron", "Seven Lakes / West End / Foxfire"))
+        "Hickory downtown / central", "I-40 Hickory", "US-321 Hickory", "Long View / Mountain View", "Hickory (other)",
+        "Conover", "Newton", "Claremont", "Granite Falls / Sawmills", "Hildebran / Icard", "Maiden", "Catawba", "Hudson"))
     unplaced = []
     for h in hotels:
         state = ("PUBLISHED_PET_FRIENDLY" if h["identity_key"] in pf
@@ -91,8 +91,9 @@ def town_coverage(hotels, pf, np_):
                             ("identities", rows)])
     return OrderedDict([
         ("what_it_is", "Coverage for the order's named areas. Reporting only; membership and corridor come from the "
-                       "postal partition. Southern Pines and Aberdeen rows on US-1 / Sandhills Boulevard report as the "
-                       "US-1 corridor; Pinehurst rows off the village streets report as the Moore Regional ring."),
+                       "postal partition. A Hickory row reports under I-40 Hickory, US-321 Hickory or downtown when its "
+                       "own street names those roads (13th Avenue Drive, Lenoir-Rhyne Boulevard, US-70 are the I-40 "
+                       "exit 125-126 service roads), else by its pin."),
         ("towns", OrderedDict((a, summary(rows)) for a, rows in towns.items())),
         ("unplaced", summary(unplaced)),
     ])
@@ -138,11 +139,17 @@ def build():
         why = reason(r).lower()
         subs = {x for o in r.get("evidence") or ()
                 for x in (o.get("bureau_all_subcategories") or [o.get("bureau_subcategory")]) if x}
-        if "golf-package operator" in why:
-            return "GOLF_PACKAGE_VILLAS_COTTAGES"
+        if "townhome" in why:
+            return "CLUB_TOWNHOMES"
+        if "apartment" in why:
+            return "APARTMENT_COMMUNITY"
+        if "retreat" in why or "country club" in why:
+            return "RETREAT_OR_CLUB"
+        if "vacation-rental company" in why:
+            return "VACATION_RENTAL"
         if "vacation rental" in why or "rented as a whole property" in why:
             return "VACATION_RENTAL"
-        if subs & {"RV/Campground", "Camping / RV Resorts"}:
+        if subs & {"RV/Campground", "Camping / RV Resorts", "Campgrounds & RV"}:
             return "CAMPGROUND_RV"
         if subs & {"Agritourism", "Farm", "Equestrian", "Unique Venue"}:
             return "FARM_VENUE"
@@ -158,13 +165,16 @@ def build():
             ("identity_review_required", review),
             ("name_only_unresolved", names("NAME_ONLY_UNRESOLVED")),
             ("rebrand_unresolved", names("SAME_IDENTITY_REBRAND_SUCCESSOR")),
-            ("note", "Not census identities and never published: Duncraig Manor (lodging category unconfirmed -- now "
-                     "an event venue), the Econo Lodge at 408 West Morganton Road (its only labels collide with registered "
-                     "keys; Choice served a bot shell), a map 'Motel 6' label on the AmeriVu site, stale competitor flags "
-                     "(Days Inn Conference Center, Super 8 Aberdeen), a competitor spelling of SureStay Plus, and "
-                     "competitor B&B names with no first-party address (Knollwood House -- domain lapsed -- Beggar's "
-                     "Ride, Conroy B&B, Pine Gables of Aberdeen, Duck Smith House, Lucky Bar Farm, The MacPherson "
-                     "House).")])),
+            ("note", "Not census identities and never published. Choice rows: Sleep Inn (1179 13th Avenue Drive SE) and "
+                     "Quality Suites (1125 13th Avenue Drive SE) -- their bare names are registered keys of Charlotte and "
+                     "Louisville and Choice served an empty page, so no first-party name clears the collision; Comfort "
+                     "Inn & MainStay Suites (1607 Fairgrove Church Road, Conover) -- one bureau listing, two Choice "
+                     "flags in search summaries, the map's retired La Quinta. Motel 6 / Studio 6 Hickory -- two G6 "
+                     "property ids at one street (484 US-70 SW), co-location unproven. Lodging category unconfirmed: The "
+                     "Lodge at Rock Barn (member club; its lodging page 404s), Henry River Mill Village (attraction "
+                     "offering 'overnight accommodations' with no room inventory). Name-only: the map's 'Econo Lodge' "
+                     "pin beside the Red Roof Inn, and competitor names Comfort Inn Conover-Hickory, MainStay Suites "
+                     "Conover-Hickory and Budget Inn Express Hickory (a booking slug for the Motel 6).")])),
         ("ROUTING_HOLDS", OrderedDict([("count", states.get("AWAITING_OFFICIAL_URL", 0)),
                                        ("identities", by_state.get("AWAITING_OFFICIAL_URL", []))])),
         ("ACCESS_BLOCKED", OrderedDict([("count", states.get("ACCESS_BLOCKED", 0)),
@@ -176,10 +186,10 @@ def build():
         ("GEOGRAPHY_HOLDS", OrderedDict([("count", len(geo_holds)), ("identities", geo_holds)])),
         ("PAID_HOLDS", OrderedDict([
             ("count", access_families.get("BRAND_FAMILY", 0)),
-            ("note", "The ACCESS_BLOCKED identities whose brand family (Choice: Clarion Inn, Comfort Inn Pinehurst, "
-                     "Quality Inn Pinehurst) refused this client are the "
-                     "paid-lane candidates. Same rows as ACCESS_BLOCKED, not an additional disposition; PAID PROVIDER "
-                     "BUDGET was $0 and no paid lane was used or reserved.")])),
+            ("note", "No census identity is ACCESS_BLOCKED: the three Choice buildings (Sleep Inn, Quality Suites, "
+                     "Comfort Inn & MainStay Suites) are identity holds outside the census, and they are the paid-lane "
+                     "candidates only after their identities clear. PAID PROVIDER BUDGET was $0 and no paid lane was "
+                     "used or reserved.")])),
         ("FOUNDER_HOLDS", OrderedDict([
             ("count", 0),
             ("note", "No row requires a founder ruling. Conflicts, single-suite exceptions and reads the shared reader "
@@ -187,12 +197,13 @@ def build():
         ("CLOSED_OR_RETIRED", OrderedDict([
             ("count", len(wyn.get("retired_routes") or [])),
             ("wyndham_retired_routes", wyn.get("retired_routes")),
-            ("note", "Wyndham routes that redirect to the brand's search: Days Inn Conference Center Southern Pines "
-                     "(805 SW Service Road now trades as Clarion Inn), Super 8 Aberdeen Southern Pines (1408 N Sandhills "
-                     "Boulevard now trades as AmeriVu Inn & Suites), the legacy Microtel route (the property trades on "
-                     "its live route) and Days Inn Rockingham outside. Routes, not census identities.")])),
+            ("note", "Wyndham routes that redirect to the brand's search: La Quinta Hickory (1607 Fairgrove Church Road, "
+                     "Conover -- the bureau now lists Comfort Inn & MainStay Suites there), Ramada Conover-Hickory Area, "
+                     "Super 8 Claremont (the map now names Claremont Inn & Suites at 3054 North Oxford Street), and "
+                     "outside the market Baymont Statesville, Days Inn Lenoir, Days Inn & Suites Morganton, Ramada "
+                     "Statesville and Super 8 Statesville. Routes, not census identities.")])),
         ("OUTSIDE", OrderedDict([("count", len(names("OUTSIDE_MARKET"))),
-                                 ("future_submarket", "none preserved by this order")])),
+                                 ("future_submarket", OrderedDict([("market_id", "lenoir-nc"), ("identities", future)]))])),
         ("NON_HOTEL", OrderedDict([("count", len(non_hotel)),
                                    ("by_kind", OrderedDict(sorted(Counter(nh_class(r) for r in non_hotel).items()))),
                                    ("identities", sorted(r["canonical_name"] for r in non_hotel))])),
@@ -218,10 +229,10 @@ def build():
 
     doc = OrderedDict([
         ("schema", "ptf-market-source-ready-accounting/1.0"), ("work_order", WORK_ORDER), ("market_id", MARKET_ID),
-        ("display_market", "Pinehurst \u2013 Southern Pines \u2013 Aberdeen, North Carolina"),
+        ("display_market", "Hickory \u2013 Newton \u2013 Conover, North Carolina"),
         ("state", "SOURCE_READY -- SHADOW_UNTIL_REGISTERED"),
-        ("release_queue", "Fayetteville (LIVE, the current parent) -> Jacksonville -> Greenville -> Atlanta -> "
-                          "Outer Banks -> Boone - Blowing Rock -> Pinehurst - Southern Pines"),
+        ("release_queue", "Greenville (LIVE, the current parent 595bfeeb) -> handled separately; Hickory waits in the "
+                          "source-ready queue"),
         ("timings", TIMINGS),
         ("accounting", OrderedDict([
             ("TOTAL_DISCOVERED", census["total_candidates"]),
@@ -260,17 +271,32 @@ def build():
             ("clean_set", clean["counts"]),
         ])),
         ("competitor_gap_challenge", gaps["counts"]),
+        ("competitor_gap_reconciliation", OrderedDict([
+            ("leads", OrderedDict([
+                ("Comfort Inn Conover-Hickory", "REVIEW -- one of two Choice flags at 1607 Fairgrove Church Road (rebrand / dual-brand hold)"),
+                ("MainStay Suites Conover-Hickory", "REVIEW -- the other Choice flag at the same premises"),
+                ("Hilton Garden Inn Hickory", "EXACT MATCH"),
+                ("Motel 6 Hickory NC", "EXACT MATCH -- confirmed on the brand's own page (484 US-70 SW); identity hold with Studio 6"),
+                ("Red Roof Inn Hickory", "EXACT MATCH"),
+                ("Crowne Plaza Hotel Hickory", "ALIAS -- Crowne Plaza Hickory"),
+                ("Days Inn & Suites by Wyndham Hickory", "EXACT MATCH"),
+                ("Days Inn by Wyndham Conover-Hickory", "EXACT MATCH"),
+                ("Sleep Inn Hickory South", "ALIAS -- Sleep Inn, 1179 13th Avenue Drive SE (identity hold)"),
+                ("Studio 6 Hickory NC", "EXACT MATCH -- confirmed on the brand's own page; identity hold with Motel 6"),
+                ("Holiday Inn Express Hotel & Suites Conover - Hickory Area", "ALIAS -- Holiday Inn Express & Suites Conover (Hickory Area)"),
+                ("Budget Inn Express Hickory", "REBRAND -- a booking slug for the Motel 6 Hickory listing; name only"),
+            ])),
+            ("true_missing_identity_found", "Motel 6 Hickory and Studio 6 Hickory: absent from OSM, the bureau and every brand "
+                                            "roster this order read; returned through the brand's own city and property pages"),
+            ("raw_count_parity_chased", False),
+        ])),
         ("owned_evidence", OrderedDict([
-            ("OWNED_IDENTITIES", "18 observed, 0 registered -- the Fayetteville census (registered at ec764bef) carries "
-                                 "Moore County rows only as OUTSIDE_MARKET observations; no registered market admits a "
-                                 "Pinehurst / Southern Pines / Aberdeen identity, and no identity was imported from it."),
-            ("OWNED_ROUTES", "7 -- the Fayetteville brand lanes' Southern Pines routes (4 Marriott, 3 Hilton) and Wyndham's "
-                             "Microtel / Days Inn / Super 8 routes; the committed national harvest carries no Sandhills "
-                             "route. Every route was re-derived from the brand's own current inventory by this order."),
-            ("OWNED_VALID_POLICY_EVIDENCE", "3 -- the Fayetteville order's attended Hilton reads (2026-09-13) for Hilton "
-                                            "Garden Inn Southern Pines Pinehurst, Hampton Inn & Suites Southern Pines-"
-                                            "Pinehurst and Homewood Suites Olmsted Village, reused with their document "
-                                            "sha256s; every other record is a new first-party capture of this order."),
+            ("OWNED_IDENTITIES", "0 -- no registered census (identity_census/*.json) carries a row in any Hickory-market "
+                                 "postal code; the committed reports mention Hickory only in other markets' geography notes."),
+            ("OWNED_ROUTES", "0 -- the committed national brand harvest (dayton_oh_brand_directory_harvest_001.json) yields no "
+                             "Hickory-area lead; every route was derived from the brand's own current inventory by this order."),
+            ("OWNED_VALID_POLICY_EVIDENCE", "0 -- no earlier order read a Hickory-area property page; every record is a new "
+                                            "first-party capture of this order."),
         ])),
         ("package", OrderedDict([
             ("SHADOW_PACKAGE_CREATED", "YES"), ("execution_zone", shadow["execution_zone"]),
@@ -290,11 +316,10 @@ def build():
         ("factory_code_changed", "NO -- every changed path is a hickory_nc_* helper, the market's discovery config, or a "
                                  "document under the market's own proposed / staging / report paths"),
         ("shared_factory_notes_recorded_not_repaired", [
-            "The shared first-party reader does not read Pinehurst Resort's 'Pinehurst is a pet-free facility.' as a "
-            "refusal (QUOTE_NOT_OPERATIVE); the Carolina Hotel, the Holly Inn, the Manor and the Magnolia Inn are held, "
-            "never reworded.",
-            "The CVB's partner index prints a house number in the ZIP field for two listings (12615, 10024); the roster "
-            "lane accepts only a 27xxx / 28xxx postal code.",
+            "The shared first-party reader classifies Baymont Hickory's 'Up to 2 pets with a maximum weight of 25 lbs are "
+            "welcome for a non-refundable charge of 20.00 USD per night with a refundable 100.00 USD deposit. ADA defined "
+            "service animals are welcome at this hotel.' as SERVICE_ANIMAL_ONLY; held as an evidence hold, never reworded.",
+            "Courtyard Hickory's own Pet Policy row prints 'Pets Welcome' above 'Pets Not Allowed' (FIRST_PARTY_CONFLICT); held.",
         ]),
         ("broad_regression_run", "NO"),
         ("final_production_candidate_created", "NO -- FAST composes the release index in memory only"),
@@ -303,17 +328,16 @@ def build():
         ("shared_state_touched", "NO -- launch_participation.json, bundle_cache_closure.json, the market_state pin, the "
                                  "generated globals, release contracts, identity_resolutions.json and the market registry are unchanged"),
         ("next_order", [
-            "Wait until Jacksonville, Greenville, Atlanta, Outer Banks and Boone - Blowing Rock are live; read that live parent.",
-            "Rebase worker/ptf-hickory-nc-market-001 onto it; copy markets/proposed/hickory-nc.json -> "
-            "markets/hickory-nc.json, identity_census_proposed/hickory-nc.json -> "
+            "When Hickory reaches the front of the release queue, read CURRENT VERIFIED LIVE and rebase this branch onto it.",
+            "Copy markets/proposed/hickory-nc.json -> markets/hickory-nc.json, identity_census_proposed/hickory-nc.json -> "
             "identity_census/hickory-nc.json and the staged launch_package documents into their registered paths.",
             "market_registration_cli --write, build_global_authority --write then --check, release contract, registration_release_lane "
             "register + seal --work-order (a NEW package id against the new parent; this shadow package's FAST rule N fails by design once the parent moves).",
             "regression_delta classify (expect COMPOSITE_FRESH_MARKET_DATA_ONLY), compose and reproduce the candidate, prepare the founder "
             "packet, deploy only on founder authorization.",
-            "Before sealing, re-probe Choice (Clarion Inn, Comfort Inn Pinehurst, Quality Inn Pinehurst, Econo Lodge Southern Pines -- "
-            "the Econo Lodge also needs its first-party name to clear the cross-market key collision), ask Pinehurst Resort for a "
-            "per-hotel policy statement the reader interprets, and re-read Pine Crest Inn's script-rendered pages.",
+            "Before sealing: re-probe Choice (Sleep Inn, Quality Suites, Comfort Inn / MainStay Suites Conover -- names that clear the "
+            "cross-market key collisions and the Fairgrove Church Road premises split), open Motel 6 / Studio 6 Hickory's client-rendered "
+            "pet policy, and seek first-party routes for Gateway Extended Stay, Fran Mar Motel, Lowman's Motor Court and Claremont Inn & Suites.",
         ]),
     ])
     return doc
