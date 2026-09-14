@@ -1,0 +1,553 @@
+{
+ "schema": "ptf-market-geography/1.0",
+ "work_order": "PTF-CHARLESTON-SC-PARALLEL-SOURCE-READY-001",
+ "phase": "2 + 3 + 4 -- Charleston multi-core travel-market geography, beach / resort decisions and corridor model",
+ "market_id": "charleston-sc",
+ "as_of": "2026-09-14",
+ "paid_provider_calls": 0,
+ "usd_spent": 0.0,
+ "free_http_requests": 0,
+ "registration_state": "SHADOW_UNTIL_REGISTERED: the market document is written to markets/proposed/, never to the registry's markets/<id>.json. Registration waits for Charleston's turn in the serialized release queue against the then-current live parent.",
+ "membership_rule": "The property's OWN postal code, as its own official page states it, joined to the corridor registry, with Kiawah Island / Seabrook Island refused by their own stated municipality inside 29455. Nothing else admits a property.",
+ "travel_market": "Charleston's lodging cores (the Historic District, the upper peninsula, West Ashley, North Charleston, the CHS airport and Convention Center district, Mount Pleasant and Daniel Island), the interstate and suburban corridors a Charleston traveller sleeps in by choice (James Island, Summerville, Goose Creek, Ladson), and Charleston's own beaches as FRINGE (Folly Beach, Isle of Palms / Sullivan's Island) with Johns Island.",
+ "classes": {
+  "CORE": "Historic District / Downtown Charleston (29401, 29402, 29413, 29424, 29425); Upper Peninsula / Meeting Street / Upper King (29403, 29409); West Ashley / Savannah Highway / I-526 (29407, 29414, 29416, 29417); North Charleston / Rivers Avenue / Hanahan (29405, 29406, 29410, 29415, 29419, 29420, 29423); CHS Airport / Convention Center / Coliseum / Tanger Outlets (29418); Mount Pleasant / Patriots Point (29464, 29465, 29466); Daniel Island / Cainhoy (29492)",
+  "CORRIDOR": "James Island / Folly Road (29412, 29422); Summerville / I-26 Exits 199 (29483, 29484, 29485, 29486); Goose Creek / US-52 (29445); Ladson / I-26 Exit 203 (29456)",
+  "FRINGE": "Folly Beach (29439); Isle of Palms / Sullivan's Island (29451, 29482); Johns Island / Maybank Highway (29455, 29457)"
+ },
+ "outside_class": "Everything else, refused by name with its postal codes.",
+ "beach_resort_decisions": {
+  "Isle of Palms": {
+   "decision": "B -- FRINGE inventory, admitted as its own corridor (isle-of-palms, 29451)",
+   "why": "Isle of Palms is reached from Mount Pleasant in minutes over the Connector, is part of the Charleston metro and the Charleston visitor bureau's own lodging inventory, and its hotels (the Wild Dunes resort's Sweetgrass Inn and Boardwalk Inn, and the island's small oceanfront hotels) sell Charleston-area beach stays. Its hotel count is small and its vacation-rental stock is large and refused, so it cannot stand alone as a hotel market: FRINGE, never core."
+  },
+  "Sullivan's Island": {
+   "decision": "B -- FRINGE, folded into the isle-of-palms corridor (29482)",
+   "why": "A residential island with essentially no public hotel stock; admitted only so a qualifying inn there is classified rather than invisible."
+  },
+  "Folly Beach": {
+   "decision": "B -- FRINGE inventory, admitted as its own corridor (folly-beach, 29439)",
+   "why": "Folly Beach is 'Charleston's beach': twenty minutes down Folly Road from downtown through James Island, with a handful of oceanfront hotels and inns that Charleston visitors book for a beach night. The town's lodging is dominated by rental houses, which are refused, and its hotel count cannot carry a standalone market."
+  },
+  "Kiawah Island": {
+   "decision": "C -- FUTURE standalone / submarket opportunity (kiawah-seabrook-sc); OUTSIDE here",
+   "why": "A gated resort island 45 minutes from downtown. Its public lodging is one resort's hotel (The Sanctuary) plus resort villa, cottage and home rental programmes; its search intent is 'Kiawah Island resort' and golf, not 'Charleston hotels'. Admitting it would publish a gated destination resort on a Charleston page and fold its villa programme into a hotel census."
+  },
+  "Seabrook Island": {
+   "decision": "C -- FUTURE submarket with Kiawah (kiawah-seabrook-sc); OUTSIDE here",
+   "why": "A private, gated club community whose lodging is member / guest villa and home rentals; no public hotel identity."
+  }
+ },
+ "evaluated_inclusions": {
+  "Charleston Historic District / Downtown": "ADMITTED (CORE, historic-district, 29401).",
+  "Upper Peninsula / Meeting Street corridor": "ADMITTED (CORE, upper-peninsula, 29403).",
+  "West Ashley": "ADMITTED (CORE, west-ashley, 29407 / 29414).",
+  "North Charleston": "ADMITTED (CORE, north-charleston, 29405 / 29406 / 29420).",
+  "Charleston International Airport / CHS": "ADMITTED (CORE, chs-airport-convention, 29418) -- shares 29418 with the Convention Center district; reported as an overlay.",
+  "Tanger / Convention Center / Coliseum": "ADMITTED (CORE, chs-airport-convention, 29418).",
+  "Mount Pleasant": "ADMITTED (CORE, mount-pleasant, 29464 / 29466).",
+  "Patriots Point": "ADMITTED (CORE, mount-pleasant, 29464) -- reported as an overlay.",
+  "Daniel Island": "ADMITTED (CORE, daniel-island, 29492).",
+  "Isle of Palms": "ADMITTED (FRINGE, isle-of-palms, 29451).",
+  "Sullivan's Island": "ADMITTED (FRINGE, isle-of-palms, 29482).",
+  "Folly Beach": "ADMITTED (FRINGE, folly-beach, 29439).",
+  "James Island": "ADMITTED (CORRIDOR, james-island, 29412).",
+  "Johns Island": "ADMITTED (FRINGE, johns-island, 29455) -- Kiawah / Seabrook refused inside it.",
+  "Kiawah / Seabrook resort lodging": "OUTSIDE -- preserved for the future kiawah-seabrook-sc market.",
+  "Goose Creek": "ADMITTED (CORRIDOR, goose-creek, 29445).",
+  "Summerville": "ADMITTED (CORRIDOR, summerville, 29483 / 29485 / 29486).",
+  "Ladson": "ADMITTED (CORRIDOR, ladson, 29456) -- the I-26 exit 203 cluster between North Charleston and Summerville.",
+  "Hanahan": "ADMITTED (CORE, north-charleston, 29410) -- contiguous with North Charleston; too small for its own corridor.",
+  "Moncks Corner": "OUTSIDE -- 30 miles north, its own lake / county-seat cluster.",
+  "Awendaw": "OUTSIDE -- rural national-forest US-17 with no lodging core.",
+  "Ravenel": "OUTSIDE -- rural US-17 south with no hotel core.",
+  "Beaufort / Hilton Head Island / Bluffton / Georgetown / Myrtle Beach / Edisto / Walterboro": "OUTSIDE -- refused by name (order)."
+ },
+ "corridor_registry_is_a_partition": true,
+ "admitted_postal_codes": [
+  "29401",
+  "29402",
+  "29403",
+  "29405",
+  "29406",
+  "29407",
+  "29409",
+  "29410",
+  "29412",
+  "29413",
+  "29414",
+  "29415",
+  "29416",
+  "29417",
+  "29418",
+  "29419",
+  "29420",
+  "29422",
+  "29423",
+  "29424",
+  "29425",
+  "29439",
+  "29445",
+  "29451",
+  "29455",
+  "29456",
+  "29457",
+  "29464",
+  "29465",
+  "29466",
+  "29482",
+  "29483",
+  "29484",
+  "29485",
+  "29486",
+  "29492"
+ ],
+ "admitted_postal_code_count": 36,
+ "corridors": [
+  {
+   "corridor_id": "charleston-sc__historic-district",
+   "name": "Historic District / Downtown Charleston",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "29401",
+    "29402",
+    "29413",
+    "29424",
+    "29425"
+   ]
+  },
+  {
+   "corridor_id": "charleston-sc__upper-peninsula",
+   "name": "Upper Peninsula / Meeting Street / Upper King",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "29403",
+    "29409"
+   ]
+  },
+  {
+   "corridor_id": "charleston-sc__west-ashley",
+   "name": "West Ashley / Savannah Highway / I-526",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "29407",
+    "29414",
+    "29416",
+    "29417"
+   ]
+  },
+  {
+   "corridor_id": "charleston-sc__north-charleston",
+   "name": "North Charleston / Rivers Avenue / Hanahan",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "29405",
+    "29406",
+    "29410",
+    "29415",
+    "29419",
+    "29420",
+    "29423"
+   ]
+  },
+  {
+   "corridor_id": "charleston-sc__chs-airport-convention",
+   "name": "CHS Airport / Convention Center / Coliseum / Tanger Outlets",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "29418"
+   ]
+  },
+  {
+   "corridor_id": "charleston-sc__mount-pleasant",
+   "name": "Mount Pleasant / Patriots Point",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "29464",
+    "29465",
+    "29466"
+   ]
+  },
+  {
+   "corridor_id": "charleston-sc__daniel-island",
+   "name": "Daniel Island / Cainhoy",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "29492"
+   ]
+  },
+  {
+   "corridor_id": "charleston-sc__james-island",
+   "name": "James Island / Folly Road",
+   "geography_class": "CORRIDOR",
+   "included_postal_codes": [
+    "29412",
+    "29422"
+   ]
+  },
+  {
+   "corridor_id": "charleston-sc__summerville",
+   "name": "Summerville / I-26 Exits 199",
+   "geography_class": "CORRIDOR",
+   "included_postal_codes": [
+    "29483",
+    "29484",
+    "29485",
+    "29486"
+   ]
+  },
+  {
+   "corridor_id": "charleston-sc__goose-creek",
+   "name": "Goose Creek / US-52",
+   "geography_class": "CORRIDOR",
+   "included_postal_codes": [
+    "29445"
+   ]
+  },
+  {
+   "corridor_id": "charleston-sc__ladson",
+   "name": "Ladson / I-26 Exit 203",
+   "geography_class": "CORRIDOR",
+   "included_postal_codes": [
+    "29456"
+   ]
+  },
+  {
+   "corridor_id": "charleston-sc__folly-beach",
+   "name": "Folly Beach",
+   "geography_class": "FRINGE",
+   "included_postal_codes": [
+    "29439"
+   ]
+  },
+  {
+   "corridor_id": "charleston-sc__isle-of-palms",
+   "name": "Isle of Palms / Sullivan's Island",
+   "geography_class": "FRINGE",
+   "included_postal_codes": [
+    "29451",
+    "29482"
+   ]
+  },
+  {
+   "corridor_id": "charleston-sc__johns-island",
+   "name": "Johns Island / Maybank Highway",
+   "geography_class": "FRINGE",
+   "included_postal_codes": [
+    "29455",
+    "29457"
+   ]
+  }
+ ],
+ "corridor_count": 14,
+ "corridor_count_by_class": {
+  "CORE": 7,
+  "CORRIDOR": 4,
+  "FRINGE": 3
+ },
+ "corridor_page_rule": "A corridor page publishes only when the existing publication threshold (minimum_hotel_count = 5 verified pet-friendly hotels) is met. No thin corridor page is invented for SEO; every corridor is show_in_navigation/show_in_sitemap false until a registration order publishes it. The CHS airport and the Convention Center / Tanger district share 29418, and Patriots Point shares 29464 with Mount Pleasant, so they cannot be separate pages under a postal-code partition; they are reported as overlays.",
+ "coverage_areas_are_a_reporting_overlay": "The order's named areas that share a postal code with another area are reported from the property's own stated street first and a nearest-anchor overlay on its pin second. The overlay decides nothing about membership or corridor.",
+ "coverage_areas": [
+  {
+   "area": "Historic District / Downtown",
+   "anchor_lat": 32.78,
+   "anchor_lng": -79.933,
+   "radius_km": 1.6
+  },
+  {
+   "area": "Upper Peninsula / Meeting Street",
+   "anchor_lat": 32.804,
+   "anchor_lng": -79.943,
+   "radius_km": 2.0
+  },
+  {
+   "area": "West Ashley",
+   "anchor_lat": 32.8,
+   "anchor_lng": -80.03,
+   "radius_km": 5.0
+  },
+  {
+   "area": "North Charleston",
+   "anchor_lat": 32.89,
+   "anchor_lng": -80.01,
+   "radius_km": 7.0
+  },
+  {
+   "area": "CHS Airport",
+   "anchor_lat": 32.8986,
+   "anchor_lng": -80.0405,
+   "radius_km": 1.9
+  },
+  {
+   "area": "Convention Center / Coliseum / Tanger",
+   "anchor_lat": 32.87,
+   "anchor_lng": -80.02,
+   "radius_km": 1.8
+  },
+  {
+   "area": "Mount Pleasant",
+   "anchor_lat": 32.832,
+   "anchor_lng": -79.828,
+   "radius_km": 7.0
+  },
+  {
+   "area": "Patriots Point",
+   "anchor_lat": 32.79,
+   "anchor_lng": -79.905,
+   "radius_km": 1.3
+  },
+  {
+   "area": "Daniel Island",
+   "anchor_lat": 32.865,
+   "anchor_lng": -79.91,
+   "radius_km": 3.0
+  },
+  {
+   "area": "Isle of Palms",
+   "anchor_lat": 32.795,
+   "anchor_lng": -79.77,
+   "radius_km": 5.0
+  },
+  {
+   "area": "Sullivan's Island",
+   "anchor_lat": 32.763,
+   "anchor_lng": -79.837,
+   "radius_km": 2.0
+  },
+  {
+   "area": "Folly Beach",
+   "anchor_lat": 32.655,
+   "anchor_lng": -79.94,
+   "radius_km": 4.0
+  },
+  {
+   "area": "James Island",
+   "anchor_lat": 32.725,
+   "anchor_lng": -79.955,
+   "radius_km": 4.0
+  },
+  {
+   "area": "Johns Island",
+   "anchor_lat": 32.71,
+   "anchor_lng": -80.07,
+   "radius_km": 7.0
+  },
+  {
+   "area": "Kiawah / Seabrook",
+   "anchor_lat": 32.6,
+   "anchor_lng": -80.12,
+   "radius_km": 9.0
+  },
+  {
+   "area": "Goose Creek",
+   "anchor_lat": 32.99,
+   "anchor_lng": -80.03,
+   "radius_km": 5.0
+  },
+  {
+   "area": "Summerville",
+   "anchor_lat": 33.01,
+   "anchor_lng": -80.18,
+   "radius_km": 7.0
+  },
+  {
+   "area": "Ladson",
+   "anchor_lat": 32.985,
+   "anchor_lng": -80.105,
+   "radius_km": 3.0
+  },
+  {
+   "area": "Hanahan",
+   "anchor_lat": 32.92,
+   "anchor_lng": -80.02,
+   "radius_km": 3.0
+  }
+ ],
+ "municipality_refusals": [
+  {
+   "postal_code": "29455",
+   "municipality": "kiawah island",
+   "why": "Kiawah Island / Seabrook Island: gated resort barrier islands 45 minutes from downtown whose public lodging is one resort's hotel plus resort villa, cottage and private-club rental inventory, with its own 'Kiawah' search intent; PRESERVED for the future kiawah-seabrook-sc resort-island market, evaluated and refused here."
+  },
+  {
+   "postal_code": "29455",
+   "municipality": "seabrook island",
+   "why": "Kiawah Island / Seabrook Island: gated resort barrier islands 45 minutes from downtown whose public lodging is one resort's hotel plus resort villa, cottage and private-club rental inventory, with its own 'Kiawah' search intent; PRESERVED for the future kiawah-seabrook-sc resort-island market, evaluated and refused here."
+  },
+  {
+   "postal_code": "29455",
+   "municipality": "kiawah",
+   "why": "Kiawah Island / Seabrook Island: gated resort barrier islands 45 minutes from downtown whose public lodging is one resort's hotel plus resort villa, cottage and private-club rental inventory, with its own 'Kiawah' search intent; PRESERVED for the future kiawah-seabrook-sc resort-island market, evaluated and refused here."
+  },
+  {
+   "postal_code": "29455",
+   "municipality": "seabrook",
+   "why": "Kiawah Island / Seabrook Island: gated resort barrier islands 45 minutes from downtown whose public lodging is one resort's hotel plus resort villa, cottage and private-club rental inventory, with its own 'Kiawah' search intent; PRESERVED for the future kiawah-seabrook-sc resort-island market, evaluated and refused here."
+  }
+ ],
+ "outside_named_and_refused": [
+  {
+   "municipality": "Kiawah Island / Seabrook Island (by municipality inside 29455)",
+   "state": "SC",
+   "postal_codes": [],
+   "why": "Kiawah Island / Seabrook Island: gated resort barrier islands 45 minutes from downtown whose public lodging is one resort's hotel plus resort villa, cottage and private-club rental inventory, with its own 'Kiawah' search intent; PRESERVED for the future kiawah-seabrook-sc resort-island market, evaluated and refused here."
+  },
+  {
+   "municipality": "Joint Base Charleston (military)",
+   "state": "SC",
+   "postal_codes": [
+    "29404"
+   ],
+   "why": "MILITARY_GOVERNMENT_NONPUBLIC -- installation lodging on Joint Base Charleston is not public lodging; evaluated and refused."
+  },
+  {
+   "municipality": "Moncks Corner / Bonneau / Pinopolis (Berkeley County north)",
+   "state": "SC",
+   "postal_codes": [
+    "29461",
+    "29431",
+    "29468",
+    "29479"
+   ],
+   "why": "Moncks Corner and Lake Moultrie, 30 miles north on US-52: its own small county-seat and lake lodging cluster; evaluated and refused."
+  },
+  {
+   "municipality": "Awendaw / McClellanville",
+   "state": "SC",
+   "postal_codes": [
+    "29429",
+    "29458"
+   ],
+   "why": "Rural US-17 north through the Francis Marion National Forest; no traveller lodging core of its own; evaluated and refused."
+  },
+  {
+   "municipality": "Ravenel / Hollywood / Meggett / Adams Run",
+   "state": "SC",
+   "postal_codes": [
+    "29470",
+    "29449",
+    "29426"
+   ],
+   "why": "Rural US-17 south and SC-162; no hotel core; evaluated and refused."
+  },
+  {
+   "municipality": "Wadmalaw Island",
+   "state": "SC",
+   "postal_codes": [
+    "29487"
+   ],
+   "why": "Rural sea island with no public hotel core; evaluated and refused."
+  },
+  {
+   "municipality": "Huger / Wando / Cordesville",
+   "state": "SC",
+   "postal_codes": [
+    "29450",
+    "29434"
+   ],
+   "why": "Rural Berkeley County north of Cainhoy; evaluated and refused."
+  },
+  {
+   "municipality": "Edisto Island / Edisto Beach",
+   "state": "SC",
+   "postal_codes": [
+    "29438"
+   ],
+   "why": "Edisto Beach, its own beach and vacation-rental market; refused by name (order)."
+  },
+  {
+   "municipality": "Walterboro / Colleton County",
+   "state": "SC",
+   "postal_codes": [
+    "29488"
+   ],
+   "why": "Walterboro's I-95 exit 53-57 cluster, its own interstate market; refused by name (order)."
+  },
+  {
+   "municipality": "St. George / Harleyville / Ridgeville / Dorchester (I-95 / I-26 upper Dorchester County)",
+   "state": "SC",
+   "postal_codes": [
+    "29477",
+    "29448",
+    "29472",
+    "29437"
+   ],
+   "why": "Upper Dorchester County and the I-95 / I-26 crossroads, a separate interstate cluster; evaluated and refused."
+  },
+  {
+   "municipality": "Beaufort / Port Royal / Lady's Island / Yemassee",
+   "state": "SC",
+   "postal_codes": [
+    "29902",
+    "29906",
+    "29907",
+    "29935",
+    "29945"
+   ],
+   "why": "The Beaufort market; refused by name (order: do not absorb Beaufort)."
+  },
+  {
+   "municipality": "Hilton Head Island",
+   "state": "SC",
+   "postal_codes": [
+    "29926",
+    "29928",
+    "29925",
+    "29938"
+   ],
+   "why": "South Carolina resort island; refused by name (order: do not absorb Hilton Head Island)."
+  },
+  {
+   "municipality": "Bluffton / Okatie / Hardeeville / Ridgeland",
+   "state": "SC",
+   "postal_codes": [
+    "29909",
+    "29910",
+    "29927",
+    "29936"
+   ],
+   "why": "The southern Lowcountry; refused by name (order: do not absorb Bluffton)."
+  },
+  {
+   "municipality": "Georgetown / Pawleys Island",
+   "state": "SC",
+   "postal_codes": [
+    "29440",
+    "29442",
+    "29585"
+   ],
+   "why": "Georgetown and the Waccamaw Neck, their own coastal market; refused by name (order)."
+  },
+  {
+   "municipality": "Myrtle Beach / Grand Strand",
+   "state": "SC",
+   "postal_codes": [
+    "29572",
+    "29575",
+    "29577",
+    "29579",
+    "29582",
+    "29588",
+    "29576"
+   ],
+   "why": "The Grand Strand, its own beach market; refused by name (order)."
+  },
+  {
+   "municipality": "Santee / Orangeburg / Columbia",
+   "state": "SC",
+   "postal_codes": [
+    "29142",
+    "29115",
+    "29118"
+   ],
+   "why": "The I-95 / I-26 inland markets; refused."
+  }
+ ],
+ "observation_is_not_admission": "Five cells observe Kiawah / Seabrook, Moncks Corner, Awendaw, Ravenel and Edisto. They admit nothing.",
+ "vacation_rental_rule": "The census admits hotels, motels, inns, boutique hotels, qualifying resorts and qualifying lodging establishments operated as lodging businesses: bookable nightly rooms or suites sold to the public under one establishment name, with an official property page and a front desk / on-site hotel operation. It NEVER admits: individual vacation houses, historic homes, carriage houses or single-house rentals rented whole; condominium units or condo complexes rented unit-by-unit; property-management or realty rental portfolios (Isle of Palms, Folly Beach, Kiawah and downtown vacation-rental companies and the like); resort villa rental programmes; Airbnb / Vrbo-style listings; app-only apartment-hotel units without a front desk; ordinary apartment communities; private residences; and TIMESHARE / vacation-ownership inventory unless that property independently qualifies as a hotel. A historic inn or bed and breakfast is admitted only when it operates as an inn with bookable rooms on its own premises and an official site. Campgrounds, RV parks, hostels-as-dormitories and university housing are NON_LODGING.",
+ "config_written": "scripts/pettripfinder/discovery/config/charleston_sc.json",
+ "market_document_written": "launch_packages/pettripfinder/markets/proposed/charleston-sc.json",
+ "cells_total": 22,
+ "cells_admitting": 17,
+ "cells_observation_only": 5
+}
