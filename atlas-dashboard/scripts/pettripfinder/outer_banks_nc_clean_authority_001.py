@@ -56,7 +56,7 @@ MARKET_ID = "outer-banks-nc"
 SCHEMA = "ptf-market-clean-authority/1.0"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "outer-banks-nc.json")
+CENSUS = os.path.join(PKG, "identity_census", "outer-banks-nc.json")
 ATTENDED = os.path.join(REPORTS, "outer_banks_nc_attended_capture_001.json")
 STATIC = os.path.join(REPORTS, "outer_banks_nc_free_static_lane_001.json")
 
@@ -353,7 +353,8 @@ def build():
     return OrderedDict([
         ("schema", SCHEMA), ("work_order", WORK_ORDER), ("market_id", MARKET_ID),
         ("phase", "13/14 -- policy classification and the clean set"),
-        ("as_of", time.strftime("%Y-%m-%d", time.gmtime())),
+        # the date of the reads, not of the run: a rebuild on another day reproduces the report byte for byte
+        ("as_of", "2026-09-13"),
         ("status", "PROPOSED_NOT_PUBLISHED"),
         ("what_is_excluded",
          "Everything that is not an operative first-party statement of acceptance or refusal, "
