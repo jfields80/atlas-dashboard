@@ -1,0 +1,1925 @@
+{
+ "schema": "ptf-market-source-ready-accounting/1.0",
+ "work_order": "PTF-SAVANNAH-GA-PARALLEL-SOURCE-READY-001",
+ "market_id": "savannah-ga",
+ "display_market": "Savannah, Georgia",
+ "state": "SOURCE_READY -- SHADOW_UNTIL_REGISTERED",
+ "release_queue": "Current verified live: Jacksonville (22 markets / 1256 profiles / 1483 routes). Savannah waits for its turn in the serialized release lane behind the queued markets.",
+ "timings": {
+  "SAVANNAH_START_TIMESTAMP": "2026-09-14T05:12:13Z (2026-09-14T01:12:13-04:00)",
+  "precheck_and_template_read": "05:12Z-05:19Z (worktree, branch, HEAD 7b630cfa = the Jacksonville-live parent, tree clean; Boone / Atlanta shadow chains and the Atlanta browser transcript read)",
+  "geography_and_corridor_model": "05:19Z-05:20:08Z (10 corridors: 7 CORE / 1 CORRIDOR / 2 FRINGE, 15 admitted ZIPs; Tybee Island OUTSIDE, preserved for tybee-island-ga)",
+  "osm_lane": "387.8 s (Georgia extract, hard link of the Atlanta run's 2026-09-13 snapshot; 193 lodging elements)",
+  "brand_inventory_lane": "about 10 min detached (Marriott GA sitemap page, 14 Hilton city pages + 19 Savannah sub-pages, 16 family sitemap probes)",
+  "destination_rosters": "Visit Savannah (attended, 156 profiles, payload verified) 05:30Z-05:40Z; Visit Pooler (plain, 12 listings) 06:02Z",
+  "browser_evidence": "05:45Z-06:10Z attended same-origin reads: Marriott 42, Hilton 34, IHG 25, Hyatt 5, Choice 39, Best Western 10, Red Roof 5, Extended Stay America 2, Motel 6 / Studio 6 5 (every payload's canonical-JSON sha256 verified against the page's)",
+  "static_evidence": "Wyndham property service 10.5 s (49 routes: 23 read, 26 retired); static home pages 31 s; policy-page lane 18-21 s",
+  "policy_adjudication_and_reconciliation": "06:10Z-06:31Z (independent quotes proved verbatim with house number and ZIP on the same document; census directional / roster / rebrand fixes; clean set; staged authority; partition)",
+  "evidence_store_incident": "06:38Z: removing a reproduction worktree whose data/ was a junction to this worktree's data/ deleted the gitignored document store; the plain-client lanes were re-run 06:40Z-06:45Z and every quoted document re-persisted and re-proved (three re-rendered pages carry new sha256 values); the chain was rebuilt and resealed at c093cefd",
+  "shadow_package_and_fast": "06:46:05Z-06:47:36Z at c093cefd (sealed twice in-process, FAST 15/15, determinism BYTE_IDENTICAL); earlier seals at ac1cdb83 (06:32Z-06:34Z) and f1173ef4 (06:35:50Z-06:37:19Z) also passed 15/15 and were superseded",
+  "independent_reproduction": "06:47:54Z-06:48:12Z (clean git worktree at c093cefd with a COPY of the document store: geography, Visit Savannah roster, brand pages, capture, census, clean set, staged authority, partition and staged shard rebuilt from committed captures -- zero content difference; only the eol-unattributed discovery config checks out CRLF; separate-process digest-only seal = the same digest)",
+  "ZERO_TO_SOURCE_READY": "1 h 35 min 23 s (05:12:13Z -> 06:47:36Z, the final FAST-passed sealed shadow package; the first FAST-passed seal was at 06:34:04Z, 1 h 21 min 51 s)"
+ },
+ "accounting": {
+  "TOTAL_DISCOVERED": 291,
+  "total_discovered_note": "Distinct candidate identities in the identity graph after merging every lane. Not counted: 23 unnamed map elements, 26 retired Wyndham routes, the Hilton national-navigation codes outside the coastal ZIP prefixes, and the bureau profile page refused on read.",
+  "classification_counts": {
+   "IDENTITY_REVIEW_REQUIRED": 6,
+   "NAME_ONLY_UNRESOLVED": 17,
+   "NON_LODGING": 28,
+   "OUTSIDE_MARKET": 49,
+   "SAME_CAMPUS_DISTINCT_ENTITY": 3,
+   "SAME_IDENTITY_REBRAND_SUCCESSOR": 1,
+   "TRUE_HOTEL_IDENTITY": 187
+  },
+  "PROPOSED_CENSUS": 187,
+  "VALID_PET_FRIENDLY": 96,
+  "VALID_VERIFIED_NO_PETS": 40,
+  "RESOLVED": 136,
+  "UNRESOLVED": 51,
+  "partition_counts_by_state": {
+   "ACCESS_BLOCKED": 4,
+   "AWAITING_OFFICIAL_URL": 8,
+   "AWAITING_POLICY_OBSERVATION": 39,
+   "PUBLISHED_PET_FRIENDLY": 96,
+   "VERIFIED_NO_PETS": 40
+  },
+  "every_census_identity_has_exactly_one_disposition": true,
+  "every_census_identity_key_unique": true
+ },
+ "holds_by_class": {
+  "IDENTITY_HOLDS": {
+   "count": 27,
+   "identity_review_required": [
+    "Econo Lodge Savannah South",
+    "Homewood Suites by Hilton Savannah Midtown",
+    "Oglethorpe Lodge",
+    "Signia by Hilton Savannah",
+    "The Ann Savannah, Apartments by Marriott Bonvoy",
+    "Wingate"
+   ],
+   "name_only_unresolved": [
+    "Budget Host Inn",
+    "Comfort Inn",
+    "Days Inn Southside",
+    "Extended Stay America Premier Suites Savannah Pooler",
+    "Foley House Inn - 14 West Hull Street",
+    "Glo Hotel",
+    "Green Palm Inn",
+    "Holiday Inn Express & Suites",
+    "InTown Suites Extended Stay Savannah GA Garden City",
+    "Mansion on Forsyth Park",
+    "McMillan Inn",
+    "Motel 6",
+    "Super 8",
+    "Super 8",
+    "The Ballastone Inn",
+    "Three Muses",
+    "Zeigler House Inn"
+   ],
+   "rebrand_unresolved": [
+    "Atwell Suites Savannah Airport"
+   ],
+   "same_campus_unproved": [
+    "Motel 6 Savannah, GA - Gateway & I-95",
+    "Studio 6 Extended Stay - Savannah, GA - Gateway & I-95",
+    "Studio 6 Gateway"
+   ],
+   "note": "Not census identities and never published: brand-flag map rows the brand's own inventory does not list (Econo Lodge Savannah South, Homewood Suites Savannah Midtown, Wingate at 15 Sylvester C. Formey), Signia by Hilton (not yet open), The Ann (apartments-by-Marriott category unconfirmed), the Atwell Suites / Hyatt Place rebrand at 4 Stephen S. Green Drive, the two G6 properties at 6 Gateway Blvd E, and name-only map and competitor leads (Mansion on Forsyth Park, McMillan Inn, Green Palm Inn, Zeigler House Inn, The Ballastone Inn, InTown Suites Garden City ...)."
+  },
+  "ROUTING_HOLDS": {
+   "count": 8,
+   "identities": [
+    "America's Best Value Inn",
+    "Presidents' Quarters Inn",
+    "Recess Hotel & Club",
+    "Relax Inn",
+    "Sandman Motel",
+    "Savannah Inn",
+    "Sonesta Essentials Hotel Savannah",
+    "The Spanish Moss Inn"
+   ]
+  },
+  "ACCESS_BLOCKED": {
+   "count": 4,
+   "by_cause": {
+    "OWN_SITE": 4
+   },
+   "identities": [
+    "Catherine Ward House Inn",
+    "Hamilton-Turner Inn",
+    "The DeSoto Savannah",
+    "The Inn on West Liberty"
+   ]
+  },
+  "EVIDENCE_HOLDS": {
+   "count": 39,
+   "identities": [
+    "17 Hundred 90 Inn",
+    "avid hotels Savannah Downtown East",
+    "avid hotels Savannah South - Gateway",
+    "Azalea Inn and Villas",
+    "Baymont by Wyndham Savannah I-95",
+    "Best Western Plus Richmond Hill Inn",
+    "Breezeway Studio Manor",
+    "City Express by Marriott Pooler Savannah Airport",
+    "Courtyard by Marriott Richmond Hill",
+    "DoubleTree by Hilton Hotel Savannah Airport",
+    "Eliza Thompson House",
+    "Extended Stay America - Savannah - Midtown",
+    "Extended Stay America - Savannah - Pooler",
+    "Forsyth Park Inn",
+    "Gastonian",
+    "Hampton Inn Savannah-Historic District",
+    "Holiday Inn Express & Suites Savannah - Midtown",
+    "Holiday Inn Savannah S - I-95 Gateway",
+    "Hotel Indigo Savannah Historic District",
+    "Kehoe House",
+    "Marshall House",
+    "Motel 6 Pooler, GA - Savannah Airport",
+    "Motel 6 Savannah, GA - Midtown",
+    "Olde Harbour Inn",
+    "Planters Inn on Reynolds Square",
+    "Residence Inn by Marriott Richmond Hill",
+    "River Street Inn",
+    "Staybridge Suites Savannah Historic District",
+    "Studio 6 Extended Stay - Savannah, GA",
+    "The Bluff Savannah Historic District, Tapestry by Hilton",
+    "The Cotton Sail Hotel Savannah, Tapestry Collection by Hilton",
+    "The Digby",
+    "Thompson Savannah",
+    "Thunderbird Inn",
+    "TownePlace Suites by Marriott Savannah Pooler",
+    "TownePlace Suites by Marriott Savannah South",
+    "Wingate by Wyndham Savannah Gateway",
+    "WoodSpring Suites Savannah Garden City",
+    "WoodSpring Suites Savannah Pooler"
+   ],
+   "rejected_reads_by_class": {
+    "ADDRESS_KEY_DIRECTIONAL_COLLISION": 4,
+    "CENSUS_ROW_NOT_ADMITTED": 11,
+    "CO_LOCATION_RULING_REQUIRED": 3,
+    "FIRST_PARTY_CONFLICT": 1,
+    "POLICY_NOT_FOUND": 6,
+    "QUOTE_NOT_OPERATIVE": 1,
+    "SERVICE_ANIMAL_ONLY": 5,
+    "UNJOINED_READ": 1
+   }
+  },
+  "GEOGRAPHY_HOLDS": {
+   "count": 0,
+   "identities": []
+  },
+  "PAID_HOLDS": {
+   "count": 0,
+   "note": "No brand family refused the attended session on this run, so no cohort requires a paid lane. PAID PROVIDER BUDGET was $0 and no paid lane was used or reserved."
+  },
+  "FOUNDER_HOLDS": {
+   "count": 0,
+   "note": "No row requires a founder ruling. Co-location and directional-collision holds are registration-order work in shared identity state; conflicts and reads the shared reader does not interpret are EVIDENCE holds."
+  },
+  "CLOSED_OR_RETIRED": {
+   "count": 26,
+   "wyndham_retired_routes": [
+    "https://www.wyndhamhotels.com/baymont/hinesville-georgia/baymont-inn-and-suites-hinesville-fort-stewart-area/overview",
+    "https://www.wyndhamhotels.com/baymont/savannah-georgia/baymont-inn-and-suites-savannah-south/overview",
+    "https://www.wyndhamhotels.com/days-inn/hinesville-georgia/days-inn-hinesville/overview",
+    "https://www.wyndhamhotels.com/days-inn/savannah-georgia/days-hotel-at-ellis-square/overview",
+    "https://www.wyndhamhotels.com/days-inn/savannah-georgia/days-inn-and-suites-savannah-gateway-i-95-and-204/overview",
+    "https://www.wyndhamhotels.com/days-inn/savannah-georgia/days-inn-savannah-abercorn-southside/overview",
+    "https://www.wyndhamhotels.com/days-inn/savannah-georgia/days-inn-savannah-oglethorpe-mall-midtown/overview",
+    "https://www.wyndhamhotels.com/hawthorn-extended-stay/savannah-georgia/hawthorn-suites-by-wyndham-savannah-airport/overview",
+    "https://www.wyndhamhotels.com/hojo/tybee-island-georgia/howard-johnson-inn-tybee-island-savannah-ga/overview",
+    "https://www.wyndhamhotels.com/laquinta/savannah-georgia/la-quinta-inn-savannah-i-95/overview",
+    "https://www.wyndhamhotels.com/laquinta/savannah-georgia/la-quinta-inn-savannah-midtown/overview",
+    "https://www.wyndhamhotels.com/laquinta/savannah-georgia/la-quinta-savannah-southside/overview",
+    "https://www.wyndhamhotels.com/microtel/rincon-georgia/microtel-inn-and-suites-rincon/overview",
+    "https://www.wyndhamhotels.com/ramada/pooler-georgia/ramada-limited-savannah-airport/overview",
+    "https://www.wyndhamhotels.com/ramada/savannah-georgia/ramada-savannah-ga/overview",
+    "https://www.wyndhamhotels.com/ramada/savannah-georgia/ramada-savannah-gateway/overview",
+    "https://www.wyndhamhotels.com/super-8/port-wentworth-georgia/super-8-port-wentworth-savannah-area/overview",
+    "https://www.wyndhamhotels.com/super-8/richmond-hill-georgia/super-8-richmond-hill/overview",
+    "https://www.wyndhamhotels.com/travelodge/hinesville-georgia/travelodge-hinesville/overview",
+    "https://www.wyndhamhotels.com/travelodge/port-wentworth-georgia/travelodge-port-wentworth-savannah-area/overview",
+    "https://www.wyndhamhotels.com/travelodge/savannah-georgia/travelodge-savannah-ga/overview",
+    "https://www.wyndhamhotels.com/travelodge/savannah-georgia/travelodge-savannah/overview",
+    "https://www.wyndhamhotels.com/wingate/port-wentworth-georgia/wingate-by-wyndham-savannah-i-95-north/overview",
+    "https://www.wyndhamhotels.com/wingate/port-wentworth-georgia/wingate-port-wentworth-savannah-area/overview",
+    "https://www.wyndhamhotels.com/wingate/savannah-georgia/wingate-by-wyndham-savannah-airport/overview",
+    "https://www.wyndhamhotels.com/wingate/savannah-georgia/wingate-by-wyndham-savannah/overview"
+   ],
+   "note": "Wyndham routes that redirect to the brand's search (Days Hotel at Ellis Square, the La Quinta Savannah routes, Ramada Savannah, Travelodge Savannah, the Hawthorn and several Wingate / Super 8 routes). Routes, not census identities."
+  },
+  "OUTSIDE": {
+   "count": 49,
+   "future_market_tybee_island": 27,
+   "future_market_identities": [
+    "1-18th Street Tybee Island",
+    "Admiral's Inn on Tybee Island",
+    "Atlantis Inn",
+    "Beach Boys Bungalow",
+    "Beachside Colony Resort",
+    "Beachview Inn & Spa",
+    "DeSoto Beach Bed and Breakfast",
+    "DeSoto Beach Hotel - Oceanfront",
+    "DeSoto Beach Terraces",
+    "Dunes Inn & Suites",
+    "Hotel Tybee",
+    "Lighthouse Inn, Bed & Breakfast",
+    "Mermaid Cottages",
+    "Papou's Place",
+    "River's End Campground & RV Park",
+    "Royal Palms Motel",
+    "Sancastle Inn",
+    "Sandcastle Inn",
+    "Savannah Vacation Collection",
+    "Sea and Breeze Hotel and Condo",
+    "Somewhere in Time",
+    "The Cottage Collection Tybee Island",
+    "The Georgianne",
+    "Tybee Beach Vacation Rentals and Property Management",
+    "Tybee Island Inn",
+    "Tybee Island Rentals",
+    "Tybrisa Beach Resort"
+   ]
+  },
+  "NON_HOTEL": {
+   "count": 28,
+   "by_kind": {
+    "BUREAU_VACATION_RENTAL_OR_PROPERTY_MANAGER": 16,
+    "CAMPGROUND_RV_STATE_PARK": 3,
+    "MAP_APARTMENT_COTTAGE_UNIT": 4,
+    "MAP_SHORT_TERM_VACATION_RENTAL": 3,
+    "VENUE_BAR_BOOKING_SITE_OR_MANAGEMENT_OFFICE": 2
+   },
+   "identities": [
+    "228 E. Factor's Walk Lofts",
+    "Arise Property Management",
+    "Coastline Concierge Rentals",
+    "Creekfire RV Resort",
+    "Doc-k Haus",
+    "HOS Management",
+    "Hawkins House Savannah",
+    "Hosting Savannah",
+    "Lucky Savannah Vacation Rentals",
+    "My Tybee Queen",
+    "Oglethorpe Inn",
+    "Queen Anne's Condo",
+    "Red Gate Farms - RV Resort",
+    "STVR - 200 East Point Drive",
+    "STVR - 22 Lake Drive",
+    "STVR - 6 Lake Drive",
+    "Savannah Convention Center",
+    "Savannah Manor",
+    "Savannah Timeshare Rentals",
+    "Seaport Real Estate",
+    "Sid Was Here Property Management",
+    "Skidaway Island State Park",
+    "South Key Management Co.",
+    "Southern Belle Vacation Rentals",
+    "The Commons",
+    "Tybee Cottages, Inc.",
+    "Tybee Joy Vacation Rentals",
+    "Verdant House"
+   ]
+  }
+ },
+ "corridor_coverage": [
+  {
+   "corridor_id": "savannah-ga__historic-district",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "31401",
+    "31402",
+    "31412"
+   ],
+   "census": 58,
+   "pet_friendly": 26,
+   "verified_no_pets": 7,
+   "unresolved": 25,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "savannah-ga__hutchinson-island",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "31421"
+   ],
+   "census": 1,
+   "pet_friendly": 1,
+   "verified_no_pets": 0,
+   "unresolved": 0,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "savannah-ga__midtown",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "31404",
+    "31405"
+   ],
+   "census": 19,
+   "pet_friendly": 10,
+   "verified_no_pets": 4,
+   "unresolved": 5,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "savannah-ga__southside",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "31406"
+   ],
+   "census": 9,
+   "pet_friendly": 5,
+   "verified_no_pets": 3,
+   "unresolved": 1,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "savannah-ga__sav-airport",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "31408",
+    "31415"
+   ],
+   "census": 19,
+   "pet_friendly": 9,
+   "verified_no_pets": 8,
+   "unresolved": 2,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "savannah-ga__pooler",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "31322"
+   ],
+   "census": 21,
+   "pet_friendly": 10,
+   "verified_no_pets": 6,
+   "unresolved": 5,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "savannah-ga__gateway-i95",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "31419"
+   ],
+   "census": 28,
+   "pet_friendly": 12,
+   "verified_no_pets": 8,
+   "unresolved": 8,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "savannah-ga__port-wentworth",
+   "geography_class": "CORRIDOR",
+   "postal_codes": [
+    "31407"
+   ],
+   "census": 18,
+   "pet_friendly": 14,
+   "verified_no_pets": 3,
+   "unresolved": 1,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "savannah-ga__richmond-hill",
+   "geography_class": "FRINGE",
+   "postal_codes": [
+    "31324"
+   ],
+   "census": 13,
+   "pet_friendly": 9,
+   "verified_no_pets": 1,
+   "unresolved": 3,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "savannah-ga__eastern-islands",
+   "geography_class": "FRINGE",
+   "postal_codes": [
+    "31410",
+    "31411"
+   ],
+   "census": 1,
+   "pet_friendly": 0,
+   "verified_no_pets": 0,
+   "unresolved": 1,
+   "corridor_page_publishes": false
+  }
+ ],
+ "corridor_pages_meeting_threshold": 8,
+ "area_coverage": {
+  "what_it_is": "Coverage for the order's named areas. Reporting only; membership and corridor come from the postal partition. River Street / Eastern Wharf share 31401 with the Historic District.",
+  "areas": {
+   "Historic District / Downtown": {
+    "census": 38,
+    "pet_friendly": 15,
+    "verified_no_pets": 6,
+    "unresolved": 17,
+    "identities": [
+     {
+      "canonical_name": "17 Hundred 90 Inn",
+      "state": "UNRESOLVED",
+      "street": "307 East President Street"
+     },
+     {
+      "canonical_name": "Aloft by Marriott Savannah Downtown Historic District",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "512 West Oglethorpe Avenue"
+     },
+     {
+      "canonical_name": "Andaz Savannah",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "14 Barnard Street"
+     },
+     {
+      "canonical_name": "Azalea Inn and Villas",
+      "state": "UNRESOLVED",
+      "street": "217 E Huntingdon St"
+     },
+     {
+      "canonical_name": "Bellwether House",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "211 E Gaston Street"
+     },
+     {
+      "canonical_name": "Cambria Hotel Savannah Downtown Historic District",
+      "state": "VERIFIED_NO_PETS",
+      "street": "321 Montgomery Street"
+     },
+     {
+      "canonical_name": "Catherine Ward House Inn",
+      "state": "UNRESOLVED",
+      "street": "118 East Waldburg Street"
+     },
+     {
+      "canonical_name": "Courtyard by Marriott Savannah Downtown/Historic District",
+      "state": "VERIFIED_NO_PETS",
+      "street": "415 West Liberty St."
+     },
+     {
+      "canonical_name": "Eliza Thompson House",
+      "state": "UNRESOLVED",
+      "street": "5 W Jones St"
+     },
+     {
+      "canonical_name": "Embassy Suites by Hilton Savannah Historic District",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "605 West Oglethorpe Avenue"
+     },
+     {
+      "canonical_name": "Fairfield by Marriott Inn & Suites Savannah Downtown/Historic District",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "135 Martin Luther King Jr Boulevard"
+     },
+     {
+      "canonical_name": "Foley House Inn",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "14 West Hull Street"
+     },
+     {
+      "canonical_name": "Forsyth Park Inn",
+      "state": "UNRESOLVED",
+      "street": "102 W Hall St"
+     },
+     {
+      "canonical_name": "Gastonian",
+      "state": "UNRESOLVED",
+      "street": "220 E Gaston St"
+     },
+     {
+      "canonical_name": "Hamilton-Turner Inn",
+      "state": "UNRESOLVED",
+      "street": "330 Abercorn Street"
+     },
+     {
+      "canonical_name": "Hampton Inn & Suites Savannah Historic District",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "603 West Oglethorpe Avenue"
+     },
+     {
+      "canonical_name": "Holiday Inn Savannah Historic District",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "520 West Bryan Street"
+     },
+     {
+      "canonical_name": "Hotel Bardo Savannah",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "700 Drayton Street"
+     },
+     {
+      "canonical_name": "Kehoe House",
+      "state": "UNRESOLVED",
+      "street": "123 Habersham St"
+     },
+     {
+      "canonical_name": "Marriott Savannah Riverfront",
+      "state": "VERIFIED_NO_PETS",
+      "street": "100 General McIntosh Boulevard"
+     },
+     {
+      "canonical_name": "Marshall House",
+      "state": "UNRESOLVED",
+      "street": "123 E Broughton St"
+     },
+     {
+      "canonical_name": "Municipal Grand, a Member of Design Hotels",
+      "state": "VERIFIED_NO_PETS",
+      "street": "45 Abercorn Street"
+     },
+     {
+      "canonical_name": "Perry Lane Hotel, a Luxury Collection Hotel, Savannah",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "256 East Perry Street"
+     },
+     {
+      "canonical_name": "Planters Inn on Reynolds Square",
+      "state": "UNRESOLVED",
+      "street": "29 Abercorn Street"
+     },
+     {
+      "canonical_name": "Presidents' Quarters Inn",
+      "state": "UNRESOLVED",
+      "street": "225 East President Street"
+     },
+     {
+      "canonical_name": "Recess Hotel & Club",
+      "state": "UNRESOLVED",
+      "street": "7 E Congress St"
+     },
+     {
+      "canonical_name": "Residence Inn by Marriott Savannah Downtown/Historic District",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "500 West Charlton Street"
+     },
+     {
+      "canonical_name": "SpringHill Suites by Marriott Savannah Downtown/Historic District",
+      "state": "VERIFIED_NO_PETS",
+      "street": "150 Montgomery Street"
+     },
+     {
+      "canonical_name": "Tempo by Hilton Savannah Historic District",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "220 E. Bryan St."
+     },
+     {
+      "canonical_name": "The Alida, Savannah, a Tribute Portfolio Hotel",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "412 Williamson Street"
+     },
+     {
+      "canonical_name": "The DeSoto Savannah",
+      "state": "UNRESOLVED",
+      "street": "15 East Liberty Street"
+     },
+     {
+      "canonical_name": "The Digby",
+      "state": "UNRESOLVED",
+      "street": "200 West Bryan Street"
+     },
+     {
+      "canonical_name": "The Douglas",
+      "state": "VERIFIED_NO_PETS",
+      "street": "14 E Oglethorpe Ave"
+     },
+     {
+      "canonical_name": "The Drayton Hotel Savannah, Curio Collection by Hilton",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "7 Drayton Street"
+     },
+     {
+      "canonical_name": "The Inn on West Liberty",
+      "state": "UNRESOLVED",
+      "street": "109 West Liberty"
+     },
+     {
+      "canonical_name": "Thompson Savannah",
+      "state": "UNRESOLVED",
+      "street": "201 Port Street"
+     },
+     {
+      "canonical_name": "Thunderbird Inn",
+      "state": "UNRESOLVED",
+      "street": "611 West Oglethorpe Avenue"
+     },
+     {
+      "canonical_name": "TRYP by Wyndham Savannah Downtown/Historic District",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "320 Montgomery Street"
+     }
+    ]
+   },
+   "River Street / Eastern Wharf": {
+    "census": 20,
+    "pet_friendly": 11,
+    "verified_no_pets": 1,
+    "unresolved": 8,
+    "identities": [
+     {
+      "canonical_name": "AC Hotel Savannah Historic District",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "601 East River Street"
+     },
+     {
+      "canonical_name": "Best Western Savannah Historic District",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "412 W Bay Street"
+     },
+     {
+      "canonical_name": "DoubleTree by Hilton Hotel Savannah Historic District",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "411 West Bay Street"
+     },
+     {
+      "canonical_name": "East Bay Inn",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "225 East Bay Street"
+     },
+     {
+      "canonical_name": "Hampton Inn Savannah-Historic District",
+      "state": "UNRESOLVED",
+      "street": "201 E. Bay St."
+     },
+     {
+      "canonical_name": "Hilton Garden Inn Savannah Historic District",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "321 West Bay Street"
+     },
+     {
+      "canonical_name": "Holiday Inn Express Savannah-Historic District",
+      "state": "VERIFIED_NO_PETS",
+      "street": "199 East Bay Street"
+     },
+     {
+      "canonical_name": "Homewood Suites by Hilton Savannah Historic District/Riverfront",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "611 East River Street"
+     },
+     {
+      "canonical_name": "Hotel Indigo Savannah Historic District",
+      "state": "UNRESOLVED",
+      "street": "201 West Bay Street"
+     },
+     {
+      "canonical_name": "Hotel Orielle, Autograph Collection",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "102 West Bay Street"
+     },
+     {
+      "canonical_name": "Hyatt Regency Savannah",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "2 W. Bay Street"
+     },
+     {
+      "canonical_name": "JW Marriott Savannah Plant Riverside District",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "500 West River Street"
+     },
+     {
+      "canonical_name": "Kimpton Brice Hotel",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "601 East Bay Street"
+     },
+     {
+      "canonical_name": "Olde Harbour Inn",
+      "state": "UNRESOLVED",
+      "street": "508 Factors Walk"
+     },
+     {
+      "canonical_name": "Quality Inn Savannah Historic District",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "300 W. Bay St."
+     },
+     {
+      "canonical_name": "River Street Inn",
+      "state": "UNRESOLVED",
+      "street": "124 East Bay Street"
+     },
+     {
+      "canonical_name": "Staybridge Suites Savannah Historic District",
+      "state": "UNRESOLVED",
+      "street": "301 East Bay Street"
+     },
+     {
+      "canonical_name": "The Bluff Savannah Historic District, Tapestry by Hilton",
+      "state": "UNRESOLVED",
+      "street": "630 West Bay Street"
+     },
+     {
+      "canonical_name": "The Cotton Sail Hotel Savannah, Tapestry Collection by Hilton",
+      "state": "UNRESOLVED",
+      "street": "126 W. Bay Street"
+     },
+     {
+      "canonical_name": "The Spanish Moss Inn",
+      "state": "UNRESOLVED",
+      "street": "425 East Bay Street"
+     }
+    ]
+   },
+   "Hutchinson Island": {
+    "census": 1,
+    "pet_friendly": 1,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": [
+     {
+      "canonical_name": "The Westin Savannah Harbor Golf Resort & Spa",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1 Resort Drive"
+     }
+    ]
+   },
+   "Midtown": {
+    "census": 19,
+    "pet_friendly": 10,
+    "verified_no_pets": 4,
+    "unresolved": 5,
+    "identities": [
+     {
+      "canonical_name": "America's Best Value Inn",
+      "state": "UNRESOLVED",
+      "street": "4005 Ogeechee Road"
+     },
+     {
+      "canonical_name": "avid hotels Savannah Downtown East",
+      "state": "UNRESOLVED",
+      "street": "2002 East President Street"
+     },
+     {
+      "canonical_name": "Baymont by Wyndham Savannah Midtown",
+      "state": "VERIFIED_NO_PETS",
+      "street": "2 Lee Boulevard"
+     },
+     {
+      "canonical_name": "Candlewood Suites Savannah Downtown East",
+      "state": "VERIFIED_NO_PETS",
+      "street": "2002 East President Street"
+     },
+     {
+      "canonical_name": "Courtyard by Marriott Savannah Midtown",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "6703 Abercorn Street"
+     },
+     {
+      "canonical_name": "Days Inn & Suites by Wyndham Savannah Midtown",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "211 Stephenson Avenue"
+     },
+     {
+      "canonical_name": "Extended Stay America - Savannah - Midtown",
+      "state": "UNRESOLVED",
+      "street": "5511 Abercorn St."
+     },
+     {
+      "canonical_name": "Fairfield by Marriott Inn & Suites Savannah Midtown",
+      "state": "VERIFIED_NO_PETS",
+      "street": "5801 Abercorn Street"
+     },
+     {
+      "canonical_name": "Hampton Inn & Suites Savannah/Midtown",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "20 Johnston Street"
+     },
+     {
+      "canonical_name": "Hilton Garden Inn Savannah Midtown",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "5711 Abercorn Street"
+     },
+     {
+      "canonical_name": "Holiday Inn Express & Suites Savannah W - Chatham Parkway",
+      "state": "VERIFIED_NO_PETS",
+      "street": "10 Park of Commerce Way"
+     },
+     {
+      "canonical_name": "Home2 Suites by Hilton Savannah Midtown",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "46 Lee Blvd"
+     },
+     {
+      "canonical_name": "MainStay Suites Savannah Midtown",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "6800 Abercorn Street, Building B"
+     },
+     {
+      "canonical_name": "Motel 6 Savannah, GA - Midtown",
+      "state": "UNRESOLVED",
+      "street": "201 Stephenson Avenue"
+     },
+     {
+      "canonical_name": "Residence Inn by Marriott Savannah Midtown",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "5710 White Bluff Road"
+     },
+     {
+      "canonical_name": "Sandman Motel",
+      "state": "UNRESOLVED",
+      "street": "5015 Ogeechee Road"
+     },
+     {
+      "canonical_name": "Sleep Inn Savannah Midtown",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "6800 Abercorn Street"
+     },
+     {
+      "canonical_name": "TownePlace Suites by Marriott Savannah Chatham Parkway",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "2002 Chatham Center Drive"
+     },
+     {
+      "canonical_name": "WoodSpring Suites Savannah West Chatham Parkway",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "115 Woodspring Drive"
+     }
+    ]
+   },
+   "Chatham Parkway / I-16": {
+    "census": 0,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": []
+   },
+   "Thunderbolt": {
+    "census": 0,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": []
+   },
+   "Southside": {
+    "census": 9,
+    "pet_friendly": 5,
+    "verified_no_pets": 3,
+    "unresolved": 1,
+    "identities": [
+     {
+      "canonical_name": "Best Western Central Inn",
+      "state": "VERIFIED_NO_PETS",
+      "street": "45 Eisenhower Drive"
+     },
+     {
+      "canonical_name": "Comfort Inn Savannah Midtown",
+      "state": "VERIFIED_NO_PETS",
+      "street": "7110 Hodgson Memorial Drive"
+     },
+     {
+      "canonical_name": "Country Inn & Suites by Radisson, Savannah Midtown, GA",
+      "state": "VERIFIED_NO_PETS",
+      "street": "7576 White Bluff Road"
+     },
+     {
+      "canonical_name": "Econo Lodge Savannah Midtown",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "7500 Abercorn Street"
+     },
+     {
+      "canonical_name": "Element by Marriott Savannah Midtown",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "26 W. Fairmont Avenue"
+     },
+     {
+      "canonical_name": "Quality Inn Savannah Midtown",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "7100 Abercorn Street"
+     },
+     {
+      "canonical_name": "Spark by Hilton Savannah Midtown",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "8484 Abercorn St"
+     },
+     {
+      "canonical_name": "Studio 6 Extended Stay - Savannah, GA",
+      "state": "UNRESOLVED",
+      "street": "60 West Montgomery Cross Road"
+     },
+     {
+      "canonical_name": "Tru By Hilton Savannah Midtown",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "77 W Fairmont Ave"
+     }
+    ]
+   },
+   "SAV Airport": {
+    "census": 17,
+    "pet_friendly": 8,
+    "verified_no_pets": 7,
+    "unresolved": 2,
+    "identities": [
+     {
+      "canonical_name": "Candlewood Suites Savannah Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "50 Stephen S. Green Dr."
+     },
+     {
+      "canonical_name": "Comfort Inn & Suites Savannah Airport",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1 Clyde E Martin Dr"
+     },
+     {
+      "canonical_name": "Country Inn & Suites By Radisson, Savannah Airport, GA",
+      "state": "VERIFIED_NO_PETS",
+      "street": "21 Yvette Johnson Hagins Dr"
+     },
+     {
+      "canonical_name": "Days Inn by Wyndham Savannah Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "2500 Dean Forest Road"
+     },
+     {
+      "canonical_name": "DoubleTree by Hilton Hotel Savannah Airport",
+      "state": "UNRESOLVED",
+      "street": "50 Yvette J. Hagins Drive"
+     },
+     {
+      "canonical_name": "Fairfield by Marriott Inn & Suites Savannah Airport",
+      "state": "VERIFIED_NO_PETS",
+      "street": "10 Stephen S. Green Drive"
+     },
+     {
+      "canonical_name": "Four Points by Sheraton Savannah Airport",
+      "state": "VERIFIED_NO_PETS",
+      "street": "110 Stephen S Green Drive"
+     },
+     {
+      "canonical_name": "Hampton Inn and Suites Savannah-Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "70 Stephen S. Green Drive"
+     },
+     {
+      "canonical_name": "Hilton Garden Inn Savannah Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "80 Clyde E. Martin Drive"
+     },
+     {
+      "canonical_name": "Holiday Inn Express Savannah Airport",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1 Yvette J. Hagins Drive"
+     },
+     {
+      "canonical_name": "Iris Garden Inn",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "347 Main Street"
+     },
+     {
+      "canonical_name": "Spark by Hilton Savannah Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "15 Jay R. Turner Dr."
+     },
+     {
+      "canonical_name": "SpringHill Suites by Marriott Savannah Airport",
+      "state": "VERIFIED_NO_PETS",
+      "street": "One  Jay R. Turner Drive (Exit 104)"
+     },
+     {
+      "canonical_name": "TownePlace Suites by Marriott Savannah Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "4 Jay R Turner Drive"
+     },
+     {
+      "canonical_name": "Tru by Hilton Savannah Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "90 Stephen S Green Drive"
+     },
+     {
+      "canonical_name": "Wingate by Wyndham Savannah/Pooler",
+      "state": "VERIFIED_NO_PETS",
+      "street": "50 Sylvester C Formey Drive"
+     },
+     {
+      "canonical_name": "WoodSpring Suites Savannah Garden City",
+      "state": "UNRESOLVED",
+      "street": "4912 Augusta Road"
+     }
+    ]
+   },
+   "Garden City": {
+    "census": 2,
+    "pet_friendly": 1,
+    "verified_no_pets": 1,
+    "unresolved": 0,
+    "identities": [
+     {
+      "canonical_name": "Baymont by Wyndham Savannah/Garden City",
+      "state": "VERIFIED_NO_PETS",
+      "street": "357 Main Street"
+     },
+     {
+      "canonical_name": "Econo Lodge Garden City - Savannah",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "4200 Augusta Road"
+     }
+    ]
+   },
+   "Pooler": {
+    "census": 21,
+    "pet_friendly": 10,
+    "verified_no_pets": 6,
+    "unresolved": 5,
+    "identities": [
+     {
+      "canonical_name": "Aloft by Marriott Savannah Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1423 Benton Boulevard"
+     },
+     {
+      "canonical_name": "Baymont by Wyndham Pooler/Savannah",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "130 Continental Blvd"
+     },
+     {
+      "canonical_name": "Best Western Savannah Airport Inn & Suites",
+      "state": "VERIFIED_NO_PETS",
+      "street": "155 Bourne Avenue"
+     },
+     {
+      "canonical_name": "City Express by Marriott Pooler Savannah Airport",
+      "state": "UNRESOLVED",
+      "street": "103 San Drive"
+     },
+     {
+      "canonical_name": "Clarks Inn Savannah Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "301B Governor Treutlen Dr"
+     },
+     {
+      "canonical_name": "Courtyard by Marriott Savannah Airport",
+      "state": "VERIFIED_NO_PETS",
+      "street": "419 Pooler Parkway"
+     },
+     {
+      "canonical_name": "Drury Plaza Hotel Savannah Pooler",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "500 East US-80"
+     },
+     {
+      "canonical_name": "Element by Marriott Pooler Savannah Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "100 Davol St"
+     },
+     {
+      "canonical_name": "Extended Stay America - Savannah - Pooler",
+      "state": "UNRESOLVED",
+      "street": "500 Outlets Parkway South"
+     },
+     {
+      "canonical_name": "Fairfield by Marriott Inn & Suites Savannah Pooler",
+      "state": "VERIFIED_NO_PETS",
+      "street": "100 Half Moon Way"
+     },
+     {
+      "canonical_name": "Holiday Inn & Suites Savannah Airport - Pooler",
+      "state": "VERIFIED_NO_PETS",
+      "street": "100 Outlet Parkway"
+     },
+     {
+      "canonical_name": "Home2 Suites by Hilton Savannah Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "860 Towne Center Boulevard"
+     },
+     {
+      "canonical_name": "La Quinta Inn & Suites by Wyndham Savannah Airport - Pooler",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "414 Gray Street"
+     },
+     {
+      "canonical_name": "Microtel Inn & Suites by Wyndham Pooler/Savannah",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "125 Continental Boulevard"
+     },
+     {
+      "canonical_name": "Motel 6 Pooler, GA - Savannah Airport",
+      "state": "UNRESOLVED",
+      "street": "1016 East US Hwy 80"
+     },
+     {
+      "canonical_name": "Quality Inn Pooler - Savannah I-95",
+      "state": "VERIFIED_NO_PETS",
+      "street": "125 Bourne Avenue"
+     },
+     {
+      "canonical_name": "Red Roof Inn & Suites Savannah Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "20 Mill Creek Cir"
+     },
+     {
+      "canonical_name": "Residence Inn by Marriott Savannah Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "900 Towne Center Boulevard"
+     },
+     {
+      "canonical_name": "Sleep Inn & Suites Pooler - Savannah Area",
+      "state": "VERIFIED_NO_PETS",
+      "street": "105 San Drive"
+     },
+     {
+      "canonical_name": "TownePlace Suites by Marriott Savannah Pooler",
+      "state": "UNRESOLVED",
+      "street": "100 Half Moon Way"
+     },
+     {
+      "canonical_name": "WoodSpring Suites Savannah Pooler",
+      "state": "UNRESOLVED",
+      "street": "122 Godley Station Blvd South"
+     }
+    ]
+   },
+   "Gateway / I-95 exit 94": {
+    "census": 28,
+    "pet_friendly": 12,
+    "verified_no_pets": 8,
+    "unresolved": 8,
+    "identities": [
+     {
+      "canonical_name": "avid hotels Savannah South - Gateway",
+      "state": "UNRESOLVED",
+      "street": "9 Gateway Blvd West"
+     },
+     {
+      "canonical_name": "Baymont by Wyndham Savannah I-95",
+      "state": "UNRESOLVED",
+      "street": "393 Canebrake Road"
+     },
+     {
+      "canonical_name": "Best Western Plus Savannah Gateway",
+      "state": "VERIFIED_NO_PETS",
+      "street": "17 Gateway Boulevard E"
+     },
+     {
+      "canonical_name": "Clarion Pointe Savannah Gateway I-95",
+      "state": "VERIFIED_NO_PETS",
+      "street": "17001 Abercorn Street"
+     },
+     {
+      "canonical_name": "Comfort Suites Savannah Gateway I-95",
+      "state": "VERIFIED_NO_PETS",
+      "street": "596 Al Henderson Blvd"
+     },
+     {
+      "canonical_name": "Country Inn & Suites By Radisson, Savannah Gateway, GA",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "16 Gateway Boulevard East"
+     },
+     {
+      "canonical_name": "Country Inn & Suites by Radisson, Savannah Southside",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "11317 Abercorn Street"
+     },
+     {
+      "canonical_name": "Days Inn by Wyndham Savannah Gateway I-95",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "15 Fort Argyle Road"
+     },
+     {
+      "canonical_name": "Fairfield by Marriott Inn & Suites Savannah I-95 South",
+      "state": "VERIFIED_NO_PETS",
+      "street": "17027 Abercorn St. (Exit 94)"
+     },
+     {
+      "canonical_name": "GLo Best Western Savannah-Gateway I-95",
+      "state": "VERIFIED_NO_PETS",
+      "street": "17005 Abercorn Street"
+     },
+     {
+      "canonical_name": "Hampton Inn & Suites Savannah - I-95 South - Gateway",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "591 Al Henderson Blvd."
+     },
+     {
+      "canonical_name": "Holiday Inn Express & Suites Savannah - Midtown",
+      "state": "UNRESOLVED",
+      "street": "11325 Abercorn St"
+     },
+     {
+      "canonical_name": "Holiday Inn Express Savannah - Gateway",
+      "state": "VERIFIED_NO_PETS",
+      "street": "19 Gateway Blvd W"
+     },
+     {
+      "canonical_name": "Holiday Inn Savannah S - I-95 Gateway",
+      "state": "UNRESOLVED",
+      "street": "11 Gateway Boulevard East"
+     },
+     {
+      "canonical_name": "Howard Johnson by Wyndham Savannah GA",
+      "state": "VERIFIED_NO_PETS",
+      "street": "17003 Abercorn Street"
+     },
+     {
+      "canonical_name": "Quality Inn Savannah I-95",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "17007 Abercorn Street"
+     },
+     {
+      "canonical_name": "Red Roof Inn Savannah - Southside/Midtown",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "11750 Abercorn Street"
+     },
+     {
+      "canonical_name": "Red Roof PLUS+ & Suites Savannah - I-95",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "45 Fort Argyle Rd"
+     },
+     {
+      "canonical_name": "Relax Inn",
+      "state": "UNRESOLVED",
+      "street": "11211 Abercorn Street"
+     },
+     {
+      "canonical_name": "Sleep Inn Savannah Gateway I-95",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "17013 Abercorn St."
+     },
+     {
+      "canonical_name": "Sonesta Essentials Hotel Savannah",
+      "state": "UNRESOLVED",
+      "street": "480 Al Henderson Blvd"
+     },
+     {
+      "canonical_name": "Spark by Hilton Savannah South I-95",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "387 Canebrake Rd."
+     },
+     {
+      "canonical_name": "SpringHill Suites by Marriott Savannah I-95 South",
+      "state": "VERIFIED_NO_PETS",
+      "street": "4 Gateway Blvd East (Exit 94)"
+     },
+     {
+      "canonical_name": "Suburban Studios Abercorn",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "10614 Abercorn Extension"
+     },
+     {
+      "canonical_name": "Super 8 by Wyndham Savannah",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "6 Gateway Blvd South"
+     },
+     {
+      "canonical_name": "TownePlace Suites by Marriott Savannah Midtown",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "11309 Abercorn Street"
+     },
+     {
+      "canonical_name": "TownePlace Suites by Marriott Savannah South",
+      "state": "UNRESOLVED",
+      "street": "11 West Gateway Boulevard"
+     },
+     {
+      "canonical_name": "Wingate by Wyndham Savannah Gateway",
+      "state": "UNRESOLVED",
+      "street": "17009 Abercorn St"
+     }
+    ]
+   },
+   "Georgetown": {
+    "census": 0,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": []
+   },
+   "Port Wentworth / Crossroads": {
+    "census": 18,
+    "pet_friendly": 14,
+    "verified_no_pets": 3,
+    "unresolved": 1,
+    "identities": [
+     {
+      "canonical_name": "Baymont by Wyndham Port Wentworth",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "7220 GA-21"
+     },
+     {
+      "canonical_name": "Comfort Suites Port Wentworth - Savannah North",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "115 Traveler's Way"
+     },
+     {
+      "canonical_name": "Country Inn & Suites by Radisson, Savannah I-95 North, GA",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "200 Raley Road"
+     },
+     {
+      "canonical_name": "Days Inn & Suites by Wyndham Savannah North I-95",
+      "state": "VERIFIED_NO_PETS",
+      "street": "105 Travelers Way"
+     },
+     {
+      "canonical_name": "ECHO Suites Extended Stay by Wyndham Savannah Pooler",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "185 West Mulberry Boulevard"
+     },
+     {
+      "canonical_name": "Embassy Suites by Hilton Savannah Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "145 W. Mulberry Blvd"
+     },
+     {
+      "canonical_name": "Fairfield by Marriott Inn & Suites Savannah I-95 North",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "305 Raley Road"
+     },
+     {
+      "canonical_name": "GLo Best Western Pooler - Savannah Airport Hotel",
+      "state": "VERIFIED_NO_PETS",
+      "street": "121 W Mulberry Boulevard"
+     },
+     {
+      "canonical_name": "Hampton Inn Savannah - I-95 North",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "7050 GA-21"
+     },
+     {
+      "canonical_name": "Holiday Inn Express & Suites Savannah N - Port Wentworth",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "79 Coldbrook Station Circle"
+     },
+     {
+      "canonical_name": "Home2 Suites by Hilton Savannah I95 North",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "32 Hospitality Lane"
+     },
+     {
+      "canonical_name": "Homewood Suites by Hilton Savannah Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "149 W. Mulberry Blvd"
+     },
+     {
+      "canonical_name": "Quality Inn Port Wentworth Savannah North",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "110 Travelers Way"
+     },
+     {
+      "canonical_name": "Red Roof Inn Savannah North I-95 - Port Wentworth",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "7200 GA-21"
+     },
+     {
+      "canonical_name": "Savannah Inn",
+      "state": "UNRESOLVED",
+      "street": "100 Traveler's Way"
+     },
+     {
+      "canonical_name": "Sleep Inn I-95 North Savannah",
+      "state": "VERIFIED_NO_PETS",
+      "street": "7206 GA Hwy. 21"
+     },
+     {
+      "canonical_name": "Spark by Hilton Port Wentworth Savannah",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "115 O'Leary Road"
+     },
+     {
+      "canonical_name": "Wingate by Wyndham Savannah I-95 North",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "7210 GA Hwy 21"
+     }
+    ]
+   },
+   "Richmond Hill": {
+    "census": 13,
+    "pet_friendly": 9,
+    "verified_no_pets": 1,
+    "unresolved": 3,
+    "identities": [
+     {
+      "canonical_name": "Best Western Plus Richmond Hill Inn",
+      "state": "UNRESOLVED",
+      "street": "4564 US Highway 17"
+     },
+     {
+      "canonical_name": "Courtyard by Marriott Richmond Hill",
+      "state": "UNRESOLVED",
+      "street": "190 Pioneer Way"
+     },
+     {
+      "canonical_name": "Days Inn by Wyndham Richmond Hill/Savannah",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "3926 Highway 17"
+     },
+     {
+      "canonical_name": "Econo Lodge Richmond Hill",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "4701 US Highway 17 S"
+     },
+     {
+      "canonical_name": "Fairfield by Marriott Inn & Suites Savannah SW/Richmond Hill",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "4620 US Highway 17"
+     },
+     {
+      "canonical_name": "Hampton Inn Savannah-I-95/Richmond Hill",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "4679 Highway 17"
+     },
+     {
+      "canonical_name": "Holiday Inn Express Savannah S I95 - Richmond Hill",
+      "state": "VERIFIED_NO_PETS",
+      "street": "4601 US Highway 17"
+     },
+     {
+      "canonical_name": "Home2 Suites by Hilton Richmond Hill Savannah I 95",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "4784 US Hwy 17"
+     },
+     {
+      "canonical_name": "Quality Inn Richmond Hill - Savannah I-95",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "4300 Coastal Hwy US 17 South, Building A"
+     },
+     {
+      "canonical_name": "Red Roof Inn Savannah - Richmond Hill/ I-95",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "4494 Hwy 17"
+     },
+     {
+      "canonical_name": "Residence Inn by Marriott Richmond Hill",
+      "state": "UNRESOLVED",
+      "street": "190 Pioneer Way"
+     },
+     {
+      "canonical_name": "SpringHill Suites by Marriott Savannah Richmond Hill",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "4428 Highway 17 South"
+     },
+     {
+      "canonical_name": "Travelodge by Wyndham Savannah Area/Richmond Hill",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "4120 Highway 17"
+     }
+    ]
+   },
+   "Wilmington / Skidaway Islands": {
+    "census": 1,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 1,
+    "identities": [
+     {
+      "canonical_name": "Breezeway Studio Manor",
+      "state": "UNRESOLVED",
+      "street": "916 Penn Waller Road"
+     }
+    ]
+   }
+  },
+  "unplaced": {
+   "census": 0,
+   "pet_friendly": 0,
+   "verified_no_pets": 0,
+   "unresolved": 0,
+   "identities": []
+  }
+ },
+ "lane_yields": {
+  "osm_elements": 193,
+  "brand_inventory_leads": 289,
+  "brand_family_dispositions": {
+   "MARRIOTT_STATE_SITEMAP": "STATE_SITEMAP_ANSWERED_THIS_CLIENT",
+   "WYNDHAM": "SITEMAP_ANSWERED_THIS_CLIENT",
+   "SONESTA": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "DRURY": "SITEMAP_ANSWERED_THIS_CLIENT",
+   "WOODSPRING": "SITEMAP_ANSWERED_THIS_CLIENT",
+   "INTOWN": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "LOEWS": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "CHOICE": "SITEMAP_UNREACHABLE__TimeoutError",
+   "IHG": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "BEST_WESTERN": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "RED_ROOF": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "MOTEL6": "SITEMAP_UNREACHABLE__TimeoutError",
+   "EXTENDED_STAY": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "HYATT": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "RADISSON": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "OMNI": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "FOUR_SEASONS": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403"
+  },
+  "visit_savannah_roster": {
+   "coverage": "EVERY_PLACES_TO_STAY_CATEGORY_PAGE_AND_EVERY_LINKED_PROFILE",
+   "profiles": 156,
+   "by_category": {
+    "Bed & Breakfasts": 10,
+    "Extended Stay": 1,
+    "Historic Inns": 3,
+    "Hotels & Motels": 110,
+    "Places to Stay": 5,
+    "Vacation Rentals": 27
+   }
+  },
+  "visit_pooler_roster": {
+   "listings": 12
+  },
+  "census_lane_observations": {
+   "OSM_OVERPASS": 170,
+   "BRAND_INVENTORY_OWNED": 42,
+   "BRAND_INVENTORY_CITY_PAGE": 45,
+   "BRAND_INVENTORY_STATE_SITEMAP": 1,
+   "BRAND_INVENTORY_SITEMAP": 23,
+   "DESTINATION_ORGANIZATION": 167,
+   "REGIONAL_VISITOR_CENTER": 0,
+   "COMPETITOR_LEAD": 32,
+   "PROPERTY_PAGE": 178
+  },
+  "first_party_reads": {
+   "pages_read": 168,
+   "by_brand": {
+    "BEST_WESTERN": 7,
+    "CHOICE": 26,
+    "DRURY": 1,
+    "HILTON": 34,
+    "HYATT": 5,
+    "IHG": 18,
+    "INDEPENDENT": 6,
+    "MARRIOTT": 42,
+    "RED_ROOF": 5,
+    "WOODSPRING": 1,
+    "WYNDHAM": 23
+   },
+   "identity_confirmed": 168,
+   "in_market": 160,
+   "outside_market": 8,
+   "in_market_pets_allowed_true": 109,
+   "in_market_pets_allowed_false": 44,
+   "in_market_first_party_conflicts": 1
+  },
+  "wyndham_property_service": {
+   "routes": 49,
+   "read": 23,
+   "retired": 26,
+   "errors": 0
+  },
+  "clean_set": {
+   "reads_evaluated": 168,
+   "clean_pet_friendly": 96,
+   "clean_verified_no_pets": 40,
+   "resolved_census_identities": 136,
+   "unresolved_census_identities": 51,
+   "census_count": 187,
+   "rejected": 32,
+   "rejected_by_class": {
+    "ADDRESS_KEY_DIRECTIONAL_COLLISION": 4,
+    "CENSUS_ROW_NOT_ADMITTED": 11,
+    "CO_LOCATION_RULING_REQUIRED": 3,
+    "FIRST_PARTY_CONFLICT": 1,
+    "POLICY_NOT_FOUND": 6,
+    "QUOTE_NOT_OPERATIVE": 1,
+    "SERVICE_ANIMAL_ONLY": 5,
+    "UNJOINED_READ": 1
+   },
+   "pf_by_brand": {
+    "BEST_WESTERN": 1,
+    "CHOICE": 16,
+    "DRURY": 1,
+    "HILTON": 26,
+    "HYATT": 2,
+    "IHG": 4,
+    "INDEPENDENT": 5,
+    "MARRIOTT": 21,
+    "RED_ROOF": 5,
+    "WOODSPRING": 1,
+    "WYNDHAM": 14
+   },
+   "pf_by_corridor": {
+    "savannah-ga__gateway-i95": 12,
+    "savannah-ga__historic-district": 26,
+    "savannah-ga__hutchinson-island": 1,
+    "savannah-ga__midtown": 10,
+    "savannah-ga__pooler": 10,
+    "savannah-ga__port-wentworth": 14,
+    "savannah-ga__richmond-hill": 9,
+    "savannah-ga__sav-airport": 9,
+    "savannah-ga__southside": 5
+   }
+  }
+ },
+ "competitor_gap_challenge": {
+  "competitor_rows_observed": 32,
+  "also_seen_by_a_first_party_lane": 25,
+  "competitor_only": 7,
+  "competitor_only_by_class": {
+   "NAME_ONLY_UNRESOLVED": 7
+  },
+  "matched_by_class": {
+   "TRUE_HOTEL_IDENTITY": 25
+  }
+ },
+ "owned_evidence": {
+  "OWNED_IDENTITIES": "0 -- no committed census held a Savannah identity (Wilmington NC's 'The Savannah Inn' is a Carolina Beach hotel: a name collision, not an identity).",
+  "OWNED_ROUTES": "42 -- SAV-coded Marriott routes from the committed national harvest dayton_oh_brand_directory_harvest_001 (read at zero requests; every one re-read on Marriott's own page).",
+  "OWNED_VALID_POLICY_EVIDENCE": "0 -- every policy record here is a new first-party capture of this order."
+ },
+ "package": {
+  "SHADOW_PACKAGE_CREATED": "YES",
+  "execution_zone": "SHADOW_UNTIL_REGISTERED",
+  "package_id": "pkg-savannah-ga-b3497309a1a2729e",
+  "PACKAGE_DIGEST": "sha256:b3497309a1a2729e5efab35cb8b302b6830c010fd8adec042b1765bde00a4dcd",
+  "created_from_source_sha": "c093cefd35999e3013acce7112040006cafa741c",
+  "package_path": "launch_packages/pettripfinder/markets/staging/savannah-ga/shadow_packages/savannah-ga/pkg-savannah-ga-b3497309a1a2729e.json",
+  "BUILD_INPUT_KEY": {
+   "staged_input_digest": "sha256:24987b013b2b563857d0d85b868b2a94581c24dc9a44b919f1cab0a2a9ca2ee0",
+   "changed_market_bundle_sha256": "351527685770e65cebf337d6820b0c117b1eabe1f976e40e30d70320604cacfa",
+   "contract_sha256": "sha256:6b0c2121987e8e3e6417544090e12e817e66fcc68a1af64310a9bd8b0fc199c9",
+   "dependency_input_digests": {
+    "market": "sha256:602b3cebc28336ab6c68f57c236393351e3f23fe8150ecd04c54a2347888e9a4",
+    "census": "sha256:6a9735e654bd06b8d757fb86970ed3590b336b8bdd5d9e23d546f6c79b1cffda",
+    "policy_package": "sha256:23295272c786acbab644e233f3e03044976c67b3da0bd732173b1049b0107ec4",
+    "exclusions": "sha256:78fb64d8e373b6c6060b69dc9924fc06865af8022ca444166712a150738fa974",
+    "routing": "sha256:05e895292bd9e021b759a89efb34cd74dd08e3398b62e8fcf4866d5c1579b14f",
+    "seed": "sha256:9820751b2c144fefb09ac76ad1ff2a15ce3ed4e413aa753f50ea65762c3d7257",
+    "partition": "sha256:7a9a4088a1c78835530b3e30cc172788240453fc16f3b412590da41498e7c200"
+   }
+  },
+  "INTENDED_DELTA": {
+   "market_id": "savannah-ga",
+   "add_property_ids": [
+    "ac hotel savannah historic district",
+    "aloft by marriott savannah airport",
+    "aloft by marriott savannah downtown historic district",
+    "andaz savannah",
+    "baymont by wyndham pooler savannah",
+    "baymont by wyndham port wentworth",
+    "bellwether house",
+    "best western savannah historic district",
+    "candlewood suites savannah airport",
+    "clarks inn savannah airport",
+    "comfort suites port wentworth savannah north",
+    "country inn and suites by radisson savannah gateway ga",
+    "country inn and suites by radisson savannah i 95 north ga",
+    "country inn and suites by radisson savannah southside",
+    "courtyard by marriott savannah midtown",
+    "days inn and suites by wyndham savannah midtown",
+    "days inn by wyndham richmond hill savannah",
+    "days inn by wyndham savannah airport",
+    "days inn by wyndham savannah gateway i 95",
+    "doubletree by hilton hotel savannah historic district",
+    "drury plaza hotel savannah pooler",
+    "east bay inn",
+    "echo suites extended stay by wyndham savannah pooler",
+    "econo lodge garden city savannah",
+    "econo lodge richmond hill",
+    "econo lodge savannah midtown",
+    "element by marriott pooler savannah airport",
+    "element by marriott savannah midtown",
+    "embassy suites by hilton savannah airport",
+    "embassy suites by hilton savannah historic district",
+    "fairfield by marriott inn and suites savannah downtown historic district",
+    "fairfield by marriott inn and suites savannah i 95 north",
+    "fairfield by marriott inn and suites savannah sw richmond hill",
+    "foley house inn",
+    "hampton inn and suites savannah airport",
+    "hampton inn and suites savannah historic district",
+    "hampton inn and suites savannah i 95 south gateway",
+    "hampton inn and suites savannah midtown",
+    "hampton inn savannah i 95 north",
+    "hampton inn savannah i 95 richmond hill",
+    "hilton garden inn savannah airport",
+    "hilton garden inn savannah historic district",
+    "hilton garden inn savannah midtown",
+    "holiday inn express and suites savannah n port wentworth",
+    "holiday inn savannah historic district",
+    "home2 suites by hilton richmond hill savannah i 95",
+    "home2 suites by hilton savannah airport",
+    "home2 suites by hilton savannah i95 north",
+    "home2 suites by hilton savannah midtown",
+    "homewood suites by hilton savannah airport",
+    "homewood suites by hilton savannah historic district riverfront",
+    "hotel bardo savannah",
+    "hotel orielle autograph collection",
+    "hyatt regency savannah",
+    "iris garden inn",
+    "jw marriott savannah plant riverside district",
+    "kimpton brice hotel",
+    "la quinta inn and suites by wyndham savannah airport pooler",
+    "mainstay suites savannah midtown",
+    "microtel inn and suites by wyndham pooler savannah",
+    "perry lane hotel a luxury collection hotel savannah",
+    "quality inn port wentworth savannah north",
+    "quality inn richmond hill savannah i 95",
+    "quality inn savannah historic district",
+    "quality inn savannah i 95",
+    "quality inn savannah midtown",
+    "red roof inn and suites savannah airport",
+    "red roof inn savannah north i 95 port wentworth",
+    "red roof inn savannah richmond hill i 95",
+    "red roof inn savannah southside midtown",
+    "red roof plus and suites savannah i 95",
+    "residence inn by marriott savannah airport",
+    "residence inn by marriott savannah downtown historic district",
+    "residence inn by marriott savannah midtown",
+    "sleep inn savannah gateway i 95",
+    "sleep inn savannah midtown",
+    "spark by hilton port wentworth savannah",
+    "spark by hilton savannah airport",
+    "spark by hilton savannah midtown",
+    "spark by hilton savannah south i 95",
+    "springhill suites by marriott savannah richmond hill",
+    "suburban studios abercorn",
+    "super 8 by wyndham savannah",
+    "tempo by hilton savannah historic district",
+    "the alida savannah a tribute portfolio hotel",
+    "the drayton hotel savannah curio collection by hilton",
+    "the westin savannah harbor golf resort and spa",
+    "towneplace suites by marriott savannah airport",
+    "towneplace suites by marriott savannah chatham parkway",
+    "towneplace suites by marriott savannah midtown",
+    "travelodge by wyndham savannah area richmond hill",
+    "tru by hilton savannah airport",
+    "tru by hilton savannah midtown",
+    "tryp by wyndham savannah downtown historic district",
+    "wingate by wyndham savannah i 95 north",
+    "woodspring suites savannah west chatham parkway"
+   ],
+   "update_property_ids": [],
+   "remove_property_ids": [],
+   "add_routes": [
+    "/pet-friendly-hotels/savannah-ga/",
+    "/pet-friendly-hotels/savannah-ga/ac-hotel-savannah-historic-district/",
+    "/pet-friendly-hotels/savannah-ga/aloft-by-marriott-savannah-airport/",
+    "/pet-friendly-hotels/savannah-ga/aloft-by-marriott-savannah-downtown-historic-district/",
+    "/pet-friendly-hotels/savannah-ga/andaz-savannah/",
+    "/pet-friendly-hotels/savannah-ga/baymont-by-wyndham-pooler-savannah/",
+    "/pet-friendly-hotels/savannah-ga/baymont-by-wyndham-port-wentworth/",
+    "/pet-friendly-hotels/savannah-ga/bellwether-house/",
+    "/pet-friendly-hotels/savannah-ga/best-western-savannah-historic-district/",
+    "/pet-friendly-hotels/savannah-ga/candlewood-suites-savannah-airport/",
+    "/pet-friendly-hotels/savannah-ga/clarks-inn-savannah-airport/",
+    "/pet-friendly-hotels/savannah-ga/comfort-suites-port-wentworth-savannah-north/",
+    "/pet-friendly-hotels/savannah-ga/country-inn-suites-by-radisson-savannah-gateway-ga/",
+    "/pet-friendly-hotels/savannah-ga/country-inn-suites-by-radisson-savannah-i-95-north-ga/",
+    "/pet-friendly-hotels/savannah-ga/country-inn-suites-by-radisson-savannah-southside/",
+    "/pet-friendly-hotels/savannah-ga/courtyard-by-marriott-savannah-midtown/",
+    "/pet-friendly-hotels/savannah-ga/days-inn-by-wyndham-richmond-hill-savannah/",
+    "/pet-friendly-hotels/savannah-ga/days-inn-by-wyndham-savannah-airport/",
+    "/pet-friendly-hotels/savannah-ga/days-inn-by-wyndham-savannah-gateway-i-95/",
+    "/pet-friendly-hotels/savannah-ga/days-inn-suites-by-wyndham-savannah-midtown/",
+    "/pet-friendly-hotels/savannah-ga/doubletree-by-hilton-hotel-savannah-historic-district/",
+    "/pet-friendly-hotels/savannah-ga/drury-plaza-hotel-savannah-pooler/",
+    "/pet-friendly-hotels/savannah-ga/east-bay-inn/",
+    "/pet-friendly-hotels/savannah-ga/echo-suites-extended-stay-by-wyndham-savannah-pooler/",
+    "/pet-friendly-hotels/savannah-ga/econo-lodge-garden-city-savannah/",
+    "/pet-friendly-hotels/savannah-ga/econo-lodge-richmond-hill/",
+    "/pet-friendly-hotels/savannah-ga/econo-lodge-savannah-midtown/",
+    "/pet-friendly-hotels/savannah-ga/element-by-marriott-pooler-savannah-airport/",
+    "/pet-friendly-hotels/savannah-ga/element-by-marriott-savannah-midtown/",
+    "/pet-friendly-hotels/savannah-ga/embassy-suites-by-hilton-savannah-airport/",
+    "/pet-friendly-hotels/savannah-ga/embassy-suites-by-hilton-savannah-historic-district/",
+    "/pet-friendly-hotels/savannah-ga/fairfield-by-marriott-inn-suites-savannah-downtown-historic-district/",
+    "/pet-friendly-hotels/savannah-ga/fairfield-by-marriott-inn-suites-savannah-i-95-north/",
+    "/pet-friendly-hotels/savannah-ga/fairfield-by-marriott-inn-suites-savannah-sw-richmond-hill/",
+    "/pet-friendly-hotels/savannah-ga/foley-house-inn/",
+    "/pet-friendly-hotels/savannah-ga/gateway-i95/",
+    "/pet-friendly-hotels/savannah-ga/hampton-inn-and-suites-savannah-airport/",
+    "/pet-friendly-hotels/savannah-ga/hampton-inn-savannah-i-95-north/",
+    "/pet-friendly-hotels/savannah-ga/hampton-inn-savannah-i-95-richmond-hill/",
+    "/pet-friendly-hotels/savannah-ga/hampton-inn-suites-savannah-historic-district/",
+    "/pet-friendly-hotels/savannah-ga/hampton-inn-suites-savannah-i-95-south-gateway/",
+    "/pet-friendly-hotels/savannah-ga/hampton-inn-suites-savannah-midtown/",
+    "/pet-friendly-hotels/savannah-ga/hilton-garden-inn-savannah-airport/",
+    "/pet-friendly-hotels/savannah-ga/hilton-garden-inn-savannah-historic-district/",
+    "/pet-friendly-hotels/savannah-ga/hilton-garden-inn-savannah-midtown/",
+    "/pet-friendly-hotels/savannah-ga/historic-district/",
+    "/pet-friendly-hotels/savannah-ga/holiday-inn-express-suites-savannah-n-port-wentworth/",
+    "/pet-friendly-hotels/savannah-ga/holiday-inn-savannah-historic-district/",
+    "/pet-friendly-hotels/savannah-ga/home2-suites-by-hilton-richmond-hill-savannah-i-95/",
+    "/pet-friendly-hotels/savannah-ga/home2-suites-by-hilton-savannah-airport/",
+    "/pet-friendly-hotels/savannah-ga/home2-suites-by-hilton-savannah-i95-north/",
+    "/pet-friendly-hotels/savannah-ga/home2-suites-by-hilton-savannah-midtown/",
+    "/pet-friendly-hotels/savannah-ga/homewood-suites-by-hilton-savannah-airport/",
+    "/pet-friendly-hotels/savannah-ga/homewood-suites-by-hilton-savannah-historic-district-riverfront/",
+    "/pet-friendly-hotels/savannah-ga/hotel-bardo-savannah/",
+    "/pet-friendly-hotels/savannah-ga/hotel-orielle-autograph-collection/",
+    "/pet-friendly-hotels/savannah-ga/hyatt-regency-savannah/",
+    "/pet-friendly-hotels/savannah-ga/iris-garden-inn/",
+    "/pet-friendly-hotels/savannah-ga/jw-marriott-savannah-plant-riverside-district/",
+    "/pet-friendly-hotels/savannah-ga/kimpton-brice-hotel/",
+    "/pet-friendly-hotels/savannah-ga/la-quinta-inn-suites-by-wyndham-savannah-airport-pooler/",
+    "/pet-friendly-hotels/savannah-ga/mainstay-suites-savannah-midtown/",
+    "/pet-friendly-hotels/savannah-ga/microtel-inn-suites-by-wyndham-pooler-savannah/",
+    "/pet-friendly-hotels/savannah-ga/midtown/",
+    "/pet-friendly-hotels/savannah-ga/perry-lane-hotel-a-luxury-collection-hotel-savannah/",
+    "/pet-friendly-hotels/savannah-ga/pooler/",
+    "/pet-friendly-hotels/savannah-ga/port-wentworth/",
+    "/pet-friendly-hotels/savannah-ga/quality-inn-port-wentworth-savannah-north/",
+    "/pet-friendly-hotels/savannah-ga/quality-inn-richmond-hill-savannah-i-95/",
+    "/pet-friendly-hotels/savannah-ga/quality-inn-savannah-historic-district/",
+    "/pet-friendly-hotels/savannah-ga/quality-inn-savannah-i-95/",
+    "/pet-friendly-hotels/savannah-ga/quality-inn-savannah-midtown/",
+    "/pet-friendly-hotels/savannah-ga/red-roof-inn-savannah-north-i-95-port-wentworth/",
+    "/pet-friendly-hotels/savannah-ga/red-roof-inn-savannah-richmond-hill-i-95/",
+    "/pet-friendly-hotels/savannah-ga/red-roof-inn-savannah-southside-midtown/",
+    "/pet-friendly-hotels/savannah-ga/red-roof-inn-suites-savannah-airport/",
+    "/pet-friendly-hotels/savannah-ga/red-roof-plus-suites-savannah-i-95/",
+    "/pet-friendly-hotels/savannah-ga/residence-inn-by-marriott-savannah-airport/",
+    "/pet-friendly-hotels/savannah-ga/residence-inn-by-marriott-savannah-downtown-historic-district/",
+    "/pet-friendly-hotels/savannah-ga/residence-inn-by-marriott-savannah-midtown/",
+    "/pet-friendly-hotels/savannah-ga/richmond-hill/",
+    "/pet-friendly-hotels/savannah-ga/sav-airport/",
+    "/pet-friendly-hotels/savannah-ga/sleep-inn-savannah-gateway-i-95/",
+    "/pet-friendly-hotels/savannah-ga/sleep-inn-savannah-midtown/",
+    "/pet-friendly-hotels/savannah-ga/southside/",
+    "/pet-friendly-hotels/savannah-ga/spark-by-hilton-port-wentworth-savannah/",
+    "/pet-friendly-hotels/savannah-ga/spark-by-hilton-savannah-airport/",
+    "/pet-friendly-hotels/savannah-ga/spark-by-hilton-savannah-midtown/",
+    "/pet-friendly-hotels/savannah-ga/spark-by-hilton-savannah-south-i-95/",
+    "/pet-friendly-hotels/savannah-ga/springhill-suites-by-marriott-savannah-richmond-hill/",
+    "/pet-friendly-hotels/savannah-ga/suburban-studios-abercorn/",
+    "/pet-friendly-hotels/savannah-ga/super-8-by-wyndham-savannah/",
+    "/pet-friendly-hotels/savannah-ga/tempo-by-hilton-savannah-historic-district/",
+    "/pet-friendly-hotels/savannah-ga/the-alida-savannah-a-tribute-portfolio-hotel/",
+    "/pet-friendly-hotels/savannah-ga/the-drayton-hotel-savannah-curio-collection-by-hilton/",
+    "/pet-friendly-hotels/savannah-ga/the-westin-savannah-harbor-golf-resort-spa/",
+    "/pet-friendly-hotels/savannah-ga/towneplace-suites-by-marriott-savannah-airport/",
+    "/pet-friendly-hotels/savannah-ga/towneplace-suites-by-marriott-savannah-chatham-parkway/",
+    "/pet-friendly-hotels/savannah-ga/towneplace-suites-by-marriott-savannah-midtown/",
+    "/pet-friendly-hotels/savannah-ga/travelodge-by-wyndham-savannah-area-richmond-hill/",
+    "/pet-friendly-hotels/savannah-ga/tru-by-hilton-savannah-airport/",
+    "/pet-friendly-hotels/savannah-ga/tru-by-hilton-savannah-midtown/",
+    "/pet-friendly-hotels/savannah-ga/tryp-by-wyndham-savannah-downtown-historic-district/",
+    "/pet-friendly-hotels/savannah-ga/wingate-by-wyndham-savannah-i-95-north/",
+    "/pet-friendly-hotels/savannah-ga/woodspring-suites-savannah-west-chatham-parkway/"
+   ],
+   "change_routes": [],
+   "remove_routes": [],
+   "expected_profile_delta": 96,
+   "expected_verified_no_pets_delta": 40,
+   "expected_market_count_delta": 1,
+   "expected_participation_delta": [
+    {
+     "market_id": "savannah-ga",
+     "from": false,
+     "to": true
+    }
+   ],
+   "joining_market_profiles": 96,
+   "joining_market_verified_no_pets": 40,
+   "shadow_until_registered": "declared against a live release that carries no index for this market; the registration order's re-seal restates the delta through registration_release_lane.joining_delta"
+  },
+  "VALIDATION_RECEIPT": {
+   "path": "launch_packages/pettripfinder/markets/staging/savannah-ga/shadow_receipts/savannah-ga/pkg-savannah-ga-b3497309a1a2729e-b8e8c5a4ea743a98.json",
+   "digest": "sha256:b8e8c5a4ea743a98a7d36a887972221399e07835a8133d37a739637ec65f00a9",
+   "eligible": "YES",
+   "rules": {
+    "A": "PASS",
+    "B": "PASS",
+    "C": "PASS",
+    "D": "PASS",
+    "E": "PASS",
+    "F": "PASS",
+    "G": "PASS",
+    "H": "PASS",
+    "I": "PASS",
+    "J": "PASS",
+    "K": "PASS",
+    "L": "PASS",
+    "M": "PASS",
+    "N": "PASS",
+    "O": "PASS"
+   },
+   "unknown": [],
+   "failed": [],
+   "determinism": "BYTE_IDENTICAL"
+  },
+  "COVERAGE_SCORECARD": {
+   "census_count": 187,
+   "published_pet_friendly": 96,
+   "verified_no_pets": 40,
+   "out_of_category": 0,
+   "unresolved": 51,
+   "public_routes": 105,
+   "evidence_references": 136,
+   "evidence_references_source": "derived_from_records",
+   "evidence_artifacts_available": 0,
+   "paid_evidence_references": 0,
+   "counts_by_partition_state": {
+    "ACCESS_BLOCKED": 4,
+    "AWAITING_OFFICIAL_URL": 8,
+    "AWAITING_POLICY_OBSERVATION": 39,
+    "PUBLISHED_PET_FRIENDLY": 96,
+    "VERIFIED_NO_PETS": 40
+   }
+  },
+  "parent_binding": "parent_live_state names the CURRENT live release (Jacksonville, deploy 6aa77cb8...). That is what this package was validated against. Once any later market is live, FAST rule N fails this package BY DESIGN; the registration order -- when Savannah reaches the front of the release queue -- re-seals the same committed inputs against that parent as a NEW package id. Nothing here is a production candidate, and no whole-site build was assembled."
+ },
+ "factory_code_changed": "NO -- every changed path is a savannah_ga_* helper, the market's discovery config, or a document under the market's own proposed / staging / report paths",
+ "shared_factory_notes_recorded_not_repaired": [
+  "The shared hotel_exclusions.address_key drops street directionals, so '201 E. Bay St.' (Hampton Inn) and '201 West Bay Street' (Hotel Indigo), and '11 Gateway Boulevard East' (Holiday Inn) and '11 West Gateway Boulevard' (TownePlace Suites), are one key though they are different buildings. The census merge refuses the join market-locally; the four pet-friendly records are held ADDRESS_KEY_DIRECTIONAL_COLLISION because the shared listing builder and publication guard would conflate them.",
+  "The shared first-party reader does not read 'We do not allow pets of any kind', 'While we do not allow pets', 'No, pets are strictly prohibited on our property', 'We cannot accomodate pets at this time', 'We do NOT offer pet friendly hotel rooms.', 'We are not pet or Emotional Support Animal friendly.', 'Sorry, none of our rooms are pet or ESA friendly' or 'Pets are always welcome.' as operative; those rows are held with the exact wording."
+ ],
+ "broad_regression_run": "NO",
+ "final_production_candidate_created": "NO -- FAST composes the release index in memory only",
+ "founder_authorization_created": "NO",
+ "deployed": "NO",
+ "shared_state_touched": "NO -- launch_participation.json, bundle_cache_closure.json, the market_state pin, the generated globals, release contracts, identity_resolutions.json and the market registry are unchanged",
+ "next_order": [
+  "When Savannah reaches the front of the serialized release lane, read CURRENT VERIFIED LIVE and merge that live parent into worker/ptf-savannah-ga-market-001.",
+  "Copy markets/proposed/savannah-ga.json -> markets/savannah-ga.json, identity_census_proposed/savannah-ga.json -> identity_census/savannah-ga.json and the staged launch_package documents (hotel_policy_facts_savannah-ga.json, savannah_ga_final_partition_007.json, the authority shard) into their registered paths; repoint the helpers' paths.",
+  "Record the same-campus / directional resolutions in identity_resolutions.json (190 Pioneer Way: Courtyard + Residence Inn Richmond Hill; 100 Half Moon Way: TownePlace + Fairfield Pooler; 201 E / 201 W Bay Street: Hampton Inn + Hotel Indigo; 11 E / 11 W Gateway Blvd: Holiday Inn + TownePlace South) and re-admit the held pet-friendly records through the clean set.",
+  "market_registration_cli --write, build_global_authority --write then --check, the release contract, registration_release_lane register + seal --work-order (a NEW package id: this shadow package fails FAST rule N by design once the parent moves), FAST.",
+  "regression_delta classify (expect COMPOSITE_FRESH_MARKET_DATA_ONLY), compose and reproduce the candidate, prepare the founder packet; deploy only on founder authorization.",
+  "Before sealing, re-probe the 403 inns (Catherine Ward House, Hamilton-Turner, The DeSoto, The Inn on West Liberty), find first-party routes for Presidents' Quarters, Recess, Sonesta Essentials, Relax Inn, Sandman Motel, Savannah Inn and The Spanish Moss Inn, and verify the competitor leads Mansion on Forsyth Park, McMillan Inn, Green Palm Inn and Zeigler House Inn on their own pages."
+ ]
+}

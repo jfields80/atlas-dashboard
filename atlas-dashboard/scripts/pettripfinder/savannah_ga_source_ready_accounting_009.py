@@ -39,10 +39,10 @@ TIMINGS = OrderedDict([
     ("browser_evidence", "05:45Z-06:10Z attended same-origin reads: Marriott 42, Hilton 34, IHG 25, Hyatt 5, Choice 39, Best Western 10, Red Roof 5, Extended Stay America 2, Motel 6 / Studio 6 5 (every payload's canonical-JSON sha256 verified against the page's)"),
     ("static_evidence", "Wyndham property service 10.5 s (49 routes: 23 read, 26 retired); static home pages 31 s; policy-page lane 18-21 s"),
     ("policy_adjudication_and_reconciliation", "06:10Z-06:31Z (independent quotes proved verbatim with house number and ZIP on the same document; census directional / roster / rebrand fixes; clean set; staged authority; partition)"),
-    ("evidence_store_incident", "06:38Z: removing a reproduction worktree whose data/ was a junction to this worktree's data/ deleted the gitignored document store; the plain-client lanes were re-run 06:40Z-06:52Z and every quoted document re-persisted and re-proved (three re-rendered pages carry new sha256 values); the chain was rebuilt and resealed"),
-    ("shadow_package_and_fast", "see the package block (sealed twice in-process, FAST 15/15)"),
-    ("independent_reproduction", "see the package block (clean git worktree at the source commit, copied document store)"),
-    ("ZERO_TO_SOURCE_READY", "see the FINAL report (start to the last FAST-passed seal)"),
+    ("evidence_store_incident", "06:38Z: removing a reproduction worktree whose data/ was a junction to this worktree's data/ deleted the gitignored document store; the plain-client lanes were re-run 06:40Z-06:45Z and every quoted document re-persisted and re-proved (three re-rendered pages carry new sha256 values); the chain was rebuilt and resealed at c093cefd"),
+    ("shadow_package_and_fast", "06:46:05Z-06:47:36Z at c093cefd (sealed twice in-process, FAST 15/15, determinism BYTE_IDENTICAL); earlier seals at ac1cdb83 (06:32Z-06:34Z) and f1173ef4 (06:35:50Z-06:37:19Z) also passed 15/15 and were superseded"),
+    ("independent_reproduction", "06:47:54Z-06:48:12Z (clean git worktree at c093cefd with a COPY of the document store: geography, Visit Savannah roster, brand pages, capture, census, clean set, staged authority, partition and staged shard rebuilt from committed captures -- zero content difference; only the eol-unattributed discovery config checks out CRLF; separate-process digest-only seal = the same digest)"),
+    ("ZERO_TO_SOURCE_READY", "1 h 35 min 23 s (05:12:13Z -> 06:47:36Z, the final FAST-passed sealed shadow package; the first FAST-passed seal was at 06:34:04Z, 1 h 21 min 51 s)"),
 ])
 
 
