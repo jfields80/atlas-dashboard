@@ -57,14 +57,14 @@ ROWS = [
     ("east-bay-inn", "INDEPENDENT", "East Bay Inn", "225 East Bay Street", "Savannah", "31401", "912-238-1225",
      "f8be4a73bd79", "We are a pet-friendly property!", {"pets_allowed": True}, None),
     ("foley-house-inn", "INDEPENDENT", "Foley House Inn", "14 West Hull Street", "Savannah", "31401", "(800) 647-3708",
-     "d5342ed77854",
+     "16f14f01c25d",
      "A pet friendly Savannah bed and breakfast? Yes! Just because you’re traveling doesn’t mean you have to leave "
      "your pets behind. Four-legged guests are always welcome at the Foley House Inn in the heart of the Savannah, "
      "Georgia Historic District.",
      {"pets_allowed": True}, None),
     # "one dog up to 50 lbs, or two dogs with a combined weight of 75 lbs" is two regimes; no weight or count is published.
     ("hotel-bardo", "INDEPENDENT", "Hotel Bardo Savannah", "700 Drayton Street", "Savannah", "31401", "912-238-5158",
-     "796aea5cf055",
+     "440cf4734fc3",
      "Hotel Bardo is a dog-friendly resort. Other animals are not permitted. We allow one dog up to 50 lbs, or two dogs "
      "with a combined weight of 75 lbs. There is an additional $200 non-refundable fee per stay.",
      {"pets_allowed": True, "pet_fee": 20000, "fee_currency": "USD", "fee_basis": "per_stay", "fee_refundable": False,
@@ -79,7 +79,7 @@ ROWS = [
      {"pets_allowed": True, "pet_fee": 2000, "fee_currency": "USD", "fee_basis": "per_night", "fee_scope": "per_pet",
       "pet_count_limit": 2, "weight_limit": 75.0, "weight_limit_unit": "lb"}, None),
     ("drury-plaza-pooler", "DRURY", "Drury Plaza Hotel Savannah Pooler", "500 East US-80", "Pooler", "31322",
-     "912-330-0400", "af3c576d5665",
+     "912-330-0400", "59b6c8f9d65e",
      "Dogs and cats accepted. Rooms with pets will be charged a daily fee of $50 per room plus tax. Service animals are "
      "free of charge. Limit of two pets per room with a combined weight of 80 pounds.",
      {"pets_allowed": True, "pet_fee": 5000, "fee_currency": "USD", "fee_basis": "per_night", "fee_scope": "per_room",

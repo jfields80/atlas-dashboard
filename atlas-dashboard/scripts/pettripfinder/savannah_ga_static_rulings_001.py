@@ -48,7 +48,7 @@ IDENTITY_ONLY_PAGES = [
      "room. No cats. Non-refundable deposit of $75 UDS and then $10 per day per pet.') is read FEE_ONLY by the shared reader"),
     ("WoodSpring Suites Savannah Pooler", "122 Godley Station Blvd South", "Pooler", "31322", "",
      "https://www.woodspring.com/extended-stay-hotels/locations/georgia/savannah-hinesville-statesboro/woodspring-suites-savannah-pooler",
-     "bc417dd82b52",
+     "c6d859051ee6",
      "the brand's own property page states '122 Godley Station Blvd South' / 31322; its Pet Policy block opens with a service-"
      "animal sentence and is read SERVICE_ANIMAL_ONLY by the shared reader"),
     ("Azalea Inn and Villas", "217 E Huntingdon St", "Savannah", "31401", "(912) 236-6080",

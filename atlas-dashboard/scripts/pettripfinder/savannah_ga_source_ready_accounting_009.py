@@ -1,11 +1,11 @@
 """PTF-SAVANNAH-GA-PARALLEL-SOURCE-READY-001 -- complete accounting.
 
-Cloned from the Atlanta GA accounting helper. Every discovered candidate, every
-census identity in exactly one disposition, every hold by class, per-corridor and
-per-town coverage, lane yields, the vacation-rental filter's refusals, the shadow
-package's identity, its independent reproduction, measured timings and the release
-stop -- computed from the committed market-local documents, never typed (the
-timings are the wall-clock observations of this run, recorded as observed).
+Cloned from the Boone - Blowing Rock NC accounting helper (itself from Atlanta GA). Every
+discovered candidate, every census identity in exactly one disposition, every hold by
+class, per-corridor and per-area coverage, lane yields, the vacation-rental filter's
+refusals, the shadow package's identity, its independent reproduction, measured timings
+and the release stop -- computed from the committed market-local documents, never typed
+(the timings are the wall-clock observations of this run, recorded as observed).
 
 Output:
   launch_packages/pettripfinder/markets/reports/savannah_ga_source_ready_accounting_009.json
@@ -14,7 +14,6 @@ from __future__ import annotations
 
 import json
 import os
-import re
 import sys
 from collections import Counter, OrderedDict
 
@@ -31,18 +30,19 @@ OUT = os.path.join(REPORTS, "savannah_ga_source_ready_accounting_009.json")
 
 #: Measured wall-clock facts of this run (UTC), recorded as observed.
 TIMINGS = OrderedDict([
-    ("BOONE_BLOWING_ROCK_START_TIMESTAMP", "2026-09-14T00:29:27Z (2026-09-13T20:29:27-04:00)"),
-    ("precheck_and_template_read", "00:29Z-00:36Z (worktree, branch, HEAD e312caa6 = the Asheville-live parent, tree clean; Outer Banks / Atlanta / Jacksonville shadow chains read)"),
-    ("geography_and_corridor_model", "by 00:41Z (5 corridors: 2 CORE / 2 CORRIDOR / 1 FRINGE, 9 admitted ZIPs; Banner Elk / Sugar / Beech / Seven Devils and Avery County OUTSIDE, preserved for banner-elk-sugar-beech-nc)"),
-    ("osm_lane", "404.3 s (North Carolina extract, hard link of the 2026-09-10 snapshot; 301 hotel / motel / guest_house / chalet / apartment elements)"),
-    ("brand_inventory_lane", "97 free requests (Marriott NC sitemap page, 18 Hilton city pages, Wyndham sitemap walk, family probes)"),
-    ("destination_roster", "Explore Boone (Boone TDA) listing service, 8 'Hotels & Cabins' sub-categories, 9 requests at Crawl-delay 2; High Country Host regional visitor-center roster read once"),
-    ("attended_browser_evidence", "Hilton 2, Marriott 5, IHG 4 (same-origin, payload digests verified); Choice closed with bot-challenge shells; Best Western route not reached"),
-    ("static_first_party_lanes", "Wyndham property service 8.4 s (6 routes: 1 read, 5 retired); static home pages 31 s (22 targets); policy-page lane 17.3 s (40 sites, 114 documents)"),
-    ("source_ready_inputs_committed", "2026-09-14T00:57:43Z (7adbafd1)"),
-    ("shadow_package_sealed_and_fast", "00:57:52Z-00:58:40Z (sealed twice in-process, FAST 15/15)"),
-    ("independent_reproduction", "00:59:00Z-01:01Z (clean git worktree at 7adbafd1: separate-process digest-only seal = same digest; geography, brand pages, capture, census, clean set, staged authority, partition and staged shard rebuilt from committed captures -- zero content difference, the discovery config differs only by the worktree's CRLF checkout of an eol-unattributed file; same digest a third time)"),
-    ("ZERO_TO_SOURCE_READY", "29 min 13 s (00:29:27Z -> 00:58:40Z, FAST-passed sealed shadow package)"),
+    ("SAVANNAH_START_TIMESTAMP", "2026-09-14T05:12:13Z (2026-09-14T01:12:13-04:00)"),
+    ("precheck_and_template_read", "05:12Z-05:19Z (worktree, branch, HEAD 7b630cfa = the Jacksonville-live parent, tree clean; Boone / Atlanta shadow chains and the Atlanta browser transcript read)"),
+    ("geography_and_corridor_model", "05:19Z-05:20:08Z (10 corridors: 7 CORE / 1 CORRIDOR / 2 FRINGE, 15 admitted ZIPs; Tybee Island OUTSIDE, preserved for tybee-island-ga)"),
+    ("osm_lane", "387.8 s (Georgia extract, hard link of the Atlanta run's 2026-09-13 snapshot; 193 lodging elements)"),
+    ("brand_inventory_lane", "about 10 min detached (Marriott GA sitemap page, 14 Hilton city pages + 19 Savannah sub-pages, 16 family sitemap probes)"),
+    ("destination_rosters", "Visit Savannah (attended, 156 profiles, payload verified) 05:30Z-05:40Z; Visit Pooler (plain, 12 listings) 06:02Z"),
+    ("browser_evidence", "05:45Z-06:10Z attended same-origin reads: Marriott 42, Hilton 34, IHG 25, Hyatt 5, Choice 39, Best Western 10, Red Roof 5, Extended Stay America 2, Motel 6 / Studio 6 5 (every payload's canonical-JSON sha256 verified against the page's)"),
+    ("static_evidence", "Wyndham property service 10.5 s (49 routes: 23 read, 26 retired); static home pages 31 s; policy-page lane 18-21 s"),
+    ("policy_adjudication_and_reconciliation", "06:10Z-06:31Z (independent quotes proved verbatim with house number and ZIP on the same document; census directional / roster / rebrand fixes; clean set; staged authority; partition)"),
+    ("evidence_store_incident", "06:38Z: removing a reproduction worktree whose data/ was a junction to this worktree's data/ deleted the gitignored document store; the plain-client lanes were re-run 06:40Z-06:52Z and every quoted document re-persisted and re-proved (three re-rendered pages carry new sha256 values); the chain was rebuilt and resealed"),
+    ("shadow_package_and_fast", "see the package block (sealed twice in-process, FAST 15/15)"),
+    ("independent_reproduction", "see the package block (clean git worktree at the source commit, copied document store)"),
+    ("ZERO_TO_SOURCE_READY", "see the FINAL report (start to the last FAST-passed seal)"),
 ])
 
 
@@ -63,15 +63,14 @@ def _pin(row):
     return None
 
 
-def town_coverage(hotels, pf, np_):
-    """The order's named towns: the property's OWN stated municipality where it names one,
-    else the nearest-anchor overlay on its pin. Reporting only -- Kitty Hawk, Southern
-    Shores and Duck share one postal code and one corridor."""
+def area_coverage(hotels, pf, np_):
+    """The order's named areas: the property's OWN stated street first, then its pin. Reporting only."""
     from scripts.pettripfinder import savannah_ga_geography_001 as GEO
-    towns = OrderedDict((a, []) for a in (
-        "Boone Downtown / App State", "Boone US-321", "Boone US-421", "Boone NC-105 / Foscoe",
-        "Blowing Rock village", "Blue Ridge Parkway / resort corridor", "Valle Crucis / Vilas", "Deep Gap",
-        "Sugar Grove / Zionville / Todd"))
+    areas = OrderedDict((a, []) for a in (
+        "Historic District / Downtown", "River Street / Eastern Wharf", "Hutchinson Island", "Midtown",
+        "Chatham Parkway / I-16", "Thunderbolt", "Southside", "SAV Airport", "Garden City", "Pooler",
+        "Gateway / I-95 exit 94", "Georgetown", "Port Wentworth / Crossroads", "Richmond Hill",
+        "Wilmington / Skidaway Islands"))
     unplaced = []
     for h in hotels:
         state = ("PUBLISHED_PET_FRIENDLY" if h["identity_key"] in pf
@@ -79,9 +78,7 @@ def town_coverage(hotels, pf, np_):
         row = OrderedDict([("canonical_name", h["canonical_name"]), ("state", state), ("street", h.get("street"))])
         p = _pin(h) or (None, None)
         area = GEO.route_overlay((h.get("corridor") or "").split("__")[-1], h.get("street"), p[0], p[1])
-        basis = "own stated street, then pin (geography route_overlay)"
-        row["basis"] = basis
-        (towns[area] if area in towns else unplaced).append(row)
+        (areas[area] if area in areas else unplaced).append(row)
 
     def summary(rows):
         return OrderedDict([("census", len(rows)),
@@ -90,9 +87,9 @@ def town_coverage(hotels, pf, np_):
                             ("unresolved", sum(1 for r in rows if r["state"] == "UNRESOLVED")),
                             ("identities", rows)])
     return OrderedDict([
-        ("what_it_is", "Coverage for the order's named towns. Reporting only; membership and corridor come from the "
-                       "postal partition. Boone's road corridors all sit in 28607."),
-        ("towns", OrderedDict((a, summary(rows)) for a, rows in towns.items())),
+        ("what_it_is", "Coverage for the order's named areas. Reporting only; membership and corridor come from the "
+                       "postal partition. River Street / Eastern Wharf share 31401 with the Historic District."),
+        ("areas", OrderedDict((a, summary(rows)) for a, rows in areas.items())),
         ("unplaced", summary(unplaced)),
     ])
 
@@ -109,6 +106,7 @@ def build():
     brand = _load(os.path.join(REPORTS, "savannah_ga_brand_inventory_001.json"))
     wyn = _load(os.path.join(REPORTS, "savannah_ga_wyndham_lane_001.json"))
     roster = _load(os.path.join(REPORTS, "savannah_ga_destination_roster_001.json"))
+    pooler = _load(os.path.join(REPORTS, "savannah_ga_pooler_roster_001.json"))
     shadow = _load(os.path.join(REPORTS, "savannah_ga_shadow_package_008.json"))
 
     hotels, non_admitted = census["hotels"], census["non_admitted"]
@@ -126,71 +124,65 @@ def build():
 
     geo_holds = names("IDENTITY_REVIEW_REQUIRED", lambda r: reason(r).startswith("GEOGRAPHY_HOLD"))
     review = names("IDENTITY_REVIEW_REQUIRED", lambda r: not reason(r).startswith("GEOGRAPHY_HOLD"))
-    access_families = Counter()
-    for i in items:
-        if i["final_state"] == "ACCESS_BLOCKED":
-            access_families["BRAND_FAMILY" if "this family gave" in (i.get("next_action") or "") else "OWN_SITE"] += 1
+    access = Counter("OWN_SITE" for i in items if i["final_state"] == "ACCESS_BLOCKED")
     future = names("OUTSIDE_MARKET", lambda r: "FUTURE_SUBMARKET" in reason(r))
     non_hotel = [r for r in non_admitted if r["classification"] == "NON_LODGING"]
 
     def nh_class(r):
         why = reason(r).lower()
-        subs = {x for o in r.get("evidence") or ()
-                for x in (o.get("bureau_all_subcategories") or [o.get("bureau_subcategory")]) if x}
-        if "timeshare" in why:
-            return "TIMESHARE_VACATION_OWNERSHIP"
-        if "Cabin Rental Company" in subs:
-            return "CABIN_RENTAL_COMPANY"
-        if "RV & Campgrounds" in subs:
-            return "CAMPGROUND_RV"
-        if "Farm Stays" in subs:
-            return "FARM_STAY"
-        if "Cabins, Cottages & Condos" in subs:
-            return "CABIN_COTTAGE_CONDO_RENTAL"
+        if "vacation-rental" in why and "files this listing" in why:
+            return "BUREAU_VACATION_RENTAL_OR_PROPERTY_MANAGER"
+        if "campground" in why:
+            return "CAMPGROUND_RV_STATE_PARK"
+        if "stvr" in why:
+            return "MAP_SHORT_TERM_VACATION_RENTAL"
         if "tourism=" in why or "cottage" in why:
-            return "MAP_CABIN_CHALET_CONDO_UNIT"
+            return "MAP_APARTMENT_COTTAGE_UNIT"
+        if "venue" in why or "booking website" in why or "management company" in why:
+            return "VENUE_BAR_BOOKING_SITE_OR_MANAGEMENT_OFFICE"
         return "OTHER_NON_HOTEL"
 
+    held_classes = Counter(r["classification"] for r in clean["rejected"])
     holds = OrderedDict([
         ("IDENTITY_HOLDS", OrderedDict([
-            ("count", len(review) + len(names("NAME_ONLY_UNRESOLVED")) + len(names("SAME_IDENTITY_REBRAND_SUCCESSOR"))),
+            ("count", len(review) + len(names("NAME_ONLY_UNRESOLVED")) + len(names("SAME_IDENTITY_REBRAND_SUCCESSOR"))
+             + len(names("SAME_CAMPUS_DISTINCT_ENTITY"))),
             ("identity_review_required", review),
             ("name_only_unresolved", names("NAME_ONLY_UNRESOLVED")),
             ("rebrand_unresolved", names("SAME_IDENTITY_REBRAND_SUCCESSOR")),
-            ("note", "Not census identities and never published: lodging-category-unconfirmed rows (Art of Living "
-                     "Retreat Center, Willow Valley Resort), map rows with no postal code (Blowing Rock Lodge, Hotel "
-                     "Portofino), a name-only lead tied between two Courtyards, and names with no address of their "
-                     "own (Chetola, Green Park Inn, Homestead Inn, Best Western Blue Ridge Plaza, Scottish Inns, "
-                     "Greenes Motel, Inn at the Ponds, Park Vista Inn).")])),
+            ("same_campus_unproved", names("SAME_CAMPUS_DISTINCT_ENTITY")),
+            ("note", "Not census identities and never published: brand-flag map rows the brand's own inventory does not "
+                     "list (Econo Lodge Savannah South, Homewood Suites Savannah Midtown, Wingate at 15 Sylvester C. Formey), "
+                     "Signia by Hilton (not yet open), The Ann (apartments-by-Marriott category unconfirmed), the Atwell "
+                     "Suites / Hyatt Place rebrand at 4 Stephen S. Green Drive, the two G6 properties at 6 Gateway Blvd E, "
+                     "and name-only map and competitor leads (Mansion on Forsyth Park, McMillan Inn, Green Palm Inn, "
+                     "Zeigler House Inn, The Ballastone Inn, InTown Suites Garden City ...).")])),
         ("ROUTING_HOLDS", OrderedDict([("count", states.get("AWAITING_OFFICIAL_URL", 0)),
                                        ("identities", by_state.get("AWAITING_OFFICIAL_URL", []))])),
         ("ACCESS_BLOCKED", OrderedDict([("count", states.get("ACCESS_BLOCKED", 0)),
-                                        ("by_cause", dict(access_families)),
+                                        ("by_cause", dict(access)),
                                         ("identities", by_state.get("ACCESS_BLOCKED", []))])),
         ("EVIDENCE_HOLDS", OrderedDict([("count", states.get("AWAITING_POLICY_OBSERVATION", 0)),
                                         ("identities", by_state.get("AWAITING_POLICY_OBSERVATION", [])),
-                                        ("rejected_reads_by_class", clean["counts"]["rejected_by_class"])])),
+                                        ("rejected_reads_by_class", OrderedDict(sorted(held_classes.items())))])),
         ("GEOGRAPHY_HOLDS", OrderedDict([("count", len(geo_holds)), ("identities", geo_holds)])),
         ("PAID_HOLDS", OrderedDict([
-            ("count", access_families.get("BRAND_FAMILY", 0)),
-            ("note", "The ACCESS_BLOCKED identities whose brand family (Choice: Comfort Suites, Quality Inn, Sleep Inn; "
-                     "Radisson: Country Inn & Suites) refused this client are the "
-                     "paid-lane candidates. Same rows as ACCESS_BLOCKED, not an additional disposition; PAID PROVIDER "
-                     "BUDGET was $0 and no paid lane was used or reserved.")])),
+            ("count", 0),
+            ("note", "No brand family refused the attended session on this run, so no cohort requires a paid lane. "
+                     "PAID PROVIDER BUDGET was $0 and no paid lane was used or reserved.")])),
         ("FOUNDER_HOLDS", OrderedDict([
             ("count", 0),
-            ("note", "No row requires a founder ruling. Conflicts, single-suite exceptions and reads the shared reader "
-                     "does not interpret are EVIDENCE holds.")])),
+            ("note", "No row requires a founder ruling. Co-location and directional-collision holds are registration-order "
+                     "work in shared identity state; conflicts and reads the shared reader does not interpret are EVIDENCE holds.")])),
         ("CLOSED_OR_RETIRED", OrderedDict([
             ("count", len(wyn.get("retired_routes") or [])),
             ("wyndham_retired_routes", wyn.get("retired_routes")),
-            ("note", "Wyndham routes that redirect to the brand's search: Days Inn Blowing Rock (Boone area), Super 8 "
-                     "Boone and the legacy La Quinta Boone route (the property trades on its live La Quinta Inn & Suites "
-                     "Boone University route), plus Days Inn West Jefferson and Days Inn Lenoir outside. Routes, not "
-                     "census identities.")])),
+            ("note", "Wyndham routes that redirect to the brand's search (Days Hotel at Ellis Square, the La Quinta "
+                     "Savannah routes, Ramada Savannah, Travelodge Savannah, the Hawthorn and several Wingate / Super 8 "
+                     "routes). Routes, not census identities.")])),
         ("OUTSIDE", OrderedDict([("count", len(names("OUTSIDE_MARKET"))),
-                                 ("future_submarket_banner_elk_sugar_beech", len(future)),
-                                 ("future_submarket_identities", future)])),
+                                 ("future_market_tybee_island", len(future)),
+                                 ("future_market_identities", future)])),
         ("NON_HOTEL", OrderedDict([("count", len(non_hotel)),
                                    ("by_kind", OrderedDict(sorted(Counter(nh_class(r) for r in non_hotel).items()))),
                                    ("identities", sorted(r["canonical_name"] for r in non_hotel))])),
@@ -216,17 +208,17 @@ def build():
 
     doc = OrderedDict([
         ("schema", "ptf-market-source-ready-accounting/1.0"), ("work_order", WORK_ORDER), ("market_id", MARKET_ID),
-        ("display_market", "Boone \u2013 Blowing Rock, North Carolina"),
+        ("display_market", "Savannah, Georgia"),
         ("state", "SOURCE_READY -- SHADOW_UNTIL_REGISTERED"),
-        ("release_queue", "Fayetteville (founder-authorized, host deploy blocked) -> Jacksonville -> Greenville -> "
-                          "Atlanta -> Outer Banks -> Boone - Blowing Rock"),
+        ("release_queue", "Current verified live: Jacksonville (22 markets / 1256 profiles / 1483 routes). Savannah waits "
+                          "for its turn in the serialized release lane behind the queued markets."),
         ("timings", TIMINGS),
         ("accounting", OrderedDict([
             ("TOTAL_DISCOVERED", census["total_candidates"]),
             ("total_discovered_note",
              "Distinct candidate identities in the identity graph after merging every lane. Not counted: %d unnamed map "
-             "elements, %d retired Wyndham routes, the Hilton national-navigation codes the city pages carry for other "
-             "states, and non-lodging bureau listing pages." % (
+             "elements, %d retired Wyndham routes, the Hilton national-navigation codes outside the coastal ZIP prefixes, "
+             "and the bureau profile page refused on read." % (
                  sum(1 for e in osm["elements"] if not (e.get("tags") or {}).get("name")),
                  len(wyn.get("retired_routes") or []))),
             ("classification_counts", census["classification_counts"]),
@@ -242,15 +234,15 @@ def build():
         ("holds_by_class", holds),
         ("corridor_coverage", coverage),
         ("corridor_pages_meeting_threshold", sum(1 for c in coverage if c["corridor_page_publishes"])),
-        ("town_coverage", town_coverage(hotels, pf, np_)),
+        ("area_coverage", area_coverage(hotels, pf, np_)),
         ("lane_yields", OrderedDict([
             ("osm_elements", osm["element_count"]),
             ("brand_inventory_leads", brand["lead_count"]),
             ("brand_family_dispositions", brand.get("dispositions")),
-            ("destination_roster", OrderedDict([("coverage", roster.get("coverage")),
-                                                ("listing_pages_read", roster.get("listing_pages_read")),
-                                                ("lodging_listings", roster["listing_count"]),
-                                                ("by_subcategory", roster["lodging_by_subcategory"])])),
+            ("visit_savannah_roster", OrderedDict([("coverage", roster.get("coverage")),
+                                                   ("profiles", roster["listing_count"]),
+                                                   ("by_category", roster["lodging_by_subcategory"])])),
+            ("visit_pooler_roster", OrderedDict([("listings", pooler["listing_count"])])),
             ("census_lane_observations", recon["lane_yields"]),
             ("first_party_reads", capture["counts"]),
             ("wyndham_property_service", OrderedDict([("routes", wyn["routes_selected"]), ("read", wyn["read"]),
@@ -259,8 +251,10 @@ def build():
         ])),
         ("competitor_gap_challenge", gaps["counts"]),
         ("owned_evidence", OrderedDict([
-            ("OWNED_IDENTITIES", "0 -- no committed census held any Boone - Blowing Rock identity."),
-            ("OWNED_ROUTES", "0 -- the committed national harvest carries no High Country route."),
+            ("OWNED_IDENTITIES", "0 -- no committed census held a Savannah identity (Wilmington NC's 'The Savannah Inn' is a "
+                                 "Carolina Beach hotel: a name collision, not an identity)."),
+            ("OWNED_ROUTES", "42 -- SAV-coded Marriott routes from the committed national harvest "
+                             "dayton_oh_brand_directory_harvest_001 (read at zero requests; every one re-read on Marriott's own page)."),
             ("OWNED_VALID_POLICY_EVIDENCE", "0 -- every policy record here is a new first-party capture of this order."),
         ])),
         ("package", OrderedDict([
@@ -281,13 +275,15 @@ def build():
         ("factory_code_changed", "NO -- every changed path is a savannah_ga_* helper, the market's discovery config, or a "
                                  "document under the market's own proposed / staging / report paths"),
         ("shared_factory_notes_recorded_not_repaired", [
-            "The shared first-party reader does not read '... is not pet-friendly ...' (The 1850 Hotel, The Windmoor "
-            "Hotel, The Blowing Rock Manor), 'All of our rooms are non-smoking and pet-free.' (Hemlock Inn), 'The Village "
-            "Inns of Blowing Rock allows dogs at ...' or 'No, our facility does not permit pets' as operative, and reads "
-            "Rhode's Motor Lodge's and The Inn at Crestwood's dog policies as FEE_ONLY; those rows are held with the "
-            "gate's class, never reworded.",
-            "The Windmoor Hotel's and The Blowing Rock Manor's JSON-LD carry The 1850 Hotel's Boone address (a shared "
-            "operator template); the census binds each to the street its own page text states.",
+            "The shared hotel_exclusions.address_key drops street directionals, so '201 E. Bay St.' (Hampton Inn) and "
+            "'201 West Bay Street' (Hotel Indigo), and '11 Gateway Boulevard East' (Holiday Inn) and '11 West Gateway "
+            "Boulevard' (TownePlace Suites), are one key though they are different buildings. The census merge refuses the "
+            "join market-locally; the four pet-friendly records are held ADDRESS_KEY_DIRECTIONAL_COLLISION because the "
+            "shared listing builder and publication guard would conflate them.",
+            "The shared first-party reader does not read 'We do not allow pets of any kind', 'While we do not allow pets', "
+            "'No, pets are strictly prohibited on our property', 'We cannot accomodate pets at this time', 'We do NOT offer "
+            "pet friendly hotel rooms.', 'We are not pet or Emotional Support Animal friendly.', 'Sorry, none of our rooms "
+            "are pet or ESA friendly' or 'Pets are always welcome.' as operative; those rows are held with the exact wording.",
         ]),
         ("broad_regression_run", "NO"),
         ("final_production_candidate_created", "NO -- FAST composes the release index in memory only"),
@@ -296,16 +292,18 @@ def build():
         ("shared_state_touched", "NO -- launch_participation.json, bundle_cache_closure.json, the market_state pin, the "
                                  "generated globals, release contracts, identity_resolutions.json and the market registry are unchanged"),
         ("next_order", [
-            "Wait until Netlify is restored and Fayetteville, Jacksonville, Greenville, Atlanta and Outer Banks are live; read that live parent.",
-            "Rebase worker/ptf-savannah-ga-market-001 onto it; copy markets/proposed/savannah-ga.json -> markets/savannah-ga.json, "
-            "identity_census_proposed/savannah-ga.json -> identity_census/savannah-ga.json and the staged launch_package documents "
-            "(hotel_policy_facts_savannah-ga.json, partition, authority shard) into their registered paths.",
-            "market_registration_cli --write, build_global_authority --write then --check, release contract, registration_release_lane "
-            "register + seal --work-order (a NEW package id against the new parent; this shadow package's FAST rule N fails by design once the parent moves).",
-            "regression_delta classify (expect COMPOSITE_FRESH_MARKET_DATA_ONLY), compose and reproduce the candidate, prepare the founder "
-            "packet, deploy only on founder authorization.",
-            "Before sealing, re-probe Choice (Comfort Suites, Quality Inn, Sleep Inn), Country Inn & Suites, Best Western "
-            "Blue Ridge Plaza, Ridgeway Inn, Homestead Inn and Yonahlossee; find first-party addresses for Chetola and Green Park Inn.",
+            "When Savannah reaches the front of the serialized release lane, read CURRENT VERIFIED LIVE and merge that live parent into worker/ptf-savannah-ga-market-001.",
+            "Copy markets/proposed/savannah-ga.json -> markets/savannah-ga.json, identity_census_proposed/savannah-ga.json -> identity_census/savannah-ga.json and the "
+            "staged launch_package documents (hotel_policy_facts_savannah-ga.json, savannah_ga_final_partition_007.json, the authority shard) into their registered paths; repoint the helpers' paths.",
+            "Record the same-campus / directional resolutions in identity_resolutions.json (190 Pioneer Way: Courtyard + Residence Inn Richmond Hill; "
+            "100 Half Moon Way: TownePlace + Fairfield Pooler; 201 E / 201 W Bay Street: Hampton Inn + Hotel Indigo; 11 E / 11 W Gateway Blvd: "
+            "Holiday Inn + TownePlace South) and re-admit the held pet-friendly records through the clean set.",
+            "market_registration_cli --write, build_global_authority --write then --check, the release contract, registration_release_lane register + "
+            "seal --work-order (a NEW package id: this shadow package fails FAST rule N by design once the parent moves), FAST.",
+            "regression_delta classify (expect COMPOSITE_FRESH_MARKET_DATA_ONLY), compose and reproduce the candidate, prepare the founder packet; deploy only on founder authorization.",
+            "Before sealing, re-probe the 403 inns (Catherine Ward House, Hamilton-Turner, The DeSoto, The Inn on West Liberty), find first-party routes for "
+            "Presidents' Quarters, Recess, Sonesta Essentials, Relax Inn, Sandman Motel, Savannah Inn and The Spanish Moss Inn, and verify the competitor "
+            "leads Mansion on Forsyth Park, McMillan Inn, Green Palm Inn and Zeigler House Inn on their own pages.",
         ]),
     ])
     return doc
@@ -322,8 +320,8 @@ def main():
     print("non-hotel by kind", dict(doc["holds_by_class"]["NON_HOTEL"]["by_kind"]))
     for c in doc["corridor_coverage"]:
         print(c["corridor_id"].split("__")[1], c["geography_class"], c["census"], c["pet_friendly"], c["verified_no_pets"], c["unresolved"], c["corridor_page_publishes"])
-    print("towns", {k: (v["census"], v["pet_friendly"], v["verified_no_pets"], v["unresolved"]) for k, v in doc["town_coverage"]["towns"].items()},
-          "unplaced", doc["town_coverage"]["unplaced"]["census"])
+    print("areas", {k: (v["census"], v["pet_friendly"], v["verified_no_pets"], v["unresolved"]) for k, v in doc["area_coverage"]["areas"].items()},
+          "unplaced", doc["area_coverage"]["unplaced"]["census"])
     print(doc["package"]["PACKAGE_DIGEST"], a["every_census_identity_has_exactly_one_disposition"], a["every_census_identity_key_unique"])
     print("gap", doc["competitor_gap_challenge"])
     return 0
