@@ -1,0 +1,2063 @@
+{
+ "schema": "ptf-market-source-ready-accounting/1.0",
+ "work_order": "PTF-RICHMOND-VA-PARALLEL-SOURCE-READY-001",
+ "market_id": "richmond-va",
+ "display_market": "Richmond, Virginia",
+ "state": "SOURCE_READY -- SHADOW_UNTIL_REGISTERED",
+ "release_queue": "Current verified live: Atlanta (23 markets / 1500 profiles / 1744 routes, deploy 6aa7f125a91c73ba2363139e, commit 6825851b). Richmond waits for its turn in the serialized release lane behind the queued markets.",
+ "timings": {
+  "RICHMOND_START_TIMESTAMP": "2026-09-14T15:53:55Z (2026-09-14T11:53:55-04:00)",
+  "precheck_and_template_read": "15:53Z-16:02Z (worktree, branch, HEAD 6825851b = the Atlanta-live release, tree clean; the Charleston SC shadow chain @a33266bd and its browser transcript read; Virginia Geofabrik extract downloaded)",
+  "geography": "16:02:34Z (12 corridors: 9 CORE / 3 CORRIDOR / 0 FRINGE, 43 admitted ZIPs; Petersburg / Colonial Heights / Hopewell preserved for petersburg-tri-cities-va)",
+  "census_lanes": "OSM lane 380.9 s (Virginia extract, 246 elements); brand inventory about 12 min detached (Marriott VA sitemap page, 21 Hilton city pages + 29 sub-pages, 16 family sitemap probes); Visit Richmond VA listing service one call (200 lodging listings, plain client)",
+  "routing": "Wyndham property service 10.9 s (40 routes: 20 read, 19 retired, 1 error); static lane 63.4 s (84 targets); policy-page lane 22.6 s (38 sites, 140 pages)",
+  "browser_evidence": "16:12Z-16:40Z attended same-origin reads: IHG 22, Hyatt 6, Hilton 33, Marriott 40, Choice 57 (22 served, then a 403 wall), Best Western 20, Red Roof 9, Extended Stay America 7, Omni 1, InTown Suites 2 (every committed payload's canonical-JSON sha256 verified against the page's)",
+  "identity": "16:20Z-16:40Z (census passes; roster-listing bindings, brand-route refusal, non-hotel rulings, third-party JSON-LD refusal, map-row fold beside a read)",
+  "policy_adjudication": "16:25Z-16:40Z (candidate quotes tested against the shared first-party reader; independent quotes proved verbatim with house number and ZIP on the same document)",
+  "reconciliation": "16:38Z-16:42Z (clean set 89 / 45, staged authority, final partition 196 identities, 0 contract issues; inputs committed at e5f1ea44)",
+  "shadow_package_and_fast": "16:43:10Z-16:45:02Z at e5f1ea44 (sealed twice in-process, FAST 15/15, determinism BYTE_IDENTICAL, 112.1 s)",
+  "independent_reproduction": "16:45:12Z-16:45:48Z (clean git worktree at e5f1ea44 with a COPY of the document store: geography, brand pages, capture, census, clean set, staged authority, partition and staged shard rebuilt from committed captures -- zero content difference; only the eol-unattributed discovery config checks out CRLF; separate-process digest-only seal = the same digest)",
+  "ZERO_TO_SOURCE_READY": "51 min 7 s (15:53:55Z -> 16:45:02Z, the FAST-passed sealed shadow package)",
+  "peak_memory": "not measured on this run"
+ },
+ "accounting": {
+  "TOTAL_DISCOVERED": 294,
+  "total_discovered_note": "Distinct candidate identities in the identity graph after merging every lane. Not counted: 17 unnamed map elements, 19 retired Wyndham routes, and the Hilton / IHG / Choice national-navigation codes outside Virginia's 230xx-232xx / 238xx postal prefixes.",
+  "classification_counts": {
+   "IDENTITY_REVIEW_REQUIRED": 15,
+   "NAME_ONLY_UNRESOLVED": 5,
+   "NON_LODGING": 7,
+   "OUTSIDE_MARKET": 71,
+   "TRUE_HOTEL_IDENTITY": 196
+  },
+  "PROPOSED_CENSUS": 196,
+  "VALID_PET_FRIENDLY": 89,
+  "VALID_VERIFIED_NO_PETS": 45,
+  "RESOLVED": 134,
+  "UNRESOLVED": 62,
+  "partition_counts_by_state": {
+   "ACCESS_BLOCKED": 7,
+   "AWAITING_OFFICIAL_URL": 27,
+   "AWAITING_POLICY_OBSERVATION": 28,
+   "PUBLISHED_PET_FRIENDLY": 89,
+   "VERIFIED_NO_PETS": 45
+  },
+  "every_census_identity_has_exactly_one_disposition": true,
+  "every_census_identity_key_unique": true
+ },
+ "holds_by_class": {
+  "IDENTITY_HOLDS": {
+   "count": 20,
+   "identity_review_required": [
+    "All Day Inn",
+    "Cadillac Motel",
+    "Classified Moto",
+    "Econo Lodge",
+    "Econo Lodge",
+    "Quality Inn Central",
+    "Red Roof Inn",
+    "Regency Inn",
+    "Regency Inn",
+    "Rodeway Inn",
+    "Roslyn Retreat & Conference Center",
+    "Sleep Inn & Suites",
+    "Snow White Motel",
+    "Super 8 Motel Ashland",
+    "White House Motor Lodge"
+   ],
+   "name_only_unresolved": [
+    "Baymount Inn and Suites",
+    "Lee's Motel",
+    "Par 3",
+    "The Massad House Hotel",
+    "Virginia Cliff Inn"
+   ],
+   "rebrand_unresolved": [],
+   "same_campus_unproved": [],
+   "note": "Not census identities and never published: brand-flag map and bureau rows the brand's own inventory does not list at that address (Econo Lodge / Rodeway Inn / Quality Inn Central on Arthur Ashe Boulevard and West Broad, Sleep Inn & Suites at 80 Cottage Greene Drive -- now the Comfort Inn & Suites Ashland -- Suburban Extended Stay at 2401 West Hundred Road, Super 8 Motel Ashland), same-name pairs (Regency Inn x2), rows no first-party source gives a municipality (All Day Inn, Cadillac Motel, Snow White Motel, White House Motor Lodge), lodging-category reviews (Roslyn Retreat & Conference Center, Classified Moto) and name-only map rows (The Massad House Hotel, Virginia Cliff Inn, Lee's Motel, Baymount Inn and Suites, Par 3)."
+  },
+  "ROUTING_HOLDS": {
+   "count": 27,
+   "identities": [
+    "Airport Inn Motel",
+    "America's Best Value Inn",
+    "Americas Best Value Inn Richmond",
+    "Broadway Motel",
+    "Camelot Inn",
+    "Capitol Inn by Belvilla Richmond Airport VA",
+    "Chamberlayne Motel",
+    "City Motel",
+    "Deluxe Motel",
+    "Dominion Inn & Suites",
+    "Eagle Inn Motel",
+    "Enys Hotel",
+    "Host Inn Motel",
+    "Knights Inn and Suites Near University of Richmond",
+    "Palm Leaf Motel",
+    "Regal Inn Motel",
+    "Richmond Motel",
+    "Royal Inn",
+    "Sandston Inn & Suites",
+    "Shady Grove Motel",
+    "Southside Motel",
+    "Sunrise Hotel",
+    "Town Motel",
+    "Travel Inn",
+    "Turnpike Motel",
+    "Twin Oaks Motel",
+    "WoodSpring Suites"
+   ]
+  },
+  "ACCESS_BLOCKED": {
+   "count": 7,
+   "by_cause": {
+    "OWN_SITE": 7
+   },
+   "identities": [
+    "Inn at Patrick Henry's",
+    "Motel 6",
+    "Motel 6 Sandston, VA - Richmond",
+    "Motel 6 / Studio 6 Richmond VA, I-64 West",
+    "Quality Inn Richmond Airport",
+    "Studio 6 Richmond, VA-Airport",
+    "V.I.P. Inn"
+   ]
+  },
+  "EVIDENCE_HOLDS": {
+   "count": 28,
+   "identities": [
+    "avid hotels Richmond North - Ashland",
+    "Brentwood Inn and Suites Glen Allen",
+    "Colony House Motor Lodge",
+    "DoubleTree by Hilton Hotel Richmond - Midlothian",
+    "DoubleTree by Hilton Richmond Airport",
+    "Express Airport Inn",
+    "Extended Stay America - Richmond - Glen Allen - Short Pump",
+    "Extended Stay America - Richmond - Innsbrook",
+    "Extended Stay America - Richmond - W. Broad Street - Glenside - North",
+    "Extended Stay America - Richmond - W. Broad Street - Glenside - South",
+    "Extended Stay America - Richmond - West End - I-64",
+    "Extended Stay America Suites North Chesterfield - Arboretum",
+    "Hampton Inn Richmond Chester",
+    "Hilton Richmond Hotel & Spa/Short Pump",
+    "Historic Mankin Mansion Bed and Breakfast",
+    "Home2 Suites by Hilton Richmond Chester",
+    "HomeTowne Studios Richmond, VA - W Broad St",
+    "Hyatt House Richmond / Short Pump",
+    "InTown Suites Midlothian",
+    "InTown Suites Perdue Springs",
+    "Knights Inn Ashland, VA",
+    "Linden Row Inn, WorldHotels Distinctive",
+    "Museum District B&B",
+    "Quality Inn & Suites Ashland near Kings Dominion",
+    "Residence Inn by Marriott Richmond Downtown",
+    "SpringHill Suites by Marriott Richmond North/Glen Allen",
+    "The Jefferson Hotel",
+    "Virginia Cliffe Inn"
+   ],
+   "rejected_reads_by_class": {
+    "ADDRESS_KEY_DIRECTIONAL_COLLISION": 1,
+    "CENSUS_ROW_NOT_ADMITTED": 7,
+    "CO_LOCATION_RULING_REQUIRED": 3,
+    "POLICY_NOT_FOUND": 2,
+    "QUOTE_NOT_OPERATIVE": 2,
+    "SERVICE_ANIMAL_ONLY": 4,
+    "UNJOINED_READ": 1
+   }
+  },
+  "GEOGRAPHY_HOLDS": {
+   "count": 0,
+   "identities": []
+  },
+  "PAID_HOLDS": {
+   "count": 0,
+   "note": "No cohort is routed to a paid lane: PAID PROVIDER BUDGET was $0 and no paid lane was used or reserved. The access-blocked cohort (Motel 6 / Studio 6 x4, Quality Inn Richmond Airport, V.I.P. Inn, Inn at Patrick Henry's) is held ACCESS_BLOCKED for a re-probe, not a paid lane."
+  },
+  "FOUNDER_HOLDS": {
+   "count": 0,
+   "identities": [],
+   "note": "None. Co-location holds (12500 Chestnut Hill Road; 1320 East Cary Street) are registration-order work in shared identity state, not founder rulings."
+  },
+  "CLOSED_OR_RETIRED": {
+   "count": 19,
+   "wyndham_retired_routes": [
+    "https://www.wyndhamhotels.com/baymont/prince-george-virginia/baymont-inn-and-suites-prince-george/overview",
+    "https://www.wyndhamhotels.com/days-inn/colonial-heights-virginia/days-inn-petersburg-colonial-heights/overview",
+    "https://www.wyndhamhotels.com/days-inn/doswell-virginia/days-inn-doswell-at-the-park/overview",
+    "https://www.wyndhamhotels.com/days-inn/glen-allen-virginia/days-inn-glen-allen/overview",
+    "https://www.wyndhamhotels.com/days-inn/richmond-virginia/days-inn-richmond-north/overview",
+    "https://www.wyndhamhotels.com/days-inn/richmond-virginia/days-inn-richmond-south/overview",
+    "https://www.wyndhamhotels.com/days-inn/richmond-virginia/days-inn-richmond-west-broad/overview",
+    "https://www.wyndhamhotels.com/hojo/petersburg-virginia/howard-johnson-inn-petersburg-fort-lee/overview",
+    "https://www.wyndhamhotels.com/hojo/richmond-virginia/howard-johnson-inn-richmond-west/overview",
+    "https://www.wyndhamhotels.com/laquinta/doswell-virginia/la-quinta-richmond-kings-dominion/overview",
+    "https://www.wyndhamhotels.com/laquinta/midlothian-virginia/la-quinta-richmond-midlothian/overview",
+    "https://www.wyndhamhotels.com/ramada/richmond-virginia/ramada-plaza-hotel-richmond-west/overview",
+    "https://www.wyndhamhotels.com/super-8/ashland-virginia/super-8-ashland-richmond/overview",
+    "https://www.wyndhamhotels.com/super-8/midlothian-virginia/super-8-midlothian-richmond-area/overview",
+    "https://www.wyndhamhotels.com/travelodge/doswell-virginia/travelodge-doswell-kings-dominion-area/overview",
+    "https://www.wyndhamhotels.com/travelodge/glen-allen-virginia/travelodge-by-wyndham-glen-allen/overview",
+    "https://www.wyndhamhotels.com/travelodge/petersburg-virginia/travelodge-petersburg/overview",
+    "https://www.wyndhamhotels.com/travelodge/richmond-virginia/richmond-va-travelodge/overview",
+    "https://www.wyndhamhotels.com/travelodge/ruther-glen-virginia/travelodge-ruther-glen/overview"
+   ],
+   "note": "Wyndham routes in Richmond-area cities that redirect to the brand's city search (retired or rebranded). Routes, not census identities."
+  },
+  "OUTSIDE": {
+   "count": 71,
+   "future_market_petersburg_tri_cities": 38,
+   "future_market_identities": [
+    "California Inn",
+    "Candlewood Suites",
+    "Candlewood Suites Ft Lee - Petersburg - Hopewell",
+    "Comfort Inn & Suites",
+    "Comfort Inn Petersburg Near Fort Gregg-Adams",
+    "Comfort Inn South Chesterfield Colonial Heights",
+    "Comfort Suites Southpark",
+    "Country Inn & Suites",
+    "Crater Inn",
+    "Days Inn by Wyndham Petersburg/South Fort Lee",
+    "Delta Hotels Colonial Heights",
+    "Econo Lodge",
+    "Econo Lodge",
+    "Extended Stay America-Colonial Heights",
+    "Hampton Inn Hopewell Fort Lee",
+    "Hampton Inn Petersburg Fort Lee",
+    "Hampton Inn-Southpark Mall",
+    "Heritage Motor Lodge",
+    "Hilton Garden Inn Richmond South/Southpark",
+    "Holiday Inn Express",
+    "Holiday Inn Express & Suites Petersburg-Fort Lee",
+    "Holiday Inn Express & Suites Petersburg/Dinwiddie",
+    "Holiday Inn Express Hopewell - Fort Lee Area",
+    "Hotel Petersburg, Tapestry Collection by Hilton",
+    "Interstate Inn",
+    "MainStay Suites",
+    "Motel 6 Petersburg, VA - Fort Lee",
+    "Quality Inn Petersburg Near Fort Gregg-Adams",
+    "Rodeway Inn At Fort Lee",
+    "Rodeway Inn Colonial Heights I-95",
+    "Sleep Inn & Suites",
+    "Stay-Over Suites",
+    "Super 8 by Wyndham Petersburg",
+    "TownePlace Suites Richmond Colonial Heights",
+    "Travel Inn - Petersburg",
+    "Travelodge by Wyndham Petersburg",
+    "WoodSpring Suites",
+    "WoodSpring Suites Richmond Colonial Heights Fort Gregg-Adams"
+   ]
+  },
+  "NON_HOTEL": {
+   "count": 7,
+   "by_kind": {
+    "APARTMENT_OR_RENTAL_UNITS": 2,
+    "SHORT_TERM_RENTAL_OR_PRIVATE_DWELLING": 3,
+    "VENUE_OR_OFFICE": 2
+   },
+   "identities": [
+    "Central Virginia African American Chamber of Commerce",
+    "Eileen RVA",
+    "Pinball Pete's BnB",
+    "Richmond Raceway",
+    "The Mill at Fine Creek Cottages",
+    "Tinder Guest House",
+    "University Forest Apartments 1400s"
+   ]
+  }
+ },
+ "corridor_coverage": [
+  {
+   "corridor_id": "richmond-va__downtown",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "23219",
+    "23218",
+    "23223",
+    "23298",
+    "23241",
+    "23261"
+   ],
+   "census": 15,
+   "pet_friendly": 8,
+   "verified_no_pets": 3,
+   "unresolved": 4,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "richmond-va__vcu-fan-museum-district",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "23220",
+    "23221",
+    "23284"
+   ],
+   "census": 7,
+   "pet_friendly": 2,
+   "verified_no_pets": 2,
+   "unresolved": 3,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "richmond-va__west-end",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "23226",
+    "23229",
+    "23230",
+    "23294",
+    "23238",
+    "23288",
+    "23173"
+   ],
+   "census": 21,
+   "pet_friendly": 9,
+   "verified_no_pets": 6,
+   "unresolved": 6,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "richmond-va__short-pump",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "23233"
+   ],
+   "census": 14,
+   "pet_friendly": 10,
+   "verified_no_pets": 2,
+   "unresolved": 2,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "richmond-va__innsbrook-glen-allen",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "23060",
+    "23058"
+   ],
+   "census": 16,
+   "pet_friendly": 9,
+   "verified_no_pets": 2,
+   "unresolved": 5,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "richmond-va__ric-airport-sandston",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "23150",
+    "23250",
+    "23231",
+    "23075"
+   ],
+   "census": 27,
+   "pet_friendly": 11,
+   "verified_no_pets": 7,
+   "unresolved": 9,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "richmond-va__i-95-north",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "23222",
+    "23227",
+    "23228",
+    "23059"
+   ],
+   "census": 19,
+   "pet_friendly": 9,
+   "verified_no_pets": 4,
+   "unresolved": 6,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "richmond-va__i-95-south",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "23224",
+    "23225",
+    "23234",
+    "23237"
+   ],
+   "census": 24,
+   "pet_friendly": 8,
+   "verified_no_pets": 2,
+   "unresolved": 14,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "richmond-va__midlothian-chesterfield",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "23112",
+    "23113",
+    "23114",
+    "23235",
+    "23236",
+    "23832",
+    "23120"
+   ],
+   "census": 17,
+   "pet_friendly": 6,
+   "verified_no_pets": 7,
+   "unresolved": 4,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "richmond-va__mechanicsville",
+   "geography_class": "CORRIDOR",
+   "postal_codes": [
+    "23111",
+    "23116"
+   ],
+   "census": 2,
+   "pet_friendly": 1,
+   "verified_no_pets": 1,
+   "unresolved": 0,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "richmond-va__ashland",
+   "geography_class": "CORRIDOR",
+   "postal_codes": [
+    "23005"
+   ],
+   "census": 15,
+   "pet_friendly": 7,
+   "verified_no_pets": 2,
+   "unresolved": 6,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "richmond-va__chester",
+   "geography_class": "CORRIDOR",
+   "postal_codes": [
+    "23831",
+    "23836"
+   ],
+   "census": 19,
+   "pet_friendly": 9,
+   "verified_no_pets": 7,
+   "unresolved": 3,
+   "corridor_page_publishes": true
+  }
+ ],
+ "corridor_pages_meeting_threshold": 10,
+ "area_coverage": {
+  "what_it_is": "Coverage for the order's named areas. Reporting only; membership and corridor come from the postal partition. VCU Medical Center and Shockoe share 23219 with downtown; Scott's Addition shares 23230 with the West End; Bon Air shares 23235 with Midlothian; Henrico I-64 East is folded into the airport corridor.",
+  "areas": {
+   "Downtown Richmond": {
+    "census": 12,
+    "pet_friendly": 8,
+    "verified_no_pets": 2,
+    "unresolved": 2,
+    "identities": [
+     {
+      "canonical_name": "Delta Hotels Richmond Downtown",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "555 East Canal Street"
+     },
+     {
+      "canonical_name": "Hampton Inn & Suites Richmond - Downtown",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "700 East Main Street - Suite A"
+     },
+     {
+      "canonical_name": "Hilton Richmond Downtown",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "501 East Broad Street"
+     },
+     {
+      "canonical_name": "Historic Mankin Mansion Bed and Breakfast",
+      "state": "UNRESOLVED",
+      "street": "4300 Oakleys Lane"
+     },
+     {
+      "canonical_name": "Holiday Inn Express Richmond - Downtown",
+      "state": "VERIFIED_NO_PETS",
+      "street": "201 East Cary Street"
+     },
+     {
+      "canonical_name": "Homewood Suites by Hilton Richmond-Downtown",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "700 East Main Street Suite B"
+     },
+     {
+      "canonical_name": "Linden Row Inn, WorldHotels Distinctive",
+      "state": "UNRESOLVED",
+      "street": "100 E Franklin Street"
+     },
+     {
+      "canonical_name": "Moxy Richmond Downtown",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "501 East Franklin Street"
+     },
+     {
+      "canonical_name": "Omni Richmond Hotel",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "100 South 12th Street"
+     },
+     {
+      "canonical_name": "Richmond Marriott",
+      "state": "VERIFIED_NO_PETS",
+      "street": "500 East Broad Street"
+     },
+     {
+      "canonical_name": "The Berkeley Richmond, Outset Collection by Hilton",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1200 East Cary Street"
+     },
+     {
+      "canonical_name": "The Commonwealth",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "901 Bank Street"
+     }
+    ]
+   },
+   "Shockoe / Riverfront": {
+    "census": 2,
+    "pet_friendly": 0,
+    "verified_no_pets": 1,
+    "unresolved": 1,
+    "identities": [
+     {
+      "canonical_name": "Courtyard by Marriott Richmond Downtown",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1320 East Cary Street"
+     },
+     {
+      "canonical_name": "Inn at Patrick Henry's",
+      "state": "UNRESOLVED",
+      "street": "2300 East Broad Street"
+     }
+    ]
+   },
+   "VCU Medical Center": {
+    "census": 1,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 1,
+    "identities": [
+     {
+      "canonical_name": "Residence Inn by Marriott Richmond Downtown",
+      "state": "UNRESOLVED",
+      "street": "1320 E Cary St"
+     }
+    ]
+   },
+   "VCU Monroe Park": {
+    "census": 3,
+    "pet_friendly": 2,
+    "verified_no_pets": 0,
+    "unresolved": 1,
+    "identities": [
+     {
+      "canonical_name": "Graduate by Hilton Richmond",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "301 w. Franklin St."
+     },
+     {
+      "canonical_name": "Quirk Hotel Richmond",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "201 West Broad Street"
+     },
+     {
+      "canonical_name": "The Jefferson Hotel",
+      "state": "UNRESOLVED",
+      "street": "101 West Franklin St."
+     }
+    ]
+   },
+   "Museum District / Fan": {
+    "census": 4,
+    "pet_friendly": 0,
+    "verified_no_pets": 2,
+    "unresolved": 2,
+    "identities": [
+     {
+      "canonical_name": "Diamond Inn & Suites",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1600 Robin Hood Road"
+     },
+     {
+      "canonical_name": "Museum District B&B",
+      "state": "UNRESOLVED",
+      "street": "2811 Grove Ave"
+     },
+     {
+      "canonical_name": "Richmond Motel",
+      "state": "UNRESOLVED",
+      "street": "2600 Chamberlayne Avenue"
+     },
+     {
+      "canonical_name": "The Boulevard Inn",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1 North Arthur Ashe Boulevard"
+     }
+    ]
+   },
+   "Scott's Addition / Willow Lawn": {
+    "census": 2,
+    "pet_friendly": 1,
+    "verified_no_pets": 1,
+    "unresolved": 0,
+    "identities": [
+     {
+      "canonical_name": "Courtyard by Marriott Richmond Scott’s Addition",
+      "state": "VERIFIED_NO_PETS",
+      "street": "3800 West Broad Street"
+     },
+     {
+      "canonical_name": "Holiday Inn Express Richmond - Midtown",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "2000 Staples Mill Rd"
+     }
+    ]
+   },
+   "West End": {
+    "census": 19,
+    "pet_friendly": 8,
+    "verified_no_pets": 5,
+    "unresolved": 6,
+    "identities": [
+     {
+      "canonical_name": "Best Western Plus Executive Hotel",
+      "state": "VERIFIED_NO_PETS",
+      "street": "7007 W Broad Street"
+     },
+     {
+      "canonical_name": "Candlewood Suites Richmond - West Broad",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "2100 Dickens Road"
+     },
+     {
+      "canonical_name": "Country Inn & Suites by Radisson, Richmond West at I-64, VA",
+      "state": "VERIFIED_NO_PETS",
+      "street": "8010 West Broad Street"
+     },
+     {
+      "canonical_name": "Courtyard by Marriott Richmond West",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "6400 West Broad Street"
+     },
+     {
+      "canonical_name": "Econo Lodge",
+      "state": "VERIFIED_NO_PETS",
+      "street": "7300 W. Broad St., Building A"
+     },
+     {
+      "canonical_name": "Embassy Suites by Hilton Richmond",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "2925 Emerywood Parkway"
+     },
+     {
+      "canonical_name": "Extended Stay America - Richmond - W. Broad Street - Glenside - North",
+      "state": "UNRESOLVED",
+      "street": "6807 Paragon Pl."
+     },
+     {
+      "canonical_name": "Extended Stay America - Richmond - W. Broad Street - Glenside - South",
+      "state": "UNRESOLVED",
+      "street": "6811 Paragon Pl."
+     },
+     {
+      "canonical_name": "Holiday Inn & Suites Richmond - West End",
+      "state": "VERIFIED_NO_PETS",
+      "street": "8008 West Broad St"
+     },
+     {
+      "canonical_name": "Home2 Suites by Hilton Richmond Glenside",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "2915 Emerywood Parkway"
+     },
+     {
+      "canonical_name": "HomeTowne Studios Richmond, VA - W Broad St",
+      "state": "UNRESOLVED",
+      "street": "7201 W Broad St, Building B"
+     },
+     {
+      "canonical_name": "Knights Inn and Suites Near University of Richmond",
+      "state": "UNRESOLVED",
+      "street": "7201 West Broad Street"
+     },
+     {
+      "canonical_name": "Motel 6 / Studio 6 Richmond VA, I-64 West",
+      "state": "UNRESOLVED",
+      "street": "7831 Shrader Road"
+     },
+     {
+      "canonical_name": "Red Roof Inn Richmond, VA - W Broad St",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "7201 W Broad St, Building A"
+     },
+     {
+      "canonical_name": "Residence Inn by Marriott Richmond West End",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "2121 Dickens Road"
+     },
+     {
+      "canonical_name": "Rodeway Inn Richmond West End",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "7300A West Broad Street, Building B"
+     },
+     {
+      "canonical_name": "Super 8 by Wyndham Richmond/Broad Street",
+      "state": "VERIFIED_NO_PETS",
+      "street": "7200 West Broad Street"
+     },
+     {
+      "canonical_name": "The Westin Richmond",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "6631 West Broad Street"
+     },
+     {
+      "canonical_name": "WoodSpring Suites",
+      "state": "UNRESOLVED",
+      "street": "6902 West Broad Street"
+     }
+    ]
+   },
+   "Short Pump": {
+    "census": 14,
+    "pet_friendly": 10,
+    "verified_no_pets": 2,
+    "unresolved": 2,
+    "identities": [
+     {
+      "canonical_name": "Courtyard by Marriott Richmond Northwest/Short Pump",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "3950 Westerre Parkway"
+     },
+     {
+      "canonical_name": "ECHO Suites Richmond West - Extended Stay by Wyndham",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "9940 Independence Park Dr"
+     },
+     {
+      "canonical_name": "Element by Marriott Short Pump",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "11768 W Broad St"
+     },
+     {
+      "canonical_name": "Fairfield by Marriott Inn & Suites Richmond Innsbrook",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "9937 Mayland Drive"
+     },
+     {
+      "canonical_name": "Hampton Inn & Suites Richmond Short Pump",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "12341 West Broad Street"
+     },
+     {
+      "canonical_name": "Hilton Richmond Hotel & Spa/Short Pump",
+      "state": "UNRESOLVED",
+      "street": "12042 West Broad Street"
+     },
+     {
+      "canonical_name": "Holiday Inn Express Richmond I-64 Short Pump Area",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "9933 Mayland Drive"
+     },
+     {
+      "canonical_name": "Home2 Suites by Hilton Richmond Short Pump",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "209 Towne Center West Blvd"
+     },
+     {
+      "canonical_name": "Hyatt House Richmond / Short Pump",
+      "state": "UNRESOLVED",
+      "street": "11800 West Broad Street Suite 1098"
+     },
+     {
+      "canonical_name": "Residence Inn by Marriott Richmond Northwest/Short Pump",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "3940 Westerre Parkway"
+     },
+     {
+      "canonical_name": "Residence Inn by Marriott Short Pump at the Notch",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1800 Wilkes Ridge Circle"
+     },
+     {
+      "canonical_name": "SpringHill Suites by Marriott Richmond Northwest",
+      "state": "VERIFIED_NO_PETS",
+      "street": "9960 Independence Park Drive"
+     },
+     {
+      "canonical_name": "Tru by Hilton Richmond Northwest",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "9950 Independence Park Drive"
+     },
+     {
+      "canonical_name": "Wingate by Wyndham Richmond Short Pump",
+      "state": "VERIFIED_NO_PETS",
+      "street": "13991 North Gayton Road"
+     }
+    ]
+   },
+   "Innsbrook": {
+    "census": 12,
+    "pet_friendly": 8,
+    "verified_no_pets": 1,
+    "unresolved": 3,
+    "identities": [
+     {
+      "canonical_name": "Aloft by Marriott Richmond West Short Pump",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "3939 Duckling Drive"
+     },
+     {
+      "canonical_name": "Candlewood Suites Glen Allen - Short Pump",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "4120 Tom Leonard Drive"
+     },
+     {
+      "canonical_name": "Comfort Suites Innsbrook - Short Pump",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "4051 Innslake Drive"
+     },
+     {
+      "canonical_name": "Drury Plaza Hotel Richmond",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "11049 West Broad Street"
+     },
+     {
+      "canonical_name": "Extended Stay America - Richmond - Glen Allen - Short Pump",
+      "state": "UNRESOLVED",
+      "street": "4231 Park Place Court"
+     },
+     {
+      "canonical_name": "Extended Stay America - Richmond - Innsbrook",
+      "state": "UNRESOLVED",
+      "street": "10060 W. Broad St."
+     },
+     {
+      "canonical_name": "Extended Stay America - Richmond - West End - I-64",
+      "state": "UNRESOLVED",
+      "street": "10961 W. Broad St."
+     },
+     {
+      "canonical_name": "Hampton Inn Richmond West Innsbrook",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "Innsbrook-10800 W. Broad St."
+     },
+     {
+      "canonical_name": "Hilton Garden Inn Richmond Innsbrook",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "4050 Cox Road"
+     },
+     {
+      "canonical_name": "Homewood Suites by Hilton Richmond-West End/Innsbrook",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "4100 Innslake Drive"
+     },
+     {
+      "canonical_name": "Hyatt Place Richmond/Innsbrook",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "4100 Cox Road"
+     },
+     {
+      "canonical_name": "Richmond Marriott Short Pump",
+      "state": "VERIFIED_NO_PETS",
+      "street": "4240 Dominion Boulevard"
+     }
+    ]
+   },
+   "Glen Allen": {
+    "census": 4,
+    "pet_friendly": 1,
+    "verified_no_pets": 1,
+    "unresolved": 2,
+    "identities": [
+     {
+      "canonical_name": "Best Western Plus Glen Allen Inn",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "8607 Telegraph Road"
+     },
+     {
+      "canonical_name": "Brentwood Inn and Suites Glen Allen",
+      "state": "UNRESOLVED",
+      "street": "8901 Brook Road"
+     },
+     {
+      "canonical_name": "Days Inn by Wyndham Glen Allen/Richmond North",
+      "state": "VERIFIED_NO_PETS",
+      "street": "8613 Brook Road"
+     },
+     {
+      "canonical_name": "Virginia Cliffe Inn",
+      "state": "UNRESOLVED",
+      "street": "2900 Mountain Road"
+     }
+    ]
+   },
+   "RIC Airport": {
+    "census": 9,
+    "pet_friendly": 1,
+    "verified_no_pets": 4,
+    "unresolved": 4,
+    "identities": [
+     {
+      "canonical_name": "Best Western Plus Richmond Airport Hotel",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "5300 Airport Square Ln"
+     },
+     {
+      "canonical_name": "Capitol Inn by Belvilla Richmond Airport VA",
+      "state": "UNRESOLVED",
+      "street": "5408 Williamsburg Road"
+     },
+     {
+      "canonical_name": "Courtyard by Marriott Richmond Airport",
+      "state": "VERIFIED_NO_PETS",
+      "street": "5400 Williamsburg Road"
+     },
+     {
+      "canonical_name": "Dominion Inn & Suites",
+      "state": "UNRESOLVED",
+      "street": "5203 Williamsburg Road"
+     },
+     {
+      "canonical_name": "Fairfield by Marriott Inn & Suites Richmond Airport",
+      "state": "VERIFIED_NO_PETS",
+      "street": "5252 Airport Square Lane"
+     },
+     {
+      "canonical_name": "Quality Inn Richmond Airport",
+      "state": "UNRESOLVED",
+      "street": "5240 Airport Square Lane"
+     },
+     {
+      "canonical_name": "Sandston Inn & Suites",
+      "state": "UNRESOLVED",
+      "street": "5209 Williamsburg Road"
+     },
+     {
+      "canonical_name": "Sheraton Richmond Airport Hotel",
+      "state": "VERIFIED_NO_PETS",
+      "street": "5501 Eubank Road"
+     },
+     {
+      "canonical_name": "Super 8 by Wyndham Richmond Airport VA",
+      "state": "VERIFIED_NO_PETS",
+      "street": "5110 Williamsburg Road"
+     }
+    ]
+   },
+   "Sandston": {
+    "census": 13,
+    "pet_friendly": 7,
+    "verified_no_pets": 1,
+    "unresolved": 5,
+    "identities": [
+     {
+      "canonical_name": "Airport Inn Motel",
+      "state": "UNRESOLVED",
+      "street": "5121 South Laburnum Avenue"
+     },
+     {
+      "canonical_name": "Candlewood Suites Richmond Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "5400 Audubon Drive"
+     },
+     {
+      "canonical_name": "DoubleTree by Hilton Richmond Airport",
+      "state": "UNRESOLVED",
+      "street": "445 International Center Drive"
+     },
+     {
+      "canonical_name": "Express Airport Inn",
+      "state": "UNRESOLVED",
+      "street": "5700 Williamsburg Road"
+     },
+     {
+      "canonical_name": "Hampton Inn Richmond - Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "421 International Center Drive"
+     },
+     {
+      "canonical_name": "Hilton Garden Inn Richmond Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "441 International Center Drive"
+     },
+     {
+      "canonical_name": "Holiday Inn Express Richmond Airport",
+      "state": "VERIFIED_NO_PETS",
+      "street": "491 International Center Drive"
+     },
+     {
+      "canonical_name": "Homewood Suites by Hilton Richmond - Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "5996 Audubon Drive"
+     },
+     {
+      "canonical_name": "Microtel Inn & Suites by Wyndham Richmond Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "6000 Audubon Drive"
+     },
+     {
+      "canonical_name": "Motel 6 Sandston, VA - Richmond",
+      "state": "UNRESOLVED",
+      "street": "5704 Williamsburg Road"
+     },
+     {
+      "canonical_name": "Residence Inn by Marriott Richmond Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "710 Trampton Road"
+     },
+     {
+      "canonical_name": "Studio 6 Richmond, VA-Airport",
+      "state": "UNRESOLVED",
+      "street": "580 Trampton Road"
+     },
+     {
+      "canonical_name": "WoodSpring Suites Richmond Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "4615 Williamsburg Rd."
+     }
+    ]
+   },
+   "Henrico / I-64 East": {
+    "census": 2,
+    "pet_friendly": 2,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": [
+     {
+      "canonical_name": "Four Points by Sheraton Richmond Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "4700 South Laburnum Avenue"
+     },
+     {
+      "canonical_name": "Hyatt Select Richmond Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "4401 S. Laburnum Avenue"
+     }
+    ]
+   },
+   "RIC Airport / Sandston (other)": {
+    "census": 3,
+    "pet_friendly": 1,
+    "verified_no_pets": 2,
+    "unresolved": 0,
+    "identities": [
+     {
+      "canonical_name": "HomeTowne Studios Richmond - Airport/ Sandston",
+      "state": "VERIFIED_NO_PETS",
+      "street": "5209 Williamsburg Rd BLDG B"
+     },
+     {
+      "canonical_name": "Red Roof Inn Richmond - Airport/ Sandston",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "5209 Williamsburg Rd BLDG A"
+     },
+     {
+      "canonical_name": "SpringHill Suites by Marriott Richmond Airport",
+      "state": "VERIFIED_NO_PETS",
+      "street": "5246 Airport square lane"
+     }
+    ]
+   },
+   "I-95 North / Chamberlayne": {
+    "census": 11,
+    "pet_friendly": 5,
+    "verified_no_pets": 2,
+    "unresolved": 4,
+    "identities": [
+     {
+      "canonical_name": "Broadway Motel",
+      "state": "UNRESOLVED",
+      "street": "8302 Brook Road"
+     },
+     {
+      "canonical_name": "Chamberlayne Motel",
+      "state": "UNRESOLVED",
+      "street": "1002 Azalea Avenue"
+     },
+     {
+      "canonical_name": "Econo Lodge Richmond North",
+      "state": "VERIFIED_NO_PETS",
+      "street": "8350 Brook Road"
+     },
+     {
+      "canonical_name": "Enys Hotel",
+      "state": "UNRESOLVED",
+      "street": "2929 Chamberlayne Avenue"
+     },
+     {
+      "canonical_name": "Hampton Inn & Suites Richmond/Glenside",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "5406 Glenside Drive"
+     },
+     {
+      "canonical_name": "Quality Inn Richmond North",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "801 East Parham Road"
+     },
+     {
+      "canonical_name": "Residence Inn By Marriott Glen Allen Richmond",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "8551 Old Virginia Lane"
+     },
+     {
+      "canonical_name": "Residence Inn by Marriott Richmond Midtown/Glenside",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "5416 Glenside Drive"
+     },
+     {
+      "canonical_name": "Sleep Inn Richmond North",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "950 East Parham Road"
+     },
+     {
+      "canonical_name": "Super 8 by Wyndham Richmond/Chamberlayne Rd",
+      "state": "VERIFIED_NO_PETS",
+      "street": "5615 Chamberlayne Road"
+     },
+     {
+      "canonical_name": "Town Motel",
+      "state": "UNRESOLVED",
+      "street": "5214 Brook Road"
+     }
+    ]
+   },
+   "Virginia Center": {
+    "census": 8,
+    "pet_friendly": 4,
+    "verified_no_pets": 2,
+    "unresolved": 2,
+    "identities": [
+     {
+      "canonical_name": "avid hotels Richmond North - Ashland",
+      "state": "UNRESOLVED",
+      "street": "10261 Washington Highway"
+     },
+     {
+      "canonical_name": "Candlewood Suites Richmond North-Glen Allen",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "10609 Telegraph Rd"
+     },
+     {
+      "canonical_name": "Comfort Suites At Virginia Center Commons",
+      "state": "VERIFIED_NO_PETS",
+      "street": "10601 Telegraph Road"
+     },
+     {
+      "canonical_name": "Courtyard by Marriott Richmond North/Glen Allen",
+      "state": "VERIFIED_NO_PETS",
+      "street": "10077 Brook Road"
+     },
+     {
+      "canonical_name": "Hampton Inn & Suites Richmond/Virginia Center",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1101 Technology Park Dr"
+     },
+     {
+      "canonical_name": "Home2 Suites by Hilton Glen Allen Virginia Center",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "8501 Old Virginia Lane"
+     },
+     {
+      "canonical_name": "SpringHill Suites by Marriott Richmond North/Glen Allen",
+      "state": "UNRESOLVED",
+      "street": "9701 Brook Road"
+     },
+     {
+      "canonical_name": "Virginia Crossings Hotel & Conference Center, Tapestry Collection by Hilton",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1000 Virginia Center Pkwy."
+     }
+    ]
+   },
+   "I-95 South / Richmond South": {
+    "census": 24,
+    "pet_friendly": 8,
+    "verified_no_pets": 2,
+    "unresolved": 14,
+    "identities": [
+     {
+      "canonical_name": "America's Best Value Inn",
+      "state": "UNRESOLVED",
+      "street": "2126 Willis Road"
+     },
+     {
+      "canonical_name": "Americas Best Value Inn Richmond",
+      "state": "UNRESOLVED",
+      "street": "6523 Midlothian Turnpike"
+     },
+     {
+      "canonical_name": "Best Western Premier Richmond City Gateway",
+      "state": "VERIFIED_NO_PETS",
+      "street": "4303 Commerce Road"
+     },
+     {
+      "canonical_name": "Brentwood Inn",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "2125 Willis Road"
+     },
+     {
+      "canonical_name": "Camelot Inn",
+      "state": "UNRESOLVED",
+      "street": "6619 Midlothian Turnpike"
+     },
+     {
+      "canonical_name": "Candlewood Suites Richmond-South",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "4301 Commerce Rd."
+     },
+     {
+      "canonical_name": "City Motel",
+      "state": "UNRESOLVED",
+      "street": "3015 Jefferson Davis Highway"
+     },
+     {
+      "canonical_name": "Colony House Motor Lodge",
+      "state": "UNRESOLVED",
+      "street": "6414 Midlothian Turnpike"
+     },
+     {
+      "canonical_name": "Country Inn & Suites by Radisson, Richmond I-95 South, VA",
+      "state": "VERIFIED_NO_PETS",
+      "street": "2401 Willis Road"
+     },
+     {
+      "canonical_name": "Deluxe Motel",
+      "state": "UNRESOLVED",
+      "street": "4601 Richmond Highway"
+     },
+     {
+      "canonical_name": "Eagle Inn Motel",
+      "state": "UNRESOLVED",
+      "street": "6515 Midlothian Turnpike"
+     },
+     {
+      "canonical_name": "Econo Lodge Richmond-North Chesterfield",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "6910 Midlothian Turnpike"
+     },
+     {
+      "canonical_name": "Hampton Inn Richmond - South",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "4300 Commerce Road"
+     },
+     {
+      "canonical_name": "Host Inn Motel",
+      "state": "UNRESOLVED",
+      "street": "6621 Midlothian Turnpike"
+     },
+     {
+      "canonical_name": "La Quinta Inn by Wyndham Richmond South",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "9040 Pams Avenue"
+     },
+     {
+      "canonical_name": "Red Roof Inn Richmond South",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "4350 Commerce Rd"
+     },
+     {
+      "canonical_name": "Red Roof Inn Richmond, VA",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "6346 Midlothian Turnpike"
+     },
+     {
+      "canonical_name": "Regal Inn Motel",
+      "state": "UNRESOLVED",
+      "street": "6620 Midlothian Turnpike"
+     },
+     {
+      "canonical_name": "Sleep Inn Richmond South",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "2321 Willis Rd."
+     },
+     {
+      "canonical_name": "Southside Motel",
+      "state": "UNRESOLVED",
+      "street": "4310 Richmond Highway"
+     },
+     {
+      "canonical_name": "Sunrise Hotel",
+      "state": "UNRESOLVED",
+      "street": "3622 Richmond Highway"
+     },
+     {
+      "canonical_name": "Travel Inn",
+      "state": "UNRESOLVED",
+      "street": "6511 Midlothian Turnpike"
+     },
+     {
+      "canonical_name": "Turnpike Motel",
+      "state": "UNRESOLVED",
+      "street": "5918 Midlothian Turnpike"
+     },
+     {
+      "canonical_name": "V.I.P. Inn",
+      "state": "UNRESOLVED",
+      "street": "2301 Willis Road"
+     }
+    ]
+   },
+   "Chesterfield": {
+    "census": 6,
+    "pet_friendly": 1,
+    "verified_no_pets": 4,
+    "unresolved": 1,
+    "identities": [
+     {
+      "canonical_name": "Hampton Inn Richmond-Southwest-Hull Street",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "3620 Price Club Boulevard"
+     },
+     {
+      "canonical_name": "Holiday Inn Express & Suites Richmond-Brandermill-Hull St.",
+      "state": "VERIFIED_NO_PETS",
+      "street": "5030 West Village Green Dr"
+     },
+     {
+      "canonical_name": "Royal Inn",
+      "state": "UNRESOLVED",
+      "street": "9801 Hull Street Road"
+     },
+     {
+      "canonical_name": "Sleep Inn & Suites Harbour Pointe",
+      "state": "VERIFIED_NO_PETS",
+      "street": "6451 Bayside Lane"
+     },
+     {
+      "canonical_name": "Super 8 by Wyndham Hull Street Midlothian/Richmond Area",
+      "state": "VERIFIED_NO_PETS",
+      "street": "10300 Hull Street Road"
+     },
+     {
+      "canonical_name": "Super 8 by Wyndham Richmond Midlothian Turnpike",
+      "state": "VERIFIED_NO_PETS",
+      "street": "8260 Midlothian Turnpike"
+     }
+    ]
+   },
+   "Midlothian": {
+    "census": 11,
+    "pet_friendly": 5,
+    "verified_no_pets": 3,
+    "unresolved": 3,
+    "identities": [
+     {
+      "canonical_name": "Best Western Plus Governor's Inn",
+      "state": "VERIFIED_NO_PETS",
+      "street": "9826 Midlothian Turnpike"
+     },
+     {
+      "canonical_name": "DoubleTree by Hilton Hotel Richmond - Midlothian",
+      "state": "UNRESOLVED",
+      "street": "1021 Koger Center Boulevard"
+     },
+     {
+      "canonical_name": "Extended Stay America Suites North Chesterfield - Arboretum",
+      "state": "UNRESOLVED",
+      "street": "241 Arboretum Place"
+     },
+     {
+      "canonical_name": "Fairfield by Marriott Inn & Suites Richmond Midlothian",
+      "state": "VERIFIED_NO_PETS",
+      "street": "150 North Pinetta Drive"
+     },
+     {
+      "canonical_name": "Four Points by Sheraton Richmond",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "9901 Midlothian Turnpike"
+     },
+     {
+      "canonical_name": "Hampton Inn Richmond-Midlothian Turnpike",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "800 Research Road"
+     },
+     {
+      "canonical_name": "Holiday Inn Express Richmond E - Midlothian Trnpke",
+      "state": "VERIFIED_NO_PETS",
+      "street": "8710 Midlothian Turnpike"
+     },
+     {
+      "canonical_name": "Hyatt Place Richmond/Arboretum",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "201 Arboretum Place"
+     },
+     {
+      "canonical_name": "InTown Suites Midlothian",
+      "state": "UNRESOLVED",
+      "street": "11551 Green Spring Road"
+     },
+     {
+      "canonical_name": "La Quinta Inn & Suites by Wyndham Richmond-Midlothian",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1301 Huguenot Road"
+     },
+     {
+      "canonical_name": "Residence Inn by Marriott Richmond West/Midlothian",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1350 Johnston Willis Drive"
+     }
+    ]
+   },
+   "Bon Air": {
+    "census": 0,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": []
+   },
+   "Mechanicsville": {
+    "census": 2,
+    "pet_friendly": 1,
+    "verified_no_pets": 1,
+    "unresolved": 0,
+    "identities": [
+     {
+      "canonical_name": "Hampton Inn Richmond-Mechanicsville",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "7433 Bell Creek Road"
+     },
+     {
+      "canonical_name": "Holiday Inn Express Richmond-Mechanicsville",
+      "state": "VERIFIED_NO_PETS",
+      "street": "7441 Bell Creek Road"
+     }
+    ]
+   },
+   "Ashland": {
+    "census": 15,
+    "pet_friendly": 7,
+    "verified_no_pets": 2,
+    "unresolved": 6,
+    "identities": [
+     {
+      "canonical_name": "Comfort Inn & Suites Ashland - Richmond North",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "80 Cottage Green Drive"
+     },
+     {
+      "canonical_name": "Country Inn & Suites by Radisson, Ashland - Hanover, VA",
+      "state": "VERIFIED_NO_PETS",
+      "street": "11600 Lakeridge Parkway"
+     },
+     {
+      "canonical_name": "Days Inn by Wyndham Ashland",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "806 England Street"
+     },
+     {
+      "canonical_name": "Fairfield by Marriott Inn & Suites Richmond Ashland",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "11625 Lakeridge Parkway"
+     },
+     {
+      "canonical_name": "Hampton Inn Richmond-North/Ashland",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "705 England Street"
+     },
+     {
+      "canonical_name": "Holiday Inn Express & Suites Richmond North Ashland",
+      "state": "VERIFIED_NO_PETS",
+      "street": "107 South Carter Road"
+     },
+     {
+      "canonical_name": "Knights Inn Ashland, VA",
+      "state": "UNRESOLVED",
+      "street": "103 North Carter Road"
+     },
+     {
+      "canonical_name": "Motel 6",
+      "state": "UNRESOLVED",
+      "street": "101 Cottage Greene Drive"
+     },
+     {
+      "canonical_name": "Palm Leaf Motel",
+      "state": "UNRESOLVED",
+      "street": "306 South Washington Highway"
+     },
+     {
+      "canonical_name": "Quality Inn & Suites Ashland near Kings Dominion",
+      "state": "UNRESOLVED",
+      "street": "107 N. Carter Road"
+     },
+     {
+      "canonical_name": "Shady Grove Motel",
+      "state": "UNRESOLVED",
+      "street": "650 North Washington Highway"
+     },
+     {
+      "canonical_name": "The Henry Clay Inn",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "114 N Railroad Avenue"
+     },
+     {
+      "canonical_name": "Tru by Hilton Ashland",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "101 North Carter Road"
+     },
+     {
+      "canonical_name": "Twin Oaks Motel",
+      "state": "UNRESOLVED",
+      "street": "304 South Washington Highway"
+     },
+     {
+      "canonical_name": "WoodSpring Suites Ashland-Richmond North",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "11530 Lakeridge Pkwy"
+     }
+    ]
+   },
+   "Chester": {
+    "census": 19,
+    "pet_friendly": 9,
+    "verified_no_pets": 7,
+    "unresolved": 3,
+    "identities": [
+     {
+      "canonical_name": "Candlewood Suites Chester - Richmond",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "225 East Hundred Road"
+     },
+     {
+      "canonical_name": "Comfort Inn Chester - Richmond South",
+      "state": "VERIFIED_NO_PETS",
+      "street": "2100 W. Hundred Rd."
+     },
+     {
+      "canonical_name": "Country Inn & Suites by Radisson, Chester, VA",
+      "state": "VERIFIED_NO_PETS",
+      "street": "2406 West Hundred Road"
+     },
+     {
+      "canonical_name": "Courtyard by Marriott Richmond Chester",
+      "state": "VERIFIED_NO_PETS",
+      "street": "2001 West Hundred Road"
+     },
+     {
+      "canonical_name": "Days Inn by Wyndham Chester",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "2410 West Hundred Rd"
+     },
+     {
+      "canonical_name": "Fairfield Inn Richmond Chester",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "12400 Redwater Creek Road"
+     },
+     {
+      "canonical_name": "Hampton Inn Chester South",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "12610 Chestnut Hill Road"
+     },
+     {
+      "canonical_name": "Hampton Inn Richmond Chester",
+      "state": "UNRESOLVED",
+      "street": "12500 Chestnut Hill Rd"
+     },
+     {
+      "canonical_name": "Holiday Inn Express Chester",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1911 W. Hundred Rd."
+     },
+     {
+      "canonical_name": "Home2 Suites by Hilton Richmond Chester",
+      "state": "UNRESOLVED",
+      "street": "12500 Chestnut Hill Rd"
+     },
+     {
+      "canonical_name": "Homewood Suites by Hilton Richmond-Chester",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "12810 Old Stage Road"
+     },
+     {
+      "canonical_name": "Hyatt Select Richmond / Chester",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "13148 Kingston Avenue"
+     },
+     {
+      "canonical_name": "InTown Suites Perdue Springs",
+      "state": "UNRESOLVED",
+      "street": "2601 Perdue Springs Drive"
+     },
+     {
+      "canonical_name": "Quality Inn Chester - South Richmond",
+      "state": "VERIFIED_NO_PETS",
+      "street": "12711 Old Stage Road"
+     },
+     {
+      "canonical_name": "Red Roof Inn Chester",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "2405 West Hundred Road"
+     },
+     {
+      "canonical_name": "Residence Inn by Marriott Richmond Chester",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "800 Bermuda Hundred Road"
+     },
+     {
+      "canonical_name": "SpringHill Suites by Marriott Chester",
+      "state": "VERIFIED_NO_PETS",
+      "street": "12301 Redwater Creek Road"
+     },
+     {
+      "canonical_name": "Suburban Studios Chester I-95",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "2403 W Hundred Road"
+     },
+     {
+      "canonical_name": "Super 8 by Wyndham Chester/Richmond Area",
+      "state": "VERIFIED_NO_PETS",
+      "street": "2421 Southland Dr"
+     }
+    ]
+   }
+  },
+  "unplaced": {
+   "census": 0,
+   "pet_friendly": 0,
+   "verified_no_pets": 0,
+   "unresolved": 0,
+   "identities": []
+  }
+ },
+ "lane_yields": {
+  "osm_elements": 246,
+  "brand_inventory_leads": 329,
+  "brand_family_dispositions": {
+   "MARRIOTT_STATE_SITEMAP": "STATE_SITEMAP_ANSWERED_THIS_CLIENT",
+   "WYNDHAM": "SITEMAP_ANSWERED_THIS_CLIENT",
+   "SONESTA": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "DRURY": "SITEMAP_ANSWERED_THIS_CLIENT",
+   "WOODSPRING": "SITEMAP_ANSWERED_THIS_CLIENT",
+   "INTOWN": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "LOEWS": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "CHOICE": "SITEMAP_UNREACHABLE__TimeoutError",
+   "IHG": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "BEST_WESTERN": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "RED_ROOF": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "MOTEL6": "SITEMAP_UNREACHABLE__TimeoutError",
+   "EXTENDED_STAY": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "HYATT": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "RADISSON": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "OMNI": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "FOUR_SEASONS": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403"
+  },
+  "visit_richmond_va_roster": {
+   "coverage": "EVERY_LISTING_IN_THE_BUREAU_LODGING_CATEGORY",
+   "listings": 200,
+   "by_category": {
+    "Accessibility": 1,
+    "Attractions": 1,
+    "Bed & Breakfasts": 11,
+    "Downtown Hotel": 3,
+    "European": 1,
+    "Full Service Hotel": 3,
+    "Group Friendly": 3,
+    "Hotels": 167,
+    "North Hotel": 2,
+    "South Hotel": 4,
+    "Unique Venue/Museum/Historic Site": 1,
+    "West Hotel": 3
+   }
+  },
+  "census_lane_observations": {
+   "OSM_OVERPASS": 229,
+   "BRAND_INVENTORY_OWNED": 40,
+   "BRAND_INVENTORY_CITY_PAGE": 48,
+   "BRAND_INVENTORY_STATE_SITEMAP": 0,
+   "BRAND_INVENTORY_SITEMAP": 21,
+   "DESTINATION_ORGANIZATION": 200,
+   "REGIONAL_VISITOR_CENTER": 0,
+   "COMPETITOR_LEAD": 13,
+   "PROPERTY_PAGE": 162
+  },
+  "first_party_reads": {
+   "pages_read": 154,
+   "by_brand": {
+    "BEST_WESTERN": 6,
+    "CHOICE": 19,
+    "DRURY": 1,
+    "HILTON": 33,
+    "HYATT": 5,
+    "IHG": 17,
+    "INDEPENDENT": 6,
+    "MARRIOTT": 35,
+    "OMNI": 1,
+    "RED_ROOF": 9,
+    "WOODSPRING": 2,
+    "WYNDHAM": 20
+   },
+   "identity_confirmed": 154,
+   "in_market": 146,
+   "outside_market": 8,
+   "in_market_pets_allowed_true": 93,
+   "in_market_pets_allowed_false": 50,
+   "in_market_first_party_conflicts": 0
+  },
+  "wyndham_property_service": {
+   "routes": 40,
+   "read": 20,
+   "retired": 19,
+   "errors": 1
+  },
+  "clean_set": {
+   "reads_evaluated": 154,
+   "clean_pet_friendly": 89,
+   "clean_verified_no_pets": 45,
+   "resolved_census_identities": 134,
+   "unresolved_census_identities": 62,
+   "census_count": 196,
+   "rejected": 20,
+   "rejected_by_class": {
+    "ADDRESS_KEY_DIRECTIONAL_COLLISION": 1,
+    "CENSUS_ROW_NOT_ADMITTED": 7,
+    "CO_LOCATION_RULING_REQUIRED": 3,
+    "POLICY_NOT_FOUND": 2,
+    "QUOTE_NOT_OPERATIVE": 2,
+    "SERVICE_ANIMAL_ONLY": 4,
+    "UNJOINED_READ": 1
+   },
+   "pf_by_brand": {
+    "BEST_WESTERN": 2,
+    "CHOICE": 8,
+    "DRURY": 1,
+    "HILTON": 28,
+    "HYATT": 4,
+    "IHG": 8,
+    "INDEPENDENT": 4,
+    "MARRIOTT": 20,
+    "OMNI": 1,
+    "RED_ROOF": 5,
+    "WOODSPRING": 2,
+    "WYNDHAM": 6
+   },
+   "pf_by_corridor": {
+    "richmond-va__ashland": 7,
+    "richmond-va__chester": 9,
+    "richmond-va__downtown": 8,
+    "richmond-va__i-95-north": 9,
+    "richmond-va__i-95-south": 8,
+    "richmond-va__innsbrook-glen-allen": 9,
+    "richmond-va__mechanicsville": 1,
+    "richmond-va__midlothian-chesterfield": 6,
+    "richmond-va__ric-airport-sandston": 11,
+    "richmond-va__short-pump": 10,
+    "richmond-va__vcu-fan-museum-district": 2,
+    "richmond-va__west-end": 9
+   }
+  }
+ },
+ "competitor_gap_challenge": {
+  "competitor_rows_observed": 13,
+  "also_seen_by_a_first_party_lane": 12,
+  "competitor_only": 1,
+  "competitor_only_by_class": {
+   "NON_LODGING": 1
+  },
+  "matched_by_class": {
+   "TRUE_HOTEL_IDENTITY": 12
+  }
+ },
+ "owned_evidence": {
+  "OWNED_IDENTITIES": "0 -- no committed census or authority holds a 230xx-232xx / 238xx Virginia identity; Richmond KY / IN / CA / BC routes are refused by the brand lane's NEGATIVE tokens.",
+  "OWNED_ROUTES": "40 -- RIC-coded Marriott routes from the committed national harvest dayton_oh_brand_directory_harvest_001 (read at zero requests; every one re-read on Marriott's own page, 35 in market).",
+  "OWNED_VALID_POLICY_EVIDENCE": "0 -- every policy record here is a new first-party capture of this order."
+ },
+ "package": {
+  "SHADOW_PACKAGE_CREATED": "YES",
+  "execution_zone": "SHADOW_UNTIL_REGISTERED",
+  "package_id": "pkg-richmond-va-9dd5d52ed75b07ec",
+  "PACKAGE_DIGEST": "sha256:9dd5d52ed75b07ecb6b5084ac5c80b0a0790e8172a0ae9c6c8e15879ee58a1d1",
+  "created_from_source_sha": "e5f1ea448d54239cde7a891594f9ef27c9884a9c",
+  "package_path": "launch_packages/pettripfinder/markets/staging/richmond-va/shadow_packages/richmond-va/pkg-richmond-va-9dd5d52ed75b07ec.json",
+  "BUILD_INPUT_KEY": {
+   "staged_input_digest": "sha256:327873e209c2535bff3fc4dbe5567ccc148fea429623f044fa3ef508bc69bb9d",
+   "changed_market_bundle_sha256": "809b882203b7dd688231e80430b5449803d8e524f83ff39144cc81339ef0ee83",
+   "contract_sha256": "sha256:0cd5a3f0aba4036542fd0a4e2db5015de308cb4d29d1c85268e173def83bd8a4",
+   "dependency_input_digests": {
+    "market": "sha256:fd07bf9baf06e4581b008c5b65d24ef498d8811db664e41a82df38f151d9d31e",
+    "census": "sha256:dd041938a8bff7b96831d8b80190b4551540b104afd6c1db93bff1b72f364b57",
+    "policy_package": "sha256:86625f18ab1abf81e58721a8cb68dee96002d05a224dc0b4fe36b6c882e426ce",
+    "exclusions": "sha256:a5baade6152bf5cfb0a62b72580077f8c9f8dc14b61cfccbca200a824c4d370b",
+    "routing": "sha256:79f2e4cc7e70d556a82ad504fd9cc98ced4edd11606b29af9f0bd53fc19c8c1b",
+    "seed": "sha256:f460742062882d9768fb63d95f304645277dace089fd8299ce4b2da03068e238",
+    "partition": "sha256:10903da7c181ccb539bd1d36b1dc5e56357145d20f2533980f882d566eaed8ef"
+   }
+  },
+  "INTENDED_DELTA": {
+   "market_id": "richmond-va",
+   "add_property_ids": [
+    "aloft by marriott richmond west short pump",
+    "best western plus glen allen inn",
+    "best western plus richmond airport hotel",
+    "brentwood inn",
+    "candlewood suites chester richmond",
+    "candlewood suites glen allen short pump",
+    "candlewood suites richmond airport",
+    "candlewood suites richmond north glen allen",
+    "candlewood suites richmond south",
+    "candlewood suites richmond west broad",
+    "comfort inn and suites ashland richmond north",
+    "comfort suites innsbrook short pump",
+    "courtyard by marriott richmond northwest short pump",
+    "courtyard by marriott richmond west",
+    "days inn by wyndham ashland",
+    "days inn by wyndham chester",
+    "delta hotels richmond downtown",
+    "drury plaza hotel richmond",
+    "echo suites richmond west extended stay by wyndham",
+    "econo lodge richmond north chesterfield",
+    "element by marriott short pump",
+    "embassy suites by hilton richmond",
+    "fairfield by marriott inn and suites richmond ashland",
+    "fairfield by marriott inn and suites richmond innsbrook",
+    "fairfield inn richmond chester",
+    "four points by sheraton richmond",
+    "four points by sheraton richmond airport",
+    "graduate by hilton richmond",
+    "hampton inn and suites richmond downtown",
+    "hampton inn and suites richmond glenside",
+    "hampton inn and suites richmond short pump",
+    "hampton inn and suites richmond virginia center",
+    "hampton inn chester south",
+    "hampton inn richmond airport",
+    "hampton inn richmond mechanicsville",
+    "hampton inn richmond midlothian turnpike",
+    "hampton inn richmond north ashland",
+    "hampton inn richmond south",
+    "hampton inn richmond southwest hull street",
+    "hampton inn richmond west innsbrook",
+    "hilton garden inn richmond airport",
+    "hilton garden inn richmond innsbrook",
+    "hilton richmond downtown",
+    "holiday inn express richmond i 64 short pump area",
+    "holiday inn express richmond midtown",
+    "home2 suites by hilton glen allen virginia center",
+    "home2 suites by hilton richmond glenside",
+    "home2 suites by hilton richmond short pump",
+    "homewood suites by hilton richmond airport",
+    "homewood suites by hilton richmond chester",
+    "homewood suites by hilton richmond downtown",
+    "homewood suites by hilton richmond west end innsbrook",
+    "hyatt place richmond arboretum",
+    "hyatt place richmond innsbrook",
+    "hyatt select richmond airport",
+    "hyatt select richmond chester",
+    "la quinta inn and suites by wyndham richmond midlothian",
+    "la quinta inn by wyndham richmond south",
+    "microtel inn and suites by wyndham richmond airport",
+    "moxy richmond downtown",
+    "omni richmond hotel",
+    "quality inn richmond north",
+    "quirk hotel richmond",
+    "red roof inn chester",
+    "red roof inn richmond airport sandston",
+    "red roof inn richmond south",
+    "red roof inn richmond va",
+    "red roof inn richmond va w broad st",
+    "residence inn by marriott glen allen richmond",
+    "residence inn by marriott richmond airport",
+    "residence inn by marriott richmond chester",
+    "residence inn by marriott richmond midtown glenside",
+    "residence inn by marriott richmond northwest short pump",
+    "residence inn by marriott richmond west end",
+    "residence inn by marriott richmond west midlothian",
+    "residence inn by marriott short pump at the notch",
+    "rodeway inn richmond west end",
+    "sleep inn richmond north",
+    "sleep inn richmond south",
+    "suburban studios chester i 95",
+    "the berkeley richmond outset collection by hilton",
+    "the commonwealth",
+    "the henry clay inn",
+    "the westin richmond",
+    "tru by hilton ashland",
+    "tru by hilton richmond northwest",
+    "virginia crossings hotel and conference center tapestry collection by hilton",
+    "woodspring suites ashland richmond north",
+    "woodspring suites richmond airport"
+   ],
+   "update_property_ids": [],
+   "remove_property_ids": [],
+   "add_routes": [
+    "/pet-friendly-hotels/richmond-va/",
+    "/pet-friendly-hotels/richmond-va/aloft-by-marriott-richmond-west-short-pump/",
+    "/pet-friendly-hotels/richmond-va/ashland/",
+    "/pet-friendly-hotels/richmond-va/best-western-plus-glen-allen-inn/",
+    "/pet-friendly-hotels/richmond-va/best-western-plus-richmond-airport-hotel/",
+    "/pet-friendly-hotels/richmond-va/brentwood-inn/",
+    "/pet-friendly-hotels/richmond-va/candlewood-suites-chester-richmond/",
+    "/pet-friendly-hotels/richmond-va/candlewood-suites-glen-allen-short-pump/",
+    "/pet-friendly-hotels/richmond-va/candlewood-suites-richmond-airport/",
+    "/pet-friendly-hotels/richmond-va/candlewood-suites-richmond-north-glen-allen/",
+    "/pet-friendly-hotels/richmond-va/candlewood-suites-richmond-south/",
+    "/pet-friendly-hotels/richmond-va/candlewood-suites-richmond-west-broad/",
+    "/pet-friendly-hotels/richmond-va/chester/",
+    "/pet-friendly-hotels/richmond-va/comfort-inn-suites-ashland-richmond-north/",
+    "/pet-friendly-hotels/richmond-va/comfort-suites-innsbrook-short-pump/",
+    "/pet-friendly-hotels/richmond-va/courtyard-by-marriott-richmond-northwest-short-pump/",
+    "/pet-friendly-hotels/richmond-va/courtyard-by-marriott-richmond-west/",
+    "/pet-friendly-hotels/richmond-va/days-inn-by-wyndham-ashland/",
+    "/pet-friendly-hotels/richmond-va/days-inn-by-wyndham-chester/",
+    "/pet-friendly-hotels/richmond-va/delta-hotels-richmond-downtown/",
+    "/pet-friendly-hotels/richmond-va/downtown/",
+    "/pet-friendly-hotels/richmond-va/drury-plaza-hotel-richmond/",
+    "/pet-friendly-hotels/richmond-va/echo-suites-richmond-west-extended-stay-by-wyndham/",
+    "/pet-friendly-hotels/richmond-va/econo-lodge-richmond-north-chesterfield/",
+    "/pet-friendly-hotels/richmond-va/element-by-marriott-short-pump/",
+    "/pet-friendly-hotels/richmond-va/embassy-suites-by-hilton-richmond/",
+    "/pet-friendly-hotels/richmond-va/fairfield-by-marriott-inn-suites-richmond-ashland/",
+    "/pet-friendly-hotels/richmond-va/fairfield-by-marriott-inn-suites-richmond-innsbrook/",
+    "/pet-friendly-hotels/richmond-va/fairfield-inn-richmond-chester/",
+    "/pet-friendly-hotels/richmond-va/four-points-by-sheraton-richmond-airport/",
+    "/pet-friendly-hotels/richmond-va/four-points-by-sheraton-richmond/",
+    "/pet-friendly-hotels/richmond-va/graduate-by-hilton-richmond/",
+    "/pet-friendly-hotels/richmond-va/hampton-inn-chester-south/",
+    "/pet-friendly-hotels/richmond-va/hampton-inn-richmond-airport/",
+    "/pet-friendly-hotels/richmond-va/hampton-inn-richmond-mechanicsville/",
+    "/pet-friendly-hotels/richmond-va/hampton-inn-richmond-midlothian-turnpike/",
+    "/pet-friendly-hotels/richmond-va/hampton-inn-richmond-north-ashland/",
+    "/pet-friendly-hotels/richmond-va/hampton-inn-richmond-south/",
+    "/pet-friendly-hotels/richmond-va/hampton-inn-richmond-southwest-hull-street/",
+    "/pet-friendly-hotels/richmond-va/hampton-inn-richmond-west-innsbrook/",
+    "/pet-friendly-hotels/richmond-va/hampton-inn-suites-richmond-downtown/",
+    "/pet-friendly-hotels/richmond-va/hampton-inn-suites-richmond-glenside/",
+    "/pet-friendly-hotels/richmond-va/hampton-inn-suites-richmond-short-pump/",
+    "/pet-friendly-hotels/richmond-va/hampton-inn-suites-richmond-virginia-center/",
+    "/pet-friendly-hotels/richmond-va/hilton-garden-inn-richmond-airport/",
+    "/pet-friendly-hotels/richmond-va/hilton-garden-inn-richmond-innsbrook/",
+    "/pet-friendly-hotels/richmond-va/hilton-richmond-downtown/",
+    "/pet-friendly-hotels/richmond-va/holiday-inn-express-richmond-i-64-short-pump-area/",
+    "/pet-friendly-hotels/richmond-va/holiday-inn-express-richmond-midtown/",
+    "/pet-friendly-hotels/richmond-va/home2-suites-by-hilton-glen-allen-virginia-center/",
+    "/pet-friendly-hotels/richmond-va/home2-suites-by-hilton-richmond-glenside/",
+    "/pet-friendly-hotels/richmond-va/home2-suites-by-hilton-richmond-short-pump/",
+    "/pet-friendly-hotels/richmond-va/homewood-suites-by-hilton-richmond-airport/",
+    "/pet-friendly-hotels/richmond-va/homewood-suites-by-hilton-richmond-chester/",
+    "/pet-friendly-hotels/richmond-va/homewood-suites-by-hilton-richmond-downtown/",
+    "/pet-friendly-hotels/richmond-va/homewood-suites-by-hilton-richmond-west-end-innsbrook/",
+    "/pet-friendly-hotels/richmond-va/hyatt-place-richmond-arboretum/",
+    "/pet-friendly-hotels/richmond-va/hyatt-place-richmond-innsbrook/",
+    "/pet-friendly-hotels/richmond-va/hyatt-select-richmond-airport/",
+    "/pet-friendly-hotels/richmond-va/hyatt-select-richmond-chester/",
+    "/pet-friendly-hotels/richmond-va/i-95-north/",
+    "/pet-friendly-hotels/richmond-va/i-95-south/",
+    "/pet-friendly-hotels/richmond-va/innsbrook-glen-allen/",
+    "/pet-friendly-hotels/richmond-va/la-quinta-inn-by-wyndham-richmond-south/",
+    "/pet-friendly-hotels/richmond-va/la-quinta-inn-suites-by-wyndham-richmond-midlothian/",
+    "/pet-friendly-hotels/richmond-va/microtel-inn-suites-by-wyndham-richmond-airport/",
+    "/pet-friendly-hotels/richmond-va/midlothian-chesterfield/",
+    "/pet-friendly-hotels/richmond-va/moxy-richmond-downtown/",
+    "/pet-friendly-hotels/richmond-va/omni-richmond-hotel/",
+    "/pet-friendly-hotels/richmond-va/quality-inn-richmond-north/",
+    "/pet-friendly-hotels/richmond-va/quirk-hotel-richmond/",
+    "/pet-friendly-hotels/richmond-va/red-roof-inn-chester/",
+    "/pet-friendly-hotels/richmond-va/red-roof-inn-richmond-airport-sandston/",
+    "/pet-friendly-hotels/richmond-va/red-roof-inn-richmond-south/",
+    "/pet-friendly-hotels/richmond-va/red-roof-inn-richmond-va-w-broad-st/",
+    "/pet-friendly-hotels/richmond-va/red-roof-inn-richmond-va/",
+    "/pet-friendly-hotels/richmond-va/residence-inn-by-marriott-glen-allen-richmond/",
+    "/pet-friendly-hotels/richmond-va/residence-inn-by-marriott-richmond-airport/",
+    "/pet-friendly-hotels/richmond-va/residence-inn-by-marriott-richmond-chester/",
+    "/pet-friendly-hotels/richmond-va/residence-inn-by-marriott-richmond-midtown-glenside/",
+    "/pet-friendly-hotels/richmond-va/residence-inn-by-marriott-richmond-northwest-short-pump/",
+    "/pet-friendly-hotels/richmond-va/residence-inn-by-marriott-richmond-west-end/",
+    "/pet-friendly-hotels/richmond-va/residence-inn-by-marriott-richmond-west-midlothian/",
+    "/pet-friendly-hotels/richmond-va/residence-inn-by-marriott-short-pump-at-the-notch/",
+    "/pet-friendly-hotels/richmond-va/ric-airport-sandston/",
+    "/pet-friendly-hotels/richmond-va/rodeway-inn-richmond-west-end/",
+    "/pet-friendly-hotels/richmond-va/short-pump/",
+    "/pet-friendly-hotels/richmond-va/sleep-inn-richmond-north/",
+    "/pet-friendly-hotels/richmond-va/sleep-inn-richmond-south/",
+    "/pet-friendly-hotels/richmond-va/suburban-studios-chester-i-95/",
+    "/pet-friendly-hotels/richmond-va/the-berkeley-richmond-outset-collection-by-hilton/",
+    "/pet-friendly-hotels/richmond-va/the-commonwealth/",
+    "/pet-friendly-hotels/richmond-va/the-henry-clay-inn/",
+    "/pet-friendly-hotels/richmond-va/the-westin-richmond/",
+    "/pet-friendly-hotels/richmond-va/tru-by-hilton-ashland/",
+    "/pet-friendly-hotels/richmond-va/tru-by-hilton-richmond-northwest/",
+    "/pet-friendly-hotels/richmond-va/virginia-crossings-hotel-conference-center-tapestry-collection-by-hilton/",
+    "/pet-friendly-hotels/richmond-va/west-end/",
+    "/pet-friendly-hotels/richmond-va/woodspring-suites-ashland-richmond-north/",
+    "/pet-friendly-hotels/richmond-va/woodspring-suites-richmond-airport/"
+   ],
+   "change_routes": [],
+   "remove_routes": [],
+   "expected_profile_delta": 89,
+   "expected_verified_no_pets_delta": 45,
+   "expected_market_count_delta": 1,
+   "expected_participation_delta": [
+    {
+     "market_id": "richmond-va",
+     "from": false,
+     "to": true
+    }
+   ],
+   "joining_market_profiles": 89,
+   "joining_market_verified_no_pets": 45,
+   "shadow_until_registered": "declared against a live release that carries no index for this market; the registration order's re-seal restates the delta through registration_release_lane.joining_delta"
+  },
+  "VALIDATION_RECEIPT": {
+   "path": "launch_packages/pettripfinder/markets/staging/richmond-va/shadow_receipts/richmond-va/pkg-richmond-va-9dd5d52ed75b07ec-7f42f76d0e823529.json",
+   "digest": "sha256:7f42f76d0e82352946e88bdcdb74f2fae6cf7682a332172ad4e87bd4ff8588e2",
+   "eligible": "YES",
+   "rules": {
+    "A": "PASS",
+    "B": "PASS",
+    "C": "PASS",
+    "D": "PASS",
+    "E": "PASS",
+    "F": "PASS",
+    "G": "PASS",
+    "H": "PASS",
+    "I": "PASS",
+    "J": "PASS",
+    "K": "PASS",
+    "L": "PASS",
+    "M": "PASS",
+    "N": "PASS",
+    "O": "PASS"
+   },
+   "unknown": [],
+   "failed": [],
+   "determinism": "BYTE_IDENTICAL"
+  },
+  "COVERAGE_SCORECARD": {
+   "census_count": 196,
+   "published_pet_friendly": 89,
+   "verified_no_pets": 45,
+   "out_of_category": 0,
+   "unresolved": 62,
+   "public_routes": 101,
+   "evidence_references": 134,
+   "evidence_references_source": "derived_from_records",
+   "evidence_artifacts_available": 0,
+   "paid_evidence_references": 0,
+   "counts_by_partition_state": {
+    "ACCESS_BLOCKED": 7,
+    "AWAITING_OFFICIAL_URL": 27,
+    "AWAITING_POLICY_OBSERVATION": 28,
+    "PUBLISHED_PET_FRIENDLY": 89,
+    "VERIFIED_NO_PETS": 45
+   }
+  },
+  "parent_binding": "parent_live_state names the CURRENT live release (Atlanta, deploy 6aa7f125...). That is what this package was validated against. Once any later market is live, FAST rule N fails this package BY DESIGN; the registration order -- when Richmond reaches the front of the release queue -- re-seals the same committed inputs against that parent as a NEW package id. Nothing here is a production candidate, and no whole-site build was assembled."
+ },
+ "factory_code_changed": "NO -- every changed path is a richmond_va_* helper, the market's discovery config, or a document under the market's own proposed / staging / report paths",
+ "shared_factory_notes_recorded_not_repaired": [
+  "The shared first-party reader reads 'This location does not accept pets. Service and emotional support animals are always welcome.' (HomeTowne Studios W Broad St) as SERVICE_ANIMAL_ONLY, 'We do not accept animals, but there are boarding facilities and pet friendly hotels nearby' (Museum District B&B) as contradicting itself, and 'Pets Not Allowed / ... one time non-refundable pet fee' (SpringHill Suites North/Glen Allen) as not operative; those rows are held with the exact wording.",
+  "The shared address_key drops street directionals, so 107 N. Carter Road (Quality Inn & Suites Ashland) and 107 South Carter Road (Holiday Inn Express & Suites Richmond North Ashland) collapse to one key; the pet-friendly record is held ADDRESS_KEY_DIRECTIONAL_COLLISION.",
+  "The sealed-package writer refuses a read from a host other than the census route (INVALID_ROUTE): Linden Row Inn's own FAQ ('Linden Row Inn has a small number of pet-friendly rooms available for reservation by direct booking only.') cannot publish while the census binds the identity to its Best Western (WorldHotels Distinctive) route, whose page says only 'Pets may be accepted. Please contact the hotel for full details.'"
+ ],
+ "broad_regression_run": "NO",
+ "final_production_candidate_created": "NO -- FAST composes the release index in memory only",
+ "founder_authorization_created": "NO",
+ "deployed": "NO",
+ "shared_state_touched": "NO -- launch_participation.json, bundle_cache_closure.json, the market_state pin, the generated globals, release contracts, identity_resolutions.json and the market registry are unchanged",
+ "next_order": [
+  "When Richmond reaches the front of the serialized release lane, read CURRENT VERIFIED LIVE and merge that live parent into worker/ptf-richmond-va-market-001; the Atlanta binding of this shadow package is then invalid (FAST rule N fails it by design).",
+  "Copy markets/proposed/richmond-va.json -> markets/richmond-va.json, identity_census_proposed/richmond-va.json -> identity_census/richmond-va.json and the staged launch_package documents (hotel_policy_facts_richmond-va.json, richmond_va_final_partition_007.json, the authority shard) into their registered paths; repoint the helpers' paths.",
+  "Record same-campus resolutions in identity_resolutions.json -- 12500 Chestnut Hill Road (Hampton Inn Richmond Chester + Home2 Suites Richmond Chester), 1320 East Cary Street (Courtyard Richmond Downtown + Residence Inn Richmond Downtown), and the directional pair 107 N. / 107 South Carter Road, Ashland -- and re-admit the held records through the census and clean set.",
+  "market_registration_cli --write, build_global_authority --write then --check, the release contract, registration_release_lane register + seal --work-order (a NEW package id), FAST.",
+  "regression_delta classify (expect COMPOSITE_FRESH_MARKET_DATA_ONLY), compose and reproduce the candidate, prepare the founder packet; deploy only on founder authorization.",
+  "Before sealing: re-probe Choice (va033 Quality Inn Richmond Airport; the Choice WoodSpring routes), Motel 6 / Studio 6, vipmotorinn.com; find address-bearing documents for InTown Suites x2; read The Jefferson Hotel, Linden Row Inn (route conflict) and the map-only motels on Midlothian Turnpike, Brook Road and Jefferson Davis Highway."
+ ]
+}

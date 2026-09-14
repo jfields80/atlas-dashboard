@@ -643,14 +643,18 @@ def read_static_identity_pages():
     # by that read. Its JSON-LD block may spell the same building differently ("1600 Robinhood Road, 23220" beside the
     # page's "1600 Robin Hood Road") and would open a second building for one hotel.
     from urllib.parse import urlparse as _up
-    read_hosts = {_up(r.get("final_url") or r.get("requested_url") or "").netloc.lower().replace("www.", "")
+    read_hosts = {(_up(r.get("final_url") or r.get("requested_url") or "").netloc.lower().replace("www.", ""),
+                   ((r.get("identity_signals") or {}).get("address_on_page") or "").split(" ")[0],
+                   ((r.get("identity_signals") or {}).get("postal_code") or "")[:5])
                   for r in (_load(ATTENDED_PASS, {}) or {}).get("rows", []) if r.get("brand_page_seed")}
     for url, sha, addrs in docs:
         if any(d in (url or "") for d in _NOT_OWN_SITE):
             continue
-        if _up(url or "").netloc.lower().replace("www.", "") in read_hosts:
-            continue
+        _host = _up(url or "").netloc.lower().replace("www.", "")
         for a in addrs:
+            _pz = re.sub(r"[^0-9]", "", str(a.get("postal") or ""))[:5]
+            if (_host, (a.get("street") or "").strip().split(" ")[0], _pz) in read_hosts:
+                continue
             if not _LODGING_LD_TYPES.search(json.dumps(a.get("type"))):
                 continue
             street = (a.get("street") or "").strip()

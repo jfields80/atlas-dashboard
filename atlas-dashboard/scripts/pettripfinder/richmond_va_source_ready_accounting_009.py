@@ -1,6 +1,6 @@
 """PTF-RICHMOND-VA-PARALLEL-SOURCE-READY-001 -- complete accounting.
 
-Cloned from the Boone - Blowing Rock NC accounting helper (itself from Atlanta GA). Every
+Cloned from the Charleston SC accounting helper (itself from Boone - Blowing Rock NC and Atlanta GA). Every
 discovered candidate, every census identity in exactly one disposition, every hold by
 class, per-corridor and per-area coverage, lane yields, the vacation-rental filter's
 refusals, the shadow package's identity, its independent reproduction, measured timings
@@ -53,10 +53,10 @@ def area_coverage(hotels, pf, np_):
     """The order's named areas: the property's OWN stated street first, then its pin. Reporting only."""
     from scripts.pettripfinder import richmond_va_geography_001 as GEO
     areas = OrderedDict((a, []) for a in (
-        "Historic District / Downtown", "Upper Peninsula / Meeting Street", "Upper Peninsula", "West Ashley",
-        "North Charleston", "Hanahan", "CHS Airport", "Convention Center / Coliseum / Tanger",
-        "CHS Airport / Convention (other)", "Mount Pleasant", "Patriots Point", "Daniel Island", "James Island",
-        "Summerville", "Goose Creek", "Ladson", "Folly Beach", "Isle of Palms", "Sullivan's Island", "Johns Island"))
+        "Downtown Richmond", "Shockoe / Riverfront", "VCU Medical Center", "VCU Monroe Park", "Museum District / Fan",
+        "Scott's Addition / Willow Lawn", "West End", "Short Pump", "Innsbrook", "Glen Allen", "RIC Airport", "Sandston",
+        "Henrico / I-64 East", "RIC Airport / Sandston (other)", "I-95 North / Chamberlayne", "Virginia Center",
+        "I-95 South / Richmond South", "Chesterfield", "Midlothian", "Bon Air", "Mechanicsville", "Ashland", "Chester"))
     unplaced = []
     for h in hotels:
         state = ("PUBLISHED_PET_FRIENDLY" if h["identity_key"] in pf
@@ -74,8 +74,9 @@ def area_coverage(hotels, pf, np_):
                             ("identities", rows)])
     return OrderedDict([
         ("what_it_is", "Coverage for the order's named areas. Reporting only; membership and corridor come from the "
-                       "postal partition. The CHS airport and the Convention Center / Tanger district share 29418; Patriots "
-                       "Point shares 29464 with Mount Pleasant."),
+                       "postal partition. VCU Medical Center and Shockoe share 23219 with downtown; Scott's Addition shares "
+                       "23230 with the West End; Bon Air shares 23235 with Midlothian; Henrico I-64 East is folded into the "
+                       "airport corridor."),
         ("areas", OrderedDict((a, summary(rows)) for a, rows in areas.items())),
         ("unplaced", summary(unplaced)),
     ])
@@ -109,8 +110,7 @@ def build():
         return r.get("classification_reason") or ""
 
     geo_holds = names("IDENTITY_REVIEW_REQUIRED", lambda r: reason(r).startswith("GEOGRAPHY_HOLD"))
-    founder = names("IDENTITY_REVIEW_REQUIRED", lambda r: "Hilton Grand Vacations" in reason(r)
-                    or "Hilton Club" in reason(r))
+    founder = []
     review = names("IDENTITY_REVIEW_REQUIRED", lambda r: not reason(r).startswith("GEOGRAPHY_HOLD")
                    and r["canonical_name"] not in founder)
     access = Counter("OWN_SITE" for i in items if i["final_state"] == "ACCESS_BLOCKED")
@@ -119,6 +119,13 @@ def build():
 
     def nh_class(r):
         why = reason(r).lower()
+        # RICHMOND kinds, tested first
+        if "apartment" in why:
+            return "APARTMENT_OR_RENTAL_UNITS"
+        if "chamber of commerce" in why or "motorsports venue" in why:
+            return "VENUE_OR_OFFICE"
+        if "short-term-rental" in why or "private cottage" in why:
+            return "SHORT_TERM_RENTAL_OR_PRIVATE_DWELLING"
         if "vacation-rental" in why and "files this listing" in why:
             return "BUREAU_VACATION_RENTAL_OR_PROPERTY_MANAGER"
         if "campground" in why:
@@ -144,13 +151,14 @@ def build():
             ("name_only_unresolved", names("NAME_ONLY_UNRESOLVED")),
             ("rebrand_unresolved", names("SAME_IDENTITY_REBRAND_SUCCESSOR")),
             ("same_campus_unproved", names("SAME_CAMPUS_DISTINCT_ENTITY")),
-            ("note", "Not census identities and never published: brand-flag map rows the brand's own inventory does not "
-                     "list (Comfort Suites / Econo Lodge / Sleep Inn Ashley Phosphate & Summerville, Wingate University "
-                     "Boulevard, Hyatt Place at 7331 Mazyck Road), resort components (Wild Dunes' combined Sweetgrass Inn / "
-                     "Boardwalk Inn listing), guest-house map rows of unconfirmed category, the same-campus pair at 560 King "
-                     "Street (Hyatt House / The Lowline), and name-only map and directory leads (InTown Suites x4, Motel 6 "
-                     "x2, Hawthorn Suites x2, Hotel Folly, Folliday Inn, Vera Hotel, Regatta Inn, Beachside Boutique Inn, "
-                     "Water's Edge Inn ...).")])),
+            ("note", "Not census identities and never published: brand-flag map and bureau rows the brand's own "
+                     "inventory does not list at that address (Econo Lodge / Rodeway Inn / Quality Inn Central on Arthur "
+                     "Ashe Boulevard and West Broad, Sleep Inn & Suites at 80 Cottage Greene Drive -- now the Comfort Inn & "
+                     "Suites Ashland -- Suburban Extended Stay at 2401 West Hundred Road, Super 8 Motel Ashland), same-name "
+                     "pairs (Regency Inn x2), rows no first-party source gives a municipality (All Day Inn, Cadillac Motel, "
+                     "Snow White Motel, White House Motor Lodge), lodging-category reviews (Roslyn Retreat & Conference "
+                     "Center, Classified Moto) and name-only map rows (The Massad House Hotel, Virginia Cliff Inn, Lee's "
+                     "Motel, Baymount Inn and Suites, Par 3).")])),
         ("ROUTING_HOLDS", OrderedDict([("count", states.get("AWAITING_OFFICIAL_URL", 0)),
                                        ("identities", by_state.get("AWAITING_OFFICIAL_URL", []))])),
         ("ACCESS_BLOCKED", OrderedDict([("count", states.get("ACCESS_BLOCKED", 0)),
@@ -162,23 +170,20 @@ def build():
         ("GEOGRAPHY_HOLDS", OrderedDict([("count", len(geo_holds)), ("identities", geo_holds)])),
         ("PAID_HOLDS", OrderedDict([
             ("count", 0),
-            ("note", "No census cohort requires a paid lane: every brand family that names a census identity served "
-                     "the attended session. Motel 6 refused the attended browser, but its Charleston rows are name-only "
-                     "map leads, not census identities. PAID PROVIDER BUDGET was $0 and no paid lane was used or reserved.")])),
+            ("note", "No cohort is routed to a paid lane: PAID PROVIDER BUDGET was $0 and no paid lane was used or "
+                     "reserved. The access-blocked cohort (Motel 6 / Studio 6 x4, Quality Inn Richmond Airport, V.I.P. Inn, "
+                     "Inn at Patrick Henry's) is held ACCESS_BLOCKED for a re-probe, not a paid lane.")])),
         ("FOUNDER_HOLDS", OrderedDict([
             ("count", len(founder)), ("identities", founder),
-            ("note", "Hilton Grand Vacations / Hilton Club properties: whether vacation-ownership inventory that Hilton "
-                     "also sells by the night independently qualifies as a public hotel is a founder ruling under the "
-                     "order's timeshare rule. Co-location holds are registration-order work in shared identity state.")])),
+            ("note", "None. Co-location holds (12500 Chestnut Hill Road; 1320 East Cary Street) are registration-order "
+                     "work in shared identity state, not founder rulings.")])),
         ("CLOSED_OR_RETIRED", OrderedDict([
             ("count", len(wyn.get("retired_routes") or [])),
             ("wyndham_retired_routes", wyn.get("retired_routes")),
-            ("note", "Wyndham routes that redirect to the brand's search (Days Inn Historic District and Patriots Point, "
-                     "both Hawthorn Suites, Ramada Charleston, Super 8 North Charleston, three Wingate routes, Wyndham Garden "
-                     "Mount Pleasant and the former Mills House Wyndham Grand, now the Mills House Curio). Routes, not census "
-                     "identities.")])),
+            ("note", "Wyndham routes in Richmond-area cities that redirect to the brand's city search (retired or "
+                     "rebranded). Routes, not census identities.")])),
         ("OUTSIDE", OrderedDict([("count", len(names("OUTSIDE_MARKET"))),
-                                 ("future_market_kiawah_seabrook", len(future)),
+                                 ("future_market_petersburg_tri_cities", len(future)),
                                  ("future_market_identities", future)])),
         ("NON_HOTEL", OrderedDict([("count", len(non_hotel)),
                                    ("by_kind", OrderedDict(sorted(Counter(nh_class(r) for r in non_hotel).items()))),
@@ -205,10 +210,10 @@ def build():
 
     doc = OrderedDict([
         ("schema", "ptf-market-source-ready-accounting/1.0"), ("work_order", WORK_ORDER), ("market_id", MARKET_ID),
-        ("display_market", "Charleston, South Carolina"),
+        ("display_market", "Richmond, Virginia"),
         ("state", "SOURCE_READY -- SHADOW_UNTIL_REGISTERED"),
         ("release_queue", "Current verified live: Atlanta (23 markets / 1500 profiles / 1744 routes, deploy "
-                          "6aa7f125a91c73ba2363139e, commit 6825851b). Charleston waits for its turn in the serialized "
+                          "6aa7f125a91c73ba2363139e, commit 6825851b). Richmond waits for its turn in the serialized "
                           "release lane behind the queued markets."),
         ("timings", TIMINGS),
         ("accounting", OrderedDict([
@@ -216,7 +221,7 @@ def build():
             ("total_discovered_note",
              "Distinct candidate identities in the identity graph after merging every lane. Not counted: %d unnamed map "
              "elements, %d retired Wyndham routes, and the Hilton / IHG / Choice national-navigation codes outside "
-             "South Carolina's 294xx / 299xx postal prefixes." % (
+             "Virginia's 230xx-232xx / 238xx postal prefixes." % (
                  sum(1 for e in osm["elements"] if not (e.get("tags") or {}).get("name")),
                  len(wyn.get("retired_routes") or []))),
             ("classification_counts", census["classification_counts"]),
@@ -237,10 +242,9 @@ def build():
             ("osm_elements", osm["element_count"]),
             ("brand_inventory_leads", brand["lead_count"]),
             ("brand_family_dispositions", brand.get("dispositions")),
-            ("charleston_cvb_roster", OrderedDict([("coverage", roster.get("coverage")),
+            ("visit_richmond_va_roster", OrderedDict([("coverage", roster.get("coverage")),
                                                    ("listings", roster["listing_count"]),
                                                    ("by_category", roster["lodging_by_subcategory"])])),
-            ("visit_folly_directory", "8 'Hotels & Inns' names (names only, tier 2)"),
             ("census_lane_observations", recon["lane_yields"]),
             ("first_party_reads", capture["counts"]),
             ("wyndham_property_service", OrderedDict([("routes", wyn["routes_selected"]), ("read", wyn["read"]),
@@ -249,11 +253,11 @@ def build():
         ])),
         ("competitor_gap_challenge", gaps["counts"]),
         ("owned_evidence", OrderedDict([
-            ("OWNED_IDENTITIES", "0 -- no committed census or authority holds a 294xx identity; Charleston WV / IL / MO "
-                                 "routes are refused by the brand lane's NEGATIVE tokens."),
-            ("OWNED_ROUTES", "34 -- CHS-coded Marriott routes from the committed national harvest "
-                             "dayton_oh_brand_directory_harvest_001 (read at zero requests; every one re-read on Marriott's own "
-                             "page). The Charlotte and Nashville owned-evidence reports only list three of the same CHS routes."),
+            ("OWNED_IDENTITIES", "0 -- no committed census or authority holds a 230xx-232xx / 238xx Virginia identity; "
+                                 "Richmond KY / IN / CA / BC routes are refused by the brand lane's NEGATIVE tokens."),
+            ("OWNED_ROUTES", "40 -- RIC-coded Marriott routes from the committed national harvest "
+                             "dayton_oh_brand_directory_harvest_001 (read at zero requests; every one re-read on Marriott's "
+                             "own page, 35 in market)."),
             ("OWNED_VALID_POLICY_EVIDENCE", "0 -- every policy record here is a new first-party capture of this order."),
         ])),
         ("package", OrderedDict([
@@ -274,18 +278,18 @@ def build():
         ("factory_code_changed", "NO -- every changed path is a richmond_va_* helper, the market's discovery config, or a "
                                  "document under the market's own proposed / staging / report paths"),
         ("shared_factory_notes_recorded_not_repaired", [
-            "The shared exclusion contract's co_located_distinct reads Marriott / Hilton / IHG route codes but not Hyatt's, "
-            "so Hyatt House Charleston/Historic District (chsxh) and The Lowline Hotel (chszh) at 560 King Street cannot be "
-            "proved distinct and the sealed-package writer refuses them as SAME_PREMISES_UNPROVEN. Both are held "
-            "SAME_CAMPUS_DISTINCT_ENTITY for a registration-order resolution.",
-            "The shared first-party reader does not read 'While we love our furry friends, we do not accept pets', 'As much "
-            "as we love pets, we cannot accommodate them', 'We are unfortunately not a pet friendly hotel', 'No, we do not "
-            "allow pets on our property', 'The Charleston Harbor Resort & Marina does allow dogs', 'We welcome a maximum of "
-            "two (2) dogs per guestroom' or 'We welcome pets of all sizes at The Charleston Place' as operative; those rows "
-            "are held with the exact wording.",
-            "Many Charleston independents state their policy on a FAQ page whose visible text carries no street number or "
-            "postal code; the verified-quote builder requires both on the SAME document, so those reads are held "
-            "ADDRESS_NOT_ON_DOCUMENT rather than bound by a sibling page.",
+            "The shared first-party reader reads 'This location does not accept pets. Service and emotional support animals "
+            "are always welcome.' (HomeTowne Studios W Broad St) as SERVICE_ANIMAL_ONLY, 'We do not accept animals, but "
+            "there are boarding facilities and pet friendly hotels nearby' (Museum District B&B) as contradicting itself, "
+            "and 'Pets Not Allowed / ... one time non-refundable pet fee' (SpringHill Suites North/Glen Allen) as not "
+            "operative; those rows are held with the exact wording.",
+            "The shared address_key drops street directionals, so 107 N. Carter Road (Quality Inn & Suites Ashland) and 107 "
+            "South Carter Road (Holiday Inn Express & Suites Richmond North Ashland) collapse to one key; the "
+            "pet-friendly record is held ADDRESS_KEY_DIRECTIONAL_COLLISION.",
+            "The sealed-package writer refuses a read from a host other than the census route (INVALID_ROUTE): Linden Row "
+            "Inn's own FAQ ('Linden Row Inn has a small number of pet-friendly rooms available for reservation by direct "
+            "booking only.') cannot publish while the census binds the identity to its Best Western (WorldHotels "
+            "Distinctive) route, whose page says only 'Pets may be accepted. Please contact the hotel for full details.'",
         ]),
         ("broad_regression_run", "NO"),
         ("final_production_candidate_created", "NO -- FAST composes the release index in memory only"),
@@ -294,25 +298,23 @@ def build():
         ("shared_state_touched", "NO -- launch_participation.json, bundle_cache_closure.json, the market_state pin, the "
                                  "generated globals, release contracts, identity_resolutions.json and the market registry are unchanged"),
         ("next_order", [
-            "When Charleston reaches the front of the serialized release lane, read CURRENT VERIFIED LIVE and merge that live "
-            "parent into worker/ptf-richmond-va-market-001; the Atlanta binding of this shadow package is then invalid.",
+            "When Richmond reaches the front of the serialized release lane, read CURRENT VERIFIED LIVE and merge that live "
+            "parent into worker/ptf-richmond-va-market-001; the Atlanta binding of this shadow package is then invalid (FAST "
+            "rule N fails it by design).",
             "Copy markets/proposed/richmond-va.json -> markets/richmond-va.json, identity_census_proposed/richmond-va.json -> "
             "identity_census/richmond-va.json and the staged launch_package documents (hotel_policy_facts_richmond-va.json, "
             "richmond_va_final_partition_007.json, the authority shard) into their registered paths; repoint the helpers' paths.",
-            "Record same-campus resolutions in identity_resolutions.json -- 406 Sigma Drive (Hilton Garden Inn + Homewood Suites "
-            "Summerville) and 560 King Street (Hyatt House Charleston/Historic District + The Lowline Hotel) -- and re-admit "
-            "the held records through the census and clean set.",
-            "Take the founder ruling on the three Hilton Grand Vacations / Hilton Club properties (timeshare rule).",
+            "Record same-campus resolutions in identity_resolutions.json -- 12500 Chestnut Hill Road (Hampton Inn Richmond "
+            "Chester + Home2 Suites Richmond Chester), 1320 East Cary Street (Courtyard Richmond Downtown + Residence Inn "
+            "Richmond Downtown), and the directional pair 107 N. / 107 South Carter Road, Ashland -- and re-admit the held "
+            "records through the census and clean set.",
             "market_registration_cli --write, build_global_authority --write then --check, the release contract, "
-            "registration_release_lane register + seal --work-order (a NEW package id: this shadow package fails FAST rule N "
-            "by design once the parent moves), FAST.",
+            "registration_release_lane register + seal --work-order (a NEW package id), FAST.",
             "regression_delta classify (expect COMPOSITE_FRESH_MARKET_DATA_ONLY), compose and reproduce the candidate, prepare "
             "the founder packet; deploy only on founder authorization.",
-            "Before sealing: re-probe Starlight Motor Inn and The Cottages on Charleston Harbor (403); read Folly Beach's "
-            "Regatta Inn, Beachside Boutique Inn and Water's Edge Inn and the Summerville Country Inn on their own pages; "
-            "find an address-bearing document for the FAQ-only independents (The Loutrel, The Pinch, The Nickel, The "
-            "Spectator, Jasmine House, Elliott House, Andrew Pinckney, 86 Cannon, Market Pavilion, Francis Marion, Emeline, "
-            "Tides Folly Beach).",
+            "Before sealing: re-probe Choice (va033 Quality Inn Richmond Airport; the Choice WoodSpring routes), Motel 6 / "
+            "Studio 6, vipmotorinn.com; find address-bearing documents for InTown Suites x2; read The Jefferson Hotel, Linden "
+            "Row Inn (route conflict) and the map-only motels on Midlothian Turnpike, Brook Road and Jefferson Davis Highway.",
         ]),
     ])
     return doc

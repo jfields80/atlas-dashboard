@@ -4,35 +4,32 @@ from __future__ import annotations
 from collections import OrderedDict
 
 TIMINGS = OrderedDict([
-    ("RICHMOND_START_TIMESTAMP", "2026-09-14T14:08:03Z (2026-09-14T10:08:03-04:00)"),
-    ("precheck_and_template_read", "14:08Z-14:18Z (worktree, branch, HEAD 6825851b = the Atlanta-live release, tree clean; "
-                                   "Savannah / Atlanta / Outer Banks / Greenville shadow chains and the Savannah browser "
-                                   "transcript read)"),
-    ("geography", "14:18:45Z (14 corridors: 7 CORE / 4 CORRIDOR / 3 FRINGE, 36 admitted ZIPs; Kiawah / Seabrook refused by "
-                  "municipality inside 29455 and preserved for kiawah-seabrook-sc)"),
-    ("census_lanes", "OSM lane 164.4 s (South Carolina extract, hard link of the Charlotte run's 2026-09-10 snapshot; 393 "
-                     "elements); brand inventory about 15 min detached (Marriott SC sitemap page, 18 Hilton city pages + 27 "
-                     "sub-pages, 16 family sitemap probes); Charleston Area CVB roster 21.2 s plain client (109 listings)"),
-    ("identity", "14:41Z-15:00Z (census reconciliation passes, rulings: vacation-rental / timeshare / resort-component / "
-                 "component-of; same-campus guard)"),
-    ("routing", "Wyndham property service 6.4 s (25 routes: 13 read, 12 retired); static lane 8.7 s (94 targets)"),
-    ("browser_evidence", "14:31Z-14:41Z attended same-origin reads: IHG 17, Hyatt 8, Choice 32, Marriott 34, Hilton 41, "
-                         "Best Western 8, Red Roof 2; Extended Stay America 5 at 14:55Z (every committed payload's "
-                         "canonical-JSON sha256 verified against the page's)"),
-    ("static_evidence", "policy-page lane 32.3 s / 35.8 s / 40.0 s over three passes (63 / 81 / 88 sites)"),
-    ("policy_adjudication", "14:45Z-15:00Z (candidate quotes tested against the shared first-party reader; independent "
+    ("RICHMOND_START_TIMESTAMP", "2026-09-14T15:53:55Z (2026-09-14T11:53:55-04:00)"),
+    ("precheck_and_template_read", "15:53Z-16:02Z (worktree, branch, HEAD 6825851b = the Atlanta-live release, tree clean; "
+                                   "the Charleston SC shadow chain @a33266bd and its browser transcript read; Virginia "
+                                   "Geofabrik extract downloaded)"),
+    ("geography", "16:02:34Z (12 corridors: 9 CORE / 3 CORRIDOR / 0 FRINGE, 43 admitted ZIPs; Petersburg / Colonial Heights "
+                  "/ Hopewell preserved for petersburg-tri-cities-va)"),
+    ("census_lanes", "OSM lane 380.9 s (Virginia extract, 246 elements); brand inventory about 12 min detached (Marriott VA "
+                     "sitemap page, 21 Hilton city pages + 29 sub-pages, 16 family sitemap probes); Visit Richmond VA "
+                     "listing service one call (200 lodging listings, plain client)"),
+    ("routing", "Wyndham property service 10.9 s (40 routes: 20 read, 19 retired, 1 error); static lane 63.4 s (84 "
+                "targets); policy-page lane 22.6 s (38 sites, 140 pages)"),
+    ("browser_evidence", "16:12Z-16:40Z attended same-origin reads: IHG 22, Hyatt 6, Hilton 33, Marriott 40, Choice 57 (22 "
+                         "served, then a 403 wall), Best Western 20, Red Roof 9, Extended Stay America 7, Omni 1, InTown "
+                         "Suites 2 (every committed payload's canonical-JSON sha256 verified against the page's)"),
+    ("identity", "16:20Z-16:40Z (census passes; roster-listing bindings, brand-route refusal, non-hotel rulings, third-party "
+                 "JSON-LD refusal, map-row fold beside a read)"),
+    ("policy_adjudication", "16:25Z-16:40Z (candidate quotes tested against the shared first-party reader; independent "
                             "quotes proved verbatim with house number and ZIP on the same document)"),
-    ("reconciliation", "15:00Z-15:06Z (clean set 82 / 44, staged authority, final partition 186 identities, 0 contract "
-                       "issues)"),
-    ("shadow_package_and_fast", "15:06:48Z-15:08:12Z at fa4a9a47 (sealed twice in-process, FAST 15/15, determinism "
-                                "BYTE_IDENTICAL); an earlier seal at 3b3d1271 (15:01:29Z-15:03:21Z) also passed 15/15 and "
-                                "was superseded when the census stopped folding Homewood Suites Summerville into the Hilton "
-                                "Garden Inn through their shared switchboard phone"),
-    ("independent_reproduction", "15:08:30Z-15:08:52Z (clean git worktree at fa4a9a47 with a COPY of the document store: "
+    ("reconciliation", "16:38Z-16:42Z (clean set 89 / 45, staged authority, final partition 196 identities, 0 contract "
+                       "issues; inputs committed at e5f1ea44)"),
+    ("shadow_package_and_fast", "16:43:10Z-16:45:02Z at e5f1ea44 (sealed twice in-process, FAST 15/15, determinism "
+                                "BYTE_IDENTICAL, 112.1 s)"),
+    ("independent_reproduction", "16:45:12Z-16:45:48Z (clean git worktree at e5f1ea44 with a COPY of the document store: "
                                  "geography, brand pages, capture, census, clean set, staged authority, partition and staged "
                                  "shard rebuilt from committed captures -- zero content difference; only the eol-unattributed "
                                  "discovery config checks out CRLF; separate-process digest-only seal = the same digest)"),
-    ("ZERO_TO_SOURCE_READY", "1 h 0 min 9 s (14:08:03Z -> 15:08:12Z, the final FAST-passed sealed shadow package; the "
-                             "first FAST-passed seal was at 15:03:21Z, 55 min 18 s)"),
+    ("ZERO_TO_SOURCE_READY", "51 min 7 s (15:53:55Z -> 16:45:02Z, the FAST-passed sealed shadow package)"),
     ("peak_memory", "not measured on this run"),
 ])
