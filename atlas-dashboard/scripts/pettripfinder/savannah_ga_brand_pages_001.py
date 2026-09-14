@@ -114,12 +114,25 @@ def _plain(body):
 
 def _url_by_sha():
     doc = json.load(open(POLICY_LANE, encoding="utf-8"))
-    out = {}
+    out, by_sentence = {}, []
     for r in doc["rows"]:
         for p in r["pages"]:
             if p.get("sha256"):
                 out.setdefault(p["sha256"], p["final_url"] or p["url"])
-    return out
+            by_sentence.append((p["final_url"] or p["url"], " ".join(" ".join(p["pet_sentences"]).split())))
+    return out, by_sentence
+
+
+def _url_for(sha, quote, urls, by_sentence):
+    """The document's URL. A page whose server re-renders on every request (Foley House Inn's pet page carries a
+    changing nonce) persists under a new sha256 each time the lane reads it; the reviewed document is still the one
+    on disk, and its URL is the ONE lane page that serves the same pet sentence."""
+    if sha in urls:
+        return urls[sha]
+    # the lane's pet sentences end at a full stop, so the head is the quote's first sentence without its stop
+    head = " ".join(quote.split()).split(".")[0][:40]
+    hits = sorted({u for u, s in by_sentence if head and head in s})
+    return hits[0] if len(hits) == 1 else None
 
 
 def redroof_rows():
@@ -145,7 +158,7 @@ def redroof_rows():
 
 
 def build():
-    urls = _url_by_sha()
+    urls, by_sentence = _url_by_sha()
     rows = []
     for seed, brand, name, street, city, postal, phone, prefix, quote, ext, conflict in ROWS:
         files = sorted({os.path.basename(f): f for f in
@@ -160,12 +173,13 @@ def build():
         num = street.split()[0]
         if not re.search(r"\b%s\b" % re.escape(num), text) or postal not in text:
             raise SystemExit("%s: the document does not state house number %s and postal code %s" % (seed, num, postal))
-        if sha not in urls:
+        url = _url_for(sha, quote, urls, by_sentence)
+        if not url:
             raise SystemExit("%s: no lane row names the URL of %s" % (seed, sha))
         rows.append(OrderedDict([
             ("seed", seed), ("brand", brand), ("lane", "DIRECT_STATIC_FETCH"),
             ("name", name), ("street", street), ("city", city), ("postal", postal), ("phone", phone),
-            ("url", urls[sha]), ("sha256", sha), ("bytes", len(raw)), ("surface", SURFACE),
+            ("url", url), ("sha256", sha), ("bytes", len(raw)), ("surface", SURFACE),
             ("quote", quote), ("extraction", OrderedDict(ext)), ("method", METHOD), ("conflict", conflict),
         ]))
     return rows + redroof_rows()
