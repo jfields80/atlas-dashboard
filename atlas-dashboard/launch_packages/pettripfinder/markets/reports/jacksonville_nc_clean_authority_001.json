@@ -1,0 +1,1817 @@
+{
+ "schema": "ptf-market-clean-authority/1.0",
+ "work_order": "PTF-JACKSONVILLE-NC-PARALLEL-SOURCE-READY-001",
+ "market_id": "jacksonville-nc",
+ "phase": "13/14 -- policy classification and the clean set",
+ "as_of": "2026-09-14",
+ "status": "PROPOSED_NOT_PUBLISHED",
+ "what_is_excluded": "Everything that is not an operative first-party statement of acceptance or refusal, bound to an ADMITTED census identity by the street identity the page itself states. A read that joins no census row, joins a withheld row, states no policy, or states only a fee / weight / count / amenity chip / service-animal sentence is reported in `rejected` with its class and publishes nothing.",
+ "one_identity_classified_once": "The join is on street identity, so two brands at one address cannot both settle it: the census already withheld those buildings as a founder ruling, and a second read of an already-settled identity is reported DUPLICATE_READ_FOR_ONE_IDENTITY.",
+ "counts": {
+  "reads_evaluated": 40,
+  "clean_pet_friendly": 16,
+  "clean_verified_no_pets": 3,
+  "resolved_census_identities": 19,
+  "unresolved_census_identities": 14,
+  "census_count": 33,
+  "rejected": 21,
+  "rejected_by_class": {
+   "CENSUS_ROW_NOT_ADMITTED": 21
+  },
+  "pf_by_brand": {
+   "EXTENDED_STAY": 1,
+   "HILTON": 6,
+   "IHG": 3,
+   "INDEPENDENT": 2,
+   "MARRIOTT": 1,
+   "MY_PLACE": 1,
+   "RED_ROOF": 1,
+   "WYNDHAM": 1
+  },
+  "pf_by_corridor": {
+   "jacksonville-nc__marine-boulevard-us-17": 1,
+   "jacksonville-nc__sneads-ferry": 4,
+   "jacksonville-nc__swansboro": 1,
+   "jacksonville-nc__western-boulevard": 10
+  }
+ },
+ "clean_pet_friendly": [
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://www.bwtopsailbeach.com/overview",
+   "final_url": "https://www.bwtopsailbeach.com/overview",
+   "document_sha256": "a5265f5858e614eee1097056db6d7789e4679e9dc6f98cede5d2a69d543a442d",
+   "document_bytes": 192748,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Blue Water Inn - Best Western Signature Collection",
+    "address_on_page": "1565 NC Hwy 210",
+    "postal_code": "28460",
+    "locality": "Sneads Ferry",
+    "region": "NC",
+    "phone_on_page": "(910) 327-8282",
+    "property_code_on_page": null
+   },
+   "identity_binding_method": "ADDRESS_BLOCK_ON_THE_PROPERTYS_OWN_SITE_HOME_PAGE",
+   "property_code": null,
+   "identity_key": "blue water inn best western signature collection",
+   "canonical_name": "Blue Water Inn - Best Western Signature Collection",
+   "corridor": "jacksonville-nc__sneads-ferry",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "Our hotel is also pet-friendly and pets are accepted upon request and the availability of pet-friendly rooms--quantities limited. Pets are USD 35 per night, per pet. Only 2 pets per room allowed. We have a 50-pound maximum weight for each pet restriction.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 3500,
+    "fee_currency": "USD",
+    "weight_limit": 50.0,
+    "pet_count_limit": 2,
+    "fee_basis": "per_night",
+    "fee_scope": "per_pet",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Our hotel is also pet-friendly and pets are accepted upon request and the availability of pet-friendly rooms--quantities limited. Pets are USD 35 per night, per pet. Only 2 pets per room allowed. We have a 50-pound maximum weight for each pet restriction.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Our hotel is also pet-friendly and pets are accepted upon request and the availability of pet-friendly rooms--quantities limited. Pets are USD 35 per night, per pet. Only 2 pets per room allowed. We have a 50-pound maximum weight for each pet restriction.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Our hotel is also pet-friendly and pets are accepted upon request and the availability of pet-friendly rooms--quantities limited. Pets are USD 35 per night, per pet. Only 2 pets per room allowed. We have a 50-pound maximum weight for each pet restriction.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Our hotel is also pet-friendly and pets are accepted upon request and the availability of pet-friendly rooms--quantities limited. Pets are USD 35 per night, per pet. Only 2 pets per room allowed. We have a 50-pound maximum weight for each pet restriction.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Our hotel is also pet-friendly and pets are accepted upon request and the availability of pet-friendly rooms--quantities limited. Pets are USD 35 per night, per pet. Only 2 pets per room allowed. We have a 50-pound maximum weight for each pet restriction.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "IHG",
+   "source_url": "https://www.ihg.com/candlewood/hotels/us/en/jacksonville/jkvnc/hoteldetail",
+   "final_url": "https://www.ihg.com/candlewood/hotels/us/en/jacksonville/jkvnc/hoteldetail",
+   "document_sha256": "3cf5243846275682e3536063f9f4702cca2fcadd479e8b766fee12c4e94c40d6",
+   "document_bytes": 274242,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Candlewood Suites Jacksonville",
+    "address_on_page": "119 Penny Lane",
+    "postal_code": "28546",
+    "locality": "Jacksonville",
+    "region": "NC",
+    "phone_on_page": "1-910-3330494",
+    "property_code_on_page": "jkvnc"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "jkvnc",
+   "identity_key": "candlewood suites jacksonville",
+   "canonical_name": "Candlewood Suites Jacksonville",
+   "corridor": "jacksonville-nc__western-boulevard",
+   "surface": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+   "operative_quote": "Pets are welcome at Candlewood Suites Jacksonville.\nPet policy description. Pets allowed with nonrefundable fee. Fifty dollars for one to seven nights. Each pet must weigh less than 80lbs. Animal must be crated when guest is not in room. A pet contract is required to be signed. Service Dogs are free of charge.\nPet weight limit: 80\n2 pets allowed\nPets allowed: Only dogs and cats allowed",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 80.0,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets are welcome at Candlewood Suites Jacksonville.\nPet policy description. Pets allowed with nonrefundable fee. Fifty dollars for one to seven nights. Each pet must weigh less than 80lbs. Animal must be crated when guest is not in room. A pet contract is required to be signed. Service Dogs are free of charge.\nPet weight limit: 80\n2 pets allowed\nPets allowed: Only dogs and cats allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Candlewood Suites Jacksonville.\nPet policy description. Pets allowed with nonrefundable fee. Fifty dollars for one to seven nights. Each pet must weigh less than 80lbs. Animal must be crated when guest is not in room. A pet contract is required to be signed. Service Dogs are free of charge.\nPet weight limit: 80\n2 pets allowed\nPets allowed: Only dogs and cats allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Candlewood Suites Jacksonville.\nPet policy description. Pets allowed with nonrefundable fee. Fifty dollars for one to seven nights. Each pet must weigh less than 80lbs. Animal must be crated when guest is not in room. A pet contract is required to be signed. Service Dogs are free of charge.\nPet weight limit: 80\n2 pets allowed\nPets allowed: Only dogs and cats allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Candlewood Suites Jacksonville.\nPet policy description. Pets allowed with nonrefundable fee. Fifty dollars for one to seven nights. Each pet must weigh less than 80lbs. Animal must be crated when guest is not in room. A pet contract is required to be signed. Service Dogs are free of charge.\nPet weight limit: 80\n2 pets allowed\nPets allowed: Only dogs and cats allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "WYNDHAM",
+   "source_url": "https://www.wyndhamhotels.com/days-inn/jacksonville-north-carolina/days-inn-jacksonville-nc/overview",
+   "final_url": "https://www.wyndhamhotels.com/days-inn/jacksonville-north-carolina/days-inn-jacksonville-nc/overview",
+   "document_sha256": "03a6fcebd0c57884e45e15afffbd7f958cb02182edfb7bad009dfc79918163ed",
+   "document_bytes": 541721,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Days Inn by Wyndham Jacksonville NC",
+    "address_on_page": "505 North Marine Blvd",
+    "postal_code": "28540",
+    "locality": "Jacksonville",
+    "region": "NC",
+    "phone_on_page": "910-3475131",
+    "property_code_on_page": "09475"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "09475",
+   "identity_key": "days inn by wyndham jacksonville nc",
+   "canonical_name": "Days Inn by Wyndham Jacksonville NC",
+   "corridor": "jacksonville-nc__marine-boulevard-us-17",
+   "surface": "the client-rendered .pet-policy-desc element on the property's own page",
+   "operative_quote": "Service Animals - ADA-defined service animals welcome. / Pets Allowed. 30lbs or less per pet. / Fees - 25USD per night. / Other Information - Contact hotel for additional details and availability.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 2500,
+    "fee_currency": "USD",
+    "weight_limit": 30.0,
+    "fee_basis": "per_night",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Service Animals - ADA-defined service animals welcome. / Pets Allowed. 30lbs or less per pet. / Fees - 25USD per night. / Other Information - Contact hotel for additional details and availability.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals welcome. / Pets Allowed. 30lbs or less per pet. / Fees - 25USD per night. / Other Information - Contact hotel for additional details and availability.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals welcome. / Pets Allowed. 30lbs or less per pet. / Fees - 25USD per night. / Other Information - Contact hotel for additional details and availability.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Service Animals - ADA-defined service animals welcome. / Pets Allowed. 30lbs or less per pet. / Fees - 25USD per night. / Other Information - Contact hotel for additional details and availability.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "EXTENDED_STAY",
+   "source_url": "https://www.extendedstayamerica.com/hotels/nc/jacksonville/camp-lejeune",
+   "final_url": "https://www.extendedstayamerica.com/hotels/nc/jacksonville/camp-lejeune",
+   "document_sha256": "8cbd4147d733eb0fc0db615ae2d839bbae78828946d61604b524a51b3a1c4ae7",
+   "document_bytes": 456546,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Extended Stay America - Jacksonville - Camp Lejeune",
+    "address_on_page": "20 McDaniel Dr.",
+    "postal_code": "28546",
+    "locality": "Jacksonville",
+    "region": "NC",
+    "phone_on_page": "+19103477684",
+    "property_code_on_page": null
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PHONE_ON_THE_PROPERTYS_OWN_PAGE",
+   "property_code": null,
+   "identity_key": "extended stay america jacksonville camp lejeune",
+   "canonical_name": "Extended Stay America - Jacksonville - Camp Lejeune",
+   "corridor": "jacksonville-nc__western-boulevard",
+   "surface": "the property's own page, Pet Policy block",
+   "operative_quote": "Pet Policy A maximum of two pets are allowed in each suite.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy A maximum of two pets are allowed in each suite.",
+     "location": "the property's own page, Pet Policy block",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy A maximum of two pets are allowed in each suite.",
+     "location": "the property's own page, Pet Policy block",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/oajnchx-hampton-suites-jacksonville/",
+   "final_url": "https://www.hilton.com/en/hotels/oajnchx-hampton-suites-jacksonville/",
+   "document_sha256": "481f60fca5b4fea431b69a291972c1c4548b069f47a1b44699b127644032f4d7",
+   "document_bytes": 274404,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn & Suites Jacksonville",
+    "address_on_page": "1032 Hampton Inn Way",
+    "postal_code": "28546",
+    "locality": "Jacksonville",
+    "region": "NC",
+    "phone_on_page": "+1 910-347-3400",
+    "property_code_on_page": "oajnchx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "oajnchx",
+   "identity_key": "hampton inn and suites jacksonville",
+   "canonical_name": "Hampton Inn & Suites Jacksonville",
+   "corridor": "jacksonville-nc__western-boulevard",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only, 75 pound max weight combined",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": 75.0,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "fee_refundable": false,
+    "weight_basis": "combined",
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only, 75 pound max weight combined",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only, 75 pound max weight combined",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only, 75 pound max weight combined",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only, 75 pound max weight combined",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only, 75 pound max weight combined",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only, 75 pound max weight combined",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only, 75 pound max weight combined",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n)2petsMax,dog/cat only, 75 pound max weight combined",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "weight_basis"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/oajswhx-hampton-suites-swansboro-near-camp-lejeune/",
+   "final_url": "https://www.hilton.com/en/hotels/oajswhx-hampton-suites-swansboro-near-camp-lejeune/",
+   "document_sha256": "39d63dae5fff32dd0f9cf45c6f42ee753e4ecfc3ee1703397d1613dee97069b3",
+   "document_bytes": 276196,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn & Suites Swansboro Near Camp Lejeune",
+    "address_on_page": "215 Old Hammock Road",
+    "postal_code": "28584",
+    "locality": "Swansboro",
+    "region": "NC",
+    "phone_on_page": "+1 910-325-9000",
+    "property_code_on_page": "oajswhx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "oajswhx",
+   "identity_key": "hampton inn and suites swansboro near camp lejeune",
+   "canonical_name": "Hampton Inn & Suites Swansboro Near Camp Lejeune",
+   "corridor": "jacksonville-nc__swansboro",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "fee_refundable": false,
+    "fee_basis": "per_stay"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/oajsfhx-hampton-sneads-ferry-north-topsail-beach/",
+   "final_url": "https://www.hilton.com/en/hotels/oajsfhx-hampton-sneads-ferry-north-topsail-beach/",
+   "document_sha256": "db4b4e3f5134fc848e5dfa5d44a8d9553a766c2cd1d8bc2a2bf3c0a9786d5c70",
+   "document_bytes": 273083,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn Sneads Ferry North Topsail Beach",
+    "address_on_page": "1248 NC Highway 210",
+    "postal_code": "28460",
+    "locality": "Sneads Ferry",
+    "region": "NC",
+    "phone_on_page": "+1 910-327-5555",
+    "property_code_on_page": "oajsfhx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "oajsfhx",
+   "identity_key": "hampton inn sneads ferry north topsail beach",
+   "canonical_name": "Hampton Inn Sneads Ferry North Topsail Beach",
+   "corridor": "jacksonville-nc__sneads-ferry",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "fee_refundable": false,
+    "fee_basis": "per_stay"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/oajwbgi-hilton-garden-inn-jacksonville/",
+   "final_url": "https://www.hilton.com/en/hotels/oajwbgi-hilton-garden-inn-jacksonville/",
+   "document_sha256": "9e61b128fb0fba359f701dce9b97ba389e40bcbf06c3fe89f79396d3ead70884",
+   "document_bytes": 270968,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hilton Garden Inn Jacksonville",
+    "address_on_page": "1016 Jacksonville Parkway",
+    "postal_code": "28546",
+    "locality": "Jacksonville",
+    "region": "NC",
+    "phone_on_page": "+1 910-346-2400",
+    "property_code_on_page": "oajwbgi"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "oajwbgi",
+   "identity_key": "hilton garden inn jacksonville",
+   "canonical_name": "Hilton Garden Inn Jacksonville",
+   "corridor": "jacksonville-nc__western-boulevard",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": 75.0,
+    "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "IHG",
+   "source_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/jacksonville/oajhi/hoteldetail",
+   "final_url": "https://www.ihg.com/holidayinnexpress/hotels/us/en/jacksonville/oajhi/hoteldetail",
+   "document_sha256": "0282f72d3c760e9d388d43a46c70b5cffe6cb8bace9a33d574adfa85f37c44f3",
+   "document_bytes": 273309,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Holiday Inn Express & Suites Jacksonville-Camp LeJeune Area",
+    "address_on_page": "139 Moosehaven Road",
+    "postal_code": "28546",
+    "locality": "Jacksonville",
+    "region": "NC",
+    "phone_on_page": "1-910-2191099",
+    "property_code_on_page": "oajhi"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "oajhi",
+   "identity_key": "holiday inn express and suites jacksonville camp lejeune area",
+   "canonical_name": "Holiday Inn Express & Suites Jacksonville-Camp LeJeune Area",
+   "corridor": "jacksonville-nc__western-boulevard",
+   "surface": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+   "operative_quote": "Pets are welcome at Holiday Inn Express & Suites Jacksonville-Camp LeJeune Area.\nPet policy description. Pet fee is dependent upon the number of pets and the number of nights staying. 1 pet for up to 4 nights is 50.00 and after 4 nights it becomes 100.00. 2 pets for up to 4 nights is 75.00 and after 4 nights it becomes 150.00.\nPet fee per stay: 50 USD\nPet weight limit: 75\n2 pets allowed\nPets allowed: Only dogs and cats allowed",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 75.0,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets are welcome at Holiday Inn Express & Suites Jacksonville-Camp LeJeune Area.\nPet policy description. Pet fee is dependent upon the number of pets and the number of nights staying. 1 pet for up to 4 nights is 50.00 and after 4 nights it becomes 100.00. 2 pets for up to 4 nights is 75.00 and after 4 nights it becomes 150.00.\nPet fee per stay: 50 USD\nPet weight limit: 75\n2 pets allowed\nPets allowed: Only dogs and cats allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Holiday Inn Express & Suites Jacksonville-Camp LeJeune Area.\nPet policy description. Pet fee is dependent upon the number of pets and the number of nights staying. 1 pet for up to 4 nights is 50.00 and after 4 nights it becomes 100.00. 2 pets for up to 4 nights is 75.00 and after 4 nights it becomes 150.00.\nPet fee per stay: 50 USD\nPet weight limit: 75\n2 pets allowed\nPets allowed: Only dogs and cats allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Holiday Inn Express & Suites Jacksonville-Camp LeJeune Area.\nPet policy description. Pet fee is dependent upon the number of pets and the number of nights staying. 1 pet for up to 4 nights is 50.00 and after 4 nights it becomes 100.00. 2 pets for up to 4 nights is 75.00 and after 4 nights it becomes 150.00.\nPet fee per stay: 50 USD\nPet weight limit: 75\n2 pets allowed\nPets allowed: Only dogs and cats allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets are welcome at Holiday Inn Express & Suites Jacksonville-Camp LeJeune Area.\nPet policy description. Pet fee is dependent upon the number of pets and the number of nights staying. 1 pet for up to 4 nights is 50.00 and after 4 nights it becomes 100.00. 2 pets for up to 4 nights is 75.00 and after 4 nights it becomes 150.00.\nPet fee per stay: 50 USD\nPet weight limit: 75\n2 pets allowed\nPets allowed: Only dogs and cats allowed",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/jkvncht-home2-suites-jacksonville-nc/",
+   "final_url": "https://www.hilton.com/en/hotels/jkvncht-home2-suites-jacksonville-nc/",
+   "document_sha256": "37d321a25fb0d744d49665e8b143005a486fabe52467b896b0959a28ba23b4a5",
+   "document_bytes": 275399,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Home2 Suites by Hilton Jacksonville, NC",
+    "address_on_page": "139 Circuit Lane",
+    "postal_code": "28546",
+    "locality": "Jacksonville",
+    "region": "NC",
+    "phone_on_page": "+1 910-355-3500",
+    "property_code_on_page": "jkvncht"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "jkvncht",
+   "identity_key": "home2 suites by hilton jacksonville nc",
+   "canonical_name": "Home2 Suites by Hilton Jacksonville, NC",
+   "corridor": "jacksonville-nc__western-boulevard",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, $75 1-4 nights/$125 5+nights, 2 pets max",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_stay"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75 1-4 nights/$125 5+nights, 2 pets max",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75 1-4 nights/$125 5+nights, 2 pets max",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75 1-4 nights/$125 5+nights, 2 pets max",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75 1-4 nights/$125 5+nights, 2 pets max",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, $75 1-4 nights/$125 5+nights, 2 pets max",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/oajanht-home2-suites-sneads-ferry-north-topsail-beach/",
+   "final_url": "https://www.hilton.com/en/hotels/oajanht-home2-suites-sneads-ferry-north-topsail-beach/",
+   "document_sha256": "5d701373c61ab60d2e0766da8595cc932500528ffb5490334b18b326af189b07",
+   "document_bytes": 275029,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Home2 Suites by Hilton Sneads Ferry North Topsail Beach",
+    "address_on_page": "1039 North Carolina Highway 210",
+    "postal_code": "28460",
+    "locality": "Sneads Ferry",
+    "region": "NC",
+    "phone_on_page": "+1 910-240-0032",
+    "property_code_on_page": "oajanht"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "oajanht",
+   "identity_key": "home2 suites by hilton sneads ferry north topsail beach",
+   "canonical_name": "Home2 Suites by Hilton Sneads Ferry North Topsail Beach",
+   "corridor": "jacksonville-nc__sneads-ferry",
+   "surface": "the __NEXT_DATA__ petsInfo node on the property's own page",
+   "operative_quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": 50.0,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "species_allowed"
+     ]
+    },
+    {
+     "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat only",
+     "location": "the __NEXT_DATA__ petsInfo node on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "MY_PLACE",
+   "source_url": "https://www.myplacehotels.com/locations/my-place-hotel-jacksonville-nc",
+   "final_url": "https://www.myplacehotels.com/locations/my-place-hotel-jacksonville-nc",
+   "document_sha256": "0314c1d689c3eb1bae8e0503dd38d2a2b272d24040705d5b5060aab300930039",
+   "document_bytes": 273624,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "My Place Hotel-Jacksonville/Camp Lejeune, NC",
+    "address_on_page": "401 Northwest Circle",
+    "postal_code": "28546",
+    "locality": "Jacksonville",
+    "region": "NC",
+    "phone_on_page": "(910) 968-0250",
+    "property_code_on_page": null
+   },
+   "identity_binding_method": "ADDRESS_BLOCK_AND_PHONE_ON_THE_PROPERTYS_OWN_PAGE",
+   "property_code": null,
+   "identity_key": "my place hotel jacksonville camp lejeune nc",
+   "canonical_name": "My Place Hotel-Jacksonville/Camp Lejeune, NC",
+   "corridor": "jacksonville-nc__western-boulevard",
+   "surface": "the brand's own property page, pet paragraph",
+   "operative_quote": "We also welcome dogs and cats at My Place! Maximum of two pets per room and pet fee that applies per room per night.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "evidence": [
+    {
+     "quote": "We also welcome dogs and cats at My Place! Maximum of two pets per room and pet fee that applies per room per night.",
+     "location": "the brand's own property page, pet paragraph",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "We also welcome dogs and cats at My Place! Maximum of two pets per room and pet fee that applies per room per night.",
+     "location": "the brand's own property page, pet paragraph",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "We also welcome dogs and cats at My Place! Maximum of two pets per room and pet fee that applies per room per night.",
+     "location": "the brand's own property page, pet paragraph",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "RED_ROOF",
+   "source_url": "https://www.redroof.com/property/nc/jacksonville/rri494",
+   "final_url": "https://www.redroof.com/property/nc/jacksonville/rri494",
+   "document_sha256": "6db8f0f85dd24403d50e5aeb913e027c7daeacdbbb6e78a77bf33b7a6bb5b794",
+   "document_bytes": 434088,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Red Roof Inn Jacksonville, NC",
+    "address_on_page": "1723 Lejeune Blvd",
+    "postal_code": "28546",
+    "locality": "Jacksonville",
+    "region": "NC",
+    "phone_on_page": "1-937-505-5916",
+    "property_code_on_page": null
+   },
+   "identity_binding_method": "HOTEL_JSONLD_STREET_AND_PAGE_POSTAL_CODE_AND_PROPERTY_CODE",
+   "property_code": null,
+   "identity_key": "red roof inn jacksonville nc",
+   "canonical_name": "Red Roof Inn Jacksonville, NC",
+   "corridor": "jacksonville-nc__western-boulevard",
+   "surface": "the property's own page, Pet Policy sentence",
+   "operative_quote": "Pet Policy: One, well-behaved domestic pet (cat or dog) Stays Free! Pets must be declared at check-in. Up to 2 pets allowed per room. Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay. Pet not to exceed 80 pounds. Service and emotional support animals are always welcome.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "weight_limit": 80.0,
+    "pet_count_limit": 2,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ],
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy: One, well-behaved domestic pet (cat or dog) Stays Free! Pets must be declared at check-in. Up to 2 pets allowed per room. Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay. Pet not to exceed 80 pounds. Service and emotional support animals are always welcome.",
+     "location": "the property's own page, Pet Policy sentence",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy: One, well-behaved domestic pet (cat or dog) Stays Free! Pets must be declared at check-in. Up to 2 pets allowed per room. Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay. Pet not to exceed 80 pounds. Service and emotional support animals are always welcome.",
+     "location": "the property's own page, Pet Policy sentence",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy: One, well-behaved domestic pet (cat or dog) Stays Free! Pets must be declared at check-in. Up to 2 pets allowed per room. Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay. Pet not to exceed 80 pounds. Service and emotional support animals are always welcome.",
+     "location": "the property's own page, Pet Policy sentence",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pet Policy: One, well-behaved domestic pet (cat or dog) Stays Free! Pets must be declared at check-in. Up to 2 pets allowed per room. Second pet $15/ night, not to exceed 7 nights or $105 per pet per stay. Pet not to exceed 80 pounds. Service and emotional support animals are always welcome.",
+     "location": "the property's own page, Pet Policy sentence",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "IHG",
+   "source_url": "https://www.ihg.com/staybridge/hotels/us/en/jacksonville/jkvsb/hoteldetail",
+   "final_url": "https://www.ihg.com/staybridge/hotels/us/en/jacksonville/jkvsb/hoteldetail",
+   "document_sha256": "aa6139a3f9bee370d2b3a4380a8dfbe3fb09369bd283ca4a1b1a29ada2328f18",
+   "document_bytes": 222491,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Staybridge Suites Jacksonville-Camp Lejeune Area",
+    "address_on_page": "110 Cobia Court",
+    "postal_code": "28546",
+    "locality": "Jacksonville",
+    "region": "NC",
+    "phone_on_page": "1-910-3532513",
+    "property_code_on_page": "jkvsb"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "jkvsb",
+   "identity_key": "staybridge suites jacksonville camp lejeune area",
+   "canonical_name": "Staybridge Suites Jacksonville-Camp Lejeune Area",
+   "corridor": "jacksonville-nc__western-boulevard",
+   "surface": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+   "operative_quote": "Pets are welcome at Staybridge Suites Jacksonville-Camp Lejeune Area. Our Pet Policy: Nonrefundable fee of 75 USD PER WEEK. Each pet must weigh less than 50 pounds. Limit 2 pets. Record of complete up to date vaccinations required. Additional charges may apply for damages or excessive cleaning. Call for details.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true
+   },
+   "evidence": [
+    {
+     "quote": "Pets are welcome at Staybridge Suites Jacksonville-Camp Lejeune Area. Our Pet Policy: Nonrefundable fee of 75 USD PER WEEK. Each pet must weigh less than 50 pounds. Limit 2 pets. Record of complete up to date vaccinations required. Additional charges may apply for damages or excessive cleaning. Call for details.",
+     "location": "the brand's own FAQ answer to 'Can I bring my pet to X?'",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://www.topsailshoresinn.com/",
+   "final_url": "https://www.topsailshoresinn.com/",
+   "document_sha256": "e1bae5da580eb964acbc06e8eacd180c7ca43efec21e36a56f9a69e93be5c58d",
+   "document_bytes": 70788,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Topsail Shores Inn",
+    "address_on_page": "1325 NC Hwy 210",
+    "postal_code": "28460",
+    "locality": "Sneads Ferry",
+    "region": "NC",
+    "phone_on_page": "910-685-0969",
+    "property_code_on_page": null
+   },
+   "identity_binding_method": "JSONLD_ADDRESS_AND_PHONE_ON_THE_PROPERTYS_OWN_SITE",
+   "property_code": null,
+   "identity_key": "topsail shores inn",
+   "canonical_name": "Topsail Shores Inn",
+   "corridor": "jacksonville-nc__sneads-ferry",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "As one of the few pet-friendly hotels, we proudly allow cats and dogs here at Topsail Shores Inn.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "species_allowed": [
+     "cat",
+     "dog"
+    ]
+   },
+   "evidence": [
+    {
+     "quote": "As one of the few pet-friendly hotels, we proudly allow cats and dogs here at Topsail Shores Inn.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "As one of the few pet-friendly hotels, we proudly allow cats and dogs here at Topsail Shores Inn.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "species_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/oajts-towneplace-suites-jacksonville/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/oajts-towneplace-suites-jacksonville/overview/",
+   "document_sha256": "56c42f6c86ef803ea9d394c8d1f4444f7a2a6d90aae72b8edbfea312e89bd858",
+   "document_bytes": 494661,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "TownePlace Suites by Marriott Jacksonville",
+    "address_on_page": "400 Northwest Circle",
+    "postal_code": "28546",
+    "locality": "Jacksonville",
+    "region": "NC",
+    "phone_on_page": "+19104789795",
+    "property_code_on_page": "oajts"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "oajts",
+   "identity_key": "towneplace suites by marriott jacksonville",
+   "canonical_name": "TownePlace Suites by Marriott Jacksonville",
+   "corridor": "jacksonville-nc__western-boulevard",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Welcome | Daily cleaning fee of $5/ day in addition to the one time non-refundable pet fee | Non-Refundable Pet Fee Per Stay: $100.00 | Non-Refundable Pet Fee Per Night: $5.00 | Maximum Number of Pets in Room: 2",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_count_limit": 2
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Welcome | Daily cleaning fee of $5/ day in addition to the one time non-refundable pet fee | Non-Refundable Pet Fee Per Stay: $100.00 | Non-Refundable Pet Fee Per Night: $5.00 | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pet Policy | Pets Welcome | Daily cleaning fee of $5/ day in addition to the one time non-refundable pet fee | Non-Refundable Pet Fee Per Stay: $100.00 | Non-Refundable Pet Fee Per Night: $5.00 | Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    }
+   ]
+  }
+ ],
+ "clean_verified_no_pets": [
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/oajcy-courtyard-jacksonville/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/oajcy-courtyard-jacksonville/overview/",
+   "document_sha256": "82e52c1688918cd423c484fa9a0343105d670ad149efa392c52bb5d1e7ef6b2b",
+   "document_bytes": 785762,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Courtyard by Marriott Jacksonville",
+    "address_on_page": "5046 Henderson Drive",
+    "postal_code": "28546",
+    "locality": "Jacksonville",
+    "region": "NC",
+    "phone_on_page": "+19109373300",
+    "property_code_on_page": "oajcy"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "oajcy",
+   "identity_key": "courtyard by marriott jacksonville",
+   "canonical_name": "Courtyard by Marriott Jacksonville",
+   "corridor": "jacksonville-nc__western-boulevard",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Not Allowed",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Not Allowed",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/oajfi-fairfield-inn-and-suites-jacksonville/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/oajfi-fairfield-inn-and-suites-jacksonville/overview/",
+   "document_sha256": "cda4f195c78a6a3c153fe0f5632c376ea5bcf8c27f6bbf4ea20245c3369ead0a",
+   "document_bytes": 567663,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Fairfield by Marriott Inn & Suites Jacksonville",
+    "address_on_page": "121 Circuit Lane",
+    "postal_code": "28546",
+    "locality": "Jacksonville",
+    "region": "NC",
+    "phone_on_page": "+19109384499",
+    "property_code_on_page": "oajfi"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "oajfi",
+   "identity_key": "fairfield by marriott inn and suites jacksonville",
+   "canonical_name": "Fairfield by Marriott Inn & Suites Jacksonville",
+   "corridor": "jacksonville-nc__western-boulevard",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pet Policy | Pets Not Allowed | No pets allowed-service animals only",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "Pet Policy | Pets Not Allowed | No pets allowed-service animals only",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "WYNDHAM",
+   "source_url": "https://www.wyndhamhotels.com/microtel/jacksonville-north-carolina/microtel-inn-and-suites-by-wyndham-camp-lejeune-jacksonville/overview",
+   "final_url": "https://www.wyndhamhotels.com/microtel/jacksonville-north-carolina/microtel-inn-and-suites-by-wyndham-camp-lejeune-jacksonville/overview",
+   "document_sha256": "43bf559551fcb61e10279e2d1102717fa3b8dd5317a29a4e326a55253f689532",
+   "document_bytes": 571483,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Microtel Inn & Suites by Wyndham Camp Lejeune/Jacksonville",
+    "address_on_page": "2411 Commerce Rd",
+    "postal_code": "28546",
+    "locality": "Jacksonville",
+    "region": "NC",
+    "phone_on_page": "910-333-9232",
+    "property_code_on_page": "30909"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "30909",
+   "identity_key": "microtel inn and suites by wyndham camp lejeune jacksonville",
+   "canonical_name": "Microtel Inn & Suites by Wyndham Camp Lejeune/Jacksonville",
+   "corridor": "jacksonville-nc__western-boulevard",
+   "surface": "the client-rendered .pet-policy-desc element on the property's own page",
+   "operative_quote": "ADA defined service animals are welcome at this hotel. Sorry no other pets are allowed.",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "ADA defined service animals are welcome at this hotel. Sorry no other pets are allowed.",
+     "location": "the client-rendered .pet-policy-desc element on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  }
+ ],
+ "rejected": [
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/hvlnchx-hampton-havelock/",
+   "final_url": "https://www.hilton.com/en/hotels/hvlnchx-hampton-havelock/",
+   "document_sha256": "3c5d023f145cfce22f56274a142052ca22d2f6468518f67558fccca95312acba",
+   "document_bytes": 275098,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn Havelock",
+    "address_on_page": "105 Tourist Center Drive",
+    "postal_code": "28532",
+    "locality": "Havelock",
+    "region": "NC",
+    "phone_on_page": "+1 252-447-9400",
+    "property_code_on_page": "hvlnchx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "hvlnchx",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (the row's own municipality 'Havelock' is a place the geography refuses by name); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$100(5+n) 2petsMax,dog/cat only"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/nbrnchx-hampton-new-bern/",
+   "final_url": "https://www.hilton.com/en/hotels/nbrnchx-hampton-new-bern/",
+   "document_sha256": "c7815de80a84cc6489850dbfe7af8d078c4c4301d93fe9ff03638eddb21e687e",
+   "document_bytes": 271215,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn New Bern",
+    "address_on_page": "200 Hotel Drive",
+    "postal_code": "28562",
+    "locality": "New Bern",
+    "region": "NC",
+    "phone_on_page": "+1 252-637-2111",
+    "property_code_on_page": "nbrnchx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "nbrnchx",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (the row's own municipality 'New Bern' is a place the geography refuses by name); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1 to 4 Nights),$125(5+ Nights) 2 Pets Max, Dog/Cat Only"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/ewnmsdt-doubletree-new-bern-riverfront/",
+   "final_url": "https://www.hilton.com/en/hotels/ewnmsdt-doubletree-new-bern-riverfront/",
+   "document_sha256": "84460d5f4c88ed2aabd04477a86563be23f59f0730031af6f98a8ab3fab51dc0",
+   "document_bytes": 283780,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "DoubleTree by Hilton Hotel New Bern Riverfront",
+    "address_on_page": "100 Middle Street",
+    "postal_code": "28560",
+    "locality": "New Bern",
+    "region": "NC",
+    "phone_on_page": "+1 252-658-9000",
+    "property_code_on_page": "ewnmsdt"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "ewnmsdt",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (the row's own municipality 'New Bern' is a place the geography refuses by name); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/cltriup-tryon-riverfront-inn-new-bern/",
+   "final_url": "https://www.hilton.com/en/hotels/cltriup-tryon-riverfront-inn-new-bern/",
+   "document_sha256": "e0c9bf9898f2b53ece66907f3889bd6dbcd7c7b0e94993dee44d61b1b1de5819",
+   "document_bytes": 258421,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Tryon Riverfront Inn New Bern, Tapestry Collection by Hilton",
+    "address_on_page": "100 Craven St.",
+    "postal_code": "28560",
+    "locality": "New Bern",
+    "region": "NC",
+    "phone_on_page": "+1 252-649-0950",
+    "property_code_on_page": "cltriup"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "cltriup",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (the row's own municipality 'New Bern' is a place the geography refuses by name); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/oajdtdt-doubletree-atlantic-beach-oceanfront/",
+   "final_url": "https://www.hilton.com/en/hotels/oajdtdt-doubletree-atlantic-beach-oceanfront/",
+   "document_sha256": "66e4b1d9053b637660fc5a7907ff0309abdda67fe7bfca05fd67dd88c007c767",
+   "document_bytes": 302822,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "DoubleTree by Hilton Hotel Atlantic Beach Oceanfront",
+    "address_on_page": "2717 West Fort Macon Road",
+    "postal_code": "28512",
+    "locality": "Atlantic Beach",
+    "region": "NC",
+    "phone_on_page": "+1 252-240-1155",
+    "property_code_on_page": "oajdtdt"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "oajdtdt",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (the row's own municipality 'Atlantic Beach' is a place the geography refuses by name); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/mornchx-hampton-morehead-city/",
+   "final_url": "https://www.hilton.com/en/hotels/mornchx-hampton-morehead-city/",
+   "document_sha256": "fe4649e6ad158d632f52e461ed24b6a852e8fe00977679c4620b292f63c4c94f",
+   "document_bytes": 292752,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn Morehead City",
+    "address_on_page": "4035 Arendell St.",
+    "postal_code": "28557",
+    "locality": "Morehead City",
+    "region": "NC",
+    "phone_on_page": "+1 252-240-2300",
+    "property_code_on_page": "mornchx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "mornchx",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (the row's own municipality 'Morehead City' is a place the geography refuses by name); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75 (1-5), $150 (6-9), $225 (10+) 2 pets Max."
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/ilmmmru-tru-wilmington-wrightsville-beach/",
+   "final_url": "https://www.hilton.com/en/hotels/ilmmmru-tru-wilmington-wrightsville-beach/",
+   "document_sha256": "b3735dd542aca7a20b88b9a83e12d008a8621b6e1e1e917d645c7f0f39c6d775",
+   "document_bytes": 279322,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Tru by Hilton Wilmington Wrightsville Beach",
+    "address_on_page": "1010 Ashes Drive",
+    "postal_code": "28405",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "+1 910-212-6868",
+    "property_code_on_page": "ilmmmru"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "ilmmmru",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (the row's own municipality 'Wilmington' is a place the geography refuses by name); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n), $125(5+n) 2 pet Max, dog/cat only"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/ilmmthw-homewood-suites-wilmington-mayfaire-nc/",
+   "final_url": "https://www.hilton.com/en/hotels/ilmmthw-homewood-suites-wilmington-mayfaire-nc/",
+   "document_sha256": "8c767ff67d3b38c92d349698976e2aaa00ea3940778cceb31e8c85fbbd1e098e",
+   "document_bytes": 275051,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Homewood Suites by Hilton Wilmington/Mayfaire, NC",
+    "address_on_page": "6732 Swan Mill Road",
+    "postal_code": "28405",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "+1 910-791-7272",
+    "property_code_on_page": "ilmmthw"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "ilmmthw",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (the row's own municipality 'Wilmington' is a place the geography refuses by name); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $75.00 non-refundable fee, $75 for 1-4 Nights, $125 for 5+Nights/2 Pets Max"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/ilmtcgi-hilton-garden-inn-wilmington-mayfaire-town-center/",
+   "final_url": "https://www.hilton.com/en/hotels/ilmtcgi-hilton-garden-inn-wilmington-mayfaire-town-center/",
+   "document_sha256": "ee803336f68379f6f099b726258a4181b604cb3b5286ba8e2176fc9ab882e4c4",
+   "document_bytes": 310805,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hilton Garden Inn Wilmington Mayfaire Town Center",
+    "address_on_page": "6745 Rock Spring Road",
+    "postal_code": "28405",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "+1 910-509-4046",
+    "property_code_on_page": "ilmtcgi"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "ilmtcgi",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (the row's own municipality 'Wilmington' is a place the geography refuses by name); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax,dog/cat onl"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/ilmwvhx-hampton-suites-wilmington-wrightsville-beach/",
+   "final_url": "https://www.hilton.com/en/hotels/ilmwvhx-hampton-suites-wilmington-wrightsville-beach/",
+   "document_sha256": "7269cf484cb80e20d2f44358334df9122b4abc2adb04952a1caadff1d798a87e",
+   "document_bytes": 278008,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn & Suites Wilmington/Wrightsville Beach",
+    "address_on_page": "1989 Eastwood Road",
+    "postal_code": "28403",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "+1 910-256-9600",
+    "property_code_on_page": "ilmwvhx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "ilmwvhx",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (the row's own municipality 'Wilmington' is a place the geography refuses by name); a read cannot promote a row the identity graph withheld",
+   "quote": "Service animals only"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/ilmwmht-home2-suites-wilmington-wrightsville-beach/",
+   "final_url": "https://www.hilton.com/en/hotels/ilmwmht-home2-suites-wilmington-wrightsville-beach/",
+   "document_sha256": "acae72d3b2e6991b7796c6187a71816a3f52192370709cfd4ea3f5c4eb6515ec",
+   "document_bytes": 276434,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Home2 Suites by Hilton Wilmington Wrightsville Beach",
+    "address_on_page": "5518 Market Street",
+    "postal_code": "28403",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "+1 910-395-8000",
+    "property_code_on_page": "ilmwmht"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "ilmwmht",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (the row's own municipality 'Wilmington' is a place the geography refuses by name); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $75.00 non-refundable fee, $75(1-4n),$125(5+n) 2petsMax,dog/cat only"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/ilmewhx-hampton-wilmington-university-area-smith-creek-station/",
+   "final_url": "https://www.hilton.com/en/hotels/ilmewhx-hampton-wilmington-university-area-smith-creek-station/",
+   "document_sha256": "2b9ed3cfeb09d30e322cff1013512725b9f8f6f7ac4c87f3d8cfae1418bff23f",
+   "document_bytes": 278503,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn Wilmington-University Area/Smith Creek Station",
+    "address_on_page": "124 Old Eastwood Road",
+    "postal_code": "28403",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "+1 910-791-9899",
+    "property_code_on_page": "ilmewhx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "ilmewhx",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (the row's own municipality 'Wilmington' is a place the geography refuses by name); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $125.00 non-refundable fee, $75(1-4n) <OR> $125(5+n) 2pets Max,dog/cat onl"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/ilmwidt-doubletree-wilmington/",
+   "final_url": "https://www.hilton.com/en/hotels/ilmwidt-doubletree-wilmington/",
+   "document_sha256": "09513e9eaa5c3004696dcabe14c140a879493a5b646c6df20f109c1b18a4551c",
+   "document_bytes": 269140,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "DoubleTree by Hilton Wilmington",
+    "address_on_page": "5032 Market Street",
+    "postal_code": "28405",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "+1 910-392-1101",
+    "property_code_on_page": "ilmwidt"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "ilmwidt",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (the row's own municipality 'Wilmington' is a place the geography refuses by name); a read cannot promote a row the identity graph withheld",
+   "quote": "Service animals only"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/ilmliup-hotel-lela-wilmington/",
+   "final_url": "https://www.hilton.com/en/hotels/ilmliup-hotel-lela-wilmington/",
+   "document_sha256": "27af94d1e7aa554c3befcad0681691940e992debc95514812166474ed12a026f",
+   "document_bytes": 239018,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hotel Lela Wilmington, Tapestry Collection by Hilton",
+    "address_on_page": "5001 Market Street",
+    "postal_code": "28405",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "+1 910-202-8494",
+    "property_code_on_page": "ilmliup"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "ilmliup",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (the row's own municipality 'Wilmington' is a place the geography refuses by name); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4 nights), $125(5+ nights) 2 pets Max, dog/cat only"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/ilmturu-tru-wilmington/",
+   "final_url": "https://www.hilton.com/en/hotels/ilmturu-tru-wilmington/",
+   "document_sha256": "f49639e6048c04cf4eca9b49b23f52aa01790ea79ebc4b9425ca8cf7037bce68",
+   "document_bytes": 287934,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Tru by Hilton Wilmington",
+    "address_on_page": "5001-A Market St",
+    "postal_code": "28405",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "+1 910-202-8292",
+    "property_code_on_page": "ilmturu"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "ilmturu",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (the row's own municipality 'Wilmington' is a place the geography refuses by name); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4 nights), $125(5+ nights) 2 pets Max, dog/cat only"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/ilmmipe-spark-wilmington/",
+   "final_url": "https://www.hilton.com/en/hotels/ilmmipe-spark-wilmington/",
+   "document_sha256": "6ec12e044712521197a7ecd1e5af1e40f10c14f7f95c4ebd1831c7802d644aae",
+   "document_bytes": 285988,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Spark by Hilton Wilmington",
+    "address_on_page": "4721 Market Street",
+    "postal_code": "28405",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "+1 910-793-9300",
+    "property_code_on_page": "ilmmipe"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "ilmmipe",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (the row's own municipality 'Wilmington' is a place the geography refuses by name); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, 75.00 for 1-4 nights 125.00 for 5 plus nights"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/isonchx-hampton-kinston/",
+   "final_url": "https://www.hilton.com/en/hotels/isonchx-hampton-kinston/",
+   "document_sha256": "2893a7c62cf85d14d72b63f7c2db36db6ab0dfa4181c767b7dc47f0b09231f22",
+   "document_bytes": 270319,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn Kinston",
+    "address_on_page": "1382 Highway 258 South",
+    "postal_code": "28504",
+    "locality": "Kinston",
+    "region": "NC",
+    "phone_on_page": "+1 252-468-0420",
+    "property_code_on_page": "isonchx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "isonchx",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (postal code 28504 is claimed by no corridor of the Jacksonville contract; Camp Lejeune / MCAS New River on-base (28542 /); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75 per pet, per stay (1-4n),$125(5+n) 2petsMax,dog/cat only"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/ilmmdhx-hampton-wilmington-medical-park/",
+   "final_url": "https://www.hilton.com/en/hotels/ilmmdhx-hampton-wilmington-medical-park/",
+   "document_sha256": "8d78e4c11a888ad16877c9ef6778d8ce589b0d04c82a458437e7f6bbd6e9250a",
+   "document_bytes": 273553,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Hampton Inn Wilmington-Medical Park",
+    "address_on_page": "2320 S. 17th Street",
+    "postal_code": "28401",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "+1 910-796-8881",
+    "property_code_on_page": "ilmmdhx"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "ilmmdhx",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (the row's own municipality 'Wilmington' is a place the geography refuses by name); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75(1-4n),$125(5+n) 2petsMax- 75lbs max"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/ilmmpht-home2-suites-wilmington-medical-park-downtown/",
+   "final_url": "https://www.hilton.com/en/hotels/ilmmpht-home2-suites-wilmington-medical-park-downtown/",
+   "document_sha256": "9eab90efe634d194dafb91bd16b22776dda298bfdcce82db39cbb0732b3e4a7d",
+   "document_bytes": 270270,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Home2 Suites by Hilton Wilmington Medical Park Downtown",
+    "address_on_page": "2177 Stonecrop Drive",
+    "postal_code": "28412",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "+1 910-523-5384",
+    "property_code_on_page": "ilmmpht"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "ilmmpht",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (the row's own municipality 'Wilmington' is a place the geography refuses by name); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $75.00 non-refundable fee, 75 lbs maximum, $75.00 Fee 1-5 nights 6 nights and beyond $125.00"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "HILTON",
+   "source_url": "https://www.hilton.com/en/hotels/ilmcbpe-spark-wilmington-carolina-beach-rd/",
+   "final_url": "https://www.hilton.com/en/hotels/ilmcbpe-spark-wilmington-carolina-beach-rd/",
+   "document_sha256": "416fe928d4074abcb5f620caa62341883865ebc138b9480a283dc730bea5afc4",
+   "document_bytes": 269699,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Spark by Hilton Wilmington Carolina Beach Rd",
+    "address_on_page": "5600 Carolina Beach Rd",
+    "postal_code": "28412",
+    "locality": "Wilmington",
+    "region": "NC",
+    "phone_on_page": "+1 910-796-0770",
+    "property_code_on_page": "ilmcbpe"
+   },
+   "identity_binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+   "property_code": "ilmcbpe",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (the row's own municipality 'Wilmington' is a place the geography refuses by name); a read cannot promote a row the identity graph withheld",
+   "quote": "Pets allowed, $75.00 non-refundable fee, 50 lbs maximum, $75(1-4n), $125(5+n) per pet. 2 pets max, cat/dog only. Additional details available at the front desk."
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "WYNDHAM",
+   "source_url": "https://www.wyndhamhotels.com/days-inn/cape-carteret-north-carolina/days-inn-cape-carteret-near-emerald-isle/overview",
+   "final_url": "https://www.wyndhamhotels.com/days-inn/cape-carteret-north-carolina/days-inn-cape-carteret-near-emerald-isle/overview",
+   "document_sha256": "e2b0ca21b410b1d82ceea4d94ebc6c9ef479e00e409aca94608d6355813fe13e",
+   "document_bytes": 511909,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Days Inn by Wyndham Cape Carteret near Emerald Isle",
+    "address_on_page": "1184 Hwy 58",
+    "postal_code": "28584",
+    "locality": "Cape Carteret",
+    "region": "NC",
+    "phone_on_page": "252-393-9000",
+    "property_code_on_page": "50266"
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "50266",
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building OUTSIDE_MARKET (the row's own municipality 'Cape Carteret' is refused by the geography in every admitted postal code: CRYSTAL_COAST_MARK); a read cannot promote a row the identity graph withheld",
+   "quote": "Up to 2 dogs are allowed for a non-refundable charge of 25.00 USD per Dog/Night and a 100.00 USD refundable deposit. Please call for dog room availability. ADA defined service animals are welcome at this hotel."
+  }
+ ],
+ "unresolved_census_identities": [
+  {
+   "identity_key": "affordable suites of america",
+   "canonical_name": "Affordable Suites of America",
+   "brand": "",
+   "corridor": "jacksonville-nc__western-boulevard",
+   "official_url": "https://www.affordablesuites.com/hotels/affordable-suites-jacksonville-nc/"
+  },
+  {
+   "identity_key": "best rest inn",
+   "canonical_name": "Best Rest Inn",
+   "brand": "",
+   "corridor": "jacksonville-nc__marine-boulevard-us-17",
+   "official_url": ""
+  },
+  {
+   "identity_key": "comfort suites near camp lejeune",
+   "canonical_name": "Comfort Suites near Camp Lejeune",
+   "brand": "",
+   "corridor": "jacksonville-nc__western-boulevard",
+   "official_url": "https://www.comfortsuitesjacksonvillenc.com/"
+  },
+  {
+   "identity_key": "keene s motor lodge",
+   "canonical_name": "Keene's Motor Lodge",
+   "brand": "",
+   "corridor": "jacksonville-nc__richlands",
+   "official_url": ""
+  },
+  {
+   "identity_key": "mainstay suites camp lejeune",
+   "canonical_name": "Mainstay Suites Camp Lejeune",
+   "brand": "",
+   "corridor": "jacksonville-nc__western-boulevard",
+   "official_url": ""
+  },
+  {
+   "identity_key": "motel 6 jacksonville nc",
+   "canonical_name": "Motel 6 Jacksonville, NC",
+   "brand": "",
+   "corridor": "jacksonville-nc__marine-boulevard-us-17",
+   "official_url": ""
+  },
+  {
+   "identity_key": "quality inn jacksonville near camp lejeune",
+   "canonical_name": "Quality Inn Jacksonville Near Camp Lejeune",
+   "brand": "",
+   "corridor": "jacksonville-nc__western-boulevard",
+   "official_url": ""
+  },
+  {
+   "identity_key": "red carpet inn jacksonville nc",
+   "canonical_name": "Red Carpet Inn Jacksonville NC",
+   "brand": "",
+   "corridor": "jacksonville-nc__marine-boulevard-us-17",
+   "official_url": ""
+  },
+  {
+   "identity_key": "rodeway inn and suites jacksonville near camp lejeune",
+   "canonical_name": "Rodeway Inn & Suites Jacksonville Near Camp Lejeune",
+   "brand": "",
+   "corridor": "jacksonville-nc__western-boulevard",
+   "official_url": ""
+  },
+  {
+   "identity_key": "sahara inn",
+   "canonical_name": "Sahara inn",
+   "brand": "",
+   "corridor": "jacksonville-nc__marine-boulevard-us-17",
+   "official_url": ""
+  },
+  {
+   "identity_key": "sleep inn and suites jacksonville near camp lejeune",
+   "canonical_name": "Sleep Inn & Suites Jacksonville Near Camp Lejeune",
+   "brand": "",
+   "corridor": "jacksonville-nc__western-boulevard",
+   "official_url": ""
+  },
+  {
+   "identity_key": "suburban extended stay hotel camp lejeune",
+   "canonical_name": "Suburban Extended Stay Hotel Camp Lejeune",
+   "brand": "",
+   "corridor": "jacksonville-nc__marine-boulevard-us-17",
+   "official_url": ""
+  },
+  {
+   "identity_key": "sunset inn",
+   "canonical_name": "Sunset Inn",
+   "brand": "",
+   "corridor": "jacksonville-nc__western-boulevard",
+   "official_url": ""
+  },
+  {
+   "identity_key": "the travelers inn hotel",
+   "canonical_name": "The Travelers Inn Hotel",
+   "brand": "",
+   "corridor": "jacksonville-nc__western-boulevard",
+   "official_url": "https://www.nctravelinn.com/"
+  }
+ ]
+}

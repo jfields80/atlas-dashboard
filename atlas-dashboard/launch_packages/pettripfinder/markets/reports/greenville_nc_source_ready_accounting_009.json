@@ -1,0 +1,848 @@
+{
+ "schema": "ptf-market-source-ready-accounting/1.0",
+ "work_order": "PTF-GREENVILLE-NC-PARALLEL-SOURCE-READY-001",
+ "market_id": "greenville-nc",
+ "display_market": "Greenville, North Carolina",
+ "state": "SOURCE_READY -- SHADOW_UNTIL_REGISTERED",
+ "timings": {
+  "GREENVILLE_START_TIMESTAMP": "2026-09-13T16:05:06Z",
+  "geography_written": "2026-09-13T16:10:22Z",
+  "osm_lane_seconds": 405.8,
+  "brand_lane_free_requests": 85,
+  "attended_and_static_reads": "2026-09-13T16:11Z-16:30Z",
+  "source_ready_inputs_committed": "2026-09-13T16:33:56Z (d1df9fae)",
+  "shadow_package_sealed_and_fast": "2026-09-13T16:33:58Z-16:34:20Z",
+  "independent_reproduction": "2026-09-13T16:35Z (clean git worktree at d1df9fae: digest-only seal by a separate process, then geography, capture, census, clean set, partition, staged policy package / authority and staged shard rebuilt from the raw captures -- zero content difference against the commit; every launch_packages input byte-identical; the discovery config differs only by the worktree's CRLF checkout of an eol-unattributed file; same digest a third time)",
+  "ZERO_TO_SOURCE_READY": "29 min 14 s (16:05:06Z -> 16:34:20Z, FAST-passed sealed shadow package)"
+ },
+ "accounting": {
+  "TOTAL_DISCOVERED": 75,
+  "total_discovered_note": "Distinct candidate identities in the identity graph after merging every lane (map, owned brand harvest, brand city pages and sitemaps, county tourism roster, competitor leads, first-party reads). Not counted: 0 unnamed map elements (a map element with no name is not an identity) and four retired Wyndham routes (Wingate Greenville, Travelodge Greenville, Days Inn Kinston, Baymont Chocowinity) that redirect to the brand's search; nor 15 CVB listing slugs whose pages carry no hotel facility block (restaurants, clubs, a B&B read separately).",
+  "classification_counts": {
+   "NAME_ONLY_UNRESOLVED": 5,
+   "OUTSIDE_MARKET": 42,
+   "TRUE_HOTEL_IDENTITY": 28
+  },
+  "REGISTERED_CENSUS": 28,
+  "registered_census_note": "The proposed census the registration order will register; nothing is registered by this order.",
+  "PET_FRIENDLY": 8,
+  "VERIFIED_NO_PETS": 5,
+  "RESOLVED": 13,
+  "UNRESOLVED": 15,
+  "partition_counts_by_state": {
+   "ACCESS_BLOCKED": 6,
+   "AWAITING_OFFICIAL_URL": 4,
+   "AWAITING_POLICY_OBSERVATION": 5,
+   "PUBLISHED_PET_FRIENDLY": 8,
+   "VERIFIED_NO_PETS": 5
+  },
+  "every_census_identity_has_exactly_one_disposition": true,
+  "outside_market_refused": 42,
+  "military_government_nonpublic_refused": []
+ },
+ "holds_by_class": {
+  "IDENTITY_HOLDS": {
+   "count": 5,
+   "identity_review_required": [],
+   "name_only_unresolved": [
+    "Americas Best Value Inn Greenville",
+    "Comfort Inn",
+    "Fairfield Inn And Suites Weldon",
+    "Motel 6 Greenville NC - ECU-Medical Center",
+    "Rodeway Inn Greenville NC"
+   ],
+   "rebrand_unresolved": [],
+   "note": "Not census identities: none is registered, none publishes. Every one is a competitor or map NAME with no address of its own (or an owned roster row outside the box, Weldon), so none can open a building; none needs a founder ruling."
+  },
+  "ROUTING_HOLDS": {
+   "count": 4,
+   "identities": [
+    "Camelot Inn",
+    "Economy Inn",
+    "Greenville Motel",
+    "Knights Inn Greenville"
+   ]
+  },
+  "ACCESS_BLOCKED": {
+   "count": 6,
+   "identities": [
+    "Best Western Plus Suites-Greenville",
+    "Comfort Inn & Suites Greenville Near East Carolina University",
+    "Country Inn & Suites, Greenville, NC",
+    "Econo Lodge",
+    "Motel 6",
+    "Quality Inn"
+   ]
+  },
+  "EVIDENCE_HOLDS": {
+   "count": 5,
+   "identities": [
+    "Affordable Suites Extended Stay Hotel in Greenville, NC",
+    "Baymont by Wyndham Greenville",
+    "Hilton Greenville",
+    "InTown Suites Extended Stay Greenville",
+    "The 5th Street Inn"
+   ]
+  },
+  "GEOGRAPHY_HOLDS": {
+   "count": 0,
+   "identities": []
+  },
+  "PAID_HOLDS": {
+   "count": 0,
+   "note": "No paid lane was used or reserved; the 6 ACCESS_BLOCKED identities are the paid-lane candidates for a later order under a founder budget."
+  },
+  "FOUNDER_HOLDS": {
+   "count": 0,
+   "note": "No row requires a founder ruling. InTown Suites (a no-pets statement on a page with no postal code) is held as EVIDENCE, not escalated."
+  }
+ },
+ "corridor_coverage": [
+  {
+   "corridor_id": "greenville-nc__convention-center-medical-district",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "27834",
+    "27833",
+    "27835",
+    "27836"
+   ],
+   "census": 23,
+   "pet_friendly": 6,
+   "verified_no_pets": 5,
+   "unresolved": 12,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "greenville-nc__downtown-ecu",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "27858"
+   ],
+   "census": 4,
+   "pet_friendly": 2,
+   "verified_no_pets": 0,
+   "unresolved": 2,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "greenville-nc__winterville",
+   "geography_class": "CORRIDOR",
+   "postal_codes": [
+    "28590"
+   ],
+   "census": 1,
+   "pet_friendly": 0,
+   "verified_no_pets": 0,
+   "unresolved": 1,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "greenville-nc__ayden",
+   "geography_class": "FRINGE",
+   "postal_codes": [
+    "28513"
+   ],
+   "census": 0,
+   "pet_friendly": 0,
+   "verified_no_pets": 0,
+   "unresolved": 0,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "greenville-nc__simpson",
+   "geography_class": "FRINGE",
+   "postal_codes": [
+    "27879"
+   ],
+   "census": 0,
+   "pet_friendly": 0,
+   "verified_no_pets": 0,
+   "unresolved": 0,
+   "corridor_page_publishes": false
+  }
+ ],
+ "requested_area_coverage": {
+  "what_it_is": "The order's requested areas as a nearest-anchor overlay on each census row's own map pin (or the pin of the nearest pinned census row on the same street). It decides nothing about membership or corridors; a row outside every anchor radius is 'elsewhere', a row with no usable pin is 'unplaced'.",
+  "areas": {
+   "Downtown": {
+    "census": 1,
+    "pet_friendly": 1,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": [
+     {
+      "canonical_name": "Hilton Garden Inn Greenville University Area",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "placement_basis": "the row's own map pin"
+     }
+    ]
+   },
+   "ECU": {
+    "census": 0,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": []
+   },
+   "ECU Health / medical district": {
+    "census": 15,
+    "pet_friendly": 4,
+    "verified_no_pets": 5,
+    "unresolved": 6,
+    "identities": [
+     {
+      "canonical_name": "Affordable Suites Extended Stay Hotel in Greenville, NC",
+      "state": "UNRESOLVED",
+      "placement_basis": "the row's own map pin"
+     },
+     {
+      "canonical_name": "Candlewood Suites Greenville NC",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "placement_basis": "the row's own map pin"
+     },
+     {
+      "canonical_name": "Courtyard by Marriott Greenville",
+      "state": "VERIFIED_NO_PETS",
+      "placement_basis": "the row's own map pin"
+     },
+     {
+      "canonical_name": "Econo Lodge",
+      "state": "UNRESOLVED",
+      "placement_basis": "the row's own map pin"
+     },
+     {
+      "canonical_name": "Economy Inn",
+      "state": "UNRESOLVED",
+      "placement_basis": "the pin of Courtyard by Marriott Greenville on the same street (324 house numbers away)"
+     },
+     {
+      "canonical_name": "Fairfield by Marriott Inn & Suites Greenville",
+      "state": "VERIFIED_NO_PETS",
+      "placement_basis": "the row's own map pin"
+     },
+     {
+      "canonical_name": "Holiday Inn Express Greenville",
+      "state": "VERIFIED_NO_PETS",
+      "placement_basis": "the row's own map pin"
+     },
+     {
+      "canonical_name": "Homewood Suites by Hilton Greenville",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "placement_basis": "the row's own map pin"
+     },
+     {
+      "canonical_name": "InTown Suites Extended Stay Greenville",
+      "state": "UNRESOLVED",
+      "placement_basis": "the row's own map pin"
+     },
+     {
+      "canonical_name": "Microtel Inn & Suites by Wyndham Greenville/University Med",
+      "state": "VERIFIED_NO_PETS",
+      "placement_basis": "the row's own map pin"
+     },
+     {
+      "canonical_name": "Motel 6",
+      "state": "UNRESOLVED",
+      "placement_basis": "the row's own map pin"
+     },
+     {
+      "canonical_name": "Quality Inn",
+      "state": "UNRESOLVED",
+      "placement_basis": "the row's own map pin"
+     },
+     {
+      "canonical_name": "Residence Inn by Marriott Greenville",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "placement_basis": "the row's own map pin"
+     },
+     {
+      "canonical_name": "Staybridge Suites Greenville - Medical Center",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "placement_basis": "the pin of Econo Lodge on the same street (10 house numbers away)"
+     },
+     {
+      "canonical_name": "Super 8 by Wyndham Greenville",
+      "state": "VERIFIED_NO_PETS",
+      "placement_basis": "the row's own map pin"
+     }
+    ]
+   },
+   "Convention / commercial corridor": {
+    "census": 8,
+    "pet_friendly": 2,
+    "verified_no_pets": 0,
+    "unresolved": 6,
+    "identities": [
+     {
+      "canonical_name": "Baymont by Wyndham Greenville",
+      "state": "UNRESOLVED",
+      "placement_basis": "the row's own map pin"
+     },
+     {
+      "canonical_name": "Camelot Inn",
+      "state": "UNRESOLVED",
+      "placement_basis": "the pin of Comfort Inn & Suites Greenville Near East Carolina University on the same street (384 house numbers away)"
+     },
+     {
+      "canonical_name": "Comfort Inn & Suites Greenville Near East Carolina University",
+      "state": "UNRESOLVED",
+      "placement_basis": "the row's own map pin"
+     },
+     {
+      "canonical_name": "Greenville Motel",
+      "state": "UNRESOLVED",
+      "placement_basis": "the pin of Comfort Inn & Suites Greenville Near East Carolina University on the same street (903 house numbers away)"
+     },
+     {
+      "canonical_name": "Hampton Inn Greenville",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "placement_basis": "the row's own map pin"
+     },
+     {
+      "canonical_name": "Hilton Greenville",
+      "state": "UNRESOLVED",
+      "placement_basis": "the row's own map pin"
+     },
+     {
+      "canonical_name": "Holiday Inn Greenville",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "placement_basis": "the row's own map pin"
+     },
+     {
+      "canonical_name": "Knights Inn Greenville",
+      "state": "UNRESOLVED",
+      "placement_basis": "the row's own map pin"
+     }
+    ]
+   },
+   "PGV Airport": {
+    "census": 0,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": []
+   },
+   "Winterville": {
+    "census": 1,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 1,
+    "identities": [
+     {
+      "canonical_name": "Country Inn & Suites, Greenville, NC",
+      "state": "UNRESOLVED",
+      "placement_basis": "the row's own map pin"
+     }
+    ]
+   }
+  },
+  "elsewhere_in_the_admitted_market": {
+   "census": 1,
+   "pet_friendly": 0,
+   "verified_no_pets": 0,
+   "unresolved": 1,
+   "identities": [
+    {
+     "canonical_name": "Best Western Plus Suites-Greenville",
+     "state": "UNRESOLVED",
+     "placement_basis": "the row's own map pin"
+    }
+   ]
+  },
+  "unplaced": {
+   "census": 2,
+   "pet_friendly": 1,
+   "verified_no_pets": 0,
+   "unresolved": 1,
+   "identities": [
+    {
+     "canonical_name": "Red Roof Inn Greenville, NC",
+     "state": "PUBLISHED_PET_FRIENDLY",
+     "placement_basis": "no pin in the evidence and no pinned census row on the same street"
+    },
+    {
+     "canonical_name": "The 5th Street Inn",
+     "state": "UNRESOLVED",
+     "placement_basis": "no pin in the evidence and no pinned census row on the same street"
+    }
+   ]
+  }
+ },
+ "first_party_reads": {
+  "pages_read": 40,
+  "by_brand": {
+   "HILTON": 24,
+   "IHG": 6,
+   "MARRIOTT": 4,
+   "RED_ROOF": 2,
+   "WYNDHAM": 4
+  },
+  "identity_confirmed": 40,
+  "in_market": 15,
+  "outside_market": 25,
+  "in_market_pets_allowed_true": 9,
+  "in_market_pets_allowed_false": 6
+ },
+ "package": {
+  "PACKAGE_CREATED": "YES",
+  "execution_zone": "SHADOW_UNTIL_REGISTERED",
+  "package_id": "pkg-greenville-nc-a5f2010468463650",
+  "PACKAGE_DIGEST": "sha256:a5f201046846365097cbf6ac6e1c9ca60e6379868a9566ef1f230c3f3b2d09fc",
+  "created_from_source_sha": "d1df9fae890733a17035f7adec34cf6f1dfd564f",
+  "package_path": "launch_packages/pettripfinder/markets/staging/greenville-nc/shadow_packages/greenville-nc/pkg-greenville-nc-a5f2010468463650.json",
+  "BUILD_INPUT_KEY": {
+   "staged_input_digest": "sha256:bf119407e293998261e058487b2ecc7aba8441dca81d0d2c15cf2b7cd671de11",
+   "changed_market_bundle_sha256": "49dd9c7456f64f3deacdcd6ddebb788e4f82fda6a196319fd1fdc56c64b2ae02",
+   "contract_sha256": "sha256:b56d44805da8eaf6ce2e41429841b41d04aa4c33fcb99e015aac159a555e3b69",
+   "dependency_input_digests": {
+    "market": "sha256:3810b54d033cc8e74f23cadd727b684108b8d2e5fb30ef1dc5939b1fbd0b7c30",
+    "census": "sha256:ac579485dd158610702260a4b3c372de6efb1e61750a81ac11d03cc32656ba9f",
+    "policy_package": "sha256:5363862030ba9856c203aba872380407db2db137bd251b98fbd658d9c527fc6a",
+    "exclusions": "sha256:e13a99320563574b8c7c0922ae47f6c52b2b3e3fcb0ad55ec06e3f675fc9bb26",
+    "routing": "sha256:ada727115897235383aba9e9dccc46360973a625b2ae297c68ad849fa51c5f8f",
+    "seed": "sha256:017dccf212356c8b289708e07387a762e84e24a2c38ed94a439a702feba22307",
+    "partition": "sha256:5eef190d288ca0040106e2f2661acb2109c58e42aca6f6d9aa59eda44380c37f"
+   }
+  },
+  "INTENDED_DELTA": {
+   "market_id": "greenville-nc",
+   "add_property_ids": [
+    "candlewood suites greenville nc",
+    "hampton inn greenville",
+    "hilton garden inn greenville university area",
+    "holiday inn greenville",
+    "homewood suites by hilton greenville",
+    "red roof inn greenville nc",
+    "residence inn by marriott greenville",
+    "staybridge suites greenville medical center"
+   ],
+   "update_property_ids": [],
+   "remove_property_ids": [],
+   "add_routes": [
+    "/pet-friendly-hotels/greenville-nc/",
+    "/pet-friendly-hotels/greenville-nc/candlewood-suites-greenville-nc/",
+    "/pet-friendly-hotels/greenville-nc/convention-center-medical-district/",
+    "/pet-friendly-hotels/greenville-nc/hampton-inn-greenville/",
+    "/pet-friendly-hotels/greenville-nc/hilton-garden-inn-greenville-university-area/",
+    "/pet-friendly-hotels/greenville-nc/holiday-inn-greenville/",
+    "/pet-friendly-hotels/greenville-nc/homewood-suites-by-hilton-greenville/",
+    "/pet-friendly-hotels/greenville-nc/red-roof-inn-greenville-nc/",
+    "/pet-friendly-hotels/greenville-nc/residence-inn-by-marriott-greenville/",
+    "/pet-friendly-hotels/greenville-nc/staybridge-suites-greenville-medical-center/"
+   ],
+   "change_routes": [],
+   "remove_routes": [],
+   "expected_profile_delta": 8,
+   "expected_verified_no_pets_delta": 5,
+   "expected_market_count_delta": 1,
+   "expected_participation_delta": [
+    {
+     "market_id": "greenville-nc",
+     "from": false,
+     "to": true
+    }
+   ],
+   "joining_market_profiles": 8,
+   "joining_market_verified_no_pets": 5,
+   "shadow_until_registered": "declared against a live release that carries no index for this market; the registration order's re-seal restates the delta through registration_release_lane.joining_delta"
+  },
+  "VALIDATION_RECEIPT": {
+   "path": "launch_packages/pettripfinder/markets/staging/greenville-nc/shadow_receipts/greenville-nc/pkg-greenville-nc-a5f2010468463650-5e9f576b9010d622.json",
+   "digest": "sha256:5e9f576b9010d622e567146a835b25318de63a260d17b61b32463366202744c5",
+   "eligible": "YES",
+   "rules": {
+    "A": "PASS",
+    "B": "PASS",
+    "C": "PASS",
+    "D": "PASS",
+    "E": "PASS",
+    "F": "PASS",
+    "G": "PASS",
+    "H": "PASS",
+    "I": "PASS",
+    "J": "PASS",
+    "K": "PASS",
+    "L": "PASS",
+    "M": "PASS",
+    "N": "PASS",
+    "O": "PASS"
+   },
+   "unknown": [],
+   "failed": [],
+   "determinism": "BYTE_IDENTICAL"
+  },
+  "COVERAGE_SCORECARD": {
+   "census_count": 28,
+   "published_pet_friendly": 8,
+   "verified_no_pets": 5,
+   "out_of_category": 0,
+   "unresolved": 15,
+   "public_routes": 10,
+   "evidence_references": 13,
+   "evidence_references_source": "derived_from_records",
+   "evidence_artifacts_available": 0,
+   "paid_evidence_references": 0,
+   "counts_by_partition_state": {
+    "ACCESS_BLOCKED": 6,
+    "AWAITING_OFFICIAL_URL": 4,
+    "AWAITING_POLICY_OBSERVATION": 5,
+    "PUBLISHED_PET_FRIENDLY": 8,
+    "VERIFIED_NO_PETS": 5
+   }
+  },
+  "UNRESOLVED_SET": [
+   {
+    "identity_key": "affordable suites extended stay hotel in greenville nc",
+    "final_state": "AWAITING_POLICY_OBSERVATION",
+    "next_action": "observe an operative first-party statement: the brand's own property page served the attended session and states only a 'Pet-Friendly Rooms' amenity chip -- never operative",
+    "next_action_source": "PTF-GREENVILLE-NC-PARALLEL-SOURCE-READY-001 acquisition passes: owned evidence, brand city pages, brand sitemaps, OSM extract, the county tourism roster, the independents' own sites and the attended browser pass"
+   },
+   {
+    "identity_key": "baymont by wyndham greenville",
+    "final_state": "AWAITING_POLICY_OBSERVATION",
+    "next_action": "the property's own page was read and its statement was held as SERVICE_ANIMAL_ONLY: the first-party binding gate's reader does not read this quote as operative: a service-animal statement is a legal access category, never a pet acceptance: 'Pets with a maximum weight of 25 lbs. welcome with fee. Contact. Observe an operative statement of acceptance or refusal before this row publishes",
+    "next_action_source": "PTF-GREENVILLE-NC-PARALLEL-SOURCE-READY-001 acquisition passes: owned evidence, brand city pages, brand sitemaps, OSM extract, the county tourism roster, the independents' own sites and the attended browser pass"
+   },
+   {
+    "identity_key": "best western plus suites greenville",
+    "final_state": "ACCESS_BLOCKED",
+    "next_action": "re-probe the family's surface and, if it refuses again, route this identity to the paid lane under a founder budget: this family gave a sitemap 403 and a property route that redirects the attended session to the brand's search page on this run",
+    "next_action_source": "PTF-GREENVILLE-NC-PARALLEL-SOURCE-READY-001 acquisition passes: owned evidence, brand city pages, brand sitemaps, OSM extract, the county tourism roster, the independents' own sites and the attended browser pass"
+   },
+   {
+    "identity_key": "camelot inn",
+    "final_state": "AWAITING_OFFICIAL_URL",
+    "next_action": "find a first-party route: no owned harvest, brand roster, brand sitemap, destination organisation or map source in this order stated an official URL for this identity",
+    "next_action_source": "PTF-GREENVILLE-NC-PARALLEL-SOURCE-READY-001 acquisition passes: owned evidence, brand city pages, brand sitemaps, OSM extract, the county tourism roster, the independents' own sites and the attended browser pass"
+   },
+   {
+    "identity_key": "comfort inn and suites greenville near east carolina university",
+    "final_state": "ACCESS_BLOCKED",
+    "next_action": "re-probe the family's surface and, if it refuses again, route this identity to the paid lane under a founder budget: this family gave a sitemap timeout and choicehotels.com not being a permitted navigation in the attended session on this run",
+    "next_action_source": "PTF-GREENVILLE-NC-PARALLEL-SOURCE-READY-001 acquisition passes: owned evidence, brand city pages, brand sitemaps, OSM extract, the county tourism roster, the independents' own sites and the attended browser pass"
+   },
+   {
+    "identity_key": "country inn and suites greenville nc",
+    "final_state": "ACCESS_BLOCKED",
+    "next_action": "re-probe the family's surface and, if it refuses again, route this identity to the paid lane under a founder budget: this family gave a sitemap 403 and an empty 2,833-byte shell for the Country Inn Winterville page in the attended session on this run",
+    "next_action_source": "PTF-GREENVILLE-NC-PARALLEL-SOURCE-READY-001 acquisition passes: owned evidence, brand city pages, brand sitemaps, OSM extract, the county tourism roster, the independents' own sites and the attended browser pass"
+   },
+   {
+    "identity_key": "econo lodge",
+    "final_state": "ACCESS_BLOCKED",
+    "next_action": "re-probe the family's surface and, if it refuses again, route this identity to the paid lane under a founder budget: this family gave a sitemap timeout and choicehotels.com not being a permitted navigation in the attended session on this run",
+    "next_action_source": "PTF-GREENVILLE-NC-PARALLEL-SOURCE-READY-001 acquisition passes: owned evidence, brand city pages, brand sitemaps, OSM extract, the county tourism roster, the independents' own sites and the attended browser pass"
+   },
+   {
+    "identity_key": "economy inn",
+    "final_state": "AWAITING_OFFICIAL_URL",
+    "next_action": "find a first-party route: no owned harvest, brand roster, brand sitemap, destination organisation or map source in this order stated an official URL for this identity",
+    "next_action_source": "PTF-GREENVILLE-NC-PARALLEL-SOURCE-READY-001 acquisition passes: owned evidence, brand city pages, brand sitemaps, OSM extract, the county tourism roster, the independents' own sites and the attended browser pass"
+   },
+   {
+    "identity_key": "greenville motel",
+    "final_state": "AWAITING_OFFICIAL_URL",
+    "next_action": "find a first-party route: no owned harvest, brand roster, brand sitemap, destination organisation or map source in this order stated an official URL for this identity",
+    "next_action_source": "PTF-GREENVILLE-NC-PARALLEL-SOURCE-READY-001 acquisition passes: owned evidence, brand city pages, brand sitemaps, OSM extract, the county tourism roster, the independents' own sites and the attended browser pass"
+   },
+   {
+    "identity_key": "hilton greenville",
+    "final_state": "AWAITING_POLICY_OBSERVATION",
+    "next_action": "the property's own page was read and its statement was held as SERVICE_ANIMAL_ONLY: the only words this page publishes about animals are a service-animal carve-out. That is a legal access category, not a refusal of pets, and it cannot establish a verified-no-pets record on its own. Observe an operative statement of acceptance or refusal before this row publishes",
+    "next_action_source": "PTF-GREENVILLE-NC-PARALLEL-SOURCE-READY-001 acquisition passes: owned evidence, brand city pages, brand sitemaps, OSM extract, the county tourism roster, the independents' own sites and the attended browser pass"
+   },
+   {
+    "identity_key": "intown suites extended stay greenville",
+    "final_state": "AWAITING_POLICY_OBSERVATION",
+    "next_action": "observe an operative first-party statement: the property's own page (intownsuites.com .../greenville-nc/arlington-blvd/) answers 'No pets allowed at InTown Suites Greenville NC' beside the street 2111 W Arlington Blvd, but states no postal code, so the read cannot bind by the page's own street identity; a page that states its postal code (or a founder ruling on the binding) is needed before a verified-no-pets record publishes",
+    "next_action_source": "PTF-GREENVILLE-NC-PARALLEL-SOURCE-READY-001 acquisition passes: owned evidence, brand city pages, brand sitemaps, OSM extract, the county tourism roster, the independents' own sites and the attended browser pass"
+   },
+   {
+    "identity_key": "knights inn greenville",
+    "final_state": "AWAITING_OFFICIAL_URL",
+    "next_action": "find a first-party route: no owned harvest, brand roster, brand sitemap, destination organisation or map source in this order stated an official URL for this identity",
+    "next_action_source": "PTF-GREENVILLE-NC-PARALLEL-SOURCE-READY-001 acquisition passes: owned evidence, brand city pages, brand sitemaps, OSM extract, the county tourism roster, the independents' own sites and the attended browser pass"
+   },
+   {
+    "identity_key": "motel 6",
+    "final_state": "ACCESS_BLOCKED",
+    "next_action": "re-probe the family's surface and, if it refuses again, route this identity to the paid lane under a founder budget: this family gave a plain-client timeout on motel6.com and no permitted attended navigation on this run",
+    "next_action_source": "PTF-GREENVILLE-NC-PARALLEL-SOURCE-READY-001 acquisition passes: owned evidence, brand city pages, brand sitemaps, OSM extract, the county tourism roster, the independents' own sites and the attended browser pass"
+   },
+   {
+    "identity_key": "quality inn",
+    "final_state": "ACCESS_BLOCKED",
+    "next_action": "re-probe the family's surface and, if it refuses again, route this identity to the paid lane under a founder budget: this family gave a sitemap timeout and choicehotels.com not being a permitted navigation in the attended session on this run",
+    "next_action_source": "PTF-GREENVILLE-NC-PARALLEL-SOURCE-READY-001 acquisition passes: owned evidence, brand city pages, brand sitemaps, OSM extract, the county tourism roster, the independents' own sites and the attended browser pass"
+   },
+   {
+    "identity_key": "the 5th street inn",
+    "final_state": "AWAITING_POLICY_OBSERVATION",
+    "next_action": "observe an operative first-party statement: the inn's own site served its home page (LocalBusiness JSON-LD 1105 E 5th St 27858) with no pet wording",
+    "next_action_source": "PTF-GREENVILLE-NC-PARALLEL-SOURCE-READY-001 acquisition passes: owned evidence, brand city pages, brand sitemaps, OSM extract, the county tourism roster, the independents' own sites and the attended browser pass"
+   }
+  ],
+  "HOLD_SET": {
+   "NAME_ONLY_UNRESOLVED": [
+    {
+     "identity_key": "americas best value inn greenville",
+     "canonical_name": "Americas Best Value Inn Greenville",
+     "reason": "no street address, no phone, no coordinates and no building this name clearly matches: a name alone proposes an identity and never decides one"
+    },
+    {
+     "identity_key": "comfort inn",
+     "canonical_name": "Comfort Inn",
+     "reason": "no street address and no phone, but the map source placed it at 35.56421, -77.06348 inside this market's bounds: an ADDRESS FILL, not a new discovery"
+    },
+    {
+     "identity_key": "fairfield inn and suites weldon",
+     "canonical_name": "Fairfield Inn And Suites Weldon",
+     "reason": "a brand roster row whose property page this order never read, so it has no address of its own: an ADDRESS FILL from a first-party read, not a new discovery"
+    },
+    {
+     "identity_key": "motel 6 greenville nc ecu medical center",
+     "canonical_name": "Motel 6 Greenville NC - ECU-Medical Center",
+     "reason": "no street address, no phone, no coordinates and no building this name clearly matches: a name alone proposes an identity and never decides one"
+    },
+    {
+     "identity_key": "rodeway inn greenville nc",
+     "canonical_name": "Rodeway Inn Greenville NC",
+     "reason": "no street address, no phone, no coordinates and no building this name clearly matches: a name alone proposes an identity and never decides one"
+    }
+   ],
+   "OUTSIDE_MARKET": [
+    {
+     "identity_key": "americas best value inn kinston",
+     "canonical_name": "Americas Best Value Inn Kinston",
+     "reason": "the row's own municipality 'Kinston' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "days inn by wyndham washington",
+     "canonical_name": "Days Inn by Wyndham Washington",
+     "reason": "the row's own municipality 'Washington' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "doubletree by hilton hotel new bern riverfront",
+     "canonical_name": "DoubleTree by Hilton Hotel New Bern Riverfront",
+     "reason": "the row's own municipality 'New Bern' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "doubletree by hilton hotel rocky mount",
+     "canonical_name": "DoubleTree by Hilton Hotel Rocky Mount",
+     "reason": "the row's own municipality 'Rocky Mount' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "econo lodge",
+     "canonical_name": "Econo Lodge",
+     "reason": "the row's own municipality 'Washington' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "econo lodge",
+     "canonical_name": "Econo Lodge",
+     "reason": "the row's own municipality 'Kinston' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "fairfield by marriott inn and suites kinston",
+     "canonical_name": "Fairfield by Marriott Inn & Suites Kinston",
+     "reason": "the row's own municipality 'Kinston' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "fairfield inn and suites",
+     "canonical_name": "Fairfield Inn & Suites",
+     "reason": "the row's own municipality 'Washington' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "fountain lodge",
+     "canonical_name": "Fountain Lodge",
+     "reason": "the row's own municipality 'Chocowinity' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "hampton inn and suites jacksonville",
+     "canonical_name": "Hampton Inn & Suites Jacksonville",
+     "reason": "the row's own municipality 'Jacksonville' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "hampton inn and suites wilson i 95",
+     "canonical_name": "Hampton Inn & Suites Wilson I-95",
+     "reason": "the row's own municipality 'Wilson' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "hampton inn by hilton wilson",
+     "canonical_name": "Hampton Inn by Hilton Wilson",
+     "reason": "the row's own municipality 'Wilson' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "hampton inn edenton",
+     "canonical_name": "Hampton Inn Edenton",
+     "reason": "the row's own municipality 'Edenton' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "hampton inn goldsboro",
+     "canonical_name": "Hampton Inn Goldsboro",
+     "reason": "the row's own municipality 'Goldsboro' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "hampton inn kinston",
+     "canonical_name": "Hampton Inn Kinston",
+     "reason": "the row's own municipality 'Kinston' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "hampton inn new bern",
+     "canonical_name": "Hampton Inn New Bern",
+     "reason": "the row's own municipality 'New Bern' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "hampton inn rocky mount",
+     "canonical_name": "Hampton Inn Rocky Mount",
+     "reason": "the row's own municipality 'Rocky Mount' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "hampton inn washington",
+     "canonical_name": "Hampton Inn Washington",
+     "reason": "the row's own municipality 'Washington' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "hampton inn williamston",
+     "canonical_name": "Hampton Inn Williamston",
+     "reason": "the row's own municipality 'Williamston' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "hilton garden inn jacksonville",
+     "canonical_name": "Hilton Garden Inn Jacksonville",
+     "reason": "the row's own municipality 'Jacksonville' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "holiday inn express and suites kinston",
+     "canonical_name": "Holiday Inn Express & Suites Kinston",
+     "reason": "the row's own municipality 'Kinston' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "holiday inn express williamston",
+     "canonical_name": "Holiday Inn Express Williamston",
+     "reason": "the row's own municipality 'Williamston' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "home2 suites by hilton goldsboro",
+     "canonical_name": "Home2 Suites by Hilton Goldsboro",
+     "reason": "the row's own municipality 'Goldsboro' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "home2 suites by hilton wilson downtown",
+     "canonical_name": "Home2 Suites by Hilton Wilson Downtown",
+     "reason": "the row's own municipality 'Wilson' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "homewood suites by hilton goldsboro",
+     "canonical_name": "Homewood Suites by Hilton Goldsboro",
+     "reason": "the row's own municipality 'Goldsboro' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "homewood suites by hilton rocky mount",
+     "canonical_name": "Homewood Suites by Hilton Rocky Mount",
+     "reason": "the row's own municipality 'Rocky Mount' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "mother earth motor lodge",
+     "canonical_name": "Mother Earth Motor Lodge",
+     "reason": "the row's own municipality 'Kinston' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "oyo hotel williamston",
+     "canonical_name": "Oyo hotel Williamston",
+     "reason": "the row's own municipality 'Williamston' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "quality inn",
+     "canonical_name": "Quality Inn",
+     "reason": "the row's own municipality 'Williamston' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "quality inn",
+     "canonical_name": "Quality Inn",
+     "reason": "the row's own municipality 'Washington' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "quality inn and suites tarboro kingsboro",
+     "canonical_name": "Quality Inn & Suites Tarboro - Kingsboro",
+     "reason": "the row's own municipality 'Tarboro' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "quality inn kinston hwy 70",
+     "canonical_name": "Quality Inn Kinston Hwy 70",
+     "reason": "the row's own municipality 'Kinston' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "red roof inn washington nc",
+     "canonical_name": "Red Roof Inn Washington, NC",
+     "reason": "the row's own municipality 'Washington' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "ross motel",
+     "canonical_name": "Ross Motel",
+     "reason": "the row's own municipality 'Williamston' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "sunset inn",
+     "canonical_name": "Sunset Inn",
+     "reason": "the row's own municipality 'Washington' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "surestay plus hotel by best western tarboro",
+     "canonical_name": "Surestay Plus Hotel by Best Western Tarboro",
+     "reason": "the row's own municipality 'Tarboro' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "the o neil",
+     "canonical_name": "The O'Neil",
+     "reason": "the row's own municipality 'Kinston' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "tru by hilton rocky mount",
+     "canonical_name": "Tru by Hilton Rocky Mount",
+     "reason": "the row's own municipality 'Rocky Mount' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "tru by hilton wilson",
+     "canonical_name": "Tru by Hilton Wilson",
+     "reason": "the row's own municipality 'Wilson' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "tryon riverfront inn new bern tapestry collection by hilton",
+     "canonical_name": "Tryon Riverfront Inn New Bern, Tapestry Collection by Hilton",
+     "reason": "the row's own municipality 'New Bern' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "washington motel",
+     "canonical_name": "Washington Motel",
+     "reason": "the row's own municipality 'Washington' is a place the geography refuses by name"
+    },
+    {
+     "identity_key": "williamston inn",
+     "canonical_name": "Williamston Inn",
+     "reason": "the row's own municipality 'Williamston' is a place the geography refuses by name"
+    }
+   ]
+  },
+  "PACKAGE_REPRODUCIBLE": "YES",
+  "reproduction": "Sealed twice in-process (equal digests); then, in a clean git worktree at the source commit, sealed again by a separate process (equal digest), and the whole derived chain -- geography, capture, census, clean set, partition, staged policy package, staged shard -- rebuilt from the raw captures with zero content difference against the commit, sealing to the same digest a third time.",
+  "parent_binding": "parent_live_state names the CURRENT live release (Asheville, deploy 6aa60a3e...). That is what this package was validated against. Once Fayetteville is live, FAST rule N fails this package BY DESIGN; the registration order -- after Fayetteville AND Jacksonville are live -- re-seals the same committed inputs against that parent as a NEW package id. Nothing here is a production candidate, and no whole-site build was assembled."
+ },
+ "owned_evidence": {
+  "OWNED_IDENTITIES": "0 Greenville census identities pre-existed in any committed census; one Greenville route (Microtel Greenville/University Med) is carried by charlotte_nc_clean_authority_001 as the official_url of a CHARLOTTE Microtel -- a name collision in that market's evidence, recorded here, not edited (shared/other-market state).",
+  "OWNED_ROUTES": "5 Marriott PGV* routes from the committed national harvest dayton_oh_brand_directory_harvest_001 (Courtyard, Fairfield and Residence Inn Greenville; Fairfield Kinston and Weldon, both outside), read at zero requests.",
+  "OWNED_VALID_POLICY_EVIDENCE": "0 -- no committed first-party Greenville pet-policy read existed; every policy record here is a new capture of this order."
+ },
+ "factory_code_changed": "NO -- every changed path is a greenville_nc_* helper, the market's discovery config, or a document under the market's own proposed / staging / report paths",
+ "broad_regression_run": "NO",
+ "final_production_candidate_created": "NO -- FAST composes the release index in memory only; no whole-site candidate was assembled",
+ "founder_authorization_created": "NO",
+ "deployed": "NO",
+ "shared_state_touched": "NO -- launch_participation.json, bundle_cache_closure.json, the market_state pin, the generated globals, release contracts and the market registry are unchanged",
+ "next_order": [
+  "read the live parent only after Netlify is restored, Fayetteville deploys, and Jacksonville registers and deploys",
+  "rebase this branch on it; copy markets/proposed/greenville-nc.json, identity_census_proposed/greenville-nc.json and the staged launch_package documents into their registered paths",
+  "market_registration_cli --write, build_global_authority --write/--check, release contract, registration_release_lane register + seal --work-order (a NEW package id against the new parent; this shadow package's rule N fails by design once the parent moves)",
+  "regression_delta classify, compose and reproduce the candidate, prepare the founder packet, deploy only on authorization"
+ ]
+}
