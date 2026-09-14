@@ -1,6 +1,6 @@
 {
  "schema": "ptf-release-production-gate/1.0",
- "work_order": "PTF-JACKSONVILLE-NC-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-003",
+ "work_order": "PTF-ATLANTA-GA-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-003",
  "what_this_is": "The explicit allowlist that gates REAL production activation by the release coordinator. ATLAS-THROUGHPUT-006 built the remote validation lane, the trusted artifact handoff, the release queue and a real host adapter, and left this gate EMPTY on purpose. A market is activated for real only when the founder adds it here, names the candidate digest they authorised, and the coordinator's own guards still pass at the moment of the call. There is no implicit opt-in: an empty allowlist means no market can be deployed by this machinery, whatever else is green.",
  "RELEASE_COORDINATOR_PRODUCTION_ENABLED": "NO",
  "RELEASE_COORDINATOR_PRODUCTION_ALLOWED_MARKETS": [],
@@ -178,6 +178,23 @@
    "consumed_at": "2026-09-14T04:51:18+00:00",
    "host_deployment_id": "6aa77cb84f4fd6b6926c5445",
    "deployment_record_id": "ptf-deploy-jacksonville-003-6aa77cb84f4fd6b6926c5445",
+   "outcome": "DEPLOYED and verified live; the gate is closed again by the same work order that re-opened it."
+  },
+  {
+   "work_order": "PTF-ATLANTA-GA-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-003",
+   "market_id": "atlanta-ga",
+   "authorization_id": "ptf-auth-atlanta-003-ef563dfd28d5",
+   "candidate_digest": "ef563dfd28d5f37eec959e39fa0ca0a36d51a12199dfdb2bbddd227352ad6cda",
+   "deployment_artifact_digest": "ef563dfd28d5f37eec959e39fa0ca0a36d51a12199dfdb2bbddd227352ad6cda",
+   "parent_release_digest": "f4147fe1abc8a4e105a3ad8c4be0afc00aba3641e290a8a7a195b78446f0a18f",
+   "package_digest": "sha256:c96c615a8ed6a482ccd33ef2346ab32bf78eab7cfa1b6628695697c743364239",
+   "intended_delta_digest": "sha256:125296b1ae659ebb287a3a052465ebba78bb3b407f1780e89bd624adc3eea57a",
+   "opened_at": "2026-09-14T13:04:49+00:00",
+   "scope": "ONE market and ONE candidate. atlanta-ga only; no other source-ready market is allowed, and release_coordinator.authorization_problems still refuses any candidate whose digest is not the one the authorization binds.",
+   "lifecycle": "This entry is CONSUMED and the allowlist emptied by this same work order once the deployment is verified live. It is not left open.",
+   "consumed_at": "2026-09-14T13:09:30+00:00",
+   "host_deployment_id": "6aa7f125a91c73ba2363139e",
+   "deployment_record_id": "ptf-deploy-atlanta-003-6aa7f125a91c73ba2363139e",
    "outcome": "DEPLOYED and verified live; the gate is closed again by the same work order that re-opened it."
   }
  ]
