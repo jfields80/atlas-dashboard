@@ -1,6 +1,6 @@
 {
  "schema": "ptf-release-production-gate/1.0",
- "work_order": "PTF-ATLANTA-GA-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-003",
+ "work_order": "PTF-CHARLESTON-SC-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-003",
  "what_this_is": "The explicit allowlist that gates REAL production activation by the release coordinator. ATLAS-THROUGHPUT-006 built the remote validation lane, the trusted artifact handoff, the release queue and a real host adapter, and left this gate EMPTY on purpose. A market is activated for real only when the founder adds it here, names the candidate digest they authorised, and the coordinator's own guards still pass at the moment of the call. There is no implicit opt-in: an empty allowlist means no market can be deployed by this machinery, whatever else is green.",
  "RELEASE_COORDINATOR_PRODUCTION_ENABLED": "NO",
  "RELEASE_COORDINATOR_PRODUCTION_ALLOWED_MARKETS": [],
@@ -195,6 +195,40 @@
    "consumed_at": "2026-09-14T13:09:30+00:00",
    "host_deployment_id": "6aa7f125a91c73ba2363139e",
    "deployment_record_id": "ptf-deploy-atlanta-003-6aa7f125a91c73ba2363139e",
+   "outcome": "DEPLOYED and verified live; the gate is closed again by the same work order that re-opened it."
+  },
+  {
+   "work_order": "PTF-RICHMOND-VA-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-003",
+   "market_id": "richmond-va",
+   "authorization_id": "ptf-auth-richmond-003-a81020258571",
+   "candidate_digest": "a81020258571f09d93eea746d3d5d195a12d87aa0ce8d98106a997466a96443d",
+   "deployment_artifact_digest": "a81020258571f09d93eea746d3d5d195a12d87aa0ce8d98106a997466a96443d",
+   "parent_release_digest": "ef563dfd28d5f37eec959e39fa0ca0a36d51a12199dfdb2bbddd227352ad6cda",
+   "package_digest": "sha256:6099825066ea85de989f2653fa5a09e75f0370122f96bd3548f0d1d267507f98",
+   "intended_delta_digest": "sha256:56f33adec2591d2a45af985002dfd66096e8cd556d5c7d3d0f4157b0c2db4b4e",
+   "opened_at": "2026-09-14T18:37:28+00:00",
+   "scope": "ONE market and ONE candidate. richmond-va only; no other source-ready market is allowed, and release_coordinator.authorization_problems still refuses any candidate whose digest is not the one the authorization binds.",
+   "lifecycle": "This entry is CONSUMED and the allowlist emptied by this same work order once the deployment is verified live. It is not left open.",
+   "consumed_at": "2026-09-14T18:41:01+00:00",
+   "host_deployment_id": "6aa83f1bdbe7b7ba24cd4f2e",
+   "deployment_record_id": "ptf-deploy-richmond-003-6aa83f1bdbe7b7ba24cd4f2e",
+   "outcome": "DEPLOYED and verified live; the gate is closed again by the same work order that re-opened it."
+  },
+  {
+   "work_order": "PTF-CHARLESTON-SC-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-003",
+   "market_id": "charleston-sc",
+   "authorization_id": "ptf-auth-charleston-003-1c61aeda2a1b",
+   "candidate_digest": "1c61aeda2a1b27878824c96b2189f0104886783a8dc575f51b8f1e1289c89914",
+   "deployment_artifact_digest": "1c61aeda2a1b27878824c96b2189f0104886783a8dc575f51b8f1e1289c89914",
+   "parent_release_digest": "a81020258571f09d93eea746d3d5d195a12d87aa0ce8d98106a997466a96443d",
+   "package_digest": "sha256:59d606c736e34ee589dfde7252e480ddc236b178c917c95ebce0c80f72914381",
+   "intended_delta_digest": "sha256:d4aba851da6d39811b1df895a99fd1abacd4ba2e1b3c7d49c2511fafd9d222e9",
+   "opened_at": "2026-09-14T21:07:34+00:00",
+   "scope": "ONE market and ONE candidate. charleston-sc only; no other source-ready market is allowed, and release_coordinator.authorization_problems still refuses any candidate whose digest is not the one the authorization binds.",
+   "lifecycle": "This entry is CONSUMED and the allowlist emptied by this same work order once the deployment is verified live. It is not left open.",
+   "consumed_at": "2026-09-14T21:10:13+00:00",
+   "host_deployment_id": "6aa8625938b7e0e0d66e6912",
+   "deployment_record_id": "ptf-deploy-charleston-003-6aa8625938b7e0e0d66e6912",
    "outcome": "DEPLOYED and verified live; the gate is closed again by the same work order that re-opened it."
   }
  ]

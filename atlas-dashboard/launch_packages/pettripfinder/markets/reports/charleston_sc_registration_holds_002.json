@@ -1,0 +1,58 @@
+{
+ "schema": "ptf-registration-hold-review/1.0",
+ "work_order": "PTF-CHARLESTON-SC-REGISTER-RESEAL-AND-AUTHORIZATION-PREP-002",
+ "market_id": "charleston-sc",
+ "as_of": "2026-09-14",
+ "phase4_hilton_vacation_club_properties": {
+  "rule": "A property enters the qualifying census ONLY if current first-party evidence proves ordinary members of the public can book nightly transient lodging through a normal public booking flow, with a distinct premises identity and no ownership / member requirement for the stay. Ambiguous -> the founder / eligibility hold stays.",
+  "evidence_read": "attended same-origin fetch of each property's own hilton.com page on 2026-09-14 (no booking flow entered, no credential, no paid lane)",
+  "properties": [
+   {
+    "canonical_name": "Hilton Vacation Club Lodge Alley Inn Charleston",
+    "street": "195 East Bay Street, Charleston 29401",
+    "property_code": "chsgvgv",
+    "url": "https://www.hilton.com/en/hotels/chsgvgv-hilton-vacation-club-lodge-alley-inn-charleston/",
+    "document_sha256": "edfda6ddd2ae49987c1fb1526f773e508c57a7ead4bd885b873f335ef7e67a3f",
+    "observed": "brand code GV (Hilton Vacation Club); structured 'resEnabled': true; generic Hilton Honors rate and room-block copy; no public nightly rate or availability was observed, and nothing on the page states that the stay requires no ownership or membership",
+    "disposition": "FOUNDER_HOLD (eligibility unproven -- a reservation-enabled flag is not proof of an ordinary public nightly booking flow for vacation-ownership inventory)",
+    "pet_statement": "Service animals only (would be SERVICE_ANIMAL_ONLY even if admitted; nothing would publish)"
+   },
+   {
+    "canonical_name": "Hilton Vacation Club King 583 Charleston",
+    "street": "583 King Street, Charleston 29403",
+    "property_code": "chsvggv",
+    "url": "https://www.hilton.com/en/hotels/chsvggv-hilton-vacation-club-king-583-charleston/",
+    "document_sha256": "28bac0855ec5c16c56cfbb99be1744d669bf7e6e2fadf9be328decd43dfe8d6e",
+    "observed": "brand code GV (Hilton Vacation Club); structured 'resEnabled': true; generic Hilton Honors copy; no public nightly rate or availability observed",
+    "disposition": "FOUNDER_HOLD (eligibility unproven)",
+    "pet_statement": "Service animals only"
+   },
+   {
+    "canonical_name": "Hilton Club Liberty Place Charleston",
+    "street": "475 East Bay Street, Charleston 29403",
+    "property_code": "chslpgv",
+    "url": "https://www.hilton.com/en/hotels/chslpgv-hilton-club-liberty-place-charleston/",
+    "observed": "a Hilton Club (the members' vacation-ownership tier); no public nightly rate or availability observed",
+    "disposition": "FOUNDER_HOLD (eligibility unproven; the club tier implies a membership requirement)",
+    "pet_statement": "Service animals only"
+   }
+  ],
+  "result": "all three remain FOUNDER_HOLD; census, PF and no-pets counts are unchanged by this phase"
+ },
+ "phase5_same_campus_pairs": {
+  "406 Sigma Drive, Summerville 29486": {
+   "identities": ["Hilton Garden Inn Summerville (Hilton chsgigi)", "Homewood Suites by Hilton Summerville (Hilton chssmhw)"],
+   "co_located_distinct": "DISTINCT (distinct canonical first-party URLs and distinct brand-scoped property codes)",
+   "disposition": "RESOLVED -- one same_campus_distinct_entity DATA row appended to identity_resolutions.json by charleston_sc_co_location_resolutions_003.py; both pet-friendly records released (PF 82 -> 84)"
+  },
+  "560 King Street, Charleston 29403": {
+   "identities": ["Hyatt House Charleston/Historic District (Hyatt chsxh)", "The Lowline Hotel (Hyatt chszh)"],
+   "co_located_distinct": "INSUFFICIENT -- 'no brand-scoped property code on both sides (HYATT:? vs HYATT:?)'; the shared proof reads no hyatt.com route code",
+   "disposition": "KEPT HELD -- no ruling written; the checker was not modified; both census rows stay SAME_CAMPUS_DISTINCT_ENTITY"
+  }
+ },
+ "phase6_faq_evidence_holds": {
+  "existing_contract": "The verified-quote builder (charleston_sc_brand_pages_001) binds a quote only when the property's own house number AND postal code occur in the SAME persisted document; the shared first-party binding gate has no sibling-page binding.",
+  "disposition": "KEPT HELD -- 18 ADDRESS_NOT_ON_DOCUMENT evidence holds unchanged; no exception created"
+ }
+}
