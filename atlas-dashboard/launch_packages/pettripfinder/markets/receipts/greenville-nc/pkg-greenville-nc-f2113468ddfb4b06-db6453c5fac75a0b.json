@@ -1,0 +1,556 @@
+{
+ "schema": "ptf-fast-release-receipt/1.0",
+ "lane": "FAST_DATA_ONLY_RELEASE",
+ "PACKAGE_ID": "pkg-greenville-nc-f2113468ddfb4b06",
+ "PACKAGE_DIGEST": "sha256:f2113468ddfb4b0622164d854f18e29118126e26c9014d498d4f64aec83a476c",
+ "MARKET_ID": "greenville-nc",
+ "PARENT_RELEASE": {
+  "live_deploy_id": "6aa750d8fa36419d3c84ecbc",
+  "rollback_target": "6aa60a3e018fd6b1b9a40450",
+  "source_commit": "c4db424ba6b4351158708889c803643be9edc2a3",
+  "live_index_digest": "sha256:823cd3fc2cbad9c1031401c761af412a386ee9b88c12fbb9f52a820fd09a9d4a"
+ },
+ "CHANGE_CLASS": "MARKET_AUTHORITY_DATA_ONLY",
+ "DEPENDENCY_DIGEST": "sha256:2f8e4d18c2f34a87e508f14d190e0dccbf9371016da274c87010d8cf48e385d2",
+ "VALIDATION_POLICY_VERSION": "ptf-fast-data-only-release/1.0",
+ "RULES_EXECUTED": [
+  {
+   "rule": "A",
+   "name": "package schema valid"
+  },
+  {
+   "rule": "B",
+   "name": "identity valid"
+  },
+  {
+   "rule": "C",
+   "name": "first-party policy binding valid"
+  },
+  {
+   "rule": "D",
+   "name": "policy semantics valid"
+  },
+  {
+   "rule": "E",
+   "name": "route references valid"
+  },
+  {
+   "rule": "F",
+   "name": "market partition valid"
+  },
+  {
+   "rule": "G",
+   "name": "proposed whole-release identity/route indexes contain no forbidden collision"
+  },
+  {
+   "rule": "H",
+   "name": "every unrelated live market/member is preserved"
+  },
+  {
+   "rule": "I",
+   "name": "every removal is explicitly intended"
+  },
+  {
+   "rule": "J",
+   "name": "changed-market artifact builds successfully"
+  },
+  {
+   "rule": "K",
+   "name": "changed-market output deterministic"
+  },
+  {
+   "rule": "L",
+   "name": "package/artifact hashes internally consistent"
+  },
+  {
+   "rule": "M",
+   "name": "required evidence freshness/revocation rules satisfied"
+  },
+  {
+   "rule": "N",
+   "name": "rollback/current-live preservation metadata valid"
+  },
+  {
+   "rule": "O",
+   "name": "paid acquisitions used by the package satisfy reservation provenance"
+  }
+ ],
+ "RESULTS": {
+  "A": {
+   "rule": "A",
+   "name": "package schema valid",
+   "status": "PASS",
+   "seconds": 0.008,
+   "detail": {
+    "schema": "ptf-sealed-market-package/1.0",
+    "package_id": "pkg-greenville-nc-f2113468ddfb4b06",
+    "package_digest": "sha256:f2113468ddfb4b0622164d854f18e29118126e26c9014d498d4f64aec83a476c"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "B": {
+   "rule": "B",
+   "name": "identity valid",
+   "status": "PASS",
+   "seconds": 0.03,
+   "detail": {
+    "identity_records": 28,
+    "census_count": 28,
+    "declared_relations": 0,
+    "writer_seconds": 0.03
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "C": {
+   "rule": "C",
+   "name": "first-party policy binding valid",
+   "status": "PASS",
+   "seconds": 0.048,
+   "detail": {
+    "records_evaluated": 13,
+    "eligible": 13,
+    "ineligible": 0,
+    "classes": {}
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "D": {
+   "rule": "D",
+   "name": "policy semantics valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "pet_friendly_records": 8,
+    "verified_no_pets_records": 5,
+    "policy_schema": "1.3"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "E": {
+   "rule": "E",
+   "name": "route references valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "official_routes": 0,
+    "public_routes": 10
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "F": {
+   "rule": "F",
+   "name": "market partition valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "partition_count": 28,
+    "unresolved_rows": 15,
+    "counts_by_partition_state": {
+     "ACCESS_BLOCKED": 6,
+     "AWAITING_OFFICIAL_URL": 4,
+     "AWAITING_POLICY_OBSERVATION": 5,
+     "PUBLISHED_PET_FRIENDLY": 8,
+     "VERIFIED_NO_PETS": 5
+    }
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "G": {
+   "rule": "G",
+   "name": "proposed whole-release identity/route indexes contain no forbidden collision",
+   "status": "PASS",
+   "seconds": 0.12,
+   "detail": {
+    "live_digest": "sha256:823cd3fc2cbad9c1031401c761af412a386ee9b88c12fbb9f52a820fd09a9d4a",
+    "proposed_digest": "sha256:91e399fec13dd72c7598a50b9fb728fa43678cb66d675180bf224575b04cedf3",
+    "proposed_participating": [
+     "asheville-nc",
+     "charlotte-nc",
+     "cincinnati-oh",
+     "cleveland-akron-canton-oh",
+     "columbus-oh",
+     "dayton-oh",
+     "fayetteville-nc",
+     "grand-rapids-holland-mi",
+     "greenville-nc",
+     "indianapolis-in",
+     "lexington-ky",
+     "louisville-ky",
+     "milwaukee-wi",
+     "nashville-tn",
+     "piedmont-triad-nc",
+     "pittsburgh-pa",
+     "raleigh-nc",
+     "st-louis-mo",
+     "toledo-oh",
+     "wilmington-nc"
+    ],
+    "proposed_total_profiles": 1229,
+    "legacy_collisions_outside_package": 0,
+    "compare_seconds": 0.118
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "H": {
+   "rule": "H",
+   "name": "every unrelated live market/member is preserved",
+   "status": "PASS",
+   "seconds": 0.12,
+   "detail": {
+    "live_participating": [
+     "asheville-nc",
+     "charlotte-nc",
+     "cincinnati-oh",
+     "cleveland-akron-canton-oh",
+     "columbus-oh",
+     "dayton-oh",
+     "fayetteville-nc",
+     "grand-rapids-holland-mi",
+     "indianapolis-in",
+     "lexington-ky",
+     "louisville-ky",
+     "milwaukee-wi",
+     "nashville-tn",
+     "piedmont-triad-nc",
+     "pittsburgh-pa",
+     "raleigh-nc",
+     "st-louis-mo",
+     "toledo-oh",
+     "wilmington-nc"
+    ],
+    "live_total_profiles": 1221,
+    "finding_counts": {}
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "I": {
+   "rule": "I",
+   "name": "every removal is explicitly intended",
+   "status": "PASS",
+   "seconds": 0.12,
+   "detail": {
+    "intended_delta": {
+     "market_id": "greenville-nc",
+     "add_property_ids": [],
+     "update_property_ids": [],
+     "remove_property_ids": [],
+     "add_routes": [
+      "/pet-friendly-hotels/greenville-nc/",
+      "/pet-friendly-hotels/greenville-nc/candlewood-suites-greenville-nc/",
+      "/pet-friendly-hotels/greenville-nc/convention-center-medical-district/",
+      "/pet-friendly-hotels/greenville-nc/hampton-inn-greenville/",
+      "/pet-friendly-hotels/greenville-nc/hilton-garden-inn-greenville-university-area/",
+      "/pet-friendly-hotels/greenville-nc/holiday-inn-greenville/",
+      "/pet-friendly-hotels/greenville-nc/homewood-suites-by-hilton-greenville/",
+      "/pet-friendly-hotels/greenville-nc/red-roof-inn-greenville-nc/",
+      "/pet-friendly-hotels/greenville-nc/residence-inn-by-marriott-greenville/",
+      "/pet-friendly-hotels/greenville-nc/staybridge-suites-greenville-medical-center/"
+     ],
+     "change_routes": [],
+     "remove_routes": [],
+     "expected_profile_delta": 0,
+     "expected_market_count_delta": 1,
+     "expected_participation_delta": [
+      {
+       "market_id": "greenville-nc",
+       "from": false,
+       "to": true
+      }
+     ]
+    },
+    "actual_delta": {
+     "add_property_ids": [],
+     "update_property_ids": [],
+     "remove_property_ids": [],
+     "add_routes": [
+      "/pet-friendly-hotels/greenville-nc/",
+      "/pet-friendly-hotels/greenville-nc/candlewood-suites-greenville-nc/",
+      "/pet-friendly-hotels/greenville-nc/convention-center-medical-district/",
+      "/pet-friendly-hotels/greenville-nc/hampton-inn-greenville/",
+      "/pet-friendly-hotels/greenville-nc/hilton-garden-inn-greenville-university-area/",
+      "/pet-friendly-hotels/greenville-nc/holiday-inn-greenville/",
+      "/pet-friendly-hotels/greenville-nc/homewood-suites-by-hilton-greenville/",
+      "/pet-friendly-hotels/greenville-nc/red-roof-inn-greenville-nc/",
+      "/pet-friendly-hotels/greenville-nc/residence-inn-by-marriott-greenville/",
+      "/pet-friendly-hotels/greenville-nc/staybridge-suites-greenville-medical-center/"
+     ],
+     "remove_routes": [],
+     "profile_delta": 0,
+     "verified_no_pets_delta": 0,
+     "market_count_delta": 1
+    },
+    "removal_authority": {}
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "J": {
+   "rule": "J",
+   "name": "changed-market artifact builds successfully",
+   "status": "PASS",
+   "seconds": 30.982,
+   "detail": {
+    "bundle_sha256": "49dd9c7456f64f3deacdcd6ddebb788e4f82fda6a196319fd1fdc56c64b2ae02",
+    "file_count": 72,
+    "html_count": 56,
+    "staged_input_digest": "sha256:b64b16fea7412ba0907e7510f2a1bcb8d23d3fcdf7cb27ff0bd0d9b0af3cb263",
+    "contract_sha256": "sha256:41b03de6ae2af4264eee189d6b484833804722303df64f2785bb8e622bca61d9",
+    "release_name": "package-greenville-nc-fc6d512-a0d204e3-95483cc1",
+    "cache_events": [
+     {
+      "verdict": "BUILD_EXECUTED",
+      "assembly_kind": "generator_site",
+      "input_key": "67b576af561661f7631ac37773a0f5fc7e959a362b490187a9d8598a6a8c56c6",
+      "seconds": 2.16
+     },
+     {
+      "verdict": "BUILD_EXECUTED",
+      "assembly_kind": "market_bundle",
+      "input_key": "5801fec116409c99086357b1ed4632bee9254d121f32934e755fa0a6490df975",
+      "seconds": 5.59
+     }
+    ],
+    "build_seconds": 30.6
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "K": {
+   "rule": "K",
+   "name": "changed-market output deterministic",
+   "status": "PASS",
+   "seconds": 6.896,
+   "detail": {
+    "input_digest": "sha256:b64b16fea7412ba0907e7510f2a1bcb8d23d3fcdf7cb27ff0bd0d9b0af3cb263",
+    "output_digest_a": "49dd9c7456f64f3deacdcd6ddebb788e4f82fda6a196319fd1fdc56c64b2ae02",
+    "output_digest_b": "49dd9c7456f64f3deacdcd6ddebb788e4f82fda6a196319fd1fdc56c64b2ae02",
+    "result": "BYTE_IDENTICAL",
+    "cold_builds_executed": 4,
+    "reuse_hits": 0,
+    "build_seconds": 6.896
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "L": {
+   "rule": "L",
+   "name": "package/artifact hashes internally consistent",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "package_digest": "sha256:f2113468ddfb4b0622164d854f18e29118126e26c9014d498d4f64aec83a476c",
+    "rederived_digest": "sha256:f2113468ddfb4b0622164d854f18e29118126e26c9014d498d4f64aec83a476c",
+    "evidence_references": 13,
+    "artifacts_available": 0,
+    "artifacts_checked": 0,
+    "dependency_inputs": 7,
+    "dependency_digest": "sha256:2f8e4d18c2f34a87e508f14d190e0dccbf9371016da274c87010d8cf48e385d2"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "M": {
+   "rule": "M",
+   "name": "required evidence freshness/revocation rules satisfied",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "max_age_days": 365,
+    "references": 13,
+    "revoked_registry_size": 0,
+    "earliest_expiry": "2027-09-13T00:00:00Z"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "N": {
+   "rule": "N",
+   "name": "rollback/current-live preservation metadata valid",
+   "status": "PASS",
+   "seconds": 0.023,
+   "detail": {
+    "live": {
+     "live_deploy_id": "6aa750d8fa36419d3c84ecbc",
+     "previous_deploy_id": "6aa60a3e018fd6b1b9a40450",
+     "rollback_target": "6aa60a3e018fd6b1b9a40450",
+     "source_commit": "c4db424ba6b4351158708889c803643be9edc2a3",
+     "bundle_sha256": "e6c669cf14980efc44eaee4799e060e28888cac510498310595fcd125939f965",
+     "sitemap_sha256": "3cb2fc6d20d6fda185345d8d25b30e5489099959b48c516dfa6ae79668b9a99f",
+     "participating_markets": [
+      "asheville-nc",
+      "charlotte-nc",
+      "cincinnati-oh",
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "fayetteville-nc",
+      "grand-rapids-holland-mi",
+      "indianapolis-in",
+      "lexington-ky",
+      "louisville-ky",
+      "milwaukee-wi",
+      "nashville-tn",
+      "piedmont-triad-nc",
+      "pittsburgh-pa",
+      "raleigh-nc",
+      "st-louis-mo",
+      "toledo-oh",
+      "wilmington-nc"
+     ],
+     "profile_counts": {
+      "asheville-nc": 41,
+      "charlotte-nc": 106,
+      "cincinnati-oh": 130,
+      "cleveland-akron-canton-oh": 120,
+      "columbus-oh": 88,
+      "dayton-oh": 54,
+      "fayetteville-nc": 26,
+      "grand-rapids-holland-mi": 43,
+      "indianapolis-in": 82,
+      "lexington-ky": 20,
+      "louisville-ky": 53,
+      "milwaukee-wi": 73,
+      "nashville-tn": 79,
+      "piedmont-triad-nc": 54,
+      "pittsburgh-pa": 61,
+      "raleigh-nc": 63,
+      "st-louis-mo": 82,
+      "toledo-oh": 17,
+      "wilmington-nc": 29
+     },
+     "total_profiles": 1221,
+     "sitemap_route_count": 1438,
+     "deployment_record": "ptf-deploy-fayetteville-004-6aa750d8fa36419d3c84ecbc.json",
+     "authorization_id": "ptf-auth-fayetteville-002-e6c669cf1498",
+     "rollback_record": "ptf-deploy-asheville-002-6aa60a3e018fd6b1b9a40450.json",
+     "rollback_markets": [
+      "asheville-nc",
+      "charlotte-nc",
+      "cincinnati-oh",
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "grand-rapids-holland-mi",
+      "indianapolis-in",
+      "lexington-ky",
+      "louisville-ky",
+      "milwaukee-wi",
+      "nashville-tn",
+      "piedmont-triad-nc",
+      "pittsburgh-pa",
+      "raleigh-nc",
+      "st-louis-mo",
+      "toledo-oh",
+      "wilmington-nc"
+     ],
+     "problems": []
+    },
+    "stale_parent": false
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "O": {
+   "rule": "O",
+   "name": "paid acquisitions used by the package satisfy reservation provenance",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "paid_references": 0,
+    "ledger_cross_checked": 0,
+    "ledger_unknown": 0
+   },
+   "problems": [],
+   "problem_count": 0
+  }
+ },
+ "TIMESTAMPS": {
+  "started_at": "2026-09-14T02:07:11Z",
+  "finished_at": "2026-09-14T02:07:50Z",
+  "seconds": 38.291
+ },
+ "ARTIFACT_DIGESTS": {
+  "changed_market_bundle_sha256_a": "49dd9c7456f64f3deacdcd6ddebb788e4f82fda6a196319fd1fdc56c64b2ae02",
+  "changed_market_bundle_sha256_b": "49dd9c7456f64f3deacdcd6ddebb788e4f82fda6a196319fd1fdc56c64b2ae02",
+  "staged_input_digest": "sha256:b64b16fea7412ba0907e7510f2a1bcb8d23d3fcdf7cb27ff0bd0d9b0af3cb263",
+  "staged_contract_sha256": "sha256:41b03de6ae2af4264eee189d6b484833804722303df64f2785bb8e622bca61d9"
+ },
+ "GLOBAL_INDEX_DIGEST": {
+  "live": "sha256:823cd3fc2cbad9c1031401c761af412a386ee9b88c12fbb9f52a820fd09a9d4a",
+  "proposed": "sha256:91e399fec13dd72c7598a50b9fb728fa43678cb66d675180bf224575b04cedf3"
+ },
+ "PACKAGE_INDEX_DIGEST": "sha256:c50b920fc9ba1c77d4838a333f8ce0689eb460f0be5642b7c2e8edaaf1841353",
+ "INTENDED_DELTA_DIGEST": "sha256:05f353e06f0977f8b702e86165a17d34ef099f04ccf717c231cd24a679a4258b",
+ "DETERMINISM_RESULT": "BYTE_IDENTICAL",
+ "FIRST_PARTY_BINDING_RESULT": "PASS",
+ "COLLISION_RESULT": "PASS",
+ "REMOVAL_RESULT": "PASS",
+ "LEGACY_EXCEPTIONS": [],
+ "ENVIRONMENT": {
+  "python": "3.13.5",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "builder_version": "ptf-market-package-writer/1.0",
+  "contract_versions": {
+   "market": "ptf-market/1.1",
+   "census": "ptf-market-identity-census/1.1",
+   "partition": "ptf-market-final-partition/1.1",
+   "policy_schema": "1.3",
+   "evidence": "contracts.evidence PUBLICATION_GRADE_REQUIRED=evidence_ref,field,quote,source_url,source_grade,artifact_class,artifact_sha256,artifact_kind,captured_at",
+   "identity_key": "ptf_identity_key/1.0",
+   "identity_routing": "ptf-identity-routing/1.0",
+   "hotel_exclusions": "ptf-hotel-exclusions/1.0",
+   "sealed_market_package": "ptf-sealed-market-package/1.0"
+  },
+  "created_from_source_sha": "fc6d512679019f142bd16af6ab48877d2af1a466",
+  "peak_working_set_mb": 61.1
+ },
+ "EXPIRY_REVOCATION_CONDITIONS": {
+  "valid_while": [
+   "the live deployment is 6aa750d8fa36419d3c84ecbc",
+   "the live index digest is sha256:823cd3fc2cbad9c1031401c761af412a386ee9b88c12fbb9f52a820fd09a9d4a",
+   "no referenced artifact is added to evidence_revocations.json",
+   "the evidence is younger than 365 days",
+   "the owning contracts are at the versions recorded in ENVIRONMENT",
+   "the sealed package bytes are unchanged (digest above)"
+  ],
+  "earliest_evidence_expiry": "2027-09-13T00:00:00Z",
+  "evidence_max_age_days": 365
+ },
+ "UNKNOWN_RULES": [],
+ "FAILED_RULES": [],
+ "FAST_DATA_ONLY_RELEASE_ELIGIBLE": "YES",
+ "FULL_REGRESSION_REQUIRED_BY_LANE": "NO",
+ "FAST_PATH_PRODUCTION_ACTIVATION": "DISABLED",
+ "PRODUCTION_ACTIVATION_ALLOWED": "NO",
+ "PERFORMANCE": {
+  "total_seconds": 38.291,
+  "per_rule_seconds": {
+   "A": 0.008,
+   "B": 0.03,
+   "C": 0.048,
+   "D": 0.0,
+   "E": 0.0,
+   "F": 0.0,
+   "G": 0.12,
+   "H": 0.12,
+   "I": 0.12,
+   "J": 30.982,
+   "K": 6.896,
+   "L": 0.0,
+   "M": 0.0,
+   "N": 0.023,
+   "O": 0.0
+  },
+  "changed_market_build_seconds": 30.6,
+  "determinism_build_seconds": 6.896
+ },
+ "RECEIPT_DIGEST": "sha256:db6453c5fac75a0bc091d0c84216d5480e675e08e7a4246b34a9f613caad0d6d"
+}
