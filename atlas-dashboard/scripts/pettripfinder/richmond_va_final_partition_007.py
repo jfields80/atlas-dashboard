@@ -51,8 +51,8 @@ WORK_ORDER = "PTF-RICHMOND-VA-PARALLEL-SOURCE-READY-001"
 MARKET_ID = "richmond-va"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-OUT = os.path.join(PKG, "markets", "staging", "richmond-va", "launch_package",
-                   "richmond_va_final_partition_007.json")
+#: REGISTERED by PTF-RICHMOND-VA-REGISTER-RESEAL-AND-AUTHORIZATION-PREP-002: the package root.
+OUT = os.path.join(PKG, "richmond_va_final_partition_007.json")
 
 #: A family this order MEASURED as refusing on this run, with what it returned. None among the families that name a
 #: census identity: Marriott, Hilton, IHG, Hyatt, Choice, Best Western, Red Roof and Extended Stay America served the
@@ -168,7 +168,7 @@ def _brand_of(row):
 
 
 def build():
-    census = _load(os.path.join(PKG, "identity_census_proposed", "%s.json" % MARKET_ID))
+    census = _load(os.path.join(PKG, "identity_census", "%s.json" % MARKET_ID))
     clean = _load(os.path.join(REPORTS, "richmond_va_clean_authority_001.json"))
     routing = _load(os.path.join(REPORTS, "richmond_va_routing_001.json"), {})
 
