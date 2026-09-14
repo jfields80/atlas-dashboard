@@ -56,7 +56,7 @@ MARKET_ID = "charleston-sc"
 SCHEMA = "ptf-market-clean-authority/1.0"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "charleston-sc.json")
+CENSUS = os.path.join(PKG, "identity_census", "charleston-sc.json")
 ATTENDED = os.path.join(REPORTS, "charleston_sc_attended_capture_001.json")
 STATIC = os.path.join(REPORTS, "charleston_sc_free_static_lane_001.json")  # not produced in this market
 
@@ -346,6 +346,27 @@ def build():
     co_located += [r for r in pf if r not in co_located and address_key(
         r["identity_signals"].get("address_on_page") or "", (r["identity_signals"].get("postal_code") or "")[:5]) in np_streets]
     from scripts.pettripfinder.charleston_sc_census_reconciliation_001 import directional_conflict
+    # PTF-CHARLESTON-SC-REGISTER-RESEAL-AND-AUTHORIZATION-PREP-002: a record is released ONLY when a ruling that validates
+    # under the publication guard's own contract (same_campus_distinct_entity, scoped to THIS market) names EVERY
+    # pet-friendly AND verified-no-pets record at that exact address key. A shared address key no ruling fully covers
+    # stays held.
+    from scripts.pettripfinder import publication_guard as PG
+    from scripts.pettripfinder.site_data import normalize_name
+
+    def _street(r):
+        return address_key(r["identity_signals"].get("address_on_page") or "",
+                           (r["identity_signals"].get("postal_code") or "")[:5])
+    _rulings = [x for x in PG.load_resolutions()
+                if x.get("market_id") == MARKET_ID and x.get("resolution_type") == PG.SAME_CAMPUS]
+    _names_at = {}
+    for r in co_located + nopets:
+        _names_at.setdefault(_street(r), set()).add(normalize_name(r["canonical_name"]))
+
+    def _ruled(r):
+        return any(x.get("address_key") == _street(r)
+                   and _names_at[_street(r)] <= {normalize_name(i["canonical_name"]) for i in x["identities"]}
+                   for x in _rulings)
+    co_located = [r for r in co_located if not _ruled(r)]
     for r in co_located:
         row = OrderedDict((k, r[k]) for k in ("lane", "brand", "source_url", "final_url", "document_sha256",
                                               "document_bytes", "captured_at", "identity_signals",
