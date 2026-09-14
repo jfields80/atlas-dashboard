@@ -1,0 +1,644 @@
+{
+ "schema": "ptf-market-geography/1.0",
+ "work_order": "PTF-HAMPTON-ROADS-VA-PARALLEL-SOURCE-READY-001",
+ "phase": "2 + 3 + 4 -- Hampton Roads multi-core geography, city model, fringe adjudications and corridor model",
+ "market_id": "hampton-roads-va",
+ "as_of": "2026-09-14",
+ "paid_provider_calls": 0,
+ "usd_spent": 0.0,
+ "free_http_requests": 0,
+ "registration_state": "SHADOW_UNTIL_REGISTERED: the market document is written to markets/proposed/, never to the registry's markets/<id>.json. Registration waits for Hampton Roads' turn in the serialized release queue against the then-current live parent.",
+ "membership_rule": "The property's OWN postal code, as its own official page states it, joined to the corridor registry. Nothing else admits a property.",
+ "city_model": "Every corridor sits inside exactly one city (CITY_OF_CORRIDOR), so every admitted hotel carries a city, a corridor and the metro market. The six cores are Virginia Beach, Norfolk, Chesapeake, Portsmouth, Hampton and Newport News; Suffolk is a corridor city; Smithfield and Yorktown are fringe towns.",
+ "travel_market": "Hampton Roads' lodging cores (the Virginia Beach Oceanfront, Town Center and Lynnhaven / Shore Drive; downtown Norfolk, the ORF airport and Military Highway, Ocean View; Greenbrier, Great Bridge and Western Branch in Chesapeake; Portsmouth; Hampton's Coliseum Central and downtown; Newport News City Center / Oyster Point and I-64 / PHF), Suffolk, and the fringe towns a Hampton Roads traveller sleeps in by choice (Smithfield, Yorktown US-17).",
+ "classes": {
+  "CORE": "Virginia Beach Oceanfront (23451, 23450); Virginia Beach Town Center / Pembroke / Newtown Road (23462); Virginia Beach Lynnhaven / Shore Drive / Kempsville / Princess Anne (23452, 23454, 23455, 23453, 23456, 23457, 23459, 23460, 23461, 23464, 23463); Norfolk Downtown / Waterside / Ghent / ODU (23510, 23507, 23517, 23508, 23501, 23504, 23523); Norfolk International Airport (ORF) / Military Highway / Military Circle (23502, 23518, 23513, 23505, 23509); Norfolk Ocean View / Bayfront (23503); Chesapeake Greenbrier / Crossways / Battlefield Boulevard North (23320, 23325); Chesapeake Great Bridge / Battlefield Boulevard South / Deep Creek (23322, 23323, 23324); Chesapeake Western Branch / Chesapeake Square / I-664 (23321); Portsmouth Downtown / Olde Towne / Churchland (23701, 23702, 23703, 23704, 23705, 23707, 23708); Hampton Coliseum Central / Convention Center / Hampton Roads Center (23666); Hampton Mercury Boulevard East / Downtown / Phoebus / Buckroe (23669, 23661, 23663, 23664, 23651, 23670, 23630); Newport News City Center / Oyster Point / Midtown (23606, 23601, 23605, 23607); Newport News I-64 / Jefferson Avenue / Denbigh / PHF Airport (23602, 23608, 23603)",
+  "CORRIDOR": "Suffolk Downtown / US-58 / Harbour View (23434, 23435, 23436, 23433)",
+  "FRINGE": "Smithfield / Carrollton / Benns Church (23430, 23431, 23314); Yorktown US-17 / Tabb / Grafton (23692, 23693)"
+ },
+ "outside_class": "Everything else, refused by name with its postal codes.",
+ "fringe_adjudications": {
+  "Williamsburg / Jamestown / Busch Gardens": {
+   "decision": "OUTSIDE, preserved for the future williamsburg-va market (the order's default)",
+   "why": "The Historic Triangle's 23185 / 23188 lodging (Colonial Williamsburg, Busch Gardens, Kingsmill, the Richmond Road and Route 60 motel strip) sells a destination -- theme park, living-history museum, Jamestown -- to leisure travellers with their own search intent, thirty miles up I-64 from Newport News. Absorbing it would fold a whole second destination market into Hampton Roads."
+  },
+  "Yorktown": {
+   "decision": "SPLIT -- historic Yorktown (23690) OUTSIDE, preserved for williamsburg-va; the US-17 / Tabb / Grafton corridor (23692 / 23693) FRINGE (yorktown-route-17)",
+   "why": "The Riverwalk Landing inns and the battlefield village sit on the Colonial Parkway and are sold as the third point of the Historic Triangle. The US-17 and Victory Boulevard hotels at Grafton and Tabb sit on the Newport News / Hampton line beside NASA Langley and PHF and are peninsula business lodging."
+  },
+  "Poquoson": {
+   "decision": "OUTSIDE -- evaluated carefully",
+   "why": "A small independent city with marinas and neighbourhoods and no hotel core; its travellers sleep in Hampton's Coliseum Central or on US-17."
+  },
+  "Suffolk": {
+   "decision": "CORRIDOR (suffolk: 23434 / 23435 / 23436 / 23433); western Suffolk OUTSIDE",
+   "why": "Downtown Suffolk's US-58 / US-460 bypass hotels and North Suffolk's Harbour View cluster at I-664 serve Hampton Roads travellers; Holland, Whaleyville and Chuckatuck are rural and carry no lodging core (order: do not absorb far western Suffolk solely because it is in the MSA)."
+  },
+  "Smithfield": {
+   "decision": "FRINGE (smithfield: 23430 / 23431 / 23314 Carrollton)",
+   "why": "The Town of Smithfield and the Benns Church / Carrollton cluster at the James River Bridge sit twenty minutes from Newport News and host Smithfield Foods and Isle of Wight business travel; admitted as fringe because their lodging is small and town-scale."
+  },
+  "Military installations": {
+   "decision": "OUTSIDE on installation-only ZIPs; named military lodging refused by name elsewhere",
+   "why": "MILITARY_NONPUBLIC -- an installation-only postal code: lodging there (Navy Gateway Inns & Suites, IHG Army Hotels, Air Force Inns, transient quarters) requires installation access or military eligibility and is not ordinary public lodging; evaluated and refused under the order's military lodging rule."
+  },
+  "Norfolk / Virginia Beach line (Newtown Road, Military Highway)": {
+   "decision": "ZIP decides the corridor; the property's own stated city must be the ZIP's city",
+   "why": "Newtown Road is the Norfolk / Virginia Beach line and Military Highway runs from Norfolk into Chesapeake. A Norfolk-ZIP hotel whose own page says Virginia Beach (or the reverse) is a GEOGRAPHY_HOLD, never silently re-labelled."
+  }
+ },
+ "corridor_page_evaluations": {
+  "Virginia Beach Oceanfront": "SEPARATE CORRIDOR (23451 / 23450).",
+  "Virginia Beach Town Center": "SEPARATE CORRIDOR (23462: Town Center, Pembroke, Newtown Road).",
+  "Norfolk Downtown": "SEPARATE CORRIDOR (23510 / 23507 / 23517 / 23508 ...).",
+  "ORF Airport": "OVERLAY inside norfolk-airport-military-highway -- the airport hotels on North Military Highway share 23502 with Military Circle.",
+  "Military Highway": "SAME CORRIDOR as the airport (23502 / 23513), reported as an overlay; the Chesapeake stretch of South Military Highway is in Chesapeake's corridors.",
+  "Chesapeake Greenbrier": "SEPARATE CORRIDOR (23320 / 23325).",
+  "Chesapeake Battlefield": "SPLIT -- Battlefield Boulevard North (I-64 exit 290) shares 23320 with Greenbrier (overlay); Battlefield Boulevard South / Great Bridge is its own corridor.",
+  "Portsmouth": "SEPARATE CORRIDOR (the whole city).",
+  "Hampton Coliseum": "SEPARATE CORRIDOR (23666), with the Convention Center and Hampton Roads Center as overlays.",
+  "Hampton / Mercury Blvd": "SEPARATE CORRIDOR for Mercury Boulevard East / downtown (23669 / 23661 / 23663); Mercury Boulevard West at I-64 is in 23666 (overlay).",
+  "Newport News City Center": "SEPARATE CORRIDOR (23606 ...), with Oyster Point as an overlay (shared ZIP).",
+  "Oyster Point": "OVERLAY inside newport-news-city-center.",
+  "Newport News I-64": "SEPARATE CORRIDOR (23602 / 23608 / 23603).",
+  "Suffolk": "SEPARATE CORRIDOR (CORRIDOR class).",
+  "Smithfield": "SEPARATE CORRIDOR (FRINGE class).",
+  "Yorktown": "SEPARATE CORRIDOR for US-17 (FRINGE class); historic Yorktown OUTSIDE."
+ },
+ "corridor_registry_is_a_partition": true,
+ "admitted_postal_codes": [
+  "23314",
+  "23320",
+  "23321",
+  "23322",
+  "23323",
+  "23324",
+  "23325",
+  "23430",
+  "23431",
+  "23433",
+  "23434",
+  "23435",
+  "23436",
+  "23450",
+  "23451",
+  "23452",
+  "23453",
+  "23454",
+  "23455",
+  "23456",
+  "23457",
+  "23459",
+  "23460",
+  "23461",
+  "23462",
+  "23463",
+  "23464",
+  "23501",
+  "23502",
+  "23503",
+  "23504",
+  "23505",
+  "23507",
+  "23508",
+  "23509",
+  "23510",
+  "23513",
+  "23517",
+  "23518",
+  "23523",
+  "23601",
+  "23602",
+  "23603",
+  "23605",
+  "23606",
+  "23607",
+  "23608",
+  "23630",
+  "23651",
+  "23661",
+  "23663",
+  "23664",
+  "23666",
+  "23669",
+  "23670",
+  "23692",
+  "23693",
+  "23701",
+  "23702",
+  "23703",
+  "23704",
+  "23705",
+  "23707",
+  "23708"
+ ],
+ "admitted_postal_code_count": 64,
+ "corridors": [
+  {
+   "corridor_id": "hampton-roads-va__virginia-beach-oceanfront",
+   "name": "Virginia Beach Oceanfront",
+   "geography_class": "CORE",
+   "city": "Virginia Beach",
+   "included_postal_codes": [
+    "23451",
+    "23450"
+   ]
+  },
+  {
+   "corridor_id": "hampton-roads-va__virginia-beach-town-center",
+   "name": "Virginia Beach Town Center / Pembroke / Newtown Road",
+   "geography_class": "CORE",
+   "city": "Virginia Beach",
+   "included_postal_codes": [
+    "23462"
+   ]
+  },
+  {
+   "corridor_id": "hampton-roads-va__virginia-beach-central-bayside",
+   "name": "Virginia Beach Lynnhaven / Shore Drive / Kempsville / Princess Anne",
+   "geography_class": "CORE",
+   "city": "Virginia Beach",
+   "included_postal_codes": [
+    "23452",
+    "23454",
+    "23455",
+    "23453",
+    "23456",
+    "23457",
+    "23459",
+    "23460",
+    "23461",
+    "23464",
+    "23463"
+   ]
+  },
+  {
+   "corridor_id": "hampton-roads-va__norfolk-downtown",
+   "name": "Norfolk Downtown / Waterside / Ghent / ODU",
+   "geography_class": "CORE",
+   "city": "Norfolk",
+   "included_postal_codes": [
+    "23510",
+    "23507",
+    "23517",
+    "23508",
+    "23501",
+    "23504",
+    "23523"
+   ]
+  },
+  {
+   "corridor_id": "hampton-roads-va__norfolk-airport-military-highway",
+   "name": "Norfolk International Airport (ORF) / Military Highway / Military Circle",
+   "geography_class": "CORE",
+   "city": "Norfolk",
+   "included_postal_codes": [
+    "23502",
+    "23518",
+    "23513",
+    "23505",
+    "23509"
+   ]
+  },
+  {
+   "corridor_id": "hampton-roads-va__norfolk-ocean-view",
+   "name": "Norfolk Ocean View / Bayfront",
+   "geography_class": "CORE",
+   "city": "Norfolk",
+   "included_postal_codes": [
+    "23503"
+   ]
+  },
+  {
+   "corridor_id": "hampton-roads-va__chesapeake-greenbrier",
+   "name": "Chesapeake Greenbrier / Crossways / Battlefield Boulevard North",
+   "geography_class": "CORE",
+   "city": "Chesapeake",
+   "included_postal_codes": [
+    "23320",
+    "23325"
+   ]
+  },
+  {
+   "corridor_id": "hampton-roads-va__chesapeake-great-bridge-south",
+   "name": "Chesapeake Great Bridge / Battlefield Boulevard South / Deep Creek",
+   "geography_class": "CORE",
+   "city": "Chesapeake",
+   "included_postal_codes": [
+    "23322",
+    "23323",
+    "23324"
+   ]
+  },
+  {
+   "corridor_id": "hampton-roads-va__chesapeake-western-branch",
+   "name": "Chesapeake Western Branch / Chesapeake Square / I-664",
+   "geography_class": "CORE",
+   "city": "Chesapeake",
+   "included_postal_codes": [
+    "23321"
+   ]
+  },
+  {
+   "corridor_id": "hampton-roads-va__portsmouth",
+   "name": "Portsmouth Downtown / Olde Towne / Churchland",
+   "geography_class": "CORE",
+   "city": "Portsmouth",
+   "included_postal_codes": [
+    "23701",
+    "23702",
+    "23703",
+    "23704",
+    "23705",
+    "23707",
+    "23708"
+   ]
+  },
+  {
+   "corridor_id": "hampton-roads-va__hampton-coliseum-central",
+   "name": "Hampton Coliseum Central / Convention Center / Hampton Roads Center",
+   "geography_class": "CORE",
+   "city": "Hampton",
+   "included_postal_codes": [
+    "23666"
+   ]
+  },
+  {
+   "corridor_id": "hampton-roads-va__hampton-mercury-downtown",
+   "name": "Hampton Mercury Boulevard East / Downtown / Phoebus / Buckroe",
+   "geography_class": "CORE",
+   "city": "Hampton",
+   "included_postal_codes": [
+    "23669",
+    "23661",
+    "23663",
+    "23664",
+    "23651",
+    "23670",
+    "23630"
+   ]
+  },
+  {
+   "corridor_id": "hampton-roads-va__newport-news-city-center",
+   "name": "Newport News City Center / Oyster Point / Midtown",
+   "geography_class": "CORE",
+   "city": "Newport News",
+   "included_postal_codes": [
+    "23606",
+    "23601",
+    "23605",
+    "23607"
+   ]
+  },
+  {
+   "corridor_id": "hampton-roads-va__newport-news-i-64-denbigh",
+   "name": "Newport News I-64 / Jefferson Avenue / Denbigh / PHF Airport",
+   "geography_class": "CORE",
+   "city": "Newport News",
+   "included_postal_codes": [
+    "23602",
+    "23608",
+    "23603"
+   ]
+  },
+  {
+   "corridor_id": "hampton-roads-va__suffolk",
+   "name": "Suffolk Downtown / US-58 / Harbour View",
+   "geography_class": "CORRIDOR",
+   "city": "Suffolk",
+   "included_postal_codes": [
+    "23434",
+    "23435",
+    "23436",
+    "23433"
+   ]
+  },
+  {
+   "corridor_id": "hampton-roads-va__smithfield",
+   "name": "Smithfield / Carrollton / Benns Church",
+   "geography_class": "FRINGE",
+   "city": "Smithfield",
+   "included_postal_codes": [
+    "23430",
+    "23431",
+    "23314"
+   ]
+  },
+  {
+   "corridor_id": "hampton-roads-va__yorktown-route-17",
+   "name": "Yorktown US-17 / Tabb / Grafton",
+   "geography_class": "FRINGE",
+   "city": "Yorktown",
+   "included_postal_codes": [
+    "23692",
+    "23693"
+   ]
+  }
+ ],
+ "corridor_count": 17,
+ "corridor_count_by_class": {
+  "CORE": 14,
+  "CORRIDOR": 1,
+  "FRINGE": 2
+ },
+ "corridor_page_rule": "A corridor page publishes only when the existing publication threshold (minimum_hotel_count = 5 verified pet-friendly hotels) is met. No thin corridor page is invented for SEO; every corridor is show_in_navigation/show_in_sitemap false until a registration order publishes it.",
+ "coverage_areas_are_a_reporting_overlay": "The order's named areas that share a postal code with another area are reported from the property's own stated street first and a nearest-anchor overlay on its pin second. The overlay decides nothing about membership or corridor.",
+ "coverage_areas": [
+  {
+   "area": "Virginia Beach Oceanfront",
+   "anchor_lat": 36.85,
+   "anchor_lng": -75.978,
+   "radius_km": 5.0
+  },
+  {
+   "area": "Virginia Beach Town Center",
+   "anchor_lat": 36.844,
+   "anchor_lng": -76.135,
+   "radius_km": 1.6
+  },
+  {
+   "area": "Pembroke / Newtown Road",
+   "anchor_lat": 36.85,
+   "anchor_lng": -76.175,
+   "radius_km": 2.5
+  },
+  {
+   "area": "Norfolk Downtown / Waterside",
+   "anchor_lat": 36.848,
+   "anchor_lng": -76.288,
+   "radius_km": 1.6
+  },
+  {
+   "area": "Ghent / ODU",
+   "anchor_lat": 36.865,
+   "anchor_lng": -76.3,
+   "radius_km": 2.5
+  },
+  {
+   "area": "ORF Airport",
+   "anchor_lat": 36.885,
+   "anchor_lng": -76.205,
+   "radius_km": 2.0
+  },
+  {
+   "area": "Military Circle / Military Highway",
+   "anchor_lat": 36.852,
+   "anchor_lng": -76.208,
+   "radius_km": 2.5
+  },
+  {
+   "area": "Norfolk Ocean View",
+   "anchor_lat": 36.95,
+   "anchor_lng": -76.25,
+   "radius_km": 4.0
+  },
+  {
+   "area": "Chesapeake Greenbrier",
+   "anchor_lat": 36.772,
+   "anchor_lng": -76.233,
+   "radius_km": 2.0
+  },
+  {
+   "area": "Chesapeake Battlefield Blvd North",
+   "anchor_lat": 36.762,
+   "anchor_lng": -76.248,
+   "radius_km": 1.2
+  },
+  {
+   "area": "Chesapeake Great Bridge / Battlefield South",
+   "anchor_lat": 36.72,
+   "anchor_lng": -76.24,
+   "radius_km": 4.0
+  },
+  {
+   "area": "Hampton Coliseum / Convention Center",
+   "anchor_lat": 37.05,
+   "anchor_lng": -76.39,
+   "radius_km": 1.8
+  },
+  {
+   "area": "Hampton Roads Center / Mercury Blvd",
+   "anchor_lat": 37.045,
+   "anchor_lng": -76.37,
+   "radius_km": 3.0
+  },
+  {
+   "area": "Newport News City Center",
+   "anchor_lat": 37.08,
+   "anchor_lng": -76.465,
+   "radius_km": 1.2
+  },
+  {
+   "area": "Oyster Point",
+   "anchor_lat": 37.095,
+   "anchor_lng": -76.48,
+   "radius_km": 2.5
+  },
+  {
+   "area": "PHF Airport",
+   "anchor_lat": 37.13,
+   "anchor_lng": -76.495,
+   "radius_km": 2.5
+  },
+  {
+   "area": "Denbigh / Jefferson Ave I-64",
+   "anchor_lat": 37.14,
+   "anchor_lng": -76.52,
+   "radius_km": 5.0
+  }
+ ],
+ "municipality_refusals": [],
+ "city_of_corridor": {
+  "virginia-beach-oceanfront": [
+   "virginia beach"
+  ],
+  "virginia-beach-town-center": [
+   "virginia beach"
+  ],
+  "virginia-beach-central-bayside": [
+   "virginia beach"
+  ],
+  "norfolk-downtown": [
+   "norfolk"
+  ],
+  "norfolk-airport-military-highway": [
+   "norfolk"
+  ],
+  "norfolk-ocean-view": [
+   "norfolk"
+  ],
+  "chesapeake-greenbrier": [
+   "chesapeake"
+  ],
+  "chesapeake-great-bridge-south": [
+   "chesapeake"
+  ],
+  "chesapeake-western-branch": [
+   "chesapeake"
+  ],
+  "portsmouth": [
+   "portsmouth"
+  ],
+  "hampton-coliseum-central": [
+   "hampton"
+  ],
+  "hampton-mercury-downtown": [
+   "fort monroe",
+   "hampton"
+  ],
+  "newport-news-city-center": [
+   "newport news"
+  ],
+  "newport-news-i-64-denbigh": [
+   "newport news"
+  ],
+  "suffolk": [
+   "suffolk"
+  ],
+  "smithfield": [
+   "carrollton",
+   "smithfield"
+  ],
+  "yorktown-route-17": [
+   "grafton",
+   "seaford",
+   "tabb",
+   "yorktown"
+  ]
+ },
+ "outside_named_and_refused": [
+  {
+   "municipality": "Williamsburg / James City County / Busch Gardens / Lightfoot / Toano / historic Yorktown",
+   "state": "VA",
+   "postal_codes": [
+    "23185",
+    "23186",
+    "23187",
+    "23188",
+    "23168",
+    "23081",
+    "23090",
+    "23690"
+   ],
+   "why": "Williamsburg / Jamestown / James City County / Busch Gardens / Kingsmill / Lightfoot / Toano and historic Yorktown (23690): the Historic Triangle, a destination lodging market with its own search intent on the Colonial Parkway; PRESERVED for the future williamsburg-va market, evaluated and refused here."
+  },
+  {
+   "municipality": "Military installations (Naval Station Norfolk, JEB Little Creek, Fort Eustis, Langley, NWS Yorktown, Norfolk Naval Shipyard)",
+   "state": "VA",
+   "postal_codes": [
+    "23511",
+    "23551",
+    "23521",
+    "23604",
+    "23665",
+    "23691",
+    "23709",
+    "23681"
+   ],
+   "why": "MILITARY_NONPUBLIC -- an installation-only postal code: lodging there (Navy Gateway Inns & Suites, IHG Army Hotels, Air Force Inns, transient quarters) requires installation access or military eligibility and is not ordinary public lodging; evaluated and refused under the order's military lodging rule."
+  },
+  {
+   "municipality": "Poquoson",
+   "state": "VA",
+   "postal_codes": [
+    "23662"
+   ],
+   "why": "The city of Poquoson: a residential and waterfront city between Hampton and York County with no hotel core of its own; evaluated carefully and refused (a single legitimate property there would be an explicit-hotel admission, never a widened postal code)."
+  },
+  {
+   "municipality": "Western Suffolk (Holland / Whaleyville / Chuckatuck / Driver PO)",
+   "state": "VA",
+   "postal_codes": [
+    "23437",
+    "23438",
+    "23432",
+    "23439"
+   ],
+   "why": "Rural western and southern Suffolk along US-58 and VA-10 beyond the downtown bypass: no traveller lodging core; refused by name (order: do not absorb far western Suffolk)."
+  },
+  {
+   "municipality": "Isle of Wight rural / Windsor / Surry",
+   "state": "VA",
+   "postal_codes": [
+    "23397",
+    "23487",
+    "23883",
+    "23846",
+    "23315"
+   ],
+   "why": "Isle of Wight County beyond Smithfield and Carrollton, Windsor and Surry: rural, no hotel core; refused."
+  },
+  {
+   "municipality": "Gloucester / Gloucester Point / Mathews / Hayes",
+   "state": "VA",
+   "postal_codes": [
+    "23061",
+    "23062",
+    "23072",
+    "23109",
+    "23128"
+   ],
+   "why": "The Middle Peninsula north of the York River: its own county lodging; refused by name (order)."
+  },
+  {
+   "municipality": "Virginia Eastern Shore (Cape Charles / Cheriton / Exmore / Chincoteague / Onley)",
+   "state": "VA",
+   "postal_codes": [
+    "23310",
+    "23316",
+    "23350",
+    "23336",
+    "23417",
+    "23413",
+    "23420"
+   ],
+   "why": "The Eastern Shore across the Chesapeake Bay Bridge-Tunnel; refused by name (order)."
+  },
+  {
+   "municipality": "North Carolina (Moyock / Currituck / Corolla / Outer Banks / Elizabeth City)",
+   "state": "NC",
+   "postal_codes": [
+    "27958",
+    "27929",
+    "27927",
+    "27909",
+    "27949",
+    "27948",
+    "27959",
+    "27954"
+   ],
+   "why": "North Carolina's Currituck County, Elizabeth City and the Outer Banks: another state and another market (outer-banks-nc is its own registered market); refused by name (order)."
+  },
+  {
+   "municipality": "New Kent / Charles City / West Point / Richmond region",
+   "state": "VA",
+   "postal_codes": [
+    "23124",
+    "23140",
+    "23030",
+    "23181",
+    "23219"
+   ],
+   "why": "New Kent County, Charles City and the Richmond region up I-64; refused (richmond-va is its own market)."
+  },
+  {
+   "municipality": "Franklin / Southampton / Courtland / Emporia",
+   "state": "VA",
+   "postal_codes": [
+    "23851",
+    "23837",
+    "23847"
+   ],
+   "why": "Franklin and Southampton County on US-58 west of Suffolk; refused."
+  }
+ ],
+ "observation_is_not_admission": "Six cells observe Williamsburg, historic Yorktown, Gloucester Point, Poquoson, Moyock NC and western Suffolk. They admit nothing.",
+ "military_lodging_rule": "MILITARY_NONPUBLIC -- an installation-only postal code: lodging there (Navy Gateway Inns & Suites, IHG Army Hotels, Air Force Inns, transient quarters) requires installation access or military eligibility and is not ordinary public lodging; evaluated and refused under the order's military lodging rule. Ordinary publicly bookable commercial hotels serving military travellers are admitted on their own postal code.",
+ "beach_resort_rule": "Qualifying publicly bookable hotels, motels, resorts, inns and extended-stay hotels enter under the existing lodging contract. Individual condos, vacation-rental units, Airbnb / Vrbo inventory, property-management portfolios, timeshare units without normal public hotel operation and private residential inventory are never admitted. A complex resort is decided on exact premises identity: one hotel identity, several distinct hotels, condo / timeshare inventory, or non-public lodging.",
+ "non_hotel_rule": "The census admits hotels, motels, inns, boutique and historic hotels, extended-stay hotels and qualifying public lodging establishments operated as lodging businesses: bookable nightly rooms or suites sold to the public under one establishment name, with an official property page and an on-site hotel operation. It NEVER admits: ordinary apartment communities or individual apartments; corporate-housing and furnished-apartment portfolios; student housing; individual houses or cottages rented whole; Airbnb / Vrbo-style listings; vacation-rental management companies; timeshare inventory unless the property independently qualifies as a hotel; private residences; and military lodging closed to the public. Campgrounds, RV parks and hostels-as-dormitories are NON_LODGING.",
+ "config_written": "scripts/pettripfinder/discovery/config/hampton_roads_va.json",
+ "market_document_written": "launch_packages/pettripfinder/markets/proposed/hampton-roads-va.json",
+ "cells_total": 26,
+ "cells_admitting": 20,
+ "cells_observation_only": 6
+}
