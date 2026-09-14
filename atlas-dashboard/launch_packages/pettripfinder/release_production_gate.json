@@ -1,6 +1,6 @@
 {
  "schema": "ptf-release-production-gate/1.0",
- "work_order": "PTF-ASHEVILLE-NC-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-002",
+ "work_order": "PTF-FAYETTEVILLE-NC-RESUME-HOST-DEPLOY-004",
  "what_this_is": "The explicit allowlist that gates REAL production activation by the release coordinator. ATLAS-THROUGHPUT-006 built the remote validation lane, the trusted artifact handoff, the release queue and a real host adapter, and left this gate EMPTY on purpose. A market is activated for real only when the founder adds it here, names the candidate digest they authorised, and the coordinator's own guards still pass at the moment of the call. There is no implicit opt-in: an empty allowlist means no market can be deployed by this machinery, whatever else is green.",
  "RELEASE_COORDINATOR_PRODUCTION_ENABLED": "NO",
  "RELEASE_COORDINATOR_PRODUCTION_ALLOWED_MARKETS": [],
@@ -110,6 +110,24 @@
    "host_deployment_id": "6aa60a3e018fd6b1b9a40450",
    "deployment_record_id": "ptf-deploy-asheville-002-6aa60a3e018fd6b1b9a40450",
    "outcome": "DEPLOYED and verified live; the gate is closed again by the same work order that opened it."
+  },
+  {
+   "work_order": "PTF-FAYETTEVILLE-NC-RESUME-HOST-DEPLOY-004",
+   "authorizing_work_order": "PTF-FAYETTEVILLE-NC-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-002",
+   "market_id": "fayetteville-nc",
+   "authorization_id": "ptf-auth-fayetteville-002-e6c669cf1498",
+   "candidate_digest": "e6c669cf14980efc44eaee4799e060e28888cac510498310595fcd125939f965",
+   "deployment_artifact_digest": "e6c669cf14980efc44eaee4799e060e28888cac510498310595fcd125939f965",
+   "parent_release_digest": "d98a24038ef25df4b481e71b8436377ff01abc2bc80a11de2fe7222df9dadb36",
+   "package_digest": "sha256:37769ac1dcf9005829e5d268cd24935a61b6aef439441a75feb516144f47548b",
+   "intended_delta_digest": "sha256:35ad3b350d55a8506f3bff5ac8f93bbdca782d03a5d0173c7b1253e7896e5dfd",
+   "opened_at": "2026-09-14T01:40:43+00:00",
+   "scope": "ONE market and ONE candidate: fayetteville-nc only, for the exact authorized digest. Re-opened to resume the host deployment refused on 2026-09-13; the authorization is the original founder decision.",
+   "lifecycle": "CONSUMED and the allowlist emptied by this same work order once the deployment is verified live.",
+   "consumed_at": "2026-09-14T01:45:46+00:00",
+   "host_deployment_id": "6aa750d8fa36419d3c84ecbc",
+   "deployment_record_id": "ptf-deploy-fayetteville-004-6aa750d8fa36419d3c84ecbc",
+   "outcome": "DEPLOYED and verified live; the gate is closed again by the same work order that re-opened it."
   }
  ]
 }
