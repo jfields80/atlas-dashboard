@@ -1,11 +1,12 @@
 """PTF-BANNER-ELK-SUGAR-BEECH-NC-PARALLEL-SOURCE-READY-001 -- complete accounting.
 
-Cloned from the Atlanta GA accounting helper. Every discovered candidate, every
-census identity in exactly one disposition, every hold by class, per-corridor and
-per-town coverage, lane yields, the vacation-rental filter's refusals, the shadow
-package's identity, its independent reproduction, measured timings and the release
-stop -- computed from the committed market-local documents, never typed (the
-timings are the wall-clock observations of this run, recorded as observed).
+Cloned from the Boone - Blowing Rock NC accounting helper. Every discovered
+candidate, every census identity in exactly one disposition, every hold by class,
+per-corridor and per-town coverage, lane yields, the vacation-rental filter's
+refusals, the owned evidence reused, the shadow seal's reproducibility, the FAST
+outcome, measured timings and the release stop -- computed from the committed
+market-local documents, never typed (the timings and the FAST outcome are the
+wall-clock observations of this run, recorded as observed).
 
 Output:
   launch_packages/pettripfinder/markets/reports/banner_elk_sugar_beech_nc_source_ready_accounting_009.json
@@ -14,7 +15,6 @@ from __future__ import annotations
 
 import json
 import os
-import re
 import sys
 from collections import Counter, OrderedDict
 
@@ -28,21 +28,58 @@ PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
 STAGING = os.path.join(PKG, "markets", "staging", MARKET_ID)
 OUT = os.path.join(REPORTS, "banner_elk_sugar_beech_nc_source_ready_accounting_009.json")
+INPUTS_COMMIT = "e7684f853571bcf5fa597aa808fbcc947f3b4ba2"
 
 #: Measured wall-clock facts of this run (UTC), recorded as observed.
 TIMINGS = OrderedDict([
-    ("BOONE_BLOWING_ROCK_START_TIMESTAMP", "2026-09-14T00:29:27Z (2026-09-13T20:29:27-04:00)"),
-    ("precheck_and_template_read", "00:29Z-00:36Z (worktree, branch, HEAD e312caa6 = the Asheville-live parent, tree clean; Outer Banks / Atlanta / Jacksonville shadow chains read)"),
-    ("geography_and_corridor_model", "by 00:41Z (5 corridors: 2 CORE / 2 CORRIDOR / 1 FRINGE, 9 admitted ZIPs; Banner Elk / Sugar / Beech / Seven Devils and Avery County OUTSIDE, preserved for banner-elk-sugar-beech-nc)"),
-    ("osm_lane", "404.3 s (North Carolina extract, hard link of the 2026-09-10 snapshot; 301 hotel / motel / guest_house / chalet / apartment elements)"),
-    ("brand_inventory_lane", "97 free requests (Marriott NC sitemap page, 18 Hilton city pages, Wyndham sitemap walk, family probes)"),
-    ("destination_roster", "Explore Boone (Boone TDA) listing service, 8 'Hotels & Cabins' sub-categories, 9 requests at Crawl-delay 2; High Country Host regional visitor-center roster read once"),
-    ("attended_browser_evidence", "Hilton 2, Marriott 5, IHG 4 (same-origin, payload digests verified); Choice closed with bot-challenge shells; Best Western route not reached"),
-    ("static_first_party_lanes", "Wyndham property service 8.4 s (6 routes: 1 read, 5 retired); static home pages 31 s (22 targets); policy-page lane 17.3 s (40 sites, 114 documents)"),
-    ("source_ready_inputs_committed", "2026-09-14T00:57:43Z (7adbafd1)"),
-    ("shadow_package_sealed_and_fast", "00:57:52Z-00:58:40Z (sealed twice in-process, FAST 15/15)"),
-    ("independent_reproduction", "00:59:00Z-01:01Z (clean git worktree at 7adbafd1: separate-process digest-only seal = same digest; geography, brand pages, capture, census, clean set, staged authority, partition and staged shard rebuilt from committed captures -- zero content difference, the discovery config differs only by the worktree's CRLF checkout of an eol-unattributed file; same digest a third time)"),
-    ("ZERO_TO_SOURCE_READY", "29 min 13 s (00:29:27Z -> 00:58:40Z, FAST-passed sealed shadow package)"),
+    ("BANNER_ELK_START_TIMESTAMP", "2026-09-14T13:22:48Z (2026-09-14T09:22:48-04:00)"),
+    ("precheck_and_template_read", "13:22Z-13:30Z (branch base 7b630cfa = the Jacksonville-live parent, tree clean; the Boone "
+                                   "source-ready chain 7adbafd1 / 20dbda61 read and cloned)"),
+    ("geography_and_corridor_model", "by 13:36Z (3 corridors: 1 CORE / 1 CORRIDOR / 1 FRINGE, 6 admitted ZIPs; Boone's "
+                                     "postal codes refused by name)"),
+    ("osm_lane", "413.2 s (North Carolina extract, hard link of the Boone run's copy; 226 lodging elements in the box)"),
+    ("brand_inventory_lane", "93 free requests (Marriott NC sitemap page, 14 Hilton city pages, 16 family sitemaps)"),
+    ("destination_rosters", "99 free requests (Banner Elk TDA, Beech Mountain Visitor Center, Avery County Chamber, High "
+                            "Country Host, Sugar Mountain Resort) + 42 Explore Boone rows owned at zero requests"),
+    ("static_and_policy_page_lanes", "static 25.4 s (27 targets); policy pages 25.2 s (47 sites, 119 documents)"),
+    ("attended_browser_evidence", "The Lodge at Banner Elk and 4 Seasons at Beech Mountain (same-origin fetch, row digests "
+                                  "verified); beechmountaininns.com and thebannerelkinn.com not permitted in the browser"),
+    ("first_inputs_committed", "2026-09-14T13:54:56Z (b31d1f5e, census 14)"),
+    ("first_seal_and_fast", "13:55:08Z-13:55:55Z: sealed twice in-process (pkg ...778cd82b, equal digests); the FAST lane's "
+                            "cold bundle build REFUSED -- NOT LAUNCH READY, 4 ready pet-friendly listings against the "
+                            "market's own declared minimum_published_hotels = 5; no receipt; the unreceipted package was "
+                            "removed; clean-worktree reproduction of b31d1f5e also matched (13:56Z-13:59Z)"),
+    ("last_acquisition_probe", "13:59Z-14:01Z: remaining independents re-probed; Beech Alpen Inn's own site states its "
+                               "address (identity opened, policy silent); no fifth pet-friendly read found"),
+    ("source_inputs_committed", "2026-09-14T14:01:3xZ (e7684f85, census 15)"),
+    ("shadow_seal_and_fast", "14:01:37Z-14:02Z: sealed twice in-process (pkg ...eb8d7487, equal digests); FAST cold bundle "
+                             "build REFUSED again -- NOT LAUNCH READY (4 < 5); no receipt; unreceipted package removed"),
+    ("independent_reproduction", "14:04Z-14:05Z (clean git worktree at e7684f85: geography, capture, census, clean set, "
+                                 "staged authority, partition and staged shard rebuilt from committed captures with zero "
+                                 "content difference -- only the CRLF checkout of the eol-unattributed discovery config -- and "
+                                 "a separate-process digest-only seal reproduced sha256:eb8d7487...)"),
+    ("ZERO_TO_SOURCE_READY", "NOT REACHED -- the market stops at the launch-inventory floor; first refusal 33 min 07 s after "
+                             "start (13:22:48Z -> 13:55:55Z), confirmed on the final inputs at 14:02Z"),
+])
+
+#: The FAST outcome observed on this run (the lane aborted before it wrote a receipt).
+FAST_OUTCOME = OrderedDict([
+    ("package_id", "pkg-banner-elk-sugar-beech-nc-eb8d7487a044a10a"),
+    ("package_digest", "sha256:eb8d7487a044a10afb80b84c4790530099e954d89df7c9f381ea01124b242fa2"),
+    ("execution_zone", "SHADOW_UNTIL_REGISTERED"),
+    ("created_from_source_sha", "e7684f853571bcf5fa597aa808fbcc947f3b4ba2"),
+    ("parent_live_state", "the Jacksonville-live release at the branch base (live deploy 6aa77cb84f4fd6b6926c5445, rollback "
+                          "6aa76e5d940d5025e8262319); Atlanta is live on its own branch, so rule N would fail it regardless"),
+    ("superseded_first_seal", "pkg-banner-elk-sugar-beech-nc-778cd82b7f33f5ab (inputs b31d1f5e, census 14)"),
+    ("reproducible_in_process", "YES"),
+    ("reproducible_clean_worktree_separate_process", "YES"),
+    ("fast_result", "ABORTED_AT_COLD_BUNDLE_BUILD -- 0 / 15 rules completed, no receipt"),
+    ("refusal", "NOT LAUNCH READY: real inventory is below the approved launch threshold (ready_total 4, "
+                "minimum_total_listings 5 from the market's own minimum_published_hotels). Refusing to build the public site."),
+    ("why_not_lowered", "minimum_published_hotels = 5 was authored before any inventory existed and is the floor every "
+                        "registered PetTripFinder market carries; lowering it to fit a count is weakening the standard, "
+                        "and the order forbids it"),
+    ("package_committed", "NO -- a sealed package with no FAST receipt is not lifecycle-safe to keep"),
 ])
 
 
@@ -64,23 +101,18 @@ def _pin(row):
 
 
 def town_coverage(hotels, pf, np_):
-    """The order's named towns: the property's OWN stated municipality where it names one,
-    else the nearest-anchor overlay on its pin. Reporting only -- Kitty Hawk, Southern
-    Shores and Duck share one postal code and one corridor."""
+    """The order's named towns, by the property's own stated municipality, then its pin. Reporting only."""
     from scripts.pettripfinder import banner_elk_sugar_beech_nc_geography_001 as GEO
-    towns = OrderedDict((a, []) for a in (
-        "Boone Downtown / App State", "Boone US-321", "Boone US-421", "Boone NC-105 / Foscoe",
-        "Blowing Rock village", "Blue Ridge Parkway / resort corridor", "Valle Crucis / Vilas", "Deep Gap",
-        "Sugar Grove / Zionville / Todd"))
+    towns = OrderedDict((a, []) for a in ("Banner Elk", "Sugar Mountain", "Beech Mountain", "Seven Devils",
+                                          "Linville / Grandfather", "Newland", "Elk Park"))
     unplaced = []
     for h in hotels:
         state = ("PUBLISHED_PET_FRIENDLY" if h["identity_key"] in pf
                  else "VERIFIED_NO_PETS" if h["identity_key"] in np_ else "UNRESOLVED")
-        row = OrderedDict([("canonical_name", h["canonical_name"]), ("state", state), ("street", h.get("street"))])
+        row = OrderedDict([("canonical_name", h["canonical_name"]), ("state", state), ("city", h.get("city"))])
         p = _pin(h) or (None, None)
-        area = GEO.route_overlay((h.get("corridor") or "").split("__")[-1], h.get("street"), p[0], p[1])
-        basis = "own stated street, then pin (geography route_overlay)"
-        row["basis"] = basis
+        area = GEO.route_overlay((h.get("corridor") or "").split("__")[-1], h.get("street"), p[0], p[1], h.get("city"))
+        row["basis"] = "own stated municipality, then pin (geography route_overlay)"
         (towns[area] if area in towns else unplaced).append(row)
 
     def summary(rows):
@@ -90,8 +122,8 @@ def town_coverage(hotels, pf, np_):
                             ("unresolved", sum(1 for r in rows if r["state"] == "UNRESOLVED")),
                             ("identities", rows)])
     return OrderedDict([
-        ("what_it_is", "Coverage for the order's named towns. Reporting only; membership and corridor come from the "
-                       "postal partition. Boone's road corridors all sit in 28607."),
+        ("what_it_is", "Coverage for the order's named towns. Reporting only; Banner Elk, Sugar Mountain, Beech Mountain "
+                       "and Seven Devils share 28604 and one corridor."),
         ("towns", OrderedDict((a, summary(rows)) for a, rows in towns.items())),
         ("unplaced", summary(unplaced)),
     ])
@@ -107,9 +139,8 @@ def build():
     gaps = _load(os.path.join(REPORTS, "banner_elk_sugar_beech_nc_competitor_gap_matrix_001.json"))
     osm = _load(os.path.join(REPORTS, "banner_elk_sugar_beech_nc_osm_lane_001.json"))
     brand = _load(os.path.join(REPORTS, "banner_elk_sugar_beech_nc_brand_inventory_001.json"))
-    wyn = _load(os.path.join(REPORTS, "banner_elk_sugar_beech_nc_wyndham_lane_001.json"))
     roster = _load(os.path.join(REPORTS, "banner_elk_sugar_beech_nc_destination_roster_001.json"))
-    shadow = _load(os.path.join(REPORTS, "banner_elk_sugar_beech_nc_shadow_package_008.json"))
+    boone = _load(os.path.join(REPORTS, "boone_blowing_rock_nc_census_reconciliation_001.json"))
 
     hotels, non_admitted = census["hotels"], census["non_admitted"]
     items = partition["items"]
@@ -126,71 +157,57 @@ def build():
 
     geo_holds = names("IDENTITY_REVIEW_REQUIRED", lambda r: reason(r).startswith("GEOGRAPHY_HOLD"))
     review = names("IDENTITY_REVIEW_REQUIRED", lambda r: not reason(r).startswith("GEOGRAPHY_HOLD"))
-    access_families = Counter()
-    for i in items:
-        if i["final_state"] == "ACCESS_BLOCKED":
-            access_families["BRAND_FAMILY" if "this family gave" in (i.get("next_action") or "") else "OWN_SITE"] += 1
-    future = names("OUTSIDE_MARKET", lambda r: "FUTURE_SUBMARKET" in reason(r))
+    neighbour = names("OUTSIDE_MARKET", lambda r: "NEIGHBOUR_MARKET" in reason(r))
     non_hotel = [r for r in non_admitted if r["classification"] == "NON_LODGING"]
 
     def nh_class(r):
         why = reason(r).lower()
-        subs = {x for o in r.get("evidence") or ()
-                for x in (o.get("bureau_all_subcategories") or [o.get("bureau_subcategory")]) if x}
         if "timeshare" in why:
             return "TIMESHARE_VACATION_OWNERSHIP"
-        if "Cabin Rental Company" in subs:
-            return "CABIN_RENTAL_COMPANY"
-        if "RV & Campgrounds" in subs:
-            return "CAMPGROUND_RV"
-        if "Farm Stays" in subs:
-            return "FARM_STAY"
-        if "Cabins, Cottages & Condos" in subs:
-            return "CABIN_COTTAGE_CONDO_RENTAL"
-        if "tourism=" in why or "cottage" in why:
-            return "MAP_CABIN_CHALET_CONDO_UNIT"
-        return "OTHER_NON_HOTEL"
+        if "condominium" in why:
+            return "CONDO_COMPLEX_OR_UNIT"
+        if "rental-portfolio" in why or "property-management" in why:
+            return "RENTAL_COMPANY_OR_PLATFORM"
+        if "destination roster files" in why:
+            return "ROSTER_TYPED_CABIN_CONDO_VACATION_HOME"
+        if "campground" in why or "summer camp" in why:
+            return "CAMP_RETREAT_CAMPGROUND_RV"
+        if "tourism=" in why or "cabin" in why or "cottage" in why:
+            return "CABIN_COTTAGE_CHALET"
+        if "competitor short-term-rental" in why:
+            return "COMPETITOR_RENTAL_LISTING"
+        return "OTHER_NON_LODGING"
 
     holds = OrderedDict([
         ("IDENTITY_HOLDS", OrderedDict([
             ("count", len(review) + len(names("NAME_ONLY_UNRESOLVED")) + len(names("SAME_IDENTITY_REBRAND_SUCCESSOR"))),
             ("identity_review_required", review),
             ("name_only_unresolved", names("NAME_ONLY_UNRESOLVED")),
-            ("rebrand_unresolved", names("SAME_IDENTITY_REBRAND_SUCCESSOR")),
-            ("note", "Not census identities and never published: lodging-category-unconfirmed rows (Art of Living "
-                     "Retreat Center, Willow Valley Resort), map rows with no postal code (Blowing Rock Lodge, Hotel "
-                     "Portofino), a name-only lead tied between two Courtyards, and names with no address of their "
-                     "own (Chetola, Green Park Inn, Homestead Inn, Best Western Blue Ridge Plaza, Scottish Inns, "
-                     "Greenes Motel, Inn at the Ponds, Park Vista Inn).")])),
+            ("rebrand_unresolved", names("SAME_IDENTITY_REBRAND_SUCCESSOR"))])),
         ("ROUTING_HOLDS", OrderedDict([("count", states.get("AWAITING_OFFICIAL_URL", 0)),
                                        ("identities", by_state.get("AWAITING_OFFICIAL_URL", []))])),
         ("ACCESS_BLOCKED", OrderedDict([("count", states.get("ACCESS_BLOCKED", 0)),
-                                        ("by_cause", dict(access_families)),
                                         ("identities", by_state.get("ACCESS_BLOCKED", []))])),
         ("EVIDENCE_HOLDS", OrderedDict([("count", states.get("AWAITING_POLICY_OBSERVATION", 0)),
                                         ("identities", by_state.get("AWAITING_POLICY_OBSERVATION", [])),
                                         ("rejected_reads_by_class", clean["counts"]["rejected_by_class"])])),
         ("GEOGRAPHY_HOLDS", OrderedDict([("count", len(geo_holds)), ("identities", geo_holds)])),
-        ("PAID_HOLDS", OrderedDict([
-            ("count", access_families.get("BRAND_FAMILY", 0)),
-            ("note", "The ACCESS_BLOCKED identities whose brand family (Choice: Comfort Suites, Quality Inn, Sleep Inn; "
-                     "Radisson: Country Inn & Suites) refused this client are the "
-                     "paid-lane candidates. Same rows as ACCESS_BLOCKED, not an additional disposition; PAID PROVIDER "
-                     "BUDGET was $0 and no paid lane was used or reserved.")])),
+        ("PAID_HOLDS", OrderedDict([("count", 0), ("note", "No row is blocked by a brand family whose surface refused; "
+                                                           "PAID PROVIDER BUDGET was $0 and no paid lane was used.")])),
         ("FOUNDER_HOLDS", OrderedDict([
             ("count", 0),
-            ("note", "No row requires a founder ruling. Conflicts, single-suite exceptions and reads the shared reader "
-                     "does not interpret are EVIDENCE holds.")])),
+            ("note", "No row requires a founder ruling. The Mast Farm Inn (Valle Crucis beside 28604) is a GEOGRAPHY "
+                     "hold decided by the geography's stated rule; the release floor is a standing contract value, "
+                     "not a per-row ruling.")])),
         ("CLOSED_OR_RETIRED", OrderedDict([
-            ("count", len(wyn.get("retired_routes") or [])),
-            ("wyndham_retired_routes", wyn.get("retired_routes")),
-            ("note", "Wyndham routes that redirect to the brand's search: Days Inn Blowing Rock (Boone area), Super 8 "
-                     "Boone and the legacy La Quinta Boone route (the property trades on its live La Quinta Inn & Suites "
-                     "Boone University route), plus Days Inn West Jefferson and Days Inn Lenoir outside. Routes, not "
-                     "census identities.")])),
+            ("count", 1),
+            ("identities", ["Best Western Mountain Lodge (former flag of The Lodge at Banner Elk; the map's Best Western "
+                            "route is superseded by the property's own site)"]),
+            ("note", "The Inn at Elk River is listed CLOSED by a third-party directory only; no first-party or roster "
+                     "source in this order names it, so it is recorded here and never entered the census.")])),
         ("OUTSIDE", OrderedDict([("count", len(names("OUTSIDE_MARKET"))),
-                                 ("future_submarket_banner_elk_sugar_beech", len(future)),
-                                 ("future_submarket_identities", future)])),
+                                 ("live_neighbour_boone_blowing_rock", len(neighbour)),
+                                 ("neighbour_identities", neighbour)])),
         ("NON_HOTEL", OrderedDict([("count", len(non_hotel)),
                                    ("by_kind", OrderedDict(sorted(Counter(nh_class(r) for r in non_hotel).items()))),
                                    ("identities", sorted(r["canonical_name"] for r in non_hotel))])),
@@ -198,8 +215,8 @@ def build():
 
     pf = {i["identity_key"] for i in items if i["final_state"] == "PUBLISHED_PET_FRIENDLY"}
     np_ = {i["identity_key"] for i in items if i["final_state"] == "VERIFIED_NO_PETS"}
-    minimum = {c["corridor_id"]: c.get("minimum_hotel_count", 5)
-               for c in _load(os.path.join(PKG, "markets", "proposed", "%s.json" % MARKET_ID))["corridors"]}
+    market = _load(os.path.join(PKG, "markets", "proposed", "%s.json" % MARKET_ID))
+    minimum = {c["corridor_id"]: c.get("minimum_hotel_count", 5) for c in market["corridors"]}
     coverage = []
     for c in geography["corridors"]:
         cid = c["corridor_id"]
@@ -214,21 +231,27 @@ def build():
             ("corridor_page_publishes", n_pf >= minimum.get(cid, 5)),
         ]))
 
+    boone_preserved = [r for r in boone["rows"] if "FUTURE_SUBMARKET" in (r.get("classification_reason") or "")
+                       or r["postal_code"] in ("28604", "28646", "28657", "28622")]
+    carried = OrderedDict()
+    mine = {r["canonical_name"].lower(): r for r in recon["rows"]}
+    for r in boone_preserved:
+        m = mine.get(r["canonical_name"].lower())
+        carried[r["canonical_name"]] = m["classification"] if m else "NOT_SEEN_BY_THIS_ORDER_UNDER_THAT_NAME"
+
     doc = OrderedDict([
         ("schema", "ptf-market-source-ready-accounting/1.0"), ("work_order", WORK_ORDER), ("market_id", MARKET_ID),
-        ("display_market", "Boone \u2013 Blowing Rock, North Carolina"),
-        ("state", "SOURCE_READY -- SHADOW_UNTIL_REGISTERED"),
-        ("release_queue", "Fayetteville (founder-authorized, host deploy blocked) -> Jacksonville -> Greenville -> "
-                          "Atlanta -> Outer Banks -> Boone - Blowing Rock"),
+        ("display_market", "Banner Elk – Sugar Mountain – Beech Mountain, North Carolina"),
+        ("state", "NOT_SOURCE_READY -- census, evidence and staged authority built and reproducible; the FAST cold bundle "
+                  "build refuses below the market's own minimum_published_hotels (4 verified pet-friendly of 5)"),
+        ("inputs_commit", INPUTS_COMMIT),
         ("timings", TIMINGS),
         ("accounting", OrderedDict([
             ("TOTAL_DISCOVERED", census["total_candidates"]),
             ("total_discovered_note",
              "Distinct candidate identities in the identity graph after merging every lane. Not counted: %d unnamed map "
-             "elements, %d retired Wyndham routes, the Hilton national-navigation codes the city pages carry for other "
-             "states, and non-lodging bureau listing pages." % (
-                 sum(1 for e in osm["elements"] if not (e.get("tags") or {}).get("name")),
-                 len(wyn.get("retired_routes") or []))),
+             "elements (condo buildings and chalets), the Hilton national-navigation codes the city pages carry for "
+             "other states." % sum(1 for e in osm["elements"] if not (e.get("tags") or {}).get("name"))),
             ("classification_counts", census["classification_counts"]),
             ("PROPOSED_CENSUS", census["count"]),
             ("VALID_PET_FRIENDLY", states.get("PUBLISHED_PET_FRIENDLY", 0)),
@@ -238,6 +261,7 @@ def build():
             ("every_census_identity_has_exactly_one_disposition",
              len(items) == census["count"] and len({i["identity_key"] for i in items}) == census["count"]),
             ("every_census_identity_key_unique", len({h["identity_key"] for h in hotels}) == len(hotels)),
+            ("cross_market_identity_collisions", recon.get("cross_market_identity_collisions")),
         ])),
         ("holds_by_class", holds),
         ("corridor_coverage", coverage),
@@ -247,65 +271,56 @@ def build():
             ("osm_elements", osm["element_count"]),
             ("brand_inventory_leads", brand["lead_count"]),
             ("brand_family_dispositions", brand.get("dispositions")),
-            ("destination_roster", OrderedDict([("coverage", roster.get("coverage")),
-                                                ("listing_pages_read", roster.get("listing_pages_read")),
-                                                ("lodging_listings", roster["listing_count"]),
-                                                ("by_subcategory", roster["lodging_by_subcategory"])])),
+            ("destination_rosters", OrderedDict([("listings", roster["listing_count"]),
+                                                 ("by_source", roster["listings_by_source"]),
+                                                 ("by_subcategory", roster["lodging_by_subcategory"])])),
             ("census_lane_observations", recon["lane_yields"]),
             ("first_party_reads", capture["counts"]),
-            ("wyndham_property_service", OrderedDict([("routes", wyn["routes_selected"]), ("read", wyn["read"]),
-                                                      ("retired", wyn["retired"]), ("errors", wyn["errors"])])),
             ("clean_set", clean["counts"]),
         ])),
         ("competitor_gap_challenge", gaps["counts"]),
         ("owned_evidence", OrderedDict([
-            ("OWNED_IDENTITIES", "0 -- no committed census held any Boone - Blowing Rock identity."),
-            ("OWNED_ROUTES", "0 -- the committed national harvest carries no High Country route."),
-            ("OWNED_VALID_POLICY_EVIDENCE", "0 -- every policy record here is a new first-party capture of this order."),
+            ("OWNED_IDENTITIES", "%d rows the Boone - Blowing Rock build preserved for this market (FUTURE_SUBMARKET or an "
+                                 "Avery postal code); each re-classified here: %s" % (len(boone_preserved), dict(carried))),
+            ("OWNED_ROUTES", "1 -- Courtyard Sugar Mountain Banner Elk (tribc) from Marriott's NC sitemap; the national "
+                             "harvest carries no Avery County route"),
+            ("OWNED_VALID_POLICY_EVIDENCE", "1 -- the Boone attended pass's Courtyard Sugar Mountain Banner Elk Marriott "
+                                            "row (2026-09-13, sha256 76b23af4...), carried verbatim"),
+            ("OWNED_ROSTER_ROWS", "42 Explore Boone listing-service rows inside the observation box, read at zero requests"),
         ])),
-        ("package", OrderedDict([
-            ("SHADOW_PACKAGE_CREATED", "YES"), ("execution_zone", shadow["execution_zone"]),
-            ("package_id", shadow["package_id"]), ("PACKAGE_DIGEST", shadow["package_digest"]),
-            ("created_from_source_sha", shadow["created_from_source_sha"]),
-            ("package_path", shadow["package_path"]),
-            ("BUILD_INPUT_KEY", shadow["build_input_key"]),
-            ("INTENDED_DELTA", shadow["intended_delta"]),
-            ("VALIDATION_RECEIPT", OrderedDict([("path", shadow["receipt_path"]), ("digest", shadow["receipt_digest"]),
-                                                ("eligible", shadow["FAST_DATA_ONLY_RELEASE_ELIGIBLE"]),
-                                                ("rules", shadow["fast_rules"]),
-                                                ("unknown", shadow["unknown_rules"]), ("failed", shadow["failed_rules"]),
-                                                ("determinism", shadow["determinism_result"])])),
-            ("COVERAGE_SCORECARD", shadow["coverage_scorecard"]),
-            ("parent_binding", shadow["parent_binding"]),
-        ])),
-        ("factory_code_changed", "NO -- every changed path is a banner_elk_sugar_beech_nc_* helper, the market's discovery config, or a "
-                                 "document under the market's own proposed / staging / report paths"),
-        ("shared_factory_notes_recorded_not_repaired", [
-            "The shared first-party reader does not read '... is not pet-friendly ...' (The 1850 Hotel, The Windmoor "
-            "Hotel, The Blowing Rock Manor), 'All of our rooms are non-smoking and pet-free.' (Hemlock Inn), 'The Village "
-            "Inns of Blowing Rock allows dogs at ...' or 'No, our facility does not permit pets' as operative, and reads "
-            "Rhode's Motor Lodge's and The Inn at Crestwood's dog policies as FEE_ONLY; those rows are held with the "
-            "gate's class, never reworded.",
-            "The Windmoor Hotel's and The Blowing Rock Manor's JSON-LD carry The 1850 Hotel's Boone address (a shared "
-            "operator template); the census binds each to the street its own page text states.",
+        ("package", FAST_OUTCOME),
+        ("identity_findings", [
+            "The Lodge at Banner Elk is the former Best Western Mountain Lodge (Banner Elk TDA: 'formerly the Best Western "
+            "Mountain Lodge'); the map still carries the Best Western name and route, superseded by the property's own site.",
+            "The Lodge at Banner Elk's FAQ page is titled 'FAQ | Bridge Creek Inn' (an operator template shared with a Clayton "
+            "GA property) and states two different pet fees; only the named acceptance ('The Lodge at Banner Elk is a "
+            "pet-friendly hotel.') is published, no fee.",
+            "The Mast Farm Inn's own page states 'Valle Crucis, NC 28604'; Taylor House Inn's states 'Banner Elk NC 28604' "
+            "while calling itself a Valle Crucis B&B. The stated municipality decides: Taylor House admitted, Mast Farm held.",
+            "Linville Falls Lodge & Cottages' own site states postal code 28647 (the map says Newland 28657): OUTSIDE.",
+            "A map 'Pineola Motel' 600 m from The Pineola is held for identity review rather than merged or duplicated.",
         ]),
+        ("shared_factory_notes_recorded_not_repaired", [
+            "The shared first-party reader does not read 'Pet Policy - We do not allow pets.' (4 Seasons at Beech Mountain) "
+            "or 'However, we cannot accommodate any pets at the present time.' (Taylor House Inn) as operative refusals; "
+            "both are held with the gate's class, never reworded.",
+            "The site builder's launch-inventory floor (the market's minimum_published_hotels) is applied inside the FAST "
+            "cold bundle build, so a below-floor shadow market aborts FAST with no receipt rather than failing a named rule.",
+        ]),
+        ("factory_code_changed", "NO"),
         ("broad_regression_run", "NO"),
-        ("final_production_candidate_created", "NO -- FAST composes the release index in memory only"),
+        ("final_production_candidate_created", "NO"),
         ("founder_authorization_created", "NO"),
         ("deployed", "NO"),
         ("shared_state_touched", "NO -- launch_participation.json, bundle_cache_closure.json, the market_state pin, the "
                                  "generated globals, release contracts, identity_resolutions.json and the market registry are unchanged"),
-        ("next_order", [
-            "Wait until Netlify is restored and Fayetteville, Jacksonville, Greenville, Atlanta and Outer Banks are live; read that live parent.",
-            "Rebase worker/ptf-banner-elk-sugar-beech-nc-market-001 onto it; copy markets/proposed/banner-elk-sugar-beech-nc.json -> markets/banner-elk-sugar-beech-nc.json, "
-            "identity_census_proposed/banner-elk-sugar-beech-nc.json -> identity_census/banner-elk-sugar-beech-nc.json and the staged launch_package documents "
-            "(hotel_policy_facts_banner-elk-sugar-beech-nc.json, partition, authority shard) into their registered paths.",
-            "market_registration_cli --write, build_global_authority --write then --check, release contract, registration_release_lane "
-            "register + seal --work-order (a NEW package id against the new parent; this shadow package's FAST rule N fails by design once the parent moves).",
-            "regression_delta classify (expect COMPOSITE_FRESH_MARKET_DATA_ONLY), compose and reproduce the candidate, prepare the founder "
-            "packet, deploy only on founder authorization.",
-            "Before sealing, re-probe Choice (Comfort Suites, Quality Inn, Sleep Inn), Country Inn & Suites, Best Western "
-            "Blue Ridge Plaza, Ridgeway Inn, Homestead Inn and Yonahlossee; find first-party addresses for Chetola and Green Park Inn.",
+        ("what_would_make_it_source_ready", [
+            "One more operative first-party pet-friendly read in an admitted corridor (5 of 5). The open candidates: The "
+            "Banner Elk Inn (own site did not resolve), Beech Alpen Inn (own pages silent) / Top of the Beech Inn (operator "
+            "site 403; attended browser not permitted), The Inn at Shady Lawn, Huskins Court, Pixie Motor Inn (no own site).",
+            "Or an operative refusal the shared reader reads for 4 Seasons at Beech Mountain / Taylor House Inn (does not "
+            "raise the pet-friendly count).",
+            "Or a geography ruling on The Mast Farm Inn (Valle Crucis 28604), whose own policies page is an operative acceptance.",
         ]),
     ])
     return doc
@@ -321,11 +336,12 @@ def main():
     print({k: v["count"] for k, v in doc["holds_by_class"].items()})
     print("non-hotel by kind", dict(doc["holds_by_class"]["NON_HOTEL"]["by_kind"]))
     for c in doc["corridor_coverage"]:
-        print(c["corridor_id"].split("__")[1], c["geography_class"], c["census"], c["pet_friendly"], c["verified_no_pets"], c["unresolved"], c["corridor_page_publishes"])
+        print(c["corridor_id"].split("__")[1], c["geography_class"], c["census"], c["pet_friendly"], c["verified_no_pets"], c["unresolved"])
     print("towns", {k: (v["census"], v["pet_friendly"], v["verified_no_pets"], v["unresolved"]) for k, v in doc["town_coverage"]["towns"].items()},
           "unplaced", doc["town_coverage"]["unplaced"]["census"])
-    print(doc["package"]["PACKAGE_DIGEST"], a["every_census_identity_has_exactly_one_disposition"], a["every_census_identity_key_unique"])
+    print(a["every_census_identity_has_exactly_one_disposition"], a["every_census_identity_key_unique"], a["cross_market_identity_collisions"])
     print("gap", doc["competitor_gap_challenge"])
+    print("owned", doc["owned_evidence"]["OWNED_IDENTITIES"][:900])
     return 0
 
 

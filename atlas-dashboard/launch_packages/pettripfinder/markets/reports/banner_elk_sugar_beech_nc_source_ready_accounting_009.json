@@ -1,0 +1,604 @@
+{
+ "schema": "ptf-market-source-ready-accounting/1.0",
+ "work_order": "PTF-BANNER-ELK-SUGAR-BEECH-NC-PARALLEL-SOURCE-READY-001",
+ "market_id": "banner-elk-sugar-beech-nc",
+ "display_market": "Banner Elk – Sugar Mountain – Beech Mountain, North Carolina",
+ "state": "NOT_SOURCE_READY -- census, evidence and staged authority built and reproducible; the FAST cold bundle build refuses below the market's own minimum_published_hotels (4 verified pet-friendly of 5)",
+ "inputs_commit": "e7684f853571bcf5fa597aa808fbcc947f3b4ba2",
+ "timings": {
+  "BANNER_ELK_START_TIMESTAMP": "2026-09-14T13:22:48Z (2026-09-14T09:22:48-04:00)",
+  "precheck_and_template_read": "13:22Z-13:30Z (branch base 7b630cfa = the Jacksonville-live parent, tree clean; the Boone source-ready chain 7adbafd1 / 20dbda61 read and cloned)",
+  "geography_and_corridor_model": "by 13:36Z (3 corridors: 1 CORE / 1 CORRIDOR / 1 FRINGE, 6 admitted ZIPs; Boone's postal codes refused by name)",
+  "osm_lane": "413.2 s (North Carolina extract, hard link of the Boone run's copy; 226 lodging elements in the box)",
+  "brand_inventory_lane": "93 free requests (Marriott NC sitemap page, 14 Hilton city pages, 16 family sitemaps)",
+  "destination_rosters": "99 free requests (Banner Elk TDA, Beech Mountain Visitor Center, Avery County Chamber, High Country Host, Sugar Mountain Resort) + 42 Explore Boone rows owned at zero requests",
+  "static_and_policy_page_lanes": "static 25.4 s (27 targets); policy pages 25.2 s (47 sites, 119 documents)",
+  "attended_browser_evidence": "The Lodge at Banner Elk and 4 Seasons at Beech Mountain (same-origin fetch, row digests verified); beechmountaininns.com and thebannerelkinn.com not permitted in the browser",
+  "first_inputs_committed": "2026-09-14T13:54:56Z (b31d1f5e, census 14)",
+  "first_seal_and_fast": "13:55:08Z-13:55:55Z: sealed twice in-process (pkg ...778cd82b, equal digests); the FAST lane's cold bundle build REFUSED -- NOT LAUNCH READY, 4 ready pet-friendly listings against the market's own declared minimum_published_hotels = 5; no receipt; the unreceipted package was removed; clean-worktree reproduction of b31d1f5e also matched (13:56Z-13:59Z)",
+  "last_acquisition_probe": "13:59Z-14:01Z: remaining independents re-probed; Beech Alpen Inn's own site states its address (identity opened, policy silent); no fifth pet-friendly read found",
+  "source_inputs_committed": "2026-09-14T14:01:3xZ (e7684f85, census 15)",
+  "shadow_seal_and_fast": "14:01:37Z-14:02Z: sealed twice in-process (pkg ...eb8d7487, equal digests); FAST cold bundle build REFUSED again -- NOT LAUNCH READY (4 < 5); no receipt; unreceipted package removed",
+  "independent_reproduction": "14:04Z-14:05Z (clean git worktree at e7684f85: geography, capture, census, clean set, staged authority, partition and staged shard rebuilt from committed captures with zero content difference -- only the CRLF checkout of the eol-unattributed discovery config -- and a separate-process digest-only seal reproduced sha256:eb8d7487...)",
+  "ZERO_TO_SOURCE_READY": "NOT REACHED -- the market stops at the launch-inventory floor; first refusal 33 min 07 s after start (13:22:48Z -> 13:55:55Z), confirmed on the final inputs at 14:02Z"
+ },
+ "accounting": {
+  "TOTAL_DISCOVERED": 157,
+  "total_discovered_note": "Distinct candidate identities in the identity graph after merging every lane. Not counted: 202 unnamed map elements (condo buildings and chalets), the Hilton national-navigation codes the city pages carry for other states.",
+  "classification_counts": {
+   "IDENTITY_REVIEW_REQUIRED": 3,
+   "NAME_ONLY_UNRESOLVED": 8,
+   "NON_LODGING": 75,
+   "OUTSIDE_MARKET": 56,
+   "TRUE_HOTEL_IDENTITY": 15
+  },
+  "PROPOSED_CENSUS": 15,
+  "VALID_PET_FRIENDLY": 4,
+  "VALID_VERIFIED_NO_PETS": 2,
+  "RESOLVED": 6,
+  "UNRESOLVED": 9,
+  "partition_counts_by_state": {
+   "ACCESS_BLOCKED": 1,
+   "AWAITING_OFFICIAL_URL": 1,
+   "AWAITING_POLICY_OBSERVATION": 7,
+   "PUBLISHED_PET_FRIENDLY": 4,
+   "VERIFIED_NO_PETS": 2
+  },
+  "every_census_identity_has_exactly_one_disposition": true,
+  "every_census_identity_key_unique": true,
+  "cross_market_identity_collisions": []
+ },
+ "holds_by_class": {
+  "IDENTITY_HOLDS": {
+   "count": 10,
+   "identity_review_required": [
+    "Eseeola Lodge",
+    "Pineola Motel"
+   ],
+   "name_only_unresolved": [
+    "Banner Elk Winery and Villa",
+    "Bear's Loft",
+    "Beech Mountain Inns",
+    "Deer Brook Inn Bed & Breakfast",
+    "Hillcrest Haven",
+    "The Banner Elk Inn",
+    "The Banner Elk Inn B&B and Cottages",
+    "Tufts House Inn"
+   ],
+   "rebrand_unresolved": []
+  },
+  "ROUTING_HOLDS": {
+   "count": 1,
+   "identities": [
+    "Pixie Motor Inn"
+   ]
+  },
+  "ACCESS_BLOCKED": {
+   "count": 1,
+   "identities": [
+    "Top of the Beech Inn"
+   ]
+  },
+  "EVIDENCE_HOLDS": {
+   "count": 7,
+   "identities": [
+    "4 Seasons at Beech Mountain",
+    "Beech Alpen Inn",
+    "Huskins Court Motel & Cottages",
+    "Little Main Street Inn & Suites",
+    "Perry House Bed & Breakfast",
+    "Taylor House Inn",
+    "The Inn at Shady Lawn"
+   ],
+   "rejected_reads_by_class": {
+    "CENSUS_ROW_NOT_ADMITTED": 1,
+    "QUOTE_NOT_OPERATIVE": 2
+   }
+  },
+  "GEOGRAPHY_HOLDS": {
+   "count": 1,
+   "identities": [
+    "The Mast Farm Inn"
+   ]
+  },
+  "PAID_HOLDS": {
+   "count": 0,
+   "note": "No row is blocked by a brand family whose surface refused; PAID PROVIDER BUDGET was $0 and no paid lane was used."
+  },
+  "FOUNDER_HOLDS": {
+   "count": 0,
+   "note": "No row requires a founder ruling. The Mast Farm Inn (Valle Crucis beside 28604) is a GEOGRAPHY hold decided by the geography's stated rule; the release floor is a standing contract value, not a per-row ruling."
+  },
+  "CLOSED_OR_RETIRED": {
+   "count": 1,
+   "identities": [
+    "Best Western Mountain Lodge (former flag of The Lodge at Banner Elk; the map's Best Western route is superseded by the property's own site)"
+   ],
+   "note": "The Inn at Elk River is listed CLOSED by a third-party directory only; no first-party or roster source in this order names it, so it is recorded here and never entered the census."
+  },
+  "OUTSIDE": {
+   "count": 56,
+   "live_neighbour_boone_blowing_rock": 34,
+   "neighbour_identities": [
+    "Ain't Life Grand Cabin",
+    "Appalachian A-Frame",
+    "Around the Bend Cabin",
+    "Bear Tree Cabin",
+    "Blue Ridge Mountain Rentals",
+    "Blue Ridge Mountain Rentals",
+    "Blue Ridge Mountain Rentals",
+    "Brookview Log Cabin",
+    "Carolina Cabin Rentals",
+    "Chalet Alpine",
+    "Flintlock Family Campground",
+    "Foscoe Realty Rentals/Echota",
+    "Foscoe Rentals",
+    "Graystone Lodge",
+    "Graystone Lodge, Ascend Hotel Collection",
+    "Hampton Inn & Suites Boone",
+    "Heritage Hill Cabins",
+    "Hidden Valley Motel",
+    "Hidden Valley Motel",
+    "Hidden Valley Motel",
+    "Home2 Suites by Hilton Boone",
+    "House of Blue",
+    "Inn at Little Pond Farm",
+    "Inn at the Ponds",
+    "Julian Price Campground",
+    "Lazy Bear Lodge",
+    "Modern Mountaintop Sanctuary",
+    "Mountain Song Cabin",
+    "NC Cabin Rentals, LLC",
+    "The Alpine A-Frame",
+    "The Inn at Crestwood",
+    "Valle Crucis Vineyard",
+    "Valle View at Linville Creek",
+    "Willow Valley Resort"
+   ]
+  },
+  "NON_HOTEL": {
+   "count": 75,
+   "by_kind": {
+    "CABIN_COTTAGE_CHALET": 3,
+    "CAMP_RETREAT_CAMPGROUND_RV": 6,
+    "COMPETITOR_RENTAL_LISTING": 1,
+    "CONDO_COMPLEX_OR_UNIT": 7,
+    "OTHER_NON_LODGING": 1,
+    "RENTAL_COMPANY_OR_PLATFORM": 8,
+    "ROSTER_TYPED_CABIN_CONDO_VACATION_HOME": 48,
+    "TIMESHARE_VACATION_OWNERSHIP": 1
+   },
+   "identities": [
+    "311 Penny Lane",
+    "A-Frame of Mind",
+    "APPres-Ski",
+    "Above and Beyond Mountain Rentals",
+    "Apple Cove Lodge",
+    "Arbor Domus",
+    "Banner Elk Condo",
+    "Banner Elk Lodge",
+    "Banner Elk Mountain Cabins",
+    "Banner Haven Beehive",
+    "Banner Views Cabin",
+    "Bearadise 2",
+    "Bearadise 3",
+    "Bearfoot Lodge at Elkmont",
+    "Beech Haven",
+    "Beech Mountain Chalet Rentals",
+    "Beeches Be Crazy",
+    "Bigfoot's Hideaway",
+    "Blue Ridge Mountain Lodge",
+    "Blue Ridge Village Resort / Bluegreen Vacations Corporation",
+    "Caribou Crossing at Elkmont",
+    "Christie Village",
+    "Cornerstone Cabins & Lodge of Banner Elk, NC",
+    "Cornerstone Cabins And Lodge Of Banner Elk",
+    "Cross Creek Log Cabins",
+    "Cute & Cozy Cabin",
+    "Dereka’s High Country Vacations",
+    "Downtown Banner Elk Condo",
+    "Downtown Condo with Lovely Views",
+    "Downtown Townhome",
+    "Dutch Creek Holiday",
+    "Elk Creek Hideaway",
+    "Elk Creek Home",
+    "Farm Hollow",
+    "Four Bears Falls",
+    "Grandfather Campground RV Resort and Cabins",
+    "Grandfather View Condo",
+    "Grandfather View Lodge",
+    "Great Outdoors Downtown Townhome",
+    "HeathBrooke Cabin",
+    "Hemlock Ridge Cabin",
+    "Hidden Gem",
+    "Highlands At Sugar Resort",
+    "Hillside Haven Cottage",
+    "Holston Camp and Retreat Center",
+    "Hot Toddy Cottage",
+    "Klonteska Lodge",
+    "Laurel Cottage",
+    "Lilly's Mountain Escape",
+    "Linville Cottage Bed & Breakfast",
+    "Linville River cottages",
+    "Lutherock Camp & Retreat Center",
+    "Lutherock Camp and Conference Center",
+    "Maynard V at Elk Creek",
+    "Mill Ridge Poa Chalet Rentals",
+    "Morning Star",
+    "Mountain Condo with Views",
+    "Mountain River Family Campground",
+    "Nature's Blessings",
+    "Overlook Estate",
+    "Pinnacle Inn",
+    "Resort Real Estate and Rentals at Sugar Mountain",
+    "Respite Ridge",
+    "Rustic Mountain Getaway at Elkmont",
+    "Sugar Ski & Country Club",
+    "Sugar Ski & Country Club HOA",
+    "Sugar Top Resort Condominium Association, Inc",
+    "The Barlow RV",
+    "The Penthouse",
+    "The Pink House",
+    "The Solar Farmhouse",
+    "The Village of Banner Elk",
+    "Whispering Pines Retreat",
+    "White Wolf Lodge",
+    "YMCA Camp Harrison"
+   ]
+  }
+ },
+ "corridor_coverage": [
+  {
+   "corridor_id": "banner-elk-sugar-beech-nc__banner-elk-sugar-beech",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "28604"
+   ],
+   "census": 10,
+   "pet_friendly": 2,
+   "verified_no_pets": 2,
+   "unresolved": 6,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "banner-elk-sugar-beech-nc__linville-grandfather",
+   "geography_class": "CORRIDOR",
+   "postal_codes": [
+    "28646",
+    "28653",
+    "28662"
+   ],
+   "census": 1,
+   "pet_friendly": 0,
+   "verified_no_pets": 0,
+   "unresolved": 1,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "banner-elk-sugar-beech-nc__newland-elk-park",
+   "geography_class": "FRINGE",
+   "postal_codes": [
+    "28657",
+    "28622"
+   ],
+   "census": 4,
+   "pet_friendly": 2,
+   "verified_no_pets": 0,
+   "unresolved": 2,
+   "corridor_page_publishes": false
+  }
+ ],
+ "corridor_pages_meeting_threshold": 0,
+ "town_coverage": {
+  "what_it_is": "Coverage for the order's named towns. Reporting only; Banner Elk, Sugar Mountain, Beech Mountain and Seven Devils share 28604 and one corridor.",
+  "towns": {
+   "Banner Elk": {
+    "census": 6,
+    "pet_friendly": 1,
+    "verified_no_pets": 2,
+    "unresolved": 3,
+    "identities": [
+     {
+      "canonical_name": "Little Main Street Inn & Suites",
+      "state": "UNRESOLVED",
+      "city": "Banner Elk",
+      "basis": "own stated municipality, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Perry House Bed & Breakfast",
+      "state": "UNRESOLVED",
+      "city": "Banner Elk",
+      "basis": "own stated municipality, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Smoketree Lodge",
+      "state": "VERIFIED_NO_PETS",
+      "city": "Banner Elk",
+      "basis": "own stated municipality, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Taylor House Inn",
+      "state": "UNRESOLVED",
+      "city": "Banner Elk",
+      "basis": "own stated municipality, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "The Azalea Inn",
+      "state": "VERIFIED_NO_PETS",
+      "city": "Banner Elk",
+      "basis": "own stated municipality, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "The Lodge at Banner Elk",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "city": "Banner Elk",
+      "basis": "own stated municipality, then pin (geography route_overlay)"
+     }
+    ]
+   },
+   "Sugar Mountain": {
+    "census": 1,
+    "pet_friendly": 1,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": [
+     {
+      "canonical_name": "Courtyard by Marriott Sugar Mountain Banner Elk",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "city": "Sugar Mountain",
+      "basis": "own stated municipality, then pin (geography route_overlay)"
+     }
+    ]
+   },
+   "Beech Mountain": {
+    "census": 3,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 3,
+    "identities": [
+     {
+      "canonical_name": "4 Seasons at Beech Mountain",
+      "state": "UNRESOLVED",
+      "city": "Beech Mountain",
+      "basis": "own stated municipality, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Beech Alpen Inn",
+      "state": "UNRESOLVED",
+      "city": "Beech Mountain",
+      "basis": "own stated municipality, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Top of the Beech Inn",
+      "state": "UNRESOLVED",
+      "city": "Beech Mountain",
+      "basis": "own stated municipality, then pin (geography route_overlay)"
+     }
+    ]
+   },
+   "Seven Devils": {
+    "census": 0,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": []
+   },
+   "Linville / Grandfather": {
+    "census": 1,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 1,
+    "identities": [
+     {
+      "canonical_name": "Pixie Motor Inn",
+      "state": "UNRESOLVED",
+      "city": "Linville",
+      "basis": "own stated municipality, then pin (geography route_overlay)"
+     }
+    ]
+   },
+   "Newland": {
+    "census": 4,
+    "pet_friendly": 2,
+    "verified_no_pets": 0,
+    "unresolved": 2,
+    "identities": [
+     {
+      "canonical_name": "Huskins Court Motel & Cottages",
+      "state": "UNRESOLVED",
+      "city": "Newland",
+      "basis": "own stated municipality, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Parkview Lodge & Cabins",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "city": "Newland",
+      "basis": "own stated municipality, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "The Inn at Shady Lawn",
+      "state": "UNRESOLVED",
+      "city": "Newland",
+      "basis": "own stated municipality, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "The Pineola",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "city": "Newland",
+      "basis": "own stated municipality, then pin (geography route_overlay)"
+     }
+    ]
+   },
+   "Elk Park": {
+    "census": 0,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": []
+   }
+  },
+  "unplaced": {
+   "census": 0,
+   "pet_friendly": 0,
+   "verified_no_pets": 0,
+   "unresolved": 0,
+   "identities": []
+  }
+ },
+ "lane_yields": {
+  "osm_elements": 226,
+  "brand_inventory_leads": 46,
+  "brand_family_dispositions": {
+   "MARRIOTT_STATE_SITEMAP": "STATE_SITEMAP_ANSWERED_THIS_CLIENT",
+   "WYNDHAM": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "SONESTA": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "DRURY": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "WOODSPRING": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "INTOWN": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "LOEWS": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "CHOICE": "SITEMAP_UNREACHABLE__TimeoutError",
+   "IHG": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "BEST_WESTERN": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "RED_ROOF": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "MOTEL6": "SITEMAP_UNREACHABLE__TimeoutError",
+   "EXTENDED_STAY": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "HYATT": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "RADISSON": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "OMNI": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "FOUR_SEASONS": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403"
+  },
+  "destination_rosters": {
+   "listings": 139,
+   "by_source": {
+    "AVERY_CHAMBER": 26,
+    "BANNER_ELK_TDA": 46,
+    "BEECH_MOUNTAIN_TDA": 11,
+    "EXPLORE_BOONE_OWNED": 42,
+    "HIGH_COUNTRY_HOST": 1,
+    "SUGAR_MOUNTAIN_RESORT": 13
+   },
+   "by_subcategory": {
+    "Accommodations": 26,
+    "Bed & Breakfast Inns": 2,
+    "Bed & Breakfasts": 2,
+    "Cabin Rental Company": 1,
+    "Cabins": 18,
+    "Cabins, Cottages & Condos": 28,
+    "Condos": 17,
+    "Facilities": 1,
+    "Farm Stays": 1,
+    "Group Accommodations": 2,
+    "Hotels": 1,
+    "Hotels & Motels": 2,
+    "Hotels, Motels and Inns": 1,
+    "Lodging": 11,
+    "Lodging partner": 13,
+    "Pet Friendly": 1,
+    "RV & Campgrounds": 3,
+    "Resorts & Inns": 1,
+    "Vacation Homes": 8
+   }
+  },
+  "census_lane_observations": {
+   "OSM_OVERPASS": 24,
+   "BRAND_INVENTORY_OWNED": 0,
+   "BRAND_INVENTORY_CITY_PAGE": 19,
+   "BRAND_INVENTORY_STATE_SITEMAP": 1,
+   "BRAND_INVENTORY_SITEMAP": 0,
+   "DESTINATION_ORGANIZATION": 139,
+   "REGIONAL_VISITOR_CENTER": 0,
+   "COMPETITOR_LEAD": 18,
+   "PROPERTY_PAGE": 13
+  },
+  "first_party_reads": {
+   "pages_read": 9,
+   "by_brand": {
+    "INDEPENDENT": 8,
+    "MARRIOTT": 1
+   },
+   "identity_confirmed": 9,
+   "in_market": 9,
+   "outside_market": 0,
+   "in_market_pets_allowed_true": 5,
+   "in_market_pets_allowed_false": 4,
+   "in_market_first_party_conflicts": 0
+  },
+  "clean_set": {
+   "reads_evaluated": 9,
+   "clean_pet_friendly": 4,
+   "clean_verified_no_pets": 2,
+   "resolved_census_identities": 6,
+   "unresolved_census_identities": 9,
+   "census_count": 15,
+   "rejected": 3,
+   "rejected_by_class": {
+    "CENSUS_ROW_NOT_ADMITTED": 1,
+    "QUOTE_NOT_OPERATIVE": 2
+   },
+   "pf_by_brand": {
+    "INDEPENDENT": 3,
+    "MARRIOTT": 1
+   },
+   "pf_by_corridor": {
+    "banner-elk-sugar-beech-nc__banner-elk-sugar-beech": 2,
+    "banner-elk-sugar-beech-nc__newland-elk-park": 2
+   }
+  }
+ },
+ "competitor_gap_challenge": {
+  "competitor_rows_observed": 18,
+  "also_seen_by_a_first_party_lane": 10,
+  "competitor_only": 8,
+  "competitor_only_by_class": {
+   "IDENTITY_REVIEW_REQUIRED": 1,
+   "NAME_ONLY_UNRESOLVED": 6,
+   "NON_LODGING": 1
+  },
+  "matched_by_class": {
+   "NON_LODGING": 1,
+   "TRUE_HOTEL_IDENTITY": 9
+  }
+ },
+ "owned_evidence": {
+  "OWNED_IDENTITIES": "30 rows the Boone - Blowing Rock build preserved for this market (FUTURE_SUBMARKET or an Avery postal code); each re-classified here: {'Grandfather View Lodge': 'NON_LODGING', 'The Solar Farmhouse': 'NON_LODGING', 'Apple Cove Lodge': 'NON_LODGING', 'APPres-Ski': 'NON_LODGING', 'Arbor Domus': 'NON_LODGING', 'Best Western Mountain Lodge': 'NOT_SEEN_BY_THIS_ORDER_UNDER_THAT_NAME', 'Blue Ridge Mountain Lodge': 'NON_LODGING', 'Courtyard': 'NOT_SEEN_BY_THIS_ORDER_UNDER_THAT_NAME', 'Courtyard by Marriott Sugar Mountain Banner Elk': 'TRUE_HOTEL_IDENTITY', 'Dutch Creek Holiday': 'NON_LODGING', 'Four Seasons at Beech Mountain': 'NOT_SEEN_BY_THIS_ORDER_UNDER_THAT_NAME', 'Grandfather Campground RV Resort and Cabins': 'NON_LODGING', 'HeathBrooke Cabin': 'NON_LODGING', 'Hemlock Ridge Cabin': 'NON_LODGING', 'Huskins Court Motel & Cottages': 'TRUE_HOTEL_IDENTITY', 'Linville Falls Lodge & Cottages': 'OUTSIDE_MARKET', 'Linville River cottages': 'NON_LODGING', 'Mill Ridge Poa Chalet Rentals': 'NON_LODGING', 'Parkview Lodge & Cabins': 'TRUE_HOTEL_IDENTITY', 'Pineola Motel': 'IDENTITY_REVIEW_REQUIRED', 'Pixie Inn': 'NOT_SEEN_BY_THIS_ORDER_UNDER_THAT_NAME', 'Poplar Peaks': 'NOT_SEEN_BY_THIS_ORDER_UNDER_THAT_NAME', 'Smoketree Lodge': 'TRUE_HOTEL_IDENTITY', 'Taylor House Inn': 'TRUE_HOTEL_IDENTITY', 'The Banner Elk Inn': 'NAME_ONLY_UNRESOLVED', 'The Citadel': 'NOT_SEEN_BY_THIS_ORDER_UNDER_THAT_NAME', 'The Inn at Shady Lawn': 'TRUE_HOTEL_IDENTITY', 'The Mast Farm Inn': 'IDENTITY_REVIEW_REQUIRED', 'The Pineola': 'TRUE_HOTEL_IDENTITY', 'Top of the Beech Inn': 'TRUE_HOTEL_IDENTITY'}",
+  "OWNED_ROUTES": "1 -- Courtyard Sugar Mountain Banner Elk (tribc) from Marriott's NC sitemap; the national harvest carries no Avery County route",
+  "OWNED_VALID_POLICY_EVIDENCE": "1 -- the Boone attended pass's Courtyard Sugar Mountain Banner Elk Marriott row (2026-09-13, sha256 76b23af4...), carried verbatim",
+  "OWNED_ROSTER_ROWS": "42 Explore Boone listing-service rows inside the observation box, read at zero requests"
+ },
+ "package": {
+  "package_id": "pkg-banner-elk-sugar-beech-nc-eb8d7487a044a10a",
+  "package_digest": "sha256:eb8d7487a044a10afb80b84c4790530099e954d89df7c9f381ea01124b242fa2",
+  "execution_zone": "SHADOW_UNTIL_REGISTERED",
+  "created_from_source_sha": "e7684f853571bcf5fa597aa808fbcc947f3b4ba2",
+  "parent_live_state": "the Jacksonville-live release at the branch base (live deploy 6aa77cb84f4fd6b6926c5445, rollback 6aa76e5d940d5025e8262319); Atlanta is live on its own branch, so rule N would fail it regardless",
+  "superseded_first_seal": "pkg-banner-elk-sugar-beech-nc-778cd82b7f33f5ab (inputs b31d1f5e, census 14)",
+  "reproducible_in_process": "YES",
+  "reproducible_clean_worktree_separate_process": "YES",
+  "fast_result": "ABORTED_AT_COLD_BUNDLE_BUILD -- 0 / 15 rules completed, no receipt",
+  "refusal": "NOT LAUNCH READY: real inventory is below the approved launch threshold (ready_total 4, minimum_total_listings 5 from the market's own minimum_published_hotels). Refusing to build the public site.",
+  "why_not_lowered": "minimum_published_hotels = 5 was authored before any inventory existed and is the floor every registered PetTripFinder market carries; lowering it to fit a count is weakening the standard, and the order forbids it",
+  "package_committed": "NO -- a sealed package with no FAST receipt is not lifecycle-safe to keep"
+ },
+ "identity_findings": [
+  "The Lodge at Banner Elk is the former Best Western Mountain Lodge (Banner Elk TDA: 'formerly the Best Western Mountain Lodge'); the map still carries the Best Western name and route, superseded by the property's own site.",
+  "The Lodge at Banner Elk's FAQ page is titled 'FAQ | Bridge Creek Inn' (an operator template shared with a Clayton GA property) and states two different pet fees; only the named acceptance ('The Lodge at Banner Elk is a pet-friendly hotel.') is published, no fee.",
+  "The Mast Farm Inn's own page states 'Valle Crucis, NC 28604'; Taylor House Inn's states 'Banner Elk NC 28604' while calling itself a Valle Crucis B&B. The stated municipality decides: Taylor House admitted, Mast Farm held.",
+  "Linville Falls Lodge & Cottages' own site states postal code 28647 (the map says Newland 28657): OUTSIDE.",
+  "A map 'Pineola Motel' 600 m from The Pineola is held for identity review rather than merged or duplicated."
+ ],
+ "shared_factory_notes_recorded_not_repaired": [
+  "The shared first-party reader does not read 'Pet Policy - We do not allow pets.' (4 Seasons at Beech Mountain) or 'However, we cannot accommodate any pets at the present time.' (Taylor House Inn) as operative refusals; both are held with the gate's class, never reworded.",
+  "The site builder's launch-inventory floor (the market's minimum_published_hotels) is applied inside the FAST cold bundle build, so a below-floor shadow market aborts FAST with no receipt rather than failing a named rule."
+ ],
+ "factory_code_changed": "NO",
+ "broad_regression_run": "NO",
+ "final_production_candidate_created": "NO",
+ "founder_authorization_created": "NO",
+ "deployed": "NO",
+ "shared_state_touched": "NO -- launch_participation.json, bundle_cache_closure.json, the market_state pin, the generated globals, release contracts, identity_resolutions.json and the market registry are unchanged",
+ "what_would_make_it_source_ready": [
+  "One more operative first-party pet-friendly read in an admitted corridor (5 of 5). The open candidates: The Banner Elk Inn (own site did not resolve), Beech Alpen Inn (own pages silent) / Top of the Beech Inn (operator site 403; attended browser not permitted), The Inn at Shady Lawn, Huskins Court, Pixie Motor Inn (no own site).",
+  "Or an operative refusal the shared reader reads for 4 Seasons at Beech Mountain / Taylor House Inn (does not raise the pet-friendly count).",
+  "Or a geography ruling on The Mast Farm Inn (Valle Crucis 28604), whose own policies page is an operative acceptance."
+ ]
+}
