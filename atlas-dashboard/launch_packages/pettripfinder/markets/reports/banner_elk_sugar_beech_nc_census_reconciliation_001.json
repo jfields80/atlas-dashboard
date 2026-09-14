@@ -15,15 +15,15 @@
   "DESTINATION_ORGANIZATION": 139,
   "REGIONAL_VISITOR_CENTER": 0,
   "COMPETITOR_LEAD": 18,
-  "PROPERTY_PAGE": 12
+  "PROPERTY_PAGE": 13
  },
- "observations_total": 213,
+ "observations_total": 214,
  "nodes_after_hard_key_merge": 157,
  "name_attachment": {
   "what_it_is": "An observation with no street, no phone and no comparable property code cannot open a building of its own. It is offered to every building that already has hard evidence and binds only to a single clear best match, marked NAME_MATCH_UNCONFIRMED. A tie becomes IDENTITY_REVIEW_REQUIRED; no match stays NAME_ONLY_UNRESOLVED.",
-  "bound": 17,
+  "bound": 18,
   "ambiguous": 2,
-  "unbound": 59,
+  "unbound": 58,
   "bindings": [
    {
     "observation_name": "Mast Farm Inn",
@@ -78,6 +78,11 @@
    {
     "observation_name": "Smoketree Lodge",
     "bound_to": "Smoketree Lodge",
+    "score": 1.0
+   },
+   {
+    "observation_name": "Beech Alpen Inn",
+    "bound_to": "Beech Alpen Inn",
     "score": 1.0
    },
    {
@@ -473,13 +478,13 @@
  },
  "classification_counts": {
   "IDENTITY_REVIEW_REQUIRED": 3,
-  "NAME_ONLY_UNRESOLVED": 9,
+  "NAME_ONLY_UNRESOLVED": 8,
   "NON_LODGING": 75,
   "OUTSIDE_MARKET": 56,
-  "TRUE_HOTEL_IDENTITY": 14
+  "TRUE_HOTEL_IDENTITY": 15
  },
  "corridor_counts": {
-  "banner-elk-sugar-beech-nc__banner-elk-sugar-beech": 9,
+  "banner-elk-sugar-beech-nc__banner-elk-sugar-beech": 10,
   "banner-elk-sugar-beech-nc__linville-grandfather": 1,
   "banner-elk-sugar-beech-nc__newland-elk-park": 4
  },
@@ -901,51 +906,6 @@
      "source_url": "web search result pages summarising competitor Banner Elk / Beech Mountain / Linville hotel and pet-friendly lodging lists (names only; competitor pet claims never read)",
      "name": "Bear's Loft",
      "merge_alias": "bear s loft",
-     "lead_source": "competitor directories via a web search result (discovery only)"
-    }
-   ]
-  },
-  {
-   "identity_key": "beech alpen inn",
-   "slug": "beech-alpen-inn",
-   "market_id": "banner-elk-sugar-beech-nc",
-   "identity_state": "IDENTITY_UNRESOLVED",
-   "lodging_state": "LODGING_BY_NAME",
-   "collision_state": "NONE",
-   "identity_key_aliases": [
-    "beech alpen inn"
-   ],
-   "canonical_name": "Beech Alpen Inn",
-   "classification": "NAME_ONLY_UNRESOLVED",
-   "classification_reason": "no street address, no phone, no coordinates and no building this name clearly matches: a name alone proposes an identity and never decides one",
-   "street": "",
-   "city": "",
-   "state": "",
-   "postal_code": "",
-   "phone": "",
-   "phone_key": "",
-   "street_identity": "",
-   "brand": "",
-   "property_code": "",
-   "official_url": "",
-   "latitude": null,
-   "longitude": null,
-   "corridor": "",
-   "assignment_basis": "",
-   "assignment_value": "",
-   "lanes": [
-    "COMPETITOR_LEAD"
-   ],
-   "best_tier": 4,
-   "policy_state": "POLICY_NOT_VERIFIED",
-   "policy_note": "Identity evidence never establishes a pet policy.",
-   "evidence": [
-    {
-     "lane": "COMPETITOR_LEAD",
-     "tier": 4,
-     "source_url": "web search result pages summarising competitor Banner Elk / Beech Mountain / Linville hotel and pet-friendly lodging lists (names only; competitor pet claims never read)",
-     "name": "Beech Alpen Inn",
-     "merge_alias": "beech alpen inn",
      "lead_source": "competitor directories via a web search result (discovery only)"
     }
    ]
@@ -8965,6 +8925,70 @@
      ],
      "binding": "STREET_IDENTITY_WITHOUT_POSTAL",
      "binding_reason": "the source printed this street and no postal code; exactly one building in the census states the same street identity, and the two do not name different cities"
+    }
+   ]
+  },
+  {
+   "identity_key": "beech alpen inn",
+   "slug": "beech-alpen-inn",
+   "market_id": "banner-elk-sugar-beech-nc",
+   "identity_state": "IDENTITY_CONFIRMED",
+   "lodging_state": "LODGING_CONFIRMED",
+   "collision_state": "NONE",
+   "identity_key_aliases": [
+    "beech alpen inn"
+   ],
+   "canonical_name": "Beech Alpen Inn",
+   "classification": "TRUE_HOTEL_IDENTITY",
+   "classification_reason": "",
+   "street": "700 Beech Mountain Parkway",
+   "city": "Beech Mountain",
+   "state": "NC",
+   "postal_code": "28604",
+   "phone": "828-387-2252",
+   "phone_key": "8283872252",
+   "street_identity": "700|beech mountain|28604",
+   "brand": "",
+   "property_code": "",
+   "official_url": "https://www.beechalpen.com/",
+   "latitude": null,
+   "longitude": null,
+   "corridor": "banner-elk-sugar-beech-nc__banner-elk-sugar-beech",
+   "assignment_basis": "postal_code",
+   "assignment_value": "28604",
+   "lanes": [
+    "COMPETITOR_LEAD",
+    "PROPERTY_PAGE_IDENTITY_ONLY"
+   ],
+   "best_tier": 1,
+   "policy_state": "POLICY_NOT_VERIFIED",
+   "policy_note": "Identity evidence never establishes a pet policy.",
+   "evidence": [
+    {
+     "lane": "PROPERTY_PAGE_IDENTITY_ONLY",
+     "tier": 1,
+     "source_url": "https://www.beechalpen.com/",
+     "name": "Beech Alpen Inn",
+     "street": "700 Beech Mountain Parkway",
+     "city": "Beech Mountain",
+     "region": "NC",
+     "postal": "28604",
+     "phone": "828-387-2252",
+     "route": "https://www.beechalpen.com/",
+     "binding_method": "ADDRESS_ON_THE_PROPERTYS_OWN_SITE",
+     "identity_note": "the inn's own site footer states 'Beech Alpen Inn - 700 Beech Mountain Parkway (HWY 184) - Beech Mountain, NC 28604'; its hotel, rooms and reservations pages state no pet policy (the 'No pets are permitted.' on its Beech Mountain Club rules page governs the club's facilities, not the inn's rooms)"
+    },
+    {
+     "lane": "COMPETITOR_LEAD",
+     "tier": 4,
+     "source_url": "web search result pages summarising competitor Banner Elk / Beech Mountain / Linville hotel and pet-friendly lodging lists (names only; competitor pet claims never read)",
+     "name": "Beech Alpen Inn",
+     "merge_alias": "beech alpen inn",
+     "lead_source": "competitor directories via a web search result (discovery only)",
+     "binding": "NAME_MATCH_UNCONFIRMED",
+     "binding_score": 1.0,
+     "binding_reason": "exact normalised name, one addressed building",
+     "binding_caveat": "Bound to this building by NAME plus its own hard geography. The observation carried no street address, no phone and no comparable property code. The binding is a proposal for the routing and policy lanes to confirm on the property's OWN page; it is not an identity decision and it publishes nothing."
     }
    ]
   },

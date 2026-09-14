@@ -73,6 +73,8 @@ POLICY_SILENT = {
     "perry house bed & breakfast": "the B&B's own policies page says 'We are very limited in our ability to accommodate "
                                    "your pets. Please call for more information. A $25 pet fee will be assessed.' -- "
                                    "FEE_ONLY to the shared reader, and the page states only a PO Box",
+    "beech alpen inn": "the inn's own hotel, rooms and reservations pages (beechalpen.com) served with no pet policy; the "
+                       "only pet sentence on its site is the Beech Mountain Club's facility rules, not the inn's",
     "the inn at shady lawn": "the inn's own pages served with no pet wording (reservations run through an external "
                              "booking engine)",
     "huskins court motel & cottages": "the motel's own site (two small pages) served with no pet wording and states no "

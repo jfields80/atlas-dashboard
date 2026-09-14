@@ -20,6 +20,11 @@ IDENTITY_ONLY_PAGES = [
      "http://www.beech-mountain.org/", "5ea29eed4a0c",
      "the inn's own page states 'Top of the Beech Inn * 606 Beech Mountain Pkwy * ... NC 28604'; no pet policy on "
      "the pages read, and the operator's beechmountaininns.com refused a plain client (403) and the attended browser"),
+    ("Beech Alpen Inn", "700 Beech Mountain Parkway", "Beech Mountain", "28604", "828-387-2252",
+     "https://www.beechalpen.com/", "459dbfa2a476",
+     "the inn's own site footer states 'Beech Alpen Inn - 700 Beech Mountain Parkway (HWY 184) - Beech Mountain, NC 28604'; "
+     "its hotel, rooms and reservations pages state no pet policy (the 'No pets are permitted.' on its Beech Mountain Club "
+     "rules page governs the club's facilities, not the inn's rooms)"),
     ("Linville Falls Lodge & Cottages", "48 North Carolina 183", "Linville Falls", "28647", "828-765-2658",
      "https://www.linvillefallslodge.com/", "775ed240f5f9",
      "the lodge's own site (JSON-LD) states '48 North Carolina 183', postal code 28647 -- a postal code no corridor "
