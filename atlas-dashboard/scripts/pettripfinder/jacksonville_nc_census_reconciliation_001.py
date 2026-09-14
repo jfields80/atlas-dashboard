@@ -104,7 +104,8 @@ def _first_existing(*paths):
 REPORTS = os.path.join(PKG, "markets", "reports")
 #: SHADOW UNTIL REGISTERED: the census is written to the market zone's proposed
 #: census path. The later registration order copies it into identity_census/.
-CENSUS_DIR = os.path.join(PKG, "identity_census_proposed")
+CENSUS_DIR = os.path.join(PKG, "identity_census")
+#: REGISTERED by PTF-JACKSONVILLE-NC-REGISTER-RESEAL-AND-AUTHORIZATION-PREP-002; the source-ready census in identity_census_proposed/ is history.
 CONTRACT_PATH = _first_existing(os.path.join(PKG, "markets", "jacksonville-nc.json"),
                                 os.path.join(PKG, "markets", "proposed", "jacksonville-nc.json"))
 PROPOSED_CONTRACT = os.path.join(REPORTS, "jacksonville_nc_corridor_registry_001.json")
@@ -1599,13 +1600,13 @@ def build():
 
     census = OrderedDict([
         ("schema", SCHEMA), ("market_id", MARKET_ID),
-        ("status", "PROPOSED_CENSUS_SHADOW_UNTIL_REGISTERED"),
+        ("status", "REGISTERED_CENSUS"),
         ("identity_key_contract", "ptf_identity_key/1.0"),
         ("identity_contract", "ptf-identity-evidence/1.0"),
         ("work_order", WORK_ORDER), ("captured_at", "2026-09-13"),
         ("note",
          "PTF-JACKSONVILLE-NC-PARALLEL-SOURCE-READY-001 Jacksonville census, built from zero "
-         "under the modern factory and written to identity_census_proposed/ (shadow until registered). Every row carries "
+         "under the modern factory and registered to identity_census/ by PTF-JACKSONVILLE-NC-REGISTER-RESEAL-AND-AUTHORIZATION-PREP-002. Every row carries "
          "the observations that produced it; nothing here carries a pet policy."),
         ("source_authorities", [
             "OpenStreetMap via the Geofabrik North Carolina extract (2026-09-10 snapshot), reduced "

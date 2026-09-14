@@ -56,7 +56,7 @@ MARKET_ID = "jacksonville-nc"
 SCHEMA = "ptf-market-clean-authority/1.0"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "jacksonville-nc.json")
+CENSUS = os.path.join(PKG, "identity_census", "jacksonville-nc.json")
 ATTENDED = os.path.join(REPORTS, "jacksonville_nc_attended_capture_001.json")
 STATIC = os.path.join(REPORTS, "jacksonville_nc_free_static_lane_001.json")
 
