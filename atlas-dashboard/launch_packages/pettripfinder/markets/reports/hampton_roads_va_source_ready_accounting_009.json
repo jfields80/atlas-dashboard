@@ -1,0 +1,2805 @@
+{
+ "schema": "ptf-market-source-ready-accounting/1.0",
+ "work_order": "PTF-HAMPTON-ROADS-VA-PARALLEL-SOURCE-READY-001",
+ "market_id": "hampton-roads-va",
+ "display_market": "Hampton Roads, Virginia",
+ "state": "SOURCE_READY -- SHADOW_UNTIL_REGISTERED",
+ "release_queue": "Current verified live (production): Charleston (25 markets / 1677 profiles / 1942 routes, deploy 6aa8625938b7e0e0d66e6912), reached on the Charleston branch. This branch's lineage (6825851b) carries the Atlanta-live index (23 / 1500 / 1744, deploy 6aa7f125), which is what the shadow package's parent_live_state records. Hampton Roads waits for its turn in the serialized release lane.",
+ "timings": {
+  "HAMPTON_ROADS_START_TIMESTAMP": "2026-09-14T21:24:42Z (the order's first transmission; the complete order arrived a few minutes later and the clock was not restarted)",
+  "precheck_and_template_read": "21:24Z-22:10Z (worktree, branch, HEAD 6825851b, tree clean; the Richmond VA shadow chain @82c8ea46 and its browser transcript read; chain cloned by name; Virginia Geofabrik extract re-used from the same-day Richmond download)",
+  "geography": "22:13:34Z (17 corridors: 14 CORE / 1 CORRIDOR / 2 FRINGE, 63 admitted ZIPs; 23463 added at 22:48Z for 64; Williamsburg / historic Yorktown preserved for williamsburg-va)",
+  "census_lanes": "OSM lane 367.8 s (Virginia extract, 480 elements); brand inventory about 30 min detached (Marriott VA sitemap page, 14 Hilton city pages + 103 sub-pages, 16 family sitemap probes); Visit Chesapeake and Visit Newport News listing services (plain client) and the Visit Virginia Beach CRM listing API (attended browser, 1,268 listings, 165 accommodations)",
+  "routing": "Wyndham property service 17.8 s (68 routes: 34 read, 34 retired); static lane 49.6 s (113 targets); policy-page lane 35.6 s (57 sites, 167 pages)",
+  "browser_evidence": "22:15Z-23:00Z attended same-origin reads: IHG 25, Hyatt 7, Choice 31 (30 served, then a 403 wall; one more on a second pass), Best Western 10, Marriott 50, Hilton 42, Red Roof 12, Extended Stay America 8, independents 3 sites (others refused navigation or TLS); every committed brand payload's canonical-JSON sha256 verified against the page's",
+  "identity": "22:45Z-23:06Z (census passes; municipality safety; military, timeshare, condo and non-hotel rulings; Choice wall routes; roster-listing binding; competitor gap challenge)",
+  "policy_adjudication": "22:50Z-23:00Z (candidate quotes tested against the shared first-party reader; independent quotes proved verbatim with house number and ZIP on the same document)",
+  "reconciliation": "23:00Z-23:02Z (clean set 94 / 72, staged authority, final partition 264 identities, 0 contract issues; inputs committed at ceaf8efb)",
+  "shadow_package_and_fast": "23:02:38Z-23:04:46Z at ceaf8efb (first FAST 15/15, pkg 71981771, superseded); 23:07:10Z-23:08:39Z at 4503d568 (pkg 6592a381, superseded: its committed staged census copy was stale); final 23:09:5xZ-23:11:20Z at d38797e6, pkg 27d17072, FAST 15/15, determinism BYTE_IDENTICAL",
+  "independent_reproduction": "23:11:34Z-23:11:59Z (clean git worktree at d38797e6 with a COPY of the document store: geography, brand pages, capture, census, clean set, staged authority, partition and staged shard rebuilt from committed captures -- zero content difference; only the eol-unattributed discovery config checks out CRLF; separate-process digest-only seal = the same digest)",
+  "ZERO_TO_SOURCE_READY": "1 h 46 min 38 s (21:24:42Z -> 23:11:20Z, the final FAST-passed sealed shadow package; the first FAST-passed seal was at 23:04:46Z, 1 h 40 min 4 s)",
+  "peak_memory": "not measured on this run"
+ },
+ "accounting": {
+  "TOTAL_DISCOVERED": 518,
+  "total_discovered_note": "Distinct candidate identities in the identity graph after merging every lane. Not counted: 38 unnamed map elements, 34 retired Wyndham routes, and the Hilton / IHG / Choice national-navigation codes outside the 231xx / 233xx-237xx postal prefixes.",
+  "classification_counts": {
+   "DUPLICATE_LISTING": 1,
+   "IDENTITY_REVIEW_REQUIRED": 28,
+   "NAME_ONLY_UNRESOLVED": 10,
+   "NON_LODGING": 54,
+   "OUTSIDE_MARKET": 161,
+   "TRUE_HOTEL_IDENTITY": 264
+  },
+  "PROPOSED_CENSUS": 264,
+  "VALID_PET_FRIENDLY": 94,
+  "VALID_VERIFIED_NO_PETS": 72,
+  "RESOLVED": 166,
+  "UNRESOLVED": 98,
+  "partition_counts_by_state": {
+   "ACCESS_BLOCKED": 11,
+   "AWAITING_OFFICIAL_URL": 40,
+   "AWAITING_POLICY_OBSERVATION": 47,
+   "PUBLISHED_PET_FRIENDLY": 94,
+   "VERIFIED_NO_PETS": 72
+  },
+  "every_census_identity_has_exactly_one_disposition": true,
+  "every_census_identity_key_unique": true
+ },
+ "holds_by_class": {
+  "IDENTITY_HOLDS": {
+   "count": 36,
+   "identity_review_required": [
+    "19 Atlantic Hotel",
+    "19 Atlantic Hotel",
+    "Barclay Towers Resort",
+    "Beach Quarters Resort",
+    "Boardwalk Resort and Hotel Villas",
+    "Breeze Inn & Suites",
+    "Breeze Inn & Suites",
+    "Budget Lodge",
+    "Budget Lodge",
+    "Budget Lodge",
+    "Days Inn",
+    "Days Inn - Virginia Beach Oceanfront",
+    "Econo Lodge",
+    "Four Sails Resort",
+    "La Quinta by Wyndham Virginia Beach",
+    "Ocean Holiday",
+    "Ocean Key Resort",
+    "Ocean Resort",
+    "Ocean Sands Resort & Spa",
+    "Rodeway Inn",
+    "Super 8",
+    "Super 8 by Wyndham Virginia Beach Oceanfront",
+    "The Atrium Resort",
+    "Travelodge Suffolk",
+    "Travelodge Suites Virginia Beach Oceanfront",
+    "Turtle Cay Resort"
+   ],
+   "name_only_unresolved": [
+    "Best Western Plus Chesapeake Bay-Norfolk",
+    "Econo Lodge",
+    "Element",
+    "Extended Stay America",
+    "Extended Stay America Suites - Norfolk - Virginia Beach",
+    "Hilton",
+    "MainStay Suites",
+    "Motel 6 Newport News VA - Fort Eustis",
+    "Motel 6 Virginia Beach",
+    "Suburban Studios"
+   ],
+   "rebrand_unresolved": [],
+   "same_campus_unproved": [],
+   "note": "Not census identities and never published: brand-flag map rows the brand's own inventory does not list at that address (Days Inn Chambers Street and Oceanfront, Econo Lodge 2113 Atlantic, Rodeway Inn Little Creek, Super 8 Ocean View and Oceanfront, Travelodge Suffolk and Oceanfront), same-name pairs on corner buildings (19 Atlantic Hotel, Breeze Inn & Suites) and across cities (Budget Lodge x3), Oceanfront vacation-ownership resorts whose only website is a timeshare agent (Barclay Towers, Beach Quarters, Boardwalk Resort, Four Sails, Turtle Cay, Ocean Key, Ocean Sands, The Atrium, Ocean Holiday), a name-only tie (Ocean Resort) and name-only map / competitor rows."
+  },
+  "ROUTING_HOLDS": {
+   "count": 40,
+   "identities": [
+    "Alamar Resort Motel",
+    "Atlantic Inn",
+    "Belmont Inn & Suites",
+    "Budget Lodge Churchland",
+    "City Center Inn",
+    "Colony Resort",
+    "Country Inn & Suites by Carlson Newport News South",
+    "Crown Inn",
+    "Economy 7 Inn Chesapeake/Portsmouth",
+    "Economy 7 Inn Newport News",
+    "Economy Motel",
+    "Fort Eustis Inn",
+    "Green Pines Motel East",
+    "Hazel Inn & Suites",
+    "Hotel Ocean 27",
+    "InTown Suites Chesapeake/Battlefield Extended Stay",
+    "Intown Suites Chesapeake I-64",
+    "InTown Suites Extended Stay Virginia Beach VA",
+    "James River West Motel",
+    "Joyners Motel",
+    "Key West Inn - Newport News",
+    "Marjac Suites",
+    "Newport News Inn",
+    "Ocean 24",
+    "Oceans 2700",
+    "Regal Inn Motel",
+    "Smithfield Inn",
+    "Studio 6 Extended Stay",
+    "Studios & Suites 4 Less Battlefield",
+    "Studios & Suites 4 Less Chesapeake",
+    "Studios & Suites 4 Less Gum Road",
+    "Studios & Suites 4 Less Old Greenbrier Road",
+    "Studios & Suites 4 Less Western Branch",
+    "Sunset Manor Motel",
+    "Surf Motel and Efficiencies",
+    "The Garner Hotel Virginia Beach North",
+    "The Thrift Store Inn",
+    "Village Motel",
+    "Weekly Lodging",
+    "Yorktown Motor Lodge"
+   ]
+  },
+  "ACCESS_BLOCKED": {
+   "count": 11,
+   "by_cause": {
+    "OWN_SITE": 11
+   },
+   "identities": [
+    "American Inn",
+    "Bowers Hill Inn",
+    "Clarion Inn & Suites",
+    "Comfort Suites Airport",
+    "Motel 6",
+    "Motel 6 Virginia Beach Va",
+    "Ocean Cove Motel",
+    "Sea View Hotel",
+    "Sleep Inn & Suites",
+    "stayAPT Suites",
+    "The Belvedere Beach Resort"
+   ]
+  },
+  "EVIDENCE_HOLDS": {
+   "count": 47,
+   "identities": [
+    "Barclay Cottage",
+    "Beach Carousel Motel",
+    "Blue Marlin Motel",
+    "Brentwood Inn & Suites",
+    "Cerca Del Mar Motel",
+    "City Express By Marriott Newport News",
+    "Country Villa B&B and Wedding Venue",
+    "Crowne Plaza Virginia Beach Town Center",
+    "Cutty Sark Motel and Historic Cottages",
+    "DoubleTree by Hilton Virginia Beach Oceanfront South",
+    "Economy Inn and Suites",
+    "Extended Stay America",
+    "Extended Stay America - Chesapeake - Churchland Blvd.",
+    "Extended Stay America - Chesapeake - Crossways Blvd.",
+    "Extended Stay America - Greenbrier Circle",
+    "Extended Stay America - Newport News - Oyster Point",
+    "Extended Stay America - Newport News - Yorktown",
+    "Extended Stay America - Norfolk - Virginia Beach",
+    "Extended Stay America - Virginia Beach - Independence Blvd.",
+    "Hilton Norfolk The Main",
+    "Hilton Vacation Club Ocean Beach Club Virginia Beach",
+    "Hilton Vacation Club Oceanaire Virginia Beach",
+    "Hilton Virginia Beach Oceanfront",
+    "Holiday Inn Virginia Beach - Norfolk",
+    "Hyatt Studios Chesapeake",
+    "InTown Suites Chesapeake/Greenbrier Extended Stay",
+    "MacThrift Motor Inn",
+    "Magnuson Hotel Virginia Beach",
+    "Schooner Inn",
+    "Seashire Inn and Suites",
+    "Sonesta Simply Suites Hampton Coliseum",
+    "Spark by Hilton Virginia Beach Oceanfront",
+    "Staybridge Suites Chesapeake - Virginia Beach",
+    "Staybridge Suites Norfolk Airport",
+    "Sun and Sand Resort",
+    "Sundial Inn Motel & Efficiency",
+    "The Breakers Resort Inn",
+    "The Capes Hotel",
+    "The Historic Boxwood Inn",
+    "The Inn at Old Beach",
+    "The Landing at Hampton Marina, Tapestry Collection by Hilton",
+    "The Lodge at Kiln Creek",
+    "The Sitio",
+    "WoodSpring Suites Chesapeake-Norfolk Greenbrier",
+    "WoodSpring Suites Chesapeake-Norfolk South",
+    "WoodSpring Suites Virginia Beach",
+    "YourSpace Hotels Chesapeake"
+   ],
+   "rejected_reads_by_class": {
+    "CENSUS_ROW_NOT_ADMITTED": 12,
+    "POLICY_NOT_FOUND": 4,
+    "QUOTE_NOT_OPERATIVE": 2,
+    "SERVICE_ANIMAL_ONLY": 7
+   }
+  },
+  "GEOGRAPHY_HOLDS": {
+   "count": 2,
+   "identities": [
+    "Red Roof Inn Newport News-Yorktown",
+    "Red Roof Inn Virginia Beach - Norfolk Airport"
+   ]
+  },
+  "PAID_HOLDS": {
+   "count": 0,
+   "note": "No cohort is routed to a paid lane: PAID PROVIDER BUDGET was $0 and no paid lane was used or reserved. The access-blocked cohort (Motel 6 / Studio 6, the Choice properties behind the 403 wall, Sea View Hotel, Ocean Cove Motel, The Belvedere, American Inn, Bowers Hill Inn, stayAPT Suites) is held ACCESS_BLOCKED for a re-probe, not a paid lane."
+  },
+  "FOUNDER_HOLDS": {
+   "count": 0,
+   "identities": [],
+   "note": "None. Timeshare-resort and geography holds are evidence work for the registration order, not founder rulings."
+  },
+  "CLOSED_OR_RETIRED": {
+   "count": 34,
+   "wyndham_retired_routes": [
+    "https://www.wyndhamhotels.com/baymont/chesapeake-virginia/baymont-inn-chesapeake/overview",
+    "https://www.wyndhamhotels.com/days-inn/hampton-virginia/days-inn-hampton-near-coliseum-convention-center/overview",
+    "https://www.wyndhamhotels.com/days-inn/newport-news-virginia/days-inn-newport-news/overview",
+    "https://www.wyndhamhotels.com/days-inn/norfolk-virginia/days-inn-norfolk-military-circle/overview",
+    "https://www.wyndhamhotels.com/days-inn/suffolk-virginia/days-inn-suffolk/overview",
+    "https://www.wyndhamhotels.com/days-inn/virginia-beach-virginia/days-inn-virginia-beach-norfolk-airport/overview",
+    "https://www.wyndhamhotels.com/days-inn/williamsburg-virginia/days-inn-williamsburg-colonial-area/overview",
+    "https://www.wyndhamhotels.com/days-inn/williamsburg-virginia/days-inn-williamsburg-colonial-historic-area/overview",
+    "https://www.wyndhamhotels.com/days-inn/williamsburg-virginia/days-inn-williamsburg-colonial-resort/overview",
+    "https://www.wyndhamhotels.com/days-inn/yorktown-virginia/days-inn-yorktown/overview",
+    "https://www.wyndhamhotels.com/hojo/hampton-virginia/howard-johnson-plaza-and-conference-center-hampton/overview",
+    "https://www.wyndhamhotels.com/hojo/newport-news-virginia/howard-johnson-express-inn-newport-news/overview",
+    "https://www.wyndhamhotels.com/hojo/norfolk-virginia/howard-johnson-inn-norfolk/overview",
+    "https://www.wyndhamhotels.com/hojo/virginia-beach-virginia/howard-johnson-oceanfront-hotel/overview",
+    "https://www.wyndhamhotels.com/laquinta/norfolk-virginia/la-quinta-norfolk-airport/overview",
+    "https://www.wyndhamhotels.com/laquinta/williamsburg-virginia/la-quinta-williamsburg-historic-area/overview",
+    "https://www.wyndhamhotels.com/ramada/virginia-beach-virginia/ramada-limited-virginia-beach/overview",
+    "https://www.wyndhamhotels.com/ramada/virginia-beach-virginia/ramada-plaza-virginia-beach/overview",
+    "https://www.wyndhamhotels.com/ramada/williamsburg-virginia/ramada-1776-historic-williamsburg/overview",
+    "https://www.wyndhamhotels.com/ramada/williamsburg-virginia/ramada-williamsburg-near-outlet-mall/overview",
+    "https://www.wyndhamhotels.com/super-8/chesapeake-virginia/super-8-chesapeake-greenbrier/overview",
+    "https://www.wyndhamhotels.com/super-8/chesapeake-virginia/super-8-chesapeake-portsmouth/overview",
+    "https://www.wyndhamhotels.com/super-8/newport-news-virginia/super-8-newport-news-j-clyde-morris/overview",
+    "https://www.wyndhamhotels.com/super-8/norfolk-virginia/super-8-norfolk-chesapeake-bay/overview",
+    "https://www.wyndhamhotels.com/super-8/norfolk-virginia/super-8-norfolk-naval-base-area/overview",
+    "https://www.wyndhamhotels.com/super-8/portsmouth-virginia/super-8-portsmouth-olde-town-area/overview",
+    "https://www.wyndhamhotels.com/super-8/suffolk-virginia/super-8-suffolk-tidewater/overview",
+    "https://www.wyndhamhotels.com/super-8/virginia-beach-virginia/super-8-virginia-beach-oceanfront/overview",
+    "https://www.wyndhamhotels.com/super-8/virginia-beach-virginia/super-8-virginia-beach/overview",
+    "https://www.wyndhamhotels.com/super-8/williamsburg-virginia/super-8-williamsburg-colonial-area/overview",
+    "https://www.wyndhamhotels.com/travelodge/hampton-virginia/travelodge-hampton/overview",
+    "https://www.wyndhamhotels.com/travelodge/virginia-beach-virginia/travelodge-suites-virginia-beach-oceanfront/overview",
+    "https://www.wyndhamhotels.com/travelodge/virginia-beach-virginia/travelodge-virginia-beach/overview",
+    "https://www.wyndhamhotels.com/travelodge/williamsburg-virginia/travelodge-inn-and-suites-historic-area/overview"
+   ],
+   "note": "Wyndham routes in Hampton Roads cities that redirect to the brand's city search (retired or rebranded). Routes, not census identities."
+  },
+  "MILITARY_NONPUBLIC": {
+   "count": 4,
+   "identities": [
+    "Bayview Towers",
+    "Langley Inn",
+    "Navy Gateway Inn and Suites",
+    "Navy Lodge Norfolk"
+   ],
+   "rule": "Installation-only postal codes and named military lodging programmes (Navy Gateway Inns & Suites, Navy Lodge, IHG Army Hotels, Air Force Inns / Langley's Bayview) are refused unless ordinary public booking is proved; commercial hotels serving military travellers outside the fence are ordinary census rows."
+  },
+  "OUTSIDE": {
+   "count": 161,
+   "future_market_williamsburg_va": 139,
+   "future_market_identities": [
+    "Aldrich House B&B",
+    "America's Best Inn",
+    "America's Best Value Inn",
+    "Applewood B&B",
+    "Banks Outbuilding",
+    "Bassett Motel",
+    "Baymont",
+    "Baymont by Wyndham Williamsburg I-64",
+    "BlueGreen Sales Center",
+    "Bluegreen Vacations Patrick Henry Sqr, Ascend Resort Collection",
+    "Bracken Kitchen",
+    "Brick House Inn",
+    "Brick House Tavern",
+    "Budget Inn",
+    "Budget Inn Pool House",
+    "Captain John Smith Inn Williamsburg",
+    "Cascades Motel",
+    "Chiswell-Bucktrout Kitchen",
+    "City Loft Apts",
+    "Club Wyndham Governor's Green",
+    "Club Wyndham Kingsgate",
+    "Club Wyndham Patriots’ Place",
+    "Colonel Waller Inn & Suites",
+    "Colonial Capitol B&B",
+    "Colonial Gardens B&B",
+    "Colonial Houses, an official Colonial Williamsburg Hotel",
+    "Comer Jackson Carport",
+    "Comfort Inn Williamsburg Gateway",
+    "Comfort Suites",
+    "Country Inn & Suites",
+    "Country Inn & Suites, Williamsburg Historic Area, VA",
+    "Courtyard Williamsburg Busch Gardens Area",
+    "Craft House",
+    "David Morton House",
+    "Days Hotel by Wyndham Williamsburg I-64",
+    "Days Inn & Suites by Wyndham Williamsburg Colonial",
+    "Days Inn by Wyndham Williamsburg Historic Area",
+    "DoubleTree by Hilton Hotel Williamsburg",
+    "Econo Lodge",
+    "Econo Lodge Historic Area",
+    "Economy Inn",
+    "Embassy Suites by Hilton Williamsburg",
+    "Ewing Storehouse",
+    "Fairfield Inn & Suites Williamsburg",
+    "Fife and Drum Inn",
+    "Fort Magruder Hotel, Trademark Collection by Wyndham",
+    "Fox Grape B&B",
+    "George C Mahone Outbuilding",
+    "George Jackson House & Store",
+    "Gillman - Arbor",
+    "Governor's Trace B&B",
+    "Great Wolf Lodge",
+    "Griffin Hotel Green Wing",
+    "Haas House",
+    "Hampton Inn & Suites By Hilton Williamsburg-Central",
+    "Hampton Inn & Suites Williamsburg Historic District",
+    "Hampton Inn & Suites Williamsburg-Richmond Rd.",
+    "Hilton Garden Inn Williamsburg",
+    "Hilton Vacation Club Greensprings Williamsburg",
+    "Hilton Vacation Club The Historic Powhatan Williamsburg",
+    "Holiday Inn & Suites Williamsburg-Historic Gateway",
+    "Holiday Inn Club Vacations Williamsburg Resort",
+    "Holiday Inn Express & Suites Williamsburg",
+    "Holiday Inn Express Gloucester",
+    "Holiday Inn Express Williamsbrg Busch Gardens Area",
+    "Holiday Inn Express Williamsburg North",
+    "Homewood Suites by Hilton Williamsburg",
+    "Howard Johnson by Wyndham Williamsburg",
+    "Hughes Guest Home",
+    "Inn at 802",
+    "International Housing Village",
+    "Isham Goddin Shop",
+    "King William Inn",
+    "La Quinta Inn & Suites Williamsburg Historic Area",
+    "Lewis House",
+    "Liberty Rose B&B",
+    "Lightfoot Tenement",
+    "Lord Padget - Outbuilding",
+    "Lord Padget - Outbuilding",
+    "Lord Padget - Outbuilding",
+    "Lord Paget Inn",
+    "MainStay Suites",
+    "Market Square Tavern Kitchen",
+    "Marl Inn Bed & Breakfast",
+    "Marriott's Manor Club at Ford's Colony",
+    "Masonic Kitchen",
+    "Merrimac Inn & Suites",
+    "Moody Kitchen",
+    "Newport House B&B",
+    "Nicholas-Tyler Laundry",
+    "Nicholas-Tyler Office",
+    "Orlando Jones Kitchen",
+    "Orrell Kitchen",
+    "Patriots Inn",
+    "Peter Hay's Kitchen",
+    "Pineapple Inn and Housing Center",
+    "Providence Hall Carriage House",
+    "Quality Inn & Suites",
+    "Quarterpath Trace Apartments",
+    "Quarterpath Trace Apartments",
+    "Quarterpath Trace Apartments",
+    "Quarterpath Trace Apartments",
+    "Quarterpath Trace Apartments",
+    "Quarterpath Trace Apartments",
+    "Quarterpath Trace Apartments",
+    "Red Roof Inn Williamsburg",
+    "Residence Inn by Marriott Williamsburg",
+    "Richard Crump House",
+    "Rivers Rest Motel",
+    "Robert Carter Kitchen",
+    "Rochambeau Motel",
+    "Rochambeau Motel",
+    "Rochambeau Motel - Storage Building",
+    "Rodeway Inn",
+    "Rodeway Inn & Suites Williamsburg Central",
+    "Royal Inn",
+    "Sleep Inn",
+    "Spark by Hilton Williamsburg Historic Area",
+    "SpringHill Suites by Marriott Williamsburg",
+    "Super 8 by Wyndham Williamsburg/Historic Area",
+    "Super Inn Williamsburg",
+    "The Cedars B&B",
+    "The Legacy B&B",
+    "The Quarter",
+    "Travelodge Inn and Suites-Historic Area",
+    "Travelodge by Wyndham Williamsburg Colonial Area",
+    "W J Holland Tourist Home",
+    "W J. Holland Garage/Apartment",
+    "Wedmore Place",
+    "Westgate Historic Williamsburg Resort",
+    "Williamsburg Lodge Cooling Towers",
+    "Williamsburg Lodge, Autograph Collection",
+    "Williamsburg Manor B&B",
+    "Williamsburg Sampler B&B",
+    "Williamsburg Woodlands Hotel & Suites, an official Colonial Williamsburg Hotel",
+    "Wingate by Wyndham Williamsburg",
+    "Wyndham Garden Williamsburg Busch Gardens Area",
+    "York River Inn Bed & Breakfast",
+    "Yorktown Beach Hotel"
+   ]
+  },
+  "NON_HOTEL": {
+   "count": 54,
+   "by_kind": {
+    "APARTMENT_OR_RENTAL_UNITS": 3,
+    "BUREAU_CAMPGROUND_OR_STATE_PARK": 8,
+    "BUREAU_CONDO_OR_BEACH_HOUSE_RENTAL": 1,
+    "BUREAU_VACATION_RENTAL_CONDO_OR_BEACH_HOUSE": 28,
+    "MAP_APARTMENT_CONDO_OR_CHALET_UNIT": 6,
+    "RENTAL_OPERATOR_OR_CONCIERGE": 2,
+    "SHORT_TERM_RENTAL_OR_PRIVATE_DWELLING": 3,
+    "TIMESHARE_AGENCY": 1,
+    "VENUE_OR_OFFICE": 2
+   },
+   "identities": [
+    "ATLANTIC PARADISE * CROATAN OCEANFRONT",
+    "Anchor Realty Group",
+    "At Our Beach House",
+    "At Our Beach House",
+    "Atkinson Realty",
+    "Atlantic Park Lofts",
+    "Atlantic Resort",
+    "Bayberry House",
+    "Beach Pros Realty, Inc.",
+    "Beach Walk – Oceanfront Rentals",
+    "Berkshire Hathaway Home Services Towne Realty",
+    "Carriage House B&B",
+    "Chesapeake Campground",
+    "Cinque Terre – Plaza 2700",
+    "Coastal Accommodations",
+    "Coastal ViBe",
+    "Dolphin Run Condominiums",
+    "Driftwood Apartments",
+    "Edgewater Condominiums",
+    "FLOHOM",
+    "Finally Friday at Sand Dollar 70th Street Land Side Vacation Rental",
+    "First Landing State Park",
+    "Holiday Trav-L-Park",
+    "Hudgins Real Estate",
+    "In law suite",
+    "June, The Cozy Camper",
+    "Mansion on Main Bed and Breakfast",
+    "Marianne Linen & Equipment Rental",
+    "Meadowbrook Farm Bed and Breakfast",
+    "National at Harbor Towers",
+    "North Landing Beach Campground and RV Resort",
+    "Northwest River Park & Campground",
+    "Ocean Beach Club Timeshare Vacation Rental – SellaTimeshare.com",
+    "OceanSide Escape",
+    "Oceanfront Condos",
+    "Plaza 2700",
+    "Salt Air Family Concierge",
+    "Sanctuary at False Cape",
+    "Sandbridge Blue Vacation Rentals",
+    "Sandbridge Dunes",
+    "Sandbridge Life Realty",
+    "Sandbridge Realty",
+    "Siebert Realty",
+    "Solace Apartments",
+    "Stay Virginia Beach",
+    "Suggar Run Inn",
+    "THE PINK HOUSE",
+    "The James Apartments",
+    "The Morton Group",
+    "The Row at Ghent",
+    "VB Timeshare Rentals, Inc.",
+    "Virginia Beach CVB Hotel",
+    "Virginia Beach Hotel Association",
+    "Virginia Beach KOA"
+   ]
+  }
+ },
+ "city_coverage": {
+  "Virginia Beach": {
+   "census": 103,
+   "pet_friendly": 31,
+   "verified_no_pets": 30,
+   "unresolved": 42
+  },
+  "Chesapeake": {
+   "census": 49,
+   "pet_friendly": 14,
+   "verified_no_pets": 11,
+   "unresolved": 24
+  },
+  "Hampton": {
+   "census": 17,
+   "pet_friendly": 9,
+   "verified_no_pets": 4,
+   "unresolved": 4
+  },
+  "Norfolk": {
+   "census": 34,
+   "pet_friendly": 16,
+   "verified_no_pets": 14,
+   "unresolved": 4
+  },
+  "Newport News": {
+   "census": 32,
+   "pet_friendly": 11,
+   "verified_no_pets": 6,
+   "unresolved": 15
+  },
+  "Suffolk": {
+   "census": 15,
+   "pet_friendly": 7,
+   "verified_no_pets": 3,
+   "unresolved": 5
+  },
+  "Yorktown": {
+   "census": 8,
+   "pet_friendly": 4,
+   "verified_no_pets": 1,
+   "unresolved": 3
+  },
+  "Smithfield": {
+   "census": 2,
+   "pet_friendly": 1,
+   "verified_no_pets": 0,
+   "unresolved": 1
+  },
+  "Portsmouth": {
+   "census": 4,
+   "pet_friendly": 1,
+   "verified_no_pets": 3,
+   "unresolved": 0
+  }
+ },
+ "market_balance_check": {
+  "core_cities": {
+   "Virginia Beach": 103,
+   "Norfolk": 34,
+   "Chesapeake": 49,
+   "Portsmouth": 4,
+   "Hampton": 17,
+   "Newport News": 32
+  },
+  "finding": "Virginia Beach carries the most identities because the Oceanfront resort strip is the region's largest lodging cluster, and every core city was reached by at least two independent lanes (map extract + brand inventories; Chesapeake and Newport News also by their bureaus, Virginia Beach by its bureau CRM). Portsmouth's small count is real inventory (Olde Towne's Renaissance, the Quality Inn Olde Town, a Red Roof and map-only motels), not a failed lane: the OSM extract, Marriott, Choice and Red Roof all placed Portsmouth rows. Norfolk's and Hampton's bureaus refused this client (Hampton 403) or publish no listing API (Norfolk WordPress), so their independents rest on the map and brand lanes -- recorded as a lane gap, not an imbalance."
+ },
+ "corridor_coverage": [
+  {
+   "corridor_id": "hampton-roads-va__virginia-beach-oceanfront",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "23451",
+    "23450"
+   ],
+   "census": 71,
+   "pet_friendly": 18,
+   "verified_no_pets": 21,
+   "unresolved": 32,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "hampton-roads-va__virginia-beach-town-center",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "23462"
+   ],
+   "census": 18,
+   "pet_friendly": 9,
+   "verified_no_pets": 3,
+   "unresolved": 6,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "hampton-roads-va__virginia-beach-central-bayside",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "23452",
+    "23454",
+    "23455",
+    "23453",
+    "23456",
+    "23457",
+    "23459",
+    "23460",
+    "23461",
+    "23464",
+    "23463"
+   ],
+   "census": 14,
+   "pet_friendly": 4,
+   "verified_no_pets": 6,
+   "unresolved": 4,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "hampton-roads-va__norfolk-downtown",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "23510",
+    "23507",
+    "23517",
+    "23508",
+    "23501",
+    "23504",
+    "23523"
+   ],
+   "census": 8,
+   "pet_friendly": 3,
+   "verified_no_pets": 4,
+   "unresolved": 1,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "hampton-roads-va__norfolk-airport-military-highway",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "23502",
+    "23518",
+    "23513",
+    "23505",
+    "23509"
+   ],
+   "census": 24,
+   "pet_friendly": 12,
+   "verified_no_pets": 10,
+   "unresolved": 2,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "hampton-roads-va__norfolk-ocean-view",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "23503"
+   ],
+   "census": 2,
+   "pet_friendly": 1,
+   "verified_no_pets": 0,
+   "unresolved": 1,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "hampton-roads-va__chesapeake-greenbrier",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "23320",
+    "23325"
+   ],
+   "census": 31,
+   "pet_friendly": 12,
+   "verified_no_pets": 6,
+   "unresolved": 13,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "hampton-roads-va__chesapeake-great-bridge-south",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "23322",
+    "23323",
+    "23324"
+   ],
+   "census": 5,
+   "pet_friendly": 0,
+   "verified_no_pets": 2,
+   "unresolved": 3,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "hampton-roads-va__chesapeake-western-branch",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "23321"
+   ],
+   "census": 13,
+   "pet_friendly": 2,
+   "verified_no_pets": 3,
+   "unresolved": 8,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "hampton-roads-va__portsmouth",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "23701",
+    "23702",
+    "23703",
+    "23704",
+    "23705",
+    "23707",
+    "23708"
+   ],
+   "census": 4,
+   "pet_friendly": 1,
+   "verified_no_pets": 3,
+   "unresolved": 0,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "hampton-roads-va__hampton-coliseum-central",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "23666"
+   ],
+   "census": 15,
+   "pet_friendly": 9,
+   "verified_no_pets": 3,
+   "unresolved": 3,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "hampton-roads-va__hampton-mercury-downtown",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "23669",
+    "23661",
+    "23663",
+    "23664",
+    "23651",
+    "23670",
+    "23630"
+   ],
+   "census": 2,
+   "pet_friendly": 0,
+   "verified_no_pets": 1,
+   "unresolved": 1,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "hampton-roads-va__newport-news-city-center",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "23606",
+    "23601",
+    "23605",
+    "23607"
+   ],
+   "census": 10,
+   "pet_friendly": 3,
+   "verified_no_pets": 4,
+   "unresolved": 3,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "hampton-roads-va__newport-news-i-64-denbigh",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "23602",
+    "23608",
+    "23603"
+   ],
+   "census": 22,
+   "pet_friendly": 8,
+   "verified_no_pets": 2,
+   "unresolved": 12,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "hampton-roads-va__suffolk",
+   "geography_class": "CORRIDOR",
+   "postal_codes": [
+    "23434",
+    "23435",
+    "23436",
+    "23433"
+   ],
+   "census": 15,
+   "pet_friendly": 7,
+   "verified_no_pets": 3,
+   "unresolved": 5,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "hampton-roads-va__smithfield",
+   "geography_class": "FRINGE",
+   "postal_codes": [
+    "23430",
+    "23431",
+    "23314"
+   ],
+   "census": 2,
+   "pet_friendly": 1,
+   "verified_no_pets": 0,
+   "unresolved": 1,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "hampton-roads-va__yorktown-route-17",
+   "geography_class": "FRINGE",
+   "postal_codes": [
+    "23692",
+    "23693"
+   ],
+   "census": 8,
+   "pet_friendly": 4,
+   "verified_no_pets": 1,
+   "unresolved": 3,
+   "corridor_page_publishes": false
+  }
+ ],
+ "corridor_pages_meeting_threshold": 7,
+ "area_coverage": {
+  "what_it_is": "Coverage for the order's named areas. Reporting only; membership and corridor come from the postal partition. The ORF airport shares 23502 / 23518 with Military Circle; Battlefield Boulevard North shares 23320 with Greenbrier; the Coliseum shares 23666 with the Convention Center and Hampton Roads Center; City Center shares 23606 with Oyster Point.",
+  "areas": {
+   "Virginia Beach Oceanfront": {
+    "census": 71,
+    "pet_friendly": 18,
+    "verified_no_pets": 21,
+    "unresolved": 32,
+    "identities": [
+     {
+      "canonical_name": "Alamar Resort Motel",
+      "state": "UNRESOLVED",
+      "street": "311 16th Street"
+     },
+     {
+      "canonical_name": "Ambassadors Inn & Suites",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "716 21st Street"
+     },
+     {
+      "canonical_name": "Angie’s Guest Cottage Bed & Breakfast",
+      "state": "VERIFIED_NO_PETS",
+      "street": "302 24th Street"
+     },
+     {
+      "canonical_name": "Atlantic Inn",
+      "state": "UNRESOLVED",
+      "street": "2802 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "Barclay Cottage",
+      "state": "UNRESOLVED",
+      "street": "400 16th Street"
+     },
+     {
+      "canonical_name": "Beach Carousel Motel",
+      "state": "UNRESOLVED",
+      "street": "1300 Pacific Avenue"
+     },
+     {
+      "canonical_name": "Belmont Inn & Suites",
+      "state": "UNRESOLVED",
+      "street": "1113 Pacific Avenue"
+     },
+     {
+      "canonical_name": "Blue Marlin Motel",
+      "state": "UNRESOLVED",
+      "street": "2411 Pacific Avenue"
+     },
+     {
+      "canonical_name": "Cerca Del Mar Motel",
+      "state": "UNRESOLVED",
+      "street": "410 21st Street"
+     },
+     {
+      "canonical_name": "Clarion Inn & Suites",
+      "state": "UNRESOLVED",
+      "street": "2600 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "Coastal Hotel & Suites Virginia Beach Oceanfront",
+      "state": "VERIFIED_NO_PETS",
+      "street": "2015 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "Colony Resort",
+      "state": "UNRESOLVED",
+      "street": "1301 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "Comfort Suites Beachfront",
+      "state": "VERIFIED_NO_PETS",
+      "street": "2321 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "Country Inn & Suites by Radisson, Virginia Beach (Oceanfront)",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1801 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "Courtyard by Marriott Virginia Beach Oceanfront/North 37th Street",
+      "state": "VERIFIED_NO_PETS",
+      "street": "3737 Atlantic Ave"
+     },
+     {
+      "canonical_name": "Courtyard by Marriott Virginia Beach Oceanfront/South",
+      "state": "VERIFIED_NO_PETS",
+      "street": "2501 Atlantic Ave."
+     },
+     {
+      "canonical_name": "Cutty Sark Motel and Historic Cottages",
+      "state": "UNRESOLVED",
+      "street": "3614 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "Days Inn by Wyndham Virginia Beach At The Beach",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1000 Atlantic Ave"
+     },
+     {
+      "canonical_name": "Delta Hotels Virginia Beach Waterfront Suites",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "2800 Shore Drive"
+     },
+     {
+      "canonical_name": "DoubleTree by Hilton Hotel Virginia Beach",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1900 Pavilion Drive"
+     },
+     {
+      "canonical_name": "DoubleTree by Hilton Virginia Beach Oceanfront South",
+      "state": "UNRESOLVED",
+      "street": "615 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "Embassy Suites by Hilton Virginia Beach Oceanfront Resort",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "4101 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "Fairfield by Marriott Inn & Suites Virginia Beach Oceanfront",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1901 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "Four Points by Sheraton Virginia Beach Oceanfront",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1211 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "Hampton Inn Virginia Beach-Oceanfront North",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "3107 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "Hampton Inn Virginia Beach-Oceanfront South",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1011 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "Hilton Garden Inn Virginia Beach Oceanfront",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "3315 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "Hilton Vacation Club Ocean Beach Club Virginia Beach",
+      "state": "UNRESOLVED",
+      "street": "3401 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "Hilton Vacation Club Oceanaire Virginia Beach",
+      "state": "UNRESOLVED",
+      "street": "3421 Atlantic Ave"
+     },
+     {
+      "canonical_name": "Hilton Virginia Beach Oceanfront",
+      "state": "UNRESOLVED",
+      "street": "3001 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "Holiday Inn & Suites Virginia Beach - North Beach",
+      "state": "VERIFIED_NO_PETS",
+      "street": "3900 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "Holiday Inn Express & Suites VA Beach Oceanfront",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "2607 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "Holiday Inn Va Beach-Oceanside (21st St)",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "2101 Atlantic Ave."
+     },
+     {
+      "canonical_name": "Hotel Ocean 27",
+      "state": "UNRESOLVED",
+      "street": "2707 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "Howard Johnson by Wyndham Virginia Beach At The Beach",
+      "state": "VERIFIED_NO_PETS",
+      "street": "512 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "Hyatt House Virginia Beach / Oceanfront",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "2705 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "Hyatt Place Virginia Beach / Oceanfront",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "3601 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "La Quinta Inn & Suites by Wyndham Virginia Beach",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "2800 Pacific Avenue"
+     },
+     {
+      "canonical_name": "MacThrift Motor Inn",
+      "state": "UNRESOLVED",
+      "street": "311 22nd Street"
+     },
+     {
+      "canonical_name": "Marjac Suites",
+      "state": "UNRESOLVED",
+      "street": "2201 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "Marriott Virginia Beach Oceanfront Resort",
+      "state": "VERIFIED_NO_PETS",
+      "street": "4201 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "Moxy Virginia Beach Oceanfront",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1201 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "Ocean 24",
+      "state": "UNRESOLVED",
+      "street": "2301 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "Ocean Cove Motel",
+      "state": "UNRESOLVED",
+      "street": "300 24th Street"
+     },
+     {
+      "canonical_name": "Oceans 2700",
+      "state": "UNRESOLVED",
+      "street": "2700 Pacific Avenue"
+     },
+     {
+      "canonical_name": "Ramada by Wyndham Virginia Beach",
+      "state": "VERIFIED_NO_PETS",
+      "street": "2810 Atlantic Ave"
+     },
+     {
+      "canonical_name": "Ramada Plaza by Wyndham Virginia Beach Oceanfront",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "2809 Atlantic Ave"
+     },
+     {
+      "canonical_name": "Red Roof Inn Virginia Beach - Seaside",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1005 Pacific Ave"
+     },
+     {
+      "canonical_name": "Residence Inn by Marriott Virginia Beach Oceanfront",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "3217 Atlantic Ave"
+     },
+     {
+      "canonical_name": "Sandcastle Resort",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1307 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "Schooner Inn",
+      "state": "UNRESOLVED",
+      "street": "215 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "Sea View Hotel",
+      "state": "UNRESOLVED",
+      "street": "2109 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "Seashire Inn and Suites",
+      "state": "UNRESOLVED",
+      "street": "1112 Pacific Avenue"
+     },
+     {
+      "canonical_name": "Sheraton Virginia Beach Oceanfront Hotel",
+      "state": "VERIFIED_NO_PETS",
+      "street": "3501 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "Spark by Hilton Virginia Beach Oceanfront",
+      "state": "UNRESOLVED",
+      "street": "705 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "SpringHill Suites by Marriott Virginia Beach Oceanfront",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "901 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "Sun and Sand Resort",
+      "state": "UNRESOLVED",
+      "street": "1705 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "Sundial Inn Motel & Efficiency",
+      "state": "UNRESOLVED",
+      "street": "308 21st St"
+     },
+     {
+      "canonical_name": "SureStay by Best Western Virginia Beach Royal Clipper",
+      "state": "VERIFIED_NO_PETS",
+      "street": "3508 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "SureStay Studio by Best Western Virginia Beach Oceanfront",
+      "state": "VERIFIED_NO_PETS",
+      "street": "2315 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "Surfbreak Virginia Beach Oceanfront, an Ascend Collection Hotel",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1101 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "The Belvedere Beach Resort",
+      "state": "UNRESOLVED",
+      "street": "3603 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "The Breakers Resort Inn",
+      "state": "UNRESOLVED",
+      "street": "1503 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "The Capes Hotel",
+      "state": "UNRESOLVED",
+      "street": "2001 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "The Garner Hotel Virginia Beach North",
+      "state": "UNRESOLVED",
+      "street": "2604 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "The Historic Cavalier Hotel and Beach Club, Autograph Collection",
+      "state": "VERIFIED_NO_PETS",
+      "street": "4200 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "The Inn at Old Beach",
+      "state": "UNRESOLVED",
+      "street": "2420 Arctic Avenue"
+     },
+     {
+      "canonical_name": "The Oceanfront Inn",
+      "state": "VERIFIED_NO_PETS",
+      "street": "2901 Atlantic Avenue"
+     },
+     {
+      "canonical_name": "The Sitio",
+      "state": "UNRESOLVED",
+      "street": "365 18th Street Suite 160"
+     },
+     {
+      "canonical_name": "Travelodge by Wyndham Virginia Beach Bay Beach",
+      "state": "VERIFIED_NO_PETS",
+      "street": "2968 Shore Drive"
+     },
+     {
+      "canonical_name": "Wyndham Virginia Beach Oceanfront",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "5700 Atlantic Ave"
+     }
+    ]
+   },
+   "Virginia Beach Town Center": {
+    "census": 11,
+    "pet_friendly": 5,
+    "verified_no_pets": 2,
+    "unresolved": 4,
+    "identities": [
+     {
+      "canonical_name": "Candlewood Suites Virginia Beach Town Center",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "4437 Bonney Road"
+     },
+     {
+      "canonical_name": "Crowne Plaza Virginia Beach Town Center",
+      "state": "UNRESOLVED",
+      "street": "4453 Bonney Road"
+     },
+     {
+      "canonical_name": "Days Inn by Wyndham Virginia Beach Town Center",
+      "state": "VERIFIED_NO_PETS",
+      "street": "4600 Bonney Road"
+     },
+     {
+      "canonical_name": "Extended Stay America - Virginia Beach - Independence Blvd.",
+      "state": "UNRESOLVED",
+      "street": "4548 Bonney Rd."
+     },
+     {
+      "canonical_name": "Fairfield by Marriott Inn & Suites Virginia Beach Town Center",
+      "state": "VERIFIED_NO_PETS",
+      "street": "20 Constitution Drive"
+     },
+     {
+      "canonical_name": "Hampton Inn & Suites by Hilton Virginia Beach Town Center",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "4595 Columbus Street"
+     },
+     {
+      "canonical_name": "Hilton Garden Inn Virginia Beach Town Center",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "252 Town Center Dr"
+     },
+     {
+      "canonical_name": "Hyatt Place Virginia Beach Town Center",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "335 Independence Blvd"
+     },
+     {
+      "canonical_name": "Motel 6 Virginia Beach Va",
+      "state": "UNRESOLVED",
+      "street": "4760 Euclid Road"
+     },
+     {
+      "canonical_name": "The Westin Virginia Beach Town Center",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "4535 Commerce Street"
+     },
+     {
+      "canonical_name": "WoodSpring Suites Virginia Beach",
+      "state": "UNRESOLVED",
+      "street": "4800 Alicia Drive"
+     }
+    ]
+   },
+   "Pembroke / Newtown Road": {
+    "census": 7,
+    "pet_friendly": 4,
+    "verified_no_pets": 1,
+    "unresolved": 2,
+    "identities": [
+     {
+      "canonical_name": "Courtyard by Marriott Virginia Beach Norfolk",
+      "state": "VERIFIED_NO_PETS",
+      "street": "5700 Greenwich Road"
+     },
+     {
+      "canonical_name": "Extended Stay America - Norfolk - Virginia Beach",
+      "state": "UNRESOLVED",
+      "street": "5757 Cleveland Street"
+     },
+     {
+      "canonical_name": "Hampton Inn Norfolk/Virginia Beach",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "5793 Greenwich Rd."
+     },
+     {
+      "canonical_name": "Holiday Inn Virginia Beach - Norfolk",
+      "state": "UNRESOLVED",
+      "street": "5655 Greenwich Rd"
+     },
+     {
+      "canonical_name": "Homewood Suites by Hilton Virginia Beach/Norfolk Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "5733 Cleveland Street"
+     },
+     {
+      "canonical_name": "La Quinta Inn by Wyndham Norfolk Virginia Beach",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "192 Newtown Road"
+     },
+     {
+      "canonical_name": "Red Roof Inn Virginia Beach",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "196 Ballard Court"
+     }
+    ]
+   },
+   "Virginia Beach Central & Bayside": {
+    "census": 14,
+    "pet_friendly": 4,
+    "verified_no_pets": 6,
+    "unresolved": 4,
+    "identities": [
+     {
+      "canonical_name": "Best Western Center Inn",
+      "state": "VERIFIED_NO_PETS",
+      "street": "5718 Northampton Boulevard"
+     },
+     {
+      "canonical_name": "Comfort Inn & Suites Virginia Beach - Norfolk Airport",
+      "state": "VERIFIED_NO_PETS",
+      "street": "5808 Burton Station Road"
+     },
+     {
+      "canonical_name": "Country Villa B&B and Wedding Venue",
+      "state": "UNRESOLVED",
+      "street": "2252 Indian River Road"
+     },
+     {
+      "canonical_name": "Econo Lodge Inn & Suites Virginia Beach - Norfolk",
+      "state": "VERIFIED_NO_PETS",
+      "street": "5819 Northampton Blvd."
+     },
+     {
+      "canonical_name": "Econo Lodge Virginia Beach Town Center",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "3637 Bonney Rd."
+     },
+     {
+      "canonical_name": "Fairfield by Marriott Inn & Suites Virginia Beach/Norfolk Airport",
+      "state": "VERIFIED_NO_PETS",
+      "street": "5800 Burton Station Road"
+     },
+     {
+      "canonical_name": "Home2 Suites by Hilton Virginia Beach Princess Anne",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1741 Community College Place"
+     },
+     {
+      "canonical_name": "Howard Johnson by Wyndham Virginia Beach",
+      "state": "VERIFIED_NO_PETS",
+      "street": "5173 Shore Drive"
+     },
+     {
+      "canonical_name": "InTown Suites Extended Stay Virginia Beach VA",
+      "state": "UNRESOLVED",
+      "street": "416 Independence Boulevard"
+     },
+     {
+      "canonical_name": "Magnuson Hotel Virginia Beach",
+      "state": "UNRESOLVED",
+      "street": "5708 Northampton Boulevard"
+     },
+     {
+      "canonical_name": "Quality Inn Little Creek",
+      "state": "VERIFIED_NO_PETS",
+      "street": "5189 Shore Dr."
+     },
+     {
+      "canonical_name": "Residence Inn by Marriott Virginia Beach Town Center",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "221 Bendix Road"
+     },
+     {
+      "canonical_name": "The Founders Inn and Spa, Tapestry Collection by Hilton",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "5641 Indian River Road"
+     },
+     {
+      "canonical_name": "Weekly Lodging",
+      "state": "UNRESOLVED",
+      "street": "5725 Northampton Boulevard"
+     }
+    ]
+   },
+   "Norfolk Downtown / Waterside": {
+    "census": 7,
+    "pet_friendly": 3,
+    "verified_no_pets": 3,
+    "unresolved": 1,
+    "identities": [
+     {
+      "canonical_name": "Courtyard by Marriott Norfolk Downtown",
+      "state": "VERIFIED_NO_PETS",
+      "street": "520 Plume Street"
+     },
+     {
+      "canonical_name": "Glass Light Hotel & Gallery, Autograph Collection",
+      "state": "VERIFIED_NO_PETS",
+      "street": "201 Granby Street"
+     },
+     {
+      "canonical_name": "Hilton Norfolk The Main",
+      "state": "UNRESOLVED",
+      "street": "100 East Main Street"
+     },
+     {
+      "canonical_name": "Norfolk Waterside Marriott",
+      "state": "VERIFIED_NO_PETS",
+      "street": "235 East Main Street"
+     },
+     {
+      "canonical_name": "Residence Inn by Marriott Norfolk Downtown",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "227 West Brambleton Avenue"
+     },
+     {
+      "canonical_name": "Sheraton Norfolk Waterside Hotel",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "777 Waterside Drive"
+     },
+     {
+      "canonical_name": "Wyndham Garden Norfolk Downtown",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "700 Monticello Ave"
+     }
+    ]
+   },
+   "Ghent / ODU": {
+    "census": 1,
+    "pet_friendly": 0,
+    "verified_no_pets": 1,
+    "unresolved": 0,
+    "identities": [
+     {
+      "canonical_name": "SpringHill Suites by Marriott Norfolk Old Dominion University",
+      "state": "VERIFIED_NO_PETS",
+      "street": "4500 Hampton Boulevard"
+     }
+    ]
+   },
+   "ORF Airport": {
+    "census": 12,
+    "pet_friendly": 8,
+    "verified_no_pets": 3,
+    "unresolved": 1,
+    "identities": [
+     {
+      "canonical_name": "Days Inn by Wyndham Norfolk Airport",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1450 North Military Highway"
+     },
+     {
+      "canonical_name": "Delta Hotels Norfolk Airport",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1570 North Military Highway"
+     },
+     {
+      "canonical_name": "DoubleTree by Hilton Hotel Norfolk Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1500 North Military Highway"
+     },
+     {
+      "canonical_name": "Econo Lodge Norfolk Airport",
+      "state": "VERIFIED_NO_PETS",
+      "street": "3343 N. Military Highway"
+     },
+     {
+      "canonical_name": "Hampton Inn & Suites Norfolk-Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1511 USAA Drive"
+     },
+     {
+      "canonical_name": "Home2 Suites by Hilton Norfolk Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "5620 East Princess Anne Road"
+     },
+     {
+      "canonical_name": "La Quinta Inn & Suites by Wyndham Norfolk",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1387 North Military Highway"
+     },
+     {
+      "canonical_name": "Quality Suites Lake Wright - Norfolk Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1521 Premium Outlets Blvd, Building A"
+     },
+     {
+      "canonical_name": "Residence Inn by Marriott Norfolk Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1590 North Military Highway"
+     },
+     {
+      "canonical_name": "Sleep Inn Lake Wright - Norfolk Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1521 Premium Outlets Blvd, Building B"
+     },
+     {
+      "canonical_name": "Staybridge Suites Norfolk Airport",
+      "state": "UNRESOLVED",
+      "street": "1581 Premium Outlets Boulevard"
+     },
+     {
+      "canonical_name": "Tru by Hilton Norfolk Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1571 Premium Outlets Blvd."
+     }
+    ]
+   },
+   "Military Circle / Military Highway": {
+    "census": 12,
+    "pet_friendly": 4,
+    "verified_no_pets": 7,
+    "unresolved": 1,
+    "identities": [
+     {
+      "canonical_name": "Candlewood Suites Norfolk Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "5600 Lowery Road"
+     },
+     {
+      "canonical_name": "Econo Lodge at Military Circle",
+      "state": "VERIFIED_NO_PETS",
+      "street": "865 N. Military Highway, US 13"
+     },
+     {
+      "canonical_name": "Econo Lodge Little Creek",
+      "state": "VERIFIED_NO_PETS",
+      "street": "7969 Shore Dr."
+     },
+     {
+      "canonical_name": "Econo Lodge Naval Station Norfolk",
+      "state": "VERIFIED_NO_PETS",
+      "street": "8051 Hampton Blvd."
+     },
+     {
+      "canonical_name": "Hampton Inn Norfolk-Naval Base",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "8501 Hampton Boulevard"
+     },
+     {
+      "canonical_name": "Holiday Inn Express & Suites Norfolk Airport",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1157 North Military Highway"
+     },
+     {
+      "canonical_name": "Ramada Limited Norfolk",
+      "state": "VERIFIED_NO_PETS",
+      "street": "515 North Military Highway"
+     },
+     {
+      "canonical_name": "Spark by Hilton Norfolk",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "7940 Shore Drive"
+     },
+     {
+      "canonical_name": "SpringHill Suites by Marriott Norfolk Virginia Beach",
+      "state": "VERIFIED_NO_PETS",
+      "street": "6350 Newtown Rd"
+     },
+     {
+      "canonical_name": "Surf Motel and Efficiencies",
+      "state": "UNRESOLVED",
+      "street": "2918 East Ocean View Avenue"
+     },
+     {
+      "canonical_name": "TownePlace Suites by Marriott Norfolk Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "5660 Lowery Road"
+     },
+     {
+      "canonical_name": "Travelodge by Wyndham Norfolk Airport",
+      "state": "VERIFIED_NO_PETS",
+      "street": "853 N Military Hwy"
+     }
+    ]
+   },
+   "Norfolk Ocean View": {
+    "census": 2,
+    "pet_friendly": 1,
+    "verified_no_pets": 0,
+    "unresolved": 1,
+    "identities": [
+     {
+      "canonical_name": "Best Western Plus Chesapeake Bay - Norfolk",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1330 E Ocean View Avenue"
+     },
+     {
+      "canonical_name": "Economy Motel",
+      "state": "UNRESOLVED",
+      "street": "9601 4th View Street"
+     }
+    ]
+   },
+   "Chesapeake Greenbrier": {
+    "census": 29,
+    "pet_friendly": 11,
+    "verified_no_pets": 6,
+    "unresolved": 12,
+    "identities": [
+     {
+      "canonical_name": "Aloft by Marriott Chesapeake",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1454 Crossways Boulevard"
+     },
+     {
+      "canonical_name": "Comfort Suites Chesapeake - Norfolk",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1550 Crossways Blvd."
+     },
+     {
+      "canonical_name": "Courtyard by Marriott Chesapeake Greenbrier",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1562 Crossways Boulevard"
+     },
+     {
+      "canonical_name": "Delta Hotels Chesapeake Norfolk",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "725 Woodlake Drive"
+     },
+     {
+      "canonical_name": "Extended Stay America - Chesapeake - Crossways Blvd.",
+      "state": "UNRESOLVED",
+      "street": "1540 Crossways Blvd."
+     },
+     {
+      "canonical_name": "Extended Stay America - Greenbrier Circle",
+      "state": "UNRESOLVED",
+      "street": "809 Greenbrier Circle"
+     },
+     {
+      "canonical_name": "Fairfield by Marriott Inn & Suites Chesapeake",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1560 Crossways Boulevard"
+     },
+     {
+      "canonical_name": "Hampton Inn Norfolk/Chesapeake (Greenbrier Area)",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "701 Woodlake Dr."
+     },
+     {
+      "canonical_name": "Hazel Inn & Suites",
+      "state": "UNRESOLVED",
+      "street": "1003;1005 Hazel Court"
+     },
+     {
+      "canonical_name": "Hilton Garden Inn Chesapeake/Greenbrier",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1565 Crossways Boulevard"
+     },
+     {
+      "canonical_name": "Holiday Inn Express Chesapeake - Norfolk",
+      "state": "VERIFIED_NO_PETS",
+      "street": "721 Conference Center Drive"
+     },
+     {
+      "canonical_name": "Homewood Suites by Hilton Chesapeake-Greenbrier",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1569 Crossways Blvd."
+     },
+     {
+      "canonical_name": "Hyatt Place Chesapeake/Greenbrier",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "709 Eden Way North"
+     },
+     {
+      "canonical_name": "Hyatt Studios Chesapeake",
+      "state": "UNRESOLVED",
+      "street": "101 Volvo Parkway"
+     },
+     {
+      "canonical_name": "InTown Suites Chesapeake/Battlefield Extended Stay",
+      "state": "UNRESOLVED",
+      "street": "1409 Tintern Street"
+     },
+     {
+      "canonical_name": "InTown Suites Chesapeake/Greenbrier Extended Stay",
+      "state": "UNRESOLVED",
+      "street": "2150 Old Greenbrier Road"
+     },
+     {
+      "canonical_name": "Intown Suites Chesapeake I-64",
+      "state": "UNRESOLVED",
+      "street": "1520 Crossways Boulevard"
+     },
+     {
+      "canonical_name": "MainStay Suites Chesapeake - Greenbrier",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1660 Debaun Ave"
+     },
+     {
+      "canonical_name": "Quality Inn Chesapeake - Greenbrier",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "100 Red Cedar Court"
+     },
+     {
+      "canonical_name": "Red Roof Inn Chesapeake Conference Center",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "724 Woodlake Dr"
+     },
+     {
+      "canonical_name": "Residence Inn by Marriott Chesapeake Greenbrier",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1500 Crossways Blvd."
+     },
+     {
+      "canonical_name": "SpringHill Suites by Marriott Chesapeake Greenbrier",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1446 Crossways Boulevard"
+     },
+     {
+      "canonical_name": "Staybridge Suites Chesapeake - Virginia Beach",
+      "state": "UNRESOLVED",
+      "street": "709 Woodlake Drive"
+     },
+     {
+      "canonical_name": "Studios & Suites 4 Less Chesapeake",
+      "state": "UNRESOLVED",
+      "street": "2222 South Military Highway"
+     },
+     {
+      "canonical_name": "Studios & Suites 4 Less Old Greenbrier Road",
+      "state": "UNRESOLVED",
+      "street": "2000 Old Greenbrier Road"
+     },
+     {
+      "canonical_name": "Tru by Hilton Chesapeake Greenbrier",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1570 Crossways Blvd."
+     },
+     {
+      "canonical_name": "Wingate by Wyndham Chesapeake",
+      "state": "VERIFIED_NO_PETS",
+      "street": "817 Greenbrier Circle"
+     },
+     {
+      "canonical_name": "WoodSpring Suites Chesapeake-Norfolk Greenbrier",
+      "state": "UNRESOLVED",
+      "street": "1708 Sentinel Drive"
+     },
+     {
+      "canonical_name": "WoodSpring Suites Chesapeake-Norfolk South",
+      "state": "UNRESOLVED",
+      "street": "137 Kempsville Road"
+     }
+    ]
+   },
+   "Chesapeake Battlefield Blvd North": {
+    "census": 2,
+    "pet_friendly": 1,
+    "verified_no_pets": 0,
+    "unresolved": 1,
+    "identities": [
+     {
+      "canonical_name": "Hampton Inn & Suites Chesapeake-Battlefield Blvd.",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1421 North Battlefield Boulevard"
+     },
+     {
+      "canonical_name": "Studios & Suites 4 Less Battlefield",
+      "state": "UNRESOLVED",
+      "street": "1433 Battlefield Boulevard North"
+     }
+    ]
+   },
+   "Chesapeake Great Bridge / Battlefield South": {
+    "census": 5,
+    "pet_friendly": 0,
+    "verified_no_pets": 2,
+    "unresolved": 3,
+    "identities": [
+     {
+      "canonical_name": "Comfort Inn & Suites Chesapeake - Portsmouth",
+      "state": "VERIFIED_NO_PETS",
+      "street": "3355 S. Military Highway"
+     },
+     {
+      "canonical_name": "Days Inn by Wyndham Chesapeake",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1439 George Washington Hwy N"
+     },
+     {
+      "canonical_name": "Sunset Manor Motel",
+      "state": "UNRESOLVED",
+      "street": "3345 Military Highway South"
+     },
+     {
+      "canonical_name": "The Thrift Store Inn",
+      "state": "UNRESOLVED",
+      "street": "2033 Battlefield Boulevard North"
+     },
+     {
+      "canonical_name": "Village Motel",
+      "state": "UNRESOLVED",
+      "street": "3265 South Military Highway"
+     }
+    ]
+   },
+   "Chesapeake Western Branch": {
+    "census": 13,
+    "pet_friendly": 2,
+    "verified_no_pets": 3,
+    "unresolved": 8,
+    "identities": [
+     {
+      "canonical_name": "American Inn",
+      "state": "UNRESOLVED",
+      "street": "4433 South Military Highway"
+     },
+     {
+      "canonical_name": "Bowers Hill Inn",
+      "state": "UNRESOLVED",
+      "street": "4725 West Military Highway"
+     },
+     {
+      "canonical_name": "Budget Lodge Churchland",
+      "state": "UNRESOLVED",
+      "street": "3244 Western Branch Boulevard"
+     },
+     {
+      "canonical_name": "Candlewood Suites Chesapeake/Suffolk",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "4809 Market Place"
+     },
+     {
+      "canonical_name": "Economy 7 Inn Chesapeake/Portsmouth",
+      "state": "UNRESOLVED",
+      "street": "3216 Churchland Boulevard"
+     },
+     {
+      "canonical_name": "Extended Stay America - Chesapeake - Churchland Blvd.",
+      "state": "UNRESOLVED",
+      "street": "3214 Churchland Blvd."
+     },
+     {
+      "canonical_name": "Fairfield by Marriott Inn & Suites Chesapeake Suffolk",
+      "state": "VERIFIED_NO_PETS",
+      "street": "2122 Jolliff Road"
+     },
+     {
+      "canonical_name": "Hampton Inn & Suites Chesapeake-Square Mall",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "4449 Peek Trail"
+     },
+     {
+      "canonical_name": "Holiday Inn Express & Suites Chesapeake",
+      "state": "VERIFIED_NO_PETS",
+      "street": "2436 Gum Road"
+     },
+     {
+      "canonical_name": "Sleep Inn & Suites Chesapeake - Portsmouth",
+      "state": "VERIFIED_NO_PETS",
+      "street": "3280 Western Branch Blvd"
+     },
+     {
+      "canonical_name": "Studios & Suites 4 Less Gum Road",
+      "state": "UNRESOLVED",
+      "street": "2424 Gum Road"
+     },
+     {
+      "canonical_name": "Studios & Suites 4 Less Western Branch",
+      "state": "UNRESOLVED",
+      "street": "3235 Western Branch Boulevard"
+     },
+     {
+      "canonical_name": "YourSpace Hotels Chesapeake",
+      "state": "UNRESOLVED",
+      "street": "2137 Starmount Parkway"
+     }
+    ]
+   },
+   "Portsmouth": {
+    "census": 4,
+    "pet_friendly": 1,
+    "verified_no_pets": 3,
+    "unresolved": 0,
+    "identities": [
+     {
+      "canonical_name": "Quality Inn & Suites Olde Town",
+      "state": "VERIFIED_NO_PETS",
+      "street": "347 Effingham St"
+     },
+     {
+      "canonical_name": "Red Roof Inn Norfolk - Portsmouth",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "925 London Blvd"
+     },
+     {
+      "canonical_name": "Renaissance Portsmouth-Norfolk Waterfront Hotel",
+      "state": "VERIFIED_NO_PETS",
+      "street": "425 Water St"
+     },
+     {
+      "canonical_name": "Super 8 by Wyndham Portsmouth - Norfolk",
+      "state": "VERIFIED_NO_PETS",
+      "street": "333 Effingham St"
+     }
+    ]
+   },
+   "Hampton Coliseum / Convention Center": {
+    "census": 13,
+    "pet_friendly": 9,
+    "verified_no_pets": 1,
+    "unresolved": 3,
+    "identities": [
+     {
+      "canonical_name": "Best Western Hampton Coliseum Inn",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1916 Coliseum Drive"
+     },
+     {
+      "canonical_name": "Comfort Inn & Suites Hampton near Coliseum",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1551 Hardy Cash Drive"
+     },
+     {
+      "canonical_name": "Country Inn & Suites by Radisson, Hampton Coliseum",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1917 Coliseum Dr"
+     },
+     {
+      "canonical_name": "Element by Marriott Hampton Peninsula Town Center",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1851 Merchant Lane"
+     },
+     {
+      "canonical_name": "Embassy Suites by Hilton Hampton Convention Center",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1700 Coliseum Drive"
+     },
+     {
+      "canonical_name": "Extended Stay America",
+      "state": "UNRESOLVED",
+      "street": "1915 Commerce Drive"
+     },
+     {
+      "canonical_name": "Hampton Inn Hampton-Newport News",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "3101 Coliseum Drive"
+     },
+     {
+      "canonical_name": "Hilton Garden Inn Hampton Coliseum Central",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1999 Power Plant Pkwy"
+     },
+     {
+      "canonical_name": "Hyatt Place Hampton Convention Center",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1905 Coliseum Drive"
+     },
+     {
+      "canonical_name": "Red Roof Inn Hampton Coliseum",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1918 Coliseum Drive"
+     },
+     {
+      "canonical_name": "Sonesta Simply Suites Hampton Coliseum",
+      "state": "UNRESOLVED",
+      "street": "401 Butler Farm Road"
+     },
+     {
+      "canonical_name": "SpringHill Suites by Marriott Hampton",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1997 Power Plant Parkway"
+     },
+     {
+      "canonical_name": "Studio 6 Extended Stay",
+      "state": "UNRESOLVED",
+      "street": "1616 Hardy Cash Drive"
+     }
+    ]
+   },
+   "Hampton Roads Center / Mercury Blvd": {
+    "census": 2,
+    "pet_friendly": 0,
+    "verified_no_pets": 2,
+    "unresolved": 0,
+    "identities": [
+     {
+      "canonical_name": "Holiday Inn Express Hampton - Coliseum Central",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1813 West Mercury Boulevard"
+     },
+     {
+      "canonical_name": "Quality Inn Hampton - Newport News",
+      "state": "VERIFIED_NO_PETS",
+      "street": "2138 W. Mercury Blvd"
+     }
+    ]
+   },
+   "Hampton Downtown / Mercury Blvd East": {
+    "census": 2,
+    "pet_friendly": 0,
+    "verified_no_pets": 1,
+    "unresolved": 1,
+    "identities": [
+     {
+      "canonical_name": "Super 8 by Wyndham Hampton",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1330 Thomas Street"
+     },
+     {
+      "canonical_name": "The Landing at Hampton Marina, Tapestry Collection by Hilton",
+      "state": "UNRESOLVED",
+      "street": "700 Settlers Landing Road"
+     }
+    ]
+   },
+   "Newport News City Center": {
+    "census": 2,
+    "pet_friendly": 1,
+    "verified_no_pets": 1,
+    "unresolved": 0,
+    "identities": [
+     {
+      "canonical_name": "Holiday Inn Newport News - Hampton",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "980 Omni Boulevard"
+     },
+     {
+      "canonical_name": "Newport News Marriott at City Center",
+      "state": "VERIFIED_NO_PETS",
+      "street": "740 Town Center Drive"
+     }
+    ]
+   },
+   "Oyster Point": {
+    "census": 8,
+    "pet_friendly": 2,
+    "verified_no_pets": 3,
+    "unresolved": 3,
+    "identities": [
+     {
+      "canonical_name": "City Center Inn",
+      "state": "UNRESOLVED",
+      "street": "945 J Clyde Morris Boulevard"
+     },
+     {
+      "canonical_name": "Days Inn by Wyndham Newport News City Center Oyster Point",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "11829 Fishing Point Drive"
+     },
+     {
+      "canonical_name": "Extended Stay America - Newport News - Oyster Point",
+      "state": "UNRESOLVED",
+      "street": "11708 Jefferson Ave."
+     },
+     {
+      "canonical_name": "Holiday Inn Express & Suites Newport News",
+      "state": "VERIFIED_NO_PETS",
+      "street": "943 J. Clyde Morris Blvd."
+     },
+     {
+      "canonical_name": "HomeTowne Studios Newport News - Hampton West",
+      "state": "VERIFIED_NO_PETS",
+      "street": "6069 Jefferson Ave"
+     },
+     {
+      "canonical_name": "Key West Inn - Newport News",
+      "state": "UNRESOLVED",
+      "street": "11845 Jefferson Avenue"
+     },
+     {
+      "canonical_name": "Super 8 by Wyndham Newport News",
+      "state": "VERIFIED_NO_PETS",
+      "street": "110 Traverse Road"
+     },
+     {
+      "canonical_name": "Super 8 by Wyndham Newport News/Jefferson Ave.",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "6105 Jefferson Avenue"
+     }
+    ]
+   },
+   "Newport News (Midtown / Hilton Village)": {
+    "census": 0,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": []
+   },
+   "PHF Airport": {
+    "census": 8,
+    "pet_friendly": 5,
+    "verified_no_pets": 1,
+    "unresolved": 2,
+    "identities": [
+     {
+      "canonical_name": "Best Western Plus Newport News Inn & Suites",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "500 Operations Drive"
+     },
+     {
+      "canonical_name": "City Express By Marriott Newport News",
+      "state": "UNRESOLVED",
+      "street": "12359 Hornsby Lane"
+     },
+     {
+      "canonical_name": "Comfort Inn Newport News - Hampton I-64",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "12330 Jefferson Ave."
+     },
+     {
+      "canonical_name": "Courtyard by Marriott Newport News Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "530 St Johns Road"
+     },
+     {
+      "canonical_name": "Hampton Inn & Suites Newport News (Oyster Point)",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "12251 Jefferson Ave."
+     },
+     {
+      "canonical_name": "Microtel Inn & Suites by Wyndham Newport News Airport",
+      "state": "VERIFIED_NO_PETS",
+      "street": "501 Operations Drive"
+     },
+     {
+      "canonical_name": "Residence Inn by Marriott Newport News Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "531 St. Johns Road"
+     },
+     {
+      "canonical_name": "The Lodge at Kiln Creek",
+      "state": "UNRESOLVED",
+      "street": "1003 Brick Kiln Boulevard"
+     }
+    ]
+   },
+   "Denbigh / Jefferson Ave I-64": {
+    "census": 14,
+    "pet_friendly": 3,
+    "verified_no_pets": 1,
+    "unresolved": 10,
+    "identities": [
+     {
+      "canonical_name": "Comfort Suites Airport",
+      "state": "UNRESOLVED",
+      "street": "12570 Jefferson Avenue"
+     },
+     {
+      "canonical_name": "Country Inn & Suites by Carlson Newport News South",
+      "state": "UNRESOLVED",
+      "street": "1069 J. Clyde Morris Boulevard"
+     },
+     {
+      "canonical_name": "Economy 7 Inn Newport News",
+      "state": "UNRESOLVED",
+      "street": "13700 Warwick Boulevard"
+     },
+     {
+      "canonical_name": "Economy Inn and Suites",
+      "state": "UNRESOLVED",
+      "street": "15237 Warwick Boulevard"
+     },
+     {
+      "canonical_name": "Fort Eustis Inn",
+      "state": "UNRESOLVED",
+      "street": "16924 Warwick Boulevard"
+     },
+     {
+      "canonical_name": "Hampton Inn Newport News-Yorktown",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "151 Ottis Street"
+     },
+     {
+      "canonical_name": "Hilton Garden Inn Newport News",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "180 Regal Way"
+     },
+     {
+      "canonical_name": "James River West Motel",
+      "state": "UNRESOLVED",
+      "street": "13541 Warwick Boulevard"
+     },
+     {
+      "canonical_name": "Motel 6",
+      "state": "UNRESOLVED",
+      "street": "15540 Warwick Boulevard"
+     },
+     {
+      "canonical_name": "Newport News Inn",
+      "state": "UNRESOLVED",
+      "street": "12880 Jefferson Avenue"
+     },
+     {
+      "canonical_name": "Quality Inn",
+      "state": "VERIFIED_NO_PETS",
+      "street": "16890 Warwick Blvd, Building B"
+     },
+     {
+      "canonical_name": "Red Roof Inn Newport News",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "16890 Warwick Blvd, Building A"
+     },
+     {
+      "canonical_name": "Sleep Inn & Suites",
+      "state": "UNRESOLVED",
+      "street": "21 Old Oyster Point Road"
+     },
+     {
+      "canonical_name": "The Historic Boxwood Inn",
+      "state": "UNRESOLVED",
+      "street": "10 Elmhurst Street"
+     }
+    ]
+   },
+   "Suffolk": {
+    "census": 15,
+    "pet_friendly": 7,
+    "verified_no_pets": 3,
+    "unresolved": 5,
+    "identities": [
+     {
+      "canonical_name": "Brentwood Inn & Suites",
+      "state": "UNRESOLVED",
+      "street": "1526 Holland Road"
+     },
+     {
+      "canonical_name": "Comfort Suites Suffolk - Chesapeake",
+      "state": "VERIFIED_NO_PETS",
+      "street": "5409 Plummer Blvd"
+     },
+     {
+      "canonical_name": "Courtyard by Marriott Suffolk Chesapeake",
+      "state": "VERIFIED_NO_PETS",
+      "street": "8060 Harbour View Boulevard"
+     },
+     {
+      "canonical_name": "Green Pines Motel East",
+      "state": "UNRESOLVED",
+      "street": "1274 Portsmouth Boulevard"
+     },
+     {
+      "canonical_name": "Hampton Inn Suffolk",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1017 Centerbrooke Lane"
+     },
+     {
+      "canonical_name": "Hilton Garden Inn Chesapeake/Suffolk",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "5921 Harbour View Blvd"
+     },
+     {
+      "canonical_name": "Hilton Garden Inn Suffolk Riverfront",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "100 East Constance Road"
+     },
+     {
+      "canonical_name": "Holiday Inn Express & Suites Suffolk",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1018 Centerbrooke Lane"
+     },
+     {
+      "canonical_name": "Home2 Suites by Hilton Suffolk",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1035 Centerbrooke Lane"
+     },
+     {
+      "canonical_name": "Joyners Motel",
+      "state": "UNRESOLVED",
+      "street": "1258 Portsmouth Boulevard"
+     },
+     {
+      "canonical_name": "Quality Inn & Suites Suffolk West",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1503 Holland Road, Route 58 West"
+     },
+     {
+      "canonical_name": "Red Roof Inn Suffolk",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "633 N Main St"
+     },
+     {
+      "canonical_name": "Regal Inn Motel",
+      "state": "UNRESOLVED",
+      "street": "2361 Pruden Boulevard"
+     },
+     {
+      "canonical_name": "stayAPT Suites",
+      "state": "UNRESOLVED",
+      "street": "5961 Harbour View Boulevard"
+     },
+     {
+      "canonical_name": "TownePlace Suites by Marriott Suffolk Chesapeake",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "8050 Harbour View Blvd"
+     }
+    ]
+   },
+   "Smithfield": {
+    "census": 2,
+    "pet_friendly": 1,
+    "verified_no_pets": 0,
+    "unresolved": 1,
+    "identities": [
+     {
+      "canonical_name": "Hampton Inn & Suites Smithfield",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "200 Vincents Crossing"
+     },
+     {
+      "canonical_name": "Smithfield Inn",
+      "state": "UNRESOLVED",
+      "street": "112 Main Street"
+     }
+    ]
+   },
+   "Yorktown US-17": {
+    "census": 8,
+    "pet_friendly": 4,
+    "verified_no_pets": 1,
+    "unresolved": 3,
+    "identities": [
+     {
+      "canonical_name": "Candlewood Suites Newport News/Yorktown",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "329 Commonwealth Drive"
+     },
+     {
+      "canonical_name": "Courtyard by Marriott Newport News Yorktown",
+      "state": "VERIFIED_NO_PETS",
+      "street": "105 Cybernetics Way"
+     },
+     {
+      "canonical_name": "Crown Inn",
+      "state": "UNRESOLVED",
+      "street": "7833 George Washington Memorial Highway"
+     },
+     {
+      "canonical_name": "Extended Stay America - Newport News - Yorktown",
+      "state": "UNRESOLVED",
+      "street": "200 Cybernetics Way"
+     },
+     {
+      "canonical_name": "Homewood Suites by Hilton Yorktown Newport News",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "401 Commonwealth Drive"
+     },
+     {
+      "canonical_name": "TownePlace Suites by Marriott Newport News Airport",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "511 Commonwealth Drive"
+     },
+     {
+      "canonical_name": "WoodSpring Suites Yorktown Newport News",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "2420 George Washington Memorial Highway"
+     },
+     {
+      "canonical_name": "Yorktown Motor Lodge",
+      "state": "UNRESOLVED",
+      "street": "8829 Geo Wash Mem Highway"
+     }
+    ]
+   }
+  },
+  "unplaced": {
+   "census": 0,
+   "pet_friendly": 0,
+   "verified_no_pets": 0,
+   "unresolved": 0,
+   "identities": []
+  }
+ },
+ "lane_yields": {
+  "osm_elements": 480,
+  "brand_inventory_leads": 469,
+  "brand_family_dispositions": {
+   "MARRIOTT_STATE_SITEMAP": "STATE_SITEMAP_ANSWERED_THIS_CLIENT",
+   "WYNDHAM": "SITEMAP_ANSWERED_THIS_CLIENT",
+   "SONESTA": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "DRURY": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "WOODSPRING": "SITEMAP_ANSWERED_THIS_CLIENT",
+   "INTOWN": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "LOEWS": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "CHOICE": "SITEMAP_UNREACHABLE__TimeoutError",
+   "IHG": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "BEST_WESTERN": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "RED_ROOF": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "MOTEL6": "SITEMAP_UNREACHABLE__TimeoutError",
+   "EXTENDED_STAY": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "HYATT": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "RADISSON": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "OMNI": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "FOUR_SEASONS": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403"
+  },
+  "city_bureau_rosters": {
+   "coverage": "EVERY_LISTING_IN_EACH_READ_BUREAU_LODGING_CATEGORY",
+   "listings": 238,
+   "by_bureau": {
+    "Visit Chesapeake": 50,
+    "Visit Newport News": 23,
+    "Visit Virginia Beach": 165
+   },
+   "by_category": {
+    "All Suites": 2,
+    "Beach Vacation Homes": 34,
+    "Bed & Breakfast": 4,
+    "Campground": 1,
+    "Camping & Cabins": 8,
+    "Condo Rentals": 4,
+    "Extended Stay": 15,
+    "Full Service": 1,
+    "Hotels & Resorts": 104,
+    "Hotels Near Convention Center": 5,
+    "Limited Service": 30,
+    "Motel": 7,
+    "Outdoor Recreation": 1,
+    "Places to Stay": 22
+   }
+  },
+  "census_lane_observations": {
+   "OSM_OVERPASS": 442,
+   "BRAND_INVENTORY_OWNED": 53,
+   "BRAND_INVENTORY_CITY_PAGE": 53,
+   "BRAND_INVENTORY_STATE_SITEMAP": 0,
+   "BRAND_INVENTORY_SITEMAP": 34,
+   "DESTINATION_ORGANIZATION": 238,
+   "REGIONAL_VISITOR_CENTER": 0,
+   "COMPETITOR_LEAD": 16,
+   "PROPERTY_PAGE": 207
+  },
+  "first_party_reads": {
+   "pages_read": 191,
+   "by_brand": {
+    "BEST_WESTERN": 6,
+    "CHOICE": 26,
+    "HILTON": 42,
+    "HYATT": 6,
+    "IHG": 18,
+    "INDEPENDENT": 5,
+    "MARRIOTT": 44,
+    "RED_ROOF": 9,
+    "WOODSPRING": 1,
+    "WYNDHAM": 34
+   },
+   "identity_confirmed": 191,
+   "in_market": 180,
+   "outside_market": 11,
+   "in_market_pets_allowed_true": 95,
+   "in_market_pets_allowed_false": 81,
+   "in_market_first_party_conflicts": 0
+  },
+  "wyndham_property_service": {
+   "routes": 68,
+   "read": 34,
+   "retired": 34,
+   "errors": 0
+  },
+  "clean_set": {
+   "reads_evaluated": 191,
+   "clean_pet_friendly": 94,
+   "clean_verified_no_pets": 72,
+   "resolved_census_identities": 166,
+   "unresolved_census_identities": 98,
+   "census_count": 264,
+   "rejected": 25,
+   "rejected_by_class": {
+    "CENSUS_ROW_NOT_ADMITTED": 12,
+    "POLICY_NOT_FOUND": 4,
+    "QUOTE_NOT_OPERATIVE": 2,
+    "SERVICE_ANIMAL_ONLY": 7
+   },
+   "pf_by_brand": {
+    "BEST_WESTERN": 3,
+    "CHOICE": 8,
+    "HILTON": 35,
+    "HYATT": 5,
+    "IHG": 7,
+    "INDEPENDENT": 1,
+    "MARRIOTT": 20,
+    "RED_ROOF": 6,
+    "WOODSPRING": 1,
+    "WYNDHAM": 8
+   },
+   "pf_by_corridor": {
+    "hampton-roads-va__chesapeake-greenbrier": 12,
+    "hampton-roads-va__chesapeake-western-branch": 2,
+    "hampton-roads-va__hampton-coliseum-central": 9,
+    "hampton-roads-va__newport-news-city-center": 3,
+    "hampton-roads-va__newport-news-i-64-denbigh": 8,
+    "hampton-roads-va__norfolk-airport-military-highway": 12,
+    "hampton-roads-va__norfolk-downtown": 3,
+    "hampton-roads-va__norfolk-ocean-view": 1,
+    "hampton-roads-va__portsmouth": 1,
+    "hampton-roads-va__smithfield": 1,
+    "hampton-roads-va__suffolk": 7,
+    "hampton-roads-va__virginia-beach-central-bayside": 4,
+    "hampton-roads-va__virginia-beach-oceanfront": 18,
+    "hampton-roads-va__virginia-beach-town-center": 9,
+    "hampton-roads-va__yorktown-route-17": 4
+   }
+  }
+ },
+ "competitor_gap_challenge": {
+  "competitor_rows_observed": 16,
+  "also_seen_by_a_first_party_lane": 11,
+  "competitor_only": 5,
+  "competitor_only_by_class": {
+   "IDENTITY_REVIEW_REQUIRED": 1,
+   "NAME_ONLY_UNRESOLVED": 4
+  },
+  "matched_by_class": {
+   "TRUE_HOTEL_IDENTITY": 11
+  }
+ },
+ "owned_evidence": {
+  "OWNED_IDENTITIES": "0 -- no committed census or authority holds a 233xx-237xx Hampton Roads identity (Outer Banks NC and Richmond VA are separate markets; none of their identities is in this region).",
+  "OWNED_ROUTES": "53 -- 52 ORF / PHF-coded Marriott routes and 1 Magnuson route from the committed national harvest dayton_oh_brand_directory_harvest_001 (read at zero requests); every in-market Marriott route was re-read on Marriott's own page (2 are Elizabeth City / Nags Head NC, outside).",
+  "OWNED_VALID_POLICY_EVIDENCE": "0 -- every policy record here is a new first-party capture of this order."
+ },
+ "package": {
+  "SHADOW_PACKAGE_CREATED": "YES",
+  "execution_zone": "SHADOW_UNTIL_REGISTERED",
+  "package_id": "pkg-hampton-roads-va-27d1707231cbfb4a",
+  "PACKAGE_DIGEST": "sha256:27d1707231cbfb4a3a5a5c02e25b0f1ee4bf60ba5def03ef79b1254db2efb7da",
+  "created_from_source_sha": "d38797e6bb2408c6aec7a53800b61569d1185a68",
+  "package_path": "launch_packages/pettripfinder/markets/staging/hampton-roads-va/shadow_packages/hampton-roads-va/pkg-hampton-roads-va-27d1707231cbfb4a.json",
+  "BUILD_INPUT_KEY": {
+   "staged_input_digest": "sha256:f2a2a4800423eb73f15b8d64f5a63f39faaeb655b80a41067c9dd9482eb68315",
+   "changed_market_bundle_sha256": "c46eb7f2155fe58202e677423de2770e9f6e6f59e2bb8a3346cd9b6f5c53708b",
+   "contract_sha256": "sha256:2d0346402fbd0b09a63fbc37d2c9083aa83423764c41024e359a7e739ba8026f",
+   "dependency_input_digests": {
+    "market": "sha256:0e7a1da38ec31b7d8e7e4cdfb9530d1eed1a18b7854b293171dc907237b04754",
+    "census": "sha256:d4c5313504c83fd2deb64caba576c12512f3e1ccf00d55d1c66fbee78c3d3e9f",
+    "policy_package": "sha256:32c47c488ad1b726730a4ea307e716a1e41624c215b3a0d33b7277d51fdb8cd9",
+    "exclusions": "sha256:64fb5f17f324e882bf2ff9ce6a3f04f7cc5f8d1cd085180cc1c71e56d5651d9f",
+    "routing": "sha256:b3b8a53b7728e2503df9dde279f26b073c28ea8375871a01b996709ee56831ef",
+    "seed": "sha256:5d7b84fa8f548cbca3c4d1f1e9e733a932c8019a4a6b415033b25e7991ea8537",
+    "partition": "sha256:f9e27261e74102e6850cc93744556d9e0e42ab7771099234a740d9cad6f8238f"
+   }
+  },
+  "INTENDED_DELTA": {
+   "market_id": "hampton-roads-va",
+   "add_property_ids": [
+    "aloft by marriott chesapeake",
+    "ambassadors inn and suites",
+    "best western hampton coliseum inn",
+    "best western plus chesapeake bay norfolk",
+    "best western plus newport news inn and suites",
+    "candlewood suites chesapeake suffolk",
+    "candlewood suites newport news yorktown",
+    "candlewood suites norfolk airport",
+    "candlewood suites virginia beach town center",
+    "comfort inn newport news hampton i 64",
+    "country inn and suites by radisson hampton coliseum",
+    "courtyard by marriott newport news airport",
+    "days inn by wyndham newport news city center oyster point",
+    "delta hotels chesapeake norfolk",
+    "delta hotels virginia beach waterfront suites",
+    "doubletree by hilton hotel norfolk airport",
+    "doubletree by hilton hotel virginia beach",
+    "econo lodge virginia beach town center",
+    "element by marriott hampton peninsula town center",
+    "embassy suites by hilton hampton convention center",
+    "embassy suites by hilton virginia beach oceanfront resort",
+    "fairfield by marriott inn and suites virginia beach oceanfront",
+    "hampton inn and suites by hilton virginia beach town center",
+    "hampton inn and suites chesapeake battlefield blvd",
+    "hampton inn and suites chesapeake square mall",
+    "hampton inn and suites newport news oyster point",
+    "hampton inn and suites norfolk airport",
+    "hampton inn and suites smithfield",
+    "hampton inn hampton newport news",
+    "hampton inn newport news yorktown",
+    "hampton inn norfolk chesapeake greenbrier area",
+    "hampton inn norfolk naval base",
+    "hampton inn norfolk virginia beach",
+    "hampton inn suffolk",
+    "hampton inn virginia beach oceanfront north",
+    "hampton inn virginia beach oceanfront south",
+    "hilton garden inn chesapeake greenbrier",
+    "hilton garden inn chesapeake suffolk",
+    "hilton garden inn hampton coliseum central",
+    "hilton garden inn newport news",
+    "hilton garden inn suffolk riverfront",
+    "hilton garden inn virginia beach oceanfront",
+    "hilton garden inn virginia beach town center",
+    "holiday inn express and suites va beach oceanfront",
+    "holiday inn newport news hampton",
+    "holiday inn va beach oceanside 21st st",
+    "home2 suites by hilton norfolk airport",
+    "home2 suites by hilton suffolk",
+    "home2 suites by hilton virginia beach princess anne",
+    "homewood suites by hilton chesapeake greenbrier",
+    "homewood suites by hilton virginia beach norfolk airport",
+    "homewood suites by hilton yorktown newport news",
+    "hyatt house virginia beach oceanfront",
+    "hyatt place chesapeake greenbrier",
+    "hyatt place hampton convention center",
+    "hyatt place virginia beach oceanfront",
+    "hyatt place virginia beach town center",
+    "la quinta inn and suites by wyndham norfolk",
+    "la quinta inn and suites by wyndham virginia beach",
+    "la quinta inn by wyndham norfolk virginia beach",
+    "mainstay suites chesapeake greenbrier",
+    "moxy virginia beach oceanfront",
+    "quality inn and suites suffolk west",
+    "quality inn chesapeake greenbrier",
+    "quality suites lake wright norfolk airport",
+    "ramada plaza by wyndham virginia beach oceanfront",
+    "red roof inn chesapeake conference center",
+    "red roof inn hampton coliseum",
+    "red roof inn newport news",
+    "red roof inn norfolk portsmouth",
+    "red roof inn suffolk",
+    "red roof inn virginia beach",
+    "residence inn by marriott chesapeake greenbrier",
+    "residence inn by marriott newport news airport",
+    "residence inn by marriott norfolk airport",
+    "residence inn by marriott norfolk downtown",
+    "residence inn by marriott virginia beach oceanfront",
+    "residence inn by marriott virginia beach town center",
+    "sheraton norfolk waterside hotel",
+    "sleep inn lake wright norfolk airport",
+    "spark by hilton norfolk",
+    "springhill suites by marriott hampton",
+    "springhill suites by marriott virginia beach oceanfront",
+    "super 8 by wyndham newport news jefferson ave",
+    "the founders inn and spa tapestry collection by hilton",
+    "the westin virginia beach town center",
+    "towneplace suites by marriott newport news airport",
+    "towneplace suites by marriott norfolk airport",
+    "towneplace suites by marriott suffolk chesapeake",
+    "tru by hilton chesapeake greenbrier",
+    "tru by hilton norfolk airport",
+    "woodspring suites yorktown newport news",
+    "wyndham garden norfolk downtown",
+    "wyndham virginia beach oceanfront"
+   ],
+   "update_property_ids": [],
+   "remove_property_ids": [],
+   "add_routes": [
+    "/pet-friendly-hotels/hampton-roads-va/",
+    "/pet-friendly-hotels/hampton-roads-va/aloft-by-marriott-chesapeake/",
+    "/pet-friendly-hotels/hampton-roads-va/ambassadors-inn-suites/",
+    "/pet-friendly-hotels/hampton-roads-va/best-western-hampton-coliseum-inn/",
+    "/pet-friendly-hotels/hampton-roads-va/best-western-plus-chesapeake-bay-norfolk/",
+    "/pet-friendly-hotels/hampton-roads-va/best-western-plus-newport-news-inn-suites/",
+    "/pet-friendly-hotels/hampton-roads-va/candlewood-suites-chesapeake-suffolk/",
+    "/pet-friendly-hotels/hampton-roads-va/candlewood-suites-newport-news-yorktown/",
+    "/pet-friendly-hotels/hampton-roads-va/candlewood-suites-norfolk-airport/",
+    "/pet-friendly-hotels/hampton-roads-va/candlewood-suites-virginia-beach-town-center/",
+    "/pet-friendly-hotels/hampton-roads-va/chesapeake-greenbrier/",
+    "/pet-friendly-hotels/hampton-roads-va/comfort-inn-newport-news-hampton-i-64/",
+    "/pet-friendly-hotels/hampton-roads-va/country-inn-suites-by-radisson-hampton-coliseum/",
+    "/pet-friendly-hotels/hampton-roads-va/courtyard-by-marriott-newport-news-airport/",
+    "/pet-friendly-hotels/hampton-roads-va/days-inn-by-wyndham-newport-news-city-center-oyster-point/",
+    "/pet-friendly-hotels/hampton-roads-va/delta-hotels-chesapeake-norfolk/",
+    "/pet-friendly-hotels/hampton-roads-va/delta-hotels-virginia-beach-waterfront-suites/",
+    "/pet-friendly-hotels/hampton-roads-va/doubletree-by-hilton-hotel-norfolk-airport/",
+    "/pet-friendly-hotels/hampton-roads-va/doubletree-by-hilton-hotel-virginia-beach/",
+    "/pet-friendly-hotels/hampton-roads-va/econo-lodge-virginia-beach-town-center/",
+    "/pet-friendly-hotels/hampton-roads-va/element-by-marriott-hampton-peninsula-town-center/",
+    "/pet-friendly-hotels/hampton-roads-va/embassy-suites-by-hilton-hampton-convention-center/",
+    "/pet-friendly-hotels/hampton-roads-va/embassy-suites-by-hilton-virginia-beach-oceanfront-resort/",
+    "/pet-friendly-hotels/hampton-roads-va/fairfield-by-marriott-inn-suites-virginia-beach-oceanfront/",
+    "/pet-friendly-hotels/hampton-roads-va/hampton-coliseum-central/",
+    "/pet-friendly-hotels/hampton-roads-va/hampton-inn-hampton-newport-news/",
+    "/pet-friendly-hotels/hampton-roads-va/hampton-inn-newport-news-yorktown/",
+    "/pet-friendly-hotels/hampton-roads-va/hampton-inn-norfolk-chesapeake-greenbrier-area/",
+    "/pet-friendly-hotels/hampton-roads-va/hampton-inn-norfolk-naval-base/",
+    "/pet-friendly-hotels/hampton-roads-va/hampton-inn-norfolk-virginia-beach/",
+    "/pet-friendly-hotels/hampton-roads-va/hampton-inn-suffolk/",
+    "/pet-friendly-hotels/hampton-roads-va/hampton-inn-suites-by-hilton-virginia-beach-town-center/",
+    "/pet-friendly-hotels/hampton-roads-va/hampton-inn-suites-chesapeake-battlefield-blvd/",
+    "/pet-friendly-hotels/hampton-roads-va/hampton-inn-suites-chesapeake-square-mall/",
+    "/pet-friendly-hotels/hampton-roads-va/hampton-inn-suites-newport-news-oyster-point/",
+    "/pet-friendly-hotels/hampton-roads-va/hampton-inn-suites-norfolk-airport/",
+    "/pet-friendly-hotels/hampton-roads-va/hampton-inn-suites-smithfield/",
+    "/pet-friendly-hotels/hampton-roads-va/hampton-inn-virginia-beach-oceanfront-north/",
+    "/pet-friendly-hotels/hampton-roads-va/hampton-inn-virginia-beach-oceanfront-south/",
+    "/pet-friendly-hotels/hampton-roads-va/hilton-garden-inn-chesapeake-greenbrier/",
+    "/pet-friendly-hotels/hampton-roads-va/hilton-garden-inn-chesapeake-suffolk/",
+    "/pet-friendly-hotels/hampton-roads-va/hilton-garden-inn-hampton-coliseum-central/",
+    "/pet-friendly-hotels/hampton-roads-va/hilton-garden-inn-newport-news/",
+    "/pet-friendly-hotels/hampton-roads-va/hilton-garden-inn-suffolk-riverfront/",
+    "/pet-friendly-hotels/hampton-roads-va/hilton-garden-inn-virginia-beach-oceanfront/",
+    "/pet-friendly-hotels/hampton-roads-va/hilton-garden-inn-virginia-beach-town-center/",
+    "/pet-friendly-hotels/hampton-roads-va/holiday-inn-express-suites-va-beach-oceanfront/",
+    "/pet-friendly-hotels/hampton-roads-va/holiday-inn-newport-news-hampton/",
+    "/pet-friendly-hotels/hampton-roads-va/holiday-inn-va-beach-oceanside-21st-st/",
+    "/pet-friendly-hotels/hampton-roads-va/home2-suites-by-hilton-norfolk-airport/",
+    "/pet-friendly-hotels/hampton-roads-va/home2-suites-by-hilton-suffolk/",
+    "/pet-friendly-hotels/hampton-roads-va/home2-suites-by-hilton-virginia-beach-princess-anne/",
+    "/pet-friendly-hotels/hampton-roads-va/homewood-suites-by-hilton-chesapeake-greenbrier/",
+    "/pet-friendly-hotels/hampton-roads-va/homewood-suites-by-hilton-virginia-beach-norfolk-airport/",
+    "/pet-friendly-hotels/hampton-roads-va/homewood-suites-by-hilton-yorktown-newport-news/",
+    "/pet-friendly-hotels/hampton-roads-va/hyatt-house-virginia-beach-oceanfront/",
+    "/pet-friendly-hotels/hampton-roads-va/hyatt-place-chesapeake-greenbrier/",
+    "/pet-friendly-hotels/hampton-roads-va/hyatt-place-hampton-convention-center/",
+    "/pet-friendly-hotels/hampton-roads-va/hyatt-place-virginia-beach-oceanfront/",
+    "/pet-friendly-hotels/hampton-roads-va/hyatt-place-virginia-beach-town-center/",
+    "/pet-friendly-hotels/hampton-roads-va/la-quinta-inn-by-wyndham-norfolk-virginia-beach/",
+    "/pet-friendly-hotels/hampton-roads-va/la-quinta-inn-suites-by-wyndham-norfolk/",
+    "/pet-friendly-hotels/hampton-roads-va/la-quinta-inn-suites-by-wyndham-virginia-beach/",
+    "/pet-friendly-hotels/hampton-roads-va/mainstay-suites-chesapeake-greenbrier/",
+    "/pet-friendly-hotels/hampton-roads-va/moxy-virginia-beach-oceanfront/",
+    "/pet-friendly-hotels/hampton-roads-va/newport-news-i-64-denbigh/",
+    "/pet-friendly-hotels/hampton-roads-va/norfolk-airport-military-highway/",
+    "/pet-friendly-hotels/hampton-roads-va/quality-inn-chesapeake-greenbrier/",
+    "/pet-friendly-hotels/hampton-roads-va/quality-inn-suites-suffolk-west/",
+    "/pet-friendly-hotels/hampton-roads-va/quality-suites-lake-wright-norfolk-airport/",
+    "/pet-friendly-hotels/hampton-roads-va/ramada-plaza-by-wyndham-virginia-beach-oceanfront/",
+    "/pet-friendly-hotels/hampton-roads-va/red-roof-inn-chesapeake-conference-center/",
+    "/pet-friendly-hotels/hampton-roads-va/red-roof-inn-hampton-coliseum/",
+    "/pet-friendly-hotels/hampton-roads-va/red-roof-inn-newport-news/",
+    "/pet-friendly-hotels/hampton-roads-va/red-roof-inn-norfolk-portsmouth/",
+    "/pet-friendly-hotels/hampton-roads-va/red-roof-inn-suffolk/",
+    "/pet-friendly-hotels/hampton-roads-va/red-roof-inn-virginia-beach/",
+    "/pet-friendly-hotels/hampton-roads-va/residence-inn-by-marriott-chesapeake-greenbrier/",
+    "/pet-friendly-hotels/hampton-roads-va/residence-inn-by-marriott-newport-news-airport/",
+    "/pet-friendly-hotels/hampton-roads-va/residence-inn-by-marriott-norfolk-airport/",
+    "/pet-friendly-hotels/hampton-roads-va/residence-inn-by-marriott-norfolk-downtown/",
+    "/pet-friendly-hotels/hampton-roads-va/residence-inn-by-marriott-virginia-beach-oceanfront/",
+    "/pet-friendly-hotels/hampton-roads-va/residence-inn-by-marriott-virginia-beach-town-center/",
+    "/pet-friendly-hotels/hampton-roads-va/sheraton-norfolk-waterside-hotel/",
+    "/pet-friendly-hotels/hampton-roads-va/sleep-inn-lake-wright-norfolk-airport/",
+    "/pet-friendly-hotels/hampton-roads-va/spark-by-hilton-norfolk/",
+    "/pet-friendly-hotels/hampton-roads-va/springhill-suites-by-marriott-hampton/",
+    "/pet-friendly-hotels/hampton-roads-va/springhill-suites-by-marriott-virginia-beach-oceanfront/",
+    "/pet-friendly-hotels/hampton-roads-va/suffolk/",
+    "/pet-friendly-hotels/hampton-roads-va/super-8-by-wyndham-newport-news-jefferson-ave/",
+    "/pet-friendly-hotels/hampton-roads-va/the-founders-inn-and-spa-tapestry-collection-by-hilton/",
+    "/pet-friendly-hotels/hampton-roads-va/the-westin-virginia-beach-town-center/",
+    "/pet-friendly-hotels/hampton-roads-va/towneplace-suites-by-marriott-newport-news-airport/",
+    "/pet-friendly-hotels/hampton-roads-va/towneplace-suites-by-marriott-norfolk-airport/",
+    "/pet-friendly-hotels/hampton-roads-va/towneplace-suites-by-marriott-suffolk-chesapeake/",
+    "/pet-friendly-hotels/hampton-roads-va/tru-by-hilton-chesapeake-greenbrier/",
+    "/pet-friendly-hotels/hampton-roads-va/tru-by-hilton-norfolk-airport/",
+    "/pet-friendly-hotels/hampton-roads-va/virginia-beach-oceanfront/",
+    "/pet-friendly-hotels/hampton-roads-va/virginia-beach-town-center/",
+    "/pet-friendly-hotels/hampton-roads-va/woodspring-suites-yorktown-newport-news/",
+    "/pet-friendly-hotels/hampton-roads-va/wyndham-garden-norfolk-downtown/",
+    "/pet-friendly-hotels/hampton-roads-va/wyndham-virginia-beach-oceanfront/"
+   ],
+   "change_routes": [],
+   "remove_routes": [],
+   "expected_profile_delta": 94,
+   "expected_verified_no_pets_delta": 72,
+   "expected_market_count_delta": 1,
+   "expected_participation_delta": [
+    {
+     "market_id": "hampton-roads-va",
+     "from": false,
+     "to": true
+    }
+   ],
+   "joining_market_profiles": 94,
+   "joining_market_verified_no_pets": 72,
+   "shadow_until_registered": "declared against a live release that carries no index for this market; the registration order's re-seal restates the delta through registration_release_lane.joining_delta"
+  },
+  "VALIDATION_RECEIPT": {
+   "path": "launch_packages/pettripfinder/markets/staging/hampton-roads-va/shadow_receipts/hampton-roads-va/pkg-hampton-roads-va-27d1707231cbfb4a-5600a48c5c4a990e.json",
+   "digest": "sha256:5600a48c5c4a990eebc91e58b3202f544775571b471ee0e1e0c510e46c4d087b",
+   "eligible": "YES",
+   "rules": {
+    "A": "PASS",
+    "B": "PASS",
+    "C": "PASS",
+    "D": "PASS",
+    "E": "PASS",
+    "F": "PASS",
+    "G": "PASS",
+    "H": "PASS",
+    "I": "PASS",
+    "J": "PASS",
+    "K": "PASS",
+    "L": "PASS",
+    "M": "PASS",
+    "N": "PASS",
+    "O": "PASS"
+   },
+   "unknown": [],
+   "failed": [],
+   "determinism": "BYTE_IDENTICAL"
+  },
+  "COVERAGE_SCORECARD": {
+   "census_count": 264,
+   "published_pet_friendly": 94,
+   "verified_no_pets": 72,
+   "out_of_category": 0,
+   "unresolved": 98,
+   "public_routes": 109,
+   "evidence_references": 166,
+   "evidence_references_source": "derived_from_records",
+   "evidence_artifacts_available": 0,
+   "paid_evidence_references": 0,
+   "counts_by_partition_state": {
+    "ACCESS_BLOCKED": 11,
+    "AWAITING_OFFICIAL_URL": 40,
+    "AWAITING_POLICY_OBSERVATION": 47,
+    "PUBLISHED_PET_FRIENDLY": 94,
+    "VERIFIED_NO_PETS": 72
+   }
+  },
+  "parent_binding": "parent_live_state names the live release this branch lineage carries (Atlanta, deploy 6aa7f125...; production has since moved to Charleston on another branch). That is what this package was validated against. Once any later market is live, FAST rule N fails this package BY DESIGN; the registration order -- when Hampton Roads reaches the front of the release queue -- re-seals the same committed inputs against that parent as a NEW package id. Nothing here is a production candidate, and no whole-site build was assembled."
+ },
+ "factory_code_changed": "NO -- every changed path is a hampton_roads_va_* helper, the market's discovery config, or a document under the market's own proposed / staging / report paths",
+ "shared_factory_notes_recorded_not_repaired": [
+  "The shared first-party reader does not read IHG's 'No, pets are not allowed at Holiday Inn Virginia Beach - Norfolk.' or '... at Crowne Plaza Virginia Beach Town Center.' as a refusal (it reads the same sentence for other IHG hotels), nor The Sitio's 'We love pets; however, we are not a pet friendly hotel.'; those rows are held with the exact wording.",
+  "Hilton's 'Service animals only' petsInfo (Hilton Virginia Beach Oceanfront, DoubleTree Oceanfront South, Spark Oceanfront, Hilton Norfolk The Main, The Landing at Hampton Marina, both Hilton Vacation Club resorts) is a service-animal carve-out, not a refusal, and is held SERVICE_ANIMAL_ONLY.",
+  "Visit Norfolk and Visit Hampton publish no listing service this client could read (WordPress / 403), and the attended browser refused navigation to several independent Oceanfront domains; recorded as lane gaps."
+ ],
+ "broad_regression_run": "NO",
+ "final_production_candidate_created": "NO -- FAST composes the release index in memory only",
+ "founder_authorization_created": "NO",
+ "deployed": "NO",
+ "shared_state_touched": "NO -- launch_participation.json, bundle_cache_closure.json, the market_state pin, the generated globals, release contracts, identity_resolutions.json and the market registry are unchanged",
+ "next_order": [
+  "When Hampton Roads reaches the front of the serialized release lane, read CURRENT VERIFIED LIVE and merge that live parent into worker/ptf-hampton-roads-va-market-001; the Atlanta binding of this shadow package is then invalid (FAST rule N fails it by design).",
+  "Copy markets/proposed/hampton-roads-va.json -> markets/hampton-roads-va.json, identity_census_proposed/hampton-roads-va.json -> identity_census/hampton-roads-va.json and the staged launch_package documents (hotel_policy_facts_hampton-roads-va.json, hampton_roads_va_final_partition_007.json, the authority shard) into their registered paths; repoint the helpers' paths.",
+  "No same-campus resolution is required by this census (no co-location or directional hold was raised); recheck after any new read.",
+  "market_registration_cli --write, build_global_authority --write then --check, the release contract, registration_release_lane register + seal --work-order (a NEW package id), FAST.",
+  "regression_delta classify (expect COMPOSITE_FRESH_MARKET_DATA_ONLY), compose and reproduce the candidate, prepare the founder packet; deploy only on founder authorization.",
+  "Before sealing: re-probe Choice beyond the 403 wall (va904, va384, va358, va761, va050), Motel 6 / Studio 6, the refused Oceanfront independents (Sea View, Ocean Cove, Belvedere) and the TLS-failing Chesapeake motels; read IHG Garner Hotel VB North (orfaa) and Sonesta Simply Suites Hampton; settle the Oceanfront timeshare resorts' public hotel operation; resolve the Red Roof geography holds (rri826, rri567) with an address-bearing first-party document."
+ ]
+}

@@ -123,7 +123,13 @@ def build():
 
     def nh_class(r):
         why = reason(r).lower()
-        # RICHMOND kinds, tested first
+        # HAMPTON ROADS: a bureau's own rental / condo / campground typing is named first (its reason text also says
+        # "rental / apartment category")
+        if "files this listing" in why:
+            return ("BUREAU_CAMPGROUND_OR_STATE_PARK" if "camp" in why
+                    else "BUREAU_VACATION_RENTAL_CONDO_OR_BEACH_HOUSE")
+        if "tourism=" in why:
+            return "MAP_APARTMENT_CONDO_OR_CHALET_UNIT"
         if "apartment" in why:
             return "APARTMENT_OR_RENTAL_UNITS"
         if "timeshare" in why:
