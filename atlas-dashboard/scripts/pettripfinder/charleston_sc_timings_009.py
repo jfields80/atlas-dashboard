@@ -22,13 +22,17 @@ TIMINGS = OrderedDict([
     ("static_evidence", "policy-page lane 32.3 s / 35.8 s / 40.0 s over three passes (63 / 81 / 88 sites)"),
     ("policy_adjudication", "14:45Z-15:00Z (candidate quotes tested against the shared first-party reader; independent "
                             "quotes proved verbatim with house number and ZIP on the same document)"),
-    ("reconciliation", "15:00Z (clean set 82 / 44, staged authority, final partition 185 identities, 0 contract issues)"),
-    ("shadow_package_and_fast", "15:01:29Z-15:03:21Z at 3b3d1271 (sealed twice in-process, FAST 15/15, determinism "
-                                "BYTE_IDENTICAL)"),
-    ("independent_reproduction", "15:04:09Z-15:04:31Z (clean git worktree at 3b3d1271 with a COPY of the document store: "
+    ("reconciliation", "15:00Z-15:06Z (clean set 82 / 44, staged authority, final partition 186 identities, 0 contract "
+                       "issues)"),
+    ("shadow_package_and_fast", "15:06:48Z-15:08:12Z at fa4a9a47 (sealed twice in-process, FAST 15/15, determinism "
+                                "BYTE_IDENTICAL); an earlier seal at 3b3d1271 (15:01:29Z-15:03:21Z) also passed 15/15 and "
+                                "was superseded when the census stopped folding Homewood Suites Summerville into the Hilton "
+                                "Garden Inn through their shared switchboard phone"),
+    ("independent_reproduction", "15:08:30Z-15:08:52Z (clean git worktree at fa4a9a47 with a COPY of the document store: "
                                  "geography, brand pages, capture, census, clean set, staged authority, partition and staged "
                                  "shard rebuilt from committed captures -- zero content difference; only the eol-unattributed "
                                  "discovery config checks out CRLF; separate-process digest-only seal = the same digest)"),
-    ("ZERO_TO_SOURCE_READY", "55 min 18 s (14:08:03Z -> 15:03:21Z, the FAST-passed sealed shadow package)"),
+    ("ZERO_TO_SOURCE_READY", "1 h 0 min 9 s (14:08:03Z -> 15:08:12Z, the final FAST-passed sealed shadow package; the "
+                             "first FAST-passed seal was at 15:03:21Z, 55 min 18 s)"),
     ("peak_memory", "not measured on this run"),
 ])
