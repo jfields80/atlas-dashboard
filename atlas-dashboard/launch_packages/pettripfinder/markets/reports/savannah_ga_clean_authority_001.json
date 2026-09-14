@@ -9,16 +9,16 @@
  "one_identity_classified_once": "The join is on street identity, so two brands at one address cannot both settle it: the census already withheld those buildings as a founder ruling, and a second read of an already-settled identity is reported DUPLICATE_READ_FOR_ONE_IDENTITY.",
  "counts": {
   "reads_evaluated": 168,
-  "clean_pet_friendly": 97,
+  "clean_pet_friendly": 96,
   "clean_verified_no_pets": 40,
-  "resolved_census_identities": 137,
-  "unresolved_census_identities": 50,
+  "resolved_census_identities": 136,
+  "unresolved_census_identities": 51,
   "census_count": 187,
-  "rejected": 31,
+  "rejected": 32,
   "rejected_by_class": {
    "ADDRESS_KEY_DIRECTIONAL_COLLISION": 4,
    "CENSUS_ROW_NOT_ADMITTED": 11,
-   "CO_LOCATION_RULING_REQUIRED": 2,
+   "CO_LOCATION_RULING_REQUIRED": 3,
    "FIRST_PARTY_CONFLICT": 1,
    "POLICY_NOT_FOUND": 6,
    "QUOTE_NOT_OPERATIVE": 1,
@@ -33,7 +33,7 @@
    "HYATT": 2,
    "IHG": 4,
    "INDEPENDENT": 5,
-   "MARRIOTT": 22,
+   "MARRIOTT": 21,
    "RED_ROOF": 5,
    "WOODSPRING": 1,
    "WYNDHAM": 14
@@ -43,7 +43,7 @@
    "savannah-ga__historic-district": 26,
    "savannah-ga__hutchinson-island": 1,
    "savannah-ga__midtown": 10,
-   "savannah-ga__pooler": 11,
+   "savannah-ga__pooler": 10,
    "savannah-ga__port-wentworth": 14,
    "savannah-ga__richmond-hill": 9,
    "savannah-ga__sav-airport": 9,
@@ -6212,88 +6212,6 @@
    ]
   },
   {
-   "lane": "ATTENDED_BROWSER",
-   "brand": "MARRIOTT",
-   "source_url": "https://www.marriott.com/en-us/hotels/savtp-towneplace-suites-savannah-pooler/overview/",
-   "final_url": "https://www.marriott.com/en-us/hotels/savtp-towneplace-suites-savannah-pooler/overview/",
-   "document_sha256": "ffa1c954976c51e4c20d5001ba33b3ada0831dc29cbb42557ea9f3efa91d2c46",
-   "document_bytes": 307206,
-   "captured_at": "2026-09-14",
-   "identity_signals": {
-    "name_on_page": "TownePlace Suites by Marriott Savannah Pooler",
-    "address_on_page": "100 Half Moon Way",
-    "postal_code": "31322",
-    "locality": "Pooler",
-    "region": "GA",
-    "phone_on_page": "+19123489489",
-    "property_code_on_page": "savtp",
-    "lat": null,
-    "lng": null
-   },
-   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
-   "property_code": "savtp",
-   "identity_key": "towneplace suites by marriott savannah pooler",
-   "canonical_name": "TownePlace Suites by Marriott Savannah Pooler",
-   "corridor": "savannah-ga__pooler",
-   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
-   "operative_quote": "Pets Welcome Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 2",
-   "pets_allowed": true,
-   "extraction": {
-    "pets_allowed": true,
-    "pet_fee": 7500,
-    "fee_currency": "USD",
-    "weight_limit": 75.0,
-    "pet_count_limit": 2,
-    "fee_refundable": false,
-    "fee_basis": "per_stay",
-    "weight_limit_unit": "lb"
-   },
-   "evidence": [
-    {
-     "quote": "Pets Welcome Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 2",
-     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
-     "field_refs": [
-      "pets_allowed"
-     ]
-    },
-    {
-     "quote": "Pets Welcome Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 2",
-     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
-     "field_refs": [
-      "pet_fee"
-     ]
-    },
-    {
-     "quote": "Pets Welcome Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 2",
-     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
-     "field_refs": [
-      "fee_currency"
-     ]
-    },
-    {
-     "quote": "Pets Welcome Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 2",
-     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
-     "field_refs": [
-      "weight_limit"
-     ]
-    },
-    {
-     "quote": "Pets Welcome Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 2",
-     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
-     "field_refs": [
-      "pet_count_limit"
-     ]
-    },
-    {
-     "quote": "Pets Welcome Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 2",
-     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
-     "field_refs": [
-      "fee_refundable"
-     ]
-    }
-   ]
-  },
-  {
    "lane": "DIRECT_STATIC_FETCH",
    "brand": "WYNDHAM",
    "source_url": "https://www.wyndhamhotels.com/travelodge/richmond-hill-georgia/travelodge-savannah-area-richmond-hill/overview",
@@ -9075,6 +8993,32 @@
    "why": "a second pet-friendly hotel on the opposite directional of the same street and house number ('11 Gateway Boulevard East' vs '11 West Gateway Boulevard') collapses to the same shared address_key; the shared listing builder would dedupe the two distinct buildings, so both are held until the shared identity layer distinguishes street directionals or a registration-order resolution records the pair. The operative quote is retained: 'Pets are welcome at Holiday Inn Savannah S - I-95 Gateway.\\nPet policy description. We are pet friendly. A one time nonrefundable fee of 100.00 per stay. Max 2 p'",
    "quote": "Pets are welcome at Holiday Inn Savannah S - I-95 Gateway.\nPet policy description. We are pet friendly. A one time nonrefundable fee of 100.00 per stay. Max 2 pets per room, each under 50 lbs. Pets must be declared at check in, leashed in public, and not left unattended.\nPet fee per night: 100 USD\nPet weight limit: 50\n2 pets allowed\nPets allowed: Only dogs and cats allowed",
    "identity_key": "holiday inn savannah s i 95 gateway"
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/savtp-towneplace-suites-savannah-pooler/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/savtp-towneplace-suites-savannah-pooler/overview/",
+   "document_sha256": "ffa1c954976c51e4c20d5001ba33b3ada0831dc29cbb42557ea9f3efa91d2c46",
+   "document_bytes": 307206,
+   "captured_at": "2026-09-14",
+   "identity_signals": {
+    "name_on_page": "TownePlace Suites by Marriott Savannah Pooler",
+    "address_on_page": "100 Half Moon Way",
+    "postal_code": "31322",
+    "locality": "Pooler",
+    "region": "GA",
+    "phone_on_page": "+19123489489",
+    "property_code_on_page": "savtp",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "savtp",
+   "classification": "CO_LOCATION_RULING_REQUIRED",
+   "why": "a VERIFIED_NO_PETS hotel states the same street identity (a dual-brand building); the shared publication guard matches that exclusion to this candidate on street identity, so a same-campus resolution in identity_resolutions.json (shared state, registration-order work) must be recorded before this profile publishes. The operative quote is retained: 'Pets Welcome Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 2'",
+   "quote": "Pets Welcome Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 75.0lbs Maximum Number of Pets in Room: 2",
+   "identity_key": "towneplace suites by marriott savannah pooler"
   }
  ],
  "unresolved_census_identities": [
@@ -9399,6 +9343,13 @@
    "brand": "",
    "corridor": "savannah-ga__historic-district",
    "official_url": ""
+  },
+  {
+   "identity_key": "towneplace suites by marriott savannah pooler",
+   "canonical_name": "TownePlace Suites by Marriott Savannah Pooler",
+   "brand": "MARRIOTT",
+   "corridor": "savannah-ga__pooler",
+   "official_url": "https://www.marriott.com/en-us/hotels/savtp-towneplace-suites-savannah-pooler/overview/"
   },
   {
    "identity_key": "towneplace suites by marriott savannah south",

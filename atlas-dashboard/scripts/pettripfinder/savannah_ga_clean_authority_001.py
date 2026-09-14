@@ -336,6 +336,15 @@ def build():
                                     (r["identity_signals"].get("postal_code") or "")[:5]) for r in pf)
     co_located = [r for r in pf if by_street[address_key(r["identity_signals"].get("address_on_page") or "",
                                                          (r["identity_signals"].get("postal_code") or "")[:5])] > 1]
+    # SAVANNAH: a pet-friendly hotel that shares its building with a VERIFIED_NO_PETS hotel (TownePlace Suites and
+    # Fairfield Inn Savannah Pooler, both 100 Half Moon Way) is barred by the shared publication guard, which matches
+    # an exclusion to a candidate on street identity (FAST rule J, "excluded_identity"). The same-campus ruling that
+    # would separate them lives in the shared identity_resolutions.json; until a registration order records it, the
+    # pet-friendly record is held and the no-pets record publishes.
+    np_streets = {address_key(r["identity_signals"].get("address_on_page") or "",
+                              (r["identity_signals"].get("postal_code") or "")[:5]) for r in nopets}
+    co_located += [r for r in pf if r not in co_located and address_key(
+        r["identity_signals"].get("address_on_page") or "", (r["identity_signals"].get("postal_code") or "")[:5]) in np_streets]
     from scripts.pettripfinder.savannah_ga_census_reconciliation_001 import directional_conflict
     for r in co_located:
         row = OrderedDict((k, r[k]) for k in ("lane", "brand", "source_url", "final_url", "document_sha256",
@@ -360,10 +369,16 @@ def build():
             rejected.append(row)
             continue
         row["classification"] = "CO_LOCATION_RULING_REQUIRED"
-        row["why"] = ("a second pet-friendly hotel states the same street identity (a dual-brand building); the "
-                      "shared listing builder keeps one row per unreviewed address, so a same-campus resolution in "
-                      "identity_resolutions.json (shared state, registration-order work) must be recorded before "
-                      "either profile publishes. The operative quote is retained: %r" % r["operative_quote"][:160])
+        if not peers:
+            row["why"] = ("a VERIFIED_NO_PETS hotel states the same street identity (a dual-brand building); the shared "
+                          "publication guard matches that exclusion to this candidate on street identity, so a same-campus "
+                          "resolution in identity_resolutions.json (shared state, registration-order work) must be recorded "
+                          "before this profile publishes. The operative quote is retained: %r" % r["operative_quote"][:160])
+        else:
+            row["why"] = ("a second pet-friendly hotel states the same street identity (a dual-brand building); the "
+                          "shared listing builder keeps one row per unreviewed address, so a same-campus resolution in "
+                          "identity_resolutions.json (shared state, registration-order work) must be recorded before "
+                          "either profile publishes. The operative quote is retained: %r" % r["operative_quote"][:160])
         row["quote"] = r["operative_quote"]
         row["identity_key"] = r["identity_key"]
         rejected.append(row)
