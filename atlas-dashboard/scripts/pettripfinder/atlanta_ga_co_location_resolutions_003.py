@@ -70,12 +70,16 @@ def _slug(name):
 def build():
     clean = _load(CLEAN)
     census = {h["identity_key"]: h for h in _load(CENSUS)["hotels"]}
+    # Every pet-friendly read at a shared street identity: the records still HELD for a ruling, and
+    # the records a recorded ruling has already released into the clean set -- so a rerun after the
+    # rulings exist derives the same rulings rather than an empty set.
     held = [r for r in clean["rejected"] if r["classification"] == "CO_LOCATION_RULING_REQUIRED"]
     by_street = OrderedDict()
-    for r in sorted(held, key=lambda x: x["identity_key"]):
+    for r in sorted(held + list(clean["clean_pet_friendly"]), key=lambda x: x["identity_key"]):
         sig = r["identity_signals"]
         key = HE.address_key(sig.get("address_on_page") or "", (sig.get("postal_code") or "")[:5])
         by_street.setdefault(key, []).append(r)
+    by_street = OrderedDict((k, v) for k, v in by_street.items() if len(v) > 1)
 
     rows, refused = [], []
     for key, recs in by_street.items():
