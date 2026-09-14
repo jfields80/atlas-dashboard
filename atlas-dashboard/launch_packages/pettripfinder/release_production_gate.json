@@ -1,6 +1,6 @@
 {
  "schema": "ptf-release-production-gate/1.0",
- "work_order": "PTF-GREENVILLE-NC-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-003",
+ "work_order": "PTF-BOONE-BLOWING-ROCK-NC-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-003",
  "what_this_is": "The explicit allowlist that gates REAL production activation by the release coordinator. ATLAS-THROUGHPUT-006 built the remote validation lane, the trusted artifact handoff, the release queue and a real host adapter, and left this gate EMPTY on purpose. A market is activated for real only when the founder adds it here, names the candidate digest they authorised, and the coordinator's own guards still pass at the moment of the call. There is no implicit opt-in: an empty allowlist means no market can be deployed by this machinery, whatever else is green.",
  "RELEASE_COORDINATOR_PRODUCTION_ENABLED": "NO",
  "RELEASE_COORDINATOR_PRODUCTION_ALLOWED_MARKETS": [],
@@ -144,6 +144,23 @@
    "consumed_at": "2026-09-14T02:46:55+00:00",
    "host_deployment_id": "6aa75f87aebd8377ccd67304",
    "deployment_record_id": "ptf-deploy-greenville-003-6aa75f87aebd8377ccd67304",
+   "outcome": "DEPLOYED and verified live; the gate is closed again by the same work order that re-opened it."
+  },
+  {
+   "work_order": "PTF-BOONE-BLOWING-ROCK-NC-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-003",
+   "market_id": "boone-blowing-rock-nc",
+   "authorization_id": "ptf-auth-boone-blowing-rock-003-fd9749799dd8",
+   "candidate_digest": "fd9749799dd8e7c715ada0dc7b6a29806f825a05864c2cc772804e2204e0bca2",
+   "deployment_artifact_digest": "fd9749799dd8e7c715ada0dc7b6a29806f825a05864c2cc772804e2204e0bca2",
+   "parent_release_digest": "5009281dac4e2289563aeed8efcd40568311994781794894cef41e6fe872b7be",
+   "package_digest": "sha256:c3376def8d1effa66198c70d6b30bb081daf1bec52f85f3530d2b0edf1f03ea4",
+   "intended_delta_digest": "sha256:707e92cd18708dd63cdad2e2b459b98bf538370d37c89c4249c191a6e84c9606",
+   "opened_at": "2026-09-14T03:46:42+00:00",
+   "scope": "ONE market and ONE candidate. boone-blowing-rock-nc only; no other source-ready market is allowed, and release_coordinator.authorization_problems still refuses any candidate whose digest is not the one the authorization binds.",
+   "lifecycle": "This entry is CONSUMED and the allowlist emptied by this same work order once the deployment is verified live. It is not left open.",
+   "consumed_at": "2026-09-14T03:50:20+00:00",
+   "host_deployment_id": "6aa76e5d940d5025e8262319",
+   "deployment_record_id": "ptf-deploy-boone-blowing-rock-003-6aa76e5d940d5025e8262319",
    "outcome": "DEPLOYED and verified live; the gate is closed again by the same work order that re-opened it."
   }
  ]
