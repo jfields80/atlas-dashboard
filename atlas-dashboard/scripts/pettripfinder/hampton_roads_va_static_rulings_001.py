@@ -34,6 +34,13 @@ IDENTITY_ONLY_PAGES = [
 _LEAD_SRC = ("web search result pages summarising competitor Hampton Roads hotel and pet-friendly lodging lists "
              "(names only; competitor pet claims never read)")
 COMPETITOR_LEADS = [(n, _LEAD_SRC) for n in (
+    # BringFido city-page and property-page search-result summaries (Virginia Beach, Norfolk, Chesapeake, Newport News)
+    "Hampton Inn Norfolk Virginia Beach", "Extended Stay America Suites - Norfolk - Virginia Beach",
+    "Residence Inn by Marriott Virginia Beach Oceanfront", "Wyndham Virginia Beach Oceanfront", "Motel 6 Virginia Beach",
+    "Embassy Suites by Hilton Virginia Beach Oceanfront Resort", "La Quinta by Wyndham Virginia Beach",
+    "Best Western Plus Chesapeake Bay-Norfolk", "Hampton Inn Norfolk Naval Base", "Delta Hotels by Marriott Chesapeake Norfolk",
+    "Candlewood Suites Chesapeake-Suffolk", "Hilton Garden Inn Newport News", "Hampton Inn & Suites Newport News (Oyster Point)",
+    "Holiday Inn Newport News - Hampton", "Motel 6 Newport News VA - Fort Eustis", "Comfort Inn Newport News - Hampton I-64",
 )]
 
 #: No regional visitor-center roster in this market (names only; tier 2; never policy).
