@@ -1,0 +1,903 @@
+{
+ "schema": "ptf-market-source-ready-accounting/1.0",
+ "work_order": "PTF-BOONE-BLOWING-ROCK-NC-PARALLEL-SOURCE-READY-001",
+ "market_id": "boone-blowing-rock-nc",
+ "display_market": "Boone – Blowing Rock, North Carolina",
+ "state": "SOURCE_READY -- SHADOW_UNTIL_REGISTERED",
+ "release_queue": "Fayetteville (founder-authorized, host deploy blocked) -> Jacksonville -> Greenville -> Atlanta -> Outer Banks -> Boone - Blowing Rock",
+ "timings": {
+  "BOONE_BLOWING_ROCK_START_TIMESTAMP": "2026-09-14T00:29:27Z (2026-09-13T20:29:27-04:00)",
+  "precheck_and_template_read": "00:29Z-00:36Z (worktree, branch, HEAD e312caa6 = the Asheville-live parent, tree clean; Outer Banks / Atlanta / Jacksonville shadow chains read)",
+  "geography_and_corridor_model": "by 00:41Z (5 corridors: 2 CORE / 2 CORRIDOR / 1 FRINGE, 9 admitted ZIPs; Banner Elk / Sugar / Beech / Seven Devils and Avery County OUTSIDE, preserved for banner-elk-sugar-beech-nc)",
+  "osm_lane": "404.3 s (North Carolina extract, hard link of the 2026-09-10 snapshot; 301 hotel / motel / guest_house / chalet / apartment elements)",
+  "brand_inventory_lane": "97 free requests (Marriott NC sitemap page, 18 Hilton city pages, Wyndham sitemap walk, family probes)",
+  "destination_roster": "Explore Boone (Boone TDA) listing service, 8 'Hotels & Cabins' sub-categories, 9 requests at Crawl-delay 2; High Country Host regional visitor-center roster read once",
+  "attended_browser_evidence": "Hilton 2, Marriott 5, IHG 4 (same-origin, payload digests verified); Choice closed with bot-challenge shells; Best Western route not reached",
+  "static_first_party_lanes": "Wyndham property service 8.4 s (6 routes: 1 read, 5 retired); static home pages 31 s (22 targets); policy-page lane 17.3 s (40 sites, 114 documents)",
+  "source_ready_inputs_committed": "2026-09-14T00:57:43Z (7adbafd1)",
+  "shadow_package_sealed_and_fast": "00:57:52Z-00:58:40Z (sealed twice in-process, FAST 15/15)",
+  "independent_reproduction": "00:59:00Z-01:01Z (clean git worktree at 7adbafd1: separate-process digest-only seal = same digest; geography, brand pages, capture, census, clean set, staged authority, partition and staged shard rebuilt from committed captures -- zero content difference, the discovery config differs only by the worktree's CRLF checkout of an eol-unattributed file; same digest a third time)",
+  "ZERO_TO_SOURCE_READY": "29 min 13 s (00:29:27Z -> 00:58:40Z, FAST-passed sealed shadow package)"
+ },
+ "accounting": {
+  "TOTAL_DISCOVERED": 161,
+  "total_discovered_note": "Distinct candidate identities in the identity graph after merging every lane. Not counted: 223 unnamed map elements, 5 retired Wyndham routes, the Hilton national-navigation codes the city pages carry for other states, and non-lodging bureau listing pages.",
+  "classification_counts": {
+   "IDENTITY_REVIEW_REQUIRED": 5,
+   "NAME_ONLY_UNRESOLVED": 11,
+   "NON_LODGING": 51,
+   "OUTSIDE_MARKET": 50,
+   "TRUE_HOTEL_IDENTITY": 44
+  },
+  "PROPOSED_CENSUS": 44,
+  "VALID_PET_FRIENDLY": 11,
+  "VALID_VERIFIED_NO_PETS": 5,
+  "RESOLVED": 16,
+  "UNRESOLVED": 28,
+  "partition_counts_by_state": {
+   "ACCESS_BLOCKED": 6,
+   "AWAITING_OFFICIAL_URL": 1,
+   "AWAITING_POLICY_OBSERVATION": 21,
+   "PUBLISHED_PET_FRIENDLY": 11,
+   "VERIFIED_NO_PETS": 5
+  },
+  "every_census_identity_has_exactly_one_disposition": true,
+  "every_census_identity_key_unique": true
+ },
+ "holds_by_class": {
+  "IDENTITY_HOLDS": {
+   "count": 16,
+   "identity_review_required": [
+    "Art of Living Retreat Center",
+    "Blowing Rock Lodge",
+    "Courtyard by Marriott",
+    "Hotel Portofino",
+    "Willow Valley Resort"
+   ],
+   "name_only_unresolved": [
+    "Best Western Blue Ridge Plaza",
+    "Chetola Resort",
+    "Chetola Resort at Blowing Rock",
+    "Green Park Inn",
+    "Green Park Inn",
+    "Greenes Motel Boone",
+    "Homestead Inn",
+    "Inn at the Ponds",
+    "Park Vista Inn",
+    "Park Vista Inn",
+    "Scottish Inns Boone"
+   ],
+   "rebrand_unresolved": [],
+   "note": "Not census identities and never published: lodging-category-unconfirmed rows (Art of Living Retreat Center, Willow Valley Resort), map rows with no postal code (Blowing Rock Lodge, Hotel Portofino), a name-only lead tied between two Courtyards, and names with no address of their own (Chetola, Green Park Inn, Homestead Inn, Best Western Blue Ridge Plaza, Scottish Inns, Greenes Motel, Inn at the Ponds, Park Vista Inn)."
+  },
+  "ROUTING_HOLDS": {
+   "count": 1,
+   "identities": [
+    "Aspen Acres Motel"
+   ]
+  },
+  "ACCESS_BLOCKED": {
+   "count": 6,
+   "by_cause": {
+    "BRAND_FAMILY": 4,
+    "OWN_SITE": 2
+   },
+   "identities": [
+    "Comfort Suites",
+    "Country Inn and Suites",
+    "Quality Inn and Suites",
+    "Ridgeway Inn",
+    "Sleep Inn",
+    "Yonahlossee Resort Accommodations"
+   ]
+  },
+  "EVIDENCE_HOLDS": {
+   "count": 21,
+   "identities": [
+    "Alpine Village Inn",
+    "Blue Ridge Tourist Court",
+    "Boxwood Lodge",
+    "Cliff Dwellers Inn",
+    "Gideon Ridge Inn",
+    "Hellbender Bed & Beverage",
+    "Hemlock Inn and Suites",
+    "Highland Hills Motel and Cabins",
+    "Hillwinds Inn",
+    "Lazy Bear Lodge",
+    "Lovill House Inn",
+    "Rhode's Motor Lodge",
+    "The 1850 Hotel",
+    "The Blowing Rock Manor",
+    "The Embers Hotel",
+    "The Horton Hotel",
+    "The Inn at Crestwood",
+    "The Inn at Ragged Gardens",
+    "The Windmoor Hotel",
+    "Village Inn of Blowing Rock",
+    "Westglow Luxury Resort and Spa"
+   ],
+   "rejected_reads_by_class": {
+    "CENSUS_ROW_NOT_ADMITTED": 2
+   }
+  },
+  "GEOGRAPHY_HOLDS": {
+   "count": 0,
+   "identities": []
+  },
+  "PAID_HOLDS": {
+   "count": 4,
+   "note": "The ACCESS_BLOCKED identities whose brand family (Choice: Comfort Suites, Quality Inn, Sleep Inn; Radisson: Country Inn & Suites) refused this client are the paid-lane candidates. Same rows as ACCESS_BLOCKED, not an additional disposition; PAID PROVIDER BUDGET was $0 and no paid lane was used or reserved."
+  },
+  "FOUNDER_HOLDS": {
+   "count": 0,
+   "note": "No row requires a founder ruling. Conflicts, single-suite exceptions and reads the shared reader does not interpret are EVIDENCE holds."
+  },
+  "CLOSED_OR_RETIRED": {
+   "count": 5,
+   "wyndham_retired_routes": [
+    "https://www.wyndhamhotels.com/days-inn/blowing-rock-north-carolina/days-inn-blowing-rock-boone-area/overview",
+    "https://www.wyndhamhotels.com/days-inn/jefferson-north-carolina/days-inn-by-wyyndham-west-jefferson/overview",
+    "https://www.wyndhamhotels.com/days-inn/lenoir-north-carolina/days-inn-lenoir/overview",
+    "https://www.wyndhamhotels.com/laquinta/boone-north-carolina/la-quinta-boone/overview",
+    "https://www.wyndhamhotels.com/super-8/boone-north-carolina/super-8-boone-nc/overview"
+   ],
+   "note": "Wyndham routes that redirect to the brand's search: Days Inn Blowing Rock (Boone area), Super 8 Boone and the legacy La Quinta Boone route (the property trades on its live La Quinta Inn & Suites Boone University route), plus Days Inn West Jefferson and Days Inn Lenoir outside. Routes, not census identities."
+  },
+  "OUTSIDE": {
+   "count": 50,
+   "future_submarket_banner_elk_sugar_beech": 28,
+   "future_submarket_identities": [
+    "APPres-Ski",
+    "Apple Cove Lodge",
+    "Arbor Domus",
+    "Best Western Mountain Lodge",
+    "Blue Ridge Mountain Lodge",
+    "Courtyard",
+    "Courtyard by Marriott Sugar Mountain Banner Elk",
+    "Dutch Creek Holiday",
+    "Four Seasons at Beech Mountain",
+    "Grandfather Campground RV Resort and Cabins",
+    "HeathBrooke Cabin",
+    "Hemlock Ridge Cabin",
+    "Huskins Court Motel & Cottages",
+    "Linville Falls Lodge & Cottages",
+    "Linville River cottages",
+    "Mill Ridge Poa Chalet Rentals",
+    "Parkview Lodge & Cabins",
+    "Pineola Motel",
+    "Pixie Inn",
+    "Poplar Peaks",
+    "Smoketree Lodge",
+    "Taylor House Inn",
+    "The Banner Elk Inn",
+    "The Citadel",
+    "The Inn at Shady Lawn",
+    "The Mast Farm Inn",
+    "The Pineola",
+    "Top of the Beech Inn"
+   ]
+  },
+  "NON_HOTEL": {
+   "count": 51,
+   "by_kind": {
+    "CABIN_COTTAGE_CONDO_RENTAL": 32,
+    "CABIN_RENTAL_COMPANY": 9,
+    "CAMPGROUND_RV": 5,
+    "FARM_STAY": 3,
+    "MAP_CABIN_CHALET_CONDO_UNIT": 2
+   },
+   "identities": [
+    "5 Boys Mt. Retreat",
+    "A Mountain Dream",
+    "Ain't Life Grand Cabin",
+    "Anderson Rentals",
+    "Appalachian A-Frame",
+    "Appalachian Ski Mtn. Lodging",
+    "Around the Bend Cabin",
+    "Bear Tree Cabin",
+    "Berry Blessed Cabin",
+    "Beulahland Cabins",
+    "Blowing Rock Properties",
+    "Blue Bear Mountain Camp",
+    "Blue Ridge Mountain Rentals",
+    "Boone KOA Campground",
+    "Brookview Log Cabin",
+    "Carolina Cabin Rentals",
+    "Carolina Chickadee Cottage",
+    "Cascade Dreams",
+    "Cedar Pines Chalet",
+    "Chalet Alpine",
+    "Creekside Cabin",
+    "Crider Creek Manor",
+    "Cross Creek Log Cabins",
+    "Evergreen",
+    "Flintlock Family Campground",
+    "Foscoe Rentals",
+    "Grandfather View Lodge",
+    "Hemlock Hill Cabin",
+    "Heritage Hill Cabins",
+    "Hidden Gem",
+    "House of Blue",
+    "Inn at Little Pond Farm",
+    "Jenkins Rentals",
+    "Julian Price Campground",
+    "Kilkelly Cabins",
+    "Modern Mountaintop Sanctuary",
+    "Moonlight Cabin Rentals",
+    "Mountain Song Cabin",
+    "NC Cabin Rentals, LLC",
+    "Parkway Cabins",
+    "Phantasia Mountain Homes",
+    "Rich Summit View",
+    "Ridgeview Manor",
+    "Swiss Mountain Village",
+    "The Appalachian House",
+    "The Solar Farmhouse",
+    "The Suddreth Cottage",
+    "Valle Crucis Vineyard",
+    "Valle View at Linville Creek",
+    "Wildwind Retreat",
+    "Willet Ponds Farm"
+   ]
+  }
+ },
+ "corridor_coverage": [
+  {
+   "corridor_id": "boone-blowing-rock-nc__boone",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "28607",
+    "28608"
+   ],
+   "census": 23,
+   "pet_friendly": 6,
+   "verified_no_pets": 5,
+   "unresolved": 12,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "boone-blowing-rock-nc__blowing-rock",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "28605"
+   ],
+   "census": 20,
+   "pet_friendly": 5,
+   "verified_no_pets": 0,
+   "unresolved": 15,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "boone-blowing-rock-nc__valle-crucis-vilas",
+   "geography_class": "CORRIDOR",
+   "postal_codes": [
+    "28691",
+    "28692"
+   ],
+   "census": 1,
+   "pet_friendly": 0,
+   "verified_no_pets": 0,
+   "unresolved": 1,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "boone-blowing-rock-nc__deep-gap",
+   "geography_class": "CORRIDOR",
+   "postal_codes": [
+    "28618"
+   ],
+   "census": 0,
+   "pet_friendly": 0,
+   "verified_no_pets": 0,
+   "unresolved": 0,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "boone-blowing-rock-nc__watauga-fringe",
+   "geography_class": "FRINGE",
+   "postal_codes": [
+    "28679",
+    "28698",
+    "28684"
+   ],
+   "census": 0,
+   "pet_friendly": 0,
+   "verified_no_pets": 0,
+   "unresolved": 0,
+   "corridor_page_publishes": false
+  }
+ ],
+ "corridor_pages_meeting_threshold": 2,
+ "town_coverage": {
+  "what_it_is": "Coverage for the order's named towns. Reporting only; membership and corridor come from the postal partition. Boone's road corridors all sit in 28607.",
+  "towns": {
+   "Boone Downtown / App State": {
+    "census": 5,
+    "pet_friendly": 2,
+    "verified_no_pets": 0,
+    "unresolved": 3,
+    "identities": [
+     {
+      "canonical_name": "Home2 Suites by Hilton Boone",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "280 E. King Street",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "La Quinta Inn & Suites by Wyndham Boone University",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "165 Highway 105 Extension",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Sleep Inn",
+      "state": "UNRESOLVED",
+      "street": "163 NC Highway 105 Extension",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "The 1850 Hotel",
+      "state": "UNRESOLVED",
+      "street": "775 West King Street",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "The Horton Hotel",
+      "state": "UNRESOLVED",
+      "street": "611 W King St.",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     }
+    ]
+   },
+   "Boone US-321": {
+    "census": 4,
+    "pet_friendly": 2,
+    "verified_no_pets": 1,
+    "unresolved": 1,
+    "identities": [
+     {
+      "canonical_name": "Fairfield by Marriott Inn & Suites Boone",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "2060 Blowing Rock Road",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Holiday Inn Express Boone",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1943 Blowing Rock Road",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Rhode's Motor Lodge",
+      "state": "UNRESOLVED",
+      "street": "1377 Blowing Rock Rd.",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "TownePlace Suites by Marriott Boone",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1110 Meadowview Drive",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     }
+    ]
+   },
+   "Boone US-421": {
+    "census": 5,
+    "pet_friendly": 1,
+    "verified_no_pets": 1,
+    "unresolved": 3,
+    "identities": [
+     {
+      "canonical_name": "Blue Ridge Tourist Court",
+      "state": "UNRESOLVED",
+      "street": "574 Old East King Street",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Country Inn and Suites",
+      "state": "UNRESOLVED",
+      "street": "818 East King Street",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Hampton Inn & Suites Boone",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1252 US Highway 421 South",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Quality Inn and Suites",
+      "state": "UNRESOLVED",
+      "street": "840 East King Street",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "SpringHill Suites by Marriott Boone",
+      "state": "VERIFIED_NO_PETS",
+      "street": "2074 U.S. Hwy 421 South",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     }
+    ]
+   },
+   "Boone NC-105 / Foscoe": {
+    "census": 9,
+    "pet_friendly": 1,
+    "verified_no_pets": 3,
+    "unresolved": 5,
+    "identities": [
+     {
+      "canonical_name": "Comfort Suites",
+      "state": "UNRESOLVED",
+      "street": "1184 NC Highway 105",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Courtyard by Marriott Boone",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1050 Highway 105",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Graystone Lodge",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "2419 NC-105",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Hidden Valley Motel",
+      "state": "VERIFIED_NO_PETS",
+      "street": "8725 NC Hwy 105 South",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Highland Hills Motel and Cabins",
+      "state": "UNRESOLVED",
+      "street": "2748 NC Highway 105",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Holiday Inn Boone - University Area",
+      "state": "VERIFIED_NO_PETS",
+      "street": "1075 Highway 105",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Lovill House Inn",
+      "state": "UNRESOLVED",
+      "street": "404 Old Bristol Road",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "The Inn at Crestwood",
+      "state": "UNRESOLVED",
+      "street": "3236 Shulls Mill Rd",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Yonahlossee Resort Accommodations",
+      "state": "UNRESOLVED",
+      "street": "250 Cockley Beck",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     }
+    ]
+   },
+   "Blowing Rock village": {
+    "census": 13,
+    "pet_friendly": 4,
+    "verified_no_pets": 0,
+    "unresolved": 9,
+    "identities": [
+     {
+      "canonical_name": "Alpine Village Inn",
+      "state": "UNRESOLVED",
+      "street": "297 Sunset Drive",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Azalea Garden Inn",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "793 Main Street",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Blowing Rock Inn",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "788 Main Street",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Boxwood Lodge",
+      "state": "UNRESOLVED",
+      "street": "671 Main St",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Hellbender Bed & Beverage",
+      "state": "UNRESOLVED",
+      "street": "239 Sunset Dr",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Hemlock Inn and Suites",
+      "state": "UNRESOLVED",
+      "street": "134 Morris Street",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Hillwinds Inn",
+      "state": "UNRESOLVED",
+      "street": "315 Sunset Drive",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Meadowbrook Inn",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "711 Main Street",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Mountainaire Inn & Log Cabins",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "827 Main Street",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Ridgeway Inn",
+      "state": "UNRESOLVED",
+      "street": "131 Yonahlossee Rd",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "The Blowing Rock Manor",
+      "state": "UNRESOLVED",
+      "street": "567 Main Street",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "The Inn at Ragged Gardens",
+      "state": "UNRESOLVED",
+      "street": "203 Sunset Drive",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "The Windmoor Hotel",
+      "state": "UNRESOLVED",
+      "street": "125 Sunset Drive",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     }
+    ]
+   },
+   "Blue Ridge Parkway / resort corridor": {
+    "census": 7,
+    "pet_friendly": 1,
+    "verified_no_pets": 0,
+    "unresolved": 6,
+    "identities": [
+     {
+      "canonical_name": "Aspen Acres Motel",
+      "state": "UNRESOLVED",
+      "street": "James E Holshouser Jr Highway",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Cliff Dwellers Inn",
+      "state": "UNRESOLVED",
+      "street": "116 Lake View Terrace",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Gideon Ridge Inn",
+      "state": "UNRESOLVED",
+      "street": "202 Gideon Ridge Rd.",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Holiday Inn Express Blowing Rock South",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "8412 Valley Blvd.",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "The Embers Hotel",
+      "state": "UNRESOLVED",
+      "street": "124 Morningside Drive",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Village Inn of Blowing Rock",
+      "state": "UNRESOLVED",
+      "street": "7876 Valley Boulevard",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Westglow Luxury Resort and Spa",
+      "state": "UNRESOLVED",
+      "street": "224 Westglow Circle",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     }
+    ]
+   },
+   "Valle Crucis / Vilas": {
+    "census": 1,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 1,
+    "identities": [
+     {
+      "canonical_name": "Lazy Bear Lodge",
+      "state": "UNRESOLVED",
+      "street": "315 Lazy Bear Trail",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     }
+    ]
+   },
+   "Deep Gap": {
+    "census": 0,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": []
+   },
+   "Sugar Grove / Zionville / Todd": {
+    "census": 0,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": []
+   }
+  },
+  "unplaced": {
+   "census": 0,
+   "pet_friendly": 0,
+   "verified_no_pets": 0,
+   "unresolved": 0,
+   "identities": []
+  }
+ },
+ "lane_yields": {
+  "osm_elements": 301,
+  "brand_inventory_leads": 48,
+  "brand_family_dispositions": {
+   "MARRIOTT_STATE_SITEMAP": "STATE_SITEMAP_ANSWERED_THIS_CLIENT",
+   "WYNDHAM": "SITEMAP_ANSWERED_THIS_CLIENT",
+   "SONESTA": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "DRURY": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "WOODSPRING": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "INTOWN": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "LOEWS": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "CHOICE": "SITEMAP_UNREACHABLE__TimeoutError",
+   "IHG": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "BEST_WESTERN": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "RED_ROOF": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "MOTEL6": "SITEMAP_UNREACHABLE__TimeoutError",
+   "EXTENDED_STAY": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "HYATT": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "RADISSON": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "OMNI": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "FOUR_SEASONS": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403"
+  },
+  "destination_roster": {
+   "coverage": "EVERY_HOTELS_AND_CABINS_SUBCATEGORY",
+   "listing_pages_read": null,
+   "lodging_listings": 116,
+   "by_subcategory": {
+    "Bed & Breakfasts": 3,
+    "Cabin Rental Company": 9,
+    "Cabins, Cottages & Condos": 70,
+    "Facilities": 2,
+    "Farm Stays": 1,
+    "Group Accommodations": 2,
+    "Hotels & Motels": 16,
+    "Meetings Facilities": 3,
+    "Pet Friendly": 2,
+    "RV & Campgrounds": 5,
+    "Resorts & Inns": 3
+   }
+  },
+  "census_lane_observations": {
+   "OSM_OVERPASS": 78,
+   "BRAND_INVENTORY_OWNED": 0,
+   "BRAND_INVENTORY_CITY_PAGE": 11,
+   "BRAND_INVENTORY_STATE_SITEMAP": 5,
+   "BRAND_INVENTORY_SITEMAP": 1,
+   "DESTINATION_ORGANIZATION": 116,
+   "REGIONAL_VISITOR_CENTER": 21,
+   "COMPETITOR_LEAD": 17,
+   "PROPERTY_PAGE": 27
+  },
+  "first_party_reads": {
+   "pages_read": 18,
+   "by_brand": {
+    "HILTON": 2,
+    "IHG": 4,
+    "INDEPENDENT": 6,
+    "MARRIOTT": 5,
+    "WYNDHAM": 1
+   },
+   "identity_confirmed": 18,
+   "in_market": 16,
+   "outside_market": 2,
+   "in_market_pets_allowed_true": 11,
+   "in_market_pets_allowed_false": 5,
+   "in_market_first_party_conflicts": 0
+  },
+  "wyndham_property_service": {
+   "routes": 6,
+   "read": 1,
+   "retired": 5,
+   "errors": 0
+  },
+  "clean_set": {
+   "reads_evaluated": 18,
+   "clean_pet_friendly": 11,
+   "clean_verified_no_pets": 5,
+   "resolved_census_identities": 16,
+   "unresolved_census_identities": 28,
+   "census_count": 44,
+   "rejected": 2,
+   "rejected_by_class": {
+    "CENSUS_ROW_NOT_ADMITTED": 2
+   },
+   "pf_by_brand": {
+    "HILTON": 2,
+    "IHG": 1,
+    "INDEPENDENT": 5,
+    "MARRIOTT": 2,
+    "WYNDHAM": 1
+   },
+   "pf_by_corridor": {
+    "boone-blowing-rock-nc__blowing-rock": 5,
+    "boone-blowing-rock-nc__boone": 6
+   }
+  }
+ },
+ "competitor_gap_challenge": {
+  "competitor_rows_observed": 17,
+  "also_seen_by_a_first_party_lane": 11,
+  "competitor_only": 6,
+  "competitor_only_by_class": {
+   "NAME_ONLY_UNRESOLVED": 6
+  },
+  "matched_by_class": {
+   "TRUE_HOTEL_IDENTITY": 11
+  }
+ },
+ "owned_evidence": {
+  "OWNED_IDENTITIES": "0 -- no committed census held any Boone - Blowing Rock identity.",
+  "OWNED_ROUTES": "0 -- the committed national harvest carries no High Country route.",
+  "OWNED_VALID_POLICY_EVIDENCE": "0 -- every policy record here is a new first-party capture of this order."
+ },
+ "package": {
+  "SHADOW_PACKAGE_CREATED": "YES",
+  "execution_zone": "SHADOW_UNTIL_REGISTERED",
+  "package_id": "pkg-boone-blowing-rock-nc-f96555872b51866d",
+  "PACKAGE_DIGEST": "sha256:f96555872b51866d162c0247bfbe1ddc4770a315ea5890d40c8b991cb6629b24",
+  "created_from_source_sha": "7adbafd1",
+  "package_path": "launch_packages/pettripfinder/markets/staging/boone-blowing-rock-nc/shadow_packages/boone-blowing-rock-nc/pkg-boone-blowing-rock-nc-f96555872b51866d.json",
+  "BUILD_INPUT_KEY": {
+   "staged_input_digest": "sha256:6495b8f86d1a556d433e7f6e5432ea1b8fb0f7dfe462880e64af4b278a42f549",
+   "changed_market_bundle_sha256": "66588aa11d4802a30bfcb2a3e1ad121fbc0bad841ad5fe72e770c40347013d0d",
+   "contract_sha256": "sha256:723509ded06fc22bb9a23b57b6383ca1c803521165355f55791613c5a7172d65",
+   "dependency_input_digests": {
+    "market": "sha256:f69a94819d2ca3edfa1c03c02262db491cf8c5c2ad1a80fa1cddc41776a8717e",
+    "census": "sha256:a1f17e3d1c0dd772a0fe1a3a3f9c53fc075ddda2d4b789890d1660d26e7b67f9",
+    "policy_package": "sha256:cc114af8dc3a47832a805a6204fa0983b774b009c14aaa838930449e6f9eb1cc",
+    "exclusions": "sha256:0554b8a396e132781a5001ecbc63ff14c563a606a75f127ee119573686ece68e",
+    "routing": "sha256:0b6a06b266058ef46ab41687210f0d07a12184ee67476cc3ebe46b8d4c9f31c2",
+    "seed": "sha256:34ae43149f2e2cff1d7d9c9b563a858cbc5edb57d69cb29eb7978372b1811015",
+    "partition": "sha256:9871ba23775ea166dea5942678b4d83d44efd2499cfe9326064f2015ae6a0a80"
+   }
+  },
+  "INTENDED_DELTA": {
+   "market_id": "boone-blowing-rock-nc",
+   "add_property_ids": [
+    "azalea garden inn",
+    "blowing rock inn",
+    "fairfield by marriott inn and suites boone",
+    "graystone lodge",
+    "hampton inn and suites boone",
+    "holiday inn express blowing rock south",
+    "home2 suites by hilton boone",
+    "la quinta inn and suites by wyndham boone university",
+    "meadowbrook inn",
+    "mountainaire inn and log cabins",
+    "towneplace suites by marriott boone"
+   ],
+   "update_property_ids": [],
+   "remove_property_ids": [],
+   "add_routes": [
+    "/pet-friendly-hotels/boone-blowing-rock-nc/",
+    "/pet-friendly-hotels/boone-blowing-rock-nc/azalea-garden-inn/",
+    "/pet-friendly-hotels/boone-blowing-rock-nc/blowing-rock-inn/",
+    "/pet-friendly-hotels/boone-blowing-rock-nc/blowing-rock/",
+    "/pet-friendly-hotels/boone-blowing-rock-nc/boone/",
+    "/pet-friendly-hotels/boone-blowing-rock-nc/fairfield-by-marriott-inn-suites-boone/",
+    "/pet-friendly-hotels/boone-blowing-rock-nc/graystone-lodge/",
+    "/pet-friendly-hotels/boone-blowing-rock-nc/hampton-inn-suites-boone/",
+    "/pet-friendly-hotels/boone-blowing-rock-nc/holiday-inn-express-blowing-rock-south/",
+    "/pet-friendly-hotels/boone-blowing-rock-nc/home2-suites-by-hilton-boone/",
+    "/pet-friendly-hotels/boone-blowing-rock-nc/la-quinta-inn-suites-by-wyndham-boone-university/",
+    "/pet-friendly-hotels/boone-blowing-rock-nc/meadowbrook-inn/",
+    "/pet-friendly-hotels/boone-blowing-rock-nc/mountainaire-inn-log-cabins/",
+    "/pet-friendly-hotels/boone-blowing-rock-nc/towneplace-suites-by-marriott-boone/"
+   ],
+   "change_routes": [],
+   "remove_routes": [],
+   "expected_profile_delta": 11,
+   "expected_verified_no_pets_delta": 5,
+   "expected_market_count_delta": 1,
+   "expected_participation_delta": [
+    {
+     "market_id": "boone-blowing-rock-nc",
+     "from": false,
+     "to": true
+    }
+   ],
+   "joining_market_profiles": 11,
+   "joining_market_verified_no_pets": 5,
+   "shadow_until_registered": "declared against a live release that carries no index for this market; the registration order's re-seal restates the delta through registration_release_lane.joining_delta"
+  },
+  "VALIDATION_RECEIPT": {
+   "path": "launch_packages/pettripfinder/markets/staging/boone-blowing-rock-nc/shadow_receipts/boone-blowing-rock-nc/pkg-boone-blowing-rock-nc-f96555872b51866d-ec396b132489c5b1.json",
+   "digest": "sha256:ec396b132489c5b1647c2266230dd37363dbb069341f86ecb1b8f5502826ea7c",
+   "eligible": "YES",
+   "rules": {
+    "A": "PASS",
+    "B": "PASS",
+    "C": "PASS",
+    "D": "PASS",
+    "E": "PASS",
+    "F": "PASS",
+    "G": "PASS",
+    "H": "PASS",
+    "I": "PASS",
+    "J": "PASS",
+    "K": "PASS",
+    "L": "PASS",
+    "M": "PASS",
+    "N": "PASS",
+    "O": "PASS"
+   },
+   "unknown": [],
+   "failed": [],
+   "determinism": "BYTE_IDENTICAL"
+  },
+  "COVERAGE_SCORECARD": {
+   "census_count": 44,
+   "published_pet_friendly": 11,
+   "verified_no_pets": 5,
+   "out_of_category": 0,
+   "unresolved": 28,
+   "public_routes": 13,
+   "evidence_references": 16,
+   "evidence_references_source": "derived_from_records",
+   "evidence_artifacts_available": 0,
+   "paid_evidence_references": 0,
+   "counts_by_partition_state": {
+    "ACCESS_BLOCKED": 6,
+    "AWAITING_OFFICIAL_URL": 1,
+    "AWAITING_POLICY_OBSERVATION": 21,
+    "PUBLISHED_PET_FRIENDLY": 11,
+    "VERIFIED_NO_PETS": 5
+   }
+  },
+  "parent_binding": "parent_live_state names the CURRENT live release (Asheville, deploy 6aa60a3e...). That is what this package was validated against. Once Fayetteville is live, FAST rule N fails this package BY DESIGN; the registration order -- after Fayetteville, Jacksonville, Greenville AND Atlanta are live -- re-seals the same committed inputs against that parent as a NEW package id. Nothing here is a production candidate, and no whole-site build was assembled."
+ },
+ "factory_code_changed": "NO -- every changed path is a boone_blowing_rock_nc_* helper, the market's discovery config, or a document under the market's own proposed / staging / report paths",
+ "shared_factory_notes_recorded_not_repaired": [
+  "The shared first-party reader does not read '... is not pet-friendly ...' (The 1850 Hotel, The Windmoor Hotel, The Blowing Rock Manor), 'All of our rooms are non-smoking and pet-free.' (Hemlock Inn), 'The Village Inns of Blowing Rock allows dogs at ...' or 'No, our facility does not permit pets' as operative, and reads Rhode's Motor Lodge's and The Inn at Crestwood's dog policies as FEE_ONLY; those rows are held with the gate's class, never reworded.",
+  "The Windmoor Hotel's and The Blowing Rock Manor's JSON-LD carry The 1850 Hotel's Boone address (a shared operator template); the census binds each to the street its own page text states."
+ ],
+ "broad_regression_run": "NO",
+ "final_production_candidate_created": "NO -- FAST composes the release index in memory only",
+ "founder_authorization_created": "NO",
+ "deployed": "NO",
+ "shared_state_touched": "NO -- launch_participation.json, bundle_cache_closure.json, the market_state pin, the generated globals, release contracts, identity_resolutions.json and the market registry are unchanged",
+ "next_order": [
+  "Wait until Netlify is restored and Fayetteville, Jacksonville, Greenville, Atlanta and Outer Banks are live; read that live parent.",
+  "Rebase worker/ptf-boone-blowing-rock-nc-market-001 onto it; copy markets/proposed/boone-blowing-rock-nc.json -> markets/boone-blowing-rock-nc.json, identity_census_proposed/boone-blowing-rock-nc.json -> identity_census/boone-blowing-rock-nc.json and the staged launch_package documents (hotel_policy_facts_boone-blowing-rock-nc.json, partition, authority shard) into their registered paths.",
+  "market_registration_cli --write, build_global_authority --write then --check, release contract, registration_release_lane register + seal --work-order (a NEW package id against the new parent; this shadow package's FAST rule N fails by design once the parent moves).",
+  "regression_delta classify (expect COMPOSITE_FRESH_MARKET_DATA_ONLY), compose and reproduce the candidate, prepare the founder packet, deploy only on founder authorization.",
+  "Before sealing, re-probe Choice (Comfort Suites, Quality Inn, Sleep Inn), Country Inn & Suites, Best Western Blue Ridge Plaza, Ridgeway Inn, Homestead Inn and Yonahlossee; find first-party addresses for Chetola and Green Park Inn."
+ ]
+}

@@ -1,0 +1,750 @@
+{
+ "schema": "ptf-market-geography/1.0",
+ "work_order": "PTF-ATLANTA-GA-PARALLEL-SOURCE-READY-001",
+ "phase": "2 + 3 -- Atlanta multi-core travel-market geography and corridor model",
+ "market_id": "atlanta-ga",
+ "as_of": "2026-09-13",
+ "paid_provider_calls": 0,
+ "usd_spent": 0.0,
+ "free_http_requests": 0,
+ "registration_state": "REGISTERED: the market document is written to the registry's markets/<id>.json by PTF-ATLANTA-GA-REGISTER-RESEAL-AND-AUTHORIZATION-PREP-002 against the Jacksonville-live parent (Atlanta is next in the founder's release order). The source-ready order's markets/proposed/ copy is history.",
+ "membership_rule": "The property's OWN postal code, as its own official page states it, joined to the corridor registry. Nothing else admits a property.",
+ "travel_market": "Atlanta's lodging cores (Downtown convention district, Midtown / Georgia Tech, Buckhead, the Hartsfield-Jackson airport district, Perimeter Center, Cumberland / Galleria, Decatur / Emory) plus the interstate business corridors a traveller to Atlanta sleeps in by choice, and four I-20 / I-75 interchange towns as FRINGE.",
+ "classes": {
+  "CORE": "Downtown / Centennial Olympic Park / GWCC (30303, 30313, 30312, 30314, 30334, 30335); Midtown / West Midtown / Georgia Tech (30308, 30309, 30363, 30318, 30306, 30307, 30332, 30361); Buckhead / Lenox / Lindbergh / Brookhaven (30305, 30326, 30327, 30324, 30319); Hartsfield-Jackson ATL Airport / College Park / Hapeville / East Point (30337, 30354, 30320, 30344, 30331); Perimeter Center / Sandy Springs / Dunwoody (30328, 30338, 30346, 30350, 30342); Cumberland / Galleria / Vinings / Truist Park (30339); Smyrna (30080, 30082); Decatur / Emory / Druid Hills / Executive Park (30030, 30031, 30032, 30033, 30034, 30035, 30002, 30079, 30322, 30329, 30316, 30317); West End / Southside Atlanta / Fulton Industrial (30310, 30311, 30315, 30336)",
+  "CORRIDOR": "Airport South / Riverdale / Forest Park (30349, 30296, 30274, 30297); Chamblee / Doraville / Peachtree Industrial (30341, 30340, 30360, 30366); Marietta / Windy Hill / Delk Road (30060, 30062, 30064, 30066, 30067, 30068, 30008, 30061, 30065, 30069); Alpharetta / Roswell / North Fulton (30004, 30005, 30009, 30022, 30023, 30075, 30076, 30077); Norcross / Peachtree Corners (30071, 30092, 30093, 30091, 30010, 30003); Duluth / Johns Creek / Gwinnett Place (30096, 30097, 30095, 30098, 30099); Tucker / Northlake / Stone Mountain (30084, 30085, 30345, 30083, 30087, 30088, 30086); Kennesaw / Town Center / Kennesaw State (30144, 30152, 30156, 30160); Suwanee / I-85 North (30024)",
+  "FRINGE": "Morrow / Southlake (30260); Stockbridge / I-75 South (30281); Lithonia / Stonecrest (30038, 30058); Douglasville / I-20 West (30134, 30135)"
+ },
+ "outside_class": "Everything else, refused by name with its postal codes.",
+ "evaluated_inclusions": {
+  "Downtown Atlanta": "ADMITTED (CORE, downtown).",
+  "Midtown Atlanta": "ADMITTED (CORE, midtown).",
+  "Buckhead": "ADMITTED (CORE, buckhead).",
+  "Hartsfield-Jackson ATL Airport": "ADMITTED (CORE, atl-airport) -- 30320 plus the hotel ZIPs 30337 / 30354 / 30344.",
+  "College Park": "ADMITTED -- 30337 CORE (atl-airport); 30349 south of the airport is CORRIDOR (airport-south).",
+  "Hapeville": "ADMITTED (CORE, atl-airport, 30354).",
+  "East Point": "ADMITTED (CORE, atl-airport, 30344; Camp Creek 30331).",
+  "Sandy Springs": "ADMITTED (CORE, perimeter).",
+  "Dunwoody / Perimeter Center": "ADMITTED (CORE, perimeter).",
+  "Cumberland / Galleria": "ADMITTED (CORE, cumberland-galleria, 30339).",
+  "Vinings": "ADMITTED (CORE, cumberland-galleria, 30339).",
+  "Smyrna": "ADMITTED (CORE, smyrna).",
+  "Decatur / Emory": "ADMITTED (CORE, decatur-emory).",
+  "Marietta": "ADMITTED (CORRIDOR, marietta).",
+  "Roswell": "ADMITTED (CORRIDOR, north-fulton).",
+  "Alpharetta": "ADMITTED (CORRIDOR, north-fulton).",
+  "Norcross": "ADMITTED (CORRIDOR, norcross-peachtree-corners).",
+  "Peachtree Corners": "ADMITTED (CORRIDOR, norcross-peachtree-corners).",
+  "Duluth": "ADMITTED (CORRIDOR, duluth-johns-creek).",
+  "Tucker": "ADMITTED (CORRIDOR, tucker-stone-mountain).",
+  "Stone Mountain": "ADMITTED (CORRIDOR, tucker-stone-mountain).",
+  "Chamblee / Doraville / Brookhaven": "ADMITTED -- inside I-285 on I-85 north (Chamblee / Doraville CORRIDOR; Brookhaven CORE with Buckhead).",
+  "Kennesaw": "ADMITTED (CORRIDOR, kennesaw) -- contiguous with Marietta on I-75.",
+  "Johns Creek": "ADMITTED (CORRIDOR) -- its hotels carry Duluth's 30097 or Alpharetta's 30022.",
+  "Suwanee": "ADMITTED (CORRIDOR, suwanee) -- I-85 exit 111, contiguous with Duluth.",
+  "Forest Park": "ADMITTED (CORRIDOR, airport-south) -- I-75 / I-285, five miles from ATL.",
+  "Morrow": "ADMITTED (FRINGE, morrow).",
+  "Stockbridge": "ADMITTED (FRINGE, stockbridge) -- interstate lodging at I-75 / I-675.",
+  "Lithonia / Stonecrest": "ADMITTED (FRINGE, lithonia-stonecrest).",
+  "Douglasville": "ADMITTED (FRINGE, douglasville).",
+  "Acworth": "OUTSIDE -- Lake Allatoona / the Cartersville run of I-75.",
+  "Lawrenceville": "OUTSIDE -- Gwinnett county seat on GA-316 toward Athens.",
+  "McDonough": "OUTSIDE -- beyond Stockbridge (order: not absorbed beyond clearly Atlanta-oriented behavior).",
+  "Athens / Gainesville / Newnan / Peachtree City / Cartersville / Covington": "OUTSIDE -- refused by name (order)."
+ },
+ "corridor_registry_is_a_partition": true,
+ "admitted_postal_codes": [
+  "30002",
+  "30003",
+  "30004",
+  "30005",
+  "30008",
+  "30009",
+  "30010",
+  "30022",
+  "30023",
+  "30024",
+  "30030",
+  "30031",
+  "30032",
+  "30033",
+  "30034",
+  "30035",
+  "30038",
+  "30058",
+  "30060",
+  "30061",
+  "30062",
+  "30064",
+  "30065",
+  "30066",
+  "30067",
+  "30068",
+  "30069",
+  "30071",
+  "30075",
+  "30076",
+  "30077",
+  "30079",
+  "30080",
+  "30082",
+  "30083",
+  "30084",
+  "30085",
+  "30086",
+  "30087",
+  "30088",
+  "30091",
+  "30092",
+  "30093",
+  "30095",
+  "30096",
+  "30097",
+  "30098",
+  "30099",
+  "30134",
+  "30135",
+  "30144",
+  "30152",
+  "30156",
+  "30160",
+  "30260",
+  "30274",
+  "30281",
+  "30296",
+  "30297",
+  "30303",
+  "30305",
+  "30306",
+  "30307",
+  "30308",
+  "30309",
+  "30310",
+  "30311",
+  "30312",
+  "30313",
+  "30314",
+  "30315",
+  "30316",
+  "30317",
+  "30318",
+  "30319",
+  "30320",
+  "30322",
+  "30324",
+  "30326",
+  "30327",
+  "30328",
+  "30329",
+  "30331",
+  "30332",
+  "30334",
+  "30335",
+  "30336",
+  "30337",
+  "30338",
+  "30339",
+  "30340",
+  "30341",
+  "30342",
+  "30344",
+  "30345",
+  "30346",
+  "30349",
+  "30350",
+  "30354",
+  "30360",
+  "30361",
+  "30363",
+  "30366"
+ ],
+ "admitted_postal_code_count": 103,
+ "corridors": [
+  {
+   "corridor_id": "atlanta-ga__downtown",
+   "name": "Downtown / Centennial Olympic Park / GWCC",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "30303",
+    "30313",
+    "30312",
+    "30314",
+    "30334",
+    "30335"
+   ]
+  },
+  {
+   "corridor_id": "atlanta-ga__midtown",
+   "name": "Midtown / West Midtown / Georgia Tech",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "30308",
+    "30309",
+    "30363",
+    "30318",
+    "30306",
+    "30307",
+    "30332",
+    "30361"
+   ]
+  },
+  {
+   "corridor_id": "atlanta-ga__buckhead",
+   "name": "Buckhead / Lenox / Lindbergh / Brookhaven",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "30305",
+    "30326",
+    "30327",
+    "30324",
+    "30319"
+   ]
+  },
+  {
+   "corridor_id": "atlanta-ga__atl-airport",
+   "name": "Hartsfield-Jackson ATL Airport / College Park / Hapeville / East Point",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "30337",
+    "30354",
+    "30320",
+    "30344",
+    "30331"
+   ]
+  },
+  {
+   "corridor_id": "atlanta-ga__perimeter",
+   "name": "Perimeter Center / Sandy Springs / Dunwoody",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "30328",
+    "30338",
+    "30346",
+    "30350",
+    "30342"
+   ]
+  },
+  {
+   "corridor_id": "atlanta-ga__cumberland-galleria",
+   "name": "Cumberland / Galleria / Vinings / Truist Park",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "30339"
+   ]
+  },
+  {
+   "corridor_id": "atlanta-ga__smyrna",
+   "name": "Smyrna",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "30080",
+    "30082"
+   ]
+  },
+  {
+   "corridor_id": "atlanta-ga__decatur-emory",
+   "name": "Decatur / Emory / Druid Hills / Executive Park",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "30030",
+    "30031",
+    "30032",
+    "30033",
+    "30034",
+    "30035",
+    "30002",
+    "30079",
+    "30322",
+    "30329",
+    "30316",
+    "30317"
+   ]
+  },
+  {
+   "corridor_id": "atlanta-ga__southside-atlanta",
+   "name": "West End / Southside Atlanta / Fulton Industrial",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "30310",
+    "30311",
+    "30315",
+    "30336"
+   ]
+  },
+  {
+   "corridor_id": "atlanta-ga__airport-south",
+   "name": "Airport South / Riverdale / Forest Park",
+   "geography_class": "CORRIDOR",
+   "included_postal_codes": [
+    "30349",
+    "30296",
+    "30274",
+    "30297"
+   ]
+  },
+  {
+   "corridor_id": "atlanta-ga__chamblee-doraville",
+   "name": "Chamblee / Doraville / Peachtree Industrial",
+   "geography_class": "CORRIDOR",
+   "included_postal_codes": [
+    "30341",
+    "30340",
+    "30360",
+    "30366"
+   ]
+  },
+  {
+   "corridor_id": "atlanta-ga__marietta",
+   "name": "Marietta / Windy Hill / Delk Road",
+   "geography_class": "CORRIDOR",
+   "included_postal_codes": [
+    "30060",
+    "30062",
+    "30064",
+    "30066",
+    "30067",
+    "30068",
+    "30008",
+    "30061",
+    "30065",
+    "30069"
+   ]
+  },
+  {
+   "corridor_id": "atlanta-ga__north-fulton",
+   "name": "Alpharetta / Roswell / North Fulton",
+   "geography_class": "CORRIDOR",
+   "included_postal_codes": [
+    "30004",
+    "30005",
+    "30009",
+    "30022",
+    "30023",
+    "30075",
+    "30076",
+    "30077"
+   ]
+  },
+  {
+   "corridor_id": "atlanta-ga__norcross-peachtree-corners",
+   "name": "Norcross / Peachtree Corners",
+   "geography_class": "CORRIDOR",
+   "included_postal_codes": [
+    "30071",
+    "30092",
+    "30093",
+    "30091",
+    "30010",
+    "30003"
+   ]
+  },
+  {
+   "corridor_id": "atlanta-ga__duluth-johns-creek",
+   "name": "Duluth / Johns Creek / Gwinnett Place",
+   "geography_class": "CORRIDOR",
+   "included_postal_codes": [
+    "30096",
+    "30097",
+    "30095",
+    "30098",
+    "30099"
+   ]
+  },
+  {
+   "corridor_id": "atlanta-ga__tucker-stone-mountain",
+   "name": "Tucker / Northlake / Stone Mountain",
+   "geography_class": "CORRIDOR",
+   "included_postal_codes": [
+    "30084",
+    "30085",
+    "30345",
+    "30083",
+    "30087",
+    "30088",
+    "30086"
+   ]
+  },
+  {
+   "corridor_id": "atlanta-ga__kennesaw",
+   "name": "Kennesaw / Town Center / Kennesaw State",
+   "geography_class": "CORRIDOR",
+   "included_postal_codes": [
+    "30144",
+    "30152",
+    "30156",
+    "30160"
+   ]
+  },
+  {
+   "corridor_id": "atlanta-ga__suwanee",
+   "name": "Suwanee / I-85 North",
+   "geography_class": "CORRIDOR",
+   "included_postal_codes": [
+    "30024"
+   ]
+  },
+  {
+   "corridor_id": "atlanta-ga__morrow",
+   "name": "Morrow / Southlake",
+   "geography_class": "FRINGE",
+   "included_postal_codes": [
+    "30260"
+   ]
+  },
+  {
+   "corridor_id": "atlanta-ga__stockbridge",
+   "name": "Stockbridge / I-75 South",
+   "geography_class": "FRINGE",
+   "included_postal_codes": [
+    "30281"
+   ]
+  },
+  {
+   "corridor_id": "atlanta-ga__lithonia-stonecrest",
+   "name": "Lithonia / Stonecrest",
+   "geography_class": "FRINGE",
+   "included_postal_codes": [
+    "30038",
+    "30058"
+   ]
+  },
+  {
+   "corridor_id": "atlanta-ga__douglasville",
+   "name": "Douglasville / I-20 West",
+   "geography_class": "FRINGE",
+   "included_postal_codes": [
+    "30134",
+    "30135"
+   ]
+  }
+ ],
+ "corridor_count": 22,
+ "corridor_count_by_class": {
+  "CORE": 9,
+  "CORRIDOR": 9,
+  "FRINGE": 4
+ },
+ "corridor_page_rule": "A corridor page publishes only when the existing publication threshold (minimum_hotel_count = 5 verified pet-friendly hotels) is met. No thin corridor page is invented for SEO; every corridor is show_in_navigation/show_in_sitemap false until a registration order publishes it.",
+ "coverage_areas_are_a_reporting_overlay": "The order's named areas that share a postal code with another area (College Park / Hapeville / ATL; Sandy Springs / Dunwoody; Cumberland / Vinings) are reported as a NEAREST-ANCHOR overlay on each property's coordinates. The overlay decides nothing about membership or corridor.",
+ "coverage_areas": [
+  {
+   "area": "Downtown Atlanta",
+   "anchor_lat": 33.759,
+   "anchor_lng": -84.39,
+   "radius_km": 1.8
+  },
+  {
+   "area": "Midtown Atlanta",
+   "anchor_lat": 33.781,
+   "anchor_lng": -84.385,
+   "radius_km": 2.0
+  },
+  {
+   "area": "Buckhead",
+   "anchor_lat": 33.845,
+   "anchor_lng": -84.368,
+   "radius_km": 3.0
+  },
+  {
+   "area": "Hartsfield-Jackson ATL Airport",
+   "anchor_lat": 33.64,
+   "anchor_lng": -84.428,
+   "radius_km": 3.5
+  },
+  {
+   "area": "College Park",
+   "anchor_lat": 33.653,
+   "anchor_lng": -84.449,
+   "radius_km": 2.5
+  },
+  {
+   "area": "Hapeville",
+   "anchor_lat": 33.66,
+   "anchor_lng": -84.41,
+   "radius_km": 1.8
+  },
+  {
+   "area": "East Point",
+   "anchor_lat": 33.68,
+   "anchor_lng": -84.47,
+   "radius_km": 2.5
+  },
+  {
+   "area": "Sandy Springs",
+   "anchor_lat": 33.93,
+   "anchor_lng": -84.373,
+   "radius_km": 3.0
+  },
+  {
+   "area": "Dunwoody / Perimeter Center",
+   "anchor_lat": 33.926,
+   "anchor_lng": -84.34,
+   "radius_km": 2.5
+  },
+  {
+   "area": "Cumberland / Galleria",
+   "anchor_lat": 33.88,
+   "anchor_lng": -84.465,
+   "radius_km": 2.5
+  },
+  {
+   "area": "Vinings",
+   "anchor_lat": 33.865,
+   "anchor_lng": -84.47,
+   "radius_km": 1.5
+  },
+  {
+   "area": "Smyrna",
+   "anchor_lat": 33.884,
+   "anchor_lng": -84.514,
+   "radius_km": 3.0
+  },
+  {
+   "area": "Decatur / Emory",
+   "anchor_lat": 33.785,
+   "anchor_lng": -84.305,
+   "radius_km": 3.5
+  },
+  {
+   "area": "Marietta",
+   "anchor_lat": 33.953,
+   "anchor_lng": -84.528,
+   "radius_km": 5.0
+  },
+  {
+   "area": "Roswell",
+   "anchor_lat": 34.023,
+   "anchor_lng": -84.362,
+   "radius_km": 4.0
+  },
+  {
+   "area": "Alpharetta",
+   "anchor_lat": 34.075,
+   "anchor_lng": -84.294,
+   "radius_km": 5.0
+  },
+  {
+   "area": "Norcross",
+   "anchor_lat": 33.93,
+   "anchor_lng": -84.213,
+   "radius_km": 3.0
+  },
+  {
+   "area": "Peachtree Corners",
+   "anchor_lat": 33.97,
+   "anchor_lng": -84.22,
+   "radius_km": 3.0
+  },
+  {
+   "area": "Duluth",
+   "anchor_lat": 33.99,
+   "anchor_lng": -84.145,
+   "radius_km": 4.0
+  },
+  {
+   "area": "Tucker",
+   "anchor_lat": 33.855,
+   "anchor_lng": -84.217,
+   "radius_km": 3.0
+  },
+  {
+   "area": "Stone Mountain",
+   "anchor_lat": 33.808,
+   "anchor_lng": -84.17,
+   "radius_km": 4.0
+  }
+ ],
+ "outside_named_and_refused": [
+  {
+   "municipality": "Acworth",
+   "state": "GA",
+   "postal_codes": [
+    "30101",
+    "30102"
+   ],
+   "why": "Lake Allatoona and the I-75 run toward Cartersville; its lodging serves the lake and that corridor; evaluated and refused."
+  },
+  {
+   "municipality": "Lawrenceville",
+   "state": "GA",
+   "postal_codes": [
+    "30043",
+    "30044",
+    "30045",
+    "30046",
+    "30042"
+   ],
+   "why": "Gwinnett county seat on GA-316 toward Athens; a plausible future east-Gwinnett market; evaluated and refused."
+  },
+  {
+   "municipality": "Buford / Mall of Georgia / Sugar Hill",
+   "state": "GA",
+   "postal_codes": [
+    "30518",
+    "30519"
+   ],
+   "why": "I-85 / I-985 toward Lake Lanier and Gainesville; evaluated and refused."
+  },
+  {
+   "municipality": "Snellville / Grayson / Loganville / Lilburn / Dacula",
+   "state": "GA",
+   "postal_codes": [
+    "30039",
+    "30078",
+    "30017",
+    "30052",
+    "30047",
+    "30048",
+    "30019"
+   ],
+   "why": "US-78 / GA-124 east Gwinnett suburbs; evaluated and refused."
+  },
+  {
+   "municipality": "Union City / Fairburn / Palmetto",
+   "state": "GA",
+   "postal_codes": [
+    "30291",
+    "30213",
+    "30268"
+   ],
+   "why": "I-85 south Fulton toward Newnan; evaluated and refused."
+  },
+  {
+   "municipality": "Austell / Six Flags / Lithia Springs / Mableton / Powder Springs",
+   "state": "GA",
+   "postal_codes": [
+    "30168",
+    "30106",
+    "30122",
+    "30126",
+    "30127"
+   ],
+   "why": "South Cobb / I-20 west leisure and suburban lodging; evaluated and refused."
+  },
+  {
+   "municipality": "Jonesboro / Rex / Hampton",
+   "state": "GA",
+   "postal_codes": [
+    "30236",
+    "30238",
+    "30273",
+    "30228"
+   ],
+   "why": "Clayton / Henry County south of Morrow; evaluated and refused."
+  },
+  {
+   "municipality": "Conley / Ellenwood",
+   "state": "GA",
+   "postal_codes": [
+    "30288",
+    "30294"
+   ],
+   "why": "I-675 / I-285 south-east industrial fringe; evaluated and refused."
+  },
+  {
+   "municipality": "McDonough / Locust Grove",
+   "state": "GA",
+   "postal_codes": [
+    "30252",
+    "30253",
+    "30248"
+   ],
+   "why": "I-75 south beyond Stockbridge; its own interstate cluster; refused by name (order: do not absorb McDonough)."
+  },
+  {
+   "municipality": "Conyers / Covington",
+   "state": "GA",
+   "postal_codes": [
+    "30012",
+    "30013",
+    "30094",
+    "30014",
+    "30016"
+   ],
+   "why": "I-20 east beyond Stonecrest; refused by name (order: do not absorb Covington)."
+  },
+  {
+   "municipality": "Cumming / Woodstock / Canton",
+   "state": "GA",
+   "postal_codes": [
+    "30040",
+    "30041",
+    "30028",
+    "30188",
+    "30189",
+    "30114",
+    "30115"
+   ],
+   "why": "Forsyth and Cherokee County exurbs; evaluated and refused."
+  },
+  {
+   "municipality": "Cartersville",
+   "state": "GA",
+   "postal_codes": [
+    "30120",
+    "30121"
+   ],
+   "why": "Bartow County on I-75, its own market; refused by name (order)."
+  },
+  {
+   "municipality": "Newnan",
+   "state": "GA",
+   "postal_codes": [
+    "30263",
+    "30265"
+   ],
+   "why": "Coweta County on I-85, its own market; refused by name (order)."
+  },
+  {
+   "municipality": "Peachtree City / Fayetteville / Tyrone",
+   "state": "GA",
+   "postal_codes": [
+    "30269",
+    "30214",
+    "30215",
+    "30290"
+   ],
+   "why": "Fayette County; refused by name (order)."
+  },
+  {
+   "municipality": "Gainesville",
+   "state": "GA",
+   "postal_codes": [
+    "30501",
+    "30504",
+    "30506",
+    "30507"
+   ],
+   "why": "Hall County on Lake Lanier, its own market; refused by name (order)."
+  },
+  {
+   "municipality": "Athens",
+   "state": "GA",
+   "postal_codes": [
+    "30601",
+    "30605",
+    "30606",
+    "30607"
+   ],
+   "why": "The University of Georgia, its own market; refused by name (order)."
+  },
+  {
+   "municipality": "Hiram / Dallas / Villa Rica / Braselton",
+   "state": "GA",
+   "postal_codes": [
+    "30141",
+    "30157",
+    "30180",
+    "30517"
+   ],
+   "why": "Far exurban Georgia; refused by name."
+  }
+ ],
+ "observation_is_not_admission": "Six cells observe Acworth, Lawrenceville, Buford, Union City, McDonough and Conyers. They admit nothing.",
+ "vacation_rental_rule": "The census admits hotel / motel / inn / resort establishments operated as lodging businesses. Individual apartments and condos, short-term-rental portfolios (Airbnb / Vrbo-style units, Sonder-style app-only apartments without a hotel front desk), ordinary apartment communities, non-hotel corporate housing, vacation-rental listings, student housing, RV parks and hostels-as-dormitories are NON_HOTEL exclusions, never admitted. An apartment-hotel or extended-stay hotel is admitted only when it is operated as a hotel (bookable nightly rooms under one name, an official property page, and a front desk or brand hotel operation).",
+ "config_written": "scripts/pettripfinder/discovery/config/atlanta_ga.json",
+ "market_document_written": "launch_packages/pettripfinder/markets/atlanta-ga.json",
+ "cells_total": 31,
+ "cells_admitting": 25,
+ "cells_observation_only": 6
+}

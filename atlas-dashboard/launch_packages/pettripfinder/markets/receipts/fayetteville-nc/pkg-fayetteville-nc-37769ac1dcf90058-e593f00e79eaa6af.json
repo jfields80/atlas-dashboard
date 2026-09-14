@@ -1,0 +1,589 @@
+{
+ "schema": "ptf-fast-release-receipt/1.0",
+ "lane": "FAST_DATA_ONLY_RELEASE",
+ "PACKAGE_ID": "pkg-fayetteville-nc-37769ac1dcf90058",
+ "PACKAGE_DIGEST": "sha256:37769ac1dcf9005829e5d268cd24935a61b6aef439441a75feb516144f47548b",
+ "MARKET_ID": "fayetteville-nc",
+ "PARENT_RELEASE": {
+  "live_deploy_id": "6aa60a3e018fd6b1b9a40450",
+  "rollback_target": "6aa5e2623de160fcdf416577",
+  "source_commit": "5c3264650962cf726700ccda4962422d96dadad1",
+  "live_index_digest": "sha256:4a32c8b4e6ca5ff248f5dda5eaf8009594022a23fd0a7fc12065b1c50d735299"
+ },
+ "CHANGE_CLASS": "MARKET_AUTHORITY_DATA_ONLY",
+ "DEPENDENCY_DIGEST": "sha256:3962c46be301cf86f44e8101e80081c22ce24855b9254226ac99d1400f2b1720",
+ "VALIDATION_POLICY_VERSION": "ptf-fast-data-only-release/1.0",
+ "RULES_EXECUTED": [
+  {
+   "rule": "A",
+   "name": "package schema valid"
+  },
+  {
+   "rule": "B",
+   "name": "identity valid"
+  },
+  {
+   "rule": "C",
+   "name": "first-party policy binding valid"
+  },
+  {
+   "rule": "D",
+   "name": "policy semantics valid"
+  },
+  {
+   "rule": "E",
+   "name": "route references valid"
+  },
+  {
+   "rule": "F",
+   "name": "market partition valid"
+  },
+  {
+   "rule": "G",
+   "name": "proposed whole-release identity/route indexes contain no forbidden collision"
+  },
+  {
+   "rule": "H",
+   "name": "every unrelated live market/member is preserved"
+  },
+  {
+   "rule": "I",
+   "name": "every removal is explicitly intended"
+  },
+  {
+   "rule": "J",
+   "name": "changed-market artifact builds successfully"
+  },
+  {
+   "rule": "K",
+   "name": "changed-market output deterministic"
+  },
+  {
+   "rule": "L",
+   "name": "package/artifact hashes internally consistent"
+  },
+  {
+   "rule": "M",
+   "name": "required evidence freshness/revocation rules satisfied"
+  },
+  {
+   "rule": "N",
+   "name": "rollback/current-live preservation metadata valid"
+  },
+  {
+   "rule": "O",
+   "name": "paid acquisitions used by the package satisfy reservation provenance"
+  }
+ ],
+ "RESULTS": {
+  "A": {
+   "rule": "A",
+   "name": "package schema valid",
+   "status": "PASS",
+   "seconds": 0.035,
+   "detail": {
+    "schema": "ptf-sealed-market-package/1.0",
+    "package_id": "pkg-fayetteville-nc-37769ac1dcf90058",
+    "package_digest": "sha256:37769ac1dcf9005829e5d268cd24935a61b6aef439441a75feb516144f47548b"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "B": {
+   "rule": "B",
+   "name": "identity valid",
+   "status": "PASS",
+   "seconds": 0.046,
+   "detail": {
+    "identity_records": 56,
+    "census_count": 56,
+    "declared_relations": 0,
+    "writer_seconds": 0.046
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "C": {
+   "rule": "C",
+   "name": "first-party policy binding valid",
+   "status": "PASS",
+   "seconds": 0.081,
+   "detail": {
+    "records_evaluated": 36,
+    "eligible": 36,
+    "ineligible": 0,
+    "classes": {}
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "D": {
+   "rule": "D",
+   "name": "policy semantics valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "pet_friendly_records": 26,
+    "verified_no_pets_records": 10,
+    "policy_schema": "1.3"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "E": {
+   "rule": "E",
+   "name": "route references valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "official_routes": 0,
+    "public_routes": 32
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "F": {
+   "rule": "F",
+   "name": "market partition valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "partition_count": 56,
+    "unresolved_rows": 20,
+    "counts_by_partition_state": {
+     "ACCESS_BLOCKED": 5,
+     "AWAITING_OFFICIAL_URL": 12,
+     "AWAITING_POLICY_OBSERVATION": 3,
+     "PUBLISHED_PET_FRIENDLY": 26,
+     "VERIFIED_NO_PETS": 10
+    }
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "G": {
+   "rule": "G",
+   "name": "proposed whole-release identity/route indexes contain no forbidden collision",
+   "status": "PASS",
+   "seconds": 0.08,
+   "detail": {
+    "live_digest": "sha256:4a32c8b4e6ca5ff248f5dda5eaf8009594022a23fd0a7fc12065b1c50d735299",
+    "proposed_digest": "sha256:9ee0df8f90a2fb8c343edaff32be90af4f8e1c4e064806bf4e14c59c971e2759",
+    "proposed_participating": [
+     "asheville-nc",
+     "charlotte-nc",
+     "cincinnati-oh",
+     "cleveland-akron-canton-oh",
+     "columbus-oh",
+     "dayton-oh",
+     "fayetteville-nc",
+     "grand-rapids-holland-mi",
+     "indianapolis-in",
+     "lexington-ky",
+     "louisville-ky",
+     "milwaukee-wi",
+     "nashville-tn",
+     "piedmont-triad-nc",
+     "pittsburgh-pa",
+     "raleigh-nc",
+     "st-louis-mo",
+     "toledo-oh",
+     "wilmington-nc"
+    ],
+    "proposed_total_profiles": 1221,
+    "legacy_collisions_outside_package": 0,
+    "compare_seconds": 0.0764
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "H": {
+   "rule": "H",
+   "name": "every unrelated live market/member is preserved",
+   "status": "PASS",
+   "seconds": 0.08,
+   "detail": {
+    "live_participating": [
+     "asheville-nc",
+     "charlotte-nc",
+     "cincinnati-oh",
+     "cleveland-akron-canton-oh",
+     "columbus-oh",
+     "dayton-oh",
+     "grand-rapids-holland-mi",
+     "indianapolis-in",
+     "lexington-ky",
+     "louisville-ky",
+     "milwaukee-wi",
+     "nashville-tn",
+     "piedmont-triad-nc",
+     "pittsburgh-pa",
+     "raleigh-nc",
+     "st-louis-mo",
+     "toledo-oh",
+     "wilmington-nc"
+    ],
+    "live_total_profiles": 1195,
+    "finding_counts": {}
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "I": {
+   "rule": "I",
+   "name": "every removal is explicitly intended",
+   "status": "PASS",
+   "seconds": 0.08,
+   "detail": {
+    "intended_delta": {
+     "market_id": "fayetteville-nc",
+     "add_property_ids": [],
+     "update_property_ids": [],
+     "remove_property_ids": [],
+     "add_routes": [
+      "/pet-friendly-hotels/fayetteville-nc/",
+      "/pet-friendly-hotels/fayetteville-nc/baymont-by-wyndham-fayetteville-nc/",
+      "/pet-friendly-hotels/fayetteville-nc/candlewood-suites-fayetteville-fort-bragg/",
+      "/pet-friendly-hotels/fayetteville-nc/cross-creek-skibo/",
+      "/pet-friendly-hotels/fayetteville-nc/days-inn-by-wyndham-fayetteville-south-i-95-exit-49/",
+      "/pet-friendly-hotels/fayetteville-nc/embassy-suites-by-hilton-fayetteville-fort-bragg/",
+      "/pet-friendly-hotels/fayetteville-nc/extended-stay-america-fayetteville-cliffdale/",
+      "/pet-friendly-hotels/fayetteville-nc/extended-stay-america-fayetteville-fort-bragg/",
+      "/pet-friendly-hotels/fayetteville-nc/extended-stay-america-fayetteville-owen-dr/",
+      "/pet-friendly-hotels/fayetteville-nc/extended-stay-america-fayetteville-west/",
+      "/pet-friendly-hotels/fayetteville-nc/extended-stay-america-fayetteville/",
+      "/pet-friendly-hotels/fayetteville-nc/hampton-inn-fayetteville-fort-bragg/",
+      "/pet-friendly-hotels/fayetteville-nc/hampton-inn-spring-lake-fayetteville/",
+      "/pet-friendly-hotels/fayetteville-nc/hampton-inn-suites-fayetteville/",
+      "/pet-friendly-hotels/fayetteville-nc/hawthorn-extended-stay-by-wyndham-fayetteville/",
+      "/pet-friendly-hotels/fayetteville-nc/hilton-garden-inn-fayetteville-fort-bragg/",
+      "/pet-friendly-hotels/fayetteville-nc/home2-suites-by-hilton-fayetteville-fort-bragg/",
+      "/pet-friendly-hotels/fayetteville-nc/home2-suites-by-hilton-fayetteville-north/",
+      "/pet-friendly-hotels/fayetteville-nc/homewood-suites-by-hilton-fayetteville/",
+      "/pet-friendly-hotels/fayetteville-nc/i-95-central-eastover/",
+      "/pet-friendly-hotels/fayetteville-nc/la-quinta-inn-suites-by-wyndham-fayetteville-i-95/",
+      "/pet-friendly-hotels/fayetteville-nc/red-roof-inn-fayetteville-i-95/",
+      "/pet-friendly-hotels/fayetteville-nc/red-roof-inn-suites-fayetteville-fort-bragg/",
+      "/pet-friendly-hotels/fayetteville-nc/residence-inn-by-marriott-fayetteville-cross-creek/",
+      "/pet-friendly-hotels/fayetteville-nc/spark-by-hilton-spring-lake-fayetteville/",
+      "/pet-friendly-hotels/fayetteville-nc/towneplace-suites-by-marriott-fayetteville-cross-creek/",
+      "/pet-friendly-hotels/fayetteville-nc/travelodge-by-wyndham-fayetteville/",
+      "/pet-friendly-hotels/fayetteville-nc/tru-by-hilton-fayetteville-fort-bragg/",
+      "/pet-friendly-hotels/fayetteville-nc/tru-by-hilton-fayetteville-i-95/"
+     ],
+     "change_routes": [],
+     "remove_routes": [],
+     "expected_profile_delta": 0,
+     "expected_market_count_delta": 1,
+     "expected_participation_delta": [
+      {
+       "market_id": "fayetteville-nc",
+       "from": false,
+       "to": true
+      }
+     ]
+    },
+    "actual_delta": {
+     "add_property_ids": [],
+     "update_property_ids": [],
+     "remove_property_ids": [],
+     "add_routes": [
+      "/pet-friendly-hotels/fayetteville-nc/",
+      "/pet-friendly-hotels/fayetteville-nc/baymont-by-wyndham-fayetteville-nc/",
+      "/pet-friendly-hotels/fayetteville-nc/candlewood-suites-fayetteville-fort-bragg/",
+      "/pet-friendly-hotels/fayetteville-nc/cross-creek-skibo/",
+      "/pet-friendly-hotels/fayetteville-nc/days-inn-by-wyndham-fayetteville-south-i-95-exit-49/",
+      "/pet-friendly-hotels/fayetteville-nc/embassy-suites-by-hilton-fayetteville-fort-bragg/",
+      "/pet-friendly-hotels/fayetteville-nc/extended-stay-america-fayetteville-cliffdale/",
+      "/pet-friendly-hotels/fayetteville-nc/extended-stay-america-fayetteville-fort-bragg/",
+      "/pet-friendly-hotels/fayetteville-nc/extended-stay-america-fayetteville-owen-dr/",
+      "/pet-friendly-hotels/fayetteville-nc/extended-stay-america-fayetteville-west/",
+      "/pet-friendly-hotels/fayetteville-nc/extended-stay-america-fayetteville/",
+      "/pet-friendly-hotels/fayetteville-nc/hampton-inn-fayetteville-fort-bragg/",
+      "/pet-friendly-hotels/fayetteville-nc/hampton-inn-spring-lake-fayetteville/",
+      "/pet-friendly-hotels/fayetteville-nc/hampton-inn-suites-fayetteville/",
+      "/pet-friendly-hotels/fayetteville-nc/hawthorn-extended-stay-by-wyndham-fayetteville/",
+      "/pet-friendly-hotels/fayetteville-nc/hilton-garden-inn-fayetteville-fort-bragg/",
+      "/pet-friendly-hotels/fayetteville-nc/home2-suites-by-hilton-fayetteville-fort-bragg/",
+      "/pet-friendly-hotels/fayetteville-nc/home2-suites-by-hilton-fayetteville-north/",
+      "/pet-friendly-hotels/fayetteville-nc/homewood-suites-by-hilton-fayetteville/",
+      "/pet-friendly-hotels/fayetteville-nc/i-95-central-eastover/",
+      "/pet-friendly-hotels/fayetteville-nc/la-quinta-inn-suites-by-wyndham-fayetteville-i-95/",
+      "/pet-friendly-hotels/fayetteville-nc/red-roof-inn-fayetteville-i-95/",
+      "/pet-friendly-hotels/fayetteville-nc/red-roof-inn-suites-fayetteville-fort-bragg/",
+      "/pet-friendly-hotels/fayetteville-nc/residence-inn-by-marriott-fayetteville-cross-creek/",
+      "/pet-friendly-hotels/fayetteville-nc/spark-by-hilton-spring-lake-fayetteville/",
+      "/pet-friendly-hotels/fayetteville-nc/towneplace-suites-by-marriott-fayetteville-cross-creek/",
+      "/pet-friendly-hotels/fayetteville-nc/travelodge-by-wyndham-fayetteville/",
+      "/pet-friendly-hotels/fayetteville-nc/tru-by-hilton-fayetteville-fort-bragg/",
+      "/pet-friendly-hotels/fayetteville-nc/tru-by-hilton-fayetteville-i-95/"
+     ],
+     "remove_routes": [],
+     "profile_delta": 0,
+     "verified_no_pets_delta": 0,
+     "market_count_delta": 1
+    },
+    "removal_authority": {}
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "J": {
+   "rule": "J",
+   "name": "changed-market artifact builds successfully",
+   "status": "PASS",
+   "seconds": 16.38,
+   "detail": {
+    "bundle_sha256": "71488c72d051a3e0ecdc0769061549bad6256088f160d766882a16d70b903617",
+    "file_count": 181,
+    "html_count": 165,
+    "staged_input_digest": "sha256:fbb350203796cad77f591fe254a04581f2a2c5791fca855b28928da608f259bd",
+    "contract_sha256": "sha256:d300ac0c3074320ef244dd00fd158499f309c513aaddea7b4d12ebce00bd26a8",
+    "release_name": "package-fayetteville-nc-e312caa-bc95f24d-adc33058",
+    "cache_events": [
+     {
+      "verdict": "BUILD_EXECUTED",
+      "assembly_kind": "generator_site",
+      "input_key": "c011d0fe1a41adacbf2d9a234480cfae876bf6145fca64f7720646d869e49655",
+      "seconds": 5.913
+     },
+     {
+      "verdict": "BUILD_EXECUTED",
+      "assembly_kind": "market_bundle",
+      "input_key": "f9521de8d29390af64bc09c5bfef1e412aa94a21e2e3615a42272b9d5c473359",
+      "seconds": 11.198
+     }
+    ],
+    "build_seconds": 16.082
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "K": {
+   "rule": "K",
+   "name": "changed-market output deterministic",
+   "status": "PASS",
+   "seconds": 12.045,
+   "detail": {
+    "input_digest": "sha256:fbb350203796cad77f591fe254a04581f2a2c5791fca855b28928da608f259bd",
+    "output_digest_a": "71488c72d051a3e0ecdc0769061549bad6256088f160d766882a16d70b903617",
+    "output_digest_b": "71488c72d051a3e0ecdc0769061549bad6256088f160d766882a16d70b903617",
+    "result": "BYTE_IDENTICAL",
+    "cold_builds_executed": 4,
+    "reuse_hits": 0,
+    "build_seconds": 12.045
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "L": {
+   "rule": "L",
+   "name": "package/artifact hashes internally consistent",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "package_digest": "sha256:37769ac1dcf9005829e5d268cd24935a61b6aef439441a75feb516144f47548b",
+    "rederived_digest": "sha256:37769ac1dcf9005829e5d268cd24935a61b6aef439441a75feb516144f47548b",
+    "evidence_references": 36,
+    "artifacts_available": 0,
+    "artifacts_checked": 0,
+    "dependency_inputs": 7,
+    "dependency_digest": "sha256:3962c46be301cf86f44e8101e80081c22ce24855b9254226ac99d1400f2b1720"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "M": {
+   "rule": "M",
+   "name": "required evidence freshness/revocation rules satisfied",
+   "status": "PASS",
+   "seconds": 0.001,
+   "detail": {
+    "max_age_days": 365,
+    "references": 36,
+    "revoked_registry_size": 0,
+    "earliest_expiry": "2027-09-13T00:00:00Z"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "N": {
+   "rule": "N",
+   "name": "rollback/current-live preservation metadata valid",
+   "status": "PASS",
+   "seconds": 0.019,
+   "detail": {
+    "live": {
+     "live_deploy_id": "6aa60a3e018fd6b1b9a40450",
+     "previous_deploy_id": "6aa5e2623de160fcdf416577",
+     "rollback_target": "6aa5e2623de160fcdf416577",
+     "source_commit": "5c3264650962cf726700ccda4962422d96dadad1",
+     "bundle_sha256": "d98a24038ef25df4b481e71b8436377ff01abc2bc80a11de2fe7222df9dadb36",
+     "sitemap_sha256": "6a33f1e53a094f934f1175bd21c58e77675820ab18b593288ab472c55152a699",
+     "participating_markets": [
+      "asheville-nc",
+      "charlotte-nc",
+      "cincinnati-oh",
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "grand-rapids-holland-mi",
+      "indianapolis-in",
+      "lexington-ky",
+      "louisville-ky",
+      "milwaukee-wi",
+      "nashville-tn",
+      "piedmont-triad-nc",
+      "pittsburgh-pa",
+      "raleigh-nc",
+      "st-louis-mo",
+      "toledo-oh",
+      "wilmington-nc"
+     ],
+     "profile_counts": {
+      "asheville-nc": 41,
+      "charlotte-nc": 106,
+      "cincinnati-oh": 130,
+      "cleveland-akron-canton-oh": 120,
+      "columbus-oh": 88,
+      "dayton-oh": 54,
+      "grand-rapids-holland-mi": 43,
+      "indianapolis-in": 82,
+      "lexington-ky": 20,
+      "louisville-ky": 53,
+      "milwaukee-wi": 73,
+      "nashville-tn": 79,
+      "piedmont-triad-nc": 54,
+      "pittsburgh-pa": 61,
+      "raleigh-nc": 63,
+      "st-louis-mo": 82,
+      "toledo-oh": 17,
+      "wilmington-nc": 29
+     },
+     "total_profiles": 1195,
+     "sitemap_route_count": 1408,
+     "deployment_record": "ptf-deploy-asheville-002-6aa60a3e018fd6b1b9a40450.json",
+     "authorization_id": "ptf-auth-asheville-002-d98a24038ef2",
+     "rollback_record": "ptf-deploy-wilmington-002-6aa5e2623de160fcdf416577.json",
+     "rollback_markets": [
+      "charlotte-nc",
+      "cincinnati-oh",
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "grand-rapids-holland-mi",
+      "indianapolis-in",
+      "lexington-ky",
+      "louisville-ky",
+      "milwaukee-wi",
+      "nashville-tn",
+      "piedmont-triad-nc",
+      "pittsburgh-pa",
+      "raleigh-nc",
+      "st-louis-mo",
+      "toledo-oh",
+      "wilmington-nc"
+     ],
+     "problems": []
+    },
+    "stale_parent": false
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "O": {
+   "rule": "O",
+   "name": "paid acquisitions used by the package satisfy reservation provenance",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "paid_references": 0,
+    "ledger_cross_checked": 0,
+    "ledger_unknown": 0
+   },
+   "problems": [],
+   "problem_count": 0
+  }
+ },
+ "TIMESTAMPS": {
+  "started_at": "2026-09-13T03:58:03Z",
+  "finished_at": "2026-09-13T03:58:32Z",
+  "seconds": 29.067
+ },
+ "ARTIFACT_DIGESTS": {
+  "changed_market_bundle_sha256_a": "71488c72d051a3e0ecdc0769061549bad6256088f160d766882a16d70b903617",
+  "changed_market_bundle_sha256_b": "71488c72d051a3e0ecdc0769061549bad6256088f160d766882a16d70b903617",
+  "staged_input_digest": "sha256:fbb350203796cad77f591fe254a04581f2a2c5791fca855b28928da608f259bd",
+  "staged_contract_sha256": "sha256:d300ac0c3074320ef244dd00fd158499f309c513aaddea7b4d12ebce00bd26a8"
+ },
+ "GLOBAL_INDEX_DIGEST": {
+  "live": "sha256:4a32c8b4e6ca5ff248f5dda5eaf8009594022a23fd0a7fc12065b1c50d735299",
+  "proposed": "sha256:9ee0df8f90a2fb8c343edaff32be90af4f8e1c4e064806bf4e14c59c971e2759"
+ },
+ "PACKAGE_INDEX_DIGEST": "sha256:8038e707a1626bcf9fbdd795bfbd7b545c1af3fda4627ca6e84658e65fe83970",
+ "INTENDED_DELTA_DIGEST": "sha256:35ad3b350d55a8506f3bff5ac8f93bbdca782d03a5d0173c7b1253e7896e5dfd",
+ "DETERMINISM_RESULT": "BYTE_IDENTICAL",
+ "FIRST_PARTY_BINDING_RESULT": "PASS",
+ "COLLISION_RESULT": "PASS",
+ "REMOVAL_RESULT": "PASS",
+ "LEGACY_EXCEPTIONS": [],
+ "ENVIRONMENT": {
+  "python": "3.13.5",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "builder_version": "ptf-market-package-writer/1.0",
+  "contract_versions": {
+   "market": "ptf-market/1.1",
+   "census": "ptf-market-identity-census/1.1",
+   "partition": "ptf-market-final-partition/1.1",
+   "policy_schema": "1.3",
+   "evidence": "contracts.evidence PUBLICATION_GRADE_REQUIRED=evidence_ref,field,quote,source_url,source_grade,artifact_class,artifact_sha256,artifact_kind,captured_at",
+   "identity_key": "ptf_identity_key/1.0",
+   "identity_routing": "ptf-identity-routing/1.0",
+   "hotel_exclusions": "ptf-hotel-exclusions/1.0",
+   "sealed_market_package": "ptf-sealed-market-package/1.0"
+  },
+  "created_from_source_sha": "e312caa6000f1a1e2b606c87b839a41d0a1f9251",
+  "peak_working_set_mb": 70.8
+ },
+ "EXPIRY_REVOCATION_CONDITIONS": {
+  "valid_while": [
+   "the live deployment is 6aa60a3e018fd6b1b9a40450",
+   "the live index digest is sha256:4a32c8b4e6ca5ff248f5dda5eaf8009594022a23fd0a7fc12065b1c50d735299",
+   "no referenced artifact is added to evidence_revocations.json",
+   "the evidence is younger than 365 days",
+   "the owning contracts are at the versions recorded in ENVIRONMENT",
+   "the sealed package bytes are unchanged (digest above)"
+  ],
+  "earliest_evidence_expiry": "2027-09-13T00:00:00Z",
+  "evidence_max_age_days": 365
+ },
+ "UNKNOWN_RULES": [],
+ "FAILED_RULES": [],
+ "FAST_DATA_ONLY_RELEASE_ELIGIBLE": "YES",
+ "FULL_REGRESSION_REQUIRED_BY_LANE": "NO",
+ "FAST_PATH_PRODUCTION_ACTIVATION": "DISABLED",
+ "PRODUCTION_ACTIVATION_ALLOWED": "NO",
+ "PERFORMANCE": {
+  "total_seconds": 29.067,
+  "per_rule_seconds": {
+   "A": 0.035,
+   "B": 0.046,
+   "C": 0.081,
+   "D": 0.0,
+   "E": 0.0,
+   "F": 0.0,
+   "G": 0.08,
+   "H": 0.08,
+   "I": 0.08,
+   "J": 16.38,
+   "K": 12.045,
+   "L": 0.0,
+   "M": 0.001,
+   "N": 0.019,
+   "O": 0.0
+  },
+  "changed_market_build_seconds": 16.082,
+  "determinism_build_seconds": 12.045
+ },
+ "RECEIPT_DIGEST": "sha256:e593f00e79eaa6af7ec639c9a8cd556cc4cd713b47cbf9255176a4e7eccffbf6"
+}

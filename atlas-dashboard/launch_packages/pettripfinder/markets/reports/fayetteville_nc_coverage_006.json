@@ -1,0 +1,361 @@
+{
+ "schema": "ptf-market-coverage-reconciliation/1.0",
+ "work_order": "PTF-FAYETTEVILLE-NC-NORMAL-PRODUCTION-001",
+ "market_id": "fayetteville-nc",
+ "phase": "5 / 6 / 13 -- vacation-rental exclusion, competitor gap, full accounting",
+ "discovery": {
+  "total_discovered_candidates": 194,
+  "by_class": {
+   "IDENTITY_REVIEW_REQUIRED": 11,
+   "NAME_ONLY_UNRESOLVED": 51,
+   "NON_LODGING": 1,
+   "OUTSIDE_MARKET": 75,
+   "TRUE_HOTEL_IDENTITY": 56
+  },
+  "registered_census": 56,
+  "reconciles": true
+ },
+ "publication": {
+  "pet_friendly": 26,
+  "verified_no_pets": 10,
+  "resolved": 36,
+  "unresolved": 20,
+  "policy_package_records": 26,
+  "reads_held_not_published": {
+   "CENSUS_ROW_NOT_ADMITTED": 12,
+   "QUOTE_NOT_OPERATIVE": 1,
+   "SERVICE_ANIMAL_ONLY": 1
+  }
+ },
+ "holds": {
+  "ACCESS_BLOCKED": 5,
+  "EVIDENCE_HOLD": 3,
+  "FOUNDER_HOLD": 0,
+  "GEOGRAPHY_HOLD": 1,
+  "IDENTITY_HOLD": 0,
+  "PAID_HOLD": 0,
+  "ROUTING_HOLD": 12
+ },
+ "holds_note": "Holds are counted over the registered census. PAID and FOUNDER holds are zero: no paid lane was used and no row awaits a founder ruling. GEOGRAPHY_HOLD counts the one off-post hotel whose own page states a refused on-post postal code; it is NOT in the census. The addressed in-market rows the identity graph withheld are listed under census_identity_holds and are likewise not in the census. Reads refused OUTSIDE the market (Dunn, Benson, Southern Pines / Aberdeen / Pinehurst, Laurinburg, Lumberton) are not holds; their buildings are OUTSIDE_MARKET in the census.",
+ "geography_holds": [
+  {
+   "name": "Days Inn & Suites by Wyndham Fort Bragg/Cross Creek Mall",
+   "street": "1720 Skibo Road",
+   "postal_code": "28308",
+   "why": "an off-post Skibo Road hotel (next door to 1706 Skibo Road, 28303) whose own brand page AND the map state 28308, the Pope Army Airfield postal code the geography refuses; membership cannot be decided mechanically and the row is held rather than admitted by exception"
+  }
+ ],
+ "census_identity_holds": [
+  {
+   "name": "Econo Lodge",
+   "street": "1952 Cedar Creek Road",
+   "postal_code": "28312",
+   "reason": "another node normalises to the same name at a different address; a same-brand same-city pair is demoted to review, never auto-aliased"
+  },
+  {
+   "name": "Quality Inn",
+   "street": "115 Fayetteville Road",
+   "postal_code": "28376",
+   "reason": "another node normalises to the same name at a different address; a same-brand same-city pair is demoted to review, never auto-aliased"
+  },
+  {
+   "name": "Super 8 by Wyndham Spring Lake/ Fort Bragg",
+   "street": "256 S Main Street",
+   "postal_code": "28390",
+   "reason": "a map row under a flag (super 8) whose own Fayetteville-area route on the brand's site is RETIRED -- it redirects to the brand's city search, which does not list it; the building's current identity is unconfirmed"
+  }
+ ],
+ "military_government_nonpublic": [
+  {
+   "name": "Airborne Inn Lodging",
+   "reason": "MILITARY_GOVERNMENT_NONPUBLIC -- Airborne Inn, the on-post Army Lodging facility on Fort Liberty: transient quarters behind the installation gate, not a public commercial hotel; the geography's military / government lodging rule refuses it"
+  },
+  {
+   "name": "IHG Army Hotels in Forrestal Hall & Delmont House",
+   "reason": "MILITARY_GOVERNMENT_NONPUBLIC -- IHG Army Hotels on Fort Liberty (Forrestal Hall / Delmont House): on-post Army lodging reached only through an installation gate with a DoD credential or sponsored pass; the geography's military / government lodging rule refuses it"
+  },
+  {
+   "name": "Landmark Inn",
+   "reason": "MILITARY_GOVERNMENT_NONPUBLIC -- Landmark Inn, 1208 Glider Street, Fort Bragg 28307: on-post Army lodging behind the installation gate, not a public commercial hotel; the geography's military / government lodging rule refuses it"
+  }
+ ],
+ "corridor_counts": {
+  "fayetteville-nc__cross-creek-skibo": {
+   "census": 26,
+   "pet_friendly": 14,
+   "verified_no_pets": 5,
+   "unresolved": 7
+  },
+  "fayetteville-nc__downtown-fayetteville": {
+   "census": 3,
+   "pet_friendly": 1,
+   "verified_no_pets": 0,
+   "unresolved": 2
+  },
+  "fayetteville-nc__fay-airport-south": {
+   "census": 3,
+   "pet_friendly": 1,
+   "verified_no_pets": 0,
+   "unresolved": 2
+  },
+  "fayetteville-nc__hope-mills": {
+   "census": 1,
+   "pet_friendly": 0,
+   "verified_no_pets": 1,
+   "unresolved": 0
+  },
+  "fayetteville-nc__i-95-central-eastover": {
+   "census": 16,
+   "pet_friendly": 7,
+   "verified_no_pets": 2,
+   "unresolved": 7
+  },
+  "fayetteville-nc__north-fayetteville": {
+   "census": 2,
+   "pet_friendly": 1,
+   "verified_no_pets": 1,
+   "unresolved": 0
+  },
+  "fayetteville-nc__spring-lake-fort-liberty": {
+   "census": 4,
+   "pet_friendly": 2,
+   "verified_no_pets": 1,
+   "unresolved": 1
+  },
+  "fayetteville-nc__wade-i-95-north": {
+   "census": 1,
+   "pet_friendly": 0,
+   "verified_no_pets": 0,
+   "unresolved": 1
+  }
+ },
+ "corridor_pages": [
+  {
+   "corridor_id": "fayetteville-nc__downtown-fayetteville",
+   "display_area": "Downtown Fayetteville",
+   "published_pet_friendly": 1,
+   "minimum": 5,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "fayetteville-nc__cross-creek-skibo",
+   "display_area": "Cross Creek & Skibo",
+   "published_pet_friendly": 14,
+   "minimum": 5,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "fayetteville-nc__fay-airport-south",
+   "display_area": "FAY Airport",
+   "published_pet_friendly": 1,
+   "minimum": 5,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "fayetteville-nc__north-fayetteville",
+   "display_area": "North Fayetteville",
+   "published_pet_friendly": 1,
+   "minimum": 5,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "fayetteville-nc__i-95-central-eastover",
+   "display_area": "I-95 Fayetteville",
+   "published_pet_friendly": 7,
+   "minimum": 5,
+   "corridor_page_publishes": true
+  },
+  {
+   "corridor_id": "fayetteville-nc__spring-lake-fort-liberty",
+   "display_area": "Spring Lake",
+   "published_pet_friendly": 2,
+   "minimum": 5,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "fayetteville-nc__hope-mills",
+   "display_area": "Hope Mills",
+   "published_pet_friendly": 0,
+   "minimum": 5,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "fayetteville-nc__wade-i-95-north",
+   "display_area": "Wade",
+   "published_pet_friendly": 0,
+   "minimum": 5,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "fayetteville-nc__raeford",
+   "display_area": "Raeford",
+   "published_pet_friendly": 0,
+   "minimum": 5,
+   "corridor_page_publishes": false
+  }
+ ],
+ "sub_area_coverage": {
+  "Cross Creek / Skibo": {
+   "census": 21,
+   "pet_friendly": 13,
+   "verified_no_pets": 5,
+   "unresolved": 3
+  },
+  "Downtown": {
+   "census": 3,
+   "pet_friendly": 1,
+   "verified_no_pets": 0,
+   "unresolved": 2
+  },
+  "FAY Airport": {
+   "census": 3,
+   "pet_friendly": 1,
+   "verified_no_pets": 0,
+   "unresolved": 2
+  },
+  "Fort Liberty corridor": {
+   "census": 5,
+   "pet_friendly": 1,
+   "verified_no_pets": 0,
+   "unresolved": 4
+  },
+  "Hope Mills": {
+   "census": 1,
+   "pet_friendly": 0,
+   "verified_no_pets": 1,
+   "unresolved": 0
+  },
+  "I-95 Central": {
+   "census": 14,
+   "pet_friendly": 7,
+   "verified_no_pets": 2,
+   "unresolved": 5
+  },
+  "I-95 North": {
+   "census": 3,
+   "pet_friendly": 0,
+   "verified_no_pets": 0,
+   "unresolved": 3
+  },
+  "North Fayetteville": {
+   "census": 2,
+   "pet_friendly": 1,
+   "verified_no_pets": 1,
+   "unresolved": 0
+  },
+  "Spring Lake": {
+   "census": 4,
+   "pet_friendly": 2,
+   "verified_no_pets": 1,
+   "unresolved": 1
+  },
+  "I-95 South": {
+   "census": 0,
+   "pet_friendly": 0,
+   "verified_no_pets": 0,
+   "unresolved": 0
+  }
+ },
+ "sub_area_rule": "28301 / 28305 Downtown; 28303 / 28304 / 28314 are the Fort Liberty corridor when the property sits on Bragg Boulevard, Sigman Street or Convoy Lane and Cross Creek / Skibo otherwise; 28390 Spring Lake; 28348 Hope Mills; 28306 FAY Airport unless its own coordinates lie east of -78.86 (I-95 South); 28312 is I-95 North on Dunn Road / Dobbin Holmes Road or north of latitude 35.05 and I-95 Central otherwise; 28395 Wade is I-95 North; 28311 North Fayetteville; 28376 Raeford.",
+ "vacation_rental_and_non_lodging_exclusions": [
+  {
+   "name": "Barrington House Bed & Breakfast",
+   "reason": "a map row whose own name reads as a private cottage, house, estate or bed and breakfast; never a hotel identity on a map tag alone"
+  }
+ ],
+ "vacation_rental_rule": "Individual vacation homes, cabins, cottages, property-management listings, corporate furnished-apartment operators and bed-and-breakfast houses without hotel operation are never admitted. Weekly-rate and extended-stay motels are admitted on the map's own lodging tag or the brand's own page. On-post Army lodging is MILITARY_GOVERNMENT_NONPUBLIC, never admitted.",
+ "competitor_gap": {
+  "competitor_rows_observed": 8,
+  "also_seen_by_a_first_party_lane": 6,
+  "competitor_only": 2,
+  "competitor_only_by_class": {
+   "NAME_ONLY_UNRESOLVED": 2
+  },
+  "matched_by_class": {
+   "TRUE_HOTEL_IDENTITY": 6
+  }
+ },
+ "competitor_gap_reconciliation": [
+  {
+   "lead": "Embassy Suites by Hilton Fayetteville Fort Bragg",
+   "class": "EXACT_ATLAS_MATCH",
+   "why": "4760 Lake Valley Drive, read first-party on Hilton and published"
+  },
+  {
+   "lead": "Hampton Inn & Suites Fayetteville",
+   "class": "EXACT_ATLAS_MATCH",
+   "why": "2065 Cedar Creek Road, read first-party on Hilton and published"
+  },
+  {
+   "lead": "Home2 Suites by Hilton Fayetteville Fort Liberty",
+   "class": "ALIAS",
+   "why": "the brand's own page still names it Fort Bragg: 4035 Sycamore Dairy Road, published"
+  },
+  {
+   "lead": "Tru by Hilton Fayetteville I-95",
+   "class": "EXACT_ATLAS_MATCH",
+   "why": "2055 Cedar Creek Road, read first-party on Hilton and published"
+  },
+  {
+   "lead": "Red Roof Inn & Suites Fayetteville - Fort Bragg",
+   "class": "EXACT_ATLAS_MATCH",
+   "why": "3136 Bordeaux Park Drive, read first-party on Red Roof and published"
+  },
+  {
+   "lead": "Travelodge by Wyndham Fayetteville",
+   "class": "EXACT_ATLAS_MATCH",
+   "why": "2076 Cedar Creek Road, read first-party on Wyndham and published"
+  },
+  {
+   "lead": "Studio 6 Fayetteville NC Fort Bragg Area",
+   "class": "EXACT_ATLAS_MATCH",
+   "why": "3719 Bragg Boulevard, admitted; the brand page states only an amenity chip, evidence hold"
+  },
+  {
+   "lead": "Motel 6 Fayetteville NC Fort Liberty Area",
+   "class": "REVIEW",
+   "why": "G6's own sitemap lists it (294393) at the SAME street as Studio 6 (293587), 3719 Bragg Boulevard, and its page states no postal code: a possible dual-brand building this order could not prove distinct, so no second identity was opened"
+  },
+  {
+   "lead": "Red Lion Inn & Suites Fayetteville at Cross Creek Mall (map)",
+   "class": "REBRAND",
+   "why": "third-party listings name 562 Cross Creek Mall a Choice Quality Inn; admitted on the map row, access-blocked"
+  },
+  {
+   "lead": "WoodSpring Suites Fayetteville / West / Fort Bragg (map)",
+   "class": "REBRAND",
+   "why": "770 West Rowan Street, 1381 Walter Reed Road and 6820 Cliffdale Road are Extended Stay America on the brand's own pages; WoodSpring's own site lists no Fayetteville property; published"
+  },
+  {
+   "lead": "Quality Inn & Suites Fort Bragg (map)",
+   "class": "REBRAND",
+   "why": "2910 Sigman Street is Hawthorn Extended Stay by Wyndham on the brand's own page; published"
+  },
+  {
+   "lead": "Wingate by Wyndham Fayetteville/Fort Bragg (map)",
+   "class": "REBRAND",
+   "why": "4182 Sycamore Dairy Road is Holiday Inn Express Fayetteville - Fort Bragg on IHG's own page, and Wyndham's Wingate route is retired; verified no-pets"
+  },
+  {
+   "lead": "Country Inn & Suites Spring Lake (map)",
+   "class": "REBRAND",
+   "why": "103 Brook Lane is Spark by Hilton Spring Lake Fayetteville on Hilton's own page; published"
+  },
+  {
+   "lead": "IHG Army Hotels in Forrestal Hall & Delmont House / Airborne Inn / Landmark Inn (map)",
+   "class": "MILITARY_GOVERNMENT_NONPUBLIC",
+   "why": "on-post Fort Liberty lodging behind the installation gate; refused by the geography's military rule"
+  },
+  {
+   "lead": "Days Inn & Suites by Wyndham Fort Bragg/Cross Creek Mall",
+   "class": "REVIEW",
+   "why": "an off-post Skibo Road hotel whose own page states the Pope Army Airfield postal code 28308; geography hold"
+  },
+  {
+   "lead": "Barrington House Bed & Breakfast (map)",
+   "class": "NON_HOTEL",
+   "why": "a bed and breakfast house near Dunn; not a hotel operation and outside the market"
+  }
+ ],
+ "true_missing_qualifying_hotels": 0
+}
