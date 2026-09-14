@@ -15,19 +15,19 @@
   "identity": "16:20Z-16:40Z (census passes; roster-listing bindings, brand-route refusal, non-hotel rulings, third-party JSON-LD refusal, map-row fold beside a read)",
   "policy_adjudication": "16:25Z-16:40Z (candidate quotes tested against the shared first-party reader; independent quotes proved verbatim with house number and ZIP on the same document)",
   "reconciliation": "16:38Z-16:42Z (clean set 89 / 45, staged authority, final partition 196 identities, 0 contract issues; inputs committed at e5f1ea44)",
-  "shadow_package_and_fast": "16:43:10Z-16:45:02Z at e5f1ea44 (sealed twice in-process, FAST 15/15, determinism BYTE_IDENTICAL, 112.1 s)",
-  "independent_reproduction": "16:45:12Z-16:45:48Z (clean git worktree at e5f1ea44 with a COPY of the document store: geography, brand pages, capture, census, clean set, staged authority, partition and staged shard rebuilt from committed captures -- zero content difference; only the eol-unattributed discovery config checks out CRLF; separate-process digest-only seal = the same digest)",
-  "ZERO_TO_SOURCE_READY": "51 min 7 s (15:53:55Z -> 16:45:02Z, the FAST-passed sealed shadow package)",
+  "shadow_package_and_fast": "16:47:39Z-16:49:19Z at 6f587cc6 (sealed twice in-process, FAST 15/15, determinism BYTE_IDENTICAL, 89.6 s); an earlier seal at e5f1ea44 (16:43:10Z-16:45:02Z, pkg 9dd5d52e) also passed 15/15 and was superseded when the census stopped dropping the WoodSpring Suites Richmond West own-site identity (a same-host brand-page read had suppressed it)",
+  "independent_reproduction": "16:48:10Z-16:49:46Z (clean git worktree at 6f587cc6 with a COPY of the document store: geography, brand pages, capture, census, clean set, staged authority, partition and staged shard rebuilt from committed captures -- zero content difference; only the eol-unattributed discovery config checks out CRLF; separate-process digest-only seal = the same digest)",
+  "ZERO_TO_SOURCE_READY": "55 min 24 s (15:53:55Z -> 16:49:19Z, the final FAST-passed sealed shadow package; the first FAST-passed seal was at 16:45:02Z, 51 min 7 s)",
   "peak_memory": "not measured on this run"
  },
  "accounting": {
   "TOTAL_DISCOVERED": 294,
   "total_discovered_note": "Distinct candidate identities in the identity graph after merging every lane. Not counted: 17 unnamed map elements, 19 retired Wyndham routes, and the Hilton / IHG / Choice national-navigation codes outside Virginia's 230xx-232xx / 238xx postal prefixes.",
   "classification_counts": {
-   "IDENTITY_REVIEW_REQUIRED": 15,
+   "IDENTITY_REVIEW_REQUIRED": 16,
    "NAME_ONLY_UNRESOLVED": 5,
    "NON_LODGING": 7,
-   "OUTSIDE_MARKET": 71,
+   "OUTSIDE_MARKET": 70,
    "TRUE_HOTEL_IDENTITY": 196
   },
   "PROPOSED_CENSUS": 196,
@@ -37,8 +37,8 @@
   "UNRESOLVED": 62,
   "partition_counts_by_state": {
    "ACCESS_BLOCKED": 7,
-   "AWAITING_OFFICIAL_URL": 27,
-   "AWAITING_POLICY_OBSERVATION": 28,
+   "AWAITING_OFFICIAL_URL": 26,
+   "AWAITING_POLICY_OBSERVATION": 29,
    "PUBLISHED_PET_FRIENDLY": 89,
    "VERIFIED_NO_PETS": 45
   },
@@ -47,7 +47,7 @@
  },
  "holds_by_class": {
   "IDENTITY_HOLDS": {
-   "count": 20,
+   "count": 21,
    "identity_review_required": [
     "All Day Inn",
     "Cadillac Motel",
@@ -63,7 +63,8 @@
     "Sleep Inn & Suites",
     "Snow White Motel",
     "Super 8 Motel Ashland",
-    "White House Motor Lodge"
+    "White House Motor Lodge",
+    "WoodSpring Suites"
    ],
    "name_only_unresolved": [
     "Baymount Inn and Suites",
@@ -77,7 +78,7 @@
    "note": "Not census identities and never published: brand-flag map and bureau rows the brand's own inventory does not list at that address (Econo Lodge / Rodeway Inn / Quality Inn Central on Arthur Ashe Boulevard and West Broad, Sleep Inn & Suites at 80 Cottage Greene Drive -- now the Comfort Inn & Suites Ashland -- Suburban Extended Stay at 2401 West Hundred Road, Super 8 Motel Ashland), same-name pairs (Regency Inn x2), rows no first-party source gives a municipality (All Day Inn, Cadillac Motel, Snow White Motel, White House Motor Lodge), lodging-category reviews (Roslyn Retreat & Conference Center, Classified Moto) and name-only map rows (The Massad House Hotel, Virginia Cliff Inn, Lee's Motel, Baymount Inn and Suites, Par 3)."
   },
   "ROUTING_HOLDS": {
-   "count": 27,
+   "count": 26,
    "identities": [
     "Airport Inn Motel",
     "America's Best Value Inn",
@@ -104,8 +105,7 @@
     "Town Motel",
     "Travel Inn",
     "Turnpike Motel",
-    "Twin Oaks Motel",
-    "WoodSpring Suites"
+    "Twin Oaks Motel"
    ]
   },
   "ACCESS_BLOCKED": {
@@ -124,7 +124,7 @@
    ]
   },
   "EVIDENCE_HOLDS": {
-   "count": 28,
+   "count": 29,
    "identities": [
     "avid hotels Richmond North - Ashland",
     "Brentwood Inn and Suites Glen Allen",
@@ -153,7 +153,8 @@
     "Residence Inn by Marriott Richmond Downtown",
     "SpringHill Suites by Marriott Richmond North/Glen Allen",
     "The Jefferson Hotel",
-    "Virginia Cliffe Inn"
+    "Virginia Cliffe Inn",
+    "WoodSpring Suites Richmond West I-64"
    ],
    "rejected_reads_by_class": {
     "ADDRESS_KEY_DIRECTIONAL_COLLISION": 1,
@@ -204,8 +205,8 @@
    "note": "Wyndham routes in Richmond-area cities that redirect to the brand's city search (retired or rebranded). Routes, not census identities."
   },
   "OUTSIDE": {
-   "count": 71,
-   "future_market_petersburg_tri_cities": 38,
+   "count": 70,
+   "future_market_petersburg_tri_cities": 37,
    "future_market_identities": [
     "California Inn",
     "Candlewood Suites",
@@ -243,8 +244,7 @@
     "TownePlace Suites Richmond Colonial Heights",
     "Travel Inn - Petersburg",
     "Travelodge by Wyndham Petersburg",
-    "WoodSpring Suites",
-    "WoodSpring Suites Richmond Colonial Heights Fort Gregg-Adams"
+    "WoodSpring Suites Colonial Heights Fort Lee"
    ]
   },
   "NON_HOTEL": {
@@ -711,9 +711,9 @@
       "street": "6631 West Broad Street"
      },
      {
-      "canonical_name": "WoodSpring Suites",
+      "canonical_name": "WoodSpring Suites Richmond West I-64",
       "state": "UNRESOLVED",
-      "street": "6902 West Broad Street"
+      "street": "6900 West Broad Street"
      }
     ]
    },
@@ -1667,7 +1667,7 @@
    "DESTINATION_ORGANIZATION": 200,
    "REGIONAL_VISITOR_CENTER": 0,
    "COMPETITOR_LEAD": 13,
-   "PROPERTY_PAGE": 162
+   "PROPERTY_PAGE": 164
   },
   "first_party_reads": {
    "pages_read": 154,
@@ -1764,22 +1764,22 @@
  "package": {
   "SHADOW_PACKAGE_CREATED": "YES",
   "execution_zone": "SHADOW_UNTIL_REGISTERED",
-  "package_id": "pkg-richmond-va-9dd5d52ed75b07ec",
-  "PACKAGE_DIGEST": "sha256:9dd5d52ed75b07ecb6b5084ac5c80b0a0790e8172a0ae9c6c8e15879ee58a1d1",
-  "created_from_source_sha": "e5f1ea448d54239cde7a891594f9ef27c9884a9c",
-  "package_path": "launch_packages/pettripfinder/markets/staging/richmond-va/shadow_packages/richmond-va/pkg-richmond-va-9dd5d52ed75b07ec.json",
+  "package_id": "pkg-richmond-va-68a86efaa588c103",
+  "PACKAGE_DIGEST": "sha256:68a86efaa588c103449a70a4b606a4edbc4f3f0d362f0bf264f7e7ff504dfa98",
+  "created_from_source_sha": "6f587cc6cbd7715460976213e9b6b2dea0c603d7",
+  "package_path": "launch_packages/pettripfinder/markets/staging/richmond-va/shadow_packages/richmond-va/pkg-richmond-va-68a86efaa588c103.json",
   "BUILD_INPUT_KEY": {
-   "staged_input_digest": "sha256:327873e209c2535bff3fc4dbe5567ccc148fea429623f044fa3ef508bc69bb9d",
+   "staged_input_digest": "sha256:0fe85878b08bad1c6ac1a2aff876457f28c80f5d8bde2ca09ffbf8f40e7a306b",
    "changed_market_bundle_sha256": "809b882203b7dd688231e80430b5449803d8e524f83ff39144cc81339ef0ee83",
-   "contract_sha256": "sha256:0cd5a3f0aba4036542fd0a4e2db5015de308cb4d29d1c85268e173def83bd8a4",
+   "contract_sha256": "sha256:5dc0ad0e29c15fe1bf54d8e6f4b91cd9c0be9dad9bdae60346cf0ce483b8d32a",
    "dependency_input_digests": {
     "market": "sha256:fd07bf9baf06e4581b008c5b65d24ef498d8811db664e41a82df38f151d9d31e",
-    "census": "sha256:dd041938a8bff7b96831d8b80190b4551540b104afd6c1db93bff1b72f364b57",
+    "census": "sha256:f34c47cca26dfa4abfdffc2f25f467bf5257fed26a7a2c6f94bdfecfc68d869c",
     "policy_package": "sha256:86625f18ab1abf81e58721a8cb68dee96002d05a224dc0b4fe36b6c882e426ce",
     "exclusions": "sha256:a5baade6152bf5cfb0a62b72580077f8c9f8dc14b61cfccbca200a824c4d370b",
     "routing": "sha256:79f2e4cc7e70d556a82ad504fd9cc98ced4edd11606b29af9f0bd53fc19c8c1b",
     "seed": "sha256:f460742062882d9768fb63d95f304645277dace089fd8299ce4b2da03068e238",
-    "partition": "sha256:10903da7c181ccb539bd1d36b1dc5e56357145d20f2533980f882d566eaed8ef"
+    "partition": "sha256:ae74ca624b56d5cee50548420fa14eb2ada14c07ebba024edfc66be28206f294"
    }
   },
   "INTENDED_DELTA": {
@@ -1996,8 +1996,8 @@
    "shadow_until_registered": "declared against a live release that carries no index for this market; the registration order's re-seal restates the delta through registration_release_lane.joining_delta"
   },
   "VALIDATION_RECEIPT": {
-   "path": "launch_packages/pettripfinder/markets/staging/richmond-va/shadow_receipts/richmond-va/pkg-richmond-va-9dd5d52ed75b07ec-7f42f76d0e823529.json",
-   "digest": "sha256:7f42f76d0e82352946e88bdcdb74f2fae6cf7682a332172ad4e87bd4ff8588e2",
+   "path": "launch_packages/pettripfinder/markets/staging/richmond-va/shadow_receipts/richmond-va/pkg-richmond-va-68a86efaa588c103-f7f04b2efe5935de.json",
+   "digest": "sha256:f7f04b2efe5935dec1f1defff34bd29c1ae554639b73faf7b7f4d394f214fc50",
    "eligible": "YES",
    "rules": {
     "A": "PASS",
@@ -2033,8 +2033,8 @@
    "paid_evidence_references": 0,
    "counts_by_partition_state": {
     "ACCESS_BLOCKED": 7,
-    "AWAITING_OFFICIAL_URL": 27,
-    "AWAITING_POLICY_OBSERVATION": 28,
+    "AWAITING_OFFICIAL_URL": 26,
+    "AWAITING_POLICY_OBSERVATION": 29,
     "PUBLISHED_PET_FRIENDLY": 89,
     "VERIFIED_NO_PETS": 45
    }

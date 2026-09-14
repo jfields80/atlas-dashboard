@@ -24,12 +24,15 @@ TIMINGS = OrderedDict([
                             "quotes proved verbatim with house number and ZIP on the same document)"),
     ("reconciliation", "16:38Z-16:42Z (clean set 89 / 45, staged authority, final partition 196 identities, 0 contract "
                        "issues; inputs committed at e5f1ea44)"),
-    ("shadow_package_and_fast", "16:43:10Z-16:45:02Z at e5f1ea44 (sealed twice in-process, FAST 15/15, determinism "
-                                "BYTE_IDENTICAL, 112.1 s)"),
-    ("independent_reproduction", "16:45:12Z-16:45:48Z (clean git worktree at e5f1ea44 with a COPY of the document store: "
+    ("shadow_package_and_fast", "16:47:39Z-16:49:19Z at 6f587cc6 (sealed twice in-process, FAST 15/15, determinism "
+                                "BYTE_IDENTICAL, 89.6 s); an earlier seal at e5f1ea44 (16:43:10Z-16:45:02Z, pkg 9dd5d52e) also "
+                                "passed 15/15 and was superseded when the census stopped dropping the WoodSpring Suites Richmond "
+                                "West own-site identity (a same-host brand-page read had suppressed it)"),
+    ("independent_reproduction", "16:48:10Z-16:49:46Z (clean git worktree at 6f587cc6 with a COPY of the document store: "
                                  "geography, brand pages, capture, census, clean set, staged authority, partition and staged "
                                  "shard rebuilt from committed captures -- zero content difference; only the eol-unattributed "
                                  "discovery config checks out CRLF; separate-process digest-only seal = the same digest)"),
-    ("ZERO_TO_SOURCE_READY", "51 min 7 s (15:53:55Z -> 16:45:02Z, the FAST-passed sealed shadow package)"),
+    ("ZERO_TO_SOURCE_READY", "55 min 24 s (15:53:55Z -> 16:49:19Z, the final FAST-passed sealed shadow package; the first "
+                             "FAST-passed seal was at 16:45:02Z, 51 min 7 s)"),
     ("peak_memory", "not measured on this run"),
 ])
