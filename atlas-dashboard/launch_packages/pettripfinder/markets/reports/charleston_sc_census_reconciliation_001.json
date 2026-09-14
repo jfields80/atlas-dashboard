@@ -18,7 +18,7 @@
   "PROPERTY_PAGE": 191
  },
  "observations_total": 806,
- "nodes_after_hard_key_merge": 438,
+ "nodes_after_hard_key_merge": 440,
  "name_attachment": {
   "what_it_is": "An observation with no street, no phone and no comparable property code cannot open a building of its own. It is offered to every building that already has hard evidence and binds only to a single clear best match, marked NAME_MATCH_UNCONFIRMED. A tie becomes IDENTITY_REVIEW_REQUIRED; no match stays NAME_ONLY_UNRESOLVED.",
   "bound": 36,
@@ -611,12 +611,12 @@
  },
  "classification_counts": {
   "DUPLICATE_LISTING": 2,
-  "IDENTITY_REVIEW_REQUIRED": 26,
+  "IDENTITY_REVIEW_REQUIRED": 27,
   "NAME_ONLY_UNRESOLVED": 55,
   "NON_LODGING": 45,
   "OUTSIDE_MARKET": 123,
   "SAME_CAMPUS_DISTINCT_ENTITY": 2,
-  "TRUE_HOTEL_IDENTITY": 185
+  "TRUE_HOTEL_IDENTITY": 186
  },
  "corridor_counts": {
   "charleston-sc__chs-airport-convention": 23,
@@ -628,7 +628,7 @@
   "charleston-sc__ladson": 3,
   "charleston-sc__mount-pleasant": 33,
   "charleston-sc__north-charleston": 32,
-  "charleston-sc__summerville": 15,
+  "charleston-sc__summerville": 16,
   "charleston-sc__upper-peninsula": 16,
   "charleston-sc__west-ashley": 14
  },
@@ -1217,13 +1217,6 @@
   }
  ],
  "street_spelling_merge": [
-  {
-   "absorbed": "Homewood Suites by Hilton Summerville",
-   "absorbed_street": "406 Sigma Drive",
-   "into": "Homewood Suites by Hilton Summerville",
-   "street": "406 Sigma Drive",
-   "postal_code": "29486"
-  },
   {
    "absorbed": "The Ginger Lily House",
    "absorbed_street": "78 Society Street",
@@ -2703,6 +2696,60 @@
       "guest_house"
      ],
      "website_url": "https://historic-86-church-street.allcharlestonhotels.com/en",
+     "non_hotel_name": false
+    }
+   ]
+  },
+  {
+   "identity_key": "homewood suites by hilton summerville",
+   "slug": "homewood-suites-by-hilton-summerville",
+   "market_id": "charleston-sc",
+   "identity_state": "IDENTITY_UNRESOLVED",
+   "lodging_state": "NEEDS_REVIEW",
+   "collision_state": "NONE",
+   "identity_key_aliases": [
+    "homewood suites by hilton summerville"
+   ],
+   "canonical_name": "Homewood Suites by Hilton Summerville",
+   "classification": "IDENTITY_REVIEW_REQUIRED",
+   "classification_reason": "BRAND_INVENTORY_DOES_NOT_LIST -- a OSM_OVERPASS row naming a HILTON flag ('Homewood Suites by Hilton Summerville') that no read of that brand's own Charleston-area inventory joined at this address; a retired, rebranded or mis-drawn row is never admitted on its label",
+   "street": "406 Sigma Drive",
+   "city": "Summerville",
+   "state": "SC",
+   "postal_code": "29483",
+   "phone": "",
+   "phone_key": "",
+   "street_identity": "406|sigma|29483",
+   "brand": "",
+   "property_code": "",
+   "official_url": "",
+   "latitude": 33.0452,
+   "longitude": -80.151425,
+   "corridor": "charleston-sc__summerville",
+   "assignment_basis": "postal_code",
+   "assignment_value": "29483",
+   "lanes": [
+    "OSM_OVERPASS"
+   ],
+   "best_tier": 3,
+   "policy_state": "POLICY_NOT_VERIFIED",
+   "policy_note": "Identity evidence never establishes a pet policy.",
+   "evidence": [
+    {
+     "lane": "OSM_OVERPASS",
+     "tier": 3,
+     "source_url": "https://www.openstreetmap.org/node/9800447584",
+     "name": "Homewood Suites by Hilton Summerville",
+     "street": "406 Sigma Drive",
+     "city": "Summerville",
+     "region": "SC",
+     "postal": "29483",
+     "lat": 33.0452,
+     "lng": -80.151425,
+     "osm_element": "node/9800447584",
+     "osm_categories": [
+      "hotel"
+     ],
      "non_hotel_name": false
     }
    ]
@@ -22475,10 +22522,9 @@
    "market_id": "charleston-sc",
    "identity_state": "IDENTITY_CONFIRMED",
    "lodging_state": "LODGING_CONFIRMED",
-   "collision_state": "NONE",
+   "collision_state": "SHARED_ADDRESS",
    "identity_key_aliases": [
-    "hilton garden inn summerville",
-    "homewood suites by hilton summerville"
+    "hilton garden inn summerville"
    ],
    "canonical_name": "Hilton Garden Inn Summerville",
    "classification": "TRUE_HOTEL_IDENTITY",
@@ -22547,26 +22593,6 @@
      "document_sha256": "20643801bd15b29d0f57bec945c01b620ffc7696435079fff7be4f1ec6238d44"
     },
     {
-     "lane": "BRAND_INVENTORY_CITY_PAGE",
-     "tier": 1,
-     "source_url": "https://www.hilton.com/en/hotels/chssmhw-homewood-suites-summerville/",
-     "name": "Homewood Suites by Hilton Summerville",
-     "brand": "HILTON",
-     "property_code": "chssmhw",
-     "route": "https://www.hilton.com/en/hotels/chssmhw-homewood-suites-summerville/",
-     "merge_alias": "chssmhw homewood suites summerville",
-     "street": "406 Sigma Drive",
-     "city": "Summerville",
-     "region": "SC",
-     "postal": "29486",
-     "phone": "+1 843-832-1304",
-     "lat": 33.045402,
-     "lng": -80.151557,
-     "admitted_by": "ADDRESS_FROM_THE_BRAND_OWN_CITY_PAGE_PROPERTY_CARD",
-     "seen_in": "https://www.hilton.com/en/locations/usa/south-carolina/summerville/",
-     "document_sha256": "20643801bd15b29d0f57bec945c01b620ffc7696435079fff7be4f1ec6238d44"
-    },
-    {
      "lane": "PROPERTY_PAGE_ATTENDED",
      "tier": 1,
      "source_url": "https://www.hilton.com/en/hotels/chsgigi-hilton-garden-inn-summerville/",
@@ -22584,43 +22610,6 @@
      "binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
      "lat": 33.044589,
      "lng": -80.150654
-    },
-    {
-     "lane": "PROPERTY_PAGE_ATTENDED",
-     "tier": 1,
-     "source_url": "https://www.hilton.com/en/hotels/chssmhw-homewood-suites-summerville/",
-     "name": "Homewood Suites by Hilton Summerville",
-     "street": "406 Sigma Drive",
-     "postal": "29486",
-     "city": "Summerville",
-     "region": "SC",
-     "phone": "+1 843-832-1304",
-     "property_code": "chssmhw",
-     "brand": "HILTON",
-     "route": "https://www.hilton.com/en/hotels/chssmhw-homewood-suites-summerville/",
-     "document_sha256": "22b46e36816a93538d06f4f067198a1b21293dc144d2a5eba47f3da0c85a4f73",
-     "document_bytes": 295482,
-     "binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
-     "lat": 33.045402,
-     "lng": -80.151557
-    },
-    {
-     "lane": "OSM_OVERPASS",
-     "tier": 3,
-     "source_url": "https://www.openstreetmap.org/node/9800447584",
-     "name": "Homewood Suites by Hilton Summerville",
-     "street": "406 Sigma Drive",
-     "city": "Summerville",
-     "region": "SC",
-     "postal": "29483",
-     "lat": 33.0452,
-     "lng": -80.151425,
-     "osm_element": "node/9800447584",
-     "osm_categories": [
-      "hotel"
-     ],
-     "non_hotel_name": false,
-     "binding": "SAME_HOUSE_NUMBER_POSTAL_AND_CHAIN_AS_A_READ_BUILDING"
     }
    ]
   },
@@ -24341,6 +24330,83 @@
      "binding_score": 0.8,
      "binding_reason": "brand 1.00, town not stated, area not stated",
      "binding_caveat": "Bound to this building by NAME plus its own hard geography. The observation carried no street address, no phone and no comparable property code. The binding is a proposal for the routing and policy lanes to confirm on the property's OWN page; it is not an identity decision and it publishes nothing."
+    }
+   ]
+  },
+  {
+   "identity_key": "homewood suites by hilton summerville",
+   "slug": "homewood-suites-by-hilton-summerville",
+   "market_id": "charleston-sc",
+   "identity_state": "IDENTITY_CONFIRMED",
+   "lodging_state": "LODGING_CONFIRMED",
+   "collision_state": "SHARED_ADDRESS",
+   "identity_key_aliases": [
+    "homewood suites by hilton summerville"
+   ],
+   "canonical_name": "Homewood Suites by Hilton Summerville",
+   "classification": "TRUE_HOTEL_IDENTITY",
+   "classification_reason": "",
+   "street": "406 Sigma Drive",
+   "city": "Summerville",
+   "state": "SC",
+   "postal_code": "29486",
+   "phone": "+1 843-832-1304",
+   "phone_key": "8438321304",
+   "street_identity": "406|sigma|29486",
+   "brand": "HILTON",
+   "property_code": "chssmhw",
+   "official_url": "https://www.hilton.com/en/hotels/chssmhw-homewood-suites-summerville/",
+   "latitude": 33.045402,
+   "longitude": -80.151557,
+   "corridor": "charleston-sc__summerville",
+   "assignment_basis": "postal_code",
+   "assignment_value": "29486",
+   "lanes": [
+    "BRAND_INVENTORY_CITY_PAGE",
+    "PROPERTY_PAGE_ATTENDED"
+   ],
+   "best_tier": 1,
+   "policy_state": "POLICY_NOT_VERIFIED",
+   "policy_note": "Identity evidence never establishes a pet policy.",
+   "evidence": [
+    {
+     "lane": "BRAND_INVENTORY_CITY_PAGE",
+     "tier": 1,
+     "source_url": "https://www.hilton.com/en/hotels/chssmhw-homewood-suites-summerville/",
+     "name": "Homewood Suites by Hilton Summerville",
+     "brand": "HILTON",
+     "property_code": "chssmhw",
+     "route": "https://www.hilton.com/en/hotels/chssmhw-homewood-suites-summerville/",
+     "merge_alias": "chssmhw homewood suites summerville",
+     "street": "406 Sigma Drive",
+     "city": "Summerville",
+     "region": "SC",
+     "postal": "29486",
+     "phone": "+1 843-832-1304",
+     "lat": 33.045402,
+     "lng": -80.151557,
+     "admitted_by": "ADDRESS_FROM_THE_BRAND_OWN_CITY_PAGE_PROPERTY_CARD",
+     "seen_in": "https://www.hilton.com/en/locations/usa/south-carolina/summerville/",
+     "document_sha256": "20643801bd15b29d0f57bec945c01b620ffc7696435079fff7be4f1ec6238d44"
+    },
+    {
+     "lane": "PROPERTY_PAGE_ATTENDED",
+     "tier": 1,
+     "source_url": "https://www.hilton.com/en/hotels/chssmhw-homewood-suites-summerville/",
+     "name": "Homewood Suites by Hilton Summerville",
+     "street": "406 Sigma Drive",
+     "postal": "29486",
+     "city": "Summerville",
+     "region": "SC",
+     "phone": "+1 843-832-1304",
+     "property_code": "chssmhw",
+     "brand": "HILTON",
+     "route": "https://www.hilton.com/en/hotels/chssmhw-homewood-suites-summerville/",
+     "document_sha256": "22b46e36816a93538d06f4f067198a1b21293dc144d2a5eba47f3da0c85a4f73",
+     "document_bytes": 295482,
+     "binding_method": "PROPERTY_CODE_AND_ADDRESS_FROM_THE_PAGES_OWN_DATA",
+     "lat": 33.045402,
+     "lng": -80.151557
     }
    ]
   },

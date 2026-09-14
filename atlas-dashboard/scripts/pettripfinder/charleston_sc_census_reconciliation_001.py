@@ -822,6 +822,15 @@ def merge(observations):
                     and other.property_code.lower() != code):
                 cand_keys = [k for k in cand_keys if not k.startswith("street:")]
 
+        # CHARLESTON: a shared switchboard is not an identity either. Hilton Garden Inn and Homewood Suites
+        # Summerville state one street (406 Sigma Drive) AND one phone (+1 843-832-1304) under two Hilton codes; the
+        # street key was already refused above, and the phone key would have folded the Homewood into the HGI.
+        if code and brand:
+            for _k in [k for k in cand_keys if k.startswith("phone:") and k in by_key]:
+                _other = nodes[by_key[_k]]
+                if (_other is not _FOLDED and _other.property_code and _other.brand
+                        and _other.brand.upper() == brand and _other.property_code.lower() != code):
+                    cand_keys.remove(_k)
         hits = {by_key[k] for k in cand_keys if k in by_key}
         if len(hits) > 1:
             # Two established nodes claim this observation. A BRAND PROPERTY
