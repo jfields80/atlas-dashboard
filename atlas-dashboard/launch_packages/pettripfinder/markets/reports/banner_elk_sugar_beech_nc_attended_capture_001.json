@@ -1,0 +1,359 @@
+{
+ "schema": "ptf-attended-capture/1.0",
+ "work_order": "PTF-BANNER-ELK-SUGAR-BEECH-NC-PARALLEL-SOURCE-READY-001",
+ "market_id": "banner-elk-sugar-beech-nc",
+ "phase": "10-14 -- first-party reads: Marriott, Hilton, IHG (attended same-origin), Wyndham (plain client) and brand pages",
+ "as_of": "2026-09-14",
+ "lane": "ATTENDED_BROWSER (the operator's real Chrome session; free) + DIRECT_STATIC_FETCH",
+ "authorization": "the operator's work order authorises the attended lane; no credential entered",
+ "paid_provider_calls": 0,
+ "usd_spent": 0.0,
+ "firecrawl_credits": 0,
+ "payload_digests": {
+  "hilton_rows.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "marriott_rows.json": "4b219d98e4c5fdb100d55c388fe263548550145836c851a46ae5c119efc08397",
+  "ihg_rows.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+ },
+ "owned_payloads": {
+  "marriott_rows.json": {
+   "captured_at": "2026-09-13",
+   "from": "launch_packages/pettripfinder/markets/staging/boone-blowing-rock-nc/raw_captures/marriott_rows.json",
+   "from_commit": "7adbafd194d7d3ce687b455789681678a20672ba",
+   "from_payload_digest": "6fec8b392e976107c148743933fa41c95aa2ae7dfbfa625474db2269c47e3a97",
+   "rows_carried": [
+    "tribc-courtyard-sugar-mountain-banner-elk"
+   ],
+   "why": "the Boone - Blowing Rock attended pass read Courtyard Sugar Mountain Banner Elk (Sugar Mountain 28604) and preserved it for this market; the row is carried verbatim, never re-read or reworded"
+  }
+ },
+ "wyndham_retired_routes": [],
+ "wyndham_error_rows": [],
+ "no_bot_check_was_answered": "every page served a plain navigation, same-origin fetch or plain client request.",
+ "counts": {
+  "pages_read": 9,
+  "by_brand": {
+   "INDEPENDENT": 8,
+   "MARRIOTT": 1
+  },
+  "identity_confirmed": 9,
+  "in_market": 9,
+  "outside_market": 0,
+  "in_market_pets_allowed_true": 5,
+  "in_market_pets_allowed_false": 4,
+  "in_market_first_party_conflicts": 0
+ },
+ "rows": [
+  {
+   "brand": "MARRIOTT",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": "tribc",
+   "requested_url": "https://www.marriott.com/en-us/hotels/tribc-courtyard-sugar-mountain-banner-elk/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/tribc-courtyard-sugar-mountain-banner-elk/overview/",
+   "captured_at": "2026-09-13",
+   "document_bytes": 325304,
+   "document_sha256": "76b23af450b092bb668218462eb3ee4e13350641bc11b8286bf0d0d121fc05c6",
+   "identity_signals": {
+    "name_on_page": "Courtyard by Marriott Sugar Mountain Banner Elk",
+    "address_on_page": "3988 NC 105 Hwy",
+    "postal_code": "28604",
+    "locality": "Sugar Mountain",
+    "region": "NC",
+    "phone_on_page": "+18288603090",
+    "property_code_on_page": "tribc",
+    "lat": null,
+    "lng": null
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "surface": "HOTEL INFORMATION block, Pet Policy row",
+   "exact_quote": "Pets Welcome 2 pets 50lbs max per pet per room with non-refundable fee Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+   "operative_excerpt_sha256": "84a32945d98a78867c7bded40c6b57f965b83900aab2bb9a6effa311583f5a30",
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "fee_basis": "per_stay",
+    "fee_refundable": false,
+    "weight_limit": 50.0,
+    "weight_limit_unit": "lb",
+    "pet_count_limit": 2
+   },
+   "first_party_conflict": null,
+   "in_market": true,
+   "corridor": "banner-elk-sugar-beech-nc__banner-elk-sugar-beech",
+   "market_verdict": "IN_MARKET"
+  },
+  {
+   "brand": "INDEPENDENT",
+   "lane": "DIRECT_STATIC_FETCH",
+   "property_code": null,
+   "requested_url": "https://www.parkviewlodge.com/",
+   "final_url": "https://www.parkviewlodge.com/",
+   "captured_at": "2026-09-14",
+   "document_bytes": 21284,
+   "document_sha256": "0a3cb4d9d373fdda29c5bd678b690d148aea89ea2aa2c0be6e6141b5f096cbd8",
+   "identity_signals": {
+    "name_on_page": "Parkview Lodge & Cabins",
+    "address_on_page": "10345 Linville Falls Hwy",
+    "postal_code": "28657",
+    "locality": "Newland",
+    "region": "NC",
+    "phone_on_page": "(828) 528-8999",
+    "property_code_on_page": null,
+    "lat": null,
+    "lng": null
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_SAME_OWN_SITE_DOCUMENT",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "exact_quote": "Pet-friendly (an extra pet fee applies)",
+   "operative_excerpt_sha256": "0bd71412f2dd646b0fada651b0a5a636cdacae9a0e3e804f2afb19b2bcb9672c",
+   "extraction": {
+    "pets_allowed": true
+   },
+   "first_party_conflict": null,
+   "in_market": true,
+   "corridor": "banner-elk-sugar-beech-nc__newland-elk-park",
+   "market_verdict": "IN_MARKET",
+   "brand_page_seed": "parkview-lodge-and-cabins"
+  },
+  {
+   "brand": "INDEPENDENT",
+   "lane": "DIRECT_STATIC_FETCH",
+   "property_code": null,
+   "requested_url": "https://www.thepineola.com/faqs",
+   "final_url": "https://www.thepineola.com/faqs",
+   "captured_at": "2026-09-14",
+   "document_bytes": 724940,
+   "document_sha256": "37d42a1fb5c692fbb97c7922767574671b8974c44f979f96c8e47b1dea46bdff",
+   "identity_signals": {
+    "name_on_page": "The Pineola",
+    "address_on_page": "3085 Linville Falls Hwy",
+    "postal_code": "28657",
+    "locality": "Newland",
+    "region": "NC",
+    "phone_on_page": "(828) 733-4979",
+    "property_code_on_page": null,
+    "lat": null,
+    "lng": null
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_SAME_OWN_SITE_DOCUMENT",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "exact_quote": "We do have 4 dog-friendly rooms (3 kings and 1 double queen), and you can choose them on our booking site.",
+   "operative_excerpt_sha256": "7bc922c7a1035e5ecc725f51ecc79e27990c483762815126cab8da12180f0e07",
+   "extraction": {
+    "pets_allowed": true
+   },
+   "first_party_conflict": null,
+   "in_market": true,
+   "corridor": "banner-elk-sugar-beech-nc__newland-elk-park",
+   "market_verdict": "IN_MARKET",
+   "brand_page_seed": "the-pineola"
+  },
+  {
+   "brand": "INDEPENDENT",
+   "lane": "DIRECT_STATIC_FETCH",
+   "property_code": null,
+   "requested_url": "https://www.themastfarminn.com/policies",
+   "final_url": "https://www.themastfarminn.com/policies",
+   "captured_at": "2026-09-14",
+   "document_bytes": 78119,
+   "document_sha256": "d6d9970b9b69df2615adb72d99fe93118bf5314c52fadb7d9c52dca32bc26f00",
+   "identity_signals": {
+    "name_on_page": "The Mast Farm Inn",
+    "address_on_page": "2543 Broadstone Road",
+    "postal_code": "28604",
+    "locality": "Valle Crucis",
+    "region": "NC",
+    "phone_on_page": "828-963-5857",
+    "property_code_on_page": null,
+    "lat": null,
+    "lng": null
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_SAME_OWN_SITE_DOCUMENT",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "exact_quote": "Our entire property is pet friendly!",
+   "operative_excerpt_sha256": "866ea2d8393bba367973262c920aa27e666946f1430600a319d9cddc8acd40b4",
+   "extraction": {
+    "pets_allowed": true
+   },
+   "first_party_conflict": null,
+   "in_market": true,
+   "corridor": "banner-elk-sugar-beech-nc__banner-elk-sugar-beech",
+   "market_verdict": "IN_MARKET",
+   "brand_page_seed": "the-mast-farm-inn"
+  },
+  {
+   "brand": "INDEPENDENT",
+   "lane": "DIRECT_STATIC_FETCH",
+   "property_code": null,
+   "requested_url": "https://www.smoketree-lodge.com/rates-pricing/",
+   "final_url": "https://www.smoketree-lodge.com/rates-pricing/",
+   "captured_at": "2026-09-14",
+   "document_bytes": 27675,
+   "document_sha256": "ac99116586f3133598bd42d681771f4a0d7cf5dc02799904c1cb0c640e14feee",
+   "identity_signals": {
+    "name_on_page": "Smoketree Lodge",
+    "address_on_page": "11914 Highway 105 South",
+    "postal_code": "28604",
+    "locality": "Banner Elk",
+    "region": "NC",
+    "phone_on_page": "828-963-6505",
+    "property_code_on_page": null,
+    "lat": null,
+    "lng": null
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_SAME_OWN_SITE_DOCUMENT",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "exact_quote": "No pets allowed",
+   "operative_excerpt_sha256": "eff990f8dc2b46418b27eea6435c4fa39fa7f9e81e11e0755e7a729a6fa93245",
+   "extraction": {
+    "pets_allowed": false
+   },
+   "first_party_conflict": null,
+   "in_market": true,
+   "corridor": "banner-elk-sugar-beech-nc__banner-elk-sugar-beech",
+   "market_verdict": "IN_MARKET",
+   "brand_page_seed": "smoketree-lodge"
+  },
+  {
+   "brand": "INDEPENDENT",
+   "lane": "DIRECT_STATIC_FETCH",
+   "property_code": null,
+   "requested_url": "https://theazaleainnbb.com/accommodations/",
+   "final_url": "https://theazaleainnbb.com/accommodations/",
+   "captured_at": "2026-09-14",
+   "document_bytes": 218715,
+   "document_sha256": "a4725eb9e5c5237befc11d259efdbec16da2f06b2f33902595859ff0edcf43c2",
+   "identity_signals": {
+    "name_on_page": "The Azalea Inn",
+    "address_on_page": "149 Azalea Circle",
+    "postal_code": "28604",
+    "locality": "Banner Elk",
+    "region": "NC",
+    "phone_on_page": "828-260-9528",
+    "property_code_on_page": null,
+    "lat": null,
+    "lng": null
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_SAME_OWN_SITE_DOCUMENT",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "exact_quote": "Pets are not allowed.",
+   "operative_excerpt_sha256": "1ba0fbc248bf4883e8191c26bb0d0ef0eb0521465e75bf8afde9543fe752e5e7",
+   "extraction": {
+    "pets_allowed": false
+   },
+   "first_party_conflict": null,
+   "in_market": true,
+   "corridor": "banner-elk-sugar-beech-nc__banner-elk-sugar-beech",
+   "market_verdict": "IN_MARKET",
+   "brand_page_seed": "the-azalea-inn"
+  },
+  {
+   "brand": "INDEPENDENT",
+   "lane": "DIRECT_STATIC_FETCH",
+   "property_code": null,
+   "requested_url": "https://www.taylorhouseinn.com/our-property",
+   "final_url": "https://www.taylorhouseinn.com/our-property",
+   "captured_at": "2026-09-14",
+   "document_bytes": 616663,
+   "document_sha256": "ef0dd32357d1bff12e6516f9eaad91060decebd0f14a963e3616f33107696a9b",
+   "identity_signals": {
+    "name_on_page": "Taylor House Inn",
+    "address_on_page": "4584 Hwy 194 South",
+    "postal_code": "28604",
+    "locality": "Banner Elk",
+    "region": "NC",
+    "phone_on_page": "(828) 963-5581",
+    "property_code_on_page": null,
+    "lat": null,
+    "lng": null
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_SAME_OWN_SITE_DOCUMENT",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "exact_quote": "However, we cannot accommodate any pets at the present time.",
+   "operative_excerpt_sha256": "901ff939d4d2bbf6f974fbf613d970028bc7b004823d6b4a572cd9b4eb72ae24",
+   "extraction": {
+    "pets_allowed": false
+   },
+   "first_party_conflict": null,
+   "in_market": true,
+   "corridor": "banner-elk-sugar-beech-nc__banner-elk-sugar-beech",
+   "market_verdict": "IN_MARKET",
+   "brand_page_seed": "taylor-house-inn"
+  },
+  {
+   "brand": "INDEPENDENT",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": null,
+   "requested_url": "https://lodgeatbannerelk.com/faq/",
+   "final_url": "https://lodgeatbannerelk.com/faq/",
+   "captured_at": "2026-09-14",
+   "document_bytes": 218462,
+   "document_sha256": "4c80cea5f0542d4ae3dc943a4d1a86c9067f897f5f198491ab46f1a3cb375a6f",
+   "identity_signals": {
+    "name_on_page": "The Lodge at Banner Elk",
+    "address_on_page": "1615 Tynecastle Highway",
+    "postal_code": "28604",
+    "locality": "Banner Elk",
+    "region": "NC",
+    "phone_on_page": "828-898-4571",
+    "property_code_on_page": null,
+    "lat": null,
+    "lng": null
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_SAME_OWN_SITE_DOCUMENT",
+   "surface": "the property's own website, read in the attended browser (document sha256 computed in the same call as the quote)",
+   "exact_quote": "The Lodge at Banner Elk is a pet-friendly hotel.",
+   "operative_excerpt_sha256": "86c276f73990e3e9ee449f6ea008ab775b99f75ddd88bdc322c58765bc2cd5a1",
+   "extraction": {
+    "pets_allowed": true
+   },
+   "first_party_conflict": null,
+   "in_market": true,
+   "corridor": "banner-elk-sugar-beech-nc__banner-elk-sugar-beech",
+   "market_verdict": "IN_MARKET",
+   "brand_page_seed": "the-lodge-at-banner-elk"
+  },
+  {
+   "brand": "INDEPENDENT",
+   "lane": "ATTENDED_BROWSER",
+   "property_code": null,
+   "requested_url": "https://www.4seasonsatbeechmountain.com/terms-and-conditions",
+   "final_url": "https://www.4seasonsatbeechmountain.com/terms-and-conditions",
+   "captured_at": "2026-09-14",
+   "document_bytes": 84733,
+   "document_sha256": "0ad67f397da9384a279d3638811ea081bd2caa13b61c2a094ecec24035169223",
+   "identity_signals": {
+    "name_on_page": "4 Seasons at Beech Mountain",
+    "address_on_page": "608 Beech Mountain Parkway",
+    "postal_code": "28604",
+    "locality": "Beech Mountain",
+    "region": "NC",
+    "phone_on_page": "828-387-4211",
+    "property_code_on_page": null,
+    "lat": null,
+    "lng": null
+   },
+   "identity_confirmed": true,
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_SAME_OWN_SITE_DOCUMENT",
+   "surface": "the property's own website, read in the attended browser (document sha256 computed in the same call as the quote)",
+   "exact_quote": "Pet Policy - We do not allow pets.",
+   "operative_excerpt_sha256": "6ba74b8ef771030c03f23c6fd424f1bccbd8093474abe6441b6d2e799c27303e",
+   "extraction": {
+    "pets_allowed": false
+   },
+   "first_party_conflict": null,
+   "in_market": true,
+   "corridor": "banner-elk-sugar-beech-nc__banner-elk-sugar-beech",
+   "market_verdict": "IN_MARKET",
+   "brand_page_seed": "4-seasons-at-beech-mountain"
+  }
+ ]
+}

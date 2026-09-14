@@ -1,0 +1,452 @@
+{
+ "schema": "ptf-market-clean-authority/1.0",
+ "work_order": "PTF-BANNER-ELK-SUGAR-BEECH-NC-PARALLEL-SOURCE-READY-001",
+ "market_id": "banner-elk-sugar-beech-nc",
+ "phase": "13/14 -- policy classification and the clean set",
+ "as_of": "2026-09-14",
+ "status": "PROPOSED_NOT_PUBLISHED",
+ "what_is_excluded": "Everything that is not an operative first-party statement of acceptance or refusal, bound to an ADMITTED census identity by the street identity the page itself states. A read that joins no census row, joins a withheld row, states no policy, or states only a fee / weight / count / amenity chip / service-animal sentence is reported in `rejected` with its class and publishes nothing.",
+ "one_identity_classified_once": "The join is on street identity, so two brands at one address cannot both settle it: the census already withheld those buildings as a founder ruling, and a second read of an already-settled identity is reported DUPLICATE_READ_FOR_ONE_IDENTITY.",
+ "counts": {
+  "reads_evaluated": 9,
+  "clean_pet_friendly": 4,
+  "clean_verified_no_pets": 2,
+  "resolved_census_identities": 6,
+  "unresolved_census_identities": 8,
+  "census_count": 14,
+  "rejected": 3,
+  "rejected_by_class": {
+   "CENSUS_ROW_NOT_ADMITTED": 1,
+   "QUOTE_NOT_OPERATIVE": 2
+  },
+  "pf_by_brand": {
+   "INDEPENDENT": 3,
+   "MARRIOTT": 1
+  },
+  "pf_by_corridor": {
+   "banner-elk-sugar-beech-nc__banner-elk-sugar-beech": 2,
+   "banner-elk-sugar-beech-nc__newland-elk-park": 2
+  }
+ },
+ "clean_pet_friendly": [
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "MARRIOTT",
+   "source_url": "https://www.marriott.com/en-us/hotels/tribc-courtyard-sugar-mountain-banner-elk/overview/",
+   "final_url": "https://www.marriott.com/en-us/hotels/tribc-courtyard-sugar-mountain-banner-elk/overview/",
+   "document_sha256": "76b23af450b092bb668218462eb3ee4e13350641bc11b8286bf0d0d121fc05c6",
+   "document_bytes": 325304,
+   "captured_at": "2026-09-13",
+   "identity_signals": {
+    "name_on_page": "Courtyard by Marriott Sugar Mountain Banner Elk",
+    "address_on_page": "3988 NC 105 Hwy",
+    "postal_code": "28604",
+    "locality": "Sugar Mountain",
+    "region": "NC",
+    "phone_on_page": "+18288603090",
+    "property_code_on_page": "tribc",
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOTEL_JSONLD_ADDRESS_AND_PROPERTY_CODE",
+   "property_code": "tribc",
+   "identity_key": "courtyard by marriott sugar mountain banner elk",
+   "canonical_name": "Courtyard by Marriott Sugar Mountain Banner Elk",
+   "corridor": "banner-elk-sugar-beech-nc__banner-elk-sugar-beech",
+   "surface": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+   "operative_quote": "Pets Welcome 2 pets 50lbs max per pet per room with non-refundable fee Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true,
+    "pet_fee": 7500,
+    "fee_currency": "USD",
+    "weight_limit": 50.0,
+    "pet_count_limit": 2,
+    "fee_refundable": false,
+    "fee_basis": "per_stay",
+    "weight_limit_unit": "lb"
+   },
+   "evidence": [
+    {
+     "quote": "Pets Welcome 2 pets 50lbs max per pet per room with non-refundable fee Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    },
+    {
+     "quote": "Pets Welcome 2 pets 50lbs max per pet per room with non-refundable fee Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_fee"
+     ]
+    },
+    {
+     "quote": "Pets Welcome 2 pets 50lbs max per pet per room with non-refundable fee Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_currency"
+     ]
+    },
+    {
+     "quote": "Pets Welcome 2 pets 50lbs max per pet per room with non-refundable fee Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "weight_limit"
+     ]
+    },
+    {
+     "quote": "Pets Welcome 2 pets 50lbs max per pet per room with non-refundable fee Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "pet_count_limit"
+     ]
+    },
+    {
+     "quote": "Pets Welcome 2 pets 50lbs max per pet per room with non-refundable fee Non-Refundable Pet Fee Per Stay: $75.00 Maximum Pet Weight: 50.0lbs Maximum Number of Pets in Room: 2",
+     "location": "the HOTEL INFORMATION block's Pet Policy row on the property's own page",
+     "field_refs": [
+      "fee_refundable"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://www.parkviewlodge.com/",
+   "final_url": "https://www.parkviewlodge.com/",
+   "document_sha256": "0a3cb4d9d373fdda29c5bd678b690d148aea89ea2aa2c0be6e6141b5f096cbd8",
+   "document_bytes": 21284,
+   "captured_at": "2026-09-14",
+   "identity_signals": {
+    "name_on_page": "Parkview Lodge & Cabins",
+    "address_on_page": "10345 Linville Falls Hwy",
+    "postal_code": "28657",
+    "locality": "Newland",
+    "region": "NC",
+    "phone_on_page": "(828) 528-8999",
+    "property_code_on_page": null,
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_SAME_OWN_SITE_DOCUMENT",
+   "property_code": null,
+   "identity_key": "parkview lodge and cabins",
+   "canonical_name": "Parkview Lodge & Cabins",
+   "corridor": "banner-elk-sugar-beech-nc__newland-elk-park",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "Pet-friendly (an extra pet fee applies)",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true
+   },
+   "evidence": [
+    {
+     "quote": "Pet-friendly (an extra pet fee applies)",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "INDEPENDENT",
+   "source_url": "https://lodgeatbannerelk.com/faq/",
+   "final_url": "https://lodgeatbannerelk.com/faq/",
+   "document_sha256": "4c80cea5f0542d4ae3dc943a4d1a86c9067f897f5f198491ab46f1a3cb375a6f",
+   "document_bytes": 218462,
+   "captured_at": "2026-09-14",
+   "identity_signals": {
+    "name_on_page": "The Lodge at Banner Elk",
+    "address_on_page": "1615 Tynecastle Highway",
+    "postal_code": "28604",
+    "locality": "Banner Elk",
+    "region": "NC",
+    "phone_on_page": "828-898-4571",
+    "property_code_on_page": null,
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_SAME_OWN_SITE_DOCUMENT",
+   "property_code": null,
+   "identity_key": "the lodge at banner elk",
+   "canonical_name": "The Lodge at Banner Elk",
+   "corridor": "banner-elk-sugar-beech-nc__banner-elk-sugar-beech",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "The Lodge at Banner Elk is a pet-friendly hotel.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true
+   },
+   "evidence": [
+    {
+     "quote": "The Lodge at Banner Elk is a pet-friendly hotel.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://www.thepineola.com/faqs",
+   "final_url": "https://www.thepineola.com/faqs",
+   "document_sha256": "37d42a1fb5c692fbb97c7922767574671b8974c44f979f96c8e47b1dea46bdff",
+   "document_bytes": 724940,
+   "captured_at": "2026-09-14",
+   "identity_signals": {
+    "name_on_page": "The Pineola",
+    "address_on_page": "3085 Linville Falls Hwy",
+    "postal_code": "28657",
+    "locality": "Newland",
+    "region": "NC",
+    "phone_on_page": "(828) 733-4979",
+    "property_code_on_page": null,
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_SAME_OWN_SITE_DOCUMENT",
+   "property_code": null,
+   "identity_key": "the pineola",
+   "canonical_name": "The Pineola",
+   "corridor": "banner-elk-sugar-beech-nc__newland-elk-park",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "We do have 4 dog-friendly rooms (3 kings and 1 double queen), and you can choose them on our booking site.",
+   "pets_allowed": true,
+   "extraction": {
+    "pets_allowed": true
+   },
+   "evidence": [
+    {
+     "quote": "We do have 4 dog-friendly rooms (3 kings and 1 double queen), and you can choose them on our booking site.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  }
+ ],
+ "clean_verified_no_pets": [
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://www.smoketree-lodge.com/rates-pricing/",
+   "final_url": "https://www.smoketree-lodge.com/rates-pricing/",
+   "document_sha256": "ac99116586f3133598bd42d681771f4a0d7cf5dc02799904c1cb0c640e14feee",
+   "document_bytes": 27675,
+   "captured_at": "2026-09-14",
+   "identity_signals": {
+    "name_on_page": "Smoketree Lodge",
+    "address_on_page": "11914 Highway 105 South",
+    "postal_code": "28604",
+    "locality": "Banner Elk",
+    "region": "NC",
+    "phone_on_page": "828-963-6505",
+    "property_code_on_page": null,
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_SAME_OWN_SITE_DOCUMENT",
+   "property_code": null,
+   "identity_key": "smoketree lodge",
+   "canonical_name": "Smoketree Lodge",
+   "corridor": "banner-elk-sugar-beech-nc__banner-elk-sugar-beech",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "No pets allowed",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "No pets allowed",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://theazaleainnbb.com/accommodations/",
+   "final_url": "https://theazaleainnbb.com/accommodations/",
+   "document_sha256": "a4725eb9e5c5237befc11d259efdbec16da2f06b2f33902595859ff0edcf43c2",
+   "document_bytes": 218715,
+   "captured_at": "2026-09-14",
+   "identity_signals": {
+    "name_on_page": "The Azalea Inn",
+    "address_on_page": "149 Azalea Circle",
+    "postal_code": "28604",
+    "locality": "Banner Elk",
+    "region": "NC",
+    "phone_on_page": "828-260-9528",
+    "property_code_on_page": null,
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_SAME_OWN_SITE_DOCUMENT",
+   "property_code": null,
+   "identity_key": "the azalea inn",
+   "canonical_name": "The Azalea Inn",
+   "corridor": "banner-elk-sugar-beech-nc__banner-elk-sugar-beech",
+   "surface": "the property's own website (the page whose sha256 is recorded)",
+   "operative_quote": "Pets are not allowed.",
+   "pets_allowed": false,
+   "extraction": {
+    "pets_allowed": false
+   },
+   "evidence": [
+    {
+     "quote": "Pets are not allowed.",
+     "location": "the property's own website (the page whose sha256 is recorded)",
+     "field_refs": [
+      "pets_allowed"
+     ]
+    }
+   ]
+  }
+ ],
+ "rejected": [
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://www.themastfarminn.com/policies",
+   "final_url": "https://www.themastfarminn.com/policies",
+   "document_sha256": "d6d9970b9b69df2615adb72d99fe93118bf5314c52fadb7d9c52dca32bc26f00",
+   "document_bytes": 78119,
+   "captured_at": "2026-09-14",
+   "identity_signals": {
+    "name_on_page": "The Mast Farm Inn",
+    "address_on_page": "2543 Broadstone Road",
+    "postal_code": "28604",
+    "locality": "Valle Crucis",
+    "region": "NC",
+    "phone_on_page": "828-963-5857",
+    "property_code_on_page": null,
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_SAME_OWN_SITE_DOCUMENT",
+   "property_code": null,
+   "classification": "CENSUS_ROW_NOT_ADMITTED",
+   "why": "the census classified this building IDENTITY_REVIEW_REQUIRED (GEOGRAPHY_HOLD -- the property's own page states the municipality 'Valle Crucis' beside postal code 28604, which the cor); a read cannot promote a row the identity graph withheld",
+   "quote": "Our entire property is pet friendly!"
+  },
+  {
+   "lane": "DIRECT_STATIC_FETCH",
+   "brand": "INDEPENDENT",
+   "source_url": "https://www.taylorhouseinn.com/our-property",
+   "final_url": "https://www.taylorhouseinn.com/our-property",
+   "document_sha256": "ef0dd32357d1bff12e6516f9eaad91060decebd0f14a963e3616f33107696a9b",
+   "document_bytes": 616663,
+   "captured_at": "2026-09-14",
+   "identity_signals": {
+    "name_on_page": "Taylor House Inn",
+    "address_on_page": "4584 Hwy 194 South",
+    "postal_code": "28604",
+    "locality": "Banner Elk",
+    "region": "NC",
+    "phone_on_page": "(828) 963-5581",
+    "property_code_on_page": null,
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_SAME_OWN_SITE_DOCUMENT",
+   "property_code": null,
+   "classification": "QUOTE_NOT_OPERATIVE",
+   "why": "the first-party binding gate's reader does not read this quote as operative: no refusal the reader will interpret: 'However, we cannot accommodate any pets at the present time.'",
+   "quote": "However, we cannot accommodate any pets at the present time."
+  },
+  {
+   "lane": "ATTENDED_BROWSER",
+   "brand": "INDEPENDENT",
+   "source_url": "https://www.4seasonsatbeechmountain.com/terms-and-conditions",
+   "final_url": "https://www.4seasonsatbeechmountain.com/terms-and-conditions",
+   "document_sha256": "0ad67f397da9384a279d3638811ea081bd2caa13b61c2a094ecec24035169223",
+   "document_bytes": 84733,
+   "captured_at": "2026-09-14",
+   "identity_signals": {
+    "name_on_page": "4 Seasons at Beech Mountain",
+    "address_on_page": "608 Beech Mountain Parkway",
+    "postal_code": "28604",
+    "locality": "Beech Mountain",
+    "region": "NC",
+    "phone_on_page": "828-387-4211",
+    "property_code_on_page": null,
+    "lat": null,
+    "lng": null
+   },
+   "identity_binding_method": "HOUSE_NUMBER_AND_POSTAL_CODE_ON_THE_SAME_OWN_SITE_DOCUMENT",
+   "property_code": null,
+   "classification": "QUOTE_NOT_OPERATIVE",
+   "why": "the first-party binding gate's reader does not read this quote as operative: no refusal the reader will interpret: 'Pet Policy - We do not allow pets.'",
+   "quote": "Pet Policy - We do not allow pets."
+  }
+ ],
+ "unresolved_census_identities": [
+  {
+   "identity_key": "4 seasons at beech mountain",
+   "canonical_name": "4 Seasons at Beech Mountain",
+   "brand": "",
+   "corridor": "banner-elk-sugar-beech-nc__banner-elk-sugar-beech",
+   "official_url": "https://www.4seasonsatbeechmountain.com/terms-and-conditions"
+  },
+  {
+   "identity_key": "huskins court motel and cottages",
+   "canonical_name": "Huskins Court Motel & Cottages",
+   "brand": "",
+   "corridor": "banner-elk-sugar-beech-nc__newland-elk-park",
+   "official_url": ""
+  },
+  {
+   "identity_key": "little main street inn and suites",
+   "canonical_name": "Little Main Street Inn & Suites",
+   "brand": "",
+   "corridor": "banner-elk-sugar-beech-nc__banner-elk-sugar-beech",
+   "official_url": ""
+  },
+  {
+   "identity_key": "perry house bed and breakfast",
+   "canonical_name": "Perry House Bed & Breakfast",
+   "brand": "",
+   "corridor": "banner-elk-sugar-beech-nc__banner-elk-sugar-beech",
+   "official_url": ""
+  },
+  {
+   "identity_key": "pixie motor inn",
+   "canonical_name": "Pixie Motor Inn",
+   "brand": "",
+   "corridor": "banner-elk-sugar-beech-nc__linville-grandfather",
+   "official_url": ""
+  },
+  {
+   "identity_key": "taylor house inn",
+   "canonical_name": "Taylor House Inn",
+   "brand": "",
+   "corridor": "banner-elk-sugar-beech-nc__banner-elk-sugar-beech",
+   "official_url": "https://www.taylorhouseinn.com/our-property"
+  },
+  {
+   "identity_key": "the inn at shady lawn",
+   "canonical_name": "The Inn at Shady Lawn",
+   "brand": "",
+   "corridor": "banner-elk-sugar-beech-nc__newland-elk-park",
+   "official_url": "https://theinnatshadylawn.com/"
+  },
+  {
+   "identity_key": "top of the beech inn",
+   "canonical_name": "Top of the Beech Inn",
+   "brand": "",
+   "corridor": "banner-elk-sugar-beech-nc__banner-elk-sugar-beech",
+   "official_url": "http://www.beech-mountain.org/"
+  }
+ ]
+}
