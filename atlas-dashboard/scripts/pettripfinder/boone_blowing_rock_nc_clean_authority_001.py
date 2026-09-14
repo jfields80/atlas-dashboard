@@ -56,7 +56,7 @@ MARKET_ID = "boone-blowing-rock-nc"
 SCHEMA = "ptf-market-clean-authority/1.0"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "boone-blowing-rock-nc.json")
+CENSUS = os.path.join(PKG, "identity_census", "boone-blowing-rock-nc.json")
 ATTENDED = os.path.join(REPORTS, "boone_blowing_rock_nc_attended_capture_001.json")
 STATIC = os.path.join(REPORTS, "boone_blowing_rock_nc_free_static_lane_001.json")
 

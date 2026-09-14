@@ -51,8 +51,7 @@ WORK_ORDER = "PTF-BOONE-BLOWING-ROCK-NC-PARALLEL-SOURCE-READY-001"
 MARKET_ID = "boone-blowing-rock-nc"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-OUT = os.path.join(PKG, "markets", "staging", "boone-blowing-rock-nc", "launch_package",
-                   "boone_blowing_rock_nc_final_partition_007.json")
+OUT = os.path.join(PKG, "boone_blowing_rock_nc_final_partition_007.json")
 
 #: A family this order MEASURED as refusing a plain client on this run, with the
 #: status it returned. Used only to explain an ACCESS_BLOCKED row.
@@ -157,7 +156,7 @@ def _brand_of(row):
 
 
 def build():
-    census = _load(os.path.join(PKG, "identity_census_proposed", "%s.json" % MARKET_ID))
+    census = _load(os.path.join(PKG, "identity_census", "%s.json" % MARKET_ID))
     clean = _load(os.path.join(REPORTS, "boone_blowing_rock_nc_clean_authority_001.json"))
     routing = _load(os.path.join(REPORTS, "boone_blowing_rock_nc_routing_001.json"), {})
 
