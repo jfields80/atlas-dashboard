@@ -93,7 +93,9 @@ _LODGING_FIRST = re.compile(
     r"best-western|ramada|travelodge|towneplace|sanderling|shutters|tranquil|surf-side|colony|oasis|"
     r"sea-ranch|motor|cottage|b-b|bed|breakfast|guest|villa|court|condo|rental|realty|camp|rv|"
     r"stay|oceanfront|beach|house|club|harbor|marina|island|sound", re.I)
-URL_INDEX = os.path.join(BI.DOCS, "_url_index.json")
+#: Spelled from _DASH (not from BI.DOCS) so the market-local isolation proof can resolve the
+#: write target statically; it is the same directory BI.DOCS names above.
+URL_INDEX = os.path.join(_DASH, "data", "acquisition", "outer_banks_nc_destination_001", "_url_index.json")
 
 
 def _listing_url_of(text):
