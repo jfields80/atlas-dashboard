@@ -1,0 +1,723 @@
+{
+ "schema": "ptf-market-source-ready-accounting/1.0",
+ "work_order": "PTF-PINEHURST-SOUTHERN-PINES-NC-PARALLEL-SOURCE-READY-001",
+ "market_id": "pinehurst-southern-pines-nc",
+ "display_market": "Pinehurst – Southern Pines – Aberdeen, North Carolina",
+ "state": "SOURCE_READY -- SHADOW_UNTIL_REGISTERED",
+ "release_queue": "Fayetteville (LIVE, the current parent) -> Jacksonville -> Greenville -> Atlanta -> Outer Banks -> Boone - Blowing Rock -> Pinehurst - Southern Pines",
+ "timings": {
+  "PINEHURST_SOUTHERN_PINES_START_TIMESTAMP": "2026-09-14T01:31:50Z (2026-09-13T21:31:50-04:00)",
+  "precheck_and_template_read": "01:31Z-01:40Z (worktree, branch, HEAD e312caa6, tree clean; the Boone - Blowing Rock shadow chain read as the template)",
+  "geography_and_corridor_model": "by 01:52Z (7 corridors: 3 CORE / 2 CORRIDOR / 2 FRINGE, 11 admitted ZIPs; Robbins, Sanford, Fayetteville, Raeford, Rockingham, Laurinburg and Montgomery County OUTSIDE by name)",
+  "osm_lane": "438.7 s (North Carolina extract, hard link of the 2026-09-10 snapshot; 40 hotel / motel / guest_house / chalet / apartment elements)",
+  "brand_inventory_lane": "96 free requests (Marriott NC sitemap page, 17 Hilton city pages, Wyndham sitemap walk, family probes)",
+  "destination_roster": "Pinehurst, Southern Pines, Aberdeen Area CVB: the lodging page and the one partner-index query it declares (2 requests, 49 lodging listings)",
+  "live_parent_moved": "~01:57Z check (before any commit): Fayetteville went live (ec764bef, deploy 6aa750d8); the branch (no commits yet) was fast-forwarded to ec764bef so the package binds to the CURRENT live parent",
+  "attended_browser_evidence": "Marriott 4 and IHG 1 (same-origin fetch, payload digests verified), Best Western 1 (hashed in the same call as the quote); Hilton 3 reused from the Fayetteville order's attended payload; Choice closed with a bot-challenge shell; four independents' own sites read (identity only)",
+  "static_first_party_lanes": "Wyndham property service 3.1 s (7 routes: 3 read, 4 retired); static home pages 2.5 s (22 targets); policy-page lane 13.6 s (22 sites, 87 documents)",
+  "source_ready_inputs_committed": "2026-09-14T02:03:14Z (9690624b)",
+  "shadow_package_sealed_and_fast": "02:03:21Z-02:03:47Z (sealed twice in-process, FAST 15/15)",
+  "independent_reproduction": "02:04Z-02:06Z (clean git worktree at 9690624b: separate-process digest-only seal = same digest; geography, brand pages, capture, census, clean set, staged authority, partition and staged shard rebuilt from committed captures -- zero content difference, the discovery config differs only by the worktree's CRLF checkout of an eol-unattributed file; same digest a third time)",
+  "ZERO_TO_SOURCE_READY": "31 min 57 s (01:31:50Z -> 02:03:47Z, FAST-passed sealed shadow package)"
+ },
+ "accounting": {
+  "TOTAL_DISCOVERED": 89,
+  "total_discovered_note": "Distinct candidate identities in the identity graph after merging every lane. Not counted: 12 unnamed map elements, 4 retired Wyndham routes, the Hilton national-navigation codes the city pages carry for other states, and non-lodging bureau listing pages.",
+  "classification_counts": {
+   "IDENTITY_REVIEW_REQUIRED": 2,
+   "NAME_ONLY_UNRESOLVED": 11,
+   "NON_LODGING": 21,
+   "OUTSIDE_MARKET": 30,
+   "TRUE_HOTEL_IDENTITY": 25
+  },
+  "PROPOSED_CENSUS": 25,
+  "VALID_PET_FRIENDLY": 8,
+  "VALID_VERIFIED_NO_PETS": 2,
+  "RESOLVED": 10,
+  "UNRESOLVED": 15,
+  "partition_counts_by_state": {
+   "ACCESS_BLOCKED": 3,
+   "AWAITING_POLICY_OBSERVATION": 12,
+   "PUBLISHED_PET_FRIENDLY": 8,
+   "VERIFIED_NO_PETS": 2
+  },
+  "every_census_identity_has_exactly_one_disposition": true,
+  "every_census_identity_key_unique": true
+ },
+ "holds_by_class": {
+  "IDENTITY_HOLDS": {
+   "count": 13,
+   "identity_review_required": [
+    "Duncraig Manor",
+    "Econo-Lodge"
+   ],
+   "name_only_unresolved": [
+    "Beggar's Ride Bed, Breakfast and Barn",
+    "Conroy B&B",
+    "Days Inn Conference Center Southern Pines",
+    "Duck Smith House Bed & Breakfast",
+    "Knollwood House",
+    "Lucky Bar Farm",
+    "Motel 6",
+    "Pine Gables of Aberdeen",
+    "Super 8 Motel Southern Pines Aberdeen",
+    "SureStay Plus Hotel by Best Western Southern Pines Pinehurst",
+    "The MacPherson House"
+   ],
+   "rebrand_unresolved": [],
+   "note": "Not census identities and never published: Duncraig Manor (lodging category unconfirmed -- now an event venue), the Econo Lodge at 408 West Morganton Road (its only labels collide with registered keys; Choice served a bot shell), a map 'Motel 6' label on the AmeriVu site, stale competitor flags (Days Inn Conference Center, Super 8 Aberdeen), a competitor spelling of SureStay Plus, and competitor B&B names with no first-party address (Knollwood House -- domain lapsed -- Beggar's Ride, Conroy B&B, Pine Gables of Aberdeen, Duck Smith House, Lucky Bar Farm, The MacPherson House)."
+  },
+  "ROUTING_HOLDS": {
+   "count": 0,
+   "identities": []
+  },
+  "ACCESS_BLOCKED": {
+   "count": 3,
+   "by_cause": {
+    "BRAND_FAMILY": 3
+   },
+   "identities": [
+    "Clarion Inn",
+    "Comfort Inn Pinehurst",
+    "Quality Inn Pinehurst"
+   ]
+  },
+  "EVIDENCE_HOLDS": {
+   "count": 12,
+   "identities": [
+    "1878 Bed and Breakfast",
+    "AmeriVu Inn & Suites Aberdeen",
+    "Carolina Pine Inn",
+    "Pine Crest Inn",
+    "Pine Needles Lodge & Golf Club",
+    "The Carolina Hotel",
+    "The Holly Inn Pinehurst",
+    "The Inn at Mid Pines",
+    "The Jefferson Inn",
+    "The Magnolia Inn",
+    "The Manor",
+    "The Old Buggy Inn"
+   ],
+   "rejected_reads_by_class": {
+    "CENSUS_ROW_NOT_ADMITTED": 2
+   }
+  },
+  "GEOGRAPHY_HOLDS": {
+   "count": 0,
+   "identities": []
+  },
+  "PAID_HOLDS": {
+   "count": 3,
+   "note": "The ACCESS_BLOCKED identities whose brand family (Choice: Clarion Inn, Comfort Inn Pinehurst, Quality Inn Pinehurst) refused this client are the paid-lane candidates. Same rows as ACCESS_BLOCKED, not an additional disposition; PAID PROVIDER BUDGET was $0 and no paid lane was used or reserved."
+  },
+  "FOUNDER_HOLDS": {
+   "count": 0,
+   "note": "No row requires a founder ruling. Conflicts, single-suite exceptions and reads the shared reader does not interpret are EVIDENCE holds."
+  },
+  "CLOSED_OR_RETIRED": {
+   "count": 4,
+   "wyndham_retired_routes": [
+    "https://www.wyndhamhotels.com/days-inn/rockingham-north-carolina/days-inn-rockingham/overview",
+    "https://www.wyndhamhotels.com/days-inn/southern-pines-north-carolina/days-inn-conference-center-southern-pines-pinehurst/overview",
+    "https://www.wyndhamhotels.com/microtel/southern-pines-north-carolina/microtel-inns-and-suites-southern-pines-pinehurst/overview",
+    "https://www.wyndhamhotels.com/super-8/aberdeen-north-carolina/super-8-aberdeen-southern-pines/overview"
+   ],
+   "note": "Wyndham routes that redirect to the brand's search: Days Inn Conference Center Southern Pines (805 SW Service Road now trades as Clarion Inn), Super 8 Aberdeen Southern Pines (1408 N Sandhills Boulevard now trades as AmeriVu Inn & Suites), the legacy Microtel route (the property trades on its live route) and Days Inn Rockingham outside. Routes, not census identities."
+  },
+  "OUTSIDE": {
+   "count": 30,
+   "future_submarket": "none preserved by this order"
+  },
+  "NON_HOTEL": {
+   "count": 21,
+   "by_kind": {
+    "CAMPGROUND_RV": 5,
+    "CONDO_VILLA_RENTAL_MANAGEMENT": 10,
+    "FARM_VENUE": 1,
+    "GOLF_PACKAGE_VILLAS_COTTAGES": 2,
+    "MAP_COTTAGE": 1,
+    "VACATION_RENTAL": 2
+   },
+   "identities": [
+    "Airport RV Park",
+    "Antique Town Campground",
+    "Cardinal Park",
+    "Clubhouse Properties",
+    "Daily Walk Stables & Campground",
+    "First Tee Golf Packages",
+    "Hale Cottage",
+    "Knollwood Village/Midland Country Club",
+    "Legacy Golf Packages",
+    "Little River Condo Rentals",
+    "Maples Golf Packages",
+    "Sandhills Rentals, LLC",
+    "Sycamore Lodge",
+    "Talamore Golf Resort",
+    "Tanglewood Farm",
+    "The Carolina Villas",
+    "The Condos at Pinehurst",
+    "The Lodges at Mid South",
+    "The Old Church in Pinehurst Village",
+    "Twin Fields Farm",
+    "Village of Pinehurst Rentals LLC"
+   ]
+  }
+ },
+ "corridor_coverage": [
+  {
+   "corridor_id": "pinehurst-southern-pines-nc__pinehurst",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "28374",
+    "28370"
+   ],
+   "census": 8,
+   "pet_friendly": 1,
+   "verified_no_pets": 1,
+   "unresolved": 6,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "pinehurst-southern-pines-nc__southern-pines",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "28387",
+    "28388"
+   ],
+   "census": 8,
+   "pet_friendly": 3,
+   "verified_no_pets": 1,
+   "unresolved": 4,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "pinehurst-southern-pines-nc__aberdeen",
+   "geography_class": "CORE",
+   "postal_codes": [
+    "28315"
+   ],
+   "census": 6,
+   "pet_friendly": 4,
+   "verified_no_pets": 0,
+   "unresolved": 2,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "pinehurst-southern-pines-nc__pinebluff",
+   "geography_class": "CORRIDOR",
+   "postal_codes": [
+    "28373"
+   ],
+   "census": 1,
+   "pet_friendly": 0,
+   "verified_no_pets": 0,
+   "unresolved": 1,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "pinehurst-southern-pines-nc__whispering-pines-carthage",
+   "geography_class": "CORRIDOR",
+   "postal_codes": [
+    "28327"
+   ],
+   "census": 1,
+   "pet_friendly": 0,
+   "verified_no_pets": 0,
+   "unresolved": 1,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "pinehurst-southern-pines-nc__vass-cameron",
+   "geography_class": "FRINGE",
+   "postal_codes": [
+    "28394",
+    "28326"
+   ],
+   "census": 1,
+   "pet_friendly": 0,
+   "verified_no_pets": 0,
+   "unresolved": 1,
+   "corridor_page_publishes": false
+  },
+  {
+   "corridor_id": "pinehurst-southern-pines-nc__seven-lakes-west-end",
+   "geography_class": "FRINGE",
+   "postal_codes": [
+    "27376",
+    "27281"
+   ],
+   "census": 0,
+   "pet_friendly": 0,
+   "verified_no_pets": 0,
+   "unresolved": 0,
+   "corridor_page_publishes": false
+  }
+ ],
+ "corridor_pages_meeting_threshold": 0,
+ "town_coverage": {
+  "what_it_is": "Coverage for the order's named areas. Reporting only; membership and corridor come from the postal partition. Southern Pines and Aberdeen rows on US-1 / Sandhills Boulevard report as the US-1 corridor; Pinehurst rows off the village streets report as the Moore Regional ring.",
+  "towns": {
+   "Pinehurst village / resort district": {
+    "census": 6,
+    "pet_friendly": 1,
+    "verified_no_pets": 0,
+    "unresolved": 5,
+    "identities": [
+     {
+      "canonical_name": "Homewood Suites by Hilton Olmsted Village (near Pinehurst)",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "250 Central Park Avenue",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Pine Crest Inn",
+      "state": "UNRESOLVED",
+      "street": "50 Dogwood Road",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "The Carolina Hotel",
+      "state": "UNRESOLVED",
+      "street": "80 Carolina Vista Dr",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "The Holly Inn Pinehurst",
+      "state": "UNRESOLVED",
+      "street": "155 Cherokee Road East",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "The Magnolia Inn",
+      "state": "UNRESOLVED",
+      "street": "65 Magnolia Road",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "The Manor",
+      "state": "UNRESOLVED",
+      "street": "5 Community Road",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     }
+    ]
+   },
+   "Pinehurst Moore Regional medical / business ring": {
+    "census": 2,
+    "pet_friendly": 0,
+    "verified_no_pets": 1,
+    "unresolved": 1,
+    "identities": [
+     {
+      "canonical_name": "Comfort Inn Pinehurst",
+      "state": "UNRESOLVED",
+      "street": "9801 US 15-501",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "SpringHill Suites by Marriott Pinehurst Southern Pines",
+      "state": "VERIFIED_NO_PETS",
+      "street": "10024 US Highway 15/501",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     }
+    ]
+   },
+   "Southern Pines downtown": {
+    "census": 7,
+    "pet_friendly": 2,
+    "verified_no_pets": 1,
+    "unresolved": 4,
+    "identities": [
+     {
+      "canonical_name": "Clarion Inn",
+      "state": "UNRESOLVED",
+      "street": "805 SourhWest Service Roadd",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Holiday Inn Express & Suites Southern Pines-Pinehurst Area",
+      "state": "VERIFIED_NO_PETS",
+      "street": "155 Partner Circle",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Microtel Inn & Suites by Wyndham Southern Pines / Pinehurst",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "205 Windstar Place",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Pine Needles Lodge & Golf Club",
+      "state": "UNRESOLVED",
+      "street": "1005 Midland Road",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Residence Inn by Marriott Pinehurst Southern Pines",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "105 Brucewood Road",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "The Inn at Mid Pines",
+      "state": "UNRESOLVED",
+      "street": "1010 Midland Road",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "The Jefferson Inn",
+      "state": "UNRESOLVED",
+      "street": "150 West New Hampshire Avenue",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     }
+    ]
+   },
+   "US-1 corridor": {
+    "census": 3,
+    "pet_friendly": 1,
+    "verified_no_pets": 0,
+    "unresolved": 2,
+    "identities": [
+     {
+      "canonical_name": "Carolina Pine Inn",
+      "state": "UNRESOLVED",
+      "street": "175 Persimmon Dr",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Quality Inn Pinehurst",
+      "state": "UNRESOLVED",
+      "street": "1405 North Sandhills Boulevard",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "SureStay Plus Southern Pines Pinehurst",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "1675 US Highway 1 S",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     }
+    ]
+   },
+   "Aberdeen US-15-501 / NC-5": {
+    "census": 5,
+    "pet_friendly": 4,
+    "verified_no_pets": 0,
+    "unresolved": 1,
+    "identities": [
+     {
+      "canonical_name": "AmeriVu Inn & Suites Aberdeen",
+      "state": "UNRESOLVED",
+      "street": "1408 North Sandhill Blvd",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Courtyard by Marriott Southern Pines Aberdeen",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "235 Columbus Drive",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Hampton Inn & Suites Southern Pines-Pinehurst",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "200 Columbus Drive",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "Hilton Garden Inn Southern Pines Pinehurst",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "155 South Hill Road",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     },
+     {
+      "canonical_name": "TownePlace Suites by Marriott Southern Pines Aberdeen",
+      "state": "PUBLISHED_PET_FRIENDLY",
+      "street": "205 Columbus Drive",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     }
+    ]
+   },
+   "Whispering Pines / Carthage": {
+    "census": 1,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 1,
+    "identities": [
+     {
+      "canonical_name": "The Old Buggy Inn",
+      "state": "UNRESOLVED",
+      "street": "301 McReynolds St.",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     }
+    ]
+   },
+   "Vass / Cameron": {
+    "census": 1,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 1,
+    "identities": [
+     {
+      "canonical_name": "1878 Bed and Breakfast",
+      "state": "UNRESOLVED",
+      "street": "538 Carthage Street",
+      "basis": "own stated street, then pin (geography route_overlay)"
+     }
+    ]
+   },
+   "Seven Lakes / West End / Foxfire": {
+    "census": 0,
+    "pet_friendly": 0,
+    "verified_no_pets": 0,
+    "unresolved": 0,
+    "identities": []
+   }
+  },
+  "unplaced": {
+   "census": 0,
+   "pet_friendly": 0,
+   "verified_no_pets": 0,
+   "unresolved": 0,
+   "identities": []
+  }
+ },
+ "lane_yields": {
+  "osm_elements": 40,
+  "brand_inventory_leads": 62,
+  "brand_family_dispositions": {
+   "MARRIOTT_STATE_SITEMAP": "STATE_SITEMAP_ANSWERED_THIS_CLIENT",
+   "WYNDHAM": "SITEMAP_ANSWERED_THIS_CLIENT",
+   "SONESTA": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "DRURY": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "WOODSPRING": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "INTOWN": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "LOEWS": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "CHOICE": "SITEMAP_UNREACHABLE__TimeoutError",
+   "IHG": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "BEST_WESTERN": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "RED_ROOF": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "MOTEL6": "SITEMAP_UNREACHABLE__TimeoutError",
+   "EXTENDED_STAY": "SITEMAP_ANSWERED_BUT_NO_MARKET_ROUTE_IN_THE_WALKED_SET",
+   "HYATT": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "RADISSON": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "OMNI": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403",
+   "FOUR_SEASONS": "SITEMAP_REFUSED_TO_THIS_CLIENT__STATUS_403"
+  },
+  "destination_roster": {
+   "coverage": "EVERY_LODGING_CATEGORY_THE_BUREAU_PAGE_FILTERS",
+   "listing_pages_read": null,
+   "lodging_listings": 49,
+   "by_subcategory": {
+    "": 2,
+    "Agritourism": 1,
+    "B&Bs": 1,
+    "Camping / RV Resorts": 3,
+    "Condos / Villas": 11,
+    "Equestrian": 1,
+    "Event Venue": 1,
+    "Farm": 1,
+    "Hotels / Inns": 25,
+    "Meeting Facilities": 12,
+    "RV/Campground": 5,
+    "Resorts": 5,
+    "Unique Meeting Facility": 1,
+    "Unique Venue": 1,
+    "Wedding Venue": 1
+   }
+  },
+  "census_lane_observations": {
+   "OSM_OVERPASS": 28,
+   "BRAND_INVENTORY_OWNED": 0,
+   "BRAND_INVENTORY_CITY_PAGE": 25,
+   "BRAND_INVENTORY_STATE_SITEMAP": 5,
+   "BRAND_INVENTORY_SITEMAP": 3,
+   "DESTINATION_ORGANIZATION": 49,
+   "REGIONAL_VISITOR_CENTER": 0,
+   "COMPETITOR_LEAD": 16,
+   "PROPERTY_PAGE": 19
+  },
+  "first_party_reads": {
+   "pages_read": 12,
+   "by_brand": {
+    "BEST_WESTERN": 1,
+    "HILTON": 3,
+    "IHG": 1,
+    "MARRIOTT": 4,
+    "WYNDHAM": 3
+   },
+   "identity_confirmed": 12,
+   "in_market": 10,
+   "outside_market": 2,
+   "in_market_pets_allowed_true": 8,
+   "in_market_pets_allowed_false": 2,
+   "in_market_first_party_conflicts": 0
+  },
+  "wyndham_property_service": {
+   "routes": 7,
+   "read": 3,
+   "retired": 4,
+   "errors": 0
+  },
+  "clean_set": {
+   "reads_evaluated": 12,
+   "clean_pet_friendly": 8,
+   "clean_verified_no_pets": 2,
+   "resolved_census_identities": 10,
+   "unresolved_census_identities": 15,
+   "census_count": 25,
+   "rejected": 2,
+   "rejected_by_class": {
+    "CENSUS_ROW_NOT_ADMITTED": 2
+   },
+   "pf_by_brand": {
+    "BEST_WESTERN": 1,
+    "HILTON": 3,
+    "MARRIOTT": 3,
+    "WYNDHAM": 1
+   },
+   "pf_by_corridor": {
+    "pinehurst-southern-pines-nc__aberdeen": 4,
+    "pinehurst-southern-pines-nc__pinehurst": 1,
+    "pinehurst-southern-pines-nc__southern-pines": 3
+   }
+  }
+ },
+ "competitor_gap_challenge": {
+  "competitor_rows_observed": 16,
+  "also_seen_by_a_first_party_lane": 6,
+  "competitor_only": 10,
+  "competitor_only_by_class": {
+   "NAME_ONLY_UNRESOLVED": 10
+  },
+  "matched_by_class": {
+   "TRUE_HOTEL_IDENTITY": 6
+  }
+ },
+ "owned_evidence": {
+  "OWNED_IDENTITIES": "18 observed, 0 registered -- the Fayetteville census (registered at ec764bef) carries Moore County rows only as OUTSIDE_MARKET observations; no registered market admits a Pinehurst / Southern Pines / Aberdeen identity, and no identity was imported from it.",
+  "OWNED_ROUTES": "7 -- the Fayetteville brand lanes' Southern Pines routes (4 Marriott, 3 Hilton) and Wyndham's Microtel / Days Inn / Super 8 routes; the committed national harvest carries no Sandhills route. Every route was re-derived from the brand's own current inventory by this order.",
+  "OWNED_VALID_POLICY_EVIDENCE": "3 -- the Fayetteville order's attended Hilton reads (2026-09-13) for Hilton Garden Inn Southern Pines Pinehurst, Hampton Inn & Suites Southern Pines-Pinehurst and Homewood Suites Olmsted Village, reused with their document sha256s; every other record is a new first-party capture of this order."
+ },
+ "package": {
+  "SHADOW_PACKAGE_CREATED": "YES",
+  "execution_zone": "SHADOW_UNTIL_REGISTERED",
+  "package_id": "pkg-pinehurst-southern-pines-nc-d3268420b13808f8",
+  "PACKAGE_DIGEST": "sha256:d3268420b13808f8cff892a6b93dc190565b7612f4c40f55c03b0c4fe67f8206",
+  "created_from_source_sha": "9690624b",
+  "package_path": "launch_packages/pettripfinder/markets/staging/pinehurst-southern-pines-nc/shadow_packages/pinehurst-southern-pines-nc/pkg-pinehurst-southern-pines-nc-d3268420b13808f8.json",
+  "BUILD_INPUT_KEY": {
+   "staged_input_digest": "sha256:dd27b2692279ed4f58c7be1ae746ce78de0bf131b64862175469a41de48a853f",
+   "changed_market_bundle_sha256": "d91a58e360ecd8894602b7508f13ef3427c8bedae9d52c1e4d7eefd01e4413cd",
+   "contract_sha256": "sha256:0ae0df0f61ebec908cde20f30d6b4ccbabdb30e8c8ed43a1f4099304ad878648",
+   "dependency_input_digests": {
+    "market": "sha256:8437a55e77700f6651f5fdd79b1940368505b29c5c24bbeef50b67efbec9c76f",
+    "census": "sha256:7401d0dc983a9e8d6d453009a1d12bdab063dcfeced4ff2111b9344e0485b248",
+    "policy_package": "sha256:9af723decd65a20549a01ecce5023097bc2402126f906fbb0dc24b6752fbcb8f",
+    "exclusions": "sha256:e307925c618121d4cb6d05015c2372f4a4c1a016457da41ab2f0f3c26d46d8f9",
+    "routing": "sha256:2adb509b1a1cc86cf1985f1b22a530988c86c3fc113b214c4607fed7589c2044",
+    "seed": "sha256:ecc66f27a2374c8a97de292e2f608b3db775e205e5b50d6c10a7768d6bb63603",
+    "partition": "sha256:0c64f7db2de7c142560b96f1c1abd17e8c335e82fba7575d56738d7b04927a32"
+   }
+  },
+  "INTENDED_DELTA": {
+   "market_id": "pinehurst-southern-pines-nc",
+   "add_property_ids": [
+    "courtyard by marriott southern pines aberdeen",
+    "hampton inn and suites southern pines pinehurst",
+    "hilton garden inn southern pines pinehurst",
+    "homewood suites by hilton olmsted village near pinehurst",
+    "microtel inn and suites by wyndham southern pines pinehurst",
+    "residence inn by marriott pinehurst southern pines",
+    "surestay plus southern pines pinehurst",
+    "towneplace suites by marriott southern pines aberdeen"
+   ],
+   "update_property_ids": [],
+   "remove_property_ids": [],
+   "add_routes": [
+    "/pet-friendly-hotels/pinehurst-southern-pines-nc/",
+    "/pet-friendly-hotels/pinehurst-southern-pines-nc/courtyard-by-marriott-southern-pines-aberdeen/",
+    "/pet-friendly-hotels/pinehurst-southern-pines-nc/hampton-inn-suites-southern-pines-pinehurst/",
+    "/pet-friendly-hotels/pinehurst-southern-pines-nc/hilton-garden-inn-southern-pines-pinehurst/",
+    "/pet-friendly-hotels/pinehurst-southern-pines-nc/homewood-suites-by-hilton-olmsted-village-near-pinehurst/",
+    "/pet-friendly-hotels/pinehurst-southern-pines-nc/microtel-inn-suites-by-wyndham-southern-pines-pinehurst/",
+    "/pet-friendly-hotels/pinehurst-southern-pines-nc/residence-inn-by-marriott-pinehurst-southern-pines/",
+    "/pet-friendly-hotels/pinehurst-southern-pines-nc/surestay-plus-southern-pines-pinehurst/",
+    "/pet-friendly-hotels/pinehurst-southern-pines-nc/towneplace-suites-by-marriott-southern-pines-aberdeen/"
+   ],
+   "change_routes": [],
+   "remove_routes": [],
+   "expected_profile_delta": 8,
+   "expected_verified_no_pets_delta": 2,
+   "expected_market_count_delta": 1,
+   "expected_participation_delta": [
+    {
+     "market_id": "pinehurst-southern-pines-nc",
+     "from": false,
+     "to": true
+    }
+   ],
+   "joining_market_profiles": 8,
+   "joining_market_verified_no_pets": 2,
+   "shadow_until_registered": "declared against a live release that carries no index for this market; the registration order's re-seal restates the delta through registration_release_lane.joining_delta"
+  },
+  "VALIDATION_RECEIPT": {
+   "path": "launch_packages/pettripfinder/markets/staging/pinehurst-southern-pines-nc/shadow_receipts/pinehurst-southern-pines-nc/pkg-pinehurst-southern-pines-nc-d3268420b13808f8-3bdbdd648b35ff8a.json",
+   "digest": "sha256:3bdbdd648b35ff8a0a4e90f952b0e656135e8d957ed657a079584b65475a4173",
+   "eligible": "YES",
+   "rules": {
+    "A": "PASS",
+    "B": "PASS",
+    "C": "PASS",
+    "D": "PASS",
+    "E": "PASS",
+    "F": "PASS",
+    "G": "PASS",
+    "H": "PASS",
+    "I": "PASS",
+    "J": "PASS",
+    "K": "PASS",
+    "L": "PASS",
+    "M": "PASS",
+    "N": "PASS",
+    "O": "PASS"
+   },
+   "unknown": [],
+   "failed": [],
+   "determinism": "BYTE_IDENTICAL"
+  },
+  "COVERAGE_SCORECARD": {
+   "census_count": 25,
+   "published_pet_friendly": 8,
+   "verified_no_pets": 2,
+   "out_of_category": 0,
+   "unresolved": 15,
+   "public_routes": 11,
+   "evidence_references": 10,
+   "evidence_references_source": "derived_from_records",
+   "evidence_artifacts_available": 0,
+   "paid_evidence_references": 0,
+   "counts_by_partition_state": {
+    "ACCESS_BLOCKED": 3,
+    "AWAITING_POLICY_OBSERVATION": 12,
+    "PUBLISHED_PET_FRIENDLY": 8,
+    "VERIFIED_NO_PETS": 2
+   }
+  },
+  "parent_binding": "parent_live_state names the CURRENT live release (Fayetteville, deploy 6aa750d8...). That is what this package was validated against. Once Jacksonville is live, FAST rule N fails this package BY DESIGN; the registration order -- after Jacksonville, Greenville, Atlanta, Outer Banks AND Boone - Blowing Rock are live -- re-seals the same committed inputs against that parent as a NEW package id. Nothing here is a production candidate, and no whole-site build was assembled."
+ },
+ "factory_code_changed": "NO -- every changed path is a pinehurst_southern_pines_nc_* helper, the market's discovery config, or a document under the market's own proposed / staging / report paths",
+ "shared_factory_notes_recorded_not_repaired": [
+  "The shared first-party reader does not read Pinehurst Resort's 'Pinehurst is a pet-free facility.' as a refusal (QUOTE_NOT_OPERATIVE); the Carolina Hotel, the Holly Inn, the Manor and the Magnolia Inn are held, never reworded.",
+  "The CVB's partner index prints a house number in the ZIP field for two listings (12615, 10024); the roster lane accepts only a 27xxx / 28xxx postal code."
+ ],
+ "broad_regression_run": "NO",
+ "final_production_candidate_created": "NO -- FAST composes the release index in memory only",
+ "founder_authorization_created": "NO",
+ "deployed": "NO",
+ "shared_state_touched": "NO -- launch_participation.json, bundle_cache_closure.json, the market_state pin, the generated globals, release contracts, identity_resolutions.json and the market registry are unchanged",
+ "next_order": [
+  "Wait until Jacksonville, Greenville, Atlanta, Outer Banks and Boone - Blowing Rock are live; read that live parent.",
+  "Rebase worker/ptf-pinehurst-southern-pines-nc-market-001 onto it; copy markets/proposed/pinehurst-southern-pines-nc.json -> markets/pinehurst-southern-pines-nc.json, identity_census_proposed/pinehurst-southern-pines-nc.json -> identity_census/pinehurst-southern-pines-nc.json and the staged launch_package documents into their registered paths.",
+  "market_registration_cli --write, build_global_authority --write then --check, release contract, registration_release_lane register + seal --work-order (a NEW package id against the new parent; this shadow package's FAST rule N fails by design once the parent moves).",
+  "regression_delta classify (expect COMPOSITE_FRESH_MARKET_DATA_ONLY), compose and reproduce the candidate, prepare the founder packet, deploy only on founder authorization.",
+  "Before sealing, re-probe Choice (Clarion Inn, Comfort Inn Pinehurst, Quality Inn Pinehurst, Econo Lodge Southern Pines -- the Econo Lodge also needs its first-party name to clear the cross-market key collision), ask Pinehurst Resort for a per-hotel policy statement the reader interprets, and re-read Pine Crest Inn's script-rendered pages."
+ ]
+}

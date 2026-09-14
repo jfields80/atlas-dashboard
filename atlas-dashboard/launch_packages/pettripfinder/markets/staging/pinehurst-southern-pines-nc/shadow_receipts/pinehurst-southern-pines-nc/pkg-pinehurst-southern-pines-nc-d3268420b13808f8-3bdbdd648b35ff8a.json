@@ -1,0 +1,571 @@
+{
+ "schema": "ptf-fast-release-receipt/1.0",
+ "lane": "FAST_DATA_ONLY_RELEASE",
+ "PACKAGE_ID": "pkg-pinehurst-southern-pines-nc-d3268420b13808f8",
+ "PACKAGE_DIGEST": "sha256:d3268420b13808f8cff892a6b93dc190565b7612f4c40f55c03b0c4fe67f8206",
+ "MARKET_ID": "pinehurst-southern-pines-nc",
+ "PARENT_RELEASE": {
+  "live_deploy_id": "6aa750d8fa36419d3c84ecbc",
+  "rollback_target": "6aa60a3e018fd6b1b9a40450",
+  "source_commit": "c4db424ba6b4351158708889c803643be9edc2a3",
+  "live_index_digest": "sha256:4457fc3be2bb6305e6666ee1b76bf5508715fc0e65c05eb650b8b3c467defdbb"
+ },
+ "CHANGE_CLASS": "MARKET_AUTHORITY_DATA_ONLY",
+ "DEPENDENCY_DIGEST": "sha256:4d185e8f22d98953ef3c0dda47a54d7c616cc4afd7f1e25fcc13a94d1d8820e8",
+ "VALIDATION_POLICY_VERSION": "ptf-fast-data-only-release/1.0",
+ "RULES_EXECUTED": [
+  {
+   "rule": "A",
+   "name": "package schema valid"
+  },
+  {
+   "rule": "B",
+   "name": "identity valid"
+  },
+  {
+   "rule": "C",
+   "name": "first-party policy binding valid"
+  },
+  {
+   "rule": "D",
+   "name": "policy semantics valid"
+  },
+  {
+   "rule": "E",
+   "name": "route references valid"
+  },
+  {
+   "rule": "F",
+   "name": "market partition valid"
+  },
+  {
+   "rule": "G",
+   "name": "proposed whole-release identity/route indexes contain no forbidden collision"
+  },
+  {
+   "rule": "H",
+   "name": "every unrelated live market/member is preserved"
+  },
+  {
+   "rule": "I",
+   "name": "every removal is explicitly intended"
+  },
+  {
+   "rule": "J",
+   "name": "changed-market artifact builds successfully"
+  },
+  {
+   "rule": "K",
+   "name": "changed-market output deterministic"
+  },
+  {
+   "rule": "L",
+   "name": "package/artifact hashes internally consistent"
+  },
+  {
+   "rule": "M",
+   "name": "required evidence freshness/revocation rules satisfied"
+  },
+  {
+   "rule": "N",
+   "name": "rollback/current-live preservation metadata valid"
+  },
+  {
+   "rule": "O",
+   "name": "paid acquisitions used by the package satisfy reservation provenance"
+  }
+ ],
+ "RESULTS": {
+  "A": {
+   "rule": "A",
+   "name": "package schema valid",
+   "status": "PASS",
+   "seconds": 0.006,
+   "detail": {
+    "schema": "ptf-sealed-market-package/1.0",
+    "package_id": "pkg-pinehurst-southern-pines-nc-d3268420b13808f8",
+    "package_digest": "sha256:d3268420b13808f8cff892a6b93dc190565b7612f4c40f55c03b0c4fe67f8206"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "B": {
+   "rule": "B",
+   "name": "identity valid",
+   "status": "PASS",
+   "seconds": 0.019,
+   "detail": {
+    "identity_records": 25,
+    "census_count": 25,
+    "declared_relations": 0,
+    "writer_seconds": 0.019
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "C": {
+   "rule": "C",
+   "name": "first-party policy binding valid",
+   "status": "PASS",
+   "seconds": 0.023,
+   "detail": {
+    "records_evaluated": 10,
+    "eligible": 10,
+    "ineligible": 0,
+    "classes": {}
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "D": {
+   "rule": "D",
+   "name": "policy semantics valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "pet_friendly_records": 8,
+    "verified_no_pets_records": 2,
+    "policy_schema": "1.3"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "E": {
+   "rule": "E",
+   "name": "route references valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "official_routes": 0,
+    "public_routes": 11
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "F": {
+   "rule": "F",
+   "name": "market partition valid",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "partition_count": 25,
+    "unresolved_rows": 15,
+    "counts_by_partition_state": {
+     "ACCESS_BLOCKED": 3,
+     "AWAITING_POLICY_OBSERVATION": 12,
+     "PUBLISHED_PET_FRIENDLY": 8,
+     "VERIFIED_NO_PETS": 2
+    }
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "G": {
+   "rule": "G",
+   "name": "proposed whole-release identity/route indexes contain no forbidden collision",
+   "status": "PASS",
+   "seconds": 0.093,
+   "detail": {
+    "live_digest": "sha256:4457fc3be2bb6305e6666ee1b76bf5508715fc0e65c05eb650b8b3c467defdbb",
+    "proposed_digest": "sha256:28d786e2c6a060f1dc847dfaed610aa1cb17597997d7f40fbb8298e5cb590609",
+    "proposed_participating": [
+     "asheville-nc",
+     "charlotte-nc",
+     "cincinnati-oh",
+     "cleveland-akron-canton-oh",
+     "columbus-oh",
+     "dayton-oh",
+     "fayetteville-nc",
+     "grand-rapids-holland-mi",
+     "indianapolis-in",
+     "lexington-ky",
+     "louisville-ky",
+     "milwaukee-wi",
+     "nashville-tn",
+     "piedmont-triad-nc",
+     "pinehurst-southern-pines-nc",
+     "pittsburgh-pa",
+     "raleigh-nc",
+     "st-louis-mo",
+     "toledo-oh",
+     "wilmington-nc"
+    ],
+    "proposed_total_profiles": 1229,
+    "legacy_collisions_outside_package": 0,
+    "compare_seconds": 0.0903
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "H": {
+   "rule": "H",
+   "name": "every unrelated live market/member is preserved",
+   "status": "PASS",
+   "seconds": 0.093,
+   "detail": {
+    "live_participating": [
+     "asheville-nc",
+     "charlotte-nc",
+     "cincinnati-oh",
+     "cleveland-akron-canton-oh",
+     "columbus-oh",
+     "dayton-oh",
+     "fayetteville-nc",
+     "grand-rapids-holland-mi",
+     "indianapolis-in",
+     "lexington-ky",
+     "louisville-ky",
+     "milwaukee-wi",
+     "nashville-tn",
+     "piedmont-triad-nc",
+     "pittsburgh-pa",
+     "raleigh-nc",
+     "st-louis-mo",
+     "toledo-oh",
+     "wilmington-nc"
+    ],
+    "live_total_profiles": 1221,
+    "finding_counts": {}
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "I": {
+   "rule": "I",
+   "name": "every removal is explicitly intended",
+   "status": "PASS",
+   "seconds": 0.093,
+   "detail": {
+    "intended_delta": {
+     "market_id": "pinehurst-southern-pines-nc",
+     "add_property_ids": [
+      "courtyard by marriott southern pines aberdeen",
+      "hampton inn and suites southern pines pinehurst",
+      "hilton garden inn southern pines pinehurst",
+      "homewood suites by hilton olmsted village near pinehurst",
+      "microtel inn and suites by wyndham southern pines pinehurst",
+      "residence inn by marriott pinehurst southern pines",
+      "surestay plus southern pines pinehurst",
+      "towneplace suites by marriott southern pines aberdeen"
+     ],
+     "update_property_ids": [],
+     "remove_property_ids": [],
+     "add_routes": [
+      "/pet-friendly-hotels/pinehurst-southern-pines-nc/",
+      "/pet-friendly-hotels/pinehurst-southern-pines-nc/courtyard-by-marriott-southern-pines-aberdeen/",
+      "/pet-friendly-hotels/pinehurst-southern-pines-nc/hampton-inn-suites-southern-pines-pinehurst/",
+      "/pet-friendly-hotels/pinehurst-southern-pines-nc/hilton-garden-inn-southern-pines-pinehurst/",
+      "/pet-friendly-hotels/pinehurst-southern-pines-nc/homewood-suites-by-hilton-olmsted-village-near-pinehurst/",
+      "/pet-friendly-hotels/pinehurst-southern-pines-nc/microtel-inn-suites-by-wyndham-southern-pines-pinehurst/",
+      "/pet-friendly-hotels/pinehurst-southern-pines-nc/residence-inn-by-marriott-pinehurst-southern-pines/",
+      "/pet-friendly-hotels/pinehurst-southern-pines-nc/surestay-plus-southern-pines-pinehurst/",
+      "/pet-friendly-hotels/pinehurst-southern-pines-nc/towneplace-suites-by-marriott-southern-pines-aberdeen/"
+     ],
+     "change_routes": [],
+     "remove_routes": [],
+     "expected_profile_delta": 8,
+     "expected_market_count_delta": 1,
+     "expected_participation_delta": [
+      {
+       "market_id": "pinehurst-southern-pines-nc",
+       "from": false,
+       "to": true
+      }
+     ]
+    },
+    "actual_delta": {
+     "add_property_ids": [
+      "courtyard by marriott southern pines aberdeen",
+      "hampton inn and suites southern pines pinehurst",
+      "hilton garden inn southern pines pinehurst",
+      "homewood suites by hilton olmsted village near pinehurst",
+      "microtel inn and suites by wyndham southern pines pinehurst",
+      "residence inn by marriott pinehurst southern pines",
+      "surestay plus southern pines pinehurst",
+      "towneplace suites by marriott southern pines aberdeen"
+     ],
+     "update_property_ids": [],
+     "remove_property_ids": [],
+     "add_routes": [
+      "/pet-friendly-hotels/pinehurst-southern-pines-nc/",
+      "/pet-friendly-hotels/pinehurst-southern-pines-nc/courtyard-by-marriott-southern-pines-aberdeen/",
+      "/pet-friendly-hotels/pinehurst-southern-pines-nc/hampton-inn-suites-southern-pines-pinehurst/",
+      "/pet-friendly-hotels/pinehurst-southern-pines-nc/hilton-garden-inn-southern-pines-pinehurst/",
+      "/pet-friendly-hotels/pinehurst-southern-pines-nc/homewood-suites-by-hilton-olmsted-village-near-pinehurst/",
+      "/pet-friendly-hotels/pinehurst-southern-pines-nc/microtel-inn-suites-by-wyndham-southern-pines-pinehurst/",
+      "/pet-friendly-hotels/pinehurst-southern-pines-nc/residence-inn-by-marriott-pinehurst-southern-pines/",
+      "/pet-friendly-hotels/pinehurst-southern-pines-nc/surestay-plus-southern-pines-pinehurst/",
+      "/pet-friendly-hotels/pinehurst-southern-pines-nc/towneplace-suites-by-marriott-southern-pines-aberdeen/"
+     ],
+     "remove_routes": [],
+     "profile_delta": 8,
+     "verified_no_pets_delta": 2,
+     "market_count_delta": 1
+    },
+    "removal_authority": {}
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "J": {
+   "rule": "J",
+   "name": "changed-market artifact builds successfully",
+   "status": "PASS",
+   "seconds": 8.364,
+   "detail": {
+    "bundle_sha256": "d91a58e360ecd8894602b7508f13ef3427c8bedae9d52c1e4d7eefd01e4413cd",
+    "file_count": 71,
+    "html_count": 55,
+    "staged_input_digest": "sha256:dd27b2692279ed4f58c7be1ae746ce78de0bf131b64862175469a41de48a853f",
+    "contract_sha256": "sha256:0ae0df0f61ebec908cde20f30d6b4ccbabdb30e8c8ed43a1f4099304ad878648",
+    "release_name": "package-pinehurst-southern-pines-nc-nogit-aa309343-528e8a63",
+    "cache_events": [
+     {
+      "verdict": "BUILD_EXECUTED",
+      "assembly_kind": "generator_site",
+      "input_key": "3bc7057fb88ed7320aecdc37a06584435097775db88832ba1203339b155af9a3",
+      "seconds": 1.025
+     },
+     {
+      "verdict": "BUILD_EXECUTED",
+      "assembly_kind": "market_bundle",
+      "input_key": "9e25e3b62b59dc1232bfe2cbdc74978bddcd87ccea1731313a0c30a709c93c6e",
+      "seconds": 4.092
+     }
+    ],
+    "build_seconds": 8.045
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "K": {
+   "rule": "K",
+   "name": "changed-market output deterministic",
+   "status": "PASS",
+   "seconds": 6.437,
+   "detail": {
+    "input_digest": "sha256:dd27b2692279ed4f58c7be1ae746ce78de0bf131b64862175469a41de48a853f",
+    "output_digest_a": "d91a58e360ecd8894602b7508f13ef3427c8bedae9d52c1e4d7eefd01e4413cd",
+    "output_digest_b": "d91a58e360ecd8894602b7508f13ef3427c8bedae9d52c1e4d7eefd01e4413cd",
+    "result": "BYTE_IDENTICAL",
+    "cold_builds_executed": 4,
+    "reuse_hits": 0,
+    "build_seconds": 6.437
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "L": {
+   "rule": "L",
+   "name": "package/artifact hashes internally consistent",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "package_digest": "sha256:d3268420b13808f8cff892a6b93dc190565b7612f4c40f55c03b0c4fe67f8206",
+    "rederived_digest": "sha256:d3268420b13808f8cff892a6b93dc190565b7612f4c40f55c03b0c4fe67f8206",
+    "evidence_references": 10,
+    "artifacts_available": 0,
+    "artifacts_checked": 0,
+    "dependency_inputs": 7,
+    "dependency_digest": "sha256:4d185e8f22d98953ef3c0dda47a54d7c616cc4afd7f1e25fcc13a94d1d8820e8"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "M": {
+   "rule": "M",
+   "name": "required evidence freshness/revocation rules satisfied",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "max_age_days": 365,
+    "references": 10,
+    "revoked_registry_size": 0,
+    "earliest_expiry": "2027-09-14T00:00:00Z"
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "N": {
+   "rule": "N",
+   "name": "rollback/current-live preservation metadata valid",
+   "status": "PASS",
+   "seconds": 0.019,
+   "detail": {
+    "live": {
+     "live_deploy_id": "6aa750d8fa36419d3c84ecbc",
+     "previous_deploy_id": "6aa60a3e018fd6b1b9a40450",
+     "rollback_target": "6aa60a3e018fd6b1b9a40450",
+     "source_commit": "c4db424ba6b4351158708889c803643be9edc2a3",
+     "bundle_sha256": "e6c669cf14980efc44eaee4799e060e28888cac510498310595fcd125939f965",
+     "sitemap_sha256": "3cb2fc6d20d6fda185345d8d25b30e5489099959b48c516dfa6ae79668b9a99f",
+     "participating_markets": [
+      "asheville-nc",
+      "charlotte-nc",
+      "cincinnati-oh",
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "fayetteville-nc",
+      "grand-rapids-holland-mi",
+      "indianapolis-in",
+      "lexington-ky",
+      "louisville-ky",
+      "milwaukee-wi",
+      "nashville-tn",
+      "piedmont-triad-nc",
+      "pittsburgh-pa",
+      "raleigh-nc",
+      "st-louis-mo",
+      "toledo-oh",
+      "wilmington-nc"
+     ],
+     "profile_counts": {
+      "asheville-nc": 41,
+      "charlotte-nc": 106,
+      "cincinnati-oh": 130,
+      "cleveland-akron-canton-oh": 120,
+      "columbus-oh": 88,
+      "dayton-oh": 54,
+      "fayetteville-nc": 26,
+      "grand-rapids-holland-mi": 43,
+      "indianapolis-in": 82,
+      "lexington-ky": 20,
+      "louisville-ky": 53,
+      "milwaukee-wi": 73,
+      "nashville-tn": 79,
+      "piedmont-triad-nc": 54,
+      "pittsburgh-pa": 61,
+      "raleigh-nc": 63,
+      "st-louis-mo": 82,
+      "toledo-oh": 17,
+      "wilmington-nc": 29
+     },
+     "total_profiles": 1221,
+     "sitemap_route_count": 1438,
+     "deployment_record": "ptf-deploy-fayetteville-004-6aa750d8fa36419d3c84ecbc.json",
+     "authorization_id": "ptf-auth-fayetteville-002-e6c669cf1498",
+     "rollback_record": "ptf-deploy-asheville-002-6aa60a3e018fd6b1b9a40450.json",
+     "rollback_markets": [
+      "asheville-nc",
+      "charlotte-nc",
+      "cincinnati-oh",
+      "cleveland-akron-canton-oh",
+      "columbus-oh",
+      "dayton-oh",
+      "grand-rapids-holland-mi",
+      "indianapolis-in",
+      "lexington-ky",
+      "louisville-ky",
+      "milwaukee-wi",
+      "nashville-tn",
+      "piedmont-triad-nc",
+      "pittsburgh-pa",
+      "raleigh-nc",
+      "st-louis-mo",
+      "toledo-oh",
+      "wilmington-nc"
+     ],
+     "problems": []
+    },
+    "stale_parent": false
+   },
+   "problems": [],
+   "problem_count": 0
+  },
+  "O": {
+   "rule": "O",
+   "name": "paid acquisitions used by the package satisfy reservation provenance",
+   "status": "PASS",
+   "seconds": 0.0,
+   "detail": {
+    "paid_references": 0,
+    "ledger_cross_checked": 0,
+    "ledger_unknown": 0
+   },
+   "problems": [],
+   "problem_count": 0
+  }
+ },
+ "TIMESTAMPS": {
+  "started_at": "2026-09-14T02:03:31Z",
+  "finished_at": "2026-09-14T02:03:46Z",
+  "seconds": 15.136
+ },
+ "ARTIFACT_DIGESTS": {
+  "changed_market_bundle_sha256_a": "d91a58e360ecd8894602b7508f13ef3427c8bedae9d52c1e4d7eefd01e4413cd",
+  "changed_market_bundle_sha256_b": "d91a58e360ecd8894602b7508f13ef3427c8bedae9d52c1e4d7eefd01e4413cd",
+  "staged_input_digest": "sha256:dd27b2692279ed4f58c7be1ae746ce78de0bf131b64862175469a41de48a853f",
+  "staged_contract_sha256": "sha256:0ae0df0f61ebec908cde20f30d6b4ccbabdb30e8c8ed43a1f4099304ad878648"
+ },
+ "GLOBAL_INDEX_DIGEST": {
+  "live": "sha256:4457fc3be2bb6305e6666ee1b76bf5508715fc0e65c05eb650b8b3c467defdbb",
+  "proposed": "sha256:28d786e2c6a060f1dc847dfaed610aa1cb17597997d7f40fbb8298e5cb590609"
+ },
+ "PACKAGE_INDEX_DIGEST": "sha256:9f3cc2893a20ac3b85b7b94554cb78379174c69286db722c463f1eced12e5f42",
+ "INTENDED_DELTA_DIGEST": "sha256:33987f1a5841c883555760d79a6a395b313df4ad03d0d9dc64b34ff33b1275ef",
+ "DETERMINISM_RESULT": "BYTE_IDENTICAL",
+ "FIRST_PARTY_BINDING_RESULT": "PASS",
+ "COLLISION_RESULT": "PASS",
+ "REMOVAL_RESULT": "PASS",
+ "LEGACY_EXCEPTIONS": [],
+ "ENVIRONMENT": {
+  "python": "3.13.5",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "builder_version": "ptf-market-package-writer/1.0",
+  "contract_versions": {
+   "market": "ptf-market/1.1",
+   "census": "ptf-market-identity-census/1.1",
+   "partition": "ptf-market-final-partition/1.1",
+   "policy_schema": "1.3",
+   "evidence": "contracts.evidence PUBLICATION_GRADE_REQUIRED=evidence_ref,field,quote,source_url,source_grade,artifact_class,artifact_sha256,artifact_kind,captured_at",
+   "identity_key": "ptf_identity_key/1.0",
+   "identity_routing": "ptf-identity-routing/1.0",
+   "hotel_exclusions": "ptf-hotel-exclusions/1.0",
+   "sealed_market_package": "ptf-sealed-market-package/1.0"
+  },
+  "created_from_source_sha": "9690624b",
+  "peak_working_set_mb": 63.1
+ },
+ "EXPIRY_REVOCATION_CONDITIONS": {
+  "valid_while": [
+   "the live deployment is 6aa750d8fa36419d3c84ecbc",
+   "the live index digest is sha256:4457fc3be2bb6305e6666ee1b76bf5508715fc0e65c05eb650b8b3c467defdbb",
+   "no referenced artifact is added to evidence_revocations.json",
+   "the evidence is younger than 365 days",
+   "the owning contracts are at the versions recorded in ENVIRONMENT",
+   "the sealed package bytes are unchanged (digest above)"
+  ],
+  "earliest_evidence_expiry": "2027-09-14T00:00:00Z",
+  "evidence_max_age_days": 365
+ },
+ "UNKNOWN_RULES": [],
+ "FAILED_RULES": [],
+ "FAST_DATA_ONLY_RELEASE_ELIGIBLE": "YES",
+ "FULL_REGRESSION_REQUIRED_BY_LANE": "NO",
+ "FAST_PATH_PRODUCTION_ACTIVATION": "DISABLED",
+ "PRODUCTION_ACTIVATION_ALLOWED": "NO",
+ "PERFORMANCE": {
+  "total_seconds": 15.136,
+  "per_rule_seconds": {
+   "A": 0.006,
+   "B": 0.019,
+   "C": 0.023,
+   "D": 0.0,
+   "E": 0.0,
+   "F": 0.0,
+   "G": 0.093,
+   "H": 0.093,
+   "I": 0.093,
+   "J": 8.364,
+   "K": 6.437,
+   "L": 0.0,
+   "M": 0.0,
+   "N": 0.019,
+   "O": 0.0
+  },
+  "changed_market_build_seconds": 8.045,
+  "determinism_build_seconds": 6.437
+ },
+ "RECEIPT_DIGEST": "sha256:3bdbdd648b35ff8a0a4e90f952b0e656135e8d957ed657a079584b65475a4173"
+}

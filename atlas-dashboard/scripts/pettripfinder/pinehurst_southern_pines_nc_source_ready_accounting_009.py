@@ -31,20 +31,20 @@ OUT = os.path.join(REPORTS, "pinehurst_southern_pines_nc_source_ready_accounting
 
 #: Measured wall-clock facts of this run (UTC), recorded as observed.
 TIMINGS = OrderedDict([
-    ("BOONE_BLOWING_ROCK_START_TIMESTAMP", "2026-09-14T00:29:27Z (2026-09-13T20:29:27-04:00)"),
-    ("precheck_and_template_read", "00:29Z-00:36Z (worktree, branch, HEAD e312caa6 = the Asheville-live parent, tree clean; Outer Banks / Atlanta / Jacksonville shadow chains read)"),
-    ("geography_and_corridor_model", "by 00:41Z (5 corridors: 2 CORE / 2 CORRIDOR / 1 FRINGE, 9 admitted ZIPs; Banner Elk / Sugar / Beech / Seven Devils and Avery County OUTSIDE, preserved for banner-elk-sugar-beech-nc)"),
-    ("osm_lane", "404.3 s (North Carolina extract, hard link of the 2026-09-10 snapshot; 301 hotel / motel / guest_house / chalet / apartment elements)"),
-    ("brand_inventory_lane", "97 free requests (Marriott NC sitemap page, 18 Hilton city pages, Wyndham sitemap walk, family probes)"),
-    ("destination_roster", "Explore Boone (Boone TDA) listing service, 8 'Hotels & Cabins' sub-categories, 9 requests at Crawl-delay 2; High Country Host regional visitor-center roster read once"),
-    ("attended_browser_evidence", "Hilton 2, Marriott 5, IHG 4 (same-origin, payload digests verified); Choice closed with bot-challenge shells; Best Western route not reached"),
-    ("static_first_party_lanes", "Wyndham property service 8.4 s (6 routes: 1 read, 5 retired); static home pages 31 s (22 targets); policy-page lane 17.3 s (40 sites, 114 documents)"),
-    ("source_ready_inputs_committed", "2026-09-14T00:57:43Z (7adbafd1)"),
-    ("shadow_package_sealed_and_fast", "00:57:52Z-00:58:40Z (sealed twice in-process, FAST 15/15)"),
-    ("independent_reproduction", "00:59:00Z-01:01Z (clean git worktree at 7adbafd1: separate-process digest-only seal = same digest; geography, brand pages, capture, census, clean set, staged authority, partition and staged shard rebuilt from committed captures -- zero content difference, the discovery config differs only by the worktree's CRLF checkout of an eol-unattributed file; same digest a third time)"),
-    ("ZERO_TO_SOURCE_READY", "29 min 13 s (00:29:27Z -> 00:58:40Z, FAST-passed sealed shadow package)"),
+    ("PINEHURST_SOUTHERN_PINES_START_TIMESTAMP", "2026-09-14T01:31:50Z (2026-09-13T21:31:50-04:00)"),
+    ("precheck_and_template_read", "01:31Z-01:40Z (worktree, branch, HEAD e312caa6, tree clean; the Boone - Blowing Rock shadow chain read as the template)"),
+    ("geography_and_corridor_model", "by 01:52Z (7 corridors: 3 CORE / 2 CORRIDOR / 2 FRINGE, 11 admitted ZIPs; Robbins, Sanford, Fayetteville, Raeford, Rockingham, Laurinburg and Montgomery County OUTSIDE by name)"),
+    ("osm_lane", "438.7 s (North Carolina extract, hard link of the 2026-09-10 snapshot; 40 hotel / motel / guest_house / chalet / apartment elements)"),
+    ("brand_inventory_lane", "96 free requests (Marriott NC sitemap page, 17 Hilton city pages, Wyndham sitemap walk, family probes)"),
+    ("destination_roster", "Pinehurst, Southern Pines, Aberdeen Area CVB: the lodging page and the one partner-index query it declares (2 requests, 49 lodging listings)"),
+    ("live_parent_moved", "~01:57Z check (before any commit): Fayetteville went live (ec764bef, deploy 6aa750d8); the branch (no commits yet) was fast-forwarded to ec764bef so the package binds to the CURRENT live parent"),
+    ("attended_browser_evidence", "Marriott 4 and IHG 1 (same-origin fetch, payload digests verified), Best Western 1 (hashed in the same call as the quote); Hilton 3 reused from the Fayetteville order's attended payload; Choice closed with a bot-challenge shell; four independents' own sites read (identity only)"),
+    ("static_first_party_lanes", "Wyndham property service 3.1 s (7 routes: 3 read, 4 retired); static home pages 2.5 s (22 targets); policy-page lane 13.6 s (22 sites, 87 documents)"),
+    ("source_ready_inputs_committed", "2026-09-14T02:03:14Z (9690624b)"),
+    ("shadow_package_sealed_and_fast", "02:03:21Z-02:03:47Z (sealed twice in-process, FAST 15/15)"),
+    ("independent_reproduction", "02:04Z-02:06Z (clean git worktree at 9690624b: separate-process digest-only seal = same digest; geography, brand pages, capture, census, clean set, staged authority, partition and staged shard rebuilt from committed captures -- zero content difference, the discovery config differs only by the worktree's CRLF checkout of an eol-unattributed file; same digest a third time)"),
+    ("ZERO_TO_SOURCE_READY", "31 min 57 s (01:31:50Z -> 02:03:47Z, FAST-passed sealed shadow package)"),
 ])
-
 
 def _load(path):
     with open(path, encoding="utf-8-sig") as fh:
@@ -69,9 +69,9 @@ def town_coverage(hotels, pf, np_):
     Shores and Duck share one postal code and one corridor."""
     from scripts.pettripfinder import pinehurst_southern_pines_nc_geography_001 as GEO
     towns = OrderedDict((a, []) for a in (
-        "Boone Downtown / App State", "Boone US-321", "Boone US-421", "Boone NC-105 / Foscoe",
-        "Blowing Rock village", "Blue Ridge Parkway / resort corridor", "Valle Crucis / Vilas", "Deep Gap",
-        "Sugar Grove / Zionville / Todd"))
+        "Pinehurst village / resort district", "Pinehurst Moore Regional medical / business ring",
+        "Southern Pines downtown", "US-1 corridor", "Aberdeen US-15-501 / NC-5", "Whispering Pines / Carthage",
+        "Vass / Cameron", "Seven Lakes / West End / Foxfire"))
     unplaced = []
     for h in hotels:
         state = ("PUBLISHED_PET_FRIENDLY" if h["identity_key"] in pf
@@ -90,8 +90,9 @@ def town_coverage(hotels, pf, np_):
                             ("unresolved", sum(1 for r in rows if r["state"] == "UNRESOLVED")),
                             ("identities", rows)])
     return OrderedDict([
-        ("what_it_is", "Coverage for the order's named towns. Reporting only; membership and corridor come from the "
-                       "postal partition. Boone's road corridors all sit in 28607."),
+        ("what_it_is", "Coverage for the order's named areas. Reporting only; membership and corridor come from the "
+                       "postal partition. Southern Pines and Aberdeen rows on US-1 / Sandhills Boulevard report as the "
+                       "US-1 corridor; Pinehurst rows off the village streets report as the Moore Regional ring."),
         ("towns", OrderedDict((a, summary(rows)) for a, rows in towns.items())),
         ("unplaced", summary(unplaced)),
     ])
@@ -137,18 +138,18 @@ def build():
         why = reason(r).lower()
         subs = {x for o in r.get("evidence") or ()
                 for x in (o.get("bureau_all_subcategories") or [o.get("bureau_subcategory")]) if x}
-        if "timeshare" in why:
-            return "TIMESHARE_VACATION_OWNERSHIP"
-        if "Cabin Rental Company" in subs:
-            return "CABIN_RENTAL_COMPANY"
-        if "RV & Campgrounds" in subs:
+        if "golf-package operator" in why:
+            return "GOLF_PACKAGE_VILLAS_COTTAGES"
+        if "vacation rental" in why or "rented as a whole property" in why:
+            return "VACATION_RENTAL"
+        if subs & {"RV/Campground", "Camping / RV Resorts"}:
             return "CAMPGROUND_RV"
-        if "Farm Stays" in subs:
-            return "FARM_STAY"
-        if "Cabins, Cottages & Condos" in subs:
-            return "CABIN_COTTAGE_CONDO_RENTAL"
+        if subs & {"Agritourism", "Farm", "Equestrian", "Unique Venue"}:
+            return "FARM_VENUE"
+        if "Condos / Villas" in subs:
+            return "CONDO_VILLA_RENTAL_MANAGEMENT"
         if "tourism=" in why or "cottage" in why:
-            return "MAP_CABIN_CHALET_CONDO_UNIT"
+            return "MAP_COTTAGE"
         return "OTHER_NON_HOTEL"
 
     holds = OrderedDict([
@@ -157,11 +158,13 @@ def build():
             ("identity_review_required", review),
             ("name_only_unresolved", names("NAME_ONLY_UNRESOLVED")),
             ("rebrand_unresolved", names("SAME_IDENTITY_REBRAND_SUCCESSOR")),
-            ("note", "Not census identities and never published: lodging-category-unconfirmed rows (Art of Living "
-                     "Retreat Center, Willow Valley Resort), map rows with no postal code (Blowing Rock Lodge, Hotel "
-                     "Portofino), a name-only lead tied between two Courtyards, and names with no address of their "
-                     "own (Chetola, Green Park Inn, Homestead Inn, Best Western Blue Ridge Plaza, Scottish Inns, "
-                     "Greenes Motel, Inn at the Ponds, Park Vista Inn).")])),
+            ("note", "Not census identities and never published: Duncraig Manor (lodging category unconfirmed -- now "
+                     "an event venue), the Econo Lodge at 408 West Morganton Road (its only labels collide with registered "
+                     "keys; Choice served a bot shell), a map 'Motel 6' label on the AmeriVu site, stale competitor flags "
+                     "(Days Inn Conference Center, Super 8 Aberdeen), a competitor spelling of SureStay Plus, and "
+                     "competitor B&B names with no first-party address (Knollwood House -- domain lapsed -- Beggar's "
+                     "Ride, Conroy B&B, Pine Gables of Aberdeen, Duck Smith House, Lucky Bar Farm, The MacPherson "
+                     "House).")])),
         ("ROUTING_HOLDS", OrderedDict([("count", states.get("AWAITING_OFFICIAL_URL", 0)),
                                        ("identities", by_state.get("AWAITING_OFFICIAL_URL", []))])),
         ("ACCESS_BLOCKED", OrderedDict([("count", states.get("ACCESS_BLOCKED", 0)),
@@ -173,8 +176,8 @@ def build():
         ("GEOGRAPHY_HOLDS", OrderedDict([("count", len(geo_holds)), ("identities", geo_holds)])),
         ("PAID_HOLDS", OrderedDict([
             ("count", access_families.get("BRAND_FAMILY", 0)),
-            ("note", "The ACCESS_BLOCKED identities whose brand family (Choice: Comfort Suites, Quality Inn, Sleep Inn; "
-                     "Radisson: Country Inn & Suites) refused this client are the "
+            ("note", "The ACCESS_BLOCKED identities whose brand family (Choice: Clarion Inn, Comfort Inn Pinehurst, "
+                     "Quality Inn Pinehurst) refused this client are the "
                      "paid-lane candidates. Same rows as ACCESS_BLOCKED, not an additional disposition; PAID PROVIDER "
                      "BUDGET was $0 and no paid lane was used or reserved.")])),
         ("FOUNDER_HOLDS", OrderedDict([
@@ -184,13 +187,12 @@ def build():
         ("CLOSED_OR_RETIRED", OrderedDict([
             ("count", len(wyn.get("retired_routes") or [])),
             ("wyndham_retired_routes", wyn.get("retired_routes")),
-            ("note", "Wyndham routes that redirect to the brand's search: Days Inn Blowing Rock (Boone area), Super 8 "
-                     "Boone and the legacy La Quinta Boone route (the property trades on its live La Quinta Inn & Suites "
-                     "Boone University route), plus Days Inn West Jefferson and Days Inn Lenoir outside. Routes, not "
-                     "census identities.")])),
+            ("note", "Wyndham routes that redirect to the brand's search: Days Inn Conference Center Southern Pines "
+                     "(805 SW Service Road now trades as Clarion Inn), Super 8 Aberdeen Southern Pines (1408 N Sandhills "
+                     "Boulevard now trades as AmeriVu Inn & Suites), the legacy Microtel route (the property trades on "
+                     "its live route) and Days Inn Rockingham outside. Routes, not census identities.")])),
         ("OUTSIDE", OrderedDict([("count", len(names("OUTSIDE_MARKET"))),
-                                 ("future_submarket_banner_elk_sugar_beech", len(future)),
-                                 ("future_submarket_identities", future)])),
+                                 ("future_submarket", "none preserved by this order")])),
         ("NON_HOTEL", OrderedDict([("count", len(non_hotel)),
                                    ("by_kind", OrderedDict(sorted(Counter(nh_class(r) for r in non_hotel).items()))),
                                    ("identities", sorted(r["canonical_name"] for r in non_hotel))])),
@@ -216,10 +218,10 @@ def build():
 
     doc = OrderedDict([
         ("schema", "ptf-market-source-ready-accounting/1.0"), ("work_order", WORK_ORDER), ("market_id", MARKET_ID),
-        ("display_market", "Boone \u2013 Blowing Rock, North Carolina"),
+        ("display_market", "Pinehurst \u2013 Southern Pines \u2013 Aberdeen, North Carolina"),
         ("state", "SOURCE_READY -- SHADOW_UNTIL_REGISTERED"),
-        ("release_queue", "Fayetteville (founder-authorized, host deploy blocked) -> Jacksonville -> Greenville -> "
-                          "Atlanta -> Outer Banks -> Boone - Blowing Rock"),
+        ("release_queue", "Fayetteville (LIVE, the current parent) -> Jacksonville -> Greenville -> Atlanta -> "
+                          "Outer Banks -> Boone - Blowing Rock -> Pinehurst - Southern Pines"),
         ("timings", TIMINGS),
         ("accounting", OrderedDict([
             ("TOTAL_DISCOVERED", census["total_candidates"]),
@@ -259,9 +261,16 @@ def build():
         ])),
         ("competitor_gap_challenge", gaps["counts"]),
         ("owned_evidence", OrderedDict([
-            ("OWNED_IDENTITIES", "0 -- no committed census held any Boone - Blowing Rock identity."),
-            ("OWNED_ROUTES", "0 -- the committed national harvest carries no High Country route."),
-            ("OWNED_VALID_POLICY_EVIDENCE", "0 -- every policy record here is a new first-party capture of this order."),
+            ("OWNED_IDENTITIES", "18 observed, 0 registered -- the Fayetteville census (registered at ec764bef) carries "
+                                 "Moore County rows only as OUTSIDE_MARKET observations; no registered market admits a "
+                                 "Pinehurst / Southern Pines / Aberdeen identity, and no identity was imported from it."),
+            ("OWNED_ROUTES", "7 -- the Fayetteville brand lanes' Southern Pines routes (4 Marriott, 3 Hilton) and Wyndham's "
+                             "Microtel / Days Inn / Super 8 routes; the committed national harvest carries no Sandhills "
+                             "route. Every route was re-derived from the brand's own current inventory by this order."),
+            ("OWNED_VALID_POLICY_EVIDENCE", "3 -- the Fayetteville order's attended Hilton reads (2026-09-13) for Hilton "
+                                            "Garden Inn Southern Pines Pinehurst, Hampton Inn & Suites Southern Pines-"
+                                            "Pinehurst and Homewood Suites Olmsted Village, reused with their document "
+                                            "sha256s; every other record is a new first-party capture of this order."),
         ])),
         ("package", OrderedDict([
             ("SHADOW_PACKAGE_CREATED", "YES"), ("execution_zone", shadow["execution_zone"]),
@@ -281,13 +290,11 @@ def build():
         ("factory_code_changed", "NO -- every changed path is a pinehurst_southern_pines_nc_* helper, the market's discovery config, or a "
                                  "document under the market's own proposed / staging / report paths"),
         ("shared_factory_notes_recorded_not_repaired", [
-            "The shared first-party reader does not read '... is not pet-friendly ...' (The 1850 Hotel, The Windmoor "
-            "Hotel, The Blowing Rock Manor), 'All of our rooms are non-smoking and pet-free.' (Hemlock Inn), 'The Village "
-            "Inns of Blowing Rock allows dogs at ...' or 'No, our facility does not permit pets' as operative, and reads "
-            "Rhode's Motor Lodge's and The Inn at Crestwood's dog policies as FEE_ONLY; those rows are held with the "
-            "gate's class, never reworded.",
-            "The Windmoor Hotel's and The Blowing Rock Manor's JSON-LD carry The 1850 Hotel's Boone address (a shared "
-            "operator template); the census binds each to the street its own page text states.",
+            "The shared first-party reader does not read Pinehurst Resort's 'Pinehurst is a pet-free facility.' as a "
+            "refusal (QUOTE_NOT_OPERATIVE); the Carolina Hotel, the Holly Inn, the Manor and the Magnolia Inn are held, "
+            "never reworded.",
+            "The CVB's partner index prints a house number in the ZIP field for two listings (12615, 10024); the roster "
+            "lane accepts only a 27xxx / 28xxx postal code.",
         ]),
         ("broad_regression_run", "NO"),
         ("final_production_candidate_created", "NO -- FAST composes the release index in memory only"),
@@ -296,16 +303,17 @@ def build():
         ("shared_state_touched", "NO -- launch_participation.json, bundle_cache_closure.json, the market_state pin, the "
                                  "generated globals, release contracts, identity_resolutions.json and the market registry are unchanged"),
         ("next_order", [
-            "Wait until Netlify is restored and Fayetteville, Jacksonville, Greenville, Atlanta and Outer Banks are live; read that live parent.",
-            "Rebase worker/ptf-pinehurst-southern-pines-nc-market-001 onto it; copy markets/proposed/pinehurst-southern-pines-nc.json -> markets/pinehurst-southern-pines-nc.json, "
-            "identity_census_proposed/pinehurst-southern-pines-nc.json -> identity_census/pinehurst-southern-pines-nc.json and the staged launch_package documents "
-            "(hotel_policy_facts_pinehurst-southern-pines-nc.json, partition, authority shard) into their registered paths.",
+            "Wait until Jacksonville, Greenville, Atlanta, Outer Banks and Boone - Blowing Rock are live; read that live parent.",
+            "Rebase worker/ptf-pinehurst-southern-pines-nc-market-001 onto it; copy markets/proposed/pinehurst-southern-pines-nc.json -> "
+            "markets/pinehurst-southern-pines-nc.json, identity_census_proposed/pinehurst-southern-pines-nc.json -> "
+            "identity_census/pinehurst-southern-pines-nc.json and the staged launch_package documents into their registered paths.",
             "market_registration_cli --write, build_global_authority --write then --check, release contract, registration_release_lane "
             "register + seal --work-order (a NEW package id against the new parent; this shadow package's FAST rule N fails by design once the parent moves).",
             "regression_delta classify (expect COMPOSITE_FRESH_MARKET_DATA_ONLY), compose and reproduce the candidate, prepare the founder "
             "packet, deploy only on founder authorization.",
-            "Before sealing, re-probe Choice (Comfort Suites, Quality Inn, Sleep Inn), Country Inn & Suites, Best Western "
-            "Blue Ridge Plaza, Ridgeway Inn, Homestead Inn and Yonahlossee; find first-party addresses for Chetola and Green Park Inn.",
+            "Before sealing, re-probe Choice (Clarion Inn, Comfort Inn Pinehurst, Quality Inn Pinehurst, Econo Lodge Southern Pines -- "
+            "the Econo Lodge also needs its first-party name to clear the cross-market key collision), ask Pinehurst Resort for a "
+            "per-hotel policy statement the reader interprets, and re-read Pine Crest Inn's script-rendered pages.",
         ]),
     ])
     return doc
