@@ -493,6 +493,13 @@ def route_overlay(corridor_slug, street, lat, lng):
     rows report as the village on a village street, else the Parkway / resort
     corridor. Other corridors report as themselves."""
     if corridor_slug == "boone":
+        # King Street IS US-421 through downtown: a pin within 1.2 km of King & Depot reports as
+        # Downtown / App State before any street wording is read.
+        if lat is not None and lng is not None:
+            dy = (float(lat) - 36.2155) * 111.0
+            dx = (float(lng) + 81.6780) * 111.0 * math.cos(math.radians(36.2155))
+            if math.hypot(dx, dy) <= 1.2:
+                return "Boone Downtown / App State"
         for rx, name in STREET_OVERLAY:
             if rx.search(street or ""):
                 return name
