@@ -50,13 +50,15 @@ if _DASH not in sys.path:
 
 from scripts.pettripfinder import first_party_binding as FPB  # noqa: E402
 from scripts.pettripfinder.hotel_exclusions import address_key  # noqa: E402
+from scripts.pettripfinder import publication_guard as PG  # noqa: E402
+from scripts.pettripfinder.site_data import normalize_name  # noqa: E402
 
 WORK_ORDER = "PTF-ATLANTA-GA-PARALLEL-SOURCE-READY-001"
 MARKET_ID = "atlanta-ga"
 SCHEMA = "ptf-market-clean-authority/1.0"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "atlanta-ga.json")
+CENSUS = os.path.join(PKG, "identity_census", "atlanta-ga.json")
 ATTENDED = os.path.join(REPORTS, "atlanta_ga_attended_capture_001.json")
 STATIC = os.path.join(REPORTS, "atlanta_ga_free_static_lane_001.json")
 
@@ -331,6 +333,24 @@ def build():
                                     (r["identity_signals"].get("postal_code") or "")[:5]) for r in pf)
     co_located = [r for r in pf if by_street[address_key(r["identity_signals"].get("address_on_page") or "",
                                                          (r["identity_signals"].get("postal_code") or "")[:5])] > 1]
+    # PTF-ATLANTA-GA-REGISTER-RESEAL-AND-AUTHORIZATION-PREP-002: a pair is released ONLY when a ruling that
+    # validates under the publication guard's own contract (same_campus_distinct_entity, scoped to
+    # THIS market) names every pet-friendly record at that exact address key. A shared address no
+    # ruling fully covers stays held.
+    def _street(r):
+        return address_key(r["identity_signals"].get("address_on_page") or "",
+                           (r["identity_signals"].get("postal_code") or "")[:5])
+    _rulings = [x for x in PG.load_resolutions()
+                if x.get("market_id") == MARKET_ID and x.get("resolution_type") == PG.SAME_CAMPUS]
+    _names_at = {}
+    for r in co_located:
+        _names_at.setdefault(_street(r), set()).add(normalize_name(r["canonical_name"]))
+
+    def _ruled(r):
+        return any(x.get("address_key") == _street(r)
+                   and _names_at[_street(r)] <= {normalize_name(i["canonical_name"]) for i in x["identities"]}
+                   for x in _rulings)
+    co_located = [r for r in co_located if not _ruled(r)]
     for r in co_located:
         row = OrderedDict((k, r[k]) for k in ("lane", "brand", "source_url", "final_url", "document_sha256",
                                               "document_bytes", "captured_at", "identity_signals",

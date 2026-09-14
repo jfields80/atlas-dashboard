@@ -63,10 +63,11 @@ MARKET_ID = "atlanta-ga"
 PKG = os.path.join(_DASH, "launch_packages", "pettripfinder")
 REPORTS = os.path.join(PKG, "markets", "reports")
 CLEAN = os.path.join(REPORTS, "atlanta_ga_clean_authority_001.json")
-CENSUS = os.path.join(PKG, "identity_census_proposed", "atlanta-ga.json")
+CENSUS = os.path.join(PKG, "identity_census", "atlanta-ga.json")
 STAGING = os.path.join(PKG, "markets", "staging", "atlanta-ga")
-PACKAGE_OUT = os.path.join(STAGING, "launch_package", "hotel_policy_facts_atlanta-ga.json")
-AUTHORITY_OUT = os.path.join(STAGING, "atlanta_ga_proposed_authority_002.json")
+#: REGISTERED by PTF-ATLANTA-GA-REGISTER-RESEAL-AND-AUTHORIZATION-PREP-002: the package root, as every registered market.
+PACKAGE_OUT = os.path.join(PKG, "hotel_policy_facts_atlanta-ga.json")
+AUTHORITY_OUT = os.path.join(PKG, "atlanta_ga_proposed_authority_002.json")
 OBSERVED_AT = "2026-09-13"
 CAPTURED_AT = "2026-09-13T19:00:00+00:00"
 
@@ -294,7 +295,7 @@ def build():
         ("work_order", WORK_ORDER),
         ("as_of", OBSERVED_AT),
         ("note",
-         "Atlanta's STAGED policy package (shadow until registered). Every record is one first-party read of the "
+         "Atlanta's REGISTERED policy package. Every record is one first-party read of the "
          "property's own page, bound to the census identity by the street identity that page "
          "states, and every published fact is cited to the quote it rests on with the sha256 of "
          "the document it was read from. Refundability is absent, not false, when the source "
@@ -306,13 +307,13 @@ def build():
     authority = OrderedDict((
         ("schema", "ptf-market-proposed-authority/1.0"),
         ("what_this_is",
-         "Atlanta's authority as this order proposes it, STAGED and not registered. Registration makes the market "
+         "Atlanta's authority as the source-ready order proposed it, registered by PTF-ATLANTA-GA-REGISTER-RESEAL-AND-AUTHORIZATION-PREP-002. Registration makes the market "
          "BUILDABLE; launch_participation.json decides whether it is BUILT into production, and "
          "this order leaves that at SOURCE_READY_BUT_NOT_FOUNDER_AUTHORIZED_FOR_LAUNCH. The "
          "founder gate in the modern lane is on the exact candidate digest, not on each row."),
         ("market_id", MARKET_ID),
         ("work_order", WORK_ORDER),
-        ("registered", False), ("staged_shadow_until_registered", True), ("published", False), ("deployed", False),
+        ("registered", True), ("published", False), ("deployed", False),
         ("built_from", OrderedDict((
             ("source_ledgers", [os.path.relpath(CLEAN, _DASH).replace("\\", "/")]),
             ("decision_ledger", "ptf-market-clean-authority/1.0"),
