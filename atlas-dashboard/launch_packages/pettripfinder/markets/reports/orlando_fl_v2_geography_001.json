@@ -1,0 +1,765 @@
+{
+ "schema": "ptf-market-geography/1.0",
+ "work_order": "PTF-ORLANDO-FL-HARDENED-V2-SOURCE-READY-001",
+ "phase": "3 + 4 + 7 -- Greater Orlando travel-market geography, submarket split test and corridor model",
+ "market_id": "orlando-fl",
+ "as_of": "2026-09-15",
+ "paid_provider_calls": 0,
+ "usd_spent": 0.0,
+ "free_http_requests": 0,
+ "registration_state": "SHADOW_UNTIL_REGISTERED: the market document is written to markets/proposed/orlando-fl.json; the registry's markets/<id>.json is never written by this order.",
+ "membership_rule": "The property's OWN postal code, as its own official page or its Florida DBPR public-lodging licence states it, joined to the corridor registry. Nothing else admits a property.",
+ "classes": {
+  "CORE": "Downtown Orlando / Lake Eola / SoDo (32801, 32803, 32804, 32805, 32806); Orlando International Airport (MCO) / Lake Nona (32812, 32822, 32824, 32827, 32832); International Drive / Convention Center / Universal / Sand Lake (32819); SeaWorld / International Drive South / Vineland (32821); Lake Buena Vista / Palm Parkway / SR-535 (32836); Walt Disney World Resort / Disney Springs (32830); Kissimmee US-192 / Maingate / Old Town (34746); Celebration / West US-192 / Reunion (34747)",
+  "CORRIDOR": "Flamingo Crossings / Winter Garden / Windermere / Ocoee (34787, 34786, 34761); Kissimmee / East US-192 / Buenaventura Lakes (34741, 34743, 34744); Four Corners / ChampionsGate / Davenport (33896, 33897, 33837); South Orlando / Florida Mall / Hunter's Creek / Orange Blossom Trail (32809, 32811, 32835, 32837, 32839); East Orlando / UCF / Research Park / Oviedo (32807, 32817, 32825, 32826, 32828, 32829, 32765, 32708); North Orlando / Lee Road / I-4 North (32808, 32810, 32818); Winter Park / Maitland / Baldwin Park (32789, 32792, 32751, 32814); Altamonte Springs / Longwood / Casselberry (32701, 32714, 32750, 32779, 32707, 32730); Lake Mary / Heathrow / Sanford / SFB Airport (32746, 32771, 32773)",
+  "FRINGE": "Clermont / US-27 / Minneola (34711, 34714, 34715); St. Cloud / East Osceola (34769, 34771, 34772); Apopka / Northwest Orange (32703, 32712)"
+ },
+ "outside_class": "Everything else, refused by name with its postal codes; future standalone markets named.",
+ "future_standalone_markets": {
+  "space-coast-fl": "Space Coast: Titusville / Kennedy Space Center / Cocoa / Cocoa Beach / Port Canaveral / Melbourne -- its own cruise-port, beach and launch-viewing lodging market 45-70 miles east",
+  "daytona-beach-fl": "Daytona Beach / New Smyrna Beach / Ormond Beach -- an oceanfront resort and motorsport market 55 miles north-east",
+  "tampa-fl": "Tampa Bay -- its own major market (a separate PetTripFinder market order exists)",
+  "lakeland-winter-haven-fl": "Lakeland / Winter Haven / Legoland Florida -- Polk County's I-4 west and Legoland market, whose lodging sells to Legoland and Tampa-Orlando midpoint stays",
+  "ocala-fl": "Ocala / Marion County -- its own horse-country market 80 miles north-west",
+  "the-villages-lake-county-fl": "The Villages / Leesburg / Mount Dora / Tavares / Eustis -- north Lake and Sumter County retirement and small-town lodging with weak Orlando lodging intent"
+ },
+ "submarket_split_test": {
+  "A. Downtown / business Orlando": "CORE corridor downtown-orlando (32801-32806). Distinct business, arena and medical demand; enough licensed hotels to stand as its own corridor page. Not a standalone market: its visitors are Orlando visitors.",
+  "B. MCO airport": "CORE corridor mco-airport (32812, 32822, 32824, 32827, 32832). Airport and Lake Nona demand, its own corridor.",
+  "C. International Drive / Convention Center": "CORE corridor international-drive-universal (32819) plus seaworld-idrive-south (32821). The Convention Center and northern I-Drive are an overlay inside 32819; they cannot be a separate page under a postal partition without splitting Universal and Sand Lake from them.",
+  "D. Universal": "OVERLAY inside CORE 32819. Universal's on-site hotels and Universal Boulevard share 32819 with I-Drive and Sand Lake. A Universal page is possible later through explicit_hotel_ids only if its named properties meet the publication threshold on their own.",
+  "E. SeaWorld": "CORE corridor seaworld-idrive-south (32821): SeaWorld, southern I-Drive and Vineland share one code, so SeaWorld is the corridor's anchor and I-Drive South an overlay.",
+  "F. Lake Buena Vista": "CORE corridor lake-buena-vista (32836) for the gateway outside Disney's gates; the Hotel Plaza Boulevard 'Disney Springs Resort Area' hotels are 32830 and sit with Walt Disney World.",
+  "G. Disney gateway": "CORE corridor walt-disney-world (32830) for the resort itself; the gateway is spread across 32836 (LBV), 34746 (Maingate), 34747 (Celebration / West 192), 34787 (Flamingo Crossings) and 33896/33897 (Four Corners) -- each its own corridor, so 'Disney area' marketing never merges them. Disney/Kissimmee resort inventory is the market's largest block and a candidate for a FUTURE split into its own market; that optionality is preserved because each gateway corridor is separable by postal code.",
+  "H. Kissimmee / US-192": "CORE corridor kissimmee-us192-maingate (34746) for West 192 / Maingate / Old Town; CORRIDOR kissimmee-east (34741, 34743, 34744) for downtown Kissimmee and East 192.",
+  "I. Celebration": "CORE corridor celebration-west-192 (34747). Celebration shares 34747 with the West 192 resort campuses, so it is the corridor's anchor with West 192 / Reunion as overlays.",
+  "J. Four Corners / Davenport / ChampionsGate": "CORRIDOR four-corners-davenport (33896, 33897, 33837): Polk County lodging whose demand is Disney-gateway demand across I-4. Haines City beyond it is OUTSIDE.",
+  "K. Winter Park / Maitland": "CORRIDOR winter-park-maitland (32789, 32792, 32751, 32814): a distinct upscale suburban corridor, too small for a standalone market.",
+  "L. Lake Mary / Sanford": "CORRIDOR lake-mary-sanford (32746, 32771, 32773): Heathrow office demand and Sanford airport (SFB) demand; Seminole County, Orlando-bound. Not a standalone market."
+ },
+ "evaluated_inclusions": {
+  "Winter Park": "ADMITTED (CORRIDOR, winter-park-maitland).",
+  "Maitland": "ADMITTED (CORRIDOR, winter-park-maitland, 32751).",
+  "Altamonte Springs": "ADMITTED (CORRIDOR, altamonte-springs-longwood).",
+  "Lake Mary": "ADMITTED (CORRIDOR, lake-mary-sanford, 32746).",
+  "Sanford": "ADMITTED (CORRIDOR, lake-mary-sanford, 32771 / 32773).",
+  "Ocoee": "ADMITTED (CORRIDOR, flamingo-crossings-winter-garden, 34761).",
+  "Winter Garden": "ADMITTED (CORRIDOR, flamingo-crossings-winter-garden, 34787) -- Flamingo Crossings is Disney's western gateway.",
+  "Clermont": "ADMITTED (FRINGE, clermont).",
+  "Four Corners": "ADMITTED (CORRIDOR, four-corners-davenport).",
+  "Davenport": "ADMITTED (CORRIDOR, four-corners-davenport, 33837 / 33897).",
+  "ChampionsGate": "ADMITTED (CORRIDOR, four-corners-davenport, 33896).",
+  "Reunion": "ADMITTED (CORE, celebration-west-192, 34747) as an overlay.",
+  "St. Cloud": "ADMITTED (FRINGE, st-cloud).",
+  "Apopka": "ADMITTED (FRINGE, apopka) -- careful evaluation: US-441 / SR-414 lodging with Orlando-bound demand.",
+  "Poinciana": "OUTSIDE -- careful evaluation: residential / vacation-home community with no hotel core.",
+  "Haines City": "OUTSIDE -- careful evaluation: 'near Orlando' marketing only.",
+  "Mount Dora": "OUTSIDE -- careful evaluation: north Lake County small-town lodging (future the-villages-lake-county-fl).",
+  "DeLand": "OUTSIDE -- careful evaluation: west Volusia / Stetson; 35+ miles north.",
+  "Tampa": "OUTSIDE by name (order).",
+  "Daytona Beach": "OUTSIDE by name (order) -- future daytona-beach-fl.",
+  "Cocoa Beach / Space Coast": "OUTSIDE by name (order) -- future space-coast-fl.",
+  "Lakeland": "OUTSIDE by name (order) -- future lakeland-winter-haven-fl.",
+  "Ocala": "OUTSIDE by name (order) -- future ocala-fl."
+ },
+ "nonpublic_names": {
+  "shades of green": "Shades of Green on Walt Disney World Resort is an Armed Forces Recreation Center open only to eligible military patrons and their guests; non-public lodging, refused."
+ },
+ "corridor_registry_is_a_partition": true,
+ "admitted_postal_codes": [
+  "32701",
+  "32703",
+  "32707",
+  "32708",
+  "32712",
+  "32714",
+  "32730",
+  "32746",
+  "32750",
+  "32751",
+  "32765",
+  "32771",
+  "32773",
+  "32779",
+  "32789",
+  "32792",
+  "32801",
+  "32803",
+  "32804",
+  "32805",
+  "32806",
+  "32807",
+  "32808",
+  "32809",
+  "32810",
+  "32811",
+  "32812",
+  "32814",
+  "32817",
+  "32818",
+  "32819",
+  "32821",
+  "32822",
+  "32824",
+  "32825",
+  "32826",
+  "32827",
+  "32828",
+  "32829",
+  "32830",
+  "32832",
+  "32835",
+  "32836",
+  "32837",
+  "32839",
+  "33837",
+  "33896",
+  "33897",
+  "34711",
+  "34714",
+  "34715",
+  "34741",
+  "34743",
+  "34744",
+  "34746",
+  "34747",
+  "34761",
+  "34769",
+  "34771",
+  "34772",
+  "34786",
+  "34787"
+ ],
+ "admitted_postal_code_count": 62,
+ "corridors": [
+  {
+   "corridor_id": "orlando-fl__downtown-orlando",
+   "name": "Downtown Orlando / Lake Eola / SoDo",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "32801",
+    "32803",
+    "32804",
+    "32805",
+    "32806"
+   ]
+  },
+  {
+   "corridor_id": "orlando-fl__mco-airport",
+   "name": "Orlando International Airport (MCO) / Lake Nona",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "32812",
+    "32822",
+    "32824",
+    "32827",
+    "32832"
+   ]
+  },
+  {
+   "corridor_id": "orlando-fl__international-drive-universal",
+   "name": "International Drive / Convention Center / Universal / Sand Lake",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "32819"
+   ]
+  },
+  {
+   "corridor_id": "orlando-fl__seaworld-idrive-south",
+   "name": "SeaWorld / International Drive South / Vineland",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "32821"
+   ]
+  },
+  {
+   "corridor_id": "orlando-fl__lake-buena-vista",
+   "name": "Lake Buena Vista / Palm Parkway / SR-535",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "32836"
+   ]
+  },
+  {
+   "corridor_id": "orlando-fl__walt-disney-world",
+   "name": "Walt Disney World Resort / Disney Springs",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "32830"
+   ]
+  },
+  {
+   "corridor_id": "orlando-fl__flamingo-crossings-winter-garden",
+   "name": "Flamingo Crossings / Winter Garden / Windermere / Ocoee",
+   "geography_class": "CORRIDOR",
+   "included_postal_codes": [
+    "34787",
+    "34786",
+    "34761"
+   ]
+  },
+  {
+   "corridor_id": "orlando-fl__kissimmee-us192-maingate",
+   "name": "Kissimmee US-192 / Maingate / Old Town",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "34746"
+   ]
+  },
+  {
+   "corridor_id": "orlando-fl__celebration-west-192",
+   "name": "Celebration / West US-192 / Reunion",
+   "geography_class": "CORE",
+   "included_postal_codes": [
+    "34747"
+   ]
+  },
+  {
+   "corridor_id": "orlando-fl__kissimmee-east",
+   "name": "Kissimmee / East US-192 / Buenaventura Lakes",
+   "geography_class": "CORRIDOR",
+   "included_postal_codes": [
+    "34741",
+    "34743",
+    "34744"
+   ]
+  },
+  {
+   "corridor_id": "orlando-fl__four-corners-davenport",
+   "name": "Four Corners / ChampionsGate / Davenport",
+   "geography_class": "CORRIDOR",
+   "included_postal_codes": [
+    "33896",
+    "33897",
+    "33837"
+   ]
+  },
+  {
+   "corridor_id": "orlando-fl__south-orlando",
+   "name": "South Orlando / Florida Mall / Hunter's Creek / Orange Blossom Trail",
+   "geography_class": "CORRIDOR",
+   "included_postal_codes": [
+    "32809",
+    "32811",
+    "32835",
+    "32837",
+    "32839"
+   ]
+  },
+  {
+   "corridor_id": "orlando-fl__east-orlando-ucf",
+   "name": "East Orlando / UCF / Research Park / Oviedo",
+   "geography_class": "CORRIDOR",
+   "included_postal_codes": [
+    "32807",
+    "32817",
+    "32825",
+    "32826",
+    "32828",
+    "32829",
+    "32765",
+    "32708"
+   ]
+  },
+  {
+   "corridor_id": "orlando-fl__north-orlando-lee-road",
+   "name": "North Orlando / Lee Road / I-4 North",
+   "geography_class": "CORRIDOR",
+   "included_postal_codes": [
+    "32808",
+    "32810",
+    "32818"
+   ]
+  },
+  {
+   "corridor_id": "orlando-fl__winter-park-maitland",
+   "name": "Winter Park / Maitland / Baldwin Park",
+   "geography_class": "CORRIDOR",
+   "included_postal_codes": [
+    "32789",
+    "32792",
+    "32751",
+    "32814"
+   ]
+  },
+  {
+   "corridor_id": "orlando-fl__altamonte-springs-longwood",
+   "name": "Altamonte Springs / Longwood / Casselberry",
+   "geography_class": "CORRIDOR",
+   "included_postal_codes": [
+    "32701",
+    "32714",
+    "32750",
+    "32779",
+    "32707",
+    "32730"
+   ]
+  },
+  {
+   "corridor_id": "orlando-fl__lake-mary-sanford",
+   "name": "Lake Mary / Heathrow / Sanford / SFB Airport",
+   "geography_class": "CORRIDOR",
+   "included_postal_codes": [
+    "32746",
+    "32771",
+    "32773"
+   ]
+  },
+  {
+   "corridor_id": "orlando-fl__clermont",
+   "name": "Clermont / US-27 / Minneola",
+   "geography_class": "FRINGE",
+   "included_postal_codes": [
+    "34711",
+    "34714",
+    "34715"
+   ]
+  },
+  {
+   "corridor_id": "orlando-fl__st-cloud",
+   "name": "St. Cloud / East Osceola",
+   "geography_class": "FRINGE",
+   "included_postal_codes": [
+    "34769",
+    "34771",
+    "34772"
+   ]
+  },
+  {
+   "corridor_id": "orlando-fl__apopka",
+   "name": "Apopka / Northwest Orange",
+   "geography_class": "FRINGE",
+   "included_postal_codes": [
+    "32703",
+    "32712"
+   ]
+  }
+ ],
+ "corridor_count": 20,
+ "corridor_count_by_class": {
+  "CORE": 8,
+  "CORRIDOR": 9,
+  "FRINGE": 3
+ },
+ "corridor_page_rule": "A corridor page publishes only when the existing publication threshold (minimum_hotel_count = 5 verified pet-friendly hotels) is met. No thin corridor page is invented for SEO; every corridor is show_in_navigation / show_in_sitemap false until a registration order publishes it. Universal, the Convention Center, International Drive, Disney Springs, Reunion and ChampionsGate cannot be separate pages under a postal-code partition; they are reported as overlays.",
+ "coverage_areas": [
+  {
+   "area": "Downtown Orlando",
+   "anchor_lat": 28.541,
+   "anchor_lng": -81.379,
+   "radius_km": 2.2
+  },
+  {
+   "area": "MCO Airport",
+   "anchor_lat": 28.4312,
+   "anchor_lng": -81.3081,
+   "radius_km": 4.5
+  },
+  {
+   "area": "Lake Nona",
+   "anchor_lat": 28.37,
+   "anchor_lng": -81.25,
+   "radius_km": 4.0
+  },
+  {
+   "area": "Universal Orlando",
+   "anchor_lat": 28.474,
+   "anchor_lng": -81.467,
+   "radius_km": 1.6
+  },
+  {
+   "area": "Convention Center",
+   "anchor_lat": 28.425,
+   "anchor_lng": -81.47,
+   "radius_km": 1.3
+  },
+  {
+   "area": "International Drive",
+   "anchor_lat": 28.4436,
+   "anchor_lng": -81.469,
+   "radius_km": 2.2
+  },
+  {
+   "area": "Sand Lake / Dr. Phillips",
+   "anchor_lat": 28.45,
+   "anchor_lng": -81.493,
+   "radius_km": 2.0
+  },
+  {
+   "area": "SeaWorld",
+   "anchor_lat": 28.4115,
+   "anchor_lng": -81.4617,
+   "radius_km": 1.8
+  },
+  {
+   "area": "I-Drive South / Vineland",
+   "anchor_lat": 28.388,
+   "anchor_lng": -81.488,
+   "radius_km": 2.2
+  },
+  {
+   "area": "Lake Buena Vista",
+   "anchor_lat": 28.39,
+   "anchor_lng": -81.508,
+   "radius_km": 2.4
+  },
+  {
+   "area": "Disney Springs",
+   "anchor_lat": 28.372,
+   "anchor_lng": -81.516,
+   "radius_km": 1.2
+  },
+  {
+   "area": "Walt Disney World",
+   "anchor_lat": 28.385,
+   "anchor_lng": -81.564,
+   "radius_km": 6.0
+  },
+  {
+   "area": "Flamingo Crossings",
+   "anchor_lat": 28.379,
+   "anchor_lng": -81.615,
+   "radius_km": 2.0
+  },
+  {
+   "area": "Kissimmee US-192 Maingate",
+   "anchor_lat": 28.333,
+   "anchor_lng": -81.505,
+   "radius_km": 4.5
+  },
+  {
+   "area": "Celebration",
+   "anchor_lat": 28.319,
+   "anchor_lng": -81.544,
+   "radius_km": 2.8
+  },
+  {
+   "area": "Reunion / West 192",
+   "anchor_lat": 28.27,
+   "anchor_lng": -81.59,
+   "radius_km": 4.0
+  },
+  {
+   "area": "ChampionsGate",
+   "anchor_lat": 28.26,
+   "anchor_lng": -81.625,
+   "radius_km": 2.5
+  },
+  {
+   "area": "Four Corners",
+   "anchor_lat": 28.305,
+   "anchor_lng": -81.645,
+   "radius_km": 3.5
+  },
+  {
+   "area": "Davenport",
+   "anchor_lat": 28.19,
+   "anchor_lng": -81.63,
+   "radius_km": 5.0
+  },
+  {
+   "area": "Downtown Kissimmee / East 192",
+   "anchor_lat": 28.295,
+   "anchor_lng": -81.405,
+   "radius_km": 6.0
+  },
+  {
+   "area": "Florida Mall",
+   "anchor_lat": 28.446,
+   "anchor_lng": -81.396,
+   "radius_km": 3.0
+  },
+  {
+   "area": "Hunter's Creek",
+   "anchor_lat": 28.36,
+   "anchor_lng": -81.42,
+   "radius_km": 3.5
+  },
+  {
+   "area": "UCF / Research Park",
+   "anchor_lat": 28.6,
+   "anchor_lng": -81.2,
+   "radius_km": 5.0
+  },
+  {
+   "area": "Winter Park",
+   "anchor_lat": 28.6,
+   "anchor_lng": -81.35,
+   "radius_km": 3.0
+  },
+  {
+   "area": "Maitland",
+   "anchor_lat": 28.63,
+   "anchor_lng": -81.37,
+   "radius_km": 3.0
+  },
+  {
+   "area": "Altamonte Springs",
+   "anchor_lat": 28.665,
+   "anchor_lng": -81.395,
+   "radius_km": 4.0
+  },
+  {
+   "area": "Lake Mary",
+   "anchor_lat": 28.755,
+   "anchor_lng": -81.35,
+   "radius_km": 4.0
+  },
+  {
+   "area": "Sanford",
+   "anchor_lat": 28.8,
+   "anchor_lng": -81.275,
+   "radius_km": 5.0
+  }
+ ],
+ "outside_named_and_refused": [
+  {
+   "municipality": "Poinciana",
+   "state": "FL",
+   "postal_codes": [
+    "34758",
+    "34759"
+   ],
+   "why": "Poinciana: a residential and vacation-home community south of Kissimmee with almost no hotel stock and weak hotel intent; careful evaluation, refused (its vacation homes are refused by the rental rule anyway)."
+  },
+  {
+   "municipality": "Haines City / Lake Hamilton / Dundee",
+   "state": "FL",
+   "postal_codes": [
+    "33844",
+    "33845",
+    "33851",
+    "33838"
+   ],
+   "why": "Haines City and the US-27 towns south of Davenport: Polk County ridge lodging sold as 'near Orlando' marketing only; careful evaluation, refused."
+  },
+  {
+   "municipality": "Mount Dora / Tavares / Eustis / Umatilla / Howey-in-the-Hills",
+   "state": "FL",
+   "postal_codes": [
+    "32757",
+    "32778",
+    "32726",
+    "32727",
+    "32736",
+    "32784",
+    "34737"
+   ],
+   "why": "north Lake County's small towns, 30-40 miles from Orlando's lodging cores; FUTURE_STANDALONE the-villages-lake-county-fl; refused."
+  },
+  {
+   "municipality": "Leesburg / The Villages / Wildwood / Fruitland Park",
+   "state": "FL",
+   "postal_codes": [
+    "34748",
+    "34749",
+    "34788",
+    "34789",
+    "32159",
+    "32162",
+    "32163",
+    "34762",
+    "34785",
+    "34731"
+   ],
+   "why": "The Villages and Leesburg; FUTURE_STANDALONE the-villages-lake-county-fl; refused by the order's weak-intent rule."
+  },
+  {
+   "municipality": "Groveland / Mascotte / Montverde",
+   "state": "FL",
+   "postal_codes": [
+    "34736",
+    "34753",
+    "34756"
+   ],
+   "why": "west Lake County beyond Clermont with no Orlando lodging core; refused."
+  },
+  {
+   "municipality": "DeLand / Orange City / DeBary / Deltona / Lake Helen / Cassadaga",
+   "state": "FL",
+   "postal_codes": [
+    "32720",
+    "32721",
+    "32723",
+    "32724",
+    "32763",
+    "32713",
+    "32725",
+    "32738",
+    "32744",
+    "32706"
+   ],
+   "why": "west Volusia County; DeLand is named by the order for careful evaluation: Stetson University and DeLand-bound stays, 35+ miles north of downtown Orlando; refused."
+  },
+  {
+   "municipality": "Daytona Beach / Ormond Beach / New Smyrna Beach / Port Orange",
+   "state": "FL",
+   "postal_codes": [
+    "32114",
+    "32117",
+    "32118",
+    "32119",
+    "32124",
+    "32127",
+    "32129",
+    "32168",
+    "32169",
+    "32174",
+    "32176"
+   ],
+   "why": "FUTURE_STANDALONE daytona-beach-fl; refused by name (order)."
+  },
+  {
+   "municipality": "Titusville / Mims / Scottsmoor",
+   "state": "FL",
+   "postal_codes": [
+    "32780",
+    "32796",
+    "32754",
+    "32775"
+   ],
+   "why": "the northern Space Coast; FUTURE_STANDALONE space-coast-fl; refused by name (order)."
+  },
+  {
+   "municipality": "Cocoa / Cocoa Beach / Cape Canaveral / Merritt Island / Rockledge",
+   "state": "FL",
+   "postal_codes": [
+    "32922",
+    "32926",
+    "32927",
+    "32931",
+    "32920",
+    "32952",
+    "32953",
+    "32955"
+   ],
+   "why": "FUTURE_STANDALONE space-coast-fl; refused by name (order)."
+  },
+  {
+   "municipality": "Melbourne / Palm Bay / Viera",
+   "state": "FL",
+   "postal_codes": [
+    "32901",
+    "32903",
+    "32904",
+    "32934",
+    "32935",
+    "32940",
+    "32905",
+    "32907"
+   ],
+   "why": "FUTURE_STANDALONE space-coast-fl; refused."
+  },
+  {
+   "municipality": "Lakeland / Auburndale / Polk City",
+   "state": "FL",
+   "postal_codes": [
+    "33801",
+    "33803",
+    "33805",
+    "33809",
+    "33810",
+    "33811",
+    "33812",
+    "33813",
+    "33815",
+    "33823",
+    "33868"
+   ],
+   "why": "FUTURE_STANDALONE lakeland-winter-haven-fl; refused by name (order)."
+  },
+  {
+   "municipality": "Winter Haven / Lake Alfred / Lake Wales / Bartow",
+   "state": "FL",
+   "postal_codes": [
+    "33880",
+    "33881",
+    "33884",
+    "33850",
+    "33853",
+    "33859",
+    "33898",
+    "33830"
+   ],
+   "why": "FUTURE_STANDALONE lakeland-winter-haven-fl (Legoland Florida); refused."
+  },
+  {
+   "municipality": "Tampa Bay",
+   "state": "FL",
+   "postal_codes": [
+    "33601",
+    "33602",
+    "33605",
+    "33606",
+    "33607",
+    "33609",
+    "33610",
+    "33612",
+    "33614",
+    "33619",
+    "33634",
+    "33635",
+    "33637",
+    "33647",
+    "33584",
+    "33566",
+    "33567",
+    "33563"
+   ],
+   "why": "FUTURE / separate market tampa-fl; refused by name (order)."
+  },
+  {
+   "municipality": "Ocala",
+   "state": "FL",
+   "postal_codes": [
+    "34470",
+    "34471",
+    "34472",
+    "34474",
+    "34475",
+    "34476",
+    "34480",
+    "34482"
+   ],
+   "why": "FUTURE_STANDALONE ocala-fl; refused by name (order)."
+  },
+  {
+   "municipality": "Kenansville / Yeehaw Junction / Holopaw",
+   "state": "FL",
+   "postal_codes": [
+    "34739",
+    "34972"
+   ],
+   "why": "the Turnpike's rural south Osceola service plazas and motels, 30+ miles from Kissimmee; refused."
+  },
+  {
+   "municipality": "Sebring / Avon Park / Lake Placid",
+   "state": "FL",
+   "postal_codes": [
+    "33870",
+    "33872",
+    "33875",
+    "33825",
+    "33852"
+   ],
+   "why": "Highlands County; refused."
+  },
+  {
+   "municipality": "Sanford north shore / Lake Monroe / Geneva / Chuluota",
+   "state": "FL",
+   "postal_codes": [
+    "32732",
+    "32766",
+    "32747"
+   ],
+   "why": "rural east Seminole with no lodging core; refused."
+  }
+ ],
+ "vacation_rental_rule": "The census admits hotels, motels, inns, public resorts, qualifying resort towers, qualifying extended-stay hotels and other public lodging establishments: bookable nightly rooms or suites sold to the public under one establishment name, with an official property page and an on-site hotel operation. It NEVER admits: individual condominium units (DBPR rank CNDO) or vacation dwellings (DBPR rank DWEL); individual vacation homes or villas; whole-home rental communities and property-management portfolios; Airbnb / Vrbo listings; ordinary apartments (DBPR NAPT); individual timeshare units, vacation-ownership inventory sold to owners, and private resort residences; and privately managed units inside resort campuses. A mixed hotel / timeshare / condo campus is admitted ONLY as the exact hotel premises its operator sells to the public as a hotel, proved on the operator's own page and the licence's exact premises. Campgrounds, RV parks and dormitory hostels are NON_LODGING.",
+ "theme_park_campus_rule": "Never merged solely by brand, resort family, phone, campus, shared entrance, shared amenities, shared booking engine or display name. Exact premises identity (its own street address or its own brand property code on its own page) governs. Disney's resorts are separate hotels; Universal's Loews-operated hotels are separate hotels; a Marriott or Hilton vacation-club campus beside a hotel is not the hotel.",
+ "config_written": "scripts/pettripfinder/discovery/config/orlando_fl.json",
+ "market_document_written": "launch_packages/pettripfinder/markets/proposed/orlando-fl.json",
+ "cells_total": 24,
+ "cells_admitting": 20,
+ "cells_observation_only": 4
+}
