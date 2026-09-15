@@ -1,0 +1,608 @@
+{
+ "schema": "ptf-market-geography/1.0",
+ "work_order": "PTF-COLUMBIA-SC-PARALLEL-SOURCE-READY-001",
+ "phase": "2 + 3 + 4 -- Columbia multi-core geography, fringe adjudications, corridor model and Fort Jackson rule",
+ "market_id": "columbia-sc",
+ "as_of": "2026-09-15",
+ "paid_provider_calls": 0,
+ "usd_spent": 0.0,
+ "free_http_requests": 0,
+ "registration_state": "SHADOW_UNTIL_REGISTERED: the market document is written to markets/proposed/, never to the registry's markets/<id>.json. Registration waits for Columbia's turn in the serialized release queue against the then-current live parent.",
+ "membership_rule": "The property's OWN postal code, as its own official page states it, joined to the corridor registry. Nothing else admits a property.",
+ "city_model": "Every corridor names the mailing municipalities its postal codes carry (CITY_OF_CORRIDOR), so every admitted hotel keeps its own town: Columbia, Forest Acres, Irmo, West Columbia, Cayce, Lexington, Blythewood, Chapin or Elgin.",
+ "travel_market": "Columbia's lodging cores (downtown / Vista / USC / Five Points, north Columbia's medical district, the Fort Jackson gate corridors, Northeast / Two Notch, Sandhills / Clemson Road, St. Andrews / Bush River, Harbison / Irmo, West Columbia / Cayce, the CAE airport and Lexington), Blythewood on I-77 and the fringe interchange towns a Columbia traveller sleeps in by choice (Chapin, Elgin).",
+ "classes": {
+  "CORE": "Downtown Columbia / The Vista / USC / Five Points (29201, 29208, 29205); North Columbia / Prisma Health Richland / North Main / I-20 (29203, 29204); Fort Jackson / Forest Acres / Garners Ferry Road (29206, 29209); Northeast Columbia / Two Notch Road / Dentsville / Parklane (29223); Sandhills / Clemson Road / Killian Road (29229); St. Andrews / Bush River Road / Seven Oaks / Greystone (29210); Harbison / Irmo / Lake Murray Boulevard (29212, 29063, 29002, 29221); West Columbia / Cayce / Knox Abbott Drive / I-26 US-1 (29169, 29033); Columbia Metropolitan Airport (CAE) / Airport Boulevard / Platt Springs Road (29170, 29172, 29171); Lexington / Sunset Boulevard / US-378 / I-20 exits 55-61 (29072, 29073, 29071)",
+  "CORRIDOR": "Blythewood / I-77 exit 27 (29016)",
+  "FRINGE": "Chapin / I-26 exit 91 / Lake Murray north shore (29036); Elgin / I-20 exits 82-87 (29045)"
+ },
+ "outside_class": "Everything else, refused by name with its postal codes.",
+ "fringe_adjudications": {
+  "West Columbia / Cayce / CAE": {
+   "decision": "CORE -- two corridors: west-columbia-cayce (29169 / 29033) and cae-airport (29170 / 29172)",
+   "why": "The river towns across the Gervais Street and Blossom Street bridges are a ten-minute drive from the Vista and host the I-26 / US-1 and Knox Abbott hotel clusters; Columbia Metropolitan Airport and its Airport Boulevard hotels sit in West Columbia 29170. Both are admitted, each under its own mailing municipalities, never relabelled 'Columbia'."
+  },
+  "Lexington": {
+   "decision": "CORE (lexington: 29072 / 29073 / 29071)",
+   "why": "The Town of Lexington's Sunset Boulevard and US-1 / I-20 exit 58 hotels serve Lake Murray, Lexington Medical Center and west-side business travel; admitted as its own corridor."
+  },
+  "Blythewood": {
+   "decision": "CORRIDOR (blythewood: 29016)",
+   "why": "The I-77 exit 27 cluster serves north-side business (Scout Motors, Blythewood industrial parks) and the Charlotte approach, fifteen minutes from Killian Road."
+  },
+  "Chapin": {
+   "decision": "FRINGE (chapin: 29036)",
+   "why": "The I-26 exit 91 town on Lake Murray's north shore sits twenty minutes from Harbison; its lodging is small and town-scale, admitted as fringe."
+  },
+  "Elgin": {
+   "decision": "FRINGE (elgin: 29045)",
+   "why": "Spears Creek Church Road (I-20 exit 82) is the next exit past Clemson Road and its hotels serve Fort Jackson and Sandhills travellers; admitted as fringe. Lugoff and Camden beyond are refused."
+  },
+  "Gaston / Swansea / Pelion": {
+   "decision": "OUTSIDE -- evaluated carefully",
+   "why": "Rural southern Lexington County with no hotel core; a traveller to Columbia sleeps in Cayce, West Columbia or Lexington. A single legitimate property would be an explicit-hotel admission."
+  },
+  "Fort Jackson": {
+   "decision": "Installation ZIP 29207 OUTSIDE (MILITARY_NONPUBLIC); the commercial gate corridors admitted (fort-jackson-forest-acres 29206 / 29209, northeast-two-notch 29223, sandhills 29229)",
+   "why": "MILITARY_NONPUBLIC -- an installation-only postal code: lodging there (the Fort Jackson IHG Army Hotel, transient and distinguished-visitor quarters, barracks, McEntire JNGB billeting) requires installation access or military / DoD eligibility and is not ordinary public lodging; evaluated and refused under the order's Fort Jackson / military lodging rule."
+  },
+  "Dentsville / St. Andrews / Seven Oaks": {
+   "decision": "Inside the admitted CORE corridors (Dentsville: northeast-two-notch 29223; St. Andrews and Seven Oaks: st-andrews-bush-river 29210)",
+   "why": "Unincorporated Richland and Lexington county communities mailed as Columbia; reported as overlays."
+  },
+  "Camden / Sumter / Orangeburg / Newberry / Aiken / Augusta / Florence / Rock Hill": {
+   "decision": "OUTSIDE by name (order: do not automatically absorb)",
+   "why": "Each is a materially separate traveller market 30-70 miles away with its own lodging core."
+  }
+ },
+ "corridor_page_evaluations": {
+  "Downtown / Vista": "SEPARATE CORRIDOR (downtown-vista-usc: 29201 / 29208 / 29205), with The Vista, Main Street, USC and Five Points as overlays.",
+  "USC / Five Points": "OVERLAY inside downtown-vista-usc -- the campus (29208) and Five Points (29205) border the Vista and carry too few hotels of their own for a page.",
+  "Prisma Health / medical": "SEPARATE CORRIDOR (north-columbia-medical: 29203 / 29204) for Prisma Health Richland and north Columbia; Prisma Health Baptist sits downtown (overlay).",
+  "Fort Jackson": "SEPARATE CORRIDOR (fort-jackson-forest-acres: 29206 / 29209); the installation itself is OUTSIDE (29207).",
+  "Northeast / Two Notch": "SEPARATE CORRIDOR (29223).",
+  "Sandhills / Clemson Road": "SEPARATE CORRIDOR (29229), Killian Road as an overlay.",
+  "Harbison / Irmo": "SEPARATE CORRIDOR (29212 / 29063 / 29002).",
+  "West Columbia / Cayce": "SEPARATE CORRIDOR (29169 / 29033).",
+  "CAE Airport": "SEPARATE CORRIDOR (29170 / 29172, and West Columbia's PO-box ZIP 29171 where a property's own page prints it).",
+  "Lexington": "SEPARATE CORRIDOR (29072 / 29073).",
+  "I-20": "OVERLAY across lexington, st-andrews-bush-river, north-columbia-medical, northeast-two-notch, sandhills-clemson-road and elgin -- an interstate crosses the postal partition, so it is reported, never a page of its own.",
+  "I-26": "OVERLAY across chapin, harbison-irmo, st-andrews-bush-river, west-columbia-cayce and cae-airport.",
+  "I-77": "OVERLAY across blythewood, sandhills-clemson-road, northeast-two-notch, fort-jackson-forest-acres and west-columbia-cayce (Cayce terminus)."
+ },
+ "corridor_registry_is_a_partition": true,
+ "admitted_postal_codes": [
+  "29002",
+  "29016",
+  "29033",
+  "29036",
+  "29045",
+  "29063",
+  "29071",
+  "29072",
+  "29073",
+  "29169",
+  "29170",
+  "29171",
+  "29172",
+  "29201",
+  "29203",
+  "29204",
+  "29205",
+  "29206",
+  "29208",
+  "29209",
+  "29210",
+  "29212",
+  "29221",
+  "29223",
+  "29229"
+ ],
+ "admitted_postal_code_count": 25,
+ "corridors": [
+  {
+   "corridor_id": "columbia-sc__downtown-vista-usc",
+   "name": "Downtown Columbia / The Vista / USC / Five Points",
+   "geography_class": "CORE",
+   "city": "Columbia",
+   "mailing_municipalities": [
+    "columbia"
+   ],
+   "included_postal_codes": [
+    "29201",
+    "29208",
+    "29205"
+   ]
+  },
+  {
+   "corridor_id": "columbia-sc__north-columbia-medical",
+   "name": "North Columbia / Prisma Health Richland / North Main / I-20",
+   "geography_class": "CORE",
+   "city": "Columbia",
+   "mailing_municipalities": [
+    "columbia"
+   ],
+   "included_postal_codes": [
+    "29203",
+    "29204"
+   ]
+  },
+  {
+   "corridor_id": "columbia-sc__fort-jackson-forest-acres",
+   "name": "Fort Jackson / Forest Acres / Garners Ferry Road",
+   "geography_class": "CORE",
+   "city": "Columbia",
+   "mailing_municipalities": [
+    "arcadia lakes",
+    "columbia",
+    "forest acres"
+   ],
+   "included_postal_codes": [
+    "29206",
+    "29209"
+   ]
+  },
+  {
+   "corridor_id": "columbia-sc__northeast-two-notch",
+   "name": "Northeast Columbia / Two Notch Road / Dentsville / Parklane",
+   "geography_class": "CORE",
+   "city": "Columbia",
+   "mailing_municipalities": [
+    "columbia"
+   ],
+   "included_postal_codes": [
+    "29223"
+   ]
+  },
+  {
+   "corridor_id": "columbia-sc__sandhills-clemson-road",
+   "name": "Sandhills / Clemson Road / Killian Road",
+   "geography_class": "CORE",
+   "city": "Columbia",
+   "mailing_municipalities": [
+    "columbia"
+   ],
+   "included_postal_codes": [
+    "29229"
+   ]
+  },
+  {
+   "corridor_id": "columbia-sc__st-andrews-bush-river",
+   "name": "St. Andrews / Bush River Road / Seven Oaks / Greystone",
+   "geography_class": "CORE",
+   "city": "Columbia",
+   "mailing_municipalities": [
+    "columbia"
+   ],
+   "included_postal_codes": [
+    "29210"
+   ]
+  },
+  {
+   "corridor_id": "columbia-sc__harbison-irmo",
+   "name": "Harbison / Irmo / Lake Murray Boulevard",
+   "geography_class": "CORE",
+   "city": "Columbia",
+   "mailing_municipalities": [
+    "ballentine",
+    "columbia",
+    "irmo"
+   ],
+   "included_postal_codes": [
+    "29212",
+    "29063",
+    "29002",
+    "29221"
+   ]
+  },
+  {
+   "corridor_id": "columbia-sc__west-columbia-cayce",
+   "name": "West Columbia / Cayce / Knox Abbott Drive / I-26 US-1",
+   "geography_class": "CORE",
+   "city": "West Columbia",
+   "mailing_municipalities": [
+    "cayce",
+    "springdale",
+    "west columbia"
+   ],
+   "included_postal_codes": [
+    "29169",
+    "29033"
+   ]
+  },
+  {
+   "corridor_id": "columbia-sc__cae-airport",
+   "name": "Columbia Metropolitan Airport (CAE) / Airport Boulevard / Platt Springs Road",
+   "geography_class": "CORE",
+   "city": "West Columbia",
+   "mailing_municipalities": [
+    "cayce",
+    "pine ridge",
+    "springdale",
+    "west columbia"
+   ],
+   "included_postal_codes": [
+    "29170",
+    "29172",
+    "29171"
+   ]
+  },
+  {
+   "corridor_id": "columbia-sc__lexington",
+   "name": "Lexington / Sunset Boulevard / US-378 / I-20 exits 55-61",
+   "geography_class": "CORE",
+   "city": "Lexington",
+   "mailing_municipalities": [
+    "lexington",
+    "oak grove",
+    "pine ridge",
+    "red bank",
+    "south congaree"
+   ],
+   "included_postal_codes": [
+    "29072",
+    "29073",
+    "29071"
+   ]
+  },
+  {
+   "corridor_id": "columbia-sc__blythewood",
+   "name": "Blythewood / I-77 exit 27",
+   "geography_class": "CORRIDOR",
+   "city": "Blythewood",
+   "mailing_municipalities": [
+    "blythewood"
+   ],
+   "included_postal_codes": [
+    "29016"
+   ]
+  },
+  {
+   "corridor_id": "columbia-sc__chapin",
+   "name": "Chapin / I-26 exit 91 / Lake Murray north shore",
+   "geography_class": "FRINGE",
+   "city": "Chapin",
+   "mailing_municipalities": [
+    "chapin"
+   ],
+   "included_postal_codes": [
+    "29036"
+   ]
+  },
+  {
+   "corridor_id": "columbia-sc__elgin",
+   "name": "Elgin / I-20 exits 82-87",
+   "geography_class": "FRINGE",
+   "city": "Elgin",
+   "mailing_municipalities": [
+    "elgin"
+   ],
+   "included_postal_codes": [
+    "29045"
+   ]
+  }
+ ],
+ "corridor_count": 13,
+ "corridor_count_by_class": {
+  "CORE": 10,
+  "CORRIDOR": 1,
+  "FRINGE": 2
+ },
+ "corridor_page_rule": "A corridor page publishes only when the existing publication threshold (minimum_hotel_count = 5 verified pet-friendly hotels) is met. No thin corridor page is invented for SEO; every corridor is show_in_navigation/show_in_sitemap false until a registration order publishes it.",
+ "coverage_areas_are_a_reporting_overlay": "The order's named areas that share a postal code with another area are reported from the property's own stated street first and a nearest-anchor overlay on its pin second. The overlay decides nothing about membership or corridor.",
+ "coverage_areas": [
+  {
+   "area": "The Vista / Convention Center",
+   "anchor_lat": 33.996,
+   "anchor_lng": -81.045,
+   "radius_km": 0.9
+  },
+  {
+   "area": "Main Street / State House",
+   "anchor_lat": 34.002,
+   "anchor_lng": -81.034,
+   "radius_km": 0.9
+  },
+  {
+   "area": "University of South Carolina",
+   "anchor_lat": 33.995,
+   "anchor_lng": -81.025,
+   "radius_km": 1.0
+  },
+  {
+   "area": "Five Points / Devine Street",
+   "anchor_lat": 33.999,
+   "anchor_lng": -81.012,
+   "radius_km": 1.2
+  },
+  {
+   "area": "Prisma Health Richland",
+   "anchor_lat": 34.031,
+   "anchor_lng": -81.031,
+   "radius_km": 1.5
+  },
+  {
+   "area": "I-20 / North Main",
+   "anchor_lat": 34.065,
+   "anchor_lng": -81.03,
+   "radius_km": 3.0
+  },
+  {
+   "area": "Forest Drive / I-77 (Fort Jackson gate)",
+   "anchor_lat": 34.02,
+   "anchor_lng": -80.955,
+   "radius_km": 2.5
+  },
+  {
+   "area": "Garners Ferry / Fort Jackson Blvd",
+   "anchor_lat": 33.98,
+   "anchor_lng": -80.96,
+   "radius_km": 3.0
+  },
+  {
+   "area": "Two Notch / I-77 exit 17",
+   "anchor_lat": 34.075,
+   "anchor_lng": -80.945,
+   "radius_km": 2.0
+  },
+  {
+   "area": "Dentsville / Decker Blvd",
+   "anchor_lat": 34.06,
+   "anchor_lng": -80.975,
+   "radius_km": 2.5
+  },
+  {
+   "area": "Clemson Road / I-20 exit 80",
+   "anchor_lat": 34.14,
+   "anchor_lng": -80.875,
+   "radius_km": 2.5
+  },
+  {
+   "area": "Killian Road / I-77 exit 22",
+   "anchor_lat": 34.14,
+   "anchor_lng": -80.935,
+   "radius_km": 2.5
+  },
+  {
+   "area": "Bush River Road / I-20 / I-26",
+   "anchor_lat": 34.03,
+   "anchor_lng": -81.115,
+   "radius_km": 2.5
+  },
+  {
+   "area": "Greystone / Riverbanks",
+   "anchor_lat": 34.015,
+   "anchor_lng": -81.07,
+   "radius_km": 1.5
+  },
+  {
+   "area": "St. Andrews Road",
+   "anchor_lat": 34.055,
+   "anchor_lng": -81.11,
+   "radius_km": 2.5
+  },
+  {
+   "area": "Harbison Blvd / I-26",
+   "anchor_lat": 34.08,
+   "anchor_lng": -81.155,
+   "radius_km": 2.5
+  },
+  {
+   "area": "Piney Grove Road / I-26",
+   "anchor_lat": 34.065,
+   "anchor_lng": -81.13,
+   "radius_km": 1.5
+  },
+  {
+   "area": "Irmo",
+   "anchor_lat": 34.09,
+   "anchor_lng": -81.185,
+   "radius_km": 3.0
+  },
+  {
+   "area": "Knox Abbott / Cayce",
+   "anchor_lat": 33.965,
+   "anchor_lng": -81.06,
+   "radius_km": 2.5
+  },
+  {
+   "area": "I-26 / US-1 (exit 111)",
+   "anchor_lat": 33.99,
+   "anchor_lng": -81.105,
+   "radius_km": 2.0
+  },
+  {
+   "area": "CAE Airport / Airport Blvd (exit 113)",
+   "anchor_lat": 33.96,
+   "anchor_lng": -81.115,
+   "radius_km": 2.5
+  },
+  {
+   "area": "Lexington Sunset Blvd",
+   "anchor_lat": 33.99,
+   "anchor_lng": -81.215,
+   "radius_km": 3.5
+  }
+ ],
+ "municipality_refusals": [],
+ "city_of_corridor": {
+  "downtown-vista-usc": [
+   "columbia"
+  ],
+  "north-columbia-medical": [
+   "columbia"
+  ],
+  "fort-jackson-forest-acres": [
+   "arcadia lakes",
+   "columbia",
+   "forest acres"
+  ],
+  "northeast-two-notch": [
+   "columbia"
+  ],
+  "sandhills-clemson-road": [
+   "columbia"
+  ],
+  "st-andrews-bush-river": [
+   "columbia"
+  ],
+  "harbison-irmo": [
+   "ballentine",
+   "columbia",
+   "irmo"
+  ],
+  "west-columbia-cayce": [
+   "cayce",
+   "springdale",
+   "west columbia"
+  ],
+  "cae-airport": [
+   "cayce",
+   "pine ridge",
+   "springdale",
+   "west columbia"
+  ],
+  "lexington": [
+   "lexington",
+   "oak grove",
+   "pine ridge",
+   "red bank",
+   "south congaree"
+  ],
+  "blythewood": [
+   "blythewood"
+  ],
+  "chapin": [
+   "chapin"
+  ],
+  "elgin": [
+   "elgin"
+  ]
+ },
+ "outside_named_and_refused": [
+  {
+   "municipality": "Military installations (Fort Jackson; McEntire Joint National Guard Base / Eastover)",
+   "state": "SC",
+   "postal_codes": [
+    "29207"
+   ],
+   "why": "MILITARY_NONPUBLIC -- an installation-only postal code: lodging there (the Fort Jackson IHG Army Hotel, transient and distinguished-visitor quarters, barracks, McEntire JNGB billeting) requires installation access or military / DoD eligibility and is not ordinary public lodging; evaluated and refused under the order's Fort Jackson / military lodging rule."
+  },
+  {
+   "municipality": "Gaston / Swansea / Pelion / Gilbert (southern and western Lexington County)",
+   "state": "SC",
+   "postal_codes": [
+    "29053",
+    "29160",
+    "29123",
+    "29054"
+   ],
+   "why": "Rural southern and western Lexington County on US-321, SC-6 and US-1 beyond the Lexington and Cayce corridors: evaluated carefully; no public lodging core of its own (a single legitimate property there would be an explicit-hotel admission, never a widened postal code)."
+  },
+  {
+   "municipality": "Eastover / Hopkins / Gadsden (lower Richland County)",
+   "state": "SC",
+   "postal_codes": [
+    "29044",
+    "29061",
+    "29052"
+   ],
+   "why": "Lower Richland County toward Congaree National Park and McEntire JNGB: rural, no hotel core; refused."
+  },
+  {
+   "municipality": "Camden / Lugoff (Kershaw County)",
+   "state": "SC",
+   "postal_codes": [
+    "29020",
+    "29078"
+   ],
+   "why": "Camden and Lugoff on I-20 exits 92-98: Kershaw County's own historic-town lodging market (steeplechase, Revolutionary War sites); refused by name (order: do not automatically absorb Camden)."
+  },
+  {
+   "municipality": "Sumter / Shaw AFB / Dalzell",
+   "state": "SC",
+   "postal_codes": [
+    "29150",
+    "29153",
+    "29154",
+    "29152",
+    "29040"
+   ],
+   "why": "Sumter and Shaw Air Force Base, 45 miles east on US-378: a separate traveller market; refused by name (order)."
+  },
+  {
+   "municipality": "Orangeburg / Santee / St. Matthews",
+   "state": "SC",
+   "postal_codes": [
+    "29115",
+    "29118",
+    "29142",
+    "29135"
+   ],
+   "why": "Orangeburg (SC State, Claflin), Santee on I-95 and St. Matthews: separate markets down I-26; refused by name (order)."
+  },
+  {
+   "municipality": "Newberry / Prosperity / Little Mountain / Pomaria",
+   "state": "SC",
+   "postal_codes": [
+    "29108",
+    "29127",
+    "29075",
+    "29122"
+   ],
+   "why": "Newberry County up I-26 beyond Chapin: its own college-town lodging; refused by name (order)."
+  },
+  {
+   "municipality": "Winnsboro / Ridgeway (Fairfield County)",
+   "state": "SC",
+   "postal_codes": [
+    "29180",
+    "29130"
+   ],
+   "why": "Fairfield County up I-77 beyond Blythewood; refused."
+  },
+  {
+   "municipality": "Batesburg-Leesville / Leesville / Summit",
+   "state": "SC",
+   "postal_codes": [
+    "29006",
+    "29070"
+   ],
+   "why": "Western Lexington and Saluda counties on US-1 / I-20 exit 39: no Columbia lodging core; refused."
+  },
+  {
+   "municipality": "Aiken / North Augusta / Augusta GA",
+   "state": "SC",
+   "postal_codes": [
+    "29801",
+    "29803",
+    "29841",
+    "29860",
+    "30901",
+    "30907",
+    "30909"
+   ],
+   "why": "Aiken and the Augusta, Georgia metro: a separate traveller market 60 miles west on I-20; refused by name (order)."
+  },
+  {
+   "municipality": "Florence / Rock Hill / Charlotte region",
+   "state": "SC",
+   "postal_codes": [
+    "29501",
+    "29505",
+    "29730",
+    "29732",
+    "29715"
+   ],
+   "why": "Florence (I-95 / I-20), Rock Hill and the Charlotte region: separate markets (charlotte-nc is its own registered market); refused by name (order)."
+  }
+ ],
+ "observation_is_not_admission": "Six cells observe the Fort Jackson installation, Lugoff / Camden, Gaston / Swansea, Eastover, the Ridgeway approach and Little Mountain. They admit nothing.",
+ "military_lodging_rule": "MILITARY_NONPUBLIC -- an installation-only postal code: lodging there (the Fort Jackson IHG Army Hotel, transient and distinguished-visitor quarters, barracks, McEntire JNGB billeting) requires installation access or military / DoD eligibility and is not ordinary public lodging; evaluated and refused under the order's Fort Jackson / military lodging rule. Ordinary publicly bookable commercial hotels serving Fort Jackson travellers are admitted on their own postal code.",
+ "non_hotel_rule": "The census admits hotels, motels, inns, boutique and historic hotels, extended-stay hotels and qualifying public lodging establishments operated as lodging businesses: bookable nightly rooms or suites sold to the public under one establishment name, with an official property page and an on-site hotel operation. It NEVER admits: ordinary apartment communities or individual apartments; student apartments and university dormitories; corporate-housing and furnished-apartment portfolios; individual houses rented whole; Airbnb / Vrbo-style listings; assisted-living properties; private residences; and military lodging closed to the public. Campgrounds, RV parks and state-park cabins are NON_LODGING.",
+ "config_written": "scripts/pettripfinder/discovery/config/columbia_sc.json",
+ "market_document_written": "launch_packages/pettripfinder/markets/proposed/columbia-sc.json",
+ "cells_total": 19,
+ "cells_admitting": 13,
+ "cells_observation_only": 6
+}
