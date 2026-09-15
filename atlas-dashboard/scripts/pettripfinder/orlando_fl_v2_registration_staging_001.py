@@ -67,7 +67,8 @@ CENSUS = os.path.join(PKG, "identity_census", "orlando-fl.json")
 STAGING = os.path.join(PKG, "markets", "staging", "orlando-fl")
 #: REGISTERED by PTF-ORLANDO-FL-V2-REGISTRATION-AND-FOUNDER-PACKET-003: the package root, as every registered market.
 PACKAGE_OUT = os.path.join(PKG, "hotel_policy_facts_orlando-fl.json")
-AUTHORITY_OUT = os.path.join(PKG, "orlando_fl_v2_proposed_authority_001.json")
+# the registration input role file is <us>_proposed_authority_*.json at the package root (registration_data_only)
+AUTHORITY_OUT = os.path.join(PKG, "orlando_fl_proposed_authority_003.json")
 OBSERVED_AT = "2026-09-15"
 CAPTURED_AT = "2026-09-15T15:00:00+00:00"
 
