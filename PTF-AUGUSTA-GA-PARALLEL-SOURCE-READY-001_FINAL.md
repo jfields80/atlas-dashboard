@@ -299,8 +299,8 @@ claimed beyond "well under the session's overall duration."
 23. FOUNDER AUTHORIZATION CREATED = NO
 24. AUGUSTA DEPLOYED = NO
 25. BLOCKED ONLY ON RELEASE QUEUE = YES (identity/census work is source-ready; policy-evidence capture and registration are the deferred next steps, not blockers to source-ready status)
-26. origin == HEAD = (to be confirmed after push)
-27. tree clean = (to be confirmed after commit)
+26. origin == HEAD = YES (both `2d4f2ddb1fc740728d78ba14f2a69e43b2fd0149`)
+27. tree clean = YES
 
 AUGUSTA SOURCE READY = YES
 AUGUSTA FINAL CANDIDATE = NO
