@@ -1,6 +1,6 @@
 {
  "schema": "ptf-release-production-gate/1.0",
- "work_order": "PTF-CHARLESTON-SC-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-003",
+ "work_order": "PTF-OUTER-BANKS-NC-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-004",
  "what_this_is": "The explicit allowlist that gates REAL production activation by the release coordinator. ATLAS-THROUGHPUT-006 built the remote validation lane, the trusted artifact handoff, the release queue and a real host adapter, and left this gate EMPTY on purpose. A market is activated for real only when the founder adds it here, names the candidate digest they authorised, and the coordinator's own guards still pass at the moment of the call. There is no implicit opt-in: an empty allowlist means no market can be deployed by this machinery, whatever else is green.",
  "RELEASE_COORDINATOR_PRODUCTION_ENABLED": "NO",
  "RELEASE_COORDINATOR_PRODUCTION_ALLOWED_MARKETS": [],
@@ -229,6 +229,23 @@
    "consumed_at": "2026-09-14T21:10:13+00:00",
    "host_deployment_id": "6aa8625938b7e0e0d66e6912",
    "deployment_record_id": "ptf-deploy-charleston-003-6aa8625938b7e0e0d66e6912",
+   "outcome": "DEPLOYED and verified live; the gate is closed again by the same work order that re-opened it."
+  },
+  {
+   "work_order": "PTF-OUTER-BANKS-NC-FOUNDER-AUTHORIZATION-AND-LIVE-LAUNCH-004",
+   "market_id": "outer-banks-nc",
+   "authorization_id": "ptf-auth-outer-banks-004-a12830db2fa6",
+   "candidate_digest": "a12830db2fa6002816e42aeae39eee557ae68a5ee402c023736271da3867599e",
+   "deployment_artifact_digest": "a12830db2fa6002816e42aeae39eee557ae68a5ee402c023736271da3867599e",
+   "parent_release_digest": "1c61aeda2a1b27878824c96b2189f0104886783a8dc575f51b8f1e1289c89914",
+   "package_digest": "sha256:1c63113fe188fb8de6ae96f00415cb8d26da491c14500407508fc59fbedee115",
+   "intended_delta_digest": "sha256:0b0d27c1028e3b100bbbe45dd2d6074bdf7efad208cfc6b53ba24302ca69a512",
+   "opened_at": "2026-09-15T01:01:10+00:00",
+   "scope": "ONE market and ONE candidate. outer-banks-nc only; no other source-ready market is allowed, and release_coordinator.authorization_problems still refuses any candidate whose digest is not the one the authorization binds.",
+   "lifecycle": "This entry is CONSUMED and the allowlist emptied by this same work order once the deployment is verified live. It is not left open.",
+   "consumed_at": "2026-09-15T01:05:32+00:00",
+   "host_deployment_id": "6aa8992493a75f80cd0e3887",
+   "deployment_record_id": "ptf-deploy-outer-banks-004-6aa8992493a75f80cd0e3887",
    "outcome": "DEPLOYED and verified live; the gate is closed again by the same work order that re-opened it."
   }
  ]
